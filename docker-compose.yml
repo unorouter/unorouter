@@ -1,0 +1,23 @@
+networks:
+  proxy:
+    external: false
+    name: proxy
+
+services:
+  unorouter:
+    container_name: unorouter
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: prod
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.routers.unorouter.rule=Host(`unorouter.ai`) || Host(`www.unorouter.ai`)"
+      - "traefik.http.routers.unorouter.entrypoints=websecure"
+      - "traefik.http.routers.unorouter.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.unorouter.service=unorouter"
+      - "traefik.http.services.unorouter.loadbalancer.server.port=3000"
