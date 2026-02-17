@@ -49,6 +49,7 @@ pnpm-lock.yaml
 # claude
 .claude
 PRICING-ANALYSIS.md
+LEGAL-PLAN.md
 38890bebfdf8f953287e01f2788521c966d72cda.png
 bun.lock*
 package-lock.json
