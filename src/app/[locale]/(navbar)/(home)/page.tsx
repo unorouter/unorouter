@@ -2,6 +2,7 @@ import { CodeBlock } from "@/components/code-block";
 import { ModelTicker } from "@/components/model-ticker";
 import { Link } from "@/i18n/navigation";
 import { fetchPricing, processModels } from "@/lib/api/pricing";
+import Image from "next/image";
 import {
   Activity,
   ArrowRight,
@@ -318,24 +319,28 @@ export default async function HomePage() {
                 <div className="p-6 space-y-4">
                   <ProviderRow
                     name="OpenAI"
+                    icon="/icons/openai.svg"
                     tag="GPT"
                     tagColor="green"
                     description="GPT-4o, o1, o3, GPT-4.1"
                   />
                   <ProviderRow
                     name="Anthropic"
+                    icon="/icons/anthropic.svg"
                     tag="CLAUDE"
                     tagColor="orange"
                     description="Claude Opus, Sonnet, Haiku"
                   />
                   <ProviderRow
                     name="Google"
+                    icon="/icons/google.svg"
                     tag="GEMINI"
                     tagColor="blue"
                     description="Gemini 2.5 Pro, Flash"
                   />
                   <ProviderRow
                     name="DeepSeek"
+                    icon="/icons/deepseek.svg"
                     tag="DS"
                     tagColor="purple"
                     description="DeepSeek V3, R1"
@@ -654,6 +659,7 @@ function FeatureRow(props: {
 
 function ProviderRow(props: {
   name: string;
+  icon: string;
   tag: string;
   tagColor: string;
   description: string;
@@ -673,6 +679,13 @@ function ProviderRow(props: {
     <div
       className={`flex items-center gap-4 p-4 ${bgRow} border ${borderRow} rounded-lg`}
     >
+      <Image
+        src={props.icon}
+        alt={props.name}
+        width={20}
+        height={20}
+        className="w-5 h-5 rounded object-contain shrink-0"
+      />
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
           <span className="font-mono text-sm text-white font-bold">

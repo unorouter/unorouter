@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 type TickerModel = {
@@ -11,6 +12,28 @@ type Props = {
   models: TickerModel[];
   className?: string;
 };
+
+const VENDOR_ICONS: Record<string, string> = {
+  openai: "/icons/openai.svg",
+  anthropic: "/icons/anthropic.svg",
+  google: "/icons/google.svg",
+  "google deepmind": "/icons/google.svg",
+  deepseek: "/icons/deepseek.svg",
+  meta: "/icons/meta.svg",
+  mistral: "/icons/mistral.svg",
+  "mistral ai": "/icons/mistral.svg",
+  cohere: "/icons/cohere.svg",
+  xai: "/icons/x.svg",
+  "x.ai": "/icons/x.svg",
+};
+
+function getVendorIcon(vendor: string): string | null {
+  const normalized = vendor.toLowerCase();
+  for (const [key, icon] of Object.entries(VENDOR_ICONS)) {
+    if (normalized.includes(key)) return icon;
+  }
+  return null;
+}
 
 export function ModelTicker(props: Props) {
   // Triple the models for seamless looping
@@ -33,16 +56,28 @@ export function ModelTicker(props: Props) {
         {/* Scrolling models */}
         <div className="flex-1 overflow-hidden relative">
           <div className="flex gap-12 animate-marquee whitespace-nowrap font-mono text-xs">
-            {tripled.map((model, i) => (
-              <div
-                key={`${model.name}-${i}`}
-                className="flex items-center gap-3 opacity-40 hover:opacity-100 transition-opacity cursor-default"
-              >
-                <span className="text-white font-medium tracking-wide text-[11px] uppercase">
-                  {model.name}
-                </span>
-              </div>
-            ))}
+            {tripled.map((model, i) => {
+              const icon = getVendorIcon(model.vendor);
+              return (
+                <div
+                  key={`${model.name}-${i}`}
+                  className="flex items-center gap-3 opacity-40 hover:opacity-100 transition-opacity cursor-default"
+                >
+                  {icon && (
+                    <Image
+                      src={icon}
+                      alt={model.vendor}
+                      width={16}
+                      height={16}
+                      className="w-4 h-4 rounded object-contain"
+                    />
+                  )}
+                  <span className="text-white font-medium tracking-wide text-[11px] uppercase">
+                    {model.name}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           {/* Fade edges */}
           <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-[#050505] to-transparent pointer-events-none" />
