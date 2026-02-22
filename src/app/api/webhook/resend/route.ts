@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     console.error("RESEND_WEBHOOK_SECRET is not set");
     return NextResponse.json(
       { error: "Webhook secret not configured" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   if (!svixId || !svixTimestamp || !svixSignature) {
     return NextResponse.json(
       { error: "Missing svix headers" },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -55,24 +55,22 @@ export async function POST(request: Request) {
 
   if (event.type === "email.received") {
     const { from, to, subject, email_id } = event.data;
-    console.log("Received email:", { from, to, subject, email_id });
 
     try {
       const resend = getResend();
       const { data: email } = await resend.emails.get(email_id);
-
       const originalTo = Array.isArray(to) ? to.join(", ") : to;
-      const result = await resend.emails.send({
+
+      await resend.emails.send({
         from: `UnoRouter <noreply@unorouter.ai>`,
         to: FORWARD_TO,
         subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
         text: email?.text ?? `(empty email from ${from})`,
         html: email?.html ?? undefined,
-        replyTo: from,
+        replyTo: from
       });
-      console.log("Forwarded email:", result);
     } catch (error) {
-      console.error("Failed to forward email:", error);
+      console.error("Email forward failed:", error);
       return NextResponse.json({ error: "Failed to forward" }, { status: 500 });
     }
   }
