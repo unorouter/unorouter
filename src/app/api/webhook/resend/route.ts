@@ -54,17 +54,20 @@ export async function POST(request: Request) {
   const event = JSON.parse(body);
 
   if (event.type === "email.received") {
-    const { from, to, subject, text, html } = event.data;
-    console.log("Received email:", { from, to, subject });
+    const { from, to, subject, email_id } = event.data;
+    console.log("Received email:", { from, to, subject, email_id });
 
     try {
+      const resend = getResend();
+      const { data: email } = await resend.emails.get(email_id);
+
       const originalTo = Array.isArray(to) ? to.join(", ") : to;
-      const result = await getResend().emails.send({
+      const result = await resend.emails.send({
         from: `UnoRouter <noreply@unorouter.ai>`,
         to: FORWARD_TO,
         subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
-        text: text ?? undefined,
-        html: html ?? undefined,
+        text: email?.text ?? `(empty email from ${from})`,
+        html: email?.html ?? undefined,
         replyTo: from,
       });
       console.log("Forwarded email:", result);
