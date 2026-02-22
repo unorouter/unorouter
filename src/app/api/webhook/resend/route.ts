@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
 import crypto from "node:crypto";
+import { Resend } from "resend";
 
 const SIGNING_SECRET = process.env.RESEND_WEBHOOK_SECRET;
+const FORWARD_TO = process.env.RESEND_FORWARD_TO ?? "don.cryptus@gmail.com";
+
+function getResend() {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY is not set");
+  }
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 export async function POST(request: Request) {
   if (!SIGNING_SECRET) {
@@ -48,7 +57,15 @@ export async function POST(request: Request) {
     const { from, to, subject, text, html } = event.data;
     console.log("Received email:", { from, to, subject });
 
-    // TODO: Forward to your email or store in DB
+    const originalTo = Array.isArray(to) ? to.join(", ") : to;
+    await getResend().emails.send({
+      from: `UnoRouter <noreply@unorouter.ai>`,
+      to: FORWARD_TO,
+      subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
+      text: text ?? undefined,
+      html: html ?? undefined,
+      replyTo: from,
+    });
   }
 
   return NextResponse.json({ received: true });
