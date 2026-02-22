@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { use } from "react";
+import { Footer } from "@/components/footer";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
@@ -55,6 +56,7 @@ export default function LocaleLayout(props: Props) {
         <Providers>
           <Toaster richColors />
           {props.children}
+          <Footer />
         </Providers>
       </body>
     </html>
