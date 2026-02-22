@@ -2,23 +2,9 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { Menu, ChevronDown, BookOpen, Terminal, Cpu, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+import { Menu, ChevronDown, Terminal, Cpu, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "/models", key: "MODELS" },
@@ -34,124 +20,130 @@ const DOC_LINKS = [
 export function Navbar() {
   const t = useTranslations("NAV");
   const pathname = usePathname();
+  const [docsOpen, setDocsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="bg-background/80 border-border sticky top-0 z-50 border-b backdrop-blur-lg">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-6">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg font-bold tracking-tight">UNO</span>
-            <span className="text-primary text-lg font-bold">ROUTER</span>
-          </Link>
+    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 bg-[#050505]/80 backdrop-blur-md">
+      <div className="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between font-mono">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2 group">
+          <span className="text-lg font-bold tracking-tight text-white group-hover:text-gray-300 transition-colors">
+            UNO<span className="text-gray-600">ROUTER</span>
+          </span>
+        </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.key}
-                href={link.href}
-                className={cn(
-                  "text-muted-foreground hover:text-foreground px-3 py-2 text-sm font-medium transition-colors",
-                  pathname.startsWith(link.href) && "text-foreground"
-                )}
-              >
-                {t(link.key)}
-              </Link>
-            ))}
-
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                className={cn(
-                  "text-muted-foreground hover:text-foreground flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors",
-                  pathname.startsWith("/docs") && "text-foreground"
-                )}
-              >
-                {t("DOCS")}
-                <ChevronDown className="h-3.5 w-3.5" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" sideOffset={8}>
-                {DOC_LINKS.map((link) => (
-                  <DropdownMenuItem key={link.key} render={<Link href={link.href} />}>
-                    <link.icon className="h-4 w-4" />
-                    {t(link.key)}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </nav>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-
-          <div className="hidden items-center gap-2 md:flex">
-            <Button variant="ghost" size="sm" render={<a href="https://api.unorouter.ai" />}>
-              {t("LOG_IN")}
-            </Button>
-            <Button size="sm" render={<a href="https://api.unorouter.ai/register" />}>
-              {t("GET_STARTED")}
-            </Button>
-          </div>
-
-          <Sheet>
-            <SheetTrigger
-              className="md:hidden"
-              render={<Button variant="ghost" size="icon-sm" />}
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.key}
+              href={link.href}
+              className={cn(
+                "text-[11px] font-medium transition-colors tracking-widest uppercase",
+                pathname.startsWith(link.href)
+                  ? "text-white"
+                  : "text-gray-400 hover:text-white"
+              )}
             >
-              <Menu className="h-5 w-5" />
-            </SheetTrigger>
-            <SheetContent side="right" className="w-72">
-              <SheetHeader>
-                <SheetTitle>
-                  <span className="font-bold">UNO</span>
-                  <span className="text-primary font-bold">ROUTER</span>
-                </SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col gap-1 px-4">
-                {NAV_LINKS.map((link) => (
+              {t(link.key)}
+            </Link>
+          ))}
+
+          <div className="relative">
+            <button
+              onClick={() => setDocsOpen(!docsOpen)}
+              onBlur={() => setTimeout(() => setDocsOpen(false), 200)}
+              className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-gray-400 hover:text-white"
+            >
+              {t("DOCS")}
+              <ChevronDown className={cn("h-3 w-3 transition-transform duration-200", docsOpen && "rotate-180")} />
+            </button>
+            {docsOpen && (
+              <div className="absolute top-full mt-2 left-0 w-48 bg-[#0a0a0a] border border-white/10 py-1">
+                {DOC_LINKS.map((link) => (
                   <Link
                     key={link.key}
                     href={link.href}
-                    className={cn(
-                      "text-muted-foreground hover:text-foreground rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                      pathname.startsWith(link.href) &&
-                        "bg-accent text-foreground"
-                    )}
+                    className="flex items-center gap-2 px-4 py-2 text-[11px] text-gray-400 hover:text-white hover:bg-white/5 tracking-wider uppercase"
                   >
+                    <link.icon className="h-3 w-3" />
                     {t(link.key)}
                   </Link>
                 ))}
-                <div className="py-2">
-                  <p className="text-muted-foreground mb-1 px-3 text-xs font-medium uppercase tracking-wider">
-                    {t("DOCS")}
-                  </p>
-                  {DOC_LINKS.map((link) => (
-                    <Link
-                      key={link.key}
-                      href={link.href}
-                      className={cn(
-                        "text-muted-foreground hover:text-foreground flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                        pathname.startsWith(link.href) &&
-                          "bg-accent text-foreground"
-                      )}
-                    >
-                      <link.icon className="h-4 w-4" />
-                      {t(link.key)}
-                    </Link>
-                  ))}
-                </div>
-              </nav>
-              <div className="mt-auto flex flex-col gap-2 p-4">
-                <Button variant="outline" render={<a href="https://api.unorouter.ai" />}>
-                  {t("LOG_IN")}
-                </Button>
-                <Button render={<a href="https://api.unorouter.ai/register" />}>
-                  {t("GET_STARTED")}
-                </Button>
               </div>
-            </SheetContent>
-          </Sheet>
+            )}
+          </div>
         </div>
+
+        {/* Desktop Auth */}
+        <div className="hidden md:flex items-center gap-6">
+          <a
+            href="https://api.unorouter.ai"
+            className="text-[11px] font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
+          >
+            {t("LOG_IN")}
+          </a>
+          <a
+            href="https://api.unorouter.ai/register"
+            className="px-5 py-2 bg-white text-black text-[11px] font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
+          >
+            {t("GET_STARTED")}
+          </a>
+        </div>
+
+        {/* Mobile Menu */}
+        <button
+          className="md:hidden text-white"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
       </div>
-    </header>
+
+      {/* Mobile Nav */}
+      {mobileOpen && (
+        <div className="md:hidden bg-[#050505] border-t border-white/10 px-6 py-6 space-y-4 font-mono">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.key}
+              href={link.href}
+              onClick={() => setMobileOpen(false)}
+              className="block text-sm text-gray-400 hover:text-white uppercase tracking-wider"
+            >
+              {t(link.key)}
+            </Link>
+          ))}
+          <div className="space-y-2">
+            <p className="text-[10px] text-gray-600 uppercase tracking-widest">{t("DOCS")}</p>
+            {DOC_LINKS.map((link) => (
+              <Link
+                key={link.key}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 text-sm text-gray-400 hover:text-white uppercase tracking-wider"
+              >
+                <link.icon className="h-3 w-3" />
+                {t(link.key)}
+              </Link>
+            ))}
+          </div>
+          <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
+            <a
+              href="https://api.unorouter.ai"
+              className="text-sm text-gray-400 hover:text-white uppercase tracking-wider"
+            >
+              {t("LOG_IN")}
+            </a>
+            <a
+              href="https://api.unorouter.ai/register"
+              className="px-5 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors text-center"
+            >
+              {t("GET_STARTED")}
+            </a>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 }

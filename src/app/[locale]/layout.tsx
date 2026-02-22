@@ -3,7 +3,7 @@ import { LOCALES } from "@/lib/config/constants";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Orbitron, Space_Grotesk, Fira_Code } from "next/font/google";
 import { notFound } from "next/navigation";
 import { use } from "react";
 import { Footer } from "@/components/footer";
@@ -17,14 +17,31 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-mono",
   subsets: ["latin"],
+});
+
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
+  subsets: ["latin"],
+  weight: ["600", "800"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+});
+
+const firaCode = Fira_Code({
+  variable: "--font-fira-code",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 export async function generateMetadata(props: {
@@ -51,7 +68,7 @@ export default function LocaleLayout(props: Props) {
   return (
     <html lang={params.locale} suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${spaceGrotesk.variable} ${firaCode.variable} flex min-h-full flex-col antialiased font-sans`}
       >
         <Providers>
           <Toaster richColors />

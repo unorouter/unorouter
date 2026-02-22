@@ -2,7 +2,6 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -21,51 +20,34 @@ export function CodeBlock(props: Props) {
   }
 
   return (
-    <div className={cn("group relative", props.className)}>
+    <div className={cn("w-full bg-[#0A0A0A] border border-white/10 font-mono text-sm relative group rounded-sm overflow-hidden hover:border-white/20 transition-colors duration-500", props.className)}>
       {props.language && (
-        <div className="border-border bg-muted/50 flex items-center justify-between border-x border-t px-4 py-2">
-          <span className="text-muted-foreground font-mono text-xs uppercase">
+        <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/5">
+          <span className="text-[10px] text-gray-500 uppercase tracking-wider">
             {props.language}
           </span>
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            onClick={handleCopy}
-            aria-label="Copy code"
-          >
-            {copied ? (
-              <Check className="h-3.5 w-3.5" />
-            ) : (
-              <Copy className="h-3.5 w-3.5" />
-            )}
-          </Button>
+          <div className="flex gap-1.5 opacity-50">
+            <div className="w-2 h-2 rounded-full bg-white/20" />
+            <div className="w-2 h-2 rounded-full bg-white/20" />
+          </div>
         </div>
       )}
-      <div
-        className={cn(
-          "border-border bg-muted/30 overflow-x-auto border p-4",
-          !props.language && "rounded-md"
-        )}
-      >
-        {!props.language && (
-          <Button
-            variant="ghost"
-            size="icon-xs"
-            onClick={handleCopy}
-            className="absolute top-3 right-3 opacity-0 transition-opacity group-hover:opacity-100"
-            aria-label="Copy code"
-          >
-            {copied ? (
-              <Check className="h-3.5 w-3.5" />
-            ) : (
-              <Copy className="h-3.5 w-3.5" />
-            )}
-          </Button>
-        )}
-        <pre className="text-sm leading-relaxed">
-          <code className="font-mono">{props.code}</code>
+      <div className="p-8 text-gray-400 space-y-6">
+        <pre className="font-mono text-xs md:text-sm leading-relaxed whitespace-pre-wrap break-all">
+          <code>{props.code}</code>
         </pre>
       </div>
+      <button
+        onClick={handleCopy}
+        className="absolute top-16 right-6 text-gray-500 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-sm"
+        aria-label="Copy code"
+      >
+        {copied ? (
+          <Check className="h-3.5 w-3.5" />
+        ) : (
+          <Copy className="h-3.5 w-3.5" />
+        )}
+      </button>
     </div>
   );
 }
