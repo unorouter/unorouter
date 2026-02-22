@@ -12,9 +12,9 @@ export function Footer() {
           <div>
             <h3 className="mb-4 text-sm font-semibold">{t("PRODUCT")}</h3>
             <ul className="space-y-3">
-              <FooterLink href="/">{t("MODELS")}</FooterLink>
-              <FooterLink href="/">{t("PRICING")}</FooterLink>
-              <FooterLink href="/">{t("DOCUMENTATION")}</FooterLink>
+              <FooterLink href="/models">{t("MODELS")}</FooterLink>
+              <FooterLink href="/pricing">{t("PRICING")}</FooterLink>
+              <FooterLink href="/docs/claude-code">{t("DOCUMENTATION")}</FooterLink>
             </ul>
           </div>
 
