@@ -57,15 +57,21 @@ export async function POST(request: Request) {
     const { from, to, subject, text, html } = event.data;
     console.log("Received email:", { from, to, subject });
 
-    const originalTo = Array.isArray(to) ? to.join(", ") : to;
-    await getResend().emails.send({
-      from: `UnoRouter <noreply@unorouter.ai>`,
-      to: FORWARD_TO,
-      subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
-      text: text ?? undefined,
-      html: html ?? undefined,
-      replyTo: from,
-    });
+    try {
+      const originalTo = Array.isArray(to) ? to.join(", ") : to;
+      const result = await getResend().emails.send({
+        from: `UnoRouter <noreply@unorouter.ai>`,
+        to: FORWARD_TO,
+        subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
+        text: text ?? undefined,
+        html: html ?? undefined,
+        replyTo: from,
+      });
+      console.log("Forwarded email:", result);
+    } catch (error) {
+      console.error("Failed to forward email:", error);
+      return NextResponse.json({ error: "Failed to forward" }, { status: 500 });
+    }
   }
 
   return NextResponse.json({ received: true });

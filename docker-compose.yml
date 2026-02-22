@@ -11,6 +11,8 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: prod
+    env_file:
+      - .env
     networks:
       - proxy
     labels:
