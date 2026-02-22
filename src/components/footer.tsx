@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
+import { Building2, Eye, FileText, Mail, MapPin } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { FileText, Eye, Mail, Building2, MapPin } from "lucide-react";
 
 export function Footer() {
   const t = useTranslations("FOOTER");
@@ -8,7 +8,7 @@ export function Footer() {
 
   return (
     <footer className="relative bg-[#050505] border-t border-white/10 py-16">
-      <div className="max-w-[1440px] mx-auto px-6 relative z-10">
+      <div className="max-w-360 mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div className="space-y-4">
@@ -22,13 +22,22 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="font-semibold text-white">{t("PRODUCT")}</h4>
             <div className="space-y-3">
-              <FooterLink href="/models" icon={<Building2 className="h-4 w-4 text-gray-500" />}>
+              <FooterLink
+                href="/models"
+                icon={<Building2 className="h-4 w-4 text-gray-500" />}
+              >
                 {t("MODELS")}
               </FooterLink>
-              <FooterLink href="/pricing" icon={<MapPin className="h-4 w-4 text-gray-500" />}>
+              <FooterLink
+                href="/pricing"
+                icon={<MapPin className="h-4 w-4 text-gray-500" />}
+              >
                 {t("PRICING")}
               </FooterLink>
-              <FooterLink href="/docs/claude-code" icon={<FileText className="h-4 w-4 text-gray-500" />}>
+              <FooterLink
+                href="/docs/claude-code"
+                icon={<FileText className="h-4 w-4 text-gray-500" />}
+              >
                 {t("DOCUMENTATION")}
               </FooterLink>
             </div>
@@ -38,10 +47,16 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="font-semibold text-white">{t("LEGAL")}</h4>
             <div className="space-y-3">
-              <FooterLink href="/terms" icon={<FileText className="h-4 w-4 text-gray-500" />}>
+              <FooterLink
+                href="/terms"
+                icon={<FileText className="h-4 w-4 text-gray-500" />}
+              >
                 {t("TERMS")}
               </FooterLink>
-              <FooterLink href="/privacy" icon={<Eye className="h-4 w-4 text-gray-500" />}>
+              <FooterLink
+                href="/privacy"
+                icon={<Eye className="h-4 w-4 text-gray-500" />}
+              >
                 {t("PRIVACY")}
               </FooterLink>
             </div>
@@ -85,7 +100,8 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="text-center pt-6 border-t border-white/10">
             <p className="text-gray-500 text-xs">
-              By using this platform, you acknowledge that you have read and agreed to our
+              By using this platform, you acknowledge that you have read and
+              agreed to our
               <Link href="/terms">
                 <span className="text-gray-400 hover:text-white ml-1 transition-colors duration-200">
                   Terms of Service
@@ -111,7 +127,11 @@ export function Footer() {
   );
 }
 
-function FooterLink(props: { href: string; icon: React.ReactNode; children: React.ReactNode }) {
+function FooterLink(props: {
+  href: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <Link href={props.href}>
       <div className="flex items-center gap-2 text-gray-400 hover:text-white text-sm cursor-pointer transition-colors duration-200">

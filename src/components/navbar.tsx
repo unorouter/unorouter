@@ -1,20 +1,20 @@
 "use client";
 
 import { Link, usePathname } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import { Menu, ChevronDown, Terminal, Cpu, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ChevronDown, Cpu, Menu, Sparkles, Terminal, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 const NAV_LINKS = [
   { href: "/models", key: "MODELS" },
-  { href: "/pricing", key: "PRICING" },
+  { href: "/pricing", key: "PRICING" }
 ] as const;
 
 const DOC_LINKS = [
   { href: "/docs/claude-code", key: "CLAUDE_CODE", icon: Terminal },
   { href: "/docs/codex", key: "CODEX", icon: Cpu },
-  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: Sparkles },
+  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: Sparkles }
 ] as const;
 
 export function Navbar() {
@@ -25,7 +25,7 @@ export function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 bg-[#050505]/80 backdrop-blur-md">
-      <div className="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between font-mono">
+      <div className="max-w-360 mx-auto px-6 h-20 flex items-center justify-between font-mono">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-lg font-bold tracking-tight text-white group-hover:text-gray-300 transition-colors">
@@ -57,7 +57,12 @@ export function Navbar() {
               className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-gray-400 hover:text-white"
             >
               {t("DOCS")}
-              <ChevronDown className={cn("h-3 w-3 transition-transform duration-200", docsOpen && "rotate-180")} />
+              <ChevronDown
+                className={cn(
+                  "h-3 w-3 transition-transform duration-200",
+                  docsOpen && "rotate-180"
+                )}
+              />
             </button>
             {docsOpen && (
               <div className="absolute top-full mt-2 left-0 w-48 bg-[#0a0a0a] border border-white/10 py-1">
@@ -97,7 +102,11 @@ export function Navbar() {
           className="md:hidden text-white"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </button>
       </div>
 
@@ -115,7 +124,9 @@ export function Navbar() {
             </Link>
           ))}
           <div className="space-y-2">
-            <p className="text-[10px] text-gray-600 uppercase tracking-widest">{t("DOCS")}</p>
+            <p className="text-[10px] text-gray-600 uppercase tracking-widest">
+              {t("DOCS")}
+            </p>
             {DOC_LINKS.map((link) => (
               <Link
                 key={link.key}

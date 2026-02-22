@@ -17,10 +17,15 @@ export function ModelTicker(props: Props) {
   const tripled = [...props.models, ...props.models, ...props.models];
 
   return (
-    <div className={cn("border-t border-white/10 bg-[#050505] py-5 hidden md:flex", props.className)}>
-      <div className="max-w-[1440px] mx-auto w-full px-6 flex items-center gap-10">
+    <div
+      className={cn(
+        "border-t border-white/10 bg-[#050505] py-5 hidden md:flex",
+        props.className
+      )}
+    >
+      <div className="max-w-360 mx-auto w-full px-6 flex items-center gap-10">
         {/* Live indicator */}
-        <div className="flex items-center gap-3 text-[10px] text-white font-mono uppercase tracking-widest border border-white/20 bg-white/5 px-3 py-1 flex-shrink-0">
+        <div className="flex items-center gap-3 text-[10px] text-white font-mono uppercase tracking-widest border border-white/20 bg-white/5 px-3 py-1 shrink-0">
           <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
           Live Inference
         </div>
@@ -40,12 +45,12 @@ export function ModelTicker(props: Props) {
             ))}
           </div>
           {/* Fade edges */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#050505] to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-[#050505] to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-linear-to-l from-[#050505] to-transparent pointer-events-none" />
         </div>
 
         {/* TPS counter */}
-        <div className="text-[10px] font-mono text-gray-500 flex-shrink-0">
+        <div className="text-[10px] font-mono text-gray-500 shrink-0">
           TPS: <span className="text-white font-bold">142.5</span>
         </div>
       </div>
