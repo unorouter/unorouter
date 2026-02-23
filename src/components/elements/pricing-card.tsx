@@ -45,12 +45,12 @@ export function PricingCard(props: Props) {
         </p>
         <ul className="space-y-3">
           <li className="flex items-center gap-2 text-sm">
-            <Check className="text-primary h-4 w-4 shrink-0" />
+            <LuCheck className="text-primary h-4 w-4 shrink-0" />
             {props.rateLimit.toLocaleString()} requests/min
           </li>
           {props.features.map((feature) => (
             <li key={feature} className="flex items-center gap-2 text-sm">
-              <Check className="text-primary h-4 w-4 shrink-0" />
+              <LuCheck className="text-primary h-4 w-4 shrink-0" />
               {feature}
             </li>
           ))}

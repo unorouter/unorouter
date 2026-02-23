@@ -49,7 +49,7 @@ export async function HeroSection(props: Props) {
             href="https://api.unorouter.ai/register"
             className="h-11 px-8 bg-white text-black font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
           >
-            <Zap className="h-3.5 w-3.5" />
+            <LuZap className="h-3.5 w-3.5" />
             {t("HOME.HERO_CTA_PRIMARY")}
           </a>
           <Link
@@ -57,7 +57,7 @@ export async function HeroSection(props: Props) {
             className="h-11 px-8 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest hover:border-white transition-all w-full sm:w-auto flex items-center justify-center gap-2 group"
           >
             {t("HOME.HERO_CTA_SECONDARY")}
-            <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+            <LuChevronRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
@@ -91,7 +91,7 @@ export async function HeroSection(props: Props) {
                 <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 Requests Served
               </span>
-              <Activity className="h-3.5 w-3.5 text-gray-600" />
+              <LuActivity className="h-3.5 w-3.5 text-gray-600" />
             </div>
             <div className="text-4xl md:text-5xl lg:text-5xl font-bold text-white tracking-tight tabular-nums">
               847,291,053

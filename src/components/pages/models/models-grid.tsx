@@ -40,7 +40,7 @@ export function ModelsGrid(props: Props) {
       {/* Search and Filter */}
       <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+          <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder={t("SEARCH_PLACEHOLDER")}
             value={search}

@@ -11,7 +11,7 @@ export async function PricingSection() {
       <div className="max-w-360 mx-auto px-6">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-purple-500/30 bg-purple-500/10 rounded-sm mb-6">
-            <Zap className="h-3 w-3 text-purple-400" />
+            <LuZap className="h-3 w-3 text-purple-400" />
             <span className="text-[10px] font-mono text-purple-400 tracking-[0.2em] uppercase">
               {t("HOME.PRICING_LABEL")}
             </span>
@@ -71,17 +71,17 @@ export async function PricingSection() {
 
             <div className="space-y-4">
               <FeatureRow
-                icon={<Shield className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuShield className="h-3.5 w-3.5 text-purple-400" />}
                 title={t("HOME.FEATURE_FAILOVER_TITLE")}
                 description={t("HOME.FEATURE_FAILOVER_DESC")}
               />
               <FeatureRow
-                icon={<Globe className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuGlobe className="h-3.5 w-3.5 text-purple-400" />}
                 title={t("HOME.FEATURE_MULTIPROTOCOL_TITLE")}
                 description={t("HOME.FEATURE_MULTIPROTOCOL_DESC")}
               />
               <FeatureRow
-                icon={<Activity className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuActivity className="h-3.5 w-3.5 text-purple-400" />}
                 title={t("HOME.FEATURE_LOADBALANCE_TITLE")}
                 description={t("HOME.FEATURE_LOADBALANCE_DESC")}
               />
@@ -92,7 +92,7 @@ export async function PricingSection() {
                 href="https://api.unorouter.ai/register"
                 className="h-11 px-8 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
               >
-                <Zap className="h-3.5 w-3.5" />
+                <LuZap className="h-3.5 w-3.5" />
                 Get Started
               </a>
               <Link

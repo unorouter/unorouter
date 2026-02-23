@@ -11,7 +11,7 @@ export async function ReliabilitySection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-cyan-500/30 bg-cyan-500/10 rounded-sm">
-              <RefreshCw className="h-3 w-3 text-cyan-400" />
+              <LuRefreshCw className="h-3 w-3 text-cyan-400" />
               <span className="text-[10px] font-mono text-cyan-400 tracking-[0.2em] uppercase">
                 {t("HOME.RELIABILITY_BADGE")}
               </span>
@@ -29,13 +29,13 @@ export async function ReliabilitySection() {
 
             <div className="grid sm:grid-cols-2 gap-4">
               <InfoCard
-                icon={<Layers className="h-3.5 w-3.5 text-cyan-400" />}
+                icon={<LuLayers className="h-3.5 w-3.5 text-cyan-400" />}
                 title={t("HOME.RELIABILITY_CARD1_TITLE")}
                 description={t("HOME.RELIABILITY_CARD1_DESC")}
                 color="cyan"
               />
               <InfoCard
-                icon={<Server className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuServer className="h-3.5 w-3.5 text-purple-400" />}
                 title={t("HOME.RELIABILITY_CARD2_TITLE")}
                 description={t("HOME.RELIABILITY_CARD2_DESC")}
                 color="purple"
@@ -47,7 +47,7 @@ export async function ReliabilitySection() {
                 href="https://api.unorouter.ai/register"
                 className="h-11 px-6 bg-linear-to-r from-cyan-500 to-cyan-600 text-black font-mono text-xs font-bold uppercase tracking-widest hover:from-cyan-400 hover:to-cyan-500 transition-all flex items-center gap-2"
               >
-                <Shield className="h-3.5 w-3.5" />
+                <LuShield className="h-3.5 w-3.5" />
                 {t("HOME.HERO_CTA_PRIMARY")}
               </a>
               <Link
@@ -99,7 +99,7 @@ export async function ReliabilitySection() {
               <div className="px-6 pb-6">
                 <div className="p-3 bg-black/50 border border-white/5 rounded-md">
                   <div className="flex items-center gap-2 mb-2">
-                    <Cpu className="h-2.5 w-2.5 text-gray-500" />
+                    <LuCpu className="h-2.5 w-2.5 text-gray-500" />
                     <span className="text-[9px] text-gray-500 uppercase tracking-wider">
                       Supported Formats
                     </span>

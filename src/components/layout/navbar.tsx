@@ -12,9 +12,9 @@ const NAV_LINKS = [
 ] as const;
 
 const DOC_LINKS = [
-  { href: "/docs/claude-code", key: "CLAUDE_CODE", icon: Terminal },
-  { href: "/docs/codex", key: "CODEX", icon: Cpu },
-  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: Sparkles }
+  { href: "/docs/claude-code", key: "CLAUDE_CODE", icon: LuTerminal },
+  { href: "/docs/codex", key: "CODEX", icon: LuCpu },
+  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: LuSparkles }
 ] as const;
 
 export function Navbar() {
@@ -57,7 +57,7 @@ export function Navbar() {
               className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-gray-400 hover:text-white"
             >
               {t("DOCS")}
-              <ChevronDown
+              <LuChevronDown
                 className={cn(
                   "h-3 w-3 transition-transform duration-200",
                   docsOpen && "rotate-180"
@@ -103,9 +103,9 @@ export function Navbar() {
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           {mobileOpen ? (
-            <X className="h-5 w-5" />
+            <LuX className="h-5 w-5" />
           ) : (
-            <Menu className="h-5 w-5" />
+            <LuMenu className="h-5 w-5" />
           )}
         </button>
       </div>

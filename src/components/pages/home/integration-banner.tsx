@@ -15,7 +15,7 @@ export async function IntegrationBanner() {
           <div className="flex items-center gap-6">
             <div className="relative shrink-0">
               <div className="absolute inset-0 bg-orange-600/20 blur-xl rounded-full" />
-              <Terminal className="relative h-12 w-12 text-orange-500" />
+              <LuTerminal className="relative h-12 w-12 text-orange-500" />
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2 mb-1">
@@ -36,7 +36,7 @@ export async function IntegrationBanner() {
               View Guide
             </span>
             <div className="w-10 h-10 rounded-full border border-orange-600/30 flex items-center justify-center group-hover:bg-orange-600 group-hover:border-orange-600 transition-all">
-              <ArrowRight className="h-4 w-4 text-orange-500 group-hover:text-white transition-colors" />
+              <LuArrowRight className="h-4 w-4 text-orange-500 group-hover:text-white transition-colors" />
             </div>
           </div>
         </Link>

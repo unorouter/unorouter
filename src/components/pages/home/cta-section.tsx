@@ -28,7 +28,7 @@ export async function CtaSection() {
               className="h-12 px-10 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest hover:border-white transition-all w-full sm:w-auto flex items-center justify-center gap-2 group"
             >
               {t("HOME.CTA_SECONDARY")}
-              <ChevronRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+              <LuChevronRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </div>

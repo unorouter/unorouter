@@ -24,19 +24,19 @@ export function Footer() {
             <div className="space-y-3">
               <FooterLink
                 href="/models"
-                icon={<Building2 className="h-4 w-4 text-gray-500" />}
+                icon={<LuBuilding2 className="h-4 w-4 text-gray-500" />}
               >
                 {t("MODELS")}
               </FooterLink>
               <FooterLink
                 href="/pricing"
-                icon={<MapPin className="h-4 w-4 text-gray-500" />}
+                icon={<LuMapPin className="h-4 w-4 text-gray-500" />}
               >
                 {t("PRICING")}
               </FooterLink>
               <FooterLink
                 href="/docs/claude-code"
-                icon={<FileText className="h-4 w-4 text-gray-500" />}
+                icon={<LuFileText className="h-4 w-4 text-gray-500" />}
               >
                 {t("DOCUMENTATION")}
               </FooterLink>
@@ -49,13 +49,13 @@ export function Footer() {
             <div className="space-y-3">
               <FooterLink
                 href="/terms"
-                icon={<FileText className="h-4 w-4 text-gray-500" />}
+                icon={<LuFileText className="h-4 w-4 text-gray-500" />}
               >
                 {t("TERMS")}
               </FooterLink>
               <FooterLink
                 href="/privacy"
-                icon={<Eye className="h-4 w-4 text-gray-500" />}
+                icon={<LuEye className="h-4 w-4 text-gray-500" />}
               >
                 {t("PRIVACY")}
               </FooterLink>
@@ -71,7 +71,7 @@ export function Footer() {
                 href="mailto:support@unorouter.ai"
                 className="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-200 flex items-center gap-2"
               >
-                <Mail className="h-4 w-4 text-gray-500" />
+                <LuMail className="h-4 w-4 text-gray-500" />
                 support@unorouter.ai
               </a>
             </div>

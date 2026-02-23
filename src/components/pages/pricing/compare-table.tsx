@@ -80,9 +80,9 @@ function CompareCell(props: { value: string | boolean; highlighted?: boolean }) 
     >
       {typeof props.value === "boolean" ? (
         props.value ? (
-          <Check className="text-primary mx-auto h-4 w-4" />
+          <LuCheck className="text-primary mx-auto h-4 w-4" />
         ) : (
-          <X className="text-muted-foreground mx-auto h-4 w-4" />
+          <LuX className="text-muted-foreground mx-auto h-4 w-4" />
         )
       ) : (
         <span className="font-mono text-sm">{props.value}</span>

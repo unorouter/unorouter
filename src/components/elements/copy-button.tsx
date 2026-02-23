@@ -24,9 +24,9 @@ export function CopyButton(props: Props) {
       aria-label="Copy code"
     >
       {copied ? (
-        <Check className="h-3.5 w-3.5" />
+        <LuCheck className="h-3.5 w-3.5" />
       ) : (
-        <Copy className="h-3.5 w-3.5" />
+        <LuCopy className="h-3.5 w-3.5" />
       )}
     </button>
   );
