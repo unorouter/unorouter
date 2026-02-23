@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { fetchPricing, processModels, type ProcessedModel } from "@/lib/api/pricing";
-import { ModelsGrid } from "./models-grid";
+import { ModelsGrid } from "@/components/pages/models/models-grid";
 
 export default async function ModelsPage() {
   const t = await getTranslations("MODELS");

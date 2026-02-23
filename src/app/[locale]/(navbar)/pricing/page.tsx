@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { Check, X } from "lucide-react";
-import { PricingCard } from "@/components/pricing-card";
+import { PricingCard } from "@/components/elements/pricing-card";
+import { CompareTable } from "@/components/pages/pricing/compare-table";
 
 export default async function PricingPage() {
   const t = await getTranslations("PRICING");
@@ -57,103 +57,21 @@ export default async function PricingPage() {
       </div>
 
       {/* Feature Comparison */}
-      <div className="mt-20">
-        <h2 className="mb-8 text-center text-2xl font-bold">
-          {t("COMPARE_TITLE")}
-        </h2>
-        <div className="border-border overflow-x-auto border">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-border border-b">
-                <th className="text-muted-foreground px-6 py-4 text-left font-medium">
-                  {t("COMPARE_FEATURE")}
-                </th>
-                <th className="px-6 py-4 text-center font-medium">
-                  {t("BASIC_NAME")}
-                </th>
-                <th className="bg-primary/5 px-6 py-4 text-center font-medium">
-                  {t("PRO_NAME")}
-                </th>
-                <th className="px-6 py-4 text-center font-medium">
-                  {t("ENTERPRISE_NAME")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <CompareRow
-                feature={t("COMPARE_PRICE")}
-                basic="$20/mo"
-                pro="$50/mo"
-                enterprise="$100/mo"
-              />
-              <CompareRow
-                feature={t("COMPARE_VALUE")}
-                basic="$30"
-                pro="$75"
-                enterprise="$175"
-              />
-              <CompareRow
-                feature={t("COMPARE_RATE_LIMIT")}
-                basic="100 rpm"
-                pro="500 rpm"
-                enterprise="2,000 rpm"
-              />
-              <CompareRow
-                feature={t("COMPARE_ALL_MODELS")}
-                basic={true}
-                pro={true}
-                enterprise={true}
-              />
-              <CompareRow
-                feature={t("COMPARE_PRIORITY")}
-                basic={false}
-                pro={true}
-                enterprise={true}
-              />
-              <CompareRow
-                feature={t("COMPARE_DEDICATED")}
-                basic={false}
-                pro={false}
-                enterprise={true}
-              />
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <CompareTable
+        title={t("COMPARE_TITLE")}
+        featureLabel={t("COMPARE_FEATURE")}
+        basicName={t("BASIC_NAME")}
+        proName={t("PRO_NAME")}
+        enterpriseName={t("ENTERPRISE_NAME")}
+        rows={[
+          { feature: t("COMPARE_PRICE"), basic: "$20/mo", pro: "$50/mo", enterprise: "$100/mo" },
+          { feature: t("COMPARE_VALUE"), basic: "$30", pro: "$75", enterprise: "$175" },
+          { feature: t("COMPARE_RATE_LIMIT"), basic: "100 rpm", pro: "500 rpm", enterprise: "2,000 rpm" },
+          { feature: t("COMPARE_ALL_MODELS"), basic: true, pro: true, enterprise: true },
+          { feature: t("COMPARE_PRIORITY"), basic: false, pro: true, enterprise: true },
+          { feature: t("COMPARE_DEDICATED"), basic: false, pro: false, enterprise: true },
+        ]}
+      />
     </div>
-  );
-}
-
-function CompareRow(props: {
-  feature: string;
-  basic: string | boolean;
-  pro: string | boolean;
-  enterprise: string | boolean;
-}) {
-  return (
-    <tr className="border-border border-b last:border-b-0">
-      <td className="text-muted-foreground px-6 py-3">{props.feature}</td>
-      <CompareCell value={props.basic} />
-      <CompareCell value={props.pro} highlighted />
-      <CompareCell value={props.enterprise} />
-    </tr>
-  );
-}
-
-function CompareCell(props: { value: string | boolean; highlighted?: boolean }) {
-  return (
-    <td
-      className={`px-6 py-3 text-center ${props.highlighted ? "bg-primary/5" : ""}`}
-    >
-      {typeof props.value === "boolean" ? (
-        props.value ? (
-          <Check className="text-primary mx-auto h-4 w-4" />
-        ) : (
-          <X className="text-muted-foreground mx-auto h-4 w-4" />
-        )
-      ) : (
-        <span className="font-mono text-sm">{props.value}</span>
-      )}
-    </td>
   );
 }

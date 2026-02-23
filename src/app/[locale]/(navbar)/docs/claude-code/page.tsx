@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CodeBlock } from "@/components/code-block";
+import { CodeBlock } from "@/components/elements/code-block";
 import { Link } from "@/i18n/navigation";
 
 export default async function ClaudeCodePage() {

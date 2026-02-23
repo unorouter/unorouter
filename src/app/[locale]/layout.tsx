@@ -1,12 +1,13 @@
 import { routing } from "@/i18n/routing";
 import { LOCALES } from "@/lib/config/constants";
+import { getPageMetadata } from "@/lib/config/metadata";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Inter, JetBrains_Mono, Orbitron, Space_Grotesk, Fira_Code } from "next/font/google";
 import { notFound } from "next/navigation";
 import { use } from "react";
-import { Footer } from "@/components/footer";
+import { Footer } from "@/components/layout/footer";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
@@ -49,10 +50,11 @@ export async function generateMetadata(props: {
 }) {
   const params = await props.params;
   const t = await getTranslations({ locale: params.locale });
-  return {
+  return getPageMetadata({
+    locale: params.locale,
     title: t("METADATA.TITLE"),
     description: t("METADATA.DESCRIPTION"),
-  };
+  });
 }
 
 type Props = {
