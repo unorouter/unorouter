@@ -1,4 +1,4 @@
-import { Check, X } from "lucide-react";
+import { LuCheck, LuX } from "react-icons/lu";
 
 type CompareRowData = {
   feature: string;

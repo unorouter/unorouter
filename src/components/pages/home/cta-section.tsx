@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { ChevronRight } from "lucide-react";
+import { LuChevronRight } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 export async function CtaSection() {

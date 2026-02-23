@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { LuMoon, LuSun } from "react-icons/lu";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 

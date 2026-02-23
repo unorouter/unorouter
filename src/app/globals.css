@@ -149,6 +149,19 @@
   animation: widthExpand 3s ease-in-out infinite alternate;
 }
 
+/* Shiki dual-theme: show light tokens by default, dark tokens in .dark */
+html .shiki,
+html .shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+html.dark .shiki,
+html.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

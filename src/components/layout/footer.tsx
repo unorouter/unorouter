@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { Building2, Eye, FileText, Mail, MapPin } from "lucide-react";
+import { LuBuilding2, LuEye, LuFileText, LuMail, LuMapPin } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 
 export function Footer() {

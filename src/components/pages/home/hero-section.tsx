@@ -1,9 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import {
-  Activity,
-  ChevronRight,
-  Zap
-} from "lucide-react";
+import { LuActivity, LuChevronRight, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 type Props = {

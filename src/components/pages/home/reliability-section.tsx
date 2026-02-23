@@ -1,11 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import {
-  Cpu,
-  Layers,
-  RefreshCw,
-  Server,
-  Shield
-} from "lucide-react";
+import { LuCpu, LuLayers, LuRefreshCw, LuServer, LuShield } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 export async function ReliabilitySection() {

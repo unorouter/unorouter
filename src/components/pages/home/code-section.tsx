@@ -1,6 +1,6 @@
 import { CodeBlock } from "@/components/elements/code-block";
 import { Link } from "@/i18n/navigation";
-import { ArrowRight, Check } from "lucide-react";
+import { LuArrowRight, LuCheck } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 export async function CodeSection() {

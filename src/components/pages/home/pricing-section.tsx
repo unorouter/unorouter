@@ -1,11 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import {
-  Activity,
-  Globe,
-  Shield,
-  Zap
-} from "lucide-react";
+import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 export async function PricingSection() {

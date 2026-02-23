@@ -2,7 +2,7 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Cpu, Menu, Sparkles, Terminal, X } from "lucide-react";
+import { LuChevronDown, LuCpu, LuMenu, LuSparkles, LuTerminal, LuX } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
