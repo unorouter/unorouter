@@ -4,7 +4,8 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { LuChevronDown, LuCpu, LuMenu, LuSparkles, LuTerminal, LuX } from "react-icons/lu";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { href: "/models", key: "MODELS" },
@@ -22,12 +23,25 @@ export function Navbar() {
   const pathname = usePathname();
   const [docsOpen, setDocsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/10 bg-[#050505]/80 backdrop-blur-md">
+    <nav className={cn(
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+      scrolled
+        ? "bg-[#050505]/90 backdrop-blur-md border-white/10"
+        : "bg-transparent border-transparent"
+    )}>
       <div className="max-w-360 mx-auto px-6 h-20 flex items-center justify-between font-mono">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
+          <Image src="/logo.webp" alt="Unorouter" width={32} height={32} className="rounded-full" />
           <span className="text-lg font-bold tracking-tight text-white group-hover:text-gray-300 transition-colors">
             UNO<span className="text-gray-600">ROUTER</span>
           </span>

@@ -1,0 +1,106 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+
+const LINE_COUNT = 40;
+const COLORS = ["#ffffff", "#d4d4d4", "#a3a3a3", "#525252", "#22c55e"];
+
+type Line = {
+  x: number;
+  y: number;
+  speed: number;
+  width: number;
+  length: number;
+  color: string;
+};
+
+export function StreakCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationId: number;
+    let width = 0;
+    let height = 0;
+    const lines: Line[] = [];
+
+    const spawnLine = (index: number, initial = false) => {
+      const color =
+        Math.random() > 0.9
+          ? "#22c55e"
+          : COLORS[Math.floor(Math.random() * (COLORS.length - 1))];
+
+      lines[index] = {
+        x: initial ? Math.random() * width : -Math.random() * 500 - 200,
+        y: Math.random() * height,
+        speed: Math.random() * 8 + 5,
+        width: Math.random() * 2 + 0.5,
+        length: Math.random() * 400 + 100,
+        color,
+      };
+    };
+
+    const init = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      lines.length = 0;
+      for (let n = 0; n < LINE_COUNT; n++) {
+        spawnLine(n, true);
+      }
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalCompositeOperation = "source-over";
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        line.x += line.speed;
+
+        if (line.x > width + line.length) {
+          spawnLine(i);
+          continue;
+        }
+
+        const gradient = ctx.createLinearGradient(
+          line.x - line.length,
+          line.y,
+          line.x,
+          line.y
+        );
+        gradient.addColorStop(0, "rgba(255,255,255,0)");
+        gradient.addColorStop(0.2, "rgba(255,255,255,0)");
+        gradient.addColorStop(0.8, line.color);
+        gradient.addColorStop(1, "rgba(255,255,255,0)");
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(line.x - line.length, line.y, line.length, line.width);
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    window.addEventListener("resize", init);
+    init();
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", init);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
+      <canvas ref={canvasRef} className="w-full h-full opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_100%)] opacity-80" />
+    </div>
+  );
+}

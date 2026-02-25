@@ -1,4 +1,5 @@
 import { ModelTicker } from "@/components/elements/model-ticker";
+import { StreakCanvas } from "@/components/elements/streak-canvas";
 import { CodeSection } from "@/components/pages/home/code-section";
 import { CtaSection } from "@/components/pages/home/cta-section";
 import { HeroSection } from "@/components/pages/home/hero-section";
@@ -25,6 +26,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black overflow-x-hidden font-sans">
+      <StreakCanvas />
       <HeroSection modelCount={modelCount} vendorCount={vendorCount} />
       <IntegrationBanner />
       {models.length > 0 && <ModelTicker models={models} />}
