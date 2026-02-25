@@ -4,4 +4,7 @@ export const queryKeys = {
   stats: {
     tokens: () => ["stats", "tokens"] as const,
   },
+  newApi: {
+    pricing: () => ["new-api", "pricing"] as const,
+  },
 };

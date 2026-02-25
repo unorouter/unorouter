@@ -1,4 +1,4 @@
-const API_BASE = "https://api.unorouter.ai";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.unorouter.ai";
 
 export type PricingModel = {
   model_name: string;

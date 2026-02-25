@@ -168,7 +168,7 @@ html.dark .shiki span {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans overflow-x-hidden selection:bg-white selection:text-black;
   }
 
   button {

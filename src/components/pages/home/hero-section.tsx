@@ -1,14 +1,10 @@
 import { Link } from "@/i18n/navigation";
+import { HeroStatsGrid } from "@/components/pages/home/hero-stats-grid";
 import { StatsPanel } from "@/components/pages/home/stats-panel";
 import { LuChevronRight, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
-type Props = {
-  modelCount: number;
-  vendorCount: number;
-};
-
-export async function HeroSection(props: Props) {
+export async function HeroSection() {
   const t = await getTranslations();
 
   return (
@@ -63,23 +59,7 @@ export async function HeroSection(props: Props) {
         </div>
 
         {/* Stats grid */}
-        <div className="grid grid-cols-3 gap-0 border-t border-white/10 w-full">
-          <StatCard
-            label={t("HOME.STATS_MODELS")}
-            value={String(props.modelCount)}
-            indicator="Global"
-          />
-          <StatCard
-            label={t("HOME.STATS_PROVIDERS")}
-            value={`${props.vendorCount}+`}
-            indicator="Integrated"
-          />
-          <StatCard
-            label={t("HOME.STATS_UPTIME")}
-            value="99.9%"
-            indicator="SLA Guarantee"
-          />
-        </div>
+        <HeroStatsGrid />
       </div>
 
       {/* Right column - Stats panel */}
@@ -90,21 +70,3 @@ export async function HeroSection(props: Props) {
   );
 }
 
-function StatCard(props: { label: string; value: string; indicator: string }) {
-  return (
-    <div className="flex flex-col border border-white/10 p-5 hover:bg-white/2 transition-colors duration-300 cursor-default">
-      <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-3">
-        {props.label}
-      </span>
-      <span className="text-2xl font-bold text-white tracking-tight">
-        {props.value}
-      </span>
-      <div className="flex items-center gap-2 mt-2">
-        <div className="w-1 h-1 bg-green-500 rounded-full" />
-        <span className="text-[10px] font-mono text-gray-400">
-          {props.indicator}
-        </span>
-      </div>
-    </div>
-  );
-}

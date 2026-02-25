@@ -1,15 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
-
-type TickerModel = {
-  name: string;
-  vendor: string;
-};
+import Image from "next/image";
 
 type Props = {
-  models: TickerModel[];
   className?: string;
 };
 
@@ -36,8 +31,12 @@ function getVendorIcon(vendor: string): string | null {
 }
 
 export function ModelTicker(props: Props) {
-  // Triple the models for seamless looping
-  const tripled = [...props.models, ...props.models, ...props.models];
+  const { data } = usePricingQuery();
+  const models = data?.models ?? [];
+
+  if (models.length === 0) return null;
+
+  const tripled = [...models, ...models, ...models];
 
   return (
     <div
