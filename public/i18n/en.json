@@ -10,6 +10,7 @@
     "CLAUDE_CODE": "Claude Code",
     "CODEX": "Codex",
     "GEMINI_CLI": "Gemini CLI",
+    "OPENCLAW": "OpenClaw",
     "LOG_IN": "Log In",
     "GET_STARTED": "Get Started"
   },
@@ -27,8 +28,14 @@
     "STATS_ENDPOINTS": "Endpoints",
     "TICKER_LABEL": "Available Models",
     "INTEGRATION_BADGE": "Integration",
-    "INTEGRATION_TITLE": "Works with Claude Code",
-    "INTEGRATION_DESCRIPTION": "Use UnoRouter as your Anthropic API backend. Set two environment variables and access all models from Claude Code.",
+    "INTEGRATION_CLAUDE_CODE_TITLE": "Works with Claude Code",
+    "INTEGRATION_CLAUDE_CODE_DESCRIPTION": "Use UnoRouter as your Anthropic API backend. Set two environment variables and access all models from Claude Code.",
+    "INTEGRATION_CODEX_TITLE": "Works with Codex CLI",
+    "INTEGRATION_CODEX_DESCRIPTION": "Use UnoRouter as your OpenAI API backend. Fully compatible with the OpenAI SDK and Codex CLI.",
+    "INTEGRATION_GEMINI_CLI_TITLE": "Works with Gemini CLI",
+    "INTEGRATION_GEMINI_CLI_DESCRIPTION": "Use UnoRouter as your Gemini API backend. Access all models through the Gemini CLI.",
+    "INTEGRATION_OPENCLAW_TITLE": "Works with OpenClaw",
+    "INTEGRATION_OPENCLAW_DESCRIPTION": "Use UnoRouter as a model provider for your OpenClaw agent. Configure once, access every model.",
     "PRICING_LABEL": "Pricing",
     "PRICING_TITLE": "Simple Pricing.",
     "PRICING_SUBTITLE": "Pay only for what you use.",
@@ -166,6 +173,16 @@
     "COMPARE_PRO_RATE": "500 rpm",
     "COMPARE_ENTERPRISE_RATE": "2,000 rpm"
   },
+  "DOCS_INDEX": {
+    "TITLE": "Integrations",
+    "SUBTITLE": "Use UnoRouter with your favorite AI tools. Pick a guide below to get started.",
+    "QUICK_START": "Quick Start",
+    "VIEW_GUIDE": "View Full Guide",
+    "CTA_TITLE": "Ready to get started?",
+    "CTA_DESC": "Get your API key and start using UnoRouter with any of these tools.",
+    "CTA_SIGNUP": "Sign Up for API Key",
+    "CTA_MODELS": "View All Models"
+  },
   "DOCS": {
     "CLAUDE_CODE": {
       "BADGE": "COMPATIBLE",
@@ -209,6 +226,21 @@
       "EXAMPLE_CURL": "cURL (Gemini API format)",
       "CTA_TITLE": "Ready to get started?",
       "CTA_DESC": "Get your API key and start using UnoRouter with Gemini CLI.",
+      "CTA_SIGNUP": "Sign Up for API Key",
+      "CTA_MODELS": "View All Models"
+    },
+    "OPENCLAW": {
+      "BADGE": "COMPATIBLE",
+      "API_BADGE": "OpenAI API",
+      "TITLE": "OpenClaw Integration",
+      "SUBTITLE": "Use UnoRouter as a model provider for your OpenClaw agent. Configure once and access every model through OpenClaw's gateway.",
+      "QUICK_START": "Quick Start",
+      "QUICK_START_DESC": "Add UnoRouter as a provider in your OpenClaw configuration:",
+      "CODE_EXAMPLES": "Code Examples",
+      "EXAMPLE_CONFIG": "OpenClaw Config (YAML)",
+      "EXAMPLE_CURL": "cURL (via OpenClaw Gateway)",
+      "CTA_TITLE": "Ready to get started?",
+      "CTA_DESC": "Get your API key and start using UnoRouter with OpenClaw.",
       "CTA_SIGNUP": "Sign Up for API Key",
       "CTA_MODELS": "View All Models"
     }

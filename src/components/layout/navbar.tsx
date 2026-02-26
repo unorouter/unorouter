@@ -2,10 +2,11 @@
 
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { LuChevronDown, LuCpu, LuMenu, LuSparkles, LuTerminal, LuX } from "react-icons/lu";
+import { LuChevronDown, LuCpu, LuMenu, LuShell, LuSparkles, LuTerminal, LuX } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/toggles/theme-toggle";
 
 const NAV_LINKS = [
   { href: "/models", key: "MODELS" },
@@ -15,7 +16,8 @@ const NAV_LINKS = [
 const DOC_LINKS = [
   { href: "/docs/claude-code", key: "CLAUDE_CODE", icon: LuTerminal },
   { href: "/docs/codex", key: "CODEX", icon: LuCpu },
-  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: LuSparkles }
+  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: LuSparkles },
+  { href: "/docs/openclaw", key: "OPENCLAW", icon: LuShell }
 ] as const;
 
 export function Navbar() {
@@ -38,7 +40,7 @@ export function Navbar() {
         ? "bg-[#050505]/90 backdrop-blur-md border-white/10"
         : "bg-transparent border-transparent"
     )}>
-      <div className="max-w-360 mx-auto px-6 h-20 flex items-center justify-between font-mono">
+      <div className="max-w-360 mx-auto px-6 h-14 flex items-center justify-between font-mono">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <Image src="/logo.webp" alt="Unorouter" width={32} height={32} className="rounded-full" />
@@ -96,7 +98,8 @@ export function Navbar() {
         </div>
 
         {/* Desktop Auth */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-4">
+          <ThemeToggle />
           <a
             href="https://api.unorouter.ai"
             className="text-[11px] font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
@@ -112,16 +115,19 @@ export function Navbar() {
         </div>
 
         {/* Mobile Menu */}
-        <button
-          className="md:hidden text-white"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
+        <div className="md:hidden flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            className="text-white"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
           {mobileOpen ? (
             <LuX className="h-5 w-5" />
           ) : (
             <LuMenu className="h-5 w-5" />
           )}
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
