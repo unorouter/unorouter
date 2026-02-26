@@ -1,6 +1,6 @@
+import { newApiGet } from "@/lib/api/client";
 import { Elysia } from "elysia";
 
-const NEW_API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "https://api.unorouter.ai";
 const ADMIN_TOKEN = process.env.SYSTEM_ACCESS_TOKEN!;
 
 export type StatData = {
@@ -12,10 +12,9 @@ export type StatData = {
 export const statsRoute = new Elysia({ prefix: "/stats" }).get(
   "/tokens",
   async ({ status }) => {
-    const res = await fetch(`${NEW_API_BASE}/api/log/stat`, {
-      headers: { Authorization: ADMIN_TOKEN, "New-Api-User": "1" },
-      next: { revalidate: 60 },
-    } as RequestInit & { next: { revalidate: number } });
+    const res = await newApiGet("/api/log/stat", {
+      headers: { Authorization: ADMIN_TOKEN, "New-Api-User": "1" }
+    });
 
     if (!res.ok) return status(res.status as 500, await res.text());
 
