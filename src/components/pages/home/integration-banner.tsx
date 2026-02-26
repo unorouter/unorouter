@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
-import { LuArrowRight, LuTerminal } from "react-icons/lu";
+import Image from "next/image";
+import { LuArrowRight } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 export async function IntegrationBanner() {
@@ -15,7 +16,13 @@ export async function IntegrationBanner() {
           <div className="flex items-center gap-6">
             <div className="relative shrink-0">
               <div className="absolute inset-0 bg-orange-600/20 blur-xl rounded-full" />
-              <LuTerminal className="relative h-12 w-12 text-orange-500" />
+              <Image
+                src="/images/claude-code-screenshot.png"
+                alt="Claude Code"
+                width={80}
+                height={46}
+                className="relative rounded"
+              />
             </div>
             <div className="text-left">
               <div className="flex items-center gap-2 mb-1">
