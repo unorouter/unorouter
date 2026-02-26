@@ -82,7 +82,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 block"
               >
-                GitHub
+                {t("SOCIAL_GITHUB")}
               </a>
               <a
                 href="https://x.com/unorouter"
@@ -90,7 +90,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 block"
               >
-                X
+                {t("SOCIAL_X")}
               </a>
             </div>
           </div>
@@ -100,17 +100,16 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="text-center pt-6 border-t border-white/10">
             <p className="text-gray-500 text-xs">
-              By using this platform, you acknowledge that you have read and
-              agreed to our
+              {t("LEGAL_DISCLAIMER")}
               <Link href="/terms">
                 <span className="text-gray-400 hover:text-white ml-1 transition-colors duration-200">
-                  Terms of Service
+                  {t("LEGAL_TERMS")}
                 </span>
               </Link>
-              <span className="mx-1">and</span>
+              <span className="mx-1">{t("LEGAL_AND")}</span>
               <Link href="/privacy">
                 <span className="text-gray-400 hover:text-white transition-colors duration-200">
-                  Privacy Policy
+                  {t("LEGAL_PRIVACY")}
                 </span>
               </Link>
             </p>

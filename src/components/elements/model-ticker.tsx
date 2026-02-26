@@ -2,6 +2,7 @@
 
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 
 type Props = {
@@ -31,6 +32,7 @@ function getVendorIcon(vendor: string): string | null {
 }
 
 export function ModelTicker(props: Props) {
+  const t = useTranslations();
   const { data } = usePricingQuery();
   const models = data?.models ?? [];
 
@@ -49,7 +51,7 @@ export function ModelTicker(props: Props) {
         {/* Live indicator */}
         <div className="flex items-center gap-3 text-[10px] text-white font-mono uppercase tracking-widest border border-white/20 bg-white/5 px-3 py-1 shrink-0">
           <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-          Live Inference
+          {t("HOME.TICKER_LIVE_INFERENCE")}
         </div>
 
         {/* Scrolling models */}
@@ -85,7 +87,7 @@ export function ModelTicker(props: Props) {
 
         {/* TPS counter */}
         <div className="text-[10px] font-mono text-gray-500 shrink-0">
-          TPS: <span className="text-white font-bold">142.5</span>
+          {t("HOME.TICKER_TPS")}: <span className="text-white font-bold">142.5</span>
         </div>
       </div>
     </div>

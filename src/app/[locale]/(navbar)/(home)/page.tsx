@@ -18,26 +18,24 @@ export default async function HomePage() {
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.newApi.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+      queryFn: async () => handleElysia(await rpc.api.pricing.get())
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.stats.tokens(),
-      queryFn: async () => handleElysia(await rpc.api.stats.tokens.get()),
-    }),
+      queryFn: async () => handleElysia(await rpc.api.stats.tokens.get())
+    })
   ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="min-h-screen bg-[#050505]">
-        <StreakCanvas />
-        <HeroSection />
-        <IntegrationBanner />
-        <ModelTicker />
-        <PricingSection />
-        <ReliabilitySection />
-        <CodeSection />
-        <CtaSection />
-      </div>
+      <StreakCanvas />
+      <HeroSection />
+      <IntegrationBanner />
+      <ModelTicker />
+      <PricingSection />
+      <ReliabilitySection />
+      <CodeSection />
+      <CtaSection />
     </HydrationBoundary>
   );
 }

@@ -54,7 +54,7 @@ export async function ReliabilitySection() {
                 href="/docs/claude-code"
                 className="h-11 px-6 bg-transparent border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-widest hover:border-white transition-all flex items-center gap-2"
               >
-                Learn More
+                {t("HOME.RELIABILITY_LEARN_MORE")}
               </Link>
             </div>
           </div>
@@ -64,35 +64,35 @@ export async function ReliabilitySection() {
             <div className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 bg-cyan-500/10 border-b border-cyan-500/20">
                 <span className="text-[10px] text-cyan-400 uppercase tracking-wider font-mono">
-                  Architecture
+                  {t("HOME.RELIABILITY_ARCH_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
                   <span className="text-[10px] text-cyan-400 font-mono">
-                    Active
+                    {t("HOME.RELIABILITY_ARCH_ACTIVE")}
                   </span>
                 </div>
               </div>
               <div className="p-6 space-y-4 font-mono text-xs">
                 <ArchStep
                   step="1"
-                  title="Unified Endpoint"
-                  description="Single API for OpenAI, Anthropic, Gemini formats"
+                  title={t("HOME.RELIABILITY_ARCH_STEP1_TITLE")}
+                  description={t("HOME.RELIABILITY_ARCH_STEP1_DESC")}
                 />
                 <ArchStep
                   step="2"
-                  title="Smart Routing"
-                  description="Selects fastest provider based on latency and availability"
+                  title={t("HOME.RELIABILITY_ARCH_STEP2_TITLE")}
+                  description={t("HOME.RELIABILITY_ARCH_STEP2_DESC")}
                 />
                 <ArchStep
                   step="3"
-                  title="Automatic Failover"
-                  description="Failed requests retry on alternate channels instantly"
+                  title={t("HOME.RELIABILITY_ARCH_STEP3_TITLE")}
+                  description={t("HOME.RELIABILITY_ARCH_STEP3_DESC")}
                 />
                 <ArchStep
                   step="✓"
-                  title="Always Delivered"
-                  description="99.9% uptime SLA across all models"
+                  title={t("HOME.RELIABILITY_ARCH_STEP4_TITLE")}
+                  description={t("HOME.RELIABILITY_ARCH_STEP4_DESC")}
                   success
                 />
               </div>
@@ -101,15 +101,14 @@ export async function ReliabilitySection() {
                   <div className="flex items-center gap-2 mb-2">
                     <LuCpu className="h-2.5 w-2.5 text-gray-500" />
                     <span className="text-[9px] text-gray-500 uppercase tracking-wider">
-                      Supported Formats
+                      {t("HOME.RELIABILITY_FORMATS_TITLE")}
                     </span>
                   </div>
                   <code className="text-[10px] text-cyan-400 break-all">
                     {`{ "openai": "/v1/chat/completions", "anthropic": "/v1/messages", "gemini": "/v1/models" }`}
                   </code>
                   <p className="text-[9px] text-gray-600 mt-2">
-                    All formats auto-detected and routed to the right
-                    provider.
+                    {t("HOME.RELIABILITY_FORMATS_DESC")}
                   </p>
                 </div>
               </div>

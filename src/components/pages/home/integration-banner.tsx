@@ -40,7 +40,7 @@ export async function IntegrationBanner() {
           </div>
           <div className="flex items-center gap-3">
             <span className="text-sm font-mono text-white/70 group-hover:text-white transition-colors">
-              View Guide
+              {t("HOME.INTEGRATION_VIEW_GUIDE")}
             </span>
             <div className="w-10 h-10 rounded-full border border-orange-600/30 flex items-center justify-center group-hover:bg-orange-600 group-hover:border-orange-600 transition-all">
               <LuArrowRight className="h-4 w-4 text-orange-500 group-hover:text-white transition-colors" />

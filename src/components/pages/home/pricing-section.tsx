@@ -31,29 +31,29 @@ export async function PricingSection() {
         {/* Pricing cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
           <PricingTile
-            name="Pay As You Go"
-            price="$0"
-            description="No minimum. Top up and use any model."
-            endpoint="/v1/chat/completions"
+            name={t("HOME.PRICING_PAYG_NAME")}
+            price={t("HOME.PRICING_PAYG_PRICE")}
+            description={t("HOME.PRICING_PAYG_DESC")}
+            endpoint={t("HOME.PRICING_PAYG_ENDPOINT")}
           />
           <PricingTile
-            name="Basic"
-            price="$20/mo"
-            description="$30 credit value. 1.5x multiplier."
-            endpoint="100 req/min"
+            name={t("HOME.PRICING_BASIC_NAME")}
+            price={t("HOME.PRICING_BASIC_PRICE")}
+            description={t("HOME.PRICING_BASIC_DESC")}
+            endpoint={t("HOME.PRICING_BASIC_RATE")}
           />
           <PricingTile
-            name="Pro"
-            price="$50/mo"
-            description="$75 credit value. Priority routing."
-            endpoint="500 req/min"
+            name={t("HOME.PRICING_PRO_NAME")}
+            price={t("HOME.PRICING_PRO_PRICE")}
+            description={t("HOME.PRICING_PRO_DESC")}
+            endpoint={t("HOME.PRICING_PRO_RATE")}
             highlight
           />
           <PricingTile
-            name="Enterprise"
-            price="$100/mo"
-            description="$175 credit value. Dedicated support."
-            endpoint="2,000 req/min"
+            name={t("HOME.PRICING_ENTERPRISE_NAME")}
+            price={t("HOME.PRICING_ENTERPRISE_PRICE")}
+            description={t("HOME.PRICING_ENTERPRISE_DESC")}
+            endpoint={t("HOME.PRICING_ENTERPRISE_RATE")}
           />
         </div>
 
@@ -93,13 +93,13 @@ export async function PricingSection() {
                 className="h-11 px-8 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
               >
                 <LuZap className="h-3.5 w-3.5" />
-                Get Started
+                {t("HOME.PRICING_CTA_GET_STARTED")}
               </a>
               <Link
                 href="/pricing"
                 className="h-11 px-6 bg-transparent border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-widest hover:border-white transition-all flex items-center gap-2"
               >
-                View All Plans
+                {t("HOME.PRICING_CTA_VIEW_PLANS")}
               </Link>
             </div>
           </div>
@@ -109,12 +109,12 @@ export async function PricingSection() {
             <div className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 bg-purple-500/10 border-b border-purple-500/20">
                 <span className="text-[10px] text-purple-400 uppercase tracking-wider font-mono">
-                  Supported Providers
+                  {t("HOME.PRICING_PROVIDERS_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                   <span className="text-[10px] text-green-400 font-mono">
-                    Active
+                    {t("HOME.PRICING_PROVIDERS_ACTIVE")}
                   </span>
                 </div>
               </div>
@@ -124,28 +124,28 @@ export async function PricingSection() {
                   icon="/icons/openai.svg"
                   tag="GPT"
                   tagColor="green"
-                  description="GPT-4o, o1, o3, GPT-4.1"
+                  description={t("HOME.PRICING_PROVIDERS_DESC_OPENAI")}
                 />
                 <ProviderRow
                   name="Anthropic"
                   icon="/icons/anthropic.svg"
                   tag="CLAUDE"
                   tagColor="orange"
-                  description="Claude Opus, Sonnet, Haiku"
+                  description={t("HOME.PRICING_PROVIDERS_DESC_ANTHROPIC")}
                 />
                 <ProviderRow
                   name="Google"
                   icon="/icons/google.svg"
                   tag="GEMINI"
                   tagColor="blue"
-                  description="Gemini 2.5 Pro, Flash"
+                  description={t("HOME.PRICING_PROVIDERS_DESC_GOOGLE")}
                 />
                 <ProviderRow
                   name="DeepSeek"
                   icon="/icons/deepseek.svg"
                   tag="DS"
                   tagColor="purple"
-                  description="DeepSeek V3, R1"
+                  description={t("HOME.PRICING_PROVIDERS_DESC_DEEPSEEK")}
                 />
               </div>
             </div>
@@ -153,19 +153,19 @@ export async function PricingSection() {
             <div className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/10">
                 <span className="text-[10px] text-gray-400 uppercase tracking-wider font-mono">
-                  Request Flow
+                  {t("HOME.PRICING_FLOW_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
                   <span className="text-[10px] text-purple-400 font-mono">
-                    Live
+                    {t("HOME.PRICING_FLOW_LIVE")}
                   </span>
                 </div>
               </div>
               <div className="p-4 space-y-3 font-mono text-xs">
-                <FlowStep step="1" text="POST /v1/chat/completions" />
-                <FlowStep step="2" text="Route to fastest provider" muted />
-                <FlowStep step="✓" text="Response delivered" success />
+                <FlowStep step="1" text={t("HOME.PRICING_FLOW_STEP1")} />
+                <FlowStep step="2" text={t("HOME.PRICING_FLOW_STEP2")} muted />
+                <FlowStep step="✓" text={t("HOME.PRICING_FLOW_STEP3")} success />
               </div>
             </div>
           </div>

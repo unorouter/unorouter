@@ -14,7 +14,7 @@ export default async function CodexPage() {
           {t("BADGE")}
         </Badge>
         <Badge variant="secondary" className="font-mono text-xs">
-          OpenAI API
+          {t("API_BADGE")}
         </Badge>
       </div>
 
@@ -42,7 +42,7 @@ codex`}
       <section className="mt-12">
         <h2 className="mb-4 text-2xl font-semibold">{t("CODE_EXAMPLES")}</h2>
 
-        <h3 className="mb-3 text-lg font-medium">Python (OpenAI SDK)</h3>
+        <h3 className="mb-3 text-lg font-medium">{t("EXAMPLE_PYTHON")}</h3>
         <CodeBlock
           language="python"
           code={`from openai import OpenAI
@@ -62,7 +62,7 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)`}
         />
 
-        <h3 className="mt-8 mb-3 text-lg font-medium">TypeScript (OpenAI SDK)</h3>
+        <h3 className="mt-8 mb-3 text-lg font-medium">{t("EXAMPLE_TYPESCRIPT")}</h3>
         <CodeBlock
           language="typescript"
           code={`import OpenAI from "openai";

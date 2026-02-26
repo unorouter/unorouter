@@ -50,7 +50,7 @@ export async function CodeSection() {
             href="/docs/claude-code"
             className="flex items-center gap-2 text-white border-b border-white pb-1 font-mono text-xs hover:text-gray-300 hover:border-gray-300 transition-colors uppercase tracking-widest font-bold w-fit"
           >
-            Read Full API Docs
+            {t("HOME.CODE_READ_DOCS")}
             <LuArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>

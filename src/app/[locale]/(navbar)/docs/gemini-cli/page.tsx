@@ -14,7 +14,7 @@ export default async function GeminiCliPage() {
           {t("BADGE")}
         </Badge>
         <Badge variant="secondary" className="font-mono text-xs">
-          Gemini API
+          {t("API_BADGE")}
         </Badge>
       </div>
 
@@ -42,7 +42,7 @@ gemini`}
       <section className="mt-12">
         <h2 className="mb-4 text-2xl font-semibold">{t("CODE_EXAMPLES")}</h2>
 
-        <h3 className="mb-3 text-lg font-medium">Python (Google GenAI SDK)</h3>
+        <h3 className="mb-3 text-lg font-medium">{t("EXAMPLE_PYTHON")}</h3>
         <CodeBlock
           language="python"
           code={`from google import genai
@@ -61,7 +61,7 @@ print(response.text)`}
         />
 
         <h3 className="mt-8 mb-3 text-lg font-medium">
-          cURL (Gemini API format)
+          {t("EXAMPLE_CURL")}
         </h3>
         <CodeBlock
           language="bash"

@@ -1,6 +1,7 @@
 "use client";
 
 import { LuCheck, LuCopy } from "react-icons/lu";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export function CopyButton(props: Props) {
+  const t = useTranslations();
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
@@ -21,7 +23,7 @@ export function CopyButton(props: Props) {
     <button
       onClick={handleCopy}
       className={props.className}
-      aria-label="Copy code"
+      aria-label={t("COMMON.COPY_CODE")}
     >
       {copied ? (
         <LuCheck className="h-3.5 w-3.5" />

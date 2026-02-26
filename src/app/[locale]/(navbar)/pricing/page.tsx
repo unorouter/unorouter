@@ -64,9 +64,9 @@ export default async function PricingPage() {
         proName={t("PRO_NAME")}
         enterpriseName={t("ENTERPRISE_NAME")}
         rows={[
-          { feature: t("COMPARE_PRICE"), basic: "$20/mo", pro: "$50/mo", enterprise: "$100/mo" },
-          { feature: t("COMPARE_VALUE"), basic: "$30", pro: "$75", enterprise: "$175" },
-          { feature: t("COMPARE_RATE_LIMIT"), basic: "100 rpm", pro: "500 rpm", enterprise: "2,000 rpm" },
+          { feature: t("COMPARE_PRICE"), basic: t("COMPARE_BASIC_PRICE"), pro: t("COMPARE_PRO_PRICE"), enterprise: t("COMPARE_ENTERPRISE_PRICE") },
+          { feature: t("COMPARE_VALUE"), basic: t("COMPARE_BASIC_VALUE"), pro: t("COMPARE_PRO_VALUE"), enterprise: t("COMPARE_ENTERPRISE_VALUE") },
+          { feature: t("COMPARE_RATE_LIMIT"), basic: t("COMPARE_BASIC_RATE"), pro: t("COMPARE_PRO_RATE"), enterprise: t("COMPARE_ENTERPRISE_RATE") },
           { feature: t("COMPARE_ALL_MODELS"), basic: true, pro: true, enterprise: true },
           { feature: t("COMPARE_PRIORITY"), basic: false, pro: true, enterprise: true },
           { feature: t("COMPARE_DEDICATED"), basic: false, pro: false, enterprise: true },

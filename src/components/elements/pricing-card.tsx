@@ -1,7 +1,10 @@
+"use client";
+
 import { LuCheck } from "react-icons/lu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type Props = {
   name: string;
@@ -15,6 +18,8 @@ type Props = {
 };
 
 export function PricingCard(props: Props) {
+  const t = useTranslations();
+
   return (
     <div
       className={cn(
@@ -24,7 +29,7 @@ export function PricingCard(props: Props) {
     >
       {props.popular && (
         <Badge className="absolute -top-2.5 left-6">
-          Popular
+          {t("PRICING.CARD_POPULAR")}
         </Badge>
       )}
 
@@ -32,21 +37,21 @@ export function PricingCard(props: Props) {
 
       <div className="mt-4 flex items-baseline gap-1">
         <span className="text-4xl font-bold">${props.price}</span>
-        <span className="text-muted-foreground text-sm">/mo</span>
+        <span className="text-muted-foreground text-sm">{t("PRICING.CARD_PER_MONTH")}</span>
       </div>
 
       <p className="text-muted-foreground mt-2 text-sm">
-        ${props.value} value &middot; {props.multiplier} multiplier
+        {t("PRICING.CARD_VALUE", { value: `$${props.value}` })} &middot; {t("PRICING.CARD_MULTIPLIER", { multiplier: props.multiplier })}
       </p>
 
       <div className="border-border mt-6 border-t pt-6">
         <p className="text-muted-foreground mb-3 font-mono text-xs uppercase">
-          Includes
+          {t("PRICING.CARD_INCLUDES")}
         </p>
         <ul className="space-y-3">
           <li className="flex items-center gap-2 text-sm">
             <LuCheck className="text-primary h-4 w-4 shrink-0" />
-            {props.rateLimit.toLocaleString()} requests/min
+            {t("PRICING.CARD_REQUESTS_MIN", { count: props.rateLimit.toLocaleString() })}
           </li>
           {props.features.map((feature) => (
             <li key={feature} className="flex items-center gap-2 text-sm">

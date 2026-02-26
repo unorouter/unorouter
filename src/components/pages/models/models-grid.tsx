@@ -9,22 +9,22 @@ import { useTranslations } from "next-intl";
 import type { ProcessedModel, ModelType } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 
-const FILTER_OPTIONS: { key: ModelType | "all"; label: string }[] = [
-  { key: "all", label: "ALL" },
-  { key: "llm", label: "LLM" },
-  { key: "vision", label: "VISION" },
-  { key: "image", label: "IMAGE" },
-  { key: "video", label: "VIDEO" },
-];
-
 type Props = {
   models: ProcessedModel[];
 };
 
 export function ModelsGrid(props: Props) {
-  const t = useTranslations("MODELS");
+  const t = useTranslations();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ModelType | "all">("all");
+
+  const filterOptions: { key: ModelType | "all"; label: string }[] = [
+    { key: "all", label: t("MODELS.FILTER_ALL") },
+    { key: "llm", label: t("MODELS.FILTER_LLM") },
+    { key: "vision", label: t("MODELS.FILTER_VISION") },
+    { key: "image", label: t("MODELS.FILTER_IMAGE") },
+    { key: "video", label: t("MODELS.FILTER_VIDEO") },
+  ];
 
   const filtered = props.models.filter((model) => {
     const matchesSearch = model.name
@@ -42,14 +42,14 @@ export function ModelsGrid(props: Props) {
         <div className="relative flex-1">
           <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
-            placeholder={t("SEARCH_PLACEHOLDER")}
+            placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10"
           />
         </div>
         <div className="flex gap-1">
-          {FILTER_OPTIONS.map((option) => (
+          {filterOptions.map((option) => (
             <Button
               key={option.key}
               variant={filter === option.key ? "default" : "outline"}
@@ -65,18 +65,27 @@ export function ModelsGrid(props: Props) {
 
       {/* Count */}
       <p className="text-muted-foreground mb-6 text-sm">
-        {filtered.length} {t("MODEL_COUNT")}
+        {filtered.length} {t("MODELS.MODEL_COUNT")}
       </p>
 
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className="text-muted-foreground py-24 text-center">
-          {t("EMPTY")}
+          {t("MODELS.EMPTY")}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((model) => (
-            <ModelCard key={model.name} model={model} />
+            <ModelCard
+              key={model.name}
+              model={model}
+              labels={{
+                perRequest: t("MODELS.PRICE_PER_REQUEST"),
+                input: t("MODELS.PRICE_INPUT"),
+                output: t("MODELS.PRICE_OUTPUT"),
+                perMillion: t("MODELS.PRICE_PER_MILLION"),
+              }}
+            />
           ))}
         </div>
       )}
@@ -84,7 +93,10 @@ export function ModelsGrid(props: Props) {
   );
 }
 
-function ModelCard(props: { model: ProcessedModel }) {
+function ModelCard(props: {
+  model: ProcessedModel;
+  labels: { perRequest: string; input: string; output: string; perMillion: string };
+}) {
   const model = props.model;
 
   return (
@@ -118,23 +130,23 @@ function ModelCard(props: { model: ProcessedModel }) {
             <span className="text-primary font-mono text-sm font-semibold">
               ${model.fixedPrice.toFixed(2)}
             </span>
-            <span className="text-muted-foreground text-xs">/request</span>
+            <span className="text-muted-foreground text-xs">{props.labels.perRequest}</span>
           </div>
         ) : (
           <div className="flex gap-4">
             <div>
-              <span className="text-muted-foreground text-xs">IN </span>
+              <span className="text-muted-foreground text-xs">{props.labels.input} </span>
               <span className="text-primary font-mono text-sm font-semibold">
                 ${model.inputPrice.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground text-xs">OUT </span>
+              <span className="text-muted-foreground text-xs">{props.labels.output} </span>
               <span className="text-primary font-mono text-sm font-semibold">
                 ${model.outputPrice.toFixed(2)}
               </span>
             </div>
-            <span className="text-muted-foreground text-xs self-end">/1M tokens</span>
+            <span className="text-muted-foreground text-xs self-end">{props.labels.perMillion}</span>
           </div>
         )}
       </div>

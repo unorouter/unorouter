@@ -12,17 +12,17 @@ export function HeroStatsGrid() {
       <StatCard
         label={t("HOME.STATS_MODELS")}
         value={data ? String(data.modelCount) : "—"}
-        indicator="Global"
+        indicator={t("HOME.STATS_INDICATOR_GLOBAL")}
       />
       <StatCard
         label={t("HOME.STATS_PROVIDERS")}
         value={data ? `${data.vendorCount}+` : "—"}
-        indicator="Integrated"
+        indicator={t("HOME.STATS_INDICATOR_INTEGRATED")}
       />
       <StatCard
         label={t("HOME.STATS_UPTIME")}
         value="99.9%"
-        indicator="SLA Guarantee"
+        indicator={t("HOME.STATS_INDICATOR_SLA")}
       />
     </div>
   );
