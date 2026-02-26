@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
-import { getTranslations } from "next-intl/server";
 
 export async function IntegrationBanner() {
   const t = await getTranslations();
@@ -19,8 +19,8 @@ export async function IntegrationBanner() {
               <Image
                 src="/images/claude-code-screenshot.png"
                 alt="Claude Code"
-                width={80}
-                height={46}
+                width={100}
+                height={60}
                 className="relative rounded"
               />
             </div>
