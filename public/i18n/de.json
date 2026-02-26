@@ -59,7 +59,12 @@
     "CTA_TITLE_2": "Bauen",
     "CTA_SUBTITLE": "Zugriff auf jedes KI-Modell ueber einen Endpunkt. Kein Vendor Lock-in, keine Komplexitaet.",
     "CTA_PRIMARY": "Jetzt starten",
-    "CTA_SECONDARY": "Dokumentation"
+    "CTA_SECONDARY": "Dokumentation",
+    "STATS_PANEL_TOKENS_SERVED": "Gesendete Tokens",
+    "STATS_PANEL_REQUESTS": "Anfragen",
+    "STATS_PANEL_REQ_MIN": "Anf. / min",
+    "STATS_PANEL_TOKENS_MIN": "Tokens / min",
+    "STATS_PANEL_LIVE": "Live"
   },
   "MODELS": {
     "TITLE": "Modellbibliothek",

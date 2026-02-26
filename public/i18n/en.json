@@ -59,7 +59,12 @@
     "CTA_TITLE_2": "Build",
     "CTA_SUBTITLE": "Access every AI model through one endpoint. No vendor lock-in, no complexity.",
     "CTA_PRIMARY": "Start Building",
-    "CTA_SECONDARY": "Documentation"
+    "CTA_SECONDARY": "Documentation",
+    "STATS_PANEL_TOKENS_SERVED": "Tokens Served",
+    "STATS_PANEL_REQUESTS": "Requests",
+    "STATS_PANEL_REQ_MIN": "Req / min",
+    "STATS_PANEL_TOKENS_MIN": "Tokens / min",
+    "STATS_PANEL_LIVE": "Live"
   },
   "MODELS": {
     "TITLE": "Model Library",
