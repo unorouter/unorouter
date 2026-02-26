@@ -87,10 +87,10 @@ print(message.content[0].text)`}
         <h2 className="text-2xl font-semibold">{t("CTA_TITLE")}</h2>
         <p className="text-muted-foreground mt-2">{t("CTA_DESC")}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button render={<a href="https://api.unorouter.ai/register" />}>
+          <Button nativeButton={false} render={<a href="https://api.unorouter.ai/register" />}>
             {t("CTA_SIGNUP")}
           </Button>
-          <Button variant="outline" render={<Link href="/models" />}>
+          <Button nativeButton={false} variant="outline" render={<Link href="/models" />}>
             {t("CTA_MODELS")}
           </Button>
         </div>

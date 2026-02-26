@@ -98,7 +98,7 @@ export async function IntegrationBanner() {
                       alt={integration.alt}
                       width={80}
                       height={48}
-                      className="relative rounded"
+                      className="relative rounded w-20 h-auto"
                     />
                   </div>
                   <div className="text-left min-w-0">
