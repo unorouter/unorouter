@@ -1,16 +1,24 @@
 export const NEW_API_BASE =
   process.env.NEXT_PUBLIC_API_URL ?? "https://api.unorouter.ai";
 
-export function newApiFetch(path: string, options: RequestInit = {}) {
-  return fetch(`${NEW_API_BASE}${path}`, options);
+export class NewApiError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+  }
 }
 
-export function newApiGet(path: string, options: RequestInit = {}) {
-  return newApiFetch(path, { ...options, method: "GET" });
+async function newApiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const res = await fetch(`${NEW_API_BASE}${path}`, options);
+  if (!res.ok) throw new NewApiError(res.status, await res.text());
+  return res.json() as Promise<T>;
 }
 
-export function newApiPost(path: string, body: unknown, options: RequestInit = {}) {
-  return newApiFetch(path, {
+export function newApiGet<T>(path: string, options: RequestInit = {}) {
+  return newApiFetch<T>(path, { ...options, method: "GET" });
+}
+
+export function newApiPost<T>(path: string, body: unknown, options: RequestInit = {}) {
+  return newApiFetch<T>(path, {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options.headers },
