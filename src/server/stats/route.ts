@@ -7,12 +7,14 @@ type QuotaData = {
   count: number;
   quota: number;
   token_used: number;
+  created_at: number;
 };
 
 export type StatData = {
   quota: number;
   rpm: number;
   tpm: number;
+  avgTpm: number;
   requestCount: number;
   tokenUsed: number;
 };
@@ -23,6 +25,8 @@ export const statsRoute = new Elysia({ prefix: "/stats" }).get(
   "/tokens",
   async ({ status }) => {
     const headers = { Authorization: ADMIN_TOKEN, "New-Api-User": "1" };
+
+    const now = Math.floor(Date.now() / 1000);
 
     const [liveJson, historyJson] = await Promise.all([
       newApiGet<{ success: boolean; data: { quota: number; rpm: number; tpm: number } }>(
@@ -41,10 +45,21 @@ export const statsRoute = new Elysia({ prefix: "/stats" }).get(
     const requestCount = historyJson.data.reduce((s, d) => s + d.count, 0);
     const tokenUsed = historyJson.data.reduce((s, d) => s + d.token_used, 0);
 
+    // Avg TPM: total tokens / time span from first data point to now
+    let avgTpm = 0;
+    if (historyJson.data.length > 0) {
+      const earliest = Math.min(...historyJson.data.map((d) => d.created_at));
+      const timeDiffMinutes = (now - earliest) / 60;
+      if (timeDiffMinutes > 0) {
+        avgTpm = Math.round(tokenUsed / timeDiffMinutes);
+      }
+    }
+
     return {
       quota: liveJson.data.quota,
       rpm: liveJson.data.rpm,
       tpm: liveJson.data.tpm,
+      avgTpm,
       requestCount,
       tokenUsed,
     } satisfies StatData;
