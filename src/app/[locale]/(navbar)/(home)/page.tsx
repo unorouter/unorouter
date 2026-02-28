@@ -14,8 +14,8 @@ export default async function HomePage() {
       queryFn: async () => handleElysia(await rpc.api.pricing.get())
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.stats.tokens(),
-      queryFn: async () => handleElysia(await rpc.api.stats.tokens.get())
+      queryKey: queryKeys.stats.history(),
+      queryFn: async () => handleElysia(await rpc.api.stats.history.get())
     })
   ]);
 
