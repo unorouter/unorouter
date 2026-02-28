@@ -58,7 +58,7 @@ export function ModelTicker(props: Props) {
         <div className="flex-1 overflow-hidden relative">
           <div className="flex gap-12 animate-marquee whitespace-nowrap font-mono text-xs">
             {tripled.map((model, i) => {
-              const icon = getVendorIcon(model.vendor);
+              const icon = getVendorIcon(model.vendor.name);
               return (
                 <div
                   key={`${model.name}-${i}`}
@@ -67,7 +67,7 @@ export function ModelTicker(props: Props) {
                   {icon && (
                     <Image
                       src={icon}
-                      alt={model.vendor}
+                      alt={model.vendor.name}
                       width={16}
                       height={16}
                       className="w-4 h-4 rounded object-contain"

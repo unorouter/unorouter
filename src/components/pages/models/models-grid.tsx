@@ -6,17 +6,17 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
-import type { ProcessedModel, ModelType } from "@/lib/api/pricing";
+import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
 
-type Props = {
-  models: ProcessedModel[];
-};
-
-export function ModelsGrid(props: Props) {
+export function ModelsGrid() {
   const t = useTranslations();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ModelType | "all">("all");
+
+  const { data } = usePricingQuery();
+  const models = data?.models ?? [];
 
   const filterOptions: { key: ModelType | "all"; label: string }[] = [
     { key: "all", label: t("MODELS.FILTER_ALL") },
@@ -26,7 +26,7 @@ export function ModelsGrid(props: Props) {
     { key: "video", label: t("MODELS.FILTER_VIDEO") },
   ];
 
-  const filtered = props.models.filter((model) => {
+  const filtered = models.filter((model) => {
     const matchesSearch = model.name
       .toLowerCase()
       .includes(search.toLowerCase());

@@ -14,7 +14,7 @@ import { useParams } from "next/navigation";
 import { useTransition } from "react";
 
 export function LanguageToggle() {
-  const t = useTranslations("LANGUAGE");
+  const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -62,7 +62,7 @@ export function LanguageToggle() {
             className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm"
           >
             <lang.Flag className="h-3.5 w-5 rounded-sm" />
-            {t(lang.code)}
+            {t(`LANGUAGE.${lang.code}`)}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

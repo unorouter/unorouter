@@ -332,6 +332,18 @@
     "CONTACT_TITLE": "14. Kontakt",
     "CONTACT_CONTENT": "Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter support@unorouter.ai."
   },
+  "MAIN": {
+    "ERROR": {
+      "SOMETHING_WENT_WRONG": "Etwas ist schiefgelaufen",
+      "UNEXPECTED_ERROR_OCCURRED": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder kehre zur Startseite zurueck.",
+      "ERROR_DETAILS": "Fehlerdetails",
+      "DIGEST": "Digest"
+    },
+    "ACTIONS": {
+      "TRY_AGAIN": "Erneut versuchen",
+      "GO_HOME": "Zur Startseite"
+    }
+  },
   "COMMON": {
     "COPY_CODE": "Code kopieren"
   },

@@ -332,6 +332,18 @@
     "CONTACT_TITLE": "14. Contact Us",
     "CONTACT_CONTENT": "If you have any questions about these Terms, please contact us at support@unorouter.ai."
   },
+  "MAIN": {
+    "ERROR": {
+      "SOMETHING_WENT_WRONG": "Something went wrong",
+      "UNEXPECTED_ERROR_OCCURRED": "An unexpected error occurred. Please try again or return to the home page.",
+      "ERROR_DETAILS": "Error Details",
+      "DIGEST": "Digest"
+    },
+    "ACTIONS": {
+      "TRY_AGAIN": "Try Again",
+      "GO_HOME": "Go Home"
+    }
+  },
   "COMMON": {
     "COPY_CODE": "Copy code"
   },

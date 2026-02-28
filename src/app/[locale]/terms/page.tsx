@@ -2,12 +2,12 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata() {
-  const t = await getTranslations("TERMS");
-  return { title: t("TITLE") };
+  const t = await getTranslations();
+  return { title: t("TERMS.TITLE") };
 }
 
 export default async function TermsPage() {
-  const t = await getTranslations("TERMS");
+  const t = await getTranslations();
 
   return (
     <main className="mx-auto max-w-3xl px-6 py-16">
@@ -15,96 +15,96 @@ export default async function TermsPage() {
         href="/"
         className="text-muted-foreground hover:text-foreground mb-8 inline-block text-sm"
       >
-        &larr; {t("TITLE")}
+        &larr; {t("TERMS.TITLE")}
       </Link>
 
-      <h1 className="mb-2 text-3xl font-bold">{t("TITLE")}</h1>
-      <p className="text-muted-foreground mb-10 text-sm">{t("LAST_UPDATED")}</p>
+      <h1 className="mb-2 text-3xl font-bold">{t("TERMS.TITLE")}</h1>
+      <p className="text-muted-foreground mb-10 text-sm">{t("TERMS.LAST_UPDATED")}</p>
 
-      <p className="text-muted-foreground mb-10 leading-relaxed">{t("INTRO")}</p>
+      <p className="text-muted-foreground mb-10 leading-relaxed">{t("TERMS.INTRO")}</p>
 
-      <Section title={t("SERVICE_TITLE")}>
+      <Section title={t("TERMS.SERVICE_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("SERVICE_CONTENT")}
+          {t("TERMS.SERVICE_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("ELIGIBILITY_TITLE")}>
+      <Section title={t("TERMS.ELIGIBILITY_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("ELIGIBILITY_CONTENT")}
+          {t("TERMS.ELIGIBILITY_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("ACCOUNTS_TITLE")}>
+      <Section title={t("TERMS.ACCOUNTS_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("ACCOUNTS_CONTENT")}
+          {t("TERMS.ACCOUNTS_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("PAYMENT_TITLE")}>
+      <Section title={t("TERMS.PAYMENT_TITLE")}>
         <p className="text-muted-foreground mb-3 leading-relaxed">
-          {t("PAYMENT_CONTENT_INTRO")}
+          {t("TERMS.PAYMENT_CONTENT_INTRO")}
         </p>
         <ul className="text-muted-foreground list-disc space-y-2 pl-6 leading-relaxed">
-          <li>{t("PAYMENT_CREDITS")}</li>
-          <li>{t("PAYMENT_REFUNDS")}</li>
-          <li>{t("PAYMENT_EXPIRATION")}</li>
+          <li>{t("TERMS.PAYMENT_CREDITS")}</li>
+          <li>{t("TERMS.PAYMENT_REFUNDS")}</li>
+          <li>{t("TERMS.PAYMENT_EXPIRATION")}</li>
         </ul>
       </Section>
 
-      <Section title={t("USER_CONTENT_TITLE")}>
+      <Section title={t("TERMS.USER_CONTENT_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("USER_CONTENT_CONTENT")}
+          {t("TERMS.USER_CONTENT_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("PROHIBITED_TITLE")}>
+      <Section title={t("TERMS.PROHIBITED_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("PROHIBITED_CONTENT")}
+          {t("TERMS.PROHIBITED_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("TERMINATION_TITLE")}>
+      <Section title={t("TERMS.TERMINATION_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("TERMINATION_CONTENT")}
+          {t("TERMS.TERMINATION_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("IP_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">{t("IP_CONTENT")}</p>
+      <Section title={t("TERMS.IP_TITLE")}>
+        <p className="text-muted-foreground leading-relaxed">{t("TERMS.IP_CONTENT")}</p>
       </Section>
 
-      <Section title={t("DISCLAIMER_TITLE")}>
+      <Section title={t("TERMS.DISCLAIMER_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("DISCLAIMER_CONTENT")}
+          {t("TERMS.DISCLAIMER_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("LIABILITY_TITLE")}>
+      <Section title={t("TERMS.LIABILITY_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("LIABILITY_CONTENT")}
+          {t("TERMS.LIABILITY_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("INDEMNIFICATION_TITLE")}>
+      <Section title={t("TERMS.INDEMNIFICATION_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("INDEMNIFICATION_CONTENT")}
+          {t("TERMS.INDEMNIFICATION_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("LAW_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">{t("LAW_CONTENT")}</p>
+      <Section title={t("TERMS.LAW_TITLE")}>
+        <p className="text-muted-foreground leading-relaxed">{t("TERMS.LAW_CONTENT")}</p>
       </Section>
 
-      <Section title={t("CHANGES_TITLE")}>
+      <Section title={t("TERMS.CHANGES_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("CHANGES_CONTENT")}
+          {t("TERMS.CHANGES_CONTENT")}
         </p>
       </Section>
 
-      <Section title={t("CONTACT_TITLE")}>
+      <Section title={t("TERMS.CONTACT_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("CONTACT_CONTENT")}
+          {t("TERMS.CONTACT_CONTENT")}
         </p>
       </Section>
     </main>

@@ -13,7 +13,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
     return {
       modelCount: models.length,
       vendorCount: new Set(models.map((m) => m.vendor.name)).size,
-      models: models.map((m) => ({ name: m.name, vendor: m.vendor.name }))
+      models,
     };
   }
 );

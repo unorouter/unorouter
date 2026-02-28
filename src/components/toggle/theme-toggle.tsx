@@ -14,7 +14,7 @@ import { useCallback } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 
 export function ThemeToggle() {
-  const t = useTranslations("THEME");
+  const t = useTranslations();
   const { setTheme } = useTheme();
 
   const styleId = "theme-transition-styles";
@@ -69,19 +69,19 @@ export function ThemeToggle() {
           onClick={() => handleThemeChange("light")}
           className="cursor-pointer"
         >
-          {t("LIGHT")}
+          {t("THEME.LIGHT")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange("dark")}
           className="cursor-pointer"
         >
-          {t("DARK")}
+          {t("THEME.DARK")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange("system")}
           className="cursor-pointer"
         >
-          {t("SYSTEM")}
+          {t("THEME.SYSTEM")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

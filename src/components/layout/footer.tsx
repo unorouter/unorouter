@@ -3,7 +3,7 @@ import { LuBuilding2, LuEye, LuFileText, LuMail, LuMapPin } from "react-icons/lu
 import { useTranslations } from "next-intl";
 
 export function Footer() {
-  const t = useTranslations("FOOTER");
+  const t = useTranslations();
   const year = String(new Date().getFullYear());
 
   return (
@@ -14,59 +14,59 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="font-bold text-white text-lg">UnoRouter</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              {t("DESCRIPTION")}
+              {t("FOOTER.DESCRIPTION")}
             </p>
           </div>
 
           {/* Product */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-white">{t("PRODUCT")}</h4>
+            <h4 className="font-semibold text-white">{t("FOOTER.PRODUCT")}</h4>
             <div className="space-y-3">
               <FooterLink
                 href="/models"
                 icon={<LuBuilding2 className="h-4 w-4 text-gray-500" />}
               >
-                {t("MODELS")}
+                {t("FOOTER.MODELS")}
               </FooterLink>
               <FooterLink
                 href="/pricing"
                 icon={<LuMapPin className="h-4 w-4 text-gray-500" />}
               >
-                {t("PRICING")}
+                {t("FOOTER.PRICING")}
               </FooterLink>
               <FooterLink
                 href="/docs/claude-code"
                 icon={<LuFileText className="h-4 w-4 text-gray-500" />}
               >
-                {t("DOCUMENTATION")}
+                {t("FOOTER.DOCUMENTATION")}
               </FooterLink>
             </div>
           </div>
 
           {/* Legal */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-white">{t("LEGAL")}</h4>
+            <h4 className="font-semibold text-white">{t("FOOTER.LEGAL")}</h4>
             <div className="space-y-3">
               <FooterLink
                 href="/terms"
                 icon={<LuFileText className="h-4 w-4 text-gray-500" />}
               >
-                {t("TERMS")}
+                {t("FOOTER.TERMS")}
               </FooterLink>
               <FooterLink
                 href="/privacy"
                 icon={<LuEye className="h-4 w-4 text-gray-500" />}
               >
-                {t("PRIVACY")}
+                {t("FOOTER.PRIVACY")}
               </FooterLink>
             </div>
           </div>
 
           {/* Contact */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-white">{t("CONTACT_TITLE")}</h4>
+            <h4 className="font-semibold text-white">{t("FOOTER.CONTACT_TITLE")}</h4>
             <div className="space-y-2">
-              <p className="text-gray-400 text-sm">{t("CONTACT_SUBTITLE")}</p>
+              <p className="text-gray-400 text-sm">{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <a
                 href="mailto:support@unorouter.ai"
                 className="text-gray-300 hover:text-white text-sm font-medium transition-colors duration-200 flex items-center gap-2"
@@ -82,7 +82,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 block"
               >
-                {t("SOCIAL_GITHUB")}
+                {t("FOOTER.SOCIAL_GITHUB")}
               </a>
               <a
                 href="https://x.com/unorouter"
@@ -90,7 +90,7 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white text-sm transition-colors duration-200 block"
               >
-                {t("SOCIAL_X")}
+                {t("FOOTER.SOCIAL_X")}
               </a>
             </div>
           </div>
@@ -100,23 +100,23 @@ export function Footer() {
         <div className="border-t border-white/10 pt-8">
           <div className="text-center pt-6 border-t border-white/10">
             <p className="text-gray-500 text-xs">
-              {t("LEGAL_DISCLAIMER")}
+              {t("FOOTER.LEGAL_DISCLAIMER")}
               <Link href="/terms">
                 <span className="text-gray-400 hover:text-white ml-1 transition-colors duration-200">
-                  {t("LEGAL_TERMS")}
+                  {t("FOOTER.LEGAL_TERMS")}
                 </span>
               </Link>
-              <span className="mx-1">{t("LEGAL_AND")}</span>
+              <span className="mx-1">{t("FOOTER.LEGAL_AND")}</span>
               <Link href="/privacy">
                 <span className="text-gray-400 hover:text-white transition-colors duration-200">
-                  {t("LEGAL_PRIVACY")}
+                  {t("FOOTER.LEGAL_PRIVACY")}
                 </span>
               </Link>
             </p>
             <div className="flex justify-center items-center gap-2 mt-4">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
               <p className="text-gray-500 text-xs">
-                {t("COPYRIGHT", { year })}
+                {t("FOOTER.COPYRIGHT", { year })}
               </p>
             </div>
           </div>

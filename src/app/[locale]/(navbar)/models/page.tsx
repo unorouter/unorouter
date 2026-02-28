@@ -1,26 +1,21 @@
-import { getTranslations } from "next-intl/server";
-import { fetchPricing, processModels, type ProcessedModel } from "@/lib/api/pricing";
-import { ModelsGrid } from "@/components/pages/models/models-grid";
+import { Models } from "@/components/pages/models/models";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
 export default async function ModelsPage() {
-  const t = await getTranslations("MODELS");
+  const queryClient = getQueryClient();
 
-  let models: ProcessedModel[] = [];
-  try {
-    const pricing = await fetchPricing();
-    models = processModels(pricing);
-  } catch {
-    // fallback to empty
-  }
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.newApi.pricing(),
+    queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+  });
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold">{t("TITLE")}</h1>
-        <p className="text-muted-foreground mt-3 text-lg">{t("SUBTITLE")}</p>
-      </div>
-
-      <ModelsGrid models={models} />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Models />
+    </HydrationBoundary>
   );
 }

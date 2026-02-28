@@ -10,19 +10,19 @@ import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 
 const NAV_LINKS = [
-  { href: "/models", key: "MODELS" },
-  { href: "/pricing", key: "PRICING" }
+  { href: "/models", key: "NAV.MODELS" },
+  { href: "/pricing", key: "NAV.PRICING" }
 ] as const;
 
 const DOC_LINKS = [
-  { href: "/docs/claude-code", key: "CLAUDE_CODE", icon: LuTerminal },
-  { href: "/docs/codex", key: "CODEX", icon: LuCpu },
-  { href: "/docs/gemini-cli", key: "GEMINI_CLI", icon: LuSparkles },
-  { href: "/docs/openclaw", key: "OPENCLAW", icon: LuShell }
+  { href: "/docs/claude-code", key: "NAV.CLAUDE_CODE", icon: LuTerminal },
+  { href: "/docs/codex", key: "NAV.CODEX", icon: LuCpu },
+  { href: "/docs/gemini-cli", key: "NAV.GEMINI_CLI", icon: LuSparkles },
+  { href: "/docs/openclaw", key: "NAV.OPENCLAW", icon: LuShell }
 ] as const;
 
 export function Navbar() {
-  const t = useTranslations("NAV");
+  const t = useTranslations();
   const pathname = usePathname();
   const [docsOpen, setDocsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -73,7 +73,7 @@ export function Navbar() {
               onBlur={() => setTimeout(() => setDocsOpen(false), 200)}
               className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-gray-400 hover:text-white"
             >
-              {t("DOCS")}
+              {t("NAV.DOCS")}
               <LuChevronDown
                 className={cn(
                   "h-3 w-3 transition-transform duration-200",
@@ -106,13 +106,13 @@ export function Navbar() {
             href="https://api.unorouter.ai"
             className="text-[11px] font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
           >
-            {t("LOG_IN")}
+            {t("NAV.LOG_IN")}
           </a>
           <a
             href="https://api.unorouter.ai/register"
             className="px-5 py-2 bg-white text-black text-[11px] font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
           >
-            {t("GET_STARTED")}
+            {t("NAV.GET_STARTED")}
           </a>
         </div>
 
@@ -148,7 +148,7 @@ export function Navbar() {
           ))}
           <div className="space-y-2">
             <p className="text-[10px] text-gray-600 uppercase tracking-widest">
-              {t("DOCS")}
+              {t("NAV.DOCS")}
             </p>
             {DOC_LINKS.map((link) => (
               <Link
@@ -167,13 +167,13 @@ export function Navbar() {
               href="https://api.unorouter.ai"
               className="text-sm text-gray-400 hover:text-white uppercase tracking-wider"
             >
-              {t("LOG_IN")}
+              {t("NAV.LOG_IN")}
             </a>
             <a
               href="https://api.unorouter.ai/register"
               className="px-5 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors text-center"
             >
-              {t("GET_STARTED")}
+              {t("NAV.GET_STARTED")}
             </a>
           </div>
         </div>
