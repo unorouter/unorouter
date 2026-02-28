@@ -334,5 +334,14 @@
   },
   "COMMON": {
     "COPY_CODE": "Code kopieren"
+  },
+  "LANGUAGE": {
+    "EN": "English",
+    "DE": "Deutsch"
+  },
+  "THEME": {
+    "LIGHT": "Hell",
+    "DARK": "Dunkel",
+    "SYSTEM": "System"
   }
 }

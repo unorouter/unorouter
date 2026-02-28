@@ -6,7 +6,8 @@ import { LuChevronDown, LuCpu, LuMenu, LuShell, LuSparkles, LuTerminal, LuX } fr
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "@/components/toggles/theme-toggle";
+import { LanguageToggle } from "@/components/toggle/language-toggle";
+import { ThemeToggle } from "@/components/toggle/theme-toggle";
 
 const NAV_LINKS = [
   { href: "/models", key: "MODELS" },
@@ -99,6 +100,7 @@ export function Navbar() {
 
         {/* Desktop Auth */}
         <div className="hidden md:flex items-center gap-4">
+          <LanguageToggle />
           <ThemeToggle />
           <a
             href="https://api.unorouter.ai"
@@ -116,6 +118,7 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         <div className="md:hidden flex items-center gap-2">
+          <LanguageToggle />
           <ThemeToggle />
           <button
             className="text-white"

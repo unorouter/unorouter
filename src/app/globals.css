@@ -48,6 +48,7 @@
 }
 
 :root {
+  --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
   --background: #050505;
   --foreground: #f8fafc;
   --card: #0a0a0a;
