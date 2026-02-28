@@ -1,6 +1,7 @@
 import { Link } from "@/i18n/navigation";
 import { HeroStatsGrid } from "@/components/pages/home/hero-stats-grid";
 import { StatsPanel } from "@/components/pages/home/stats-panel";
+import { ScrambleText } from "@/components/elements/scramble-text";
 import { LuChevronRight, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
@@ -27,9 +28,10 @@ export async function HeroSection() {
           <h1 className="text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white leading-[1.05]">
             {t("HOME.HERO_TITLE_LINE1")} <br />
             <span className="text-gray-500">
-              <span className="font-mono tracking-wider">
-                {t("HOME.HERO_TITLE_LINE2")}
-              </span>
+              <ScrambleText
+                text={t("HOME.HERO_TITLE_LINE2")}
+                className="font-mono tracking-wider"
+              />
             </span>
             .
           </h1>
