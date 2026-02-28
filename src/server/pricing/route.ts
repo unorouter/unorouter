@@ -5,13 +5,13 @@ import { Elysia } from "elysia";
 export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
   "/",
   async () => {
-    const json = await newApiGet<PricingResponse>("/api/pricing");
-    const models = processModels(json);
+    const res = await newApiGet<PricingResponse>("/api/pricing");
+    const models = processModels(res.data);
 
     return {
       modelCount: models.length,
       vendorCount: new Set(models.map((m) => m.vendor.name)).size,
-      models,
+      models
     };
   }
 );
