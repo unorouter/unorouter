@@ -111,7 +111,7 @@ export async function IntegrationBanner() {
                       <span
                         className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${colors.badge} rounded`}
                       >
-                        {t(integration.badgeKey)}
+                        {integration.alt}
                       </span>
                     </div>
                     <h3 className="text-base md:text-lg font-bold text-white tracking-tight leading-tight">
