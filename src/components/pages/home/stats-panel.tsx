@@ -1,6 +1,6 @@
 "use client";
 
-import { useTokenStatsQuery } from "@/hooks/stats-hook";
+import { useHistoryStatsQuery } from "@/hooks/stats-hook";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { LuActivity } from "react-icons/lu";
@@ -57,7 +57,7 @@ function useLiveStats(baseTokens: number, baseRequests: number, baseTpm: number)
 
 export function StatsPanel() {
   const t = useTranslations();
-  const { data } = useTokenStatsQuery();
+  const { data } = useHistoryStatsQuery();
 
   const { tokens, requests, tpm } = useLiveStats(
     data!.tokenUsed,

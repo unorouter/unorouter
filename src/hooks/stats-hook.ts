@@ -5,10 +5,17 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
-export function useTokenStatsQuery() {
+export function useLiveStatsQuery() {
   return useQuery({
-    queryKey: queryKeys.stats.tokens(),
-    queryFn: async () => handleElysia(await rpc.api.stats.tokens.get()),
-    enabled: false
+    queryKey: queryKeys.stats.live(),
+    queryFn: async () => handleElysia(await rpc.api.stats.live.get()),
+  });
+}
+
+export function useHistoryStatsQuery() {
+  return useQuery({
+    queryKey: queryKeys.stats.history(),
+    queryFn: async () => handleElysia(await rpc.api.stats.history.get()),
+    enabled: false,
   });
 }
