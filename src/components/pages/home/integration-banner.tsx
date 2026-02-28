@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { msg } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
@@ -8,34 +9,38 @@ const integrations = [
     href: "/docs/claude-code",
     image: "/images/claude-code-screenshot.png",
     alt: "Claude Code",
-    titleKey: "INTEGRATION_CLAUDE_CODE_TITLE",
-    descKey: "INTEGRATION_CLAUDE_CODE_DESCRIPTION",
-    color: "orange",
+    titleKey: msg("HOME.INTEGRATION_CLAUDE_CODE_TITLE"),
+    descKey: msg("HOME.INTEGRATION_CLAUDE_CODE_DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION_CLAUDE_CODE_BADGE"),
+    color: "orange"
   },
   {
     href: "/docs/codex",
     image: "/images/codex-screenshot.png",
     alt: "Codex CLI",
-    titleKey: "INTEGRATION_CODEX_TITLE",
-    descKey: "INTEGRATION_CODEX_DESCRIPTION",
-    color: "emerald",
+    titleKey: msg("HOME.INTEGRATION_CODEX_TITLE"),
+    descKey: msg("HOME.INTEGRATION_CODEX_DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION_CODEX_BADGE"),
+    color: "emerald"
   },
   {
     href: "/docs/gemini-cli",
     image: "/images/gemini-cli-screenshot.png",
     alt: "Gemini CLI",
-    titleKey: "INTEGRATION_GEMINI_CLI_TITLE",
-    descKey: "INTEGRATION_GEMINI_CLI_DESCRIPTION",
-    color: "blue",
+    titleKey: msg("HOME.INTEGRATION_GEMINI_CLI_TITLE"),
+    descKey: msg("HOME.INTEGRATION_GEMINI_CLI_DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION_GEMINI_CLI_BADGE"),
+    color: "blue"
   },
   {
     href: "/docs/openclaw",
     image: "/images/openclaw-screenshot.png",
     alt: "OpenClaw",
-    titleKey: "INTEGRATION_OPENCLAW_TITLE",
-    descKey: "INTEGRATION_OPENCLAW_DESCRIPTION",
-    color: "red",
-  },
+    titleKey: msg("HOME.INTEGRATION_OPENCLAW_TITLE"),
+    descKey: msg("HOME.INTEGRATION_OPENCLAW_DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION_OPENCLAW_BADGE"),
+    color: "red"
+  }
 ] as const;
 
 const colorMap = {
@@ -45,7 +50,7 @@ const colorMap = {
     border: "border-orange-600/20 hover:border-orange-600/50",
     hoverBg: "hover:bg-orange-600/5",
     ring: "border-orange-600/30 group-hover:bg-orange-600 group-hover:border-orange-600",
-    arrow: "text-orange-500",
+    arrow: "text-orange-500"
   },
   emerald: {
     glow: "bg-emerald-600/20",
@@ -53,7 +58,7 @@ const colorMap = {
     border: "border-emerald-600/20 hover:border-emerald-600/50",
     hoverBg: "hover:bg-emerald-600/5",
     ring: "border-emerald-600/30 group-hover:bg-emerald-600 group-hover:border-emerald-600",
-    arrow: "text-emerald-500",
+    arrow: "text-emerald-500"
   },
   blue: {
     glow: "bg-blue-600/20",
@@ -61,7 +66,7 @@ const colorMap = {
     border: "border-blue-600/20 hover:border-blue-600/50",
     hoverBg: "hover:bg-blue-600/5",
     ring: "border-blue-600/30 group-hover:bg-blue-600 group-hover:border-blue-600",
-    arrow: "text-blue-500",
+    arrow: "text-blue-500"
   },
   red: {
     glow: "bg-red-600/20",
@@ -69,12 +74,12 @@ const colorMap = {
     border: "border-red-600/20 hover:border-red-600/50",
     hoverBg: "hover:bg-red-600/5",
     ring: "border-red-600/30 group-hover:bg-red-600 group-hover:border-red-600",
-    arrow: "text-red-500",
-  },
+    arrow: "text-red-500"
+  }
 } as const;
 
 export async function IntegrationBanner() {
-  const t = await getTranslations("HOME");
+  const t = await getTranslations();
 
   return (
     <section className="relative py-8 px-6 border-t border-b border-white/5 bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5">
@@ -106,7 +111,7 @@ export async function IntegrationBanner() {
                       <span
                         className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${colors.badge} rounded`}
                       >
-                        {t("INTEGRATION_BADGE")}
+                        {t(integration.badgeKey)}
                       </span>
                     </div>
                     <h3 className="text-base md:text-lg font-bold text-white tracking-tight leading-tight">
@@ -119,7 +124,7 @@ export async function IntegrationBanner() {
                 </p>
                 <div className="flex items-center gap-3 mt-auto pt-2">
                   <span className="text-sm font-mono text-white/70 group-hover:text-white transition-colors">
-                    {t("INTEGRATION_VIEW_GUIDE")}
+                    {t("HOME.INTEGRATION_VIEW_GUIDE")}
                   </span>
                   <div
                     className={`w-8 h-8 rounded-full border ${colors.ring} flex items-center justify-center transition-all`}
