@@ -1,13 +1,11 @@
-import { NewApiError, newApiGet } from "@/lib/api/client";
+import { newApiGet } from "@/lib/api/client";
 import { processModels, type PricingResponse } from "@/lib/api/pricing";
 import { Elysia } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
   "/",
-  async ({ status }) => {
-    const json = await newApiGet<PricingResponse>("/api/pricing").catch(
-      (e: NewApiError) => status(e.status as 500, e.message) as never
-    );
+  async () => {
+    const json = await newApiGet<PricingResponse>("/api/pricing");
     const models = processModels(json);
 
     return {
