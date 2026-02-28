@@ -1,38 +1,34 @@
 import { NewApiError, newApiGet } from "@/lib/api/client";
-import type { HistoryStatData, LiveStatData, QuotaData } from "@/lib/api/types";
+import type { LiveStatRaw, NewApiResponse, QuotaData } from "@/lib/api/types";
 import { Elysia } from "elysia";
 
-const ADMIN_TOKEN = process.env.SYSTEM_ACCESS_TOKEN;
+const ADMIN_HEADERS = {
+  Authorization: process.env.SYSTEM_ACCESS_TOKEN,
+  "New-Api-User": "1"
+};
 
 const FAR_FUTURE = 4102444800; // 2100-01-01
 
 export const statsRoute = new Elysia({ prefix: "/stats" })
   .get("/live", async ({ status }) => {
-    const headers = { Authorization: ADMIN_TOKEN, "New-Api-User": "1" };
-
-    const json = await newApiGet<{
-      success: boolean;
-      data: { quota: number; rpm: number; tpm: number };
-    }>("/api/log/stat", { headers }).catch(
-      (e: NewApiError) => status(e.status as 500, e.message) as never
-    );
+    const json = await newApiGet<NewApiResponse<LiveStatRaw>>("/api/log/stat", {
+      headers: ADMIN_HEADERS
+    }).catch((e: NewApiError) => status(e.status as 500, e.message) as never);
 
     if (!json.success) return status(500, "new-api returned success=false");
 
     return {
       quota: json.data.quota,
       rpm: json.data.rpm,
-      tpm: json.data.tpm,
-    } satisfies LiveStatData;
+      tpm: json.data.tpm
+    };
   })
   .get("/history", async ({ status }) => {
-    const headers = { Authorization: ADMIN_TOKEN, "New-Api-User": "1" };
-
     const now = Math.floor(Date.now() / 1000);
 
-    const json = await newApiGet<{ success: boolean; data: QuotaData[] }>(
+    const json = await newApiGet<NewApiResponse<QuotaData[]>>(
       `/api/data/?start_timestamp=0&end_timestamp=${FAR_FUTURE}`,
-      { headers }
+      { headers: ADMIN_HEADERS }
     ).catch((e: NewApiError) => status(e.status as 500, e.message) as never);
 
     if (!json.success) return status(500, "new-api returned success=false");
@@ -53,6 +49,6 @@ export const statsRoute = new Elysia({ prefix: "/stats" })
     return {
       avgTpm,
       requestCount,
-      tokenUsed,
-    } satisfies HistoryStatData;
+      tokenUsed
+    };
   });
