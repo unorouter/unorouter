@@ -1,6 +1,6 @@
 {
   "METADATA": {
-    "TITLE": "UnoRouter — One API for Every AI Model",
+    "TITLE": "UnoRouter - One API for Every AI Model",
     "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and 200+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less."
   },
   "NAV": {

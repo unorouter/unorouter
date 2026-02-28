@@ -1,6 +1,6 @@
 {
   "METADATA": {
-    "TITLE": "UnoRouter — Eine API fuer jedes KI-Modell",
+    "TITLE": "UnoRouter - Eine API fuer jedes KI-Modell",
     "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und 200+ KI-Modelle ueber einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, guenstigere Preise."
   },
   "NAV": {
