@@ -1,42 +1,63 @@
-import { NewApiResponse } from "./types";
-
-export const NEW_API_BASE = process.env.NEXT_PUBLIC_API_URL;
-
 export class NewApiError extends Error {
   constructor(
     public status: number,
-    message: string
+    public data: unknown,
+    public headers: Headers
   ) {
-    super(message);
+    super(typeof data === "string" ? data : JSON.stringify(data));
   }
 }
 
-async function newApiFetch<T>(
-  path: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const res = await fetch(`${NEW_API_BASE}${path}`, options);
-  if (!res.ok) throw new NewApiError(res.status, await res.text());
-  const json = await res.json();
-  if (json && typeof json === "object" && "success" in json && !json.success) {
-    throw new NewApiError(502, json.message);
+export const fetcher = async <T>(
+  url: string,
+  options: RequestInit
+): Promise<T> => {
+  let isJsonBody = false;
+  if (typeof options.body === "string") {
+    try {
+      JSON.parse(options.body);
+      isJsonBody = true;
+    } catch {}
   }
-  return json as T;
-}
 
-export function newApiGet<T>(path: string, options: RequestInit = {}) {
-  return newApiFetch<NewApiResponse<T>>(path, { ...options, method: "GET" });
-}
+  const response = await fetch(
+    new URL(url, process.env.NEXT_PUBLIC_API_URL).toString(),
+    {
+      ...options,
+      credentials: "include",
+      headers: {
+        ...(isJsonBody && { "Content-Type": "application/json" }),
+        ...options.headers,
+      },
+    }
+  );
 
-export function newApiPost<T>(
-  path: string,
-  body: unknown,
-  options: RequestInit = {}
-) {
-  return newApiFetch<T>(path, {
-    ...options,
-    method: "POST",
-    headers: { "Content-Type": "application/json", ...options.headers },
-    body: JSON.stringify(body)
-  });
-}
+  if (!response.ok) {
+    const text = await response.text();
+    let data: unknown;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = text;
+    }
+    throw new NewApiError(response.status, data, response.headers);
+  }
+
+  const contentType = response.headers.get("content-type");
+
+  let data: T;
+  if (contentType?.includes("application/json")) {
+    data = await response.json();
+  } else if (
+    contentType &&
+    !contentType.startsWith("text/") &&
+    !contentType.includes("json") &&
+    !contentType.includes("xml")
+  ) {
+    data = (await response.blob()) as T;
+  } else {
+    data = (await response.text()) as T;
+  }
+
+  return { status: response.status, data, headers: response.headers } as T;
+};

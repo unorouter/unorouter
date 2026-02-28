@@ -3,18 +3,16 @@ import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 
 export const LOCALES = ["en", "de"] as const;
-
-export type FlagComponent = FunctionComponent<SVGAttributes<SVGElement>>;
+export const AUTH_COOKIE = "auth" as const;
+export const SERVER_URL_KEY = "x-url";
 
 export const LANGUAGES: {
   code: Uppercase<Locale>;
-  Flag: FlagComponent;
+  Flag: FunctionComponent<SVGAttributes<SVGElement>>;
 }[] = [
   { code: "EN", Flag: US },
-  { code: "DE", Flag: DE },
+  { code: "DE", Flag: DE }
 ];
-
-export const SERVER_URL_KEY = "x-url";
 
 export type TranslationKey = Parameters<
   ReturnType<typeof useTranslations<never>>

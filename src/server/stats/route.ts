@@ -1,41 +1,42 @@
-import { newApiGet } from "@/lib/api/client";
-import type { LiveStatRaw, QuotaData } from "@/lib/api/types";
+import { getApiData, getApiLogStat } from "@/lib/api/generated/api";
 import { Elysia } from "elysia";
 
 const ADMIN_HEADERS = {
   Authorization: process.env.SYSTEM_ACCESS_TOKEN,
-  "New-Api-User": "1"
+  "New-Api-User": "1",
 };
 
 const FAR_FUTURE = 4102444800; // 2100-01-01
 
 export const statsRoute = new Elysia({ prefix: "/stats" })
   .get("/live", async () => {
-    const res = await newApiGet<LiveStatRaw>("/api/log/stat", {
-      headers: ADMIN_HEADERS
+    const res = await getApiLogStat(undefined, {
+      headers: ADMIN_HEADERS,
     });
+    const stat = res.data.data;
 
     return {
-      quota: res.data.quota,
-      rpm: res.data.rpm,
-      tpm: res.data.tpm
+      quota: stat?.quota ?? 0,
+      rpm: stat?.rpm ?? 0,
+      tpm: stat?.tpm ?? 0,
     };
   })
   .get("/history", async () => {
     const now = Math.floor(Date.now() / 1000);
 
-    const res = await newApiGet<QuotaData[]>(
-      `/api/data/?start_timestamp=0&end_timestamp=${FAR_FUTURE}`,
-      { headers: ADMIN_HEADERS }
+    const res = await getApiData(
+      { start_timestamp: 0, end_timestamp: FAR_FUTURE },
+      { headers: ADMIN_HEADERS },
     );
+    const data = res.data.data ?? [];
 
-    const requestCount = res.data.reduce((s, d) => s + d.count, 0);
-    const tokenUsed = res.data.reduce((s, d) => s + d.token_used, 0);
+    const requestCount = data.reduce((s, d) => s + (d.count ?? 0), 0);
+    const tokenUsed = data.reduce((s, d) => s + (d.token_used ?? 0), 0);
 
     // Avg TPM: total tokens / time span from first data point to now
     let avgTpm = 0;
-    if (res.data.length > 0) {
-      const earliest = Math.min(...res.data.map((d) => d.created_at));
+    if (data.length > 0) {
+      const earliest = Math.min(...data.map((d) => d.created_at ?? 0));
       const timeDiffMinutes = (now - earliest) / 60;
       if (timeDiffMinutes > 0) {
         avgTpm = Math.round(tokenUsed / timeDiffMinutes);
@@ -45,6 +46,6 @@ export const statsRoute = new Elysia({ prefix: "/stats" })
     return {
       avgTpm,
       requestCount,
-      tokenUsed
+      tokenUsed,
     };
   });

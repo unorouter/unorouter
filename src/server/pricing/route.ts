@@ -1,11 +1,11 @@
-import { newApiGet } from "@/lib/api/client";
-import { processModels, type PricingResponse } from "@/lib/api/pricing";
+import { getApiPricing } from "@/lib/api/generated/api";
+import { processModels } from "@/lib/api/pricing";
 import { Elysia } from "elysia";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
   "/",
   async () => {
-    const res = await newApiGet<PricingResponse>("/api/pricing");
+    const res = await getApiPricing();
     const models = processModels(res.data);
 
     return {
