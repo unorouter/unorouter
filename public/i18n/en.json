@@ -189,8 +189,7 @@
   },
   "DOCS": {
     "CLAUDE_CODE": {
-      "BADGE": "COMPATIBLE",
-      "API_BADGE": "Anthropic API",
+      "BADGE": "Claude Code",
       "TITLE": "Claude Code Integration",
       "SUBTITLE": "Use UnoRouter with Claude Code, Cursor, VS Code extensions, and any Anthropic-compatible client. Point your API to UnoRouter and access all models.",
       "QUICK_START": "Quick Start",
@@ -204,8 +203,7 @@
       "CTA_MODELS": "View All Models"
     },
     "CODEX": {
-      "BADGE": "COMPATIBLE",
-      "API_BADGE": "OpenAI API",
+      "BADGE": "Codex",
       "TITLE": "OpenAI Codex Integration",
       "SUBTITLE": "Use UnoRouter with OpenAI Codex CLI, ChatGPT plugins, and any OpenAI-compatible client. Fully compatible with the OpenAI SDK.",
       "QUICK_START": "Quick Start",
@@ -219,8 +217,7 @@
       "CTA_MODELS": "View All Models"
     },
     "GEMINI_CLI": {
-      "BADGE": "COMPATIBLE",
-      "API_BADGE": "Gemini API",
+      "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI Integration",
       "SUBTITLE": "Use UnoRouter with the Gemini CLI and any Google GenAI-compatible client. Access Gemini models alongside Claude and GPT.",
       "QUICK_START": "Quick Start",
@@ -234,8 +231,7 @@
       "CTA_MODELS": "View All Models"
     },
     "OPENCLAW": {
-      "BADGE": "COMPATIBLE",
-      "API_BADGE": "OpenAI API",
+      "BADGE": "OpenClaw",
       "TITLE": "OpenClaw Integration",
       "SUBTITLE": "Use UnoRouter as a model provider for your OpenClaw agent. Configure once and access every model through OpenClaw's gateway.",
       "QUICK_START": "Quick Start",

@@ -38,9 +38,6 @@ export async function IntegrationRow(props: { integration: Integration }) {
                 >
                   {t(props.integration.badgeKey)}
                 </span>
-                <span className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-white/10 text-white/60 rounded">
-                  {t(props.integration.apiBadgeKey)}
-                </span>
               </div>
               <h2
                 className={`text-xl md:text-2xl font-bold tracking-tight ${props.integration.color.accent}`}

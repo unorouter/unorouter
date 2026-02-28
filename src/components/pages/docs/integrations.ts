@@ -7,7 +7,6 @@ type IntegrationDef = {
   titleKey: TranslationKey;
   subtitleKey: TranslationKey;
   badgeKey: TranslationKey;
-  apiBadgeKey: TranslationKey;
   color: {
     accent: string;
     badge: string;
@@ -29,7 +28,6 @@ export const integrations = [
     titleKey: "DOCS.CLAUDE_CODE.TITLE",
     subtitleKey: "DOCS.CLAUDE_CODE.SUBTITLE",
     badgeKey: "DOCS.CLAUDE_CODE.BADGE",
-    apiBadgeKey: "DOCS.CLAUDE_CODE.API_BADGE",
     color: {
       accent: "text-orange-500",
       badge: "bg-orange-600/20 text-orange-500",
@@ -52,7 +50,6 @@ claude`
     titleKey: "DOCS.CODEX.TITLE",
     subtitleKey: "DOCS.CODEX.SUBTITLE",
     badgeKey: "DOCS.CODEX.BADGE",
-    apiBadgeKey: "DOCS.CODEX.API_BADGE",
     color: {
       accent: "text-emerald-500",
       badge: "bg-emerald-600/20 text-emerald-500",
@@ -75,7 +72,6 @@ codex`
     titleKey: "DOCS.GEMINI_CLI.TITLE",
     subtitleKey: "DOCS.GEMINI_CLI.SUBTITLE",
     badgeKey: "DOCS.GEMINI_CLI.BADGE",
-    apiBadgeKey: "DOCS.GEMINI_CLI.API_BADGE",
     color: {
       accent: "text-blue-500",
       badge: "bg-blue-600/20 text-blue-500",
@@ -98,7 +94,6 @@ gemini`
     titleKey: "DOCS.OPENCLAW.TITLE",
     subtitleKey: "DOCS.OPENCLAW.SUBTITLE",
     badgeKey: "DOCS.OPENCLAW.BADGE",
-    apiBadgeKey: "DOCS.OPENCLAW.API_BADGE",
     color: {
       accent: "text-red-500",
       badge: "bg-red-600/20 text-red-500",
