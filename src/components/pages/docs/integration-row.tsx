@@ -5,19 +5,15 @@ import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
 import { type Integration } from "./integrations";
 
-export async function IntegrationRow({
-  integration
-}: {
-  integration: Integration;
-}) {
+export async function IntegrationRow(props: { integration: Integration }) {
   const t = await getTranslations();
 
   return (
     <div
-      className={`relative rounded-lg border ${integration.color.border} bg-black/40 backdrop-blur-sm overflow-hidden`}
+      className={`relative rounded-lg border ${props.integration.color.border} bg-black/40 backdrop-blur-sm overflow-hidden`}
     >
       {/* Colored top line */}
-      <div className={`h-0.5 ${integration.color.line}`} />
+      <div className={`h-0.5 ${props.integration.color.line}`} />
 
       <div className="p-6 md:p-8">
         {/* Header row: image + info + arrow link */}
@@ -25,11 +21,11 @@ export async function IntegrationRow({
           <div className="flex items-center gap-5 flex-1 min-w-0">
             <div className="relative shrink-0">
               <div
-                className={`absolute inset-0 ${integration.color.glow} blur-xl rounded-full`}
+                className={`absolute inset-0 ${props.integration.color.glow} blur-xl rounded-full`}
               />
               <Image
-                src={integration.image}
-                alt={integration.alt}
+                src={props.integration.image}
+                alt={props.integration.alt}
                 width={80}
                 height={48}
                 className="relative rounded w-20 h-auto"
@@ -38,37 +34,37 @@ export async function IntegrationRow({
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <span
-                  className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${integration.color.badge} rounded`}
+                  className={`px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider ${props.integration.color.badge} rounded`}
                 >
-                  {t(integration.badgeKey)}
+                  {t(props.integration.badgeKey)}
                 </span>
                 <span className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-white/10 text-white/60 rounded">
-                  {t(integration.apiBadgeKey)}
+                  {t(props.integration.apiBadgeKey)}
                 </span>
               </div>
               <h2
-                className={`text-xl md:text-2xl font-bold tracking-tight ${integration.color.accent}`}
+                className={`text-xl md:text-2xl font-bold tracking-tight ${props.integration.color.accent}`}
               >
-                {t(integration.titleKey)}
+                {t(props.integration.titleKey)}
               </h2>
               <p className="text-sm text-gray-400 font-mono mt-1 leading-relaxed">
-                {t(integration.subtitleKey)}
+                {t(props.integration.subtitleKey)}
               </p>
             </div>
           </div>
 
           <Link
-            href={integration.href}
+            href={props.integration.href}
             className="group shrink-0 flex items-center gap-3"
           >
             <span className="text-sm font-mono text-white/70 group-hover:text-white transition-colors">
               {t("DOCS_INDEX.VIEW_GUIDE")}
             </span>
             <div
-              className={`w-10 h-10 rounded-full border ${integration.color.ring} flex items-center justify-center transition-all`}
+              className={`w-10 h-10 rounded-full border ${props.integration.color.ring} flex items-center justify-center transition-all`}
             >
               <LuArrowRight
-                className={`h-4 w-4 ${integration.color.arrow} transition-colors`}
+                className={`h-4 w-4 ${props.integration.color.arrow} transition-colors`}
               />
             </div>
           </Link>
@@ -79,7 +75,7 @@ export async function IntegrationRow({
           <p className="text-xs font-mono uppercase tracking-wider text-gray-500 mb-3">
             {t("DOCS_INDEX.QUICK_START")}
           </p>
-          <CodeBlock language="bash" code={integration.quickStart} />
+          <CodeBlock language="bash" code={props.integration.quickStart} />
         </div>
       </div>
     </div>
