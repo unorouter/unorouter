@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate": "bunx orval"
+    "openapi": "orval --config ./orval.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "1.2.0",

@@ -2,12 +2,13 @@ import { defineConfig } from "orval";
 
 export default defineConfig({
   api: {
-    input: "../new-api/docs/swagger/swagger.json",
+    input: "https://api.unorouter.ai/openapi.json",
     output: {
-      target: "./src/lib/api/generated/api.ts",
+      target: "./src/openapi.ts",
       client: "fetch",
       override: {
-        mutator: { path: "./src/lib/api/client.ts", name: "fetcher" },
+        mutator: { path: "./src/lib/custom-fetch.ts", name: "customFetch" },
+        aliasCombinedTypes: true,
       },
     },
     hooks: { afterAllFilesWrite: "prettier --write" },
