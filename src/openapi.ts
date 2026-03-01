@@ -6687,48 +6687,48 @@ export const testIoNetConnection = async (
 };
 
 /**
- * @summary Test Io Net Connection2
+ * @summary test io net connection
  */
-export type testIoNetConnection2Response200ApplicationJson = {
+export type pOSTApiDeploymentsTestConnectionResponse200ApplicationJson = {
   data: ResponseDtoTestConnectionResponse;
   status: 200;
 };
 
-export type testIoNetConnection2Response200ApplicationXml = {
+export type pOSTApiDeploymentsTestConnectionResponse200ApplicationXml = {
   data: ResponseDtoTestConnectionResponse;
   status: 200;
 };
 
-export type testIoNetConnection2ResponseDefault = {
+export type pOSTApiDeploymentsTestConnectionResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type testIoNetConnection2ResponseSuccess = (
-  | testIoNetConnection2Response200ApplicationJson
-  | testIoNetConnection2Response200ApplicationXml
+export type pOSTApiDeploymentsTestConnectionResponseSuccess = (
+  | pOSTApiDeploymentsTestConnectionResponse200ApplicationJson
+  | pOSTApiDeploymentsTestConnectionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type testIoNetConnection2ResponseError =
-  testIoNetConnection2ResponseDefault & {
+export type pOSTApiDeploymentsTestConnectionResponseError =
+  pOSTApiDeploymentsTestConnectionResponseDefault & {
     headers: Headers;
   };
 
-export type testIoNetConnection2Response =
-  | testIoNetConnection2ResponseSuccess
-  | testIoNetConnection2ResponseError;
+export type pOSTApiDeploymentsTestConnectionResponse =
+  | pOSTApiDeploymentsTestConnectionResponseSuccess
+  | pOSTApiDeploymentsTestConnectionResponseError;
 
-export const getTestIoNetConnection2Url = () => {
+export const getPOSTApiDeploymentsTestConnectionUrl = () => {
   return `/api/deployments/test-connection`;
 };
 
-export const testIoNetConnection2 = async (
+export const pOSTApiDeploymentsTestConnection = async (
   testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: RequestInit,
-): Promise<testIoNetConnection2Response> => {
-  return customFetch<testIoNetConnection2Response>(
-    getTestIoNetConnection2Url(),
+): Promise<pOSTApiDeploymentsTestConnectionResponse> => {
+  return customFetch<pOSTApiDeploymentsTestConnectionResponse>(
+    getPOSTApiDeploymentsTestConnectionUrl(),
     {
       ...options,
       method: "POST",
@@ -10947,47 +10947,47 @@ export const subscriptionRequestCreemPay = async (
 };
 
 /**
- * @summary Subscription Epay Notify2
+ * @summary Get Api Subscription Epay Notify
  */
-export type subscriptionEpayNotify2Response200ApplicationJson = {
+export type getApiSubscriptionEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
 };
 
-export type subscriptionEpayNotify2Response200ApplicationXml = {
+export type getApiSubscriptionEpayNotifyResponse200ApplicationXml = {
   data: MessageResponse;
   status: 200;
 };
 
-export type subscriptionEpayNotify2ResponseDefault = {
+export type getApiSubscriptionEpayNotifyResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type subscriptionEpayNotify2ResponseSuccess = (
-  | subscriptionEpayNotify2Response200ApplicationJson
-  | subscriptionEpayNotify2Response200ApplicationXml
+export type getApiSubscriptionEpayNotifyResponseSuccess = (
+  | getApiSubscriptionEpayNotifyResponse200ApplicationJson
+  | getApiSubscriptionEpayNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionEpayNotify2ResponseError =
-  subscriptionEpayNotify2ResponseDefault & {
+export type getApiSubscriptionEpayNotifyResponseError =
+  getApiSubscriptionEpayNotifyResponseDefault & {
     headers: Headers;
   };
 
-export type subscriptionEpayNotify2Response =
-  | subscriptionEpayNotify2ResponseSuccess
-  | subscriptionEpayNotify2ResponseError;
+export type getApiSubscriptionEpayNotifyResponse =
+  | getApiSubscriptionEpayNotifyResponseSuccess
+  | getApiSubscriptionEpayNotifyResponseError;
 
-export const getSubscriptionEpayNotify2Url = () => {
+export const getGetApiSubscriptionEpayNotifyUrl = () => {
   return `/api/subscription/epay/notify`;
 };
 
-export const subscriptionEpayNotify2 = async (
+export const getApiSubscriptionEpayNotify = async (
   options?: RequestInit,
-): Promise<subscriptionEpayNotify2Response> => {
-  return customFetch<subscriptionEpayNotify2Response>(
-    getSubscriptionEpayNotify2Url(),
+): Promise<getApiSubscriptionEpayNotifyResponse> => {
+  return customFetch<getApiSubscriptionEpayNotifyResponse>(
+    getGetApiSubscriptionEpayNotifyUrl(),
     {
       ...options,
       method: "GET",
@@ -11146,47 +11146,47 @@ export const subscriptionEpayReturn = async (
 };
 
 /**
- * @summary Subscription Epay Return2
+ * @summary Post Api Subscription Epay Return
  */
-export type subscriptionEpayReturn2Response200ApplicationJson = {
+export type postApiSubscriptionEpayReturnResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
 };
 
-export type subscriptionEpayReturn2Response200ApplicationXml = {
+export type postApiSubscriptionEpayReturnResponse200ApplicationXml = {
   data: MessageResponse;
   status: 200;
 };
 
-export type subscriptionEpayReturn2ResponseDefault = {
+export type postApiSubscriptionEpayReturnResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type subscriptionEpayReturn2ResponseSuccess = (
-  | subscriptionEpayReturn2Response200ApplicationJson
-  | subscriptionEpayReturn2Response200ApplicationXml
+export type postApiSubscriptionEpayReturnResponseSuccess = (
+  | postApiSubscriptionEpayReturnResponse200ApplicationJson
+  | postApiSubscriptionEpayReturnResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionEpayReturn2ResponseError =
-  subscriptionEpayReturn2ResponseDefault & {
+export type postApiSubscriptionEpayReturnResponseError =
+  postApiSubscriptionEpayReturnResponseDefault & {
     headers: Headers;
   };
 
-export type subscriptionEpayReturn2Response =
-  | subscriptionEpayReturn2ResponseSuccess
-  | subscriptionEpayReturn2ResponseError;
+export type postApiSubscriptionEpayReturnResponse =
+  | postApiSubscriptionEpayReturnResponseSuccess
+  | postApiSubscriptionEpayReturnResponseError;
 
-export const getSubscriptionEpayReturn2Url = () => {
+export const getPostApiSubscriptionEpayReturnUrl = () => {
   return `/api/subscription/epay/return`;
 };
 
-export const subscriptionEpayReturn2 = async (
+export const postApiSubscriptionEpayReturn = async (
   options?: RequestInit,
-): Promise<subscriptionEpayReturn2Response> => {
-  return customFetch<subscriptionEpayReturn2Response>(
-    getSubscriptionEpayReturn2Url(),
+): Promise<postApiSubscriptionEpayReturnResponse> => {
+  return customFetch<postApiSubscriptionEpayReturnResponse>(
+    getPostApiSubscriptionEpayReturnUrl(),
     {
       ...options,
       method: "POST",
@@ -12783,48 +12783,52 @@ export const requestCreemPay = async (
 };
 
 /**
- * @summary Epay Notify2
+ * @summary Get Api User Epay Notify
  */
-export type epayNotify2Response200ApplicationJson = {
+export type getApiUserEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
 };
 
-export type epayNotify2Response200ApplicationXml = {
+export type getApiUserEpayNotifyResponse200ApplicationXml = {
   data: MessageResponse;
   status: 200;
 };
 
-export type epayNotify2ResponseDefault = {
+export type getApiUserEpayNotifyResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type epayNotify2ResponseSuccess = (
-  | epayNotify2Response200ApplicationJson
-  | epayNotify2Response200ApplicationXml
+export type getApiUserEpayNotifyResponseSuccess = (
+  | getApiUserEpayNotifyResponse200ApplicationJson
+  | getApiUserEpayNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type epayNotify2ResponseError = epayNotify2ResponseDefault & {
-  headers: Headers;
-};
+export type getApiUserEpayNotifyResponseError =
+  getApiUserEpayNotifyResponseDefault & {
+    headers: Headers;
+  };
 
-export type epayNotify2Response =
-  | epayNotify2ResponseSuccess
-  | epayNotify2ResponseError;
+export type getApiUserEpayNotifyResponse =
+  | getApiUserEpayNotifyResponseSuccess
+  | getApiUserEpayNotifyResponseError;
 
-export const getEpayNotify2Url = () => {
+export const getGetApiUserEpayNotifyUrl = () => {
   return `/api/user/epay/notify`;
 };
 
-export const epayNotify2 = async (
+export const getApiUserEpayNotify = async (
   options?: RequestInit,
-): Promise<epayNotify2Response> => {
-  return customFetch<epayNotify2Response>(getEpayNotify2Url(), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getApiUserEpayNotifyResponse> => {
+  return customFetch<getApiUserEpayNotifyResponse>(
+    getGetApiUserEpayNotifyUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -13944,48 +13948,52 @@ export const updateSelf = async (
 };
 
 /**
- * @summary Get User Groups2
+ * @summary get user groups
  */
-export type getUserGroups2Response200ApplicationJson = {
+export type gETApiUserSelfGroupsResponse200ApplicationJson = {
   data: ApiResponse;
   status: 200;
 };
 
-export type getUserGroups2Response200ApplicationXml = {
+export type gETApiUserSelfGroupsResponse200ApplicationXml = {
   data: ApiResponse;
   status: 200;
 };
 
-export type getUserGroups2ResponseDefault = {
+export type gETApiUserSelfGroupsResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type getUserGroups2ResponseSuccess = (
-  | getUserGroups2Response200ApplicationJson
-  | getUserGroups2Response200ApplicationXml
+export type gETApiUserSelfGroupsResponseSuccess = (
+  | gETApiUserSelfGroupsResponse200ApplicationJson
+  | gETApiUserSelfGroupsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserGroups2ResponseError = getUserGroups2ResponseDefault & {
-  headers: Headers;
-};
+export type gETApiUserSelfGroupsResponseError =
+  gETApiUserSelfGroupsResponseDefault & {
+    headers: Headers;
+  };
 
-export type getUserGroups2Response =
-  | getUserGroups2ResponseSuccess
-  | getUserGroups2ResponseError;
+export type gETApiUserSelfGroupsResponse =
+  | gETApiUserSelfGroupsResponseSuccess
+  | gETApiUserSelfGroupsResponseError;
 
-export const getGetUserGroups2Url = () => {
+export const getGETApiUserSelfGroupsUrl = () => {
   return `/api/user/self/groups`;
 };
 
-export const getUserGroups2 = async (
+export const gETApiUserSelfGroups = async (
   options?: RequestInit,
-): Promise<getUserGroups2Response> => {
-  return customFetch<getUserGroups2Response>(getGetUserGroups2Url(), {
-    ...options,
-    method: "GET",
-  });
+): Promise<gETApiUserSelfGroupsResponse> => {
+  return customFetch<gETApiUserSelfGroupsResponse>(
+    getGETApiUserSelfGroupsUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -15279,319 +15287,337 @@ export const getUsage = async (
 };
 
 /**
- * @summary Relay Task7
+ * @summary Post Jimeng
  */
-export type relayTask7Response200ApplicationJson = {
+export type postJimengResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask7Response200ApplicationXml = {
+export type postJimengResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask7ResponseDefault = {
+export type postJimengResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTask7ResponseSuccess = (
-  | relayTask7Response200ApplicationJson
-  | relayTask7Response200ApplicationXml
+export type postJimengResponseSuccess = (
+  | postJimengResponse200ApplicationJson
+  | postJimengResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTask7ResponseError = relayTask7ResponseDefault & {
+export type postJimengResponseError = postJimengResponseDefault & {
   headers: Headers;
 };
 
-export type relayTask7Response =
-  | relayTask7ResponseSuccess
-  | relayTask7ResponseError;
+export type postJimengResponse =
+  | postJimengResponseSuccess
+  | postJimengResponseError;
 
-export const getRelayTask7Url = () => {
+export const getPostJimengUrl = () => {
   return `/jimeng/`;
 };
 
-export const relayTask7 = async (
+export const postJimeng = async (
   options?: RequestInit,
-): Promise<relayTask7Response> => {
-  return customFetch<relayTask7Response>(getRelayTask7Url(), {
+): Promise<postJimengResponse> => {
+  return customFetch<postJimengResponse>(getPostJimengUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Task6
+ * @summary Post Kling V1 Videos Image2video
  */
-export type relayTask6Response200ApplicationJson = {
+export type postKlingV1VideosImage2videoResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask6Response200ApplicationXml = {
+export type postKlingV1VideosImage2videoResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask6ResponseDefault = {
+export type postKlingV1VideosImage2videoResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTask6ResponseSuccess = (
-  | relayTask6Response200ApplicationJson
-  | relayTask6Response200ApplicationXml
+export type postKlingV1VideosImage2videoResponseSuccess = (
+  | postKlingV1VideosImage2videoResponse200ApplicationJson
+  | postKlingV1VideosImage2videoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTask6ResponseError = relayTask6ResponseDefault & {
-  headers: Headers;
-};
+export type postKlingV1VideosImage2videoResponseError =
+  postKlingV1VideosImage2videoResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTask6Response =
-  | relayTask6ResponseSuccess
-  | relayTask6ResponseError;
+export type postKlingV1VideosImage2videoResponse =
+  | postKlingV1VideosImage2videoResponseSuccess
+  | postKlingV1VideosImage2videoResponseError;
 
-export const getRelayTask6Url = () => {
+export const getPostKlingV1VideosImage2videoUrl = () => {
   return `/kling/v1/videos/image2video`;
 };
 
-export const relayTask6 = async (
+export const postKlingV1VideosImage2video = async (
   options?: RequestInit,
-): Promise<relayTask6Response> => {
-  return customFetch<relayTask6Response>(getRelayTask6Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postKlingV1VideosImage2videoResponse> => {
+  return customFetch<postKlingV1VideosImage2videoResponse>(
+    getPostKlingV1VideosImage2videoUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Task Fetch6
+ * @summary Get Kling V1 Videos Image2video Task_id
  */
-export type relayTaskFetch6Response200ApplicationJson = {
+export type getKlingV1VideosImage2videoTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch6Response200ApplicationXml = {
+export type getKlingV1VideosImage2videoTaskIdResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch6ResponseDefault = {
+export type getKlingV1VideosImage2videoTaskIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTaskFetch6ResponseSuccess = (
-  | relayTaskFetch6Response200ApplicationJson
-  | relayTaskFetch6Response200ApplicationXml
+export type getKlingV1VideosImage2videoTaskIdResponseSuccess = (
+  | getKlingV1VideosImage2videoTaskIdResponse200ApplicationJson
+  | getKlingV1VideosImage2videoTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskFetch6ResponseError = relayTaskFetch6ResponseDefault & {
-  headers: Headers;
-};
+export type getKlingV1VideosImage2videoTaskIdResponseError =
+  getKlingV1VideosImage2videoTaskIdResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTaskFetch6Response =
-  | relayTaskFetch6ResponseSuccess
-  | relayTaskFetch6ResponseError;
+export type getKlingV1VideosImage2videoTaskIdResponse =
+  | getKlingV1VideosImage2videoTaskIdResponseSuccess
+  | getKlingV1VideosImage2videoTaskIdResponseError;
 
-export const getRelayTaskFetch6Url = (taskId: string) => {
+export const getGetKlingV1VideosImage2videoTaskIdUrl = (taskId: string) => {
   return `/kling/v1/videos/image2video/${taskId}`;
 };
 
-export const relayTaskFetch6 = async (
+export const getKlingV1VideosImage2videoTaskId = async (
   taskId: string,
   options?: RequestInit,
-): Promise<relayTaskFetch6Response> => {
-  return customFetch<relayTaskFetch6Response>(getRelayTaskFetch6Url(taskId), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getKlingV1VideosImage2videoTaskIdResponse> => {
+  return customFetch<getKlingV1VideosImage2videoTaskIdResponse>(
+    getGetKlingV1VideosImage2videoTaskIdUrl(taskId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
- * @summary Relay Task5
+ * @summary Post Kling V1 Videos Text2video
  */
-export type relayTask5Response200ApplicationJson = {
+export type postKlingV1VideosText2videoResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask5Response200ApplicationXml = {
+export type postKlingV1VideosText2videoResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask5ResponseDefault = {
+export type postKlingV1VideosText2videoResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTask5ResponseSuccess = (
-  | relayTask5Response200ApplicationJson
-  | relayTask5Response200ApplicationXml
+export type postKlingV1VideosText2videoResponseSuccess = (
+  | postKlingV1VideosText2videoResponse200ApplicationJson
+  | postKlingV1VideosText2videoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTask5ResponseError = relayTask5ResponseDefault & {
-  headers: Headers;
-};
+export type postKlingV1VideosText2videoResponseError =
+  postKlingV1VideosText2videoResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTask5Response =
-  | relayTask5ResponseSuccess
-  | relayTask5ResponseError;
+export type postKlingV1VideosText2videoResponse =
+  | postKlingV1VideosText2videoResponseSuccess
+  | postKlingV1VideosText2videoResponseError;
 
-export const getRelayTask5Url = () => {
+export const getPostKlingV1VideosText2videoUrl = () => {
   return `/kling/v1/videos/text2video`;
 };
 
-export const relayTask5 = async (
+export const postKlingV1VideosText2video = async (
   options?: RequestInit,
-): Promise<relayTask5Response> => {
-  return customFetch<relayTask5Response>(getRelayTask5Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postKlingV1VideosText2videoResponse> => {
+  return customFetch<postKlingV1VideosText2videoResponse>(
+    getPostKlingV1VideosText2videoUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Task Fetch5
+ * @summary Get Kling V1 Videos Text2video Task_id
  */
-export type relayTaskFetch5Response200ApplicationJson = {
+export type getKlingV1VideosText2videoTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch5Response200ApplicationXml = {
+export type getKlingV1VideosText2videoTaskIdResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch5ResponseDefault = {
+export type getKlingV1VideosText2videoTaskIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTaskFetch5ResponseSuccess = (
-  | relayTaskFetch5Response200ApplicationJson
-  | relayTaskFetch5Response200ApplicationXml
+export type getKlingV1VideosText2videoTaskIdResponseSuccess = (
+  | getKlingV1VideosText2videoTaskIdResponse200ApplicationJson
+  | getKlingV1VideosText2videoTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskFetch5ResponseError = relayTaskFetch5ResponseDefault & {
-  headers: Headers;
-};
+export type getKlingV1VideosText2videoTaskIdResponseError =
+  getKlingV1VideosText2videoTaskIdResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTaskFetch5Response =
-  | relayTaskFetch5ResponseSuccess
-  | relayTaskFetch5ResponseError;
+export type getKlingV1VideosText2videoTaskIdResponse =
+  | getKlingV1VideosText2videoTaskIdResponseSuccess
+  | getKlingV1VideosText2videoTaskIdResponseError;
 
-export const getRelayTaskFetch5Url = (taskId: string) => {
+export const getGetKlingV1VideosText2videoTaskIdUrl = (taskId: string) => {
   return `/kling/v1/videos/text2video/${taskId}`;
 };
 
-export const relayTaskFetch5 = async (
+export const getKlingV1VideosText2videoTaskId = async (
   taskId: string,
   options?: RequestInit,
-): Promise<relayTaskFetch5Response> => {
-  return customFetch<relayTaskFetch5Response>(getRelayTaskFetch5Url(taskId), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getKlingV1VideosText2videoTaskIdResponse> => {
+  return customFetch<getKlingV1VideosText2videoTaskIdResponse>(
+    getGetKlingV1VideosText2videoTaskIdUrl(taskId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney15
+ * @summary Post Mj Insight Face Swap
  */
-export type relayMidjourney15Response200ApplicationJson = {
+export type postMjInsightFaceSwapResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney15Response200ApplicationXml = {
+export type postMjInsightFaceSwapResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney15ResponseDefault = {
+export type postMjInsightFaceSwapResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney15ResponseSuccess = (
-  | relayMidjourney15Response200ApplicationJson
-  | relayMidjourney15Response200ApplicationXml
+export type postMjInsightFaceSwapResponseSuccess = (
+  | postMjInsightFaceSwapResponse200ApplicationJson
+  | postMjInsightFaceSwapResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney15ResponseError =
-  relayMidjourney15ResponseDefault & {
+export type postMjInsightFaceSwapResponseError =
+  postMjInsightFaceSwapResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney15Response =
-  | relayMidjourney15ResponseSuccess
-  | relayMidjourney15ResponseError;
+export type postMjInsightFaceSwapResponse =
+  | postMjInsightFaceSwapResponseSuccess
+  | postMjInsightFaceSwapResponseError;
 
-export const getRelayMidjourney15Url = () => {
+export const getPostMjInsightFaceSwapUrl = () => {
   return `/mj/insight-face/swap`;
 };
 
-export const relayMidjourney15 = async (
+export const postMjInsightFaceSwap = async (
   options?: RequestInit,
-): Promise<relayMidjourney15Response> => {
-  return customFetch<relayMidjourney15Response>(getRelayMidjourney15Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postMjInsightFaceSwapResponse> => {
+  return customFetch<postMjInsightFaceSwapResponse>(
+    getPostMjInsightFaceSwapUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney11
+ * @summary Post Mj Notify
  */
-export type relayMidjourney11Response200ApplicationJson = {
+export type postMjNotifyResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney11Response200ApplicationXml = {
+export type postMjNotifyResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney11ResponseDefault = {
+export type postMjNotifyResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney11ResponseSuccess = (
-  | relayMidjourney11Response200ApplicationJson
-  | relayMidjourney11Response200ApplicationXml
+export type postMjNotifyResponseSuccess = (
+  | postMjNotifyResponse200ApplicationJson
+  | postMjNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney11ResponseError =
-  relayMidjourney11ResponseDefault & {
-    headers: Headers;
-  };
+export type postMjNotifyResponseError = postMjNotifyResponseDefault & {
+  headers: Headers;
+};
 
-export type relayMidjourney11Response =
-  | relayMidjourney11ResponseSuccess
-  | relayMidjourney11ResponseError;
+export type postMjNotifyResponse =
+  | postMjNotifyResponseSuccess
+  | postMjNotifyResponseError;
 
-export const getRelayMidjourney11Url = () => {
+export const getPostMjNotifyUrl = () => {
   return `/mj/notify`;
 };
 
-export const relayMidjourney11 = async (
+export const postMjNotify = async (
   options?: RequestInit,
-): Promise<relayMidjourney11Response> => {
-  return customFetch<relayMidjourney11Response>(getRelayMidjourney11Url(), {
+): Promise<postMjNotifyResponse> => {
+  return customFetch<postMjNotifyResponse>(getPostMjNotifyUrl(), {
     ...options,
     method: "POST",
   });
@@ -15643,595 +15669,617 @@ export const relayMidjourney = async (
 };
 
 /**
- * @summary Relay Midjourney8
+ * @summary Post Mj Submit Blend
  */
-export type relayMidjourney8Response200ApplicationJson = {
+export type postMjSubmitBlendResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney8Response200ApplicationXml = {
+export type postMjSubmitBlendResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney8ResponseDefault = {
+export type postMjSubmitBlendResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney8ResponseSuccess = (
-  | relayMidjourney8Response200ApplicationJson
-  | relayMidjourney8Response200ApplicationXml
+export type postMjSubmitBlendResponseSuccess = (
+  | postMjSubmitBlendResponse200ApplicationJson
+  | postMjSubmitBlendResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney8ResponseError = relayMidjourney8ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitBlendResponseError =
+  postMjSubmitBlendResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney8Response =
-  | relayMidjourney8ResponseSuccess
-  | relayMidjourney8ResponseError;
+export type postMjSubmitBlendResponse =
+  | postMjSubmitBlendResponseSuccess
+  | postMjSubmitBlendResponseError;
 
-export const getRelayMidjourney8Url = () => {
+export const getPostMjSubmitBlendUrl = () => {
   return `/mj/submit/blend`;
 };
 
-export const relayMidjourney8 = async (
+export const postMjSubmitBlend = async (
   options?: RequestInit,
-): Promise<relayMidjourney8Response> => {
-  return customFetch<relayMidjourney8Response>(getRelayMidjourney8Url(), {
+): Promise<postMjSubmitBlendResponse> => {
+  return customFetch<postMjSubmitBlendResponse>(getPostMjSubmitBlendUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney5
+ * @summary Post Mj Submit Change
  */
-export type relayMidjourney5Response200ApplicationJson = {
+export type postMjSubmitChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney5Response200ApplicationXml = {
+export type postMjSubmitChangeResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney5ResponseDefault = {
+export type postMjSubmitChangeResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney5ResponseSuccess = (
-  | relayMidjourney5Response200ApplicationJson
-  | relayMidjourney5Response200ApplicationXml
+export type postMjSubmitChangeResponseSuccess = (
+  | postMjSubmitChangeResponse200ApplicationJson
+  | postMjSubmitChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney5ResponseError = relayMidjourney5ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitChangeResponseError =
+  postMjSubmitChangeResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney5Response =
-  | relayMidjourney5ResponseSuccess
-  | relayMidjourney5ResponseError;
+export type postMjSubmitChangeResponse =
+  | postMjSubmitChangeResponseSuccess
+  | postMjSubmitChangeResponseError;
 
-export const getRelayMidjourney5Url = () => {
+export const getPostMjSubmitChangeUrl = () => {
   return `/mj/submit/change`;
 };
 
-export const relayMidjourney5 = async (
+export const postMjSubmitChange = async (
   options?: RequestInit,
-): Promise<relayMidjourney5Response> => {
-  return customFetch<relayMidjourney5Response>(getRelayMidjourney5Url(), {
+): Promise<postMjSubmitChangeResponse> => {
+  return customFetch<postMjSubmitChangeResponse>(getPostMjSubmitChangeUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney7
+ * @summary Post Mj Submit Describe
  */
-export type relayMidjourney7Response200ApplicationJson = {
+export type postMjSubmitDescribeResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney7Response200ApplicationXml = {
+export type postMjSubmitDescribeResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney7ResponseDefault = {
+export type postMjSubmitDescribeResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney7ResponseSuccess = (
-  | relayMidjourney7Response200ApplicationJson
-  | relayMidjourney7Response200ApplicationXml
+export type postMjSubmitDescribeResponseSuccess = (
+  | postMjSubmitDescribeResponse200ApplicationJson
+  | postMjSubmitDescribeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney7ResponseError = relayMidjourney7ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitDescribeResponseError =
+  postMjSubmitDescribeResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney7Response =
-  | relayMidjourney7ResponseSuccess
-  | relayMidjourney7ResponseError;
+export type postMjSubmitDescribeResponse =
+  | postMjSubmitDescribeResponseSuccess
+  | postMjSubmitDescribeResponseError;
 
-export const getRelayMidjourney7Url = () => {
+export const getPostMjSubmitDescribeUrl = () => {
   return `/mj/submit/describe`;
 };
 
-export const relayMidjourney7 = async (
+export const postMjSubmitDescribe = async (
   options?: RequestInit,
-): Promise<relayMidjourney7Response> => {
-  return customFetch<relayMidjourney7Response>(getRelayMidjourney7Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postMjSubmitDescribeResponse> => {
+  return customFetch<postMjSubmitDescribeResponse>(
+    getPostMjSubmitDescribeUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney9
+ * @summary Post Mj Submit Edits
  */
-export type relayMidjourney9Response200ApplicationJson = {
+export type postMjSubmitEditsResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney9Response200ApplicationXml = {
+export type postMjSubmitEditsResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney9ResponseDefault = {
+export type postMjSubmitEditsResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney9ResponseSuccess = (
-  | relayMidjourney9Response200ApplicationJson
-  | relayMidjourney9Response200ApplicationXml
+export type postMjSubmitEditsResponseSuccess = (
+  | postMjSubmitEditsResponse200ApplicationJson
+  | postMjSubmitEditsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney9ResponseError = relayMidjourney9ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitEditsResponseError =
+  postMjSubmitEditsResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney9Response =
-  | relayMidjourney9ResponseSuccess
-  | relayMidjourney9ResponseError;
+export type postMjSubmitEditsResponse =
+  | postMjSubmitEditsResponseSuccess
+  | postMjSubmitEditsResponseError;
 
-export const getRelayMidjourney9Url = () => {
+export const getPostMjSubmitEditsUrl = () => {
   return `/mj/submit/edits`;
 };
 
-export const relayMidjourney9 = async (
+export const postMjSubmitEdits = async (
   options?: RequestInit,
-): Promise<relayMidjourney9Response> => {
-  return customFetch<relayMidjourney9Response>(getRelayMidjourney9Url(), {
+): Promise<postMjSubmitEditsResponse> => {
+  return customFetch<postMjSubmitEditsResponse>(getPostMjSubmitEditsUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney4
+ * @summary Post Mj Submit Imagine
  */
-export type relayMidjourney4Response200ApplicationJson = {
+export type postMjSubmitImagineResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney4Response200ApplicationXml = {
+export type postMjSubmitImagineResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney4ResponseDefault = {
+export type postMjSubmitImagineResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney4ResponseSuccess = (
-  | relayMidjourney4Response200ApplicationJson
-  | relayMidjourney4Response200ApplicationXml
+export type postMjSubmitImagineResponseSuccess = (
+  | postMjSubmitImagineResponse200ApplicationJson
+  | postMjSubmitImagineResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney4ResponseError = relayMidjourney4ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitImagineResponseError =
+  postMjSubmitImagineResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney4Response =
-  | relayMidjourney4ResponseSuccess
-  | relayMidjourney4ResponseError;
+export type postMjSubmitImagineResponse =
+  | postMjSubmitImagineResponseSuccess
+  | postMjSubmitImagineResponseError;
 
-export const getRelayMidjourney4Url = () => {
+export const getPostMjSubmitImagineUrl = () => {
   return `/mj/submit/imagine`;
 };
 
-export const relayMidjourney4 = async (
+export const postMjSubmitImagine = async (
   options?: RequestInit,
-): Promise<relayMidjourney4Response> => {
-  return customFetch<relayMidjourney4Response>(getRelayMidjourney4Url(), {
+): Promise<postMjSubmitImagineResponse> => {
+  return customFetch<postMjSubmitImagineResponse>(getPostMjSubmitImagineUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney3
+ * @summary Post Mj Submit Modal
  */
-export type relayMidjourney3Response200ApplicationJson = {
+export type postMjSubmitModalResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney3Response200ApplicationXml = {
+export type postMjSubmitModalResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney3ResponseDefault = {
+export type postMjSubmitModalResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney3ResponseSuccess = (
-  | relayMidjourney3Response200ApplicationJson
-  | relayMidjourney3Response200ApplicationXml
+export type postMjSubmitModalResponseSuccess = (
+  | postMjSubmitModalResponse200ApplicationJson
+  | postMjSubmitModalResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney3ResponseError = relayMidjourney3ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitModalResponseError =
+  postMjSubmitModalResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney3Response =
-  | relayMidjourney3ResponseSuccess
-  | relayMidjourney3ResponseError;
+export type postMjSubmitModalResponse =
+  | postMjSubmitModalResponseSuccess
+  | postMjSubmitModalResponseError;
 
-export const getRelayMidjourney3Url = () => {
+export const getPostMjSubmitModalUrl = () => {
   return `/mj/submit/modal`;
 };
 
-export const relayMidjourney3 = async (
+export const postMjSubmitModal = async (
   options?: RequestInit,
-): Promise<relayMidjourney3Response> => {
-  return customFetch<relayMidjourney3Response>(getRelayMidjourney3Url(), {
+): Promise<postMjSubmitModalResponse> => {
+  return customFetch<postMjSubmitModalResponse>(getPostMjSubmitModalUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney2
+ * @summary Post Mj Submit Shorten
  */
-export type relayMidjourney2Response200ApplicationJson = {
+export type postMjSubmitShortenResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney2Response200ApplicationXml = {
+export type postMjSubmitShortenResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney2ResponseDefault = {
+export type postMjSubmitShortenResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney2ResponseSuccess = (
-  | relayMidjourney2Response200ApplicationJson
-  | relayMidjourney2Response200ApplicationXml
+export type postMjSubmitShortenResponseSuccess = (
+  | postMjSubmitShortenResponse200ApplicationJson
+  | postMjSubmitShortenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney2ResponseError = relayMidjourney2ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitShortenResponseError =
+  postMjSubmitShortenResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney2Response =
-  | relayMidjourney2ResponseSuccess
-  | relayMidjourney2ResponseError;
+export type postMjSubmitShortenResponse =
+  | postMjSubmitShortenResponseSuccess
+  | postMjSubmitShortenResponseError;
 
-export const getRelayMidjourney2Url = () => {
+export const getPostMjSubmitShortenUrl = () => {
   return `/mj/submit/shorten`;
 };
 
-export const relayMidjourney2 = async (
+export const postMjSubmitShorten = async (
   options?: RequestInit,
-): Promise<relayMidjourney2Response> => {
-  return customFetch<relayMidjourney2Response>(getRelayMidjourney2Url(), {
+): Promise<postMjSubmitShortenResponse> => {
+  return customFetch<postMjSubmitShortenResponse>(getPostMjSubmitShortenUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney6
+ * @summary Post Mj Submit Simple Change
  */
-export type relayMidjourney6Response200ApplicationJson = {
+export type postMjSubmitSimpleChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney6Response200ApplicationXml = {
+export type postMjSubmitSimpleChangeResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney6ResponseDefault = {
+export type postMjSubmitSimpleChangeResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney6ResponseSuccess = (
-  | relayMidjourney6Response200ApplicationJson
-  | relayMidjourney6Response200ApplicationXml
+export type postMjSubmitSimpleChangeResponseSuccess = (
+  | postMjSubmitSimpleChangeResponse200ApplicationJson
+  | postMjSubmitSimpleChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney6ResponseError = relayMidjourney6ResponseDefault & {
-  headers: Headers;
-};
+export type postMjSubmitSimpleChangeResponseError =
+  postMjSubmitSimpleChangeResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayMidjourney6Response =
-  | relayMidjourney6ResponseSuccess
-  | relayMidjourney6ResponseError;
+export type postMjSubmitSimpleChangeResponse =
+  | postMjSubmitSimpleChangeResponseSuccess
+  | postMjSubmitSimpleChangeResponseError;
 
-export const getRelayMidjourney6Url = () => {
+export const getPostMjSubmitSimpleChangeUrl = () => {
   return `/mj/submit/simple-change`;
 };
 
-export const relayMidjourney6 = async (
+export const postMjSubmitSimpleChange = async (
   options?: RequestInit,
-): Promise<relayMidjourney6Response> => {
-  return customFetch<relayMidjourney6Response>(getRelayMidjourney6Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postMjSubmitSimpleChangeResponse> => {
+  return customFetch<postMjSubmitSimpleChangeResponse>(
+    getPostMjSubmitSimpleChangeUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney16
+ * @summary Post Mj Submit Upload Discord Images
  */
-export type relayMidjourney16Response200ApplicationJson = {
+export type postMjSubmitUploadDiscordImagesResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney16Response200ApplicationXml = {
+export type postMjSubmitUploadDiscordImagesResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney16ResponseDefault = {
+export type postMjSubmitUploadDiscordImagesResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney16ResponseSuccess = (
-  | relayMidjourney16Response200ApplicationJson
-  | relayMidjourney16Response200ApplicationXml
+export type postMjSubmitUploadDiscordImagesResponseSuccess = (
+  | postMjSubmitUploadDiscordImagesResponse200ApplicationJson
+  | postMjSubmitUploadDiscordImagesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney16ResponseError =
-  relayMidjourney16ResponseDefault & {
+export type postMjSubmitUploadDiscordImagesResponseError =
+  postMjSubmitUploadDiscordImagesResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney16Response =
-  | relayMidjourney16ResponseSuccess
-  | relayMidjourney16ResponseError;
+export type postMjSubmitUploadDiscordImagesResponse =
+  | postMjSubmitUploadDiscordImagesResponseSuccess
+  | postMjSubmitUploadDiscordImagesResponseError;
 
-export const getRelayMidjourney16Url = () => {
+export const getPostMjSubmitUploadDiscordImagesUrl = () => {
   return `/mj/submit/upload-discord-images`;
 };
 
-export const relayMidjourney16 = async (
+export const postMjSubmitUploadDiscordImages = async (
   options?: RequestInit,
-): Promise<relayMidjourney16Response> => {
-  return customFetch<relayMidjourney16Response>(getRelayMidjourney16Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postMjSubmitUploadDiscordImagesResponse> => {
+  return customFetch<postMjSubmitUploadDiscordImagesResponse>(
+    getPostMjSubmitUploadDiscordImagesUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney10
+ * @summary Post Mj Submit Video
  */
-export type relayMidjourney10Response200ApplicationJson = {
+export type postMjSubmitVideoResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney10Response200ApplicationXml = {
+export type postMjSubmitVideoResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney10ResponseDefault = {
+export type postMjSubmitVideoResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney10ResponseSuccess = (
-  | relayMidjourney10Response200ApplicationJson
-  | relayMidjourney10Response200ApplicationXml
+export type postMjSubmitVideoResponseSuccess = (
+  | postMjSubmitVideoResponse200ApplicationJson
+  | postMjSubmitVideoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney10ResponseError =
-  relayMidjourney10ResponseDefault & {
+export type postMjSubmitVideoResponseError =
+  postMjSubmitVideoResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney10Response =
-  | relayMidjourney10ResponseSuccess
-  | relayMidjourney10ResponseError;
+export type postMjSubmitVideoResponse =
+  | postMjSubmitVideoResponseSuccess
+  | postMjSubmitVideoResponseError;
 
-export const getRelayMidjourney10Url = () => {
+export const getPostMjSubmitVideoUrl = () => {
   return `/mj/submit/video`;
 };
 
-export const relayMidjourney10 = async (
+export const postMjSubmitVideo = async (
   options?: RequestInit,
-): Promise<relayMidjourney10Response> => {
-  return customFetch<relayMidjourney10Response>(getRelayMidjourney10Url(), {
+): Promise<postMjSubmitVideoResponse> => {
+  return customFetch<postMjSubmitVideoResponse>(getPostMjSubmitVideoUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney14
+ * @summary Post Mj Task List By Condition
  */
-export type relayMidjourney14Response200ApplicationJson = {
+export type postMjTaskListByConditionResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney14Response200ApplicationXml = {
+export type postMjTaskListByConditionResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney14ResponseDefault = {
+export type postMjTaskListByConditionResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney14ResponseSuccess = (
-  | relayMidjourney14Response200ApplicationJson
-  | relayMidjourney14Response200ApplicationXml
+export type postMjTaskListByConditionResponseSuccess = (
+  | postMjTaskListByConditionResponse200ApplicationJson
+  | postMjTaskListByConditionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney14ResponseError =
-  relayMidjourney14ResponseDefault & {
+export type postMjTaskListByConditionResponseError =
+  postMjTaskListByConditionResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney14Response =
-  | relayMidjourney14ResponseSuccess
-  | relayMidjourney14ResponseError;
+export type postMjTaskListByConditionResponse =
+  | postMjTaskListByConditionResponseSuccess
+  | postMjTaskListByConditionResponseError;
 
-export const getRelayMidjourney14Url = () => {
+export const getPostMjTaskListByConditionUrl = () => {
   return `/mj/task/list-by-condition`;
 };
 
-export const relayMidjourney14 = async (
+export const postMjTaskListByCondition = async (
   options?: RequestInit,
-): Promise<relayMidjourney14Response> => {
-  return customFetch<relayMidjourney14Response>(getRelayMidjourney14Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postMjTaskListByConditionResponse> => {
+  return customFetch<postMjTaskListByConditionResponse>(
+    getPostMjTaskListByConditionUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney12
+ * @summary Get Mj Task Id Fetch
  */
-export type relayMidjourney12Response200ApplicationJson = {
+export type getMjTaskIdFetchResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney12Response200ApplicationXml = {
+export type getMjTaskIdFetchResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney12ResponseDefault = {
+export type getMjTaskIdFetchResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney12ResponseSuccess = (
-  | relayMidjourney12Response200ApplicationJson
-  | relayMidjourney12Response200ApplicationXml
+export type getMjTaskIdFetchResponseSuccess = (
+  | getMjTaskIdFetchResponse200ApplicationJson
+  | getMjTaskIdFetchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney12ResponseError =
-  relayMidjourney12ResponseDefault & {
-    headers: Headers;
-  };
+export type getMjTaskIdFetchResponseError = getMjTaskIdFetchResponseDefault & {
+  headers: Headers;
+};
 
-export type relayMidjourney12Response =
-  | relayMidjourney12ResponseSuccess
-  | relayMidjourney12ResponseError;
+export type getMjTaskIdFetchResponse =
+  | getMjTaskIdFetchResponseSuccess
+  | getMjTaskIdFetchResponseError;
 
-export const getRelayMidjourney12Url = (id: string) => {
+export const getGetMjTaskIdFetchUrl = (id: string) => {
   return `/mj/task/${id}/fetch`;
 };
 
-export const relayMidjourney12 = async (
+export const getMjTaskIdFetch = async (
   id: string,
   options?: RequestInit,
-): Promise<relayMidjourney12Response> => {
-  return customFetch<relayMidjourney12Response>(getRelayMidjourney12Url(id), {
+): Promise<getMjTaskIdFetchResponse> => {
+  return customFetch<getMjTaskIdFetchResponse>(getGetMjTaskIdFetchUrl(id), {
     ...options,
     method: "GET",
   });
 };
 
 /**
- * @summary Relay Midjourney13
+ * @summary Get Mj Task Id Image Seed
  */
-export type relayMidjourney13Response200ApplicationJson = {
+export type getMjTaskIdImageSeedResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney13Response200ApplicationXml = {
+export type getMjTaskIdImageSeedResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney13ResponseDefault = {
+export type getMjTaskIdImageSeedResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney13ResponseSuccess = (
-  | relayMidjourney13Response200ApplicationJson
-  | relayMidjourney13Response200ApplicationXml
+export type getMjTaskIdImageSeedResponseSuccess = (
+  | getMjTaskIdImageSeedResponse200ApplicationJson
+  | getMjTaskIdImageSeedResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney13ResponseError =
-  relayMidjourney13ResponseDefault & {
+export type getMjTaskIdImageSeedResponseError =
+  getMjTaskIdImageSeedResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney13Response =
-  | relayMidjourney13ResponseSuccess
-  | relayMidjourney13ResponseError;
+export type getMjTaskIdImageSeedResponse =
+  | getMjTaskIdImageSeedResponseSuccess
+  | getMjTaskIdImageSeedResponseError;
 
-export const getRelayMidjourney13Url = (id: string) => {
+export const getGetMjTaskIdImageSeedUrl = (id: string) => {
   return `/mj/task/${id}/image-seed`;
 };
 
-export const relayMidjourney13 = async (
+export const getMjTaskIdImageSeed = async (
   id: string,
   options?: RequestInit,
-): Promise<relayMidjourney13Response> => {
-  return customFetch<relayMidjourney13Response>(getRelayMidjourney13Url(id), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getMjTaskIdImageSeedResponse> => {
+  return customFetch<getMjTaskIdImageSeedResponse>(
+    getGetMjTaskIdImageSeedUrl(id),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -16325,46 +16373,46 @@ export const relayTaskFetch = async (
 };
 
 /**
- * @summary Relay Task Fetch2
+ * @summary Get Suno Fetch Id
  */
-export type relayTaskFetch2Response200ApplicationJson = {
+export type getSunoFetchIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch2Response200ApplicationXml = {
+export type getSunoFetchIdResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch2ResponseDefault = {
+export type getSunoFetchIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTaskFetch2ResponseSuccess = (
-  | relayTaskFetch2Response200ApplicationJson
-  | relayTaskFetch2Response200ApplicationXml
+export type getSunoFetchIdResponseSuccess = (
+  | getSunoFetchIdResponse200ApplicationJson
+  | getSunoFetchIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskFetch2ResponseError = relayTaskFetch2ResponseDefault & {
+export type getSunoFetchIdResponseError = getSunoFetchIdResponseDefault & {
   headers: Headers;
 };
 
-export type relayTaskFetch2Response =
-  | relayTaskFetch2ResponseSuccess
-  | relayTaskFetch2ResponseError;
+export type getSunoFetchIdResponse =
+  | getSunoFetchIdResponseSuccess
+  | getSunoFetchIdResponseError;
 
-export const getRelayTaskFetch2Url = (id: string) => {
+export const getGetSunoFetchIdUrl = (id: string) => {
   return `/suno/fetch/${id}`;
 };
 
-export const relayTaskFetch2 = async (
+export const getSunoFetchId = async (
   id: string,
   options?: RequestInit,
-): Promise<relayTaskFetch2Response> => {
-  return customFetch<relayTaskFetch2Response>(getRelayTaskFetch2Url(id), {
+): Promise<getSunoFetchIdResponse> => {
+  return customFetch<getSunoFetchIdResponse>(getGetSunoFetchIdUrl(id), {
     ...options,
     method: "GET",
   });
@@ -16654,93 +16702,101 @@ export const relayCompletions = async (
 };
 
 /**
- * @summary Get Subscription2
+ * @summary Get V1 Dashboard Billing Subscription
  */
-export type getSubscription2Response200ApplicationJson = {
+export type getV1DashboardBillingSubscriptionResponse200ApplicationJson = {
   data: ApiResponse;
   status: 200;
 };
 
-export type getSubscription2Response200ApplicationXml = {
+export type getV1DashboardBillingSubscriptionResponse200ApplicationXml = {
   data: ApiResponse;
   status: 200;
 };
 
-export type getSubscription2ResponseDefault = {
+export type getV1DashboardBillingSubscriptionResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type getSubscription2ResponseSuccess = (
-  | getSubscription2Response200ApplicationJson
-  | getSubscription2Response200ApplicationXml
+export type getV1DashboardBillingSubscriptionResponseSuccess = (
+  | getV1DashboardBillingSubscriptionResponse200ApplicationJson
+  | getV1DashboardBillingSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSubscription2ResponseError = getSubscription2ResponseDefault & {
-  headers: Headers;
-};
+export type getV1DashboardBillingSubscriptionResponseError =
+  getV1DashboardBillingSubscriptionResponseDefault & {
+    headers: Headers;
+  };
 
-export type getSubscription2Response =
-  | getSubscription2ResponseSuccess
-  | getSubscription2ResponseError;
+export type getV1DashboardBillingSubscriptionResponse =
+  | getV1DashboardBillingSubscriptionResponseSuccess
+  | getV1DashboardBillingSubscriptionResponseError;
 
-export const getGetSubscription2Url = () => {
+export const getGetV1DashboardBillingSubscriptionUrl = () => {
   return `/v1/dashboard/billing/subscription`;
 };
 
-export const getSubscription2 = async (
+export const getV1DashboardBillingSubscription = async (
   options?: RequestInit,
-): Promise<getSubscription2Response> => {
-  return customFetch<getSubscription2Response>(getGetSubscription2Url(), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getV1DashboardBillingSubscriptionResponse> => {
+  return customFetch<getV1DashboardBillingSubscriptionResponse>(
+    getGetV1DashboardBillingSubscriptionUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
- * @summary Get Usage2
+ * @summary Get V1 Dashboard Billing Usage
  */
-export type getUsage2Response200ApplicationJson = {
+export type getV1DashboardBillingUsageResponse200ApplicationJson = {
   data: ApiResponse;
   status: 200;
 };
 
-export type getUsage2Response200ApplicationXml = {
+export type getV1DashboardBillingUsageResponse200ApplicationXml = {
   data: ApiResponse;
   status: 200;
 };
 
-export type getUsage2ResponseDefault = {
+export type getV1DashboardBillingUsageResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type getUsage2ResponseSuccess = (
-  | getUsage2Response200ApplicationJson
-  | getUsage2Response200ApplicationXml
+export type getV1DashboardBillingUsageResponseSuccess = (
+  | getV1DashboardBillingUsageResponse200ApplicationJson
+  | getV1DashboardBillingUsageResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUsage2ResponseError = getUsage2ResponseDefault & {
-  headers: Headers;
-};
+export type getV1DashboardBillingUsageResponseError =
+  getV1DashboardBillingUsageResponseDefault & {
+    headers: Headers;
+  };
 
-export type getUsage2Response =
-  | getUsage2ResponseSuccess
-  | getUsage2ResponseError;
+export type getV1DashboardBillingUsageResponse =
+  | getV1DashboardBillingUsageResponseSuccess
+  | getV1DashboardBillingUsageResponseError;
 
-export const getGetUsage2Url = () => {
+export const getGetV1DashboardBillingUsageUrl = () => {
   return `/v1/dashboard/billing/usage`;
 };
 
-export const getUsage2 = async (
+export const getV1DashboardBillingUsage = async (
   options?: RequestInit,
-): Promise<getUsage2Response> => {
-  return customFetch<getUsage2Response>(getGetUsage2Url(), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getV1DashboardBillingUsageResponse> => {
+  return customFetch<getV1DashboardBillingUsageResponse>(
+    getGetV1DashboardBillingUsageUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -16884,246 +16940,230 @@ export const relayEngineEmbeddings = async (
 };
 
 /**
- * @summary Relay Not Implemented2
+ * @summary Get V1 Files
  */
-export type relayNotImplemented2Response200ApplicationJson = {
+export type getV1FilesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented2Response200ApplicationXml = {
+export type getV1FilesResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented2ResponseDefault = {
+export type getV1FilesResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented2ResponseSuccess = (
-  | relayNotImplemented2Response200ApplicationJson
-  | relayNotImplemented2Response200ApplicationXml
+export type getV1FilesResponseSuccess = (
+  | getV1FilesResponse200ApplicationJson
+  | getV1FilesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented2ResponseError =
-  relayNotImplemented2ResponseDefault & {
-    headers: Headers;
-  };
+export type getV1FilesResponseError = getV1FilesResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented2Response =
-  | relayNotImplemented2ResponseSuccess
-  | relayNotImplemented2ResponseError;
+export type getV1FilesResponse =
+  | getV1FilesResponseSuccess
+  | getV1FilesResponseError;
 
-export const getRelayNotImplemented2Url = () => {
+export const getGetV1FilesUrl = () => {
   return `/v1/files`;
 };
 
-export const relayNotImplemented2 = async (
+export const getV1Files = async (
   options?: RequestInit,
-): Promise<relayNotImplemented2Response> => {
-  return customFetch<relayNotImplemented2Response>(
-    getRelayNotImplemented2Url(),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
+): Promise<getV1FilesResponse> => {
+  return customFetch<getV1FilesResponse>(getGetV1FilesUrl(), {
+    ...options,
+    method: "GET",
+  });
 };
 
 /**
- * @summary Relay Not Implemented3
+ * @summary Post V1 Files
  */
-export type relayNotImplemented3Response200ApplicationJson = {
+export type postV1FilesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented3Response200ApplicationXml = {
+export type postV1FilesResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented3ResponseDefault = {
+export type postV1FilesResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented3ResponseSuccess = (
-  | relayNotImplemented3Response200ApplicationJson
-  | relayNotImplemented3Response200ApplicationXml
+export type postV1FilesResponseSuccess = (
+  | postV1FilesResponse200ApplicationJson
+  | postV1FilesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented3ResponseError =
-  relayNotImplemented3ResponseDefault & {
-    headers: Headers;
-  };
+export type postV1FilesResponseError = postV1FilesResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented3Response =
-  | relayNotImplemented3ResponseSuccess
-  | relayNotImplemented3ResponseError;
+export type postV1FilesResponse =
+  | postV1FilesResponseSuccess
+  | postV1FilesResponseError;
 
-export const getRelayNotImplemented3Url = () => {
+export const getPostV1FilesUrl = () => {
   return `/v1/files`;
 };
 
-export const relayNotImplemented3 = async (
+export const postV1Files = async (
   options?: RequestInit,
-): Promise<relayNotImplemented3Response> => {
-  return customFetch<relayNotImplemented3Response>(
-    getRelayNotImplemented3Url(),
-    {
-      ...options,
-      method: "POST",
-    },
-  );
+): Promise<postV1FilesResponse> => {
+  return customFetch<postV1FilesResponse>(getPostV1FilesUrl(), {
+    ...options,
+    method: "POST",
+  });
 };
 
 /**
- * @summary Relay Not Implemented4
+ * @summary Delete V1 Files Id
  */
-export type relayNotImplemented4Response200ApplicationJson = {
+export type deleteV1FilesIdResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented4Response200ApplicationXml = {
+export type deleteV1FilesIdResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented4ResponseDefault = {
+export type deleteV1FilesIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented4ResponseSuccess = (
-  | relayNotImplemented4Response200ApplicationJson
-  | relayNotImplemented4Response200ApplicationXml
+export type deleteV1FilesIdResponseSuccess = (
+  | deleteV1FilesIdResponse200ApplicationJson
+  | deleteV1FilesIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented4ResponseError =
-  relayNotImplemented4ResponseDefault & {
-    headers: Headers;
-  };
+export type deleteV1FilesIdResponseError = deleteV1FilesIdResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented4Response =
-  | relayNotImplemented4ResponseSuccess
-  | relayNotImplemented4ResponseError;
+export type deleteV1FilesIdResponse =
+  | deleteV1FilesIdResponseSuccess
+  | deleteV1FilesIdResponseError;
 
-export const getRelayNotImplemented4Url = (id: string) => {
+export const getDeleteV1FilesIdUrl = (id: string) => {
   return `/v1/files/${id}`;
 };
 
-export const relayNotImplemented4 = async (
+export const deleteV1FilesId = async (
   id: string,
   options?: RequestInit,
-): Promise<relayNotImplemented4Response> => {
-  return customFetch<relayNotImplemented4Response>(
-    getRelayNotImplemented4Url(id),
-    {
-      ...options,
-      method: "DELETE",
-    },
-  );
+): Promise<deleteV1FilesIdResponse> => {
+  return customFetch<deleteV1FilesIdResponse>(getDeleteV1FilesIdUrl(id), {
+    ...options,
+    method: "DELETE",
+  });
 };
 
 /**
- * @summary Relay Not Implemented5
+ * @summary Get V1 Files Id
  */
-export type relayNotImplemented5Response200ApplicationJson = {
+export type getV1FilesIdResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented5Response200ApplicationXml = {
+export type getV1FilesIdResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented5ResponseDefault = {
+export type getV1FilesIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented5ResponseSuccess = (
-  | relayNotImplemented5Response200ApplicationJson
-  | relayNotImplemented5Response200ApplicationXml
+export type getV1FilesIdResponseSuccess = (
+  | getV1FilesIdResponse200ApplicationJson
+  | getV1FilesIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented5ResponseError =
-  relayNotImplemented5ResponseDefault & {
-    headers: Headers;
-  };
+export type getV1FilesIdResponseError = getV1FilesIdResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented5Response =
-  | relayNotImplemented5ResponseSuccess
-  | relayNotImplemented5ResponseError;
+export type getV1FilesIdResponse =
+  | getV1FilesIdResponseSuccess
+  | getV1FilesIdResponseError;
 
-export const getRelayNotImplemented5Url = (id: string) => {
+export const getGetV1FilesIdUrl = (id: string) => {
   return `/v1/files/${id}`;
 };
 
-export const relayNotImplemented5 = async (
+export const getV1FilesId = async (
   id: string,
   options?: RequestInit,
-): Promise<relayNotImplemented5Response> => {
-  return customFetch<relayNotImplemented5Response>(
-    getRelayNotImplemented5Url(id),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
+): Promise<getV1FilesIdResponse> => {
+  return customFetch<getV1FilesIdResponse>(getGetV1FilesIdUrl(id), {
+    ...options,
+    method: "GET",
+  });
 };
 
 /**
- * @summary Relay Not Implemented6
+ * @summary Get V1 Files Id Content
  */
-export type relayNotImplemented6Response200ApplicationJson = {
+export type getV1FilesIdContentResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented6Response200ApplicationXml = {
+export type getV1FilesIdContentResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented6ResponseDefault = {
+export type getV1FilesIdContentResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented6ResponseSuccess = (
-  | relayNotImplemented6Response200ApplicationJson
-  | relayNotImplemented6Response200ApplicationXml
+export type getV1FilesIdContentResponseSuccess = (
+  | getV1FilesIdContentResponse200ApplicationJson
+  | getV1FilesIdContentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented6ResponseError =
-  relayNotImplemented6ResponseDefault & {
+export type getV1FilesIdContentResponseError =
+  getV1FilesIdContentResponseDefault & {
     headers: Headers;
   };
 
-export type relayNotImplemented6Response =
-  | relayNotImplemented6ResponseSuccess
-  | relayNotImplemented6ResponseError;
+export type getV1FilesIdContentResponse =
+  | getV1FilesIdContentResponseSuccess
+  | getV1FilesIdContentResponseError;
 
-export const getRelayNotImplemented6Url = (id: string) => {
+export const getGetV1FilesIdContentUrl = (id: string) => {
   return `/v1/files/${id}/content`;
 };
 
-export const relayNotImplemented6 = async (
+export const getV1FilesIdContent = async (
   id: string,
   options?: RequestInit,
-): Promise<relayNotImplemented6Response> => {
-  return customFetch<relayNotImplemented6Response>(
-    getRelayNotImplemented6Url(id),
+): Promise<getV1FilesIdContentResponse> => {
+  return customFetch<getV1FilesIdContentResponse>(
+    getGetV1FilesIdContentUrl(id),
     {
       ...options,
       method: "GET",
@@ -17132,196 +17172,184 @@ export const relayNotImplemented6 = async (
 };
 
 /**
- * @summary Relay Not Implemented8
+ * @summary Get V1 Fine Tunes
  */
-export type relayNotImplemented8Response200ApplicationJson = {
+export type getV1FineTunesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented8Response200ApplicationXml = {
+export type getV1FineTunesResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented8ResponseDefault = {
+export type getV1FineTunesResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented8ResponseSuccess = (
-  | relayNotImplemented8Response200ApplicationJson
-  | relayNotImplemented8Response200ApplicationXml
+export type getV1FineTunesResponseSuccess = (
+  | getV1FineTunesResponse200ApplicationJson
+  | getV1FineTunesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented8ResponseError =
-  relayNotImplemented8ResponseDefault & {
-    headers: Headers;
-  };
+export type getV1FineTunesResponseError = getV1FineTunesResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented8Response =
-  | relayNotImplemented8ResponseSuccess
-  | relayNotImplemented8ResponseError;
+export type getV1FineTunesResponse =
+  | getV1FineTunesResponseSuccess
+  | getV1FineTunesResponseError;
 
-export const getRelayNotImplemented8Url = () => {
+export const getGetV1FineTunesUrl = () => {
   return `/v1/fine-tunes`;
 };
 
-export const relayNotImplemented8 = async (
+export const getV1FineTunes = async (
   options?: RequestInit,
-): Promise<relayNotImplemented8Response> => {
-  return customFetch<relayNotImplemented8Response>(
-    getRelayNotImplemented8Url(),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
+): Promise<getV1FineTunesResponse> => {
+  return customFetch<getV1FineTunesResponse>(getGetV1FineTunesUrl(), {
+    ...options,
+    method: "GET",
+  });
 };
 
 /**
- * @summary Relay Not Implemented7
+ * @summary Post V1 Fine Tunes
  */
-export type relayNotImplemented7Response200ApplicationJson = {
+export type postV1FineTunesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented7Response200ApplicationXml = {
+export type postV1FineTunesResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented7ResponseDefault = {
+export type postV1FineTunesResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented7ResponseSuccess = (
-  | relayNotImplemented7Response200ApplicationJson
-  | relayNotImplemented7Response200ApplicationXml
+export type postV1FineTunesResponseSuccess = (
+  | postV1FineTunesResponse200ApplicationJson
+  | postV1FineTunesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented7ResponseError =
-  relayNotImplemented7ResponseDefault & {
-    headers: Headers;
-  };
+export type postV1FineTunesResponseError = postV1FineTunesResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented7Response =
-  | relayNotImplemented7ResponseSuccess
-  | relayNotImplemented7ResponseError;
+export type postV1FineTunesResponse =
+  | postV1FineTunesResponseSuccess
+  | postV1FineTunesResponseError;
 
-export const getRelayNotImplemented7Url = () => {
+export const getPostV1FineTunesUrl = () => {
   return `/v1/fine-tunes`;
 };
 
-export const relayNotImplemented7 = async (
+export const postV1FineTunes = async (
   options?: RequestInit,
-): Promise<relayNotImplemented7Response> => {
-  return customFetch<relayNotImplemented7Response>(
-    getRelayNotImplemented7Url(),
-    {
-      ...options,
-      method: "POST",
-    },
-  );
+): Promise<postV1FineTunesResponse> => {
+  return customFetch<postV1FineTunesResponse>(getPostV1FineTunesUrl(), {
+    ...options,
+    method: "POST",
+  });
 };
 
 /**
- * @summary Relay Not Implemented9
+ * @summary Get V1 Fine Tunes Id
  */
-export type relayNotImplemented9Response200ApplicationJson = {
+export type getV1FineTunesIdResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented9Response200ApplicationXml = {
+export type getV1FineTunesIdResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented9ResponseDefault = {
+export type getV1FineTunesIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented9ResponseSuccess = (
-  | relayNotImplemented9Response200ApplicationJson
-  | relayNotImplemented9Response200ApplicationXml
+export type getV1FineTunesIdResponseSuccess = (
+  | getV1FineTunesIdResponse200ApplicationJson
+  | getV1FineTunesIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented9ResponseError =
-  relayNotImplemented9ResponseDefault & {
-    headers: Headers;
-  };
+export type getV1FineTunesIdResponseError = getV1FineTunesIdResponseDefault & {
+  headers: Headers;
+};
 
-export type relayNotImplemented9Response =
-  | relayNotImplemented9ResponseSuccess
-  | relayNotImplemented9ResponseError;
+export type getV1FineTunesIdResponse =
+  | getV1FineTunesIdResponseSuccess
+  | getV1FineTunesIdResponseError;
 
-export const getRelayNotImplemented9Url = (id: string) => {
+export const getGetV1FineTunesIdUrl = (id: string) => {
   return `/v1/fine-tunes/${id}`;
 };
 
-export const relayNotImplemented9 = async (
+export const getV1FineTunesId = async (
   id: string,
   options?: RequestInit,
-): Promise<relayNotImplemented9Response> => {
-  return customFetch<relayNotImplemented9Response>(
-    getRelayNotImplemented9Url(id),
-    {
-      ...options,
-      method: "GET",
-    },
-  );
+): Promise<getV1FineTunesIdResponse> => {
+  return customFetch<getV1FineTunesIdResponse>(getGetV1FineTunesIdUrl(id), {
+    ...options,
+    method: "GET",
+  });
 };
 
 /**
- * @summary Relay Not Implemented10
+ * @summary Post V1 Fine Tunes Id Cancel
  */
-export type relayNotImplemented10Response200ApplicationJson = {
+export type postV1FineTunesIdCancelResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented10Response200ApplicationXml = {
+export type postV1FineTunesIdCancelResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented10ResponseDefault = {
+export type postV1FineTunesIdCancelResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented10ResponseSuccess = (
-  | relayNotImplemented10Response200ApplicationJson
-  | relayNotImplemented10Response200ApplicationXml
+export type postV1FineTunesIdCancelResponseSuccess = (
+  | postV1FineTunesIdCancelResponse200ApplicationJson
+  | postV1FineTunesIdCancelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented10ResponseError =
-  relayNotImplemented10ResponseDefault & {
+export type postV1FineTunesIdCancelResponseError =
+  postV1FineTunesIdCancelResponseDefault & {
     headers: Headers;
   };
 
-export type relayNotImplemented10Response =
-  | relayNotImplemented10ResponseSuccess
-  | relayNotImplemented10ResponseError;
+export type postV1FineTunesIdCancelResponse =
+  | postV1FineTunesIdCancelResponseSuccess
+  | postV1FineTunesIdCancelResponseError;
 
-export const getRelayNotImplemented10Url = (id: string) => {
+export const getPostV1FineTunesIdCancelUrl = (id: string) => {
   return `/v1/fine-tunes/${id}/cancel`;
 };
 
-export const relayNotImplemented10 = async (
+export const postV1FineTunesIdCancel = async (
   id: string,
   options?: RequestInit,
-): Promise<relayNotImplemented10Response> => {
-  return customFetch<relayNotImplemented10Response>(
-    getRelayNotImplemented10Url(id),
+): Promise<postV1FineTunesIdCancelResponse> => {
+  return customFetch<postV1FineTunesIdCancelResponse>(
+    getPostV1FineTunesIdCancelUrl(id),
     {
       ...options,
       method: "POST",
@@ -17330,48 +17358,48 @@ export const relayNotImplemented10 = async (
 };
 
 /**
- * @summary Relay Not Implemented11
+ * @summary Get V1 Fine Tunes Id Events
  */
-export type relayNotImplemented11Response200ApplicationJson = {
+export type getV1FineTunesIdEventsResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented11Response200ApplicationXml = {
+export type getV1FineTunesIdEventsResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented11ResponseDefault = {
+export type getV1FineTunesIdEventsResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented11ResponseSuccess = (
-  | relayNotImplemented11Response200ApplicationJson
-  | relayNotImplemented11Response200ApplicationXml
+export type getV1FineTunesIdEventsResponseSuccess = (
+  | getV1FineTunesIdEventsResponse200ApplicationJson
+  | getV1FineTunesIdEventsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented11ResponseError =
-  relayNotImplemented11ResponseDefault & {
+export type getV1FineTunesIdEventsResponseError =
+  getV1FineTunesIdEventsResponseDefault & {
     headers: Headers;
   };
 
-export type relayNotImplemented11Response =
-  | relayNotImplemented11ResponseSuccess
-  | relayNotImplemented11ResponseError;
+export type getV1FineTunesIdEventsResponse =
+  | getV1FineTunesIdEventsResponseSuccess
+  | getV1FineTunesIdEventsResponseError;
 
-export const getRelayNotImplemented11Url = (id: string) => {
+export const getGetV1FineTunesIdEventsUrl = (id: string) => {
   return `/v1/fine-tunes/${id}/events`;
 };
 
-export const relayNotImplemented11 = async (
+export const getV1FineTunesIdEvents = async (
   id: string,
   options?: RequestInit,
-): Promise<relayNotImplemented11Response> => {
-  return customFetch<relayNotImplemented11Response>(
-    getRelayNotImplemented11Url(id),
+): Promise<getV1FineTunesIdEventsResponse> => {
+  return customFetch<getV1FineTunesIdEventsResponse>(
+    getGetV1FineTunesIdEventsUrl(id),
     {
       ...options,
       method: "GET",
@@ -17655,48 +17683,48 @@ export const relayGeminiModel = async (
 };
 
 /**
- * @summary Relay Not Implemented12
+ * @summary Delete V1 Models Model
  */
-export type relayNotImplemented12Response200ApplicationJson = {
+export type deleteV1ModelsModelResponse200ApplicationJson = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented12Response200ApplicationXml = {
+export type deleteV1ModelsModelResponse200ApplicationXml = {
   data: RelayNotImplementedError;
   status: 200;
 };
 
-export type relayNotImplemented12ResponseDefault = {
+export type deleteV1ModelsModelResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayNotImplemented12ResponseSuccess = (
-  | relayNotImplemented12Response200ApplicationJson
-  | relayNotImplemented12Response200ApplicationXml
+export type deleteV1ModelsModelResponseSuccess = (
+  | deleteV1ModelsModelResponse200ApplicationJson
+  | deleteV1ModelsModelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplemented12ResponseError =
-  relayNotImplemented12ResponseDefault & {
+export type deleteV1ModelsModelResponseError =
+  deleteV1ModelsModelResponseDefault & {
     headers: Headers;
   };
 
-export type relayNotImplemented12Response =
-  | relayNotImplemented12ResponseSuccess
-  | relayNotImplemented12ResponseError;
+export type deleteV1ModelsModelResponse =
+  | deleteV1ModelsModelResponseSuccess
+  | deleteV1ModelsModelResponseError;
 
-export const getRelayNotImplemented12Url = (model: string) => {
+export const getDeleteV1ModelsModelUrl = (model: string) => {
   return `/v1/models/${model}`;
 };
 
-export const relayNotImplemented12 = async (
+export const deleteV1ModelsModel = async (
   model: string,
   options?: RequestInit,
-): Promise<relayNotImplemented12Response> => {
-  return customFetch<relayNotImplemented12Response>(
-    getRelayNotImplemented12Url(model),
+): Promise<deleteV1ModelsModelResponse> => {
+  return customFetch<deleteV1ModelsModelResponse>(
+    getDeleteV1ModelsModelUrl(model),
     {
       ...options,
       method: "DELETE",
@@ -17939,185 +17967,197 @@ export const relayResponsesCompact = async (
 };
 
 /**
- * @summary Relay Task2
+ * @summary Post V1 Video Generations
  */
-export type relayTask2Response200ApplicationJson = {
+export type postV1VideoGenerationsResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask2Response200ApplicationXml = {
+export type postV1VideoGenerationsResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask2ResponseDefault = {
+export type postV1VideoGenerationsResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTask2ResponseSuccess = (
-  | relayTask2Response200ApplicationJson
-  | relayTask2Response200ApplicationXml
+export type postV1VideoGenerationsResponseSuccess = (
+  | postV1VideoGenerationsResponse200ApplicationJson
+  | postV1VideoGenerationsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTask2ResponseError = relayTask2ResponseDefault & {
-  headers: Headers;
-};
+export type postV1VideoGenerationsResponseError =
+  postV1VideoGenerationsResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTask2Response =
-  | relayTask2ResponseSuccess
-  | relayTask2ResponseError;
+export type postV1VideoGenerationsResponse =
+  | postV1VideoGenerationsResponseSuccess
+  | postV1VideoGenerationsResponseError;
 
-export const getRelayTask2Url = () => {
+export const getPostV1VideoGenerationsUrl = () => {
   return `/v1/video/generations`;
 };
 
-export const relayTask2 = async (
+export const postV1VideoGenerations = async (
   options?: RequestInit,
-): Promise<relayTask2Response> => {
-  return customFetch<relayTask2Response>(getRelayTask2Url(), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postV1VideoGenerationsResponse> => {
+  return customFetch<postV1VideoGenerationsResponse>(
+    getPostV1VideoGenerationsUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Task Fetch3
+ * @summary Get V1 Video Generations Task_id
  */
-export type relayTaskFetch3Response200ApplicationJson = {
+export type getV1VideoGenerationsTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch3Response200ApplicationXml = {
+export type getV1VideoGenerationsTaskIdResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch3ResponseDefault = {
+export type getV1VideoGenerationsTaskIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTaskFetch3ResponseSuccess = (
-  | relayTaskFetch3Response200ApplicationJson
-  | relayTaskFetch3Response200ApplicationXml
+export type getV1VideoGenerationsTaskIdResponseSuccess = (
+  | getV1VideoGenerationsTaskIdResponse200ApplicationJson
+  | getV1VideoGenerationsTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskFetch3ResponseError = relayTaskFetch3ResponseDefault & {
-  headers: Headers;
-};
+export type getV1VideoGenerationsTaskIdResponseError =
+  getV1VideoGenerationsTaskIdResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTaskFetch3Response =
-  | relayTaskFetch3ResponseSuccess
-  | relayTaskFetch3ResponseError;
+export type getV1VideoGenerationsTaskIdResponse =
+  | getV1VideoGenerationsTaskIdResponseSuccess
+  | getV1VideoGenerationsTaskIdResponseError;
 
-export const getRelayTaskFetch3Url = (taskId: string) => {
+export const getGetV1VideoGenerationsTaskIdUrl = (taskId: string) => {
   return `/v1/video/generations/${taskId}`;
 };
 
-export const relayTaskFetch3 = async (
+export const getV1VideoGenerationsTaskId = async (
   taskId: string,
   options?: RequestInit,
-): Promise<relayTaskFetch3Response> => {
-  return customFetch<relayTaskFetch3Response>(getRelayTaskFetch3Url(taskId), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getV1VideoGenerationsTaskIdResponse> => {
+  return customFetch<getV1VideoGenerationsTaskIdResponse>(
+    getGetV1VideoGenerationsTaskIdUrl(taskId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
- * @summary Relay Task4
+ * @summary Post V1 Videos
  */
-export type relayTask4Response200ApplicationJson = {
+export type postV1VideosResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask4Response200ApplicationXml = {
+export type postV1VideosResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask4ResponseDefault = {
+export type postV1VideosResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTask4ResponseSuccess = (
-  | relayTask4Response200ApplicationJson
-  | relayTask4Response200ApplicationXml
+export type postV1VideosResponseSuccess = (
+  | postV1VideosResponse200ApplicationJson
+  | postV1VideosResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTask4ResponseError = relayTask4ResponseDefault & {
+export type postV1VideosResponseError = postV1VideosResponseDefault & {
   headers: Headers;
 };
 
-export type relayTask4Response =
-  | relayTask4ResponseSuccess
-  | relayTask4ResponseError;
+export type postV1VideosResponse =
+  | postV1VideosResponseSuccess
+  | postV1VideosResponseError;
 
-export const getRelayTask4Url = () => {
+export const getPostV1VideosUrl = () => {
   return `/v1/videos`;
 };
 
-export const relayTask4 = async (
+export const postV1Videos = async (
   options?: RequestInit,
-): Promise<relayTask4Response> => {
-  return customFetch<relayTask4Response>(getRelayTask4Url(), {
+): Promise<postV1VideosResponse> => {
+  return customFetch<postV1VideosResponse>(getPostV1VideosUrl(), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Task Fetch4
+ * @summary Get V1 Videos Task_id
  */
-export type relayTaskFetch4Response200ApplicationJson = {
+export type getV1VideosTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch4Response200ApplicationXml = {
+export type getV1VideosTaskIdResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTaskFetch4ResponseDefault = {
+export type getV1VideosTaskIdResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTaskFetch4ResponseSuccess = (
-  | relayTaskFetch4Response200ApplicationJson
-  | relayTaskFetch4Response200ApplicationXml
+export type getV1VideosTaskIdResponseSuccess = (
+  | getV1VideosTaskIdResponse200ApplicationJson
+  | getV1VideosTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskFetch4ResponseError = relayTaskFetch4ResponseDefault & {
-  headers: Headers;
-};
+export type getV1VideosTaskIdResponseError =
+  getV1VideosTaskIdResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTaskFetch4Response =
-  | relayTaskFetch4ResponseSuccess
-  | relayTaskFetch4ResponseError;
+export type getV1VideosTaskIdResponse =
+  | getV1VideosTaskIdResponseSuccess
+  | getV1VideosTaskIdResponseError;
 
-export const getRelayTaskFetch4Url = (taskId: string) => {
+export const getGetV1VideosTaskIdUrl = (taskId: string) => {
   return `/v1/videos/${taskId}`;
 };
 
-export const relayTaskFetch4 = async (
+export const getV1VideosTaskId = async (
   taskId: string,
   options?: RequestInit,
-): Promise<relayTaskFetch4Response> => {
-  return customFetch<relayTaskFetch4Response>(getRelayTaskFetch4Url(taskId), {
-    ...options,
-    method: "GET",
-  });
+): Promise<getV1VideosTaskIdResponse> => {
+  return customFetch<getV1VideosTaskIdResponse>(
+    getGetV1VideosTaskIdUrl(taskId),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
@@ -18167,49 +18207,53 @@ export const videoProxy = async (
 };
 
 /**
- * @summary Relay Task3
+ * @summary Post V1 Videos Video_id Remix
  */
-export type relayTask3Response200ApplicationJson = {
+export type postV1VideosVideoIdRemixResponse200ApplicationJson = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask3Response200ApplicationXml = {
+export type postV1VideosVideoIdRemixResponse200ApplicationXml = {
   data: TaskResponseDoc;
   status: 200;
 };
 
-export type relayTask3ResponseDefault = {
+export type postV1VideosVideoIdRemixResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayTask3ResponseSuccess = (
-  | relayTask3Response200ApplicationJson
-  | relayTask3Response200ApplicationXml
+export type postV1VideosVideoIdRemixResponseSuccess = (
+  | postV1VideosVideoIdRemixResponse200ApplicationJson
+  | postV1VideosVideoIdRemixResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTask3ResponseError = relayTask3ResponseDefault & {
-  headers: Headers;
-};
+export type postV1VideosVideoIdRemixResponseError =
+  postV1VideosVideoIdRemixResponseDefault & {
+    headers: Headers;
+  };
 
-export type relayTask3Response =
-  | relayTask3ResponseSuccess
-  | relayTask3ResponseError;
+export type postV1VideosVideoIdRemixResponse =
+  | postV1VideosVideoIdRemixResponseSuccess
+  | postV1VideosVideoIdRemixResponseError;
 
-export const getRelayTask3Url = (videoId: string) => {
+export const getPostV1VideosVideoIdRemixUrl = (videoId: string) => {
   return `/v1/videos/${videoId}/remix`;
 };
 
-export const relayTask3 = async (
+export const postV1VideosVideoIdRemix = async (
   videoId: string,
   options?: RequestInit,
-): Promise<relayTask3Response> => {
-  return customFetch<relayTask3Response>(getRelayTask3Url(videoId), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postV1VideosVideoIdRemixResponse> => {
+  return customFetch<postV1VideosVideoIdRemixResponse>(
+    getPostV1VideosVideoIdRemixUrl(videoId),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
@@ -18356,707 +18400,745 @@ export const relayListGeminiCompatModels = async (
 };
 
 /**
- * @summary Relay Midjourney31
+ * @summary Post Mode Mj Insight Face Swap
  */
-export type relayMidjourney31Response200ApplicationJson = {
+export type postModeMjInsightFaceSwapResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney31Response200ApplicationXml = {
+export type postModeMjInsightFaceSwapResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney31ResponseDefault = {
+export type postModeMjInsightFaceSwapResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney31ResponseSuccess = (
-  | relayMidjourney31Response200ApplicationJson
-  | relayMidjourney31Response200ApplicationXml
+export type postModeMjInsightFaceSwapResponseSuccess = (
+  | postModeMjInsightFaceSwapResponse200ApplicationJson
+  | postModeMjInsightFaceSwapResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney31ResponseError =
-  relayMidjourney31ResponseDefault & {
+export type postModeMjInsightFaceSwapResponseError =
+  postModeMjInsightFaceSwapResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney31Response =
-  | relayMidjourney31ResponseSuccess
-  | relayMidjourney31ResponseError;
+export type postModeMjInsightFaceSwapResponse =
+  | postModeMjInsightFaceSwapResponseSuccess
+  | postModeMjInsightFaceSwapResponseError;
 
-export const getRelayMidjourney31Url = (mode: string) => {
+export const getPostModeMjInsightFaceSwapUrl = (mode: string) => {
   return `/${mode}/mj/insight-face/swap`;
 };
 
-export const relayMidjourney31 = async (
+export const postModeMjInsightFaceSwap = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney31Response> => {
-  return customFetch<relayMidjourney31Response>(getRelayMidjourney31Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjInsightFaceSwapResponse> => {
+  return customFetch<postModeMjInsightFaceSwapResponse>(
+    getPostModeMjInsightFaceSwapUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney27
+ * @summary Post Mode Mj Notify
  */
-export type relayMidjourney27Response200ApplicationJson = {
+export type postModeMjNotifyResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney27Response200ApplicationXml = {
+export type postModeMjNotifyResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney27ResponseDefault = {
+export type postModeMjNotifyResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney27ResponseSuccess = (
-  | relayMidjourney27Response200ApplicationJson
-  | relayMidjourney27Response200ApplicationXml
+export type postModeMjNotifyResponseSuccess = (
+  | postModeMjNotifyResponse200ApplicationJson
+  | postModeMjNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney27ResponseError =
-  relayMidjourney27ResponseDefault & {
-    headers: Headers;
-  };
+export type postModeMjNotifyResponseError = postModeMjNotifyResponseDefault & {
+  headers: Headers;
+};
 
-export type relayMidjourney27Response =
-  | relayMidjourney27ResponseSuccess
-  | relayMidjourney27ResponseError;
+export type postModeMjNotifyResponse =
+  | postModeMjNotifyResponseSuccess
+  | postModeMjNotifyResponseError;
 
-export const getRelayMidjourney27Url = (mode: string) => {
+export const getPostModeMjNotifyUrl = (mode: string) => {
   return `/${mode}/mj/notify`;
 };
 
-export const relayMidjourney27 = async (
+export const postModeMjNotify = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney27Response> => {
-  return customFetch<relayMidjourney27Response>(getRelayMidjourney27Url(mode), {
+): Promise<postModeMjNotifyResponse> => {
+  return customFetch<postModeMjNotifyResponse>(getPostModeMjNotifyUrl(mode), {
     ...options,
     method: "POST",
   });
 };
 
 /**
- * @summary Relay Midjourney17
+ * @summary Post Mode Mj Submit Action
  */
-export type relayMidjourney17Response200ApplicationJson = {
+export type postModeMjSubmitActionResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney17Response200ApplicationXml = {
+export type postModeMjSubmitActionResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney17ResponseDefault = {
+export type postModeMjSubmitActionResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney17ResponseSuccess = (
-  | relayMidjourney17Response200ApplicationJson
-  | relayMidjourney17Response200ApplicationXml
+export type postModeMjSubmitActionResponseSuccess = (
+  | postModeMjSubmitActionResponse200ApplicationJson
+  | postModeMjSubmitActionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney17ResponseError =
-  relayMidjourney17ResponseDefault & {
+export type postModeMjSubmitActionResponseError =
+  postModeMjSubmitActionResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney17Response =
-  | relayMidjourney17ResponseSuccess
-  | relayMidjourney17ResponseError;
+export type postModeMjSubmitActionResponse =
+  | postModeMjSubmitActionResponseSuccess
+  | postModeMjSubmitActionResponseError;
 
-export const getRelayMidjourney17Url = (mode: string) => {
+export const getPostModeMjSubmitActionUrl = (mode: string) => {
   return `/${mode}/mj/submit/action`;
 };
 
-export const relayMidjourney17 = async (
+export const postModeMjSubmitAction = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney17Response> => {
-  return customFetch<relayMidjourney17Response>(getRelayMidjourney17Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitActionResponse> => {
+  return customFetch<postModeMjSubmitActionResponse>(
+    getPostModeMjSubmitActionUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney24
+ * @summary Post Mode Mj Submit Blend
  */
-export type relayMidjourney24Response200ApplicationJson = {
+export type postModeMjSubmitBlendResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney24Response200ApplicationXml = {
+export type postModeMjSubmitBlendResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney24ResponseDefault = {
+export type postModeMjSubmitBlendResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney24ResponseSuccess = (
-  | relayMidjourney24Response200ApplicationJson
-  | relayMidjourney24Response200ApplicationXml
+export type postModeMjSubmitBlendResponseSuccess = (
+  | postModeMjSubmitBlendResponse200ApplicationJson
+  | postModeMjSubmitBlendResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney24ResponseError =
-  relayMidjourney24ResponseDefault & {
+export type postModeMjSubmitBlendResponseError =
+  postModeMjSubmitBlendResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney24Response =
-  | relayMidjourney24ResponseSuccess
-  | relayMidjourney24ResponseError;
+export type postModeMjSubmitBlendResponse =
+  | postModeMjSubmitBlendResponseSuccess
+  | postModeMjSubmitBlendResponseError;
 
-export const getRelayMidjourney24Url = (mode: string) => {
+export const getPostModeMjSubmitBlendUrl = (mode: string) => {
   return `/${mode}/mj/submit/blend`;
 };
 
-export const relayMidjourney24 = async (
+export const postModeMjSubmitBlend = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney24Response> => {
-  return customFetch<relayMidjourney24Response>(getRelayMidjourney24Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitBlendResponse> => {
+  return customFetch<postModeMjSubmitBlendResponse>(
+    getPostModeMjSubmitBlendUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney21
+ * @summary Post Mode Mj Submit Change
  */
-export type relayMidjourney21Response200ApplicationJson = {
+export type postModeMjSubmitChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney21Response200ApplicationXml = {
+export type postModeMjSubmitChangeResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney21ResponseDefault = {
+export type postModeMjSubmitChangeResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney21ResponseSuccess = (
-  | relayMidjourney21Response200ApplicationJson
-  | relayMidjourney21Response200ApplicationXml
+export type postModeMjSubmitChangeResponseSuccess = (
+  | postModeMjSubmitChangeResponse200ApplicationJson
+  | postModeMjSubmitChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney21ResponseError =
-  relayMidjourney21ResponseDefault & {
+export type postModeMjSubmitChangeResponseError =
+  postModeMjSubmitChangeResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney21Response =
-  | relayMidjourney21ResponseSuccess
-  | relayMidjourney21ResponseError;
+export type postModeMjSubmitChangeResponse =
+  | postModeMjSubmitChangeResponseSuccess
+  | postModeMjSubmitChangeResponseError;
 
-export const getRelayMidjourney21Url = (mode: string) => {
+export const getPostModeMjSubmitChangeUrl = (mode: string) => {
   return `/${mode}/mj/submit/change`;
 };
 
-export const relayMidjourney21 = async (
+export const postModeMjSubmitChange = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney21Response> => {
-  return customFetch<relayMidjourney21Response>(getRelayMidjourney21Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitChangeResponse> => {
+  return customFetch<postModeMjSubmitChangeResponse>(
+    getPostModeMjSubmitChangeUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney23
+ * @summary Post Mode Mj Submit Describe
  */
-export type relayMidjourney23Response200ApplicationJson = {
+export type postModeMjSubmitDescribeResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney23Response200ApplicationXml = {
+export type postModeMjSubmitDescribeResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney23ResponseDefault = {
+export type postModeMjSubmitDescribeResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney23ResponseSuccess = (
-  | relayMidjourney23Response200ApplicationJson
-  | relayMidjourney23Response200ApplicationXml
+export type postModeMjSubmitDescribeResponseSuccess = (
+  | postModeMjSubmitDescribeResponse200ApplicationJson
+  | postModeMjSubmitDescribeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney23ResponseError =
-  relayMidjourney23ResponseDefault & {
+export type postModeMjSubmitDescribeResponseError =
+  postModeMjSubmitDescribeResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney23Response =
-  | relayMidjourney23ResponseSuccess
-  | relayMidjourney23ResponseError;
+export type postModeMjSubmitDescribeResponse =
+  | postModeMjSubmitDescribeResponseSuccess
+  | postModeMjSubmitDescribeResponseError;
 
-export const getRelayMidjourney23Url = (mode: string) => {
+export const getPostModeMjSubmitDescribeUrl = (mode: string) => {
   return `/${mode}/mj/submit/describe`;
 };
 
-export const relayMidjourney23 = async (
+export const postModeMjSubmitDescribe = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney23Response> => {
-  return customFetch<relayMidjourney23Response>(getRelayMidjourney23Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitDescribeResponse> => {
+  return customFetch<postModeMjSubmitDescribeResponse>(
+    getPostModeMjSubmitDescribeUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney25
+ * @summary Post Mode Mj Submit Edits
  */
-export type relayMidjourney25Response200ApplicationJson = {
+export type postModeMjSubmitEditsResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney25Response200ApplicationXml = {
+export type postModeMjSubmitEditsResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney25ResponseDefault = {
+export type postModeMjSubmitEditsResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney25ResponseSuccess = (
-  | relayMidjourney25Response200ApplicationJson
-  | relayMidjourney25Response200ApplicationXml
+export type postModeMjSubmitEditsResponseSuccess = (
+  | postModeMjSubmitEditsResponse200ApplicationJson
+  | postModeMjSubmitEditsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney25ResponseError =
-  relayMidjourney25ResponseDefault & {
+export type postModeMjSubmitEditsResponseError =
+  postModeMjSubmitEditsResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney25Response =
-  | relayMidjourney25ResponseSuccess
-  | relayMidjourney25ResponseError;
+export type postModeMjSubmitEditsResponse =
+  | postModeMjSubmitEditsResponseSuccess
+  | postModeMjSubmitEditsResponseError;
 
-export const getRelayMidjourney25Url = (mode: string) => {
+export const getPostModeMjSubmitEditsUrl = (mode: string) => {
   return `/${mode}/mj/submit/edits`;
 };
 
-export const relayMidjourney25 = async (
+export const postModeMjSubmitEdits = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney25Response> => {
-  return customFetch<relayMidjourney25Response>(getRelayMidjourney25Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitEditsResponse> => {
+  return customFetch<postModeMjSubmitEditsResponse>(
+    getPostModeMjSubmitEditsUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney20
+ * @summary Post Mode Mj Submit Imagine
  */
-export type relayMidjourney20Response200ApplicationJson = {
+export type postModeMjSubmitImagineResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney20Response200ApplicationXml = {
+export type postModeMjSubmitImagineResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney20ResponseDefault = {
+export type postModeMjSubmitImagineResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney20ResponseSuccess = (
-  | relayMidjourney20Response200ApplicationJson
-  | relayMidjourney20Response200ApplicationXml
+export type postModeMjSubmitImagineResponseSuccess = (
+  | postModeMjSubmitImagineResponse200ApplicationJson
+  | postModeMjSubmitImagineResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney20ResponseError =
-  relayMidjourney20ResponseDefault & {
+export type postModeMjSubmitImagineResponseError =
+  postModeMjSubmitImagineResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney20Response =
-  | relayMidjourney20ResponseSuccess
-  | relayMidjourney20ResponseError;
+export type postModeMjSubmitImagineResponse =
+  | postModeMjSubmitImagineResponseSuccess
+  | postModeMjSubmitImagineResponseError;
 
-export const getRelayMidjourney20Url = (mode: string) => {
+export const getPostModeMjSubmitImagineUrl = (mode: string) => {
   return `/${mode}/mj/submit/imagine`;
 };
 
-export const relayMidjourney20 = async (
+export const postModeMjSubmitImagine = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney20Response> => {
-  return customFetch<relayMidjourney20Response>(getRelayMidjourney20Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitImagineResponse> => {
+  return customFetch<postModeMjSubmitImagineResponse>(
+    getPostModeMjSubmitImagineUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney19
+ * @summary Post Mode Mj Submit Modal
  */
-export type relayMidjourney19Response200ApplicationJson = {
+export type postModeMjSubmitModalResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney19Response200ApplicationXml = {
+export type postModeMjSubmitModalResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney19ResponseDefault = {
+export type postModeMjSubmitModalResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney19ResponseSuccess = (
-  | relayMidjourney19Response200ApplicationJson
-  | relayMidjourney19Response200ApplicationXml
+export type postModeMjSubmitModalResponseSuccess = (
+  | postModeMjSubmitModalResponse200ApplicationJson
+  | postModeMjSubmitModalResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney19ResponseError =
-  relayMidjourney19ResponseDefault & {
+export type postModeMjSubmitModalResponseError =
+  postModeMjSubmitModalResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney19Response =
-  | relayMidjourney19ResponseSuccess
-  | relayMidjourney19ResponseError;
+export type postModeMjSubmitModalResponse =
+  | postModeMjSubmitModalResponseSuccess
+  | postModeMjSubmitModalResponseError;
 
-export const getRelayMidjourney19Url = (mode: string) => {
+export const getPostModeMjSubmitModalUrl = (mode: string) => {
   return `/${mode}/mj/submit/modal`;
 };
 
-export const relayMidjourney19 = async (
+export const postModeMjSubmitModal = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney19Response> => {
-  return customFetch<relayMidjourney19Response>(getRelayMidjourney19Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitModalResponse> => {
+  return customFetch<postModeMjSubmitModalResponse>(
+    getPostModeMjSubmitModalUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney18
+ * @summary Post Mode Mj Submit Shorten
  */
-export type relayMidjourney18Response200ApplicationJson = {
+export type postModeMjSubmitShortenResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney18Response200ApplicationXml = {
+export type postModeMjSubmitShortenResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney18ResponseDefault = {
+export type postModeMjSubmitShortenResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney18ResponseSuccess = (
-  | relayMidjourney18Response200ApplicationJson
-  | relayMidjourney18Response200ApplicationXml
+export type postModeMjSubmitShortenResponseSuccess = (
+  | postModeMjSubmitShortenResponse200ApplicationJson
+  | postModeMjSubmitShortenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney18ResponseError =
-  relayMidjourney18ResponseDefault & {
+export type postModeMjSubmitShortenResponseError =
+  postModeMjSubmitShortenResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney18Response =
-  | relayMidjourney18ResponseSuccess
-  | relayMidjourney18ResponseError;
+export type postModeMjSubmitShortenResponse =
+  | postModeMjSubmitShortenResponseSuccess
+  | postModeMjSubmitShortenResponseError;
 
-export const getRelayMidjourney18Url = (mode: string) => {
+export const getPostModeMjSubmitShortenUrl = (mode: string) => {
   return `/${mode}/mj/submit/shorten`;
 };
 
-export const relayMidjourney18 = async (
+export const postModeMjSubmitShorten = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney18Response> => {
-  return customFetch<relayMidjourney18Response>(getRelayMidjourney18Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitShortenResponse> => {
+  return customFetch<postModeMjSubmitShortenResponse>(
+    getPostModeMjSubmitShortenUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney22
+ * @summary Post Mode Mj Submit Simple Change
  */
-export type relayMidjourney22Response200ApplicationJson = {
+export type postModeMjSubmitSimpleChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney22Response200ApplicationXml = {
+export type postModeMjSubmitSimpleChangeResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney22ResponseDefault = {
+export type postModeMjSubmitSimpleChangeResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney22ResponseSuccess = (
-  | relayMidjourney22Response200ApplicationJson
-  | relayMidjourney22Response200ApplicationXml
+export type postModeMjSubmitSimpleChangeResponseSuccess = (
+  | postModeMjSubmitSimpleChangeResponse200ApplicationJson
+  | postModeMjSubmitSimpleChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney22ResponseError =
-  relayMidjourney22ResponseDefault & {
+export type postModeMjSubmitSimpleChangeResponseError =
+  postModeMjSubmitSimpleChangeResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney22Response =
-  | relayMidjourney22ResponseSuccess
-  | relayMidjourney22ResponseError;
+export type postModeMjSubmitSimpleChangeResponse =
+  | postModeMjSubmitSimpleChangeResponseSuccess
+  | postModeMjSubmitSimpleChangeResponseError;
 
-export const getRelayMidjourney22Url = (mode: string) => {
+export const getPostModeMjSubmitSimpleChangeUrl = (mode: string) => {
   return `/${mode}/mj/submit/simple-change`;
 };
 
-export const relayMidjourney22 = async (
+export const postModeMjSubmitSimpleChange = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney22Response> => {
-  return customFetch<relayMidjourney22Response>(getRelayMidjourney22Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitSimpleChangeResponse> => {
+  return customFetch<postModeMjSubmitSimpleChangeResponse>(
+    getPostModeMjSubmitSimpleChangeUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney32
+ * @summary Post Mode Mj Submit Upload Discord Images
  */
-export type relayMidjourney32Response200ApplicationJson = {
+export type postModeMjSubmitUploadDiscordImagesResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney32Response200ApplicationXml = {
+export type postModeMjSubmitUploadDiscordImagesResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney32ResponseDefault = {
+export type postModeMjSubmitUploadDiscordImagesResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney32ResponseSuccess = (
-  | relayMidjourney32Response200ApplicationJson
-  | relayMidjourney32Response200ApplicationXml
+export type postModeMjSubmitUploadDiscordImagesResponseSuccess = (
+  | postModeMjSubmitUploadDiscordImagesResponse200ApplicationJson
+  | postModeMjSubmitUploadDiscordImagesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney32ResponseError =
-  relayMidjourney32ResponseDefault & {
+export type postModeMjSubmitUploadDiscordImagesResponseError =
+  postModeMjSubmitUploadDiscordImagesResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney32Response =
-  | relayMidjourney32ResponseSuccess
-  | relayMidjourney32ResponseError;
+export type postModeMjSubmitUploadDiscordImagesResponse =
+  | postModeMjSubmitUploadDiscordImagesResponseSuccess
+  | postModeMjSubmitUploadDiscordImagesResponseError;
 
-export const getRelayMidjourney32Url = (mode: string) => {
+export const getPostModeMjSubmitUploadDiscordImagesUrl = (mode: string) => {
   return `/${mode}/mj/submit/upload-discord-images`;
 };
 
-export const relayMidjourney32 = async (
+export const postModeMjSubmitUploadDiscordImages = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney32Response> => {
-  return customFetch<relayMidjourney32Response>(getRelayMidjourney32Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitUploadDiscordImagesResponse> => {
+  return customFetch<postModeMjSubmitUploadDiscordImagesResponse>(
+    getPostModeMjSubmitUploadDiscordImagesUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney26
+ * @summary Post Mode Mj Submit Video
  */
-export type relayMidjourney26Response200ApplicationJson = {
+export type postModeMjSubmitVideoResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney26Response200ApplicationXml = {
+export type postModeMjSubmitVideoResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney26ResponseDefault = {
+export type postModeMjSubmitVideoResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney26ResponseSuccess = (
-  | relayMidjourney26Response200ApplicationJson
-  | relayMidjourney26Response200ApplicationXml
+export type postModeMjSubmitVideoResponseSuccess = (
+  | postModeMjSubmitVideoResponse200ApplicationJson
+  | postModeMjSubmitVideoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney26ResponseError =
-  relayMidjourney26ResponseDefault & {
+export type postModeMjSubmitVideoResponseError =
+  postModeMjSubmitVideoResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney26Response =
-  | relayMidjourney26ResponseSuccess
-  | relayMidjourney26ResponseError;
+export type postModeMjSubmitVideoResponse =
+  | postModeMjSubmitVideoResponseSuccess
+  | postModeMjSubmitVideoResponseError;
 
-export const getRelayMidjourney26Url = (mode: string) => {
+export const getPostModeMjSubmitVideoUrl = (mode: string) => {
   return `/${mode}/mj/submit/video`;
 };
 
-export const relayMidjourney26 = async (
+export const postModeMjSubmitVideo = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney26Response> => {
-  return customFetch<relayMidjourney26Response>(getRelayMidjourney26Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjSubmitVideoResponse> => {
+  return customFetch<postModeMjSubmitVideoResponse>(
+    getPostModeMjSubmitVideoUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney30
+ * @summary Post Mode Mj Task List By Condition
  */
-export type relayMidjourney30Response200ApplicationJson = {
+export type postModeMjTaskListByConditionResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney30Response200ApplicationXml = {
+export type postModeMjTaskListByConditionResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney30ResponseDefault = {
+export type postModeMjTaskListByConditionResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney30ResponseSuccess = (
-  | relayMidjourney30Response200ApplicationJson
-  | relayMidjourney30Response200ApplicationXml
+export type postModeMjTaskListByConditionResponseSuccess = (
+  | postModeMjTaskListByConditionResponse200ApplicationJson
+  | postModeMjTaskListByConditionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney30ResponseError =
-  relayMidjourney30ResponseDefault & {
+export type postModeMjTaskListByConditionResponseError =
+  postModeMjTaskListByConditionResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney30Response =
-  | relayMidjourney30ResponseSuccess
-  | relayMidjourney30ResponseError;
+export type postModeMjTaskListByConditionResponse =
+  | postModeMjTaskListByConditionResponseSuccess
+  | postModeMjTaskListByConditionResponseError;
 
-export const getRelayMidjourney30Url = (mode: string) => {
+export const getPostModeMjTaskListByConditionUrl = (mode: string) => {
   return `/${mode}/mj/task/list-by-condition`;
 };
 
-export const relayMidjourney30 = async (
+export const postModeMjTaskListByCondition = async (
   mode: string,
   options?: RequestInit,
-): Promise<relayMidjourney30Response> => {
-  return customFetch<relayMidjourney30Response>(getRelayMidjourney30Url(mode), {
-    ...options,
-    method: "POST",
-  });
+): Promise<postModeMjTaskListByConditionResponse> => {
+  return customFetch<postModeMjTaskListByConditionResponse>(
+    getPostModeMjTaskListByConditionUrl(mode),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
 };
 
 /**
- * @summary Relay Midjourney28
+ * @summary Get Mode Mj Task Id Fetch
  */
-export type relayMidjourney28Response200ApplicationJson = {
+export type getModeMjTaskIdFetchResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney28Response200ApplicationXml = {
+export type getModeMjTaskIdFetchResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney28ResponseDefault = {
+export type getModeMjTaskIdFetchResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney28ResponseSuccess = (
-  | relayMidjourney28Response200ApplicationJson
-  | relayMidjourney28Response200ApplicationXml
+export type getModeMjTaskIdFetchResponseSuccess = (
+  | getModeMjTaskIdFetchResponse200ApplicationJson
+  | getModeMjTaskIdFetchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney28ResponseError =
-  relayMidjourney28ResponseDefault & {
+export type getModeMjTaskIdFetchResponseError =
+  getModeMjTaskIdFetchResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney28Response =
-  | relayMidjourney28ResponseSuccess
-  | relayMidjourney28ResponseError;
+export type getModeMjTaskIdFetchResponse =
+  | getModeMjTaskIdFetchResponseSuccess
+  | getModeMjTaskIdFetchResponseError;
 
-export const getRelayMidjourney28Url = (mode: string, id: string) => {
+export const getGetModeMjTaskIdFetchUrl = (mode: string, id: string) => {
   return `/${mode}/mj/task/${id}/fetch`;
 };
 
-export const relayMidjourney28 = async (
+export const getModeMjTaskIdFetch = async (
   mode: string,
   id: string,
   options?: RequestInit,
-): Promise<relayMidjourney28Response> => {
-  return customFetch<relayMidjourney28Response>(
-    getRelayMidjourney28Url(mode, id),
+): Promise<getModeMjTaskIdFetchResponse> => {
+  return customFetch<getModeMjTaskIdFetchResponse>(
+    getGetModeMjTaskIdFetchUrl(mode, id),
     {
       ...options,
       method: "GET",
@@ -19065,49 +19147,49 @@ export const relayMidjourney28 = async (
 };
 
 /**
- * @summary Relay Midjourney29
+ * @summary Get Mode Mj Task Id Image Seed
  */
-export type relayMidjourney29Response200ApplicationJson = {
+export type getModeMjTaskIdImageSeedResponse200ApplicationJson = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney29Response200ApplicationXml = {
+export type getModeMjTaskIdImageSeedResponse200ApplicationXml = {
   data: MidjourneyResponse;
   status: 200;
 };
 
-export type relayMidjourney29ResponseDefault = {
+export type getModeMjTaskIdImageSeedResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type relayMidjourney29ResponseSuccess = (
-  | relayMidjourney29Response200ApplicationJson
-  | relayMidjourney29Response200ApplicationXml
+export type getModeMjTaskIdImageSeedResponseSuccess = (
+  | getModeMjTaskIdImageSeedResponse200ApplicationJson
+  | getModeMjTaskIdImageSeedResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourney29ResponseError =
-  relayMidjourney29ResponseDefault & {
+export type getModeMjTaskIdImageSeedResponseError =
+  getModeMjTaskIdImageSeedResponseDefault & {
     headers: Headers;
   };
 
-export type relayMidjourney29Response =
-  | relayMidjourney29ResponseSuccess
-  | relayMidjourney29ResponseError;
+export type getModeMjTaskIdImageSeedResponse =
+  | getModeMjTaskIdImageSeedResponseSuccess
+  | getModeMjTaskIdImageSeedResponseError;
 
-export const getRelayMidjourney29Url = (mode: string, id: string) => {
+export const getGetModeMjTaskIdImageSeedUrl = (mode: string, id: string) => {
   return `/${mode}/mj/task/${id}/image-seed`;
 };
 
-export const relayMidjourney29 = async (
+export const getModeMjTaskIdImageSeed = async (
   mode: string,
   id: string,
   options?: RequestInit,
-): Promise<relayMidjourney29Response> => {
-  return customFetch<relayMidjourney29Response>(
-    getRelayMidjourney29Url(mode, id),
+): Promise<getModeMjTaskIdImageSeedResponse> => {
+  return customFetch<getModeMjTaskIdImageSeedResponse>(
+    getGetModeMjTaskIdImageSeedUrl(mode, id),
     {
       ...options,
       method: "GET",
