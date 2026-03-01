@@ -1110,6 +1110,21 @@ export interface ResponseDtoBillingPreferenceData {
   success?: boolean;
 }
 
+export type ResponseDtoChannelBalanceResponseData = {
+  balance?: number | null;
+  message?: string;
+  success?: boolean;
+} | null;
+
+/**
+ * Response_dto.ChannelBalanceResponse schema
+ */
+export interface ResponseDtoChannelBalanceResponse {
+  data?: ResponseDtoChannelBalanceResponseData;
+  message?: string;
+  success?: boolean;
+}
+
 export type ResponseDtoChannelKeyDataData = {
   key?: string;
 } | null;
@@ -1176,6 +1191,24 @@ export type ResponseDtoClusterNameAvailabilityResponseData = {
  */
 export interface ResponseDtoClusterNameAvailabilityResponse {
   data?: ResponseDtoClusterNameAvailabilityResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCodexOAuthCompleteDataData = {
+  account_id?: string;
+  channel_id?: number | null;
+  email?: string;
+  expires_at?: string;
+  key?: string | null;
+  last_refresh?: string;
+} | null;
+
+/**
+ * Response_dto.CodexOAuthCompleteData schema
+ */
+export interface ResponseDtoCodexOAuthCompleteData {
+  data?: ResponseDtoCodexOAuthCompleteDataData;
   message?: string;
   success?: boolean;
 }
@@ -2131,6 +2164,21 @@ export interface ResponseDtoSyncUpstreamResult {
   success?: boolean;
 }
 
+export type ResponseDtoTestChannelResponseData = {
+  message?: string;
+  success?: boolean;
+  time?: number;
+} | null;
+
+/**
+ * Response_dto.TestChannelResponse schema
+ */
+export interface ResponseDtoTestChannelResponse {
+  data?: ResponseDtoTestChannelResponseData;
+  message?: string;
+  success?: boolean;
+}
+
 export type ResponseDtoTestConnectionResponseData = {
   hardware_count?: number;
   total_available?: number;
@@ -2274,6 +2322,20 @@ export type ResponseDtoUserSelfDataData = {
  */
 export interface ResponseDtoUserSelfData {
   data?: ResponseDtoUserSelfDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoVerificationStatusResponseData = {
+  expires_at?: number | null;
+  verified?: boolean;
+} | null;
+
+/**
+ * Response_dto.VerificationStatusResponse schema
+ */
+export interface ResponseDtoVerificationStatusResponse {
+  data?: ResponseDtoVerificationStatusResponseData;
   message?: string;
   success?: boolean;
 }
@@ -2539,6 +2601,21 @@ export type ResponseModelTokenData = {
  */
 export interface ResponseModelToken {
   data?: ResponseModelTokenData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseModelTwoFAStatsData = {
+  enabled_rate?: string;
+  enabled_users?: number;
+  total_users?: number;
+} | null;
+
+/**
+ * Response_model.TwoFAStats schema
+ */
+export interface ResponseModelTwoFAStats {
+  data?: ResponseModelTwoFAStatsData;
   message?: string;
   success?: boolean;
 }
@@ -4132,12 +4209,12 @@ export const pOSTApiChannelBatchTag = async (
  * @summary Complete Codex O Auth
  */
 export type pOSTApiChannelCodexOauthCompleteResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoCodexOAuthCompleteData;
   status: 200;
 };
 
 export type pOSTApiChannelCodexOauthCompleteResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoCodexOAuthCompleteData;
   status: 200;
 };
 
@@ -5166,12 +5243,12 @@ export const gETApiChannelTest = async (
  * @summary Test Channel
  */
 export type gETApiChannelTestIdResponse200ApplicationJson = {
-  data: TestChannelResponse;
+  data: ResponseDtoTestChannelResponse;
   status: 200;
 };
 
 export type gETApiChannelTestIdResponse200ApplicationXml = {
-  data: TestChannelResponse;
+  data: ResponseDtoTestChannelResponse;
   status: 200;
 };
 
@@ -5281,12 +5358,12 @@ export const gETApiChannelUpdateBalance = async (
  * @summary Update Channel Balance
  */
 export type gETApiChannelUpdateBalanceIdResponse200ApplicationJson = {
-  data: ChannelBalanceResponse;
+  data: ResponseDtoChannelBalanceResponse;
   status: 200;
 };
 
 export type gETApiChannelUpdateBalanceIdResponse200ApplicationXml = {
-  data: ChannelBalanceResponse;
+  data: ResponseDtoChannelBalanceResponse;
   status: 200;
 };
 
@@ -5424,12 +5501,12 @@ export const gETApiChannelId = async (
  * @summary Complete Codex O Auth For Channel
  */
 export type pOSTApiChannelIdCodexOauthCompleteResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoCodexOAuthCompleteData;
   status: 200;
 };
 
 export type pOSTApiChannelIdCodexOauthCompleteResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoCodexOAuthCompleteData;
   status: 200;
 };
 
@@ -12498,12 +12575,12 @@ export const pOSTApiUser2faSetup = async (
  * @summary Admin2 F A Stats
  */
 export type gETApiUser2faStatsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseModelTwoFAStats;
   status: 200;
 };
 
 export type gETApiUser2faStatsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseModelTwoFAStats;
   status: 200;
 };
 
@@ -13902,12 +13979,12 @@ export const pOSTApiUserRegister = async (
  * @summary Reset Password
  */
 export type pOSTApiUserResetResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseString;
   status: 200;
 };
 
 export type pOSTApiUserResetResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseString;
   status: 200;
 };
 
@@ -15379,12 +15456,12 @@ export const gETApiVerification = async (
  * @summary Universal Verify
  */
 export type pOSTApiVerifyResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoVerificationStatusResponse;
   status: 200;
 };
 
 export type pOSTApiVerifyResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoVerificationStatusResponse;
   status: 200;
 };
 
