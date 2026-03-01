@@ -11,7 +11,7 @@ export const customFetch = async <T>(
   }
 
   const response = await fetch(
-    new URL(url, process.env.NEXT_PUBLIC_BOT_URL).toString(),
+    new URL(url, process.env.NEXT_PUBLIC_API_URL).toString(),
     {
       ...options,
       credentials: "include",
