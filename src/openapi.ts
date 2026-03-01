@@ -6687,48 +6687,48 @@ export const testIoNetConnection = async (
 };
 
 /**
- * @summary test io net connection
+ * @summary Post Api Deployments Test Connection
  */
-export type pOSTApiDeploymentsTestConnectionResponse200ApplicationJson = {
+export type postApiDeploymentsTestConnectionResponse200ApplicationJson = {
   data: ResponseDtoTestConnectionResponse;
   status: 200;
 };
 
-export type pOSTApiDeploymentsTestConnectionResponse200ApplicationXml = {
+export type postApiDeploymentsTestConnectionResponse200ApplicationXml = {
   data: ResponseDtoTestConnectionResponse;
   status: 200;
 };
 
-export type pOSTApiDeploymentsTestConnectionResponseDefault = {
+export type postApiDeploymentsTestConnectionResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type pOSTApiDeploymentsTestConnectionResponseSuccess = (
-  | pOSTApiDeploymentsTestConnectionResponse200ApplicationJson
-  | pOSTApiDeploymentsTestConnectionResponse200ApplicationXml
+export type postApiDeploymentsTestConnectionResponseSuccess = (
+  | postApiDeploymentsTestConnectionResponse200ApplicationJson
+  | postApiDeploymentsTestConnectionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type pOSTApiDeploymentsTestConnectionResponseError =
-  pOSTApiDeploymentsTestConnectionResponseDefault & {
+export type postApiDeploymentsTestConnectionResponseError =
+  postApiDeploymentsTestConnectionResponseDefault & {
     headers: Headers;
   };
 
-export type pOSTApiDeploymentsTestConnectionResponse =
-  | pOSTApiDeploymentsTestConnectionResponseSuccess
-  | pOSTApiDeploymentsTestConnectionResponseError;
+export type postApiDeploymentsTestConnectionResponse =
+  | postApiDeploymentsTestConnectionResponseSuccess
+  | postApiDeploymentsTestConnectionResponseError;
 
-export const getPOSTApiDeploymentsTestConnectionUrl = () => {
+export const getPostApiDeploymentsTestConnectionUrl = () => {
   return `/api/deployments/test-connection`;
 };
 
-export const pOSTApiDeploymentsTestConnection = async (
+export const postApiDeploymentsTestConnection = async (
   testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: RequestInit,
-): Promise<pOSTApiDeploymentsTestConnectionResponse> => {
-  return customFetch<pOSTApiDeploymentsTestConnectionResponse>(
-    getPOSTApiDeploymentsTestConnectionUrl(),
+): Promise<postApiDeploymentsTestConnectionResponse> => {
+  return customFetch<postApiDeploymentsTestConnectionResponse>(
+    getPostApiDeploymentsTestConnectionUrl(),
     {
       ...options,
       method: "POST",
@@ -13948,47 +13948,47 @@ export const updateSelf = async (
 };
 
 /**
- * @summary get user groups
+ * @summary Get Api User Self Groups
  */
-export type gETApiUserSelfGroupsResponse200ApplicationJson = {
+export type getApiUserSelfGroupsResponse200ApplicationJson = {
   data: ApiResponse;
   status: 200;
 };
 
-export type gETApiUserSelfGroupsResponse200ApplicationXml = {
+export type getApiUserSelfGroupsResponse200ApplicationXml = {
   data: ApiResponse;
   status: 200;
 };
 
-export type gETApiUserSelfGroupsResponseDefault = {
+export type getApiUserSelfGroupsResponseDefault = {
   data: void;
   status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type gETApiUserSelfGroupsResponseSuccess = (
-  | gETApiUserSelfGroupsResponse200ApplicationJson
-  | gETApiUserSelfGroupsResponse200ApplicationXml
+export type getApiUserSelfGroupsResponseSuccess = (
+  | getApiUserSelfGroupsResponse200ApplicationJson
+  | getApiUserSelfGroupsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type gETApiUserSelfGroupsResponseError =
-  gETApiUserSelfGroupsResponseDefault & {
+export type getApiUserSelfGroupsResponseError =
+  getApiUserSelfGroupsResponseDefault & {
     headers: Headers;
   };
 
-export type gETApiUserSelfGroupsResponse =
-  | gETApiUserSelfGroupsResponseSuccess
-  | gETApiUserSelfGroupsResponseError;
+export type getApiUserSelfGroupsResponse =
+  | getApiUserSelfGroupsResponseSuccess
+  | getApiUserSelfGroupsResponseError;
 
-export const getGETApiUserSelfGroupsUrl = () => {
+export const getGetApiUserSelfGroupsUrl = () => {
   return `/api/user/self/groups`;
 };
 
-export const gETApiUserSelfGroups = async (
+export const getApiUserSelfGroups = async (
   options?: RequestInit,
-): Promise<gETApiUserSelfGroupsResponse> => {
-  return customFetch<gETApiUserSelfGroupsResponse>(
-    getGETApiUserSelfGroupsUrl(),
+): Promise<getApiUserSelfGroupsResponse> => {
+  return customFetch<getApiUserSelfGroupsResponse>(
+    getGetApiUserSelfGroupsUrl(),
     {
       ...options,
       method: "GET",
