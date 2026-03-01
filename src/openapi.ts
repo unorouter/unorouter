@@ -420,6 +420,14 @@ export interface FetchModelsRequest {
   type?: number;
 }
 
+/**
+ * GeminiModelList schema
+ */
+export interface GeminiModelList {
+  models?: unknown;
+  nextPageToken?: unknown;
+}
+
 export type ImageGenerationResponseDataItem = {
   b64_json?: string;
   revised_prompt?: string;
@@ -518,11 +526,23 @@ export interface OllamaModelRequest {
 }
 
 /**
- * OpenAIModelList schema
+ * OpenAISubscriptionResponse schema
  */
-export interface OpenAIModelList {
-  data?: unknown[];
+export interface OpenAISubscriptionResponse {
+  access_until?: number;
+  hard_limit_usd?: number;
+  has_payment_method?: boolean;
   object?: string;
+  soft_limit_usd?: number;
+  system_hard_limit_usd?: number;
+}
+
+/**
+ * OpenAIUsageResponse schema
+ */
+export interface OpenAIUsageResponse {
+  object?: string;
+  total_usage?: number;
 }
 
 /**
@@ -4550,12 +4570,12 @@ export const fixChannelsAbilities = async (
  * @summary Channel List Models
  */
 export type channelListModelsResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
 export type channelListModelsResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
@@ -4596,12 +4616,12 @@ export const channelListModels = async (
  * @summary Enabled List Models
  */
 export type enabledListModelsResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
 export type enabledListModelsResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
@@ -7841,12 +7861,12 @@ export const getUserMidjourney = async (
  * @summary Dashboard List Models
  */
 export type dashboardListModelsResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
 export type dashboardListModelsResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
@@ -15202,12 +15222,12 @@ export const universalVerify = async (
  * @summary Get Subscription
  */
 export type getSubscriptionResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: OpenAISubscriptionResponse;
   status: 200;
 };
 
 export type getSubscriptionResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: OpenAISubscriptionResponse;
   status: 200;
 };
 
@@ -15247,12 +15267,12 @@ export const getSubscription = async (
  * @summary Get Usage
  */
 export type getUsageResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: OpenAIUsageResponse;
   status: 200;
 };
 
 export type getUsageResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: OpenAIUsageResponse;
   status: 200;
 };
 
@@ -16705,12 +16725,12 @@ export const relayCompletions = async (
  * @summary Get V1 Dashboard Billing Subscription
  */
 export type getV1DashboardBillingSubscriptionResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: OpenAISubscriptionResponse;
   status: 200;
 };
 
 export type getV1DashboardBillingSubscriptionResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: OpenAISubscriptionResponse;
   status: 200;
 };
 
@@ -16754,12 +16774,12 @@ export const getV1DashboardBillingSubscription = async (
  * @summary Get V1 Dashboard Billing Usage
  */
 export type getV1DashboardBillingUsageResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: OpenAIUsageResponse;
   status: 200;
 };
 
 export type getV1DashboardBillingUsageResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: OpenAIUsageResponse;
   status: 200;
 };
 
@@ -17596,12 +17616,12 @@ export const relayMessages = async (
  * @summary Relay List Models
  */
 export type relayListModelsResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
 export type relayListModelsResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
@@ -17736,12 +17756,12 @@ export const deleteV1ModelsModel = async (
  * @summary Relay Retrieve Model
  */
 export type relayRetrieveModelResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
 export type relayRetrieveModelResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
@@ -18260,12 +18280,12 @@ export const postV1VideosVideoIdRemix = async (
  * @summary Relay List Gemini Models
  */
 export type relayListGeminiModelsResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: GeminiModelList;
   status: 200;
 };
 
 export type relayListGeminiModelsResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: GeminiModelList;
   status: 200;
 };
 
@@ -18354,12 +18374,12 @@ export const relayGeminiBeta = async (
  * @summary Relay List Gemini Compat Models
  */
 export type relayListGeminiCompatModelsResponse200ApplicationJson = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
 export type relayListGeminiCompatModelsResponse200ApplicationXml = {
-  data: OpenAIModelList;
+  data: ApiResponse;
   status: 200;
 };
 
