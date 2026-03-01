@@ -775,7 +775,7 @@ export type ResponseDataItem = {
 } | null;
 
 /**
- * Response_[ schema
+ * Response schema
  */
 export interface Response {
   data?: ResponseDataItem[] | null;
@@ -2457,8 +2457,8 @@ export type ResponseMapIntData = {
 } | null;
 
 /**
- * Response_map[int schema
- */
+ * Response_map_int schema
+ */w
 export interface ResponseMapInt {
   data?: ResponseMapIntData;
   message?: string;
@@ -2473,7 +2473,7 @@ export type ResponseMapStringData = {
 } | null;
 
 /**
- * Response_map[string schema
+ * Response_map_string schema
  */
 export interface ResponseMapString {
   data?: ResponseMapStringData;
