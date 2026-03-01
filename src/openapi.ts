@@ -747,585 +747,6 @@ export interface ResponseCommonPageInfo {
   success?: boolean;
 }
 
-export type ResponseControllerAffinityCacheClearDataData = {
-  deleted?: number;
-} | null;
-
-/**
- * Response_controller.AffinityCacheClearData schema
- */
-export interface ResponseControllerAffinityCacheClearData {
-  data?: ResponseControllerAffinityCacheClearDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerBackupCodesDataData = {
-  backup_codes?: string[];
-} | null;
-
-/**
- * Response_controller.BackupCodesData schema
- */
-export interface ResponseControllerBackupCodesData {
-  data?: ResponseControllerBackupCodesDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerBillingPreferenceDataData = {
-  billing_preference?: string;
-} | null;
-
-/**
- * Response_controller.BillingPreferenceData schema
- */
-export interface ResponseControllerBillingPreferenceData {
-  data?: ResponseControllerBillingPreferenceDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerChannelKeyDataData = {
-  key?: string;
-} | null;
-
-/**
- * Response_controller.ChannelKeyData schema
- */
-export interface ResponseControllerChannelKeyData {
-  data?: ResponseControllerChannelKeyDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerCheckinResultDataData = {
-  checkin_date?: string;
-  quota_awarded?: number;
-} | null;
-
-/**
- * Response_controller.CheckinResultData schema
- */
-export interface ResponseControllerCheckinResultData {
-  data?: ResponseControllerCheckinResultDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerCheckinStatusDataDataStatsRecordsItem = {
-  checkin_date?: string;
-  quota_awarded?: number;
-};
-
-export type ResponseControllerCheckinStatusDataDataStats = {
-  checked_in_today?: boolean;
-  checkin_count?: number;
-  records?: ResponseControllerCheckinStatusDataDataStatsRecordsItem[];
-  total_checkins?: number;
-  total_quota?: number;
-};
-
-export type ResponseControllerCheckinStatusDataData = {
-  enabled?: boolean;
-  max_quota?: number;
-  min_quota?: number;
-  stats?: ResponseControllerCheckinStatusDataDataStats;
-} | null;
-
-/**
- * Response_controller.CheckinStatusData schema
- */
-export interface ResponseControllerCheckinStatusData {
-  data?: ResponseControllerCheckinStatusDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerClusterNameAvailabilityResponseData = {
-  available?: boolean;
-  name?: string;
-} | null;
-
-/**
- * Response_controller.ClusterNameAvailabilityResponse schema
- */
-export interface ResponseControllerClusterNameAvailabilityResponse {
-  data?: ResponseControllerClusterNameAvailabilityResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerContainerDetailResponseDataEventsItem = {
-  message?: string;
-  time?: number;
-};
-
-export type ResponseControllerContainerDetailResponseData = {
-  brand_name?: string;
-  container_id?: string;
-  created_at?: number;
-  deployment_id?: string;
-  device_id?: string;
-  events?: ResponseControllerContainerDetailResponseDataEventsItem[];
-  gpus_per_container?: number;
-  hardware?: string;
-  public_url?: string;
-  status?: string;
-  uptime_percent?: number;
-} | null;
-
-/**
- * Response_controller.ContainerDetailResponse schema
- */
-export interface ResponseControllerContainerDetailResponse {
-  data?: ResponseControllerContainerDetailResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerContainerListResponseDataContainersItemEventsItem =
-  {
-    message?: string;
-    time?: number;
-  };
-
-export type ResponseControllerContainerListResponseDataContainersItem = {
-  brand_name?: string;
-  container_id?: string;
-  created_at?: number;
-  device_id?: string;
-  events?: ResponseControllerContainerListResponseDataContainersItemEventsItem[];
-  gpus_per_container?: number;
-  hardware?: string;
-  public_url?: string;
-  status?: string;
-  uptime_percent?: number;
-};
-
-export type ResponseControllerContainerListResponseData = {
-  containers?: ResponseControllerContainerListResponseDataContainersItem[];
-  total?: number;
-} | null;
-
-/**
- * Response_controller.ContainerListResponse schema
- */
-export interface ResponseControllerContainerListResponse {
-  data?: ResponseControllerContainerListResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerCopyChannelDataData = {
-  id?: number;
-} | null;
-
-/**
- * Response_controller.CopyChannelData schema
- */
-export interface ResponseControllerCopyChannelData {
-  data?: ResponseControllerCopyChannelDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerCreateDeploymentResponseData = {
-  deployment_id?: string;
-  message?: string;
-  status?: string;
-} | null;
-
-/**
- * Response_controller.CreateDeploymentResponse schema
- */
-export interface ResponseControllerCreateDeploymentResponse {
-  data?: ResponseControllerCreateDeploymentResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerCreemPayDataData = {
-  checkout_url?: string;
-  order_id?: string;
-} | null;
-
-/**
- * Response_controller.CreemPayData schema
- */
-export interface ResponseControllerCreemPayData {
-  data?: ResponseControllerCreemPayDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerCustomOAuthProviderResponseData = {
-  access_denied_message?: string;
-  access_policy?: string;
-  auth_style?: number;
-  authorization_endpoint?: string;
-  client_id?: string;
-  display_name_field?: string;
-  email_field?: string;
-  enabled?: boolean;
-  icon?: string;
-  id?: number;
-  name?: string;
-  scopes?: string;
-  slug?: string;
-  token_endpoint?: string;
-  user_id_field?: string;
-  user_info_endpoint?: string;
-  username_field?: string;
-  well_known?: string;
-} | null;
-
-/**
- * Response_controller.CustomOAuthProviderResponse schema
- */
-export interface ResponseControllerCustomOAuthProviderResponse {
-  data?: ResponseControllerCustomOAuthProviderResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeleteDeploymentResponseData = {
-  deployment_id?: string;
-  message?: string;
-  status?: string;
-} | null;
-
-/**
- * Response_controller.DeleteDeploymentResponse schema
- */
-export interface ResponseControllerDeleteDeploymentResponse {
-  data?: ResponseControllerDeleteDeploymentResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeletedCountDataData = {
-  deleted?: number;
-} | null;
-
-/**
- * Response_controller.DeletedCountData schema
- */
-export interface ResponseControllerDeletedCountData {
-  data?: ResponseControllerDeletedCountDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeploymentDetailResponseDataContainerConfigEnvVariables =
-  { [key: string]: unknown };
-
-export type ResponseControllerDeploymentDetailResponseDataContainerConfig = {
-  entrypoint?: string[];
-  env_variables?: ResponseControllerDeploymentDetailResponseDataContainerConfigEnvVariables;
-  image_url?: string;
-  traffic_port?: number;
-};
-
-export type ResponseControllerDeploymentDetailResponseDataLocationsItem = {
-  id?: number;
-  iso2?: string;
-  name?: string;
-};
-
-export type ResponseControllerDeploymentDetailResponseDataResourceConfig = {
-  cpu?: string;
-  gpu?: string;
-  memory?: string;
-};
-
-export type ResponseControllerDeploymentDetailResponseData = {
-  amount_paid?: number;
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_config?: ResponseControllerDeploymentDetailResponseDataContainerConfig;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  gpus_per_container?: number;
-  hardware_id?: number;
-  hardware_name?: string;
-  id?: string;
-  instance_count?: number;
-  locations?: ResponseControllerDeploymentDetailResponseDataLocationsItem[];
-  model_name?: string;
-  model_version?: string;
-  resource_config?: ResponseControllerDeploymentDetailResponseDataResourceConfig;
-  status?: string;
-  total_containers?: number;
-  total_gpus?: number;
-  updated_at?: number;
-} | null;
-
-/**
- * Response_controller.DeploymentDetailResponse schema
- */
-export interface ResponseControllerDeploymentDetailResponse {
-  data?: ResponseControllerDeploymentDetailResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeploymentItemDataResourceConfig = {
-  cpu?: string;
-  gpu?: string;
-  memory?: string;
-};
-
-export type ResponseControllerDeploymentItemData = {
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_name?: string;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  hardware_info?: string;
-  hardware_name?: string;
-  hardware_quantity?: number;
-  id?: string;
-  instance_count?: number;
-  model_name?: string;
-  model_version?: string;
-  provider?: string;
-  resource_config?: ResponseControllerDeploymentItemDataResourceConfig;
-  status?: string;
-  time_remaining?: string;
-  time_remaining_minutes?: number;
-  type?: string;
-  updated_at?: number;
-} | null;
-
-/**
- * Response_controller.DeploymentItem schema
- */
-export interface ResponseControllerDeploymentItem {
-  data?: ResponseControllerDeploymentItemData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeploymentListResponseDataItemsItemResourceConfig =
-  {
-    cpu?: string;
-    gpu?: string;
-    memory?: string;
-  };
-
-export type ResponseControllerDeploymentListResponseDataItemsItem = {
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_name?: string;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  hardware_info?: string;
-  hardware_name?: string;
-  hardware_quantity?: number;
-  id?: string;
-  instance_count?: number;
-  model_name?: string;
-  model_version?: string;
-  provider?: string;
-  resource_config?: ResponseControllerDeploymentListResponseDataItemsItemResourceConfig;
-  status?: string;
-  time_remaining?: string;
-  time_remaining_minutes?: number;
-  type?: string;
-  updated_at?: number;
-};
-
-export type ResponseControllerDeploymentListResponseDataStatusCounts = {
-  [key: string]: number;
-};
-
-export type ResponseControllerDeploymentListResponseData = {
-  items?: ResponseControllerDeploymentListResponseDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  status_counts?: ResponseControllerDeploymentListResponseDataStatusCounts;
-  total?: number;
-} | null;
-
-/**
- * Response_controller.DeploymentListResponse schema
- */
-export interface ResponseControllerDeploymentListResponse {
-  data?: ResponseControllerDeploymentListResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeploymentSearchResponseDataItemsItemResourceConfig =
-  {
-    cpu?: string;
-    gpu?: string;
-    memory?: string;
-  };
-
-export type ResponseControllerDeploymentSearchResponseDataItemsItem = {
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_name?: string;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  hardware_info?: string;
-  hardware_name?: string;
-  hardware_quantity?: number;
-  id?: string;
-  instance_count?: number;
-  model_name?: string;
-  model_version?: string;
-  provider?: string;
-  resource_config?: ResponseControllerDeploymentSearchResponseDataItemsItemResourceConfig;
-  status?: string;
-  time_remaining?: string;
-  time_remaining_minutes?: number;
-  type?: string;
-  updated_at?: number;
-};
-
-export type ResponseControllerDeploymentSearchResponseData = {
-  items?: ResponseControllerDeploymentSearchResponseDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
-} | null;
-
-/**
- * Response_controller.DeploymentSearchResponse schema
- */
-export interface ResponseControllerDeploymentSearchResponse {
-  data?: ResponseControllerDeploymentSearchResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeploymentSettingsResponseData = {
-  can_connect?: boolean;
-  configured?: boolean;
-  enabled?: boolean;
-  provider?: string;
-} | null;
-
-/**
- * Response_controller.DeploymentSettingsResponse schema
- */
-export interface ResponseControllerDeploymentSettingsResponse {
-  data?: ResponseControllerDeploymentSettingsResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerDeploymentStatusResponseData = {
-  deployment_id?: string;
-  status?: string;
-} | null;
-
-/**
- * Response_controller.DeploymentStatusResponse schema
- */
-export interface ResponseControllerDeploymentStatusResponse {
-  data?: ResponseControllerDeploymentStatusResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerEpayPayResponseData = {
-  params?: unknown;
-  url?: string;
-} | null;
-
-/**
- * Response_controller.EpayPayResponse schema
- */
-export interface ResponseControllerEpayPayResponse {
-  data?: ResponseControllerEpayPayResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerFetchDiscoveryDataDataDiscovery = {
-  [key: string]: unknown;
-};
-
-export type ResponseControllerFetchDiscoveryDataData = {
-  discovery?: ResponseControllerFetchDiscoveryDataDataDiscovery;
-  well_known_url?: string;
-} | null;
-
-/**
- * Response_controller.FetchDiscoveryData schema
- */
-export interface ResponseControllerFetchDiscoveryData {
-  data?: ResponseControllerFetchDiscoveryDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerFetchUpstreamRatiosResultDataDifferencesConfidence =
-  { [key: string]: boolean };
-
-export type ResponseControllerFetchUpstreamRatiosResultDataDifferencesUpstreams =
-  { [key: string]: unknown };
-
-export type ResponseControllerFetchUpstreamRatiosResultDataDifferences = {
-  [key: string]: {
-    [key: string]: {
-      confidence?: ResponseControllerFetchUpstreamRatiosResultDataDifferencesConfidence;
-      current?: unknown;
-      upstreams?: ResponseControllerFetchUpstreamRatiosResultDataDifferencesUpstreams;
-    };
-  };
-};
-
-export type ResponseControllerFetchUpstreamRatiosResultDataTestResultsItem = {
-  error?: string | null;
-  name?: string;
-  status?: string;
-};
-
-export type ResponseControllerFetchUpstreamRatiosResultData = {
-  differences?: ResponseControllerFetchUpstreamRatiosResultDataDifferences;
-  test_results?: ResponseControllerFetchUpstreamRatiosResultDataTestResultsItem[];
-} | null;
-
-/**
- * Response_controller.FetchUpstreamRatiosResult schema
- */
-export interface ResponseControllerFetchUpstreamRatiosResult {
-  data?: ResponseControllerFetchUpstreamRatiosResultData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerFixAbilityDataData = {
-  fails?: number;
-  success?: number;
-} | null;
-
-/**
- * Response_controller.FixAbilityData schema
- */
-export interface ResponseControllerFixAbilityData {
-  data?: ResponseControllerFixAbilityDataData;
-  message?: string;
-  success?: boolean;
-}
-
 export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason =
   { [key: string]: string | null } | null;
 
@@ -1401,63 +822,6 @@ export interface ResponseControllerGetAllChannelsData {
   success?: boolean;
 }
 
-export type ResponseControllerHardwareTypesResponseDataHardwareTypesItem = {
-  available?: boolean;
-  available_count?: number | null;
-  brand_name?: string | null;
-  cpu?: string | null;
-  description?: string | null;
-  gpu_memory?: number;
-  gpu_type?: string;
-  hourly_rate?: number;
-  id?: number;
-  max_gpus?: number;
-  memory?: number | null;
-  name?: string;
-  storage?: number | null;
-};
-
-export type ResponseControllerHardwareTypesResponseData = {
-  hardware_types?: ResponseControllerHardwareTypesResponseDataHardwareTypesItem[];
-  total?: number;
-  total_available?: number;
-} | null;
-
-/**
- * Response_controller.HardwareTypesResponse schema
- */
-export interface ResponseControllerHardwareTypesResponse {
-  data?: ResponseControllerHardwareTypesResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerLocationsListResponseDataLocationsItem = {
-  available?: number | null;
-  country?: string | null;
-  description?: string | null;
-  id?: number;
-  iso2?: string | null;
-  latitude?: number | null;
-  longitude?: number | null;
-  name?: string;
-  region?: string | null;
-};
-
-export type ResponseControllerLocationsListResponseData = {
-  locations?: ResponseControllerLocationsListResponseDataLocationsItem[];
-  total?: number;
-} | null;
-
-/**
- * Response_controller.LocationsListResponse schema
- */
-export interface ResponseControllerLocationsListResponse {
-  data?: ResponseControllerLocationsListResponseData;
-  message?: string;
-  success?: boolean;
-}
-
 export type ResponseControllerModelsMetaListDataDataItemsItemBoundChannelsItem =
   {
     name?: string;
@@ -1503,19 +867,6 @@ export type ResponseControllerModelsMetaListDataData = {
  */
 export interface ResponseControllerModelsMetaListData {
   data?: ResponseControllerModelsMetaListDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerOllamaVersionDataData = {
-  version?: string;
-} | null;
-
-/**
- * Response_controller.OllamaVersionData schema
- */
-export interface ResponseControllerOllamaVersionData {
-  data?: ResponseControllerOllamaVersionDataData;
   message?: string;
   success?: boolean;
 }
@@ -1582,115 +933,6 @@ export type ResponseControllerPatchChannelData = {
  */
 export interface ResponseControllerPatchChannel {
   data?: ResponseControllerPatchChannelData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerPerformanceStatsDataCacheStats = {
-  active_disk_files?: number;
-  active_memory_buffers?: number;
-  current_disk_usage_bytes?: number;
-  current_memory_usage_bytes?: number;
-  disk_cache_hits?: number;
-  disk_cache_max_bytes?: number;
-  disk_cache_threshold_bytes?: number;
-  memory_cache_hits?: number;
-};
-
-export type ResponseControllerPerformanceStatsDataConfig = {
-  disk_cache_enabled?: boolean;
-  disk_cache_max_size_mb?: number;
-  disk_cache_path?: string;
-  disk_cache_threshold_mb?: number;
-  is_running_in_container?: boolean;
-  monitor_cpu_threshold?: number;
-  monitor_disk_threshold?: number;
-  monitor_enabled?: boolean;
-  monitor_memory_threshold?: number;
-};
-
-export type ResponseControllerPerformanceStatsDataDiskCacheInfo = {
-  exists?: boolean;
-  file_count?: number;
-  path?: string;
-  total_size?: number;
-};
-
-export type ResponseControllerPerformanceStatsDataDiskSpaceInfo = {
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  free?: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  total?: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  used?: number;
-  used_percent?: number;
-};
-
-export type ResponseControllerPerformanceStatsDataMemoryStats = {
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  alloc?: number;
-  /**
-   * @minimum 0
-   * @maximum 4294967295
-   */
-  num_gc?: number;
-  num_goroutine?: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  sys?: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  total_alloc?: number;
-};
-
-export type ResponseControllerPerformanceStatsData = {
-  cache_stats?: ResponseControllerPerformanceStatsDataCacheStats;
-  config?: ResponseControllerPerformanceStatsDataConfig;
-  disk_cache_info?: ResponseControllerPerformanceStatsDataDiskCacheInfo;
-  disk_space_info?: ResponseControllerPerformanceStatsDataDiskSpaceInfo;
-  memory_stats?: ResponseControllerPerformanceStatsDataMemoryStats;
-} | null;
-
-/**
- * Response_controller.PerformanceStats schema
- */
-export interface ResponseControllerPerformanceStats {
-  data?: ResponseControllerPerformanceStatsData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerRefreshCodexDataData = {
-  account_id?: string;
-  channel_id?: number;
-  channel_name?: string;
-  channel_type?: number;
-  email?: string;
-  expires_at?: string;
-  last_refresh?: string;
-} | null;
-
-/**
- * Response_controller.RefreshCodexData schema
- */
-export interface ResponseControllerRefreshCodexData {
-  data?: ResponseControllerRefreshCodexDataData;
   message?: string;
   success?: boolean;
 }
@@ -1768,122 +1010,6 @@ export interface ResponseControllerSearchChannelsData {
   success?: boolean;
 }
 
-export type ResponseControllerSetup2FAResponseData = {
-  backup_codes?: string[];
-  qr_code_data?: string;
-  secret?: string;
-} | null;
-
-/**
- * Response_controller.Setup2FAResponse schema
- */
-export interface ResponseControllerSetup2FAResponse {
-  data?: ResponseControllerSetup2FAResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerStatusDataDataAnnouncements = unknown | null;
-
-export type ResponseControllerStatusDataDataApiInfo = unknown | null;
-
-export type ResponseControllerStatusDataDataCustomOauthProviders =
-  | unknown
-  | null;
-
-export type ResponseControllerStatusDataDataFaq = unknown | null;
-
-export type ResponseControllerStatusDataData = {
-  HeaderNavModules?: string;
-  SidebarModulesAdmin?: string;
-  _qn?: string;
-  announcements?: ResponseControllerStatusDataDataAnnouncements;
-  announcements_enabled?: boolean;
-  api_info?: ResponseControllerStatusDataDataApiInfo;
-  api_info_enabled?: boolean;
-  chats?: unknown;
-  checkin_enabled?: boolean;
-  custom_currency_exchange_rate?: number;
-  custom_currency_symbol?: string;
-  custom_oauth_providers?: ResponseControllerStatusDataDataCustomOauthProviders;
-  data_export_default_time?: string;
-  default_collapse_sidebar?: boolean;
-  default_use_auto_group?: boolean;
-  demo_site_enabled?: boolean;
-  discord_client_id?: string;
-  discord_oauth?: boolean;
-  display_in_currency?: boolean;
-  docs_link?: string;
-  email_verification?: boolean;
-  enable_batch_update?: boolean;
-  enable_data_export?: boolean;
-  enable_drawing?: boolean;
-  enable_task?: boolean;
-  faq?: ResponseControllerStatusDataDataFaq;
-  faq_enabled?: boolean;
-  footer_html?: string;
-  github_client_id?: string;
-  github_oauth?: boolean;
-  linuxdo_client_id?: string;
-  linuxdo_minimum_trust_level?: number;
-  linuxdo_oauth?: boolean;
-  logo?: string;
-  mj_notify_enabled?: boolean;
-  oidc_authorization_endpoint?: string;
-  oidc_client_id?: string;
-  oidc_enabled?: boolean;
-  passkey_allow_insecure?: boolean;
-  passkey_attachment?: string;
-  passkey_display_name?: string;
-  passkey_login?: boolean;
-  passkey_origins?: string;
-  passkey_rp_id?: string;
-  passkey_user_verification?: string;
-  price?: number;
-  privacy_policy_enabled?: boolean;
-  quota_display_type?: string;
-  quota_per_unit?: number;
-  self_use_mode_enabled?: boolean;
-  server_address?: string;
-  setup?: boolean;
-  start_time?: number;
-  stripe_unit_price?: number;
-  system_name?: string;
-  telegram_bot_name?: string;
-  telegram_oauth?: boolean;
-  top_up_link?: string;
-  turnstile_check?: boolean;
-  turnstile_site_key?: string;
-  uptime_kuma_enabled?: boolean;
-  usd_exchange_rate?: number;
-  user_agreement_enabled?: boolean;
-  version?: string;
-  wechat_login?: boolean;
-  wechat_qrcode?: string;
-} | null;
-
-/**
- * Response_controller.StatusData schema
- */
-export interface ResponseControllerStatusData {
-  data?: ResponseControllerStatusDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerStripePayLinkDataData = {
-  pay_link?: string;
-} | null;
-
-/**
- * Response_controller.StripePayLinkData schema
- */
-export interface ResponseControllerStripePayLinkData {
-  data?: ResponseControllerStripePayLinkDataData;
-  message?: string;
-  success?: boolean;
-}
-
 export type ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItemSubscription =
   {
     amount_total?: number;
@@ -1945,208 +1071,111 @@ export interface ResponseControllerSubscriptionSelfData {
   success?: boolean;
 }
 
-export type ResponseControllerSyncPreviewResultDataConflictsItemFieldsItem = {
-  field?: string;
-  local?: unknown;
-  upstream?: unknown;
-};
-
-export type ResponseControllerSyncPreviewResultDataConflictsItem = {
-  fields?: ResponseControllerSyncPreviewResultDataConflictsItemFieldsItem[];
-  model_name?: string;
-};
-
-export type ResponseControllerSyncPreviewResultDataSource = {
-  locale?: string;
-  models_url?: string;
-  vendors_url?: string;
-};
-
-export type ResponseControllerSyncPreviewResultData = {
-  conflicts?: ResponseControllerSyncPreviewResultDataConflictsItem[];
-  missing?: string[];
-  source?: ResponseControllerSyncPreviewResultDataSource;
+export type ResponseDtoAffinityCacheClearDataData = {
+  deleted?: number;
 } | null;
 
 /**
- * Response_controller.SyncPreviewResult schema
+ * Response_dto.AffinityCacheClearData schema
  */
-export interface ResponseControllerSyncPreviewResult {
-  data?: ResponseControllerSyncPreviewResultData;
+export interface ResponseDtoAffinityCacheClearData {
+  data?: ResponseDtoAffinityCacheClearDataData;
   message?: string;
   success?: boolean;
 }
 
-export type ResponseControllerSyncUpstreamResultDataSource = {
-  locale?: string;
-  models_url?: string;
-  vendors_url?: string;
+export type ResponseDtoBackupCodesDataData = {
+  backup_codes?: string[];
+} | null;
+
+/**
+ * Response_dto.BackupCodesData schema
+ */
+export interface ResponseDtoBackupCodesData {
+  data?: ResponseDtoBackupCodesDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoBillingPreferenceDataData = {
+  billing_preference?: string;
+} | null;
+
+/**
+ * Response_dto.BillingPreferenceData schema
+ */
+export interface ResponseDtoBillingPreferenceData {
+  data?: ResponseDtoBillingPreferenceDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoChannelKeyDataData = {
+  key?: string;
+} | null;
+
+/**
+ * Response_dto.ChannelKeyData schema
+ */
+export interface ResponseDtoChannelKeyData {
+  data?: ResponseDtoChannelKeyDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCheckinResultDataData = {
+  checkin_date?: string;
+  quota_awarded?: number;
+} | null;
+
+/**
+ * Response_dto.CheckinResultData schema
+ */
+export interface ResponseDtoCheckinResultData {
+  data?: ResponseDtoCheckinResultDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCheckinStatusDataDataStatsRecordsItem = {
+  checkin_date?: string;
+  quota_awarded?: number;
 };
 
-export type ResponseControllerSyncUpstreamResultData = {
-  created_list?: string[];
-  created_models?: number;
-  created_vendors?: number;
-  skipped_models?: string[];
-  source?: ResponseControllerSyncUpstreamResultDataSource;
-  updated_list?: string[];
-  updated_models?: number;
-} | null;
-
-/**
- * Response_controller.SyncUpstreamResult schema
- */
-export interface ResponseControllerSyncUpstreamResult {
-  data?: ResponseControllerSyncUpstreamResultData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerTestConnectionResponseData = {
-  hardware_count?: number;
-  total_available?: number;
-} | null;
-
-/**
- * Response_controller.TestConnectionResponse schema
- */
-export interface ResponseControllerTestConnectionResponse {
-  data?: ResponseControllerTestConnectionResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerTestStatusDataData = {
-  http_stats?: unknown;
-} | null;
-
-/**
- * Response_controller.TestStatusData schema
- */
-export interface ResponseControllerTestStatusData {
-  data?: ResponseControllerTestStatusDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerTokenUsageDataDataModelLimits = {
-  [key: string]: boolean;
+export type ResponseDtoCheckinStatusDataDataStats = {
+  checked_in_today?: boolean;
+  checkin_count?: number;
+  records?: ResponseDtoCheckinStatusDataDataStatsRecordsItem[];
+  total_checkins?: number;
+  total_quota?: number;
 };
 
-export type ResponseControllerTokenUsageDataData = {
-  expires_at?: number;
-  model_limits?: ResponseControllerTokenUsageDataDataModelLimits;
-  model_limits_enabled?: boolean;
-  name?: string;
-  object?: string;
-  total_available?: number;
-  total_granted?: number;
-  total_used?: number;
-  unlimited_quota?: boolean;
-} | null;
-
-/**
- * Response_controller.TokenUsageData schema
- */
-export interface ResponseControllerTokenUsageData {
-  data?: ResponseControllerTokenUsageDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerTopUpInfoDataDataDiscount = {
-  [key: string]: number;
-};
-
-export type ResponseControllerTopUpInfoDataDataPayMethodsItem = {
-  [key: string]: string;
-};
-
-export type ResponseControllerTopUpInfoDataData = {
-  amount_options?: number[];
-  creem_products?: string;
-  discount?: ResponseControllerTopUpInfoDataDataDiscount;
-  enable_creem_topup?: boolean;
-  enable_online_topup?: boolean;
-  enable_stripe_topup?: boolean;
-  min_topup?: number;
-  pay_methods?: ResponseControllerTopUpInfoDataDataPayMethodsItem[];
-  stripe_min_topup?: number;
-} | null;
-
-/**
- * Response_controller.TopUpInfoData schema
- */
-export interface ResponseControllerTopUpInfoData {
-  data?: ResponseControllerTopUpInfoDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerTwoFAStatusDataData = {
-  backup_codes_remaining?: number | null;
+export type ResponseDtoCheckinStatusDataData = {
   enabled?: boolean;
-  locked?: boolean;
+  max_quota?: number;
+  min_quota?: number;
+  stats?: ResponseDtoCheckinStatusDataDataStats;
 } | null;
 
 /**
- * Response_controller.TwoFAStatusData schema
+ * Response_dto.CheckinStatusData schema
  */
-export interface ResponseControllerTwoFAStatusData {
-  data?: ResponseControllerTwoFAStatusDataData;
+export interface ResponseDtoCheckinStatusData {
+  data?: ResponseDtoCheckinStatusDataData;
   message?: string;
   success?: boolean;
 }
 
-export type ResponseControllerUpdateNameResponseData = {
-  id?: string;
-  message?: string;
+export type ResponseDtoClusterNameAvailabilityResponseData = {
+  available?: boolean;
   name?: string;
-  status?: string;
 } | null;
 
 /**
- * Response_controller.UpdateNameResponse schema
+ * Response_dto.ClusterNameAvailabilityResponse schema
  */
-export interface ResponseControllerUpdateNameResponse {
-  data?: ResponseControllerUpdateNameResponseData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseControllerUserSelfDataData = {
-  aff_code?: string;
-  aff_count?: number;
-  aff_history_quota?: number;
-  aff_quota?: number;
-  discord_id?: string;
-  display_name?: string;
-  email?: string;
-  github_id?: string;
-  group?: string;
-  id?: number;
-  inviter_id?: number;
-  linux_do_id?: string;
-  oidc_id?: string;
-  permissions?: unknown;
-  quota?: number;
-  request_count?: number;
-  role?: number;
-  setting?: string;
-  sidebar_modules?: string;
-  status?: number;
-  stripe_customer?: string;
-  telegram_id?: string;
-  used_quota?: number;
-  username?: string;
-  wechat_id?: string;
-} | null;
-
-/**
- * Response_controller.UserSelfData schema
- */
-export interface ResponseControllerUserSelfData {
-  data?: ResponseControllerUserSelfDataData;
+export interface ResponseDtoClusterNameAvailabilityResponse {
+  data?: ResponseDtoClusterNameAvailabilityResponseData;
   message?: string;
   success?: boolean;
 }
@@ -2160,6 +1189,508 @@ export type ResponseDtoCodexOAuthStartDataData = {
  */
 export interface ResponseDtoCodexOAuthStartData {
   data?: ResponseDtoCodexOAuthStartDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCodexUsageDataData = {
+  data?: unknown;
+  message?: string;
+  success?: boolean;
+  upstream_status?: number;
+} | null;
+
+/**
+ * Response_dto.CodexUsageData schema
+ */
+export interface ResponseDtoCodexUsageData {
+  data?: ResponseDtoCodexUsageDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoContainerDetailResponseDataEventsItem = {
+  message?: string;
+  time?: number;
+};
+
+export type ResponseDtoContainerDetailResponseData = {
+  brand_name?: string;
+  container_id?: string;
+  created_at?: number;
+  deployment_id?: string;
+  device_id?: string;
+  events?: ResponseDtoContainerDetailResponseDataEventsItem[];
+  gpus_per_container?: number;
+  hardware?: string;
+  public_url?: string;
+  status?: string;
+  uptime_percent?: number;
+} | null;
+
+/**
+ * Response_dto.ContainerDetailResponse schema
+ */
+export interface ResponseDtoContainerDetailResponse {
+  data?: ResponseDtoContainerDetailResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoContainerListResponseDataContainersItemEventsItem = {
+  message?: string;
+  time?: number;
+};
+
+export type ResponseDtoContainerListResponseDataContainersItem = {
+  brand_name?: string;
+  container_id?: string;
+  created_at?: number;
+  device_id?: string;
+  events?: ResponseDtoContainerListResponseDataContainersItemEventsItem[];
+  gpus_per_container?: number;
+  hardware?: string;
+  public_url?: string;
+  status?: string;
+  uptime_percent?: number;
+};
+
+export type ResponseDtoContainerListResponseData = {
+  containers?: ResponseDtoContainerListResponseDataContainersItem[];
+  total?: number;
+} | null;
+
+/**
+ * Response_dto.ContainerListResponse schema
+ */
+export interface ResponseDtoContainerListResponse {
+  data?: ResponseDtoContainerListResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCopyChannelDataData = {
+  id?: number;
+} | null;
+
+/**
+ * Response_dto.CopyChannelData schema
+ */
+export interface ResponseDtoCopyChannelData {
+  data?: ResponseDtoCopyChannelDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCreateDeploymentResponseData = {
+  deployment_id?: string;
+  message?: string;
+  status?: string;
+} | null;
+
+/**
+ * Response_dto.CreateDeploymentResponse schema
+ */
+export interface ResponseDtoCreateDeploymentResponse {
+  data?: ResponseDtoCreateDeploymentResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCreemPayDataData = {
+  checkout_url?: string;
+  order_id?: string;
+} | null;
+
+/**
+ * Response_dto.CreemPayData schema
+ */
+export interface ResponseDtoCreemPayData {
+  data?: ResponseDtoCreemPayDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoCustomOAuthProviderResponseData = {
+  access_denied_message?: string;
+  access_policy?: string;
+  auth_style?: number;
+  authorization_endpoint?: string;
+  client_id?: string;
+  display_name_field?: string;
+  email_field?: string;
+  enabled?: boolean;
+  icon?: string;
+  id?: number;
+  name?: string;
+  scopes?: string;
+  slug?: string;
+  token_endpoint?: string;
+  user_id_field?: string;
+  user_info_endpoint?: string;
+  username_field?: string;
+  well_known?: string;
+} | null;
+
+/**
+ * Response_dto.CustomOAuthProviderResponse schema
+ */
+export interface ResponseDtoCustomOAuthProviderResponse {
+  data?: ResponseDtoCustomOAuthProviderResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeleteDeploymentResponseData = {
+  deployment_id?: string;
+  message?: string;
+  status?: string;
+} | null;
+
+/**
+ * Response_dto.DeleteDeploymentResponse schema
+ */
+export interface ResponseDtoDeleteDeploymentResponse {
+  data?: ResponseDtoDeleteDeploymentResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeletedCountDataData = {
+  deleted?: number;
+} | null;
+
+/**
+ * Response_dto.DeletedCountData schema
+ */
+export interface ResponseDtoDeletedCountData {
+  data?: ResponseDtoDeletedCountDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables =
+  { [key: string]: unknown };
+
+export type ResponseDtoDeploymentDetailResponseDataContainerConfig = {
+  entrypoint?: string[];
+  env_variables?: ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables;
+  image_url?: string;
+  traffic_port?: number;
+};
+
+export type ResponseDtoDeploymentDetailResponseDataLocationsItem = {
+  id?: number;
+  iso2?: string;
+  name?: string;
+};
+
+export type ResponseDtoDeploymentDetailResponseDataResourceConfig = {
+  cpu?: string;
+  gpu?: string;
+  memory?: string;
+};
+
+export type ResponseDtoDeploymentDetailResponseData = {
+  amount_paid?: number;
+  brand_name?: string;
+  completed_percent?: number;
+  compute_minutes_remaining?: number;
+  compute_minutes_served?: number;
+  container_config?: ResponseDtoDeploymentDetailResponseDataContainerConfig;
+  created_at?: number;
+  deployment_name?: string;
+  description?: string;
+  gpus_per_container?: number;
+  hardware_id?: number;
+  hardware_name?: string;
+  id?: string;
+  instance_count?: number;
+  locations?: ResponseDtoDeploymentDetailResponseDataLocationsItem[];
+  model_name?: string;
+  model_version?: string;
+  resource_config?: ResponseDtoDeploymentDetailResponseDataResourceConfig;
+  status?: string;
+  total_containers?: number;
+  total_gpus?: number;
+  updated_at?: number;
+} | null;
+
+/**
+ * Response_dto.DeploymentDetailResponse schema
+ */
+export interface ResponseDtoDeploymentDetailResponse {
+  data?: ResponseDtoDeploymentDetailResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeploymentListResponseDataItemsItemResourceConfig = {
+  cpu?: string;
+  gpu?: string;
+  memory?: string;
+};
+
+export type ResponseDtoDeploymentListResponseDataItemsItem = {
+  brand_name?: string;
+  completed_percent?: number;
+  compute_minutes_remaining?: number;
+  compute_minutes_served?: number;
+  container_name?: string;
+  created_at?: number;
+  deployment_name?: string;
+  description?: string;
+  hardware_info?: string;
+  hardware_name?: string;
+  hardware_quantity?: number;
+  id?: string;
+  instance_count?: number;
+  model_name?: string;
+  model_version?: string;
+  provider?: string;
+  resource_config?: ResponseDtoDeploymentListResponseDataItemsItemResourceConfig;
+  status?: string;
+  time_remaining?: string;
+  time_remaining_minutes?: number;
+  type?: string;
+  updated_at?: number;
+};
+
+export type ResponseDtoDeploymentListResponseDataStatusCounts = {
+  [key: string]: number;
+};
+
+export type ResponseDtoDeploymentListResponseData = {
+  items?: ResponseDtoDeploymentListResponseDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  status_counts?: ResponseDtoDeploymentListResponseDataStatusCounts;
+  total?: number;
+} | null;
+
+/**
+ * Response_dto.DeploymentListResponse schema
+ */
+export interface ResponseDtoDeploymentListResponse {
+  data?: ResponseDtoDeploymentListResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig = {
+  cpu?: string;
+  gpu?: string;
+  memory?: string;
+};
+
+export type ResponseDtoDeploymentSearchResponseDataItemsItem = {
+  brand_name?: string;
+  completed_percent?: number;
+  compute_minutes_remaining?: number;
+  compute_minutes_served?: number;
+  container_name?: string;
+  created_at?: number;
+  deployment_name?: string;
+  description?: string;
+  hardware_info?: string;
+  hardware_name?: string;
+  hardware_quantity?: number;
+  id?: string;
+  instance_count?: number;
+  model_name?: string;
+  model_version?: string;
+  provider?: string;
+  resource_config?: ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig;
+  status?: string;
+  time_remaining?: string;
+  time_remaining_minutes?: number;
+  type?: string;
+  updated_at?: number;
+};
+
+export type ResponseDtoDeploymentSearchResponseData = {
+  items?: ResponseDtoDeploymentSearchResponseDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
+} | null;
+
+/**
+ * Response_dto.DeploymentSearchResponse schema
+ */
+export interface ResponseDtoDeploymentSearchResponse {
+  data?: ResponseDtoDeploymentSearchResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeploymentSettingsResponseData = {
+  can_connect?: boolean;
+  configured?: boolean;
+  enabled?: boolean;
+  provider?: string;
+} | null;
+
+/**
+ * Response_dto.DeploymentSettingsResponse schema
+ */
+export interface ResponseDtoDeploymentSettingsResponse {
+  data?: ResponseDtoDeploymentSettingsResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeploymentStatusResponseData = {
+  deployment_id?: string;
+  status?: string;
+} | null;
+
+/**
+ * Response_dto.DeploymentStatusResponse schema
+ */
+export interface ResponseDtoDeploymentStatusResponse {
+  data?: ResponseDtoDeploymentStatusResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoEpayPayResponseData = {
+  params?: unknown;
+  url?: string;
+} | null;
+
+/**
+ * Response_dto.EpayPayResponse schema
+ */
+export interface ResponseDtoEpayPayResponse {
+  data?: ResponseDtoEpayPayResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoFetchDiscoveryDataDataDiscovery = {
+  [key: string]: unknown;
+};
+
+export type ResponseDtoFetchDiscoveryDataData = {
+  discovery?: ResponseDtoFetchDiscoveryDataDataDiscovery;
+  well_known_url?: string;
+} | null;
+
+/**
+ * Response_dto.FetchDiscoveryData schema
+ */
+export interface ResponseDtoFetchDiscoveryData {
+  data?: ResponseDtoFetchDiscoveryDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence = {
+  [key: string]: boolean;
+};
+
+export type ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams = {
+  [key: string]: unknown;
+};
+
+export type ResponseDtoFetchUpstreamRatiosResultDataDifferences = {
+  [key: string]: {
+    [key: string]: {
+      confidence?: ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence;
+      current?: unknown;
+      upstreams?: ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams;
+    };
+  };
+};
+
+export type ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem = {
+  error?: string | null;
+  name?: string;
+  status?: string;
+};
+
+export type ResponseDtoFetchUpstreamRatiosResultData = {
+  differences?: ResponseDtoFetchUpstreamRatiosResultDataDifferences;
+  test_results?: ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem[];
+} | null;
+
+/**
+ * Response_dto.FetchUpstreamRatiosResult schema
+ */
+export interface ResponseDtoFetchUpstreamRatiosResult {
+  data?: ResponseDtoFetchUpstreamRatiosResultData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoFixAbilityDataData = {
+  fails?: number;
+  success?: number;
+} | null;
+
+/**
+ * Response_dto.FixAbilityData schema
+ */
+export interface ResponseDtoFixAbilityData {
+  data?: ResponseDtoFixAbilityDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoHardwareTypesResponseDataHardwareTypesItem = {
+  available?: boolean;
+  available_count?: number | null;
+  brand_name?: string | null;
+  cpu?: string | null;
+  description?: string | null;
+  gpu_memory?: number;
+  gpu_type?: string;
+  hourly_rate?: number;
+  id?: number;
+  max_gpus?: number;
+  memory?: number | null;
+  name?: string;
+  storage?: number | null;
+};
+
+export type ResponseDtoHardwareTypesResponseData = {
+  hardware_types?: ResponseDtoHardwareTypesResponseDataHardwareTypesItem[];
+  total?: number;
+  total_available?: number;
+} | null;
+
+/**
+ * Response_dto.HardwareTypesResponse schema
+ */
+export interface ResponseDtoHardwareTypesResponse {
+  data?: ResponseDtoHardwareTypesResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoLocationsListResponseDataLocationsItem = {
+  available?: number | null;
+  country?: string | null;
+  description?: string | null;
+  id?: number;
+  iso2?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  name?: string;
+  region?: string | null;
+};
+
+export type ResponseDtoLocationsListResponseData = {
+  locations?: ResponseDtoLocationsListResponseDataLocationsItem[];
+  total?: number;
+} | null;
+
+/**
+ * Response_dto.LocationsListResponse schema
+ */
+export interface ResponseDtoLocationsListResponse {
+  data?: ResponseDtoLocationsListResponseData;
   message?: string;
   success?: boolean;
 }
@@ -2197,6 +1728,61 @@ export interface ResponseDtoLoginData {
   success?: boolean;
 }
 
+export type ResponseDtoManageUserResultData = {
+  role?: number;
+  status?: number;
+} | null;
+
+/**
+ * Response_dto.ManageUserResult schema
+ */
+export interface ResponseDtoManageUserResult {
+  data?: ResponseDtoManageUserResultData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoMultiKeyStatusResponseDataKeysItem = {
+  disabled_time?: number | null;
+  index?: number;
+  key_preview?: string;
+  reason?: string | null;
+  status?: number;
+};
+
+export type ResponseDtoMultiKeyStatusResponseData = {
+  auto_disabled_count?: number;
+  enabled_count?: number;
+  keys?: ResponseDtoMultiKeyStatusResponseDataKeysItem[];
+  manual_disabled_count?: number;
+  page?: number;
+  page_size?: number;
+  total?: number;
+  total_pages?: number;
+} | null;
+
+/**
+ * Response_dto.MultiKeyStatusResponse schema
+ */
+export interface ResponseDtoMultiKeyStatusResponse {
+  data?: ResponseDtoMultiKeyStatusResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoOllamaVersionDataData = {
+  version?: string;
+} | null;
+
+/**
+ * Response_dto.OllamaVersionData schema
+ */
+export interface ResponseDtoOllamaVersionData {
+  data?: ResponseDtoOllamaVersionDataData;
+  message?: string;
+  success?: boolean;
+}
+
 export type ResponseDtoPasskeyOptionsDataData = {
   options?: unknown;
 } | null;
@@ -2226,6 +1812,154 @@ export interface ResponseDtoPasskeyStatusData {
   success?: boolean;
 }
 
+export type ResponseDtoPerformanceStatsDataCacheStats = {
+  active_disk_files?: number;
+  active_memory_buffers?: number;
+  current_disk_usage_bytes?: number;
+  current_memory_usage_bytes?: number;
+  disk_cache_hits?: number;
+  disk_cache_max_bytes?: number;
+  disk_cache_threshold_bytes?: number;
+  memory_cache_hits?: number;
+};
+
+export type ResponseDtoPerformanceStatsDataConfig = {
+  disk_cache_enabled?: boolean;
+  disk_cache_max_size_mb?: number;
+  disk_cache_path?: string;
+  disk_cache_threshold_mb?: number;
+  is_running_in_container?: boolean;
+  monitor_cpu_threshold?: number;
+  monitor_disk_threshold?: number;
+  monitor_enabled?: boolean;
+  monitor_memory_threshold?: number;
+};
+
+export type ResponseDtoPerformanceStatsDataDiskCacheInfo = {
+  exists?: boolean;
+  file_count?: number;
+  path?: string;
+  total_size?: number;
+};
+
+export type ResponseDtoPerformanceStatsDataDiskSpaceInfo = {
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  free?: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  total?: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  used?: number;
+  used_percent?: number;
+};
+
+export type ResponseDtoPerformanceStatsDataMemoryStats = {
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  alloc?: number;
+  /**
+   * @minimum 0
+   * @maximum 4294967295
+   */
+  num_gc?: number;
+  num_goroutine?: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  sys?: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  total_alloc?: number;
+};
+
+export type ResponseDtoPerformanceStatsData = {
+  cache_stats?: ResponseDtoPerformanceStatsDataCacheStats;
+  config?: ResponseDtoPerformanceStatsDataConfig;
+  disk_cache_info?: ResponseDtoPerformanceStatsDataDiskCacheInfo;
+  disk_space_info?: ResponseDtoPerformanceStatsDataDiskSpaceInfo;
+  memory_stats?: ResponseDtoPerformanceStatsDataMemoryStats;
+} | null;
+
+/**
+ * Response_dto.PerformanceStats schema
+ */
+export interface ResponseDtoPerformanceStats {
+  data?: ResponseDtoPerformanceStatsData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoPricingDataDataGroupRatio = { [key: string]: number };
+
+export type ResponseDtoPricingDataDataUsableGroup = { [key: string]: string };
+
+export type ResponseDtoPricingDataData = {
+  auto_groups?: string[];
+  data?: unknown;
+  group_ratio?: ResponseDtoPricingDataDataGroupRatio;
+  show_original_price?: boolean;
+  success?: boolean;
+  supported_endpoint?: unknown;
+  usable_group?: ResponseDtoPricingDataDataUsableGroup;
+  vendors?: unknown;
+} | null;
+
+/**
+ * Response_dto.PricingData schema
+ */
+export interface ResponseDtoPricingData {
+  data?: ResponseDtoPricingDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoRefreshCodexDataData = {
+  account_id?: string;
+  channel_id?: number;
+  channel_name?: string;
+  channel_type?: number;
+  email?: string;
+  expires_at?: string;
+  last_refresh?: string;
+} | null;
+
+/**
+ * Response_dto.RefreshCodexData schema
+ */
+export interface ResponseDtoRefreshCodexData {
+  data?: ResponseDtoRefreshCodexDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoSetup2FAResponseData = {
+  backup_codes?: string[];
+  qr_code_data?: string;
+  secret?: string;
+} | null;
+
+/**
+ * Response_dto.Setup2FAResponse schema
+ */
+export interface ResponseDtoSetup2FAResponse {
+  data?: ResponseDtoSetup2FAResponseData;
+  message?: string;
+  success?: boolean;
+}
+
 export type ResponseDtoSetupDataData = {
   database_type?: string;
   root_init?: boolean;
@@ -2237,6 +1971,309 @@ export type ResponseDtoSetupDataData = {
  */
 export interface ResponseDtoSetupData {
   data?: ResponseDtoSetupDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoStatusDataDataAnnouncements = unknown | null;
+
+export type ResponseDtoStatusDataDataApiInfo = unknown | null;
+
+export type ResponseDtoStatusDataDataCustomOauthProviders = unknown | null;
+
+export type ResponseDtoStatusDataDataFaq = unknown | null;
+
+export type ResponseDtoStatusDataData = {
+  HeaderNavModules?: string;
+  SidebarModulesAdmin?: string;
+  _qn?: string;
+  announcements?: ResponseDtoStatusDataDataAnnouncements;
+  announcements_enabled?: boolean;
+  api_info?: ResponseDtoStatusDataDataApiInfo;
+  api_info_enabled?: boolean;
+  chats?: unknown;
+  checkin_enabled?: boolean;
+  custom_currency_exchange_rate?: number;
+  custom_currency_symbol?: string;
+  custom_oauth_providers?: ResponseDtoStatusDataDataCustomOauthProviders;
+  data_export_default_time?: string;
+  default_collapse_sidebar?: boolean;
+  default_use_auto_group?: boolean;
+  demo_site_enabled?: boolean;
+  discord_client_id?: string;
+  discord_oauth?: boolean;
+  display_in_currency?: boolean;
+  docs_link?: string;
+  email_verification?: boolean;
+  enable_batch_update?: boolean;
+  enable_data_export?: boolean;
+  enable_drawing?: boolean;
+  enable_task?: boolean;
+  faq?: ResponseDtoStatusDataDataFaq;
+  faq_enabled?: boolean;
+  footer_html?: string;
+  github_client_id?: string;
+  github_oauth?: boolean;
+  linuxdo_client_id?: string;
+  linuxdo_minimum_trust_level?: number;
+  linuxdo_oauth?: boolean;
+  logo?: string;
+  mj_notify_enabled?: boolean;
+  oidc_authorization_endpoint?: string;
+  oidc_client_id?: string;
+  oidc_enabled?: boolean;
+  passkey_allow_insecure?: boolean;
+  passkey_attachment?: string;
+  passkey_display_name?: string;
+  passkey_login?: boolean;
+  passkey_origins?: string;
+  passkey_rp_id?: string;
+  passkey_user_verification?: string;
+  price?: number;
+  privacy_policy_enabled?: boolean;
+  quota_display_type?: string;
+  quota_per_unit?: number;
+  self_use_mode_enabled?: boolean;
+  server_address?: string;
+  setup?: boolean;
+  start_time?: number;
+  stripe_unit_price?: number;
+  system_name?: string;
+  telegram_bot_name?: string;
+  telegram_oauth?: boolean;
+  top_up_link?: string;
+  turnstile_check?: boolean;
+  turnstile_site_key?: string;
+  uptime_kuma_enabled?: boolean;
+  usd_exchange_rate?: number;
+  user_agreement_enabled?: boolean;
+  version?: string;
+  wechat_login?: boolean;
+  wechat_qrcode?: string;
+} | null;
+
+/**
+ * Response_dto.StatusData schema
+ */
+export interface ResponseDtoStatusData {
+  data?: ResponseDtoStatusDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoStripePayLinkDataData = {
+  pay_link?: string;
+} | null;
+
+/**
+ * Response_dto.StripePayLinkData schema
+ */
+export interface ResponseDtoStripePayLinkData {
+  data?: ResponseDtoStripePayLinkDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem = {
+  field?: string;
+  local?: unknown;
+  upstream?: unknown;
+};
+
+export type ResponseDtoSyncPreviewResultDataConflictsItem = {
+  fields?: ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem[];
+  model_name?: string;
+};
+
+export type ResponseDtoSyncPreviewResultDataSource = {
+  locale?: string;
+  models_url?: string;
+  vendors_url?: string;
+};
+
+export type ResponseDtoSyncPreviewResultData = {
+  conflicts?: ResponseDtoSyncPreviewResultDataConflictsItem[];
+  missing?: string[];
+  source?: ResponseDtoSyncPreviewResultDataSource;
+} | null;
+
+/**
+ * Response_dto.SyncPreviewResult schema
+ */
+export interface ResponseDtoSyncPreviewResult {
+  data?: ResponseDtoSyncPreviewResultData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoSyncUpstreamResultDataSource = {
+  locale?: string;
+  models_url?: string;
+  vendors_url?: string;
+};
+
+export type ResponseDtoSyncUpstreamResultData = {
+  created_list?: string[];
+  created_models?: number;
+  created_vendors?: number;
+  skipped_models?: string[];
+  source?: ResponseDtoSyncUpstreamResultDataSource;
+  updated_list?: string[];
+  updated_models?: number;
+} | null;
+
+/**
+ * Response_dto.SyncUpstreamResult schema
+ */
+export interface ResponseDtoSyncUpstreamResult {
+  data?: ResponseDtoSyncUpstreamResultData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoTestConnectionResponseData = {
+  hardware_count?: number;
+  total_available?: number;
+} | null;
+
+/**
+ * Response_dto.TestConnectionResponse schema
+ */
+export interface ResponseDtoTestConnectionResponse {
+  data?: ResponseDtoTestConnectionResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoTestStatusDataData = {
+  http_stats?: unknown;
+} | null;
+
+/**
+ * Response_dto.TestStatusData schema
+ */
+export interface ResponseDtoTestStatusData {
+  data?: ResponseDtoTestStatusDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoTokenUsageDataDataModelLimits = {
+  [key: string]: boolean;
+};
+
+export type ResponseDtoTokenUsageDataData = {
+  expires_at?: number;
+  model_limits?: ResponseDtoTokenUsageDataDataModelLimits;
+  model_limits_enabled?: boolean;
+  name?: string;
+  object?: string;
+  total_available?: number;
+  total_granted?: number;
+  total_used?: number;
+  unlimited_quota?: boolean;
+} | null;
+
+/**
+ * Response_dto.TokenUsageData schema
+ */
+export interface ResponseDtoTokenUsageData {
+  data?: ResponseDtoTokenUsageDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoTopUpInfoDataDataDiscount = { [key: string]: number };
+
+export type ResponseDtoTopUpInfoDataDataPayMethodsItem = {
+  [key: string]: string;
+};
+
+export type ResponseDtoTopUpInfoDataData = {
+  amount_options?: number[];
+  creem_products?: string;
+  discount?: ResponseDtoTopUpInfoDataDataDiscount;
+  enable_creem_topup?: boolean;
+  enable_online_topup?: boolean;
+  enable_stripe_topup?: boolean;
+  min_topup?: number;
+  pay_methods?: ResponseDtoTopUpInfoDataDataPayMethodsItem[];
+  stripe_min_topup?: number;
+} | null;
+
+/**
+ * Response_dto.TopUpInfoData schema
+ */
+export interface ResponseDtoTopUpInfoData {
+  data?: ResponseDtoTopUpInfoDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoTwoFAStatusDataData = {
+  backup_codes_remaining?: number | null;
+  enabled?: boolean;
+  locked?: boolean;
+} | null;
+
+/**
+ * Response_dto.TwoFAStatusData schema
+ */
+export interface ResponseDtoTwoFAStatusData {
+  data?: ResponseDtoTwoFAStatusDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoUpdateNameResponseData = {
+  id?: string;
+  message?: string;
+  name?: string;
+  status?: string;
+} | null;
+
+/**
+ * Response_dto.UpdateNameResponse schema
+ */
+export interface ResponseDtoUpdateNameResponse {
+  data?: ResponseDtoUpdateNameResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoUserSelfDataData = {
+  aff_code?: string;
+  aff_count?: number;
+  aff_history_quota?: number;
+  aff_quota?: number;
+  discord_id?: string;
+  display_name?: string;
+  email?: string;
+  github_id?: string;
+  group?: string;
+  id?: number;
+  inviter_id?: number;
+  linux_do_id?: string;
+  oidc_id?: string;
+  permissions?: unknown;
+  quota?: number;
+  request_count?: number;
+  role?: number;
+  setting?: string;
+  sidebar_modules?: string;
+  status?: number;
+  stripe_customer?: string;
+  telegram_id?: string;
+  used_quota?: number;
+  username?: string;
+  wechat_id?: string;
+} | null;
+
+/**
+ * Response_dto.UserSelfData schema
+ */
+export interface ResponseDtoUserSelfData {
+  data?: ResponseDtoUserSelfDataData;
   message?: string;
   success?: boolean;
 }
@@ -3792,7 +3829,7 @@ export type HTTPStatusCodes =
   | HTTPStatusCode5xx;
 
 /**
- * @summary Get about information
+ * @summary Get About
  */
 export type gETApiAboutResponse200ApplicationJson = {
   data: ResponseString;
@@ -3837,7 +3874,7 @@ export const gETApiAbout = async (
 };
 
 /**
- * @summary Get all channels
+ * @summary Get All Channels
  */
 export type gETApiChannelResponse200ApplicationJson = {
   data: ResponseControllerGetAllChannelsData;
@@ -3895,7 +3932,7 @@ export const gETApiChannel = async (
 };
 
 /**
- * @summary Add channel
+ * @summary Add Channel
  */
 export type pOSTApiChannelResponse200ApplicationJson = {
   data: MessageResponse;
@@ -3943,7 +3980,7 @@ export const pOSTApiChannel = async (
 };
 
 /**
- * @summary Update channel
+ * @summary Update Channel
  */
 export type pUTApiChannelResponse200ApplicationJson = {
   data: ResponseControllerPatchChannel;
@@ -3991,7 +4028,7 @@ export const pUTApiChannel = async (
 };
 
 /**
- * @summary Batch delete channels
+ * @summary Delete Channel Batch
  */
 export type pOSTApiChannelBatchResponse200ApplicationJson = {
   data: ResponseInt;
@@ -4040,7 +4077,7 @@ export const pOSTApiChannelBatch = async (
 };
 
 /**
- * @summary Batch set channel tags
+ * @summary Batch Set Channel Tag
  */
 export type pOSTApiChannelBatchTagResponse200ApplicationJson = {
   data: ResponseInt;
@@ -4092,7 +4129,7 @@ export const pOSTApiChannelBatchTag = async (
 };
 
 /**
- * @summary Complete Codex OAuth
+ * @summary Complete Codex O Auth
  */
 export type pOSTApiChannelCodexOauthCompleteResponse200ApplicationJson = {
   data: MessageResponse;
@@ -4141,7 +4178,7 @@ export const pOSTApiChannelCodexOauthComplete = async (
 };
 
 /**
- * @summary Start Codex OAuth
+ * @summary Start Codex O Auth
  */
 export type pOSTApiChannelCodexOauthStartResponse200ApplicationJson = {
   data: ResponseDtoCodexOAuthStartData;
@@ -4190,15 +4227,15 @@ export const pOSTApiChannelCodexOauthStart = async (
 };
 
 /**
- * @summary Copy channel
+ * @summary Copy Channel
  */
 export type pOSTApiChannelCopyIdResponse200ApplicationJson = {
-  data: ResponseControllerCopyChannelData;
+  data: ResponseDtoCopyChannelData;
   status: 200;
 };
 
 export type pOSTApiChannelCopyIdResponse200ApplicationXml = {
-  data: ResponseControllerCopyChannelData;
+  data: ResponseDtoCopyChannelData;
   status: 200;
 };
 
@@ -4256,7 +4293,7 @@ export const pOSTApiChannelCopyId = async (
 };
 
 /**
- * @summary Delete disabled channels
+ * @summary Delete Disabled Channel
  */
 export type dELETEApiChannelDisabledResponse200ApplicationJson = {
   data: ResponseInt64;
@@ -4305,7 +4342,7 @@ export const dELETEApiChannelDisabled = async (
 };
 
 /**
- * @summary Fetch models
+ * @summary Fetch Models
  */
 export type pOSTApiChannelFetchModelsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -4357,7 +4394,7 @@ export const pOSTApiChannelFetchModels = async (
 };
 
 /**
- * @summary Fetch upstream models
+ * @summary Fetch Upstream Models
  */
 export type gETApiChannelFetchModelsIdResponse200ApplicationJson = {
   data: ApiResponse;
@@ -4407,15 +4444,15 @@ export const gETApiChannelFetchModelsId = async (
 };
 
 /**
- * @summary Fix channel abilities
+ * @summary Fix Channels Abilities
  */
 export type pOSTApiChannelFixResponse200ApplicationJson = {
-  data: ResponseControllerFixAbilityData;
+  data: ResponseDtoFixAbilityData;
   status: 200;
 };
 
 export type pOSTApiChannelFixResponse200ApplicationXml = {
-  data: ResponseControllerFixAbilityData;
+  data: ResponseDtoFixAbilityData;
   status: 200;
 };
 
@@ -4453,7 +4490,7 @@ export const pOSTApiChannelFix = async (
 };
 
 /**
- * @summary List channel models
+ * @summary Channel List Models
  */
 export type gETApiChannelModelsResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -4499,7 +4536,7 @@ export const gETApiChannelModels = async (
 };
 
 /**
- * @summary List enabled models
+ * @summary Enabled List Models
  */
 export type gETApiChannelModelsEnabledResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -4548,15 +4585,15 @@ export const gETApiChannelModelsEnabled = async (
 };
 
 /**
- * @summary Manage multi-keys
+ * @summary Manage Multi Keys
  */
 export type pOSTApiChannelMultiKeyManageResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseDtoMultiKeyStatusResponse;
   status: 200;
 };
 
 export type pOSTApiChannelMultiKeyManageResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseDtoMultiKeyStatusResponse;
   status: 200;
 };
 
@@ -4600,7 +4637,7 @@ export const pOSTApiChannelMultiKeyManage = async (
 };
 
 /**
- * @summary Delete Ollama model
+ * @summary Ollama Delete Model
  */
 export type dELETEApiChannelOllamaDeleteResponse200ApplicationJson = {
   data: MessageResponse;
@@ -4649,7 +4686,7 @@ export const dELETEApiChannelOllamaDelete = async (
 };
 
 /**
- * @summary Pull Ollama model
+ * @summary Ollama Pull Model
  */
 export type pOSTApiChannelOllamaPullResponse200ApplicationJson = {
   data: MessageResponse;
@@ -4701,7 +4738,7 @@ export const pOSTApiChannelOllamaPull = async (
 };
 
 /**
- * @summary Pull Ollama model (stream)
+ * @summary Ollama Pull Model Stream
  */
 export type pOSTApiChannelOllamaPullStreamResponse200ApplicationJson = {
   data: MessageResponse;
@@ -4750,15 +4787,15 @@ export const pOSTApiChannelOllamaPullStream = async (
 };
 
 /**
- * @summary Get Ollama version
+ * @summary Ollama Version
  */
 export type gETApiChannelOllamaVersionIdResponse200ApplicationJson = {
-  data: ResponseControllerOllamaVersionData;
+  data: ResponseDtoOllamaVersionData;
   status: 200;
 };
 
 export type gETApiChannelOllamaVersionIdResponse200ApplicationXml = {
-  data: ResponseControllerOllamaVersionData;
+  data: ResponseDtoOllamaVersionData;
   status: 200;
 };
 
@@ -4800,7 +4837,7 @@ export const gETApiChannelOllamaVersionId = async (
 };
 
 /**
- * @summary Search channels
+ * @summary Search Channels
  */
 export type gETApiChannelSearchResponse200ApplicationJson = {
   data: ResponseControllerSearchChannelsData;
@@ -4864,7 +4901,7 @@ export const gETApiChannelSearch = async (
 };
 
 /**
- * @summary Edit channel tags
+ * @summary Edit Tag Channels
  */
 export type pUTApiChannelTagResponse200ApplicationJson = {
   data: MessageResponse;
@@ -4912,7 +4949,7 @@ export const pUTApiChannelTag = async (
 };
 
 /**
- * @summary Disable channels by tag
+ * @summary Disable Tag Channels
  */
 export type pOSTApiChannelTagDisabledResponse200ApplicationJson = {
   data: MessageResponse;
@@ -4964,7 +5001,7 @@ export const pOSTApiChannelTagDisabled = async (
 };
 
 /**
- * @summary Enable channels by tag
+ * @summary Enable Tag Channels
  */
 export type pOSTApiChannelTagEnabledResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5016,7 +5053,7 @@ export const pOSTApiChannelTagEnabled = async (
 };
 
 /**
- * @summary Get tag models
+ * @summary Get Tag Models
  */
 export type gETApiChannelTagModelsResponse200ApplicationJson = {
   data: ResponseString;
@@ -5080,7 +5117,7 @@ export const gETApiChannelTagModels = async (
 };
 
 /**
- * @summary Test all channels
+ * @summary Test All Channels
  */
 export type gETApiChannelTestResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5126,7 +5163,7 @@ export const gETApiChannelTest = async (
 };
 
 /**
- * @summary Test channel
+ * @summary Test Channel
  */
 export type gETApiChannelTestIdResponse200ApplicationJson = {
   data: TestChannelResponse;
@@ -5192,7 +5229,7 @@ export const gETApiChannelTestId = async (
 };
 
 /**
- * @summary Update all channel balances
+ * @summary Update All Channels Balance
  */
 export type gETApiChannelUpdateBalanceResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5241,7 +5278,7 @@ export const gETApiChannelUpdateBalance = async (
 };
 
 /**
- * @summary Update channel balance
+ * @summary Update Channel Balance
  */
 export type gETApiChannelUpdateBalanceIdResponse200ApplicationJson = {
   data: ChannelBalanceResponse;
@@ -5291,7 +5328,7 @@ export const gETApiChannelUpdateBalanceId = async (
 };
 
 /**
- * @summary Delete channel
+ * @summary Delete Channel
  */
 export type dELETEApiChannelIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5338,7 +5375,7 @@ export const dELETEApiChannelId = async (
 };
 
 /**
- * @summary Get channel by ID
+ * @summary Get Channel
  */
 export type gETApiChannelIdResponse200ApplicationJson = {
   data: ResponseModelChannel;
@@ -5384,7 +5421,7 @@ export const gETApiChannelId = async (
 };
 
 /**
- * @summary Complete Codex OAuth for channel
+ * @summary Complete Codex O Auth For Channel
  */
 export type pOSTApiChannelIdCodexOauthCompleteResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5434,7 +5471,7 @@ export const pOSTApiChannelIdCodexOauthComplete = async (
 };
 
 /**
- * @summary Start Codex OAuth for channel
+ * @summary Start Codex O Auth For Channel
  */
 export type pOSTApiChannelIdCodexOauthStartResponse200ApplicationJson = {
   data: ResponseDtoCodexOAuthStartData;
@@ -5484,15 +5521,15 @@ export const pOSTApiChannelIdCodexOauthStart = async (
 };
 
 /**
- * @summary Refresh Codex channel credential
+ * @summary Refresh Codex Channel Credential
  */
 export type pOSTApiChannelIdCodexRefreshResponse200ApplicationJson = {
-  data: ResponseControllerRefreshCodexData;
+  data: ResponseDtoRefreshCodexData;
   status: 200;
 };
 
 export type pOSTApiChannelIdCodexRefreshResponse200ApplicationXml = {
-  data: ResponseControllerRefreshCodexData;
+  data: ResponseDtoRefreshCodexData;
   status: 200;
 };
 
@@ -5534,15 +5571,15 @@ export const pOSTApiChannelIdCodexRefresh = async (
 };
 
 /**
- * @summary Get Codex channel usage
+ * @summary Get Codex Channel Usage
  */
 export type gETApiChannelIdCodexUsageResponse200ApplicationJson = {
-  data: CodexUsageData;
+  data: ResponseDtoCodexUsageData;
   status: 200;
 };
 
 export type gETApiChannelIdCodexUsageResponse200ApplicationXml = {
-  data: CodexUsageData;
+  data: ResponseDtoCodexUsageData;
   status: 200;
 };
 
@@ -5584,15 +5621,15 @@ export const gETApiChannelIdCodexUsage = async (
 };
 
 /**
- * @summary Get channel key
+ * @summary Get Channel Key
  */
 export type pOSTApiChannelIdKeyResponse200ApplicationJson = {
-  data: ResponseControllerChannelKeyData;
+  data: ResponseDtoChannelKeyData;
   status: 200;
 };
 
 export type pOSTApiChannelIdKeyResponse200ApplicationXml = {
-  data: ResponseControllerChannelKeyData;
+  data: ResponseDtoChannelKeyData;
   status: 200;
 };
 
@@ -5634,7 +5671,7 @@ export const pOSTApiChannelIdKey = async (
 };
 
 /**
- * @summary Creem webhook
+ * @summary Creem Webhook
  */
 export type pOSTApiCreemWebhookResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5680,7 +5717,7 @@ export const pOSTApiCreemWebhook = async (
 };
 
 /**
- * @summary Get custom OAuth providers
+ * @summary Get Custom O Auth Providers
  */
 export type gETApiCustomOauthProviderResponse200ApplicationJson = {
   data: ApiResponse;
@@ -5729,15 +5766,15 @@ export const gETApiCustomOauthProvider = async (
 };
 
 /**
- * @summary Create custom OAuth provider
+ * @summary Create Custom O Auth Provider
  */
 export type pOSTApiCustomOauthProviderResponse200ApplicationJson = {
-  data: ResponseControllerCustomOAuthProviderResponse;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
 export type pOSTApiCustomOauthProviderResponse200ApplicationXml = {
-  data: ResponseControllerCustomOAuthProviderResponse;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
@@ -5781,15 +5818,15 @@ export const pOSTApiCustomOauthProvider = async (
 };
 
 /**
- * @summary Fetch OAuth discovery
+ * @summary Fetch Custom O Auth Discovery
  */
 export type pOSTApiCustomOauthProviderDiscoveryResponse200ApplicationJson = {
-  data: ResponseControllerFetchDiscoveryData;
+  data: ResponseDtoFetchDiscoveryData;
   status: 200;
 };
 
 export type pOSTApiCustomOauthProviderDiscoveryResponse200ApplicationXml = {
-  data: ResponseControllerFetchDiscoveryData;
+  data: ResponseDtoFetchDiscoveryData;
   status: 200;
 };
 
@@ -5833,7 +5870,7 @@ export const pOSTApiCustomOauthProviderDiscovery = async (
 };
 
 /**
- * @summary Delete custom OAuth provider
+ * @summary Delete Custom O Auth Provider
  */
 export type dELETEApiCustomOauthProviderIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -5883,15 +5920,15 @@ export const dELETEApiCustomOauthProviderId = async (
 };
 
 /**
- * @summary Get custom OAuth provider
+ * @summary Get Custom O Auth Provider
  */
 export type gETApiCustomOauthProviderIdResponse200ApplicationJson = {
-  data: ResponseControllerCustomOAuthProviderResponse;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
 export type gETApiCustomOauthProviderIdResponse200ApplicationXml = {
-  data: ResponseControllerCustomOAuthProviderResponse;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
@@ -5933,15 +5970,15 @@ export const gETApiCustomOauthProviderId = async (
 };
 
 /**
- * @summary Update custom OAuth provider
+ * @summary Update Custom O Auth Provider
  */
 export type pUTApiCustomOauthProviderIdResponse200ApplicationJson = {
-  data: ResponseControllerCustomOAuthProviderResponse;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
 export type pUTApiCustomOauthProviderIdResponse200ApplicationXml = {
-  data: ResponseControllerCustomOAuthProviderResponse;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
@@ -5986,7 +6023,7 @@ export const pUTApiCustomOauthProviderId = async (
 };
 
 /**
- * @summary Get all quota dates
+ * @summary Get All Quota Dates
  */
 export type gETApiDataResponse200ApplicationJson = {
   data: ApiResponse;
@@ -6044,7 +6081,7 @@ export const gETApiData = async (
 };
 
 /**
- * @summary Get own quota dates
+ * @summary Get User Quota Dates
  */
 export type gETApiDataSelfResponse200ApplicationJson = {
   data: ApiResponse;
@@ -6102,15 +6139,15 @@ export const gETApiDataSelf = async (
 };
 
 /**
- * @summary Get all deployments
+ * @summary Get All Deployments
  */
 export type gETApiDeploymentsResponse200ApplicationJson = {
-  data: ResponseControllerDeploymentListResponse;
+  data: ResponseDtoDeploymentListResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsResponse200ApplicationXml = {
-  data: ResponseControllerDeploymentListResponse;
+  data: ResponseDtoDeploymentListResponse;
   status: 200;
 };
 
@@ -6164,15 +6201,15 @@ export const gETApiDeployments = async (
 };
 
 /**
- * @summary Create deployment
+ * @summary Create Deployment
  */
 export type pOSTApiDeploymentsResponse200ApplicationJson = {
-  data: ResponseControllerCreateDeploymentResponse;
+  data: ResponseDtoCreateDeploymentResponse;
   status: 200;
 };
 
 export type pOSTApiDeploymentsResponse200ApplicationXml = {
-  data: ResponseControllerCreateDeploymentResponse;
+  data: ResponseDtoCreateDeploymentResponse;
   status: 200;
 };
 
@@ -6213,7 +6250,7 @@ export const pOSTApiDeployments = async (
 };
 
 /**
- * @summary Get available replicas
+ * @summary Get Available Replicas
  */
 export type gETApiDeploymentsAvailableReplicasResponse200ApplicationJson = {
   data: ResponseIonetAvailableReplicasResponse;
@@ -6277,15 +6314,15 @@ export const gETApiDeploymentsAvailableReplicas = async (
 };
 
 /**
- * @summary Check cluster name
+ * @summary Check Cluster Name Availability
  */
 export type gETApiDeploymentsCheckNameResponse200ApplicationJson = {
-  data: ResponseControllerClusterNameAvailabilityResponse;
+  data: ResponseDtoClusterNameAvailabilityResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsCheckNameResponse200ApplicationXml = {
-  data: ResponseControllerClusterNameAvailabilityResponse;
+  data: ResponseDtoClusterNameAvailabilityResponse;
   status: 200;
 };
 
@@ -6341,15 +6378,15 @@ export const gETApiDeploymentsCheckName = async (
 };
 
 /**
- * @summary Get hardware types
+ * @summary Get Hardware Types
  */
 export type gETApiDeploymentsHardwareTypesResponse200ApplicationJson = {
-  data: ResponseControllerHardwareTypesResponse;
+  data: ResponseDtoHardwareTypesResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsHardwareTypesResponse200ApplicationXml = {
-  data: ResponseControllerHardwareTypesResponse;
+  data: ResponseDtoHardwareTypesResponse;
   status: 200;
 };
 
@@ -6390,15 +6427,15 @@ export const gETApiDeploymentsHardwareTypes = async (
 };
 
 /**
- * @summary Get locations
+ * @summary Get Locations
  */
 export type gETApiDeploymentsLocationsResponse200ApplicationJson = {
-  data: ResponseControllerLocationsListResponse;
+  data: ResponseDtoLocationsListResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsLocationsResponse200ApplicationXml = {
-  data: ResponseControllerLocationsListResponse;
+  data: ResponseDtoLocationsListResponse;
   status: 200;
 };
 
@@ -6439,7 +6476,7 @@ export const gETApiDeploymentsLocations = async (
 };
 
 /**
- * @summary Get price estimation
+ * @summary Get Price Estimation
  */
 export type pOSTApiDeploymentsPriceEstimationResponse200ApplicationJson = {
   data: ResponseIonetPriceEstimationResponse;
@@ -6491,15 +6528,15 @@ export const pOSTApiDeploymentsPriceEstimation = async (
 };
 
 /**
- * @summary Search deployments
+ * @summary Search Deployments
  */
 export type gETApiDeploymentsSearchResponse200ApplicationJson = {
-  data: ResponseControllerDeploymentSearchResponse;
+  data: ResponseDtoDeploymentSearchResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsSearchResponse200ApplicationXml = {
-  data: ResponseControllerDeploymentSearchResponse;
+  data: ResponseDtoDeploymentSearchResponse;
   status: 200;
 };
 
@@ -6555,15 +6592,15 @@ export const gETApiDeploymentsSearch = async (
 };
 
 /**
- * @summary Get deployment settings
+ * @summary Get Model Deployment Settings
  */
 export type gETApiDeploymentsSettingsResponse200ApplicationJson = {
-  data: ResponseControllerDeploymentSettingsResponse;
+  data: ResponseDtoDeploymentSettingsResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsSettingsResponse200ApplicationXml = {
-  data: ResponseControllerDeploymentSettingsResponse;
+  data: ResponseDtoDeploymentSettingsResponse;
   status: 200;
 };
 
@@ -6604,17 +6641,17 @@ export const gETApiDeploymentsSettings = async (
 };
 
 /**
- * @summary Test io.net connection
+ * @summary Test Io Net Connection
  */
 export type pOSTApiDeploymentsSettingsTestConnectionResponse200ApplicationJson =
   {
-    data: ResponseControllerTestConnectionResponse;
+    data: ResponseDtoTestConnectionResponse;
     status: 200;
   };
 
 export type pOSTApiDeploymentsSettingsTestConnectionResponse200ApplicationXml =
   {
-    data: ResponseControllerTestConnectionResponse;
+    data: ResponseDtoTestConnectionResponse;
     status: 200;
   };
 
@@ -6658,15 +6695,15 @@ export const pOSTApiDeploymentsSettingsTestConnection = async (
 };
 
 /**
- * @summary Test connection
+ * @summary Test Io Net Connection
  */
 export type pOSTApiDeploymentsTestConnectionResponse200ApplicationJson = {
-  data: ResponseControllerTestConnectionResponse;
+  data: ResponseDtoTestConnectionResponse;
   status: 200;
 };
 
 export type pOSTApiDeploymentsTestConnectionResponse200ApplicationXml = {
-  data: ResponseControllerTestConnectionResponse;
+  data: ResponseDtoTestConnectionResponse;
   status: 200;
 };
 
@@ -6710,15 +6747,15 @@ export const pOSTApiDeploymentsTestConnection = async (
 };
 
 /**
- * @summary Delete deployment
+ * @summary Delete Deployment
  */
 export type dELETEApiDeploymentsIdResponse200ApplicationJson = {
-  data: ResponseControllerDeleteDeploymentResponse;
+  data: ResponseDtoDeleteDeploymentResponse;
   status: 200;
 };
 
 export type dELETEApiDeploymentsIdResponse200ApplicationXml = {
-  data: ResponseControllerDeleteDeploymentResponse;
+  data: ResponseDtoDeleteDeploymentResponse;
   status: 200;
 };
 
@@ -6760,15 +6797,15 @@ export const dELETEApiDeploymentsId = async (
 };
 
 /**
- * @summary Get deployment
+ * @summary Get Deployment
  */
 export type gETApiDeploymentsIdResponse200ApplicationJson = {
-  data: ResponseControllerDeploymentDetailResponse;
+  data: ResponseDtoDeploymentDetailResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsIdResponse200ApplicationXml = {
-  data: ResponseControllerDeploymentDetailResponse;
+  data: ResponseDtoDeploymentDetailResponse;
   status: 200;
 };
 
@@ -6810,15 +6847,15 @@ export const gETApiDeploymentsId = async (
 };
 
 /**
- * @summary Update deployment
+ * @summary Update Deployment
  */
 export type pUTApiDeploymentsIdResponse200ApplicationJson = {
-  data: ResponseControllerDeploymentStatusResponse;
+  data: ResponseDtoDeploymentStatusResponse;
   status: 200;
 };
 
 export type pUTApiDeploymentsIdResponse200ApplicationXml = {
-  data: ResponseControllerDeploymentStatusResponse;
+  data: ResponseDtoDeploymentStatusResponse;
   status: 200;
 };
 
@@ -6863,15 +6900,15 @@ export const pUTApiDeploymentsId = async (
 };
 
 /**
- * @summary List deployment containers
+ * @summary List Deployment Containers
  */
 export type gETApiDeploymentsIdContainersResponse200ApplicationJson = {
-  data: ResponseControllerContainerListResponse;
+  data: ResponseDtoContainerListResponse;
   status: 200;
 };
 
 export type gETApiDeploymentsIdContainersResponse200ApplicationXml = {
-  data: ResponseControllerContainerListResponse;
+  data: ResponseDtoContainerListResponse;
   status: 200;
 };
 
@@ -6913,17 +6950,17 @@ export const gETApiDeploymentsIdContainers = async (
 };
 
 /**
- * @summary Get container details
+ * @summary Get Container Details
  */
 export type gETApiDeploymentsIdContainersContainerIdResponse200ApplicationJson =
   {
-    data: ResponseControllerContainerDetailResponse;
+    data: ResponseDtoContainerDetailResponse;
     status: 200;
   };
 
 export type gETApiDeploymentsIdContainersContainerIdResponse200ApplicationXml =
   {
-    data: ResponseControllerContainerDetailResponse;
+    data: ResponseDtoContainerDetailResponse;
     status: 200;
   };
 
@@ -6969,15 +7006,15 @@ export const gETApiDeploymentsIdContainersContainerId = async (
 };
 
 /**
- * @summary Extend deployment
+ * @summary Extend Deployment
  */
 export type pOSTApiDeploymentsIdExtendResponse200ApplicationJson = {
-  data: ResponseControllerDeploymentItem;
+  data: ResponseDtoDeploymentStatusResponse;
   status: 200;
 };
 
 export type pOSTApiDeploymentsIdExtendResponse200ApplicationXml = {
-  data: ResponseControllerDeploymentItem;
+  data: ResponseDtoDeploymentStatusResponse;
   status: 200;
 };
 
@@ -7022,7 +7059,7 @@ export const pOSTApiDeploymentsIdExtend = async (
 };
 
 /**
- * @summary Get deployment logs
+ * @summary Get Deployment Logs
  */
 export type gETApiDeploymentsIdLogsResponse200ApplicationJson = {
   data: ResponseString;
@@ -7088,15 +7125,15 @@ export const gETApiDeploymentsIdLogs = async (
 };
 
 /**
- * @summary Update deployment name
+ * @summary Update Deployment Name
  */
 export type pUTApiDeploymentsIdNameResponse200ApplicationJson = {
-  data: ResponseControllerUpdateNameResponse;
+  data: ResponseDtoUpdateNameResponse;
   status: 200;
 };
 
 export type pUTApiDeploymentsIdNameResponse200ApplicationXml = {
-  data: ResponseControllerUpdateNameResponse;
+  data: ResponseDtoUpdateNameResponse;
   status: 200;
 };
 
@@ -7141,7 +7178,7 @@ export const pUTApiDeploymentsIdName = async (
 };
 
 /**
- * @summary Get groups
+ * @summary Get Groups
  */
 export type gETApiGroupResponse200ApplicationJson = {
   data: ApiResponse;
@@ -7186,7 +7223,7 @@ export const gETApiGroup = async (
 };
 
 /**
- * @summary Get home page content
+ * @summary Get Home Page Content
  */
 export type gETApiHomePageContentResponse200ApplicationJson = {
   data: ResponseString;
@@ -7235,15 +7272,15 @@ export const gETApiHomePageContent = async (
 };
 
 /**
- * @summary Delete history logs
+ * @summary Delete History Logs
  */
 export type dELETEApiLogResponse200ApplicationJson = {
-  data: ResponseInt64;
+  data: ResponseDtoDeletedCountData;
   status: 200;
 };
 
 export type dELETEApiLogResponse200ApplicationXml = {
-  data: ResponseInt64;
+  data: ResponseDtoDeletedCountData;
   status: 200;
 };
 
@@ -7293,7 +7330,7 @@ export const dELETEApiLog = async (
 };
 
 /**
- * @summary Get all logs
+ * @summary Get All Logs
  */
 export type gETApiLogResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -7351,7 +7388,7 @@ export const gETApiLog = async (
 };
 
 /**
- * @summary Get channel affinity usage cache
+ * @summary Get Channel Affinity Usage Cache Stats
  */
 export type gETApiLogChannelAffinityUsageCacheResponse200ApplicationJson = {
   data: ResponseServiceChannelAffinityUsageCacheStats;
@@ -7400,7 +7437,7 @@ export const gETApiLogChannelAffinityUsageCache = async (
 };
 
 /**
- * @summary Search all logs
+ * @summary Search All Logs
  */
 export type gETApiLogSearchResponse200ApplicationJson = {
   data: MessageResponse;
@@ -7445,7 +7482,7 @@ export const gETApiLogSearch = async (
 };
 
 /**
- * @summary Get own logs
+ * @summary Get User Logs
  */
 export type gETApiLogSelfResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -7503,7 +7540,7 @@ export const gETApiLogSelf = async (
 };
 
 /**
- * @summary Search own logs
+ * @summary Search User Logs
  */
 export type gETApiLogSelfSearchResponse200ApplicationJson = {
   data: MessageResponse;
@@ -7549,7 +7586,7 @@ export const gETApiLogSelfSearch = async (
 };
 
 /**
- * @summary Get own log statistics
+ * @summary Get Logs Self Stat
  */
 export type gETApiLogSelfStatResponse200ApplicationJson = {
   data: ResponseDtoLogStatData;
@@ -7611,7 +7648,7 @@ export const gETApiLogSelfStat = async (
 };
 
 /**
- * @summary Get log statistics
+ * @summary Get Logs Stat
  */
 export type gETApiLogStatResponse200ApplicationJson = {
   data: ResponseDtoLogStatData;
@@ -7669,7 +7706,7 @@ export const gETApiLogStat = async (
 };
 
 /**
- * @summary Get logs by token key
+ * @summary Get Log By Key
  */
 export type gETApiLogTokenResponse200ApplicationJson = {
   data: ApiResponse;
@@ -7714,7 +7751,7 @@ export const gETApiLogToken = async (
 };
 
 /**
- * @summary Get all Midjourney tasks
+ * @summary Get All Midjourney
  */
 export type gETApiMjResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -7770,7 +7807,7 @@ export const gETApiMj = async (
 };
 
 /**
- * @summary Get own Midjourney tasks
+ * @summary Get User Midjourney
  */
 export type gETApiMjSelfResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -7828,7 +7865,7 @@ export const gETApiMjSelf = async (
 };
 
 /**
- * @summary List available models
+ * @summary Dashboard List Models
  */
 export type gETApiModelsResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -7873,7 +7910,7 @@ export const gETApiModels = async (
 };
 
 /**
- * @summary Create model metadata
+ * @summary Create Model Meta
  */
 export type pOSTApiModelsResponse200ApplicationJson = {
   data: ResponseModelModel;
@@ -7921,7 +7958,7 @@ export const pOSTApiModels = async (
 };
 
 /**
- * @summary Update model metadata
+ * @summary Update Model Meta
  */
 export type pUTApiModelsResponse200ApplicationJson = {
   data: ResponseModelModel;
@@ -7982,7 +8019,7 @@ export const pUTApiModels = async (
 };
 
 /**
- * @summary Get all model metadata
+ * @summary Get All Models Meta
  */
 export type gETApiModelsListResponse200ApplicationJson = {
   data: ResponseControllerModelsMetaListData;
@@ -8040,7 +8077,7 @@ export const gETApiModelsList = async (
 };
 
 /**
- * @summary Get missing models
+ * @summary Get Missing Models
  */
 export type gETApiModelsMissingResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8086,15 +8123,15 @@ export const gETApiModelsMissing = async (
 };
 
 /**
- * @summary Delete orphaned models
+ * @summary Delete Orphaned Models
  */
 export type dELETEApiModelsOrphanedResponse200ApplicationJson = {
-  data: ResponseControllerDeletedCountData;
+  data: ResponseDtoDeletedCountData;
   status: 200;
 };
 
 export type dELETEApiModelsOrphanedResponse200ApplicationXml = {
-  data: ResponseControllerDeletedCountData;
+  data: ResponseDtoDeletedCountData;
   status: 200;
 };
 
@@ -8135,15 +8172,15 @@ export const dELETEApiModelsOrphaned = async (
 };
 
 /**
- * @summary Search model metadata
+ * @summary Search Models Meta
  */
 export type gETApiModelsSearchResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseControllerModelsMetaListData;
   status: 200;
 };
 
 export type gETApiModelsSearchResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseControllerModelsMetaListData;
   status: 200;
 };
 
@@ -8197,15 +8234,15 @@ export const gETApiModelsSearch = async (
 };
 
 /**
- * @summary Sync upstream models
+ * @summary Sync Upstream Models
  */
 export type pOSTApiModelsSyncUpstreamResponse200ApplicationJson = {
-  data: ResponseControllerSyncUpstreamResult;
+  data: ResponseDtoSyncUpstreamResult;
   status: 200;
 };
 
 export type pOSTApiModelsSyncUpstreamResponse200ApplicationXml = {
-  data: ResponseControllerSyncUpstreamResult;
+  data: ResponseDtoSyncUpstreamResult;
   status: 200;
 };
 
@@ -8249,15 +8286,15 @@ export const pOSTApiModelsSyncUpstream = async (
 };
 
 /**
- * @summary Preview upstream sync
+ * @summary Sync Upstream Preview
  */
 export type gETApiModelsSyncUpstreamPreviewResponse200ApplicationJson = {
-  data: ResponseControllerSyncPreviewResult;
+  data: ResponseDtoSyncPreviewResult;
   status: 200;
 };
 
 export type gETApiModelsSyncUpstreamPreviewResponse200ApplicationXml = {
-  data: ResponseControllerSyncPreviewResult;
+  data: ResponseDtoSyncPreviewResult;
   status: 200;
 };
 
@@ -8313,7 +8350,7 @@ export const gETApiModelsSyncUpstreamPreview = async (
 };
 
 /**
- * @summary Delete model metadata
+ * @summary Delete Model Meta
  */
 export type dELETEApiModelsIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -8360,7 +8397,7 @@ export const dELETEApiModelsId = async (
 };
 
 /**
- * @summary Get model metadata
+ * @summary Get Model Meta
  */
 export type gETApiModelsIdResponse200ApplicationJson = {
   data: ResponseModelModel;
@@ -8406,7 +8443,7 @@ export const gETApiModelsId = async (
 };
 
 /**
- * @summary Get system notice
+ * @summary Get Notice
  */
 export type gETApiNoticeResponse200ApplicationJson = {
   data: ResponseString;
@@ -8451,7 +8488,7 @@ export const gETApiNotice = async (
 };
 
 /**
- * @summary Bind email via OAuth
+ * @summary Email Bind
  */
 export type gETApiOauthEmailBindResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8515,7 +8552,7 @@ export const gETApiOauthEmailBind = async (
 };
 
 /**
- * @summary Generate OAuth state code
+ * @summary Generate O Auth Code
  */
 export type gETApiOauthStateResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8573,7 +8610,7 @@ export const gETApiOauthState = async (
 };
 
 /**
- * @summary Bind Telegram account
+ * @summary Telegram Bind
  */
 export type gETApiOauthTelegramBindResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8622,7 +8659,7 @@ export const gETApiOauthTelegramBind = async (
 };
 
 /**
- * @summary Telegram login
+ * @summary Telegram Login
  */
 export type gETApiOauthTelegramLoginResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8671,7 +8708,7 @@ export const gETApiOauthTelegramLogin = async (
 };
 
 /**
- * @summary WeChat OAuth login
+ * @summary We Chat Auth
  */
 export type gETApiOauthWechatResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8733,7 +8770,7 @@ export const gETApiOauthWechat = async (
 };
 
 /**
- * @summary Bind WeChat account
+ * @summary We Chat Bind
  */
 export type gETApiOauthWechatBindResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8797,7 +8834,7 @@ export const gETApiOauthWechatBind = async (
 };
 
 /**
- * @summary OAuth provider login
+ * @summary Handle O Auth
  */
 export type gETApiOauthProviderResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8863,7 +8900,7 @@ export const gETApiOauthProvider = async (
 };
 
 /**
- * @summary Get all options
+ * @summary Get Options
  */
 export type gETApiOptionResponse200ApplicationJson = {
   data: ApiResponse;
@@ -8908,7 +8945,7 @@ export const gETApiOption = async (
 };
 
 /**
- * @summary Update option
+ * @summary Update Option
  */
 export type pUTApiOptionResponse200ApplicationJson = {
   data: MessageResponse;
@@ -8956,15 +8993,15 @@ export const pUTApiOption = async (
 };
 
 /**
- * @summary Clear channel affinity cache
+ * @summary Clear Channel Affinity Cache
  */
 export type dELETEApiOptionChannelAffinityCacheResponse200ApplicationJson = {
-  data: ResponseControllerAffinityCacheClearData;
+  data: ResponseDtoAffinityCacheClearData;
   status: 200;
 };
 
 export type dELETEApiOptionChannelAffinityCacheResponse200ApplicationXml = {
-  data: ResponseControllerAffinityCacheClearData;
+  data: ResponseDtoAffinityCacheClearData;
   status: 200;
 };
 
@@ -9020,7 +9057,7 @@ export const dELETEApiOptionChannelAffinityCache = async (
 };
 
 /**
- * @summary Get channel affinity cache stats
+ * @summary Get Channel Affinity Cache Stats
  */
 export type gETApiOptionChannelAffinityCacheResponse200ApplicationJson = {
   data: ResponseServiceChannelAffinityCacheStats;
@@ -9084,7 +9121,7 @@ export const gETApiOptionChannelAffinityCache = async (
 };
 
 /**
- * @summary Migrate console setting
+ * @summary Migrate Console Setting
  */
 export type pOSTApiOptionMigrateConsoleSettingResponse200ApplicationJson = {
   data: MessageResponse;
@@ -9133,7 +9170,7 @@ export const pOSTApiOptionMigrateConsoleSetting = async (
 };
 
 /**
- * @summary Reset model ratio
+ * @summary Reset Model Ratio
  */
 export type pOSTApiOptionRestModelRatioResponse200ApplicationJson = {
   data: MessageResponse;
@@ -9182,7 +9219,7 @@ export const pOSTApiOptionRestModelRatio = async (
 };
 
 /**
- * @summary Clear disk cache
+ * @summary Clear Disk Cache
  */
 export type dELETEApiPerformanceDiskCacheResponse200ApplicationJson = {
   data: MessageResponse;
@@ -9231,7 +9268,7 @@ export const dELETEApiPerformanceDiskCache = async (
 };
 
 /**
- * @summary Force garbage collection
+ * @summary Force G C
  */
 export type pOSTApiPerformanceGcResponse200ApplicationJson = {
   data: MessageResponse;
@@ -9280,7 +9317,7 @@ export const pOSTApiPerformanceGc = async (
 };
 
 /**
- * @summary Reset performance stats
+ * @summary Reset Performance Stats
  */
 export type pOSTApiPerformanceResetStatsResponse200ApplicationJson = {
   data: MessageResponse;
@@ -9329,15 +9366,15 @@ export const pOSTApiPerformanceResetStats = async (
 };
 
 /**
- * @summary Get performance stats
+ * @summary Get Performance Stats
  */
 export type gETApiPerformanceStatsResponse200ApplicationJson = {
-  data: ResponseControllerPerformanceStats;
+  data: ResponseDtoPerformanceStats;
   status: 200;
 };
 
 export type gETApiPerformanceStatsResponse200ApplicationXml = {
-  data: ResponseControllerPerformanceStats;
+  data: ResponseDtoPerformanceStats;
   status: 200;
 };
 
@@ -9378,7 +9415,7 @@ export const gETApiPerformanceStats = async (
 };
 
 /**
- * @summary Get prefill groups
+ * @summary Get Prefill Groups
  */
 export type gETApiPrefillGroupResponse200ApplicationJson = {
   data: ApiResponse;
@@ -9440,7 +9477,7 @@ export const gETApiPrefillGroup = async (
 };
 
 /**
- * @summary Create prefill group
+ * @summary Create Prefill Group
  */
 export type pOSTApiPrefillGroupResponse200ApplicationJson = {
   data: ResponseModelPrefillGroup;
@@ -9489,7 +9526,7 @@ export const pOSTApiPrefillGroup = async (
 };
 
 /**
- * @summary Update prefill group
+ * @summary Update Prefill Group
  */
 export type pUTApiPrefillGroupResponse200ApplicationJson = {
   data: ResponseModelPrefillGroup;
@@ -9538,7 +9575,7 @@ export const pUTApiPrefillGroup = async (
 };
 
 /**
- * @summary Delete prefill group
+ * @summary Delete Prefill Group
  */
 export type dELETEApiPrefillGroupIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -9588,15 +9625,15 @@ export const dELETEApiPrefillGroupId = async (
 };
 
 /**
- * @summary Get pricing information
+ * @summary Get Pricing
  */
 export type gETApiPricingResponse200ApplicationJson = {
-  data: PricingData;
+  data: ResponseDtoPricingData;
   status: 200;
 };
 
 export type gETApiPricingResponse200ApplicationXml = {
-  data: PricingData;
+  data: ResponseDtoPricingData;
   status: 200;
 };
 
@@ -9633,7 +9670,7 @@ export const gETApiPricing = async (
 };
 
 /**
- * @summary Get privacy policy
+ * @summary Get Privacy Policy
  */
 export type gETApiPrivacyPolicyResponse200ApplicationJson = {
   data: ResponseString;
@@ -9679,7 +9716,7 @@ export const gETApiPrivacyPolicy = async (
 };
 
 /**
- * @summary Get ratio config
+ * @summary Get Ratio Config
  */
 export type gETApiRatioConfigResponse200ApplicationJson = {
   data: ResponseRatioSettingExposedRatioData;
@@ -9725,7 +9762,7 @@ export const gETApiRatioConfig = async (
 };
 
 /**
- * @summary Get syncable channels
+ * @summary Get Syncable Channels
  */
 export type gETApiRatioSyncChannelsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -9774,15 +9811,15 @@ export const gETApiRatioSyncChannels = async (
 };
 
 /**
- * @summary Fetch upstream ratios
+ * @summary Fetch Upstream Ratios
  */
 export type pOSTApiRatioSyncFetchResponse200ApplicationJson = {
-  data: ResponseControllerFetchUpstreamRatiosResult;
+  data: ResponseDtoFetchUpstreamRatiosResult;
   status: 200;
 };
 
 export type pOSTApiRatioSyncFetchResponse200ApplicationXml = {
-  data: ResponseControllerFetchUpstreamRatiosResult;
+  data: ResponseDtoFetchUpstreamRatiosResult;
   status: 200;
 };
 
@@ -9826,7 +9863,7 @@ export const pOSTApiRatioSyncFetch = async (
 };
 
 /**
- * @summary Get all redemptions
+ * @summary Get All Redemptions
  */
 export type gETApiRedemptionResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -9884,7 +9921,7 @@ export const gETApiRedemption = async (
 };
 
 /**
- * @summary Create redemption
+ * @summary Add Redemption
  */
 export type pOSTApiRedemptionResponse200ApplicationJson = {
   data: ApiResponse;
@@ -9933,7 +9970,7 @@ export const pOSTApiRedemption = async (
 };
 
 /**
- * @summary Update redemption
+ * @summary Update Redemption
  */
 export type pUTApiRedemptionResponse200ApplicationJson = {
   data: ResponseModelRedemption;
@@ -9994,7 +10031,7 @@ export const pUTApiRedemption = async (
 };
 
 /**
- * @summary Delete invalid redemptions
+ * @summary Delete Invalid Redemption
  */
 export type dELETEApiRedemptionInvalidResponse200ApplicationJson = {
   data: ResponseInt64;
@@ -10043,7 +10080,7 @@ export const dELETEApiRedemptionInvalid = async (
 };
 
 /**
- * @summary Search redemptions
+ * @summary Search Redemptions
  */
 export type gETApiRedemptionSearchResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -10107,7 +10144,7 @@ export const gETApiRedemptionSearch = async (
 };
 
 /**
- * @summary Delete redemption
+ * @summary Delete Redemption
  */
 export type dELETEApiRedemptionIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -10157,7 +10194,7 @@ export const dELETEApiRedemptionId = async (
 };
 
 /**
- * @summary Get redemption
+ * @summary Get Redemption
  */
 export type gETApiRedemptionIdResponse200ApplicationJson = {
   data: ResponseModelRedemption;
@@ -10204,7 +10241,7 @@ export const gETApiRedemptionId = async (
 };
 
 /**
- * @summary Send password reset email
+ * @summary Send Password Reset Email
  */
 export type gETApiResetPasswordResponse200ApplicationJson = {
   data: MessageResponse;
@@ -10268,7 +10305,7 @@ export const gETApiResetPassword = async (
 };
 
 /**
- * @summary Get system setup status
+ * @summary Get Setup
  */
 export type gETApiSetupResponse200ApplicationJson = {
   data: ResponseDtoSetupData;
@@ -10313,15 +10350,15 @@ export const gETApiSetup = async (
 };
 
 /**
- * @summary Complete initial system setup
+ * @summary Post Setup
  */
 export type pOSTApiSetupResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoSetupData;
   status: 200;
 };
 
 export type pOSTApiSetupResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoSetupData;
   status: 200;
 };
 
@@ -10358,15 +10395,15 @@ export const pOSTApiSetup = async (
 };
 
 /**
- * @summary Get system status and configuration
+ * @summary Get Status
  */
 export type gETApiStatusResponse200ApplicationJson = {
-  data: ResponseControllerStatusData;
+  data: ResponseDtoStatusData;
   status: 200;
 };
 
 export type gETApiStatusResponse200ApplicationXml = {
-  data: ResponseControllerStatusData;
+  data: ResponseDtoStatusData;
   status: 200;
 };
 
@@ -10403,15 +10440,15 @@ export const gETApiStatus = async (
 };
 
 /**
- * @summary Test system status
+ * @summary Test Status
  */
 export type gETApiStatusTestResponse200ApplicationJson = {
-  data: ResponseControllerTestStatusData;
+  data: ResponseDtoTestStatusData;
   status: 200;
 };
 
 export type gETApiStatusTestResponse200ApplicationXml = {
-  data: ResponseControllerTestStatusData;
+  data: ResponseDtoTestStatusData;
   status: 200;
 };
 
@@ -10448,7 +10485,7 @@ export const gETApiStatusTest = async (
 };
 
 /**
- * @summary Stripe webhook
+ * @summary Stripe Webhook
  */
 export type pOSTApiStripeWebhookResponse200ApplicationJson = {
   data: MessageResponse;
@@ -10497,7 +10534,7 @@ export const pOSTApiStripeWebhook = async (
 };
 
 /**
- * @summary Bind subscription to user
+ * @summary Admin Bind Subscription
  */
 export type pOSTApiSubscriptionAdminBindResponse200ApplicationJson = {
   data: MessageResponse;
@@ -10534,7 +10571,7 @@ export const getPOSTApiSubscriptionAdminBindUrl = () => {
 };
 
 export const pOSTApiSubscriptionAdminBind = async (
-  adminBindSubscriptionRequest: AdminBindSubscriptionRequest,
+  pOSTApiSubscriptionAdminBindBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiSubscriptionAdminBindResponse> => {
   return customFetch<pOSTApiSubscriptionAdminBindResponse>(
@@ -10542,14 +10579,14 @@ export const pOSTApiSubscriptionAdminBind = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(adminBindSubscriptionRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiSubscriptionAdminBindBody),
     },
   );
 };
 
 /**
- * @summary List subscription plans (admin)
+ * @summary Admin List Subscription Plans
  */
 export type gETApiSubscriptionAdminPlansResponse200ApplicationJson = {
   data: ApiResponse;
@@ -10598,7 +10635,7 @@ export const gETApiSubscriptionAdminPlans = async (
 };
 
 /**
- * @summary Create subscription plan
+ * @summary Admin Create Subscription Plan
  */
 export type pOSTApiSubscriptionAdminPlansResponse200ApplicationJson = {
   data: ResponseModelSubscriptionPlan;
@@ -10650,7 +10687,7 @@ export const pOSTApiSubscriptionAdminPlans = async (
 };
 
 /**
- * @summary Update plan status
+ * @summary Admin Update Subscription Plan Status
  */
 export type pATCHApiSubscriptionAdminPlansIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -10688,7 +10725,7 @@ export const getPATCHApiSubscriptionAdminPlansIdUrl = (id: string) => {
 
 export const pATCHApiSubscriptionAdminPlansId = async (
   id: string,
-  adminUpdateSubscriptionPlanStatusRequest: AdminUpdateSubscriptionPlanStatusRequest,
+  pATCHApiSubscriptionAdminPlansIdBody: Blob,
   options?: RequestInit,
 ): Promise<pATCHApiSubscriptionAdminPlansIdResponse> => {
   return customFetch<pATCHApiSubscriptionAdminPlansIdResponse>(
@@ -10696,22 +10733,22 @@ export const pATCHApiSubscriptionAdminPlansId = async (
     {
       ...options,
       method: "PATCH",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(adminUpdateSubscriptionPlanStatusRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pATCHApiSubscriptionAdminPlansIdBody),
     },
   );
 };
 
 /**
- * @summary Update subscription plan
+ * @summary Admin Update Subscription Plan
  */
 export type pUTApiSubscriptionAdminPlansIdResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseModelSubscriptionPlan;
   status: 200;
 };
 
 export type pUTApiSubscriptionAdminPlansIdResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseModelSubscriptionPlan;
   status: 200;
 };
 
@@ -10756,7 +10793,7 @@ export const pUTApiSubscriptionAdminPlansId = async (
 };
 
 /**
- * @summary Delete subscription
+ * @summary Admin Delete User Subscription
  */
 export type dELETEApiSubscriptionAdminUserSubscriptionsIdResponse200ApplicationJson =
   {
@@ -10810,7 +10847,7 @@ export const dELETEApiSubscriptionAdminUserSubscriptionsId = async (
 };
 
 /**
- * @summary Invalidate subscription
+ * @summary Admin Invalidate User Subscription
  */
 export type pOSTApiSubscriptionAdminUserSubscriptionsIdInvalidateResponse200ApplicationJson =
   {
@@ -10866,7 +10903,7 @@ export const pOSTApiSubscriptionAdminUserSubscriptionsIdInvalidate = async (
 };
 
 /**
- * @summary List user subscriptions
+ * @summary Admin List User Subscriptions
  */
 export type gETApiSubscriptionAdminUsersIdSubscriptionsResponse200ApplicationJson =
   {
@@ -10920,7 +10957,7 @@ export const gETApiSubscriptionAdminUsersIdSubscriptions = async (
 };
 
 /**
- * @summary Create user subscription
+ * @summary Admin Create User Subscription
  */
 export type pOSTApiSubscriptionAdminUsersIdSubscriptionsResponse200ApplicationJson =
   {
@@ -10962,7 +10999,7 @@ export const getPOSTApiSubscriptionAdminUsersIdSubscriptionsUrl = (
 
 export const pOSTApiSubscriptionAdminUsersIdSubscriptions = async (
   id: string,
-  adminCreateUserSubscriptionRequest: AdminCreateUserSubscriptionRequest,
+  pOSTApiSubscriptionAdminUsersIdSubscriptionsBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiSubscriptionAdminUsersIdSubscriptionsResponse> => {
   return customFetch<pOSTApiSubscriptionAdminUsersIdSubscriptionsResponse>(
@@ -10970,22 +11007,22 @@ export const pOSTApiSubscriptionAdminUsersIdSubscriptions = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(adminCreateUserSubscriptionRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiSubscriptionAdminUsersIdSubscriptionsBody),
     },
   );
 };
 
 /**
- * @summary Pay subscription via Creem
+ * @summary Subscription Request Creem Pay
  */
 export type pOSTApiSubscriptionCreemPayResponse200ApplicationJson = {
-  data: ResponseControllerCreemPayData;
+  data: ResponseDtoCreemPayData;
   status: 200;
 };
 
 export type pOSTApiSubscriptionCreemPayResponse200ApplicationXml = {
-  data: ResponseControllerCreemPayData;
+  data: ResponseDtoCreemPayData;
   status: 200;
 };
 
@@ -11014,7 +11051,7 @@ export const getPOSTApiSubscriptionCreemPayUrl = () => {
 };
 
 export const pOSTApiSubscriptionCreemPay = async (
-  subscriptionCreemPayRequest: SubscriptionCreemPayRequest,
+  pOSTApiSubscriptionCreemPayBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiSubscriptionCreemPayResponse> => {
   return customFetch<pOSTApiSubscriptionCreemPayResponse>(
@@ -11022,14 +11059,14 @@ export const pOSTApiSubscriptionCreemPay = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(subscriptionCreemPayRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiSubscriptionCreemPayBody),
     },
   );
 };
 
 /**
- * @summary Epay subscription notification (GET)
+ * @summary Subscription Epay Notify
  */
 export type gETApiSubscriptionEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -11078,7 +11115,7 @@ export const gETApiSubscriptionEpayNotify = async (
 };
 
 /**
- * @summary Epay subscription notification
+ * @summary Subscription Epay Notify
  */
 export type pOSTApiSubscriptionEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -11127,15 +11164,15 @@ export const pOSTApiSubscriptionEpayNotify = async (
 };
 
 /**
- * @summary Pay subscription via Epay
+ * @summary Subscription Request Epay
  */
 export type pOSTApiSubscriptionEpayPayResponse200ApplicationJson = {
-  data: ResponseControllerEpayPayResponse;
+  data: ResponseDtoEpayPayResponse;
   status: 200;
 };
 
 export type pOSTApiSubscriptionEpayPayResponse200ApplicationXml = {
-  data: ResponseControllerEpayPayResponse;
+  data: ResponseDtoEpayPayResponse;
   status: 200;
 };
 
@@ -11164,7 +11201,7 @@ export const getPOSTApiSubscriptionEpayPayUrl = () => {
 };
 
 export const pOSTApiSubscriptionEpayPay = async (
-  subscriptionEpayPayRequest: SubscriptionEpayPayRequest,
+  pOSTApiSubscriptionEpayPayBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiSubscriptionEpayPayResponse> => {
   return customFetch<pOSTApiSubscriptionEpayPayResponse>(
@@ -11172,14 +11209,14 @@ export const pOSTApiSubscriptionEpayPay = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(subscriptionEpayPayRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiSubscriptionEpayPayBody),
     },
   );
 };
 
 /**
- * @summary Epay subscription return
+ * @summary Subscription Epay Return
  */
 export type gETApiSubscriptionEpayReturnResponse200ApplicationJson = {
   data: MessageResponse;
@@ -11228,7 +11265,7 @@ export const gETApiSubscriptionEpayReturn = async (
 };
 
 /**
- * @summary Epay subscription return (POST)
+ * @summary Subscription Epay Return
  */
 export type pOSTApiSubscriptionEpayReturnResponse200ApplicationJson = {
   data: MessageResponse;
@@ -11277,7 +11314,7 @@ export const pOSTApiSubscriptionEpayReturn = async (
 };
 
 /**
- * @summary Get subscription plans
+ * @summary Get Subscription Plans
  */
 export type gETApiSubscriptionPlansResponse200ApplicationJson = {
   data: ApiResponse;
@@ -11326,7 +11363,7 @@ export const gETApiSubscriptionPlans = async (
 };
 
 /**
- * @summary Get own subscription
+ * @summary Get Subscription Self
  */
 export type gETApiSubscriptionSelfResponse200ApplicationJson = {
   data: ResponseControllerSubscriptionSelfData;
@@ -11375,15 +11412,15 @@ export const gETApiSubscriptionSelf = async (
 };
 
 /**
- * @summary Update billing preference
+ * @summary Update Subscription Preference
  */
 export type pUTApiSubscriptionSelfPreferenceResponse200ApplicationJson = {
-  data: ResponseControllerBillingPreferenceData;
+  data: ResponseDtoBillingPreferenceData;
   status: 200;
 };
 
 export type pUTApiSubscriptionSelfPreferenceResponse200ApplicationXml = {
-  data: ResponseControllerBillingPreferenceData;
+  data: ResponseDtoBillingPreferenceData;
   status: 200;
 };
 
@@ -11412,7 +11449,7 @@ export const getPUTApiSubscriptionSelfPreferenceUrl = () => {
 };
 
 export const pUTApiSubscriptionSelfPreference = async (
-  billingPreferenceRequest: BillingPreferenceRequest,
+  pUTApiSubscriptionSelfPreferenceBody: Blob,
   options?: RequestInit,
 ): Promise<pUTApiSubscriptionSelfPreferenceResponse> => {
   return customFetch<pUTApiSubscriptionSelfPreferenceResponse>(
@@ -11420,22 +11457,22 @@ export const pUTApiSubscriptionSelfPreference = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(billingPreferenceRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pUTApiSubscriptionSelfPreferenceBody),
     },
   );
 };
 
 /**
- * @summary Pay subscription via Stripe
+ * @summary Subscription Request Stripe Pay
  */
 export type pOSTApiSubscriptionStripePayResponse200ApplicationJson = {
-  data: ResponseControllerStripePayLinkData;
+  data: ResponseDtoStripePayLinkData;
   status: 200;
 };
 
 export type pOSTApiSubscriptionStripePayResponse200ApplicationXml = {
-  data: ResponseControllerStripePayLinkData;
+  data: ResponseDtoStripePayLinkData;
   status: 200;
 };
 
@@ -11464,7 +11501,7 @@ export const getPOSTApiSubscriptionStripePayUrl = () => {
 };
 
 export const pOSTApiSubscriptionStripePay = async (
-  subscriptionStripePayRequest: SubscriptionStripePayRequest,
+  pOSTApiSubscriptionStripePayBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiSubscriptionStripePayResponse> => {
   return customFetch<pOSTApiSubscriptionStripePayResponse>(
@@ -11472,14 +11509,14 @@ export const pOSTApiSubscriptionStripePay = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(subscriptionStripePayRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiSubscriptionStripePayBody),
     },
   );
 };
 
 /**
- * @summary Get all tasks
+ * @summary Get All Task
  */
 export type gETApiTaskResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -11537,7 +11574,7 @@ export const gETApiTask = async (
 };
 
 /**
- * @summary Get own tasks
+ * @summary Get User Task
  */
 export type gETApiTaskSelfResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -11595,7 +11632,7 @@ export const gETApiTaskSelf = async (
 };
 
 /**
- * @summary Get all tokens
+ * @summary Get All Tokens
  */
 export type gETApiTokenResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -11653,7 +11690,7 @@ export const gETApiToken = async (
 };
 
 /**
- * @summary Create token
+ * @summary Add Token
  */
 export type pOSTApiTokenResponse200ApplicationJson = {
   data: MessageResponse;
@@ -11689,19 +11726,19 @@ export const getPOSTApiTokenUrl = () => {
 };
 
 export const pOSTApiToken = async (
-  token: Token,
+  pOSTApiTokenBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiTokenResponse> => {
   return customFetch<pOSTApiTokenResponse>(getPOSTApiTokenUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(token),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(pOSTApiTokenBody),
   });
 };
 
 /**
- * @summary Update token
+ * @summary Update Token
  */
 export type pUTApiTokenResponse200ApplicationJson = {
   data: ResponseModelToken;
@@ -11749,28 +11786,28 @@ export const getPUTApiTokenUrl = (params?: PUTApiTokenParams) => {
 };
 
 export const pUTApiToken = async (
-  token: Token,
+  pUTApiTokenBody: Blob,
   params?: PUTApiTokenParams,
   options?: RequestInit,
 ): Promise<pUTApiTokenResponse> => {
   return customFetch<pUTApiTokenResponse>(getPUTApiTokenUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(token),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(pUTApiTokenBody),
   });
 };
 
 /**
- * @summary Batch delete tokens
+ * @summary Delete Token Batch
  */
 export type pOSTApiTokenBatchResponse200ApplicationJson = {
-  data: ResponseInt;
+  data: ResponseInt64;
   status: 200;
 };
 
 export type pOSTApiTokenBatchResponse200ApplicationXml = {
-  data: ResponseInt;
+  data: ResponseInt64;
   status: 200;
 };
 
@@ -11799,19 +11836,19 @@ export const getPOSTApiTokenBatchUrl = () => {
 };
 
 export const pOSTApiTokenBatch = async (
-  tokenBatch: TokenBatch,
+  pOSTApiTokenBatchBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiTokenBatchResponse> => {
   return customFetch<pOSTApiTokenBatchResponse>(getPOSTApiTokenBatchUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(tokenBatch),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(pOSTApiTokenBatchBody),
   });
 };
 
 /**
- * @summary Search tokens
+ * @summary Search Tokens
  */
 export type gETApiTokenSearchResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -11873,7 +11910,7 @@ export const gETApiTokenSearch = async (
 };
 
 /**
- * @summary Delete token
+ * @summary Delete Token
  */
 export type dELETEApiTokenIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -11919,7 +11956,7 @@ export const dELETEApiTokenId = async (
 };
 
 /**
- * @summary Get token
+ * @summary Get Token
  */
 export type gETApiTokenIdResponse200ApplicationJson = {
   data: ResponseModelToken;
@@ -11965,7 +12002,7 @@ export const gETApiTokenId = async (
 };
 
 /**
- * @summary Get Uptime Kuma status
+ * @summary Get Uptime Kuma Status
  */
 export type gETApiUptimeStatusResponse200ApplicationJson = {
   data: ApiResponse;
@@ -12011,15 +12048,15 @@ export const gETApiUptimeStatus = async (
 };
 
 /**
- * @summary Get token usage
+ * @summary Get Token Usage
  */
 export type gETApiUsageTokenResponse200ApplicationJson = {
-  data: ResponseControllerTokenUsageData;
+  data: ResponseDtoTokenUsageData;
   status: 200;
 };
 
 export type gETApiUsageTokenResponse200ApplicationXml = {
-  data: ResponseControllerTokenUsageData;
+  data: ResponseDtoTokenUsageData;
   status: 200;
 };
 
@@ -12056,7 +12093,7 @@ export const gETApiUsageToken = async (
 };
 
 /**
- * @summary Get user agreement
+ * @summary Get User Agreement
  */
 export type gETApiUserAgreementResponse200ApplicationJson = {
   data: ResponseString;
@@ -12102,7 +12139,7 @@ export const gETApiUserAgreement = async (
 };
 
 /**
- * @summary Get all users
+ * @summary Get All Users
  */
 export type gETApiUserResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -12160,7 +12197,7 @@ export const gETApiUser = async (
 };
 
 /**
- * @summary Create user
+ * @summary Create User
  */
 export type pOSTApiUserResponse200ApplicationJson = {
   data: MessageResponse;
@@ -12208,7 +12245,7 @@ export const pOSTApiUser = async (
 };
 
 /**
- * @summary Update user
+ * @summary Update User
  */
 export type pUTApiUserResponse200ApplicationJson = {
   data: MessageResponse;
@@ -12256,15 +12293,15 @@ export const pUTApiUser = async (
 };
 
 /**
- * @summary Regenerate backup codes
+ * @summary Regenerate Backup Codes
  */
 export type pOSTApiUser2faBackupCodesResponse200ApplicationJson = {
-  data: ResponseControllerBackupCodesData;
+  data: ResponseDtoBackupCodesData;
   status: 200;
 };
 
 export type pOSTApiUser2faBackupCodesResponse200ApplicationXml = {
-  data: ResponseControllerBackupCodesData;
+  data: ResponseDtoBackupCodesData;
   status: 200;
 };
 
@@ -12293,7 +12330,7 @@ export const getPOSTApiUser2faBackupCodesUrl = () => {
 };
 
 export const pOSTApiUser2faBackupCodes = async (
-  verify2FARequest: Verify2FARequest,
+  pOSTApiUser2faBackupCodesBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiUser2faBackupCodesResponse> => {
   return customFetch<pOSTApiUser2faBackupCodesResponse>(
@@ -12301,14 +12338,14 @@ export const pOSTApiUser2faBackupCodes = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(verify2FARequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiUser2faBackupCodesBody),
     },
   );
 };
 
 /**
- * @summary Disable 2FA
+ * @summary Disable2 F A
  */
 export type pOSTApiUser2faDisableResponse200ApplicationJson = {
   data: MessageResponse;
@@ -12345,7 +12382,7 @@ export const getPOSTApiUser2faDisableUrl = () => {
 };
 
 export const pOSTApiUser2faDisable = async (
-  verify2FARequest: Verify2FARequest,
+  pOSTApiUser2faDisableBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiUser2faDisableResponse> => {
   return customFetch<pOSTApiUser2faDisableResponse>(
@@ -12353,14 +12390,14 @@ export const pOSTApiUser2faDisable = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(verify2FARequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiUser2faDisableBody),
     },
   );
 };
 
 /**
- * @summary Enable 2FA
+ * @summary Enable2 F A
  */
 export type pOSTApiUser2faEnableResponse200ApplicationJson = {
   data: MessageResponse;
@@ -12397,7 +12434,7 @@ export const getPOSTApiUser2faEnableUrl = () => {
 };
 
 export const pOSTApiUser2faEnable = async (
-  setup2FARequest: Setup2FARequest,
+  pOSTApiUser2faEnableBody: Blob,
   options?: RequestInit,
 ): Promise<pOSTApiUser2faEnableResponse> => {
   return customFetch<pOSTApiUser2faEnableResponse>(
@@ -12405,22 +12442,22 @@ export const pOSTApiUser2faEnable = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(setup2FARequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(pOSTApiUser2faEnableBody),
     },
   );
 };
 
 /**
- * @summary Setup 2FA
+ * @summary Setup2 F A
  */
 export type pOSTApiUser2faSetupResponse200ApplicationJson = {
-  data: ResponseControllerSetup2FAResponse;
+  data: ResponseDtoSetup2FAResponse;
   status: 200;
 };
 
 export type pOSTApiUser2faSetupResponse200ApplicationXml = {
-  data: ResponseControllerSetup2FAResponse;
+  data: ResponseDtoSetup2FAResponse;
   status: 200;
 };
 
@@ -12458,7 +12495,7 @@ export const pOSTApiUser2faSetup = async (
 };
 
 /**
- * @summary Get 2FA stats
+ * @summary Admin2 F A Stats
  */
 export type gETApiUser2faStatsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -12504,15 +12541,15 @@ export const gETApiUser2faStats = async (
 };
 
 /**
- * @summary Get 2FA status
+ * @summary Get2 F A Status
  */
 export type gETApiUser2faStatusResponse200ApplicationJson = {
-  data: ResponseControllerTwoFAStatusData;
+  data: ResponseDtoTwoFAStatusData;
   status: 200;
 };
 
 export type gETApiUser2faStatusResponse200ApplicationXml = {
-  data: ResponseControllerTwoFAStatusData;
+  data: ResponseDtoTwoFAStatusData;
   status: 200;
 };
 
@@ -12550,7 +12587,7 @@ export const gETApiUser2faStatus = async (
 };
 
 /**
- * @summary Get affiliate code
+ * @summary Get Aff Code
  */
 export type gETApiUserAffResponse200ApplicationJson = {
   data: ResponseString;
@@ -12595,7 +12632,7 @@ export const gETApiUserAff = async (
 };
 
 /**
- * @summary Get referral commissions
+ * @summary Get Referral Commissions
  */
 export type gETApiUserAffCommissionsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -12644,7 +12681,7 @@ export const gETApiUserAffCommissions = async (
 };
 
 /**
- * @summary Transfer affiliate quota
+ * @summary Transfer Aff Quota
  */
 export type pOSTApiUserAffTransferResponse200ApplicationJson = {
   data: MessageResponse;
@@ -12696,7 +12733,7 @@ export const pOSTApiUserAffTransfer = async (
 };
 
 /**
- * @summary Request top-up amount
+ * @summary Request Amount
  */
 export type pOSTApiUserAmountResponse200ApplicationJson = {
   data: ResponseString;
@@ -12745,15 +12782,15 @@ export const pOSTApiUserAmount = async (
 };
 
 /**
- * @summary Get check-in status
+ * @summary Get Checkin Status
  */
 export type gETApiUserCheckinResponse200ApplicationJson = {
-  data: ResponseControllerCheckinStatusData;
+  data: ResponseDtoCheckinStatusData;
   status: 200;
 };
 
 export type gETApiUserCheckinResponse200ApplicationXml = {
-  data: ResponseControllerCheckinStatusData;
+  data: ResponseDtoCheckinStatusData;
   status: 200;
 };
 
@@ -12807,15 +12844,15 @@ export const gETApiUserCheckin = async (
 };
 
 /**
- * @summary Do check-in
+ * @summary Do Checkin
  */
 export type pOSTApiUserCheckinResponse200ApplicationJson = {
-  data: ResponseControllerCheckinResultData;
+  data: ResponseDtoCheckinResultData;
   status: 200;
 };
 
 export type pOSTApiUserCheckinResponse200ApplicationXml = {
-  data: ResponseControllerCheckinResultData;
+  data: ResponseDtoCheckinResultData;
   status: 200;
 };
 
@@ -12853,15 +12890,15 @@ export const pOSTApiUserCheckin = async (
 };
 
 /**
- * @summary Request Creem payment
+ * @summary Request Creem Pay
  */
 export type pOSTApiUserCreemPayResponse200ApplicationJson = {
-  data: ResponseControllerCreemPayData;
+  data: ResponseDtoCreemPayData;
   status: 200;
 };
 
 export type pOSTApiUserCreemPayResponse200ApplicationXml = {
-  data: ResponseControllerCreemPayData;
+  data: ResponseDtoCreemPayData;
   status: 200;
 };
 
@@ -12902,7 +12939,7 @@ export const pOSTApiUserCreemPay = async (
 };
 
 /**
- * @summary Epay payment notification (GET)
+ * @summary Epay Notify
  */
 export type gETApiUserEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -12951,7 +12988,7 @@ export const gETApiUserEpayNotify = async (
 };
 
 /**
- * @summary Epay payment notification
+ * @summary Epay Notify
  */
 export type pOSTApiUserEpayNotifyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13000,7 +13037,7 @@ export const pOSTApiUserEpayNotify = async (
 };
 
 /**
- * @summary Get user groups
+ * @summary Get User Groups
  */
 export type gETApiUserGroupsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -13045,7 +13082,7 @@ export const gETApiUserGroups = async (
 };
 
 /**
- * @summary User login
+ * @summary Login
  */
 export type pOSTApiUserLoginResponse200ApplicationJson = {
   data: ResponseDtoLoginData;
@@ -13090,7 +13127,7 @@ export const pOSTApiUserLogin = async (
 };
 
 /**
- * @summary Verify 2FA login
+ * @summary Verify2 F A Login
  */
 export type pOSTApiUserLogin2faResponse200ApplicationJson = {
   data: ResponseDtoLoginData;
@@ -13136,7 +13173,7 @@ export const pOSTApiUserLogin2fa = async (
 };
 
 /**
- * @summary User logout
+ * @summary Logout
  */
 export type gETApiUserLogoutResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13181,15 +13218,15 @@ export const gETApiUserLogout = async (
 };
 
 /**
- * @summary Manage user
+ * @summary Manage User
  */
 export type pOSTApiUserManageResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoManageUserResult;
   status: 200;
 };
 
 export type pOSTApiUserManageResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoManageUserResult;
   status: 200;
 };
 
@@ -13230,7 +13267,7 @@ export const pOSTApiUserManage = async (
 };
 
 /**
- * @summary Get user models
+ * @summary Get User Models
  */
 export type gETApiUserModelsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -13275,7 +13312,7 @@ export const gETApiUserModels = async (
 };
 
 /**
- * @summary Get OAuth bindings
+ * @summary Get User O Auth Bindings
  */
 export type gETApiUserOauthBindingsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -13324,7 +13361,7 @@ export const gETApiUserOauthBindings = async (
 };
 
 /**
- * @summary Unbind OAuth provider
+ * @summary Unbind Custom O Auth
  */
 export type dELETEApiUserOauthBindingsProviderIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13376,7 +13413,7 @@ export const dELETEApiUserOauthBindingsProviderId = async (
 };
 
 /**
- * @summary Delete passkey
+ * @summary Passkey Delete
  */
 export type dELETEApiUserPasskeyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13425,7 +13462,7 @@ export const dELETEApiUserPasskey = async (
 };
 
 /**
- * @summary Get passkey status
+ * @summary Passkey Status
  */
 export type gETApiUserPasskeyResponse200ApplicationJson = {
   data: ResponseDtoPasskeyStatusData;
@@ -13471,7 +13508,7 @@ export const gETApiUserPasskey = async (
 };
 
 /**
- * @summary Begin passkey login
+ * @summary Passkey Login Begin
  */
 export type pOSTApiUserPasskeyLoginBeginResponse200ApplicationJson = {
   data: ResponseDtoPasskeyOptionsData;
@@ -13520,7 +13557,7 @@ export const pOSTApiUserPasskeyLoginBegin = async (
 };
 
 /**
- * @summary Finish passkey login
+ * @summary Passkey Login Finish
  */
 export type pOSTApiUserPasskeyLoginFinishResponse200ApplicationJson = {
   data: ResponseDtoLoginData;
@@ -13569,7 +13606,7 @@ export const pOSTApiUserPasskeyLoginFinish = async (
 };
 
 /**
- * @summary Begin passkey registration
+ * @summary Passkey Register Begin
  */
 export type pOSTApiUserPasskeyRegisterBeginResponse200ApplicationJson = {
   data: ResponseDtoPasskeyOptionsData;
@@ -13618,7 +13655,7 @@ export const pOSTApiUserPasskeyRegisterBegin = async (
 };
 
 /**
- * @summary Finish passkey registration
+ * @summary Passkey Register Finish
  */
 export type pOSTApiUserPasskeyRegisterFinishResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13667,7 +13704,7 @@ export const pOSTApiUserPasskeyRegisterFinish = async (
 };
 
 /**
- * @summary Begin passkey verification
+ * @summary Passkey Verify Begin
  */
 export type pOSTApiUserPasskeyVerifyBeginResponse200ApplicationJson = {
   data: ResponseDtoPasskeyOptionsData;
@@ -13716,7 +13753,7 @@ export const pOSTApiUserPasskeyVerifyBegin = async (
 };
 
 /**
- * @summary Finish passkey verification
+ * @summary Passkey Verify Finish
  */
 export type pOSTApiUserPasskeyVerifyFinishResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13765,15 +13802,15 @@ export const pOSTApiUserPasskeyVerifyFinish = async (
 };
 
 /**
- * @summary Request Epay payment
+ * @summary Request Epay
  */
 export type pOSTApiUserPayResponse200ApplicationJson = {
-  data: ResponseControllerEpayPayResponse;
+  data: ResponseDtoEpayPayResponse;
   status: 200;
 };
 
 export type pOSTApiUserPayResponse200ApplicationXml = {
-  data: ResponseControllerEpayPayResponse;
+  data: ResponseDtoEpayPayResponse;
   status: 200;
 };
 
@@ -13813,7 +13850,7 @@ export const pOSTApiUserPay = async (
 };
 
 /**
- * @summary Register new user
+ * @summary Register
  */
 export type pOSTApiUserRegisterResponse200ApplicationJson = {
   data: MessageResponse;
@@ -13862,15 +13899,15 @@ export const pOSTApiUserRegister = async (
 };
 
 /**
- * @summary Reset password
+ * @summary Reset Password
  */
 export type pOSTApiUserResetResponse200ApplicationJson = {
-  data: ResponseString;
+  data: ApiResponse;
   status: 200;
 };
 
 export type pOSTApiUserResetResponse200ApplicationXml = {
-  data: ResponseString;
+  data: ApiResponse;
   status: 200;
 };
 
@@ -13910,7 +13947,7 @@ export const pOSTApiUserReset = async (
 };
 
 /**
- * @summary Search users
+ * @summary Search Users
  */
 export type gETApiUserSearchResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -13968,7 +14005,7 @@ export const gETApiUserSearch = async (
 };
 
 /**
- * @summary Delete self account
+ * @summary Delete Self
  */
 export type dELETEApiUserSelfResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14014,15 +14051,15 @@ export const dELETEApiUserSelf = async (
 };
 
 /**
- * @summary Get self info
+ * @summary Get Self
  */
 export type gETApiUserSelfResponse200ApplicationJson = {
-  data: ResponseControllerUserSelfData;
+  data: ResponseDtoUserSelfData;
   status: 200;
 };
 
 export type gETApiUserSelfResponse200ApplicationXml = {
-  data: ResponseControllerUserSelfData;
+  data: ResponseDtoUserSelfData;
   status: 200;
 };
 
@@ -14059,7 +14096,7 @@ export const gETApiUserSelf = async (
 };
 
 /**
- * @summary Update self info
+ * @summary Update Self
  */
 export type pUTApiUserSelfResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14104,7 +14141,7 @@ export const pUTApiUserSelf = async (
 };
 
 /**
- * @summary Get self groups
+ * @summary Get User Groups
  */
 export type gETApiUserSelfGroupsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -14153,7 +14190,7 @@ export const gETApiUserSelfGroups = async (
 };
 
 /**
- * @summary Update user setting
+ * @summary Update User Setting
  */
 export type pOSTApiUserSettingResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14202,7 +14239,7 @@ export const pOSTApiUserSetting = async (
 };
 
 /**
- * @summary Request Stripe amount
+ * @summary Request Stripe Amount
  */
 export type pOSTApiUserStripeAmountResponse200ApplicationJson = {
   data: ResponseString;
@@ -14254,15 +14291,15 @@ export const pOSTApiUserStripeAmount = async (
 };
 
 /**
- * @summary Request Stripe payment
+ * @summary Request Stripe Pay
  */
 export type pOSTApiUserStripePayResponse200ApplicationJson = {
-  data: ResponseControllerStripePayLinkData;
+  data: ResponseDtoStripePayLinkData;
   status: 200;
 };
 
 export type pOSTApiUserStripePayResponse200ApplicationXml = {
-  data: ResponseControllerStripePayLinkData;
+  data: ResponseDtoStripePayLinkData;
   status: 200;
 };
 
@@ -14306,15 +14343,15 @@ export const pOSTApiUserStripePay = async (
 };
 
 /**
- * @summary Generate access token
+ * @summary Generate Access Token
  */
 export type gETApiUserTokenResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseString;
   status: 200;
 };
 
 export type gETApiUserTokenResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseString;
   status: 200;
 };
 
@@ -14351,7 +14388,7 @@ export const gETApiUserToken = async (
 };
 
 /**
- * @summary Get all top-ups
+ * @summary Get All Top Ups
  */
 export type gETApiUserTopupResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -14409,7 +14446,7 @@ export const gETApiUserTopup = async (
 };
 
 /**
- * @summary Top up quota
+ * @summary Top Up
  */
 export type pOSTApiUserTopupResponse200ApplicationJson = {
   data: ResponseInt;
@@ -14457,7 +14494,7 @@ export const pOSTApiUserTopup = async (
 };
 
 /**
- * @summary Complete top-up (admin)
+ * @summary Admin Complete Top Up
  */
 export type pOSTApiUserTopupCompleteResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14509,15 +14546,15 @@ export const pOSTApiUserTopupComplete = async (
 };
 
 /**
- * @summary Get top-up info
+ * @summary Get Top Up Info
  */
 export type gETApiUserTopupInfoResponse200ApplicationJson = {
-  data: ResponseControllerTopUpInfoData;
+  data: ResponseDtoTopUpInfoData;
   status: 200;
 };
 
 export type gETApiUserTopupInfoResponse200ApplicationXml = {
-  data: ResponseControllerTopUpInfoData;
+  data: ResponseDtoTopUpInfoData;
   status: 200;
 };
 
@@ -14555,7 +14592,7 @@ export const gETApiUserTopupInfo = async (
 };
 
 /**
- * @summary Get user top-ups
+ * @summary Get User Top Ups
  */
 export type gETApiUserTopupSelfResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -14619,7 +14656,7 @@ export const gETApiUserTopupSelf = async (
 };
 
 /**
- * @summary Delete user
+ * @summary Delete User
  */
 export type dELETEApiUserIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14665,7 +14702,7 @@ export const dELETEApiUserId = async (
 };
 
 /**
- * @summary Get user by ID
+ * @summary Get User
  */
 export type gETApiUserIdResponse200ApplicationJson = {
   data: ResponseModelUser;
@@ -14711,7 +14748,7 @@ export const gETApiUserId = async (
 };
 
 /**
- * @summary Disable user 2FA (admin)
+ * @summary Admin Disable2 F A
  */
 export type dELETEApiUserId2faResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14758,7 +14795,7 @@ export const dELETEApiUserId2fa = async (
 };
 
 /**
- * @summary Clear user binding (admin)
+ * @summary Admin Clear User Binding
  */
 export type dELETEApiUserIdBindingsBindingTypeResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14812,7 +14849,7 @@ export const dELETEApiUserIdBindingsBindingType = async (
 };
 
 /**
- * @summary Get user OAuth bindings (admin)
+ * @summary Get User O Auth Bindings By Admin
  */
 export type gETApiUserIdOauthBindingsResponse200ApplicationJson = {
   data: ApiResponse;
@@ -14862,7 +14899,7 @@ export const gETApiUserIdOauthBindings = async (
 };
 
 /**
- * @summary Unbind user OAuth (admin)
+ * @summary Unbind Custom O Auth By Admin
  */
 export type dELETEApiUserIdOauthBindingsProviderIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14916,7 +14953,7 @@ export const dELETEApiUserIdOauthBindingsProviderId = async (
 };
 
 /**
- * @summary Reset user passkey (admin)
+ * @summary Admin Reset Passkey
  */
 export type dELETEApiUserIdResetPasskeyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -14966,7 +15003,7 @@ export const dELETEApiUserIdResetPasskey = async (
 };
 
 /**
- * @summary Get all vendors
+ * @summary Get All Vendors
  */
 export type gETApiVendorsResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -15024,7 +15061,7 @@ export const gETApiVendors = async (
 };
 
 /**
- * @summary Create vendor
+ * @summary Create Vendor Meta
  */
 export type pOSTApiVendorsResponse200ApplicationJson = {
   data: ResponseModelVendor;
@@ -15072,7 +15109,7 @@ export const pOSTApiVendors = async (
 };
 
 /**
- * @summary Update vendor
+ * @summary Update Vendor Meta
  */
 export type pUTApiVendorsResponse200ApplicationJson = {
   data: ResponseModelVendor;
@@ -15120,7 +15157,7 @@ export const pUTApiVendors = async (
 };
 
 /**
- * @summary Search vendors
+ * @summary Search Vendors
  */
 export type gETApiVendorsSearchResponse200ApplicationJson = {
   data: ResponseCommonPageInfo;
@@ -15184,7 +15221,7 @@ export const gETApiVendorsSearch = async (
 };
 
 /**
- * @summary Delete vendor
+ * @summary Delete Vendor Meta
  */
 export type dELETEApiVendorsIdResponse200ApplicationJson = {
   data: MessageResponse;
@@ -15231,7 +15268,7 @@ export const dELETEApiVendorsId = async (
 };
 
 /**
- * @summary Get vendor
+ * @summary Get Vendor Meta
  */
 export type gETApiVendorsIdResponse200ApplicationJson = {
   data: ResponseModelVendor;
@@ -15277,7 +15314,7 @@ export const gETApiVendorsId = async (
 };
 
 /**
- * @summary Send email verification
+ * @summary Send Email Verification
  */
 export type gETApiVerificationResponse200ApplicationJson = {
   data: MessageResponse;
@@ -15339,7 +15376,7 @@ export const gETApiVerification = async (
 };
 
 /**
- * @summary Universal secure verification
+ * @summary Universal Verify
  */
 export type pOSTApiVerifyResponse200ApplicationJson = {
   data: MessageResponse;
@@ -15384,7 +15421,7 @@ export const pOSTApiVerify = async (
 };
 
 /**
- * @summary Get billing subscription
+ * @summary Get Subscription
  */
 export type gETDashboardBillingSubscriptionResponse200ApplicationJson = {
   data: ApiResponse;
@@ -15433,7 +15470,7 @@ export const gETDashboardBillingSubscription = async (
 };
 
 /**
- * @summary Get billing usage
+ * @summary Get Usage
  */
 export type gETDashboardBillingUsageResponse200ApplicationJson = {
   data: ApiResponse;
@@ -15482,7 +15519,7 @@ export const gETDashboardBillingUsage = async (
 };
 
 /**
- * @summary Jimeng task
+ * @summary Relay Task
  */
 export type pOSTJimengResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -15527,7 +15564,7 @@ export const pOSTJimeng = async (
 };
 
 /**
- * @summary Kling image to video
+ * @summary Relay Task
  */
 export type pOSTKlingV1VideosImage2videoResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -15576,7 +15613,7 @@ export const pOSTKlingV1VideosImage2video = async (
 };
 
 /**
- * @summary Get Kling image2video status
+ * @summary Relay Task Fetch
  */
 export type gETKlingV1VideosImage2videoTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -15626,7 +15663,7 @@ export const gETKlingV1VideosImage2videoTaskId = async (
 };
 
 /**
- * @summary Kling text to video
+ * @summary Relay Task
  */
 export type pOSTKlingV1VideosText2videoResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -15675,7 +15712,7 @@ export const pOSTKlingV1VideosText2video = async (
 };
 
 /**
- * @summary Get Kling text2video status
+ * @summary Relay Task Fetch
  */
 export type gETKlingV1VideosText2videoTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -15725,7 +15762,7 @@ export const gETKlingV1VideosText2videoTaskId = async (
 };
 
 /**
- * @summary Insight face swap
+ * @summary Relay Midjourney
  */
 export type pOSTMjInsightFaceSwapResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -15774,7 +15811,7 @@ export const pOSTMjInsightFaceSwap = async (
 };
 
 /**
- * @summary MJ notify
+ * @summary Relay Midjourney
  */
 export type pOSTMjNotifyResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -15819,7 +15856,7 @@ export const pOSTMjNotify = async (
 };
 
 /**
- * @summary Submit MJ action
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitActionResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -15865,7 +15902,7 @@ export const pOSTMjSubmitAction = async (
 };
 
 /**
- * @summary Submit MJ blend
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitBlendResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -15911,7 +15948,7 @@ export const pOSTMjSubmitBlend = async (
 };
 
 /**
- * @summary Submit MJ change
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -15957,7 +15994,7 @@ export const pOSTMjSubmitChange = async (
 };
 
 /**
- * @summary Submit MJ describe
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitDescribeResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16006,7 +16043,7 @@ export const pOSTMjSubmitDescribe = async (
 };
 
 /**
- * @summary Submit MJ edits
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitEditsResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16052,7 +16089,7 @@ export const pOSTMjSubmitEdits = async (
 };
 
 /**
- * @summary Submit MJ imagine
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitImagineResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16098,7 +16135,7 @@ export const pOSTMjSubmitImagine = async (
 };
 
 /**
- * @summary Submit MJ modal
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitModalResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16144,7 +16181,7 @@ export const pOSTMjSubmitModal = async (
 };
 
 /**
- * @summary Submit MJ shorten
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitShortenResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16190,7 +16227,7 @@ export const pOSTMjSubmitShorten = async (
 };
 
 /**
- * @summary Submit MJ simple change
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitSimpleChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16239,7 +16276,7 @@ export const pOSTMjSubmitSimpleChange = async (
 };
 
 /**
- * @summary Upload Discord images
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitUploadDiscordImagesResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16288,7 +16325,7 @@ export const pOSTMjSubmitUploadDiscordImages = async (
 };
 
 /**
- * @summary Submit MJ video
+ * @summary Relay Midjourney
  */
 export type pOSTMjSubmitVideoResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16334,7 +16371,7 @@ export const pOSTMjSubmitVideo = async (
 };
 
 /**
- * @summary List MJ tasks by condition
+ * @summary Relay Midjourney
  */
 export type pOSTMjTaskListByConditionResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16383,7 +16420,7 @@ export const pOSTMjTaskListByCondition = async (
 };
 
 /**
- * @summary Fetch MJ task
+ * @summary Relay Midjourney
  */
 export type gETMjTaskIdFetchResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16429,7 +16466,7 @@ export const gETMjTaskIdFetch = async (
 };
 
 /**
- * @summary Get MJ image seed
+ * @summary Relay Midjourney
  */
 export type gETMjTaskIdImageSeedResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -16479,7 +16516,7 @@ export const gETMjTaskIdImageSeed = async (
 };
 
 /**
- * @summary Playground chat completions
+ * @summary Playground
  */
 export type pOSTPgChatCompletionsResponse200ApplicationJson = {
   data: ChatCompletionResponse;
@@ -16528,7 +16565,7 @@ export const pOSTPgChatCompletions = async (
 };
 
 /**
- * @summary Fetch Suno tasks
+ * @summary Relay Task Fetch
  */
 export type pOSTSunoFetchResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -16573,7 +16610,7 @@ export const pOSTSunoFetch = async (
 };
 
 /**
- * @summary Fetch Suno task by ID
+ * @summary Relay Task Fetch
  */
 export type gETSunoFetchIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -16619,7 +16656,7 @@ export const gETSunoFetchId = async (
 };
 
 /**
- * @summary Submit Suno task
+ * @summary Relay Task
  */
 export type pOSTSunoSubmitActionResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -16669,7 +16706,7 @@ export const pOSTSunoSubmitAction = async (
 };
 
 /**
- * @summary Text to speech
+ * @summary func17
  */
 export type pOSTV1AudioSpeechResponse200ApplicationJson = {
   data: MessageResponse;
@@ -16715,7 +16752,7 @@ export const pOSTV1AudioSpeech = async (
 };
 
 /**
- * @summary Audio transcriptions
+ * @summary func15
  */
 export type pOSTV1AudioTranscriptionsResponse200ApplicationJson = {
   data: AudioTranscriptionResponse;
@@ -16764,7 +16801,7 @@ export const pOSTV1AudioTranscriptions = async (
 };
 
 /**
- * @summary Audio translations
+ * @summary func16
  */
 export type pOSTV1AudioTranslationsResponse200ApplicationJson = {
   data: AudioTranscriptionResponse;
@@ -16813,7 +16850,7 @@ export const pOSTV1AudioTranslations = async (
 };
 
 /**
- * @summary Chat completions
+ * @summary func8
  */
 export type pOSTV1ChatCompletionsResponse200ApplicationJson = {
   data: ChatCompletionResponse;
@@ -16862,7 +16899,7 @@ export const pOSTV1ChatCompletions = async (
 };
 
 /**
- * @summary Completions
+ * @summary func7
  */
 export type pOSTV1CompletionsResponse200ApplicationJson = {
   data: CompletionResponse;
@@ -16908,7 +16945,7 @@ export const pOSTV1Completions = async (
 };
 
 /**
- * @summary Get billing subscription (v1)
+ * @summary Get Subscription
  */
 export type gETV1DashboardBillingSubscriptionResponse200ApplicationJson = {
   data: ApiResponse;
@@ -16957,7 +16994,7 @@ export const gETV1DashboardBillingSubscription = async (
 };
 
 /**
- * @summary Get billing usage (v1)
+ * @summary Get Usage
  */
 export type gETV1DashboardBillingUsageResponse200ApplicationJson = {
   data: ApiResponse;
@@ -17006,7 +17043,7 @@ export const gETV1DashboardBillingUsage = async (
 };
 
 /**
- * @summary Image edits
+ * @summary func11
  */
 export type pOSTV1EditsResponse200ApplicationJson = {
   data: ImageGenerationResponse;
@@ -17051,7 +17088,7 @@ export const pOSTV1Edits = async (
 };
 
 /**
- * @summary Embeddings
+ * @summary func14
  */
 export type pOSTV1EmbeddingsResponse200ApplicationJson = {
   data: EmbeddingResponse;
@@ -17096,7 +17133,7 @@ export const pOSTV1Embeddings = async (
 };
 
 /**
- * @summary Gemini engine embeddings
+ * @summary func19
  */
 export type pOSTV1EnginesModelEmbeddingsResponse200ApplicationJson = {
   data: EmbeddingResponse;
@@ -17146,7 +17183,7 @@ export const pOSTV1EnginesModelEmbeddings = async (
 };
 
 /**
- * @summary List files (not implemented)
+ * @summary Relay Not Implemented
  */
 export type gETV1FilesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17191,7 +17228,7 @@ export const gETV1Files = async (
 };
 
 /**
- * @summary Upload file (not implemented)
+ * @summary Relay Not Implemented
  */
 export type pOSTV1FilesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17236,7 +17273,7 @@ export const pOSTV1Files = async (
 };
 
 /**
- * @summary Delete file (not implemented)
+ * @summary Relay Not Implemented
  */
 export type dELETEV1FilesIdResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17282,7 +17319,7 @@ export const dELETEV1FilesId = async (
 };
 
 /**
- * @summary Get file (not implemented)
+ * @summary Relay Not Implemented
  */
 export type gETV1FilesIdResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17328,7 +17365,7 @@ export const gETV1FilesId = async (
 };
 
 /**
- * @summary Get file content (not implemented)
+ * @summary Relay Not Implemented
  */
 export type gETV1FilesIdContentResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17378,7 +17415,7 @@ export const gETV1FilesIdContent = async (
 };
 
 /**
- * @summary List fine-tunes (not implemented)
+ * @summary Relay Not Implemented
  */
 export type gETV1FineTunesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17423,7 +17460,7 @@ export const gETV1FineTunes = async (
 };
 
 /**
- * @summary Create fine-tune (not implemented)
+ * @summary Relay Not Implemented
  */
 export type pOSTV1FineTunesResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17468,7 +17505,7 @@ export const pOSTV1FineTunes = async (
 };
 
 /**
- * @summary Get fine-tune (not implemented)
+ * @summary Relay Not Implemented
  */
 export type gETV1FineTunesIdResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17514,7 +17551,7 @@ export const gETV1FineTunesId = async (
 };
 
 /**
- * @summary Cancel fine-tune (not implemented)
+ * @summary Relay Not Implemented
  */
 export type pOSTV1FineTunesIdCancelResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17564,7 +17601,7 @@ export const pOSTV1FineTunesIdCancel = async (
 };
 
 /**
- * @summary Get fine-tune events (not implemented)
+ * @summary Relay Not Implemented
  */
 export type gETV1FineTunesIdEventsResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17614,7 +17651,7 @@ export const gETV1FineTunesIdEvents = async (
 };
 
 /**
- * @summary Image edits (v2)
+ * @summary func13
  */
 export type pOSTV1ImagesEditsResponse200ApplicationJson = {
   data: ImageGenerationResponse;
@@ -17660,7 +17697,7 @@ export const pOSTV1ImagesEdits = async (
 };
 
 /**
- * @summary Image generations
+ * @summary func12
  */
 export type pOSTV1ImagesGenerationsResponse200ApplicationJson = {
   data: ImageGenerationResponse;
@@ -17709,7 +17746,7 @@ export const pOSTV1ImagesGenerations = async (
 };
 
 /**
- * @summary Image variations (not implemented)
+ * @summary Relay Not Implemented
  */
 export type pOSTV1ImagesVariationsResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17758,7 +17795,7 @@ export const pOSTV1ImagesVariations = async (
 };
 
 /**
- * @summary Claude messages
+ * @summary func6
  */
 export type pOSTV1MessagesResponse200ApplicationJson = {
   data: ClaudeMessageResponse;
@@ -17803,7 +17840,7 @@ export const pOSTV1Messages = async (
 };
 
 /**
- * @summary List models
+ * @summary func1
  */
 export type gETV1ModelsResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -17848,7 +17885,7 @@ export const gETV1Models = async (
 };
 
 /**
- * @summary Gemini model operations
+ * @summary func20
  */
 export type pOSTV1ModelsPathResponse200ApplicationJson = {
   data: ChatCompletionResponse;
@@ -17893,7 +17930,7 @@ export const pOSTV1ModelsPath = async (
 };
 
 /**
- * @summary Delete model (not implemented)
+ * @summary Relay Not Implemented
  */
 export type dELETEV1ModelsModelResponse200ApplicationJson = {
   data: RelayNotImplementedError;
@@ -17943,7 +17980,7 @@ export const dELETEV1ModelsModel = async (
 };
 
 /**
- * @summary Retrieve model
+ * @summary func2
  */
 export type gETV1ModelsModelResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -17989,7 +18026,7 @@ export const gETV1ModelsModel = async (
 };
 
 /**
- * @summary Moderations
+ * @summary func21
  */
 export type pOSTV1ModerationsResponse200ApplicationJson = {
   data: ModerationResponse;
@@ -18035,7 +18072,7 @@ export const pOSTV1Moderations = async (
 };
 
 /**
- * @summary Rerank
+ * @summary func18
  */
 export type pOSTV1RerankResponse200ApplicationJson = {
   data: RerankResponse;
@@ -18080,7 +18117,7 @@ export const pOSTV1Rerank = async (
 };
 
 /**
- * @summary Responses API
+ * @summary func9
  */
 export type pOSTV1ResponsesResponse200ApplicationJson = {
   data: ResponsesAPIResponse;
@@ -18125,7 +18162,7 @@ export const pOSTV1Responses = async (
 };
 
 /**
- * @summary Responses compaction
+ * @summary func10
  */
 export type pOSTV1ResponsesCompactResponse200ApplicationJson = {
   data: ResponsesAPIResponse;
@@ -18174,7 +18211,7 @@ export const pOSTV1ResponsesCompact = async (
 };
 
 /**
- * @summary Generate video
+ * @summary Relay Task
  */
 export type pOSTV1VideoGenerationsResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -18223,7 +18260,7 @@ export const pOSTV1VideoGenerations = async (
 };
 
 /**
- * @summary Get video generation status
+ * @summary Relay Task Fetch
  */
 export type gETV1VideoGenerationsTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -18273,7 +18310,7 @@ export const gETV1VideoGenerationsTaskId = async (
 };
 
 /**
- * @summary Create video (OpenAI compat)
+ * @summary Relay Task
  */
 export type pOSTV1VideosResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -18318,7 +18355,7 @@ export const pOSTV1Videos = async (
 };
 
 /**
- * @summary Get video status (OpenAI compat)
+ * @summary Relay Task Fetch
  */
 export type gETV1VideosTaskIdResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -18368,7 +18405,7 @@ export const gETV1VideosTaskId = async (
 };
 
 /**
- * @summary Proxy video content
+ * @summary Video Proxy
  */
 export type gETV1VideosTaskIdContentResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -18418,7 +18455,7 @@ export const gETV1VideosTaskIdContent = async (
 };
 
 /**
- * @summary Remix video
+ * @summary Relay Task
  */
 export type pOSTV1VideosVideoIdRemixResponse200ApplicationJson = {
   data: TaskResponseDoc;
@@ -18468,7 +18505,7 @@ export const pOSTV1VideosVideoIdRemix = async (
 };
 
 /**
- * @summary List Gemini models
+ * @summary func3
  */
 export type gETV1betaModelsResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -18513,7 +18550,7 @@ export const gETV1betaModels = async (
 };
 
 /**
- * @summary Gemini API relay
+ * @summary func22
  */
 export type pOSTV1betaModelsPathResponse200ApplicationJson = {
   data: ChatCompletionResponse;
@@ -18562,7 +18599,7 @@ export const pOSTV1betaModelsPath = async (
 };
 
 /**
- * @summary List Gemini compatible models
+ * @summary func4
  */
 export type gETV1betaOpenaiModelsResponse200ApplicationJson = {
   data: OpenAIModelList;
@@ -18611,7 +18648,7 @@ export const gETV1betaOpenaiModels = async (
 };
 
 /**
- * @summary Insight face swap
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjInsightFaceSwapResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18661,7 +18698,7 @@ export const pOSTModeMjInsightFaceSwap = async (
 };
 
 /**
- * @summary MJ notify
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjNotifyResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18707,7 +18744,7 @@ export const pOSTModeMjNotify = async (
 };
 
 /**
- * @summary Submit MJ action
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitActionResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18757,7 +18794,7 @@ export const pOSTModeMjSubmitAction = async (
 };
 
 /**
- * @summary Submit MJ blend
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitBlendResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18807,7 +18844,7 @@ export const pOSTModeMjSubmitBlend = async (
 };
 
 /**
- * @summary Submit MJ change
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18857,7 +18894,7 @@ export const pOSTModeMjSubmitChange = async (
 };
 
 /**
- * @summary Submit MJ describe
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitDescribeResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18907,7 +18944,7 @@ export const pOSTModeMjSubmitDescribe = async (
 };
 
 /**
- * @summary Submit MJ edits
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitEditsResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -18957,7 +18994,7 @@ export const pOSTModeMjSubmitEdits = async (
 };
 
 /**
- * @summary Submit MJ imagine
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitImagineResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19007,7 +19044,7 @@ export const pOSTModeMjSubmitImagine = async (
 };
 
 /**
- * @summary Submit MJ modal
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitModalResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19057,7 +19094,7 @@ export const pOSTModeMjSubmitModal = async (
 };
 
 /**
- * @summary Submit MJ shorten
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitShortenResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19107,7 +19144,7 @@ export const pOSTModeMjSubmitShorten = async (
 };
 
 /**
- * @summary Submit MJ simple change
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitSimpleChangeResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19157,7 +19194,7 @@ export const pOSTModeMjSubmitSimpleChange = async (
 };
 
 /**
- * @summary Upload Discord images
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitUploadDiscordImagesResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19207,7 +19244,7 @@ export const pOSTModeMjSubmitUploadDiscordImages = async (
 };
 
 /**
- * @summary Submit MJ video
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjSubmitVideoResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19257,7 +19294,7 @@ export const pOSTModeMjSubmitVideo = async (
 };
 
 /**
- * @summary List MJ tasks by condition
+ * @summary Relay Midjourney
  */
 export type pOSTModeMjTaskListByConditionResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19307,7 +19344,7 @@ export const pOSTModeMjTaskListByCondition = async (
 };
 
 /**
- * @summary Fetch MJ task
+ * @summary Relay Midjourney
  */
 export type gETModeMjTaskIdFetchResponse200ApplicationJson = {
   data: MidjourneyResponse;
@@ -19358,7 +19395,7 @@ export const gETModeMjTaskIdFetch = async (
 };
 
 /**
- * @summary Get MJ image seed
+ * @summary Relay Midjourney
  */
 export type gETModeMjTaskIdImageSeedResponse200ApplicationJson = {
   data: MidjourneyResponse;
