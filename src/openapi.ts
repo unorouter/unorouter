@@ -772,13 +772,13 @@ export type ResponseDataItemMonitorsItem = {
 export type ResponseDataItem = {
   categoryName?: string;
   monitors?: ResponseDataItemMonitorsItem[];
-} | null;
+};
 
 /**
  * Response schema
  */
 export interface Response {
-  data?: ResponseDataItem[] | null;
+  data?: ResponseDataItem[];
   message?: string;
   success?: boolean;
 }
@@ -847,7 +847,7 @@ export type ResponseControllerGetAllChannelsDataData = {
   page_size?: number;
   total?: number;
   type_counts?: ResponseControllerGetAllChannelsDataDataTypeCounts;
-} | null;
+};
 
 /**
  * Response_controller.GetAllChannelsData schema
@@ -896,7 +896,7 @@ export type ResponseControllerModelsMetaListDataData = {
   page_size?: number;
   total?: number;
   vendor_counts?: ResponseControllerModelsMetaListDataDataVendorCounts;
-} | null;
+};
 
 /**
  * Response_controller.ModelsMetaListData schema
@@ -962,7 +962,7 @@ export type ResponseControllerPatchChannelData = {
   used_quota?: number;
   /** @minimum 0 */
   weight?: number | null;
-} | null;
+};
 
 /**
  * Response_controller.PatchChannel schema
@@ -1035,7 +1035,7 @@ export type ResponseControllerSearchChannelsDataData = {
   items?: ResponseControllerSearchChannelsDataDataItemsItem[];
   total?: number;
   type_counts?: ResponseControllerSearchChannelsDataDataTypeCounts;
-} | null;
+};
 
 /**
  * Response_controller.SearchChannelsData schema
@@ -1096,7 +1096,7 @@ export type ResponseControllerSubscriptionSelfDataData = {
   all_subscriptions?: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItem[];
   billing_preference?: string;
   subscriptions?: ResponseControllerSubscriptionSelfDataDataSubscriptionsItem[];
-} | null;
+};
 
 /**
  * Response_controller.SubscriptionSelfData schema
@@ -1109,7 +1109,7 @@ export interface ResponseControllerSubscriptionSelfData {
 
 export type ResponseDtoAffinityCacheClearDataData = {
   deleted?: number;
-} | null;
+};
 
 /**
  * Response_dto.AffinityCacheClearData schema
@@ -1126,7 +1126,7 @@ export type ResponseDtoApiResponseData = {
   data?: ResponseDtoApiResponseDataData;
   message?: string;
   success?: boolean;
-} | null;
+};
 
 /**
  * Response_dto.ApiResponse schema
@@ -1139,7 +1139,7 @@ export interface ResponseDtoApiResponse {
 
 export type ResponseDtoBackupCodesDataData = {
   backup_codes?: string[];
-} | null;
+};
 
 /**
  * Response_dto.BackupCodesData schema
@@ -1152,7 +1152,7 @@ export interface ResponseDtoBackupCodesData {
 
 export type ResponseDtoBillingPreferenceDataData = {
   billing_preference?: string;
-} | null;
+};
 
 /**
  * Response_dto.BillingPreferenceData schema
@@ -1165,7 +1165,7 @@ export interface ResponseDtoBillingPreferenceData {
 
 export type ResponseDtoChannelKeyDataData = {
   key?: string;
-} | null;
+};
 
 /**
  * Response_dto.ChannelKeyData schema
@@ -1179,7 +1179,7 @@ export interface ResponseDtoChannelKeyData {
 export type ResponseDtoCheckinResultDataData = {
   checkin_date?: string;
   quota_awarded?: number;
-} | null;
+};
 
 /**
  * Response_dto.CheckinResultData schema
@@ -1208,7 +1208,7 @@ export type ResponseDtoCheckinStatusDataData = {
   max_quota?: number;
   min_quota?: number;
   stats?: ResponseDtoCheckinStatusDataDataStats;
-} | null;
+};
 
 /**
  * Response_dto.CheckinStatusData schema
@@ -1222,7 +1222,7 @@ export interface ResponseDtoCheckinStatusData {
 export type ResponseDtoClusterNameAvailabilityResponseData = {
   available?: boolean;
   name?: string;
-} | null;
+};
 
 /**
  * Response_dto.ClusterNameAvailabilityResponse schema
@@ -1240,7 +1240,7 @@ export type ResponseDtoCodexOAuthCompleteDataData = {
   expires_at?: string;
   key?: string | null;
   last_refresh?: string;
-} | null;
+};
 
 /**
  * Response_dto.CodexOAuthCompleteData schema
@@ -1253,7 +1253,7 @@ export interface ResponseDtoCodexOAuthCompleteData {
 
 export type ResponseDtoCodexOAuthStartDataData = {
   authorize_url?: string;
-} | null;
+};
 
 /**
  * Response_dto.CodexOAuthStartData schema
@@ -1281,7 +1281,7 @@ export type ResponseDtoContainerDetailResponseData = {
   public_url?: string;
   status?: string;
   uptime_percent?: number;
-} | null;
+};
 
 /**
  * Response_dto.ContainerDetailResponse schema
@@ -1313,7 +1313,7 @@ export type ResponseDtoContainerListResponseDataContainersItem = {
 export type ResponseDtoContainerListResponseData = {
   containers?: ResponseDtoContainerListResponseDataContainersItem[];
   total?: number;
-} | null;
+};
 
 /**
  * Response_dto.ContainerListResponse schema
@@ -1326,7 +1326,7 @@ export interface ResponseDtoContainerListResponse {
 
 export type ResponseDtoCopyChannelDataData = {
   id?: number;
-} | null;
+};
 
 /**
  * Response_dto.CopyChannelData schema
@@ -1341,7 +1341,7 @@ export type ResponseDtoCreateDeploymentResponseData = {
   deployment_id?: string;
   message?: string;
   status?: string;
-} | null;
+};
 
 /**
  * Response_dto.CreateDeploymentResponse schema
@@ -1355,7 +1355,7 @@ export interface ResponseDtoCreateDeploymentResponse {
 export type ResponseDtoCreemPayDataData = {
   checkout_url?: string;
   order_id?: string;
-} | null;
+};
 
 /**
  * Response_dto.CreemPayData schema
@@ -1385,7 +1385,7 @@ export type ResponseDtoCustomOAuthProviderResponseData = {
   user_info_endpoint?: string;
   username_field?: string;
   well_known?: string;
-} | null;
+};
 
 /**
  * Response_dto.CustomOAuthProviderResponse schema
@@ -1400,7 +1400,7 @@ export type ResponseDtoDeleteDeploymentResponseData = {
   deployment_id?: string;
   message?: string;
   status?: string;
-} | null;
+};
 
 /**
  * Response_dto.DeleteDeploymentResponse schema
@@ -1413,7 +1413,7 @@ export interface ResponseDtoDeleteDeploymentResponse {
 
 export type ResponseDtoDeletedCountDataData = {
   deleted?: number;
-} | null;
+};
 
 /**
  * Response_dto.DeletedCountData schema
@@ -1469,7 +1469,7 @@ export type ResponseDtoDeploymentDetailResponseData = {
   total_containers?: number;
   total_gpus?: number;
   updated_at?: number;
-} | null;
+};
 
 /**
  * Response_dto.DeploymentDetailResponse schema
@@ -1509,7 +1509,7 @@ export type ResponseDtoDeploymentItemData = {
   time_remaining_minutes?: number;
   type?: string;
   updated_at?: number;
-} | null;
+};
 
 /**
  * Response_dto.DeploymentItem schema
@@ -1561,7 +1561,7 @@ export type ResponseDtoDeploymentListResponseData = {
   page_size?: number;
   status_counts?: ResponseDtoDeploymentListResponseDataStatusCounts;
   total?: number;
-} | null;
+};
 
 /**
  * Response_dto.DeploymentListResponse schema
@@ -1608,7 +1608,7 @@ export type ResponseDtoDeploymentSearchResponseData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_dto.DeploymentSearchResponse schema
@@ -1624,7 +1624,7 @@ export type ResponseDtoDeploymentSettingsResponseData = {
   configured?: boolean;
   enabled?: boolean;
   provider?: string;
-} | null;
+};
 
 /**
  * Response_dto.DeploymentSettingsResponse schema
@@ -1638,7 +1638,7 @@ export interface ResponseDtoDeploymentSettingsResponse {
 export type ResponseDtoDeploymentStatusResponseData = {
   deployment_id?: string;
   status?: string;
-} | null;
+};
 
 /**
  * Response_dto.DeploymentStatusResponse schema
@@ -1652,7 +1652,7 @@ export interface ResponseDtoDeploymentStatusResponse {
 export type ResponseDtoEpayPayResponseData = {
   params?: unknown;
   url?: string;
-} | null;
+};
 
 /**
  * Response_dto.EpayPayResponse schema
@@ -1670,7 +1670,7 @@ export type ResponseDtoFetchDiscoveryDataDataDiscovery = {
 export type ResponseDtoFetchDiscoveryDataData = {
   discovery?: ResponseDtoFetchDiscoveryDataDataDiscovery;
   well_known_url?: string;
-} | null;
+};
 
 /**
  * Response_dto.FetchDiscoveryData schema
@@ -1708,7 +1708,7 @@ export type ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem = {
 export type ResponseDtoFetchUpstreamRatiosResultData = {
   differences?: ResponseDtoFetchUpstreamRatiosResultDataDifferences;
   test_results?: ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem[];
-} | null;
+};
 
 /**
  * Response_dto.FetchUpstreamRatiosResult schema
@@ -1722,7 +1722,7 @@ export interface ResponseDtoFetchUpstreamRatiosResult {
 export type ResponseDtoFixAbilityDataData = {
   fails?: number;
   success?: number;
-} | null;
+};
 
 /**
  * Response_dto.FixAbilityData schema
@@ -1753,7 +1753,7 @@ export type ResponseDtoHardwareTypesResponseData = {
   hardware_types?: ResponseDtoHardwareTypesResponseDataHardwareTypesItem[];
   total?: number;
   total_available?: number;
-} | null;
+};
 
 /**
  * Response_dto.HardwareTypesResponse schema
@@ -1779,7 +1779,7 @@ export type ResponseDtoLocationsListResponseDataLocationsItem = {
 export type ResponseDtoLocationsListResponseData = {
   locations?: ResponseDtoLocationsListResponseDataLocationsItem[];
   total?: number;
-} | null;
+};
 
 /**
  * Response_dto.LocationsListResponse schema
@@ -1794,7 +1794,7 @@ export type ResponseDtoLogStatDataData = {
   quota?: number;
   rpm?: number;
   tpm?: number;
-} | null;
+};
 
 /**
  * Response_dto.LogStatData schema
@@ -1812,13 +1812,27 @@ export type ResponseDtoLoginDataData = {
   role?: number;
   status?: number;
   username?: string;
-} | null;
+};
 
 /**
  * Response_dto.LoginData schema
  */
 export interface ResponseDtoLoginData {
   data?: ResponseDtoLoginDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoManageUserDataData = {
+  role?: number;
+  status?: number;
+};
+
+/**
+ * Response_dto.ManageUserData schema
+ */
+export interface ResponseDtoManageUserData {
+  data?: ResponseDtoManageUserDataData;
   message?: string;
   success?: boolean;
 }
@@ -1840,7 +1854,7 @@ export type ResponseDtoMultiKeyStatusResponseData = {
   page_size?: number;
   total?: number;
   total_pages?: number;
-} | null;
+};
 
 /**
  * Response_dto.MultiKeyStatusResponse schema
@@ -1853,7 +1867,7 @@ export interface ResponseDtoMultiKeyStatusResponse {
 
 export type ResponseDtoOllamaVersionDataData = {
   version?: string;
-} | null;
+};
 
 /**
  * Response_dto.OllamaVersionData schema
@@ -1866,7 +1880,7 @@ export interface ResponseDtoOllamaVersionData {
 
 export type ResponseDtoPasskeyOptionsDataData = {
   options?: unknown;
-} | null;
+};
 
 /**
  * Response_dto.PasskeyOptionsData schema
@@ -1882,7 +1896,7 @@ export type ResponseDtoPasskeyStatusDataDataLastUsedAt = unknown | null;
 export type ResponseDtoPasskeyStatusDataData = {
   enabled?: boolean;
   last_used_at?: ResponseDtoPasskeyStatusDataDataLastUsedAt;
-} | null;
+};
 
 /**
  * Response_dto.PasskeyStatusData schema
@@ -1972,7 +1986,7 @@ export type ResponseDtoPerformanceStatsData = {
   disk_cache_info?: ResponseDtoPerformanceStatsDataDiskCacheInfo;
   disk_space_info?: ResponseDtoPerformanceStatsDataDiskSpaceInfo;
   memory_stats?: ResponseDtoPerformanceStatsDataMemoryStats;
-} | null;
+};
 
 /**
  * Response_dto.PerformanceStats schema
@@ -1991,7 +2005,7 @@ export type ResponseDtoRefreshCodexDataData = {
   email?: string;
   expires_at?: string;
   last_refresh?: string;
-} | null;
+};
 
 /**
  * Response_dto.RefreshCodexData schema
@@ -2006,7 +2020,7 @@ export type ResponseDtoSetup2FAResponseData = {
   backup_codes?: string[];
   qr_code_data?: string;
   secret?: string;
-} | null;
+};
 
 /**
  * Response_dto.Setup2FAResponse schema
@@ -2021,7 +2035,7 @@ export type ResponseDtoSetupDataData = {
   database_type?: string;
   root_init?: boolean;
   status?: boolean;
-} | null;
+};
 
 /**
  * Response_dto.SetupData schema
@@ -2107,7 +2121,7 @@ export type ResponseDtoStatusDataData = {
   version?: string;
   wechat_login?: boolean;
   wechat_qrcode?: string;
-} | null;
+};
 
 /**
  * Response_dto.StatusData schema
@@ -2120,13 +2134,26 @@ export interface ResponseDtoStatusData {
 
 export type ResponseDtoStripePayLinkDataData = {
   pay_link?: string;
-} | null;
+};
 
 /**
  * Response_dto.StripePayLinkData schema
  */
 export interface ResponseDtoStripePayLinkData {
   data?: ResponseDtoStripePayLinkDataData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoSubscriptionActionDataData = {
+  message?: string | null;
+};
+
+/**
+ * Response_dto.SubscriptionActionData schema
+ */
+export interface ResponseDtoSubscriptionActionData {
+  data?: ResponseDtoSubscriptionActionDataData;
   message?: string;
   success?: boolean;
 }
@@ -2152,7 +2179,7 @@ export type ResponseDtoSyncPreviewResultData = {
   conflicts?: ResponseDtoSyncPreviewResultDataConflictsItem[];
   missing?: string[];
   source?: ResponseDtoSyncPreviewResultDataSource;
-} | null;
+};
 
 /**
  * Response_dto.SyncPreviewResult schema
@@ -2177,7 +2204,7 @@ export type ResponseDtoSyncUpstreamResultData = {
   source?: ResponseDtoSyncUpstreamResultDataSource;
   updated_list?: string[];
   updated_models?: number;
-} | null;
+};
 
 /**
  * Response_dto.SyncUpstreamResult schema
@@ -2216,7 +2243,7 @@ export type ResponseDtoTaskDtoData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_dto.TaskDto schema
@@ -2230,7 +2257,7 @@ export interface ResponseDtoTaskDto {
 export type ResponseDtoTestConnectionResponseData = {
   hardware_count?: number;
   total_available?: number;
-} | null;
+};
 
 /**
  * Response_dto.TestConnectionResponse schema
@@ -2243,7 +2270,7 @@ export interface ResponseDtoTestConnectionResponse {
 
 export type ResponseDtoTestStatusDataData = {
   http_stats?: unknown;
-} | null;
+};
 
 /**
  * Response_dto.TestStatusData schema
@@ -2268,7 +2295,7 @@ export type ResponseDtoTokenUsageDataData = {
   total_granted?: number;
   total_used?: number;
   unlimited_quota?: boolean;
-} | null;
+};
 
 /**
  * Response_dto.TokenUsageData schema
@@ -2295,7 +2322,7 @@ export type ResponseDtoTopUpInfoDataData = {
   min_topup?: number;
   pay_methods?: ResponseDtoTopUpInfoDataDataPayMethodsItem[];
   stripe_min_topup?: number;
-} | null;
+};
 
 /**
  * Response_dto.TopUpInfoData schema
@@ -2310,7 +2337,7 @@ export type ResponseDtoTwoFAStatusDataData = {
   backup_codes_remaining?: number | null;
   enabled?: boolean;
   locked?: boolean;
-} | null;
+};
 
 /**
  * Response_dto.TwoFAStatusData schema
@@ -2326,7 +2353,7 @@ export type ResponseDtoUpdateNameResponseData = {
   message?: string;
   name?: string;
   status?: string;
-} | null;
+};
 
 /**
  * Response_dto.UpdateNameResponse schema
@@ -2363,7 +2390,7 @@ export type ResponseDtoUserSelfDataData = {
   used_quota?: number;
   username?: string;
   wechat_id?: string;
-} | null;
+};
 
 /**
  * Response_dto.UserSelfData schema
@@ -2377,7 +2404,7 @@ export interface ResponseDtoUserSelfData {
 export type ResponseDtoVerificationStatusResponseData = {
   expires_at?: number | null;
   verified?: boolean;
-} | null;
+};
 
 /**
  * Response_dto.VerificationStatusResponse schema
@@ -2392,7 +2419,7 @@ export interface ResponseDtoVerificationStatusResponse {
  * Response_int schema
  */
 export interface ResponseInt {
-  data?: number | null;
+  data?: number;
   message?: string;
   success?: boolean;
 }
@@ -2401,7 +2428,7 @@ export interface ResponseInt {
  * Response_int64 schema
  */
 export interface ResponseInt64 {
-  data?: number | null;
+  data?: number;
   message?: string;
   success?: boolean;
 }
@@ -2452,13 +2479,11 @@ export interface ResponseIonetPriceEstimationResponse {
   success?: boolean;
 }
 
-export type ResponseMapIntData = {
-  [key: string]: (string | null)[] | null;
-} | null;
+export type ResponseMapIntData = { [key: string]: string[] };
 
 /**
  * Response_map_int schema
- */w
+ */
 export interface ResponseMapInt {
   data?: ResponseMapIntData;
   message?: string;
@@ -2469,8 +2494,8 @@ export type ResponseMapStringData = {
   [key: string]: {
     desc?: string;
     ratio?: unknown;
-  } | null;
-} | null;
+  };
+};
 
 /**
  * Response_map_string schema
@@ -2575,7 +2600,7 @@ export type ResponseModelLogData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.Log schema
@@ -2616,7 +2641,7 @@ export type ResponseModelMidjourneyData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.Midjourney schema
@@ -2657,7 +2682,7 @@ export type ResponseModelModelData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.Model schema
@@ -2676,7 +2701,7 @@ export type ResponseModelPrefillGroupData = {
   name?: string;
   type?: string;
   updated_time?: number;
-} | null;
+};
 
 /**
  * Response_model.PrefillGroup schema
@@ -2706,7 +2731,7 @@ export type ResponseModelRedemptionData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.Redemption schema
@@ -2737,7 +2762,7 @@ export type ResponseModelSubscriptionPlanData = {
   total_amount?: number;
   updated_at?: number;
   upgrade_group?: string;
-} | null;
+};
 
 /**
  * Response_model.SubscriptionPlan schema
@@ -2772,7 +2797,7 @@ export type ResponseModelTokenData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.Token schema
@@ -2800,7 +2825,7 @@ export type ResponseModelTopUpData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.TopUp schema
@@ -2871,7 +2896,7 @@ export type ResponseModelUserData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.User schema
@@ -2897,7 +2922,7 @@ export type ResponseModelVendorData = {
   page?: number;
   page_size?: number;
   total?: number;
-} | null;
+};
 
 /**
  * Response_model.Vendor schema
@@ -2934,7 +2959,7 @@ export type ResponseRatioSettingExposedRatioDataData = {
   create_cache_ratio?: ResponseRatioSettingExposedRatioDataDataCreateCacheRatio;
   model_price?: ResponseRatioSettingExposedRatioDataDataModelPrice;
   model_ratio?: ResponseRatioSettingExposedRatioDataDataModelRatio;
-} | null;
+};
 
 /**
  * Response_ratio_setting.ExposedRatioData schema
@@ -2956,7 +2981,7 @@ export type ResponseServiceChannelAffinityCacheStatsData = {
   enabled?: boolean;
   total?: number;
   unknown?: number;
-} | null;
+};
 
 /**
  * Response_service.ChannelAffinityCacheStats schema
@@ -2981,7 +3006,7 @@ export type ResponseServiceChannelAffinityUsageCacheStatsData = {
   total_tokens?: number;
   using_group?: string;
   window_seconds?: number;
-} | null;
+};
 
 /**
  * Response_service.ChannelAffinityUsageCacheStats schema
@@ -2996,7 +3021,7 @@ export interface ResponseServiceChannelAffinityUsageCacheStats {
  * Response_string schema
  */
 export interface ResponseString {
-  data?: string | null;
+  data?: string;
   message?: string;
   success?: boolean;
 }
@@ -7382,12 +7407,12 @@ export const getHomePageContent = async (
  * @summary Delete History Logs
  */
 export type deleteHistoryLogsResponse200ApplicationJson = {
-  data: ResponseDtoDeletedCountData;
+  data: ResponseInt64;
   status: 200;
 };
 
 export type deleteHistoryLogsResponse200ApplicationXml = {
-  data: ResponseDtoDeletedCountData;
+  data: ResponseInt64;
   status: 200;
 };
 
@@ -8668,12 +8693,12 @@ export const emailBind = async (
  * @summary Generate O Auth Code
  */
 export type generateOAuthCodeResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseString;
   status: 200;
 };
 
 export type generateOAuthCodeResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseString;
   status: 200;
 };
 
@@ -10837,12 +10862,12 @@ export const adminUpdateSubscriptionPlan = async (
  * @summary Admin Delete User Subscription
  */
 export type adminDeleteUserSubscriptionResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoSubscriptionActionData;
   status: 200;
 };
 
 export type adminDeleteUserSubscriptionResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoSubscriptionActionData;
   status: 200;
 };
 
@@ -10887,12 +10912,12 @@ export const adminDeleteUserSubscription = async (
  * @summary Admin Invalidate User Subscription
  */
 export type adminInvalidateUserSubscriptionResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoSubscriptionActionData;
   status: 200;
 };
 
 export type adminInvalidateUserSubscriptionResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoSubscriptionActionData;
   status: 200;
 };
 
@@ -10987,12 +11012,12 @@ export const adminListUserSubscriptions = async (
  * @summary Admin Create User Subscription
  */
 export type adminCreateUserSubscriptionResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoSubscriptionActionData;
   status: 200;
 };
 
 export type adminCreateUserSubscriptionResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoSubscriptionActionData;
   status: 200;
 };
 
@@ -13196,12 +13221,12 @@ export const logout = async (
  * @summary Manage User
  */
 export type manageUserResponse200ApplicationJson = {
-  data: MessageResponse;
+  data: ResponseDtoManageUserData;
   status: 200;
 };
 
 export type manageUserResponse200ApplicationXml = {
-  data: MessageResponse;
+  data: ResponseDtoManageUserData;
   status: 200;
 };
 
