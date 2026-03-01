@@ -526,6 +526,17 @@ export interface OllamaModelRequest {
 }
 
 /**
+ * OpenAIModels schema
+ */
+export interface OpenAIModels {
+  created?: number;
+  id?: string;
+  object?: string;
+  owned_by?: string;
+  supported_endpoint_types?: string[];
+}
+
+/**
  * OpenAISubscriptionResponse schema
  */
 export interface OpenAISubscriptionResponse {
@@ -751,18 +762,23 @@ export interface RerankResponse {
   usage?: RerankResponseUsage;
 }
 
-export type ResponseCommonPageInfoData = {
-  items?: unknown;
-  page?: number;
-  page_size?: number;
-  total?: number;
+export type ResponseDataItemMonitorsItem = {
+  group?: string | null;
+  name?: string;
+  status?: number;
+  uptime?: number;
+};
+
+export type ResponseDataItem = {
+  categoryName?: string;
+  monitors?: ResponseDataItemMonitorsItem[];
 } | null;
 
 /**
- * Response_common.PageInfo schema
+ * Response_[ schema
  */
-export interface ResponseCommonPageInfo {
-  data?: ResponseCommonPageInfoData;
+export interface Response {
+  data?: ResponseDataItem[] | null;
   message?: string;
   success?: boolean;
 }
@@ -1104,6 +1120,23 @@ export interface ResponseDtoAffinityCacheClearData {
   success?: boolean;
 }
 
+export type ResponseDtoApiResponseDataData = unknown | null;
+
+export type ResponseDtoApiResponseData = {
+  data?: ResponseDtoApiResponseDataData;
+  message?: string;
+  success?: boolean;
+} | null;
+
+/**
+ * Response_dto.ApiResponse schema
+ */
+export interface ResponseDtoApiResponse {
+  data?: ResponseDtoApiResponseData;
+  message?: string;
+  success?: boolean;
+}
+
 export type ResponseDtoBackupCodesDataData = {
   backup_codes?: string[];
 } | null;
@@ -1126,21 +1159,6 @@ export type ResponseDtoBillingPreferenceDataData = {
  */
 export interface ResponseDtoBillingPreferenceData {
   data?: ResponseDtoBillingPreferenceDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseDtoChannelBalanceResponseData = {
-  balance?: number | null;
-  message?: string;
-  success?: boolean;
-} | null;
-
-/**
- * Response_dto.ChannelBalanceResponse schema
- */
-export interface ResponseDtoChannelBalanceResponse {
-  data?: ResponseDtoChannelBalanceResponseData;
   message?: string;
   success?: boolean;
 }
@@ -1242,22 +1260,6 @@ export type ResponseDtoCodexOAuthStartDataData = {
  */
 export interface ResponseDtoCodexOAuthStartData {
   data?: ResponseDtoCodexOAuthStartDataData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseDtoCodexUsageDataData = {
-  data?: unknown;
-  message?: string;
-  success?: boolean;
-  upstream_status?: number;
-} | null;
-
-/**
- * Response_dto.CodexUsageData schema
- */
-export interface ResponseDtoCodexUsageData {
-  data?: ResponseDtoCodexUsageDataData;
   message?: string;
   success?: boolean;
 }
@@ -1474,6 +1476,46 @@ export type ResponseDtoDeploymentDetailResponseData = {
  */
 export interface ResponseDtoDeploymentDetailResponse {
   data?: ResponseDtoDeploymentDetailResponseData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseDtoDeploymentItemDataResourceConfig = {
+  cpu?: string;
+  gpu?: string;
+  memory?: string;
+};
+
+export type ResponseDtoDeploymentItemData = {
+  brand_name?: string;
+  completed_percent?: number;
+  compute_minutes_remaining?: number;
+  compute_minutes_served?: number;
+  container_name?: string;
+  created_at?: number;
+  deployment_name?: string;
+  description?: string;
+  hardware_info?: string;
+  hardware_name?: string;
+  hardware_quantity?: number;
+  id?: string;
+  instance_count?: number;
+  model_name?: string;
+  model_version?: string;
+  provider?: string;
+  resource_config?: ResponseDtoDeploymentItemDataResourceConfig;
+  status?: string;
+  time_remaining?: string;
+  time_remaining_minutes?: number;
+  type?: string;
+  updated_at?: number;
+} | null;
+
+/**
+ * Response_dto.DeploymentItem schema
+ */
+export interface ResponseDtoDeploymentItem {
+  data?: ResponseDtoDeploymentItemData;
   message?: string;
   success?: boolean;
 }
@@ -1781,20 +1823,6 @@ export interface ResponseDtoLoginData {
   success?: boolean;
 }
 
-export type ResponseDtoManageUserResultData = {
-  role?: number;
-  status?: number;
-} | null;
-
-/**
- * Response_dto.ManageUserResult schema
- */
-export interface ResponseDtoManageUserResult {
-  data?: ResponseDtoManageUserResultData;
-  message?: string;
-  success?: boolean;
-}
-
 export type ResponseDtoMultiKeyStatusResponseDataKeysItem = {
   disabled_time?: number | null;
   index?: number;
@@ -1951,30 +1979,6 @@ export type ResponseDtoPerformanceStatsData = {
  */
 export interface ResponseDtoPerformanceStats {
   data?: ResponseDtoPerformanceStatsData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseDtoPricingDataDataGroupRatio = { [key: string]: number };
-
-export type ResponseDtoPricingDataDataUsableGroup = { [key: string]: string };
-
-export type ResponseDtoPricingDataData = {
-  auto_groups?: string[];
-  data?: unknown;
-  group_ratio?: ResponseDtoPricingDataDataGroupRatio;
-  show_original_price?: boolean;
-  success?: boolean;
-  supported_endpoint?: unknown;
-  usable_group?: ResponseDtoPricingDataDataUsableGroup;
-  vendors?: unknown;
-} | null;
-
-/**
- * Response_dto.PricingData schema
- */
-export interface ResponseDtoPricingData {
-  data?: ResponseDtoPricingDataData;
   message?: string;
   success?: boolean;
 }
@@ -2184,17 +2188,41 @@ export interface ResponseDtoSyncUpstreamResult {
   success?: boolean;
 }
 
-export type ResponseDtoTestChannelResponseData = {
-  message?: string;
-  success?: boolean;
-  time?: number;
+export type ResponseDtoTaskDtoDataItemsItem = {
+  action?: string;
+  channel_id?: number;
+  created_at?: number;
+  data?: unknown;
+  fail_reason?: string;
+  finish_time?: number;
+  group?: string;
+  id?: number;
+  platform?: string;
+  progress?: string;
+  properties?: unknown;
+  quota?: number;
+  result_url?: string | null;
+  start_time?: number;
+  status?: string;
+  submit_time?: number;
+  task_id?: string;
+  updated_at?: number;
+  user_id?: number;
+  username?: string | null;
+} | null;
+
+export type ResponseDtoTaskDtoData = {
+  items?: ResponseDtoTaskDtoDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
 } | null;
 
 /**
- * Response_dto.TestChannelResponse schema
+ * Response_dto.TaskDto schema
  */
-export interface ResponseDtoTestChannelResponse {
-  data?: ResponseDtoTestChannelResponseData;
+export interface ResponseDtoTaskDto {
+  data?: ResponseDtoTaskDtoData;
   message?: string;
   success?: boolean;
 }
@@ -2424,6 +2452,35 @@ export interface ResponseIonetPriceEstimationResponse {
   success?: boolean;
 }
 
+export type ResponseMapIntData = {
+  [key: string]: (string | null)[] | null;
+} | null;
+
+/**
+ * Response_map[int schema
+ */
+export interface ResponseMapInt {
+  data?: ResponseMapIntData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseMapStringData = {
+  [key: string]: {
+    desc?: string;
+    ratio?: unknown;
+  } | null;
+} | null;
+
+/**
+ * Response_map[string schema
+ */
+export interface ResponseMapString {
+  data?: ResponseMapStringData;
+  message?: string;
+  success?: boolean;
+}
+
 export type ResponseModelChannelDataChannelInfoMultiKeyDisabledReason = {
   [key: string]: string | null;
 } | null;
@@ -2490,13 +2547,93 @@ export interface ResponseModelChannel {
   success?: boolean;
 }
 
-export type ResponseModelModelDataBoundChannelsItem = {
+export type ResponseModelLogDataItemsItem = {
+  channel?: number;
+  channel_name?: string;
+  completion_tokens?: number;
+  content?: string;
+  created_at?: number;
+  group?: string;
+  id?: number;
+  ip?: string;
+  is_stream?: boolean;
+  model_name?: string;
+  other?: string;
+  prompt_tokens?: number;
+  quota?: number;
+  request_id?: string | null;
+  token_id?: number;
+  token_name?: string;
+  type?: number;
+  use_time?: number;
+  user_id?: number;
+  username?: string;
+} | null;
+
+export type ResponseModelLogData = {
+  items?: ResponseModelLogDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
+} | null;
+
+/**
+ * Response_model.Log schema
+ */
+export interface ResponseModelLog {
+  data?: ResponseModelLogData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseModelMidjourneyDataItemsItem = {
+  action?: string;
+  buttons?: string;
+  channel_id?: number;
+  code?: number;
+  description?: string;
+  fail_reason?: string;
+  finish_time?: number;
+  id?: number;
+  image_url?: string;
+  mj_id?: string;
+  progress?: string;
+  prompt?: string;
+  prompt_en?: string;
+  properties?: string;
+  quota?: number;
+  start_time?: number;
+  state?: string;
+  status?: string;
+  submit_time?: number;
+  user_id?: number;
+  video_url?: string;
+  video_urls?: string;
+} | null;
+
+export type ResponseModelMidjourneyData = {
+  items?: ResponseModelMidjourneyDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
+} | null;
+
+/**
+ * Response_model.Midjourney schema
+ */
+export interface ResponseModelMidjourney {
+  data?: ResponseModelMidjourneyData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseModelModelDataItemsItemBoundChannelsItem = {
   name?: string;
   type?: number;
 } | null;
 
-export type ResponseModelModelData = {
-  bound_channels?: ResponseModelModelDataBoundChannelsItem[] | null;
+export type ResponseModelModelDataItemsItem = {
+  bound_channels?: ResponseModelModelDataItemsItemBoundChannelsItem[] | null;
   created_time?: number;
   description?: string | null;
   enable_groups?: (string | null)[] | null;
@@ -2513,6 +2650,13 @@ export type ResponseModelModelData = {
   tags?: string | null;
   updated_time?: number;
   vendor_id?: number | null;
+} | null;
+
+export type ResponseModelModelData = {
+  items?: ResponseModelModelDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
 } | null;
 
 /**
@@ -2543,7 +2687,7 @@ export interface ResponseModelPrefillGroup {
   success?: boolean;
 }
 
-export type ResponseModelRedemptionData = {
+export type ResponseModelRedemptionDataItemsItem = {
   count?: number;
   created_time?: number;
   expired_time?: number;
@@ -2555,6 +2699,13 @@ export type ResponseModelRedemptionData = {
   status?: number;
   used_user_id?: number;
   user_id?: number;
+} | null;
+
+export type ResponseModelRedemptionData = {
+  items?: ResponseModelRedemptionDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
 } | null;
 
 /**
@@ -2597,7 +2748,7 @@ export interface ResponseModelSubscriptionPlan {
   success?: boolean;
 }
 
-export type ResponseModelTokenData = {
+export type ResponseModelTokenDataItemsItem = {
   accessed_time?: number;
   allow_ips?: string | null;
   created_time?: number;
@@ -2616,11 +2767,46 @@ export type ResponseModelTokenData = {
   user_id?: number;
 } | null;
 
+export type ResponseModelTokenData = {
+  items?: ResponseModelTokenDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
+} | null;
+
 /**
  * Response_model.Token schema
  */
 export interface ResponseModelToken {
   data?: ResponseModelTokenData;
+  message?: string;
+  success?: boolean;
+}
+
+export type ResponseModelTopUpDataItemsItem = {
+  amount?: number;
+  complete_time?: number;
+  create_time?: number;
+  id?: number;
+  money?: number;
+  payment_method?: string;
+  status?: string;
+  trade_no?: string;
+  user_id?: number;
+} | null;
+
+export type ResponseModelTopUpData = {
+  items?: ResponseModelTopUpDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
+} | null;
+
+/**
+ * Response_model.TopUp schema
+ */
+export interface ResponseModelTopUp {
+  data?: ResponseModelTopUpData;
   message?: string;
   success?: boolean;
 }
@@ -2640,7 +2826,7 @@ export interface ResponseModelTwoFAStats {
   success?: boolean;
 }
 
-export type ResponseModelUserData = {
+export type ResponseModelUserDataItemsItem = {
   access_token?: string | null;
   aff_code?: string;
   aff_count?: number;
@@ -2680,6 +2866,13 @@ export type ResponseModelUserData = {
   wechat_id?: string;
 } | null;
 
+export type ResponseModelUserData = {
+  items?: ResponseModelUserDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
+} | null;
+
 /**
  * Response_model.User schema
  */
@@ -2689,7 +2882,7 @@ export interface ResponseModelUser {
   success?: boolean;
 }
 
-export type ResponseModelVendorData = {
+export type ResponseModelVendorDataItemsItem = {
   created_time?: number;
   description?: string | null;
   icon?: string | null;
@@ -2697,6 +2890,13 @@ export type ResponseModelVendorData = {
   name?: string;
   status?: number;
   updated_time?: number;
+} | null;
+
+export type ResponseModelVendorData = {
+  items?: ResponseModelVendorDataItemsItem[];
+  page?: number;
+  page_size?: number;
+  total?: number;
 } | null;
 
 /**
@@ -2821,6 +3021,17 @@ export interface ResponsesAPIResponse {
  */
 export interface Setup2FARequest {
   code?: string;
+}
+
+/**
+ * SetupRequest schema
+ */
+export interface SetupRequest {
+  DemoSiteEnabled?: boolean;
+  SelfUseModeEnabled?: boolean;
+  confirmPassword?: string;
+  password?: string;
+  username?: string;
 }
 
 /**
@@ -3087,6 +3298,13 @@ export interface Verify2FARequest {
 }
 
 /**
+ * codexOAuthCompleteRequest schema
+ */
+export interface CodexOAuthCompleteRequest {
+  input?: string;
+}
+
+/**
  * unknown-interface schema
  */
 export interface UnknownInterface {}
@@ -3100,21 +3318,12 @@ export type GetAllChannelsParams = {
    * Items per page
    */
   page_size?: number;
-  /**
-   * Sort by ID
-   */
   id_sort?: boolean;
-  /**
-   * Group by tag
-   */
   tag_mode?: boolean;
   /**
    * Filter by status
    */
   status?: string;
-  /**
-   * Filter by channel type
-   */
   type?: number;
 };
 
@@ -3123,9 +3332,6 @@ export type CopyChannelParams = {
    * Name suffix
    */
   suffix?: string;
-  /**
-   * Reset balance
-   */
   reset_balance?: boolean;
 };
 
@@ -3154,17 +3360,8 @@ export type SearchChannelsParams = {
    * Filter by status
    */
   status?: string;
-  /**
-   * Sort by ID
-   */
   id_sort?: boolean;
-  /**
-   * Group by tag
-   */
   tag_mode?: boolean;
-  /**
-   * Filter by channel type
-   */
   type?: number;
 };
 
@@ -3184,21 +3381,12 @@ export type TestChannelParams = {
    * Endpoint type
    */
   endpoint_type?: string;
-  /**
-   * Test streaming
-   */
   stream?: boolean;
 };
 
 export type GetAllQuotaDatesParams = {
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by username
    */
@@ -3206,14 +3394,8 @@ export type GetAllQuotaDatesParams = {
 };
 
 export type GetUserQuotaDatesParams = {
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
 };
 
 export type GetAllDeploymentsParams = {
@@ -3232,13 +3414,7 @@ export type GetAllDeploymentsParams = {
 };
 
 export type GetAvailableReplicasParams = {
-  /**
-   * Hardware type ID
-   */
   hardware_id?: number;
-  /**
-   * GPU count
-   */
   gpu_count?: number;
 };
 
@@ -3285,13 +3461,7 @@ export type GetDeploymentLogsParams = {
    * Pagination cursor
    */
   cursor?: string;
-  /**
-   * Max log lines
-   */
   limit?: number;
-  /**
-   * Follow log stream
-   */
   follow?: boolean;
   /**
    * Start time (RFC3339)
@@ -3304,10 +3474,7 @@ export type GetDeploymentLogsParams = {
 };
 
 export type DeleteHistoryLogsParams = {
-  /**
-   * Delete logs before this timestamp (unix)
-   */
-  target_timestamp?: string;
+  target_timestamp?: number;
 };
 
 export type GetAllLogsParams = {
@@ -3319,18 +3486,9 @@ export type GetAllLogsParams = {
    * Items per page
    */
   page_size?: number;
-  /**
-   * Log type
-   */
   type?: number;
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by username
    */
@@ -3343,9 +3501,6 @@ export type GetAllLogsParams = {
    * Filter by model name
    */
   model_name?: string;
-  /**
-   * Filter by channel ID
-   */
   channel?: number;
   /**
    * Filter by group
@@ -3357,6 +3512,21 @@ export type GetAllLogsParams = {
   request_id?: string;
 };
 
+export type GetChannelAffinityUsageCacheStatsParams = {
+  /**
+   * Filter by rule name
+   */
+  rule_name?: string;
+  /**
+   * Filter by group
+   */
+  using_group?: string;
+  /**
+   * Filter by key fingerprint
+   */
+  key_fp?: string;
+};
+
 export type GetUserLogsParams = {
   /**
    * Page number (1-based)
@@ -3366,18 +3536,9 @@ export type GetUserLogsParams = {
    * Items per page
    */
   page_size?: number;
-  /**
-   * Log type
-   */
   type?: number;
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by token name
    */
@@ -3397,18 +3558,9 @@ export type GetUserLogsParams = {
 };
 
 export type GetLogsSelfStatParams = {
-  /**
-   * Log type
-   */
   type?: number;
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by token name
    */
@@ -3417,9 +3569,6 @@ export type GetLogsSelfStatParams = {
    * Filter by model name
    */
   model_name?: string;
-  /**
-   * Filter by channel ID
-   */
   channel?: number;
   /**
    * Filter by group
@@ -3428,18 +3577,9 @@ export type GetLogsSelfStatParams = {
 };
 
 export type GetLogsStatParams = {
-  /**
-   * Log type
-   */
   type?: number;
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by token name
    */
@@ -3452,9 +3592,6 @@ export type GetLogsStatParams = {
    * Filter by model name
    */
   model_name?: string;
-  /**
-   * Filter by channel ID
-   */
   channel?: number;
   /**
    * Filter by group
@@ -3601,22 +3738,7 @@ export type HandleOAuthParams = {
 
 export type ClearChannelAffinityCacheParams = {
   /**
-   * Filter by rule name
-   */
-  rule_name?: string;
-  /**
-   * Filter by group
-   */
-  using_group?: string;
-  /**
-   * Filter by key fingerprint
-   */
-  key_fp?: string;
-};
-
-export type GetChannelAffinityCacheStatsParams = {
-  /**
-   * Show all entries
+   * Clear all entries
    */
   all?: string;
   /**
@@ -3681,14 +3803,8 @@ export type GetAllTaskParams = {
    * Items per page
    */
   page_size?: number;
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by platform
    */
@@ -3720,14 +3836,8 @@ export type GetUserTaskParams = {
    * Items per page
    */
   page_size?: number;
-  /**
-   * Start timestamp (unix)
-   */
-  start_timestamp?: string;
-  /**
-   * End timestamp (unix)
-   */
-  end_timestamp?: string;
+  start_timestamp?: number;
+  end_timestamp?: number;
   /**
    * Filter by platform
    */
@@ -4063,14 +4173,14 @@ export const getAddChannelUrl = () => {
 };
 
 export const addChannel = async (
-  addChannelRequest: AddChannelRequest,
+  addChannelBody: Blob,
   options?: RequestInit,
 ): Promise<addChannelResponse> => {
   return customFetch<addChannelResponse>(getAddChannelUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(addChannelRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(addChannelBody),
   });
 };
 
@@ -4111,14 +4221,14 @@ export const getUpdateChannelUrl = () => {
 };
 
 export const updateChannel = async (
-  patchChannel: PatchChannel,
+  updateChannelBody: Blob,
   options?: RequestInit,
 ): Promise<updateChannelResponse> => {
   return customFetch<updateChannelResponse>(getUpdateChannelUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(patchChannel),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateChannelBody),
   });
 };
 
@@ -4160,14 +4270,14 @@ export const getDeleteChannelBatchUrl = () => {
 };
 
 export const deleteChannelBatch = async (
-  channelBatch: ChannelBatch,
+  deleteChannelBatchBody: Blob,
   options?: RequestInit,
 ): Promise<deleteChannelBatchResponse> => {
   return customFetch<deleteChannelBatchResponse>(getDeleteChannelBatchUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(channelBatch),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(deleteChannelBatchBody),
   });
 };
 
@@ -4209,14 +4319,14 @@ export const getBatchSetChannelTagUrl = () => {
 };
 
 export const batchSetChannelTag = async (
-  channelBatch: ChannelBatch,
+  batchSetChannelTagBody: Blob,
   options?: RequestInit,
 ): Promise<batchSetChannelTagResponse> => {
   return customFetch<batchSetChannelTagResponse>(getBatchSetChannelTagUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(channelBatch),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(batchSetChannelTagBody),
   });
 };
 
@@ -4258,11 +4368,14 @@ export const getCompleteCodexOAuthUrl = () => {
 };
 
 export const completeCodexOAuth = async (
+  completeCodexOAuthBody: Blob,
   options?: RequestInit,
 ): Promise<completeCodexOAuthResponse> => {
   return customFetch<completeCodexOAuthResponse>(getCompleteCodexOAuthUrl(), {
     ...options,
     method: "POST",
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(completeCodexOAuthBody),
   });
 };
 
@@ -4423,12 +4536,12 @@ export const deleteDisabledChannel = async (
  * @summary Fetch Models
  */
 export type fetchModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type fetchModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -4456,14 +4569,14 @@ export const getFetchModelsUrl = () => {
 };
 
 export const fetchModels = async (
-  fetchModelsRequest: FetchModelsRequest,
+  fetchModelsBody: Blob,
   options?: RequestInit,
 ): Promise<fetchModelsResponse> => {
   return customFetch<fetchModelsResponse>(getFetchModelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(fetchModelsRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(fetchModelsBody),
   });
 };
 
@@ -4471,12 +4584,12 @@ export const fetchModels = async (
  * @summary Fetch Upstream Models
  */
 export type fetchUpstreamModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseDtoApiResponse;
   status: 200;
 };
 
 export type fetchUpstreamModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseDtoApiResponse;
   status: 200;
 };
 
@@ -4570,12 +4683,12 @@ export const fixChannelsAbilities = async (
  * @summary Channel List Models
  */
 export type channelListModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type channelListModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -4616,12 +4729,12 @@ export const channelListModels = async (
  * @summary Enabled List Models
  */
 export type enabledListModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type enabledListModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -4695,14 +4808,14 @@ export const getManageMultiKeysUrl = () => {
 };
 
 export const manageMultiKeys = async (
-  multiKeyManageRequest: MultiKeyManageRequest,
+  manageMultiKeysBody: Blob,
   options?: RequestInit,
 ): Promise<manageMultiKeysResponse> => {
   return customFetch<manageMultiKeysResponse>(getManageMultiKeysUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(multiKeyManageRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(manageMultiKeysBody),
   });
 };
 
@@ -4744,11 +4857,14 @@ export const getOllamaDeleteModelUrl = () => {
 };
 
 export const ollamaDeleteModel = async (
+  ollamaDeleteModelBody: Blob,
   options?: RequestInit,
 ): Promise<ollamaDeleteModelResponse> => {
   return customFetch<ollamaDeleteModelResponse>(getOllamaDeleteModelUrl(), {
     ...options,
     method: "DELETE",
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(ollamaDeleteModelBody),
   });
 };
 
@@ -4789,14 +4905,14 @@ export const getOllamaPullModelUrl = () => {
 };
 
 export const ollamaPullModel = async (
-  ollamaModelRequest: OllamaModelRequest,
+  ollamaPullModelBody: Blob,
   options?: RequestInit,
 ): Promise<ollamaPullModelResponse> => {
   return customFetch<ollamaPullModelResponse>(getOllamaPullModelUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(ollamaModelRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(ollamaPullModelBody),
   });
 };
 
@@ -4990,14 +5106,14 @@ export const getEditTagChannelsUrl = () => {
 };
 
 export const editTagChannels = async (
-  channelTag: ChannelTag,
+  editTagChannelsBody: Blob,
   options?: RequestInit,
 ): Promise<editTagChannelsResponse> => {
   return customFetch<editTagChannelsResponse>(getEditTagChannelsUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(channelTag),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(editTagChannelsBody),
   });
 };
 
@@ -5039,14 +5155,14 @@ export const getDisableTagChannelsUrl = () => {
 };
 
 export const disableTagChannels = async (
-  channelTag: ChannelTag,
+  disableTagChannelsBody: Blob,
   options?: RequestInit,
 ): Promise<disableTagChannelsResponse> => {
   return customFetch<disableTagChannelsResponse>(getDisableTagChannelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(channelTag),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(disableTagChannelsBody),
   });
 };
 
@@ -5088,14 +5204,14 @@ export const getEnableTagChannelsUrl = () => {
 };
 
 export const enableTagChannels = async (
-  channelTag: ChannelTag,
+  enableTagChannelsBody: Blob,
   options?: RequestInit,
 ): Promise<enableTagChannelsResponse> => {
   return customFetch<enableTagChannelsResponse>(getEnableTagChannelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(channelTag),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(enableTagChannelsBody),
   });
 };
 
@@ -5206,12 +5322,12 @@ export const testAllChannels = async (
  * @summary Test Channel
  */
 export type testChannelResponse200ApplicationJson = {
-  data: ResponseDtoTestChannelResponse;
+  data: TestChannelResponse;
   status: 200;
 };
 
 export type testChannelResponse200ApplicationXml = {
-  data: ResponseDtoTestChannelResponse;
+  data: TestChannelResponse;
   status: 200;
 };
 
@@ -5314,12 +5430,12 @@ export const updateAllChannelsBalance = async (
  * @summary Update Channel Balance
  */
 export type updateChannelBalanceResponse200ApplicationJson = {
-  data: ResponseDtoChannelBalanceResponse;
+  data: ChannelBalanceResponse;
   status: 200;
 };
 
 export type updateChannelBalanceResponse200ApplicationXml = {
-  data: ResponseDtoChannelBalanceResponse;
+  data: ChannelBalanceResponse;
   status: 200;
 };
 
@@ -5491,6 +5607,7 @@ export const getCompleteCodexOAuthForChannelUrl = (id: string) => {
 
 export const completeCodexOAuthForChannel = async (
   id: string,
+  completeCodexOAuthForChannelBody: Blob,
   options?: RequestInit,
 ): Promise<completeCodexOAuthForChannelResponse> => {
   return customFetch<completeCodexOAuthForChannelResponse>(
@@ -5498,6 +5615,8 @@ export const completeCodexOAuthForChannel = async (
     {
       ...options,
       method: "POST",
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(completeCodexOAuthForChannelBody),
     },
   );
 };
@@ -5606,12 +5725,12 @@ export const refreshCodexChannelCredential = async (
  * @summary Get Codex Channel Usage
  */
 export type getCodexChannelUsageResponse200ApplicationJson = {
-  data: ResponseDtoCodexUsageData;
+  data: CodexUsageData;
   status: 200;
 };
 
 export type getCodexChannelUsageResponse200ApplicationXml = {
-  data: ResponseDtoCodexUsageData;
+  data: CodexUsageData;
   status: 200;
 };
 
@@ -5747,12 +5866,12 @@ export const creemWebhook = async (
  * @summary Get Custom O Auth Providers
  */
 export type getCustomOAuthProvidersResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getCustomOAuthProvidersResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -5830,7 +5949,7 @@ export const getCreateCustomOAuthProviderUrl = () => {
 };
 
 export const createCustomOAuthProvider = async (
-  createCustomOAuthProviderRequest: CreateCustomOAuthProviderRequest,
+  createCustomOAuthProviderBody: Blob,
   options?: RequestInit,
 ): Promise<createCustomOAuthProviderResponse> => {
   return customFetch<createCustomOAuthProviderResponse>(
@@ -5838,8 +5957,8 @@ export const createCustomOAuthProvider = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(createCustomOAuthProviderRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(createCustomOAuthProviderBody),
     },
   );
 };
@@ -5882,7 +6001,7 @@ export const getFetchCustomOAuthDiscoveryUrl = () => {
 };
 
 export const fetchCustomOAuthDiscovery = async (
-  fetchCustomOAuthDiscoveryRequest: FetchCustomOAuthDiscoveryRequest,
+  fetchCustomOAuthDiscoveryBody: Blob,
   options?: RequestInit,
 ): Promise<fetchCustomOAuthDiscoveryResponse> => {
   return customFetch<fetchCustomOAuthDiscoveryResponse>(
@@ -5890,8 +6009,8 @@ export const fetchCustomOAuthDiscovery = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(fetchCustomOAuthDiscoveryRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(fetchCustomOAuthDiscoveryBody),
     },
   );
 };
@@ -6035,7 +6154,7 @@ export const getUpdateCustomOAuthProviderUrl = (id: string) => {
 
 export const updateCustomOAuthProvider = async (
   id: string,
-  updateCustomOAuthProviderRequest: UpdateCustomOAuthProviderRequest,
+  updateCustomOAuthProviderBody: Blob,
   options?: RequestInit,
 ): Promise<updateCustomOAuthProviderResponse> => {
   return customFetch<updateCustomOAuthProviderResponse>(
@@ -6043,8 +6162,8 @@ export const updateCustomOAuthProvider = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(updateCustomOAuthProviderRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(updateCustomOAuthProviderBody),
     },
   );
 };
@@ -6053,12 +6172,12 @@ export const updateCustomOAuthProvider = async (
  * @summary Get All Quota Dates
  */
 export type getAllQuotaDatesResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getAllQuotaDatesResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -6111,12 +6230,12 @@ export const getAllQuotaDates = async (
  * @summary Get User Quota Dates
  */
 export type getUserQuotaDatesResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getUserQuotaDatesResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -6268,14 +6387,14 @@ export const getCreateDeploymentUrl = () => {
 };
 
 export const createDeployment = async (
-  deploymentRequest: DeploymentRequest,
+  createDeploymentBody: Blob,
   options?: RequestInit,
 ): Promise<createDeploymentResponse> => {
   return customFetch<createDeploymentResponse>(getCreateDeploymentUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(deploymentRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(createDeploymentBody),
   });
 };
 
@@ -6535,14 +6654,14 @@ export const getGetPriceEstimationUrl = () => {
 };
 
 export const getPriceEstimation = async (
-  priceEstimationRequest: PriceEstimationRequest,
+  getPriceEstimationBody: Blob,
   options?: RequestInit,
 ): Promise<getPriceEstimationResponse> => {
   return customFetch<getPriceEstimationResponse>(getGetPriceEstimationUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(priceEstimationRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(getPriceEstimationBody),
   });
 };
 
@@ -6695,14 +6814,14 @@ export const getTestIoNetConnectionUrl = () => {
 };
 
 export const testIoNetConnection = async (
-  testIoNetConnectionRequest: TestIoNetConnectionRequest,
+  testIoNetConnectionBody: Blob,
   options?: RequestInit,
 ): Promise<testIoNetConnectionResponse> => {
   return customFetch<testIoNetConnectionResponse>(getTestIoNetConnectionUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(testIoNetConnectionRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(testIoNetConnectionBody),
   });
 };
 
@@ -6744,7 +6863,7 @@ export const getPostApiDeploymentsTestConnectionUrl = () => {
 };
 
 export const postApiDeploymentsTestConnection = async (
-  testIoNetConnectionRequest: TestIoNetConnectionRequest,
+  postApiDeploymentsTestConnectionBody: Blob,
   options?: RequestInit,
 ): Promise<postApiDeploymentsTestConnectionResponse> => {
   return customFetch<postApiDeploymentsTestConnectionResponse>(
@@ -6752,8 +6871,8 @@ export const postApiDeploymentsTestConnection = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(testIoNetConnectionRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(postApiDeploymentsTestConnectionBody),
     },
   );
 };
@@ -6888,14 +7007,14 @@ export const getUpdateDeploymentUrl = (id: string) => {
 
 export const updateDeployment = async (
   id: string,
-  updateDeploymentRequest: UpdateDeploymentRequest,
+  updateDeploymentBody: Blob,
   options?: RequestInit,
 ): Promise<updateDeploymentResponse> => {
   return customFetch<updateDeploymentResponse>(getUpdateDeploymentUrl(id), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(updateDeploymentRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateDeploymentBody),
   });
 };
 
@@ -7004,12 +7123,12 @@ export const getContainerDetails = async (
  * @summary Extend Deployment
  */
 export type extendDeploymentResponse200ApplicationJson = {
-  data: ResponseDtoDeploymentStatusResponse;
+  data: ResponseDtoDeploymentItem;
   status: 200;
 };
 
 export type extendDeploymentResponse200ApplicationXml = {
-  data: ResponseDtoDeploymentStatusResponse;
+  data: ResponseDtoDeploymentItem;
   status: 200;
 };
 
@@ -7038,14 +7157,14 @@ export const getExtendDeploymentUrl = (id: string) => {
 
 export const extendDeployment = async (
   id: string,
-  extendDurationRequest: ExtendDurationRequest,
+  extendDeploymentBody: Blob,
   options?: RequestInit,
 ): Promise<extendDeploymentResponse> => {
   return customFetch<extendDeploymentResponse>(getExtendDeploymentUrl(id), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(extendDurationRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(extendDeploymentBody),
   });
 };
 
@@ -7154,7 +7273,7 @@ export const getUpdateDeploymentNameUrl = (id: string) => {
 
 export const updateDeploymentName = async (
   id: string,
-  updateDeploymentNameRequest: UpdateDeploymentNameRequest,
+  updateDeploymentNameBody: Blob,
   options?: RequestInit,
 ): Promise<updateDeploymentNameResponse> => {
   return customFetch<updateDeploymentNameResponse>(
@@ -7162,8 +7281,8 @@ export const updateDeploymentName = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(updateDeploymentNameRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(updateDeploymentNameBody),
     },
   );
 };
@@ -7172,12 +7291,12 @@ export const updateDeploymentName = async (
  * @summary Get Groups
  */
 export type getGroupsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getGroupsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -7325,12 +7444,12 @@ export const deleteHistoryLogs = async (
  * @summary Get All Logs
  */
 export type getAllLogsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelLog;
   status: 200;
 };
 
 export type getAllLogsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelLog;
   status: 200;
 };
 
@@ -7412,15 +7531,30 @@ export type getChannelAffinityUsageCacheStatsResponse =
   | getChannelAffinityUsageCacheStatsResponseSuccess
   | getChannelAffinityUsageCacheStatsResponseError;
 
-export const getGetChannelAffinityUsageCacheStatsUrl = () => {
-  return `/api/log/channel_affinity_usage_cache`;
+export const getGetChannelAffinityUsageCacheStatsUrl = (
+  params?: GetChannelAffinityUsageCacheStatsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/log/channel_affinity_usage_cache?${stringifiedParams}`
+    : `/api/log/channel_affinity_usage_cache`;
 };
 
 export const getChannelAffinityUsageCacheStats = async (
+  params?: GetChannelAffinityUsageCacheStatsParams,
   options?: RequestInit,
 ): Promise<getChannelAffinityUsageCacheStatsResponse> => {
   return customFetch<getChannelAffinityUsageCacheStatsResponse>(
-    getGetChannelAffinityUsageCacheStatsUrl(),
+    getGetChannelAffinityUsageCacheStatsUrl(params),
     {
       ...options,
       method: "GET",
@@ -7477,12 +7611,12 @@ export const searchAllLogs = async (
  * @summary Get User Logs
  */
 export type getUserLogsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelLog;
   status: 200;
 };
 
 export type getUserLogsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelLog;
   status: 200;
 };
 
@@ -7696,12 +7830,12 @@ export const getLogsStat = async (
  * @summary Get Log By Key
  */
 export type getLogByKeyResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getLogByKeyResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -7741,12 +7875,12 @@ export const getLogByKey = async (
  * @summary Get All Midjourney
  */
 export type getAllMidjourneyResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelMidjourney;
   status: 200;
 };
 
 export type getAllMidjourneyResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelMidjourney;
   status: 200;
 };
 
@@ -7799,12 +7933,12 @@ export const getAllMidjourney = async (
  * @summary Get User Midjourney
  */
 export type getUserMidjourneyResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelMidjourney;
   status: 200;
 };
 
 export type getUserMidjourneyResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelMidjourney;
   status: 200;
 };
 
@@ -7861,12 +7995,12 @@ export const getUserMidjourney = async (
  * @summary Dashboard List Models
  */
 export type dashboardListModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseMapInt;
   status: 200;
 };
 
 export type dashboardListModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseMapInt;
   status: 200;
 };
 
@@ -7940,14 +8074,14 @@ export const getCreateModelMetaUrl = () => {
 };
 
 export const createModelMeta = async (
-  model: Model,
+  createModelMetaBody: Blob,
   options?: RequestInit,
 ): Promise<createModelMetaResponse> => {
   return customFetch<createModelMetaResponse>(getCreateModelMetaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(model),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(createModelMetaBody),
   });
 };
 
@@ -8000,15 +8134,15 @@ export const getUpdateModelMetaUrl = (params?: UpdateModelMetaParams) => {
 };
 
 export const updateModelMeta = async (
-  model: Model,
+  updateModelMetaBody: Blob,
   params?: UpdateModelMetaParams,
   options?: RequestInit,
 ): Promise<updateModelMetaResponse> => {
   return customFetch<updateModelMetaResponse>(getUpdateModelMetaUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(model),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateModelMetaBody),
   });
 };
 
@@ -8074,12 +8208,12 @@ export const getAllModelsMeta = async (
  * @summary Get Missing Models
  */
 export type getMissingModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getMissingModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -8168,12 +8302,12 @@ export const deleteOrphanedModels = async (
  * @summary Search Models Meta
  */
 export type searchModelsMetaResponse200ApplicationJson = {
-  data: ResponseControllerModelsMetaListData;
+  data: ResponseModelModel;
   status: 200;
 };
 
 export type searchModelsMetaResponse200ApplicationXml = {
-  data: ResponseControllerModelsMetaListData;
+  data: ResponseModelModel;
   status: 200;
 };
 
@@ -8260,14 +8394,14 @@ export const getSyncUpstreamModelsUrl = () => {
 };
 
 export const syncUpstreamModels = async (
-  syncRequest: SyncRequest,
+  syncUpstreamModelsBody: Blob,
   options?: RequestInit,
 ): Promise<syncUpstreamModelsResponse> => {
   return customFetch<syncUpstreamModelsResponse>(getSyncUpstreamModelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(syncRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(syncUpstreamModelsBody),
   });
 };
 
@@ -8476,12 +8610,12 @@ export const getNotice = async (
  * @summary Email Bind
  */
 export type emailBindResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: MessageResponse;
   status: 200;
 };
 
 export type emailBindResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: MessageResponse;
   status: 200;
 };
 
@@ -8744,12 +8878,12 @@ export const weChatAuth = async (
  * @summary We Chat Bind
  */
 export type weChatBindResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: MessageResponse;
   status: 200;
 };
 
 export type weChatBindResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: MessageResponse;
   status: 200;
 };
 
@@ -8864,12 +8998,12 @@ export const handleOAuth = async (
  * @summary Get Options
  */
 export type getOptionsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getOptionsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -8942,14 +9076,14 @@ export const getUpdateOptionUrl = () => {
 };
 
 export const updateOption = async (
-  optionUpdateRequest: OptionUpdateRequest,
+  updateOptionBody: Blob,
   options?: RequestInit,
 ): Promise<updateOptionResponse> => {
   return customFetch<updateOptionResponse>(getUpdateOptionUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(optionUpdateRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateOptionBody),
   });
 };
 
@@ -9050,30 +9184,15 @@ export type getChannelAffinityCacheStatsResponse =
   | getChannelAffinityCacheStatsResponseSuccess
   | getChannelAffinityCacheStatsResponseError;
 
-export const getGetChannelAffinityCacheStatsUrl = (
-  params?: GetChannelAffinityCacheStatsParams,
-) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? "null" : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0
-    ? `/api/option/channel_affinity_cache?${stringifiedParams}`
-    : `/api/option/channel_affinity_cache`;
+export const getGetChannelAffinityCacheStatsUrl = () => {
+  return `/api/option/channel_affinity_cache`;
 };
 
 export const getChannelAffinityCacheStats = async (
-  params?: GetChannelAffinityCacheStatsParams,
   options?: RequestInit,
 ): Promise<getChannelAffinityCacheStatsResponse> => {
   return customFetch<getChannelAffinityCacheStatsResponse>(
-    getGetChannelAffinityCacheStatsUrl(params),
+    getGetChannelAffinityCacheStatsUrl(),
     {
       ...options,
       method: "GET",
@@ -9362,12 +9481,12 @@ export const getPerformanceStats = async (
  * @summary Get Prefill Groups
  */
 export type getPrefillGroupsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getPrefillGroupsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -9454,14 +9573,14 @@ export const getCreatePrefillGroupUrl = () => {
 };
 
 export const createPrefillGroup = async (
-  prefillGroup: PrefillGroup,
+  createPrefillGroupBody: Blob,
   options?: RequestInit,
 ): Promise<createPrefillGroupResponse> => {
   return customFetch<createPrefillGroupResponse>(getCreatePrefillGroupUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(prefillGroup),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(createPrefillGroupBody),
   });
 };
 
@@ -9503,14 +9622,14 @@ export const getUpdatePrefillGroupUrl = () => {
 };
 
 export const updatePrefillGroup = async (
-  prefillGroup: PrefillGroup,
+  updatePrefillGroupBody: Blob,
   options?: RequestInit,
 ): Promise<updatePrefillGroupResponse> => {
   return customFetch<updatePrefillGroupResponse>(getUpdatePrefillGroupUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(prefillGroup),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updatePrefillGroupBody),
   });
 };
 
@@ -9565,12 +9684,12 @@ export const deletePrefillGroup = async (
  * @summary Get Pricing
  */
 export type getPricingResponse200ApplicationJson = {
-  data: ResponseDtoPricingData;
+  data: PricingData;
   status: 200;
 };
 
 export type getPricingResponse200ApplicationXml = {
-  data: ResponseDtoPricingData;
+  data: PricingData;
   status: 200;
 };
 
@@ -9700,12 +9819,12 @@ export const getRatioConfig = async (
  * @summary Get Syncable Channels
  */
 export type getSyncableChannelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getSyncableChannelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -9780,14 +9899,14 @@ export const getFetchUpstreamRatiosUrl = () => {
 };
 
 export const fetchUpstreamRatios = async (
-  upstreamRequest: UpstreamRequest,
+  fetchUpstreamRatiosBody: Blob,
   options?: RequestInit,
 ): Promise<fetchUpstreamRatiosResponse> => {
   return customFetch<fetchUpstreamRatiosResponse>(getFetchUpstreamRatiosUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(upstreamRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(fetchUpstreamRatiosBody),
   });
 };
 
@@ -9795,12 +9914,12 @@ export const fetchUpstreamRatios = async (
  * @summary Get All Redemptions
  */
 export type getAllRedemptionsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelRedemption;
   status: 200;
 };
 
 export type getAllRedemptionsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelRedemption;
   status: 200;
 };
 
@@ -9857,12 +9976,12 @@ export const getAllRedemptions = async (
  * @summary Add Redemption
  */
 export type addRedemptionResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type addRedemptionResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -9890,14 +10009,14 @@ export const getAddRedemptionUrl = () => {
 };
 
 export const addRedemption = async (
-  redemption: Redemption,
+  addRedemptionBody: Blob,
   options?: RequestInit,
 ): Promise<addRedemptionResponse> => {
   return customFetch<addRedemptionResponse>(getAddRedemptionUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(redemption),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(addRedemptionBody),
   });
 };
 
@@ -9950,15 +10069,15 @@ export const getUpdateRedemptionUrl = (params?: UpdateRedemptionParams) => {
 };
 
 export const updateRedemption = async (
-  redemption: Redemption,
+  updateRedemptionBody: Blob,
   params?: UpdateRedemptionParams,
   options?: RequestInit,
 ): Promise<updateRedemptionResponse> => {
   return customFetch<updateRedemptionResponse>(getUpdateRedemptionUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(redemption),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateRedemptionBody),
   });
 };
 
@@ -10015,12 +10134,12 @@ export const deleteInvalidRedemption = async (
  * @summary Search Redemptions
  */
 export type searchRedemptionsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelRedemption;
   status: 200;
 };
 
 export type searchRedemptionsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelRedemption;
   status: 200;
 };
 
@@ -10276,12 +10395,12 @@ export const getSetup = async (
  * @summary Post Setup
  */
 export type postSetupResponse200ApplicationJson = {
-  data: ResponseDtoSetupData;
+  data: MessageResponse;
   status: 200;
 };
 
 export type postSetupResponse200ApplicationXml = {
-  data: ResponseDtoSetupData;
+  data: MessageResponse;
   status: 200;
 };
 
@@ -10309,11 +10428,14 @@ export const getPostSetupUrl = () => {
 };
 
 export const postSetup = async (
+  postSetupBody: Blob,
   options?: RequestInit,
 ): Promise<postSetupResponse> => {
   return customFetch<postSetupResponse>(getPostSetupUrl(), {
     ...options,
     method: "POST",
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(postSetupBody),
   });
 };
 
@@ -10508,12 +10630,12 @@ export const adminBindSubscription = async (
  * @summary Admin List Subscription Plans
  */
 export type adminListSubscriptionPlansResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type adminListSubscriptionPlansResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -10591,7 +10713,7 @@ export const getAdminCreateSubscriptionPlanUrl = () => {
 };
 
 export const adminCreateSubscriptionPlan = async (
-  adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
+  adminCreateSubscriptionPlanBody: Blob,
   options?: RequestInit,
 ): Promise<adminCreateSubscriptionPlanResponse> => {
   return customFetch<adminCreateSubscriptionPlanResponse>(
@@ -10599,8 +10721,8 @@ export const adminCreateSubscriptionPlan = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(adminUpsertSubscriptionPlanRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(adminCreateSubscriptionPlanBody),
     },
   );
 };
@@ -10662,12 +10784,12 @@ export const adminUpdateSubscriptionPlanStatus = async (
  * @summary Admin Update Subscription Plan
  */
 export type adminUpdateSubscriptionPlanResponse200ApplicationJson = {
-  data: ResponseModelSubscriptionPlan;
+  data: MessageResponse;
   status: 200;
 };
 
 export type adminUpdateSubscriptionPlanResponse200ApplicationXml = {
-  data: ResponseModelSubscriptionPlan;
+  data: MessageResponse;
   status: 200;
 };
 
@@ -10697,7 +10819,7 @@ export const getAdminUpdateSubscriptionPlanUrl = (id: string) => {
 
 export const adminUpdateSubscriptionPlan = async (
   id: string,
-  adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
+  adminUpdateSubscriptionPlanBody: Blob,
   options?: RequestInit,
 ): Promise<adminUpdateSubscriptionPlanResponse> => {
   return customFetch<adminUpdateSubscriptionPlanResponse>(
@@ -10705,8 +10827,8 @@ export const adminUpdateSubscriptionPlan = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "application/json", ...options?.headers },
-      body: JSON.stringify(adminUpsertSubscriptionPlanRequest),
+      headers: { "Content-Type": "*/*", ...options?.headers },
+      body: JSON.stringify(adminUpdateSubscriptionPlanBody),
     },
   );
 };
@@ -10815,12 +10937,12 @@ export const adminInvalidateUserSubscription = async (
  * @summary Admin List User Subscriptions
  */
 export type adminListUserSubscriptionsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type adminListUserSubscriptionsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -11218,12 +11340,12 @@ export const postApiSubscriptionEpayReturn = async (
  * @summary Get Subscription Plans
  */
 export type getSubscriptionPlansResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getSubscriptionPlansResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -11417,12 +11539,12 @@ export const subscriptionRequestStripePay = async (
  * @summary Get All Task
  */
 export type getAllTaskResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoTaskDto;
   status: 200;
 };
 
 export type getAllTaskResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoTaskDto;
   status: 200;
 };
 
@@ -11475,12 +11597,12 @@ export const getAllTask = async (
  * @summary Get User Task
  */
 export type getUserTaskResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoTaskDto;
   status: 200;
 };
 
 export type getUserTaskResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoTaskDto;
   status: 200;
 };
 
@@ -11533,12 +11655,12 @@ export const getUserTask = async (
  * @summary Get All Tokens
  */
 export type getAllTokensResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelToken;
   status: 200;
 };
 
 export type getAllTokensResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelToken;
   status: 200;
 };
 
@@ -11698,12 +11820,12 @@ export const updateToken = async (
  * @summary Delete Token Batch
  */
 export type deleteTokenBatchResponse200ApplicationJson = {
-  data: ResponseInt64;
+  data: ResponseInt;
   status: 200;
 };
 
 export type deleteTokenBatchResponse200ApplicationXml = {
-  data: ResponseInt64;
+  data: ResponseInt;
   status: 200;
 };
 
@@ -11746,12 +11868,12 @@ export const deleteTokenBatch = async (
  * @summary Search Tokens
  */
 export type searchTokensResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelToken;
   status: 200;
 };
 
 export type searchTokensResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelToken;
   status: 200;
 };
 
@@ -11894,12 +12016,12 @@ export const getToken = async (
  * @summary Get Uptime Kuma Status
  */
 export type getUptimeKumaStatusResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getUptimeKumaStatusResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -12030,12 +12152,12 @@ export const getUserAgreement = async (
  * @summary Get All Users
  */
 export type getAllUsersResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelUser;
   status: 200;
 };
 
 export type getAllUsersResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelUser;
   status: 200;
 };
 
@@ -12121,14 +12243,14 @@ export const getCreateUserUrl = () => {
 };
 
 export const createUser = async (
-  user: User,
+  createUserBody: Blob,
   options?: RequestInit,
 ): Promise<createUserResponse> => {
   return customFetch<createUserResponse>(getCreateUserUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(user),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(createUserBody),
   });
 };
 
@@ -12169,14 +12291,14 @@ export const getUpdateUserUrl = () => {
 };
 
 export const updateUser = async (
-  user: User,
+  updateUserBody: Blob,
   options?: RequestInit,
 ): Promise<updateUserResponse> => {
   return customFetch<updateUserResponse>(getUpdateUserUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(user),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateUserBody),
   });
 };
 
@@ -12510,12 +12632,12 @@ export const getAffCode = async (
  * @summary Get Referral Commissions
  */
 export type getReferralCommissionsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getReferralCommissionsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -12592,14 +12714,14 @@ export const getTransferAffQuotaUrl = () => {
 };
 
 export const transferAffQuota = async (
-  transferAffQuotaRequest: TransferAffQuotaRequest,
+  transferAffQuotaBody: Blob,
   options?: RequestInit,
 ): Promise<transferAffQuotaResponse> => {
   return customFetch<transferAffQuotaResponse>(getTransferAffQuotaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(transferAffQuotaRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(transferAffQuotaBody),
   });
 };
 
@@ -12640,14 +12762,14 @@ export const getRequestAmountUrl = () => {
 };
 
 export const requestAmount = async (
-  amountRequest: AmountRequest,
+  requestAmountBody: Blob,
   options?: RequestInit,
 ): Promise<requestAmountResponse> => {
   return customFetch<requestAmountResponse>(getRequestAmountUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(amountRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(requestAmountBody),
   });
 };
 
@@ -12791,14 +12913,14 @@ export const getRequestCreemPayUrl = () => {
 };
 
 export const requestCreemPay = async (
-  creemPayRequest: CreemPayRequest,
+  requestCreemPayBody: Blob,
   options?: RequestInit,
 ): Promise<requestCreemPayResponse> => {
   return customFetch<requestCreemPayResponse>(getRequestCreemPayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(creemPayRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(requestCreemPayBody),
   });
 };
 
@@ -12900,12 +13022,12 @@ export const epayNotify = async (
  * @summary Get User Groups
  */
 export type getUserGroupsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseMapString;
   status: 200;
 };
 
 export type getUserGroupsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseMapString;
   status: 200;
 };
 
@@ -13074,12 +13196,12 @@ export const logout = async (
  * @summary Manage User
  */
 export type manageUserResponse200ApplicationJson = {
-  data: ResponseDtoManageUserResult;
+  data: MessageResponse;
   status: 200;
 };
 
 export type manageUserResponse200ApplicationXml = {
-  data: ResponseDtoManageUserResult;
+  data: MessageResponse;
   status: 200;
 };
 
@@ -13107,14 +13229,14 @@ export const getManageUserUrl = () => {
 };
 
 export const manageUser = async (
-  manageRequest: ManageRequest,
+  manageUserBody: Blob,
   options?: RequestInit,
 ): Promise<manageUserResponse> => {
   return customFetch<manageUserResponse>(getManageUserUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(manageRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(manageUserBody),
   });
 };
 
@@ -13122,12 +13244,12 @@ export const manageUser = async (
  * @summary Get User Models
  */
 export type getUserModelsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getUserModelsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -13167,12 +13289,12 @@ export const getUserModels = async (
  * @summary Get User O Auth Bindings
  */
 export type getUserOAuthBindingsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getUserOAuthBindingsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -13671,14 +13793,14 @@ export const getRequestEpayUrl = () => {
 };
 
 export const requestEpay = async (
-  epayRequest: EpayRequest,
+  requestEpayBody: Blob,
   options?: RequestInit,
 ): Promise<requestEpayResponse> => {
   return customFetch<requestEpayResponse>(getRequestEpayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(epayRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(requestEpayBody),
   });
 };
 
@@ -13717,14 +13839,14 @@ export const getRegisterUrl = () => {
 };
 
 export const register = async (
-  user: User,
+  registerBody: Blob,
   options?: RequestInit,
 ): Promise<registerResponse> => {
   return customFetch<registerResponse>(getRegisterUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(user),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(registerBody),
   });
 };
 
@@ -13765,14 +13887,14 @@ export const getResetPasswordUrl = () => {
 };
 
 export const resetPassword = async (
-  passwordResetRequest: PasswordResetRequest,
+  resetPasswordBody: Blob,
   options?: RequestInit,
 ): Promise<resetPasswordResponse> => {
   return customFetch<resetPasswordResponse>(getResetPasswordUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(passwordResetRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(resetPasswordBody),
   });
 };
 
@@ -13780,12 +13902,12 @@ export const resetPassword = async (
  * @summary Search Users
  */
 export type searchUsersResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelUser;
   status: 200;
 };
 
 export type searchUsersResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelUser;
   status: 200;
 };
 
@@ -13971,12 +14093,12 @@ export const updateSelf = async (
  * @summary Get Api User Self Groups
  */
 export type getApiUserSelfGroupsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseMapString;
   status: 200;
 };
 
 export type getApiUserSelfGroupsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseMapString;
   status: 200;
 };
 
@@ -14054,14 +14176,14 @@ export const getUpdateUserSettingUrl = () => {
 };
 
 export const updateUserSetting = async (
-  updateUserSettingRequest: UpdateUserSettingRequest,
+  updateUserSettingBody: Blob,
   options?: RequestInit,
 ): Promise<updateUserSettingResponse> => {
   return customFetch<updateUserSettingResponse>(getUpdateUserSettingUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(updateUserSettingRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateUserSettingBody),
   });
 };
 
@@ -14103,14 +14225,14 @@ export const getRequestStripeAmountUrl = () => {
 };
 
 export const requestStripeAmount = async (
-  stripePayRequest: StripePayRequest,
+  requestStripeAmountBody: Blob,
   options?: RequestInit,
 ): Promise<requestStripeAmountResponse> => {
   return customFetch<requestStripeAmountResponse>(getRequestStripeAmountUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(stripePayRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(requestStripeAmountBody),
   });
 };
 
@@ -14151,14 +14273,14 @@ export const getRequestStripePayUrl = () => {
 };
 
 export const requestStripePay = async (
-  stripePayRequest: StripePayRequest,
+  requestStripePayBody: Blob,
   options?: RequestInit,
 ): Promise<requestStripePayResponse> => {
   return customFetch<requestStripePayResponse>(getRequestStripePayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(stripePayRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(requestStripePayBody),
   });
 };
 
@@ -14212,12 +14334,12 @@ export const generateAccessToken = async (
  * @summary Get All Top Ups
  */
 export type getAllTopUpsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelTopUp;
   status: 200;
 };
 
 export type getAllTopUpsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelTopUp;
   status: 200;
 };
 
@@ -14301,14 +14423,14 @@ export const getTopUpUrl = () => {
 };
 
 export const topUp = async (
-  topUpRequest: TopUpRequest,
+  topUpBody: Blob,
   options?: RequestInit,
 ): Promise<topUpResponse> => {
   return customFetch<topUpResponse>(getTopUpUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(topUpRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(topUpBody),
   });
 };
 
@@ -14350,14 +14472,14 @@ export const getAdminCompleteTopUpUrl = () => {
 };
 
 export const adminCompleteTopUp = async (
-  adminCompleteTopupRequest: AdminCompleteTopupRequest,
+  adminCompleteTopUpBody: Blob,
   options?: RequestInit,
 ): Promise<adminCompleteTopUpResponse> => {
   return customFetch<adminCompleteTopUpResponse>(getAdminCompleteTopUpUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(adminCompleteTopupRequest),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(adminCompleteTopUpBody),
   });
 };
 
@@ -14410,12 +14532,12 @@ export const getTopUpInfo = async (
  * @summary Get User Top Ups
  */
 export type getUserTopUpsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelTopUp;
   status: 200;
 };
 
 export type getUserTopUpsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelTopUp;
   status: 200;
 };
 
@@ -14658,12 +14780,12 @@ export const adminClearUserBinding = async (
  * @summary Get User O Auth Bindings By Admin
  */
 export type getUserOAuthBindingsByAdminResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
 export type getUserOAuthBindingsByAdminResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: Response;
   status: 200;
 };
 
@@ -14809,12 +14931,12 @@ export const adminResetPasskey = async (
  * @summary Get All Vendors
  */
 export type getAllVendorsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelVendor;
   status: 200;
 };
 
 export type getAllVendorsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelVendor;
   status: 200;
 };
 
@@ -14900,14 +15022,14 @@ export const getCreateVendorMetaUrl = () => {
 };
 
 export const createVendorMeta = async (
-  vendor: Vendor,
+  createVendorMetaBody: Blob,
   options?: RequestInit,
 ): Promise<createVendorMetaResponse> => {
   return customFetch<createVendorMetaResponse>(getCreateVendorMetaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(vendor),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(createVendorMetaBody),
   });
 };
 
@@ -14948,14 +15070,14 @@ export const getUpdateVendorMetaUrl = () => {
 };
 
 export const updateVendorMeta = async (
-  vendor: Vendor,
+  updateVendorMetaBody: Blob,
   options?: RequestInit,
 ): Promise<updateVendorMetaResponse> => {
   return customFetch<updateVendorMetaResponse>(getUpdateVendorMetaUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(vendor),
+    headers: { "Content-Type": "*/*", ...options?.headers },
+    body: JSON.stringify(updateVendorMetaBody),
   });
 };
 
@@ -14963,12 +15085,12 @@ export const updateVendorMeta = async (
  * @summary Search Vendors
  */
 export type searchVendorsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelVendor;
   status: 200;
 };
 
 export type searchVendorsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseModelVendor;
   status: 200;
 };
 
@@ -17756,12 +17878,12 @@ export const deleteV1ModelsModel = async (
  * @summary Relay Retrieve Model
  */
 export type relayRetrieveModelResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: OpenAIModels;
   status: 200;
 };
 
 export type relayRetrieveModelResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: OpenAIModels;
   status: 200;
 };
 
