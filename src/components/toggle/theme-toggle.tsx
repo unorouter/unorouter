@@ -11,7 +11,7 @@ import { createAnimation, getRandomAnimation } from "@/components/ui/theme-anima
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
-import { LuMoon, LuSun } from "react-icons/lu";
+import { LuMonitor, LuMoon, LuSun } from "react-icons/lu";
 
 export function ThemeToggle() {
   const t = useTranslations();
@@ -83,18 +83,21 @@ export function ThemeToggle() {
           onClick={() => handleThemeChange("light")}
           className="cursor-pointer"
         >
+          <LuSun className="h-4 w-4" />
           {t("THEME.LIGHT")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange("dark")}
           className="cursor-pointer"
         >
+          <LuMoon className="h-4 w-4" />
           {t("THEME.DARK")}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => handleThemeChange("system")}
           className="cursor-pointer"
         >
+          <LuMonitor className="h-4 w-4" />
           {t("THEME.SYSTEM")}
         </DropdownMenuItem>
       </DropdownMenuContent>

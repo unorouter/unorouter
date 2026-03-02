@@ -1,15 +1,122 @@
 "use client";
 
+import { usePricingQuery } from "@/hooks/pricing-hook";
+import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
 import { useTranslations } from "next-intl";
-import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
+import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
+
+type VendorTheme = {
+  icon: string;
+  bg: string;
+  border: string;
+  text: string;
+  tagBg: string;
+};
+
+const VENDOR_THEMES: Record<string, VendorTheme> = {
+  openai: {
+    icon: "/icons/openai.svg",
+    bg: "bg-green-500/5",
+    border: "border-green-500/20",
+    text: "text-green-400",
+    tagBg: "bg-green-500/10",
+  },
+  anthropic: {
+    icon: "/icons/anthropic.svg",
+    bg: "bg-orange-500/5",
+    border: "border-orange-500/20",
+    text: "text-orange-400",
+    tagBg: "bg-orange-500/10",
+  },
+  google: {
+    icon: "/icons/google.svg",
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-400",
+    tagBg: "bg-blue-500/10",
+  },
+  "google deepmind": {
+    icon: "/icons/google.svg",
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-400",
+    tagBg: "bg-blue-500/10",
+  },
+  deepseek: {
+    icon: "/icons/deepseek.svg",
+    bg: "bg-purple-500/5",
+    border: "border-purple-500/20",
+    text: "text-purple-400",
+    tagBg: "bg-purple-500/10",
+  },
+  meta: {
+    icon: "/icons/meta.svg",
+    bg: "bg-sky-500/5",
+    border: "border-sky-500/20",
+    text: "text-sky-400",
+    tagBg: "bg-sky-500/10",
+  },
+  mistral: {
+    icon: "/icons/mistral.svg",
+    bg: "bg-amber-500/5",
+    border: "border-amber-500/20",
+    text: "text-amber-400",
+    tagBg: "bg-amber-500/10",
+  },
+  "mistral ai": {
+    icon: "/icons/mistral.svg",
+    bg: "bg-amber-500/5",
+    border: "border-amber-500/20",
+    text: "text-amber-400",
+    tagBg: "bg-amber-500/10",
+  },
+  cohere: {
+    icon: "/icons/cohere.svg",
+    bg: "bg-rose-500/5",
+    border: "border-rose-500/20",
+    text: "text-rose-400",
+    tagBg: "bg-rose-500/10",
+  },
+  xai: {
+    icon: "/icons/x.svg",
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-400",
+    tagBg: "bg-zinc-500/10",
+  },
+  "x.ai": {
+    icon: "/icons/x.svg",
+    bg: "bg-zinc-500/5",
+    border: "border-zinc-500/20",
+    text: "text-zinc-400",
+    tagBg: "bg-zinc-500/10",
+  },
+};
+
+const DEFAULT_THEME: VendorTheme = {
+  icon: "",
+  bg: "bg-muted/30",
+  border: "border-border",
+  text: "text-muted-foreground",
+  tagBg: "bg-secondary",
+};
+
+function getVendorTheme(vendor: string): VendorTheme {
+  const normalized = vendor.toLowerCase();
+  for (const [key, theme] of Object.entries(VENDOR_THEMES)) {
+    if (normalized.includes(key)) return theme;
+  }
+  return DEFAULT_THEME;
+}
 
 export function PricingSection() {
   const t = useTranslations();
   const { data } = useSubscriptionPlansQuery();
+  const { data: pricingData } = usePricingQuery();
   const plans = data?.plans ?? [];
+  const vendors = pricingData?.vendors ?? [];
 
   return (
     <section className="relative z-10 py-24 border-t border-border/50 bg-linear-to-b from-background to-card">
@@ -123,35 +230,49 @@ export function PricingSection() {
                   </span>
                 </div>
               </div>
-              <div className="p-6 space-y-4">
-                <ProviderRow
-                  name="OpenAI"
-                  icon="/icons/openai.svg"
-                  tag="GPT"
-                  tagColor="green"
-                  description={t("HOME.PRICING_PROVIDERS_DESC_OPENAI")}
-                />
-                <ProviderRow
-                  name="Anthropic"
-                  icon="/icons/anthropic.svg"
-                  tag="CLAUDE"
-                  tagColor="orange"
-                  description={t("HOME.PRICING_PROVIDERS_DESC_ANTHROPIC")}
-                />
-                <ProviderRow
-                  name="Google"
-                  icon="/icons/google.svg"
-                  tag="GEMINI"
-                  tagColor="blue"
-                  description={t("HOME.PRICING_PROVIDERS_DESC_GOOGLE")}
-                />
-                <ProviderRow
-                  name="DeepSeek"
-                  icon="/icons/deepseek.svg"
-                  tag="DS"
-                  tagColor="purple"
-                  description={t("HOME.PRICING_PROVIDERS_DESC_DEEPSEEK")}
-                />
+              <div className="p-4 space-y-3">
+                {vendors.map((vendor) => {
+                  const theme = getVendorTheme(vendor.name);
+                  return (
+                    <div
+                      key={vendor.name}
+                      className={`${theme.bg} border ${theme.border} rounded-lg p-3.5 space-y-2`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        {theme.icon && (
+                          <Image
+                            src={theme.icon}
+                            alt={vendor.name}
+                            width={16}
+                            height={16}
+                            className="w-4 h-4 rounded object-contain shrink-0 invert dark:invert-0"
+                          />
+                        )}
+                        <span className="font-mono text-xs text-foreground font-bold uppercase tracking-wide">
+                          {vendor.name}
+                        </span>
+                        <span className={`text-[10px] font-mono ${theme.text}`}>
+                          {vendor.modelCount}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {vendor.models.map((model: { name: string }) => (
+                          <span
+                            key={model.name}
+                            className={`text-[10px] font-mono ${theme.text} ${theme.tagBg} px-2 py-0.5 rounded-sm`}
+                          >
+                            {model.name}
+                          </span>
+                        ))}
+                        {vendor.modelCount > 3 && (
+                          <span className={`text-[10px] font-mono ${theme.text} opacity-60 px-1 py-0.5`}>
+                            +{vendor.modelCount - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
 
@@ -224,54 +345,6 @@ function FeatureRow(props: {
           {props.title}
         </span>
         <span className="text-[10px] text-muted-foreground">{props.description}</span>
-      </div>
-    </div>
-  );
-}
-
-function ProviderRow(props: {
-  name: string;
-  icon: string;
-  tag: string;
-  tagColor: string;
-  description: string;
-}) {
-  const colorMap: Record<string, string> = {
-    green: "bg-green-500/5 border-green-500/20 text-green-400 bg-green-500/20",
-    orange:
-      "bg-orange-500/5 border-orange-500/20 text-orange-400 bg-orange-500/20",
-    blue: "bg-blue-500/5 border-blue-500/20 text-blue-400 bg-blue-500/20",
-    purple:
-      "bg-purple-500/5 border-purple-500/20 text-purple-400 bg-purple-500/20"
-  };
-  const colors = colorMap[props.tagColor] || colorMap.green;
-  const [bgRow, borderRow, textColor, tagBg] = colors.split(" ");
-
-  return (
-    <div
-      className={`flex items-center gap-4 p-4 ${bgRow} border ${borderRow} rounded-lg`}
-    >
-      <Image
-        src={props.icon}
-        alt={props.name}
-        width={20}
-        height={20}
-        className="w-5 h-5 rounded object-contain shrink-0 invert dark:invert-0"
-      />
-      <div className="flex-1">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="font-mono text-sm text-foreground font-bold">
-            {props.name}
-          </span>
-          <span
-            className={`text-[9px] px-2 py-0.5 ${tagBg} ${textColor} rounded-full uppercase tracking-wider`}
-          >
-            {props.tag}
-          </span>
-        </div>
-        <p className="text-[11px] text-muted-foreground font-mono">
-          {props.description}
-        </p>
       </div>
     </div>
   );
