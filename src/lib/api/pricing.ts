@@ -83,7 +83,7 @@ export function processModels(response: PricingData) {
   return data
     .map((model) => {
       const vendorId = model.vendor_id ?? undefined;
-      const raw = vendorMap.get(vendorId);
+      const raw = vendorMap.get(vendorId!);
       const vendor = {
         id: raw?.id ?? vendorId ?? 0,
         name: raw?.name ?? "Unknown",
