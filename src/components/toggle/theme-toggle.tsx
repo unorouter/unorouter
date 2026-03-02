@@ -10,12 +10,17 @@ import {
 import { createAnimation, getRandomAnimation } from "@/components/ui/theme-animations";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 
 export function ThemeToggle() {
   const t = useTranslations();
   const { setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const styleId = "theme-transition-styles";
 
@@ -55,6 +60,15 @@ export function ThemeToggle() {
     },
     [setTheme, updateStyles],
   );
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon-sm" aria-label="Toggle theme">
+        <LuSun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+        <LuMoon className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+      </Button>
+    );
+  }
 
   return (
     <DropdownMenu>

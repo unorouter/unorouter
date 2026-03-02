@@ -11,7 +11,7 @@ import { usePathname, useRouter } from "@/i18n/navigation";
 import { LANGUAGES } from "@/lib/config/constants";
 import { useLocale, useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 export function LanguageToggle() {
   const t = useTranslations();
@@ -20,6 +20,11 @@ export function LanguageToggle() {
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
   const params = useParams();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const currentLanguage = LANGUAGES.find(
     (lang) => lang.code.toLowerCase() === locale.toLowerCase(),
@@ -36,6 +41,16 @@ export function LanguageToggle() {
       );
     });
   };
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="icon-sm" aria-label="Switch language">
+        {currentLanguage && (
+          <currentLanguage.Flag className="h-3.5 w-5 rounded-sm" />
+        )}
+      </Button>
+    );
+  }
 
   return (
     <DropdownMenu>
