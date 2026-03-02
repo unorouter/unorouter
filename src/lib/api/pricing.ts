@@ -32,8 +32,10 @@ const TEXT_ENDPOINT_TYPES = new Set([
 
 function inferModelTypes(model: PricingDataDataItem): ModelType[] {
   const endpoints = model.supported_endpoint_types ?? [];
+  const isFixedPrice = model.quota_type === 1;
   const types = new Set<ModelType>();
 
+  // 1. Endpoint-based detection
   for (const ep of endpoints) {
     const exact = ENDPOINT_TO_MODEL_TYPE[ep];
     if (exact) {
@@ -51,6 +53,12 @@ function inferModelTypes(model: PricingDataDataItem): ModelType[] {
         break;
       }
     }
+  }
+
+  // 2. Fixed-price models with only "text" from endpoints are non-text
+  //    (upstream reports text endpoints for image/video/audio models).
+  if (isFixedPrice && types.size === 1 && types.has("text")) {
+    types.delete("text");
   }
 
   return types.size > 0 ? [...types] : ["text"];

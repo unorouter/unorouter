@@ -23,13 +23,16 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
     }
 
     const vendors = [...vendorGroups.values()]
-      .map((g) => ({
-        ...g.vendor,
-        modelCount: g.models.length,
-        models: g.models
-          .sort((a, b) => b.name.localeCompare(a.name))
-          .slice(0, 3),
-      }))
+      .map((g) => {
+        const textModels = g.models.filter((m) => m.types.includes("text"));
+        return {
+          ...g.vendor,
+          modelCount: g.models.length,
+          models: textModels
+            .sort((a, b) => b.name.localeCompare(a.name))
+            .slice(0, 3),
+        };
+      })
       .sort((a, b) => b.modelCount - a.modelCount);
 
     return {
