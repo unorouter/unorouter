@@ -64,21 +64,14 @@ function inferModelTypes(model: PricingDataDataItem): ModelType[] {
   return types.size > 0 ? [...types] : ["text"];
 }
 
-function getMinGroupRatio(groupRatio: Record<string, number>): number {
-  const publicGroups = Object.entries(groupRatio).filter(
-    ([key]) => !key.includes("priv") && !key.includes("sub2api"),
-  );
-  if (publicGroups.length === 0) return 1;
-  return Math.min(...publicGroups.map(([, ratio]) => ratio));
-}
-
 export function processModels(response: PricingData) {
   const vendors = response.vendors ?? [];
   const data = response.data ?? [];
   const groupRatio = response.group_ratio ?? {};
 
   const vendorMap = new Map(vendors.map((v) => [v.id, v]));
-  const minRatio = getMinGroupRatio(groupRatio);
+  const ratios = Object.values(groupRatio);
+  const minRatio = ratios.length > 0 ? Math.min(...ratios) : 1;
 
   return data
     .map((model) => {
