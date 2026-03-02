@@ -23,7 +23,7 @@ export function PricingCard(props: Props) {
     <div
       className={cn(
         "border-border bg-card relative flex flex-col border p-6",
-        props.popular && "border-primary"
+        props.popular && "border-primary",
       )}
     >
       {props.popular && (
@@ -36,11 +36,14 @@ export function PricingCard(props: Props) {
 
       <div className="mt-4 flex items-baseline gap-1">
         <span className="text-4xl font-bold">${props.price}</span>
-        <span className="text-muted-foreground text-sm">{t("PRICING.CARD_PER_MONTH")}</span>
+        <span className="text-muted-foreground text-sm">
+          {t("PRICING.CARD_PER_MONTH")}
+        </span>
       </div>
 
       <p className="text-muted-foreground mt-2 text-sm">
-        {t("PRICING.CARD_VALUE", { value: `$${props.value}` })} &middot; {t("PRICING.CARD_MULTIPLIER", { multiplier: props.multiplier })}
+        {t("PRICING.CARD_VALUE", { value: `$${props.value}` })} &middot;{" "}
+        {t("PRICING.CARD_MULTIPLIER", { multiplier: props.multiplier })}
       </p>
 
       <div className="border-border mt-6 border-t pt-6">

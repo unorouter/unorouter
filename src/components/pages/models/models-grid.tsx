@@ -20,10 +20,11 @@ export function ModelsGrid() {
 
   const filterOptions: { key: ModelType | "all"; label: string }[] = [
     { key: "all", label: t("MODELS.FILTER_ALL") },
-    { key: "llm", label: t("MODELS.FILTER_LLM") },
-    { key: "vision", label: t("MODELS.FILTER_VISION") },
+    { key: "text", label: t("MODELS.FILTER_TEXT") },
     { key: "image", label: t("MODELS.FILTER_IMAGE") },
     { key: "video", label: t("MODELS.FILTER_VIDEO") },
+    { key: "audio", label: t("MODELS.FILTER_AUDIO") },
+    { key: "embedding", label: t("MODELS.FILTER_EMBEDDING") },
   ];
 
   const filtered = models.filter((model) => {
@@ -117,9 +118,10 @@ function ModelCard(props: {
               variant="secondary"
               className={cn(
                 "font-mono text-[10px] uppercase",
-                type === "vision" && "border-blue-500/30 text-blue-400",
                 type === "image" && "border-green-500/30 text-green-400",
                 type === "video" && "border-purple-500/30 text-purple-400",
+                type === "audio" && "border-amber-500/30 text-amber-400",
+                type === "embedding" && "border-sky-500/30 text-sky-400",
               )}
             >
               {type}

@@ -16,11 +16,15 @@ export default async function GeminiCliPage() {
       </div>
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.GEMINI_CLI.TITLE")}</h1>
-      <p className="text-muted-foreground mt-4 text-lg">{t("DOCS.GEMINI_CLI.SUBTITLE")}</p>
+      <p className="text-muted-foreground mt-4 text-lg">
+        {t("DOCS.GEMINI_CLI.SUBTITLE")}
+      </p>
 
       {/* Quick Start */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.GEMINI_CLI.QUICK_START")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.GEMINI_CLI.QUICK_START")}
+        </h2>
         <p className="text-muted-foreground mb-6 text-sm">
           {t("DOCS.GEMINI_CLI.QUICK_START_DESC")}
         </p>
@@ -37,9 +41,13 @@ gemini`}
 
       {/* Code Examples */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.GEMINI_CLI.CODE_EXAMPLES")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.GEMINI_CLI.CODE_EXAMPLES")}
+        </h2>
 
-        <h3 className="mb-3 text-lg font-medium">{t("DOCS.GEMINI_CLI.EXAMPLE_PYTHON")}</h3>
+        <h3 className="mb-3 text-lg font-medium">
+          {t("DOCS.GEMINI_CLI.EXAMPLE_PYTHON")}
+        </h3>
         <CodeBlock
           language="python"
           code={`from google import genai
@@ -75,13 +83,24 @@ print(response.text)`}
 
       {/* CTA */}
       <section className="border-border mt-16 border-t pt-12 text-center">
-        <h2 className="text-2xl font-semibold">{t("DOCS.GEMINI_CLI.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS.GEMINI_CLI.CTA_DESC")}</p>
+        <h2 className="text-2xl font-semibold">
+          {t("DOCS.GEMINI_CLI.CTA_TITLE")}
+        </h2>
+        <p className="text-muted-foreground mt-2">
+          {t("DOCS.GEMINI_CLI.CTA_DESC")}
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button nativeButton={false} render={<a href="https://api.unorouter.ai/register" />}>
+          <Button
+            nativeButton={false}
+            render={<a href="https://api.unorouter.ai/register" />}
+          >
             {t("DOCS.GEMINI_CLI.CTA_SIGNUP")}
           </Button>
-          <Button nativeButton={false} variant="outline" render={<Link href="/models" />}>
+          <Button
+            nativeButton={false}
+            variant="outline"
+            render={<Link href="/models" />}
+          >
             {t("DOCS.GEMINI_CLI.CTA_MODELS")}
           </Button>
         </div>

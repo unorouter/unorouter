@@ -1,26 +1,59 @@
 import type { PricingData, PricingDataDataItem } from "@/openapi";
 
-export type ModelType = "llm" | "vision" | "image" | "video";
+export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
 
-const VISION_KEYWORDS = ["vision", "vl", "4o", "image"];
+// Mirrors new-api-sync's ENDPOINT_TO_MODEL_TYPE mapping
+const ENDPOINT_TO_MODEL_TYPE: Record<string, ModelType> = {
+  "image-generation": "image",
+  "dall-e-3": "image",
+  "aigc-image": "image",
+  "openai-video": "video",
+  "aigc-video": "video",
+  embeddings: "embedding",
+  embedding: "embedding",
+  rerank: "embedding",
+  "jina-rerank": "embedding",
+  geminitts: "audio",
+};
+
+const ENDPOINT_KEYWORD_TYPES: [string, ModelType][] = [
+  ["video", "video"],
+  ["image", "image"],
+  ["tts", "audio"],
+];
+
+const TEXT_ENDPOINT_TYPES = new Set([
+  "openai",
+  "anthropic",
+  "gemini",
+  "openai-response",
+  "openai-response-compact",
+]);
 
 function inferModelTypes(model: PricingDataDataItem): ModelType[] {
-  const types: ModelType[] = [];
   const endpoints = model.supported_endpoint_types ?? [];
-  const name = (model.model_name ?? "").toLowerCase();
+  const types = new Set<ModelType>();
 
-  if (endpoints.includes("image-generation")) types.push("image");
-  if (endpoints.includes("openai-video")) types.push("video");
-  if (
-    endpoints.includes("openai") ||
-    endpoints.includes("anthropic") ||
-    endpoints.includes("gemini")
-  ) {
-    types.push("llm");
+  for (const ep of endpoints) {
+    const exact = ENDPOINT_TO_MODEL_TYPE[ep];
+    if (exact) {
+      types.add(exact);
+      continue;
+    }
+    if (TEXT_ENDPOINT_TYPES.has(ep)) {
+      types.add("text");
+      continue;
+    }
+    const lower = ep.toLowerCase();
+    for (const [keyword, type] of ENDPOINT_KEYWORD_TYPES) {
+      if (lower.includes(keyword)) {
+        types.add(type);
+        break;
+      }
+    }
   }
-  if (VISION_KEYWORDS.some((kw) => name.includes(kw))) types.push("vision");
 
-  return types.length > 0 ? types : ["llm"];
+  return types.size > 0 ? [...types] : ["text"];
 }
 
 function getMinGroupRatio(groupRatio: Record<string, number>): number {

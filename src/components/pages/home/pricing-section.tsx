@@ -3,8 +3,8 @@
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
 
 type VendorTheme = {
@@ -119,29 +119,29 @@ export function PricingSection() {
   const vendors = pricingData?.vendors ?? [];
 
   return (
-    <section className="relative z-10 py-24 border-t border-border/50 bg-linear-to-b from-background to-card">
-      <div className="max-w-360 mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-purple-500/30 bg-purple-500/10 rounded-sm mb-6">
+    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-24">
+      <div className="mx-auto max-w-360 px-6">
+        <div className="mb-16 text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
             <LuZap className="h-3 w-3 text-purple-400" />
-            <span className="text-[10px] font-mono text-purple-400 tracking-[0.2em] uppercase">
+            <span className="font-mono text-[10px] tracking-[0.2em] text-purple-400 uppercase">
               {t("HOME.PRICING_LABEL")}
             </span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground leading-[1.1] tracking-tight mb-4">
+          <h2 className="text-foreground mb-4 text-3xl leading-[1.1] font-bold tracking-tight md:text-5xl">
             {t("HOME.PRICING_TITLE")}
             <br />
             <span className="text-muted-foreground">
               {t("HOME.PRICING_SUBTITLE")}
             </span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm leading-relaxed">
+          <p className="text-muted-foreground mx-auto max-w-2xl font-mono text-sm leading-relaxed">
             {t("HOME.PRICING_DESCRIPTION")}
           </p>
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
+        <div className="mb-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <PricingTile
             name={t("HOME.PRICING_PAYG_NAME")}
             price={t("HOME.PRICING_PAYG_PRICE")}
@@ -149,13 +149,18 @@ export function PricingSection() {
             endpoint={t("HOME.PRICING_PAYG_ENDPOINT")}
           />
           {plans.map((plan, i) => {
-            const multiplier = plan.priceAmount > 0
-              ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
-              : 0;
-            const resetLabel = plan.quotaResetPeriod === "weekly" ? "week"
-              : plan.quotaResetPeriod === "daily" ? "day"
-              : plan.quotaResetPeriod === "monthly" ? "month"
-              : "period";
+            const multiplier =
+              plan.priceAmount > 0
+                ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
+                : 0;
+            const resetLabel =
+              plan.quotaResetPeriod === "weekly"
+                ? "week"
+                : plan.quotaResetPeriod === "daily"
+                  ? "day"
+                  : plan.quotaResetPeriod === "monthly"
+                    ? "month"
+                    : "period";
             return (
               <PricingTile
                 key={plan.id}
@@ -170,13 +175,13 @@ export function PricingSection() {
         </div>
 
         {/* Feature details */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid items-start gap-16 lg:grid-cols-2">
           <div className="space-y-8">
             <div>
-              <h3 className="text-xl font-bold text-foreground mb-4 font-mono">
+              <h3 className="text-foreground mb-4 font-mono text-xl font-bold">
                 {t("HOME.FEATURES_TITLE")}
               </h3>
-              <p className="text-muted-foreground font-mono text-sm leading-relaxed mb-6">
+              <p className="text-muted-foreground mb-6 font-mono text-sm leading-relaxed">
                 {t("HOME.FEATURES_DESCRIPTION")}
               </p>
             </div>
@@ -199,17 +204,17 @@ export function PricingSection() {
               />
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start gap-4 pt-4">
+            <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row">
               <a
                 href="https://api.unorouter.ai/register"
-                className="h-11 px-8 bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold uppercase tracking-widest transition-colors flex items-center gap-2"
+                className="flex h-11 items-center gap-2 bg-purple-600 px-8 font-mono text-xs font-bold tracking-widest text-white uppercase transition-colors hover:bg-purple-500"
               >
                 <LuZap className="h-3.5 w-3.5" />
                 {t("HOME.PRICING_CTA_GET_STARTED")}
               </a>
               <Link
                 href="/pricing"
-                className="h-11 px-6 bg-transparent border border-border text-foreground font-mono text-xs font-bold uppercase tracking-widest hover:border-foreground transition-all flex items-center gap-2"
+                className="border-border text-foreground hover:border-foreground flex h-11 items-center gap-2 border bg-transparent px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all"
               >
                 {t("HOME.PRICING_CTA_VIEW_PLANS")}
               </Link>
@@ -218,25 +223,25 @@ export function PricingSection() {
 
           {/* Info panels */}
           <div className="space-y-6">
-            <div className="w-full bg-card border border-border rounded-lg overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-purple-500/10 border-b border-purple-500/20">
-                <span className="text-[10px] text-purple-400 uppercase tracking-wider font-mono">
+            <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
+              <div className="flex items-center justify-between border-b border-purple-500/20 bg-purple-500/10 px-4 py-3">
+                <span className="font-mono text-[10px] tracking-wider text-purple-400 uppercase">
                   {t("HOME.PRICING_PROVIDERS_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                  <span className="text-[10px] text-green-400 font-mono">
+                  <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
+                  <span className="font-mono text-[10px] text-green-400">
                     {t("HOME.PRICING_PROVIDERS_ACTIVE")}
                   </span>
                 </div>
               </div>
-              <div className="p-4 space-y-3">
+              <div className="space-y-3 p-4">
                 {vendors.map((vendor) => {
                   const theme = getVendorTheme(vendor.name);
                   return (
                     <div
                       key={vendor.name}
-                      className={`${theme.bg} border ${theme.border} rounded-lg p-3.5 space-y-2`}
+                      className={`${theme.bg} border ${theme.border} space-y-2 rounded-lg p-3.5`}
                     >
                       <div className="flex items-center gap-2.5">
                         {theme.icon && (
@@ -245,27 +250,29 @@ export function PricingSection() {
                             alt={vendor.name}
                             width={16}
                             height={16}
-                            className="w-4 h-4 rounded object-contain shrink-0 invert dark:invert-0"
+                            className="h-4 w-4 shrink-0 rounded object-contain invert dark:invert-0"
                           />
                         )}
-                        <span className="font-mono text-xs text-foreground font-bold uppercase tracking-wide">
+                        <span className="text-foreground font-mono text-xs font-bold tracking-wide uppercase">
                           {vendor.name}
                         </span>
-                        <span className={`text-[10px] font-mono ${theme.text}`}>
+                        <span className={`font-mono text-[10px] ${theme.text}`}>
                           {vendor.modelCount}
                         </span>
                       </div>
                       <div className="flex flex-wrap gap-1.5">
-                        {vendor.models.map((model: { name: string }) => (
+                        {vendor.models.map((model) => (
                           <span
                             key={model.name}
-                            className={`text-[10px] font-mono ${theme.text} ${theme.tagBg} px-2 py-0.5 rounded-sm`}
+                            className={`font-mono text-[10px] ${theme.text} ${theme.tagBg} rounded-sm px-2 py-0.5`}
                           >
                             {model.name}
                           </span>
                         ))}
                         {vendor.modelCount > 3 && (
-                          <span className={`text-[10px] font-mono ${theme.text} opacity-60 px-1 py-0.5`}>
+                          <span
+                            className={`font-mono text-[10px] ${theme.text} px-1 py-0.5 opacity-60`}
+                          >
                             +{vendor.modelCount - 3}
                           </span>
                         )}
@@ -276,22 +283,26 @@ export function PricingSection() {
               </div>
             </div>
 
-            <div className="w-full bg-card border border-border rounded-lg overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-secondary border-b border-border">
-                <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-mono">
+            <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
+              <div className="bg-secondary border-border flex items-center justify-between border-b px-4 py-3">
+                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
                   {t("HOME.PRICING_FLOW_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse" />
-                  <span className="text-[10px] text-purple-400 font-mono">
+                  <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-500" />
+                  <span className="font-mono text-[10px] text-purple-400">
                     {t("HOME.PRICING_FLOW_LIVE")}
                   </span>
                 </div>
               </div>
-              <div className="p-4 space-y-3 font-mono text-xs">
+              <div className="space-y-3 p-4 font-mono text-xs">
                 <FlowStep step="1" text={t("HOME.PRICING_FLOW_STEP1")} />
                 <FlowStep step="2" text={t("HOME.PRICING_FLOW_STEP2")} muted />
-                <FlowStep step="✓" text={t("HOME.PRICING_FLOW_STEP3")} success />
+                <FlowStep
+                  step="✓"
+                  text={t("HOME.PRICING_FLOW_STEP3")}
+                  success
+                />
               </div>
             </div>
           </div>
@@ -310,20 +321,20 @@ function PricingTile(props: {
 }) {
   return (
     <div
-      className={`p-5 bg-accent border rounded-lg hover:border-purple-500/50 transition-all group ${props.highlight ? "border-purple-500/50" : "border-border"}`}
+      className={`bg-accent group rounded-lg border p-5 transition-all hover:border-purple-500/50 ${props.highlight ? "border-purple-500/50" : "border-border"}`}
     >
-      <div className="flex items-center justify-between mb-3">
-        <span className="font-mono text-xs text-foreground uppercase tracking-wide">
+      <div className="mb-3 flex items-center justify-between">
+        <span className="text-foreground font-mono text-xs tracking-wide uppercase">
           {props.name}
         </span>
-        <span className="text-purple-400 font-mono text-sm font-bold">
+        <span className="font-mono text-sm font-bold text-purple-400">
           {props.price}
         </span>
       </div>
-      <p className="text-[11px] text-muted-foreground font-mono leading-relaxed mb-3">
+      <p className="text-muted-foreground mb-3 font-mono text-[11px] leading-relaxed">
         {props.description}
       </p>
-      <code className="text-[9px] text-muted-foreground bg-muted px-2 py-1 rounded block truncate">
+      <code className="text-muted-foreground bg-muted block truncate rounded px-2 py-1 text-[9px]">
         {props.endpoint}
       </code>
     </div>
@@ -336,15 +347,17 @@ function FeatureRow(props: {
   description: string;
 }) {
   return (
-    <div className="flex items-center gap-4 text-sm text-foreground group">
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-secondary border border-border group-hover:border-purple-500/50 transition-colors">
+    <div className="text-foreground group flex items-center gap-4 text-sm">
+      <div className="bg-secondary border-border flex h-8 w-8 items-center justify-center rounded-lg border transition-colors group-hover:border-purple-500/50">
         {props.icon}
       </div>
       <div>
-        <span className="font-mono text-xs uppercase tracking-wide block">
+        <span className="block font-mono text-xs tracking-wide uppercase">
           {props.title}
         </span>
-        <span className="text-[10px] text-muted-foreground">{props.description}</span>
+        <span className="text-muted-foreground text-[10px]">
+          {props.description}
+        </span>
       </div>
     </div>
   );
@@ -367,7 +380,7 @@ function FlowStep(props: {
   return (
     <div className="flex items-center gap-3">
       <div
-        className={`w-5 h-5 rounded-full ${bgColor} flex items-center justify-center ${textColor} text-[9px] font-bold`}
+        className={`h-5 w-5 rounded-full ${bgColor} flex items-center justify-center ${textColor} text-[9px] font-bold`}
       >
         {props.step}
       </div>

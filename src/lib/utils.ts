@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function handleElysia<T extends { data: unknown; status: number }>(
-  response: T
+  response: T,
 ): T["data"] {
   if (response.status === 200) return response.data as T["data"];
   throw response;

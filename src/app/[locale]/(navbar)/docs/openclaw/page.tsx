@@ -16,11 +16,15 @@ export default async function OpenClawPage() {
       </div>
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.OPENCLAW.TITLE")}</h1>
-      <p className="text-muted-foreground mt-4 text-lg">{t("DOCS.OPENCLAW.SUBTITLE")}</p>
+      <p className="text-muted-foreground mt-4 text-lg">
+        {t("DOCS.OPENCLAW.SUBTITLE")}
+      </p>
 
       {/* Quick Start */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.OPENCLAW.QUICK_START")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.OPENCLAW.QUICK_START")}
+        </h2>
         <p className="text-muted-foreground mb-6 text-sm">
           {t("DOCS.OPENCLAW.QUICK_START_DESC")}
         </p>
@@ -37,9 +41,13 @@ openclaw onboard`}
 
       {/* Code Examples */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.OPENCLAW.CODE_EXAMPLES")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.OPENCLAW.CODE_EXAMPLES")}
+        </h2>
 
-        <h3 className="mb-3 text-lg font-medium">{t("DOCS.OPENCLAW.EXAMPLE_CONFIG")}</h3>
+        <h3 className="mb-3 text-lg font-medium">
+          {t("DOCS.OPENCLAW.EXAMPLE_CONFIG")}
+        </h3>
         <CodeBlock
           language="yaml"
           code={`# ~/.openclaw/config.yaml
@@ -57,7 +65,9 @@ providers:
     apiKey: env:OPENAI_API_KEY`}
         />
 
-        <h3 className="mt-8 mb-3 text-lg font-medium">{t("DOCS.OPENCLAW.EXAMPLE_CURL")}</h3>
+        <h3 className="mt-8 mb-3 text-lg font-medium">
+          {t("DOCS.OPENCLAW.EXAMPLE_CURL")}
+        </h3>
         <CodeBlock
           language="bash"
           code={`# Once OpenClaw gateway is running, you can also
@@ -77,13 +87,24 @@ curl -X POST http://localhost:18789/v1/chat/completions \\
 
       {/* CTA */}
       <section className="border-border mt-16 border-t pt-12 text-center">
-        <h2 className="text-2xl font-semibold">{t("DOCS.OPENCLAW.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS.OPENCLAW.CTA_DESC")}</p>
+        <h2 className="text-2xl font-semibold">
+          {t("DOCS.OPENCLAW.CTA_TITLE")}
+        </h2>
+        <p className="text-muted-foreground mt-2">
+          {t("DOCS.OPENCLAW.CTA_DESC")}
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button nativeButton={false} render={<a href="https://api.unorouter.ai/register" />}>
+          <Button
+            nativeButton={false}
+            render={<a href="https://api.unorouter.ai/register" />}
+          >
             {t("DOCS.OPENCLAW.CTA_SIGNUP")}
           </Button>
-          <Button nativeButton={false} variant="outline" render={<Link href="/models" />}>
+          <Button
+            nativeButton={false}
+            variant="outline"
+            render={<Link href="/models" />}
+          >
             {t("DOCS.OPENCLAW.CTA_MODELS")}
           </Button>
         </div>

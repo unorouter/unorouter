@@ -16,11 +16,15 @@ export default async function ClaudeCodePage() {
       </div>
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CLAUDE_CODE.TITLE")}</h1>
-      <p className="text-muted-foreground mt-4 text-lg">{t("DOCS.CLAUDE_CODE.SUBTITLE")}</p>
+      <p className="text-muted-foreground mt-4 text-lg">
+        {t("DOCS.CLAUDE_CODE.SUBTITLE")}
+      </p>
 
       {/* Quick Start */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.CLAUDE_CODE.QUICK_START")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.CLAUDE_CODE.QUICK_START")}
+        </h2>
         <p className="text-muted-foreground mb-6 text-sm">
           {t("DOCS.CLAUDE_CODE.QUICK_START_DESC")}
         </p>
@@ -37,9 +41,13 @@ claude`}
 
       {/* Python Example */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.CLAUDE_CODE.CODE_EXAMPLES")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.CLAUDE_CODE.CODE_EXAMPLES")}
+        </h2>
 
-        <h3 className="mb-3 text-lg font-medium">{t("DOCS.CLAUDE_CODE.EXAMPLE_PYTHON")}</h3>
+        <h3 className="mb-3 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.EXAMPLE_PYTHON")}
+        </h3>
         <CodeBlock
           language="python"
           code={`from anthropic import Anthropic
@@ -61,7 +69,9 @@ print(message.content[0].text)`}
         />
 
         {/* cURL Example */}
-        <h3 className="mt-8 mb-3 text-lg font-medium">{t("DOCS.CLAUDE_CODE.EXAMPLE_CURL")}</h3>
+        <h3 className="mt-8 mb-3 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.EXAMPLE_CURL")}
+        </h3>
         <CodeBlock
           language="bash"
           code={`curl -X POST https://api.unorouter.ai/v1/messages \\
@@ -81,13 +91,24 @@ print(message.content[0].text)`}
 
       {/* CTA */}
       <section className="border-border mt-16 border-t pt-12 text-center">
-        <h2 className="text-2xl font-semibold">{t("DOCS.CLAUDE_CODE.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS.CLAUDE_CODE.CTA_DESC")}</p>
+        <h2 className="text-2xl font-semibold">
+          {t("DOCS.CLAUDE_CODE.CTA_TITLE")}
+        </h2>
+        <p className="text-muted-foreground mt-2">
+          {t("DOCS.CLAUDE_CODE.CTA_DESC")}
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button nativeButton={false} render={<a href="https://api.unorouter.ai/register" />}>
+          <Button
+            nativeButton={false}
+            render={<a href="https://api.unorouter.ai/register" />}
+          >
             {t("DOCS.CLAUDE_CODE.CTA_SIGNUP")}
           </Button>
-          <Button nativeButton={false} variant="outline" render={<Link href="/models" />}>
+          <Button
+            nativeButton={false}
+            variant="outline"
+            render={<Link href="/models" />}
+          >
             {t("DOCS.CLAUDE_CODE.CTA_MODELS")}
           </Button>
         </div>

@@ -9,41 +9,41 @@ export function StatsPanel() {
   const { tokens, requests, tpm } = useLiveStats();
 
   return (
-    <div className="w-full max-w-lg mx-auto lg:mx-0 flex flex-col gap-px bg-border border border-border rounded-lg overflow-hidden backdrop-blur-md">
+    <div className="bg-border border-border mx-auto flex w-full max-w-lg flex-col gap-px overflow-hidden rounded-lg border backdrop-blur-md lg:mx-0">
       {/* Tokens served */}
-      <div className="bg-card/80 p-8 flex flex-col justify-center">
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+      <div className="bg-card/80 flex flex-col justify-center p-8">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
             {t("HOME.STATS_PANEL_TOKENS_SERVED")}
           </span>
-          <LuActivity className="h-3.5 w-3.5 text-muted-foreground" />
+          <LuActivity className="text-muted-foreground h-3.5 w-3.5" />
         </div>
-        <div className="text-4xl md:text-5xl lg:text-5xl font-bold text-foreground tracking-tight tabular-nums">
+        <div className="text-foreground text-4xl font-bold tracking-tight tabular-nums md:text-5xl lg:text-5xl">
           {tokens.toLocaleString()}
         </div>
       </div>
 
       {/* Sub-stats */}
-      <div className="grid grid-cols-2 gap-px bg-border">
-        <div className="bg-card/80 p-6 flex flex-col justify-between h-full">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
+      <div className="bg-border grid grid-cols-2 gap-px">
+        <div className="bg-card/80 flex h-full flex-col justify-between p-6">
+          <span className="text-muted-foreground mb-2 font-mono text-[10px] tracking-widest uppercase">
             {t("HOME.STATS_PANEL_REQUESTS")}
           </span>
-          <div className="text-2xl font-bold text-foreground tabular-nums">
+          <div className="text-foreground text-2xl font-bold tabular-nums">
             {requests.toLocaleString()}
           </div>
         </div>
-        <div className="bg-card/80 p-6 flex flex-col justify-between h-full">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+        <div className="bg-card/80 flex h-full flex-col justify-between p-6">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
               {t("HOME.STATS_PANEL_TOKENS_MIN")}
             </span>
-            <span className="text-[10px] text-green-500 font-mono">
+            <span className="font-mono text-[10px] text-green-500">
               {t("HOME.STATS_PANEL_LIVE")}
             </span>
           </div>
-          <div className="text-2xl font-bold text-foreground tabular-nums">
+          <div className="text-foreground text-2xl font-bold tabular-nums">
             {tpm.toLocaleString()}
           </div>
         </div>

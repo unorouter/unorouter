@@ -19,9 +19,13 @@ export default async function TermsPage() {
       </Link>
 
       <h1 className="mb-2 text-3xl font-bold">{t("TERMS.TITLE")}</h1>
-      <p className="text-muted-foreground mb-10 text-sm">{t("TERMS.LAST_UPDATED")}</p>
+      <p className="text-muted-foreground mb-10 text-sm">
+        {t("TERMS.LAST_UPDATED")}
+      </p>
 
-      <p className="text-muted-foreground mb-10 leading-relaxed">{t("TERMS.INTRO")}</p>
+      <p className="text-muted-foreground mb-10 leading-relaxed">
+        {t("TERMS.INTRO")}
+      </p>
 
       <Section title={t("TERMS.SERVICE_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
@@ -71,7 +75,9 @@ export default async function TermsPage() {
       </Section>
 
       <Section title={t("TERMS.IP_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">{t("TERMS.IP_CONTENT")}</p>
+        <p className="text-muted-foreground leading-relaxed">
+          {t("TERMS.IP_CONTENT")}
+        </p>
       </Section>
 
       <Section title={t("TERMS.DISCLAIMER_TITLE")}>
@@ -93,7 +99,9 @@ export default async function TermsPage() {
       </Section>
 
       <Section title={t("TERMS.LAW_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">{t("TERMS.LAW_CONTENT")}</p>
+        <p className="text-muted-foreground leading-relaxed">
+          {t("TERMS.LAW_CONTENT")}
+        </p>
       </Section>
 
       <Section title={t("TERMS.CHANGES_TITLE")}>

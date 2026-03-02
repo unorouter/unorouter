@@ -11,7 +11,10 @@ const RESET_LABELS: Record<string, string> = {
   monthly: "month",
 };
 
-function buildFeatures(plan: SubscriptionPlan, allModelsLabel: string): string[] {
+function buildFeatures(
+  plan: SubscriptionPlan,
+  allModelsLabel: string,
+): string[] {
   const features: string[] = [];
 
   const resetLabel = RESET_LABELS[plan.quotaResetPeriod];
@@ -19,8 +22,15 @@ function buildFeatures(plan: SubscriptionPlan, allModelsLabel: string): string[]
     features.push(`$${plan.quotaPerResetUsd} quota/${resetLabel}`);
   }
 
-  const unit = plan.durationUnit === "year" ? "year" : plan.durationUnit === "month" ? "month" : "day";
-  features.push(`${plan.durationValue} ${unit}${plan.durationValue > 1 ? "s" : ""} validity`);
+  const unit =
+    plan.durationUnit === "year"
+      ? "year"
+      : plan.durationUnit === "month"
+        ? "month"
+        : "day";
+  features.push(
+    `${plan.durationValue} ${unit}${plan.durationValue > 1 ? "s" : ""} validity`,
+  );
 
   features.push(allModelsLabel);
 
@@ -37,14 +47,17 @@ export function Pricing() {
     <div className="mx-auto max-w-6xl px-6 py-16">
       <div className="mb-12 text-center">
         <h1 className="text-4xl font-bold">{t("PRICING.TITLE")}</h1>
-        <p className="text-muted-foreground mt-3 text-lg">{t("PRICING.SUBTITLE")}</p>
+        <p className="text-muted-foreground mt-3 text-lg">
+          {t("PRICING.SUBTITLE")}
+        </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
         {plans.map((plan, i) => {
-          const multiplier = plan.priceAmount > 0
-            ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
-            : 0;
+          const multiplier =
+            plan.priceAmount > 0
+              ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
+              : 0;
           return (
             <PricingCard
               key={plan.id}

@@ -6,14 +6,14 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/webp"],
     qualities: [10, 25, 50, 75, 90, 100],
-    minimumCacheTTL: 60 * 60 * 24
-  }
+    minimumCacheTTL: 60 * 60 * 24,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin({
   experimental: {
-    createMessagesDeclaration: ["./public/i18n/en.json"]
-  }
+    createMessagesDeclaration: ["./public/i18n/en.json"],
+  },
 });
 
 export default withNextIntl(nextConfig);

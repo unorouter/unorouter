@@ -8,7 +8,7 @@ export function HeroStatsGrid() {
   const { data } = usePricingQuery();
 
   return (
-    <div className="grid grid-cols-3 gap-0 border-t border-border w-full">
+    <div className="border-border grid w-full grid-cols-3 gap-0 border-t">
       <StatCard
         label={t("HOME.STATS_MODELS")}
         value={data ? String(data.modelCount) : "—"}
@@ -30,16 +30,16 @@ export function HeroStatsGrid() {
 
 function StatCard(props: { label: string; value: string; indicator: string }) {
   return (
-    <div className="flex flex-col border border-border p-5 hover:bg-accent transition-colors duration-300 cursor-default">
-      <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest mb-3">
+    <div className="border-border hover:bg-accent flex cursor-default flex-col border p-5 transition-colors duration-300">
+      <span className="text-muted-foreground mb-3 font-mono text-[10px] tracking-widest uppercase">
         {props.label}
       </span>
-      <span className="text-2xl font-bold text-foreground tracking-tight">
+      <span className="text-foreground text-2xl font-bold tracking-tight">
         {props.value}
       </span>
-      <div className="flex items-center gap-2 mt-2">
-        <div className="w-1 h-1 bg-green-500 rounded-full" />
-        <span className="text-[10px] font-mono text-muted-foreground">
+      <div className="mt-2 flex items-center gap-2">
+        <div className="h-1 w-1 rounded-full bg-green-500" />
+        <span className="text-muted-foreground font-mono text-[10px]">
           {props.indicator}
         </span>
       </div>

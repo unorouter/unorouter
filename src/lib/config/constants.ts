@@ -11,7 +11,7 @@ export const LANGUAGES: {
   Flag: FunctionComponent<SVGAttributes<SVGElement>>;
 }[] = [
   { code: "EN", Flag: US },
-  { code: "DE", Flag: DE }
+  { code: "DE", Flag: DE },
 ];
 
 export type TranslationKey = Parameters<

@@ -60,7 +60,7 @@ export function LanguageToggle() {
           <Button
             variant="ghost"
             size="icon-sm"
-            className={isPending ? "transition-opacity opacity-30" : ""}
+            className={isPending ? "opacity-30 transition-opacity" : ""}
             aria-label="Switch language"
           />
         }

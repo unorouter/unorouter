@@ -1,5 +1,11 @@
 import { Link } from "@/i18n/navigation";
-import { LuBuilding2, LuEye, LuFileText, LuMail, LuMapPin } from "react-icons/lu";
+import {
+  LuBuilding2,
+  LuEye,
+  LuFileText,
+  LuMail,
+  LuMapPin,
+} from "react-icons/lu";
 import { useTranslations } from "next-intl";
 
 export function Footer() {
@@ -7,12 +13,12 @@ export function Footer() {
   const year = String(new Date().getFullYear());
 
   return (
-    <footer className="relative bg-background border-t border-border py-16">
-      <div className="max-w-360 mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+    <footer className="bg-background border-border relative border-t py-16">
+      <div className="relative z-10 mx-auto max-w-360 px-6">
+        <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="font-bold text-foreground text-lg">UnoRouter</h3>
+            <h3 className="text-foreground text-lg font-bold">UnoRouter</h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t("FOOTER.DESCRIPTION")}
             </p>
@@ -20,23 +26,25 @@ export function Footer() {
 
           {/* Product */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">{t("FOOTER.PRODUCT")}</h4>
+            <h4 className="text-foreground font-semibold">
+              {t("FOOTER.PRODUCT")}
+            </h4>
             <div className="space-y-3">
               <FooterLink
                 href="/models"
-                icon={<LuBuilding2 className="h-4 w-4 text-muted-foreground" />}
+                icon={<LuBuilding2 className="text-muted-foreground h-4 w-4" />}
               >
                 {t("FOOTER.MODELS")}
               </FooterLink>
               <FooterLink
                 href="/pricing"
-                icon={<LuMapPin className="h-4 w-4 text-muted-foreground" />}
+                icon={<LuMapPin className="text-muted-foreground h-4 w-4" />}
               >
                 {t("FOOTER.PRICING")}
               </FooterLink>
               <FooterLink
                 href="/docs/claude-code"
-                icon={<LuFileText className="h-4 w-4 text-muted-foreground" />}
+                icon={<LuFileText className="text-muted-foreground h-4 w-4" />}
               >
                 {t("FOOTER.DOCUMENTATION")}
               </FooterLink>
@@ -45,17 +53,19 @@ export function Footer() {
 
           {/* Legal */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">{t("FOOTER.LEGAL")}</h4>
+            <h4 className="text-foreground font-semibold">
+              {t("FOOTER.LEGAL")}
+            </h4>
             <div className="space-y-3">
               <FooterLink
                 href="/terms"
-                icon={<LuFileText className="h-4 w-4 text-muted-foreground" />}
+                icon={<LuFileText className="text-muted-foreground h-4 w-4" />}
               >
                 {t("FOOTER.TERMS")}
               </FooterLink>
               <FooterLink
                 href="/privacy"
-                icon={<LuEye className="h-4 w-4 text-muted-foreground" />}
+                icon={<LuEye className="text-muted-foreground h-4 w-4" />}
               >
                 {t("FOOTER.PRIVACY")}
               </FooterLink>
@@ -64,14 +74,18 @@ export function Footer() {
 
           {/* Contact */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-foreground">{t("FOOTER.CONTACT_TITLE")}</h4>
+            <h4 className="text-foreground font-semibold">
+              {t("FOOTER.CONTACT_TITLE")}
+            </h4>
             <div className="space-y-2">
-              <p className="text-muted-foreground text-sm">{t("FOOTER.CONTACT_SUBTITLE")}</p>
+              <p className="text-muted-foreground text-sm">
+                {t("FOOTER.CONTACT_SUBTITLE")}
+              </p>
               <a
                 href="mailto:support@unorouter.ai"
-                className="text-foreground/80 hover:text-foreground text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                className="text-foreground/80 hover:text-foreground flex items-center gap-2 text-sm font-medium transition-colors duration-200"
               >
-                <LuMail className="h-4 w-4 text-muted-foreground" />
+                <LuMail className="text-muted-foreground h-4 w-4" />
                 support@unorouter.ai
               </a>
             </div>
@@ -80,7 +94,7 @@ export function Footer() {
                 href="https://github.com/QuantumNous"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200 block"
+                className="text-muted-foreground hover:text-foreground block text-sm transition-colors duration-200"
               >
                 {t("FOOTER.SOCIAL_GITHUB")}
               </a>
@@ -88,7 +102,7 @@ export function Footer() {
                 href="https://x.com/unorouter"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground text-sm transition-colors duration-200 block"
+                className="text-muted-foreground hover:text-foreground block text-sm transition-colors duration-200"
               >
                 {t("FOOTER.SOCIAL_X")}
               </a>
@@ -97,8 +111,8 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-border pt-8">
-          <div className="text-center pt-6 border-t border-border">
+        <div className="border-border border-t pt-8">
+          <div className="border-border border-t pt-6 text-center">
             <p className="text-muted-foreground text-xs">
               {t("FOOTER.LEGAL_DISCLAIMER")}
               <Link href="/terms">
@@ -113,8 +127,8 @@ export function Footer() {
                 </span>
               </Link>
             </p>
-            <div className="flex justify-center items-center gap-2 mt-4">
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+            <div className="mt-4 flex items-center justify-center gap-2">
+              <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
               <p className="text-muted-foreground text-xs">
                 {t("FOOTER.COPYRIGHT", { year })}
               </p>
@@ -133,7 +147,7 @@ function FooterLink(props: {
 }) {
   return (
     <Link href={props.href}>
-      <div className="flex items-center gap-2 text-muted-foreground hover:text-foreground text-sm cursor-pointer transition-colors duration-200">
+      <div className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-2 text-sm transition-colors duration-200">
         {props.icon}
         {props.children}
       </div>

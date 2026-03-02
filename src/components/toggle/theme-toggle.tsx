@@ -7,7 +7,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { createAnimation, getRandomAnimation } from "@/components/ui/theme-animations";
+import {
+  createAnimation,
+  getRandomAnimation,
+} from "@/components/ui/theme-animations";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
@@ -73,7 +76,9 @@ export function ThemeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="ghost" size="icon-sm" aria-label="Toggle theme" />}
+        render={
+          <Button variant="ghost" size="icon-sm" aria-label="Toggle theme" />
+        }
       >
         <LuSun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
         <LuMoon className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />

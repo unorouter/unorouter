@@ -19,9 +19,7 @@ type Props = {
 export function CompareTable(props: Props) {
   return (
     <div className="mt-20">
-      <h2 className="mb-8 text-center text-2xl font-bold">
-        {props.title}
-      </h2>
+      <h2 className="mb-8 text-center text-2xl font-bold">{props.title}</h2>
       <div className="border-border overflow-x-auto border">
         <table className="w-full text-sm">
           <thead>
@@ -73,7 +71,10 @@ function CompareRow(props: {
   );
 }
 
-function CompareCell(props: { value: string | boolean; highlighted?: boolean }) {
+function CompareCell(props: {
+  value: string | boolean;
+  highlighted?: boolean;
+}) {
   return (
     <td
       className={`px-6 py-3 text-center ${props.highlighted ? "bg-primary/5" : ""}`}

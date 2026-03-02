@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     console.error("RESEND_WEBHOOK_SECRET is not set");
     return NextResponse.json(
       { error: "Webhook secret not configured" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   if (!svixId || !svixTimestamp || !svixSignature) {
     return NextResponse.json(
       { error: "Missing svix headers" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -67,7 +67,7 @@ export async function POST(request: Request) {
         subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
         text: email?.text ?? `(empty email from ${from})`,
         html: email?.html ?? undefined,
-        replyTo: from
+        replyTo: from,
       });
     } catch (error) {
       console.error("Email forward failed:", error);

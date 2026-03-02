@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "prettier": "prettier --write .",
     "openapi": "orval --config ./orval.config.ts"
   },
   "dependencies": {

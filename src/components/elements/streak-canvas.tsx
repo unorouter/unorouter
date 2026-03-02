@@ -98,7 +98,7 @@ export function StreakCanvas() {
           line.x - line.length,
           line.y,
           line.x,
-          line.y
+          line.y,
         );
         gradient.addColorStop(0, transparent);
         gradient.addColorStop(0.2, transparent);
@@ -123,8 +123,8 @@ export function StreakCanvas() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-background">
-      <canvas ref={canvasRef} className="w-full h-full opacity-60" />
+    <div className="bg-background pointer-events-none fixed inset-0 z-0">
+      <canvas ref={canvasRef} className="h-full w-full opacity-60" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] opacity-80" />
     </div>
   );

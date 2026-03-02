@@ -85,7 +85,11 @@ function processPlans(
       const durationUnit = p.duration_unit ?? "month";
       const durationValue = p.duration_value ?? 1;
       const resetPeriod = p.quota_reset_period ?? "never";
-      const resets = estimateResetsPerDuration(resetPeriod, durationUnit, durationValue);
+      const resets = estimateResetsPerDuration(
+        resetPeriod,
+        durationUnit,
+        durationValue,
+      );
 
       return {
         id: p.id ?? 0,

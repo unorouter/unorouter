@@ -119,44 +119,89 @@
 
 /* Keyframe Animations */
 @keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scaleIn {
-  0% { opacity: 0; transform: scale(0.9); }
-  100% { opacity: 1; transform: scale(1); }
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes gradientX {
-  0%, 100% { transform: translateX(-100%); }
-  50% { transform: translateX(100%); }
+  0%,
+  100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes customBlink {
-  0%, 90% { opacity: 1; transform: scale(1); }
-  95% { opacity: 0.7; transform: scale(0.98); }
-  100% { opacity: 1; transform: scale(1); }
+  0%,
+  90% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  95% {
+    opacity: 0.7;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes widthExpand {
-  0% { width: 65%; }
-  100% { width: 85%; }
+  0% {
+    width: 65%;
+  }
+  100% {
+    width: 85%;
+  }
 }
 
 /* Utility animations */
@@ -203,7 +248,7 @@ html.dark .shiki span {
   }
 
   body {
-    @apply bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary selection:text-primary-foreground;
+    @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden font-sans;
   }
 
   button {

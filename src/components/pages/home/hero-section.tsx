@@ -9,23 +9,23 @@ export async function HeroSection() {
   const t = await getTranslations();
 
   return (
-    <main className="relative z-10 pt-48 pb-32 px-6 max-w-360 mx-auto flex flex-col lg:flex-row items-center gap-20">
+    <main className="relative z-10 mx-auto flex max-w-360 flex-col items-center gap-20 px-6 pt-48 pb-32 lg:flex-row">
       {/* Left column */}
-      <div className="flex-1 w-full text-center lg:text-left space-y-10">
+      <div className="w-full flex-1 space-y-10 text-center lg:text-left">
         <div className="space-y-6">
           {/* Status badge */}
-          <div className="inline-flex items-center gap-3 px-3 py-1.5 border border-border bg-secondary backdrop-blur-md rounded-sm">
-            <span className="flex h-1.5 w-1.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500" />
+          <div className="border-border bg-secondary inline-flex items-center gap-3 rounded-sm border px-3 py-1.5 backdrop-blur-md">
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
             </span>
-            <span className="text-[10px] font-mono text-muted-foreground tracking-[0.2em] uppercase">
+            <span className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
               {t("HOME.HERO_BADGE")}
             </span>
           </div>
 
           {/* Title */}
-          <h1 className="text-[2.5rem] sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-foreground leading-[1.05]">
+          <h1 className="text-foreground text-[2.5rem] leading-[1.05] font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             {t("HOME.HERO_TITLE_LINE1")} <br />
             <span className="text-muted-foreground">
               <ScrambleText
@@ -37,26 +37,26 @@ export async function HeroSection() {
           </h1>
 
           {/* Description */}
-          <p className="text-base text-muted-foreground max-w-lg mx-auto lg:mx-0 font-light leading-relaxed font-mono">
+          <p className="text-muted-foreground mx-auto max-w-lg font-mono text-base leading-relaxed font-light lg:mx-0">
             {t("HOME.HERO_SUBTITLE")}
           </p>
         </div>
 
         {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 font-mono text-xs">
+        <div className="flex flex-col items-center justify-center gap-4 font-mono text-xs sm:flex-row lg:justify-start">
           <a
             href="https://api.unorouter.ai/register"
-            className="h-11 px-8 bg-primary text-primary-foreground font-bold uppercase tracking-widest hover:bg-primary/80 transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
+            className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-11 w-full items-center justify-center gap-2 px-8 font-bold tracking-widest uppercase transition-colors sm:w-auto"
           >
             <LuZap className="h-3.5 w-3.5" />
             {t("HOME.HERO_CTA_PRIMARY")}
           </a>
           <Link
             href="/models"
-            className="h-11 px-8 bg-transparent border border-border text-foreground font-bold uppercase tracking-widest hover:border-foreground transition-all w-full sm:w-auto flex items-center justify-center gap-2 group"
+            className="border-border text-foreground hover:border-foreground group flex h-11 w-full items-center justify-center gap-2 border bg-transparent px-8 font-bold tracking-widest uppercase transition-all sm:w-auto"
           >
             {t("HOME.HERO_CTA_SECONDARY")}
-            <LuChevronRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+            <LuChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
@@ -65,10 +65,9 @@ export async function HeroSection() {
       </div>
 
       {/* Right column - Stats panel */}
-      <div className="flex-1 w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end">
+      <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">
         <StatsPanel />
       </div>
     </main>
   );
 }
-

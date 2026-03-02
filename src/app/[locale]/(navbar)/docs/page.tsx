@@ -13,7 +13,7 @@ export default async function DocsPage() {
         <h1 className="text-4xl font-bold tracking-tight">
           {t("DOCS_INDEX.TITLE")}
         </h1>
-        <p className="text-muted-foreground mt-4 text-lg font-mono max-w-2xl mx-auto">
+        <p className="text-muted-foreground mx-auto mt-4 max-w-2xl font-mono text-lg">
           {t("DOCS_INDEX.SUBTITLE")}
         </p>
       </div>
@@ -25,13 +25,9 @@ export default async function DocsPage() {
       </div>
 
       {/* CTA */}
-      <section className="mt-20 border-t border-border pt-12 text-center">
-        <h2 className="text-2xl font-semibold">
-          {t("DOCS_INDEX.CTA_TITLE")}
-        </h2>
-        <p className="text-muted-foreground mt-2">
-          {t("DOCS_INDEX.CTA_DESC")}
-        </p>
+      <section className="border-border mt-20 border-t pt-12 text-center">
+        <h2 className="text-2xl font-semibold">{t("DOCS_INDEX.CTA_TITLE")}</h2>
+        <p className="text-muted-foreground mt-2">{t("DOCS_INDEX.CTA_DESC")}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}

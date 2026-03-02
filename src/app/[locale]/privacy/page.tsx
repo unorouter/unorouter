@@ -19,27 +19,39 @@ export default async function PrivacyPage() {
       </Link>
 
       <h1 className="mb-2 text-3xl font-bold">{t("PRIVACY.TITLE")}</h1>
-      <p className="text-muted-foreground mb-10 text-sm">{t("PRIVACY.LAST_UPDATED")}</p>
+      <p className="text-muted-foreground mb-10 text-sm">
+        {t("PRIVACY.LAST_UPDATED")}
+      </p>
 
-      <p className="text-muted-foreground mb-10 leading-relaxed">{t("PRIVACY.INTRO")}</p>
+      <p className="text-muted-foreground mb-10 leading-relaxed">
+        {t("PRIVACY.INTRO")}
+      </p>
 
       <Section title={t("PRIVACY.COLLECTION_TITLE")}>
-        <h3 className="mt-4 mb-2 font-medium">{t("PRIVACY.COLLECTION_VOLUNTARY_TITLE")}</h3>
+        <h3 className="mt-4 mb-2 font-medium">
+          {t("PRIVACY.COLLECTION_VOLUNTARY_TITLE")}
+        </h3>
         <p className="text-muted-foreground leading-relaxed">
           {t("PRIVACY.COLLECTION_VOLUNTARY")}
         </p>
-        <h3 className="mt-4 mb-2 font-medium">{t("PRIVACY.COLLECTION_AUTO_TITLE")}</h3>
+        <h3 className="mt-4 mb-2 font-medium">
+          {t("PRIVACY.COLLECTION_AUTO_TITLE")}
+        </h3>
         <p className="text-muted-foreground leading-relaxed">
           {t("PRIVACY.COLLECTION_AUTO")}
         </p>
-        <h3 className="mt-4 mb-2 font-medium">{t("PRIVACY.COLLECTION_COOKIES_TITLE")}</h3>
+        <h3 className="mt-4 mb-2 font-medium">
+          {t("PRIVACY.COLLECTION_COOKIES_TITLE")}
+        </h3>
         <p className="text-muted-foreground leading-relaxed">
           {t("PRIVACY.COLLECTION_COOKIES")}
         </p>
       </Section>
 
       <Section title={t("PRIVACY.USE_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">{t("PRIVACY.USE_CONTENT")}</p>
+        <p className="text-muted-foreground leading-relaxed">
+          {t("PRIVACY.USE_CONTENT")}
+        </p>
       </Section>
 
       <Section title={t("PRIVACY.SHARING_TITLE")}>

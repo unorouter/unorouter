@@ -16,11 +16,15 @@ export default async function CodexPage() {
       </div>
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CODEX.TITLE")}</h1>
-      <p className="text-muted-foreground mt-4 text-lg">{t("DOCS.CODEX.SUBTITLE")}</p>
+      <p className="text-muted-foreground mt-4 text-lg">
+        {t("DOCS.CODEX.SUBTITLE")}
+      </p>
 
       {/* Quick Start */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.CODEX.QUICK_START")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.CODEX.QUICK_START")}
+        </h2>
         <p className="text-muted-foreground mb-6 text-sm">
           {t("DOCS.CODEX.QUICK_START_DESC")}
         </p>
@@ -37,9 +41,13 @@ codex`}
 
       {/* Code Examples */}
       <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-semibold">{t("DOCS.CODEX.CODE_EXAMPLES")}</h2>
+        <h2 className="mb-4 text-2xl font-semibold">
+          {t("DOCS.CODEX.CODE_EXAMPLES")}
+        </h2>
 
-        <h3 className="mb-3 text-lg font-medium">{t("DOCS.CODEX.EXAMPLE_PYTHON")}</h3>
+        <h3 className="mb-3 text-lg font-medium">
+          {t("DOCS.CODEX.EXAMPLE_PYTHON")}
+        </h3>
         <CodeBlock
           language="python"
           code={`from openai import OpenAI
@@ -59,7 +67,9 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)`}
         />
 
-        <h3 className="mt-8 mb-3 text-lg font-medium">{t("DOCS.CODEX.EXAMPLE_TYPESCRIPT")}</h3>
+        <h3 className="mt-8 mb-3 text-lg font-medium">
+          {t("DOCS.CODEX.EXAMPLE_TYPESCRIPT")}
+        </h3>
         <CodeBlock
           language="typescript"
           code={`import OpenAI from "openai";
@@ -85,10 +95,17 @@ console.log(response.choices[0].message.content);`}
         <h2 className="text-2xl font-semibold">{t("DOCS.CODEX.CTA_TITLE")}</h2>
         <p className="text-muted-foreground mt-2">{t("DOCS.CODEX.CTA_DESC")}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button nativeButton={false} render={<a href="https://api.unorouter.ai/register" />}>
+          <Button
+            nativeButton={false}
+            render={<a href="https://api.unorouter.ai/register" />}
+          >
             {t("DOCS.CODEX.CTA_SIGNUP")}
           </Button>
-          <Button nativeButton={false} variant="outline" render={<Link href="/models" />}>
+          <Button
+            nativeButton={false}
+            variant="outline"
+            render={<Link href="/models" />}
+          >
             {t("DOCS.CODEX.CTA_MODELS")}
           </Button>
         </div>
