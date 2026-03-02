@@ -1,6 +1,7 @@
 "use client";
 
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { useLiveStats } from "@/hooks/stats-hook";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -34,6 +35,7 @@ function getVendorIcon(vendor: string): string | null {
 export function ModelTicker(props: Props) {
   const t = useTranslations();
   const { data } = usePricingQuery();
+  const { tps } = useLiveStats();
   const models = data?.models ?? [];
 
   if (models.length === 0) return null;
@@ -43,26 +45,26 @@ export function ModelTicker(props: Props) {
   return (
     <div
       className={cn(
-        "border-t border-border bg-background py-5 hidden md:flex",
-        props.className
+        "border-border bg-background relative z-10 hidden border-t py-5 md:flex",
+        props.className,
       )}
     >
-      <div className="max-w-360 mx-auto w-full px-6 flex items-center gap-6">
+      <div className="mx-auto flex w-full max-w-360 items-center gap-6">
         {/* Live indicator */}
-        <div className="flex items-center gap-3 text-[10px] text-foreground font-mono uppercase tracking-widest border border-border bg-secondary px-3 py-1 shrink-0">
-          <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-          {t("HOME.TICKER_LIVE_INFERENCE")}
+        <div className="text-foreground border-border bg-secondary flex shrink-0 items-center gap-3 border px-3 py-1 font-mono text-xs font-medium tracking-widest uppercase">
+          <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
+          <span>{t("HOME.TICKER_LIVE_INFERENCE")}</span>
         </div>
 
         {/* Scrolling models */}
-        <div className="flex-1 overflow-hidden relative">
-          <div className="flex gap-6 animate-marquee whitespace-nowrap font-mono text-xs">
+        <div className="relative flex-1 overflow-hidden">
+          <div className="animate-marquee flex gap-6 font-mono text-xs whitespace-nowrap">
             {tripled.map((model, i) => {
               const icon = getVendorIcon(model.vendor.name);
               return (
                 <div
                   key={`${model.name}-${i}`}
-                  className="flex items-center gap-3 opacity-40 hover:opacity-100 transition-opacity cursor-default"
+                  className="flex cursor-default items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
                   {icon && (
                     <Image
@@ -70,10 +72,10 @@ export function ModelTicker(props: Props) {
                       alt={model.vendor.name}
                       width={16}
                       height={16}
-                      className="w-4 h-4 rounded object-contain invert dark:invert-0"
+                      className="h-4 w-4 rounded object-contain invert dark:invert-0"
                     />
                   )}
-                  <span className="text-foreground font-medium tracking-wide text-[11px] uppercase">
+                  <span className="text-foreground text-[11px] font-medium tracking-wide uppercase">
                     {model.name}
                   </span>
                 </div>
@@ -81,13 +83,14 @@ export function ModelTicker(props: Props) {
             })}
           </div>
           {/* Fade edges */}
-          <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-background to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-10 bg-linear-to-l from-background to-transparent pointer-events-none" />
+          <div className="from-background pointer-events-none absolute inset-y-0 left-0 w-10 bg-linear-to-r to-transparent" />
+          <div className="from-background pointer-events-none absolute inset-y-0 right-0 w-10 bg-linear-to-l to-transparent" />
         </div>
 
         {/* TPS counter */}
-        <div className="text-[10px] font-mono text-muted-foreground shrink-0">
-          {t("HOME.TICKER_TPS")}: <span className="text-foreground font-bold">142.5</span>
+        <div className="text-foreground/70 shrink-0 font-mono text-xs font-medium">
+          <span>{t("HOME.TICKER_TPS")}</span>:{" "}
+          <span className="text-foreground font-bold">{tps}</span>
         </div>
       </div>
     </div>
