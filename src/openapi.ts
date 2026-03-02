@@ -7,513 +7,509 @@
  */
 import { customFetch } from "./lib/custom-fetch";
 export type AddChannelRequestChannelChannelInfoMultiKeyDisabledReason = {
-  [key: string]: string | null;
-} | null;
+  [key: string]: string;
+};
 
 export type AddChannelRequestChannelChannelInfoMultiKeyDisabledTime = {
-  [key: string]: number | null;
-} | null;
+  [key: string]: number;
+};
 
 export type AddChannelRequestChannelChannelInfoMultiKeyStatusList = {
   [key: string]: number;
 };
 
 export type AddChannelRequestChannelChannelInfo = {
-  is_multi_key?: boolean;
+  is_multi_key: boolean;
   multi_key_disabled_reason?: AddChannelRequestChannelChannelInfoMultiKeyDisabledReason;
   multi_key_disabled_time?: AddChannelRequestChannelChannelInfoMultiKeyDisabledTime;
-  multi_key_mode?: string;
-  multi_key_polling_index?: number;
-  multi_key_size?: number;
-  multi_key_status_list?: AddChannelRequestChannelChannelInfoMultiKeyStatusList;
+  multi_key_mode: string;
+  multi_key_polling_index: number;
+  multi_key_size: number;
+  multi_key_status_list: AddChannelRequestChannelChannelInfoMultiKeyStatusList;
 };
 
 export type AddChannelRequestChannel = {
-  auto_ban?: number | null;
-  balance?: number;
-  balance_updated_time?: number;
-  base_url?: string | null;
-  channel_info?: AddChannelRequestChannelChannelInfo;
-  created_time?: number;
-  group?: string;
-  header_override?: string | null;
-  id?: number;
-  key?: string;
-  model_mapping?: string | null;
-  models?: string;
-  name?: string;
-  openai_organization?: string | null;
-  other?: string;
-  other_info?: string;
-  param_override?: string | null;
-  priority?: number | null;
+  auto_ban: number | null;
+  balance: number;
+  balance_updated_time: number;
+  base_url: string | null;
+  channel_info: AddChannelRequestChannelChannelInfo;
+  created_time: number;
+  group: string;
+  header_override: string | null;
+  id: number;
+  key: string;
+  model_mapping: string | null;
+  models: string;
+  name: string;
+  openai_organization: string | null;
+  other: string;
+  other_info: string;
+  param_override: string | null;
+  priority: number | null;
   /** @maxLength 255 */
-  remark?: string | null;
-  response_time?: number;
-  setting?: string | null;
-  settings?: string;
-  status?: number;
-  status_code_mapping?: string | null;
-  tag?: string | null;
-  test_model?: string | null;
-  test_time?: number;
-  type?: number;
-  used_quota?: number;
+  remark: string | null;
+  response_time: number;
+  setting: string | null;
+  settings: string;
+  status: number;
+  status_code_mapping: string | null;
+  tag: string | null;
+  test_model: string | null;
+  test_time: number;
+  type: number;
+  used_quota: number;
   /** @minimum 0 */
-  weight?: number | null;
+  weight: number | null;
 } | null;
 
 /**
  * AddChannelRequest schema
  */
 export interface AddChannelRequest {
-  batch_add_set_key_prefix_2_name?: boolean;
-  channel?: AddChannelRequestChannel;
-  mode?: string;
-  multi_key_mode?: string;
+  batch_add_set_key_prefix_2_name: boolean;
+  channel: AddChannelRequestChannel;
+  mode: string;
+  multi_key_mode: string;
 }
 
 /**
  * AdminBindSubscriptionRequest schema
  */
 export interface AdminBindSubscriptionRequest {
-  plan_id?: number;
-  user_id?: number;
+  plan_id: number;
+  user_id: number;
 }
 
 /**
  * AdminCompleteTopupRequest schema
  */
 export interface AdminCompleteTopupRequest {
-  trade_no?: string;
+  trade_no: string;
 }
 
 /**
  * AdminCreateUserSubscriptionRequest schema
  */
 export interface AdminCreateUserSubscriptionRequest {
-  plan_id?: number;
+  plan_id: number;
 }
 
 /**
  * AdminUpdateSubscriptionPlanStatusRequest schema
  */
 export interface AdminUpdateSubscriptionPlanStatusRequest {
-  enabled?: boolean | null;
+  enabled: boolean | null;
 }
 
 export type AdminUpsertSubscriptionPlanRequestPlan = {
-  created_at?: number;
-  creem_product_id?: string;
-  currency?: string;
-  custom_seconds?: number;
-  duration_unit?: string;
-  duration_value?: number;
-  enabled?: boolean;
-  id?: number;
-  max_purchase_per_user?: number;
-  price_amount?: number;
-  quota_reset_custom_seconds?: number;
-  quota_reset_period?: string;
-  sort_order?: number;
-  stripe_price_id?: string;
-  subtitle?: string;
-  title?: string;
-  total_amount?: number;
-  updated_at?: number;
-  upgrade_group?: string;
+  created_at: number;
+  creem_product_id: string;
+  currency: string;
+  custom_seconds: number;
+  duration_unit: string;
+  duration_value: number;
+  enabled: boolean;
+  id: number;
+  max_purchase_per_user: number;
+  price_amount: number;
+  quota_reset_custom_seconds: number;
+  quota_reset_period: string;
+  sort_order: number;
+  stripe_price_id: string;
+  subtitle: string;
+  title: string;
+  total_amount: number;
+  updated_at: number;
+  upgrade_group: string;
 };
 
 /**
  * AdminUpsertSubscriptionPlanRequest schema
  */
 export interface AdminUpsertSubscriptionPlanRequest {
-  plan?: AdminUpsertSubscriptionPlanRequestPlan;
+  plan: AdminUpsertSubscriptionPlanRequestPlan;
 }
 
 /**
  * AmountRequest schema
  */
 export interface AmountRequest {
-  amount?: number;
+  amount: number;
 }
-
-export type ApiResponseData = unknown | null;
 
 /**
  * ApiResponse schema
  */
 export interface ApiResponse {
-  data?: ApiResponseData;
-  message?: string;
-  success?: boolean;
+  data?: unknown;
+  message: string;
+  success: boolean;
 }
 
 /**
  * AudioTranscriptionResponse schema
  */
 export interface AudioTranscriptionResponse {
-  text?: string;
+  text: string;
 }
 
 /**
  * BillingPreferenceRequest schema
  */
 export interface BillingPreferenceRequest {
-  billing_preference?: string;
+  billing_preference: string;
 }
 
 /**
  * ChannelBalanceResponse schema
  */
 export interface ChannelBalanceResponse {
-  balance?: number | null;
-  message?: string;
-  success?: boolean;
+  balance?: number;
+  message: string;
+  success: boolean;
 }
 
 /**
  * ChannelBatch schema
  */
 export interface ChannelBatch {
-  ids?: number[];
-  tag?: string | null;
+  ids: number[];
+  tag: string | null;
 }
 
 /**
  * ChannelTag schema
  */
 export interface ChannelTag {
-  groups?: string | null;
-  header_override?: string | null;
-  model_mapping?: string | null;
-  models?: string | null;
-  new_tag?: string | null;
-  param_override?: string | null;
-  priority?: number | null;
-  tag?: string;
+  groups: string | null;
+  header_override: string | null;
+  model_mapping: string | null;
+  models: string | null;
+  new_tag: string | null;
+  param_override: string | null;
+  priority: number | null;
+  tag: string;
   /** @minimum 0 */
-  weight?: number | null;
+  weight: number | null;
 }
 
 export type ChatCompletionResponseChoicesItemMessage = {
-  content?: string;
-  role?: string;
+  content: string;
+  role: string;
 };
 
 export type ChatCompletionResponseChoicesItem = {
-  finish_reason?: string;
-  index?: number;
-  message?: ChatCompletionResponseChoicesItemMessage;
+  finish_reason: string;
+  index: number;
+  message: ChatCompletionResponseChoicesItemMessage;
 };
 
 export type ChatCompletionResponseUsage = {
-  completion_tokens?: number;
-  prompt_tokens?: number;
-  total_tokens?: number;
+  completion_tokens: number;
+  prompt_tokens: number;
+  total_tokens: number;
 };
 
 /**
  * ChatCompletionResponse schema
  */
 export interface ChatCompletionResponse {
-  choices?: ChatCompletionResponseChoicesItem[];
-  created?: number;
-  id?: string;
-  model?: string;
-  object?: string;
-  usage?: ChatCompletionResponseUsage;
+  choices: ChatCompletionResponseChoicesItem[];
+  created: number;
+  id: string;
+  model: string;
+  object: string;
+  usage: ChatCompletionResponseUsage;
 }
 
 /**
  * ClaudeMessageResponse schema
  */
 export interface ClaudeMessageResponse {
-  content?: unknown[];
-  id?: string;
-  model?: string;
-  role?: string;
-  stop_reason?: string;
-  stop_sequence?: string | null;
-  type?: string;
-  usage?: unknown;
+  content: unknown[];
+  id: string;
+  model: string;
+  role: string;
+  stop_reason: string;
+  stop_sequence: string | null;
+  type: string;
+  usage: unknown;
 }
 
 /**
  * CodexUsageData schema
  */
 export interface CodexUsageData {
-  data?: unknown;
-  message?: string;
-  success?: boolean;
-  upstream_status?: number;
+  data: unknown;
+  message: string;
+  success: boolean;
+  upstream_status: number;
 }
 
 export type CompletionResponseUsage = {
-  completion_tokens?: number;
-  prompt_tokens?: number;
-  total_tokens?: number;
+  completion_tokens: number;
+  prompt_tokens: number;
+  total_tokens: number;
 };
 
 /**
  * CompletionResponse schema
  */
 export interface CompletionResponse {
-  choices?: unknown[];
-  created?: number;
-  id?: string;
-  model?: string;
-  object?: string;
-  usage?: CompletionResponseUsage;
+  choices: unknown[];
+  created: number;
+  id: string;
+  model: string;
+  object: string;
+  usage: CompletionResponseUsage;
 }
 
 /**
  * CreateCustomOAuthProviderRequest schema
  */
 export interface CreateCustomOAuthProviderRequest {
-  access_denied_message?: string;
-  access_policy?: string;
-  auth_style?: number;
-  authorization_endpoint?: string;
-  client_id?: string;
-  client_secret?: string;
-  display_name_field?: string;
-  email_field?: string;
-  enabled?: boolean;
-  icon?: string;
-  name?: string;
-  scopes?: string;
-  slug?: string;
-  token_endpoint?: string;
-  user_id_field?: string;
-  user_info_endpoint?: string;
-  username_field?: string;
-  well_known?: string;
+  access_denied_message: string;
+  access_policy: string;
+  auth_style: number;
+  authorization_endpoint: string;
+  client_id: string;
+  client_secret: string;
+  display_name_field: string;
+  email_field: string;
+  enabled: boolean;
+  icon: string;
+  name: string;
+  scopes: string;
+  slug: string;
+  token_endpoint: string;
+  user_id_field: string;
+  user_info_endpoint: string;
+  username_field: string;
+  well_known: string;
 }
 
 /**
  * CreemPayRequest schema
  */
 export interface CreemPayRequest {
-  payment_method?: string;
-  product_id?: string;
+  payment_method: string;
+  product_id: string;
 }
 
 export type DeploymentRequestContainerConfigEnvVariables = {
-  [key: string]: string | null;
-} | null;
+  [key: string]: string;
+};
 
 export type DeploymentRequestContainerConfigSecretEnvVariables = {
-  [key: string]: string | null;
-} | null;
+  [key: string]: string;
+};
 
 export type DeploymentRequestContainerConfig = {
-  args?: (string | null)[] | null;
-  entrypoint?: (string | null)[] | null;
+  args?: string[];
+  entrypoint?: string[];
   env_variables?: DeploymentRequestContainerConfigEnvVariables;
-  replica_count?: number;
+  replica_count: number;
   secret_env_variables?: DeploymentRequestContainerConfigSecretEnvVariables;
-  traffic_port?: number | null;
+  traffic_port?: number;
 };
 
 export type DeploymentRequestRegistryConfig = {
-  image_url?: string;
-  registry_secret?: string | null;
-  registry_username?: string | null;
+  image_url: string;
+  registry_secret?: string;
+  registry_username?: string;
 };
 
 /**
  * DeploymentRequest schema
  */
 export interface DeploymentRequest {
-  container_config?: DeploymentRequestContainerConfig;
-  duration_hours?: number;
-  gpus_per_container?: number;
-  hardware_id?: number;
-  location_ids?: number[];
-  registry_config?: DeploymentRequestRegistryConfig;
-  resource_private_name?: string;
+  container_config: DeploymentRequestContainerConfig;
+  duration_hours: number;
+  gpus_per_container: number;
+  hardware_id: number;
+  location_ids: number[];
+  registry_config: DeploymentRequestRegistryConfig;
+  resource_private_name: string;
 }
 
 export type EmbeddingResponseDataItem = {
-  embedding?: number[];
-  index?: number;
-  object?: string;
+  embedding: number[];
+  index: number;
+  object: string;
 };
 
 export type EmbeddingResponseUsageCompletionTokensDetails = {
-  audio_tokens?: number;
-  reasoning_tokens?: number;
-  text_tokens?: number;
+  audio_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 };
 
-export type EmbeddingResponseUsageCost = unknown | null;
-
 export type EmbeddingResponseUsageInputTokensDetails = {
-  audio_tokens?: number;
-  cached_tokens?: number;
-  image_tokens?: number;
-  text_tokens?: number;
+  audio_tokens: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 } | null;
 
 export type EmbeddingResponseUsagePromptTokensDetails = {
-  audio_tokens?: number;
-  cached_tokens?: number;
-  image_tokens?: number;
-  text_tokens?: number;
+  audio_tokens: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 };
 
 export type EmbeddingResponseUsage = {
-  claude_cache_creation_1_h_tokens?: number;
-  claude_cache_creation_5_m_tokens?: number;
-  completion_tokens?: number;
-  completion_tokens_details?: EmbeddingResponseUsageCompletionTokensDetails;
-  cost?: EmbeddingResponseUsageCost;
-  input_tokens?: number;
-  input_tokens_details?: EmbeddingResponseUsageInputTokensDetails;
-  output_tokens?: number;
-  prompt_cache_hit_tokens?: number | null;
-  prompt_tokens?: number;
-  prompt_tokens_details?: EmbeddingResponseUsagePromptTokensDetails;
-  total_tokens?: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: EmbeddingResponseUsageCompletionTokensDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: EmbeddingResponseUsageInputTokensDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: EmbeddingResponseUsagePromptTokensDetails;
+  total_tokens: number;
 };
 
 /**
  * EmbeddingResponse schema
  */
 export interface EmbeddingResponse {
-  data?: EmbeddingResponseDataItem[];
-  model?: string;
-  object?: string;
-  usage?: EmbeddingResponseUsage;
+  data: EmbeddingResponseDataItem[];
+  model: string;
+  object: string;
+  usage: EmbeddingResponseUsage;
 }
 
 /**
  * EpayRequest schema
  */
 export interface EpayRequest {
-  amount?: number;
-  payment_method?: string;
+  amount: number;
+  payment_method: string;
 }
 
 /**
  * ExtendDurationRequest schema
  */
 export interface ExtendDurationRequest {
-  duration_hours?: number;
+  duration_hours: number;
 }
 
 /**
  * FetchCustomOAuthDiscoveryRequest schema
  */
 export interface FetchCustomOAuthDiscoveryRequest {
-  issuer_url?: string;
-  well_known_url?: string;
+  issuer_url: string;
+  well_known_url: string;
 }
 
 /**
  * FetchModelsRequest schema
  */
 export interface FetchModelsRequest {
-  base_url?: string;
-  key?: string;
-  type?: number;
+  base_url: string;
+  key: string;
+  type: number;
 }
 
 /**
  * GeminiModelList schema
  */
 export interface GeminiModelList {
-  models?: unknown;
-  nextPageToken?: unknown;
+  models: unknown;
+  nextPageToken: unknown;
 }
 
 export type ImageGenerationResponseDataItem = {
-  b64_json?: string;
-  revised_prompt?: string;
-  url?: string;
+  b64_json: string;
+  revised_prompt: string;
+  url: string;
 };
 
 /**
  * ImageGenerationResponse schema
  */
 export interface ImageGenerationResponse {
-  created?: number;
-  data?: ImageGenerationResponseDataItem[];
+  created: number;
+  data: ImageGenerationResponseDataItem[];
 }
 
 /**
  * ManageRequest schema
  */
 export interface ManageRequest {
-  action?: string;
-  id?: number;
+  action: string;
+  id: number;
 }
 
 /**
  * MessageResponse schema
  */
 export interface MessageResponse {
-  message?: string;
-  success?: boolean;
+  message: string;
+  success: boolean;
 }
 
 /**
  * MidjourneyResponse schema
  */
 export interface MidjourneyResponse {
-  code?: number;
-  description?: string;
-  properties?: unknown;
-  result?: string;
+  code: number;
+  description: string;
+  properties: unknown;
+  result: string;
 }
 
 export type ModelBoundChannelsItem = {
-  name?: string;
-  type?: number;
-} | null;
+  name: string;
+  type: number;
+};
 
 /**
  * Model schema
  */
 export interface Model {
-  bound_channels?: ModelBoundChannelsItem[] | null;
-  created_time?: number;
-  description?: string | null;
-  enable_groups?: (string | null)[] | null;
-  endpoints?: string | null;
-  icon?: string | null;
-  id?: number;
-  matched_count?: number | null;
-  matched_models?: (string | null)[] | null;
-  model_name?: string;
-  name_rule?: number;
-  quota_types?: (number | null)[] | null;
-  status?: number;
-  sync_official?: number;
-  tags?: string | null;
-  updated_time?: number;
-  vendor_id?: number | null;
+  bound_channels?: ModelBoundChannelsItem[];
+  created_time: number;
+  description?: string;
+  enable_groups?: string[];
+  endpoints?: string;
+  icon?: string;
+  id: number;
+  matched_count?: number;
+  matched_models?: string[];
+  model_name: string;
+  name_rule: number;
+  quota_types?: number[];
+  status: number;
+  sync_official: number;
+  tags?: string;
+  updated_time: number;
+  vendor_id?: number;
 }
 
 /**
  * ModerationResponse schema
  */
 export interface ModerationResponse {
-  id?: string;
-  model?: string;
-  results?: unknown[];
+  id: string;
+  model: string;
+  results: unknown[];
 }
 
 /**
  * MultiKeyManageRequest schema
  */
 export interface MultiKeyManageRequest {
-  action?: string;
-  channel_id?: number;
+  action: string;
+  channel_id: number;
   key_index?: number | null;
-  page?: number | null;
-  page_size?: number | null;
+  page?: number;
+  page_size?: number;
   status?: number | null;
 }
 
@@ -521,77 +517,77 @@ export interface MultiKeyManageRequest {
  * OllamaModelRequest schema
  */
 export interface OllamaModelRequest {
-  channel_id?: number;
-  model_name?: string;
+  channel_id: number;
+  model_name: string;
 }
 
 /**
  * OpenAIModels schema
  */
 export interface OpenAIModels {
-  created?: number;
-  id?: string;
-  object?: string;
-  owned_by?: string;
-  supported_endpoint_types?: string[];
+  created: number;
+  id: string;
+  object: string;
+  owned_by: string;
+  supported_endpoint_types: string[];
 }
 
 /**
  * OpenAISubscriptionResponse schema
  */
 export interface OpenAISubscriptionResponse {
-  access_until?: number;
-  hard_limit_usd?: number;
-  has_payment_method?: boolean;
-  object?: string;
-  soft_limit_usd?: number;
-  system_hard_limit_usd?: number;
+  access_until: number;
+  hard_limit_usd: number;
+  has_payment_method: boolean;
+  object: string;
+  soft_limit_usd: number;
+  system_hard_limit_usd: number;
 }
 
 /**
  * OpenAIUsageResponse schema
  */
 export interface OpenAIUsageResponse {
-  object?: string;
-  total_usage?: number;
+  object: string;
+  total_usage: number;
 }
 
 /**
  * OptionUpdateRequest schema
  */
 export interface OptionUpdateRequest {
-  key?: string;
-  value?: unknown;
+  key: string;
+  value: unknown;
 }
 
 /**
  * PasswordResetRequest schema
  */
 export interface PasswordResetRequest {
-  email?: string;
-  token?: string;
+  email: string;
+  token: string;
 }
 
 export type PatchChannelChannelInfoMultiKeyDisabledReason = {
-  [key: string]: string | null;
-} | null;
+  [key: string]: string;
+};
 
 export type PatchChannelChannelInfoMultiKeyDisabledTime = {
-  [key: string]: number | null;
-} | null;
+  [key: string]: number;
+};
 
 export type PatchChannelChannelInfoMultiKeyStatusList = {
   [key: string]: number;
 };
 
 export type PatchChannelChannelInfo = {
-  is_multi_key?: boolean;
+  is_multi_key: boolean;
   multi_key_disabled_reason?: PatchChannelChannelInfoMultiKeyDisabledReason;
   multi_key_disabled_time?: PatchChannelChannelInfoMultiKeyDisabledTime;
-  multi_key_mode?: string;
-  multi_key_polling_index?: number;
-  multi_key_size?: number;
-  multi_key_status_list?: PatchChannelChannelInfoMultiKeyStatusList;
+  multi_key_mode: string;
+  multi_key_polling_index: number;
+  multi_key_size: number;
+  multi_key_status_list: PatchChannelChannelInfoMultiKeyStatusList;
 };
 
 /**
@@ -608,10 +604,10 @@ export interface PatchChannel {
   header_override?: string | null;
   id?: number;
   key?: string;
-  key_mode?: string | null;
+  key_mode: string | null;
   model_mapping?: string | null;
   models?: string;
-  multi_key_mode?: string | null;
+  multi_key_mode: string | null;
   name?: string;
   openai_organization?: string | null;
   other?: string;
@@ -638,233 +634,208 @@ export interface PatchChannel {
  * PrefillGroup schema
  */
 export interface PrefillGroup {
-  created_time?: number;
-  description?: string | null;
-  id?: number;
-  items?: string;
-  name?: string;
-  type?: string;
-  updated_time?: number;
+  created_time: number;
+  description?: string;
+  id: number;
+  items: string;
+  name: string;
+  type: string;
+  updated_time: number;
 }
 
 /**
  * PriceEstimationRequest schema
  */
 export interface PriceEstimationRequest {
-  currency?: string;
-  duration_hours?: number;
-  duration_qty?: number;
-  duration_type?: string;
-  gpus_per_container?: number;
-  hardware_id?: number;
-  hardware_qty?: number;
-  location_ids?: number[];
-  replica_count?: number;
+  currency: string;
+  duration_hours: number;
+  duration_qty: number;
+  duration_type: string;
+  gpus_per_container: number;
+  hardware_id: number;
+  hardware_qty: number;
+  location_ids: number[];
+  replica_count: number;
 }
 
 export type PricingDataDataItem = {
-  completion_ratio?: number;
-  description?: string | null;
-  enable_groups?: string[];
-  icon?: string | null;
-  model_name?: string;
-  model_price?: number;
-  model_ratio?: number;
-  owner_by?: string;
-  pricing_version?: string | null;
-  quota_type?: number;
-  supported_endpoint_types?: string[];
-  tags?: string | null;
-  vendor_id?: number | null;
+  completion_ratio: number;
+  description?: string;
+  enable_groups: string[];
+  icon?: string;
+  model_name: string;
+  model_price: number;
+  model_ratio: number;
+  owner_by: string;
+  pricing_version?: string;
+  quota_type: number;
+  supported_endpoint_types: string[];
+  tags?: string;
+  vendor_id?: number;
 };
 
 export type PricingDataGroupRatio = { [key: string]: number };
 
 export type PricingDataSupportedEndpoint = {
   [key: string]: {
-    method?: string;
-    path?: string;
+    method: string;
+    path: string;
   };
 };
 
 export type PricingDataUsableGroup = { [key: string]: string };
 
 export type PricingDataVendorsItem = {
-  description?: string | null;
-  icon?: string | null;
-  id?: number;
-  name?: string;
+  description?: string;
+  icon?: string;
+  id: number;
+  name: string;
 };
 
 /**
  * PricingData schema
  */
 export interface PricingData {
-  auto_groups?: string[];
-  data?: PricingDataDataItem[];
-  group_ratio?: PricingDataGroupRatio;
-  show_original_price?: boolean;
-  success?: boolean;
-  supported_endpoint?: PricingDataSupportedEndpoint;
-  usable_group?: PricingDataUsableGroup;
-  vendors?: PricingDataVendorsItem[];
+  auto_groups: string[];
+  data: PricingDataDataItem[];
+  group_ratio: PricingDataGroupRatio;
+  show_original_price: boolean;
+  success: boolean;
+  supported_endpoint: PricingDataSupportedEndpoint;
+  usable_group: PricingDataUsableGroup;
+  vendors: PricingDataVendorsItem[];
 }
 
 /**
  * Redemption schema
  */
 export interface Redemption {
-  count?: number;
-  created_time?: number;
-  expired_time?: number;
-  id?: number;
-  key?: string;
-  name?: string;
-  quota?: number;
-  redeemed_time?: number;
-  status?: number;
-  used_user_id?: number;
-  user_id?: number;
+  count: number;
+  created_time: number;
+  expired_time: number;
+  id: number;
+  key: string;
+  name: string;
+  quota: number;
+  redeemed_time: number;
+  status: number;
+  used_user_id: number;
+  user_id: number;
 }
 
 export type RelayNotImplementedErrorError = {
-  message?: string;
-  type?: string;
+  message: string;
+  type: string;
 };
 
 /**
  * RelayNotImplementedError schema
  */
 export interface RelayNotImplementedError {
-  error?: RelayNotImplementedErrorError;
+  error: RelayNotImplementedErrorError;
 }
 
-export type RerankResponseResultsItemDocument = unknown | null;
-
 export type RerankResponseResultsItem = {
-  document?: RerankResponseResultsItemDocument;
-  index?: number;
-  relevance_score?: number;
+  document?: unknown;
+  index: number;
+  relevance_score: number;
 };
 
 export type RerankResponseUsageCompletionTokensDetails = {
-  audio_tokens?: number;
-  reasoning_tokens?: number;
-  text_tokens?: number;
+  audio_tokens: number;
+  reasoning_tokens: number;
+  text_tokens: number;
 };
 
-export type RerankResponseUsageCost = unknown | null;
-
 export type RerankResponseUsageInputTokensDetails = {
-  audio_tokens?: number;
-  cached_tokens?: number;
-  image_tokens?: number;
-  text_tokens?: number;
+  audio_tokens: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 } | null;
 
 export type RerankResponseUsagePromptTokensDetails = {
-  audio_tokens?: number;
-  cached_tokens?: number;
-  image_tokens?: number;
-  text_tokens?: number;
+  audio_tokens: number;
+  cached_tokens: number;
+  image_tokens: number;
+  text_tokens: number;
 };
 
 export type RerankResponseUsage = {
-  claude_cache_creation_1_h_tokens?: number;
-  claude_cache_creation_5_m_tokens?: number;
-  completion_tokens?: number;
-  completion_tokens_details?: RerankResponseUsageCompletionTokensDetails;
-  cost?: RerankResponseUsageCost;
-  input_tokens?: number;
-  input_tokens_details?: RerankResponseUsageInputTokensDetails;
-  output_tokens?: number;
-  prompt_cache_hit_tokens?: number | null;
-  prompt_tokens?: number;
-  prompt_tokens_details?: RerankResponseUsagePromptTokensDetails;
-  total_tokens?: number;
+  claude_cache_creation_1_h_tokens: number;
+  claude_cache_creation_5_m_tokens: number;
+  completion_tokens: number;
+  completion_tokens_details: RerankResponseUsageCompletionTokensDetails;
+  cost?: unknown;
+  input_tokens: number;
+  input_tokens_details: RerankResponseUsageInputTokensDetails;
+  output_tokens: number;
+  prompt_cache_hit_tokens?: number;
+  prompt_tokens: number;
+  prompt_tokens_details: RerankResponseUsagePromptTokensDetails;
+  total_tokens: number;
 };
 
 /**
  * RerankResponse schema
  */
 export interface RerankResponse {
-  results?: RerankResponseResultsItem[];
-  usage?: RerankResponseUsage;
-}
-
-export type ResponseDataItemMonitorsItem = {
-  group?: string | null;
-  name?: string;
-  status?: number;
-  uptime?: number;
-};
-
-export type ResponseDataItem = {
-  categoryName?: string;
-  monitors?: ResponseDataItemMonitorsItem[];
-};
-
-/**
- * Response schema
- */
-export interface Response {
-  data?: ResponseDataItem[];
-  message?: string;
-  success?: boolean;
+  results: RerankResponseResultsItem[];
+  usage: RerankResponseUsage;
 }
 
 export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason =
-  { [key: string]: string | null } | null;
+  { [key: string]: string };
 
 export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime =
-  { [key: string]: number | null } | null;
+  { [key: string]: number };
 
 export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyStatusList =
   { [key: string]: number };
 
 export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfo = {
-  is_multi_key?: boolean;
+  is_multi_key: boolean;
   multi_key_disabled_reason?: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason;
   multi_key_disabled_time?: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime;
-  multi_key_mode?: string;
-  multi_key_polling_index?: number;
-  multi_key_size?: number;
-  multi_key_status_list?: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyStatusList;
+  multi_key_mode: string;
+  multi_key_polling_index: number;
+  multi_key_size: number;
+  multi_key_status_list: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyStatusList;
 };
 
 export type ResponseControllerGetAllChannelsDataDataItemsItem = {
-  auto_ban?: number | null;
-  balance?: number;
-  balance_updated_time?: number;
-  base_url?: string | null;
-  channel_info?: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfo;
-  created_time?: number;
-  group?: string;
-  header_override?: string | null;
-  id?: number;
-  key?: string;
-  model_mapping?: string | null;
-  models?: string;
-  name?: string;
-  openai_organization?: string | null;
-  other?: string;
-  other_info?: string;
-  param_override?: string | null;
-  priority?: number | null;
+  auto_ban: number | null;
+  balance: number;
+  balance_updated_time: number;
+  base_url: string | null;
+  channel_info: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfo;
+  created_time: number;
+  group: string;
+  header_override: string | null;
+  id: number;
+  key: string;
+  model_mapping: string | null;
+  models: string;
+  name: string;
+  openai_organization: string | null;
+  other: string;
+  other_info: string;
+  param_override: string | null;
+  priority: number | null;
   /** @maxLength 255 */
-  remark?: string | null;
-  response_time?: number;
-  setting?: string | null;
-  settings?: string;
-  status?: number;
-  status_code_mapping?: string | null;
-  tag?: string | null;
-  test_model?: string | null;
-  test_time?: number;
-  type?: number;
-  used_quota?: number;
+  remark: string | null;
+  response_time: number;
+  setting: string | null;
+  settings: string;
+  status: number;
+  status_code_mapping: string | null;
+  tag: string | null;
+  test_model: string | null;
+  test_time: number;
+  type: number;
+  used_quota: number;
   /** @minimum 0 */
-  weight?: number | null;
+  weight: number | null;
 } | null;
 
 export type ResponseControllerGetAllChannelsDataDataTypeCounts = {
@@ -872,48 +843,46 @@ export type ResponseControllerGetAllChannelsDataDataTypeCounts = {
 };
 
 export type ResponseControllerGetAllChannelsDataData = {
-  items?: ResponseControllerGetAllChannelsDataDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
-  type_counts?: ResponseControllerGetAllChannelsDataDataTypeCounts;
+  items: ResponseControllerGetAllChannelsDataDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
+  type_counts: ResponseControllerGetAllChannelsDataDataTypeCounts;
 };
 
 /**
  * Response_controller.GetAllChannelsData schema
  */
 export interface ResponseControllerGetAllChannelsData {
-  data?: ResponseControllerGetAllChannelsDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseControllerGetAllChannelsDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseControllerModelsMetaListDataDataItemsItemBoundChannelsItem =
   {
-    name?: string;
-    type?: number;
-  } | null;
+    name: string;
+    type: number;
+  };
 
 export type ResponseControllerModelsMetaListDataDataItemsItem = {
-  bound_channels?:
-    | ResponseControllerModelsMetaListDataDataItemsItemBoundChannelsItem[]
-    | null;
-  created_time?: number;
-  description?: string | null;
-  enable_groups?: (string | null)[] | null;
-  endpoints?: string | null;
-  icon?: string | null;
-  id?: number;
-  matched_count?: number | null;
-  matched_models?: (string | null)[] | null;
-  model_name?: string;
-  name_rule?: number;
-  quota_types?: (number | null)[] | null;
-  status?: number;
-  sync_official?: number;
-  tags?: string | null;
-  updated_time?: number;
-  vendor_id?: number | null;
+  bound_channels?: ResponseControllerModelsMetaListDataDataItemsItemBoundChannelsItem[];
+  created_time: number;
+  description?: string;
+  enable_groups?: string[];
+  endpoints?: string;
+  icon?: string;
+  id: number;
+  matched_count?: number;
+  matched_models?: string[];
+  model_name: string;
+  name_rule: number;
+  quota_types?: number[];
+  status: number;
+  sync_official: number;
+  tags?: string;
+  updated_time: number;
+  vendor_id?: number;
 } | null;
 
 export type ResponseControllerModelsMetaListDataDataVendorCounts = {
@@ -921,40 +890,40 @@ export type ResponseControllerModelsMetaListDataDataVendorCounts = {
 };
 
 export type ResponseControllerModelsMetaListDataData = {
-  items?: ResponseControllerModelsMetaListDataDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
-  vendor_counts?: ResponseControllerModelsMetaListDataDataVendorCounts;
+  items: ResponseControllerModelsMetaListDataDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
+  vendor_counts: ResponseControllerModelsMetaListDataDataVendorCounts;
 };
 
 /**
  * Response_controller.ModelsMetaListData schema
  */
 export interface ResponseControllerModelsMetaListData {
-  data?: ResponseControllerModelsMetaListDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseControllerModelsMetaListDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledReason =
-  { [key: string]: string | null } | null;
+  { [key: string]: string };
 
 export type ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledTime =
-  { [key: string]: number | null } | null;
+  { [key: string]: number };
 
 export type ResponseControllerPatchChannelDataChannelInfoMultiKeyStatusList = {
   [key: string]: number;
 };
 
 export type ResponseControllerPatchChannelDataChannelInfo = {
-  is_multi_key?: boolean;
+  is_multi_key: boolean;
   multi_key_disabled_reason?: ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledReason;
   multi_key_disabled_time?: ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledTime;
-  multi_key_mode?: string;
-  multi_key_polling_index?: number;
-  multi_key_size?: number;
-  multi_key_status_list?: ResponseControllerPatchChannelDataChannelInfoMultiKeyStatusList;
+  multi_key_mode: string;
+  multi_key_polling_index: number;
+  multi_key_size: number;
+  multi_key_status_list: ResponseControllerPatchChannelDataChannelInfoMultiKeyStatusList;
 };
 
 export type ResponseControllerPatchChannelData = {
@@ -968,10 +937,10 @@ export type ResponseControllerPatchChannelData = {
   header_override?: string | null;
   id?: number;
   key?: string;
-  key_mode?: string | null;
+  key_mode: string | null;
   model_mapping?: string | null;
   models?: string;
-  multi_key_mode?: string | null;
+  multi_key_mode: string | null;
   name?: string;
   openai_organization?: string | null;
   other?: string;
@@ -998,63 +967,63 @@ export type ResponseControllerPatchChannelData = {
  * Response_controller.PatchChannel schema
  */
 export interface ResponseControllerPatchChannel {
-  data?: ResponseControllerPatchChannelData;
-  message?: string;
-  success?: boolean;
+  data: ResponseControllerPatchChannelData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason =
-  { [key: string]: string | null } | null;
+  { [key: string]: string };
 
 export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime =
-  { [key: string]: number | null } | null;
+  { [key: string]: number };
 
 export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyStatusList =
   { [key: string]: number };
 
 export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfo = {
-  is_multi_key?: boolean;
+  is_multi_key: boolean;
   multi_key_disabled_reason?: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason;
   multi_key_disabled_time?: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime;
-  multi_key_mode?: string;
-  multi_key_polling_index?: number;
-  multi_key_size?: number;
-  multi_key_status_list?: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyStatusList;
+  multi_key_mode: string;
+  multi_key_polling_index: number;
+  multi_key_size: number;
+  multi_key_status_list: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyStatusList;
 };
 
 export type ResponseControllerSearchChannelsDataDataItemsItem = {
-  auto_ban?: number | null;
-  balance?: number;
-  balance_updated_time?: number;
-  base_url?: string | null;
-  channel_info?: ResponseControllerSearchChannelsDataDataItemsItemChannelInfo;
-  created_time?: number;
-  group?: string;
-  header_override?: string | null;
-  id?: number;
-  key?: string;
-  model_mapping?: string | null;
-  models?: string;
-  name?: string;
-  openai_organization?: string | null;
-  other?: string;
-  other_info?: string;
-  param_override?: string | null;
-  priority?: number | null;
+  auto_ban: number | null;
+  balance: number;
+  balance_updated_time: number;
+  base_url: string | null;
+  channel_info: ResponseControllerSearchChannelsDataDataItemsItemChannelInfo;
+  created_time: number;
+  group: string;
+  header_override: string | null;
+  id: number;
+  key: string;
+  model_mapping: string | null;
+  models: string;
+  name: string;
+  openai_organization: string | null;
+  other: string;
+  other_info: string;
+  param_override: string | null;
+  priority: number | null;
   /** @maxLength 255 */
-  remark?: string | null;
-  response_time?: number;
-  setting?: string | null;
-  settings?: string;
-  status?: number;
-  status_code_mapping?: string | null;
-  tag?: string | null;
-  test_model?: string | null;
-  test_time?: number;
-  type?: number;
-  used_quota?: number;
+  remark: string | null;
+  response_time: number;
+  setting: string | null;
+  settings: string;
+  status: number;
+  status_code_mapping: string | null;
+  tag: string | null;
+  test_model: string | null;
+  test_time: number;
+  type: number;
+  used_quota: number;
   /** @minimum 0 */
-  weight?: number | null;
+  weight: number | null;
 } | null;
 
 export type ResponseControllerSearchChannelsDataDataTypeCounts = {
@@ -1062,523 +1031,556 @@ export type ResponseControllerSearchChannelsDataDataTypeCounts = {
 };
 
 export type ResponseControllerSearchChannelsDataData = {
-  items?: ResponseControllerSearchChannelsDataDataItemsItem[];
-  total?: number;
-  type_counts?: ResponseControllerSearchChannelsDataDataTypeCounts;
+  items: ResponseControllerSearchChannelsDataDataItemsItem[];
+  total: number;
+  type_counts: ResponseControllerSearchChannelsDataDataTypeCounts;
 };
 
 /**
  * Response_controller.SearchChannelsData schema
  */
 export interface ResponseControllerSearchChannelsData {
-  data?: ResponseControllerSearchChannelsDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseControllerSearchChannelsDataData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseControllerSubscriptionPlanDTODataItemPlan = {
+  created_at: number;
+  creem_product_id: string;
+  currency: string;
+  custom_seconds: number;
+  duration_unit: string;
+  duration_value: number;
+  enabled: boolean;
+  id: number;
+  max_purchase_per_user: number;
+  price_amount: number;
+  quota_reset_custom_seconds: number;
+  quota_reset_period: string;
+  sort_order: number;
+  stripe_price_id: string;
+  subtitle: string;
+  title: string;
+  total_amount: number;
+  updated_at: number;
+  upgrade_group: string;
+};
+
+export type ResponseControllerSubscriptionPlanDTODataItem = {
+  plan: ResponseControllerSubscriptionPlanDTODataItemPlan;
+};
+
+/**
+ * Response_controller.SubscriptionPlanDTO schema
+ */
+export interface ResponseControllerSubscriptionPlanDTO {
+  data: ResponseControllerSubscriptionPlanDTODataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItemSubscription =
   {
-    amount_total?: number;
-    amount_used?: number;
-    created_at?: number;
-    end_time?: number;
-    id?: number;
-    last_reset_time?: number;
-    next_reset_time?: number;
-    plan_id?: number;
-    prev_user_group?: string;
-    source?: string;
-    start_time?: number;
-    status?: string;
-    updated_at?: number;
-    upgrade_group?: string;
-    user_id?: number;
+    amount_total: number;
+    amount_used: number;
+    created_at: number;
+    end_time: number;
+    id: number;
+    last_reset_time: number;
+    next_reset_time: number;
+    plan_id: number;
+    prev_user_group: string;
+    source: string;
+    start_time: number;
+    status: string;
+    updated_at: number;
+    upgrade_group: string;
+    user_id: number;
   } | null;
 
 export type ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItem = {
-  subscription?: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItemSubscription;
+  subscription: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItemSubscription;
 };
 
 export type ResponseControllerSubscriptionSelfDataDataSubscriptionsItemSubscription =
   {
-    amount_total?: number;
-    amount_used?: number;
-    created_at?: number;
-    end_time?: number;
-    id?: number;
-    last_reset_time?: number;
-    next_reset_time?: number;
-    plan_id?: number;
-    prev_user_group?: string;
-    source?: string;
-    start_time?: number;
-    status?: string;
-    updated_at?: number;
-    upgrade_group?: string;
-    user_id?: number;
+    amount_total: number;
+    amount_used: number;
+    created_at: number;
+    end_time: number;
+    id: number;
+    last_reset_time: number;
+    next_reset_time: number;
+    plan_id: number;
+    prev_user_group: string;
+    source: string;
+    start_time: number;
+    status: string;
+    updated_at: number;
+    upgrade_group: string;
+    user_id: number;
   } | null;
 
 export type ResponseControllerSubscriptionSelfDataDataSubscriptionsItem = {
-  subscription?: ResponseControllerSubscriptionSelfDataDataSubscriptionsItemSubscription;
+  subscription: ResponseControllerSubscriptionSelfDataDataSubscriptionsItemSubscription;
 };
 
 export type ResponseControllerSubscriptionSelfDataData = {
-  all_subscriptions?: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItem[];
-  billing_preference?: string;
-  subscriptions?: ResponseControllerSubscriptionSelfDataDataSubscriptionsItem[];
+  all_subscriptions: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItem[];
+  billing_preference: string;
+  subscriptions: ResponseControllerSubscriptionSelfDataDataSubscriptionsItem[];
 };
 
 /**
  * Response_controller.SubscriptionSelfData schema
  */
 export interface ResponseControllerSubscriptionSelfData {
-  data?: ResponseControllerSubscriptionSelfDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseControllerSubscriptionSelfDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoAffinityCacheClearDataData = {
-  deleted?: number;
+  deleted: number;
 };
 
 /**
  * Response_dto.AffinityCacheClearData schema
  */
 export interface ResponseDtoAffinityCacheClearData {
-  data?: ResponseDtoAffinityCacheClearDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoAffinityCacheClearDataData;
+  message: string;
+  success: boolean;
 }
 
-export type ResponseDtoApiResponseDataData = unknown | null;
-
 export type ResponseDtoApiResponseData = {
-  data?: ResponseDtoApiResponseDataData;
-  message?: string;
-  success?: boolean;
+  data?: unknown;
+  message: string;
+  success: boolean;
 };
 
 /**
  * Response_dto.ApiResponse schema
  */
 export interface ResponseDtoApiResponse {
-  data?: ResponseDtoApiResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoApiResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoBackupCodesDataData = {
-  backup_codes?: string[];
+  backup_codes: string[];
 };
 
 /**
  * Response_dto.BackupCodesData schema
  */
 export interface ResponseDtoBackupCodesData {
-  data?: ResponseDtoBackupCodesDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoBackupCodesDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoBillingPreferenceDataData = {
-  billing_preference?: string;
+  billing_preference: string;
 };
 
 /**
  * Response_dto.BillingPreferenceData schema
  */
 export interface ResponseDtoBillingPreferenceData {
-  data?: ResponseDtoBillingPreferenceDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoBillingPreferenceDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoChannelKeyDataData = {
-  key?: string;
+  key: string;
 };
 
 /**
  * Response_dto.ChannelKeyData schema
  */
 export interface ResponseDtoChannelKeyData {
-  data?: ResponseDtoChannelKeyDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoChannelKeyDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCheckinResultDataData = {
-  checkin_date?: string;
-  quota_awarded?: number;
+  checkin_date: string;
+  quota_awarded: number;
 };
 
 /**
  * Response_dto.CheckinResultData schema
  */
 export interface ResponseDtoCheckinResultData {
-  data?: ResponseDtoCheckinResultDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCheckinResultDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCheckinStatusDataDataStatsRecordsItem = {
-  checkin_date?: string;
-  quota_awarded?: number;
+  checkin_date: string;
+  quota_awarded: number;
 };
 
 export type ResponseDtoCheckinStatusDataDataStats = {
-  checked_in_today?: boolean;
-  checkin_count?: number;
-  records?: ResponseDtoCheckinStatusDataDataStatsRecordsItem[];
-  total_checkins?: number;
-  total_quota?: number;
+  checked_in_today: boolean;
+  checkin_count: number;
+  records: ResponseDtoCheckinStatusDataDataStatsRecordsItem[];
+  total_checkins: number;
+  total_quota: number;
 };
 
 export type ResponseDtoCheckinStatusDataData = {
-  enabled?: boolean;
-  max_quota?: number;
-  min_quota?: number;
-  stats?: ResponseDtoCheckinStatusDataDataStats;
+  enabled: boolean;
+  max_quota: number;
+  min_quota: number;
+  stats: ResponseDtoCheckinStatusDataDataStats;
 };
 
 /**
  * Response_dto.CheckinStatusData schema
  */
 export interface ResponseDtoCheckinStatusData {
-  data?: ResponseDtoCheckinStatusDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCheckinStatusDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoClusterNameAvailabilityResponseData = {
-  available?: boolean;
-  name?: string;
+  available: boolean;
+  name: string;
 };
 
 /**
  * Response_dto.ClusterNameAvailabilityResponse schema
  */
 export interface ResponseDtoClusterNameAvailabilityResponse {
-  data?: ResponseDtoClusterNameAvailabilityResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoClusterNameAvailabilityResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCodexOAuthCompleteDataData = {
-  account_id?: string;
-  channel_id?: number | null;
-  email?: string;
-  expires_at?: string;
-  key?: string | null;
-  last_refresh?: string;
+  account_id: string;
+  channel_id?: number;
+  email: string;
+  expires_at: string;
+  key?: string;
+  last_refresh: string;
 };
 
 /**
  * Response_dto.CodexOAuthCompleteData schema
  */
 export interface ResponseDtoCodexOAuthCompleteData {
-  data?: ResponseDtoCodexOAuthCompleteDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCodexOAuthCompleteDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCodexOAuthStartDataData = {
-  authorize_url?: string;
+  authorize_url: string;
 };
 
 /**
  * Response_dto.CodexOAuthStartData schema
  */
 export interface ResponseDtoCodexOAuthStartData {
-  data?: ResponseDtoCodexOAuthStartDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCodexOAuthStartDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoContainerDetailResponseDataEventsItem = {
-  message?: string;
-  time?: number;
+  message: string;
+  time: number;
 };
 
 export type ResponseDtoContainerDetailResponseData = {
-  brand_name?: string;
-  container_id?: string;
-  created_at?: number;
-  deployment_id?: string;
-  device_id?: string;
-  events?: ResponseDtoContainerDetailResponseDataEventsItem[];
-  gpus_per_container?: number;
-  hardware?: string;
-  public_url?: string;
-  status?: string;
-  uptime_percent?: number;
+  brand_name: string;
+  container_id: string;
+  created_at: number;
+  deployment_id: string;
+  device_id: string;
+  events: ResponseDtoContainerDetailResponseDataEventsItem[];
+  gpus_per_container: number;
+  hardware: string;
+  public_url: string;
+  status: string;
+  uptime_percent: number;
 };
 
 /**
  * Response_dto.ContainerDetailResponse schema
  */
 export interface ResponseDtoContainerDetailResponse {
-  data?: ResponseDtoContainerDetailResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoContainerDetailResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoContainerListResponseDataContainersItemEventsItem = {
-  message?: string;
-  time?: number;
+  message: string;
+  time: number;
 };
 
 export type ResponseDtoContainerListResponseDataContainersItem = {
-  brand_name?: string;
-  container_id?: string;
-  created_at?: number;
-  device_id?: string;
-  events?: ResponseDtoContainerListResponseDataContainersItemEventsItem[];
-  gpus_per_container?: number;
-  hardware?: string;
-  public_url?: string;
-  status?: string;
-  uptime_percent?: number;
+  brand_name: string;
+  container_id: string;
+  created_at: number;
+  device_id: string;
+  events: ResponseDtoContainerListResponseDataContainersItemEventsItem[];
+  gpus_per_container: number;
+  hardware: string;
+  public_url: string;
+  status: string;
+  uptime_percent: number;
 };
 
 export type ResponseDtoContainerListResponseData = {
-  containers?: ResponseDtoContainerListResponseDataContainersItem[];
-  total?: number;
+  containers: ResponseDtoContainerListResponseDataContainersItem[];
+  total: number;
 };
 
 /**
  * Response_dto.ContainerListResponse schema
  */
 export interface ResponseDtoContainerListResponse {
-  data?: ResponseDtoContainerListResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoContainerListResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCopyChannelDataData = {
-  id?: number;
+  id: number;
 };
 
 /**
  * Response_dto.CopyChannelData schema
  */
 export interface ResponseDtoCopyChannelData {
-  data?: ResponseDtoCopyChannelDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCopyChannelDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCreateDeploymentResponseData = {
-  deployment_id?: string;
-  message?: string;
-  status?: string;
+  deployment_id: string;
+  message: string;
+  status: string;
 };
 
 /**
  * Response_dto.CreateDeploymentResponse schema
  */
 export interface ResponseDtoCreateDeploymentResponse {
-  data?: ResponseDtoCreateDeploymentResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCreateDeploymentResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoCreemPayDataData = {
-  checkout_url?: string;
-  order_id?: string;
+  checkout_url: string;
+  order_id: string;
 };
 
 /**
  * Response_dto.CreemPayData schema
  */
 export interface ResponseDtoCreemPayData {
-  data?: ResponseDtoCreemPayDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCreemPayDataData;
+  message: string;
+  success: boolean;
 }
 
-export type ResponseDtoCustomOAuthProviderResponseData = {
-  access_denied_message?: string;
-  access_policy?: string;
-  auth_style?: number;
-  authorization_endpoint?: string;
-  client_id?: string;
-  display_name_field?: string;
-  email_field?: string;
-  enabled?: boolean;
-  icon?: string;
-  id?: number;
-  name?: string;
-  scopes?: string;
-  slug?: string;
-  token_endpoint?: string;
-  user_id_field?: string;
-  user_info_endpoint?: string;
-  username_field?: string;
-  well_known?: string;
-};
+export type ResponseDtoCustomOAuthProviderResponseDataItem = {
+  access_denied_message: string;
+  access_policy: string;
+  auth_style: number;
+  authorization_endpoint: string;
+  client_id: string;
+  display_name_field: string;
+  email_field: string;
+  enabled: boolean;
+  icon: string;
+  id: number;
+  name: string;
+  scopes: string;
+  slug: string;
+  token_endpoint: string;
+  user_id_field: string;
+  user_info_endpoint: string;
+  username_field: string;
+  well_known: string;
+} | null;
 
 /**
  * Response_dto.CustomOAuthProviderResponse schema
  */
 export interface ResponseDtoCustomOAuthProviderResponse {
-  data?: ResponseDtoCustomOAuthProviderResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoCustomOAuthProviderResponseDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeleteDeploymentResponseData = {
-  deployment_id?: string;
-  message?: string;
-  status?: string;
+  deployment_id: string;
+  message: string;
+  status: string;
 };
 
 /**
  * Response_dto.DeleteDeploymentResponse schema
  */
 export interface ResponseDtoDeleteDeploymentResponse {
-  data?: ResponseDtoDeleteDeploymentResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeleteDeploymentResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeletedCountDataData = {
-  deleted?: number;
+  deleted: number;
 };
 
 /**
  * Response_dto.DeletedCountData schema
  */
 export interface ResponseDtoDeletedCountData {
-  data?: ResponseDtoDeletedCountDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeletedCountDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables =
   { [key: string]: unknown };
 
 export type ResponseDtoDeploymentDetailResponseDataContainerConfig = {
-  entrypoint?: string[];
-  env_variables?: ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables;
-  image_url?: string;
-  traffic_port?: number;
+  entrypoint: string[];
+  env_variables: ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables;
+  image_url: string;
+  traffic_port: number;
 };
 
 export type ResponseDtoDeploymentDetailResponseDataLocationsItem = {
-  id?: number;
-  iso2?: string;
-  name?: string;
+  id: number;
+  iso2: string;
+  name: string;
 };
 
 export type ResponseDtoDeploymentDetailResponseDataResourceConfig = {
-  cpu?: string;
-  gpu?: string;
-  memory?: string;
+  cpu: string;
+  gpu: string;
+  memory: string;
 };
 
 export type ResponseDtoDeploymentDetailResponseData = {
-  amount_paid?: number;
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_config?: ResponseDtoDeploymentDetailResponseDataContainerConfig;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  gpus_per_container?: number;
-  hardware_id?: number;
-  hardware_name?: string;
-  id?: string;
-  instance_count?: number;
-  locations?: ResponseDtoDeploymentDetailResponseDataLocationsItem[];
-  model_name?: string;
-  model_version?: string;
-  resource_config?: ResponseDtoDeploymentDetailResponseDataResourceConfig;
-  status?: string;
-  total_containers?: number;
-  total_gpus?: number;
-  updated_at?: number;
+  amount_paid: number;
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_config: ResponseDtoDeploymentDetailResponseDataContainerConfig;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  gpus_per_container: number;
+  hardware_id: number;
+  hardware_name: string;
+  id: string;
+  instance_count: number;
+  locations: ResponseDtoDeploymentDetailResponseDataLocationsItem[];
+  model_name: string;
+  model_version: string;
+  resource_config: ResponseDtoDeploymentDetailResponseDataResourceConfig;
+  status: string;
+  total_containers: number;
+  total_gpus: number;
+  updated_at: number;
 };
 
 /**
  * Response_dto.DeploymentDetailResponse schema
  */
 export interface ResponseDtoDeploymentDetailResponse {
-  data?: ResponseDtoDeploymentDetailResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeploymentDetailResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeploymentItemDataResourceConfig = {
-  cpu?: string;
-  gpu?: string;
-  memory?: string;
+  cpu: string;
+  gpu: string;
+  memory: string;
 };
 
 export type ResponseDtoDeploymentItemData = {
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_name?: string;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  hardware_info?: string;
-  hardware_name?: string;
-  hardware_quantity?: number;
-  id?: string;
-  instance_count?: number;
-  model_name?: string;
-  model_version?: string;
-  provider?: string;
-  resource_config?: ResponseDtoDeploymentItemDataResourceConfig;
-  status?: string;
-  time_remaining?: string;
-  time_remaining_minutes?: number;
-  type?: string;
-  updated_at?: number;
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_name: string;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  hardware_info: string;
+  hardware_name: string;
+  hardware_quantity: number;
+  id: string;
+  instance_count: number;
+  model_name: string;
+  model_version: string;
+  provider: string;
+  resource_config: ResponseDtoDeploymentItemDataResourceConfig;
+  status: string;
+  time_remaining: string;
+  time_remaining_minutes: number;
+  type: string;
+  updated_at: number;
 };
 
 /**
  * Response_dto.DeploymentItem schema
  */
 export interface ResponseDtoDeploymentItem {
-  data?: ResponseDtoDeploymentItemData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeploymentItemData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeploymentListResponseDataItemsItemResourceConfig = {
-  cpu?: string;
-  gpu?: string;
-  memory?: string;
+  cpu: string;
+  gpu: string;
+  memory: string;
 };
 
 export type ResponseDtoDeploymentListResponseDataItemsItem = {
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_name?: string;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  hardware_info?: string;
-  hardware_name?: string;
-  hardware_quantity?: number;
-  id?: string;
-  instance_count?: number;
-  model_name?: string;
-  model_version?: string;
-  provider?: string;
-  resource_config?: ResponseDtoDeploymentListResponseDataItemsItemResourceConfig;
-  status?: string;
-  time_remaining?: string;
-  time_remaining_minutes?: number;
-  type?: string;
-  updated_at?: number;
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_name: string;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  hardware_info: string;
+  hardware_name: string;
+  hardware_quantity: number;
+  id: string;
+  instance_count: number;
+  model_name: string;
+  model_version: string;
+  provider: string;
+  resource_config: ResponseDtoDeploymentListResponseDataItemsItemResourceConfig;
+  status: string;
+  time_remaining: string;
+  time_remaining_minutes: number;
+  type: string;
+  updated_at: number;
 };
 
 export type ResponseDtoDeploymentListResponseDataStatusCounts = {
@@ -1586,111 +1588,111 @@ export type ResponseDtoDeploymentListResponseDataStatusCounts = {
 };
 
 export type ResponseDtoDeploymentListResponseData = {
-  items?: ResponseDtoDeploymentListResponseDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  status_counts?: ResponseDtoDeploymentListResponseDataStatusCounts;
-  total?: number;
+  items: ResponseDtoDeploymentListResponseDataItemsItem[];
+  page: number;
+  page_size: number;
+  status_counts: ResponseDtoDeploymentListResponseDataStatusCounts;
+  total: number;
 };
 
 /**
  * Response_dto.DeploymentListResponse schema
  */
 export interface ResponseDtoDeploymentListResponse {
-  data?: ResponseDtoDeploymentListResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeploymentListResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig = {
-  cpu?: string;
-  gpu?: string;
-  memory?: string;
+  cpu: string;
+  gpu: string;
+  memory: string;
 };
 
 export type ResponseDtoDeploymentSearchResponseDataItemsItem = {
-  brand_name?: string;
-  completed_percent?: number;
-  compute_minutes_remaining?: number;
-  compute_minutes_served?: number;
-  container_name?: string;
-  created_at?: number;
-  deployment_name?: string;
-  description?: string;
-  hardware_info?: string;
-  hardware_name?: string;
-  hardware_quantity?: number;
-  id?: string;
-  instance_count?: number;
-  model_name?: string;
-  model_version?: string;
-  provider?: string;
-  resource_config?: ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig;
-  status?: string;
-  time_remaining?: string;
-  time_remaining_minutes?: number;
-  type?: string;
-  updated_at?: number;
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_name: string;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  hardware_info: string;
+  hardware_name: string;
+  hardware_quantity: number;
+  id: string;
+  instance_count: number;
+  model_name: string;
+  model_version: string;
+  provider: string;
+  resource_config: ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig;
+  status: string;
+  time_remaining: string;
+  time_remaining_minutes: number;
+  type: string;
+  updated_at: number;
 };
 
 export type ResponseDtoDeploymentSearchResponseData = {
-  items?: ResponseDtoDeploymentSearchResponseDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseDtoDeploymentSearchResponseDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_dto.DeploymentSearchResponse schema
  */
 export interface ResponseDtoDeploymentSearchResponse {
-  data?: ResponseDtoDeploymentSearchResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeploymentSearchResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeploymentSettingsResponseData = {
-  can_connect?: boolean;
-  configured?: boolean;
-  enabled?: boolean;
-  provider?: string;
+  can_connect: boolean;
+  configured: boolean;
+  enabled: boolean;
+  provider: string;
 };
 
 /**
  * Response_dto.DeploymentSettingsResponse schema
  */
 export interface ResponseDtoDeploymentSettingsResponse {
-  data?: ResponseDtoDeploymentSettingsResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeploymentSettingsResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoDeploymentStatusResponseData = {
-  deployment_id?: string;
-  status?: string;
+  deployment_id: string;
+  status: string;
 };
 
 /**
  * Response_dto.DeploymentStatusResponse schema
  */
 export interface ResponseDtoDeploymentStatusResponse {
-  data?: ResponseDtoDeploymentStatusResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoDeploymentStatusResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoEpayPayResponseData = {
-  params?: unknown;
-  url?: string;
+  params: unknown;
+  url: string;
 };
 
 /**
  * Response_dto.EpayPayResponse schema
  */
 export interface ResponseDtoEpayPayResponse {
-  data?: ResponseDtoEpayPayResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoEpayPayResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoFetchDiscoveryDataDataDiscovery = {
@@ -1698,17 +1700,17 @@ export type ResponseDtoFetchDiscoveryDataDataDiscovery = {
 };
 
 export type ResponseDtoFetchDiscoveryDataData = {
-  discovery?: ResponseDtoFetchDiscoveryDataDataDiscovery;
-  well_known_url?: string;
+  discovery: ResponseDtoFetchDiscoveryDataDataDiscovery;
+  well_known_url: string;
 };
 
 /**
  * Response_dto.FetchDiscoveryData schema
  */
 export interface ResponseDtoFetchDiscoveryData {
-  data?: ResponseDtoFetchDiscoveryDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoFetchDiscoveryDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence = {
@@ -1722,249 +1724,264 @@ export type ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams = {
 export type ResponseDtoFetchUpstreamRatiosResultDataDifferences = {
   [key: string]: {
     [key: string]: {
-      confidence?: ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence;
-      current?: unknown;
-      upstreams?: ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams;
+      confidence: ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence;
+      current: unknown;
+      upstreams: ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams;
     };
   };
 };
 
 export type ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem = {
-  error?: string | null;
-  name?: string;
-  status?: string;
+  error?: string;
+  name: string;
+  status: string;
 };
 
 export type ResponseDtoFetchUpstreamRatiosResultData = {
-  differences?: ResponseDtoFetchUpstreamRatiosResultDataDifferences;
-  test_results?: ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem[];
+  differences: ResponseDtoFetchUpstreamRatiosResultDataDifferences;
+  test_results: ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem[];
 };
 
 /**
  * Response_dto.FetchUpstreamRatiosResult schema
  */
 export interface ResponseDtoFetchUpstreamRatiosResult {
-  data?: ResponseDtoFetchUpstreamRatiosResultData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoFetchUpstreamRatiosResultData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoFixAbilityDataData = {
-  fails?: number;
-  success?: number;
+  fails: number;
+  success: number;
 };
 
 /**
  * Response_dto.FixAbilityData schema
  */
 export interface ResponseDtoFixAbilityData {
-  data?: ResponseDtoFixAbilityDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoFixAbilityDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoHardwareTypesResponseDataHardwareTypesItem = {
-  available?: boolean;
-  available_count?: number | null;
-  brand_name?: string | null;
-  cpu?: string | null;
-  description?: string | null;
-  gpu_memory?: number;
-  gpu_type?: string;
-  hourly_rate?: number;
-  id?: number;
-  max_gpus?: number;
-  memory?: number | null;
-  name?: string;
-  storage?: number | null;
+  available: boolean;
+  available_count?: number;
+  brand_name?: string;
+  cpu?: string;
+  description?: string;
+  gpu_memory: number;
+  gpu_type: string;
+  hourly_rate: number;
+  id: number;
+  max_gpus: number;
+  memory?: number;
+  name: string;
+  storage?: number;
 };
 
 export type ResponseDtoHardwareTypesResponseData = {
-  hardware_types?: ResponseDtoHardwareTypesResponseDataHardwareTypesItem[];
-  total?: number;
-  total_available?: number;
+  hardware_types: ResponseDtoHardwareTypesResponseDataHardwareTypesItem[];
+  total: number;
+  total_available: number;
 };
 
 /**
  * Response_dto.HardwareTypesResponse schema
  */
 export interface ResponseDtoHardwareTypesResponse {
-  data?: ResponseDtoHardwareTypesResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoHardwareTypesResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoLocationsListResponseDataLocationsItem = {
-  available?: number | null;
-  country?: string | null;
-  description?: string | null;
-  id?: number;
-  iso2?: string | null;
-  latitude?: number | null;
-  longitude?: number | null;
-  name?: string;
-  region?: string | null;
+  available?: number;
+  country?: string;
+  description?: string;
+  id: number;
+  iso2?: string;
+  latitude?: number;
+  longitude?: number;
+  name: string;
+  region?: string;
 };
 
 export type ResponseDtoLocationsListResponseData = {
-  locations?: ResponseDtoLocationsListResponseDataLocationsItem[];
-  total?: number;
+  locations: ResponseDtoLocationsListResponseDataLocationsItem[];
+  total: number;
 };
 
 /**
  * Response_dto.LocationsListResponse schema
  */
 export interface ResponseDtoLocationsListResponse {
-  data?: ResponseDtoLocationsListResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoLocationsListResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoLogStatDataData = {
-  quota?: number;
-  rpm?: number;
-  tpm?: number;
+  quota: number;
+  rpm: number;
+  tpm: number;
 };
 
 /**
  * Response_dto.LogStatData schema
  */
 export interface ResponseDtoLogStatData {
-  data?: ResponseDtoLogStatDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoLogStatDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoLoginDataData = {
-  display_name?: string;
-  group?: string;
-  id?: number;
-  role?: number;
-  status?: number;
-  username?: string;
+  display_name: string;
+  group: string;
+  id: number;
+  role: number;
+  status: number;
+  username: string;
 };
 
 /**
  * Response_dto.LoginData schema
  */
 export interface ResponseDtoLoginData {
-  data?: ResponseDtoLoginDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoLoginDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoManageUserDataData = {
-  role?: number;
-  status?: number;
+  role: number;
+  status: number;
 };
 
 /**
  * Response_dto.ManageUserData schema
  */
 export interface ResponseDtoManageUserData {
-  data?: ResponseDtoManageUserDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoManageUserDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoMultiKeyStatusResponseDataKeysItem = {
-  disabled_time?: number | null;
-  index?: number;
-  key_preview?: string;
-  reason?: string | null;
-  status?: number;
+  disabled_time?: number;
+  index: number;
+  key_preview: string;
+  reason?: string;
+  status: number;
 };
 
 export type ResponseDtoMultiKeyStatusResponseData = {
-  auto_disabled_count?: number;
-  enabled_count?: number;
-  keys?: ResponseDtoMultiKeyStatusResponseDataKeysItem[];
-  manual_disabled_count?: number;
-  page?: number;
-  page_size?: number;
-  total?: number;
-  total_pages?: number;
+  auto_disabled_count: number;
+  enabled_count: number;
+  keys: ResponseDtoMultiKeyStatusResponseDataKeysItem[];
+  manual_disabled_count: number;
+  page: number;
+  page_size: number;
+  total: number;
+  total_pages: number;
 };
 
 /**
  * Response_dto.MultiKeyStatusResponse schema
  */
 export interface ResponseDtoMultiKeyStatusResponse {
-  data?: ResponseDtoMultiKeyStatusResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoMultiKeyStatusResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoOllamaVersionDataData = {
-  version?: string;
+  version: string;
 };
 
 /**
  * Response_dto.OllamaVersionData schema
  */
 export interface ResponseDtoOllamaVersionData {
-  data?: ResponseDtoOllamaVersionDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoOllamaVersionDataData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoOpenAIModelsDataItem = {
+  created: number;
+  id: string;
+  object: string;
+  owned_by: string;
+  supported_endpoint_types: string[];
+};
+
+/**
+ * Response_dto.OpenAIModels schema
+ */
+export interface ResponseDtoOpenAIModels {
+  data: ResponseDtoOpenAIModelsDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoPasskeyOptionsDataData = {
-  options?: unknown;
+  options: unknown;
 };
 
 /**
  * Response_dto.PasskeyOptionsData schema
  */
 export interface ResponseDtoPasskeyOptionsData {
-  data?: ResponseDtoPasskeyOptionsDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoPasskeyOptionsDataData;
+  message: string;
+  success: boolean;
 }
 
-export type ResponseDtoPasskeyStatusDataDataLastUsedAt = unknown | null;
-
 export type ResponseDtoPasskeyStatusDataData = {
-  enabled?: boolean;
-  last_used_at?: ResponseDtoPasskeyStatusDataDataLastUsedAt;
+  enabled: boolean;
+  last_used_at?: unknown;
 };
 
 /**
  * Response_dto.PasskeyStatusData schema
  */
 export interface ResponseDtoPasskeyStatusData {
-  data?: ResponseDtoPasskeyStatusDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoPasskeyStatusDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoPerformanceStatsDataCacheStats = {
-  active_disk_files?: number;
-  active_memory_buffers?: number;
-  current_disk_usage_bytes?: number;
-  current_memory_usage_bytes?: number;
-  disk_cache_hits?: number;
-  disk_cache_max_bytes?: number;
-  disk_cache_threshold_bytes?: number;
-  memory_cache_hits?: number;
+  active_disk_files: number;
+  active_memory_buffers: number;
+  current_disk_usage_bytes: number;
+  current_memory_usage_bytes: number;
+  disk_cache_hits: number;
+  disk_cache_max_bytes: number;
+  disk_cache_threshold_bytes: number;
+  memory_cache_hits: number;
 };
 
 export type ResponseDtoPerformanceStatsDataConfig = {
-  disk_cache_enabled?: boolean;
-  disk_cache_max_size_mb?: number;
-  disk_cache_path?: string;
-  disk_cache_threshold_mb?: number;
-  is_running_in_container?: boolean;
-  monitor_cpu_threshold?: number;
-  monitor_disk_threshold?: number;
-  monitor_enabled?: boolean;
-  monitor_memory_threshold?: number;
+  disk_cache_enabled: boolean;
+  disk_cache_max_size_mb: number;
+  disk_cache_path: string;
+  disk_cache_threshold_mb: number;
+  is_running_in_container: boolean;
+  monitor_cpu_threshold: number;
+  monitor_disk_threshold: number;
+  monitor_enabled: boolean;
+  monitor_memory_threshold: number;
 };
 
 export type ResponseDtoPerformanceStatsDataDiskCacheInfo = {
-  exists?: boolean;
-  file_count?: number;
-  path?: string;
-  total_size?: number;
+  exists: boolean;
+  file_count: number;
+  path: string;
+  total_size: number;
 };
 
 export type ResponseDtoPerformanceStatsDataDiskSpaceInfo = {
@@ -1972,18 +1989,18 @@ export type ResponseDtoPerformanceStatsDataDiskSpaceInfo = {
    * @minimum 0
    * @maximum 18446744073709552000
    */
-  free?: number;
+  free: number;
   /**
    * @minimum 0
    * @maximum 18446744073709552000
    */
-  total?: number;
+  total: number;
   /**
    * @minimum 0
    * @maximum 18446744073709552000
    */
-  used?: number;
-  used_percent?: number;
+  used: number;
+  used_percent: number;
 };
 
 export type ResponseDtoPerformanceStatsDataMemoryStats = {
@@ -1991,324 +2008,333 @@ export type ResponseDtoPerformanceStatsDataMemoryStats = {
    * @minimum 0
    * @maximum 18446744073709552000
    */
-  alloc?: number;
+  alloc: number;
   /**
    * @minimum 0
    * @maximum 4294967295
    */
-  num_gc?: number;
-  num_goroutine?: number;
+  num_gc: number;
+  num_goroutine: number;
   /**
    * @minimum 0
    * @maximum 18446744073709552000
    */
-  sys?: number;
+  sys: number;
   /**
    * @minimum 0
    * @maximum 18446744073709552000
    */
-  total_alloc?: number;
+  total_alloc: number;
 };
 
 export type ResponseDtoPerformanceStatsData = {
-  cache_stats?: ResponseDtoPerformanceStatsDataCacheStats;
-  config?: ResponseDtoPerformanceStatsDataConfig;
-  disk_cache_info?: ResponseDtoPerformanceStatsDataDiskCacheInfo;
-  disk_space_info?: ResponseDtoPerformanceStatsDataDiskSpaceInfo;
-  memory_stats?: ResponseDtoPerformanceStatsDataMemoryStats;
+  cache_stats: ResponseDtoPerformanceStatsDataCacheStats;
+  config: ResponseDtoPerformanceStatsDataConfig;
+  disk_cache_info: ResponseDtoPerformanceStatsDataDiskCacheInfo;
+  disk_space_info: ResponseDtoPerformanceStatsDataDiskSpaceInfo;
+  memory_stats: ResponseDtoPerformanceStatsDataMemoryStats;
 };
 
 /**
  * Response_dto.PerformanceStats schema
  */
 export interface ResponseDtoPerformanceStats {
-  data?: ResponseDtoPerformanceStatsData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoPerformanceStatsData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoRefreshCodexDataData = {
-  account_id?: string;
-  channel_id?: number;
-  channel_name?: string;
-  channel_type?: number;
-  email?: string;
-  expires_at?: string;
-  last_refresh?: string;
+  account_id: string;
+  channel_id: number;
+  channel_name: string;
+  channel_type: number;
+  email: string;
+  expires_at: string;
+  last_refresh: string;
 };
 
 /**
  * Response_dto.RefreshCodexData schema
  */
 export interface ResponseDtoRefreshCodexData {
-  data?: ResponseDtoRefreshCodexDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoRefreshCodexDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoSetup2FAResponseData = {
-  backup_codes?: string[];
-  qr_code_data?: string;
-  secret?: string;
+  backup_codes: string[];
+  qr_code_data: string;
+  secret: string;
 };
 
 /**
  * Response_dto.Setup2FAResponse schema
  */
 export interface ResponseDtoSetup2FAResponse {
-  data?: ResponseDtoSetup2FAResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoSetup2FAResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoSetupDataData = {
-  database_type?: string;
-  root_init?: boolean;
-  status?: boolean;
+  database_type: string;
+  root_init: boolean;
+  status: boolean;
 };
 
 /**
  * Response_dto.SetupData schema
  */
 export interface ResponseDtoSetupData {
-  data?: ResponseDtoSetupDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoSetupDataData;
+  message: string;
+  success: boolean;
 }
 
-export type ResponseDtoStatusDataDataAnnouncements = unknown | null;
-
-export type ResponseDtoStatusDataDataApiInfo = unknown | null;
-
-export type ResponseDtoStatusDataDataCustomOauthProviders = unknown | null;
-
-export type ResponseDtoStatusDataDataFaq = unknown | null;
-
 export type ResponseDtoStatusDataData = {
-  HeaderNavModules?: string;
-  SidebarModulesAdmin?: string;
-  _qn?: string;
-  announcements?: ResponseDtoStatusDataDataAnnouncements;
-  announcements_enabled?: boolean;
-  api_info?: ResponseDtoStatusDataDataApiInfo;
-  api_info_enabled?: boolean;
-  chats?: unknown;
-  checkin_enabled?: boolean;
-  custom_currency_exchange_rate?: number;
-  custom_currency_symbol?: string;
-  custom_oauth_providers?: ResponseDtoStatusDataDataCustomOauthProviders;
-  data_export_default_time?: string;
-  default_collapse_sidebar?: boolean;
-  default_use_auto_group?: boolean;
-  demo_site_enabled?: boolean;
-  discord_client_id?: string;
-  discord_oauth?: boolean;
-  display_in_currency?: boolean;
-  docs_link?: string;
-  email_verification?: boolean;
-  enable_batch_update?: boolean;
-  enable_data_export?: boolean;
-  enable_drawing?: boolean;
-  enable_task?: boolean;
-  faq?: ResponseDtoStatusDataDataFaq;
-  faq_enabled?: boolean;
-  footer_html?: string;
-  github_client_id?: string;
-  github_oauth?: boolean;
-  linuxdo_client_id?: string;
-  linuxdo_minimum_trust_level?: number;
-  linuxdo_oauth?: boolean;
-  logo?: string;
-  mj_notify_enabled?: boolean;
-  oidc_authorization_endpoint?: string;
-  oidc_client_id?: string;
-  oidc_enabled?: boolean;
-  passkey_allow_insecure?: boolean;
-  passkey_attachment?: string;
-  passkey_display_name?: string;
-  passkey_login?: boolean;
-  passkey_origins?: string;
-  passkey_rp_id?: string;
-  passkey_user_verification?: string;
-  price?: number;
-  privacy_policy_enabled?: boolean;
-  quota_display_type?: string;
-  quota_per_unit?: number;
-  self_use_mode_enabled?: boolean;
-  server_address?: string;
-  setup?: boolean;
-  start_time?: number;
-  stripe_unit_price?: number;
-  system_name?: string;
-  telegram_bot_name?: string;
-  telegram_oauth?: boolean;
-  top_up_link?: string;
-  turnstile_check?: boolean;
-  turnstile_site_key?: string;
-  uptime_kuma_enabled?: boolean;
-  usd_exchange_rate?: number;
-  user_agreement_enabled?: boolean;
-  version?: string;
-  wechat_login?: boolean;
-  wechat_qrcode?: string;
+  HeaderNavModules: string;
+  SidebarModulesAdmin: string;
+  _qn: string;
+  announcements?: unknown;
+  announcements_enabled: boolean;
+  api_info?: unknown;
+  api_info_enabled: boolean;
+  chats: unknown;
+  checkin_enabled: boolean;
+  custom_currency_exchange_rate: number;
+  custom_currency_symbol: string;
+  custom_oauth_providers?: unknown;
+  data_export_default_time: string;
+  default_collapse_sidebar: boolean;
+  default_use_auto_group: boolean;
+  demo_site_enabled: boolean;
+  discord_client_id: string;
+  discord_oauth: boolean;
+  display_in_currency: boolean;
+  docs_link: string;
+  email_verification: boolean;
+  enable_batch_update: boolean;
+  enable_data_export: boolean;
+  enable_drawing: boolean;
+  enable_task: boolean;
+  faq?: unknown;
+  faq_enabled: boolean;
+  footer_html: string;
+  github_client_id: string;
+  github_oauth: boolean;
+  linuxdo_client_id: string;
+  linuxdo_minimum_trust_level: number;
+  linuxdo_oauth: boolean;
+  logo: string;
+  mj_notify_enabled: boolean;
+  oidc_authorization_endpoint: string;
+  oidc_client_id: string;
+  oidc_enabled: boolean;
+  passkey_allow_insecure: boolean;
+  passkey_attachment: string;
+  passkey_display_name: string;
+  passkey_login: boolean;
+  passkey_origins: string;
+  passkey_rp_id: string;
+  passkey_user_verification: string;
+  price: number;
+  privacy_policy_enabled: boolean;
+  quota_display_type: string;
+  quota_per_unit: number;
+  self_use_mode_enabled: boolean;
+  server_address: string;
+  setup: boolean;
+  start_time: number;
+  stripe_unit_price: number;
+  system_name: string;
+  telegram_bot_name: string;
+  telegram_oauth: boolean;
+  top_up_link: string;
+  turnstile_check: boolean;
+  turnstile_site_key: string;
+  uptime_kuma_enabled: boolean;
+  usd_exchange_rate: number;
+  user_agreement_enabled: boolean;
+  version: string;
+  wechat_login: boolean;
+  wechat_qrcode: string;
 };
 
 /**
  * Response_dto.StatusData schema
  */
 export interface ResponseDtoStatusData {
-  data?: ResponseDtoStatusDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoStatusDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoStripePayLinkDataData = {
-  pay_link?: string;
+  pay_link: string;
 };
 
 /**
  * Response_dto.StripePayLinkData schema
  */
 export interface ResponseDtoStripePayLinkData {
-  data?: ResponseDtoStripePayLinkDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoStripePayLinkDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoSubscriptionActionDataData = {
-  message?: string | null;
+  message?: string;
 };
 
 /**
  * Response_dto.SubscriptionActionData schema
  */
 export interface ResponseDtoSubscriptionActionData {
-  data?: ResponseDtoSubscriptionActionDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoSubscriptionActionDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem = {
-  field?: string;
-  local?: unknown;
-  upstream?: unknown;
+  field: string;
+  local: unknown;
+  upstream: unknown;
 };
 
 export type ResponseDtoSyncPreviewResultDataConflictsItem = {
-  fields?: ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem[];
-  model_name?: string;
+  fields: ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem[];
+  model_name: string;
 };
 
 export type ResponseDtoSyncPreviewResultDataSource = {
-  locale?: string;
-  models_url?: string;
-  vendors_url?: string;
+  locale: string;
+  models_url: string;
+  vendors_url: string;
 };
 
 export type ResponseDtoSyncPreviewResultData = {
-  conflicts?: ResponseDtoSyncPreviewResultDataConflictsItem[];
-  missing?: string[];
-  source?: ResponseDtoSyncPreviewResultDataSource;
+  conflicts: ResponseDtoSyncPreviewResultDataConflictsItem[];
+  missing: string[];
+  source: ResponseDtoSyncPreviewResultDataSource;
 };
 
 /**
  * Response_dto.SyncPreviewResult schema
  */
 export interface ResponseDtoSyncPreviewResult {
-  data?: ResponseDtoSyncPreviewResultData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoSyncPreviewResultData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoSyncUpstreamResultDataSource = {
-  locale?: string;
-  models_url?: string;
-  vendors_url?: string;
+  locale: string;
+  models_url: string;
+  vendors_url: string;
 };
 
 export type ResponseDtoSyncUpstreamResultData = {
-  created_list?: string[];
-  created_models?: number;
-  created_vendors?: number;
-  skipped_models?: string[];
-  source?: ResponseDtoSyncUpstreamResultDataSource;
-  updated_list?: string[];
-  updated_models?: number;
+  created_list: string[];
+  created_models: number;
+  created_vendors: number;
+  skipped_models: string[];
+  source: ResponseDtoSyncUpstreamResultDataSource;
+  updated_list: string[];
+  updated_models: number;
 };
 
 /**
  * Response_dto.SyncUpstreamResult schema
  */
 export interface ResponseDtoSyncUpstreamResult {
-  data?: ResponseDtoSyncUpstreamResultData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoSyncUpstreamResultData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoSyncableChannelDataItem = {
+  base_url: string;
+  id: number;
+  name: string;
+  status: number;
+  type: number;
+};
+
+/**
+ * Response_dto.SyncableChannel schema
+ */
+export interface ResponseDtoSyncableChannel {
+  data: ResponseDtoSyncableChannelDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoTaskDtoDataItemsItem = {
-  action?: string;
-  channel_id?: number;
-  created_at?: number;
-  data?: unknown;
-  fail_reason?: string;
-  finish_time?: number;
-  group?: string;
-  id?: number;
-  platform?: string;
-  progress?: string;
-  properties?: unknown;
-  quota?: number;
-  result_url?: string | null;
-  start_time?: number;
-  status?: string;
-  submit_time?: number;
-  task_id?: string;
-  updated_at?: number;
-  user_id?: number;
-  username?: string | null;
+  action: string;
+  channel_id: number;
+  created_at: number;
+  data: unknown;
+  fail_reason: string;
+  finish_time: number;
+  group: string;
+  id: number;
+  platform: string;
+  progress: string;
+  properties: unknown;
+  quota: number;
+  result_url?: string;
+  start_time: number;
+  status: string;
+  submit_time: number;
+  task_id: string;
+  updated_at: number;
+  user_id: number;
+  username?: string;
 } | null;
 
 export type ResponseDtoTaskDtoData = {
-  items?: ResponseDtoTaskDtoDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseDtoTaskDtoDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_dto.TaskDto schema
  */
 export interface ResponseDtoTaskDto {
-  data?: ResponseDtoTaskDtoData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoTaskDtoData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoTestConnectionResponseData = {
-  hardware_count?: number;
-  total_available?: number;
+  hardware_count: number;
+  total_available: number;
 };
 
 /**
  * Response_dto.TestConnectionResponse schema
  */
 export interface ResponseDtoTestConnectionResponse {
-  data?: ResponseDtoTestConnectionResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoTestConnectionResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoTestStatusDataData = {
-  http_stats?: unknown;
+  http_stats: unknown;
 };
 
 /**
  * Response_dto.TestStatusData schema
  */
 export interface ResponseDtoTestStatusData {
-  data?: ResponseDtoTestStatusDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoTestStatusDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoTokenUsageDataDataModelLimits = {
@@ -2316,24 +2342,24 @@ export type ResponseDtoTokenUsageDataDataModelLimits = {
 };
 
 export type ResponseDtoTokenUsageDataData = {
-  expires_at?: number;
-  model_limits?: ResponseDtoTokenUsageDataDataModelLimits;
-  model_limits_enabled?: boolean;
-  name?: string;
-  object?: string;
-  total_available?: number;
-  total_granted?: number;
-  total_used?: number;
-  unlimited_quota?: boolean;
+  expires_at: number;
+  model_limits: ResponseDtoTokenUsageDataDataModelLimits;
+  model_limits_enabled: boolean;
+  name: string;
+  object: string;
+  total_available: number;
+  total_granted: number;
+  total_used: number;
+  unlimited_quota: boolean;
 };
 
 /**
  * Response_dto.TokenUsageData schema
  */
 export interface ResponseDtoTokenUsageData {
-  data?: ResponseDtoTokenUsageDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoTokenUsageDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoTopUpInfoDataDataDiscount = { [key: string]: number };
@@ -2343,624 +2369,749 @@ export type ResponseDtoTopUpInfoDataDataPayMethodsItem = {
 };
 
 export type ResponseDtoTopUpInfoDataData = {
-  amount_options?: number[];
-  creem_products?: string;
-  discount?: ResponseDtoTopUpInfoDataDataDiscount;
-  enable_creem_topup?: boolean;
-  enable_online_topup?: boolean;
-  enable_stripe_topup?: boolean;
-  min_topup?: number;
-  pay_methods?: ResponseDtoTopUpInfoDataDataPayMethodsItem[];
-  stripe_min_topup?: number;
+  amount_options: number[];
+  creem_products: string;
+  discount: ResponseDtoTopUpInfoDataDataDiscount;
+  enable_creem_topup: boolean;
+  enable_online_topup: boolean;
+  enable_stripe_topup: boolean;
+  min_topup: number;
+  pay_methods: ResponseDtoTopUpInfoDataDataPayMethodsItem[];
+  stripe_min_topup: number;
 };
 
 /**
  * Response_dto.TopUpInfoData schema
  */
 export interface ResponseDtoTopUpInfoData {
-  data?: ResponseDtoTopUpInfoDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoTopUpInfoDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoTwoFAStatusDataData = {
-  backup_codes_remaining?: number | null;
-  enabled?: boolean;
-  locked?: boolean;
+  backup_codes_remaining?: number;
+  enabled: boolean;
+  locked: boolean;
 };
 
 /**
  * Response_dto.TwoFAStatusData schema
  */
 export interface ResponseDtoTwoFAStatusData {
-  data?: ResponseDtoTwoFAStatusDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoTwoFAStatusDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoUpdateNameResponseData = {
-  id?: string;
-  message?: string;
-  name?: string;
-  status?: string;
+  id: string;
+  message: string;
+  name: string;
+  status: string;
 };
 
 /**
  * Response_dto.UpdateNameResponse schema
  */
 export interface ResponseDtoUpdateNameResponse {
-  data?: ResponseDtoUpdateNameResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoUpdateNameResponseData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoUptimeGroupResultDataItemMonitorsItem = {
+  group?: string;
+  name: string;
+  status: number;
+  uptime: number;
+};
+
+export type ResponseDtoUptimeGroupResultDataItem = {
+  categoryName: string;
+  monitors: ResponseDtoUptimeGroupResultDataItemMonitorsItem[];
+};
+
+/**
+ * Response_dto.UptimeGroupResult schema
+ */
+export interface ResponseDtoUptimeGroupResult {
+  data: ResponseDtoUptimeGroupResultDataItem[];
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoUserGroupInfoData = {
+  [key: string]: {
+    desc: string;
+    ratio: unknown;
+  };
+};
+
+/**
+ * Response_dto.UserGroupInfo schema
+ */
+export interface ResponseDtoUserGroupInfo {
+  data: ResponseDtoUserGroupInfoData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoUserOAuthBindingResponseDataItem = {
+  provider_icon: string;
+  provider_id: number;
+  provider_name: string;
+  provider_slug: string;
+  provider_user_id: string;
+};
+
+/**
+ * Response_dto.UserOAuthBindingResponse schema
+ */
+export interface ResponseDtoUserOAuthBindingResponse {
+  data: ResponseDtoUserOAuthBindingResponseDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoUserSelfDataData = {
-  aff_code?: string;
-  aff_count?: number;
-  aff_history_quota?: number;
-  aff_quota?: number;
-  discord_id?: string;
-  display_name?: string;
-  email?: string;
-  github_id?: string;
-  group?: string;
-  id?: number;
-  inviter_id?: number;
-  linux_do_id?: string;
-  oidc_id?: string;
-  permissions?: unknown;
-  quota?: number;
-  request_count?: number;
-  role?: number;
-  setting?: string;
-  sidebar_modules?: string;
-  status?: number;
-  stripe_customer?: string;
-  telegram_id?: string;
-  used_quota?: number;
-  username?: string;
-  wechat_id?: string;
+  aff_code: string;
+  aff_count: number;
+  aff_history_quota: number;
+  aff_quota: number;
+  discord_id: string;
+  display_name: string;
+  email: string;
+  github_id: string;
+  group: string;
+  id: number;
+  inviter_id: number;
+  linux_do_id: string;
+  oidc_id: string;
+  permissions: unknown;
+  quota: number;
+  request_count: number;
+  role: number;
+  setting: string;
+  sidebar_modules: string;
+  status: number;
+  stripe_customer: string;
+  telegram_id: string;
+  used_quota: number;
+  username: string;
+  wechat_id: string;
 };
 
 /**
  * Response_dto.UserSelfData schema
  */
 export interface ResponseDtoUserSelfData {
-  data?: ResponseDtoUserSelfDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoUserSelfDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseDtoVerificationStatusResponseData = {
-  expires_at?: number | null;
-  verified?: boolean;
+  expires_at?: number;
+  verified: boolean;
 };
 
 /**
  * Response_dto.VerificationStatusResponse schema
  */
 export interface ResponseDtoVerificationStatusResponse {
-  data?: ResponseDtoVerificationStatusResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseDtoVerificationStatusResponseData;
+  message: string;
+  success: boolean;
 }
 
 /**
  * Response_int schema
  */
 export interface ResponseInt {
-  data?: number;
-  message?: string;
-  success?: boolean;
+  data: number;
+  message: string;
+  success: boolean;
 }
 
 /**
  * Response_int64 schema
  */
 export interface ResponseInt64 {
-  data?: number;
-  message?: string;
-  success?: boolean;
+  data: number;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseIonetAvailableReplicasResponseDataReplicasItem = {
-  available_count?: number;
-  hardware_id?: number;
-  hardware_name?: string;
-  location_id?: number;
-  location_name?: string;
-  max_gpus?: number;
+  available_count: number;
+  hardware_id: number;
+  hardware_name: string;
+  location_id: number;
+  location_name: string;
+  max_gpus: number;
 };
 
 export type ResponseIonetAvailableReplicasResponseData = {
-  replicas?: ResponseIonetAvailableReplicasResponseDataReplicasItem[];
+  replicas: ResponseIonetAvailableReplicasResponseDataReplicasItem[];
 } | null;
 
 /**
  * Response_ionet.AvailableReplicasResponse schema
  */
 export interface ResponseIonetAvailableReplicasResponse {
-  data?: ResponseIonetAvailableReplicasResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseIonetAvailableReplicasResponseData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseIonetPriceEstimationResponseDataPriceBreakdown = {
-  compute_cost?: number;
-  hourly_rate?: number;
-  network_cost?: number | null;
-  storage_cost?: number | null;
-  total_cost?: number;
+  compute_cost: number;
+  hourly_rate: number;
+  network_cost?: number;
+  storage_cost?: number;
+  total_cost: number;
 };
 
 export type ResponseIonetPriceEstimationResponseData = {
-  currency?: string;
-  estimated_cost?: number;
-  estimation_valid?: boolean;
-  price_breakdown?: ResponseIonetPriceEstimationResponseDataPriceBreakdown;
+  currency: string;
+  estimated_cost: number;
+  estimation_valid: boolean;
+  price_breakdown: ResponseIonetPriceEstimationResponseDataPriceBreakdown;
 } | null;
 
 /**
  * Response_ionet.PriceEstimationResponse schema
  */
 export interface ResponseIonetPriceEstimationResponse {
-  data?: ResponseIonetPriceEstimationResponseData;
-  message?: string;
-  success?: boolean;
+  data: ResponseIonetPriceEstimationResponseData;
+  message: string;
+  success: boolean;
 }
 
-export type ResponseMapIntData = { [key: string]: string[] };
+export type ResponseMapIntStringData = { [key: string]: string[] };
 
 /**
- * Response_map_int schema
+ * Response_map_int_string schema
  */
-export interface ResponseMapInt {
-  data?: ResponseMapIntData;
-  message?: string;
-  success?: boolean;
-}
-
-export type ResponseMapStringData = {
-  [key: string]: {
-    desc?: string;
-    ratio?: unknown;
-  };
-};
-
-/**
- * Response_map_string schema
- */
-export interface ResponseMapString {
-  data?: ResponseMapStringData;
-  message?: string;
-  success?: boolean;
+export interface ResponseMapIntString {
+  data: ResponseMapIntStringData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelChannelDataChannelInfoMultiKeyDisabledReason = {
-  [key: string]: string | null;
-} | null;
+  [key: string]: string;
+};
 
 export type ResponseModelChannelDataChannelInfoMultiKeyDisabledTime = {
-  [key: string]: number | null;
-} | null;
+  [key: string]: number;
+};
 
 export type ResponseModelChannelDataChannelInfoMultiKeyStatusList = {
   [key: string]: number;
 };
 
 export type ResponseModelChannelDataChannelInfo = {
-  is_multi_key?: boolean;
+  is_multi_key: boolean;
   multi_key_disabled_reason?: ResponseModelChannelDataChannelInfoMultiKeyDisabledReason;
   multi_key_disabled_time?: ResponseModelChannelDataChannelInfoMultiKeyDisabledTime;
-  multi_key_mode?: string;
-  multi_key_polling_index?: number;
-  multi_key_size?: number;
-  multi_key_status_list?: ResponseModelChannelDataChannelInfoMultiKeyStatusList;
+  multi_key_mode: string;
+  multi_key_polling_index: number;
+  multi_key_size: number;
+  multi_key_status_list: ResponseModelChannelDataChannelInfoMultiKeyStatusList;
 };
 
 export type ResponseModelChannelData = {
-  auto_ban?: number | null;
-  balance?: number;
-  balance_updated_time?: number;
-  base_url?: string | null;
-  channel_info?: ResponseModelChannelDataChannelInfo;
-  created_time?: number;
-  group?: string;
-  header_override?: string | null;
-  id?: number;
-  key?: string;
-  model_mapping?: string | null;
-  models?: string;
-  name?: string;
-  openai_organization?: string | null;
-  other?: string;
-  other_info?: string;
-  param_override?: string | null;
-  priority?: number | null;
+  auto_ban: number | null;
+  balance: number;
+  balance_updated_time: number;
+  base_url: string | null;
+  channel_info: ResponseModelChannelDataChannelInfo;
+  created_time: number;
+  group: string;
+  header_override: string | null;
+  id: number;
+  key: string;
+  model_mapping: string | null;
+  models: string;
+  name: string;
+  openai_organization: string | null;
+  other: string;
+  other_info: string;
+  param_override: string | null;
+  priority: number | null;
   /** @maxLength 255 */
-  remark?: string | null;
-  response_time?: number;
-  setting?: string | null;
-  settings?: string;
-  status?: number;
-  status_code_mapping?: string | null;
-  tag?: string | null;
-  test_model?: string | null;
-  test_time?: number;
-  type?: number;
-  used_quota?: number;
+  remark: string | null;
+  response_time: number;
+  setting: string | null;
+  settings: string;
+  status: number;
+  status_code_mapping: string | null;
+  tag: string | null;
+  test_model: string | null;
+  test_time: number;
+  type: number;
+  used_quota: number;
   /** @minimum 0 */
-  weight?: number | null;
+  weight: number | null;
 } | null;
 
 /**
  * Response_model.Channel schema
  */
 export interface ResponseModelChannel {
-  data?: ResponseModelChannelData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelChannelData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelLogDataItemsItem = {
-  channel?: number;
-  channel_name?: string;
-  completion_tokens?: number;
-  content?: string;
-  created_at?: number;
-  group?: string;
-  id?: number;
-  ip?: string;
-  is_stream?: boolean;
-  model_name?: string;
-  other?: string;
-  prompt_tokens?: number;
-  quota?: number;
-  request_id?: string | null;
-  token_id?: number;
-  token_name?: string;
-  type?: number;
-  use_time?: number;
-  user_id?: number;
-  username?: string;
+  channel: number;
+  channel_name: string;
+  completion_tokens: number;
+  content: string;
+  created_at: number;
+  group: string;
+  id: number;
+  ip: string;
+  is_stream: boolean;
+  model_name: string;
+  other: string;
+  prompt_tokens: number;
+  quota: number;
+  request_id?: string;
+  token_id: number;
+  token_name: string;
+  type: number;
+  use_time: number;
+  user_id: number;
+  username: string;
 } | null;
 
 export type ResponseModelLogData = {
-  items?: ResponseModelLogDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelLogDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.Log schema
  */
 export interface ResponseModelLog {
-  data?: ResponseModelLogData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelLogData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelMidjourneyDataItemsItem = {
-  action?: string;
-  buttons?: string;
-  channel_id?: number;
-  code?: number;
-  description?: string;
-  fail_reason?: string;
-  finish_time?: number;
-  id?: number;
-  image_url?: string;
-  mj_id?: string;
-  progress?: string;
-  prompt?: string;
-  prompt_en?: string;
-  properties?: string;
-  quota?: number;
-  start_time?: number;
-  state?: string;
-  status?: string;
-  submit_time?: number;
-  user_id?: number;
-  video_url?: string;
-  video_urls?: string;
+  action: string;
+  buttons: string;
+  channel_id: number;
+  code: number;
+  description: string;
+  fail_reason: string;
+  finish_time: number;
+  id: number;
+  image_url: string;
+  mj_id: string;
+  progress: string;
+  prompt: string;
+  prompt_en: string;
+  properties: string;
+  quota: number;
+  start_time: number;
+  state: string;
+  status: string;
+  submit_time: number;
+  user_id: number;
+  video_url: string;
+  video_urls: string;
 } | null;
 
 export type ResponseModelMidjourneyData = {
-  items?: ResponseModelMidjourneyDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelMidjourneyDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.Midjourney schema
  */
 export interface ResponseModelMidjourney {
-  data?: ResponseModelMidjourneyData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelMidjourneyData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelModelDataItemsItemBoundChannelsItem = {
-  name?: string;
-  type?: number;
-} | null;
+  name: string;
+  type: number;
+};
 
 export type ResponseModelModelDataItemsItem = {
-  bound_channels?: ResponseModelModelDataItemsItemBoundChannelsItem[] | null;
-  created_time?: number;
-  description?: string | null;
-  enable_groups?: (string | null)[] | null;
-  endpoints?: string | null;
-  icon?: string | null;
-  id?: number;
-  matched_count?: number | null;
-  matched_models?: (string | null)[] | null;
-  model_name?: string;
-  name_rule?: number;
-  quota_types?: (number | null)[] | null;
-  status?: number;
-  sync_official?: number;
-  tags?: string | null;
-  updated_time?: number;
-  vendor_id?: number | null;
+  bound_channels?: ResponseModelModelDataItemsItemBoundChannelsItem[];
+  created_time: number;
+  description?: string;
+  enable_groups?: string[];
+  endpoints?: string;
+  icon?: string;
+  id: number;
+  matched_count?: number;
+  matched_models?: string[];
+  model_name: string;
+  name_rule: number;
+  quota_types?: number[];
+  status: number;
+  sync_official: number;
+  tags?: string;
+  updated_time: number;
+  vendor_id?: number;
 } | null;
 
 export type ResponseModelModelData = {
-  items?: ResponseModelModelDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelModelDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.Model schema
  */
 export interface ResponseModelModel {
-  data?: ResponseModelModelData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelModelData;
+  message: string;
+  success: boolean;
 }
 
-export type ResponseModelPrefillGroupData = {
-  created_time?: number;
-  description?: string | null;
-  id?: number;
-  items?: string;
-  name?: string;
-  type?: string;
-  updated_time?: number;
-};
+export type ResponseModelOptionDataItem = {
+  key: string;
+  value: string;
+} | null;
+
+/**
+ * Response_model.Option schema
+ */
+export interface ResponseModelOption {
+  data: ResponseModelOptionDataItem[];
+  message: string;
+  success: boolean;
+}
+
+export type ResponseModelPrefillGroupDataItem = {
+  created_time: number;
+  description?: string;
+  id: number;
+  items: string;
+  name: string;
+  type: string;
+  updated_time: number;
+} | null;
 
 /**
  * Response_model.PrefillGroup schema
  */
 export interface ResponseModelPrefillGroup {
-  data?: ResponseModelPrefillGroupData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelPrefillGroupDataItem[];
+  message: string;
+  success: boolean;
+}
+
+export type ResponseModelQuotaDataDataItem = {
+  count: number;
+  created_at: number;
+  id: number;
+  model_name: string;
+  quota: number;
+  token_used: number;
+  user_id: number;
+  username: string;
+} | null;
+
+/**
+ * Response_model.QuotaData schema
+ */
+export interface ResponseModelQuotaData {
+  data: ResponseModelQuotaDataDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelRedemptionDataItemsItem = {
-  count?: number;
-  created_time?: number;
-  expired_time?: number;
-  id?: number;
-  key?: string;
-  name?: string;
-  quota?: number;
-  redeemed_time?: number;
-  status?: number;
-  used_user_id?: number;
-  user_id?: number;
+  count: number;
+  created_time: number;
+  expired_time: number;
+  id: number;
+  key: string;
+  name: string;
+  quota: number;
+  redeemed_time: number;
+  status: number;
+  used_user_id: number;
+  user_id: number;
 } | null;
 
 export type ResponseModelRedemptionData = {
-  items?: ResponseModelRedemptionDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelRedemptionDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.Redemption schema
  */
 export interface ResponseModelRedemption {
-  data?: ResponseModelRedemptionData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelRedemptionData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseModelReferralCommissionWithUserDataItem = {
+  commission_quota?: number;
+  commission_rate?: number;
+  created_at?: number;
+  id?: number;
+  invitee_id?: number;
+  invitee_username: string;
+  inviter_id?: number;
+  payment_method?: string;
+  recharge_amount?: number;
+  top_up_id?: number;
+} | null;
+
+/**
+ * Response_model.ReferralCommissionWithUser schema
+ */
+export interface ResponseModelReferralCommissionWithUser {
+  data: ResponseModelReferralCommissionWithUserDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelSubscriptionPlanData = {
-  created_at?: number;
-  creem_product_id?: string;
-  currency?: string;
-  custom_seconds?: number;
-  duration_unit?: string;
-  duration_value?: number;
-  enabled?: boolean;
-  id?: number;
-  max_purchase_per_user?: number;
-  price_amount?: number;
-  quota_reset_custom_seconds?: number;
-  quota_reset_period?: string;
-  sort_order?: number;
-  stripe_price_id?: string;
-  subtitle?: string;
-  title?: string;
-  total_amount?: number;
-  updated_at?: number;
-  upgrade_group?: string;
+  created_at: number;
+  creem_product_id: string;
+  currency: string;
+  custom_seconds: number;
+  duration_unit: string;
+  duration_value: number;
+  enabled: boolean;
+  id: number;
+  max_purchase_per_user: number;
+  price_amount: number;
+  quota_reset_custom_seconds: number;
+  quota_reset_period: string;
+  sort_order: number;
+  stripe_price_id: string;
+  subtitle: string;
+  title: string;
+  total_amount: number;
+  updated_at: number;
+  upgrade_group: string;
 };
 
 /**
  * Response_model.SubscriptionPlan schema
  */
 export interface ResponseModelSubscriptionPlan {
-  data?: ResponseModelSubscriptionPlanData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelSubscriptionPlanData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseModelSubscriptionSummaryDataItemSubscription = {
+  amount_total: number;
+  amount_used: number;
+  created_at: number;
+  end_time: number;
+  id: number;
+  last_reset_time: number;
+  next_reset_time: number;
+  plan_id: number;
+  prev_user_group: string;
+  source: string;
+  start_time: number;
+  status: string;
+  updated_at: number;
+  upgrade_group: string;
+  user_id: number;
+} | null;
+
+export type ResponseModelSubscriptionSummaryDataItem = {
+  subscription: ResponseModelSubscriptionSummaryDataItemSubscription;
+};
+
+/**
+ * Response_model.SubscriptionSummary schema
+ */
+export interface ResponseModelSubscriptionSummary {
+  data: ResponseModelSubscriptionSummaryDataItem[];
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelTokenDataItemsItem = {
-  accessed_time?: number;
-  allow_ips?: string | null;
-  created_time?: number;
-  cross_group_retry?: boolean;
-  expired_time?: number;
-  group?: string;
-  id?: number;
-  key?: string;
-  model_limits?: string;
-  model_limits_enabled?: boolean;
-  name?: string;
-  remain_quota?: number;
-  status?: number;
-  unlimited_quota?: boolean;
-  used_quota?: number;
-  user_id?: number;
+  accessed_time: number;
+  allow_ips: string | null;
+  created_time: number;
+  cross_group_retry: boolean;
+  expired_time: number;
+  group: string;
+  id: number;
+  key: string;
+  model_limits: string;
+  model_limits_enabled: boolean;
+  name: string;
+  remain_quota: number;
+  status: number;
+  unlimited_quota: boolean;
+  used_quota: number;
+  user_id: number;
 } | null;
 
 export type ResponseModelTokenData = {
-  items?: ResponseModelTokenDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelTokenDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.Token schema
  */
 export interface ResponseModelToken {
-  data?: ResponseModelTokenData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelTokenData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelTopUpDataItemsItem = {
-  amount?: number;
-  complete_time?: number;
-  create_time?: number;
-  id?: number;
-  money?: number;
-  payment_method?: string;
-  status?: string;
-  trade_no?: string;
-  user_id?: number;
+  amount: number;
+  complete_time: number;
+  create_time: number;
+  id: number;
+  money: number;
+  payment_method: string;
+  status: string;
+  trade_no: string;
+  user_id: number;
 } | null;
 
 export type ResponseModelTopUpData = {
-  items?: ResponseModelTopUpDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelTopUpDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.TopUp schema
  */
 export interface ResponseModelTopUp {
-  data?: ResponseModelTopUpData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelTopUpData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelTwoFAStatsData = {
-  enabled_rate?: string;
-  enabled_users?: number;
-  total_users?: number;
+  enabled_rate: string;
+  enabled_users: number;
+  total_users: number;
 } | null;
 
 /**
  * Response_model.TwoFAStats schema
  */
 export interface ResponseModelTwoFAStats {
-  data?: ResponseModelTwoFAStatsData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelTwoFAStatsData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelUserDataItemsItem = {
-  access_token?: string | null;
-  aff_code?: string;
-  aff_count?: number;
-  aff_history_quota?: number;
-  aff_quota?: number;
-  discord_id?: string;
+  access_token: string | null;
+  aff_code: string;
+  aff_count: number;
+  aff_history_quota: number;
+  aff_quota: number;
+  discord_id: string;
   /** @maxLength 20 */
-  display_name?: string;
+  display_name: string;
   /** @maxLength 50 */
-  email?: string;
-  github_id?: string;
-  group?: string;
-  id?: number;
-  inviter_id?: number;
-  linux_do_id?: string;
-  oidc_id?: string;
-  original_password?: string;
+  email: string;
+  github_id: string;
+  group: string;
+  id: number;
+  inviter_id: number;
+  linux_do_id: string;
+  oidc_id: string;
+  original_password: string;
   /**
    * @minLength 8
    * @maxLength 20
    */
-  password?: string;
-  quota?: number;
-  referral_commission_percent?: number | null;
+  password: string;
+  quota: number;
+  referral_commission_percent: number | null;
   /** @maxLength 255 */
-  remark?: string | null;
-  request_count?: number;
-  role?: number;
-  setting?: string;
-  status?: number;
-  stripe_customer?: string;
-  telegram_id?: string;
-  used_quota?: number;
+  remark?: string;
+  request_count: number;
+  role: number;
+  setting: string;
+  status: number;
+  stripe_customer: string;
+  telegram_id: string;
+  used_quota: number;
   /** @maxLength 20 */
-  username?: string;
-  verification_code?: string;
-  wechat_id?: string;
+  username: string;
+  verification_code: string;
+  wechat_id: string;
 } | null;
 
 export type ResponseModelUserData = {
-  items?: ResponseModelUserDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelUserDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.User schema
  */
 export interface ResponseModelUser {
-  data?: ResponseModelUserData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelUserData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseModelVendorDataItemsItem = {
-  created_time?: number;
-  description?: string | null;
-  icon?: string | null;
-  id?: number;
-  name?: string;
-  status?: number;
-  updated_time?: number;
+  created_time: number;
+  description?: string;
+  icon?: string;
+  id: number;
+  name: string;
+  status: number;
+  updated_time: number;
 } | null;
 
 export type ResponseModelVendorData = {
-  items?: ResponseModelVendorDataItemsItem[];
-  page?: number;
-  page_size?: number;
-  total?: number;
+  items: ResponseModelVendorDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
 };
 
 /**
  * Response_model.Vendor schema
  */
 export interface ResponseModelVendor {
-  data?: ResponseModelVendorData;
-  message?: string;
-  success?: boolean;
+  data: ResponseModelVendorData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseRatioSettingExposedRatioDataDataCacheRatio = {
@@ -2984,20 +3135,20 @@ export type ResponseRatioSettingExposedRatioDataDataModelRatio = {
 };
 
 export type ResponseRatioSettingExposedRatioDataData = {
-  cache_ratio?: ResponseRatioSettingExposedRatioDataDataCacheRatio;
-  completion_ratio?: ResponseRatioSettingExposedRatioDataDataCompletionRatio;
-  create_cache_ratio?: ResponseRatioSettingExposedRatioDataDataCreateCacheRatio;
-  model_price?: ResponseRatioSettingExposedRatioDataDataModelPrice;
-  model_ratio?: ResponseRatioSettingExposedRatioDataDataModelRatio;
+  cache_ratio: ResponseRatioSettingExposedRatioDataDataCacheRatio;
+  completion_ratio: ResponseRatioSettingExposedRatioDataDataCompletionRatio;
+  create_cache_ratio: ResponseRatioSettingExposedRatioDataDataCreateCacheRatio;
+  model_price: ResponseRatioSettingExposedRatioDataDataModelPrice;
+  model_ratio: ResponseRatioSettingExposedRatioDataDataModelRatio;
 };
 
 /**
  * Response_ratio_setting.ExposedRatioData schema
  */
 export interface ResponseRatioSettingExposedRatioData {
-  data?: ResponseRatioSettingExposedRatioDataData;
-  message?: string;
-  success?: boolean;
+  data: ResponseRatioSettingExposedRatioDataData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseServiceChannelAffinityCacheStatsDataByRuleName = {
@@ -3005,253 +3156,249 @@ export type ResponseServiceChannelAffinityCacheStatsDataByRuleName = {
 };
 
 export type ResponseServiceChannelAffinityCacheStatsData = {
-  by_rule_name?: ResponseServiceChannelAffinityCacheStatsDataByRuleName;
-  cache_algo?: string;
-  cache_capacity?: number;
-  enabled?: boolean;
-  total?: number;
-  unknown?: number;
+  by_rule_name: ResponseServiceChannelAffinityCacheStatsDataByRuleName;
+  cache_algo: string;
+  cache_capacity: number;
+  enabled: boolean;
+  total: number;
+  unknown: number;
 };
 
 /**
  * Response_service.ChannelAffinityCacheStats schema
  */
 export interface ResponseServiceChannelAffinityCacheStats {
-  data?: ResponseServiceChannelAffinityCacheStatsData;
-  message?: string;
-  success?: boolean;
+  data: ResponseServiceChannelAffinityCacheStatsData;
+  message: string;
+  success: boolean;
 }
 
 export type ResponseServiceChannelAffinityUsageCacheStatsData = {
-  cached_token_rate_mode?: string;
-  cached_tokens?: number;
-  completion_tokens?: number;
-  hit?: number;
-  key_fp?: string;
-  last_seen_at?: number;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens?: number;
-  rule_name?: string;
-  total?: number;
-  total_tokens?: number;
-  using_group?: string;
-  window_seconds?: number;
+  cached_token_rate_mode: string;
+  cached_tokens: number;
+  completion_tokens: number;
+  hit: number;
+  key_fp: string;
+  last_seen_at: number;
+  prompt_cache_hit_tokens: number;
+  prompt_tokens: number;
+  rule_name: string;
+  total: number;
+  total_tokens: number;
+  using_group: string;
+  window_seconds: number;
 };
 
 /**
  * Response_service.ChannelAffinityUsageCacheStats schema
  */
 export interface ResponseServiceChannelAffinityUsageCacheStats {
-  data?: ResponseServiceChannelAffinityUsageCacheStatsData;
-  message?: string;
-  success?: boolean;
+  data: ResponseServiceChannelAffinityUsageCacheStatsData;
+  message: string;
+  success: boolean;
 }
 
 /**
  * Response_string schema
  */
 export interface ResponseString {
-  data?: string;
-  message?: string;
-  success?: boolean;
+  data: string;
+  message: string;
+  success: boolean;
 }
-
-export type ResponsesAPIResponseUsage = unknown | null;
 
 /**
  * ResponsesAPIResponse schema
  */
 export interface ResponsesAPIResponse {
-  created_at?: number;
-  id?: string;
-  model?: string;
-  object?: string;
-  output?: unknown[];
-  status?: string;
-  usage?: ResponsesAPIResponseUsage;
+  created_at: number;
+  id: string;
+  model: string;
+  object: string;
+  output: unknown[];
+  status: string;
+  usage?: unknown;
 }
 
 /**
  * Setup2FARequest schema
  */
 export interface Setup2FARequest {
-  code?: string;
+  code: string;
 }
 
 /**
  * SetupRequest schema
  */
 export interface SetupRequest {
-  DemoSiteEnabled?: boolean;
-  SelfUseModeEnabled?: boolean;
-  confirmPassword?: string;
-  password?: string;
-  username?: string;
+  DemoSiteEnabled: boolean;
+  SelfUseModeEnabled: boolean;
+  confirmPassword: string;
+  password: string;
+  username: string;
 }
 
 /**
  * StripePayRequest schema
  */
 export interface StripePayRequest {
-  amount?: number;
-  cancel_url?: string | null;
-  payment_method?: string;
-  success_url?: string | null;
+  amount: number;
+  cancel_url?: string;
+  payment_method: string;
+  success_url?: string;
 }
 
 /**
  * SubscriptionCreemPayRequest schema
  */
 export interface SubscriptionCreemPayRequest {
-  plan_id?: number;
+  plan_id: number;
 }
 
 /**
  * SubscriptionEpayPayRequest schema
  */
 export interface SubscriptionEpayPayRequest {
-  payment_method?: string;
-  plan_id?: number;
+  payment_method: string;
+  plan_id: number;
 }
 
 /**
  * SubscriptionStripePayRequest schema
  */
 export interface SubscriptionStripePayRequest {
-  plan_id?: number;
+  plan_id: number;
 }
 
 export type SyncRequestOverwriteItem = {
-  fields?: string[];
-  model_name?: string;
+  fields: string[];
+  model_name: string;
 };
 
 /**
  * SyncRequest schema
  */
 export interface SyncRequest {
-  locale?: string;
-  overwrite?: SyncRequestOverwriteItem[];
+  locale: string;
+  overwrite: SyncRequestOverwriteItem[];
 }
 
 /**
  * TaskResponseDoc schema
  */
 export interface TaskResponseDoc {
-  code?: string;
-  data?: unknown;
-  message?: string;
+  code: string;
+  data: unknown;
+  message: string;
 }
 
 /**
  * TestChannelResponse schema
  */
 export interface TestChannelResponse {
-  message?: string;
-  success?: boolean;
-  time?: number;
+  message: string;
+  success: boolean;
+  time: number;
 }
 
 /**
  * TestIoNetConnectionRequest schema
  */
 export interface TestIoNetConnectionRequest {
-  api_key?: string;
+  api_key: string;
 }
 
 /**
  * Token schema
  */
 export interface Token {
-  accessed_time?: number;
-  allow_ips?: string | null;
-  created_time?: number;
-  cross_group_retry?: boolean;
-  expired_time?: number;
-  group?: string;
-  id?: number;
-  key?: string;
-  model_limits?: string;
-  model_limits_enabled?: boolean;
-  name?: string;
-  remain_quota?: number;
-  status?: number;
-  unlimited_quota?: boolean;
-  used_quota?: number;
-  user_id?: number;
+  accessed_time: number;
+  allow_ips: string | null;
+  created_time: number;
+  cross_group_retry: boolean;
+  expired_time: number;
+  group: string;
+  id: number;
+  key: string;
+  model_limits: string;
+  model_limits_enabled: boolean;
+  name: string;
+  remain_quota: number;
+  status: number;
+  unlimited_quota: boolean;
+  used_quota: number;
+  user_id: number;
 }
 
 /**
  * TokenBatch schema
  */
 export interface TokenBatch {
-  ids?: number[];
+  ids: number[];
 }
 
 /**
  * TopUpRequest schema
  */
 export interface TopUpRequest {
-  key?: string;
+  key: string;
 }
 
 /**
  * TransferAffQuotaRequest schema
  */
 export interface TransferAffQuotaRequest {
-  quota?: number;
+  quota: number;
 }
 
 /**
  * UpdateCustomOAuthProviderRequest schema
  */
 export interface UpdateCustomOAuthProviderRequest {
-  access_denied_message?: string | null;
-  access_policy?: string | null;
-  auth_style?: number | null;
-  authorization_endpoint?: string;
-  client_id?: string;
-  client_secret?: string;
-  display_name_field?: string;
-  email_field?: string;
-  enabled?: boolean | null;
-  icon?: string | null;
-  name?: string;
-  scopes?: string;
-  slug?: string;
-  token_endpoint?: string;
-  user_id_field?: string;
-  user_info_endpoint?: string;
-  username_field?: string;
-  well_known?: string | null;
+  access_denied_message: string | null;
+  access_policy: string | null;
+  auth_style: number | null;
+  authorization_endpoint: string;
+  client_id: string;
+  client_secret: string;
+  display_name_field: string;
+  email_field: string;
+  enabled: boolean | null;
+  icon: string | null;
+  name: string;
+  scopes: string;
+  slug: string;
+  token_endpoint: string;
+  user_id_field: string;
+  user_info_endpoint: string;
+  username_field: string;
+  well_known: string | null;
 }
 
 /**
  * UpdateDeploymentNameRequest schema
  */
 export interface UpdateDeploymentNameRequest {
-  name?: string;
+  name: string;
 }
 
-export type UpdateDeploymentRequestEnvVariables = {
-  [key: string]: string | null;
-} | null;
+export type UpdateDeploymentRequestEnvVariables = { [key: string]: string };
 
 export type UpdateDeploymentRequestSecretEnvVariables = {
-  [key: string]: string | null;
-} | null;
+  [key: string]: string;
+};
 
 /**
  * UpdateDeploymentRequest schema
  */
 export interface UpdateDeploymentRequest {
-  args?: (string | null)[] | null;
-  command?: string | null;
-  entrypoint?: (string | null)[] | null;
+  args?: string[];
+  command?: string;
+  entrypoint?: string[];
   env_variables?: UpdateDeploymentRequestEnvVariables;
-  image_url?: string | null;
-  registry_secret?: string | null;
-  registry_username?: string | null;
+  image_url?: string;
+  registry_secret?: string;
+  registry_username?: string;
   secret_env_variables?: UpdateDeploymentRequestSecretEnvVariables;
   traffic_port?: number | null;
 }
@@ -3260,104 +3407,104 @@ export interface UpdateDeploymentRequest {
  * UpdateUserSettingRequest schema
  */
 export interface UpdateUserSettingRequest {
-  accept_unset_model_ratio_model?: boolean;
-  bark_url?: string | null;
-  gotify_priority?: number | null;
-  gotify_token?: string | null;
-  gotify_url?: string | null;
-  notification_email?: string | null;
-  notify_type?: string;
-  quota_warning_threshold?: number;
-  record_ip_log?: boolean;
+  accept_unset_model_ratio_model: boolean;
+  bark_url?: string;
+  gotify_priority?: number;
+  gotify_token?: string;
+  gotify_url?: string;
+  notification_email?: string;
+  notify_type: string;
+  quota_warning_threshold: number;
+  record_ip_log: boolean;
   upstream_model_update_notify_enabled?: boolean | null;
-  webhook_secret?: string | null;
-  webhook_url?: string | null;
+  webhook_secret?: string;
+  webhook_url?: string;
 }
 
 export type UpstreamRequestUpstreamsItem = {
-  base_url?: string;
-  endpoint?: string;
-  id?: number | null;
-  name?: string;
+  base_url: string;
+  endpoint: string;
+  id?: number;
+  name: string;
 };
 
 /**
  * UpstreamRequest schema
  */
 export interface UpstreamRequest {
-  channel_ids?: number[];
-  timeout?: number;
-  upstreams?: UpstreamRequestUpstreamsItem[];
+  channel_ids: number[];
+  timeout: number;
+  upstreams: UpstreamRequestUpstreamsItem[];
 }
 
 /**
  * User schema
  */
 export interface User {
-  access_token?: string | null;
-  aff_code?: string;
-  aff_count?: number;
-  aff_history_quota?: number;
-  aff_quota?: number;
-  discord_id?: string;
+  access_token: string | null;
+  aff_code: string;
+  aff_count: number;
+  aff_history_quota: number;
+  aff_quota: number;
+  discord_id: string;
   /** @maxLength 20 */
-  display_name?: string;
+  display_name: string;
   /** @maxLength 50 */
-  email?: string;
-  github_id?: string;
-  group?: string;
-  id?: number;
-  inviter_id?: number;
-  linux_do_id?: string;
-  oidc_id?: string;
-  original_password?: string;
+  email: string;
+  github_id: string;
+  group: string;
+  id: number;
+  inviter_id: number;
+  linux_do_id: string;
+  oidc_id: string;
+  original_password: string;
   /**
    * @minLength 8
    * @maxLength 20
    */
-  password?: string;
-  quota?: number;
-  referral_commission_percent?: number | null;
+  password: string;
+  quota: number;
+  referral_commission_percent: number | null;
   /** @maxLength 255 */
-  remark?: string | null;
-  request_count?: number;
-  role?: number;
-  setting?: string;
-  status?: number;
-  stripe_customer?: string;
-  telegram_id?: string;
-  used_quota?: number;
+  remark?: string;
+  request_count: number;
+  role: number;
+  setting: string;
+  status: number;
+  stripe_customer: string;
+  telegram_id: string;
+  used_quota: number;
   /** @maxLength 20 */
-  username?: string;
-  verification_code?: string;
-  wechat_id?: string;
+  username: string;
+  verification_code: string;
+  wechat_id: string;
 }
 
 /**
  * Vendor schema
  */
 export interface Vendor {
-  created_time?: number;
-  description?: string | null;
-  icon?: string | null;
-  id?: number;
-  name?: string;
-  status?: number;
-  updated_time?: number;
+  created_time: number;
+  description?: string;
+  icon?: string;
+  id: number;
+  name: string;
+  status: number;
+  updated_time: number;
 }
 
 /**
  * Verify2FARequest schema
  */
 export interface Verify2FARequest {
-  code?: string;
+  code: string;
 }
 
 /**
  * codexOAuthCompleteRequest schema
  */
 export interface CodexOAuthCompleteRequest {
-  input?: string;
+  input: string;
 }
 
 /**
@@ -4592,12 +4739,12 @@ export const deleteDisabledChannel = async (
  * @summary Fetch Models
  */
 export type fetchModelsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
 export type fetchModelsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
@@ -4739,12 +4886,12 @@ export const fixChannelsAbilities = async (
  * @summary Channel List Models
  */
 export type channelListModelsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseDtoOpenAIModels;
   status: 200;
 };
 
 export type channelListModelsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseDtoOpenAIModels;
   status: 200;
 };
 
@@ -4785,12 +4932,12 @@ export const channelListModels = async (
  * @summary Enabled List Models
  */
 export type enabledListModelsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
 export type enabledListModelsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
@@ -6118,12 +6265,12 @@ export const creemWebhook = async (
  * @summary Get Custom O Auth Providers
  */
 export type getCustomOAuthProvidersResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
 export type getCustomOAuthProvidersResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseDtoCustomOAuthProviderResponse;
   status: 200;
 };
 
@@ -6424,12 +6571,12 @@ export const updateCustomOAuthProvider = async (
  * @summary Get All Quota Dates
  */
 export type getAllQuotaDatesResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelQuotaData;
   status: 200;
 };
 
 export type getAllQuotaDatesResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelQuotaData;
   status: 200;
 };
 
@@ -6482,12 +6629,12 @@ export const getAllQuotaDates = async (
  * @summary Get User Quota Dates
  */
 export type getUserQuotaDatesResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelQuotaData;
   status: 200;
 };
 
 export type getUserQuotaDatesResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelQuotaData;
   status: 200;
 };
 
@@ -7543,12 +7690,12 @@ export const updateDeploymentName = async (
  * @summary Get Groups
  */
 export type getGroupsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
 export type getGroupsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
@@ -8082,12 +8229,12 @@ export const getLogsStat = async (
  * @summary Get Log By Key
  */
 export type getLogByKeyResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelLog;
   status: 200;
 };
 
 export type getLogByKeyResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelLog;
   status: 200;
 };
 
@@ -8247,12 +8394,12 @@ export const getUserMidjourney = async (
  * @summary Dashboard List Models
  */
 export type dashboardListModelsResponse200ApplicationJson = {
-  data: ResponseMapInt;
+  data: ResponseMapIntString;
   status: 200;
 };
 
 export type dashboardListModelsResponse200ApplicationXml = {
-  data: ResponseMapInt;
+  data: ResponseMapIntString;
   status: 200;
 };
 
@@ -8460,12 +8607,12 @@ export const getAllModelsMeta = async (
  * @summary Get Missing Models
  */
 export type getMissingModelsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
 export type getMissingModelsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
@@ -9250,12 +9397,12 @@ export const handleOAuth = async (
  * @summary Get Options
  */
 export type getOptionsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelOption;
   status: 200;
 };
 
 export type getOptionsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelOption;
   status: 200;
 };
 
@@ -9733,12 +9880,12 @@ export const getPerformanceStats = async (
  * @summary Get Prefill Groups
  */
 export type getPrefillGroupsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelPrefillGroup;
   status: 200;
 };
 
 export type getPrefillGroupsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelPrefillGroup;
   status: 200;
 };
 
@@ -10071,12 +10218,12 @@ export const getRatioConfig = async (
  * @summary Get Syncable Channels
  */
 export type getSyncableChannelsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseDtoSyncableChannel;
   status: 200;
 };
 
 export type getSyncableChannelsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseDtoSyncableChannel;
   status: 200;
 };
 
@@ -10228,12 +10375,12 @@ export const getAllRedemptions = async (
  * @summary Add Redemption
  */
 export type addRedemptionResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
 export type addRedemptionResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
@@ -10882,12 +11029,12 @@ export const adminBindSubscription = async (
  * @summary Admin List Subscription Plans
  */
 export type adminListSubscriptionPlansResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseControllerSubscriptionPlanDTO;
   status: 200;
 };
 
 export type adminListSubscriptionPlansResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseControllerSubscriptionPlanDTO;
   status: 200;
 };
 
@@ -11189,12 +11336,12 @@ export const adminInvalidateUserSubscription = async (
  * @summary Admin List User Subscriptions
  */
 export type adminListUserSubscriptionsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelSubscriptionSummary;
   status: 200;
 };
 
 export type adminListUserSubscriptionsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelSubscriptionSummary;
   status: 200;
 };
 
@@ -11592,12 +11739,12 @@ export const postApiSubscriptionEpayReturn = async (
  * @summary Get Subscription Plans
  */
 export type getSubscriptionPlansResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseControllerSubscriptionPlanDTO;
   status: 200;
 };
 
 export type getSubscriptionPlansResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseControllerSubscriptionPlanDTO;
   status: 200;
 };
 
@@ -12268,12 +12415,12 @@ export const getToken = async (
  * @summary Get Uptime Kuma Status
  */
 export type getUptimeKumaStatusResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseDtoUptimeGroupResult;
   status: 200;
 };
 
 export type getUptimeKumaStatusResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseDtoUptimeGroupResult;
   status: 200;
 };
 
@@ -12884,12 +13031,12 @@ export const getAffCode = async (
  * @summary Get Referral Commissions
  */
 export type getReferralCommissionsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseModelReferralCommissionWithUser;
   status: 200;
 };
 
 export type getReferralCommissionsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseModelReferralCommissionWithUser;
   status: 200;
 };
 
@@ -13274,12 +13421,12 @@ export const epayNotify = async (
  * @summary Get User Groups
  */
 export type getUserGroupsResponse200ApplicationJson = {
-  data: ResponseMapString;
+  data: ResponseDtoUserGroupInfo;
   status: 200;
 };
 
 export type getUserGroupsResponse200ApplicationXml = {
-  data: ResponseMapString;
+  data: ResponseDtoUserGroupInfo;
   status: 200;
 };
 
@@ -13496,12 +13643,12 @@ export const manageUser = async (
  * @summary Get User Models
  */
 export type getUserModelsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
 export type getUserModelsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseString;
   status: 200;
 };
 
@@ -13541,12 +13688,12 @@ export const getUserModels = async (
  * @summary Get User O Auth Bindings
  */
 export type getUserOAuthBindingsResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseDtoUserOAuthBindingResponse;
   status: 200;
 };
 
 export type getUserOAuthBindingsResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseDtoUserOAuthBindingResponse;
   status: 200;
 };
 
@@ -14345,12 +14492,12 @@ export const updateSelf = async (
  * @summary Get Api User Self Groups
  */
 export type getApiUserSelfGroupsResponse200ApplicationJson = {
-  data: ResponseMapString;
+  data: ResponseDtoUserGroupInfo;
   status: 200;
 };
 
 export type getApiUserSelfGroupsResponse200ApplicationXml = {
-  data: ResponseMapString;
+  data: ResponseDtoUserGroupInfo;
   status: 200;
 };
 
@@ -15032,12 +15179,12 @@ export const adminClearUserBinding = async (
  * @summary Get User O Auth Bindings By Admin
  */
 export type getUserOAuthBindingsByAdminResponse200ApplicationJson = {
-  data: Response;
+  data: ResponseDtoUserOAuthBindingResponse;
   status: 200;
 };
 
 export type getUserOAuthBindingsByAdminResponse200ApplicationXml = {
-  data: Response;
+  data: ResponseDtoUserOAuthBindingResponse;
   status: 200;
 };
 

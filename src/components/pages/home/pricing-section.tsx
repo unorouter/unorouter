@@ -125,7 +125,7 @@ export function PricingSection() {
         <div className="mb-16 text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
             <LuZap className="h-3 w-3 text-purple-400" />
-            <span className="font-mono text-[10px] tracking-[0.2em] text-purple-400 uppercase">
+            <span className="textpriceAmount >-[10px] font-mono tracking-[0.2em] text-purple-400 uppercase">
               {t("HOME.PRICING_LABEL")}
             </span>
           </div>

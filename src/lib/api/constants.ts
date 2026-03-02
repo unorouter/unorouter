@@ -1,0 +1,1 @@
+export const FAR_FUTURE = 4102444800; // 2100-01-01

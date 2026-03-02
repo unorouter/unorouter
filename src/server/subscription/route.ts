@@ -3,11 +3,7 @@ import {
   type ResponseModelSubscriptionPlanData,
 } from "@/openapi";
 import { Elysia } from "elysia";
-
-const AUTH_HEADERS = {
-  Authorization: process.env.SYSTEM_ACCESS_TOKEN,
-  "New-Api-User": "1",
-};
+import { ADMIN_HEADERS } from "../constants";
 
 const QUOTA_PER_UNIT = 500_000;
 
@@ -112,7 +108,7 @@ function processPlans(
 export const subscriptionRoute = new Elysia({
   prefix: "/subscription",
 }).get("/plans", async () => {
-  const res = await getSubscriptionPlans({ headers: AUTH_HEADERS });
+  const res = await getSubscriptionPlans({ headers: ADMIN_HEADERS });
   const body = res.data as PlansResponse;
   const plans = processPlans(body.data ?? []);
   return { plans };
