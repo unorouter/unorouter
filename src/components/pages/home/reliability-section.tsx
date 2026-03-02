@@ -6,7 +6,7 @@ export async function ReliabilitySection() {
   const t = await getTranslations();
 
   return (
-    <section className="relative py-32 px-6 border-t border-white/5">
+    <section className="relative py-32 px-6 border-t border-border/50">
       <div className="max-w-360 mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
@@ -23,7 +23,7 @@ export async function ReliabilitySection() {
                 {t("HOME.RELIABILITY_TITLE_2")}
               </span>
             </h2>
-            <p className="text-gray-400 font-mono text-sm leading-relaxed max-w-lg">
+            <p className="text-muted-foreground font-mono text-sm leading-relaxed max-w-lg">
               {t("HOME.RELIABILITY_DESCRIPTION")}
             </p>
 
@@ -52,7 +52,7 @@ export async function ReliabilitySection() {
               </a>
               <Link
                 href="/docs/claude-code"
-                className="h-11 px-6 bg-transparent border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-widest hover:border-white transition-all flex items-center gap-2"
+                className="h-11 px-6 bg-transparent border border-border text-foreground font-mono text-xs font-bold uppercase tracking-widest hover:border-foreground transition-all flex items-center gap-2"
               >
                 {t("HOME.RELIABILITY_LEARN_MORE")}
               </Link>
@@ -61,7 +61,7 @@ export async function ReliabilitySection() {
 
           {/* Architecture panel */}
           <div className="relative">
-            <div className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg overflow-hidden">
+            <div className="w-full bg-card border border-border rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 bg-cyan-500/10 border-b border-cyan-500/20">
                 <span className="text-[10px] text-cyan-400 uppercase tracking-wider font-mono">
                   {t("HOME.RELIABILITY_ARCH_TITLE")}
@@ -97,17 +97,17 @@ export async function ReliabilitySection() {
                 />
               </div>
               <div className="px-6 pb-6">
-                <div className="p-3 bg-black/50 border border-white/5 rounded-md">
+                <div className="p-3 bg-muted border border-border/50 rounded-md">
                   <div className="flex items-center gap-2 mb-2">
-                    <LuCpu className="h-2.5 w-2.5 text-gray-500" />
-                    <span className="text-[9px] text-gray-500 uppercase tracking-wider">
+                    <LuCpu className="h-2.5 w-2.5 text-muted-foreground" />
+                    <span className="text-[9px] text-muted-foreground uppercase tracking-wider">
                       {t("HOME.RELIABILITY_FORMATS_TITLE")}
                     </span>
                   </div>
                   <code className="text-[10px] text-cyan-400 break-all">
                     {`{ "openai": "/v1/chat/completions", "anthropic": "/v1/messages", "gemini": "/v1/models" }`}
                   </code>
-                  <p className="text-[9px] text-gray-600 mt-2">
+                  <p className="text-[9px] text-muted-foreground mt-2">
                     {t("HOME.RELIABILITY_FORMATS_DESC")}
                   </p>
                 </div>
@@ -132,18 +132,18 @@ function InfoCard(props: {
     props.color === "cyan" ? "bg-cyan-500/20" : "bg-purple-500/20";
 
   return (
-    <div className="p-4 border border-white/10 bg-white/2 rounded-lg">
+    <div className="p-4 border border-border bg-accent rounded-lg">
       <div className="flex items-center gap-3 mb-3">
         <div
           className={`w-8 h-8 rounded-full ${bgColor} flex items-center justify-center`}
         >
           {props.icon}
         </div>
-        <span className="font-mono text-xs text-white uppercase tracking-wider">
+        <span className="font-mono text-xs text-foreground uppercase tracking-wider">
           {props.title}
         </span>
       </div>
-      <p className="text-[11px] text-gray-500 font-mono leading-relaxed">
+      <p className="text-[11px] text-muted-foreground font-mono leading-relaxed">
         {props.description}
       </p>
     </div>
@@ -158,7 +158,7 @@ function ArchStep(props: {
 }) {
   const bgColor = props.success ? "bg-green-500/20" : "bg-cyan-500/20";
   const stepColor = props.success ? "text-green-400" : "text-cyan-400";
-  const titleColor = props.success ? "text-green-400" : "text-white";
+  const titleColor = props.success ? "text-green-400" : "text-foreground";
 
   return (
     <div className="flex items-start gap-3">
@@ -169,7 +169,7 @@ function ArchStep(props: {
       </div>
       <div>
         <div className={`${titleColor} mb-1`}>{props.title}</div>
-        <div className="text-gray-500">{props.description}</div>
+        <div className="text-muted-foreground">{props.description}</div>
       </div>
     </div>
   );

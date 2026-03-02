@@ -7,38 +7,38 @@ export async function CodeSection() {
   const t = await getTranslations();
 
   return (
-    <section className="relative z-10 py-32 border-t border-white/5 bg-[#050505]">
+    <section className="relative z-10 py-32 border-t border-border/50 bg-background">
       <div className="max-w-360 mx-auto px-6 flex flex-col lg:flex-row gap-20">
         <div className="flex-1 space-y-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-white leading-[1.1] tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground leading-[1.1] tracking-tight">
             {t("HOME.CODE_TITLE_1")}
             <br />
-            <span className="text-gray-600">{t("HOME.CODE_TITLE_2")}</span>
+            <span className="text-muted-foreground">{t("HOME.CODE_TITLE_2")}</span>
           </h2>
-          <p className="text-gray-400 max-w-md font-mono text-sm leading-relaxed">
+          <p className="text-muted-foreground max-w-md font-mono text-sm leading-relaxed">
             {t("HOME.CODE_DESCRIPTION")}
           </p>
 
           <div className="space-y-4 pt-4">
-            <div className="flex items-center gap-4 text-sm text-gray-300 group">
-              <div className="w-6 h-6 rounded flex items-center justify-center border border-white/10 group-hover:border-white/30 transition-colors">
-                <LuCheck className="h-3 w-3 text-white" />
+            <div className="flex items-center gap-4 text-sm text-foreground group">
+              <div className="w-6 h-6 rounded flex items-center justify-center border border-border group-hover:border-foreground/30 transition-colors">
+                <LuCheck className="h-3 w-3 text-foreground" />
               </div>
               <span className="font-mono text-xs uppercase tracking-wide">
                 {t("HOME.CODE_FEATURE_1")}
               </span>
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-300 group">
-              <div className="w-6 h-6 rounded flex items-center justify-center border border-white/10 group-hover:border-white/30 transition-colors">
-                <LuCheck className="h-3 w-3 text-white" />
+            <div className="flex items-center gap-4 text-sm text-foreground group">
+              <div className="w-6 h-6 rounded flex items-center justify-center border border-border group-hover:border-foreground/30 transition-colors">
+                <LuCheck className="h-3 w-3 text-foreground" />
               </div>
               <span className="font-mono text-xs uppercase tracking-wide">
                 {t("HOME.CODE_FEATURE_2")}
               </span>
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-300 group">
-              <div className="w-6 h-6 rounded flex items-center justify-center border border-white/10 group-hover:border-white/30 transition-colors">
-                <LuCheck className="h-3 w-3 text-white" />
+            <div className="flex items-center gap-4 text-sm text-foreground group">
+              <div className="w-6 h-6 rounded flex items-center justify-center border border-border group-hover:border-foreground/30 transition-colors">
+                <LuCheck className="h-3 w-3 text-foreground" />
               </div>
               <span className="font-mono text-xs uppercase tracking-wide">
                 {t("HOME.CODE_FEATURE_3")}
@@ -48,7 +48,7 @@ export async function CodeSection() {
 
           <Link
             href="/docs/claude-code"
-            className="flex items-center gap-2 text-white border-b border-white pb-1 font-mono text-xs hover:text-gray-300 hover:border-gray-300 transition-colors uppercase tracking-widest font-bold w-fit"
+            className="flex items-center gap-2 text-foreground border-b border-foreground pb-1 font-mono text-xs hover:text-muted-foreground hover:border-muted-foreground transition-colors uppercase tracking-widest font-bold w-fit"
           >
             {t("HOME.CODE_READ_DOCS")}
             <LuArrowRight className="h-3.5 w-3.5" />

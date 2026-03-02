@@ -7,7 +7,7 @@ export async function PricingSection() {
   const t = await getTranslations();
 
   return (
-    <section className="relative z-10 py-24 border-t border-white/5 bg-linear-to-b from-[#050505] to-[#0a0a0a]">
+    <section className="relative z-10 py-24 border-t border-border/50 bg-linear-to-b from-background to-card">
       <div className="max-w-360 mx-auto px-6">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-purple-500/30 bg-purple-500/10 rounded-sm mb-6">
@@ -16,14 +16,14 @@ export async function PricingSection() {
               {t("HOME.PRICING_LABEL")}
             </span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold text-white leading-[1.1] tracking-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold text-foreground leading-[1.1] tracking-tight mb-4">
             {t("HOME.PRICING_TITLE")}
             <br />
-            <span className="text-gray-500">
+            <span className="text-muted-foreground">
               {t("HOME.PRICING_SUBTITLE")}
             </span>
           </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto font-mono text-sm leading-relaxed">
+          <p className="text-muted-foreground max-w-2xl mx-auto font-mono text-sm leading-relaxed">
             {t("HOME.PRICING_DESCRIPTION")}
           </p>
         </div>
@@ -61,10 +61,10 @@ export async function PricingSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           <div className="space-y-8">
             <div>
-              <h3 className="text-xl font-bold text-white mb-4 font-mono">
+              <h3 className="text-xl font-bold text-foreground mb-4 font-mono">
                 {t("HOME.FEATURES_TITLE")}
               </h3>
-              <p className="text-gray-400 font-mono text-sm leading-relaxed mb-6">
+              <p className="text-muted-foreground font-mono text-sm leading-relaxed mb-6">
                 {t("HOME.FEATURES_DESCRIPTION")}
               </p>
             </div>
@@ -97,7 +97,7 @@ export async function PricingSection() {
               </a>
               <Link
                 href="/pricing"
-                className="h-11 px-6 bg-transparent border border-white/20 text-white font-mono text-xs font-bold uppercase tracking-widest hover:border-white transition-all flex items-center gap-2"
+                className="h-11 px-6 bg-transparent border border-border text-foreground font-mono text-xs font-bold uppercase tracking-widest hover:border-foreground transition-all flex items-center gap-2"
               >
                 {t("HOME.PRICING_CTA_VIEW_PLANS")}
               </Link>
@@ -106,7 +106,7 @@ export async function PricingSection() {
 
           {/* Info panels */}
           <div className="space-y-6">
-            <div className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg overflow-hidden">
+            <div className="w-full bg-card border border-border rounded-lg overflow-hidden">
               <div className="flex items-center justify-between px-4 py-3 bg-purple-500/10 border-b border-purple-500/20">
                 <span className="text-[10px] text-purple-400 uppercase tracking-wider font-mono">
                   {t("HOME.PRICING_PROVIDERS_TITLE")}
@@ -150,9 +150,9 @@ export async function PricingSection() {
               </div>
             </div>
 
-            <div className="w-full bg-[#0A0A0A] border border-white/10 rounded-lg overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-3 bg-white/5 border-b border-white/10">
-                <span className="text-[10px] text-gray-400 uppercase tracking-wider font-mono">
+            <div className="w-full bg-card border border-border rounded-lg overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-3 bg-secondary border-b border-border">
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-mono">
                   {t("HOME.PRICING_FLOW_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
@@ -184,20 +184,20 @@ function PricingTile(props: {
 }) {
   return (
     <div
-      className={`p-5 bg-white/2 border rounded-lg hover:border-purple-500/50 transition-all group ${props.highlight ? "border-purple-500/50" : "border-white/10"}`}
+      className={`p-5 bg-accent border rounded-lg hover:border-purple-500/50 transition-all group ${props.highlight ? "border-purple-500/50" : "border-border"}`}
     >
       <div className="flex items-center justify-between mb-3">
-        <span className="font-mono text-xs text-white uppercase tracking-wide">
+        <span className="font-mono text-xs text-foreground uppercase tracking-wide">
           {props.name}
         </span>
         <span className="text-purple-400 font-mono text-sm font-bold">
           {props.price}
         </span>
       </div>
-      <p className="text-[11px] text-gray-500 font-mono leading-relaxed mb-3">
+      <p className="text-[11px] text-muted-foreground font-mono leading-relaxed mb-3">
         {props.description}
       </p>
-      <code className="text-[9px] text-gray-600 bg-black/30 px-2 py-1 rounded block truncate">
+      <code className="text-[9px] text-muted-foreground bg-muted px-2 py-1 rounded block truncate">
         {props.endpoint}
       </code>
     </div>
@@ -210,15 +210,15 @@ function FeatureRow(props: {
   description: string;
 }) {
   return (
-    <div className="flex items-center gap-4 text-sm text-gray-300 group">
-      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-white/5 border border-white/10 group-hover:border-purple-500/50 transition-colors">
+    <div className="flex items-center gap-4 text-sm text-foreground group">
+      <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-secondary border border-border group-hover:border-purple-500/50 transition-colors">
         {props.icon}
       </div>
       <div>
         <span className="font-mono text-xs uppercase tracking-wide block">
           {props.title}
         </span>
-        <span className="text-[10px] text-gray-500">{props.description}</span>
+        <span className="text-[10px] text-muted-foreground">{props.description}</span>
       </div>
     </div>
   );
@@ -251,11 +251,11 @@ function ProviderRow(props: {
         alt={props.name}
         width={20}
         height={20}
-        className="w-5 h-5 rounded object-contain shrink-0"
+        className="w-5 h-5 rounded object-contain shrink-0 invert dark:invert-0"
       />
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
-          <span className="font-mono text-sm text-white font-bold">
+          <span className="font-mono text-sm text-foreground font-bold">
             {props.name}
           </span>
           <span
@@ -264,7 +264,7 @@ function ProviderRow(props: {
             {props.tag}
           </span>
         </div>
-        <p className="text-[11px] text-gray-500 font-mono">
+        <p className="text-[11px] text-muted-foreground font-mono">
           {props.description}
         </p>
       </div>
@@ -283,8 +283,8 @@ function FlowStep(props: {
   const labelColor = props.success
     ? "text-green-400"
     : props.muted
-      ? "text-gray-500"
-      : "text-white";
+      ? "text-muted-foreground"
+      : "text-foreground";
 
   return (
     <div className="flex items-center gap-3">

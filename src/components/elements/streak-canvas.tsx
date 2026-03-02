@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTheme } from "next-themes";
 
 const LINE_COUNT = 40;
-const COLORS = ["#ffffff", "#d4d4d4", "#a3a3a3", "#525252", "#22c55e"];
+
+const DARK_COLORS = ["#ffffff", "#d4d4d4", "#a3a3a3", "#525252", "#22c55e"];
+const DARK_ACCENT = "#22c55e";
+const DARK_TRANSPARENT = "rgba(255,255,255,0)";
+
+const LIGHT_COLORS = ["#09090b", "#3f3f46", "#71717a", "#a1a1aa", "#16a34a"];
+const LIGHT_ACCENT = "#16a34a";
+const LIGHT_TRANSPARENT = "rgba(0,0,0,0)";
 
 type Line = {
   x: number;
@@ -16,6 +24,12 @@ type Line = {
 
 export function StreakCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { resolvedTheme } = useTheme();
+  const themeRef = useRef(resolvedTheme);
+
+  useEffect(() => {
+    themeRef.current = resolvedTheme;
+  }, [resolvedTheme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -29,11 +43,21 @@ export function StreakCanvas() {
     let height = 0;
     const lines: Line[] = [];
 
+    const getColors = () => {
+      const isDark = themeRef.current === "dark";
+      return {
+        colors: isDark ? DARK_COLORS : LIGHT_COLORS,
+        accent: isDark ? DARK_ACCENT : LIGHT_ACCENT,
+        transparent: isDark ? DARK_TRANSPARENT : LIGHT_TRANSPARENT,
+      };
+    };
+
     const spawnLine = (index: number, initial = false) => {
+      const { colors, accent } = getColors();
       const color =
         Math.random() > 0.9
-          ? "#22c55e"
-          : COLORS[Math.floor(Math.random() * (COLORS.length - 1))];
+          ? accent
+          : colors[Math.floor(Math.random() * (colors.length - 1))];
 
       lines[index] = {
         x: initial ? Math.random() * width : -Math.random() * 500 - 200,
@@ -57,6 +81,7 @@ export function StreakCanvas() {
     };
 
     const animate = () => {
+      const { transparent } = getColors();
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = "source-over";
 
@@ -75,10 +100,10 @@ export function StreakCanvas() {
           line.x,
           line.y
         );
-        gradient.addColorStop(0, "rgba(255,255,255,0)");
-        gradient.addColorStop(0.2, "rgba(255,255,255,0)");
+        gradient.addColorStop(0, transparent);
+        gradient.addColorStop(0.2, transparent);
         gradient.addColorStop(0.8, line.color);
-        gradient.addColorStop(1, "rgba(255,255,255,0)");
+        gradient.addColorStop(1, transparent);
 
         ctx.fillStyle = gradient;
         ctx.fillRect(line.x - line.length, line.y, line.length, line.width);
@@ -98,9 +123,9 @@ export function StreakCanvas() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none bg-[#050505]">
+    <div className="fixed inset-0 z-0 pointer-events-none bg-background">
       <canvas ref={canvasRef} className="w-full h-full opacity-60" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_100%)] opacity-80" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--background)_100%)] opacity-80" />
     </div>
   );
 }

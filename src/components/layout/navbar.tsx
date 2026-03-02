@@ -38,15 +38,15 @@ export function Navbar() {
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
       scrolled
-        ? "bg-[#050505]/90 backdrop-blur-md border-white/10"
+        ? "bg-background/90 backdrop-blur-md border-border"
         : "bg-transparent border-transparent"
     )}>
       <div className="max-w-360 mx-auto px-6 h-14 flex items-center justify-between font-mono">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
           <Image src="/logo.webp" alt="Unorouter" width={32} height={32} className="rounded-full" />
-          <span className="text-lg font-bold tracking-tight text-white group-hover:text-gray-300 transition-colors">
-            UNO<span className="text-gray-600">ROUTER</span>
+          <span className="text-lg font-bold tracking-tight text-foreground group-hover:text-muted-foreground transition-colors">
+            UNO<span className="text-muted-foreground">ROUTER</span>
           </span>
         </Link>
 
@@ -59,8 +59,8 @@ export function Navbar() {
               className={cn(
                 "text-[11px] font-medium transition-colors tracking-widest uppercase",
                 pathname.startsWith(link.href)
-                  ? "text-white"
-                  : "text-gray-400 hover:text-white"
+                  ? "text-foreground"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               {t(link.key)}
@@ -71,7 +71,7 @@ export function Navbar() {
             <button
               onClick={() => setDocsOpen(!docsOpen)}
               onBlur={() => setTimeout(() => setDocsOpen(false), 200)}
-              className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-gray-400 hover:text-white"
+              className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-muted-foreground hover:text-foreground"
             >
               {t("NAV.DOCS")}
               <LuChevronDown
@@ -82,12 +82,12 @@ export function Navbar() {
               />
             </button>
             {docsOpen && (
-              <div className="absolute top-full mt-2 left-0 w-48 bg-[#0a0a0a] border border-white/10 py-1">
+              <div className="absolute top-full mt-2 left-0 w-48 bg-popover border border-border py-1">
                 {DOC_LINKS.map((link) => (
                   <Link
                     key={link.key}
                     href={link.href}
-                    className="flex items-center gap-2 px-4 py-2 text-[11px] text-gray-400 hover:text-white hover:bg-white/5 tracking-wider uppercase"
+                    className="flex items-center gap-2 px-4 py-2 text-[11px] text-muted-foreground hover:text-foreground hover:bg-accent tracking-wider uppercase"
                   >
                     <link.icon className="h-3 w-3" />
                     {t(link.key)}
@@ -104,13 +104,13 @@ export function Navbar() {
           <ThemeToggle />
           <a
             href="https://api.unorouter.ai"
-            className="text-[11px] font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-wider"
+            className="text-[11px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
           >
             {t("NAV.LOG_IN")}
           </a>
           <a
             href="https://api.unorouter.ai/register"
-            className="px-5 py-2 bg-white text-black text-[11px] font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
+            className="px-5 py-2 bg-primary text-primary-foreground text-[11px] font-bold uppercase tracking-wider hover:bg-primary/80 transition-colors"
           >
             {t("NAV.GET_STARTED")}
           </a>
@@ -121,7 +121,7 @@ export function Navbar() {
           <LanguageToggle />
           <ThemeToggle />
           <button
-            className="text-white"
+            className="text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
           {mobileOpen ? (
@@ -135,19 +135,19 @@ export function Navbar() {
 
       {/* Mobile Nav */}
       {mobileOpen && (
-        <div className="md:hidden bg-[#050505] border-t border-white/10 px-6 py-6 space-y-4 font-mono">
+        <div className="md:hidden bg-background border-t border-border px-6 py-6 space-y-4 font-mono">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.key}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm text-gray-400 hover:text-white uppercase tracking-wider"
+              className="block text-sm text-muted-foreground hover:text-foreground uppercase tracking-wider"
             >
               {t(link.key)}
             </Link>
           ))}
           <div className="space-y-2">
-            <p className="text-[10px] text-gray-600 uppercase tracking-widest">
+            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
               {t("NAV.DOCS")}
             </p>
             {DOC_LINKS.map((link) => (
@@ -155,23 +155,23 @@ export function Navbar() {
                 key={link.key}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 text-sm text-gray-400 hover:text-white uppercase tracking-wider"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground uppercase tracking-wider"
               >
                 <link.icon className="h-3 w-3" />
                 {t(link.key)}
               </Link>
             ))}
           </div>
-          <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
+          <div className="flex flex-col gap-3 pt-4 border-t border-border">
             <a
               href="https://api.unorouter.ai"
-              className="text-sm text-gray-400 hover:text-white uppercase tracking-wider"
+              className="text-sm text-muted-foreground hover:text-foreground uppercase tracking-wider"
             >
               {t("NAV.LOG_IN")}
             </a>
             <a
               href="https://api.unorouter.ai/register"
-              className="px-5 py-2 bg-white text-black text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors text-center"
+              className="px-5 py-2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider hover:bg-primary/80 transition-colors text-center"
             >
               {t("NAV.GET_STARTED")}
             </a>

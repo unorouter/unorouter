@@ -49,6 +49,41 @@
 
 :root {
   --expo-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --radius: 0;
+  --background: #ffffff;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #18181b;
+  --primary-foreground: #fafafa;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #ef4444;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #a1a1aa;
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.714);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: #fafafa;
+  --sidebar-foreground: #09090b;
+  --sidebar-primary: #18181b;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #18181b;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #a1a1aa;
+}
+
+.dark {
   --background: #050505;
   --foreground: #f8fafc;
   --card: #0a0a0a;
@@ -72,7 +107,6 @@
   --chart-3: oklch(0.577 0.245 27.325);
   --chart-4: oklch(0.505 0.213 27.518);
   --chart-5: oklch(0.444 0.177 26.899);
-  --radius: 0;
   --sidebar: #0a0a0a;
   --sidebar-foreground: #f8fafc;
   --sidebar-primary: #ffffff;
@@ -169,7 +203,7 @@ html.dark .shiki span {
   }
 
   body {
-    @apply bg-background text-foreground font-sans overflow-x-hidden selection:bg-white selection:text-black;
+    @apply bg-background text-foreground font-sans overflow-x-hidden selection:bg-primary selection:text-primary-foreground;
   }
 
   button {

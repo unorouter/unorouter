@@ -10,7 +10,7 @@ export async function IntegrationRow(props: { integration: Integration }) {
 
   return (
     <div
-      className={`relative rounded-lg border ${props.integration.color.border} bg-black/40 backdrop-blur-sm overflow-hidden`}
+      className={`relative rounded-lg border ${props.integration.color.border} bg-card/40 backdrop-blur-sm overflow-hidden`}
     >
       {/* Colored top line */}
       <div className={`h-0.5 ${props.integration.color.line}`} />
@@ -44,7 +44,7 @@ export async function IntegrationRow(props: { integration: Integration }) {
               >
                 {t(props.integration.titleKey)}
               </h2>
-              <p className="text-sm text-gray-400 font-mono mt-1 leading-relaxed">
+              <p className="text-sm text-muted-foreground font-mono mt-1 leading-relaxed">
                 {t(props.integration.subtitleKey)}
               </p>
             </div>
@@ -54,7 +54,7 @@ export async function IntegrationRow(props: { integration: Integration }) {
             href={props.integration.href}
             className="group shrink-0 flex items-center gap-3"
           >
-            <span className="text-sm font-mono text-white/70 group-hover:text-white transition-colors">
+            <span className="text-sm font-mono text-foreground/70 group-hover:text-foreground transition-colors">
               {t("DOCS_INDEX.VIEW_GUIDE")}
             </span>
             <div
@@ -69,7 +69,7 @@ export async function IntegrationRow(props: { integration: Integration }) {
 
         {/* Quick start code block */}
         <div className="mt-6">
-          <p className="text-xs font-mono uppercase tracking-wider text-gray-500 mb-3">
+          <p className="text-xs font-mono uppercase tracking-wider text-muted-foreground mb-3">
             {t("DOCS_INDEX.QUICK_START")}
           </p>
           <CodeBlock language="bash" code={props.integration.quickStart} />

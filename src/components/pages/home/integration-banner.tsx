@@ -82,7 +82,7 @@ export async function IntegrationBanner() {
   const t = await getTranslations();
 
   return (
-    <section className="relative py-8 px-6 border-t border-b border-white/5 bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5">
+    <section className="relative py-8 px-6 border-t border-b border-border/50 bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5">
       <div className="max-w-360 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {integrations.map((integration) => {
@@ -91,7 +91,7 @@ export async function IntegrationBanner() {
               <Link
                 key={integration.href}
                 href={integration.href}
-                className={`group flex flex-col gap-4 py-4 px-6 rounded-lg border ${colors.border} bg-black/40 backdrop-blur-sm ${colors.hoverBg} transition-all duration-300`}
+                className={`group flex flex-col gap-4 py-4 px-6 rounded-lg border ${colors.border} bg-card/40 backdrop-blur-sm ${colors.hoverBg} transition-all duration-300`}
               >
                 <div className="flex items-center gap-4">
                   <div className="relative shrink-0">
@@ -114,16 +114,16 @@ export async function IntegrationBanner() {
                         {integration.alt}
                       </span>
                     </div>
-                    <h3 className="text-base md:text-lg font-bold text-white tracking-tight leading-tight">
+                    <h3 className="text-base md:text-lg font-bold text-foreground tracking-tight leading-tight">
                       {t(integration.titleKey)}
                     </h3>
                   </div>
                 </div>
-                <p className="text-sm text-gray-400 font-mono leading-relaxed">
+                <p className="text-sm text-muted-foreground font-mono leading-relaxed">
                   {t(integration.descKey)}
                 </p>
                 <div className="flex items-center gap-3 mt-auto pt-2">
-                  <span className="text-sm font-mono text-white/70 group-hover:text-white transition-colors">
+                  <span className="text-sm font-mono text-foreground/70 group-hover:text-foreground transition-colors">
                     {t("HOME.INTEGRATION_VIEW_GUIDE")}
                   </span>
                   <div

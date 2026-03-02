@@ -43,13 +43,13 @@ export function ModelTicker(props: Props) {
   return (
     <div
       className={cn(
-        "border-t border-white/10 bg-[#050505] py-5 hidden md:flex",
+        "border-t border-border bg-background py-5 hidden md:flex",
         props.className
       )}
     >
       <div className="max-w-360 mx-auto w-full px-6 flex items-center gap-10">
         {/* Live indicator */}
-        <div className="flex items-center gap-3 text-[10px] text-white font-mono uppercase tracking-widest border border-white/20 bg-white/5 px-3 py-1 shrink-0">
+        <div className="flex items-center gap-3 text-[10px] text-foreground font-mono uppercase tracking-widest border border-border bg-secondary px-3 py-1 shrink-0">
           <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
           {t("HOME.TICKER_LIVE_INFERENCE")}
         </div>
@@ -70,10 +70,10 @@ export function ModelTicker(props: Props) {
                       alt={model.vendor.name}
                       width={16}
                       height={16}
-                      className="w-4 h-4 rounded object-contain"
+                      className="w-4 h-4 rounded object-contain invert dark:invert-0"
                     />
                   )}
-                  <span className="text-white font-medium tracking-wide text-[11px] uppercase">
+                  <span className="text-foreground font-medium tracking-wide text-[11px] uppercase">
                     {model.name}
                   </span>
                 </div>
@@ -81,13 +81,13 @@ export function ModelTicker(props: Props) {
             })}
           </div>
           {/* Fade edges */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-[#050505] to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-linear-to-l from-[#050505] to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-24 bg-linear-to-l from-background to-transparent pointer-events-none" />
         </div>
 
         {/* TPS counter */}
-        <div className="text-[10px] font-mono text-gray-500 shrink-0">
-          {t("HOME.TICKER_TPS")}: <span className="text-white font-bold">142.5</span>
+        <div className="text-[10px] font-mono text-muted-foreground shrink-0">
+          {t("HOME.TICKER_TPS")}: <span className="text-foreground font-bold">142.5</span>
         </div>
       </div>
     </div>

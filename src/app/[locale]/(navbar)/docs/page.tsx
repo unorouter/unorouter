@@ -25,7 +25,7 @@ export default async function DocsPage() {
       </div>
 
       {/* CTA */}
-      <section className="mt-20 border-t border-white/10 pt-12 text-center">
+      <section className="mt-20 border-t border-border pt-12 text-center">
         <h2 className="text-2xl font-semibold">
           {t("DOCS_INDEX.CTA_TITLE")}
         </h2>
