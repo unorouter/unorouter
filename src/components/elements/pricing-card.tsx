@@ -11,7 +11,6 @@ type Props = {
   price: number;
   value: number;
   multiplier: string;
-  rateLimit: number;
   features: string[];
   popular?: boolean;
   cta: string;
@@ -49,10 +48,6 @@ export function PricingCard(props: Props) {
           {t("PRICING.CARD_INCLUDES")}
         </p>
         <ul className="space-y-3">
-          <li className="flex items-center gap-2 text-sm">
-            <LuCheck className="text-primary h-4 w-4 shrink-0" />
-            {t("PRICING.CARD_REQUESTS_MIN", { count: props.rateLimit.toLocaleString() })}
-          </li>
           {props.features.map((feature) => (
             <li key={feature} className="flex items-center gap-2 text-sm">
               <LuCheck className="text-primary h-4 w-4 shrink-0" />
@@ -62,10 +57,11 @@ export function PricingCard(props: Props) {
         </ul>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-auto pt-8">
         <Button
           className="w-full"
           variant={props.popular ? "default" : "outline"}
+          nativeButton={false}
           render={<a href="https://api.unorouter.ai/register" />}
         >
           {props.cta}

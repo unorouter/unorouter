@@ -47,7 +47,7 @@ export function ModelTicker(props: Props) {
         props.className
       )}
     >
-      <div className="max-w-360 mx-auto w-full px-6 flex items-center gap-10">
+      <div className="max-w-360 mx-auto w-full px-6 flex items-center gap-6">
         {/* Live indicator */}
         <div className="flex items-center gap-3 text-[10px] text-foreground font-mono uppercase tracking-widest border border-border bg-secondary px-3 py-1 shrink-0">
           <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
@@ -56,7 +56,7 @@ export function ModelTicker(props: Props) {
 
         {/* Scrolling models */}
         <div className="flex-1 overflow-hidden relative">
-          <div className="flex gap-12 animate-marquee whitespace-nowrap font-mono text-xs">
+          <div className="flex gap-6 animate-marquee whitespace-nowrap font-mono text-xs">
             {tripled.map((model, i) => {
               const icon = getVendorIcon(model.vendor.name);
               return (
@@ -81,8 +81,8 @@ export function ModelTicker(props: Props) {
             })}
           </div>
           {/* Fade edges */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-linear-to-r from-background to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-24 bg-linear-to-l from-background to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 left-0 w-10 bg-linear-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-10 bg-linear-to-l from-background to-transparent pointer-events-none" />
         </div>
 
         {/* TPS counter */}

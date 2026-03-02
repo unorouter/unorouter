@@ -5,10 +5,10 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
-export function usePricingQuery() {
+export function useSubscriptionPlansQuery() {
   return useQuery({
-    queryKey: queryKeys.newApi.pricing(),
-    queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+    queryKey: queryKeys.newApi.subscriptionPlans(),
+    queryFn: async () => handleElysia(await rpc.api.subscription.plans.get()),
     enabled: false,
   });
 }

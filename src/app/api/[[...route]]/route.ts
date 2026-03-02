@@ -1,5 +1,6 @@
 import { pricingRoute } from "@/server/pricing/route";
 import { statsRoute } from "@/server/stats/route";
+import { subscriptionRoute } from "@/server/subscription/route";
 import { Elysia } from "elysia";
 
 export const app = new Elysia({ prefix: "/api" })
@@ -12,7 +13,8 @@ export const app = new Elysia({ prefix: "/api" })
     }
   })
   .use(pricingRoute)
-  .use(statsRoute);
+  .use(statsRoute)
+  .use(subscriptionRoute);
 
 export type App = typeof app;
 

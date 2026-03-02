@@ -7,5 +7,6 @@ export const queryKeys = {
   },
   newApi: {
     pricing: () => ["new-api", "pricing"] as const,
+    subscriptionPlans: () => ["new-api", "subscription-plans"] as const,
   },
 };

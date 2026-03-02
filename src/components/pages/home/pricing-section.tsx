@@ -1,10 +1,15 @@
+"use client";
+
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
+import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 
-export async function PricingSection() {
-  const t = await getTranslations();
+export function PricingSection() {
+  const t = useTranslations();
+  const { data } = useSubscriptionPlansQuery();
+  const plans = data?.plans ?? [];
 
   return (
     <section className="relative z-10 py-24 border-t border-border/50 bg-linear-to-b from-background to-card">
@@ -36,25 +41,25 @@ export async function PricingSection() {
             description={t("HOME.PRICING_PAYG_DESC")}
             endpoint={t("HOME.PRICING_PAYG_ENDPOINT")}
           />
-          <PricingTile
-            name={t("HOME.PRICING_BASIC_NAME")}
-            price={t("HOME.PRICING_BASIC_PRICE")}
-            description={t("HOME.PRICING_BASIC_DESC")}
-            endpoint={t("HOME.PRICING_BASIC_RATE")}
-          />
-          <PricingTile
-            name={t("HOME.PRICING_PRO_NAME")}
-            price={t("HOME.PRICING_PRO_PRICE")}
-            description={t("HOME.PRICING_PRO_DESC")}
-            endpoint={t("HOME.PRICING_PRO_RATE")}
-            highlight
-          />
-          <PricingTile
-            name={t("HOME.PRICING_ENTERPRISE_NAME")}
-            price={t("HOME.PRICING_ENTERPRISE_PRICE")}
-            description={t("HOME.PRICING_ENTERPRISE_DESC")}
-            endpoint={t("HOME.PRICING_ENTERPRISE_RATE")}
-          />
+          {plans.map((plan, i) => {
+            const multiplier = plan.priceAmount > 0
+              ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
+              : 0;
+            const resetLabel = plan.quotaResetPeriod === "weekly" ? "week"
+              : plan.quotaResetPeriod === "daily" ? "day"
+              : plan.quotaResetPeriod === "monthly" ? "month"
+              : "period";
+            return (
+              <PricingTile
+                key={plan.id}
+                name={plan.title}
+                price={`$${plan.priceAmount}/mo`}
+                description={`~$${plan.estimatedTotalUsd} credit value. ${multiplier}x multiplier.`}
+                endpoint={`$${plan.quotaPerResetUsd}/${resetLabel}`}
+                highlight={i === 0}
+              />
+            );
+          })}
         </div>
 
         {/* Feature details */}

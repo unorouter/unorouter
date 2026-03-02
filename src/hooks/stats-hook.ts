@@ -9,6 +9,7 @@ export function useLiveStatsQuery() {
   return useQuery({
     queryKey: queryKeys.stats.live(),
     queryFn: async () => handleElysia(await rpc.api.stats.live.get()),
+    enabled: false,
   });
 }
 

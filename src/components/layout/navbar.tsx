@@ -1,24 +1,32 @@
 "use client";
 
+import { LanguageToggle } from "@/components/toggle/language-toggle";
+import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { LuChevronDown, LuCpu, LuMenu, LuShell, LuSparkles, LuTerminal, LuX } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { LanguageToggle } from "@/components/toggle/language-toggle";
-import { ThemeToggle } from "@/components/toggle/theme-toggle";
+import {
+  LuChevronDown,
+  LuCpu,
+  LuMenu,
+  LuShell,
+  LuSparkles,
+  LuTerminal,
+  LuX,
+} from "react-icons/lu";
 
 const NAV_LINKS = [
   { href: "/models", key: "NAV.MODELS" },
-  { href: "/pricing", key: "NAV.PRICING" }
+  { href: "/pricing", key: "NAV.PRICING" },
 ] as const;
 
 const DOC_LINKS = [
   { href: "/docs/claude-code", key: "NAV.CLAUDE_CODE", icon: LuTerminal },
   { href: "/docs/codex", key: "NAV.CODEX", icon: LuCpu },
   { href: "/docs/gemini-cli", key: "NAV.GEMINI_CLI", icon: LuSparkles },
-  { href: "/docs/openclaw", key: "NAV.OPENCLAW", icon: LuShell }
+  { href: "/docs/openclaw", key: "NAV.OPENCLAW", icon: LuShell },
 ] as const;
 
 export function Navbar() {
@@ -35,32 +43,40 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-      scrolled
-        ? "bg-background/90 backdrop-blur-md border-border"
-        : "bg-transparent border-transparent"
-    )}>
-      <div className="max-w-360 mx-auto px-6 h-14 flex items-center justify-between font-mono">
+    <nav
+      className={cn(
+        "fixed top-0 right-0 left-0 z-50 border-b transition-all duration-300",
+        scrolled
+          ? "bg-background/90 border-border backdrop-blur-md"
+          : "border-transparent bg-transparent",
+      )}
+    >
+      <div className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <Image src="/logo.webp" alt="Unorouter" width={32} height={32} className="rounded-full" />
-          <span className="text-lg font-bold tracking-tight text-foreground group-hover:text-muted-foreground transition-colors">
+        <Link href="/" className="group flex items-center gap-2">
+          <Image
+            src="/logo.webp"
+            alt="Unorouter"
+            width={32}
+            height={32}
+            className="rounded-full"
+          />
+          <span className="text-foreground group-hover:text-muted-foreground text-lg font-bold tracking-tight transition-colors">
             UNO<span className="text-muted-foreground">ROUTER</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-8 md:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.key}
               href={link.href}
               className={cn(
-                "text-[11px] font-medium transition-colors tracking-widest uppercase",
+                "text-[11px] font-medium tracking-widest uppercase transition-colors",
                 pathname.startsWith(link.href)
                   ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  : "text-muted-foreground hover:text-foreground",
               )}
             >
               {t(link.key)}
@@ -71,23 +87,23 @@ export function Navbar() {
             <button
               onClick={() => setDocsOpen(!docsOpen)}
               onBlur={() => setTimeout(() => setDocsOpen(false), 200)}
-              className="text-[11px] font-medium transition-colors tracking-widest uppercase flex items-center gap-1 text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-[11px] font-medium tracking-widest uppercase transition-colors"
             >
               {t("NAV.DOCS")}
               <LuChevronDown
                 className={cn(
                   "h-3 w-3 transition-transform duration-200",
-                  docsOpen && "rotate-180"
+                  docsOpen && "rotate-180",
                 )}
               />
             </button>
             {docsOpen && (
-              <div className="absolute top-full mt-2 left-0 w-48 bg-popover border border-border py-1">
+              <div className="bg-popover border-border absolute top-full left-0 mt-2 w-48 border py-1">
                 {DOC_LINKS.map((link) => (
                   <Link
                     key={link.key}
                     href={link.href}
-                    className="flex items-center gap-2 px-4 py-2 text-[11px] text-muted-foreground hover:text-foreground hover:bg-accent tracking-wider uppercase"
+                    className="text-muted-foreground hover:text-foreground hover:bg-accent flex items-center gap-2 px-4 py-2 text-[11px] tracking-wider uppercase"
                   >
                     <link.icon className="h-3 w-3" />
                     {t(link.key)}
@@ -99,55 +115,49 @@ export function Navbar() {
         </div>
 
         {/* Desktop Auth */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden items-center gap-4 md:flex">
           <LanguageToggle />
           <ThemeToggle />
           <a
             href="https://api.unorouter.ai"
-            className="text-[11px] font-bold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+            className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
           >
             {t("NAV.LOG_IN")}
-          </a>
-          <a
-            href="https://api.unorouter.ai/register"
-            className="px-5 py-2 bg-primary text-primary-foreground text-[11px] font-bold uppercase tracking-wider hover:bg-primary/80 transition-colors"
-          >
-            {t("NAV.GET_STARTED")}
           </a>
         </div>
 
         {/* Mobile Menu */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="flex items-center gap-2 md:hidden">
           <LanguageToggle />
           <ThemeToggle />
           <button
             className="text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-          {mobileOpen ? (
-            <LuX className="h-5 w-5" />
-          ) : (
-            <LuMenu className="h-5 w-5" />
-          )}
+            {mobileOpen ? (
+              <LuX className="h-5 w-5" />
+            ) : (
+              <LuMenu className="h-5 w-5" />
+            )}
           </button>
         </div>
       </div>
 
       {/* Mobile Nav */}
       {mobileOpen && (
-        <div className="md:hidden bg-background border-t border-border px-6 py-6 space-y-4 font-mono">
+        <div className="bg-background border-border space-y-4 border-t px-6 py-6 font-mono md:hidden">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.key}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm text-muted-foreground hover:text-foreground uppercase tracking-wider"
+              className="text-muted-foreground hover:text-foreground block text-sm tracking-wider uppercase"
             >
               {t(link.key)}
             </Link>
           ))}
           <div className="space-y-2">
-            <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
+            <p className="text-muted-foreground text-[10px] tracking-widest uppercase">
               {t("NAV.DOCS")}
             </p>
             {DOC_LINKS.map((link) => (
@@ -155,25 +165,19 @@ export function Navbar() {
                 key={link.key}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground uppercase tracking-wider"
+                className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm tracking-wider uppercase"
               >
                 <link.icon className="h-3 w-3" />
                 {t(link.key)}
               </Link>
             ))}
           </div>
-          <div className="flex flex-col gap-3 pt-4 border-t border-border">
+          <div className="border-border flex flex-col gap-3 border-t pt-4">
             <a
               href="https://api.unorouter.ai"
-              className="text-sm text-muted-foreground hover:text-foreground uppercase tracking-wider"
+              className="text-muted-foreground hover:text-foreground text-sm tracking-wider uppercase"
             >
               {t("NAV.LOG_IN")}
-            </a>
-            <a
-              href="https://api.unorouter.ai/register"
-              className="px-5 py-2 bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider hover:bg-primary/80 transition-colors text-center"
-            >
-              {t("NAV.GET_STARTED")}
             </a>
           </div>
         </div>

@@ -2,10 +2,36 @@
 
 import { useTranslations } from "next-intl";
 import { PricingCard } from "@/components/elements/pricing-card";
-import { CompareTable } from "@/components/pages/pricing/compare-table";
+import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
+import type { SubscriptionPlan } from "@/server/subscription/route";
+
+const RESET_LABELS: Record<string, string> = {
+  daily: "day",
+  weekly: "week",
+  monthly: "month",
+};
+
+function buildFeatures(plan: SubscriptionPlan, allModelsLabel: string): string[] {
+  const features: string[] = [];
+
+  const resetLabel = RESET_LABELS[plan.quotaResetPeriod];
+  if (resetLabel && plan.quotaPerResetUsd > 0) {
+    features.push(`$${plan.quotaPerResetUsd} quota/${resetLabel}`);
+  }
+
+  const unit = plan.durationUnit === "year" ? "year" : plan.durationUnit === "month" ? "month" : "day";
+  features.push(`${plan.durationValue} ${unit}${plan.durationValue > 1 ? "s" : ""} validity`);
+
+  features.push(allModelsLabel);
+
+  return features;
+}
 
 export function Pricing() {
   const t = useTranslations();
+  const { data } = useSubscriptionPlansQuery();
+  const plans = data?.plans ?? [];
+  const allModelsLabel = t("PRICING.FEATURE_MODELS");
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
@@ -14,66 +40,25 @@ export function Pricing() {
         <p className="text-muted-foreground mt-3 text-lg">{t("PRICING.SUBTITLE")}</p>
       </div>
 
-      {/* Pricing Cards */}
       <div className="grid gap-6 md:grid-cols-3">
-        <PricingCard
-          name={t("PRICING.BASIC_NAME")}
-          price={20}
-          value={30}
-          multiplier="1.5x"
-          rateLimit={100}
-          features={[
-            t("PRICING.FEATURE_MODELS"),
-            t("PRICING.FEATURE_SUPPORT"),
-          ]}
-          cta={t("PRICING.CTA")}
-        />
-        <PricingCard
-          name={t("PRICING.PRO_NAME")}
-          price={50}
-          value={75}
-          multiplier="1.5x"
-          rateLimit={500}
-          popular
-          features={[
-            t("PRICING.FEATURE_MODELS"),
-            t("PRICING.FEATURE_PRIORITY"),
-            t("PRICING.FEATURE_SUPPORT"),
-          ]}
-          cta={t("PRICING.CTA")}
-        />
-        <PricingCard
-          name={t("PRICING.ENTERPRISE_NAME")}
-          price={100}
-          value={175}
-          multiplier="1.75x"
-          rateLimit={2000}
-          features={[
-            t("PRICING.FEATURE_MODELS"),
-            t("PRICING.FEATURE_PRIORITY"),
-            t("PRICING.FEATURE_DEDICATED"),
-            t("PRICING.FEATURE_SUPPORT"),
-          ]}
-          cta={t("PRICING.CTA")}
-        />
+        {plans.map((plan, i) => {
+          const multiplier = plan.priceAmount > 0
+            ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
+            : 0;
+          return (
+            <PricingCard
+              key={plan.id}
+              name={plan.title}
+              price={plan.priceAmount}
+              value={plan.estimatedTotalUsd}
+              multiplier={`${multiplier}x`}
+              popular={i === 1}
+              features={buildFeatures(plan, allModelsLabel)}
+              cta={t("PRICING.CTA")}
+            />
+          );
+        })}
       </div>
-
-      {/* Feature Comparison */}
-      <CompareTable
-        title={t("PRICING.COMPARE_TITLE")}
-        featureLabel={t("PRICING.COMPARE_FEATURE")}
-        basicName={t("PRICING.BASIC_NAME")}
-        proName={t("PRICING.PRO_NAME")}
-        enterpriseName={t("PRICING.ENTERPRISE_NAME")}
-        rows={[
-          { feature: t("PRICING.COMPARE_PRICE"), basic: t("PRICING.COMPARE_BASIC_PRICE"), pro: t("PRICING.COMPARE_PRO_PRICE"), enterprise: t("PRICING.COMPARE_ENTERPRISE_PRICE") },
-          { feature: t("PRICING.COMPARE_VALUE"), basic: t("PRICING.COMPARE_BASIC_VALUE"), pro: t("PRICING.COMPARE_PRO_VALUE"), enterprise: t("PRICING.COMPARE_ENTERPRISE_VALUE") },
-          { feature: t("PRICING.COMPARE_RATE_LIMIT"), basic: t("PRICING.COMPARE_BASIC_RATE"), pro: t("PRICING.COMPARE_PRO_RATE"), enterprise: t("PRICING.COMPARE_ENTERPRISE_RATE") },
-          { feature: t("PRICING.COMPARE_ALL_MODELS"), basic: true, pro: true, enterprise: true },
-          { feature: t("PRICING.COMPARE_PRIORITY"), basic: false, pro: true, enterprise: true },
-          { feature: t("PRICING.COMPARE_DEDICATED"), basic: false, pro: false, enterprise: true },
-        ]}
-      />
     </div>
   );
 }
