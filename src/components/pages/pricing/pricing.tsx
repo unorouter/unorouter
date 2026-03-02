@@ -1,15 +1,10 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { PricingCard } from "@/components/elements/pricing-card";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
+import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
 import type { SubscriptionPlan } from "@/server/subscription/route";
-
-const RESET_LABELS: Record<string, string> = {
-  daily: "day",
-  weekly: "week",
-  monthly: "month",
-};
+import { useTranslations } from "next-intl";
 
 function buildFeatures(
   plan: SubscriptionPlan,
@@ -17,7 +12,7 @@ function buildFeatures(
 ): string[] {
   const features: string[] = [];
 
-  const resetLabel = RESET_LABELS[plan.quotaResetPeriod];
+  const resetLabel = getResetLabel(plan);
   if (resetLabel && plan.quotaPerResetUsd > 0) {
     features.push(`$${plan.quotaPerResetUsd} quota/${resetLabel}`);
   }
@@ -54,10 +49,7 @@ export function Pricing() {
 
       <div className="grid gap-6 md:grid-cols-3">
         {plans.map((plan, i) => {
-          const multiplier =
-            plan.priceAmount > 0
-              ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
-              : 0;
+          const multiplier = getMultiplier(plan);
           return (
             <PricingCard
               key={plan.id}

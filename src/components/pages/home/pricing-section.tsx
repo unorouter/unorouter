@@ -3,6 +3,7 @@
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
+import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
@@ -149,18 +150,8 @@ export function PricingSection() {
             endpoint={t("HOME.PRICING_PAYG_ENDPOINT")}
           />
           {plans.map((plan, i) => {
-            const multiplier =
-              plan.priceAmount > 0
-                ? Math.round(plan.estimatedTotalUsd / plan.priceAmount)
-                : 0;
-            const resetLabel =
-              plan.quotaResetPeriod === "weekly"
-                ? "week"
-                : plan.quotaResetPeriod === "daily"
-                  ? "day"
-                  : plan.quotaResetPeriod === "monthly"
-                    ? "month"
-                    : "period";
+            const multiplier = getMultiplier(plan);
+            const resetLabel = getResetLabel(plan);
             return (
               <PricingTile
                 key={plan.id}
