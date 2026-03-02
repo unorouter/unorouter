@@ -1,30 +1,10 @@
-import type {
-  DtoPricingModel,
-  DtoPricingResponse,
-} from "@/lib/api/generated/api";
+import type { PricingData, PricingDataDataItem } from "@/openapi";
 
 export type ModelType = "llm" | "vision" | "image" | "video";
 
-export type Vendor = {
-  id: number;
-  name: string;
-  icon?: string;
-};
-
-export type ProcessedModel = {
-  name: string;
-  vendor: Vendor;
-  inputPrice: number;
-  outputPrice: number;
-  fixedPrice: number;
-  isFixedPrice: boolean;
-  types: ModelType[];
-  endpointTypes: string[];
-};
-
 const VISION_KEYWORDS = ["vision", "vl", "4o", "image"];
 
-function inferModelTypes(model: DtoPricingModel): ModelType[] {
+function inferModelTypes(model: PricingDataDataItem): ModelType[] {
   const types: ModelType[] = [];
   const endpoints = model.supported_endpoint_types ?? [];
   const name = (model.model_name ?? "").toLowerCase();
@@ -45,13 +25,13 @@ function inferModelTypes(model: DtoPricingModel): ModelType[] {
 
 function getMinGroupRatio(groupRatio: Record<string, number>): number {
   const publicGroups = Object.entries(groupRatio).filter(
-    ([key]) => !key.includes("priv") && !key.includes("sub2api")
+    ([key]) => !key.includes("priv") && !key.includes("sub2api"),
   );
   if (publicGroups.length === 0) return 1;
   return Math.min(...publicGroups.map(([, ratio]) => ratio));
 }
 
-export function processModels(response: DtoPricingResponse): ProcessedModel[] {
+export function processModels(response: PricingData) {
   const vendors = response.vendors ?? [];
   const data = response.data ?? [];
   const groupRatio = response.group_ratio ?? {};
@@ -61,9 +41,10 @@ export function processModels(response: DtoPricingResponse): ProcessedModel[] {
 
   return data
     .map((model) => {
-      const raw = vendorMap.get(model.vendor_id);
-      const vendor: Vendor = {
-        id: raw?.id ?? model.vendor_id ?? 0,
+      const vendorId = model.vendor_id ?? undefined;
+      const raw = vendorMap.get(vendorId);
+      const vendor = {
+        id: raw?.id ?? vendorId ?? 0,
         name: raw?.name ?? "Unknown",
         icon: raw?.icon,
       };

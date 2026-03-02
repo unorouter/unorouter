@@ -662,22 +662,52 @@ export interface PriceEstimationRequest {
   replica_count?: number;
 }
 
+export type PricingDataDataItem = {
+  completion_ratio?: number;
+  description?: string | null;
+  enable_groups?: string[];
+  icon?: string | null;
+  model_name?: string;
+  model_price?: number;
+  model_ratio?: number;
+  owner_by?: string;
+  pricing_version?: string | null;
+  quota_type?: number;
+  supported_endpoint_types?: string[];
+  tags?: string | null;
+  vendor_id?: number | null;
+};
+
 export type PricingDataGroupRatio = { [key: string]: number };
 
+export type PricingDataSupportedEndpoint = {
+  [key: string]: {
+    method?: string;
+    path?: string;
+  };
+};
+
 export type PricingDataUsableGroup = { [key: string]: string };
+
+export type PricingDataVendorsItem = {
+  description?: string | null;
+  icon?: string | null;
+  id?: number;
+  name?: string;
+};
 
 /**
  * PricingData schema
  */
 export interface PricingData {
   auto_groups?: string[];
-  data?: unknown;
+  data?: PricingDataDataItem[];
   group_ratio?: PricingDataGroupRatio;
   show_original_price?: boolean;
   success?: boolean;
-  supported_endpoint?: unknown;
+  supported_endpoint?: PricingDataSupportedEndpoint;
   usable_group?: PricingDataUsableGroup;
-  vendors?: unknown;
+  vendors?: PricingDataVendorsItem[];
 }
 
 /**
@@ -3239,6 +3269,7 @@ export interface UpdateUserSettingRequest {
   notify_type?: string;
   quota_warning_threshold?: number;
   record_ip_log?: boolean;
+  upstream_model_update_notify_enabled?: boolean | null;
   webhook_secret?: string | null;
   webhook_url?: string | null;
 }
@@ -5497,6 +5528,202 @@ export const updateChannelBalance = async (
     {
       ...options,
       method: "GET",
+    },
+  );
+};
+
+/**
+ * @summary Apply Channel Upstream Model Updates
+ */
+export type applyChannelUpstreamModelUpdatesResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type applyChannelUpstreamModelUpdatesResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type applyChannelUpstreamModelUpdatesResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type applyChannelUpstreamModelUpdatesResponseSuccess = (
+  | applyChannelUpstreamModelUpdatesResponse200ApplicationJson
+  | applyChannelUpstreamModelUpdatesResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type applyChannelUpstreamModelUpdatesResponseError =
+  applyChannelUpstreamModelUpdatesResponseDefault & {
+    headers: Headers;
+  };
+
+export type applyChannelUpstreamModelUpdatesResponse =
+  | applyChannelUpstreamModelUpdatesResponseSuccess
+  | applyChannelUpstreamModelUpdatesResponseError;
+
+export const getApplyChannelUpstreamModelUpdatesUrl = () => {
+  return `/api/channel/upstream_updates/apply`;
+};
+
+export const applyChannelUpstreamModelUpdates = async (
+  options?: RequestInit,
+): Promise<applyChannelUpstreamModelUpdatesResponse> => {
+  return customFetch<applyChannelUpstreamModelUpdatesResponse>(
+    getApplyChannelUpstreamModelUpdatesUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+/**
+ * @summary Apply All Channel Upstream Model Updates
+ */
+export type applyAllChannelUpstreamModelUpdatesResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type applyAllChannelUpstreamModelUpdatesResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type applyAllChannelUpstreamModelUpdatesResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type applyAllChannelUpstreamModelUpdatesResponseSuccess = (
+  | applyAllChannelUpstreamModelUpdatesResponse200ApplicationJson
+  | applyAllChannelUpstreamModelUpdatesResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type applyAllChannelUpstreamModelUpdatesResponseError =
+  applyAllChannelUpstreamModelUpdatesResponseDefault & {
+    headers: Headers;
+  };
+
+export type applyAllChannelUpstreamModelUpdatesResponse =
+  | applyAllChannelUpstreamModelUpdatesResponseSuccess
+  | applyAllChannelUpstreamModelUpdatesResponseError;
+
+export const getApplyAllChannelUpstreamModelUpdatesUrl = () => {
+  return `/api/channel/upstream_updates/apply_all`;
+};
+
+export const applyAllChannelUpstreamModelUpdates = async (
+  options?: RequestInit,
+): Promise<applyAllChannelUpstreamModelUpdatesResponse> => {
+  return customFetch<applyAllChannelUpstreamModelUpdatesResponse>(
+    getApplyAllChannelUpstreamModelUpdatesUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+/**
+ * @summary Detect Channel Upstream Model Updates
+ */
+export type detectChannelUpstreamModelUpdatesResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type detectChannelUpstreamModelUpdatesResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type detectChannelUpstreamModelUpdatesResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type detectChannelUpstreamModelUpdatesResponseSuccess = (
+  | detectChannelUpstreamModelUpdatesResponse200ApplicationJson
+  | detectChannelUpstreamModelUpdatesResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type detectChannelUpstreamModelUpdatesResponseError =
+  detectChannelUpstreamModelUpdatesResponseDefault & {
+    headers: Headers;
+  };
+
+export type detectChannelUpstreamModelUpdatesResponse =
+  | detectChannelUpstreamModelUpdatesResponseSuccess
+  | detectChannelUpstreamModelUpdatesResponseError;
+
+export const getDetectChannelUpstreamModelUpdatesUrl = () => {
+  return `/api/channel/upstream_updates/detect`;
+};
+
+export const detectChannelUpstreamModelUpdates = async (
+  options?: RequestInit,
+): Promise<detectChannelUpstreamModelUpdatesResponse> => {
+  return customFetch<detectChannelUpstreamModelUpdatesResponse>(
+    getDetectChannelUpstreamModelUpdatesUrl(),
+    {
+      ...options,
+      method: "POST",
+    },
+  );
+};
+
+/**
+ * @summary Detect All Channel Upstream Model Updates
+ */
+export type detectAllChannelUpstreamModelUpdatesResponse200ApplicationJson = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type detectAllChannelUpstreamModelUpdatesResponse200ApplicationXml = {
+  data: MessageResponse;
+  status: 200;
+};
+
+export type detectAllChannelUpstreamModelUpdatesResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type detectAllChannelUpstreamModelUpdatesResponseSuccess = (
+  | detectAllChannelUpstreamModelUpdatesResponse200ApplicationJson
+  | detectAllChannelUpstreamModelUpdatesResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type detectAllChannelUpstreamModelUpdatesResponseError =
+  detectAllChannelUpstreamModelUpdatesResponseDefault & {
+    headers: Headers;
+  };
+
+export type detectAllChannelUpstreamModelUpdatesResponse =
+  | detectAllChannelUpstreamModelUpdatesResponseSuccess
+  | detectAllChannelUpstreamModelUpdatesResponseError;
+
+export const getDetectAllChannelUpstreamModelUpdatesUrl = () => {
+  return `/api/channel/upstream_updates/detect_all`;
+};
+
+export const detectAllChannelUpstreamModelUpdates = async (
+  options?: RequestInit,
+): Promise<detectAllChannelUpstreamModelUpdatesResponse> => {
+  return customFetch<detectAllChannelUpstreamModelUpdatesResponse>(
+    getDetectAllChannelUpstreamModelUpdatesUrl(),
+    {
+      ...options,
+      method: "POST",
     },
   );
 };

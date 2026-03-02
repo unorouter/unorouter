@@ -1,13 +1,14 @@
-import { NewApiError } from "@/lib/api/client";
 import { pricingRoute } from "@/server/pricing/route";
 import { statsRoute } from "@/server/stats/route";
 import { Elysia } from "elysia";
 
 export const app = new Elysia({ prefix: "/api" })
   .onError(({ error, set }) => {
-    if (error instanceof NewApiError) {
-      set.status = error.status;
-      return error.message;
+    const err = error as { status?: number; data?: unknown };
+    if (err.status && typeof err.status === "number") {
+      set.status = err.status;
+      const data = err.data;
+      return typeof data === "string" ? data : JSON.stringify(data);
     }
   })
   .use(pricingRoute)
