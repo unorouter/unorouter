@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function usePricingQuery() {
   return useQuery({
-    queryKey: queryKeys.newApi.pricing(),
+    queryKey: queryKeys.pricing(),
     queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     enabled: false,
   });

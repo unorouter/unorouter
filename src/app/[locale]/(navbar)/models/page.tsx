@@ -9,7 +9,7 @@ export default async function ModelsPage() {
   const queryClient = getQueryClient();
 
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.newApi.pricing(),
+    queryKey: queryKeys.pricing(),
     queryFn: async () => handleElysia(await rpc.api.pricing.get()),
   });
 

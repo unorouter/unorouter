@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 
 export function useLiveStatsQuery() {
   return useQuery({
-    queryKey: queryKeys.stats.live(),
+    queryKey: queryKeys.statsLive(),
     queryFn: async () => handleElysia(await rpc.api.stats.live.get()),
     enabled: false,
   });
@@ -16,7 +16,7 @@ export function useLiveStatsQuery() {
 
 export function useHistoryStatsQuery() {
   return useQuery({
-    queryKey: queryKeys.stats.history(),
+    queryKey: queryKeys.statsHistory(),
     queryFn: async () => handleElysia(await rpc.api.stats.history.get()),
     enabled: false,
   });
@@ -31,7 +31,7 @@ export function useLiveStats() {
   const [tokens, setTokens] = useState(baseTokens);
   const [requests, setRequests] = useState(baseRequests);
   const [tpm, setTpm] = useState(baseTpm);
-  const [tps, setTps] = useState(+(baseTpm / 60).toFixed(1));
+  const [tps, setTps] = useState((baseTpm / 60).toFixed(1));
   const recentTokenIncrements = useRef<number[]>([]);
 
   useEffect(() => {
@@ -57,7 +57,7 @@ export function useLiveStats() {
         const sum = recent.reduce((a, b) => a + b, 0);
         const derivedTpm = Math.round((sum * 1200) / recent.length);
         setTpm(derivedTpm);
-        setTps(+(derivedTpm / 60).toFixed(1));
+        setTps((derivedTpm / 60).toFixed(1));
       }
     }, 200);
 

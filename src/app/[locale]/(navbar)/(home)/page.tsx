@@ -10,17 +10,17 @@ export default async function HomePage() {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: queryKeys.newApi.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get())
+      queryKey: queryKeys.pricing(),
+      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.stats.history(),
-      queryFn: async () => handleElysia(await rpc.api.stats.history.get())
+      queryKey: queryKeys.statsHistory(),
+      queryFn: async () => handleElysia(await rpc.api.stats.history.get()),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.newApi.subscriptionPlans(),
-      queryFn: async () => handleElysia(await rpc.api.subscription.plans.get())
-    })
+      queryKey: queryKeys.subscriptionPlans(),
+      queryFn: async () => handleElysia(await rpc.api.subscription.plans.get()),
+    }),
   ]);
 
   return (

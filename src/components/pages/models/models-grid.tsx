@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import { LuSearch } from "react-icons/lu";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
-import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
+import { Input } from "@/components/ui/input";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import type { ModelType, processModels } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { LuSearch } from "react-icons/lu";
 
 export function ModelsGrid() {
   const t = useTranslations();
@@ -30,8 +30,7 @@ export function ModelsGrid() {
     const matchesSearch = model.name
       .toLowerCase()
       .includes(search.toLowerCase());
-    const matchesFilter =
-      filter === "all" || model.types.includes(filter);
+    const matchesFilter = filter === "all" || model.types.includes(filter);
     return matchesSearch && matchesFilter;
   });
 
@@ -94,8 +93,13 @@ export function ModelsGrid() {
 }
 
 function ModelCard(props: {
-  model: ProcessedModel;
-  labels: { perRequest: string; input: string; output: string; perMillion: string };
+  model: ReturnType<typeof processModels>[number];
+  labels: {
+    perRequest: string;
+    input: string;
+    output: string;
+    perMillion: string;
+  };
 }) {
   const model = props.model;
 
@@ -115,7 +119,7 @@ function ModelCard(props: {
                 "font-mono text-[10px] uppercase",
                 type === "vision" && "border-blue-500/30 text-blue-400",
                 type === "image" && "border-green-500/30 text-green-400",
-                type === "video" && "border-purple-500/30 text-purple-400"
+                type === "video" && "border-purple-500/30 text-purple-400",
               )}
             >
               {type}
@@ -130,23 +134,31 @@ function ModelCard(props: {
             <span className="text-primary font-mono text-sm font-semibold">
               ${model.fixedPrice.toFixed(2)}
             </span>
-            <span className="text-muted-foreground text-xs">{props.labels.perRequest}</span>
+            <span className="text-muted-foreground text-xs">
+              {props.labels.perRequest}
+            </span>
           </div>
         ) : (
           <div className="flex gap-4">
             <div>
-              <span className="text-muted-foreground text-xs">{props.labels.input} </span>
+              <span className="text-muted-foreground text-xs">
+                {props.labels.input}{" "}
+              </span>
               <span className="text-primary font-mono text-sm font-semibold">
                 ${model.inputPrice.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground text-xs">{props.labels.output} </span>
+              <span className="text-muted-foreground text-xs">
+                {props.labels.output}{" "}
+              </span>
               <span className="text-primary font-mono text-sm font-semibold">
                 ${model.outputPrice.toFixed(2)}
               </span>
             </div>
-            <span className="text-muted-foreground text-xs self-end">{props.labels.perMillion}</span>
+            <span className="text-muted-foreground self-end text-xs">
+              {props.labels.perMillion}
+            </span>
           </div>
         )}
       </div>
