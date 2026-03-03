@@ -4,4 +4,6 @@ export const queryKeys = {
   statsLive: () => ["stats-live"] as const,
   statsHistory: () => ["stats-history"] as const,
   subscriptionPlans: () => ["subscription-plans"] as const,
+  auth: () => ["auth"] as const,
+  status: () => ["status"] as const,
 };

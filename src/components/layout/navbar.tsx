@@ -2,18 +2,24 @@
 
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
-import { Link, usePathname } from "@/i18n/navigation";
+import { useLogoutMutation } from "@/hooks/auth-hook";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { isAuthenticatedAtom, userAtom } from "@/store/auth-store";
+import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   LuChevronDown,
   LuCpu,
+  LuLayoutDashboard,
+  LuLogOut,
   LuMenu,
   LuShell,
   LuSparkles,
   LuTerminal,
+  LuUser,
   LuX,
 } from "react-icons/lu";
 
@@ -32,9 +38,26 @@ const DOC_LINKS = [
 export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
+  const router = useRouter();
   const [docsOpen, setDocsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  const isAuthenticated = useAtomValue(isAuthenticatedAtom);
+  const user = useAtomValue(userAtom);
+  const logoutMutation = useLogoutMutation();
+
+  async function handleLogout() {
+    setUserMenuOpen(false);
+    setMobileOpen(false);
+    try {
+      await logoutMutation.mutateAsync();
+      router.push("/");
+    } catch {
+      // error handled by mutation
+    }
+  }
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -118,12 +141,49 @@ export function Navbar() {
         <div className="hidden items-center gap-4 md:flex">
           <LanguageToggle />
           <ThemeToggle />
-          <a
-            href="https://api.unorouter.ai"
-            className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
-          >
-            {t("NAV.LOG_IN")}
-          </a>
+          {isAuthenticated && user ? (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                onBlur={() => setTimeout(() => setUserMenuOpen(false), 200)}
+                className="text-foreground flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase transition-colors"
+              >
+                <LuUser className="h-3.5 w-3.5" />
+                {user.display_name || user.username}
+                <LuChevronDown
+                  className={cn(
+                    "h-3 w-3 transition-transform duration-200",
+                    userMenuOpen && "rotate-180",
+                  )}
+                />
+              </button>
+              {userMenuOpen && (
+                <div className="bg-popover border-border absolute top-full right-0 mt-2 w-44 border py-1">
+                  <a
+                    href={process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai"}
+                    className="text-muted-foreground hover:text-foreground hover:bg-accent flex items-center gap-2 px-4 py-2 text-[11px] tracking-wider uppercase"
+                  >
+                    <LuLayoutDashboard className="h-3 w-3" />
+                    {t("AUTH.DASHBOARD")}
+                  </a>
+                  <button
+                    onClick={handleLogout}
+                    className="text-muted-foreground hover:text-foreground hover:bg-accent flex w-full items-center gap-2 px-4 py-2 text-[11px] tracking-wider uppercase"
+                  >
+                    <LuLogOut className="h-3 w-3" />
+                    {t("AUTH.LOG_OUT")}
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
+            >
+              {t("NAV.LOG_IN")}
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu */}
@@ -173,12 +233,36 @@ export function Navbar() {
             ))}
           </div>
           <div className="border-border flex flex-col gap-3 border-t pt-4">
-            <a
-              href="https://api.unorouter.ai"
-              className="text-muted-foreground hover:text-foreground text-sm tracking-wider uppercase"
-            >
-              {t("NAV.LOG_IN")}
-            </a>
+            {isAuthenticated && user ? (
+              <>
+                <span className="text-foreground text-sm font-bold tracking-wider uppercase">
+                  {user.display_name || user.username}
+                </span>
+                <a
+                  href={process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai"}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm tracking-wider uppercase"
+                >
+                  <LuLayoutDashboard className="h-3.5 w-3.5" />
+                  {t("AUTH.DASHBOARD")}
+                </a>
+                <button
+                  onClick={handleLogout}
+                  className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm tracking-wider uppercase"
+                >
+                  <LuLogOut className="h-3.5 w-3.5" />
+                  {t("AUTH.LOG_OUT")}
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="text-muted-foreground hover:text-foreground text-sm tracking-wider uppercase"
+              >
+                {t("NAV.LOG_IN")}
+              </Link>
+            )}
           </div>
         </div>
       )}

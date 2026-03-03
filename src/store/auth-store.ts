@@ -1,9 +1,14 @@
-import { atom, createStore } from "jotai";
+import { atom } from "jotai";
 
-export const tokenAtom = atom<string | null | undefined>(null);
+export interface AuthUser {
+  id: number;
+  username: string;
+  display_name: string;
+  role: number;
+  status: number;
+  group: string;
+}
 
-export const authStore = createStore();
-export const getToken = () => authStore.get(tokenAtom);
-export const setToken = (token?: string | null) =>
-  authStore.set(tokenAtom, token);
-export const clearToken = () => setToken(null);
+export const userAtom = atom<AuthUser | null>(null);
+export const isAuthenticatedAtom = atom((get) => get(userAtom) !== null);
+export const isLoadingAuthAtom = atom(true);
