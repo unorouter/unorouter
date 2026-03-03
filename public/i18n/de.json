@@ -387,7 +387,11 @@
     "SEND_CODE_FAILED": "Verifizierungscode konnte nicht gesendet werden",
     "CALLBACK_LOADING": "Anmeldung wird abgeschlossen...",
     "DASHBOARD": "Dashboard",
-    "LOG_OUT": "Abmelden"
+    "LOG_OUT": "Abmelden",
+    "ROLE_ROOT": "Root",
+    "ROLE_ADMIN": "Admin",
+    "ROLE_USER": "Benutzer",
+    "ROLE_GUEST": "Gast"
   },
   "THEME": {
     "LIGHT": "Hell",

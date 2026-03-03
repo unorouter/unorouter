@@ -387,7 +387,11 @@
     "SEND_CODE_FAILED": "Failed to send verification code",
     "CALLBACK_LOADING": "Completing sign in...",
     "DASHBOARD": "Dashboard",
-    "LOG_OUT": "Log Out"
+    "LOG_OUT": "Log Out",
+    "ROLE_ROOT": "Root",
+    "ROLE_ADMIN": "Admin",
+    "ROLE_USER": "User",
+    "ROLE_GUEST": "Guest"
   },
   "THEME": {
     "LIGHT": "Light",

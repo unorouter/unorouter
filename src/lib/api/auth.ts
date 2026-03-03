@@ -1,19 +1,36 @@
+import { getCookie } from "cookies-next/client";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+const USER_ID_KEY = "uno_user_id";
 
 function getBaseUrl() {
   if (typeof window === "undefined") return API_URL || "";
   return "/proxy";
 }
 
+function getStoredUserId(): string {
+  if (typeof window === "undefined") return "";
+  const value = getCookie(USER_ID_KEY);
+  if (!value) return "";
+  try {
+    return String(JSON.parse(String(value)));
+  } catch {
+    return String(value);
+  }
+}
+
 async function authFetch<T>(
   path: string,
   options?: RequestInit,
 ): Promise<{ success: boolean; message: string; data: T }> {
+  const userId = getStoredUserId();
   const response = await fetch(`${getBaseUrl()}${path}`, {
     ...options,
     credentials: "include",
     headers: {
       "Content-Type": "application/json",
+      ...(userId ? { "New-Api-User": userId } : {}),
       ...options?.headers,
     },
   });

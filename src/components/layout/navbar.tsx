@@ -1,11 +1,21 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { useLogoutMutation } from "@/hooks/auth-hook";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { isAuthenticatedAtom, userAtom } from "@/store/auth-store";
+import { isAuthenticatedAtom, isLoadingAuthAtom, userAtom } from "@/store/auth-store";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -19,7 +29,6 @@ import {
   LuShell,
   LuSparkles,
   LuTerminal,
-  LuUser,
   LuX,
 } from "react-icons/lu";
 
@@ -35,6 +44,13 @@ const DOC_LINKS = [
   { href: "/docs/openclaw", key: "NAV.OPENCLAW", icon: LuShell },
 ] as const;
 
+const ROLE_LABELS: Record<number, string> = {
+  100: "AUTH.ROLE_ROOT",
+  10: "AUTH.ROLE_ADMIN",
+  1: "AUTH.ROLE_USER",
+  0: "AUTH.ROLE_GUEST",
+};
+
 export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
@@ -42,14 +58,13 @@ export function Navbar() {
   const [docsOpen, setDocsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const isAuthenticated = useAtomValue(isAuthenticatedAtom);
+  const isLoadingAuth = useAtomValue(isLoadingAuthAtom);
   const user = useAtomValue(userAtom);
   const logoutMutation = useLogoutMutation();
 
   async function handleLogout() {
-    setUserMenuOpen(false);
     setMobileOpen(false);
     try {
       await logoutMutation.mutateAsync();
@@ -64,6 +79,12 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const displayName = user?.display_name || user?.username || "";
+  const initials = displayName.charAt(0).toUpperCase();
+  const roleKey = user
+    ? ROLE_LABELS[user.role]
+    : undefined;
 
   return (
     <nav
@@ -142,41 +163,70 @@ export function Navbar() {
           <LanguageToggle />
           <ThemeToggle />
           {isAuthenticated && user ? (
-            <div className="relative">
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                onBlur={() => setTimeout(() => setUserMenuOpen(false), 200)}
-                className="text-foreground flex items-center gap-1.5 text-[11px] font-bold tracking-wider uppercase transition-colors"
+            <DropdownMenu>
+              <DropdownMenuTrigger className="bg-muted hover:bg-accent flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg transition-colors focus:outline-none">
+                <span className="text-foreground text-xs font-bold">
+                  {initials}
+                </span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="bottom"
+                align="end"
+                sideOffset={4}
+                className="min-w-56 rounded-lg"
               >
-                <LuUser className="h-3.5 w-3.5" />
-                {user.display_name || user.username}
-                <LuChevronDown
-                  className={cn(
-                    "h-3 w-3 transition-transform duration-200",
-                    userMenuOpen && "rotate-180",
-                  )}
-                />
-              </button>
-              {userMenuOpen && (
-                <div className="bg-popover border-border absolute top-full right-0 mt-2 w-44 border py-1">
-                  <a
-                    href={process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai"}
-                    className="text-muted-foreground hover:text-foreground hover:bg-accent flex items-center gap-2 px-4 py-2 text-[11px] tracking-wider uppercase"
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="p-0 font-normal">
+                    <div className="flex flex-col gap-2 px-1 py-1.5 text-left text-sm">
+                      <div className="flex items-center gap-2">
+                        <div className="bg-muted flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                          <span className="text-foreground text-xs font-bold">
+                            {initials}
+                          </span>
+                        </div>
+                        <div className="grid flex-1 text-left text-sm leading-tight">
+                          <span className="text-foreground truncate font-medium">
+                            {displayName}
+                          </span>
+                          {user.group && (
+                            <span className="text-muted-foreground truncate text-xs">
+                              {user.group}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {roleKey && (
+                        <div className="flex flex-wrap gap-1 pt-0.5">
+                          <Badge variant="secondary" className="text-xs">
+                            {t(roleKey as any)}
+                          </Badge>
+                        </div>
+                      )}
+                    </div>
+                  </DropdownMenuLabel>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem
+                    onSelect={() => {
+                      window.open(
+                        process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai",
+                        "_blank",
+                      );
+                    }}
                   >
-                    <LuLayoutDashboard className="h-3 w-3" />
+                    <LuLayoutDashboard />
                     {t("AUTH.DASHBOARD")}
-                  </a>
-                  <button
-                    onClick={handleLogout}
-                    className="text-muted-foreground hover:text-foreground hover:bg-accent flex w-full items-center gap-2 px-4 py-2 text-[11px] tracking-wider uppercase"
-                  >
-                    <LuLogOut className="h-3 w-3" />
-                    {t("AUTH.LOG_OUT")}
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={handleLogout}>
+                  <LuLogOut />
+                  {t("AUTH.LOG_OUT")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : isLoadingAuth ? null : (
             <Link
               href="/login"
               className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
@@ -235,11 +285,32 @@ export function Navbar() {
           <div className="border-border flex flex-col gap-3 border-t pt-4">
             {isAuthenticated && user ? (
               <>
-                <span className="text-foreground text-sm font-bold tracking-wider uppercase">
-                  {user.display_name || user.username}
-                </span>
+                <div className="flex items-center gap-2">
+                  <div className="bg-muted flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                    <span className="text-foreground text-xs font-bold">
+                      {initials}
+                    </span>
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="text-foreground truncate font-medium">
+                      {displayName}
+                    </span>
+                    {user.group && (
+                      <span className="text-muted-foreground truncate text-xs">
+                        {user.group}
+                      </span>
+                    )}
+                  </div>
+                  {roleKey && (
+                    <Badge variant="secondary" className="text-xs">
+                      {t(roleKey as any)}
+                    </Badge>
+                  )}
+                </div>
                 <a
                   href={process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai"}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}
                   className="text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm tracking-wider uppercase"
                 >
@@ -254,7 +325,7 @@ export function Navbar() {
                   {t("AUTH.LOG_OUT")}
                 </button>
               </>
-            ) : (
+            ) : isLoadingAuth ? null : (
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}
