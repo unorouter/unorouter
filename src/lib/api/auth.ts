@@ -1,10 +1,15 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+function getBaseUrl() {
+  if (typeof window === "undefined") return API_URL || "";
+  return "/proxy";
+}
+
 async function authFetch<T>(
   path: string,
   options?: RequestInit,
 ): Promise<{ success: boolean; message: string; data: T }> {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${getBaseUrl()}${path}`, {
     ...options,
     credentials: "include",
     headers: {
@@ -88,7 +93,7 @@ export async function fetchOAuthState(redirect?: string) {
 
 export async function sendVerificationEmail(email: string) {
   const response = await fetch(
-    `${API_URL}/api/verification?email=${encodeURIComponent(email)}`,
+    `${getBaseUrl()}/api/verification?email=${encodeURIComponent(email)}`,
     { credentials: "include" },
   );
   return response.json();
