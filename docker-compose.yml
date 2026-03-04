@@ -11,11 +11,18 @@ services:
       context: ./
       dockerfile: Dockerfile
       target: prod
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     env_file:
       - .env
     networks:
       - proxy
     labels:
+      - "autoheal=true"
       - "traefik.enable=true"
       - "traefik.docker.network=proxy"
       - "traefik.http.routers.unorouter.rule=Host(`unorouter.ai`) || Host(`www.unorouter.ai`)"
