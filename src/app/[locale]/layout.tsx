@@ -13,7 +13,6 @@ import {
 } from "next/font/google";
 import { notFound } from "next/navigation";
 import { use } from "react";
-import { Footer } from "@/components/layout/footer";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
@@ -81,7 +80,6 @@ export default function LocaleLayout(props: Props) {
         <Providers>
           <Toaster richColors />
           {props.children}
-          <Footer />
         </Providers>
       </body>
     </html>

@@ -208,7 +208,7 @@ export function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem
-                    onSelect={() => {
+                    onClick={() => {
                       window.open(
                         process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai",
                         "_blank",
@@ -220,7 +220,7 @@ export function Navbar() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={handleLogout}>
+                <DropdownMenuItem onClick={handleLogout}>
                   <LuLogOut />
                   {t("AUTH.LOG_OUT")}
                 </DropdownMenuItem>
