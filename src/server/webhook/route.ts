@@ -1,21 +1,11 @@
-import crypto from "node:crypto";
 import { Elysia } from "elysia";
+import crypto from "node:crypto";
 import { Resend } from "resend";
-
-const SIGNING_SECRET = process.env.RESEND_WEBHOOK_SECRET;
-const FORWARD_TO = process.env.RESEND_FORWARD_TO ?? "don.cryptus@gmail.com";
-
-function getResend() {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error("RESEND_API_KEY is not set");
-  }
-  return new Resend(process.env.RESEND_API_KEY);
-}
 
 export const webhookRoute = new Elysia({ prefix: "/webhook" }).post(
   "/resend",
   async ({ request, set }) => {
-    if (!SIGNING_SECRET) {
+    if (!process.env.RESEND_WEBHOOK_SECRET) {
       set.status = 500;
       return { error: "Webhook secret not configured" };
     }
@@ -31,7 +21,7 @@ export const webhookRoute = new Elysia({ prefix: "/webhook" }).post(
 
     const rawBody = await request.text();
 
-    const secretBytes = Buffer.from(SIGNING_SECRET.split("_")[1], "base64");
+    const secretBytes = Buffer.from(process.env.RESEND_WEBHOOK_SECRET.split("_")[1], "base64");
     const signedContent = `${svixId}.${svixTimestamp}.${rawBody}`;
     const expectedSignature = crypto
       .createHmac("sha256", secretBytes)
@@ -55,13 +45,16 @@ export const webhookRoute = new Elysia({ prefix: "/webhook" }).post(
       const { from, to, subject, email_id } = event.data;
 
       try {
-        const resend = getResend();
+        if (!process.env.RESEND_API_KEY) {
+          throw new Error("RESEND_API_KEY is not set");
+        }
+        const resend = new Resend(process.env.RESEND_API_KEY);
         const { data: email } = await resend.emails.get(email_id);
         const originalTo = Array.isArray(to) ? to.join(", ") : to;
 
         await resend.emails.send({
-          from: `UnoRouter <noreply@unorouter.ai>`,
-          to: FORWARD_TO,
+          from: process.env.RESEND_FROM,
+          to: process.env.RESEND_FORWARD_TO,
           subject: `[${originalTo}] ${subject ?? "(no subject)"}`,
           text: email?.text ?? `(empty email from ${from})`,
           html: email?.html ?? undefined,

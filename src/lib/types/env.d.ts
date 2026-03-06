@@ -7,6 +7,8 @@ declare namespace NodeJS {
     SYSTEM_ACCESS_TOKEN: string;
 
     RESEND_FORWARD_TO: string;
+    RESEND_FROM: string;
+    RESEND_WEBHOOK_SECRET: string;
 
     STANDALONE?: string;
     PORT?: string;

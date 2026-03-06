@@ -26,6 +26,7 @@ jobs:
 
           echo RESEND_WEBHOOK_SECRET=${{ secrets.RESEND_WEBHOOK_SECRET }} >> .env
           echo RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} >> .env
+          echo RESEND_FROM=${{ secrets.RESEND_FROM }} >> .env
 
       - name: Docker run
         run: docker compose up -d --force-recreate --build
