@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LANGUAGES, LOCALES } from "./constants";
+import { ALTERNATE_LANGUAGES, LANGUAGES, LOCALES } from "./constants";
 
 type MetadataParams = {
   locale: string;
@@ -17,31 +17,25 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   const shouldIndex = params.robots ?? true;
 
   return {
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_URL || "https://unorouter.ai",
-    ),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
     title: params.title,
     description: params.description,
     keywords: params.keywords.split(", "),
     alternates: {
       canonical: canonicalPath,
-      languages: Object.fromEntries([
-        ...LOCALES.map((loc) => [
-          loc,
-          canonicalPath.replace(/^\/(en|de)/, `/${loc}`),
-        ]),
-        ["x-default", canonicalPath.replace(/^\/(en|de)/, `/${LOCALES[0]}`)],
-      ]),
+      languages: {
+        ...ALTERNATE_LANGUAGES,
+        "x-default": `/${LOCALES[0]}`,
+      },
     },
     openGraph: {
       title: params.title,
       description: params.description,
       type: "website",
-      locale: LANGUAGES.find(
-        (l) => l.code === params.locale.toUpperCase(),
-      )?.ogLocale,
+      locale: LANGUAGES.find((l) => l.code === params.locale.toUpperCase())
+        ?.ogLocale,
       alternateLocale: LANGUAGES.map((l) => l.ogLocale),
-      siteName: "UnoRouter",
+      siteName: process.env.NEXT_PUBLIC_APP_NAME,
       images: [
         {
           url: ogImageUrl,

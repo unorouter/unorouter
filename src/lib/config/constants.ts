@@ -16,6 +16,14 @@ export const LANGUAGES: {
   { code: "DE", Flag: DE, ogLocale: "de-DE" },
 ];
 
+export const ALTERNATE_LANGUAGES = LOCALES.reduce(
+  (acc, loc) => {
+    acc[loc] = `/${loc}`;
+    return acc;
+  },
+  {} as Record<string, string>,
+);
+
 export type TranslationKey = Parameters<
   ReturnType<typeof useTranslations<never>>
 >[0];
