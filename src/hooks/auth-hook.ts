@@ -3,20 +3,12 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
-import { AuthUser } from "@/store/auth-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useAuthQuery() {
-  return useQuery<AuthUser | null>({
+  return useQuery({
     queryKey: queryKeys.auth(),
-    queryFn: async () => {
-      const result = handleElysia(await rpc.api.auth.self.get()) as {
-        success: boolean;
-        data: AuthUser;
-      };
-      if (!result?.success) return null;
-      return result.data;
-    },
+    queryFn: async () => handleElysia(await rpc.api.auth.self.get()),
     enabled: false,
   });
 }
@@ -28,15 +20,7 @@ export function useLoginMutation() {
       username: string;
       password: string;
       turnstile?: string;
-    }) => {
-      const result = handleElysia(await rpc.api.auth.login.post(data)) as {
-        success: boolean;
-        message: string;
-        data: AuthUser | { require_2fa: true };
-      };
-      if (!result.success) throw new Error(result.message);
-      return result.data;
-    },
+    }) => handleElysia(await rpc.api.auth.login.post(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
     },
@@ -46,13 +30,8 @@ export function useLoginMutation() {
 export function useVerify2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (code: string) => {
-      const result = handleElysia(
-        await rpc.api.auth.login["2fa"].post({ code }),
-      ) as { success: boolean; message: string; data: AuthUser };
-      if (!result.success) throw new Error(result.message);
-      return result.data;
-    },
+    mutationFn: async (code: string) =>
+      handleElysia(await rpc.api.auth.login["2fa"].post({ code })),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
     },
@@ -68,28 +47,15 @@ export function useRegisterMutation() {
       verification_code?: string;
       aff_code?: string;
       turnstile?: string;
-    }) => {
-      const result = handleElysia(await rpc.api.auth.register.post(data)) as {
-        success: boolean;
-        message: string;
-        data: null;
-      };
-      if (!result.success) throw new Error(result.message);
-      return result.data;
-    },
+    }) => handleElysia(await rpc.api.auth.register.post(data)),
   });
 }
 
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async () => {
-      const result = handleElysia(await rpc.api.auth.logout.get()) as {
-        success: boolean;
-        message: string;
-      };
-      if (!result.success) throw new Error(result.message);
-    },
+    mutationFn: async () =>
+      handleElysia(await rpc.api.auth.logout.get()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
     },

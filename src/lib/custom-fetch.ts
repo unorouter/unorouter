@@ -1,30 +1,7 @@
-import { parseSetCookie } from "cookie";
-
-const isServer = typeof window === "undefined";
-
-async function getCookieHeader(): Promise<string> {
-  if (!isServer) return "";
-  const { getCookies } = await import("cookies-next/server");
-  const all = await getCookies();
-  return Object.entries(all)
-    .map(([k, v]) => `${k}=${v}`)
-    .join("; ");
-}
-
-async function forwardUpstreamCookies(headers: Headers) {
-  if (!isServer) return;
-  const raw = headers.getSetCookie?.() ?? [];
-  if (raw.length === 0) return;
-
-  const { setCookie } = await import("cookies-next/server");
-  for (const str of raw) {
-    const { name, value, ...opts } = parseSetCookie(str);
-    delete opts.domain;
-    opts.secure = false;
-    opts.sameSite = "lax";
-    await setCookie(name, value, opts);
-  }
-}
+import {
+  getServerCookieHeader,
+  forwardUpstreamCookies,
+} from "@/server/constants";
 
 export const customFetch = async <T>(
   url: string,
@@ -38,7 +15,7 @@ export const customFetch = async <T>(
     } catch {}
   }
 
-  const cookieHeader = await getCookieHeader();
+  const cookieHeader = await getServerCookieHeader();
   const existingHeaders = options.headers as Record<string, string> | undefined;
   const hasCookie = existingHeaders?.cookie || existingHeaders?.Cookie;
 

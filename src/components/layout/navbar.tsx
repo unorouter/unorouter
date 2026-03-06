@@ -13,11 +13,9 @@ import {
 import { CompanyName, LogoImage } from "@/components/elements/brand";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
-import { useLogoutMutation } from "@/hooks/auth-hook";
+import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { isAuthenticatedAtom, isLoadingAuthAtom, userAtom } from "@/store/auth-store";
-import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import {
@@ -59,9 +57,8 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const isAuthenticated = useAtomValue(isAuthenticatedAtom);
-  const isLoadingAuth = useAtomValue(isLoadingAuthAtom);
-  const user = useAtomValue(userAtom);
+  const { data: user, isLoading: isLoadingAuth } = useAuthQuery();
+  const isAuthenticated = !!user;
   const logoutMutation = useLogoutMutation();
 
   async function handleLogout() {

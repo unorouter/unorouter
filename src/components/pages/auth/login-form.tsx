@@ -50,7 +50,7 @@ export function LoginForm() {
   }
 
   const showPasswordForm =
-    status?.password_login_enabled !== false;
+    (status as any)?.password_login_enabled !== false;
 
   return (
     <GlassAuthCard

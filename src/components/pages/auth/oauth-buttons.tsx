@@ -1,12 +1,14 @@
 "use client";
 
-import { StatusData } from "@/hooks/status-hook";
+import { useStatusQuery } from "@/hooks/status-hook";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaDiscord, FaGithub, FaTelegram } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
+
+type StatusData = NonNullable<ReturnType<typeof useStatusQuery>["data"]>;
 
 interface OAuthButtonsProps {
   status: StatusData;
@@ -71,7 +73,15 @@ export function OAuthButtons(props: OAuthButtonsProps) {
     },
   ];
 
-  const customProviders = props.status.custom_oauth_providers || [];
+  const customProviders = (props.status.custom_oauth_providers || []) as Array<{
+    id: number;
+    name: string;
+    slug: string;
+    icon: string;
+    client_id: string;
+    authorization_endpoint: string;
+    scopes: string;
+  }>;
   const enabledProviders = providers.filter((p) => p.enabled);
   const hasAnyOAuth = enabledProviders.length > 0 || customProviders.length > 0;
 
@@ -81,11 +91,9 @@ export function OAuthButtons(props: OAuthButtonsProps) {
     setLoading(provider);
     try {
       const callbackUrl = `${window.location.origin}/${locale}/callback`;
-      const result = handleElysia(
+      const state = handleElysia(
         await rpc.api.auth.oauth.state.get({ query: { redirect: callbackUrl } }),
-      ) as { success: boolean; data: string };
-      if (!result.success) return;
-      const state = result.data;
+      ) as string;
 
       let url: string | null;
       if (customAuthEndpoint) {

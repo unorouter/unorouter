@@ -35,14 +35,10 @@ export function RegisterForm() {
     setSendingCode(true);
     setCodeError("");
     try {
-      const result = handleElysia(
+      handleElysia(
         await rpc.api.auth.verification.get({ query: { email: email.trim() } }),
-      ) as { success: boolean; message: string };
-      if (result.success) {
-        setCodeSent(true);
-      } else {
-        setCodeError(result.message || t("AUTH.SEND_CODE_FAILED"));
-      }
+      );
+      setCodeSent(true);
     } catch {
       setCodeError(t("AUTH.SEND_CODE_FAILED"));
     } finally {
@@ -69,7 +65,7 @@ export function RegisterForm() {
   }
 
   const showPasswordForm =
-    status?.password_register_enabled !== false;
+    (status as any)?.password_register_enabled !== false;
 
   return (
     <GlassAuthCard
