@@ -5,6 +5,7 @@ import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
 import type { SubscriptionPlan } from "@/server/subscription/route";
 import { useTranslations } from "next-intl";
+import { LuZap } from "react-icons/lu";
 
 function buildFeatures(
   plan: SubscriptionPlan,
@@ -39,31 +40,53 @@ export function Pricing() {
   const allModelsLabel = t("PRICING.FEATURE_MODELS");
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-16">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold">{t("PRICING.TITLE")}</h1>
-        <p className="text-muted-foreground mt-3 text-lg">
-          {t("PRICING.SUBTITLE")}
-        </p>
-      </div>
+    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-24">
+      <div className="mx-auto max-w-360 px-6">
+        <div className="mb-16 text-center">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-foreground/20 bg-foreground/5 px-3 py-1.5">
+            <LuZap className="text-foreground h-3 w-3" />
+            <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
+              {t("HOME.PRICING_LABEL")}
+            </span>
+          </div>
+          <h2 className="text-foreground mb-4 text-3xl leading-[1.1] font-bold tracking-tight md:text-5xl">
+            {t("PRICING.TITLE")}
+          </h2>
+          <p className="text-muted-foreground mx-auto max-w-2xl font-mono text-sm leading-relaxed">
+            {t("PRICING.SUBTITLE")}
+          </p>
+        </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {plans.map((plan, i) => {
-          const multiplier = getMultiplier(plan);
-          return (
-            <PricingCard
-              key={plan.id}
-              name={plan.title}
-              price={plan.priceAmount}
-              value={plan.estimatedTotalUsd}
-              multiplier={`${multiplier}x`}
-              popular={i === 1}
-              features={buildFeatures(plan, allModelsLabel)}
-              cta={t("PRICING.CTA")}
-            />
-          );
-        })}
+        <div className="mb-16 grid gap-6 md:grid-cols-3">
+          {plans.map((plan, i) => {
+            const multiplier = getMultiplier(plan);
+            return (
+              <PricingCard
+                key={plan.id}
+                name={plan.title}
+                price={plan.priceAmount}
+                value={plan.estimatedTotalUsd}
+                multiplier={`${multiplier}x`}
+                popular={i === 1}
+                features={buildFeatures(plan, allModelsLabel)}
+                cta={t("PRICING.CTA")}
+              />
+            );
+          })}
+        </div>
+
+        <div className="text-center">
+          <p className="text-muted-foreground font-mono text-xs">
+            {t("HOME.PRICING_PAYG_DESC")}
+          </p>
+          <a
+            href="https://api.unorouter.ai/register"
+            className="text-foreground hover:text-muted-foreground mt-3 inline-block font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+          >
+            {t("HOME.PRICING_PAYG_NAME")} &rarr;
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
