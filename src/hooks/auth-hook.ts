@@ -7,17 +7,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSetAtom } from "jotai";
 
 export function useAuthQuery() {
-  const setUserId = useSetAtom(userIdAtom);
   return useQuery<AuthUser | null>({
     queryKey: queryKeys.auth(),
     queryFn: async () => {
       const result = await fetchSelf();
       if (!result.success) return null;
-      setUserId(result.data.id);
       return result.data;
     },
-    retry: false,
-    staleTime: 5 * 60 * 1000,
+    enabled: false,
   });
 }
 

@@ -2,66 +2,17 @@ import type { PricingData, PricingDataDataItem } from "@/openapi";
 
 export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
 
-// Mirrors new-api-sync's ENDPOINT_TO_MODEL_TYPE mapping
-const ENDPOINT_TO_MODEL_TYPE: Record<string, ModelType> = {
-  "image-generation": "image",
-  "dall-e-3": "image",
-  "aigc-image": "image",
-  "openai-video": "video",
-  "aigc-video": "video",
-  embeddings: "embedding",
-  embedding: "embedding",
-  rerank: "embedding",
-  "jina-rerank": "embedding",
-  geminitts: "audio",
-};
-
-const ENDPOINT_KEYWORD_TYPES: [string, ModelType][] = [
-  ["video", "video"],
-  ["image", "image"],
-  ["tts", "audio"],
-];
-
-const TEXT_ENDPOINT_TYPES = new Set([
-  "openai",
-  "anthropic",
-  "gemini",
-  "openai-response",
-  "openai-response-compact",
+const VALID_MODEL_TYPES = new Set<string>([
+  "text",
+  "image",
+  "video",
+  "audio",
+  "embedding",
 ]);
 
-function inferModelTypes(model: PricingDataDataItem): ModelType[] {
-  const endpoints = model.supported_endpoint_types ?? [];
-  const isFixedPrice = model.quota_type === 1;
-  const types = new Set<ModelType>();
-
-  // 1. Endpoint-based detection
-  for (const ep of endpoints) {
-    const exact = ENDPOINT_TO_MODEL_TYPE[ep];
-    if (exact) {
-      types.add(exact);
-      continue;
-    }
-    if (TEXT_ENDPOINT_TYPES.has(ep)) {
-      types.add("text");
-      continue;
-    }
-    const lower = ep.toLowerCase();
-    for (const [keyword, type] of ENDPOINT_KEYWORD_TYPES) {
-      if (lower.includes(keyword)) {
-        types.add(type);
-        break;
-      }
-    }
-  }
-
-  // 2. Fixed-price models with only "text" from endpoints are non-text
-  //    (upstream reports text endpoints for image/video/audio models).
-  if (isFixedPrice && types.size === 1 && types.has("text")) {
-    types.delete("text");
-  }
-
-  return types.size > 0 ? [...types] : ["text"];
+function getModelType(model: PricingDataDataItem): ModelType {
+  const tag = (model.tags ?? "").split(",")[0]?.trim().toLowerCase();
+  return VALID_MODEL_TYPES.has(tag) ? (tag as ModelType) : "text";
 }
 
 export function processModels(response: PricingData) {
@@ -102,7 +53,7 @@ export function processModels(response: PricingData) {
         outputPrice,
         fixedPrice,
         isFixedPrice,
-        types: inferModelTypes(model),
+        type: getModelType(model),
         endpointTypes: model.supported_endpoint_types ?? [],
       };
     })

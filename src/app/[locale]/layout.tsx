@@ -12,7 +12,6 @@ import {
   Fira_Code,
 } from "next/font/google";
 import { notFound } from "next/navigation";
-import { use } from "react";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
@@ -68,8 +67,8 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
-export default function LocaleLayout(props: Props) {
-  const params = use(props.params);
+export default async function LocaleLayout(props: Props) {
+  const params = await props.params;
 
   if (!hasLocale(routing.locales, params.locale)) notFound();
 

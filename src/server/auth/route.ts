@@ -30,7 +30,6 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       const res = await login({
         body: JSON.stringify(body),
         headers: {
-          "Content-Type": "application/json",
           ...getUserHeaders(request),
         },
       });
@@ -52,7 +51,6 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       const res = await verify2FALogin({
         body: JSON.stringify(body),
         headers: {
-          "Content-Type": "application/json",
           ...getUserHeaders(request),
         },
       });
@@ -72,7 +70,6 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       const res = await register(body as any, {
         body: JSON.stringify(body),
         headers: {
-          "Content-Type": "application/json",
           ...getUserHeaders(request),
         },
       });
@@ -103,7 +100,18 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     const res = await getSelf({
       headers: getUserHeaders(request),
     });
-    return res.data;
+    return res.data as {
+      success: boolean;
+      message: string;
+      data: {
+        id: number;
+        username: string;
+        display_name: string;
+        role: number;
+        status: number;
+        group: string;
+      };
+    };
   })
 
   .get("/status", async () => {

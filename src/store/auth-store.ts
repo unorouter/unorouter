@@ -1,3 +1,4 @@
+import { AUTH_USER_ID_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/cookie-storage";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -12,7 +13,7 @@ export interface AuthUser {
 }
 
 export const userIdAtom = atomWithStorage<number | null>(
-  "uno_user_id",
+  AUTH_USER_ID_COOKIE,
   null,
   jotaiCookieStorage,
 );

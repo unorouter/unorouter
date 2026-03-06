@@ -24,7 +24,7 @@ export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
 
     const vendors = [...vendorGroups.values()]
       .map((g) => {
-        const textModels = g.models.filter((m) => m.types.includes("text"));
+        const textModels = g.models.filter((m) => m.type === "text");
         return {
           ...g.vendor,
           modelCount: g.models.length,

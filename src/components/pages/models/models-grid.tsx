@@ -31,7 +31,7 @@ export function ModelsGrid() {
     const matchesSearch = model.name
       .toLowerCase()
       .includes(search.toLowerCase());
-    const matchesFilter = filter === "all" || model.types.includes(filter);
+    const matchesFilter = filter === "all" || model.type === filter;
     return matchesSearch && matchesFilter;
   });
 
@@ -111,23 +111,18 @@ function ModelCard(props: {
           <h3 className="font-medium">{model.name}</h3>
           <p className="text-muted-foreground text-xs">{model.vendor.name}</p>
         </div>
-        <div className="flex gap-1">
-          {model.types.map((type) => (
-            <Badge
-              key={type}
-              variant="secondary"
-              className={cn(
-                "font-mono text-[10px] uppercase",
-                type === "image" && "border-green-500/30 text-green-400",
-                type === "video" && "border-purple-500/30 text-purple-400",
-                type === "audio" && "border-amber-500/30 text-amber-400",
-                type === "embedding" && "border-sky-500/30 text-sky-400",
-              )}
-            >
-              {type}
-            </Badge>
-          ))}
-        </div>
+        <Badge
+          variant="secondary"
+          className={cn(
+            "font-mono text-[10px] uppercase",
+            model.type === "image" && "border-green-500/30 text-green-400",
+            model.type === "video" && "border-purple-500/30 text-purple-400",
+            model.type === "audio" && "border-amber-500/30 text-amber-400",
+            model.type === "embedding" && "border-sky-500/30 text-sky-400",
+          )}
+        >
+          {model.type}
+        </Badge>
       </div>
 
       <div className="mt-auto pt-3">
