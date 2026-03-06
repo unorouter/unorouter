@@ -1,19 +1,18 @@
 import { Link } from "@/i18n/navigation";
 import { getPageMetadata } from "@/lib/config/metadata";
-import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { serverLocale } from "@/lib/utils/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await props.params;
-  const t = await getTranslations({ locale: locale as Locale });
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
     title: t("TERMS.META.TITLE"),
     description: t("TERMS.META.DESCRIPTION"),
     keywords: t("TERMS.META.KEYWORDS"),
-    path: `/${locale}/terms`,
   });
 }
 

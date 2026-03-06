@@ -1,5 +1,5 @@
 import { getPageMetadata } from "@/lib/config/metadata";
-import type { Locale } from "next-intl";
+import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,14 +9,13 @@ import { Link } from "@/i18n/navigation";
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
-  const { locale } = await props.params;
-  const t = await getTranslations({ locale: locale as Locale });
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
     title: t("DOCS.CODEX.META.TITLE"),
     description: t("DOCS.CODEX.META.DESCRIPTION"),
     keywords: t("DOCS.CODEX.META.KEYWORDS"),
-    path: `/${locale}/docs/codex`,
   });
 }
 

@@ -1,6 +1,6 @@
 import { routing } from "@/i18n/routing";
-import { LOCALES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
+import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
@@ -50,12 +50,12 @@ const firaCode = Fira_Code({
 });
 
 export async function generateMetadata(props: {
-  params: Promise<{ locale: (typeof LOCALES)[number] }>;
+  params: Promise<{ locale: string }>;
 }) {
-  const params = await props.params;
-  const t = await getTranslations({ locale: params.locale });
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
   return getPageMetadata({
-    locale: params.locale,
+    locale,
     title: t("METADATA.TITLE"),
     description: t("METADATA.DESCRIPTION"),
     keywords: t("METADATA.KEYWORDS"),
