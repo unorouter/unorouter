@@ -1,3 +1,5 @@
+import { Providers } from "@/components/provider/providers";
+import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
@@ -5,15 +7,11 @@ import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import {
-  Inter,
   JetBrains_Mono,
-  Orbitron,
+  Plus_Jakarta_Sans,
   Space_Grotesk,
-  Fira_Code,
 } from "next/font/google";
 import { notFound } from "next/navigation";
-import { Providers } from "@/components/provider/providers";
-import { Toaster } from "@/components/ui/sonner";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -22,7 +20,7 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   variable: "--font-sans",
   subsets: ["latin"],
 });
@@ -32,21 +30,9 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-display",
   subsets: ["latin"],
-  weight: ["600", "800"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
-
-const firaCode = Fira_Code({
-  variable: "--font-fira-code",
-  subsets: ["latin"],
-  weight: ["400", "500"],
 });
 
 export async function generateMetadata(props: {
@@ -75,7 +61,7 @@ export default async function LocaleLayout(props: Props) {
   return (
     <html lang={params.locale} suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable} ${spaceGrotesk.variable} ${firaCode.variable} flex min-h-full flex-col font-sans antialiased`}
+        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} flex min-h-full flex-col font-sans antialiased`}
       >
         <Providers>
           <Toaster richColors />
