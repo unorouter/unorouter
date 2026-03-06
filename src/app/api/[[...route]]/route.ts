@@ -1,7 +1,6 @@
 import { authRoute } from "@/server/auth/route";
 import { pricingRoute } from "@/server/pricing/route";
 import { statsRoute } from "@/server/stats/route";
-import { subscriptionRoute } from "@/server/subscription/route";
 import { webhookRoute } from "@/server/webhook/route";
 import { Elysia } from "elysia";
 
@@ -16,7 +15,6 @@ export const app = new Elysia({ prefix: "/api" })
   })
   .use(pricingRoute)
   .use(statsRoute)
-  .use(subscriptionRoute)
   .use(authRoute)
   .use(webhookRoute);
 

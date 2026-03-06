@@ -2,6 +2,32 @@ import type { PricingData, PricingDataDataItem } from "@/openapi";
 
 export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
 
+export type ProcessedModel = {
+  name: string;
+  vendor: { id: number; name: string; icon: string | undefined };
+  inputPrice: number;
+  outputPrice: number;
+  fixedPrice: number;
+  isFixedPrice: boolean;
+  type: ModelType;
+  endpointTypes: string[];
+};
+
+export type VendorSummary = {
+  id: number;
+  name: string;
+  icon: string | undefined;
+  modelCount: number;
+  models: ProcessedModel[];
+};
+
+export type PricingSummary = {
+  modelCount: number;
+  vendorCount: number;
+  models: ProcessedModel[];
+  vendors: VendorSummary[];
+};
+
 const VALID_MODEL_TYPES = new Set<string>([
   "text",
   "image",
@@ -58,4 +84,40 @@ export function processModels(response: PricingData) {
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function buildPricingSummary(models: ProcessedModel[]): PricingSummary {
+  const vendorGroups = new Map<
+    string,
+    { vendor: ProcessedModel["vendor"]; models: ProcessedModel[] }
+  >();
+  for (const model of models) {
+    const key = model.vendor.name;
+    const group = vendorGroups.get(key);
+    if (group) {
+      group.models.push(model);
+    } else {
+      vendorGroups.set(key, { vendor: model.vendor, models: [model] });
+    }
+  }
+
+  const vendors = [...vendorGroups.values()]
+    .map((g) => {
+      const textModels = g.models.filter((m) => m.type === "text");
+      return {
+        ...g.vendor,
+        modelCount: g.models.length,
+        models: textModels
+          .sort((a, b) => b.name.localeCompare(a.name))
+          .slice(0, 3),
+      };
+    })
+    .sort((a, b) => b.modelCount - a.modelCount);
+
+  return {
+    modelCount: models.length,
+    vendorCount: vendors.length,
+    models,
+    vendors,
+  };
 }

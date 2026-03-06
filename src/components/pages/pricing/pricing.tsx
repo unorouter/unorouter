@@ -2,8 +2,11 @@
 
 import { PricingCard } from "@/components/elements/pricing-card";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
-import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
-import type { SubscriptionPlan } from "@/server/subscription/route";
+import {
+  getMultiplier,
+  getResetLabel,
+  type SubscriptionPlan,
+} from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
 import { LuZap } from "react-icons/lu";
 
@@ -36,7 +39,7 @@ function buildFeatures(
 export function Pricing() {
   const t = useTranslations();
   const { data } = useSubscriptionPlansQuery();
-  const plans = data?.plans ?? [];
+  const plans = data ?? [];
   const allModelsLabel = t("PRICING.FEATURE_MODELS");
 
   return (

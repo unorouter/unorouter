@@ -1,45 +1,17 @@
-import { processModels } from "@/lib/api/pricing";
-import { getPricing } from "@/openapi";
+import { buildPricingSummary, processModels } from "@/lib/api/pricing";
+import { processPlans } from "@/lib/api/subscription";
+import { getPricing, getSubscriptionPlans } from "@/openapi";
 import { Elysia } from "elysia";
+import { ADMIN_HEADERS } from "../constants";
 
-export const pricingRoute = new Elysia({ prefix: "/pricing" }).get(
-  "/",
-  async () => {
+export const pricingRoute = new Elysia({ prefix: "/pricing" })
+  .get("/", async () => {
     const res = await getPricing();
     const models = processModels(res.data!);
-
-    const vendorGroups = new Map<
-      string,
-      { vendor: (typeof models)[number]["vendor"]; models: typeof models }
-    >();
-    for (const model of models) {
-      const key = model.vendor.name;
-      const group = vendorGroups.get(key);
-      if (group) {
-        group.models.push(model);
-      } else {
-        vendorGroups.set(key, { vendor: model.vendor, models: [model] });
-      }
-    }
-
-    const vendors = [...vendorGroups.values()]
-      .map((g) => {
-        const textModels = g.models.filter((m) => m.type === "text");
-        return {
-          ...g.vendor,
-          modelCount: g.models.length,
-          models: textModels
-            .sort((a, b) => b.name.localeCompare(a.name))
-            .slice(0, 3),
-        };
-      })
-      .sort((a, b) => b.modelCount - a.modelCount);
-
-    return {
-      modelCount: models.length,
-      vendorCount: vendors.length,
-      models,
-      vendors,
-    };
-  },
-);
+    return buildPricingSummary(models);
+  })
+  .get("/subscriptions", async () => {
+    const res = await getSubscriptionPlans({ headers: ADMIN_HEADERS });
+    if (res.status !== 200) return [];
+    return processPlans(res.data.data);
+  });

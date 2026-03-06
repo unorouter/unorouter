@@ -123,7 +123,7 @@ export function PricingSection() {
   const t = useTranslations();
   const { data } = useSubscriptionPlansQuery();
   const { data: pricingData } = usePricingQuery();
-  const plans = data?.plans ?? [];
+  const plans = data ?? [];
   const vendors = pricingData?.vendors ?? [];
 
   return (
