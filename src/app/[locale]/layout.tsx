@@ -2,12 +2,12 @@ import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import { getPageMetadata } from "@/lib/config/metadata";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -43,13 +43,18 @@ export async function generateMetadata(props: {
   const locale = await serverLocale(props);
   const [t, pricing] = await Promise.all([
     getTranslations({ locale }),
-    rpc.api.pricing.get().then((r) => handleElysia(r)).catch(() => null),
+    rpc.api.pricing
+      .get()
+      .then((r) => handleElysia(r))
+      .catch(() => null),
   ]);
-  const modelCount = pricing?.modelCount ?? 200;
+
   return getPageMetadata({
     locale,
     title: t("METADATA.TITLE"),
-    description: t("METADATA.DESCRIPTION", { modelCount: String(modelCount) }),
+    description: t("METADATA.DESCRIPTION", {
+      modelCount: String(pricing?.modelCount),
+    }),
     keywords: t("METADATA.KEYWORDS"),
   });
 }
