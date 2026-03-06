@@ -3,6 +3,7 @@
 import { OAuthButtons } from "@/components/pages/auth/oauth-buttons";
 import { TwoFAForm } from "@/components/pages/auth/twofa-form";
 import { Button } from "@/components/ui/button";
+import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
@@ -52,8 +53,12 @@ export function LoginForm() {
     status?.password_login_enabled !== false;
 
   return (
-    <div className="space-y-6">
-      {showPasswordForm && (
+    <GlassAuthCard
+      title={t("AUTH.LOGIN_TITLE")}
+      description={t("AUTH.LOGIN_DESCRIPTION")}
+    >
+      <div className="space-y-6">
+        {showPasswordForm && (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-3">
             <div className="space-y-1.5">
@@ -128,6 +133,7 @@ export function LoginForm() {
           {t("AUTH.REGISTER_BUTTON")}
         </Link>
       </p>
-    </div>
+      </div>
+    </GlassAuthCard>
   );
 }

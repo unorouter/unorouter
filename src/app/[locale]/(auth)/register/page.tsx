@@ -1,5 +1,4 @@
 import { RegisterForm } from "@/components/pages/auth/register-form";
-import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -18,13 +17,5 @@ export async function generateMetadata(props: {
 }
 
 export default async function RegisterPage() {
-  const t = await getTranslations();
-  return (
-    <GlassAuthCard
-      title={t("AUTH.REGISTER_TITLE")}
-      description={t("AUTH.REGISTER_DESCRIPTION")}
-    >
-      <RegisterForm />
-    </GlassAuthCard>
-  );
+  return <RegisterForm />;
 }

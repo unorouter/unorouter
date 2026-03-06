@@ -2,6 +2,7 @@
 
 import { OAuthButtons } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
+import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { Input } from "@/components/ui/input";
 import { useRegisterMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
@@ -71,8 +72,12 @@ export function RegisterForm() {
     status?.password_register_enabled !== false;
 
   return (
-    <div className="space-y-6">
-      {showPasswordForm && (
+    <GlassAuthCard
+      title={t("AUTH.REGISTER_TITLE")}
+      description={t("AUTH.REGISTER_DESCRIPTION")}
+    >
+      <div className="space-y-6">
+        {showPasswordForm && (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-3">
             <div className="space-y-1.5">
@@ -199,6 +204,7 @@ export function RegisterForm() {
           {t("AUTH.LOGIN_BUTTON")}
         </Link>
       </p>
-    </div>
+      </div>
+    </GlassAuthCard>
   );
 }
