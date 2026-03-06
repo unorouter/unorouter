@@ -1,5 +1,4 @@
-import { handleLogin, rewriteCookies } from "@/lib/api/auth";
-import { SESSION_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
+import { AUTH_COOKIES, handleLogin, rewriteCookies } from "@/lib/api/auth";
 import {
   loginBody,
   oauthStateQuery,
@@ -18,7 +17,6 @@ import {
   verify2FALogin,
 } from "@/openapi";
 import { deriveUpstream } from "@/server/upstream";
-import { serialize } from "cookie";
 import { Elysia } from "elysia";
 
 export const authRoute = new Elysia({ prefix: "/auth" })
@@ -61,24 +59,11 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     { body: registerBody },
   )
 
-  .get("/logout", async ({ set, upstream }) => {
+  .get("/logout", async ({ cookie, upstream }) => {
     const res = await logout({ headers: upstream });
-    const cookies = rewriteCookies(res.headers);
-    cookies.push(
-      serialize(USER_ID_COOKIE, "", {
-        path: "/",
-        maxAge: 0,
-        sameSite: "lax",
-      }),
-    );
-    cookies.push(
-      serialize(SESSION_COOKIE, "", {
-        path: "/",
-        maxAge: 0,
-        sameSite: "lax",
-      }),
-    );
-    set.headers["set-cookie"] = cookies;
+    for (const name of AUTH_COOKIES) {
+      cookie[name].remove();
+    }
     return res.data!;
   })
 

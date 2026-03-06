@@ -1,7 +1,9 @@
 import type { loginResponse } from "@/openapi";
 import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
-import { USER_ID_COOKIE } from "../config/constants";
+import { SESSION_COOKIE, USER_ID_COOKIE } from "../config/constants";
+
+export const AUTH_COOKIES = [SESSION_COOKIE, USER_ID_COOKIE] as const;
 
 export function rewriteCookies(headers: Headers): string[] {
   return (headers?.getSetCookie?.() ?? []).map((str) => {
