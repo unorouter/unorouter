@@ -4,7 +4,6 @@ import type { FunctionComponent, SVGAttributes } from "react";
 
 export const LOCALES = ["en", "de"] as const;
 export const AUTH_COOKIE = "auth" as const;
-export const AUTH_USER_ID_COOKIE = "auth-user-id" as const;
 export const SERVER_URL_KEY = "x-url";
 
 export const LANGUAGES: {
