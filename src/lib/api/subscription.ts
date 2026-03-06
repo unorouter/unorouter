@@ -1,4 +1,4 @@
-import type { ResponseControllerSubscriptionPlanDTODataItem } from "@/openapi";
+import type { ResponseArrayControllerSubscriptionPlanDTODataItem } from "@/openapi";
 
 const QUOTA_PER_UNIT = 500_000;
 
@@ -75,7 +75,7 @@ function estimateResetsPerDuration(
 }
 
 export function processPlans(
-  raw: ResponseControllerSubscriptionPlanDTODataItem[],
+  raw: ResponseArrayControllerSubscriptionPlanDTODataItem[],
 ): SubscriptionPlan[] {
   return raw
     .filter((entry) => entry.plan?.enabled)
