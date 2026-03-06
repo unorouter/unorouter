@@ -1,3 +1,4 @@
+import { AUTH_USER_ID_COOKIE } from "@/lib/config/constants";
 import {
   loginBody,
   oauthStateQuery,
@@ -15,45 +16,113 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
-import { Elysia } from "elysia";
+import { parseCookie, parseSetCookie, serialize } from "cookie";
+import { Context, Elysia } from "elysia";
+
+function getUserHeaders(request: Request): Record<string, string> {
+  const cookieHeader = request.headers.get("cookie") ?? "";
+  const headers: Record<string, string> = {};
+  if (!cookieHeader) return headers;
+
+  headers.cookie = cookieHeader;
+  const userId = parseCookie(cookieHeader)[AUTH_USER_ID_COOKIE];
+  if (userId) headers["New-Api-User"] = userId;
+
+  return headers;
+}
+
+function forwardCookies(res: { headers?: Headers }, set: Context["set"]) {
+  const raw = res.headers?.getSetCookie?.() ?? [];
+  if (raw.length === 0) return;
+
+  const cookies = raw.map((str) => {
+    const cookie = parseSetCookie(str);
+    delete cookie.domain;
+    cookie.secure = false;
+    cookie.sameSite = "lax";
+    return serialize(cookie, { encode: String });
+  });
+  set.headers["set-cookie"] = cookies;
+}
+
+function appendCookie(set: Context["set"], cookie: string) {
+  const existing = set.headers["set-cookie"];
+  if (Array.isArray(existing)) {
+    existing.push(cookie);
+  } else if (typeof existing === "string") {
+    set.headers["set-cookie"] = [existing, cookie];
+  } else {
+    set.headers["set-cookie"] = cookie;
+  }
+}
+
+type LoginResponse = { success: boolean; data?: { id: number } };
+
+function handleLoginResponse(
+  res: { data?: unknown; headers?: Headers },
+  set: Context["set"],
+) {
+  forwardCookies(res, set);
+  const data = res.data as LoginResponse;
+  if (data?.success && data.data?.id) {
+    appendCookie(
+      set,
+      `${AUTH_USER_ID_COOKIE}=${data.data.id}; Path=/; Max-Age=2592000; SameSite=Lax`,
+    );
+  }
+  return data;
+}
 
 export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
     "/login",
-    async ({ body }) => {
-      const res = await login({ body: JSON.stringify(body) });
-      return res.data!;
+    async ({ body, request, set }) => {
+      const res = await login({
+        body: JSON.stringify(body),
+        headers: getUserHeaders(request),
+      });
+      return handleLoginResponse(res, set);
     },
     { body: loginBody },
   )
 
   .post(
     "/login/2fa",
-    async ({ body }) => {
-      const res = await verify2FALogin({ body: JSON.stringify(body) });
-      return res.data!;
+    async ({ body, request, set }) => {
+      const res = await verify2FALogin({
+        body: JSON.stringify(body),
+        headers: getUserHeaders(request),
+      });
+      return handleLoginResponse(res, set);
     },
     { body: verify2FABody },
   )
 
   .post(
     "/register",
-    async ({ body }) => {
+    async ({ body, request, set }) => {
       const res = await register(body as unknown as Blob, {
         body: JSON.stringify(body),
+        headers: getUserHeaders(request),
       });
+      forwardCookies(res, set);
       return res.data!;
     },
     { body: registerBody },
   )
 
-  .get("/logout", async () => {
-    const res = await logout();
+  .get("/logout", async ({ request, set }) => {
+    const res = await logout({ headers: getUserHeaders(request) });
+    forwardCookies(res, set);
+    appendCookie(
+      set,
+      `${AUTH_USER_ID_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`,
+    );
     return res.data!;
   })
 
-  .get("/self", async () => {
-    const res = await getSelf();
+  .get("/self", async ({ request }) => {
+    const res = await getSelf({ headers: getUserHeaders(request) });
     return res.data!;
   })
 
@@ -64,11 +133,13 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
   .get(
     "/oauth/state",
-    async ({ query }) => {
+    async ({ query, request }) => {
       const params: Record<string, string> = {};
       if (query.redirect) params.redirect = query.redirect;
       if (query.aff) params.aff = query.aff;
-      const res = await generateOAuthCode(params);
+      const res = await generateOAuthCode(params, {
+        headers: getUserHeaders(request),
+      });
       return res.data!;
     },
     { query: oauthStateQuery },

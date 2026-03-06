@@ -1,5 +1,8 @@
 "use client";
 
+import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { LanguageToggle } from "@/components/toggle/language-toggle";
+import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -10,9 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CompanyName, LogoImage } from "@/components/elements/brand";
-import { LanguageToggle } from "@/components/toggle/language-toggle";
-import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -65,7 +65,7 @@ export function Navbar() {
     setMobileOpen(false);
     try {
       await logoutMutation.mutateAsync();
-      router.push("/");
+      window.location.reload();
     } catch {
       // error handled by mutation
     }
@@ -79,9 +79,7 @@ export function Navbar() {
 
   const displayName = user?.display_name || user?.username || "";
   const initials = displayName.charAt(0).toUpperCase();
-  const roleKey = user
-    ? ROLE_LABELS[user.role]
-    : undefined;
+  const roleKey = user ? ROLE_LABELS[user.role] : undefined;
 
   return (
     <nav
@@ -199,7 +197,8 @@ export function Navbar() {
                   <DropdownMenuItem
                     onClick={() => {
                       window.open(
-                        process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai",
+                        process.env.NEXT_PUBLIC_API_URL ||
+                          "https://api.unorouter.ai",
                         "_blank",
                       );
                     }}
@@ -297,7 +296,10 @@ export function Navbar() {
                   )}
                 </div>
                 <a
-                  href={process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai"}
+                  href={
+                    process.env.NEXT_PUBLIC_API_URL ||
+                    "https://api.unorouter.ai"
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}

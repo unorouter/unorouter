@@ -9,7 +9,7 @@ export function useAuthQuery() {
   return useQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () => handleElysia(await rpc.api.auth.self.get()),
-    enabled: false,
+    retry: false,
   });
 }
 
@@ -22,7 +22,7 @@ export function useLoginMutation() {
       turnstile?: string;
     }) => handleElysia(await rpc.api.auth.login.post(data)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
+      queryClient.refetchQueries({ queryKey: queryKeys.auth() });
     },
   });
 }
@@ -33,7 +33,7 @@ export function useVerify2FAMutation() {
     mutationFn: async (code: string) =>
       handleElysia(await rpc.api.auth.login["2fa"].post({ code })),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
+      queryClient.refetchQueries({ queryKey: queryKeys.auth() });
     },
   });
 }
@@ -54,8 +54,7 @@ export function useRegisterMutation() {
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async () =>
-      handleElysia(await rpc.api.auth.logout.get()),
+    mutationFn: async () => handleElysia(await rpc.api.auth.logout.get()),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
     },

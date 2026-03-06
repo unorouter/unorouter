@@ -1,7 +1,4 @@
-import {
-  getServerCookieHeader,
-  forwardUpstreamCookies,
-} from "@/server/constants";
+import { getServerCookieHeader } from "@/server/constants";
 
 export const customFetch = async <T>(
   url: string,
@@ -16,8 +13,9 @@ export const customFetch = async <T>(
   }
 
   const cookieHeader = await getServerCookieHeader();
-  const existingHeaders = options.headers as Record<string, string> | undefined;
-  const hasCookie = existingHeaders?.cookie || existingHeaders?.Cookie;
+  const hasCookie =
+    (options.headers as Record<string, string> | undefined)?.cookie ||
+    (options.headers as Record<string, string> | undefined)?.Cookie;
 
   const response = await fetch(
     new URL(url, process.env.NEXT_PUBLIC_API_URL).toString(),
@@ -31,8 +29,6 @@ export const customFetch = async <T>(
       },
     },
   );
-
-  await forwardUpstreamCookies(response.headers);
 
   if (!response.ok) {
     const text = await response.text();
