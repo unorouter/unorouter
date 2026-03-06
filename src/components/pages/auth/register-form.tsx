@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { useRegisterMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
-import { sendVerificationEmail } from "@/lib/api/auth";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -33,7 +34,9 @@ export function RegisterForm() {
     setSendingCode(true);
     setCodeError("");
     try {
-      const result = await sendVerificationEmail(email.trim());
+      const result = handleElysia(
+        await rpc.api.auth.verification.get({ query: { email: email.trim() } }),
+      ) as { success: boolean; message: string };
       if (result.success) {
         setCodeSent(true);
       } else {

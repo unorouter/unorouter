@@ -1,7 +1,8 @@
 "use client";
 
 import { StatusData } from "@/hooks/status-hook";
-import { fetchOAuthState } from "@/lib/api/auth";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaDiscord, FaGithub, FaTelegram } from "react-icons/fa";
@@ -80,7 +81,9 @@ export function OAuthButtons(props: OAuthButtonsProps) {
     setLoading(provider);
     try {
       const callbackUrl = `${window.location.origin}/${locale}/callback`;
-      const result = await fetchOAuthState(callbackUrl);
+      const result = handleElysia(
+        await rpc.api.auth.oauth.state.get({ query: { redirect: callbackUrl } }),
+      ) as { success: boolean; data: string };
       if (!result.success) return;
       const state = result.data;
 

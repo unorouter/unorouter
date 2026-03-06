@@ -1,7 +1,8 @@
 "use client";
 
-import { fetchStatus } from "@/lib/api/auth";
 import { queryKeys } from "@/lib/react-query/keys";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 
 export interface StatusData {
@@ -38,9 +39,11 @@ export function useStatusQuery() {
   return useQuery<StatusData | null>({
     queryKey: queryKeys.status(),
     queryFn: async () => {
-      const result = await fetchStatus();
+      const result = handleElysia(
+        await rpc.api.auth.status.get(),
+      ) as { success: boolean; data: unknown };
       if (!result.success) return null;
-      return result.data as unknown as StatusData;
+      return result.data as StatusData;
     },
     staleTime: 10 * 60 * 1000,
   });
