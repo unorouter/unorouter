@@ -3,10 +3,12 @@ import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 
 export const LOCALES = ["en", "de"] as const;
-export const AUTH_COOKIE = "auth" as const;
-export const AUTH_USER_ID_COOKIE = "user-id" as const;
+export const SESSION_COOKIE = "session" as const;
+export const USER_ID_COOKIE = "user-id" as const;
 export const LOCALE_COOKIE_KEY = "NEXT_LOCALE";
 export const SERVER_URL_KEY = "x-url";
+
+export const FAR_FUTURE = 4102444800; // 2100-01-01
 
 export const LANGUAGES: {
   code: Uppercase<Locale>;

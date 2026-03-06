@@ -2,6 +2,7 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
+import { setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ReactNode } from "react";
 
@@ -10,7 +11,8 @@ export async function UserProvider(props: { children: ReactNode }) {
 
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
-    queryFn: async () => handleElysia(await rpc.api.auth.self.get()),
+    queryFn: async () =>
+      handleElysia(await rpc.api.auth.self.get(await setCookies())),
   });
 
   return (

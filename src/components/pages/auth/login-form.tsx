@@ -10,7 +10,7 @@ import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { SyntheticEvent, useRef, useState } from "react";
 
 export function LoginForm() {
   const t = useTranslations();
@@ -25,7 +25,7 @@ export function LoginForm() {
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<{ reset: () => void }>(null);
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     if (!username.trim() || !password.trim()) return;
     try {
@@ -38,7 +38,9 @@ export function LoginForm() {
         setShow2FA(true);
         return;
       }
+
       router.push("/");
+      router.refresh();
     } catch {
       turnstileRef.current?.reset();
       setTurnstileToken(undefined);
@@ -46,11 +48,17 @@ export function LoginForm() {
   }
 
   if (show2FA) {
-    return <TwoFAForm onSuccess={() => router.push("/")} />;
+    return (
+      <TwoFAForm
+        onSuccess={() => {
+          router.push("/");
+          router.refresh();
+        }}
+      />
+    );
   }
 
-  const showPasswordForm =
-    (status as any)?.password_login_enabled !== false;
+  const showPasswordForm = (status as any)?.password_login_enabled !== false;
 
   return (
     <GlassAuthCard
@@ -59,80 +67,80 @@ export function LoginForm() {
     >
       <div className="space-y-6">
         {showPasswordForm && (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-3">
-            <div className="space-y-1.5">
-              <label className="text-foreground text-sm font-medium">
-                {t("AUTH.USERNAME")}
-              </label>
-              <Input
-                type="text"
-                autoComplete="username"
-                placeholder={t("AUTH.USERNAME_PLACEHOLDER")}
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
-              />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-3">
+              <div className="space-y-1.5">
+                <label className="text-foreground text-sm font-medium">
+                  {t("AUTH.USERNAME")}
+                </label>
+                <Input
+                  type="text"
+                  autoComplete="username"
+                  placeholder={t("AUTH.USERNAME_PLACEHOLDER")}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-foreground text-sm font-medium">
+                  {t("AUTH.PASSWORD")}
+                </label>
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder={t("AUTH.PASSWORD_PLACEHOLDER")}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
+                />
+              </div>
             </div>
-            <div className="space-y-1.5">
-              <label className="text-foreground text-sm font-medium">
-                {t("AUTH.PASSWORD")}
-              </label>
-              <Input
-                type="password"
-                autoComplete="current-password"
-                placeholder={t("AUTH.PASSWORD_PLACEHOLDER")}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
-              />
-            </div>
-          </div>
 
-          {status?.turnstile_check && status.turnstile_site_key && (
-            <div className="flex justify-center">
-              <Turnstile
-                ref={turnstileRef as any}
-                siteKey={status.turnstile_site_key}
-                onSuccess={setTurnstileToken}
-              />
-            </div>
-          )}
+            {status?.turnstile_check && status.turnstile_site_key && (
+              <div className="flex justify-center">
+                <Turnstile
+                  ref={turnstileRef as any}
+                  siteKey={status.turnstile_site_key}
+                  onSuccess={setTurnstileToken}
+                />
+              </div>
+            )}
 
-          {loginMutation.error && (
-            <p className="text-destructive text-center text-xs font-medium">
-              {loginMutation.error.message}
-            </p>
-          )}
+            {loginMutation.error && (
+              <p className="text-destructive text-center text-xs font-medium">
+                {loginMutation.error.message}
+              </p>
+            )}
 
-          <Button
-            type="submit"
-            disabled={
-              !username.trim() ||
-              !password.trim() ||
-              loginMutation.isPending ||
-              (status?.turnstile_check && !turnstileToken)
-            }
-            className="h-11 w-full rounded-full font-medium"
+            <Button
+              type="submit"
+              disabled={
+                !username.trim() ||
+                !password.trim() ||
+                loginMutation.isPending ||
+                (status?.turnstile_check && !turnstileToken)
+              }
+              className="h-11 w-full rounded-full font-medium"
+            >
+              {loginMutation.isPending
+                ? t("AUTH.LOGGING_IN")
+                : t("AUTH.LOGIN_BUTTON")}
+            </Button>
+          </form>
+        )}
+
+        {status && <OAuthButtons status={status} />}
+
+        <p className="text-muted-foreground text-center text-sm">
+          {t("AUTH.DONT_HAVE_ACCOUNT")}{" "}
+          <Link
+            href="/register"
+            className="text-foreground font-medium hover:underline"
           >
-            {loginMutation.isPending
-              ? t("AUTH.LOGGING_IN")
-              : t("AUTH.LOGIN_BUTTON")}
-          </Button>
-        </form>
-      )}
-
-      {status && <OAuthButtons status={status} />}
-
-      <p className="text-muted-foreground text-center text-sm">
-        {t("AUTH.DONT_HAVE_ACCOUNT")}{" "}
-        <Link
-          href="/register"
-          className="text-foreground font-medium hover:underline"
-        >
-          {t("AUTH.REGISTER_BUTTON")}
-        </Link>
-      </p>
+            {t("AUTH.REGISTER_BUTTON")}
+          </Link>
+        </p>
       </div>
     </GlassAuthCard>
   );

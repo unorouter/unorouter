@@ -18,3 +18,16 @@ export const serverLocale = async (props?: {
     (await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE_KEY)?.value)) ||
     LOCALES[0]) as Locale;
+
+/**
+ * get cookie from nextjs header for RPC calls in server components ONLY.
+ * @returns An object containing the cookie header for authentication.
+ */
+export const setCookies = async () => {
+  const cookie = (await cookies())
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+
+  return { headers: { cookie } };
+};

@@ -1,4 +1,5 @@
-import { AUTH_USER_ID_COOKIE } from "@/lib/config/constants";
+import { handleLogin, rewriteCookies } from "@/lib/api/auth";
+import { SESSION_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
 import {
   loginBody,
   oauthStateQuery,
@@ -6,7 +7,6 @@ import {
   verificationQuery,
   verify2FABody,
 } from "@/lib/typebox/auth";
-import type { loginResponse } from "@/openapi";
 import {
   generateOAuthCode,
   getSelf,
@@ -17,47 +17,12 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
-import { parseCookie, parseSetCookie, serialize } from "cookie";
-import { Context, Elysia } from "elysia";
-
-function rewriteCookies(headers: Headers): string[] {
-  return (headers?.getSetCookie?.() ?? []).map((str) => {
-    const cookie = parseSetCookie(str);
-    delete cookie.domain;
-    cookie.secure = false;
-    cookie.sameSite = "lax";
-    return serialize(cookie, { encode: String });
-  });
-}
-
-function handleLogin(res: loginResponse, set: Context["set"]) {
-  const cookies = rewriteCookies(res.headers);
-  const id = res.data?.data?.id;
-  if (id) {
-    cookies.push(
-      serialize(AUTH_USER_ID_COOKIE, String(id), {
-        path: "/",
-        maxAge: 2592000,
-        sameSite: "lax",
-      }),
-    );
-  }
-  if (cookies.length) set.headers["set-cookie"] = cookies;
-  return res.data;
-}
+import { deriveUpstream } from "@/server/upstream";
+import { serialize } from "cookie";
+import { Elysia } from "elysia";
 
 export const authRoute = new Elysia({ prefix: "/auth" })
-  .derive(({ request }) => {
-    const cookieHeader = request.headers.get("cookie") ?? "";
-    const headers: Record<string, string> = {};
-    if (cookieHeader) {
-      headers.cookie = cookieHeader;
-      const userId = parseCookie(cookieHeader)[AUTH_USER_ID_COOKIE];
-      if (userId) headers["New-Api-User"] = userId;
-    }
-    return { upstream: headers };
-  })
-
+  .derive(deriveUpstream)
   .post(
     "/login",
     async ({ body, set, upstream }) => {
@@ -100,7 +65,18 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     const res = await logout({ headers: upstream });
     const cookies = rewriteCookies(res.headers);
     cookies.push(
-      serialize(AUTH_USER_ID_COOKIE, "", { path: "/", maxAge: 0, sameSite: "lax" }),
+      serialize(USER_ID_COOKIE, "", {
+        path: "/",
+        maxAge: 0,
+        sameSite: "lax",
+      }),
+    );
+    cookies.push(
+      serialize(SESSION_COOKIE, "", {
+        path: "/",
+        maxAge: 0,
+        sameSite: "lax",
+      }),
     );
     set.headers["set-cookie"] = cookies;
     return res.data!;

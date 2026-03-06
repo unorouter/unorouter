@@ -1,7 +1,7 @@
-import { FAR_FUTURE } from "@/lib/api/constants";
 import { getAllQuotaDates, getLogsStat } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "../constants";
+import { FAR_FUTURE } from "@/lib/config/constants";
 
 export const statsRoute = new Elysia({ prefix: "/stats" })
   .get("/live", async () => {
