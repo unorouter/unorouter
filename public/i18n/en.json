@@ -63,7 +63,7 @@
     "RELIABILITY_TITLE_2": "Reliable AI",
     "RELIABILITY_DESCRIPTION": "Your requests are routed through multiple providers simultaneously. If one goes down, another picks up instantly. No single point of failure.",
     "RELIABILITY_CARD1_TITLE": "Multi-Provider",
-    "RELIABILITY_CARD1_DESC": "35+ providers with automatic failover. Your requests always find a working path, even during provider outages.",
+    "RELIABILITY_CARD1_DESC": "Multiple providers with automatic failover. Your requests always find a working path, even during provider outages.",
     "RELIABILITY_CARD2_TITLE": "Smart Routing",
     "RELIABILITY_CARD2_DESC": "Latency-based channel selection with priority weights. The fastest provider wins, every time.",
     "CODE_TITLE_1": "Integrate in seconds.",
@@ -135,7 +135,7 @@
   "MODELS": {
     "META": {
       "TITLE": "AI Models - UnoRouter",
-      "DESCRIPTION": "Browse 200+ AI models from OpenAI, Anthropic, Google, DeepSeek and more. Compare real-time pricing across providers.",
+      "DESCRIPTION": "Browse all AI models from OpenAI, Anthropic, Google, DeepSeek and more. Compare real-time pricing across providers.",
       "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison"
     },
     "TITLE": "Model Library",
@@ -297,7 +297,7 @@
     "TERMS": "Terms & Conditions",
     "CONTACT_TITLE": "Contact",
     "CONTACT_SUBTITLE": "Questions or concerns?",
-    "DESCRIPTION": "Unified AI API platform providing access to 200+ models from 35+ providers through a single, intelligent endpoint.",
+    "DESCRIPTION": "Unified AI API platform providing access to hundreds of models from multiple providers through a single, intelligent endpoint.",
     "COPYRIGHT": "\u00a9 {year} UnoRouter. All rights reserved.",
     "LEGAL_DISCLAIMER": "By using this platform, you acknowledge that you have read and agreed to our",
     "LEGAL_TERMS": "Terms of Service",
@@ -408,7 +408,7 @@
       "LOGIN_TITLE": "Sign In - UnoRouter",
       "LOGIN_DESCRIPTION": "Sign in to your UnoRouter account to access the AI API dashboard.",
       "REGISTER_TITLE": "Create Account - UnoRouter",
-      "REGISTER_DESCRIPTION": "Create a UnoRouter account to start using 200+ AI models through one API.",
+      "REGISTER_DESCRIPTION": "Create a UnoRouter account to start using all AI models through one API.",
       "KEYWORDS": "UnoRouter login, UnoRouter register, AI API account, sign in"
     },
     "LOGIN_TITLE": "Welcome Back",

@@ -63,7 +63,7 @@
     "RELIABILITY_TITLE_2": "Zuverlaessige KI",
     "RELIABILITY_DESCRIPTION": "Deine Anfragen werden ueber mehrere Anbieter gleichzeitig geroutet. Wenn einer ausfaellt, uebernimmt sofort ein anderer. Kein Single Point of Failure.",
     "RELIABILITY_CARD1_TITLE": "Multi-Provider",
-    "RELIABILITY_CARD1_DESC": "35+ Anbieter mit automatischem Failover. Deine Anfragen finden immer einen funktionierenden Pfad, auch bei Anbieterausfaellen.",
+    "RELIABILITY_CARD1_DESC": "Zahlreiche Anbieter mit automatischem Failover. Deine Anfragen finden immer einen funktionierenden Pfad, auch bei Anbieterausfaellen.",
     "RELIABILITY_CARD2_TITLE": "Smart Routing",
     "RELIABILITY_CARD2_DESC": "Latenz-basierte Kanalauswahl mit Prioritaetsgewichtung. Der schnellste Anbieter gewinnt, jedes Mal.",
     "CODE_TITLE_1": "Integration in Sekunden.",
@@ -135,7 +135,7 @@
   "MODELS": {
     "META": {
       "TITLE": "KI-Modelle - UnoRouter",
-      "DESCRIPTION": "Durchsuche 200+ KI-Modelle von OpenAI, Anthropic, Google, DeepSeek und mehr. Vergleiche Echtzeitpreise verschiedener Anbieter.",
+      "DESCRIPTION": "Durchsuche alle KI-Modelle von OpenAI, Anthropic, Google, DeepSeek und mehr. Vergleiche Echtzeitpreise verschiedener Anbieter.",
       "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich"
     },
     "TITLE": "Modellbibliothek",
@@ -297,7 +297,7 @@
     "TERMS": "Nutzungsbedingungen",
     "CONTACT_TITLE": "Kontakt",
     "CONTACT_SUBTITLE": "Fragen oder Anliegen?",
-    "DESCRIPTION": "Einheitliche KI-API-Plattform mit Zugang zu 200+ Modellen von 35+ Anbietern ueber einen einzigen, intelligenten Endpunkt.",
+    "DESCRIPTION": "Einheitliche KI-API-Plattform mit Zugang zu hunderten Modellen von zahlreichen Anbietern ueber einen einzigen, intelligenten Endpunkt.",
     "COPYRIGHT": "\u00a9 {year} UnoRouter. Alle Rechte vorbehalten.",
     "LEGAL_DISCLAIMER": "Durch die Nutzung dieser Plattform bestaetigst du, dass du unsere",
     "LEGAL_TERMS": "Nutzungsbedingungen",
@@ -408,7 +408,7 @@
       "LOGIN_TITLE": "Anmelden - UnoRouter",
       "LOGIN_DESCRIPTION": "Melde dich bei deinem UnoRouter-Konto an, um auf das KI-API-Dashboard zuzugreifen.",
       "REGISTER_TITLE": "Konto erstellen - UnoRouter",
-      "REGISTER_DESCRIPTION": "Erstelle ein UnoRouter-Konto und nutze 200+ KI-Modelle ueber eine API.",
+      "REGISTER_DESCRIPTION": "Erstelle ein UnoRouter-Konto und nutze alle KI-Modelle ueber eine API.",
       "KEYWORDS": "UnoRouter Anmeldung, UnoRouter Registrierung, KI API Konto, Anmelden"
     },
     "LOGIN_TITLE": "Willkommen zurueck",

@@ -17,5 +17,7 @@ export async function generateMetadata(props: {
 }
 
 export default async function RegisterPage() {
+
+  
   return <RegisterForm />;
 }
