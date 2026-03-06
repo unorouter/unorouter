@@ -1,7 +1,7 @@
 {
   "METADATA": {
     "TITLE": "UnoRouter - Eine API fuer jedes KI-Modell",
-    "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und 200+ KI-Modelle ueber einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, guenstigere Preise.",
+    "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und {modelCount}+ KI-Modelle ueber einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, guenstigere Preise.",
     "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API"
   },
   "NAV": {
@@ -25,7 +25,7 @@
     "HERO_BADGE": "API Gateway Aktiv",
     "HERO_TITLE_LINE1": "VEREINTE",
     "HERO_TITLE_LINE2": "INTELLIGENZ",
-    "HERO_SUBTITLE": "[SYSTEM]: UnoRouter aggregiert 35+ KI-Anbieter durch intelligentes Routing fuer die schnellste und guenstigste Inferenz-API.",
+    "HERO_SUBTITLE": "[SYSTEM]: UnoRouter aggregiert {modelCount}+ KI-Modelle durch intelligentes Routing fuer die schnellste und guenstigste Inferenz-API.",
     "HERO_CTA_PRIMARY": "Loslegen",
     "HERO_CTA_SECONDARY": "Modelle ansehen",
     "STATS_MODELS": "Modelle",

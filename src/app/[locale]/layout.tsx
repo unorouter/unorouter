@@ -6,6 +6,8 @@ import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -39,11 +41,15 @@ export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
   const locale = await serverLocale(props);
-  const t = await getTranslations({ locale });
+  const [t, pricing] = await Promise.all([
+    getTranslations({ locale }),
+    rpc.api.pricing.get().then((r) => handleElysia(r)).catch(() => null),
+  ]);
+  const modelCount = pricing?.modelCount ?? 200;
   return getPageMetadata({
     locale,
     title: t("METADATA.TITLE"),
-    description: t("METADATA.DESCRIPTION"),
+    description: t("METADATA.DESCRIPTION", { modelCount: String(modelCount) }),
     keywords: t("METADATA.KEYWORDS"),
   });
 }

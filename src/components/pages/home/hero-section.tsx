@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { HeroStatsGrid } from "@/components/pages/home/hero-stats-grid";
+import { HeroSubtitle } from "@/components/pages/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/home/stats-panel";
 import { ScrambleText } from "@/components/elements/scramble-text";
 import { LuChevronRight, LuZap } from "react-icons/lu";
@@ -37,9 +38,7 @@ export async function HeroSection() {
           </h1>
 
           {/* Description */}
-          <p className="text-muted-foreground mx-auto max-w-lg font-mono text-base leading-relaxed font-light lg:mx-0">
-            {t("HOME.HERO_SUBTITLE")}
-          </p>
+          <HeroSubtitle />
         </div>
 
         {/* CTA Buttons */}

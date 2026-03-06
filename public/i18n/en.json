@@ -1,7 +1,7 @@
 {
   "METADATA": {
     "TITLE": "UnoRouter - One API for Every AI Model",
-    "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and 200+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less.",
+    "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and {modelCount}+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less.",
     "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API"
   },
   "NAV": {
@@ -25,7 +25,7 @@
     "HERO_BADGE": "API Gateway Active",
     "HERO_TITLE_LINE1": "UNIFIED",
     "HERO_TITLE_LINE2": "INTELLIGENCE",
-    "HERO_SUBTITLE": "[SYSTEM]: UnoRouter aggregates 35+ AI providers through intelligent routing to deliver the fastest, cheapest inference API.",
+    "HERO_SUBTITLE": "[SYSTEM]: UnoRouter aggregates {modelCount}+ AI models through intelligent routing to deliver the fastest, cheapest inference API.",
     "HERO_CTA_PRIMARY": "Get Started",
     "HERO_CTA_SECONDARY": "View Models",
     "STATS_MODELS": "Models",
