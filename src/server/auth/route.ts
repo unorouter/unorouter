@@ -20,11 +20,8 @@ import {
 import { parseCookie, parseSetCookie, serialize } from "cookie";
 import { Context, Elysia } from "elysia";
 
-function forwardCookies(res: { headers?: Headers }, set: Context["set"]) {
-  const raw = res.headers?.getSetCookie?.() ?? [];
-  if (raw.length === 0) return;
-
-  set.headers["set-cookie"] = raw.map((str) => {
+function rewriteCookies(headers: Headers): string[] {
+  return (headers?.getSetCookie?.() ?? []).map((str) => {
     const cookie = parseSetCookie(str);
     delete cookie.domain;
     cookie.secure = false;
@@ -33,21 +30,19 @@ function forwardCookies(res: { headers?: Headers }, set: Context["set"]) {
   });
 }
 
-function handleLogin(
-  res: loginResponse,
-  set: Context["set"],
-  cookie: Record<string, { set: (opts: object) => void }>,
-) {
-  forwardCookies(res, set);
-  const id = res.status === 200 ? res.data?.data?.id : undefined;
+function handleLogin(res: loginResponse, set: Context["set"]) {
+  const cookies = rewriteCookies(res.headers);
+  const id = res.data?.data?.id;
   if (id) {
-    cookie[AUTH_USER_ID_COOKIE].set({
-      value: String(id),
-      path: "/",
-      maxAge: 2592000,
-      sameSite: "lax",
-    });
+    cookies.push(
+      serialize(AUTH_USER_ID_COOKIE, String(id), {
+        path: "/",
+        maxAge: 2592000,
+        sameSite: "lax",
+      }),
+    );
   }
+  if (cookies.length) set.headers["set-cookie"] = cookies;
   return res.data;
 }
 
@@ -65,24 +60,24 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
   .post(
     "/login",
-    async ({ body, set, cookie, upstream }) => {
+    async ({ body, set, upstream }) => {
       const res = await login({
         body: JSON.stringify(body),
         headers: upstream,
       });
-      return handleLogin(res, set, cookie);
+      return handleLogin(res, set);
     },
     { body: loginBody },
   )
 
   .post(
     "/login/2fa",
-    async ({ body, set, cookie, upstream }) => {
+    async ({ body, set, upstream }) => {
       const res = await verify2FALogin({
         body: JSON.stringify(body),
         headers: upstream,
       });
-      return handleLogin(res, set, cookie);
+      return handleLogin(res, set);
     },
     { body: verify2FABody },
   )
@@ -94,16 +89,20 @@ export const authRoute = new Elysia({ prefix: "/auth" })
         body: JSON.stringify(body),
         headers: upstream,
       });
-      forwardCookies(res, set);
+      const cookies = rewriteCookies(res.headers);
+      if (cookies.length) set.headers["set-cookie"] = cookies;
       return res.data!;
     },
     { body: registerBody },
   )
 
-  .get("/logout", async ({ set, cookie, upstream }) => {
+  .get("/logout", async ({ set, upstream }) => {
     const res = await logout({ headers: upstream });
-    forwardCookies(res, set);
-    cookie[AUTH_USER_ID_COOKIE].set({ value: "", path: "/", maxAge: 0 });
+    const cookies = rewriteCookies(res.headers);
+    cookies.push(
+      serialize(AUTH_USER_ID_COOKIE, "", { path: "/", maxAge: 0, sameSite: "lax" }),
+    );
+    set.headers["set-cookie"] = cookies;
     return res.data!;
   })
 
