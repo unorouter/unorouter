@@ -1,157 +1,147 @@
-import { CompanyName } from "@/components/elements/brand";
+"use client";
+
+import { CompanyName, LogoImage } from "@/components/elements/brand";
 import { Link } from "@/i18n/navigation";
-import {
-  LuBuilding2,
-  LuEye,
-  LuFileText,
-  LuMail,
-  LuMapPin,
-} from "react-icons/lu";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import { BsTwitterX } from "react-icons/bs";
+import { FaGithub } from "react-icons/fa";
+
+const NAV_LINKS = [
+  { href: "/models", key: "FOOTER.MODELS" },
+  { href: "/pricing", key: "FOOTER.PRICING" },
+  { href: "/docs/claude-code", key: "FOOTER.DOCUMENTATION" },
+] as const;
+
+const LEGAL_LINKS = [
+  { href: "/terms", key: "FOOTER.TERMS" },
+  { href: "/privacy", key: "FOOTER.PRIVACY" },
+] as const;
 
 export function Footer() {
   const t = useTranslations();
-  const year = String(new Date().getFullYear());
+  const pathname = usePathname();
 
   return (
-    <footer className="bg-background border-border relative border-t py-16">
-      <div className="relative z-10 mx-auto max-w-360 px-6">
-        <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-4">
-          {/* Brand */}
-          <div className="space-y-4">
-            <CompanyName className="text-foreground text-lg" />
-            <p className="text-muted-foreground text-sm leading-relaxed">
+    <footer className="bg-muted/30 relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">
+      <div className="absolute inset-0 -z-10">
+        <div className="bg-primary/30 dark:bg-primary/10 absolute bottom-0 left-0 h-64 w-64 rounded-full blur-3xl"></div>
+        <div className="bg-primary/30 dark:bg-primary/10 absolute top-1/4 right-0 h-72 w-72 rounded-full blur-3xl"></div>
+      </div>
+      <div className="mx-auto max-w-6xl px-5 pt-16 pb-8">
+        <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-5">
+          {/* Brand Section */}
+          <div className="col-span-1 text-center md:col-span-2 md:text-left">
+            <div className="mb-4 flex items-center justify-center gap-2 md:justify-start">
+              <LogoImage />
+              <CompanyName className="text-2xl" />
+            </div>
+            <p className="text-muted-foreground mx-auto mb-6 max-w-md md:mx-0">
               {t("FOOTER.DESCRIPTION")}
             </p>
-          </div>
-
-          {/* Product */}
-          <div className="space-y-4">
-            <h4 className="text-foreground font-semibold">
-              {t("FOOTER.PRODUCT")}
-            </h4>
-            <div className="space-y-3">
-              <FooterLink
-                href="/models"
-                icon={<LuBuilding2 className="text-muted-foreground h-4 w-4" />}
-              >
-                {t("FOOTER.MODELS")}
-              </FooterLink>
-              <FooterLink
-                href="/pricing"
-                icon={<LuMapPin className="text-muted-foreground h-4 w-4" />}
-              >
-                {t("FOOTER.PRICING")}
-              </FooterLink>
-              <FooterLink
-                href="/docs/claude-code"
-                icon={<LuFileText className="text-muted-foreground h-4 w-4" />}
-              >
-                {t("FOOTER.DOCUMENTATION")}
-              </FooterLink>
-            </div>
-          </div>
-
-          {/* Legal */}
-          <div className="space-y-4">
-            <h4 className="text-foreground font-semibold">
-              {t("FOOTER.LEGAL")}
-            </h4>
-            <div className="space-y-3">
-              <FooterLink
-                href="/terms"
-                icon={<LuFileText className="text-muted-foreground h-4 w-4" />}
-              >
-                {t("FOOTER.TERMS")}
-              </FooterLink>
-              <FooterLink
-                href="/privacy"
-                icon={<LuEye className="text-muted-foreground h-4 w-4" />}
-              >
-                {t("FOOTER.PRIVACY")}
-              </FooterLink>
-            </div>
-          </div>
-
-          {/* Contact */}
-          <div className="space-y-4">
-            <h4 className="text-foreground font-semibold">
-              {t("FOOTER.CONTACT_TITLE")}
-            </h4>
-            <div className="space-y-2">
-              <p className="text-muted-foreground text-sm">
-                {t("FOOTER.CONTACT_SUBTITLE")}
-              </p>
-              <a
-                href="mailto:support@unorouter.ai"
-                className="text-foreground/80 hover:text-foreground flex items-center gap-2 text-sm font-medium transition-colors duration-200"
-              >
-                <LuMail className="text-muted-foreground h-4 w-4" />
-                support@unorouter.ai
-              </a>
-            </div>
-            <div className="space-y-2 pt-2">
-              <a
+            <div className="flex justify-center space-x-3 md:justify-start">
+              <NextLink
                 href="https://github.com/QuantumNous"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground block text-sm transition-colors duration-200"
+                className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
+                aria-label="GitHub"
               >
-                {t("FOOTER.SOCIAL_GITHUB")}
-              </a>
-              <a
+                <FaGithub className="h-5 w-5" />
+              </NextLink>
+              <NextLink
                 href="https://x.com/unorouter"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground block text-sm transition-colors duration-200"
+                className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
+                aria-label="X"
               >
-                {t("FOOTER.SOCIAL_X")}
-              </a>
+                <BsTwitterX className="h-5 w-5" />
+              </NextLink>
+            </div>
+          </div>
+
+          <div className="col-span-1 flex justify-center gap-8 md:contents">
+            {/* Navigation Section */}
+            <div className="text-center md:col-span-1 md:text-left">
+              <h3 className="mb-4 font-semibold">
+                {t("FOOTER.PRODUCT")}
+              </h3>
+              <ul className="space-y-2">
+                {NAV_LINKS.map((item) => {
+                  const isActive = pathname.startsWith(item.href);
+                  return (
+                    <li key={item.key}>
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "text-muted-foreground hover:text-foreground transition-colors",
+                          isActive && "text-primary font-medium",
+                        )}
+                      >
+                        {t(item.key)}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Legal Section */}
+            <div className="text-center md:col-span-1 md:text-left">
+              <h3 className="mb-4 font-semibold">
+                {t("FOOTER.LEGAL")}
+              </h3>
+              <ul className="space-y-2">
+                {LEGAL_LINKS.map((item) => {
+                  const isActive = pathname.startsWith(item.href);
+                  return (
+                    <li key={item.key}>
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "text-muted-foreground hover:text-foreground transition-colors",
+                          isActive && "text-primary font-medium",
+                        )}
+                      >
+                        {t(item.key)}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+
+          {/* Contact Section */}
+          <div className="col-span-1 text-center md:text-left">
+            <h3 className="mb-4 font-semibold">
+              {t("FOOTER.CONTACT_TITLE")}
+            </h3>
+            <div className="text-muted-foreground space-y-2 text-sm">
+              <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
+              <NextLink
+                href="mailto:support@unorouter.ai"
+                className="text-primary hover:underline"
+              >
+                support@unorouter.ai
+              </NextLink>
             </div>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="border-border border-t pt-8">
-          <div className="border-border border-t pt-6 text-center">
-            <p className="text-muted-foreground text-xs">
-              {t("FOOTER.LEGAL_DISCLAIMER")}
-              <Link href="/terms">
-                <span className="text-muted-foreground hover:text-foreground ml-1 transition-colors duration-200">
-                  {t("FOOTER.LEGAL_TERMS")}
-                </span>
-              </Link>
-              <span className="mx-1">{t("FOOTER.LEGAL_AND")}</span>
-              <Link href="/privacy">
-                <span className="text-muted-foreground hover:text-foreground transition-colors duration-200">
-                  {t("FOOTER.LEGAL_PRIVACY")}
-                </span>
-              </Link>
+        {/* Copyright */}
+        <div className="border-muted/50 relative border-t pt-8">
+          <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
+          <div className="text-muted-foreground flex flex-col items-center justify-center text-sm">
+            <p className="text-center" suppressHydrationWarning>
+              {t("FOOTER.COPYRIGHT", { year: String(new Date().getFullYear()) })}
             </p>
-            <div className="mt-4 flex items-center justify-center gap-2">
-              <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-              <p className="text-muted-foreground text-xs">
-                {t("FOOTER.COPYRIGHT", { year })}
-              </p>
-            </div>
           </div>
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterLink(props: {
-  href: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <Link href={props.href}>
-      <div className="text-muted-foreground hover:text-foreground flex cursor-pointer items-center gap-2 text-sm transition-colors duration-200">
-        {props.icon}
-        {props.children}
-      </div>
-    </Link>
   );
 }
