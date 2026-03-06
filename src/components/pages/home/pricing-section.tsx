@@ -94,6 +94,13 @@ const VENDOR_THEMES: Record<string, VendorTheme> = {
     text: "text-zinc-400",
     tagBg: "bg-zinc-500/10",
   },
+  moonshot: {
+    icon: "/icons/moonshot.svg",
+    bg: "bg-indigo-500/5",
+    border: "border-indigo-500/20",
+    text: "text-indigo-400",
+    tagBg: "bg-indigo-500/10",
+  },
 };
 
 const DEFAULT_THEME: VendorTheme = {
