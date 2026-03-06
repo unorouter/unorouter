@@ -149,7 +149,10 @@ export function PricingSection() {
         </div>
 
         {/* Pricing cards */}
-        <div className="mb-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Link
+          href="/pricing"
+          className="mb-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4"
+        >
           <PricingTile
             name={t("HOME.PRICING_PAYG_NAME")}
             price={t("HOME.PRICING_PAYG_PRICE")}
@@ -170,7 +173,7 @@ export function PricingSection() {
               />
             );
           })}
-        </div>
+        </Link>
 
         {/* Feature details */}
         <div className="grid items-start gap-16 lg:grid-cols-2">
