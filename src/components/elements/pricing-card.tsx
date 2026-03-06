@@ -2,6 +2,7 @@
 
 import { LuCheck, LuZap } from "react-icons/lu";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type Props = {
   name: string;
@@ -14,6 +15,8 @@ type Props = {
 };
 
 export function PricingCard(props: Props) {
+  const t = useTranslations();
+
   return (
     <div
       className={cn(
@@ -26,7 +29,7 @@ export function PricingCard(props: Props) {
       {props.popular && (
         <div className="absolute -top-3 left-6 rounded-sm border border-foreground/30 bg-foreground/10 px-3 py-1">
           <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
-            Popular
+            {t("PRICING.CARD_POPULAR")}
           </span>
         </div>
       )}
@@ -39,16 +42,19 @@ export function PricingCard(props: Props) {
         <span className="text-foreground text-4xl font-bold tracking-tight">
           ${props.price}
         </span>
-        <span className="text-muted-foreground font-mono text-xs">/mo</span>
+        <span className="text-muted-foreground font-mono text-xs">
+          {t("PRICING.CARD_PER_MONTH")}
+        </span>
       </div>
 
       <p className="text-muted-foreground mt-2 font-mono text-[11px]">
-        ${props.value} value &middot; {props.multiplier} multiplier
+        {t("PRICING.CARD_VALUE", { value: `$${props.value}` })} &middot;{" "}
+        {t("PRICING.CARD_MULTIPLIER", { multiplier: props.multiplier })}
       </p>
 
       <div className="border-border mt-6 border-t pt-6">
         <p className="text-muted-foreground mb-4 font-mono text-[10px] tracking-widest uppercase">
-          Includes
+          {t("PRICING.CARD_INCLUDES")}
         </p>
         <ul className="space-y-3">
           {props.features.map((feature) => (

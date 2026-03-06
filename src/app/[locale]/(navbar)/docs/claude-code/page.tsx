@@ -1,8 +1,24 @@
+import { getPageMetadata } from "@/lib/config/metadata";
+import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CodeBlock } from "@/components/elements/code-block";
 import { Link } from "@/i18n/navigation";
+
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale: locale as Locale });
+  return getPageMetadata({
+    locale,
+    title: t("DOCS.CLAUDE_CODE.META.TITLE"),
+    description: t("DOCS.CLAUDE_CODE.META.DESCRIPTION"),
+    keywords: t("DOCS.CLAUDE_CODE.META.KEYWORDS"),
+    path: `/${locale}/docs/claude-code`,
+  });
+}
 
 export default async function ClaudeCodePage() {
   const t = await getTranslations();

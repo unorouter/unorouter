@@ -1,9 +1,25 @@
 import { Home } from "@/components/pages/home/home";
+import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
+import type { Locale } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale: locale as Locale });
+  return getPageMetadata({
+    locale,
+    title: t("HOME.META.TITLE"),
+    description: t("HOME.META.DESCRIPTION"),
+    keywords: t("HOME.META.KEYWORDS"),
+  });
+}
 
 export default async function HomePage() {
   const queryClient = getQueryClient();

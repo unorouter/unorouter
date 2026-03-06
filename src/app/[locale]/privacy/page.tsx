@@ -1,9 +1,20 @@
 import { Link } from "@/i18n/navigation";
+import { getPageMetadata } from "@/lib/config/metadata";
+import type { Locale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
-export async function generateMetadata() {
-  const t = await getTranslations();
-  return { title: t("PRIVACY.TITLE") };
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale: locale as Locale });
+  return getPageMetadata({
+    locale,
+    title: t("PRIVACY.META.TITLE"),
+    description: t("PRIVACY.META.DESCRIPTION"),
+    keywords: t("PRIVACY.META.KEYWORDS"),
+    path: `/${locale}/privacy`,
+  });
 }
 
 export default async function PrivacyPage() {

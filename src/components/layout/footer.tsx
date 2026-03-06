@@ -1,3 +1,4 @@
+import { CompanyName } from "@/components/elements/brand";
 import { Link } from "@/i18n/navigation";
 import {
   LuBuilding2,
@@ -18,7 +19,7 @@ export function Footer() {
         <div className="mb-12 grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand */}
           <div className="space-y-4">
-            <h3 className="text-foreground text-lg font-bold">UnoRouter</h3>
+            <CompanyName className="text-foreground text-lg" />
             <p className="text-muted-foreground text-sm leading-relaxed">
               {t("FOOTER.DESCRIPTION")}
             </p>

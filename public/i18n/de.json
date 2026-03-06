@@ -1,7 +1,8 @@
 {
   "METADATA": {
     "TITLE": "UnoRouter - Eine API fuer jedes KI-Modell",
-    "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und 200+ KI-Modelle ueber einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, guenstigere Preise."
+    "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und 200+ KI-Modelle ueber einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, guenstigere Preise.",
+    "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API"
   },
   "NAV": {
     "MODELS": "Modelle",
@@ -15,6 +16,11 @@
     "GET_STARTED": "Loslegen"
   },
   "HOME": {
+    "META": {
+      "TITLE": "UnoRouter - Einheitliches KI API Gateway",
+      "DESCRIPTION": "Ein Endpunkt fuer jedes KI-Modell. Intelligentes Routing waehlt den schnellsten Anbieter, automatisches Failover sichert deine Anfragen ab.",
+      "KEYWORDS": "KI API Gateway, einheitlicher KI-Endpunkt, OpenAI kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, intelligentes Routing"
+    },
     "TITLE": "UnoRouter",
     "HERO_BADGE": "API Gateway Aktiv",
     "HERO_TITLE_LINE1": "VEREINTE",
@@ -127,6 +133,11 @@
     "TICKER_TPS": "TPS"
   },
   "MODELS": {
+    "META": {
+      "TITLE": "KI-Modelle - UnoRouter",
+      "DESCRIPTION": "Durchsuche 200+ KI-Modelle von OpenAI, Anthropic, Google, DeepSeek und mehr. Vergleiche Echtzeitpreise verschiedener Anbieter.",
+      "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich"
+    },
     "TITLE": "Modellbibliothek",
     "SUBTITLE": "Durchsuche alle verfuegbaren KI-Modelle mit Echtzeitpreisen.",
     "SEARCH_PLACEHOLDER": "Modelle suchen...",
@@ -144,6 +155,11 @@
     "PRICE_PER_MILLION": "/1M Tokens"
   },
   "PRICING": {
+    "META": {
+      "TITLE": "Preise - UnoRouter",
+      "DESCRIPTION": "Einfache, transparente Preise fuer KI-API-Zugang. Abonniere fuer besseren Wert oder zahle nach Verbrauch. Alle Plaene beinhalten jedes Modell.",
+      "KEYWORDS": "KI API Preise, KI Abonnement, Pay-per-Token, KI-Modell-Preise, guenstige KI API, erschwingliche KI"
+    },
     "TITLE": "Preise",
     "SUBTITLE": "Waehle einen Plan, der zu deiner Nutzung passt. Alle Plaene beinhalten jedes Modell.",
     "BASIC_NAME": "Basic",
@@ -179,6 +195,11 @@
     "COMPARE_ENTERPRISE_RATE": "2.000 Anf./Min."
   },
   "DOCS_INDEX": {
+    "META": {
+      "TITLE": "Integrationen - UnoRouter",
+      "DESCRIPTION": "Nutze UnoRouter mit Claude Code, Codex CLI, Gemini CLI, OpenClaw und mehr. Einrichtungsanleitungen fuer alle wichtigen KI-Tools.",
+      "KEYWORDS": "KI Integrationsanleitungen, Claude Code Einrichtung, Codex CLI Einrichtung, Gemini CLI Einrichtung, OpenClaw Einrichtung, KI API Dokumentation"
+    },
     "TITLE": "Integrationen",
     "SUBTITLE": "Nutze UnoRouter mit deinen bevorzugten KI-Tools. Waehle eine Anleitung unten, um loszulegen.",
     "QUICK_START": "Schnellstart",
@@ -190,6 +211,11 @@
   },
   "DOCS": {
     "CLAUDE_CODE": {
+      "META": {
+        "TITLE": "Claude Code Integration - UnoRouter",
+        "DESCRIPTION": "Nutze UnoRouter mit Claude Code, Cursor und jedem Anthropic-kompatiblen Client. Zugriff auf alle KI-Modelle ueber einen Anthropic API Endpunkt.",
+        "KEYWORDS": "Claude Code, Anthropic API, Claude Code Einrichtung, Cursor KI, UnoRouter Claude, Anthropic Alternative"
+      },
       "BADGE": "Claude Code",
       "TITLE": "Claude Code Integration",
       "SUBTITLE": "Nutze UnoRouter mit Claude Code, Cursor, VS Code Erweiterungen und jedem Anthropic-kompatiblen Client. Richte deine API auf UnoRouter und greife auf alle Modelle zu.",
@@ -204,6 +230,11 @@
       "CTA_MODELS": "Alle Modelle ansehen"
     },
     "CODEX": {
+      "META": {
+        "TITLE": "Codex CLI Integration - UnoRouter",
+        "DESCRIPTION": "Nutze UnoRouter mit OpenAI Codex CLI und jedem OpenAI-kompatiblen Client. Vollstaendig kompatibel mit dem OpenAI SDK.",
+        "KEYWORDS": "Codex CLI, OpenAI API, Codex Einrichtung, OpenAI SDK, UnoRouter OpenAI, OpenAI Alternative"
+      },
       "BADGE": "Codex",
       "TITLE": "OpenAI Codex Integration",
       "SUBTITLE": "Nutze UnoRouter mit OpenAI Codex CLI, ChatGPT Plugins und jedem OpenAI-kompatiblen Client. Vollstaendig kompatibel mit dem OpenAI SDK.",
@@ -218,6 +249,11 @@
       "CTA_MODELS": "Alle Modelle ansehen"
     },
     "GEMINI_CLI": {
+      "META": {
+        "TITLE": "Gemini CLI Integration - UnoRouter",
+        "DESCRIPTION": "Nutze UnoRouter mit dem Gemini CLI und jedem Google GenAI-kompatiblen Client. Zugriff auf Gemini-Modelle neben Claude und GPT.",
+        "KEYWORDS": "Gemini CLI, Google KI API, Gemini Einrichtung, Google GenAI SDK, UnoRouter Gemini, Gemini Alternative"
+      },
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI Integration",
       "SUBTITLE": "Nutze UnoRouter mit dem Gemini CLI und jedem Google GenAI-kompatiblen Client. Greife auf Gemini-Modelle neben Claude und GPT zu.",
@@ -232,6 +268,11 @@
       "CTA_MODELS": "Alle Modelle ansehen"
     },
     "OPENCLAW": {
+      "META": {
+        "TITLE": "OpenClaw Integration - UnoRouter",
+        "DESCRIPTION": "Nutze UnoRouter als Modellanbieter fuer deinen OpenClaw-Agenten. Einmal konfigurieren und auf alle KI-Modelle zugreifen.",
+        "KEYWORDS": "OpenClaw, OpenClaw Einrichtung, KI Agent, UnoRouter OpenClaw, Modellanbieter, KI Gateway"
+      },
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw Integration",
       "SUBTITLE": "Nutze UnoRouter als Modellanbieter fuer deinen OpenClaw-Agenten. Einmal konfigurieren und ueber das OpenClaw-Gateway auf alle Modelle zugreifen.",
@@ -266,6 +307,11 @@
     "SOCIAL_X": "X"
   },
   "PRIVACY": {
+    "META": {
+      "TITLE": "Datenschutzrichtlinie - UnoRouter",
+      "DESCRIPTION": "Erfahre, wie UnoRouter deine personenbezogenen Daten bei der Nutzung unserer KI-API-Dienste erhebt, verwendet und schuetzt.",
+      "KEYWORDS": "Datenschutzrichtlinie, Datenschutz, UnoRouter Datenschutz, KI API Datenschutz"
+    },
     "TITLE": "Datenschutzrichtlinie",
     "LAST_UPDATED": "Zuletzt aktualisiert: 21. Februar 2026",
     "INTRO": "UnoRouter (\"wir\", \"uns\" oder \"unser\") betreibt die Website unorouter.ai und die API-Dienste. Diese Datenschutzrichtlinie erlaeutert, wie wir Ihre personenbezogenen Daten erheben, verwenden, offenlegen und schuetzen, wenn Sie unsere Dienste nutzen.",
@@ -298,6 +344,11 @@
     "CONTACT_CONTENT": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie oder unseren Datenpraktiken haben, kontaktieren Sie uns bitte unter support@unorouter.ai."
   },
   "TERMS": {
+    "META": {
+      "TITLE": "Nutzungsbedingungen - UnoRouter",
+      "DESCRIPTION": "Nutzungsbedingungen fuer die Nutzung der KI-API-Aggregationsplattform von UnoRouter und verwandter Dienste.",
+      "KEYWORDS": "Nutzungsbedingungen, AGB, UnoRouter Bedingungen, KI API Bedingungen"
+    },
     "TITLE": "Nutzungsbedingungen",
     "LAST_UPDATED": "Zuletzt aktualisiert: 21. Februar 2026",
     "INTRO": "Diese Nutzungsbedingungen (\"Bedingungen\") regeln Ihren Zugang zu und die Nutzung der Website, API-Dienste und aller damit verbundenen Dienste von UnoRouter (zusammen die \"Dienste\"). Durch den Zugriff auf oder die Nutzung der Dienste erklaeren Sie sich mit diesen Bedingungen einverstanden.",
@@ -353,6 +404,13 @@
     "DE": "Deutsch"
   },
   "AUTH": {
+    "META": {
+      "LOGIN_TITLE": "Anmelden - UnoRouter",
+      "LOGIN_DESCRIPTION": "Melde dich bei deinem UnoRouter-Konto an, um auf das KI-API-Dashboard zuzugreifen.",
+      "REGISTER_TITLE": "Konto erstellen - UnoRouter",
+      "REGISTER_DESCRIPTION": "Erstelle ein UnoRouter-Konto und nutze 200+ KI-Modelle ueber eine API.",
+      "KEYWORDS": "UnoRouter Anmeldung, UnoRouter Registrierung, KI API Konto, Anmelden"
+    },
     "LOGIN_TITLE": "Willkommen zurueck",
     "LOGIN_DESCRIPTION": "Melde dich bei deinem UnoRouter-Konto an",
     "REGISTER_TITLE": "Konto erstellen",

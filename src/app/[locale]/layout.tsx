@@ -59,6 +59,7 @@ export async function generateMetadata(props: {
     locale: params.locale,
     title: t("METADATA.TITLE"),
     description: t("METADATA.DESCRIPTION"),
+    keywords: t("METADATA.KEYWORDS"),
   });
 }
 

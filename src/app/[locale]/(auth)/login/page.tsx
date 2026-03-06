@@ -1,18 +1,22 @@
-"use client";
+import { getPageMetadata } from "@/lib/config/metadata";
+import type { Locale } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { LoginPageClient } from "./page-client";
 
-import { LoginForm } from "@/components/pages/auth/login-form";
-import { GlassAuthCard } from "@/components/ui/glass-auth-card";
-import { useTranslations } from "next-intl";
+export async function generateMetadata(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await props.params;
+  const t = await getTranslations({ locale: locale as Locale });
+  return getPageMetadata({
+    locale,
+    title: t("AUTH.META.LOGIN_TITLE"),
+    description: t("AUTH.META.LOGIN_DESCRIPTION"),
+    keywords: t("AUTH.META.KEYWORDS"),
+    path: `/${locale}/login`,
+  });
+}
 
 export default function LoginPage() {
-  const t = useTranslations();
-
-  return (
-    <GlassAuthCard
-      title={t("AUTH.LOGIN_TITLE")}
-      description={t("AUTH.LOGIN_DESCRIPTION")}
-    >
-      <LoginForm />
-    </GlassAuthCard>
-  );
+  return <LoginPageClient />;
 }

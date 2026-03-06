@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { CompanyName, LogoImage } from "@/components/elements/brand";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { useLogoutMutation } from "@/hooks/auth-hook";
@@ -18,7 +19,6 @@ import { cn } from "@/lib/utils";
 import { isAuthenticatedAtom, isLoadingAuthAtom, userAtom } from "@/store/auth-store";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   LuChevronDown,
@@ -98,16 +98,8 @@ export function Navbar() {
       <div className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
-          <Image
-            src="/logo.webp"
-            alt="Unorouter"
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
-          <span className="text-foreground group-hover:text-muted-foreground text-lg font-bold tracking-tight transition-colors">
-            UNO<span className="text-muted-foreground">ROUTER</span>
-          </span>
+          <LogoImage />
+          <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
 
         {/* Desktop Nav */}

@@ -9,9 +9,10 @@ export const SERVER_URL_KEY = "x-url";
 export const LANGUAGES: {
   code: Uppercase<Locale>;
   Flag: FunctionComponent<SVGAttributes<SVGElement>>;
+  ogLocale: string;
 }[] = [
-  { code: "EN", Flag: US },
-  { code: "DE", Flag: DE },
+  { code: "EN", Flag: US, ogLocale: "en-US" },
+  { code: "DE", Flag: DE, ogLocale: "de-DE" },
 ];
 
 export type TranslationKey = Parameters<

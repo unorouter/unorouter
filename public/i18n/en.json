@@ -1,7 +1,8 @@
 {
   "METADATA": {
     "TITLE": "UnoRouter - One API for Every AI Model",
-    "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and 200+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less."
+    "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and 200+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less.",
+    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API"
   },
   "NAV": {
     "MODELS": "Models",
@@ -15,6 +16,11 @@
     "GET_STARTED": "Get Started"
   },
   "HOME": {
+    "META": {
+      "TITLE": "UnoRouter - Unified AI API Gateway",
+      "DESCRIPTION": "One endpoint for every AI model. Intelligent routing picks the fastest provider while automatic failover ensures your requests always succeed.",
+      "KEYWORDS": "AI API gateway, unified AI endpoint, OpenAI compatible, Claude API, GPT API, Gemini API, automatic failover, smart routing"
+    },
     "TITLE": "UnoRouter",
     "HERO_BADGE": "API Gateway Active",
     "HERO_TITLE_LINE1": "UNIFIED",
@@ -127,6 +133,11 @@
     "TICKER_TPS": "TPS"
   },
   "MODELS": {
+    "META": {
+      "TITLE": "AI Models - UnoRouter",
+      "DESCRIPTION": "Browse 200+ AI models from OpenAI, Anthropic, Google, DeepSeek and more. Compare real-time pricing across providers.",
+      "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison"
+    },
     "TITLE": "Model Library",
     "SUBTITLE": "Browse all available AI models with real-time pricing.",
     "SEARCH_PLACEHOLDER": "Search models...",
@@ -144,6 +155,11 @@
     "PRICE_PER_MILLION": "/1M tokens"
   },
   "PRICING": {
+    "META": {
+      "TITLE": "Pricing - UnoRouter",
+      "DESCRIPTION": "Simple, transparent pricing for AI API access. Subscribe for better value or pay as you go. All plans include every model.",
+      "KEYWORDS": "AI API pricing, AI subscription, pay per token, AI model pricing, cheap AI API, affordable AI"
+    },
     "TITLE": "Pricing",
     "SUBTITLE": "Choose a plan that fits your usage. All plans include every model.",
     "BASIC_NAME": "Basic",
@@ -179,6 +195,11 @@
     "COMPARE_ENTERPRISE_RATE": "2,000 rpm"
   },
   "DOCS_INDEX": {
+    "META": {
+      "TITLE": "Integrations - UnoRouter",
+      "DESCRIPTION": "Use UnoRouter with Claude Code, Codex CLI, Gemini CLI, OpenClaw and more. Setup guides for every major AI tool.",
+      "KEYWORDS": "AI integration guides, Claude Code setup, Codex CLI setup, Gemini CLI setup, OpenClaw setup, AI API documentation"
+    },
     "TITLE": "Integrations",
     "SUBTITLE": "Use UnoRouter with your favorite AI tools. Pick a guide below to get started.",
     "QUICK_START": "Quick Start",
@@ -190,6 +211,11 @@
   },
   "DOCS": {
     "CLAUDE_CODE": {
+      "META": {
+        "TITLE": "Claude Code Integration - UnoRouter",
+        "DESCRIPTION": "Use UnoRouter with Claude Code, Cursor, and any Anthropic-compatible client. Access all AI models through a single Anthropic API endpoint.",
+        "KEYWORDS": "Claude Code, Anthropic API, Claude Code setup, Cursor AI, UnoRouter Claude, Anthropic alternative"
+      },
       "BADGE": "Claude Code",
       "TITLE": "Claude Code Integration",
       "SUBTITLE": "Use UnoRouter with Claude Code, Cursor, VS Code extensions, and any Anthropic-compatible client. Point your API to UnoRouter and access all models.",
@@ -204,6 +230,11 @@
       "CTA_MODELS": "View All Models"
     },
     "CODEX": {
+      "META": {
+        "TITLE": "Codex CLI Integration - UnoRouter",
+        "DESCRIPTION": "Use UnoRouter with OpenAI Codex CLI and any OpenAI-compatible client. Fully compatible with the OpenAI SDK.",
+        "KEYWORDS": "Codex CLI, OpenAI API, Codex setup, OpenAI SDK, UnoRouter OpenAI, OpenAI alternative"
+      },
       "BADGE": "Codex",
       "TITLE": "OpenAI Codex Integration",
       "SUBTITLE": "Use UnoRouter with OpenAI Codex CLI, ChatGPT plugins, and any OpenAI-compatible client. Fully compatible with the OpenAI SDK.",
@@ -218,6 +249,11 @@
       "CTA_MODELS": "View All Models"
     },
     "GEMINI_CLI": {
+      "META": {
+        "TITLE": "Gemini CLI Integration - UnoRouter",
+        "DESCRIPTION": "Use UnoRouter with the Gemini CLI and any Google GenAI-compatible client. Access Gemini models alongside Claude and GPT.",
+        "KEYWORDS": "Gemini CLI, Google AI API, Gemini setup, Google GenAI SDK, UnoRouter Gemini, Gemini alternative"
+      },
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI Integration",
       "SUBTITLE": "Use UnoRouter with the Gemini CLI and any Google GenAI-compatible client. Access Gemini models alongside Claude and GPT.",
@@ -232,6 +268,11 @@
       "CTA_MODELS": "View All Models"
     },
     "OPENCLAW": {
+      "META": {
+        "TITLE": "OpenClaw Integration - UnoRouter",
+        "DESCRIPTION": "Use UnoRouter as a model provider for your OpenClaw agent. Configure once and access every AI model.",
+        "KEYWORDS": "OpenClaw, OpenClaw setup, AI agent, UnoRouter OpenClaw, model provider, AI gateway"
+      },
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw Integration",
       "SUBTITLE": "Use UnoRouter as a model provider for your OpenClaw agent. Configure once and access every model through OpenClaw's gateway.",
@@ -266,6 +307,11 @@
     "SOCIAL_X": "X"
   },
   "PRIVACY": {
+    "META": {
+      "TITLE": "Privacy Policy - UnoRouter",
+      "DESCRIPTION": "Learn how UnoRouter collects, uses, and protects your personal information when using our AI API services.",
+      "KEYWORDS": "privacy policy, data protection, UnoRouter privacy, AI API privacy"
+    },
     "TITLE": "Privacy Policy",
     "LAST_UPDATED": "Last Updated: February 21, 2026",
     "INTRO": "UnoRouter (\"we\", \"us\", or \"our\") operates the unorouter.ai website and API services. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our services.",
@@ -298,6 +344,11 @@
     "CONTACT_CONTENT": "If you have any questions about this Privacy Policy or our data practices, please contact us at support@unorouter.ai."
   },
   "TERMS": {
+    "META": {
+      "TITLE": "Terms of Service - UnoRouter",
+      "DESCRIPTION": "Terms of Service governing the use of UnoRouter's AI API aggregation platform and related services.",
+      "KEYWORDS": "terms of service, terms and conditions, UnoRouter terms, AI API terms"
+    },
     "TITLE": "Terms of Service",
     "LAST_UPDATED": "Last Updated: February 21, 2026",
     "INTRO": "These Terms of Service (\"Terms\") govern your access to and use of UnoRouter's website, API services, and any related services (collectively, the \"Services\"). By accessing or using the Services, you agree to be bound by these Terms.",
@@ -353,6 +404,13 @@
     "DE": "Deutsch"
   },
   "AUTH": {
+    "META": {
+      "LOGIN_TITLE": "Sign In - UnoRouter",
+      "LOGIN_DESCRIPTION": "Sign in to your UnoRouter account to access the AI API dashboard.",
+      "REGISTER_TITLE": "Create Account - UnoRouter",
+      "REGISTER_DESCRIPTION": "Create a UnoRouter account to start using 200+ AI models through one API.",
+      "KEYWORDS": "UnoRouter login, UnoRouter register, AI API account, sign in"
+    },
     "LOGIN_TITLE": "Welcome Back",
     "LOGIN_DESCRIPTION": "Sign in to your UnoRouter account",
     "REGISTER_TITLE": "Create Account",
