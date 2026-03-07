@@ -16,8 +16,8 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
-import { deriveUpstream } from "@/server/upstream";
 import { Elysia } from "elysia";
+import { deriveUpstream } from "../constants";
 
 export const authRoute = new Elysia({ prefix: "/auth" })
   .derive(deriveUpstream)
