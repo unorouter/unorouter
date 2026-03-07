@@ -1,7 +1,9 @@
 import { RegisterForm } from "@/components/pages/auth/register-form";
+import { redirect } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
-import { serverLocale } from "@/lib/utils/server";
+import { rpc } from "@/lib/rpc";
+import { serverLocale, setCookies } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
@@ -18,7 +20,10 @@ export async function generateMetadata(props: {
 }
 
 export default async function RegisterPage() {
+  const locale = await serverLocale();
+  const self = await rpc.api.auth.self.get(await setCookies());
 
-  
+  if (self.data?.data.id) redirect({ href: "/dashboard", locale });
+
   return <RegisterForm />;
 }
