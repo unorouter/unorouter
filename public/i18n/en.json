@@ -429,6 +429,7 @@
     "USERNAME_PLACEHOLDER": "Enter your username",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
+    "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters",
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Enter your email",
     "VERIFICATION_CODE": "Verification Code",
