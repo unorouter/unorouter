@@ -6,6 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
@@ -68,21 +74,43 @@ export function ModelsGrid() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <select
-              value={vendorFilter}
-              onChange={(e) => setVendorFilter(e.target.value)}
-              className="border-input bg-background text-foreground ring-offset-background h-8 appearance-none rounded-md border px-3 pr-8 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-offset-2"
-            >
-              <option value="all">{t("MODELS.FILTER_PROVIDER")}</option>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="border-input bg-background text-foreground ring-offset-background inline-flex h-8 cursor-pointer items-center gap-2 rounded-md border px-3 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-offset-2">
+              {vendorFilter !== "all" && (
+                <VendorIcon vendor={vendorFilter} size={14} />
+              )}
+              <span>
+                {vendorFilter === "all"
+                  ? t("MODELS.FILTER_PROVIDER")
+                  : vendorFilter}
+              </span>
+              <LuChevronDown className="text-muted-foreground h-3.5 w-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" sideOffset={4}>
+              <DropdownMenuItem
+                className={cn(
+                  "font-mono text-xs",
+                  vendorFilter === "all" && "bg-accent",
+                )}
+                onClick={() => setVendorFilter("all")}
+              >
+                {t("MODELS.FILTER_PROVIDER")}
+              </DropdownMenuItem>
               {vendorNames.map((name) => (
-                <option key={name} value={name}>
+                <DropdownMenuItem
+                  key={name}
+                  className={cn(
+                    "font-mono text-xs",
+                    vendorFilter === name && "bg-accent",
+                  )}
+                  onClick={() => setVendorFilter(name)}
+                >
+                  <VendorIcon vendor={name} size={14} />
                   {name}
-                </option>
+                </DropdownMenuItem>
               ))}
-            </select>
-            <LuChevronDown className="text-muted-foreground pointer-events-none absolute top-1/2 right-2 h-3.5 w-3.5 -translate-y-1/2" />
-          </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <div className="flex gap-1">
             {filterOptions.map((option) => (
               <Button

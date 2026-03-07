@@ -27,7 +27,7 @@ export function Pricing() {
   }
 
   return (
-    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-24">
+    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-16">
       <div className="mx-auto max-w-360 px-6">
         <div className="mb-16 text-center">
           <div className="border-foreground/20 bg-foreground/5 mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5">
