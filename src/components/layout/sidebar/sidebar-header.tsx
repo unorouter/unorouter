@@ -1,0 +1,19 @@
+import { LanguageToggle } from "@/components/toggle/language-toggle";
+import { ThemeToggle } from "@/components/toggle/theme-toggle";
+import { Separator } from "@/components/ui/separator";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+
+export function SidebarHeader() {
+  return (
+    <header className="flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
+      <div className="flex w-full items-center gap-2 px-4">
+        <SidebarTrigger className="-ml-1" />
+        <Separator orientation="vertical" className="mx-2 h-6" />
+        <div className="ml-auto flex items-center gap-2">
+          <LanguageToggle />
+          <ThemeToggle />
+        </div>
+      </div>
+    </header>
+  );
+}

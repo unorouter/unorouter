@@ -401,6 +401,11 @@
       "ERROR_DETAILS": "Fehlerdetails",
       "DIGEST": "Digest"
     },
+    "NOT_FOUND": {
+      "TITLE": "Seite nicht gefunden",
+      "DESCRIPTION": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+      "GO_HOME": "Zur Startseite"
+    },
     "ACTIONS": {
       "TRY_AGAIN": "Erneut versuchen",
       "GO_HOME": "Zur Startseite"
@@ -461,6 +466,10 @@
     "ROLE_ADMIN": "Admin",
     "ROLE_USER": "Benutzer",
     "ROLE_GUEST": "Gast"
+  },
+  "SIDEBAR": {
+    "MENU": "Menü",
+    "DASHBOARD": "Dashboard"
   },
   "THEME": {
     "LIGHT": "Hell",
