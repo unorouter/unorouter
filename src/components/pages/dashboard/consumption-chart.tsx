@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
 import { useTranslations } from "next-intl";
 import { LuChartBar } from "react-icons/lu";
+import { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -134,9 +135,11 @@ function processRankingData(data: QuotaItem[]) {
 
 export function ConsumptionChart() {
   const t = useTranslations();
-  const thirtyDaysAgo = Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60;
-  const now = Math.floor(Date.now() / 1000) + 3600;
-  const quotaQuery = useDashboardQuotaQuery(thirtyDaysAgo, now);
+  const [timeRange] = useState(() => ({
+    start: Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60,
+    end: Math.floor(Date.now() / 1000) + 3600,
+  }));
+  const quotaQuery = useDashboardQuotaQuery(timeRange.start, timeRange.end);
 
   const rawData = (quotaQuery.data ?? []) as QuotaItem[];
   const isLoading = quotaQuery.isLoading;

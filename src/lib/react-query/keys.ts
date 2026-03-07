@@ -10,4 +10,10 @@ export const queryKeys = {
     ["dashboard-quota", startTs, endTs] as const,
   dashboardStat: () => ["dashboard-stat"] as const,
   dashboardUptime: () => ["dashboard-uptime"] as const,
+  tokens: (params?: { p?: number; keyword?: string }) =>
+    ["tokens", params] as const,
+  token: (id: number) => ["token", id] as const,
+  userGroups: () => ["user-groups"] as const,
+  userModels: () => ["user-models"] as const,
+  affiliateCommissions: () => ["affiliate-commissions"] as const,
 };

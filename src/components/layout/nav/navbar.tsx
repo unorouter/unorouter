@@ -22,7 +22,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -34,6 +34,7 @@ import { isActiveLink, navigation, ROLE_LABELS } from "./navigation";
 export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
 
   const { data: user, isLoading: isLoadingAuth } = useAuthQuery();
@@ -183,11 +184,9 @@ export function Navbar() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem nativeButton={false}>
-                    <Link href="/dashboard" className="flex items-center gap-2">
-                      <LuLayoutDashboard />
-                      {t("AUTH.DASHBOARD")}
-                    </Link>
+                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
+                    <LuLayoutDashboard />
+                    {t("AUTH.DASHBOARD")}
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

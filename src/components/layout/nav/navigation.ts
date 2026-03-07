@@ -2,6 +2,8 @@ import { TranslationKey } from "@/lib/config/constants";
 import type { IconType } from "react-icons/lib";
 import {
   LuCpu,
+  LuGift,
+  LuKey,
   LuLayoutDashboard,
   LuShell,
   LuSparkles,
@@ -56,5 +58,15 @@ export const sidebarNavigation = (): NavigationItem[] => [
     name: "SIDEBAR.DASHBOARD",
     href: "/dashboard",
     icon: LuLayoutDashboard,
+  },
+  {
+    name: "SIDEBAR.TOKENS",
+    href: "/tokens",
+    icon: LuKey,
+  },
+  {
+    name: "SIDEBAR.AFFILIATE",
+    href: "/affiliate",
+    icon: LuGift,
   },
 ];

@@ -1,7 +1,9 @@
+import { affiliateRoute } from "@/server/affiliate/route";
 import { authRoute } from "@/server/auth/route";
 import { dashboardRoute } from "@/server/dashboard/route";
 import { pricingRoute } from "@/server/pricing/route";
 import { statsRoute } from "@/server/stats/route";
+import { tokenRoute } from "@/server/token/route";
 import { webhookRoute } from "@/server/webhook/route";
 import { Elysia } from "elysia";
 
@@ -18,6 +20,8 @@ export const app = new Elysia({ prefix: "/api" })
   .use(statsRoute)
   .use(authRoute)
   .use(dashboardRoute)
+  .use(tokenRoute)
+  .use(affiliateRoute)
   .use(webhookRoute);
 
 export type App = typeof app;
