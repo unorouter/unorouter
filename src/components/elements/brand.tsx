@@ -21,7 +21,7 @@ export function LogoImage(
 }
 
 export function CompanyName(props: { className?: string }) {
-  const mid = Math.ceil(appName.length / 2);
+  const mid = appName.slice(1).search(/[A-Z]/) + 1;
   return (
     <span className={cn("font-bold tracking-tight", props.className)}>
       {appName.slice(0, mid).toUpperCase()}
