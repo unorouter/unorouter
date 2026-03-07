@@ -50,11 +50,13 @@ export function MobileNav() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger>
-        <button className="text-foreground md:hidden">
-          <LuMenu className="h-5 w-5" />
-          <span className="sr-only">Menu</span>
-        </button>
+      <SheetTrigger
+        render={
+          <button className="text-foreground md:hidden" />
+        }
+      >
+        <LuMenu className="h-5 w-5" />
+        <span className="sr-only">Menu</span>
       </SheetTrigger>
       <SheetContent side="left" className="flex w-80 flex-col font-mono">
         <SheetHeader>

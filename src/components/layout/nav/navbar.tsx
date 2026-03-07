@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
+import { TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -83,7 +84,7 @@ export function Navbar() {
           {topLevelItems.map((link) => (
             <Link
               key={link.name}
-              href={link.href as any}
+              href={link.href}
               className={cn(
                 "text-[11px] font-medium tracking-widest uppercase transition-colors",
                 isActiveLink(pathname, link.href)
@@ -91,7 +92,7 @@ export function Navbar() {
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              {t(link.name as any)}
+              {t(link.name)}
             </Link>
           ))}
 
@@ -100,11 +101,10 @@ export function Navbar() {
               <NavigationMenuList>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className="bg-transparent text-muted-foreground hover:text-foreground hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-open:hover:bg-transparent data-open:focus:bg-transparent data-popup-open:bg-transparent text-[11px] font-medium tracking-widest uppercase h-auto px-0 py-0"
+                    nativeButton={false}
+                    className="text-muted-foreground hover:text-foreground h-auto bg-transparent px-0 py-0 text-[11px] font-medium tracking-widest uppercase hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-open:hover:bg-transparent data-open:focus:bg-transparent data-popup-open:bg-transparent"
                     render={
-                      <Link href={docsItem.href as any}>
-                        {t(docsItem.name as any)}
-                      </Link>
+                      <Link href={docsItem.href}>{t(docsItem.name)}</Link>
                     }
                   />
                   <NavigationMenuContent>
@@ -114,12 +114,12 @@ export function Navbar() {
                           <NavigationMenuLink
                             render={
                               <Link
-                                href={link.href as any}
+                                href={link.href}
                                 className="flex items-center gap-2"
                               >
                                 {link.icon && <link.icon className="h-3 w-3" />}
-                                <span className="text-[11px] font-medium tracking-wider uppercase whitespace-nowrap">
-                                  {t(link.name as any)}
+                                <span className="text-[11px] font-medium tracking-wider whitespace-nowrap uppercase">
+                                  {t(link.name)}
                                 </span>
                               </Link>
                             }
@@ -174,7 +174,7 @@ export function Navbar() {
                       {roleKey && (
                         <div className="flex flex-wrap gap-1 pt-0.5">
                           <Badge variant="secondary" className="text-xs">
-                            {t(roleKey as any)}
+                            {t(roleKey as TranslationKey)}
                           </Badge>
                         </div>
                       )}

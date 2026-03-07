@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
 
 const withNextIntl = createNextIntlPlugin({
   experimental: {
-    createMessagesDeclaration: ["./public/i18n/en.json"],
+    createMessagesDeclaration: ["./public/i18n/de.json"],
   },
 });
 
