@@ -183,13 +183,11 @@ export function Navbar() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    onClick={() => {
-                      window.open(process.env.NEXT_PUBLIC_API_URL, "_blank");
-                    }}
-                  >
-                    <LuLayoutDashboard />
-                    {t("AUTH.DASHBOARD")}
+                  <DropdownMenuItem nativeButton={false}>
+                    <Link href="/dashboard" className="flex items-center gap-2">
+                      <LuLayoutDashboard />
+                      {t("AUTH.DASHBOARD")}
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
