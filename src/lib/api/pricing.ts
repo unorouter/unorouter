@@ -13,6 +13,9 @@ export type ProcessedModel = {
   endpointTypes: string[];
   description: string | undefined;
   tags: string[];
+  modelRatio: number;
+  completionRatio: number;
+  enableGroups: string[];
 };
 
 export type VendorSummary = {
@@ -34,6 +37,7 @@ export type PricingSummary = {
   models: ProcessedModel[];
   vendors: VendorSummary[];
   endpointMap: Record<string, EndpointInfo>;
+  groupRatioMap: Record<string, number>;
 };
 
 const VALID_MODEL_TYPES = new Set<string>([
@@ -55,8 +59,6 @@ function processModels(response: PricingData) {
   const groupRatio = response.group_ratio ?? {};
 
   const vendorMap = new Map(vendors.map((v) => [v.id, v]));
-  const ratios = Object.values(groupRatio);
-  const minRatio = ratios.length > 0 ? Math.min(...ratios) : 1;
 
   return data
     .map((model) => {
@@ -76,6 +78,16 @@ function processModels(response: PricingData) {
       if (isFixedPrice) {
         fixedPrice = model.model_price ?? 0;
       } else {
+        const enabledGroups = model.enable_groups ?? [];
+        let minRatio = 1;
+        if (enabledGroups.length > 0) {
+          let min = Number.POSITIVE_INFINITY;
+          for (const g of enabledGroups) {
+            const r = groupRatio[g];
+            if (r !== undefined && r < min) min = r;
+          }
+          if (min !== Number.POSITIVE_INFINITY) minRatio = min;
+        }
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
       }
@@ -94,6 +106,9 @@ function processModels(response: PricingData) {
           .split(",")
           .map((t) => t.trim())
           .filter(Boolean),
+        modelRatio: model.model_ratio ?? 0,
+        completionRatio: model.completion_ratio ?? 0,
+        enableGroups: model.enable_groups ?? [],
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -136,5 +151,6 @@ export function buildPricingSummary(response: PricingData): PricingSummary {
     models,
     vendors,
     endpointMap,
+    groupRatioMap: response.group_ratio ?? {},
   };
 }

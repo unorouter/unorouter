@@ -13,12 +13,13 @@ import type { EndpointInfo, ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
-import { LuCopy, LuCheck, LuLink, LuInfo, LuTag } from "react-icons/lu";
+import { LuCopy, LuCheck, LuLink, LuInfo, LuTag, LuChevronDown, LuLayers } from "react-icons/lu";
 import { useState } from "react";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;
   endpointMap: Record<string, EndpointInfo>;
+  groupRatioMap: Record<string, number>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
@@ -162,6 +163,15 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </div>
           </section>
 
+          {/* Group Pricing (collapsible) */}
+          {!model.isFixedPrice && model.enableGroups.length > 0 && (
+            <GroupPricingSection
+              model={model}
+              groupRatioMap={props.groupRatioMap}
+              theme={theme}
+            />
+          )}
+
           {/* API Endpoints */}
           {model.endpointTypes.length > 0 && (
             <section>
@@ -203,6 +213,11 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
               </div>
             </section>
           )}
+
+          {/* Pricing note */}
+          <p className="text-muted-foreground/60 font-mono text-[10px] italic leading-relaxed">
+            {t("MODELS.PRICE_VARIES_TOOLTIP")}
+          </p>
         </div>
       </SheetContent>
     </Sheet>
@@ -217,5 +232,87 @@ function SectionHeader(props: { icon: React.ReactNode; title: string }) {
         {props.title}
       </span>
     </div>
+  );
+}
+
+function GroupPricingSection(props: {
+  model: ProcessedModel;
+  groupRatioMap: Record<string, number>;
+  theme: ReturnType<typeof getVendorTheme>;
+}) {
+  const t = useTranslations();
+  const [open, setOpen] = useState(false);
+  const model = props.model;
+  const theme = props.theme;
+
+  const groupPrices = model.enableGroups
+    .map((group) => {
+      const ratio = props.groupRatioMap[group];
+      if (ratio === undefined) return null;
+      const inputPrice = model.modelRatio * 2 * ratio;
+      const outputPrice = inputPrice * model.completionRatio;
+      return { group, ratio, inputPrice, outputPrice };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a!.inputPrice - b!.inputPrice) as {
+    group: string;
+    ratio: number;
+    inputPrice: number;
+    outputPrice: number;
+  }[];
+
+  if (groupPrices.length === 0) return null;
+
+  return (
+    <section>
+      <button
+        onClick={() => setOpen(!open)}
+        className="mb-3 flex w-full items-center gap-2"
+      >
+        <LuLayers className="h-3.5 w-3.5 text-amber-400" />
+        <span className="text-foreground font-mono text-xs tracking-wider uppercase">
+          {t("MODELS.DETAIL_GROUP_PRICING")}
+        </span>
+        <LuChevronDown
+          className={cn(
+            "text-muted-foreground ml-auto h-3.5 w-3.5 transition-transform",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+      {open && (
+        <div className={cn("rounded-lg border p-3", theme.bg, theme.border)}>
+          <div className="mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b border-border/40 pb-2">
+            <span className="text-muted-foreground font-mono text-[10px] uppercase">
+              {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
+            </span>
+            <span className="text-muted-foreground font-mono text-[10px] uppercase text-right">
+              {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
+            </span>
+            <span className="text-muted-foreground font-mono text-[10px] uppercase text-right">
+              {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            {groupPrices.map((gp) => (
+              <div
+                key={gp.group}
+                className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
+              >
+                <span className="text-muted-foreground font-mono text-[10px] truncate">
+                  {gp.group}
+                </span>
+                <span className={cn("font-mono text-xs font-medium text-right", theme.text)}>
+                  {formatPrice(gp.inputPrice)}
+                </span>
+                <span className={cn("font-mono text-xs font-medium text-right", theme.text)}>
+                  {formatPrice(gp.outputPrice)}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
   );
 }

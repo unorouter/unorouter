@@ -117,6 +117,7 @@ export function ModelsGrid() {
               model={model}
               onClick={() => setSelectedModel(model)}
               labels={{
+                from: t("MODELS.PRICE_FROM"),
                 perRequest: t("MODELS.PRICE_PER_REQUEST"),
                 input: t("MODELS.PRICE_INPUT"),
                 output: t("MODELS.PRICE_OUTPUT"),
@@ -130,6 +131,7 @@ export function ModelsGrid() {
       <ModelDetailSheet
         model={selectedModel}
         endpointMap={endpointMap}
+        groupRatioMap={data?.groupRatioMap ?? {}}
         open={selectedModel !== null}
         onOpenChange={(open) => {
           if (!open) setSelectedModel(null);
@@ -143,6 +145,7 @@ function ModelCard(props: {
   model: ProcessedModel;
   onClick: () => void;
   labels: {
+    from: string;
     perRequest: string;
     input: string;
     output: string;
@@ -192,6 +195,9 @@ function ModelCard(props: {
       <div className="mt-auto pt-3">
         {model.isFixedPrice ? (
           <div className="flex items-baseline gap-1">
+            <span className="text-muted-foreground/60 font-mono text-[10px] italic">
+              {props.labels.from}
+            </span>
             <span className={cn("font-mono text-sm font-semibold", theme.text)}>
               {formatPrice(model.fixedPrice)}
             </span>
@@ -201,6 +207,9 @@ function ModelCard(props: {
           </div>
         ) : (
           <div className="flex items-baseline gap-4">
+            <span className="text-muted-foreground/60 font-mono text-[10px] italic">
+              {props.labels.from}
+            </span>
             <div>
               <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.input}{" "}

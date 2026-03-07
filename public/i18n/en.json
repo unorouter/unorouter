@@ -153,11 +153,17 @@
     "PRICE_PER_REQUEST": "/request",
     "PRICE_INPUT": "IN",
     "PRICE_OUTPUT": "OUT",
+    "PRICE_FROM": "from",
     "PRICE_PER_MILLION": "/1M tokens",
+    "PRICE_VARIES_TOOLTIP": "Prices shown reflect the lowest available rate. Actual cost depends on which provider handles your request.",
     "DETAIL_DESCRIPTION": "Description",
     "DETAIL_TAGS": "Tags",
     "DETAIL_PRICING": "Pricing",
     "DETAIL_ENDPOINTS": "API Endpoints",
+    "DETAIL_GROUP_PRICING": "Group Pricing",
+    "DETAIL_GROUP_HEADER_GROUP": "Group",
+    "DETAIL_GROUP_HEADER_INPUT": "Input",
+    "DETAIL_GROUP_HEADER_OUTPUT": "Output",
     "FILTER_PROVIDER": "All providers"
   },
   "PRICING": {
