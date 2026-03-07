@@ -1,6 +1,6 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Eine API fuer jedes KI-Modell",
+    "TITLE": "__appName__ - Eine API fuer jedes KI-Modell",
     "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und {modelCount}+ KI-Modelle ueber einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, guenstigere Preise.",
     "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API"
   },
@@ -17,15 +17,15 @@
   },
   "HOME": {
     "META": {
-      "TITLE": "{appName} - Einheitliches KI API Gateway",
+      "TITLE": "__appName__ - Einheitliches KI API Gateway",
       "DESCRIPTION": "Ein Endpunkt fuer jedes KI-Modell. Intelligentes Routing waehlt den schnellsten Anbieter, automatisches Failover sichert deine Anfragen ab.",
       "KEYWORDS": "KI API Gateway, einheitlicher KI-Endpunkt, OpenAI kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, intelligentes Routing"
     },
-    "TITLE": "{appName}",
+    "TITLE": "__appName__",
     "HERO_BADGE": "API Gateway Aktiv",
     "HERO_TITLE_LINE1": "VEREINTE",
     "HERO_TITLE_LINE2": "INTELLIGENZ",
-    "HERO_SUBTITLE": "[SYSTEM]: {appName} aggregiert {modelCount}+ KI-Modelle durch intelligentes Routing fuer die schnellste und guenstigste Inferenz-API.",
+    "HERO_SUBTITLE": "[SYSTEM]: __appName__ aggregiert {modelCount}+ KI-Modelle durch intelligentes Routing fuer die schnellste und guenstigste Inferenz-API.",
     "HERO_CTA_PRIMARY": "Loslegen",
     "HERO_CTA_SECONDARY": "Modelle ansehen",
     "STATS_MODELS": "Modelle",
@@ -36,21 +36,21 @@
     "INTEGRATION_BADGE": "Integration",
     "INTEGRATION_CLAUDE_CODE_BADGE": "Anthropic API",
     "INTEGRATION_CLAUDE_CODE_TITLE": "Funktioniert mit Claude Code",
-    "INTEGRATION_CLAUDE_CODE_DESCRIPTION": "Nutze {appName} als dein Anthropic API Backend. Setze zwei Umgebungsvariablen und greife auf alle Modelle von Claude Code zu.",
+    "INTEGRATION_CLAUDE_CODE_DESCRIPTION": "Nutze __appName__ als dein Anthropic API Backend. Setze zwei Umgebungsvariablen und greife auf alle Modelle von Claude Code zu.",
     "INTEGRATION_CODEX_BADGE": "OpenAI API",
     "INTEGRATION_CODEX_TITLE": "Funktioniert mit Codex CLI",
-    "INTEGRATION_CODEX_DESCRIPTION": "Nutze {appName} als dein OpenAI API Backend. Vollständig kompatibel mit dem OpenAI SDK und Codex CLI.",
+    "INTEGRATION_CODEX_DESCRIPTION": "Nutze __appName__ als dein OpenAI API Backend. Vollständig kompatibel mit dem OpenAI SDK und Codex CLI.",
     "INTEGRATION_GEMINI_CLI_BADGE": "Gemini API",
     "INTEGRATION_GEMINI_CLI_TITLE": "Funktioniert mit Gemini CLI",
-    "INTEGRATION_GEMINI_CLI_DESCRIPTION": "Nutze {appName} als dein Gemini API Backend. Greife über die Gemini CLI auf alle Modelle zu.",
+    "INTEGRATION_GEMINI_CLI_DESCRIPTION": "Nutze __appName__ als dein Gemini API Backend. Greife über die Gemini CLI auf alle Modelle zu.",
     "INTEGRATION_OPENCLAW_BADGE": "OpenAI API",
     "INTEGRATION_OPENCLAW_TITLE": "Funktioniert mit OpenClaw",
-    "INTEGRATION_OPENCLAW_DESCRIPTION": "Nutze {appName} als Modellanbieter für deinen OpenClaw-Agenten. Einmal konfigurieren, auf alle Modelle zugreifen.",
+    "INTEGRATION_OPENCLAW_DESCRIPTION": "Nutze __appName__ als Modellanbieter für deinen OpenClaw-Agenten. Einmal konfigurieren, auf alle Modelle zugreifen.",
     "PRICING_LABEL": "Preise",
     "PRICING_TITLE": "Einfache Preise.",
     "PRICING_SUBTITLE": "Zahle nur, was du nutzt.",
     "PRICING_DESCRIPTION": "Abonniere fuer besseren Wert oder zahle nach Verbrauch. Alle Plaene beinhalten Zugang zu jedem Modell mit automatischem Failover.",
-    "FEATURES_TITLE": "Warum {appName}",
+    "FEATURES_TITLE": "Warum __appName__",
     "FEATURES_DESCRIPTION": "Ein Endpunkt, jedes KI-Modell. Intelligentes Routing waehlt den schnellsten Anbieter, waehrend automatisches Failover sicherstellt, dass deine Anfragen immer ankommen.",
     "FEATURE_FAILOVER_TITLE": "Automatisches Failover",
     "FEATURE_FAILOVER_DESC": "Fehlgeschlagene Anfragen werden sofort auf alternative Kanaele umgeleitet",
@@ -134,7 +134,7 @@
   },
   "MODELS": {
     "META": {
-      "TITLE": "KI-Modelle - {appName}",
+      "TITLE": "KI-Modelle - __appName__",
       "DESCRIPTION": "Durchsuche alle KI-Modelle von OpenAI, Anthropic, Google, DeepSeek und mehr. Vergleiche Echtzeitpreise verschiedener Anbieter.",
       "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich"
     },
@@ -156,7 +156,7 @@
   },
   "PRICING": {
     "META": {
-      "TITLE": "Preise - {appName}",
+      "TITLE": "Preise - __appName__",
       "DESCRIPTION": "Einfache, transparente Preise fuer KI-API-Zugang. Abonniere fuer besseren Wert oder zahle nach Verbrauch. Alle Plaene beinhalten jedes Modell.",
       "KEYWORDS": "KI API Preise, KI Abonnement, Pay-per-Token, KI-Modell-Preise, guenstige KI API, erschwingliche KI"
     },
@@ -196,93 +196,93 @@
   },
   "DOCS_INDEX": {
     "META": {
-      "TITLE": "Integrationen - {appName}",
-      "DESCRIPTION": "Nutze {appName} mit Claude Code, Codex CLI, Gemini CLI, OpenClaw und mehr. Einrichtungsanleitungen fuer alle wichtigen KI-Tools.",
+      "TITLE": "Integrationen - __appName__",
+      "DESCRIPTION": "Nutze __appName__ mit Claude Code, Codex CLI, Gemini CLI, OpenClaw und mehr. Einrichtungsanleitungen fuer alle wichtigen KI-Tools.",
       "KEYWORDS": "KI Integrationsanleitungen, Claude Code Einrichtung, Codex CLI Einrichtung, Gemini CLI Einrichtung, OpenClaw Einrichtung, KI API Dokumentation"
     },
     "TITLE": "Integrationen",
-    "SUBTITLE": "Nutze {appName} mit deinen bevorzugten KI-Tools. Waehle eine Anleitung unten, um loszulegen.",
+    "SUBTITLE": "Nutze __appName__ mit deinen bevorzugten KI-Tools. Waehle eine Anleitung unten, um loszulegen.",
     "QUICK_START": "Schnellstart",
     "VIEW_GUIDE": "Vollstaendige Anleitung",
     "CTA_TITLE": "Bereit zum Starten?",
-    "CTA_DESC": "Hole dir deinen API-Schluessel und nutze {appName} mit einem dieser Tools.",
+    "CTA_DESC": "Hole dir deinen API-Schluessel und nutze __appName__ mit einem dieser Tools.",
     "CTA_SIGNUP": "API-Schluessel holen",
     "CTA_MODELS": "Alle Modelle ansehen"
   },
   "DOCS": {
     "CLAUDE_CODE": {
       "META": {
-        "TITLE": "Claude Code Integration - {appName}",
-        "DESCRIPTION": "Nutze {appName} mit Claude Code, Cursor und jedem Anthropic-kompatiblen Client. Zugriff auf alle KI-Modelle ueber einen Anthropic API Endpunkt.",
-        "KEYWORDS": "Claude Code, Anthropic API, Claude Code Einrichtung, Cursor KI, {appName} Claude, Anthropic Alternative"
+        "TITLE": "Claude Code Integration - __appName__",
+        "DESCRIPTION": "Nutze __appName__ mit Claude Code, Cursor und jedem Anthropic-kompatiblen Client. Zugriff auf alle KI-Modelle ueber einen Anthropic API Endpunkt.",
+        "KEYWORDS": "Claude Code, Anthropic API, Claude Code Einrichtung, Cursor KI, __appName__ Claude, Anthropic Alternative"
       },
       "BADGE": "Claude Code",
       "TITLE": "Claude Code Integration",
-      "SUBTITLE": "Nutze {appName} mit Claude Code, Cursor, VS Code Erweiterungen und jedem Anthropic-kompatiblen Client. Richte deine API auf {appName} und greife auf alle Modelle zu.",
+      "SUBTITLE": "Nutze __appName__ mit Claude Code, Cursor, VS Code Erweiterungen und jedem Anthropic-kompatiblen Client. Richte deine API auf __appName__ und greife auf alle Modelle zu.",
       "QUICK_START": "Schnellstart",
-      "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um {appName} mit einem Anthropic-kompatiblen Tool zu nutzen:",
+      "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um __appName__ mit einem Anthropic-kompatiblen Tool zu nutzen:",
       "CODE_EXAMPLES": "Codebeispiele",
       "EXAMPLE_PYTHON": "Python (Anthropic SDK)",
       "EXAMPLE_CURL": "cURL (Streaming)",
       "CTA_TITLE": "Bereit zum Starten?",
-      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze {appName} mit Claude Code.",
+      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze __appName__ mit Claude Code.",
       "CTA_SIGNUP": "API-Schluessel holen",
       "CTA_MODELS": "Alle Modelle ansehen"
     },
     "CODEX": {
       "META": {
-        "TITLE": "Codex CLI Integration - {appName}",
-        "DESCRIPTION": "Nutze {appName} mit OpenAI Codex CLI und jedem OpenAI-kompatiblen Client. Vollstaendig kompatibel mit dem OpenAI SDK.",
-        "KEYWORDS": "Codex CLI, OpenAI API, Codex Einrichtung, OpenAI SDK, {appName} OpenAI, OpenAI Alternative"
+        "TITLE": "Codex CLI Integration - __appName__",
+        "DESCRIPTION": "Nutze __appName__ mit OpenAI Codex CLI und jedem OpenAI-kompatiblen Client. Vollstaendig kompatibel mit dem OpenAI SDK.",
+        "KEYWORDS": "Codex CLI, OpenAI API, Codex Einrichtung, OpenAI SDK, __appName__ OpenAI, OpenAI Alternative"
       },
       "BADGE": "Codex",
       "TITLE": "OpenAI Codex Integration",
-      "SUBTITLE": "Nutze {appName} mit OpenAI Codex CLI, ChatGPT Plugins und jedem OpenAI-kompatiblen Client. Vollstaendig kompatibel mit dem OpenAI SDK.",
+      "SUBTITLE": "Nutze __appName__ mit OpenAI Codex CLI, ChatGPT Plugins und jedem OpenAI-kompatiblen Client. Vollstaendig kompatibel mit dem OpenAI SDK.",
       "QUICK_START": "Schnellstart",
-      "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um {appName} mit einem OpenAI-kompatiblen Tool zu nutzen:",
+      "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um __appName__ mit einem OpenAI-kompatiblen Tool zu nutzen:",
       "CODE_EXAMPLES": "Codebeispiele",
       "EXAMPLE_PYTHON": "Python (OpenAI SDK)",
       "EXAMPLE_TYPESCRIPT": "TypeScript (OpenAI SDK)",
       "CTA_TITLE": "Bereit zum Starten?",
-      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze {appName} mit Codex.",
+      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze __appName__ mit Codex.",
       "CTA_SIGNUP": "API-Schluessel holen",
       "CTA_MODELS": "Alle Modelle ansehen"
     },
     "GEMINI_CLI": {
       "META": {
-        "TITLE": "Gemini CLI Integration - {appName}",
-        "DESCRIPTION": "Nutze {appName} mit dem Gemini CLI und jedem Google GenAI-kompatiblen Client. Zugriff auf Gemini-Modelle neben Claude und GPT.",
-        "KEYWORDS": "Gemini CLI, Google KI API, Gemini Einrichtung, Google GenAI SDK, {appName} Gemini, Gemini Alternative"
+        "TITLE": "Gemini CLI Integration - __appName__",
+        "DESCRIPTION": "Nutze __appName__ mit dem Gemini CLI und jedem Google GenAI-kompatiblen Client. Zugriff auf Gemini-Modelle neben Claude und GPT.",
+        "KEYWORDS": "Gemini CLI, Google KI API, Gemini Einrichtung, Google GenAI SDK, __appName__ Gemini, Gemini Alternative"
       },
       "BADGE": "Gemini CLI",
       "TITLE": "Gemini CLI Integration",
-      "SUBTITLE": "Nutze {appName} mit dem Gemini CLI und jedem Google GenAI-kompatiblen Client. Greife auf Gemini-Modelle neben Claude und GPT zu.",
+      "SUBTITLE": "Nutze __appName__ mit dem Gemini CLI und jedem Google GenAI-kompatiblen Client. Greife auf Gemini-Modelle neben Claude und GPT zu.",
       "QUICK_START": "Schnellstart",
-      "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um {appName} mit dem Gemini CLI zu nutzen:",
+      "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um __appName__ mit dem Gemini CLI zu nutzen:",
       "CODE_EXAMPLES": "Codebeispiele",
       "EXAMPLE_PYTHON": "Python (Google GenAI SDK)",
       "EXAMPLE_CURL": "cURL (Gemini-API-Format)",
       "CTA_TITLE": "Bereit zum Starten?",
-      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze {appName} mit Gemini CLI.",
+      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze __appName__ mit Gemini CLI.",
       "CTA_SIGNUP": "API-Schluessel holen",
       "CTA_MODELS": "Alle Modelle ansehen"
     },
     "OPENCLAW": {
       "META": {
-        "TITLE": "OpenClaw Integration - {appName}",
-        "DESCRIPTION": "Nutze {appName} als Modellanbieter fuer deinen OpenClaw-Agenten. Einmal konfigurieren und auf alle KI-Modelle zugreifen.",
-        "KEYWORDS": "OpenClaw, OpenClaw Einrichtung, KI Agent, {appName} OpenClaw, Modellanbieter, KI Gateway"
+        "TITLE": "OpenClaw Integration - __appName__",
+        "DESCRIPTION": "Nutze __appName__ als Modellanbieter fuer deinen OpenClaw-Agenten. Einmal konfigurieren und auf alle KI-Modelle zugreifen.",
+        "KEYWORDS": "OpenClaw, OpenClaw Einrichtung, KI Agent, __appName__ OpenClaw, Modellanbieter, KI Gateway"
       },
       "BADGE": "OpenClaw",
       "TITLE": "OpenClaw Integration",
-      "SUBTITLE": "Nutze {appName} als Modellanbieter fuer deinen OpenClaw-Agenten. Einmal konfigurieren und ueber das OpenClaw-Gateway auf alle Modelle zugreifen.",
+      "SUBTITLE": "Nutze __appName__ als Modellanbieter fuer deinen OpenClaw-Agenten. Einmal konfigurieren und ueber das OpenClaw-Gateway auf alle Modelle zugreifen.",
       "QUICK_START": "Schnellstart",
-      "QUICK_START_DESC": "Fuege {appName} als Anbieter in deiner OpenClaw-Konfiguration hinzu:",
+      "QUICK_START_DESC": "Fuege __appName__ als Anbieter in deiner OpenClaw-Konfiguration hinzu:",
       "CODE_EXAMPLES": "Codebeispiele",
       "EXAMPLE_CONFIG": "OpenClaw-Konfiguration (YAML)",
       "EXAMPLE_CURL": "cURL (ueber OpenClaw-Gateway)",
       "CTA_TITLE": "Bereit zum Starten?",
-      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze {appName} mit OpenClaw.",
+      "CTA_DESC": "Hole dir deinen API-Schluessel und nutze __appName__ mit OpenClaw.",
       "CTA_SIGNUP": "API-Schluessel holen",
       "CTA_MODELS": "Alle Modelle ansehen"
     }
@@ -298,7 +298,7 @@
     "CONTACT_TITLE": "Kontakt",
     "CONTACT_SUBTITLE": "Fragen oder Anliegen?",
     "DESCRIPTION": "Einheitliche KI-API-Plattform mit Zugang zu hunderten Modellen von zahlreichen Anbietern ueber einen einzigen, intelligenten Endpunkt.",
-    "COPYRIGHT": "\u00a9 {year} {appName}. Alle Rechte vorbehalten.",
+    "COPYRIGHT": "\u00a9 {year} __appName__. Alle Rechte vorbehalten.",
     "LEGAL_DISCLAIMER": "Durch die Nutzung dieser Plattform bestaetigst du, dass du unsere",
     "LEGAL_TERMS": "Nutzungsbedingungen",
     "LEGAL_AND": "und",
@@ -307,13 +307,13 @@
   },
   "PRIVACY": {
     "META": {
-      "TITLE": "Datenschutzrichtlinie - {appName}",
-      "DESCRIPTION": "Erfahre, wie {appName} deine personenbezogenen Daten bei der Nutzung unserer KI-API-Dienste erhebt, verwendet und schuetzt.",
-      "KEYWORDS": "Datenschutzrichtlinie, Datenschutz, {appName} Datenschutz, KI API Datenschutz"
+      "TITLE": "Datenschutzrichtlinie - __appName__",
+      "DESCRIPTION": "Erfahre, wie __appName__ deine personenbezogenen Daten bei der Nutzung unserer KI-API-Dienste erhebt, verwendet und schuetzt.",
+      "KEYWORDS": "Datenschutzrichtlinie, Datenschutz, __appName__ Datenschutz, KI API Datenschutz"
     },
     "TITLE": "Datenschutzrichtlinie",
     "LAST_UPDATED": "Zuletzt aktualisiert: 21. Februar 2026",
-    "INTRO": "{appName} (\"wir\", \"uns\" oder \"unser\") betreibt die Website unorouter.ai und die API-Dienste. Diese Datenschutzrichtlinie erlaeutert, wie wir Ihre personenbezogenen Daten erheben, verwenden, offenlegen und schuetzen, wenn Sie unsere Dienste nutzen.",
+    "INTRO": "__appName__ (\"wir\", \"uns\" oder \"unser\") betreibt die Website unorouter.ai und die API-Dienste. Diese Datenschutzrichtlinie erlaeutert, wie wir Ihre personenbezogenen Daten erheben, verwenden, offenlegen und schuetzen, wenn Sie unsere Dienste nutzen.",
     "COLLECTION_TITLE": "1. Erhebung personenbezogener Daten",
     "COLLECTION_VOLUNTARY_TITLE": "Von Ihnen bereitgestellte Informationen",
     "COLLECTION_VOLUNTARY": "Wir erheben Informationen, die Sie freiwillig bereitstellen, wenn Sie ein Konto registrieren, Kaeufe taetigen, uns fuer Support kontaktieren oder anderweitig mit unseren Diensten interagieren. Dies kann Ihren Namen, Ihre E-Mail-Adresse, Zahlungsinformationen und alle anderen Details umfassen, die Sie uns mitteilen.",
@@ -326,7 +326,7 @@
     "SHARING_TITLE": "3. Weitergabe Ihrer personenbezogenen Daten",
     "SHARING_CONTENT": "Wir koennen Ihre Informationen an Dienstleister weitergeben, die Dienste in unserem Auftrag erbringen, wie Zahlungsabwicklung, Datenanalyse und E-Mail-Zustellung; an Drittanbieter von KI, soweit dies zur Erfuellung Ihrer API-Anfragen erforderlich ist (vorbehaltlich deren jeweiliger Datenschutzrichtlinien); als Reaktion auf eine Informationsanfrage, wenn wir der Ansicht sind, dass die Offenlegung gesetzlich vorgeschrieben ist; und im Zusammenhang mit einer Fusion, einem Verkauf von Unternehmensvermögen oder einer Uebernahme.",
     "RIGHTS_TITLE": "4. Ihre Rechte und Wahlmoeglichkeiten",
-    "RIGHTS_CONTENT": "Abhaengig von Ihrem Standort haben Sie moeglicherweise bestimmte Rechte in Bezug auf Ihre personenbezogenen Daten, einschliesslich des Rechts auf Zugang, Berichtigung oder Loeschung Ihrer persoenlichen Informationen; Abmeldung von Marketingmitteilungen; Anforderung einer Kopie Ihrer Daten in einem portablen Format; und Widerspruch gegen oder Einschraenkung bestimmter Verarbeitungen Ihrer Daten. Um eines dieser Rechte auszuueben, kontaktieren Sie uns bitte unter {supportEmail}.",
+    "RIGHTS_CONTENT": "Abhaengig von Ihrem Standort haben Sie moeglicherweise bestimmte Rechte in Bezug auf Ihre personenbezogenen Daten, einschliesslich des Rechts auf Zugang, Berichtigung oder Loeschung Ihrer persoenlichen Informationen; Abmeldung von Marketingmitteilungen; Anforderung einer Kopie Ihrer Daten in einem portablen Format; und Widerspruch gegen oder Einschraenkung bestimmter Verarbeitungen Ihrer Daten. Um eines dieser Rechte auszuueben, kontaktieren Sie uns bitte unter __supportEmail__.",
     "SECURITY_TITLE": "5. Datensicherheit",
     "SECURITY_CONTENT": "Wir implementieren und pflegen angemessene physische, technische und administrative Sicherheitsmassnahmen, um Ihre personenbezogenen Daten vor unbefugtem Zugriff, Zerstoerung, Nutzung, Aenderung oder Offenlegung zu schuetzen. Keine Uebertragungsmethode ueber das Internet oder elektronische Speicherung ist jedoch vollstaendig sicher, und wir koennen keine absolute Sicherheit garantieren.",
     "THIRD_PARTY_TITLE": "6. Drittanbieterdienste",
@@ -340,19 +340,19 @@
     "CHANGES_TITLE": "10. Aenderungen dieser Richtlinie",
     "CHANGES_CONTENT": "Wir koennen diese Datenschutzrichtlinie von Zeit zu Zeit aktualisieren. Wir werden Sie ueber wesentliche Aenderungen informieren, indem wir die aktualisierte Richtlinie auf unserer Website veroeffentlichen und das Datum \"Zuletzt aktualisiert\" aktualisieren. Ihre fortgesetzte Nutzung unserer Dienste nach Aenderungen stellt Ihre Zustimmung zur aktualisierten Richtlinie dar.",
     "CONTACT_TITLE": "11. Kontakt",
-    "CONTACT_CONTENT": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie oder unseren Datenpraktiken haben, kontaktieren Sie uns bitte unter {supportEmail}."
+    "CONTACT_CONTENT": "Wenn Sie Fragen zu dieser Datenschutzrichtlinie oder unseren Datenpraktiken haben, kontaktieren Sie uns bitte unter __supportEmail__."
   },
   "TERMS": {
     "META": {
-      "TITLE": "Nutzungsbedingungen - {appName}",
-      "DESCRIPTION": "Nutzungsbedingungen fuer die Nutzung der KI-API-Aggregationsplattform von {appName} und verwandter Dienste.",
-      "KEYWORDS": "Nutzungsbedingungen, AGB, {appName} Bedingungen, KI API Bedingungen"
+      "TITLE": "Nutzungsbedingungen - __appName__",
+      "DESCRIPTION": "Nutzungsbedingungen fuer die Nutzung der KI-API-Aggregationsplattform von __appName__ und verwandter Dienste.",
+      "KEYWORDS": "Nutzungsbedingungen, AGB, __appName__ Bedingungen, KI API Bedingungen"
     },
     "TITLE": "Nutzungsbedingungen",
     "LAST_UPDATED": "Zuletzt aktualisiert: 21. Februar 2026",
-    "INTRO": "Diese Nutzungsbedingungen (\"Bedingungen\") regeln Ihren Zugang zu und die Nutzung der Website, API-Dienste und aller damit verbundenen Dienste von {appName} (zusammen die \"Dienste\"). Durch den Zugriff auf oder die Nutzung der Dienste erklaeren Sie sich mit diesen Bedingungen einverstanden.",
+    "INTRO": "Diese Nutzungsbedingungen (\"Bedingungen\") regeln Ihren Zugang zu und die Nutzung der Website, API-Dienste und aller damit verbundenen Dienste von __appName__ (zusammen die \"Dienste\"). Durch den Zugriff auf oder die Nutzung der Dienste erklaeren Sie sich mit diesen Bedingungen einverstanden.",
     "SERVICE_TITLE": "1. Dienstuebersicht",
-    "SERVICE_CONTENT": "{appName} fungiert als KI-Modell-API-Aggregator, der es Nutzern ermoeglicht, ueber eine einheitliche API auf KI-Modelle von Drittanbietern zuzugreifen. Wir behalten uns das Recht vor, verfuegbare Modelle und Funktionen jederzeit hinzuzufuegen, zu aendern oder zu entfernen.",
+    "SERVICE_CONTENT": "__appName__ fungiert als KI-Modell-API-Aggregator, der es Nutzern ermoeglicht, ueber eine einheitliche API auf KI-Modelle von Drittanbietern zuzugreifen. Wir behalten uns das Recht vor, verfuegbare Modelle und Funktionen jederzeit hinzuzufuegen, zu aendern oder zu entfernen.",
     "ELIGIBILITY_TITLE": "2. Berechtigung",
     "ELIGIBILITY_CONTENT": "Sie muessen mindestens 13 Jahre alt sein, um die Dienste zu nutzen. Wenn Sie unter 18 Jahre alt sind, benoetigen Sie die Zustimmung eines Elternteils oder Erziehungsberechtigten. Wenn Sie die Dienste im Namen einer Organisation nutzen, versichern Sie, dass Sie befugt sind, diese Organisation an diese Bedingungen zu binden.",
     "ACCOUNTS_TITLE": "3. Kontoregistrierung",
@@ -369,19 +369,19 @@
     "TERMINATION_TITLE": "7. Kuendigung",
     "TERMINATION_CONTENT": "Wir koennen Ihr Konto jederzeit aus beliebigem Grund aussetzen oder kuendigen, einschliesslich bei Verstoss gegen diese Bedingungen. Bei Kuendigung (ausser bei Verstoessen) kann verbleibendes ungenutztes Guthaben nach unserem Ermessen erstattet werden. Sie koennen Ihr Konto jederzeit durch Kontaktaufnahme mit uns kuendigen.",
     "IP_TITLE": "8. Geistiges Eigentum",
-    "IP_CONTENT": "Alle Rechte, Titel und Interessen an den Diensten, einschliesslich aller damit verbundenen geistigen Eigentumsrechte, sind und bleiben Eigentum von {appName}. Sie duerfen keinen Teil der Dienste ohne unsere ausdrueckliche schriftliche Genehmigung reproduzieren, modifizieren, verbreiten oder abgeleitete Werke davon erstellen.",
+    "IP_CONTENT": "Alle Rechte, Titel und Interessen an den Diensten, einschliesslich aller damit verbundenen geistigen Eigentumsrechte, sind und bleiben Eigentum von __appName__. Sie duerfen keinen Teil der Dienste ohne unsere ausdrueckliche schriftliche Genehmigung reproduzieren, modifizieren, verbreiten oder abgeleitete Werke davon erstellen.",
     "DISCLAIMER_TITLE": "9. Gewaehrleistungsausschluss",
     "DISCLAIMER_CONTENT": "DIE DIENSTE WERDEN \"WIE BESEHEN\" UND \"WIE VERFUEGBAR\" OHNE JEGLICHE GEWAEHRLEISTUNG BEREITGESTELLT, SEI SIE AUSDRUECKLICH ODER STILLSCHWEIGEND. WIR LEHNEN ALLE GEWAEHRLEISTUNGEN AB, EINSCHLIESSLICH DER HANDELSFAEHIGKEIT, EIGNUNG FUER EINEN BESTIMMTEN ZWECK UND NICHTVERLETZUNG. WIR GARANTIEREN NICHT, DASS DIE DIENSTE UNTERBRECHUNGSFREI, FEHLERFREI ODER SICHER SEIN WERDEN.",
     "LIABILITY_TITLE": "10. Haftungsbeschraenkung",
-    "LIABILITY_CONTENT": "IM MAXIMAL GESETZLICH ZULAESSIGEN UMFANG HAFTET {appName} NICHT FUER INDIREKTE, ZUFAELLIGE, BESONDERE, FOLGE- ODER STRAFSCHAEDEN, DIE AUS IHRER NUTZUNG DER DIENSTE ENTSTEHEN. UNSERE GESAMTE HAFTUNG UEBERSTEIGT NICHT DIE VON IHNEN IN DEN ZWOELF (12) MONATEN VOR DEM ANSPRUCH GEZAHLTEN BETRAEGE ODER EINHUNDERT DOLLAR (100 $), JE NACHDEM, WELCHER BETRAG HOEHER IST.",
+    "LIABILITY_CONTENT": "IM MAXIMAL GESETZLICH ZULAESSIGEN UMFANG HAFTET __appName__ NICHT FUER INDIREKTE, ZUFAELLIGE, BESONDERE, FOLGE- ODER STRAFSCHAEDEN, DIE AUS IHRER NUTZUNG DER DIENSTE ENTSTEHEN. UNSERE GESAMTE HAFTUNG UEBERSTEIGT NICHT DIE VON IHNEN IN DEN ZWOELF (12) MONATEN VOR DEM ANSPRUCH GEZAHLTEN BETRAEGE ODER EINHUNDERT DOLLAR (100 $), JE NACHDEM, WELCHER BETRAG HOEHER IST.",
     "INDEMNIFICATION_TITLE": "11. Schadloshaltung",
-    "INDEMNIFICATION_CONTENT": "Sie verpflichten sich, {appName} von allen Anspruechen, Schaeden, Verlusten, Verbindlichkeiten, Kosten und Ausgaben freizustellen und schadlos zu halten, die aus Ihrer Nutzung der Dienste, Ihrem Verstoss gegen diese Bedingungen oder Ihrer Verletzung von Rechten Dritter entstehen.",
+    "INDEMNIFICATION_CONTENT": "Sie verpflichten sich, __appName__ von allen Anspruechen, Schaeden, Verlusten, Verbindlichkeiten, Kosten und Ausgaben freizustellen und schadlos zu halten, die aus Ihrer Nutzung der Dienste, Ihrem Verstoss gegen diese Bedingungen oder Ihrer Verletzung von Rechten Dritter entstehen.",
     "LAW_TITLE": "12. Anwendbares Recht",
     "LAW_CONTENT": "Diese Bedingungen unterliegen dem anwendbaren Recht und werden in Uebereinstimmung damit ausgelegt, ohne Beruecksichtigung von Kollisionsnormen.",
     "CHANGES_TITLE": "13. Aenderungen dieser Bedingungen",
     "CHANGES_CONTENT": "Wir koennen diese Bedingungen von Zeit zu Zeit aktualisieren. Wesentliche Aenderungen werden mindestens 30 Tage im Voraus per E-Mail oder In-Produkt-Benachrichtigung mitgeteilt. Ihre fortgesetzte Nutzung der Dienste nach Aenderungen stellt Ihre Zustimmung zu den aktualisierten Bedingungen dar.",
     "CONTACT_TITLE": "14. Kontakt",
-    "CONTACT_CONTENT": "Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter {supportEmail}."
+    "CONTACT_CONTENT": "Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter __supportEmail__."
   },
   "MAIN": {
     "ERROR": {
@@ -404,16 +404,16 @@
   },
   "AUTH": {
     "META": {
-      "LOGIN_TITLE": "Anmelden - {appName}",
-      "LOGIN_DESCRIPTION": "Melde dich bei deinem {appName}-Konto an, um auf das KI-API-Dashboard zuzugreifen.",
-      "REGISTER_TITLE": "Konto erstellen - {appName}",
-      "REGISTER_DESCRIPTION": "Erstelle ein {appName}-Konto und nutze alle KI-Modelle ueber eine API.",
-      "KEYWORDS": "{appName} Anmeldung, {appName} Registrierung, KI API Konto, Anmelden"
+      "LOGIN_TITLE": "Anmelden - __appName__",
+      "LOGIN_DESCRIPTION": "Melde dich bei deinem __appName__-Konto an, um auf das KI-API-Dashboard zuzugreifen.",
+      "REGISTER_TITLE": "Konto erstellen - __appName__",
+      "REGISTER_DESCRIPTION": "Erstelle ein __appName__-Konto und nutze alle KI-Modelle ueber eine API.",
+      "KEYWORDS": "__appName__ Anmeldung, __appName__ Registrierung, KI API Konto, Anmelden"
     },
     "LOGIN_TITLE": "Willkommen zurueck",
-    "LOGIN_DESCRIPTION": "Melde dich bei deinem {appName}-Konto an",
+    "LOGIN_DESCRIPTION": "Melde dich bei deinem __appName__-Konto an",
     "REGISTER_TITLE": "Konto erstellen",
-    "REGISTER_DESCRIPTION": "Starte mit {appName}",
+    "REGISTER_DESCRIPTION": "Starte mit __appName__",
     "USERNAME": "Benutzername",
     "USERNAME_PLACEHOLDER": "Benutzername eingeben",
     "PASSWORD": "Passwort",
