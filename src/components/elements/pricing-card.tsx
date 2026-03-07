@@ -1,6 +1,6 @@
 "use client";
 
-import { LuCheck, LuZap } from "react-icons/lu";
+import { LuCheck, LuShell, LuZap } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -9,6 +9,7 @@ type Props = {
   price: number;
   value: number;
   multiplier: string;
+  quotaLabel: string;
   features: string[];
   popular?: boolean;
   cta: string;
@@ -38,24 +39,49 @@ export function PricingCard(props: Props) {
         {props.name}
       </h3>
 
-      <div className="mt-5 flex items-baseline gap-1.5">
-        <span className="text-foreground text-4xl font-bold tracking-tight">
-          ${props.price}
-        </span>
-        <span className="text-muted-foreground font-mono text-xs">
-          {t("PRICING.CARD_PER_MONTH")}
-        </span>
+      {/* Spec rows */}
+      <div className="mt-5 space-y-4">
+        <div>
+          <p className="text-foreground text-2xl font-bold tracking-tight">
+            ${props.value}{" "}
+            <span className="text-muted-foreground font-mono text-xs font-normal">
+              {t("PRICING.CARD_SPEC_CREDIT")}
+            </span>
+          </p>
+        </div>
+        <div>
+          <p className="text-foreground text-lg font-bold tracking-tight">
+            {props.quotaLabel}
+          </p>
+          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+            {t("PRICING.CARD_SPEC_QUOTA")}
+          </p>
+        </div>
+        <div>
+          <p className="text-foreground text-lg font-bold tracking-tight">
+            {props.multiplier}
+          </p>
+          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+            {t("PRICING.CARD_SPEC_MULTIPLIER")}
+          </p>
+        </div>
       </div>
 
-      <p className="text-muted-foreground mt-2 font-mono text-[11px]">
-        {t("PRICING.CARD_VALUE", { value: `$${props.value}` })} &middot;{" "}
-        {t("PRICING.CARD_MULTIPLIER", { multiplier: props.multiplier })}
-      </p>
-
-      <div className="border-border mt-6 border-t pt-6">
-        <p className="text-muted-foreground mb-4 font-mono text-[10px] tracking-widest uppercase">
-          {t("PRICING.CARD_INCLUDES")}
+      {/* OpenClaw Support */}
+      <div className="mt-6 rounded-sm border border-red-600/20 bg-red-600/5 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <LuShell className="h-4 w-4 shrink-0 text-red-500" />
+          <span className="text-foreground font-mono text-xs font-bold tracking-wide">
+            {t("PRICING.CARD_OPENCLAW_TITLE")}
+          </span>
+        </div>
+        <p className="text-muted-foreground mt-1.5 font-mono text-[11px]">
+          {t("PRICING.CARD_OPENCLAW_DESC")}
         </p>
+      </div>
+
+      {/* Features */}
+      <div className="mt-6 border-t border-border pt-6">
         <ul className="space-y-3">
           {props.features.map((feature) => (
             <li
@@ -69,7 +95,18 @@ export function PricingCard(props: Props) {
         </ul>
       </div>
 
-      <div className="mt-auto pt-8">
+      {/* Price */}
+      <div className="mt-6 flex items-baseline gap-1.5">
+        <span className="text-foreground text-4xl font-bold tracking-tight">
+          ${props.price}
+        </span>
+        <span className="text-muted-foreground font-mono text-xs">
+          {t("PRICING.CARD_PER_MONTH")}
+        </span>
+      </div>
+
+      {/* CTA */}
+      <div className="mt-6">
         <a
           href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
           className={cn(

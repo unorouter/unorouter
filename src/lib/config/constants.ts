@@ -34,3 +34,8 @@ export type TranslationKey = Parameters<
 >[0];
 
 export const msg = <T extends TranslationKey>(key: T): T => key;
+
+export const APP_VALUES = {
+  appName: process.env.NEXT_PUBLIC_APP_NAME!,
+  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL!,
+};

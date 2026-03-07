@@ -1,3 +1,4 @@
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -13,9 +14,9 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("DOCS.CLAUDE_CODE.META.TITLE"),
-    description: t("DOCS.CLAUDE_CODE.META.DESCRIPTION"),
-    keywords: t("DOCS.CLAUDE_CODE.META.KEYWORDS"),
+    title: t("DOCS.CLAUDE_CODE.META.TITLE", APP_VALUES),
+    description: t("DOCS.CLAUDE_CODE.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.CLAUDE_CODE.META.KEYWORDS", APP_VALUES),
   });
 }
 
@@ -32,7 +33,7 @@ export default async function ClaudeCodePage() {
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CLAUDE_CODE.TITLE")}</h1>
       <p className="text-muted-foreground mt-4 text-lg">
-        {t("DOCS.CLAUDE_CODE.SUBTITLE")}
+        {t("DOCS.CLAUDE_CODE.SUBTITLE", APP_VALUES)}
       </p>
 
       {/* Quick Start */}
@@ -41,7 +42,7 @@ export default async function ClaudeCodePage() {
           {t("DOCS.CLAUDE_CODE.QUICK_START")}
         </h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          {t("DOCS.CLAUDE_CODE.QUICK_START_DESC")}
+          {t("DOCS.CLAUDE_CODE.QUICK_START_DESC", APP_VALUES)}
         </p>
         <CodeBlock
           language="bash"
@@ -110,7 +111,7 @@ print(message.content[0].text)`}
           {t("DOCS.CLAUDE_CODE.CTA_TITLE")}
         </h2>
         <p className="text-muted-foreground mt-2">
-          {t("DOCS.CLAUDE_CODE.CTA_DESC")}
+          {t("DOCS.CLAUDE_CODE.CTA_DESC", APP_VALUES)}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button

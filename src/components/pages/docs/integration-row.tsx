@@ -1,5 +1,6 @@
 import { CodeBlock } from "@/components/elements/code-block";
 import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
@@ -45,7 +46,7 @@ export async function IntegrationRow(props: { integration: Integration }) {
                 {t(props.integration.titleKey)}
               </h2>
               <p className="text-muted-foreground mt-1 font-mono text-sm leading-relaxed">
-                {t(props.integration.subtitleKey)}
+                {t(props.integration.subtitleKey, APP_VALUES)}
               </p>
             </div>
           </div>

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
 import { SyntheticEvent, useRef, useState } from "react";
@@ -63,7 +64,7 @@ export function LoginForm() {
   return (
     <GlassAuthCard
       title={t("AUTH.LOGIN_TITLE")}
-      description={t("AUTH.LOGIN_DESCRIPTION")}
+      description={t("AUTH.LOGIN_DESCRIPTION", APP_VALUES)}
     >
       <div className="space-y-6">
         {showPasswordForm && (

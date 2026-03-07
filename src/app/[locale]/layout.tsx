@@ -1,6 +1,7 @@
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
@@ -51,7 +52,7 @@ export async function generateMetadata(props: {
 
   return getPageMetadata({
     locale,
-    title: t("METADATA.TITLE"),
+    title: t("METADATA.TITLE", APP_VALUES),
     description: t("METADATA.DESCRIPTION", {
       modelCount: String(pricing?.modelCount),
     }),

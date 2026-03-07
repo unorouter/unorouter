@@ -1,4 +1,5 @@
 import { Models } from "@/components/pages/models/models";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -15,7 +16,7 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("MODELS.META.TITLE"),
+    title: t("MODELS.META.TITLE", APP_VALUES),
     description: t("MODELS.META.DESCRIPTION"),
     keywords: t("MODELS.META.KEYWORDS"),
   });

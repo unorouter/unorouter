@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import { msg } from "@/lib/config/constants";
+import { APP_VALUES, msg } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
@@ -120,7 +120,7 @@ export async function IntegrationBanner() {
                   </div>
                 </div>
                 <p className="text-muted-foreground font-mono text-sm leading-relaxed">
-                  {t(integration.descKey)}
+                  {t(integration.descKey, APP_VALUES)}
                 </p>
                 <div className="mt-auto flex items-center gap-3 pt-2">
                   <span className="text-foreground/70 group-hover:text-foreground font-mono text-sm transition-colors">

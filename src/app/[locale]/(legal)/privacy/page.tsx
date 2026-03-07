@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { getTranslations } from "next-intl/server";
 import { serverLocale } from "@/lib/utils/server";
@@ -10,9 +11,9 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("PRIVACY.META.TITLE"),
-    description: t("PRIVACY.META.DESCRIPTION"),
-    keywords: t("PRIVACY.META.KEYWORDS"),
+    title: t("PRIVACY.META.TITLE", APP_VALUES),
+    description: t("PRIVACY.META.DESCRIPTION", APP_VALUES),
+    keywords: t("PRIVACY.META.KEYWORDS", APP_VALUES),
   });
 }
 
@@ -34,7 +35,7 @@ export default async function PrivacyPage() {
       </p>
 
       <p className="text-muted-foreground mb-10 leading-relaxed">
-        {t("PRIVACY.INTRO")}
+        {t("PRIVACY.INTRO", APP_VALUES)}
       </p>
 
       <Section title={t("PRIVACY.COLLECTION_TITLE")}>
@@ -72,7 +73,7 @@ export default async function PrivacyPage() {
 
       <Section title={t("PRIVACY.RIGHTS_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("PRIVACY.RIGHTS_CONTENT")}
+          {t("PRIVACY.RIGHTS_CONTENT", APP_VALUES)}
         </p>
       </Section>
 
@@ -114,7 +115,7 @@ export default async function PrivacyPage() {
 
       <Section title={t("PRIVACY.CONTACT_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("PRIVACY.CONTACT_CONTENT")}
+          {t("PRIVACY.CONTACT_CONTENT", APP_VALUES)}
         </p>
       </Section>
     </main>

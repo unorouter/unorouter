@@ -1,3 +1,4 @@
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -13,9 +14,9 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("DOCS.OPENCLAW.META.TITLE"),
-    description: t("DOCS.OPENCLAW.META.DESCRIPTION"),
-    keywords: t("DOCS.OPENCLAW.META.KEYWORDS"),
+    title: t("DOCS.OPENCLAW.META.TITLE", APP_VALUES),
+    description: t("DOCS.OPENCLAW.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.OPENCLAW.META.KEYWORDS", APP_VALUES),
   });
 }
 
@@ -32,7 +33,7 @@ export default async function OpenClawPage() {
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.OPENCLAW.TITLE")}</h1>
       <p className="text-muted-foreground mt-4 text-lg">
-        {t("DOCS.OPENCLAW.SUBTITLE")}
+        {t("DOCS.OPENCLAW.SUBTITLE", APP_VALUES)}
       </p>
 
       {/* Quick Start */}
@@ -41,7 +42,7 @@ export default async function OpenClawPage() {
           {t("DOCS.OPENCLAW.QUICK_START")}
         </h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          {t("DOCS.OPENCLAW.QUICK_START_DESC")}
+          {t("DOCS.OPENCLAW.QUICK_START_DESC", APP_VALUES)}
         </p>
         <CodeBlock
           language="bash"
@@ -106,7 +107,7 @@ curl -X POST http://localhost:18789/v1/chat/completions \\
           {t("DOCS.OPENCLAW.CTA_TITLE")}
         </h2>
         <p className="text-muted-foreground mt-2">
-          {t("DOCS.OPENCLAW.CTA_DESC")}
+          {t("DOCS.OPENCLAW.CTA_DESC", APP_VALUES)}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button

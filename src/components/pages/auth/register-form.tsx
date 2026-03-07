@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useRegisterMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils";
 import { Turnstile } from "@marsidev/react-turnstile";
@@ -70,7 +71,7 @@ export function RegisterForm() {
   return (
     <GlassAuthCard
       title={t("AUTH.REGISTER_TITLE")}
-      description={t("AUTH.REGISTER_DESCRIPTION")}
+      description={t("AUTH.REGISTER_DESCRIPTION", APP_VALUES)}
     >
       <div className="space-y-6">
         {showPasswordForm && (

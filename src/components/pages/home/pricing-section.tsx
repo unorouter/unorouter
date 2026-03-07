@@ -4,6 +4,7 @@ import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
 import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
+import { APP_VALUES } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
@@ -180,7 +181,7 @@ export function PricingSection() {
           <div className="space-y-8">
             <div>
               <h3 className="text-foreground mb-4 font-mono text-xl font-bold">
-                {t("HOME.FEATURES_TITLE")}
+                {t("HOME.FEATURES_TITLE", APP_VALUES)}
               </h3>
               <p className="text-muted-foreground mb-6 font-mono text-sm leading-relaxed">
                 {t("HOME.FEATURES_DESCRIPTION")}

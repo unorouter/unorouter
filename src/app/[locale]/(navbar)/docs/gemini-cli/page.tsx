@@ -1,3 +1,4 @@
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -13,9 +14,9 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("DOCS.GEMINI_CLI.META.TITLE"),
-    description: t("DOCS.GEMINI_CLI.META.DESCRIPTION"),
-    keywords: t("DOCS.GEMINI_CLI.META.KEYWORDS"),
+    title: t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES),
+    description: t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.GEMINI_CLI.META.KEYWORDS", APP_VALUES),
   });
 }
 
@@ -32,7 +33,7 @@ export default async function GeminiCliPage() {
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.GEMINI_CLI.TITLE")}</h1>
       <p className="text-muted-foreground mt-4 text-lg">
-        {t("DOCS.GEMINI_CLI.SUBTITLE")}
+        {t("DOCS.GEMINI_CLI.SUBTITLE", APP_VALUES)}
       </p>
 
       {/* Quick Start */}
@@ -41,7 +42,7 @@ export default async function GeminiCliPage() {
           {t("DOCS.GEMINI_CLI.QUICK_START")}
         </h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          {t("DOCS.GEMINI_CLI.QUICK_START_DESC")}
+          {t("DOCS.GEMINI_CLI.QUICK_START_DESC", APP_VALUES)}
         </p>
         <CodeBlock
           language="bash"
@@ -102,7 +103,7 @@ print(response.text)`}
           {t("DOCS.GEMINI_CLI.CTA_TITLE")}
         </h2>
         <p className="text-muted-foreground mt-2">
-          {t("DOCS.GEMINI_CLI.CTA_DESC")}
+          {t("DOCS.GEMINI_CLI.CTA_DESC", APP_VALUES)}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button

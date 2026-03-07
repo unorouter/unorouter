@@ -1,3 +1,4 @@
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -13,9 +14,9 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("DOCS.CODEX.META.TITLE"),
-    description: t("DOCS.CODEX.META.DESCRIPTION"),
-    keywords: t("DOCS.CODEX.META.KEYWORDS"),
+    title: t("DOCS.CODEX.META.TITLE", APP_VALUES),
+    description: t("DOCS.CODEX.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.CODEX.META.KEYWORDS", APP_VALUES),
   });
 }
 
@@ -32,7 +33,7 @@ export default async function CodexPage() {
 
       <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CODEX.TITLE")}</h1>
       <p className="text-muted-foreground mt-4 text-lg">
-        {t("DOCS.CODEX.SUBTITLE")}
+        {t("DOCS.CODEX.SUBTITLE", APP_VALUES)}
       </p>
 
       {/* Quick Start */}
@@ -41,7 +42,7 @@ export default async function CodexPage() {
           {t("DOCS.CODEX.QUICK_START")}
         </h2>
         <p className="text-muted-foreground mb-6 text-sm">
-          {t("DOCS.CODEX.QUICK_START_DESC")}
+          {t("DOCS.CODEX.QUICK_START_DESC", APP_VALUES)}
         </p>
         <CodeBlock
           language="bash"
@@ -108,7 +109,7 @@ console.log(response.choices[0].message.content);`}
       {/* CTA */}
       <section className="border-border mt-16 border-t pt-12 text-center">
         <h2 className="text-2xl font-semibold">{t("DOCS.CODEX.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS.CODEX.CTA_DESC")}</p>
+        <p className="text-muted-foreground mt-2">{t("DOCS.CODEX.CTA_DESC", APP_VALUES)}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}

@@ -1,3 +1,4 @@
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -13,8 +14,8 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("DOCS_INDEX.META.TITLE"),
-    description: t("DOCS_INDEX.META.DESCRIPTION"),
+    title: t("DOCS_INDEX.META.TITLE", APP_VALUES),
+    description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS_INDEX.META.KEYWORDS"),
   });
 }
@@ -29,7 +30,7 @@ export default async function DocsPage() {
           {t("DOCS_INDEX.TITLE")}
         </h1>
         <p className="text-muted-foreground mx-auto mt-4 max-w-2xl font-mono text-lg">
-          {t("DOCS_INDEX.SUBTITLE")}
+          {t("DOCS_INDEX.SUBTITLE", APP_VALUES)}
         </p>
       </div>
 
@@ -42,7 +43,7 @@ export default async function DocsPage() {
       {/* CTA */}
       <section className="border-border mt-20 border-t pt-12 text-center">
         <h2 className="text-2xl font-semibold">{t("DOCS_INDEX.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS_INDEX.CTA_DESC")}</p>
+        <p className="text-muted-foreground mt-2">{t("DOCS_INDEX.CTA_DESC", APP_VALUES)}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}

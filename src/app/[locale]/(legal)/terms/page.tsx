@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { getTranslations } from "next-intl/server";
 import { serverLocale } from "@/lib/utils/server";
@@ -10,9 +11,9 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    title: t("TERMS.META.TITLE"),
-    description: t("TERMS.META.DESCRIPTION"),
-    keywords: t("TERMS.META.KEYWORDS"),
+    title: t("TERMS.META.TITLE", APP_VALUES),
+    description: t("TERMS.META.DESCRIPTION", APP_VALUES),
+    keywords: t("TERMS.META.KEYWORDS", APP_VALUES),
   });
 }
 
@@ -34,12 +35,12 @@ export default async function TermsPage() {
       </p>
 
       <p className="text-muted-foreground mb-10 leading-relaxed">
-        {t("TERMS.INTRO")}
+        {t("TERMS.INTRO", APP_VALUES)}
       </p>
 
       <Section title={t("TERMS.SERVICE_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.SERVICE_CONTENT")}
+          {t("TERMS.SERVICE_CONTENT", APP_VALUES)}
         </p>
       </Section>
 
@@ -86,7 +87,7 @@ export default async function TermsPage() {
 
       <Section title={t("TERMS.IP_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.IP_CONTENT")}
+          {t("TERMS.IP_CONTENT", APP_VALUES)}
         </p>
       </Section>
 
@@ -98,13 +99,13 @@ export default async function TermsPage() {
 
       <Section title={t("TERMS.LIABILITY_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.LIABILITY_CONTENT")}
+          {t("TERMS.LIABILITY_CONTENT", APP_VALUES)}
         </p>
       </Section>
 
       <Section title={t("TERMS.INDEMNIFICATION_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.INDEMNIFICATION_CONTENT")}
+          {t("TERMS.INDEMNIFICATION_CONTENT", APP_VALUES)}
         </p>
       </Section>
 
@@ -122,7 +123,7 @@ export default async function TermsPage() {
 
       <Section title={t("TERMS.CONTACT_TITLE")}>
         <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.CONTACT_CONTENT")}
+          {t("TERMS.CONTACT_CONTENT", APP_VALUES)}
         </p>
       </Section>
     </main>
