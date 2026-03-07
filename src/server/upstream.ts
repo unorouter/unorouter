@@ -1,4 +1,4 @@
-import { USER_ID_COOKIE } from "@/lib/config/constants";
+import { NEW_API_USER, USER_ID_COOKIE } from "@/lib/config/constants";
 import { parseCookie } from "cookie";
 
 export function deriveUpstream({ request }: { request: Request }) {
@@ -7,7 +7,7 @@ export function deriveUpstream({ request }: { request: Request }) {
   if (cookieHeader) {
     headers.cookie = cookieHeader;
     const userId = parseCookie(cookieHeader)[USER_ID_COOKIE];
-    if (userId) headers["New-Api-User"] = userId;
+    if (userId) headers[NEW_API_USER] = userId;
   }
   return { upstream: { headers } };
 }

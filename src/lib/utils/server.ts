@@ -1,7 +1,7 @@
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
-import { LOCALE_COOKIE_KEY, LOCALES } from "../config/constants";
+import { LOCALE_COOKIE, LOCALES } from "../config/constants";
 
 const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
   try {
@@ -16,7 +16,7 @@ export const serverLocale = async (props?: {
 }) =>
   ((await safe(async () => (await props?.params)?.locale)) ||
     (await safe(getLocale)) ||
-    (await safe(async () => (await cookies()).get(LOCALE_COOKIE_KEY)?.value)) ||
+    (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
 
 /**

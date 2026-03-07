@@ -2,14 +2,16 @@ import { DE, US } from "country-flag-icons/react/3x2";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 
-export const LOCALES = ["en", "de"] as const;
+export const NEW_API_USER = "New-Api-User";
 export const SESSION_COOKIE = "session" as const;
 export const USER_ID_COOKIE = "user-id" as const;
-export const LOCALE_COOKIE_KEY = "NEXT_LOCALE";
-export const SERVER_URL_KEY = "x-url";
+export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
+
+export const SERVER_URL_KEY = "x-url" as const;
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
 
+export const LOCALES = ["en", "de"] as const;
 export const LANGUAGES: {
   code: Uppercase<Locale>;
   Flag: FunctionComponent<SVGAttributes<SVGElement>>;
