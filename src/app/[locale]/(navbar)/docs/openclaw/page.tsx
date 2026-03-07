@@ -46,9 +46,9 @@ export default async function OpenClawPage() {
         <CodeBlock
           language="bash"
           code={`# Set environment variables for OpenClaw
-export OPENAI_API_KEY="YOUR_UNOROUTER_API_KEY"
+export OPENAI_API_KEY="YOUR_API_KEY"
 
-# Configure UnoRouter as provider in ~/.openclaw/config.yaml
+# Configure ${process.env.NEXT_PUBLIC_APP_NAME} as provider in ~/.openclaw/config.yaml
 # Then run OpenClaw
 openclaw onboard`}
         />
@@ -67,7 +67,7 @@ openclaw onboard`}
           language="yaml"
           code={`# ~/.openclaw/config.yaml
 env:
-  OPENAI_API_KEY: "YOUR_UNOROUTER_API_KEY"
+  OPENAI_API_KEY: "YOUR_API_KEY"
 
 agents:
   defaults:
@@ -76,7 +76,7 @@ agents:
 
 providers:
   openai:
-    baseUrl: "https://api.unorouter.ai/v1"
+    baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
     apiKey: env:OPENAI_API_KEY`}
         />
 
@@ -111,7 +111,7 @@ curl -X POST http://localhost:18789/v1/chat/completions \\
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}
-            render={<a href="https://api.unorouter.ai/register" />}
+            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
           >
             {t("DOCS.OPENCLAW.CTA_SIGNUP")}
           </Button>

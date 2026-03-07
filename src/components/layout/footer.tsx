@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { BsTwitterX } from "react-icons/bs";
 import { FaGithub } from "react-icons/fa";
 
 const NAV_LINKS = [
@@ -43,22 +42,13 @@ export function Footer() {
             </p>
             <div className="flex justify-center space-x-3 md:justify-start">
               <NextLink
-                href="https://github.com/QuantumNous"
+                href={process.env.NEXT_PUBLIC_GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
                 aria-label="GitHub"
               >
                 <FaGithub className="h-5 w-5" />
-              </NextLink>
-              <NextLink
-                href="https://x.com/unorouter"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
-                aria-label="X"
-              >
-                <BsTwitterX className="h-5 w-5" />
               </NextLink>
             </div>
           </div>
@@ -123,10 +113,10 @@ export function Footer() {
             <div className="text-muted-foreground space-y-2 text-sm">
               <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <NextLink
-                href="mailto:support@unorouter.ai"
+                href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
                 className="text-primary hover:underline"
               >
-                support@unorouter.ai
+                {process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
               </NextLink>
             </div>
           </div>

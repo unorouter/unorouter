@@ -46,8 +46,8 @@ export default async function GeminiCliPage() {
         <CodeBlock
           language="bash"
           code={`# Environment variables for Gemini CLI
-export GEMINI_API_BASE="https://api.unorouter.ai"
-export GEMINI_API_KEY="YOUR_UNOROUTER_API_KEY"
+export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+export GEMINI_API_KEY="YOUR_API_KEY"
 
 # Then run Gemini CLI
 gemini`}
@@ -68,8 +68,8 @@ gemini`}
           code={`from google import genai
 
 client = genai.Client(
-    api_key="YOUR_UNOROUTER_API_KEY",
-    http_options={"api_version": "v1beta", "url": "https://api.unorouter.ai"}
+    api_key="YOUR_API_KEY",
+    http_options={"api_version": "v1beta", "url": "${process.env.NEXT_PUBLIC_API_URL}"}
 )
 
 response = client.models.generate_content(
@@ -85,9 +85,9 @@ print(response.text)`}
         </h3>
         <CodeBlock
           language="bash"
-          code={`curl -X POST "https://api.unorouter.ai/v1beta/models/gemini-3-pro-preview:generateContent" \\
+          code={`curl -X POST "${process.env.NEXT_PUBLIC_API_URL}/v1beta/models/gemini-3-pro-preview:generateContent" \\
   -H "Content-Type: application/json" \\
-  -H "x-goog-api-key: YOUR_UNOROUTER_API_KEY" \\
+  -H "x-goog-api-key: YOUR_API_KEY" \\
   -d '{
     "contents": [
       {"parts": [{"text": "Explain recursion"}]}
@@ -107,7 +107,7 @@ print(response.text)`}
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}
-            render={<a href="https://api.unorouter.ai/register" />}
+            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
           >
             {t("DOCS.GEMINI_CLI.CTA_SIGNUP")}
           </Button>

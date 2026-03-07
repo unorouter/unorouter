@@ -38,8 +38,8 @@ export const integrations = [
       arrow: "text-orange-500 group-hover:text-white",
       line: "bg-orange-600/40",
     },
-    quickStart: `export ANTHROPIC_BASE_URL="https://api.unorouter.ai"
-export ANTHROPIC_API_KEY="YOUR_UNOROUTER_API_KEY"
+    quickStart: `export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+export ANTHROPIC_API_KEY="YOUR_API_KEY"
 
 claude`,
   },
@@ -60,8 +60,8 @@ claude`,
       arrow: "text-emerald-500 group-hover:text-white",
       line: "bg-emerald-600/40",
     },
-    quickStart: `export OPENAI_BASE_URL="https://api.unorouter.ai/v1"
-export OPENAI_API_KEY="YOUR_UNOROUTER_API_KEY"
+    quickStart: `export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
 
 codex`,
   },
@@ -82,8 +82,8 @@ codex`,
       arrow: "text-blue-500 group-hover:text-white",
       line: "bg-blue-600/40",
     },
-    quickStart: `export GEMINI_API_BASE="https://api.unorouter.ai"
-export GEMINI_API_KEY="YOUR_UNOROUTER_API_KEY"
+    quickStart: `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+export GEMINI_API_KEY="YOUR_API_KEY"
 
 gemini`,
   },
@@ -105,8 +105,8 @@ gemini`,
       line: "bg-red-600/40",
     },
     quickStart: `# In ~/.openclaw/config.yaml
-# providers.openai.baseUrl: "https://api.unorouter.ai/v1"
-export OPENAI_API_KEY="YOUR_UNOROUTER_API_KEY"
+# providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
   },

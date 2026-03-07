@@ -46,7 +46,7 @@ export default async function DocsPage() {
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}
-            render={<a href="https://api.unorouter.ai/register" />}
+            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
           >
             {t("DOCS_INDEX.CTA_SIGNUP")}
           </Button>

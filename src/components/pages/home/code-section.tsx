@@ -60,7 +60,7 @@ export async function CodeSection() {
         <div className="relative flex-1 pt-8 lg:pt-0">
           <CodeBlock
             language="bash"
-            code={`curl -X POST https://api.unorouter.ai/v1/chat/completions \\
+            code={`curl -X POST ${process.env.NEXT_PUBLIC_API_URL}/v1/chat/completions \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -d {

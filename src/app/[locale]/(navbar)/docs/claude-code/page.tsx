@@ -46,8 +46,8 @@ export default async function ClaudeCodePage() {
         <CodeBlock
           language="bash"
           code={`# Environment variables for Claude Code
-export ANTHROPIC_BASE_URL="https://api.unorouter.ai"
-export ANTHROPIC_API_KEY="YOUR_UNOROUTER_API_KEY"
+export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+export ANTHROPIC_API_KEY="YOUR_API_KEY"
 
 # Then run Claude Code
 claude`}
@@ -68,8 +68,8 @@ claude`}
           code={`from anthropic import Anthropic
 
 client = Anthropic(
-    api_key="YOUR_UNOROUTER_API_KEY",
-    base_url="https://api.unorouter.ai"
+    api_key="YOUR_API_KEY",
+    base_url="${process.env.NEXT_PUBLIC_API_URL}"
 )
 
 message = client.messages.create(
@@ -89,9 +89,9 @@ print(message.content[0].text)`}
         </h3>
         <CodeBlock
           language="bash"
-          code={`curl -X POST https://api.unorouter.ai/v1/messages \\
+          code={`curl -X POST ${process.env.NEXT_PUBLIC_API_URL}/v1/messages \\
   -H "Content-Type: application/json" \\
-  -H "x-api-key: YOUR_UNOROUTER_API_KEY" \\
+  -H "x-api-key: YOUR_API_KEY" \\
   -H "anthropic-version: 2023-06-01" \\
   -d '{
     "model": "claude-sonnet-4-6",
@@ -115,7 +115,7 @@ print(message.content[0].text)`}
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}
-            render={<a href="https://api.unorouter.ai/register" />}
+            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
           >
             {t("DOCS.CLAUDE_CODE.CTA_SIGNUP")}
           </Button>

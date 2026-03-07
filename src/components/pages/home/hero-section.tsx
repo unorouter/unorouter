@@ -44,7 +44,7 @@ export async function HeroSection() {
         {/* CTA Buttons */}
         <div className="flex flex-col items-center justify-center gap-4 font-mono text-xs sm:flex-row lg:justify-start">
           <a
-            href="https://api.unorouter.ai/register"
+            href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
             className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-11 w-full items-center justify-center gap-2 px-8 font-bold tracking-widest uppercase transition-colors sm:w-auto"
           >
             <LuZap className="h-3.5 w-3.5" />

@@ -46,8 +46,8 @@ export default async function CodexPage() {
         <CodeBlock
           language="bash"
           code={`# Environment variables for OpenAI Codex CLI
-export OPENAI_BASE_URL="https://api.unorouter.ai/v1"
-export OPENAI_API_KEY="YOUR_UNOROUTER_API_KEY"
+export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
 
 # Then run Codex
 codex`}
@@ -68,8 +68,8 @@ codex`}
           code={`from openai import OpenAI
 
 client = OpenAI(
-    api_key="YOUR_UNOROUTER_API_KEY",
-    base_url="https://api.unorouter.ai/v1"
+    api_key="YOUR_API_KEY",
+    base_url="${process.env.NEXT_PUBLIC_API_URL}/v1"
 )
 
 response = client.chat.completions.create(
@@ -90,8 +90,8 @@ print(response.choices[0].message.content)`}
           code={`import OpenAI from "openai";
 
 const client = new OpenAI({
-  apiKey: "YOUR_UNOROUTER_API_KEY",
-  baseURL: "https://api.unorouter.ai/v1",
+  apiKey: "YOUR_API_KEY",
+  baseURL: "${process.env.NEXT_PUBLIC_API_URL}/v1",
 });
 
 const response = await client.chat.completions.create({
@@ -112,7 +112,7 @@ console.log(response.choices[0].message.content);`}
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}
-            render={<a href="https://api.unorouter.ai/register" />}
+            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
           >
             {t("DOCS.CODEX.CTA_SIGNUP")}
           </Button>

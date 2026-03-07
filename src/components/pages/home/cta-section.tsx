@@ -18,7 +18,7 @@ export async function CtaSection() {
           </p>
           <div className="flex flex-col items-center justify-center gap-4 pt-4 font-mono text-xs sm:flex-row">
             <a
-              href="https://api.unorouter.ai/register"
+              href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
               className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-12 w-full items-center justify-center gap-2 px-10 font-bold tracking-widest uppercase transition-colors sm:w-auto"
             >
               {t("HOME.CTA_PRIMARY")}

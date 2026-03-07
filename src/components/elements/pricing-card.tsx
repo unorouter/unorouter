@@ -71,7 +71,7 @@ export function PricingCard(props: Props) {
 
       <div className="mt-auto pt-8">
         <a
-          href="https://api.unorouter.ai/register"
+          href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
           className={cn(
             "flex h-11 w-full items-center justify-center gap-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors",
             props.popular

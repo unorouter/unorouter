@@ -83,7 +83,7 @@ export function Pricing() {
             {t("HOME.PRICING_PAYG_DESC")}
           </p>
           <a
-            href="https://api.unorouter.ai/register"
+            href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
             className="text-foreground hover:text-muted-foreground mt-3 inline-block font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
             {t("HOME.PRICING_PAYG_NAME")} &rarr;

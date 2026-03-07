@@ -197,8 +197,7 @@ export function Navbar() {
                   <DropdownMenuItem
                     onClick={() => {
                       window.open(
-                        process.env.NEXT_PUBLIC_API_URL ||
-                          "https://api.unorouter.ai",
+                        process.env.NEXT_PUBLIC_API_URL,
                         "_blank",
                       );
                     }}
@@ -296,10 +295,7 @@ export function Navbar() {
                   )}
                 </div>
                 <a
-                  href={
-                    process.env.NEXT_PUBLIC_API_URL ||
-                    "https://api.unorouter.ai"
-                  }
+                  href={process.env.NEXT_PUBLIC_API_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMobileOpen(false)}

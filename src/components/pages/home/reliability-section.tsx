@@ -50,7 +50,7 @@ export async function ReliabilitySection() {
 
             <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row">
               <a
-                href="https://api.unorouter.ai/register"
+                href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
                 className="flex h-11 items-center gap-2 bg-linear-to-r from-cyan-500 to-cyan-600 px-6 font-mono text-xs font-bold tracking-widest text-black uppercase transition-all hover:from-cyan-400 hover:to-cyan-500"
               >
                 <LuShield className="h-3.5 w-3.5" />
