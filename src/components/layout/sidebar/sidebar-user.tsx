@@ -109,7 +109,10 @@ export function SidebarUser() {
                       {displayName}
                     </span>
                     {roleKey && (
-                      <Badge variant="secondary" className="mt-0.5 w-fit text-xs">
+                      <Badge
+                        variant="secondary"
+                        className="mt-0.5 w-fit text-xs"
+                      >
                         {t(roleKey as any)}
                       </Badge>
                     )}

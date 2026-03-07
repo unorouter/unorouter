@@ -8,7 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 export function useSubscriptionPlansQuery() {
   return useQuery({
     queryKey: queryKeys.subscriptionPlans(),
-    queryFn: async () => handleElysia(await rpc.api.pricing.subscriptions.get()),
+    queryFn: async () =>
+      handleElysia(await rpc.api.pricing.subscriptions.get()),
     enabled: false,
   });
 }

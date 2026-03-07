@@ -27,7 +27,8 @@ export default async function PricingPage() {
 
   await queryClient.prefetchQuery({
     queryKey: queryKeys.subscriptionPlans(),
-    queryFn: async () => handleElysia(await rpc.api.pricing.subscriptions.get()),
+    queryFn: async () =>
+      handleElysia(await rpc.api.pricing.subscriptions.get()),
   });
 
   return (

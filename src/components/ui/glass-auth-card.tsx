@@ -12,7 +12,7 @@ export function GlassAuthCard(props: GlassAuthCardProps) {
   return (
     <div
       className={cn(
-        "border-border/60 bg-card/85 relative w-full max-w-md overflow-hidden rounded-3xl border p-8 backdrop-blur-xl animate-fade-in sm:p-10",
+        "border-border/60 bg-card/85 animate-fade-in relative w-full max-w-md overflow-hidden rounded-3xl border p-8 backdrop-blur-xl sm:p-10",
         props.className,
       )}
     >
@@ -24,9 +24,7 @@ export function GlassAuthCard(props: GlassAuthCardProps) {
             </h1>
           )}
           {props.description && (
-            <p className="text-muted-foreground text-sm">
-              {props.description}
-            </p>
+            <p className="text-muted-foreground text-sm">{props.description}</p>
           )}
         </div>
       )}

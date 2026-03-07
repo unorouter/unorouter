@@ -30,7 +30,7 @@ export function Pricing() {
     <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-24">
       <div className="mx-auto max-w-360 px-6">
         <div className="mb-16 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-foreground/20 bg-foreground/5 px-3 py-1.5">
+          <div className="border-foreground/20 bg-foreground/5 mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5">
             <LuZap className="text-foreground h-3 w-3" />
             <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
               {t("HOME.PRICING_LABEL")}
@@ -55,7 +55,7 @@ export function Pricing() {
                 <h3 className="text-foreground font-mono text-sm font-bold">
                   {t("PRICING.BANNER_TITLE")}
                 </h3>
-                <span className="rounded-sm bg-red-600/20 px-2 py-0.5 font-mono text-[10px] tracking-[0.15em] uppercase text-red-500">
+                <span className="rounded-sm bg-red-600/20 px-2 py-0.5 font-mono text-[10px] tracking-[0.15em] text-red-500 uppercase">
                   {t("PRICING.BANNER_BADGE")}
                 </span>
               </div>

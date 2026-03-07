@@ -57,9 +57,7 @@ export function Footer() {
           <div className="col-span-1 flex justify-center gap-8 md:contents">
             {/* Navigation Section */}
             <div className="text-center md:col-span-1 md:text-left">
-              <h3 className="mb-4 font-semibold">
-                {t("FOOTER.PRODUCT")}
-              </h3>
+              <h3 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h3>
               <ul className="space-y-2">
                 {NAV_LINKS.map((item) => {
                   const isActive = pathname.startsWith(item.href);
@@ -82,9 +80,7 @@ export function Footer() {
 
             {/* Legal Section */}
             <div className="text-center md:col-span-1 md:text-left">
-              <h3 className="mb-4 font-semibold">
-                {t("FOOTER.LEGAL")}
-              </h3>
+              <h3 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h3>
               <ul className="space-y-2">
                 {LEGAL_LINKS.map((item) => {
                   const isActive = pathname.startsWith(item.href);
@@ -108,9 +104,7 @@ export function Footer() {
 
           {/* Contact Section */}
           <div className="col-span-1 text-center md:text-left">
-            <h3 className="mb-4 font-semibold">
-              {t("FOOTER.CONTACT_TITLE")}
-            </h3>
+            <h3 className="mb-4 font-semibold">{t("FOOTER.CONTACT_TITLE")}</h3>
             <div className="text-muted-foreground space-y-2 text-sm">
               <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <NextLink
@@ -128,7 +122,10 @@ export function Footer() {
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
           <div className="text-muted-foreground flex flex-col items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
-              {t("FOOTER.COPYRIGHT", { year: String(new Date().getFullYear()), ...APP_VALUES })}
+              {t("FOOTER.COPYRIGHT", {
+                year: String(new Date().getFullYear()),
+                ...APP_VALUES,
+              })}
             </p>
           </div>
         </div>

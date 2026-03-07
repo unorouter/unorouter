@@ -44,7 +44,9 @@ export function TwoFAForm(props: TwoFAFormProps) {
           autoComplete="one-time-code"
           placeholder={t("AUTH.TWO_FA_CODE_PLACEHOLDER")}
           value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+          onChange={(e) =>
+            setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
+          }
           className="border-border/60 bg-background/60 h-11 rounded-2xl text-center text-lg tracking-[0.5em]"
           maxLength={6}
         />

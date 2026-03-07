@@ -43,7 +43,9 @@ export default async function DocsPage() {
       {/* CTA */}
       <section className="border-border mt-20 border-t pt-12 text-center">
         <h2 className="text-2xl font-semibold">{t("DOCS_INDEX.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS_INDEX.CTA_DESC", APP_VALUES)}</p>
+        <p className="text-muted-foreground mt-2">
+          {t("DOCS_INDEX.CTA_DESC", APP_VALUES)}
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}

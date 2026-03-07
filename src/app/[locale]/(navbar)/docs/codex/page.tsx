@@ -109,7 +109,9 @@ console.log(response.choices[0].message.content);`}
       {/* CTA */}
       <section className="border-border mt-16 border-t pt-12 text-center">
         <h2 className="text-2xl font-semibold">{t("DOCS.CODEX.CTA_TITLE")}</h2>
-        <p className="text-muted-foreground mt-2">{t("DOCS.CODEX.CTA_DESC", APP_VALUES)}</p>
+        <p className="text-muted-foreground mt-2">
+          {t("DOCS.CODEX.CTA_DESC", APP_VALUES)}
+        </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button
             nativeButton={false}

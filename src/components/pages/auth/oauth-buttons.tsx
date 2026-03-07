@@ -19,7 +19,8 @@ function buildOAuthUrl(
   status: StatusData,
   state: string,
 ): string | null {
-  const serverAddress = status.server_address || process.env.NEXT_PUBLIC_API_URL;
+  const serverAddress =
+    status.server_address || process.env.NEXT_PUBLIC_API_URL;
   const redirectUri = `${serverAddress}/oauth/${provider}`;
 
   switch (provider) {
@@ -87,17 +88,25 @@ export function OAuthButtons(props: OAuthButtonsProps) {
 
   if (!hasAnyOAuth) return null;
 
-  async function handleOAuth(provider: string, customAuthEndpoint?: string, customClientId?: string, customScopes?: string) {
+  async function handleOAuth(
+    provider: string,
+    customAuthEndpoint?: string,
+    customClientId?: string,
+    customScopes?: string,
+  ) {
     setLoading(provider);
     try {
       const callbackUrl = `${window.location.origin}/${locale}/callback`;
       const state = handleElysia(
-        await rpc.api.auth.oauth.state.get({ query: { redirect: callbackUrl } }),
+        await rpc.api.auth.oauth.state.get({
+          query: { redirect: callbackUrl },
+        }),
       ) as string;
 
       let url: string | null;
       if (customAuthEndpoint) {
-        const serverAddress = props.status.server_address || process.env.NEXT_PUBLIC_API_URL;
+        const serverAddress =
+          props.status.server_address || process.env.NEXT_PUBLIC_API_URL;
         const redirectUri = `${serverAddress}/oauth/${provider}`;
         url = `${customAuthEndpoint}?client_id=${customClientId}&state=${state}&response_type=code&scope=${encodeURIComponent(customScopes || "openid profile email")}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       } else {

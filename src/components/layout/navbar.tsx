@@ -196,10 +196,7 @@ export function Navbar() {
                 <DropdownMenuGroup>
                   <DropdownMenuItem
                     onClick={() => {
-                      window.open(
-                        process.env.NEXT_PUBLIC_API_URL,
-                        "_blank",
-                      );
+                      window.open(process.env.NEXT_PUBLIC_API_URL, "_blank");
                     }}
                   >
                     <LuLayoutDashboard />

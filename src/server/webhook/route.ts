@@ -21,7 +21,10 @@ export const webhookRoute = new Elysia({ prefix: "/webhook" }).post(
 
     const rawBody = await request.text();
 
-    const secretBytes = Buffer.from(process.env.RESEND_WEBHOOK_SECRET.split("_")[1], "base64");
+    const secretBytes = Buffer.from(
+      process.env.RESEND_WEBHOOK_SECRET.split("_")[1],
+      "base64",
+    );
     const signedContent = `${svixId}.${svixTimestamp}.${rawBody}`;
     const expectedSignature = crypto
       .createHmac("sha256", secretBytes)

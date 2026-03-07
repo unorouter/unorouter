@@ -28,7 +28,7 @@ export function PricingCard(props: Props) {
       )}
     >
       {props.popular && (
-        <div className="absolute -top-3 left-6 rounded-sm border border-foreground/30 bg-foreground/10 px-3 py-1">
+        <div className="border-foreground/30 bg-foreground/10 absolute -top-3 left-6 rounded-sm border px-3 py-1">
           <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
             {t("PRICING.CARD_POPULAR")}
           </span>
@@ -81,7 +81,7 @@ export function PricingCard(props: Props) {
       </div>
 
       {/* Features */}
-      <div className="mt-6 border-t border-border pt-6">
+      <div className="border-border mt-6 border-t pt-6">
         <ul className="space-y-3">
           {props.features.map((feature) => (
             <li
@@ -122,7 +122,7 @@ export function PricingCard(props: Props) {
       </div>
 
       {props.popular && (
-        <div className="absolute -inset-px -z-10 rounded-lg bg-foreground/5 blur-xl" />
+        <div className="bg-foreground/5 absolute -inset-px -z-10 rounded-lg blur-xl" />
       )}
     </div>
   );
