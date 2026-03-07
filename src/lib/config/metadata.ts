@@ -36,25 +36,25 @@ export function getPageMetadata(params: MetadataParams): Metadata {
         ?.ogLocale,
       alternateLocale: LANGUAGES.map((l) => l.ogLocale),
       siteName: process.env.NEXT_PUBLIC_APP_NAME,
-      images: [
-        {
-          url: ogImageUrl,
-          alt: params.title,
-          width: 512,
-          height: 512,
-        },
-      ],
+      // images: [
+      //   {
+      //     url: ogImageUrl,
+      //     alt: params.title,
+      //     width: 512,
+      //     height: 512,
+      //   },
+      // ],
     },
     twitter: {
       card: "summary_large_image",
       title: params.title,
       description: params.description,
-      images: [
-        {
-          url: ogImageUrl,
-          alt: params.title,
-        },
-      ],
+      // images: [
+      //   {
+      //     url: ogImageUrl,
+      //     alt: params.title,
+      //   },
+      // ],
     },
     robots: {
       index: shouldIndex,
