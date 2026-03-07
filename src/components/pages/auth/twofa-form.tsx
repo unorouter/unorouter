@@ -58,7 +58,7 @@ export function TwoFAForm(props: TwoFAFormProps) {
         <Button
           type="submit"
           disabled={code.length < 6 || verify2FA.isPending}
-          className="h-11 w-full rounded-full font-medium"
+          className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
         >
           {verify2FA.isPending
             ? t("AUTH.TWO_FA_VERIFYING")

@@ -122,7 +122,7 @@ export function LoginForm() {
                 loginMutation.isPending ||
                 (status?.turnstile_check && !turnstileToken)
               }
-              className="h-11 w-full rounded-full font-medium"
+              className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
             >
               {loginMutation.isPending
                 ? t("AUTH.LOGGING_IN")

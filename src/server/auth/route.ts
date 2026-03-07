@@ -48,8 +48,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
     "/register",
     async ({ body, set, upstream }) => {
-      const res = await register(body as unknown as Blob, {
-        body: JSON.stringify(body),
+      const res = await register(body, {
         headers: upstream.headers,
       });
       return handleAuthResponse(res, set);

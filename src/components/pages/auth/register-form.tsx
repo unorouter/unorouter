@@ -181,7 +181,7 @@ export function RegisterForm() {
               (status?.turnstile_check && !turnstileToken) ||
               (status?.email_verification && !verificationCode.trim())
             }
-            className="h-11 w-full rounded-full font-medium"
+            className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
           >
             {registerMutation.isPending
               ? t("AUTH.REGISTERING")

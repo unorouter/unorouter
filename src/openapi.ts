@@ -723,6 +723,23 @@ export interface Redemption {
   user_id: number;
 }
 
+/**
+ * RegisterRequest schema
+ */
+export interface RegisterRequest {
+  aff_code?: string;
+  /** @maxLength 50 */
+  email?: string;
+  /**
+   * @minLength 8
+   * @maxLength 20
+   */
+  password: string;
+  /** @maxLength 20 */
+  username: string;
+  verification_code?: string;
+}
+
 export type RelayNotImplementedErrorError = {
   message: string;
   type: string;
@@ -14483,14 +14500,14 @@ export const getRegisterUrl = () => {
 };
 
 export const register = async (
-  registerBody: Blob,
+  registerRequest: RegisterRequest,
   options?: RequestInit,
 ): Promise<registerResponse> => {
   return customFetch<registerResponse>(getRegisterUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(registerBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(registerRequest),
   });
 };
 
