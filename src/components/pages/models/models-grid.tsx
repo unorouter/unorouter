@@ -5,17 +5,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import type { ModelType, processModels } from "@/lib/api/pricing";
+import type { ModelType, ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { LuSearch } from "react-icons/lu";
+import { useState, useMemo } from "react";
+import { LuSearch, LuChevronDown } from "react-icons/lu";
+import { ModelDetailSheet } from "./model-detail-sheet";
 
 function formatPrice(price: number): string {
   if (price === 0) return "$0.00";
   if (price >= 0.01) return `$${price.toFixed(2)}`;
-  // For tiny prices, show up to 4 decimals trimmed
   const str = price.toFixed(4);
   return `$${str.replace(/0+$/, "")}`;
 }
@@ -24,9 +24,17 @@ export function ModelsGrid() {
   const t = useTranslations();
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ModelType | "all">("all");
+  const [vendorFilter, setVendorFilter] = useState("all");
+  const [selectedModel, setSelectedModel] = useState<ProcessedModel | null>(null);
 
   const { data } = usePricingQuery();
   const models = data?.models ?? [];
+  const endpointMap = data?.endpointMap ?? {};
+
+  const vendorNames = useMemo(() => {
+    const names = new Set(models.map((m) => m.vendor.name));
+    return [...names].sort((a, b) => a.localeCompare(b));
+  }, [models]);
 
   const filterOptions: { key: ModelType | "all"; label: string }[] = [
     { key: "all", label: t("MODELS.FILTER_ALL") },
@@ -42,7 +50,8 @@ export function ModelsGrid() {
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesFilter = filter === "all" || model.type === filter;
-    return matchesSearch && matchesFilter;
+    const matchesVendor = vendorFilter === "all" || model.vendor.name === vendorFilter;
+    return matchesSearch && matchesFilter && matchesVendor;
   });
 
   return (
@@ -58,18 +67,35 @@ export function ModelsGrid() {
             className="pl-10"
           />
         </div>
-        <div className="flex gap-1">
-          {filterOptions.map((option) => (
-            <Button
-              key={option.key}
-              variant={filter === option.key ? "default" : "outline"}
-              size="sm"
-              onClick={() => setFilter(option.key)}
-              className="font-mono text-xs"
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <select
+              value={vendorFilter}
+              onChange={(e) => setVendorFilter(e.target.value)}
+              className="border-input bg-background text-foreground ring-offset-background h-8 appearance-none rounded-md border px-3 pr-8 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-offset-2"
             >
-              {option.label}
-            </Button>
-          ))}
+              <option value="all">{t("MODELS.FILTER_PROVIDER")}</option>
+              {vendorNames.map((name) => (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              ))}
+            </select>
+            <LuChevronDown className="text-muted-foreground pointer-events-none absolute top-1/2 right-2 h-3.5 w-3.5 -translate-y-1/2" />
+          </div>
+          <div className="flex gap-1">
+            {filterOptions.map((option) => (
+              <Button
+                key={option.key}
+                variant={filter === option.key ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter(option.key)}
+                className="font-mono text-xs"
+              >
+                {option.label}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -89,6 +115,7 @@ export function ModelsGrid() {
             <ModelCard
               key={model.name}
               model={model}
+              onClick={() => setSelectedModel(model)}
               labels={{
                 perRequest: t("MODELS.PRICE_PER_REQUEST"),
                 input: t("MODELS.PRICE_INPUT"),
@@ -99,12 +126,22 @@ export function ModelsGrid() {
           ))}
         </div>
       )}
+
+      <ModelDetailSheet
+        model={selectedModel}
+        endpointMap={endpointMap}
+        open={selectedModel !== null}
+        onOpenChange={(open) => {
+          if (!open) setSelectedModel(null);
+        }}
+      />
     </div>
   );
 }
 
 function ModelCard(props: {
-  model: ReturnType<typeof processModels>[number];
+  model: ProcessedModel;
+  onClick: () => void;
   labels: {
     perRequest: string;
     input: string;
@@ -117,8 +154,9 @@ function ModelCard(props: {
 
   return (
     <div
+      onClick={props.onClick}
       className={cn(
-        "flex flex-col rounded-lg border p-5 transition-all",
+        "flex cursor-pointer flex-col rounded-lg border p-5 transition-all",
         theme.bg,
         theme.border,
         "hover:border-opacity-50",

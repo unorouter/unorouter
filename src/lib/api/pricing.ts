@@ -11,6 +11,8 @@ export type ProcessedModel = {
   isFixedPrice: boolean;
   type: ModelType;
   endpointTypes: string[];
+  description: string | undefined;
+  tags: string[];
 };
 
 export type VendorSummary = {
@@ -21,11 +23,17 @@ export type VendorSummary = {
   models: ProcessedModel[];
 };
 
+export type EndpointInfo = {
+  method: string;
+  path: string;
+};
+
 export type PricingSummary = {
   modelCount: number;
   vendorCount: number;
   models: ProcessedModel[];
   vendors: VendorSummary[];
+  endpointMap: Record<string, EndpointInfo>;
 };
 
 const VALID_MODEL_TYPES = new Set<string>([
@@ -41,7 +49,7 @@ function getModelType(model: PricingDataDataItem): ModelType {
   return VALID_MODEL_TYPES.has(tag) ? (tag as ModelType) : "text";
 }
 
-export function processModels(response: PricingData) {
+function processModels(response: PricingData) {
   const vendors = response.vendors ?? [];
   const data = response.data ?? [];
   const groupRatio = response.group_ratio ?? {};
@@ -81,12 +89,20 @@ export function processModels(response: PricingData) {
         isFixedPrice,
         type: getModelType(model),
         endpointTypes: model.supported_endpoint_types ?? [],
+        description: model.description,
+        tags: (model.tags ?? "")
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function buildPricingSummary(models: ProcessedModel[]): PricingSummary {
+export function buildPricingSummary(response: PricingData): PricingSummary {
+  const models = processModels(response);
+  const endpointMap = (response.supported_endpoint ?? {}) as Record<string, EndpointInfo>;
+
   const vendorGroups = new Map<
     string,
     { vendor: ProcessedModel["vendor"]; models: ProcessedModel[] }
@@ -119,5 +135,6 @@ export function buildPricingSummary(models: ProcessedModel[]): PricingSummary {
     vendorCount: vendors.length,
     models,
     vendors,
+    endpointMap,
   };
 }

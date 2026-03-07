@@ -153,7 +153,12 @@
     "PRICE_PER_REQUEST": "/Anfrage",
     "PRICE_INPUT": "EIN",
     "PRICE_OUTPUT": "AUS",
-    "PRICE_PER_MILLION": "/1M Tokens"
+    "PRICE_PER_MILLION": "/1M Tokens",
+    "DETAIL_DESCRIPTION": "Beschreibung",
+    "DETAIL_TAGS": "Tags",
+    "DETAIL_PRICING": "Preise",
+    "DETAIL_ENDPOINTS": "API-Endpunkte",
+    "FILTER_PROVIDER": "Alle Anbieter"
   },
   "PRICING": {
     "META": {
