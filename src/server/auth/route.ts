@@ -1,4 +1,4 @@
-import { AUTH_COOKIES, handleLogin, rewriteCookies } from "@/lib/api/auth";
+import { AUTH_COOKIES, handleAuthResponse } from "@/lib/api/auth";
 import {
   loginBody,
   oauthStateQuery,
@@ -26,9 +26,9 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     async ({ body, set, upstream }) => {
       const res = await login({
         body: JSON.stringify(body),
-        headers: upstream,
+        headers: upstream.headers,
       });
-      return handleLogin(res, set);
+      return handleAuthResponse(res, set);
     },
     { body: loginBody },
   )
@@ -38,9 +38,9 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     async ({ body, set, upstream }) => {
       const res = await verify2FALogin({
         body: JSON.stringify(body),
-        headers: upstream,
+        headers: upstream.headers,
       });
-      return handleLogin(res, set);
+      return handleAuthResponse(res, set);
     },
     { body: verify2FABody },
   )
@@ -50,17 +50,15 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     async ({ body, set, upstream }) => {
       const res = await register(body as unknown as Blob, {
         body: JSON.stringify(body),
-        headers: upstream,
+        headers: upstream.headers,
       });
-      const cookies = rewriteCookies(res.headers);
-      if (cookies.length) set.headers["set-cookie"] = cookies;
-      return res.data!;
+      return handleAuthResponse(res, set);
     },
     { body: registerBody },
   )
 
   .get("/logout", async ({ cookie, upstream }) => {
-    const res = await logout({ headers: upstream });
+    const res = await logout(upstream);
     for (const name of AUTH_COOKIES) {
       cookie[name].remove();
     }
@@ -68,7 +66,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   })
 
   .get("/self", async ({ upstream }) => {
-    const res = await getSelf({ headers: upstream });
+    const res = await getSelf(upstream);
     return res.data!;
   })
 
@@ -80,10 +78,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .get(
     "/oauth/state",
     async ({ query, upstream }) => {
-      const params: Record<string, string> = {};
-      if (query.redirect) params.redirect = query.redirect;
-      if (query.aff) params.aff = query.aff;
-      const res = await generateOAuthCode(params, { headers: upstream });
+      const res = await generateOAuthCode(query, upstream);
       return res.data!;
     },
     { query: oauthStateQuery },
@@ -91,8 +86,8 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
   .get(
     "/verification",
-    async ({ query }) => {
-      const res = await sendEmailVerification({ email: query.email });
+    async ({ query, upstream }) => {
+      const res = await sendEmailVerification(query, upstream);
       return res.data!;
     },
     { query: verificationQuery },

@@ -1,4 +1,3 @@
-import type { loginResponse } from "@/openapi";
 import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
 import { SESSION_COOKIE, USER_ID_COOKIE } from "../config/constants";
@@ -15,7 +14,10 @@ export function rewriteCookies(headers: Headers): string[] {
   });
 }
 
-export function handleLogin(res: loginResponse, set: Context["set"]) {
+export function handleAuthResponse(
+  res: { data: any; headers: Headers },
+  set: Context["set"],
+) {
   const cookies = rewriteCookies(res.headers);
   const id = res.data?.data?.id;
   if (id) {

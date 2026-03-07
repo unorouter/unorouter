@@ -9,5 +9,5 @@ export function deriveUpstream({ request }: { request: Request }) {
     const userId = parseCookie(cookieHeader)[USER_ID_COOKIE];
     if (userId) headers["New-Api-User"] = userId;
   }
-  return { upstream: headers };
+  return { upstream: { headers } };
 }
