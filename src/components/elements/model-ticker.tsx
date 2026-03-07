@@ -1,36 +1,14 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/vendor-icon";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useLiveStats } from "@/hooks/stats-hook";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 
 type Props = {
   className?: string;
 };
-
-const VENDOR_ICONS: Record<string, string> = {
-  openai: "/icons/openai.svg",
-  anthropic: "/icons/anthropic.svg",
-  google: "/icons/google.svg",
-  "google deepmind": "/icons/google.svg",
-  deepseek: "/icons/deepseek.svg",
-  meta: "/icons/meta.svg",
-  mistral: "/icons/mistral.svg",
-  "mistral ai": "/icons/mistral.svg",
-  cohere: "/icons/cohere.svg",
-  xai: "/icons/x.svg",
-  "x.ai": "/icons/x.svg",
-};
-
-function getVendorIcon(vendor: string): string | null {
-  const normalized = vendor.toLowerCase();
-  for (const [key, icon] of Object.entries(VENDOR_ICONS)) {
-    if (normalized.includes(key)) return icon;
-  }
-  return null;
-}
 
 export function ModelTicker(props: Props) {
   const t = useTranslations();
@@ -60,21 +38,16 @@ export function ModelTicker(props: Props) {
         <div className="relative flex-1 overflow-hidden">
           <div className="animate-marquee flex gap-6 font-mono text-xs whitespace-nowrap">
             {tripled.map((model, i) => {
-              const icon = getVendorIcon(model.vendor.name);
               return (
                 <div
                   key={`${model.name}-${i}`}
                   className="flex cursor-default items-center gap-3 opacity-60 transition-opacity hover:opacity-100"
                 >
-                  {icon && (
-                    <Image
-                      src={icon}
-                      alt={model.vendor.name}
-                      width={16}
-                      height={16}
-                      className="h-4 w-4 rounded object-contain invert dark:invert-0"
-                    />
-                  )}
+                  <VendorIcon
+                    vendor={model.vendor.name}
+                    size={16}
+                    className="shrink-0"
+                  />
                   <span className="text-foreground text-[11px] font-medium tracking-wide uppercase">
                     {model.name}
                   </span>

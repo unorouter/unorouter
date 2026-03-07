@@ -2,7 +2,7 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils";
+import { handleElysia } from "@/lib/utils/base";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useAuthQuery() {

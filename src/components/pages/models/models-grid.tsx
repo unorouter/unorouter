@@ -1,14 +1,24 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import type { ModelType, processModels } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
+import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuSearch } from "react-icons/lu";
+
+function formatPrice(price: number): string {
+  if (price === 0) return "$0.00";
+  if (price >= 0.01) return `$${price.toFixed(2)}`;
+  // For tiny prices, show up to 4 decimals trimmed
+  const str = price.toFixed(4);
+  return `$${str.replace(/0+$/, "")}`;
+}
 
 export function ModelsGrid() {
   const t = useTranslations();
@@ -64,7 +74,7 @@ export function ModelsGrid() {
       </div>
 
       {/* Count */}
-      <p className="text-muted-foreground mb-6 text-sm">
+      <p className="text-muted-foreground mb-6 font-mono text-sm">
         {filtered.length} {t("MODELS.MODEL_COUNT")}
       </p>
 
@@ -103,22 +113,38 @@ function ModelCard(props: {
   };
 }) {
   const model = props.model;
+  const theme = getVendorTheme(model.vendor.name);
 
   return (
-    <div className="border-border bg-card hover:border-primary/30 flex flex-col border p-5 transition-colors">
+    <div
+      className={cn(
+        "flex flex-col rounded-lg border p-5 transition-all",
+        theme.bg,
+        theme.border,
+        "hover:border-opacity-50",
+      )}
+    >
       <div className="mb-3 flex items-start justify-between">
-        <div>
-          <h3 className="font-medium">{model.name}</h3>
-          <p className="text-muted-foreground text-xs">{model.vendor.name}</p>
+        <div className="flex items-center gap-3">
+          <VendorIcon vendor={model.vendor.name} size={20} />
+          <div>
+            <h3 className="font-mono text-sm font-medium tracking-wide">
+              {model.name}
+            </h3>
+            <p className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+              {model.vendor.name}
+            </p>
+          </div>
         </div>
         <Badge
           variant="secondary"
           className={cn(
             "font-mono text-[10px] uppercase",
-            model.type === "image" && "border-green-500/30 text-green-400",
-            model.type === "video" && "border-purple-500/30 text-purple-400",
-            model.type === "audio" && "border-amber-500/30 text-amber-400",
-            model.type === "embedding" && "border-sky-500/30 text-sky-400",
+            model.type === "text" && `${theme.tagBg} ${theme.text}`,
+            model.type === "image" && "border-green-500/30 bg-green-500/10 text-green-400",
+            model.type === "video" && "border-purple-500/30 bg-purple-500/10 text-purple-400",
+            model.type === "audio" && "border-amber-500/30 bg-amber-500/10 text-amber-400",
+            model.type === "embedding" && "border-sky-500/30 bg-sky-500/10 text-sky-400",
           )}
         >
           {model.type}
@@ -128,32 +154,32 @@ function ModelCard(props: {
       <div className="mt-auto pt-3">
         {model.isFixedPrice ? (
           <div className="flex items-baseline gap-1">
-            <span className="text-primary font-mono text-sm font-semibold">
-              ${model.fixedPrice.toFixed(2)}
+            <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+              {formatPrice(model.fixedPrice)}
             </span>
-            <span className="text-muted-foreground text-xs">
+            <span className="text-muted-foreground font-mono text-[10px]">
               {props.labels.perRequest}
             </span>
           </div>
         ) : (
-          <div className="flex gap-4">
+          <div className="flex items-baseline gap-4">
             <div>
-              <span className="text-muted-foreground text-xs">
+              <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.input}{" "}
               </span>
-              <span className="text-primary font-mono text-sm font-semibold">
-                ${model.inputPrice.toFixed(2)}
+              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+                {formatPrice(model.inputPrice)}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground text-xs">
+              <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.output}{" "}
               </span>
-              <span className="text-primary font-mono text-sm font-semibold">
-                ${model.outputPrice.toFixed(2)}
+              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+                {formatPrice(model.outputPrice)}
               </span>
             </div>
-            <span className="text-muted-foreground self-end text-xs">
+            <span className="text-muted-foreground font-mono text-[10px]">
               {props.labels.perMillion}
             </span>
           </div>

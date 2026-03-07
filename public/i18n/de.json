@@ -138,6 +138,7 @@
       "DESCRIPTION": "Durchsuche alle KI-Modelle von OpenAI, Anthropic, Google, DeepSeek und mehr. Vergleiche Echtzeitpreise verschiedener Anbieter.",
       "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich"
     },
+    "BADGE": "Modellbibliothek",
     "TITLE": "Modellbibliothek",
     "SUBTITLE": "Durchsuche alle verfuegbaren KI-Modelle mit Echtzeitpreisen.",
     "SEARCH_PLACEHOLDER": "Modelle suchen...",

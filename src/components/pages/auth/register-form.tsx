@@ -9,7 +9,7 @@ import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils";
+import { handleElysia } from "@/lib/utils/base";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";

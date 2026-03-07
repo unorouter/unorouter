@@ -1,124 +1,14 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/vendor-icon";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
 import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
 import { APP_VALUES } from "@/lib/config/constants";
+import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { LuActivity, LuGlobe, LuShield, LuZap } from "react-icons/lu";
-
-type VendorTheme = {
-  icon: string;
-  bg: string;
-  border: string;
-  text: string;
-  tagBg: string;
-};
-
-const VENDOR_THEMES: Record<string, VendorTheme> = {
-  openai: {
-    icon: "/icons/openai.svg",
-    bg: "bg-green-500/5",
-    border: "border-green-500/20",
-    text: "text-green-400",
-    tagBg: "bg-green-500/10",
-  },
-  anthropic: {
-    icon: "/icons/anthropic.svg",
-    bg: "bg-orange-500/5",
-    border: "border-orange-500/20",
-    text: "text-orange-400",
-    tagBg: "bg-orange-500/10",
-  },
-  google: {
-    icon: "/icons/google.svg",
-    bg: "bg-blue-500/5",
-    border: "border-blue-500/20",
-    text: "text-blue-400",
-    tagBg: "bg-blue-500/10",
-  },
-  "google deepmind": {
-    icon: "/icons/google.svg",
-    bg: "bg-blue-500/5",
-    border: "border-blue-500/20",
-    text: "text-blue-400",
-    tagBg: "bg-blue-500/10",
-  },
-  deepseek: {
-    icon: "/icons/deepseek.svg",
-    bg: "bg-purple-500/5",
-    border: "border-purple-500/20",
-    text: "text-purple-400",
-    tagBg: "bg-purple-500/10",
-  },
-  meta: {
-    icon: "/icons/meta.svg",
-    bg: "bg-sky-500/5",
-    border: "border-sky-500/20",
-    text: "text-sky-400",
-    tagBg: "bg-sky-500/10",
-  },
-  mistral: {
-    icon: "/icons/mistral.svg",
-    bg: "bg-amber-500/5",
-    border: "border-amber-500/20",
-    text: "text-amber-400",
-    tagBg: "bg-amber-500/10",
-  },
-  "mistral ai": {
-    icon: "/icons/mistral.svg",
-    bg: "bg-amber-500/5",
-    border: "border-amber-500/20",
-    text: "text-amber-400",
-    tagBg: "bg-amber-500/10",
-  },
-  cohere: {
-    icon: "/icons/cohere.svg",
-    bg: "bg-rose-500/5",
-    border: "border-rose-500/20",
-    text: "text-rose-400",
-    tagBg: "bg-rose-500/10",
-  },
-  xai: {
-    icon: "/icons/x.svg",
-    bg: "bg-zinc-500/5",
-    border: "border-zinc-500/20",
-    text: "text-zinc-400",
-    tagBg: "bg-zinc-500/10",
-  },
-  "x.ai": {
-    icon: "/icons/x.svg",
-    bg: "bg-zinc-500/5",
-    border: "border-zinc-500/20",
-    text: "text-zinc-400",
-    tagBg: "bg-zinc-500/10",
-  },
-  moonshot: {
-    icon: "/icons/moonshot.svg",
-    bg: "bg-indigo-500/5",
-    border: "border-indigo-500/20",
-    text: "text-indigo-400",
-    tagBg: "bg-indigo-500/10",
-  },
-};
-
-const DEFAULT_THEME: VendorTheme = {
-  icon: "",
-  bg: "bg-muted/30",
-  border: "border-border",
-  text: "text-muted-foreground",
-  tagBg: "bg-secondary",
-};
-
-function getVendorTheme(vendor: string): VendorTheme {
-  const normalized = vendor.toLowerCase();
-  for (const [key, theme] of Object.entries(VENDOR_THEMES)) {
-    if (normalized.includes(key)) return theme;
-  }
-  return DEFAULT_THEME;
-}
 
 export function PricingSection() {
   const t = useTranslations();
@@ -246,15 +136,11 @@ export function PricingSection() {
                       className={`${theme.bg} border ${theme.border} space-y-2 rounded-lg p-3.5`}
                     >
                       <div className="flex items-center gap-2.5">
-                        {theme.icon && (
-                          <Image
-                            src={theme.icon}
-                            alt={vendor.name}
-                            width={16}
-                            height={16}
-                            className="h-4 w-4 shrink-0 rounded object-contain invert dark:invert-0"
-                          />
-                        )}
+                        <VendorIcon
+                          vendor={vendor.name}
+                          size={16}
+                          className="shrink-0"
+                        />
                         <span className="text-foreground font-mono text-xs font-bold tracking-wide uppercase">
                           {vendor.name}
                         </span>

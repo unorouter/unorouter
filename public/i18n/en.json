@@ -138,6 +138,7 @@
       "DESCRIPTION": "Browse all AI models from OpenAI, Anthropic, Google, DeepSeek and more. Compare real-time pricing across providers.",
       "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison"
     },
+    "BADGE": "Model Library",
     "TITLE": "Model Library",
     "SUBTITLE": "Browse all available AI models with real-time pricing.",
     "SEARCH_PLACEHOLDER": "Search models...",

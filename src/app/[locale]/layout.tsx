@@ -4,7 +4,7 @@ import { routing } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils";
+import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";

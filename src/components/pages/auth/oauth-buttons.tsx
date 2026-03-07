@@ -2,7 +2,7 @@
 
 import { useStatusQuery } from "@/hooks/status-hook";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils";
+import { handleElysia } from "@/lib/utils/base";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaDiscord, FaGithub, FaTelegram } from "react-icons/fa";
