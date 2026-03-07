@@ -1,7 +1,7 @@
 "use client";
 
-interface DashboardPageProps {}
+import { Dashboard } from "@/components/pages/dashboard/dashboard";
 
-export default function DashboardPage(props: DashboardPageProps) {
-  return <></>;
+export default function DashboardPage() {
+  return <Dashboard />;
 }

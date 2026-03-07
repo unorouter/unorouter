@@ -6,4 +6,8 @@ export const queryKeys = {
   subscriptionPlans: () => ["subscription-plans"] as const,
   auth: () => ["auth"] as const,
   status: () => ["status"] as const,
+  dashboardQuota: (startTs?: number, endTs?: number) =>
+    ["dashboard-quota", startTs, endTs] as const,
+  dashboardStat: () => ["dashboard-stat"] as const,
+  dashboardUptime: () => ["dashboard-uptime"] as const,
 };
