@@ -16,4 +16,6 @@ export const queryKeys = {
   userGroups: () => ["user-groups"] as const,
   userModels: () => ["user-models"] as const,
   affiliateCommissions: () => ["affiliate-commissions"] as const,
+  usageLogs: (params?: Record<string, unknown>) =>
+    ["usage-logs", params] as const,
 };

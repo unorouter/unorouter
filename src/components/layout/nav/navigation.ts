@@ -5,6 +5,7 @@ import {
   LuGift,
   LuKey,
   LuLayoutDashboard,
+  LuScrollText,
   LuShell,
   LuSparkles,
   LuTerminal,
@@ -63,6 +64,11 @@ export const sidebarNavigation = (): NavigationItem[] => [
     name: "SIDEBAR.TOKENS",
     href: "/tokens",
     icon: LuKey,
+  },
+  {
+    name: "SIDEBAR.LOGS",
+    href: "/logs",
+    icon: LuScrollText,
   },
   {
     name: "SIDEBAR.AFFILIATE",
