@@ -7,6 +7,7 @@ import {
   getUserModels,
   searchTokens,
   updateToken,
+  type Token,
 } from "@/openapi";
 import { Elysia, t } from "elysia";
 import { deriveUpstream } from "../constants";
@@ -61,19 +62,19 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   })
 
   .post("/", async ({ body, upstream }) => {
-    const res = await addToken(body as any, { headers: upstream.headers });
+    const res = await addToken(body as Token, { headers: upstream.headers });
     return res.data!;
   })
 
   .put("/", async ({ body, upstream }) => {
-    const res = await updateToken(body as any, undefined, {
+    const res = await updateToken(body as Token, undefined, {
       headers: upstream.headers,
     });
     return res.data!;
   })
 
   .put("/status", async ({ body, upstream }) => {
-    const res = await updateToken(body as any, { status_only: "true" }, {
+    const res = await updateToken(body as Token, { status_only: "true" }, {
       headers: upstream.headers,
     });
     return res.data!;

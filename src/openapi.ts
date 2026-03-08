@@ -439,6 +439,14 @@ export interface ImageGenerationResponse {
 }
 
 /**
+ * LoginRequest schema
+ */
+export interface LoginRequest {
+  password: string;
+  username: string;
+}
+
+/**
  * ManageRequest schema
  */
 export interface ManageRequest {
@@ -4638,14 +4646,14 @@ export const getAddChannelUrl = () => {
 };
 
 export const addChannel = async (
-  addChannelBody: Blob,
+  addChannelRequest: AddChannelRequest,
   options?: RequestInit,
 ): Promise<addChannelResponse> => {
   return customFetch<addChannelResponse>(getAddChannelUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(addChannelBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(addChannelRequest),
   });
 };
 
@@ -4686,14 +4694,14 @@ export const getUpdateChannelUrl = () => {
 };
 
 export const updateChannel = async (
-  updateChannelBody: Blob,
+  patchChannel: PatchChannel,
   options?: RequestInit,
 ): Promise<updateChannelResponse> => {
   return customFetch<updateChannelResponse>(getUpdateChannelUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateChannelBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(patchChannel),
   });
 };
 
@@ -4735,14 +4743,14 @@ export const getDeleteChannelBatchUrl = () => {
 };
 
 export const deleteChannelBatch = async (
-  deleteChannelBatchBody: Blob,
+  channelBatch: ChannelBatch,
   options?: RequestInit,
 ): Promise<deleteChannelBatchResponse> => {
   return customFetch<deleteChannelBatchResponse>(getDeleteChannelBatchUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(deleteChannelBatchBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(channelBatch),
   });
 };
 
@@ -4784,14 +4792,14 @@ export const getBatchSetChannelTagUrl = () => {
 };
 
 export const batchSetChannelTag = async (
-  batchSetChannelTagBody: Blob,
+  channelBatch: ChannelBatch,
   options?: RequestInit,
 ): Promise<batchSetChannelTagResponse> => {
   return customFetch<batchSetChannelTagResponse>(getBatchSetChannelTagUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(batchSetChannelTagBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(channelBatch),
   });
 };
 
@@ -4833,14 +4841,14 @@ export const getCompleteCodexOAuthUrl = () => {
 };
 
 export const completeCodexOAuth = async (
-  completeCodexOAuthBody: Blob,
+  codexOAuthCompleteRequest: CodexOAuthCompleteRequest,
   options?: RequestInit,
 ): Promise<completeCodexOAuthResponse> => {
   return customFetch<completeCodexOAuthResponse>(getCompleteCodexOAuthUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(completeCodexOAuthBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(codexOAuthCompleteRequest),
   });
 };
 
@@ -5034,14 +5042,14 @@ export const getFetchModelsUrl = () => {
 };
 
 export const fetchModels = async (
-  fetchModelsBody: Blob,
+  fetchModelsRequest: FetchModelsRequest,
   options?: RequestInit,
 ): Promise<fetchModelsResponse> => {
   return customFetch<fetchModelsResponse>(getFetchModelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(fetchModelsBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(fetchModelsRequest),
   });
 };
 
@@ -5273,14 +5281,14 @@ export const getManageMultiKeysUrl = () => {
 };
 
 export const manageMultiKeys = async (
-  manageMultiKeysBody: Blob,
+  multiKeyManageRequest: MultiKeyManageRequest,
   options?: RequestInit,
 ): Promise<manageMultiKeysResponse> => {
   return customFetch<manageMultiKeysResponse>(getManageMultiKeysUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(manageMultiKeysBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(multiKeyManageRequest),
   });
 };
 
@@ -5322,14 +5330,14 @@ export const getOllamaDeleteModelUrl = () => {
 };
 
 export const ollamaDeleteModel = async (
-  ollamaDeleteModelBody: Blob,
+  ollamaModelRequest: OllamaModelRequest,
   options?: RequestInit,
 ): Promise<ollamaDeleteModelResponse> => {
   return customFetch<ollamaDeleteModelResponse>(getOllamaDeleteModelUrl(), {
     ...options,
     method: "DELETE",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(ollamaDeleteModelBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(ollamaModelRequest),
   });
 };
 
@@ -5370,14 +5378,14 @@ export const getOllamaPullModelUrl = () => {
 };
 
 export const ollamaPullModel = async (
-  ollamaPullModelBody: Blob,
+  ollamaModelRequest: OllamaModelRequest,
   options?: RequestInit,
 ): Promise<ollamaPullModelResponse> => {
   return customFetch<ollamaPullModelResponse>(getOllamaPullModelUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(ollamaPullModelBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(ollamaModelRequest),
   });
 };
 
@@ -5571,14 +5579,14 @@ export const getEditTagChannelsUrl = () => {
 };
 
 export const editTagChannels = async (
-  editTagChannelsBody: Blob,
+  channelTag: ChannelTag,
   options?: RequestInit,
 ): Promise<editTagChannelsResponse> => {
   return customFetch<editTagChannelsResponse>(getEditTagChannelsUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(editTagChannelsBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(channelTag),
   });
 };
 
@@ -5620,14 +5628,14 @@ export const getDisableTagChannelsUrl = () => {
 };
 
 export const disableTagChannels = async (
-  disableTagChannelsBody: Blob,
+  channelTag: ChannelTag,
   options?: RequestInit,
 ): Promise<disableTagChannelsResponse> => {
   return customFetch<disableTagChannelsResponse>(getDisableTagChannelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(disableTagChannelsBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(channelTag),
   });
 };
 
@@ -5669,14 +5677,14 @@ export const getEnableTagChannelsUrl = () => {
 };
 
 export const enableTagChannels = async (
-  enableTagChannelsBody: Blob,
+  channelTag: ChannelTag,
   options?: RequestInit,
 ): Promise<enableTagChannelsResponse> => {
   return customFetch<enableTagChannelsResponse>(getEnableTagChannelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(enableTagChannelsBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(channelTag),
   });
 };
 
@@ -6268,7 +6276,7 @@ export const getCompleteCodexOAuthForChannelUrl = (id: string) => {
 
 export const completeCodexOAuthForChannel = async (
   id: string,
-  completeCodexOAuthForChannelBody: Blob,
+  codexOAuthCompleteRequest: CodexOAuthCompleteRequest,
   options?: RequestInit,
 ): Promise<completeCodexOAuthForChannelResponse> => {
   return customFetch<completeCodexOAuthForChannelResponse>(
@@ -6276,8 +6284,8 @@ export const completeCodexOAuthForChannel = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(completeCodexOAuthForChannelBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(codexOAuthCompleteRequest),
     },
   );
 };
@@ -6610,7 +6618,7 @@ export const getCreateCustomOAuthProviderUrl = () => {
 };
 
 export const createCustomOAuthProvider = async (
-  createCustomOAuthProviderBody: Blob,
+  createCustomOAuthProviderRequest: CreateCustomOAuthProviderRequest,
   options?: RequestInit,
 ): Promise<createCustomOAuthProviderResponse> => {
   return customFetch<createCustomOAuthProviderResponse>(
@@ -6618,8 +6626,8 @@ export const createCustomOAuthProvider = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(createCustomOAuthProviderBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(createCustomOAuthProviderRequest),
     },
   );
 };
@@ -6662,7 +6670,7 @@ export const getFetchCustomOAuthDiscoveryUrl = () => {
 };
 
 export const fetchCustomOAuthDiscovery = async (
-  fetchCustomOAuthDiscoveryBody: Blob,
+  fetchCustomOAuthDiscoveryRequest: FetchCustomOAuthDiscoveryRequest,
   options?: RequestInit,
 ): Promise<fetchCustomOAuthDiscoveryResponse> => {
   return customFetch<fetchCustomOAuthDiscoveryResponse>(
@@ -6670,8 +6678,8 @@ export const fetchCustomOAuthDiscovery = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(fetchCustomOAuthDiscoveryBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(fetchCustomOAuthDiscoveryRequest),
     },
   );
 };
@@ -6815,7 +6823,7 @@ export const getUpdateCustomOAuthProviderUrl = (id: string) => {
 
 export const updateCustomOAuthProvider = async (
   id: string,
-  updateCustomOAuthProviderBody: Blob,
+  updateCustomOAuthProviderRequest: UpdateCustomOAuthProviderRequest,
   options?: RequestInit,
 ): Promise<updateCustomOAuthProviderResponse> => {
   return customFetch<updateCustomOAuthProviderResponse>(
@@ -6823,8 +6831,8 @@ export const updateCustomOAuthProvider = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(updateCustomOAuthProviderBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(updateCustomOAuthProviderRequest),
     },
   );
 };
@@ -7048,14 +7056,14 @@ export const getCreateDeploymentUrl = () => {
 };
 
 export const createDeployment = async (
-  createDeploymentBody: Blob,
+  deploymentRequest: DeploymentRequest,
   options?: RequestInit,
 ): Promise<createDeploymentResponse> => {
   return customFetch<createDeploymentResponse>(getCreateDeploymentUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(createDeploymentBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(deploymentRequest),
   });
 };
 
@@ -7315,14 +7323,14 @@ export const getGetPriceEstimationUrl = () => {
 };
 
 export const getPriceEstimation = async (
-  getPriceEstimationBody: Blob,
+  priceEstimationRequest: PriceEstimationRequest,
   options?: RequestInit,
 ): Promise<getPriceEstimationResponse> => {
   return customFetch<getPriceEstimationResponse>(getGetPriceEstimationUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(getPriceEstimationBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(priceEstimationRequest),
   });
 };
 
@@ -7475,14 +7483,14 @@ export const getTestIoNetConnectionUrl = () => {
 };
 
 export const testIoNetConnection = async (
-  testIoNetConnectionBody: Blob,
+  testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: RequestInit,
 ): Promise<testIoNetConnectionResponse> => {
   return customFetch<testIoNetConnectionResponse>(getTestIoNetConnectionUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(testIoNetConnectionBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(testIoNetConnectionRequest),
   });
 };
 
@@ -7524,7 +7532,7 @@ export const getPostApiDeploymentsTestConnectionUrl = () => {
 };
 
 export const postApiDeploymentsTestConnection = async (
-  postApiDeploymentsTestConnectionBody: Blob,
+  testIoNetConnectionRequest: TestIoNetConnectionRequest,
   options?: RequestInit,
 ): Promise<postApiDeploymentsTestConnectionResponse> => {
   return customFetch<postApiDeploymentsTestConnectionResponse>(
@@ -7532,8 +7540,8 @@ export const postApiDeploymentsTestConnection = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(postApiDeploymentsTestConnectionBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(testIoNetConnectionRequest),
     },
   );
 };
@@ -7668,14 +7676,14 @@ export const getUpdateDeploymentUrl = (id: string) => {
 
 export const updateDeployment = async (
   id: string,
-  updateDeploymentBody: Blob,
+  updateDeploymentRequest: UpdateDeploymentRequest,
   options?: RequestInit,
 ): Promise<updateDeploymentResponse> => {
   return customFetch<updateDeploymentResponse>(getUpdateDeploymentUrl(id), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateDeploymentBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(updateDeploymentRequest),
   });
 };
 
@@ -7818,14 +7826,14 @@ export const getExtendDeploymentUrl = (id: string) => {
 
 export const extendDeployment = async (
   id: string,
-  extendDeploymentBody: Blob,
+  extendDurationRequest: ExtendDurationRequest,
   options?: RequestInit,
 ): Promise<extendDeploymentResponse> => {
   return customFetch<extendDeploymentResponse>(getExtendDeploymentUrl(id), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(extendDeploymentBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(extendDurationRequest),
   });
 };
 
@@ -7934,7 +7942,7 @@ export const getUpdateDeploymentNameUrl = (id: string) => {
 
 export const updateDeploymentName = async (
   id: string,
-  updateDeploymentNameBody: Blob,
+  updateDeploymentNameRequest: UpdateDeploymentNameRequest,
   options?: RequestInit,
 ): Promise<updateDeploymentNameResponse> => {
   return customFetch<updateDeploymentNameResponse>(
@@ -7942,8 +7950,8 @@ export const updateDeploymentName = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(updateDeploymentNameBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(updateDeploymentNameRequest),
     },
   );
 };
@@ -8735,14 +8743,14 @@ export const getCreateModelMetaUrl = () => {
 };
 
 export const createModelMeta = async (
-  createModelMetaBody: Blob,
+  model: Model,
   options?: RequestInit,
 ): Promise<createModelMetaResponse> => {
   return customFetch<createModelMetaResponse>(getCreateModelMetaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(createModelMetaBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(model),
   });
 };
 
@@ -8795,15 +8803,15 @@ export const getUpdateModelMetaUrl = (params?: UpdateModelMetaParams) => {
 };
 
 export const updateModelMeta = async (
-  updateModelMetaBody: Blob,
+  model: Model,
   params?: UpdateModelMetaParams,
   options?: RequestInit,
 ): Promise<updateModelMetaResponse> => {
   return customFetch<updateModelMetaResponse>(getUpdateModelMetaUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateModelMetaBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(model),
   });
 };
 
@@ -9055,14 +9063,14 @@ export const getSyncUpstreamModelsUrl = () => {
 };
 
 export const syncUpstreamModels = async (
-  syncUpstreamModelsBody: Blob,
+  syncRequest: SyncRequest,
   options?: RequestInit,
 ): Promise<syncUpstreamModelsResponse> => {
   return customFetch<syncUpstreamModelsResponse>(getSyncUpstreamModelsUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(syncUpstreamModelsBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(syncRequest),
   });
 };
 
@@ -9737,14 +9745,14 @@ export const getUpdateOptionUrl = () => {
 };
 
 export const updateOption = async (
-  updateOptionBody: Blob,
+  optionUpdateRequest: OptionUpdateRequest,
   options?: RequestInit,
 ): Promise<updateOptionResponse> => {
   return customFetch<updateOptionResponse>(getUpdateOptionUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateOptionBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(optionUpdateRequest),
   });
 };
 
@@ -10234,14 +10242,14 @@ export const getCreatePrefillGroupUrl = () => {
 };
 
 export const createPrefillGroup = async (
-  createPrefillGroupBody: Blob,
+  prefillGroup: PrefillGroup,
   options?: RequestInit,
 ): Promise<createPrefillGroupResponse> => {
   return customFetch<createPrefillGroupResponse>(getCreatePrefillGroupUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(createPrefillGroupBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(prefillGroup),
   });
 };
 
@@ -10283,14 +10291,14 @@ export const getUpdatePrefillGroupUrl = () => {
 };
 
 export const updatePrefillGroup = async (
-  updatePrefillGroupBody: Blob,
+  prefillGroup: PrefillGroup,
   options?: RequestInit,
 ): Promise<updatePrefillGroupResponse> => {
   return customFetch<updatePrefillGroupResponse>(getUpdatePrefillGroupUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updatePrefillGroupBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(prefillGroup),
   });
 };
 
@@ -10560,14 +10568,14 @@ export const getFetchUpstreamRatiosUrl = () => {
 };
 
 export const fetchUpstreamRatios = async (
-  fetchUpstreamRatiosBody: Blob,
+  upstreamRequest: UpstreamRequest,
   options?: RequestInit,
 ): Promise<fetchUpstreamRatiosResponse> => {
   return customFetch<fetchUpstreamRatiosResponse>(getFetchUpstreamRatiosUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(fetchUpstreamRatiosBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(upstreamRequest),
   });
 };
 
@@ -10670,14 +10678,14 @@ export const getAddRedemptionUrl = () => {
 };
 
 export const addRedemption = async (
-  addRedemptionBody: Blob,
+  redemption: Redemption,
   options?: RequestInit,
 ): Promise<addRedemptionResponse> => {
   return customFetch<addRedemptionResponse>(getAddRedemptionUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(addRedemptionBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(redemption),
   });
 };
 
@@ -10730,15 +10738,15 @@ export const getUpdateRedemptionUrl = (params?: UpdateRedemptionParams) => {
 };
 
 export const updateRedemption = async (
-  updateRedemptionBody: Blob,
+  redemption: Redemption,
   params?: UpdateRedemptionParams,
   options?: RequestInit,
 ): Promise<updateRedemptionResponse> => {
   return customFetch<updateRedemptionResponse>(getUpdateRedemptionUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateRedemptionBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(redemption),
   });
 };
 
@@ -11089,14 +11097,14 @@ export const getPostSetupUrl = () => {
 };
 
 export const postSetup = async (
-  postSetupBody: Blob,
+  setupRequest: SetupRequest,
   options?: RequestInit,
 ): Promise<postSetupResponse> => {
   return customFetch<postSetupResponse>(getPostSetupUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(postSetupBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(setupRequest),
   });
 };
 
@@ -11273,7 +11281,7 @@ export const getAdminBindSubscriptionUrl = () => {
 };
 
 export const adminBindSubscription = async (
-  adminBindSubscriptionBody: Blob,
+  adminBindSubscriptionRequest: AdminBindSubscriptionRequest,
   options?: RequestInit,
 ): Promise<adminBindSubscriptionResponse> => {
   return customFetch<adminBindSubscriptionResponse>(
@@ -11281,8 +11289,8 @@ export const adminBindSubscription = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(adminBindSubscriptionBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(adminBindSubscriptionRequest),
     },
   );
 };
@@ -11374,7 +11382,7 @@ export const getAdminCreateSubscriptionPlanUrl = () => {
 };
 
 export const adminCreateSubscriptionPlan = async (
-  adminCreateSubscriptionPlanBody: Blob,
+  adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
   options?: RequestInit,
 ): Promise<adminCreateSubscriptionPlanResponse> => {
   return customFetch<adminCreateSubscriptionPlanResponse>(
@@ -11382,8 +11390,8 @@ export const adminCreateSubscriptionPlan = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(adminCreateSubscriptionPlanBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(adminUpsertSubscriptionPlanRequest),
     },
   );
 };
@@ -11427,7 +11435,7 @@ export const getAdminUpdateSubscriptionPlanStatusUrl = (id: string) => {
 
 export const adminUpdateSubscriptionPlanStatus = async (
   id: string,
-  adminUpdateSubscriptionPlanStatusBody: Blob,
+  adminUpdateSubscriptionPlanStatusRequest: AdminUpdateSubscriptionPlanStatusRequest,
   options?: RequestInit,
 ): Promise<adminUpdateSubscriptionPlanStatusResponse> => {
   return customFetch<adminUpdateSubscriptionPlanStatusResponse>(
@@ -11435,8 +11443,8 @@ export const adminUpdateSubscriptionPlanStatus = async (
     {
       ...options,
       method: "PATCH",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(adminUpdateSubscriptionPlanStatusBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(adminUpdateSubscriptionPlanStatusRequest),
     },
   );
 };
@@ -11480,7 +11488,7 @@ export const getAdminUpdateSubscriptionPlanUrl = (id: string) => {
 
 export const adminUpdateSubscriptionPlan = async (
   id: string,
-  adminUpdateSubscriptionPlanBody: Blob,
+  adminUpsertSubscriptionPlanRequest: AdminUpsertSubscriptionPlanRequest,
   options?: RequestInit,
 ): Promise<adminUpdateSubscriptionPlanResponse> => {
   return customFetch<adminUpdateSubscriptionPlanResponse>(
@@ -11488,8 +11496,8 @@ export const adminUpdateSubscriptionPlan = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(adminUpdateSubscriptionPlanBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(adminUpsertSubscriptionPlanRequest),
     },
   );
 };
@@ -11683,7 +11691,7 @@ export const getAdminCreateUserSubscriptionUrl = (id: string) => {
 
 export const adminCreateUserSubscription = async (
   id: string,
-  adminCreateUserSubscriptionBody: Blob,
+  adminCreateUserSubscriptionRequest: AdminCreateUserSubscriptionRequest,
   options?: RequestInit,
 ): Promise<adminCreateUserSubscriptionResponse> => {
   return customFetch<adminCreateUserSubscriptionResponse>(
@@ -11691,8 +11699,8 @@ export const adminCreateUserSubscription = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(adminCreateUserSubscriptionBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(adminCreateUserSubscriptionRequest),
     },
   );
 };
@@ -11735,7 +11743,7 @@ export const getSubscriptionRequestCreemPayUrl = () => {
 };
 
 export const subscriptionRequestCreemPay = async (
-  subscriptionRequestCreemPayBody: Blob,
+  subscriptionCreemPayRequest: SubscriptionCreemPayRequest,
   options?: RequestInit,
 ): Promise<subscriptionRequestCreemPayResponse> => {
   return customFetch<subscriptionRequestCreemPayResponse>(
@@ -11743,8 +11751,8 @@ export const subscriptionRequestCreemPay = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(subscriptionRequestCreemPayBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(subscriptionCreemPayRequest),
     },
   );
 };
@@ -11885,7 +11893,7 @@ export const getSubscriptionRequestEpayUrl = () => {
 };
 
 export const subscriptionRequestEpay = async (
-  subscriptionRequestEpayBody: Blob,
+  subscriptionEpayPayRequest: SubscriptionEpayPayRequest,
   options?: RequestInit,
 ): Promise<subscriptionRequestEpayResponse> => {
   return customFetch<subscriptionRequestEpayResponse>(
@@ -11893,8 +11901,8 @@ export const subscriptionRequestEpay = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(subscriptionRequestEpayBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(subscriptionEpayPayRequest),
     },
   );
 };
@@ -12130,7 +12138,7 @@ export const getUpdateSubscriptionPreferenceUrl = () => {
 };
 
 export const updateSubscriptionPreference = async (
-  updateSubscriptionPreferenceBody: Blob,
+  billingPreferenceRequest: BillingPreferenceRequest,
   options?: RequestInit,
 ): Promise<updateSubscriptionPreferenceResponse> => {
   return customFetch<updateSubscriptionPreferenceResponse>(
@@ -12138,8 +12146,8 @@ export const updateSubscriptionPreference = async (
     {
       ...options,
       method: "PUT",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(updateSubscriptionPreferenceBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(billingPreferenceRequest),
     },
   );
 };
@@ -12182,7 +12190,7 @@ export const getSubscriptionRequestStripePayUrl = () => {
 };
 
 export const subscriptionRequestStripePay = async (
-  subscriptionRequestStripePayBody: Blob,
+  subscriptionStripePayRequest: SubscriptionStripePayRequest,
   options?: RequestInit,
 ): Promise<subscriptionRequestStripePayResponse> => {
   return customFetch<subscriptionRequestStripePayResponse>(
@@ -12190,8 +12198,8 @@ export const subscriptionRequestStripePay = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(subscriptionRequestStripePayBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(subscriptionStripePayRequest),
     },
   );
 };
@@ -12405,14 +12413,14 @@ export const getAddTokenUrl = () => {
 };
 
 export const addToken = async (
-  addTokenBody: Blob,
+  token: Token,
   options?: RequestInit,
 ): Promise<addTokenResponse> => {
   return customFetch<addTokenResponse>(getAddTokenUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(addTokenBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(token),
   });
 };
 
@@ -12465,15 +12473,15 @@ export const getUpdateTokenUrl = (params?: UpdateTokenParams) => {
 };
 
 export const updateToken = async (
-  updateTokenBody: Blob,
+  token: Token,
   params?: UpdateTokenParams,
   options?: RequestInit,
 ): Promise<updateTokenResponse> => {
   return customFetch<updateTokenResponse>(getUpdateTokenUrl(params), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateTokenBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(token),
   });
 };
 
@@ -12514,14 +12522,14 @@ export const getDeleteTokenBatchUrl = () => {
 };
 
 export const deleteTokenBatch = async (
-  deleteTokenBatchBody: Blob,
+  tokenBatch: TokenBatch,
   options?: RequestInit,
 ): Promise<deleteTokenBatchResponse> => {
   return customFetch<deleteTokenBatchResponse>(getDeleteTokenBatchUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(deleteTokenBatchBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(tokenBatch),
   });
 };
 
@@ -12904,14 +12912,14 @@ export const getCreateUserUrl = () => {
 };
 
 export const createUser = async (
-  createUserBody: Blob,
+  user: User,
   options?: RequestInit,
 ): Promise<createUserResponse> => {
   return customFetch<createUserResponse>(getCreateUserUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(createUserBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(user),
   });
 };
 
@@ -12952,14 +12960,14 @@ export const getUpdateUserUrl = () => {
 };
 
 export const updateUser = async (
-  updateUserBody: Blob,
+  user: User,
   options?: RequestInit,
 ): Promise<updateUserResponse> => {
   return customFetch<updateUserResponse>(getUpdateUserUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateUserBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(user),
   });
 };
 
@@ -13001,7 +13009,7 @@ export const getRegenerateBackupCodesUrl = () => {
 };
 
 export const regenerateBackupCodes = async (
-  regenerateBackupCodesBody: Blob,
+  verify2FARequest: Verify2FARequest,
   options?: RequestInit,
 ): Promise<regenerateBackupCodesResponse> => {
   return customFetch<regenerateBackupCodesResponse>(
@@ -13009,8 +13017,8 @@ export const regenerateBackupCodes = async (
     {
       ...options,
       method: "POST",
-      headers: { "Content-Type": "*/*", ...options?.headers },
-      body: JSON.stringify(regenerateBackupCodesBody),
+      headers: { "Content-Type": "application/json", ...options?.headers },
+      body: JSON.stringify(verify2FARequest),
     },
   );
 };
@@ -13052,14 +13060,14 @@ export const getDisable2FAUrl = () => {
 };
 
 export const disable2FA = async (
-  disable2FABody: Blob,
+  verify2FARequest: Verify2FARequest,
   options?: RequestInit,
 ): Promise<disable2FAResponse> => {
   return customFetch<disable2FAResponse>(getDisable2FAUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(disable2FABody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(verify2FARequest),
   });
 };
 
@@ -13100,14 +13108,14 @@ export const getEnable2FAUrl = () => {
 };
 
 export const enable2FA = async (
-  enable2FABody: Blob,
+  setup2FARequest: Setup2FARequest,
   options?: RequestInit,
 ): Promise<enable2FAResponse> => {
   return customFetch<enable2FAResponse>(getEnable2FAUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(enable2FABody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(setup2FARequest),
   });
 };
 
@@ -13375,14 +13383,14 @@ export const getTransferAffQuotaUrl = () => {
 };
 
 export const transferAffQuota = async (
-  transferAffQuotaBody: Blob,
+  transferAffQuotaRequest: TransferAffQuotaRequest,
   options?: RequestInit,
 ): Promise<transferAffQuotaResponse> => {
   return customFetch<transferAffQuotaResponse>(getTransferAffQuotaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(transferAffQuotaBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(transferAffQuotaRequest),
   });
 };
 
@@ -13423,14 +13431,14 @@ export const getRequestAmountUrl = () => {
 };
 
 export const requestAmount = async (
-  requestAmountBody: Blob,
+  amountRequest: AmountRequest,
   options?: RequestInit,
 ): Promise<requestAmountResponse> => {
   return customFetch<requestAmountResponse>(getRequestAmountUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(requestAmountBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(amountRequest),
   });
 };
 
@@ -13574,14 +13582,14 @@ export const getRequestCreemPayUrl = () => {
 };
 
 export const requestCreemPay = async (
-  requestCreemPayBody: Blob,
+  creemPayRequest: CreemPayRequest,
   options?: RequestInit,
 ): Promise<requestCreemPayResponse> => {
   return customFetch<requestCreemPayResponse>(getRequestCreemPayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(requestCreemPayBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(creemPayRequest),
   });
 };
 
@@ -13758,10 +13766,15 @@ export const getLoginUrl = () => {
   return `/api/user/login`;
 };
 
-export const login = async (options?: RequestInit): Promise<loginResponse> => {
+export const login = async (
+  loginRequest: LoginRequest,
+  options?: RequestInit,
+): Promise<loginResponse> => {
   return customFetch<loginResponse>(getLoginUrl(), {
     ...options,
     method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(loginRequest),
   });
 };
 
@@ -13802,11 +13815,14 @@ export const getVerify2FALoginUrl = () => {
 };
 
 export const verify2FALogin = async (
+  verify2FARequest: Verify2FARequest,
   options?: RequestInit,
 ): Promise<verify2FALoginResponse> => {
   return customFetch<verify2FALoginResponse>(getVerify2FALoginUrl(), {
     ...options,
     method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(verify2FARequest),
   });
 };
 
@@ -13890,14 +13906,14 @@ export const getManageUserUrl = () => {
 };
 
 export const manageUser = async (
-  manageUserBody: Blob,
+  manageRequest: ManageRequest,
   options?: RequestInit,
 ): Promise<manageUserResponse> => {
   return customFetch<manageUserResponse>(getManageUserUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(manageUserBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(manageRequest),
   });
 };
 
@@ -14454,14 +14470,14 @@ export const getRequestEpayUrl = () => {
 };
 
 export const requestEpay = async (
-  requestEpayBody: Blob,
+  epayRequest: EpayRequest,
   options?: RequestInit,
 ): Promise<requestEpayResponse> => {
   return customFetch<requestEpayResponse>(getRequestEpayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(requestEpayBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(epayRequest),
   });
 };
 
@@ -14548,14 +14564,14 @@ export const getResetPasswordUrl = () => {
 };
 
 export const resetPassword = async (
-  resetPasswordBody: Blob,
+  passwordResetRequest: PasswordResetRequest,
   options?: RequestInit,
 ): Promise<resetPasswordResponse> => {
   return customFetch<resetPasswordResponse>(getResetPasswordUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(resetPasswordBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(passwordResetRequest),
   });
 };
 
@@ -14837,14 +14853,14 @@ export const getUpdateUserSettingUrl = () => {
 };
 
 export const updateUserSetting = async (
-  updateUserSettingBody: Blob,
+  updateUserSettingRequest: UpdateUserSettingRequest,
   options?: RequestInit,
 ): Promise<updateUserSettingResponse> => {
   return customFetch<updateUserSettingResponse>(getUpdateUserSettingUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateUserSettingBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(updateUserSettingRequest),
   });
 };
 
@@ -14886,14 +14902,14 @@ export const getRequestStripeAmountUrl = () => {
 };
 
 export const requestStripeAmount = async (
-  requestStripeAmountBody: Blob,
+  stripePayRequest: StripePayRequest,
   options?: RequestInit,
 ): Promise<requestStripeAmountResponse> => {
   return customFetch<requestStripeAmountResponse>(getRequestStripeAmountUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(requestStripeAmountBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(stripePayRequest),
   });
 };
 
@@ -14934,14 +14950,14 @@ export const getRequestStripePayUrl = () => {
 };
 
 export const requestStripePay = async (
-  requestStripePayBody: Blob,
+  stripePayRequest: StripePayRequest,
   options?: RequestInit,
 ): Promise<requestStripePayResponse> => {
   return customFetch<requestStripePayResponse>(getRequestStripePayUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(requestStripePayBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(stripePayRequest),
   });
 };
 
@@ -15084,14 +15100,14 @@ export const getTopUpUrl = () => {
 };
 
 export const topUp = async (
-  topUpBody: Blob,
+  topUpRequest: TopUpRequest,
   options?: RequestInit,
 ): Promise<topUpResponse> => {
   return customFetch<topUpResponse>(getTopUpUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(topUpBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(topUpRequest),
   });
 };
 
@@ -15133,14 +15149,14 @@ export const getAdminCompleteTopUpUrl = () => {
 };
 
 export const adminCompleteTopUp = async (
-  adminCompleteTopUpBody: Blob,
+  adminCompleteTopupRequest: AdminCompleteTopupRequest,
   options?: RequestInit,
 ): Promise<adminCompleteTopUpResponse> => {
   return customFetch<adminCompleteTopUpResponse>(getAdminCompleteTopUpUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(adminCompleteTopUpBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(adminCompleteTopupRequest),
   });
 };
 
@@ -15683,14 +15699,14 @@ export const getCreateVendorMetaUrl = () => {
 };
 
 export const createVendorMeta = async (
-  createVendorMetaBody: Blob,
+  vendor: Vendor,
   options?: RequestInit,
 ): Promise<createVendorMetaResponse> => {
   return customFetch<createVendorMetaResponse>(getCreateVendorMetaUrl(), {
     ...options,
     method: "POST",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(createVendorMetaBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(vendor),
   });
 };
 
@@ -15731,14 +15747,14 @@ export const getUpdateVendorMetaUrl = () => {
 };
 
 export const updateVendorMeta = async (
-  updateVendorMetaBody: Blob,
+  vendor: Vendor,
   options?: RequestInit,
 ): Promise<updateVendorMetaResponse> => {
   return customFetch<updateVendorMetaResponse>(getUpdateVendorMetaUrl(), {
     ...options,
     method: "PUT",
-    headers: { "Content-Type": "*/*", ...options?.headers },
-    body: JSON.stringify(updateVendorMetaBody),
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(vendor),
   });
 };
 

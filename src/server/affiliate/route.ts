@@ -22,7 +22,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
   .post(
     "/transfer",
     async ({ body, upstream }) => {
-      const res = await transferAffQuota(body as any, {
+      const res = await transferAffQuota(body, {
         headers: upstream.headers,
       });
       return res.data!;

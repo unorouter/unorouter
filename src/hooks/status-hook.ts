@@ -9,6 +9,6 @@ export function useStatusQuery() {
   return useQuery({
     queryKey: queryKeys.status(),
     queryFn: async () => handleElysia(await rpc.api.auth.status.get()),
-    staleTime: 10 * 60 * 1000,
+    enabled: false,
   });
 }

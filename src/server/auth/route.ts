@@ -24,8 +24,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
     "/login",
     async ({ body, set, upstream }) => {
-      const res = await login({
-        body: JSON.stringify(body),
+      const res = await login(body, {
         headers: upstream.headers,
       });
       return handleAuthResponse(res, set);
@@ -36,8 +35,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
     "/login/2fa",
     async ({ body, set, upstream }) => {
-      const res = await verify2FALogin({
-        body: JSON.stringify(body),
+      const res = await verify2FALogin(body, {
         headers: upstream.headers,
       });
       return handleAuthResponse(res, set);
