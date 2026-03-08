@@ -27,12 +27,29 @@ export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
       }),
     },
   )
-  .get("/stat", async ({ upstream }) => {
-    const res = await getLogsSelfStat(undefined, {
-      headers: upstream.headers,
-    });
-    return res.data!;
-  })
+  .get(
+    "/stat",
+    async ({ query, upstream }) => {
+      const res = await getLogsSelfStat(
+        {
+          start_timestamp: query.start_timestamp
+            ? Number(query.start_timestamp)
+            : undefined,
+          end_timestamp: query.end_timestamp
+            ? Number(query.end_timestamp)
+            : undefined,
+        },
+        { headers: upstream.headers },
+      );
+      return res.data!;
+    },
+    {
+      query: t.Object({
+        start_timestamp: t.Optional(t.String()),
+        end_timestamp: t.Optional(t.String()),
+      }),
+    },
+  )
   .get("/uptime", async () => {
     const res = await getUptimeKumaStatus();
     return res.data!;

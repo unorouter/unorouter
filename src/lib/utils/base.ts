@@ -1,8 +1,8 @@
 import { UnwrapApiResponse } from "../types";
 
-export function handleElysia<T extends { data: unknown; status: number }>(
+export function handleElysia<D, T extends { data: D; status: number }>(
   response: T,
-): UnwrapApiResponse<NonNullable<T["data"]>> {
+): UnwrapApiResponse<NonNullable<D>> {
   if (response.status !== 200) throw response;
   const body = response.data;
   if (

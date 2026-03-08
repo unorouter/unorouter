@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/chart";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
 import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
 import { useTranslations } from "next-intl";
-import { LuChartBar } from "react-icons/lu";
+import { LuChartBar, LuRefreshCw } from "react-icons/lu";
 import { useState } from "react";
 import {
   Bar,
@@ -126,13 +128,21 @@ function processRankingData(data: NonNullable<ResponseArrayModelQuotaDataDataIte
     .map(([name, count]) => ({ name, count }));
 }
 
+const DEFAULT_RANGE_HOURS = 24;
+
 export function ConsumptionChart() {
   const t = useTranslations();
-  const [timeRange] = useState(() => ({
-    start: Math.floor(Date.now() / 1000) - 30 * 24 * 60 * 60,
-    end: Math.floor(Date.now() / 1000) + 3600,
-  }));
-  const quotaQuery = useDashboardQuotaQuery(timeRange.start, timeRange.end);
+  const [dateRange, setDateRange] = useState(() => {
+    const now = new Date();
+    const from = new Date(now);
+    from.setHours(from.getHours() - DEFAULT_RANGE_HOURS);
+    return { from, to: now };
+  });
+
+  const startTs = Math.floor(dateRange.from.getTime() / 1000);
+  const endTs = Math.floor(dateRange.to.getTime() / 1000);
+
+  const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
 
   const rawData = ((quotaQuery.data ?? []) as ResponseArrayModelQuotaDataDataItem[]).filter(
     (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> => item != null,
@@ -167,6 +177,19 @@ export function ConsumptionChart() {
           <span className="text-foreground font-mono text-sm font-medium">
             {t("DASHBOARD.MODEL_DATA_ANALYSIS")}
           </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <DateTimeRangePicker value={dateRange} onChange={setDateRange} />
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={() => quotaQuery.refetch()}
+            disabled={quotaQuery.isFetching}
+          >
+            <LuRefreshCw
+              className={`h-4 w-4 ${quotaQuery.isFetching ? "animate-spin" : ""}`}
+            />
+          </Button>
         </div>
       </div>
 

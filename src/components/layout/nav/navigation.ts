@@ -1,10 +1,14 @@
 import { TranslationKey } from "@/lib/config/constants";
 import type { IconType } from "react-icons/lib";
 import {
+  LuBookOpen,
   LuCpu,
+  LuDollarSign,
   LuGift,
+  LuHouse,
   LuKey,
   LuLayoutDashboard,
+  LuLayers,
   LuScrollText,
   LuShell,
   LuSparkles,
@@ -40,11 +44,13 @@ export const ROLE_LABELS: Record<number, string> = {
 };
 
 export const navigation = (): NavigationItem[] => [
-  { name: "NAV.MODELS", href: "/models" },
-  { name: "NAV.PRICING", href: "/pricing" },
+  { name: "NAV.HOME", href: "/", icon: LuHouse, hidden: true },
+  { name: "NAV.MODELS", href: "/models", icon: LuLayers },
+  { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
   {
     name: "NAV.DOCS",
     href: "/docs",
+    icon: LuBookOpen,
     submenu: [
       { name: "NAV.CLAUDE_CODE", href: "/docs/claude-code", icon: LuTerminal },
       { name: "NAV.CODEX", href: "/docs/codex", icon: LuCpu },

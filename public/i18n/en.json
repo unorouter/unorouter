@@ -5,6 +5,7 @@
     "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API"
   },
   "NAV": {
+    "HOME": "Home",
     "MODELS": "Models",
     "PRICING": "Pricing",
     "DOCS": "Docs",
@@ -481,6 +482,7 @@
   },
   "SIDEBAR": {
     "MENU": "Menu",
+    "NAVIGATE": "Navigate",
     "DASHBOARD": "Dashboard",
     "TOKENS": "API Keys",
     "LOGS": "Usage Logs",

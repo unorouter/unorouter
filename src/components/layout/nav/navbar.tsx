@@ -60,7 +60,7 @@ export function Navbar() {
   const initials = displayName.charAt(0).toUpperCase();
   const roleKey = user ? ROLE_LABELS[user.role] : undefined;
 
-  const navItems = navigation();
+  const navItems = navigation().filter((item) => !item.hidden);
   const topLevelItems = navItems.filter((item) => !item.submenu);
   const docsItem = navItems.find((item) => item.submenu);
 

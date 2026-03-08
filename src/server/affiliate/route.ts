@@ -28,8 +28,6 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       return res.data!;
     },
     {
-      body: t.Object({
-        quota: t.Number(),
-      }),
+      body: t.Object({ quota: t.Number() }),
     },
   );

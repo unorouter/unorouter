@@ -6,9 +6,7 @@ import { handleElysia } from "@/lib/utils/base";
 import type { GetUserLogsParams } from "@/openapi";
 import { useQuery } from "@tanstack/react-query";
 
-export type LogFilters = GetUserLogsParams;
-
-export function useUsageLogsQuery(filters: LogFilters = {}) {
+export function useUsageLogsQuery(filters: GetUserLogsParams = {}) {
   return useQuery({
     queryKey: queryKeys.usageLogs(filters),
     queryFn: async () =>

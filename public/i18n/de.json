@@ -5,6 +5,7 @@
     "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API"
   },
   "NAV": {
+    "HOME": "Startseite",
     "MODELS": "Modelle",
     "PRICING": "Preise",
     "DOCS": "Docs",
@@ -481,6 +482,7 @@
   },
   "SIDEBAR": {
     "MENU": "Menü",
+    "NAVIGATE": "Navigation",
     "DASHBOARD": "Dashboard",
     "TOKENS": "API-Schlüssel",
     "LOGS": "Nutzungsprotokolle",
