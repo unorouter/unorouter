@@ -3,19 +3,10 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import type { GetUserLogsParams } from "@/openapi";
 import { useQuery } from "@tanstack/react-query";
 
-export type LogFilters = {
-  p?: number;
-  page_size?: number;
-  type?: number;
-  start_timestamp?: number;
-  end_timestamp?: number;
-  token_name?: string;
-  model_name?: string;
-  group?: string;
-  request_id?: string;
-};
+export type LogFilters = GetUserLogsParams;
 
 export function useUsageLogsQuery(filters: LogFilters = {}) {
   return useQuery({

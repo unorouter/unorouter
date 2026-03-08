@@ -11,6 +11,7 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
+import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
 import { useTranslations } from "next-intl";
 import { LuChartBar } from "react-icons/lu";
 import { useState } from "react";
@@ -35,14 +36,6 @@ const CHART_COLORS = [
   "var(--color-chart-5)",
 ];
 
-type QuotaItem = {
-  model_name?: string;
-  quota?: number;
-  count?: number;
-  token_used?: number;
-  created_at?: number;
-};
-
 function buildChartConfig(modelNames: string[]): ChartConfig {
   const config: ChartConfig = {};
   modelNames.forEach((name, i) => {
@@ -54,7 +47,7 @@ function buildChartConfig(modelNames: string[]): ChartConfig {
   return config;
 }
 
-function processDistributionData(data: QuotaItem[]) {
+function processDistributionData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
   const byTime = new Map<string, Record<string, number>>();
   const models = new Set<string>();
 
@@ -77,7 +70,7 @@ function processDistributionData(data: QuotaItem[]) {
   return { chartData, modelList };
 }
 
-function processTrendData(data: QuotaItem[]) {
+function processTrendData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
   const byTime = new Map<string, { quota: number; count: number }>();
 
   for (const item of data) {
@@ -99,7 +92,7 @@ function processTrendData(data: QuotaItem[]) {
     }));
 }
 
-function processPieData(data: QuotaItem[]) {
+function processPieData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
   const byModel = new Map<string, number>();
 
   for (const item of data) {
@@ -116,7 +109,7 @@ function processPieData(data: QuotaItem[]) {
     .map(([name, count]) => ({ name, count }));
 }
 
-function processRankingData(data: QuotaItem[]) {
+function processRankingData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
   const byModel = new Map<string, number>();
 
   for (const item of data) {
@@ -141,7 +134,9 @@ export function ConsumptionChart() {
   }));
   const quotaQuery = useDashboardQuotaQuery(timeRange.start, timeRange.end);
 
-  const rawData = (quotaQuery.data ?? []) as QuotaItem[];
+  const rawData = ((quotaQuery.data ?? []) as ResponseArrayModelQuotaDataDataItem[]).filter(
+    (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> => item != null,
+  );
   const isLoading = quotaQuery.isLoading;
 
   const distribution = processDistributionData(rawData);

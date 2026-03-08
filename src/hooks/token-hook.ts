@@ -3,7 +3,21 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import type { Token } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+type TokenMutationData = Pick<
+  Token,
+  | "name"
+  | "remain_quota"
+  | "expired_time"
+  | "unlimited_quota"
+  | "model_limits_enabled"
+  | "model_limits"
+  | "allow_ips"
+  | "group"
+  | "cross_group_retry"
+>;
 
 export function useTokensQuery(params: { p?: number; keyword?: string } = {}) {
   return useQuery({
@@ -56,17 +70,8 @@ export function useUserModelsQuery() {
 export function useCreateTokenMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: {
-      name: string;
-      remain_quota: number;
-      expired_time: number;
-      unlimited_quota: boolean;
-      model_limits_enabled: boolean;
-      model_limits: string;
-      allow_ips: string;
-      group: string;
-      cross_group_retry: boolean;
-    }) => handleElysia(await rpc.api.token.post(data)),
+    mutationFn: async (data: TokenMutationData) =>
+      handleElysia(await rpc.api.token.post(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tokens"] });
     },
@@ -76,18 +81,8 @@ export function useCreateTokenMutation() {
 export function useUpdateTokenMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: {
-      id: number;
-      name: string;
-      remain_quota: number;
-      expired_time: number;
-      unlimited_quota: boolean;
-      model_limits_enabled: boolean;
-      model_limits: string;
-      allow_ips: string;
-      group: string;
-      cross_group_retry: boolean;
-    }) => handleElysia(await rpc.api.token.put(data)),
+    mutationFn: async (data: Pick<Token, "id"> & TokenMutationData) =>
+      handleElysia(await rpc.api.token.put(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tokens"] });
     },
@@ -97,7 +92,7 @@ export function useUpdateTokenMutation() {
 export function useToggleTokenStatusMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: { id: number; status: number }) =>
+    mutationFn: async (data: Pick<Token, "id" | "status">) =>
       handleElysia(await rpc.api.token.status.put(data)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["tokens"] });

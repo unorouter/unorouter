@@ -3,6 +3,11 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import type {
+  LoginRequest,
+  RegisterRequest,
+  Verify2FARequest,
+} from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useAuthQuery() {
@@ -15,31 +20,22 @@ export function useAuthQuery() {
 
 export function useLoginMutation() {
   return useMutation({
-    mutationFn: async (data: {
-      username: string;
-      password: string;
-      turnstile?: string;
-    }) => handleElysia(await rpc.api.auth.login.post(data)),
+    mutationFn: async (data: LoginRequest & { turnstile?: string }) =>
+      handleElysia(await rpc.api.auth.login.post(data)),
   });
 }
 
 export function useVerify2FAMutation() {
   return useMutation({
-    mutationFn: async (code: string) =>
+    mutationFn: async (code: Verify2FARequest["code"]) =>
       handleElysia(await rpc.api.auth.login["2fa"].post({ code })),
   });
 }
 
 export function useRegisterMutation() {
   return useMutation({
-    mutationFn: async (data: {
-      username: string;
-      password: string;
-      email?: string;
-      verification_code?: string;
-      aff_code?: string;
-      turnstile?: string;
-    }) => handleElysia(await rpc.api.auth.register.post(data)),
+    mutationFn: async (data: RegisterRequest & { turnstile?: string }) =>
+      handleElysia(await rpc.api.auth.register.post(data)),
   });
 }
 
