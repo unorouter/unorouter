@@ -1,22 +1,23 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
 import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
+import { dashboardDateRangeAtom } from "@/store/dashboard";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuChartBar, LuRefreshCw } from "react-icons/lu";
-import { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -49,7 +50,9 @@ function buildChartConfig(modelNames: string[]): ChartConfig {
   return config;
 }
 
-function processDistributionData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
+function processDistributionData(
+  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
+) {
   const byTime = new Map<string, Record<string, number>>();
   const models = new Set<string>();
 
@@ -72,7 +75,9 @@ function processDistributionData(data: NonNullable<ResponseArrayModelQuotaDataDa
   return { chartData, modelList };
 }
 
-function processTrendData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
+function processTrendData(
+  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
+) {
   const byTime = new Map<string, { quota: number; count: number }>();
 
   for (const item of data) {
@@ -94,7 +99,9 @@ function processTrendData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>
     }));
 }
 
-function processPieData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
+function processPieData(
+  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
+) {
   const byModel = new Map<string, number>();
 
   for (const item of data) {
@@ -111,7 +118,9 @@ function processPieData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]
     .map(([name, count]) => ({ name, count }));
 }
 
-function processRankingData(data: NonNullable<ResponseArrayModelQuotaDataDataItem>[]) {
+function processRankingData(
+  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
+) {
   const byModel = new Map<string, number>();
 
   for (const item of data) {
@@ -128,24 +137,20 @@ function processRankingData(data: NonNullable<ResponseArrayModelQuotaDataDataIte
     .map(([name, count]) => ({ name, count }));
 }
 
-const DEFAULT_RANGE_HOURS = 24;
-
 export function ConsumptionChart() {
   const t = useTranslations();
-  const [dateRange, setDateRange] = useState(() => {
-    const now = new Date();
-    const from = new Date(now);
-    from.setHours(from.getHours() - DEFAULT_RANGE_HOURS);
-    return { from, to: now };
-  });
+  const [dateRange, setDateRange] = useAtom(dashboardDateRangeAtom);
 
   const startTs = Math.floor(dateRange.from.getTime() / 1000);
   const endTs = Math.floor(dateRange.to.getTime() / 1000);
 
   const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
 
-  const rawData = ((quotaQuery.data ?? []) as ResponseArrayModelQuotaDataDataItem[]).filter(
-    (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> => item != null,
+  const rawData = (
+    (quotaQuery.data ?? []) as ResponseArrayModelQuotaDataDataItem[]
+  ).filter(
+    (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> =>
+      item != null,
   );
   const isLoading = quotaQuery.isLoading;
 
@@ -208,25 +213,16 @@ export function ConsumptionChart() {
         <Tabs defaultValue="distribution" className="flex-1">
           <div className="border-border border-b px-5 pt-2">
             <TabsList variant="line" className="h-8">
-              <TabsTrigger
-                value="distribution"
-                className="font-mono text-xs"
-              >
+              <TabsTrigger value="distribution" className="font-mono text-xs">
                 {t("DASHBOARD.CONSUMPTION_DISTRIBUTION")}
               </TabsTrigger>
               <TabsTrigger value="trend" className="font-mono text-xs">
                 {t("DASHBOARD.CONSUMPTION_TREND")}
               </TabsTrigger>
-              <TabsTrigger
-                value="pie"
-                className="font-mono text-xs"
-              >
+              <TabsTrigger value="pie" className="font-mono text-xs">
                 {t("DASHBOARD.CALLS_DISTRIBUTION")}
               </TabsTrigger>
-              <TabsTrigger
-                value="ranking"
-                className="font-mono text-xs"
-              >
+              <TabsTrigger value="ranking" className="font-mono text-xs">
                 {t("DASHBOARD.CALLS_RANKING")}
               </TabsTrigger>
             </TabsList>
@@ -338,7 +334,9 @@ export function ConsumptionChart() {
                       />
                     ))}
                   </Pie>
-                  <ChartLegend content={<ChartLegendContent nameKey="name" />} />
+                  <ChartLegend
+                    content={<ChartLegendContent nameKey="name" />}
+                  />
                 </PieChart>
               </ChartContainer>
             </TabsContent>

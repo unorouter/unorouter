@@ -23,6 +23,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "1.11.19",
     "elysia": "1.4.27",
+    "jotai": "^2.18.1",
     "next": "16.1.6",
     "next-intl": "4.8.3",
     "next-themes": "0.4.6",

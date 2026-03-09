@@ -8,8 +8,6 @@ export const queryKeys = {
   status: () => ["status"] as const,
   dashboardQuota: (startTs?: number, endTs?: number) =>
     ["dashboard-quota", startTs, endTs] as const,
-  dashboardStat: (startTs?: number, endTs?: number) =>
-    ["dashboard-stat", startTs, endTs] as const,
   dashboardUptime: () => ["dashboard-uptime"] as const,
   tokens: (params?: { p?: number; keyword?: string }) =>
     ["tokens", params] as const,

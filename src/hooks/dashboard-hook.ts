@@ -20,22 +20,6 @@ export function useDashboardQuotaQuery(startTs?: number, endTs?: number) {
   });
 }
 
-export function useDashboardStatQuery(startTs?: number, endTs?: number) {
-  return useQuery({
-    queryKey: queryKeys.dashboardStat(startTs, endTs),
-    queryFn: async () =>
-      handleElysia(
-        await rpc.api.dashboard.stat.get({
-          query: {
-            start_timestamp: startTs?.toString(),
-            end_timestamp: endTs?.toString(),
-          },
-        }),
-      ),
-    refetchInterval: 30_000,
-  });
-}
-
 export function useDashboardUptimeQuery() {
   return useQuery({
     queryKey: queryKeys.dashboardUptime(),

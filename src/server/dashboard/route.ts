@@ -1,4 +1,4 @@
-import { getUserQuotaDates, getLogsSelfStat, getUptimeKumaStatus } from "@/openapi";
+import { getUserQuotaDates, getUptimeKumaStatus } from "@/openapi";
 import { Elysia, t } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -8,29 +8,6 @@ export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
     "/quota",
     async ({ query, upstream }) => {
       const res = await getUserQuotaDates(
-        {
-          start_timestamp: query.start_timestamp
-            ? Number(query.start_timestamp)
-            : undefined,
-          end_timestamp: query.end_timestamp
-            ? Number(query.end_timestamp)
-            : undefined,
-        },
-        { headers: upstream.headers },
-      );
-      return res.data!;
-    },
-    {
-      query: t.Object({
-        start_timestamp: t.Optional(t.String()),
-        end_timestamp: t.Optional(t.String()),
-      }),
-    },
-  )
-  .get(
-    "/stat",
-    async ({ query, upstream }) => {
-      const res = await getLogsSelfStat(
         {
           start_timestamp: query.start_timestamp
             ? Number(query.start_timestamp)
