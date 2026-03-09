@@ -36,13 +36,6 @@ export const isActiveLink = (pathname: string, href: string) => {
   );
 };
 
-export const ROLE_LABELS: Record<number, string> = {
-  100: "AUTH.ROLE_ROOT",
-  10: "AUTH.ROLE_ADMIN",
-  1: "AUTH.ROLE_USER",
-  0: "AUTH.ROLE_GUEST",
-};
-
 export const navigation = (): NavigationItem[] => [
   { name: "NAV.HOME", href: "/", icon: LuHouse, hidden: true },
   { name: "NAV.MODELS", href: "/models", icon: LuLayers },

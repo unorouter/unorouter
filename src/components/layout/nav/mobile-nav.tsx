@@ -1,6 +1,7 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Badge } from "@/components/ui/badge";
@@ -12,26 +13,22 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
+import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuLayoutDashboard, LuLogOut, LuMenu, LuWallet } from "react-icons/lu";
-import { isActiveLink, navigation, ROLE_LABELS } from "./navigation";
+import { isActiveLink, navigation } from "./navigation";
 
 export function MobileNav() {
   const t = useTranslations();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const { data: user, isLoading: isLoadingAuth } = useAuthQuery();
-  const isAuthenticated = !!user;
+  const authQuery = useAuthQuery();
   const logoutMutation = useLogoutMutation();
-
-  const displayName = user?.display_name || user?.username || "";
-  const initials = displayName.charAt(0).toUpperCase();
-  const roleKey = user ? ROLE_LABELS[user.role] : undefined;
-  const balanceDisplay = user?.quota !== undefined ? `$${(user.quota / 500000).toFixed(2)}` : null;
+  const userDisplay = useUserDisplay();
 
   async function handleLogout() {
     setOpen(false);
@@ -51,11 +48,7 @@ export function MobileNav() {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
-        render={
-          <button className="text-foreground md:hidden" />
-        }
-      >
+      <SheetTrigger render={<button className="text-foreground md:hidden" />}>
         <LuMenu className="h-5 w-5" />
         <span className="sr-only">Menu</span>
       </SheetTrigger>
@@ -118,35 +111,35 @@ export function MobileNav() {
           </nav>
 
           <div className="border-border flex flex-col gap-3 border-t pt-4">
-            {isAuthenticated && user ? (
+            {userDisplay.user ? (
               <>
                 <div className="flex items-center gap-2">
-                  <div className="bg-muted flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                    <span className="text-foreground text-xs font-bold">
-                      {initials}
-                    </span>
-                  </div>
+                  <UserAvatar />
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="text-foreground truncate font-medium">
-                      {displayName}
+                      {userDisplay.displayName}
                     </span>
-                    {user.group && (
+                    {userDisplay.user.group && (
                       <span className="text-muted-foreground truncate text-xs">
-                        {user.group}
+                        {userDisplay.user.group}
                       </span>
                     )}
                   </div>
-                  {roleKey && (
+                  {userDisplay.roleKey && (
                     <Badge variant="secondary" className="text-xs">
-                      {t(roleKey as any)}
+                      {t(userDisplay.roleKey)}
                     </Badge>
                   )}
                 </div>
-                {balanceDisplay && (
+                {userDisplay.balanceDisplay && (
                   <div className="flex items-center gap-2 text-sm">
-                    <LuWallet className="h-3.5 w-3.5 text-muted-foreground" />
-                    <span className="text-muted-foreground text-xs">{t("AUTH.BALANCE" as any)}</span>
-                    <span className="ml-auto font-mono text-xs font-medium tabular-nums">{balanceDisplay}</span>
+                    <LuWallet className="text-muted-foreground h-3.5 w-3.5" />
+                    <span className="text-muted-foreground text-xs">
+                      {t("AUTH.BALANCE")}
+                    </span>
+                    <span className="ml-auto font-mono text-xs font-medium tabular-nums">
+                      {userDisplay.balanceDisplay}
+                    </span>
                   </div>
                 )}
                 <a
@@ -167,7 +160,7 @@ export function MobileNav() {
                   {t("AUTH.LOG_OUT")}
                 </button>
               </>
-            ) : isLoadingAuth ? null : (
+            ) : authQuery.isLoading ? null : (
               <Link
                 href="/login"
                 onClick={handleNavigate}

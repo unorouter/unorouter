@@ -1,18 +1,10 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { UserAvatar } from "@/components/layout/user/user-avatar";
+import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
-import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -21,45 +13,25 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
-import { TranslationKey } from "@/lib/config/constants";
+import { useAuthQuery } from "@/hooks/auth-hook";
+import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { LuLayoutDashboard, LuLogOut, LuWallet } from "react-icons/lu";
 import { MobileNav } from "./mobile-nav";
-import { isActiveLink, navigation, ROLE_LABELS } from "./navigation";
+import { isActiveLink, navigation } from "./navigation";
 
 export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
-  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
-
-  const { data: user, isLoading: isLoadingAuth } = useAuthQuery();
-  const isAuthenticated = !!user;
-  const logoutMutation = useLogoutMutation();
-
-  async function handleLogout() {
-    try {
-      await logoutMutation.mutateAsync();
-      window.location.reload();
-    } catch {
-      // error handled by mutation
-    }
-  }
+  const authQuery = useAuthQuery();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const displayName = user?.display_name || user?.username || "";
-  const initials = displayName.charAt(0).toUpperCase();
-  const roleKey = user ? ROLE_LABELS[user.role] : undefined;
-  const balanceDisplay = user?.quota !== undefined ? `$${(user.quota / 500000).toFixed(2)}` : null;
 
   const navItems = navigation().filter((item) => !item.hidden);
   const topLevelItems = navItems.filter((item) => !item.submenu);
@@ -140,71 +112,13 @@ export function Navbar() {
         <div className="hidden items-center gap-4 md:flex">
           <LanguageToggle />
           <ThemeToggle />
-          {isAuthenticated && user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="bg-muted hover:bg-accent flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg transition-colors focus:outline-none">
-                <span className="text-foreground text-xs font-bold">
-                  {initials}
-                </span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="bottom"
-                align="end"
-                sideOffset={4}
-                className="min-w-56 rounded-lg"
-              >
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel className="p-0 font-normal">
-                    <div className="flex flex-col gap-2 px-1 py-1.5 text-left text-sm">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-muted flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                          <span className="text-foreground text-xs font-bold">
-                            {initials}
-                          </span>
-                        </div>
-                        <div className="grid flex-1 text-left text-sm leading-tight">
-                          <span className="text-foreground truncate font-medium">
-                            {displayName}
-                          </span>
-                          {user.group && (
-                            <span className="text-muted-foreground truncate text-xs">
-                              {user.group}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                      {roleKey && (
-                        <div className="flex flex-wrap gap-1 pt-0.5">
-                          <Badge variant="secondary" className="text-xs">
-                            {t(roleKey as TranslationKey)}
-                          </Badge>
-                        </div>
-                      )}
-                    </div>
-                  </DropdownMenuLabel>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                  {balanceDisplay && (
-                    <DropdownMenuItem disabled className="opacity-100">
-                      <LuWallet />
-                      <span className="text-muted-foreground text-xs">{t("AUTH.BALANCE")}</span>
-                      <span className="ml-auto font-mono text-xs font-medium tabular-nums">{balanceDisplay}</span>
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuItem onClick={() => router.push("/dashboard")}>
-                    <LuLayoutDashboard />
-                    {t("AUTH.DASHBOARD")}
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LuLogOut />
-                  {t("AUTH.LOG_OUT")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : isLoadingAuth ? null : (
+          {authQuery.data ? (
+            <UserDropdown side="bottom" align="end">
+              <button className="cursor-pointer focus:outline-none">
+                <UserAvatar />
+              </button>
+            </UserDropdown>
+          ) : authQuery.isLoading ? null : (
             <Link
               href="/login"
               className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
