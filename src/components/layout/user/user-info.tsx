@@ -34,17 +34,18 @@ export function UserInfo(props: UserInfoProps) {
           <span className="text-foreground truncate font-medium">
             {userDisplay.displayName}
           </span>
-          {userDisplay.user.group && (
-            <span className="text-muted-foreground truncate text-xs">
-              {userDisplay.user.group}
+        </div>
+        {props.trailing}
+      </div>
+      {(badge || userDisplay.balanceDisplay) && (
+        <div className="flex items-center justify-between gap-2">
+          {badge && <div className="flex flex-wrap gap-1">{badge}</div>}
+          {userDisplay.balanceDisplay && (
+            <span className="text-muted-foreground ml-auto shrink-0 font-mono text-xs tabular-nums">
+              {userDisplay.balanceDisplay}
             </span>
           )}
         </div>
-        {props.badgePosition !== "below" && badge}
-        {props.trailing}
-      </div>
-      {props.badgePosition === "below" && badge && (
-        <div className="flex flex-wrap gap-1">{badge}</div>
       )}
     </div>
   );

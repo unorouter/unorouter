@@ -1,5 +1,6 @@
 "use client";
 
+import { sidebarNavigation } from "@/components/layout/nav/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,9 +12,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLogoutMutation } from "@/hooks/auth-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
-import { LuLayoutDashboard, LuLogOut, LuWallet } from "react-icons/lu";
+import { LuLogOut } from "react-icons/lu";
 import { UserInfo } from "./user-info";
 
 interface UserDropdownProps {
@@ -42,8 +44,10 @@ export function UserDropdown(props: UserDropdownProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className={props.className} render={props.children}>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        className={props.className}
+        render={props.children}
+      ></DropdownMenuTrigger>
       <DropdownMenuContent
         side={props.side ?? "bottom"}
         align={props.align ?? "end"}
@@ -60,25 +64,14 @@ export function UserDropdown(props: UserDropdownProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          {userDisplay.balanceDisplay && (
-            <DropdownMenuItem disabled className="opacity-100">
-              <LuWallet />
-              <span className="text-muted-foreground text-xs">
-                {t("AUTH.BALANCE")}
-              </span>
-              <span className="ml-auto font-mono text-xs font-medium tabular-nums">
-                {userDisplay.balanceDisplay}
-              </span>
-            </DropdownMenuItem>
-          )}
-          <DropdownMenuItem
-            onClick={() => {
-              window.open(process.env.NEXT_PUBLIC_API_URL, "_blank");
-            }}
-          >
-            <LuLayoutDashboard />
-            {t("AUTH.DASHBOARD")}
-          </DropdownMenuItem>
+          {sidebarNavigation().map((item) => (
+            <Link key={item.href} href={item.href}>
+              <DropdownMenuItem>
+                {item.icon && <item.icon />}
+                {t(item.name)}
+              </DropdownMenuItem>
+            </Link>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
