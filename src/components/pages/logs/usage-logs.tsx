@@ -49,13 +49,7 @@ const LOG_TYPE_SYSTEM = 4;
 const LOG_TYPE_ERROR = 5;
 const LOG_TYPE_REFUND = 6;
 
-function renderQuota(quota: number): string {
-  return `$${(quota / 500000).toFixed(6)}`;
-}
-
-function renderQuotaShort(quota: number): string {
-  return `$${(quota / 500000).toFixed(2)}`;
-}
+import { renderQuota } from "@/lib/config/constants";
 
 function formatTimestamp(ts: number): string {
   if (!ts || ts <= 0) return "";
@@ -577,7 +571,7 @@ export function UsageLogs() {
                   <TableCell className="text-right">
                     {isConsumeLike ? (
                       <span className="font-mono text-xs font-medium tabular-nums">
-                        {renderQuota(log.quota)}
+                        {renderQuota(log.quota, 6)}
                       </span>
                     ) : (
                       <span className="text-muted-foreground text-xs">

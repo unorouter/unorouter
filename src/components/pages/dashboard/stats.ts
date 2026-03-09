@@ -1,9 +1,9 @@
-import { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
+import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
 
-export function renderQuota(quota: number | undefined): string {
-  if (quota === undefined || quota === null) return "$0.00";
-  return `$${(quota / 500000).toFixed(2)}`;
-}
+export { quotaToDollars, renderQuota } from "@/lib/config/constants";
+
+export type QuotaDataItem =
+  NonNullable<ResponseArrayModelQuotaDataDataItem>;
 
 export function formatDate(dateStr: string | undefined): string {
   if (!dateStr) return "";
@@ -16,6 +16,42 @@ export function formatDate(dateStr: string | undefined): string {
   }
 }
 
+export function filterQuotaData(
+  data: (ResponseArrayModelQuotaDataDataItem | null | undefined)[],
+): QuotaDataItem[] {
+  return data.filter(
+    (item): item is QuotaDataItem => item != null,
+  );
+}
+
+export function dateRangeToTimestamps(range: { from: Date; to: Date }) {
+  const startTs = Math.floor(range.from.getTime() / 1000);
+  const endTs = Math.floor(range.to.getTime() / 1000);
+  const periodMinutes = (endTs - startTs) / 60;
+  return { startTs, endTs, periodMinutes };
+}
+
+export function aggregateByModel(
+  data: QuotaDataItem[],
+  field: "count" | "quota",
+  limit: number,
+): { name: string; count: number }[] {
+  const byModel = new Map<string, number>();
+
+  for (const item of data) {
+    if (!item.model_name) continue;
+    byModel.set(
+      item.model_name,
+      (byModel.get(item.model_name) ?? 0) + (item[field] ?? 0),
+    );
+  }
+
+  return [...byModel.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([name, value]) => ({ name, count: value }));
+}
+
 export type BucketData = {
   count: number;
   quota: number;
@@ -23,7 +59,7 @@ export type BucketData = {
 };
 
 export function processQuotaData(
-  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
+  data: QuotaDataItem[],
   periodMinutes: number,
 ) {
   let totalCount = 0;
@@ -90,5 +126,3 @@ export function processQuotaData(
     },
   };
 }
-
-

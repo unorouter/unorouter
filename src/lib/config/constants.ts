@@ -39,3 +39,29 @@ export const APP_VALUES = {
   appName: process.env.NEXT_PUBLIC_APP_NAME!,
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL!,
 };
+
+/** 1 USD = 500000 quota units in new-api */
+export const QUOTA_PER_DOLLAR = 500000;
+
+export function quotaToDollars(quota: number): number {
+  return quota / QUOTA_PER_DOLLAR;
+}
+
+export function dollarsToQuota(dollars: number): number {
+  return Math.round(dollars * QUOTA_PER_DOLLAR);
+}
+
+export function renderQuota(
+  quota: number | undefined,
+  decimals = 2,
+): string {
+  if (quota === undefined || quota === null) return "$0.00";
+  return `$${quotaToDollars(quota).toFixed(decimals)}`;
+}
+
+export function getGreetingKey(): TranslationKey {
+  const hours = new Date().getHours();
+  if (hours >= 5 && hours < 12) return "DASHBOARD.GREETING_MORNING";
+  if (hours >= 12 && hours < 18) return "DASHBOARD.GREETING_AFTERNOON";
+  return "DASHBOARD.GREETING_EVENING";
+}

@@ -1,5 +1,6 @@
 "use client";
 
+import { quotaToDollars } from "@/lib/config/constants";
 import {
   useBillingPlansQuery,
   useSubscriptionSelfQuery,
@@ -200,8 +201,8 @@ export function SubscriptionSection() {
             const sub = item.subscription;
             if (!sub) return null;
             const isActive = sub.status === "active";
-            const total = sub.amount_total / 500000;
-            const used = sub.amount_used / 500000;
+            const total = quotaToDollars(sub.amount_total);
+            const used = quotaToDollars(sub.amount_used);
             const percentage = total > 0 ? Math.min((used / total) * 100, 100) : 0;
             const endDate = new Date(sub.end_time * 1000).toLocaleDateString();
 

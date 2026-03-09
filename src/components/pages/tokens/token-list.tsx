@@ -44,12 +44,9 @@ import {
   LuSearch,
   LuTrash2,
 } from "react-icons/lu";
+import { renderQuota } from "@/lib/config/constants";
 import { toast } from "sonner";
 import { CreateTokenSheet } from "./create-token-sheet";
-
-function formatQuota(quota: number): string {
-  return `$${(quota / 500000).toFixed(2)}`;
-}
 
 function formatDate(timestamp: number): string {
   if (timestamp <= 0) return "";
@@ -278,7 +275,7 @@ export function TokenList() {
                     <span className="font-mono text-sm tabular-nums">
                       {token.unlimited_quota
                         ? t("TOKEN.UNLIMITED")
-                        : `${formatQuota(token.used_quota)} / ${formatQuota(token.remain_quota)}`}
+                        : `${renderQuota(token.used_quota)} / ${renderQuota(token.remain_quota)}`}
                     </span>
                   </TableCell>
                   <TableCell>

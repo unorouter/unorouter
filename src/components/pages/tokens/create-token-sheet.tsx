@@ -1,5 +1,6 @@
 "use client";
 
+import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -44,12 +45,12 @@ function setExpiredTime(months: number, days: number, hours: number): number {
 }
 
 const QUOTA_PRESETS = [
-  { label: "$1", value: 500000 },
-  { label: "$10", value: 5000000 },
-  { label: "$50", value: 25000000 },
-  { label: "$100", value: 50000000 },
-  { label: "$500", value: 250000000 },
-  { label: "$1000", value: 500000000 },
+  { label: "$1", value: dollarsToQuota(1) },
+  { label: "$10", value: dollarsToQuota(10) },
+  { label: "$50", value: dollarsToQuota(50) },
+  { label: "$100", value: dollarsToQuota(100) },
+  { label: "$500", value: dollarsToQuota(500) },
+  { label: "$1000", value: dollarsToQuota(1000) },
 ];
 
 export function CreateTokenSheet(props: CreateTokenSheetProps) {
@@ -140,7 +141,7 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      <SheetContent side="right" className="w-full sm:w-[480px] overflow-y-auto">
+      <SheetContent side="right" className="w-full sm:w-120 overflow-y-auto">
         <SheetHeader>
           <SheetTitle>{t("TOKEN.CREATE")}</SheetTitle>
           <SheetDescription>{t("TOKEN.DESCRIPTION")}</SheetDescription>
@@ -272,7 +273,7 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                   <Label className="text-xs font-medium">
                     {t("TOKEN.UNLIMITED_QUOTA")}
                   </Label>
-                  <span className="text-muted-foreground text-[11px] max-w-[300px]">
+                  <span className="text-muted-foreground text-[11px] max-w-75">
                     {t("TOKEN.UNLIMITED_QUOTA_DESC")}
                   </span>
                 </div>
@@ -298,7 +299,7 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                       placeholder={t("TOKEN.QUOTA_PLACEHOLDER")}
                     />
                     <span className="text-muted-foreground font-mono text-[11px]">
-                      = ${(remainQuota / 500000).toFixed(2)}
+                      = ${quotaToDollars(remainQuota).toFixed(2)}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1.5">

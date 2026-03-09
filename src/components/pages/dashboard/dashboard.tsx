@@ -2,6 +2,7 @@
 
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
+import { getGreetingKey } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
@@ -19,13 +20,7 @@ export function Dashboard() {
   const user = authQuery.data;
   const status = statusQuery.data;
 
-  const hours = new Date().getHours();
-  const greeting =
-    hours >= 5 && hours < 12
-      ? t("DASHBOARD.GREETING_MORNING")
-      : hours >= 12 && hours < 18
-        ? t("DASHBOARD.GREETING_AFTERNOON")
-        : t("DASHBOARD.GREETING_EVENING");
+  const greeting = t(getGreetingKey());
   const displayName = user?.display_name || user?.username || "";
 
   const hasApiInfo = status?.api_info_enabled ?? false;

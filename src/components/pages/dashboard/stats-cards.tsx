@@ -2,10 +2,7 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
-import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
-import { dashboardStoreAtom } from "@/store/dashboard-store";
-import { useAtomValue } from "jotai";
+import { useDashboardData } from "@/hooks/dashboard-hook";
 import { useTranslations } from "next-intl";
 import {
   LuActivity,
@@ -104,20 +101,9 @@ function StatsCard(props: StatsCardProps) {
 export function StatsCards() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const dateRange = useAtomValue(dashboardStoreAtom);
-
-  const startTs = Math.floor(dateRange.from.getTime() / 1000);
-  const endTs = Math.floor(dateRange.to.getTime() / 1000);
-  const periodMinutes = (endTs - startTs) / 60;
-
-  const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
+  const { periodMinutes, quotaQuery, rawData } = useDashboardData();
 
   const user = authQuery.data;
-
-  const rawData = (quotaQuery.data ?? []).filter(
-    (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> =>
-      item != null,
-  );
 
   const stats = processQuotaData(rawData, periodMinutes);
 

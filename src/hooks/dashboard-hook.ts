@@ -1,9 +1,15 @@
 "use client";
 
+import {
+  dateRangeToTimestamps,
+  filterQuotaData,
+} from "@/components/pages/dashboard/stats";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import { dashboardStoreAtom } from "@/store/dashboard-store";
 import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 
 export function useDashboardQuotaQuery(startTs?: number, endTs?: number) {
   return useQuery({
@@ -18,6 +24,15 @@ export function useDashboardQuotaQuery(startTs?: number, endTs?: number) {
         }),
       ),
   });
+}
+
+export function useDashboardData() {
+  const [dateRange, setDateRange] = useAtom(dashboardStoreAtom);
+  const { startTs, endTs, periodMinutes } = dateRangeToTimestamps(dateRange);
+  const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
+  const rawData = filterQuotaData(quotaQuery.data ?? []);
+
+  return { dateRange, setDateRange, periodMinutes, quotaQuery, rawData };
 }
 
 export function useDashboardUptimeQuery() {

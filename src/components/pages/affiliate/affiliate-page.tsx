@@ -35,12 +35,8 @@ import {
   LuUsers,
   LuWallet,
 } from "react-icons/lu";
+import { dollarsToQuota, quotaToDollars, renderQuota } from "@/lib/config/constants";
 import { toast } from "sonner";
-
-function renderQuota(quota: number | undefined): string {
-  if (quota === undefined || quota === null) return "$0.00";
-  return `$${(quota / 500000).toFixed(2)}`;
-}
 
 function formatDate(timestamp: number): string {
   if (!timestamp || timestamp <= 0) return "";
@@ -164,7 +160,7 @@ export function AffiliatePage() {
       toast.error(t("AFFILIATE.TRANSFER_INVALID"));
       return;
     }
-    const quotaUnits = Math.round(amount * 500000);
+    const quotaUnits = dollarsToQuota(amount);
     if (quotaUnits > pendingQuota) {
       toast.error(t("AFFILIATE.TRANSFER_EXCEEDS"));
       return;
@@ -453,7 +449,7 @@ export function AffiliatePage() {
               </div>
               <div className="flex gap-1">
                 {[25, 50, 75, 100].map((pct) => {
-                  const val = (pendingQuota / 500000) * (pct / 100);
+                  const val = quotaToDollars(pendingQuota) * (pct / 100);
                   return (
                     <Button
                       key={pct}

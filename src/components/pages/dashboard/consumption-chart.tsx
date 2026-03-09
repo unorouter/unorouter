@@ -12,10 +12,7 @@ import {
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
-import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
-import { dashboardStoreAtom } from "@/store/dashboard-store";
-import { useAtom } from "jotai";
+import { useDashboardData } from "@/hooks/dashboard-hook";
 import { useTranslations } from "next-intl";
 import { LuChartBar, LuRefreshCw } from "react-icons/lu";
 import {
@@ -30,6 +27,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import {
+  aggregateByModel,
+  quotaToDollars,
+  type QuotaDataItem,
+} from "./stats";
 
 const CHART_COLORS = [
   "var(--color-chart-1)",
@@ -50,9 +52,7 @@ function buildChartConfig(modelNames: string[]): ChartConfig {
   return config;
 }
 
-function processDistributionData(
-  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
-) {
+function processDistributionData(data: QuotaDataItem[]) {
   const byTime = new Map<string, Record<string, number>>();
   const models = new Set<string>();
 
@@ -63,7 +63,7 @@ function processDistributionData(
     models.add(item.model_name);
     const existing = byTime.get(key) ?? {};
     existing[item.model_name] =
-      (existing[item.model_name] ?? 0) + (item.quota ?? 0) / 500000;
+      (existing[item.model_name] ?? 0) + quotaToDollars(item.quota ?? 0);
     byTime.set(key, existing);
   }
 
@@ -75,9 +75,7 @@ function processDistributionData(
   return { chartData, modelList };
 }
 
-function processTrendData(
-  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
-) {
+function processTrendData(data: QuotaDataItem[]) {
   const byTime = new Map<string, { quota: number; count: number }>();
 
   for (const item of data) {
@@ -85,7 +83,7 @@ function processTrendData(
     const date = new Date(item.created_at * 1000);
     const key = `${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")}`;
     const existing = byTime.get(key) ?? { quota: 0, count: 0 };
-    existing.quota += (item.quota ?? 0) / 500000;
+    existing.quota += quotaToDollars(item.quota ?? 0);
     existing.count += item.count ?? 0;
     byTime.set(key, existing);
   }
@@ -99,65 +97,15 @@ function processTrendData(
     }));
 }
 
-function processPieData(
-  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
-) {
-  const byModel = new Map<string, number>();
-
-  for (const item of data) {
-    if (!item.model_name) continue;
-    byModel.set(
-      item.model_name,
-      (byModel.get(item.model_name) ?? 0) + (item.count ?? 0),
-    );
-  }
-
-  return [...byModel.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
-    .map(([name, count]) => ({ name, count }));
-}
-
-function processRankingData(
-  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
-) {
-  const byModel = new Map<string, number>();
-
-  for (const item of data) {
-    if (!item.model_name) continue;
-    byModel.set(
-      item.model_name,
-      (byModel.get(item.model_name) ?? 0) + (item.count ?? 0),
-    );
-  }
-
-  return [...byModel.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10)
-    .map(([name, count]) => ({ name, count }));
-}
-
 export function ConsumptionChart() {
   const t = useTranslations();
-  const [dateRange, setDateRange] = useAtom(dashboardStoreAtom);
-
-  const startTs = Math.floor(dateRange.from.getTime() / 1000);
-  const endTs = Math.floor(dateRange.to.getTime() / 1000);
-
-  const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
-
-  const rawData = (
-    (quotaQuery.data ?? []) as ResponseArrayModelQuotaDataDataItem[]
-  ).filter(
-    (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> =>
-      item != null,
-  );
+  const { dateRange, setDateRange, quotaQuery, rawData } = useDashboardData();
   const isLoading = quotaQuery.isLoading;
 
   const distribution = processDistributionData(rawData);
   const trendData = processTrendData(rawData);
-  const pieData = processPieData(rawData);
-  const rankingData = processRankingData(rawData);
+  const pieData = aggregateByModel(rawData, "count", 8);
+  const rankingData = aggregateByModel(rawData, "count", 10);
 
   const distributionConfig = buildChartConfig(distribution.modelList);
   const trendConfig: ChartConfig = {
@@ -170,7 +118,7 @@ export function ConsumptionChart() {
   };
 
   const totalQuota = rawData.reduce(
-    (sum, item) => sum + (item.quota ?? 0) / 500000,
+    (sum, item) => sum + quotaToDollars(item.quota ?? 0),
     0,
   );
 

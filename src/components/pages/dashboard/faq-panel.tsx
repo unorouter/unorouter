@@ -5,11 +5,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuChevronDown, LuCircleHelp } from "react-icons/lu";
 
-type FaqItem = {
-  question?: string;
-  answer?: string;
-};
-
 export function FaqPanel() {
   const t = useTranslations();
   const statusQuery = useStatusQuery();

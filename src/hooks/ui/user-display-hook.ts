@@ -1,6 +1,6 @@
 "use client";
 
-import { TranslationKey } from "@/lib/config/constants";
+import { renderQuota, TranslationKey } from "@/lib/config/constants";
 import { useAuthQuery } from "../auth-hook";
 
 const ROLE_LABELS: Record<number, TranslationKey> = {
@@ -28,7 +28,7 @@ export function useUserDisplay() {
   const initials = displayName.charAt(0).toUpperCase();
   const roleKey = ROLE_LABELS[user.role];
   const balanceDisplay =
-    user.quota !== undefined ? `$${(user.quota / 500000).toFixed(2)}` : null;
+    user.quota !== undefined ? renderQuota(user.quota) : null;
 
   return { user, isLoading, displayName, initials, roleKey, balanceDisplay };
 }

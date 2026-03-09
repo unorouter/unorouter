@@ -2,13 +2,9 @@
 
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Skeleton } from "@/components/ui/skeleton";
+import { renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { LuWallet, LuTrendingDown, LuSend } from "react-icons/lu";
-
-function renderQuota(quota: number | undefined): string {
-  if (quota === undefined || quota === null) return "$0.00";
-  return `$${(quota / 500000).toFixed(2)}`;
-}
 
 export function AccountStats() {
   const t = useTranslations() as (key: string) => string;
