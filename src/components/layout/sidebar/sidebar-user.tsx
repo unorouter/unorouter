@@ -1,6 +1,6 @@
 "use client";
 
-import { UserAvatar } from "@/components/layout/user/user-avatar";
+import { UserInfo } from "@/components/layout/user/user-info";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import {
   SidebarMenu,
@@ -45,18 +45,12 @@ export function SidebarUser() {
             size="lg"
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
-            <UserAvatar />
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">
-                {userDisplay.displayName}
-              </span>
-              {userDisplay.user.group && (
-                <span className="text-muted-foreground truncate text-xs">
-                  {userDisplay.user.group}
-                </span>
-              )}
-            </div>
-            <PiDotsThreeVerticalBold className="ml-auto size-4" />
+            <UserInfo
+              showBadge={false}
+              trailing={
+                <PiDotsThreeVerticalBold className="ml-auto size-4" />
+              }
+            />
           </SidebarMenuButton>
         </UserDropdown>
       </SidebarMenuItem>

@@ -1,5 +1,6 @@
 import { affiliateRoute } from "@/server/affiliate/route";
 import { authRoute } from "@/server/auth/route";
+import { billingRoute } from "@/server/billing/route";
 import { dashboardRoute } from "@/server/dashboard/route";
 import { logsRoute } from "@/server/logs/route";
 import { pricingRoute } from "@/server/pricing/route";
@@ -20,6 +21,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(pricingRoute)
   .use(statsRoute)
   .use(authRoute)
+  .use(billingRoute)
   .use(dashboardRoute)
   .use(tokenRoute)
   .use(affiliateRoute)

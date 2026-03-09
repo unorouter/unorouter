@@ -487,7 +487,8 @@
     "DASHBOARD": "Dashboard",
     "TOKENS": "API-Schlüssel",
     "LOGS": "Nutzungsprotokolle",
-    "AFFILIATE": "Partnerprogramm"
+    "AFFILIATE": "Partnerprogramm",
+    "BILLING": "Abrechnung"
   },
   "DASHBOARD": {
     "GREETING_MORNING": "Guten Morgen",
@@ -666,5 +667,43 @@
     "LIGHT": "Hell",
     "DARK": "Dunkel",
     "SYSTEM": "System"
+  },
+  "BILLING": {
+    "TITLE": "Abrechnung",
+    "ACCOUNT_STATS": "Kontostatistiken",
+    "CURRENT_BALANCE": "Aktuelles Guthaben",
+    "CONSUMPTION": "Verbrauch",
+    "REQUESTS": "Anfragen",
+    "SUBSCRIPTION_PLANS": "Abonnementpläne",
+    "MY_SUBSCRIPTIONS": "Meine Abonnements",
+    "NO_ACTIVE": "Kein aktives",
+    "ACTIVE": "Aktiv",
+    "EXPIRED": "Abgelaufen",
+    "BILLING_PREFERENCE": "Abrechnungspräferenz",
+    "WALLET_FIRST": "Wallet zuerst",
+    "WALLET_ONLY": "Nur Wallet",
+    "SUBSCRIPTION_FIRST": "Abonnement zuerst",
+    "SUBSCRIPTION_ONLY": "Nur Abonnement",
+    "SUBSCRIBE_NOW": "Jetzt abonnieren",
+    "VALIDITY": "Gültigkeit",
+    "MONTH": "Monat",
+    "MONTHS": "Monate",
+    "QUOTA_RESET": "Kontingent-Reset",
+    "WEEKLY": "Wöchentlich",
+    "DAILY": "Täglich",
+    "MONTHLY": "Monatlich",
+    "TOTAL_QUOTA": "Gesamtkontingent",
+    "EST_TOTAL_QUOTA": "Geschätztes Gesamtkontingent",
+    "PER_WEEK": "/Woche",
+    "PER_DAY": "/Tag",
+    "PER_MONTH": "/Monat",
+    "QUOTA_TOP_UP": "Kontingent aufladen",
+    "TOP_UP_AMOUNT": "Aufladebetrag",
+    "ACTUAL_PAYMENT": "Tatsächliche Zahlung",
+    "SAVE": "Sparen",
+    "PAY_NOW": "Jetzt bezahlen",
+    "RECOMMENDED": "Empfohlen",
+    "USED_OF": "verbraucht von",
+    "REFRESHING": "Aktualisierung..."
   }
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +14,7 @@ import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
 import { LuLayoutDashboard, LuLogOut, LuWallet } from "react-icons/lu";
-import { UserAvatar } from "./user-avatar";
+import { UserInfo } from "./user-info";
 
 interface UserDropdownProps {
   children: ReactElement;
@@ -53,28 +52,10 @@ export function UserDropdown(props: UserDropdownProps) {
       >
         <DropdownMenuGroup>
           <DropdownMenuLabel className="p-0 font-normal">
-            <div className="flex flex-col gap-2 px-1 py-1.5 text-left text-sm">
-              <div className="flex items-center gap-2">
-                <UserAvatar />
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="text-foreground truncate font-medium">
-                    {userDisplay.displayName}
-                  </span>
-                  {userDisplay.user.group && (
-                    <span className="text-muted-foreground truncate text-xs">
-                      {userDisplay.user.group}
-                    </span>
-                  )}
-                </div>
-              </div>
-              {userDisplay.roleKey && (
-                <div className="flex flex-wrap gap-1 pt-0.5">
-                  <Badge variant="secondary" className="text-xs">
-                    {t(userDisplay.roleKey)}
-                  </Badge>
-                </div>
-              )}
-            </div>
+            <UserInfo
+              className="px-1 py-1.5 text-left text-sm"
+              badgePosition="below"
+            />
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />

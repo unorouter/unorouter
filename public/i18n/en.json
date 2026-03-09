@@ -487,7 +487,8 @@
     "DASHBOARD": "Dashboard",
     "TOKENS": "API Keys",
     "LOGS": "Usage Logs",
-    "AFFILIATE": "Affiliate"
+    "AFFILIATE": "Affiliate",
+    "BILLING": "Billing"
   },
   "DASHBOARD": {
     "GREETING_MORNING": "Good morning",
@@ -666,5 +667,43 @@
     "LIGHT": "Light",
     "DARK": "Dark",
     "SYSTEM": "System"
+  },
+  "BILLING": {
+    "TITLE": "Billing",
+    "ACCOUNT_STATS": "Account Statistics",
+    "CURRENT_BALANCE": "Current Balance",
+    "CONSUMPTION": "Consumption",
+    "REQUESTS": "Requests",
+    "SUBSCRIPTION_PLANS": "Subscription Plans",
+    "MY_SUBSCRIPTIONS": "My Subscriptions",
+    "NO_ACTIVE": "No active",
+    "ACTIVE": "Active",
+    "EXPIRED": "Expired",
+    "BILLING_PREFERENCE": "Billing Preference",
+    "WALLET_FIRST": "Wallet first",
+    "WALLET_ONLY": "Wallet only",
+    "SUBSCRIPTION_FIRST": "Subscription first",
+    "SUBSCRIPTION_ONLY": "Subscription only",
+    "SUBSCRIBE_NOW": "Subscribe now",
+    "VALIDITY": "Validity",
+    "MONTH": "Month",
+    "MONTHS": "Months",
+    "QUOTA_RESET": "Quota Reset",
+    "WEEKLY": "Weekly",
+    "DAILY": "Daily",
+    "MONTHLY": "Monthly",
+    "TOTAL_QUOTA": "Total quota",
+    "EST_TOTAL_QUOTA": "Est. total quota",
+    "PER_WEEK": "/week",
+    "PER_DAY": "/day",
+    "PER_MONTH": "/month",
+    "QUOTA_TOP_UP": "Quota Top Up",
+    "TOP_UP_AMOUNT": "Top Up Amount",
+    "ACTUAL_PAYMENT": "Actual payment",
+    "SAVE": "Save",
+    "PAY_NOW": "Pay now",
+    "RECOMMENDED": "Recommended",
+    "USED_OF": "used of",
+    "REFRESHING": "Refreshing..."
   }
 }

@@ -13,6 +13,7 @@ import {
   LuShell,
   LuSparkles,
   LuTerminal,
+  LuWallet,
 } from "react-icons/lu";
 
 export type NavigationItem = {
@@ -68,6 +69,11 @@ export const sidebarNavigation = (): NavigationItem[] => [
     name: "SIDEBAR.LOGS",
     href: "/logs",
     icon: LuScrollText,
+  },
+  {
+    name: "SIDEBAR.BILLING",
+    href: "/billing",
+    icon: LuWallet,
   },
   {
     name: "SIDEBAR.AFFILIATE",
