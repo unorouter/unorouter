@@ -16,17 +16,8 @@ export function Dashboard() {
   const authQuery = useAuthQuery();
   const statusQuery = useStatusQuery();
 
-  const user = authQuery.data as
-    | { username?: string; display_name?: string }
-    | undefined;
-  const status = statusQuery.data as
-    | {
-        api_info_enabled?: boolean;
-        announcements_enabled?: boolean;
-        faq_enabled?: boolean;
-        uptime_kuma_enabled?: boolean;
-      }
-    | undefined;
+  const user = authQuery.data;
+  const status = statusQuery.data;
 
   const hours = new Date().getHours();
   const greeting =

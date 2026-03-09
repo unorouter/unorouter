@@ -2685,19 +2685,50 @@ export interface ResponseDtoSetupData {
   success: boolean;
 }
 
+export type ResponseDtoStatusDataDataAnnouncementsItem = {
+  content: string;
+  extra?: string;
+  publishDate: string;
+  type?: string;
+};
+
+export type ResponseDtoStatusDataDataApiInfoItem = {
+  color: string;
+  description: string;
+  route: string;
+  url: string;
+};
+
+export type ResponseDtoStatusDataDataChatsItem = { [key: string]: string };
+
+export type ResponseDtoStatusDataDataCustomOauthProvidersItem = {
+  authorization_endpoint: string;
+  client_id: string;
+  icon: string;
+  id: number;
+  name: string;
+  scopes: string;
+  slug: string;
+};
+
+export type ResponseDtoStatusDataDataFaqItem = {
+  answer: string;
+  question: string;
+};
+
 export type ResponseDtoStatusDataData = {
   HeaderNavModules: string;
   SidebarModulesAdmin: string;
   _qn: string;
-  announcements?: unknown;
+  announcements?: ResponseDtoStatusDataDataAnnouncementsItem[];
   announcements_enabled: boolean;
-  api_info?: unknown;
+  api_info?: ResponseDtoStatusDataDataApiInfoItem[];
   api_info_enabled: boolean;
-  chats: unknown;
+  chats: ResponseDtoStatusDataDataChatsItem[];
   checkin_enabled: boolean;
   custom_currency_exchange_rate: number;
   custom_currency_symbol: string;
-  custom_oauth_providers?: unknown;
+  custom_oauth_providers?: ResponseDtoStatusDataDataCustomOauthProvidersItem[];
   data_export_default_time: string;
   default_collapse_sidebar: boolean;
   default_use_auto_group: boolean;
@@ -2711,7 +2742,7 @@ export type ResponseDtoStatusDataData = {
   enable_data_export: boolean;
   enable_drawing: boolean;
   enable_task: boolean;
-  faq?: unknown;
+  faq?: ResponseDtoStatusDataDataFaqItem[];
   faq_enabled: boolean;
   footer_html: string;
   github_client_id: string;
@@ -3096,6 +3127,17 @@ export type ResponseMapStringDtoUserGroupInfoData = {
  */
 export interface ResponseMapStringDtoUserGroupInfo {
   data: ResponseMapStringDtoUserGroupInfoData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseMapStringStringData = { [key: string]: string };
+
+/**
+ * Response_map-string-string schema
+ */
+export interface ResponseMapStringString {
+  data: ResponseMapStringStringData;
   message: string;
   success: boolean;
 }
@@ -12678,6 +12720,52 @@ export const getToken = async (
   return customFetch<getTokenResponse>(getGetTokenUrl(id), {
     ...options,
     method: "GET",
+  });
+};
+
+/**
+ * @summary Get Token Key
+ */
+export type getTokenKeyResponse200ApplicationJson = {
+  data: ResponseMapStringString;
+  status: 200;
+};
+
+export type getTokenKeyResponse200ApplicationXml = {
+  data: ResponseMapStringString;
+  status: 200;
+};
+
+export type getTokenKeyResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type getTokenKeyResponseSuccess = (
+  | getTokenKeyResponse200ApplicationJson
+  | getTokenKeyResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getTokenKeyResponseError = getTokenKeyResponseDefault & {
+  headers: Headers;
+};
+
+export type getTokenKeyResponse =
+  | getTokenKeyResponseSuccess
+  | getTokenKeyResponseError;
+
+export const getGetTokenKeyUrl = (id: string) => {
+  return `/api/token/${id}/key`;
+};
+
+export const getTokenKey = async (
+  id: string,
+  options?: RequestInit,
+): Promise<getTokenKeyResponse> => {
+  return customFetch<getTokenKeyResponse>(getGetTokenKeyUrl(id), {
+    ...options,
+    method: "POST",
   });
 };
 

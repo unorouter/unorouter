@@ -2,27 +2,19 @@
 
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useTranslations } from "next-intl";
-import { LuCode, LuCopy, LuCheck } from "react-icons/lu";
 import { useState } from "react";
-
-type ApiInfoEntry = {
-  title?: string;
-  url?: string;
-  description?: string;
-};
+import { LuCheck, LuCode, LuCopy } from "react-icons/lu";
 
 export function ApiInfoPanel() {
   const t = useTranslations();
   const statusQuery = useStatusQuery();
-  const status = statusQuery.data as
-    | { api_info?: ApiInfoEntry[]; api_info_enabled?: boolean }
-    | undefined;
+  const status = statusQuery.data;
 
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   if (!status?.api_info_enabled) return null;
 
-  const apiInfo = (status?.api_info ?? []) as ApiInfoEntry[];
+  const apiInfo = status?.api_info ?? [];
 
   function handleCopy(url: string | undefined, index: number) {
     if (!url) return;
@@ -53,14 +45,17 @@ export function ApiInfoPanel() {
           <div className="divide-border divide-y">
             {apiInfo.map((entry, i) => (
               <div key={i} className="p-4">
-                {entry.title && (
-                  <span className="text-muted-foreground block font-mono text-[10px] tracking-widest uppercase">
-                    {entry.title}
+                {entry.route && (
+                  <span
+                    className="block font-mono text-[10px] tracking-widest uppercase"
+                    style={{ color: entry.color || "var(--muted-foreground)" }}
+                  >
+                    {entry.route}
                   </span>
                 )}
                 {entry.url && (
                   <div className="mt-2 flex items-center gap-2">
-                    <code className="bg-muted text-foreground flex-1 overflow-hidden text-ellipsis font-mono text-[11px] px-2 py-1">
+                    <code className="bg-muted text-foreground flex-1 overflow-hidden px-2 py-1 font-mono text-[11px] text-ellipsis">
                       {entry.url}
                     </code>
                     <button

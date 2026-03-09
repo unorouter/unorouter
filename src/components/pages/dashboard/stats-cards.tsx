@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
 import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
-import { dashboardDateRangeAtom } from "@/store/dashboard";
+import { dashboardStoreAtom } from "@/store/dashboard-store";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import {
@@ -18,11 +18,7 @@ import {
   LuWallet,
 } from "react-icons/lu";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
-
-function renderQuota(quota: number | undefined): string {
-  if (quota === undefined || quota === null) return "$0.00";
-  return `$${(quota / 500000).toFixed(2)}`;
-}
+import { processQuotaData, renderQuota } from "./stats";
 
 function Sparkline(props: { data: number[]; color: string }) {
   if (props.data.length < 2) return null;
@@ -105,85 +101,10 @@ function StatsCard(props: StatsCardProps) {
   );
 }
 
-type BucketData = {
-  count: number;
-  quota: number;
-  tokenUsed: number;
-};
-
-function processQuotaData(
-  data: NonNullable<ResponseArrayModelQuotaDataDataItem>[],
-  periodMinutes: number,
-) {
-  let totalCount = 0;
-  let totalQuota = 0;
-  let totalTokens = 0;
-  const byHour = new Map<number, BucketData>();
-
-  for (const item of data) {
-    if (!item) continue;
-    totalCount += item.count ?? 0;
-    totalQuota += item.quota ?? 0;
-    totalTokens += item.token_used ?? 0;
-
-    const hourKey = item.created_at ?? 0;
-    const existing = byHour.get(hourKey);
-    if (existing) {
-      existing.count += item.count ?? 0;
-      existing.quota += item.quota ?? 0;
-      existing.tokenUsed += item.token_used ?? 0;
-    } else {
-      byHour.set(hourKey, {
-        count: item.count ?? 0,
-        quota: item.quota ?? 0,
-        tokenUsed: item.token_used ?? 0,
-      });
-    }
-  }
-
-  const sortedKeys = [...byHour.keys()].sort((a, b) => a - b);
-  const buckets = sortedKeys.map((k) => byHour.get(k)!);
-
-  const intervalMinutes =
-    sortedKeys.length >= 2
-      ? (sortedKeys[sortedKeys.length - 1] - sortedKeys[0]) /
-        60 /
-        Math.max(sortedKeys.length - 1, 1)
-      : 60;
-
-  const countTrend = buckets.map((b) => b.count);
-  const quotaTrend = buckets.map((b) => b.quota);
-  const tokenTrend = buckets.map((b) => b.tokenUsed);
-  const rpmTrend = buckets.map((b) =>
-    intervalMinutes > 0 ? b.count / intervalMinutes : 0,
-  );
-  const tpmTrend = buckets.map((b) =>
-    intervalMinutes > 0 ? b.tokenUsed / intervalMinutes : 0,
-  );
-
-  const avgRpm = periodMinutes > 0 ? totalCount / periodMinutes : 0;
-  const avgTpm = periodMinutes > 0 ? totalTokens / periodMinutes : 0;
-
-  return {
-    totalCount,
-    totalQuota,
-    totalTokens,
-    avgRpm,
-    avgTpm,
-    trends: {
-      count: countTrend,
-      quota: quotaTrend,
-      tokens: tokenTrend,
-      rpm: rpmTrend,
-      tpm: tpmTrend,
-    },
-  };
-}
-
 export function StatsCards() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const dateRange = useAtomValue(dashboardDateRangeAtom);
+  const dateRange = useAtomValue(dashboardStoreAtom);
 
   const startTs = Math.floor(dateRange.from.getTime() / 1000);
   const endTs = Math.floor(dateRange.to.getTime() / 1000);
@@ -191,23 +112,14 @@ export function StatsCards() {
 
   const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
 
-  const user = authQuery.data as
-    | {
-        quota?: number;
-        used_quota?: number;
-        request_count?: number;
-      }
-    | undefined;
+  const user = authQuery.data;
 
-  const rawData = (
-    (quotaQuery.data ?? []) as ResponseArrayModelQuotaDataDataItem[]
-  ).filter(
+  const rawData = (quotaQuery.data ?? []).filter(
     (item): item is NonNullable<ResponseArrayModelQuotaDataDataItem> =>
       item != null,
   );
 
   const stats = processQuotaData(rawData, periodMinutes);
-  const isLoading = authQuery.isLoading || quotaQuery.isLoading;
 
   const cards: StatsCardProps[] = [
     {

@@ -14,7 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardQuotaQuery } from "@/hooks/dashboard-hook";
 import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
-import { dashboardDateRangeAtom } from "@/store/dashboard";
+import { dashboardStoreAtom } from "@/store/dashboard-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuChartBar, LuRefreshCw } from "react-icons/lu";
@@ -139,7 +139,7 @@ function processRankingData(
 
 export function ConsumptionChart() {
   const t = useTranslations();
-  const [dateRange, setDateRange] = useAtom(dashboardDateRangeAtom);
+  const [dateRange, setDateRange] = useAtom(dashboardStoreAtom);
 
   const startTs = Math.floor(dateRange.from.getTime() / 1000);
   const endTs = Math.floor(dateRange.to.getTime() / 1000);

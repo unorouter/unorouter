@@ -2,8 +2,8 @@
 
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useTranslations } from "next-intl";
-import { LuCircleHelp, LuChevronDown } from "react-icons/lu";
 import { useState } from "react";
+import { LuChevronDown, LuCircleHelp } from "react-icons/lu";
 
 type FaqItem = {
   question?: string;
@@ -13,15 +13,12 @@ type FaqItem = {
 export function FaqPanel() {
   const t = useTranslations();
   const statusQuery = useStatusQuery();
-  const status = statusQuery.data as
-    | { faq?: FaqItem[]; faq_enabled?: boolean }
-    | undefined;
-
+  const status = statusQuery.data;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (!status?.faq_enabled) return null;
 
-  const faqItems = (status?.faq ?? []) as FaqItem[];
+  const faqItems = status?.faq ?? [];
 
   return (
     <div className="border-border bg-card flex flex-col border">
@@ -45,10 +42,8 @@ export function FaqPanel() {
             {faqItems.map((item, i) => (
               <div key={i}>
                 <button
-                  className="flex w-full items-center gap-2 p-4 text-left transition-colors hover:bg-accent/50"
-                  onClick={() =>
-                    setOpenIndex(openIndex === i ? null : i)
-                  }
+                  className="hover:bg-accent/50 flex w-full items-center gap-2 p-4 text-left transition-colors"
+                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 >
                   <span className="text-foreground flex-1 font-mono text-xs font-medium">
                     {item.question}
@@ -62,7 +57,7 @@ export function FaqPanel() {
                   />
                 </button>
                 {openIndex === i && item.answer && (
-                  <div className="bg-muted/30 px-4 pb-4 pt-0">
+                  <div className="bg-muted/30 px-4 pt-0 pb-4">
                     <p className="text-muted-foreground font-mono text-[11px] leading-relaxed">
                       {item.answer}
                     </p>

@@ -1,21 +1,16 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardUptimeQuery } from "@/hooks/dashboard-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
-import { LuShield, LuExternalLink } from "react-icons/lu";
 import { useState } from "react";
+import { LuExternalLink, LuShield } from "react-icons/lu";
 
 type Monitor = {
   name?: string;
   status?: number;
   uptime?: number;
-};
-
-type UptimeGroup = {
-  categoryName?: string;
-  monitors?: Monitor[];
 };
 
 const STATUS_COLORS: Record<number, { bg: string; dot: string }> = {
@@ -37,14 +32,11 @@ export function UptimePanel() {
 
   if (!status?.uptime_kuma_enabled) return null;
 
-  const groups = (uptimeQuery.data ?? []) as UptimeGroup[];
+  const groups = uptimeQuery.data ?? [];
   const isLoading = uptimeQuery.isLoading;
 
-  const selectedCategory =
-    activeCategory || groups[0]?.categoryName || "";
-  const activeGroup = groups.find(
-    (g) => g.categoryName === selectedCategory,
-  );
+  const selectedCategory = activeCategory || groups[0]?.categoryName || "";
+  const activeGroup = groups.find((g) => g.categoryName === selectedCategory);
   const monitors = activeGroup?.monitors ?? [];
 
   function getStatusLabel(s: number | undefined): string {
@@ -82,13 +74,11 @@ export function UptimePanel() {
       ) : (
         <>
           {groups.length > 1 && (
-            <div className="border-border flex gap-px overflow-x-auto border-b bg-border">
+            <div className="border-border bg-border flex gap-px overflow-x-auto border-b">
               {groups.map((group) => (
                 <button
                   key={group.categoryName}
-                  onClick={() =>
-                    setActiveCategory(group.categoryName ?? "")
-                  }
+                  onClick={() => setActiveCategory(group.categoryName ?? "")}
                   className={`bg-card px-3 py-2 font-mono text-[10px] tracking-widest uppercase transition-colors ${
                     selectedCategory === group.categoryName
                       ? "text-foreground"
@@ -107,10 +97,7 @@ export function UptimePanel() {
                 const colors =
                   STATUS_COLORS[monitor.status ?? 2] ?? STATUS_COLORS[2];
                 return (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 px-5 py-3"
-                  >
+                  <div key={i} className="flex items-center gap-3 px-5 py-3">
                     <div
                       className={`flex h-5 w-5 items-center justify-center ${colors.bg}`}
                     >
