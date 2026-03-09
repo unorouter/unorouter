@@ -1,11 +1,11 @@
 "use client";
 
-import {
-  useTopUpInfoQuery,
-  useStripeTopUpMutation,
-  useCreemTopUpMutation,
-} from "@/hooks/billing-hook";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  useCreemTopUpMutation,
+  useStripeTopUpMutation,
+  useTopUpInfoQuery,
+} from "@/hooks/billing-hook";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -22,18 +22,7 @@ export function TopUpSection() {
   const stripeTopUpMutation = useStripeTopUpMutation();
   const creemTopUpMutation = useCreemTopUpMutation();
 
-  const topUpInfo = topUpInfoQuery.data as
-    | {
-        enable_online_topup?: boolean;
-        enable_stripe_topup?: boolean;
-        enable_creem_topup?: boolean;
-        creem_products?: string;
-        amount_options?: number[];
-        min_topup?: number;
-        stripe_min_topup?: number;
-        discount?: Record<string, number>;
-      }
-    | undefined;
+  const topUpInfo = topUpInfoQuery.data;
 
   const enableStripe = topUpInfo?.enable_stripe_topup ?? false;
   const enableCreem = topUpInfo?.enable_creem_topup ?? false;
@@ -151,9 +140,9 @@ export function TopUpSection() {
       {/* Creem products */}
       {enableCreem && creemProducts.length > 0 && (
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {creemProducts.map((product) => (
+          {creemProducts.map((product, index) => (
             <button
-              key={product.id}
+              key={product.id ?? index}
               onClick={() => handleCreemTopUp(product.id)}
               disabled={isMutating}
               className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"

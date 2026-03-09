@@ -9,13 +9,13 @@ const from = new Date(to);
 from.setHours(from.getHours() - DEFAULT_RANGE_HOURS);
 
 export type DashboardStore = {
-  from: Date;
-  to: Date;
+  from: string;
+  to: string;
 };
 
 export const DASHBOARD_STORE_DEFAULT: DashboardStore = {
-  from,
-  to,
+  from: from.toISOString(),
+  to: to.toISOString(),
 };
 
 export const dashboardStoreAtom = atomWithStorage<DashboardStore>(
