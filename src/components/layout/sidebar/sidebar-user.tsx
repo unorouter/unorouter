@@ -19,7 +19,7 @@ import { useAuthQuery, useLogoutMutation } from "@/hooks/auth-hook";
 import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { useTranslations } from "next-intl";
-import { LuLayoutDashboard, LuLogIn, LuLogOut } from "react-icons/lu";
+import { LuLayoutDashboard, LuLogIn, LuLogOut, LuWallet } from "react-icons/lu";
 import { PiDotsThreeVerticalBold } from "react-icons/pi";
 
 const ROLE_LABELS: Record<number, string> = {
@@ -53,6 +53,7 @@ export function SidebarUser() {
   const displayName = user.display_name || user.username || "";
   const initials = displayName.charAt(0).toUpperCase();
   const roleKey = ROLE_LABELS[user.role];
+  const balanceDisplay = user.quota !== undefined ? `$${(user.quota / 500000).toFixed(2)}` : null;
 
   async function handleLogout() {
     try {
@@ -122,6 +123,13 @@ export function SidebarUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+              {balanceDisplay && (
+                <DropdownMenuItem disabled className="opacity-100">
+                  <LuWallet />
+                  <span className="text-muted-foreground text-xs">{t("AUTH.BALANCE" as any)}</span>
+                  <span className="ml-auto font-mono text-xs font-medium tabular-nums">{balanceDisplay}</span>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem
                 onClick={() => {
                   window.open(process.env.NEXT_PUBLIC_API_URL, "_blank");

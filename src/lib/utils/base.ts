@@ -1,8 +1,10 @@
 import { UnwrapApiResponse } from "../types";
 
-export function handleElysia<D, T extends { data: D; status: number }>(
+type ExtractData<T> = T extends { data: infer D } ? NonNullable<D> : never;
+
+export function handleElysia<T extends { data: unknown; status: number }>(
   response: T,
-): UnwrapApiResponse<NonNullable<D>> {
+): UnwrapApiResponse<ExtractData<T>> {
   if (response.status !== 200) throw response;
   const body = response.data;
   if (
@@ -15,8 +17,8 @@ export function handleElysia<D, T extends { data: D; status: number }>(
   }
   if (body && typeof body === "object" && "success" in body && "data" in body) {
     return (body as { data: unknown }).data as UnwrapApiResponse<
-      NonNullable<T["data"]>
+      ExtractData<T>
     >;
   }
-  return body as UnwrapApiResponse<NonNullable<T["data"]>>;
+  return body as UnwrapApiResponse<ExtractData<T>>;
 }

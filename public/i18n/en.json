@@ -478,7 +478,8 @@
     "ROLE_ROOT": "Root",
     "ROLE_ADMIN": "Admin",
     "ROLE_USER": "User",
-    "ROLE_GUEST": "Guest"
+    "ROLE_GUEST": "Guest",
+    "BALANCE": "Balance"
   },
   "SIDEBAR": {
     "MENU": "Menu",

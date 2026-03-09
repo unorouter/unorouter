@@ -27,7 +27,7 @@ import { TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { LuLayoutDashboard, LuLogOut } from "react-icons/lu";
+import { LuLayoutDashboard, LuLogOut, LuWallet } from "react-icons/lu";
 import { MobileNav } from "./mobile-nav";
 import { isActiveLink, navigation, ROLE_LABELS } from "./navigation";
 
@@ -59,6 +59,7 @@ export function Navbar() {
   const displayName = user?.display_name || user?.username || "";
   const initials = displayName.charAt(0).toUpperCase();
   const roleKey = user ? ROLE_LABELS[user.role] : undefined;
+  const balanceDisplay = user?.quota !== undefined ? `$${(user.quota / 500000).toFixed(2)}` : null;
 
   const navItems = navigation().filter((item) => !item.hidden);
   const topLevelItems = navItems.filter((item) => !item.submenu);
@@ -184,6 +185,13 @@ export function Navbar() {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
+                  {balanceDisplay && (
+                    <DropdownMenuItem disabled className="opacity-100">
+                      <LuWallet />
+                      <span className="text-muted-foreground text-xs">{t("AUTH.BALANCE")}</span>
+                      <span className="ml-auto font-mono text-xs font-medium tabular-nums">{balanceDisplay}</span>
+                    </DropdownMenuItem>
+                  )}
                   <DropdownMenuItem onClick={() => router.push("/dashboard")}>
                     <LuLayoutDashboard />
                     {t("AUTH.DASHBOARD")}

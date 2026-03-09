@@ -16,7 +16,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuLayoutDashboard, LuLogOut, LuMenu } from "react-icons/lu";
+import { LuLayoutDashboard, LuLogOut, LuMenu, LuWallet } from "react-icons/lu";
 import { isActiveLink, navigation, ROLE_LABELS } from "./navigation";
 
 export function MobileNav() {
@@ -31,6 +31,7 @@ export function MobileNav() {
   const displayName = user?.display_name || user?.username || "";
   const initials = displayName.charAt(0).toUpperCase();
   const roleKey = user ? ROLE_LABELS[user.role] : undefined;
+  const balanceDisplay = user?.quota !== undefined ? `$${(user.quota / 500000).toFixed(2)}` : null;
 
   async function handleLogout() {
     setOpen(false);
@@ -141,6 +142,13 @@ export function MobileNav() {
                     </Badge>
                   )}
                 </div>
+                {balanceDisplay && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <LuWallet className="h-3.5 w-3.5 text-muted-foreground" />
+                    <span className="text-muted-foreground text-xs">{t("AUTH.BALANCE" as any)}</span>
+                    <span className="ml-auto font-mono text-xs font-medium tabular-nums">{balanceDisplay}</span>
+                  </div>
+                )}
                 <a
                   href={process.env.NEXT_PUBLIC_API_URL}
                   target="_blank"
