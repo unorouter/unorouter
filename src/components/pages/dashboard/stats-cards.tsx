@@ -62,7 +62,7 @@ type StatsCardProps = {
 
 function StatsCard(props: StatsCardProps) {
   return (
-    <div className="border-border flex flex-col border p-5">
+    <div className="flex flex-col p-5">
       <span className="text-muted-foreground mb-1 font-mono text-[10px] font-medium tracking-widest uppercase">
         {props.title}
       </span>
@@ -174,7 +174,7 @@ export function StatsCards() {
   ];
 
   return (
-    <div className="bg-border grid grid-cols-1 gap-px md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 divide-x-0 divide-y md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-4 divide-border">
       {cards.map((card, i) => (
         <StatsCard key={i} title={card.title} items={card.items} />
       ))}
