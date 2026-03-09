@@ -21,13 +21,6 @@ export function filterQuotaData(
   return data.filter((item): item is QuotaDataItem => item != null);
 }
 
-export function dateRangeToTimestamps(range: { from: Date; to: Date }) {
-  const startTs = Math.floor(range.from.getTime() / 1000);
-  const endTs = Math.floor(range.to.getTime() / 1000);
-  const periodMinutes = (endTs - startTs) / 60;
-  return { startTs, endTs, periodMinutes };
-}
-
 export function aggregateByModel(
   data: QuotaDataItem[],
   field: "count" | "quota",

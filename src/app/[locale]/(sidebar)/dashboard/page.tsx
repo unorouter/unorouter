@@ -1,4 +1,3 @@
-import { dateRangeToTimestamps } from "@/components/pages/dashboard/stats";
 import { Dashboard } from "@/components/pages/dashboard/dashboard";
 import { loadDataFromCookie } from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
@@ -8,7 +7,7 @@ import { StoreId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
 import {
-  DASHBOARD_STORE_DEFAULT,
+  defaultTimestamps,
   type DashboardStore,
 } from "@/store/dashboard-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -19,14 +18,12 @@ export default async function DashboardPage() {
   const cookie = await cookies();
   const cookieHeaders = await setCookies();
 
-  const dashboardStore =
-    loadDataFromCookie<DashboardStore>(StoreId.DASHBOARD_STORE, cookie) ??
-    DASHBOARD_STORE_DEFAULT;
+  const dashboardStore = loadDataFromCookie<DashboardStore>(
+    StoreId.DASHBOARD_STORE,
+    cookie,
+  );
 
-  const { startTs, endTs } = dateRangeToTimestamps({
-    from: new Date(dashboardStore.from),
-    to: new Date(dashboardStore.to),
-  });
+  const { startTs, endTs } = dashboardStore ?? defaultTimestamps();
 
   await Promise.all([
     queryClient.prefetchQuery({
@@ -41,8 +38,8 @@ export default async function DashboardPage() {
           await rpc.api.dashboard.quota.get({
             ...cookieHeaders,
             query: {
-              start_timestamp: startTs?.toString(),
-              end_timestamp: endTs?.toString(),
+              start_timestamp: startTs.toString(),
+              end_timestamp: endTs.toString(),
             },
           }),
         ),
