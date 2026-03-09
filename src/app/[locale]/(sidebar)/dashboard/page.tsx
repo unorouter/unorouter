@@ -1,4 +1,5 @@
 import { Dashboard } from "@/components/pages/dashboard/dashboard";
+import { DashboardStoreProvider } from "@/components/provider/dashboard-store-provider";
 import { loadDataFromCookie } from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -53,7 +54,9 @@ export default async function DashboardPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Dashboard />
+      <DashboardStoreProvider data={dashboardStore}>
+        <Dashboard />
+      </DashboardStoreProvider>
     </HydrationBoundary>
   );
 }
