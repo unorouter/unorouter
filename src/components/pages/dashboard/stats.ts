@@ -1,4 +1,5 @@
 import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
+import dayjs from "dayjs";
 
 export { quotaToDollars, renderQuota } from "@/lib/config/constants";
 
@@ -6,13 +7,9 @@ export type QuotaDataItem = NonNullable<ResponseArrayModelQuotaDataDataItem>;
 
 export function formatDate(dateStr: string | undefined): string {
   if (!dateStr) return "";
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return dateStr;
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  } catch {
-    return dateStr;
-  }
+  const d = dayjs(dateStr);
+  if (!d.isValid()) return dateStr;
+  return d.format("YYYY-MM-DD");
 }
 
 export function filterQuotaData(

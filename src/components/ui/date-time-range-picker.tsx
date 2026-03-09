@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+import dayjs from "dayjs";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 import { LuCalendar } from "react-icons/lu";
@@ -31,8 +31,8 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
     from: props.value.from,
     to: props.value.to,
   });
-  const [startTime, setStartTime] = useState(format(props.value.from, "HH:mm"));
-  const [endTime, setEndTime] = useState(format(props.value.to, "HH:mm"));
+  const [startTime, setStartTime] = useState(dayjs(props.value.from).format("HH:mm"));
+  const [endTime, setEndTime] = useState(dayjs(props.value.to).format("HH:mm"));
 
   function handleApply() {
     if (!range?.from || !range?.to) return;
@@ -48,7 +48,7 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
 
   const label =
     props.value.from && props.value.to
-      ? `${format(props.value.from, "MMM d, yyyy HH:mm")} \u2013 ${format(props.value.to, "MMM d, yyyy HH:mm")}`
+      ? `${dayjs(props.value.from).format("MMM D, YYYY HH:mm")} \u2013 ${dayjs(props.value.to).format("MMM D, YYYY HH:mm")}`
       : "Pick a date range";
 
   return (

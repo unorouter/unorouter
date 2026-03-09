@@ -13,6 +13,7 @@ import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardData } from "@/hooks/dashboard-hook";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { LuChartBar, LuRefreshCw } from "react-icons/lu";
 import {
@@ -54,8 +55,7 @@ function processDistributionData(data: QuotaDataItem[]) {
 
   for (const item of data) {
     if (!item.created_at || !item.model_name) continue;
-    const date = new Date(item.created_at * 1000);
-    const key = `${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")} ${String(date.getHours()).padStart(2, "0")}:00`;
+    const key = dayjs.unix(item.created_at).format("MM/DD HH:00");
     models.add(item.model_name);
     const existing = byTime.get(key) ?? {};
     existing[item.model_name] =
@@ -76,8 +76,7 @@ function processTrendData(data: QuotaDataItem[]) {
 
   for (const item of data) {
     if (!item.created_at) continue;
-    const date = new Date(item.created_at * 1000);
-    const key = `${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")}`;
+    const key = dayjs.unix(item.created_at).format("MM/DD");
     const existing = byTime.get(key) ?? { quota: 0, count: 0 };
     existing.quota += quotaToDollars(item.quota ?? 0);
     existing.count += item.count ?? 0;

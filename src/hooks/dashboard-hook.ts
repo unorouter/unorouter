@@ -9,6 +9,7 @@ import {
   defaultTimestamps,
 } from "@/store/dashboard-store";
 import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { useAtom } from "jotai";
 
 export function useDashboardData() {
@@ -20,14 +21,14 @@ export function useDashboardData() {
   const rawData = filterQuotaData(quotaQuery.data ?? []);
 
   const dateRange = {
-    from: new Date(startTs * 1000),
-    to: new Date(endTs * 1000),
+    from: dayjs.unix(startTs).toDate(),
+    to: dayjs.unix(endTs).toDate(),
   };
 
   const setDateRange = (range: { from: Date; to: Date }) =>
     setStore({
-      startTs: Math.floor(range.from.getTime() / 1000),
-      endTs: Math.floor(range.to.getTime() / 1000),
+      startTs: dayjs(range.from).unix(),
+      endTs: dayjs(range.to).unix(),
     });
 
   return {

@@ -1,8 +1,9 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
+import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { getGreetingKey } from "@/lib/config/constants";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
@@ -14,14 +15,12 @@ import { UptimePanel } from "./uptime-panel";
 
 export function Dashboard() {
   const t = useTranslations();
-  const authQuery = useAuthQuery();
+  const { displayName } = useUserDisplay();
   const statusQuery = useStatusQuery();
 
-  const user = authQuery.data;
   const status = statusQuery.data;
 
   const greeting = t(getGreetingKey());
-  const displayName = user?.display_name || user?.username || "";
 
   const hasApiInfo = status?.api_info_enabled ?? false;
   const hasAnnouncements = status?.announcements_enabled ?? false;
@@ -47,11 +46,7 @@ export function Dashboard() {
         <div className="text-muted-foreground hidden items-center gap-1.5 md:flex">
           <LuActivity className="h-3 w-3" />
           <span className="font-mono text-[10px] tracking-widest uppercase">
-            {new Date().toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            })}
+            {dayjs().format("MMM D, YYYY")}
           </span>
         </div>
       </div>

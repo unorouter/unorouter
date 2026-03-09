@@ -26,6 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useUsageLogsQuery, type LogFilters } from "@/hooks/logs-hook";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -53,22 +54,11 @@ import { renderQuota } from "@/lib/config/constants";
 
 function formatTimestamp(ts: number): string {
   if (!ts || ts <= 0) return "";
-  const date = new Date(ts * 1000);
-  return date.toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
+  return dayjs.unix(ts).format("MMM D, HH:mm:ss");
 }
 
-function formatDateForInput(date: Date): string {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
+function formatDateForInput(d: dayjs.Dayjs): string {
+  return d.format("YYYY-MM-DD");
 }
 
 function getLogTypeColor(type: number): string {
@@ -157,8 +147,7 @@ export function UsageLogs() {
   const [requestId, setRequestId] = useState("");
 
   // Date range: default to today
-  const today = new Date();
-  const todayStr = formatDateForInput(today);
+  const todayStr = formatDateForInput(dayjs());
   const [startDate, setStartDate] = useState(todayStr);
   const [endDate, setEndDate] = useState(todayStr);
 
@@ -171,13 +160,10 @@ export function UsageLogs() {
     filters.type = logType;
   }
   if (startDate) {
-    filters.start_timestamp = Math.floor(new Date(startDate).getTime() / 1000);
+    filters.start_timestamp = dayjs(startDate).unix();
   }
   if (endDate) {
-    // End of the end date
-    filters.end_timestamp = Math.floor(
-      new Date(endDate).getTime() / 1000 + 86400,
-    );
+    filters.end_timestamp = dayjs(endDate).unix() + 86400;
   }
   if (tokenName) filters.token_name = tokenName;
   if (modelName) filters.model_name = modelName;
