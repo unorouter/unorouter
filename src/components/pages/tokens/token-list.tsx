@@ -47,15 +47,11 @@ import {
 import { renderQuota } from "@/lib/config/constants";
 import { toast } from "sonner";
 import { CreateTokenSheet } from "./create-token-sheet";
+import dayjs from "dayjs";
 
 function formatDate(timestamp: number): string {
   if (timestamp <= 0) return "";
-  const date = new Date(timestamp * 1000);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+  return dayjs.unix(timestamp).format("MMM D, YYYY");
 }
 
 function maskKey(key: string): string {

@@ -25,6 +25,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
 import { LuSparkles, LuRefreshCw } from "react-icons/lu";
 import { toast } from "sonner";
+import dayjs from "dayjs";
 
 const PREFERENCE_OPTIONS = [
   { value: "wallet_first", key: "BILLING.WALLET_FIRST" },
@@ -213,7 +214,7 @@ export function SubscriptionSection() {
             const used = quotaToDollars(sub.amount_used);
             const percentage =
               total > 0 ? Math.min((used / total) * 100, 100) : 0;
-            const endDate = new Date(sub.end_time * 1000).toLocaleDateString();
+            const endDate = dayjs.unix(sub.end_time).format("MMM D, YYYY");
 
             return (
               <div key={sub.id} className="space-y-2">

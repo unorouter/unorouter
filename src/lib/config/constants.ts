@@ -1,4 +1,5 @@
 import { DE, US } from "country-flag-icons/react/3x2";
+import dayjs from "dayjs";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 
@@ -57,7 +58,7 @@ export function renderQuota(quota: number | undefined, decimals = 2): string {
 }
 
 export function getGreetingKey(): TranslationKey {
-  const hours = new Date().getHours();
+  const hours = dayjs().hour();
   if (hours >= 5 && hours < 12) return "DASHBOARD.GREETING_MORNING";
   if (hours >= 12 && hours < 18) return "DASHBOARD.GREETING_AFTERNOON";
   return "DASHBOARD.GREETING_EVENING";

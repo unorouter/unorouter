@@ -4,6 +4,7 @@ import { CompanyName, LogoImage } from "@/components/elements/brand";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
@@ -120,7 +121,7 @@ export function Footer() {
           <div className="text-muted-foreground flex flex-col items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
-                year: String(new Date().getFullYear()),
+                year: String(dayjs().year()),
                 ...APP_VALUES,
               })}
             </p>

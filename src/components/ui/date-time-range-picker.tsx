@@ -38,10 +38,8 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
     if (!range?.from || !range?.to) return;
     const [sh, sm] = startTime.split(":").map(Number);
     const [eh, em] = endTime.split(":").map(Number);
-    const from = new Date(range.from);
-    from.setHours(sh, sm, 0, 0);
-    const to = new Date(range.to);
-    to.setHours(eh, em, 59, 0);
+    const from = dayjs(range.from).hour(sh).minute(sm).second(0).millisecond(0).toDate();
+    const to = dayjs(range.to).hour(eh).minute(em).second(59).millisecond(0).toDate();
     props.onChange({ from, to });
     setOpen(false);
   }
