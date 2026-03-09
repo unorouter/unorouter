@@ -35,7 +35,11 @@ import {
   LuUsers,
   LuWallet,
 } from "react-icons/lu";
-import { dollarsToQuota, quotaToDollars, renderQuota } from "@/lib/config/constants";
+import {
+  dollarsToQuota,
+  quotaToDollars,
+  renderQuota,
+} from "@/lib/config/constants";
 import { toast } from "sonner";
 
 function formatDate(timestamp: number): string {
@@ -72,7 +76,7 @@ function StatItem(props: StatItemProps) {
         {props.isLoading ? (
           <Skeleton className="mt-1 h-5 w-20" />
         ) : (
-          <span className="text-foreground block text-lg font-bold tabular-nums tracking-tight">
+          <span className="text-foreground block text-lg font-bold tracking-tight tabular-nums">
             {typeof props.value === "number"
               ? props.value.toLocaleString()
               : (props.value ?? "\u2014")}
@@ -127,7 +131,9 @@ export function AffiliatePage() {
 
   const commissions = Array.isArray(commissionsData)
     ? commissionsData
-    : commissionsData && "data" in commissionsData && Array.isArray(commissionsData.data)
+    : commissionsData &&
+        "data" in commissionsData &&
+        Array.isArray(commissionsData.data)
       ? commissionsData.data
       : [];
 
@@ -195,7 +201,7 @@ export function AffiliatePage() {
 
       {/* Stats Cards */}
       <div className="bg-border mb-6 grid grid-cols-1 gap-px md:grid-cols-3">
-        <div className="border-border flex flex-col bg-background p-5">
+        <div className="border-border bg-background flex flex-col p-5">
           <StatItem
             label={t("AFFILIATE.PENDING_EARNINGS")}
             value={renderQuota(pendingQuota)}
@@ -204,7 +210,7 @@ export function AffiliatePage() {
             accentColor="var(--chart-2)"
           />
         </div>
-        <div className="border-border flex flex-col bg-background p-5">
+        <div className="border-border bg-background flex flex-col p-5">
           <StatItem
             label={t("AFFILIATE.TOTAL_EARNED")}
             value={renderQuota(totalEarned)}
@@ -213,7 +219,7 @@ export function AffiliatePage() {
             accentColor="var(--chart-3)"
           />
         </div>
-        <div className="border-border flex flex-col bg-background p-5">
+        <div className="border-border bg-background flex flex-col p-5">
           <StatItem
             label={t("AFFILIATE.INVITE_COUNT")}
             value={inviteCount}
@@ -287,7 +293,10 @@ export function AffiliatePage() {
             onClick={() => setTransferOpen(true)}
             disabled={pendingQuota <= 0}
           >
-            <LuArrowRightLeft data-icon="inline-start" className="h-3.5 w-3.5" />
+            <LuArrowRightLeft
+              data-icon="inline-start"
+              className="h-3.5 w-3.5"
+            />
             {t("AFFILIATE.TRANSFER_TO_BALANCE")}
           </Button>
         </div>
@@ -300,30 +309,51 @@ export function AffiliatePage() {
         </span>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="flex gap-3">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold" style={{ color: "var(--chart-1)" }}>
+            <div
+              className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+              style={{ color: "var(--chart-1)" }}
+            >
               01
             </div>
             <div>
-              <span className="text-foreground block text-sm font-medium">{t("AFFILIATE.STEP_1_TITLE")}</span>
-              <span className="text-muted-foreground block text-xs">{t("AFFILIATE.STEP_1_DESC")}</span>
+              <span className="text-foreground block text-sm font-medium">
+                {t("AFFILIATE.STEP_1_TITLE")}
+              </span>
+              <span className="text-muted-foreground block text-xs">
+                {t("AFFILIATE.STEP_1_DESC")}
+              </span>
             </div>
           </div>
           <div className="flex gap-3">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold" style={{ color: "var(--chart-2)" }}>
+            <div
+              className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+              style={{ color: "var(--chart-2)" }}
+            >
               02
             </div>
             <div>
-              <span className="text-foreground block text-sm font-medium">{t("AFFILIATE.STEP_2_TITLE")}</span>
-              <span className="text-muted-foreground block text-xs">{t("AFFILIATE.STEP_2_DESC")}</span>
+              <span className="text-foreground block text-sm font-medium">
+                {t("AFFILIATE.STEP_2_TITLE")}
+              </span>
+              <span className="text-muted-foreground block text-xs">
+                {t("AFFILIATE.STEP_2_DESC")}
+              </span>
             </div>
           </div>
           <div className="flex gap-3">
-            <div className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold" style={{ color: "var(--chart-3)" }}>
+            <div
+              className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+              style={{ color: "var(--chart-3)" }}
+            >
               03
             </div>
             <div>
-              <span className="text-foreground block text-sm font-medium">{t("AFFILIATE.STEP_3_TITLE")}</span>
-              <span className="text-muted-foreground block text-xs">{t("AFFILIATE.STEP_3_DESC")}</span>
+              <span className="text-foreground block text-sm font-medium">
+                {t("AFFILIATE.STEP_3_TITLE")}
+              </span>
+              <span className="text-muted-foreground block text-xs">
+                {t("AFFILIATE.STEP_3_DESC")}
+              </span>
             </div>
           </div>
         </div>
@@ -351,7 +381,7 @@ export function AffiliatePage() {
               <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                 {t("AFFILIATE.COL_RATE")}
               </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase text-right">
+              <TableHead className="text-muted-foreground text-right font-mono text-[10px] tracking-widest uppercase">
                 {t("AFFILIATE.COL_EARNED")}
               </TableHead>
             </TableRow>
@@ -361,11 +391,21 @@ export function AffiliatePage() {
               <>
                 {[1, 2, 3].map((i) => (
                   <TableRow key={i}>
-                    <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                    <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-                    <TableCell><Skeleton className="ml-auto h-4 w-16" /></TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-20" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-24" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-16" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4 w-12" />
+                    </TableCell>
+                    <TableCell>
+                      <Skeleton className="ml-auto h-4 w-16" />
+                    </TableCell>
                   </TableRow>
                 ))}
               </>
@@ -403,11 +443,16 @@ export function AffiliatePage() {
                 </TableCell>
                 <TableCell>
                   <span className="text-muted-foreground font-mono text-xs">
-                    {c.commission_rate != null ? `${(c.commission_rate * 100).toFixed(0)}%` : "\u2014"}
+                    {c.commission_rate != null
+                      ? `${(c.commission_rate * 100).toFixed(0)}%`
+                      : "\u2014"}
                   </span>
                 </TableCell>
                 <TableCell className="text-right">
-                  <span className="font-mono text-sm font-medium tabular-nums" style={{ color: "var(--chart-2)" }}>
+                  <span
+                    className="font-mono text-sm font-medium tabular-nums"
+                    style={{ color: "var(--chart-2)" }}
+                  >
                     {renderQuota(c.commission_quota)}
                   </span>
                 </TableCell>
@@ -428,7 +473,9 @@ export function AffiliatePage() {
           </DialogHeader>
           <div className="space-y-4 py-2">
             <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-sm">{t("AFFILIATE.AVAILABLE")}</span>
+              <span className="text-muted-foreground text-sm">
+                {t("AFFILIATE.AVAILABLE")}
+              </span>
               <span className="text-foreground font-mono text-sm font-bold tabular-nums">
                 {renderQuota(pendingQuota)}
               </span>
@@ -436,7 +483,9 @@ export function AffiliatePage() {
             <div className="space-y-2">
               <Label>{t("AFFILIATE.TRANSFER_AMOUNT")}</Label>
               <div className="relative">
-                <span className="text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2 text-sm">$</span>
+                <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm">
+                  $
+                </span>
                 <Input
                   type="number"
                   step="0.01"

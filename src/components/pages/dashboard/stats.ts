@@ -2,8 +2,7 @@ import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
 
 export { quotaToDollars, renderQuota } from "@/lib/config/constants";
 
-export type QuotaDataItem =
-  NonNullable<ResponseArrayModelQuotaDataDataItem>;
+export type QuotaDataItem = NonNullable<ResponseArrayModelQuotaDataDataItem>;
 
 export function formatDate(dateStr: string | undefined): string {
   if (!dateStr) return "";
@@ -19,9 +18,7 @@ export function formatDate(dateStr: string | undefined): string {
 export function filterQuotaData(
   data: (ResponseArrayModelQuotaDataDataItem | null | undefined)[],
 ): QuotaDataItem[] {
-  return data.filter(
-    (item): item is QuotaDataItem => item != null,
-  );
+  return data.filter((item): item is QuotaDataItem => item != null);
 }
 
 export function dateRangeToTimestamps(range: { from: Date; to: Date }) {
@@ -58,10 +55,7 @@ export type BucketData = {
   tokenUsed: number;
 };
 
-export function processQuotaData(
-  data: QuotaDataItem[],
-  periodMinutes: number,
-) {
+export function processQuotaData(data: QuotaDataItem[], periodMinutes: number) {
   let totalCount = 0;
   let totalQuota = 0;
   let totalTokens = 0;

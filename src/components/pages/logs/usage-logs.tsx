@@ -103,7 +103,9 @@ function getFirstResponseTimeColor(ms: number): string {
   return "text-red-500";
 }
 
-function parseOther(other: string | null | undefined): Record<string, any> | null {
+function parseOther(
+  other: string | null | undefined,
+): Record<string, any> | null {
   if (!other) return null;
   try {
     return JSON.parse(other);
@@ -115,14 +117,30 @@ function parseOther(other: string | null | undefined): Record<string, any> | nul
 function LogRowSkeleton() {
   return (
     <TableRow>
-      <TableCell><Skeleton className="h-4 w-28" /></TableCell>
-      <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-12" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-40" /></TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-28" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-5 w-16" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-24" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-20" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-12" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-12" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-16" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-40" />
+      </TableCell>
     </TableRow>
   );
 }
@@ -313,7 +331,7 @@ export function UsageLogs() {
         {filtersExpanded && (
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <div className="relative">
-              <LuSearch className="text-muted-foreground absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+              <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
               <Input
                 value={tokenName}
                 onChange={(e) => setTokenName(e.target.value)}
@@ -322,7 +340,7 @@ export function UsageLogs() {
               />
             </div>
             <div className="relative">
-              <LuSearch className="text-muted-foreground absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+              <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
               <Input
                 value={modelName}
                 onChange={(e) => setModelName(e.target.value)}
@@ -331,7 +349,7 @@ export function UsageLogs() {
               />
             </div>
             <div className="relative">
-              <LuSearch className="text-muted-foreground absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2" />
+              <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
               <Input
                 value={requestId}
                 onChange={(e) => setRequestId(e.target.value)}
@@ -373,16 +391,16 @@ export function UsageLogs() {
               <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                 {t("LOGS.COL_TOKEN")}
               </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase text-right">
+              <TableHead className="text-muted-foreground text-right font-mono text-[10px] tracking-widest uppercase">
                 {t("LOGS.COL_INPUT")}
               </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase text-right">
+              <TableHead className="text-muted-foreground text-right font-mono text-[10px] tracking-widest uppercase">
                 {t("LOGS.COL_OUTPUT")}
               </TableHead>
               <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                 {t("LOGS.COL_TIME_FIRST")}
               </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase text-right">
+              <TableHead className="text-muted-foreground text-right font-mono text-[10px] tracking-widest uppercase">
                 {t("LOGS.COL_SPEND")}
               </TableHead>
               <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
@@ -460,7 +478,7 @@ export function UsageLogs() {
                             render={
                               <button
                                 type="button"
-                                className="cursor-pointer bg-transparent border-0 p-0"
+                                className="cursor-pointer border-0 bg-transparent p-0"
                                 onClick={() => handleCopy(log.model_name)}
                               />
                             }
@@ -469,7 +487,9 @@ export function UsageLogs() {
                               {log.model_name}
                             </code>
                           </TooltipTrigger>
-                          <TooltipContent>{t("LOGS.CLICK_COPY")}</TooltipContent>
+                          <TooltipContent>
+                            {t("LOGS.CLICK_COPY")}
+                          </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     ) : (

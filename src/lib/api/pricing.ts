@@ -116,7 +116,10 @@ function processModels(response: PricingData) {
 
 export function buildPricingSummary(response: PricingData): PricingSummary {
   const models = processModels(response);
-  const endpointMap = (response.supported_endpoint ?? {}) as Record<string, EndpointInfo>;
+  const endpointMap = (response.supported_endpoint ?? {}) as Record<
+    string,
+    EndpointInfo
+  >;
 
   const vendorGroups = new Map<
     string,

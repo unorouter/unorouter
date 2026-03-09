@@ -58,7 +58,7 @@ export function AccountStats() {
               {isLoading ? (
                 <Skeleton className="mt-1 h-5 w-20" />
               ) : (
-                <span className="text-foreground block text-lg font-bold tabular-nums tracking-tight">
+                <span className="text-foreground block text-lg font-bold tracking-tight tabular-nums">
                   {stat.value}
                 </span>
               )}

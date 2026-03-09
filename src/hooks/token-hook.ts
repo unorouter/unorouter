@@ -54,16 +54,14 @@ export function useTokenQuery(id: number) {
 export function useUserGroupsQuery() {
   return useQuery({
     queryKey: queryKeys.userGroups(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.token.user.groups.get()),
+    queryFn: async () => handleElysia(await rpc.api.token.user.groups.get()),
   });
 }
 
 export function useUserModelsQuery() {
   return useQuery({
     queryKey: queryKeys.userModels(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.token.user.models.get()),
+    queryFn: async () => handleElysia(await rpc.api.token.user.models.get()),
   });
 }
 

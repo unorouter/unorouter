@@ -8,7 +8,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 export function useTopUpInfoQuery() {
   return useQuery({
     queryKey: queryKeys.topUpInfo(),
-    queryFn: async () => handleElysia(await rpc.api.billing["topup-info"].get()),
+    queryFn: async () =>
+      handleElysia(await rpc.api.billing["topup-info"].get()),
   });
 }
 

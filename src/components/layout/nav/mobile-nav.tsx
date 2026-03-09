@@ -103,9 +103,7 @@ export function MobileNav() {
             {userDisplay.user ? (
               <>
                 <UserInfo badgePosition="inline" />
-                <UserMenuItems
-                  onAction={handleNavigate}
-                />
+                <UserMenuItems onAction={handleNavigate} />
               </>
             ) : authQuery.isLoading ? null : (
               <Link

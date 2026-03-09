@@ -38,8 +38,7 @@ export function useDashboardData() {
 export function useDashboardUptimeQuery() {
   return useQuery({
     queryKey: queryKeys.dashboardUptime(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.dashboard.uptime.get()),
+    queryFn: async () => handleElysia(await rpc.api.dashboard.uptime.get()),
     staleTime: 5 * 60 * 1000,
   });
 }

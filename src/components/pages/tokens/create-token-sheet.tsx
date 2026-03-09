@@ -1,6 +1,5 @@
 "use client";
 
-import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,11 +21,8 @@ import {
 } from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  useCreateTokenMutation,
-  useUserGroupsQuery,
-  useUserModelsQuery,
-} from "@/hooks/token-hook";
+import { useCreateTokenMutation, useUserGroupsQuery } from "@/hooks/token-hook";
+import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuKey, LuPlus, LuShield, LuWallet } from "react-icons/lu";
@@ -40,7 +36,8 @@ type CreateTokenSheetProps = {
 function setExpiredTime(months: number, days: number, hours: number): number {
   if (months === 0 && days === 0 && hours === 0) return -1;
   const now = Date.now() / 1000;
-  const seconds = months * 30 * 24 * 60 * 60 + days * 24 * 60 * 60 + hours * 60 * 60;
+  const seconds =
+    months * 30 * 24 * 60 * 60 + days * 24 * 60 * 60 + hours * 60 * 60;
   return Math.ceil(now + seconds);
 }
 
@@ -57,7 +54,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
   const t = useTranslations();
   const createMutation = useCreateTokenMutation();
   const groupsQuery = useUserGroupsQuery();
-  const modelsQuery = useUserModelsQuery();
 
   const [name, setName] = useState("");
   const [group, setGroup] = useState("");
@@ -74,9 +70,12 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
     | Record<string, { desc: string; ratio: unknown }>
     | undefined;
 
-  const groupsMap = groupsData && "data" in groupsData && groupsData.data
-    ? groupsData.data
-    : (groupsData as Record<string, { desc: string; ratio: unknown }> | undefined);
+  const groupsMap =
+    groupsData && "data" in groupsData && groupsData.data
+      ? groupsData.data
+      : (groupsData as
+          | Record<string, { desc: string; ratio: unknown }>
+          | undefined);
 
   const groupEntries = groupsMap ? Object.entries(groupsMap) : [];
 
@@ -92,7 +91,12 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
     setAllowIps("");
   }
 
-  function handleExpirationPreset(months: number, days: number, hours: number, label: string) {
+  function handleExpirationPreset(
+    months: number,
+    days: number,
+    hours: number,
+    label: string,
+  ) {
     setExpiredTimeState(setExpiredTime(months, days, hours));
     setExpirationLabel(label);
   }
@@ -132,7 +136,8 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
           props.onOpenChange(false);
         },
         onError: (err) => {
-          const message = err instanceof Error ? err.message : "Failed to create token";
+          const message =
+            err instanceof Error ? err.message : "Failed to create token";
           toast.error(message);
         },
       },
@@ -141,7 +146,7 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      <SheetContent side="right" className="w-full sm:w-120 overflow-y-auto">
+      <SheetContent side="right" className="w-full overflow-y-auto sm:w-120">
         <SheetHeader>
           <SheetTitle>{t("TOKEN.CREATE")}</SheetTitle>
           <SheetDescription>{t("TOKEN.DESCRIPTION")}</SheetDescription>
@@ -178,7 +183,10 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                   {t("TOKEN.GROUP")}
                 </Label>
                 {groupEntries.length > 0 ? (
-                  <Select value={group} onValueChange={(v) => setGroup(v ?? "")}>
+                  <Select
+                    value={group}
+                    onValueChange={(v) => setGroup(v ?? "")}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={t("TOKEN.GROUP_PLACEHOLDER")} />
                     </SelectTrigger>
@@ -223,30 +231,54 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                 </Label>
                 <div className="flex flex-wrap gap-1.5">
                   <Button
-                    variant={expirationLabel === "TOKEN.NEVER_EXPIRES" ? "default" : "outline"}
+                    variant={
+                      expirationLabel === "TOKEN.NEVER_EXPIRES"
+                        ? "default"
+                        : "outline"
+                    }
                     size="xs"
-                    onClick={() => handleExpirationPreset(0, 0, 0, "TOKEN.NEVER_EXPIRES")}
+                    onClick={() =>
+                      handleExpirationPreset(0, 0, 0, "TOKEN.NEVER_EXPIRES")
+                    }
                   >
                     {t("TOKEN.NEVER_EXPIRES")}
                   </Button>
                   <Button
-                    variant={expirationLabel === "TOKEN.ONE_MONTH" ? "default" : "outline"}
+                    variant={
+                      expirationLabel === "TOKEN.ONE_MONTH"
+                        ? "default"
+                        : "outline"
+                    }
                     size="xs"
-                    onClick={() => handleExpirationPreset(1, 0, 0, "TOKEN.ONE_MONTH")}
+                    onClick={() =>
+                      handleExpirationPreset(1, 0, 0, "TOKEN.ONE_MONTH")
+                    }
                   >
                     {t("TOKEN.ONE_MONTH")}
                   </Button>
                   <Button
-                    variant={expirationLabel === "TOKEN.ONE_DAY" ? "default" : "outline"}
+                    variant={
+                      expirationLabel === "TOKEN.ONE_DAY"
+                        ? "default"
+                        : "outline"
+                    }
                     size="xs"
-                    onClick={() => handleExpirationPreset(0, 1, 0, "TOKEN.ONE_DAY")}
+                    onClick={() =>
+                      handleExpirationPreset(0, 1, 0, "TOKEN.ONE_DAY")
+                    }
                   >
                     {t("TOKEN.ONE_DAY")}
                   </Button>
                   <Button
-                    variant={expirationLabel === "TOKEN.ONE_HOUR" ? "default" : "outline"}
+                    variant={
+                      expirationLabel === "TOKEN.ONE_HOUR"
+                        ? "default"
+                        : "outline"
+                    }
                     size="xs"
-                    onClick={() => handleExpirationPreset(0, 0, 1, "TOKEN.ONE_HOUR")}
+                    onClick={() =>
+                      handleExpirationPreset(0, 0, 1, "TOKEN.ONE_HOUR")
+                    }
                   >
                     {t("TOKEN.ONE_HOUR")}
                   </Button>
@@ -273,7 +305,7 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                   <Label className="text-xs font-medium">
                     {t("TOKEN.UNLIMITED_QUOTA")}
                   </Label>
-                  <span className="text-muted-foreground text-[11px] max-w-75">
+                  <span className="text-muted-foreground max-w-75 text-[11px]">
                     {t("TOKEN.UNLIMITED_QUOTA_DESC")}
                   </span>
                 </div>
@@ -288,7 +320,10 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
               {!unlimitedQuota && (
                 <>
                   <div className="flex flex-col gap-1.5">
-                    <Label htmlFor="token-quota" className="text-xs font-medium">
+                    <Label
+                      htmlFor="token-quota"
+                      className="text-xs font-medium"
+                    >
                       {t("TOKEN.QUOTA")}
                     </Label>
                     <Input
@@ -310,7 +345,9 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                       {QUOTA_PRESETS.map((preset) => (
                         <Button
                           key={preset.value}
-                          variant={remainQuota === preset.value ? "default" : "outline"}
+                          variant={
+                            remainQuota === preset.value ? "default" : "outline"
+                          }
                           size="xs"
                           onClick={() => setRemainQuota(preset.value)}
                         >

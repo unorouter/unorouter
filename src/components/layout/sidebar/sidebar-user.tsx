@@ -37,19 +37,14 @@ export function SidebarUser() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <UserDropdown
-          side={sidebar.isMobile ? "bottom" : "right"}
-          align="end"
-        >
+        <UserDropdown side={sidebar.isMobile ? "bottom" : "right"} align="end">
           <SidebarMenuButton
             size="lg"
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <UserInfo
               showBadge={false}
-              trailing={
-                <PiDotsThreeVerticalBold className="ml-auto size-4" />
-              }
+              trailing={<PiDotsThreeVerticalBold className="ml-auto size-4" />}
             />
           </SidebarMenuButton>
         </UserDropdown>

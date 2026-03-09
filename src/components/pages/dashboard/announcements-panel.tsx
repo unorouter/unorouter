@@ -46,9 +46,13 @@ export function AnnouncementsPanel() {
         ) : (
           <div className="divide-border divide-y">
             {announcements.map((item, i) => {
-              const styles = typeStyles[item.type ?? ""] ?? "bg-muted text-muted-foreground";
+              const styles =
+                typeStyles[item.type ?? ""] ?? "bg-muted text-muted-foreground";
               return (
-                <div key={i} className="hover:bg-accent/50 p-4 transition-colors">
+                <div
+                  key={i}
+                  className="hover:bg-accent/50 p-4 transition-colors"
+                >
                   <div className="flex items-center gap-2">
                     {item.type && item.type !== "default" && (
                       <span

@@ -31,9 +31,7 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
     from: props.value.from,
     to: props.value.to,
   });
-  const [startTime, setStartTime] = useState(
-    format(props.value.from, "HH:mm"),
-  );
+  const [startTime, setStartTime] = useState(format(props.value.from, "HH:mm"));
   const [endTime, setEndTime] = useState(format(props.value.to, "HH:mm"));
 
   function handleApply() {
@@ -91,7 +89,11 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
               className="h-7 w-24 font-mono text-xs"
             />
           </div>
-          <Button size="sm" className="ml-auto h-7 text-xs" onClick={handleApply}>
+          <Button
+            size="sm"
+            className="ml-auto h-7 text-xs"
+            onClick={handleApply}
+          >
             Apply
           </Button>
         </div>

@@ -66,15 +66,33 @@ function maskKey(key: string): string {
 function TokenRowSkeleton() {
   return (
     <TableRow>
-      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-      <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-36" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-24" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-5 w-16" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-20" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-16" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-36" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-16" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-20" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-20" />
+      </TableCell>
+      <TableCell>
+        <Skeleton className="h-4 w-20" />
+      </TableCell>
     </TableRow>
   );
 }
@@ -85,21 +103,37 @@ export function TokenList() {
   const [keyword, setKeyword] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{ id: number; name: string } | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
   const [revealedKeys, setRevealedKeys] = useState<Set<number>>(new Set());
 
-  const tokensQuery = useTokensQuery({ p: page, keyword: keyword || undefined });
+  const tokensQuery = useTokensQuery({
+    p: page,
+    keyword: keyword || undefined,
+  });
   const toggleMutation = useToggleTokenStatusMutation();
   const deleteMutation = useDeleteTokenMutation();
 
   const responseData = tokensQuery.data as
-    | { data?: { items?: any[]; total?: number; page?: number; page_size?: number } }
+    | {
+        data?: {
+          items?: any[];
+          total?: number;
+          page?: number;
+          page_size?: number;
+        };
+      }
     | { items?: any[]; total?: number; page?: number; page_size?: number }
     | undefined;
 
-  const pageData = responseData && "data" in responseData && responseData.data
-    ? responseData.data
-    : responseData as { items?: any[]; total?: number; page?: number; page_size?: number } | undefined;
+  const pageData =
+    responseData && "data" in responseData && responseData.data
+      ? responseData.data
+      : (responseData as
+          | { items?: any[]; total?: number; page?: number; page_size?: number }
+          | undefined);
 
   const tokens = pageData?.items ?? [];
   const total = pageData?.total ?? 0;
@@ -218,7 +252,7 @@ export function TokenList() {
               <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                 {t("TOKEN.COL_EXPIRES")}
               </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase text-right">
+              <TableHead className="text-muted-foreground text-right font-mono text-[10px] tracking-widest uppercase">
                 {t("TOKEN.COL_ACTIONS")}
               </TableHead>
             </TableRow>
@@ -252,9 +286,10 @@ export function TokenList() {
             {tokens.map((token: any) => {
               const isEnabled = token.status === 1;
               const isRevealed = revealedKeys.has(token.id);
-              const modelCount = token.model_limits_enabled && token.model_limits
-                ? token.model_limits.split(",").filter(Boolean).length
-                : 0;
+              const modelCount =
+                token.model_limits_enabled && token.model_limits
+                  ? token.model_limits.split(",").filter(Boolean).length
+                  : 0;
 
               return (
                 <TableRow key={token.id}>
@@ -266,9 +301,13 @@ export function TokenList() {
                   <TableCell>
                     <Badge
                       variant={isEnabled ? "default" : "secondary"}
-                      className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
+                      className={
+                        isEnabled ? "bg-green-500/10 text-green-500" : ""
+                      }
                     >
-                      {isEnabled ? t("TOKEN.STATUS_ENABLED") : t("TOKEN.STATUS_DISABLED")}
+                      {isEnabled
+                        ? t("TOKEN.STATUS_ENABLED")
+                        : t("TOKEN.STATUS_DISABLED")}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -290,17 +329,37 @@ export function TokenList() {
                       </code>
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger render={<Button variant="ghost" size="icon-xs" onClick={() => toggleRevealKey(token.id)} />}>
-                            {isRevealed
-                              ? <LuEyeOff className="h-3 w-3" />
-                              : <LuEye className="h-3 w-3" />}
+                          <TooltipTrigger
+                            render={
+                              <Button
+                                variant="ghost"
+                                size="icon-xs"
+                                onClick={() => toggleRevealKey(token.id)}
+                              />
+                            }
+                          >
+                            {isRevealed ? (
+                              <LuEyeOff className="h-3 w-3" />
+                            ) : (
+                              <LuEye className="h-3 w-3" />
+                            )}
                           </TooltipTrigger>
-                          <TooltipContent>{isRevealed ? "Hide" : "Reveal"}</TooltipContent>
+                          <TooltipContent>
+                            {isRevealed ? "Hide" : "Reveal"}
+                          </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger render={<Button variant="ghost" size="icon-xs" onClick={() => handleCopyKey(token.key)} />}>
+                          <TooltipTrigger
+                            render={
+                              <Button
+                                variant="ghost"
+                                size="icon-xs"
+                                onClick={() => handleCopyKey(token.key)}
+                              />
+                            }
+                          >
                             <LuCopy className="h-3 w-3" />
                           </TooltipTrigger>
                           <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
@@ -340,7 +399,9 @@ export function TokenList() {
                       <Button
                         variant="destructive"
                         size="icon-xs"
-                        onClick={() => setDeleteTarget({ id: token.id, name: token.name })}
+                        onClick={() =>
+                          setDeleteTarget({ id: token.id, name: token.name })
+                        }
                       >
                         <LuTrash2 className="h-3 w-3" />
                       </Button>
@@ -387,7 +448,10 @@ export function TokenList() {
       <CreateTokenSheet open={createOpen} onOpenChange={setCreateOpen} />
 
       {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteTarget !== null} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+      <Dialog
+        open={deleteTarget !== null}
+        onOpenChange={(open) => !open && setDeleteTarget(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("TOKEN.DELETE_CONFIRM_TITLE")}</DialogTitle>

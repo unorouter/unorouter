@@ -13,7 +13,15 @@ import type { EndpointInfo, ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
-import { LuCopy, LuCheck, LuLink, LuInfo, LuTag, LuChevronDown, LuLayers } from "react-icons/lu";
+import {
+  LuCopy,
+  LuCheck,
+  LuLink,
+  LuInfo,
+  LuTag,
+  LuChevronDown,
+  LuLayers,
+} from "react-icons/lu";
 import { useState } from "react";
 
 type ModelDetailSheetProps = {
@@ -45,7 +53,11 @@ function CopyButton(props: { text: string }) {
       onClick={handleCopy}
       className="text-muted-foreground hover:text-foreground transition-colors"
     >
-      {copied ? <LuCheck className="h-3.5 w-3.5" /> : <LuCopy className="h-3.5 w-3.5" />}
+      {copied ? (
+        <LuCheck className="h-3.5 w-3.5" />
+      ) : (
+        <LuCopy className="h-3.5 w-3.5" />
+      )}
     </button>
   );
 }
@@ -60,11 +72,8 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      <SheetContent
-        side="right"
-        className="sm:max-w-2xl overflow-y-auto"
-      >
-        <SheetHeader className="border-b border-border pb-4">
+      <SheetContent side="right" className="overflow-y-auto sm:max-w-2xl">
+        <SheetHeader className="border-border border-b pb-4">
           <div className="flex items-center gap-3">
             <VendorIcon vendor={model.vendor.name} size={28} />
             <div className="min-w-0 flex-1">
@@ -121,13 +130,21 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {/* Pricing */}
           <section>
             <SectionHeader
-              icon={<span className={cn("font-mono text-xs font-bold", theme.text)}>$</span>}
+              icon={
+                <span className={cn("font-mono text-xs font-bold", theme.text)}>
+                  $
+                </span>
+              }
               title={t("MODELS.DETAIL_PRICING")}
             />
-            <div className={cn("rounded-lg border p-4", theme.bg, theme.border)}>
+            <div
+              className={cn("rounded-lg border p-4", theme.bg, theme.border)}
+            >
               {model.isFixedPrice ? (
                 <div className="flex items-baseline gap-2">
-                  <span className={cn("font-mono text-lg font-bold", theme.text)}>
+                  <span
+                    className={cn("font-mono text-lg font-bold", theme.text)}
+                  >
                     {formatPrice(model.fixedPrice)}
                   </span>
                   <span className="text-muted-foreground font-mono text-xs">
@@ -140,7 +157,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     <span className="text-muted-foreground font-mono text-[10px] uppercase">
                       {t("MODELS.PRICE_INPUT")}
                     </span>
-                    <div className={cn("font-mono text-lg font-bold", theme.text)}>
+                    <div
+                      className={cn("font-mono text-lg font-bold", theme.text)}
+                    >
                       {formatPrice(model.inputPrice)}
                     </div>
                     <span className="text-muted-foreground font-mono text-[10px]">
@@ -151,7 +170,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     <span className="text-muted-foreground font-mono text-[10px] uppercase">
                       {t("MODELS.PRICE_OUTPUT")}
                     </span>
-                    <div className={cn("font-mono text-lg font-bold", theme.text)}>
+                    <div
+                      className={cn("font-mono text-lg font-bold", theme.text)}
+                    >
                       {formatPrice(model.outputPrice)}
                     </div>
                     <span className="text-muted-foreground font-mono text-[10px]">
@@ -215,7 +236,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           )}
 
           {/* Pricing note */}
-          <p className="text-muted-foreground/60 font-mono text-[10px] italic leading-relaxed">
+          <p className="text-muted-foreground/60 font-mono text-[10px] leading-relaxed italic">
             {t("MODELS.PRICE_VARIES_TOOLTIP")}
           </p>
         </div>
@@ -282,14 +303,14 @@ function GroupPricingSection(props: {
       </button>
       {open && (
         <div className={cn("rounded-lg border p-3", theme.bg, theme.border)}>
-          <div className="mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b border-border/40 pb-2">
+          <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
             <span className="text-muted-foreground font-mono text-[10px] uppercase">
               {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
             </span>
-            <span className="text-muted-foreground font-mono text-[10px] uppercase text-right">
+            <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
               {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
             </span>
-            <span className="text-muted-foreground font-mono text-[10px] uppercase text-right">
+            <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
               {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
             </span>
           </div>
@@ -299,13 +320,23 @@ function GroupPricingSection(props: {
                 key={gp.group}
                 className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
               >
-                <span className="text-muted-foreground font-mono text-[10px] truncate">
+                <span className="text-muted-foreground truncate font-mono text-[10px]">
                   {gp.group}
                 </span>
-                <span className={cn("font-mono text-xs font-medium text-right", theme.text)}>
+                <span
+                  className={cn(
+                    "text-right font-mono text-xs font-medium",
+                    theme.text,
+                  )}
+                >
                   {formatPrice(gp.inputPrice)}
                 </span>
-                <span className={cn("font-mono text-xs font-medium text-right", theme.text)}>
+                <span
+                  className={cn(
+                    "text-right font-mono text-xs font-medium",
+                    theme.text,
+                  )}
+                >
                   {formatPrice(gp.outputPrice)}
                 </span>
               </div>

@@ -31,7 +31,9 @@ export function ModelsGrid() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<ModelType | "all">("all");
   const [vendorFilter, setVendorFilter] = useState("all");
-  const [selectedModel, setSelectedModel] = useState<ProcessedModel | null>(null);
+  const [selectedModel, setSelectedModel] = useState<ProcessedModel | null>(
+    null,
+  );
 
   const { data } = usePricingQuery();
   const models = data?.models ?? [];
@@ -56,7 +58,8 @@ export function ModelsGrid() {
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesFilter = filter === "all" || model.type === filter;
-    const matchesVendor = vendorFilter === "all" || model.vendor.name === vendorFilter;
+    const matchesVendor =
+      vendorFilter === "all" || model.vendor.name === vendorFilter;
     return matchesSearch && matchesFilter && matchesVendor;
   });
 
@@ -75,7 +78,7 @@ export function ModelsGrid() {
         </div>
         <div className="flex items-center gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger className="border-input bg-background text-foreground ring-offset-background inline-flex h-8 cursor-pointer items-center gap-2 rounded-md border px-3 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-offset-2">
+            <DropdownMenuTrigger className="border-input bg-background text-foreground ring-offset-background inline-flex h-8 cursor-pointer items-center gap-2 rounded-md border px-3 font-mono text-xs focus:ring-2 focus:ring-offset-2 focus:outline-none">
               {vendorFilter !== "all" && (
                 <VendorIcon vendor={vendorFilter} size={14} />
               )}
@@ -210,10 +213,14 @@ function ModelCard(props: {
           className={cn(
             "font-mono text-[10px] uppercase",
             model.type === "text" && `${theme.tagBg} ${theme.text}`,
-            model.type === "image" && "border-green-500/30 bg-green-500/10 text-green-400",
-            model.type === "video" && "border-purple-500/30 bg-purple-500/10 text-purple-400",
-            model.type === "audio" && "border-amber-500/30 bg-amber-500/10 text-amber-400",
-            model.type === "embedding" && "border-sky-500/30 bg-sky-500/10 text-sky-400",
+            model.type === "image" &&
+              "border-green-500/30 bg-green-500/10 text-green-400",
+            model.type === "video" &&
+              "border-purple-500/30 bg-purple-500/10 text-purple-400",
+            model.type === "audio" &&
+              "border-amber-500/30 bg-amber-500/10 text-amber-400",
+            model.type === "embedding" &&
+              "border-sky-500/30 bg-sky-500/10 text-sky-400",
           )}
         >
           {model.type}
@@ -242,7 +249,9 @@ function ModelCard(props: {
               <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.input}{" "}
               </span>
-              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+              <span
+                className={cn("font-mono text-sm font-semibold", theme.text)}
+              >
                 {formatPrice(model.inputPrice)}
               </span>
             </div>
@@ -250,7 +259,9 @@ function ModelCard(props: {
               <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.output}{" "}
               </span>
-              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+              <span
+                className={cn("font-mono text-sm font-semibold", theme.text)}
+              >
                 {formatPrice(model.outputPrice)}
               </span>
             </div>

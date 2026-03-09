@@ -61,17 +61,18 @@ export function Footer() {
               <h3 className="mb-4 font-semibold">{t("FOOTER.PRODUCT")}</h3>
               <ul className="space-y-2">
                 {NAV_LINKS.map((item) => (
-                    <li key={item.key}>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "text-muted-foreground hover:text-foreground transition-colors",
-                          isActiveLink(pathname, item.href) && "text-primary font-medium",
-                        )}
-                      >
-                        {t(item.key)}
-                      </Link>
-                    </li>
+                  <li key={item.key}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "text-muted-foreground hover:text-foreground transition-colors",
+                        isActiveLink(pathname, item.href) &&
+                          "text-primary font-medium",
+                      )}
+                    >
+                      {t(item.key)}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
@@ -81,17 +82,18 @@ export function Footer() {
               <h3 className="mb-4 font-semibold">{t("FOOTER.LEGAL")}</h3>
               <ul className="space-y-2">
                 {LEGAL_LINKS.map((item) => (
-                    <li key={item.key}>
-                      <Link
-                        href={item.href}
-                        className={cn(
-                          "text-muted-foreground hover:text-foreground transition-colors",
-                          isActiveLink(pathname, item.href) && "text-primary font-medium",
-                        )}
-                      >
-                        {t(item.key)}
-                      </Link>
-                    </li>
+                  <li key={item.key}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "text-muted-foreground hover:text-foreground transition-colors",
+                        isActiveLink(pathname, item.href) &&
+                          "text-primary font-medium",
+                      )}
+                    >
+                      {t(item.key)}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>

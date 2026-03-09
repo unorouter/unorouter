@@ -19,7 +19,10 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     "/",
     async ({ query, upstream }) => {
       const res = await getAllTokens(
-        { p: query.p ? Number(query.p) : undefined, page_size: query.page_size ? Number(query.page_size) : undefined },
+        {
+          p: query.p ? Number(query.p) : undefined,
+          page_size: query.page_size ? Number(query.page_size) : undefined,
+        },
         { headers: upstream.headers },
       );
       return res.data!;
@@ -74,9 +77,13 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   })
 
   .put("/status", async ({ body, upstream }) => {
-    const res = await updateToken(body as Token, { status_only: "true" }, {
-      headers: upstream.headers,
-    });
+    const res = await updateToken(
+      body as Token,
+      { status_only: "true" },
+      {
+        headers: upstream.headers,
+      },
+    );
     return res.data!;
   })
 

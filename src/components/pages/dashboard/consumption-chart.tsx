@@ -27,11 +27,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  aggregateByModel,
-  quotaToDollars,
-  type QuotaDataItem,
-} from "./stats";
+import { aggregateByModel, quotaToDollars, type QuotaDataItem } from "./stats";
 
 const CHART_COLORS = [
   "var(--color-chart-1)",

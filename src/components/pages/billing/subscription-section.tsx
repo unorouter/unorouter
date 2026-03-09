@@ -35,19 +35,27 @@ const PREFERENCE_OPTIONS = [
 
 function formatResetPeriod(period: string, t: (key: any) => string): string {
   switch (period) {
-    case "weekly": return t("BILLING.WEEKLY");
-    case "daily": return t("BILLING.DAILY");
-    case "monthly": return t("BILLING.MONTHLY");
-    default: return period;
+    case "weekly":
+      return t("BILLING.WEEKLY");
+    case "daily":
+      return t("BILLING.DAILY");
+    case "monthly":
+      return t("BILLING.MONTHLY");
+    default:
+      return period;
   }
 }
 
 function getPerPeriodSuffix(period: string, t: (key: any) => string): string {
   switch (period) {
-    case "weekly": return t("BILLING.PER_WEEK");
-    case "daily": return t("BILLING.PER_DAY");
-    case "monthly": return t("BILLING.PER_MONTH");
-    default: return "";
+    case "weekly":
+      return t("BILLING.PER_WEEK");
+    case "daily":
+      return t("BILLING.PER_DAY");
+    case "monthly":
+      return t("BILLING.PER_MONTH");
+    default:
+      return "";
   }
 }
 
@@ -203,7 +211,8 @@ export function SubscriptionSection() {
             const isActive = sub.status === "active";
             const total = quotaToDollars(sub.amount_total);
             const used = quotaToDollars(sub.amount_used);
-            const percentage = total > 0 ? Math.min((used / total) * 100, 100) : 0;
+            const percentage =
+              total > 0 ? Math.min((used / total) * 100, 100) : 0;
             const endDate = new Date(sub.end_time * 1000).toLocaleDateString();
 
             return (
@@ -213,12 +222,16 @@ export function SubscriptionSection() {
                     <span className="text-foreground text-sm font-medium">
                       {getPlanTitle(sub.plan_id)}
                     </span>
-                    <Badge variant={isActive ? "default" : "secondary"} className="text-[10px]">
+                    <Badge
+                      variant={isActive ? "default" : "secondary"}
+                      className="text-[10px]"
+                    >
                       {isActive ? t("BILLING.ACTIVE") : t("BILLING.EXPIRED")}
                     </Badge>
                   </div>
                   <span className="text-muted-foreground font-mono text-xs">
-                    ${used.toFixed(2)} {t("BILLING.USED_OF")} ${total.toFixed(2)}
+                    ${used.toFixed(2)} {t("BILLING.USED_OF")} $
+                    {total.toFixed(2)}
                   </span>
                 </div>
                 <Progress value={percentage} className="h-2" />
@@ -244,13 +257,13 @@ export function SubscriptionSection() {
             return (
               <div
                 key={plan.id}
-                className={`border-border relative flex flex-col border p-6 transition-colors hover:border-primary/50 ${
+                className={`border-border hover:border-primary/50 relative flex flex-col border p-6 transition-colors ${
                   i === 0 ? "border-primary/50" : ""
                 }`}
               >
                 {i === 0 && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="gap-1 bg-primary/10 text-primary">
+                    <Badge className="bg-primary/10 text-primary gap-1">
                       <LuSparkles className="h-3 w-3" />
                       {t("BILLING.RECOMMENDED")}
                     </Badge>

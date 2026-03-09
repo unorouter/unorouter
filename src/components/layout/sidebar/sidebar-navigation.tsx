@@ -8,7 +8,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { isActiveLink, navigation, sidebarNavigation } from "@/components/layout/nav/navigation";
+import {
+  isActiveLink,
+  navigation,
+  sidebarNavigation,
+} from "@/components/layout/nav/navigation";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

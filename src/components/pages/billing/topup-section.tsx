@@ -48,7 +48,8 @@ export function TopUpSection() {
   }
 
   const isLoading = topUpInfoQuery.isLoading;
-  const isMutating = stripeTopUpMutation.isPending || creemTopUpMutation.isPending;
+  const isMutating =
+    stripeTopUpMutation.isPending || creemTopUpMutation.isPending;
 
   function getDiscountedAmount(amount: number): number {
     const key = String(amount);
@@ -66,7 +67,10 @@ export function TopUpSection() {
   function handleStripeTopUp(amount: number) {
     stripeTopUpMutation.mutate(amount, {
       onSuccess: (data: unknown) => {
-        const body = data as { data?: { pay_link?: string }; pay_link?: string };
+        const body = data as {
+          data?: { pay_link?: string };
+          pay_link?: string;
+        };
         const link = body?.pay_link ?? body?.data?.pay_link;
         if (link) window.open(link, "_blank");
       },
@@ -79,7 +83,10 @@ export function TopUpSection() {
   function handleCreemTopUp(productId: string) {
     creemTopUpMutation.mutate(productId, {
       onSuccess: (data: unknown) => {
-        const body = data as { data?: { checkout_url?: string }; checkout_url?: string };
+        const body = data as {
+          data?: { checkout_url?: string };
+          checkout_url?: string;
+        };
         const url = body?.checkout_url ?? body?.data?.checkout_url;
         if (url) window.open(url, "_blank");
       },
@@ -130,7 +137,9 @@ export function TopUpSection() {
                 <span className="text-muted-foreground font-mono text-[11px]">
                   {t("BILLING.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
                   {save > 0 && (
-                    <>, {t("BILLING.SAVE")} ${save.toFixed(2)}</>
+                    <>
+                      , {t("BILLING.SAVE")} ${save.toFixed(2)}
+                    </>
                   )}
                 </span>
               </button>
@@ -161,25 +170,27 @@ export function TopUpSection() {
       )}
 
       {/* Fallback: Stripe amount buttons when no preset amounts but stripe is enabled */}
-      {enableStripe && amountOptions.length === 0 && creemProducts.length === 0 && (
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {[1, 5, 10, 20, 50, 100, 200, 500].map((amount) => (
-            <button
-              key={amount}
-              onClick={() => handleStripeTopUp(amount)}
-              disabled={isMutating}
-              className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
-            >
-              <span className="text-foreground text-2xl font-bold tabular-nums">
-                {amount} $
-              </span>
-              <span className="text-muted-foreground font-mono text-[11px]">
-                {t("BILLING.ACTUAL_PAYMENT")} ${amount.toFixed(2)}
-              </span>
-            </button>
-          ))}
-        </div>
-      )}
+      {enableStripe &&
+        amountOptions.length === 0 &&
+        creemProducts.length === 0 && (
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+            {[1, 5, 10, 20, 50, 100, 200, 500].map((amount) => (
+              <button
+                key={amount}
+                onClick={() => handleStripeTopUp(amount)}
+                disabled={isMutating}
+                className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
+              >
+                <span className="text-foreground text-2xl font-bold tabular-nums">
+                  {amount} $
+                </span>
+                <span className="text-muted-foreground font-mono text-[11px]">
+                  {t("BILLING.ACTUAL_PAYMENT")} ${amount.toFixed(2)}
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
     </div>
   );
 }
