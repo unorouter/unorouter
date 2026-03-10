@@ -43,7 +43,6 @@ export function SidebarUser() {
             className="h-auto py-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <UserInfo
-              showBadge={false}
               trailing={<PiDotsThreeVerticalBold className="ml-auto size-4" />}
             />
           </SidebarMenuButton>
