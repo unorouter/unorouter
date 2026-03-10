@@ -50,7 +50,7 @@ export function TokenStatusCell({ row }: CellContext<TokenRow, unknown>) {
   const isEnabled = row.original.status === 1;
   return (
     <Badge
-      variant={isEnabled ? "default" : "secondary"}
+      variant={isEnabled ? "default" : "destructive"}
       className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
     >
       {isEnabled ? t("TOKEN.STATUS_ENABLED") : t("TOKEN.STATUS_DISABLED")}
@@ -86,7 +86,6 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
       onSuccess: (data) => {
         navigator.clipboard.writeText(`sk-${data.key}`);
         toast.success(t("TOKEN.KEY_COPIED"));
-        setRevealedKey(data.key);
       },
       onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
     });
