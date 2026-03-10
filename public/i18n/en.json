@@ -425,7 +425,8 @@
     }
   },
   "COMMON": {
-    "COPY_CODE": "Copy code"
+    "COPY_CODE": "Copy code",
+    "OPEN_MENU": "Open menu"
   },
   "LANGUAGE": {
     "EN": "English",

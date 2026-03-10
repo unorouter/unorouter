@@ -1,6 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,29 +19,31 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useCreateTokenMutation, useUserGroupsQuery } from "@/hooks/token-hook";
+import {
+  useCreateTokenMutation,
+  useUpdateTokenMutation,
+  useUserGroupsQuery,
+} from "@/hooks/token-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { LuKey, LuPlus, LuShield, LuWallet } from "react-icons/lu";
+import { useEffect, useState } from "react";
+import { LuCheck, LuKey, LuPlus, LuShield, LuWallet } from "react-icons/lu";
 import { toast } from "sonner";
+import type { TokenRow } from "./token-columns";
 
-type CreateTokenSheetProps = {
+type TokenDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  token?: TokenRow | null;
 };
 
-function setExpiredTime(months: number, days: number, hours: number): number {
+function computeExpiredTime(
+  months: number,
+  days: number,
+  hours: number,
+): number {
   if (months === 0 && days === 0 && hours === 0) return -1;
   const now = Date.now() / 1000;
   const seconds =
@@ -50,10 +60,12 @@ const QUOTA_PRESETS = [
   { label: "$1000", value: dollarsToQuota(1000) },
 ];
 
-export function CreateTokenSheet(props: CreateTokenSheetProps) {
+export function TokenDialog(props: TokenDialogProps) {
   const t = useTranslations();
   const createMutation = useCreateTokenMutation();
+  const updateMutation = useUpdateTokenMutation();
   const groupsQuery = useUserGroupsQuery();
+  const isEdit = !!props.token;
 
   const [name, setName] = useState("");
   const [group, setGroup] = useState("");
@@ -64,6 +76,32 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
   const [unlimitedQuota, setUnlimitedQuota] = useState(true);
   const [modelLimits, setModelLimits] = useState("");
   const [allowIps, setAllowIps] = useState("");
+
+  useEffect(() => {
+    if (props.open && props.token) {
+      setName(props.token.name || "");
+      setGroup(props.token.group || "");
+      setCrossGroupRetry(!!props.token.cross_group_retry);
+      setExpiredTimeState(props.token.expired_time ?? -1);
+      setExpirationLabel(
+        props.token.expired_time === -1 ? "TOKEN.NEVER_EXPIRES" : "custom",
+      );
+      setRemainQuota(props.token.remain_quota ?? 0);
+      setUnlimitedQuota(!!props.token.unlimited_quota);
+      setModelLimits(props.token.model_limits || "");
+      setAllowIps(props.token.allow_ips || "");
+    } else if (props.open && !props.token) {
+      setName("");
+      setGroup("");
+      setCrossGroupRetry(false);
+      setExpiredTimeState(-1);
+      setExpirationLabel("TOKEN.NEVER_EXPIRES");
+      setRemainQuota(0);
+      setUnlimitedQuota(true);
+      setModelLimits("");
+      setAllowIps("");
+    }
+  }, [props.open, props.token]);
 
   const groupsData = groupsQuery.data as
     | { data?: Record<string, { desc: string; ratio: unknown }> }
@@ -79,25 +117,13 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
 
   const groupEntries = groupsMap ? Object.entries(groupsMap) : [];
 
-  function resetForm() {
-    setName("");
-    setGroup("");
-    setCrossGroupRetry(false);
-    setExpiredTimeState(-1);
-    setExpirationLabel("TOKEN.NEVER_EXPIRES");
-    setRemainQuota(0);
-    setUnlimitedQuota(true);
-    setModelLimits("");
-    setAllowIps("");
-  }
-
   function handleExpirationPreset(
     months: number,
     days: number,
     hours: number,
     label: string,
   ) {
-    setExpiredTimeState(setExpiredTime(months, days, hours));
+    setExpiredTimeState(computeExpiredTime(months, days, hours));
     setExpirationLabel(label);
   }
 
@@ -117,43 +143,59 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
       .filter(Boolean)
       .join(",");
 
-    createMutation.mutate(
-      {
-        name: name.trim(),
-        remain_quota: unlimitedQuota ? 0 : remainQuota,
-        expired_time: expiredTime,
-        unlimited_quota: unlimitedQuota,
-        model_limits_enabled: modelLimitsCleaned.length > 0,
-        model_limits: modelLimitsCleaned,
-        allow_ips: allowIps.trim(),
-        group,
-        cross_group_retry: crossGroupRetry,
-      },
-      {
+    const payload = {
+      name: name.trim(),
+      remain_quota: unlimitedQuota ? 0 : remainQuota,
+      expired_time: expiredTime,
+      unlimited_quota: unlimitedQuota,
+      model_limits_enabled: modelLimitsCleaned.length > 0,
+      model_limits: modelLimitsCleaned,
+      allow_ips: allowIps.trim(),
+      group,
+      cross_group_retry: crossGroupRetry,
+    };
+
+    if (isEdit) {
+      updateMutation.mutate(
+        { id: props.token!.id, ...payload },
+        {
+          onSuccess: () => {
+            toast.success(t("TOKEN.UPDATED_SUCCESS"));
+            props.onOpenChange(false);
+          },
+          onError: (err) =>
+            toast.error(
+              err instanceof Error ? err.message : "Failed to update token",
+            ),
+        },
+      );
+    } else {
+      createMutation.mutate(payload, {
         onSuccess: () => {
           toast.success(t("TOKEN.CREATED_SUCCESS"));
-          resetForm();
           props.onOpenChange(false);
         },
-        onError: (err) => {
-          const message =
-            err instanceof Error ? err.message : "Failed to create token";
-          toast.error(message);
-        },
-      },
-    );
+        onError: (err) =>
+          toast.error(
+            err instanceof Error ? err.message : "Failed to create token",
+          ),
+      });
+    }
   }
 
-  return (
-    <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-      <SheetContent side="right" className="w-full overflow-y-auto sm:w-120">
-        <SheetHeader>
-          <SheetTitle>{t("TOKEN.CREATE")}</SheetTitle>
-          <SheetDescription>{t("TOKEN.DESCRIPTION")}</SheetDescription>
-        </SheetHeader>
+  const isPending = createMutation.isPending || updateMutation.isPending;
 
-        <div className="flex flex-col gap-6 px-4 pb-4">
-          {/* Basic Info Section */}
+  return (
+    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
+      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>
+            {isEdit ? t("TOKEN.EDIT") : t("TOKEN.CREATE")}
+          </DialogTitle>
+          <DialogDescription>{t("TOKEN.DESCRIPTION")}</DialogDescription>
+        </DialogHeader>
+
+        <div className="flex flex-col gap-6">
           <div>
             <div className="mb-3 flex items-center gap-2">
               <LuKey className="text-muted-foreground h-4 w-4" />
@@ -163,7 +205,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
             </div>
 
             <div className="flex flex-col gap-4">
-              {/* Name */}
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="token-name" className="text-xs font-medium">
                   {t("TOKEN.NAME")}
@@ -177,7 +218,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                 />
               </div>
 
-              {/* Group */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-xs font-medium">
                   {t("TOKEN.GROUP")}
@@ -188,7 +228,9 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                     onValueChange={(v) => setGroup(v ?? "")}
                   >
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder={t("TOKEN.GROUP_PLACEHOLDER")} />
+                      <SelectValue
+                        placeholder={t("TOKEN.GROUP_PLACEHOLDER")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {groupEntries.map(([key, info]) => (
@@ -205,7 +247,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                 )}
               </div>
 
-              {/* Cross-group retry (only when group = auto) */}
               {group === "auto" && (
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-0.5">
@@ -224,7 +265,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                 </div>
               )}
 
-              {/* Expiration */}
               <div className="flex flex-col gap-1.5">
                 <Label className="text-xs font-medium">
                   {t("TOKEN.EXPIRATION")}
@@ -289,7 +329,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
 
           <Separator />
 
-          {/* Quota Section */}
           <div>
             <div className="mb-3 flex items-center gap-2">
               <LuWallet className="text-muted-foreground h-4 w-4" />
@@ -299,7 +338,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
             </div>
 
             <div className="flex flex-col gap-4">
-              {/* Unlimited toggle */}
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-0.5">
                   <Label className="text-xs font-medium">
@@ -316,7 +354,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                 />
               </div>
 
-              {/* Quota input + presets */}
               {!unlimitedQuota && (
                 <>
                   <div className="flex flex-col gap-1.5">
@@ -363,7 +400,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
 
           <Separator />
 
-          {/* Access Restrictions Section */}
           <div>
             <div className="mb-3 flex items-center gap-2">
               <LuShield className="text-muted-foreground h-4 w-4" />
@@ -373,7 +409,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
             </div>
 
             <div className="flex flex-col gap-4">
-              {/* Model Limits */}
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="model-limits" className="text-xs font-medium">
                   {t("TOKEN.MODEL_LIMITS")}
@@ -389,7 +424,6 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
                 </span>
               </div>
 
-              {/* IP Whitelist */}
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="ip-whitelist" className="text-xs font-medium">
                   {t("TOKEN.IP_WHITELIST")}
@@ -409,16 +443,20 @@ export function CreateTokenSheet(props: CreateTokenSheetProps) {
           </div>
         </div>
 
-        <SheetFooter>
+        <DialogFooter>
           <Button variant="outline" onClick={() => props.onOpenChange(false)}>
             {t("TOKEN.CANCEL")}
           </Button>
-          <Button onClick={handleSubmit} disabled={createMutation.isPending}>
-            <LuPlus data-icon="inline-start" className="h-4 w-4" />
-            {t("TOKEN.SUBMIT")}
+          <Button onClick={handleSubmit} disabled={isPending}>
+            {isEdit ? (
+              <LuCheck data-icon="inline-start" className="h-4 w-4" />
+            ) : (
+              <LuPlus data-icon="inline-start" className="h-4 w-4" />
+            )}
+            {isEdit ? t("TOKEN.SAVE") : t("TOKEN.SUBMIT")}
           </Button>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

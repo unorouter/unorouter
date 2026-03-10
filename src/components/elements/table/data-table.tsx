@@ -9,36 +9,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { TranslationKey } from "@/lib/config/constants";
+import { DataTableId } from "@/lib/types/enums";
 import { cn } from "@/lib/utils";
+import { createTableAtoms } from "@/store/data-table-store";
 import {
   type ColumnDef,
-  type PaginationState,
   type Table as TTable,
-  type VisibilityState,
+  type TableState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useTranslations } from "next-intl";
-import { type ReactNode, useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import type { ReactNode } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 type Meta = {
-  title?: TranslationKey;
+  title?: string;
   headerClassName?: string;
   cellClassName?: string;
 };
 
 interface DataTableProps<TData, TValue> {
+  id: DataTableId;
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
   total?: number;
-  pageIndex?: number;
-  pageSize?: number;
-  onPaginationChange?: (pagination: PaginationState) => void;
+  tableStore?: Partial<TableState>;
   columnVisibility?: boolean;
   isLoading?: boolean;
   emptyState?: ReactNode;
@@ -47,33 +46,27 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
-  const t = useTranslations();
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: props.pageIndex ?? 0,
-    pageSize: props.pageSize ?? 10,
-  });
+  const tableAtoms = createTableAtoms(props.id, props.tableStore);
+
+  const store = useAtomValue(tableAtoms.baseAtom);
+  const setColumnVisibility = useSetAtom(tableAtoms.columnVisibilityAtom);
+  const setPagination = useSetAtom(tableAtoms.paginationAtom);
 
   const table = useReactTable({
     data: props.data,
     columns: props.columns,
     state: {
-      columnVisibility,
-      pagination,
+      columnVisibility: store.columnVisibility,
+      pagination: store.pagination,
     },
     rowCount: props.total,
     pageCount: props.total
-      ? Math.ceil(props.total / pagination.pageSize)
+      ? Math.ceil(props.total / store.pagination.pageSize)
       : undefined,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onPaginationChange: (updater) => {
-      const next =
-        typeof updater === "function" ? updater(pagination) : updater;
-      setPagination(next);
-      props.onPaginationChange?.(next);
-    },
+    onPaginationChange: setPagination,
     manualPagination: true,
   });
 
@@ -110,12 +103,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            typeof header.column.columnDef.header === "string"
-                              ? t(
-                                  header.column.columnDef
-                                    .header as TranslationKey,
-                                )
-                              : header.column.columnDef.header,
+                            header.column.columnDef.header,
                             header.getContext(),
                           )}
                     </TableHead>

@@ -1,142 +1,129 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/elements/table/data-table";
-import {
-  useDeleteTokenMutation,
-  useFetchTokenKeyMutation,
-  useToggleTokenStatusMutation,
-  useTokensQuery,
-} from "@/hooks/token-hook";
-import type { PaginationState } from "@tanstack/react-table";
+import { useTokensQuery } from "@/hooks/token-hook";
+import { DataTableId } from "@/lib/types/enums";
+import { createTableAtoms } from "@/store/data-table-store";
+import type { ColumnDef } from "@tanstack/react-table";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
-import { LuKey, LuPlus, LuSearch, LuTrash2 } from "react-icons/lu";
-import { toast } from "sonner";
-import { type TokenRow, getTokenColumns } from "./token-columns";
-import { CreateTokenSheet } from "./create-token-sheet";
+import { useState } from "react";
+import { LuKey, LuPlus, LuSearch } from "react-icons/lu";
+import {
+  type TokenRow,
+  TokenStatusCell,
+  TokenQuotaCell,
+  TokenKeyCell,
+  TokenModelsCell,
+  TokenActionCell,
+  TokenDateCell,
+} from "./token-columns";
+import { TokenDialog } from "./token-dialog";
+
+export const editingTokenAtom = atom<TokenRow | null>(null);
 
 export function TokenList() {
   const t = useTranslations();
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  const [keyword, setKeyword] = useState("");
-  const [searchInput, setSearchInput] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
-  const [deleteTarget, setDeleteTarget] = useState<{
-    id: number;
-    name: string;
-  } | null>(null);
-  const [revealedKeys, setRevealedKeys] = useState<Map<number, string>>(
-    new Map(),
-  );
+  const editingToken = useAtomValue(editingTokenAtom);
+  const setEditingToken = useSetAtom(editingTokenAtom);
+
+  const tableAtoms = createTableAtoms(DataTableId.TOKENS);
+  const store = useAtomValue(tableAtoms.baseAtom);
+  const setGlobalFilter = useSetAtom(tableAtoms.globalFilterAtom);
+  const setPagination = useSetAtom(tableAtoms.paginationAtom);
 
   const tokensQuery = useTokensQuery({
-    p: page + 1,
-    keyword: keyword || undefined,
+    p: store.pagination.pageIndex + 1,
+    keyword: store.globalFilter || undefined,
   });
-  const toggleMutation = useToggleTokenStatusMutation();
-  const deleteMutation = useDeleteTokenMutation();
-  const fetchKeyMutation = useFetchTokenKeyMutation();
 
-  const pageData = tokensQuery.data;
-  const tokens = (pageData?.items ?? []).filter(
-    (item): item is NonNullable<typeof item> => item != null,
-  );
-  const total = pageData?.total ?? 0;
-
-  function handleSearch() {
-    setKeyword(searchInput);
-    setPage(0);
+  function handleSearch(value: string) {
+    setGlobalFilter(value);
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }
 
-  function handleToggleStatus(token: TokenRow) {
-    const newStatus = token.status === 1 ? 2 : 1;
-    toggleMutation.mutate(
-      { id: token.id, status: newStatus },
-      {
-        onSuccess: () => toast.success(t("TOKEN.STATUS_CHANGED")),
-        onError: () => toast.error("Failed to update status"),
-      },
-    );
-  }
-
-  function handleDelete() {
-    if (!deleteTarget) return;
-    deleteMutation.mutate(deleteTarget.id, {
-      onSuccess: () => {
-        toast.success(t("TOKEN.DELETED_SUCCESS"));
-        setDeleteTarget(null);
-      },
-      onError: () => toast.error("Failed to delete token"),
-    });
-  }
-
-  function handleCopyKey(id: number) {
-    const cached = revealedKeys.get(id);
-    if (cached) {
-      navigator.clipboard.writeText(`sk-${cached}`);
-      toast.success(t("TOKEN.KEY_COPIED"));
-      return;
-    }
-    fetchKeyMutation.mutate(id, {
-      onSuccess: (data) => {
-        navigator.clipboard.writeText(`sk-${data.key}`);
-        toast.success(t("TOKEN.KEY_COPIED"));
-        setRevealedKeys((prev) => new Map(prev).set(id, data.key));
-      },
-      onError: () => toast.error("Failed to fetch token key"),
-    });
-  }
-
-  function toggleRevealKey(id: number) {
-    if (revealedKeys.has(id)) {
-      setRevealedKeys((prev) => {
-        const next = new Map(prev);
-        next.delete(id);
-        return next;
-      });
-      return;
-    }
-    fetchKeyMutation.mutate(id, {
-      onSuccess: (data) => {
-        setRevealedKeys((prev) => new Map(prev).set(id, data.key));
-      },
-      onError: () => toast.error("Failed to fetch token key"),
-    });
-  }
-
-  function handlePaginationChange(pagination: PaginationState) {
-    setPage(pagination.pageIndex);
-    setPageSize(pagination.pageSize);
-  }
-
-  const columns = useMemo(
-    () =>
-      getTokenColumns({
-        t,
-        revealedKeys,
-        toggleRevealKey,
-        handleCopyKey,
-        handleToggleStatus,
-        setDeleteTarget,
-        toggleMutationPending: toggleMutation.isPending,
-      }),
-    [t, revealedKeys, toggleMutation.isPending],
-  );
+  const columns: ColumnDef<TokenRow>[] = [
+    {
+      accessorKey: "name",
+      meta: { title: "TOKEN.COL_NAME" },
+      header: t("TOKEN.COL_NAME"),
+      enableHiding: false,
+      enableSorting: false,
+      cell: ({ row }) => (
+        <span className="text-foreground font-medium">
+          {row.original.name}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      meta: { title: "TOKEN.COL_STATUS" },
+      header: t("TOKEN.COL_STATUS"),
+      enableSorting: false,
+      cell: TokenStatusCell,
+    },
+    {
+      id: "quota",
+      meta: { title: "TOKEN.COL_QUOTA" },
+      header: t("TOKEN.COL_QUOTA"),
+      enableSorting: false,
+      cell: TokenQuotaCell,
+    },
+    {
+      accessorKey: "group",
+      meta: { title: "TOKEN.COL_GROUP" },
+      header: t("TOKEN.COL_GROUP"),
+      enableSorting: false,
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs">
+          {row.original.group || "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "key",
+      meta: { title: "TOKEN.COL_KEY" },
+      header: t("TOKEN.COL_KEY"),
+      enableHiding: false,
+      enableSorting: false,
+      cell: TokenKeyCell,
+    },
+    {
+      id: "models",
+      meta: { title: "TOKEN.COL_MODELS" },
+      header: t("TOKEN.COL_MODELS"),
+      enableSorting: false,
+      cell: TokenModelsCell,
+    },
+    {
+      accessorKey: "created_time",
+      meta: { title: "TOKEN.COL_CREATED" },
+      header: t("TOKEN.COL_CREATED"),
+      enableSorting: false,
+      cell: TokenDateCell,
+    },
+    {
+      accessorKey: "expired_time",
+      meta: { title: "TOKEN.COL_EXPIRES" },
+      header: t("TOKEN.COL_EXPIRES"),
+      enableSorting: false,
+      cell: TokenDateCell,
+    },
+    {
+      id: "actions",
+      meta: { title: "TOKEN.COL_ACTIONS", headerClassName: "text-right" },
+      header: t("TOKEN.COL_ACTIONS"),
+      enableHiding: false,
+      enableSorting: false,
+      cell: TokenActionCell,
+    },
+  ];
 
   return (
     <div className="flex w-full flex-1 flex-col gap-0 p-4 md:p-6">
-      {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -159,32 +146,23 @@ export function TokenList() {
       </div>
 
       <DataTable
-        data={tokens}
+        id={DataTableId.TOKENS}
+        data={(tokensQuery.data?.items ?? []).filter(
+          (item): item is NonNullable<typeof item> => item != null,
+        )}
         columns={columns}
-        total={total}
-        pageIndex={page}
-        pageSize={pageSize}
-        onPaginationChange={handlePaginationChange}
+        total={tokensQuery.data?.total ?? 0}
         isLoading={tokensQuery.isLoading}
         columnVisibility
         filter={() => (
           <div className="flex items-center gap-2">
             <LuSearch className="text-muted-foreground h-4 w-4 shrink-0" />
             <Input
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              value={store.globalFilter}
+              onChange={(e) => handleSearch(e.target.value)}
               placeholder={t("TOKEN.SEARCH_PLACEHOLDER")}
               className="h-8 w-48 border-0 bg-transparent shadow-none focus-visible:ring-0"
             />
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-8"
-              onClick={handleSearch}
-            >
-              {t("TOKEN.SEARCH_PLACEHOLDER").split("...")[0]}
-            </Button>
           </div>
         )}
         emptyState={
@@ -201,41 +179,18 @@ export function TokenList() {
         }
       />
 
-      {/* Create Sheet */}
-      <CreateTokenSheet open={createOpen} onOpenChange={setCreateOpen} />
+      <TokenDialog
+        open={createOpen}
+        onOpenChange={setCreateOpen}
+      />
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog
-        open={deleteTarget !== null}
-        onOpenChange={(open) => !open && setDeleteTarget(null)}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("TOKEN.DELETE_CONFIRM_TITLE")}</DialogTitle>
-            <DialogDescription>
-              {t("TOKEN.DELETE_CONFIRM_DESC")}
-            </DialogDescription>
-          </DialogHeader>
-          {deleteTarget && (
-            <div className="bg-muted border-border rounded border p-3">
-              <span className="font-mono text-sm">{deleteTarget.name}</span>
-            </div>
-          )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
-              {t("TOKEN.CANCEL")}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={deleteMutation.isPending}
-            >
-              <LuTrash2 data-icon="inline-start" className="h-4 w-4" />
-              {t("TOKEN.DELETE")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <TokenDialog
+        open={!!editingToken}
+        onOpenChange={(open) => {
+          if (!open) setEditingToken(null);
+        }}
+        token={editingToken}
+      />
     </div>
   );
 }
