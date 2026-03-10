@@ -40,7 +40,7 @@ export function SidebarUser() {
         <UserDropdown side={sidebar.isMobile ? "bottom" : "right"} align="end">
           <SidebarMenuButton
             size="lg"
-            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            className="h-auto py-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
             <UserInfo
               showBadge={false}
