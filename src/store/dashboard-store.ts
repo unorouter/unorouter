@@ -1,7 +1,6 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { StoreId } from "@/lib/types/enums";
 import { atomWithStorage } from "jotai/utils";
-
 import dayjs from "dayjs";
 
 export const DEFAULT_RANGE_HOURS = 24;

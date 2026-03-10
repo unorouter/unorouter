@@ -508,6 +508,7 @@
     "AVERAGE_TPM": "Durchschn. TPM",
     "TOP_UP": "Aufladen",
     "MODEL_DATA_ANALYSIS": "Modelldatenanalyse",
+    "RESET_DATE_RANGE": "Zeitraum zurücksetzen",
     "CONSUMPTION_DISTRIBUTION": "Verbrauchsverteilung",
     "CONSUMPTION_TREND": "Verbrauchstrend",
     "CALLS_DISTRIBUTION": "Aufrufverteilung",

@@ -5,14 +5,16 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import {
+  DEFAULT_RANGE_HOURS,
   dashboardStoreAtom,
   defaultTimestamps,
 } from "@/store/dashboard-store";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
 
 export function useDashboardData() {
+  const queryClient = useQueryClient();
   const [store, setStore] = useAtom(dashboardStoreAtom);
   const { startTs, endTs } = store ?? defaultTimestamps();
   const periodMinutes = (endTs - startTs) / 60;
@@ -31,9 +33,25 @@ export function useDashboardData() {
       endTs: dayjs(range.to).unix(),
     });
 
+  const resetDateRange = () => setStore(null);
+
+  const isDefaultRange = !store || (endTs - startTs) === DEFAULT_RANGE_HOURS * 3600;
+
+  const refetchAll = () => {
+    queryClient.invalidateQueries({ queryKey: queryKeys.status() });
+    queryClient.invalidateQueries({ queryKey: queryKeys.dashboardQuota(startTs, endTs) });
+    queryClient.invalidateQueries({ queryKey: queryKeys.dashboardUptime() });
+  };
+
+  const isFetching = quotaQuery.isFetching;
+
   return {
     dateRange,
     setDateRange,
+    resetDateRange,
+    isDefaultRange,
+    refetchAll,
+    isFetching,
     periodMinutes,
     quotaQuery,
     rawData,

@@ -508,6 +508,7 @@
     "AVERAGE_TPM": "Average TPM",
     "TOP_UP": "Top Up",
     "MODEL_DATA_ANALYSIS": "Model Data Analysis",
+    "RESET_DATE_RANGE": "Reset date range",
     "CONSUMPTION_DISTRIBUTION": "Consumption Distribution",
     "CONSUMPTION_TREND": "Consumption Trend",
     "CALLS_DISTRIBUTION": "Calls Distribution",

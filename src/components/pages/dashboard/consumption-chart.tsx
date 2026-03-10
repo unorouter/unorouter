@@ -15,7 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardData } from "@/hooks/dashboard-hook";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { LuChartBar, LuRefreshCw } from "react-icons/lu";
+import { LuChartBar, LuRefreshCw, LuRotateCcw } from "react-icons/lu";
 import {
   Bar,
   BarChart,
@@ -94,13 +94,13 @@ function processTrendData(data: QuotaDataItem[]) {
 
 export function ConsumptionChart() {
   const t = useTranslations();
-  const { dateRange, setDateRange, quotaQuery, rawData } = useDashboardData();
-  const isLoading = quotaQuery.isLoading;
+  const dashboard = useDashboardData();
+  const isLoading = dashboard.quotaQuery.isLoading;
 
-  const distribution = processDistributionData(rawData);
-  const trendData = processTrendData(rawData);
-  const pieData = aggregateByModel(rawData, "count", 8);
-  const rankingData = aggregateByModel(rawData, "count", 10);
+  const distribution = processDistributionData(dashboard.rawData);
+  const trendData = processTrendData(dashboard.rawData);
+  const pieData = aggregateByModel(dashboard.rawData, "count", 8);
+  const rankingData = aggregateByModel(dashboard.rawData, "count", 10);
 
   const distributionConfig = buildChartConfig(distribution.modelList);
   const trendConfig: ChartConfig = {
@@ -112,7 +112,7 @@ export function ConsumptionChart() {
     count: { label: "Calls", color: "var(--color-chart-1)" },
   };
 
-  const totalQuota = rawData.reduce(
+  const totalQuota = dashboard.rawData.reduce(
     (sum, item) => sum + quotaToDollars(item.quota ?? 0),
     0,
   );
@@ -127,17 +127,27 @@ export function ConsumptionChart() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <DateTimeRangePicker value={dateRange} onChange={setDateRange} />
+          <DateTimeRangePicker value={dashboard.dateRange} onChange={dashboard.setDateRange} />
           <Button
             variant="ghost"
             size="icon-sm"
-            onClick={() => quotaQuery.refetch()}
-            disabled={quotaQuery.isFetching}
+            onClick={dashboard.refetchAll}
+            disabled={dashboard.isFetching}
           >
             <LuRefreshCw
-              className={`h-4 w-4 ${quotaQuery.isFetching ? "animate-spin" : ""}`}
+              className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
             />
           </Button>
+          {!dashboard.isDefaultRange && (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              onClick={dashboard.resetDateRange}
+              title={t("DASHBOARD.RESET_DATE_RANGE")}
+            >
+              <LuRotateCcw className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       </div>
 
@@ -145,7 +155,7 @@ export function ConsumptionChart() {
         <div className="flex h-80 items-center justify-center p-5">
           <Skeleton className="h-full w-full" />
         </div>
-      ) : rawData.length === 0 ? (
+      ) : dashboard.rawData.length === 0 ? (
         <div className="flex h-80 flex-col items-center justify-center gap-2 p-5">
           <LuChartBar className="text-muted-foreground h-10 w-10 opacity-30" />
           <span className="text-muted-foreground font-mono text-xs">
