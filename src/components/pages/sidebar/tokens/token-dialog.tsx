@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,25 +12,36 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   useCreateTokenMutation,
+  useDeleteTokenMutation,
+  useFetchTokenKeyMutation,
+  useToggleTokenStatusMutation,
   useUpdateTokenMutation,
-  useUserGroupsQuery,
 } from "@/hooks/token-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { LuCheck, LuKey, LuPlus, LuShield, LuWallet } from "react-icons/lu";
+import {
+  LuCheck,
+  LuCopy,
+  LuEye,
+  LuEyeOff,
+  LuKey,
+  LuPlus,
+  LuPower,
+  LuPowerOff,
+  LuTrash2,
+  LuWallet,
+} from "react-icons/lu";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
 
@@ -38,18 +50,6 @@ type TokenDialogProps = {
   onOpenChange: (open: boolean) => void;
   token?: TokenRow | null;
 };
-
-function computeExpiredTime(
-  months: number,
-  days: number,
-  hours: number,
-): number {
-  if (months === 0 && days === 0 && hours === 0) return -1;
-  const now = Date.now() / 1000;
-  const seconds =
-    months * 30 * 24 * 60 * 60 + days * 24 * 60 * 60 + hours * 60 * 60;
-  return Math.ceil(now + seconds);
-}
 
 const QUOTA_PRESETS = [
   { label: "$1", value: dollarsToQuota(1) },
@@ -64,67 +64,82 @@ export function TokenDialog(props: TokenDialogProps) {
   const t = useTranslations();
   const createMutation = useCreateTokenMutation();
   const updateMutation = useUpdateTokenMutation();
-  const groupsQuery = useUserGroupsQuery();
+  const toggleMutation = useToggleTokenStatusMutation();
+  const deleteMutation = useDeleteTokenMutation();
+  const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
 
   const [name, setName] = useState("");
-  const [group, setGroup] = useState("");
-  const [crossGroupRetry, setCrossGroupRetry] = useState(false);
-  const [expiredTime, setExpiredTimeState] = useState(-1);
-  const [expirationLabel, setExpirationLabel] = useState("TOKEN.NEVER_EXPIRES");
   const [remainQuota, setRemainQuota] = useState(0);
   const [unlimitedQuota, setUnlimitedQuota] = useState(true);
-  const [modelLimits, setModelLimits] = useState("");
-  const [allowIps, setAllowIps] = useState("");
+  const [revealedKey, setRevealedKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (props.open && props.token) {
       setName(props.token.name || "");
-      setGroup(props.token.group || "");
-      setCrossGroupRetry(!!props.token.cross_group_retry);
-      setExpiredTimeState(props.token.expired_time ?? -1);
-      setExpirationLabel(
-        props.token.expired_time === -1 ? "TOKEN.NEVER_EXPIRES" : "custom",
-      );
       setRemainQuota(props.token.remain_quota ?? 0);
       setUnlimitedQuota(!!props.token.unlimited_quota);
-      setModelLimits(props.token.model_limits || "");
-      setAllowIps(props.token.allow_ips || "");
+      setRevealedKey(null);
     } else if (props.open && !props.token) {
       setName("");
-      setGroup("");
-      setCrossGroupRetry(false);
-      setExpiredTimeState(-1);
-      setExpirationLabel("TOKEN.NEVER_EXPIRES");
       setRemainQuota(0);
       setUnlimitedQuota(true);
-      setModelLimits("");
-      setAllowIps("");
+      setRevealedKey(null);
     }
   }, [props.open, props.token]);
 
-  const groupsData = groupsQuery.data as
-    | { data?: Record<string, { desc: string; ratio: unknown }> }
-    | Record<string, { desc: string; ratio: unknown }>
-    | undefined;
+  function handleToggleReveal() {
+    if (!props.token) return;
+    if (revealedKey) {
+      setRevealedKey(null);
+      return;
+    }
+    fetchKeyMutation.mutate(props.token.id, {
+      onSuccess: (data) => setRevealedKey(data.key),
+      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
+    });
+  }
 
-  const groupsMap =
-    groupsData && "data" in groupsData && groupsData.data
-      ? groupsData.data
-      : (groupsData as
-          | Record<string, { desc: string; ratio: unknown }>
-          | undefined);
+  function handleCopyKey() {
+    if (!props.token) return;
+    if (revealedKey) {
+      navigator.clipboard.writeText(`sk-${revealedKey}`);
+      toast.success(t("TOKEN.KEY_COPIED"));
+      return;
+    }
+    fetchKeyMutation.mutate(props.token.id, {
+      onSuccess: (data) => {
+        navigator.clipboard.writeText(`sk-${data.key}`);
+        toast.success(t("TOKEN.KEY_COPIED"));
+      },
+      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
+    });
+  }
 
-  const groupEntries = groupsMap ? Object.entries(groupsMap) : [];
+  function handleToggleStatus() {
+    if (!props.token) return;
+    const isEnabled = props.token.status === 1;
+    toggleMutation.mutate(
+      { id: props.token.id, status: isEnabled ? 2 : 1 },
+      {
+        onSuccess: () => {
+          toast.success(t("TOKEN.STATUS_CHANGED"));
+          props.onOpenChange(false);
+        },
+        onError: () => toast.error(t("TOKEN.STATUS_UPDATE_FAILED")),
+      },
+    );
+  }
 
-  function handleExpirationPreset(
-    months: number,
-    days: number,
-    hours: number,
-    label: string,
-  ) {
-    setExpiredTimeState(computeExpiredTime(months, days, hours));
-    setExpirationLabel(label);
+  function handleDelete() {
+    if (!props.token) return;
+    deleteMutation.mutate(props.token.id, {
+      onSuccess: () => {
+        toast.success(t("TOKEN.DELETED_SUCCESS"));
+        props.onOpenChange(false);
+      },
+      onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
+    });
   }
 
   function handleSubmit() {
@@ -137,22 +152,16 @@ export function TokenDialog(props: TokenDialogProps) {
       return;
     }
 
-    const modelLimitsCleaned = modelLimits
-      .split(",")
-      .map((m) => m.trim())
-      .filter(Boolean)
-      .join(",");
-
     const payload = {
       name: name.trim(),
       remain_quota: unlimitedQuota ? 0 : remainQuota,
-      expired_time: expiredTime,
+      expired_time: -1,
       unlimited_quota: unlimitedQuota,
-      model_limits_enabled: modelLimitsCleaned.length > 0,
-      model_limits: modelLimitsCleaned,
-      allow_ips: allowIps.trim(),
-      group,
-      cross_group_retry: crossGroupRetry,
+      model_limits_enabled: false,
+      model_limits: "",
+      allow_ips: "",
+      group: "auto",
+      cross_group_retry: true,
     };
 
     if (isEdit) {
@@ -184,10 +193,16 @@ export function TokenDialog(props: TokenDialogProps) {
   }
 
   const isPending = createMutation.isPending || updateMutation.isPending;
+  const isEnabled = props.token?.status === 1;
+  const displayKey = props.token
+    ? revealedKey
+      ? `sk-${revealedKey}`
+      : `sk-${props.token.key}`
+    : null;
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {isEdit ? t("TOKEN.EDIT") : t("TOKEN.CREATE")}
@@ -196,135 +211,87 @@ export function TokenDialog(props: TokenDialogProps) {
         </DialogHeader>
 
         <div className="flex flex-col gap-6">
+          {isEdit && displayKey && (
+            <div>
+              <div className="mb-3 flex items-center gap-2">
+                <LuKey className="text-muted-foreground h-4 w-4" />
+                <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                  {t("TOKEN.COL_KEY")}
+                </span>
+                <Badge
+                  variant={isEnabled ? "default" : "destructive"}
+                  className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
+                >
+                  {isEnabled
+                    ? t("TOKEN.STATUS_ENABLED")
+                    : t("TOKEN.STATUS_DISABLED")}
+                </Badge>
+              </div>
+
+              <div className="flex min-w-0 items-center gap-1.5">
+                <code className="bg-muted text-foreground block min-w-0 flex-1 overflow-hidden truncate rounded px-2 py-1.5 font-mono text-xs">
+                  {displayKey}
+                </code>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          onClick={handleToggleReveal}
+                        />
+                      }
+                    >
+                      {revealedKey ? (
+                        <LuEyeOff className="h-3.5 w-3.5" />
+                      ) : (
+                        <LuEye className="h-3.5 w-3.5" />
+                      )}
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {revealedKey
+                        ? t("TOKEN.HIDE_KEY")
+                        : t("TOKEN.REVEAL_KEY")}
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          onClick={handleCopyKey}
+                        />
+                      }
+                    >
+                      <LuCopy className="h-3.5 w-3.5" />
+                    </TooltipTrigger>
+                    <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
+          )}
+
+          {isEdit && <Separator />}
+
           <div>
             <div className="mb-3 flex items-center gap-2">
-              <LuKey className="text-muted-foreground h-4 w-4" />
               <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                Basic Info
+                {t("TOKEN.NAME")}
               </span>
             </div>
 
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="token-name" className="text-xs font-medium">
-                  {t("TOKEN.NAME")}
-                </Label>
-                <Input
-                  id="token-name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={t("TOKEN.NAME_PLACEHOLDER")}
-                  maxLength={50}
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-xs font-medium">
-                  {t("TOKEN.GROUP")}
-                </Label>
-                {groupEntries.length > 0 ? (
-                  <Select
-                    value={group}
-                    onValueChange={(v) => setGroup(v ?? "")}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue
-                        placeholder={t("TOKEN.GROUP_PLACEHOLDER")}
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {groupEntries.map(([key, info]) => (
-                        <SelectItem key={key} value={key}>
-                          {(info as { desc: string }).desc || key}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <span className="text-muted-foreground text-xs">
-                    {t("TOKEN.GROUP_NO_GROUPS")}
-                  </span>
-                )}
-              </div>
-
-              {group === "auto" && (
-                <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-0.5">
-                    <Label className="text-xs font-medium">
-                      {t("TOKEN.CROSS_GROUP_RETRY")}
-                    </Label>
-                    <span className="text-muted-foreground text-[11px]">
-                      {t("TOKEN.CROSS_GROUP_RETRY_DESC")}
-                    </span>
-                  </div>
-                  <Switch
-                    checked={crossGroupRetry}
-                    onCheckedChange={setCrossGroupRetry}
-                    size="sm"
-                  />
-                </div>
-              )}
-
-              <div className="flex flex-col gap-1.5">
-                <Label className="text-xs font-medium">
-                  {t("TOKEN.EXPIRATION")}
-                </Label>
-                <div className="flex flex-wrap gap-1.5">
-                  <Button
-                    variant={
-                      expirationLabel === "TOKEN.NEVER_EXPIRES"
-                        ? "default"
-                        : "outline"
-                    }
-                    size="xs"
-                    onClick={() =>
-                      handleExpirationPreset(0, 0, 0, "TOKEN.NEVER_EXPIRES")
-                    }
-                  >
-                    {t("TOKEN.NEVER_EXPIRES")}
-                  </Button>
-                  <Button
-                    variant={
-                      expirationLabel === "TOKEN.ONE_MONTH"
-                        ? "default"
-                        : "outline"
-                    }
-                    size="xs"
-                    onClick={() =>
-                      handleExpirationPreset(1, 0, 0, "TOKEN.ONE_MONTH")
-                    }
-                  >
-                    {t("TOKEN.ONE_MONTH")}
-                  </Button>
-                  <Button
-                    variant={
-                      expirationLabel === "TOKEN.ONE_DAY"
-                        ? "default"
-                        : "outline"
-                    }
-                    size="xs"
-                    onClick={() =>
-                      handleExpirationPreset(0, 1, 0, "TOKEN.ONE_DAY")
-                    }
-                  >
-                    {t("TOKEN.ONE_DAY")}
-                  </Button>
-                  <Button
-                    variant={
-                      expirationLabel === "TOKEN.ONE_HOUR"
-                        ? "default"
-                        : "outline"
-                    }
-                    size="xs"
-                    onClick={() =>
-                      handleExpirationPreset(0, 0, 1, "TOKEN.ONE_HOUR")
-                    }
-                  >
-                    {t("TOKEN.ONE_HOUR")}
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <Input
+              id="token-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t("TOKEN.NAME_PLACEHOLDER")}
+              maxLength={50}
+            />
           </div>
 
           <Separator />
@@ -397,64 +364,69 @@ export function TokenDialog(props: TokenDialogProps) {
               )}
             </div>
           </div>
-
-          <Separator />
-
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <LuShield className="text-muted-foreground h-4 w-4" />
-              <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                Access Restrictions
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="model-limits" className="text-xs font-medium">
-                  {t("TOKEN.MODEL_LIMITS")}
-                </Label>
-                <Input
-                  id="model-limits"
-                  value={modelLimits}
-                  onChange={(e) => setModelLimits(e.target.value)}
-                  placeholder={t("TOKEN.MODEL_LIMITS_PLACEHOLDER")}
-                />
-                <span className="text-muted-foreground text-[11px]">
-                  {t("TOKEN.MODEL_LIMITS_DESC")}
-                </span>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label htmlFor="ip-whitelist" className="text-xs font-medium">
-                  {t("TOKEN.IP_WHITELIST")}
-                </Label>
-                <Textarea
-                  id="ip-whitelist"
-                  value={allowIps}
-                  onChange={(e) => setAllowIps(e.target.value)}
-                  placeholder={t("TOKEN.IP_WHITELIST_PLACEHOLDER")}
-                  rows={3}
-                />
-                <span className="text-muted-foreground text-[11px]">
-                  {t("TOKEN.IP_WHITELIST_DESC")}
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => props.onOpenChange(false)}>
-            {t("TOKEN.CANCEL")}
-          </Button>
-          <Button onClick={handleSubmit} disabled={isPending}>
-            {isEdit ? (
-              <LuCheck data-icon="inline-start" className="h-4 w-4" />
-            ) : (
-              <LuPlus data-icon="inline-start" className="h-4 w-4" />
-            )}
-            {isEdit ? t("TOKEN.SAVE") : t("TOKEN.SUBMIT")}
-          </Button>
+        <DialogFooter className="flex-row gap-2 sm:justify-between">
+          {isEdit ? (
+            <div className="flex gap-2">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleToggleStatus}
+                        disabled={toggleMutation.isPending}
+                      />
+                    }
+                  >
+                    {isEnabled ? (
+                      <LuPowerOff className="h-4 w-4" />
+                    ) : (
+                      <LuPower className="h-4 w-4" />
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={handleDelete}
+                        disabled={deleteMutation.isPending}
+                        className="text-destructive hover:bg-destructive/10"
+                      />
+                    }
+                  >
+                    <LuTrash2 className="h-4 w-4" />
+                  </TooltipTrigger>
+                  <TooltipContent>{t("TOKEN.DELETE")}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          ) : (
+            <div />
+          )}
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => props.onOpenChange(false)}>
+              {t("TOKEN.CANCEL")}
+            </Button>
+            <Button onClick={handleSubmit} disabled={isPending}>
+              {isEdit ? (
+                <LuCheck data-icon="inline-start" className="h-4 w-4" />
+              ) : (
+                <LuPlus data-icon="inline-start" className="h-4 w-4" />
+              )}
+              {isEdit ? t("TOKEN.SAVE") : t("TOKEN.SUBMIT")}
+            </Button>
+          </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
