@@ -1,4 +1,4 @@
-import { Models } from "@/components/pages/models/models";
+import { Models } from "@/components/pages/navbar/models/models";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";

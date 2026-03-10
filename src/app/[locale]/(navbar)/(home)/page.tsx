@@ -1,4 +1,4 @@
-import { Home } from "@/components/pages/home/home";
+import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";

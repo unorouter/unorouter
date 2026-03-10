@@ -4,8 +4,8 @@ import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { IntegrationRow } from "@/components/pages/docs/integration-row";
-import { integrations } from "@/components/pages/docs/integrations";
+import { IntegrationRow } from "@/components/pages/navbar/docs/integration-row";
+import { integrations } from "@/components/pages/navbar/docs/integrations";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

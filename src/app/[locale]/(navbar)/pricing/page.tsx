@@ -1,4 +1,4 @@
-import { Pricing } from "@/components/pages/pricing/pricing";
+import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";

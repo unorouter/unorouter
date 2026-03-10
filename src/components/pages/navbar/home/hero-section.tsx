@@ -1,7 +1,7 @@
 import { Link } from "@/i18n/navigation";
-import { HeroStatsGrid } from "@/components/pages/home/hero-stats-grid";
-import { HeroSubtitle } from "@/components/pages/home/hero-subtitle";
-import { StatsPanel } from "@/components/pages/home/stats-panel";
+import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
+import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
+import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
 import { ScrambleText } from "@/components/elements/scramble-text";
 import { LuChevronRight, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";

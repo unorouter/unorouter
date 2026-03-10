@@ -1,6 +1,6 @@
 "use client";
 
-import { filterQuotaData } from "@/components/pages/dashboard/stats";
+import { filterQuotaData } from "@/components/pages/sidebar/dashboard/stats";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";

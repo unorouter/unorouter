@@ -1,6 +1,6 @@
 "use client";
 
-import { UsageLogs } from "@/components/pages/logs/usage-logs";
+import { UsageLogs } from "@/components/pages/sidebar/logs/usage-logs";
 
 export default function LogsPage() {
   return <UsageLogs />;

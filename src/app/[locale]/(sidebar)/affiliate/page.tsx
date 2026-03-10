@@ -1,6 +1,6 @@
 "use client";
 
-import { AffiliatePage } from "@/components/pages/affiliate/affiliate-page";
+import { AffiliatePage } from "@/components/pages/sidebar/affiliate/affiliate-page";
 
 export default function AffiliatePageRoute() {
   return <AffiliatePage />;

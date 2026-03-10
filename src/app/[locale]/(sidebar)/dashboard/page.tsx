@@ -1,4 +1,4 @@
-import { Dashboard } from "@/components/pages/dashboard/dashboard";
+import { Dashboard } from "@/components/pages/sidebar/dashboard/dashboard";
 import { DashboardStoreProvider } from "@/components/provider/dashboard-store-provider";
 import { loadDataFromCookie } from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
