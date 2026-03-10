@@ -4,6 +4,7 @@ import {
   getAllTokens,
   getApiUserSelfGroups,
   getToken,
+  getTokenKey,
   getUserModels,
   searchTokens,
   updateToken,
@@ -84,6 +85,11 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
         headers: upstream.headers,
       },
     );
+    return res.data!;
+  })
+
+  .post("/:id/key", async ({ params, upstream }) => {
+    const res = await getTokenKey(params.id, { headers: upstream.headers });
     return res.data!;
   })
 

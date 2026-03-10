@@ -62,7 +62,7 @@ export const sidebarNavigation = (): NavigationItem[] => [
   },
   {
     name: "SIDEBAR.TOKENS",
-    href: "/tokens",
+    href: "/token",
     icon: LuKey,
   },
   {

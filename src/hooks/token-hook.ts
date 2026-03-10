@@ -98,6 +98,15 @@ export function useToggleTokenStatusMutation() {
   });
 }
 
+export function useFetchTokenKeyMutation() {
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const res = await rpc.api.token({ id: id.toString() }).key.post();
+      return handleElysia(res) as { key: string };
+    },
+  });
+}
+
 export function useDeleteTokenMutation() {
   const queryClient = useQueryClient();
   return useMutation({
