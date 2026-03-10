@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -31,6 +31,8 @@ import {
   useToggleTokenStatusMutation,
   useTokensQuery,
 } from "@/hooks/token-hook";
+import { renderQuota } from "@/lib/config/constants";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -44,10 +46,8 @@ import {
   LuSearch,
   LuTrash2,
 } from "react-icons/lu";
-import { renderQuota } from "@/lib/config/constants";
 import { toast } from "sonner";
 import { CreateTokenSheet } from "./create-token-sheet";
-import dayjs from "dayjs";
 
 function formatDate(timestamp: number): string {
   if (timestamp <= 0) return "";
@@ -112,24 +112,7 @@ export function TokenList() {
   const toggleMutation = useToggleTokenStatusMutation();
   const deleteMutation = useDeleteTokenMutation();
 
-  const responseData = tokensQuery.data as
-    | {
-        data?: {
-          items?: any[];
-          total?: number;
-          page?: number;
-          page_size?: number;
-        };
-      }
-    | { items?: any[]; total?: number; page?: number; page_size?: number }
-    | undefined;
-
-  const pageData =
-    responseData && "data" in responseData && responseData.data
-      ? responseData.data
-      : (responseData as
-          | { items?: any[]; total?: number; page?: number; page_size?: number }
-          | undefined);
+  const pageData = tokensQuery.data;
 
   const tokens = pageData?.items ?? [];
   const total = pageData?.total ?? 0;
