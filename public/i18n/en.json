@@ -590,7 +590,13 @@
     "UPDATED_SUCCESS": "API key updated successfully",
     "DELETED_SUCCESS": "API key deleted successfully",
     "STATUS_CHANGED": "API key status updated",
-    "QUOTA_PRESETS": "Presets"
+    "QUOTA_PRESETS": "Presets",
+    "HIDE_KEY": "Hide",
+    "REVEAL_KEY": "Reveal",
+    "MODEL_COUNT": "{count} models",
+    "FETCH_KEY_FAILED": "Failed to fetch token key",
+    "STATUS_UPDATE_FAILED": "Failed to update status",
+    "DELETE_FAILED": "Failed to delete token"
   },
   "LOGS": {
     "TITLE": "Usage Logs",

@@ -590,7 +590,13 @@
     "UPDATED_SUCCESS": "API-Schlüssel erfolgreich aktualisiert",
     "DELETED_SUCCESS": "API-Schlüssel erfolgreich gelöscht",
     "STATUS_CHANGED": "API-Schlüssel-Status aktualisiert",
-    "QUOTA_PRESETS": "Voreinstellungen"
+    "QUOTA_PRESETS": "Voreinstellungen",
+    "HIDE_KEY": "Verbergen",
+    "REVEAL_KEY": "Anzeigen",
+    "MODEL_COUNT": "{count} Modelle",
+    "FETCH_KEY_FAILED": "Token-Schlüssel konnte nicht abgerufen werden",
+    "STATUS_UPDATE_FAILED": "Status konnte nicht aktualisiert werden",
+    "DELETE_FAILED": "Token konnte nicht gelöscht werden"
   },
   "LOGS": {
     "TITLE": "Nutzungsprotokolle",

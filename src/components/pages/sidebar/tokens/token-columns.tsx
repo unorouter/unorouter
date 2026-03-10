@@ -88,7 +88,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
         toast.success(t("TOKEN.KEY_COPIED"));
         setRevealedKey(data.key);
       },
-      onError: () => toast.error("Failed to fetch token key"),
+      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
     });
   }
 
@@ -99,7 +99,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
     }
     fetchKeyMutation.mutate(token.id, {
       onSuccess: (data) => setRevealedKey(data.key),
-      onError: () => toast.error("Failed to fetch token key"),
+      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
     });
   }
 
@@ -125,7 +125,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
               <LuEye className="h-3 w-3" />
             )}
           </TooltipTrigger>
-          <TooltipContent>{revealedKey ? "Hide" : "Reveal"}</TooltipContent>
+          <TooltipContent>{revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <TooltipProvider>
@@ -154,7 +154,7 @@ export function TokenModelsCell({ row }: CellContext<TokenRow, unknown>) {
   return (
     <span className="text-muted-foreground text-xs">
       {token.model_limits_enabled && modelCount > 0
-        ? `${modelCount} models`
+        ? t("TOKEN.MODEL_COUNT", { count: modelCount })
         : t("TOKEN.ALL_MODELS")}
     </span>
   );
@@ -189,7 +189,7 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
           { id: token.id, status: isEnabled ? 2 : 1 },
           {
             onSuccess: () => toast.success(t("TOKEN.STATUS_CHANGED")),
-            onError: () => toast.error("Failed to update status"),
+            onError: () => toast.error(t("TOKEN.STATUS_UPDATE_FAILED")),
           },
         ),
     },
@@ -203,7 +203,7 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
       onClick: () =>
         deleteMutation.mutate(token.id, {
           onSuccess: () => toast.success(t("TOKEN.DELETED_SUCCESS")),
-          onError: () => toast.error("Failed to delete token"),
+          onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
         }),
     },
   ];
