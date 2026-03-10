@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/elements/table/data-table";
+import { DataTableGlobalFilter } from "@/components/elements/table/data-table-global-filter";
+import { Button } from "@/components/ui/button";
 import { useTokensQuery } from "@/hooks/token-hook";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
@@ -10,15 +10,16 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuKey, LuPlus, LuSearch } from "react-icons/lu";
+import { LuPlus } from "react-icons/lu";
 import {
-  type TokenRow,
-  TokenStatusCell,
-  TokenQuotaCell,
-  TokenKeyCell,
-  TokenModelsCell,
   TokenActionCell,
   TokenDateCell,
+  TokenEmptyState,
+  TokenKeyCell,
+  TokenModelsCell,
+  TokenQuotaCell,
+  type TokenRow,
+  TokenStatusCell,
 } from "./token-columns";
 import { TokenDialog } from "./token-dialog";
 
@@ -32,18 +33,11 @@ export function TokenList() {
 
   const tableAtoms = createTableAtoms(DataTableId.TOKENS);
   const store = useAtomValue(tableAtoms.baseAtom);
-  const setGlobalFilter = useSetAtom(tableAtoms.globalFilterAtom);
-  const setPagination = useSetAtom(tableAtoms.paginationAtom);
 
   const tokensQuery = useTokensQuery({
     p: store.pagination.pageIndex + 1,
     keyword: store.globalFilter || undefined,
   });
-
-  function handleSearch(value: string) {
-    setGlobalFilter(value);
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
-  }
 
   const columns: ColumnDef<TokenRow>[] = [
     {
@@ -53,9 +47,7 @@ export function TokenList() {
       enableHiding: false,
       enableSorting: false,
       cell: ({ row }) => (
-        <span className="text-foreground font-medium">
-          {row.original.name}
-        </span>
+        <span className="text-foreground font-medium">{row.original.name}</span>
       ),
     },
     {
@@ -154,35 +146,16 @@ export function TokenList() {
         total={tokensQuery.data?.total ?? 0}
         isLoading={tokensQuery.isLoading}
         columnVisibility
-        filter={() => (
-          <div className="flex items-center gap-2">
-            <LuSearch className="text-muted-foreground h-4 w-4 shrink-0" />
-            <Input
-              value={store.globalFilter}
-              onChange={(e) => handleSearch(e.target.value)}
-              placeholder={t("TOKEN.SEARCH_PLACEHOLDER")}
-              className="h-8 w-48 border-0 bg-transparent shadow-none focus-visible:ring-0"
-            />
-          </div>
+        filter={({ table }) => (
+          <DataTableGlobalFilter
+            table={table}
+            placeholder={t("TOKEN.SEARCH_PLACEHOLDER")}
+          />
         )}
-        emptyState={
-          <div className="flex flex-col items-center gap-3">
-            <LuKey className="text-muted-foreground h-8 w-8" />
-            <span className="text-muted-foreground text-sm">
-              {t("TOKEN.NO_TOKENS")}
-            </span>
-            <Button size="sm" onClick={() => setCreateOpen(true)}>
-              <LuPlus data-icon="inline-start" className="h-4 w-4" />
-              {t("TOKEN.CREATE")}
-            </Button>
-          </div>
-        }
+        emptyState={<TokenEmptyState onCreate={() => setCreateOpen(true)} />}
       />
 
-      <TokenDialog
-        open={createOpen}
-        onOpenChange={setCreateOpen}
-      />
+      <TokenDialog open={createOpen} onOpenChange={setCreateOpen} />
 
       <TokenDialog
         open={!!editingToken}

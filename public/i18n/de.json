@@ -426,7 +426,8 @@
   },
   "COMMON": {
     "COPY_CODE": "Code kopieren",
-    "OPEN_MENU": "Menü öffnen"
+    "OPEN_MENU": "Menü öffnen",
+    "SEARCH": "Suchen..."
   },
   "LANGUAGE": {
     "EN": "English",

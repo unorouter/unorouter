@@ -28,7 +28,9 @@ import {
   LuCopy,
   LuEye,
   LuEyeOff,
+  LuKey,
   LuPencil,
+  LuPlus,
   LuPower,
   LuPowerOff,
   LuTrash2,
@@ -216,5 +218,21 @@ export function TokenDateCell({ row, column }: CellContext<TokenRow, unknown>) {
     <span className="text-muted-foreground font-mono text-xs">
       {value === -1 ? t("TOKEN.NEVER_EXPIRES") : formatDate(value)}
     </span>
+  );
+}
+
+export function TokenEmptyState(props: { onCreate: () => void }) {
+  const t = useTranslations();
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <LuKey className="text-muted-foreground h-8 w-8" />
+      <span className="text-muted-foreground text-sm">
+        {t("TOKEN.NO_TOKENS")}
+      </span>
+      <Button size="sm" onClick={props.onCreate}>
+        <LuPlus data-icon="inline-start" className="h-4 w-4" />
+        {t("TOKEN.CREATE")}
+      </Button>
+    </div>
   );
 }

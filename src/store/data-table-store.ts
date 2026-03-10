@@ -106,6 +106,7 @@ export const createTableAtoms = (
               typeof updaterOrValue === "function"
                 ? updaterOrValue(prev.globalFilter)
                 : updaterOrValue,
+            pagination: { ...prev.pagination, pageIndex: 0 },
           }));
         },
       ),
@@ -216,6 +217,7 @@ export const createTableAtoms = (
             typeof updaterOrValue === "function"
               ? updaterOrValue(prev.globalFilter)
               : updaterOrValue,
+          pagination: { ...prev.pagination, pageIndex: 0 },
         }));
       },
     ),
