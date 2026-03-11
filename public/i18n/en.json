@@ -641,7 +641,8 @@
     "EXPAND_REQUEST_CONVERSION": "Request Conversion",
     "EXPAND_BILLING_MODE": "Billing Mode",
     "EXPAND_BILLING_UPSTREAM": "Upstream Response",
-    "EXPAND_BILLING_LOCAL": "Local Billing"
+    "EXPAND_BILLING_LOCAL": "Local Billing",
+    "STAT_USED_QUOTA": "Used Quota"
   },
   "AFFILIATE": {
     "TITLE": "Affiliate Program",

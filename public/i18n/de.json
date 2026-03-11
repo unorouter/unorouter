@@ -641,7 +641,8 @@
     "EXPAND_REQUEST_CONVERSION": "Anfragekonvertierung",
     "EXPAND_BILLING_MODE": "Abrechnungsmodus",
     "EXPAND_BILLING_UPSTREAM": "Upstream-Antwort",
-    "EXPAND_BILLING_LOCAL": "Lokale Abrechnung"
+    "EXPAND_BILLING_LOCAL": "Lokale Abrechnung",
+    "STAT_USED_QUOTA": "Verbrauchtes Guthaben"
   },
   "AFFILIATE": {
     "TITLE": "Partnerprogramm",

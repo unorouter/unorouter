@@ -29,3 +29,29 @@ export function useUsageLogsQuery(filters: GetUserLogsParams = {}) {
       ),
   });
 }
+
+export type LogStatFilters = {
+  type?: number;
+  start_timestamp?: number;
+  end_timestamp?: number;
+  token_name?: string;
+  model_name?: string;
+};
+
+export function useUsageLogsStatQuery(filters: LogStatFilters = {}) {
+  return useQuery({
+    queryKey: queryKeys.usageLogsStat(filters),
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.logs.stat.get({
+          query: {
+            type: filters.type?.toString(),
+            start_timestamp: filters.start_timestamp?.toString(),
+            end_timestamp: filters.end_timestamp?.toString(),
+            token_name: filters.token_name || undefined,
+            model_name: filters.model_name || undefined,
+          },
+        }),
+      ),
+  });
+}

@@ -17,6 +17,8 @@ export const queryKeys = {
   affiliateCommissions: () => ["affiliate-commissions"] as const,
   usageLogs: (params?: Record<string, unknown>) =>
     ["usage-logs", params] as const,
+  usageLogsStat: (params?: Record<string, unknown>) =>
+    ["usage-logs-stat", params] as const,
   topUpInfo: () => ["topup-info"] as const,
   subscriptionSelf: () => ["subscription-self"] as const,
   billingPlans: () => ["billing-plans"] as const,
