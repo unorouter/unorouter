@@ -631,7 +631,17 @@
     "CACHE_READ": "Cache Lesen",
     "CACHE_WRITE": "Cache Schreiben",
     "STREAM": "Stream",
-    "NON_STREAM": "Kein Stream"
+    "NON_STREAM": "Kein Stream",
+    "EXPAND_CHANNEL": "Kanal",
+    "EXPAND_REQUEST_ID": "Anfrage-ID",
+    "EXPAND_CACHE_TOKENS": "Cache Tokens",
+    "EXPAND_CACHE_CREATION": "Cache-Erstellungs-Tokens",
+    "EXPAND_LOG_DETAILS": "Log-Details",
+    "EXPAND_REQUEST_PATH": "Anfragepfad",
+    "EXPAND_REQUEST_CONVERSION": "Anfragekonvertierung",
+    "EXPAND_BILLING_MODE": "Abrechnungsmodus",
+    "EXPAND_BILLING_UPSTREAM": "Upstream-Antwort",
+    "EXPAND_BILLING_LOCAL": "Lokale Abrechnung"
   },
   "AFFILIATE": {
     "TITLE": "Partnerprogramm",

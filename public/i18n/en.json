@@ -631,7 +631,17 @@
     "CACHE_READ": "Cache Read",
     "CACHE_WRITE": "Cache Write",
     "STREAM": "stream",
-    "NON_STREAM": "non-stream"
+    "NON_STREAM": "non-stream",
+    "EXPAND_CHANNEL": "Channel",
+    "EXPAND_REQUEST_ID": "Request ID",
+    "EXPAND_CACHE_TOKENS": "Cache Tokens",
+    "EXPAND_CACHE_CREATION": "Cache Creation Tokens",
+    "EXPAND_LOG_DETAILS": "Log Details",
+    "EXPAND_REQUEST_PATH": "Request Path",
+    "EXPAND_REQUEST_CONVERSION": "Request Conversion",
+    "EXPAND_BILLING_MODE": "Billing Mode",
+    "EXPAND_BILLING_UPSTREAM": "Upstream Response",
+    "EXPAND_BILLING_LOCAL": "Local Billing"
   },
   "AFFILIATE": {
     "TITLE": "Affiliate Program",

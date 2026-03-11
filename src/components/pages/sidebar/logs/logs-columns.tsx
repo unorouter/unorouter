@@ -1,7 +1,6 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -10,10 +9,11 @@ import {
 } from "@/components/ui/tooltip";
 import { renderQuota } from "@/lib/config/constants";
 import type { ResponseDtoPageDataModelLogDataItemsItem } from "@/openapi";
-import type { CellContext } from "@tanstack/react-table";
+import type { CellContext, Row } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { LuCopy, LuScrollText } from "react-icons/lu";
+import type React from "react";
+import { LuChevronRight, LuCopy, LuScrollText } from "react-icons/lu";
 import { toast } from "sonner";
 
 export type LogRow = NonNullable<ResponseDtoPageDataModelLogDataItemsItem>;
@@ -33,7 +33,33 @@ export function formatTimestamp(ts: number): string {
 }
 
 export function formatDateForInput(d: dayjs.Dayjs): string {
-  return d.format("YYYY-MM-DD");
+  return d.format("YYYY-MM-DDTHH:mm");
+}
+
+const modelColors = [
+  "bg-amber-500/15 text-amber-400",
+  "bg-blue-500/15 text-blue-400",
+  "bg-cyan-500/15 text-cyan-400",
+  "bg-green-500/15 text-green-400",
+  "bg-indigo-500/15 text-indigo-400",
+  "bg-sky-500/15 text-sky-400",
+  "bg-lime-500/15 text-lime-400",
+  "bg-orange-500/15 text-orange-400",
+  "bg-pink-500/15 text-pink-400",
+  "bg-purple-500/15 text-purple-400",
+  "bg-red-500/15 text-red-400",
+  "bg-teal-500/15 text-teal-400",
+  "bg-violet-500/15 text-violet-400",
+  "bg-yellow-500/15 text-yellow-400",
+  "bg-rose-500/15 text-rose-400",
+];
+
+function stringToColor(str: string): string {
+  let sum = 0;
+  for (let i = 0; i < str.length; i++) {
+    sum += str.charCodeAt(i);
+  }
+  return modelColors[sum % modelColors.length];
 }
 
 function getLogTypeColor(type: number): string {
@@ -135,7 +161,9 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
             />
           }
         >
-          <code className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-xs">
+          <code
+            className={`rounded px-1.5 py-0.5 font-mono text-xs ${stringToColor(log.model_name)}`}
+          >
             {log.model_name}
           </code>
         </TooltipTrigger>
@@ -172,7 +200,7 @@ export function LogInputTokensCell({ row }: CellContext<LogRow, unknown>) {
         {log.prompt_tokens?.toLocaleString() ?? 0}
       </span>
       {(cacheRead > 0 || cacheWrite > 0) && (
-        <span className="text-muted-foreground mt-0.5 text-[10px]">
+        <span className="text-muted-foreground mt-0.5 text-[10px] whitespace-nowrap">
           {cacheRead > 0 &&
             `${t("LOGS.CACHE_READ")} ${cacheRead.toLocaleString()}`}
           {cacheRead > 0 && cacheWrite > 0 && " \u00b7 "}
@@ -257,7 +285,7 @@ export function LogDetailsCell({ row }: CellContext<LogRow, unknown>) {
       <Tooltip>
         <TooltipTrigger
           render={
-            <span className="text-muted-foreground block max-w-[200px] cursor-default truncate text-xs" />
+            <span className="text-muted-foreground block max-w-50 cursor-default truncate text-xs" />
           }
         >
           {log.content}
@@ -270,14 +298,181 @@ export function LogDetailsCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
+export function LogExpandToggleCell({ row }: CellContext<LogRow, unknown>) {
+  if (!row.getCanExpand()) return null;
+  return (
+    <LuChevronRight
+      className={`text-muted-foreground h-4 w-4 transition-transform ${row.getIsExpanded() ? "rotate-90" : ""}`}
+    />
+  );
+}
+
+export function canLogRowExpand(row: Row<LogRow>): boolean {
+  return isConsumeLike(row.original.type);
+}
+
+function DetailItem(props: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex gap-4 py-1.5">
+      <span className="text-muted-foreground w-44 shrink-0 text-right text-xs">
+        {props.label}
+      </span>
+      <span className="text-foreground font-mono text-xs">{props.value}</span>
+    </div>
+  );
+}
+
+export function LogExpandedRow(props: { row: Row<LogRow> }) {
+  const t = useTranslations();
+  const log = props.row.original;
+  const other = parseOther(log.other);
+
+  const items: { label: string; value: React.ReactNode }[] = [];
+
+  if (log.channel && log.channel_name) {
+    items.push({
+      label: t("LOGS.EXPAND_CHANNEL"),
+      value: (
+        <Badge
+          variant="secondary"
+          className="bg-blue-500/10 font-mono text-blue-400"
+        >
+          {log.channel} &ndash; {log.channel_name}
+        </Badge>
+      ),
+    });
+  }
+
+  if (log.request_id) {
+    items.push({
+      label: t("LOGS.EXPAND_REQUEST_ID"),
+      value: (
+        <span className="flex items-center gap-1.5">
+          <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-400">
+            {log.request_id}
+          </code>
+          <button
+            type="button"
+            className="text-muted-foreground hover:text-foreground cursor-pointer border-0 bg-transparent p-0 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigator.clipboard.writeText(log.request_id ?? "");
+              toast.success(t("LOGS.COPIED"));
+            }}
+          >
+            <LuCopy className="h-3 w-3" />
+          </button>
+        </span>
+      ),
+    });
+  }
+
+  const cacheRead = other?.cache_tokens ? Number(other.cache_tokens) : 0;
+  const cacheWrite = other?.cache_creation_tokens
+    ? Number(other.cache_creation_tokens)
+    : 0;
+
+  if (cacheRead > 0) {
+    items.push({
+      label: t("LOGS.EXPAND_CACHE_TOKENS"),
+      value: (
+        <Badge
+          variant="secondary"
+          className="bg-cyan-500/10 font-mono text-cyan-400"
+        >
+          {cacheRead.toLocaleString()}
+        </Badge>
+      ),
+    });
+  }
+
+  if (cacheWrite > 0) {
+    items.push({
+      label: t("LOGS.EXPAND_CACHE_CREATION"),
+      value: (
+        <Badge
+          variant="secondary"
+          className="bg-teal-500/10 font-mono text-teal-400"
+        >
+          {cacheWrite.toLocaleString()}
+        </Badge>
+      ),
+    });
+  }
+
+  if (log.content) {
+    items.push({
+      label: t("LOGS.EXPAND_LOG_DETAILS"),
+      value: (
+        <span className="font-mono text-xs whitespace-pre-wrap text-orange-300/80">
+          {log.content}
+        </span>
+      ),
+    });
+  }
+
+  if (other?.request_path) {
+    items.push({
+      label: t("LOGS.EXPAND_REQUEST_PATH"),
+      value: (
+        <code className="rounded bg-purple-500/10 px-1.5 py-0.5 font-mono text-xs text-purple-400">
+          {other.request_path}
+        </code>
+      ),
+    });
+  }
+
+  if (other?.request_conversion) {
+    items.push({
+      label: t("LOGS.EXPAND_REQUEST_CONVERSION"),
+      value: (
+        <Badge
+          variant="secondary"
+          className="bg-indigo-500/10 font-mono text-indigo-400"
+        >
+          {other.request_conversion}
+        </Badge>
+      ),
+    });
+  }
+
+  if (other?.billing) {
+    items.push({
+      label: t("LOGS.EXPAND_BILLING_MODE"),
+      value: (
+        <Badge
+          variant="secondary"
+          className={
+            other.billing === "upstream"
+              ? "bg-green-500/10 font-mono text-green-400"
+              : "bg-orange-500/10 font-mono text-orange-400"
+          }
+        >
+          {other.billing === "upstream"
+            ? t("LOGS.EXPAND_BILLING_UPSTREAM")
+            : t("LOGS.EXPAND_BILLING_LOCAL")}
+        </Badge>
+      ),
+    });
+  }
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className="border-border/50 divide-border/50 flex flex-col divide-y px-6 py-2">
+      {items.map((item) => (
+        <DetailItem key={item.label} label={item.label} value={item.value} />
+      ))}
+    </div>
+  );
+}
+
 export function LogEmptyState() {
   const t = useTranslations();
   return (
     <div className="flex flex-col items-center gap-3">
       <LuScrollText className="text-muted-foreground h-8 w-8" />
-      <span className="text-muted-foreground text-sm">
-        {t("LOGS.NO_LOGS")}
-      </span>
+      <span className="text-muted-foreground text-sm">{t("LOGS.NO_LOGS")}</span>
     </div>
   );
 }

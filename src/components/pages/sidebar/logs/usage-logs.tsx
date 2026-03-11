@@ -2,6 +2,7 @@
 
 import { DataTable } from "@/components/elements/table/data-table";
 import { Button } from "@/components/ui/button";
+import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -37,6 +38,8 @@ import {
   LOG_TYPE_TOPUP,
   LogDetailsCell,
   LogEmptyState,
+  LogExpandToggleCell,
+  LogExpandedRow,
   LogInputTokensCell,
   LogModelCell,
   LogOutputTokensCell,
@@ -45,6 +48,7 @@ import {
   LogTimingCell,
   LogTokenNameCell,
   LogTypeCell,
+  canLogRowExpand,
   formatDateForInput,
 } from "./logs-columns";
 
@@ -66,9 +70,10 @@ function LogFilters(props: {
   const t = useTranslations();
   const [filtersExpanded, setFiltersExpanded] = useState(false);
 
-  const todayStr = formatDateForInput(dayjs());
-  const startDate = props.filters.start_date ?? todayStr;
-  const endDate = props.filters.end_date ?? todayStr;
+  const startOfDay = formatDateForInput(dayjs().startOf("day"));
+  const endOfDay = formatDateForInput(dayjs().endOf("day"));
+  const startDate = props.filters.start_date ?? startOfDay;
+  const endDate = props.filters.end_date ?? endOfDay;
   const logType = props.filters.log_type;
   const tokenName = props.filters.token_name ?? "";
   const modelName = props.filters.model_name ?? "";
@@ -87,22 +92,15 @@ function LogFilters(props: {
   return (
     <div className="flex w-full flex-col gap-2">
       <div className="flex flex-wrap items-center gap-2">
-        <Input
-          type="date"
-          value={startDate}
-          onChange={(e) =>
-            props.onFilterChange("start_date", e.target.value || undefined)
-          }
-          className="h-8 w-36 font-mono text-xs"
-        />
-        <span className="text-muted-foreground text-xs">{t("LOGS.TO")}</span>
-        <Input
-          type="date"
-          value={endDate}
-          onChange={(e) =>
-            props.onFilterChange("end_date", e.target.value || undefined)
-          }
-          className="h-8 w-36 font-mono text-xs"
+        <DateTimeRangePicker
+          value={{
+            from: dayjs(startDate).toDate(),
+            to: dayjs(endDate).toDate(),
+          }}
+          onChange={(range) => {
+            props.onFilterChange("start_date", formatDateForInput(dayjs(range.from)));
+            props.onFilterChange("end_date", formatDateForInput(dayjs(range.to)));
+          }}
         />
         <Select
           value={logType != null ? String(logType) : "all"}
@@ -212,21 +210,22 @@ export function UsageLogs() {
   const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
 
-  const todayStr = formatDateForInput(dayjs());
+  const startOfDay = formatDateForInput(dayjs().startOf("day"));
+  const endOfDay = formatDateForInput(dayjs().endOf("day"));
 
   // Extract filter values from column filters
   const filterValues =
     getColumnFilterValues<LogFilterValues>(store.columnFilters) ?? {};
 
-  const startDate = filterValues.start_date ?? todayStr;
-  const endDate = filterValues.end_date ?? todayStr;
+  const startDate = filterValues.start_date ?? startOfDay;
+  const endDate = filterValues.end_date ?? endOfDay;
 
   const queryFilters = {
     p: store.pagination.pageIndex + 1,
     page_size: store.pagination.pageSize,
     ...(filterValues.log_type != null ? { type: filterValues.log_type } : {}),
     ...(startDate ? { start_timestamp: dayjs(startDate).unix() } : {}),
-    ...(endDate ? { end_timestamp: dayjs(endDate).unix() + 86400 } : {}),
+    ...(endDate ? { end_timestamp: dayjs(endDate).unix() } : {}),
     ...(filterValues.token_name
       ? { token_name: filterValues.token_name }
       : {}),
@@ -262,6 +261,14 @@ export function UsageLogs() {
 
   const columns: ColumnDef<LogRow>[] = [
     {
+      id: "expand",
+      header: "",
+      enableHiding: false,
+      enableSorting: false,
+      meta: { cellClassName: "w-8 px-1" },
+      cell: LogExpandToggleCell,
+    },
+    {
       accessorKey: "created_at",
       meta: { title: "LOGS.COL_TIME" },
       header: t("LOGS.COL_TIME"),
@@ -292,14 +299,14 @@ export function UsageLogs() {
     },
     {
       id: "input_tokens",
-      meta: { title: "LOGS.COL_INPUT", headerClassName: "text-right" },
+      meta: { title: "LOGS.COL_INPUT", headerClassName: "text-right", cellClassName: "text-right" },
       header: t("LOGS.COL_INPUT"),
       enableSorting: false,
       cell: LogInputTokensCell,
     },
     {
       id: "output_tokens",
-      meta: { title: "LOGS.COL_OUTPUT", headerClassName: "text-right" },
+      meta: { title: "LOGS.COL_OUTPUT", headerClassName: "text-right", cellClassName: "text-right" },
       header: t("LOGS.COL_OUTPUT"),
       enableSorting: false,
       cell: LogOutputTokensCell,
@@ -313,7 +320,7 @@ export function UsageLogs() {
     },
     {
       accessorKey: "quota",
-      meta: { title: "LOGS.COL_SPEND", headerClassName: "text-right" },
+      meta: { title: "LOGS.COL_SPEND", headerClassName: "text-right", cellClassName: "text-right" },
       header: t("LOGS.COL_SPEND"),
       enableSorting: false,
       cell: LogSpendCell,
@@ -360,6 +367,8 @@ export function UsageLogs() {
         total={total}
         isLoading={logsQuery.isLoading}
         columnVisibility
+        getRowCanExpand={canLogRowExpand}
+        renderExpandedRow={(row) => <LogExpandedRow row={row} />}
         filter={() => (
           <LogFilters
             filters={filterValues}

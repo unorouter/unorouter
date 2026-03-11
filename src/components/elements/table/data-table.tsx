@@ -14,15 +14,17 @@ import { cn } from "@/lib/utils";
 import { createTableAtoms } from "@/store/data-table-store";
 import {
   type ColumnDef,
+  type Row,
   type Table as TTable,
   type TableState,
   flexRender,
   getCoreRowModel,
+  getExpandedRowModel,
   getPaginationRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import { useAtomValue, useSetAtom } from "jotai";
-import type { ReactNode } from "react";
+import React, { type ReactNode, useState } from "react";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableViewOptions } from "./data-table-view-options";
 
@@ -43,6 +45,8 @@ interface DataTableProps<TData, TValue> {
   emptyState?: ReactNode;
   filter?: (props: { table: TTable<TData> }) => ReactNode;
   actions?: (props: { table: TTable<TData> }) => ReactNode;
+  renderExpandedRow?: (row: Row<TData>) => ReactNode;
+  getRowCanExpand?: (row: Row<TData>) => boolean;
 }
 
 export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
@@ -53,6 +57,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const setColumnVisibility = useSetAtom(tableAtoms.columnVisibilityAtom);
   const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
+  const [expanded, setExpanded] = useState({});
 
   const table = useReactTable({
     data: props.data,
@@ -62,6 +67,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       columnVisibility: store.columnVisibility,
       columnFilters: store.columnFilters,
       pagination: store.pagination,
+      expanded,
     },
     rowCount: props.total,
     pageCount: props.total
@@ -69,6 +75,11 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
       : undefined,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    ...(props.renderExpandedRow
+      ? { getExpandedRowModel: getExpandedRowModel() }
+      : {}),
+    getRowCanExpand: props.getRowCanExpand,
+    onExpandedChange: setExpanded,
     onGlobalFilterChange: setGlobalFilter,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnFiltersChange: setColumnFilters,
@@ -150,24 +161,50 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
             )}
 
             {!props.isLoading &&
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => {
-                    const meta = cell.column.columnDef.meta as Meta;
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        className={cn(meta?.cellClassName)}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              ))}
+              table.getRowModel().rows.map((row) => {
+                const canExpand =
+                  props.renderExpandedRow && row.getCanExpand();
+                return (
+                  <React.Fragment key={row.id}>
+                    <TableRow
+                      className={cn(
+                        canExpand && "cursor-pointer",
+                        row.getIsExpanded() && "bg-muted/30",
+                      )}
+                      onClick={
+                        canExpand
+                          ? () => row.toggleExpanded()
+                          : undefined
+                      }
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        const meta = cell.column.columnDef.meta as Meta;
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            className={cn(meta?.cellClassName)}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                    {row.getIsExpanded() && props.renderExpandedRow && (
+                      <TableRow className="hover:bg-transparent">
+                        <TableCell
+                          colSpan={row.getVisibleCells().length}
+                          className="bg-muted/20 p-0"
+                        >
+                          {props.renderExpandedRow(row)}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </React.Fragment>
+                );
+              })}
           </TableBody>
         </Table>
       </div>
