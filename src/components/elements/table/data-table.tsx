@@ -51,6 +51,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const store = useAtomValue(tableAtoms.baseAtom);
   const setGlobalFilter = useSetAtom(tableAtoms.globalFilterAtom);
   const setColumnVisibility = useSetAtom(tableAtoms.columnVisibilityAtom);
+  const setColumnFilters = useSetAtom(tableAtoms.columnFiltersAtom);
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
 
   const table = useReactTable({
@@ -59,6 +60,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     state: {
       globalFilter: store.globalFilter,
       columnVisibility: store.columnVisibility,
+      columnFilters: store.columnFilters,
       pagination: store.pagination,
     },
     rowCount: props.total,
@@ -69,8 +71,10 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
     getPaginationRowModel: getPaginationRowModel(),
     onGlobalFilterChange: setGlobalFilter,
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
     onPaginationChange: setPagination,
     manualPagination: true,
+    manualFiltering: true,
   });
 
   return (

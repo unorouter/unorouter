@@ -5,4 +5,5 @@ export enum StoreId {
 
 export enum DataTableId {
   TOKENS = "TOKENS",
+  LOGS = "LOGS",
 }
