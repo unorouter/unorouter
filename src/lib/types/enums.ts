@@ -6,4 +6,6 @@ export enum StoreId {
 export enum DataTableId {
   TOKENS = "TOKENS",
   LOGS = "LOGS",
+  AFFILIATE_INVITEES = "AFFILIATE_INVITEES",
+  AFFILIATE_COMMISSIONS = "AFFILIATE_COMMISSIONS",
 }

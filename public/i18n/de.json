@@ -647,6 +647,9 @@
   "AFFILIATE": {
     "TITLE": "Partnerprogramm",
     "DESCRIPTION": "Verdienen Sie Provisionen, indem Sie neue Nutzer werben. Teilen Sie Ihren Einladungslink und verdienen Sie einen Prozentsatz ihrer Aufladungen.",
+    "COMMISSION_RATE": "Provisionssatz",
+    "MAX_RECHARGES": "Max. Aufladungen",
+    "UNLIMITED": "Unbegrenzt",
     "PENDING_EARNINGS": "Ausstehende Einnahmen",
     "TOTAL_EARNED": "Gesamt verdient",
     "INVITE_COUNT": "Eingeladene Nutzer",
@@ -675,13 +678,22 @@
     "STEP_2_DESC": "Wenn geworbene Nutzer sich registrieren und Guthaben aufladen, erhalten Sie eine Provision.",
     "STEP_3_TITLE": "Provision verdienen",
     "STEP_3_DESC": "Übertragen Sie Ihre Einnahmen jederzeit auf Ihr Kontoguthaben.",
+    "TAB_INVITEES": "Eingeladene Nutzer",
+    "TAB_COMMISSIONS": "Provisionshistorie",
     "COMMISSION_HISTORY": "Provisionshistorie",
     "COL_DATE": "Datum",
     "COL_USER": "Nutzer",
     "COL_RECHARGE": "Aufladebetrag",
     "COL_RATE": "Satz",
     "COL_EARNED": "Verdient",
-    "NO_COMMISSIONS": "Noch keine Provisionshistorie. Teilen Sie Ihren Einladungslink, um mit dem Verdienen zu beginnen."
+    "COL_STATUS": "Status",
+    "COL_JOINED": "Beigetreten",
+    "COL_COMMISSIONS": "Provisionen",
+    "COL_TOTAL_EARNED": "Gesamt verdient",
+    "STATUS_ACTIVE": "Aktiv",
+    "STATUS_DISABLED": "Deaktiviert",
+    "NO_COMMISSIONS": "Noch keine Provisionshistorie. Teilen Sie Ihren Einladungslink, um mit dem Verdienen zu beginnen.",
+    "NO_INVITEES": "Noch keine eingeladenen Nutzer. Teilen Sie Ihren Einladungslink, um Ihr Netzwerk aufzubauen."
   },
   "THEME": {
     "LIGHT": "Hell",

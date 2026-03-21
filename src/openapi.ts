@@ -3003,6 +3003,8 @@ export interface ResponseDtoUpdateNameResponse {
 
 export type ResponseDtoUserSelfDataData = {
   aff_code: string;
+  aff_commission_max_recharges: number;
+  aff_commission_rate: number;
   aff_count: number;
   aff_history_quota: number;
   aff_quota: number;
@@ -4416,6 +4418,28 @@ export type SearchTokensParams = {
 };
 
 export type GetAllUsersParams = {
+  /**
+   * Page number (1-based)
+   */
+  p?: number;
+  /**
+   * Items per page
+   */
+  page_size?: number;
+};
+
+export type GetReferralCommissionsParams = {
+  /**
+   * Page number (1-based)
+   */
+  p?: number;
+  /**
+   * Items per page
+   */
+  page_size?: number;
+};
+
+export type GetInvitedUsersParams = {
   /**
    * Page number (1-based)
    */
@@ -13425,20 +13449,93 @@ export type getReferralCommissionsResponse =
   | getReferralCommissionsResponseSuccess
   | getReferralCommissionsResponseError;
 
-export const getGetReferralCommissionsUrl = () => {
-  return `/api/user/aff/commissions`;
+export const getGetReferralCommissionsUrl = (
+  params?: GetReferralCommissionsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/user/aff/commissions?${stringifiedParams}`
+    : `/api/user/aff/commissions`;
 };
 
 export const getReferralCommissions = async (
+  params?: GetReferralCommissionsParams,
   options?: RequestInit,
 ): Promise<getReferralCommissionsResponse> => {
   return customFetch<getReferralCommissionsResponse>(
-    getGetReferralCommissionsUrl(),
+    getGetReferralCommissionsUrl(params),
     {
       ...options,
       method: "GET",
     },
   );
+};
+
+/**
+ * @summary Get Invited Users
+ */
+export type getInvitedUsersResponse200ApplicationJson = {
+  data: ResponseCommonPageInfo;
+  status: 200;
+};
+
+export type getInvitedUsersResponse200ApplicationXml = {
+  data: ResponseCommonPageInfo;
+  status: 200;
+};
+
+export type getInvitedUsersResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type getInvitedUsersResponseSuccess = (
+  | getInvitedUsersResponse200ApplicationJson
+  | getInvitedUsersResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getInvitedUsersResponseError = getInvitedUsersResponseDefault & {
+  headers: Headers;
+};
+
+export type getInvitedUsersResponse =
+  | getInvitedUsersResponseSuccess
+  | getInvitedUsersResponseError;
+
+export const getGetInvitedUsersUrl = (params?: GetInvitedUsersParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/user/aff/invitees?${stringifiedParams}`
+    : `/api/user/aff/invitees`;
+};
+
+export const getInvitedUsers = async (
+  params?: GetInvitedUsersParams,
+  options?: RequestInit,
+): Promise<getInvitedUsersResponse> => {
+  return customFetch<getInvitedUsersResponse>(getGetInvitedUsersUrl(params), {
+    ...options,
+    method: "GET",
+  });
 };
 
 /**

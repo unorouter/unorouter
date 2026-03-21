@@ -1,6 +1,10 @@
-import { transferQuotaBody } from "@/lib/typebox/affiliate";
+import {
+  affiliatePaginationQuery,
+  transferQuotaBody,
+} from "@/lib/typebox/affiliate";
 import {
   getAffCode,
+  getInvitedUsers,
   getReferralCommissions,
   transferAffQuota,
 } from "@/openapi";
@@ -15,10 +19,35 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
     return res.data!;
   })
 
-  .get("/commissions", async ({ upstream }) => {
-    const res = await getReferralCommissions({ headers: upstream.headers });
-    return res.data!;
-  })
+  .get(
+    "/invitees",
+    async ({ query, upstream }) => {
+      const res = await getInvitedUsers(
+        {
+          p: query.p ? Number(query.p) : undefined,
+          page_size: query.page_size ? Number(query.page_size) : undefined,
+        },
+        { headers: upstream.headers },
+      );
+      return res.data!;
+    },
+    { query: affiliatePaginationQuery },
+  )
+
+  .get(
+    "/commissions",
+    async ({ query, upstream }) => {
+      const res = await getReferralCommissions(
+        {
+          p: query.p ? Number(query.p) : undefined,
+          page_size: query.page_size ? Number(query.page_size) : undefined,
+        },
+        { headers: upstream.headers },
+      );
+      return res.data!;
+    },
+    { query: affiliatePaginationQuery },
+  )
 
   .post(
     "/transfer",

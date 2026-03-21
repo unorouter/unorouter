@@ -12,19 +12,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DataTable } from "@/components/elements/table/data-table";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useAffiliateCommissionsQuery,
+  useAffiliateInviteesQuery,
   useTransferAffQuotaMutation,
 } from "@/hooks/affiliate-hook";
+import { DataTableId } from "@/lib/types/enums";
+import { createTableAtoms } from "@/store/data-table-store";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -32,6 +29,8 @@ import {
   LuCopy,
   LuDollarSign,
   LuGift,
+  LuPercent,
+  LuRepeat,
   LuUsers,
   LuWallet,
 } from "react-icons/lu";
@@ -42,6 +41,8 @@ import {
 } from "@/lib/config/constants";
 import { toast } from "sonner";
 import dayjs from "dayjs";
+import type { ColumnDef } from "@tanstack/react-table";
+import { useAtomValue } from "jotai";
 
 function formatDate(timestamp: number): string {
   if (!timestamp || timestamp <= 0) return "";
@@ -83,66 +84,234 @@ function StatItem(props: StatItemProps) {
   );
 }
 
+type InviteeRow = {
+  id: number;
+  username: string;
+  display_name: string;
+  created_at: number;
+  status: number;
+  commission_count: number;
+  total_earned: number;
+};
+
+type CommissionRow = {
+  id: number;
+  created_at: number;
+  invitee_username: string;
+  recharge_amount: number;
+  commission_rate: number;
+  commission_quota: number;
+  payment_method: string;
+};
+
+function InviteesTab() {
+  const t = useTranslations();
+  const tableAtoms = createTableAtoms(DataTableId.AFFILIATE_INVITEES);
+  const store = useAtomValue(tableAtoms.baseAtom);
+
+  const inviteesQuery = useAffiliateInviteesQuery({
+    p: store.pagination.pageIndex + 1,
+    page_size: store.pagination.pageSize,
+  });
+
+  const responseData = inviteesQuery.data as
+    | { data?: { items?: InviteeRow[]; total?: number } }
+    | undefined;
+
+  const pageInfo = responseData?.data;
+  const invitees: InviteeRow[] = pageInfo?.items ?? [];
+  const total = pageInfo?.total ?? 0;
+
+  const columns: ColumnDef<InviteeRow>[] = [
+    {
+      accessorKey: "username",
+      header: t("AFFILIATE.COL_USER"),
+      cell: ({ row }) => (
+        <span className="text-foreground text-sm font-medium">
+          {row.original.display_name || row.original.username || "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "created_at",
+      header: t("AFFILIATE.COL_JOINED"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs">
+          {formatDate(row.original.created_at)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "commission_count",
+      header: t("AFFILIATE.COL_COMMISSIONS"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {row.original.commission_count}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "total_earned",
+      header: t("AFFILIATE.COL_TOTAL_EARNED"),
+      cell: ({ row }) => (
+        <span
+          className="font-mono text-sm font-medium tabular-nums"
+          style={{ color: "var(--chart-2)" }}
+        >
+          {renderQuota(row.original.total_earned)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: t("AFFILIATE.COL_STATUS"),
+      cell: ({ row }) => (
+        <span
+          className="font-mono text-xs"
+          style={{
+            color:
+              row.original.status === 1
+                ? "var(--chart-2)"
+                : "var(--destructive)",
+          }}
+        >
+          {row.original.status === 1
+            ? t("AFFILIATE.STATUS_ACTIVE")
+            : t("AFFILIATE.STATUS_DISABLED")}
+        </span>
+      ),
+    },
+  ];
+
+  return (
+    <DataTable
+      id={DataTableId.AFFILIATE_INVITEES}
+      data={invitees}
+      columns={columns}
+      total={total}
+      isLoading={inviteesQuery.isLoading}
+      emptyState={
+        <div className="flex flex-col items-center gap-2">
+          <LuUsers className="text-muted-foreground h-6 w-6" />
+          <span className="text-muted-foreground text-sm">
+            {t("AFFILIATE.NO_INVITEES")}
+          </span>
+        </div>
+      }
+    />
+  );
+}
+
+function CommissionsTab() {
+  const t = useTranslations();
+  const tableAtoms = createTableAtoms(DataTableId.AFFILIATE_COMMISSIONS);
+  const store = useAtomValue(tableAtoms.baseAtom);
+
+  const commissionsQuery = useAffiliateCommissionsQuery({
+    p: store.pagination.pageIndex + 1,
+    page_size: store.pagination.pageSize,
+  });
+
+  const responseData = commissionsQuery.data as
+    | { data?: { items?: CommissionRow[]; total?: number } }
+    | undefined;
+
+  const pageInfo = responseData?.data;
+  const commissions = pageInfo?.items ?? [];
+  const total = pageInfo?.total ?? 0;
+
+  const columns: ColumnDef<CommissionRow>[] = [
+    {
+      accessorKey: "created_at",
+      header: t("AFFILIATE.COL_DATE"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs">
+          {formatDate(row.original.created_at)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "invitee_username",
+      header: t("AFFILIATE.COL_USER"),
+      cell: ({ row }) => (
+        <span className="text-foreground text-sm font-medium">
+          {row.original.invitee_username || "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "recharge_amount",
+      header: t("AFFILIATE.COL_RECHARGE"),
+      cell: ({ row }) => (
+        <span className="font-mono text-sm tabular-nums">
+          {renderQuota(row.original.recharge_amount)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "commission_rate",
+      header: t("AFFILIATE.COL_RATE"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs">
+          {row.original.commission_rate != null
+            ? `${(row.original.commission_rate * 100).toFixed(0)}%`
+            : "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "commission_quota",
+      header: t("AFFILIATE.COL_EARNED"),
+      meta: { headerClassName: "text-right", cellClassName: "text-right" },
+      cell: ({ row }) => (
+        <span
+          className="font-mono text-sm font-medium tabular-nums"
+          style={{ color: "var(--chart-2)" }}
+        >
+          {renderQuota(row.original.commission_quota)}
+        </span>
+      ),
+    },
+  ];
+
+  return (
+    <DataTable
+      id={DataTableId.AFFILIATE_COMMISSIONS}
+      data={commissions}
+      columns={columns}
+      total={total}
+      isLoading={commissionsQuery.isLoading}
+      emptyState={
+        <div className="flex flex-col items-center gap-2">
+          <LuGift className="text-muted-foreground h-6 w-6" />
+          <span className="text-muted-foreground text-sm">
+            {t("AFFILIATE.NO_COMMISSIONS")}
+          </span>
+        </div>
+      }
+    />
+  );
+}
+
 export function AffiliatePage() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const commissionsQuery = useAffiliateCommissionsQuery();
   const transferMutation = useTransferAffQuotaMutation();
   const [transferOpen, setTransferOpen] = useState(false);
   const [transferAmount, setTransferAmount] = useState("");
 
-  const user = authQuery.data as
-    | {
-        aff_code?: string;
-        aff_count?: number;
-        aff_history_quota?: number;
-        aff_quota?: number;
-      }
-    | undefined;
-
-  const commissionsData = commissionsQuery.data as
-    | {
-        data?: Array<{
-          id?: number;
-          created_at?: number;
-          invitee_username?: string;
-          recharge_amount?: number;
-          commission_rate?: number;
-          commission_quota?: number;
-          payment_method?: string;
-        }>;
-        success?: boolean;
-        message?: string;
-      }
-    | Array<{
-        id?: number;
-        created_at?: number;
-        invitee_username?: string;
-        recharge_amount?: number;
-        commission_rate?: number;
-        commission_quota?: number;
-        payment_method?: string;
-      }>
-    | undefined;
-
-  const commissions = Array.isArray(commissionsData)
-    ? commissionsData
-    : commissionsData &&
-        "data" in commissionsData &&
-        Array.isArray(commissionsData.data)
-      ? commissionsData.data
-      : [];
-
+  const user = authQuery.data
   const isLoading = authQuery.isLoading;
   const affCode = user?.aff_code ?? "";
   const pendingQuota = user?.aff_quota ?? 0;
   const totalEarned = user?.aff_history_quota ?? 0;
   const inviteCount = user?.aff_count ?? 0;
+  const commissionRate = user?.aff_commission_rate ?? 0;
+  const maxRecharges = user?.aff_commission_max_recharges ?? 0;
 
-  const inviteLink =
-    typeof window !== "undefined" && affCode
-      ? `${window.location.origin}/register?aff=${affCode}`
-      : "";
+  const inviteLink = affCode
+    ? `${process.env.NEXT_PUBLIC_URL}/register?aff=${affCode}`
+    : "";
 
   function handleCopyLink() {
     if (!inviteLink) return;
@@ -196,7 +365,25 @@ export function AffiliatePage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="bg-border mb-6 grid grid-cols-1 gap-px md:grid-cols-3">
+      <div className="bg-border mb-6 grid grid-cols-2 gap-px md:grid-cols-5">
+        <div className="border-border bg-background flex flex-col p-5">
+          <StatItem
+            label={t("AFFILIATE.COMMISSION_RATE")}
+            value={`${commissionRate}%`}
+            icon={<LuPercent className="h-4 w-4" />}
+            isLoading={isLoading}
+            accentColor="var(--chart-4)"
+          />
+        </div>
+        <div className="border-border bg-background flex flex-col p-5">
+          <StatItem
+            label={t("AFFILIATE.MAX_RECHARGES")}
+            value={maxRecharges === 0 ? t("AFFILIATE.UNLIMITED") : maxRecharges}
+            icon={<LuRepeat className="h-4 w-4" />}
+            isLoading={isLoading}
+            accentColor="var(--chart-5)"
+          />
+        </div>
         <div className="border-border bg-background flex flex-col p-5">
           <StatItem
             label={t("AFFILIATE.PENDING_EARNINGS")}
@@ -355,108 +542,25 @@ export function AffiliatePage() {
         </div>
       </div>
 
-      {/* Commission History Table */}
-      <div className="border-border overflow-hidden border">
-        <div className="border-border border-b p-4">
-          <span className="text-muted-foreground font-mono text-[10px] font-medium tracking-widest uppercase">
-            {t("AFFILIATE.COMMISSION_HISTORY")}
-          </span>
-        </div>
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("AFFILIATE.COL_DATE")}
-              </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("AFFILIATE.COL_USER")}
-              </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("AFFILIATE.COL_RECHARGE")}
-              </TableHead>
-              <TableHead className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("AFFILIATE.COL_RATE")}
-              </TableHead>
-              <TableHead className="text-muted-foreground text-right font-mono text-[10px] tracking-widest uppercase">
-                {t("AFFILIATE.COL_EARNED")}
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {commissionsQuery.isLoading && (
-              <>
-                {[1, 2, 3].map((i) => (
-                  <TableRow key={i}>
-                    <TableCell>
-                      <Skeleton className="h-4 w-20" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="h-4 w-24" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="h-4 w-16" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="h-4 w-12" />
-                    </TableCell>
-                    <TableCell>
-                      <Skeleton className="ml-auto h-4 w-16" />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </>
-            )}
-
-            {!commissionsQuery.isLoading && commissions.length === 0 && (
-              <TableRow className="hover:bg-transparent">
-                <TableCell colSpan={5} className="h-32 text-center">
-                  <div className="flex flex-col items-center gap-2">
-                    <LuGift className="text-muted-foreground h-6 w-6" />
-                    <span className="text-muted-foreground text-sm">
-                      {t("AFFILIATE.NO_COMMISSIONS")}
-                    </span>
-                  </div>
-                </TableCell>
-              </TableRow>
-            )}
-
-            {commissions.map((c: any) => (
-              <TableRow key={c.id}>
-                <TableCell>
-                  <span className="text-muted-foreground font-mono text-xs">
-                    {formatDate(c.created_at)}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-foreground text-sm font-medium">
-                    {c.invitee_username || "\u2014"}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <span className="font-mono text-sm tabular-nums">
-                    {renderQuota(c.recharge_amount)}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-muted-foreground font-mono text-xs">
-                    {c.commission_rate != null
-                      ? `${(c.commission_rate * 100).toFixed(0)}%`
-                      : "\u2014"}
-                  </span>
-                </TableCell>
-                <TableCell className="text-right">
-                  <span
-                    className="font-mono text-sm font-medium tabular-nums"
-                    style={{ color: "var(--chart-2)" }}
-                  >
-                    {renderQuota(c.commission_quota)}
-                  </span>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      {/* Tabs: Invited Users + Commission History */}
+      <Tabs defaultValue="invitees">
+        <TabsList variant="line">
+          <TabsTrigger value="invitees">
+            <LuUsers className="h-3.5 w-3.5" />
+            {t("AFFILIATE.TAB_INVITEES")}
+          </TabsTrigger>
+          <TabsTrigger value="commissions">
+            <LuGift className="h-3.5 w-3.5" />
+            {t("AFFILIATE.TAB_COMMISSIONS")}
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="invitees">
+          <InviteesTab />
+        </TabsContent>
+        <TabsContent value="commissions">
+          <CommissionsTab />
+        </TabsContent>
+      </Tabs>
 
       {/* Transfer Dialog */}
       <Dialog open={transferOpen} onOpenChange={setTransferOpen}>

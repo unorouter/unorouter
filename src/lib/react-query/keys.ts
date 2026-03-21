@@ -14,7 +14,10 @@ export const queryKeys = {
   token: (id: number) => ["token", id] as const,
   userGroups: () => ["user-groups"] as const,
   userModels: () => ["user-models"] as const,
-  affiliateCommissions: () => ["affiliate-commissions"] as const,
+  affiliateCommissions: (params?: { p?: number; page_size?: number }) =>
+    ["affiliate-commissions", params] as const,
+  affiliateInvitees: (params?: { p?: number; page_size?: number }) =>
+    ["affiliate-invitees", params] as const,
   usageLogs: (params?: Record<string, unknown>) =>
     ["usage-logs", params] as const,
   usageLogsStat: (params?: Record<string, unknown>) =>

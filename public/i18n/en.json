@@ -647,6 +647,9 @@
   "AFFILIATE": {
     "TITLE": "Affiliate Program",
     "DESCRIPTION": "Earn commissions by referring new users. Share your invite link and earn a percentage of their top-ups.",
+    "COMMISSION_RATE": "Commission Rate",
+    "MAX_RECHARGES": "Max Recharges",
+    "UNLIMITED": "Unlimited",
     "PENDING_EARNINGS": "Pending Earnings",
     "TOTAL_EARNED": "Total Earned",
     "INVITE_COUNT": "Invited Users",
@@ -675,13 +678,22 @@
     "STEP_2_DESC": "When referred users register and add funds, you earn a commission.",
     "STEP_3_TITLE": "Earn Commission",
     "STEP_3_DESC": "Transfer your earnings to your account balance anytime.",
+    "TAB_INVITEES": "Invited Users",
+    "TAB_COMMISSIONS": "Commission History",
     "COMMISSION_HISTORY": "Commission History",
     "COL_DATE": "Date",
     "COL_USER": "User",
     "COL_RECHARGE": "Top Up Amount",
     "COL_RATE": "Rate",
     "COL_EARNED": "Earned",
-    "NO_COMMISSIONS": "No commission history yet. Share your invite link to start earning."
+    "COL_STATUS": "Status",
+    "COL_JOINED": "Joined",
+    "COL_COMMISSIONS": "Commissions",
+    "COL_TOTAL_EARNED": "Total Earned",
+    "STATUS_ACTIVE": "Active",
+    "STATUS_DISABLED": "Disabled",
+    "NO_COMMISSIONS": "No commission history yet. Share your invite link to start earning.",
+    "NO_INVITEES": "No invited users yet. Share your invite link to start growing your network."
   },
   "THEME": {
     "LIGHT": "Light",
