@@ -1,30 +1,18 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
+import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
 import { useAffiliateCommissionsQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
+import type { ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuGift } from "react-icons/lu";
 
-type CommissionRow = {
-  id: number;
-  created_at: number;
-  invitee_username: string;
-  recharge_amount: number;
-  commission_rate: number;
-  commission_quota: number;
-  payment_method: string;
-};
-
-function formatDate(timestamp: number): string {
-  if (!timestamp || timestamp <= 0) return "";
-  return dayjs.unix(timestamp).format("MMM D, YYYY");
-}
+type CommissionRow = NonNullable<ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem>;
 
 export function CommissionsTab() {
   const t = useTranslations();
@@ -36,13 +24,9 @@ export function CommissionsTab() {
     page_size: store.pagination.pageSize,
   });
 
-  const responseData = commissionsQuery.data as
-    | { data?: { items?: CommissionRow[]; total?: number } }
-    | undefined;
-
-  const pageInfo = responseData?.data;
-  const commissions = pageInfo?.items ?? [];
-  const total = pageInfo?.total ?? 0;
+  const responseData = commissionsQuery.data;
+  const commissions = (responseData?.items ?? []).filter(Boolean) as CommissionRow[];
+  const total = responseData?.total ?? 0;
 
   const columns: ColumnDef<CommissionRow>[] = [
     {

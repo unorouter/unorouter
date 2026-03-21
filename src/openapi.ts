@@ -1086,22 +1086,6 @@ export interface ResponseArrayString {
   success: boolean;
 }
 
-export type ResponseCommonPageInfoData = {
-  items: unknown;
-  page: number;
-  page_size: number;
-  total: number;
-} | null;
-
-/**
- * Response_common.PageInfo schema
- */
-export interface ResponseCommonPageInfo {
-  data: ResponseCommonPageInfoData;
-  message: string;
-  success: boolean;
-}
-
 export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason =
   { [key: string]: string };
 
@@ -2232,6 +2216,32 @@ export interface ResponseDtoPageDataDtoTaskDto {
   success: boolean;
 }
 
+export type ResponseDtoPageDataModelInvitedUserDataItemsItem = {
+  commission_count: number;
+  created_at: number;
+  display_name: string;
+  id: number;
+  status: number;
+  total_earned: number;
+  username: string;
+} | null;
+
+export type ResponseDtoPageDataModelInvitedUserData = {
+  items: ResponseDtoPageDataModelInvitedUserDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
+};
+
+/**
+ * Response_dto.PageData-model.InvitedUser schema
+ */
+export interface ResponseDtoPageDataModelInvitedUser {
+  data: ResponseDtoPageDataModelInvitedUserData;
+  message: string;
+  success: boolean;
+}
+
 export type ResponseDtoPageDataModelLogDataItemsItem = {
   channel: number;
   channel_name: string;
@@ -2379,6 +2389,35 @@ export type ResponseDtoPageDataModelRedemptionData = {
  */
 export interface ResponseDtoPageDataModelRedemption {
   data: ResponseDtoPageDataModelRedemptionData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem = {
+  commission_quota?: number;
+  commission_rate?: number;
+  created_at?: number;
+  id?: number;
+  invitee_id?: number;
+  invitee_username: string;
+  inviter_id?: number;
+  payment_method?: string;
+  recharge_amount?: number;
+  top_up_id?: number;
+} | null;
+
+export type ResponseDtoPageDataModelReferralCommissionWithUserData = {
+  items: ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem[];
+  page: number;
+  page_size: number;
+  total: number;
+};
+
+/**
+ * Response_dto.PageData-model.ReferralCommissionWithUser schema
+ */
+export interface ResponseDtoPageDataModelReferralCommissionWithUser {
+  data: ResponseDtoPageDataModelReferralCommissionWithUserData;
   message: string;
   success: boolean;
 }
@@ -13420,12 +13459,12 @@ export const getAffCode = async (
  * @summary Get Referral Commissions
  */
 export type getReferralCommissionsResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoPageDataModelReferralCommissionWithUser;
   status: 200;
 };
 
 export type getReferralCommissionsResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoPageDataModelReferralCommissionWithUser;
   status: 200;
 };
 
@@ -13484,12 +13523,12 @@ export const getReferralCommissions = async (
  * @summary Get Invited Users
  */
 export type getInvitedUsersResponse200ApplicationJson = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoPageDataModelInvitedUser;
   status: 200;
 };
 
 export type getInvitedUsersResponse200ApplicationXml = {
-  data: ResponseCommonPageInfo;
+  data: ResponseDtoPageDataModelInvitedUser;
   status: 200;
 };
 

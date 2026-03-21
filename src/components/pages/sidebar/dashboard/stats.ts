@@ -5,11 +5,11 @@ export { quotaToDollars, renderQuota } from "@/lib/config/constants";
 
 export type QuotaDataItem = NonNullable<ResponseArrayModelQuotaDataDataItem>;
 
-export function formatDate(dateStr: string | undefined): string {
-  if (!dateStr) return "";
-  const d = dayjs(dateStr);
-  if (!d.isValid()) return dateStr;
-  return d.format("YYYY-MM-DD");
+export function formatDate(value: string | number | undefined): string {
+  if (!value) return "";
+  const d = typeof value === "number" ? dayjs.unix(value) : dayjs(value);
+  if (!d.isValid()) return typeof value === "string" ? value : "";
+  return d.format("MMM D, YYYY");
 }
 
 export function filterQuotaData(

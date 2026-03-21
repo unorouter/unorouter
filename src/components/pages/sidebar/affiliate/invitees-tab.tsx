@@ -1,30 +1,18 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
+import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
 import { useAffiliateInviteesQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
+import type { ResponseDtoPageDataModelInvitedUserDataItemsItem } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuUsers } from "react-icons/lu";
 
-type InviteeRow = {
-  id: number;
-  username: string;
-  display_name: string;
-  created_at: number;
-  status: number;
-  commission_count: number;
-  total_earned: number;
-};
-
-function formatDate(timestamp: number): string {
-  if (!timestamp || timestamp <= 0) return "";
-  return dayjs.unix(timestamp).format("MMM D, YYYY");
-}
+type InviteeRow = NonNullable<ResponseDtoPageDataModelInvitedUserDataItemsItem>;
 
 export function InviteesTab() {
   const t = useTranslations();
@@ -36,13 +24,9 @@ export function InviteesTab() {
     page_size: store.pagination.pageSize,
   });
 
-  const responseData = inviteesQuery.data as
-    | { data?: { items?: InviteeRow[]; total?: number } }
-    | undefined;
-
-  const pageInfo = responseData?.data;
-  const invitees: InviteeRow[] = pageInfo?.items ?? [];
-  const total = pageInfo?.total ?? 0;
+  const responseData = inviteesQuery.data;
+  const invitees = (responseData?.items ?? []).filter(Boolean) as InviteeRow[];
+  const total = responseData?.total ?? 0;
 
   const columns: ColumnDef<InviteeRow>[] = [
     {
