@@ -1,16 +1,5 @@
 "use client";
 
-import { quotaToDollars } from "@/lib/config/constants";
-import {
-  useBillingPlansQuery,
-  useSubscriptionSelfQuery,
-  useUpdateBillingPreferenceMutation,
-  useStripeSubscriptionMutation,
-  useCreemSubscriptionMutation,
-  useTopUpInfoQuery,
-} from "@/hooks/billing-hook";
-import { getMultiplier } from "@/lib/api/subscription";
-import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -22,10 +11,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useTranslations } from "next-intl";
-import { LuSparkles, LuRefreshCw } from "react-icons/lu";
-import { toast } from "sonner";
+import {
+  useBillingPlansQuery,
+  useCreemSubscriptionMutation,
+  useStripeSubscriptionMutation,
+  useSubscriptionSelfQuery,
+  useTopUpInfoQuery,
+  useUpdateBillingPreferenceMutation,
+} from "@/hooks/billing-hook";
+import type { SubscriptionPlan } from "@/lib/api/subscription";
+import { getMultiplier } from "@/lib/api/subscription";
+import { quotaToDollars } from "@/lib/config/constants";
 import dayjs from "dayjs";
+import { useTranslations } from "next-intl";
+import { LuRefreshCw, LuSparkles } from "react-icons/lu";
+import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
   { value: "wallet_first", key: "BILLING.WALLET_FIRST" },
@@ -180,7 +180,12 @@ export function SubscriptionSection() {
             onValueChange={handlePreferenceChange}
           >
             <SelectTrigger className="w-48">
-              <SelectValue />
+              <SelectValue>
+                {t(
+                  PREFERENCE_OPTIONS.find((o) => o.value === billingPreference)
+                    ?.key!,
+                )}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {PREFERENCE_OPTIONS.map((opt) => (
@@ -193,11 +198,15 @@ export function SubscriptionSection() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => selfQuery.refetch()}
-            disabled={selfQuery.isFetching}
+            onClick={() => {
+              selfQuery.refetch();
+              plansQuery.refetch();
+              topUpInfoQuery.refetch();
+            }}
+            disabled={selfQuery.isFetching || plansQuery.isFetching || topUpInfoQuery.isFetching}
           >
             <LuRefreshCw
-              className={`h-4 w-4 ${selfQuery.isFetching ? "animate-spin" : ""}`}
+              className={`h-4 w-4 ${selfQuery.isFetching || plansQuery.isFetching || topUpInfoQuery.isFetching ? "animate-spin" : ""}`}
             />
           </Button>
         </div>
