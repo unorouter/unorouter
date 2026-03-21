@@ -17,6 +17,7 @@ import {
   quotaToDollars,
   renderQuota,
 } from "@/lib/config/constants";
+import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuArrowRightLeft } from "react-icons/lu";
@@ -30,6 +31,7 @@ type TransferDialogProps = {
 
 export function TransferDialog(props: TransferDialogProps) {
   const t = useTranslations();
+  const router = useRouter();
   const transferMutation = useTransferAffQuotaMutation();
   const [transferAmount, setTransferAmount] = useState("");
 
@@ -49,6 +51,7 @@ export function TransferDialog(props: TransferDialogProps) {
         toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
         props.onOpenChange(false);
         setTransferAmount("");
+        router.refresh();
       },
       onError: (err) =>
         toast.error(
