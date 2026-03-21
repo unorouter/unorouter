@@ -13,6 +13,7 @@
     "CODEX": "Codex",
     "GEMINI_CLI": "Gemini CLI",
     "OPENCLAW": "OpenClaw",
+    "DASHBOARD": "Dashboard",
     "LOG_IN": "Log In",
     "GET_STARTED": "Get Started"
   },

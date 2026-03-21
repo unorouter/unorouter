@@ -33,7 +33,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const navItems = navigation().filter((item) => !item.hidden);
+  const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
   const topLevelItems = navItems.filter((item) => !item.submenu);
   const docsItem = navItems.find((item) => item.submenu);
 

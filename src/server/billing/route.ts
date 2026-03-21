@@ -24,8 +24,11 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
     const res = await getTopUpInfo({ headers: upstream.headers });
     return res.data!;
   })
-  .get("/subscription-plans", async () => {
-    const res = await getSubscriptionPlans({ headers: ADMIN_HEADERS });
+  .get("/subscription-plans", async ({ upstream }) => {
+    const hasUser = !!upstream.headers.cookie;
+    const res = await getSubscriptionPlans({
+      headers: hasUser ? upstream.headers : ADMIN_HEADERS,
+    });
     if (res.status !== 200) return [];
     return processPlans(res.data.data);
   })

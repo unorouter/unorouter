@@ -33,7 +33,7 @@ export function MobileNav() {
     setOpen(false);
   }
 
-  const navItems = navigation().filter((item) => !item.hidden);
+  const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
