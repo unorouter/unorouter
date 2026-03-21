@@ -1,15 +1,27 @@
 "use client";
 
 import { PricingCard } from "@/components/elements/pricing-card";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
+import { useRouter } from "@/i18n/navigation";
 import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";
 import { LuShell, LuZap } from "react-icons/lu";
 
 export function Pricing() {
   const t = useTranslations();
+  const router = useRouter();
+  const authQuery = useAuthQuery();
   const { data } = useSubscriptionPlansQuery();
   const plans = data ?? [];
+
+  function handleSubscribe() {
+    if (authQuery.data) {
+      router.push("/billing");
+    } else {
+      router.push("/login");
+    }
+  }
 
   function buildFeatures(planIndex: number): string[] {
     const features: string[] = [];
@@ -87,6 +99,7 @@ export function Pricing() {
                 popular={i === 1}
                 features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}
+                onSubscribe={handleSubscribe}
               />
             );
           })}
@@ -96,12 +109,13 @@ export function Pricing() {
           <p className="text-muted-foreground font-mono text-xs">
             {t("HOME.PRICING_PAYG_DESC")}
           </p>
-          <a
-            href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
-            className="text-foreground hover:text-muted-foreground mt-3 inline-block font-mono text-xs font-bold tracking-widest uppercase transition-colors"
+          <button
+            type="button"
+            onClick={handleSubscribe}
+            className="text-foreground hover:text-muted-foreground mt-3 inline-block cursor-pointer font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
             {t("HOME.PRICING_PAYG_NAME")} &rarr;
-          </a>
+          </button>
         </div>
       </div>
     </section>

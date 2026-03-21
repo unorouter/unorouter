@@ -13,6 +13,7 @@ type Props = {
   features: string[];
   popular?: boolean;
   cta: string;
+  onSubscribe?: () => void;
 };
 
 export function PricingCard(props: Props) {
@@ -103,10 +104,11 @@ export function PricingCard(props: Props) {
 
       {/* CTA */}
       <div className="mt-auto pt-6">
-        <a
-          href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
+        <button
+          type="button"
+          onClick={props.onSubscribe}
           className={cn(
-            "flex h-11 w-full items-center justify-center gap-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors",
+            "flex h-11 w-full cursor-pointer items-center justify-center gap-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors",
             props.popular
               ? "bg-primary text-primary-foreground hover:bg-primary/80"
               : "border-border text-foreground hover:border-foreground border bg-transparent",
@@ -114,7 +116,7 @@ export function PricingCard(props: Props) {
         >
           {props.popular && <LuZap className="h-3.5 w-3.5" />}
           {props.cta}
-        </a>
+        </button>
       </div>
 
       {props.popular && (
