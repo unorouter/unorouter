@@ -230,6 +230,28 @@
   animation: widthExpand 3s ease-in-out infinite alternate;
 }
 
+/* Navbar scroll-driven background */
+@keyframes navbar-scroll-bg {
+  0% {
+    background-color: transparent;
+    border-color: transparent;
+    backdrop-filter: blur(0);
+  }
+  100% {
+    background-color: color-mix(in srgb, var(--background) 90%, transparent);
+    border-color: var(--border);
+    backdrop-filter: blur(12px);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  .navbar-scroll {
+    animation: navbar-scroll-bg linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0px 11px;
+  }
+}
+
 /* Shiki dual-theme: show light tokens by default, dark tokens in .dark */
 html .shiki,
 html .shiki span {

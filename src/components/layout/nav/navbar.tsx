@@ -17,35 +17,20 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import { MobileNav } from "./mobile-nav";
 import { isActiveLink, navigation } from "./navigation";
 
 export function Navbar() {
   const t = useTranslations();
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
   const authQuery = useAuthQuery();
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const navItems = navigation(!!authQuery.data).filter((item) => !item.hidden);
   const topLevelItems = navItems.filter((item) => !item.submenu);
   const docsItem = navItems.find((item) => item.submenu);
 
   return (
-    <nav
-      className={cn(
-        "fixed top-0 right-0 left-0 z-50 border-b transition-all duration-300",
-        scrolled
-          ? "bg-background/90 border-border backdrop-blur-md"
-          : "border-transparent bg-transparent",
-      )}
-    >
+    <nav className="navbar-scroll fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent">
       <div className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono">
         {/* Logo */}
         <Link href="/" className="group flex items-center gap-2">
