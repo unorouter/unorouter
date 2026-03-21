@@ -114,7 +114,7 @@ export async function IntegrationBanner() {
                       >
                         {integration.alt}
                       </span>
-                   </div>
+                    </div>
                     <h3 className="text-foreground text-base leading-tight font-bold tracking-tight md:text-lg">
                       {t(integration.titleKey)}
                     </h3>

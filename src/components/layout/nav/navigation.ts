@@ -39,7 +39,12 @@ export const isActiveLink = (pathname: string, href: string) => {
 
 export const navigation = (authenticated?: boolean): NavigationItem[] => [
   { name: "NAV.HOME", href: "/", icon: LuHouse, hidden: true },
-  { name: "NAV.DASHBOARD", href: "/dashboard", icon: LuLayoutDashboard, hidden: !authenticated },
+  {
+    name: "NAV.DASHBOARD",
+    href: "/dashboard",
+    icon: LuLayoutDashboard,
+    hidden: !authenticated,
+  },
   { name: "NAV.MODELS", href: "/models", icon: LuLayers },
   { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
   {

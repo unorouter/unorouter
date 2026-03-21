@@ -40,7 +40,7 @@ export function SidebarUser() {
         <UserDropdown side={sidebar.isMobile ? "bottom" : "right"} align="end">
           <SidebarMenuButton
             size="lg"
-            className="h-auto py-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-auto py-2"
           >
             <UserInfo
               trailing={<PiDotsThreeVerticalBold className="ml-auto size-4" />}

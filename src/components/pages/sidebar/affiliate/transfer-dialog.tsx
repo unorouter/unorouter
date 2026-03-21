@@ -18,7 +18,10 @@ import {
   quotaToDollars,
   renderQuota,
 } from "@/lib/config/constants";
-import { transferSchema, type TransferSchema } from "@/lib/validation/affiliate";
+import {
+  transferSchema,
+  type TransferSchema,
+} from "@/lib/validation/affiliate";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useRouter } from "@/i18n/navigation";
@@ -115,7 +118,9 @@ export function TransferDialog(props: TransferDialogProps) {
                         type="button"
                         variant="outline"
                         size="xs"
-                        onClick={() => form.setValue("amount", parseFloat(val.toFixed(2)))}
+                        onClick={() =>
+                          form.setValue("amount", parseFloat(val.toFixed(2)))
+                        }
                         disabled={props.pendingQuota <= 0}
                       >
                         {pct}%

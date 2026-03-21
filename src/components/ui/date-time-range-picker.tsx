@@ -31,15 +31,27 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
     from: props.value.from,
     to: props.value.to,
   });
-  const [startTime, setStartTime] = useState(dayjs(props.value.from).format("HH:mm"));
+  const [startTime, setStartTime] = useState(
+    dayjs(props.value.from).format("HH:mm"),
+  );
   const [endTime, setEndTime] = useState(dayjs(props.value.to).format("HH:mm"));
 
   function handleApply() {
     if (!range?.from || !range?.to) return;
     const [sh, sm] = startTime.split(":").map(Number);
     const [eh, em] = endTime.split(":").map(Number);
-    const from = dayjs(range.from).hour(sh).minute(sm).second(0).millisecond(0).toDate();
-    const to = dayjs(range.to).hour(eh).minute(em).second(59).millisecond(0).toDate();
+    const from = dayjs(range.from)
+      .hour(sh)
+      .minute(sm)
+      .second(0)
+      .millisecond(0)
+      .toDate();
+    const to = dayjs(range.to)
+      .hour(eh)
+      .minute(em)
+      .second(59)
+      .millisecond(0)
+      .toDate();
     props.onChange({ from, to });
     setOpen(false);
   }

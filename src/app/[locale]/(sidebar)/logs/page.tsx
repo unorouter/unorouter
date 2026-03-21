@@ -1,6 +1,9 @@
 import { UsageLogs } from "@/components/pages/sidebar/logs/usage-logs";
 import { DataTableProvider } from "@/components/provider/data-table-provider";
-import { initialTableStore, loadDataFromCookie } from "@/lib/config/table-storage";
+import {
+  initialTableStore,
+  loadDataFromCookie,
+} from "@/lib/config/table-storage";
 import { buildLogQueryFilters } from "@/lib/logs/filters";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -21,8 +24,7 @@ export default async function LogsPage() {
     cookie,
   );
 
-  const logsTable =
-    tableStores?.[DataTableId.LOGS] || initialTableStore();
+  const logsTable = tableStores?.[DataTableId.LOGS] || initialTableStore();
 
   const { queryFilters, statFilters } = buildLogQueryFilters(
     logsTable.columnFilters,

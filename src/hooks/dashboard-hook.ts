@@ -35,11 +35,14 @@ export function useDashboardData() {
 
   const resetDateRange = () => setStore(null);
 
-  const isDefaultRange = !store || (endTs - startTs) === DEFAULT_RANGE_HOURS * 3600;
+  const isDefaultRange =
+    !store || endTs - startTs === DEFAULT_RANGE_HOURS * 3600;
 
   const refetchAll = () => {
     queryClient.invalidateQueries({ queryKey: queryKeys.status() });
-    queryClient.invalidateQueries({ queryKey: queryKeys.dashboardQuota(startTs, endTs) });
+    queryClient.invalidateQueries({
+      queryKey: queryKeys.dashboardQuota(startTs, endTs),
+    });
     queryClient.invalidateQueries({ queryKey: queryKeys.dashboardUptime() });
   };
 

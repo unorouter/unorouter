@@ -83,17 +83,14 @@ export const createTableAtoms = (
       DataTableStore,
       [Partial<DataTableStore> | ((prev: DataTableStore) => DataTableStore)],
       void
-    >(
-      initialTableStore(initialValues),
-      (get, set, update) => {
-        const current = get(freshAtom);
-        const newState =
-          typeof update === "function"
-            ? update(current)
-            : { ...current, ...update };
-        set(freshAtom, newState);
-      },
-    );
+    >(initialTableStore(initialValues), (get, set, update) => {
+      const current = get(freshAtom);
+      const newState =
+        typeof update === "function"
+          ? update(current)
+          : { ...current, ...update };
+      set(freshAtom, newState);
+    });
 
     return {
       baseAtom: freshAtom,

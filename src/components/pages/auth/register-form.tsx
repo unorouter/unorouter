@@ -5,15 +5,22 @@ import { OAuthButtons } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
-import { useRegisterMutation, useSendVerificationMutation } from "@/hooks/auth-hook";
+import {
+  useRegisterMutation,
+  useSendVerificationMutation,
+} from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { AFF_CODE_KEY, APP_VALUES } from "@/lib/config/constants";
-import { registerChecker, registerSchema, type RegisterSchema } from "@/lib/validation/auth";
+import {
+  registerChecker,
+  registerSchema,
+  type RegisterSchema,
+} from "@/lib/validation/auth";
 import { safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { Value } from "@sinclair/typebox/value";
 import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -27,7 +34,7 @@ export function RegisterForm() {
   const statusQuery = useStatusQuery();
   const status = statusQuery.data;
 
-  const form = useForm<RegisterSchema>({
+  const form = useForm({
     resolver: typeboxResolver(registerSchema),
     defaultValues: Value.Default(registerSchema, {}) as RegisterSchema,
   });
@@ -38,7 +45,10 @@ export function RegisterForm() {
   async function handleSendCode() {
     const email = form.getValues("email");
     if (!email?.trim()) return;
-    await verificationMutation.mutateAsync({ email: email.trim(), turnstile: turnstileToken });
+    await verificationMutation.mutateAsync({
+      email: email.trim(),
+      turnstile: turnstileToken,
+    });
   }
 
   async function onSubmit(data: RegisterSchema) {
@@ -119,7 +129,11 @@ export function RegisterForm() {
                           type="button"
                           variant="outline"
                           onClick={handleSendCode}
-                          disabled={!formValues.email?.trim() || verificationMutation.isPending || verificationMutation.isSuccess}
+                          disabled={
+                            !formValues.email?.trim() ||
+                            verificationMutation.isPending ||
+                            verificationMutation.isSuccess
+                          }
                           className="h-11 shrink-0 rounded-2xl px-4 text-xs"
                         >
                           {verificationMutation.isPending
@@ -171,7 +185,8 @@ export function RegisterForm() {
                   !isValid ||
                   registerMutation.isPending ||
                   (status?.turnstile_check && !turnstileToken) ||
-                  (status?.email_verification && !formValues.verification_code?.trim())
+                  (status?.email_verification &&
+                    !formValues.verification_code?.trim())
                 }
                 className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
               >

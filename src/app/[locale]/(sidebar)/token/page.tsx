@@ -1,6 +1,9 @@
 import { TokenList } from "@/components/pages/sidebar/tokens/token-list";
 import { DataTableProvider } from "@/components/provider/data-table-provider";
-import { initialTableStore, loadDataFromCookie } from "@/lib/config/table-storage";
+import {
+  initialTableStore,
+  loadDataFromCookie,
+} from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -20,8 +23,7 @@ export default async function TokensPage() {
     cookie,
   );
 
-  const tokensTable =
-    tableStores?.[DataTableId.TOKENS] || initialTableStore();
+  const tokensTable = tableStores?.[DataTableId.TOKENS] || initialTableStore();
 
   const p = (tokensTable.pagination?.pageIndex ?? 0) + 1;
   const keyword = tokensTable.globalFilter || undefined;

@@ -32,27 +32,17 @@ export function buildLogQueryFilters(
     ...(filterValues.log_type != null ? { type: filterValues.log_type } : {}),
     ...(startDate ? { start_timestamp: dayjs(startDate).unix() } : {}),
     ...(endDate ? { end_timestamp: dayjs(endDate).unix() } : {}),
-    ...(filterValues.token_name
-      ? { token_name: filterValues.token_name }
-      : {}),
-    ...(filterValues.model_name
-      ? { model_name: filterValues.model_name }
-      : {}),
-    ...(filterValues.request_id
-      ? { request_id: filterValues.request_id }
-      : {}),
+    ...(filterValues.token_name ? { token_name: filterValues.token_name } : {}),
+    ...(filterValues.model_name ? { model_name: filterValues.model_name } : {}),
+    ...(filterValues.request_id ? { request_id: filterValues.request_id } : {}),
   };
 
   const statFilters: LogStatFilters = {
     ...(filterValues.log_type != null ? { type: filterValues.log_type } : {}),
     ...(startDate ? { start_timestamp: dayjs(startDate).unix() } : {}),
     ...(endDate ? { end_timestamp: dayjs(endDate).unix() } : {}),
-    ...(filterValues.token_name
-      ? { token_name: filterValues.token_name }
-      : {}),
-    ...(filterValues.model_name
-      ? { model_name: filterValues.model_name }
-      : {}),
+    ...(filterValues.token_name ? { token_name: filterValues.token_name } : {}),
+    ...(filterValues.model_name ? { model_name: filterValues.model_name } : {}),
   };
 
   return { filterValues, queryFilters, statFilters };

@@ -16,9 +16,7 @@ export function DataTableGlobalFilter<TData>(
   props: DataTableGlobalFilterProps<TData>,
 ) {
   const t = useTranslations();
-  const [value, setValue] = useState(
-    props.table.getState().globalFilter ?? "",
-  );
+  const [value, setValue] = useState(props.table.getState().globalFilter ?? "");
 
   useEffect(() => {
     const timeout = setTimeout(() => {

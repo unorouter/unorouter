@@ -533,8 +533,14 @@ export function LogFilters(props: {
             to: dayjs(endDate).toDate(),
           }}
           onChange={(range) => {
-            props.onFilterChange("start_date", formatDateForInput(dayjs(range.from)));
-            props.onFilterChange("end_date", formatDateForInput(dayjs(range.to)));
+            props.onFilterChange(
+              "start_date",
+              formatDateForInput(dayjs(range.from)),
+            );
+            props.onFilterChange(
+              "end_date",
+              formatDateForInput(dayjs(range.to)),
+            );
           }}
         />
         <Select
@@ -581,10 +587,7 @@ export function LogFilters(props: {
             <Input
               value={tokenName}
               onChange={(e) =>
-                props.onFilterChange(
-                  "token_name",
-                  e.target.value || undefined,
-                )
+                props.onFilterChange("token_name", e.target.value || undefined)
               }
               placeholder={t("LOGS.FILTER_TOKEN")}
               className="h-8 w-40 pl-7 font-mono text-xs"
@@ -595,10 +598,7 @@ export function LogFilters(props: {
             <Input
               value={modelName}
               onChange={(e) =>
-                props.onFilterChange(
-                  "model_name",
-                  e.target.value || undefined,
-                )
+                props.onFilterChange("model_name", e.target.value || undefined)
               }
               placeholder={t("LOGS.FILTER_MODEL")}
               className="h-8 w-40 pl-7 font-mono text-xs"
@@ -609,10 +609,7 @@ export function LogFilters(props: {
             <Input
               value={requestId}
               onChange={(e) =>
-                props.onFilterChange(
-                  "request_id",
-                  e.target.value || undefined,
-                )
+                props.onFilterChange("request_id", e.target.value || undefined)
               }
               placeholder={t("LOGS.FILTER_REQUEST_ID")}
               className="h-8 w-48 pl-7 font-mono text-xs"

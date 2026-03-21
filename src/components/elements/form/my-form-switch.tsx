@@ -30,7 +30,9 @@ export const MyFormSwitch = <T extends FieldValues>({
       render={({ field }) => (
         <FormItem className="flex items-center justify-between">
           <div className="flex flex-col gap-0.5">
-            {label && <FormLabel className="text-xs font-medium">{label}</FormLabel>}
+            {label && (
+              <FormLabel className="text-xs font-medium">{label}</FormLabel>
+            )}
             {description && (
               <span className="text-muted-foreground max-w-75 text-[11px]">
                 {description}

@@ -127,7 +127,10 @@ export function ConsumptionChart() {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <DateTimeRangePicker value={dashboard.dateRange} onChange={dashboard.setDateRange} />
+          <DateTimeRangePicker
+            value={dashboard.dateRange}
+            onChange={dashboard.setDateRange}
+          />
           <Button
             variant="ghost"
             size="icon-sm"

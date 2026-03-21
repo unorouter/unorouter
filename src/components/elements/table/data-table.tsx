@@ -162,8 +162,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
 
             {!props.isLoading &&
               table.getRowModel().rows.map((row) => {
-                const canExpand =
-                  props.renderExpandedRow && row.getCanExpand();
+                const canExpand = props.renderExpandedRow && row.getCanExpand();
                 return (
                   <React.Fragment key={row.id}>
                     <TableRow
@@ -172,9 +171,7 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
                         row.getIsExpanded() && "bg-muted/30",
                       )}
                       onClick={
-                        canExpand
-                          ? () => row.toggleExpanded()
-                          : undefined
+                        canExpand ? () => row.toggleExpanded() : undefined
                       }
                     >
                       {row.getVisibleCells().map((cell) => {

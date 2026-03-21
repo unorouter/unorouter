@@ -8,7 +8,12 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import type { TObject } from "@sinclair/typebox/type";
 import type { ComponentProps, ReactNode } from "react";
-import type { Control, FieldValues, Path, RegisterOptions } from "react-hook-form";
+import type {
+  Control,
+  FieldValues,
+  Path,
+  RegisterOptions,
+} from "react-hook-form";
 import { MyFormError } from "./my-form-error";
 
 type MyFormInputProps<T extends FieldValues> = {

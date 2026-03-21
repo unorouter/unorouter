@@ -222,7 +222,9 @@ export function TokenDialog(props: TokenDialogProps) {
                     </span>
                     <Badge
                       variant={isEnabled ? "default" : "destructive"}
-                      className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
+                      className={
+                        isEnabled ? "bg-green-500/10 text-green-500" : ""
+                      }
                     >
                       {isEnabled
                         ? t("TOKEN.STATUS_ENABLED")
@@ -231,7 +233,7 @@ export function TokenDialog(props: TokenDialogProps) {
                   </div>
 
                   <div className="flex min-w-0 items-center gap-1.5">
-                    <code className="bg-muted text-foreground block min-w-0 flex-1 overflow-hidden truncate rounded px-2 py-1.5 font-mono text-xs">
+                    <code className="bg-muted text-foreground block min-w-0 flex-1 truncate overflow-hidden rounded px-2 py-1.5 font-mono text-xs">
                       {displayKey}
                     </code>
                     <TooltipProvider>
@@ -340,10 +342,14 @@ export function TokenDialog(props: TokenDialogProps) {
                               key={preset.value}
                               type="button"
                               variant={
-                                remainQuota === preset.value ? "default" : "outline"
+                                remainQuota === preset.value
+                                  ? "default"
+                                  : "outline"
                               }
                               size="xs"
-                              onClick={() => form.setValue("remain_quota", preset.value)}
+                              onClick={() =>
+                                form.setValue("remain_quota", preset.value)
+                              }
                             >
                               {preset.label}
                             </Button>
@@ -407,7 +413,11 @@ export function TokenDialog(props: TokenDialogProps) {
                 <div />
               )}
               <div className="flex gap-2">
-                <Button type="button" variant="outline" onClick={() => props.onOpenChange(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => props.onOpenChange(false)}
+                >
                   {t("TOKEN.CANCEL")}
                 </Button>
                 <Button type="submit" disabled={isPending}>

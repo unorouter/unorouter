@@ -83,9 +83,13 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .put(
     "/status",
     async ({ body, upstream }) => {
-      const res = await updateToken(body, { status_only: "true" }, {
-        headers: upstream.headers,
-      });
+      const res = await updateToken(
+        body,
+        { status_only: "true" },
+        {
+          headers: upstream.headers,
+        },
+      );
       return res.data!;
     },
     { body: updateTokenBody },

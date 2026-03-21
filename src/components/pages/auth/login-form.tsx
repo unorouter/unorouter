@@ -77,7 +77,7 @@ export function LoginForm() {
     );
   }
 
-  const showPasswordForm = (status as any)?.password_login_enabled !== false;
+  const showPasswordForm = status?.password_login_enabled !== false;
 
   const formValues = form.watch();
   const isValid = safeParse(loginChecker, {

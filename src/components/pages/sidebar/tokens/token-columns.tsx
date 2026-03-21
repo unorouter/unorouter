@@ -124,7 +124,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
               <LuEye className="h-3 w-3" />
             )}
           </TooltipTrigger>
-          <TooltipContent>{revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}</TooltipContent>
+          <TooltipContent>
+            {revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+          </TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <TooltipProvider>

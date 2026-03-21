@@ -4,7 +4,11 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { useVerify2FAMutation } from "@/hooks/auth-hook";
-import { twoFAChecker, twoFASchema, type TwoFASchema } from "@/lib/validation/auth";
+import {
+  twoFAChecker,
+  twoFASchema,
+  type TwoFASchema,
+} from "@/lib/validation/auth";
 import { safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";

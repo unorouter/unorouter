@@ -12,9 +12,7 @@ export function DashboardStoreProvider(props: {
   children: ReactNode;
   data?: DashboardStore;
 }) {
-  useHydrateAtoms([
-    [dashboardStoreAtom, props.data ?? defaultTimestamps()],
-  ]);
+  useHydrateAtoms([[dashboardStoreAtom, props.data ?? defaultTimestamps()]]);
 
   return <>{props.children}</>;
 }

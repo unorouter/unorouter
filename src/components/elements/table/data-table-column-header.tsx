@@ -19,8 +19,10 @@ import {
   LuEyeOff,
 } from "react-icons/lu";
 
-interface DataTableColumnHeaderProps<TData, TValue>
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, "title"> {
+interface DataTableColumnHeaderProps<TData, TValue> extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  "title"
+> {
   column: Column<TData, TValue>;
 }
 
