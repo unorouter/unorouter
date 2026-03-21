@@ -13,6 +13,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { useTransferAffQuotaMutation } from "@/hooks/affiliate-hook";
+import { useRouter } from "@/i18n/navigation";
 import {
   dollarsToQuota,
   quotaToDollars,
@@ -24,7 +25,6 @@ import {
 } from "@/lib/validation/affiliate";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { LuArrowRightLeft } from "react-icons/lu";
@@ -41,7 +41,7 @@ export function TransferDialog(props: TransferDialogProps) {
   const router = useRouter();
   const transferMutation = useTransferAffQuotaMutation();
 
-  const form = useForm<TransferSchema>({
+  const form = useForm({
     resolver: typeboxResolver(transferSchema),
     defaultValues: Value.Default(transferSchema, {}) as TransferSchema,
   });

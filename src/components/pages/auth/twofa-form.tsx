@@ -23,7 +23,7 @@ export function TwoFAForm(props: TwoFAFormProps) {
   const t = useTranslations();
   const verify2FA = useVerify2FAMutation();
 
-  const form = useForm<TwoFASchema>({
+  const form = useForm({
     resolver: typeboxResolver(twoFASchema),
     defaultValues: Value.Default(twoFASchema, {}) as TwoFASchema,
   });

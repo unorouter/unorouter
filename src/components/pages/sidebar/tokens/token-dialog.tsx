@@ -73,7 +73,7 @@ export function TokenDialog(props: TokenDialogProps) {
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
 
-  const form = useForm<TokenFormSchema>({
+  const form = useForm({
     resolver: typeboxResolver(tokenFormSchema),
     defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
   });

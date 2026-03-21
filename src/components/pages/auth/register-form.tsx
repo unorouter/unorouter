@@ -166,7 +166,7 @@ export function RegisterForm() {
               {status?.turnstile_check && status.turnstile_site_key && (
                 <div className="flex justify-center">
                   <Turnstile
-                    ref={turnstileRef as any}
+                    ref={turnstileRef}
                     siteKey={status.turnstile_site_key}
                     onSuccess={setTurnstileToken}
                   />
