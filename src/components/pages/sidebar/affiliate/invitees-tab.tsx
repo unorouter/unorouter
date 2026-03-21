@@ -1,7 +1,6 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
-import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
 import { useAffiliateInviteesQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
@@ -34,15 +33,6 @@ export function InviteesTab() {
         cell: ({ row }) => (
           <span className="text-foreground text-sm font-medium">
             {row.original?.display_name || row.original?.username || "\u2014"}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "created_at",
-        header: t("AFFILIATE.COL_JOINED"),
-        cell: ({ row }) => (
-          <span className="text-muted-foreground font-mono text-xs">
-            {formatDate(row.original?.created_at)}
           </span>
         ),
       },

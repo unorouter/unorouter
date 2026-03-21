@@ -2218,7 +2218,6 @@ export interface ResponseDtoPageDataDtoTaskDto {
 
 export type ResponseDtoPageDataModelInvitedUserDataItemsItem = {
   commission_count: number;
-  created_at: number;
   display_name: string;
   id: number;
   status: number;
