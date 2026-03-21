@@ -4,6 +4,7 @@ import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { GetStartedButton } from "@/components/elements/get-started-link";
 import { IntegrationRow } from "@/components/pages/navbar/docs/integration-row";
 import { integrations } from "@/components/pages/navbar/docs/integrations";
 
@@ -47,12 +48,7 @@ export default async function DocsPage() {
           {t("DOCS_INDEX.CTA_DESC", APP_VALUES)}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button
-            nativeButton={false}
-            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
-          >
-            {t("DOCS_INDEX.CTA_SIGNUP")}
-          </Button>
+          <GetStartedButton translationKey="DOCS_INDEX.CTA_SIGNUP" />
           <Button
             nativeButton={false}
             variant="outline"

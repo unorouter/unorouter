@@ -1,3 +1,4 @@
+import { GetStartedLink } from "@/components/elements/get-started-link";
 import { Link } from "@/i18n/navigation";
 import {
   LuCpu,
@@ -49,15 +50,12 @@ export async function ReliabilitySection() {
             </div>
 
             <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row">
-              <a
-                href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
+              <GetStartedLink
                 className="flex h-11 items-center gap-2 bg-linear-to-r from-cyan-500 to-cyan-600 px-6 font-mono text-xs font-bold tracking-widest text-black uppercase transition-all hover:from-cyan-400 hover:to-cyan-500"
-              >
-                <LuShield className="h-3.5 w-3.5" />
-                {t("HOME.HERO_CTA_PRIMARY")}
-              </a>
+                icon={<LuShield className="h-3.5 w-3.5" />}
+              />
               <Link
-                href="/docs/claude-code"
+                href="/docs"
                 className="border-border text-foreground hover:border-foreground flex h-11 items-center gap-2 border bg-transparent px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all"
               >
                 {t("HOME.RELIABILITY_LEARN_MORE")}

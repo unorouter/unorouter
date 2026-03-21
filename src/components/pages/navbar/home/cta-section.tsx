@@ -1,3 +1,4 @@
+import { GetStartedLink } from "@/components/elements/get-started-link";
 import { Link } from "@/i18n/navigation";
 import { LuChevronRight } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
@@ -17,14 +18,12 @@ export async function CtaSection() {
             {t("HOME.CTA_SUBTITLE")}
           </p>
           <div className="flex flex-col items-center justify-center gap-4 pt-4 font-mono text-xs sm:flex-row">
-            <a
-              href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
+            <GetStartedLink
               className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-12 w-full items-center justify-center gap-2 px-10 font-bold tracking-widest uppercase transition-colors sm:w-auto"
-            >
-              {t("HOME.CTA_PRIMARY")}
-            </a>
+              translationKey="HOME.CTA_PRIMARY"
+            />
             <Link
-              href="/docs/claude-code"
+              href="/docs"
               className="border-border text-foreground hover:border-foreground group flex h-12 w-full items-center justify-center gap-2 border bg-transparent px-10 font-bold tracking-widest uppercase transition-all sm:w-auto"
             >
               {t("HOME.CTA_SECONDARY")}

@@ -1,5 +1,6 @@
 "use client";
 
+import { GetStartedLink } from "@/components/elements/get-started-link";
 import { VendorIcon } from "@/components/elements/vendor-icon";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
@@ -97,13 +98,11 @@ export function PricingSection() {
             </div>
 
             <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row">
-              <a
-                href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
+              <GetStartedLink
                 className="flex h-11 items-center gap-2 bg-purple-600 px-8 font-mono text-xs font-bold tracking-widest text-white uppercase transition-colors hover:bg-purple-500"
-              >
-                <LuZap className="h-3.5 w-3.5" />
-                {t("HOME.PRICING_CTA_GET_STARTED")}
-              </a>
+                icon={<LuZap className="h-3.5 w-3.5" />}
+                translationKey="HOME.PRICING_CTA_GET_STARTED"
+              />
               <Link
                 href="/pricing"
                 className="border-border text-foreground hover:border-foreground flex h-11 items-center gap-2 border bg-transparent px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all"

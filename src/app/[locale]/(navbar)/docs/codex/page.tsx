@@ -4,6 +4,7 @@ import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { GetStartedButton } from "@/components/elements/get-started-link";
 import { CodeBlock } from "@/components/elements/code-block";
 import { Link } from "@/i18n/navigation";
 
@@ -113,12 +114,7 @@ console.log(response.choices[0].message.content);`}
           {t("DOCS.CODEX.CTA_DESC", APP_VALUES)}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button
-            nativeButton={false}
-            render={<a href={`${process.env.NEXT_PUBLIC_API_URL}/register`} />}
-          >
-            {t("DOCS.CODEX.CTA_SIGNUP")}
-          </Button>
+          <GetStartedButton translationKey="DOCS.CODEX.CTA_SIGNUP" />
           <Button
             nativeButton={false}
             variant="outline"
