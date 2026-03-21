@@ -12,6 +12,7 @@ import {
   Mistral,
   Cohere,
   XAI,
+  Zhipu,
 } from "@lobehub/icons";
 import type { FC } from "react";
 
@@ -32,6 +33,7 @@ const ICON_MAP: Record<string, IconComponent> = {
   cohere: Cohere,
   xai: XAI,
   "x.ai": XAI,
+  zhipu: Zhipu,
 };
 
 function resolveIcon(vendor: string): IconComponent | null {

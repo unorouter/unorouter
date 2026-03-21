@@ -104,7 +104,7 @@ export async function IntegrationBanner() {
                       width={80}
                       height={48}
                       className="relative w-20 rounded"
-                      style={{ height: "auto" }}
+                      style={{ width: "auto", height: "auto" }}
                     />
                   </div>
                   <div className="min-w-0 text-left">
@@ -114,7 +114,7 @@ export async function IntegrationBanner() {
                       >
                         {integration.alt}
                       </span>
-                    </div>
+                   </div>
                     <h3 className="text-foreground text-base leading-tight font-bold tracking-tight md:text-lg">
                       {t(integration.titleKey)}
                     </h3>

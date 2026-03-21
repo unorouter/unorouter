@@ -29,7 +29,8 @@ export async function IntegrationRow(props: { integration: Integration }) {
                 alt={props.integration.alt}
                 width={80}
                 height={48}
-                className="relative h-auto w-20 rounded"
+                className="relative w-20 rounded"
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
             <div className="min-w-0">

@@ -78,6 +78,12 @@ export const VENDOR_THEMES: Record<string, VendorTheme> = {
     text: "text-indigo-400",
     tagBg: "bg-indigo-500/10",
   },
+  zhipu: {
+    bg: "bg-cyan-500/5",
+    border: "border-cyan-500/20",
+    text: "text-cyan-400",
+    tagBg: "bg-cyan-500/10",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
