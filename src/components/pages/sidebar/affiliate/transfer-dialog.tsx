@@ -50,7 +50,12 @@ export function TransferDialog(props: TransferDialogProps) {
         props.onOpenChange(false);
         setTransferAmount("");
       },
-      onError: () => toast.error(t("AFFILIATE.TRANSFER_FAILED")),
+      onError: (err) =>
+        toast.error(
+          err instanceof Error && err.message
+            ? err.message
+            : t("AFFILIATE.TRANSFER_FAILED"),
+        ),
     });
   }
 

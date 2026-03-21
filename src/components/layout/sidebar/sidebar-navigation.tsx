@@ -22,7 +22,10 @@ export function SidebarNavigation() {
   const pathname = usePathname();
 
   const navItems = sidebarNavigation();
-  const mainNavItems = navigation().filter((item) => !item.submenu);
+  const sidebarPaths = new Set(navItems.map((item) => item.href));
+  const mainNavItems = navigation().filter(
+    (item) => !item.submenu && !sidebarPaths.has(item.href),
+  );
 
   return (
     <>
