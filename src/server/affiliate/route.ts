@@ -1,9 +1,10 @@
+import { transferQuotaBody } from "@/lib/typebox/affiliate";
 import {
   getAffCode,
   getReferralCommissions,
   transferAffQuota,
 } from "@/openapi";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
 export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
@@ -27,7 +28,5 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       });
       return res.data!;
     },
-    {
-      body: t.Object({ quota: t.Number() }),
-    },
+    { body: transferQuotaBody },
   );

@@ -185,7 +185,7 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
       disabled: toggleMutation.isPending,
       onClick: () =>
         toggleMutation.mutate(
-          { id: token.id, status: isEnabled ? 2 : 1 },
+          { ...token, status: isEnabled ? 2 : 1 },
           {
             onSuccess: () => toast.success(t("TOKEN.STATUS_CHANGED")),
             onError: () => toast.error(t("TOKEN.STATUS_UPDATE_FAILED")),

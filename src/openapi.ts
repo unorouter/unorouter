@@ -290,6 +290,21 @@ export interface CreateCustomOAuthProviderRequest {
 }
 
 /**
+ * CreateTokenRequest schema
+ */
+export interface CreateTokenRequest {
+  allow_ips: string | null;
+  cross_group_retry: boolean;
+  expired_time: number;
+  group: string;
+  model_limits: string;
+  model_limits_enabled: boolean;
+  name: string;
+  remain_quota: number;
+  unlimited_quota: boolean;
+}
+
+/**
  * CreemPayRequest schema
  */
 export interface CreemPayRequest {
@@ -1031,28 +1046,6 @@ export interface ResponseArrayModelQuotaData {
   success: boolean;
 }
 
-export type ResponseArrayModelReferralCommissionWithUserDataItem = {
-  commission_quota?: number;
-  commission_rate?: number;
-  created_at?: number;
-  id?: number;
-  invitee_id?: number;
-  invitee_username: string;
-  inviter_id?: number;
-  payment_method?: string;
-  recharge_amount?: number;
-  top_up_id?: number;
-} | null;
-
-/**
- * Response_Array-model.ReferralCommissionWithUser schema
- */
-export interface ResponseArrayModelReferralCommissionWithUser {
-  data: ResponseArrayModelReferralCommissionWithUserDataItem[];
-  message: string;
-  success: boolean;
-}
-
 export type ResponseArrayModelSubscriptionSummaryDataItemSubscription = {
   amount_total: number;
   amount_used: number;
@@ -1089,6 +1082,22 @@ export interface ResponseArrayModelSubscriptionSummary {
  */
 export interface ResponseArrayString {
   data: string[];
+  message: string;
+  success: boolean;
+}
+
+export type ResponseCommonPageInfoData = {
+  items: unknown;
+  page: number;
+  page_size: number;
+  total: number;
+} | null;
+
+/**
+ * Response_common.PageInfo schema
+ */
+export interface ResponseCommonPageInfo {
+  data: ResponseCommonPageInfoData;
   message: string;
   success: boolean;
 }
@@ -2944,9 +2953,12 @@ export type ResponseDtoTopUpInfoDataData = {
   enable_creem_topup: boolean;
   enable_online_topup: boolean;
   enable_stripe_topup: boolean;
+  enable_waffo_topup: boolean;
   min_topup: number;
   pay_methods: ResponseDtoTopUpInfoDataDataPayMethodsItem[];
   stripe_min_topup: number;
+  waffo_min_topup: number;
+  waffo_pay_methods: unknown;
 };
 
 /**
@@ -3621,28 +3633,6 @@ export interface TestIoNetConnectionRequest {
 }
 
 /**
- * Token schema
- */
-export interface Token {
-  accessed_time: number;
-  allow_ips: string | null;
-  created_time: number;
-  cross_group_retry: boolean;
-  expired_time: number;
-  group: string;
-  id: number;
-  key: string;
-  model_limits: string;
-  model_limits_enabled: boolean;
-  name: string;
-  remain_quota: number;
-  status: number;
-  unlimited_quota: boolean;
-  used_quota: number;
-  user_id: number;
-}
-
-/**
  * TokenBatch schema
  */
 export interface TokenBatch {
@@ -3713,6 +3703,23 @@ export interface UpdateDeploymentRequest {
   registry_username?: string;
   secret_env_variables?: UpdateDeploymentRequestSecretEnvVariables;
   traffic_port?: number | null;
+}
+
+/**
+ * UpdateTokenRequest schema
+ */
+export interface UpdateTokenRequest {
+  allow_ips: string | null;
+  cross_group_retry: boolean;
+  expired_time: number;
+  group: string;
+  id: number;
+  model_limits: string;
+  model_limits_enabled: boolean;
+  name: string;
+  remain_quota: number;
+  status: number;
+  unlimited_quota: boolean;
 }
 
 /**
@@ -12455,14 +12462,14 @@ export const getAddTokenUrl = () => {
 };
 
 export const addToken = async (
-  token: Token,
+  createTokenRequest: CreateTokenRequest,
   options?: RequestInit,
 ): Promise<addTokenResponse> => {
   return customFetch<addTokenResponse>(getAddTokenUrl(), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(token),
+    body: JSON.stringify(createTokenRequest),
   });
 };
 
@@ -12515,7 +12522,7 @@ export const getUpdateTokenUrl = (params?: UpdateTokenParams) => {
 };
 
 export const updateToken = async (
-  token: Token,
+  updateTokenRequest: UpdateTokenRequest,
   params?: UpdateTokenParams,
   options?: RequestInit,
 ): Promise<updateTokenResponse> => {
@@ -12523,7 +12530,7 @@ export const updateToken = async (
     ...options,
     method: "PUT",
     headers: { "Content-Type": "application/json", ...options?.headers },
-    body: JSON.stringify(token),
+    body: JSON.stringify(updateTokenRequest),
   });
 };
 
@@ -13389,12 +13396,12 @@ export const getAffCode = async (
  * @summary Get Referral Commissions
  */
 export type getReferralCommissionsResponse200ApplicationJson = {
-  data: ResponseArrayModelReferralCommissionWithUser;
+  data: ResponseCommonPageInfo;
   status: 200;
 };
 
 export type getReferralCommissionsResponse200ApplicationXml = {
-  data: ResponseArrayModelReferralCommissionWithUser;
+  data: ResponseCommonPageInfo;
   status: 200;
 };
 

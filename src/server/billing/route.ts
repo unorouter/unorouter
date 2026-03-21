@@ -1,4 +1,10 @@
 import {
+  creemPayBody,
+  stripePayBody,
+  subscriptionPayBody,
+  subscriptionPreferenceBody,
+} from "@/lib/typebox/billing";
+import {
   getSubscriptionPlans,
   getSubscriptionSelf,
   getTopUpInfo,
@@ -9,7 +15,7 @@ import {
   updateSubscriptionPreference,
 } from "@/openapi";
 import { processPlans } from "@/lib/api/subscription";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 
 export const billingRoute = new Elysia({ prefix: "/billing" })
@@ -35,11 +41,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return res.data!;
     },
-    {
-      body: t.Object({
-        billing_preference: t.String(),
-      }),
-    },
+    { body: subscriptionPreferenceBody },
   )
   .post(
     "/stripe-pay",
@@ -49,14 +51,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return res.data!;
     },
-    {
-      body: t.Object({
-        amount: t.Number(),
-        payment_method: t.String(),
-        success_url: t.Optional(t.String()),
-        cancel_url: t.Optional(t.String()),
-      }),
-    },
+    { body: stripePayBody },
   )
   .post(
     "/creem-pay",
@@ -66,12 +61,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return res.data!;
     },
-    {
-      body: t.Object({
-        product_id: t.String(),
-        payment_method: t.String(),
-      }),
-    },
+    { body: creemPayBody },
   )
   .post(
     "/subscription/stripe-pay",
@@ -81,11 +71,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return res.data!;
     },
-    {
-      body: t.Object({
-        plan_id: t.Number(),
-      }),
-    },
+    { body: subscriptionPayBody },
   )
   .post(
     "/subscription/creem-pay",
@@ -95,9 +81,5 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return res.data!;
     },
-    {
-      body: t.Object({
-        plan_id: t.Number(),
-      }),
-    },
+    { body: subscriptionPayBody },
   );

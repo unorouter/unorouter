@@ -1,4 +1,10 @@
 import {
+  createTokenBody,
+  tokenListQuery,
+  tokenSearchQuery,
+  updateTokenBody,
+} from "@/lib/typebox/token";
+import {
   addToken,
   deleteToken,
   getAllTokens,
@@ -8,9 +14,8 @@ import {
   getUserModels,
   searchTokens,
   updateToken,
-  type Token,
 } from "@/openapi";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
 export const tokenRoute = new Elysia({ prefix: "/token" })
@@ -28,12 +33,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
       );
       return res.data!;
     },
-    {
-      query: t.Object({
-        p: t.Optional(t.String()),
-        page_size: t.Optional(t.String()),
-      }),
-    },
+    { query: tokenListQuery },
   )
 
   .get(
@@ -50,14 +50,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
       );
       return res.data!;
     },
-    {
-      query: t.Object({
-        p: t.Optional(t.String()),
-        page_size: t.Optional(t.String()),
-        keyword: t.Optional(t.String()),
-        token: t.Optional(t.String()),
-      }),
-    },
+    { query: tokenSearchQuery },
   )
 
   .get("/:id", async ({ params, upstream }) => {
@@ -65,28 +58,38 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     return res.data!;
   })
 
-  .post("/", async ({ body, upstream }) => {
-    const res = await addToken(body as Token, { headers: upstream.headers });
-    return res.data!;
-  })
-
-  .put("/", async ({ body, upstream }) => {
-    const res = await updateToken(body as Token, undefined, {
-      headers: upstream.headers,
-    });
-    return res.data!;
-  })
-
-  .put("/status", async ({ body, upstream }) => {
-    const res = await updateToken(
-      body as Token,
-      { status_only: "true" },
-      {
+  .post(
+    "/",
+    async ({ body, upstream }) => {
+      const res = await addToken(body, {
         headers: upstream.headers,
-      },
-    );
-    return res.data!;
-  })
+      });
+      return res.data!;
+    },
+    { body: createTokenBody },
+  )
+
+  .put(
+    "/",
+    async ({ body, upstream }) => {
+      const res = await updateToken(body, undefined, {
+        headers: upstream.headers,
+      });
+      return res.data!;
+    },
+    { body: updateTokenBody },
+  )
+
+  .put(
+    "/status",
+    async ({ body, upstream }) => {
+      const res = await updateToken(body, { status_only: "true" }, {
+        headers: upstream.headers,
+      });
+      return res.data!;
+    },
+    { body: updateTokenBody },
+  )
 
   .post("/:id/key", async ({ params, upstream }) => {
     const res = await getTokenKey(params.id, { headers: upstream.headers });

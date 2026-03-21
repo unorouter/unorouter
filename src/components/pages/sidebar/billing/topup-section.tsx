@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 type CreemProduct = {
-  id: string;
+  productId: string;
   name: string;
   price: number;
   currency: string;
@@ -142,8 +142,8 @@ export function TopUpSection() {
         <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {creemProducts.map((product, index) => (
             <button
-              key={product.id ?? index}
-              onClick={() => handleCreemTopUp(product.id)}
+              key={product.productId ?? index}
+              onClick={() => handleCreemTopUp(product.productId)}
               disabled={isMutating}
               className="border-border hover:border-primary/50 flex flex-col items-center gap-2 border p-4 transition-colors disabled:opacity-50"
             >

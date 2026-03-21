@@ -120,7 +120,7 @@ export function TokenDialog(props: TokenDialogProps) {
     if (!props.token) return;
     const isEnabled = props.token.status === 1;
     toggleMutation.mutate(
-      { id: props.token.id, status: isEnabled ? 2 : 1 },
+      { ...props.token, status: isEnabled ? 2 : 1 },
       {
         onSuccess: () => {
           toast.success(t("TOKEN.STATUS_CHANGED"));
@@ -166,7 +166,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
     if (isEdit) {
       updateMutation.mutate(
-        { id: props.token!.id, ...payload },
+        { id: props.token!.id, status: props.token!.status, ...payload },
         {
           onSuccess: () => {
             toast.success(t("TOKEN.UPDATED_SUCCESS"));

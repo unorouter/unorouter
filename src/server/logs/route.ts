@@ -1,5 +1,6 @@
+import { logsQuery, logsStatQuery } from "@/lib/typebox/logs";
 import { getLogsSelfStat, getUserLogs } from "@/openapi";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
 export const logsRoute = new Elysia({ prefix: "/logs" })
@@ -28,19 +29,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
       );
       return res.data!;
     },
-    {
-      query: t.Object({
-        p: t.Optional(t.String()),
-        page_size: t.Optional(t.String()),
-        type: t.Optional(t.String()),
-        start_timestamp: t.Optional(t.String()),
-        end_timestamp: t.Optional(t.String()),
-        token_name: t.Optional(t.String()),
-        model_name: t.Optional(t.String()),
-        group: t.Optional(t.String()),
-        request_id: t.Optional(t.String()),
-      }),
-    },
+    { query: logsQuery },
   )
 
   .get(
@@ -62,13 +51,5 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
       );
       return res.data!;
     },
-    {
-      query: t.Object({
-        type: t.Optional(t.String()),
-        start_timestamp: t.Optional(t.String()),
-        end_timestamp: t.Optional(t.String()),
-        token_name: t.Optional(t.String()),
-        model_name: t.Optional(t.String()),
-      }),
-    },
+    { query: logsStatQuery },
   );

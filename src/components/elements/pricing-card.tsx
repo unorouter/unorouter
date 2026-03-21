@@ -35,34 +35,40 @@ export function PricingCard(props: Props) {
         </div>
       )}
 
-      <h3 className="text-foreground font-mono text-sm font-bold tracking-wide uppercase">
-        {props.name}
-      </h3>
+      {/* Price hero */}
+      <div className="flex items-baseline gap-1.5">
+        <span className="text-foreground text-4xl font-bold tracking-tight">
+          ${props.price}
+        </span>
+        <span className="text-muted-foreground font-mono text-xs">
+          {t("PRICING.CARD_PER_MONTH")}
+        </span>
+      </div>
 
       {/* Spec rows */}
       <div className="mt-5 space-y-4">
         <div>
-          <p className="text-foreground text-2xl font-bold tracking-tight">
-            ${props.value}{" "}
-            <span className="text-muted-foreground font-mono text-xs font-normal">
-              {t("PRICING.CARD_SPEC_CREDIT")}
-            </span>
+          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+            {t("PRICING.CARD_SPEC_CREDIT")}
+          </p>
+          <p className="text-foreground text-lg font-bold tracking-tight">
+            ${props.value}
           </p>
         </div>
         <div>
-          <p className="text-foreground text-lg font-bold tracking-tight">
-            {props.quotaLabel}
-          </p>
           <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
             {t("PRICING.CARD_SPEC_QUOTA")}
           </p>
+          <p className="text-foreground text-lg font-bold tracking-tight">
+            {props.quotaLabel}
+          </p>
         </div>
         <div>
-          <p className="text-foreground text-lg font-bold tracking-tight">
-            {props.multiplier}
-          </p>
           <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
             {t("PRICING.CARD_SPEC_MULTIPLIER")}
+          </p>
+          <p className="text-foreground text-lg font-bold tracking-tight">
+            {props.multiplier}
           </p>
         </div>
       </div>
@@ -95,18 +101,8 @@ export function PricingCard(props: Props) {
         </ul>
       </div>
 
-      {/* Price */}
-      <div className="mt-6 flex items-baseline gap-1.5">
-        <span className="text-foreground text-4xl font-bold tracking-tight">
-          ${props.price}
-        </span>
-        <span className="text-muted-foreground font-mono text-xs">
-          {t("PRICING.CARD_PER_MONTH")}
-        </span>
-      </div>
-
       {/* CTA */}
-      <div className="mt-6">
+      <div className="mt-auto pt-6">
         <a
           href={`${process.env.NEXT_PUBLIC_API_URL}/register`}
           className={cn(

@@ -1,7 +1,45 @@
-"use client";
-
 import { Billing } from "@/components/pages/sidebar/billing/billing";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils/base";
+import { setCookies } from "@/lib/utils/server";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-export default function BillingPage() {
-  return <Billing />;
+export default async function BillingPage() {
+  const queryClient = getQueryClient();
+  const cookieHeaders = await setCookies();
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.auth(),
+      queryFn: async () =>
+        handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.topUpInfo(),
+      queryFn: async () =>
+        handleElysia(await rpc.api.billing["topup-info"].get(cookieHeaders)),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.billingPlans(),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.billing["subscription-plans"].get(cookieHeaders),
+        ),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.subscriptionSelf(),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.billing["subscription-self"].get(cookieHeaders),
+        ),
+    }),
+  ]);
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <Billing />
+    </HydrationBoundary>
+  );
 }
