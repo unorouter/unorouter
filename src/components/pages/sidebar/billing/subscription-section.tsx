@@ -69,41 +69,9 @@ export function SubscriptionSection() {
   const stripeSubMutation = useStripeSubscriptionMutation();
   const creemSubMutation = useCreemSubscriptionMutation();
 
-  const plans = (plansQuery.data ?? []) as SubscriptionPlan[];
-  const selfData = selfQuery.data as
-    | {
-        billing_preference?: string;
-        subscriptions?: Array<{
-          subscription: {
-            id: number;
-            plan_id: number;
-            status: string;
-            amount_total: number;
-            amount_used: number;
-            start_time: number;
-            end_time: number;
-          } | null;
-        }>;
-        all_subscriptions?: Array<{
-          subscription: {
-            id: number;
-            plan_id: number;
-            status: string;
-            amount_total: number;
-            amount_used: number;
-            start_time: number;
-            end_time: number;
-          } | null;
-        }>;
-      }
-    | undefined;
-
-  const topUpInfo = topUpInfoQuery.data as
-    | {
-        enable_stripe_topup?: boolean;
-        enable_creem_topup?: boolean;
-      }
-    | undefined;
+  const plans = plansQuery.data ?? [];
+  const selfData = selfQuery.data;
+  const topUpInfo = topUpInfoQuery.data;
 
   const billingPreference = selfData?.billing_preference ?? "wallet_first";
   const activeSubscriptions = (selfData?.subscriptions ?? []).filter(
@@ -123,22 +91,22 @@ export function SubscriptionSection() {
   function handleSubscribe(plan: SubscriptionPlan) {
     if (enableStripe) {
       stripeSubMutation.mutate(plan.id, {
-        onSuccess: (data: unknown) => {
-          const link = (data as { pay_link?: string })?.pay_link;
+        onSuccess: (data) => {
+          const link = data?.pay_link;
           if (link) window.open(link, "_blank");
         },
         onError: () => {
-          toast.error("Payment failed. Please try again.");
+          toast.error(t("BILLING.PAYMENT_FAILED"));
         },
       });
     } else if (enableCreem) {
       creemSubMutation.mutate(plan.id, {
-        onSuccess: (data: unknown) => {
-          const url = (data as { checkout_url?: string })?.checkout_url;
+        onSuccess: (data) => {
+          const url = data?.checkout_url;
           if (url) window.open(url, "_blank");
         },
         onError: () => {
-          toast.error("Payment failed. Please try again.");
+          toast.error(t("BILLING.PAYMENT_FAILED"));
         },
       });
     }
@@ -203,7 +171,11 @@ export function SubscriptionSection() {
               plansQuery.refetch();
               topUpInfoQuery.refetch();
             }}
-            disabled={selfQuery.isFetching || plansQuery.isFetching || topUpInfoQuery.isFetching}
+            disabled={
+              selfQuery.isFetching ||
+              plansQuery.isFetching ||
+              topUpInfoQuery.isFetching
+            }
           >
             <LuRefreshCw
               className={`h-4 w-4 ${selfQuery.isFetching || plansQuery.isFetching || topUpInfoQuery.isFetching ? "animate-spin" : ""}`}

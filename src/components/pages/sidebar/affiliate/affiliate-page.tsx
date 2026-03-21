@@ -1,27 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "@/components/elements/table/data-table";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import {
-  useAffiliateCommissionsQuery,
-  useAffiliateInviteesQuery,
-  useTransferAffQuotaMutation,
-} from "@/hooks/affiliate-hook";
-import { DataTableId } from "@/lib/types/enums";
-import { createTableAtoms } from "@/store/data-table-store";
+import { renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -34,20 +17,10 @@ import {
   LuUsers,
   LuWallet,
 } from "react-icons/lu";
-import {
-  dollarsToQuota,
-  quotaToDollars,
-  renderQuota,
-} from "@/lib/config/constants";
 import { toast } from "sonner";
-import dayjs from "dayjs";
-import type { ColumnDef } from "@tanstack/react-table";
-import { useAtomValue } from "jotai";
-
-function formatDate(timestamp: number): string {
-  if (!timestamp || timestamp <= 0) return "";
-  return dayjs.unix(timestamp).format("MMM D, YYYY");
-}
+import { CommissionsTab } from "./commissions-tab";
+import { InviteesTab } from "./invitees-tab";
+import { TransferDialog } from "./transfer-dialog";
 
 type StatItemProps = {
   label: string;
@@ -84,223 +57,12 @@ function StatItem(props: StatItemProps) {
   );
 }
 
-type InviteeRow = {
-  id: number;
-  username: string;
-  display_name: string;
-  created_at: number;
-  status: number;
-  commission_count: number;
-  total_earned: number;
-};
-
-type CommissionRow = {
-  id: number;
-  created_at: number;
-  invitee_username: string;
-  recharge_amount: number;
-  commission_rate: number;
-  commission_quota: number;
-  payment_method: string;
-};
-
-function InviteesTab() {
-  const t = useTranslations();
-  const tableAtoms = createTableAtoms(DataTableId.AFFILIATE_INVITEES);
-  const store = useAtomValue(tableAtoms.baseAtom);
-
-  const inviteesQuery = useAffiliateInviteesQuery({
-    p: store.pagination.pageIndex + 1,
-    page_size: store.pagination.pageSize,
-  });
-
-  const responseData = inviteesQuery.data as
-    | { data?: { items?: InviteeRow[]; total?: number } }
-    | undefined;
-
-  const pageInfo = responseData?.data;
-  const invitees: InviteeRow[] = pageInfo?.items ?? [];
-  const total = pageInfo?.total ?? 0;
-
-  const columns: ColumnDef<InviteeRow>[] = [
-    {
-      accessorKey: "username",
-      header: t("AFFILIATE.COL_USER"),
-      cell: ({ row }) => (
-        <span className="text-foreground text-sm font-medium">
-          {row.original.display_name || row.original.username || "\u2014"}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "created_at",
-      header: t("AFFILIATE.COL_JOINED"),
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs">
-          {formatDate(row.original.created_at)}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "commission_count",
-      header: t("AFFILIATE.COL_COMMISSIONS"),
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs tabular-nums">
-          {row.original.commission_count}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "total_earned",
-      header: t("AFFILIATE.COL_TOTAL_EARNED"),
-      cell: ({ row }) => (
-        <span
-          className="font-mono text-sm font-medium tabular-nums"
-          style={{ color: "var(--chart-2)" }}
-        >
-          {renderQuota(row.original.total_earned)}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "status",
-      header: t("AFFILIATE.COL_STATUS"),
-      cell: ({ row }) => (
-        <span
-          className="font-mono text-xs"
-          style={{
-            color:
-              row.original.status === 1
-                ? "var(--chart-2)"
-                : "var(--destructive)",
-          }}
-        >
-          {row.original.status === 1
-            ? t("AFFILIATE.STATUS_ACTIVE")
-            : t("AFFILIATE.STATUS_DISABLED")}
-        </span>
-      ),
-    },
-  ];
-
-  return (
-    <DataTable
-      id={DataTableId.AFFILIATE_INVITEES}
-      data={invitees}
-      columns={columns}
-      total={total}
-      isLoading={inviteesQuery.isLoading}
-      emptyState={
-        <div className="flex flex-col items-center gap-2">
-          <LuUsers className="text-muted-foreground h-6 w-6" />
-          <span className="text-muted-foreground text-sm">
-            {t("AFFILIATE.NO_INVITEES")}
-          </span>
-        </div>
-      }
-    />
-  );
-}
-
-function CommissionsTab() {
-  const t = useTranslations();
-  const tableAtoms = createTableAtoms(DataTableId.AFFILIATE_COMMISSIONS);
-  const store = useAtomValue(tableAtoms.baseAtom);
-
-  const commissionsQuery = useAffiliateCommissionsQuery({
-    p: store.pagination.pageIndex + 1,
-    page_size: store.pagination.pageSize,
-  });
-
-  const responseData = commissionsQuery.data as
-    | { data?: { items?: CommissionRow[]; total?: number } }
-    | undefined;
-
-  const pageInfo = responseData?.data;
-  const commissions = pageInfo?.items ?? [];
-  const total = pageInfo?.total ?? 0;
-
-  const columns: ColumnDef<CommissionRow>[] = [
-    {
-      accessorKey: "created_at",
-      header: t("AFFILIATE.COL_DATE"),
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs">
-          {formatDate(row.original.created_at)}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "invitee_username",
-      header: t("AFFILIATE.COL_USER"),
-      cell: ({ row }) => (
-        <span className="text-foreground text-sm font-medium">
-          {row.original.invitee_username || "\u2014"}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "recharge_amount",
-      header: t("AFFILIATE.COL_RECHARGE"),
-      cell: ({ row }) => (
-        <span className="font-mono text-sm tabular-nums">
-          {renderQuota(row.original.recharge_amount)}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "commission_rate",
-      header: t("AFFILIATE.COL_RATE"),
-      cell: ({ row }) => (
-        <span className="text-muted-foreground font-mono text-xs">
-          {row.original.commission_rate != null
-            ? `${(row.original.commission_rate * 100).toFixed(0)}%`
-            : "\u2014"}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "commission_quota",
-      header: t("AFFILIATE.COL_EARNED"),
-      meta: { headerClassName: "text-right", cellClassName: "text-right" },
-      cell: ({ row }) => (
-        <span
-          className="font-mono text-sm font-medium tabular-nums"
-          style={{ color: "var(--chart-2)" }}
-        >
-          {renderQuota(row.original.commission_quota)}
-        </span>
-      ),
-    },
-  ];
-
-  return (
-    <DataTable
-      id={DataTableId.AFFILIATE_COMMISSIONS}
-      data={commissions}
-      columns={columns}
-      total={total}
-      isLoading={commissionsQuery.isLoading}
-      emptyState={
-        <div className="flex flex-col items-center gap-2">
-          <LuGift className="text-muted-foreground h-6 w-6" />
-          <span className="text-muted-foreground text-sm">
-            {t("AFFILIATE.NO_COMMISSIONS")}
-          </span>
-        </div>
-      }
-    />
-  );
-}
-
 export function AffiliatePage() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const transferMutation = useTransferAffQuotaMutation();
   const [transferOpen, setTransferOpen] = useState(false);
-  const [transferAmount, setTransferAmount] = useState("");
 
-  const user = authQuery.data
+  const user = authQuery.data;
   const isLoading = authQuery.isLoading;
   const affCode = user?.aff_code ?? "";
   const pendingQuota = user?.aff_quota ?? 0;
@@ -323,27 +85,6 @@ export function AffiliatePage() {
     if (!affCode) return;
     navigator.clipboard.writeText(affCode);
     toast.success(t("AFFILIATE.CODE_COPIED"));
-  }
-
-  function handleTransfer() {
-    const amount = parseFloat(transferAmount);
-    if (isNaN(amount) || amount <= 0) {
-      toast.error(t("AFFILIATE.TRANSFER_INVALID"));
-      return;
-    }
-    const quotaUnits = dollarsToQuota(amount);
-    if (quotaUnits > pendingQuota) {
-      toast.error(t("AFFILIATE.TRANSFER_EXCEEDS"));
-      return;
-    }
-    transferMutation.mutate(quotaUnits, {
-      onSuccess: () => {
-        toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
-        setTransferOpen(false);
-        setTransferAmount("");
-      },
-      onError: () => toast.error(t("AFFILIATE.TRANSFER_FAILED")),
-    });
   }
 
   return (
@@ -562,72 +303,11 @@ export function AffiliatePage() {
         </TabsContent>
       </Tabs>
 
-      {/* Transfer Dialog */}
-      <Dialog open={transferOpen} onOpenChange={setTransferOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("AFFILIATE.TRANSFER_TITLE")}</DialogTitle>
-            <DialogDescription>
-              {t("AFFILIATE.TRANSFER_DIALOG_DESC")}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-2">
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-sm">
-                {t("AFFILIATE.AVAILABLE")}
-              </span>
-              <span className="text-foreground font-mono text-sm font-bold tabular-nums">
-                {renderQuota(pendingQuota)}
-              </span>
-            </div>
-            <div className="space-y-2">
-              <Label>{t("AFFILIATE.TRANSFER_AMOUNT")}</Label>
-              <div className="relative">
-                <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm">
-                  $
-                </span>
-                <Input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  value={transferAmount}
-                  onChange={(e) => setTransferAmount(e.target.value)}
-                  placeholder="0.00"
-                  className="pl-7"
-                />
-              </div>
-              <div className="flex gap-1">
-                {[25, 50, 75, 100].map((pct) => {
-                  const val = quotaToDollars(pendingQuota) * (pct / 100);
-                  return (
-                    <Button
-                      key={pct}
-                      variant="outline"
-                      size="xs"
-                      onClick={() => setTransferAmount(val.toFixed(2))}
-                      disabled={pendingQuota <= 0}
-                    >
-                      {pct}%
-                    </Button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setTransferOpen(false)}>
-              {t("AFFILIATE.CANCEL")}
-            </Button>
-            <Button
-              onClick={handleTransfer}
-              disabled={transferMutation.isPending || !transferAmount}
-            >
-              <LuArrowRightLeft data-icon="inline-start" className="h-4 w-4" />
-              {t("AFFILIATE.CONFIRM_TRANSFER")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <TransferDialog
+        open={transferOpen}
+        onOpenChange={setTransferOpen}
+        pendingQuota={pendingQuota}
+      />
     </div>
   );
 }

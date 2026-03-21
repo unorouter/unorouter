@@ -736,6 +736,7 @@
     "PAY_NOW": "Pay now",
     "RECOMMENDED": "Recommended",
     "USED_OF": "used of",
-    "REFRESHING": "Refreshing..."
+    "REFRESHING": "Refreshing...",
+    "PAYMENT_FAILED": "Payment failed. Please try again."
   }
 }

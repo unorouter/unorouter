@@ -1,19 +1,16 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
-import { LuWallet, LuTrendingDown, LuSend } from "react-icons/lu";
+import { LuSend, LuTrendingDown, LuWallet } from "react-icons/lu";
 
 export function AccountStats() {
-  const t = useTranslations() as (key: string) => string;
+  const t = useTranslations();
   const authQuery = useAuthQuery();
 
-  const user = authQuery.data as
-    | { quota?: number; used_quota?: number; request_count?: number }
-    | undefined;
-
+  const user = authQuery.data;
   const isLoading = authQuery.isLoading;
 
   const stats = [

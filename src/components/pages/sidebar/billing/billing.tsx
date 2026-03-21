@@ -7,7 +7,7 @@ import { SubscriptionSection } from "./subscription-section";
 import { TopUpSection } from "./topup-section";
 
 export function Billing() {
-  const t = useTranslations() as (key: string) => string;
+  const t = useTranslations();
 
   return (
     <div className="flex w-full flex-1 flex-col gap-0 p-4 md:p-6">

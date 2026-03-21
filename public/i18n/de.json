@@ -736,6 +736,7 @@
     "PAY_NOW": "Jetzt bezahlen",
     "RECOMMENDED": "Empfohlen",
     "USED_OF": "verbraucht von",
-    "REFRESHING": "Aktualisierung..."
+    "REFRESHING": "Aktualisierung...",
+    "PAYMENT_FAILED": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
   }
 }

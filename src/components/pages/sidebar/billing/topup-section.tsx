@@ -17,7 +17,7 @@ type CreemProduct = {
 };
 
 export function TopUpSection() {
-  const t = useTranslations() as (key: string) => string;
+  const t = useTranslations();
   const topUpInfoQuery = useTopUpInfoQuery();
   const stripeTopUpMutation = useStripeTopUpMutation();
   const creemTopUpMutation = useCreemTopUpMutation();
@@ -64,7 +64,7 @@ export function TopUpSection() {
         if (link) window.open(link, "_blank");
       },
       onError: () => {
-        toast.error("Payment failed. Please try again.");
+        toast.error(t("BILLING.PAYMENT_FAILED"));
       },
     });
   }
@@ -80,7 +80,7 @@ export function TopUpSection() {
         if (url) window.open(url, "_blank");
       },
       onError: () => {
-        toast.error("Payment failed. Please try again.");
+        toast.error(t("BILLING.PAYMENT_FAILED"));
       },
     });
   }
