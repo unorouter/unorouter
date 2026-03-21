@@ -7,12 +7,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuExternalLink, LuShield } from "react-icons/lu";
 
-type Monitor = {
-  name?: string;
-  status?: number;
-  uptime?: number;
-};
-
 const STATUS_COLORS: Record<number, { bg: string; dot: string }> = {
   0: { bg: "bg-red-500/10", dot: "bg-red-500" },
   1: { bg: "bg-green-500/10", dot: "bg-green-500" },

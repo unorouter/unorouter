@@ -1,3 +1,4 @@
+import { processPlans } from "@/lib/api/subscription";
 import {
   creemPayBody,
   stripePayBody,
@@ -9,12 +10,11 @@ import {
   getSubscriptionSelf,
   getTopUpInfo,
   requestCreemPay,
-  requestStripeAmount,
+  requestStripePay,
   subscriptionRequestCreemPay,
   subscriptionRequestStripePay,
   updateSubscriptionPreference,
 } from "@/openapi";
-import { processPlans } from "@/lib/api/subscription";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 
@@ -37,7 +37,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
     "/subscription-preference",
     async ({ body, upstream }) => {
       const res = await updateSubscriptionPreference(body, {
-        headers: { ...upstream.headers, "Content-Type": "application/json" },
+        headers: { ...upstream.headers },
       });
       return res.data!;
     },
@@ -46,8 +46,8 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
   .post(
     "/stripe-pay",
     async ({ body, upstream }) => {
-      const res = await requestStripeAmount(body, {
-        headers: { ...upstream.headers, "Content-Type": "application/json" },
+      const res = await requestStripePay(body, {
+        headers: { ...upstream.headers },
       });
       return res.data!;
     },
@@ -57,7 +57,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
     "/creem-pay",
     async ({ body, upstream }) => {
       const res = await requestCreemPay(body, {
-        headers: { ...upstream.headers, "Content-Type": "application/json" },
+        headers: { ...upstream.headers },
       });
       return res.data!;
     },
@@ -67,7 +67,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
     "/subscription/stripe-pay",
     async ({ body, upstream }) => {
       const res = await subscriptionRequestStripePay(body, {
-        headers: { ...upstream.headers, "Content-Type": "application/json" },
+        headers: { ...upstream.headers },
       });
       return res.data!;
     },
@@ -77,7 +77,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
     "/subscription/creem-pay",
     async ({ body, upstream }) => {
       const res = await subscriptionRequestCreemPay(body, {
-        headers: { ...upstream.headers, "Content-Type": "application/json" },
+        headers: { ...upstream.headers },
       });
       return res.data!;
     },

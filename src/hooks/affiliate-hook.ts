@@ -2,17 +2,11 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { PaginationParams } from "@/lib/types";
 import { handleElysia } from "@/lib/utils/base";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-export type AffiliatePaginationParams = {
-  p?: number;
-  page_size?: number;
-};
-
-export function useAffiliateCommissionsQuery(
-  params: AffiliatePaginationParams = {},
-) {
+export function useAffiliateCommissionsQuery(params: PaginationParams = {}) {
   return useQuery({
     queryKey: queryKeys.affiliateCommissions(params),
     queryFn: async () =>
@@ -27,9 +21,7 @@ export function useAffiliateCommissionsQuery(
   });
 }
 
-export function useAffiliateInviteesQuery(
-  params: AffiliatePaginationParams = {},
-) {
+export function useAffiliateInviteesQuery(params: PaginationParams = {}) {
   return useQuery({
     queryKey: queryKeys.affiliateInvitees(params),
     queryFn: async () =>

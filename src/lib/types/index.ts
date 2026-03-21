@@ -1,3 +1,5 @@
+import { rpc } from "@/lib/rpc";
+
 /**
  * Unwraps API response types that may be:
  * 1. Wrapped: { success: boolean; message: string; data: D } → D
@@ -9,3 +11,11 @@
 export type UnwrapApiResponse<T> = NonNullable<
   T extends { success: boolean; data: infer D } ? D : T
 >;
+
+export type PaginationParams = {
+  [K in keyof NonNullable<
+    NonNullable<
+      Parameters<typeof rpc.api.affiliate.commissions.get>[0]
+    >["query"]
+  >]?: number;
+};

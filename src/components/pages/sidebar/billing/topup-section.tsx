@@ -55,13 +55,8 @@ export function TopUpSection() {
 
   function handleStripeTopUp(amount: number) {
     stripeTopUpMutation.mutate(amount, {
-      onSuccess: (data: unknown) => {
-        const body = data as {
-          data?: { pay_link?: string };
-          pay_link?: string;
-        };
-        const link = body?.pay_link ?? body?.data?.pay_link;
-        if (link) window.open(link, "_blank");
+      onSuccess: (data) => {
+        if (data.pay_link) window.open(data.pay_link, "_blank");
       },
       onError: () => {
         toast.error(t("BILLING.PAYMENT_FAILED"));
@@ -71,13 +66,8 @@ export function TopUpSection() {
 
   function handleCreemTopUp(productId: string) {
     creemTopUpMutation.mutate(productId, {
-      onSuccess: (data: unknown) => {
-        const body = data as {
-          data?: { checkout_url?: string };
-          checkout_url?: string;
-        };
-        const url = body?.checkout_url ?? body?.data?.checkout_url;
-        if (url) window.open(url, "_blank");
+      onSuccess: (data) => {
+        if (data.checkout_url) window.open(data.checkout_url, "_blank");
       },
       onError: () => {
         toast.error(t("BILLING.PAYMENT_FAILED"));
