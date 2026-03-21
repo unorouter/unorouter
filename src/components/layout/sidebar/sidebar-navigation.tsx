@@ -38,23 +38,19 @@ export function SidebarNavigation() {
               return (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton
+                    render={<Link href={item.href as any} />}
                     tooltip={t(item.name as any)}
                     isActive={isActive}
                     className={cn(
                       isActive && "bg-primary/10 text-primary font-medium",
                     )}
                   >
-                    <Link
-                      href={item.href as any}
-                      className="flex items-center gap-2"
-                    >
-                      {item.icon && (
-                        <item.icon
-                          className={cn("size-4", isActive && "text-primary")}
-                        />
-                      )}
-                      <span>{t(item.name as any)}</span>
-                    </Link>
+                    {item.icon && (
+                      <item.icon
+                        className={cn("size-4", isActive && "text-primary")}
+                      />
+                    )}
+                    <span>{t(item.name as any)}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               );
@@ -71,23 +67,19 @@ export function SidebarNavigation() {
               return (
                 <SidebarMenuItem key={item.name}>
                   <SidebarMenuButton
+                    render={<Link href={item.href as any} />}
                     tooltip={t(item.name as any)}
                     isActive={isActive}
                     className={cn(
                       isActive && "bg-primary/10 text-primary font-medium",
                     )}
                   >
-                    <Link
-                      href={item.href as any}
-                      className="flex items-center gap-2"
-                    >
-                      {item.icon && (
-                        <item.icon
-                          className={cn("size-4", isActive && "text-primary")}
-                        />
-                      )}
-                      <span>{t(item.name as any)}</span>
-                    </Link>
+                    {item.icon && (
+                      <item.icon
+                        className={cn("size-4", isActive && "text-primary")}
+                      />
+                    )}
+                    <span>{t(item.name as any)}</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               );
