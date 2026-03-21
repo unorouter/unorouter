@@ -39,6 +39,15 @@ export function useRegisterMutation() {
   });
 }
 
+export function useSendVerificationMutation() {
+  return useMutation({
+    mutationFn: async (email: string) =>
+      handleElysia(
+        await rpc.api.auth.verification.get({ query: { email } }),
+      ),
+  });
+}
+
 export function useLogoutMutation() {
   const queryClient = useQueryClient();
   return useMutation({

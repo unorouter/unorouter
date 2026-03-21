@@ -1,7 +1,8 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { ReactNode } from "react";
+import { Suspense, ReactNode } from "react";
 
 export default async function AuthLayout(props: { children: ReactNode }) {
   const t = await getTranslations();
@@ -14,6 +15,10 @@ export default async function AuthLayout(props: { children: ReactNode }) {
           <CompanyName className="text-foreground font-mono text-xl" />
         </Link>
       </div>
+
+      <Suspense>
+        <AffiliateCapture />
+      </Suspense>
 
       {props.children}
 

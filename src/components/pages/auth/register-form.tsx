@@ -4,13 +4,12 @@ import { OAuthButtons } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { Input } from "@/components/ui/input";
-import { useRegisterMutation } from "@/hooks/auth-hook";
+import { useRegisterMutation, useSendVerificationMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
+import { AFF_CODE_KEY, APP_VALUES } from "@/lib/config/constants";
 import { Turnstile } from "@marsidev/react-turnstile";
+import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
@@ -18,6 +17,7 @@ export function RegisterForm() {
   const t = useTranslations();
   const router = useRouter();
   const registerMutation = useRegisterMutation();
+  const verificationMutation = useSendVerificationMutation();
   const statusQuery = useStatusQuery();
   const status = statusQuery.data;
 
@@ -27,37 +27,26 @@ export function RegisterForm() {
   const [verificationCode, setVerificationCode] = useState("");
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<{ reset: () => void }>(null);
-  const [sendingCode, setSendingCode] = useState(false);
-  const [codeSent, setCodeSent] = useState(false);
-  const [codeError, setCodeError] = useState("");
 
   async function handleSendCode() {
     if (!email.trim()) return;
-    setSendingCode(true);
-    setCodeError("");
-    try {
-      handleElysia(
-        await rpc.api.auth.verification.get({ query: { email: email.trim() } }),
-      );
-      setCodeSent(true);
-    } catch {
-      setCodeError(t("AUTH.SEND_CODE_FAILED"));
-    } finally {
-      setSendingCode(false);
-    }
+    await verificationMutation.mutateAsync(email.trim());
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!username.trim() || !password.trim()) return;
     try {
+      const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;
       await registerMutation.mutateAsync({
         username: username.trim(),
         password,
         email: email.trim() || undefined,
         verification_code: verificationCode.trim() || undefined,
+        aff_code: affCode,
         turnstile: turnstileToken,
       });
+      deleteCookie(AFF_CODE_KEY);
       router.push("/login");
     } catch {
       turnstileRef.current?.reset();
@@ -127,19 +116,19 @@ export function RegisterForm() {
                         type="button"
                         variant="outline"
                         onClick={handleSendCode}
-                        disabled={!email.trim() || sendingCode || codeSent}
+                        disabled={!email.trim() || verificationMutation.isPending || verificationMutation.isSuccess}
                         className="h-11 shrink-0 rounded-2xl px-4 text-xs"
                       >
-                        {sendingCode
+                        {verificationMutation.isPending
                           ? t("AUTH.SENDING_CODE")
-                          : codeSent
+                          : verificationMutation.isSuccess
                             ? t("AUTH.CODE_SENT")
                             : t("AUTH.SEND_CODE")}
                       </Button>
                     </div>
-                    {codeError && (
+                    {verificationMutation.error && (
                       <p className="text-destructive text-xs font-medium">
-                        {codeError}
+                        {t("AUTH.SEND_CODE_FAILED")}
                       </p>
                     )}
                   </div>
