@@ -1,18 +1,28 @@
 "use client";
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { OAuthButtons } from "@/components/pages/auth/oauth-buttons";
 import { TwoFAForm } from "@/components/pages/auth/twofa-form";
 import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
-import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import {
+  loginChecker,
+  loginSchema,
+  type LoginSchema,
+} from "@/lib/validation/auth";
+import { safeParse } from "@/lib/validation/helpers";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
+import { Value } from "@sinclair/typebox/value";
 import { deleteCookie, getCookie } from "cookies-next/client";
-import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
-import { SyntheticEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function LoginForm() {
   const t = useTranslations();
@@ -21,28 +31,29 @@ export function LoginForm() {
   const statusQuery = useStatusQuery();
   const status = statusQuery.data;
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const form = useForm({
+    resolver: typeboxResolver(loginSchema),
+    defaultValues: Value.Default(loginSchema, {}) as LoginSchema,
+  });
+
   const [show2FA, setShow2FA] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
-  const turnstileRef = useRef<{ reset: () => void }>(null);
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   function getRedirectPath() {
     const redirect = getCookie(AUTH_REDIRECT_COOKIE);
     if (redirect) deleteCookie(AUTH_REDIRECT_COOKIE);
-    return (redirect as string) || "/";
+    return (redirect as string) || "/dashboard";
   }
 
-  async function handleSubmit(e: SyntheticEvent) {
-    e.preventDefault();
-    if (!username.trim() || !password.trim()) return;
+  async function onSubmit(data: LoginSchema) {
     try {
-      const data = await loginMutation.mutateAsync({
-        username: username.trim(),
-        password,
+      const result = await loginMutation.mutateAsync({
+        username: data.username.trim(),
+        password: data.password,
         turnstile: turnstileToken,
       });
-      if (data && "require_2fa" in data && data.require_2fa) {
+      if (result && "require_2fa" in result && result.require_2fa) {
         setShow2FA(true);
         return;
       }
@@ -59,7 +70,7 @@ export function LoginForm() {
     return (
       <TwoFAForm
         onSuccess={() => {
-          router.push("/");
+          router.push(getRedirectPath());
           router.refresh();
         }}
       />
@@ -68,6 +79,12 @@ export function LoginForm() {
 
   const showPasswordForm = (status as any)?.password_login_enabled !== false;
 
+  const formValues = form.watch();
+  const isValid = safeParse(loginChecker, {
+    username: formValues.username,
+    password: formValues.password,
+  }).success;
+
   return (
     <GlassAuthCard
       title={t("AUTH.LOGIN_TITLE")}
@@ -75,67 +92,62 @@ export function LoginForm() {
     >
       <div className="space-y-6">
         {showPasswordForm && (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-3">
-              <div className="space-y-1.5">
-                <label className="text-foreground text-sm font-medium">
-                  {t("AUTH.USERNAME")}
-                </label>
-                <Input
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-3">
+                <MyFormInput
+                  control={form.control}
+                  name="username"
+                  schema={loginSchema}
+                  label={t("AUTH.USERNAME")}
                   type="text"
                   autoComplete="username"
                   placeholder={t("AUTH.USERNAME_PLACEHOLDER")}
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
-              </div>
-              <div className="space-y-1.5">
-                <label className="text-foreground text-sm font-medium">
-                  {t("AUTH.PASSWORD")}
-                </label>
-                <Input
+                <MyFormInput
+                  control={form.control}
+                  name="password"
+                  schema={loginSchema}
+                  label={t("AUTH.PASSWORD")}
                   type="password"
                   autoComplete="current-password"
                   placeholder={t("AUTH.PASSWORD_PLACEHOLDER")}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
               </div>
-            </div>
 
-            {status?.turnstile_check && status.turnstile_site_key && (
-              <div className="flex justify-center">
-                <Turnstile
-                  ref={turnstileRef as any}
-                  siteKey={status.turnstile_site_key}
-                  onSuccess={setTurnstileToken}
-                />
-              </div>
-            )}
+              {status?.turnstile_check && status.turnstile_site_key && (
+                <div className="flex justify-center">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={status.turnstile_site_key}
+                    onSuccess={setTurnstileToken}
+                  />
+                </div>
+              )}
 
-            {loginMutation.error && (
-              <p className="text-destructive text-center text-xs font-medium">
-                {loginMutation.error.message}
-              </p>
-            )}
+              {loginMutation.error && (
+                <p className="text-destructive text-center text-xs font-medium">
+                  {loginMutation.error.message}
+                </p>
+              )}
 
-            <Button
-              type="submit"
-              disabled={
-                !username.trim() ||
-                !password.trim() ||
-                loginMutation.isPending ||
-                (status?.turnstile_check && !turnstileToken)
-              }
-              className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
-            >
-              {loginMutation.isPending
-                ? t("AUTH.LOGGING_IN")
-                : t("AUTH.LOGIN_BUTTON")}
-            </Button>
-          </form>
+              <Button
+                type="submit"
+                disabled={
+                  !isValid ||
+                  loginMutation.isPending ||
+                  (status?.turnstile_check && !turnstileToken)
+                }
+                className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
+              >
+                {loginMutation.isPending
+                  ? t("AUTH.LOGGING_IN")
+                  : t("AUTH.LOGIN_BUTTON")}
+              </Button>
+            </form>
+          </Form>
         )}
 
         {status && <OAuthButtons status={status} />}

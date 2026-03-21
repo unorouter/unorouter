@@ -739,5 +739,24 @@
     "USED_OF": "used of",
     "REFRESHING": "Refreshing...",
     "PAYMENT_FAILED": "Payment failed. Please try again."
+  },
+  "FORM": {
+    "ERROR": {
+      "REQUIRED": "{type} is required",
+      "MIN_LENGTH": "{type} must be at least {minLength} characters",
+      "MAX_LENGTH": "{type} must be at most {maxLength} characters",
+      "EXACT_LENGTH": "{type} must be exactly {minLength} characters",
+      "MIN_VALUE": "{type} must be greater than 0"
+    },
+    "TYPE": {
+      "USERNAME": "Username",
+      "PASSWORD": "Password",
+      "EMAIL": "Email",
+      "VERIFICATION_CODE": "Verification code",
+      "CODE": "Code",
+      "NAME": "Name",
+      "AMOUNT": "Amount",
+      "REMAIN_QUOTA": "Quota"
+    }
   }
 }

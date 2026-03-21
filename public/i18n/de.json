@@ -739,5 +739,24 @@
     "USED_OF": "verbraucht von",
     "REFRESHING": "Aktualisierung...",
     "PAYMENT_FAILED": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
+  },
+  "FORM": {
+    "ERROR": {
+      "REQUIRED": "{type} ist erforderlich",
+      "MIN_LENGTH": "{type} muss mindestens {minLength} Zeichen lang sein",
+      "MAX_LENGTH": "{type} darf höchstens {maxLength} Zeichen lang sein",
+      "EXACT_LENGTH": "{type} muss genau {minLength} Zeichen lang sein",
+      "MIN_VALUE": "{type} muss größer als 0 sein"
+    },
+    "TYPE": {
+      "USERNAME": "Benutzername",
+      "PASSWORD": "Passwort",
+      "EMAIL": "E-Mail",
+      "VERIFICATION_CODE": "Verifizierungscode",
+      "CODE": "Code",
+      "NAME": "Name",
+      "AMOUNT": "Betrag",
+      "REMAIN_QUOTA": "Kontingent"
+    }
   }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { useTransferAffQuotaMutation } from "@/hooks/affiliate-hook";
 import {
@@ -17,9 +18,12 @@ import {
   quotaToDollars,
   renderQuota,
 } from "@/lib/config/constants";
+import { transferSchema, type TransferSchema } from "@/lib/validation/affiliate";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { LuArrowRightLeft } from "react-icons/lu";
 import { toast } from "sonner";
 
@@ -33,15 +37,14 @@ export function TransferDialog(props: TransferDialogProps) {
   const t = useTranslations();
   const router = useRouter();
   const transferMutation = useTransferAffQuotaMutation();
-  const [transferAmount, setTransferAmount] = useState("");
 
-  function handleTransfer() {
-    const amount = parseFloat(transferAmount);
-    if (isNaN(amount) || amount <= 0) {
-      toast.error(t("AFFILIATE.TRANSFER_INVALID"));
-      return;
-    }
-    const quotaUnits = dollarsToQuota(amount);
+  const form = useForm<TransferSchema>({
+    resolver: typeboxResolver(transferSchema),
+    defaultValues: Value.Default(transferSchema, {}) as TransferSchema,
+  });
+
+  function onSubmit(data: TransferSchema) {
+    const quotaUnits = dollarsToQuota(data.amount);
     if (quotaUnits > props.pendingQuota) {
       toast.error(t("AFFILIATE.TRANSFER_EXCEEDS"));
       return;
@@ -50,7 +53,7 @@ export function TransferDialog(props: TransferDialogProps) {
       onSuccess: () => {
         toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
         props.onOpenChange(false);
-        setTransferAmount("");
+        form.reset();
         router.refresh();
       },
       onError: (err) =>
@@ -62,6 +65,8 @@ export function TransferDialog(props: TransferDialogProps) {
     });
   }
 
+  const amount = form.watch("amount");
+
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
@@ -71,68 +76,76 @@ export function TransferDialog(props: TransferDialogProps) {
             {t("AFFILIATE.TRANSFER_DIALOG_DESC")}
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4 py-2">
-          <div className="flex items-center justify-between">
-            <span className="text-muted-foreground text-sm">
-              {t("AFFILIATE.AVAILABLE")}
-            </span>
-            <span className="text-foreground font-mono text-sm font-bold tabular-nums">
-              {renderQuota(props.pendingQuota)}
-            </span>
-          </div>
-          <div className="space-y-2">
-            <Label>{t("AFFILIATE.TRANSFER_AMOUNT")}</Label>
-            <div className="relative">
-              <span className="text-muted-foreground absolute top-1/2 left-3 -translate-y-1/2 text-sm">
-                $
-              </span>
-              <Input
-                type="number"
-                step="0.01"
-                min="0"
-                value={transferAmount}
-                onChange={(e) => setTransferAmount(e.target.value)}
-                placeholder="0.00"
-                className="pl-7"
-              />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="space-y-4 py-2">
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground text-sm">
+                  {t("AFFILIATE.AVAILABLE")}
+                </span>
+                <span className="text-foreground font-mono text-sm font-bold tabular-nums">
+                  {renderQuota(props.pendingQuota)}
+                </span>
+              </div>
+              <div className="space-y-2">
+                <Label>{t("AFFILIATE.TRANSFER_AMOUNT")}</Label>
+                <MyFormInput
+                  control={form.control}
+                  name="amount"
+                  schema={transferSchema}
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  symbol="$"
+                  placeholder="0.00"
+                  validate={(value: number) => {
+                    if (dollarsToQuota(value) > props.pendingQuota) {
+                      return t("AFFILIATE.TRANSFER_EXCEEDS");
+                    }
+                    return true;
+                  }}
+                />
+                <div className="flex gap-1">
+                  {[25, 50, 75, 100].map((pct) => {
+                    const val =
+                      quotaToDollars(props.pendingQuota) * (pct / 100);
+                    return (
+                      <Button
+                        key={pct}
+                        type="button"
+                        variant="outline"
+                        size="xs"
+                        onClick={() => form.setValue("amount", parseFloat(val.toFixed(2)))}
+                        disabled={props.pendingQuota <= 0}
+                      >
+                        {pct}%
+                      </Button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
-            <div className="flex gap-1">
-              {[25, 50, 75, 100].map((pct) => {
-                const val =
-                  quotaToDollars(props.pendingQuota) * (pct / 100);
-                return (
-                  <Button
-                    key={pct}
-                    variant="outline"
-                    size="xs"
-                    onClick={() => setTransferAmount(val.toFixed(2))}
-                    disabled={props.pendingQuota <= 0}
-                  >
-                    {pct}%
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => props.onOpenChange(false)}
-          >
-            {t("AFFILIATE.CANCEL")}
-          </Button>
-          <Button
-            onClick={handleTransfer}
-            disabled={transferMutation.isPending || !transferAmount}
-          >
-            <LuArrowRightLeft
-              data-icon="inline-start"
-              className="h-4 w-4"
-            />
-            {t("AFFILIATE.CONFIRM_TRANSFER")}
-          </Button>
-        </DialogFooter>
+            <DialogFooter className="mt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => props.onOpenChange(false)}
+              >
+                {t("AFFILIATE.CANCEL")}
+              </Button>
+              <Button
+                type="submit"
+                disabled={transferMutation.isPending || !amount}
+              >
+                <LuArrowRightLeft
+                  data-icon="inline-start"
+                  className="h-4 w-4"
+                />
+                {t("AFFILIATE.CONFIRM_TRANSFER")}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link } from "@/i18n/navigation";
+import { TranslationKey } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 
@@ -14,7 +15,7 @@ function useGetStartedHref() {
 export function GetStartedLink(props: {
   className?: string;
   icon?: ReactNode;
-  translationKey?: string;
+  translationKey?: TranslationKey;
 }) {
   const t = useTranslations();
   const href = useGetStartedHref();
@@ -27,9 +28,7 @@ export function GetStartedLink(props: {
   );
 }
 
-export function GetStartedButton(props: {
-  translationKey: string;
-}) {
+export function GetStartedButton(props: { translationKey: TranslationKey }) {
   const t = useTranslations();
   const href = useGetStartedHref();
 

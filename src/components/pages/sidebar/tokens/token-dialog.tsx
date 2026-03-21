@@ -1,5 +1,7 @@
 "use client";
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +12,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import {
   Tooltip,
   TooltipContent,
@@ -28,8 +28,12 @@ import {
   useUpdateTokenMutation,
 } from "@/hooks/token-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
+import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   LuCheck,
   LuCopy,
@@ -69,24 +73,26 @@ export function TokenDialog(props: TokenDialogProps) {
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
 
-  const [name, setName] = useState("");
-  const [remainQuota, setRemainQuota] = useState(0);
-  const [unlimitedQuota, setUnlimitedQuota] = useState(true);
+  const form = useForm<TokenFormSchema>({
+    resolver: typeboxResolver(tokenFormSchema),
+    defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
+  });
+
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
 
   useEffect(() => {
     if (props.open && props.token) {
-      setName(props.token.name || "");
-      setRemainQuota(props.token.remain_quota ?? 0);
-      setUnlimitedQuota(!!props.token.unlimited_quota);
+      form.reset({
+        name: props.token.name || "",
+        remain_quota: props.token.remain_quota ?? 0,
+        unlimited_quota: !!props.token.unlimited_quota,
+      });
       setRevealedKey(null);
     } else if (props.open && !props.token) {
-      setName("");
-      setRemainQuota(0);
-      setUnlimitedQuota(true);
+      form.reset(Value.Default(tokenFormSchema, {}) as TokenFormSchema);
       setRevealedKey(null);
     }
-  }, [props.open, props.token]);
+  }, [props.open, props.token, form]);
 
   function handleToggleReveal() {
     if (!props.token) return;
@@ -142,21 +148,12 @@ export function TokenDialog(props: TokenDialogProps) {
     });
   }
 
-  function handleSubmit() {
-    if (!name.trim()) {
-      toast.error("Name is required");
-      return;
-    }
-    if (name.length > 50) {
-      toast.error("Name must be 50 characters or less");
-      return;
-    }
-
+  function onSubmit(data: TokenFormSchema) {
     const payload = {
-      name: name.trim(),
-      remain_quota: unlimitedQuota ? 0 : remainQuota,
+      name: data.name.trim(),
+      remain_quota: data.unlimited_quota ? 0 : data.remain_quota,
       expired_time: -1,
-      unlimited_quota: unlimitedQuota,
+      unlimited_quota: data.unlimited_quota,
       model_limits_enabled: false,
       model_limits: "",
       allow_ips: "",
@@ -200,6 +197,9 @@ export function TokenDialog(props: TokenDialogProps) {
       : `sk-${props.token.key}`
     : null;
 
+  const unlimitedQuota = form.watch("unlimited_quota");
+  const remainQuota = form.watch("remain_quota");
+
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent className="sm:max-w-md">
@@ -210,224 +210,218 @@ export function TokenDialog(props: TokenDialogProps) {
           <DialogDescription>{t("TOKEN.DESCRIPTION")}</DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-6">
-          {isEdit && displayKey && (
-            <div>
-              <div className="mb-3 flex items-center gap-2">
-                <LuKey className="text-muted-foreground h-4 w-4" />
-                <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                  {t("TOKEN.COL_KEY")}
-                </span>
-                <Badge
-                  variant={isEnabled ? "default" : "destructive"}
-                  className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
-                >
-                  {isEnabled
-                    ? t("TOKEN.STATUS_ENABLED")
-                    : t("TOKEN.STATUS_DISABLED")}
-                </Badge>
-              </div>
-
-              <div className="flex min-w-0 items-center gap-1.5">
-                <code className="bg-muted text-foreground block min-w-0 flex-1 overflow-hidden truncate rounded px-2 py-1.5 font-mono text-xs">
-                  {displayKey}
-                </code>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger
-                      render={
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          onClick={handleToggleReveal}
-                        />
-                      }
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-6">
+              {isEdit && displayKey && (
+                <div>
+                  <div className="mb-3 flex items-center gap-2">
+                    <LuKey className="text-muted-foreground h-4 w-4" />
+                    <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                      {t("TOKEN.COL_KEY")}
+                    </span>
+                    <Badge
+                      variant={isEnabled ? "default" : "destructive"}
+                      className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
                     >
-                      {revealedKey ? (
-                        <LuEyeOff className="h-3.5 w-3.5" />
-                      ) : (
-                        <LuEye className="h-3.5 w-3.5" />
-                      )}
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      {revealedKey
-                        ? t("TOKEN.HIDE_KEY")
-                        : t("TOKEN.REVEAL_KEY")}
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger
-                      render={
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          onClick={handleCopyKey}
-                        />
-                      }
-                    >
-                      <LuCopy className="h-3.5 w-3.5" />
-                    </TooltipTrigger>
-                    <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            </div>
-          )}
+                      {isEnabled
+                        ? t("TOKEN.STATUS_ENABLED")
+                        : t("TOKEN.STATUS_DISABLED")}
+                    </Badge>
+                  </div>
 
-          {isEdit && <Separator />}
+                  <div className="flex min-w-0 items-center gap-1.5">
+                    <code className="bg-muted text-foreground block min-w-0 flex-1 overflow-hidden truncate rounded px-2 py-1.5 font-mono text-xs">
+                      {displayKey}
+                    </code>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger
+                          render={
+                            <Button
+                              variant="ghost"
+                              size="icon-sm"
+                              onClick={handleToggleReveal}
+                            />
+                          }
+                        >
+                          {revealedKey ? (
+                            <LuEyeOff className="h-3.5 w-3.5" />
+                          ) : (
+                            <LuEye className="h-3.5 w-3.5" />
+                          )}
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          {revealedKey
+                            ? t("TOKEN.HIDE_KEY")
+                            : t("TOKEN.REVEAL_KEY")}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger
+                          render={
+                            <Button
+                              variant="ghost"
+                              size="icon-sm"
+                              onClick={handleCopyKey}
+                            />
+                          }
+                        >
+                          <LuCopy className="h-3.5 w-3.5" />
+                        </TooltipTrigger>
+                        <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
+                </div>
+              )}
 
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("TOKEN.NAME")}
-              </span>
-            </div>
+              {isEdit && <Separator />}
 
-            <Input
-              id="token-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={t("TOKEN.NAME_PLACEHOLDER")}
-              maxLength={50}
-            />
-          </div>
-
-          <Separator />
-
-          <div>
-            <div className="mb-3 flex items-center gap-2">
-              <LuWallet className="text-muted-foreground h-4 w-4" />
-              <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                {t("TOKEN.QUOTA")}
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-0.5">
-                  <Label className="text-xs font-medium">
-                    {t("TOKEN.UNLIMITED_QUOTA")}
-                  </Label>
-                  <span className="text-muted-foreground max-w-75 text-[11px]">
-                    {t("TOKEN.UNLIMITED_QUOTA_DESC")}
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                    {t("TOKEN.NAME")}
                   </span>
                 </div>
-                <Switch
-                  checked={unlimitedQuota}
-                  onCheckedChange={setUnlimitedQuota}
-                  size="sm"
+
+                <MyFormInput
+                  control={form.control}
+                  name="name"
+                  schema={tokenFormSchema}
+                  placeholder={t("TOKEN.NAME_PLACEHOLDER")}
+                  maxLength={50}
                 />
               </div>
 
-              {!unlimitedQuota && (
-                <>
-                  <div className="flex flex-col gap-1.5">
-                    <Label
-                      htmlFor="token-quota"
-                      className="text-xs font-medium"
-                    >
-                      {t("TOKEN.QUOTA")}
-                    </Label>
-                    <Input
-                      id="token-quota"
-                      type="number"
-                      value={remainQuota}
-                      onChange={(e) => setRemainQuota(Number(e.target.value))}
-                      placeholder={t("TOKEN.QUOTA_PLACEHOLDER")}
-                    />
-                    <span className="text-muted-foreground font-mono text-[11px]">
-                      = ${quotaToDollars(remainQuota).toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <span className="text-muted-foreground text-[11px]">
-                      {t("TOKEN.QUOTA_PRESETS")}
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {QUOTA_PRESETS.map((preset) => (
-                        <Button
-                          key={preset.value}
-                          variant={
-                            remainQuota === preset.value ? "default" : "outline"
-                          }
-                          size="xs"
-                          onClick={() => setRemainQuota(preset.value)}
-                        >
-                          {preset.label}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+              <Separator />
 
-        <DialogFooter className="flex-row gap-2 sm:justify-between">
-          {isEdit ? (
-            <div className="flex gap-2">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={handleToggleStatus}
-                        disabled={toggleMutation.isPending}
-                      />
-                    }
-                  >
-                    {isEnabled ? (
-                      <LuPowerOff className="h-4 w-4" />
-                    ) : (
-                      <LuPower className="h-4 w-4" />
-                    )}
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")}
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={handleDelete}
-                        disabled={deleteMutation.isPending}
-                        className="text-destructive hover:bg-destructive/10"
-                      />
-                    }
-                  >
-                    <LuTrash2 className="h-4 w-4" />
-                  </TooltipTrigger>
-                  <TooltipContent>{t("TOKEN.DELETE")}</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <LuWallet className="text-muted-foreground h-4 w-4" />
+                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                    {t("TOKEN.QUOTA")}
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <MyFormSwitch
+                    control={form.control}
+                    name="unlimited_quota"
+                    label={t("TOKEN.UNLIMITED_QUOTA")}
+                    description={t("TOKEN.UNLIMITED_QUOTA_DESC")}
+                    size="sm"
+                  />
+
+                  {!unlimitedQuota && (
+                    <>
+                      <div className="flex flex-col gap-1.5">
+                        <MyFormInput
+                          control={form.control}
+                          name="remain_quota"
+                          schema={tokenFormSchema}
+                          label={t("TOKEN.QUOTA")}
+                          type="number"
+                          placeholder={t("TOKEN.QUOTA_PLACEHOLDER")}
+                        />
+                        <span className="text-muted-foreground font-mono text-[11px]">
+                          = ${quotaToDollars(remainQuota).toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-muted-foreground text-[11px]">
+                          {t("TOKEN.QUOTA_PRESETS")}
+                        </span>
+                        <div className="flex flex-wrap gap-1.5">
+                          {QUOTA_PRESETS.map((preset) => (
+                            <Button
+                              key={preset.value}
+                              type="button"
+                              variant={
+                                remainQuota === preset.value ? "default" : "outline"
+                              }
+                              size="xs"
+                              onClick={() => form.setValue("remain_quota", preset.value)}
+                            >
+                              {preset.label}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
             </div>
-          ) : (
-            <div />
-          )}
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={() => props.onOpenChange(false)}>
-              {t("TOKEN.CANCEL")}
-            </Button>
-            <Button onClick={handleSubmit} disabled={isPending}>
+
+            <DialogFooter className="mt-6 flex-row gap-2 sm:justify-between">
               {isEdit ? (
-                <LuCheck data-icon="inline-start" className="h-4 w-4" />
+                <div className="flex gap-2">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger
+                        render={
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={handleToggleStatus}
+                            disabled={toggleMutation.isPending}
+                          />
+                        }
+                      >
+                        {isEnabled ? (
+                          <LuPowerOff className="h-4 w-4" />
+                        ) : (
+                          <LuPower className="h-4 w-4" />
+                        )}
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        {isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")}
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger
+                        render={
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            onClick={handleDelete}
+                            disabled={deleteMutation.isPending}
+                            className="text-destructive hover:bg-destructive/10"
+                          />
+                        }
+                      >
+                        <LuTrash2 className="h-4 w-4" />
+                      </TooltipTrigger>
+                      <TooltipContent>{t("TOKEN.DELETE")}</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
               ) : (
-                <LuPlus data-icon="inline-start" className="h-4 w-4" />
+                <div />
               )}
-              {isEdit ? t("TOKEN.SAVE") : t("TOKEN.SUBMIT")}
-            </Button>
-          </div>
-        </DialogFooter>
+              <div className="flex gap-2">
+                <Button type="button" variant="outline" onClick={() => props.onOpenChange(false)}>
+                  {t("TOKEN.CANCEL")}
+                </Button>
+                <Button type="submit" disabled={isPending}>
+                  {isEdit ? (
+                    <LuCheck data-icon="inline-start" className="h-4 w-4" />
+                  ) : (
+                    <LuPlus data-icon="inline-start" className="h-4 w-4" />
+                  )}
+                  {isEdit ? t("TOKEN.SAVE") : t("TOKEN.SUBMIT")}
+                </Button>
+              </div>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
