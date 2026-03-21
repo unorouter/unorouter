@@ -5,6 +5,8 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";
 import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { LuShell, LuZap } from "react-icons/lu";
 
@@ -19,6 +21,7 @@ export function Pricing() {
     if (authQuery.data) {
       router.push("/billing");
     } else {
+      setCookie(AUTH_REDIRECT_COOKIE, "/billing", { maxAge: 300 });
       router.push("/login");
     }
   }

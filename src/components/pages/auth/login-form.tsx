@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { useLoginMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { deleteCookie, getCookie } from "cookies-next/client";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useTranslations } from "next-intl";
 import { SyntheticEvent, useRef, useState } from "react";
@@ -26,6 +27,12 @@ export function LoginForm() {
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<{ reset: () => void }>(null);
 
+  function getRedirectPath() {
+    const redirect = getCookie(AUTH_REDIRECT_COOKIE);
+    if (redirect) deleteCookie(AUTH_REDIRECT_COOKIE);
+    return (redirect as string) || "/";
+  }
+
   async function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     if (!username.trim() || !password.trim()) return;
@@ -40,7 +47,7 @@ export function LoginForm() {
         return;
       }
 
-      router.push("/");
+      router.push(getRedirectPath());
       router.refresh();
     } catch {
       turnstileRef.current?.reset();

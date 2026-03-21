@@ -1,3 +1,4 @@
+import { AuthRedirectCleanup } from "@/components/elements/auth-redirect-cleanup";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -15,6 +16,7 @@ export default function SidebarLayout(props: SidebarLayoutProps) {
         } as React.CSSProperties
       }
     >
+      <AuthRedirectCleanup />
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SidebarHeader />
