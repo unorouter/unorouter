@@ -24,7 +24,8 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
     "/login",
     async ({ body, set, upstream }) => {
-      const res = await login(body, {
+      const { turnstile, ...loginRequest } = body;
+      const res = await login(loginRequest, { turnstile }, {
         headers: upstream.headers,
       });
       return handleAuthResponse(res, set);
@@ -46,7 +47,8 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .post(
     "/register",
     async ({ body, set, upstream }) => {
-      const res = await register(body, {
+      const { turnstile, ...registerRequest } = body;
+      const res = await register(registerRequest, { turnstile }, {
         headers: upstream.headers,
       });
       return handleAuthResponse(res, set);

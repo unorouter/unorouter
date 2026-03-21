@@ -2089,6 +2089,46 @@ export interface ResponseDtoLocationsListResponse {
   success: boolean;
 }
 
+export type ResponseDtoLogCleanupResultData = {
+  deleted_count: number;
+  failed_files: string[];
+  freed_bytes: number;
+};
+
+/**
+ * Response_dto.LogCleanupResult schema
+ */
+export interface ResponseDtoLogCleanupResult {
+  data: ResponseDtoLogCleanupResultData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoLogFilesResponseDataFilesItem = {
+  mod_time: string;
+  name: string;
+  size: number;
+};
+
+export type ResponseDtoLogFilesResponseData = {
+  enabled: boolean;
+  file_count: number;
+  files: ResponseDtoLogFilesResponseDataFilesItem[];
+  log_dir: string;
+  newest_time?: string | null;
+  oldest_time?: string | null;
+  total_size: number;
+};
+
+/**
+ * Response_dto.LogFilesResponse schema
+ */
+export interface ResponseDtoLogFilesResponse {
+  data: ResponseDtoLogFilesResponseData;
+  message: string;
+  success: boolean;
+}
+
 export type ResponseDtoLogStatDataData = {
   quota: number;
   rpm: number;
@@ -4351,6 +4391,10 @@ export type SearchRedemptionsParams = {
 
 export type SendPasswordResetEmailParams = {
   /**
+   * Cloudflare Turnstile verification token
+   */
+  turnstile?: string;
+  /**
    * Email address
    */
   email?: string;
@@ -4495,6 +4539,27 @@ export type GetCheckinStatusParams = {
   month?: string;
 };
 
+export type DoCheckinParams = {
+  /**
+   * Cloudflare Turnstile verification token
+   */
+  turnstile?: string;
+};
+
+export type LoginParams = {
+  /**
+   * Cloudflare Turnstile verification token
+   */
+  turnstile?: string;
+};
+
+export type RegisterParams = {
+  /**
+   * Cloudflare Turnstile verification token
+   */
+  turnstile?: string;
+};
+
 export type SearchUsersParams = {
   /**
    * Page number (1-based)
@@ -4571,6 +4636,10 @@ export type SearchVendorsParams = {
 };
 
 export type SendEmailVerificationParams = {
+  /**
+   * Cloudflare Turnstile verification token
+   */
+  turnstile?: string;
   /**
    * Email address
    */
@@ -10163,6 +10232,96 @@ export const forceGC = async (
 };
 
 /**
+ * @summary Cleanup Log Files
+ */
+export type cleanupLogFilesResponse200ApplicationJson = {
+  data: ResponseDtoLogCleanupResult;
+  status: 200;
+};
+
+export type cleanupLogFilesResponse200ApplicationXml = {
+  data: ResponseDtoLogCleanupResult;
+  status: 200;
+};
+
+export type cleanupLogFilesResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type cleanupLogFilesResponseSuccess = (
+  | cleanupLogFilesResponse200ApplicationJson
+  | cleanupLogFilesResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type cleanupLogFilesResponseError = cleanupLogFilesResponseDefault & {
+  headers: Headers;
+};
+
+export type cleanupLogFilesResponse =
+  | cleanupLogFilesResponseSuccess
+  | cleanupLogFilesResponseError;
+
+export const getCleanupLogFilesUrl = () => {
+  return `/api/performance/logs`;
+};
+
+export const cleanupLogFiles = async (
+  options?: RequestInit,
+): Promise<cleanupLogFilesResponse> => {
+  return customFetch<cleanupLogFilesResponse>(getCleanupLogFilesUrl(), {
+    ...options,
+    method: "DELETE",
+  });
+};
+
+/**
+ * @summary Get Log Files
+ */
+export type getLogFilesResponse200ApplicationJson = {
+  data: ResponseDtoLogFilesResponse;
+  status: 200;
+};
+
+export type getLogFilesResponse200ApplicationXml = {
+  data: ResponseDtoLogFilesResponse;
+  status: 200;
+};
+
+export type getLogFilesResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type getLogFilesResponseSuccess = (
+  | getLogFilesResponse200ApplicationJson
+  | getLogFilesResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getLogFilesResponseError = getLogFilesResponseDefault & {
+  headers: Headers;
+};
+
+export type getLogFilesResponse =
+  | getLogFilesResponseSuccess
+  | getLogFilesResponseError;
+
+export const getGetLogFilesUrl = () => {
+  return `/api/performance/logs`;
+};
+
+export const getLogFiles = async (
+  options?: RequestInit,
+): Promise<getLogFilesResponse> => {
+  return customFetch<getLogFilesResponse>(getGetLogFilesUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+/**
  * @summary Reset Performance Stats
  */
 export type resetPerformanceStatsResponse200ApplicationJson = {
@@ -13762,14 +13921,27 @@ export type doCheckinResponse =
   | doCheckinResponseSuccess
   | doCheckinResponseError;
 
-export const getDoCheckinUrl = () => {
-  return `/api/user/checkin`;
+export const getDoCheckinUrl = (params?: DoCheckinParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/user/checkin?${stringifiedParams}`
+    : `/api/user/checkin`;
 };
 
 export const doCheckin = async (
+  params?: DoCheckinParams,
   options?: RequestInit,
 ): Promise<doCheckinResponse> => {
-  return customFetch<doCheckinResponse>(getDoCheckinUrl(), {
+  return customFetch<doCheckinResponse>(getDoCheckinUrl(params), {
     ...options,
     method: "POST",
   });
@@ -13992,15 +14164,28 @@ export type loginResponseError = loginResponseDefault & {
 
 export type loginResponse = loginResponseSuccess | loginResponseError;
 
-export const getLoginUrl = () => {
-  return `/api/user/login`;
+export const getLoginUrl = (params?: LoginParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/user/login?${stringifiedParams}`
+    : `/api/user/login`;
 };
 
 export const login = async (
   loginRequest: LoginRequest,
+  params?: LoginParams,
   options?: RequestInit,
 ): Promise<loginResponse> => {
-  return customFetch<loginResponse>(getLoginUrl(), {
+  return customFetch<loginResponse>(getLoginUrl(params), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },
@@ -14741,15 +14926,28 @@ export type registerResponseError = registerResponseDefault & {
 
 export type registerResponse = registerResponseSuccess | registerResponseError;
 
-export const getRegisterUrl = () => {
-  return `/api/user/register`;
+export const getRegisterUrl = (params?: RegisterParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/user/register?${stringifiedParams}`
+    : `/api/user/register`;
 };
 
 export const register = async (
   registerRequest: RegisterRequest,
+  params?: RegisterParams,
   options?: RequestInit,
 ): Promise<registerResponse> => {
-  return customFetch<registerResponse>(getRegisterUrl(), {
+  return customFetch<registerResponse>(getRegisterUrl(params), {
     ...options,
     method: "POST",
     headers: { "Content-Type": "application/json", ...options?.headers },

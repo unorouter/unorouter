@@ -30,7 +30,7 @@ export function RegisterForm() {
 
   async function handleSendCode() {
     if (!email.trim()) return;
-    await verificationMutation.mutateAsync(email.trim());
+    await verificationMutation.mutateAsync({ email: email.trim(), turnstile: turnstileToken });
   }
 
   async function handleSubmit(e: React.FormEvent) {

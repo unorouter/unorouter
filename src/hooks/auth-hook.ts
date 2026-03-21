@@ -41,9 +41,9 @@ export function useRegisterMutation() {
 
 export function useSendVerificationMutation() {
   return useMutation({
-    mutationFn: async (email: string) =>
+    mutationFn: async (data: { email: string; turnstile?: string }) =>
       handleElysia(
-        await rpc.api.auth.verification.get({ query: { email } }),
+        await rpc.api.auth.verification.get({ query: data }),
       ),
   });
 }

@@ -26,4 +26,5 @@ export const oauthStateQuery = t.Object({
 
 export const verificationQuery = t.Object({
   email: t.String(),
+  turnstile: t.Optional(t.String()),
 });
