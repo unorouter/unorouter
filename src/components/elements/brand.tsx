@@ -14,6 +14,7 @@ export function LogoImage(
       alt={appName}
       width={32}
       height={32}
+      unoptimized
       {...props}
       className={cn("rounded-full", props.className)}
     />
