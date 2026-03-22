@@ -23,9 +23,9 @@ export default async function SidebarLayout(props: SidebarLayoutProps) {
     >
       <AuthRedirectCleanup />
       <AppSidebar variant="inset" />
-      <SidebarInset>
+      <SidebarInset className="overflow-hidden">
         <SidebarHeader />
-        <div className="flex flex-1">{props.children}</div>
+        <div className="flex flex-1 overflow-y-auto">{props.children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
