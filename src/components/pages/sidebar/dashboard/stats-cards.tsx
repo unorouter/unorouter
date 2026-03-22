@@ -3,6 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useDashboardData } from "@/hooks/dashboard-hook";
+import { useMounted } from "@/hooks/ui/use-mounted";
 import { useTranslations } from "next-intl";
 import {
   LuActivity,
@@ -100,12 +101,16 @@ function StatsCard(props: StatsCardProps) {
 
 export function StatsCards() {
   const t = useTranslations();
+  const mounted = useMounted();
   const authQuery = useAuthQuery();
   const { periodMinutes, quotaQuery, rawData } = useDashboardData();
 
   const user = authQuery.data;
 
   const stats = processQuotaData(rawData, periodMinutes);
+
+  const authLoading = !mounted || authQuery.isLoading;
+  const quotaLoading = !mounted || quotaQuery.isLoading;
 
   const cards: StatsCardProps[] = [
     {
@@ -115,14 +120,14 @@ export function StatsCards() {
           label: t("DASHBOARD.CURRENT_BALANCE"),
           value: renderQuota(user?.quota),
           icon: <LuWallet className="h-4 w-4" />,
-          isLoading: authQuery.isLoading,
+          isLoading: authLoading,
           accentColor: "var(--chart-2)",
         },
         {
           label: t("DASHBOARD.CONSUMPTION"),
           value: renderQuota(user?.used_quota),
           icon: <LuTrendingDown className="h-4 w-4" />,
-          isLoading: authQuery.isLoading,
+          isLoading: authLoading,
           accentColor: "var(--chart-3)",
         },
       ],
@@ -134,14 +139,14 @@ export function StatsCards() {
           label: t("DASHBOARD.REQUEST_COUNT"),
           value: user?.request_count,
           icon: <LuSend className="h-4 w-4" />,
-          isLoading: authQuery.isLoading,
+          isLoading: authLoading,
           accentColor: "var(--chart-1)",
         },
         {
           label: t("DASHBOARD.STATISTICAL_COUNT"),
           value: stats.totalCount,
           icon: <LuHash className="h-4 w-4" />,
-          isLoading: quotaQuery.isLoading,
+          isLoading: quotaLoading,
           accentColor: "var(--chart-4)",
           trendData: stats.trends.count,
           trendColor: "#06b6d4",
@@ -155,7 +160,7 @@ export function StatsCards() {
           label: t("DASHBOARD.STATISTICAL_QUOTA"),
           value: renderQuota(stats.totalQuota),
           icon: <LuDollarSign className="h-4 w-4" />,
-          isLoading: quotaQuery.isLoading,
+          isLoading: quotaLoading,
           accentColor: "var(--chart-5)",
           trendData: stats.trends.quota,
           trendColor: "#f59e0b",
@@ -164,7 +169,7 @@ export function StatsCards() {
           label: t("DASHBOARD.STATISTICAL_TOKENS"),
           value: stats.totalTokens,
           icon: <LuBinary className="h-4 w-4" />,
-          isLoading: quotaQuery.isLoading,
+          isLoading: quotaLoading,
           accentColor: "var(--chart-1)",
           trendData: stats.trends.tokens,
           trendColor: "#ec4899",
@@ -178,7 +183,7 @@ export function StatsCards() {
           label: t("DASHBOARD.AVERAGE_RPM"),
           value: stats.avgRpm.toFixed(1),
           icon: <LuGauge className="h-4 w-4" />,
-          isLoading: quotaQuery.isLoading,
+          isLoading: quotaLoading,
           accentColor: "var(--chart-2)",
           trendData: stats.trends.rpm,
           trendColor: "#6366f1",
@@ -187,7 +192,7 @@ export function StatsCards() {
           label: t("DASHBOARD.AVERAGE_TPM"),
           value: stats.avgTpm.toFixed(1),
           icon: <LuActivity className="h-4 w-4" />,
-          isLoading: quotaQuery.isLoading,
+          isLoading: quotaLoading,
           accentColor: "var(--chart-4)",
           trendData: stats.trends.tpm,
           trendColor: "#f97316",
