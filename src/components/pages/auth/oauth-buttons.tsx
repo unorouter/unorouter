@@ -5,7 +5,7 @@ import { AFF_CODE_KEY } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { getCookie } from "cookies-next/client";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
@@ -41,7 +41,6 @@ function buildOAuthUrl(
 
 export function OAuthButtons(props: OAuthButtonsProps) {
   const t = useTranslations();
-  const locale = useLocale();
   const [loading, setLoading] = useState<string | null>(null);
 
   const providers: Array<{
@@ -98,7 +97,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
   ) {
     setLoading(provider);
     try {
-      const callbackUrl = `${window.location.origin}/${locale}/callback`;
+      const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
       const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;
       const state = handleElysia(
         await rpc.api.auth.oauth.state.get({

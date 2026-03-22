@@ -25,8 +25,12 @@ export function deriveUpstream({ request }: { request: Request }) {
   const headers: Record<string, string> = {};
   if (cookieHeader) {
     headers.cookie = cookieHeader;
-    const userId = parseCookie(cookieHeader)[USER_ID_COOKIE];
+    const parsed = parseCookie(cookieHeader);
+    const userId = parsed[USER_ID_COOKIE];
     if (userId) headers[NEW_API_USER] = userId;
+    // Forward access_token cookie as Authorization header for OAuth token flow
+    const accessToken = parsed["access_token"];
+    if (accessToken) headers.Authorization = accessToken;
   }
   return { upstream: { headers } };
 }

@@ -4311,6 +4311,10 @@ export type GenerateOAuthCodeParams = {
    * Affiliate code
    */
   aff?: string;
+  /**
+   * URL to redirect to after OAuth login (must match allowed origins)
+   */
+  redirect_uri?: string;
 };
 
 export type WeChatAuthParams = {

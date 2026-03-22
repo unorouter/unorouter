@@ -24,6 +24,10 @@ export const oauthStateQuery = t.Object({
   aff: t.Optional(t.String()),
 });
 
+export const oauthTokenQuery = t.Object({
+  access_token: t.String(),
+});
+
 export const verificationQuery = t.Object({
   email: t.String(),
   turnstile: t.Optional(t.String()),
