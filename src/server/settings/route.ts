@@ -10,7 +10,6 @@ import {
   enable2FA,
   generateAccessToken,
   get2FAStatus,
-  getSelf,
   getUserOAuthBindings,
   passkeyDelete,
   passkeyRegisterBegin,
@@ -27,12 +26,6 @@ import { deriveUpstream } from "../constants";
 
 export const settingsRoute = new Elysia({ prefix: "/settings" })
   .derive(deriveUpstream)
-
-  // User self
-  .get("/self", async ({ upstream }) => {
-    const res = await getSelf({ headers: upstream.headers });
-    return res.data!;
-  })
 
   .put(
     "/self",
