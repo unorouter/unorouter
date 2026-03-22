@@ -35,9 +35,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       const res = await login(
         loginRequest,
         { turnstile },
-        {
-          headers: upstream.headers,
-        },
+        { headers: upstream.headers },
       );
       return handleAuthResponse(res, set);
     },
@@ -62,9 +60,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       const res = await register(
         registerRequest,
         { turnstile },
-        {
-          headers: upstream.headers,
-        },
+        { headers: upstream.headers },
       );
       return handleAuthResponse(res, set);
     },
