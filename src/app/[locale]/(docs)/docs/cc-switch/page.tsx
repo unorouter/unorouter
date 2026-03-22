@@ -11,15 +11,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 
-const toc = createTOC([
-  { title: "Features", url: "#features", depth: 2 },
-  { title: "Provider Management", url: "#provider-management", depth: 3 },
-  { title: "MCP Server Management", url: "#mcp-server-management", depth: 3 },
-  { title: "Prompts Management", url: "#prompts-management", depth: 3 },
-  { title: "Multi-Platform Support", url: "#multi-platform-support", depth: 3 },
-  { title: "Installation", url: "#installation", depth: 2 },
-  { title: "Integration", url: "#integration", depth: 2 },
-]);
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -36,6 +27,16 @@ export async function generateMetadata(props: {
 
 export default async function CCSwitchPage() {
   const t = await getTranslations();
+
+  const toc = createTOC([
+    { title: t("DOCS.CC_SWITCH.TOC_FEATURES"), url: "#features", depth: 2 },
+    { title: t("DOCS.CC_SWITCH.TOC_PROVIDER_MGMT"), url: "#provider-management", depth: 3 },
+    { title: t("DOCS.CC_SWITCH.TOC_MCP_MGMT"), url: "#mcp-server-management", depth: 3 },
+    { title: t("DOCS.CC_SWITCH.TOC_PROMPTS_MGMT"), url: "#prompts-management", depth: 3 },
+    { title: t("DOCS.CC_SWITCH.TOC_MULTI_PLATFORM"), url: "#multi-platform-support", depth: 3 },
+    { title: t("DOCS.CC_SWITCH.TOC_INSTALLATION"), url: "#installation", depth: 2 },
+    { title: t("DOCS.CC_SWITCH.TOC_INTEGRATION"), url: "#integration", depth: 2 },
+  ], t("DOCS.TOC_TITLE"));
 
   return (
     <TOCLayout toc={toc}>

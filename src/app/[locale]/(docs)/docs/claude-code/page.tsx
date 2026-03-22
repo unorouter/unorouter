@@ -11,18 +11,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
-import type { TOCItemType } from "fumadocs-core/toc";
-
-const tocItems: TOCItemType[] = [
-  { title: "Demo", url: "#demo", depth: 2 },
-  { title: "Features", url: "#features", depth: 2 },
-  { title: "AI Model Configuration", url: "#ai-model-configuration", depth: 2 },
-  { title: "Windows Guide", url: "#windows-graphical-guide", depth: 3 },
-  { title: "macOS Guide", url: "#macos-graphical-guide", depth: 3 },
-  { title: "Linux Guide", url: "#linux-graphical-guide", depth: 3 },
-];
-
-const toc = createTOC(tocItems, "On this page");
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -40,9 +28,30 @@ export async function generateMetadata(props: {
 export default async function ClaudeCodePage() {
   const t = await getTranslations();
 
+  const toc = createTOC([
+    { title: t("DOCS.CLAUDE_CODE.TOC_DEMO"), url: "#demo", depth: 2 },
+    { title: t("DOCS.CLAUDE_CODE.TOC_FEATURES"), url: "#features", depth: 2 },
+    { title: t("DOCS.CLAUDE_CODE.TOC_CONFIG"), url: "#ai-model-configuration", depth: 2 },
+    { title: t("DOCS.CLAUDE_CODE.TOC_WINDOWS"), url: "#windows-graphical-guide", depth: 3 },
+    { title: t("DOCS.CLAUDE_CODE.TOC_MACOS"), url: "#macos-graphical-guide", depth: 3 },
+    { title: t("DOCS.CLAUDE_CODE.TOC_LINUX"), url: "#linux-graphical-guide", depth: 3 },
+  ], t("DOCS.TOC_TITLE"));
+
   const setupScriptBash = `${process.env.NEXT_PUBLIC_APP_URL}/scripts/claude-cli-setup.sh`;
   const setupScriptPowershell = `${process.env.NEXT_PUBLIC_APP_URL}/scripts/claude-cli-setup.ps1`;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  const features = [
+    { titleKey: "FEATURE_AGENTIC_TITLE", descKey: "FEATURE_AGENTIC_DESC" },
+    { titleKey: "FEATURE_CODEBASE_TITLE", descKey: "FEATURE_CODEBASE_DESC" },
+    { titleKey: "FEATURE_TERMINAL_TITLE", descKey: "FEATURE_TERMINAL_DESC" },
+    { titleKey: "FEATURE_GIT_TITLE", descKey: "FEATURE_GIT_DESC" },
+    { titleKey: "FEATURE_MCP_TITLE", descKey: "FEATURE_MCP_DESC" },
+    { titleKey: "FEATURE_MULTIMODEL_TITLE", descKey: "FEATURE_MULTIMODEL_DESC" },
+    { titleKey: "FEATURE_THINKING_TITLE", descKey: "FEATURE_THINKING_DESC" },
+    { titleKey: "FEATURE_INPUT_TITLE", descKey: "FEATURE_INPUT_DESC" },
+    { titleKey: "FEATURE_SAFE_TITLE", descKey: "FEATURE_SAFE_DESC" },
+  ] as const;
 
   return (
     <TOCLayout toc={toc}>
@@ -62,35 +71,35 @@ export default async function ClaudeCodePage() {
         </p>
 
         {/* Project Introduction */}
-        <Callout type="info" title="About Claude Code">
+        <Callout type="info" title={t("DOCS.CLAUDE_CODE.ABOUT_TITLE")}>
           <p>
-            Claude Code is Anthropic&apos;s official agentic coding tool that
-            lives in your terminal. It understands your entire codebase, can edit
-            files, run commands, search the web, and interact with external
-            tools. Visit the{" "}
-            <a
-              href="https://docs.anthropic.com/en/docs/claude-code/overview"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary underline"
-            >
-              official Claude Code documentation
-            </a>{" "}
-            for more details.
+            {t.rich("DOCS.CLAUDE_CODE.ABOUT_DESC", {
+              link: (chunks) => (
+                <a
+                  href="https://docs.anthropic.com/en/docs/claude-code/overview"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-primary underline"
+                >
+                  {t("DOCS.CLAUDE_CODE.ABOUT_LINK")}
+                </a>
+              ),
+            })}
           </p>
         </Callout>
 
         {/* Demo Section */}
         <section className="mt-12" id="demo">
-          <h2 className="mb-4 text-2xl font-semibold">Demo</h2>
+          <h2 className="mb-4 text-2xl font-semibold">
+            {t("DOCS.CLAUDE_CODE.DEMO_TITLE")}
+          </h2>
           <p className="text-muted-foreground mb-6">
-            Here is what Claude Code looks like in action, powered by{" "}
-            {APP_VALUES.appName}.
+            {t("DOCS.CLAUDE_CODE.DEMO_DESC", APP_VALUES)}
           </p>
 
           <Image
             src="/assets/docs/claude_code/introduce-01.webp"
-            alt="Claude Code introduction screenshot 1"
+            alt="Claude Code screenshot 1"
             width={800}
             height={450}
             className="my-4 rounded-lg border"
@@ -98,7 +107,7 @@ export default async function ClaudeCodePage() {
           />
           <Image
             src="/assets/docs/claude_code/introduce-02.webp"
-            alt="Claude Code introduction screenshot 2"
+            alt="Claude Code screenshot 2"
             width={800}
             height={450}
             className="my-4 rounded-lg border"
@@ -108,9 +117,11 @@ export default async function ClaudeCodePage() {
 
         {/* Features Section */}
         <section className="mt-12" id="features">
-          <h2 className="mb-4 text-2xl font-semibold">Features</h2>
+          <h2 className="mb-4 text-2xl font-semibold">
+            {t("DOCS.CLAUDE_CODE.FEATURES_TITLE")}
+          </h2>
           <p className="text-muted-foreground mb-6">
-            Key features and capabilities of Claude Code.
+            {t("DOCS.CLAUDE_CODE.FEATURES_DESC")}
           </p>
 
           <div className="overflow-x-auto">
@@ -118,106 +129,24 @@ export default async function ClaudeCodePage() {
               <thead>
                 <tr className="border-border border-b">
                   <th className="text-muted-foreground px-4 py-3 text-left font-semibold">
-                    Feature
+                    {t("DOCS.CLAUDE_CODE.FEATURES_COL_FEATURE")}
                   </th>
                   <th className="text-muted-foreground px-4 py-3 text-left font-semibold">
-                    Description
+                    {t("DOCS.CLAUDE_CODE.FEATURES_COL_DESCRIPTION")}
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-border divide-y">
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Agentic Coding
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Claude Code operates as an autonomous agent: it reads your
-                    codebase, edits files, creates new ones, runs shell commands,
-                    and iterates until the task is complete.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Full Codebase Context
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Understands your entire project structure, dependencies, and
-                    conventions. No need to manually select files or provide
-                    context.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Terminal Native
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Runs directly in your terminal with no IDE plugin required.
-                    Works with any editor, any workflow, any language.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Git Integration
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Creates commits, manages branches, resolves merge conflicts,
-                    and creates pull requests. Built to work with your existing
-                    Git workflow.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Tool Use &amp; MCP
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Supports Model Context Protocol (MCP) servers, allowing
-                    integration with databases, APIs, browsers, and other
-                    external tools.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Multi-model Support
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Works with all Claude models (Opus, Sonnet, Haiku) through{" "}
-                    {APP_VALUES.appName}. Switch models on the fly with{" "}
-                    <code className="bg-muted rounded px-1 text-xs">
-                      /model
-                    </code>{" "}
-                    command.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Extended Thinking
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Supports extended thinking mode for complex reasoning tasks.
-                    Claude thinks through problems step by step before
-                    responding.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Image &amp; File Input
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Drag and drop images or paste screenshots directly into the
-                    terminal. Supports reading PDFs, CSVs, and other file
-                    formats.
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 font-medium">
-                    Safe by Default
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    Asks for permission before running potentially destructive
-                    commands. Configurable permission levels for automated
-                    workflows.
-                  </td>
-                </tr>
+                {features.map((f) => (
+                  <tr key={f.titleKey}>
+                    <td className="px-4 py-3 font-medium">
+                      {t(`DOCS.CLAUDE_CODE.${f.titleKey}`)}
+                    </td>
+                    <td className="text-muted-foreground px-4 py-3">
+                      {t(`DOCS.CLAUDE_CODE.${f.descKey}`, APP_VALUES)}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -226,163 +155,85 @@ export default async function ClaudeCodePage() {
         {/* AI Model Configuration Method */}
         <section className="mt-12" id="ai-model-configuration">
           <h2 className="mb-4 text-2xl font-semibold">
-            AI Model Configuration Method
+            {t("DOCS.CLAUDE_CODE.CONFIG_TITLE")}
           </h2>
           <p className="text-muted-foreground mb-6">
-            Follow the guide for your operating system to install Claude Code
-            and configure it with {APP_VALUES.appName}.
+            {t("DOCS.CLAUDE_CODE.CONFIG_DESC", APP_VALUES)}
           </p>
 
-          {/* ============================================ */}
-          {/* WINDOWS GUIDE                                */}
-          {/* ============================================ */}
+          {/* WINDOWS GUIDE */}
           <div className="mt-10" id="windows-graphical-guide">
             <h3 className="mb-4 text-xl font-semibold">
-              Windows Graphical Guide
+              {t("DOCS.CLAUDE_CODE.WIN_TITLE")}
             </h3>
 
-            {/* Step 1: Install Node.js */}
             <h4 className="mt-6 mb-2 text-lg font-medium">
-              Step 1: Install Node.js
+              {t("DOCS.CLAUDE_CODE.WIN_STEP1_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Claude Code requires Node.js 18 or later. Download and install it
-              from{" "}
-              <a
-                href="https://nodejs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline"
-              >
-                nodejs.org
-              </a>
-              . Choose the LTS version for stability.
+              {t.rich("DOCS.CLAUDE_CODE.WIN_STEP1_DESC", {
+                link: (chunks) => (
+                  <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    nodejs.org
+                  </a>
+                ),
+              })}
             </p>
 
-            <Image
-              src="/assets/docs/claude_code/windows-img-01.webp"
-              alt="Windows Node.js download page"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-02.webp"
-              alt="Windows Node.js installer"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-03.webp"
-              alt="Windows Node.js installation progress"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/windows-img-01.webp" alt="Windows Node.js download" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-02.webp" alt="Windows Node.js installer" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-03.webp" alt="Windows Node.js progress" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 2: Install Git Bash */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 2: Install Git Bash
+              {t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Claude Code runs best in a Unix-like shell. Install Git for
-              Windows which includes Git Bash. Download from{" "}
-              <a
-                href="https://git-scm.com/downloads/win"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline"
-              >
-                git-scm.com
-              </a>
-              .
+              {t.rich("DOCS.CLAUDE_CODE.WIN_STEP2_DESC", {
+                link: (chunks) => (
+                  <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    git-scm.com
+                  </a>
+                ),
+              })}
             </p>
 
-            <Image
-              src="/assets/docs/claude_code/windows-img-04.webp"
-              alt="Git for Windows download page"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-05.webp"
-              alt="Git for Windows installer"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/windows-img-04.webp" alt="Git for Windows download" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-05.webp" alt="Git for Windows installer" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 3: Install Claude Code */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 3: Install Claude Code
+              {t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Open Git Bash and install Claude Code globally via npm:
+              {t("DOCS.CLAUDE_CODE.WIN_STEP3_DESC")}
             </p>
+            <CodeBlock language="bash" code="npm install -g @anthropic-ai/claude-code" />
 
-            <CodeBlock
-              language="bash"
-              code="npm install -g @anthropic-ai/claude-code"
-            />
+            <Image src="/assets/docs/claude_code/windows-img-06.webp" alt="npm install Claude Code" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-07.webp" alt="npm install complete" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            <Image
-              src="/assets/docs/claude_code/windows-img-06.webp"
-              alt="Installing Claude Code via npm in Git Bash"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-07.webp"
-              alt="Claude Code npm installation complete"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            {/* Step 4: Set Environment Variables */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 4: Set Environment Variables
+              {t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Configure Claude Code to use {APP_VALUES.appName} as the API
-              provider. You can set environment variables in your system
-              settings, or use the automated setup script.
+              {t("DOCS.CLAUDE_CODE.WIN_STEP4_DESC", APP_VALUES)}
             </p>
 
-            <Callout type="info" title="Automated Setup">
-              <p>
-                Use the setup script to configure everything automatically:
-              </p>
+            <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
+              <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_DESC")}</p>
             </Callout>
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              PowerShell (recommended for Windows):
+              {t("DOCS.CLAUDE_CODE.POWERSHELL_LABEL")}
             </p>
-            <CodeBlock
-              language="powershell"
-              code={`irm ${setupScriptPowershell} | iex`}
-            />
+            <CodeBlock language="powershell" code={`irm ${setupScriptPowershell} | iex`} />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              Git Bash:
+              {t("DOCS.CLAUDE_CODE.GIT_BASH_LABEL")}
             </p>
-            <CodeBlock
-              language="bash"
-              code={`curl -fsSL ${setupScriptBash} | bash`}
-            />
+            <CodeBlock language="bash" code={`curl -fsSL ${setupScriptBash} | bash`} />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              Or set the environment variables manually:
+              {t("DOCS.CLAUDE_CODE.MANUAL_SETUP")}
             </p>
             <CodeBlock
               language="bash"
@@ -391,129 +242,45 @@ export ANTHROPIC_BASE_URL="${apiUrl}"
 export ANTHROPIC_API_KEY="your-api-key-here"`}
             />
 
-            <Image
-              src="/assets/docs/claude_code/windows-img-08.webp"
-              alt="Windows environment variable configuration"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-09.webp"
-              alt="Windows system environment variables dialog"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows_configure.png"
-              alt="Windows Claude Code configuration"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-11.webp"
-              alt="Windows environment variables set"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/windows-img-08.webp" alt="Windows env config" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-09.webp" alt="Windows system env" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows_configure.png" alt="Windows Claude Code config" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-11.webp" alt="Windows env set" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 5: Usage */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 5: Start Using Claude Code
+              {t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Navigate to your project directory and launch Claude Code:
+              {t("DOCS.CLAUDE_CODE.WIN_STEP5_DESC")}
             </p>
+            <CodeBlock language="bash" code={`cd /path/to/your/project\nclaude`} />
 
-            <CodeBlock
-              language="bash"
-              code={`cd /path/to/your/project
-claude`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/windows-img-12.webp"
-              alt="Launching Claude Code in Git Bash"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-13.webp"
-              alt="Claude Code running on Windows"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-14.webp"
-              alt="Claude Code working with a project on Windows"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-15.webp"
-              alt="Claude Code generating code on Windows"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-16.webp"
-              alt="Claude Code completing a task on Windows"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-17.webp"
-              alt="Claude Code output on Windows"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/windows-img-12.webp" alt="Launch Claude Code" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-13.webp" alt="Claude Code running" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-14.webp" alt="Claude Code project" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-15.webp" alt="Claude Code generating" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-16.webp" alt="Claude Code completing" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/windows-img-17.webp" alt="Claude Code output" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
           </div>
 
-          {/* ============================================ */}
-          {/* macOS GUIDE                                  */}
-          {/* ============================================ */}
+          {/* macOS GUIDE */}
           <div className="mt-14" id="macos-graphical-guide">
             <h3 className="mb-4 text-xl font-semibold">
-              macOS Graphical Guide
+              {t("DOCS.CLAUDE_CODE.MAC_TITLE")}
             </h3>
 
-            {/* Step 1: Install Claude Code */}
             <h4 className="mt-6 mb-2 text-lg font-medium">
-              Step 1: Install Claude Code CLI
+              {t("DOCS.CLAUDE_CODE.MAC_STEP1_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Open Terminal and install Claude Code via npm. If you do not have
-              Node.js installed, install it first using{" "}
-              <a
-                href="https://brew.sh"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary underline"
-              >
-                Homebrew
-              </a>
-              :
+              {t.rich("DOCS.CLAUDE_CODE.MAC_STEP1_DESC", {
+                link: (chunks) => (
+                  <a href="https://brew.sh" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                    Homebrew
+                  </a>
+                ),
+              })}
             </p>
-
             <CodeBlock
               language="bash"
               code={`# Install Node.js via Homebrew (if needed)
@@ -523,43 +290,23 @@ brew install node
 npm install -g @anthropic-ai/claude-code`}
             />
 
-            <Image
-              src="/assets/docs/claude_code/macos-img-01.webp"
-              alt="macOS Terminal installing Claude Code"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-02.webp"
-              alt="macOS Claude Code installation complete"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/macos-img-01.webp" alt="macOS install" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos-img-02.webp" alt="macOS install complete" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 2: Set Environment Variables */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 2: Set Environment Variables
+              {t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Configure the API endpoint and key for {APP_VALUES.appName}. Use
-              the automated setup script or set the variables manually.
+              {t("DOCS.CLAUDE_CODE.MAC_STEP2_DESC", APP_VALUES)}
             </p>
 
-            <Callout type="info" title="Automated Setup">
-              <p>Run the setup script for quick configuration:</p>
+            <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
+              <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_RUN")}</p>
             </Callout>
-
-            <CodeBlock
-              language="bash"
-              code={`curl -fsSL ${setupScriptBash} | bash`}
-            />
+            <CodeBlock language="bash" code={`curl -fsSL ${setupScriptBash} | bash`} />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              Or set manually in your shell profile:
+              {t("DOCS.CLAUDE_CODE.MANUAL_SETUP_SHELL")}
             </p>
             <CodeBlock
               language="bash"
@@ -571,87 +318,32 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 source ~/.zshrc`}
             />
 
-            <Image
-              src="/assets/docs/claude_code/macos-img-04.webp"
-              alt="macOS setting environment variables"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-05.webp"
-              alt="macOS environment variables configured"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos_configure.png"
-              alt="macOS Claude Code configuration"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/macos-img-04.webp" alt="macOS env vars" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos-img-05.webp" alt="macOS env configured" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos_configure.png" alt="macOS config" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 3: Usage */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 3: Start Using Claude Code
+              {t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Navigate to your project and start Claude Code:
+              {t("DOCS.CLAUDE_CODE.MAC_STEP3_DESC")}
             </p>
+            <CodeBlock language="bash" code={`cd /path/to/your/project\nclaude`} />
 
-            <CodeBlock
-              language="bash"
-              code={`cd /path/to/your/project
-claude`}
-            />
+            <Image src="/assets/docs/claude_code/macos-img-06.webp" alt="macOS launch" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos-img-07.webp" alt="macOS running" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos-img-08.webp" alt="macOS project" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos-img-09.webp" alt="macOS output" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            <Image
-              src="/assets/docs/claude_code/macos-img-06.webp"
-              alt="Launching Claude Code on macOS"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-07.webp"
-              alt="Claude Code running on macOS"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-08.webp"
-              alt="Claude Code interacting with a project on macOS"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-09.webp"
-              alt="Claude Code generating output on macOS"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            {/* Common Issues */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Common Issues on macOS
+              {t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE")}
             </h4>
 
-            <Callout type="warn" title="Permission Denied">
+            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_TITLE")}>
               <p>
-                If you see <code className="bg-muted rounded px-1 text-xs">EACCES</code>{" "}
-                errors when installing globally, fix npm permissions:
+                {t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_DESC", {
+                  code: "EACCES",
+                })}
               </p>
               <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
                 {`mkdir -p ~/.npm-global
@@ -661,56 +353,31 @@ source ~/.zshrc`}
               </pre>
             </Callout>
 
-            <Callout type="warn" title="Node.js Version">
+            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_TITLE")}>
               <p>
-                Claude Code requires Node.js 18 or later. Check your version
-                with{" "}
-                <code className="bg-muted rounded px-1 text-xs">
-                  node --version
-                </code>
-                . Update via Homebrew:{" "}
-                <code className="bg-muted rounded px-1 text-xs">
-                  brew upgrade node
-                </code>
-                .
+                {t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_DESC", {
+                  checkCmd: "node --version",
+                  updateCmd: "brew upgrade node",
+                })}
               </p>
             </Callout>
 
-            <Image
-              src="/assets/docs/claude_code/macos-img-10.webp"
-              alt="macOS Claude Code troubleshooting"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-11.webp"
-              alt="macOS Claude Code resolved"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/macos-img-10.webp" alt="macOS troubleshoot" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/macos-img-11.webp" alt="macOS resolved" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
           </div>
 
-          {/* ============================================ */}
-          {/* LINUX GUIDE                                  */}
-          {/* ============================================ */}
+          {/* LINUX GUIDE */}
           <div className="mt-14" id="linux-graphical-guide">
             <h3 className="mb-4 text-xl font-semibold">
-              Linux Graphical Guide
+              {t("DOCS.CLAUDE_CODE.LINUX_TITLE")}
             </h3>
 
-            {/* Step 1: Install */}
             <h4 className="mt-6 mb-2 text-lg font-medium">
-              Step 1: Install Claude Code
+              {t("DOCS.CLAUDE_CODE.LINUX_STEP1_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Open your terminal and install Claude Code. Make sure Node.js 18+
-              is installed first.
+              {t("DOCS.CLAUDE_CODE.LINUX_STEP1_DESC")}
             </p>
-
             <CodeBlock
               language="bash"
               code={`# Install Node.js (Ubuntu/Debian)
@@ -725,34 +392,22 @@ nvm install --lts
 npm install -g @anthropic-ai/claude-code`}
             />
 
-            <Image
-              src="/assets/docs/claude_code/linux-img-01.webp"
-              alt="Linux terminal installing Claude Code"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/linux-img-01.webp" alt="Linux install" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 2: Set Environment Variables */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 2: Set Environment Variables
+              {t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Configure the API endpoint and key for {APP_VALUES.appName}.
+              {t("DOCS.CLAUDE_CODE.LINUX_STEP2_DESC", APP_VALUES)}
             </p>
 
-            <Callout type="info" title="Automated Setup">
-              <p>Run the setup script for quick configuration:</p>
+            <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
+              <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_RUN")}</p>
             </Callout>
-
-            <CodeBlock
-              language="bash"
-              code={`curl -fsSL ${setupScriptBash} | bash`}
-            />
+            <CodeBlock language="bash" code={`curl -fsSL ${setupScriptBash} | bash`} />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              Or set manually:
+              {t("DOCS.CLAUDE_CODE.MANUAL_SETUP_SHORT")}
             </p>
             <CodeBlock
               language="bash"
@@ -764,79 +419,31 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 source ~/.bashrc`}
             />
 
-            <Image
-              src="/assets/docs/claude_code/linux-img-03.webp"
-              alt="Linux setting environment variables"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-04.webp"
-              alt="Linux environment variables configured"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/linux-img-03.webp" alt="Linux env vars" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/linux-img-04.webp" alt="Linux env configured" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            {/* Step 3: Usage */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Step 3: Start Using Claude Code
+              {t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
-              Navigate to your project and launch Claude Code:
+              {t("DOCS.CLAUDE_CODE.LINUX_STEP3_DESC")}
             </p>
+            <CodeBlock language="bash" code={`cd /path/to/your/project\nclaude`} />
 
-            <CodeBlock
-              language="bash"
-              code={`cd /path/to/your/project
-claude`}
-            />
+            <Image src="/assets/docs/claude_code/linux-img-05.webp" alt="Linux launch" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/linux-img-06.webp" alt="Linux running" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/linux-img-07.webp" alt="Linux project" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image src="/assets/docs/claude_code/linux-img-08.webp" alt="Linux output" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
 
-            <Image
-              src="/assets/docs/claude_code/linux-img-05.webp"
-              alt="Launching Claude Code on Linux"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-06.webp"
-              alt="Claude Code running on Linux"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-07.webp"
-              alt="Claude Code interacting with a project on Linux"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-08.webp"
-              alt="Claude Code generating output on Linux"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            {/* Common Issues */}
             <h4 className="mt-8 mb-2 text-lg font-medium">
-              Common Issues on Linux
+              {t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE")}
             </h4>
 
-            <Callout type="warn" title="Permission Denied">
+            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_TITLE")}>
               <p>
-                If you see <code className="bg-muted rounded px-1 text-xs">EACCES</code>{" "}
-                errors when installing globally, fix npm permissions:
+                {t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_DESC", {
+                  code: "EACCES",
+                })}
               </p>
               <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
                 {`mkdir -p ~/.npm-global
@@ -846,23 +453,14 @@ source ~/.bashrc`}
               </pre>
             </Callout>
 
-            <Callout type="warn" title="Missing Build Tools">
-              <p>
-                On some Linux distributions you may need build essentials:
-              </p>
+            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_TITLE")}>
+              <p>{t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_DESC")}</p>
               <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
                 sudo apt-get install -y build-essential
               </pre>
             </Callout>
 
-            <Image
-              src="/assets/docs/claude_code/linux-img-09.webp"
-              alt="Linux Claude Code troubleshooting and common issues"
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
+            <Image src="/assets/docs/claude_code/linux-img-09.webp" alt="Linux troubleshoot" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
           </div>
         </section>
 

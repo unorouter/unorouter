@@ -1,17 +1,29 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand";
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
-import { Link } from "@/i18n/navigation";
+import { Link, redirect } from "@/i18n/navigation";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import { serverLocale, setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 import { ReactNode, Suspense } from "react";
 
 export default async function AuthLayout(props: { children: ReactNode }) {
   const t = await getTranslations();
   const queryClient = getQueryClient();
+
+  const locale = await serverLocale();
+  const self = await rpc.api.auth.self.get(await setCookies());
+
+  if (self?.data?.data?.id) {
+    const redirectTo = await getCookie(AUTH_REDIRECT_COOKIE, { cookies });
+    redirect({ href: (redirectTo as string) || "/dashboard", locale });
+  }
 
   await queryClient.prefetchQuery({
     queryKey: queryKeys.status(),

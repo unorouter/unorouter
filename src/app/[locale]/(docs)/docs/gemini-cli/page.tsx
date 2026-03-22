@@ -11,15 +11,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 
-const toc = createTOC([
-  { title: "Quick Start", url: "#quick-start", depth: 2 },
-  { title: "Features", url: "#features", depth: 2 },
-  { title: "Installation", url: "#installation", depth: 2 },
-  { title: "macOS / Linux", url: "#macos-linux", depth: 3 },
-  { title: "Windows", url: "#windows", depth: 3 },
-  { title: "Configuration", url: "#configuration", depth: 2 },
-  { title: "Usage", url: "#usage", depth: 2 },
-]);
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -36,6 +27,16 @@ export async function generateMetadata(props: {
 
 export default async function GeminiCliPage() {
   const t = await getTranslations();
+
+  const toc = createTOC([
+    { title: t("DOCS.GEMINI_CLI.TOC_QUICK_START"), url: "#quick-start", depth: 2 },
+    { title: t("DOCS.GEMINI_CLI.TOC_FEATURES"), url: "#features", depth: 2 },
+    { title: t("DOCS.GEMINI_CLI.TOC_INSTALLATION"), url: "#installation", depth: 2 },
+    { title: t("DOCS.GEMINI_CLI.TOC_MACOS_LINUX"), url: "#macos-linux", depth: 3 },
+    { title: t("DOCS.GEMINI_CLI.TOC_WINDOWS"), url: "#windows", depth: 3 },
+    { title: t("DOCS.GEMINI_CLI.TOC_CONFIGURATION"), url: "#configuration", depth: 2 },
+    { title: t("DOCS.GEMINI_CLI.TOC_USAGE"), url: "#usage", depth: 2 },
+  ], t("DOCS.TOC_TITLE"));
 
   return (
     <TOCLayout toc={toc}>
