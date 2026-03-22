@@ -35,7 +35,7 @@ export default async function CCSwitchPage() {
     { title: t("DOCS.CC_SWITCH.TOC_PROMPTS_MGMT"), url: "#prompts-management", depth: 3 },
     { title: t("DOCS.CC_SWITCH.TOC_MULTI_PLATFORM"), url: "#multi-platform-support", depth: 3 },
     { title: t("DOCS.CC_SWITCH.TOC_INSTALLATION"), url: "#installation", depth: 2 },
-    { title: t("DOCS.CC_SWITCH.TOC_INTEGRATION"), url: "#integration", depth: 2 },
+    { title: t("DOCS.CC_SWITCH.TOC_INTEGRATION", APP_VALUES), url: "#integration", depth: 2 },
   ], t("DOCS.TOC_TITLE"));
 
   return (
@@ -160,7 +160,7 @@ brew install --cask cc-switch`}
         {/* Integration */}
         <section className="mt-12" id="integration">
           <h2 className="mb-4 text-2xl font-semibold">
-            {t("DOCS.CC_SWITCH.INTEGRATION")}
+            {t("DOCS.CC_SWITCH.INTEGRATION", APP_VALUES)}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.CC_SWITCH.INTEGRATION_DESC", APP_VALUES)}

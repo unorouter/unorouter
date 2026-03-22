@@ -5,7 +5,7 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";
 import { getMultiplier, getResetTranslationKey } from "@/lib/api/subscription";
-import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { LuShell, LuZap } from "react-icons/lu";
@@ -75,7 +75,7 @@ export function Pricing() {
                 </span>
               </div>
               <p className="text-muted-foreground mt-1 font-mono text-xs">
-                {t("PRICING.BANNER_SUBTITLE")}
+                {t("PRICING.BANNER_SUBTITLE", APP_VALUES)}
               </p>
             </div>
           </div>

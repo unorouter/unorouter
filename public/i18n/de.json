@@ -207,7 +207,7 @@
     "FEATURE_UPTIME": "99,9% Verfügbarkeits-SLA",
     "FEATURE_OPENAI_COMPAT": "OpenAI kompatibler Endpunkt",
     "BANNER_TITLE": "OpenClaw KI-Assistent auf Telegram",
-    "BANNER_SUBTITLE": "Ein Klick KI-Bereitstellung für deinen Telegram-Bot, betrieben von OpenClaw und UnoRouter.",
+    "BANNER_SUBTITLE": "Ein Klick KI-Bereitstellung für deinen Telegram-Bot, betrieben von OpenClaw und {appName}.",
     "BANNER_BADGE": "Demnächst",
     "COMPARE_BASIC_PRICE": "$20/Monat",
     "COMPARE_PRO_PRICE": "$50/Monat",
@@ -277,8 +277,8 @@
       "INSTALL_WINDOWS_LINUX": "Windows / Linux",
       "INSTALL_DOWNLOAD_DESC": "Laden Sie das Installationsprogramm von GitHub Releases für Ihre Plattform herunter (.msi, .zip, .deb, .AppImage).",
       "INSTALL_WEB_VERSION": "Webversion",
-      "INTEGRATION": "UnoRouter Integration",
-      "INTEGRATION_DESC": "CC Switch unterstützt das Deep-Link-Protokoll ccswitch://, das den Import von Konfigurationen per Knopfdruck von der UnoRouter Token-Verwaltungsseite ermöglicht.",
+      "INTEGRATION": "{appName} Integration",
+      "INTEGRATION_DESC": "CC Switch unterstützt das Deep-Link-Protokoll ccswitch://, das den Import von Konfigurationen per Knopfdruck von der {appName} Token-Verwaltungsseite ermöglicht.",
       "DEEP_LINK_TITLE": "Deep-Link-Integration",
       "DEEP_LINK_DESC": "Wählen Sie Ihre Zielanwendung (Claude/Codex/Gemini), geben Sie einen Konfigurationsnamen ein und wählen Sie bevorzugte Modelle aus, bevor Sie in CC Switch importieren.",
       "CTA_TITLE": "Bereit, Ihr CLI-Setup zu vereinfachen?",
@@ -291,7 +291,7 @@
       "TOC_PROMPTS_MGMT": "Prompt-Verwaltung",
       "TOC_MULTI_PLATFORM": "Plattformübergreifende Unterstützung",
       "TOC_INSTALLATION": "Installation",
-      "TOC_INTEGRATION": "UnoRouter Integration"
+      "TOC_INTEGRATION": "{appName} Integration"
     },
     "CLAUDE_CODE": {
       "META": {

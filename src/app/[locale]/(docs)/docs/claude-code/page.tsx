@@ -75,14 +75,13 @@ export default async function ClaudeCodePage() {
           <p>
             {t.rich("DOCS.CLAUDE_CODE.ABOUT_DESC", {
               link: (chunks) => (
-                <a
+                <Link
                   href="https://docs.anthropic.com/en/docs/claude-code/overview"
                   target="_blank"
-                  rel="noopener noreferrer"
                   className="text-primary underline"
                 >
                   {t("DOCS.CLAUDE_CODE.ABOUT_LINK")}
-                </a>
+                </Link>
               ),
             })}
           </p>
@@ -173,9 +172,9 @@ export default async function ClaudeCodePage() {
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.WIN_STEP1_DESC", {
                 link: (chunks) => (
-                  <a href="https://nodejs.org" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                  <Link href="https://nodejs.org" target="_blank" className="text-primary underline">
                     nodejs.org
-                  </a>
+                  </Link>
                 ),
               })}
             </p>
@@ -190,9 +189,9 @@ export default async function ClaudeCodePage() {
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.WIN_STEP2_DESC", {
                 link: (chunks) => (
-                  <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                  <Link href="https://git-scm.com/downloads/win" target="_blank" className="text-primary underline">
                     git-scm.com
-                  </a>
+                  </Link>
                 ),
               })}
             </p>
@@ -275,9 +274,9 @@ export ANTHROPIC_API_KEY="your-api-key-here"`}
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.MAC_STEP1_DESC", {
                 link: (chunks) => (
-                  <a href="https://brew.sh" target="_blank" rel="noopener noreferrer" className="text-primary underline">
+                  <Link href="https://brew.sh" target="_blank" className="text-primary underline">
                     Homebrew
-                  </a>
+                  </Link>
                 ),
               })}
             </p>
