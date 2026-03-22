@@ -77,7 +77,7 @@ export default async function OpenClawPage() {
             </li>
             <li>
               <a
-                href="https://github.com/openclaw-ai/openclaw"
+                href="https://github.com/openclaw/openclaw"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary underline"
