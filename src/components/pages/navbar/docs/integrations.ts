@@ -22,6 +22,26 @@ type IntegrationDef = {
 
 export const integrations = [
   {
+    href: "/docs/cc-switch",
+    image: "/images/cc-switch-screenshot.png",
+    alt: "CC Switch",
+    titleKey: "DOCS.CC_SWITCH.TITLE",
+    subtitleKey: "DOCS.CC_SWITCH.SUBTITLE",
+    badgeKey: "DOCS.CC_SWITCH.BADGE",
+    color: {
+      accent: "text-violet-500",
+      badge: "bg-violet-600/20 text-violet-500",
+      border: "border-violet-600/20",
+      glow: "bg-violet-600/20",
+      bg: "bg-violet-600/5",
+      ring: "border-violet-600/30 hover:bg-violet-600 hover:border-violet-600",
+      arrow: "text-violet-500 group-hover:text-white",
+      line: "bg-violet-600/40",
+    },
+    quickStart: `brew tap farion1231/ccswitch
+brew install --cask cc-switch`,
+  },
+  {
     href: "/docs/claude-code",
     image: "/images/claude-code-screenshot.png",
     alt: "Claude Code",
