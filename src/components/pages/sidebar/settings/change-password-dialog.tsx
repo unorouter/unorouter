@@ -1,6 +1,6 @@
 "use client";
 
-import { useUpdateSelfMutation } from "@/hooks/settings-hook";
+import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,10 +9,17 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
+import { useUpdateSelfMutation } from "@/hooks/settings-hook";
+import {
+  changePasswordSchema,
+  type ChangePasswordSchema,
+} from "@/lib/validation/settings";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export function ChangePasswordDialog(props: {
@@ -21,24 +28,36 @@ export function ChangePasswordDialog(props: {
 }) {
   const t = useTranslations();
   const updateSelfMutation = useUpdateSelfMutation();
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  function handleSubmit() {
-    if (newPassword !== confirmPassword) {
-      toast.error(t("SETTINGS.SECURITY.PASSWORD_MISMATCH"));
+  const form = useForm({
+    resolver: typeboxResolver(changePasswordSchema),
+    defaultValues: Value.Default(
+      changePasswordSchema,
+      {},
+    ) as ChangePasswordSchema,
+  });
+
+  useEffect(() => {
+    if (props.open) {
+      form.reset(
+        Value.Default(changePasswordSchema, {}) as ChangePasswordSchema,
+      );
+    }
+  }, [props.open, form]);
+
+  function onSubmit(data: ChangePasswordSchema) {
+    if (data.password !== data.confirm_password) {
+      form.setError("confirm_password", {
+        message: t("SETTINGS.SECURITY.PASSWORD_MISMATCH"),
+      });
       return;
     }
     updateSelfMutation.mutate(
-      { original_password: oldPassword, password: newPassword },
+      { original_password: data.original_password, password: data.password },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.SECURITY.PASSWORD_CHANGED"));
           props.onOpenChange(false);
-          setOldPassword("");
-          setNewPassword("");
-          setConfirmPassword("");
         },
         onError: (error) => {
           toast.error(error.message);
@@ -53,51 +72,45 @@ export function ChangePasswordDialog(props: {
         <DialogHeader>
           <DialogTitle>{t("SETTINGS.SECURITY.CHANGE_PASSWORD")}</DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label>{t("SETTINGS.SECURITY.OLD_PASSWORD")}</Label>
-            <Input
-              type="password"
-              value={oldPassword}
-              onChange={(e) => setOldPassword(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>{t("SETTINGS.SECURITY.NEW_PASSWORD")}</Label>
-            <Input
-              type="password"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>{t("SETTINGS.SECURITY.CONFIRM_PASSWORD")}</Label>
-            <Input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => props.onOpenChange(false)}
-          >
-            {t("SETTINGS.CANCEL")}
-          </Button>
-          <Button
-            disabled={
-              !oldPassword ||
-              !newPassword ||
-              !confirmPassword ||
-              updateSelfMutation.isPending
-            }
-            onClick={handleSubmit}
-          >
-            {t("SETTINGS.SECURITY.CHANGE_PASSWORD")}
-          </Button>
-        </DialogFooter>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="space-y-4 py-4">
+              <MyFormInput
+                control={form.control}
+                name="original_password"
+                schema={changePasswordSchema}
+                label={t("SETTINGS.SECURITY.OLD_PASSWORD")}
+                type="password"
+              />
+              <MyFormInput
+                control={form.control}
+                name="password"
+                schema={changePasswordSchema}
+                label={t("SETTINGS.SECURITY.NEW_PASSWORD")}
+                type="password"
+              />
+              <MyFormInput
+                control={form.control}
+                name="confirm_password"
+                schema={changePasswordSchema}
+                label={t("SETTINGS.SECURITY.CONFIRM_PASSWORD")}
+                type="password"
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => props.onOpenChange(false)}
+              >
+                {t("SETTINGS.CANCEL")}
+              </Button>
+              <Button type="submit" disabled={updateSelfMutation.isPending}>
+                {t("SETTINGS.SECURITY.CHANGE_PASSWORD")}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

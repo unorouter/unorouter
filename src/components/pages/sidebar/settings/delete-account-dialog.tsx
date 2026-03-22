@@ -1,7 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useDeleteSelfMutation } from "@/hooks/settings-hook";
+import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -11,11 +10,19 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form } from "@/components/ui/form";
+import { useAuthQuery } from "@/hooks/auth-hook";
+import { useDeleteSelfMutation } from "@/hooks/settings-hook";
+import {
+  deleteAccountSchema,
+  type DeleteAccountSchema,
+} from "@/lib/validation/settings";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 export function DeleteAccountDialog(props: {
@@ -26,12 +33,32 @@ export function DeleteAccountDialog(props: {
   const authQuery = useAuthQuery();
   const deleteSelfMutation = useDeleteSelfMutation();
   const router = useRouter();
-  const [confirmInput, setConfirmInput] = useState("");
 
   const username = authQuery.data?.username || "";
 
-  function handleDelete() {
-    if (confirmInput !== username) return;
+  const form = useForm({
+    resolver: typeboxResolver(deleteAccountSchema),
+    defaultValues: Value.Default(
+      deleteAccountSchema,
+      {},
+    ) as DeleteAccountSchema,
+  });
+
+  useEffect(() => {
+    if (props.open) {
+      form.reset(
+        Value.Default(deleteAccountSchema, {}) as DeleteAccountSchema,
+      );
+    }
+  }, [props.open, form]);
+
+  function onSubmit(data: DeleteAccountSchema) {
+    if (data.username !== username) {
+      form.setError("username", {
+        message: t("FORM.ERROR.REQUIRED"),
+      });
+      return;
+    }
     deleteSelfMutation.mutate(undefined, {
       onSuccess: () => {
         toast.success(t("SETTINGS.SECURITY.ACCOUNT_DELETED"));
@@ -54,28 +81,37 @@ export function DeleteAccountDialog(props: {
             {t("SETTINGS.SECURITY.DELETE_ACCOUNT_DESC")}
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-3 py-4">
-          <Label>
-            {t("SETTINGS.SECURITY.DELETE_ACCOUNT_CONFIRM", { username })}
-          </Label>
-          <Input
-            value={confirmInput}
-            onChange={(e) => setConfirmInput(e.target.value)}
-            placeholder={username}
-          />
-        </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => props.onOpenChange(false)}>
-            {t("SETTINGS.CANCEL")}
-          </Button>
-          <Button
-            variant="destructive"
-            disabled={confirmInput !== username || deleteSelfMutation.isPending}
-            onClick={handleDelete}
-          >
-            {t("SETTINGS.SECURITY.DELETE_ACCOUNT_BUTTON")}
-          </Button>
-        </DialogFooter>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="space-y-3 py-4">
+              <MyFormInput
+                control={form.control}
+                name="username"
+                schema={deleteAccountSchema}
+                label={t("SETTINGS.SECURITY.DELETE_ACCOUNT_CONFIRM", {
+                  username,
+                })}
+                placeholder={username}
+              />
+            </div>
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => props.onOpenChange(false)}
+              >
+                {t("SETTINGS.CANCEL")}
+              </Button>
+              <Button
+                type="submit"
+                variant="destructive"
+                disabled={deleteSelfMutation.isPending}
+              >
+                {t("SETTINGS.SECURITY.DELETE_ACCOUNT_BUTTON")}
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

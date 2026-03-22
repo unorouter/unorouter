@@ -1,10 +1,6 @@
 "use client";
 
-import {
-  useDisable2FAMutation,
-  useEnable2FAMutation,
-  useSetup2FAMutation,
-} from "@/hooks/settings-hook";
+import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -14,13 +10,26 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  useDisable2FAMutation,
+  useEnable2FAMutation,
+  useSetup2FAMutation,
+} from "@/hooks/settings-hook";
+import {
+  twoFACodeSchema,
+  type TwoFACodeSchema,
+} from "@/lib/validation/settings";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
+import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
-import { toast } from "sonner";
+import { useForm } from "react-hook-form";
 import { LuCopy } from "react-icons/lu";
+import { toast } from "sonner";
 
 export function Setup2FADialog(props: {
   open: boolean;
@@ -38,7 +47,11 @@ export function Setup2FADialog(props: {
     qr_code_data: string;
     backup_codes: string[];
   } | null>(null);
-  const [code, setCode] = useState("");
+
+  const form = useForm({
+    resolver: typeboxResolver(twoFACodeSchema),
+    defaultValues: Value.Default(twoFACodeSchema, {}) as TwoFACodeSchema,
+  });
 
   function handleSetup() {
     setup2FAMutation.mutate(undefined, {
@@ -52,8 +65,8 @@ export function Setup2FADialog(props: {
     });
   }
 
-  function handleEnable() {
-    enable2FAMutation.mutate(code, {
+  function onSubmitEnable(data: TwoFACodeSchema) {
+    enable2FAMutation.mutate(data.code, {
       onSuccess: () => {
         toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_ENABLED"));
         props.onOpenChange(false);
@@ -65,8 +78,8 @@ export function Setup2FADialog(props: {
     });
   }
 
-  function handleDisable() {
-    disable2FAMutation.mutate(code, {
+  function onSubmitDisable(data: TwoFACodeSchema) {
+    disable2FAMutation.mutate(data.code, {
       onSuccess: () => {
         toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_DISABLED"));
         props.onOpenChange(false);
@@ -81,7 +94,7 @@ export function Setup2FADialog(props: {
   function resetState() {
     setStep("init");
     setSetupData(null);
-    setCode("");
+    form.reset(Value.Default(twoFACodeSchema, {}) as TwoFACodeSchema);
   }
 
   function copyBackupCodes() {
@@ -107,26 +120,36 @@ export function Setup2FADialog(props: {
               {t("SETTINGS.SECURITY.ENTER_CODE_TO_DISABLE")}
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <Input
-              placeholder={t("SETTINGS.SECURITY.ENTER_TOTP_CODE")}
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              maxLength={6}
-            />
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => props.onOpenChange(false)}>
-              {t("SETTINGS.CANCEL")}
-            </Button>
-            <Button
-              variant="destructive"
-              disabled={code.length < 6 || disable2FAMutation.isPending}
-              onClick={handleDisable}
-            >
-              {t("SETTINGS.SECURITY.DISABLE_2FA")}
-            </Button>
-          </DialogFooter>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmitDisable)}>
+              <div className="py-4">
+                <MyFormInput
+                  control={form.control}
+                  name="code"
+                  schema={twoFACodeSchema}
+                  placeholder={t("SETTINGS.SECURITY.ENTER_TOTP_CODE")}
+                  maxLength={6}
+                  className="text-center text-lg tracking-widest"
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => props.onOpenChange(false)}
+                >
+                  {t("SETTINGS.CANCEL")}
+                </Button>
+                <Button
+                  type="submit"
+                  variant="destructive"
+                  disabled={disable2FAMutation.isPending}
+                >
+                  {t("SETTINGS.SECURITY.DISABLE_2FA")}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
         </DialogContent>
       </Dialog>
     );
@@ -168,10 +191,10 @@ export function Setup2FADialog(props: {
             <div className="space-y-2">
               <Label>{t("SETTINGS.SECURITY.SCAN_QR_CODE")}</Label>
               <div className="flex justify-center rounded-md border bg-white p-4">
-                <img
-                  src={`data:image/png;base64,${setupData.qr_code_data}`}
-                  alt="2FA QR Code"
-                  className="h-48 w-48"
+                <QRCodeSVG
+                  value={setupData.qr_code_data}
+                  size={192}
+                  level="M"
                 />
               </div>
             </div>
@@ -226,27 +249,36 @@ export function Setup2FADialog(props: {
         )}
 
         {step === "verify" && (
-          <div className="space-y-4">
-            <Label>{t("SETTINGS.SECURITY.ENTER_TOTP_CODE")}</Label>
-            <Input
-              placeholder="000000"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              maxLength={6}
-              className="text-center text-lg tracking-widest"
-            />
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setStep("qr")}>
-                {t("SETTINGS.BACK")}
-              </Button>
-              <Button
-                disabled={code.length < 6 || enable2FAMutation.isPending}
-                onClick={handleEnable}
-              >
-                {t("SETTINGS.SECURITY.VERIFY_AND_ENABLE")}
-              </Button>
-            </DialogFooter>
-          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmitEnable)}>
+              <div className="space-y-4">
+                <MyFormInput
+                  control={form.control}
+                  name="code"
+                  schema={twoFACodeSchema}
+                  label={t("SETTINGS.SECURITY.ENTER_TOTP_CODE")}
+                  placeholder="000000"
+                  maxLength={6}
+                  className="text-center text-lg tracking-widest"
+                />
+                <DialogFooter>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setStep("qr")}
+                  >
+                    {t("SETTINGS.BACK")}
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={enable2FAMutation.isPending}
+                  >
+                    {t("SETTINGS.SECURITY.VERIFY_AND_ENABLE")}
+                  </Button>
+                </DialogFooter>
+              </div>
+            </form>
+          </Form>
         )}
       </DialogContent>
     </Dialog>

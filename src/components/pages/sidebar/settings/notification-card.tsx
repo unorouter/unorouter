@@ -1,11 +1,9 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useUpdateSettingMutation } from "@/hooks/settings-hook";
+import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -13,10 +11,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { useAuthQuery } from "@/hooks/auth-hook";
+import { useUpdateSettingMutation } from "@/hooks/settings-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
+import {
+  notificationSettingSchema,
+  type NotificationSettingSchema,
+} from "@/lib/validation/settings";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
+import { useTranslations } from "next-intl";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function parseUserSetting(settingStr: string) {
   try {
@@ -32,61 +39,50 @@ export function NotificationCard() {
   const updateSettingMutation = useUpdateSettingMutation();
   const user = authQuery.data;
 
-  const parsed = parseUserSetting(user?.setting || "");
+  const form = useForm({
+    resolver: typeboxResolver(notificationSettingSchema),
+    defaultValues: Value.Default(
+      notificationSettingSchema,
+      {},
+    ) as NotificationSettingSchema,
+  });
 
-  const [notifyType, setNotifyType] = useState(parsed.notify_type || "email");
-  const [threshold, setThreshold] = useState(
-    parsed.quota_warning_threshold
-      ? String(quotaToDollars(parsed.quota_warning_threshold))
-      : "1",
-  );
-  const [notificationEmail, setNotificationEmail] = useState(
-    parsed.notification_email || "",
-  );
-  const [webhookUrl, setWebhookUrl] = useState(parsed.webhook_url || "");
-  const [webhookSecret, setWebhookSecret] = useState(
-    parsed.webhook_secret || "",
-  );
-  const [barkUrl, setBarkUrl] = useState(parsed.bark_url || "");
-  const [gotifyUrl, setGotifyUrl] = useState(parsed.gotify_url || "");
-  const [gotifyToken, setGotifyToken] = useState(parsed.gotify_token || "");
-  const [gotifyPriority, setGotifyPriority] = useState(
-    String(parsed.gotify_priority ?? 5),
-  );
+  const notifyType = form.watch("notify_type");
 
-  // Update state when user data loads
+  // Populate form when user data loads
   useEffect(() => {
     if (!user?.setting) return;
     const s = parseUserSetting(user.setting);
-    setNotifyType(s.notify_type || "email");
-    setThreshold(
-      s.quota_warning_threshold
-        ? String(quotaToDollars(s.quota_warning_threshold))
-        : "1",
-    );
-    setNotificationEmail(s.notification_email || "");
-    setWebhookUrl(s.webhook_url || "");
-    setWebhookSecret(s.webhook_secret || "");
-    setBarkUrl(s.bark_url || "");
-    setGotifyUrl(s.gotify_url || "");
-    setGotifyToken(s.gotify_token || "");
-    setGotifyPriority(String(s.gotify_priority ?? 5));
-  }, [user?.setting]);
+    form.reset({
+      notify_type: s.notify_type || "email",
+      quota_threshold_dollars: s.quota_warning_threshold
+        ? quotaToDollars(s.quota_warning_threshold)
+        : 1,
+      notification_email: s.notification_email || "",
+      webhook_url: s.webhook_url || "",
+      webhook_secret: s.webhook_secret || "",
+      bark_url: s.bark_url || "",
+      gotify_url: s.gotify_url || "",
+      gotify_token: s.gotify_token || "",
+      gotify_priority: s.gotify_priority ?? 5,
+    });
+  }, [user?.setting, form]);
 
-  function handleSave() {
+  function onSubmit(data: NotificationSettingSchema) {
+    const parsed = parseUserSetting(user?.setting || "");
     updateSettingMutation.mutate(
       {
-        notify_type: notifyType,
-        quota_warning_threshold: dollarsToQuota(Number(threshold) || 1),
+        notify_type: data.notify_type,
+        quota_warning_threshold: dollarsToQuota(data.quota_threshold_dollars || 1),
         accept_unset_model_ratio_model: parsed.accept_unset_model_ratio_model ?? false,
         record_ip_log: parsed.record_ip_log ?? false,
-        notification_email: notifyType === "email" ? notificationEmail : undefined,
-        webhook_url: notifyType === "webhook" ? webhookUrl : undefined,
-        webhook_secret: notifyType === "webhook" ? webhookSecret : undefined,
-        bark_url: notifyType === "bark" ? barkUrl : undefined,
-        gotify_url: notifyType === "gotify" ? gotifyUrl : undefined,
-        gotify_token: notifyType === "gotify" ? gotifyToken : undefined,
-        gotify_priority: notifyType === "gotify" ? Number(gotifyPriority) : undefined,
+        notification_email: data.notify_type === "email" ? data.notification_email : undefined,
+        webhook_url: data.notify_type === "webhook" ? data.webhook_url : undefined,
+        webhook_secret: data.notify_type === "webhook" ? data.webhook_secret : undefined,
+        bark_url: data.notify_type === "bark" ? data.bark_url : undefined,
+        gotify_url: data.notify_type === "gotify" ? data.gotify_url : undefined,
+        gotify_token: data.notify_type === "gotify" ? data.gotify_token : undefined,
+        gotify_priority: data.notify_type === "gotify" ? data.gotify_priority : undefined,
       },
       {
         onSuccess: () => {
@@ -104,139 +100,144 @@ export function NotificationCard() {
       <CardHeader>
         <CardTitle>{t("SETTINGS.NOTIFICATIONS.TITLE")}</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Notification Method */}
-        <div className="space-y-2">
-          <Label>{t("SETTINGS.NOTIFICATIONS.METHOD")}</Label>
-          <Select value={notifyType} onValueChange={setNotifyType}>
-            <SelectTrigger className="w-full sm:w-64">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="email">
-                {t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL")}
-              </SelectItem>
-              <SelectItem value="webhook">
-                {t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK")}
-              </SelectItem>
-              <SelectItem value="bark">
-                {t("SETTINGS.NOTIFICATIONS.METHOD_BARK")}
-              </SelectItem>
-              <SelectItem value="gotify">
-                {t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY")}
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Quota Threshold */}
-        <div className="space-y-2">
-          <Label>{t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD")}</Label>
-          <p className="text-muted-foreground text-xs">
-            {t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD_DESC")}
-          </p>
-          <div className="flex items-center gap-2">
-            <span className="text-sm">$</span>
-            <Input
-              type="number"
-              className="w-32"
-              value={threshold}
-              onChange={(e) => setThreshold(e.target.value)}
-              min="0"
-              step="0.1"
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* Notification Method */}
+            <FormField
+              control={form.control}
+              name="notify_type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("SETTINGS.NOTIFICATIONS.METHOD")}</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full sm:w-64">
+                        <SelectValue>
+                          {
+                            {
+                              email: t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL"),
+                              webhook: t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK"),
+                              bark: t("SETTINGS.NOTIFICATIONS.METHOD_BARK"),
+                              gotify: t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY"),
+                            }[field.value] || field.value
+                          }
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="email">
+                          {t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL")}
+                        </SelectItem>
+                        <SelectItem value="webhook">
+                          {t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK")}
+                        </SelectItem>
+                        <SelectItem value="bark">
+                          {t("SETTINGS.NOTIFICATIONS.METHOD_BARK")}
+                        </SelectItem>
+                        <SelectItem value="gotify">
+                          {t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY")}
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
 
-        {/* Dynamic Fields */}
-        {notifyType === "email" && (
-          <div className="space-y-2">
-            <Label>{t("SETTINGS.NOTIFICATIONS.EMAIL_ADDRESS")}</Label>
-            <Input
-              type="email"
-              placeholder={t("SETTINGS.NOTIFICATIONS.EMAIL_PLACEHOLDER")}
-              value={notificationEmail}
-              onChange={(e) => setNotificationEmail(e.target.value)}
-              className="sm:w-96"
-            />
-          </div>
-        )}
-
-        {notifyType === "webhook" && (
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>{t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL")}</Label>
-              <Input
-                placeholder={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL_PLACEHOLDER")}
-                value={webhookUrl}
-                onChange={(e) => setWebhookUrl(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>{t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET")}</Label>
-              <Input
-                placeholder={t(
-                  "SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET_PLACEHOLDER",
-                )}
-                value={webhookSecret}
-                onChange={(e) => setWebhookSecret(e.target.value)}
-              />
-            </div>
-          </div>
-        )}
-
-        {notifyType === "bark" && (
-          <div className="space-y-2">
-            <Label>{t("SETTINGS.NOTIFICATIONS.BARK_URL")}</Label>
-            <Input
-              placeholder={t("SETTINGS.NOTIFICATIONS.BARK_URL_PLACEHOLDER")}
-              value={barkUrl}
-              onChange={(e) => setBarkUrl(e.target.value)}
-            />
-          </div>
-        )}
-
-        {notifyType === "gotify" && (
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>{t("SETTINGS.NOTIFICATIONS.GOTIFY_URL")}</Label>
-              <Input
-                placeholder={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL_PLACEHOLDER")}
-                value={gotifyUrl}
-                onChange={(e) => setGotifyUrl(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>{t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN")}</Label>
-              <Input
-                placeholder={t(
-                  "SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN_PLACEHOLDER",
-                )}
-                value={gotifyToken}
-                onChange={(e) => setGotifyToken(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>{t("SETTINGS.NOTIFICATIONS.GOTIFY_PRIORITY")}</Label>
-              <Input
+            {/* Quota Threshold */}
+            <div className="space-y-1">
+              <MyFormInput
+                control={form.control}
+                name="quota_threshold_dollars"
+                schema={notificationSettingSchema}
+                label={t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD")}
                 type="number"
-                className="w-24"
-                value={gotifyPriority}
-                onChange={(e) => setGotifyPriority(e.target.value)}
+                step="0.1"
                 min="0"
-                max="10"
+                symbol="$"
+                className="w-32"
               />
+              <p className="text-muted-foreground text-xs">
+                {t("SETTINGS.NOTIFICATIONS.QUOTA_THRESHOLD_DESC")}
+              </p>
             </div>
-          </div>
-        )}
 
-        {/* Save */}
-        <Button
-          disabled={updateSettingMutation.isPending}
-          onClick={handleSave}
-        >
-          {t("SETTINGS.NOTIFICATIONS.SAVE_SETTINGS")}
-        </Button>
+            {/* Dynamic Fields */}
+            {notifyType === "email" && (
+              <MyFormInput
+                control={form.control}
+                name="notification_email"
+                schema={notificationSettingSchema}
+                label={t("SETTINGS.NOTIFICATIONS.EMAIL_ADDRESS")}
+                type="email"
+                placeholder={t("SETTINGS.NOTIFICATIONS.EMAIL_PLACEHOLDER")}
+                className="sm:w-96"
+              />
+            )}
+
+            {notifyType === "webhook" && (
+              <div className="space-y-4">
+                <MyFormInput
+                  control={form.control}
+                  name="webhook_url"
+                  schema={notificationSettingSchema}
+                  label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL")}
+                  placeholder={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL_PLACEHOLDER")}
+                />
+                <MyFormInput
+                  control={form.control}
+                  name="webhook_secret"
+                  schema={notificationSettingSchema}
+                  label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET")}
+                  placeholder={t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET_PLACEHOLDER")}
+                />
+              </div>
+            )}
+
+            {notifyType === "bark" && (
+              <MyFormInput
+                control={form.control}
+                name="bark_url"
+                schema={notificationSettingSchema}
+                label={t("SETTINGS.NOTIFICATIONS.BARK_URL")}
+                placeholder={t("SETTINGS.NOTIFICATIONS.BARK_URL_PLACEHOLDER")}
+              />
+            )}
+
+            {notifyType === "gotify" && (
+              <div className="space-y-4">
+                <MyFormInput
+                  control={form.control}
+                  name="gotify_url"
+                  schema={notificationSettingSchema}
+                  label={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL")}
+                  placeholder={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL_PLACEHOLDER")}
+                />
+                <MyFormInput
+                  control={form.control}
+                  name="gotify_token"
+                  schema={notificationSettingSchema}
+                  label={t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN")}
+                  placeholder={t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN_PLACEHOLDER")}
+                />
+                <MyFormInput
+                  control={form.control}
+                  name="gotify_priority"
+                  schema={notificationSettingSchema}
+                  label={t("SETTINGS.NOTIFICATIONS.GOTIFY_PRIORITY")}
+                  type="number"
+                  min="0"
+                  max="10"
+                  className="w-24"
+                />
+              </div>
+            )}
+
+            <Button type="submit" disabled={updateSettingMutation.isPending}>
+              {t("SETTINGS.NOTIFICATIONS.SAVE_SETTINGS")}
+            </Button>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );

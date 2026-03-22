@@ -1,20 +1,28 @@
 "use client";
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useSendSettingsVerificationMutation,
   useUpdateSelfMutation,
 } from "@/hooks/settings-hook";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import {
+  emailBindSchema,
+  type EmailBindSchema,
+} from "@/lib/validation/settings";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useState, useEffect } from "react";
-import { toast } from "sonner";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { LuGithub, LuMail } from "react-icons/lu";
 import { SiDiscord } from "react-icons/si";
+import { toast } from "sonner";
 
 export function AccountCard() {
   const t = useTranslations();
@@ -23,10 +31,13 @@ export function AccountCard() {
   const updateSelfMutation = useUpdateSelfMutation();
   const sendVerificationMutation = useSendSettingsVerificationMutation();
 
-  const [emailInput, setEmailInput] = useState("");
-  const [codeInput, setCodeInput] = useState("");
   const [countdown, setCountdown] = useState(0);
   const [showEmailForm, setShowEmailForm] = useState(false);
+
+  const form = useForm({
+    resolver: typeboxResolver(emailBindSchema),
+    defaultValues: Value.Default(emailBindSchema, {}) as EmailBindSchema,
+  });
 
   useEffect(() => {
     if (countdown <= 0) return;
@@ -37,11 +48,12 @@ export function AccountCard() {
   if (!user) return null;
 
   const emailBound = !!user.email;
+  const emailValue = form.watch("email");
 
   function handleSendCode() {
-    if (!emailInput) return;
+    if (!emailValue) return;
     sendVerificationMutation.mutate(
-      { email: emailInput },
+      { email: emailValue },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.ACCOUNT.CODE_SENT", { seconds: 60 }));
@@ -54,16 +66,16 @@ export function AccountCard() {
     );
   }
 
-  function handleBindEmail() {
-    if (!emailInput || !codeInput) return;
+  function onSubmitEmail(data: EmailBindSchema) {
     updateSelfMutation.mutate(
-      { email: emailInput, verification_code: codeInput },
+      { email: data.email, verification_code: data.verification_code },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.ACCOUNT.EMAIL_BOUND"));
           setShowEmailForm(false);
-          setEmailInput("");
-          setCodeInput("");
+          form.reset(
+            Value.Default(emailBindSchema, {}) as EmailBindSchema,
+          );
         },
         onError: (error) => {
           toast.error(error.message);
@@ -84,20 +96,24 @@ export function AccountCard() {
         <div className="space-y-3">
           <div className="flex items-center gap-2">
             <LuMail className="text-muted-foreground h-4 w-4" />
-            <span className="font-medium">{t("SETTINGS.ACCOUNT.EMAIL_BINDING")}</span>
+            <span className="font-medium">
+              {t("SETTINGS.ACCOUNT.EMAIL_BINDING")}
+            </span>
           </div>
 
           {!showEmailForm ? (
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground text-sm">
-                {emailBound ? user.email : t("SETTINGS.ACCOUNT.EMAIL_NOT_BOUND")}
+                {emailBound
+                  ? user.email
+                  : t("SETTINGS.ACCOUNT.EMAIL_NOT_BOUND")}
               </span>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => {
                   setShowEmailForm(true);
-                  if (emailBound) setEmailInput(user.email);
+                  if (emailBound) form.setValue("email", user.email);
                 }}
               >
                 {emailBound
@@ -106,53 +122,74 @@ export function AccountCard() {
               </Button>
             </div>
           ) : (
-            <div className="space-y-3">
-              <div className="flex gap-2">
-                <Input
-                  type="email"
-                  placeholder={t("SETTINGS.ACCOUNT.EMAIL_PLACEHOLDER")}
-                  value={emailInput}
-                  onChange={(e) => setEmailInput(e.target.value)}
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="shrink-0"
-                  disabled={!emailInput || countdown > 0 || sendVerificationMutation.isPending}
-                  onClick={handleSendCode}
-                >
-                  {countdown > 0
-                    ? `${countdown}s`
-                    : t("SETTINGS.ACCOUNT.SEND_CODE")}
-                </Button>
-              </div>
-              <div className="flex gap-2">
-                <Input
-                  placeholder={t("SETTINGS.ACCOUNT.CODE_PLACEHOLDER")}
-                  value={codeInput}
-                  onChange={(e) => setCodeInput(e.target.value)}
-                />
-                <Button
-                  size="sm"
-                  className="shrink-0"
-                  disabled={!emailInput || !codeInput || updateSelfMutation.isPending}
-                  onClick={handleBindEmail}
-                >
-                  {t("SETTINGS.ACCOUNT.BIND")}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setShowEmailForm(false);
-                    setEmailInput("");
-                    setCodeInput("");
-                  }}
-                >
-                  {t("SETTINGS.CANCEL")}
-                </Button>
-              </div>
-            </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmitEmail)}>
+                <div className="space-y-3">
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <MyFormInput
+                        control={form.control}
+                        name="email"
+                        schema={emailBindSchema}
+                        type="email"
+                        placeholder={t("SETTINGS.ACCOUNT.EMAIL_PLACEHOLDER")}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="mt-0.5 shrink-0"
+                      disabled={
+                        !emailValue ||
+                        countdown > 0 ||
+                        sendVerificationMutation.isPending
+                      }
+                      onClick={handleSendCode}
+                    >
+                      {countdown > 0
+                        ? `${countdown}s`
+                        : t("SETTINGS.ACCOUNT.SEND_CODE")}
+                    </Button>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <MyFormInput
+                        control={form.control}
+                        name="verification_code"
+                        schema={emailBindSchema}
+                        placeholder={t("SETTINGS.ACCOUNT.CODE_PLACEHOLDER")}
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      size="sm"
+                      className="mt-0.5 shrink-0"
+                      disabled={updateSelfMutation.isPending}
+                    >
+                      {t("SETTINGS.ACCOUNT.BIND")}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="mt-0.5"
+                      onClick={() => {
+                        setShowEmailForm(false);
+                        form.reset(
+                          Value.Default(
+                            emailBindSchema,
+                            {},
+                          ) as EmailBindSchema,
+                        );
+                      }}
+                    >
+                      {t("SETTINGS.CANCEL")}
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </Form>
           )}
         </div>
 
