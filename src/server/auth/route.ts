@@ -1,9 +1,14 @@
 import { AUTH_COOKIES, handleAuthResponse } from "@/lib/api/auth";
-import { AUTH_REDIRECT_COOKIE, USER_ID_COOKIE } from "@/lib/config/constants";
+import {
+  ACCESS_TOKEN_COOKIE,
+  AUTH_REDIRECT_COOKIE,
+  COOKIE_MAX_AGE,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import {
   loginBody,
+  oauthCallbackQuery,
   oauthStateQuery,
-  oauthTokenQuery,
   registerBody,
   verificationQuery,
   verify2FABody,
@@ -18,7 +23,6 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
-import { serialize } from "cookie";
 import { Elysia, redirect } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -99,49 +103,36 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
   .get(
     "/oauth/callback",
-    async ({ query, cookie }) => {
+    async ({ query, cookie, set }) => {
       const token = query.access_token;
-      if (!token) return redirect("/login");
+      const userId = query.user_id;
+      if (!token || !userId) return redirect("/login");
 
-      const res = await getSelf({
-        headers: { Authorization: token },
+      // Set auth cookies (access_token for API auth, user-id for middleware)
+      cookie[ACCESS_TOKEN_COOKIE].set({
+        value: token,
+        path: "/",
+        maxAge: COOKIE_MAX_AGE,
+        sameSite: "lax",
+        httpOnly: true,
       });
-      const userData = res.data?.data;
-      if (!userData?.id) return redirect("/login");
+      cookie[USER_ID_COOKIE].set({
+        value: userId,
+        path: "/",
+        maxAge: COOKIE_MAX_AGE,
+        sameSite: "lax",
+      });
 
       // Read and clear the auth redirect cookie
       const redirectTo = String(cookie[AUTH_REDIRECT_COOKIE]?.value || "");
-      const headers = new Headers();
-      headers.append(
-        "set-cookie",
-        serialize(USER_ID_COOKIE, String(userData.id), {
-          path: "/",
-          maxAge: 2592000,
-          sameSite: "lax",
-        }),
-      );
-      headers.append(
-        "set-cookie",
-        serialize("access_token", token, {
-          path: "/",
-          maxAge: 2592000,
-          sameSite: "lax",
-          httpOnly: true,
-        }),
-      );
       if (redirectTo) {
-        headers.append(
-          "set-cookie",
-          serialize(AUTH_REDIRECT_COOKIE, "", {
-            path: "/",
-            maxAge: 0,
-          }),
-        );
+        cookie[AUTH_REDIRECT_COOKIE].remove();
       }
-      headers.set("location", redirectTo || "/dashboard");
-      return new Response(null, { status: 302, headers });
+
+      set.status = 302;
+      set.headers.location = redirectTo || "/dashboard";
     },
-    { query: oauthTokenQuery },
+    { query: oauthCallbackQuery },
   )
 
   .get(

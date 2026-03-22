@@ -1,10 +1,9 @@
+import type { StoreId } from "@/lib/types/enums";
 import { isServer } from "@tanstack/react-query";
 import type { TableState } from "@tanstack/react-table";
 import { deleteCookie, getCookie, setCookie } from "cookies-next/client";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import type { StoreId } from "@/lib/types/enums";
-
-const MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+import { COOKIE_MAX_AGE } from "./constants";
 
 export const jotaiCookieStorage = {
   getItem(key: string, initialValue: unknown) {
@@ -17,7 +16,7 @@ export const jotaiCookieStorage = {
     }
   },
   setItem(key: string, value: unknown) {
-    setCookie(key, JSON.stringify(value), { maxAge: MAX_AGE });
+    setCookie(key, JSON.stringify(value), { maxAge: COOKIE_MAX_AGE });
   },
   removeItem(key: string) {
     deleteCookie(key);

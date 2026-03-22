@@ -1,6 +1,10 @@
 import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
-import { SESSION_COOKIE, USER_ID_COOKIE } from "../config/constants";
+import {
+  COOKIE_MAX_AGE,
+  SESSION_COOKIE,
+  USER_ID_COOKIE,
+} from "../config/constants";
 
 export const AUTH_COOKIES = [SESSION_COOKIE, USER_ID_COOKIE] as const;
 
@@ -24,7 +28,7 @@ export function handleAuthResponse(
     cookies.push(
       serialize(USER_ID_COOKIE, String(id), {
         path: "/",
-        maxAge: 2592000,
+        maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",
       }),
     );

@@ -23,7 +23,7 @@ function buildOAuthUrl(
 ): string | null {
   const serverAddress =
     status.server_address || process.env.NEXT_PUBLIC_API_URL;
-  const redirectUri = `${serverAddress}/oauth/${provider}`;
+  const redirectUri = `${serverAddress}/api/oauth/${provider}`;
 
   switch (provider) {
     case "github":
@@ -109,7 +109,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       if (customAuthEndpoint) {
         const serverAddress =
           props.status.server_address || process.env.NEXT_PUBLIC_API_URL;
-        const redirectUri = `${serverAddress}/oauth/${provider}`;
+        const redirectUri = `${serverAddress}/api/oauth/${provider}`;
         url = `${customAuthEndpoint}?client_id=${customClientId}&state=${state}&response_type=code&scope=${encodeURIComponent(customScopes || "openid profile email")}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       } else {
         url = buildOAuthUrl(provider, props.status, state);

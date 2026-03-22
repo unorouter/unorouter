@@ -5,12 +5,15 @@ import type { FunctionComponent, SVGAttributes } from "react";
 
 export const NEW_API_USER = "New-Api-User";
 export const SESSION_COOKIE = "session" as const;
+export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AFF_CODE_KEY = "aff" as const;
 
 export const SERVER_URL_KEY = "x-url" as const;
+
+export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
 

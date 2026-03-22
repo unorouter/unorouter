@@ -1,4 +1,8 @@
-import { NEW_API_USER, USER_ID_COOKIE } from "@/lib/config/constants";
+import {
+  ACCESS_TOKEN_COOKIE,
+  NEW_API_USER,
+  USER_ID_COOKIE,
+} from "@/lib/config/constants";
 import { parseCookie } from "cookie";
 
 export const ADMIN_HEADERS = {
@@ -29,7 +33,7 @@ export function deriveUpstream({ request }: { request: Request }) {
     const userId = parsed[USER_ID_COOKIE];
     if (userId) headers[NEW_API_USER] = userId;
     // Forward access_token cookie as Authorization header for OAuth token flow
-    const accessToken = parsed["access_token"];
+    const accessToken = parsed[ACCESS_TOKEN_COOKIE];
     if (accessToken) headers.Authorization = accessToken;
   }
   return { upstream: { headers } };
