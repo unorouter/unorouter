@@ -1,6 +1,7 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand";
+import type { NavigationItem } from "@/components/layout/nav/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -15,9 +16,18 @@ import * as React from "react";
 import { SidebarNavigation } from "./sidebar-navigation";
 import { SidebarUser } from "./sidebar-user";
 
-export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+export type SidebarNavConfig = "default" | "docs";
+
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  navConfig?: SidebarNavConfig;
+}
+
+export function AppSidebar(props: AppSidebarProps) {
+  const { navConfig = "default", ...sidebarProps } = props;
+  const isDocs = navConfig === "docs";
+
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible={isDocs ? "offcanvas" : "icon"} {...sidebarProps}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -38,11 +48,13 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarNavigation />
+        <SidebarNavigation navConfig={navConfig} />
       </SidebarContent>
-      <SidebarFooter>
-        <SidebarUser />
-      </SidebarFooter>
+      {!isDocs && (
+        <SidebarFooter>
+          <SidebarUser />
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }

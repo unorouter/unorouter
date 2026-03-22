@@ -1,7 +1,6 @@
-import { DocsSidebar } from "@/components/layout/docs/docs-sidebar";
-import { DocsHeader } from "@/components/layout/docs/docs-header";
-import { DocsSidebarProvider } from "@/components/layout/docs/docs-sidebar-provider";
-import { SidebarInset } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
+import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
@@ -9,7 +8,7 @@ interface DocsLayoutProps {
 
 export default function DocsLayout(props: DocsLayoutProps) {
   return (
-    <DocsSidebarProvider
+    <SidebarProvider
       style={
         {
           "--sidebar-width": "calc(var(--spacing) * 64)",
@@ -17,11 +16,11 @@ export default function DocsLayout(props: DocsLayoutProps) {
         } as React.CSSProperties
       }
     >
-      <DocsSidebar variant="sidebar" />
+      <AppSidebar variant="sidebar" navConfig="docs" />
       <SidebarInset>
-        <DocsHeader />
+        <SidebarHeader />
         <div className="flex flex-1">{props.children}</div>
       </SidebarInset>
-    </DocsSidebarProvider>
+    </SidebarProvider>
   );
 }
