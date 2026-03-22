@@ -16,7 +16,7 @@ import { useStatusQuery } from "./status-hook";
 
 export function useDashboardData() {
   const [store, setStore] = useAtom(dashboardStoreAtom);
-  const { startTs, endTs } = store ?? defaultTimestamps();
+  const { startTs, endTs } = store;
   const periodMinutes = (endTs - startTs) / 60;
 
   const statusQuery = useStatusQuery();
@@ -35,10 +35,9 @@ export function useDashboardData() {
       endTs: dayjs(range.to).unix(),
     });
 
-  const resetDateRange = () => setStore(null);
+  const resetDateRange = () => setStore(defaultTimestamps());
 
-  const isDefaultRange =
-    !store || endTs - startTs === DEFAULT_RANGE_HOURS * 3600;
+  const isDefaultRange = endTs - startTs === DEFAULT_RANGE_HOURS * 3600;
 
   const refetchAll = () => {
     statusQuery.refetch();

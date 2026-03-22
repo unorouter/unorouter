@@ -1,6 +1,4 @@
-import { jotaiCookieStorage } from "@/lib/config/table-storage";
-import { StoreId } from "@/lib/types/enums";
-import { atomWithStorage } from "jotai/utils";
+import { atom } from "jotai";
 import dayjs from "dayjs";
 
 export const DEFAULT_RANGE_HOURS = 24;
@@ -18,8 +16,4 @@ export function defaultTimestamps() {
   return { startTs, endTs };
 }
 
-export const dashboardStoreAtom = atomWithStorage<DashboardStore | null>(
-  StoreId.DASHBOARD_STORE,
-  null,
-  jotaiCookieStorage,
-);
+export const dashboardStoreAtom = atom<DashboardStore>(defaultTimestamps());

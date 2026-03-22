@@ -1,30 +1,17 @@
 import { Dashboard } from "@/components/pages/sidebar/dashboard/dashboard";
-import { DashboardStoreProvider } from "@/components/provider/dashboard-store-provider";
-import { loadDataFromCookie } from "@/lib/config/table-storage";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { StoreId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
-import {
-  defaultTimestamps,
-  type DashboardStore,
-} from "@/store/dashboard-store";
+import { defaultTimestamps } from "@/store/dashboard-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { cookies } from "next/headers";
 
 export default async function DashboardPage() {
   const queryClient = getQueryClient();
-  const cookie = await cookies();
   const cookieHeaders = await setCookies();
 
-  const dashboardStore = loadDataFromCookie<DashboardStore>(
-    StoreId.DASHBOARD_STORE,
-    cookie,
-  );
-
-  const { startTs, endTs } = dashboardStore ?? defaultTimestamps();
+  const { startTs, endTs } = defaultTimestamps();
 
   await Promise.all([
     queryClient.prefetchQuery({
@@ -54,9 +41,7 @@ export default async function DashboardPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <DashboardStoreProvider data={dashboardStore}>
-        <Dashboard />
-      </DashboardStoreProvider>
+      <Dashboard />
     </HydrationBoundary>
   );
 }
