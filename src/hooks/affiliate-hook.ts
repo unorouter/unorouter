@@ -1,10 +1,11 @@
 "use client";
 
-import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { PaginationParams } from "@/lib/types";
 import { handleElysia } from "@/lib/utils/base";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAuthQuery } from "./auth-hook";
+import { queryKeys } from "@/lib/react-query/keys";
 
 export function useAffiliateCommissionsQuery(params: PaginationParams = {}) {
   return useQuery({
@@ -37,12 +38,12 @@ export function useAffiliateInviteesQuery(params: PaginationParams = {}) {
 }
 
 export function useTransferAffQuotaMutation() {
-  const queryClient = useQueryClient();
+  const authQuery = useAuthQuery();
   return useMutation({
     mutationFn: async (quota: number) =>
       handleElysia(await rpc.api.affiliate.transfer.post({ quota })),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.auth() });
+      authQuery.refetch();
     },
   });
 }

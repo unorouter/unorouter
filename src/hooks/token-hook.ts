@@ -4,7 +4,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { CreateTokenRequest, UpdateTokenRequest } from "@/openapi";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useTokensQuery(params: { p?: number; keyword?: string } = {}) {
   return useQuery({
@@ -53,34 +53,34 @@ export function useUserModelsQuery() {
 }
 
 export function useCreateTokenMutation() {
-  const queryClient = useQueryClient();
+  const tokensQuery = useTokensQuery();
   return useMutation({
     mutationFn: async (data: CreateTokenRequest) =>
       handleElysia(await rpc.api.token.post(data)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+      tokensQuery.refetch();
     },
   });
 }
 
 export function useUpdateTokenMutation() {
-  const queryClient = useQueryClient();
+  const tokensQuery = useTokensQuery();
   return useMutation({
     mutationFn: async (data: UpdateTokenRequest) =>
       handleElysia(await rpc.api.token.put(data)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+      tokensQuery.refetch();
     },
   });
 }
 
 export function useToggleTokenStatusMutation() {
-  const queryClient = useQueryClient();
+  const tokensQuery = useTokensQuery();
   return useMutation({
     mutationFn: async (data: UpdateTokenRequest) =>
       handleElysia(await rpc.api.token.status.put(data)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+      tokensQuery.refetch();
     },
   });
 }
@@ -95,12 +95,12 @@ export function useFetchTokenKeyMutation() {
 }
 
 export function useDeleteTokenMutation() {
-  const queryClient = useQueryClient();
+  const tokensQuery = useTokensQuery();
   return useMutation({
     mutationFn: async (id: number) =>
       handleElysia(await rpc.api.token({ id: id.toString() }).delete()),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+      tokensQuery.refetch();
     },
   });
 }

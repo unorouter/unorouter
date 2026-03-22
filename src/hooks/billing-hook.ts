@@ -3,7 +3,7 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useTopUpInfoQuery() {
   return useQuery({
@@ -30,7 +30,7 @@ export function useSubscriptionSelfQuery() {
 }
 
 export function useUpdateBillingPreferenceMutation() {
-  const queryClient = useQueryClient();
+  const subscriptionQuery = useSubscriptionSelfQuery();
   return useMutation({
     mutationFn: async (billingPreference: string) =>
       handleElysia(
@@ -39,7 +39,7 @@ export function useUpdateBillingPreferenceMutation() {
         }),
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.subscriptionSelf() });
+      subscriptionQuery.refetch();
     },
   });
 }
@@ -69,7 +69,7 @@ export function useCreemTopUpMutation() {
 }
 
 export function useStripeSubscriptionMutation() {
-  const queryClient = useQueryClient();
+  const subscriptionQuery = useSubscriptionSelfQuery();
   return useMutation({
     mutationFn: async (planId: number) =>
       handleElysia(
@@ -78,13 +78,13 @@ export function useStripeSubscriptionMutation() {
         }),
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.subscriptionSelf() });
+      subscriptionQuery.refetch();
     },
   });
 }
 
 export function useCreemSubscriptionMutation() {
-  const queryClient = useQueryClient();
+  const subscriptionQuery = useSubscriptionSelfQuery();
   return useMutation({
     mutationFn: async (planId: number) =>
       handleElysia(
@@ -93,7 +93,7 @@ export function useCreemSubscriptionMutation() {
         }),
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.subscriptionSelf() });
+      subscriptionQuery.refetch();
     },
   });
 }

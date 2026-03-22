@@ -9,17 +9,19 @@ import {
   dashboardStoreAtom,
   defaultTimestamps,
 } from "@/store/dashboard-store";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
+import { useStatusQuery } from "./status-hook";
 
 export function useDashboardData() {
-  const queryClient = useQueryClient();
   const [store, setStore] = useAtom(dashboardStoreAtom);
   const { startTs, endTs } = store ?? defaultTimestamps();
   const periodMinutes = (endTs - startTs) / 60;
 
+  const statusQuery = useStatusQuery();
   const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
+  const uptimeQuery = useDashboardUptimeQuery();
   const rawData = filterQuotaData(quotaQuery.data ?? []);
 
   const dateRange = {
@@ -39,11 +41,9 @@ export function useDashboardData() {
     !store || endTs - startTs === DEFAULT_RANGE_HOURS * 3600;
 
   const refetchAll = () => {
-    queryClient.invalidateQueries({ queryKey: queryKeys.status() });
-    queryClient.invalidateQueries({
-      queryKey: queryKeys.dashboardQuota(startTs, endTs),
-    });
-    queryClient.invalidateQueries({ queryKey: queryKeys.dashboardUptime() });
+    statusQuery.refetch();
+    quotaQuery.refetch();
+    uptimeQuery.refetch();
   };
 
   const isFetching = quotaQuery.isFetching;
