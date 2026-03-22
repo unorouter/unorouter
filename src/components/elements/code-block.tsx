@@ -27,13 +27,14 @@ export async function CodeBlock(props: Props) {
     >
       {props.language && (
         <div className="bg-muted border-border/50 flex items-center justify-between border-b px-4 py-3">
-          <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
-            {props.language}
-          </span>
-          <div className="flex gap-1.5 opacity-50">
+          <div className="flex gap-1.5">
+            <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
             <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
             <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
           </div>
+          <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
+            {props.language}
+          </span>
         </div>
       )}
       <div
