@@ -7,9 +7,9 @@ export async function CodeSection() {
   const t = await getTranslations();
 
   return (
-    <section className="border-border/50 bg-background relative z-10 border-t py-32">
-      <div className="mx-auto flex max-w-360 flex-col gap-20 px-6 lg:flex-row">
-        <div className="flex-1 space-y-10">
+    <section className="border-border/50 bg-background relative z-10 border-t py-16 lg:py-32">
+      <div className="mx-auto flex max-w-360 flex-col gap-10 px-6 lg:gap-20 lg:flex-row">
+        <div className="flex-1 space-y-6 lg:space-y-10">
           <h2 className="text-foreground text-3xl leading-[1.1] font-bold tracking-tight md:text-5xl">
             {t("HOME.CODE_TITLE_1")}
             <br />

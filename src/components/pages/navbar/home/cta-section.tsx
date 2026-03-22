@@ -7,7 +7,7 @@ export async function CtaSection() {
   const t = await getTranslations();
 
   return (
-    <section className="border-border/50 relative border-t px-6 py-32">
+    <section className="border-border/50 relative border-t px-6 py-16 lg:py-32">
       <div className="mx-auto max-w-360 text-center">
         <div className="space-y-8">
           <h2 className="text-4xl font-bold tracking-tighter md:text-5xl">

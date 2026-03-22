@@ -19,9 +19,9 @@ export function PricingSection() {
   const vendors = pricingData?.vendors ?? [];
 
   return (
-    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-24">
+    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-12 lg:py-24">
       <div className="mx-auto max-w-360 px-6">
-        <div className="mb-16 text-center">
+        <div className="mb-8 text-center lg:mb-16">
           <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
             <LuZap className="h-3 w-3 text-purple-400" />
             <span className="textpriceAmount >-[10px] font-mono tracking-[0.2em] text-purple-400 uppercase">
@@ -43,7 +43,7 @@ export function PricingSection() {
         {/* Pricing cards */}
         <Link
           href="/pricing"
-          className="mb-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4"
+          className="mb-8 grid gap-4 md:grid-cols-2 lg:mb-16 lg:grid-cols-4"
         >
           <PricingTile
             name={t("HOME.PRICING_PAYG_NAME")}
@@ -68,7 +68,7 @@ export function PricingSection() {
         </Link>
 
         {/* Feature details */}
-        <div className="grid items-start gap-16 lg:grid-cols-2">
+        <div className="grid items-start gap-8 lg:gap-16 lg:grid-cols-2">
           <div className="space-y-8">
             <div>
               <h3 className="text-foreground mb-4 font-mono text-xl font-bold">

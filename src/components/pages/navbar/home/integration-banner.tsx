@@ -123,7 +123,7 @@ export async function IntegrationBanner() {
                 <p className="text-muted-foreground font-mono text-sm leading-relaxed">
                   {t(integration.descKey, APP_VALUES)}
                 </p>
-                <div className="mt-auto flex items-center gap-3 pt-2">
+                <div className="mt-auto flex items-center justify-end gap-3 pt-2 md:justify-start">
                   <span className="text-foreground/70 group-hover:text-foreground font-mono text-sm transition-colors">
                     {t("HOME.INTEGRATION_VIEW_GUIDE")}
                   </span>
