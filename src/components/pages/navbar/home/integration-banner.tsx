@@ -82,9 +82,9 @@ export async function IntegrationBanner() {
   const t = await getTranslations();
 
   return (
-    <section className="border-border/50 relative border-t border-b bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5 px-6 py-8">
-      <div className="mx-auto max-w-360">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <section className="border-border/50 relative border-t border-b bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5 py-8">
+      <div className="mx-auto max-w-360 px-6">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {integrations.map((integration) => {
             const colors = colorMap[integration.color];
             return (

@@ -27,7 +27,7 @@ export function ModelTicker(props: Props) {
         props.className,
       )}
     >
-      <div className="mx-auto flex w-full max-w-360 items-center gap-6">
+      <div className="mx-auto flex w-full max-w-360 items-center gap-6 px-6">
         {/* Live indicator */}
         <div className="text-foreground border-border bg-secondary flex shrink-0 items-center gap-3 border px-3 py-1 font-mono text-xs font-medium tracking-widest uppercase">
           <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />

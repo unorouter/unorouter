@@ -13,8 +13,8 @@ export async function ReliabilitySection() {
   const t = await getTranslations();
 
   return (
-    <section className="border-border/50 relative border-t px-6 py-16 lg:py-32">
-      <div className="mx-auto max-w-360">
+    <section className="border-border/50 relative border-t py-16 lg:py-32">
+      <div className="mx-auto max-w-360 px-6">
         <div className="grid items-center gap-8 lg:gap-16 lg:grid-cols-2">
           <div className="space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 rounded-sm border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5">
