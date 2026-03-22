@@ -1,11 +1,12 @@
 import type { ResponseArrayControllerSubscriptionPlanDTODataItem } from "@/openapi";
+import { TranslationKey } from "../config/constants";
 
 const QUOTA_PER_UNIT = 500_000;
 
-const RESET_LABELS: Record<string, string> = {
-  daily: "day",
-  weekly: "week",
-  monthly: "month",
+const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
+  daily: "BILLING.PER_DAY",
+  weekly: "BILLING.PER_WEEK",
+  monthly: "BILLING.PER_MONTH",
 };
 
 export type SubscriptionPlan = {
@@ -23,8 +24,8 @@ export type SubscriptionPlan = {
   sortOrder: number;
 };
 
-export function getResetLabel(plan: SubscriptionPlan): string {
-  return RESET_LABELS[plan.quotaResetPeriod] ?? "period";
+export function getResetTranslationKey(plan: SubscriptionPlan): TranslationKey {
+  return RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ?? "BILLING.PER_MONTH";
 }
 
 export function getMultiplier(plan: SubscriptionPlan): number {

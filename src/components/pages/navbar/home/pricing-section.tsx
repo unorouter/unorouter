@@ -5,7 +5,7 @@ import { VendorIcon } from "@/components/elements/vendor-icon";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
-import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
+import { getMultiplier, getResetTranslationKey } from "@/lib/api/subscription";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
@@ -53,14 +53,14 @@ export function PricingSection() {
           />
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
-            const resetLabel = getResetLabel(plan);
+            const resetLabel = t(getResetTranslationKey(plan));
             return (
               <PricingTile
                 key={plan.id}
                 name={plan.title}
-                price={`$${plan.priceAmount}/mo`}
-                description={`~$${plan.estimatedTotalUsd} credit value. ${multiplier}x multiplier.`}
-                endpoint={`$${plan.quotaPerResetUsd}/${resetLabel}`}
+                price={`$${plan.priceAmount}/${t("BILLING.MONTH").toLowerCase().slice(0, 3)}`}
+                description={t("PRICING.CARD_VALUE", { value: `~$${plan.estimatedTotalUsd}` }) + `. ${multiplier}x ${t("PRICING.CARD_SPEC_MULTIPLIER")}.`}
+                endpoint={`$${plan.quotaPerResetUsd}${resetLabel}`}
                 highlight={i === 0}
               />
             );

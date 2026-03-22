@@ -4,7 +4,7 @@ import { PricingCard } from "@/components/elements/pricing-card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";
-import { getMultiplier, getResetLabel } from "@/lib/api/subscription";
+import { getMultiplier, getResetTranslationKey } from "@/lib/api/subscription";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
@@ -85,11 +85,11 @@ export function Pricing() {
         <div className="mb-16 grid gap-6 md:grid-cols-3">
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
-            const resetLabel = getResetLabel(plan);
+            const resetLabel = t(getResetTranslationKey(plan));
             const quotaLabel =
               plan.quotaPerResetUsd > 0
-                ? `$${plan.quotaPerResetUsd}/${resetLabel}`
-                : "Unlimited";
+                ? `$${plan.quotaPerResetUsd}${resetLabel}`
+                : t("TOKEN.UNLIMITED");
 
             return (
               <PricingCard
