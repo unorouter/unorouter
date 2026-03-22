@@ -537,6 +537,14 @@ export interface MultiKeyManageRequest {
 }
 
 /**
+ * OAuthExchangeRequest schema
+ */
+export interface OAuthExchangeRequest {
+  /** One-time authorization code from OAuth redirect */
+  code: string;
+}
+
+/**
  * OllamaModelRequest schema
  */
 export interface OllamaModelRequest {
@@ -2201,6 +2209,23 @@ export type ResponseDtoMultiKeyStatusResponseData = {
  */
 export interface ResponseDtoMultiKeyStatusResponse {
   data: ResponseDtoMultiKeyStatusResponseData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoOAuthExchangeDataData = {
+  access_token: string;
+  display_name: string;
+  role: number;
+  user_id: number;
+  username: string;
+};
+
+/**
+ * Response_dto.OAuthExchangeData schema
+ */
+export interface ResponseDtoOAuthExchangeData {
+  data: ResponseDtoOAuthExchangeDataData;
   message: string;
   success: boolean;
 }
@@ -9522,12 +9547,12 @@ export const emailBind = async (
  * @summary Exchange O Auth Code
  */
 export type exchangeOAuthCodeResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponseDtoOAuthExchangeData;
   status: 200;
 };
 
 export type exchangeOAuthCodeResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponseDtoOAuthExchangeData;
   status: 200;
 };
 
@@ -9556,11 +9581,14 @@ export const getExchangeOAuthCodeUrl = () => {
 };
 
 export const exchangeOAuthCode = async (
+  oAuthExchangeRequest: OAuthExchangeRequest,
   options?: RequestInit,
 ): Promise<exchangeOAuthCodeResponse> => {
   return customFetch<exchangeOAuthCodeResponse>(getExchangeOAuthCodeUrl(), {
     ...options,
     method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(oAuthExchangeRequest),
   });
 };
 

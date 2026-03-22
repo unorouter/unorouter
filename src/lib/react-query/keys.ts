@@ -25,4 +25,6 @@ export const queryKeys = {
   topUpInfo: () => ["topup-info"] as const,
   subscriptionSelf: () => ["subscription-self"] as const,
   billingPlans: () => ["billing-plans"] as const,
+  twoFAStatus: () => ["2fa-status"] as const,
+  passkeyStatus: () => ["passkey-status"] as const,
 };

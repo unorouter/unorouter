@@ -14,6 +14,7 @@ import {
   verify2FABody,
 } from "@/lib/typebox/auth";
 import {
+  exchangeOAuthCode,
   generateOAuthCode,
   getSelf,
   getStatus,
@@ -103,16 +104,11 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       if (!query.code) return redirect("/login");
 
       // Exchange the one-time code for user data via the API
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai";
-      const res = await fetch(`${apiUrl}/api/oauth/exchange`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: query.code }),
-      });
-      const json = await res.json();
-      if (!json.success || !json.data?.access_token) return redirect("/login");
+      const res = await exchangeOAuthCode({ code: query.code });
+      if (!res.data || !("success" in res.data) || !res.data.success)
+        return redirect("/login");
 
-      const data = json.data;
+      const data = res.data.data;
 
       // Set auth cookies (access_token for API auth, user-id for middleware)
       cookie[ACCESS_TOKEN_COOKIE].set({

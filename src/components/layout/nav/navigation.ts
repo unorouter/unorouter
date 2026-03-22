@@ -10,6 +10,7 @@ import {
   LuLayoutDashboard,
   LuLayers,
   LuScrollText,
+  LuSettings,
   LuShell,
   LuSparkles,
   LuTerminal,
@@ -85,5 +86,10 @@ export const sidebarNavigation = (): NavigationItem[] => [
     name: "SIDEBAR.AFFILIATE",
     href: "/affiliate",
     icon: LuGift,
+  },
+  {
+    name: "SIDEBAR.SETTINGS",
+    href: "/settings",
+    icon: LuSettings,
   },
 ];
