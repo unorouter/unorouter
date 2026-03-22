@@ -25,11 +25,7 @@ export const oauthStateQuery = t.Object({
 });
 
 export const oauthCallbackQuery = t.Object({
-  access_token: t.String(),
-  user_id: t.String(),
-  username: t.Optional(t.String()),
-  display_name: t.Optional(t.String()),
-  role: t.Optional(t.String()),
+  code: t.String(),
 });
 
 export const verificationQuery = t.Object({

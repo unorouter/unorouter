@@ -2148,6 +2148,7 @@ export type ResponseDtoLoginDataData = {
   display_name: string;
   group: string;
   id: number;
+  redirect_url?: string;
   role: number;
   status: number;
   username: string;
@@ -9514,6 +9515,52 @@ export const emailBind = async (
   return customFetch<emailBindResponse>(getEmailBindUrl(params), {
     ...options,
     method: "GET",
+  });
+};
+
+/**
+ * @summary Exchange O Auth Code
+ */
+export type exchangeOAuthCodeResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type exchangeOAuthCodeResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type exchangeOAuthCodeResponseDefault = {
+  data: void;
+  status: Exclude<HTTPStatusCodes, 200>;
+};
+
+export type exchangeOAuthCodeResponseSuccess = (
+  | exchangeOAuthCodeResponse200ApplicationJson
+  | exchangeOAuthCodeResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type exchangeOAuthCodeResponseError =
+  exchangeOAuthCodeResponseDefault & {
+    headers: Headers;
+  };
+
+export type exchangeOAuthCodeResponse =
+  | exchangeOAuthCodeResponseSuccess
+  | exchangeOAuthCodeResponseError;
+
+export const getExchangeOAuthCodeUrl = () => {
+  return `/api/oauth/exchange`;
+};
+
+export const exchangeOAuthCode = async (
+  options?: RequestInit,
+): Promise<exchangeOAuthCodeResponse> => {
+  return customFetch<exchangeOAuthCodeResponse>(getExchangeOAuthCodeUrl(), {
+    ...options,
+    method: "POST",
   });
 };
 

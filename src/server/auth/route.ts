@@ -100,20 +100,30 @@ export const authRoute = new Elysia({ prefix: "/auth" })
   .get(
     "/oauth/callback",
     async ({ query, cookie, set }) => {
-      const token = query.access_token;
-      const userId = query.user_id;
-      if (!token || !userId) return redirect("/login");
+      if (!query.code) return redirect("/login");
+
+      // Exchange the one-time code for user data via the API
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai";
+      const res = await fetch(`${apiUrl}/api/oauth/exchange`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: query.code }),
+      });
+      const json = await res.json();
+      if (!json.success || !json.data?.access_token) return redirect("/login");
+
+      const data = json.data;
 
       // Set auth cookies (access_token for API auth, user-id for middleware)
       cookie[ACCESS_TOKEN_COOKIE].set({
-        value: token,
+        value: data.access_token,
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",
         httpOnly: true,
       });
       cookie[USER_ID_COOKIE].set({
-        value: userId,
+        value: String(data.user_id),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",

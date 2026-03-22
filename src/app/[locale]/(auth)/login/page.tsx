@@ -25,7 +25,7 @@ export default async function LoginPage() {
   const locale = await serverLocale();
   const self = await rpc.api.auth.self.get(await setCookies());
 
-  if (self.data?.data.id) {
+  if (self?.data?.data?.id) {
     const redirectTo = await getCookie(AUTH_REDIRECT_COOKIE, { cookies });
     redirect({ href: (redirectTo as string) || "/dashboard", locale });
   }
