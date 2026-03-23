@@ -1,19 +1,16 @@
 import type { TranslationKey } from "@/lib/config/constants";
 import type { LinkHref } from "@/i18n/routing";
-import type { IconType } from "react-icons";
-import {
-  LuLayoutGrid,
-  LuSettings2,
-  LuTerminal,
-  LuCpu,
-  LuSparkles,
-  LuShell,
-} from "react-icons/lu";
+import type { ComponentType } from "react";
+import { GiCrabClaw } from "react-icons/gi";
+import { LuArrowLeftRight, LuLayoutGrid } from "react-icons/lu";
+import Claude from "@lobehub/icons/es/Claude";
+import OpenAI from "@lobehub/icons/es/OpenAI";
+import Gemini from "@lobehub/icons/es/Gemini";
 
 export type DocsNavItem = {
   name: TranslationKey;
   href: LinkHref;
-  icon: IconType;
+  icon: ComponentType<{ className?: string }>;
 };
 
 export const docsNavItems: DocsNavItem[] = [
@@ -25,26 +22,26 @@ export const docsNavItems: DocsNavItem[] = [
   {
     name: "DOCS_SIDEBAR.CC_SWITCH",
     href: "/docs/cc-switch",
-    icon: LuSettings2,
+    icon: LuArrowLeftRight,
   },
   {
     name: "DOCS_SIDEBAR.OPENCLAW",
     href: "/docs/openclaw",
-    icon: LuShell,
+    icon: GiCrabClaw,
   },
   {
     name: "DOCS_SIDEBAR.CLAUDE_CODE",
     href: "/docs/claude-code",
-    icon: LuTerminal,
+    icon: Claude,
   },
   {
     name: "DOCS_SIDEBAR.CODEX_CLI",
     href: "/docs/codex",
-    icon: LuCpu,
+    icon: OpenAI,
   },
   {
     name: "DOCS_SIDEBAR.GEMINI_CLI",
     href: "/docs/gemini-cli",
-    icon: LuSparkles,
+    icon: Gemini,
   },
 ];

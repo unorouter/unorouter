@@ -22,12 +22,12 @@ export function SidebarHeader(props: SidebarHeaderProps) {
   useEffect(() => setMounted(true), []);
 
   return (
-    <header className="flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
-      <div className="flex w-full items-center gap-2 px-4">
+    <header className="flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
+      <div className="flex h-full w-full items-center gap-3 px-4">
         <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="mx-2 h-6" />
+        <Separator orientation="vertical" className="h-full" />
         {props.showSearch && (
-          <div className="min-w-0 flex-1 max-w-64">
+          <div className="min-w-0 flex-1 max-w-56">
             <DocsSearch />
           </div>
         )}
@@ -38,7 +38,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
             (userDisplay.user ? (
               <UserDropdown side="bottom" align="end">
                 <button className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors">
-                  <UserAvatar className="size-7" />
+                  <UserAvatar />
                 </button>
               </UserDropdown>
             ) : (

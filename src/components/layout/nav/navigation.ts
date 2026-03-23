@@ -1,9 +1,9 @@
 import { TranslationKey } from "@/lib/config/constants";
 import type { LinkHref } from "@/i18n/routing";
-import type { IconType } from "react-icons/lib";
+import type { ComponentType } from "react";
+import { GiCrabClaw } from "react-icons/gi";
 import {
   LuBookOpen,
-  LuCpu,
   LuDollarSign,
   LuGift,
   LuHouse,
@@ -12,16 +12,16 @@ import {
   LuLayers,
   LuScrollText,
   LuSettings,
-  LuShell,
-  LuSparkles,
-  LuTerminal,
   LuWallet,
 } from "react-icons/lu";
+import Claude from "@lobehub/icons/es/Claude";
+import OpenAI from "@lobehub/icons/es/OpenAI";
+import Gemini from "@lobehub/icons/es/Gemini";
 
 export type NavigationItem = {
   name: TranslationKey;
   href: LinkHref;
-  icon?: IconType;
+  icon?: ComponentType<{ className?: string }>;
   hidden?: boolean;
   submenu?: NavigationItem[];
 };
@@ -55,10 +55,10 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
     href: "/docs",
     icon: LuBookOpen,
     submenu: [
-      { name: "NAV.CLAUDE_CODE", href: "/docs/claude-code", icon: LuTerminal },
-      { name: "NAV.CODEX", href: "/docs/codex", icon: LuCpu },
-      { name: "NAV.GEMINI_CLI", href: "/docs/gemini-cli", icon: LuSparkles },
-      { name: "NAV.OPENCLAW", href: "/docs/openclaw", icon: LuShell },
+      { name: "NAV.CLAUDE_CODE", href: "/docs/claude-code", icon: Claude },
+      { name: "NAV.CODEX", href: "/docs/codex", icon: OpenAI },
+      { name: "NAV.GEMINI_CLI", href: "/docs/gemini-cli", icon: Gemini },
+      { name: "NAV.OPENCLAW", href: "/docs/openclaw", icon: GiCrabClaw },
     ],
   },
 ];

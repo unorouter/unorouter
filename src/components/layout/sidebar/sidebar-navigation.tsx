@@ -71,7 +71,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   const authenticated = !!user;
 
   if (props.navConfig === "docs") {
-    const mainNavItems = navigation(authenticated).filter((item) => !item.hidden);
+    const mainNavItems = navigation(authenticated).filter((item) => !item.hidden && item.href !== "/docs");
     return (
       <>
         <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={docsNavItems} />
