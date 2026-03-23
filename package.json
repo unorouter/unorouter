@@ -33,7 +33,6 @@
     "fumadocs-core": "^16.7.5",
     "jotai": "2.18.1",
     "jotai-family": "1.0.1",
-    "jsdom": "^29.0.1",
     "next": "16.2.1",
     "next-intl": "4.8.3",
     "next-themes": "0.4.6",
