@@ -27,16 +27,32 @@ export async function CodexContent() {
       url: "#windows-graphical-guide",
       depth: 3,
     },
+    { title: t("DOCS.CODEX.WINDOWS_STEP1_TITLE"), url: "#codex-win-step-1", depth: 4 },
+    { title: t("DOCS.CODEX.WINDOWS_STEP2_TITLE"), url: "#codex-win-step-2", depth: 4 },
+    { title: t("DOCS.CODEX.WINDOWS_STEP3_TITLE"), url: "#codex-win-step-3", depth: 4 },
+    { title: t("DOCS.CODEX.WINDOWS_STEP4_TITLE", APP_VALUES), url: "#codex-win-step-4", depth: 4 },
+    { title: t("DOCS.CODEX.WINDOWS_STEP5_TITLE"), url: "#codex-win-step-5", depth: 4 },
     {
       title: t("DOCS.CODEX.MACOS_TITLE"),
       url: "#macos-graphical-guide",
       depth: 3,
     },
+    { title: t("DOCS.CODEX.MACOS_STEP1_TITLE"), url: "#codex-mac-step-1", depth: 4 },
+    { title: t("DOCS.CODEX.MACOS_STEP2_TITLE"), url: "#codex-mac-step-2", depth: 4 },
+    { title: t("DOCS.CODEX.MACOS_STEP3_TITLE"), url: "#codex-mac-step-3", depth: 4 },
+    { title: t("DOCS.CODEX.MACOS_STEP4_TITLE", APP_VALUES), url: "#codex-mac-step-4", depth: 4 },
+    { title: t("DOCS.CODEX.MACOS_STEP5_TITLE"), url: "#codex-mac-step-5", depth: 4 },
+    { title: t("DOCS.CODEX.MACOS_ISSUES_TITLE"), url: "#codex-mac-issues", depth: 4 },
     {
       title: t("DOCS.CODEX.LINUX_TITLE"),
       url: "#linux-graphical-guide",
       depth: 3,
     },
+    { title: t("DOCS.CODEX.LINUX_STEP1_TITLE"), url: "#codex-linux-step-1", depth: 4 },
+    { title: t("DOCS.CODEX.LINUX_STEP2_TITLE"), url: "#codex-linux-step-2", depth: 4 },
+    { title: t("DOCS.CODEX.LINUX_STEP3_TITLE", APP_VALUES), url: "#codex-linux-step-3", depth: 4 },
+    { title: t("DOCS.CODEX.LINUX_STEP4_TITLE"), url: "#codex-linux-step-4", depth: 4 },
+    { title: t("DOCS.CODEX.LINUX_ISSUES_TITLE"), url: "#codex-linux-issues", depth: 4 },
   ]);
 
   return (
@@ -163,7 +179,7 @@ export async function CodexContent() {
 
             {/* Step 1: Open Terminal */}
             <div className="mt-6">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-win-step-1" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.WINDOWS_STEP1_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -181,7 +197,7 @@ export async function CodexContent() {
 
             {/* Step 2: Install WSL */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-win-step-2" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.WINDOWS_STEP2_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -216,7 +232,7 @@ export async function CodexContent() {
 
             {/* Step 3: Install Codex CLI */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-win-step-3" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.WINDOWS_STEP3_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -235,7 +251,7 @@ export async function CodexContent() {
 
             {/* Step 4: Configure */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-win-step-4" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.WINDOWS_STEP4_TITLE", APP_VALUES)}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -257,7 +273,7 @@ export async function CodexContent() {
 
             {/* Step 5: Start Using */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-win-step-5" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.WINDOWS_STEP5_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -326,7 +342,7 @@ export async function CodexContent() {
 
             {/* Step 1: Install Homebrew */}
             <div className="mt-6">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-mac-step-1" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.MACOS_STEP1_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -374,7 +390,7 @@ export async function CodexContent() {
 
             {/* Step 2: Install Node.js */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-mac-step-2" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.MACOS_STEP2_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -404,7 +420,7 @@ export async function CodexContent() {
 
             {/* Step 3: Install Codex CLI */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-mac-step-3" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.MACOS_STEP3_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -423,7 +439,7 @@ export async function CodexContent() {
 
             {/* Step 4: Configure */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-mac-step-4" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.MACOS_STEP4_TITLE", APP_VALUES)}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -445,7 +461,7 @@ export async function CodexContent() {
 
             {/* Step 5: Start Using */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-mac-step-5" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.MACOS_STEP5_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -504,7 +520,7 @@ export async function CodexContent() {
 
             {/* Common Issues */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-mac-issues" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.MACOS_ISSUES_TITLE")}
               </h4>
               <Callout type="warn" title={t("DOCS.CODEX.MACOS_ISSUES_TITLE")}>
@@ -527,7 +543,7 @@ export async function CodexContent() {
 
             {/* Step 1: Install Node.js */}
             <div className="mt-6">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-linux-step-1" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.LINUX_STEP1_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -557,7 +573,7 @@ export async function CodexContent() {
 
             {/* Step 2: Install Codex CLI */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-linux-step-2" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.LINUX_STEP2_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -576,7 +592,7 @@ export async function CodexContent() {
 
             {/* Step 3: Configure */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-linux-step-3" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.LINUX_STEP3_TITLE", APP_VALUES)}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -598,7 +614,7 @@ export async function CodexContent() {
 
             {/* Step 4: Start Using */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-linux-step-4" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.LINUX_STEP4_TITLE")}
               </h4>
               <p className="text-muted-foreground mb-4 text-sm">
@@ -657,7 +673,7 @@ export async function CodexContent() {
 
             {/* Common Issues */}
             <div className="mt-8">
-              <h4 className="mb-2 text-lg font-medium">
+              <h4 id="codex-linux-issues" className="mb-2 text-lg font-medium">
                 {t("DOCS.CODEX.LINUX_ISSUES_TITLE")}
               </h4>
               <Callout type="warn" title={t("DOCS.CODEX.LINUX_ISSUES_TITLE")}>

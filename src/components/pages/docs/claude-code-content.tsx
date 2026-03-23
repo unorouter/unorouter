@@ -28,16 +28,29 @@ export async function ClaudeCodeContent() {
         url: "#windows-graphical-guide",
         depth: 3,
       },
+      { title: t("DOCS.CLAUDE_CODE.WIN_STEP1_TITLE"), url: "#win-step-1", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE"), url: "#win-step-2", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE"), url: "#win-step-3", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE"), url: "#win-step-4", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE"), url: "#win-step-5", depth: 4 },
       {
         title: t("DOCS.CLAUDE_CODE.TOC_MACOS"),
         url: "#macos-graphical-guide",
         depth: 3,
       },
+      { title: t("DOCS.CLAUDE_CODE.MAC_STEP1_TITLE"), url: "#mac-step-1", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE"), url: "#mac-step-2", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE"), url: "#mac-step-3", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE"), url: "#mac-issues", depth: 4 },
       {
         title: t("DOCS.CLAUDE_CODE.TOC_LINUX"),
         url: "#linux-graphical-guide",
         depth: 3,
       },
+      { title: t("DOCS.CLAUDE_CODE.LINUX_STEP1_TITLE"), url: "#linux-step-1", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE"), url: "#linux-step-2", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE"), url: "#linux-step-3", depth: 4 },
+      { title: t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE"), url: "#linux-issues", depth: 4 },
     ],
     t("DOCS.TOC_TITLE"),
   );
@@ -168,7 +181,7 @@ export async function ClaudeCodeContent() {
               {t("DOCS.CLAUDE_CODE.WIN_TITLE")}
             </h3>
 
-            <h4 className="mt-6 mb-2 text-lg font-medium">
+            <h4 id="win-step-1" className="mt-6 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP1_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -210,7 +223,7 @@ export async function ClaudeCodeContent() {
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="win-step-2" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -244,7 +257,7 @@ export async function ClaudeCodeContent() {
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="win-step-3" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -272,7 +285,7 @@ export async function ClaudeCodeContent() {
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="win-step-4" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -342,7 +355,7 @@ export ANTHROPIC_API_KEY="your-api-key-here"`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="win-step-5" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -409,7 +422,7 @@ export ANTHROPIC_API_KEY="your-api-key-here"`}
               {t("DOCS.CLAUDE_CODE.MAC_TITLE")}
             </h3>
 
-            <h4 className="mt-6 mb-2 text-lg font-medium">
+            <h4 id="mac-step-1" className="mt-6 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_STEP1_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -451,7 +464,7 @@ npm install -g @anthropic-ai/claude-code`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="mac-step-2" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -504,7 +517,7 @@ source ~/.zshrc`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="mac-step-3" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -548,7 +561,7 @@ source ~/.zshrc`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="mac-issues" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE")}
             </h4>
 
@@ -605,7 +618,7 @@ source ~/.zshrc`}
               {t("DOCS.CLAUDE_CODE.LINUX_TITLE")}
             </h3>
 
-            <h4 className="mt-6 mb-2 text-lg font-medium">
+            <h4 id="linux-step-1" className="mt-6 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_STEP1_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -634,7 +647,7 @@ npm install -g @anthropic-ai/claude-code`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="linux-step-2" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -679,7 +692,7 @@ source ~/.bashrc`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="linux-step-3" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE")}
             </h4>
             <p className="text-muted-foreground mb-4">
@@ -723,7 +736,7 @@ source ~/.bashrc`}
               unoptimized
             />
 
-            <h4 className="mt-8 mb-2 text-lg font-medium">
+            <h4 id="linux-issues" className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE")}
             </h4>
 
