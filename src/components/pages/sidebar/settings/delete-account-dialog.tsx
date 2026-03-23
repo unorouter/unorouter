@@ -46,9 +46,7 @@ export function DeleteAccountDialog(props: {
 
   useEffect(() => {
     if (props.open) {
-      form.reset(
-        Value.Default(deleteAccountSchema, {}) as DeleteAccountSchema,
-      );
+      form.reset(Value.Default(deleteAccountSchema, {}) as DeleteAccountSchema);
     }
   }, [props.open, form]);
 

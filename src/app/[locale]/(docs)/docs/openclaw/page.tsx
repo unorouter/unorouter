@@ -11,7 +11,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 
-
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
@@ -28,13 +27,36 @@ export async function generateMetadata(props: {
 export default async function OpenClawPage() {
   const t = await getTranslations();
 
-  const toc = createTOC([
-    { title: t("DOCS.OPENCLAW.TOC_CORE_FEATURES"), url: "#core-features", depth: 2 },
-    { title: t("DOCS.OPENCLAW.TOC_INSTALLATION"), url: "#installation", depth: 2 },
-    { title: t("DOCS.OPENCLAW.TOC_CONFIGURATION"), url: "#configuration", depth: 2 },
-    { title: t("DOCS.OPENCLAW.TOC_KEY_CONFIG"), url: "#key-configuration-details", depth: 3 },
-    { title: t("DOCS.OPENCLAW.TOC_START_SERVICE"), url: "#start-the-service", depth: 3 },
-  ], t("DOCS.TOC_TITLE"));
+  const toc = createTOC(
+    [
+      {
+        title: t("DOCS.OPENCLAW.TOC_CORE_FEATURES"),
+        url: "#core-features",
+        depth: 2,
+      },
+      {
+        title: t("DOCS.OPENCLAW.TOC_INSTALLATION"),
+        url: "#installation",
+        depth: 2,
+      },
+      {
+        title: t("DOCS.OPENCLAW.TOC_CONFIGURATION"),
+        url: "#configuration",
+        depth: 2,
+      },
+      {
+        title: t("DOCS.OPENCLAW.TOC_KEY_CONFIG"),
+        url: "#key-configuration-details",
+        depth: 3,
+      },
+      {
+        title: t("DOCS.OPENCLAW.TOC_START_SERVICE"),
+        url: "#start-the-service",
+        depth: 3,
+      },
+    ],
+    t("DOCS.TOC_TITLE"),
+  );
 
   return (
     <TOCLayout toc={toc}>
@@ -45,9 +67,7 @@ export default async function OpenClawPage() {
           </Badge>
         </div>
 
-        <h1 className="mt-4 text-4xl font-bold">
-          {t("DOCS.OPENCLAW.TITLE")}
-        </h1>
+        <h1 className="mt-4 text-4xl font-bold">{t("DOCS.OPENCLAW.TITLE")}</h1>
         <p className="text-muted-foreground mt-4 text-lg">
           {t("DOCS.OPENCLAW.SUBTITLE", APP_VALUES)}
         </p>
@@ -204,9 +224,7 @@ openclaw onboard`}
                 </tr>
                 <tr className="border-border border-b">
                   <td className="py-2 pr-4 font-mono text-xs">env</td>
-                  <td className="py-2">
-                    {t("DOCS.OPENCLAW.CONFIG_ENV_DESC")}
-                  </td>
+                  <td className="py-2">{t("DOCS.OPENCLAW.CONFIG_ENV_DESC")}</td>
                 </tr>
               </tbody>
             </table>

@@ -5,7 +5,12 @@ type CalloutType = "info" | "warn" | "error";
 
 const calloutStyles: Record<
   CalloutType,
-  { border: string; bg: string; icon: string; Icon: React.ComponentType<{ className?: string }> }
+  {
+    border: string;
+    bg: string;
+    icon: string;
+    Icon: React.ComponentType<{ className?: string }>;
+  }
 > = {
   info: {
     border: "border-blue-500/40",
@@ -50,7 +55,7 @@ export function Callout(props: CalloutProps) {
         <style.Icon className={cn("size-4 shrink-0", style.icon)} />
         <span className="text-sm font-semibold">{props.title}</span>
       </div>
-      <div className="text-muted-foreground mt-2 text-sm [&_pre]:my-2 [&_code]:text-xs">
+      <div className="text-muted-foreground mt-2 text-sm [&_code]:text-xs [&_pre]:my-2">
         {props.children}
       </div>
     </div>

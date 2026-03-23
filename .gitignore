@@ -45,6 +45,7 @@ pnpm-lock.yaml
 
 # generated
 *d.json.ts
+public/search-index.json
 
 # claude
 .claude

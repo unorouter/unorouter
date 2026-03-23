@@ -73,9 +73,7 @@ export function AccountCard() {
         onSuccess: () => {
           toast.success(t("SETTINGS.ACCOUNT.EMAIL_BOUND"));
           setShowEmailForm(false);
-          form.reset(
-            Value.Default(emailBindSchema, {}) as EmailBindSchema,
-          );
+          form.reset(Value.Default(emailBindSchema, {}) as EmailBindSchema);
         },
         onError: (error) => {
           toast.error(error.message);
@@ -177,10 +175,7 @@ export function AccountCard() {
                       onClick={() => {
                         setShowEmailForm(false);
                         form.reset(
-                          Value.Default(
-                            emailBindSchema,
-                            {},
-                          ) as EmailBindSchema,
+                          Value.Default(emailBindSchema, {}) as EmailBindSchema,
                         );
                       }}
                     >

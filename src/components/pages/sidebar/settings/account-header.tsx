@@ -35,11 +35,15 @@ export function AccountHeader() {
 
   if (!user) return null;
 
-  const roleBadge = user.role >= 100
-    ? { label: t("SETTINGS.ROLE_SUPER_ADMIN"), variant: "destructive" as const }
-    : user.role >= 10
-      ? { label: t("SETTINGS.ROLE_ADMIN"), variant: "default" as const }
-      : { label: t("SETTINGS.ROLE_USER"), variant: "secondary" as const };
+  const roleBadge =
+    user.role >= 100
+      ? {
+          label: t("SETTINGS.ROLE_SUPER_ADMIN"),
+          variant: "destructive" as const,
+        }
+      : user.role >= 10
+        ? { label: t("SETTINGS.ROLE_ADMIN"), variant: "default" as const }
+        : { label: t("SETTINGS.ROLE_USER"), variant: "secondary" as const };
 
   return (
     <Card>
@@ -55,29 +59,43 @@ export function AccountHeader() {
           {/* User Info */}
           <div className="flex flex-1 flex-col gap-1">
             <div className="flex items-center gap-2">
-              <span className="text-lg font-semibold">{user.display_name || user.username}</span>
+              <span className="text-lg font-semibold">
+                {user.display_name || user.username}
+              </span>
               <Badge variant={roleBadge.variant}>{roleBadge.label}</Badge>
             </div>
             <span className="text-muted-foreground text-sm">
               {t("SETTINGS.USER_ID")}: {user.id}
             </span>
-            <span className="text-2xl font-bold">{renderQuota(user.quota)}</span>
+            <span className="text-2xl font-bold">
+              {renderQuota(user.quota)}
+            </span>
           </div>
 
           {/* Stats */}
           <div className="flex items-center gap-4 text-sm sm:gap-6">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs">{t("SETTINGS.CONSUMPTION")}</span>
-              <span className="font-medium">{renderQuota(user.used_quota)}</span>
+              <span className="text-muted-foreground text-xs">
+                {t("SETTINGS.CONSUMPTION")}
+              </span>
+              <span className="font-medium">
+                {renderQuota(user.used_quota)}
+              </span>
             </div>
             <Separator orientation="vertical" className="h-8" />
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs">{t("SETTINGS.REQUEST_COUNT")}</span>
-              <span className="font-medium">{user.request_count?.toLocaleString()}</span>
+              <span className="text-muted-foreground text-xs">
+                {t("SETTINGS.REQUEST_COUNT")}
+              </span>
+              <span className="font-medium">
+                {user.request_count?.toLocaleString()}
+              </span>
             </div>
             <Separator orientation="vertical" className="h-8" />
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted-foreground text-xs">{t("SETTINGS.DEFAULT_GROUP")}</span>
+              <span className="text-muted-foreground text-xs">
+                {t("SETTINGS.DEFAULT_GROUP")}
+              </span>
               <span className="font-medium">{user.group || "default"}</span>
             </div>
           </div>

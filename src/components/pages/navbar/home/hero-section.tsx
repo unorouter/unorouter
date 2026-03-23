@@ -11,7 +11,7 @@ export async function HeroSection() {
   const t = await getTranslations();
 
   return (
-    <main className="relative z-10 mx-auto flex max-w-360 flex-col items-center gap-10 px-6 pt-24 pb-16 lg:gap-20 lg:pt-48 lg:pb-32 lg:flex-row">
+    <main className="relative z-10 mx-auto flex max-w-360 flex-col items-center gap-10 px-6 pt-24 pb-16 lg:flex-row lg:gap-20 lg:pt-48 lg:pb-32">
       {/* Left column */}
       <div className="w-full flex-1 space-y-6 text-center lg:space-y-10 lg:text-left">
         <div className="space-y-6">

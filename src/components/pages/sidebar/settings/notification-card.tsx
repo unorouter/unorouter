@@ -3,7 +3,13 @@
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -73,16 +79,24 @@ export function NotificationCard() {
     updateSettingMutation.mutate(
       {
         notify_type: data.notify_type,
-        quota_warning_threshold: dollarsToQuota(data.quota_threshold_dollars || 1),
-        accept_unset_model_ratio_model: parsed.accept_unset_model_ratio_model ?? false,
+        quota_warning_threshold: dollarsToQuota(
+          data.quota_threshold_dollars || 1,
+        ),
+        accept_unset_model_ratio_model:
+          parsed.accept_unset_model_ratio_model ?? false,
         record_ip_log: parsed.record_ip_log ?? false,
-        notification_email: data.notify_type === "email" ? data.notification_email : undefined,
-        webhook_url: data.notify_type === "webhook" ? data.webhook_url : undefined,
-        webhook_secret: data.notify_type === "webhook" ? data.webhook_secret : undefined,
+        notification_email:
+          data.notify_type === "email" ? data.notification_email : undefined,
+        webhook_url:
+          data.notify_type === "webhook" ? data.webhook_url : undefined,
+        webhook_secret:
+          data.notify_type === "webhook" ? data.webhook_secret : undefined,
         bark_url: data.notify_type === "bark" ? data.bark_url : undefined,
         gotify_url: data.notify_type === "gotify" ? data.gotify_url : undefined,
-        gotify_token: data.notify_type === "gotify" ? data.gotify_token : undefined,
-        gotify_priority: data.notify_type === "gotify" ? data.gotify_priority : undefined,
+        gotify_token:
+          data.notify_type === "gotify" ? data.gotify_token : undefined,
+        gotify_priority:
+          data.notify_type === "gotify" ? data.gotify_priority : undefined,
       },
       {
         onSuccess: () => {
@@ -114,14 +128,12 @@ export function NotificationCard() {
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-full sm:w-64">
                         <SelectValue>
-                          {
-                            {
-                              email: t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL"),
-                              webhook: t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK"),
-                              bark: t("SETTINGS.NOTIFICATIONS.METHOD_BARK"),
-                              gotify: t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY"),
-                            }[field.value] || field.value
-                          }
+                          {{
+                            email: t("SETTINGS.NOTIFICATIONS.METHOD_EMAIL"),
+                            webhook: t("SETTINGS.NOTIFICATIONS.METHOD_WEBHOOK"),
+                            bark: t("SETTINGS.NOTIFICATIONS.METHOD_BARK"),
+                            gotify: t("SETTINGS.NOTIFICATIONS.METHOD_GOTIFY"),
+                          }[field.value] || field.value}
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
@@ -182,14 +194,18 @@ export function NotificationCard() {
                   name="webhook_url"
                   schema={notificationSettingSchema}
                   label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL")}
-                  placeholder={t("SETTINGS.NOTIFICATIONS.WEBHOOK_URL_PLACEHOLDER")}
+                  placeholder={t(
+                    "SETTINGS.NOTIFICATIONS.WEBHOOK_URL_PLACEHOLDER",
+                  )}
                 />
                 <MyFormInput
                   control={form.control}
                   name="webhook_secret"
                   schema={notificationSettingSchema}
                   label={t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET")}
-                  placeholder={t("SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET_PLACEHOLDER")}
+                  placeholder={t(
+                    "SETTINGS.NOTIFICATIONS.WEBHOOK_SECRET_PLACEHOLDER",
+                  )}
                 />
               </div>
             )}
@@ -211,14 +227,18 @@ export function NotificationCard() {
                   name="gotify_url"
                   schema={notificationSettingSchema}
                   label={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL")}
-                  placeholder={t("SETTINGS.NOTIFICATIONS.GOTIFY_URL_PLACEHOLDER")}
+                  placeholder={t(
+                    "SETTINGS.NOTIFICATIONS.GOTIFY_URL_PLACEHOLDER",
+                  )}
                 />
                 <MyFormInput
                   control={form.control}
                   name="gotify_token"
                   schema={notificationSettingSchema}
                   label={t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN")}
-                  placeholder={t("SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN_PLACEHOLDER")}
+                  placeholder={t(
+                    "SETTINGS.NOTIFICATIONS.GOTIFY_TOKEN_PLACEHOLDER",
+                  )}
                 />
                 <MyFormInput
                   control={form.control}

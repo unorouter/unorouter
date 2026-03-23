@@ -1,4 +1,5 @@
 export const queryKeys = {
+  searchIndex: () => ["search-index"] as const,
   pricing: () => ["pricing"] as const,
   models: () => ["models"] as const,
   statsLive: () => ["stats-live"] as const,

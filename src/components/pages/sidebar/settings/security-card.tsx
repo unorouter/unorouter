@@ -15,7 +15,14 @@ import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { LuCopy, LuKey, LuLock, LuFingerprint, LuShieldCheck, LuTrash2 } from "react-icons/lu";
+import {
+  LuCopy,
+  LuKey,
+  LuLock,
+  LuFingerprint,
+  LuShieldCheck,
+  LuTrash2,
+} from "react-icons/lu";
 import { ChangePasswordDialog } from "./change-password-dialog";
 import { Setup2FADialog } from "./setup-2fa-dialog";
 import { DeleteAccountDialog } from "./delete-account-dialog";
@@ -41,7 +48,10 @@ export function SecurityCard() {
   function handleGenerateToken() {
     generateTokenMutation.mutate(undefined, {
       onSuccess: (data) => {
-        const token = typeof data === "string" ? data : (data as { data?: string })?.data || "";
+        const token =
+          typeof data === "string"
+            ? data
+            : (data as { data?: string })?.data || "";
         setAccessToken(token);
         toast.success(t("SETTINGS.SECURITY.TOKEN_GENERATED"));
       },
@@ -60,14 +70,16 @@ export function SecurityCard() {
   async function handleRegisterPasskey() {
     try {
       const beginData = await passkeyRegisterBeginMutation.mutateAsync();
-      const options = (beginData as { options?: unknown })?.options || beginData;
+      const options =
+        (beginData as { options?: unknown })?.options || beginData;
       const credential = await navigator.credentials.create({
         publicKey: options as PublicKeyCredentialCreationOptions,
       });
       if (!credential) return;
 
       const attestationResponse = credential as PublicKeyCredential;
-      const response = attestationResponse.response as AuthenticatorAttestationResponse;
+      const response =
+        attestationResponse.response as AuthenticatorAttestationResponse;
 
       const credentialData = {
         id: attestationResponse.id,
@@ -77,14 +89,10 @@ export function SecurityCard() {
         type: attestationResponse.type,
         response: {
           attestationObject: btoa(
-            String.fromCharCode(
-              ...new Uint8Array(response.attestationObject),
-            ),
+            String.fromCharCode(...new Uint8Array(response.attestationObject)),
           ),
           clientDataJSON: btoa(
-            String.fromCharCode(
-              ...new Uint8Array(response.clientDataJSON),
-            ),
+            String.fromCharCode(...new Uint8Array(response.clientDataJSON)),
           ),
         },
       };

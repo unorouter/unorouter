@@ -81,9 +81,7 @@ export function TOCLayout(props: TOCLayoutProps) {
 
   return (
     <>
-      <main className="flex flex-1 flex-col gap-2">
-        {props.children}
-      </main>
+      <main className="flex flex-1 flex-col gap-2">{props.children}</main>
       <TOCPanel className="mt-4 mr-4" />
     </>
   );

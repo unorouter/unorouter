@@ -1,15 +1,15 @@
+import { Callout } from "@/components/elements/callout";
+import { CodeBlock } from "@/components/elements/code-block";
+import { GetStartedButton } from "@/components/elements/get-started-link";
+import { TOCLayout } from "@/components/layout/docs/toc";
+import { createTOC } from "@/components/layout/docs/toc-utils";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { GetStartedButton } from "@/components/elements/get-started-link";
-import { CodeBlock } from "@/components/elements/code-block";
-import { Callout } from "@/components/elements/callout";
-import { TOCLayout } from "@/components/layout/docs/toc";
-import { createTOC } from "@/components/layout/docs/toc-utils";
-import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 
 export async function generateMetadata(props: {
@@ -28,14 +28,33 @@ export async function generateMetadata(props: {
 export default async function ClaudeCodePage() {
   const t = await getTranslations();
 
-  const toc = createTOC([
-    { title: t("DOCS.CLAUDE_CODE.TOC_DEMO"), url: "#demo", depth: 2 },
-    { title: t("DOCS.CLAUDE_CODE.TOC_FEATURES"), url: "#features", depth: 2 },
-    { title: t("DOCS.CLAUDE_CODE.TOC_CONFIG"), url: "#ai-model-configuration", depth: 2 },
-    { title: t("DOCS.CLAUDE_CODE.TOC_WINDOWS"), url: "#windows-graphical-guide", depth: 3 },
-    { title: t("DOCS.CLAUDE_CODE.TOC_MACOS"), url: "#macos-graphical-guide", depth: 3 },
-    { title: t("DOCS.CLAUDE_CODE.TOC_LINUX"), url: "#linux-graphical-guide", depth: 3 },
-  ], t("DOCS.TOC_TITLE"));
+  const toc = createTOC(
+    [
+      { title: t("DOCS.CLAUDE_CODE.TOC_DEMO"), url: "#demo", depth: 2 },
+      { title: t("DOCS.CLAUDE_CODE.TOC_FEATURES"), url: "#features", depth: 2 },
+      {
+        title: t("DOCS.CLAUDE_CODE.TOC_CONFIG"),
+        url: "#ai-model-configuration",
+        depth: 2,
+      },
+      {
+        title: t("DOCS.CLAUDE_CODE.TOC_WINDOWS"),
+        url: "#windows-graphical-guide",
+        depth: 3,
+      },
+      {
+        title: t("DOCS.CLAUDE_CODE.TOC_MACOS"),
+        url: "#macos-graphical-guide",
+        depth: 3,
+      },
+      {
+        title: t("DOCS.CLAUDE_CODE.TOC_LINUX"),
+        url: "#linux-graphical-guide",
+        depth: 3,
+      },
+    ],
+    t("DOCS.TOC_TITLE"),
+  );
 
   const setupScriptBash = `${process.env.NEXT_PUBLIC_APP_URL}/scripts/claude-cli-setup.sh`;
   const setupScriptPowershell = `${process.env.NEXT_PUBLIC_APP_URL}/scripts/claude-cli-setup.ps1`;
@@ -47,7 +66,10 @@ export default async function ClaudeCodePage() {
     { titleKey: "FEATURE_TERMINAL_TITLE", descKey: "FEATURE_TERMINAL_DESC" },
     { titleKey: "FEATURE_GIT_TITLE", descKey: "FEATURE_GIT_DESC" },
     { titleKey: "FEATURE_MCP_TITLE", descKey: "FEATURE_MCP_DESC" },
-    { titleKey: "FEATURE_MULTIMODEL_TITLE", descKey: "FEATURE_MULTIMODEL_DESC" },
+    {
+      titleKey: "FEATURE_MULTIMODEL_TITLE",
+      descKey: "FEATURE_MULTIMODEL_DESC",
+    },
     { titleKey: "FEATURE_THINKING_TITLE", descKey: "FEATURE_THINKING_DESC" },
     { titleKey: "FEATURE_INPUT_TITLE", descKey: "FEATURE_INPUT_DESC" },
     { titleKey: "FEATURE_SAFE_TITLE", descKey: "FEATURE_SAFE_DESC" },
@@ -80,7 +102,7 @@ export default async function ClaudeCodePage() {
                   target="_blank"
                   className="text-primary underline"
                 >
-                  {t("DOCS.CLAUDE_CODE.ABOUT_LINK")}
+                  {chunks}
                 </Link>
               ),
             })}
@@ -98,7 +120,7 @@ export default async function ClaudeCodePage() {
 
           <Image
             src="/assets/docs/claude_code/introduce-01.webp"
-            alt="Claude Code screenshot 1"
+            alt={t("DOCS.CLAUDE_CODE.DEMO_ALT1")}
             width={800}
             height={450}
             className="my-4 rounded-lg border"
@@ -106,7 +128,7 @@ export default async function ClaudeCodePage() {
           />
           <Image
             src="/assets/docs/claude_code/introduce-02.webp"
-            alt="Claude Code screenshot 2"
+            alt={t("DOCS.CLAUDE_CODE.DEMO_ALT2")}
             width={800}
             height={450}
             className="my-4 rounded-lg border"
@@ -172,16 +194,41 @@ export default async function ClaudeCodePage() {
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.WIN_STEP1_DESC", {
                 link: (chunks) => (
-                  <Link href="https://nodejs.org" target="_blank" className="text-primary underline">
-                    nodejs.org
+                  <Link
+                    href="https://nodejs.org"
+                    target="_blank"
+                    className="text-primary underline"
+                  >
+                    {chunks}
                   </Link>
                 ),
               })}
             </p>
 
-            <Image src="/assets/docs/claude_code/windows-img-01.webp" alt="Windows Node.js download" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-02.webp" alt="Windows Node.js installer" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-03.webp" alt="Windows Node.js progress" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/windows-img-01.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP1_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-02.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP1_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-03.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP1_ALT3")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE")}
@@ -189,15 +236,33 @@ export default async function ClaudeCodePage() {
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.WIN_STEP2_DESC", {
                 link: (chunks) => (
-                  <Link href="https://git-scm.com/downloads/win" target="_blank" className="text-primary underline">
-                    git-scm.com
+                  <Link
+                    href="https://git-scm.com/downloads/win"
+                    target="_blank"
+                    className="text-primary underline"
+                  >
+                    {chunks}
                   </Link>
                 ),
               })}
             </p>
 
-            <Image src="/assets/docs/claude_code/windows-img-04.webp" alt="Git for Windows download" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-05.webp" alt="Git for Windows installer" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/windows-img-04.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP2_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-05.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP2_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE")}
@@ -205,10 +270,27 @@ export default async function ClaudeCodePage() {
             <p className="text-muted-foreground mb-4">
               {t("DOCS.CLAUDE_CODE.WIN_STEP3_DESC")}
             </p>
-            <CodeBlock language="bash" code="npm install -g @anthropic-ai/claude-code" />
+            <CodeBlock
+              language="bash"
+              code="npm install -g @anthropic-ai/claude-code"
+            />
 
-            <Image src="/assets/docs/claude_code/windows-img-06.webp" alt="npm install Claude Code" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-07.webp" alt="npm install complete" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/windows-img-06.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP3_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-07.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP3_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE")}
@@ -224,12 +306,18 @@ export default async function ClaudeCodePage() {
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
               {t("DOCS.CLAUDE_CODE.POWERSHELL_LABEL")}
             </p>
-            <CodeBlock language="powershell" code={`irm ${setupScriptPowershell} | iex`} />
+            <CodeBlock
+              language="powershell"
+              code={`irm ${setupScriptPowershell} | iex`}
+            />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
               {t("DOCS.CLAUDE_CODE.GIT_BASH_LABEL")}
             </p>
-            <CodeBlock language="bash" code={`curl -fsSL ${setupScriptBash} | bash`} />
+            <CodeBlock
+              language="bash"
+              code={`curl -fsSL ${setupScriptBash} | bash`}
+            />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
               {t("DOCS.CLAUDE_CODE.MANUAL_SETUP")}
@@ -241,10 +329,38 @@ export ANTHROPIC_BASE_URL="${apiUrl}"
 export ANTHROPIC_API_KEY="your-api-key-here"`}
             />
 
-            <Image src="/assets/docs/claude_code/windows-img-08.webp" alt="Windows env config" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-09.webp" alt="Windows system env" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows_configure.png" alt="Windows Claude Code config" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-11.webp" alt="Windows env set" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/windows-img-08.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-09.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows_configure.png"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT3")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-11.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT4")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE")}
@@ -252,14 +368,59 @@ export ANTHROPIC_API_KEY="your-api-key-here"`}
             <p className="text-muted-foreground mb-4">
               {t("DOCS.CLAUDE_CODE.WIN_STEP5_DESC")}
             </p>
-            <CodeBlock language="bash" code={`cd /path/to/your/project\nclaude`} />
+            <CodeBlock
+              language="bash"
+              code={`cd /path/to/your/project\nclaude`}
+            />
 
-            <Image src="/assets/docs/claude_code/windows-img-12.webp" alt="Launch Claude Code" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-13.webp" alt="Claude Code running" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-14.webp" alt="Claude Code project" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-15.webp" alt="Claude Code generating" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-16.webp" alt="Claude Code completing" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/windows-img-17.webp" alt="Claude Code output" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/windows-img-12.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-13.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-14.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT3")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-15.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT4")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-16.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT5")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/windows-img-17.webp"
+              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT6")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
           </div>
 
           {/* macOS GUIDE */}
@@ -274,8 +435,12 @@ export ANTHROPIC_API_KEY="your-api-key-here"`}
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.MAC_STEP1_DESC", {
                 link: (chunks) => (
-                  <Link href="https://brew.sh" target="_blank" className="text-primary underline">
-                    Homebrew
+                  <Link
+                    href="https://brew.sh"
+                    target="_blank"
+                    className="text-primary underline"
+                  >
+                    {chunks}
                   </Link>
                 ),
               })}
@@ -289,8 +454,22 @@ brew install node
 npm install -g @anthropic-ai/claude-code`}
             />
 
-            <Image src="/assets/docs/claude_code/macos-img-01.webp" alt="macOS install" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos-img-02.webp" alt="macOS install complete" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/macos-img-01.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP1_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos-img-02.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP1_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE")}
@@ -302,7 +481,10 @@ npm install -g @anthropic-ai/claude-code`}
             <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
               <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_RUN")}</p>
             </Callout>
-            <CodeBlock language="bash" code={`curl -fsSL ${setupScriptBash} | bash`} />
+            <CodeBlock
+              language="bash"
+              code={`curl -fsSL ${setupScriptBash} | bash`}
+            />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
               {t("DOCS.CLAUDE_CODE.MANUAL_SETUP_SHELL")}
@@ -317,9 +499,30 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 source ~/.zshrc`}
             />
 
-            <Image src="/assets/docs/claude_code/macos-img-04.webp" alt="macOS env vars" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos-img-05.webp" alt="macOS env configured" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos_configure.png" alt="macOS config" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/macos-img-04.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP2_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos-img-05.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP2_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos_configure.png"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP2_ALT3")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE")}
@@ -327,18 +530,52 @@ source ~/.zshrc`}
             <p className="text-muted-foreground mb-4">
               {t("DOCS.CLAUDE_CODE.MAC_STEP3_DESC")}
             </p>
-            <CodeBlock language="bash" code={`cd /path/to/your/project\nclaude`} />
+            <CodeBlock
+              language="bash"
+              code={`cd /path/to/your/project\nclaude`}
+            />
 
-            <Image src="/assets/docs/claude_code/macos-img-06.webp" alt="macOS launch" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos-img-07.webp" alt="macOS running" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos-img-08.webp" alt="macOS project" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos-img-09.webp" alt="macOS output" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/macos-img-06.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos-img-07.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos-img-08.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT3")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos-img-09.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT4")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE")}
             </h4>
 
-            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_TITLE")}>
+            <Callout
+              type="warn"
+              title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_TITLE")}
+            >
               <p>
                 {t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_DESC", {
                   code: "EACCES",
@@ -352,7 +589,10 @@ source ~/.zshrc`}
               </pre>
             </Callout>
 
-            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_TITLE")}>
+            <Callout
+              type="warn"
+              title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_TITLE")}
+            >
               <p>
                 {t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_DESC", {
                   checkCmd: "node --version",
@@ -361,8 +601,22 @@ source ~/.zshrc`}
               </p>
             </Callout>
 
-            <Image src="/assets/docs/claude_code/macos-img-10.webp" alt="macOS troubleshoot" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/macos-img-11.webp" alt="macOS resolved" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/macos-img-10.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_ISSUES_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/macos-img-11.webp"
+              alt={t("DOCS.CLAUDE_CODE.MAC_ISSUES_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
           </div>
 
           {/* LINUX GUIDE */}
@@ -391,7 +645,14 @@ nvm install --lts
 npm install -g @anthropic-ai/claude-code`}
             />
 
-            <Image src="/assets/docs/claude_code/linux-img-01.webp" alt="Linux install" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/linux-img-01.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP1_ALT")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE")}
@@ -403,7 +664,10 @@ npm install -g @anthropic-ai/claude-code`}
             <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
               <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_RUN")}</p>
             </Callout>
-            <CodeBlock language="bash" code={`curl -fsSL ${setupScriptBash} | bash`} />
+            <CodeBlock
+              language="bash"
+              code={`curl -fsSL ${setupScriptBash} | bash`}
+            />
 
             <p className="text-muted-foreground mt-4 mb-2 font-medium">
               {t("DOCS.CLAUDE_CODE.MANUAL_SETUP_SHORT")}
@@ -418,8 +682,22 @@ export ANTHROPIC_API_KEY="your-api-key-here"
 source ~/.bashrc`}
             />
 
-            <Image src="/assets/docs/claude_code/linux-img-03.webp" alt="Linux env vars" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/linux-img-04.webp" alt="Linux env configured" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/linux-img-03.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP2_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/linux-img-04.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP2_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE")}
@@ -427,18 +705,52 @@ source ~/.bashrc`}
             <p className="text-muted-foreground mb-4">
               {t("DOCS.CLAUDE_CODE.LINUX_STEP3_DESC")}
             </p>
-            <CodeBlock language="bash" code={`cd /path/to/your/project\nclaude`} />
+            <CodeBlock
+              language="bash"
+              code={`cd /path/to/your/project\nclaude`}
+            />
 
-            <Image src="/assets/docs/claude_code/linux-img-05.webp" alt="Linux launch" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/linux-img-06.webp" alt="Linux running" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/linux-img-07.webp" alt="Linux project" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
-            <Image src="/assets/docs/claude_code/linux-img-08.webp" alt="Linux output" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/linux-img-05.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT1")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/linux-img-06.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT2")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/linux-img-07.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT3")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
+            <Image
+              src="/assets/docs/claude_code/linux-img-08.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT4")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
 
             <h4 className="mt-8 mb-2 text-lg font-medium">
               {t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE")}
             </h4>
 
-            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_TITLE")}>
+            <Callout
+              type="warn"
+              title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_TITLE")}
+            >
               <p>
                 {t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_DESC", {
                   code: "EACCES",
@@ -452,14 +764,24 @@ source ~/.bashrc`}
               </pre>
             </Callout>
 
-            <Callout type="warn" title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_TITLE")}>
+            <Callout
+              type="warn"
+              title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_TITLE")}
+            >
               <p>{t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_DESC")}</p>
               <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
                 sudo apt-get install -y build-essential
               </pre>
             </Callout>
 
-            <Image src="/assets/docs/claude_code/linux-img-09.webp" alt="Linux troubleshoot" width={800} height={450} className="my-4 rounded-lg border" unoptimized />
+            <Image
+              src="/assets/docs/claude_code/linux-img-09.webp"
+              alt={t("DOCS.CLAUDE_CODE.LINUX_ISSUES_ALT")}
+              width={800}
+              height={450}
+              className="my-4 rounded-lg border"
+              unoptimized
+            />
           </div>
         </section>
 

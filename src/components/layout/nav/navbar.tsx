@@ -18,6 +18,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { MobileNav } from "./mobile-nav";
+import { NavbarSearch } from "./navbar-search";
 import { isActiveLink, navigation } from "./navigation";
 
 export function Navbar() {
@@ -95,6 +96,7 @@ export function Navbar() {
 
         {/* Desktop Auth */}
         <div className="hidden items-center gap-4 md:flex">
+          <NavbarSearch />
           <LanguageToggle />
           <ThemeToggle />
           {authQuery.data ? (

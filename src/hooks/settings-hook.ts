@@ -17,15 +17,13 @@ export function use2FAStatusQuery() {
 export function usePasskeyStatusQuery() {
   return useQuery({
     queryKey: queryKeys.passkeyStatus(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.settings.passkey.get()),
+    queryFn: async () => handleElysia(await rpc.api.settings.passkey.get()),
   });
 }
 
 export function useGenerateAccessTokenMutation() {
   return useMutation({
-    mutationFn: async () =>
-      handleElysia(await rpc.api.settings.token.get()),
+    mutationFn: async () => handleElysia(await rpc.api.settings.token.get()),
   });
 }
 
@@ -49,8 +47,7 @@ export function useUpdateSelfMutation() {
 
 export function useDeleteSelfMutation() {
   return useMutation({
-    mutationFn: async () =>
-      handleElysia(await rpc.api.settings.self.delete()),
+    mutationFn: async () => handleElysia(await rpc.api.settings.self.delete()),
   });
 }
 
@@ -68,9 +65,7 @@ export function useUpdateSettingMutation() {
 export function useSendSettingsVerificationMutation() {
   return useMutation({
     mutationFn: async (data: { email: string; turnstile?: string }) =>
-      handleElysia(
-        await rpc.api.settings.verification.get({ query: data }),
-      ),
+      handleElysia(await rpc.api.settings.verification.get({ query: data })),
   });
 }
 
@@ -106,9 +101,7 @@ export function useDisable2FAMutation() {
 export function usePasskeyRegisterBeginMutation() {
   return useMutation({
     mutationFn: async () =>
-      handleElysia(
-        await rpc.api.settings.passkey.register.begin.post(),
-      ),
+      handleElysia(await rpc.api.settings.passkey.register.begin.post()),
   });
 }
 

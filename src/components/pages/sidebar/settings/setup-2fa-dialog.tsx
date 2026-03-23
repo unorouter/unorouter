@@ -269,10 +269,7 @@ export function Setup2FADialog(props: {
                   >
                     {t("SETTINGS.BACK")}
                   </Button>
-                  <Button
-                    type="submit"
-                    disabled={enable2FAMutation.isPending}
-                  >
+                  <Button type="submit" disabled={enable2FAMutation.isPending}>
                     {t("SETTINGS.SECURITY.VERIFY_AND_ENABLE")}
                   </Button>
                 </DialogFooter>

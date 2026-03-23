@@ -63,9 +63,7 @@ export default async function CodexPage() {
           </Badge>
         </div>
 
-        <h1 className="mt-4 text-4xl font-bold">
-          {t("DOCS.CODEX.TITLE")}
-        </h1>
+        <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CODEX.TITLE")}</h1>
         <p className="text-muted-foreground mt-4 text-lg">
           {t("DOCS.CODEX.SUBTITLE", APP_VALUES)}
         </p>
@@ -242,10 +240,7 @@ export default async function CodexPage() {
               <p className="text-muted-foreground mb-4 text-sm">
                 {t("DOCS.CODEX.WINDOWS_STEP3_DESC")}
               </p>
-              <CodeBlock
-                language="bash"
-                code="npm i -g @openai/codex"
-              />
+              <CodeBlock language="bash" code="npm i -g @openai/codex" />
               <Image
                 src="/assets/docs/codex/windows-img-06.webp"
                 alt={t("DOCS.CODEX.WINDOWS_STEP3_ALT")}
@@ -339,7 +334,10 @@ export default async function CodexPage() {
           </div>
 
           {/* macOS Guide */}
-          <div className="border-border mt-12 border-t pt-8" id="macos-graphical-guide">
+          <div
+            className="border-border mt-12 border-t pt-8"
+            id="macos-graphical-guide"
+          >
             <h3 className="mb-4 text-xl font-semibold">
               {t("DOCS.CODEX.MACOS_TITLE")}
             </h3>
@@ -354,7 +352,9 @@ export default async function CodexPage() {
               </p>
               <CodeBlock
                 language="bash"
-                code={'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'}
+                code={
+                  '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+                }
               />
               <Image
                 src="/assets/docs/codex/macos-img-01.webp"
@@ -428,10 +428,7 @@ export default async function CodexPage() {
               <p className="text-muted-foreground mb-4 text-sm">
                 {t("DOCS.CODEX.MACOS_STEP3_DESC")}
               </p>
-              <CodeBlock
-                language="bash"
-                code="npm install -g @openai/codex"
-              />
+              <CodeBlock language="bash" code="npm install -g @openai/codex" />
               <Image
                 src="/assets/docs/codex/macos-img-07.webp"
                 alt={t("DOCS.CODEX.MACOS_STEP3_ALT")}
@@ -538,7 +535,10 @@ export default async function CodexPage() {
           </div>
 
           {/* Linux Guide */}
-          <div className="border-border mt-12 border-t pt-8" id="linux-graphical-guide">
+          <div
+            className="border-border mt-12 border-t pt-8"
+            id="linux-graphical-guide"
+          >
             <h3 className="mb-4 text-xl font-semibold">
               {t("DOCS.CODEX.LINUX_TITLE")}
             </h3>
@@ -581,10 +581,7 @@ export default async function CodexPage() {
               <p className="text-muted-foreground mb-4 text-sm">
                 {t("DOCS.CODEX.LINUX_STEP2_DESC")}
               </p>
-              <CodeBlock
-                language="bash"
-                code="npm install -g @openai/codex"
-              />
+              <CodeBlock language="bash" code="npm install -g @openai/codex" />
               <Image
                 src="/assets/docs/codex/linux-img-03.webp"
                 alt={t("DOCS.CODEX.LINUX_STEP2_ALT")}

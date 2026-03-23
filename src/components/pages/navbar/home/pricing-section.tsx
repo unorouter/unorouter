@@ -59,7 +59,11 @@ export function PricingSection() {
                 key={plan.id}
                 name={plan.title}
                 price={`$${plan.priceAmount}/${t("BILLING.MONTH").toLowerCase().slice(0, 3)}`}
-                description={t("PRICING.CARD_VALUE", { value: `~$${plan.estimatedTotalUsd}` }) + `. ${multiplier}x ${t("PRICING.CARD_SPEC_MULTIPLIER")}.`}
+                description={
+                  t("PRICING.CARD_VALUE", {
+                    value: `~$${plan.estimatedTotalUsd}`,
+                  }) + `. ${multiplier}x ${t("PRICING.CARD_SPEC_MULTIPLIER")}.`
+                }
                 endpoint={`$${plan.quotaPerResetUsd}${resetLabel}`}
                 highlight={i === 0}
               />
@@ -68,7 +72,7 @@ export function PricingSection() {
         </Link>
 
         {/* Feature details */}
-        <div className="grid items-start gap-8 lg:gap-16 lg:grid-cols-2">
+        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-8">
             <div>
               <h3 className="text-foreground mb-4 font-mono text-xl font-bold">
