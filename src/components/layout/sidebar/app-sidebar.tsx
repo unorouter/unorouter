@@ -25,7 +25,7 @@ export function AppSidebar(props: AppSidebarProps) {
   const isDocs = navConfig === "docs";
 
   return (
-    <Sidebar collapsible={isDocs ? "offcanvas" : "icon"} {...sidebarProps}>
+    <Sidebar collapsible="icon" {...sidebarProps}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
