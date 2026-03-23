@@ -7,9 +7,10 @@ COPY package.json ./
 RUN bun install
 
 #
-FROM node:24-alpine AS builder
+FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
+COPY --from=deps /usr/local/bin/bun /usr/local/bin/bun
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 ENV STANDALONE=1
