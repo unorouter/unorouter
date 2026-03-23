@@ -1,5 +1,6 @@
 "use client";
 
+import { PageHeader } from "@/components/elements/page-header";
 import { PricingCard } from "@/components/elements/pricing-card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
@@ -44,20 +45,14 @@ export function Pricing() {
   return (
     <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b pt-24 pb-16">
       <div className="mx-auto max-w-360 px-6">
-        <div className="mb-16 text-center">
-          <div className="border-foreground/20 bg-foreground/5 mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5">
-            <LuZap className="text-foreground h-3 w-3" />
-            <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
-              {t("HOME.PRICING_LABEL")}
-            </span>
-          </div>
-          <h2 className="text-foreground mb-4 text-3xl leading-[1.1] font-bold tracking-tight md:text-5xl">
-            {t("PRICING.TITLE")}
-          </h2>
-          <p className="text-muted-foreground mx-auto max-w-2xl font-mono text-sm leading-relaxed">
-            {t("PRICING.SUBTITLE")}
-          </p>
-        </div>
+        <PageHeader
+          badge={t("HOME.PRICING_LABEL")}
+          badgeIcon={LuZap}
+          title={t("PRICING.TITLE")}
+          subtitle={t("PRICING.SUBTITLE")}
+          centered
+          className="mb-16"
+        />
 
         {/* Coming Soon Banner */}
         <div className="mb-12 overflow-hidden rounded-lg border border-red-600/20 bg-linear-to-r from-red-600/5 via-transparent to-red-600/5 p-6 md:flex md:items-center md:justify-between">

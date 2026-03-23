@@ -3,7 +3,7 @@ import { CodeBlock } from "@/components/elements/code-block";
 import { GetStartedButton } from "@/components/elements/get-started-link";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
-import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -63,19 +63,11 @@ export async function ClaudeCodeContent() {
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
-        {/* Header */}
-        <div className="mb-2 flex items-center gap-2">
-          <Badge variant="outline" className="font-mono text-xs">
-            {t("DOCS.CLAUDE_CODE.BADGE")}
-          </Badge>
-        </div>
-
-        <h1 className="mt-4 text-4xl font-bold">
-          {t("DOCS.CLAUDE_CODE.TITLE")}
-        </h1>
-        <p className="text-muted-foreground mt-4 text-lg">
-          {t("DOCS.CLAUDE_CODE.SUBTITLE", APP_VALUES)}
-        </p>
+        <PageHeader
+          badge={t("DOCS.CLAUDE_CODE.BADGE")}
+          title={t("DOCS.CLAUDE_CODE.TITLE")}
+          subtitle={t("DOCS.CLAUDE_CODE.SUBTITLE", APP_VALUES)}
+        />
 
         {/* Project Introduction */}
         <Callout type="info" title={t("DOCS.CLAUDE_CODE.ABOUT_TITLE")}>

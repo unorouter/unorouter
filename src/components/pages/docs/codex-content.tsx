@@ -1,5 +1,5 @@
 import { APP_VALUES } from "@/lib/config/constants";
-import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { GetStartedButton } from "@/components/elements/get-started-link";
 import { CodeBlock } from "@/components/elements/code-block";
@@ -41,17 +41,11 @@ export async function CodexContent() {
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
-        {/* Header */}
-        <div className="mb-2 flex items-center gap-2">
-          <Badge variant="outline" className="font-mono text-xs">
-            {t("DOCS.CODEX.BADGE")}
-          </Badge>
-        </div>
-
-        <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CODEX.TITLE")}</h1>
-        <p className="text-muted-foreground mt-4 text-lg">
-          {t("DOCS.CODEX.SUBTITLE", APP_VALUES)}
-        </p>
+        <PageHeader
+          badge={t("DOCS.CODEX.BADGE")}
+          title={t("DOCS.CODEX.TITLE")}
+          subtitle={t("DOCS.CODEX.SUBTITLE", APP_VALUES)}
+        />
 
         {/* Project Intro Callout */}
         <Callout type="info" title={t("DOCS.CODEX.PROJECT_INTRO_TITLE")}>

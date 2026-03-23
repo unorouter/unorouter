@@ -1,24 +1,26 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/elements/page-header";
 import { GetStartedButton } from "@/components/elements/get-started-link";
 import { IntegrationRow } from "@/components/pages/navbar/docs/integration-row";
 import { integrations } from "@/components/pages/navbar/docs/integrations";
 import { getTranslations } from "next-intl/server";
+import { LuBookOpen } from "react-icons/lu";
 
 export async function DocsIndexContent() {
   const t = await getTranslations();
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
-      <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight">
-          {t("DOCS_INDEX.TITLE")}
-        </h1>
-        <p className="text-muted-foreground mx-auto mt-4 max-w-2xl font-mono text-lg">
-          {t("DOCS_INDEX.SUBTITLE", APP_VALUES)}
-        </p>
-      </div>
+      <PageHeader
+        badge={t("DOCS_INDEX.BADGE")}
+        badgeIcon={LuBookOpen}
+        title={t("DOCS_INDEX.TITLE")}
+        subtitle={t("DOCS_INDEX.SUBTITLE", APP_VALUES)}
+        centered
+        className="mb-12"
+      />
 
       <div className="space-y-6">
         {integrations.map((integration) => (

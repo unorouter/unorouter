@@ -225,6 +225,7 @@
       "DESCRIPTION": "Nutze {appName} mit Claude Code, Codex CLI, Gemini CLI, OpenClaw und mehr. Einrichtungsanleitungen für alle wichtigen KI-Tools.",
       "KEYWORDS": "KI Integrationsanleitungen, Claude Code Einrichtung, Codex CLI Einrichtung, Gemini CLI Einrichtung, OpenClaw Einrichtung, KI API Dokumentation"
     },
+    "BADGE": "Integrationen",
     "TITLE": "Integrationen",
     "SUBTITLE": "Nutze {appName} mit deinen bevorzugten KI-Tools. Wähle eine Anleitung unten, um loszulegen.",
     "QUICK_START": "Schnellstart",

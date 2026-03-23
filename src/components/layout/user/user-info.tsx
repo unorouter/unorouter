@@ -29,7 +29,7 @@ export function UserInfo(props: UserInfoProps) {
   return (
     <div className={cn("flex min-w-0 flex-1 flex-col gap-1", props.className)}>
       <div className="flex items-center gap-2">
-        <UserAvatar className={props.avatarClassName} />
+        <UserAvatar variant="initials" className={props.avatarClassName} />
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="text-foreground truncate font-medium">
             {userDisplay.displayName}

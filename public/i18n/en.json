@@ -225,6 +225,7 @@
       "DESCRIPTION": "Use {appName} with Claude Code, Codex CLI, Gemini CLI, OpenClaw and more. Setup guides for every major AI tool.",
       "KEYWORDS": "AI integration guides, Claude Code setup, Codex CLI setup, Gemini CLI setup, OpenClaw setup, AI API documentation"
     },
+    "BADGE": "Integrations",
     "TITLE": "Integrations",
     "SUBTITLE": "Use {appName} with your favorite AI tools. Pick a guide below to get started.",
     "QUICK_START": "Quick Start",

@@ -1,5 +1,5 @@
 import { APP_VALUES } from "@/lib/config/constants";
-import { Badge } from "@/components/ui/badge";
+import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { GetStartedButton } from "@/components/elements/get-started-link";
 import { CodeBlock } from "@/components/elements/code-block";
@@ -52,16 +52,11 @@ export async function CCSwitchContent() {
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
-        <div className="mb-2 flex items-center gap-2">
-          <Badge variant="outline" className="font-mono text-xs">
-            {t("DOCS.CC_SWITCH.BADGE")}
-          </Badge>
-        </div>
-
-        <h1 className="mt-4 text-4xl font-bold">{t("DOCS.CC_SWITCH.TITLE")}</h1>
-        <p className="text-muted-foreground mt-4 text-lg">
-          {t("DOCS.CC_SWITCH.SUBTITLE")}
-        </p>
+        <PageHeader
+          badge={t("DOCS.CC_SWITCH.BADGE")}
+          title={t("DOCS.CC_SWITCH.TITLE")}
+          subtitle={t("DOCS.CC_SWITCH.SUBTITLE")}
+        />
 
         {/* Project Intro */}
         <Callout type="info" title={t("DOCS.CC_SWITCH.INTRO_TITLE")}>
