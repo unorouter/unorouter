@@ -58,7 +58,7 @@ export function LoginForm() {
         return;
       }
 
-      router.push(getRedirectPath());
+      router.push(getRedirectPath() as any);
       router.refresh();
     } catch {
       turnstileRef.current?.reset();
@@ -70,7 +70,7 @@ export function LoginForm() {
     return (
       <TwoFAForm
         onSuccess={() => {
-          router.push(getRedirectPath());
+          router.push(getRedirectPath() as any);
           router.refresh();
         }}
       />

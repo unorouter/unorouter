@@ -65,7 +65,7 @@ export function UserDropdown(props: UserDropdownProps) {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           {sidebarNavigation().map((item) => (
-            <Link key={item.href} href={item.href}>
+            <Link key={String(item.href)} href={item.href}>
               <DropdownMenuItem>
                 {item.icon && <item.icon />}
                 {t(item.name)}

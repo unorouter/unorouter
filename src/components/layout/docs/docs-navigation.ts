@@ -1,4 +1,5 @@
 import type { TranslationKey } from "@/lib/config/constants";
+import type { LinkHref } from "@/i18n/routing";
 import type { IconType } from "react-icons";
 import {
   LuLayoutGrid,
@@ -11,7 +12,7 @@ import {
 
 export type DocsNavItem = {
   name: TranslationKey;
-  href: string;
+  href: LinkHref;
   icon: IconType;
 };
 

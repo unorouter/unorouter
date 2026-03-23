@@ -1,4 +1,5 @@
 import { TranslationKey } from "@/lib/config/constants";
+import type { LinkHref } from "@/i18n/routing";
 import type { IconType } from "react-icons/lib";
 import {
   LuBookOpen,
@@ -19,15 +20,16 @@ import {
 
 export type NavigationItem = {
   name: TranslationKey;
-  href: string;
+  href: LinkHref;
   icon?: IconType;
   hidden?: boolean;
   submenu?: NavigationItem[];
 };
 
-export const isActiveLink = (pathname: string, href: string) => {
+export const isActiveLink = (pathname: string, href: LinkHref) => {
+  const hrefStr = typeof href === "string" ? href : href.pathname;
   const cleanPathname = pathname.replace(/\/$/, "") || "/";
-  const cleanHref = href.replace(/\/$/, "") || "/";
+  const cleanHref = hrefStr.replace(/\/$/, "") || "/";
 
   if (cleanHref === "/") {
     return cleanPathname === "/";

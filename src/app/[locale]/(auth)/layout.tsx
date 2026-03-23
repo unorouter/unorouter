@@ -22,7 +22,7 @@ export default async function AuthLayout(props: { children: ReactNode }) {
 
   if (self?.data?.data?.id) {
     const redirectTo = await getCookie(AUTH_REDIRECT_COOKIE, { cookies });
-    redirect({ href: (redirectTo as string) || "/dashboard", locale });
+    redirect((redirectTo as string) || "/dashboard" as any);
   }
 
   await queryClient.prefetchQuery({

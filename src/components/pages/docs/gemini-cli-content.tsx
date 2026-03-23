@@ -1,12 +1,12 @@
-import { APP_VALUES } from "@/lib/config/constants";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { GetStartedButton } from "@/components/elements/get-started-link";
-import { CodeBlock } from "@/components/elements/code-block";
 import { Callout } from "@/components/elements/callout";
+import { CodeBlock } from "@/components/elements/code-block";
+import { GetStartedButton } from "@/components/elements/get-started-link";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 
 export async function GeminiCliContent() {

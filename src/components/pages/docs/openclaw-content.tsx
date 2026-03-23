@@ -62,31 +62,31 @@ export async function OpenClawContent() {
           <p>{t("DOCS.OPENCLAW.INTRO_DESC")}</p>
           <ul className="mt-2 list-disc space-y-1 pl-4">
             <li>
-              <Link
+              <a
                 href="https://openclaw.ai"
                 target="_blank"
                 className="text-primary underline"
               >
                 openclaw.ai
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
+              <a
                 href="https://docs.openclaw.ai"
                 target="_blank"
                 className="text-primary underline"
               >
                 docs.openclaw.ai
-              </Link>
+              </a>
             </li>
             <li>
-              <Link
+              <a
                 href="https://github.com/openclaw/openclaw"
                 target="_blank"
                 className="text-primary underline"
               >
                 GitHub
-              </Link>
+              </a>
             </li>
           </ul>
         </Callout>

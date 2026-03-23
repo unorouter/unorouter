@@ -82,13 +82,13 @@ export async function ClaudeCodeContent() {
           <p>
             {t.rich("DOCS.CLAUDE_CODE.ABOUT_DESC", {
               link: (chunks) => (
-                <Link
+                <a
                   href="https://docs.anthropic.com/en/docs/claude-code/overview"
                   target="_blank"
                   className="text-primary underline"
                 >
                   {chunks}
-                </Link>
+                </a>
               ),
             })}
           </p>
@@ -179,13 +179,13 @@ export async function ClaudeCodeContent() {
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.WIN_STEP1_DESC", {
                 link: (chunks) => (
-                  <Link
+                  <a
                     href="https://nodejs.org"
                     target="_blank"
                     className="text-primary underline"
                   >
                     {chunks}
-                  </Link>
+                  </a>
                 ),
               })}
             </p>
@@ -221,13 +221,13 @@ export async function ClaudeCodeContent() {
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.WIN_STEP2_DESC", {
                 link: (chunks) => (
-                  <Link
+                  <a
                     href="https://git-scm.com/downloads/win"
                     target="_blank"
                     className="text-primary underline"
                   >
                     {chunks}
-                  </Link>
+                  </a>
                 ),
               })}
             </p>
@@ -420,13 +420,13 @@ export ANTHROPIC_API_KEY="your-api-key-here"`}
             <p className="text-muted-foreground mb-4">
               {t.rich("DOCS.CLAUDE_CODE.MAC_STEP1_DESC", {
                 link: (chunks) => (
-                  <Link
+                  <a
                     href="https://brew.sh"
                     target="_blank"
                     className="text-primary underline"
                   >
                     {chunks}
-                  </Link>
+                  </a>
                 ),
               })}
             </p>

@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useSearchQuery } from "@/hooks/search-hook";
 import { Link } from "@/i18n/navigation";
+import type { LinkHref } from "@/i18n/routing";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -83,7 +84,7 @@ export function DocsSearch() {
                 {searchResults.results.map((result) => (
                   <Link
                     key={result.url}
-                    href={result.url}
+                    href={result.url as LinkHref}
                     onClick={handleSelect}
                   >
                     <CommandItem
