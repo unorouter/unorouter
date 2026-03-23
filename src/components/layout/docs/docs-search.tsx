@@ -9,13 +9,14 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Button } from "@/components/ui/button";
 import { useSearchQuery } from "@/hooks/search-hook";
 import { Link } from "@/i18n/navigation";
 import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-export function NavbarSearch() {
+export function DocsSearch() {
   const t = useTranslations();
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
@@ -40,16 +41,18 @@ export function NavbarSearch() {
 
   return (
     <>
-      <button
-        type="button"
+      <Button
+        variant="outline"
+        size="sm"
+        className="text-muted-foreground relative w-full justify-start gap-2 pr-12 text-sm font-normal"
         onClick={() => setOpen(true)}
-        className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-[11px] font-medium tracking-widest uppercase transition-colors"
       >
-        <Search className="size-3.5" />
-        <kbd className="bg-muted text-muted-foreground pointer-events-none hidden h-5 items-center gap-0.5 rounded border px-1.5 font-mono text-[10px] font-medium select-none sm:inline-flex">
-          <span>⌘</span>K
+        <Search className="size-4" />
+        <span>{t("SEARCH.PLACEHOLDER")}</span>
+        <kbd className="bg-muted text-muted-foreground pointer-events-none absolute right-2 hidden h-5 items-center gap-1 rounded border px-1.5 font-mono text-xs font-medium opacity-100 select-none sm:flex">
+          <span className="text-xs">⌘</span>K
         </kbd>
-      </button>
+      </Button>
       <CommandDialog
         open={open}
         onOpenChange={setOpen}
