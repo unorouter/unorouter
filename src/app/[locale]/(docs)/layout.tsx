@@ -1,6 +1,4 @@
-import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
-import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 
 interface DocsLayoutProps {
   children: React.ReactNode;
@@ -8,19 +6,8 @@ interface DocsLayoutProps {
 
 export default function DocsLayout(props: DocsLayoutProps) {
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 64)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="sidebar" navConfig="docs" />
-      <SidebarInset className="overflow-hidden">
-        <SidebarHeader showSearch />
-        <div className="flex flex-1 overflow-y-auto">{props.children}</div>
-      </SidebarInset>
-    </SidebarProvider>
+    <SidebarLayout navConfig="docs" showSearch>
+      {props.children}
+    </SidebarLayout>
   );
 }
