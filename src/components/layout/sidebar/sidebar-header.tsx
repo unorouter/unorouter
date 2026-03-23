@@ -25,9 +25,9 @@ export function SidebarHeader(props: SidebarHeaderProps) {
     <header className="flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
       <div className="flex h-full w-full items-center gap-3 px-4">
         <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="h-full" />
+        <Separator orientation="vertical" className="mx-2 h-8 self-auto!" />
         {props.showSearch && (
-          <div className="min-w-0 flex-1 max-w-56">
+          <div className="max-w-56 min-w-0 flex-1">
             <DocsSearch />
           </div>
         )}
