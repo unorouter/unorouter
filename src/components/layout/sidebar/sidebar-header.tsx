@@ -1,5 +1,6 @@
 "use client";
 
+import { DocsSearch } from "@/components/layout/docs/docs-search";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
@@ -11,7 +12,11 @@ import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { LuLogIn } from "react-icons/lu";
 
-export function SidebarHeader() {
+interface SidebarHeaderProps {
+  showSearch?: boolean;
+}
+
+export function SidebarHeader(props: SidebarHeaderProps) {
   const userDisplay = useUserDisplay();
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -21,6 +26,11 @@ export function SidebarHeader() {
       <div className="flex w-full items-center gap-2 px-4">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mx-2 h-6" />
+        {props.showSearch && (
+          <div className="min-w-0 flex-1 max-w-64">
+            <DocsSearch />
+          </div>
+        )}
         <div className="ml-auto flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />

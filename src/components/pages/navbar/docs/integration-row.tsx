@@ -19,7 +19,7 @@ export async function IntegrationRow(props: { integration: Integration }) {
       <div className="p-6 md:p-8">
         {/* Header row: image + info + arrow link */}
         <div className="flex flex-col gap-6 md:flex-row md:items-center">
-          <div className="flex min-w-0 flex-1 items-center gap-5">
+          <div className="flex min-w-0 flex-1 flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
             <div className="relative shrink-0">
               <div
                 className={`absolute inset-0 ${props.integration.color.glow} rounded-full blur-xl`}

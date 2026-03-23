@@ -2,7 +2,6 @@
 
 import { CompanyName, LogoImage } from "@/components/elements/brand";
 import type { NavigationItem } from "@/components/layout/nav/navigation";
-import { DocsSearch } from "@/components/layout/docs/docs-search";
 import {
   Sidebar,
   SidebarContent,
@@ -45,11 +44,6 @@ export function AppSidebar(props: AppSidebarProps) {
             />
           </SidebarMenuItem>
         </SidebarMenu>
-        {isDocs && (
-          <div className="px-2 pt-2">
-            <DocsSearch />
-          </div>
-        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarNavigation navConfig={navConfig} />

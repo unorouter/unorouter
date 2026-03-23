@@ -18,7 +18,7 @@ export default function DocsLayout(props: DocsLayoutProps) {
     >
       <AppSidebar variant="sidebar" navConfig="docs" />
       <SidebarInset className="overflow-hidden">
-        <SidebarHeader />
+        <SidebarHeader showSearch />
         <div className="flex flex-1 overflow-y-auto">{props.children}</div>
       </SidebarInset>
     </SidebarProvider>

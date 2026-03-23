@@ -61,7 +61,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
                     nativeButton={false}
-                    className="text-muted-foreground hover:text-foreground h-auto bg-transparent px-0 py-0 text-[11px] font-medium tracking-widest uppercase hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-open:hover:bg-transparent data-open:focus:bg-transparent data-popup-open:bg-transparent"
+                    className="text-muted-foreground hover:text-foreground h-auto min-h-0 bg-transparent p-0 text-[11px] font-medium leading-none tracking-widest uppercase hover:bg-transparent focus:bg-transparent data-open:bg-transparent data-open:hover:bg-transparent data-open:focus:bg-transparent data-popup-open:bg-transparent"
                     render={
                       <Link href={docsItem.href}>{t(docsItem.name)}</Link>
                     }

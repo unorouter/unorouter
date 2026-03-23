@@ -15,6 +15,7 @@ import {
   sidebarNavigation,
 } from "@/components/layout/nav/navigation";
 import { docsNavItems } from "@/components/layout/docs/docs-navigation";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import type { SidebarNavConfig } from "./app-sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -66,14 +67,22 @@ interface SidebarNavigationProps {
 
 export function SidebarNavigation(props: SidebarNavigationProps) {
   const t = useTranslations();
+  const { data: user } = useAuthQuery();
+  const authenticated = !!user;
 
   if (props.navConfig === "docs") {
-    return <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={docsNavItems} />;
+    const mainNavItems = navigation(authenticated).filter((item) => !item.hidden);
+    return (
+      <>
+        <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={docsNavItems} />
+        <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
+      </>
+    );
   }
 
   const navItems = sidebarNavigation();
   const sidebarPaths = new Set(navItems.map((item) => item.href));
-  const mainNavItems = navigation().filter(
+  const mainNavItems = navigation(authenticated).filter(
     (item) => !sidebarPaths.has(item.href),
   );
 
