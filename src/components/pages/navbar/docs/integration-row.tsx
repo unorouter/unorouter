@@ -6,11 +6,15 @@ import Image from "next/image";
 import { LuArrowRight } from "react-icons/lu";
 import { type Integration } from "./integrations";
 
-export async function IntegrationRow(props: { integration: Integration }) {
+export async function IntegrationRow(props: {
+  integration: Integration;
+  id?: string;
+}) {
   const t = await getTranslations();
 
   return (
     <div
+      id={props.id}
       className={`relative rounded-lg border ${props.integration.color.border} bg-card/40 overflow-hidden backdrop-blur-sm`}
     >
       {/* Colored top line */}
