@@ -15,7 +15,7 @@ COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 ENV STANDALONE=1
 
-RUN npm run build
+RUN bun run build
 
 #
 FROM oven/bun:1-alpine AS prod
