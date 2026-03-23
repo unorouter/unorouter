@@ -8,6 +8,7 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
+import { GiCrabClaw } from "react-icons/gi";
 
 export async function OpenClawContent() {
   const t = await getTranslations();
@@ -48,8 +49,10 @@ export async function OpenClawContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.OPENCLAW.BADGE")}
+          badgeIcon={GiCrabClaw}
           title={t("DOCS.OPENCLAW.TITLE")}
           subtitle={t("DOCS.OPENCLAW.SUBTITLE", APP_VALUES)}
+          centered
         />
 
         {/* Project Intro */}

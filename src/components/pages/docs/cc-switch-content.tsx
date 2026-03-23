@@ -8,6 +8,7 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
+import { LuArrowLeftRight } from "react-icons/lu";
 
 export async function CCSwitchContent() {
   const t = await getTranslations();
@@ -54,8 +55,10 @@ export async function CCSwitchContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.CC_SWITCH.BADGE")}
+          badgeIcon={LuArrowLeftRight}
           title={t("DOCS.CC_SWITCH.TITLE")}
           subtitle={t("DOCS.CC_SWITCH.SUBTITLE")}
+          centered
         />
 
         {/* Project Intro */}

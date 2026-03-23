@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
+import Claude from "@lobehub/icons/es/Claude";
 
 export async function ClaudeCodeContent() {
   const t = await getTranslations();
@@ -65,8 +66,10 @@ export async function ClaudeCodeContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.CLAUDE_CODE.BADGE")}
+          badgeIcon={Claude}
           title={t("DOCS.CLAUDE_CODE.TITLE")}
           subtitle={t("DOCS.CLAUDE_CODE.SUBTITLE", APP_VALUES)}
+          centered
         />
 
         {/* Project Introduction */}

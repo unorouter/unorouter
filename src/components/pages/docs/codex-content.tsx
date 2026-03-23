@@ -9,6 +9,7 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
+import OpenAI from "@lobehub/icons/es/OpenAI";
 
 export async function CodexContent() {
   const t = await getTranslations();
@@ -43,8 +44,10 @@ export async function CodexContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.CODEX.BADGE")}
+          badgeIcon={OpenAI}
           title={t("DOCS.CODEX.TITLE")}
           subtitle={t("DOCS.CODEX.SUBTITLE", APP_VALUES)}
+          centered
         />
 
         {/* Project Intro Callout */}

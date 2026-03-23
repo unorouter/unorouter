@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
+import Gemini from "@lobehub/icons/es/Gemini";
 
 export async function GeminiCliContent() {
   const t = await getTranslations();
@@ -46,8 +47,10 @@ export async function GeminiCliContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.GEMINI_CLI.BADGE")}
+          badgeIcon={Gemini}
           title={t("DOCS.GEMINI_CLI.TITLE")}
           subtitle={t("DOCS.GEMINI_CLI.SUBTITLE", APP_VALUES)}
+          centered
         />
 
         {/* Project Intro */}
