@@ -6,7 +6,6 @@ import { DocsSearch } from "@/components/layout/docs/docs-search";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -15,7 +14,6 @@ import {
 import { Link } from "@/i18n/navigation";
 import * as React from "react";
 import { SidebarNavigation } from "./sidebar-navigation";
-import { SidebarUser } from "./sidebar-user";
 
 export type SidebarNavConfig = "default" | "docs";
 
@@ -56,11 +54,6 @@ export function AppSidebar(props: AppSidebarProps) {
       <SidebarContent>
         <SidebarNavigation navConfig={navConfig} />
       </SidebarContent>
-      {!isDocs && (
-        <SidebarFooter>
-          <SidebarUser />
-        </SidebarFooter>
-      )}
     </Sidebar>
   );
 }

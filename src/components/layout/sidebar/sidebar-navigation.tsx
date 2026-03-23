@@ -74,7 +74,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   const navItems = sidebarNavigation();
   const sidebarPaths = new Set(navItems.map((item) => item.href));
   const mainNavItems = navigation().filter(
-    (item) => !item.submenu && !sidebarPaths.has(item.href),
+    (item) => !sidebarPaths.has(item.href),
   );
 
   return (
