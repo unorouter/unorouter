@@ -1,5 +1,6 @@
 "use client";
 
+import { CopyButton } from "@/components/elements/copy-button";
 import { VendorIcon } from "@/components/elements/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import type { ProcessedModel } from "@/lib/api/pricing";
@@ -39,9 +40,12 @@ export function ModelCard(props: {
         <div className="flex items-center gap-3">
           <VendorIcon vendor={model.vendor.name} size={20} />
           <div>
-            <h3 className="font-mono text-sm font-medium tracking-wide">
-              {model.name}
-            </h3>
+            <div className="flex items-center gap-1.5">
+              <h3 className="font-mono text-sm font-medium tracking-wide">
+                {model.name}
+              </h3>
+              <CopyButton text={model.name} iconSize="h-3 w-3" />
+            </div>
             <p className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
               {model.vendor.name}
             </p>

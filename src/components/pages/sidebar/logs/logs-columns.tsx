@@ -1,5 +1,6 @@
 "use client";
 
+import { CopyButton } from "@/components/elements/copy-button";
 import { copyToClipboard } from "@/lib/utils/base";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,7 +29,6 @@ import type React from "react";
 import { useState } from "react";
 import {
   LuChevronRight,
-  LuCopy,
   LuFilter,
   LuScrollText,
   LuSearch,
@@ -371,17 +371,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
           <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-400">
             {log.request_id}
           </code>
-          <button
-            type="button"
-            className="text-muted-foreground hover:text-foreground cursor-pointer border-0 bg-transparent p-0 transition-colors"
-            onClick={(e) => {
-              e.stopPropagation();
-              copyToClipboard(log.request_id ?? "");
-              toast.success(t("LOGS.COPIED"));
-            }}
-          >
-            <LuCopy className="h-3 w-3" />
-          </button>
+          <CopyButton text={log.request_id ?? ""} iconSize="h-3 w-3" toastMessage={t("LOGS.COPIED")} />
         </span>
       ),
     });

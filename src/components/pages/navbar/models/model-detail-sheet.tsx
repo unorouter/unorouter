@@ -1,6 +1,6 @@
 "use client";
 
-import { copyToClipboard } from "@/lib/utils/base";
+import { CopyButton } from "@/components/elements/copy-button";
 import { VendorIcon } from "@/components/elements/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -20,8 +20,6 @@ import { formatPrice } from "@/lib/utils/base";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
 import {
-  LuCopy,
-  LuCheck,
   LuLink,
   LuInfo,
   LuTag,
@@ -39,28 +37,6 @@ type ModelDetailSheetProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-function CopyButton(props: { text: string }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    copyToClipboard(props.text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-
-  return (
-    <button
-      onClick={handleCopy}
-      className="text-muted-foreground hover:text-foreground transition-colors"
-    >
-      {copied ? (
-        <LuCheck className="h-3.5 w-3.5" />
-      ) : (
-        <LuCopy className="h-3.5 w-3.5" />
-      )}
-    </button>
-  );
-}
 
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
@@ -438,62 +414,110 @@ function GroupPricingSection(props: {
                   </div>
                 </div>
               ))
-            : (() => {
-                const groupPrices = groupEntries.map((ge) => {
-                  const inputPrice = model.modelRatio * 2 * ge.ratio;
-                  const outputPrice = inputPrice * model.completionRatio;
-                  return { ...ge, inputPrice, outputPrice };
-                });
-                return (
-                  <div
-                    className={cn(
-                      "rounded-lg border p-3",
-                      theme.bg,
-                      theme.border,
-                    )}
-                  >
-                    <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
-                      <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                        {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
-                      </span>
-                      <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                        {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
-                      </span>
-                      <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                        {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
-                      </span>
-                    </div>
-                    <div className="space-y-1.5">
-                      {groupPrices.map((gp) => (
-                        <div
-                          key={gp.group}
-                          className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
-                        >
-                          <span className="text-muted-foreground truncate font-mono text-[10px]">
-                            {gp.group}
-                          </span>
-                          <span
-                            className={cn(
-                              "text-right font-mono text-xs font-medium",
-                              theme.text,
-                            )}
+            : model.isFixedPrice
+              ? (() => {
+                  const groupPrices = groupEntries.map((ge) => ({
+                    ...ge,
+                    price: model.fixedPrice * ge.ratio,
+                  }));
+                  return (
+                    <div
+                      className={cn(
+                        "rounded-lg border p-3",
+                        theme.bg,
+                        theme.border,
+                      )}
+                    >
+                      <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto] gap-x-4 gap-y-0 border-b pb-2">
+                        <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                          {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
+                        </span>
+                        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+                          {t("MODELS.DETAIL_PRICING")}
+                        </span>
+                      </div>
+                      <div className="space-y-1.5">
+                        {groupPrices.map((gp) => (
+                          <div
+                            key={gp.group}
+                            className="grid grid-cols-[1fr_auto] items-baseline gap-x-4"
                           >
-                            {formatPrice(gp.inputPrice)}
-                          </span>
-                          <span
-                            className={cn(
-                              "text-right font-mono text-xs font-medium",
-                              theme.text,
-                            )}
-                          >
-                            {formatPrice(gp.outputPrice)}
-                          </span>
-                        </div>
-                      ))}
+                            <span className="text-muted-foreground truncate font-mono text-[10px]">
+                              {gp.group}
+                            </span>
+                            <span
+                              className={cn(
+                                "text-right font-mono text-xs font-medium",
+                                theme.text,
+                              )}
+                            >
+                              {formatPrice(gp.price)}
+                              <span className="text-muted-foreground ml-1 text-[10px] font-normal">
+                                {t("MODELS.PRICE_PER_REQUEST")}
+                              </span>
+                            </span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()
+              : (() => {
+                  const groupPrices = groupEntries.map((ge) => {
+                    const inputPrice = model.modelRatio * 2 * ge.ratio;
+                    const outputPrice = inputPrice * model.completionRatio;
+                    return { ...ge, inputPrice, outputPrice };
+                  });
+                  return (
+                    <div
+                      className={cn(
+                        "rounded-lg border p-3",
+                        theme.bg,
+                        theme.border,
+                      )}
+                    >
+                      <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
+                        <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                          {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
+                        </span>
+                        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+                          {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
+                        </span>
+                        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+                          {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
+                        </span>
+                      </div>
+                      <div className="space-y-1.5">
+                        {groupPrices.map((gp) => (
+                          <div
+                            key={gp.group}
+                            className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
+                          >
+                            <span className="text-muted-foreground truncate font-mono text-[10px]">
+                              {gp.group}
+                            </span>
+                            <span
+                              className={cn(
+                                "text-right font-mono text-xs font-medium",
+                                theme.text,
+                              )}
+                            >
+                              {formatPrice(gp.inputPrice)}
+                            </span>
+                            <span
+                              className={cn(
+                                "text-right font-mono text-xs font-medium",
+                                theme.text,
+                              )}
+                            >
+                              {formatPrice(gp.outputPrice)}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
         </div>
       )}
     </section>

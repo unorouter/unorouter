@@ -1,29 +1,18 @@
 "use client";
 
+import { CopyButton } from "@/components/elements/copy-button";
 import { useStatusQuery } from "@/hooks/status-hook";
-import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { LuCheck, LuCode, LuCopy } from "react-icons/lu";
+import { LuCode } from "react-icons/lu";
 
 export function ApiInfoPanel() {
   const t = useTranslations();
   const statusQuery = useStatusQuery();
   const status = statusQuery.data;
 
-  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
-
   if (!status?.api_info_enabled) return null;
 
   const apiInfo = status?.api_info ?? [];
-
-  function handleCopy(url: string | undefined, index: number) {
-    if (!url) return;
-    copyToClipboard(url).then(() => {
-      setCopiedIndex(index);
-      setTimeout(() => setCopiedIndex(null), 2000);
-    });
-  }
 
   return (
     <div className="border-border bg-card flex flex-col border">
@@ -59,17 +48,7 @@ export function ApiInfoPanel() {
                     <code className="bg-muted text-foreground flex-1 overflow-hidden px-2 py-1 font-mono text-[11px] text-ellipsis">
                       {entry.url}
                     </code>
-                    <button
-                      onClick={() => handleCopy(entry.url, i)}
-                      className="text-muted-foreground hover:text-foreground shrink-0 p-1 transition-colors"
-                      title={t("DASHBOARD.COPY_URL")}
-                    >
-                      {copiedIndex === i ? (
-                        <LuCheck className="h-3.5 w-3.5 text-green-500" />
-                      ) : (
-                        <LuCopy className="h-3.5 w-3.5" />
-                      )}
-                    </button>
+                    <CopyButton text={entry.url} className="text-muted-foreground hover:text-foreground shrink-0 p-1 transition-colors" />
                   </div>
                 )}
                 {entry.description && (

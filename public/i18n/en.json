@@ -756,6 +756,7 @@
   },
   "COMMON": {
     "COPY_CODE": "Copy code",
+    "COPIED": "Copied",
     "OPEN_MENU": "Open menu",
     "SEARCH": "Search..."
   },

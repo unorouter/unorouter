@@ -1,5 +1,6 @@
 "use client";
 
+import { CopyButton } from "@/components/elements/copy-button";
 import { VendorIcon } from "@/components/elements/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import type { ProcessedModel } from "@/lib/api/pricing";
@@ -35,10 +36,11 @@ export function ModelListItem(props: {
     >
       <VendorIcon vendor={model.vendor.name} size={18} />
 
-      <div className="min-w-0 flex-1">
+      <div className="flex min-w-0 flex-1 items-center gap-1.5">
         <span className="font-mono text-sm font-medium tracking-wide">
           {model.name}
         </span>
+        <CopyButton text={model.name} iconSize="h-3 w-3" />
       </div>
 
       <span className="text-muted-foreground hidden font-mono text-[10px] tracking-wider uppercase sm:inline">
