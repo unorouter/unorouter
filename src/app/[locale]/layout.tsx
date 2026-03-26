@@ -74,6 +74,7 @@ export default async function LocaleLayout(props: Props) {
     <html lang={params.locale} suppressHydrationWarning>
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} flex min-h-screen flex-col font-sans antialiased`}
+        suppressHydrationWarning
       >
         <Providers>
           <Toaster richColors />
