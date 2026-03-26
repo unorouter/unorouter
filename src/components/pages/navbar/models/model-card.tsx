@@ -36,17 +36,19 @@ export function ModelCard(props: {
         "hover:border-opacity-50",
       )}
     >
-      <div className="mb-3 flex items-start justify-between">
-        <div className="flex items-center gap-3">
+      <div className="mb-3 flex items-start justify-between gap-3">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
           <VendorIcon vendor={model.vendor.name} size={20} />
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <h3 className="font-mono text-sm font-medium tracking-wide">
+              <h3 className="truncate font-mono text-sm font-medium tracking-wide">
                 {model.name}
               </h3>
-              <CopyButton text={model.name} iconSize="h-3 w-3" />
+              <span className="shrink-0">
+                <CopyButton text={model.name} iconSize="h-3 w-3" />
+              </span>
             </div>
-            <p className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+            <p className="text-muted-foreground truncate font-mono text-[10px] tracking-wider uppercase">
               {model.vendor.name}
             </p>
           </div>

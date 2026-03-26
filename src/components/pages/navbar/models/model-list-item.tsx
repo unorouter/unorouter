@@ -37,10 +37,12 @@ export function ModelListItem(props: {
       <VendorIcon vendor={model.vendor.name} size={18} />
 
       <div className="flex min-w-0 flex-1 items-center gap-1.5">
-        <span className="font-mono text-sm font-medium tracking-wide">
+        <span className="truncate font-mono text-sm font-medium tracking-wide">
           {model.name}
         </span>
-        <CopyButton text={model.name} iconSize="h-3 w-3" />
+        <span className="shrink-0">
+          <CopyButton text={model.name} iconSize="h-3 w-3" />
+        </span>
       </div>
 
       <span className="text-muted-foreground hidden font-mono text-[10px] tracking-wider uppercase sm:inline">
