@@ -1,14 +1,19 @@
 import { msg } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
-import { FilterAll, ModelTypeFilter } from "@/lib/types/enums";
+import { ModelTypeFilter } from "@/lib/types/enums";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+
+export type ViewMode = "grid" | "list";
+export type SortOrder = "name" | "priceAsc" | "priceDesc";
 
 export type ModelsStoreState = {
   search: string;
   typeFilter: ModelTypeFilter;
-  vendorFilter: string;
+  selectedVendors: string[];
   selectedModelName: string | null;
+  viewMode: ViewMode;
+  sortOrder: SortOrder;
 };
 
 export const MODELS_STORE_KEY = "models-store";
@@ -16,8 +21,10 @@ export const MODELS_STORE_KEY = "models-store";
 export const INITIAL_MODELS_STATE: ModelsStoreState = {
   search: "",
   typeFilter: ModelTypeFilter.ALL,
-  vendorFilter: FilterAll.ALL,
+  selectedVendors: [],
   selectedModelName: null,
+  viewMode: "grid",
+  sortOrder: "name",
 };
 
 export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
@@ -42,11 +49,14 @@ export const typeFilterAtom = atom(
   },
 );
 
-export const vendorFilterAtom = atom(
-  (get) => get(modelsStoreAtom).vendorFilter,
-  (get, set, value: string) => {
+export const selectedVendorsAtom = atom(
+  (get) => {
+    const val = get(modelsStoreAtom).selectedVendors;
+    return Array.isArray(val) ? val : [];
+  },
+  (get, set, value: string[]) => {
     const state = get(modelsStoreAtom);
-    set(modelsStoreAtom, { ...state, vendorFilter: value });
+    set(modelsStoreAtom, { ...state, selectedVendors: value });
   },
 );
 
@@ -57,6 +67,32 @@ export const selectedModelNameAtom = atom(
     set(modelsStoreAtom, { ...state, selectedModelName: value });
   },
 );
+
+export const viewModeAtom = atom(
+  (get) => get(modelsStoreAtom).viewMode ?? "grid",
+  (get, set, value: ViewMode) => {
+    const state = get(modelsStoreAtom);
+    set(modelsStoreAtom, { ...state, viewMode: value });
+  },
+);
+
+export const sortOrderAtom = atom(
+  (get) => get(modelsStoreAtom).sortOrder ?? "name",
+  (get, set, value: SortOrder) => {
+    const state = get(modelsStoreAtom);
+    set(modelsStoreAtom, { ...state, sortOrder: value });
+  },
+);
+
+export const clearFiltersAtom = atom(null, (get, set) => {
+  const state = get(modelsStoreAtom);
+  set(modelsStoreAtom, {
+    ...state,
+    search: "",
+    selectedVendors: [],
+    typeFilter: ModelTypeFilter.ALL,
+  });
+});
 
 export const FILTER_OPTIONS = [
   { key: ModelTypeFilter.ALL, labelKey: msg("MODELS.FILTER_ALL") },

@@ -166,7 +166,22 @@
     "DETAIL_GROUP_HEADER_GROUP": "Group",
     "DETAIL_GROUP_HEADER_INPUT": "Input",
     "DETAIL_GROUP_HEADER_OUTPUT": "Output",
-    "FILTER_PROVIDER": "All providers"
+    "DETAIL_GRID_PRICING": "Price Grid",
+    "DETAIL_GRID_PRICING_GROUP": "Price Grid by Group",
+    "PRICE_GRID": "Grid pricing",
+    "PRICE_CUSTOM": "Custom billing",
+    "FILTER_PROVIDER": "All providers",
+    "FILTER_PROVIDER_MULTI": "Providers",
+    "FILTER_SEARCH_PROVIDERS": "Search providers...",
+    "FILTER_NO_PROVIDERS": "No providers found.",
+    "FILTER_SELECTED": "selected",
+    "FILTER_CLEAR": "Clear filters",
+    "FILTER_RESET": "Reset",
+    "SORT_NAME": "Name (A to Z)",
+    "SORT_PRICE_ASC": "Price (Low)",
+    "SORT_PRICE_DESC": "Price (High)",
+    "VIEW_GRID": "Grid view",
+    "VIEW_LIST": "List view"
   },
   "PRICING": {
     "META": {

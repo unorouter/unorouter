@@ -1,0 +1,118 @@
+"use client";
+
+import { VendorIcon } from "@/components/elements/vendor-icon";
+import { Badge } from "@/components/ui/badge";
+import type { ProcessedModel } from "@/lib/api/pricing";
+import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils/base";
+import { getVendorTheme } from "@/lib/vendor-themes";
+
+export type ModelListItemLabels = {
+  from: string;
+  perRequest: string;
+  input: string;
+  output: string;
+  perMillion: string;
+  gridPricing: string;
+  customBilling: string;
+};
+
+export function ModelListItem(props: {
+  model: ProcessedModel;
+  onClick: () => void;
+  labels: ModelListItemLabels;
+}) {
+  const model = props.model;
+  const theme = getVendorTheme(model.vendor.name);
+
+  return (
+    <div
+      onClick={props.onClick}
+      className={cn(
+        "flex cursor-pointer items-center gap-4 rounded-lg border px-4 py-3 transition-all hover:bg-muted/50",
+        theme.border,
+      )}
+    >
+      <VendorIcon vendor={model.vendor.name} size={18} />
+
+      <div className="min-w-0 flex-1">
+        <span className="font-mono text-sm font-medium tracking-wide">
+          {model.name}
+        </span>
+      </div>
+
+      <span className="text-muted-foreground hidden font-mono text-[10px] tracking-wider uppercase sm:inline">
+        {model.vendor.name}
+      </span>
+
+      <Badge
+        variant="secondary"
+        className={cn(
+          "hidden font-mono text-[10px] uppercase sm:inline-flex",
+          model.type === "text" && `${theme.tagBg} ${theme.text}`,
+          model.type === "image" &&
+            "border-green-500/30 bg-green-500/10 text-green-400",
+          model.type === "video" &&
+            "border-purple-500/30 bg-purple-500/10 text-purple-400",
+          model.type === "audio" &&
+            "border-amber-500/30 bg-amber-500/10 text-amber-400",
+          model.type === "embedding" &&
+            "border-sky-500/30 bg-sky-500/10 text-sky-400",
+        )}
+      >
+        {model.type}
+      </Badge>
+
+      <div className="flex shrink-0 items-center gap-2 text-right">
+        {model.gridPricing && (
+          <span className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
+            {props.labels.gridPricing}
+          </span>
+        )}
+        {model.quotaType === 3 && (
+          <span className="rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
+            {props.labels.customBilling}
+          </span>
+        )}
+        <div className="flex items-baseline gap-1">
+          {model.isFixedPrice ? (
+            <>
+              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+                {formatPrice(model.fixedPrice)}
+              </span>
+              <span className="text-muted-foreground font-mono text-[10px]">
+                {props.labels.perRequest}
+              </span>
+            </>
+          ) : (
+            <div className="flex items-baseline gap-3">
+              <div>
+                <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                  {props.labels.input}{" "}
+                </span>
+                <span
+                  className={cn("font-mono text-sm font-semibold", theme.text)}
+                >
+                  {formatPrice(model.inputPrice)}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                  {props.labels.output}{" "}
+                </span>
+                <span
+                  className={cn("font-mono text-sm font-semibold", theme.text)}
+                >
+                  {formatPrice(model.outputPrice)}
+                </span>
+              </div>
+              <span className="text-muted-foreground hidden font-mono text-[10px] md:inline">
+                {props.labels.perMillion}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

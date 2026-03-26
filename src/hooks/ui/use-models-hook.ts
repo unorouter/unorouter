@@ -1,24 +1,31 @@
 "use client";
 
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { FilterAll, ModelTypeFilter } from "@/lib/types/enums";
+import { ModelTypeFilter } from "@/lib/types/enums";
 import {
+  clearFiltersAtom,
   searchAtom,
   selectedModelNameAtom,
+  selectedVendorsAtom,
+  sortOrderAtom,
   typeFilterAtom,
-  vendorFilterAtom,
+  viewModeAtom,
 } from "@/store/models-store";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 
 export function useModelsFilter() {
+  const { data } = usePricingQuery();
+
   const [search, setSearch] = useAtom(searchAtom);
   const [filter, setFilter] = useAtom(typeFilterAtom);
-  const [vendorFilter, setVendorFilter] = useAtom(vendorFilterAtom);
+  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const [selectedModelName, setSelectedModelName] = useAtom(
     selectedModelNameAtom,
   );
+  const [viewMode, setViewMode] = useAtom(viewModeAtom);
+  const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
+  const clearFilters = useSetAtom(clearFiltersAtom);
 
-  const { data } = usePricingQuery();
   const models = data?.models ?? [];
   const endpointMap = data?.endpointMap ?? {};
 
@@ -29,15 +36,36 @@ export function useModelsFilter() {
   const selectedModel =
     models.find((m) => m.name === selectedModelName) ?? null;
 
-  const filtered = models.filter((model) => {
+  const hasActiveFilters =
+    search.trim().length > 0 ||
+    selectedVendors.length > 0 ||
+    filter !== ModelTypeFilter.ALL;
+
+  let filtered = models.filter((model) => {
     const matchesSearch = model.name
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesFilter =
       filter === ModelTypeFilter.ALL || model.type === filter;
     const matchesVendor =
-      vendorFilter === FilterAll.ALL || model.vendor.name === vendorFilter;
+      selectedVendors.length === 0 ||
+      selectedVendors.includes(model.vendor.name);
     return matchesSearch && matchesFilter && matchesVendor;
+  });
+
+  filtered = [...filtered].sort((a, b) => {
+    if (sortOrder === "name") {
+      return a.name.localeCompare(b.name);
+    }
+    if (sortOrder === "priceAsc") {
+      const priceA = a.isFixedPrice ? a.fixedPrice : a.inputPrice;
+      const priceB = b.isFixedPrice ? b.fixedPrice : b.inputPrice;
+      return priceA - priceB;
+    }
+    // priceDesc
+    const priceA = a.isFixedPrice ? a.fixedPrice : a.inputPrice;
+    const priceB = b.isFixedPrice ? b.fixedPrice : b.inputPrice;
+    return priceB - priceA;
   });
 
   return {
@@ -45,10 +73,16 @@ export function useModelsFilter() {
     setSearch,
     filter,
     setFilter,
-    vendorFilter,
-    setVendorFilter,
+    selectedVendors,
+    setSelectedVendors,
     selectedModel,
     setSelectedModelName,
+    viewMode,
+    setViewMode,
+    sortOrder,
+    setSortOrder,
+    clearFilters,
+    hasActiveFilters,
     models,
     filtered,
     vendorNames,

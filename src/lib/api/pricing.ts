@@ -2,6 +2,8 @@ import type { PricingData, PricingDataDataItem } from "@/openapi";
 
 export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
 
+export type GridPricingRow = Record<string, string | number>;
+
 export type ProcessedModel = {
   name: string;
   vendor: { id: number; name: string; icon: string | undefined };
@@ -9,6 +11,8 @@ export type ProcessedModel = {
   outputPrice: number;
   fixedPrice: number;
   isFixedPrice: boolean;
+  quotaType: number;
+  gridPricing: GridPricingRow[] | null;
   type: ModelType;
   endpointTypes: string[];
   description: string | undefined;
@@ -69,7 +73,9 @@ function processModels(response: PricingData) {
         name: raw?.name ?? "Unknown",
         icon: raw?.icon,
       };
-      const isFixedPrice = model.quota_type === 1;
+      const qt = model.quota_type ?? 0;
+      // Types 1 (fixed price), 3 (custom billing), 4 (grid pricing) all use model_price
+      const isFixedPrice = qt === 1 || qt === 3 || qt === 4;
 
       let inputPrice = 0;
       let outputPrice = 0;
@@ -92,6 +98,10 @@ function processModels(response: PricingData) {
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
       }
 
+      const rawGrid = model.grid_pricing as GridPricingRow[] | null | undefined;
+      const gridPricing =
+        Array.isArray(rawGrid) && rawGrid.length > 0 ? rawGrid : null;
+
       return {
         name: model.model_name ?? "",
         vendor,
@@ -99,6 +109,8 @@ function processModels(response: PricingData) {
         outputPrice,
         fixedPrice,
         isFixedPrice,
+        quotaType: qt,
+        gridPricing,
         type: getModelType(model),
         endpointTypes: model.supported_endpoint_types ?? [],
         description: model.description,

@@ -166,7 +166,22 @@
     "DETAIL_GROUP_HEADER_GROUP": "Gruppe",
     "DETAIL_GROUP_HEADER_INPUT": "Eingabe",
     "DETAIL_GROUP_HEADER_OUTPUT": "Ausgabe",
-    "FILTER_PROVIDER": "Alle Anbieter"
+    "DETAIL_GRID_PRICING": "Preistabelle",
+    "DETAIL_GRID_PRICING_GROUP": "Preistabelle nach Gruppe",
+    "PRICE_GRID": "Rasterpreise",
+    "PRICE_CUSTOM": "Individuelle Abrechnung",
+    "FILTER_PROVIDER": "Alle Anbieter",
+    "FILTER_PROVIDER_MULTI": "Anbieter",
+    "FILTER_SEARCH_PROVIDERS": "Anbieter suchen...",
+    "FILTER_NO_PROVIDERS": "Keine Anbieter gefunden.",
+    "FILTER_SELECTED": "ausgewählt",
+    "FILTER_CLEAR": "Filter zurücksetzen",
+    "FILTER_RESET": "Zurücksetzen",
+    "SORT_NAME": "Name (A bis Z)",
+    "SORT_PRICE_ASC": "Preis (aufsteigend)",
+    "SORT_PRICE_DESC": "Preis (absteigend)",
+    "VIEW_GRID": "Rasteransicht",
+    "VIEW_LIST": "Listenansicht"
   },
   "PRICING": {
     "META": {

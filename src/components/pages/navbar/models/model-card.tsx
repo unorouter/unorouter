@@ -13,6 +13,8 @@ export type ModelCardLabels = {
   input: string;
   output: string;
   perMillion: string;
+  gridPricing: string;
+  customBilling: string;
 };
 
 export function ModelCard(props: {
@@ -64,7 +66,7 @@ export function ModelCard(props: {
         </Badge>
       </div>
 
-      <div className="mt-auto pt-3">
+      <div className="mt-auto flex items-baseline justify-between gap-2 pt-3">
         {model.isFixedPrice ? (
           <div className="flex items-baseline gap-1">
             <span className="text-muted-foreground/60 font-mono text-[10px] italic">
@@ -106,6 +108,16 @@ export function ModelCard(props: {
               {props.labels.perMillion}
             </span>
           </div>
+        )}
+        {model.gridPricing && (
+          <span className="shrink-0 rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
+            {props.labels.gridPricing}
+          </span>
+        )}
+        {model.quotaType === 3 && (
+          <span className="shrink-0 rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
+            {props.labels.customBilling}
+          </span>
         )}
       </div>
     </div>

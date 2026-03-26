@@ -9,7 +9,11 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import type { EndpointInfo, ProcessedModel } from "@/lib/api/pricing";
+import type {
+  EndpointInfo,
+  GridPricingRow,
+  ProcessedModel,
+} from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import { getVendorTheme } from "@/lib/vendor-themes";
@@ -22,6 +26,7 @@ import {
   LuTag,
   LuChevronDown,
   LuLayers,
+  LuGrid3X3,
 } from "react-icons/lu";
 import { useState } from "react";
 
@@ -178,8 +183,16 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             </div>
           </section>
 
+          {/* Grid Pricing Table */}
+          {model.gridPricing && (
+            <GridPricingSection
+              gridPricing={model.gridPricing}
+              theme={theme}
+            />
+          )}
+
           {/* Group Pricing (collapsible) */}
-          {!model.isFixedPrice && model.enableGroups.length > 0 && (
+          {model.enableGroups.length > 0 && (
             <GroupPricingSection
               model={model}
               groupRatioMap={props.groupRatioMap}
@@ -250,6 +263,100 @@ function SectionHeader(props: { icon: React.ReactNode; title: string }) {
   );
 }
 
+function getGridColumns(rows: GridPricingRow[]): string[] {
+  const first = rows[0];
+  if (!first) return [];
+  return Object.keys(first).filter(
+    (k) => k !== "Pricing" && k !== "PricingSuffix",
+  );
+}
+
+function GridPricingTable(props: {
+  rows: GridPricingRow[];
+  priceMultiplier?: number;
+  theme: ReturnType<typeof getVendorTheme>;
+  pricingLabel: string;
+}) {
+  const columns = getGridColumns(props.rows);
+  const multiplier = props.priceMultiplier ?? 1;
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full font-mono text-xs">
+        <thead>
+          <tr className="border-border/40 border-b">
+            {columns.map((col) => (
+              <th
+                key={col}
+                className="text-foreground px-2 py-1.5 text-left text-[10px] font-normal uppercase"
+              >
+                {col}
+              </th>
+            ))}
+            <th className="text-foreground px-2 py-1.5 text-right text-[10px] font-normal uppercase">
+              {props.pricingLabel}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.rows.map((row, i) => {
+            const price =
+              typeof row.Pricing === "number" ? row.Pricing * multiplier : 0;
+            const suffix =
+              typeof row.PricingSuffix === "string" ? row.PricingSuffix : "";
+            return (
+              <tr key={i} className="border-border/20 border-b last:border-0">
+                {columns.map((col) => (
+                  <td
+                    key={col}
+                    className="text-muted-foreground px-2 py-1.5 text-[11px]"
+                  >
+                    {String(row[col] ?? "")}
+                  </td>
+                ))}
+                <td
+                  className={cn(
+                    "px-2 py-1.5 text-right text-[11px] font-medium",
+                    props.theme.text,
+                  )}
+                >
+                  {formatPrice(price)}
+                  {suffix && (
+                    <span className="text-muted-foreground ml-0.5 text-[10px]">
+                      {suffix}
+                    </span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function GridPricingSection(props: {
+  gridPricing: GridPricingRow[];
+  theme: ReturnType<typeof getVendorTheme>;
+}) {
+  const t = useTranslations();
+
+  return (
+    <section>
+      <SectionHeader
+        icon={<LuGrid3X3 className="h-3.5 w-3.5 text-cyan-400" />}
+        title={t("MODELS.DETAIL_GRID_PRICING")}
+      />
+      <div
+        className={cn("rounded-lg border p-3", props.theme.bg, props.theme.border)}
+      >
+        <GridPricingTable rows={props.gridPricing} theme={props.theme} pricingLabel={t("MODELS.DETAIL_PRICING")} />
+      </div>
+    </section>
+  );
+}
+
 function GroupPricingSection(props: {
   model: ProcessedModel;
   groupRatioMap: Record<string, number>;
@@ -259,24 +366,21 @@ function GroupPricingSection(props: {
   const [open, setOpen] = useState(false);
   const model = props.model;
   const theme = props.theme;
+  const hasGrid = model.gridPricing !== null;
 
-  const groupPrices = model.enableGroups
+  const groupEntries = model.enableGroups
     .map((group) => {
       const ratio = props.groupRatioMap[group];
       if (ratio === undefined) return null;
-      const inputPrice = model.modelRatio * 2 * ratio;
-      const outputPrice = inputPrice * model.completionRatio;
-      return { group, ratio, inputPrice, outputPrice };
+      return { group, ratio };
     })
     .filter(Boolean)
-    .sort((a, b) => a!.inputPrice - b!.inputPrice) as {
+    .sort((a, b) => a!.ratio - b!.ratio) as {
     group: string;
     ratio: number;
-    inputPrice: number;
-    outputPrice: number;
   }[];
 
-  if (groupPrices.length === 0) return null;
+  if (groupEntries.length === 0) return null;
 
   return (
     <section>
@@ -286,7 +390,9 @@ function GroupPricingSection(props: {
       >
         <LuLayers className="h-3.5 w-3.5 text-amber-400" />
         <span className="text-foreground font-mono text-xs tracking-wider uppercase">
-          {t("MODELS.DETAIL_GROUP_PRICING")}
+          {hasGrid
+            ? t("MODELS.DETAIL_GRID_PRICING_GROUP")
+            : t("MODELS.DETAIL_GROUP_PRICING")}
         </span>
         <LuChevronDown
           className={cn(
@@ -296,46 +402,90 @@ function GroupPricingSection(props: {
         />
       </button>
       {open && (
-        <div className={cn("rounded-lg border p-3", theme.bg, theme.border)}>
-          <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
-            <span className="text-muted-foreground font-mono text-[10px] uppercase">
-              {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
-            </span>
-            <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-              {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
-            </span>
-            <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-              {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
-            </span>
-          </div>
-          <div className="space-y-1.5">
-            {groupPrices.map((gp) => (
-              <div
-                key={gp.group}
-                className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
-              >
-                <span className="text-muted-foreground truncate font-mono text-[10px]">
-                  {gp.group}
-                </span>
-                <span
-                  className={cn(
-                    "text-right font-mono text-xs font-medium",
-                    theme.text,
-                  )}
-                >
-                  {formatPrice(gp.inputPrice)}
-                </span>
-                <span
-                  className={cn(
-                    "text-right font-mono text-xs font-medium",
-                    theme.text,
-                  )}
-                >
-                  {formatPrice(gp.outputPrice)}
-                </span>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-4">
+          {hasGrid
+            ? groupEntries.map((ge) => (
+                <div key={ge.group}>
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
+                      {ge.group}
+                    </span>
+                    <span className="text-muted-foreground font-mono text-[10px]">
+                      {ge.ratio}x
+                    </span>
+                  </div>
+                  <div
+                    className={cn(
+                      "rounded-lg border p-3",
+                      theme.bg,
+                      theme.border,
+                    )}
+                  >
+                    <GridPricingTable
+                      rows={model.gridPricing!}
+                      priceMultiplier={ge.ratio}
+                      theme={theme}
+                      pricingLabel={t("MODELS.DETAIL_PRICING")}
+                    />
+                  </div>
+                </div>
+              ))
+            : (() => {
+                const groupPrices = groupEntries.map((ge) => {
+                  const inputPrice = model.modelRatio * 2 * ge.ratio;
+                  const outputPrice = inputPrice * model.completionRatio;
+                  return { ...ge, inputPrice, outputPrice };
+                });
+                return (
+                  <div
+                    className={cn(
+                      "rounded-lg border p-3",
+                      theme.bg,
+                      theme.border,
+                    )}
+                  >
+                    <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
+                      <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                        {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
+                      </span>
+                      <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+                        {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
+                      </span>
+                      <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+                        {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
+                      </span>
+                    </div>
+                    <div className="space-y-1.5">
+                      {groupPrices.map((gp) => (
+                        <div
+                          key={gp.group}
+                          className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
+                        >
+                          <span className="text-muted-foreground truncate font-mono text-[10px]">
+                            {gp.group}
+                          </span>
+                          <span
+                            className={cn(
+                              "text-right font-mono text-xs font-medium",
+                              theme.text,
+                            )}
+                          >
+                            {formatPrice(gp.inputPrice)}
+                          </span>
+                          <span
+                            className={cn(
+                              "text-right font-mono text-xs font-medium",
+                              theme.text,
+                            )}
+                          >
+                            {formatPrice(gp.outputPrice)}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
         </div>
       )}
     </section>
