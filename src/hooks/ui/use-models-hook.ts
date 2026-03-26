@@ -39,7 +39,8 @@ export function useModelsFilter() {
   const hasActiveFilters =
     search.trim().length > 0 ||
     selectedVendors.length > 0 ||
-    filter !== ModelTypeFilter.ALL;
+    filter !== ModelTypeFilter.ALL ||
+    sortOrder !== "name";
 
   let filtered = models.filter((model) => {
     const matchesSearch = model.name

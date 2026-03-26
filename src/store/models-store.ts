@@ -91,6 +91,7 @@ export const clearFiltersAtom = atom(null, (get, set) => {
     search: "",
     selectedVendors: [],
     typeFilter: ModelTypeFilter.ALL,
+    sortOrder: "name",
   });
 });
 

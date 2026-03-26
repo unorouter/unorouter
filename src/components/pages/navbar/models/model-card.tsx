@@ -66,25 +66,25 @@ export function ModelCard(props: {
         </Badge>
       </div>
 
-      <div className="mt-auto flex items-baseline justify-between gap-2 pt-3">
-        {model.isFixedPrice ? (
-          <div className="flex items-baseline gap-1">
-            <span className="text-muted-foreground/60 font-mono text-[10px] italic">
-              {props.labels.from}
-            </span>
-            <span className={cn("font-mono text-sm font-semibold", theme.text)}>
-              {formatPrice(model.fixedPrice)}
-            </span>
-            <span className="text-muted-foreground font-mono text-[10px]">
-              {props.labels.perRequest}
-            </span>
-          </div>
-        ) : (
-          <div className="flex items-baseline gap-4">
-            <span className="text-muted-foreground/60 font-mono text-[10px] italic">
-              {props.labels.from}
-            </span>
-            <div>
+      <div className="mt-auto pt-3">
+        <div className="flex items-baseline gap-2">
+          {model.isFixedPrice ? (
+            <>
+              <span className="text-muted-foreground/60 font-mono text-[10px] italic">
+                {props.labels.from}
+              </span>
+              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+                {formatPrice(model.fixedPrice)}
+              </span>
+              <span className="text-muted-foreground font-mono text-[10px]">
+                {props.labels.perRequest}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="text-muted-foreground/60 font-mono text-[10px] italic">
+                {props.labels.from}
+              </span>
               <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.input}{" "}
               </span>
@@ -93,8 +93,6 @@ export function ModelCard(props: {
               >
                 {formatPrice(model.inputPrice)}
               </span>
-            </div>
-            <div>
               <span className="text-muted-foreground font-mono text-[10px] uppercase">
                 {props.labels.output}{" "}
               </span>
@@ -103,22 +101,22 @@ export function ModelCard(props: {
               >
                 {formatPrice(model.outputPrice)}
               </span>
-            </div>
-            <span className="text-muted-foreground font-mono text-[10px]">
-              {props.labels.perMillion}
+              <span className="text-muted-foreground font-mono text-[10px]">
+                {props.labels.perMillion}
+              </span>
+            </>
+          )}
+          {model.gridPricing && (
+            <span className="ml-auto shrink-0 rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
+              {props.labels.gridPricing}
             </span>
-          </div>
-        )}
-        {model.gridPricing && (
-          <span className="shrink-0 rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
-            {props.labels.gridPricing}
-          </span>
-        )}
-        {model.quotaType === 3 && (
-          <span className="shrink-0 rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
-            {props.labels.customBilling}
-          </span>
-        )}
+          )}
+          {model.quotaType === 3 && (
+            <span className="ml-auto shrink-0 rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
+              {props.labels.customBilling}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
