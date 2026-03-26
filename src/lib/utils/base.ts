@@ -1,22 +1,13 @@
 import type { UnwrapApiResponse } from "../types";
 
 export function copyToClipboard(text: string): Promise<void> {
-  if (navigator.clipboard?.writeText) {
-    return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
-  }
-  return fallbackCopy(text);
+  return navigator.clipboard.writeText(text);
 }
 
-function fallbackCopy(text: string): Promise<void> {
-  const textarea = document.createElement("textarea");
-  textarea.value = text;
-  textarea.style.position = "fixed";
-  textarea.style.opacity = "0";
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand("copy");
-  document.body.removeChild(textarea);
-  return Promise.resolve();
+export function copyToClipboardAsync(getData: () => Promise<string>): Promise<void> {
+  const blob = getData().then((text) => new Blob([text], { type: "text/plain" }));
+  const item = new ClipboardItem({ "text/plain": blob });
+  return navigator.clipboard.write([item]);
 }
 
 export function formatPrice(price: number): string {

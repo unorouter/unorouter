@@ -18,7 +18,7 @@ import {
   useToggleTokenStatusMutation,
 } from "@/hooks/token-hook";
 import { renderQuota } from "@/lib/config/constants";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelTokenDataItemsItem } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -83,13 +83,11 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
       toast.success(t("TOKEN.KEY_COPIED"));
       return;
     }
-    fetchKeyMutation.mutate(token.id, {
-      onSuccess: (data) => {
-        copyToClipboard(`sk-${data.key}`);
-        toast.success(t("TOKEN.KEY_COPIED"));
-      },
-      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
-    });
+    copyToClipboardAsync(() =>
+      fetchKeyMutation.mutateAsync(token.id).then((data) => `sk-${data.key}`),
+    )
+      .then(() => toast.success(t("TOKEN.KEY_COPIED")))
+      .catch(() => toast.error(t("TOKEN.FETCH_KEY_FAILED")));
   }
 
   function handleToggleReveal() {
