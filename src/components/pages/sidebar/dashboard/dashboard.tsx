@@ -52,7 +52,7 @@ export function Dashboard() {
       </div>
 
       {/* Stats Cards */}
-      <div className="border-border mb-6 overflow-hidden border">
+      <div className="border-border mb-6 border">
         <StatsCards />
       </div>
 
