@@ -1,5 +1,6 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/utils/base";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
@@ -174,7 +175,7 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
               type="button"
               className="cursor-pointer border-0 bg-transparent p-0"
               onClick={() => {
-                navigator.clipboard.writeText(log.model_name);
+                copyToClipboard(log.model_name);
                 toast.success(t("LOGS.COPIED"));
               }}
             />
@@ -375,7 +376,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
             className="text-muted-foreground hover:text-foreground cursor-pointer border-0 bg-transparent p-0 transition-colors"
             onClick={(e) => {
               e.stopPropagation();
-              navigator.clipboard.writeText(log.request_id ?? "");
+              copyToClipboard(log.request_id ?? "");
               toast.success(t("LOGS.COPIED"));
             }}
           >

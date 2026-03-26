@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
+import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import {
@@ -77,13 +78,13 @@ export function AffiliatePage() {
 
   function handleCopyLink() {
     if (!inviteLink) return;
-    navigator.clipboard.writeText(inviteLink);
+    copyToClipboard(inviteLink);
     toast.success(t("AFFILIATE.LINK_COPIED"));
   }
 
   function handleCopyCode() {
     if (!affCode) return;
-    navigator.clipboard.writeText(affCode);
+    copyToClipboard(affCode);
     toast.success(t("AFFILIATE.CODE_COPIED"));
   }
 

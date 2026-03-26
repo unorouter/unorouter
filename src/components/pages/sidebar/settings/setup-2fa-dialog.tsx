@@ -1,5 +1,6 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -99,7 +100,7 @@ export function Setup2FADialog(props: {
 
   function copyBackupCodes() {
     if (!setupData) return;
-    navigator.clipboard.writeText(setupData.backup_codes.join("\n"));
+    copyToClipboard(setupData.backup_codes.join("\n"));
     toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
   }
 
@@ -208,7 +209,7 @@ export function Setup2FADialog(props: {
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(setupData.secret);
+                    copyToClipboard(setupData.secret);
                     toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
                   }}
                 >

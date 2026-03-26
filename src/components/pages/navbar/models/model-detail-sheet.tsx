@@ -1,5 +1,6 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/utils/base";
 import { VendorIcon } from "@/components/elements/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -42,7 +43,7 @@ function CopyButton(props: { text: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(props.text);
+    copyToClipboard(props.text);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };

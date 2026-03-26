@@ -1,6 +1,7 @@
 "use client";
 
 import { useStatusQuery } from "@/hooks/status-hook";
+import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuCheck, LuCode, LuCopy } from "react-icons/lu";
@@ -18,7 +19,7 @@ export function ApiInfoPanel() {
 
   function handleCopy(url: string | undefined, index: number) {
     if (!url) return;
-    navigator.clipboard.writeText(url).then(() => {
+    copyToClipboard(url).then(() => {
       setCopiedIndex(index);
       setTimeout(() => setCopiedIndex(null), 2000);
     });

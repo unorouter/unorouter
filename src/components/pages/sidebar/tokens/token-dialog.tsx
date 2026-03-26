@@ -28,6 +28,7 @@ import {
   useUpdateTokenMutation,
 } from "@/hooks/token-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
+import { copyToClipboard } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
@@ -109,13 +110,13 @@ export function TokenDialog(props: TokenDialogProps) {
   function handleCopyKey() {
     if (!props.token) return;
     if (revealedKey) {
-      navigator.clipboard.writeText(`sk-${revealedKey}`);
+      copyToClipboard(`sk-${revealedKey}`);
       toast.success(t("TOKEN.KEY_COPIED"));
       return;
     }
     fetchKeyMutation.mutate(props.token.id, {
       onSuccess: (data) => {
-        navigator.clipboard.writeText(`sk-${data.key}`);
+        copyToClipboard(`sk-${data.key}`);
         toast.success(t("TOKEN.KEY_COPIED"));
       },
       onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),

@@ -1,5 +1,6 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/utils/base";
 import { LuCheck, LuCopy } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -14,7 +15,7 @@ export function CopyButton(props: Props) {
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
-    navigator.clipboard.writeText(props.text);
+    copyToClipboard(props.text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }

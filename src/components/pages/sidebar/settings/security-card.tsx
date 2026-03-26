@@ -1,5 +1,6 @@
 "use client";
 
+import { copyToClipboard } from "@/lib/utils/base";
 import {
   use2FAStatusQuery,
   useGenerateAccessTokenMutation,
@@ -63,7 +64,7 @@ export function SecurityCard() {
 
   function handleCopyToken() {
     if (!accessToken) return;
-    navigator.clipboard.writeText(accessToken);
+    copyToClipboard(accessToken);
     toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
   }
 

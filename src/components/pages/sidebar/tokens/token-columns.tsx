@@ -18,6 +18,7 @@ import {
   useToggleTokenStatusMutation,
 } from "@/hooks/token-hook";
 import { renderQuota } from "@/lib/config/constants";
+import { copyToClipboard } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelTokenDataItemsItem } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -78,13 +79,13 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
 
   function handleCopy() {
     if (revealedKey) {
-      navigator.clipboard.writeText(`sk-${revealedKey}`);
+      copyToClipboard(`sk-${revealedKey}`);
       toast.success(t("TOKEN.KEY_COPIED"));
       return;
     }
     fetchKeyMutation.mutate(token.id, {
       onSuccess: (data) => {
-        navigator.clipboard.writeText(`sk-${data.key}`);
+        copyToClipboard(`sk-${data.key}`);
         toast.success(t("TOKEN.KEY_COPIED"));
       },
       onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
