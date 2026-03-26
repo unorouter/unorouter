@@ -175,6 +175,38 @@ brew install --cask cc-switch`}
           <Callout type="info" title={t("DOCS.CC_SWITCH.DEEP_LINK_TITLE")}>
             <p>{t("DOCS.CC_SWITCH.DEEP_LINK_DESC", APP_VALUES)}</p>
           </Callout>
+
+          <div className="mt-6 space-y-4">
+            <h3 className="text-lg font-medium">
+              {t("DOCS.CC_SWITCH.DEEP_LINK_EXAMPLES")}
+            </h3>
+            <div className="space-y-3">
+              {(
+                [
+                  { label: "Claude Code", app: "claude", suffix: "" },
+                  { label: "Codex CLI", app: "codex", suffix: "/v1" },
+                  { label: "Gemini CLI", app: "gemini", suffix: "" },
+                  { label: "OpenClaw", app: "openclaw", suffix: "/v1" },
+                ] as const
+              ).map((item) => (
+                <div key={item.app}>
+                  <p className="text-sm font-medium">{item.label}</p>
+                  <CodeBlock
+                    language="text"
+                    code={`ccswitch://v1/import?resource=provider&app=${item.app}&name=UnoRouter&endpoint=${encodeURIComponent(`${process.env.NEXT_PUBLIC_API_URL}${item.suffix}`)}`}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <h3 className="mt-6 text-lg font-medium">
+              {t("DOCS.CC_SWITCH.CLI_ALTERNATIVE")}
+            </h3>
+            <CodeBlock
+              language="bash"
+              code="cc-switch provider add"
+            />
+          </div>
         </section>
 
         {/* CTA */}

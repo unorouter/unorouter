@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 import Gemini from "@lobehub/icons/es/Gemini";
+import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function GeminiCliContent() {
   const t = await getTranslations();
@@ -21,6 +22,11 @@ export async function GeminiCliContent() {
         depth: 2,
       },
       { title: t("DOCS.GEMINI_CLI.TOC_FEATURES"), url: "#features", depth: 2 },
+      {
+        title: t("DOCS.CC_SWITCH_SETUP_TITLE"),
+        url: "#cc-switch-setup",
+        depth: 2,
+      },
       {
         title: t("DOCS.GEMINI_CLI.TOC_INSTALLATION"),
         url: "#installation",
@@ -117,6 +123,18 @@ gemini`}
             </li>
           </ul>
         </section>
+
+        {/* CC Switch Quick Setup */}
+        <CCSwitchSetup
+          app="gemini"
+          endpoint={process.env.NEXT_PUBLIC_API_URL!}
+          cliCodeBlock={
+            <CodeBlock
+              language="bash"
+              code="cc-switch provider add"
+            />
+          }
+        />
 
         {/* Installation */}
         <section className="mt-12" id="installation">

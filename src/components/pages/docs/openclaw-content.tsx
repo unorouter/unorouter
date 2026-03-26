@@ -9,6 +9,7 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { GiCrabClaw } from "react-icons/gi";
+import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function OpenClawContent() {
   const t = await getTranslations();
@@ -18,6 +19,11 @@ export async function OpenClawContent() {
       {
         title: t("DOCS.OPENCLAW.TOC_CORE_FEATURES"),
         url: "#core-features",
+        depth: 2,
+      },
+      {
+        title: t("DOCS.CC_SWITCH_SETUP_TITLE"),
+        url: "#cc-switch-setup",
         depth: 2,
       },
       {
@@ -112,6 +118,18 @@ export async function OpenClawContent() {
             </li>
           </ul>
         </section>
+
+        {/* CC Switch Quick Setup */}
+        <CCSwitchSetup
+          app="openclaw"
+          endpoint={`${process.env.NEXT_PUBLIC_API_URL}/v1`}
+          cliCodeBlock={
+            <CodeBlock
+              language="bash"
+              code="cc-switch provider add"
+            />
+          }
+        />
 
         {/* Installation */}
         <section className="mt-12" id="installation">

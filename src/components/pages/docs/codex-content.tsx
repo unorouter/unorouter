@@ -8,52 +8,193 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 import OpenAI from "@lobehub/icons/es/OpenAI";
+import { OSTabs } from "./os-tabs";
+import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function CodexContent() {
   const t = await getTranslations();
 
   const toc = createTOC([
-    { title: t("DOCS.CODEX.DEMO_TITLE"), url: "#demo", depth: 2 },
     { title: t("DOCS.CODEX.FEATURES_TITLE"), url: "#features", depth: 2 },
+    {
+      title: t("DOCS.CC_SWITCH_SETUP_TITLE"),
+      url: "#cc-switch-setup",
+      depth: 2,
+    },
     {
       title: t("DOCS.CODEX.AI_CONFIG_TITLE"),
       url: "#ai-model-configuration",
       depth: 2,
     },
-    {
-      title: t("DOCS.CODEX.WINDOWS_TITLE"),
-      url: "#windows-graphical-guide",
-      depth: 3,
-    },
-    { title: t("DOCS.CODEX.WINDOWS_STEP1_TITLE"), url: "#codex-win-step-1", depth: 4 },
-    { title: t("DOCS.CODEX.WINDOWS_STEP2_TITLE"), url: "#codex-win-step-2", depth: 4 },
-    { title: t("DOCS.CODEX.WINDOWS_STEP3_TITLE"), url: "#codex-win-step-3", depth: 4 },
-    { title: t("DOCS.CODEX.WINDOWS_STEP4_TITLE", APP_VALUES), url: "#codex-win-step-4", depth: 4 },
-    { title: t("DOCS.CODEX.WINDOWS_STEP5_TITLE"), url: "#codex-win-step-5", depth: 4 },
-    {
-      title: t("DOCS.CODEX.MACOS_TITLE"),
-      url: "#macos-graphical-guide",
-      depth: 3,
-    },
-    { title: t("DOCS.CODEX.MACOS_STEP1_TITLE"), url: "#codex-mac-step-1", depth: 4 },
-    { title: t("DOCS.CODEX.MACOS_STEP2_TITLE"), url: "#codex-mac-step-2", depth: 4 },
-    { title: t("DOCS.CODEX.MACOS_STEP3_TITLE"), url: "#codex-mac-step-3", depth: 4 },
-    { title: t("DOCS.CODEX.MACOS_STEP4_TITLE", APP_VALUES), url: "#codex-mac-step-4", depth: 4 },
-    { title: t("DOCS.CODEX.MACOS_STEP5_TITLE"), url: "#codex-mac-step-5", depth: 4 },
-    { title: t("DOCS.CODEX.MACOS_ISSUES_TITLE"), url: "#codex-mac-issues", depth: 4 },
-    {
-      title: t("DOCS.CODEX.LINUX_TITLE"),
-      url: "#linux-graphical-guide",
-      depth: 3,
-    },
-    { title: t("DOCS.CODEX.LINUX_STEP1_TITLE"), url: "#codex-linux-step-1", depth: 4 },
-    { title: t("DOCS.CODEX.LINUX_STEP2_TITLE"), url: "#codex-linux-step-2", depth: 4 },
-    { title: t("DOCS.CODEX.LINUX_STEP3_TITLE", APP_VALUES), url: "#codex-linux-step-3", depth: 4 },
-    { title: t("DOCS.CODEX.LINUX_STEP4_TITLE"), url: "#codex-linux-step-4", depth: 4 },
-    { title: t("DOCS.CODEX.LINUX_ISSUES_TITLE"), url: "#codex-linux-issues", depth: 4 },
   ]);
+
+  const windowsGuide = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.WINDOWS_STEP1_TITLE")}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.CODEX.WINDOWS_STEP1_DESC")}
+        </p>
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.WINDOWS_STEP2_TITLE")}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.CODEX.WINDOWS_STEP2_DESC")}
+        </p>
+        <CodeBlock language="powershell" code="wsl --install" />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.WINDOWS_STEP3_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code="npm i -g @openai/codex" />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.WINDOWS_STEP4_TITLE", APP_VALUES)}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.CODEX.WINDOWS_STEP4_DESC", APP_VALUES)}
+        </p>
+        <CodeBlock
+          language="bash"
+          code={`export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="your-api-key-here"`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.WINDOWS_STEP5_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code="codex" />
+      </div>
+    </div>
+  );
+
+  const macosGuide = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.MACOS_STEP1_TITLE")}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.CODEX.MACOS_STEP1_DESC")}
+        </p>
+        <CodeBlock
+          language="bash"
+          code={'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.MACOS_STEP2_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code={`brew update\nbrew install node`} />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.MACOS_STEP3_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code="npm install -g @openai/codex" />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.MACOS_STEP4_TITLE", APP_VALUES)}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.CODEX.MACOS_STEP4_DESC", APP_VALUES)}
+        </p>
+        <CodeBlock
+          language="bash"
+          code={`# Add to your ~/.zshrc or ~/.bashrc
+export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="your-api-key-here"
+
+# Reload your shell
+source ~/.zshrc`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.MACOS_STEP5_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code="codex" />
+      </div>
+
+      <Callout type="warn" title={t("DOCS.CODEX.MACOS_ISSUES_TITLE")}>
+        <ul className="list-disc space-y-2 pl-4">
+          <li>{t("DOCS.CODEX.MACOS_ISSUES_NODE")}</li>
+          <li>{t("DOCS.CODEX.MACOS_ISSUES_PERMISSION")}</li>
+        </ul>
+      </Callout>
+    </div>
+  );
+
+  const linuxGuide = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.LINUX_STEP1_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -\nsudo apt-get install -y nodejs`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.LINUX_STEP2_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code="npm install -g @openai/codex" />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.LINUX_STEP3_TITLE", APP_VALUES)}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.CODEX.LINUX_STEP3_DESC", APP_VALUES)}
+        </p>
+        <CodeBlock
+          language="bash"
+          code={`# Add to your ~/.bashrc or ~/.zshrc
+export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="your-api-key-here"
+
+# Reload your shell
+source ~/.bashrc`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CODEX.LINUX_STEP4_TITLE")}
+        </h4>
+        <CodeBlock language="bash" code="codex" />
+      </div>
+
+      <Callout type="warn" title={t("DOCS.CODEX.LINUX_ISSUES_TITLE")}>
+        <ul className="list-disc space-y-2 pl-4">
+          <li>{t("DOCS.CODEX.LINUX_ISSUES_NODE")}</li>
+          <li>{t("DOCS.CODEX.LINUX_ISSUES_PERMISSION")}</li>
+        </ul>
+      </Callout>
+    </div>
+  );
 
   return (
     <TOCLayout toc={toc}>
@@ -66,7 +207,6 @@ export async function CodexContent() {
           centered
         />
 
-        {/* Project Intro Callout */}
         <Callout type="info" title={t("DOCS.CODEX.PROJECT_INTRO_TITLE")}>
           <p>{t("DOCS.CODEX.PROJECT_INTRO")}</p>
           <div className="mt-3 flex flex-wrap gap-4">
@@ -89,21 +229,6 @@ export async function CodexContent() {
           </div>
         </Callout>
 
-        {/* Demo */}
-        <section className="mt-12" id="demo">
-          <h2 className="mb-4 text-2xl font-semibold">
-            {t("DOCS.CODEX.DEMO_TITLE")}
-          </h2>
-          <Image
-            src="/assets/docs/codex/introduce-01.webp"
-            alt={t("DOCS.CODEX.DEMO_ALT")}
-            width={800}
-            height={450}
-            className="my-4 rounded-lg border"
-            unoptimized
-          />
-        </section>
-
         {/* Features */}
         <section className="mt-12" id="features">
           <h2 className="mb-6 text-2xl font-semibold">
@@ -112,578 +237,55 @@ export async function CodexContent() {
           <div className="border-border overflow-hidden rounded-lg border">
             <table className="w-full text-sm">
               <tbody className="divide-border divide-y">
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
-                    {t("DOCS.CODEX.FEATURES_TERMINAL_TITLE")}
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    {t("DOCS.CODEX.FEATURES_TERMINAL_DESC")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
-                    {t("DOCS.CODEX.FEATURES_TOOL_TITLE")}
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    {t("DOCS.CODEX.FEATURES_TOOL_DESC")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
-                    {t("DOCS.CODEX.FEATURES_PATCH_TITLE")}
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    {t("DOCS.CODEX.FEATURES_PATCH_DESC")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
-                    {t("DOCS.CODEX.FEATURES_SANDBOX_TITLE")}
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    {t("DOCS.CODEX.FEATURES_SANDBOX_DESC")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
-                    {t("DOCS.CODEX.FEATURES_PLAN_TITLE")}
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    {t("DOCS.CODEX.FEATURES_PLAN_DESC")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
-                    {t("DOCS.CODEX.FEATURES_MULTIMODAL_TITLE")}
-                  </td>
-                  <td className="text-muted-foreground px-4 py-3">
-                    {t("DOCS.CODEX.FEATURES_MULTIMODAL_DESC")}
-                  </td>
-                </tr>
+                {(
+                  [
+                    { t: "TERMINAL", d: "TERMINAL" },
+                    { t: "TOOL", d: "TOOL" },
+                    { t: "PATCH", d: "PATCH" },
+                    { t: "SANDBOX", d: "SANDBOX" },
+                    { t: "PLAN", d: "PLAN" },
+                    { t: "MULTIMODAL", d: "MULTIMODAL" },
+                  ] as const
+                ).map((f) => (
+                  <tr key={f.t}>
+                    <td className="bg-muted/50 px-4 py-3 font-medium">
+                      {t(`DOCS.CODEX.FEATURES_${f.t}_TITLE`)}
+                    </td>
+                    <td className="text-muted-foreground px-4 py-3">
+                      {t(`DOCS.CODEX.FEATURES_${f.d}_DESC`)}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </section>
 
-        {/* AI Model Configuration */}
+        {/* CC Switch Quick Setup */}
+        <CCSwitchSetup
+          app="codex"
+          endpoint={`${process.env.NEXT_PUBLIC_API_URL}/v1`}
+          cliCodeBlock={
+            <CodeBlock language="bash" code="cc-switch provider add" />
+          }
+        />
+
+        {/* Manual Configuration */}
         <section className="mt-12" id="ai-model-configuration">
           <h2 className="mb-6 text-2xl font-semibold">
             {t("DOCS.CODEX.AI_CONFIG_TITLE")}
           </h2>
 
-          {/* Windows Guide */}
-          <div className="mt-8" id="windows-graphical-guide">
-            <h3 className="mb-4 text-xl font-semibold">
-              {t("DOCS.CODEX.WINDOWS_TITLE")}
-            </h3>
-
-            {/* Step 1: Open Terminal */}
-            <div className="mt-6">
-              <h4 id="codex-win-step-1" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.WINDOWS_STEP1_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.WINDOWS_STEP1_DESC")}
-              </p>
-              <Image
-                src="/assets/docs/codex/windows_open_terminal.png"
-                alt={t("DOCS.CODEX.WINDOWS_STEP1_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 2: Install WSL */}
-            <div className="mt-8">
-              <h4 id="codex-win-step-2" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.WINDOWS_STEP2_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.WINDOWS_STEP2_DESC")}
-              </p>
-              <CodeBlock language="powershell" code="wsl --install" />
-              <Image
-                src="/assets/docs/codex/windows-img-03.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP2_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-04.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP2_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-05.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP2_ALT3")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 3: Install Codex CLI */}
-            <div className="mt-8">
-              <h4 id="codex-win-step-3" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.WINDOWS_STEP3_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.WINDOWS_STEP3_DESC")}
-              </p>
-              <CodeBlock language="bash" code="npm i -g @openai/codex" />
-              <Image
-                src="/assets/docs/codex/windows-img-06.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP3_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 4: Configure */}
-            <div className="mt-8">
-              <h4 id="codex-win-step-4" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.WINDOWS_STEP4_TITLE", APP_VALUES)}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.WINDOWS_STEP4_DESC", APP_VALUES)}
-              </p>
-              <CodeBlock
-                language="powershell"
-                code={`irm ${process.env.NEXT_PUBLIC_APP_URL}/scripts/codex-cli-setup.ps1 | iex`}
-              />
-              <Image
-                src="/assets/docs/codex/windows_configure.png"
-                alt={t("DOCS.CODEX.WINDOWS_STEP4_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 5: Start Using */}
-            <div className="mt-8">
-              <h4 id="codex-win-step-5" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.WINDOWS_STEP5_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.WINDOWS_STEP5_DESC")}
-              </p>
-              <CodeBlock language="bash" code="codex" />
-              <Image
-                src="/assets/docs/codex/windows-img-09.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP5_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-10.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP5_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-11.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP5_ALT3")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-12.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP5_ALT4")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-13.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP5_ALT5")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/windows-img-14.webp"
-                alt={t("DOCS.CODEX.WINDOWS_STEP5_ALT6")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-          </div>
-
-          {/* macOS Guide */}
-          <div
-            className="border-border mt-12 border-t pt-8"
-            id="macos-graphical-guide"
-          >
-            <h3 className="mb-4 text-xl font-semibold">
-              {t("DOCS.CODEX.MACOS_TITLE")}
-            </h3>
-
-            {/* Step 1: Install Homebrew */}
-            <div className="mt-6">
-              <h4 id="codex-mac-step-1" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.MACOS_STEP1_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.MACOS_STEP1_DESC")}
-              </p>
-              <CodeBlock
-                language="bash"
-                code={
-                  '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-                }
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-01.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP1_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-02.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP1_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-03.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP1_ALT3")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-04.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP1_ALT4")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 2: Install Node.js */}
-            <div className="mt-8">
-              <h4 id="codex-mac-step-2" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.MACOS_STEP2_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.MACOS_STEP2_DESC")}
-              </p>
-              <CodeBlock
-                language="bash"
-                code={`brew update\nbrew install node`}
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-05.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP2_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-06.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP2_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 3: Install Codex CLI */}
-            <div className="mt-8">
-              <h4 id="codex-mac-step-3" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.MACOS_STEP3_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.MACOS_STEP3_DESC")}
-              </p>
-              <CodeBlock language="bash" code="npm install -g @openai/codex" />
-              <Image
-                src="/assets/docs/codex/macos-img-07.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP3_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 4: Configure */}
-            <div className="mt-8">
-              <h4 id="codex-mac-step-4" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.MACOS_STEP4_TITLE", APP_VALUES)}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.MACOS_STEP4_DESC", APP_VALUES)}
-              </p>
-              <CodeBlock
-                language="bash"
-                code={`bash <(curl -fsSL ${process.env.NEXT_PUBLIC_APP_URL}/scripts/codex-cli-setup.sh)`}
-              />
-              <Image
-                src="/assets/docs/codex/macos_configure.png"
-                alt={t("DOCS.CODEX.MACOS_STEP4_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 5: Start Using */}
-            <div className="mt-8">
-              <h4 id="codex-mac-step-5" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.MACOS_STEP5_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.MACOS_STEP5_DESC")}
-              </p>
-              <CodeBlock language="bash" code="codex" />
-              <Image
-                src="/assets/docs/codex/macos-img-09.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP5_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-10.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP5_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-11.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP5_ALT3")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-12.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP5_ALT4")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-13.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP5_ALT5")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/macos-img-14.webp"
-                alt={t("DOCS.CODEX.MACOS_STEP5_ALT6")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Common Issues */}
-            <div className="mt-8">
-              <h4 id="codex-mac-issues" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.MACOS_ISSUES_TITLE")}
-              </h4>
-              <Callout type="warn" title={t("DOCS.CODEX.MACOS_ISSUES_TITLE")}>
-                <ul className="list-disc space-y-2 pl-4">
-                  <li>{t("DOCS.CODEX.MACOS_ISSUES_NODE")}</li>
-                  <li>{t("DOCS.CODEX.MACOS_ISSUES_PERMISSION")}</li>
-                </ul>
-              </Callout>
-            </div>
-          </div>
-
-          {/* Linux Guide */}
-          <div
-            className="border-border mt-12 border-t pt-8"
-            id="linux-graphical-guide"
-          >
-            <h3 className="mb-4 text-xl font-semibold">
-              {t("DOCS.CODEX.LINUX_TITLE")}
-            </h3>
-
-            {/* Step 1: Install Node.js */}
-            <div className="mt-6">
-              <h4 id="codex-linux-step-1" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.LINUX_STEP1_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.LINUX_STEP1_DESC")}
-              </p>
-              <CodeBlock
-                language="bash"
-                code={`curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -\nsudo apt-get install -y nodejs`}
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-01.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP1_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-02.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP1_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 2: Install Codex CLI */}
-            <div className="mt-8">
-              <h4 id="codex-linux-step-2" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.LINUX_STEP2_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.LINUX_STEP2_DESC")}
-              </p>
-              <CodeBlock language="bash" code="npm install -g @openai/codex" />
-              <Image
-                src="/assets/docs/codex/linux-img-03.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP2_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 3: Configure */}
-            <div className="mt-8">
-              <h4 id="codex-linux-step-3" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.LINUX_STEP3_TITLE", APP_VALUES)}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.LINUX_STEP3_DESC", APP_VALUES)}
-              </p>
-              <CodeBlock
-                language="bash"
-                code={`bash <(curl -fsSL ${process.env.NEXT_PUBLIC_APP_URL}/scripts/codex-cli-setup.sh)`}
-              />
-              <Image
-                src="/assets/docs/codex/macos_configure.png"
-                alt={t("DOCS.CODEX.LINUX_STEP3_ALT")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Step 4: Start Using */}
-            <div className="mt-8">
-              <h4 id="codex-linux-step-4" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.LINUX_STEP4_TITLE")}
-              </h4>
-              <p className="text-muted-foreground mb-4 text-sm">
-                {t("DOCS.CODEX.LINUX_STEP4_DESC")}
-              </p>
-              <CodeBlock language="bash" code="codex" />
-              <Image
-                src="/assets/docs/codex/linux-img-05.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP4_ALT1")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-06.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP4_ALT2")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-07.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP4_ALT3")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-08.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP4_ALT4")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-09.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP4_ALT5")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-              <Image
-                src="/assets/docs/codex/linux-img-10.webp"
-                alt={t("DOCS.CODEX.LINUX_STEP4_ALT6")}
-                width={800}
-                height={450}
-                className="my-4 rounded-lg border"
-                unoptimized
-              />
-            </div>
-
-            {/* Common Issues */}
-            <div className="mt-8">
-              <h4 id="codex-linux-issues" className="mb-2 text-lg font-medium">
-                {t("DOCS.CODEX.LINUX_ISSUES_TITLE")}
-              </h4>
-              <Callout type="warn" title={t("DOCS.CODEX.LINUX_ISSUES_TITLE")}>
-                <ul className="list-disc space-y-2 pl-4">
-                  <li>{t("DOCS.CODEX.LINUX_ISSUES_NODE")}</li>
-                  <li>{t("DOCS.CODEX.LINUX_ISSUES_PERMISSION")}</li>
-                </ul>
-              </Callout>
-            </div>
-          </div>
+          <OSTabs
+            windowsContent={windowsGuide}
+            macosContent={macosGuide}
+            linuxContent={linuxGuide}
+            labels={{
+              windows: t("DOCS.OS_TAB_WINDOWS"),
+              macos: t("DOCS.OS_TAB_MACOS"),
+              linux: t("DOCS.OS_TAB_LINUX"),
+            }}
+          />
         </section>
 
         {/* CTA */}

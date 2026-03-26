@@ -261,6 +261,17 @@
   },
   "DOCS": {
     "TOC_TITLE": "Auf dieser Seite",
+    "CC_SWITCH_SETUP_TITLE": "Schnelleinrichtung mit CC Switch",
+    "CC_SWITCH_SETUP_DESC": "Verwende CC Switch, um deinen Anbieter mit einem Klick zu konfigurieren. Der API-Endpunkt und Anbietername werden automatisch eingerichtet.",
+    "CC_SWITCH_SETUP_BUTTON": "Mit CC Switch konfigurieren",
+    "CC_SWITCH_SETUP_CLI_ALT": "Oder verwende die CC Switch CLI:",
+    "CC_SWITCH_SETUP_NO_APP": "Du hast CC Switch noch nicht?",
+    "CC_SWITCH_SETUP_INSTALL_LINK": "CC Switch installieren",
+    "CC_SWITCH_SETUP_LOGIN_REQUIRED": "Melde dich an, um deinen API-Key automatisch einzutragen",
+    "CC_SWITCH_SETUP_CREATE_KEY": "Erstelle zuerst einen API-Key",
+    "OS_TAB_WINDOWS": "Windows",
+    "OS_TAB_MACOS": "macOS",
+    "OS_TAB_LINUX": "Linux",
     "CC_SWITCH": {
       "META": {
         "TITLE": "CC Switch Integrationsanleitung | {appName}",
@@ -297,6 +308,8 @@
       "INTEGRATION_DESC": "CC Switch unterstützt das Deep-Link-Protokoll ccswitch://, das den Import von Konfigurationen per Knopfdruck von der {appName} Token-Verwaltungsseite ermöglicht.",
       "DEEP_LINK_TITLE": "Deep-Link-Integration",
       "DEEP_LINK_DESC": "Wählen Sie Ihre Zielanwendung (Claude/Codex/Gemini), geben Sie einen Konfigurationsnamen ein und wählen Sie bevorzugte Modelle aus, bevor Sie in CC Switch importieren.",
+      "DEEP_LINK_EXAMPLES": "Deep-Link-Beispiele",
+      "CLI_ALTERNATIVE": "CLI-Alternative",
       "CTA_TITLE": "Bereit, Ihr CLI-Setup zu vereinfachen?",
       "CTA_DESC": "Registrieren Sie sich bei {appName}, um Ihren API-Schlüssel zu erhalten und alle Ihre KI-CLIs von einem Ort aus zu verwalten.",
       "CTA_SIGNUP": "Registrieren",

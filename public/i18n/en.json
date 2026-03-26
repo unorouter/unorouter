@@ -261,6 +261,17 @@
   },
   "DOCS": {
     "TOC_TITLE": "On this page",
+    "CC_SWITCH_SETUP_TITLE": "Quick Setup with CC Switch",
+    "CC_SWITCH_SETUP_DESC": "Use CC Switch to configure your provider with one click. It automatically sets the API endpoint and provider name for you.",
+    "CC_SWITCH_SETUP_BUTTON": "Configure with CC Switch",
+    "CC_SWITCH_SETUP_CLI_ALT": "Or use the CC Switch CLI:",
+    "CC_SWITCH_SETUP_NO_APP": "Don't have CC Switch?",
+    "CC_SWITCH_SETUP_INSTALL_LINK": "Install CC Switch",
+    "CC_SWITCH_SETUP_LOGIN_REQUIRED": "Sign in to auto-fill your API key",
+    "CC_SWITCH_SETUP_CREATE_KEY": "Create an API key first",
+    "OS_TAB_WINDOWS": "Windows",
+    "OS_TAB_MACOS": "macOS",
+    "OS_TAB_LINUX": "Linux",
     "CC_SWITCH": {
       "META": {
         "TITLE": "CC Switch Integration Guide | {appName}",
@@ -297,6 +308,8 @@
       "INTEGRATION_DESC": "CC Switch supports the ccswitch:// deep link protocol, enabling one-click configuration import from the {appName} token management page.",
       "DEEP_LINK_TITLE": "Deep Link Integration",
       "DEEP_LINK_DESC": "Select your target application (Claude/Codex/Gemini), enter a configuration name, and select preferred models before importing into CC Switch.",
+      "DEEP_LINK_EXAMPLES": "Deep Link Examples",
+      "CLI_ALTERNATIVE": "CLI Alternative",
       "CTA_TITLE": "Ready to Simplify Your CLI Setup?",
       "CTA_DESC": "Sign up for {appName} to get your API key and start managing all your AI CLIs from one place.",
       "CTA_SIGNUP": "Sign Up",

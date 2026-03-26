@@ -8,55 +8,30 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
 import Claude from "@lobehub/icons/es/Claude";
+import { OSTabs } from "./os-tabs";
+import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function ClaudeCodeContent() {
   const t = await getTranslations();
 
   const toc = createTOC(
     [
-      { title: t("DOCS.CLAUDE_CODE.TOC_DEMO"), url: "#demo", depth: 2 },
       { title: t("DOCS.CLAUDE_CODE.TOC_FEATURES"), url: "#features", depth: 2 },
+      {
+        title: t("DOCS.CC_SWITCH_SETUP_TITLE"),
+        url: "#cc-switch-setup",
+        depth: 2,
+      },
       {
         title: t("DOCS.CLAUDE_CODE.TOC_CONFIG"),
         url: "#ai-model-configuration",
         depth: 2,
       },
-      {
-        title: t("DOCS.CLAUDE_CODE.TOC_WINDOWS"),
-        url: "#windows-graphical-guide",
-        depth: 3,
-      },
-      { title: t("DOCS.CLAUDE_CODE.WIN_STEP1_TITLE"), url: "#win-step-1", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE"), url: "#win-step-2", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE"), url: "#win-step-3", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE"), url: "#win-step-4", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE"), url: "#win-step-5", depth: 4 },
-      {
-        title: t("DOCS.CLAUDE_CODE.TOC_MACOS"),
-        url: "#macos-graphical-guide",
-        depth: 3,
-      },
-      { title: t("DOCS.CLAUDE_CODE.MAC_STEP1_TITLE"), url: "#mac-step-1", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE"), url: "#mac-step-2", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE"), url: "#mac-step-3", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE"), url: "#mac-issues", depth: 4 },
-      {
-        title: t("DOCS.CLAUDE_CODE.TOC_LINUX"),
-        url: "#linux-graphical-guide",
-        depth: 3,
-      },
-      { title: t("DOCS.CLAUDE_CODE.LINUX_STEP1_TITLE"), url: "#linux-step-1", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE"), url: "#linux-step-2", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE"), url: "#linux-step-3", depth: 4 },
-      { title: t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE"), url: "#linux-issues", depth: 4 },
     ],
     t("DOCS.TOC_TITLE"),
   );
 
-  const setupScriptBash = `${process.env.NEXT_PUBLIC_APP_URL}/scripts/claude-cli-setup.sh`;
-  const setupScriptPowershell = `${process.env.NEXT_PUBLIC_APP_URL}/scripts/claude-cli-setup.ps1`;
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const features = [
@@ -74,6 +49,245 @@ export async function ClaudeCodeContent() {
     { titleKey: "FEATURE_SAFE_TITLE", descKey: "FEATURE_SAFE_DESC" },
   ] as const;
 
+  const windowsGuide = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.WIN_STEP1_TITLE")}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t.rich("DOCS.CLAUDE_CODE.WIN_STEP1_DESC", {
+            link: (chunks) => (
+              <a
+                href="https://nodejs.org"
+                target="_blank"
+                className="text-primary underline"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
+        </p>
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE")}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t.rich("DOCS.CLAUDE_CODE.WIN_STEP2_DESC", {
+            link: (chunks) => (
+              <a
+                href="https://git-scm.com/downloads/win"
+                target="_blank"
+                className="text-primary underline"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
+        </p>
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code="npm install -g @anthropic-ai/claude-code"
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`# Add to your ~/.bashrc or ~/.bash_profile
+export ANTHROPIC_BASE_URL="${apiUrl}"
+export ANTHROPIC_API_KEY="your-api-key-here"`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`cd /path/to/your/project\nclaude`}
+        />
+      </div>
+    </div>
+  );
+
+  const macosGuide = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.MAC_STEP1_TITLE")}
+        </h4>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t.rich("DOCS.CLAUDE_CODE.MAC_STEP1_DESC", {
+            link: (chunks) => (
+              <a
+                href="https://brew.sh"
+                target="_blank"
+                className="text-primary underline"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
+        </p>
+        <CodeBlock
+          language="bash"
+          code={`brew install node
+npm install -g @anthropic-ai/claude-code`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`# Add to your ~/.zshrc or ~/.bashrc
+export ANTHROPIC_BASE_URL="${apiUrl}"
+export ANTHROPIC_API_KEY="your-api-key-here"
+
+# Reload your shell
+source ~/.zshrc`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`cd /path/to/your/project\nclaude`}
+        />
+      </div>
+
+      <h4 className="mb-2 text-lg font-medium">
+        {t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE")}
+      </h4>
+
+      <Callout
+        type="warn"
+        title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_TITLE")}
+      >
+        <p>
+          {t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_DESC", {
+            code: "EACCES",
+          })}
+        </p>
+        <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
+          {`mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc`}
+        </pre>
+      </Callout>
+
+      <Callout
+        type="warn"
+        title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_TITLE")}
+      >
+        <p>
+          {t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_DESC", {
+            checkCmd: "node --version",
+            updateCmd: "brew upgrade node",
+          })}
+        </p>
+      </Callout>
+    </div>
+  );
+
+  const linuxGuide = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.LINUX_STEP1_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`# Via nvm (recommended)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+nvm install --lts
+
+# Or via package manager (Ubuntu/Debian)
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# Install Claude Code
+npm install -g @anthropic-ai/claude-code`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`# Add to your ~/.bashrc or ~/.zshrc
+export ANTHROPIC_BASE_URL="${apiUrl}"
+export ANTHROPIC_API_KEY="your-api-key-here"
+
+# Reload your shell
+source ~/.bashrc`}
+        />
+      </div>
+
+      <div>
+        <h4 className="mb-2 text-lg font-medium">
+          {t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE")}
+        </h4>
+        <CodeBlock
+          language="bash"
+          code={`cd /path/to/your/project\nclaude`}
+        />
+      </div>
+
+      <h4 className="mb-2 text-lg font-medium">
+        {t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE")}
+      </h4>
+
+      <Callout
+        type="warn"
+        title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_TITLE")}
+      >
+        <p>
+          {t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_DESC", {
+            code: "EACCES",
+          })}
+        </p>
+        <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
+          {`mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc`}
+        </pre>
+      </Callout>
+
+      <Callout
+        type="warn"
+        title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_TITLE")}
+      >
+        <p>{t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_DESC")}</p>
+        <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
+          sudo apt-get install -y build-essential
+        </pre>
+      </Callout>
+    </div>
+  );
+
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
@@ -85,7 +299,6 @@ export async function ClaudeCodeContent() {
           centered
         />
 
-        {/* Project Introduction */}
         <Callout type="info" title={t("DOCS.CLAUDE_CODE.ABOUT_TITLE")}>
           <p>
             {t.rich("DOCS.CLAUDE_CODE.ABOUT_DESC", {
@@ -102,42 +315,11 @@ export async function ClaudeCodeContent() {
           </p>
         </Callout>
 
-        {/* Demo Section */}
-        <section className="mt-12" id="demo">
-          <h2 className="mb-4 text-2xl font-semibold">
-            {t("DOCS.CLAUDE_CODE.DEMO_TITLE")}
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            {t("DOCS.CLAUDE_CODE.DEMO_DESC", APP_VALUES)}
-          </p>
-
-          <Image
-            src="/assets/docs/claude_code/introduce-01.webp"
-            alt={t("DOCS.CLAUDE_CODE.DEMO_ALT1")}
-            width={800}
-            height={450}
-            className="my-4 rounded-lg border"
-            unoptimized
-          />
-          <Image
-            src="/assets/docs/claude_code/introduce-02.webp"
-            alt={t("DOCS.CLAUDE_CODE.DEMO_ALT2")}
-            width={800}
-            height={450}
-            className="my-4 rounded-lg border"
-            unoptimized
-          />
-        </section>
-
-        {/* Features Section */}
+        {/* Features */}
         <section className="mt-12" id="features">
           <h2 className="mb-4 text-2xl font-semibold">
             {t("DOCS.CLAUDE_CODE.FEATURES_TITLE")}
           </h2>
-          <p className="text-muted-foreground mb-6">
-            {t("DOCS.CLAUDE_CODE.FEATURES_DESC")}
-          </p>
-
           <div className="overflow-x-auto">
             <table className="border-border w-full border-collapse text-sm">
               <thead>
@@ -166,619 +348,37 @@ export async function ClaudeCodeContent() {
           </div>
         </section>
 
-        {/* AI Model Configuration Method */}
+        {/* CC Switch Quick Setup */}
+        <CCSwitchSetup
+          app="claude"
+          endpoint={apiUrl!}
+          cliCodeBlock={
+            <CodeBlock language="bash" code="cc-switch provider add" />
+          }
+        />
+
+        {/* Manual Configuration */}
         <section className="mt-12" id="ai-model-configuration">
           <h2 className="mb-4 text-2xl font-semibold">
             {t("DOCS.CLAUDE_CODE.CONFIG_TITLE")}
           </h2>
-          <p className="text-muted-foreground mb-6">
+          <p className="text-muted-foreground mb-6 text-sm">
             {t("DOCS.CLAUDE_CODE.CONFIG_DESC", APP_VALUES)}
           </p>
 
-          {/* WINDOWS GUIDE */}
-          <div className="mt-10" id="windows-graphical-guide">
-            <h3 className="mb-4 text-xl font-semibold">
-              {t("DOCS.CLAUDE_CODE.WIN_TITLE")}
-            </h3>
-
-            <h4 id="win-step-1" className="mt-6 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP1_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t.rich("DOCS.CLAUDE_CODE.WIN_STEP1_DESC", {
-                link: (chunks) => (
-                  <a
-                    href="https://nodejs.org"
-                    target="_blank"
-                    className="text-primary underline"
-                  >
-                    {chunks}
-                  </a>
-                ),
-              })}
-            </p>
-
-            <Image
-              src="/assets/docs/claude_code/windows-img-01.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP1_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-02.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP1_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-03.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP1_ALT3")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="win-step-2" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t.rich("DOCS.CLAUDE_CODE.WIN_STEP2_DESC", {
-                link: (chunks) => (
-                  <a
-                    href="https://git-scm.com/downloads/win"
-                    target="_blank"
-                    className="text-primary underline"
-                  >
-                    {chunks}
-                  </a>
-                ),
-              })}
-            </p>
-
-            <Image
-              src="/assets/docs/claude_code/windows-img-04.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP2_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-05.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP2_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="win-step-3" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP3_DESC")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code="npm install -g @anthropic-ai/claude-code"
-            />
-
-            <Image
-              src="/assets/docs/claude_code/windows-img-06.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP3_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-07.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP3_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="win-step-4" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP4_DESC", APP_VALUES)}
-            </p>
-
-            <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
-              <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_DESC")}</p>
-            </Callout>
-
-            <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              {t("DOCS.CLAUDE_CODE.POWERSHELL_LABEL")}
-            </p>
-            <CodeBlock
-              language="powershell"
-              code={`irm ${setupScriptPowershell} | iex`}
-            />
-
-            <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              {t("DOCS.CLAUDE_CODE.GIT_BASH_LABEL")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`curl -fsSL ${setupScriptBash} | bash`}
-            />
-
-            <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              {t("DOCS.CLAUDE_CODE.MANUAL_SETUP")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`# Add to your ~/.bashrc or ~/.bash_profile
-export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/windows-img-08.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-09.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows_configure.png"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT3")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-11.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP4_ALT4")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="win-step-5" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.WIN_STEP5_DESC")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`cd /path/to/your/project\nclaude`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/windows-img-12.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-13.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-14.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT3")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-15.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT4")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-16.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT5")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/windows-img-17.webp"
-              alt={t("DOCS.CLAUDE_CODE.WIN_STEP5_ALT6")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-          </div>
-
-          {/* macOS GUIDE */}
-          <div className="mt-14" id="macos-graphical-guide">
-            <h3 className="mb-4 text-xl font-semibold">
-              {t("DOCS.CLAUDE_CODE.MAC_TITLE")}
-            </h3>
-
-            <h4 id="mac-step-1" className="mt-6 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.MAC_STEP1_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t.rich("DOCS.CLAUDE_CODE.MAC_STEP1_DESC", {
-                link: (chunks) => (
-                  <a
-                    href="https://brew.sh"
-                    target="_blank"
-                    className="text-primary underline"
-                  >
-                    {chunks}
-                  </a>
-                ),
-              })}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`# Install Node.js via Homebrew (if needed)
-brew install node
-
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/macos-img-01.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP1_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-02.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP1_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="mac-step-2" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.MAC_STEP2_DESC", APP_VALUES)}
-            </p>
-
-            <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
-              <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_RUN")}</p>
-            </Callout>
-            <CodeBlock
-              language="bash"
-              code={`curl -fsSL ${setupScriptBash} | bash`}
-            />
-
-            <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              {t("DOCS.CLAUDE_CODE.MANUAL_SETUP_SHELL")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`# Add to your ~/.zshrc or ~/.bashrc
-export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"
-
-# Reload your shell
-source ~/.zshrc`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/macos-img-04.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP2_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-05.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP2_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos_configure.png"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP2_ALT3")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="mac-step-3" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.MAC_STEP3_DESC")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`cd /path/to/your/project\nclaude`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/macos-img-06.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-07.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-08.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT3")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-09.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_STEP3_ALT4")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="mac-issues" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE")}
-            </h4>
-
-            <Callout
-              type="warn"
-              title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_TITLE")}
-            >
-              <p>
-                {t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_DESC", {
-                  code: "EACCES",
-                })}
-              </p>
-              <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
-                {`mkdir -p ~/.npm-global
-npm config set prefix '~/.npm-global'
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
-source ~/.zshrc`}
-              </pre>
-            </Callout>
-
-            <Callout
-              type="warn"
-              title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_TITLE")}
-            >
-              <p>
-                {t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_DESC", {
-                  checkCmd: "node --version",
-                  updateCmd: "brew upgrade node",
-                })}
-              </p>
-            </Callout>
-
-            <Image
-              src="/assets/docs/claude_code/macos-img-10.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_ISSUES_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/macos-img-11.webp"
-              alt={t("DOCS.CLAUDE_CODE.MAC_ISSUES_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-          </div>
-
-          {/* LINUX GUIDE */}
-          <div className="mt-14" id="linux-graphical-guide">
-            <h3 className="mb-4 text-xl font-semibold">
-              {t("DOCS.CLAUDE_CODE.LINUX_TITLE")}
-            </h3>
-
-            <h4 id="linux-step-1" className="mt-6 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.LINUX_STEP1_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.LINUX_STEP1_DESC")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`# Install Node.js (Ubuntu/Debian)
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-# Or via nvm (recommended)
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-nvm install --lts
-
-# Install Claude Code
-npm install -g @anthropic-ai/claude-code`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/linux-img-01.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP1_ALT")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="linux-step-2" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.LINUX_STEP2_DESC", APP_VALUES)}
-            </p>
-
-            <Callout type="info" title={t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP")}>
-              <p>{t("DOCS.CLAUDE_CODE.AUTOMATED_SETUP_RUN")}</p>
-            </Callout>
-            <CodeBlock
-              language="bash"
-              code={`curl -fsSL ${setupScriptBash} | bash`}
-            />
-
-            <p className="text-muted-foreground mt-4 mb-2 font-medium">
-              {t("DOCS.CLAUDE_CODE.MANUAL_SETUP_SHORT")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`# Add to your ~/.bashrc or ~/.zshrc
-export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"
-
-# Reload your shell
-source ~/.bashrc`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/linux-img-03.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP2_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-04.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP2_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="linux-step-3" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE")}
-            </h4>
-            <p className="text-muted-foreground mb-4">
-              {t("DOCS.CLAUDE_CODE.LINUX_STEP3_DESC")}
-            </p>
-            <CodeBlock
-              language="bash"
-              code={`cd /path/to/your/project\nclaude`}
-            />
-
-            <Image
-              src="/assets/docs/claude_code/linux-img-05.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT1")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-06.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT2")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-07.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT3")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-            <Image
-              src="/assets/docs/claude_code/linux-img-08.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_STEP3_ALT4")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-
-            <h4 id="linux-issues" className="mt-8 mb-2 text-lg font-medium">
-              {t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE")}
-            </h4>
-
-            <Callout
-              type="warn"
-              title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_TITLE")}
-            >
-              <p>
-                {t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_DESC", {
-                  code: "EACCES",
-                })}
-              </p>
-              <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
-                {`mkdir -p ~/.npm-global
-npm config set prefix '~/.npm-global'
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc`}
-              </pre>
-            </Callout>
-
-            <Callout
-              type="warn"
-              title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_TITLE")}
-            >
-              <p>{t("DOCS.CLAUDE_CODE.LINUX_ISSUE_BUILD_DESC")}</p>
-              <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
-                sudo apt-get install -y build-essential
-              </pre>
-            </Callout>
-
-            <Image
-              src="/assets/docs/claude_code/linux-img-09.webp"
-              alt={t("DOCS.CLAUDE_CODE.LINUX_ISSUES_ALT")}
-              width={800}
-              height={450}
-              className="my-4 rounded-lg border"
-              unoptimized
-            />
-          </div>
+          <OSTabs
+            windowsContent={windowsGuide}
+            macosContent={macosGuide}
+            linuxContent={linuxGuide}
+            labels={{
+              windows: t("DOCS.OS_TAB_WINDOWS"),
+              macos: t("DOCS.OS_TAB_MACOS"),
+              linux: t("DOCS.OS_TAB_LINUX"),
+            }}
+          />
         </section>
 
-        {/* CTA Section */}
+        {/* CTA */}
         <section className="border-border mt-16 border-t pt-12 text-center">
           <h2 className="text-2xl font-semibold">
             {t("DOCS.CLAUDE_CODE.CTA_TITLE")}
