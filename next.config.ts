@@ -3,7 +3,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
-  productionBrowserSourceMaps: true,
+  // productionBrowserSourceMaps: true,
   // experimental: {
   //   allowDevelopmentBuild: true,
   // },
