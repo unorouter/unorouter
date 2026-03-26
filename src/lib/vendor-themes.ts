@@ -1,3 +1,5 @@
+import { Vendor } from "@/lib/types/enums";
+
 export type VendorTheme = {
   bg: string;
   border: string;
@@ -6,103 +8,85 @@ export type VendorTheme = {
 };
 
 export const VENDOR_THEMES: Record<string, VendorTheme> = {
-  openai: {
+  [Vendor.OPENAI]: {
     bg: "bg-green-500/5",
     border: "border-green-500/20",
     text: "text-green-400",
     tagBg: "bg-green-500/10",
   },
-  anthropic: {
+  [Vendor.ANTHROPIC]: {
     bg: "bg-orange-500/5",
     border: "border-orange-500/20",
     text: "text-orange-400",
     tagBg: "bg-orange-500/10",
   },
-  google: {
+  [Vendor.GOOGLE]: {
     bg: "bg-blue-500/5",
     border: "border-blue-500/20",
     text: "text-blue-400",
     tagBg: "bg-blue-500/10",
   },
-  "google deepmind": {
-    bg: "bg-blue-500/5",
-    border: "border-blue-500/20",
-    text: "text-blue-400",
-    tagBg: "bg-blue-500/10",
-  },
-  bailian: {
+  [Vendor.BAILIAN]: {
     bg: "bg-orange-500/5",
     border: "border-orange-500/20",
     text: "text-orange-300",
     tagBg: "bg-orange-500/10",
   },
-  bytedance: {
+  [Vendor.BYTEDANCE]: {
     bg: "bg-sky-500/5",
     border: "border-sky-500/20",
     text: "text-sky-400",
     tagBg: "bg-sky-500/10",
   },
-  deepseek: {
+  [Vendor.DEEPSEEK]: {
     bg: "bg-purple-500/5",
     border: "border-purple-500/20",
     text: "text-purple-400",
     tagBg: "bg-purple-500/10",
   },
-  flux: {
+  [Vendor.FLUX]: {
     bg: "bg-fuchsia-500/5",
     border: "border-fuchsia-500/20",
     text: "text-fuchsia-400",
     tagBg: "bg-fuchsia-500/10",
   },
-  kling: {
+  [Vendor.KLING]: {
     bg: "bg-violet-500/5",
     border: "border-violet-500/20",
     text: "text-violet-400",
     tagBg: "bg-violet-500/10",
   },
-  meta: {
+  [Vendor.META]: {
     bg: "bg-sky-500/5",
     border: "border-sky-500/20",
     text: "text-sky-400",
     tagBg: "bg-sky-500/10",
   },
-  mistral: {
+  [Vendor.MISTRAL]: {
     bg: "bg-amber-500/5",
     border: "border-amber-500/20",
     text: "text-amber-400",
     tagBg: "bg-amber-500/10",
   },
-  "mistral ai": {
-    bg: "bg-amber-500/5",
-    border: "border-amber-500/20",
-    text: "text-amber-400",
-    tagBg: "bg-amber-500/10",
-  },
-  cohere: {
+  [Vendor.COHERE]: {
     bg: "bg-rose-500/5",
     border: "border-rose-500/20",
     text: "text-rose-400",
     tagBg: "bg-rose-500/10",
   },
-  xai: {
+  [Vendor.XAI]: {
     bg: "bg-zinc-500/5",
     border: "border-zinc-500/20",
     text: "text-zinc-400",
     tagBg: "bg-zinc-500/10",
   },
-  "x.ai": {
-    bg: "bg-zinc-500/5",
-    border: "border-zinc-500/20",
-    text: "text-zinc-400",
-    tagBg: "bg-zinc-500/10",
-  },
-  moonshot: {
+  [Vendor.MOONSHOT]: {
     bg: "bg-indigo-500/5",
     border: "border-indigo-500/20",
     text: "text-indigo-400",
     tagBg: "bg-indigo-500/10",
   },
-  zhipu: {
+  [Vendor.ZHIPU]: {
     bg: "bg-cyan-500/5",
     border: "border-cyan-500/20",
     text: "text-cyan-400",

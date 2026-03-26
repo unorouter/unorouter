@@ -18,30 +18,31 @@ import {
   XAI,
   Zhipu,
 } from "@lobehub/icons";
+import { Vendor } from "@/lib/types/enums";
 import type { FC } from "react";
 
 type IconComponent = FC<{ size?: number | string; className?: string }>;
 
 const ICON_MAP: Record<string, IconComponent> = {
-  anthropic: Anthropic,
-  bailian: Bailian,
-  bytedance: ByteDance,
+  [Vendor.ANTHROPIC]: Anthropic,
+  [Vendor.BAILIAN]: Bailian,
+  [Vendor.BYTEDANCE]: ByteDance,
   claude: Claude,
-  cohere: Cohere,
-  deepseek: DeepSeek,
-  flux: Flux,
+  [Vendor.COHERE]: Cohere,
+  [Vendor.DEEPSEEK]: DeepSeek,
+  [Vendor.FLUX]: Flux,
   gemini: Gemini,
-  google: Google,
-  "google deepmind": Google,
-  kling: Kling,
-  meta: Meta,
-  mistral: Mistral,
-  "mistral ai": Mistral,
-  moonshot: Moonshot,
-  openai: OpenAI,
-  xai: XAI,
-  "x.ai": XAI,
-  zhipu: Zhipu,
+  [Vendor.GOOGLE]: Google,
+  [Vendor.GOOGLE_DEEPMIND]: Google,
+  [Vendor.KLING]: Kling,
+  [Vendor.META]: Meta,
+  [Vendor.MISTRAL]: Mistral,
+  [Vendor.MISTRAL_AI]: Mistral,
+  [Vendor.MOONSHOT]: Moonshot,
+  [Vendor.OPENAI]: OpenAI,
+  [Vendor.XAI]: XAI,
+  [Vendor.X_AI]: XAI,
+  [Vendor.ZHIPU]: Zhipu,
 };
 
 function resolveIcon(vendor: string): IconComponent | null {

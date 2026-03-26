@@ -1,6 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
-import { ModelTypeFilter } from "@/lib/types/enums";
+import { FilterAll, ModelTypeFilter } from "@/lib/types/enums";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
@@ -16,7 +16,7 @@ export const MODELS_STORE_KEY = "models-store";
 export const INITIAL_MODELS_STATE: ModelsStoreState = {
   search: "",
   typeFilter: ModelTypeFilter.ALL,
-  vendorFilter: "all",
+  vendorFilter: FilterAll.ALL,
   selectedModelName: null,
 };
 

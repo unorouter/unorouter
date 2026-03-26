@@ -10,17 +10,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { usePricingQuery } from "@/hooks/pricing-hook";
-import { FilterAll, ModelTypeFilter } from "@/lib/types/enums";
+import { useModelsFilter } from "@/hooks/ui/use-models-hook";
+import { FilterAll } from "@/lib/types/enums";
 import { cn } from "@/lib/utils";
-import {
-  FILTER_OPTIONS,
-  searchAtom,
-  selectedModelNameAtom,
-  typeFilterAtom,
-  vendorFilterAtom,
-} from "@/store/models-store";
-import { useAtom } from "jotai";
+import { FILTER_OPTIONS } from "@/store/models-store";
 import { useTranslations } from "next-intl";
 import { LuChevronDown, LuLayers, LuSearch } from "react-icons/lu";
 import { ModelCard } from "./model-card";
@@ -28,34 +21,7 @@ import { ModelDetailSheet } from "./model-detail-sheet";
 
 export function Models() {
   const t = useTranslations();
-  const [search, setSearch] = useAtom(searchAtom);
-  const [filter, setFilter] = useAtom(typeFilterAtom);
-  const [vendorFilter, setVendorFilter] = useAtom(vendorFilterAtom);
-  const [selectedModelName, setSelectedModelName] = useAtom(
-    selectedModelNameAtom,
-  );
-
-  const { data } = usePricingQuery();
-  const models = data?.models ?? [];
-  const endpointMap = data?.endpointMap ?? {};
-
-  const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
-    (a, b) => a.localeCompare(b),
-  );
-
-  const selectedModel =
-    models.find((m) => m.name === selectedModelName) ?? null;
-
-  const filtered = models.filter((model) => {
-    const matchesSearch = model.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesFilter =
-      filter === ModelTypeFilter.ALL || model.type === filter;
-    const matchesVendor =
-      vendorFilter === FilterAll.ALL || model.vendor.name === vendorFilter;
-    return matchesSearch && matchesFilter && matchesVendor;
-  });
+  const m = useModelsFilter();
 
   return (
     <div className="mx-auto max-w-6xl px-6 pt-24 pb-16">
@@ -75,21 +41,21 @@ export function Models() {
           <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={m.search}
+            onChange={(e) => m.setSearch(e.target.value)}
             className="pl-10"
           />
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger className="border-input bg-background text-foreground ring-offset-background inline-flex h-8 cursor-pointer items-center gap-2 rounded-md border px-3 font-mono text-xs focus:ring-2 focus:ring-offset-2 focus:outline-none">
-              {vendorFilter !== FilterAll.ALL && (
-                <VendorIcon vendor={vendorFilter} size={14} />
+              {m.vendorFilter !== FilterAll.ALL && (
+                <VendorIcon vendor={m.vendorFilter} size={14} />
               )}
               <span>
-                {vendorFilter === FilterAll.ALL
+                {m.vendorFilter === FilterAll.ALL
                   ? t("MODELS.FILTER_PROVIDER")
-                  : vendorFilter}
+                  : m.vendorFilter}
               </span>
               <LuChevronDown className="text-muted-foreground h-3.5 w-3.5" />
             </DropdownMenuTrigger>
@@ -97,20 +63,20 @@ export function Models() {
               <DropdownMenuItem
                 className={cn(
                   "font-mono text-xs",
-                  vendorFilter === FilterAll.ALL && "bg-accent",
+                  m.vendorFilter === FilterAll.ALL && "bg-accent",
                 )}
-                onClick={() => setVendorFilter(FilterAll.ALL)}
+                onClick={() => m.setVendorFilter(FilterAll.ALL)}
               >
                 {t("MODELS.FILTER_PROVIDER")}
               </DropdownMenuItem>
-              {vendorNames.map((name) => (
+              {m.vendorNames.map((name) => (
                 <DropdownMenuItem
                   key={name}
                   className={cn(
                     "font-mono text-xs",
-                    vendorFilter === name && "bg-accent",
+                    m.vendorFilter === name && "bg-accent",
                   )}
-                  onClick={() => setVendorFilter(name)}
+                  onClick={() => m.setVendorFilter(name)}
                 >
                   <VendorIcon vendor={name} size={14} />
                   {name}
@@ -122,9 +88,9 @@ export function Models() {
             {FILTER_OPTIONS.map((option) => (
               <Button
                 key={option.key}
-                variant={filter === option.key ? "default" : "outline"}
+                variant={m.filter === option.key ? "default" : "outline"}
                 size="sm"
-                onClick={() => setFilter(option.key)}
+                onClick={() => m.setFilter(option.key)}
                 className="font-mono text-xs"
               >
                 {t(option.labelKey)}
@@ -136,21 +102,21 @@ export function Models() {
 
       {/* Count */}
       <p className="text-muted-foreground mb-6 font-mono text-sm">
-        {filtered.length} {t("MODELS.MODEL_COUNT")}
+        {m.filtered.length} {t("MODELS.MODEL_COUNT")}
       </p>
 
       {/* Grid */}
-      {filtered.length === 0 ? (
+      {m.filtered.length === 0 ? (
         <div className="text-muted-foreground py-24 text-center">
           {t("MODELS.EMPTY")}
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((model) => (
+          {m.filtered.map((model) => (
             <ModelCard
               key={model.name}
               model={model}
-              onClick={() => setSelectedModelName(model.name)}
+              onClick={() => m.setSelectedModelName(model.name)}
               labels={{
                 from: t("MODELS.PRICE_FROM"),
                 perRequest: t("MODELS.PRICE_PER_REQUEST"),
@@ -164,12 +130,12 @@ export function Models() {
       )}
 
       <ModelDetailSheet
-        model={selectedModel}
-        endpointMap={endpointMap}
-        groupRatioMap={data?.groupRatioMap ?? {}}
-        open={selectedModel !== null}
+        model={m.selectedModel}
+        endpointMap={m.endpointMap}
+        groupRatioMap={m.groupRatioMap}
+        open={m.selectedModel !== null}
         onOpenChange={(open) => {
-          if (!open) setSelectedModelName(null);
+          if (!open) m.setSelectedModelName(null);
         }}
       />
     </div>
