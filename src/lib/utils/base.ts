@@ -1,5 +1,12 @@
 import type { UnwrapApiResponse } from "../types";
 
+export function formatPrice(price: number): string {
+  if (price === 0) return "$0.00";
+  if (price >= 0.01) return `$${price.toFixed(2)}`;
+  const str = price.toFixed(4);
+  return `$${str.replace(/0+$/, "")}`;
+}
+
 /**
  * Extract the data field from an Eden treaty response, distributing over unions.
  * Eden returns { data: T; status: number } where T can be a union

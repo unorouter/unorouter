@@ -11,6 +11,7 @@ interface DashboardLayoutProps {
 export default async function DashboardLayout(props: DashboardLayoutProps) {
   const response = await rpc.api.auth.self.get(await setCookies());
   if (response.status !== 200) redirect("/login");
+
   return (
     <SidebarLayout before={<AuthRedirectCleanup />}>
       {props.children}

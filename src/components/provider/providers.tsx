@@ -1,12 +1,14 @@
-import { ReactNode, use } from "react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getCookieValue } from "@/lib/utils/server";
+import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
 import {
   NAVIGATION_STORE_KEY,
   type NavigationState,
 } from "@/store/navigation-store";
+import { ReactNode, use } from "react";
 import { JotaiProvider } from "./jotai-provider";
 import { LanguageProvider } from "./language-provider";
+import { ModelsStoreProvider } from "./models-store-provider";
 import { NavigationStoreProvider } from "./navigation-store-provider";
 import { QueryProvider } from "./query-provider";
 import { ThemeProvider } from "./theme-provider";
@@ -16,18 +18,21 @@ export function Providers(props: { children: ReactNode }) {
   const navigationStore = use(
     getCookieValue<NavigationState>(NAVIGATION_STORE_KEY),
   );
+  const modelsStore = use(getCookieValue<ModelsStoreState>(MODELS_STORE_KEY));
 
   return (
     <QueryProvider>
       <JotaiProvider>
         <NavigationStoreProvider data={navigationStore}>
-          <UserProvider>
-            <LanguageProvider>
-              <ThemeProvider>
-                <TooltipProvider>{props.children}</TooltipProvider>
-              </ThemeProvider>
-            </LanguageProvider>
-          </UserProvider>
+          <ModelsStoreProvider data={modelsStore}>
+            <UserProvider>
+              <LanguageProvider>
+                <ThemeProvider>
+                  <TooltipProvider>{props.children}</TooltipProvider>
+                </ThemeProvider>
+              </LanguageProvider>
+            </UserProvider>
+          </ModelsStoreProvider>
         </NavigationStoreProvider>
       </JotaiProvider>
     </QueryProvider>

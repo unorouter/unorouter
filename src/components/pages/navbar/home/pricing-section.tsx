@@ -212,7 +212,7 @@ function PricingTile(props: {
 }) {
   return (
     <div
-      className={`bg-accent group rounded-lg border p-5 transition-all hover:border-purple-500/50 ${props.highlight ? "border-purple-500/50" : "border-border"}`}
+      className={`bg-card group rounded-lg border p-5 transition-all hover:border-purple-500/50 ${props.highlight ? "border-purple-500/50" : "border-border"}`}
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="text-foreground font-mono text-xs tracking-wide uppercase">

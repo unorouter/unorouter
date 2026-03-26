@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import type { EndpointInfo, ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils/base";
 import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
 import {
@@ -31,13 +32,6 @@ type ModelDetailSheetProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
-
-function formatPrice(price: number): string {
-  if (price === 0) return "$0.00";
-  if (price >= 0.01) return `$${price.toFixed(2)}`;
-  const str = price.toFixed(4);
-  return `$${str.replace(/0+$/, "")}`;
-}
 
 function CopyButton(props: { text: string }) {
   const [copied, setCopied] = useState(false);
