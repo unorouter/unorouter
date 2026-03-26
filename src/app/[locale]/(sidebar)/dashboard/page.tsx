@@ -46,7 +46,7 @@ export default async function DashboardPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Dashboard />
+      <Dashboard serverTimestamps={{ startTs, endTs }} />
     </HydrationBoundary>
   );
 }

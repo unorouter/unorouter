@@ -9,7 +9,7 @@ export type DashboardStore = {
   endTs: number;
 };
 
-/** Default timestamps rounded to the current minute so server and client produce identical values. */
+/** Default timestamps rounded to the current minute. */
 export function defaultTimestamps() {
   const endTs = dayjs().startOf("minute").unix();
   const startTs = endTs - DEFAULT_RANGE_HOURS * 3600;

@@ -3,7 +3,10 @@
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { getGreetingKey } from "@/lib/config/constants";
+import type { DashboardStore } from "@/store/dashboard-store";
+import { dashboardStoreAtom } from "@/store/dashboard-store";
 import dayjs from "dayjs";
+import { useHydrateAtoms } from "jotai/react/utils";
 import { useTranslations } from "next-intl";
 import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
@@ -13,7 +16,12 @@ import { FaqPanel } from "./faq-panel";
 import { StatsCards } from "./stats-cards";
 import { UptimePanel } from "./uptime-panel";
 
-export function Dashboard() {
+type DashboardProps = {
+  serverTimestamps: DashboardStore;
+};
+
+export function Dashboard(props: DashboardProps) {
+  useHydrateAtoms([[dashboardStoreAtom, props.serverTimestamps]]);
   const t = useTranslations();
   const { displayName } = useUserDisplay();
   const statusQuery = useStatusQuery();
