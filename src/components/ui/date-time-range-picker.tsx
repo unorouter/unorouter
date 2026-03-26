@@ -68,6 +68,7 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
           "border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center gap-2 rounded-md border px-3 font-mono text-xs whitespace-nowrap",
           props.className,
         )}
+        suppressHydrationWarning
       >
         <LuCalendar className="h-3.5 w-3.5 shrink-0 opacity-50" />
         {label}

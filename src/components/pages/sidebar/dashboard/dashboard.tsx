@@ -5,7 +5,6 @@ import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { getGreetingKey } from "@/lib/config/constants";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
 import { ApiInfoPanel } from "./api-info-panel";
@@ -21,11 +20,7 @@ export function Dashboard() {
 
   const status = statusQuery.data;
 
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
-  const greeting = mounted ? t(getGreetingKey()) : "";
-  const dateStr = mounted ? dayjs().format("MMM D, YYYY") : "";
+  const greeting = t(getGreetingKey());
 
   const hasApiInfo = status?.api_info_enabled ?? false;
   const hasAnnouncements = status?.announcements_enabled ?? false;
@@ -44,14 +39,14 @@ export function Dashboard() {
               {t("SIDEBAR.DASHBOARD")}
             </span>
           </div>
-          <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl">
-            {greeting}{greeting && ","} {displayName}
+          <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl" suppressHydrationWarning>
+            {greeting}, {displayName}
           </h1>
         </div>
         <div className="text-muted-foreground hidden items-center gap-1.5 md:flex">
           <LuActivity className="h-3 w-3" />
-          <span className="font-mono text-[10px] tracking-widest uppercase">
-            {dateStr}
+          <span className="font-mono text-[10px] tracking-widest uppercase" suppressHydrationWarning>
+            {dayjs().format("MMM D, YYYY")}
           </span>
         </div>
       </div>

@@ -12,25 +12,15 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
 import { useStatusQuery } from "./status-hook";
 
 export function useDashboardData() {
   const [store, setStore] = useAtom(dashboardStoreAtom);
-
-  useEffect(() => {
-    if (!store) setStore(defaultTimestamps());
-  }, [store, setStore]);
-
-  const ready = store !== null;
-  const { startTs, endTs } = store ?? { startTs: 0, endTs: 0 };
+  const { startTs, endTs } = store;
   const periodMinutes = (endTs - startTs) / 60;
 
   const statusQuery = useStatusQuery();
-  const quotaQuery = useDashboardQuotaQuery(
-    ready ? startTs : undefined,
-    ready ? endTs : undefined,
-  );
+  const quotaQuery = useDashboardQuotaQuery(startTs, endTs);
   const uptimeQuery = useDashboardUptimeQuery();
   const rawData = filterQuotaData(quotaQuery.data ?? []);
 
@@ -58,7 +48,6 @@ export function useDashboardData() {
   const isFetching = quotaQuery.isFetching;
 
   return {
-    ready,
     dateRange,
     setDateRange,
     resetDateRange,
@@ -74,7 +63,6 @@ export function useDashboardData() {
 export function useDashboardQuotaQuery(startTs?: number, endTs?: number) {
   return useQuery({
     queryKey: queryKeys.dashboardQuota(startTs, endTs),
-    enabled: startTs !== undefined && endTs !== undefined,
     queryFn: async () =>
       handleElysia(
         await rpc.api.dashboard.quota.get({

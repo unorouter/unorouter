@@ -16,4 +16,4 @@ export function defaultTimestamps() {
   return { startTs, endTs };
 }
 
-export const dashboardStoreAtom = atom<DashboardStore | null>(null);
+export const dashboardStoreAtom = atom<DashboardStore>(defaultTimestamps());

@@ -126,34 +126,32 @@ export function ConsumptionChart() {
             {t("DASHBOARD.MODEL_DATA_ANALYSIS")}
           </span>
         </div>
-        {dashboard.ready && (
-          <div className="flex items-center gap-2">
-            <DateTimeRangePicker
-              value={dashboard.dateRange}
-              onChange={dashboard.setDateRange}
+        <div className="flex items-center gap-2">
+          <DateTimeRangePicker
+            value={dashboard.dateRange}
+            onChange={dashboard.setDateRange}
+          />
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={dashboard.refetchAll}
+            disabled={dashboard.isFetching}
+          >
+            <LuRefreshCw
+              className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
             />
+          </Button>
+          {!dashboard.isDefaultRange && (
             <Button
               variant="ghost"
               size="icon-sm"
-              onClick={dashboard.refetchAll}
-              disabled={dashboard.isFetching}
+              onClick={dashboard.resetDateRange}
+              title={t("DASHBOARD.RESET_DATE_RANGE")}
             >
-              <LuRefreshCw
-                className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
-              />
+              <LuRotateCcw className="h-4 w-4" />
             </Button>
-            {!dashboard.isDefaultRange && (
-              <Button
-                variant="ghost"
-                size="icon-sm"
-                onClick={dashboard.resetDateRange}
-                title={t("DASHBOARD.RESET_DATE_RANGE")}
-              >
-                <LuRotateCcw className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {isLoading ? (
