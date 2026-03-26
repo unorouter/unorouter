@@ -215,25 +215,32 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     path = path.replaceAll("{model}", model.name);
                   }
                   const method = info?.method ?? "POST";
+                  const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "";
+                  const fullUrl = path ? `${apiBase}${path}` : "";
 
                   return (
                     <div
                       key={endpoint}
-                      className="border-border flex items-center justify-between rounded border p-3"
+                      className="border-border rounded border p-3"
                     >
-                      <div className="flex items-center gap-2">
-                        <div className="h-1.5 w-1.5 rounded-full bg-green-500" />
-                        <span className="font-mono text-xs">{endpoint}</span>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="h-1.5 w-1.5 rounded-full bg-green-500" />
+                          <span className="font-mono text-xs">{endpoint}</span>
+                        </div>
                         {path && (
-                          <span className="text-muted-foreground font-mono text-[10px] break-all">
-                            {path}
+                          <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                            {method}
                           </span>
                         )}
                       </div>
-                      {path && (
-                        <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                          {method}
-                        </span>
+                      {fullUrl && (
+                        <div className="mt-1.5 flex items-start gap-1.5 pl-3.5">
+                          <p className="text-muted-foreground font-mono text-[10px] break-all">
+                            {fullUrl}
+                          </p>
+                          <CopyButton text={fullUrl} />
+                        </div>
                       )}
                     </div>
                   );
