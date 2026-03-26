@@ -30,11 +30,35 @@ export const VENDOR_THEMES: Record<string, VendorTheme> = {
     text: "text-blue-400",
     tagBg: "bg-blue-500/10",
   },
+  bailian: {
+    bg: "bg-orange-500/5",
+    border: "border-orange-500/20",
+    text: "text-orange-300",
+    tagBg: "bg-orange-500/10",
+  },
+  bytedance: {
+    bg: "bg-sky-500/5",
+    border: "border-sky-500/20",
+    text: "text-sky-400",
+    tagBg: "bg-sky-500/10",
+  },
   deepseek: {
     bg: "bg-purple-500/5",
     border: "border-purple-500/20",
     text: "text-purple-400",
     tagBg: "bg-purple-500/10",
+  },
+  flux: {
+    bg: "bg-fuchsia-500/5",
+    border: "border-fuchsia-500/20",
+    text: "text-fuchsia-400",
+    tagBg: "bg-fuchsia-500/10",
+  },
+  kling: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-400",
+    tagBg: "bg-violet-500/10",
   },
   meta: {
     bg: "bg-sky-500/5",

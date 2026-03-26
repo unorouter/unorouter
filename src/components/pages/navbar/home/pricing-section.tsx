@@ -130,7 +130,7 @@ export function PricingSection() {
                   </span>
                 </div>
               </div>
-              <div className="space-y-3 p-4">
+              <div className="max-h-104 space-y-3 overflow-y-auto p-4">
                 {vendors.map((vendor) => {
                   const theme = getVendorTheme(vendor.name);
                   return (
