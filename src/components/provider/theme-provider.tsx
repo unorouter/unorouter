@@ -12,6 +12,8 @@ if (typeof window !== "undefined") {
   console.error = (...args: Parameters<typeof console.error>) => {
     const msg = typeof args[0] === "string" ? args[0] : "";
     if (msg.includes("Encountered a script tag while rendering")) return;
+    if (msg.includes("Minified React error #418")) return;
+    if (msg.includes("Minified React error #423")) return;
     original.apply(console, args);
   };
 }
