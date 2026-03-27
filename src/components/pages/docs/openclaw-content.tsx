@@ -96,8 +96,8 @@ export async function OpenClawContent() {
         </Callout>
 
         {/* Core Features */}
-        <section className="mt-12" id="core-features">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="core-features">
             {t("DOCS.OPENCLAW.CORE_FEATURES")}
           </h2>
           <ul className="text-muted-foreground space-y-3 text-sm">
@@ -132,8 +132,8 @@ export async function OpenClawContent() {
         />
 
         {/* Installation */}
-        <section className="mt-12" id="installation">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="installation">
             {t("DOCS.OPENCLAW.INSTALLATION")}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">
@@ -150,8 +150,8 @@ openclaw onboard`}
         </section>
 
         {/* Configuration */}
-        <section className="mt-12" id="configuration">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="configuration">
             {t("DOCS.OPENCLAW.CONFIGURATION")}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">

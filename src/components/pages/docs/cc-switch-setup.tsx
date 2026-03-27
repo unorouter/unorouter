@@ -60,8 +60,8 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
   );
 
   return (
-    <section className="mt-10" id="cc-switch-setup">
-      <h2 className="mb-4 text-2xl font-semibold">
+    <section className="mt-10">
+      <h2 className="mb-4 text-2xl font-semibold" id="cc-switch-setup">
         {t("DOCS.CC_SWITCH_SETUP_TITLE")}
       </h2>
       <p className="text-muted-foreground mb-6 text-sm">

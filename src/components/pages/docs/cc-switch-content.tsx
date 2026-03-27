@@ -79,8 +79,8 @@ export async function CCSwitchContent() {
         </Callout>
 
         {/* Features */}
-        <section className="mt-12" id="features">
-          <h2 className="mb-6 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-6 text-2xl font-semibold" id="features">
             {t("DOCS.CC_SWITCH.FEATURES")}
           </h2>
 
@@ -126,8 +126,8 @@ export async function CCSwitchContent() {
         </section>
 
         {/* Installation */}
-        <section className="mt-12" id="installation">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="installation">
             {t("DOCS.CC_SWITCH.INSTALLATION")}
           </h2>
 
@@ -165,8 +165,8 @@ brew install --cask cc-switch`}
         </section>
 
         {/* Integration */}
-        <section className="mt-12" id="integration">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="integration">
             {t("DOCS.CC_SWITCH.INTEGRATION", APP_VALUES)}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">

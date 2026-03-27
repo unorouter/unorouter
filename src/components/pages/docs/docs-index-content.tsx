@@ -56,10 +56,9 @@ export async function DocsIndexContent() {
         </div>
 
         <section
-          id="get-started"
           className="border-border mt-20 border-t pt-12 text-center"
         >
-          <h2 className="text-2xl font-semibold">
+          <h2 className="text-2xl font-semibold" id="get-started">
             {t("DOCS_INDEX.CTA_TITLE")}
           </h2>
           <p className="text-muted-foreground mt-2">

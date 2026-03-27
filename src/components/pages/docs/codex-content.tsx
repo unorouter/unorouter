@@ -122,8 +122,8 @@ export async function CodexContent() {
         </Callout>
 
         {/* Features */}
-        <section className="mt-12" id="features">
-          <h2 className="mb-6 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-6 text-2xl font-semibold" id="features">
             {t("DOCS.CODEX.FEATURES_TITLE")}
           </h2>
           <div className="border-border overflow-hidden rounded-lg border">
@@ -163,8 +163,8 @@ export async function CodexContent() {
         />
 
         {/* Manual Configuration */}
-        <section className="mt-12" id="ai-model-configuration">
-          <h2 className="mb-6 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-6 text-2xl font-semibold" id="ai-model-configuration">
             {t("DOCS.CODEX.AI_CONFIG_TITLE")}
           </h2>
 

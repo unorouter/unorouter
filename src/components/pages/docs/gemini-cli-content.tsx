@@ -77,8 +77,8 @@ export async function GeminiCliContent() {
         </Callout>
 
         {/* Quick Start */}
-        <section className="mt-12" id="quick-start">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="quick-start">
             {t("DOCS.GEMINI_CLI.QUICK_START")}
           </h2>
           <p className="text-muted-foreground mb-6 text-sm">
@@ -99,8 +99,8 @@ gemini`}
         </section>
 
         {/* Features */}
-        <section className="mt-12" id="features">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="features">
             {t("DOCS.GEMINI_CLI.FEATURES")}
           </h2>
           <ul className="text-muted-foreground space-y-3 text-sm">
@@ -140,8 +140,8 @@ gemini`}
         />
 
         {/* Installation */}
-        <section className="mt-12" id="installation">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="installation">
             {t("DOCS.GEMINI_CLI.INSTALLATION")}
           </h2>
 
@@ -166,8 +166,8 @@ gemini`}
         </section>
 
         {/* Configuration */}
-        <section className="mt-12" id="configuration">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="configuration">
             {t("DOCS.GEMINI_CLI.CONFIGURATION")}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">
@@ -203,8 +203,8 @@ export GEMINI_API_KEY="YOUR_API_KEY"`}
         </section>
 
         {/* Usage */}
-        <section className="mt-12" id="usage">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="usage">
             {t("DOCS.GEMINI_CLI.USAGE")}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">

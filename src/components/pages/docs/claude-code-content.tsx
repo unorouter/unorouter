@@ -205,8 +205,8 @@ npm install -g @anthropic-ai/claude-code`}
         </Callout>
 
         {/* Features */}
-        <section className="mt-12" id="features">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="features">
             {t("DOCS.CLAUDE_CODE.FEATURES_TITLE")}
           </h2>
           <div className="overflow-x-auto">
@@ -247,8 +247,8 @@ npm install -g @anthropic-ai/claude-code`}
         />
 
         {/* Manual Configuration */}
-        <section className="mt-12" id="ai-model-configuration">
-          <h2 className="mb-4 text-2xl font-semibold">
+        <section className="mt-12">
+          <h2 className="mb-4 text-2xl font-semibold" id="ai-model-configuration">
             {t("DOCS.CLAUDE_CODE.CONFIG_TITLE")}
           </h2>
           <p className="text-muted-foreground mb-6 text-sm">

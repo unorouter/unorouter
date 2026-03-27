@@ -13,7 +13,6 @@ export async function IntegrationRow(props: {
 
   return (
     <div
-      id={props.id}
       className={`relative rounded-lg border ${props.integration.color.border} bg-card/40 overflow-hidden backdrop-blur-sm`}
     >
       <div className={`h-0.5 ${props.integration.color.line}`} />
@@ -29,6 +28,7 @@ export async function IntegrationRow(props: {
               </span>
             </div>
             <h2
+              id={props.id}
               className={`text-xl font-bold tracking-tight md:text-2xl ${props.integration.color.accent}`}
             >
               {t(props.integration.titleKey)}
