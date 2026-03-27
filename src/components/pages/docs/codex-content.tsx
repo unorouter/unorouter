@@ -29,17 +29,10 @@ export async function CodexContent() {
     },
   ]);
 
-  const windowsGuide = (
-    <div className="mt-6 space-y-6">
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.WINDOWS_STEP1_TITLE")}
-        </h4>
-        <p className="text-muted-foreground mb-3 text-sm">
-          {t("DOCS.CODEX.WINDOWS_STEP1_DESC")}
-        </p>
-      </div>
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+  const windowsInstall = (
+    <div className="mt-6 space-y-6">
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CODEX.WINDOWS_STEP2_TITLE")}
@@ -49,101 +42,33 @@ export async function CodexContent() {
         </p>
         <CodeBlock language="powershell" code="wsl --install" />
       </div>
-
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CODEX.WINDOWS_STEP3_TITLE")}
         </h4>
         <CodeBlock language="bash" code="npm i -g @openai/codex" />
       </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.WINDOWS_STEP4_TITLE", APP_VALUES)}
-        </h4>
-        <p className="text-muted-foreground mb-3 text-sm">
-          {t("DOCS.CODEX.WINDOWS_STEP4_DESC", APP_VALUES)}
-        </p>
-        <CodeBlock
-          language="bash"
-          code={`export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
-export OPENAI_API_KEY="your-api-key-here"`}
-        />
-      </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.WINDOWS_STEP5_TITLE")}
-        </h4>
-        <CodeBlock language="bash" code="codex" />
-      </div>
     </div>
   );
 
-  const macosGuide = (
+  const macosInstall = (
     <div className="mt-6 space-y-6">
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.MACOS_STEP1_TITLE")}
-        </h4>
-        <p className="text-muted-foreground mb-3 text-sm">
-          {t("DOCS.CODEX.MACOS_STEP1_DESC")}
-        </p>
-        <CodeBlock
-          language="bash"
-          code={'/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'}
-        />
-      </div>
-
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CODEX.MACOS_STEP2_TITLE")}
         </h4>
         <CodeBlock language="bash" code={`brew update\nbrew install node`} />
       </div>
-
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CODEX.MACOS_STEP3_TITLE")}
         </h4>
         <CodeBlock language="bash" code="npm install -g @openai/codex" />
       </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.MACOS_STEP4_TITLE", APP_VALUES)}
-        </h4>
-        <p className="text-muted-foreground mb-3 text-sm">
-          {t("DOCS.CODEX.MACOS_STEP4_DESC", APP_VALUES)}
-        </p>
-        <CodeBlock
-          language="bash"
-          code={`# Add to your ~/.zshrc or ~/.bashrc
-export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
-export OPENAI_API_KEY="your-api-key-here"
-
-# Reload your shell
-source ~/.zshrc`}
-        />
-      </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.MACOS_STEP5_TITLE")}
-        </h4>
-        <CodeBlock language="bash" code="codex" />
-      </div>
-
-      <Callout type="warn" title={t("DOCS.CODEX.MACOS_ISSUES_TITLE")}>
-        <ul className="list-disc space-y-2 pl-4">
-          <li>{t("DOCS.CODEX.MACOS_ISSUES_NODE")}</li>
-          <li>{t("DOCS.CODEX.MACOS_ISSUES_PERMISSION")}</li>
-        </ul>
-      </Callout>
     </div>
   );
 
-  const linuxGuide = (
+  const linuxInstall = (
     <div className="mt-6 space-y-6">
       <div>
         <h4 className="mb-2 text-lg font-medium">
@@ -154,45 +79,12 @@ source ~/.zshrc`}
           code={`curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -\nsudo apt-get install -y nodejs`}
         />
       </div>
-
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CODEX.LINUX_STEP2_TITLE")}
         </h4>
         <CodeBlock language="bash" code="npm install -g @openai/codex" />
       </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.LINUX_STEP3_TITLE", APP_VALUES)}
-        </h4>
-        <p className="text-muted-foreground mb-3 text-sm">
-          {t("DOCS.CODEX.LINUX_STEP3_DESC", APP_VALUES)}
-        </p>
-        <CodeBlock
-          language="bash"
-          code={`# Add to your ~/.bashrc or ~/.zshrc
-export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
-export OPENAI_API_KEY="your-api-key-here"
-
-# Reload your shell
-source ~/.bashrc`}
-        />
-      </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CODEX.LINUX_STEP4_TITLE")}
-        </h4>
-        <CodeBlock language="bash" code="codex" />
-      </div>
-
-      <Callout type="warn" title={t("DOCS.CODEX.LINUX_ISSUES_TITLE")}>
-        <ul className="list-disc space-y-2 pl-4">
-          <li>{t("DOCS.CODEX.LINUX_ISSUES_NODE")}</li>
-          <li>{t("DOCS.CODEX.LINUX_ISSUES_PERMISSION")}</li>
-        </ul>
-      </Callout>
     </div>
   );
 
@@ -276,10 +168,52 @@ source ~/.bashrc`}
             {t("DOCS.CODEX.AI_CONFIG_TITLE")}
           </h2>
 
+          {/* Config files (recommended) */}
+          <h3 className="mb-2 text-lg font-medium">
+            {t("DOCS.CONFIG_FILE_LABEL")}
+          </h3>
+          <p className="text-muted-foreground mb-3 text-sm">
+            {t("DOCS.CONFIG_FILE_DESC")}
+          </p>
+          <CodeBlock
+            language="json"
+            code={`// ~/.codex/auth.json
+{
+  "OPENAI_API_KEY": "your-api-key-here"
+}`}
+          />
+          <div className="mt-4" />
+          <CodeBlock
+            language="toml"
+            code={`# ~/.codex/config.toml
+model = "o3-mini"
+
+[model_providers.custom]
+base_url = "${apiUrl}/v1"
+wire_api = "responses"`}
+          />
+
+          {/* Env vars (alternative) */}
+          <h3 className="mt-8 mb-2 text-lg font-medium">
+            {t("DOCS.CONFIG_ENV_LABEL")}
+          </h3>
+          <p className="text-muted-foreground mb-3 text-sm">
+            {t("DOCS.CONFIG_ENV_DESC")}
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`export OPENAI_BASE_URL="${apiUrl}/v1"
+export OPENAI_API_KEY="your-api-key-here"`}
+          />
+
+          {/* Installation per OS */}
+          <h3 className="mt-10 mb-2 text-lg font-medium">
+            {t("DOCS.CODEX.INSTALLATION_TITLE")}
+          </h3>
           <OSTabs
-            windowsContent={windowsGuide}
-            macosContent={macosGuide}
-            linuxContent={linuxGuide}
+            windowsContent={windowsInstall}
+            macosContent={macosInstall}
+            linuxContent={linuxInstall}
             labels={{
               windows: t("DOCS.OS_TAB_WINDOWS"),
               macos: t("DOCS.OS_TAB_MACOS"),

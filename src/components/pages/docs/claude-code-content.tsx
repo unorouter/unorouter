@@ -49,7 +49,7 @@ export async function ClaudeCodeContent() {
     { titleKey: "FEATURE_SAFE_TITLE", descKey: "FEATURE_SAFE_DESC" },
   ] as const;
 
-  const windowsGuide = (
+  const windowsInstall = (
     <div className="mt-6 space-y-6">
       <div>
         <h4 className="mb-2 text-lg font-medium">
@@ -69,7 +69,6 @@ export async function ClaudeCodeContent() {
           })}
         </p>
       </div>
-
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CLAUDE_CODE.WIN_STEP2_TITLE")}
@@ -88,7 +87,6 @@ export async function ClaudeCodeContent() {
           })}
         </p>
       </div>
-
       <div>
         <h4 className="mb-2 text-lg font-medium">
           {t("DOCS.CLAUDE_CODE.WIN_STEP3_TITLE")}
@@ -98,32 +96,10 @@ export async function ClaudeCodeContent() {
           code="npm install -g @anthropic-ai/claude-code"
         />
       </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CLAUDE_CODE.WIN_STEP4_TITLE")}
-        </h4>
-        <CodeBlock
-          language="bash"
-          code={`# Add to your ~/.bashrc or ~/.bash_profile
-export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"`}
-        />
-      </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CLAUDE_CODE.WIN_STEP5_TITLE")}
-        </h4>
-        <CodeBlock
-          language="bash"
-          code={`cd /path/to/your/project\nclaude`}
-        />
-      </div>
     </div>
   );
 
-  const macosGuide = (
+  const macosInstall = (
     <div className="mt-6 space-y-6">
       <div>
         <h4 className="mb-2 text-lg font-medium">
@@ -149,35 +125,6 @@ npm install -g @anthropic-ai/claude-code`}
         />
       </div>
 
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CLAUDE_CODE.MAC_STEP2_TITLE")}
-        </h4>
-        <CodeBlock
-          language="bash"
-          code={`# Add to your ~/.zshrc or ~/.bashrc
-export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"
-
-# Reload your shell
-source ~/.zshrc`}
-        />
-      </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CLAUDE_CODE.MAC_STEP3_TITLE")}
-        </h4>
-        <CodeBlock
-          language="bash"
-          code={`cd /path/to/your/project\nclaude`}
-        />
-      </div>
-
-      <h4 className="mb-2 text-lg font-medium">
-        {t("DOCS.CLAUDE_CODE.MAC_ISSUES_TITLE")}
-      </h4>
-
       <Callout
         type="warn"
         title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_PERMISSION_TITLE")}
@@ -194,22 +141,10 @@ echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
 source ~/.zshrc`}
         </pre>
       </Callout>
-
-      <Callout
-        type="warn"
-        title={t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_TITLE")}
-      >
-        <p>
-          {t("DOCS.CLAUDE_CODE.MAC_ISSUE_NODE_DESC", {
-            checkCmd: "node --version",
-            updateCmd: "brew upgrade node",
-          })}
-        </p>
-      </Callout>
     </div>
   );
 
-  const linuxGuide = (
+  const linuxInstall = (
     <div className="mt-6 space-y-6">
       <div>
         <h4 className="mb-2 text-lg font-medium">
@@ -229,52 +164,6 @@ sudo apt-get install -y nodejs
 npm install -g @anthropic-ai/claude-code`}
         />
       </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CLAUDE_CODE.LINUX_STEP2_TITLE")}
-        </h4>
-        <CodeBlock
-          language="bash"
-          code={`# Add to your ~/.bashrc or ~/.zshrc
-export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"
-
-# Reload your shell
-source ~/.bashrc`}
-        />
-      </div>
-
-      <div>
-        <h4 className="mb-2 text-lg font-medium">
-          {t("DOCS.CLAUDE_CODE.LINUX_STEP3_TITLE")}
-        </h4>
-        <CodeBlock
-          language="bash"
-          code={`cd /path/to/your/project\nclaude`}
-        />
-      </div>
-
-      <h4 className="mb-2 text-lg font-medium">
-        {t("DOCS.CLAUDE_CODE.LINUX_ISSUES_TITLE")}
-      </h4>
-
-      <Callout
-        type="warn"
-        title={t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_TITLE")}
-      >
-        <p>
-          {t("DOCS.CLAUDE_CODE.LINUX_ISSUE_PERMISSION_DESC", {
-            code: "EACCES",
-          })}
-        </p>
-        <pre className="bg-muted mt-2 overflow-x-auto rounded p-2 text-xs">
-          {`mkdir -p ~/.npm-global
-npm config set prefix '~/.npm-global'
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc`}
-        </pre>
-      </Callout>
 
       <Callout
         type="warn"
@@ -366,10 +255,45 @@ source ~/.bashrc`}
             {t("DOCS.CLAUDE_CODE.CONFIG_DESC", APP_VALUES)}
           </p>
 
+          {/* Config file (recommended) */}
+          <h3 className="mb-2 text-lg font-medium">
+            {t("DOCS.CONFIG_FILE_LABEL")}
+          </h3>
+          <p className="text-muted-foreground mb-3 text-sm">
+            {t("DOCS.CONFIG_FILE_DESC")}
+          </p>
+          <CodeBlock
+            language="json"
+            code={`// ~/.claude/settings.json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "${apiUrl}",
+    "ANTHROPIC_API_KEY": "your-api-key-here"
+  }
+}`}
+          />
+
+          {/* Env vars (alternative) */}
+          <h3 className="mt-8 mb-2 text-lg font-medium">
+            {t("DOCS.CONFIG_ENV_LABEL")}
+          </h3>
+          <p className="text-muted-foreground mb-3 text-sm">
+            {t("DOCS.CONFIG_ENV_DESC")}
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`export ANTHROPIC_BASE_URL="${apiUrl}"
+export ANTHROPIC_API_KEY="your-api-key-here"`}
+          />
+
+          {/* Installation per OS */}
+          <h3 className="mt-10 mb-2 text-lg font-medium">
+            {t("DOCS.CLAUDE_CODE.INSTALLATION_TITLE")}
+          </h3>
           <OSTabs
-            windowsContent={windowsGuide}
-            macosContent={macosGuide}
-            linuxContent={linuxGuide}
+            windowsContent={windowsInstall}
+            macosContent={macosInstall}
+            linuxContent={linuxInstall}
             labels={{
               windows: t("DOCS.OS_TAB_WINDOWS"),
               macos: t("DOCS.OS_TAB_MACOS"),

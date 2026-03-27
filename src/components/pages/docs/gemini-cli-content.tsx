@@ -86,9 +86,12 @@ export async function GeminiCliContent() {
           </p>
           <CodeBlock
             language="bash"
-            code={`# Environment variables for Gemini CLI
-export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
-export GEMINI_API_KEY="YOUR_API_KEY"
+            code={`# Create ~/.gemini/.env with your config
+mkdir -p ~/.gemini
+cat > ~/.gemini/.env << 'EOF'
+GEMINI_API_KEY=your-api-key-here
+GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}
+EOF
 
 # Then run Gemini CLI
 gemini`}
@@ -169,6 +172,28 @@ gemini`}
           </h2>
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.GEMINI_CLI.CONFIGURATION_DESC", APP_VALUES)}
+          </p>
+
+          {/* Config file (recommended) */}
+          <h3 className="mb-2 text-lg font-medium">
+            {t("DOCS.CONFIG_FILE_LABEL")}
+          </h3>
+          <p className="text-muted-foreground mb-3 text-sm">
+            {t("DOCS.CONFIG_FILE_DESC")}
+          </p>
+          <CodeBlock
+            language="bash"
+            code={`# ~/.gemini/.env
+GEMINI_API_KEY=your-api-key-here
+GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`}
+          />
+
+          {/* Env vars (alternative) */}
+          <h3 className="mt-8 mb-2 text-lg font-medium">
+            {t("DOCS.CONFIG_ENV_LABEL")}
+          </h3>
+          <p className="text-muted-foreground mb-3 text-sm">
+            {t("DOCS.CONFIG_ENV_DESC")}
           </p>
           <CodeBlock
             language="bash"
