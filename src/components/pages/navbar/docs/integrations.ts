@@ -2,8 +2,6 @@ import { TranslationKey } from "@/lib/config/constants";
 
 type IntegrationDef = {
   href: string;
-  image: string;
-  alt: string;
   titleKey: TranslationKey;
   subtitleKey: TranslationKey;
   badgeKey: TranslationKey;
@@ -23,8 +21,6 @@ type IntegrationDef = {
 export const integrations = [
   {
     href: "/docs/cc-switch",
-    image: "/images/cc-switch-screenshot.png",
-    alt: "CC Switch",
     titleKey: "DOCS.CC_SWITCH.TITLE",
     subtitleKey: "DOCS.CC_SWITCH.SUBTITLE",
     badgeKey: "DOCS.CC_SWITCH.BADGE",
@@ -43,8 +39,6 @@ brew install --cask cc-switch`,
   },
   {
     href: "/docs/claude-code",
-    image: "/images/claude-code-screenshot.png",
-    alt: "Claude Code",
     titleKey: "DOCS.CLAUDE_CODE.TITLE",
     subtitleKey: "DOCS.CLAUDE_CODE.SUBTITLE",
     badgeKey: "DOCS.CLAUDE_CODE.BADGE",
@@ -65,8 +59,6 @@ claude`,
   },
   {
     href: "/docs/codex",
-    image: "/images/codex-screenshot.png",
-    alt: "Codex CLI",
     titleKey: "DOCS.CODEX.TITLE",
     subtitleKey: "DOCS.CODEX.SUBTITLE",
     badgeKey: "DOCS.CODEX.BADGE",
@@ -87,8 +79,6 @@ codex`,
   },
   {
     href: "/docs/gemini-cli",
-    image: "/images/gemini-cli-screenshot.png",
-    alt: "Gemini CLI",
     titleKey: "DOCS.GEMINI_CLI.TITLE",
     subtitleKey: "DOCS.GEMINI_CLI.SUBTITLE",
     badgeKey: "DOCS.GEMINI_CLI.BADGE",
@@ -109,8 +99,6 @@ gemini`,
   },
   {
     href: "/docs/openclaw",
-    image: "/images/openclaw-screenshot.png",
-    alt: "OpenClaw",
     titleKey: "DOCS.OPENCLAW.TITLE",
     subtitleKey: "DOCS.OPENCLAW.SUBTITLE",
     badgeKey: "DOCS.OPENCLAW.BADGE",
