@@ -29,9 +29,9 @@ export function SidebarLayout(props: SidebarLayoutProps) {
     >
       {props.before}
       <AppSidebar variant="inset" navConfig={props.navConfig} />
-      <SidebarInset className="overflow-hidden">
+      <SidebarInset>
         <SidebarHeader showSearch={props.showSearch} />
-        <div className="flex flex-1 overflow-y-auto">{props.children}</div>
+        <div className="flex flex-1">{props.children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
