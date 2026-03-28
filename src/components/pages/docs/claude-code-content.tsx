@@ -202,6 +202,16 @@ npm install -g @anthropic-ai/claude-code`}
     </div>
   );
 
+  const claudeConfigCode = `{
+  "env": {
+    "ANTHROPIC_BASE_URL": "${docs.apiUrl}",
+    "ANTHROPIC_API_KEY": "${docs.placeholder}"
+  }
+}`;
+
+  const claudeEnvCode = `export ANTHROPIC_BASE_URL="${docs.apiUrl}"
+export ANTHROPIC_API_KEY="${docs.placeholder}"`;
+
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
@@ -288,25 +298,13 @@ npm install -g @anthropic-ai/claude-code`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          {await (async () => {
-            const configCode = `{
-  "env": {
-    "ANTHROPIC_BASE_URL": "${docs.apiUrl}",
-    "ANTHROPIC_API_KEY": "${docs.displayKey}"
-  }
-}`;
-            return (
-              <ApiKeyCodeBlock
-                html={await highlightCode(configCode, "json")}
-                code={configCode}
-                language="json"
-                label="~/.claude/settings.json"
-                placeholder={docs.placeholder}
-                apiKey={docs.rawApiKey}
-                initialRevealed={docs.isRevealed}
-              />
-            );
-          })()}
+          <ApiKeyCodeBlock
+            html={await highlightCode(claudeConfigCode, "json")}
+            code={claudeConfigCode}
+            language="json"
+            label="~/.claude/settings.json"
+            placeholder={docs.placeholder}
+          />
 
           {/* Env vars (alternative) */}
           <h3 className="mt-8 mb-2 text-lg font-medium">
@@ -315,20 +313,12 @@ npm install -g @anthropic-ai/claude-code`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          {await (async () => {
-            const envCode = `export ANTHROPIC_BASE_URL="${docs.apiUrl}"
-export ANTHROPIC_API_KEY="${docs.displayKey}"`;
-            return (
-              <ApiKeyCodeBlock
-                html={await highlightCode(envCode, "bash")}
-                code={envCode}
-                language="bash"
-                placeholder={docs.placeholder}
-                apiKey={docs.rawApiKey}
-                initialRevealed={docs.isRevealed}
-              />
-            );
-          })()}
+          <ApiKeyCodeBlock
+            html={await highlightCode(claudeEnvCode, "bash")}
+            code={claudeEnvCode}
+            language="bash"
+            placeholder={docs.placeholder}
+          />
 
           {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">

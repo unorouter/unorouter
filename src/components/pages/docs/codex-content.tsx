@@ -89,6 +89,13 @@ export async function CodexContent() {
     </div>
   );
 
+  const codexAuthCode = `{
+  "OPENAI_API_KEY": "${docs.placeholder}"
+}`;
+
+  const codexEnvCode = `export OPENAI_BASE_URL="${docs.apiUrl}/v1"
+export OPENAI_API_KEY="${docs.placeholder}"`;
+
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
@@ -179,22 +186,13 @@ export async function CodexContent() {
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          {await (async () => {
-            const authCode = `{
-  "OPENAI_API_KEY": "${docs.displayKey}"
-}`;
-            return (
-              <ApiKeyCodeBlock
-                html={await highlightCode(authCode, "json")}
-                code={authCode}
-                language="json"
-                label="~/.codex/auth.json"
-                placeholder={docs.placeholder}
-                apiKey={docs.rawApiKey}
-                initialRevealed={docs.isRevealed}
-              />
-            );
-          })()}
+          <ApiKeyCodeBlock
+            html={await highlightCode(codexAuthCode, "json")}
+            code={codexAuthCode}
+            language="json"
+            label="~/.codex/auth.json"
+            placeholder={docs.placeholder}
+          />
           <div className="mt-4" />
           <p className="text-muted-foreground mb-1 font-mono text-xs">
             ~/.codex/config.toml
@@ -215,20 +213,12 @@ wire_api = "responses"`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          {await (async () => {
-            const envCode = `export OPENAI_BASE_URL="${docs.apiUrl}/v1"
-export OPENAI_API_KEY="${docs.displayKey}"`;
-            return (
-              <ApiKeyCodeBlock
-                html={await highlightCode(envCode, "bash")}
-                code={envCode}
-                language="bash"
-                placeholder={docs.placeholder}
-                apiKey={docs.rawApiKey}
-                initialRevealed={docs.isRevealed}
-              />
-            );
-          })()}
+          <ApiKeyCodeBlock
+            html={await highlightCode(codexEnvCode, "bash")}
+            code={codexEnvCode}
+            language="bash"
+            placeholder={docs.placeholder}
+          />
 
           {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">

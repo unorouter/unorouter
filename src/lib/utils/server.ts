@@ -1,8 +1,3 @@
-import {
-  DOCS_STORE_KEY,
-  obfuscateApiKey,
-  type DocsState,
-} from "@/store/docs-store";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
@@ -37,24 +32,11 @@ export const getCookieValue = async <T>(key: string): Promise<T | undefined> => 
   }
 };
 
-/** Server-side utility to read api key display info from cookie */
-export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const state = await getCookieValue<DocsState>(DOCS_STORE_KEY);
-  const rawApiKey = state?.apiKey ?? null;
-  const isRevealed = state?.apiKeyRevealed ?? false;
-  const displayKey = rawApiKey
-    ? isRevealed
-      ? rawApiKey
-      : obfuscateApiKey(rawApiKey)
-    : placeholder;
-  return {
-    apiUrl: process.env.NEXT_PUBLIC_API_URL!,
-    rawApiKey,
-    isRevealed,
-    displayKey,
-    placeholder,
-  };
-};
+/** Server-side utility for docs code block placeholders */
+export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => ({
+  apiUrl: process.env.NEXT_PUBLIC_API_URL!,
+  placeholder,
+});
 
 export const setCookies = async () => {
   const cookie = (await cookies())

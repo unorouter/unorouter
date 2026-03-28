@@ -53,6 +53,25 @@ export async function OpenClawContent() {
     t("DOCS.TOC_TITLE"),
   );
 
+  const openclawConfigCode = `{
+  "env": {
+    "OPENAI_API_KEY": "${docs.placeholder}"
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openai/gpt-5.2"
+      }
+    }
+  },
+  "providers": {
+    "openai": {
+      "baseUrl": "${process.env.NEXT_PUBLIC_API_URL}/v1",
+      "apiKey": "env:OPENAI_API_KEY"
+    }
+  }
+}`;
+
   return (
     <TOCLayout toc={toc}>
       <div className="mx-auto max-w-3xl px-6 py-16">
@@ -160,36 +179,12 @@ openclaw onboard`}
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.OPENCLAW.CONFIG_LOCATION", APP_VALUES)}
           </p>
-          {await (async () => {
-            const configCode = `{
-  "env": {
-    "OPENAI_API_KEY": "${docs.displayKey}"
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "openai/gpt-5.2"
-      }
-    }
-  },
-  "providers": {
-    "openai": {
-      "baseUrl": "${process.env.NEXT_PUBLIC_API_URL}/v1",
-      "apiKey": "env:OPENAI_API_KEY"
-    }
-  }
-}`;
-            return (
-              <ApiKeyCodeBlock
-                html={await highlightCode(configCode, "json")}
-                code={configCode}
-                language="json"
-                placeholder={docs.placeholder}
-                apiKey={docs.rawApiKey}
-                initialRevealed={docs.isRevealed}
-              />
-            );
-          })()}
+          <ApiKeyCodeBlock
+            html={await highlightCode(openclawConfigCode, "json")}
+            code={openclawConfigCode}
+            language="json"
+            placeholder={docs.placeholder}
+          />
 
           {/* Key Configuration Details */}
           <h3

@@ -18,10 +18,6 @@ type Props = {
   code: string;
   /** Language label for the toolbar */
   language: string;
-  /** The full (unobfuscated) API key, or null if not available */
-  apiKey: string | null;
-  /** Whether the key was rendered revealed by the server */
-  initialRevealed: boolean;
   /** The placeholder text used in the code string when no key exists */
   placeholder: string;
   /** Optional label shown above the code (e.g. file path) */
@@ -34,22 +30,14 @@ export function ApiKeyCodeBlock(props: Props) {
   const token = useDocs();
   const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
 
-  const apiKey = props.apiKey;
+  const apiKey = token.apiKey;
   const obfuscated = apiKey ? obfuscateApiKey(apiKey) : null;
 
-  // Compute the display HTML by swapping the server-rendered key representation
-  let displayHtml = props.html;
-  if (apiKey && obfuscated) {
-    if (revealed) {
-      // Server may have rendered obfuscated; swap to full key
-      displayHtml = props.html.replaceAll(obfuscated, apiKey);
-    } else {
-      // Server may have rendered full key; swap to obfuscated
-      displayHtml = props.html.replaceAll(apiKey, obfuscated);
-    }
-  }
-
-  // Compute the copy text: always use the full key
+  // Server always renders with placeholder; client swaps in the real key
+  const displayKey = apiKey ? (revealed ? apiKey : obfuscated!) : null;
+  const displayHtml = displayKey
+    ? props.html.replaceAll(props.placeholder, displayKey)
+    : props.html;
   const copyText = apiKey
     ? props.code.replaceAll(props.placeholder, apiKey)
     : props.code;
