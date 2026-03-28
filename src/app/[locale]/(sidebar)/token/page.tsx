@@ -49,6 +49,10 @@ export default async function TokensPage() {
     }),
   ]);
 
+  const dehydratedState = dehydrate(queryClient);
+
+  console.log("[TokensPage] dehydratedState:", dehydratedState);
+
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DataTableProvider data={tableStores}>
