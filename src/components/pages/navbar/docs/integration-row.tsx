@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/elements/code-block";
+import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import Claude from "@lobehub/icons/es/Claude";

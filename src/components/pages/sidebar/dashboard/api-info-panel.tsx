@@ -1,6 +1,6 @@
 "use client";
 
-import { CopyButton } from "@/components/elements/copy-button";
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useTranslations } from "next-intl";
 import { LuCode } from "react-icons/lu";

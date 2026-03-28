@@ -1,4 +1,4 @@
-import { GetStartedLink } from "@/components/elements/get-started-link";
+import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
 import {
   LuCpu,

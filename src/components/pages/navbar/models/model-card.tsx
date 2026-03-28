@@ -1,7 +1,7 @@
 "use client";
 
-import { CopyButton } from "@/components/elements/copy-button";
-import { VendorIcon } from "@/components/elements/vendor-icon";
+import { CopyButton } from "@/components/elements/code/copy-button";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";

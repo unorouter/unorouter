@@ -1,8 +1,8 @@
 import { APP_VALUES } from "@/lib/config/constants";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/elements/page-header";
-import { GetStartedButton } from "@/components/elements/get-started-link";
+import { PageHeader } from "@/components/elements/content/page-header";
+import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { IntegrationRow } from "@/components/pages/navbar/docs/integration-row";
 import { integrations } from "@/components/pages/navbar/docs/integrations";
 import { TOCLayout } from "@/components/layout/docs/toc";

@@ -1,6 +1,6 @@
 "use client";
 
-import { PageHeader } from "@/components/elements/page-header";
+import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";

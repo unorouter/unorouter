@@ -7,8 +7,8 @@ import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuEye, LuEyeOff, LuKey, LuLoader, LuPlus } from "react-icons/lu";
-import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Button } from "../../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 import { CopyButton } from "./copy-button";
 
 type Props = {

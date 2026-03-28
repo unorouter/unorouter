@@ -1,4 +1,4 @@
-import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { Link, redirect } from "@/i18n/navigation";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";

@@ -1,10 +1,10 @@
-import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
+import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { APP_VALUES } from "@/lib/config/constants";
-import { PageHeader } from "@/components/elements/page-header";
+import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
-import { GetStartedButton } from "@/components/elements/get-started-link";
-import { CodeBlock, highlightCode } from "@/components/elements/code-block";
-import { Callout } from "@/components/elements/callout";
+import { GetStartedButton } from "@/components/elements/brand/get-started-link";
+import { CodeBlock, highlightCode } from "@/components/elements/code/code-block";
+import { Callout } from "@/components/elements/content/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";

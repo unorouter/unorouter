@@ -1,5 +1,5 @@
-import { ModelTicker } from "@/components/elements/model-ticker";
-import { StreakCanvas } from "@/components/elements/streak-canvas";
+import { ModelTicker } from "@/components/elements/fx/model-ticker";
+import { StreakCanvas } from "@/components/elements/fx/streak-canvas";
 import React from "react";
 import { CodeSection } from "./code-section";
 import { CtaSection } from "./cta-section";

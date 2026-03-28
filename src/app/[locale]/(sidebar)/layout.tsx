@@ -1,4 +1,4 @@
-import { AuthRedirectCleanup } from "@/components/elements/auth-redirect-cleanup";
+import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { rpc } from "@/lib/rpc";
 import { setCookies } from "@/lib/utils/server";

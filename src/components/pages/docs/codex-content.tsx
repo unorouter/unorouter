@@ -1,8 +1,8 @@
-import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
-import { Callout } from "@/components/elements/callout";
-import { CodeBlock, highlightCode } from "@/components/elements/code-block";
-import { GetStartedButton } from "@/components/elements/get-started-link";
-import { PageHeader } from "@/components/elements/page-header";
+import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
+import { Callout } from "@/components/elements/content/callout";
+import { CodeBlock, highlightCode } from "@/components/elements/code/code-block";
+import { GetStartedButton } from "@/components/elements/brand/get-started-link";
+import { PageHeader } from "@/components/elements/content/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Button } from "@/components/ui/button";

@@ -1,7 +1,7 @@
 "use client";
 
-import { PageHeader } from "@/components/elements/page-header";
-import { PricingCard } from "@/components/elements/pricing-card";
+import { PageHeader } from "@/components/elements/content/page-header";
+import { PricingCard } from "@/components/elements/content/pricing-card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";

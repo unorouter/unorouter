@@ -1,6 +1,6 @@
 "use client";
 
-import { CopyButton } from "@/components/elements/copy-button";
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { copyToClipboard } from "@/lib/utils/base";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

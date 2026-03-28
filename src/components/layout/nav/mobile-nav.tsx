@@ -1,6 +1,6 @@
 "use client";
 
-import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { UserInfo } from "@/components/layout/user/user-info";
 import { UserMenuItems } from "@/components/layout/user/user-menu-items";
 import { LanguageToggle } from "@/components/toggle/language-toggle";

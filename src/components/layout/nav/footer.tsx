@@ -1,6 +1,6 @@
 "use client";
 
-import { CompanyName, LogoImage } from "@/components/elements/brand";
+import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";

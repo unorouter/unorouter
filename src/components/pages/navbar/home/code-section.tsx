@@ -1,4 +1,4 @@
-import { CodeBlock } from "@/components/elements/code-block";
+import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
 import { LuArrowRight, LuCheck } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";

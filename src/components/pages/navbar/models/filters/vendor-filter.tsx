@@ -1,6 +1,6 @@
 "use client";
 
-import { VendorIcon } from "@/components/elements/vendor-icon";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
