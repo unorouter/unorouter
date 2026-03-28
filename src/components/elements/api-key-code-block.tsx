@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuitableToken } from "@/hooks/ui/use-suitable-token";
+import { useDocs } from "@/hooks/ui/use-docs";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
@@ -31,7 +31,7 @@ type Props = {
 
 export function ApiKeyCodeBlock(props: Props) {
   const t = useTranslations();
-  const token = useSuitableToken();
+  const token = useDocs();
   const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
 
   const apiKey = props.apiKey;

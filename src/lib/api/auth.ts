@@ -1,12 +1,21 @@
 import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
 import {
+  ACCESS_TOKEN_COOKIE,
+  AFF_CODE_KEY,
+  AUTH_REDIRECT_COOKIE,
   COOKIE_MAX_AGE,
   SESSION_COOKIE,
   USER_ID_COOKIE,
 } from "../config/constants";
 
-export const AUTH_COOKIES = [SESSION_COOKIE, USER_ID_COOKIE] as const;
+export const AUTH_COOKIES = [
+  SESSION_COOKIE,
+  USER_ID_COOKIE,
+  ACCESS_TOKEN_COOKIE,
+  AUTH_REDIRECT_COOKIE,
+  AFF_CODE_KEY,
+] as const;
 
 export function rewriteCookies(headers: Headers): string[] {
   return (headers?.getSetCookie?.() ?? []).map((str) => {

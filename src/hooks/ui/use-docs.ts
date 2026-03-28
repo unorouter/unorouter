@@ -6,11 +6,12 @@ import {
   useFetchTokenKeyMutation,
   useTokensQuery,
 } from "@/hooks/token-hook";
-import { apiKeyAtom } from "@/store/docs-store";
+import { apiKeyAtom, osAtom } from "@/store/docs-store";
 import { useAtom } from "jotai";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-export function useSuitableToken() {
+export function useDocs() {
+  const [os, setOs] = useAtom(osAtom);
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
 
@@ -19,8 +20,20 @@ export function useSuitableToken() {
   const fetchKeyMutation = useFetchTokenKeyMutation();
 
   const [apiKey, setApiKey] = useAtom(apiKeyAtom);
-  const [isLoading, setIsLoading] = useState(false);
   const actionRef = useRef<"idle" | "fetching" | "done">("idle");
+
+  // Detect OS on mount
+  useEffect(() => {
+    if (os) return;
+    const ua = navigator.userAgent;
+    if (ua.includes("Win")) {
+      setOs("windows");
+    } else if (ua.includes("Mac")) {
+      setOs("macos");
+    } else {
+      setOs("linux");
+    }
+  }, [os, setOs]);
 
   const tokens = isLoggedIn ? tokensQuery.data?.items : undefined;
   const isTokensLoaded = isLoggedIn && tokensQuery.isSuccess;
@@ -53,24 +66,19 @@ export function useSuitableToken() {
 
     if (targetToken) {
       actionRef.current = "fetching";
-      setIsLoading(true);
       fetchKeyMutation.mutate(targetToken.id, {
         onSuccess: (data) => {
-          const fullKey = `sk-${data.key}`;
-          setApiKey(fullKey);
+          setApiKey(`sk-${data.key}`);
           actionRef.current = "done";
-          setIsLoading(false);
         },
         onError: () => {
           actionRef.current = "done";
-          setIsLoading(false);
         },
       });
     }
   }, [isLoggedIn, isTokensLoaded, targetToken, apiKey]);
 
   function createToken() {
-    setIsLoading(true);
     createMutation.mutate(
       {
         name: "Default",
@@ -85,21 +93,18 @@ export function useSuitableToken() {
       },
       {
         onSuccess: () => {
-          // Tokens query will refetch via the mutation hook's onSuccess.
-          // Reset action so the useEffect can fetch the key on next cycle.
           actionRef.current = "idle";
-        },
-        onError: () => {
-          setIsLoading(false);
         },
       },
     );
   }
 
   return {
+    os,
+    setOs,
     apiKey,
     isLoading:
-      isLoading || tokensQuery.isLoading || createMutation.isPending,
+      fetchKeyMutation.isPending || tokensQuery.isLoading || createMutation.isPending,
     needsToken,
     createToken,
     isLoggedIn,

@@ -1,4 +1,4 @@
-import { AUTH_COOKIES, handleAuthResponse } from "@/lib/api/auth";
+import { handleAuthResponse } from "@/lib/api/auth";
 import {
   ACCESS_TOKEN_COOKIE,
   AUTH_REDIRECT_COOKIE,
@@ -70,7 +70,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
   .get("/logout", async ({ cookie, upstream }) => {
     const res = await logout(upstream);
-    for (const name of AUTH_COOKIES) {
+    for (const name of Object.keys(cookie)) {
       cookie[name].remove();
     }
     return res.data!;

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -7,8 +8,10 @@ import type { CreateTokenRequest, UpdateTokenRequest } from "@/openapi";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 export function useTokensQuery(params: { p?: number; keyword?: string } = {}) {
+  const authQuery = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.tokens(params),
+    enabled: !!authQuery.data,
     queryFn: async () => {
       if (params.keyword) {
         return handleElysia(

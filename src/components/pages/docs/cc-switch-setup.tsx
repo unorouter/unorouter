@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSuitableToken } from "@/hooks/ui/use-suitable-token";
+import { useDocs } from "@/hooks/ui/use-docs";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
@@ -23,7 +23,7 @@ interface CCSwitchSetupProps {
 
 export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const t = useTranslations();
-  const token = useSuitableToken();
+  const token = useDocs();
 
   const deepLinkParams = new URLSearchParams({
     resource: "provider",

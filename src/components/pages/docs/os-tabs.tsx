@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useOS } from "@/hooks/ui/use-os";
+import { useDocs } from "@/hooks/ui/use-docs";
 import type { OS } from "@/store/docs-store";
 import type { ReactNode } from "react";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
@@ -18,7 +18,9 @@ interface OSTabsProps {
 }
 
 export function OSTabs(props: OSTabsProps) {
-  const [os, setOs] = useOS();
+  const docs = useDocs();
+  const os = docs.os;
+  const setOs = docs.setOs;
 
   return (
     <Tabs value={os} onValueChange={(v) => setOs(v as OS)} className="mt-8">

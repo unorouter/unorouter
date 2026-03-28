@@ -1,6 +1,6 @@
 "use client";
 
-import { useSuitableToken } from "@/hooks/ui/use-suitable-token";
+import { useDocs } from "@/hooks/ui/use-docs";
 import {
   docsStoreAtom,
   INITIAL_DOCS_STATE,
@@ -16,7 +16,7 @@ export function ApiKeyProvider(props: {
   useHydrateAtoms([[docsStoreAtom, props.data ?? INITIAL_DOCS_STATE]]);
 
   // Trigger token resolution so the key gets written to the atom/cookie
-  useSuitableToken();
+  useDocs();
 
   return <>{props.children}</>;
 }
