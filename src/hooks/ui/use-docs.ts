@@ -6,7 +6,10 @@ import {
   useFetchTokenKeyMutation,
   useTokensQuery,
 } from "@/hooks/token-hook";
+import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
+import { queryKeys } from "@/lib/react-query/keys";
 import { apiKeyAtom, osAtom } from "@/store/docs-store";
+import { useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
 
@@ -15,7 +18,8 @@ export function useDocs() {
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
 
-  const tokensQuery = useTokensQuery({ p: 1 });
+  const queryClient = useQueryClient();
+  const tokensQuery = useTokensQuery(DOCS_TOKEN_PARAMS);
   const createMutation = useCreateTokenMutation();
   const fetchKeyMutation = useFetchTokenKeyMutation();
 
@@ -61,7 +65,7 @@ export function useDocs() {
     if (!isLoggedIn || !isTokensLoaded) return;
 
     if (!targetToken) {
-      setApiKey(null);
+      if (apiKey) setApiKey(null);
       actionRef.current = "idle";
       return;
     }
@@ -98,7 +102,10 @@ export function useDocs() {
         cross_group_retry: true,
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await queryClient.invalidateQueries({
+            queryKey: queryKeys.tokens(DOCS_TOKEN_PARAMS),
+          });
           actionRef.current = "idle";
         },
       },
@@ -110,7 +117,9 @@ export function useDocs() {
     setOs,
     apiKey,
     isLoading:
-      fetchKeyMutation.isPending || tokensQuery.isLoading || createMutation.isPending,
+      fetchKeyMutation.isPending ||
+      tokensQuery.isLoading ||
+      createMutation.isPending,
     needsToken,
     createToken,
     isLoggedIn,

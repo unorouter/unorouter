@@ -46,6 +46,8 @@ export const APP_VALUES = {
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL!,
 };
 
+export const DOCS_TOKEN_PARAMS = { p: 1, page_size: 100 } as const;
+
 /** 1 USD = 500000 quota units in new-api */
 export const QUOTA_PER_DOLLAR = 500000;
 

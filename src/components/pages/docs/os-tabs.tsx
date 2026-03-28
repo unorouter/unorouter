@@ -19,11 +19,9 @@ interface OSTabsProps {
 
 export function OSTabs(props: OSTabsProps) {
   const docs = useDocs();
-  const os = docs.os;
-  const setOs = docs.setOs;
 
   return (
-    <Tabs value={os} onValueChange={(v) => setOs(v as OS)} className="mt-8">
+    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)} className="mt-8">
       <TabsList variant="line">
         <TabsTrigger value="windows">
           <FaWindows className="size-3.5" />

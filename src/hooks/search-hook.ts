@@ -1,8 +1,6 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import { search } from "@orama/orama";
 import { restore } from "@orama/plugin-data-persistence";
 import { useQuery } from "@tanstack/react-query";
@@ -19,7 +17,8 @@ export function useSearchQueryIndex() {
   return useQuery({
     queryKey: queryKeys.searchIndex(),
     queryFn: async () => {
-      const data = handleElysia(await rpc.api.search.get());
+      const res = await fetch("/search-index.json");
+      const data = await res.json();
       return restore("json", JSON.stringify(data));
     },
     staleTime: Infinity,
