@@ -1,5 +1,5 @@
 import { TokenList } from "@/components/pages/sidebar/tokens/token-list";
-import { DataTableProvider } from "@/components/provider/data-table-provider";
+import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
   initialTableStore,
   loadDataFromCookie,
@@ -29,8 +29,6 @@ export default async function TokensPage() {
   const p = (tokensTable.pagination?.pageIndex ?? 0) + 1;
   const keyword = tokensTable?.globalFilter || undefined;
 
-  console.log("[TokensPage] tableStores:", queryKeys.tokens({ p, keyword }));
-
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.auth(),
@@ -38,23 +36,19 @@ export default async function TokensPage() {
         handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.tokens({ p: 1 }),
+      queryKey: queryKeys.tokens({ p, keyword }),
       queryFn: async () =>
         handleElysia(
           await rpc.api.token.search.get({
-            query: { p: 1 },
+            query: { p, keyword },
             ...cookieHeaders,
           }),
         ),
     }),
   ]);
 
-  const dehydratedState = dehydrate(queryClient);
-
-  console.log("[TokensPage] dehydratedState:", dehydratedState);
-
   return (
-    <HydrationBoundary state={dehydratedState}>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <DataTableProvider data={tableStores}>
         <TokenList />
       </DataTableProvider>

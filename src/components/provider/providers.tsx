@@ -7,14 +7,14 @@ import {
   type NavigationState,
 } from "@/store/navigation-store";
 import { ReactNode, use } from "react";
-import { ApiKeyProvider } from "./api-key-provider";
-import { JotaiProvider } from "./jotai-provider";
-import { LanguageProvider } from "./language-provider";
-import { ModelsStoreProvider } from "./models-store-provider";
-import { NavigationStoreProvider } from "./navigation-store-provider";
-import { QueryProvider } from "./query-provider";
-import { ThemeProvider } from "./theme-provider";
-import { UserProvider } from "./user-provider";
+import { LanguageProvider } from "./app/language-provider";
+import { ThemeProvider } from "./app/theme-provider";
+import { UserProvider } from "./app/user-provider";
+import { ApiKeyProvider } from "./state/api-key-provider";
+import { JotaiProvider } from "./state/jotai-provider";
+import { ModelsStoreProvider } from "./state/models-store-provider";
+import { NavigationStoreProvider } from "./state/navigation-store-provider";
+import { QueryProvider } from "./state/query-provider";
 
 export function Providers(props: { children: ReactNode }) {
   const navigationStore = use(

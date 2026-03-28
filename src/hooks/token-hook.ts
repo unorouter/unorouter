@@ -19,24 +19,15 @@ function useTokenTableParams() {
   };
 }
 
-export function useTokensQuery(params: { p?: number; keyword?: string }) {
-  const queryClient = useQueryClient();
-  console.log(
-    "[useTokensQuery] queryKey:",
-    queryKeys.tokens(params),
-    queryClient.getQueryData(queryKeys.tokens({ p: 1 })),
-  );
-
+export function useTokensQuery(params: { p?: number; keyword?: string } = {}) {
   return useQuery({
-    queryKey: queryKeys.tokens({ p: 1 }),
+    queryKey: queryKeys.tokens(params),
     queryFn: async () =>
       handleElysia(
         await rpc.api.token.search.get({
-          query: { p: 1 },
+          query: params,
         }),
       ),
-    staleTime: Infinity,
-    // enabled: false,
   });
 }
 

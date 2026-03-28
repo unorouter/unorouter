@@ -1,5 +1,5 @@
 import { UsageLogs } from "@/components/pages/sidebar/logs/usage-logs";
-import { DataTableProvider } from "@/components/provider/data-table-provider";
+import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
   initialTableStore,
   loadDataFromCookie,
