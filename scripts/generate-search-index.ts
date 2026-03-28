@@ -1,67 +1,65 @@
+import { LOCALES, msg, type TranslationKey } from "@/lib/config/constants";
 import { create, insert } from "@orama/orama";
 import { persist } from "@orama/plugin-data-persistence";
-import { log, error } from "console";
+import { error, log } from "console";
 import { readFileSync, writeFileSync } from "fs";
 import { join } from "path";
-
-const LOCALES = ["en", "de"] as const;
 
 type DocPage = {
   url: string;
   keyPrefix: string;
-  titleKey: string;
-  subtitleKey: string;
+  titleKey: TranslationKey;
+  subtitleKey: TranslationKey;
 };
 
 const DOC_PAGES: DocPage[] = [
   {
     url: "/docs",
     keyPrefix: "DOCS_INDEX",
-    titleKey: "DOCS_INDEX.TITLE",
-    subtitleKey: "DOCS_INDEX.SUBTITLE",
+    titleKey: msg("DOCS_INDEX.TITLE"),
+    subtitleKey: msg("DOCS_INDEX.SUBTITLE"),
   },
   {
     url: "/docs/claude-code",
     keyPrefix: "DOCS.CLAUDE_CODE",
-    titleKey: "DOCS.CLAUDE_CODE.TITLE",
-    subtitleKey: "DOCS.CLAUDE_CODE.SUBTITLE",
+    titleKey: msg("DOCS.CLAUDE_CODE.TITLE"),
+    subtitleKey: msg("DOCS.CLAUDE_CODE.SUBTITLE"),
   },
   {
     url: "/docs/codex",
     keyPrefix: "DOCS.CODEX",
-    titleKey: "DOCS.CODEX.TITLE",
-    subtitleKey: "DOCS.CODEX.SUBTITLE",
+    titleKey: msg("DOCS.CODEX.TITLE"),
+    subtitleKey: msg("DOCS.CODEX.SUBTITLE"),
   },
   {
     url: "/docs/gemini-cli",
     keyPrefix: "DOCS.GEMINI_CLI",
-    titleKey: "DOCS.GEMINI_CLI.TITLE",
-    subtitleKey: "DOCS.GEMINI_CLI.SUBTITLE",
+    titleKey: msg("DOCS.GEMINI_CLI.TITLE"),
+    subtitleKey: msg("DOCS.GEMINI_CLI.SUBTITLE"),
   },
   {
     url: "/docs/openclaw",
     keyPrefix: "DOCS.OPENCLAW",
-    titleKey: "DOCS.OPENCLAW.TITLE",
-    subtitleKey: "DOCS.OPENCLAW.SUBTITLE",
+    titleKey: msg("DOCS.OPENCLAW.TITLE"),
+    subtitleKey: msg("DOCS.OPENCLAW.SUBTITLE"),
   },
   {
     url: "/docs/cc-switch",
     keyPrefix: "DOCS.CC_SWITCH",
-    titleKey: "DOCS.CC_SWITCH.TITLE",
-    subtitleKey: "DOCS.CC_SWITCH.SUBTITLE",
+    titleKey: msg("DOCS.CC_SWITCH.TITLE"),
+    subtitleKey: msg("DOCS.CC_SWITCH.SUBTITLE"),
   },
 ];
 
 /** Resolve a dot-separated key path from a nested object */
-function getNestedValue(
-  obj: Record<string, unknown>,
-  path: string,
-): unknown {
+function getNestedValue(obj: Record<string, unknown>, path: string): unknown {
   return path
     .split(".")
     .reduce<unknown>(
       (acc, key) =>
-        acc && typeof acc === "object" ? (acc as Record<string, unknown>)[key] : undefined,
+        acc && typeof acc === "object"
+          ? (acc as Record<string, unknown>)[key]
+          : undefined,
       obj,
     );
 }
@@ -79,7 +77,10 @@ function collectStrings(obj: unknown): string[] {
 
 /** Strip template placeholders like {appName} from text */
 function stripPlaceholders(text: string): string {
-  return text.replace(/\{[^}]+\}/g, "").replace(/\s{2,}/g, " ").trim();
+  return text
+    .replace(/\{[^}]+\}/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
 async function generateSearchIndex() {
@@ -106,7 +107,9 @@ async function generateSearchIndex() {
     for (const page of DOC_PAGES) {
       const section = getNestedValue(messages, page.keyPrefix);
       if (!section || typeof section !== "object") {
-        error(`  Skipping ${page.url}: key prefix "${page.keyPrefix}" not found`);
+        error(
+          `  Skipping ${page.url}: key prefix "${page.keyPrefix}" not found`,
+        );
         continue;
       }
 

@@ -66,10 +66,7 @@ export function useDashboardQuotaQuery(startTs?: number, endTs?: number) {
     queryFn: async () =>
       handleElysia(
         await rpc.api.dashboard.quota.get({
-          query: {
-            start_timestamp: startTs?.toString(),
-            end_timestamp: endTs?.toString(),
-          },
+          query: { start_timestamp: startTs, end_timestamp: endTs },
         }),
       ),
   });

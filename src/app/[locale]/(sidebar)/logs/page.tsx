@@ -39,16 +39,7 @@ export default async function LogsPage() {
       queryFn: async () =>
         handleElysia(
           await rpc.api.logs.get({
-            query: {
-              p: queryFilters.p?.toString(),
-              page_size: queryFilters.page_size?.toString(),
-              type: queryFilters.type?.toString(),
-              start_timestamp: queryFilters.start_timestamp?.toString(),
-              end_timestamp: queryFilters.end_timestamp?.toString(),
-              token_name: queryFilters.token_name || undefined,
-              model_name: queryFilters.model_name || undefined,
-              request_id: queryFilters.request_id || undefined,
-            },
+            query: queryFilters,
             ...serverCookies,
           }),
         ),
@@ -58,13 +49,7 @@ export default async function LogsPage() {
       queryFn: async () =>
         handleElysia(
           await rpc.api.logs.stat.get({
-            query: {
-              type: statFilters.type?.toString(),
-              start_timestamp: statFilters.start_timestamp?.toString(),
-              end_timestamp: statFilters.end_timestamp?.toString(),
-              token_name: statFilters.token_name || undefined,
-              model_name: statFilters.model_name || undefined,
-            },
+            query: statFilters,
             ...serverCookies,
           }),
         ),

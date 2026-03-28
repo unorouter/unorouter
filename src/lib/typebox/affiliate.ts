@@ -5,6 +5,6 @@ export const transferQuotaBody = t.Object({
 });
 
 export const affiliatePaginationQuery = t.Object({
-  p: t.Optional(t.String()),
-  page_size: t.Optional(t.String()),
+  p: t.Optional(t.Number()),
+  page_size: t.Optional(t.Number()),
 });

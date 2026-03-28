@@ -30,10 +30,7 @@ export default async function DashboardPage() {
         handleElysia(
           await rpc.api.dashboard.quota.get({
             ...cookieHeaders,
-            query: {
-              start_timestamp: startTs.toString(),
-              end_timestamp: endTs.toString(),
-            },
+            query: { start_timestamp: startTs, end_timestamp: endTs },
           }),
         ),
     }),

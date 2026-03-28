@@ -1,11 +1,10 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { DataTableId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
 import type { CreateTokenRequest, UpdateTokenRequest } from "@/openapi";
-import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
@@ -20,28 +19,18 @@ function useTokenTableParams() {
   };
 }
 
-export function useTokensQuery(params: { p?: number; keyword?: string } = {}) {
-  const authQuery = useAuthQuery();
+export function useTokensQuery(params: { p?: number; keyword?: string }) {
+  console.log("[useTokensQuery] queryKey:", queryKeys.tokens(params));
   return useQuery({
     queryKey: queryKeys.tokens(params),
-    enabled: !!authQuery.data,
-    queryFn: async () => {
-      if (params.keyword) {
-        return handleElysia(
-          await rpc.api.token.search.get({
-            query: {
-              p: params.p?.toString(),
-              keyword: params.keyword,
-            },
-          }),
-        );
-      }
-      return handleElysia(
-        await rpc.api.token.get({
-          query: { p: params.p?.toString() },
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.token.search.get({
+          query: params,
         }),
-      );
-    },
+      ),
+    staleTime: Infinity,
+    enabled: false,
   });
 }
 

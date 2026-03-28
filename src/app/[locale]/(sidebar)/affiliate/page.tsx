@@ -24,10 +24,7 @@ export default async function AffiliatePageRoute() {
         handleElysia(
           await rpc.api.affiliate.invitees.get({
             ...cookieHeaders,
-            query: {
-              p: DEFAULT_PAGE.p.toString(),
-              page_size: DEFAULT_PAGE.page_size.toString(),
-            },
+            query: DEFAULT_PAGE,
           }),
         ),
     }),
@@ -37,10 +34,7 @@ export default async function AffiliatePageRoute() {
         handleElysia(
           await rpc.api.affiliate.commissions.get({
             ...cookieHeaders,
-            query: {
-              p: DEFAULT_PAGE.p.toString(),
-              page_size: DEFAULT_PAGE.page_size.toString(),
-            },
+            query: DEFAULT_PAGE,
           }),
         ),
     }),

@@ -24,13 +24,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .get(
     "/",
     async ({ query, upstream }) => {
-      const res = await getAllTokens(
-        {
-          p: query.p ? Number(query.p) : undefined,
-          page_size: query.page_size ? Number(query.page_size) : undefined,
-        },
-        { headers: upstream.headers },
-      );
+      const res = await getAllTokens(query, { headers: upstream.headers });
       return res.data!;
     },
     { query: tokenListQuery },
@@ -39,15 +33,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
   .get(
     "/search",
     async ({ query, upstream }) => {
-      const res = await searchTokens(
-        {
-          p: query.p ? Number(query.p) : undefined,
-          page_size: query.page_size ? Number(query.page_size) : undefined,
-          keyword: query.keyword || undefined,
-          token: query.token || undefined,
-        },
-        { headers: upstream.headers },
-      );
+      const res = await searchTokens(query, { headers: upstream.headers });
       return res.data!;
     },
     { query: tokenSearchQuery },

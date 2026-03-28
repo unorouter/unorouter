@@ -1,13 +1,13 @@
 import { t } from "elysia";
 
 export const tokenListQuery = t.Object({
-  p: t.Optional(t.String()),
-  page_size: t.Optional(t.String()),
+  p: t.Optional(t.Number()),
+  page_size: t.Optional(t.Number()),
 });
 
 export const tokenSearchQuery = t.Object({
-  p: t.Optional(t.String()),
-  page_size: t.Optional(t.String()),
+  p: t.Optional(t.Number()),
+  page_size: t.Optional(t.Number()),
   keyword: t.Optional(t.String()),
   token: t.Optional(t.String()),
 });

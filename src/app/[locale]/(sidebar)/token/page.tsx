@@ -17,6 +17,7 @@ import { cookies } from "next/headers";
 export default async function TokensPage() {
   const queryClient = getQueryClient();
   const cookie = await cookies();
+  const cookieHeaders = await setCookies();
 
   const tableStores = loadDataFromCookie<DataTableStores>(
     StoreId.DATA_TABLES_STORE,
@@ -26,27 +27,27 @@ export default async function TokensPage() {
   const tokensTable = tableStores?.[DataTableId.TOKENS] || initialTableStore();
 
   const p = (tokensTable.pagination?.pageIndex ?? 0) + 1;
-  const keyword = tokensTable.globalFilter || undefined;
+  const keyword = tokensTable?.globalFilter || undefined;
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.tokens({ p, keyword }),
-    queryFn: async () => {
-      if (keyword) {
-        return handleElysia(
+  console.log("[TokensPage] tableStores:", queryKeys.tokens({ p, keyword }));
+
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.auth(),
+      queryFn: async () =>
+        handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.tokens({ p, keyword }),
+      queryFn: async () =>
+        handleElysia(
           await rpc.api.token.search.get({
-            query: { p: p.toString(), keyword },
-            ...(await setCookies()),
+            query: { p, keyword },
+            ...cookieHeaders,
           }),
-        );
-      }
-      return handleElysia(
-        await rpc.api.token.get({
-          query: { p: p.toString() },
-          ...(await setCookies()),
-        }),
-      );
-    },
-  });
+        ),
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

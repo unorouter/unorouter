@@ -35,10 +35,9 @@ export function TokenList() {
   const tableAtoms = createTableAtoms(DataTableId.TOKENS);
   const store = useAtomValue(tableAtoms.baseAtom);
 
-  const tokensQuery = useTokensQuery({
-    p: store.pagination.pageIndex + 1,
-    keyword: store.globalFilter || undefined,
-  });
+  const p = store.pagination.pageIndex + 1;
+  const keyword = store.globalFilter || undefined;
+  const tokensQuery = useTokensQuery({ p, keyword });
 
   const columns: ColumnDef<TokenRow>[] = [
     {

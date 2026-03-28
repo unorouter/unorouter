@@ -22,13 +22,9 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
   .get(
     "/invitees",
     async ({ query, upstream }) => {
-      const res = await getInvitedUsers(
-        {
-          p: query.p ? Number(query.p) : undefined,
-          page_size: query.page_size ? Number(query.page_size) : undefined,
-        },
-        { headers: upstream.headers },
-      );
+      const res = await getInvitedUsers(query, {
+        headers: upstream.headers,
+      });
       return res.data!;
     },
     { query: affiliatePaginationQuery },
@@ -37,13 +33,9 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
   .get(
     "/commissions",
     async ({ query, upstream }) => {
-      const res = await getReferralCommissions(
-        {
-          p: query.p ? Number(query.p) : undefined,
-          page_size: query.page_size ? Number(query.page_size) : undefined,
-        },
-        { headers: upstream.headers },
-      );
+      const res = await getReferralCommissions(query, {
+        headers: upstream.headers,
+      });
       return res.data!;
     },
     { query: affiliatePaginationQuery },

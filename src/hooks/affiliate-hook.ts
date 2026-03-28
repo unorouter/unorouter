@@ -12,12 +12,7 @@ export function useAffiliateCommissionsQuery(params: PaginationParams = {}) {
     queryKey: queryKeys.affiliateCommissions(params),
     queryFn: async () =>
       handleElysia(
-        await rpc.api.affiliate.commissions.get({
-          query: {
-            p: params.p?.toString(),
-            page_size: params.page_size?.toString(),
-          },
-        }),
+        await rpc.api.affiliate.commissions.get({ query: params }),
       ),
   });
 }
@@ -27,12 +22,7 @@ export function useAffiliateInviteesQuery(params: PaginationParams = {}) {
     queryKey: queryKeys.affiliateInvitees(params),
     queryFn: async () =>
       handleElysia(
-        await rpc.api.affiliate.invitees.get({
-          query: {
-            p: params.p?.toString(),
-            page_size: params.page_size?.toString(),
-          },
-        }),
+        await rpc.api.affiliate.invitees.get({ query: params }),
       ),
   });
 }
