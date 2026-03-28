@@ -2,20 +2,21 @@ import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
 import { Callout } from "@/components/elements/callout";
 import { CodeBlock } from "@/components/elements/code-block";
 import { GetStartedButton } from "@/components/elements/get-started-link";
+import { PageHeader } from "@/components/elements/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
-import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, msg } from "@/lib/config/constants";
 import { getDocsApiKey } from "@/lib/utils/server";
-import { getTranslations } from "next-intl/server";
 import Claude from "@lobehub/icons/es/Claude";
-import { OSTabs } from "./os-tabs";
+import { getTranslations } from "next-intl/server";
 import { CCSwitchSetup } from "./cc-switch-setup";
+import { OSTabs } from "./os-tabs";
 
 export async function ClaudeCodeContent() {
   const t = await getTranslations();
+  const docs = await getDocsApiKey();
 
   const toc = createTOC(
     [
@@ -34,22 +35,44 @@ export async function ClaudeCodeContent() {
     t("DOCS.TOC_TITLE"),
   );
 
-  const docs = await getDocsApiKey();
-
   const features = [
-    { titleKey: "FEATURE_AGENTIC_TITLE", descKey: "FEATURE_AGENTIC_DESC" },
-    { titleKey: "FEATURE_CODEBASE_TITLE", descKey: "FEATURE_CODEBASE_DESC" },
-    { titleKey: "FEATURE_TERMINAL_TITLE", descKey: "FEATURE_TERMINAL_DESC" },
-    { titleKey: "FEATURE_GIT_TITLE", descKey: "FEATURE_GIT_DESC" },
-    { titleKey: "FEATURE_MCP_TITLE", descKey: "FEATURE_MCP_DESC" },
     {
-      titleKey: "FEATURE_MULTIMODEL_TITLE",
-      descKey: "FEATURE_MULTIMODEL_DESC",
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_AGENTIC_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_AGENTIC_DESC"),
     },
-    { titleKey: "FEATURE_THINKING_TITLE", descKey: "FEATURE_THINKING_DESC" },
-    { titleKey: "FEATURE_INPUT_TITLE", descKey: "FEATURE_INPUT_DESC" },
-    { titleKey: "FEATURE_SAFE_TITLE", descKey: "FEATURE_SAFE_DESC" },
-  ] as const;
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_CODEBASE_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_CODEBASE_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_TERMINAL_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_TERMINAL_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_GIT_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_GIT_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_MCP_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_MCP_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_MULTIMODEL_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_MULTIMODEL_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_THINKING_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_THINKING_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_INPUT_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_INPUT_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CLAUDE_CODE.FEATURE_SAFE_TITLE"),
+      descKey: msg("DOCS.CLAUDE_CODE.FEATURE_SAFE_DESC"),
+    },
+  ];
 
   const windowsInstall = (
     <div className="mt-6 space-y-6">
@@ -226,11 +249,9 @@ npm install -g @anthropic-ai/claude-code`}
               <tbody className="divide-border divide-y">
                 {features.map((f) => (
                   <tr key={f.titleKey}>
-                    <td className="px-4 py-3 font-medium">
-                      {t(`DOCS.CLAUDE_CODE.${f.titleKey}`)}
-                    </td>
+                    <td className="px-4 py-3 font-medium">{t(f.titleKey)}</td>
                     <td className="text-muted-foreground px-4 py-3">
-                      {t(`DOCS.CLAUDE_CODE.${f.descKey}`, APP_VALUES)}
+                      {t(f.descKey, APP_VALUES)}
                     </td>
                   </tr>
                 ))}
@@ -250,7 +271,10 @@ npm install -g @anthropic-ai/claude-code`}
 
         {/* Manual Configuration */}
         <section className="mt-12">
-          <h2 className="mb-4 text-2xl font-semibold" id="ai-model-configuration">
+          <h2
+            className="mb-4 text-2xl font-semibold"
+            id="ai-model-configuration"
+          >
             {t("DOCS.CLAUDE_CODE.CONFIG_TITLE")}
           </h2>
           <p className="text-muted-foreground mb-6 text-sm">
@@ -272,7 +296,12 @@ npm install -g @anthropic-ai/claude-code`}
   }
 }`;
             return (
-              <ApiKeyCodeBlock code={configCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+              <ApiKeyCodeBlock
+                code={configCode}
+                placeholder={docs.placeholder}
+                apiKey={docs.rawApiKey}
+                initialRevealed={docs.isRevealed}
+              >
                 <p className="text-muted-foreground mb-1 font-mono text-xs">
                   ~/.claude/settings.json
                 </p>
@@ -292,7 +321,12 @@ npm install -g @anthropic-ai/claude-code`}
             const envCode = `export ANTHROPIC_BASE_URL="${docs.apiUrl}"
 export ANTHROPIC_API_KEY="${docs.displayKey}"`;
             return (
-              <ApiKeyCodeBlock code={envCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+              <ApiKeyCodeBlock
+                code={envCode}
+                placeholder={docs.placeholder}
+                apiKey={docs.rawApiKey}
+                initialRevealed={docs.isRevealed}
+              >
                 <CodeBlock language="bash" code={envCode} />
               </ApiKeyCodeBlock>
             );

@@ -1,21 +1,22 @@
 import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
-import { APP_VALUES } from "@/lib/config/constants";
-import { PageHeader } from "@/components/elements/page-header";
-import { Button } from "@/components/ui/button";
-import { GetStartedButton } from "@/components/elements/get-started-link";
-import { CodeBlock } from "@/components/elements/code-block";
 import { Callout } from "@/components/elements/callout";
+import { CodeBlock } from "@/components/elements/code-block";
+import { GetStartedButton } from "@/components/elements/get-started-link";
+import { PageHeader } from "@/components/elements/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
+import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getDocsApiKey } from "@/lib/utils/server";
-import { getTranslations } from "next-intl/server";
 import OpenAI from "@lobehub/icons/es/OpenAI";
-import { OSTabs } from "./os-tabs";
+import { getTranslations } from "next-intl/server";
 import { CCSwitchSetup } from "./cc-switch-setup";
+import { OSTabs } from "./os-tabs";
 
 export async function CodexContent() {
   const t = await getTranslations();
+  const docs = await getDocsApiKey();
 
   const toc = createTOC([
     { title: t("DOCS.CODEX.FEATURES_TITLE"), url: "#features", depth: 2 },
@@ -30,8 +31,6 @@ export async function CodexContent() {
       depth: 2,
     },
   ]);
-
-  const docs = await getDocsApiKey();
 
   const windowsInstall = (
     <div className="mt-6 space-y-6">
@@ -166,7 +165,10 @@ export async function CodexContent() {
 
         {/* Manual Configuration */}
         <section className="mt-12">
-          <h2 className="mb-6 text-2xl font-semibold" id="ai-model-configuration">
+          <h2
+            className="mb-6 text-2xl font-semibold"
+            id="ai-model-configuration"
+          >
             {t("DOCS.CODEX.AI_CONFIG_TITLE")}
           </h2>
 
@@ -182,7 +184,12 @@ export async function CodexContent() {
   "OPENAI_API_KEY": "${docs.displayKey}"
 }`;
             return (
-              <ApiKeyCodeBlock code={authCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+              <ApiKeyCodeBlock
+                code={authCode}
+                placeholder={docs.placeholder}
+                apiKey={docs.rawApiKey}
+                initialRevealed={docs.isRevealed}
+              >
                 <p className="text-muted-foreground mb-1 font-mono text-xs">
                   ~/.codex/auth.json
                 </p>
@@ -214,7 +221,12 @@ wire_api = "responses"`}
             const envCode = `export OPENAI_BASE_URL="${docs.apiUrl}/v1"
 export OPENAI_API_KEY="${docs.displayKey}"`;
             return (
-              <ApiKeyCodeBlock code={envCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+              <ApiKeyCodeBlock
+                code={envCode}
+                placeholder={docs.placeholder}
+                apiKey={docs.rawApiKey}
+                initialRevealed={docs.isRevealed}
+              >
                 <CodeBlock language="bash" code={envCode} />
               </ApiKeyCodeBlock>
             );

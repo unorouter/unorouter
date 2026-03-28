@@ -10,10 +10,6 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { getTranslations } from "next-intl/server";
 import { LuBookOpen } from "react-icons/lu";
 
-function hrefToId(href: string) {
-  return href.replace("/docs/", "");
-}
-
 export async function DocsIndexContent() {
   const t = await getTranslations();
 
@@ -21,7 +17,7 @@ export async function DocsIndexContent() {
     [
       ...integrations.map((integration) => ({
         title: t(integration.titleKey),
-        url: `#${hrefToId(integration.href)}`,
+        url: `#${integration.href.replace("/docs/", "")}`,
         depth: 2 as const,
       })),
       {
@@ -50,7 +46,7 @@ export async function DocsIndexContent() {
             <IntegrationRow
               key={integration.href}
               integration={integration}
-              id={hrefToId(integration.href)}
+              id={integration.href.replace("/docs/", "")}
             />
           ))}
         </div>

@@ -15,7 +15,7 @@ export const DOCS_STORE_KEY = "docs-store";
 export const INITIAL_DOCS_STATE: DocsState = {
   apiKey: null,
   apiKeyRevealed: false,
-  os: undefined,
+  os: "windows",
 };
 
 export const docsStoreAtom = atomWithStorage<DocsState>(
@@ -43,7 +43,6 @@ export function obfuscateApiKey(key: string) {
   const suffix = key.slice(-3);
   return `${prefix}...${suffix}`;
 }
-
 
 export const osAtom = atom(
   (get) => get(docsStoreAtom).os,

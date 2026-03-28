@@ -21,25 +21,20 @@ interface CCSwitchSetupProps {
   cliCodeBlock: ReactNode;
 }
 
-function buildDeepLink(app: CCSwitchApp, endpoint: string, apiKey?: string) {
-  const params = new URLSearchParams({
-    resource: "provider",
-    app,
-    name: "UnoRouter",
-    endpoint,
-  });
-  if (apiKey) {
-    params.set("apiKey", apiKey);
-  }
-  return `ccswitch://v1/import?${params.toString()}`;
-}
-
 export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const t = useTranslations();
-  const { apiKey, isLoading, needsToken, createToken, isLoggedIn } =
-    useSuitableToken();
+  const token = useSuitableToken();
 
-  const deepLink = buildDeepLink(props.app, props.endpoint, apiKey ?? undefined);
+  const deepLinkParams = new URLSearchParams({
+    resource: "provider",
+    app: props.app,
+    name: "UnoRouter",
+    endpoint: props.endpoint,
+  });
+  if (token.apiKey) {
+    deepLinkParams.set("apiKey", token.apiKey);
+  }
+  const deepLink = `ccswitch://v1/import?${deepLinkParams.toString()}`;
 
   return (
     <section className="mt-10">
@@ -52,8 +47,8 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
 
       <div className="border-border bg-card rounded-lg border p-6">
         <a href={deepLink} className="block">
-          <Button className="w-full gap-2" size="lg" disabled={isLoading}>
-            {isLoading ? (
+          <Button className="w-full gap-2" size="lg" disabled={token.isLoading}>
+            {token.isLoading ? (
               <LuLoader className="size-4 animate-spin" />
             ) : (
               <LuArrowLeftRight className="size-4" />
@@ -63,7 +58,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
           </Button>
         </a>
 
-        {!isLoggedIn && (
+        {!token.isLoggedIn && (
           <p className="text-muted-foreground mt-3 flex items-center gap-1.5 text-xs">
             <LuKey className="size-3" />
             <Link href="/login" className="text-primary underline">
@@ -72,7 +67,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
           </p>
         )}
 
-        {isLoggedIn && needsToken && (
+        {token.isLoggedIn && token.needsToken && (
           <div className="mt-3 flex items-center gap-2">
             <LuKey className="text-muted-foreground size-3.5 shrink-0" />
             <span className="text-muted-foreground text-xs">
@@ -82,10 +77,10 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
               size="xs"
               variant="outline"
               className="ml-auto shrink-0 gap-1.5"
-              onClick={createToken}
-              disabled={isLoading}
+              onClick={token.createToken}
+              disabled={token.isLoading}
             >
-              {isLoading ? (
+              {token.isLoading ? (
                 <LuLoader className="size-3 animate-spin" />
               ) : (
                 <LuPlus className="size-3" />

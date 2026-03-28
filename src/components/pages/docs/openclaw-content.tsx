@@ -15,7 +15,7 @@ import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function OpenClawContent() {
   const t = await getTranslations();
-  const docs = await getDocsApiKey("YOUR_API_KEY");
+  const docs = await getDocsApiKey();
 
   const toc = createTOC(
     [

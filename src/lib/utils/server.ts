@@ -38,7 +38,7 @@ export const getCookieValue = async <T>(key: string): Promise<T | undefined> => 
 };
 
 /** Server-side utility to read api key display info from cookie */
-export const getDocsApiKey = async (placeholder = "your-api-key-here") => {
+export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const state = await getCookieValue<DocsState>(DOCS_STORE_KEY);
   const rawApiKey = state?.apiKey ?? null;
   const isRevealed = state?.apiKeyRevealed ?? false;
