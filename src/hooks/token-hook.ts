@@ -20,7 +20,13 @@ function useTokenTableParams() {
 }
 
 export function useTokensQuery(params: { p?: number; keyword?: string }) {
-  console.log("[useTokensQuery] queryKey:", queryKeys.tokens(params));
+  const queryClient = useQueryClient();
+  console.log(
+    "[useTokensQuery] queryKey:",
+    queryKeys.tokens(params),
+    queryClient.getQueryData(queryKeys.tokens({ p: 1 })),
+  );
+
   return useQuery({
     queryKey: queryKeys.tokens({ p: 1 }),
     queryFn: async () =>
