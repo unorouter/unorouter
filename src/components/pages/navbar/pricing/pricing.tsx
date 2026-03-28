@@ -43,7 +43,7 @@ export function Pricing() {
   }
 
   return (
-    <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b pt-24 pb-16">
+    <section className="border-border/50 relative z-10 border-t pt-24 pb-16">
       <div className="mx-auto max-w-360 px-6">
         <PageHeader
           badge={t("HOME.PRICING_LABEL")}

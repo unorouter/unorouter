@@ -1,12 +1,18 @@
 import { TranslationKey } from "@/lib/config/constants";
 
+export type IntegrationIconKey =
+  | "cc-switch"
+  | "claude-code"
+  | "codex"
+  | "gemini"
+  | "openclaw";
+
 type IntegrationDef = {
   href: string;
   titleKey: TranslationKey;
   subtitleKey: TranslationKey;
   badgeKey: TranslationKey;
-  image: string;
-  alt: string;
+  iconKey: IntegrationIconKey;
   color: {
     accent: string;
     badge: string;
@@ -26,8 +32,7 @@ export const integrations = [
     titleKey: "DOCS.CC_SWITCH.TITLE",
     subtitleKey: "DOCS.CC_SWITCH.SUBTITLE",
     badgeKey: "DOCS.CC_SWITCH.BADGE",
-    image: "/images/cc-switch-screenshot.png",
-    alt: "CC Switch",
+    iconKey: "cc-switch",
     color: {
       accent: "text-violet-500",
       badge: "bg-violet-600/20 text-violet-500",
@@ -46,8 +51,7 @@ brew install --cask cc-switch`,
     titleKey: "DOCS.CLAUDE_CODE.TITLE",
     subtitleKey: "DOCS.CLAUDE_CODE.SUBTITLE",
     badgeKey: "DOCS.CLAUDE_CODE.BADGE",
-    image: "/images/claude-code-screenshot.png",
-    alt: "Claude Code",
+    iconKey: "claude-code",
     color: {
       accent: "text-orange-500",
       badge: "bg-orange-600/20 text-orange-500",
@@ -68,8 +72,7 @@ claude`,
     titleKey: "DOCS.CODEX.TITLE",
     subtitleKey: "DOCS.CODEX.SUBTITLE",
     badgeKey: "DOCS.CODEX.BADGE",
-    image: "/images/codex-screenshot.png",
-    alt: "Codex CLI",
+    iconKey: "codex",
     color: {
       accent: "text-emerald-500",
       badge: "bg-emerald-600/20 text-emerald-500",
@@ -90,8 +93,7 @@ codex`,
     titleKey: "DOCS.GEMINI_CLI.TITLE",
     subtitleKey: "DOCS.GEMINI_CLI.SUBTITLE",
     badgeKey: "DOCS.GEMINI_CLI.BADGE",
-    image: "/images/gemini-cli-screenshot.png",
-    alt: "Gemini CLI",
+    iconKey: "gemini",
     color: {
       accent: "text-blue-500",
       badge: "bg-blue-600/20 text-blue-500",
@@ -112,8 +114,7 @@ gemini`,
     titleKey: "DOCS.OPENCLAW.TITLE",
     subtitleKey: "DOCS.OPENCLAW.SUBTITLE",
     badgeKey: "DOCS.OPENCLAW.BADGE",
-    image: "/images/openclaw-screenshot.png",
-    alt: "OpenClaw",
+    iconKey: "openclaw",
     color: {
       accent: "text-red-500",
       badge: "bg-red-600/20 text-red-500",

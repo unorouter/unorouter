@@ -1,16 +1,33 @@
 import { CodeBlock } from "@/components/elements/code-block";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import Claude from "@lobehub/icons/es/Claude";
+import Codex from "@lobehub/icons/es/Codex";
+import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
-import { LuArrowRight } from "react-icons/lu";
-import { type Integration } from "./integrations";
+import type { ComponentType } from "react";
+import { GiCrabClaw } from "react-icons/gi";
+import { LuArrowLeftRight, LuArrowRight } from "react-icons/lu";
+import { type Integration, type IntegrationIconKey } from "./integrations";
+
+const iconMap: Record<
+  IntegrationIconKey,
+  ComponentType<{ className?: string; size?: number }>
+> = {
+  "cc-switch": LuArrowLeftRight,
+  "claude-code": Claude.Color,
+  codex: Codex.Color,
+  gemini: Gemini.Color,
+  openclaw: GiCrabClaw,
+};
 
 export async function IntegrationRow(props: {
   integration: Integration;
   id?: string;
 }) {
   const t = await getTranslations();
+
+  const Icon = iconMap[props.integration.iconKey];
 
   return (
     <div
@@ -25,14 +42,7 @@ export async function IntegrationRow(props: {
               <div
                 className={`absolute inset-0 ${props.integration.color.glow} rounded-full blur-xl`}
               />
-              <Image
-                src={props.integration.image}
-                alt={props.integration.alt}
-                width={80}
-                height={48}
-                className="relative w-20 rounded"
-                style={{ width: "auto", height: "auto" }}
-              />
+              <Icon size={48} className={`relative ${props.integration.color.accent}`} />
             </div>
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">

@@ -1,14 +1,18 @@
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES, msg } from "@/lib/config/constants";
+import Claude from "@lobehub/icons/es/Claude";
+import Codex from "@lobehub/icons/es/Codex";
+import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
+import type { ComponentType } from "react";
+import { GiCrabClaw } from "react-icons/gi";
 import { LuArrowRight } from "react-icons/lu";
 
 const integrations = [
   {
     href: "/docs/claude-code",
-    image: "/images/claude-code-screenshot.png",
-    alt: "Claude Code",
+    icon: Claude.Color,
+    badge: "Claude Code",
     titleKey: msg("HOME.INTEGRATION_CLAUDE_CODE_TITLE"),
     descKey: msg("HOME.INTEGRATION_CLAUDE_CODE_DESCRIPTION"),
     badgeKey: msg("HOME.INTEGRATION_CLAUDE_CODE_BADGE"),
@@ -16,8 +20,8 @@ const integrations = [
   },
   {
     href: "/docs/codex",
-    image: "/images/codex-screenshot.png",
-    alt: "Codex CLI",
+    icon: Codex.Color,
+    badge: "Codex CLI",
     titleKey: msg("HOME.INTEGRATION_CODEX_TITLE"),
     descKey: msg("HOME.INTEGRATION_CODEX_DESCRIPTION"),
     badgeKey: msg("HOME.INTEGRATION_CODEX_BADGE"),
@@ -25,8 +29,8 @@ const integrations = [
   },
   {
     href: "/docs/gemini-cli",
-    image: "/images/gemini-cli-screenshot.png",
-    alt: "Gemini CLI",
+    icon: Gemini.Color,
+    badge: "Gemini CLI",
     titleKey: msg("HOME.INTEGRATION_GEMINI_CLI_TITLE"),
     descKey: msg("HOME.INTEGRATION_GEMINI_CLI_DESCRIPTION"),
     badgeKey: msg("HOME.INTEGRATION_GEMINI_CLI_BADGE"),
@@ -34,8 +38,8 @@ const integrations = [
   },
   {
     href: "/docs/openclaw",
-    image: "/images/openclaw-screenshot.png",
-    alt: "OpenClaw",
+    icon: GiCrabClaw as ComponentType<{ className?: string; size?: number }>,
+    badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION_OPENCLAW_TITLE"),
     descKey: msg("HOME.INTEGRATION_OPENCLAW_DESCRIPTION"),
     badgeKey: msg("HOME.INTEGRATION_OPENCLAW_BADGE"),
@@ -98,21 +102,14 @@ export async function IntegrationBanner() {
                     <div
                       className={`absolute inset-0 ${colors.glow} rounded-full blur-xl`}
                     />
-                    <Image
-                      src={integration.image}
-                      alt={integration.alt}
-                      width={80}
-                      height={48}
-                      className="relative w-20 rounded"
-                      style={{ width: "auto", height: "auto" }}
-                    />
+                    <integration.icon size={40} className="relative" />
                   </div>
                   <div className="min-w-0 text-left">
                     <div className="mb-1 flex items-center gap-2">
                       <span
                         className={`px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${colors.badge} rounded`}
                       >
-                        {integration.alt}
+                        {integration.badge}
                       </span>
                     </div>
                     <h3 className="text-foreground text-base leading-tight font-bold tracking-tight md:text-lg">
