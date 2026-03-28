@@ -5,7 +5,20 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { CreateTokenRequest, UpdateTokenRequest } from "@/openapi";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { DataTableId } from "@/lib/types/enums";
+import { createTableAtoms } from "@/store/data-table-store";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
+
+const tokenTableAtoms = createTableAtoms(DataTableId.TOKENS);
+
+function useTokenTableParams() {
+  const store = useAtomValue(tokenTableAtoms.baseAtom);
+  return {
+    p: store.pagination.pageIndex + 1,
+    keyword: store.globalFilter || undefined,
+  };
+}
 
 export function useTokensQuery(params: { p?: number; keyword?: string } = {}) {
   const authQuery = useAuthQuery();
@@ -56,34 +69,37 @@ export function useUserModelsQuery() {
 }
 
 export function useCreateTokenMutation() {
-  const tokensQuery = useTokensQuery();
+  const queryClient = useQueryClient();
+  const params = useTokenTableParams();
   return useMutation({
     mutationFn: async (data: CreateTokenRequest) =>
       handleElysia(await rpc.api.token.post(data)),
     onSuccess: () => {
-      tokensQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: queryKeys.tokens(params) });
     },
   });
 }
 
 export function useUpdateTokenMutation() {
-  const tokensQuery = useTokensQuery();
+  const queryClient = useQueryClient();
+  const params = useTokenTableParams();
   return useMutation({
     mutationFn: async (data: UpdateTokenRequest) =>
       handleElysia(await rpc.api.token.put(data)),
     onSuccess: () => {
-      tokensQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: queryKeys.tokens(params) });
     },
   });
 }
 
 export function useToggleTokenStatusMutation() {
-  const tokensQuery = useTokensQuery();
+  const queryClient = useQueryClient();
+  const params = useTokenTableParams();
   return useMutation({
     mutationFn: async (data: UpdateTokenRequest) =>
       handleElysia(await rpc.api.token.status.put(data)),
     onSuccess: () => {
-      tokensQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: queryKeys.tokens(params) });
     },
   });
 }
@@ -98,12 +114,13 @@ export function useFetchTokenKeyMutation() {
 }
 
 export function useDeleteTokenMutation() {
-  const tokensQuery = useTokensQuery();
+  const queryClient = useQueryClient();
+  const params = useTokenTableParams();
   return useMutation({
     mutationFn: async (id: number) =>
       handleElysia(await rpc.api.token({ id: id.toString() }).delete()),
     onSuccess: () => {
-      tokensQuery.refetch();
+      queryClient.invalidateQueries({ queryKey: queryKeys.tokens(params) });
     },
   });
 }

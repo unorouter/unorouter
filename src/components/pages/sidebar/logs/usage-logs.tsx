@@ -4,7 +4,7 @@ import { DataTable } from "@/components/elements/table/data-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUsageLogsQuery, useUsageLogsStatQuery } from "@/hooks/logs-hook";
-import { renderQuota } from "@/lib/config/constants";
+import { msg, renderQuota } from "@/lib/config/constants";
 import { buildLogQueryFilters } from "@/lib/logs/filters";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
@@ -72,7 +72,7 @@ export function UsageLogs() {
     },
     {
       accessorKey: "created_at",
-      meta: { title: "LOGS.COL_TIME" },
+      meta: { title: msg("LOGS.COL_TIME") },
       header: t("LOGS.COL_TIME"),
       enableHiding: false,
       enableSorting: false,
@@ -80,21 +80,21 @@ export function UsageLogs() {
     },
     {
       accessorKey: "type",
-      meta: { title: "LOGS.COL_TYPE" },
+      meta: { title: msg("LOGS.COL_TYPE") },
       header: t("LOGS.COL_TYPE"),
       enableSorting: false,
       cell: LogTypeCell,
     },
     {
       accessorKey: "model_name",
-      meta: { title: "LOGS.COL_MODEL" },
+      meta: { title: msg("LOGS.COL_MODEL") },
       header: t("LOGS.COL_MODEL"),
       enableSorting: false,
       cell: LogModelCell,
     },
     {
       accessorKey: "token_name",
-      meta: { title: "LOGS.COL_TOKEN" },
+      meta: { title: msg("LOGS.COL_TOKEN") },
       header: t("LOGS.COL_TOKEN"),
       enableSorting: false,
       cell: LogTokenNameCell,
@@ -102,7 +102,7 @@ export function UsageLogs() {
     {
       id: "input_tokens",
       meta: {
-        title: "LOGS.COL_INPUT",
+        title: msg("LOGS.COL_INPUT"),
         headerClassName: "text-right",
         cellClassName: "text-right",
       },
@@ -113,7 +113,7 @@ export function UsageLogs() {
     {
       id: "output_tokens",
       meta: {
-        title: "LOGS.COL_OUTPUT",
+        title: msg("LOGS.COL_OUTPUT"),
         headerClassName: "text-right",
         cellClassName: "text-right",
       },
@@ -123,7 +123,7 @@ export function UsageLogs() {
     },
     {
       id: "timing",
-      meta: { title: "LOGS.COL_TIME_FIRST" },
+      meta: { title: msg("LOGS.COL_TIME_FIRST") },
       header: t("LOGS.COL_TIME_FIRST"),
       enableSorting: false,
       cell: LogTimingCell,
@@ -131,7 +131,7 @@ export function UsageLogs() {
     {
       accessorKey: "quota",
       meta: {
-        title: "LOGS.COL_SPEND",
+        title: msg("LOGS.COL_SPEND"),
         headerClassName: "text-right",
         cellClassName: "text-right",
       },
@@ -141,7 +141,7 @@ export function UsageLogs() {
     },
     {
       accessorKey: "content",
-      meta: { title: "LOGS.COL_DETAILS" },
+      meta: { title: msg("LOGS.COL_DETAILS") },
       header: t("LOGS.COL_DETAILS"),
       enableSorting: false,
       cell: LogDetailsCell,

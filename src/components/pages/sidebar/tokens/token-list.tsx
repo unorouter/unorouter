@@ -4,6 +4,7 @@ import { DataTable } from "@/components/elements/table/data-table";
 import { DataTableGlobalFilter } from "@/components/elements/table/data-table-global-filter";
 import { Button } from "@/components/ui/button";
 import { useTokensQuery } from "@/hooks/token-hook";
+import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -42,7 +43,7 @@ export function TokenList() {
   const columns: ColumnDef<TokenRow>[] = [
     {
       accessorKey: "name",
-      meta: { title: "TOKEN.COL_NAME" },
+      meta: { title: msg("TOKEN.COL_NAME") },
       header: t("TOKEN.COL_NAME"),
       enableHiding: false,
       enableSorting: false,
@@ -52,21 +53,21 @@ export function TokenList() {
     },
     {
       accessorKey: "status",
-      meta: { title: "TOKEN.COL_STATUS" },
+      meta: { title: msg("TOKEN.COL_STATUS") },
       header: t("TOKEN.COL_STATUS"),
       enableSorting: false,
       cell: TokenStatusCell,
     },
     {
       id: "quota",
-      meta: { title: "TOKEN.COL_QUOTA" },
+      meta: { title: msg("TOKEN.COL_QUOTA") },
       header: t("TOKEN.COL_QUOTA"),
       enableSorting: false,
       cell: TokenQuotaCell,
     },
     {
       accessorKey: "group",
-      meta: { title: "TOKEN.COL_GROUP" },
+      meta: { title: msg("TOKEN.COL_GROUP") },
       header: t("TOKEN.COL_GROUP"),
       enableSorting: false,
       cell: ({ row }) => (
@@ -77,7 +78,7 @@ export function TokenList() {
     },
     {
       accessorKey: "key",
-      meta: { title: "TOKEN.COL_KEY" },
+      meta: { title: msg("TOKEN.COL_KEY") },
       header: t("TOKEN.COL_KEY"),
       enableHiding: false,
       enableSorting: false,
@@ -85,28 +86,28 @@ export function TokenList() {
     },
     {
       id: "models",
-      meta: { title: "TOKEN.COL_MODELS" },
+      meta: { title: msg("TOKEN.COL_MODELS") },
       header: t("TOKEN.COL_MODELS"),
       enableSorting: false,
       cell: TokenModelsCell,
     },
     {
       accessorKey: "created_time",
-      meta: { title: "TOKEN.COL_CREATED" },
+      meta: { title: msg("TOKEN.COL_CREATED") },
       header: t("TOKEN.COL_CREATED"),
       enableSorting: false,
       cell: TokenDateCell,
     },
     {
       accessorKey: "expired_time",
-      meta: { title: "TOKEN.COL_EXPIRES" },
+      meta: { title: msg("TOKEN.COL_EXPIRES") },
       header: t("TOKEN.COL_EXPIRES"),
       enableSorting: false,
       cell: TokenDateCell,
     },
     {
       id: "actions",
-      meta: { title: "TOKEN.COL_ACTIONS", headerClassName: "text-right" },
+      meta: { title: msg("TOKEN.COL_ACTIONS"), headerClassName: "text-right" },
       header: t("TOKEN.COL_ACTIONS"),
       enableHiding: false,
       enableSorting: false,
