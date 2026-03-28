@@ -58,24 +58,30 @@ export function useDocs() {
   const needsToken = isLoggedIn && isTokensLoaded && !targetToken;
 
   useEffect(() => {
-    if (!isLoggedIn || !isTokensLoaded || actionRef.current !== "idle") return;
+    if (!isLoggedIn || !isTokensLoaded) return;
+
+    if (!targetToken) {
+      setApiKey(null);
+      actionRef.current = "idle";
+      return;
+    }
+
+    if (actionRef.current !== "idle") return;
     if (apiKey) {
       actionRef.current = "done";
       return;
     }
 
-    if (targetToken) {
-      actionRef.current = "fetching";
-      fetchKeyMutation.mutate(targetToken.id, {
-        onSuccess: (data) => {
-          setApiKey(`sk-${data.key}`);
-          actionRef.current = "done";
-        },
-        onError: () => {
-          actionRef.current = "done";
-        },
-      });
-    }
+    actionRef.current = "fetching";
+    fetchKeyMutation.mutate(targetToken.id, {
+      onSuccess: (data) => {
+        setApiKey(`sk-${data.key}`);
+        actionRef.current = "done";
+      },
+      onError: () => {
+        actionRef.current = "done";
+      },
+    });
   }, [isLoggedIn, isTokensLoaded, targetToken, apiKey]);
 
   function createToken() {

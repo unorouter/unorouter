@@ -10,7 +10,7 @@ import { ReactNode, use } from "react";
 import { LanguageProvider } from "./app/language-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserProvider } from "./app/user-provider";
-import { ApiKeyProvider } from "./state/api-key-provider";
+import { DocsProvider } from "./state/docs-provider";
 import { JotaiProvider } from "./state/jotai-provider";
 import { ModelsStoreProvider } from "./state/models-store-provider";
 import { NavigationStoreProvider } from "./state/navigation-store-provider";
@@ -28,15 +28,15 @@ export function Providers(props: { children: ReactNode }) {
       <JotaiProvider>
         <NavigationStoreProvider data={navigationStore}>
           <ModelsStoreProvider data={modelsStore}>
-            <UserProvider>
-              <ApiKeyProvider data={docsStore}>
+            <DocsProvider data={docsStore}>
+              <UserProvider>
                 <LanguageProvider>
                   <ThemeProvider>
                     <TooltipProvider>{props.children}</TooltipProvider>
                   </ThemeProvider>
                 </LanguageProvider>
-              </ApiKeyProvider>
-            </UserProvider>
+              </UserProvider>
+            </DocsProvider>
           </ModelsStoreProvider>
         </NavigationStoreProvider>
       </JotaiProvider>

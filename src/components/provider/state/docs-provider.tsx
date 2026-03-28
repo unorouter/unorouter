@@ -8,7 +8,7 @@ import {
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";
 
-export function ApiKeyProvider(props: {
+export function DocsProvider(props: {
   children: ReactNode;
   data?: DocsState;
 }) {

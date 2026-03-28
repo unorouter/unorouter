@@ -28,7 +28,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const deepLinkParams = new URLSearchParams({
     resource: "provider",
     app: props.app,
-    name: "UnoRouter",
+    name: process.env.NEXT_PUBLIC_APP_NAME!,
     endpoint: props.endpoint,
   });
   if (token.apiKey) {
