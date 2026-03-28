@@ -22,15 +22,15 @@ function useTokenTableParams() {
 export function useTokensQuery(params: { p?: number; keyword?: string }) {
   console.log("[useTokensQuery] queryKey:", queryKeys.tokens(params));
   return useQuery({
-    queryKey: queryKeys.tokens(params),
+    queryKey: queryKeys.tokens({ p: 1 }),
     queryFn: async () =>
       handleElysia(
         await rpc.api.token.search.get({
-          query: params,
+          query: { p: 1 },
         }),
       ),
     staleTime: Infinity,
-    enabled: false,
+    // enabled: false,
   });
 }
 

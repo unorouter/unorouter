@@ -38,11 +38,11 @@ export default async function TokensPage() {
         handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.tokens({ p, keyword }),
+      queryKey: queryKeys.tokens({ p: 1 }),
       queryFn: async () =>
         handleElysia(
           await rpc.api.token.search.get({
-            query: { p, keyword },
+            query: { p: 1 },
             ...cookieHeaders,
           }),
         ),
