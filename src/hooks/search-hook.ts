@@ -19,10 +19,8 @@ export function useSearchQueryIndex() {
     queryFn: async () => {
       const res = await fetch("/search-index.json");
       const data = await res.json();
-      return restore("json", JSON.stringify(data));
+      return restore("json", data);
     },
-    staleTime: Infinity,
-    gcTime: Infinity,
   });
 }
 

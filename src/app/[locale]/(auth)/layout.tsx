@@ -1,6 +1,7 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { Link, redirect } from "@/i18n/navigation";
+import { Redirect } from "@/i18n/routing";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -22,7 +23,10 @@ export default async function AuthLayout(props: { children: ReactNode }) {
 
   if (self?.data?.data?.id) {
     const redirectTo = await getCookie(AUTH_REDIRECT_COOKIE, { cookies });
-    redirect((redirectTo as string) || "/dashboard" as any);
+    redirect({
+      href: (redirectTo as Redirect["href"]) || "/dashboard",
+      locale,
+    });
   }
 
   await queryClient.prefetchQuery({
