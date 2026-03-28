@@ -1,3 +1,4 @@
+import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
 import { Callout } from "@/components/elements/callout";
 import { CodeBlock } from "@/components/elements/code-block";
 import { GetStartedButton } from "@/components/elements/get-started-link";
@@ -7,6 +8,8 @@ import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import { getCookieValue } from "@/lib/utils/server";
+import { API_KEY_COOKIE } from "@/store/api-key-store";
 import { getTranslations } from "next-intl/server";
 import Claude from "@lobehub/icons/es/Claude";
 import { OSTabs } from "./os-tabs";
@@ -33,6 +36,9 @@ export async function ClaudeCodeContent() {
   );
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiKey =
+    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "your-api-key-here";
+  const placeholder = "your-api-key-here";
 
   const features = [
     { titleKey: "FEATURE_AGENTIC_TITLE", descKey: "FEATURE_AGENTIC_DESC" },
@@ -262,16 +268,20 @@ npm install -g @anthropic-ai/claude-code`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          <CodeBlock
-            language="json"
-            code={`// ~/.claude/settings.json
+          {(() => {
+            const configCode = `// ~/.claude/settings.json
 {
   "env": {
     "ANTHROPIC_BASE_URL": "${apiUrl}",
-    "ANTHROPIC_API_KEY": "your-api-key-here"
+    "ANTHROPIC_API_KEY": "${apiKey}"
   }
-}`}
-          />
+}`;
+            return (
+              <ApiKeyCodeBlock code={configCode} placeholder={placeholder}>
+                <CodeBlock language="json" code={configCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
 
           {/* Env vars (alternative) */}
           <h3 className="mt-8 mb-2 text-lg font-medium">
@@ -280,11 +290,15 @@ npm install -g @anthropic-ai/claude-code`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <CodeBlock
-            language="bash"
-            code={`export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="your-api-key-here"`}
-          />
+          {(() => {
+            const envCode = `export ANTHROPIC_BASE_URL="${apiUrl}"
+export ANTHROPIC_API_KEY="${apiKey}"`;
+            return (
+              <ApiKeyCodeBlock code={envCode} placeholder={placeholder}>
+                <CodeBlock language="bash" code={envCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
 
           {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">

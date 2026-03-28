@@ -1,3 +1,4 @@
+import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
 import { APP_VALUES } from "@/lib/config/constants";
 import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,8 @@ import { Callout } from "@/components/elements/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
+import { getCookieValue } from "@/lib/utils/server";
+import { API_KEY_COOKIE } from "@/store/api-key-store";
 import { getTranslations } from "next-intl/server";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import { OSTabs } from "./os-tabs";
@@ -30,6 +33,9 @@ export async function CodexContent() {
   ]);
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiKey =
+    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "your-api-key-here";
+  const placeholder = "your-api-key-here";
 
   const windowsInstall = (
     <div className="mt-6 space-y-6">
@@ -175,13 +181,17 @@ export async function CodexContent() {
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          <CodeBlock
-            language="json"
-            code={`// ~/.codex/auth.json
+          {(() => {
+            const authCode = `// ~/.codex/auth.json
 {
-  "OPENAI_API_KEY": "your-api-key-here"
-}`}
-          />
+  "OPENAI_API_KEY": "${apiKey}"
+}`;
+            return (
+              <ApiKeyCodeBlock code={authCode} placeholder={placeholder}>
+                <CodeBlock language="json" code={authCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
           <div className="mt-4" />
           <CodeBlock
             language="toml"
@@ -200,11 +210,15 @@ wire_api = "responses"`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <CodeBlock
-            language="bash"
-            code={`export OPENAI_BASE_URL="${apiUrl}/v1"
-export OPENAI_API_KEY="your-api-key-here"`}
-          />
+          {(() => {
+            const envCode = `export OPENAI_BASE_URL="${apiUrl}/v1"
+export OPENAI_API_KEY="${apiKey}"`;
+            return (
+              <ApiKeyCodeBlock code={envCode} placeholder={placeholder}>
+                <CodeBlock language="bash" code={envCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
 
           {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">

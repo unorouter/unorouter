@@ -1,3 +1,4 @@
+import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
 import { Callout } from "@/components/elements/callout";
 import { CodeBlock } from "@/components/elements/code-block";
 import { GetStartedButton } from "@/components/elements/get-started-link";
@@ -7,12 +8,17 @@ import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import { getCookieValue } from "@/lib/utils/server";
+import { API_KEY_COOKIE } from "@/store/api-key-store";
 import { getTranslations } from "next-intl/server";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function GeminiCliContent() {
   const t = await getTranslations();
+  const apiKey =
+    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "your-api-key-here";
+  const placeholder = "your-api-key-here";
 
   const toc = createTOC(
     [
@@ -84,18 +90,22 @@ export async function GeminiCliContent() {
           <p className="text-muted-foreground mb-6 text-sm">
             {t("DOCS.GEMINI_CLI.QUICK_START_DESC", APP_VALUES)}
           </p>
-          <CodeBlock
-            language="bash"
-            code={`# Create ~/.gemini/.env with your config
+          {(() => {
+            const quickStartCode = `# Create ~/.gemini/.env with your config
 mkdir -p ~/.gemini
 cat > ~/.gemini/.env << 'EOF'
-GEMINI_API_KEY=your-api-key-here
+GEMINI_API_KEY=${apiKey}
 GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}
 EOF
 
 # Then run Gemini CLI
-gemini`}
-          />
+gemini`;
+            return (
+              <ApiKeyCodeBlock code={quickStartCode} placeholder={placeholder}>
+                <CodeBlock language="bash" code={quickStartCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
         </section>
 
         {/* Features */}
@@ -181,12 +191,16 @@ gemini`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          <CodeBlock
-            language="bash"
-            code={`# ~/.gemini/.env
-GEMINI_API_KEY=your-api-key-here
-GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`}
-          />
+          {(() => {
+            const configCode = `# ~/.gemini/.env
+GEMINI_API_KEY=${apiKey}
+GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
+            return (
+              <ApiKeyCodeBlock code={configCode} placeholder={placeholder}>
+                <CodeBlock language="bash" code={configCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
 
           {/* Env vars (alternative) */}
           <h3 className="mt-8 mb-2 text-lg font-medium">
@@ -195,11 +209,15 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <CodeBlock
-            language="bash"
-            code={`export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
-export GEMINI_API_KEY="YOUR_API_KEY"`}
-          />
+          {(() => {
+            const envCode = `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+export GEMINI_API_KEY="${apiKey}"`;
+            return (
+              <ApiKeyCodeBlock code={envCode} placeholder={placeholder}>
+                <CodeBlock language="bash" code={envCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
         </section>
 
         {/* Usage */}

@@ -269,6 +269,8 @@
     "CC_SWITCH_SETUP_INSTALL_LINK": "CC Switch installieren",
     "CC_SWITCH_SETUP_LOGIN_REQUIRED": "Melde dich an, um deinen API-Key automatisch einzutragen",
     "CC_SWITCH_SETUP_CREATE_KEY": "Erstelle zuerst einen API-Key",
+    "GENERATE_API_KEY": "API-Key generieren",
+    "GENERATE_API_KEY_DESC": "Generiere einen API-Key, um loszulegen",
     "OS_TAB_WINDOWS": "Windows",
     "OS_TAB_MACOS": "macOS",
     "OS_TAB_LINUX": "Linux",

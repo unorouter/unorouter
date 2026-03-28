@@ -1,3 +1,4 @@
+import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
 import { APP_VALUES } from "@/lib/config/constants";
 import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
@@ -7,12 +8,17 @@ import { Callout } from "@/components/elements/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
+import { getCookieValue } from "@/lib/utils/server";
+import { API_KEY_COOKIE } from "@/store/api-key-store";
 import { getTranslations } from "next-intl/server";
 import { GiCrabClaw } from "react-icons/gi";
 import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function OpenClawContent() {
   const t = await getTranslations();
+  const apiKey =
+    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "YOUR_API_KEY";
+  const placeholder = "YOUR_API_KEY";
 
   const toc = createTOC(
     [
@@ -157,11 +163,10 @@ openclaw onboard`}
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.OPENCLAW.CONFIG_LOCATION", APP_VALUES)}
           </p>
-          <CodeBlock
-            language="json"
-            code={`{
+          {(() => {
+            const configCode = `{
   "env": {
-    "OPENAI_API_KEY": "YOUR_API_KEY"
+    "OPENAI_API_KEY": "${apiKey}"
   },
   "agents": {
     "defaults": {
@@ -176,8 +181,13 @@ openclaw onboard`}
       "apiKey": "env:OPENAI_API_KEY"
     }
   }
-}`}
-          />
+}`;
+            return (
+              <ApiKeyCodeBlock code={configCode} placeholder={placeholder}>
+                <CodeBlock language="json" code={configCode} />
+              </ApiKeyCodeBlock>
+            );
+          })()}
 
           {/* Key Configuration Details */}
           <h3

@@ -1,21 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useAuthQuery } from "@/hooks/auth-hook";
-import {
-  useCreateTokenMutation,
-  useFetchTokenKeyMutation,
-  useTokensQuery,
-} from "@/hooks/token-hook";
+import { useSuitableToken } from "@/hooks/use-suitable-token";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
 import {
   LuArrowLeftRight,
   LuExternalLink,
   LuKey,
   LuLoader,
+  LuPlus,
 } from "react-icons/lu";
 
 type CCSwitchApp = "claude" | "codex" | "gemini" | "openclaw";
@@ -39,98 +34,12 @@ function buildDeepLink(app: CCSwitchApp, endpoint: string, apiKey?: string) {
   return `ccswitch://v1/import?${params.toString()}`;
 }
 
-function useSuitableToken(isLoggedIn: boolean) {
-  const tokensQuery = useTokensQuery({ p: 1 });
-  const createMutation = useCreateTokenMutation();
-  const fetchKeyMutation = useFetchTokenKeyMutation();
-
-  const [resolvedKey, setResolvedKey] = useState<string | null>(null);
-  const actionRef = useRef<"idle" | "creating" | "fetching" | "done">("idle");
-
-  const tokens = isLoggedIn ? tokensQuery.data?.items : undefined;
-  const isTokensLoaded = isLoggedIn && tokensQuery.isSuccess;
-
-  // Find a suitable token: enabled, unlimited quota, auto group
-  const suitableToken = tokens?.find(
-    (tok) =>
-      tok &&
-      tok.status === 1 &&
-      tok.unlimited_quota &&
-      tok.group === "auto" &&
-      !tok.model_limits_enabled,
-  );
-
-  // Fall back to any enabled token
-  const fallbackToken =
-    suitableToken ?? tokens?.find((tok) => tok && tok.status === 1);
-
-  // Use the best available token, or create one if none exist
-  const targetToken = fallbackToken ?? null;
-
-  useEffect(() => {
-    if (!isLoggedIn || !isTokensLoaded || actionRef.current !== "idle") return;
-
-    if (targetToken) {
-      // Fetch the key for the existing token
-      actionRef.current = "fetching";
-      fetchKeyMutation.mutate(targetToken.id, {
-        onSuccess: (data) => {
-          setResolvedKey(data.key);
-          actionRef.current = "done";
-        },
-        onError: () => {
-          actionRef.current = "done";
-        },
-      });
-    } else if (tokens && tokens.length === 0) {
-      // No tokens at all, auto-create one
-      actionRef.current = "creating";
-      createMutation.mutate(
-        {
-          name: "Default",
-          remain_quota: 0,
-          expired_time: -1,
-          unlimited_quota: true,
-          model_limits_enabled: false,
-          model_limits: "",
-          allow_ips: "",
-          group: "auto",
-          cross_group_retry: true,
-        },
-        {
-          onSuccess: () => {
-            // After creation, the tokens query will refetch via onSuccess in the hook.
-            // Reset action so we can fetch the key on the next render cycle.
-            actionRef.current = "idle";
-          },
-          onError: () => {
-            actionRef.current = "done";
-          },
-        },
-      );
-    }
-  }, [isLoggedIn, isTokensLoaded, targetToken, tokens]);
-
-  const isLoading =
-    tokensQuery.isLoading ||
-    createMutation.isPending ||
-    fetchKeyMutation.isPending;
-
-  return { resolvedKey, isLoading };
-}
-
 export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const t = useTranslations();
-  const authQuery = useAuthQuery();
-  const isLoggedIn = !!authQuery.data;
+  const { apiKey, isLoading, needsToken, createToken, isLoggedIn } =
+    useSuitableToken();
 
-  const { resolvedKey, isLoading } = useSuitableToken(isLoggedIn);
-
-  const deepLink = buildDeepLink(
-    props.app,
-    props.endpoint,
-    resolvedKey ? `sk-${resolvedKey}` : undefined,
-  );
+  const deepLink = buildDeepLink(props.app, props.endpoint, apiKey ?? undefined);
 
   return (
     <section className="mt-10">
@@ -161,6 +70,29 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
               {t("DOCS.CC_SWITCH_SETUP_LOGIN_REQUIRED")}
             </Link>
           </p>
+        )}
+
+        {isLoggedIn && needsToken && (
+          <div className="mt-3 flex items-center gap-2">
+            <LuKey className="text-muted-foreground size-3.5 shrink-0" />
+            <span className="text-muted-foreground text-xs">
+              {t("DOCS.GENERATE_API_KEY_DESC")}
+            </span>
+            <Button
+              size="xs"
+              variant="outline"
+              className="ml-auto shrink-0 gap-1.5"
+              onClick={createToken}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <LuLoader className="size-3 animate-spin" />
+              ) : (
+                <LuPlus className="size-3" />
+              )}
+              {t("DOCS.GENERATE_API_KEY")}
+            </Button>
+          </div>
         )}
 
         <div className="mt-6">
