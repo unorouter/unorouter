@@ -104,12 +104,12 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
 
         <p className="text-muted-foreground mt-4 text-xs">
           {t("DOCS.CC_SWITCH_SETUP_NO_APP")}{" "}
-          <a
-            href="/docs/cc-switch#installation"
+          <Link
+            href={{ pathname: "/docs/cc-switch", hash: "installation" }}
             className="text-primary underline"
           >
             {t("DOCS.CC_SWITCH_SETUP_INSTALL_LINK")}
-          </a>
+          </Link>
         </p>
       </div>
     </section>
