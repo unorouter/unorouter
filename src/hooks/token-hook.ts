@@ -30,7 +30,7 @@ export function useTokensQuery(params: { p?: number; keyword?: string }) {
         }),
       ),
     staleTime: Infinity,
-    enabled: false,
+    // enabled: false,
   });
 }
 

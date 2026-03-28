@@ -54,7 +54,7 @@ export default async function TokensPage() {
   console.log("[TokensPage] dehydratedState:", dehydratedState);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
+    <HydrationBoundary state={dehydratedState}>
       <DataTableProvider data={tableStores}>
         <TokenList />
       </DataTableProvider>
