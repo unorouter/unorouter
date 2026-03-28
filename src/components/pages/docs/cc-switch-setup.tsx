@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useSuitableToken } from "@/hooks/use-suitable-token";
+import { useSuitableToken } from "@/hooks/ui/use-suitable-token";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";

@@ -2,6 +2,14 @@ import { codeToHtml } from "shiki";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "./copy-button";
 
+export async function highlightCode(code: string, language = "text") {
+  return codeToHtml(code, {
+    lang: language,
+    themes: { light: "vitesse-light", dark: "vitesse-dark" },
+    defaultColor: false,
+  });
+}
+
 type Props = {
   code: string;
   language?: string;
@@ -9,14 +17,7 @@ type Props = {
 };
 
 export async function CodeBlock(props: Props) {
-  const html = await codeToHtml(props.code, {
-    lang: props.language ?? "text",
-    themes: {
-      light: "vitesse-light",
-      dark: "vitesse-dark",
-    },
-    defaultColor: false,
-  });
+  const html = await highlightCode(props.code, props.language);
 
   return (
     <div

@@ -1,127 +1,117 @@
 "use client";
 
-import { useSuitableToken } from "@/hooks/use-suitable-token";
+import { useSuitableToken } from "@/hooks/ui/use-suitable-token";
 import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import type { ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import { LuEye, LuEyeOff, LuKey, LuLoader, LuPlus } from "react-icons/lu";
 import { Button } from "../ui/button";
-
-function walkTextNodes(node: Node, search: string, replacement: string) {
-  if (node.nodeType === Node.TEXT_NODE) {
-    if (node.textContent?.includes(search)) {
-      node.textContent = node.textContent.replaceAll(search, replacement);
-    }
-    return;
-  }
-  for (const child of Array.from(node.childNodes)) {
-    walkTextNodes(child, search, replacement);
-  }
-}
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { CopyButton } from "./copy-button";
 
 type Props = {
-  children: ReactNode;
+  /** Pre-highlighted HTML from highlightCode() */
+  html: string;
+  /** Raw code string (with placeholder or display key) */
+  code: string;
+  /** Language label for the toolbar */
+  language: string;
   /** The full (unobfuscated) API key, or null if not available */
   apiKey: string | null;
   /** Whether the key was rendered revealed by the server */
   initialRevealed: boolean;
   /** The placeholder text used in the code string when no key exists */
   placeholder: string;
-  /** The raw code string (with placeholder or display key) for copy override */
-  code: string;
+  /** Optional label shown above the code (e.g. file path) */
+  label?: string;
+  className?: string;
 };
 
 export function ApiKeyCodeBlock(props: Props) {
   const t = useTranslations();
-  const { isLoading, needsToken, createToken, isLoggedIn } =
-    useSuitableToken();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const token = useSuitableToken();
   const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
-  const prevDisplayRef = useRef<string | null>(null);
-  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
   const apiKey = props.apiKey;
+  const obfuscated = apiKey ? obfuscateApiKey(apiKey) : null;
 
-  // Handle toggle: server rendered the initial state, client swaps on toggle.
-  useEffect(() => {
-    if (!containerRef.current || !apiKey) return;
-
-    const displayKey = revealed ? apiKey : obfuscateApiKey(apiKey);
-    const currentInDom = prevDisplayRef.current;
-
-    // On first mount, record what the server rendered (no DOM change needed)
-    if (!currentInDom) {
-      prevDisplayRef.current = props.initialRevealed
-        ? apiKey
-        : obfuscateApiKey(apiKey);
-      // If jotai state already differs from server render, apply immediately
-      if (prevDisplayRef.current !== displayKey) {
-        walkTextNodes(containerRef.current, prevDisplayRef.current, displayKey);
-        prevDisplayRef.current = displayKey;
-      }
-      return;
+  // Compute the display HTML by swapping the server-rendered key representation
+  let displayHtml = props.html;
+  if (apiKey && obfuscated) {
+    if (revealed) {
+      // Server may have rendered obfuscated; swap to full key
+      displayHtml = props.html.replaceAll(obfuscated, apiKey);
+    } else {
+      // Server may have rendered full key; swap to obfuscated
+      displayHtml = props.html.replaceAll(apiKey, obfuscated);
     }
+  }
 
-    if (currentInDom === displayKey) return;
-
-    walkTextNodes(containerRef.current, currentInDom, displayKey);
-    prevDisplayRef.current = displayKey;
-  }, [apiKey, revealed, props.initialRevealed]);
-
-  // Find CopyButton, create portal target, override copy with full key.
-  useEffect(() => {
-    if (!containerRef.current || !apiKey) return;
-
-    const copyBtn = containerRef.current.querySelector(
-      "button[aria-label]",
-    ) as HTMLButtonElement | null;
-    if (!copyBtn) return;
-
-    if (!portalTarget) {
-      const el = document.createElement("span");
-      copyBtn.parentElement?.insertBefore(el, copyBtn);
-      setPortalTarget(el);
-    }
-
-    const handler = (e: Event) => {
-      e.stopPropagation();
-      e.preventDefault();
-      const fullCode = props.code.replaceAll(props.placeholder, apiKey);
-      navigator.clipboard.writeText(fullCode);
-    };
-
-    copyBtn.addEventListener("click", handler, true);
-    return () => copyBtn.removeEventListener("click", handler, true);
-  }, [apiKey, props.code, props.placeholder, portalTarget]);
+  // Compute the copy text: always use the full key
+  const copyText = apiKey
+    ? props.code.replaceAll(props.placeholder, apiKey)
+    : props.code;
 
   return (
     <div>
-      <div ref={containerRef}>{props.children}</div>
-
-      {apiKey &&
-        portalTarget &&
-        createPortal(
-          <button
-            onClick={() => setRevealed(!revealed)}
-            className="text-muted-foreground hover:text-foreground absolute right-14 top-16 rounded-sm p-2 transition-colors"
-            aria-label={
-              revealed ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")
-            }
-          >
-            {revealed ? (
-              <LuEyeOff className="h-3.5 w-3.5" />
-            ) : (
-              <LuEye className="h-3.5 w-3.5" />
-            )}
-          </button>,
-          portalTarget,
+      {props.label && (
+        <p className="text-muted-foreground mb-1 font-mono text-xs">
+          {props.label}
+        </p>
+      )}
+      <div
+        className={cn(
+          "bg-card border-border group hover:border-foreground/20 relative w-full overflow-hidden rounded-sm border font-mono text-sm transition-colors duration-500",
+          props.className,
         )}
+      >
+        <div className="bg-muted border-border/50 flex items-center justify-between border-b px-4 py-3">
+          <div className="flex gap-1.5">
+            <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
+            <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
+            <div className="bg-muted-foreground/20 h-2 w-2 rounded-full" />
+          </div>
+          <span className="text-muted-foreground text-[10px] tracking-wider uppercase">
+            {props.language}
+          </span>
+        </div>
+        <div
+          className="p-8 [&_code]:bg-transparent! [&_pre]:bg-transparent! [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed [&_pre]:break-all [&_pre]:whitespace-pre-wrap md:[&_pre]:text-sm"
+          dangerouslySetInnerHTML={{ __html: displayHtml }}
+        />
+        <div className="absolute top-16 right-6 flex items-center gap-1">
+          {apiKey && (
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <Button
+                    variant="ghost"
+                    size="icon-xs"
+                    onClick={() => setRevealed(!revealed)}
+                  />
+                }
+              >
+                {revealed ? (
+                  <LuEyeOff className="size-3.5" />
+                ) : (
+                  <LuEye className="size-3.5" />
+                )}
+              </TooltipTrigger>
+              <TooltipContent>
+                {revealed ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+              </TooltipContent>
+            </Tooltip>
+          )}
+          <CopyButton
+            text={copyText}
+            className="text-muted-foreground hover:text-foreground hover:bg-muted rounded-sm p-1.5 transition-colors"
+          />
+        </div>
+      </div>
 
-      {isLoggedIn && needsToken && (
+      {token.isLoggedIn && token.needsToken && (
         <div className="border-border bg-card mt-2 flex items-center gap-2 rounded-lg border px-4 py-2">
           <LuKey className="text-muted-foreground size-3.5 shrink-0" />
           <span className="text-muted-foreground text-xs">
@@ -131,10 +121,10 @@ export function ApiKeyCodeBlock(props: Props) {
             size="xs"
             variant="outline"
             className="ml-auto shrink-0 gap-1.5"
-            onClick={createToken}
-            disabled={isLoading}
+            onClick={token.createToken}
+            disabled={token.isLoading}
           >
-            {isLoading ? (
+            {token.isLoading ? (
               <LuLoader className="size-3 animate-spin" />
             ) : (
               <LuPlus className="size-3" />
@@ -144,7 +134,7 @@ export function ApiKeyCodeBlock(props: Props) {
         </div>
       )}
 
-      {!isLoggedIn && (
+      {!token.isLoggedIn && (
         <p className="text-muted-foreground mt-2 flex items-center gap-1.5 text-xs">
           <LuKey className="size-3" />
           <Link href="/login" className="text-primary underline">

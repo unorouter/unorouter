@@ -3,7 +3,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { GetStartedButton } from "@/components/elements/get-started-link";
-import { CodeBlock } from "@/components/elements/code-block";
+import { CodeBlock, highlightCode } from "@/components/elements/code-block";
 import { Callout } from "@/components/elements/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
@@ -160,7 +160,7 @@ openclaw onboard`}
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.OPENCLAW.CONFIG_LOCATION", APP_VALUES)}
           </p>
-          {(() => {
+          {await (async () => {
             const configCode = `{
   "env": {
     "OPENAI_API_KEY": "${docs.displayKey}"
@@ -180,9 +180,14 @@ openclaw onboard`}
   }
 }`;
             return (
-              <ApiKeyCodeBlock code={configCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
-                <CodeBlock language="json" code={configCode} />
-              </ApiKeyCodeBlock>
+              <ApiKeyCodeBlock
+                html={await highlightCode(configCode, "json")}
+                code={configCode}
+                language="json"
+                placeholder={docs.placeholder}
+                apiKey={docs.rawApiKey}
+                initialRevealed={docs.isRevealed}
+              />
             );
           })()}
 

@@ -1,6 +1,6 @@
 import { ApiKeyCodeBlock } from "@/components/elements/api-key-code-block";
 import { Callout } from "@/components/elements/callout";
-import { CodeBlock } from "@/components/elements/code-block";
+import { CodeBlock, highlightCode } from "@/components/elements/code-block";
 import { GetStartedButton } from "@/components/elements/get-started-link";
 import { PageHeader } from "@/components/elements/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
@@ -179,22 +179,20 @@ export async function CodexContent() {
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          {(() => {
+          {await (async () => {
             const authCode = `{
   "OPENAI_API_KEY": "${docs.displayKey}"
 }`;
             return (
               <ApiKeyCodeBlock
+                html={await highlightCode(authCode, "json")}
                 code={authCode}
+                language="json"
+                label="~/.codex/auth.json"
                 placeholder={docs.placeholder}
                 apiKey={docs.rawApiKey}
                 initialRevealed={docs.isRevealed}
-              >
-                <p className="text-muted-foreground mb-1 font-mono text-xs">
-                  ~/.codex/auth.json
-                </p>
-                <CodeBlock language="json" code={authCode} />
-              </ApiKeyCodeBlock>
+              />
             );
           })()}
           <div className="mt-4" />
@@ -217,18 +215,18 @@ wire_api = "responses"`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          {(() => {
+          {await (async () => {
             const envCode = `export OPENAI_BASE_URL="${docs.apiUrl}/v1"
 export OPENAI_API_KEY="${docs.displayKey}"`;
             return (
               <ApiKeyCodeBlock
+                html={await highlightCode(envCode, "bash")}
                 code={envCode}
+                language="bash"
                 placeholder={docs.placeholder}
                 apiKey={docs.rawApiKey}
                 initialRevealed={docs.isRevealed}
-              >
-                <CodeBlock language="bash" code={envCode} />
-              </ApiKeyCodeBlock>
+              />
             );
           })()}
 
