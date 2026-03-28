@@ -9,6 +9,7 @@ import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { useLoginMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
+import { RouterPush } from "@/i18n/routing";
 import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import {
   loginChecker,
@@ -58,7 +59,7 @@ export function LoginForm() {
         return;
       }
 
-      router.push(getRedirectPath() as any);
+      router.push(getRedirectPath() as RouterPush);
       router.refresh();
     } catch {
       turnstileRef.current?.reset();
@@ -70,7 +71,7 @@ export function LoginForm() {
     return (
       <TwoFAForm
         onSuccess={() => {
-          router.push(getRedirectPath() as any);
+          router.push(getRedirectPath() as RouterPush);
           router.refresh();
         }}
       />

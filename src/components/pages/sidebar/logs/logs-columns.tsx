@@ -1,7 +1,6 @@
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
-import { copyToClipboard } from "@/lib/utils/base";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
@@ -21,6 +20,7 @@ import {
 } from "@/components/ui/tooltip";
 import { renderQuota } from "@/lib/config/constants";
 import type { LogFilterValues } from "@/lib/logs/filters";
+import { copyToClipboard } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelLogDataItemsItem } from "@/openapi";
 import type { CellContext, Row } from "@tanstack/react-table";
 import dayjs from "dayjs";
@@ -123,9 +123,18 @@ function isConsumeLike(type: number): boolean {
   );
 }
 
+interface ParsedOther {
+  cache_tokens?: number;
+  cache_creation_tokens?: number;
+  frt?: number;
+  request_path?: string;
+  request_conversion?: string;
+  billing?: string;
+}
+
 function parseOther(
   other: string | null | undefined,
-): Record<string, any> | null {
+): ParsedOther | null {
   if (!other) return null;
   try {
     return JSON.parse(other);
@@ -371,7 +380,11 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
           <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-400">
             {log.request_id}
           </code>
-          <CopyButton text={log.request_id ?? ""} iconSize="h-3 w-3" toastMessage={t("LOGS.COPIED")} />
+          <CopyButton
+            text={log.request_id ?? ""}
+            iconSize="h-3 w-3"
+            toastMessage={t("LOGS.COPIED")}
+          />
         </span>
       ),
     });

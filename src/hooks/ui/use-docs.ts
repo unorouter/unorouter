@@ -7,18 +7,17 @@ import {
   useTokensQuery,
 } from "@/hooks/token-hook";
 import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
-import { queryKeys } from "@/lib/react-query/keys";
 import { apiKeyAtom, osAtom } from "@/store/docs-store";
-import { useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 export function useDocs() {
+  const router = useRouter();
   const [os, setOs] = useAtom(osAtom);
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
 
-  const queryClient = useQueryClient();
   const tokensQuery = useTokensQuery(DOCS_TOKEN_PARAMS);
   const createMutation = useCreateTokenMutation();
   const fetchKeyMutation = useFetchTokenKeyMutation();
@@ -52,7 +51,6 @@ export function useDocs() {
       !tok.model_limits_enabled,
   );
 
-  // Fall back to any enabled token
   const fallbackToken =
     suitableToken ?? tokens?.find((tok) => tok && tok.status === 1);
 
@@ -102,11 +100,9 @@ export function useDocs() {
         cross_group_retry: true,
       },
       {
-        onSuccess: async () => {
-          await queryClient.invalidateQueries({
-            queryKey: queryKeys.tokens(DOCS_TOKEN_PARAMS),
-          });
+        onSuccess: () => {
           actionRef.current = "idle";
+          router.refresh();
         },
       },
     );

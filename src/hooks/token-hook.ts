@@ -2,10 +2,27 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { DataTableId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
-import type { CreateTokenRequest, UpdateTokenRequest } from "@/openapi";
+import type {
+  CreateTokenRequest,
+  ResponseDtoPageDataModelTokenData,
+  UpdateTokenRequest,
+} from "@/openapi";
+import { createTableAtoms } from "@/store/data-table-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAtomValue } from "jotai";
 import { useAuthQuery } from "./auth-hook";
+
+const tokenTableAtoms = createTableAtoms(DataTableId.TOKENS);
+
+function useTokenTableQueryKey() {
+  const store = useAtomValue(tokenTableAtoms.baseAtom);
+  return queryKeys.tokens({
+    p: store.pagination.pageIndex + 1,
+    keyword: store.globalFilter || undefined,
+  });
+}
 
 export function useTokensQuery(
   params: { p?: number; page_size?: number; keyword?: string } = {},
@@ -48,57 +65,92 @@ export function useUserModelsQuery() {
 
 export function useCreateTokenMutation() {
   const queryClient = useQueryClient();
-
+  const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (data: CreateTokenRequest) =>
       handleElysia(await rpc.api.token.post(data)),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+      queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
+        queryKey,
+        (old) => (old ? { ...old, total: old.total + 1 } : old),
+      );
     },
   });
 }
 
 export function useUpdateTokenMutation() {
   const queryClient = useQueryClient();
-
+  const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (data: UpdateTokenRequest) =>
       handleElysia(await rpc.api.token.put(data)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+    onSuccess: (_, variables) => {
+      queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
+        queryKey,
+        (old) =>
+          old
+            ? {
+                ...old,
+                items: old.items.map((item) =>
+                  item?.id === variables.id ? { ...item, ...variables } : item,
+                ),
+              }
+            : old,
+      );
     },
   });
 }
 
 export function useToggleTokenStatusMutation() {
   const queryClient = useQueryClient();
-
+  const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (data: UpdateTokenRequest) =>
       handleElysia(await rpc.api.token.status.put(data)),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+    onSuccess: (_, variables) => {
+      queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
+        queryKey,
+        (old) =>
+          old
+            ? {
+                ...old,
+                items: old.items.map((item) =>
+                  item?.id === variables.id
+                    ? { ...item, status: variables.status }
+                    : item,
+                ),
+              }
+            : old,
+      );
     },
   });
 }
 
 export function useFetchTokenKeyMutation() {
   return useMutation({
-    mutationFn: async (id: number) => {
-      const res = await rpc.api.token({ id: id.toString() }).key.post();
-      return handleElysia(res) as { key: string };
-    },
+    mutationFn: async (id: number) =>
+      handleElysia(await rpc.api.token({ id: id.toString() }).key.post()),
   });
 }
 
 export function useDeleteTokenMutation() {
   const queryClient = useQueryClient();
-
+  const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (id: number) =>
       handleElysia(await rpc.api.token({ id: id.toString() }).delete()),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tokens"] });
+    onSuccess: (_, deletedId) => {
+      queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
+        queryKey,
+        (old) =>
+          old
+            ? {
+                ...old,
+                total: old.total - 1,
+                items: old.items.filter((item) => item?.id !== deletedId),
+              }
+            : old,
+      );
     },
   });
 }

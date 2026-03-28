@@ -21,42 +21,42 @@ import {
 } from "@/hooks/billing-hook";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { getMultiplier } from "@/lib/api/subscription";
-import { quotaToDollars } from "@/lib/config/constants";
+import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { LuRefreshCw, LuSparkles } from "react-icons/lu";
 import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
-  { value: "wallet_first", key: "BILLING.WALLET_FIRST" },
-  { value: "wallet_only", key: "BILLING.WALLET_ONLY" },
-  { value: "subscription_first", key: "BILLING.SUBSCRIPTION_FIRST" },
-  { value: "subscription_only", key: "BILLING.SUBSCRIPTION_ONLY" },
+  { value: "wallet_first", key: msg("BILLING.WALLET_FIRST") },
+  { value: "wallet_only", key: msg("BILLING.WALLET_ONLY") },
+  { value: "subscription_first", key: msg("BILLING.SUBSCRIPTION_FIRST") },
+  { value: "subscription_only", key: msg("BILLING.SUBSCRIPTION_ONLY") },
 ] as const;
 
-function formatResetPeriod(period: string, t: (key: any) => string): string {
+function formatResetPeriod(period: string): TranslationKey {
   switch (period) {
     case "weekly":
-      return t("BILLING.WEEKLY");
+      return msg("BILLING.WEEKLY");
     case "daily":
-      return t("BILLING.DAILY");
+      return msg("BILLING.DAILY");
     case "monthly":
-      return t("BILLING.MONTHLY");
+      return msg("BILLING.MONTHLY");
     default:
-      return period;
+      return period as TranslationKey;
   }
 }
 
-function getPerPeriodSuffix(period: string, t: (key: any) => string): string {
+function getPerPeriodSuffix(period: string): TranslationKey {
   switch (period) {
     case "weekly":
-      return t("BILLING.PER_WEEK");
+      return msg("BILLING.PER_WEEK");
     case "daily":
-      return t("BILLING.PER_DAY");
+      return msg("BILLING.PER_DAY");
     case "monthly":
-      return t("BILLING.PER_MONTH");
+      return msg("BILLING.PER_MONTH");
     default:
-      return "";
+      return "" as TranslationKey;
   }
 }
 
@@ -158,7 +158,7 @@ export function SubscriptionSection() {
             <SelectContent>
               {PREFERENCE_OPTIONS.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value}>
-                  {t(opt.key as any)}
+                  {t(opt.key)}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -232,7 +232,7 @@ export function SubscriptionSection() {
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
             const quotaUsd = plan.quotaPerResetUsd;
-            const periodSuffix = getPerPeriodSuffix(plan.quotaResetPeriod, t);
+            const periodSuffix = getPerPeriodSuffix(plan.quotaResetPeriod);
             const isMutating =
               stripeSubMutation.isPending || creemSubMutation.isPending;
 
@@ -274,13 +274,13 @@ export function SubscriptionSection() {
                   <div className="flex items-center gap-2">
                     <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                     {t("BILLING.QUOTA_RESET")}:{" "}
-                    {formatResetPeriod(plan.quotaResetPeriod, t)}
+                    {t(formatResetPeriod(plan.quotaResetPeriod))}
                   </div>
                   {quotaUsd > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                       {t("BILLING.TOTAL_QUOTA")}: ${quotaUsd.toFixed(2)}
-                      {periodSuffix}
+                      {t(periodSuffix)}
                     </div>
                   )}
                   {multiplier > 0 && (

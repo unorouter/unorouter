@@ -1,5 +1,12 @@
 "use client";
 
+import { docsNavItems } from "@/components/layout/docs/docs-navigation";
+import {
+  type NavigationItem,
+  isActiveLink,
+  navigation,
+  sidebarNavigation,
+} from "@/components/layout/nav/navigation";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -8,18 +15,11 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  type NavigationItem,
-  isActiveLink,
-  navigation,
-  sidebarNavigation,
-} from "@/components/layout/nav/navigation";
-import { docsNavItems } from "@/components/layout/docs/docs-navigation";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import type { SidebarNavConfig } from "./app-sidebar";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import type { SidebarNavConfig } from "./app-sidebar";
 
 function NavGroup(props: { label: string; items: NavigationItem[] }) {
   const t = useTranslations();
@@ -38,8 +38,8 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton
-                  render={<Link href={item.href as any} />}
-                  tooltip={t(item.name as any)}
+                  render={<Link href={item.href} />}
+                  tooltip={t(item.name)}
                   isActive={isActive}
                   className={cn(
                     isActive && "bg-primary/10 text-primary font-medium",
@@ -50,7 +50,7 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
                       className={cn("size-4", isActive && "text-primary")}
                     />
                   )}
-                  <span>{t(item.name as any)}</span>
+                  <span>{t(item.name)}</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             );
@@ -71,7 +71,9 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   const authenticated = !!user;
 
   if (props.navConfig === "docs") {
-    const mainNavItems = navigation(authenticated).filter((item) => !item.hidden && item.href !== "/docs");
+    const mainNavItems = navigation(authenticated).filter(
+      (item) => !item.hidden && item.href !== "/docs",
+    );
     return (
       <>
         <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={docsNavItems} />

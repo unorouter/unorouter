@@ -3,7 +3,7 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useTopUpInfoQuery() {
   return useQuery({
@@ -30,7 +30,7 @@ export function useSubscriptionSelfQuery() {
 }
 
 export function useUpdateBillingPreferenceMutation() {
-  const subscriptionQuery = useSubscriptionSelfQuery();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (billingPreference: string) =>
       handleElysia(
@@ -38,8 +38,12 @@ export function useUpdateBillingPreferenceMutation() {
           billing_preference: billingPreference,
         }),
       ),
-    onSuccess: () => {
-      subscriptionQuery.refetch();
+    onSuccess: (_, billingPreference) => {
+      queryClient.setQueryData(queryKeys.subscriptionSelf(), (old: any) =>
+        old
+          ? { ...old, data: { ...old.data, billing_preference: billingPreference } }
+          : old,
+      );
     },
   });
 }
@@ -69,7 +73,6 @@ export function useCreemTopUpMutation() {
 }
 
 export function useStripeSubscriptionMutation() {
-  const subscriptionQuery = useSubscriptionSelfQuery();
   return useMutation({
     mutationFn: async (planId: number) =>
       handleElysia(
@@ -77,14 +80,10 @@ export function useStripeSubscriptionMutation() {
           plan_id: planId,
         }),
       ),
-    onSuccess: () => {
-      subscriptionQuery.refetch();
-    },
   });
 }
 
 export function useCreemSubscriptionMutation() {
-  const subscriptionQuery = useSubscriptionSelfQuery();
   return useMutation({
     mutationFn: async (planId: number) =>
       handleElysia(
@@ -92,8 +91,5 @@ export function useCreemSubscriptionMutation() {
           plan_id: planId,
         }),
       ),
-    onSuccess: () => {
-      subscriptionQuery.refetch();
-    },
   });
 }

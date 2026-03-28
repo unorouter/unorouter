@@ -1,14 +1,14 @@
+import { LOCALES } from "@/lib/config/constants";
 import { defineRouting } from "next-intl/routing";
 import { ComponentProps } from "react";
-import { LOCALES } from "@/lib/config/constants";
 import { getPathname, Link, redirect, useRouter } from "./navigation";
 
 export type LinkHref = ComponentProps<typeof Link>["href"];
-export type RoutePush = Parameters<ReturnType<typeof useRouter>["push"]>[0];
+export type RouterPush = Parameters<ReturnType<typeof useRouter>["push"]>[0];
 export type Redirect = Parameters<typeof redirect>[0];
 export type Pathname = Parameters<typeof getPathname>[0]["href"];
 
-export type ValidRoutes = LinkHref | RoutePush | Redirect;
+export type ValidRoutes = LinkHref | RouterPush | Redirect;
 
 export const pathnames = {
   "/": "/",

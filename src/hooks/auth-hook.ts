@@ -8,7 +8,7 @@ import type {
   RegisterRequest,
   Verify2FARequest,
 } from "@/openapi";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useAuthQuery() {
   return useQuery({
@@ -47,11 +47,11 @@ export function useSendVerificationMutation() {
 }
 
 export function useLogoutMutation() {
-  const authQuery = useAuthQuery();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => handleElysia(await rpc.api.auth.logout.get()),
     onSuccess: () => {
-      authQuery.refetch();
+      queryClient.setQueryData(queryKeys.auth(), null);
     },
   });
 }
