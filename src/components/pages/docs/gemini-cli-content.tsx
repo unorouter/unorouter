@@ -8,17 +8,14 @@ import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getCookieValue } from "@/lib/utils/server";
-import { API_KEY_COOKIE } from "@/store/api-key-store";
+import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function GeminiCliContent() {
   const t = await getTranslations();
-  const apiKey =
-    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "your-api-key-here";
-  const placeholder = "your-api-key-here";
+  const docs = await getDocsApiKey();
 
   const toc = createTOC(
     [
@@ -94,14 +91,14 @@ export async function GeminiCliContent() {
             const quickStartCode = `# Create ~/.gemini/.env with your config
 mkdir -p ~/.gemini
 cat > ~/.gemini/.env << 'EOF'
-GEMINI_API_KEY=${apiKey}
+GEMINI_API_KEY=${docs.displayKey}
 GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}
 EOF
 
 # Then run Gemini CLI
 gemini`;
             return (
-              <ApiKeyCodeBlock code={quickStartCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={quickStartCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
                 <CodeBlock language="bash" code={quickStartCode} />
               </ApiKeyCodeBlock>
             );
@@ -192,11 +189,13 @@ gemini`;
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
           {(() => {
-            const configCode = `# ~/.gemini/.env
-GEMINI_API_KEY=${apiKey}
+            const configCode = `GEMINI_API_KEY=${docs.displayKey}
 GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
             return (
-              <ApiKeyCodeBlock code={configCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={configCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+                <p className="text-muted-foreground mb-1 font-mono text-xs">
+                  ~/.gemini/.env
+                </p>
                 <CodeBlock language="bash" code={configCode} />
               </ApiKeyCodeBlock>
             );
@@ -211,9 +210,9 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
           </p>
           {(() => {
             const envCode = `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
-export GEMINI_API_KEY="${apiKey}"`;
+export GEMINI_API_KEY="${docs.displayKey}"`;
             return (
-              <ApiKeyCodeBlock code={envCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={envCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
                 <CodeBlock language="bash" code={envCode} />
               </ApiKeyCodeBlock>
             );

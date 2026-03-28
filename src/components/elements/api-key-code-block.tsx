@@ -2,24 +2,16 @@
 
 import { useSuitableToken } from "@/hooks/use-suitable-token";
 import { Link } from "@/i18n/navigation";
+import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { LuEye, LuEyeOff, LuKey, LuLoader, LuPlus } from "react-icons/lu";
 import { Button } from "../ui/button";
 
-function obfuscateKey(key: string) {
-  // sk-NZcw77sF9dpWzYMP... → sk-NZcw...qP6
-  const prefix = key.slice(0, 6);
-  const suffix = key.slice(-3);
-  return `${prefix}...${suffix}`;
-}
-
-function walkTextNodes(
-  node: Node,
-  search: string,
-  replacement: string,
-) {
+function walkTextNodes(node: Node, search: string, replacement: string) {
   if (node.nodeType === Node.TEXT_NODE) {
     if (node.textContent?.includes(search)) {
       node.textContent = node.textContent.replaceAll(search, replacement);
@@ -33,32 +25,54 @@ function walkTextNodes(
 
 type Props = {
   children: ReactNode;
-  code: string;
+  /** The full (unobfuscated) API key, or null if not available */
+  apiKey: string | null;
+  /** Whether the key was rendered revealed by the server */
+  initialRevealed: boolean;
+  /** The placeholder text used in the code string when no key exists */
   placeholder: string;
+  /** The raw code string (with placeholder or display key) for copy override */
+  code: string;
 };
 
 export function ApiKeyCodeBlock(props: Props) {
   const t = useTranslations();
-  const { apiKey, isLoading, needsToken, createToken, isLoggedIn } =
+  const { isLoading, needsToken, createToken, isLoggedIn } =
     useSuitableToken();
   const containerRef = useRef<HTMLDivElement>(null);
-  const [revealed, setRevealed] = useState(false);
-  const lastReplacedRef = useRef<string | null>(null);
+  const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
+  const prevDisplayRef = useRef<string | null>(null);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
 
-  // Replace placeholder text in the server-rendered HTML
+  const apiKey = props.apiKey;
+
+  // Handle toggle: server rendered the initial state, client swaps on toggle.
   useEffect(() => {
     if (!containerRef.current || !apiKey) return;
 
-    const displayKey = revealed ? apiKey : obfuscateKey(apiKey);
-    const previousValue = lastReplacedRef.current ?? props.placeholder;
+    const displayKey = revealed ? apiKey : obfuscateApiKey(apiKey);
+    const currentInDom = prevDisplayRef.current;
 
-    if (previousValue === displayKey) return;
+    // On first mount, record what the server rendered (no DOM change needed)
+    if (!currentInDom) {
+      prevDisplayRef.current = props.initialRevealed
+        ? apiKey
+        : obfuscateApiKey(apiKey);
+      // If jotai state already differs from server render, apply immediately
+      if (prevDisplayRef.current !== displayKey) {
+        walkTextNodes(containerRef.current, prevDisplayRef.current, displayKey);
+        prevDisplayRef.current = displayKey;
+      }
+      return;
+    }
 
-    walkTextNodes(containerRef.current, previousValue, displayKey);
-    lastReplacedRef.current = displayKey;
-  }, [apiKey, revealed, props.placeholder]);
+    if (currentInDom === displayKey) return;
 
-  // Override the existing CopyButton's click to copy full key
+    walkTextNodes(containerRef.current, currentInDom, displayKey);
+    prevDisplayRef.current = displayKey;
+  }, [apiKey, revealed, props.initialRevealed]);
+
+  // Find CopyButton, create portal target, override copy with full key.
   useEffect(() => {
     if (!containerRef.current || !apiKey) return;
 
@@ -66,6 +80,12 @@ export function ApiKeyCodeBlock(props: Props) {
       "button[aria-label]",
     ) as HTMLButtonElement | null;
     if (!copyBtn) return;
+
+    if (!portalTarget) {
+      const el = document.createElement("span");
+      copyBtn.parentElement?.insertBefore(el, copyBtn);
+      setPortalTarget(el);
+    }
 
     const handler = (e: Event) => {
       e.stopPropagation();
@@ -76,28 +96,31 @@ export function ApiKeyCodeBlock(props: Props) {
 
     copyBtn.addEventListener("click", handler, true);
     return () => copyBtn.removeEventListener("click", handler, true);
-  }, [apiKey, props.code, props.placeholder]);
+  }, [apiKey, props.code, props.placeholder, portalTarget]);
 
   return (
-    <div className="relative">
+    <div>
       <div ref={containerRef}>{props.children}</div>
 
-      {/* Reveal/hide toggle */}
-      {apiKey && (
-        <button
-          onClick={() => setRevealed(!revealed)}
-          className="text-muted-foreground hover:text-foreground absolute top-16 right-14 rounded-sm p-2 transition-colors"
-          aria-label={revealed ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
-        >
-          {revealed ? (
-            <LuEyeOff className="h-3.5 w-3.5" />
-          ) : (
-            <LuEye className="h-3.5 w-3.5" />
-          )}
-        </button>
-      )}
+      {apiKey &&
+        portalTarget &&
+        createPortal(
+          <button
+            onClick={() => setRevealed(!revealed)}
+            className="text-muted-foreground hover:text-foreground absolute right-14 top-16 rounded-sm p-2 transition-colors"
+            aria-label={
+              revealed ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")
+            }
+          >
+            {revealed ? (
+              <LuEyeOff className="h-3.5 w-3.5" />
+            ) : (
+              <LuEye className="h-3.5 w-3.5" />
+            )}
+          </button>,
+          portalTarget,
+        )}
 
-      {/* Generate API Key prompt */}
       {isLoggedIn && needsToken && (
         <div className="border-border bg-card mt-2 flex items-center gap-2 rounded-lg border px-4 py-2">
           <LuKey className="text-muted-foreground size-3.5 shrink-0" />
@@ -121,7 +144,6 @@ export function ApiKeyCodeBlock(props: Props) {
         </div>
       )}
 
-      {/* Login prompt */}
       {!isLoggedIn && (
         <p className="text-muted-foreground mt-2 flex items-center gap-1.5 text-xs">
           <LuKey className="size-3" />

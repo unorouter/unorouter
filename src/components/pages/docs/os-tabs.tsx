@@ -7,9 +7,8 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { useOS } from "@/hooks/ui/use-os";
-import type { OS } from "@/store/os-store";
+import type { OS } from "@/store/docs-store";
 import type { ReactNode } from "react";
-import * as React from "react";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
 interface OSTabsProps {
@@ -24,19 +23,12 @@ interface OSTabsProps {
 }
 
 export function OSTabs(props: OSTabsProps) {
-  const [detectedOS] = useOS();
-  const [activeTab, setActiveTab] = React.useState<OS>("windows");
-
-  React.useEffect(() => {
-    if (detectedOS) {
-      setActiveTab(detectedOS);
-    }
-  }, [detectedOS]);
+  const [os, setOs] = useOS();
 
   return (
     <Tabs
-      value={activeTab}
-      onValueChange={(v) => setActiveTab(v as OS)}
+      value={os ?? "linux"}
+      onValueChange={(v) => setOs(v as OS)}
       className="mt-8"
     >
       <TabsList variant="line">

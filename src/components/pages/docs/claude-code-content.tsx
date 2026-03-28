@@ -8,8 +8,7 @@ import { PageHeader } from "@/components/elements/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getCookieValue } from "@/lib/utils/server";
-import { API_KEY_COOKIE } from "@/store/api-key-store";
+import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import Claude from "@lobehub/icons/es/Claude";
 import { OSTabs } from "./os-tabs";
@@ -35,10 +34,7 @@ export async function ClaudeCodeContent() {
     t("DOCS.TOC_TITLE"),
   );
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiKey =
-    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "your-api-key-here";
-  const placeholder = "your-api-key-here";
+  const docs = await getDocsApiKey();
 
   const features = [
     { titleKey: "FEATURE_AGENTIC_TITLE", descKey: "FEATURE_AGENTIC_DESC" },
@@ -246,7 +242,7 @@ npm install -g @anthropic-ai/claude-code`}
         {/* CC Switch Quick Setup */}
         <CCSwitchSetup
           app="claude"
-          endpoint={apiUrl!}
+          endpoint={docs.apiUrl}
           cliCodeBlock={
             <CodeBlock language="bash" code="cc-switch provider add" />
           }
@@ -269,15 +265,17 @@ npm install -g @anthropic-ai/claude-code`}
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
           {(() => {
-            const configCode = `// ~/.claude/settings.json
-{
+            const configCode = `{
   "env": {
-    "ANTHROPIC_BASE_URL": "${apiUrl}",
-    "ANTHROPIC_API_KEY": "${apiKey}"
+    "ANTHROPIC_BASE_URL": "${docs.apiUrl}",
+    "ANTHROPIC_API_KEY": "${docs.displayKey}"
   }
 }`;
             return (
-              <ApiKeyCodeBlock code={configCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={configCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+                <p className="text-muted-foreground mb-1 font-mono text-xs">
+                  ~/.claude/settings.json
+                </p>
                 <CodeBlock language="json" code={configCode} />
               </ApiKeyCodeBlock>
             );
@@ -291,10 +289,10 @@ npm install -g @anthropic-ai/claude-code`}
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
           {(() => {
-            const envCode = `export ANTHROPIC_BASE_URL="${apiUrl}"
-export ANTHROPIC_API_KEY="${apiKey}"`;
+            const envCode = `export ANTHROPIC_BASE_URL="${docs.apiUrl}"
+export ANTHROPIC_API_KEY="${docs.displayKey}"`;
             return (
-              <ApiKeyCodeBlock code={envCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={envCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
                 <CodeBlock language="bash" code={envCode} />
               </ApiKeyCodeBlock>
             );

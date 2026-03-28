@@ -8,17 +8,14 @@ import { Callout } from "@/components/elements/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
-import { getCookieValue } from "@/lib/utils/server";
-import { API_KEY_COOKIE } from "@/store/api-key-store";
+import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { GiCrabClaw } from "react-icons/gi";
 import { CCSwitchSetup } from "./cc-switch-setup";
 
 export async function OpenClawContent() {
   const t = await getTranslations();
-  const apiKey =
-    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "YOUR_API_KEY";
-  const placeholder = "YOUR_API_KEY";
+  const docs = await getDocsApiKey("YOUR_API_KEY");
 
   const toc = createTOC(
     [
@@ -166,7 +163,7 @@ openclaw onboard`}
           {(() => {
             const configCode = `{
   "env": {
-    "OPENAI_API_KEY": "${apiKey}"
+    "OPENAI_API_KEY": "${docs.displayKey}"
   },
   "agents": {
     "defaults": {
@@ -183,7 +180,7 @@ openclaw onboard`}
   }
 }`;
             return (
-              <ApiKeyCodeBlock code={configCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={configCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
                 <CodeBlock language="json" code={configCode} />
               </ApiKeyCodeBlock>
             );

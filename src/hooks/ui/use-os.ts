@@ -1,6 +1,6 @@
 "use client";
 
-import { osAtom } from "@/store/os-store";
+import { osAtom } from "@/store/docs-store";
 import { useAtom } from "jotai";
 import * as React from "react";
 

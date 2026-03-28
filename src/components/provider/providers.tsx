@@ -1,6 +1,6 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getCookieValue } from "@/lib/utils/server";
-import { API_KEY_COOKIE } from "@/store/api-key-store";
+import { DOCS_STORE_KEY, type DocsState } from "@/store/docs-store";
 import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
 import {
   NAVIGATION_STORE_KEY,
@@ -21,7 +21,7 @@ export function Providers(props: { children: ReactNode }) {
     getCookieValue<NavigationState>(NAVIGATION_STORE_KEY),
   );
   const modelsStore = use(getCookieValue<ModelsStoreState>(MODELS_STORE_KEY));
-  const apiKey = use(getCookieValue<string>(API_KEY_COOKIE));
+  const docsStore = use(getCookieValue<DocsState>(DOCS_STORE_KEY));
 
   return (
     <QueryProvider>
@@ -29,7 +29,7 @@ export function Providers(props: { children: ReactNode }) {
         <NavigationStoreProvider data={navigationStore}>
           <ModelsStoreProvider data={modelsStore}>
             <UserProvider>
-              <ApiKeyProvider data={apiKey}>
+              <ApiKeyProvider data={docsStore}>
                 <LanguageProvider>
                   <ThemeProvider>
                     <TooltipProvider>{props.children}</TooltipProvider>

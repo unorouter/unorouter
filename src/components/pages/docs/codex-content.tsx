@@ -8,8 +8,7 @@ import { Callout } from "@/components/elements/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
-import { getCookieValue } from "@/lib/utils/server";
-import { API_KEY_COOKIE } from "@/store/api-key-store";
+import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import { OSTabs } from "./os-tabs";
@@ -32,10 +31,7 @@ export async function CodexContent() {
     },
   ]);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  const apiKey =
-    (await getCookieValue<string>(API_KEY_COOKIE)) ?? "your-api-key-here";
-  const placeholder = "your-api-key-here";
+  const docs = await getDocsApiKey();
 
   const windowsInstall = (
     <div className="mt-6 space-y-6">
@@ -182,24 +178,28 @@ export async function CodexContent() {
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
           {(() => {
-            const authCode = `// ~/.codex/auth.json
-{
-  "OPENAI_API_KEY": "${apiKey}"
+            const authCode = `{
+  "OPENAI_API_KEY": "${docs.displayKey}"
 }`;
             return (
-              <ApiKeyCodeBlock code={authCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={authCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
+                <p className="text-muted-foreground mb-1 font-mono text-xs">
+                  ~/.codex/auth.json
+                </p>
                 <CodeBlock language="json" code={authCode} />
               </ApiKeyCodeBlock>
             );
           })()}
           <div className="mt-4" />
+          <p className="text-muted-foreground mb-1 font-mono text-xs">
+            ~/.codex/config.toml
+          </p>
           <CodeBlock
             language="toml"
-            code={`# ~/.codex/config.toml
-model = "o3-mini"
+            code={`model = "o3-mini"
 
 [model_providers.custom]
-base_url = "${apiUrl}/v1"
+base_url = "${docs.apiUrl}/v1"
 wire_api = "responses"`}
           />
 
@@ -211,10 +211,10 @@ wire_api = "responses"`}
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
           {(() => {
-            const envCode = `export OPENAI_BASE_URL="${apiUrl}/v1"
-export OPENAI_API_KEY="${apiKey}"`;
+            const envCode = `export OPENAI_BASE_URL="${docs.apiUrl}/v1"
+export OPENAI_API_KEY="${docs.displayKey}"`;
             return (
-              <ApiKeyCodeBlock code={envCode} placeholder={placeholder}>
+              <ApiKeyCodeBlock code={envCode} placeholder={docs.placeholder} apiKey={docs.rawApiKey} initialRevealed={docs.isRevealed}>
                 <CodeBlock language="bash" code={envCode} />
               </ApiKeyCodeBlock>
             );

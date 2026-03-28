@@ -6,7 +6,7 @@ import {
   useFetchTokenKeyMutation,
   useTokensQuery,
 } from "@/hooks/token-hook";
-import { apiKeyAtom } from "@/store/api-key-store";
+import { apiKeyAtom } from "@/store/docs-store";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 

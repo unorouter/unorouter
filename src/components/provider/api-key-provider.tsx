@@ -1,15 +1,21 @@
 "use client";
 
 import { useSuitableToken } from "@/hooks/use-suitable-token";
-import { apiKeyAtom } from "@/store/api-key-store";
+import {
+  docsStoreAtom,
+  INITIAL_DOCS_STATE,
+  type DocsState,
+} from "@/store/docs-store";
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";
 
 export function ApiKeyProvider(props: {
   children: ReactNode;
-  data?: string | null;
+  data?: DocsState;
 }) {
-  useHydrateAtoms([[apiKeyAtom, props.data ?? null]]);
+  useHydrateAtoms([
+    [docsStoreAtom, props.data ?? INITIAL_DOCS_STATE],
+  ]);
 
   // Trigger token resolution so the key gets written to the atom/cookie
   useSuitableToken();
