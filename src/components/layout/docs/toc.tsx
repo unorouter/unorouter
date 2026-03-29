@@ -206,7 +206,7 @@ function TOCPanel(props: { className?: string }) {
   return (
     <aside
       className={cn(
-        "sticky top-4 hidden h-fit max-h-[calc(100vh-6rem)] w-56 shrink-0 overflow-hidden lg:block",
+        "sticky top-16 hidden h-fit max-h-[calc(100svh-6rem)] w-56 shrink-0 overflow-hidden lg:block",
         "animate-in fade-in duration-150",
         props.className,
       )}

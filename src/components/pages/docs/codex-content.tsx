@@ -2,6 +2,7 @@ import { Callout } from "@/components/elements/content/callout";
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { OSCodeBlock } from "./os-code-block";
 import { buildOSVariants, envVarCode } from "./os-code-helpers";
+import { OS } from "@/lib/types/enums";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
@@ -126,14 +127,14 @@ wire_api = "responses"`;
   };
 
   const envVariants = await buildOSVariants({
-    windows: { code: envVarCode(envVars, "windows"), language: "powershell" },
+    windows: { code: envVarCode(envVars, OS.WINDOWS), language: "powershell" },
     macos: {
-      code: envVarCode(envVars, "macos"),
+      code: envVarCode(envVars, OS.MACOS),
       language: "bash",
       label: "~/.zshrc",
     },
     linux: {
-      code: envVarCode(envVars, "linux"),
+      code: envVarCode(envVars, OS.LINUX),
       language: "bash",
       label: "~/.bashrc",
     },

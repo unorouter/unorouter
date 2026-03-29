@@ -8,7 +8,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { useDocs } from "@/hooks/ui/use-docs";
-import type { OS } from "@/store/docs-store";
+import { OS } from "@/lib/types/enums";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
 export type OSCodeVariant = {
@@ -25,9 +25,9 @@ type OSCodeBlockProps = {
 };
 
 const osTabs = [
-  { value: "windows" as const, icon: FaWindows, label: "Windows" },
-  { value: "macos" as const, icon: FaApple, label: "macOS" },
-  { value: "linux" as const, icon: FaLinux, label: "Linux" },
+  { value: OS.WINDOWS, icon: FaWindows, label: "Windows" },
+  { value: OS.MACOS, icon: FaApple, label: "macOS" },
+  { value: OS.LINUX, icon: FaLinux, label: "Linux" },
 ];
 
 export function OSCodeBlock(props: OSCodeBlockProps) {

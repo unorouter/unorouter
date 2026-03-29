@@ -35,6 +35,14 @@ export enum Vendor {
   ZHIPU = "zhipu",
 }
 
+export enum OS {
+  WINDOWS = "windows",
+  MACOS = "macos",
+  LINUX = "linux",
+}
+
+export const OS_VALUES = Object.values(OS);
+
 export enum DataTableId {
   TOKENS = "TOKENS",
   LOGS = "LOGS",

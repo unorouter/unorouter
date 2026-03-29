@@ -7,7 +7,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { useDocs } from "@/hooks/ui/use-docs";
-import type { OS } from "@/store/docs-store";
+import { OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
@@ -16,9 +16,9 @@ type Props = {
 };
 
 const osTabs = [
-  { value: "windows" as const, icon: FaWindows, label: "Windows" },
-  { value: "macos" as const, icon: FaApple, label: "macOS" },
-  { value: "linux" as const, icon: FaLinux, label: "Linux" },
+  { value: OS.WINDOWS, icon: FaWindows, label: "Windows" },
+  { value: OS.MACOS, icon: FaApple, label: "macOS" },
+  { value: OS.LINUX, icon: FaLinux, label: "Linux" },
 ];
 
 export function OSQuickStart(props: Props) {

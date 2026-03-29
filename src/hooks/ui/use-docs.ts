@@ -7,6 +7,7 @@ import {
   useTokensQuery,
 } from "@/hooks/token-hook";
 import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
+import { OS } from "@/lib/types/enums";
 import { apiKeyAtom, osAtom } from "@/store/docs-store";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
@@ -32,11 +33,11 @@ export function useDocs() {
     if (os) return;
     const ua = navigator.userAgent;
     if (ua.includes("Win")) {
-      setOs("windows");
+      setOs(OS.WINDOWS);
     } else if (ua.includes("Mac")) {
-      setOs("macos");
+      setOs(OS.MACOS);
     } else {
-      setOs("linux");
+      setOs(OS.LINUX);
     }
   }, [os, setOs]);
 

@@ -1,5 +1,5 @@
 import { TranslationKey } from "@/lib/config/constants";
-import type { OS } from "@/store/docs-store";
+import type { OS } from "@/lib/types/enums";
 
 export type IntegrationIconKey =
   | "cc-switch"

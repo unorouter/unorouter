@@ -17,6 +17,7 @@ import Gemini from "@lobehub/icons/es/Gemini";
 import { CCSwitchSetup } from "./cc-switch-setup";
 import { OSCodeBlock } from "./os-code-block";
 import { buildOSVariants, envVarCode } from "./os-code-helpers";
+import { OS } from "@/lib/types/enums";
 import { OSTabs } from "./os-tabs";
 
 export async function GeminiCliContent() {
@@ -61,31 +62,31 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
 
   const quickStartVariants = await buildOSVariants({
     windows: {
-      code: `${envVarCode(envVars, "windows")}\n\n# Then run Gemini CLI\ngemini`,
+      code: `${envVarCode(envVars, OS.WINDOWS)}\n\n# Then run Gemini CLI\ngemini`,
       language: "powershell",
     },
     macos: {
-      code: `${envVarCode(envVars, "macos")}\n\n# Then run Gemini CLI\ngemini`,
+      code: `${envVarCode(envVars, OS.MACOS)}\n\n# Then run Gemini CLI\ngemini`,
       language: "bash",
     },
     linux: {
-      code: `${envVarCode(envVars, "linux")}\n\n# Then run Gemini CLI\ngemini`,
+      code: `${envVarCode(envVars, OS.LINUX)}\n\n# Then run Gemini CLI\ngemini`,
       language: "bash",
     },
   });
 
   const envVariants = await buildOSVariants({
     windows: {
-      code: envVarCode(envVars, "windows"),
+      code: envVarCode(envVars, OS.WINDOWS),
       language: "powershell",
     },
     macos: {
-      code: envVarCode(envVars, "macos"),
+      code: envVarCode(envVars, OS.MACOS),
       language: "bash",
       label: "~/.zshrc",
     },
     linux: {
-      code: envVarCode(envVars, "linux"),
+      code: envVarCode(envVars, OS.LINUX),
       language: "bash",
       label: "~/.bashrc",
     },

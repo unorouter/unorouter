@@ -1,8 +1,7 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { OS } from "@/lib/types/enums";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-
-export type OS = "windows" | "macos" | "linux";
 
 export type DocsState = {
   apiKey: string | null;
@@ -15,7 +14,7 @@ export const DOCS_STORE_KEY = "docs-store";
 export const INITIAL_DOCS_STATE: DocsState = {
   apiKey: null,
   apiKeyRevealed: false,
-  os: "windows",
+  os: OS.WINDOWS,
 };
 
 export const docsStoreAtom = atomWithStorage<DocsState>(

@@ -13,6 +13,7 @@ import { getTranslations } from "next-intl/server";
 import { CCSwitchSetup } from "./cc-switch-setup";
 import { OSCodeBlock } from "./os-code-block";
 import { buildOSVariants, envVarCode } from "./os-code-helpers";
+import { OS } from "@/lib/types/enums";
 import { OSTabs } from "./os-tabs";
 
 export async function ClaudeCodeContent() {
@@ -227,16 +228,16 @@ npm install -g @anthropic-ai/claude-code`}
 
   const envVariants = await buildOSVariants({
     windows: {
-      code: envVarCode(envVars, "windows"),
+      code: envVarCode(envVars, OS.WINDOWS),
       language: "powershell",
     },
     macos: {
-      code: envVarCode(envVars, "macos"),
+      code: envVarCode(envVars, OS.MACOS),
       language: "bash",
       label: "~/.zshrc",
     },
     linux: {
-      code: envVarCode(envVars, "linux"),
+      code: envVarCode(envVars, OS.LINUX),
       language: "bash",
       label: "~/.bashrc",
     },

@@ -1,7 +1,9 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
+import { OSCodeBlock } from "@/components/pages/docs/os-code-block";
+import { buildOSVariants } from "@/components/pages/docs/os-code-helpers";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import type { OS } from "@/store/docs-store";
+import { OS, OS_VALUES } from "@/lib/types/enums";
 import Claude from "@lobehub/icons/es/Claude";
 import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
@@ -30,6 +32,9 @@ export async function IntegrationRow(props: {
   const t = await getTranslations();
 
   const Icon = iconMap[props.integration.iconKey];
+  const hasApiKey = Object.values(props.integration.quickStart).some((code) =>
+    code.includes("YOUR_API_KEY"),
+  );
 
   return (
     <div
@@ -90,20 +95,40 @@ export async function IntegrationRow(props: {
           <p className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
             {t("DOCS_INDEX.QUICK_START")}
           </p>
-          <OSQuickStart
-            variants={
-              Object.fromEntries(
-                (["windows", "macos", "linux"] as const).map((os) => [
-                  os,
-                  <CodeBlock
-                    key={os}
-                    language={os === "windows" ? "powershell" : "bash"}
-                    code={props.integration.quickStart[os]}
-                  />,
-                ]),
-              ) as Record<OS, React.ReactNode>
-            }
-          />
+          {hasApiKey ? (
+            <OSCodeBlock
+              placeholder="YOUR_API_KEY"
+              variants={await buildOSVariants({
+                windows: {
+                  code: props.integration.quickStart.windows,
+                  language: "powershell",
+                },
+                macos: {
+                  code: props.integration.quickStart.macos,
+                  language: "bash",
+                },
+                linux: {
+                  code: props.integration.quickStart.linux,
+                  language: "bash",
+                },
+              })}
+            />
+          ) : (
+            <OSQuickStart
+              variants={
+                Object.fromEntries(
+                  OS_VALUES.map((os) => [
+                    os,
+                    <CodeBlock
+                      key={os}
+                      language={os === OS.WINDOWS ? "powershell" : "bash"}
+                      code={props.integration.quickStart[os]}
+                    />,
+                  ]),
+                ) as Record<OS, React.ReactNode>
+              }
+            />
+          )}
         </div>
       </div>
     </div>

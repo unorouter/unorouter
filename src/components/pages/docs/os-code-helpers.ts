@@ -1,5 +1,5 @@
 import { highlightCode } from "@/components/elements/code/code-block";
-import type { OS } from "@/store/docs-store";
+import { OS } from "@/lib/types/enums";
 import type { OSCodeVariant } from "./os-code-block";
 
 type VariantInput = {
@@ -30,9 +30,9 @@ export async function buildOSVariants(
 /** Helper to build env var export syntax per OS. */
 export function envVarCode(
   vars: Record<string, string>,
-  os: "windows" | "macos" | "linux",
+  os: OS,
 ): string {
-  if (os === "windows") {
+  if (os === OS.WINDOWS) {
     return Object.entries(vars)
       .map(([k, v]) => `$env:${k}="${v}"`)
       .join("\n");

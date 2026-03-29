@@ -22,7 +22,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
   useEffect(() => setMounted(true), []);
 
   return (
-    <header className="flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
+    <header className="bg-background sticky top-0 z-20 flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
       <div className="flex h-full w-full items-center gap-3 px-4">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mx-2 h-8 self-auto!" />
