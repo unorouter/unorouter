@@ -10,9 +10,12 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { LuArrowLeftRight } from "react-icons/lu";
 import { OSTabs } from "./os-tabs";
+import { CCSwitchDeepLinks } from "./cc-switch-deep-links";
+import { getDocsApiKey } from "@/lib/utils/server";
 
 export async function CCSwitchContent() {
   const t = await getTranslations();
+  const docs = await getDocsApiKey();
 
   const toc = createTOC(
     [
@@ -200,33 +203,19 @@ brew install --cask cc-switch`}
             <p>{t("DOCS.CC_SWITCH.DEEP_LINK_DESC", APP_VALUES)}</p>
           </Callout>
 
-          <div className="mt-6 space-y-4">
-            <h3 className="text-lg font-medium">
-              {t("DOCS.CC_SWITCH.DEEP_LINK_EXAMPLES")}
-            </h3>
-            <div className="space-y-3">
-              {(
-                [
-                  { label: "Claude Code", app: "claude", suffix: "" },
-                  { label: "Codex CLI", app: "codex", suffix: "/v1" },
-                  { label: "Gemini CLI", app: "gemini", suffix: "" },
-                  { label: "OpenClaw", app: "openclaw", suffix: "/v1" },
-                ] as const
-              ).map((item) => (
-                <div key={item.app}>
-                  <p className="text-sm font-medium">{item.label}</p>
-                  <CodeBlock
-                    language="text"
-                    code={`ccswitch://v1/import?resource=provider&app=${item.app}&name=UnoRouter&endpoint=${encodeURIComponent(`${process.env.NEXT_PUBLIC_API_URL}${item.suffix}`)}`}
-                  />
-                </div>
-              ))}
-            </div>
-
-            <h3 className="mt-6 text-lg font-medium">
-              {t("DOCS.CC_SWITCH.CLI_ALTERNATIVE")}
-            </h3>
-            <CodeBlock language="bash" code="cc-switch provider add" />
+          <div className="mt-6">
+            <CCSwitchDeepLinks
+              apiUrl={docs.apiUrl}
+              apps={[
+                { label: "Claude Code", app: "claude", suffix: "" },
+                { label: "Codex CLI", app: "codex", suffix: "/v1" },
+                { label: "Gemini CLI", app: "gemini", suffix: "" },
+                { label: "OpenClaw", app: "openclaw", suffix: "/v1" },
+              ]}
+              cliCodeBlock={
+                <CodeBlock language="bash" code="cc-switch provider add" />
+              }
+            />
           </div>
         </section>
 
