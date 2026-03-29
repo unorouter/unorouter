@@ -64,10 +64,7 @@ export function useCreateTokenMutation() {
     mutationFn: async (args: EdenArgs<typeof tokenRoute, "post">) =>
       handleElysia(await rpc.api.token.post(args.body)),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
-        queryKey,
-        (old) => (old ? { ...old, total: old.total + 1 } : old),
-      );
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 }
