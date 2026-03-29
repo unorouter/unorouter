@@ -5,6 +5,14 @@ import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -12,14 +20,21 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
@@ -27,11 +42,14 @@ import {
   useToggleTokenStatusMutation,
   useUpdateTokenMutation,
 } from "@/hooks/token-hook";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
+import { cn } from "@/lib/utils";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
+import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -40,10 +58,12 @@ import {
   LuCopy,
   LuEye,
   LuEyeOff,
+  LuGlobe,
   LuKey,
   LuPlus,
   LuPower,
   LuPowerOff,
+  LuShield,
   LuTrash2,
   LuWallet,
 } from "react-icons/lu";
@@ -87,6 +107,11 @@ export function TokenDialog(props: TokenDialogProps) {
         name: props.token.name || "",
         remain_quota: props.token.remain_quota ?? 0,
         unlimited_quota: !!props.token.unlimited_quota,
+        model_limits_enabled: !!props.token.model_limits_enabled,
+        model_limits: props.token.model_limits
+          ? props.token.model_limits.split(",").filter(Boolean)
+          : [],
+        allow_ips: props.token.allow_ips ?? "",
       });
       setRevealedKey(null);
     } else if (props.open && !props.token) {
@@ -162,9 +187,11 @@ export function TokenDialog(props: TokenDialogProps) {
       remain_quota: data.unlimited_quota ? 0 : data.remain_quota,
       expired_time: -1,
       unlimited_quota: data.unlimited_quota,
-      model_limits_enabled: false,
-      model_limits: "",
-      allow_ips: "",
+      model_limits_enabled: data.model_limits_enabled,
+      model_limits: data.model_limits_enabled
+        ? data.model_limits.join(",")
+        : "",
+      allow_ips: data.allow_ips.trim(),
       group: "auto",
       cross_group_retry: true,
     };
@@ -206,6 +233,21 @@ export function TokenDialog(props: TokenDialogProps) {
     }
   }
 
+  const pricingQuery = usePricingQuery();
+  const modelsByVendor = (() => {
+    const models = pricingQuery.data?.models ?? [];
+    const grouped = new Map<string, { name: string; vendor: string }[]>();
+    for (const m of models) {
+      const vendor = m.vendor.name;
+      const list = grouped.get(vendor);
+      if (list) list.push({ name: m.name, vendor });
+      else grouped.set(vendor, [{ name: m.name, vendor }]);
+    }
+    return [...grouped.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([vendor, items]) => ({ vendor, models: items }));
+  })();
+
   const isPending = createMutation.isPending || updateMutation.isPending;
   const isEnabled = props.token?.status === 1;
   const displayKey = props.token
@@ -216,10 +258,12 @@ export function TokenDialog(props: TokenDialogProps) {
 
   const unlimitedQuota = form.watch("unlimited_quota");
   const remainQuota = form.watch("remain_quota");
+  const modelLimitsEnabled = form.watch("model_limits_enabled");
+  const selectedModels = form.watch("model_limits");
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
             {isEdit ? t("TOKEN.EDIT") : t("TOKEN.CREATE")}
@@ -376,6 +420,219 @@ export function TokenDialog(props: TokenDialogProps) {
                     </>
                   )}
                 </div>
+              </div>
+
+              <Separator />
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <LuShield className="text-muted-foreground h-4 w-4" />
+                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                    {t("TOKEN.MODEL_LIMITS")}
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-4">
+                  <MyFormSwitch
+                    control={form.control}
+                    name="model_limits_enabled"
+                    label={t("TOKEN.MODEL_LIMITS")}
+                    description={t("TOKEN.MODEL_LIMITS_DESC")}
+                    size="sm"
+                  />
+
+                  {modelLimitsEnabled && (
+                    <FormField
+                      control={form.control}
+                      name="model_limits"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Popover>
+                            <PopoverTrigger
+                              render={
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    className="h-auto min-h-9 w-full items-center justify-between gap-2 px-2 py-1.5 font-normal"
+                                  >
+                                    <div className="flex min-w-0 flex-1 flex-wrap gap-1">
+                                      {selectedModels.length > 0 ? (
+                                        selectedModels.map((modelName) => {
+                                          const vendor =
+                                            modelsByVendor.find((g) =>
+                                              g.models.some(
+                                                (m) => m.name === modelName,
+                                              ),
+                                            )?.vendor;
+                                          return (
+                                            <Badge
+                                              key={modelName}
+                                              variant="secondary"
+                                              className="gap-1 rounded-sm px-1.5 py-0.5 font-mono text-[10px]"
+                                            >
+                                              {vendor && (
+                                                <VendorIcon
+                                                  vendor={vendor}
+                                                  size={12}
+                                                  className="shrink-0"
+                                                />
+                                              )}
+                                              {modelName}
+                                              <span
+                                                role="button"
+                                                tabIndex={0}
+                                                onClick={(e) => {
+                                                  e.stopPropagation();
+                                                  field.onChange(
+                                                    selectedModels.filter(
+                                                      (m) => m !== modelName,
+                                                    ),
+                                                  );
+                                                }}
+                                                onKeyDown={(e) => {
+                                                  if (e.key === "Enter" || e.key === " ") {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    field.onChange(
+                                                      selectedModels.filter(
+                                                        (m) => m !== modelName,
+                                                      ),
+                                                    );
+                                                  }
+                                                }}
+                                                className="hover:text-foreground text-muted-foreground ml-0.5 cursor-pointer"
+                                              >
+                                                <X className="h-3 w-3" />
+                                              </span>
+                                            </Badge>
+                                          );
+                                        })
+                                      ) : (
+                                        <span className="text-muted-foreground text-xs">
+                                          {t(
+                                            "TOKEN.MODEL_LIMITS_PLACEHOLDER",
+                                          )}
+                                        </span>
+                                      )}
+                                    </div>
+                                    <ChevronsUpDown className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+                                  </Button>
+                                </FormControl>
+                              }
+                            />
+                            <PopoverContent
+                              className="w-[--radix-popover-trigger-width] p-0"
+                              align="start"
+                            >
+                              <Command>
+                                <CommandInput
+                                  placeholder={t(
+                                    "TOKEN.MODEL_SELECT_PLACEHOLDER",
+                                  )}
+                                />
+                                <CommandList className="max-h-64">
+                                  <CommandEmpty>
+                                    {t("TOKEN.MODEL_SELECT_EMPTY")}
+                                  </CommandEmpty>
+                                  {modelsByVendor.map((group) => (
+                                    <CommandGroup
+                                      key={group.vendor}
+                                      heading={
+                                        <div className="flex items-center gap-1.5">
+                                          <VendorIcon
+                                            vendor={group.vendor}
+                                            size={14}
+                                          />
+                                          <span>{group.vendor}</span>
+                                          <span className="text-muted-foreground ml-auto font-mono text-[10px]">
+                                            {group.models.length}
+                                          </span>
+                                        </div>
+                                      }
+                                    >
+                                      {group.models.map((model) => {
+                                        const isSelected =
+                                          selectedModels.includes(model.name);
+                                        return (
+                                          <CommandItem
+                                            key={model.name}
+                                            value={model.name}
+                                            onSelect={() => {
+                                              const next = isSelected
+                                                ? selectedModels.filter(
+                                                    (m) => m !== model.name,
+                                                  )
+                                                : [
+                                                    ...selectedModels,
+                                                    model.name,
+                                                  ];
+                                              field.onChange(next);
+                                            }}
+                                            className="[&>svg]:hidden"
+                                          >
+                                            <div
+                                              className={cn(
+                                                "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
+                                                isSelected
+                                                  ? "bg-primary text-primary-foreground"
+                                                  : "opacity-50 [&_svg]:invisible",
+                                              )}
+                                            >
+                                              <Check className="h-4 w-4" />
+                                            </div>
+                                            <VendorIcon
+                                              vendor={model.vendor}
+                                              size={14}
+                                              className="mr-1.5 shrink-0"
+                                            />
+                                            <span className="truncate font-mono text-xs">
+                                              {model.name}
+                                            </span>
+                                          </CommandItem>
+                                        );
+                                      })}
+                                    </CommandGroup>
+                                  ))}
+                                </CommandList>
+                              </Command>
+                            </PopoverContent>
+                          </Popover>
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <Separator />
+
+              <div>
+                <div className="mb-3 flex items-center gap-2">
+                  <LuGlobe className="text-muted-foreground h-4 w-4" />
+                  <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                    {t("TOKEN.IP_WHITELIST")}
+                  </span>
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="allow_ips"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder={t("TOKEN.IP_WHITELIST_PLACEHOLDER")}
+                          rows={3}
+                          className="font-mono text-xs"
+                        />
+                      </FormControl>
+                      <p className="text-muted-foreground text-[11px]">
+                        {t("TOKEN.IP_WHITELIST_DESC")}
+                      </p>
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
 

@@ -45,6 +45,10 @@ export default async function TokensPage() {
           }),
         ),
     }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.pricing(),
+      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+    }),
   ]);
 
   return (
