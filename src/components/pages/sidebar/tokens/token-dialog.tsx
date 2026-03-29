@@ -101,10 +101,13 @@ export function TokenDialog(props: TokenDialogProps) {
       setRevealedKey(null);
       return;
     }
-    fetchKeyMutation.mutate({ id: props.token.id }, {
-      onSuccess: (data) => setRevealedKey(data.key),
-      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
-    });
+    fetchKeyMutation.mutate(
+      { id: props.token.id },
+      {
+        onSuccess: (data) => setRevealedKey(data.key),
+        onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
+      },
+    );
   }
 
   function handleCopyKey() {
@@ -116,7 +119,9 @@ export function TokenDialog(props: TokenDialogProps) {
     }
     const tokenId = props.token.id;
     copyToClipboardAsync(() =>
-      fetchKeyMutation.mutateAsync({ id: tokenId }).then((data) => `sk-${data.key}`),
+      fetchKeyMutation
+        .mutateAsync({ id: tokenId })
+        .then((data) => `sk-${data.key}`),
     )
       .then(() => toast.success(t("TOKEN.KEY_COPIED")))
       .catch(() => toast.error(t("TOKEN.FETCH_KEY_FAILED")));
@@ -139,13 +144,16 @@ export function TokenDialog(props: TokenDialogProps) {
 
   function handleDelete() {
     if (!props.token) return;
-    deleteMutation.mutate({ id: props.token.id }, {
-      onSuccess: () => {
-        toast.success(t("TOKEN.DELETED_SUCCESS"));
-        props.onOpenChange(false);
+    deleteMutation.mutate(
+      { id: props.token.id },
+      {
+        onSuccess: () => {
+          toast.success(t("TOKEN.DELETED_SUCCESS"));
+          props.onOpenChange(false);
+        },
+        onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
       },
-      onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
-    });
+    );
   }
 
   function onSubmit(data: TokenFormSchema) {
@@ -163,7 +171,13 @@ export function TokenDialog(props: TokenDialogProps) {
 
     if (isEdit) {
       updateMutation.mutate(
-        { body: { id: props.token!.id, status: props.token!.status, ...payload } },
+        {
+          body: {
+            id: props.token!.id,
+            status: props.token!.status,
+            ...payload,
+          },
+        },
         {
           onSuccess: () => {
             toast.success(t("TOKEN.UPDATED_SUCCESS"));
@@ -176,16 +190,19 @@ export function TokenDialog(props: TokenDialogProps) {
         },
       );
     } else {
-      createMutation.mutate({ body: payload }, {
-        onSuccess: () => {
-          toast.success(t("TOKEN.CREATED_SUCCESS"));
-          props.onOpenChange(false);
+      createMutation.mutate(
+        { body: payload },
+        {
+          onSuccess: () => {
+            toast.success(t("TOKEN.CREATED_SUCCESS"));
+            props.onOpenChange(false);
+          },
+          onError: (err) =>
+            toast.error(
+              err instanceof Error ? err.message : "Failed to create token",
+            ),
         },
-        onError: (err) =>
-          toast.error(
-            err instanceof Error ? err.message : "Failed to create token",
-          ),
-      });
+      );
     }
   }
 

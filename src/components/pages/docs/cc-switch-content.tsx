@@ -202,10 +202,7 @@ brew install --cask cc-switch`}
             <h3 className="mt-6 text-lg font-medium">
               {t("DOCS.CC_SWITCH.CLI_ALTERNATIVE")}
             </h3>
-            <CodeBlock
-              language="bash"
-              code="cc-switch provider add"
-            />
+            <CodeBlock language="bash" code="cc-switch provider add" />
           </div>
         </section>
 

@@ -67,29 +67,35 @@ export function Setup2FADialog(props: {
   }
 
   function onSubmitEnable(data: TwoFACodeSchema) {
-    enable2FAMutation.mutate({ body: { code: data.code } }, {
-      onSuccess: () => {
-        toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_ENABLED"));
-        props.onOpenChange(false);
-        resetState();
+    enable2FAMutation.mutate(
+      { body: { code: data.code } },
+      {
+        onSuccess: () => {
+          toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_ENABLED"));
+          props.onOpenChange(false);
+          resetState();
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
       },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
+    );
   }
 
   function onSubmitDisable(data: TwoFACodeSchema) {
-    disable2FAMutation.mutate({ body: { code: data.code } }, {
-      onSuccess: () => {
-        toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_DISABLED"));
-        props.onOpenChange(false);
-        resetState();
+    disable2FAMutation.mutate(
+      { body: { code: data.code } },
+      {
+        onSuccess: () => {
+          toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_DISABLED"));
+          props.onOpenChange(false);
+          resetState();
+        },
+        onError: (error) => {
+          toast.error(error.message);
+        },
       },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
+    );
   }
 
   function resetState() {

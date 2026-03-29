@@ -73,7 +73,9 @@ type ExtractBodyAndQuery<TFn> = TFn extends (...args: any[]) => any
       : // First param is body (POST/PUT/PATCH/DELETE style)
         [unknown] extends [Parameters<TFn>[0]]
         ? {}
-        : { body: Parameters<TFn>[0] } & ExtractQuery<Parameters<TFn>[1]>
+        : { body: NonNullable<Parameters<TFn>[0]> } & ExtractQuery<
+            Parameters<TFn>[1]
+          >
     : {}
   : {};
 
@@ -116,10 +118,10 @@ type ShouldIncludeParams<TRoute, TMethod extends string> = TRoute extends (
  * type E = EdenArgs<typeof rpc.api.token, "post">;
  * // { body: { name: string; ... } }  (no id)
  */
-export type EdenArgs<
+export type EdenArgs<TRoute, TMethod extends string> = (ShouldIncludeParams<
   TRoute,
-  TMethod extends string,
-> = (ShouldIncludeParams<TRoute, TMethod> extends true
+  TMethod
+> extends true
   ? ExtractParams<TRoute>
   : {}) &
   ExtractBodyAndQuery<ResolveMethod<TRoute, TMethod>>;

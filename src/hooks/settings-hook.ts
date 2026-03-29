@@ -37,9 +37,8 @@ export function useGenerateAccessTokenMutation() {
 export function useUpdateSelfMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.settings.self, "put">,
-    ) => handleElysia(await rpc.api.settings.self.put(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.settings.self, "put">) =>
+      handleElysia(await rpc.api.settings.self.put(args.body)),
     onSuccess: (_, args) => {
       const body = args.body;
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
@@ -101,9 +100,7 @@ export function useSetup2FAMutation() {
 export function useEnable2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<(typeof twoFA)["enable"], "post">,
-    ) =>
+    mutationFn: async (args: EdenArgs<(typeof twoFA)["enable"], "post">) =>
       handleElysia(await rpc.api.settings["2fa"].enable.post(args.body)),
     onSuccess: () => {
       queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
@@ -117,9 +114,7 @@ export function useEnable2FAMutation() {
 export function useDisable2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<(typeof twoFA)["disable"], "post">,
-    ) =>
+    mutationFn: async (args: EdenArgs<(typeof twoFA)["disable"], "post">) =>
       handleElysia(await rpc.api.settings["2fa"].disable.post(args.body)),
     onSuccess: () => {
       queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
@@ -141,10 +136,7 @@ export function usePasskeyRegisterFinishMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<
-        typeof rpc.api.settings.passkey.register.finish,
-        "post"
-      >,
+      args: EdenArgs<typeof rpc.api.settings.passkey.register.finish, "post">,
     ) =>
       handleElysia(
         await rpc.api.settings.passkey.register.finish.post(args.body),

@@ -30,7 +30,7 @@ export function ModelListItem(props: {
     <div
       onClick={props.onClick}
       className={cn(
-        "flex cursor-pointer items-center gap-4 rounded-lg border px-4 py-3 transition-all hover:bg-muted/50",
+        "hover:bg-muted/50 flex cursor-pointer items-center gap-4 rounded-lg border px-4 py-3 transition-all",
         theme.border,
       )}
     >
@@ -81,7 +81,9 @@ export function ModelListItem(props: {
         <div className="flex items-baseline gap-1">
           {model.isFixedPrice ? (
             <>
-              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+              <span
+                className={cn("font-mono text-sm font-semibold", theme.text)}
+              >
                 {formatPrice(model.fixedPrice)}
               </span>
               <span className="text-muted-foreground font-mono text-[10px]">

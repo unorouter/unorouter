@@ -25,17 +25,15 @@ export function useLoginMutation() {
 
 export function useVerify2FAMutation() {
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<(typeof login)["2fa"], "post">,
-    ) => handleElysia(await rpc.api.auth.login["2fa"].post(args.body)),
+    mutationFn: async (args: EdenArgs<(typeof login)["2fa"], "post">) =>
+      handleElysia(await rpc.api.auth.login["2fa"].post(args.body)),
   });
 }
 
 export function useRegisterMutation() {
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.auth.register, "post">,
-    ) => handleElysia(await rpc.api.auth.register.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.auth.register, "post">) =>
+      handleElysia(await rpc.api.auth.register.post(args.body)),
   });
 }
 
@@ -44,9 +42,7 @@ export function useSendVerificationMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.auth.verification, "get">,
     ) =>
-      handleElysia(
-        await rpc.api.auth.verification.get({ query: args.query }),
-      ),
+      handleElysia(await rpc.api.auth.verification.get({ query: args.query })),
   });
 }
 

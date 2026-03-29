@@ -132,9 +132,7 @@ interface ParsedOther {
   billing?: string;
 }
 
-function parseOther(
-  other: string | null | undefined,
-): ParsedOther | null {
+function parseOther(other: string | null | undefined): ParsedOther | null {
   if (!other) return null;
   try {
     return JSON.parse(other);

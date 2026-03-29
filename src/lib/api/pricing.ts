@@ -150,8 +150,7 @@ export function buildPricingSummary(response: PricingData): PricingSummary {
   const vendors = [...vendorGroups.values()]
     .map((g) => {
       const textModels = g.models.filter((m) => m.type === "text");
-      const displayModels =
-        textModels.length > 0 ? textModels : g.models;
+      const displayModels = textModels.length > 0 ? textModels : g.models;
       return {
         ...g.vendor,
         modelCount: g.models.length,

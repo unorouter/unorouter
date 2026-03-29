@@ -23,7 +23,9 @@ export const serverLocale = async (props?: {
  * get cookie from nextjs header for RPC calls in server components ONLY.
  * @returns An object containing the cookie header for authentication.
  */
-export const getCookieValue = async <T>(key: string): Promise<T | undefined> => {
+export const getCookieValue = async <T>(
+  key: string,
+): Promise<T | undefined> => {
   const cookieStore = await cookies();
   try {
     return JSON.parse(cookieStore.get(key)?.value ?? "");

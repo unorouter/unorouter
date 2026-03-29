@@ -42,7 +42,10 @@ export async function IntegrationRow(props: {
               <div
                 className={`absolute inset-0 ${props.integration.color.glow} rounded-full blur-xl`}
               />
-              <Icon size={48} className={`relative ${props.integration.color.accent}`} />
+              <Icon
+                size={48}
+                className={`relative ${props.integration.color.accent}`}
+              />
             </div>
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">

@@ -12,7 +12,7 @@ export const queryKeys = {
   dashboardUptime: () => ["dashboard-uptime"] as const,
   tokens: (params?: { p?: number; keyword?: string }) =>
     ["tokens", params] as const,
-  token: (id: number) => ["token", id] as const,
+  token: (id: number | string) => ["token", id] as const,
   userGroups: () => ["user-groups"] as const,
   userModels: () => ["user-models"] as const,
   affiliateCommissions: (params?: { p?: number; page_size?: number }) =>

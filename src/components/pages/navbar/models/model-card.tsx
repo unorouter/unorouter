@@ -79,7 +79,9 @@ export function ModelCard(props: {
               <span className="text-muted-foreground/60 font-mono text-[10px] italic">
                 {props.labels.from}
               </span>
-              <span className={cn("font-mono text-sm font-semibold", theme.text)}>
+              <span
+                className={cn("font-mono text-sm font-semibold", theme.text)}
+              >
                 {formatPrice(model.fixedPrice)}
               </span>
               <span className="text-muted-foreground font-mono text-[10px]">

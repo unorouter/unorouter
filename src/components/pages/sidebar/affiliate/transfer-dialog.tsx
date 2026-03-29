@@ -52,20 +52,23 @@ export function TransferDialog(props: TransferDialogProps) {
       toast.error(t("AFFILIATE.TRANSFER_EXCEEDS"));
       return;
     }
-    transferMutation.mutate({ body: { quota: quotaUnits } }, {
-      onSuccess: () => {
-        toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
-        props.onOpenChange(false);
-        form.reset();
-        router.refresh();
+    transferMutation.mutate(
+      { body: { quota: quotaUnits } },
+      {
+        onSuccess: () => {
+          toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
+          props.onOpenChange(false);
+          form.reset();
+          router.refresh();
+        },
+        onError: (err) =>
+          toast.error(
+            err instanceof Error && err.message
+              ? err.message
+              : t("AFFILIATE.TRANSFER_FAILED"),
+          ),
       },
-      onError: (err) =>
-        toast.error(
-          err instanceof Error && err.message
-            ? err.message
-            : t("AFFILIATE.TRANSFER_FAILED"),
-        ),
-    });
+    );
   }
 
   const amount = form.watch("amount");

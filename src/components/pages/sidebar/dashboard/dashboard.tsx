@@ -47,13 +47,19 @@ export function Dashboard(props: DashboardProps) {
               {t("SIDEBAR.DASHBOARD")}
             </span>
           </div>
-          <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl" suppressHydrationWarning>
+          <h1
+            className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl"
+            suppressHydrationWarning
+          >
             {greeting}, {displayName}
           </h1>
         </div>
         <div className="text-muted-foreground hidden items-center gap-1.5 md:flex">
           <LuActivity className="h-3 w-3" />
-          <span className="font-mono text-[10px] tracking-widest uppercase" suppressHydrationWarning>
+          <span
+            className="font-mono text-[10px] tracking-widest uppercase"
+            suppressHydrationWarning
+          >
             {dayjs().format("MMM D, YYYY")}
           </span>
         </div>

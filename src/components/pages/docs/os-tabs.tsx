@@ -21,7 +21,11 @@ export function OSTabs(props: OSTabsProps) {
   const docs = useDocs();
 
   return (
-    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)} className="mt-8">
+    <Tabs
+      value={docs.os}
+      onValueChange={(v) => docs.setOs(v as OS)}
+      className="mt-8"
+    >
       <TabsList variant="line">
         <TabsTrigger value="windows">
           <FaWindows className="size-3.5" />

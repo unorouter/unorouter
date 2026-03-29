@@ -1,6 +1,9 @@
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { Callout } from "@/components/elements/content/callout";
-import { CodeBlock, highlightCode } from "@/components/elements/code/code-block";
+import {
+  CodeBlock,
+  highlightCode,
+} from "@/components/elements/code/code-block";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
@@ -145,10 +148,7 @@ export GEMINI_API_KEY="${docs.placeholder}"`;
           app="gemini"
           endpoint={process.env.NEXT_PUBLIC_API_URL!}
           cliCodeBlock={
-            <CodeBlock
-              language="bash"
-              code="cc-switch provider add"
-            />
+            <CodeBlock language="bash" code="cc-switch provider add" />
           }
         />
 

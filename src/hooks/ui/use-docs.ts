@@ -75,15 +75,18 @@ export function useDocs() {
     }
 
     actionRef.current = "fetching";
-    fetchKeyMutation.mutate({ id: targetToken.id }, {
-      onSuccess: (data) => {
-        setApiKey(`sk-${data.key}`);
-        actionRef.current = "done";
+    fetchKeyMutation.mutate(
+      { id: targetToken.id },
+      {
+        onSuccess: (data) => {
+          setApiKey(`sk-${data.key}`);
+          actionRef.current = "done";
+        },
+        onError: () => {
+          actionRef.current = "done";
+        },
       },
-      onError: () => {
-        actionRef.current = "done";
-      },
-    });
+    );
   }, [isLoggedIn, isTokensLoaded, targetToken, apiKey]);
 
   function createToken() {

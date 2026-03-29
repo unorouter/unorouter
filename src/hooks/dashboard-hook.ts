@@ -15,9 +15,7 @@ export function useDashboardQuotaQuery(
       args.query?.end_timestamp,
     ),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.dashboard.quota.get({ query: args.query }),
-      ),
+      handleElysia(await rpc.api.dashboard.quota.get({ query: args.query })),
   });
 }
 

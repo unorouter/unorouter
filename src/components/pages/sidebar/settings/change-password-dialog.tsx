@@ -53,7 +53,12 @@ export function ChangePasswordDialog(props: {
       return;
     }
     updateSelfMutation.mutate(
-      { body: { original_password: data.original_password, password: data.password } },
+      {
+        body: {
+          original_password: data.original_password,
+          password: data.password,
+        },
+      },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.SECURITY.PASSWORD_CHANGED"));

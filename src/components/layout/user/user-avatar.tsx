@@ -30,7 +30,5 @@ export function UserAvatar(props: UserAvatarProps) {
     );
   }
 
-  return (
-    <LuUser className={cn("size-4 shrink-0", props.className)} />
-  );
+  return <LuUser className={cn("size-4 shrink-0", props.className)} />;
 }

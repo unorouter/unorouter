@@ -4,8 +4,12 @@ export function copyToClipboard(text: string): Promise<void> {
   return navigator.clipboard.writeText(text);
 }
 
-export function copyToClipboardAsync(getData: () => Promise<string>): Promise<void> {
-  const blob = getData().then((text) => new Blob([text], { type: "text/plain" }));
+export function copyToClipboardAsync(
+  getData: () => Promise<string>,
+): Promise<void> {
+  const blob = getData().then(
+    (text) => new Blob([text], { type: "text/plain" }),
+  );
   const item = new ClipboardItem({ "text/plain": blob });
   return navigator.clipboard.write([item]);
 }

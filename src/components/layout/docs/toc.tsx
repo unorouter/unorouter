@@ -88,13 +88,7 @@ function TocThumb(props: {
     return () => observer.disconnect();
   }, [active, props.containerRef]);
 
-  return (
-    <div
-      ref={thumbRef}
-      role="none"
-      className={props.className}
-    />
-  );
+  return <div ref={thumbRef} role="none" className={props.className} />;
 }
 
 // Single TOC item with connector lines
@@ -113,7 +107,7 @@ function ClerkTOCItem(props: {
       href={item.url}
       style={{ paddingInlineStart: getItemOffset(item.depth) }}
       className={cn(
-        "relative py-1.5 text-sm transition-colors wrap-anywhere",
+        "relative py-1.5 text-sm wrap-anywhere transition-colors",
         "text-muted-foreground hover:text-accent-foreground",
         "first:pt-0 last:pb-0",
         "data-[active=true]:text-primary",
@@ -124,7 +118,7 @@ function ClerkTOCItem(props: {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 16 16"
-          className="absolute -top-1.5 inset-s-0 size-4 rtl:-scale-x-100"
+          className="absolute inset-s-0 -top-1.5 size-4 rtl:-scale-x-100"
         >
           <line
             x1={upperOffset}

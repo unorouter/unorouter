@@ -84,7 +84,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
       return;
     }
     copyToClipboardAsync(() =>
-      fetchKeyMutation.mutateAsync({ id: token.id }).then((data) => `sk-${data.key}`),
+      fetchKeyMutation
+        .mutateAsync({ id: token.id })
+        .then((data) => `sk-${data.key}`),
     )
       .then(() => toast.success(t("TOKEN.KEY_COPIED")))
       .catch(() => toast.error(t("TOKEN.FETCH_KEY_FAILED")));
@@ -95,10 +97,13 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
       setRevealedKey(null);
       return;
     }
-    fetchKeyMutation.mutate({ id: token.id }, {
-      onSuccess: (data) => setRevealedKey(data.key),
-      onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
-    });
+    fetchKeyMutation.mutate(
+      { id: token.id },
+      {
+        onSuccess: (data) => setRevealedKey(data.key),
+        onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
+      },
+    );
   }
 
   return (
@@ -201,10 +206,13 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
       separator: true,
       disabled: deleteMutation.isPending,
       onClick: () =>
-        deleteMutation.mutate({ id: token.id }, {
-          onSuccess: () => toast.success(t("TOKEN.DELETED_SUCCESS")),
-          onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
-        }),
+        deleteMutation.mutate(
+          { id: token.id },
+          {
+            onSuccess: () => toast.success(t("TOKEN.DELETED_SUCCESS")),
+            onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
+          },
+        ),
     },
   ];
 

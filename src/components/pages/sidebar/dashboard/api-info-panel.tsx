@@ -48,7 +48,10 @@ export function ApiInfoPanel() {
                     <code className="bg-muted text-foreground flex-1 overflow-hidden px-2 py-1 font-mono text-[11px] text-ellipsis">
                       {entry.url}
                     </code>
-                    <CopyButton text={entry.url} className="text-muted-foreground hover:text-foreground shrink-0 p-1 transition-colors" />
+                    <CopyButton
+                      text={entry.url}
+                      className="text-muted-foreground hover:text-foreground shrink-0 p-1 transition-colors"
+                    />
                   </div>
                 )}
                 {entry.description && (

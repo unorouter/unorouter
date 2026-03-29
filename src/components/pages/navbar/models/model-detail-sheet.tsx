@@ -37,7 +37,6 @@ type ModelDetailSheetProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-
 export function ModelDetailSheet(props: ModelDetailSheetProps) {
   const t = useTranslations();
   const model = props.model;
@@ -162,10 +161,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
           {/* Grid Pricing Table */}
           {model.gridPricing && (
-            <GridPricingSection
-              gridPricing={model.gridPricing}
-              theme={theme}
-            />
+            <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
           )}
 
           {/* Group Pricing (collapsible) */}
@@ -333,9 +329,17 @@ function GridPricingSection(props: {
         title={t("MODELS.DETAIL_GRID_PRICING")}
       />
       <div
-        className={cn("rounded-lg border p-3", props.theme.bg, props.theme.border)}
+        className={cn(
+          "rounded-lg border p-3",
+          props.theme.bg,
+          props.theme.border,
+        )}
       >
-        <GridPricingTable rows={props.gridPricing} theme={props.theme} pricingLabel={t("MODELS.DETAIL_PRICING")} />
+        <GridPricingTable
+          rows={props.gridPricing}
+          theme={props.theme}
+          pricingLabel={t("MODELS.DETAIL_PRICING")}
+        />
       </div>
     </section>
   );

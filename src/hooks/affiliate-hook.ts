@@ -25,9 +25,7 @@ export function useAffiliateInviteesQuery(
   return useQuery({
     queryKey: queryKeys.affiliateInvitees(args.query),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.affiliate.invitees.get({ query: args.query }),
-      ),
+      handleElysia(await rpc.api.affiliate.invitees.get({ query: args.query })),
   });
 }
 
@@ -36,8 +34,7 @@ export function useTransferAffQuotaMutation() {
   return useMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.affiliate.transfer, "post">,
-    ) =>
-      handleElysia(await rpc.api.affiliate.transfer.post(args.body)),
+    ) => handleElysia(await rpc.api.affiliate.transfer.post(args.body)),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
         queryKeys.auth(),
@@ -45,7 +42,7 @@ export function useTransferAffQuotaMutation() {
           old
             ? {
                 ...old,
-                quota: (old.quota ?? 0) - (args.body?.quota ?? 0),
+                quota: (old.quota ?? 0) - args.body.quota,
               }
             : old,
       );

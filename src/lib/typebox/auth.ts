@@ -23,4 +23,3 @@ export const oauthStateQuery = t.Object({
 export const oauthCallbackQuery = t.Object({
   code: t.String(),
 });
-

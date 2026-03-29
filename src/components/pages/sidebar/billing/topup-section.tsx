@@ -54,25 +54,31 @@ export function TopUpSection() {
   }
 
   function handleStripeTopUp(amount: number) {
-    stripeTopUpMutation.mutate({ body: { amount, payment_method: "stripe" } }, {
-      onSuccess: (data) => {
-        if (data.pay_link) window.open(data.pay_link, "_blank");
+    stripeTopUpMutation.mutate(
+      { body: { amount, payment_method: "stripe" } },
+      {
+        onSuccess: (data) => {
+          if (data.pay_link) window.open(data.pay_link, "_blank");
+        },
+        onError: () => {
+          toast.error(t("BILLING.PAYMENT_FAILED"));
+        },
       },
-      onError: () => {
-        toast.error(t("BILLING.PAYMENT_FAILED"));
-      },
-    });
+    );
   }
 
   function handleCreemTopUp(productId: string) {
-    creemTopUpMutation.mutate({ body: { product_id: productId, payment_method: "creem" } }, {
-      onSuccess: (data) => {
-        if (data.checkout_url) window.open(data.checkout_url, "_blank");
+    creemTopUpMutation.mutate(
+      { body: { product_id: productId, payment_method: "creem" } },
+      {
+        onSuccess: (data) => {
+          if (data.checkout_url) window.open(data.checkout_url, "_blank");
+        },
+        onError: () => {
+          toast.error(t("BILLING.PAYMENT_FAILED"));
+        },
       },
-      onError: () => {
-        toast.error(t("BILLING.PAYMENT_FAILED"));
-      },
-    });
+    );
   }
 
   if (isLoading) {

@@ -49,7 +49,7 @@ export function useUpdateBillingPreferenceMutation() {
           old
             ? {
                 ...old,
-                billing_preference: args.body?.billing_preference,
+                billing_preference: args.body.billing_preference,
               }
             : old,
       );
@@ -61,16 +61,13 @@ export function useStripeTopUpMutation() {
   return useMutation({
     mutationFn: async (
       args: EdenArgs<(typeof billing)["stripe-pay"], "post">,
-    ) =>
-      handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
+    ) => handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
   });
 }
 
 export function useCreemTopUpMutation() {
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<(typeof billing)["creem-pay"], "post">,
-    ) =>
+    mutationFn: async (args: EdenArgs<(typeof billing)["creem-pay"], "post">) =>
       handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
   });
 }
@@ -78,10 +75,7 @@ export function useCreemTopUpMutation() {
 export function useStripeSubscriptionMutation() {
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<
-        (typeof billing)["subscription"]["stripe-pay"],
-        "post"
-      >,
+      args: EdenArgs<(typeof billing)["subscription"]["stripe-pay"], "post">,
     ) =>
       handleElysia(
         await rpc.api.billing.subscription["stripe-pay"].post(args.body),
@@ -92,10 +86,7 @@ export function useStripeSubscriptionMutation() {
 export function useCreemSubscriptionMutation() {
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<
-        (typeof billing)["subscription"]["creem-pay"],
-        "post"
-      >,
+      args: EdenArgs<(typeof billing)["subscription"]["creem-pay"], "post">,
     ) =>
       handleElysia(
         await rpc.api.billing.subscription["creem-pay"].post(args.body),

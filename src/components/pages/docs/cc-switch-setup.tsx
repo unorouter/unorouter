@@ -47,7 +47,11 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
 
       <div className="border-border bg-card rounded-lg border p-6">
         <a href={deepLink} className="block">
-          <Button className="w-full gap-2" size="lg" disabled={token.isLoading || !token.apiKey}>
+          <Button
+            className="w-full gap-2"
+            size="lg"
+            disabled={token.isLoading || !token.apiKey}
+          >
             {token.isLoading ? (
               <LuLoader className="size-4 animate-spin" />
             ) : (

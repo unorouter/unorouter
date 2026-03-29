@@ -34,4 +34,3 @@ export const updateSettingBody = t.Object({
   gotify_priority: t.Optional(t.Number()),
   upstream_model_update_notify_enabled: t.Optional(t.Nullable(t.Boolean())),
 });
-

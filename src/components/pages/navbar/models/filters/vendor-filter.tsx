@@ -34,18 +34,15 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const t = useTranslations();
 
-  const vendorOptions: VendorOption[] = props.models.reduce(
-    (acc, model) => {
-      const existing = acc.find((v) => v.name === model.vendor.name);
-      if (existing) {
-        existing.count++;
-      } else {
-        acc.push({ name: model.vendor.name, count: 1 });
-      }
-      return acc;
-    },
-    [] as VendorOption[],
-  );
+  const vendorOptions: VendorOption[] = props.models.reduce((acc, model) => {
+    const existing = acc.find((v) => v.name === model.vendor.name);
+    if (existing) {
+      existing.count++;
+    } else {
+      acc.push({ name: model.vendor.name, count: 1 });
+    }
+    return acc;
+  }, [] as VendorOption[]);
 
   vendorOptions.sort((a, b) => b.count - a.count);
 
@@ -103,9 +100,7 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
       />
       <PopoverContent className="w-[220px] p-0" align="start">
         <Command>
-          <CommandInput
-            placeholder={t("MODELS.FILTER_SEARCH_PROVIDERS")}
-          />
+          <CommandInput placeholder={t("MODELS.FILTER_SEARCH_PROVIDERS")} />
           <CommandList>
             <CommandEmpty>{t("MODELS.FILTER_NO_PROVIDERS")}</CommandEmpty>
             <CommandGroup>
@@ -138,7 +133,7 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
                         {option.name}
                       </span>
                     </div>
-                    <span className="font-mono text-xs text-muted-foreground">
+                    <span className="text-muted-foreground font-mono text-xs">
                       {option.count}
                     </span>
                   </CommandItem>
