@@ -30,7 +30,6 @@ export function LoginForm() {
   const router = useRouter();
   const loginMutation = useLoginMutation();
   const statusQuery = useStatusQuery();
-  const status = statusQuery.data;
 
   const form = useForm({
     resolver: typeboxResolver(loginSchema),
@@ -80,7 +79,7 @@ export function LoginForm() {
     );
   }
 
-  const showPasswordForm = status?.password_login_enabled !== false;
+  const showPasswordForm = statusQuery.data?.password_login_enabled !== false;
 
   const formValues = form.watch();
   const isValid = safeParse(loginChecker, {
@@ -120,11 +119,11 @@ export function LoginForm() {
                 />
               </div>
 
-              {status?.turnstile_check && status.turnstile_site_key && (
+              {statusQuery.data?.turnstile_check && statusQuery.data.turnstile_site_key && (
                 <div className="flex justify-center">
                   <Turnstile
                     ref={turnstileRef}
-                    siteKey={status.turnstile_site_key}
+                    siteKey={statusQuery.data.turnstile_site_key}
                     onSuccess={setTurnstileToken}
                   />
                 </div>
@@ -141,7 +140,7 @@ export function LoginForm() {
                 disabled={
                   !isValid ||
                   loginMutation.isPending ||
-                  (status?.turnstile_check && !turnstileToken)
+                  (statusQuery.data?.turnstile_check && !turnstileToken)
                 }
                 className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
               >
@@ -153,7 +152,7 @@ export function LoginForm() {
           </Form>
         )}
 
-        {status && <OAuthButtons status={status} />}
+        {statusQuery.data && <OAuthButtons status={statusQuery.data} />}
 
         <p className="text-muted-foreground text-center text-sm">
           {t("AUTH.DONT_HAVE_ACCOUNT")}{" "}
