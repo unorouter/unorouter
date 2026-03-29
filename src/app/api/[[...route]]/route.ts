@@ -8,7 +8,6 @@ import { pricingRoute } from "@/server/pricing/route";
 import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
-import { webhookRoute } from "@/server/webhook/route";
 import { Elysia } from "elysia";
 
 export const app = new Elysia({ prefix: "/api" })
@@ -28,8 +27,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(tokenRoute)
   .use(affiliateRoute)
   .use(logsRoute)
-  .use(settingsRoute)
-  .use(webhookRoute);
+  .use(settingsRoute);
 
 export type App = typeof app;
 
