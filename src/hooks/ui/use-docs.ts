@@ -9,11 +9,12 @@ import {
 import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
 import { apiKeyAtom, osAtom } from "@/store/docs-store";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+
+// Shared across all useDocs() instances to prevent duplicate key fetches
+let keyFetchState: "idle" | "fetching" | "done" = "idle";
 
 export function useDocs() {
-  const router = useRouter();
   const [os, setOs] = useAtom(osAtom);
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
@@ -23,7 +24,6 @@ export function useDocs() {
   const fetchKeyMutation = useFetchTokenKeyMutation();
 
   const [apiKey, setApiKey] = useAtom(apiKeyAtom);
-  const actionRef = useRef<"idle" | "fetching" | "done">("idle");
 
   // Detect OS on mount
   useEffect(() => {
@@ -55,62 +55,75 @@ export function useDocs() {
     suitableToken ?? tokens?.find((tok) => tok && tok.status === 1);
 
   const targetToken = fallbackToken ?? null;
+  const targetTokenId = targetToken?.id ?? null;
 
   // Whether user needs to create a token (logged in, tokens loaded, none found)
   const needsToken = isLoggedIn && isTokensLoaded && !targetToken;
 
+  // Fetch key for existing token on initial load
   useEffect(() => {
-    if (!isLoggedIn || !isTokensLoaded) return;
-
-    if (!targetToken) {
+    if (!isLoggedIn || !isTokensLoaded || !targetTokenId) {
       if (apiKey) setApiKey(null);
-      actionRef.current = "idle";
+      keyFetchState = "idle";
       return;
     }
 
-    if (actionRef.current !== "idle") return;
+    if (keyFetchState !== "idle") return;
     if (apiKey) {
-      actionRef.current = "done";
+      keyFetchState = "done";
       return;
     }
 
-    actionRef.current = "fetching";
+    keyFetchState = "fetching";
     fetchKeyMutation.mutate(
-      { id: targetToken.id },
+      { id: targetTokenId },
       {
         onSuccess: (data) => {
           setApiKey(`sk-${data.key}`);
-          actionRef.current = "done";
+          keyFetchState = "done";
         },
         onError: () => {
-          actionRef.current = "done";
+          keyFetchState = "done";
         },
       },
     );
-  }, [isLoggedIn, isTokensLoaded, targetToken, apiKey]);
+  }, [isLoggedIn, isTokensLoaded, targetTokenId, apiKey]);
 
-  function createToken() {
-    createMutation.mutate(
-      {
-        body: {
-          name: "Default",
-          remain_quota: 0,
-          expired_time: -1,
-          unlimited_quota: true,
-          model_limits_enabled: false,
-          model_limits: "",
-          allow_ips: "",
-          group: "auto",
-          cross_group_retry: true,
-        },
+  async function createToken() {
+    // Mark as non-idle so the effect doesn't also try to fetch the key
+    keyFetchState = "fetching";
+
+    await createMutation.mutateAsync({
+      body: {
+        name: "Default",
+        remain_quota: 0,
+        expired_time: -1,
+        unlimited_quota: true,
+        model_limits_enabled: false,
+        model_limits: "",
+        allow_ips: "",
+        group: "auto",
+        cross_group_retry: true,
       },
-      {
-        onSuccess: () => {
-          actionRef.current = "idle";
-          router.refresh();
-        },
-      },
+    });
+
+    // Refetch tokens via React Query to update cache and get the new token's ID
+    const refetchResult = await tokensQuery.refetch();
+    const newToken = refetchResult.data?.items?.find(
+      (tok) =>
+        tok &&
+        tok.status === 1 &&
+        tok.unlimited_quota &&
+        tok.group === "auto" &&
+        !tok.model_limits_enabled,
     );
+
+    if (newToken) {
+      const keyData = await fetchKeyMutation.mutateAsync({ id: newToken.id });
+      setApiKey(`sk-${keyData.key}`);
+    }
+
+    keyFetchState = "done";
   }
 
   return {
