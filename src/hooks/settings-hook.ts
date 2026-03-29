@@ -5,6 +5,7 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import type {
+  ResponseDtoPasskeyStatusDataData,
   ResponseDtoTwoFAStatusDataData,
   ResponseDtoUserSelfDataData,
 } from "@/openapi";
@@ -139,14 +140,20 @@ export function usePasskeyRegisterBeginMutation() {
 export function usePasskeyRegisterFinishMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (credential: unknown) =>
+    mutationFn: async (
+      args: EdenArgs<
+        typeof rpc.api.settings.passkey.register.finish,
+        "post"
+      >,
+    ) =>
       handleElysia(
-        await rpc.api.settings.passkey.register.finish.post(
-          credential as Record<string, unknown>,
-        ),
+        await rpc.api.settings.passkey.register.finish.post(args.body),
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.passkeyStatus() });
+      queryClient.setQueryData<ResponseDtoPasskeyStatusDataData>(
+        queryKeys.passkeyStatus(),
+        (old) => (old ? { ...old, enabled: true } : old),
+      );
     },
   });
 }
@@ -157,7 +164,10 @@ export function usePasskeyDeleteMutation() {
     mutationFn: async () =>
       handleElysia(await rpc.api.settings.passkey.delete()),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.passkeyStatus() });
+      queryClient.setQueryData<ResponseDtoPasskeyStatusDataData>(
+        queryKeys.passkeyStatus(),
+        (old) => (old ? { ...old, enabled: false } : old),
+      );
     },
   });
 }

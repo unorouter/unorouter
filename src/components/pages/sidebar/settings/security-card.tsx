@@ -87,7 +87,7 @@ export function SecurityCard() {
         rawId: btoa(
           String.fromCharCode(...new Uint8Array(attestationResponse.rawId)),
         ),
-        type: attestationResponse.type,
+        type: attestationResponse.type as "public-key",
         response: {
           attestationObject: btoa(
             String.fromCharCode(...new Uint8Array(response.attestationObject)),
@@ -98,7 +98,7 @@ export function SecurityCard() {
         },
       };
 
-      await passkeyRegisterFinishMutation.mutateAsync(credentialData);
+      await passkeyRegisterFinishMutation.mutateAsync({ body: credentialData });
       toast.success(t("SETTINGS.SECURITY.PASSKEY_REGISTERED_SUCCESS"));
     } catch (error) {
       if (error instanceof Error && error.name !== "NotAllowedError") {

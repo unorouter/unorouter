@@ -1,5 +1,9 @@
 import { twoFACodeBody, verificationQuery } from "@/lib/typebox/common";
-import { updateSelfBody, updateSettingBody } from "@/lib/typebox/settings";
+import {
+  passkeyCredentialBody,
+  updateSelfBody,
+  updateSettingBody,
+} from "@/lib/typebox/settings";
 import {
   deleteSelf,
   disable2FA,
@@ -114,16 +118,20 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     return res.data!;
   })
 
-  .post("/passkey/register/finish", async ({ body, upstream }) => {
-    const res = await passkeyRegisterFinish({
-      headers: {
-        "Content-Type": "application/json",
-        ...upstream.headers,
-      },
-      body: JSON.stringify(body),
-    });
-    return res.data!;
-  })
+  .post(
+    "/passkey/register/finish",
+    async ({ body, upstream }) => {
+      const res = await passkeyRegisterFinish({
+        headers: {
+          "Content-Type": "application/json",
+          ...upstream.headers,
+        },
+        body: JSON.stringify(body),
+      });
+      return res.data!;
+    },
+    { body: passkeyCredentialBody },
+  )
 
   .delete("/passkey", async ({ upstream }) => {
     const res = await passkeyDelete({ headers: upstream.headers });

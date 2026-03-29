@@ -8,6 +8,18 @@ export const updateSelfBody = t.Object({
   display_name: t.Optional(t.String()),
 });
 
+export const passkeyCredentialBody = t.Object({
+  id: t.String(),
+  rawId: t.String(),
+  response: t.Object({
+    clientDataJSON: t.String(),
+    attestationObject: t.String(),
+  }),
+  type: t.Literal("public-key"),
+  authenticatorAttachment: t.Optional(t.String()),
+  clientExtensionResults: t.Optional(t.Record(t.String(), t.Unknown())),
+});
+
 export const updateSettingBody = t.Object({
   notify_type: t.String(),
   quota_warning_threshold: t.Number(),
