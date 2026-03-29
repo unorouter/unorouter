@@ -276,7 +276,7 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
 gemini
 
 # Switch models within the session
-/model gemini-2.5-pro`}
+/model ${docs.modelFor("Google")}`}
           />
         </section>
 

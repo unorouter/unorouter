@@ -61,7 +61,7 @@ export async function OpenClawContent() {
   "agents": {
     "defaults": {
       "model": {
-        "primary": "openai/gpt-5.2"
+        "primary": "openai/${docs.modelFor("OpenAI")}"
       }
     }
   },

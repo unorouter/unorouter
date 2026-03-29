@@ -2,6 +2,8 @@ import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 import { LOCALE_COOKIE, LOCALES } from "../config/constants";
+import { rpc } from "../rpc";
+import { handleElysia } from "./base";
 
 const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
   try {
@@ -34,11 +36,23 @@ export const getCookieValue = async <T>(
   }
 };
 
-/** Server-side utility for docs code block placeholders */
-export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => ({
-  apiUrl: process.env.NEXT_PUBLIC_API_URL!,
-  placeholder,
-});
+/** Server-side utility for docs code block placeholders and model names */
+export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
+  const data = handleElysia(await rpc.api.pricing.get());
+  const models = (data.models ?? []).map((m) => ({
+    name: m.name,
+    vendor: m.vendor.name,
+  }));
+
+  const modelFor = (vendor: string) =>
+    models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
+
+  return {
+    apiUrl: process.env.NEXT_PUBLIC_API_URL!,
+    placeholder,
+    modelFor,
+  };
+};
 
 export const setCookies = async () => {
   const cookie = (await cookies())

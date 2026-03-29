@@ -104,7 +104,7 @@ export async function CodexContent() {
     linux: { code: codexAuthCode, language: "json", label: "~/.codex/auth.json" },
   });
 
-  const configToml = `model = "o3-mini"
+  const configToml = `model = "${docs.modelFor("OpenAI")}"
 
 [model_providers.custom]
 base_url = "${docs.apiUrl}/v1"

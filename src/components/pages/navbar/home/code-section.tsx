@@ -1,10 +1,12 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
+import { getDocsApiKey } from "@/lib/utils/server";
 import { LuArrowRight, LuCheck } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
 export async function CodeSection() {
   const t = await getTranslations();
+  const docs = await getDocsApiKey();
 
   return (
     <section className="border-border/50 bg-background relative z-10 border-t py-16 lg:py-32">
@@ -64,7 +66,7 @@ export async function CodeSection() {
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -d {
-    "model": "claude-sonnet-4-6",
+    "model": "${docs.modelFor("Anthropic")}",
     "messages": [
       {"role": "user", "content": "Hello!"}
     ],
