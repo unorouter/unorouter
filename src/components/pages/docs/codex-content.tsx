@@ -1,9 +1,7 @@
-import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { Callout } from "@/components/elements/content/callout";
-import {
-  CodeBlock,
-  highlightCode,
-} from "@/components/elements/code/code-block";
+import { CodeBlock } from "@/components/elements/code/code-block";
+import { OSCodeBlock } from "./os-code-block";
+import { buildOSVariants, envVarCode } from "./os-code-helpers";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
@@ -96,8 +94,50 @@ export async function CodexContent() {
   "OPENAI_API_KEY": "${docs.placeholder}"
 }`;
 
-  const codexEnvCode = `export OPENAI_BASE_URL="${docs.apiUrl}/v1"
-export OPENAI_API_KEY="${docs.placeholder}"`;
+  const authVariants = await buildOSVariants({
+    windows: {
+      code: codexAuthCode,
+      language: "json",
+      label: "%APPDATA%\\codex\\auth.json",
+    },
+    macos: { code: codexAuthCode, language: "json", label: "~/.codex/auth.json" },
+    linux: { code: codexAuthCode, language: "json", label: "~/.codex/auth.json" },
+  });
+
+  const configToml = `model = "o3-mini"
+
+[model_providers.custom]
+base_url = "${docs.apiUrl}/v1"
+wire_api = "responses"`;
+
+  const configVariants = await buildOSVariants({
+    windows: {
+      code: configToml,
+      language: "toml",
+      label: "%APPDATA%\\codex\\config.toml",
+    },
+    macos: { code: configToml, language: "toml", label: "~/.codex/config.toml" },
+    linux: { code: configToml, language: "toml", label: "~/.codex/config.toml" },
+  });
+
+  const envVars = {
+    OPENAI_BASE_URL: docs.apiUrl + "/v1",
+    OPENAI_API_KEY: docs.placeholder,
+  };
+
+  const envVariants = await buildOSVariants({
+    windows: { code: envVarCode(envVars, "windows"), language: "powershell" },
+    macos: {
+      code: envVarCode(envVars, "macos"),
+      language: "bash",
+      label: "~/.zshrc",
+    },
+    linux: {
+      code: envVarCode(envVars, "linux"),
+      language: "bash",
+      label: "~/.bashrc",
+    },
+  });
 
   return (
     <TOCLayout toc={toc}>
@@ -189,24 +229,14 @@ export OPENAI_API_KEY="${docs.placeholder}"`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(codexAuthCode, "json")}
-            code={codexAuthCode}
-            language="json"
-            label="~/.codex/auth.json"
+          <OSCodeBlock
+            variants={authVariants}
             placeholder={docs.placeholder}
           />
           <div className="mt-4" />
-          <p className="text-muted-foreground mb-1 font-mono text-xs">
-            ~/.codex/config.toml
-          </p>
-          <CodeBlock
-            language="toml"
-            code={`model = "o3-mini"
-
-[model_providers.custom]
-base_url = "${docs.apiUrl}/v1"
-wire_api = "responses"`}
+          <OSCodeBlock
+            variants={configVariants}
+            placeholder={docs.placeholder}
           />
 
           {/* Env vars (alternative) */}
@@ -216,10 +246,8 @@ wire_api = "responses"`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(codexEnvCode, "bash")}
-            code={codexEnvCode}
-            language="bash"
+          <OSCodeBlock
+            variants={envVariants}
             placeholder={docs.placeholder}
           />
 

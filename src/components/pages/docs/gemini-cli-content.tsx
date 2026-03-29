@@ -15,6 +15,9 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { CCSwitchSetup } from "./cc-switch-setup";
+import { OSCodeBlock } from "./os-code-block";
+import { buildOSVariants, envVarCode } from "./os-code-helpers";
+import { OSTabs } from "./os-tabs";
 
 export async function GeminiCliContent() {
   const t = await getTranslations();
@@ -39,12 +42,6 @@ export async function GeminiCliContent() {
         depth: 2,
       },
       {
-        title: t("DOCS.GEMINI_CLI.TOC_MACOS_LINUX"),
-        url: "#macos-linux",
-        depth: 3,
-      },
-      { title: t("DOCS.GEMINI_CLI.TOC_WINDOWS"), url: "#windows", depth: 3 },
-      {
         title: t("DOCS.GEMINI_CLI.TOC_CONFIGURATION"),
         url: "#configuration",
         depth: 2,
@@ -54,21 +51,81 @@ export async function GeminiCliContent() {
     t("DOCS.TOC_TITLE"),
   );
 
-  const geminiQuickStartCode = `# Create ~/.gemini/.env with your config
-mkdir -p ~/.gemini
-cat > ~/.gemini/.env << 'EOF'
-GEMINI_API_KEY=${docs.placeholder}
-GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}
-EOF
-
-# Then run Gemini CLI
-gemini`;
-
   const geminiConfigCode = `GEMINI_API_KEY=${docs.placeholder}
 GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
 
-  const geminiEnvCode = `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
-export GEMINI_API_KEY="${docs.placeholder}"`;
+  const envVars = {
+    GEMINI_API_KEY: docs.placeholder,
+    GOOGLE_GEMINI_BASE_URL: docs.apiUrl,
+  };
+
+  const quickStartVariants = await buildOSVariants({
+    windows: {
+      code: `${envVarCode(envVars, "windows")}\n\n# Then run Gemini CLI\ngemini`,
+      language: "powershell",
+    },
+    macos: {
+      code: `${envVarCode(envVars, "macos")}\n\n# Then run Gemini CLI\ngemini`,
+      language: "bash",
+    },
+    linux: {
+      code: `${envVarCode(envVars, "linux")}\n\n# Then run Gemini CLI\ngemini`,
+      language: "bash",
+    },
+  });
+
+  const envVariants = await buildOSVariants({
+    windows: {
+      code: envVarCode(envVars, "windows"),
+      language: "powershell",
+    },
+    macos: {
+      code: envVarCode(envVars, "macos"),
+      language: "bash",
+      label: "~/.zshrc",
+    },
+    linux: {
+      code: envVarCode(envVars, "linux"),
+      language: "bash",
+      label: "~/.bashrc",
+    },
+  });
+
+  const windowsInstall = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <p className="text-muted-foreground mb-3 text-sm">
+          {t("DOCS.GEMINI_CLI.INSTALL_WINDOWS_DESC")}
+        </p>
+        <CodeBlock
+          language="powershell"
+          code="npm install -g @google/gemini-cli"
+        />
+      </div>
+    </div>
+  );
+
+  const macosInstall = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <CodeBlock
+          language="bash"
+          code="npm install -g @google/gemini-cli"
+        />
+      </div>
+    </div>
+  );
+
+  const linuxInstall = (
+    <div className="mt-6 space-y-6">
+      <div>
+        <CodeBlock
+          language="bash"
+          code="npm install -g @google/gemini-cli"
+        />
+      </div>
+    </div>
+  );
 
   return (
     <TOCLayout toc={toc}>
@@ -106,10 +163,8 @@ export GEMINI_API_KEY="${docs.placeholder}"`;
           <p className="text-muted-foreground mb-6 text-sm">
             {t("DOCS.GEMINI_CLI.QUICK_START_DESC", APP_VALUES)}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(geminiQuickStartCode, "bash")}
-            code={geminiQuickStartCode}
-            language="bash"
+          <OSCodeBlock
+            variants={quickStartVariants}
             placeholder={docs.placeholder}
           />
         </section>
@@ -158,23 +213,15 @@ export GEMINI_API_KEY="${docs.placeholder}"`;
             {t("DOCS.GEMINI_CLI.INSTALLATION")}
           </h2>
 
-          <h3 className="mb-3 text-lg font-medium" id="macos-linux">
-            {t("DOCS.GEMINI_CLI.INSTALL_MACOS_LINUX")}
-          </h3>
-          <CodeBlock
-            language="bash"
-            code={`npm install -g @google/gemini-cli`}
-          />
-
-          <h3 className="mt-6 mb-3 text-lg font-medium" id="windows">
-            {t("DOCS.GEMINI_CLI.INSTALL_WINDOWS")}
-          </h3>
-          <p className="text-muted-foreground mb-4 text-sm">
-            {t("DOCS.GEMINI_CLI.INSTALL_WINDOWS_DESC")}
-          </p>
-          <CodeBlock
-            language="bash"
-            code={`npm install -g @google/gemini-cli`}
+          <OSTabs
+            windowsContent={windowsInstall}
+            macosContent={macosInstall}
+            linuxContent={linuxInstall}
+            labels={{
+              windows: t("DOCS.OS_TAB_WINDOWS"),
+              macos: t("DOCS.OS_TAB_MACOS"),
+              linux: t("DOCS.OS_TAB_LINUX"),
+            }}
           />
         </section>
 
@@ -209,10 +256,8 @@ export GEMINI_API_KEY="${docs.placeholder}"`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(geminiEnvCode, "bash")}
-            code={geminiEnvCode}
-            language="bash"
+          <OSCodeBlock
+            variants={envVariants}
             placeholder={docs.placeholder}
           />
         </section>

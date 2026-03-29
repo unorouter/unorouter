@@ -1,6 +1,7 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import type { OS } from "@/store/docs-store";
 import Claude from "@lobehub/icons/es/Claude";
 import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
@@ -9,6 +10,7 @@ import type { ComponentType } from "react";
 import { GiCrabClaw } from "react-icons/gi";
 import { LuArrowLeftRight, LuArrowRight } from "react-icons/lu";
 import { type Integration, type IntegrationIconKey } from "./integrations";
+import { OSQuickStart } from "./os-quick-start";
 
 const iconMap: Record<
   IntegrationIconKey,
@@ -88,7 +90,20 @@ export async function IntegrationRow(props: {
           <p className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
             {t("DOCS_INDEX.QUICK_START")}
           </p>
-          <CodeBlock language="bash" code={props.integration.quickStart} />
+          <OSQuickStart
+            variants={
+              Object.fromEntries(
+                (["windows", "macos", "linux"] as const).map((os) => [
+                  os,
+                  <CodeBlock
+                    key={os}
+                    language={os === "windows" ? "powershell" : "bash"}
+                    code={props.integration.quickStart[os]}
+                  />,
+                ]),
+              ) as Record<OS, React.ReactNode>
+            }
+          />
         </div>
       </div>
     </div>

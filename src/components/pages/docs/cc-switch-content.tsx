@@ -9,6 +9,7 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { LuArrowLeftRight } from "react-icons/lu";
+import { OSTabs } from "./os-tabs";
 
 export async function CCSwitchContent() {
   const t = await getTranslations();
@@ -131,24 +132,47 @@ export async function CCSwitchContent() {
             {t("DOCS.CC_SWITCH.INSTALLATION")}
           </h2>
 
-          <h3 className="mb-3 text-lg font-medium">macOS</h3>
-          <CodeBlock
-            language="bash"
-            code={`brew tap farion1231/ccswitch
-brew install --cask cc-switch`}
-          />
-
-          <h3 className="mt-6 mb-3 text-lg font-medium">
-            {t("DOCS.CC_SWITCH.INSTALL_WINDOWS_LINUX")}
-          </h3>
-          <p className="text-muted-foreground mb-4 text-sm">
-            {t("DOCS.CC_SWITCH.INSTALL_DOWNLOAD_DESC")}
-          </p>
-          <CodeBlock
-            language="bash"
-            code={`# Available formats: .msi, .zip (Windows), .deb, .AppImage (Linux)
+          <OSTabs
+            windowsContent={
+              <div className="mt-6 space-y-4">
+                <p className="text-muted-foreground text-sm">
+                  {t("DOCS.CC_SWITCH.INSTALL_DOWNLOAD_DESC")}
+                </p>
+                <CodeBlock
+                  language="bash"
+                  code={`# Available formats: .msi, .zip
 # Download from GitHub Releases:
 # https://github.com/farion1231/cc-switch/releases`}
+                />
+              </div>
+            }
+            macosContent={
+              <div className="mt-6">
+                <CodeBlock
+                  language="bash"
+                  code={`brew tap farion1231/ccswitch
+brew install --cask cc-switch`}
+                />
+              </div>
+            }
+            linuxContent={
+              <div className="mt-6 space-y-4">
+                <p className="text-muted-foreground text-sm">
+                  {t("DOCS.CC_SWITCH.INSTALL_DOWNLOAD_DESC")}
+                </p>
+                <CodeBlock
+                  language="bash"
+                  code={`# Available formats: .deb, .AppImage
+# Download from GitHub Releases:
+# https://github.com/farion1231/cc-switch/releases`}
+                />
+              </div>
+            }
+            labels={{
+              windows: t("DOCS.OS_TAB_WINDOWS"),
+              macos: t("DOCS.OS_TAB_MACOS"),
+              linux: t("DOCS.OS_TAB_LINUX"),
+            }}
           />
 
           <h3 className="mt-6 mb-3 text-lg font-medium">

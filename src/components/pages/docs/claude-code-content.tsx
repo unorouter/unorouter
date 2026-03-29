@@ -1,9 +1,5 @@
-import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { Callout } from "@/components/elements/content/callout";
-import {
-  CodeBlock,
-  highlightCode,
-} from "@/components/elements/code/code-block";
+import { CodeBlock } from "@/components/elements/code/code-block";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { TOCLayout } from "@/components/layout/docs/toc";
@@ -15,6 +11,8 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import Claude from "@lobehub/icons/es/Claude";
 import { getTranslations } from "next-intl/server";
 import { CCSwitchSetup } from "./cc-switch-setup";
+import { OSCodeBlock } from "./os-code-block";
+import { buildOSVariants, envVarCode } from "./os-code-helpers";
 import { OSTabs } from "./os-tabs";
 
 export async function ClaudeCodeContent() {
@@ -205,15 +203,44 @@ npm install -g @anthropic-ai/claude-code`}
     </div>
   );
 
-  const claudeConfigCode = `{
+  const configCode = `{
   "env": {
     "ANTHROPIC_BASE_URL": "${docs.apiUrl}",
     "ANTHROPIC_API_KEY": "${docs.placeholder}"
   }
 }`;
 
-  const claudeEnvCode = `export ANTHROPIC_BASE_URL="${docs.apiUrl}"
-export ANTHROPIC_API_KEY="${docs.placeholder}"`;
+  const envVars = {
+    ANTHROPIC_BASE_URL: docs.apiUrl,
+    ANTHROPIC_API_KEY: docs.placeholder,
+  };
+
+  const configVariants = await buildOSVariants({
+    windows: {
+      code: configCode,
+      language: "json",
+      label: "%APPDATA%\\claude\\settings.json",
+    },
+    macos: { code: configCode, language: "json", label: "~/.claude/settings.json" },
+    linux: { code: configCode, language: "json", label: "~/.claude/settings.json" },
+  });
+
+  const envVariants = await buildOSVariants({
+    windows: {
+      code: envVarCode(envVars, "windows"),
+      language: "powershell",
+    },
+    macos: {
+      code: envVarCode(envVars, "macos"),
+      language: "bash",
+      label: "~/.zshrc",
+    },
+    linux: {
+      code: envVarCode(envVars, "linux"),
+      language: "bash",
+      label: "~/.bashrc",
+    },
+  });
 
   return (
     <TOCLayout toc={toc}>
@@ -301,11 +328,8 @@ export ANTHROPIC_API_KEY="${docs.placeholder}"`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(claudeConfigCode, "json")}
-            code={claudeConfigCode}
-            language="json"
-            label="~/.claude/settings.json"
+          <OSCodeBlock
+            variants={configVariants}
             placeholder={docs.placeholder}
           />
 
@@ -316,10 +340,8 @@ export ANTHROPIC_API_KEY="${docs.placeholder}"`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(claudeEnvCode, "bash")}
-            code={claudeEnvCode}
-            language="bash"
+          <OSCodeBlock
+            variants={envVariants}
             placeholder={docs.placeholder}
           />
 

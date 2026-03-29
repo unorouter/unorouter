@@ -1,4 +1,5 @@
 import { TranslationKey } from "@/lib/config/constants";
+import type { OS } from "@/store/docs-store";
 
 export type IntegrationIconKey =
   | "cc-switch"
@@ -23,7 +24,7 @@ type IntegrationDef = {
     arrow: string;
     line: string;
   };
-  quickStart: string;
+  quickStart: Record<OS, string>;
 };
 
 export const integrations = [
@@ -43,8 +44,14 @@ export const integrations = [
       arrow: "text-violet-500 group-hover:text-white",
       line: "bg-violet-600/40",
     },
-    quickStart: `brew tap farion1231/ccswitch
+    quickStart: {
+      windows: `# Download from GitHub Releases:
+# https://github.com/farion1231/cc-switch/releases`,
+      macos: `brew tap farion1231/ccswitch
 brew install --cask cc-switch`,
+      linux: `# Download from GitHub Releases:
+# https://github.com/farion1231/cc-switch/releases`,
+    },
   },
   {
     href: "/docs/claude-code",
@@ -62,10 +69,20 @@ brew install --cask cc-switch`,
       arrow: "text-orange-500 group-hover:text-white",
       line: "bg-orange-600/40",
     },
-    quickStart: `export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+    quickStart: {
+      windows: `$env:ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+$env:ANTHROPIC_API_KEY="YOUR_API_KEY"
+
+claude`,
+      macos: `export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
 export ANTHROPIC_API_KEY="YOUR_API_KEY"
 
 claude`,
+      linux: `export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+export ANTHROPIC_API_KEY="YOUR_API_KEY"
+
+claude`,
+    },
   },
   {
     href: "/docs/codex",
@@ -83,10 +100,20 @@ claude`,
       arrow: "text-emerald-500 group-hover:text-white",
       line: "bg-emerald-600/40",
     },
-    quickStart: `export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+    quickStart: {
+      windows: `$env:OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+$env:OPENAI_API_KEY="YOUR_API_KEY"
+
+codex`,
+      macos: `export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 codex`,
+      linux: `export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
+
+codex`,
+    },
   },
   {
     href: "/docs/gemini-cli",
@@ -104,10 +131,20 @@ codex`,
       arrow: "text-blue-500 group-hover:text-white",
       line: "bg-blue-600/40",
     },
-    quickStart: `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+    quickStart: {
+      windows: `$env:GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+$env:GEMINI_API_KEY="YOUR_API_KEY"
+
+gemini`,
+      macos: `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
 export GEMINI_API_KEY="YOUR_API_KEY"
 
 gemini`,
+      linux: `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+export GEMINI_API_KEY="YOUR_API_KEY"
+
+gemini`,
+    },
   },
   {
     href: "/docs/openclaw",
@@ -125,11 +162,23 @@ gemini`,
       arrow: "text-red-500 group-hover:text-white",
       line: "bg-red-600/40",
     },
-    quickStart: `# In ~/.openclaw/config.yaml
+    quickStart: {
+      windows: `# In %APPDATA%\\openclaw\\config.yaml
+# providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
+$env:OPENAI_API_KEY="YOUR_API_KEY"
+
+openclaw onboard`,
+      macos: `# In ~/.openclaw/config.yaml
 # providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
+      linux: `# In ~/.openclaw/config.yaml
+# providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
+export OPENAI_API_KEY="YOUR_API_KEY"
+
+openclaw onboard`,
+    },
   },
 ] as const satisfies readonly IntegrationDef[];
 

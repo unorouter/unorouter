@@ -1,12 +1,8 @@
-import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { APP_VALUES } from "@/lib/config/constants";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
-import {
-  CodeBlock,
-  highlightCode,
-} from "@/components/elements/code/code-block";
+import { CodeBlock } from "@/components/elements/code/code-block";
 import { Callout } from "@/components/elements/content/callout";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
@@ -15,6 +11,8 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { GiCrabClaw } from "react-icons/gi";
 import { CCSwitchSetup } from "./cc-switch-setup";
+import { OSCodeBlock } from "./os-code-block";
+import { buildOSVariants } from "./os-code-helpers";
 
 export async function OpenClawContent() {
   const t = await getTranslations();
@@ -74,6 +72,24 @@ export async function OpenClawContent() {
     }
   }
 }`;
+
+  const configVariants = await buildOSVariants({
+    windows: {
+      code: openclawConfigCode,
+      language: "json",
+      label: "%APPDATA%\\openclaw\\config.json",
+    },
+    macos: {
+      code: openclawConfigCode,
+      language: "json",
+      label: "~/.openclaw/config.json",
+    },
+    linux: {
+      code: openclawConfigCode,
+      language: "json",
+      label: "~/.openclaw/config.json",
+    },
+  });
 
   return (
     <TOCLayout toc={toc}>
@@ -179,10 +195,8 @@ openclaw onboard`}
           <p className="text-muted-foreground mb-4 text-sm">
             {t("DOCS.OPENCLAW.CONFIG_LOCATION", APP_VALUES)}
           </p>
-          <ApiKeyCodeBlock
-            html={await highlightCode(openclawConfigCode, "json")}
-            code={openclawConfigCode}
-            language="json"
+          <OSCodeBlock
+            variants={configVariants}
             placeholder={docs.placeholder}
           />
 
