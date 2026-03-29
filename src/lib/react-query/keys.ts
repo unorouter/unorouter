@@ -1,31 +1,49 @@
+import { rpc } from "@/lib/rpc";
+import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
+
 export const queryKeys = {
-  searchIndex: () => ["search-index"] as const,
-  pricing: () => ["pricing"] as const,
-  models: () => ["models"] as const,
-  statsLive: () => ["stats-live"] as const,
-  statsHistory: () => ["stats-history"] as const,
-  subscriptionPlans: () => ["subscription-plans"] as const,
+  // Auth & Status
   auth: () => ["auth"] as const,
   status: () => ["status"] as const,
-  dashboardQuota: (startTs?: number, endTs?: number) =>
-    ["dashboard-quota", startTs, endTs] as const,
+  twoFAStatus: () => ["2fa-status"] as const,
+  passkeyStatus: () => ["passkey-status"] as const,
+
+  // Dashboard
+  dashboardQuota: (params?: EdenQuery<typeof rpc.api.dashboard.quota>) =>
+    ["dashboard-quota", params] as const,
   dashboardUptime: () => ["dashboard-uptime"] as const,
-  tokens: (params?: { p?: number; keyword?: string }) =>
+
+  // Tokens
+  tokens: (params?: EdenQuery<typeof rpc.api.token.search>) =>
     ["tokens", params] as const,
-  token: (id: number | string) => ["token", id] as const,
+  token: (id: EdenArgs<typeof rpc.api.token, "get">["id"]) =>
+    ["token", id] as const,
   userGroups: () => ["user-groups"] as const,
   userModels: () => ["user-models"] as const,
-  affiliateCommissions: (params?: { p?: number; page_size?: number }) =>
-    ["affiliate-commissions", params] as const,
-  affiliateInvitees: (params?: { p?: number; page_size?: number }) =>
-    ["affiliate-invitees", params] as const,
-  usageLogs: (params?: Record<string, unknown>) =>
-    ["usage-logs", params] as const,
-  usageLogsStat: (params?: Record<string, unknown>) =>
-    ["usage-logs-stat", params] as const,
+
+  // Billing & Subscriptions
   topUpInfo: () => ["topup-info"] as const,
   subscriptionSelf: () => ["subscription-self"] as const,
   billingPlans: () => ["billing-plans"] as const,
-  twoFAStatus: () => ["2fa-status"] as const,
-  passkeyStatus: () => ["passkey-status"] as const,
+  subscriptionPlans: () => ["subscription-plans"] as const,
+
+  // Affiliate
+  affiliateCommissions: (
+    params?: EdenQuery<typeof rpc.api.affiliate.commissions>,
+  ) => ["affiliate-commissions", params] as const,
+  affiliateInvitees: (params?: EdenQuery<typeof rpc.api.affiliate.invitees>) =>
+    ["affiliate-invitees", params] as const,
+
+  // Logs
+  usageLogs: (params?: EdenQuery<typeof rpc.api.logs>) =>
+    ["usage-logs", params] as const,
+  usageLogsStat: (params?: EdenQuery<typeof rpc.api.logs.stat>) =>
+    ["usage-logs-stat", params] as const,
+
+  // Pricing & Search
+  pricing: () => ["pricing"] as const,
+  models: () => ["models"] as const,
+  searchIndex: () => ["search-index"] as const,
+  statsLive: () => ["stats-live"] as const,
+  statsHistory: () => ["stats-history"] as const,
 };

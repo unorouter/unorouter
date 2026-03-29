@@ -10,10 +10,7 @@ export function useDashboardQuotaQuery(
   args: EdenArgs<typeof rpc.api.dashboard.quota, "get"> = {},
 ) {
   return useQuery({
-    queryKey: queryKeys.dashboardQuota(
-      args.query?.start_timestamp,
-      args.query?.end_timestamp,
-    ),
+    queryKey: queryKeys.dashboardQuota(args.query),
     queryFn: async () =>
       handleElysia(await rpc.api.dashboard.quota.get({ query: args.query })),
   });

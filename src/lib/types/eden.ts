@@ -125,3 +125,10 @@ export type EdenArgs<TRoute, TMethod extends string> = (ShouldIncludeParams<
   ? ExtractParams<TRoute>
   : {}) &
   ExtractBodyAndQuery<ResolveMethod<TRoute, TMethod>>;
+
+/**
+ * Extracts the query type from an Eden Treaty route for a given HTTP method.
+ * Convenience alias for use in query key definitions.
+ */
+export type EdenQuery<TRoute, TMethod extends string = "get"> =
+  EdenArgs<TRoute, TMethod> extends { query?: infer Q } ? Q : never;
