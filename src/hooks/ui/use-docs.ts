@@ -9,12 +9,14 @@ import {
 import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
 import { apiKeyAtom, osAtom } from "@/store/docs-store";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 // Shared across all useDocs() instances to prevent duplicate key fetches
 let keyFetchState: "idle" | "fetching" | "done" = "idle";
 
 export function useDocs() {
+  const router = useRouter();
   const [os, setOs] = useAtom(osAtom);
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
@@ -89,41 +91,29 @@ export function useDocs() {
     );
   }, [isLoggedIn, isTokensLoaded, targetTokenId, apiKey]);
 
-  async function createToken() {
-    // Mark as non-idle so the effect doesn't also try to fetch the key
-    keyFetchState = "fetching";
-
-    await createMutation.mutateAsync({
-      body: {
-        name: "Default",
-        remain_quota: 0,
-        expired_time: -1,
-        unlimited_quota: true,
-        model_limits_enabled: false,
-        model_limits: "",
-        allow_ips: "",
-        group: "auto",
-        cross_group_retry: true,
+  function createToken() {
+    createMutation.mutate(
+      {
+        body: {
+          name: "Default",
+          remain_quota: 0,
+          expired_time: -1,
+          unlimited_quota: true,
+          model_limits_enabled: false,
+          model_limits: "",
+          allow_ips: "",
+          group: "auto",
+          cross_group_retry: true,
+        },
       },
-    });
-
-    // Refetch tokens via React Query to update cache and get the new token's ID
-    const refetchResult = await tokensQuery.refetch();
-    const newToken = refetchResult.data?.items?.find(
-      (tok) =>
-        tok &&
-        tok.status === 1 &&
-        tok.unlimited_quota &&
-        tok.group === "auto" &&
-        !tok.model_limits_enabled,
+      {
+        onSuccess: () => {
+          keyFetchState = "idle";
+          setApiKey(null);
+          router.refresh();
+        },
+      },
     );
-
-    if (newToken) {
-      const keyData = await fetchKeyMutation.mutateAsync({ id: newToken.id });
-      setApiKey(`sk-${keyData.key}`);
-    }
-
-    keyFetchState = "done";
   }
 
   return {
