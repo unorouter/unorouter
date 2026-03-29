@@ -50,9 +50,11 @@ export function LoginForm() {
   async function onSubmit(data: LoginSchema) {
     try {
       const result = await loginMutation.mutateAsync({
-        username: data.username.trim(),
-        password: data.password,
-        turnstile: turnstileToken,
+        body: {
+          username: data.username.trim(),
+          password: data.password,
+          turnstile: turnstileToken,
+        },
       });
       if (result && "require_2fa" in result && result.require_2fa) {
         setShow2FA(true);

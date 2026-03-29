@@ -23,11 +23,3 @@ export const updateSettingBody = t.Object({
   upstream_model_update_notify_enabled: t.Optional(t.Nullable(t.Boolean())),
 });
 
-export const verificationQuery = t.Object({
-  email: t.String(),
-  turnstile: t.Optional(t.String()),
-});
-
-export const twoFACodeBody = t.Object({
-  code: t.String(),
-});

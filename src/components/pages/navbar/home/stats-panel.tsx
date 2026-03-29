@@ -1,6 +1,6 @@
 "use client";
 
-import { useLiveStats } from "@/hooks/stats-hook";
+import { useLiveStats } from "@/hooks/ui/use-live-stats";
 import { useTranslations } from "next-intl";
 import { LuActivity } from "react-icons/lu";
 

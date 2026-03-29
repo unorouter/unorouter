@@ -2,12 +2,15 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import type {
-  ResponseDtoTwoFAStatusData,
-  UpdateUserSettingRequest,
+  ResponseDtoTwoFAStatusDataData,
+  ResponseDtoUserSelfDataData,
 } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+const twoFA = rpc.api.settings["2fa"];
 
 export function use2FAStatusQuery() {
   return useQuery({
@@ -34,28 +37,22 @@ export function useUpdateSelfMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
-      data: Partial<{
-        password: string;
-        original_password: string;
-        email: string;
-        verification_code: string;
-        display_name: string;
-      }>,
-    ) => handleElysia(await rpc.api.settings.self.put(data)),
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData(queryKeys.auth(), (old: any) =>
-        old
-          ? {
-              ...old,
-              data: {
-                ...old.data,
-                ...(variables.display_name && {
-                  display_name: variables.display_name,
+      args: EdenArgs<typeof rpc.api.settings.self, "put">,
+    ) => handleElysia(await rpc.api.settings.self.put(args.body)),
+    onSuccess: (_, args) => {
+      const body = args.body;
+      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+        queryKeys.auth(),
+        (old) =>
+          old
+            ? {
+                ...old,
+                ...(body?.display_name && {
+                  display_name: body.display_name,
                 }),
-                ...(variables.email && { email: variables.email }),
-              },
-            }
-          : old,
+                ...(body?.email && { email: body.email }),
+              }
+            : old,
       );
     },
   });
@@ -70,16 +67,13 @@ export function useDeleteSelfMutation() {
 export function useUpdateSettingMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: UpdateUserSettingRequest) =>
-      handleElysia(await rpc.api.settings.setting.post(data)),
-    onSuccess: (_, variables) => {
-      queryClient.setQueryData(queryKeys.auth(), (old: any) =>
-        old
-          ? {
-              ...old,
-              data: { ...old.data, ...variables },
-            }
-          : old,
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.settings.setting, "post">,
+    ) => handleElysia(await rpc.api.settings.setting.post(args.body)),
+    onSuccess: (_, args) => {
+      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+        queryKeys.auth(),
+        (old) => (old && args.body ? { ...old, ...args.body } : old),
       );
     },
   });
@@ -87,8 +81,12 @@ export function useUpdateSettingMutation() {
 
 export function useSendSettingsVerificationMutation() {
   return useMutation({
-    mutationFn: async (data: { email: string; turnstile?: string }) =>
-      handleElysia(await rpc.api.settings.verification.get({ query: data })),
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.settings.verification, "get">,
+    ) =>
+      handleElysia(
+        await rpc.api.settings.verification.get({ query: args.query }),
+      ),
   });
 }
 
@@ -102,15 +100,14 @@ export function useSetup2FAMutation() {
 export function useEnable2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (code: string) =>
-      handleElysia(await rpc.api.settings["2fa"].enable.post({ code })),
+    mutationFn: async (
+      args: EdenArgs<(typeof twoFA)["enable"], "post">,
+    ) =>
+      handleElysia(await rpc.api.settings["2fa"].enable.post(args.body)),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoTwoFAStatusData>(
+      queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
         queryKeys.twoFAStatus(),
-        (old) =>
-          old
-            ? { ...old, data: { ...old.data, enabled: true } }
-            : old,
+        (old) => (old ? { ...old, enabled: true } : old),
       );
     },
   });
@@ -119,15 +116,14 @@ export function useEnable2FAMutation() {
 export function useDisable2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (code: string) =>
-      handleElysia(await rpc.api.settings["2fa"].disable.post({ code })),
+    mutationFn: async (
+      args: EdenArgs<(typeof twoFA)["disable"], "post">,
+    ) =>
+      handleElysia(await rpc.api.settings["2fa"].disable.post(args.body)),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoTwoFAStatusData>(
+      queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
         queryKeys.twoFAStatus(),
-        (old) =>
-          old
-            ? { ...old, data: { ...old.data, enabled: false } }
-            : old,
+        (old) => (old ? { ...old, enabled: false } : old),
       );
     },
   });
@@ -149,8 +145,8 @@ export function usePasskeyRegisterFinishMutation() {
           credential as Record<string, unknown>,
         ),
       ),
-    onSuccess: (data) => {
-      queryClient.setQueryData(queryKeys.passkeyStatus(), data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.passkeyStatus() });
     },
   });
 }
@@ -160,8 +156,8 @@ export function usePasskeyDeleteMutation() {
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.settings.passkey.delete()),
-    onSuccess: (data) => {
-      queryClient.setQueryData(queryKeys.passkeyStatus(), data);
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.passkeyStatus() });
     },
   });
 }

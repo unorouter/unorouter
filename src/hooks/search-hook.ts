@@ -47,7 +47,6 @@ export function useSearchQuery(query: string) {
       }));
     },
     enabled: !!db && !!query.trim(),
-    staleTime: 1000 * 60 * 5,
   });
 
   return {

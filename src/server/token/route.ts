@@ -1,6 +1,6 @@
+import { paginationQuery } from "@/lib/typebox/common";
 import {
   createTokenBody,
-  tokenListQuery,
   tokenSearchQuery,
   updateTokenBody,
 } from "@/lib/typebox/token";
@@ -27,7 +27,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
       const res = await getAllTokens(query, { headers: upstream.headers });
       return res.data!;
     },
-    { query: tokenListQuery },
+    { query: paginationQuery },
   )
 
   .get(

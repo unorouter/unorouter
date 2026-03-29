@@ -10,9 +10,8 @@ import {
   oauthCallbackQuery,
   oauthStateQuery,
   registerBody,
-  verificationQuery,
-  verify2FABody,
 } from "@/lib/typebox/auth";
+import { twoFACodeBody, verificationQuery } from "@/lib/typebox/common";
 import {
   exchangeOAuthCode,
   generateOAuthCode,
@@ -51,7 +50,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
       });
       return handleAuthResponse(res, set);
     },
-    { body: verify2FABody },
+    { body: twoFACodeBody },
   )
 
   .post(

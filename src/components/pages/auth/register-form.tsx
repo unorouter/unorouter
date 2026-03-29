@@ -46,8 +46,10 @@ export function RegisterForm() {
     const email = form.getValues("email");
     if (!email?.trim()) return;
     await verificationMutation.mutateAsync({
-      email: email.trim(),
-      turnstile: turnstileToken,
+      query: {
+        email: email.trim(),
+        turnstile: turnstileToken,
+      },
     });
   }
 
@@ -55,12 +57,14 @@ export function RegisterForm() {
     try {
       const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;
       await registerMutation.mutateAsync({
-        username: data.username.trim(),
-        password: data.password,
-        email: data.email?.trim() || undefined,
-        verification_code: data.verification_code?.trim() || undefined,
-        aff_code: affCode,
-        turnstile: turnstileToken,
+        body: {
+          username: data.username.trim(),
+          password: data.password,
+          email: data.email?.trim() || undefined,
+          verification_code: data.verification_code?.trim() || undefined,
+          aff_code: affCode,
+          turnstile: turnstileToken,
+        },
       });
       deleteCookie(AFF_CODE_KEY);
       router.push("/login");

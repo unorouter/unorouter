@@ -2,7 +2,7 @@
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { useDashboardData } from "@/hooks/dashboard-hook";
+import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { useTranslations } from "next-intl";
 import {
   LuActivity,

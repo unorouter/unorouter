@@ -1,8 +1,7 @@
 import type { ColumnFiltersState } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { columnFilters as getColumnFilterValues } from "@/store/data-table-store";
-import type { LogStatFilters } from "@/hooks/logs-hook";
-import type { GetUserLogsParams } from "@/openapi";
+import type { GetLogsStatParams, GetUserLogsParams } from "@/openapi";
 
 export type LogFilterValues = {
   start_date?: string;
@@ -37,7 +36,7 @@ export function buildLogQueryFilters(
     ...(filterValues.request_id ? { request_id: filterValues.request_id } : {}),
   };
 
-  const statFilters: LogStatFilters = {
+  const statFilters: GetLogsStatParams = {
     ...(filterValues.log_type != null ? { type: filterValues.log_type } : {}),
     ...(startDate ? { start_timestamp: dayjs(startDate).unix() } : {}),
     ...(endDate ? { end_timestamp: dayjs(endDate).unix() } : {}),

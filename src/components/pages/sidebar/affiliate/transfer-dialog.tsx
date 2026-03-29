@@ -52,7 +52,7 @@ export function TransferDialog(props: TransferDialogProps) {
       toast.error(t("AFFILIATE.TRANSFER_EXCEEDS"));
       return;
     }
-    transferMutation.mutate(quotaUnits, {
+    transferMutation.mutate({ body: { quota: quotaUnits } }, {
       onSuccess: () => {
         toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
         props.onOpenChange(false);

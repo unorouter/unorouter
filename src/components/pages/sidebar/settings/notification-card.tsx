@@ -78,25 +78,28 @@ export function NotificationCard() {
     const parsed = parseUserSetting(user?.setting || "");
     updateSettingMutation.mutate(
       {
-        notify_type: data.notify_type,
-        quota_warning_threshold: dollarsToQuota(
-          data.quota_threshold_dollars || 1,
-        ),
-        accept_unset_model_ratio_model:
-          parsed.accept_unset_model_ratio_model ?? false,
-        record_ip_log: parsed.record_ip_log ?? false,
-        notification_email:
-          data.notify_type === "email" ? data.notification_email : undefined,
-        webhook_url:
-          data.notify_type === "webhook" ? data.webhook_url : undefined,
-        webhook_secret:
-          data.notify_type === "webhook" ? data.webhook_secret : undefined,
-        bark_url: data.notify_type === "bark" ? data.bark_url : undefined,
-        gotify_url: data.notify_type === "gotify" ? data.gotify_url : undefined,
-        gotify_token:
-          data.notify_type === "gotify" ? data.gotify_token : undefined,
-        gotify_priority:
-          data.notify_type === "gotify" ? data.gotify_priority : undefined,
+        body: {
+          notify_type: data.notify_type,
+          quota_warning_threshold: dollarsToQuota(
+            data.quota_threshold_dollars || 1,
+          ),
+          accept_unset_model_ratio_model:
+            parsed.accept_unset_model_ratio_model ?? false,
+          record_ip_log: parsed.record_ip_log ?? false,
+          notification_email:
+            data.notify_type === "email" ? data.notification_email : undefined,
+          webhook_url:
+            data.notify_type === "webhook" ? data.webhook_url : undefined,
+          webhook_secret:
+            data.notify_type === "webhook" ? data.webhook_secret : undefined,
+          bark_url: data.notify_type === "bark" ? data.bark_url : undefined,
+          gotify_url:
+            data.notify_type === "gotify" ? data.gotify_url : undefined,
+          gotify_token:
+            data.notify_type === "gotify" ? data.gotify_token : undefined,
+          gotify_priority:
+            data.notify_type === "gotify" ? data.gotify_priority : undefined,
+        },
       },
       {
         onSuccess: () => {

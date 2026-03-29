@@ -1,4 +1,5 @@
-import { rpc } from "@/lib/rpc";
+import type { Static } from "@sinclair/typebox/type";
+import type { paginationQuery } from "@/lib/typebox/common";
 
 /**
  * Unwraps API response types that may be:
@@ -12,10 +13,4 @@ export type UnwrapApiResponse<T> = NonNullable<
   T extends { success: boolean; data: infer D } ? D : T
 >;
 
-export type PaginationParams = {
-  [K in keyof NonNullable<
-    NonNullable<
-      Parameters<typeof rpc.api.affiliate.commissions.get>[0]
-    >["query"]
-  >]?: number;
-};
+export type PaginationParams = Partial<Static<typeof paginationQuery>>;

@@ -101,7 +101,7 @@ export function TokenDialog(props: TokenDialogProps) {
       setRevealedKey(null);
       return;
     }
-    fetchKeyMutation.mutate(props.token.id, {
+    fetchKeyMutation.mutate({ id: props.token.id }, {
       onSuccess: (data) => setRevealedKey(data.key),
       onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
     });
@@ -116,7 +116,7 @@ export function TokenDialog(props: TokenDialogProps) {
     }
     const tokenId = props.token.id;
     copyToClipboardAsync(() =>
-      fetchKeyMutation.mutateAsync(tokenId).then((data) => `sk-${data.key}`),
+      fetchKeyMutation.mutateAsync({ id: tokenId }).then((data) => `sk-${data.key}`),
     )
       .then(() => toast.success(t("TOKEN.KEY_COPIED")))
       .catch(() => toast.error(t("TOKEN.FETCH_KEY_FAILED")));
@@ -126,7 +126,7 @@ export function TokenDialog(props: TokenDialogProps) {
     if (!props.token) return;
     const isEnabled = props.token.status === 1;
     toggleMutation.mutate(
-      { ...props.token, status: isEnabled ? 2 : 1 },
+      { body: { ...props.token, status: isEnabled ? 2 : 1 } },
       {
         onSuccess: () => {
           toast.success(t("TOKEN.STATUS_CHANGED"));
@@ -139,7 +139,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
   function handleDelete() {
     if (!props.token) return;
-    deleteMutation.mutate(props.token.id, {
+    deleteMutation.mutate({ id: props.token.id }, {
       onSuccess: () => {
         toast.success(t("TOKEN.DELETED_SUCCESS"));
         props.onOpenChange(false);
@@ -163,7 +163,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
     if (isEdit) {
       updateMutation.mutate(
-        { id: props.token!.id, status: props.token!.status, ...payload },
+        { body: { id: props.token!.id, status: props.token!.status, ...payload } },
         {
           onSuccess: () => {
             toast.success(t("TOKEN.UPDATED_SUCCESS"));
@@ -176,7 +176,7 @@ export function TokenDialog(props: TokenDialogProps) {
         },
       );
     } else {
-      createMutation.mutate(payload, {
+      createMutation.mutate({ body: payload }, {
         onSuccess: () => {
           toast.success(t("TOKEN.CREATED_SUCCESS"));
           props.onOpenChange(false);

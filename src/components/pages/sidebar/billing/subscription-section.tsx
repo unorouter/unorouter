@@ -85,12 +85,12 @@ export function SubscriptionSection() {
   const isLoading = plansQuery.isLoading || selfQuery.isLoading;
 
   function handlePreferenceChange(value: string | null) {
-    if (value) preferenceMutation.mutate(value);
+    if (value) preferenceMutation.mutate({ body: { billing_preference: value } });
   }
 
   function handleSubscribe(plan: SubscriptionPlan) {
     if (enableStripe) {
-      stripeSubMutation.mutate(plan.id, {
+      stripeSubMutation.mutate({ body: { plan_id: plan.id } }, {
         onSuccess: (data) => {
           const link = data?.pay_link;
           if (link) window.open(link, "_blank");
@@ -100,7 +100,7 @@ export function SubscriptionSection() {
         },
       });
     } else if (enableCreem) {
-      creemSubMutation.mutate(plan.id, {
+      creemSubMutation.mutate({ body: { plan_id: plan.id } }, {
         onSuccess: (data) => {
           const url = data?.checkout_url;
           if (url) window.open(url, "_blank");

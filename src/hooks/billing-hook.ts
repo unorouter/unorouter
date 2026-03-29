@@ -2,8 +2,12 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
+import type { ResponseControllerSubscriptionSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+const billing = rpc.api.billing;
 
 export function useTopUpInfoQuery() {
   return useQuery({
@@ -32,17 +36,22 @@ export function useSubscriptionSelfQuery() {
 export function useUpdateBillingPreferenceMutation() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (billingPreference: string) =>
+    mutationFn: async (
+      args: EdenArgs<(typeof billing)["subscription-preference"], "put">,
+    ) =>
       handleElysia(
-        await rpc.api.billing["subscription-preference"].put({
-          billing_preference: billingPreference,
-        }),
+        await rpc.api.billing["subscription-preference"].put(args.body),
       ),
-    onSuccess: (_, billingPreference) => {
-      queryClient.setQueryData(queryKeys.subscriptionSelf(), (old: any) =>
-        old
-          ? { ...old, data: { ...old.data, billing_preference: billingPreference } }
-          : old,
+    onSuccess: (_, args) => {
+      queryClient.setQueryData<ResponseControllerSubscriptionSelfDataData>(
+        queryKeys.subscriptionSelf(),
+        (old) =>
+          old
+            ? {
+                ...old,
+                billing_preference: args.body?.billing_preference,
+              }
+            : old,
       );
     },
   });
@@ -50,46 +59,46 @@ export function useUpdateBillingPreferenceMutation() {
 
 export function useStripeTopUpMutation() {
   return useMutation({
-    mutationFn: async (amount: number) =>
-      handleElysia(
-        await rpc.api.billing["stripe-pay"].post({
-          amount,
-          payment_method: "stripe",
-        }),
-      ),
+    mutationFn: async (
+      args: EdenArgs<(typeof billing)["stripe-pay"], "post">,
+    ) =>
+      handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
   });
 }
 
 export function useCreemTopUpMutation() {
   return useMutation({
-    mutationFn: async (productId: string) =>
-      handleElysia(
-        await rpc.api.billing["creem-pay"].post({
-          product_id: productId,
-          payment_method: "creem",
-        }),
-      ),
+    mutationFn: async (
+      args: EdenArgs<(typeof billing)["creem-pay"], "post">,
+    ) =>
+      handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
   });
 }
 
 export function useStripeSubscriptionMutation() {
   return useMutation({
-    mutationFn: async (planId: number) =>
+    mutationFn: async (
+      args: EdenArgs<
+        (typeof billing)["subscription"]["stripe-pay"],
+        "post"
+      >,
+    ) =>
       handleElysia(
-        await rpc.api.billing.subscription["stripe-pay"].post({
-          plan_id: planId,
-        }),
+        await rpc.api.billing.subscription["stripe-pay"].post(args.body),
       ),
   });
 }
 
 export function useCreemSubscriptionMutation() {
   return useMutation({
-    mutationFn: async (planId: number) =>
+    mutationFn: async (
+      args: EdenArgs<
+        (typeof billing)["subscription"]["creem-pay"],
+        "post"
+      >,
+    ) =>
       handleElysia(
-        await rpc.api.billing.subscription["creem-pay"].post({
-          plan_id: planId,
-        }),
+        await rpc.api.billing.subscription["creem-pay"].post(args.body),
       ),
   });
 }

@@ -2,30 +2,26 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import type { GetUserLogsParams } from "@/openapi";
 import { useQuery } from "@tanstack/react-query";
 
-export function useUsageLogsQuery(filters: GetUserLogsParams = {}) {
+export function useUsageLogsQuery(
+  args: EdenArgs<typeof rpc.api.logs, "get"> = {},
+) {
   return useQuery({
-    queryKey: queryKeys.usageLogs(filters),
+    queryKey: queryKeys.usageLogs(args.query),
     queryFn: async () =>
-      handleElysia(await rpc.api.logs.get({ query: filters })),
+      handleElysia(await rpc.api.logs.get({ query: args.query })),
   });
 }
 
-export type LogStatFilters = {
-  type?: number;
-  start_timestamp?: number;
-  end_timestamp?: number;
-  token_name?: string;
-  model_name?: string;
-};
-
-export function useUsageLogsStatQuery(filters: LogStatFilters = {}) {
+export function useUsageLogsStatQuery(
+  args: EdenArgs<typeof rpc.api.logs.stat, "get"> = {},
+) {
   return useQuery({
-    queryKey: queryKeys.usageLogsStat(filters),
+    queryKey: queryKeys.usageLogsStat(args.query),
     queryFn: async () =>
-      handleElysia(await rpc.api.logs.stat.get({ query: filters })),
+      handleElysia(await rpc.api.logs.stat.get({ query: args.query })),
   });
 }

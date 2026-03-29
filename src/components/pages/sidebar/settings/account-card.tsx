@@ -53,7 +53,7 @@ export function AccountCard() {
   function handleSendCode() {
     if (!emailValue) return;
     sendVerificationMutation.mutate(
-      { email: emailValue },
+      { query: { email: emailValue } },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.ACCOUNT.CODE_SENT", { seconds: 60 }));
@@ -68,7 +68,7 @@ export function AccountCard() {
 
   function onSubmitEmail(data: EmailBindSchema) {
     updateSelfMutation.mutate(
-      { email: data.email, verification_code: data.verification_code },
+      { body: { email: data.email, verification_code: data.verification_code } },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.ACCOUNT.EMAIL_BOUND"));

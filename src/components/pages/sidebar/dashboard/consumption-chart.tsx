@@ -12,7 +12,7 @@ import {
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useDashboardData } from "@/hooks/dashboard-hook";
+import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { LuChartBar, LuRefreshCw, LuRotateCcw } from "react-icons/lu";

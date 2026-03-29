@@ -30,7 +30,7 @@ export function TwoFAForm(props: TwoFAFormProps) {
 
   async function onSubmit(data: TwoFASchema) {
     try {
-      await verify2FA.mutateAsync(data.code.trim());
+      await verify2FA.mutateAsync({ body: { code: data.code.trim() } });
       props.onSuccess();
     } catch {
       // error handled by mutation

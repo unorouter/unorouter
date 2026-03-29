@@ -54,7 +54,7 @@ export function TopUpSection() {
   }
 
   function handleStripeTopUp(amount: number) {
-    stripeTopUpMutation.mutate(amount, {
+    stripeTopUpMutation.mutate({ body: { amount, payment_method: "stripe" } }, {
       onSuccess: (data) => {
         if (data.pay_link) window.open(data.pay_link, "_blank");
       },
@@ -65,7 +65,7 @@ export function TopUpSection() {
   }
 
   function handleCreemTopUp(productId: string) {
-    creemTopUpMutation.mutate(productId, {
+    creemTopUpMutation.mutate({ body: { product_id: productId, payment_method: "creem" } }, {
       onSuccess: (data) => {
         if (data.checkout_url) window.open(data.checkout_url, "_blank");
       },

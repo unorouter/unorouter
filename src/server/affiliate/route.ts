@@ -1,7 +1,5 @@
-import {
-  affiliatePaginationQuery,
-  transferQuotaBody,
-} from "@/lib/typebox/affiliate";
+import { transferQuotaBody } from "@/lib/typebox/affiliate";
+import { paginationQuery } from "@/lib/typebox/common";
 import {
   getAffCode,
   getInvitedUsers,
@@ -27,7 +25,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       });
       return res.data!;
     },
-    { query: affiliatePaginationQuery },
+    { query: paginationQuery },
   )
 
   .get(
@@ -38,7 +36,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       });
       return res.data!;
     },
-    { query: affiliatePaginationQuery },
+    { query: paginationQuery },
   )
 
   .post(

@@ -2,13 +2,11 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import type {
-  LoginRequest,
-  RegisterRequest,
-  Verify2FARequest,
-} from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+const login = rpc.api.auth.login;
 
 export function useAuthQuery() {
   return useQuery({
@@ -20,29 +18,35 @@ export function useAuthQuery() {
 
 export function useLoginMutation() {
   return useMutation({
-    mutationFn: async (data: LoginRequest & { turnstile?: string }) =>
-      handleElysia(await rpc.api.auth.login.post(data)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.auth.login, "post">) =>
+      handleElysia(await rpc.api.auth.login.post(args.body)),
   });
 }
 
 export function useVerify2FAMutation() {
   return useMutation({
-    mutationFn: async (code: Verify2FARequest["code"]) =>
-      handleElysia(await rpc.api.auth.login["2fa"].post({ code })),
+    mutationFn: async (
+      args: EdenArgs<(typeof login)["2fa"], "post">,
+    ) => handleElysia(await rpc.api.auth.login["2fa"].post(args.body)),
   });
 }
 
 export function useRegisterMutation() {
   return useMutation({
-    mutationFn: async (data: RegisterRequest & { turnstile?: string }) =>
-      handleElysia(await rpc.api.auth.register.post(data)),
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.auth.register, "post">,
+    ) => handleElysia(await rpc.api.auth.register.post(args.body)),
   });
 }
 
 export function useSendVerificationMutation() {
   return useMutation({
-    mutationFn: async (data: { email: string; turnstile?: string }) =>
-      handleElysia(await rpc.api.auth.verification.get({ query: data })),
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.auth.verification, "get">,
+    ) =>
+      handleElysia(
+        await rpc.api.auth.verification.get({ query: args.query }),
+      ),
   });
 }
 

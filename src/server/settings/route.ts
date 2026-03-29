@@ -1,9 +1,5 @@
-import {
-  twoFACodeBody,
-  updateSelfBody,
-  updateSettingBody,
-  verificationQuery,
-} from "@/lib/typebox/settings";
+import { twoFACodeBody, verificationQuery } from "@/lib/typebox/common";
+import { updateSelfBody, updateSettingBody } from "@/lib/typebox/settings";
 import {
   deleteSelf,
   disable2FA,

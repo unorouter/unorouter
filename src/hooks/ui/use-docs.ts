@@ -18,7 +18,7 @@ export function useDocs() {
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
 
-  const tokensQuery = useTokensQuery(DOCS_TOKEN_PARAMS);
+  const tokensQuery = useTokensQuery({ query: DOCS_TOKEN_PARAMS });
   const createMutation = useCreateTokenMutation();
   const fetchKeyMutation = useFetchTokenKeyMutation();
 
@@ -75,7 +75,7 @@ export function useDocs() {
     }
 
     actionRef.current = "fetching";
-    fetchKeyMutation.mutate(targetToken.id, {
+    fetchKeyMutation.mutate({ id: targetToken.id }, {
       onSuccess: (data) => {
         setApiKey(`sk-${data.key}`);
         actionRef.current = "done";
@@ -89,15 +89,17 @@ export function useDocs() {
   function createToken() {
     createMutation.mutate(
       {
-        name: "Default",
-        remain_quota: 0,
-        expired_time: -1,
-        unlimited_quota: true,
-        model_limits_enabled: false,
-        model_limits: "",
-        allow_ips: "",
-        group: "auto",
-        cross_group_retry: true,
+        body: {
+          name: "Default",
+          remain_quota: 0,
+          expired_time: -1,
+          unlimited_quota: true,
+          model_limits_enabled: false,
+          model_limits: "",
+          allow_ips: "",
+          group: "auto",
+          cross_group_retry: true,
+        },
       },
       {
         onSuccess: () => {

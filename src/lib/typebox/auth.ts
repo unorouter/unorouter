@@ -6,10 +6,6 @@ export const loginBody = t.Object({
   turnstile: t.Optional(t.String()),
 });
 
-export const verify2FABody = t.Object({
-  code: t.String(),
-});
-
 export const registerBody = t.Object({
   username: t.String(),
   password: t.String(),
@@ -28,7 +24,3 @@ export const oauthCallbackQuery = t.Object({
   code: t.String(),
 });
 
-export const verificationQuery = t.Object({
-  email: t.String(),
-  turnstile: t.Optional(t.String()),
-});
