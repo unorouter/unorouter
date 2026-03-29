@@ -40,17 +40,16 @@ export function useUpdateSelfMutation() {
     mutationFn: async (args: EdenArgs<typeof rpc.api.settings.self, "put">) =>
       handleElysia(await rpc.api.settings.self.put(args.body)),
     onSuccess: (_, args) => {
-      const body = args.body;
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
         queryKeys.auth(),
         (old) =>
           old
             ? {
                 ...old,
-                ...(body?.display_name && {
-                  display_name: body.display_name,
+                ...(args.body.display_name && {
+                  display_name: args.body.display_name,
                 }),
-                ...(body?.email && { email: body.email }),
+                ...(args.body.email && { email: args.body.email }),
               }
             : old,
       );
@@ -73,7 +72,7 @@ export function useUpdateSettingMutation() {
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
         queryKeys.auth(),
-        (old) => (old && args.body ? { ...old, ...args.body } : old),
+        (old) => (old ? { ...old, ...args.body } : old),
       );
     },
   });

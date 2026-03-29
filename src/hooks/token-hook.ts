@@ -86,7 +86,7 @@ export function useUpdateTokenMutation() {
             ? {
                 ...old,
                 items: old.items.map((item) =>
-                  item?.id === args.body?.id ? { ...item, ...args.body } : item,
+                  item?.id === args.body.id ? { ...item, ...args.body } : item,
                 ),
               }
             : old,
@@ -109,8 +109,8 @@ export function useToggleTokenStatusMutation() {
             ? {
                 ...old,
                 items: old.items.map((item) =>
-                  item?.id === args.body?.id
-                    ? { ...item, status: args.body?.status }
+                  item?.id === args.body.id
+                    ? { ...item, status: args.body.status }
                     : item,
                 ),
               }
