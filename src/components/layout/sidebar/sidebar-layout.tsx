@@ -31,7 +31,7 @@ export function SidebarLayout(props: SidebarLayoutProps) {
       <AppSidebar variant="inset" navConfig={props.navConfig} />
       <SidebarInset>
         <SidebarHeader showSearch={props.showSearch} />
-        <div className="flex flex-1">{props.children}</div>
+        <div className="flex min-w-0 flex-1">{props.children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

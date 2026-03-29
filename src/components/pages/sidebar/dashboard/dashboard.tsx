@@ -37,7 +37,7 @@ export function Dashboard(props: DashboardProps) {
   const hasInfoRow = hasAnnouncements || hasFaq || hasUptime;
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-0 p-4 md:p-6">
+    <div className="flex min-w-0 flex-1 flex-col gap-0 p-4 md:p-6">
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
@@ -74,7 +74,9 @@ export function Dashboard(props: DashboardProps) {
       <div
         className={`mb-6 grid gap-6 ${hasApiInfo ? "lg:grid-cols-[1fr_320px]" : ""}`}
       >
-        <ConsumptionChart />
+        <div className="min-w-0">
+          <ConsumptionChart />
+        </div>
         {hasApiInfo && <ApiInfoPanel />}
       </div>
 

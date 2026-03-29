@@ -1,19 +1,17 @@
 "use client";
 
-import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
-import { useVerify2FAMutation } from "@/hooks/auth-hook";
+import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import {
-  twoFAChecker,
-  twoFASchema,
-  type TwoFASchema,
-} from "@/lib/validation/auth";
-import { safeParse } from "@/lib/validation/helpers";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { useVerify2FAMutation } from "@/hooks/auth-hook";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 interface TwoFAFormProps {
   onSuccess: () => void;
@@ -22,70 +20,64 @@ interface TwoFAFormProps {
 export function TwoFAForm(props: TwoFAFormProps) {
   const t = useTranslations();
   const verify2FA = useVerify2FAMutation();
+  const [code, setCode] = useState("");
 
-  const form = useForm({
-    resolver: typeboxResolver(twoFASchema),
-    defaultValues: Value.Default(twoFASchema, {}) as TwoFASchema,
-  });
-
-  async function onSubmit(data: TwoFASchema) {
+  async function onSubmit(value: string) {
     try {
-      await verify2FA.mutateAsync({ body: { code: data.code.trim() } });
+      await verify2FA.mutateAsync({ body: { code: value.trim() } });
       props.onSuccess();
     } catch {
-      // error handled by mutation
+      setCode("");
     }
   }
 
-  const formValues = form.watch();
-  const isValid = safeParse(twoFAChecker, { code: formValues.code }).success;
-
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-2 text-center">
-          <h2 className="text-foreground text-xl font-semibold">
-            {t("AUTH.TWO_FA_TITLE")}
-          </h2>
-          <p className="text-muted-foreground text-sm">
-            {t("AUTH.TWO_FA_DESCRIPTION")}
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <MyFormInput
-            control={form.control}
-            name="code"
-            schema={twoFASchema}
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            placeholder={t("AUTH.TWO_FA_CODE_PLACEHOLDER")}
-            className="border-border/60 bg-background/60 h-11 rounded-2xl text-center text-lg tracking-[0.5em]"
+    <GlassAuthCard
+      title={t("AUTH.TWO_FA_TITLE")}
+      description={t("AUTH.TWO_FA_DESCRIPTION")}
+    >
+      <div className="space-y-6">
+        <div className="flex justify-center">
+          <InputOTP
             maxLength={6}
-            onChange={(e) => {
-              const cleaned = e.target.value.replace(/\D/g, "").slice(0, 6);
-              form.setValue("code", cleaned);
-            }}
-          />
-
-          {verify2FA.error && (
-            <p className="text-destructive text-center text-xs font-medium">
-              {verify2FA.error.message}
-            </p>
-          )}
-
-          <Button
-            type="submit"
-            disabled={!isValid || verify2FA.isPending}
-            className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
+            pattern={REGEXP_ONLY_DIGITS}
+            value={code}
+            onChange={setCode}
+            onComplete={onSubmit}
+            disabled={verify2FA.isPending}
+            autoFocus
           >
-            {verify2FA.isPending
-              ? t("AUTH.TWO_FA_VERIFYING")
-              : t("AUTH.TWO_FA_SUBMIT")}
-          </Button>
+            <InputOTPGroup>
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator />
+            <InputOTPGroup>
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
         </div>
-      </form>
-    </Form>
+
+        {verify2FA.error && (
+          <p className="text-destructive text-center text-xs font-medium">
+            {verify2FA.error.message}
+          </p>
+        )}
+
+        <Button
+          type="button"
+          disabled={code.length !== 6 || verify2FA.isPending}
+          onClick={() => onSubmit(code)}
+          className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
+        >
+          {verify2FA.isPending
+            ? t("AUTH.TWO_FA_VERIFYING")
+            : t("AUTH.TWO_FA_SUBMIT")}
+        </Button>
+      </div>
+    </GlassAuthCard>
   );
 }

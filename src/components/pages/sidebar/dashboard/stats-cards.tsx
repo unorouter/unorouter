@@ -197,7 +197,7 @@ export function StatsCards() {
   ];
 
   return (
-    <div className="divide-border grid grid-cols-1 divide-x-0 divide-y md:grid-cols-2 md:divide-x md:divide-y-0 lg:grid-cols-4">
+    <div className="divide-border grid grid-cols-1 divide-y md:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-y-0">
       {cards.map((card, i) => (
         <StatsCard key={i} title={card.title} items={card.items} />
       ))}

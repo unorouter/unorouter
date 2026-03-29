@@ -118,7 +118,7 @@ export function ConsumptionChart() {
   );
 
   return (
-    <div className="border-border bg-card flex flex-col border">
+    <div className="border-border bg-card flex min-w-0 flex-col overflow-hidden border">
       <div className="border-border flex flex-col gap-3 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <LuChartBar className="text-muted-foreground h-4 w-4" />
@@ -167,18 +167,18 @@ export function ConsumptionChart() {
         </div>
       ) : (
         <Tabs defaultValue="distribution" className="flex-1">
-          <div className="border-border border-b px-5 pt-2">
+          <div className="border-border overflow-x-auto border-b px-5 pt-2">
             <TabsList variant="line" className="h-8">
-              <TabsTrigger value="distribution" className="font-mono text-xs">
+              <TabsTrigger value="distribution" className="font-mono text-xs whitespace-nowrap">
                 {t("DASHBOARD.CONSUMPTION_DISTRIBUTION")}
               </TabsTrigger>
-              <TabsTrigger value="trend" className="font-mono text-xs">
+              <TabsTrigger value="trend" className="font-mono text-xs whitespace-nowrap">
                 {t("DASHBOARD.CONSUMPTION_TREND")}
               </TabsTrigger>
-              <TabsTrigger value="pie" className="font-mono text-xs">
+              <TabsTrigger value="pie" className="font-mono text-xs whitespace-nowrap">
                 {t("DASHBOARD.CALLS_DISTRIBUTION")}
               </TabsTrigger>
-              <TabsTrigger value="ranking" className="font-mono text-xs">
+              <TabsTrigger value="ranking" className="font-mono text-xs whitespace-nowrap">
                 {t("DASHBOARD.CALLS_RANKING")}
               </TabsTrigger>
             </TabsList>

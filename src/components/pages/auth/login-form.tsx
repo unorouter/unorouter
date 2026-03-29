@@ -119,15 +119,16 @@ export function LoginForm() {
                 />
               </div>
 
-              {statusQuery.data?.turnstile_check && statusQuery.data.turnstile_site_key && (
-                <div className="flex justify-center">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={statusQuery.data.turnstile_site_key}
-                    onSuccess={setTurnstileToken}
-                  />
-                </div>
-              )}
+              {statusQuery.data?.turnstile_check &&
+                statusQuery.data.turnstile_site_key && (
+                  <div className="flex justify-center">
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey={statusQuery.data.turnstile_site_key}
+                      onSuccess={setTurnstileToken}
+                    />
+                  </div>
+                )}
 
               {loginMutation.error && (
                 <p className="text-destructive text-center text-xs font-medium">
