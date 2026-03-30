@@ -77,8 +77,8 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     );
     return (
       <>
-        {props.chatContent}
         <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
+        {props.chatContent}
       </>
     );
   }

@@ -1,6 +1,8 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { SidebarMenuItem } from "@/components/ui/sidebar";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -21,6 +23,15 @@ type ConversationItemProps = {
 };
 
 export function ConversationItem(props: ConversationItemProps) {
+  const pricingQuery = usePricingQuery();
+  const modelData = pricingQuery.data?.models?.find(
+    (m) => m.name === props.conversation.model,
+  );
+  const vendorName =
+    typeof modelData?.vendor === "string"
+      ? modelData.vendor
+      : modelData?.vendor?.name ?? "";
+
   return (
     <SidebarMenuItem>
       <div
@@ -39,7 +50,8 @@ export function ConversationItem(props: ConversationItemProps) {
           <div className="truncate text-sm">
             {props.conversation.title || "New conversation"}
           </div>
-          <div className="text-muted-foreground mt-0.5 flex items-center gap-1.5 text-[10px]">
+          <div className="text-muted-foreground mt-0.5 flex items-center gap-1 text-[10px] leading-none">
+            <VendorIcon vendor={vendorName} size={10} />
             <span className="font-mono">{props.conversation.model}</span>
             <span>&middot;</span>
             <span>{dayjs(props.conversation.updatedAt).fromNow()}</span>
