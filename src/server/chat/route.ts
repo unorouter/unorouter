@@ -4,9 +4,19 @@ import { deleteR2Prefix, mediaKey, uploadToR2 } from "@/lib/storage/r2";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { streamText } from "ai";
 import { and, desc, eq, sql } from "drizzle-orm";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
 import { deriveUpstream } from "../constants";
+import {
+  createConversationBody,
+  imageGenerationBody,
+  listConversationsQuery,
+  mediaUploadBody,
+  persistMessagesBody,
+  streamBody,
+  updateConversationBody,
+  videoGenerationBody,
+} from "@/lib/validation/chat";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
@@ -97,12 +107,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         },
       };
     },
-    {
-      query: t.Object({
-        p: t.Optional(t.Numeric({ minimum: 1 })),
-        page_size: t.Optional(t.Numeric({ minimum: 1, maximum: 100 })),
-      }),
-    },
+    { query: listConversationsQuery },
   )
 
   // Create a new conversation
@@ -128,12 +133,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         data: { id, model: body.model, title: body.title ?? null },
       };
     },
-    {
-      body: t.Object({
-        model: t.String(),
-        title: t.Optional(t.String()),
-      }),
-    },
+    { body: createConversationBody },
   )
 
   // Get a single conversation with all messages
@@ -179,11 +179,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       if (result.length === 0) throw new Error("Not found");
       return { success: true, data: { id: params.id, title: body.title } };
     },
-    {
-      body: t.Object({
-        title: t.String(),
-      }),
-    },
+    { body: updateConversationBody },
   )
 
   // Delete a conversation (cascade deletes messages, cleanup R2)
@@ -330,17 +326,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         data: { ids: toInsert.map((m) => m.id) },
       };
     },
-    {
-      body: t.Object({
-        messages: t.Array(
-          t.Object({
-            id: t.Optional(t.String()),
-            role: t.String(),
-            parts: t.Any(),
-          }),
-        ),
-      }),
-    },
+    { body: persistMessagesBody },
   )
 
   // Stream text via AI SDK
@@ -357,12 +343,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return result.toUIMessageStreamResponse();
     },
-    {
-      body: t.Object({
-        model: t.String(),
-        messages: t.Any(),
-      }),
-    },
+    { body: streamBody },
   )
 
   // Upload media file to R2
@@ -390,13 +371,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         data: { url, mimeType: file.type, sizeBytes: buffer.length },
       };
     },
-    {
-      body: t.Object({
-        file: t.File(),
-        convId: t.String(),
-        msgId: t.String(),
-      }),
-    },
+    { body: mediaUploadBody },
   )
 
   // Generate image via AI SDK
@@ -428,14 +403,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return { success: true, data: { urls } };
     },
-    {
-      body: t.Object({
-        prompt: t.String(),
-        model: t.String(),
-        convId: t.String(),
-        msgId: t.String(),
-      }),
-    },
+    { body: imageGenerationBody },
   )
 
   // Generate video (submit task, poll, download, upload to R2)
@@ -512,13 +480,5 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       throw new Error("Video generation timed out");
     },
-    {
-      body: t.Object({
-        prompt: t.String(),
-        model: t.String(),
-        convId: t.String(),
-        msgId: t.String(),
-        image: t.Optional(t.String()),
-      }),
-    },
+    { body: videoGenerationBody },
   );
