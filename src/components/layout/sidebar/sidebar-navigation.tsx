@@ -63,12 +63,25 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
 
 interface SidebarNavigationProps {
   navConfig?: SidebarNavConfig;
+  chatContent?: React.ReactNode;
 }
 
 export function SidebarNavigation(props: SidebarNavigationProps) {
   const t = useTranslations();
   const { data: user } = useAuthQuery();
   const authenticated = !!user;
+
+  if (props.navConfig === "chat") {
+    const mainNavItems = navigation(authenticated).filter(
+      (item) => !item.hidden && item.href !== "/chat",
+    );
+    return (
+      <>
+        {props.chatContent}
+        <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
+      </>
+    );
+  }
 
   if (props.navConfig === "docs") {
     const mainNavItems = navigation(authenticated).filter(

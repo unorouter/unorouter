@@ -26,9 +26,13 @@ jobs:
 
           echo SYSTEM_ACCESS_TOKEN=${{ secrets.SYSTEM_ACCESS_TOKEN }} >> .env
 
-          echo RESEND_WEBHOOK_SECRET=${{ secrets.RESEND_WEBHOOK_SECRET }} >> .env
-          echo RESEND_API_KEY=${{ secrets.RESEND_API_KEY }} >> .env
-          echo RESEND_FROM=${{ secrets.RESEND_FROM }} >> .env
+          echo TURSO_DATABASE_URL=${{ secrets.TURSO_DATABASE_URL }} >> .env
+          echo TURSO_AUTH_TOKEN=${{ secrets.TURSO_AUTH_TOKEN }} >> .env
+
+          echo R2_ACCOUNT_ID=${{ secrets.R2_ACCOUNT_ID }} >> .env
+          echo R2_ACCESS_KEY_ID=${{ secrets.R2_ACCESS_KEY_ID }} >> .env
+          echo R2_SECRET_ACCESS_KEY=${{ secrets.R2_SECRET_ACCESS_KEY }} >> .env
+          echo R2_PUBLIC_URL=${{ secrets.R2_PUBLIC_URL }} >> .env
 
       - name: Docker run
         run: docker compose up -d --force-recreate --build

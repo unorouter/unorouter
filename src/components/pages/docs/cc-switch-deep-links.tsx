@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useDeepLink } from "@/hooks/ui/use-deep-link";
 import { useDocs } from "@/hooks/ui/use-docs";
 import { Link } from "@/i18n/navigation";
 import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
@@ -8,6 +9,8 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import {
+  LuCircleAlert,
+  LuDownload,
   LuExternalLink,
   LuEye,
   LuEyeOff,
@@ -35,6 +38,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
   const t = useTranslations();
   const token = useDocs();
   const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
+  const { showInstall, installRef, openDeepLink } = useDeepLink();
 
   const displayKey = token.apiKey
     ? revealed
@@ -129,7 +133,11 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
       {/* App buttons */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {props.apps.map((app) => (
-          <a key={app.app} href={buildDeepLink(app)}>
+          <a
+            key={app.app}
+            href={buildDeepLink(app)}
+            onClick={(e) => openDeepLink(e, buildDeepLink(app))}
+          >
             <Button
               className="w-full gap-2"
               variant="outline"
@@ -146,6 +154,31 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
           </a>
         ))}
       </div>
+
+      {/* Not installed banner */}
+      {showInstall && (
+        <div
+          ref={installRef}
+          className="border-border bg-card animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-lg border px-4 py-3"
+        >
+          <LuCircleAlert className="text-muted-foreground size-4 shrink-0" />
+          <span className="text-muted-foreground text-sm">
+            {t("DOCS.CC_SWITCH_SETUP_NO_APP")}
+          </span>
+          <Button
+            nativeButton={false}
+            size="xs"
+            variant="outline"
+            className="ml-auto shrink-0 gap-1.5"
+            render={
+              <Link href={{ pathname: "/docs/cc-switch", hash: "installation" }} />
+            }
+          >
+            <LuDownload className="size-3" />
+            {t("DOCS.CC_SWITCH_SETUP_INSTALL_LINK")}
+          </Button>
+        </div>
+      )}
 
       {/* CLI Alternative */}
       <div>

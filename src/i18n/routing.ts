@@ -60,6 +60,12 @@ export const pathnames = {
   "/docs/cc-switch": {
     de: "/docs/cc-switch",
   },
+  "/chat": {
+    de: "/chat",
+  },
+  "/shared/[shareId]": {
+    de: "/geteilt/[shareId]",
+  },
   "/privacy": {
     de: "/datenschutz",
   },

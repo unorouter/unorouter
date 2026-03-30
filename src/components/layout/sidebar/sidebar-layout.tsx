@@ -11,6 +11,7 @@ interface SidebarLayoutProps {
   navConfig?: SidebarNavConfig;
   showSearch?: boolean;
   before?: React.ReactNode;
+  chatContent?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -28,7 +29,7 @@ export function SidebarLayout(props: SidebarLayoutProps) {
       }
     >
       {props.before}
-      <AppSidebar variant="inset" navConfig={props.navConfig} />
+      <AppSidebar variant="inset" navConfig={props.navConfig} chatContent={props.chatContent} />
       <SidebarInset>
         <SidebarHeader showSearch={props.showSearch} />
         <div className="flex min-w-0 flex-1">{props.children}</div>

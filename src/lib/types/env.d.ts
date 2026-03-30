@@ -8,9 +8,13 @@ declare namespace NodeJS {
 
     SYSTEM_ACCESS_TOKEN: string;
 
-    RESEND_FORWARD_TO: string;
-    RESEND_FROM: string;
-    RESEND_WEBHOOK_SECRET: string;
+    TURSO_DATABASE_URL: string;
+    TURSO_AUTH_TOKEN?: string;
+
+    R2_ACCOUNT_ID: string;
+    R2_ACCESS_KEY_ID: string;
+    R2_SECRET_ACCESS_KEY: string;
+    R2_PUBLIC_URL?: string;
 
     STANDALONE?: string;
     PORT?: string;

@@ -15,7 +15,8 @@
     "OPENCLAW": "OpenClaw",
     "DASHBOARD": "Dashboard",
     "LOG_IN": "Log In",
-    "GET_STARTED": "Get Started"
+    "GET_STARTED": "Get Started",
+    "CHAT": "Chat"
   },
   "HOME": {
     "META": {
@@ -673,7 +674,7 @@
     "CONTACT_TITLE": "Contact",
     "CONTACT_SUBTITLE": "Questions or concerns?",
     "DESCRIPTION": "Unified AI API platform providing access to hundreds of models from multiple providers through a single, intelligent endpoint.",
-    "COPYRIGHT": "\u00a9 {year} {appName}. All rights reserved.",
+    "COPYRIGHT": "© {year} {appName}. All rights reserved.",
     "LEGAL_DISCLAIMER": "By using this platform, you acknowledge that you have read and agreed to our",
     "LEGAL_TERMS": "Terms of Service",
     "LEGAL_AND": "and",
@@ -843,7 +844,8 @@
     "LOGS": "Usage Logs",
     "AFFILIATE": "Affiliate",
     "BILLING": "Billing",
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "CHAT": "Chat"
   },
   "DASHBOARD": {
     "GREETING_MORNING": "Good morning",
@@ -1222,5 +1224,35 @@
     "START_TYPING": "Start typing to search documentation",
     "LOADING": "Loading search index...",
     "NO_RESULTS": "No results found."
+  },
+  "CHAT": {
+    "NEW_CONVERSATION": "New Chat",
+    "SEARCH_PLACEHOLDER": "Search conversations...",
+    "NO_RESULTS": "No matching conversations",
+    "NO_CONVERSATIONS": "No conversations yet",
+    "EMPTY_TITLE": "Start a Conversation",
+    "EMPTY_DESCRIPTION": "Select a model and start chatting to test any AI model.",
+    "SELECT_MODEL": "Select model",
+    "SEARCH_MODEL": "Search models...",
+    "NO_MODELS_FOUND": "No models found",
+    "MODEL_GROUP_TEXT": "Text & Reasoning",
+    "MODEL_GROUP_IMAGE": "Image Generation",
+    "MODEL_GROUP_VIDEO": "Video Generation",
+    "INPUT_PLACEHOLDER": "Type your message...",
+    "START_PROMPT": "Send a message to start the conversation.",
+    "THINKING": "Thinking...",
+    "DISCLAIMER": "AI responses may be inaccurate. Verify important information.",
+    "SHARE": "Share",
+    "SHARE_TITLE": "Share Conversation",
+    "SHARE_DESCRIPTION": "Anyone with the link can view this conversation.",
+    "SHARE_CREATED": "Share link created",
+    "SHARE_REVOKED": "Share link removed",
+    "LINK_COPIED": "Link copied to clipboard",
+    "GENERATE_LINK": "Generate Share Link",
+    "REVOKE_SHARE": "Remove Share Link",
+    "SHARED_CONVERSATION": "Shared Conversation",
+    "SHARED_NOT_FOUND": "This shared conversation was not found or has been removed.",
+    "UNTITLED": "Untitled Conversation",
+    "DELETE_CONFIRM": "Are you sure you want to delete this conversation?"
   }
 }

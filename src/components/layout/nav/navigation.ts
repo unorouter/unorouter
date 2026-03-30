@@ -10,6 +10,7 @@ import {
   LuKey,
   LuLayoutDashboard,
   LuLayers,
+  LuMessageCircle,
   LuScrollText,
   LuSettings,
   LuWallet,
@@ -50,6 +51,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   },
   { name: "NAV.MODELS", href: "/models", icon: LuLayers },
   { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
+  { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle },
   {
     name: "NAV.DOCS",
     href: "/docs",

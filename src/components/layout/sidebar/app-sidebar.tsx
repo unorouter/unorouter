@@ -14,15 +14,15 @@ import { Link } from "@/i18n/navigation";
 import * as React from "react";
 import { SidebarNavigation } from "./sidebar-navigation";
 
-export type SidebarNavConfig = "default" | "docs";
+export type SidebarNavConfig = "default" | "docs" | "chat";
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   navConfig?: SidebarNavConfig;
+  chatContent?: React.ReactNode;
 }
 
 export function AppSidebar(props: AppSidebarProps) {
-  const { navConfig = "default", ...sidebarProps } = props;
-  const isDocs = navConfig === "docs";
+  const { navConfig = "default", chatContent, ...sidebarProps } = props;
 
   return (
     <Sidebar collapsible="icon" {...sidebarProps}>
@@ -46,7 +46,7 @@ export function AppSidebar(props: AppSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarNavigation navConfig={navConfig} />
+        <SidebarNavigation navConfig={navConfig} chatContent={chatContent} />
       </SidebarContent>
     </Sidebar>
   );

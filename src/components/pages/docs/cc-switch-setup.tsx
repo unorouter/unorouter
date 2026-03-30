@@ -1,12 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useDeepLink } from "@/hooks/ui/use-deep-link";
 import { useDocs } from "@/hooks/ui/use-docs";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import {
   LuArrowLeftRight,
+  LuCircleAlert,
+  LuDownload,
   LuExternalLink,
   LuKey,
   LuLoader,
@@ -24,6 +27,7 @@ interface CCSwitchSetupProps {
 export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const t = useTranslations();
   const token = useDocs();
+  const { showInstall, installRef, openDeepLink } = useDeepLink();
 
   const deepLinkParams = new URLSearchParams({
     resource: "provider",
@@ -46,7 +50,11 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
       </p>
 
       <div className="border-border bg-card rounded-lg border p-6">
-        <a href={deepLink} className="block">
+        <a
+          href={deepLink}
+          className="block"
+          onClick={(e) => openDeepLink(e, deepLink)}
+        >
           <Button
             className="w-full gap-2"
             size="lg"
@@ -94,22 +102,38 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
           </div>
         )}
 
+        {showInstall && (
+          <div
+            ref={installRef}
+            className="animate-in fade-in slide-in-from-top-2 mt-3 flex items-center gap-2"
+          >
+            <LuCircleAlert className="text-muted-foreground size-3.5 shrink-0" />
+            <span className="text-muted-foreground text-xs">
+              {t("DOCS.CC_SWITCH_SETUP_NO_APP")}
+            </span>
+            <Button
+              nativeButton={false}
+              size="xs"
+              variant="outline"
+              className="ml-auto shrink-0 gap-1.5"
+              render={
+                <Link
+                  href={{ pathname: "/docs/cc-switch", hash: "installation" }}
+                />
+              }
+            >
+              <LuDownload className="size-3" />
+              {t("DOCS.CC_SWITCH_SETUP_INSTALL_LINK")}
+            </Button>
+          </div>
+        )}
+
         <div className="mt-6">
           <p className="text-muted-foreground mb-2 text-sm font-medium">
             {t("DOCS.CC_SWITCH_SETUP_CLI_ALT")}
           </p>
           {props.cliCodeBlock}
         </div>
-
-        <p className="text-muted-foreground mt-4 text-xs">
-          {t("DOCS.CC_SWITCH_SETUP_NO_APP")}{" "}
-          <Link
-            href={{ pathname: "/docs/cc-switch", hash: "installation" }}
-            className="text-primary underline"
-          >
-            {t("DOCS.CC_SWITCH_SETUP_INSTALL_LINK")}
-          </Link>
-        </p>
       </div>
     </section>
   );

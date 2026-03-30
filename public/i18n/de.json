@@ -15,7 +15,8 @@
     "OPENCLAW": "OpenClaw",
     "DASHBOARD": "Dashboard",
     "LOG_IN": "Anmelden",
-    "GET_STARTED": "Loslegen"
+    "GET_STARTED": "Loslegen",
+    "CHAT": "Chat"
   },
   "HOME": {
     "META": {
@@ -673,7 +674,7 @@
     "CONTACT_TITLE": "Kontakt",
     "CONTACT_SUBTITLE": "Fragen oder Anliegen?",
     "DESCRIPTION": "Einheitliche KI-API-Plattform mit Zugang zu hunderten Modellen von zahlreichen Anbietern über einen einzigen, intelligenten Endpunkt.",
-    "COPYRIGHT": "\u00a9 {year} {appName}. Alle Rechte vorbehalten.",
+    "COPYRIGHT": "© {year} {appName}. Alle Rechte vorbehalten.",
     "LEGAL_DISCLAIMER": "Durch die Nutzung dieser Plattform bestätigst du, dass du unsere",
     "LEGAL_TERMS": "Nutzungsbedingungen",
     "LEGAL_AND": "und",
@@ -843,7 +844,8 @@
     "LOGS": "Nutzungsprotokolle",
     "AFFILIATE": "Partnerprogramm",
     "BILLING": "Abrechnung",
-    "SETTINGS": "Einstellungen"
+    "SETTINGS": "Einstellungen",
+    "CHAT": "Chat"
   },
   "DASHBOARD": {
     "GREETING_MORNING": "Guten Morgen",
@@ -1222,5 +1224,35 @@
     "START_TYPING": "Tippen Sie, um die Dokumentation zu durchsuchen",
     "LOADING": "Suchindex wird geladen...",
     "NO_RESULTS": "Keine Ergebnisse gefunden."
+  },
+  "CHAT": {
+    "NEW_CONVERSATION": "Neuer Chat",
+    "SEARCH_PLACEHOLDER": "Unterhaltungen durchsuchen...",
+    "NO_RESULTS": "Keine passenden Unterhaltungen",
+    "NO_CONVERSATIONS": "Noch keine Unterhaltungen",
+    "EMPTY_TITLE": "Unterhaltung starten",
+    "EMPTY_DESCRIPTION": "Wähle ein Modell aus und teste beliebige KI-Modelle im Chat.",
+    "SELECT_MODEL": "Modell auswählen",
+    "SEARCH_MODEL": "Modelle durchsuchen...",
+    "NO_MODELS_FOUND": "Keine Modelle gefunden",
+    "MODEL_GROUP_TEXT": "Text und Reasoning",
+    "MODEL_GROUP_IMAGE": "Bildgenerierung",
+    "MODEL_GROUP_VIDEO": "Videogenerierung",
+    "INPUT_PLACEHOLDER": "Nachricht eingeben...",
+    "START_PROMPT": "Sende eine Nachricht, um die Unterhaltung zu starten.",
+    "THINKING": "Denke nach...",
+    "DISCLAIMER": "KI-Antworten können ungenau sein. Wichtige Informationen bitte überprüfen.",
+    "SHARE": "Teilen",
+    "SHARE_TITLE": "Unterhaltung teilen",
+    "SHARE_DESCRIPTION": "Jeder mit dem Link kann diese Unterhaltung einsehen.",
+    "SHARE_CREATED": "Freigabelink erstellt",
+    "SHARE_REVOKED": "Freigabelink entfernt",
+    "LINK_COPIED": "Link in die Zwischenablage kopiert",
+    "GENERATE_LINK": "Freigabelink erstellen",
+    "REVOKE_SHARE": "Freigabelink entfernen",
+    "SHARED_CONVERSATION": "Geteilte Unterhaltung",
+    "SHARED_NOT_FOUND": "Diese geteilte Unterhaltung wurde nicht gefunden oder wurde entfernt.",
+    "UNTITLED": "Unbenannte Unterhaltung",
+    "DELETE_CONFIRM": "Bist du sicher, dass du diese Unterhaltung löschen möchtest?"
   }
 }

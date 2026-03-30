@@ -40,6 +40,12 @@ export const queryKeys = {
   usageLogsStat: (params?: EdenQuery<typeof rpc.api.logs.stat>) =>
     ["usage-logs-stat", params] as const,
 
+  // Chat
+  conversations: () => ["conversations"] as const,
+  conversation: (id: string) => ["conversation", id] as const,
+  sharedConversation: (shareId: string) =>
+    ["shared-conversation", shareId] as const,
+
   // Pricing & Search
   pricing: () => ["pricing"] as const,
   models: () => ["models"] as const,
