@@ -59,7 +59,7 @@ export function ChatMessage(props: ChatMessageProps) {
             : "bg-muted text-foreground",
         )}
       >
-        <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap break-words text-sm leading-relaxed">
+        <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap wrap-break-word text-sm leading-relaxed">
           {text}
         </div>
 

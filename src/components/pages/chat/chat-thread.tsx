@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChatMessage } from "./chat-message";
 import { ShareDialog } from "./share-dialog";
-import { LuArrowUp, LuLoader, LuPaperclip, LuSquare } from "react-icons/lu";
+import { LuArrowUp, LuLoader, LuPaperclip, LuSquare, LuX } from "react-icons/lu";
 
 type ChatThreadProps = {
   convId: string;
@@ -21,10 +21,12 @@ export function ChatThread(props: ChatThreadProps) {
   const conversationQuery = useConversationQuery(props.convId);
   const persistMutation = usePersistMessagesMutation();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [model, setModel] = useState(
     conversationQuery.data?.model ?? "gpt-5.4-mini",
   );
   const [input, setInput] = useState("");
+  const [attachments, setAttachments] = useState<File[]>([]);
 
   const transport = useMemo(
     () =>
@@ -82,23 +84,62 @@ export function ChatThread(props: ChatThreadProps) {
     }
   }, [conversationQuery.data?.model]);
 
-  const handleSend = () => {
+  const MAX_ATTACHMENTS = 5;
+  const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    const remaining = MAX_ATTACHMENTS - attachments.length;
+    const accepted = files.slice(0, remaining).filter((f) => f.size <= MAX_FILE_SIZE);
+    if (accepted.length > 0) {
+      setAttachments((prev) => [...prev, ...accepted]);
+    }
+    e.target.value = "";
+  };
+
+  const removeAttachment = (index: number) => {
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const uploadFile = async (file: File, msgId: string) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("convId", props.convId);
+    formData.append("msgId", msgId);
+    const res = await fetch("/api/chat/media", { method: "POST", body: formData });
+    const json = await res.json();
+    return json.data as { url: string; mimeType: string };
+  };
+
+  const handleSend = async () => {
     const text = input.trim();
-    if (!text) return;
+    if (!text && attachments.length === 0) return;
+
+    const msgId = `user-${Date.now()}`;
+    const parts: UIMessage["parts"] = [];
+
+    // Upload attachments first
+    if (attachments.length > 0) {
+      const uploaded = await Promise.all(
+        attachments.map((file) => uploadFile(file, msgId)),
+      );
+      for (const media of uploaded) {
+        parts.push({ type: "file", url: media.url, mediaType: media.mimeType });
+      }
+      setAttachments([]);
+    }
+
+    if (text) {
+      parts.push({ type: "text", text });
+    }
 
     // Persist the user message
     persistMutation.mutate({
       convId: props.convId,
-      messages: [
-        {
-          id: `user-${Date.now()}`,
-          role: "user",
-          parts: [{ type: "text", text }],
-        },
-      ],
+      messages: [{ id: msgId, role: "user", parts }],
     });
 
-    chat.sendMessage({ text });
+    chat.sendMessage({ text: text || " " });
     setInput("");
   };
 
@@ -140,6 +181,25 @@ export function ChatThread(props: ChatThreadProps) {
       <div className="border-border border-t p-4">
         <div className="mx-auto max-w-3xl">
           <div className="bg-muted/50 border-border relative rounded-lg border">
+            {attachments.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 px-3 pt-2 pb-1">
+                {attachments.map((file, i) => (
+                  <div
+                    key={`${file.name}-${i}`}
+                    className="bg-muted flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px]"
+                  >
+                    <span className="max-w-28 truncate">{file.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => removeAttachment(i)}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <LuX className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             <Textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -152,12 +212,22 @@ export function ChatThread(props: ChatThreadProps) {
                 }
               }}
             />
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="hidden"
+              multiple
+              accept="image/png,image/jpeg,image/webp,image/gif,.pdf"
+              onChange={handleFileSelect}
+            />
             <div className="absolute right-2 bottom-2 flex items-center gap-1">
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
                 className="text-muted-foreground h-8 w-8"
+                disabled={attachments.length >= MAX_ATTACHMENTS}
+                onClick={() => fileInputRef.current?.click()}
               >
                 <LuPaperclip className="h-4 w-4" />
               </Button>
@@ -176,7 +246,7 @@ export function ChatThread(props: ChatThreadProps) {
                   type="button"
                   size="icon"
                   className="h-8 w-8"
-                  disabled={!input.trim()}
+                  disabled={!input.trim() && attachments.length === 0}
                   onClick={handleSend}
                 >
                   <LuArrowUp className="h-4 w-4" />
