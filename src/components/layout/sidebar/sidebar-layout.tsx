@@ -29,9 +29,16 @@ export function SidebarLayout(props: SidebarLayoutProps) {
       }
     >
       {props.before}
-      <AppSidebar variant="inset" navConfig={props.navConfig} chatContent={props.chatContent} />
+      <AppSidebar
+        variant="inset"
+        navConfig={props.navConfig}
+        chatContent={props.chatContent}
+      />
       <SidebarInset>
-        <SidebarHeader showSearch={props.showSearch} navConfig={props.navConfig} />
+        <SidebarHeader
+          showSearch={props.showSearch}
+          navConfig={props.navConfig}
+        />
         <div className="flex min-w-0 flex-1">{props.children}</div>
       </SidebarInset>
     </SidebarProvider>

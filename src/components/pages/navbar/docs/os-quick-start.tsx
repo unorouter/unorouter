@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
@@ -25,10 +20,7 @@ export function OSQuickStart(props: Props) {
   const docs = useApiKey();
 
   return (
-    <Tabs
-      value={docs.os}
-      onValueChange={(v) => docs.setOs(v as OS)}
-    >
+    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)}>
       <TabsList variant="line">
         {osTabs.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>

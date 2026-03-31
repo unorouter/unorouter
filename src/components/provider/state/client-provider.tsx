@@ -8,7 +8,10 @@ import {
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";
 
-export function ClientProvider(props: { children: ReactNode; data?: ClientState }) {
+export function ClientProvider(props: {
+  children: ReactNode;
+  data?: ClientState;
+}) {
   useHydrateAtoms([[clientStoreAtom, props.data ?? INITIAL_CLIENT_STATE]]);
 
   return <>{props.children}</>;

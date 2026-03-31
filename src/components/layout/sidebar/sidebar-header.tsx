@@ -16,7 +16,10 @@ import {
 } from "@/hooks/chat-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
-import { newChatModelAtom, selectedConversationAtom } from "@/store/client-store";
+import {
+  newChatModelAtom,
+  selectedConversationAtom,
+} from "@/store/client-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -72,7 +75,10 @@ export function SidebarHeader(props: SidebarHeaderProps) {
     <header className="bg-background sticky top-0 z-20 flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
       <div className="flex h-full w-full items-center gap-1.5 px-2 sm:gap-2 sm:px-4">
         <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="mx-1 h-8 self-auto! sm:mx-2" />
+        <Separator
+          orientation="vertical"
+          className="mx-1 h-8 self-auto! sm:mx-2"
+        />
         {props.showSearch && (
           <div className="max-w-56 min-w-0 flex-1">
             <DocsSearch />

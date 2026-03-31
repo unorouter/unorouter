@@ -109,10 +109,7 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
   const macosInstall = (
     <div className="mt-6 space-y-6">
       <div>
-        <CodeBlock
-          language="bash"
-          code="npm install -g @google/gemini-cli"
-        />
+        <CodeBlock language="bash" code="npm install -g @google/gemini-cli" />
       </div>
     </div>
   );
@@ -120,10 +117,7 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
   const linuxInstall = (
     <div className="mt-6 space-y-6">
       <div>
-        <CodeBlock
-          language="bash"
-          code="npm install -g @google/gemini-cli"
-        />
+        <CodeBlock language="bash" code="npm install -g @google/gemini-cli" />
       </div>
     </div>
   );
@@ -257,10 +251,7 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <OSCodeBlock
-            variants={envVariants}
-            placeholder={docs.placeholder}
-          />
+          <OSCodeBlock variants={envVariants} placeholder={docs.placeholder} />
         </section>
 
         {/* Usage */}

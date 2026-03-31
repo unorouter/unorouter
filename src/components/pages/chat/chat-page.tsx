@@ -7,7 +7,6 @@ import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
-import { ChatEmptyState } from "./thread/chat-empty-state";
 import { ChatThread } from "./thread/chat-thread";
 
 export function ChatPage() {
@@ -69,7 +68,7 @@ export function ChatPage() {
 
   return (
     <div className="flex min-w-0 flex-1 flex-col">
-      {selectedId ? <ChatThread convId={selectedId} /> : <ChatEmptyState />}
+      <ChatThread convId={selectedId} />
     </div>
   );
 }

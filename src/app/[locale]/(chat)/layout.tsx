@@ -27,8 +27,7 @@ export default async function ChatLayout(props: Props) {
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.conversations(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.chat.get(cookieHeaders)),
+      queryFn: async () => handleElysia(await rpc.api.chat.get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.tokens(DOCS_TOKEN_PARAMS),

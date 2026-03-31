@@ -19,7 +19,11 @@ import {
   LuPlus,
   LuTerminal,
 } from "react-icons/lu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { CopyButton } from "@/components/elements/code/copy-button";
 
 type DeepLinkApp = {
@@ -171,7 +175,9 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
             variant="outline"
             className="ml-auto shrink-0 gap-1.5"
             render={
-              <Link href={{ pathname: "/docs/cc-switch", hash: "installation" }} />
+              <Link
+                href={{ pathname: "/docs/cc-switch", hash: "installation" }}
+              />
             }
           >
             <LuDownload className="size-3" />

@@ -25,7 +25,10 @@ export default async function DashboardPage() {
         handleElysia(await rpc.api.auth.status.get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.dashboardQuota({ start_timestamp: startTs, end_timestamp: endTs }),
+      queryKey: queryKeys.dashboardQuota({
+        start_timestamp: startTs,
+        end_timestamp: endTs,
+      }),
       queryFn: async () =>
         handleElysia(
           await rpc.api.dashboard.quota.get({

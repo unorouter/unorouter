@@ -44,9 +44,7 @@ export async function uploadToR2(
 }
 
 export async function deleteFromR2(key: string): Promise<void> {
-  await getS3().send(
-    new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: key }),
-  );
+  await getS3().send(new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: key }));
 }
 
 export async function deleteR2Prefix(prefix: string): Promise<void> {

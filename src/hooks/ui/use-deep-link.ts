@@ -36,21 +36,18 @@ export function useDeepLink() {
   const [showInstall, setShowInstall] = useState(false);
   const installRef = useRef<HTMLDivElement>(null);
 
-  const openDeepLink = useCallback(
-    (e: React.MouseEvent, uri: string) => {
-      e.preventDefault();
-      tryDeepLink(uri, () => {
-        setShowInstall(true);
-        setTimeout(() => {
-          installRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-          });
-        }, 50);
-      });
-    },
-    [],
-  );
+  const openDeepLink = useCallback((e: React.MouseEvent, uri: string) => {
+    e.preventDefault();
+    tryDeepLink(uri, () => {
+      setShowInstall(true);
+      setTimeout(() => {
+        installRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      }, 50);
+    });
+  }, []);
 
   return { showInstall, installRef, openDeepLink };
 }

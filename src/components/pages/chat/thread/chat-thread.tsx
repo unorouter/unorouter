@@ -1,32 +1,61 @@
 "use client";
 
-import { useConversationQuery, usePersistMessagesMutation } from "@/hooks/chat-hook";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  useConversationQuery,
+  useCreateConversationMutation,
+  usePersistMessagesMutation,
+} from "@/hooks/chat-hook";
+import {
+  newChatModelAtom,
+  selectedConversationAtom,
+} from "@/store/client-store";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  LuArrowUp,
+  LuLoader,
+  LuMessageCircle,
+  LuPaperclip,
+  LuSquare,
+  LuX,
+} from "react-icons/lu";
 import { ChatMessage } from "./chat-message";
-import { ShareDialog } from "./share-dialog";
-import { LuArrowUp, LuLoader, LuPaperclip, LuSquare, LuX } from "react-icons/lu";
 
 type ChatThreadProps = {
-  convId: string;
+  convId?: string | null;
 };
 
 export function ChatThread(props: ChatThreadProps) {
   const t = useTranslations();
-  const conversationQuery = useConversationQuery(props.convId);
+  const convId = props.convId ?? null;
+  const isNewChat = !convId;
+
+  const conversationQuery = useConversationQuery(convId ?? "");
   const persistMutation = usePersistMessagesMutation();
+  const createMutation = useCreateConversationMutation();
+  const setSelectedConversation = useSetAtom(selectedConversationAtom);
+  const newChatModel = useAtomValue(newChatModelAtom);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [model, setModel] = useState(
-    conversationQuery.data?.model ?? "gpt-5.4-mini",
+    conversationQuery.data?.model ?? newChatModel ?? "gpt-5.4-mini",
   );
   const [input, setInput] = useState("");
   const [attachments, setAttachments] = useState<File[]>([]);
+
+  // Queue: when creating a new chat, store the pending send so we can fire it after creation
+  const pendingSendRef = useRef<{
+    text: string;
+    parts: UIMessage["parts"];
+    msgId: string;
+  } | null>(null);
 
   const transport = useMemo(
     () =>
@@ -39,26 +68,32 @@ export function ChatThread(props: ChatThreadProps) {
 
   // Load initial messages from DB
   const initialMessages: UIMessage[] = useMemo(() => {
-    if (!conversationQuery.data?.messages) return [];
-    return (conversationQuery.data.messages as { id: string; role: string; parts: unknown }[]).map(
-      (msg) => ({
-        id: msg.id,
-        role: msg.role as "user" | "assistant" | "system",
-        parts: (msg.parts as UIMessage["parts"]) ?? [],
-      }),
-    );
-  }, [conversationQuery.data?.messages]);
+    if (isNewChat || !conversationQuery.data?.messages) return [];
+    return (
+      conversationQuery.data.messages as {
+        id: string;
+        role: string;
+        parts: unknown;
+      }[]
+    ).map((msg) => ({
+      id: msg.id,
+      role: msg.role as "user" | "assistant" | "system",
+      parts: (msg.parts as UIMessage["parts"]) ?? [],
+    }));
+  }, [isNewChat, conversationQuery.data?.messages]);
 
   const chat = useChat({
     transport,
     messages: initialMessages.length > 0 ? initialMessages : undefined,
     onFinish: ({ message }) => {
-      const textContent = message.parts
-        ?.filter((p) => p.type === "text")
-        .map((p) => ("text" in p ? p.text : ""))
-        .join("") ?? "";
+      if (!convId) return;
+      const textContent =
+        message.parts
+          ?.filter((p) => p.type === "text")
+          .map((p) => ("text" in p ? p.text : ""))
+          .join("") ?? "";
       persistMutation.mutate({
-        id: props.convId,
+        id: convId,
         body: {
           messages: [
             {
@@ -86,13 +121,22 @@ export function ChatThread(props: ChatThreadProps) {
     }
   }, [conversationQuery.data?.model]);
 
+  // Sync model selector changes for new chats
+  useEffect(() => {
+    if (isNewChat && newChatModel) {
+      setModel(newChatModel);
+    }
+  }, [isNewChat, newChatModel]);
+
   const MAX_ATTACHMENTS = 5;
   const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
     const remaining = MAX_ATTACHMENTS - attachments.length;
-    const accepted = files.slice(0, remaining).filter((f) => f.size <= MAX_FILE_SIZE);
+    const accepted = files
+      .slice(0, remaining)
+      .filter((f) => f.size <= MAX_FILE_SIZE);
     if (accepted.length > 0) {
       setAttachments((prev) => [...prev, ...accepted]);
     }
@@ -103,12 +147,19 @@ export function ChatThread(props: ChatThreadProps) {
     setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const uploadFile = async (file: File, msgId: string) => {
+  const uploadFile = async (
+    file: File,
+    targetConvId: string,
+    msgId: string,
+  ) => {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("convId", props.convId);
+    formData.append("convId", targetConvId);
     formData.append("msgId", msgId);
-    const res = await fetch("/api/chat/media", { method: "POST", body: formData });
+    const res = await fetch("/api/chat/media", {
+      method: "POST",
+      body: formData,
+    });
     const json = await res.json();
     return json.data as { url: string; mimeType: string };
   };
@@ -120,10 +171,62 @@ export function ChatThread(props: ChatThreadProps) {
     const msgId = `user-${Date.now()}`;
     const parts: UIMessage["parts"] = [];
 
-    // Upload attachments first
+    if (text) {
+      parts.push({ type: "text", text });
+    }
+
+    setInput("");
+
+    if (isNewChat) {
+      // Create conversation first, then send
+      pendingSendRef.current = { text, parts, msgId };
+      createMutation.mutate(
+        { body: { model } },
+        {
+          onSuccess: (data) => {
+            setSelectedConversation(data.id);
+            const pending = pendingSendRef.current;
+            if (pending) {
+              // Upload attachments with the new convId
+              const doSend = async () => {
+                if (attachments.length > 0) {
+                  const uploaded = await Promise.all(
+                    attachments.map((file) =>
+                      uploadFile(file, data.id, pending.msgId),
+                    ),
+                  );
+                  for (const media of uploaded) {
+                    pending.parts.push({
+                      type: "file",
+                      url: media.url,
+                      mediaType: media.mimeType,
+                    });
+                  }
+                  setAttachments([]);
+                }
+                persistMutation.mutate({
+                  id: data.id,
+                  body: {
+                    messages: [
+                      { id: pending.msgId, role: "user", parts: pending.parts },
+                    ],
+                  },
+                });
+                chat.sendMessage({ text: pending.text || " " });
+                pendingSendRef.current = null;
+              };
+              doSend();
+            }
+          },
+        },
+      );
+      return;
+    }
+
+    // Existing conversation: upload attachments then send
     if (attachments.length > 0) {
       const uploaded = await Promise.all(
-        attachments.map((file) => uploadFile(file, msgId)),
+        attachments.map((file) => uploadFile(file, convId, msgId)),
       );
       for (const media of uploaded) {
         parts.push({ type: "file", url: media.url, mediaType: media.mimeType });
@@ -131,21 +234,15 @@ export function ChatThread(props: ChatThreadProps) {
       setAttachments([]);
     }
 
-    if (text) {
-      parts.push({ type: "text", text });
-    }
-
-    // Persist the user message
     persistMutation.mutate({
-      id: props.convId,
+      id: convId,
       body: { messages: [{ id: msgId, role: "user", parts }] },
     });
 
     chat.sendMessage({ text: text || " " });
-    setInput("");
   };
 
-  if (conversationQuery.isLoading) {
+  if (!isNewChat && conversationQuery.isLoading) {
     return (
       <div className="flex flex-1 flex-col gap-4 p-6">
         <Skeleton className="h-10 w-48" />
@@ -161,8 +258,18 @@ export function ChatThread(props: ChatThreadProps) {
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-3xl space-y-6 p-6">
           {chat.messages.length === 0 && (
-            <div className="text-muted-foreground py-20 text-center text-sm">
-              {t("CHAT.START_PROMPT")}
+            <div className="flex flex-col items-center justify-center gap-4 py-20">
+              <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
+                <LuMessageCircle className="text-muted-foreground h-8 w-8" />
+              </div>
+              <div className="text-center">
+                <h2 className="text-foreground text-lg font-medium">
+                  {t("CHAT.EMPTY_TITLE")}
+                </h2>
+                <p className="text-muted-foreground mt-1 text-sm">
+                  {t("CHAT.EMPTY_DESCRIPTION")}
+                </p>
+              </div>
             </div>
           )}
           {chat.messages.map((message) => (
@@ -248,7 +355,10 @@ export function ChatThread(props: ChatThreadProps) {
                   type="button"
                   size="icon"
                   className="h-8 w-8"
-                  disabled={!input.trim() && attachments.length === 0}
+                  disabled={
+                    (!input.trim() && attachments.length === 0) ||
+                    createMutation.isPending
+                  }
                   onClick={handleSend}
                 >
                   <LuArrowUp className="h-4 w-4" />

@@ -169,16 +169,28 @@ export function ConsumptionChart() {
         <Tabs defaultValue="distribution" className="flex-1">
           <div className="border-border overflow-x-auto border-b px-5 pt-2">
             <TabsList variant="line" className="h-8">
-              <TabsTrigger value="distribution" className="font-mono text-xs whitespace-nowrap">
+              <TabsTrigger
+                value="distribution"
+                className="font-mono text-xs whitespace-nowrap"
+              >
                 {t("DASHBOARD.CONSUMPTION_DISTRIBUTION")}
               </TabsTrigger>
-              <TabsTrigger value="trend" className="font-mono text-xs whitespace-nowrap">
+              <TabsTrigger
+                value="trend"
+                className="font-mono text-xs whitespace-nowrap"
+              >
                 {t("DASHBOARD.CONSUMPTION_TREND")}
               </TabsTrigger>
-              <TabsTrigger value="pie" className="font-mono text-xs whitespace-nowrap">
+              <TabsTrigger
+                value="pie"
+                className="font-mono text-xs whitespace-nowrap"
+              >
                 {t("DASHBOARD.CALLS_DISTRIBUTION")}
               </TabsTrigger>
-              <TabsTrigger value="ranking" className="font-mono text-xs whitespace-nowrap">
+              <TabsTrigger
+                value="ranking"
+                className="font-mono text-xs whitespace-nowrap"
+              >
                 {t("DASHBOARD.CALLS_RANKING")}
               </TabsTrigger>
             </TabsList>

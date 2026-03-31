@@ -101,8 +101,16 @@ export async function CodexContent() {
       language: "json",
       label: "%APPDATA%\\codex\\auth.json",
     },
-    macos: { code: codexAuthCode, language: "json", label: "~/.codex/auth.json" },
-    linux: { code: codexAuthCode, language: "json", label: "~/.codex/auth.json" },
+    macos: {
+      code: codexAuthCode,
+      language: "json",
+      label: "~/.codex/auth.json",
+    },
+    linux: {
+      code: codexAuthCode,
+      language: "json",
+      label: "~/.codex/auth.json",
+    },
   });
 
   const configToml = `model = "${docs.modelFor("OpenAI")}"
@@ -117,8 +125,16 @@ wire_api = "responses"`;
       language: "toml",
       label: "%APPDATA%\\codex\\config.toml",
     },
-    macos: { code: configToml, language: "toml", label: "~/.codex/config.toml" },
-    linux: { code: configToml, language: "toml", label: "~/.codex/config.toml" },
+    macos: {
+      code: configToml,
+      language: "toml",
+      label: "~/.codex/config.toml",
+    },
+    linux: {
+      code: configToml,
+      language: "toml",
+      label: "~/.codex/config.toml",
+    },
   });
 
   const envVars = {
@@ -230,10 +246,7 @@ wire_api = "responses"`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_FILE_DESC")}
           </p>
-          <OSCodeBlock
-            variants={authVariants}
-            placeholder={docs.placeholder}
-          />
+          <OSCodeBlock variants={authVariants} placeholder={docs.placeholder} />
           <div className="mt-4" />
           <OSCodeBlock
             variants={configVariants}
@@ -247,10 +260,7 @@ wire_api = "responses"`;
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <OSCodeBlock
-            variants={envVariants}
-            placeholder={docs.placeholder}
-          />
+          <OSCodeBlock variants={envVariants} placeholder={docs.placeholder} />
 
           {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">

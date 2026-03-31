@@ -30,7 +30,7 @@ export function ConversationItem(props: ConversationItemProps) {
   const vendorName =
     typeof modelData?.vendor === "string"
       ? modelData.vendor
-      : modelData?.vendor?.name ?? "";
+      : (modelData?.vendor?.name ?? "");
 
   return (
     <SidebarMenuItem>

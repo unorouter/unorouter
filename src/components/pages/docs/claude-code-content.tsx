@@ -222,8 +222,16 @@ npm install -g @anthropic-ai/claude-code`}
       language: "json",
       label: "%APPDATA%\\claude\\settings.json",
     },
-    macos: { code: configCode, language: "json", label: "~/.claude/settings.json" },
-    linux: { code: configCode, language: "json", label: "~/.claude/settings.json" },
+    macos: {
+      code: configCode,
+      language: "json",
+      label: "~/.claude/settings.json",
+    },
+    linux: {
+      code: configCode,
+      language: "json",
+      label: "~/.claude/settings.json",
+    },
   });
 
   const envVariants = await buildOSVariants({
@@ -341,10 +349,7 @@ npm install -g @anthropic-ai/claude-code`}
           <p className="text-muted-foreground mb-3 text-sm">
             {t("DOCS.CONFIG_ENV_DESC")}
           </p>
-          <OSCodeBlock
-            variants={envVariants}
-            placeholder={docs.placeholder}
-          />
+          <OSCodeBlock variants={envVariants} placeholder={docs.placeholder} />
 
           {/* Installation per OS */}
           <h3 className="mt-10 mb-2 text-lg font-medium">

@@ -198,9 +198,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     // Cleanup R2 media for this conversation
     deleteR2Prefix(`chat/${params.id}/`).catch(() => {});
 
-    await db
-      .delete(conversations)
-      .where(eq(conversations.id, params.id));
+    await db.delete(conversations).where(eq(conversations.id, params.id));
 
     return { success: true, data: { id: params.id } };
   })
@@ -215,10 +213,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       .update(conversations)
       .set({ shareId })
       .where(
-        and(
-          eq(conversations.id, params.id),
-          eq(conversations.userId, userId),
-        ),
+        and(eq(conversations.id, params.id), eq(conversations.userId, userId)),
       )
       .returning({ id: conversations.id });
 
@@ -235,10 +230,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       .update(conversations)
       .set({ shareId: null })
       .where(
-        and(
-          eq(conversations.id, params.id),
-          eq(conversations.userId, userId),
-        ),
+        and(eq(conversations.id, params.id), eq(conversations.userId, userId)),
       )
       .returning({ id: conversations.id });
 
@@ -247,33 +239,30 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   })
 
   // Public: get shared conversation (no auth required)
-  .get(
-    "/shared/:shareId",
-    async ({ params }) => {
-      const db = getDb();
-      const conv = await db.query.conversations.findFirst({
-        where: eq(conversations.shareId, params.shareId),
-      });
-      if (!conv) throw new Error("Not found");
+  .get("/shared/:shareId", async ({ params }) => {
+    const db = getDb();
+    const conv = await db.query.conversations.findFirst({
+      where: eq(conversations.shareId, params.shareId),
+    });
+    if (!conv) throw new Error("Not found");
 
-      const msgs = await db
-        .select()
-        .from(messages)
-        .where(eq(messages.convId, conv.id))
-        .orderBy(messages.createdAt);
+    const msgs = await db
+      .select()
+      .from(messages)
+      .where(eq(messages.convId, conv.id))
+      .orderBy(messages.createdAt);
 
-      return {
-        success: true,
-        data: {
-          id: conv.id,
-          title: conv.title,
-          model: conv.model,
-          createdAt: conv.createdAt,
-          messages: msgs,
-        },
-      };
-    },
-  )
+    return {
+      success: true,
+      data: {
+        id: conv.id,
+        title: conv.title,
+        model: conv.model,
+        createdAt: conv.createdAt,
+        messages: msgs,
+      },
+    };
+  })
 
   // Persist messages for a conversation
   .post(
@@ -308,8 +297,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       if (!conv.title && body.messages.length > 0) {
         const firstUserMsg = body.messages.find((m) => m.role === "user");
         if (firstUserMsg) {
-          const textPart = (firstUserMsg.parts as { type: string; text?: string }[])
-            .find((p) => p.type === "text");
+          const textPart = (
+            firstUserMsg.parts as { type: string; text?: string }[]
+          ).find((p) => p.type === "text");
           if (textPart?.text) {
             updates.title = textPart.text.slice(0, 100);
           }
@@ -354,7 +344,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       const file = body.file;
       if (!ALLOWED_TYPES.has(file.type)) {
-        throw new Error("File type not allowed. Accepted: PNG, JPEG, WebP, GIF, PDF.");
+        throw new Error(
+          "File type not allowed. Accepted: PNG, JPEG, WebP, GIF, PDF.",
+        );
       }
       if (file.size > MAX_FILE_SIZE) {
         throw new Error("File too large. Maximum size is 20MB.");
@@ -440,7 +432,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       if (!taskId) {
         const videoUrl = submitData.data?.[0]?.url || submitData.url;
         if (videoUrl) {
-          const r2Url = await downloadAndUpload(videoUrl, body.convId, body.msgId);
+          const r2Url = await downloadAndUpload(
+            videoUrl,
+            body.convId,
+            body.msgId,
+          );
           return { success: true, data: { url: r2Url } };
         }
         throw new Error("No task ID or URL in response");
@@ -460,7 +456,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         const pollData = await pollRes.json();
         const status = pollData.status;
 
-        if (status === "completed" || status === "succeeded" || status === "ready") {
+        if (
+          status === "completed" ||
+          status === "succeeded" ||
+          status === "ready"
+        ) {
           const videoUrl =
             pollData.data?.[0]?.url ||
             pollData.output?.url ||
@@ -469,7 +469,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
           if (!videoUrl) throw new Error("Completed but no video URL found");
 
-          const r2Url = await downloadAndUpload(videoUrl, body.convId, body.msgId);
+          const r2Url = await downloadAndUpload(
+            videoUrl,
+            body.convId,
+            body.msgId,
+          );
           return { success: true, data: { url: r2Url } };
         }
 

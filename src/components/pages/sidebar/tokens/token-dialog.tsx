@@ -458,12 +458,12 @@ export function TokenDialog(props: TokenDialogProps) {
                                     <div className="flex min-w-0 flex-1 flex-wrap gap-1">
                                       {selectedModels.length > 0 ? (
                                         selectedModels.map((modelName) => {
-                                          const vendor =
-                                            modelsByVendor.find((g) =>
+                                          const vendor = modelsByVendor.find(
+                                            (g) =>
                                               g.models.some(
                                                 (m) => m.name === modelName,
                                               ),
-                                            )?.vendor;
+                                          )?.vendor;
                                           return (
                                             <Badge
                                               key={modelName}
@@ -490,7 +490,10 @@ export function TokenDialog(props: TokenDialogProps) {
                                                   );
                                                 }}
                                                 onKeyDown={(e) => {
-                                                  if (e.key === "Enter" || e.key === " ") {
+                                                  if (
+                                                    e.key === "Enter" ||
+                                                    e.key === " "
+                                                  ) {
                                                     e.preventDefault();
                                                     e.stopPropagation();
                                                     field.onChange(
@@ -509,9 +512,7 @@ export function TokenDialog(props: TokenDialogProps) {
                                         })
                                       ) : (
                                         <span className="text-muted-foreground text-xs">
-                                          {t(
-                                            "TOKEN.MODEL_LIMITS_PLACEHOLDER",
-                                          )}
+                                          {t("TOKEN.MODEL_LIMITS_PLACEHOLDER")}
                                         </span>
                                       )}
                                     </div>

@@ -58,7 +58,10 @@ export const osAtom = atom(
 export const selectedConversationAtom = atom(
   (get) => get(clientStoreAtom).selectedConversation,
   (get, set, value: string | null) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), selectedConversation: value });
+    set(clientStoreAtom, {
+      ...get(clientStoreAtom),
+      selectedConversation: value,
+    });
   },
 );
 

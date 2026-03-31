@@ -28,10 +28,7 @@ export async function buildOSVariants(
 }
 
 /** Helper to build env var export syntax per OS. */
-export function envVarCode(
-  vars: Record<string, string>,
-  os: OS,
-): string {
+export function envVarCode(vars: Record<string, string>, os: OS): string {
   if (os === OS.WINDOWS) {
     return Object.entries(vars)
       .map(([k, v]) => `$env:${k}="${v}"`)

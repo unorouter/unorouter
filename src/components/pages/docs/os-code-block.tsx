@@ -1,12 +1,7 @@
 "use client";
 
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { OS } from "@/lib/types/enums";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
@@ -34,10 +29,7 @@ export function OSCodeBlock(props: OSCodeBlockProps) {
   const docs = useApiKey();
 
   return (
-    <Tabs
-      value={docs.os}
-      onValueChange={(v) => docs.setOs(v as OS)}
-    >
+    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)}>
       <TabsList variant="line">
         {osTabs.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>

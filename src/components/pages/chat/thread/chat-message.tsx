@@ -30,12 +30,7 @@ export function ChatMessage(props: ChatMessageProps) {
   };
 
   return (
-    <div
-      className={cn(
-        "group flex gap-3",
-        isUser && "flex-row-reverse",
-      )}
-    >
+    <div className={cn("group flex gap-3", isUser && "flex-row-reverse")}>
       {/* Avatar */}
       <div
         className={cn(
@@ -59,7 +54,7 @@ export function ChatMessage(props: ChatMessageProps) {
             : "bg-muted text-foreground",
         )}
       >
-        <div className="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap wrap-break-word text-sm leading-relaxed">
+        <div className="prose prose-sm dark:prose-invert max-w-none text-sm leading-relaxed wrap-break-word whitespace-pre-wrap">
           {text}
         </div>
 
@@ -68,7 +63,7 @@ export function ChatMessage(props: ChatMessageProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="absolute -right-10 top-1 h-7 w-7 opacity-0 transition-opacity group-hover:opacity-100"
+            className="absolute top-1 -right-10 h-7 w-7 opacity-0 transition-opacity group-hover:opacity-100"
             onClick={handleCopy}
           >
             {copied ? (

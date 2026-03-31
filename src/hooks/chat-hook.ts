@@ -149,8 +149,6 @@ export function usePersistMessagesMutation() {
     mutationFn: async (
       args: ChatParams & EdenArgs<ChatRouteReturn["messages"], "post">,
     ) =>
-      handleElysia(
-        await chatRoute({ id: args.id }).messages.post(args.body),
-      ),
+      handleElysia(await chatRoute({ id: args.id }).messages.post(args.body)),
   });
 }

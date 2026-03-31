@@ -36,19 +36,25 @@ export function ShareDialog(props: ShareDialogProps) {
     : null;
 
   const handleShare = () => {
-    shareMutation.mutate({ id: props.convId }, {
-      onSuccess: () => {
-        toast.success(t("CHAT.SHARE_CREATED"));
+    shareMutation.mutate(
+      { id: props.convId },
+      {
+        onSuccess: () => {
+          toast.success(t("CHAT.SHARE_CREATED"));
+        },
       },
-    });
+    );
   };
 
   const handleRevoke = () => {
-    revokeMutation.mutate({ id: props.convId }, {
-      onSuccess: () => {
-        toast.success(t("CHAT.SHARE_REVOKED"));
+    revokeMutation.mutate(
+      { id: props.convId },
+      {
+        onSuccess: () => {
+          toast.success(t("CHAT.SHARE_REVOKED"));
+        },
       },
-    });
+    );
   };
 
   const handleCopy = async () => {
