@@ -30,7 +30,7 @@ export function ModelCard(props: {
     <div
       onClick={props.onClick}
       className={cn(
-        "flex cursor-pointer flex-col rounded-lg border p-5 transition-all",
+        "flex cursor-pointer flex-col overflow-hidden rounded-lg border p-5 transition-all",
         theme.bg,
         theme.border,
         "hover:border-opacity-50",
@@ -73,7 +73,7 @@ export function ModelCard(props: {
       </div>
 
       <div className="mt-auto pt-3">
-        <div className="flex items-baseline gap-2">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           {model.isFixedPrice ? (
             <>
               <span className="text-muted-foreground/60 font-mono text-[10px] italic">
