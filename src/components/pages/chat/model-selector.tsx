@@ -17,7 +17,7 @@ import { useState } from "react";
 import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
 
 type ModelSelectorProps = {
-  value: string;
+  value: string | null;
   onChange: (model: string) => void;
 };
 

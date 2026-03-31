@@ -1,12 +1,71 @@
 "use client";
 
-import { selectedConversationAtom } from "@/store/chat-store";
+import { useApiKey } from "@/hooks/ui/use-api-key";
+import { Link } from "@/i18n/navigation";
+import { selectedConversationAtom } from "@/store/client-store";
 import { useAtomValue } from "jotai";
-import { ChatThread } from "./thread/chat-thread";
+import { useTranslations } from "next-intl";
+import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
+import { Button } from "../../ui/button";
 import { ChatEmptyState } from "./thread/chat-empty-state";
+import { ChatThread } from "./thread/chat-thread";
 
 export function ChatPage() {
+  const t = useTranslations();
   const selectedId = useAtomValue(selectedConversationAtom);
+  const token = useApiKey();
+
+  if (!token.isLoggedIn) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
+        <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
+          <LuLogIn className="text-muted-foreground h-8 w-8" />
+        </div>
+        <div className="text-center">
+          <p className="text-muted-foreground mt-1 text-sm">
+            {t("CHAT.LOGIN_REQUIRED_DESC")}
+          </p>
+        </div>
+        <Link href="/login">
+          <Button size="sm" className="gap-1.5">
+            <LuLogIn className="h-3.5 w-3.5" />
+            {t("AUTH.LOGIN_BUTTON")}
+          </Button>
+        </Link>
+      </div>
+    );
+  }
+
+  if (token.needsToken) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
+        <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
+          <LuKey className="text-muted-foreground h-8 w-8" />
+        </div>
+        <div className="text-center">
+          <h2 className="text-foreground text-lg font-medium">
+            {t("CHAT.NEEDS_TOKEN_TITLE")}
+          </h2>
+          <p className="text-muted-foreground mt-1 text-sm">
+            {t("CHAT.NEEDS_TOKEN_DESC")}
+          </p>
+        </div>
+        <Button
+          size="sm"
+          className="gap-1.5"
+          onClick={token.createToken}
+          disabled={token.isLoading}
+        >
+          {token.isLoading ? (
+            <LuLoader className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <LuPlus className="h-3.5 w-3.5" />
+          )}
+          {t("DOCS.GENERATE_API_KEY")}
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-w-0 flex-1 flex-col">

@@ -8,15 +8,15 @@ import {
 } from "@/hooks/token-hook";
 import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
 import { OS } from "@/lib/types/enums";
-import { apiKeyAtom, osAtom } from "@/store/docs-store";
+import { apiKeyAtom, osAtom } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-// Shared across all useDocs() instances to prevent duplicate key fetches
+// Shared across all useApiKey() instances to prevent duplicate key fetches
 let keyFetchState: "idle" | "fetching" | "done" = "idle";
 
-export function useDocs() {
+export function useApiKey() {
   const router = useRouter();
   const [os, setOs] = useAtom(osAtom);
   const authQuery = useAuthQuery();

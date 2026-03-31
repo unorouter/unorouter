@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useDeepLink } from "@/hooks/ui/use-deep-link";
-import { useDocs } from "@/hooks/ui/use-docs";
+import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
-import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
+import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
@@ -36,7 +36,7 @@ interface CCSwitchDeepLinksProps {
 
 export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
   const t = useTranslations();
-  const token = useDocs();
+  const token = useApiKey();
   const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
   const { showInstall, installRef, openDeepLink } = useDeepLink();
 

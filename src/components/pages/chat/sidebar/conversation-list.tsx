@@ -13,7 +13,7 @@ import {
   useConversationsQuery,
   useDeleteConversationMutation,
 } from "@/hooks/chat-hook";
-import { selectedConversationAtom } from "@/store/chat-store";
+import { selectedConversationAtom } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

@@ -1,4 +1,5 @@
 import { ChatSidebarLayout } from "@/components/pages/chat/chat-sidebar-layout";
+import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -28,6 +29,16 @@ export default async function ChatLayout(props: Props) {
       queryKey: queryKeys.conversations(),
       queryFn: async () =>
         handleElysia(await rpc.api.chat.get(cookieHeaders)),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.tokens(DOCS_TOKEN_PARAMS),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.token.search.get({
+            query: DOCS_TOKEN_PARAMS,
+            ...cookieHeaders,
+          }),
+        ),
     }),
   ]);
 

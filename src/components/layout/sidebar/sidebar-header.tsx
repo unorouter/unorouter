@@ -16,7 +16,7 @@ import {
 } from "@/hooks/chat-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
-import { newChatModelAtom, selectedConversationAtom } from "@/store/chat-store";
+import { newChatModelAtom, selectedConversationAtom } from "@/store/client-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -34,6 +34,7 @@ function ChatControls() {
   const createMutation = useCreateConversationMutation();
 
   const handleNewChat = () => {
+    if (!newChatModel) return;
     createMutation.mutate(
       { body: { model: newChatModel } },
       {
@@ -53,7 +54,7 @@ function ChatControls() {
         size="sm"
         className="h-8 shrink-0 lg:px-3"
         onClick={handleNewChat}
-        disabled={createMutation.isPending}
+        disabled={createMutation.isPending || !newChatModel}
       >
         <LuPlus className="h-3.5 w-3.5 lg:mr-1.5" />
         <span className="hidden lg:inline">{t("CHAT.NEW_CONVERSATION")}</span>

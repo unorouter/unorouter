@@ -1253,6 +1253,9 @@
     "SHARED_CONVERSATION": "Shared Conversation",
     "SHARED_NOT_FOUND": "This shared conversation was not found or has been removed.",
     "UNTITLED": "Untitled Conversation",
-    "DELETE_CONFIRM": "Are you sure you want to delete this conversation?"
+    "DELETE_CONFIRM": "Are you sure you want to delete this conversation?",
+    "NEEDS_TOKEN_TITLE": "API Key Required",
+    "NEEDS_TOKEN_DESC": "Generate an API key to start chatting with AI models.",
+    "LOGIN_REQUIRED_DESC": "Sign in to start chatting with AI models."
   }
 }

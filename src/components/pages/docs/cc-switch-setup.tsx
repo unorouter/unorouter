@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useDeepLink } from "@/hooks/ui/use-deep-link";
-import { useDocs } from "@/hooks/ui/use-docs";
+import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
@@ -26,7 +26,7 @@ interface CCSwitchSetupProps {
 
 export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const t = useTranslations();
-  const token = useDocs();
+  const token = useApiKey();
   const { showInstall, installRef, openDeepLink } = useDeepLink();
 
   const deepLinkParams = new URLSearchParams({

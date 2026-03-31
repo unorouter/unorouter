@@ -1,6 +1,6 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getCookieValue } from "@/lib/utils/server";
-import { DOCS_STORE_KEY, type DocsState } from "@/store/docs-store";
+import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
 import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
 import {
   NAVIGATION_STORE_KEY,
@@ -10,7 +10,7 @@ import { ReactNode, use } from "react";
 import { LanguageProvider } from "./app/language-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserProvider } from "./app/user-provider";
-import { DocsProvider } from "./state/docs-provider";
+import { ClientProvider } from "./state/client-provider";
 import { JotaiProvider } from "./state/jotai-provider";
 import { ModelsStoreProvider } from "./state/models-store-provider";
 import { NavigationStoreProvider } from "./state/navigation-store-provider";
@@ -21,14 +21,14 @@ export function Providers(props: { children: ReactNode }) {
     getCookieValue<NavigationState>(NAVIGATION_STORE_KEY),
   );
   const modelsStore = use(getCookieValue<ModelsStoreState>(MODELS_STORE_KEY));
-  const docsStore = use(getCookieValue<DocsState>(DOCS_STORE_KEY));
+  const clientStore = use(getCookieValue<ClientState>(CLIENT_STORE_KEY));
 
   return (
     <QueryProvider>
       <JotaiProvider>
         <NavigationStoreProvider data={navigationStore}>
           <ModelsStoreProvider data={modelsStore}>
-            <DocsProvider data={docsStore}>
+            <ClientProvider data={clientStore}>
               <UserProvider>
                 <LanguageProvider>
                   <ThemeProvider>
@@ -36,7 +36,7 @@ export function Providers(props: { children: ReactNode }) {
                   </ThemeProvider>
                 </LanguageProvider>
               </UserProvider>
-            </DocsProvider>
+            </ClientProvider>
           </ModelsStoreProvider>
         </NavigationStoreProvider>
       </JotaiProvider>

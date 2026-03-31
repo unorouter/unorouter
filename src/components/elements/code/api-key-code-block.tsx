@@ -1,9 +1,9 @@
 "use client";
 
-import { useDocs } from "@/hooks/ui/use-docs";
+import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/docs-store";
+import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuEye, LuEyeOff, LuKey, LuLoader, LuPlus } from "react-icons/lu";
@@ -27,7 +27,7 @@ type Props = {
 
 export function ApiKeyCodeBlock(props: Props) {
   const t = useTranslations();
-  const token = useDocs();
+  const token = useApiKey();
   const [revealed, setRevealed] = useAtom(apiKeyRevealedAtom);
 
   const apiKey = token.apiKey;

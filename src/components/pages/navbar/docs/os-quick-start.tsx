@@ -6,7 +6,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { useDocs } from "@/hooks/ui/use-docs";
+import { useApiKey } from "@/hooks/ui/use-api-key";
 import { OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
@@ -22,7 +22,7 @@ const osTabs = [
 ];
 
 export function OSQuickStart(props: Props) {
-  const docs = useDocs();
+  const docs = useApiKey();
 
   return (
     <Tabs
