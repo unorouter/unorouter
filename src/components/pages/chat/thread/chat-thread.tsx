@@ -58,14 +58,16 @@ export function ChatThread(props: ChatThreadProps) {
         .map((p) => ("text" in p ? p.text : ""))
         .join("") ?? "";
       persistMutation.mutate({
-        convId: props.convId,
-        messages: [
-          {
-            id: message.id,
-            role: message.role,
-            parts: [{ type: "text", text: textContent }],
-          },
-        ],
+        id: props.convId,
+        body: {
+          messages: [
+            {
+              id: message.id,
+              role: message.role,
+              parts: [{ type: "text", text: textContent }],
+            },
+          ],
+        },
       });
     },
   });
@@ -135,8 +137,8 @@ export function ChatThread(props: ChatThreadProps) {
 
     // Persist the user message
     persistMutation.mutate({
-      convId: props.convId,
-      messages: [{ id: msgId, role: "user", parts }],
+      id: props.convId,
+      body: { messages: [{ id: msgId, role: "user", parts }] },
     });
 
     chat.sendMessage({ text: text || " " });

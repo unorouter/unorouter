@@ -69,7 +69,7 @@ export function ConversationList() {
                 isSelected={conv.id === selectedId}
                 onSelect={() => setSelectedId(conv.id)}
                 onDelete={() => {
-                  deleteMutation.mutate(conv.id, {
+                  deleteMutation.mutate({ id: conv.id }, {
                     onSuccess: () => {
                       if (selectedId === conv.id) setSelectedId(null);
                     },

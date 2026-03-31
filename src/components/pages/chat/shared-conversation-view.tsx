@@ -2,7 +2,7 @@
 
 import { useSharedConversationQuery } from "@/hooks/chat-hook";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ChatMessage } from "./chat-message";
+import { ChatMessage } from "./thread/chat-message";
 import { useTranslations } from "next-intl";
 import { LuMessageCircle } from "react-icons/lu";
 import type { UIMessage } from "ai";

@@ -36,7 +36,7 @@ export function ShareDialog(props: ShareDialogProps) {
     : null;
 
   const handleShare = () => {
-    shareMutation.mutate(props.convId, {
+    shareMutation.mutate({ id: props.convId }, {
       onSuccess: () => {
         toast.success(t("CHAT.SHARE_CREATED"));
       },
@@ -44,7 +44,7 @@ export function ShareDialog(props: ShareDialogProps) {
   };
 
   const handleRevoke = () => {
-    revokeMutation.mutate(props.convId, {
+    revokeMutation.mutate({ id: props.convId }, {
       onSuccess: () => {
         toast.success(t("CHAT.SHARE_REVOKED"));
       },

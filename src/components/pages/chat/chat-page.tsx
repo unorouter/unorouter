@@ -2,8 +2,8 @@
 
 import { selectedConversationAtom } from "@/store/chat-store";
 import { useAtomValue } from "jotai";
-import { ChatThread } from "./chat-thread";
-import { ChatEmptyState } from "./chat-empty-state";
+import { ChatThread } from "./thread/chat-thread";
+import { ChatEmptyState } from "./thread/chat-empty-state";
 
 export function ChatPage() {
   const selectedId = useAtomValue(selectedConversationAtom);

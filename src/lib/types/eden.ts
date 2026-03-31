@@ -132,3 +132,30 @@ export type EdenArgs<TRoute, TMethod extends string> = (ShouldIncludeParams<
  */
 export type EdenQuery<TRoute, TMethod extends string = "get"> =
   EdenArgs<TRoute, TMethod> extends { query?: infer Q } ? Q : never;
+
+/**
+ * Infers the unwrapped response type from an Eden Treaty route.
+ *
+ * Follows the same resolution chain as a real call:
+ *   route → method → Awaited<ReturnType> → extract .data → unwrap { success, data }
+ *
+ * @example
+ * type Convos = EdenResponse<typeof rpc.api.chat>;
+ * // { items: [...]; total: number; page: number; pageSize: number }
+ *
+ * type Conv = EdenResponse<typeof rpc.api.chat, "get">;
+ * // single conversation
+ *
+ * type Created = EdenResponse<typeof rpc.api.chat, "post">;
+ * // { id: string; model: string; title: string | null }
+ */
+export type EdenResponse<TRoute, TMethod extends string = "get"> =
+  ResolveMethod<TRoute, TMethod> extends (...args: any[]) => any
+    ? Awaited<ReturnType<ResolveMethod<TRoute, TMethod>>> extends {
+        data: infer D;
+      }
+      ? NonNullable<D> extends { success: boolean; data: infer Inner }
+        ? Inner
+        : NonNullable<D>
+      : never
+    : never;

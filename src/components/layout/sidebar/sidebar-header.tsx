@@ -35,7 +35,7 @@ function ChatControls() {
 
   const handleNewChat = () => {
     createMutation.mutate(
-      { model: newChatModel },
+      { body: { model: newChatModel } },
       {
         onSuccess: (data) => {
           setSelectedId(data.id);
