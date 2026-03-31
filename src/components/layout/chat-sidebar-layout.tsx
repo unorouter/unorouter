@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { ConversationList } from "./sidebar/conversation-list";
+import { ConversationList } from "@/components/pages/chat/sidebar/conversation-list";
 
 type Props = {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-import { ChatSidebarLayout } from "@/components/pages/chat/chat-sidebar-layout";
+import { ChatSidebarLayout } from "@/components/layout/chat-sidebar-layout";
 import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
