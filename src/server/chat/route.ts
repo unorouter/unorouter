@@ -6,7 +6,7 @@ import { generateImage, streamText } from "ai";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
-import { deriveUpstream } from "../constants";
+import { USER_ID_COOKIE } from "@/lib/config/constants";
 import {
   createConversationBody,
   imageGenerationBody,
@@ -29,23 +29,29 @@ const ALLOWED_TYPES = new Set([
   "application/pdf",
 ]);
 
-function getUserId(upstream: { headers: Record<string, string> }): number {
-  const raw = upstream.headers["New-Api-User"];
+function getUserId(cookie: Record<string, { value?: unknown }>): number {
+  const raw = cookie[USER_ID_COOKIE]?.value;
   if (!raw) throw new Error("Unauthorized");
   return Number(raw);
 }
 
-function getAccessToken(request: Request): string {
-  const auth = request.headers.get("Authorization");
-  if (!auth) throw new Error("Unauthorized");
-  return auth.replace(/^Bearer\s+/i, "");
+function getApiKey(cookie: Record<string, { value?: unknown }>): string {
+  const raw = cookie["client-store"]?.value;
+  if (!raw) throw new Error("Unauthorized");
+  try {
+    const parsed = JSON.parse(String(raw));
+    if (!parsed.apiKey) throw new Error("No API key");
+    return parsed.apiKey as string;
+  } catch {
+    throw new Error("Unauthorized");
+  }
 }
 
-function getProvider(accessToken: string) {
+function getProvider(apiKey: string) {
   return createOpenAICompatible({
     name: "unorouter",
     baseURL: `${API_URL}/v1`,
-    apiKey: accessToken,
+    apiKey,
   });
 }
 
@@ -64,14 +70,13 @@ async function downloadAndUpload(
 }
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
-  .derive(deriveUpstream)
 
   // List conversations for the authenticated user
   .get(
     "/",
-    async ({ query, upstream }) => {
+    async ({ query, cookie }) => {
       const db = getDb();
-      const userId = getUserId(upstream);
+      const userId = getUserId(cookie);
       const page = query.p ?? 1;
       const pageSize = query.page_size ?? 20;
       const offset = (page - 1) * pageSize;
@@ -113,9 +118,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Create a new conversation
   .post(
     "/",
-    async ({ body, upstream }) => {
+    async ({ body, cookie }) => {
       const db = getDb();
-      const userId = getUserId(upstream);
+      const userId = getUserId(cookie);
       const id = nanoid();
       const now = new Date();
 
@@ -137,9 +142,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   // Get a single conversation with all messages
-  .get("/:id", async ({ params, upstream }) => {
+  .get("/:id", async ({ params, cookie }) => {
     const db = getDb();
-    const userId = getUserId(upstream);
+    const userId = getUserId(cookie);
 
     const conv = await db.query.conversations.findFirst({
       where: and(
@@ -161,9 +166,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Update conversation title
   .put(
     "/:id",
-    async ({ params, body, upstream }) => {
+    async ({ params, body, cookie }) => {
       const db = getDb();
-      const userId = getUserId(upstream);
+      const userId = getUserId(cookie);
 
       const result = await db
         .update(conversations)
@@ -183,9 +188,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   // Delete a conversation (cascade deletes messages, cleanup R2)
-  .delete("/:id", async ({ params, upstream }) => {
+  .delete("/:id", async ({ params, cookie }) => {
     const db = getDb();
-    const userId = getUserId(upstream);
+    const userId = getUserId(cookie);
 
     const conv = await db.query.conversations.findFirst({
       where: and(
@@ -204,9 +209,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   })
 
   // Generate a share link
-  .post("/:id/share", async ({ params, upstream }) => {
+  .post("/:id/share", async ({ params, cookie }) => {
     const db = getDb();
-    const userId = getUserId(upstream);
+    const userId = getUserId(cookie);
     const shareId = nanoid(12);
 
     const result = await db
@@ -222,9 +227,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   })
 
   // Revoke share link
-  .delete("/:id/share", async ({ params, upstream }) => {
+  .delete("/:id/share", async ({ params, cookie }) => {
     const db = getDb();
-    const userId = getUserId(upstream);
+    const userId = getUserId(cookie);
 
     const result = await db
       .update(conversations)
@@ -267,9 +272,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Persist messages for a conversation
   .post(
     "/:id/messages",
-    async ({ params, body, upstream }) => {
+    async ({ params, body, cookie }) => {
       const db = getDb();
-      const userId = getUserId(upstream);
+      const userId = getUserId(cookie);
 
       // Verify ownership
       const conv = await db.query.conversations.findFirst({
@@ -322,9 +327,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Stream text via AI SDK
   .post(
     "/stream",
-    async ({ body, request }) => {
-      const accessToken = getAccessToken(request);
-      const provider = getProvider(accessToken);
+    async ({ body, cookie }) => {
+      const apiKey = getApiKey(cookie);
+      const provider = getProvider(apiKey);
 
       const result = streamText({
         model: provider.chatModel(body.model),
@@ -339,8 +344,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Upload media file to R2
   .post(
     "/media",
-    async ({ body, upstream }) => {
-      getUserId(upstream); // auth check
+    async ({ body, cookie }) => {
+      getUserId(cookie); // auth check
 
       const file = body.file;
       if (!ALLOWED_TYPES.has(file.type)) {
@@ -369,9 +374,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Generate image via AI SDK
   .post(
     "/image",
-    async ({ body, request }) => {
-      const accessToken = getAccessToken(request);
-      const provider = getProvider(accessToken);
+    async ({ body, cookie }) => {
+      const apiKey = getApiKey(cookie);
+      const provider = getProvider(apiKey);
 
       const { images } = await generateImage({
         model: provider.imageModel(body.model),
@@ -400,12 +405,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Generate video (submit task, poll, download, upload to R2)
   .post(
     "/video",
-    async ({ body, request }) => {
-      const accessToken = getAccessToken(request);
+    async ({ body, cookie }) => {
+      const apiKey = getApiKey(cookie);
 
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${apiKey}`,
       };
 
       const submitBody: Record<string, unknown> = {

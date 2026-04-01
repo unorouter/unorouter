@@ -1,25 +1,23 @@
 "use client";
 
+import { Thread } from "@/components/assistant-ui/thread";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   useConversationQuery,
   useCreateConversationMutation,
   usePersistMessagesMutation,
 } from "@/hooks/chat-hook";
+import { createR2AttachmentAdapter } from "@/lib/chat/attachment-adapter";
 import {
-  apiKeyAtom,
   newChatModelAtom,
   selectedConversationAtom,
 } from "@/store/client-store";
 import { useChat } from "@ai-sdk/react";
+import { AssistantRuntimeProvider } from "@assistant-ui/react";
+import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useRef } from "react";
-
-import { Thread } from "@/components/assistant-ui/thread";
-import { createR2AttachmentAdapter } from "@/lib/chat/attachment-adapter";
-import { AssistantRuntimeProvider } from "@assistant-ui/react";
-import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 
 type ChatThreadProps = {
   convId?: string | null;
@@ -34,7 +32,6 @@ export function ChatThread(props: ChatThreadProps) {
   const createMutation = useCreateConversationMutation();
   const setSelectedConversation = useSetAtom(selectedConversationAtom);
   const newChatModel = useAtomValue(newChatModelAtom);
-  const apiKey = useAtomValue(apiKeyAtom);
   const model = conversationQuery.data?.model ?? newChatModel!;
 
   // Ref for attachment adapter context (convId can change after creation)
@@ -46,7 +43,6 @@ export function ChatThread(props: ChatThreadProps) {
   const transport = new DefaultChatTransport({
     api: "/api/chat/stream",
     body: { model },
-    headers: apiKey ? { Authorization: `Bearer ${apiKey}` } : undefined,
   });
 
   const initialMessages: UIMessage[] =
