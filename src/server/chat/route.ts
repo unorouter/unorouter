@@ -2,7 +2,7 @@ import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
 import { deleteR2Prefix, mediaKey, uploadToR2 } from "@/lib/storage/r2";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { streamText } from "ai";
+import { generateImage, streamText } from "ai";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
@@ -35,10 +35,10 @@ function getUserId(upstream: { headers: Record<string, string> }): number {
   return Number(raw);
 }
 
-function getAccessToken(upstream: { headers: Record<string, string> }): string {
-  const token = upstream.headers.Authorization;
-  if (!token) throw new Error("Unauthorized");
-  return token;
+function getAccessToken(request: Request): string {
+  const auth = request.headers.get("Authorization");
+  if (!auth) throw new Error("Unauthorized");
+  return auth.replace(/^Bearer\s+/i, "");
 }
 
 function getProvider(accessToken: string) {
@@ -322,8 +322,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Stream text via AI SDK
   .post(
     "/stream",
-    async ({ body, upstream }) => {
-      const accessToken = getAccessToken(upstream);
+    async ({ body, request }) => {
+      const accessToken = getAccessToken(request);
       const provider = getProvider(accessToken);
 
       const result = streamText({
@@ -369,10 +369,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Generate image via AI SDK
   .post(
     "/image",
-    async ({ body, upstream }) => {
-      const accessToken = getAccessToken(upstream);
+    async ({ body, request }) => {
+      const accessToken = getAccessToken(request);
       const provider = getProvider(accessToken);
-      const { generateImage } = await import("ai");
 
       const { images } = await generateImage({
         model: provider.imageModel(body.model),
@@ -401,8 +400,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Generate video (submit task, poll, download, upload to R2)
   .post(
     "/video",
-    async ({ body, upstream }) => {
-      const accessToken = getAccessToken(upstream);
+    async ({ body, request }) => {
+      const accessToken = getAccessToken(request);
 
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
