@@ -12,11 +12,6 @@ export default async function BillingPage() {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: queryKeys.auth(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
-    }),
-    queryClient.prefetchQuery({
       queryKey: queryKeys.topUpInfo(),
       queryFn: async () =>
         handleElysia(await rpc.api.billing["topup-info"].get(cookieHeaders)),

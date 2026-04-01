@@ -15,11 +15,6 @@ export default async function DashboardPage() {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: queryKeys.auth(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
-    }),
-    queryClient.prefetchQuery({
       queryKey: queryKeys.status(),
       queryFn: async () =>
         handleElysia(await rpc.api.auth.status.get(cookieHeaders)),

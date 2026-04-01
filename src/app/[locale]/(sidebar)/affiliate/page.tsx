@@ -14,11 +14,6 @@ export default async function AffiliatePageRoute() {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: queryKeys.auth(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
-    }),
-    queryClient.prefetchQuery({
       queryKey: queryKeys.affiliateInvitees(DEFAULT_PAGE),
       queryFn: async () =>
         handleElysia(

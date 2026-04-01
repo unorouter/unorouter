@@ -17,11 +17,6 @@ export default async function ChatLayout(props: Props) {
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: queryKeys.auth(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
-    }),
-    queryClient.prefetchQuery({
       queryKey: queryKeys.pricing(),
       queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
