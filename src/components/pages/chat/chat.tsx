@@ -68,8 +68,8 @@ export function Chat() {
   }
 
   return (
-    <div className="flex min-w-0 flex-1 flex-col">
-      <ChatThread key={selectedId ?? "new"} convId={selectedId} />
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+      <ChatThread convId={selectedId} />
     </div>
   );
 }

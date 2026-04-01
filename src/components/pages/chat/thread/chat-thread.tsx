@@ -17,7 +17,7 @@ import { AssistantRuntimeProvider } from "@assistant-ui/react";
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ChatThreadProps = {
   convId?: string | null;
@@ -25,10 +25,27 @@ type ChatThreadProps = {
 
 export function ChatThread(props: ChatThreadProps) {
   const convId = props.convId ?? null;
+  const [threadKey, setThreadKey] = useState(() => convId ?? "new");
 
-  if (!convId) return <ChatThreadInner convId={null} initialMessages={[]} />;
+  // When the parent passes a different convId (sidebar click, new chat button),
+  // reset the thread key to force a remount.
+  const prevConvIdRef = useRef(convId);
+  useEffect(() => {
+    const prev = prevConvIdRef.current;
+    prevConvIdRef.current = convId;
 
-  return <ChatThreadLoader convId={convId} />;
+    // Skip null→id transitions caused by ChatThreadInner creating a conversation
+    if (prev === null && convId !== null) return;
+
+    if (convId !== prev) {
+      setThreadKey(convId ?? "new");
+    }
+  }, [convId]);
+
+  if (threadKey === "new")
+    return <ChatThreadInner key="new" convId={null} initialMessages={[]} />;
+
+  return <ChatThreadLoader key={threadKey} convId={threadKey} />;
 }
 
 function ChatThreadLoader(props: { convId: string }) {
@@ -62,8 +79,8 @@ function ChatThreadInner(props: {
   initialMessages: UIMessage[];
   model?: string;
 }) {
-  const convId = props.convId;
-  const isNewChat = !convId;
+  const [activeConvId, setActiveConvId] = useState(props.convId);
+  const isNewChat = !activeConvId;
 
   const persistMutation = usePersistMessagesMutation();
   const createMutation = useCreateConversationMutation();
@@ -71,10 +88,10 @@ function ChatThreadInner(props: {
   const newChatModel = useAtomValue(newChatModelAtom);
   const model = props.model ?? newChatModel!;
 
-  const contextRef = useRef({ convId, msgId: `user-${Date.now()}` });
+  const contextRef = useRef({ convId: activeConvId, msgId: `user-${Date.now()}` });
   useEffect(() => {
-    contextRef.current.convId = convId;
-  }, [convId]);
+    contextRef.current.convId = activeConvId;
+  }, [activeConvId]);
 
   const transport = new DefaultChatTransport({
     api: "/api/chat/stream",
@@ -142,6 +159,7 @@ function ChatThreadInner(props: {
             ),
           );
           contextRef.current.convId = data.id;
+          setActiveConvId(data.id);
           setSelectedConversation(data.id);
         } catch {
           pendingCreateRef.current = false;
@@ -184,10 +202,10 @@ function ChatThreadInner(props: {
   });
 
   return (
-    <div className="relative flex flex-1 flex-col">
-      {convId && (
+    <div className="relative flex min-h-0 flex-1 flex-col">
+      {activeConvId && (
         <div className="absolute top-2 right-4 z-10">
-          <ShareButton convId={convId} />
+          <ShareButton convId={activeConvId} />
         </div>
       )}
       <AssistantRuntimeProvider runtime={runtime}>
