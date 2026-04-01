@@ -29,8 +29,21 @@ export const streamBody = t.Object({
   messages: t.Any(),
 });
 
+export const clientStoreCookie = t.Cookie({
+  "client-store": t.Optional(t.String()),
+});
+
 export const mediaUploadBody = t.Object({
-  file: t.File(),
+  file: t.File({
+    type: [
+      "image/png",
+      "image/jpeg",
+      "image/webp",
+      "image/gif",
+      "application/pdf",
+    ],
+    maxSize: "20m",
+  }),
   convId: t.String(),
   msgId: t.String(),
 });

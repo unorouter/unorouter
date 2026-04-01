@@ -1,12 +1,12 @@
 "use client";
 
-import { CopyButton } from "@/components/elements/code/copy-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
 import type { ProcessedModel } from "@/lib/api/pricing";
+import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
-import { getVendorTheme } from "@/lib/vendor-themes";
 
 export type ModelCardLabels = {
   from: string;

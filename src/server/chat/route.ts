@@ -1,13 +1,13 @@
+import {
+  deleteR2Prefix,
+  downloadAndUpload,
+  mediaKey,
+  uploadToR2,
+} from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
-import { deleteR2Prefix, mediaKey, uploadToR2 } from "@/lib/storage/r2";
-import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
-import { generateImage, streamText } from "ai";
-import { and, desc, eq, sql } from "drizzle-orm";
-import { Elysia } from "elysia";
-import { nanoid } from "nanoid";
-import { USER_ID_COOKIE } from "@/lib/config/constants";
 import {
+  clientStoreCookie,
   createConversationBody,
   imageGenerationBody,
   listConversationsQuery,
@@ -17,57 +17,11 @@ import {
   updateConversationBody,
   videoGenerationBody,
 } from "@/lib/validation/chat";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
-const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
-const ALLOWED_TYPES = new Set([
-  "image/png",
-  "image/jpeg",
-  "image/webp",
-  "image/gif",
-  "application/pdf",
-]);
-
-function getUserId(cookie: Record<string, { value?: unknown }>): number {
-  const raw = cookie[USER_ID_COOKIE]?.value;
-  if (!raw) throw new Error("Unauthorized");
-  return Number(raw);
-}
-
-function getApiKey(cookie: Record<string, { value?: unknown }>): string {
-  const raw = cookie["client-store"]?.value;
-  if (!raw) throw new Error("Unauthorized");
-  try {
-    const parsed = JSON.parse(String(raw));
-    if (!parsed.apiKey) throw new Error("No API key");
-    return parsed.apiKey as string;
-  } catch {
-    throw new Error("Unauthorized");
-  }
-}
-
-function getProvider(apiKey: string) {
-  return createOpenAICompatible({
-    name: "unorouter",
-    baseURL: `${API_URL}/v1`,
-    apiKey,
-  });
-}
-
-async function downloadAndUpload(
-  videoUrl: string,
-  convId: string,
-  msgId: string,
-): Promise<string> {
-  const res = await fetch(videoUrl);
-  const buffer = Buffer.from(await res.arrayBuffer());
-  const contentType = res.headers.get("content-type") ?? "video/mp4";
-  const ext = contentType.split("/")[1] ?? "mp4";
-  const filename = `${nanoid(8)}.${ext}`;
-  const key = mediaKey(convId, msgId, filename);
-  return uploadToR2(key, buffer, contentType);
-}
+import { API_URL, getApiKey, getProvider, getUserId } from "@/server/constants";
+import { generateImage, streamText } from "ai";
+import { and, desc, eq, sql } from "drizzle-orm";
+import { Elysia } from "elysia";
+import { nanoid } from "nanoid";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -338,7 +292,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return result.toUIMessageStreamResponse();
     },
-    { body: streamBody },
+    { body: streamBody, cookie: clientStoreCookie },
   )
 
   // Upload media file to R2
@@ -348,15 +302,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       getUserId(cookie); // auth check
 
       const file = body.file;
-      if (!ALLOWED_TYPES.has(file.type)) {
-        throw new Error(
-          "File type not allowed. Accepted: PNG, JPEG, WebP, GIF, PDF.",
-        );
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        throw new Error("File too large. Maximum size is 20MB.");
-      }
-
       const buffer = Buffer.from(await file.arrayBuffer());
       const ext = file.name.split(".").pop() ?? "bin";
       const filename = `${nanoid(8)}.${ext}`;
@@ -399,7 +344,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return { success: true, data: { urls } };
     },
-    { body: imageGenerationBody },
+    { body: imageGenerationBody, cookie: clientStoreCookie },
   )
 
   // Generate video (submit task, poll, download, upload to R2)
@@ -488,5 +433,5 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       throw new Error("Video generation timed out");
     },
-    { body: videoGenerationBody },
+    { body: videoGenerationBody, cookie: clientStoreCookie },
   );

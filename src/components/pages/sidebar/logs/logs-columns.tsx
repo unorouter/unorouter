@@ -1,6 +1,7 @@
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
+import type { LogFilterValues } from "@/components/pages/sidebar/logs/filters";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
@@ -19,7 +20,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { renderQuota } from "@/lib/config/constants";
-import type { LogFilterValues } from "@/lib/logs/filters";
 import { copyToClipboard } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelLogDataItemsItem } from "@/openapi";
 import type { CellContext, Row } from "@tanstack/react-table";

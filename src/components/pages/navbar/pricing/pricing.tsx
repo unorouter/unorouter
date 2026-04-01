@@ -5,7 +5,10 @@ import { PricingCard } from "@/components/elements/content/pricing-card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";
-import { getMultiplier, getResetTranslationKey } from "@/lib/api/subscription";
+import {
+  RESET_TRANSLATION_KEYS,
+  getMultiplier,
+} from "@/lib/api/subscription";
 import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
@@ -80,7 +83,7 @@ export function Pricing() {
         <div className="mb-16 grid gap-6 md:grid-cols-3">
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
-            const resetLabel = t(getResetTranslationKey(plan));
+            const resetLabel = t(RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ?? "BILLING.PER_MONTH");
             const quotaLabel =
               plan.quotaPerResetUsd > 0
                 ? `$${plan.quotaPerResetUsd}${resetLabel}`

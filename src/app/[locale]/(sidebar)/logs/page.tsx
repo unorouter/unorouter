@@ -1,10 +1,10 @@
+import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/filters";
 import { UsageLogs } from "@/components/pages/sidebar/logs/usage-logs";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
   initialTableStore,
   loadDataFromCookie,
 } from "@/lib/config/table-storage";
-import { buildLogQueryFilters } from "@/lib/logs/filters";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

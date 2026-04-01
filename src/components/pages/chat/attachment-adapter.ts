@@ -1,15 +1,6 @@
 import type { AttachmentAdapter } from "@assistant-ui/react";
 import { generateId } from "ai";
 
-const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
-const ALLOWED_TYPES = new Set([
-  "image/png",
-  "image/jpeg",
-  "image/webp",
-  "image/gif",
-  "application/pdf",
-]);
-
 /**
  * Creates an attachment adapter that uploads files to R2 via /api/chat/media.
  * The convId and msgId are passed as a ref so they can be updated dynamically
@@ -22,13 +13,6 @@ export function createR2AttachmentAdapter(
     accept: "image/png,image/jpeg,image/webp,image/gif,.pdf",
 
     async add({ file }) {
-      if (!ALLOWED_TYPES.has(file.type)) {
-        throw new Error(`Unsupported file type: ${file.type}`);
-      }
-      if (file.size > MAX_FILE_SIZE) {
-        throw new Error("File too large (max 20MB)");
-      }
-
       return {
         id: generateId(),
         type: file.type.startsWith("image/") ? "image" : "file",

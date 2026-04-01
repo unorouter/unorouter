@@ -7,7 +7,7 @@ import {
   useCreateConversationMutation,
   usePersistMessagesMutation,
 } from "@/hooks/chat-hook";
-import { createR2AttachmentAdapter } from "@/lib/chat/attachment-adapter";
+import { createR2AttachmentAdapter } from "@/components/pages/chat/attachment-adapter";
 import {
   newChatModelAtom,
   selectedConversationAtom,

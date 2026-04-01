@@ -7,6 +7,7 @@ export const NEW_API_USER = "New-Api-User";
 export const SESSION_COOKIE = "session" as const;
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
+export const CLIENT_STORE_KEY = "client-store" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AFF_CODE_KEY = "aff" as const;

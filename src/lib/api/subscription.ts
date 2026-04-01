@@ -1,32 +1,13 @@
 import type { ResponseArrayControllerSubscriptionPlanDTODataItem } from "@/openapi";
-import { TranslationKey } from "../config/constants";
+import { QUOTA_PER_DOLLAR, TranslationKey } from "../config/constants";
 
-const QUOTA_PER_UNIT = 500_000;
-
-const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
+export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   daily: "BILLING.PER_DAY",
   weekly: "BILLING.PER_WEEK",
   monthly: "BILLING.PER_MONTH",
 };
 
-export type SubscriptionPlan = {
-  id: number;
-  title: string;
-  subtitle: string;
-  priceAmount: number;
-  currency: string;
-  durationUnit: string;
-  durationValue: number;
-  quotaPerResetUsd: number;
-  quotaResetPeriod: string;
-  estimatedTotalUsd: number;
-  upgradeGroup: string;
-  sortOrder: number;
-};
-
-export function getResetTranslationKey(plan: SubscriptionPlan): TranslationKey {
-  return RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ?? "BILLING.PER_MONTH";
-}
+export type SubscriptionPlan = ReturnType<typeof processPlans>[number];
 
 export function getMultiplier(plan: SubscriptionPlan): number {
   if (plan.priceAmount <= 0) return 0;
@@ -77,13 +58,13 @@ function estimateResetsPerDuration(
 
 export function processPlans(
   raw: ResponseArrayControllerSubscriptionPlanDTODataItem[],
-): SubscriptionPlan[] {
+) {
   return raw
     .filter((entry) => entry.plan?.enabled)
     .map((entry) => {
       const p = entry.plan!;
       const totalAmount = p.total_amount ?? 0;
-      const quotaPerResetUsd = totalAmount / QUOTA_PER_UNIT;
+      const quotaPerResetUsd = totalAmount / QUOTA_PER_DOLLAR;
       const durationUnit = p.duration_unit ?? "month";
       const durationValue = p.duration_value ?? 1;
       const resetPeriod = p.quota_reset_period ?? "never";

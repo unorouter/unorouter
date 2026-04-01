@@ -1,9 +1,14 @@
 import {
   ACCESS_TOKEN_COOKIE,
+  CLIENT_STORE_KEY,
   NEW_API_USER,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
+import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
+import type { Cookie } from "elysia";
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export const ADMIN_HEADERS = {
   Authorization: process.env.SYSTEM_ACCESS_TOKEN,
@@ -22,6 +27,32 @@ export async function getServerCookieHeader(): Promise<string> {
   } catch {
     return "";
   }
+}
+
+export function getUserId(cookie: Record<string, Cookie<unknown>>): number {
+  const raw = cookie[USER_ID_COOKIE]?.value;
+  if (!raw) throw new Error("Unauthorized");
+  return Number(raw);
+}
+
+export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
+  const raw = cookie[CLIENT_STORE_KEY]?.value;
+  if (!raw) throw new Error("Unauthorized");
+  try {
+    const parsed = JSON.parse(String(raw));
+    if (!parsed.apiKey) throw new Error("No API key");
+    return parsed.apiKey as string;
+  } catch {
+    throw new Error("Unauthorized");
+  }
+}
+
+export function getProvider(apiKey: string) {
+  return createOpenAICompatible({
+    name: "unorouter",
+    baseURL: `${API_URL}/v1`,
+    apiKey,
+  });
 }
 
 export function deriveUpstream({ request }: { request: Request }) {

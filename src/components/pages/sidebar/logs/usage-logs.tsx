@@ -1,11 +1,11 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
+import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/filters";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUsageLogsQuery, useUsageLogsStatQuery } from "@/hooks/logs-hook";
 import { msg, renderQuota } from "@/lib/config/constants";
-import { buildLogQueryFilters } from "@/lib/logs/filters";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";

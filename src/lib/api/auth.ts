@@ -1,37 +1,18 @@
 import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
-import {
-  ACCESS_TOKEN_COOKIE,
-  AFF_CODE_KEY,
-  AUTH_REDIRECT_COOKIE,
-  COOKIE_MAX_AGE,
-  SESSION_COOKIE,
-  USER_ID_COOKIE,
-} from "../config/constants";
+import { COOKIE_MAX_AGE, USER_ID_COOKIE } from "../config/constants";
 
-export const AUTH_COOKIES = [
-  SESSION_COOKIE,
-  USER_ID_COOKIE,
-  ACCESS_TOKEN_COOKIE,
-  AUTH_REDIRECT_COOKIE,
-  AFF_CODE_KEY,
-] as const;
-
-export function rewriteCookies(headers: Headers): string[] {
-  return (headers?.getSetCookie?.() ?? []).map((str) => {
+export function handleAuthResponse(
+  res: { data: any; headers: Headers },
+  set: Context["set"],
+) {
+  const cookies = (res.headers?.getSetCookie?.() ?? []).map((str) => {
     const cookie = parseSetCookie(str);
     delete cookie.domain;
     cookie.secure = false;
     cookie.sameSite = "lax";
     return serialize(cookie, { encode: String });
   });
-}
-
-export function handleAuthResponse(
-  res: { data: any; headers: Headers },
-  set: Context["set"],
-) {
-  const cookies = rewriteCookies(res.headers);
   const id = res.data?.data?.id;
   if (id) {
     cookies.push(

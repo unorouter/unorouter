@@ -1,6 +1,7 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getCookieValue } from "@/lib/utils/server";
-import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
+import { CLIENT_STORE_KEY } from "@/lib/config/constants";
+import type { ClientState } from "@/store/client-store";
 import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
 import {
   NAVIGATION_STORE_KEY,

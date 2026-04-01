@@ -1,3 +1,4 @@
+import { CLIENT_STORE_KEY } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { OS } from "@/lib/types/enums";
 import { atom } from "jotai";
@@ -10,8 +11,6 @@ export type ClientState = {
   selectedConversation: string | null;
   newChatModel: string | null;
 };
-
-export const CLIENT_STORE_KEY = "client-store";
 
 export const INITIAL_CLIENT_STATE: ClientState = {
   apiKey: null,

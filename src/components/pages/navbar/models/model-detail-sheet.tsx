@@ -1,7 +1,7 @@
 "use client";
 
-import { CopyButton } from "@/components/elements/code/copy-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
 import {
   Sheet,
@@ -15,19 +15,19 @@ import type {
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
+import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
-import { getVendorTheme } from "@/lib/vendor-themes";
 import { useTranslations } from "next-intl";
-import {
-  LuLink,
-  LuInfo,
-  LuTag,
-  LuChevronDown,
-  LuLayers,
-  LuGrid3X3,
-} from "react-icons/lu";
 import { useState } from "react";
+import {
+  LuChevronDown,
+  LuGrid3X3,
+  LuInfo,
+  LuLayers,
+  LuLink,
+  LuTag,
+} from "react-icons/lu";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;
