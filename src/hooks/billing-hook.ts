@@ -4,8 +4,10 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import type { ResponseControllerSubscriptionSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 const billing = rpc.api.billing;
 
@@ -34,6 +36,7 @@ export function useSubscriptionSelfQuery() {
 }
 
 export function useUpdateBillingPreferenceMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
@@ -42,6 +45,7 @@ export function useUpdateBillingPreferenceMutation() {
       handleElysia(
         await rpc.api.billing["subscription-preference"].put(args.body),
       ),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseControllerSubscriptionSelfDataData>(
         queryKeys.subscriptionSelf(),
@@ -58,21 +62,26 @@ export function useUpdateBillingPreferenceMutation() {
 }
 
 export function useStripeTopUpMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async (
       args: EdenArgs<(typeof billing)["stripe-pay"], "post">,
     ) => handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useCreemTopUpMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async (args: EdenArgs<(typeof billing)["creem-pay"], "post">) =>
       handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useStripeSubscriptionMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async (
       args: EdenArgs<(typeof billing)["subscription"]["stripe-pay"], "post">,
@@ -80,10 +89,12 @@ export function useStripeSubscriptionMutation() {
       handleElysia(
         await rpc.api.billing.subscription["stripe-pay"].post(args.body),
       ),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useCreemSubscriptionMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async (
       args: EdenArgs<(typeof billing)["subscription"]["creem-pay"], "post">,
@@ -91,5 +102,6 @@ export function useCreemSubscriptionMutation() {
       handleElysia(
         await rpc.api.billing.subscription["creem-pay"].post(args.body),
       ),
+    onError: (e) => handleError(e, t),
   });
 }

@@ -4,8 +4,10 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import type { ResponseDtoUserSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 export function useAffiliateCommissionsQuery(
   args: EdenArgs<typeof rpc.api.affiliate.commissions, "get"> = {},
@@ -30,11 +32,13 @@ export function useAffiliateInviteesQuery(
 }
 
 export function useTransferAffQuotaMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.affiliate.transfer, "post">,
     ) => handleElysia(await rpc.api.affiliate.transfer.post(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
         queryKeys.auth(),

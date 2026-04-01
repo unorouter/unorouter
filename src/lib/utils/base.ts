@@ -1,3 +1,4 @@
+import { msg } from "@/lib/config/constants";
 import type { UnwrapApiResponse } from "../types";
 
 export function copyToClipboard(text: string): Promise<void> {
@@ -46,7 +47,7 @@ export function handleElysia<T extends { data: unknown; status: number }>(
     "success" in body &&
     !(body as { success: boolean }).success
   ) {
-    throw new Error((body as { message?: string }).message ?? "Request failed");
+    throw new Error((body as { message?: string }).message ?? msg("ERRORS.REQUEST_FAILED"));
   }
   if (body && typeof body === "object" && "success" in body && "data" in body) {
     return (body as { data: unknown }).data as UnwrapApiResponse<

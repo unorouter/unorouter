@@ -5,10 +5,12 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
+import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
 
 const tokenRoute = rpc.api.token;
@@ -58,11 +60,13 @@ export function useUserModelsQuery() {
 }
 
 export function useCreateTokenMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof tokenRoute, "post">) =>
       handleElysia(await rpc.api.token.post(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
     },
@@ -70,11 +74,13 @@ export function useCreateTokenMutation() {
 }
 
 export function useUpdateTokenMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof tokenRoute, "put">) =>
       handleElysia(await rpc.api.token.put(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
         queryKey,
@@ -93,11 +99,13 @@ export function useUpdateTokenMutation() {
 }
 
 export function useToggleTokenStatusMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof tokenRoute.status, "put">) =>
       handleElysia(await rpc.api.token.status.put(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
         queryKey,
@@ -118,18 +126,22 @@ export function useToggleTokenStatusMutation() {
 }
 
 export function useFetchTokenKeyMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof tokenRoute, "get">) =>
       handleElysia(await rpc.api.token(args).key.post()),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useDeleteTokenMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof tokenRoute, "delete">) =>
       handleElysia(await rpc.api.token(args).delete()),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
         queryKey,

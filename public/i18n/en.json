@@ -1257,5 +1257,16 @@
     "NEEDS_TOKEN_TITLE": "API Key Required",
     "NEEDS_TOKEN_DESC": "Generate an API key to start chatting with AI models.",
     "LOGIN_REQUIRED_DESC": "Sign in to start chatting with AI models."
+  },
+  "ERRORS": {
+    "UNAUTHORIZED": "Unauthorized",
+    "NO_API_KEY": "No API key configured",
+    "NOT_FOUND": "Resource not found",
+    "NO_IMAGE_GENERATED": "No image was generated",
+    "NO_TASK_ID": "No task ID or URL in response",
+    "NO_VIDEO_URL": "Video completed but no URL was found",
+    "VIDEO_GENERATION_FAILED": "Video generation failed",
+    "VIDEO_GENERATION_TIMED_OUT": "Video generation timed out",
+    "REQUEST_FAILED": "Request failed"
   }
 }

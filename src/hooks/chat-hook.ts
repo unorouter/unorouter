@@ -4,7 +4,9 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
 
 const chatRoute = rpc.api.chat;
@@ -43,10 +45,12 @@ export function useSharedConversationQuery(shareId: string) {
 }
 
 export function useCreateConversationMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof chatRoute, "post">) =>
       handleElysia(await chatRoute.post(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       const now = new Date();
       queryClient.setQueryData<ConversationsData>(
@@ -68,10 +72,12 @@ export function useCreateConversationMutation() {
 }
 
 export function useUpdateConversationMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) =>
       handleElysia(await chatRoute({ id: args.id }).put(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       const id = String(args.id);
       queryClient.setQueryData<ConversationsData>(
@@ -95,10 +101,12 @@ export function useUpdateConversationMutation() {
 }
 
 export function useDeleteConversationMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams) =>
       handleElysia(await chatRoute(args).delete()),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       const id = String(args.id);
       queryClient.setQueryData<ConversationsData>(
@@ -117,10 +125,12 @@ export function useDeleteConversationMutation() {
 }
 
 export function useShareConversationMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams) =>
       handleElysia(await chatRoute(args).share.post({})),
+    onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       queryClient.setQueryData<ConversationData>(
         queryKeys.conversation(String(args.id)),
@@ -131,10 +141,12 @@ export function useShareConversationMutation() {
 }
 
 export function useRevokeShareMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams) =>
       handleElysia(await chatRoute(args).share.delete()),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ConversationData>(
         queryKeys.conversation(String(args.id)),
@@ -145,7 +157,9 @@ export function useRevokeShareMutation() {
 }
 
 export function usePersistMessagesMutation() {
+  const t = useTranslations();
   return useMutation({
+    onError: (e) => handleError(e, t),
     mutationFn: async (
       args: ChatParams & EdenArgs<ChatRouteReturn["messages"], "post">,
     ) =>

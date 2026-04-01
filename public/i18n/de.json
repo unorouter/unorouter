@@ -1257,5 +1257,16 @@
     "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",
     "NEEDS_TOKEN_DESC": "Erstelle einen API-Schlüssel, um mit KI-Modellen zu chatten.",
     "LOGIN_REQUIRED_DESC": "Melde dich an, um mit KI-Modellen zu chatten."
+  },
+  "ERRORS": {
+    "UNAUTHORIZED": "Nicht autorisiert",
+    "NO_API_KEY": "Kein API-Schlüssel konfiguriert",
+    "NOT_FOUND": "Ressource nicht gefunden",
+    "NO_IMAGE_GENERATED": "Kein Bild wurde generiert",
+    "NO_TASK_ID": "Keine Aufgaben-ID oder URL in der Antwort",
+    "NO_VIDEO_URL": "Video abgeschlossen, aber keine URL gefunden",
+    "VIDEO_GENERATION_FAILED": "Videogenerierung fehlgeschlagen",
+    "VIDEO_GENERATION_TIMED_OUT": "Zeitüberschreitung bei der Videogenerierung",
+    "REQUEST_FAILED": "Anfrage fehlgeschlagen"
   }
 }

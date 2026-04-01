@@ -17,6 +17,7 @@ import {
   updateConversationBody,
   videoGenerationBody,
 } from "@/lib/validation/chat";
+import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { getApiKey, getProvider, getUserId } from "@/server/constants";
 import { generateImage, streamText } from "ai";
@@ -107,7 +108,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         eq(conversations.userId, userId),
       ),
     });
-    if (!conv) throw new Error("Not found");
+    if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
     const msgs = await db
       .select()
@@ -136,7 +137,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         )
         .returning({ id: conversations.id });
 
-      if (result.length === 0) throw new Error("Not found");
+      if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
       return { success: true, data: { id: params.id, title: body.title } };
     },
     { body: updateConversationBody },
@@ -153,7 +154,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         eq(conversations.userId, userId),
       ),
     });
-    if (!conv) throw new Error("Not found");
+    if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
     // Cleanup R2 media for this conversation
     deleteR2Prefix(`chat/${params.id}/`).catch(() => {});
@@ -177,7 +178,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       )
       .returning({ id: conversations.id });
 
-    if (result.length === 0) throw new Error("Not found");
+    if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
     return { success: true, data: { shareId } };
   })
 
@@ -194,7 +195,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       )
       .returning({ id: conversations.id });
 
-    if (result.length === 0) throw new Error("Not found");
+    if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
     return { success: true, data: { id: params.id } };
   })
 
@@ -204,7 +205,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     const conv = await db.query.conversations.findFirst({
       where: eq(conversations.shareId, params.shareId),
     });
-    if (!conv) throw new Error("Not found");
+    if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
     const msgs = await db
       .select()
@@ -238,7 +239,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
           eq(conversations.userId, userId),
         ),
       });
-      if (!conv) throw new Error("Not found");
+      if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
       const toInsert = body.messages.map((msg) => ({
         id: msg.id ?? nanoid(),
@@ -330,7 +331,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       });
 
       if (!images || images.length === 0) {
-        throw new Error("No image generated");
+        throw new Error(msg("ERRORS.NO_IMAGE_GENERATED"));
       }
 
       const urls: string[] = [];
@@ -389,7 +390,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
           );
           return { success: true, data: { url: r2Url } };
         }
-        throw new Error("No task ID or URL in response");
+        throw new Error(msg("ERRORS.NO_TASK_ID"));
       }
 
       // Poll for completion (max 5 minutes, 5s intervals)
@@ -417,7 +418,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
             pollData.result?.url ||
             pollData.url;
 
-          if (!videoUrl) throw new Error("Completed but no video URL found");
+          if (!videoUrl) throw new Error(msg("ERRORS.NO_VIDEO_URL"));
 
           const r2Url = await downloadAndUpload(
             videoUrl,
@@ -428,11 +429,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         }
 
         if (status === "failed" || status === "error") {
-          throw new Error(pollData.error || "Video generation failed");
+          throw new Error(pollData.error || msg("ERRORS.VIDEO_GENERATION_FAILED"));
         }
       }
 
-      throw new Error("Video generation timed out");
+      throw new Error(msg("ERRORS.VIDEO_GENERATION_TIMED_OUT"));
     },
     { body: videoGenerationBody, cookie: clientStoreCookie },
   );

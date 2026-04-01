@@ -4,12 +4,14 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import type {
   ResponseDtoPasskeyStatusDataData,
   ResponseDtoTwoFAStatusDataData,
   ResponseDtoUserSelfDataData,
 } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useTranslations } from "next-intl";
 
 const twoFA = rpc.api.settings["2fa"];
 
@@ -29,16 +31,20 @@ export function usePasskeyStatusQuery() {
 }
 
 export function useGenerateAccessTokenMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async () => handleElysia(await rpc.api.settings.token.get()),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useUpdateSelfMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof rpc.api.settings.self, "put">) =>
       handleElysia(await rpc.api.settings.self.put(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
         queryKeys.auth(),
@@ -58,17 +64,21 @@ export function useUpdateSelfMutation() {
 }
 
 export function useDeleteSelfMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async () => handleElysia(await rpc.api.settings.self.delete()),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useUpdateSettingMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.settings.setting, "post">,
     ) => handleElysia(await rpc.api.settings.setting.post(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(
         queryKeys.auth(),
@@ -79,6 +89,7 @@ export function useUpdateSettingMutation() {
 }
 
 export function useSendSettingsVerificationMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.settings.verification, "get">,
@@ -86,21 +97,26 @@ export function useSendSettingsVerificationMutation() {
       handleElysia(
         await rpc.api.settings.verification.get({ query: args.query }),
       ),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useSetup2FAMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.settings["2fa"].setup.post()),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function useEnable2FAMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<(typeof twoFA)["enable"], "post">) =>
       handleElysia(await rpc.api.settings["2fa"].enable.post(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: () => {
       queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
         queryKeys.twoFAStatus(),
@@ -111,10 +127,12 @@ export function useEnable2FAMutation() {
 }
 
 export function useDisable2FAMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<(typeof twoFA)["disable"], "post">) =>
       handleElysia(await rpc.api.settings["2fa"].disable.post(args.body)),
+    onError: (e) => handleError(e, t),
     onSuccess: () => {
       queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
         queryKeys.twoFAStatus(),
@@ -125,13 +143,16 @@ export function useDisable2FAMutation() {
 }
 
 export function usePasskeyRegisterBeginMutation() {
+  const t = useTranslations();
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.settings.passkey.register.begin.post()),
+    onError: (e) => handleError(e, t),
   });
 }
 
 export function usePasskeyRegisterFinishMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
@@ -140,6 +161,7 @@ export function usePasskeyRegisterFinishMutation() {
       handleElysia(
         await rpc.api.settings.passkey.register.finish.post(args.body),
       ),
+    onError: (e) => handleError(e, t),
     onSuccess: () => {
       queryClient.setQueryData<ResponseDtoPasskeyStatusDataData>(
         queryKeys.passkeyStatus(),
@@ -150,10 +172,12 @@ export function usePasskeyRegisterFinishMutation() {
 }
 
 export function usePasskeyDeleteMutation() {
+  const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.settings.passkey.delete()),
+    onError: (e) => handleError(e, t),
     onSuccess: () => {
       queryClient.setQueryData<ResponseDtoPasskeyStatusDataData>(
         queryKeys.passkeyStatus(),

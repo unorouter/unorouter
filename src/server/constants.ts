@@ -1,6 +1,7 @@
 import { env } from "@/lib/config/env";
 import {
   ACCESS_TOKEN_COOKIE,
+  msg,
   NEW_API_USER,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
@@ -31,19 +32,19 @@ export async function getServerCookieHeader(): Promise<string> {
 
 export function getUserId(cookie: Record<string, Cookie<unknown>>): number {
   const raw = cookie[USER_ID_COOKIE]?.value;
-  if (!raw) throw new Error("Unauthorized");
+  if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
   return Number(raw);
 }
 
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   const raw = cookie[CLIENT_STORE_KEY]?.value;
-  if (!raw) throw new Error("Unauthorized");
+  if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
   try {
     const parsed = JSON.parse(String(raw));
-    if (!parsed.apiKey) throw new Error("No API key");
+    if (!parsed.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
     return parsed.apiKey as string;
   } catch {
-    throw new Error("Unauthorized");
+    throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
 }
 
