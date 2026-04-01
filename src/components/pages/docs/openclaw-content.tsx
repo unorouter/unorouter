@@ -1,4 +1,5 @@
 import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
@@ -67,7 +68,7 @@ export async function OpenClawContent() {
   },
   "providers": {
     "openai": {
-      "baseUrl": "${process.env.NEXT_PUBLIC_API_URL}/v1",
+      "baseUrl": "${env.apiUrl}/v1",
       "apiKey": "env:OPENAI_API_KEY"
     }
   }
@@ -163,7 +164,7 @@ export async function OpenClawContent() {
         {/* CC Switch Quick Setup */}
         <CCSwitchSetup
           app="openclaw"
-          endpoint={`${process.env.NEXT_PUBLIC_API_URL}/v1`}
+          endpoint={`${env.apiUrl}/v1`}
           cliCodeBlock={
             <CodeBlock language="bash" code="cc-switch provider add" />
           }

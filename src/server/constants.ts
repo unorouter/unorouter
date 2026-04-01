@@ -1,17 +1,17 @@
+import { env } from "@/lib/config/env";
 import {
   ACCESS_TOKEN_COOKIE,
   NEW_API_USER,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
+import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
 import type { Cookie } from "elysia";
 
-export const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
 export const ADMIN_HEADERS = {
-  Authorization: process.env.SYSTEM_ACCESS_TOKEN,
+  Authorization: serverEnv.systemAccessToken,
   [NEW_API_USER]: "1",
 };
 
@@ -50,7 +50,7 @@ export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
 export function getProvider(apiKey: string) {
   return createOpenAICompatible({
     name: "unorouter",
-    baseURL: `${API_URL}/v1`,
+    baseURL: `${env.apiUrl}/v1`,
     apiKey,
   });
 }

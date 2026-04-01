@@ -2,6 +2,7 @@
 
 import { useLogoutMutation } from "@/hooks/auth-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { LuLayoutDashboard, LuLogOut, LuWallet } from "react-icons/lu";
@@ -48,7 +49,7 @@ export function UserMenuItems(props: UserMenuItemsProps) {
         </div>
       )}
       <a
-        href={process.env.NEXT_PUBLIC_API_URL}
+        href={env.apiUrl}
         target="_blank"
         rel="noopener noreferrer"
         onClick={props.onAction}

@@ -1,9 +1,10 @@
 "use client";
 
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME;
+const appName = env.appName;
 
 export function LogoImage(
   props: Omit<React.ComponentProps<typeof Image>, "src" | "alt">,

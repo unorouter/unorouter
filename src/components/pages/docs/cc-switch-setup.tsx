@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useDeepLink } from "@/hooks/ui/use-deep-link";
 import { useApiKey } from "@/hooks/ui/use-api-key";
+import { env } from "@/lib/config/env";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
@@ -32,7 +33,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
   const deepLinkParams = new URLSearchParams({
     resource: "provider",
     app: props.app,
-    name: process.env.NEXT_PUBLIC_APP_NAME!,
+    name: env.appName,
     endpoint: props.endpoint,
   });
   if (token.apiKey) {

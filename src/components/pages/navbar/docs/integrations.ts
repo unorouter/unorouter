@@ -1,4 +1,5 @@
 import { TranslationKey } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import type { OS } from "@/lib/types/enums";
 
 export type IntegrationIconKey =
@@ -70,15 +71,15 @@ brew install --cask cc-switch`,
       line: "bg-orange-600/40",
     },
     quickStart: {
-      windows: `$env:ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+      windows: `$env:ANTHROPIC_BASE_URL="${env.apiUrl}"
 $env:ANTHROPIC_API_KEY="YOUR_API_KEY"
 
 claude`,
-      macos: `export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+      macos: `export ANTHROPIC_BASE_URL="${env.apiUrl}"
 export ANTHROPIC_API_KEY="YOUR_API_KEY"
 
 claude`,
-      linux: `export ANTHROPIC_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}"
+      linux: `export ANTHROPIC_BASE_URL="${env.apiUrl}"
 export ANTHROPIC_API_KEY="YOUR_API_KEY"
 
 claude`,
@@ -101,15 +102,15 @@ claude`,
       line: "bg-emerald-600/40",
     },
     quickStart: {
-      windows: `$env:OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+      windows: `$env:OPENAI_BASE_URL="${env.apiUrl}/v1"
 $env:OPENAI_API_KEY="YOUR_API_KEY"
 
 codex`,
-      macos: `export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+      macos: `export OPENAI_BASE_URL="${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 codex`,
-      linux: `export OPENAI_BASE_URL="${process.env.NEXT_PUBLIC_API_URL}/v1"
+      linux: `export OPENAI_BASE_URL="${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 codex`,
@@ -132,15 +133,15 @@ codex`,
       line: "bg-blue-600/40",
     },
     quickStart: {
-      windows: `$env:GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+      windows: `$env:GEMINI_API_BASE="${env.apiUrl}"
 $env:GEMINI_API_KEY="YOUR_API_KEY"
 
 gemini`,
-      macos: `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+      macos: `export GEMINI_API_BASE="${env.apiUrl}"
 export GEMINI_API_KEY="YOUR_API_KEY"
 
 gemini`,
-      linux: `export GEMINI_API_BASE="${process.env.NEXT_PUBLIC_API_URL}"
+      linux: `export GEMINI_API_BASE="${env.apiUrl}"
 export GEMINI_API_KEY="YOUR_API_KEY"
 
 gemini`,
@@ -164,17 +165,17 @@ gemini`,
     },
     quickStart: {
       windows: `# In %APPDATA%\\openclaw\\config.yaml
-# providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
+# providers.openai.baseUrl: "${env.apiUrl}/v1"
 $env:OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
       macos: `# In ~/.openclaw/config.yaml
-# providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
+# providers.openai.baseUrl: "${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,
       linux: `# In ~/.openclaw/config.yaml
-# providers.openai.baseUrl: "${process.env.NEXT_PUBLIC_API_URL}/v1"
+# providers.openai.baseUrl: "${env.apiUrl}/v1"
 export OPENAI_API_KEY="YOUR_API_KEY"
 
 openclaw onboard`,

@@ -7,6 +7,7 @@ import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { env } from "@/lib/config/env";
 import {
   useSendSettingsVerificationMutation,
   useUpdateSelfMutation,
@@ -84,7 +85,7 @@ export function AccountCard() {
     );
   }
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.unorouter.ai";
+  const apiUrl = env.apiUrl || "https://api.unorouter.ai";
 
   return (
     <Card>

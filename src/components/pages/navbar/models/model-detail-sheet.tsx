@@ -15,6 +15,7 @@ import type {
   GridPricingRow,
   ProcessedModel,
 } from "@/lib/api/pricing";
+import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
@@ -188,7 +189,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     path = path.replaceAll("{model}", model.name);
                   }
                   const method = info?.method ?? "POST";
-                  const apiBase = process.env.NEXT_PUBLIC_API_URL ?? "";
+                  const apiBase = env.apiUrl ?? "";
                   const fullUrl = path ? `${apiBase}${path}` : "";
 
                   return (

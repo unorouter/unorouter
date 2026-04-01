@@ -1,3 +1,4 @@
+import { env } from "@/lib/config/env";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
@@ -48,7 +49,7 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
     models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
 
   return {
-    apiUrl: process.env.NEXT_PUBLIC_API_URL!,
+    apiUrl: env.apiUrl,
     placeholder,
     modelFor,
   };

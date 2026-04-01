@@ -10,6 +10,7 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { getDocsApiKey } from "@/lib/utils/server";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import { getTranslations } from "next-intl/server";
@@ -224,7 +225,7 @@ wire_api = "responses"`;
         {/* CC Switch Quick Setup */}
         <CCSwitchSetup
           app="codex"
-          endpoint={`${process.env.NEXT_PUBLIC_API_URL}/v1`}
+          endpoint={`${env.apiUrl}/v1`}
           cliCodeBlock={
             <CodeBlock language="bash" code="cc-switch provider add" />
           }

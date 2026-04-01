@@ -1,5 +1,6 @@
 import { getPathname } from "@/i18n/navigation";
 import { type Pathname, pathnames, routing } from "@/i18n/routing";
+import { env } from "@/lib/config/env";
 import type { MetadataRoute } from "next";
 import type { Locale } from "next-intl";
 
@@ -59,5 +60,5 @@ function getEntries(
 
 function getUrl(href: Pathname, locale: Locale): string {
   const pathname = getPathname({ locale, href });
-  return `${new URL(process.env.NEXT_PUBLIC_URL!).origin}${pathname}`;
+  return `${new URL(env.appUrl).origin}${pathname}`;
 }

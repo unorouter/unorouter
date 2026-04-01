@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useDeepLink } from "@/hooks/ui/use-deep-link";
 import { useApiKey } from "@/hooks/ui/use-api-key";
+import { env } from "@/lib/config/env";
 import { Link } from "@/i18n/navigation";
 import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/client-store";
 import { useAtom } from "jotai";
@@ -54,7 +55,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
     const params = new URLSearchParams({
       resource: "provider",
       app: app.app,
-      name: process.env.NEXT_PUBLIC_APP_NAME!,
+      name: env.appName,
       endpoint: `${props.apiUrl}${app.suffix}`,
     });
     if (token.apiKey) {

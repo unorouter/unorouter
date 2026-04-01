@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -73,7 +74,7 @@ export function AffiliatePage() {
   const maxRecharges = user?.aff_commission_max_recharges ?? 0;
 
   const inviteLink = affCode
-    ? `${process.env.NEXT_PUBLIC_URL}/register?aff=${affCode}`
+    ? `${env.appUrl}/register?aff=${affCode}`
     : "";
 
   function handleCopyLink() {

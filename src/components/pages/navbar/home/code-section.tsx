@@ -1,5 +1,6 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
+import { env } from "@/lib/config/env";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { LuArrowRight, LuCheck } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
@@ -62,7 +63,7 @@ export async function CodeSection() {
         <div className="relative flex-1 pt-8 lg:pt-0">
           <CodeBlock
             language="bash"
-            code={`curl -X POST ${process.env.NEXT_PUBLIC_API_URL}/v1/chat/completions \\
+            code={`curl -X POST ${env.apiUrl}/v1/chat/completions \\
   -H "Content-Type: application/json" \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -d {

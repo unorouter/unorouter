@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import Gemini from "@lobehub/icons/es/Gemini";
@@ -53,7 +54,7 @@ export async function GeminiCliContent() {
   );
 
   const geminiConfigCode = `GEMINI_API_KEY=${docs.placeholder}
-GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
+GOOGLE_GEMINI_BASE_URL=${env.apiUrl}`;
 
   const envVars = {
     GEMINI_API_KEY: docs.placeholder,
@@ -196,7 +197,7 @@ GOOGLE_GEMINI_BASE_URL=${process.env.NEXT_PUBLIC_API_URL}`;
         {/* CC Switch Quick Setup */}
         <CCSwitchSetup
           app="gemini"
-          endpoint={process.env.NEXT_PUBLIC_API_URL!}
+          endpoint={env.apiUrl}
           cliCodeBlock={
             <CodeBlock language="bash" code="cc-switch provider add" />
           }

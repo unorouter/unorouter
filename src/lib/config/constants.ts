@@ -1,6 +1,7 @@
 import { DE, US } from "country-flag-icons/react/3x2";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
+import { env } from "./env";
 
 export const NEW_API_USER = "New-Api-User";
 export const SESSION_COOKIE = "session" as const;
@@ -41,8 +42,8 @@ export type TranslationKey = Parameters<
 export const msg = <T extends TranslationKey>(key: T): T => key;
 
 export const APP_VALUES = {
-  appName: process.env.NEXT_PUBLIC_APP_NAME!,
-  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL!,
+  appName: env.appName,
+  supportEmail: env.supportEmail,
 };
 
 export const DOCS_TOKEN_PARAMS = { p: 1, page_size: 100 } as const;

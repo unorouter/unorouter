@@ -3,6 +3,7 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
@@ -45,7 +46,7 @@ export function Footer() {
             </p>
             <div className="flex justify-center space-x-3 md:justify-start">
               <NextLink
-                href={process.env.NEXT_PUBLIC_GITHUB_URL}
+                href={env.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
@@ -115,10 +116,10 @@ export function Footer() {
             <div className="text-muted-foreground space-y-2 text-sm">
               <p>{t("FOOTER.CONTACT_SUBTITLE")}</p>
               <NextLink
-                href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                href={`mailto:${env.supportEmail}`}
                 className="text-primary hover:underline"
               >
-                {process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
+                {env.supportEmail}
               </NextLink>
             </div>
           </div>

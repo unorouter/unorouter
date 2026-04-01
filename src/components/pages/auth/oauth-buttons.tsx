@@ -2,6 +2,7 @@
 
 import { useStatusQuery } from "@/hooks/status-hook";
 import { AFF_CODE_KEY } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { getCookie } from "cookies-next/client";
@@ -22,7 +23,7 @@ function buildOAuthUrl(
   state: string,
 ): string | null {
   const serverAddress =
-    status.server_address || process.env.NEXT_PUBLIC_API_URL;
+    status.server_address || env.apiUrl;
   const redirectUri = `${serverAddress}/oauth/${provider}`;
 
   switch (provider) {
@@ -108,7 +109,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       let url: string | null;
       if (customAuthEndpoint) {
         const serverAddress =
-          props.status.server_address || process.env.NEXT_PUBLIC_API_URL;
+          props.status.server_address || env.apiUrl;
         const redirectUri = `${serverAddress}/oauth/${provider}`;
         url = `${customAuthEndpoint}?client_id=${customClientId}&state=${state}&response_type=code&scope=${encodeURIComponent(customScopes || "openid profile email")}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       } else {

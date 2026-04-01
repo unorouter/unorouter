@@ -1,3 +1,4 @@
+import { serverEnv } from "@/server/env";
 import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
@@ -15,17 +16,17 @@ function getS3() {
   if (_s3) return _s3;
   _s3 = new S3Client({
     region: "auto",
-    endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    endpoint: `https://${serverEnv.r2AccountId}.r2.cloudflarestorage.com`,
     credentials: {
-      accessKeyId: process.env.R2_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.R2_SECRET_ACCESS_KEY!,
+      accessKeyId: serverEnv.r2AccessKeyId,
+      secretAccessKey: serverEnv.r2SecretAccessKey,
     },
   });
   return _s3;
 }
 
 function getPublicUrl() {
-  return process.env.R2_PUBLIC_URL ?? "https://media.unorouter.ai";
+  return serverEnv.r2PublicUrl;
 }
 
 export async function uploadToR2(

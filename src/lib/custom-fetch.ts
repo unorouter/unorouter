@@ -1,3 +1,4 @@
+import { env } from "@/lib/config/env";
 import { getServerCookieHeader } from "@/server/constants";
 
 export const customFetch = async <T>(
@@ -18,7 +19,7 @@ export const customFetch = async <T>(
     (options.headers as Record<string, string> | undefined)?.Cookie;
 
   const response = await fetch(
-    new URL(url, process.env.NEXT_PUBLIC_API_URL).toString(),
+    new URL(url, env.apiUrl).toString(),
     {
       ...options,
       credentials: "include",

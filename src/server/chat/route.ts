@@ -17,7 +17,8 @@ import {
   updateConversationBody,
   videoGenerationBody,
 } from "@/lib/validation/chat";
-import { API_URL, getApiKey, getProvider, getUserId } from "@/server/constants";
+import { env } from "@/lib/config/env";
+import { getApiKey, getProvider, getUserId } from "@/server/constants";
 import { generateImage, streamText } from "ai";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
@@ -364,7 +365,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       };
       if (body.image) submitBody.image = body.image;
 
-      const submitRes = await fetch(`${API_URL}/v1/video/generations`, {
+      const submitRes = await fetch(`${env.apiUrl}/v1/video/generations`, {
         method: "POST",
         headers,
         body: JSON.stringify(submitBody),
@@ -397,7 +398,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         await new Promise((r) => setTimeout(r, 5000));
 
         const pollRes = await fetch(
-          `${API_URL}/v1/video/generations/${taskId}`,
+          `${env.apiUrl}/v1/video/generations/${taskId}`,
           { headers },
         );
         if (!pollRes.ok) continue;

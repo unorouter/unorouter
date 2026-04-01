@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ALTERNATE_LANGUAGES, LANGUAGES, LOCALES } from "./constants";
+import { env } from "./env";
 
 type MetadataParams = {
   locale: string;
@@ -17,7 +18,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
   const shouldIndex = params.robots ?? true;
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_URL),
+    metadataBase: new URL(env.appUrl),
     title: params.title,
     description: params.description,
     keywords: params.keywords.split(", "),
@@ -35,7 +36,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
       locale: LANGUAGES.find((l) => l.code === params.locale.toUpperCase())
         ?.ogLocale,
       alternateLocale: LANGUAGES.map((l) => l.ogLocale),
-      siteName: process.env.NEXT_PUBLIC_APP_NAME,
+      siteName: env.appName,
       // images: [
       //   {
       //     url: ogImageUrl,
