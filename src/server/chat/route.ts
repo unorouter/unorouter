@@ -8,7 +8,6 @@ import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
 import { paginationQuery } from "@/lib/typebox/common";
 import {
-  clientStoreCookie,
   createConversationBody,
   imageGenerationBody,
   mediaUploadBody,
@@ -20,7 +19,7 @@ import {
 import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { getApiKey, getProvider, getUserId } from "@/server/constants";
-import { generateImage, streamText } from "ai";
+import { convertToModelMessages, generateImage, streamText } from "ai";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
@@ -289,12 +288,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       const result = streamText({
         model: provider.chatModel(body.model),
-        messages: body.messages,
+        messages: await convertToModelMessages(body.messages),
       });
 
       return result.toUIMessageStreamResponse();
     },
-    { body: streamBody, cookie: clientStoreCookie },
+    { body: streamBody},
   )
 
   // Upload media file to R2
@@ -346,7 +345,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return { success: true, data: { urls } };
     },
-    { body: imageGenerationBody, cookie: clientStoreCookie },
+    { body: imageGenerationBody},
   )
 
   // Generate video (submit task, poll, download, upload to R2)
@@ -435,5 +434,5 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       throw new Error(msg("ERRORS.VIDEO_GENERATION_TIMED_OUT"));
     },
-    { body: videoGenerationBody, cookie: clientStoreCookie },
+    { body: videoGenerationBody},
   );

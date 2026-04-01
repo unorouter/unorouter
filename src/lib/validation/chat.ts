@@ -24,9 +24,6 @@ export const streamBody = t.Object({
   messages: t.Any(),
 });
 
-export const clientStoreCookie = t.Cookie({
-  "client-store": t.Optional(t.String()),
-});
 
 export const mediaUploadBody = t.Object({
   file: t.File({

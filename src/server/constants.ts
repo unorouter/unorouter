@@ -39,13 +39,9 @@ export function getUserId(cookie: Record<string, Cookie<unknown>>): number {
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   const raw = cookie[CLIENT_STORE_KEY]?.value;
   if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  try {
-    const parsed = JSON.parse(String(raw));
-    if (!parsed.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
-    return parsed.apiKey as string;
-  } catch {
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  }
+  const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+  if (!parsed?.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
+  return parsed.apiKey as string;
 }
 
 export function getProvider(apiKey: string) {
