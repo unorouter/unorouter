@@ -1,6 +1,7 @@
 "use client";
 
 import { Thread } from "@/components/assistant-ui/thread";
+import { ShareButton } from "@/components/pages/chat/thread/share-button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   useConversationQuery,
@@ -25,16 +26,60 @@ type ChatThreadProps = {
 
 export function ChatThread(props: ChatThreadProps) {
   const convId = props.convId ?? null;
+
+  if (!convId) return <ChatThreadInner convId={null} initialMessages={[]} />;
+
+  return <ChatThreadLoader convId={convId} />;
+}
+
+function ChatThreadLoader(props: { convId: string }) {
+  const conversationQuery = useConversationQuery(props.convId);
+
+  if (!conversationQuery.data) {
+    return (
+      <div className="flex flex-1 flex-col gap-4 p-6">
+        <Skeleton className="h-10 w-48" />
+        <Skeleton className="h-24 w-3/4" />
+        <Skeleton className="ml-auto h-24 w-2/3" />
+      </div>
+    );
+  }
+
+  const messages: UIMessage[] = (
+    conversationQuery.data.messages as {
+      id: string;
+      role: string;
+      parts: unknown;
+    }[]
+  ).map((msg) => ({
+    id: msg.id,
+    role: msg.role as "user" | "assistant" | "system",
+    parts: (msg.parts as UIMessage["parts"]) ?? [],
+  }));
+
+  return (
+    <ChatThreadInner
+      convId={props.convId}
+      initialMessages={messages}
+      model={conversationQuery.data.model}
+    />
+  );
+}
+
+function ChatThreadInner(props: {
+  convId: string | null;
+  initialMessages: UIMessage[];
+  model?: string;
+}) {
+  const convId = props.convId;
   const isNewChat = !convId;
 
-  const conversationQuery = useConversationQuery(convId ?? "");
   const persistMutation = usePersistMessagesMutation();
   const createMutation = useCreateConversationMutation();
   const setSelectedConversation = useSetAtom(selectedConversationAtom);
   const newChatModel = useAtomValue(newChatModelAtom);
-  const model = conversationQuery.data?.model ?? newChatModel!;
+  const model = props.model ?? newChatModel!;
 
-  // Ref for attachment adapter context (convId can change after creation)
   const contextRef = useRef({ convId, msgId: `user-${Date.now()}` });
   useEffect(() => {
     contextRef.current.convId = convId;
@@ -45,27 +90,12 @@ export function ChatThread(props: ChatThreadProps) {
     body: { model },
   });
 
-  const initialMessages: UIMessage[] =
-    isNewChat || !conversationQuery.data?.messages
-      ? []
-      : (
-          conversationQuery.data.messages as {
-            id: string;
-            role: string;
-            parts: unknown;
-          }[]
-        ).map((msg) => ({
-          id: msg.id,
-          role: msg.role as "user" | "assistant" | "system",
-          parts: (msg.parts as UIMessage["parts"]) ?? [],
-        }));
-
-  // Track whether we need to create a conversation on first send
   const pendingCreateRef = useRef(false);
 
   const chat = useChat({
     transport,
-    messages: initialMessages.length > 0 ? initialMessages : undefined,
+    messages:
+      props.initialMessages.length > 0 ? props.initialMessages : undefined,
     onFinish: ({ message }) => {
       const targetConvId = contextRef.current.convId;
       if (!targetConvId) return;
@@ -89,13 +119,18 @@ export function ChatThread(props: ChatThreadProps) {
     },
   });
 
-  // Intercept sends for new chats: create conversation first
   const origSendRef = useRef(chat.sendMessage);
   origSendRef.current = chat.sendMessage;
 
   const wrappedChat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
+      const textArg = args[0];
+      const text =
+        typeof textArg === "string"
+          ? textArg
+          : ((textArg as { text?: string })?.text ?? "");
+
       if (isNewChat && !pendingCreateRef.current) {
         pendingCreateRef.current = true;
         try {
@@ -107,33 +142,29 @@ export function ChatThread(props: ChatThreadProps) {
           );
           contextRef.current.convId = data.id;
           setSelectedConversation(data.id);
-
-          // Persist the user message
-          const textArg = args[0];
-          const text =
-            typeof textArg === "string"
-              ? textArg
-              : ((textArg as { text?: string })?.text ?? "");
-          if (text) {
-            const msgId = `user-${Date.now()}`;
-            contextRef.current.msgId = msgId;
-            persistMutation.mutate({
-              id: data.id,
-              body: {
-                messages: [
-                  {
-                    id: msgId,
-                    role: "user",
-                    parts: [{ type: "text", text }],
-                  },
-                ],
-              },
-            });
-          }
         } catch {
           pendingCreateRef.current = false;
           return;
         }
+      }
+
+      // Persist user message
+      const targetConvId = contextRef.current.convId;
+      if (targetConvId && text) {
+        const msgId = `user-${Date.now()}`;
+        contextRef.current.msgId = msgId;
+        persistMutation.mutate({
+          id: targetConvId,
+          body: {
+            messages: [
+              {
+                id: msgId,
+                role: "user",
+                parts: [{ type: "text", text }],
+              },
+            ],
+          },
+        });
       }
 
       return origSendRef.current(...args);
@@ -151,19 +182,16 @@ export function ChatThread(props: ChatThreadProps) {
     },
   });
 
-  if (!isNewChat && conversationQuery.isLoading) {
-    return (
-      <div className="flex flex-1 flex-col gap-4 p-6">
-        <Skeleton className="h-10 w-48" />
-        <Skeleton className="h-24 w-3/4" />
-        <Skeleton className="ml-auto h-24 w-2/3" />
-      </div>
-    );
-  }
-
   return (
-    <AssistantRuntimeProvider runtime={runtime}>
-      <Thread />
-    </AssistantRuntimeProvider>
+    <div className="relative flex flex-1 flex-col">
+      {convId && (
+        <div className="absolute top-2 right-4 z-10">
+          <ShareButton convId={convId} />
+        </div>
+      )}
+      <AssistantRuntimeProvider runtime={runtime}>
+        <Thread />
+      </AssistantRuntimeProvider>
+    </div>
   );
 }

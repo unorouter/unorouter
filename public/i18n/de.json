@@ -1247,6 +1247,7 @@
     "SHARE_DESCRIPTION": "Jeder mit dem Link kann diese Unterhaltung einsehen.",
     "SHARE_CREATED": "Freigabelink erstellt",
     "SHARE_REVOKED": "Freigabelink entfernt",
+    "COPY_SHARE_LINK": "Freigabelink kopieren",
     "LINK_COPIED": "Link in die Zwischenablage kopiert",
     "GENERATE_LINK": "Freigabelink erstellen",
     "REVOKE_SHARE": "Freigabelink entfernen",

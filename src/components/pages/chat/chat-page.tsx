@@ -2,7 +2,7 @@
 
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
-import { selectedConversationAtom } from "@/store/client-store";
+import { clientStoreAtom } from "@/store/client-store";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
@@ -11,7 +11,8 @@ import { ChatThread } from "./thread/chat-thread";
 
 export function ChatPage() {
   const t = useTranslations();
-  const selectedId = useAtomValue(selectedConversationAtom);
+  const clientStore = useAtomValue(clientStoreAtom);
+  const selectedId = clientStore.selectedConversation;
   const token = useApiKey();
 
   if (!token.isLoggedIn) {
@@ -68,7 +69,7 @@ export function ChatPage() {
 
   return (
     <div className="flex min-w-0 flex-1 flex-col">
-      <ChatThread convId={selectedId} />
+      <ChatThread key={selectedId ?? "new"} convId={selectedId} />
     </div>
   );
 }

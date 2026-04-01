@@ -1247,6 +1247,7 @@
     "SHARE_DESCRIPTION": "Anyone with the link can view this conversation.",
     "SHARE_CREATED": "Share link created",
     "SHARE_REVOKED": "Share link removed",
+    "COPY_SHARE_LINK": "Copy Share Link",
     "LINK_COPIED": "Link copied to clipboard",
     "GENERATE_LINK": "Generate Share Link",
     "REVOKE_SHARE": "Remove Share Link",
