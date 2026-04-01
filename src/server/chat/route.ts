@@ -6,11 +6,11 @@ import {
 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
+import { paginationQuery } from "@/lib/typebox/common";
 import {
   clientStoreCookie,
   createConversationBody,
   imageGenerationBody,
-  listConversationsQuery,
   mediaUploadBody,
   persistMessagesBody,
   streamBody,
@@ -68,7 +68,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         },
       };
     },
-    { query: listConversationsQuery },
+    { query: paginationQuery },
   )
 
   // Create a new conversation

@@ -1,10 +1,5 @@
 import { t } from "elysia";
 
-export const listConversationsQuery = t.Object({
-  p: t.Optional(t.Numeric({ minimum: 1 })),
-  page_size: t.Optional(t.Numeric({ minimum: 1, maximum: 100 })),
-});
-
 export const createConversationBody = t.Object({
   model: t.String(),
   title: t.Optional(t.String()),
