@@ -107,11 +107,6 @@ function ChatThreadInner(props: {
     onFinish: ({ message }) => {
       const targetConvId = contextRef.current.convId;
       if (!targetConvId) return;
-      const textContent =
-        message.parts
-          ?.filter((p) => p.type === "text")
-          .map((p) => ("text" in p ? p.text : ""))
-          .join("") ?? "";
       persistMutation.mutate({
         id: targetConvId,
         body: {
@@ -119,7 +114,7 @@ function ChatThreadInner(props: {
             {
               id: message.id,
               role: message.role,
-              parts: [{ type: "text", text: textContent }],
+              parts: message.parts as { type: string; text?: string }[],
             },
           ],
         },
@@ -135,17 +130,26 @@ function ChatThreadInner(props: {
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const textArg = args[0];
       let text = "";
+      const parts: { type: string; [key: string]: unknown }[] = [];
+
       if (typeof textArg === "string") {
         text = textArg;
+        parts.push({ type: "text", text });
       } else if (textArg && typeof textArg === "object") {
-        const msg = textArg as { text?: string; parts?: { type: string; text?: string }[] };
-        if (msg.text) {
+        const msg = textArg as {
+          text?: string;
+          parts?: { type: string; text?: string; [key: string]: unknown }[];
+        };
+        if (msg.parts) {
+          for (const p of msg.parts) {
+            if (p.type === "text" && p.text) {
+              text += p.text;
+            }
+            parts.push(p);
+          }
+        } else if (msg.text) {
           text = msg.text;
-        } else if (msg.parts) {
-          text = msg.parts
-            .filter((p) => p.type === "text" && p.text)
-            .map((p) => p.text!)
-            .join("");
+          parts.push({ type: "text", text });
         }
       }
 
@@ -167,9 +171,9 @@ function ChatThreadInner(props: {
         }
       }
 
-      // Persist user message
+      // Persist user message with all parts (text + file)
       const targetConvId = contextRef.current.convId;
-      if (targetConvId && text) {
+      if (targetConvId && parts.length > 0) {
         const msgId = `user-${Date.now()}`;
         contextRef.current.msgId = msgId;
         persistMutation.mutate({
@@ -179,7 +183,7 @@ function ChatThreadInner(props: {
               {
                 id: msgId,
                 role: "user",
-                parts: [{ type: "text", text }],
+                parts,
               },
             ],
           },
