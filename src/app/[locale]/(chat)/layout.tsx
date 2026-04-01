@@ -14,7 +14,6 @@ type Props = {
 export default async function ChatLayout(props: Props) {
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();
-
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.auth(),

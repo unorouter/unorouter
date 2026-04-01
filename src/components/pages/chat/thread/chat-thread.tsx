@@ -2,7 +2,6 @@
 
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/pages/chat/thread/share-button";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   useConversationQuery,
   useCreateConversationMutation,
@@ -35,15 +34,7 @@ export function ChatThread(props: ChatThreadProps) {
 function ChatThreadLoader(props: { convId: string }) {
   const conversationQuery = useConversationQuery(props.convId);
 
-  if (!conversationQuery.data) {
-    return (
-      <div className="flex flex-1 flex-col gap-4 p-6">
-        <Skeleton className="h-10 w-48" />
-        <Skeleton className="h-24 w-3/4" />
-        <Skeleton className="ml-auto h-24 w-2/3" />
-      </div>
-    );
-  }
+  if (!conversationQuery.data) return null;
 
   const messages: UIMessage[] = (
     conversationQuery.data.messages as {
@@ -126,10 +117,20 @@ function ChatThreadInner(props: {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const textArg = args[0];
-      const text =
-        typeof textArg === "string"
-          ? textArg
-          : ((textArg as { text?: string })?.text ?? "");
+      let text = "";
+      if (typeof textArg === "string") {
+        text = textArg;
+      } else if (textArg && typeof textArg === "object") {
+        const msg = textArg as { text?: string; parts?: { type: string; text?: string }[] };
+        if (msg.text) {
+          text = msg.text;
+        } else if (msg.parts) {
+          text = msg.parts
+            .filter((p) => p.type === "text" && p.text)
+            .map((p) => p.text!)
+            .join("");
+        }
+      }
 
       if (isNewChat && !pendingCreateRef.current) {
         pendingCreateRef.current = true;
