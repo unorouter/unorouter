@@ -50,17 +50,17 @@ export function ConversationItem(props: ConversationItemProps) {
           <div className="truncate text-sm">
             {props.conversation.title || "New conversation"}
           </div>
-          <div className="text-muted-foreground mt-0.5 flex items-center gap-1 text-[10px] leading-none">
-            <VendorIcon vendor={vendorName} size={10} />
-            <span className="font-mono">{props.conversation.model}</span>
-            <span>&middot;</span>
-            <span>{dayjs(props.conversation.updatedAt).fromNow()}</span>
+          <div className="text-muted-foreground mt-0.5 flex items-center gap-1 overflow-hidden text-[10px] leading-none">
+            <VendorIcon vendor={vendorName} size={10} className="shrink-0" />
+            <span className="truncate font-mono">{props.conversation.model}</span>
+            <span className="shrink-0">&middot;</span>
+            <span className="shrink-0 whitespace-nowrap">{dayjs(props.conversation.updatedAt).fromNow()}</span>
           </div>
         </div>
         <span
           role="button"
           tabIndex={0}
-          className="text-muted-foreground hover:text-destructive flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-0 transition-opacity group-hover:opacity-100"
+          className="text-muted-foreground hover:text-destructive -mr-1 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-0 transition-opacity group-hover:opacity-100"
           onClick={(e) => {
             e.stopPropagation();
             props.onDelete();

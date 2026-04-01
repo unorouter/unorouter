@@ -1,3 +1,5 @@
+import { msg } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import {
   deleteR2Prefix,
   downloadAndUpload,
@@ -16,8 +18,6 @@ import {
   updateConversationBody,
   videoGenerationBody,
 } from "@/lib/validation/chat";
-import { msg } from "@/lib/config/constants";
-import { env } from "@/lib/config/env";
 import { getApiKey, getProvider, getUserId } from "@/server/constants";
 import { convertToModelMessages, generateImage, streamText } from "ai";
 import { and, desc, eq, sql } from "drizzle-orm";
@@ -293,7 +293,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return result.toUIMessageStreamResponse();
     },
-    { body: streamBody},
+    { body: streamBody },
   )
 
   // Upload media file to R2
@@ -345,7 +345,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return { success: true, data: { urls } };
     },
-    { body: imageGenerationBody},
+    { body: imageGenerationBody },
   )
 
   // Generate video (submit task, poll, download, upload to R2)
@@ -428,11 +428,13 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         }
 
         if (status === "failed" || status === "error") {
-          throw new Error(pollData.error || msg("ERRORS.VIDEO_GENERATION_FAILED"));
+          throw new Error(
+            pollData.error || msg("ERRORS.VIDEO_GENERATION_FAILED"),
+          );
         }
       }
 
       throw new Error(msg("ERRORS.VIDEO_GENERATION_TIMED_OUT"));
     },
-    { body: videoGenerationBody},
+    { body: videoGenerationBody },
   );
