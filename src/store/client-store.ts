@@ -1,8 +1,9 @@
-import { CLIENT_STORE_KEY } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { OS } from "@/lib/types/enums";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
+
+export const CLIENT_STORE_KEY = "client-store";
 
 export type ClientState = {
   apiKey: string | null;

@@ -1,60 +1,23 @@
 import type { PricingData, PricingDataDataItem } from "@/openapi";
 
-export type ModelType = "text" | "image" | "video" | "audio" | "embedding";
+const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
+type ModelType = (typeof MODEL_TYPES)[number];
 
 export type GridPricingRow = Record<string, string | number>;
-
-export type ProcessedModel = {
-  name: string;
-  vendor: { id: number; name: string; icon: string | undefined };
-  inputPrice: number;
-  outputPrice: number;
-  fixedPrice: number;
-  isFixedPrice: boolean;
-  quotaType: number;
-  gridPricing: GridPricingRow[] | null;
-  type: ModelType;
-  endpointTypes: string[];
-  description: string | undefined;
-  tags: string[];
-  modelRatio: number;
-  completionRatio: number;
-  enableGroups: string[];
-};
-
-export type VendorSummary = {
-  id: number;
-  name: string;
-  icon: string | undefined;
-  modelCount: number;
-  models: ProcessedModel[];
-};
 
 export type EndpointInfo = {
   method: string;
   path: string;
 };
 
-export type PricingSummary = {
-  modelCount: number;
-  vendorCount: number;
-  models: ProcessedModel[];
-  vendors: VendorSummary[];
-  endpointMap: Record<string, EndpointInfo>;
-  groupRatioMap: Record<string, number>;
-};
-
-const VALID_MODEL_TYPES = new Set<string>([
-  "text",
-  "image",
-  "video",
-  "audio",
-  "embedding",
-]);
+export type ProcessedModel = ReturnType<typeof processModels>[number];
+export type PricingSummary = ReturnType<typeof buildPricingSummary>;
 
 function getModelType(model: PricingDataDataItem): ModelType {
   const tag = (model.tags ?? "").split(",")[0]?.trim().toLowerCase();
-  return VALID_MODEL_TYPES.has(tag) ? (tag as ModelType) : "text";
+  return (MODEL_TYPES as readonly string[]).includes(tag)
+    ? (tag as ModelType)
+    : "text";
 }
 
 function processModels(response: PricingData) {
@@ -126,7 +89,7 @@ function processModels(response: PricingData) {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export function buildPricingSummary(response: PricingData): PricingSummary {
+export function buildPricingSummary(response: PricingData) {
   const models = processModels(response);
   const endpointMap = (response.supported_endpoint ?? {}) as Record<
     string,

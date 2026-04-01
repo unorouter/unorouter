@@ -2,7 +2,6 @@
 
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
-import { getGreetingKey } from "@/lib/config/constants";
 import type { DashboardStore } from "@/store/dashboard-store";
 import { dashboardStoreAtom } from "@/store/dashboard-store";
 import dayjs from "dayjs";
@@ -28,7 +27,14 @@ export function Dashboard(props: DashboardProps) {
 
   const status = statusQuery.data;
 
-  const greeting = t(getGreetingKey());
+  const hours = dayjs().hour();
+  const greetingKey =
+    hours >= 5 && hours < 12
+      ? "DASHBOARD.GREETING_MORNING"
+      : hours >= 12 && hours < 18
+        ? "DASHBOARD.GREETING_AFTERNOON"
+        : "DASHBOARD.GREETING_EVENING";
+  const greeting = t(greetingKey);
 
   const hasApiInfo = status?.api_info_enabled ?? false;
   const hasAnnouncements = status?.announcements_enabled ?? false;

@@ -1,9 +1,9 @@
 import {
   ACCESS_TOKEN_COOKIE,
-  CLIENT_STORE_KEY,
   NEW_API_USER,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
+import { CLIENT_STORE_KEY } from "@/store/client-store";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
 import type { Cookie } from "elysia";

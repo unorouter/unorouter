@@ -1,5 +1,4 @@
 import { DE, US } from "country-flag-icons/react/3x2";
-import dayjs from "dayjs";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 
@@ -7,7 +6,6 @@ export const NEW_API_USER = "New-Api-User";
 export const SESSION_COOKIE = "session" as const;
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
-export const CLIENT_STORE_KEY = "client-store" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AFF_CODE_KEY = "aff" as const;
@@ -65,9 +63,3 @@ export function renderQuota(quota: number | undefined, decimals = 2): string {
   return `$${quotaToDollars(quota).toFixed(decimals)}`;
 }
 
-export function getGreetingKey(): TranslationKey {
-  const hours = dayjs().hour();
-  if (hours >= 5 && hours < 12) return "DASHBOARD.GREETING_MORNING";
-  if (hours >= 12 && hours < 18) return "DASHBOARD.GREETING_AFTERNOON";
-  return "DASHBOARD.GREETING_EVENING";
-}
