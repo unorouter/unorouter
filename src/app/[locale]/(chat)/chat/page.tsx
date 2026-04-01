@@ -1,4 +1,4 @@
-import { ChatPage } from "@/components/pages/chat/chat-page";
+import { Chat } from "@/components/pages/chat/chat";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -7,7 +7,7 @@ import { getCookieValue, setCookies } from "@/lib/utils/server";
 import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-export default async function ChatPageRoute() {
+export default async function ChatPage() {
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();
   const clientStore = await getCookieValue<ClientState>(CLIENT_STORE_KEY);
@@ -25,7 +25,7 @@ export default async function ChatPageRoute() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ChatPage />
+      <Chat />
     </HydrationBoundary>
   );
 }

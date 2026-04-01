@@ -9,7 +9,7 @@ import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
 import { ChatThread } from "./thread/chat-thread";
 
-export function ChatPage() {
+export function Chat() {
   const t = useTranslations();
   const clientStore = useAtomValue(clientStoreAtom);
   const selectedId = clientStore.selectedConversation;
