@@ -28,7 +28,6 @@ export function createR2AttachmentAdapter(
       const ctx = getContext();
 
       if (!ctx.convId) {
-        // Fall back to data URL if no conversation yet
         const dataUrl = await readFileAsDataURL(attachment.file!);
         return {
           ...attachment,
