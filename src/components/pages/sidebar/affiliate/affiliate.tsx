@@ -59,7 +59,7 @@ function StatItem(props: StatItemProps) {
   );
 }
 
-export function AffiliatePage() {
+export function Affiliate() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
   const [transferOpen, setTransferOpen] = useState(false);
@@ -73,9 +73,7 @@ export function AffiliatePage() {
   const commissionRate = user?.aff_commission_rate ?? 0;
   const maxRecharges = user?.aff_commission_max_recharges ?? 0;
 
-  const inviteLink = affCode
-    ? `${env.appUrl}/register?aff=${affCode}`
-    : "";
+  const inviteLink = affCode ? `${env.appUrl}/register?aff=${affCode}` : "";
 
   function handleCopyLink() {
     if (!inviteLink) return;

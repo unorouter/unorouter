@@ -1,4 +1,5 @@
-import { AffiliatePage } from "@/components/pages/sidebar/affiliate/affiliate-page";
+import { Affiliate } from "@/components/pages/sidebar/affiliate/affiliate";
+import { DEFAULT_PAGE_PARAMS } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -6,30 +7,28 @@ import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
-const DEFAULT_PAGE = { p: 1, page_size: 10 };
-
-export default async function AffiliatePageRoute() {
+export default async function AffiliatePage() {
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();
 
   await Promise.all([
     queryClient.prefetchQuery({
-      queryKey: queryKeys.affiliateInvitees(DEFAULT_PAGE),
+      queryKey: queryKeys.affiliateInvitees(DEFAULT_PAGE_PARAMS),
       queryFn: async () =>
         handleElysia(
           await rpc.api.affiliate.invitees.get({
             ...cookieHeaders,
-            query: DEFAULT_PAGE,
+            query: DEFAULT_PAGE_PARAMS,
           }),
         ),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.affiliateCommissions(DEFAULT_PAGE),
+      queryKey: queryKeys.affiliateCommissions(DEFAULT_PAGE_PARAMS),
       queryFn: async () =>
         handleElysia(
           await rpc.api.affiliate.commissions.get({
             ...cookieHeaders,
-            query: DEFAULT_PAGE,
+            query: DEFAULT_PAGE_PARAMS,
           }),
         ),
     }),
@@ -37,7 +36,7 @@ export default async function AffiliatePageRoute() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <AffiliatePage />
+      <Affiliate />
     </HydrationBoundary>
   );
 }

@@ -46,6 +46,7 @@ export const APP_VALUES = {
   supportEmail: env.supportEmail,
 };
 
+export const DEFAULT_PAGE_PARAMS = { p: 1, page_size: 10 } as const;
 export const DOCS_TOKEN_PARAMS = { p: 1, page_size: 100 } as const;
 
 /** 1 USD = 500000 quota units in new-api */
