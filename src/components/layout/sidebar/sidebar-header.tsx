@@ -11,8 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
-  useConversationsQuery,
-  useCreateConversationMutation,
+  useCreateConversationMutation
 } from "@/hooks/chat-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";

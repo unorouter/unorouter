@@ -36,10 +36,10 @@ export function ApiKeyCodeBlock(props: Props) {
   // Server always renders with placeholder; client swaps in the real key
   const displayKey = apiKey ? (revealed ? apiKey : obfuscated!) : null;
   const displayHtml = displayKey
-    ? props.html.replaceAll(props.placeholder, displayKey)
+    ? props.html.split(props.placeholder).join(displayKey)
     : props.html;
   const copyText = apiKey
-    ? props.code.replaceAll(props.placeholder, apiKey)
+    ? props.code.split(props.placeholder).join(apiKey)
     : props.code;
 
   return (

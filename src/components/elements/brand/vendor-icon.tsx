@@ -1,5 +1,6 @@
 "use client";
 
+import { Vendor } from "@/lib/types/enums";
 import {
   Anthropic,
   Bailian,
@@ -18,7 +19,6 @@ import {
   XAI,
   Zhipu,
 } from "@lobehub/icons";
-import { Vendor } from "@/lib/types/enums";
 import type { FC } from "react";
 
 type IconComponent = FC<{ size?: number | string; className?: string }>;

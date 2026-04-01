@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { LuInfo, LuTriangleAlert, LuCircleX } from "react-icons/lu";
+import { LuCircleX, LuInfo, LuTriangleAlert } from "react-icons/lu";
 
 type CalloutType = "info" | "warn" | "error";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { UserInfo } from "@/components/layout/user/user-info";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
+import { UserInfo } from "@/components/layout/user/user-info";
 import {
   SidebarMenu,
   SidebarMenuButton,

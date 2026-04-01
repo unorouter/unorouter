@@ -1,9 +1,9 @@
 "use client";
 
 import { copyToClipboard } from "@/lib/utils/base";
-import { LuCheck, LuCopy } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { LuCheck, LuCopy } from "react-icons/lu";
 import { toast } from "sonner";
 
 type Props = {

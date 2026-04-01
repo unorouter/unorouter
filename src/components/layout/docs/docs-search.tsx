@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandDialog,
@@ -9,7 +10,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Button } from "@/components/ui/button";
 import { useSearchQuery } from "@/hooks/search-hook";
 import { Link } from "@/i18n/navigation";
 import type { LinkHref } from "@/i18n/routing";

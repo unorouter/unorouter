@@ -1,5 +1,8 @@
-import { TranslationKey } from "@/lib/config/constants";
 import type { LinkHref } from "@/i18n/routing";
+import { TranslationKey } from "@/lib/config/constants";
+import Claude from "@lobehub/icons/es/Claude";
+import Gemini from "@lobehub/icons/es/Gemini";
+import OpenAI from "@lobehub/icons/es/OpenAI";
 import type { ComponentType } from "react";
 import { GiCrabClaw } from "react-icons/gi";
 import {
@@ -8,16 +11,13 @@ import {
   LuGift,
   LuHouse,
   LuKey,
-  LuLayoutDashboard,
   LuLayers,
+  LuLayoutDashboard,
   LuMessageCircle,
   LuScrollText,
   LuSettings,
   LuWallet,
 } from "react-icons/lu";
-import Claude from "@lobehub/icons/es/Claude";
-import OpenAI from "@lobehub/icons/es/OpenAI";
-import Gemini from "@lobehub/icons/es/Gemini";
 
 export type NavigationItem = {
   name: TranslationKey;

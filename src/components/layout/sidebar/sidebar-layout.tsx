@@ -1,7 +1,7 @@
 "use client";
 
-import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
+import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { sidebarOpenAtom } from "@/store/navigation-store";

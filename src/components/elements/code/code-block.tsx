@@ -1,5 +1,5 @@
-import { codeToHtml } from "shiki";
 import { cn } from "@/lib/utils";
+import { codeToHtml } from "shiki";
 import { CopyButton } from "./copy-button";
 
 export async function highlightCode(code: string, language = "text") {

@@ -1,7 +1,6 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import type { NavigationItem } from "@/components/layout/nav/navigation";
 import {
   Sidebar,
   SidebarContent,

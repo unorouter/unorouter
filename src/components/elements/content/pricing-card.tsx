@@ -1,8 +1,8 @@
 "use client";
 
-import { LuCheck, LuShell, LuZap } from "react-icons/lu";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { LuCheck, LuShell, LuZap } from "react-icons/lu";
 
 type Props = {
   name: string;

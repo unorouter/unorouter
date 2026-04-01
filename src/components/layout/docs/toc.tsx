@@ -1,13 +1,13 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import type { TOCItemType } from "fumadocs-core/toc";
 import {
   AnchorProvider,
   ScrollProvider,
   TOCItem,
   useActiveAnchors,
 } from "fumadocs-core/toc";
-import type { TOCItemType } from "fumadocs-core/toc";
 import { atom, useAtom, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import * as React from "react";
