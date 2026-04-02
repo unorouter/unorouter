@@ -1149,7 +1149,8 @@
       "BOUND": "Verknüpft",
       "NOT_BOUND": "Nicht verknüpft",
       "BIND": "Verknüpfen",
-      "UNBIND": "Trennen"
+      "UNBIND": "Trennen",
+      "COPIED": "In die Zwischenablage kopiert"
     },
     "SECURITY": {
       "TITLE": "Sicherheitseinstellungen",

@@ -1149,7 +1149,8 @@
       "BOUND": "Bound",
       "NOT_BOUND": "Not bound",
       "BIND": "Bind",
-      "UNBIND": "Unbind"
+      "UNBIND": "Unbind",
+      "COPIED": "Copied to clipboard"
     },
     "SECURITY": {
       "TITLE": "Security Settings",

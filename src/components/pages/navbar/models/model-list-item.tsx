@@ -30,21 +30,43 @@ export function ModelListItem(props: {
     <div
       onClick={props.onClick}
       className={cn(
-        "hover:bg-muted/50 flex cursor-pointer items-center gap-4 rounded-lg border px-4 py-3 transition-all",
+        "hover:bg-muted/50 flex cursor-pointer flex-col gap-2 rounded-lg border px-4 py-3 transition-all sm:flex-row sm:items-center sm:gap-4",
         theme.border,
       )}
     >
-      <VendorIcon vendor={model.vendor.name} size={18} />
+      {/* Row 1: Icon + Name + Badge */}
+      <div className="flex items-center gap-3 sm:min-w-0 sm:flex-1">
+        <VendorIcon vendor={model.vendor.name} size={18} />
 
-      <div className="flex min-w-0 flex-1 items-center gap-1.5">
-        <span className="truncate font-mono text-sm font-medium tracking-wide">
-          {model.name}
-        </span>
-        <span className="shrink-0">
-          <CopyButton text={model.name} iconSize="h-3 w-3" />
-        </span>
+        <div className="flex min-w-0 flex-1 items-center gap-1.5">
+          <span className="truncate font-mono text-sm font-medium tracking-wide">
+            {model.name}
+          </span>
+          <span className="shrink-0">
+            <CopyButton text={model.name} iconSize="h-3 w-3" />
+          </span>
+        </div>
+
+        <Badge
+          variant="secondary"
+          className={cn(
+            "shrink-0 font-mono text-[10px] uppercase sm:hidden",
+            model.type === "text" && `${theme.tagBg} ${theme.text}`,
+            model.type === "image" &&
+              "border-green-500/30 bg-green-500/10 text-green-400",
+            model.type === "video" &&
+              "border-purple-500/30 bg-purple-500/10 text-purple-400",
+            model.type === "audio" &&
+              "border-amber-500/30 bg-amber-500/10 text-amber-400",
+            model.type === "embedding" &&
+              "border-sky-500/30 bg-sky-500/10 text-sky-400",
+          )}
+        >
+          {model.type}
+        </Badge>
       </div>
 
+      {/* Desktop only: vendor + badge */}
       <span className="text-muted-foreground hidden font-mono text-[10px] tracking-wider uppercase sm:inline">
         {model.vendor.name}
       </span>
@@ -67,9 +89,10 @@ export function ModelListItem(props: {
         {model.type}
       </Badge>
 
+      {/* Row 2: Pricing */}
       <div className="flex shrink-0 items-center gap-2 text-right">
         {model.gridPricing && (
-          <span className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
+          <span className="hidden rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400 sm:inline">
             {props.labels.gridPricing}
           </span>
         )}
@@ -91,15 +114,14 @@ export function ModelListItem(props: {
               </span>
             </>
           ) : (
-            <div className="flex flex-col items-end gap-0.5">
-              <div className="flex items-baseline gap-3">
+            <div className="flex items-baseline gap-2 sm:gap-3">
                 <div>
                   <span className="text-muted-foreground font-mono text-[10px] uppercase">
                     {props.labels.input}{" "}
                   </span>
                   <span
                     className={cn(
-                      "font-mono text-sm font-semibold",
+                      "font-mono text-xs font-semibold sm:text-sm",
                       theme.text,
                     )}
                   >
@@ -112,24 +134,23 @@ export function ModelListItem(props: {
                   </span>
                   <span
                     className={cn(
-                      "font-mono text-sm font-semibold",
+                      "font-mono text-xs font-semibold sm:text-sm",
                       theme.text,
                     )}
                   >
                     {formatPrice(model.outputPrice)}
                   </span>
                 </div>
-                <span className="text-muted-foreground hidden font-mono text-[10px] md:inline">
+                <span className="text-muted-foreground font-mono text-[10px] sm:hidden md:inline">
                   {props.labels.perMillion}
                 </span>
-              </div>
-              {model.originalInputPrice !== null &&
-                model.originalOutputPrice !== null && (
-                  <span className="text-muted-foreground/50 font-mono text-[10px] line-through">
-                    {formatPrice(model.originalInputPrice)}/
-                    {formatPrice(model.originalOutputPrice)}
-                  </span>
-                )}
+                {model.originalInputPrice !== null &&
+                  model.originalOutputPrice !== null && (
+                    <span className="text-muted-foreground/50 font-mono text-[10px] line-through sm:hidden md:inline">
+                      {formatPrice(model.originalInputPrice)}/
+                      {formatPrice(model.originalOutputPrice)}
+                    </span>
+                  )}
             </div>
           )}
         </div>

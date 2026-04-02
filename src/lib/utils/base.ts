@@ -18,11 +18,13 @@ export function copyToClipboard(text: string): Promise<void> {
 export function copyToClipboardAsync(
   getData: () => Promise<string>,
 ): Promise<void> {
-  const blob = getData().then(
-    (text) => new Blob([text], { type: "text/plain" }),
-  );
-  const item = new ClipboardItem({ "text/plain": blob });
-  return navigator.clipboard.write([item]);
+  return navigator.clipboard.write([
+    new ClipboardItem({
+      "text/plain": getData().then(
+        (t) => new Blob([t], { type: "text/plain" }),
+      ),
+    }),
+  ]);
 }
 
 export function formatPrice(price: number): string {
@@ -57,7 +59,9 @@ export function handleElysia<T extends { data: unknown; status: number }>(
     "success" in body &&
     !(body as { success: boolean }).success
   ) {
-    throw new Error((body as { message?: string }).message ?? msg("ERRORS.REQUEST_FAILED"));
+    throw new Error(
+      (body as { message?: string }).message ?? msg("ERRORS.REQUEST_FAILED"),
+    );
   }
   if (body && typeof body === "object" && "success" in body && "data" in body) {
     return (body as { data: unknown }).data as UnwrapApiResponse<

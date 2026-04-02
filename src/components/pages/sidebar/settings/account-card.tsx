@@ -1,18 +1,23 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { buildOAuthUrl } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useBindEmailMutation,
   useSendSettingsVerificationMutation,
 } from "@/hooks/settings-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
-import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import {
@@ -24,7 +29,7 @@ import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuGithub, LuMail } from "react-icons/lu";
+import { LuCopy, LuGithub, LuMail } from "react-icons/lu";
 import { SiDiscord } from "react-icons/si";
 import { toast } from "sonner";
 
@@ -91,6 +96,8 @@ export function AccountCard() {
   }
 
   async function handleOAuthBind(provider: string) {
+    const status = statusQuery.data;
+    if (!status) return;
     setBindLoading(provider);
     try {
       const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
@@ -100,23 +107,61 @@ export function AccountCard() {
         }),
       ) as string;
 
-      const status = statusQuery.data;
-      if (!status) return;
-
-      const serverAddress = status.server_address || env.apiUrl;
-      const redirectUri = `${serverAddress}/oauth/${provider}`;
-      let url: string | null = null;
-
-      if (provider === "github") {
-        url = `https://github.com/login/oauth/authorize?client_id=${status.github_client_id}&state=${state}&scope=user:email&redirect_uri=${encodeURIComponent(redirectUri)}`;
-      } else if (provider === "discord") {
-        url = `https://discord.com/api/oauth2/authorize?client_id=${status.discord_client_id}&state=${state}&response_type=code&scope=identify+email&redirect_uri=${encodeURIComponent(redirectUri)}`;
-      }
-
+      const url = buildOAuthUrl(provider, status, state);
       if (url) window.location.href = url;
     } finally {
       setBindLoading(null);
     }
+  }
+
+  function renderOAuthBinding(
+    icon: React.ReactNode,
+    label: string,
+    boundId: string | undefined,
+    idLabel: string,
+    provider: string,
+  ) {
+    return (
+      <div className="flex items-center justify-between rounded-md border p-3">
+        <div className="flex items-center gap-2">
+          {icon}
+          <div>
+            <span className="text-sm font-medium">{label}</span>
+            <p className="text-muted-foreground text-xs">
+              {boundId ? (
+                <Tooltip>
+                  <TooltipTrigger
+                    onClick={() => {
+                      navigator.clipboard.writeText(boundId);
+                      toast.success(t("SETTINGS.ACCOUNT.COPIED"));
+                    }}
+                    className="hover:text-foreground flex items-center gap-1 transition-colors"
+                  >
+                    {boundId}
+                    <LuCopy className="h-3 w-3" />
+                  </TooltipTrigger>
+                  <TooltipContent>{idLabel}</TooltipContent>
+                </Tooltip>
+              ) : (
+                t("SETTINGS.ACCOUNT.NOT_BOUND")
+              )}
+            </p>
+          </div>
+        </div>
+        {!boundId && (
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={bindLoading !== null}
+            onClick={() => handleOAuthBind(provider)}
+          >
+            {bindLoading === provider
+              ? "..."
+              : t("SETTINGS.ACCOUNT.BIND")}
+          </Button>
+        )}
+      </div>
+    );
   }
 
   return (
@@ -229,59 +274,20 @@ export function AccountCard() {
         <div className="space-y-3">
           <Label>{t("SETTINGS.ACCOUNT.OAUTH_BINDINGS")}</Label>
           <div className="grid gap-3 sm:grid-cols-2">
-            {/* GitHub */}
-            <div className="flex items-center justify-between rounded-md border p-3">
-              <div className="flex items-center gap-2">
-                <LuGithub className="h-5 w-5" />
-                <div>
-                  <span className="text-sm font-medium">
-                    {t("SETTINGS.ACCOUNT.GITHUB")}
-                  </span>
-                  <p className="text-muted-foreground text-xs">
-                    {user.github_id
-                      ? t("SETTINGS.ACCOUNT.BOUND")
-                      : t("SETTINGS.ACCOUNT.NOT_BOUND")}
-                  </p>
-                </div>
-              </div>
-              {!user.github_id && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={bindLoading !== null}
-                  onClick={() => handleOAuthBind("github")}
-                >
-                  {bindLoading === "github" ? "..." : t("SETTINGS.ACCOUNT.BIND")}
-                </Button>
-              )}
-            </div>
-
-            {/* Discord */}
-            <div className="flex items-center justify-between rounded-md border p-3">
-              <div className="flex items-center gap-2">
-                <SiDiscord className="h-5 w-5" />
-                <div>
-                  <span className="text-sm font-medium">
-                    {t("SETTINGS.ACCOUNT.DISCORD")}
-                  </span>
-                  <p className="text-muted-foreground text-xs">
-                    {user.discord_id
-                      ? t("SETTINGS.ACCOUNT.BOUND")
-                      : t("SETTINGS.ACCOUNT.NOT_BOUND")}
-                  </p>
-                </div>
-              </div>
-              {!user.discord_id && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  disabled={bindLoading !== null}
-                  onClick={() => handleOAuthBind("discord")}
-                >
-                  {bindLoading === "discord" ? "..." : t("SETTINGS.ACCOUNT.BIND")}
-                </Button>
-              )}
-            </div>
+            {renderOAuthBinding(
+              <LuGithub className="h-5 w-5" />,
+              t("SETTINGS.ACCOUNT.GITHUB"),
+              user.github_id,
+              "GitHub ID",
+              "github",
+            )}
+            {renderOAuthBinding(
+              <SiDiscord className="h-5 w-5" />,
+              t("SETTINGS.ACCOUNT.DISCORD"),
+              user.discord_id,
+              "Discord ID",
+              "discord",
+            )}
           </div>
         </div>
       </CardContent>

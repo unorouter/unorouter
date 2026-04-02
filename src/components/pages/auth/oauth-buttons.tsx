@@ -17,7 +17,7 @@ interface OAuthButtonsProps {
   status: StatusData;
 }
 
-function buildOAuthUrl(
+export function buildOAuthUrl(
   provider: string,
   status: StatusData,
   state: string,
