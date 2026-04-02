@@ -38,6 +38,26 @@ export function useGenerateAccessTokenMutation() {
   });
 }
 
+export function useBindEmailMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.settings.email.bind, "get">,
+    ) =>
+      handleElysia(
+        await rpc.api.settings.email.bind.get({ query: args.query }),
+      ),
+    onError: (e) => handleError(e, t),
+    onSuccess: (_, args) => {
+      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+        queryKeys.auth(),
+        (old) => (old ? { ...old, email: args.query.email } : old),
+      );
+    },
+  });
+}
+
 export function useUpdateSelfMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();

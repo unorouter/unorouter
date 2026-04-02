@@ -24,16 +24,21 @@ export type NavigationItem = {
   href: LinkHref;
   icon?: ComponentType<{ className?: string }>;
   hidden?: boolean;
+  exact?: boolean;
   submenu?: NavigationItem[];
 };
 
-export const isActiveLink = (pathname: string, href: LinkHref) => {
+export const isActiveLink = (
+  pathname: string,
+  href: LinkHref,
+  exact?: boolean,
+) => {
   const hrefStr = typeof href === "string" ? href : href.pathname;
   const cleanPathname = pathname.replace(/\/$/, "") || "/";
   const cleanHref = hrefStr.replace(/\/$/, "") || "/";
 
-  if (cleanHref === "/") {
-    return cleanPathname === "/";
+  if (exact || cleanHref === "/") {
+    return cleanPathname === cleanHref;
   }
 
   return (
@@ -51,11 +56,12 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   },
   { name: "NAV.MODELS", href: "/models", icon: LuLayers },
   { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
-  { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle },
+  { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle, exact: true },
   {
     name: "NAV.DOCS",
     href: "/docs",
     icon: LuBookOpen,
+    exact: true,
     submenu: [
       { name: "NAV.CLAUDE_CODE", href: "/docs/claude-code", icon: Claude },
       { name: "NAV.CODEX", href: "/docs/codex", icon: OpenAI },

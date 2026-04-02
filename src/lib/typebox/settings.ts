@@ -20,6 +20,11 @@ export const passkeyCredentialBody = t.Object({
   clientExtensionResults: t.Optional(t.Record(t.String(), t.Unknown())),
 });
 
+export const emailBindQuery = t.Object({
+  email: t.String(),
+  code: t.String(),
+});
+
 export const updateSettingBody = t.Object({
   notify_type: t.String(),
   quota_warning_threshold: t.Number(),

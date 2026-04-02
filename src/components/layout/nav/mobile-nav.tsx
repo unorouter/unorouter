@@ -69,7 +69,7 @@ export function MobileNav() {
                 );
               }
 
-              const isActive = isActiveLink(pathname, item.href);
+              const isActive = isActiveLink(pathname, item.href, item.exact);
               return (
                 <Link
                   key={item.name}
@@ -108,7 +108,7 @@ function CollapsibleNavItem(props: {
   const [navigationState] = useAtom(navigationAtom);
   const toggleNavigation = useSetAtom(toggleNavigationAtom);
 
-  const isActive = isActiveLink(pathname, props.item.href);
+  const isActive = isActiveLink(pathname, props.item.href, props.item.exact);
   const isExpanded = navigationState.expanded?.[props.item.name] ?? false;
 
   return (
@@ -143,7 +143,7 @@ function CollapsibleNavItem(props: {
       {isExpanded && (
         <ul className="mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
           {props.item.submenu!.map((subItem) => {
-            const isSubActive = isActiveLink(pathname, subItem.href);
+            const isSubActive = isActiveLink(pathname, subItem.href, subItem.exact);
             return (
               <li key={subItem.name}>
                 <Link

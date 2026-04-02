@@ -55,7 +55,7 @@ export function Navbar() {
               href={link.href}
               className={cn(
                 "text-[11px] font-medium tracking-widest uppercase transition-colors",
-                isActiveLink(pathname, link.href)
+                isActiveLink(pathname, link.href, link.exact)
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
               )}

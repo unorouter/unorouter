@@ -9,8 +9,8 @@ import { Separator } from "@/components/ui/separator";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { env } from "@/lib/config/env";
 import {
+  useBindEmailMutation,
   useSendSettingsVerificationMutation,
-  useUpdateSelfMutation,
 } from "@/hooks/settings-hook";
 import {
   emailBindSchema,
@@ -29,7 +29,7 @@ export function AccountCard() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
   const user = authQuery.data;
-  const updateSelfMutation = useUpdateSelfMutation();
+  const bindEmailMutation = useBindEmailMutation();
   const sendVerificationMutation = useSendSettingsVerificationMutation();
 
   const [countdown, setCountdown] = useState(0);
@@ -68,9 +68,9 @@ export function AccountCard() {
   }
 
   function onSubmitEmail(data: EmailBindSchema) {
-    updateSelfMutation.mutate(
+    bindEmailMutation.mutate(
       {
-        body: { email: data.email, verification_code: data.verification_code },
+        query: { email: data.email, code: data.verification_code },
       },
       {
         onSuccess: () => {
@@ -166,7 +166,7 @@ export function AccountCard() {
                       type="submit"
                       size="sm"
                       className="mt-0.5 shrink-0"
-                      disabled={updateSelfMutation.isPending}
+                      disabled={bindEmailMutation.isPending}
                     >
                       {t("SETTINGS.ACCOUNT.BIND")}
                     </Button>

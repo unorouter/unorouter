@@ -1,5 +1,6 @@
 import { twoFACodeBody, verificationQuery } from "@/lib/typebox/common";
 import {
+  emailBindQuery,
   passkeyCredentialBody,
   updateSelfBody,
   updateSettingBody,
@@ -7,6 +8,7 @@ import {
 import {
   deleteSelf,
   disable2FA,
+  emailBind,
   enable2FA,
   generateAccessToken,
   get2FAStatus,
@@ -76,6 +78,19 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
       return res.data!;
     },
     { query: verificationQuery },
+  )
+
+  // Email bind
+  .get(
+    "/email/bind",
+    async ({ query, upstream }) => {
+      const res = await emailBind(
+        { email: query.email, code: query.code },
+        { headers: upstream.headers },
+      );
+      return res.data!;
+    },
+    { query: emailBindQuery },
   )
 
   // 2FA

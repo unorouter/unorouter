@@ -18,12 +18,15 @@ import {
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { selectedConversationAtom } from "@/store/client-store";
+import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import type { SidebarNavConfig } from "./app-sidebar";
 
 function NavGroup(props: { label: string; items: NavigationItem[] }) {
   const t = useTranslations();
   const pathname = usePathname();
+  const setSelectedConversation = useSetAtom(selectedConversationAtom);
 
   return (
     <SidebarGroup>
@@ -31,14 +34,20 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
       <SidebarGroupContent>
         <SidebarMenu>
           {props.items.map((item) => {
-            const isActive =
-              item.href === "/docs"
-                ? pathname === "/docs"
-                : isActiveLink(pathname, item.href);
+            const isActive = isActiveLink(pathname, item.href, item.exact);
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton
-                  render={<Link href={item.href} />}
+                  render={
+                    <Link
+                      href={item.href}
+                      onClick={
+                        item.href === "/chat"
+                          ? () => setSelectedConversation(null)
+                          : undefined
+                      }
+                    />
+                  }
                   tooltip={t(item.name)}
                   isActive={isActive}
                   className={cn(
@@ -73,7 +82,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
 
   if (props.navConfig === "chat") {
     const mainNavItems = navigation(authenticated).filter(
-      (item) => !item.hidden && item.href !== "/chat",
+      (item) => !item.hidden,
     );
     return (
       <>
