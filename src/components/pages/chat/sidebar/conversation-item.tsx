@@ -152,12 +152,13 @@ export function ConversationItem(props: ConversationItemProps) {
                 {t("CHAT.RENAME")}
               </DropdownMenuItem>
               <DropdownMenuItem
+                variant="destructive"
                 onClick={(e) => {
                   e.stopPropagation();
                   props.onDelete();
                   setMenuOpen(false);
                 }}
-                className="text-destructive focus:text-destructive gap-2"
+                className="gap-2"
               >
                 <LuTrash2 className="size-4" />
                 {t("CHAT.DELETE")}

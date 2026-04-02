@@ -54,12 +54,19 @@ export function ChatThread(props: ChatThreadProps) {
 function ChatThreadLoader(props: { convId: string }) {
   const conversationQuery = useConversationQuery(props.convId);
   const setSelectedConversation = useSetAtom(selectedConversationAtom);
+  const setNewChatModel = useSetAtom(newChatModelAtom);
 
   useEffect(() => {
     if (conversationQuery.isError) {
       setSelectedConversation(null);
     }
   }, [conversationQuery.isError, setSelectedConversation]);
+
+  useEffect(() => {
+    if (conversationQuery.data?.model) {
+      setNewChatModel(conversationQuery.data.model);
+    }
+  }, [conversationQuery.data?.model, setNewChatModel]);
 
   if (!conversationQuery.data) return null;
 
