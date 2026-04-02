@@ -167,7 +167,6 @@ export function usePasskeyRegisterBeginMutation() {
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.settings.passkey.register.begin.post()),
-    onError: (e) => handleError(e, t),
   });
 }
 
