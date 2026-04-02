@@ -39,7 +39,7 @@ export function SidebarLayout(props: SidebarLayoutProps) {
           showSearch={props.showSearch}
           navConfig={props.navConfig}
         />
-        <div className="flex min-w-0 flex-1 overflow-hidden">{props.children}</div>
+        <div className="flex min-w-0 flex-1 overflow-auto">{props.children}</div>
       </SidebarInset>
     </SidebarProvider>
   );
