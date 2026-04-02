@@ -1,7 +1,6 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -25,45 +24,30 @@ type ModelSelectorProps = {
   onChange: (model: string) => void;
 };
 
-type GroupedModel = {
-  name: string;
-  vendorName: string;
-  tags: string | string[];
-};
-
-type ModelGroup = {
-  label: string;
-  models: GroupedModel[];
-};
-
 export function ModelSelector(props: ModelSelectorProps) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const pricingQuery = usePricingQuery();
   const rawModels = pricingQuery.data?.models ?? [];
 
-  // Normalize models for grouping
-  const allModels: GroupedModel[] = rawModels.map((m) => ({
+  const allModels = rawModels.map((m) => ({
     name: m.name,
     vendorName:
       typeof m.vendor === "string" ? m.vendor : (m.vendor?.name ?? ""),
-    tags: m.tags,
+    tags: Array.isArray(m.tags)
+      ? m.tags
+      : String(m.tags)
+          .split(",")
+          .map((s) => s.trim()),
   }));
 
-  const groups: ModelGroup[] = [];
-
-  const textModels = allModels.filter(
-    (m) => m.tags.includes("Text") || m.tags.includes("Reasoning"),
-  );
-  const imageModels = allModels.filter((m) => m.tags.includes("Image"));
-  const videoModels = allModels.filter((m) => m.tags.includes("Video"));
-
-  if (textModels.length > 0)
-    groups.push({ label: t("CHAT.MODEL_GROUP_TEXT"), models: textModels });
-  if (imageModels.length > 0)
-    groups.push({ label: t("CHAT.MODEL_GROUP_IMAGE"), models: imageModels });
-  if (videoModels.length > 0)
-    groups.push({ label: t("CHAT.MODEL_GROUP_VIDEO"), models: videoModels });
+  const groupMap = new Map<string, typeof allModels>();
+  for (const model of allModels) {
+    const tag = model.tags[0] ?? "Other";
+    const list = groupMap.get(tag);
+    if (list) list.push(model);
+    else groupMap.set(tag, [model]);
+  }
 
   const selected = allModels.find((m) => m.name === props.value);
 
@@ -86,9 +70,9 @@ export function ModelSelector(props: ModelSelectorProps) {
           />
           <CommandList>
             <CommandEmpty>{t("CHAT.NO_MODELS_FOUND")}</CommandEmpty>
-            {groups.map((group) => (
-              <CommandGroup key={group.label} heading={group.label}>
-                {group.models.map((model) => (
+            {[...groupMap].map(([tag, models]) => (
+              <CommandGroup key={tag} heading={tag}>
+                {models.map((model) => (
                   <CommandItem
                     key={model.name}
                     value={model.name}
