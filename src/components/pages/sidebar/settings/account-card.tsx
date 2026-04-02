@@ -7,11 +7,14 @@ import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { env } from "@/lib/config/env";
 import {
   useBindEmailMutation,
   useSendSettingsVerificationMutation,
 } from "@/hooks/settings-hook";
+import { useStatusQuery } from "@/hooks/status-hook";
+import { env } from "@/lib/config/env";
+import { rpc } from "@/lib/rpc";
+import { handleElysia } from "@/lib/utils/base";
 import {
   emailBindSchema,
   type EmailBindSchema,
@@ -29,8 +32,10 @@ export function AccountCard() {
   const t = useTranslations();
   const authQuery = useAuthQuery();
   const user = authQuery.data;
+  const statusQuery = useStatusQuery();
   const bindEmailMutation = useBindEmailMutation();
   const sendVerificationMutation = useSendSettingsVerificationMutation();
+  const [bindLoading, setBindLoading] = useState<string | null>(null);
 
   const [countdown, setCountdown] = useState(0);
   const [showEmailForm, setShowEmailForm] = useState(false);
@@ -85,7 +90,34 @@ export function AccountCard() {
     );
   }
 
-  const apiUrl = env.apiUrl || "https://api.unorouter.ai";
+  async function handleOAuthBind(provider: string) {
+    setBindLoading(provider);
+    try {
+      const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
+      const state = handleElysia(
+        await rpc.api.auth.oauth.state.get({
+          query: { redirect: callbackUrl, action: "bind" },
+        }),
+      ) as string;
+
+      const status = statusQuery.data;
+      if (!status) return;
+
+      const serverAddress = status.server_address || env.apiUrl;
+      const redirectUri = `${serverAddress}/oauth/${provider}`;
+      let url: string | null = null;
+
+      if (provider === "github") {
+        url = `https://github.com/login/oauth/authorize?client_id=${status.github_client_id}&state=${state}&scope=user:email&redirect_uri=${encodeURIComponent(redirectUri)}`;
+      } else if (provider === "discord") {
+        url = `https://discord.com/api/oauth2/authorize?client_id=${status.discord_client_id}&state=${state}&response_type=code&scope=identify+email&redirect_uri=${encodeURIComponent(redirectUri)}`;
+      }
+
+      if (url) window.location.href = url;
+    } finally {
+      setBindLoading(null);
+    }
+  }
 
   return (
     <Card>
@@ -216,11 +248,10 @@ export function AccountCard() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    window.location.href = `${apiUrl}/api/oauth/github?bind=true`;
-                  }}
+                  disabled={bindLoading !== null}
+                  onClick={() => handleOAuthBind("github")}
                 >
-                  {t("SETTINGS.ACCOUNT.BIND")}
+                  {bindLoading === "github" ? "..." : t("SETTINGS.ACCOUNT.BIND")}
                 </Button>
               )}
             </div>
@@ -244,11 +275,10 @@ export function AccountCard() {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => {
-                    window.location.href = `${apiUrl}/api/oauth/discord?bind=true`;
-                  }}
+                  disabled={bindLoading !== null}
+                  onClick={() => handleOAuthBind("discord")}
                 >
-                  {t("SETTINGS.ACCOUNT.BIND")}
+                  {bindLoading === "discord" ? "..." : t("SETTINGS.ACCOUNT.BIND")}
                 </Button>
               )}
             </div>

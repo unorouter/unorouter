@@ -2228,6 +2228,7 @@ export type ResponseDtoOAuthExchangeDataData = {
   role: number;
   user_id: number;
   username: string;
+  action?: string;
 };
 
 /**
@@ -4350,6 +4351,10 @@ export type GenerateOAuthCodeParams = {
    * URL to redirect to after OAuth login (must match allowed origins)
    */
   redirect_uri?: string;
+  /**
+   * Set to 'bind' to link OAuth provider to existing account (requires Authorization header)
+   */
+  action?: string;
 };
 
 export type WeChatAuthParams = {

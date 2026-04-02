@@ -89,7 +89,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     "/oauth/state",
     async ({ query, upstream }) => {
       const res = await generateOAuthCode(
-        { aff: query.aff, redirect_uri: query.redirect },
+        { aff: query.aff, redirect_uri: query.redirect, action: query.action },
         upstream,
       );
       return res.data!;
@@ -109,7 +109,14 @@ export const authRoute = new Elysia({ prefix: "/auth" })
 
       const data = res.data.data;
 
-      // Set auth cookies (access_token for API auth, user-id for middleware)
+      // Bind flow: user is already logged in, just redirect to settings
+      if (data.action === "bind") {
+        set.status = 302;
+        set.headers.location = "/settings";
+        return;
+      }
+
+      // Login flow: set auth cookies
       cookie[ACCESS_TOKEN_COOKIE].set({
         value: data.access_token,
         path: "/",
