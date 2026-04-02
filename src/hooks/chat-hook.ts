@@ -47,6 +47,7 @@ export function useConversationQuery(id: string) {
     queryKey: queryKeys.conversation(id),
     queryFn: async () => handleElysia(await chatRoute({ id }).get()),
     enabled: !!authQuery.data && !!id,
+    retry: false,
   });
 }
 
