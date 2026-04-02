@@ -1,13 +1,18 @@
 "use client";
 
 import { Thread } from "@/components/assistant-ui/thread";
+import {
+  createR2AttachmentAdapter,
+  extractParts,
+  mapRawMessages,
+} from "@/components/pages/chat/chat-helpers";
 import { ShareButton } from "@/components/pages/chat/thread/share-button";
 import {
   useConversationQuery,
   useCreateConversationMutation,
   usePersistMessagesMutation,
 } from "@/hooks/chat-hook";
-import { createR2AttachmentAdapter } from "@/components/pages/chat/attachment-adapter";
+import { uid } from "@/lib/utils/base";
 import {
   newChatModelAtom,
   selectedConversationAtom,
@@ -27,14 +32,12 @@ export function ChatThread(props: ChatThreadProps) {
   const convId = props.convId ?? null;
   const [threadKey, setThreadKey] = useState(() => convId ?? "new");
 
-  // When the parent passes a different convId (sidebar click, new chat button),
-  // reset the thread key to force a remount.
   const prevConvIdRef = useRef(convId);
   useEffect(() => {
     const prev = prevConvIdRef.current;
     prevConvIdRef.current = convId;
 
-    // Skip null→id transitions caused by ChatThreadInner creating a conversation
+    // Skip null->id transitions caused by ChatThreadInner creating a conversation
     if (prev === null && convId !== null) return;
 
     if (convId !== prev) {
@@ -60,17 +63,13 @@ function ChatThreadLoader(props: { convId: string }) {
 
   if (!conversationQuery.data) return null;
 
-  const messages: UIMessage[] = (
+  const messages = mapRawMessages(
     conversationQuery.data.messages as {
       id: string;
       role: string;
       parts: unknown;
-    }[]
-  ).map((msg) => ({
-    id: msg.id,
-    role: msg.role as "user" | "assistant" | "system",
-    parts: (msg.parts as UIMessage["parts"]) ?? [],
-  }));
+    }[],
+  );
 
   return (
     <ChatThreadInner
@@ -87,7 +86,6 @@ function ChatThreadInner(props: {
   model?: string;
 }) {
   const [activeConvId, setActiveConvId] = useState(props.convId);
-  const isNewChat = !activeConvId;
 
   const persistMutation = usePersistMessagesMutation();
   const createMutation = useCreateConversationMutation();
@@ -95,14 +93,14 @@ function ChatThreadInner(props: {
   const newChatModel = useAtomValue(newChatModelAtom);
   const model = props.model ?? newChatModel!;
 
-  const contextRef = useRef({ convId: activeConvId, msgId: `user-${Date.now()}` });
+  const contextRef = useRef({ convId: activeConvId, msgId: "" });
   useEffect(() => {
     contextRef.current.convId = activeConvId;
   }, [activeConvId]);
 
   const transport = new DefaultChatTransport({
     api: "/api/chat/stream",
-    body: { model, convId: activeConvId },
+    body: () => ({ model, convId: contextRef.current.convId }),
   });
 
   const pendingCreateRef = useRef(false);
@@ -112,10 +110,10 @@ function ChatThreadInner(props: {
     messages:
       props.initialMessages.length > 0 ? props.initialMessages : undefined,
     onFinish: ({ message }) => {
-      const targetConvId = contextRef.current.convId;
-      if (!targetConvId) return;
+      const convId = contextRef.current.convId;
+      if (!convId) return;
       persistMutation.mutate({
-        id: targetConvId,
+        id: convId,
         body: {
           messages: [
             {
@@ -129,38 +127,14 @@ function ChatThreadInner(props: {
     },
   });
 
-  const origSendRef = useRef(chat.sendMessage);
-  origSendRef.current = chat.sendMessage;
+  const sendRef = useRef(chat.sendMessage);
+  sendRef.current = chat.sendMessage;
 
   const wrappedChat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
-      const textArg = args[0];
-      let text = "";
-      const parts: { type: string; [key: string]: unknown }[] = [];
-
-      if (typeof textArg === "string") {
-        text = textArg;
-        parts.push({ type: "text", text });
-      } else if (textArg && typeof textArg === "object") {
-        const msg = textArg as {
-          text?: string;
-          parts?: { type: string; text?: string; [key: string]: unknown }[];
-        };
-        if (msg.parts) {
-          for (const p of msg.parts) {
-            if (p.type === "text" && p.text) {
-              text += p.text;
-            }
-            parts.push(p);
-          }
-        } else if (msg.text) {
-          text = msg.text;
-          parts.push({ type: "text", text });
-        }
-      }
-
-      if (isNewChat && !pendingCreateRef.current) {
+      // Create conversation on first message
+      if (!activeConvId && !pendingCreateRef.current) {
         pendingCreateRef.current = true;
         try {
           const data = await new Promise<{ id: string }>((resolve, reject) =>
@@ -178,26 +152,19 @@ function ChatThreadInner(props: {
         }
       }
 
-      // Persist user message with all parts (text + file)
-      const targetConvId = contextRef.current.convId;
-      if (targetConvId && parts.length > 0) {
-        const msgId = `user-${Date.now()}`;
+      // Persist user message
+      const parts = extractParts(args[0]);
+      const convId = contextRef.current.convId;
+      if (convId && parts.length > 0) {
+        const msgId = uid();
         contextRef.current.msgId = msgId;
         persistMutation.mutate({
-          id: targetConvId,
-          body: {
-            messages: [
-              {
-                id: msgId,
-                role: "user",
-                parts,
-              },
-            ],
-          },
+          id: convId,
+          body: { messages: [{ id: msgId, role: "user", parts }] },
         });
       }
 
-      return origSendRef.current(...args);
+      return sendRef.current(...args);
     },
   };
 
@@ -207,9 +174,7 @@ function ChatThreadInner(props: {
   }));
 
   const runtime = useAISDKRuntime(wrappedChat, {
-    adapters: {
-      attachments: attachmentAdapter,
-    },
+    adapters: { attachments: attachmentAdapter },
   });
 
   return (

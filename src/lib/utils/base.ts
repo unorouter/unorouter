@@ -1,6 +1,16 @@
 import { msg } from "@/lib/config/constants";
 import type { UnwrapApiResponse } from "../types";
 
+const ALPHABET =
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
+
+export function uid(length = 21): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(length));
+  let id = "";
+  for (let i = 0; i < length; i++) id += ALPHABET[bytes[i] & 63];
+  return id;
+}
+
 export function copyToClipboard(text: string): Promise<void> {
   return navigator.clipboard.writeText(text);
 }

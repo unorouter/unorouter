@@ -6,7 +6,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { nanoid } from "nanoid";
+import { uid } from "@/lib/utils/base";
 
 const R2_BUCKET = "unorouter-chat-media";
 
@@ -82,7 +82,7 @@ export async function downloadAndUpload(
   const buffer = Buffer.from(await res.arrayBuffer());
   const contentType = res.headers.get("content-type") ?? "video/mp4";
   const ext = contentType.split("/")[1] ?? "mp4";
-  const filename = `${nanoid(8)}.${ext}`;
+  const filename = `${uid(8)}.${ext}`;
   const key = mediaKey(convId, msgId, filename);
   return uploadToR2(key, buffer, contentType);
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { Thread } from "@/components/assistant-ui/thread";
+import { mapRawMessages } from "@/components/pages/chat/chat-helpers";
 import { useSharedConversationQuery } from "@/hooks/chat-hook";
 import { useChat } from "@ai-sdk/react";
 import { AssistantRuntimeProvider } from "@assistant-ui/react";
@@ -25,13 +26,9 @@ export function SharedConversationView(props: SharedConversationViewProps) {
     );
   }
 
-  const messages: UIMessage[] = (
-    query.data.messages as { id: string; role: string; parts: unknown }[]
-  ).map((msg) => ({
-    id: msg.id,
-    role: msg.role as "user" | "assistant",
-    parts: (msg.parts as UIMessage["parts"]) ?? [],
-  }));
+  const messages = mapRawMessages(
+    query.data.messages as { id: string; role: string; parts: unknown }[],
+  );
 
   return <SharedThread messages={messages} />;
 }

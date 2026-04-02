@@ -1,11 +1,41 @@
+import { uid } from "@/lib/utils/base";
 import type { AttachmentAdapter } from "@assistant-ui/react";
-import { generateId } from "ai";
+import type { useChat } from "@ai-sdk/react";
+import type { UIMessage } from "ai";
 
-/**
- * Creates an attachment adapter that uploads files to R2 via /api/chat/media.
- * The convId and msgId are passed as a ref so they can be updated dynamically
- * as conversations are created.
- */
+export function mapRawMessages(
+  raw: { id: string; role: string; parts: unknown }[],
+): UIMessage[] {
+  return raw.map((msg) => ({
+    id: msg.id,
+    role: msg.role as UIMessage["role"],
+    parts: (msg.parts as UIMessage["parts"]) ?? [],
+  }));
+}
+
+export function getTextContent(message: UIMessage): string {
+  if (!message.parts) return "";
+  return message.parts
+    .filter((p) => p.type === "text")
+    .map((p) => ("text" in p ? p.text : ""))
+    .join("");
+}
+
+export function extractParts(
+  input: Parameters<ReturnType<typeof useChat>["sendMessage"]>[0],
+): { type: string; [key: string]: unknown }[] {
+  if (!input) return [];
+  if (typeof input === "string") return [{ type: "text", text: input }];
+
+  const msg = input as {
+    text?: string;
+    parts?: { type: string; [key: string]: unknown }[];
+  };
+  if (msg.parts) return msg.parts;
+  if (msg.text) return [{ type: "text", text: msg.text }];
+  return [];
+}
+
 export function createR2AttachmentAdapter(
   getContext: () => { convId: string | null; msgId: string },
 ): AttachmentAdapter {
@@ -14,7 +44,7 @@ export function createR2AttachmentAdapter(
 
     async add({ file }) {
       return {
-        id: generateId(),
+        id: uid(),
         type: file.type.startsWith("image/") ? "image" : "file",
         name: file.name,
         file,
@@ -28,7 +58,12 @@ export function createR2AttachmentAdapter(
       const ctx = getContext();
 
       if (!ctx.convId) {
-        const dataUrl = await readFileAsDataURL(attachment.file!);
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(attachment.file!);
+        });
         return {
           ...attachment,
           status: { type: "complete" as const },
@@ -43,7 +78,6 @@ export function createR2AttachmentAdapter(
         };
       }
 
-      // Upload to R2
       const formData = new FormData();
       formData.append("file", attachment.file!);
       formData.append("convId", ctx.convId);
@@ -75,17 +109,7 @@ export function createR2AttachmentAdapter(
       };
     },
 
-    async remove() {
-      // R2 cleanup is not needed client-side
-    },
+    async remove() {},
   };
 }
 
-function readFileAsDataURL(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-    reader.readAsDataURL(file);
-  });
-}

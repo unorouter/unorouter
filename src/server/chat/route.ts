@@ -23,7 +23,7 @@ import { getApiKey, getProvider, getUserId } from "@/server/constants";
 import { convertToModelMessages, generateImage, streamText } from "ai";
 import { and, desc, eq, like, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
-import { nanoid } from "nanoid";
+import { uid } from "@/lib/utils/base";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -85,7 +85,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ body, cookie }) => {
       const db = getDb();
       const userId = getUserId(cookie);
-      const id = nanoid();
+      const id = uid();
       const now = new Date();
 
       await db.insert(conversations).values({
@@ -176,7 +176,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post("/:id/share", async ({ params, cookie }) => {
     const db = getDb();
     const userId = getUserId(cookie);
-    const shareId = nanoid(12);
+    const shareId = uid(12);
 
     const result = await db
       .update(conversations)
@@ -250,7 +250,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
       const toInsert = body.messages.map((msg) => ({
-        id: msg.id ?? nanoid(),
+        id: msg.id ?? uid(),
         convId: params.id,
         role: msg.role,
         parts: msg.parts,
@@ -369,7 +369,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const file = body.file;
       const buffer = Buffer.from(await file.arrayBuffer());
       const ext = file.name.split(".").pop() ?? "bin";
-      const filename = `${nanoid(8)}.${ext}`;
+      const filename = `${uid(8)}.${ext}`;
       const key = mediaKey(body.convId, body.msgId, filename);
       const url = await uploadToR2(key, buffer, file.type);
 
@@ -400,7 +400,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const urls: string[] = [];
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
-        const filename = `${nanoid(8)}.png`;
+        const filename = `${uid(8)}.png`;
         const key = mediaKey(body.convId, body.msgId, filename);
         const buffer = Buffer.from(image.base64, "base64");
         const url = await uploadToR2(key, buffer, "image/png");

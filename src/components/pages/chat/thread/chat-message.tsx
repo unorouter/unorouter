@@ -1,22 +1,15 @@
 "use client";
 
-import type { UIMessage } from "ai";
-import { LuCopy, LuCheck, LuUser, LuBot } from "react-icons/lu";
+import { getTextContent } from "@/components/pages/chat/chat-helpers";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { cn } from "@/lib/utils";
+import type { UIMessage } from "ai";
+import { useState } from "react";
+import { LuBot, LuCheck, LuCopy, LuUser } from "react-icons/lu";
 
 type ChatMessageProps = {
   message: UIMessage;
 };
-
-function getTextContent(message: UIMessage): string {
-  if (!message.parts) return "";
-  return message.parts
-    .filter((p) => p.type === "text")
-    .map((p) => ("text" in p ? p.text : ""))
-    .join("");
-}
 
 export function ChatMessage(props: ChatMessageProps) {
   const [copied, setCopied] = useState(false);
