@@ -134,9 +134,13 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const db = getDb();
       const userId = getUserId(cookie);
 
+      const updates: Record<string, unknown> = { updatedAt: new Date() };
+      if (body.title !== undefined) updates.title = body.title;
+      if (body.model !== undefined) updates.model = body.model;
+
       const result = await db
         .update(conversations)
-        .set({ title: body.title, updatedAt: new Date() })
+        .set(updates)
         .where(
           and(
             eq(conversations.id, params.id),
@@ -146,7 +150,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         .returning({ id: conversations.id });
 
       if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
-      return { success: true, data: { id: params.id, title: body.title } };
+      return { success: true, data: { id: params.id, title: body.title, model: body.model } };
     },
     { body: updateConversationBody },
   )

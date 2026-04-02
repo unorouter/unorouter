@@ -2,18 +2,33 @@
 
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
-import { clientStoreAtom } from "@/store/client-store";
+import { selectedConversationAtom } from "@/store/client-store";
 import { useAtomValue } from "jotai";
-import { useTranslations } from "next-intl";
+import { useHydrateAtoms } from "jotai/utils";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
 import { ChatThread } from "./thread/chat-thread";
 
-export function Chat() {
+export function Chat(props: { initialConvId?: string }) {
+  useHydrateAtoms([[selectedConversationAtom, props.initialConvId ?? null]]);
+  
   const t = useTranslations();
-  const clientStore = useAtomValue(clientStoreAtom);
-  const selectedId = clientStore.selectedConversation;
+  const locale = useLocale();
+
+  const selectedId = useAtomValue(selectedConversationAtom);
   const token = useApiKey();
+
+  // Keep URL in sync with selected conversation
+  useEffect(() => {
+    const target = selectedId
+      ? `/${locale}/chat/${selectedId}`
+      : `/${locale}/chat`;
+    if (window.location.pathname !== target) {
+      window.history.replaceState(null, "", target);
+    }
+  }, [selectedId, locale]);
 
   if (!token.isLoggedIn) {
     return (

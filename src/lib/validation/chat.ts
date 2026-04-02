@@ -6,7 +6,8 @@ export const createConversationBody = t.Object({
 });
 
 export const updateConversationBody = t.Object({
-  title: t.String(),
+  title: t.Optional(t.String()),
+  model: t.Optional(t.String()),
 });
 
 export const persistMessagesBody = t.Object({

@@ -107,6 +107,10 @@ export function useUpdateConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       const id = String(args.id);
+      const patch: Record<string, unknown> = {};
+      if (data.title !== undefined) patch.title = data.title;
+      if (data.model !== undefined) patch.model = data.model;
+
       queryClient.setQueryData<InfiniteData<ConversationsData>>(
         queryKeys.conversations(),
         (old) => {
@@ -116,7 +120,7 @@ export function useUpdateConversationMutation() {
             pages: old.pages.map((page) => ({
               ...page,
               items: page.items.map((item) =>
-                item.id === id ? { ...item, title: data.title } : item,
+                item.id === id ? { ...item, ...patch } : item,
               ),
             })),
           };
@@ -124,7 +128,7 @@ export function useUpdateConversationMutation() {
       );
       queryClient.setQueryData<ConversationData>(
         queryKeys.conversation(id),
-        (old) => (old ? { ...old, title: data.title } : old),
+        (old) => (old ? { ...old, ...patch } : old),
       );
     },
   });

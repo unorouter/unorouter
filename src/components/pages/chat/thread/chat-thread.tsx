@@ -11,6 +11,7 @@ import {
   useConversationQuery,
   useCreateConversationMutation,
   usePersistMessagesMutation,
+  useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
 import { uid } from "@/lib/utils/base";
 import {
@@ -31,8 +32,8 @@ type ChatThreadProps = {
 export function ChatThread(props: ChatThreadProps) {
   const convId = props.convId ?? null;
   const [threadKey, setThreadKey] = useState(() => convId ?? "new");
-
   const prevConvIdRef = useRef(convId);
+
   useEffect(() => {
     const prev = prevConvIdRef.current;
     prevConvIdRef.current = convId;
@@ -96,6 +97,7 @@ function ChatThreadInner(props: {
 
   const persistMutation = usePersistMessagesMutation();
   const createMutation = useCreateConversationMutation();
+  const updateMutation = useUpdateConversationMutation();
   const setSelectedConversation = useSetAtom(selectedConversationAtom);
   const newChatModel = useAtomValue(newChatModelAtom);
   const model = newChatModel ?? props.model!;
@@ -105,6 +107,13 @@ function ChatThreadInner(props: {
     contextRef.current.convId = activeConvId;
   }, [activeConvId]);
   contextRef.current.model = model;
+
+  // Persist model change to DB when user switches models mid-conversation
+  useEffect(() => {
+    if (activeConvId && newChatModel && newChatModel !== props.model) {
+      updateMutation.mutate({ id: activeConvId, body: { model: newChatModel } });
+    }
+  }, [newChatModel]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const transport = new DefaultChatTransport({
     api: "/api/chat/stream",

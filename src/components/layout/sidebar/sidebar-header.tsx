@@ -10,7 +10,6 @@ import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { useCreateConversationMutation } from "@/hooks/chat-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useRouter } from "@/i18n/navigation";
@@ -34,22 +33,13 @@ function ChatControls() {
   const userDisplay = useUserDisplay();
   const [newChatModel, setNewChatModel] = useAtom(newChatModelAtom);
   const setSelectedId = useSetAtom(selectedConversationAtom);
-  const createMutation = useCreateConversationMutation();
 
   const handleNewChat = () => {
     if (!userDisplay.user) {
       router.push("/login");
       return;
     }
-    if (!newChatModel) return;
-    createMutation.mutate(
-      { body: { model: newChatModel } },
-      {
-        onSuccess: (data) => {
-          setSelectedId(data.id);
-        },
-      },
-    );
+    setSelectedId(null);
   };
 
   return (
@@ -61,7 +51,6 @@ function ChatControls() {
         size="sm"
         className="h-8 shrink-0 lg:px-3"
         onClick={handleNewChat}
-        disabled={createMutation.isPending || !newChatModel}
       >
         <LuPlus className="h-3.5 w-3.5 lg:mr-1.5" />
         <span className="hidden lg:inline">{t("CHAT.NEW_CONVERSATION")}</span>

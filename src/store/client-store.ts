@@ -9,7 +9,6 @@ export type ClientState = {
   apiKey: string | null;
   apiKeyRevealed: boolean;
   os: OS | undefined;
-  selectedConversation: string | null;
   newChatModel: string | null;
 };
 
@@ -17,7 +16,6 @@ export const INITIAL_CLIENT_STATE: ClientState = {
   apiKey: null,
   apiKeyRevealed: false,
   os: OS.WINDOWS,
-  selectedConversation: null,
   newChatModel: null,
 };
 
@@ -54,16 +52,8 @@ export const osAtom = atom(
   },
 );
 
-// Chat atoms (derived from cookie-persisted store)
-export const selectedConversationAtom = atom(
-  (get) => get(clientStoreAtom).selectedConversation,
-  (get, set, value: string | null) => {
-    set(clientStoreAtom, {
-      ...get(clientStoreAtom),
-      selectedConversation: value,
-    });
-  },
-);
+// Chat conversation selection (not persisted, URL is source of truth)
+export const selectedConversationAtom = atom<string | null>(null);
 
 export const newChatModelAtom = atom(
   (get) => get(clientStoreAtom).newChatModel,
