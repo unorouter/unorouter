@@ -1,8 +1,6 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import { UserInfo } from "@/components/layout/user/user-info";
-import { UserMenuItems } from "@/components/layout/user/user-menu-items";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import {
@@ -13,13 +11,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import {
+  navigationAtom,
+  toggleNavigationAtom,
+} from "@/store/navigation-store";
+import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuMenu } from "react-icons/lu";
-import { isActiveLink, navigation } from "./navigation";
+import { LuChevronRight, LuMenu } from "react-icons/lu";
+import { isActiveLink, NavigationItem, navigation } from "./navigation";
 
 export function MobileNav() {
   const t = useTranslations();
@@ -27,7 +29,6 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
 
   const authQuery = useAuthQuery();
-  const userDisplay = useUserDisplay();
 
   function handleNavigate() {
     setOpen(false);
@@ -56,72 +57,113 @@ export function MobileNav() {
         </SheetHeader>
 
         <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-4">
-          <nav className="space-y-4">
+          <nav className="flex flex-col gap-1">
             {navItems.map((item) => {
               if (item.submenu) {
                 return (
-                  <div key={item.name} className="space-y-2">
-                    <p className="text-muted-foreground text-[10px] tracking-widest uppercase">
-                      {t(item.name)}
-                    </p>
-                    {item.submenu.map((subItem) => (
-                      <Link
-                        key={subItem.name}
-                        href={subItem.href}
-                        onClick={handleNavigate}
-                        className={cn(
-                          "text-muted-foreground hover:text-foreground flex items-center gap-2 text-sm tracking-wider uppercase",
-                          isActiveLink(pathname, subItem.href) &&
-                            "text-foreground",
-                        )}
-                      >
-                        {subItem.icon && <subItem.icon className="h-3 w-3" />}
-                        {t(subItem.name)}
-                      </Link>
-                    ))}
-                  </div>
+                  <CollapsibleNavItem
+                    key={item.name}
+                    item={item}
+                    onNavigate={handleNavigate}
+                  />
                 );
               }
 
+              const isActive = isActiveLink(pathname, item.href);
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={handleNavigate}
                   className={cn(
-                    "text-muted-foreground hover:text-foreground block text-sm tracking-wider uppercase",
-                    isActiveLink(pathname, item.href) && "text-foreground",
+                    "hover:bg-foreground/5 flex items-center gap-2 rounded-md px-3 py-2 text-sm tracking-wider uppercase transition-colors",
+                    isActive
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
                   )}
                 >
+                  {item.icon && <item.icon className="h-4 w-4" />}
                   {t(item.name)}
                 </Link>
               );
             })}
           </nav>
 
-          <div className="border-border flex flex-col gap-3 border-t pt-4">
-            {userDisplay.user ? (
-              <>
-                <UserInfo badgePosition="inline" />
-                <UserMenuItems onAction={handleNavigate} />
-              </>
-            ) : authQuery.isLoading ? null : (
-              <Link
-                href="/login"
-                onClick={handleNavigate}
-                className="text-muted-foreground hover:text-foreground text-sm tracking-wider uppercase"
-              >
-                {t("NAV.LOG_IN")}
-              </Link>
-            )}
-          </div>
-
-          <div className="flex items-center gap-2 border-t pt-4">
+          <div className="mt-auto flex items-center gap-2 border-t pt-4 pb-2">
             <LanguageToggle />
             <ThemeToggle />
           </div>
         </div>
       </SheetContent>
     </Sheet>
+  );
+}
+
+function CollapsibleNavItem(props: {
+  item: NavigationItem;
+  onNavigate: () => void;
+}) {
+  const t = useTranslations();
+  const pathname = usePathname();
+  const [navigationState] = useAtom(navigationAtom);
+  const toggleNavigation = useSetAtom(toggleNavigationAtom);
+
+  const isActive = isActiveLink(pathname, props.item.href);
+  const isExpanded = navigationState.expanded?.[props.item.name] ?? false;
+
+  return (
+    <div>
+      <div className="flex items-center">
+        <Link
+          href={props.item.href}
+          onClick={props.onNavigate}
+          className={cn(
+            "hover:bg-foreground/5 flex flex-1 items-center gap-2 rounded-md px-3 py-2 text-sm tracking-wider uppercase transition-colors",
+            isActive
+              ? "text-foreground"
+              : "text-muted-foreground hover:text-foreground",
+          )}
+        >
+          {props.item.icon && <props.item.icon className="h-4 w-4" />}
+          {t(props.item.name)}
+        </Link>
+        <button
+          type="button"
+          onClick={() => toggleNavigation(props.item.name)}
+          className="hover:bg-foreground/5 flex size-8 items-center justify-center rounded-md transition-colors"
+        >
+          <LuChevronRight
+            className={cn(
+              "size-4 transition-transform duration-200",
+              isExpanded && "rotate-90",
+            )}
+          />
+        </button>
+      </div>
+      {isExpanded && (
+        <ul className="mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
+          {props.item.submenu!.map((subItem) => {
+            const isSubActive = isActiveLink(pathname, subItem.href);
+            return (
+              <li key={subItem.name}>
+                <Link
+                  href={subItem.href}
+                  onClick={props.onNavigate}
+                  className={cn(
+                    "hover:bg-foreground/5 flex items-center gap-2 rounded-md px-3 py-2 text-sm tracking-wider uppercase transition-colors",
+                    isSubActive
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground",
+                  )}
+                >
+                  {subItem.icon && <subItem.icon className="h-3 w-3" />}
+                  {t(subItem.name)}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 }

@@ -4,12 +4,14 @@ import { atomWithStorage } from "jotai/utils";
 
 export type NavigationState = {
   sidebarOpen: boolean;
+  expanded: Record<string, boolean>;
 };
 
 export const NAVIGATION_STORE_KEY = "navigation-store";
 
 export const INITIAL_NAVIGATION_STATE: NavigationState = {
   sidebarOpen: true,
+  expanded: {},
 };
 
 export const navigationAtom = atomWithStorage<NavigationState>(
@@ -28,3 +30,14 @@ export const sidebarOpenAtom = atom(
     });
   },
 );
+
+export const toggleNavigationAtom = atom(null, (get, set, key: string) => {
+  const state = get(navigationAtom);
+  set(navigationAtom, {
+    ...state,
+    expanded: {
+      ...state.expanded,
+      [key]: !state.expanded[key],
+    },
+  });
+});

@@ -32,8 +32,17 @@ export function Navbar() {
   return (
     <nav className="navbar-scroll fixed top-0 right-0 left-0 z-50 border-b border-transparent bg-transparent">
       <div className="mx-auto flex h-14 max-w-360 items-center justify-between px-6 font-mono">
-        {/* Logo */}
-        <Link href="/" className="group flex items-center gap-2">
+        {/* Mobile: Hamburger + Logo */}
+        <div className="flex items-center gap-2 md:hidden">
+          <MobileNav />
+          <Link href="/" className="group flex items-center gap-2">
+            <LogoImage />
+            <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
+          </Link>
+        </div>
+
+        {/* Desktop: Logo */}
+        <Link href="/" className="group hidden items-center gap-2 md:flex">
           <LogoImage />
           <CompanyName className="text-foreground group-hover:text-muted-foreground text-lg transition-colors" />
         </Link>
@@ -113,11 +122,24 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Trigger */}
-        <div className="flex items-center gap-2 md:hidden">
+        {/* Mobile: Lang/Theme + User avatar */}
+        <div className="flex items-center gap-4 md:hidden">
           <LanguageToggle />
           <ThemeToggle />
-          <MobileNav />
+          {authQuery.data ? (
+            <UserDropdown side="bottom" align="end">
+              <button className="cursor-pointer focus:outline-none">
+                <UserAvatar />
+              </button>
+            </UserDropdown>
+          ) : authQuery.isLoading ? null : (
+            <Link
+              href="/login"
+              className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
+            >
+              {t("NAV.LOG_IN")}
+            </Link>
+          )}
         </div>
       </div>
     </nav>

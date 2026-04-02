@@ -29,7 +29,7 @@ export function PricingCard(props: Props) {
       )}
     >
       {props.popular && (
-        <div className="border-foreground/30 bg-foreground/10 absolute -top-3 left-6 rounded-sm border px-3 py-1">
+        <div className="bg-card border-foreground/30 absolute -top-4.5 left-1/2 z-10 -translate-x-1/2 rounded-sm border px-3 py-1 shadow-[0_4px_0_var(--color-card)]">
           <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
             {t("PRICING.CARD_POPULAR")}
           </span>
