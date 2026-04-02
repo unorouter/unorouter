@@ -98,16 +98,17 @@ function ChatThreadInner(props: {
   const createMutation = useCreateConversationMutation();
   const setSelectedConversation = useSetAtom(selectedConversationAtom);
   const newChatModel = useAtomValue(newChatModelAtom);
-  const model = props.model ?? newChatModel!;
+  const model = newChatModel ?? props.model!;
 
-  const contextRef = useRef({ convId: activeConvId, msgId: "" });
+  const contextRef = useRef({ convId: activeConvId, msgId: "", model });
   useEffect(() => {
     contextRef.current.convId = activeConvId;
   }, [activeConvId]);
+  contextRef.current.model = model;
 
   const transport = new DefaultChatTransport({
     api: "/api/chat/stream",
-    body: () => ({ model, convId: contextRef.current.convId }),
+    body: () => ({ model: contextRef.current.model, convId: contextRef.current.convId }),
   });
 
   const pendingCreateRef = useRef(false);
@@ -146,7 +147,7 @@ function ChatThreadInner(props: {
         try {
           const data = await new Promise<{ id: string }>((resolve, reject) =>
             createMutation.mutate(
-              { body: { model } },
+              { body: { model: contextRef.current.model } },
               { onSuccess: resolve, onError: reject },
             ),
           );
