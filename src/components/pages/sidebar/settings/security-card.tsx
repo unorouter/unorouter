@@ -164,7 +164,7 @@ export function SecurityCard() {
           <Separator />
 
           {/* Password */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <LuLock className="text-muted-foreground h-4 w-4" />
               <span className="font-medium">
@@ -184,7 +184,7 @@ export function SecurityCard() {
 
           {/* Passkey */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <LuFingerprint className="text-muted-foreground h-4 w-4" />
                 <span className="font-medium">
@@ -232,7 +232,7 @@ export function SecurityCard() {
 
           {/* 2FA */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <LuShieldCheck className="text-muted-foreground h-4 w-4" />
                 <span className="font-medium">
@@ -270,7 +270,7 @@ export function SecurityCard() {
 
           {/* Delete Account */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <div className="flex items-center gap-2">
                   <LuTrash2 className="h-4 w-4 text-red-500" />
