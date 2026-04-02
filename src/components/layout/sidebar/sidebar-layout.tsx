@@ -30,7 +30,6 @@ export function SidebarLayout(props: SidebarLayoutProps) {
     >
       {props.before}
       <AppSidebar
-        variant="inset"
         navConfig={props.navConfig}
         chatContent={props.chatContent}
       />
