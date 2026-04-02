@@ -37,37 +37,43 @@ import {
   SquareIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { FC } from "react";
+import { createContext, type FC, useContext } from "react";
 import { LuMessageCircle } from "react-icons/lu";
 
-export const Thread: FC = () => {
+const ReadOnlyContext = createContext(false);
+
+export const Thread: FC<{ readOnly?: boolean }> = (props) => {
   return (
-    <ThreadPrimitive.Root
-      className="aui-root aui-thread-root @container flex h-full flex-col bg-background"
-      style={{
-        ["--thread-max-width" as string]: "44rem",
-        ["--composer-radius" as string]: "24px",
-        ["--composer-padding" as string]: "10px",
-      }}
-    >
-      <ThreadPrimitive.Viewport
-        turnAnchor="top"
-        className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4 pt-4"
+    <ReadOnlyContext.Provider value={!!props.readOnly}>
+      <ThreadPrimitive.Root
+        className="aui-root aui-thread-root @container flex h-full flex-col bg-background"
+        style={{
+          ["--thread-max-width" as string]: "44rem",
+          ["--composer-radius" as string]: "24px",
+          ["--composer-padding" as string]: "10px",
+        }}
       >
-        <AuiIf condition={(s) => s.thread.isEmpty}>
-          <ThreadWelcome />
-        </AuiIf>
+        <ThreadPrimitive.Viewport
+          turnAnchor="top"
+          className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4 pt-4"
+        >
+          <AuiIf condition={(s) => s.thread.isEmpty}>
+            <ThreadWelcome />
+          </AuiIf>
 
-        <ThreadPrimitive.Messages>
-          {() => <ThreadMessage />}
-        </ThreadPrimitive.Messages>
+          <ThreadPrimitive.Messages>
+            {() => <ThreadMessage />}
+          </ThreadPrimitive.Messages>
 
-        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) bg-background pb-4 md:pb-6">
-          <ThreadScrollToBottom />
-          <Composer />
-        </ThreadPrimitive.ViewportFooter>
-      </ThreadPrimitive.Viewport>
-    </ThreadPrimitive.Root>
+          {!props.readOnly && (
+            <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) bg-background pb-4 md:pb-6">
+              <ThreadScrollToBottom />
+              <Composer />
+            </ThreadPrimitive.ViewportFooter>
+          )}
+        </ThreadPrimitive.Viewport>
+      </ThreadPrimitive.Root>
+    </ReadOnlyContext.Provider>
   );
 };
 
@@ -259,6 +265,7 @@ const AssistantMessage: FC = () => {
 };
 
 const AssistantActionBar: FC = () => {
+  const readOnly = useContext(ReadOnlyContext);
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
@@ -275,11 +282,13 @@ const AssistantActionBar: FC = () => {
           </AuiIf>
         </TooltipIconButton>
       </ActionBarPrimitive.Copy>
-      <ActionBarPrimitive.Reload asChild>
-        <TooltipIconButton tooltip="Refresh">
-          <RefreshCwIcon />
-        </TooltipIconButton>
-      </ActionBarPrimitive.Reload>
+      {!readOnly && (
+        <ActionBarPrimitive.Reload asChild>
+          <TooltipIconButton tooltip="Refresh">
+            <RefreshCwIcon />
+          </TooltipIconButton>
+        </ActionBarPrimitive.Reload>
+      )}
     </ActionBarPrimitive.Root>
   );
 };
@@ -307,6 +316,8 @@ const UserMessage: FC = () => {
 };
 
 const UserActionBar: FC = () => {
+  const readOnly = useContext(ReadOnlyContext);
+  if (readOnly) return null;
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning

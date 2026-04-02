@@ -40,7 +40,7 @@ function SharedThread(props: { messages: UIMessage[] }) {
   return (
     <div className="flex flex-1 flex-col">
       <AssistantRuntimeProvider runtime={runtime}>
-        <Thread />
+        <Thread readOnly />
       </AssistantRuntimeProvider>
     </div>
   );
