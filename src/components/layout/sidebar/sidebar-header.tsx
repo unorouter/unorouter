@@ -13,6 +13,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useCreateConversationMutation } from "@/hooks/chat-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import {
   newChatModelAtom,
   selectedConversationAtom,
@@ -29,11 +30,17 @@ interface SidebarHeaderProps {
 
 function ChatControls() {
   const t = useTranslations();
+  const router = useRouter();
+  const userDisplay = useUserDisplay();
   const [newChatModel, setNewChatModel] = useAtom(newChatModelAtom);
   const setSelectedId = useSetAtom(selectedConversationAtom);
   const createMutation = useCreateConversationMutation();
 
   const handleNewChat = () => {
+    if (!userDisplay.user) {
+      router.push("/login");
+      return;
+    }
     if (!newChatModel) return;
     createMutation.mutate(
       { body: { model: newChatModel } },
