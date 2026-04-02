@@ -230,6 +230,30 @@
   animation: widthExpand 3s ease-in-out infinite alternate;
 }
 
+/* Shimmer animation for streaming indicators */
+@keyframes shimmer-sweep {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@utility shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    currentColor 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-sweep 1.5s linear infinite;
+}
+
 /* Navbar scroll-driven background */
 @keyframes navbar-scroll-bg {
   0% {

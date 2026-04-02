@@ -6,6 +6,10 @@ import {
   UserMessageAttachments,
 } from "@/components/assistant-ui/attachment";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
+import {
+  Reasoning,
+  ReasoningGroup,
+} from "@/components/assistant-ui/reasoning";
 import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { Button } from "@/components/ui/button";
@@ -210,6 +214,21 @@ const MessageError: FC = () => {
   );
 };
 
+const StreamingIndicator: FC = () => {
+  const isStreaming = useAuiState(
+    (s) =>
+      s.message.status?.type === "running" && s.message.parts.length === 0,
+  );
+  if (!isStreaming) return null;
+  return (
+    <div className="flex items-center gap-1.5 px-1 py-2">
+      <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:0ms]" />
+      <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:150ms]" />
+      <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:300ms]" />
+    </div>
+  );
+};
+
 const AssistantMessage: FC = () => {
   return (
     <MessagePrimitive.Root
@@ -217,14 +236,17 @@ const AssistantMessage: FC = () => {
       data-role="assistant"
     >
       <div className="aui-assistant-message-content wrap-break-word px-2 text-foreground leading-relaxed">
-        <MessagePrimitive.Parts>
-          {({ part }) => {
-            if (part.type === "text") return <MarkdownText />;
-            if (part.type === "tool-call")
-              return part.toolUI ?? <ToolFallback {...part} />;
-            return null;
+        <StreamingIndicator />
+        <MessagePrimitive.Parts
+          components={{
+            Text: MarkdownText,
+            Reasoning,
+            ReasoningGroup,
+            tools: {
+              Fallback: ToolFallback,
+            },
           }}
-        </MessagePrimitive.Parts>
+        />
         <MessageError />
       </div>
 

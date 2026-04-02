@@ -1,0 +1,189 @@
+"use client";
+
+import { memo, useCallback, useRef, useState } from "react";
+import { BrainIcon, ChevronDownIcon } from "lucide-react";
+import {
+  useScrollLock,
+  useAuiState,
+  type ReasoningMessagePartComponent,
+  type ReasoningGroupComponent,
+} from "@assistant-ui/react";
+import { MarkdownText } from "@/components/assistant-ui/markdown-text";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+
+const ANIMATION_DURATION = 200;
+
+function ReasoningRoot({
+  className,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+  defaultOpen = false,
+  children,
+  ...props
+}: Omit<React.ComponentProps<typeof Collapsible>, "open" | "onOpenChange"> & {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  defaultOpen?: boolean;
+}) {
+  const collapsibleRef = useRef<HTMLDivElement>(null);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
+  const lockScroll = useScrollLock(collapsibleRef, ANIMATION_DURATION);
+
+  const isControlled = controlledOpen !== undefined;
+  const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        lockScroll();
+      }
+      if (!isControlled) {
+        setUncontrolledOpen(open);
+      }
+      controlledOnOpenChange?.(open);
+    },
+    [lockScroll, isControlled, controlledOnOpenChange],
+  );
+
+  return (
+    <Collapsible
+      ref={collapsibleRef}
+      data-slot="reasoning-root"
+      open={isOpen}
+      onOpenChange={handleOpenChange}
+      className={cn(
+        "group/reasoning-root aui-reasoning-root mb-4 w-full rounded-lg border px-3 py-2",
+        className,
+      )}
+      style={
+        {
+          "--animation-duration": `${ANIMATION_DURATION}ms`,
+        } as React.CSSProperties
+      }
+      {...props}
+    >
+      {children}
+    </Collapsible>
+  );
+}
+
+function ReasoningTrigger({
+  active,
+  className,
+  ...props
+}: React.ComponentProps<typeof CollapsibleTrigger> & {
+  active?: boolean;
+}) {
+  return (
+    <CollapsibleTrigger
+      data-slot="reasoning-trigger"
+      className={cn(
+        "aui-reasoning-trigger group/trigger flex max-w-[75%] items-center gap-2 py-1 text-muted-foreground text-sm transition-colors hover:text-foreground",
+        className,
+      )}
+      {...props}
+    >
+      <BrainIcon
+        data-slot="reasoning-trigger-icon"
+        className={cn(
+          "aui-reasoning-trigger-icon size-4 shrink-0",
+          active && "animate-pulse",
+        )}
+      />
+      <span
+        data-slot="reasoning-trigger-label"
+        className="aui-reasoning-trigger-label-wrapper relative inline-block leading-none"
+      >
+        <span>Thinking</span>
+        {active ? (
+          <span
+            aria-hidden
+            data-slot="reasoning-trigger-shimmer"
+            className="aui-reasoning-trigger-shimmer shimmer pointer-events-none absolute inset-0 motion-reduce:animate-none"
+          >
+            Thinking
+          </span>
+        ) : null}
+      </span>
+      <ChevronDownIcon
+        data-slot="reasoning-trigger-chevron"
+        className={cn(
+          "aui-reasoning-trigger-chevron mt-0.5 size-4 shrink-0",
+          "transition-transform duration-(--animation-duration) ease-out",
+          "group-data-[state=closed]/trigger:-rotate-90",
+          "group-data-[state=open]/trigger:rotate-0",
+        )}
+      />
+    </CollapsibleTrigger>
+  );
+}
+
+function ReasoningContent({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof CollapsibleContent>) {
+  return (
+    <CollapsibleContent
+      data-slot="reasoning-content"
+      className={cn(
+        "aui-reasoning-content relative overflow-hidden text-muted-foreground text-sm outline-none",
+        "group/collapsible-content ease-out",
+        "data-[state=closed]:animate-collapsible-up",
+        "data-[state=open]:animate-collapsible-down",
+        "data-[state=closed]:fill-mode-forwards",
+        "data-[state=closed]:pointer-events-none",
+        "data-[state=open]:duration-(--animation-duration)",
+        "data-[state=closed]:duration-(--animation-duration)",
+        className,
+      )}
+      {...props}
+    >
+      <div className="relative z-0 max-h-64 overflow-y-auto pt-2 pb-2 pl-6 leading-relaxed">
+        {children}
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8 bg-[linear-gradient(to_top,var(--color-background),transparent)]" />
+    </CollapsibleContent>
+  );
+}
+
+const ReasoningImpl: ReasoningMessagePartComponent = () => <MarkdownText />;
+
+const ReasoningGroupImpl: ReasoningGroupComponent = ({
+  children,
+  startIndex,
+  endIndex,
+}) => {
+  const isReasoningStreaming = useAuiState((s) => {
+    if (s.message.status?.type !== "running") return false;
+    const lastIndex = s.message.parts.length - 1;
+    if (lastIndex < 0) return false;
+    const lastType = s.message.parts[lastIndex]?.type;
+    if (lastType !== "reasoning") return false;
+    return lastIndex >= startIndex && lastIndex <= endIndex;
+  });
+
+  return (
+    <ReasoningRoot defaultOpen={isReasoningStreaming}>
+      <ReasoningTrigger active={isReasoningStreaming} />
+      <ReasoningContent aria-busy={isReasoningStreaming}>
+        {children}
+      </ReasoningContent>
+    </ReasoningRoot>
+  );
+};
+
+const Reasoning = memo(
+  ReasoningImpl,
+) as unknown as ReasoningMessagePartComponent;
+Reasoning.displayName = "Reasoning";
+
+const ReasoningGroup = memo(ReasoningGroupImpl);
+ReasoningGroup.displayName = "ReasoningGroup";
+
+export { Reasoning, ReasoningGroup };
