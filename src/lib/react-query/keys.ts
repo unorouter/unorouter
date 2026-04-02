@@ -42,7 +42,7 @@ export const queryKeys = {
     ["usage-logs-stat", params] as const,
 
   // Chat
-  conversations: () => ["conversations"] as const,
+  conversations: (keyword?: string) => ["conversations", keyword] as const,
   conversation: (id: string) => ["conversation", id] as const,
   sharedConversation: (shareId: string) =>
     ["shared-conversation", shareId] as const,

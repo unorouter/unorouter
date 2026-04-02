@@ -95,7 +95,7 @@ function ChatThreadInner(props: {
 
   const transport = new DefaultChatTransport({
     api: "/api/chat/stream",
-    body: { model },
+    body: { model, convId: activeConvId },
   });
 
   const pendingCreateRef = useRef(false);

@@ -9,6 +9,9 @@ export const conversations = sqliteTable(
     title: text("title"),
     model: text("model").notNull(),
     shareId: text("share_id").unique(),
+    totalInputTokens: integer("total_input_tokens").notNull().default(0),
+    totalOutputTokens: integer("total_output_tokens").notNull().default(0),
+    totalCost: integer("total_cost").notNull().default(0),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -31,6 +34,10 @@ export const messages = sqliteTable(
       .references(() => conversations.id, { onDelete: "cascade" }),
     role: text("role").notNull(),
     parts: text("parts", { mode: "json" }).notNull(),
+    requestId: text("request_id"),
+    inputTokens: integer("input_tokens"),
+    outputTokens: integer("output_tokens"),
+    cost: integer("cost"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

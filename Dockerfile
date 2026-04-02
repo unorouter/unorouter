@@ -25,6 +25,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 

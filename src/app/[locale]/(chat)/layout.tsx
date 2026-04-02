@@ -23,10 +23,16 @@ export default async function ChatLayout(props: Props) {
       queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
     isLoggedIn &&
-      queryClient.prefetchQuery({
+      queryClient.prefetchInfiniteQuery({
         queryKey: queryKeys.conversations(),
-        queryFn: async () =>
-          handleElysia(await rpc.api.chat.get(cookieHeaders!)),
+        queryFn: async ({ pageParam }) =>
+          handleElysia(
+            await rpc.api.chat.get({
+              query: { p: pageParam, page_size: 20 },
+              ...cookieHeaders!,
+            }),
+          ),
+        initialPageParam: 1,
       }),
     isLoggedIn &&
       queryClient.prefetchQuery({

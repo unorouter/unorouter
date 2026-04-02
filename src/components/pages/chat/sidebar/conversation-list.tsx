@@ -4,42 +4,66 @@ import { Input } from "@/components/ui/input";
 import {
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  useConversationsQuery,
+  useConversationsInfiniteQuery,
   useDeleteConversationMutation,
 } from "@/hooks/chat-hook";
 import { selectedConversationAtom } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
-import { LuSearch } from "react-icons/lu";
+import { useEffect, useRef, useState } from "react";
+import { LuLoader, LuSearch } from "react-icons/lu";
 import { ConversationItem } from "./conversation-item";
 
 export function ConversationList() {
   const t = useTranslations();
   const [selectedId, setSelectedId] = useAtom(selectedConversationAtom);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
-  const conversationsQuery = useConversationsQuery();
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search.trim()), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const conversationsQuery = useConversationsInfiniteQuery(
+    debouncedSearch || undefined,
+  );
   const deleteMutation = useDeleteConversationMutation();
 
-  const conversations = conversationsQuery.data?.items ?? [];
-  const filtered = search
-    ? conversations.filter(
-        (c) =>
-          c.title?.toLowerCase().includes(search.toLowerCase()) ||
-          c.model.toLowerCase().includes(search.toLowerCase()),
-      )
-    : conversations;
+  const conversations =
+    conversationsQuery.data?.pages.flatMap((p) => p.items) ?? [];
+
+  // Infinite scroll via IntersectionObserver
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (
+          entries[0]?.isIntersecting &&
+          conversationsQuery.hasNextPage &&
+          !conversationsQuery.isFetchingNextPage
+        ) {
+          conversationsQuery.fetchNextPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [
+    conversationsQuery.hasNextPage,
+    conversationsQuery.isFetchingNextPage,
+    conversationsQuery.fetchNextPage,
+  ]);
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="px-0">{t("NAV.CHAT")}</SidebarGroupLabel>
       <SidebarGroupContent>
         <div className="relative">
           <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2" />
@@ -50,38 +74,46 @@ export function ConversationList() {
             className="h-8 pl-9 text-xs"
           />
         </div>
-        <SidebarMenu className="mt-2">
+        <div className="mt-2 flex flex-col gap-1">
           {conversationsQuery.isLoading ? (
             Array.from({ length: 5 }).map((_, i) => (
-              <SidebarMenuItem key={i}>
-                <Skeleton className="mx-2 h-12 rounded-md" />
-              </SidebarMenuItem>
+              <div key={i} className="flex h-9 items-center px-3">
+                <Skeleton className="h-4 w-full" />
+              </div>
             ))
-          ) : filtered.length === 0 ? (
+          ) : conversations.length === 0 ? (
             <div className="text-muted-foreground p-4 text-center text-xs">
               {search ? t("CHAT.NO_RESULTS") : t("CHAT.NO_CONVERSATIONS")}
             </div>
           ) : (
-            filtered.map((conv) => (
-              <ConversationItem
-                key={conv.id}
-                conversation={conv}
-                isSelected={conv.id === selectedId}
-                onSelect={() => setSelectedId(conv.id)}
-                onDelete={() => {
-                  deleteMutation.mutate(
-                    { id: conv.id },
-                    {
-                      onSuccess: () => {
-                        if (selectedId === conv.id) setSelectedId(null);
+            <>
+              {conversations.map((conv) => (
+                <ConversationItem
+                  key={conv.id}
+                  conversation={conv}
+                  isSelected={conv.id === selectedId}
+                  onSelect={() => setSelectedId(conv.id)}
+                  onDelete={() => {
+                    deleteMutation.mutate(
+                      { id: conv.id },
+                      {
+                        onSuccess: () => {
+                          if (selectedId === conv.id) setSelectedId(null);
+                        },
                       },
-                    },
-                  );
-                }}
-              />
-            ))
+                    );
+                  }}
+                />
+              ))}
+              <div ref={sentinelRef} className="h-1" />
+              {conversationsQuery.isFetchingNextPage && (
+                <div className="flex items-center justify-center py-2">
+                  <LuLoader className="text-muted-foreground h-4 w-4 animate-spin" />
+                </div>
+              )}
+            </>
           )}
-        </SidebarMenu>
+        </div>
       </SidebarGroupContent>
     </SidebarGroup>
   );

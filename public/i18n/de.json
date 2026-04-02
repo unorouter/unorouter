@@ -1258,7 +1258,9 @@
     "DELETE_CONFIRM": "Bist du sicher, dass du diese Unterhaltung löschen möchtest?",
     "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",
     "NEEDS_TOKEN_DESC": "Erstelle einen API-Schlüssel, um mit KI-Modellen zu chatten.",
-    "LOGIN_REQUIRED_DESC": "Melde dich an, um mit KI-Modellen zu chatten."
+    "LOGIN_REQUIRED_DESC": "Melde dich an, um mit KI-Modellen zu chatten.",
+    "RENAME": "Umbenennen",
+    "DELETE": "Löschen"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Nicht autorisiert",

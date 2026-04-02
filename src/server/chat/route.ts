@@ -8,8 +8,8 @@ import {
 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
-import { paginationQuery } from "@/lib/typebox/common";
 import {
+  chatSearchQuery,
   createConversationBody,
   imageGenerationBody,
   mediaUploadBody,
@@ -18,9 +18,10 @@ import {
   updateConversationBody,
   videoGenerationBody,
 } from "@/lib/validation/chat";
+import { getUserLogs } from "@/openapi";
 import { getApiKey, getProvider, getUserId } from "@/server/constants";
 import { convertToModelMessages, generateImage, streamText } from "ai";
-import { and, desc, eq, sql } from "drizzle-orm";
+import { and, desc, eq, like, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { nanoid } from "nanoid";
 
@@ -35,6 +36,13 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const page = query.p ?? 1;
       const pageSize = query.page_size ?? 20;
       const offset = (page - 1) * pageSize;
+      const keyword = query.keyword?.trim();
+
+      const conditions = [eq(conversations.userId, userId)];
+      if (keyword) {
+        conditions.push(like(conversations.title, `%${keyword}%`));
+      }
+      const where = and(...conditions);
 
       const [items, countResult] = await Promise.all([
         db
@@ -43,18 +51,19 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
             title: conversations.title,
             model: conversations.model,
             shareId: conversations.shareId,
+            totalCost: conversations.totalCost,
             createdAt: conversations.createdAt,
             updatedAt: conversations.updatedAt,
           })
           .from(conversations)
-          .where(eq(conversations.userId, userId))
+          .where(where)
           .orderBy(desc(conversations.updatedAt))
           .limit(pageSize)
           .offset(offset),
         db
           .select({ count: sql<number>`count(*)` })
           .from(conversations)
-          .where(eq(conversations.userId, userId)),
+          .where(where),
       ]);
 
       return {
@@ -67,7 +76,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         },
       };
     },
-    { query: paginationQuery },
+    { query: chatSearchQuery },
   )
 
   // Create a new conversation
@@ -282,13 +291,68 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   // Stream text via AI SDK
   .post(
     "/stream",
-    async ({ body, cookie }) => {
+    async ({ body, cookie, request }) => {
       const apiKey = getApiKey(cookie);
       const provider = getProvider(apiKey);
+      const cookieHeader = request.headers.get("cookie") ?? "";
 
       const result = streamText({
         model: provider.chatModel(body.model),
         messages: await convertToModelMessages(body.messages),
+        onFinish: async ({ usage, response }) => {
+          if (!body.convId) return;
+          const db = getDb();
+          const reqId =
+            response.headers?.["x-oneapi-request-id"] ?? undefined;
+          const inputTokens = usage.inputTokens ?? 0;
+          const outputTokens = usage.outputTokens ?? 0;
+
+          // Query new-api logs for exact cost
+          let cost = 0;
+          if (reqId) {
+            try {
+              const logRes = await getUserLogs(
+                { request_id: reqId, page_size: 1 },
+                { headers: { cookie: cookieHeader } },
+              );
+              cost =
+                (logRes.data as { data?: { items?: { quota?: number }[] } })
+                  ?.data?.items?.[0]?.quota ?? 0;
+            } catch {
+              // Log lookup failed, store tokens without cost
+            }
+          }
+
+          // Update last assistant message with usage data
+          const lastMsg = await db
+            .select({ id: messages.id })
+            .from(messages)
+            .where(
+              and(
+                eq(messages.convId, body.convId),
+                eq(messages.role, "assistant"),
+              ),
+            )
+            .orderBy(desc(messages.createdAt))
+            .limit(1);
+
+          if (lastMsg[0]) {
+            await db
+              .update(messages)
+              .set({ requestId: reqId, inputTokens, outputTokens, cost })
+              .where(eq(messages.id, lastMsg[0].id));
+          }
+
+          // Increment conversation totals
+          await db
+            .update(conversations)
+            .set({
+              totalInputTokens: sql`${conversations.totalInputTokens} + ${inputTokens}`,
+              totalOutputTokens: sql`${conversations.totalOutputTokens} + ${outputTokens}`,
+              totalCost: sql`${conversations.totalCost} + ${cost}`,
+            })
+            .where(eq(conversations.id, body.convId));
+        },
       });
 
       return result.toUIMessageStreamResponse();

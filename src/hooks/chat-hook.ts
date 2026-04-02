@@ -5,23 +5,38 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
 
 const chatRoute = rpc.api.chat;
 type ChatRouteReturn = ReturnType<typeof chatRoute>;
 
-// Static chatRoute.get() = list, parameterized chatRoute({ id }).get() = single
 type ConversationsData = EdenResponse<{ get: typeof chatRoute.get }, "get">;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<typeof chatRoute, "get">;
 
-export function useConversationsQuery() {
+const PAGE_SIZE = 20;
+
+export function useConversationsInfiniteQuery(keyword?: string) {
   const authQuery = useAuthQuery();
-  return useQuery({
-    queryKey: queryKeys.conversations(),
-    queryFn: async () => handleElysia(await chatRoute.get()),
+  return useInfiniteQuery({
+    queryKey: queryKeys.conversations(keyword),
+    queryFn: async ({ pageParam }) =>
+      handleElysia(
+        await chatRoute.get({
+          query: { p: pageParam, page_size: PAGE_SIZE, keyword },
+        }),
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
     enabled: !!authQuery.data,
   });
 }
@@ -53,19 +68,30 @@ export function useCreateConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       const now = new Date();
-      queryClient.setQueryData<ConversationsData>(
+      queryClient.setQueryData<InfiniteData<ConversationsData>>(
         queryKeys.conversations(),
-        (old) =>
-          old
-            ? {
-                ...old,
-                total: old.items.length + 1,
-                items: [
-                  { ...data, shareId: null, createdAt: now, updatedAt: now },
-                  ...old.items,
-                ],
-              }
-            : old,
+        (old) => {
+          if (!old) return old;
+          const newItem = {
+            ...data,
+            shareId: null,
+            totalCost: 0,
+            createdAt: now,
+            updatedAt: now,
+          };
+          const firstPage = old.pages[0];
+          return {
+            ...old,
+            pages: [
+              {
+                ...firstPage,
+                total: firstPage.total + 1,
+                items: [newItem, ...firstPage.items],
+              },
+              ...old.pages.slice(1),
+            ],
+          };
+        },
       );
     },
   });
@@ -80,17 +106,20 @@ export function useUpdateConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       const id = String(args.id);
-      queryClient.setQueryData<ConversationsData>(
+      queryClient.setQueryData<InfiniteData<ConversationsData>>(
         queryKeys.conversations(),
-        (old) =>
-          old
-            ? {
-                ...old,
-                items: old.items.map((item) =>
-                  item.id === id ? { ...item, title: data.title } : item,
-                ),
-              }
-            : old,
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              items: page.items.map((item) =>
+                item.id === id ? { ...item, title: data.title } : item,
+              ),
+            })),
+          };
+        },
       );
       queryClient.setQueryData<ConversationData>(
         queryKeys.conversation(id),
@@ -109,16 +138,19 @@ export function useDeleteConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       const id = String(args.id);
-      queryClient.setQueryData<ConversationsData>(
+      queryClient.setQueryData<InfiniteData<ConversationsData>>(
         queryKeys.conversations(),
-        (old) =>
-          old
-            ? {
-                ...old,
-                total: old.total - 1,
-                items: old.items.filter((item) => item.id !== id),
-              }
-            : old,
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              total: page.total - 1,
+              items: page.items.filter((item) => item.id !== id),
+            })),
+          };
+        },
       );
     },
   });
