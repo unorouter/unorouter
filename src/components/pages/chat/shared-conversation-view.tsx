@@ -18,7 +18,6 @@ export function SharedConversationView(props: SharedConversationViewProps) {
   const query = useSharedConversationQuery(props.shareId);
 
   if (!query.data) {
-    if (query.isLoading) return null;
     return (
       <div className="flex flex-1 flex-col items-center justify-center py-20">
         <p className="text-muted-foreground">{t("CHAT.SHARED_NOT_FOUND")}</p>
@@ -26,9 +25,7 @@ export function SharedConversationView(props: SharedConversationViewProps) {
     );
   }
 
-  const messages = mapRawMessages(
-    query.data.messages as { id: string; role: string; parts: unknown }[],
-  );
+  const messages = mapRawMessages(query.data.messages);
 
   return <SharedThread messages={messages} />;
 }

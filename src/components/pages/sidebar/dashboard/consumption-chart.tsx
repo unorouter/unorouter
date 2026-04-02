@@ -28,6 +28,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { formatPrice } from "@/lib/utils/base";
 import { aggregateByModel, quotaToDollars, type QuotaDataItem } from "./stats";
 
 const CHART_COLORS = [
@@ -167,7 +168,7 @@ export function ConsumptionChart() {
         </div>
       ) : (
         <Tabs defaultValue="distribution" className="flex-1">
-          <div className="border-border overflow-x-auto border-b px-5 pt-2">
+          <div className="border-border overflow-hidden border-b px-5 pt-2">
             <TabsList variant="line" className="h-8">
               <TabsTrigger
                 value="distribution"
@@ -220,8 +221,14 @@ export function ConsumptionChart() {
                     axisLine={false}
                     fontSize={10}
                     fontFamily="monospace"
+                    allowDecimals
+                    tickFormatter={(v: number) => `$${v}`}
                   />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent valueFormatter={formatPrice} />
+                    }
+                  />
                   <ChartLegend content={<ChartLegendContent />} />
                   {distribution.modelList.map((model, i) => (
                     <Bar
@@ -254,8 +261,14 @@ export function ConsumptionChart() {
                     axisLine={false}
                     fontSize={10}
                     fontFamily="monospace"
+                    allowDecimals
+                    tickFormatter={(v: number) => `$${v}`}
                   />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartTooltip
+                    content={
+                      <ChartTooltipContent valueFormatter={formatPrice} />
+                    }
+                  />
                   <ChartLegend content={<ChartLegendContent />} />
                   <Line
                     type="monotone"
