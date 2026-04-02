@@ -18,6 +18,7 @@ export const queryKeys = {
     ["tokens", params] as const,
   token: (id: EdenArgs<typeof rpc.api.token, "get">["id"]) =>
     ["token", id] as const,
+  bestKey: () => ["best-key"] as const,
   userGroups: () => ["user-groups"] as const,
   userModels: () => ["user-models"] as const,
 

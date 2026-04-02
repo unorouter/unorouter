@@ -1,5 +1,4 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -16,11 +15,10 @@ export default async function DocsLayout(props: DocsLayoutProps) {
   const cookieHeaders = await setCookies();
 
   await queryClient.prefetchQuery({
-    queryKey: queryKeys.tokens(DOCS_TOKEN_PARAMS),
+    queryKey: queryKeys.bestKey(),
     queryFn: async () =>
       handleElysia(
-        await rpc.api.token.search.get({
-          query: DOCS_TOKEN_PARAMS,
+        await rpc.api.token["best-key"].get({
           ...cookieHeaders,
         }),
       ),

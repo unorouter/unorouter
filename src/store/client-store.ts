@@ -6,7 +6,6 @@ import { atomWithStorage } from "jotai/utils";
 export const CLIENT_STORE_KEY = "client-store";
 
 export type ClientState = {
-  apiKey: string | null;
   apiKeyRevealed: boolean;
   os: OS | undefined;
   selectedConversation: string | null;
@@ -14,7 +13,6 @@ export type ClientState = {
 };
 
 export const INITIAL_CLIENT_STATE: ClientState = {
-  apiKey: null,
   apiKeyRevealed: false,
   os: OS.WINDOWS,
   selectedConversation: null,
@@ -25,13 +23,6 @@ export const clientStoreAtom = atomWithStorage<ClientState>(
   CLIENT_STORE_KEY,
   INITIAL_CLIENT_STATE,
   jotaiCookieStorage,
-);
-
-export const apiKeyAtom = atom(
-  (get) => get(clientStoreAtom).apiKey,
-  (get, set, value: string | null) => {
-    set(clientStoreAtom, { ...get(clientStoreAtom), apiKey: value });
-  },
 );
 
 export const apiKeyRevealedAtom = atom(

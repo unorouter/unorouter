@@ -1,32 +1,22 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import {
-  useCreateTokenMutation,
-  useFetchTokenKeyMutation,
-  useTokensQuery,
-} from "@/hooks/token-hook";
-import { DOCS_TOKEN_PARAMS } from "@/lib/config/constants";
+import { useBestKeyQuery, useCreateTokenMutation } from "@/hooks/token-hook";
 import { OS } from "@/lib/types/enums";
-import { apiKeyAtom, osAtom } from "@/store/client-store";
+import { osAtom } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-
-// Shared across all useApiKey() instances to prevent duplicate key fetches
-let keyFetchState: "idle" | "fetching" | "done" = "idle";
 
 export function useApiKey() {
   const router = useRouter();
   const [os, setOs] = useAtom(osAtom);
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
-
-  const tokensQuery = useTokensQuery({ query: DOCS_TOKEN_PARAMS });
   const createMutation = useCreateTokenMutation();
-  const fetchKeyMutation = useFetchTokenKeyMutation();
 
-  const [apiKey, setApiKey] = useAtom(apiKeyAtom);
+  const bestKeyQuery = useBestKeyQuery();
+  const apiKey = bestKeyQuery.data ?? null;
 
   // Detect OS on mount
   useEffect(() => {
@@ -41,56 +31,7 @@ export function useApiKey() {
     }
   }, [os, setOs]);
 
-  const tokens = isLoggedIn ? tokensQuery.data?.items : undefined;
-  const isTokensLoaded = isLoggedIn && tokensQuery.isSuccess;
-
-  // Find a suitable token: enabled, unlimited quota, auto group, all models
-  const suitableToken = tokens?.find(
-    (tok) =>
-      tok &&
-      tok.status === 1 &&
-      tok.unlimited_quota &&
-      tok.group === "auto" &&
-      !tok.model_limits_enabled,
-  );
-
-  const fallbackToken =
-    suitableToken ?? tokens?.find((tok) => tok && tok.status === 1);
-
-  const targetToken = fallbackToken ?? null;
-  const targetTokenId = targetToken?.id ?? null;
-
-  // Whether user needs to create a token (logged in, tokens loaded, none found)
-  const needsToken = isLoggedIn && isTokensLoaded && !targetToken;
-
-  // Fetch key for existing token on initial load
-  useEffect(() => {
-    if (!isLoggedIn || !isTokensLoaded || !targetTokenId) {
-      if (apiKey) setApiKey(null);
-      keyFetchState = "idle";
-      return;
-    }
-
-    if (keyFetchState !== "idle") return;
-    if (apiKey) {
-      keyFetchState = "done";
-      return;
-    }
-
-    keyFetchState = "fetching";
-    fetchKeyMutation.mutate(
-      { id: targetTokenId },
-      {
-        onSuccess: (data) => {
-          setApiKey(`sk-${data.key}`);
-          keyFetchState = "done";
-        },
-        onError: () => {
-          keyFetchState = "done";
-        },
-      },
-    );
-  }, [isLoggedIn, isTokensLoaded, targetTokenId, apiKey]);
+  const needsToken = isLoggedIn && bestKeyQuery.isSuccess && !apiKey;
 
   function createToken() {
     createMutation.mutate(
@@ -109,8 +50,7 @@ export function useApiKey() {
       },
       {
         onSuccess: () => {
-          keyFetchState = "idle";
-          setApiKey(null);
+          bestKeyQuery.refetch();
           router.refresh();
         },
       },
@@ -121,10 +61,7 @@ export function useApiKey() {
     os,
     setOs,
     apiKey,
-    isLoading:
-      fetchKeyMutation.isPending ||
-      tokensQuery.isLoading ||
-      createMutation.isPending,
+    isLoading: bestKeyQuery.isLoading || createMutation.isPending,
     needsToken,
     createToken,
     isLoggedIn,

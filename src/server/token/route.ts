@@ -86,6 +86,33 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     return res.data!;
   })
 
+  .get("/best-key", async ({ upstream }) => {
+    const res = await searchTokens(
+      { p: 1, page_size: 100 },
+      { headers: upstream.headers },
+    );
+    const tokens = res.data?.data?.items;
+    if (!tokens?.length) return { key: null };
+
+    // Find best token: enabled, unlimited quota, auto group, all models
+    const best =
+      tokens.find(
+        (tok) =>
+          tok &&
+          tok.status === 1 &&
+          tok.unlimited_quota &&
+          tok.group === "auto" &&
+          !tok.model_limits_enabled,
+      ) ?? tokens.find((tok) => tok && tok.status === 1);
+
+    if (!best) return { key: null };
+
+    const keyRes = await getTokenKey(String(best.id), {
+      headers: upstream.headers,
+    });
+    return keyRes.data?.data ?? { key: null };
+  })
+
   .delete("/:id", async ({ params, upstream }) => {
     const res = await deleteToken(params.id, { headers: upstream.headers });
     return res.data!;
