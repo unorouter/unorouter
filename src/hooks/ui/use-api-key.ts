@@ -3,8 +3,8 @@
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useBestKeyQuery, useCreateTokenMutation } from "@/hooks/token-hook";
 import { OS } from "@/lib/types/enums";
-import { osAtom } from "@/store/client-store";
-import { useAtom } from "jotai";
+import { apiKeyAtom, osAtom } from "@/store/client-store";
+import { useAtom, useSetAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -14,9 +14,15 @@ export function useApiKey() {
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const createMutation = useCreateTokenMutation();
+  const setApiKey = useSetAtom(apiKeyAtom);
 
   const bestKeyQuery = useBestKeyQuery();
   const apiKey = bestKeyQuery.data ?? null;
+
+  // Sync API key into cookie store so server routes can read it
+  useEffect(() => {
+    setApiKey(apiKey);
+  }, [apiKey, setApiKey]);
 
   // Detect OS on mount
   useEffect(() => {
