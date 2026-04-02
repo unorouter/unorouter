@@ -19,7 +19,6 @@ import {
 } from "@/store/client-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 import { LuLogIn, LuPlus } from "react-icons/lu";
 
 interface SidebarHeaderProps {
@@ -61,9 +60,6 @@ function ChatControls() {
 
 export function SidebarHeader(props: SidebarHeaderProps) {
   const userDisplay = useUserDisplay();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-
   return (
     <header className="bg-background sticky top-0 z-20 flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
       <div className="flex h-full w-full items-center gap-1.5 px-2 sm:gap-2 sm:px-4">
@@ -81,8 +77,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
         <div className="ml-auto flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />
-          {mounted &&
-            (userDisplay.user ? (
+          {userDisplay.user ? (
               <UserDropdown side="bottom" align="end">
                 <button className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors">
                   <UserAvatar />
@@ -95,7 +90,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
               >
                 <LuLogIn className="size-5" />
               </Link>
-            ))}
+            )}
         </div>
       </div>
     </header>
