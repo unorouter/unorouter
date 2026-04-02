@@ -112,6 +112,14 @@ export function ModelCard(props: {
               <span className="text-muted-foreground font-mono text-[10px]">
                 {props.labels.perMillion}
               </span>
+              {model.originalInputPrice !== null &&
+                model.originalOutputPrice !== null && (
+                  <span className="text-muted-foreground/50 w-full font-mono text-[10px] line-through">
+                    {formatPrice(model.originalInputPrice)}/
+                    {formatPrice(model.originalOutputPrice)}
+                    {" "}{props.labels.perMillion}
+                  </span>
+                )}
             </>
           )}
           {model.gridPricing && (

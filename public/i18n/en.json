@@ -182,7 +182,8 @@
     "SORT_PRICE_ASC": "Price (Low)",
     "SORT_PRICE_DESC": "Price (High)",
     "VIEW_GRID": "Grid view",
-    "VIEW_LIST": "List view"
+    "VIEW_LIST": "List view",
+    "PRICE_ORIGINAL": "Original price"
   },
   "PRICING": {
     "META": {

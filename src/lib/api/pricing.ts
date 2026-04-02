@@ -24,6 +24,7 @@ function processModels(response: PricingData) {
   const vendors = response.vendors ?? [];
   const data = response.data ?? [];
   const groupRatio = response.group_ratio ?? {};
+  const showOriginalPrice = response.show_original_price ?? false;
 
   const vendorMap = new Map(vendors.map((v) => [v.id, v]));
 
@@ -43,6 +44,8 @@ function processModels(response: PricingData) {
       let inputPrice = 0;
       let outputPrice = 0;
       let fixedPrice = 0;
+      let originalInputPrice: number | null = null;
+      let originalOutputPrice: number | null = null;
 
       if (isFixedPrice) {
         fixedPrice = model.model_price ?? 0;
@@ -59,6 +62,13 @@ function processModels(response: PricingData) {
         }
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
+
+        // Original price (groupRatio=1) for strikethrough display when discounted
+        if (showOriginalPrice && minRatio < 1) {
+          originalInputPrice = (model.model_ratio ?? 0) * 2;
+          originalOutputPrice =
+            originalInputPrice * (model.completion_ratio ?? 0);
+        }
       }
 
       const rawGrid = model.grid_pricing as GridPricingRow[] | null | undefined;
@@ -84,6 +94,8 @@ function processModels(response: PricingData) {
         modelRatio: model.model_ratio ?? 0,
         completionRatio: model.completion_ratio ?? 0,
         enableGroups: model.enable_groups ?? [],
+        originalInputPrice,
+        originalOutputPrice,
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));

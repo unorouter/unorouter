@@ -182,7 +182,8 @@
     "SORT_PRICE_ASC": "Preis (aufsteigend)",
     "SORT_PRICE_DESC": "Preis (absteigend)",
     "VIEW_GRID": "Rasteransicht",
-    "VIEW_LIST": "Listenansicht"
+    "VIEW_LIST": "Listenansicht",
+    "PRICE_ORIGINAL": "Originalpreis"
   },
   "PRICING": {
     "META": {

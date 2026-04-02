@@ -128,33 +128,47 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                   </span>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                      {t("MODELS.PRICE_INPUT")}
-                    </span>
-                    <div
-                      className={cn("font-mono text-lg font-bold", theme.text)}
-                    >
-                      {formatPrice(model.inputPrice)}
+                <div className="space-y-2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                        {t("MODELS.PRICE_INPUT")}
+                      </span>
+                      <div
+                        className={cn(
+                          "font-mono text-lg font-bold",
+                          theme.text,
+                        )}
+                      >
+                        {formatPrice(model.inputPrice)}
+                      </div>
+                      <span className="text-muted-foreground font-mono text-[10px]">
+                        {t("MODELS.PRICE_PER_MILLION")}
+                      </span>
                     </div>
-                    <span className="text-muted-foreground font-mono text-[10px]">
-                      {t("MODELS.PRICE_PER_MILLION")}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                      {t("MODELS.PRICE_OUTPUT")}
-                    </span>
-                    <div
-                      className={cn("font-mono text-lg font-bold", theme.text)}
-                    >
-                      {formatPrice(model.outputPrice)}
+                    <div>
+                      <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                        {t("MODELS.PRICE_OUTPUT")}
+                      </span>
+                      <div
+                        className={cn(
+                          "font-mono text-lg font-bold",
+                          theme.text,
+                        )}
+                      >
+                        {formatPrice(model.outputPrice)}
+                      </div>
+                      <span className="text-muted-foreground font-mono text-[10px]">
+                        {t("MODELS.PRICE_PER_MILLION")}
+                      </span>
                     </div>
-                    <span className="text-muted-foreground font-mono text-[10px]">
-                      {t("MODELS.PRICE_PER_MILLION")}
-                    </span>
                   </div>
+                  {model.originalInputPrice !== null &&
+                    model.originalOutputPrice !== null && (
+                      <div className="text-muted-foreground/50 font-mono text-xs line-through">
+                        {t("MODELS.PRICE_ORIGINAL")}: {formatPrice(model.originalInputPrice)}/{formatPrice(model.originalOutputPrice)} {t("MODELS.PRICE_PER_MILLION")}
+                      </div>
+                    )}
                 </div>
               )}
             </div>
