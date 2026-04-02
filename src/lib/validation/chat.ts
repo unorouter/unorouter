@@ -28,7 +28,7 @@ export const chatSearchQuery = t.Object({
 export const streamBody = t.Object({
   model: t.String(),
   messages: t.Any(),
-  convId: t.Optional(t.String()),
+  convId: t.Optional(t.Union([t.String(), t.Null()])),
 });
 
 
