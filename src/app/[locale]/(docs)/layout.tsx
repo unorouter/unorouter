@@ -4,6 +4,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
+import { getIsLoggedIn } from "@/store/auth-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 interface DocsLayoutProps {
@@ -12,17 +13,19 @@ interface DocsLayoutProps {
 
 export default async function DocsLayout(props: DocsLayoutProps) {
   const queryClient = getQueryClient();
-  const cookieHeaders = await setCookies();
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.bestKey(),
-    queryFn: async () =>
-      handleElysia(
-        await rpc.api.token["best-key"].get({
-          ...cookieHeaders,
-        }),
-      ),
-  });
+  if (getIsLoggedIn()) {
+    const cookieHeaders = await setCookies();
+    await queryClient.prefetchQuery({
+      queryKey: queryKeys.bestKey(),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.token["best-key"].get({
+            ...cookieHeaders,
+          }),
+        ),
+    });
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
