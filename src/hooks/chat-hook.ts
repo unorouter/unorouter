@@ -195,11 +195,31 @@ export function useRevokeShareMutation() {
 
 export function usePersistMessagesMutation() {
   const t = useTranslations();
+  const queryClient = useQueryClient();
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (
       args: ChatParams & EdenArgs<ChatRouteReturn["messages"], "post">,
     ) =>
       handleElysia(await chatRoute({ id: args.id }).messages.post(args.body)),
+    onSuccess: (data, args) => {
+      if (!data.title) return;
+      const id = String(args.id);
+      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+        queryKeys.conversations(),
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              items: page.items.map((item) =>
+                item.id === id ? { ...item, title: data.title ?? null } : item,
+              ),
+            })),
+          };
+        },
+      );
+    },
   });
 }

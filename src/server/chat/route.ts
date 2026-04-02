@@ -286,7 +286,10 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       return {
         success: true,
-        data: { ids: toInsert.map((m) => m.id) },
+        data: {
+          ids: toInsert.map((m) => m.id),
+          title: updates.title as string | undefined,
+        },
       };
     },
     { body: persistMessagesBody },
