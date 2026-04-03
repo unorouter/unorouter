@@ -5,7 +5,6 @@ import {
   SidebarGroup,
   SidebarGroupContent,
 } from "@/components/ui/sidebar";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   useConversationsInfiniteQuery,
   useDeleteConversationMutation,
@@ -75,13 +74,7 @@ export function ConversationList() {
           />
         </div>
         <div className="mt-2 flex flex-col gap-1">
-          {conversationsQuery.isLoading ? (
-            Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex h-9 items-center px-3">
-                <Skeleton className="h-4 w-full" />
-              </div>
-            ))
-          ) : conversations.length === 0 ? (
+          {conversations.length === 0 ? (
             <div className="text-muted-foreground p-4 text-center text-xs">
               {search ? t("CHAT.NO_RESULTS") : t("CHAT.NO_CONVERSATIONS")}
             </div>
@@ -93,16 +86,10 @@ export function ConversationList() {
                   conversation={conv}
                   isSelected={conv.id === activeThreadId}
                   onSelect={() => aui.threads().switchToThread(conv.id)}
-                  onDelete={() => {
-                    deleteMutation.mutate(
-                      { id: conv.id },
-                      {
-                        onSuccess: () => {
-                          if (activeThreadId === conv.id)
-                            aui.threads().switchToNewThread();
-                        },
-                      },
-                    );
+                  onDelete={async () => {
+                    await deleteMutation.mutateAsync({ id: conv.id });
+                    if (activeThreadId === conv.id)
+                      aui.threads().switchToNewThread();
                   }}
                 />
               ))}

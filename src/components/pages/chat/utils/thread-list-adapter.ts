@@ -15,13 +15,20 @@ export function createThreadListAdapter(
 ): RemoteThreadListAdapter {
   return {
     async list() {
-      const data = handleElysia(
-        await rpc.api.chat.get({ query: { p: 1, page_size: 100 } }),
+      // Use SSR-prefetched data from React Query cache when available
+      const cached = queryClient.getQueryData<InfiniteData<ConversationsData>>(
+        queryKeys.conversations(),
       );
+      const items = cached
+        ? cached.pages.flatMap((p) => p.items)
+        : handleElysia(
+            await rpc.api.chat.get({ query: { p: 1, page_size: 100 } }),
+          ).items;
+
       return {
-        threads: data.items.map((item) => ({
+        threads: items.map((item) => ({
           remoteId: item.id,
-          status: "regular",
+          status: "regular" as const,
           title: item.title ?? undefined,
         })),
       };

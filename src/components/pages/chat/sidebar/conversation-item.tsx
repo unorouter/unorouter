@@ -69,10 +69,6 @@ export function ConversationItem(props: ConversationItemProps) {
     setIsEditing(false);
   }
 
-  function cancelEdit() {
-    setIsEditing(false);
-  }
-
   return (
     <div
       role="button"
@@ -98,7 +94,7 @@ export function ConversationItem(props: ConversationItemProps) {
             onKeyDown={(e) => {
               e.stopPropagation();
               if (e.key === "Enter") saveEdit();
-              if (e.key === "Escape") cancelEdit();
+              if (e.key === "Escape") setIsEditing(false);
             }}
             className="bg-background border-border ring-ring min-w-0 flex-1 rounded border px-1.5 py-0.5 text-sm outline-none focus:ring-1"
           />
@@ -112,7 +108,7 @@ export function ConversationItem(props: ConversationItemProps) {
           <button
             type="button"
             className="text-muted-foreground hover:text-foreground flex size-6 items-center justify-center rounded-md"
-            onClick={cancelEdit}
+            onClick={() => setIsEditing(false)}
           >
             <LuX className="size-3.5" />
           </button>
