@@ -37,16 +37,23 @@ import {
   SquareIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { createContext, type FC, useContext } from "react";
+import { createContext, type FC, type UIEvent, useContext } from "react";
 import { LuMessageCircle } from "react-icons/lu";
 
 const ReadOnlyContext = createContext(false);
 
 type ThreadProps = {
   readOnly?: boolean;
+  onScrollTop?: () => void;
 };
 
 export const Thread: FC<ThreadProps> = (props) => {
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    if (e.currentTarget.scrollTop < 200) {
+      props.onScrollTop?.();
+    }
+  };
+
   return (
     <ReadOnlyContext.Provider value={!!props.readOnly}>
       <ThreadPrimitive.Root
@@ -59,6 +66,7 @@ export const Thread: FC<ThreadProps> = (props) => {
       >
         <ThreadPrimitive.Viewport
           autoScroll
+          onScroll={handleScroll}
           className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
         >
           <AuiIf condition={(s) => s.thread.isEmpty}>
@@ -90,10 +98,11 @@ const ThreadMessage: FC = () => {
 };
 
 const ThreadScrollToBottom: FC = () => {
+  const t = useTranslations();
   return (
     <ThreadPrimitive.ScrollToBottom asChild>
       <TooltipIconButton
-        tooltip="Scroll to bottom"
+        tooltip={t("CHAT.SCROLL_TO_BOTTOM")}
         variant="outline"
         className="aui-thread-scroll-to-bottom absolute -top-12 z-10 self-center rounded-full p-4 disabled:invisible dark:border-border dark:bg-background dark:hover:bg-accent"
       >
@@ -168,7 +177,7 @@ const Composer: FC = () => {
             className="aui-composer-input max-h-32 min-h-10 w-full resize-none bg-transparent px-1.75 py-1 text-sm outline-none placeholder:text-muted-foreground/80"
             rows={1}
             autoFocus
-            aria-label="Message input"
+            aria-label={t("CHAT.MESSAGE_INPUT")}
           />
           <ComposerAction />
         </div>
@@ -181,17 +190,18 @@ const Composer: FC = () => {
 };
 
 const ComposerAction: FC = () => {
+  const t = useTranslations();
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
       <ComposerAddAttachment />
       <AuiIf condition={(s) => !s.thread.isRunning}>
         <ComposerPrimitive.Send asChild>
           <TooltipIconButton
-            tooltip="Send message"
+            tooltip={t("CHAT.SEND_MESSAGE")}
             side="bottom"
             variant="default"
             className="aui-composer-send size-8 rounded-full"
-            aria-label="Send message"
+            aria-label={t("CHAT.SEND_MESSAGE")}
           >
             <ArrowUpIcon className="aui-composer-send-icon size-4" />
           </TooltipIconButton>
@@ -204,7 +214,7 @@ const ComposerAction: FC = () => {
             variant="default"
             size="icon"
             className="aui-composer-cancel size-8 rounded-full"
-            aria-label="Stop generating"
+            aria-label={t("CHAT.STOP_GENERATING")}
           >
             <SquareIcon className="aui-composer-cancel-icon size-3 fill-current" />
           </Button>
@@ -269,6 +279,7 @@ const AssistantMessage: FC = () => {
 };
 
 const AssistantActionBar: FC = () => {
+  const t = useTranslations();
   const readOnly = useContext(ReadOnlyContext);
   return (
     <ActionBarPrimitive.Root
@@ -277,7 +288,7 @@ const AssistantActionBar: FC = () => {
       className="aui-assistant-action-bar-root col-start-3 row-start-2 -ml-1 flex gap-1 text-muted-foreground"
     >
       <ActionBarPrimitive.Copy asChild>
-        <TooltipIconButton tooltip="Copy">
+        <TooltipIconButton tooltip={t("CHAT.COPY")}>
           <AuiIf condition={(s) => s.message.isCopied}>
             <CheckIcon />
           </AuiIf>
@@ -288,7 +299,7 @@ const AssistantActionBar: FC = () => {
       </ActionBarPrimitive.Copy>
       {!readOnly && (
         <ActionBarPrimitive.Reload asChild>
-          <TooltipIconButton tooltip="Refresh">
+          <TooltipIconButton tooltip={t("CHAT.REFRESH")}>
             <RefreshCwIcon />
           </TooltipIconButton>
         </ActionBarPrimitive.Reload>
@@ -320,6 +331,7 @@ const UserMessage: FC = () => {
 };
 
 const UserActionBar: FC = () => {
+  const t = useTranslations();
   const readOnly = useContext(ReadOnlyContext);
   if (readOnly) return null;
   return (
@@ -329,7 +341,7 @@ const UserActionBar: FC = () => {
       className="aui-user-action-bar-root flex flex-col items-end"
     >
       <ActionBarPrimitive.Edit asChild>
-        <TooltipIconButton tooltip="Edit" className="aui-user-action-edit p-4">
+        <TooltipIconButton tooltip={t("CHAT.EDIT")} className="aui-user-action-edit p-4">
           <PencilIcon />
         </TooltipIconButton>
       </ActionBarPrimitive.Edit>
@@ -338,6 +350,7 @@ const UserActionBar: FC = () => {
 };
 
 const EditComposer: FC = () => {
+  const t = useTranslations();
   return (
     <MessagePrimitive.Root className="aui-edit-composer-wrapper mx-auto flex w-full max-w-(--thread-max-width) flex-col px-2 py-3">
       <ComposerPrimitive.Root className="aui-edit-composer-root ml-auto flex w-full max-w-[85%] flex-col rounded-2xl bg-muted">
@@ -348,11 +361,11 @@ const EditComposer: FC = () => {
         <div className="aui-edit-composer-footer mx-3 mb-3 flex items-center gap-2 self-end">
           <ComposerPrimitive.Cancel asChild>
             <Button variant="ghost" size="sm">
-              Cancel
+              {t("CHAT.CANCEL")}
             </Button>
           </ComposerPrimitive.Cancel>
           <ComposerPrimitive.Send asChild>
-            <Button size="sm">Update</Button>
+            <Button size="sm">{t("CHAT.UPDATE")}</Button>
           </ComposerPrimitive.Send>
         </div>
       </ComposerPrimitive.Root>
@@ -364,6 +377,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
   className,
   ...rest
 }) => {
+  const t = useTranslations();
   return (
     <BranchPickerPrimitive.Root
       hideWhenSingleBranch
@@ -374,7 +388,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
       {...rest}
     >
       <BranchPickerPrimitive.Previous asChild>
-        <TooltipIconButton tooltip="Previous">
+        <TooltipIconButton tooltip={t("CHAT.PREVIOUS")}>
           <ChevronLeftIcon />
         </TooltipIconButton>
       </BranchPickerPrimitive.Previous>
@@ -382,7 +396,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
         <BranchPickerPrimitive.Number /> / <BranchPickerPrimitive.Count />
       </span>
       <BranchPickerPrimitive.Next asChild>
-        <TooltipIconButton tooltip="Next">
+        <TooltipIconButton tooltip={t("CHAT.NEXT")}>
           <ChevronRightIcon />
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>

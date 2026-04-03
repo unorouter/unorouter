@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import {
   useScrollLock,
@@ -15,6 +15,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const ANIMATION_DURATION = 200;
 
@@ -37,18 +38,15 @@ function ReasoningRoot({
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
 
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        lockScroll();
-      }
-      if (!isControlled) {
-        setUncontrolledOpen(open);
-      }
-      controlledOnOpenChange?.(open);
-    },
-    [lockScroll, isControlled, controlledOnOpenChange],
-  );
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      lockScroll();
+    }
+    if (!isControlled) {
+      setUncontrolledOpen(open);
+    }
+    controlledOnOpenChange?.(open);
+  };
 
   return (
     <Collapsible
@@ -79,6 +77,7 @@ function ReasoningTrigger({
 }: React.ComponentProps<typeof CollapsibleTrigger> & {
   active?: boolean;
 }) {
+  const t = useTranslations();
   return (
     <CollapsibleTrigger
       data-slot="reasoning-trigger"
@@ -99,14 +98,14 @@ function ReasoningTrigger({
         data-slot="reasoning-trigger-label"
         className="aui-reasoning-trigger-label-wrapper relative inline-block leading-none"
       >
-        <span>Thinking</span>
+        <span>{t("CHAT.THINKING")}</span>
         {active ? (
           <span
             aria-hidden
             data-slot="reasoning-trigger-shimmer"
             className="aui-reasoning-trigger-shimmer shimmer pointer-events-none absolute inset-0 motion-reduce:animate-none"
           >
-            Thinking
+            {t("CHAT.THINKING")}
           </span>
         ) : null}
       </span>
@@ -152,9 +151,9 @@ function ReasoningContent({
   );
 }
 
-const ReasoningImpl: ReasoningMessagePartComponent = () => <MarkdownText />;
+const Reasoning: ReasoningMessagePartComponent = () => <MarkdownText />;
 
-const ReasoningGroupImpl: ReasoningGroupComponent = ({
+const ReasoningGroup: ReasoningGroupComponent = ({
   children,
   startIndex,
   endIndex,
@@ -177,13 +176,5 @@ const ReasoningGroupImpl: ReasoningGroupComponent = ({
     </ReasoningRoot>
   );
 };
-
-const Reasoning = memo(
-  ReasoningImpl,
-) as unknown as ReasoningMessagePartComponent;
-Reasoning.displayName = "Reasoning";
-
-const ReasoningGroup = memo(ReasoningGroupImpl);
-ReasoningGroup.displayName = "ReasoningGroup";
 
 export { Reasoning, ReasoningGroup };

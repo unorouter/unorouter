@@ -9,12 +9,13 @@ import {
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
 import remarkGfm from "remark-gfm";
-import { type FC, memo, useState } from "react";
+import { type FC, useState } from "react";
 import { CheckIcon, CopyIcon } from "lucide-react";
 
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { ShikiSyntaxHighlighter } from "@/components/assistant-ui/syntax-highlighter";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const MarkdownTextImpl = () => {
   return (
@@ -26,9 +27,10 @@ const MarkdownTextImpl = () => {
   );
 };
 
-export const MarkdownText = memo(MarkdownTextImpl);
+export const MarkdownText = MarkdownTextImpl;
 
 const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
+  const t = useTranslations();
   const { isCopied, copyToClipboard } = useCopyToClipboard();
   const onCopy = () => {
     if (!code || isCopied) return;
@@ -40,7 +42,7 @@ const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
       <span className="aui-code-header-language font-medium text-muted-foreground lowercase">
         {language}
       </span>
-      <TooltipIconButton tooltip="Copy" onClick={onCopy}>
+      <TooltipIconButton tooltip={t("CHAT.COPY")} onClick={onCopy}>
         {!isCopied && <CopyIcon />}
         {isCopied && <CheckIcon />}
       </TooltipIconButton>

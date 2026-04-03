@@ -8,6 +8,7 @@ import { useEffect, useRef } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
+import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { Button } from "../../ui/button";
 
 export function Chat(props: { initialConvId?: string }) {
@@ -27,6 +28,7 @@ export function Chat(props: { initialConvId?: string }) {
 
   // Keep URL in sync with active thread
   const threadId = useAuiState((s) => s.threadListItem.remoteId);
+  const messagesQuery = useMessagesInfiniteQuery(threadId);
   useEffect(() => {
     if (threadId) {
       router.replace({
@@ -97,7 +99,13 @@ export function Chat(props: { initialConvId?: string }) {
           <ShareButton convId={threadId} />
         </div>
       )}
-      <Thread />
+      <Thread
+        onScrollTop={() => {
+          if (messagesQuery.hasNextPage && !messagesQuery.isFetchingNextPage) {
+            messagesQuery.fetchNextPage();
+          }
+        }}
+      />
     </div>
   );
 }

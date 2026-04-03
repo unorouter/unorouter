@@ -4,7 +4,7 @@ import { ModelSelector } from "@/components/elements/chat/model-selector";
 import { Button } from "@/components/ui/button";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { useRouter } from "@/i18n/navigation";
-import { newChatModelAtom } from "@/store/client-store";
+import { chatModelAtom } from "@/store/chat-store";
 import { useAui } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -14,7 +14,7 @@ export function ChatControls() {
   const t = useTranslations();
   const router = useRouter();
   const userDisplay = useUserDisplay();
-  const [newChatModel, setNewChatModel] = useAtom(newChatModelAtom);
+  const [chatModel, setNewChatModel] = useAtom(chatModelAtom);
   const aui = useAui();
 
   const handleNewChat = () => {
@@ -28,7 +28,7 @@ export function ChatControls() {
   return (
     <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
       <div className="w-40 min-w-0 sm:w-48 lg:w-52">
-        <ModelSelector value={newChatModel} onChange={setNewChatModel} />
+        <ModelSelector value={chatModel} onChange={setNewChatModel} />
       </div>
       <Button
         size="sm"

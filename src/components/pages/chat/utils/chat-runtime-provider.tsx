@@ -10,8 +10,13 @@ import {
   useMessagesInfiniteQuery,
   usePersistMessagesMutation,
 } from "@/hooks/chat-hook";
+import type {
+  ChatRuntimeContext,
+  LoadedPagesState,
+  PersistMessage,
+} from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
-import { newChatModelAtom } from "@/store/client-store";
+import { chatModelAtom } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
   AssistantRuntimeProvider,
@@ -21,17 +26,23 @@ import {
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { DefaultChatTransport } from "ai";
 import { useAtomValue } from "jotai";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 
 function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
-  const model = useAtomValue(newChatModelAtom);
+  const model = useAtomValue(chatModelAtom);
 
   const persistMutation = usePersistMessagesMutation();
 
   // Mutable context for closures that outlive the render (onFinish, transport body, attachment adapter)
-  const ctx = useRef({ remoteId, model, msgId: "" });
+  const ctx = useRef<ChatRuntimeContext>({
+    remoteId,
+    model,
+    msgId: "",
+    pendingUserMessage: null,
+  });
   ctx.current.remoteId = remoteId;
   ctx.current.model = model;
 
@@ -53,43 +64,80 @@ function ChatRuntimeHook() {
     onFinish: ({ message }) => {
       const convId = ctx.current.remoteId;
       if (!convId) return;
-      persistMutation.mutate({
-        id: convId,
-        body: {
-          messages: [
-            {
-              id: message.id,
-              role: message.role,
-              parts: message.parts,
-            },
-          ],
-        },
+
+      // Persist pending user message (from new thread where remoteId wasn't available at send time)
+      const pending = ctx.current.pendingUserMessage;
+      const messages: PersistMessage[] = [];
+      if (pending) {
+        messages.push({ id: pending.id, role: "user", parts: pending.parts });
+        ctx.current.pendingUserMessage = null;
+      }
+      messages.push({
+        id: message.id,
+        role: message.role,
+        parts: message.parts,
       });
+
+      persistMutation.mutate({ id: convId, body: { messages } });
     },
   });
 
-  // Feed loaded messages into useChat when switching threads
-  const loadedThreadRef = useRef<string | null>(null);
+  // Feed loaded messages into useChat (initial load + older pages from infinite scroll)
+  const loadedPagesRef = useRef<LoadedPagesState | null>(null);
   useEffect(() => {
-    if (!messagesQuery.data || loadedThreadRef.current === threadId) return;
-    loadedThreadRef.current = threadId;
+    if (!messagesQuery.data) return;
+    const pageCount = messagesQuery.data.pages.length;
+    const prev = loadedPagesRef.current;
+    if (prev && prev.threadId === threadId && prev.count === pageCount) return;
+    const isPrepend =
+      prev?.threadId === threadId && pageCount > (prev?.count ?? 0);
+    loadedPagesRef.current = { threadId, count: pageCount };
+
     const allPages = [...messagesQuery.data.pages].reverse();
     const messages = mapRawMessages(allPages.flatMap((p) => p.messages));
-    if (messages.length > 0) chat.setMessages(messages);
+    if (messages.length === 0) return;
+
+    if (isPrepend) {
+      // Preserve scroll position when prepending older messages
+      const viewport = document.querySelector(".aui-thread-viewport");
+      const prevHeight = viewport?.scrollHeight ?? 0;
+      const prevTop = viewport?.scrollTop ?? 0;
+      chat.setMessages(messages);
+      requestAnimationFrame(() => {
+        if (!viewport) return;
+        const target = prevTop + (viewport.scrollHeight - prevHeight);
+        viewport.scrollTop = target;
+        // Override autoScroll for a few frames
+        let frames = 0;
+        const keep = () => {
+          viewport.scrollTop = target;
+          if (++frames < 10) requestAnimationFrame(keep);
+        };
+        requestAnimationFrame(keep);
+      });
+    } else {
+      chat.setMessages(messages);
+    }
   }, [messagesQuery.data, threadId]);
 
   const wrappedChat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
-      // Persist user message (adapter.initialize handles conv creation)
       const parts = extractParts(args[0]);
-      if (remoteId && parts.length > 0) {
+      if (parts.length > 0) {
         const msgId = uid();
         ctx.current.msgId = msgId;
-        persistMutation.mutate({
-          id: remoteId,
-          body: { messages: [{ id: msgId, role: "user", parts }] },
-        });
+        const convId = ctx.current.remoteId;
+        if (convId) {
+          // Existing thread: persist immediately
+          persistMutation.mutate({
+            id: convId,
+            body: { messages: [{ id: msgId, role: "user", parts }] },
+          });
+        } else {
+          // New thread: stash until onFinish (after adapter.initialize sets remoteId)
+          ctx.current.pendingUserMessage = { id: msgId, parts };
+        }
       }
 
       return chat.sendMessage(...args);
@@ -106,12 +154,12 @@ function ChatRuntimeHook() {
   });
 }
 
-const adapter = createThreadListAdapter();
-
 export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
+  const queryClient = useQueryClient();
+  const adapterRef = useRef(createThreadListAdapter(queryClient));
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
-    adapter,
+    adapter: adapterRef.current,
   });
 
   return (

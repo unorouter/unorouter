@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   AlertCircleIcon,
   CheckIcon,
@@ -19,6 +19,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 const ANIMATION_DURATION = 200;
 
@@ -46,18 +47,15 @@ function ToolFallbackRoot({
   const isControlled = controlledOpen !== undefined;
   const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
 
-  const handleOpenChange = useCallback(
-    (open: boolean) => {
-      if (!open) {
-        lockScroll();
-      }
-      if (!isControlled) {
-        setUncontrolledOpen(open);
-      }
-      controlledOnOpenChange?.(open);
-    },
-    [lockScroll, isControlled, controlledOnOpenChange],
-  );
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      lockScroll();
+    }
+    if (!isControlled) {
+      setUncontrolledOpen(open);
+    }
+    controlledOnOpenChange?.(open);
+  };
 
   return (
     <Collapsible
@@ -99,13 +97,16 @@ function ToolFallbackTrigger({
   toolName: string;
   status?: ToolCallMessagePartStatus;
 }) {
+  const t = useTranslations();
   const statusType = status?.type ?? "complete";
   const isRunning = statusType === "running";
   const isCancelled =
     status?.type === "incomplete" && status.reason === "cancelled";
 
   const Icon = statusIconMap[statusType];
-  const label = isCancelled ? "Cancelled tool" : "Used tool";
+  const label = isCancelled
+    ? t("CHAT.CANCELLED_TOOL")
+    : t("CHAT.USED_TOOL");
 
   return (
     <CollapsibleTrigger
@@ -212,6 +213,7 @@ function ToolFallbackResult({
 }: React.ComponentProps<"div"> & {
   result?: unknown;
 }) {
+  const t = useTranslations();
   if (result === undefined) return null;
 
   return (
@@ -223,7 +225,9 @@ function ToolFallbackResult({
       )}
       {...props}
     >
-      <p className="aui-tool-fallback-result-header font-semibold">Result:</p>
+      <p className="aui-tool-fallback-result-header font-semibold">
+        {t("CHAT.RESULT")}
+      </p>
       <pre className="aui-tool-fallback-result-content whitespace-pre-wrap">
         {typeof result === "string" ? result : JSON.stringify(result, null, 2)}
       </pre>
@@ -238,6 +242,7 @@ function ToolFallbackError({
 }: React.ComponentProps<"div"> & {
   status?: ToolCallMessagePartStatus;
 }) {
+  const t = useTranslations();
   if (status?.type !== "incomplete") return null;
 
   const error = status.error;
@@ -250,7 +255,9 @@ function ToolFallbackError({
   if (!errorText) return null;
 
   const isCancelled = status.reason === "cancelled";
-  const headerText = isCancelled ? "Cancelled reason:" : "Error:";
+  const headerText = isCancelled
+    ? t("CHAT.CANCELLED_REASON")
+    : t("CHAT.ERROR");
 
   return (
     <div
@@ -294,18 +301,16 @@ const ToolFallbackImpl: ToolCallMessagePartComponent = ({
   );
 };
 
-const ToolFallback = memo(
-  ToolFallbackImpl,
-) as unknown as ToolCallMessagePartComponent & {
-  Root: typeof ToolFallbackRoot;
-  Trigger: typeof ToolFallbackTrigger;
-  Content: typeof ToolFallbackContent;
-  Args: typeof ToolFallbackArgs;
-  Result: typeof ToolFallbackResult;
-  Error: typeof ToolFallbackError;
-};
+const ToolFallback =
+  ToolFallbackImpl as unknown as ToolCallMessagePartComponent & {
+    Root: typeof ToolFallbackRoot;
+    Trigger: typeof ToolFallbackTrigger;
+    Content: typeof ToolFallbackContent;
+    Args: typeof ToolFallbackArgs;
+    Result: typeof ToolFallbackResult;
+    Error: typeof ToolFallbackError;
+  };
 
-ToolFallback.displayName = "ToolFallback";
 ToolFallback.Root = ToolFallbackRoot;
 ToolFallback.Trigger = ToolFallbackTrigger;
 ToolFallback.Content = ToolFallbackContent;

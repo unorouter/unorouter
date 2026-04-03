@@ -1,11 +1,14 @@
+import type {
+  AttachmentUploadContext,
+  MessagePart,
+  PersistMessage,
+} from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
 import type { useChat } from "@ai-sdk/react";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { UIMessage } from "ai";
 
-export function mapRawMessages(
-  raw: { id: string; role: string; parts: unknown }[],
-): UIMessage[] {
+export function mapRawMessages(raw: PersistMessage[]): UIMessage[] {
   return raw.map((msg) => ({
     id: msg.id,
     role: msg.role as UIMessage["role"],
@@ -29,7 +32,7 @@ export function extractParts(
 
   const msg = input as {
     text?: string;
-    parts?: { type: string; [key: string]: unknown }[];
+    parts?: MessagePart[];
   };
   if (msg.parts) return msg.parts;
   if (msg.text) return [{ type: "text", text: msg.text }];
@@ -37,7 +40,7 @@ export function extractParts(
 }
 
 export function createR2AttachmentAdapter(
-  getContext: () => { convId: string | null; msgId: string },
+  getContext: () => AttachmentUploadContext,
 ): AttachmentAdapter {
   return {
     accept: "image/png,image/jpeg,image/webp,image/gif,.pdf",
@@ -66,10 +69,10 @@ export function createR2AttachmentAdapter(
         });
         return {
           ...attachment,
-          status: { type: "complete" as const },
+          status: { type: "complete" },
           content: [
             {
-              type: "file" as const,
+              type: "file",
               mimeType: attachment.contentType ?? "",
               filename: attachment.name,
               data: dataUrl,
