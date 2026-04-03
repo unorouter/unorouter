@@ -289,6 +289,11 @@ html.dark .shiki span {
   background-color: var(--shiki-dark-bg);
 }
 
+/* Hide assistant-ui dot cursor when markdown is empty (our StreamingIndicator handles it) */
+.aui-md[data-status="running"]:empty::after {
+  display: none !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

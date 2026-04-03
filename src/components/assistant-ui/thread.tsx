@@ -46,7 +46,7 @@ export const Thread: FC<{ readOnly?: boolean }> = (props) => {
   return (
     <ReadOnlyContext.Provider value={!!props.readOnly}>
       <ThreadPrimitive.Root
-        className="aui-root aui-thread-root @container flex h-full flex-col bg-background"
+        className="aui-root aui-thread-root @container flex h-full flex-col pt-4 bg-background"
         style={{
           ["--thread-max-width" as string]: "44rem",
           ["--composer-radius" as string]: "24px",
@@ -55,7 +55,7 @@ export const Thread: FC<{ readOnly?: boolean }> = (props) => {
       >
         <ThreadPrimitive.Viewport
           turnAnchor="top"
-          className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4 pt-4"
+          className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
         >
           <AuiIf condition={(s) => s.thread.isEmpty}>
             <ThreadWelcome />

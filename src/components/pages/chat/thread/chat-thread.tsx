@@ -194,8 +194,18 @@ function ChatThreadInner(props: {
     adapters: { attachments: attachmentAdapter },
   });
 
+  // Scroll to bottom on initial load with existing messages
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (props.initialMessages.length === 0) return;
+    requestAnimationFrame(() => {
+      const viewport = containerRef.current?.querySelector(".aui-thread-viewport");
+      if (viewport) viewport.scrollTop = viewport.scrollHeight;
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
-    <div className="relative flex min-h-0 flex-1 flex-col">
+    <div ref={containerRef} className="relative flex min-h-0 flex-1 flex-col">
       {activeConvId && (
         <div className="absolute top-2 right-4 z-10">
           <ShareButton convId={activeConvId} />
