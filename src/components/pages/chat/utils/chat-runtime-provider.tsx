@@ -4,7 +4,7 @@ import {
     createR2AttachmentAdapter,
     extractParts,
     mapRawMessages,
-} from "@/components/pages/chat/utils/chat-helpers";
+} from "@/components/pages/chat/utils/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/chat/utils/thread-list-adapter";
 import {
     useCreateConversationMutation,
