@@ -63,6 +63,9 @@ export const pathnames = {
   "/chat": {
     de: "/chat",
   },
+  "/chat/[convId]": {
+    de: "/chat/[convId]",
+  },
   "/shared/[shareId]": {
     de: "/geteilt/[shareId]",
   },

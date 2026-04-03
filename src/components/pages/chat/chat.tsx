@@ -1,11 +1,11 @@
 "use client";
 
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { selectedConversationAtom } from "@/store/client-store";
 import { useAtomValue } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
@@ -13,22 +13,24 @@ import { ChatThread } from "./thread/chat-thread";
 
 export function Chat(props: { initialConvId?: string }) {
   useHydrateAtoms([[selectedConversationAtom, props.initialConvId ?? null]]);
-  
+
   const t = useTranslations();
-  const locale = useLocale();
+  const router = useRouter();
 
   const selectedId = useAtomValue(selectedConversationAtom);
   const token = useApiKey();
 
   // Keep URL in sync with selected conversation
   useEffect(() => {
-    const target = selectedId
-      ? `/${locale}/chat/${selectedId}`
-      : `/${locale}/chat`;
-    if (window.location.pathname !== target) {
-      window.history.replaceState(null, "", target);
+    if (selectedId) {
+      router.replace({
+        pathname: "/chat/[convId]",
+        params: { convId: selectedId },
+      });
+    } else {
+      router.replace("/chat");
     }
-  }, [selectedId, locale]);
+  }, [selectedId, router]);
 
   if (!token.isLoggedIn) {
     return (
