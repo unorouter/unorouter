@@ -1,7 +1,7 @@
 "use client";
 
 import { Thread } from "@/components/assistant-ui/thread";
-import { mapRawMessages } from "@/components/pages/chat/chat-helpers";
+import { mapRawMessages } from "@/components/pages/chat/utils/chat-helpers";
 import { useSharedConversationQuery } from "@/hooks/chat-hook";
 import { useChat } from "@ai-sdk/react";
 import { AssistantRuntimeProvider } from "@assistant-ui/react";

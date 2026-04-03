@@ -10,8 +10,7 @@ import {
   useConversationsInfiniteQuery,
   useDeleteConversationMutation,
 } from "@/hooks/chat-hook";
-import { selectedConversationAtom } from "@/store/client-store";
-import { useAtom } from "jotai";
+import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { LuLoader, LuSearch } from "react-icons/lu";
@@ -19,7 +18,8 @@ import { ConversationItem } from "./conversation-item";
 
 export function ConversationList() {
   const t = useTranslations();
-  const [selectedId, setSelectedId] = useAtom(selectedConversationAtom);
+  const aui = useAui();
+  const activeThreadId = useAuiState((s) => s.threadListItem.remoteId);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const sentinelRef = useRef<HTMLDivElement>(null);
@@ -91,14 +91,15 @@ export function ConversationList() {
                 <ConversationItem
                   key={conv.id}
                   conversation={conv}
-                  isSelected={conv.id === selectedId}
-                  onSelect={() => setSelectedId(conv.id)}
+                  isSelected={conv.id === activeThreadId}
+                  onSelect={() => aui.threads().switchToThread(conv.id)}
                   onDelete={() => {
                     deleteMutation.mutate(
                       { id: conv.id },
                       {
                         onSuccess: () => {
-                          if (selectedId === conv.id) setSelectedId(null);
+                          if (activeThreadId === conv.id)
+                            aui.threads().switchToNewThread();
                         },
                       },
                     );

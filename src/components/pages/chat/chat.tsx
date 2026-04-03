@@ -2,35 +2,41 @@
 
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
-import { selectedConversationAtom } from "@/store/client-store";
-import { useAtomValue } from "jotai";
-import { useHydrateAtoms } from "jotai/utils";
+import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
+import { Thread } from "@/components/assistant-ui/thread";
+import { ShareButton } from "@/components/elements/chat/share-button";
 import { Button } from "../../ui/button";
-import { ChatThread } from "./thread/chat-thread";
 
 export function Chat(props: { initialConvId?: string }) {
-  useHydrateAtoms([[selectedConversationAtom, props.initialConvId ?? null]]);
-
   const t = useTranslations();
   const router = useRouter();
-
-  const selectedId = useAtomValue(selectedConversationAtom);
   const token = useApiKey();
+  const aui = useAui();
 
-  // Keep URL in sync with selected conversation
+  // Switch to initial conversation if navigated directly to /chat/[convId]
+  const initializedRef = useRef(false);
   useEffect(() => {
-    if (selectedId) {
+    if (props.initialConvId && !initializedRef.current) {
+      initializedRef.current = true;
+      aui.threads().switchToThread(props.initialConvId);
+    }
+  }, [props.initialConvId, aui]);
+
+  // Keep URL in sync with active thread
+  const threadId = useAuiState((s) => s.threadListItem.remoteId);
+  useEffect(() => {
+    if (threadId) {
       router.replace({
         pathname: "/chat/[convId]",
-        params: { convId: selectedId },
+        params: { convId: threadId },
       });
     } else {
       router.replace("/chat");
     }
-  }, [selectedId, router]);
+  }, [threadId, router]);
 
   if (!token.isLoggedIn) {
     return (
@@ -85,8 +91,13 @@ export function Chat(props: { initialConvId?: string }) {
   }
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-      <ChatThread convId={selectedId} />
+    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+      {threadId && (
+        <div className="absolute top-2 right-4 z-10">
+          <ShareButton convId={threadId} />
+        </div>
+      )}
+      <Thread />
     </div>
   );
 }

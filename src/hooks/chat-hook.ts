@@ -1,5 +1,6 @@
 "use client";
 
+import { PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
@@ -16,13 +17,11 @@ import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
 
 const chatRoute = rpc.api.chat;
-type ChatRouteReturn = ReturnType<typeof chatRoute>;
 
+type ChatRouteReturn = ReturnType<typeof chatRoute>;
 type ConversationsData = EdenResponse<{ get: typeof chatRoute.get }, "get">;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<typeof chatRoute, "get">;
-
-const PAGE_SIZE = 20;
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   const authQuery = useAuthQuery();
@@ -41,11 +40,29 @@ export function useConversationsInfiniteQuery(keyword?: string) {
   });
 }
 
-export function useConversationQuery(id: string) {
+export function useConversationQuery(id?: string) {
   const authQuery = useAuthQuery();
   return useQuery({
-    queryKey: queryKeys.conversation(id),
-    queryFn: async () => handleElysia(await chatRoute({ id }).get()),
+    queryKey: queryKeys.conversation(id!),
+    queryFn: async () => handleElysia(await chatRoute({ id: id! }).meta.get()),
+    enabled: !!authQuery.data && !!id,
+    retry: false,
+  });
+}
+
+export function useMessagesInfiniteQuery(id?: string) {
+  const authQuery = useAuthQuery();
+  return useInfiniteQuery({
+    queryKey: queryKeys.conversationMessages(id!),
+    queryFn: async ({ pageParam }) =>
+      handleElysia(
+        await chatRoute({ id: id! }).get({
+          query: { p: pageParam, page_size: PAGE_SIZE },
+        }),
+      ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.messages.length < PAGE_SIZE ? undefined : allPages.length + 1,
     enabled: !!authQuery.data && !!id,
     retry: false,
   });

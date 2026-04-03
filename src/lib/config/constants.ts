@@ -17,6 +17,7 @@ export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
 
+export const PAGE_SIZE = 20;
 export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
 export const LOCALES = ["en", "de"] as const;

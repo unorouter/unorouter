@@ -1,14 +1,12 @@
 "use client";
 
-import { ModelSelector } from "@/components/pages/chat/model-selector";
+import { ModelSelector } from "@/components/elements/chat/model-selector";
 import { Button } from "@/components/ui/button";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { useRouter } from "@/i18n/navigation";
-import {
-  newChatModelAtom,
-  selectedConversationAtom,
-} from "@/store/client-store";
-import { useAtom, useSetAtom } from "jotai";
+import { newChatModelAtom } from "@/store/client-store";
+import { useAui } from "@assistant-ui/react";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuPlus } from "react-icons/lu";
 
@@ -17,14 +15,14 @@ export function ChatControls() {
   const router = useRouter();
   const userDisplay = useUserDisplay();
   const [newChatModel, setNewChatModel] = useAtom(newChatModelAtom);
-  const setSelectedId = useSetAtom(selectedConversationAtom);
+  const aui = useAui();
 
   const handleNewChat = () => {
     if (!userDisplay.user) {
       router.push("/login");
       return;
     }
-    setSelectedId(null);
+    aui.threads().switchToNewThread();
   };
 
   return (

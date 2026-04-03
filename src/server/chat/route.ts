@@ -8,11 +8,13 @@ import {
 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
+import { uid } from "@/lib/utils/base";
 import {
   chatSearchQuery,
   createConversationBody,
   imageGenerationBody,
   mediaUploadBody,
+  paginationQuery,
   persistMessagesBody,
   streamBody,
   updateConversationBody,
@@ -23,7 +25,35 @@ import { getApiKey, getProvider, getUserId } from "@/server/constants";
 import { convertToModelMessages, generateImage, streamText } from "ai";
 import { and, desc, eq, like, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
-import { uid } from "@/lib/utils/base";
+
+async function getPaginatedMessages(
+  convId: string,
+  query: { p?: number; page_size?: number },
+) {
+  const db = getDb();
+  const page = query.p ?? 1;
+  const pageSize = query.page_size ?? 20;
+  const offset = (page - 1) * pageSize;
+
+  const [msgs, countResult] = await Promise.all([
+    db
+      .select()
+      .from(messages)
+      .where(eq(messages.convId, convId))
+      .orderBy(desc(messages.createdAt))
+      .limit(pageSize)
+      .offset(offset),
+    db
+      .select({ count: sql<number>`count(*)` })
+      .from(messages)
+      .where(eq(messages.convId, convId)),
+  ]);
+
+  return {
+    messages: msgs.reverse(),
+    totalMessages: countResult[0]?.count ?? 0,
+  };
+}
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -105,8 +135,29 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: createConversationBody },
   )
 
-  // Get a single conversation with all messages
-  .get("/:id", async ({ params, cookie }) => {
+  // Get a single conversation with paginated messages (newest first)
+  .get(
+    "/:id",
+    async ({ params, query, cookie }) => {
+      const db = getDb();
+      const userId = getUserId(cookie);
+
+      const conv = await db.query.conversations.findFirst({
+        where: and(
+          eq(conversations.id, params.id),
+          eq(conversations.userId, userId),
+        ),
+      });
+      if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
+
+      const paginated = await getPaginatedMessages(params.id, query);
+      return { success: true, data: { ...conv, ...paginated } };
+    },
+    { query: paginationQuery },
+  )
+
+  // Get conversation metadata only (no messages)
+  .get("/:id/meta", async ({ params, cookie }) => {
     const db = getDb();
     const userId = getUserId(cookie);
 
@@ -118,13 +169,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     });
     if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-    const msgs = await db
-      .select()
-      .from(messages)
-      .where(eq(messages.convId, params.id))
-      .orderBy(messages.createdAt);
-
-    return { success: true, data: { ...conv, messages: msgs } };
+    return { success: true, data: conv };
   })
 
   // Update conversation title
@@ -150,7 +195,10 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         .returning({ id: conversations.id });
 
       if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
-      return { success: true, data: { id: params.id, title: body.title, model: body.model } };
+      return {
+        success: true,
+        data: { id: params.id, title: body.title, model: body.model },
+      };
     },
     { body: updateConversationBody },
   )
@@ -212,30 +260,29 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   })
 
   // Public: get shared conversation (no auth required)
-  .get("/shared/:shareId", async ({ params }) => {
-    const db = getDb();
-    const conv = await db.query.conversations.findFirst({
-      where: eq(conversations.shareId, params.shareId),
-    });
-    if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
+  .get(
+    "/shared/:shareId",
+    async ({ params, query }) => {
+      const db = getDb();
+      const conv = await db.query.conversations.findFirst({
+        where: eq(conversations.shareId, params.shareId),
+      });
+      if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-    const msgs = await db
-      .select()
-      .from(messages)
-      .where(eq(messages.convId, conv.id))
-      .orderBy(messages.createdAt);
-
-    return {
-      success: true,
-      data: {
-        id: conv.id,
-        title: conv.title,
-        model: conv.model,
-        createdAt: conv.createdAt,
-        messages: msgs,
-      },
-    };
-  })
+      const paginated = await getPaginatedMessages(conv.id, query);
+      return {
+        success: true,
+        data: {
+          id: conv.id,
+          title: conv.title,
+          model: conv.model,
+          createdAt: conv.createdAt,
+          ...paginated,
+        },
+      };
+    },
+    { query: paginationQuery },
+  )
 
   // Persist messages for a conversation
   .post(
@@ -309,8 +356,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         onFinish: async ({ usage, response }) => {
           if (!body.convId) return;
           const db = getDb();
-          const reqId =
-            response.headers?.["x-oneapi-request-id"] ?? undefined;
+          const reqId = response.headers?.["x-oneapi-request-id"] ?? undefined;
           const inputTokens = usage.inputTokens ?? 0;
           const outputTokens = usage.outputTokens ?? 0;
 
@@ -425,11 +471,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ body, cookie }) => {
       const apiKey = getApiKey(cookie);
 
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      };
-
       const submitBody: Record<string, unknown> = {
         model: body.model,
         prompt: body.prompt,
@@ -438,7 +479,10 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
       const submitRes = await fetch(`${env.apiUrl}/v1/video/generations`, {
         method: "POST",
-        headers,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
         body: JSON.stringify(submitBody),
       });
 
@@ -470,7 +514,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
         const pollRes = await fetch(
           `${env.apiUrl}/v1/video/generations/${taskId}`,
-          { headers },
+          { headers: { Authorization: `Bearer ${apiKey}` } },
         );
         if (!pollRes.ok) continue;
 

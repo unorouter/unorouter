@@ -20,11 +20,15 @@ export const persistMessagesBody = t.Object({
   ),
 });
 
-export const chatSearchQuery = t.Object({
+export const paginationQuery = t.Object({
   p: t.Optional(t.Number()),
   page_size: t.Optional(t.Number()),
-  keyword: t.Optional(t.String()),
 });
+
+export const chatSearchQuery = t.Composite([
+  paginationQuery,
+  t.Object({ keyword: t.Optional(t.String()) }),
+]);
 
 export const streamBody = t.Object({
   model: t.String(),

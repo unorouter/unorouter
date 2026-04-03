@@ -42,7 +42,11 @@ import { LuMessageCircle } from "react-icons/lu";
 
 const ReadOnlyContext = createContext(false);
 
-export const Thread: FC<{ readOnly?: boolean }> = (props) => {
+type ThreadProps = {
+  readOnly?: boolean;
+};
+
+export const Thread: FC<ThreadProps> = (props) => {
   return (
     <ReadOnlyContext.Provider value={!!props.readOnly}>
       <ThreadPrimitive.Root
@@ -54,7 +58,7 @@ export const Thread: FC<{ readOnly?: boolean }> = (props) => {
         }}
       >
         <ThreadPrimitive.Viewport
-          turnAnchor="top"
+          autoScroll
           className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
         >
           <AuiIf condition={(s) => s.thread.isEmpty}>

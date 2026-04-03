@@ -1,5 +1,6 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ConversationList } from "@/components/pages/chat/sidebar/conversation-list";
+import { ChatRuntimeProvider } from "@/components/pages/chat/utils/chat-runtime-provider";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -49,9 +50,11 @@ export default async function ChatLayout(props: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
-        {props.children}
-      </SidebarLayout>
+      <ChatRuntimeProvider>
+        <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
+          {props.children}
+        </SidebarLayout>
+      </ChatRuntimeProvider>
     </HydrationBoundary>
   );
 }
