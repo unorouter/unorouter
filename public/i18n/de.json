@@ -991,6 +991,7 @@
     "CACHE_WRITE": "Cache Schreiben",
     "STREAM": "Stream",
     "NON_STREAM": "Kein Stream",
+    "STREAM_ERROR": "Stream wurde vorzeitig beendet (keine Antwort erhalten)",
     "EXPAND_CHANNEL": "Kanal",
     "EXPAND_REQUEST_ID": "Anfrage-ID",
     "EXPAND_CACHE_TOKENS": "Cache Tokens",

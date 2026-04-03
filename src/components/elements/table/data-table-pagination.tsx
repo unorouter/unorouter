@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PAGE_SIZE_OPTIONS } from "@/lib/config/constants";
 import type { Table } from "@tanstack/react-table";
 import {
   LuChevronLeft,
@@ -42,7 +43,7 @@ export function DataTablePagination<TData>(
               />
             </SelectTrigger>
             <SelectContent side="top">
-              {[10, 20, 30, 50].map((size) => (
+              {PAGE_SIZE_OPTIONS.map((size) => (
                 <SelectItem key={size} value={`${size}`}>
                   {size}
                 </SelectItem>

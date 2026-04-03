@@ -29,6 +29,7 @@ import type React from "react";
 import { useState } from "react";
 import {
   LuChevronRight,
+  LuCircleAlert,
   LuFilter,
   LuScrollText,
   LuSearch,
@@ -269,23 +270,39 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
       >
         {log.use_time}s
       </span>
-      {log.is_stream && frt ? (
+      {log.is_stream && frt && frt > 0 ? (
         <span
           className={`font-mono text-xs tabular-nums ${getFirstResponseTimeColor(frt)}`}
         >
           {(frt / 1000).toFixed(1)}s
         </span>
       ) : null}
-      <Badge
-        variant="secondary"
-        className={
-          log.is_stream
-            ? "bg-blue-500/10 text-blue-400"
-            : "bg-purple-500/10 text-purple-400"
-        }
-      >
-        {log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM")}
-      </Badge>
+      <span className="relative inline-block">
+        <Badge
+          variant="secondary"
+          className={
+            log.is_stream
+              ? "bg-blue-500/10 text-blue-400"
+              : "bg-purple-500/10 text-purple-400"
+          }
+        >
+          {log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM")}
+        </Badge>
+        {frt != null && frt < 0 && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <span className="absolute -top-1 -right-1 cursor-help text-[10px] leading-none text-red-500">
+                  <LuCircleAlert className="size-3.5" />
+                </span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">{t("LOGS.STREAM_ERROR")}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </span>
     </div>
   );
 }

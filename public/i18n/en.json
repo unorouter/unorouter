@@ -991,6 +991,7 @@
     "CACHE_WRITE": "Cache Write",
     "STREAM": "stream",
     "NON_STREAM": "non-stream",
+    "STREAM_ERROR": "Stream ended abnormally (no response received)",
     "EXPAND_CHANNEL": "Channel",
     "EXPAND_REQUEST_ID": "Request ID",
     "EXPAND_CACHE_TOKENS": "Cache Tokens",
