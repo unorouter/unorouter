@@ -81,7 +81,7 @@ export function ConversationItem(props: ConversationItemProps) {
       onKeyDown={(e) => e.key === "Enter" && props.onSelect()}
       data-active={props.isSelected || undefined}
       className={cn(
-        "group/conv flex h-9 items-center gap-2 rounded-lg transition-colors",
+        "group/conv flex h-9 cursor-pointer items-center gap-2 rounded-lg transition-colors",
         "hover:bg-muted focus-visible:bg-muted focus-visible:outline-none",
         props.isSelected && "bg-muted",
       )}
