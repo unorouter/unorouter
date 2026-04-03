@@ -1,6 +1,6 @@
 import { uid } from "@/lib/utils/base";
-import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { useChat } from "@ai-sdk/react";
+import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { UIMessage } from "ai";
 
 export function mapRawMessages(
@@ -13,7 +13,7 @@ export function mapRawMessages(
   }));
 }
 
-export function getTextContent(message: UIMessage): string {
+export function getTextContent(message: UIMessage) {
   if (!message.parts) return "";
   return message.parts
     .filter((p) => p.type === "text")
@@ -23,7 +23,7 @@ export function getTextContent(message: UIMessage): string {
 
 export function extractParts(
   input: Parameters<ReturnType<typeof useChat>["sendMessage"]>[0],
-): { type: string; [key: string]: unknown }[] {
+) {
   if (!input) return [];
   if (typeof input === "string") return [{ type: "text", text: input }];
 
@@ -93,14 +93,14 @@ export function createR2AttachmentAdapter(
       }
 
       const json = await res.json();
-      const data = json.data as { url: string; mimeType: string };
+      const data = json.data;
 
       return {
         ...attachment,
-        status: { type: "complete" as const },
+        status: { type: "complete" },
         content: [
           {
-            type: "file" as const,
+            type: "file",
             mimeType: data.mimeType,
             filename: attachment.name,
             data: data.url,
@@ -112,4 +112,3 @@ export function createR2AttachmentAdapter(
     async remove() {},
   };
 }
-
