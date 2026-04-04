@@ -17,7 +17,7 @@ import {
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuCheck, LuChevronsUpDown } from "react-icons/lu";
+import { LuChevronsUpDown } from "react-icons/lu";
 
 type ModelSelectorProps = {
   value: string | null;
@@ -76,6 +76,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                   <CommandItem
                     key={model.name}
                     value={model.name}
+                    data-checked={model.name === props.value || undefined}
                     onSelect={() => {
                       props.onChange(model.name);
                       setOpen(false);
@@ -84,9 +85,6 @@ export function ModelSelector(props: ModelSelectorProps) {
                   >
                     <VendorIcon vendor={model.vendorName} size={14} />
                     <span className="font-mono">{model.name}</span>
-                    {model.name === props.value && (
-                      <LuCheck className="ml-auto h-3.5 w-3.5" />
-                    )}
                   </CommandItem>
                 ))}
               </CommandGroup>
