@@ -5,7 +5,6 @@ import {
   extractParts,
   mapRawMessages,
 } from "@/components/pages/chat/utils/chat-utils";
-import { MessageMetaProvider } from "@/components/pages/chat/utils/message-meta-context";
 import { createThreadListAdapter } from "@/components/pages/chat/utils/thread-list-adapter";
 import {
   useConversationQuery,
@@ -21,9 +20,10 @@ import type {
 import { uid } from "@/lib/utils/base";
 import {
   chatModelAtom,
-  getConvId,
   getChatModel,
+  getConvId,
   setConvId,
+  setMessageMeta
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
@@ -83,6 +83,26 @@ function ChatRuntimeHook() {
 
   // Load messages for existing conversations
   const messagesQuery = useMessagesInfiniteQuery(remoteId);
+
+  // Sync per-message metadata (model, tokens, cost) into jotai atom
+  useEffect(() => {
+    if (!messagesQuery.data) {
+      setMessageMeta([]);
+      return;
+    }
+    const allPages = [...messagesQuery.data.pages].reverse();
+    setMessageMeta(
+      allPages
+        .flatMap((p) => p.messages)
+        .map((msg) => ({
+          model: msg.model ?? null,
+          inputTokens: msg.inputTokens ?? null,
+          outputTokens: msg.outputTokens ?? null,
+          cost: msg.cost ?? null,
+        })),
+    );
+  }, [messagesQuery.data]);
+
   const chat = useChat({
     id: threadId,
     transport: transportRef.current,
@@ -232,7 +252,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
-      <MessageMetaProvider>{props.children}</MessageMetaProvider>
+      {props.children}
     </AssistantRuntimeProvider>
   );
 }

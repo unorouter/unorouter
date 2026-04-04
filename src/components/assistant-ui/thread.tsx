@@ -10,9 +10,10 @@ import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
 import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { useMessageMeta } from "@/components/pages/chat/utils/message-meta-context";
 import { Button } from "@/components/ui/button";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { messageMetaAtom } from "@/store/chat-store";
+import { useAtomValue } from "jotai";
 import { cn } from "@/lib/utils";
 import {
   ActionBarPrimitive,
@@ -280,8 +281,9 @@ const AssistantMessage: FC = () => {
 
 const AssistantMessageMeta: FC = () => {
   const t = useTranslations();
-  const msgId = useAuiState((s) => s.message.id);
-  const meta = useMessageMeta(msgId);
+  const messageIndex = useAuiState((s) => s.message.index);
+  const metaList = useAtomValue(messageMetaAtom);
+  const meta = metaList[messageIndex];
   const pricingQuery = usePricingQuery();
 
   if (!meta?.model) return null;

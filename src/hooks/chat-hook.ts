@@ -7,6 +7,11 @@ import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
+  chatStore,
+  messageMetaAtom,
+  type MessageMeta,
+} from "@/store/chat-store";
+import {
   type InfiniteData,
   useInfiniteQuery,
   useMutation,
@@ -220,23 +225,63 @@ export function usePersistMessagesMutation() {
     ) =>
       handleElysia(await chatRoute({ id: args.id }).messages.post(args.body)),
     onSuccess: (data, args) => {
-      if (!data.title) return;
       const id = String(args.id);
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
-        queryKeys.conversations(),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              items: page.items.map((item) =>
-                item.id === id ? { ...item, title: data.title ?? null } : item,
-              ),
-            })),
-          };
-        },
+
+      // Append message metadata to jotai atom (keeps indices aligned with assistant-ui)
+      const prev = chatStore.get(messageMetaAtom);
+      const newEntries: MessageMeta[] = args.body.messages.map((m) =>
+        m.role === "assistant" && data.usage
+          ? {
+              model: m.model ?? null,
+              inputTokens: data.usage.inputTokens,
+              outputTokens: data.usage.outputTokens,
+              cost: data.usage.cost,
+            }
+          : { model: m.model ?? null, inputTokens: null, outputTokens: null, cost: null },
       );
+      chatStore.set(messageMetaAtom, [...prev, ...newEntries]);
+
+      // Patch sidebar: update title and/or cost
+      if (data.title || data.usage) {
+        queryClient.setQueryData<InfiniteData<ConversationsData>>(
+          queryKeys.conversations(),
+          (old) => {
+            if (!old) return old;
+            return {
+              ...old,
+              pages: old.pages.map((page) => ({
+                ...page,
+                items: page.items.map((item) => {
+                  if (item.id !== id) return item;
+                  const updated = { ...item };
+                  if (data.title) updated.title = data.title;
+                  if (data.usage?.cost)
+                    updated.totalCost = (updated.totalCost ?? 0) + data.usage.cost;
+                  return updated;
+                }),
+              })),
+            };
+          },
+        );
+      }
+
+      // Patch conversation meta cache for header totals
+      if (data.usage) {
+        queryClient.setQueryData<ConversationData>(
+          queryKeys.conversation(id),
+          (old) => {
+            if (!old) return old;
+            return {
+              ...old,
+              totalInputTokens:
+                (old.totalInputTokens ?? 0) + data.usage!.inputTokens,
+              totalOutputTokens:
+                (old.totalOutputTokens ?? 0) + data.usage!.outputTokens,
+              totalCost: (old.totalCost ?? 0) + data.usage!.cost,
+            };
+          },
+        );
+      }
     },
   });
 }

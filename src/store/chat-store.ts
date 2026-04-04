@@ -43,3 +43,14 @@ export const getChatModel = (): string | null => {
 
 export const getConvId = () => chatStore.get(convIdAtom);
 export const setConvId = (id: string | null) => chatStore.set(convIdAtom, id);
+
+/** Per-message metadata (model, tokens, cost) keyed by message index. */
+export type MessageMeta = {
+  model: string | null;
+  inputTokens: number | null;
+  outputTokens: number | null;
+  cost: number | null;
+};
+export const messageMetaAtom = atom<MessageMeta[]>([]);
+export const setMessageMeta = (meta: MessageMeta[]) =>
+  chatStore.set(messageMetaAtom, meta);
