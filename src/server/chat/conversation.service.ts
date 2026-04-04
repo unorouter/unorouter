@@ -24,7 +24,7 @@ export async function getPaginatedMessages(
       .select()
       .from(messages)
       .where(eq(messages.convId, convId))
-      .orderBy(desc(messages.createdAt))
+      .orderBy(sql`${messages.createdAt} DESC, rowid DESC`)
       .limit(pageSize)
       .offset(offset),
     db

@@ -2,6 +2,7 @@
 
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
+import { formatPrice } from "@/lib/utils/base";
 import { useConversationQuery, useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -108,7 +109,7 @@ export function Chat(props: { initialConvId?: string }) {
               <span>{convQuery.data.totalOutputTokens.toLocaleString()} {t("CHAT.TOKENS_OUT")}</span>
               {convQuery.data.totalCost > 0 && (
                 <span className="text-foreground/70 font-medium">
-                  ${convQuery.data.totalCost.toFixed(4)}
+                  {formatPrice(convQuery.data.totalCost)}
                 </span>
               )}
             </div>

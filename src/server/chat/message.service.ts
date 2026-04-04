@@ -30,12 +30,13 @@ export async function persistMessages(
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  const toInsert = msgs.map((m) => ({
+  const now = Date.now();
+  const toInsert = msgs.map((m, i) => ({
     convId,
     role: m.role,
     model: m.model,
     parts: m.parts,
-    createdAt: new Date(),
+    createdAt: new Date(now + i),
   }));
 
   let inserted: { id: string }[] = [];

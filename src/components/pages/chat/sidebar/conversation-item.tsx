@@ -114,11 +114,6 @@ export function ConversationItem(props: ConversationItemProps) {
             <span className="min-w-0 flex-1 truncate">
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
-            {props.conversation.totalCost ? (
-              <span className="text-muted-foreground shrink-0 text-[10px]">
-                ${props.conversation.totalCost.toFixed(4)}
-              </span>
-            ) : null}
           </div>
           <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
             <DropdownMenuTrigger

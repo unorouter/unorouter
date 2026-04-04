@@ -13,6 +13,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils/base";
 import { chatWebSearchAtom, messageMetaAtom } from "@/store/chat-store";
 import {
   ActionBarPrimitive,
@@ -338,7 +339,7 @@ const AssistantMessageMeta: FC = () => {
       {meta.cost != null && meta.cost > 0 && (
         <>
           <span className="opacity-40">|</span>
-          <span>${meta.cost.toFixed(6)}</span>
+          <span>{formatPrice(meta.cost)}</span>
         </>
       )}
     </div>

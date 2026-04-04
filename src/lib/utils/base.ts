@@ -30,8 +30,11 @@ export function copyToClipboardAsync(
 export function formatPrice(price: number): string {
   if (price === 0) return "$0.00";
   if (price >= 0.01) return `$${price.toFixed(2)}`;
-  const str = price.toFixed(4);
-  return `$${str.replace(/0+$/, "")}`;
+  if (price >= 0.0001) return `$${price.toFixed(4).replace(/0+$/, "")}`;
+  // Very small values: show first 2 significant digits
+  const exp = Math.floor(Math.log10(price));
+  const decimals = Math.min(-exp + 1, 10);
+  return `$${price.toFixed(decimals)}`;
 }
 
 /**
