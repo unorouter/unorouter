@@ -31,6 +31,7 @@ export type LoadedPagesState = {
 export type ChatRuntimeContext = {
   remoteId: string | undefined;
   model: string | null;
+  sendModel: string | null;
   msgId: string;
   pendingUserMessage: PendingUserMessage | null;
 };

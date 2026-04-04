@@ -42,6 +42,7 @@ function ChatRuntimeHook() {
   const ctx = useRef<ChatRuntimeContext>({
     remoteId,
     model,
+    sendModel: null,
     msgId: "",
     pendingUserMessage: null,
   });
@@ -85,14 +86,20 @@ function ChatRuntimeHook() {
       // Persist pending user message (from new thread where remoteId wasn't available at send time)
       const pending = ctx.current.pendingUserMessage;
       const messages: PersistMessage[] = [];
+      const usedModel = ctx.current.sendModel ?? undefined;
       if (pending) {
-        messages.push({ id: pending.id, role: "user", parts: pending.parts });
+        messages.push({
+          id: pending.id,
+          role: "user",
+          model: usedModel,
+          parts: pending.parts,
+        });
         ctx.current.pendingUserMessage = null;
       }
       messages.push({
         id: message.id,
         role: message.role,
-        model: ctx.current.model ?? undefined,
+        model: usedModel,
         parts: message.parts,
       });
 
@@ -173,6 +180,7 @@ function ChatRuntimeHook() {
   const wrappedChat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
+      ctx.current.sendModel = ctx.current.model;
       const parts = extractParts(args[0]);
       if (parts.length > 0) {
         const msgId = uid();
@@ -182,7 +190,11 @@ function ChatRuntimeHook() {
           // Existing thread: persist immediately
           persistMutation.mutate({
             id: convId,
-            body: { messages: [{ id: msgId, role: "user", parts }] },
+            body: {
+              messages: [
+                { id: msgId, role: "user", model: ctx.current.model ?? undefined, parts },
+              ],
+            },
           });
         } else {
           // New thread: stash until onFinish (after adapter.initialize sets remoteId)

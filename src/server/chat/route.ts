@@ -394,7 +394,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
             await db
               .update(messages)
               .set({
-                model: body.model,
                 requestId: reqId,
                 inputTokens,
                 outputTokens,

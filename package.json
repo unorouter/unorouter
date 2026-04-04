@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:log": "next dev 2>&1 | tee /tmp/next.log",
     "prebuild": "bun scripts/generate-search-index.ts",
     "build": "next build",
     "start": "next start",
