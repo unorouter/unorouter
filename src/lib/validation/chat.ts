@@ -1,3 +1,4 @@
+import type { Static } from "elysia";
 import { t } from "elysia";
 
 export const createConversationBody = t.Object({
@@ -5,11 +6,13 @@ export const createConversationBody = t.Object({
   model: t.String(),
   title: t.Optional(t.String()),
 });
+export type CreateConversationBody = Static<typeof createConversationBody>;
 
 export const updateConversationBody = t.Object({
   title: t.Optional(t.String()),
   model: t.Optional(t.String()),
 });
+export type UpdateConversationBody = Static<typeof updateConversationBody>;
 
 export const persistMessagesBody = t.Object({
   messages: t.Array(
@@ -20,6 +23,7 @@ export const persistMessagesBody = t.Object({
     }),
   ),
 });
+export type PersistMessagesBody = Static<typeof persistMessagesBody>;
 
 export const paginationQuery = t.Object({
   p: t.Optional(t.Number()),
@@ -30,6 +34,7 @@ export const chatSearchQuery = t.Composite([
   paginationQuery,
   t.Object({ keyword: t.Optional(t.String()) }),
 ]);
+export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 
 export const streamBody = t.Object({
   model: t.String(),
@@ -56,6 +61,7 @@ export const imageGenerationBody = t.Object({
   model: t.String(),
   convId: t.String(),
 });
+export type ImageGenerationBody = Static<typeof imageGenerationBody>;
 
 export const videoGenerationBody = t.Object({
   prompt: t.String(),
@@ -63,3 +69,4 @@ export const videoGenerationBody = t.Object({
   convId: t.String(),
   image: t.Optional(t.String()),
 });
+export type VideoGenerationBody = Static<typeof videoGenerationBody>;

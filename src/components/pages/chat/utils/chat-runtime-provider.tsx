@@ -86,11 +86,7 @@ function ChatRuntimeHook() {
     transport: transportRef.current,
     onFinish: ({ message }) => {
       const convId = getConvId();
-      console.log(`[client onFinish] convId=${convId ?? "MISSING"}, msgId=${message.id}`);
-      if (!convId) {
-        console.log("[client onFinish] BAIL: no convId");
-        return;
-      }
+      if (!convId) return;
 
       // Persist pending user message (from new thread where remoteId wasn't available at send time)
       const pending = ctx.current.pendingUserMessage;
@@ -110,7 +106,6 @@ function ChatRuntimeHook() {
         parts: message.parts,
       });
 
-      console.log(`[client onFinish] persisting ${msgs.length} messages to conv=${convId}`);
       persistMutation.mutate({ id: convId, body: { messages: msgs } });
     },
   });
@@ -192,12 +187,9 @@ function ChatRuntimeHook() {
       const parts = extractParts(args[0]);
       if (parts.length > 0) {
         const convId = getConvId();
-        console.log(`[sendMessage] convId before=${convId ?? "null"}, model=${getChatModel()}`);
         if (!convId) {
           // Pre-generate ID so the transport body and adapter.initialize use the same ID
-          const newId = uid();
-          setConvId(newId);
-          console.log(`[sendMessage] pre-generated convId=${newId}`);
+          setConvId(uid());
         }
         if (convId) {
           // Existing thread: persist immediately
