@@ -31,9 +31,10 @@ export default async function ChatConvPage(props: Props) {
         queryKey: queryKeys.conversationMessages(convId),
         queryFn: async ({ pageParam }) =>
           handleElysia(
-            await rpc.api
-              .chat({ id: convId })
-              .get({ query: { p: pageParam, page_size: PAGE_SIZE }, ...cookieHeaders }),
+            await rpc.api.chat({ id: convId }).get({
+              query: { p: pageParam, page_size: PAGE_SIZE },
+              ...cookieHeaders,
+            }),
           ),
         initialPageParam: 1,
       }),

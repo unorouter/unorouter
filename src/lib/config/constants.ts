@@ -66,4 +66,3 @@ export function renderQuota(quota: number | undefined, decimals = 2): string {
   if (quota === undefined || quota === null) return "$0.00";
   return `$${quotaToDollars(quota).toFixed(decimals)}`;
 }
-

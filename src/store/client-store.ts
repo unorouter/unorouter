@@ -49,4 +49,3 @@ export const osAtom = atom(
     set(clientStoreAtom, { ...get(clientStoreAtom), os: value });
   },
 );
-

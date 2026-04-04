@@ -1,10 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-} from "@/components/ui/sidebar";
+import { SidebarGroup, SidebarGroupContent } from "@/components/ui/sidebar";
 import {
   useConversationsInfiniteQuery,
   useDeleteConversationMutation,

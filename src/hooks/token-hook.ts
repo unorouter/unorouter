@@ -29,8 +29,7 @@ export function useBestKeyQuery() {
   const authQuery = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.bestKey(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.token["best-key"].get()),
+    queryFn: async () => handleElysia(await rpc.api.token["best-key"].get()),
     enabled: !!authQuery.data,
     select: (data) => (data?.key ? `sk-${data.key}` : null),
   });

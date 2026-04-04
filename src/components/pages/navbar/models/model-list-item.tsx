@@ -115,42 +115,42 @@ export function ModelListItem(props: {
             </>
           ) : (
             <div className="flex items-baseline gap-2 sm:gap-3">
-                <div>
-                  <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                    {props.labels.input}{" "}
-                  </span>
-                  <span
-                    className={cn(
-                      "font-mono text-xs font-semibold sm:text-sm",
-                      theme.text,
-                    )}
-                  >
-                    {formatPrice(model.inputPrice)}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                    {props.labels.output}{" "}
-                  </span>
-                  <span
-                    className={cn(
-                      "font-mono text-xs font-semibold sm:text-sm",
-                      theme.text,
-                    )}
-                  >
-                    {formatPrice(model.outputPrice)}
-                  </span>
-                </div>
-                <span className="text-muted-foreground font-mono text-[10px] sm:hidden md:inline">
-                  {props.labels.perMillion}
+              <div>
+                <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                  {props.labels.input}{" "}
                 </span>
-                {model.originalInputPrice !== null &&
-                  model.originalOutputPrice !== null && (
-                    <span className="text-muted-foreground/50 font-mono text-[10px] line-through sm:hidden md:inline">
-                      {formatPrice(model.originalInputPrice)}/
-                      {formatPrice(model.originalOutputPrice)}
-                    </span>
+                <span
+                  className={cn(
+                    "font-mono text-xs font-semibold sm:text-sm",
+                    theme.text,
                   )}
+                >
+                  {formatPrice(model.inputPrice)}
+                </span>
+              </div>
+              <div>
+                <span className="text-muted-foreground font-mono text-[10px] uppercase">
+                  {props.labels.output}{" "}
+                </span>
+                <span
+                  className={cn(
+                    "font-mono text-xs font-semibold sm:text-sm",
+                    theme.text,
+                  )}
+                >
+                  {formatPrice(model.outputPrice)}
+                </span>
+              </div>
+              <span className="text-muted-foreground font-mono text-[10px] sm:hidden md:inline">
+                {props.labels.perMillion}
+              </span>
+              {model.originalInputPrice !== null &&
+                model.originalOutputPrice !== null && (
+                  <span className="text-muted-foreground/50 font-mono text-[10px] line-through sm:hidden md:inline">
+                    {formatPrice(model.originalInputPrice)}/
+                    {formatPrice(model.originalOutputPrice)}
+                  </span>
+                )}
             </div>
           )}
         </div>

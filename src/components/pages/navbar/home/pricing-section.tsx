@@ -5,10 +5,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";
-import {
-  RESET_TRANSLATION_KEYS,
-  getMultiplier,
-} from "@/lib/api/subscription";
+import { RESET_TRANSLATION_KEYS, getMultiplier } from "@/lib/api/subscription";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { useTranslations } from "next-intl";
@@ -56,7 +53,10 @@ export function PricingSection() {
           />
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
-            const resetLabel = t(RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ?? "BILLING.PER_MONTH");
+            const resetLabel = t(
+              RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ??
+                "BILLING.PER_MONTH",
+            );
             return (
               <PricingTile
                 key={plan.id}

@@ -116,8 +116,8 @@ export function ModelCard(props: {
                 model.originalOutputPrice !== null && (
                   <span className="text-muted-foreground/50 w-full font-mono text-[10px] line-through">
                     {formatPrice(model.originalInputPrice)}/
-                    {formatPrice(model.originalOutputPrice)}
-                    {" "}{props.labels.perMillion}
+                    {formatPrice(model.originalOutputPrice)}{" "}
+                    {props.labels.perMillion}
                   </span>
                 )}
             </>

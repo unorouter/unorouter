@@ -22,8 +22,7 @@ export function buildOAuthUrl(
   status: StatusData,
   state: string,
 ): string | null {
-  const serverAddress =
-    status.server_address || env.apiUrl;
+  const serverAddress = status.server_address || env.apiUrl;
   const redirectUri = `${serverAddress}/oauth/${provider}`;
 
   switch (provider) {
@@ -108,8 +107,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
 
       let url: string | null;
       if (customAuthEndpoint) {
-        const serverAddress =
-          props.status.server_address || env.apiUrl;
+        const serverAddress = props.status.server_address || env.apiUrl;
         const redirectUri = `${serverAddress}/oauth/${provider}`;
         url = `${customAuthEndpoint}?client_id=${customClientId}&state=${state}&response_type=code&scope=${encodeURIComponent(customScopes || "openid profile email")}&redirect_uri=${encodeURIComponent(redirectUri)}`;
       } else {

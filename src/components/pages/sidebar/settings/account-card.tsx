@@ -155,9 +155,7 @@ export function AccountCard() {
             disabled={bindLoading !== null}
             onClick={() => handleOAuthBind(provider)}
           >
-            {bindLoading === provider
-              ? "..."
-              : t("SETTINGS.ACCOUNT.BIND")}
+            {bindLoading === provider ? "..." : t("SETTINGS.ACCOUNT.BIND")}
           </Button>
         )}
       </div>

@@ -18,18 +18,15 @@ export const customFetch = async <T>(
     (options.headers as Record<string, string> | undefined)?.cookie ||
     (options.headers as Record<string, string> | undefined)?.Cookie;
 
-  const response = await fetch(
-    new URL(url, env.apiUrl).toString(),
-    {
-      ...options,
-      credentials: "include",
-      headers: {
-        ...(isJsonBody && { "Content-Type": "application/json" }),
-        ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
-        ...options.headers,
-      },
+  const response = await fetch(new URL(url, env.apiUrl).toString(), {
+    ...options,
+    credentials: "include",
+    headers: {
+      ...(isJsonBody && { "Content-Type": "application/json" }),
+      ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
+      ...options.headers,
     },
-  );
+  });
 
   if (!response.ok) {
     const text = await response.text();

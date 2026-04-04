@@ -36,7 +36,6 @@ export const streamBody = t.Object({
   convId: t.Optional(t.Union([t.String(), t.Null()])),
 });
 
-
 export const mediaUploadBody = t.Object({
   file: t.File({
     type: [

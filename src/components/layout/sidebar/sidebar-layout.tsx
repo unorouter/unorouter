@@ -29,16 +29,15 @@ export function SidebarLayout(props: SidebarLayoutProps) {
       }
     >
       {props.before}
-      <AppSidebar
-        navConfig={props.navConfig}
-        chatContent={props.chatContent}
-      />
+      <AppSidebar navConfig={props.navConfig} chatContent={props.chatContent} />
       <SidebarInset>
         <SidebarHeader
           showSearch={props.showSearch}
           navConfig={props.navConfig}
         />
-        <div className="flex min-w-0 flex-1 overflow-auto">{props.children}</div>
+        <div className="flex min-w-0 flex-1 overflow-auto">
+          {props.children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -13,13 +13,7 @@ import { renderQuota } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import {
-  LuCheck,
-  LuEllipsis,
-  LuPencil,
-  LuTrash2,
-  LuX,
-} from "react-icons/lu";
+import { LuCheck, LuEllipsis, LuPencil, LuTrash2, LuX } from "react-icons/lu";
 
 type ConversationItemProps = {
   conversation: {

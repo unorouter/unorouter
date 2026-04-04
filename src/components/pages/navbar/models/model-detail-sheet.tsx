@@ -166,7 +166,10 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                   {model.originalInputPrice !== null &&
                     model.originalOutputPrice !== null && (
                       <div className="text-muted-foreground/50 font-mono text-xs line-through">
-                        {t("MODELS.PRICE_ORIGINAL")}: {formatPrice(model.originalInputPrice)}/{formatPrice(model.originalOutputPrice)} {t("MODELS.PRICE_PER_MILLION")}
+                        {t("MODELS.PRICE_ORIGINAL")}:{" "}
+                        {formatPrice(model.originalInputPrice)}/
+                        {formatPrice(model.originalOutputPrice)}{" "}
+                        {t("MODELS.PRICE_PER_MILLION")}
                       </div>
                     )}
                 </div>

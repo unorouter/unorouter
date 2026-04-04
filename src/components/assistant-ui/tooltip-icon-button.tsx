@@ -32,9 +32,9 @@ export function TooltipIconButton({
             ref={ref}
             type="button"
             className={cn(
-              "aui-button-icon inline-flex size-6 shrink-0 items-center justify-center rounded-md p-1 text-sm outline-none transition-all select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+              "aui-button-icon inline-flex size-6 shrink-0 items-center justify-center rounded-md p-1 text-sm transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
               variant === "outline" &&
-                "border border-border bg-background shadow-xs hover:bg-muted hover:text-foreground dark:border-input dark:bg-input/30",
+                "border-border bg-background hover:bg-muted hover:text-foreground dark:border-input dark:bg-input/30 border shadow-xs",
               variant === "default" &&
                 "bg-primary text-primary-foreground hover:bg-primary/80",
               variant === "ghost" &&

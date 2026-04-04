@@ -38,19 +38,19 @@ export function SidebarHeader(props: SidebarHeaderProps) {
           <LanguageToggle />
           <ThemeToggle />
           {userDisplay.user ? (
-              <UserDropdown side="bottom" align="end">
-                <button className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors">
-                  <UserAvatar />
-                </button>
-              </UserDropdown>
-            ) : (
-              <Link
-                href="/login"
-                className="hover:bg-accent rounded-md p-1 transition-colors"
-              >
-                <LuLogIn className="size-5" />
-              </Link>
-            )}
+            <UserDropdown side="bottom" align="end">
+              <button className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors">
+                <UserAvatar />
+              </button>
+            </UserDropdown>
+          ) : (
+            <Link
+              href="/login"
+              className="hover:bg-accent rounded-md p-1 transition-colors"
+            >
+              <LuLogIn className="size-5" />
+            </Link>
+          )}
         </div>
       </div>
     </header>

@@ -1,14 +1,14 @@
 "use client";
 
+import { Thread } from "@/components/assistant-ui/thread";
+import { ShareButton } from "@/components/elements/chat/share-button";
+import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
-import { Thread } from "@/components/assistant-ui/thread";
-import { ShareButton } from "@/components/elements/chat/share-button";
-import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { Button } from "../../ui/button";
 
 export function Chat(props: { initialConvId?: string }) {
@@ -16,20 +16,26 @@ export function Chat(props: { initialConvId?: string }) {
   const router = useRouter();
   const token = useApiKey();
   const aui = useAui();
+  const threadId = useAuiState((s) => s.threadListItem.remoteId);
+  const messagesQuery = useMessagesInfiniteQuery(
+    threadId ?? props.initialConvId,
+  );
+  const mountRef = useRef(true);
 
-  // Switch to initial conversation if navigated directly to /chat/[convId]
-  const initializedRef = useRef(false);
+  // Sync runtime thread with route on mount
   useEffect(() => {
-    if (props.initialConvId && !initializedRef.current) {
-      initializedRef.current = true;
+    if (!mountRef.current) return;
+    mountRef.current = false;
+    if (props.initialConvId) {
       aui.threads().switchToThread(props.initialConvId);
+    } else {
+      aui.threads().switchToNewThread();
     }
   }, [props.initialConvId, aui]);
 
-  // Keep URL in sync with active thread
-  const threadId = useAuiState((s) => s.threadListItem.remoteId);
-  const messagesQuery = useMessagesInfiniteQuery(threadId);
+  // Keep URL in sync with active thread (skip mount to avoid fighting page routing)
   useEffect(() => {
+    if (mountRef.current) return;
     if (threadId) {
       router.replace({
         pathname: "/chat/[convId]",

@@ -13,10 +13,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
-import {
-  navigationAtom,
-  toggleNavigationAtom,
-} from "@/store/navigation-store";
+import { navigationAtom, toggleNavigationAtom } from "@/store/navigation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -143,7 +140,11 @@ function CollapsibleNavItem(props: {
       {isExpanded && (
         <ul className="mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
           {props.item.submenu!.map((subItem) => {
-            const isSubActive = isActiveLink(pathname, subItem.href, subItem.exact);
+            const isSubActive = isActiveLink(
+              pathname,
+              subItem.href,
+              subItem.exact,
+            );
             return (
               <li key={subItem.name}>
                 <Link
