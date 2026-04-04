@@ -6,7 +6,7 @@ CREATE TABLE `conversations` (
 	`share_id` text,
 	`total_input_tokens` integer DEFAULT 0 NOT NULL,
 	`total_output_tokens` integer DEFAULT 0 NOT NULL,
-	`total_cost` integer DEFAULT 0 NOT NULL,
+	`total_cost` real DEFAULT 0 NOT NULL,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
@@ -34,7 +34,7 @@ CREATE TABLE `messages` (
 	`request_id` text,
 	`input_tokens` integer,
 	`output_tokens` integer,
-	`cost` integer,
+	`cost` real,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );

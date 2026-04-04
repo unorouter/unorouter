@@ -1,4 +1,5 @@
 import { createClient } from "@libsql/client";
+import { execSync } from "child_process";
 import { error, log } from "console";
 import { readdirSync, rmSync } from "fs";
 import { resolve } from "path";
@@ -32,6 +33,13 @@ try {
   }
 
   log("Database reset successfully.");
+
+  // Regenerate schema and migrations
+  log("Running db:generate...");
+  execSync("bun run db:generate", {
+    cwd: resolve(import.meta.dirname, ".."),
+    stdio: "inherit",
+  });
 } catch (err) {
   error("Error resetting database:", err);
 } finally {

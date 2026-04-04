@@ -5,6 +5,7 @@ import {
   extractParts,
   mapRawMessages,
 } from "@/components/pages/chat/utils/chat-utils";
+import { MessageMetaProvider } from "@/components/pages/chat/utils/message-meta-context";
 import { createThreadListAdapter } from "@/components/pages/chat/utils/thread-list-adapter";
 import {
   useConversationQuery,
@@ -44,8 +45,9 @@ function ChatRuntimeHook() {
   const persistMutation = usePersistMessagesMutation();
 
   // Sync remoteId into jotai convId (single source of truth for conversation ID)
+  // Clear when switching to a new thread (remoteId becomes undefined)
   useEffect(() => {
-    if (remoteId) setConvId(remoteId);
+    setConvId(remoteId ?? null);
   }, [remoteId]);
 
   // Mutable per-message context for closures that outlive the render
@@ -230,7 +232,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
 
   return (
     <AssistantRuntimeProvider runtime={runtime}>
-      {props.children}
+      <MessageMetaProvider>{props.children}</MessageMetaProvider>
     </AssistantRuntimeProvider>
   );
 }

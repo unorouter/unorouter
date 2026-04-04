@@ -2,7 +2,7 @@
 
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
-import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
+import { useConversationQuery, useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAui, useAuiState } from "@assistant-ui/react";
@@ -17,9 +17,9 @@ export function Chat(props: { initialConvId?: string }) {
   const token = useApiKey();
   const aui = useAui();
   const threadId = useAuiState((s) => s.threadListItem.remoteId);
-  const messagesQuery = useMessagesInfiniteQuery(
-    threadId ?? props.initialConvId,
-  );
+  const activeConvId = threadId ?? props.initialConvId;
+  const messagesQuery = useMessagesInfiniteQuery(activeConvId);
+  const convQuery = useConversationQuery(threadId);
   const mountRef = useRef(true);
 
   // Sync runtime thread with route on mount
@@ -101,7 +101,18 @@ export function Chat(props: { initialConvId?: string }) {
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
       {threadId && (
-        <div className="absolute top-2 right-4 z-10">
+        <div className="absolute top-2 right-4 z-10 flex items-center gap-3">
+          {convQuery.data && (convQuery.data.totalInputTokens > 0 || convQuery.data.totalOutputTokens > 0) && (
+            <div className="text-muted-foreground flex items-center gap-2 text-[11px] tabular-nums">
+              <span>{convQuery.data.totalInputTokens.toLocaleString()} in</span>
+              <span>{convQuery.data.totalOutputTokens.toLocaleString()} out</span>
+              {convQuery.data.totalCost > 0 && (
+                <span className="text-foreground/70 font-medium">
+                  ${convQuery.data.totalCost.toFixed(4)}
+                </span>
+              )}
+            </div>
+          )}
           <ShareButton convId={threadId} />
         </div>
       )}

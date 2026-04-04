@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "5afff070-9ef2-4c3c-a5b3-fbae721f3319",
+  "id": "149381d2-2baa-4908-8613-89e670859116",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "conversations": {
@@ -60,7 +60,7 @@
         },
         "total_cost": {
           "name": "total_cost",
-          "type": "integer",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
@@ -248,7 +248,7 @@
         },
         "cost": {
           "name": "cost",
-          "type": "integer",
+          "type": "real",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

@@ -9,7 +9,10 @@ import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
 import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { useMessageMeta } from "@/components/pages/chat/utils/message-meta-context";
 import { Button } from "@/components/ui/button";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
 import {
   ActionBarPrimitive,
@@ -269,8 +272,47 @@ const AssistantMessage: FC = () => {
       <div className="aui-assistant-message-footer mt-1 ml-2 flex min-h-6 items-center">
         <BranchPicker />
         <AssistantActionBar />
+        <AssistantMessageMeta />
       </div>
     </MessagePrimitive.Root>
+  );
+};
+
+const AssistantMessageMeta: FC = () => {
+  const msgId = useAuiState((s) => s.message.id);
+  const meta = useMessageMeta(msgId);
+  const pricingQuery = usePricingQuery();
+
+  if (!meta?.model) return null;
+
+  const modelData = pricingQuery.data?.models?.find(
+    (m) => m.name === meta.model,
+  );
+  const vendorName =
+    typeof modelData?.vendor === "string"
+      ? modelData.vendor
+      : (modelData?.vendor?.name ?? "");
+
+  const hasTokens = meta.inputTokens != null || meta.outputTokens != null;
+
+  return (
+    <div className="text-muted-foreground ml-auto flex items-center gap-1.5 text-[11px] tabular-nums">
+      {vendorName && <VendorIcon vendor={vendorName} size={12} />}
+      <span className="opacity-70">{meta.model}</span>
+      {hasTokens && (
+        <>
+          <span className="opacity-40">|</span>
+          <span>{meta.inputTokens ?? 0} in</span>
+          <span>{meta.outputTokens ?? 0} out</span>
+        </>
+      )}
+      {meta.cost != null && meta.cost > 0 && (
+        <>
+          <span className="opacity-40">|</span>
+          <span>${meta.cost.toFixed(6)}</span>
+        </>
+      )}
+    </div>
   );
 };
 

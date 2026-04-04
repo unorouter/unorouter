@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
 
 export const conversations = sqliteTable(
@@ -12,7 +12,7 @@ export const conversations = sqliteTable(
     shareId: text("share_id").unique(),
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
-    totalCost: integer("total_cost").notNull().default(0),
+    totalCost: real("total_cost").notNull().default(0),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -39,7 +39,7 @@ export const messages = sqliteTable(
     requestId: text("request_id"),
     inputTokens: integer("input_tokens"),
     outputTokens: integer("output_tokens"),
-    cost: integer("cost"),
+    cost: real("cost"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

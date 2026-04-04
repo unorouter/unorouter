@@ -1,4 +1,4 @@
-import { quotaToDollars } from "@/lib/config/constants";
+import { QUOTA_PER_DOLLAR } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/client";
 import { conversations } from "@/lib/db/schema";
 import { getUserLogs } from "@/openapi";
@@ -9,7 +9,11 @@ import { pendingUsageByConv } from "./message.service";
 
 export async function streamChat(
   apiKey: string,
-  body: { model: string; messages: Parameters<typeof convertToModelMessages>[0]; convId?: string | null },
+  body: {
+    model: string;
+    messages: Parameters<typeof convertToModelMessages>[0];
+    convId?: string | null;
+  },
   request: Request,
 ) {
   const provider = getProvider(apiKey);
@@ -32,10 +36,8 @@ export async function streamChat(
             { request_id: reqId, type: 2, page_size: 1 },
             { headers: upstream.headers },
           );
-          const quota =
-            (logRes.data as { data?: { items?: { quota?: number }[] } })
-              ?.data?.items?.[0]?.quota ?? 0;
-          cost = quotaToDollars(quota);
+          const quota = logRes.data!.data?.items?.[0]?.quota ?? 0;
+          cost = quota / QUOTA_PER_DOLLAR;
         } catch {
           // Log lookup failed, store tokens without cost
         }

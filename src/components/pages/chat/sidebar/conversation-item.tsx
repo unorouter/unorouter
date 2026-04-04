@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { renderQuota } from "@/lib/config/constants";
+
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -116,7 +116,7 @@ export function ConversationItem(props: ConversationItemProps) {
             </span>
             {props.conversation.totalCost ? (
               <span className="text-muted-foreground shrink-0 text-[10px]">
-                {renderQuota(props.conversation.totalCost)}
+                ${props.conversation.totalCost.toFixed(4)}
               </span>
             ) : null}
           </div>
