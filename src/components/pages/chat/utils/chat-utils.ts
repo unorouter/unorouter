@@ -3,6 +3,7 @@ import type {
   MessagePart,
 } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
+import { setConvId } from "@/store/chat-store";
 import type { useChat } from "@ai-sdk/react";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { UIMessage } from "ai";
@@ -61,25 +62,10 @@ export function createR2AttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
+      // Ensure a convId exists for R2 upload (new thread gets one pre-generated)
       if (!ctx.convId) {
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = (error) => reject(error);
-          reader.readAsDataURL(attachment.file!);
-        });
-        return {
-          ...attachment,
-          status: { type: "complete" },
-          content: [
-            {
-              type: "file",
-              mimeType: attachment.contentType ?? "",
-              filename: attachment.name,
-              data: dataUrl,
-            },
-          ],
-        };
+        ctx.convId = uid();
+        setConvId(ctx.convId);
       }
 
       const formData = new FormData();
