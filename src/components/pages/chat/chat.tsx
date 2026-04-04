@@ -104,8 +104,8 @@ export function Chat(props: { initialConvId?: string }) {
         <div className="absolute top-2 right-4 z-10 flex items-center gap-3">
           {convQuery.data && (convQuery.data.totalInputTokens > 0 || convQuery.data.totalOutputTokens > 0) && (
             <div className="text-muted-foreground flex items-center gap-2 text-[11px] tabular-nums">
-              <span>{convQuery.data.totalInputTokens.toLocaleString()} in</span>
-              <span>{convQuery.data.totalOutputTokens.toLocaleString()} out</span>
+              <span>{convQuery.data.totalInputTokens.toLocaleString()} {t("CHAT.TOKENS_IN")}</span>
+              <span>{convQuery.data.totalOutputTokens.toLocaleString()} {t("CHAT.TOKENS_OUT")}</span>
               {convQuery.data.totalCost > 0 && (
                 <span className="text-foreground/70 font-medium">
                   ${convQuery.data.totalCost.toFixed(4)}

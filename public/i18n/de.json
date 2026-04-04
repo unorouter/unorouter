@@ -1243,7 +1243,7 @@
     "MODEL_GROUP_VIDEO": "Videogenerierung",
     "INPUT_PLACEHOLDER": "Nachricht eingeben...",
     "START_PROMPT": "Sende eine Nachricht, um die Unterhaltung zu starten.",
-    "THINKING": "Denke nach...",
+    "THINKING": "Denkt nach",
     "DISCLAIMER": "KI-Antworten können ungenau sein. Wichtige Informationen bitte überprüfen.",
     "SHARE": "Teilen",
     "SHARE_TITLE": "Unterhaltung teilen",
@@ -1276,7 +1276,6 @@
     "MESSAGE_INPUT": "Nachrichteneingabe",
     "CANCEL": "Abbrechen",
     "UPDATE": "Aktualisieren",
-    "THINKING": "Denkt nach",
     "USED_TOOL": "Verwendetes Werkzeug",
     "CANCELLED_TOOL": "Abgebrochenes Werkzeug",
     "RESULT": "Ergebnis:",
@@ -1289,7 +1288,9 @@
     "ATTACHMENT_PREVIEW": "Anhangsvorschau",
     "IMAGE_ATTACHMENT_PREVIEW": "Bild-Anhangsvorschau",
     "ATTACHMENT": "Anhang",
-    "SEARCH_CHATS": "Chats durchsuchen"
+    "SEARCH_CHATS": "Chats durchsuchen",
+    "TOKENS_IN": "ein",
+    "TOKENS_OUT": "aus"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Nicht autorisiert",

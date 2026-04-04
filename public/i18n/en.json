@@ -1243,7 +1243,7 @@
     "MODEL_GROUP_VIDEO": "Video Generation",
     "INPUT_PLACEHOLDER": "Type your message...",
     "START_PROMPT": "Send a message to start the conversation.",
-    "THINKING": "Thinking...",
+    "THINKING": "Thinking",
     "DISCLAIMER": "AI responses may be inaccurate. Verify important information.",
     "SHARE": "Share",
     "SHARE_TITLE": "Share Conversation",
@@ -1276,7 +1276,6 @@
     "MESSAGE_INPUT": "Message input",
     "CANCEL": "Cancel",
     "UPDATE": "Update",
-    "THINKING": "Thinking",
     "USED_TOOL": "Used tool",
     "CANCELLED_TOOL": "Cancelled tool",
     "RESULT": "Result:",
@@ -1289,7 +1288,9 @@
     "ATTACHMENT_PREVIEW": "Attachment preview",
     "IMAGE_ATTACHMENT_PREVIEW": "Image Attachment Preview",
     "ATTACHMENT": "attachment",
-    "SEARCH_CHATS": "Search chats"
+    "SEARCH_CHATS": "Search chats",
+    "TOKENS_IN": "in",
+    "TOKENS_OUT": "out"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Unauthorized",

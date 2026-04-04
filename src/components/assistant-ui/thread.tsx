@@ -279,6 +279,7 @@ const AssistantMessage: FC = () => {
 };
 
 const AssistantMessageMeta: FC = () => {
+  const t = useTranslations();
   const msgId = useAuiState((s) => s.message.id);
   const meta = useMessageMeta(msgId);
   const pricingQuery = usePricingQuery();
@@ -302,8 +303,8 @@ const AssistantMessageMeta: FC = () => {
       {hasTokens && (
         <>
           <span className="opacity-40">|</span>
-          <span>{meta.inputTokens ?? 0} in</span>
-          <span>{meta.outputTokens ?? 0} out</span>
+          <span>{meta.inputTokens ?? 0} {t("CHAT.TOKENS_IN")}</span>
+          <span>{meta.outputTokens ?? 0} {t("CHAT.TOKENS_OUT")}</span>
         </>
       )}
       {meta.cost != null && meta.cost > 0 && (
