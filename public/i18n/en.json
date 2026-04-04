@@ -1290,7 +1290,10 @@
     "ATTACHMENT": "attachment",
     "SEARCH_CHATS": "Search chats",
     "TOKENS_IN": "in",
-    "TOKENS_OUT": "out"
+    "TOKENS_OUT": "out",
+    "WEB_SEARCH": "Web Search",
+    "WEB_SEARCH_ON": "Web search enabled",
+    "WEB_SEARCH_OFF": "Web search disabled"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Unauthorized",

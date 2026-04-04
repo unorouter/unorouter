@@ -7,10 +7,12 @@ export const CHAT_STORE_KEY = "chat-store";
 
 export type ChatState = {
   model: string | null;
+  webSearch: boolean;
 };
 
 export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
+  webSearch: false,
 };
 
 export const chatStoreAtom = atomWithStorage<ChatState>(
@@ -23,6 +25,13 @@ export const chatModelAtom = atom(
   (get) => get(chatStoreAtom).model,
   (get, set, value: string | null) => {
     set(chatStoreAtom, { ...get(chatStoreAtom), model: value });
+  },
+);
+
+export const chatWebSearchAtom = atom(
+  (get) => get(chatStoreAtom).webSearch,
+  (get, set, value: boolean) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), webSearch: value });
   },
 );
 
@@ -39,6 +48,14 @@ export const getChatModel = (): string | null => {
     if (raw) return (JSON.parse(String(raw)) as ChatState).model;
   } catch {}
   return null;
+};
+
+export const getChatWebSearch = (): boolean => {
+  try {
+    const raw = getCookie(CHAT_STORE_KEY);
+    if (raw) return (JSON.parse(String(raw)) as ChatState).webSearch ?? false;
+  } catch {}
+  return false;
 };
 
 export const getConvId = () => chatStore.get(convIdAtom);

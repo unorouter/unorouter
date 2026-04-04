@@ -21,6 +21,7 @@ import { uid } from "@/lib/utils/base";
 import {
   chatModelAtom,
   getChatModel,
+  getChatWebSearch,
   getConvId,
   setConvId,
   setMessageMeta
@@ -77,6 +78,7 @@ function ChatRuntimeHook() {
       body: () => ({
         model: getChatModel(),
         convId: getConvId(),
+        webSearch: getChatWebSearch(),
       }),
     }),
   );

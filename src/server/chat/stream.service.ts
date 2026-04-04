@@ -8,6 +8,7 @@ export async function streamChat(
     model: string;
     messages: Parameters<typeof convertToModelMessages>[0];
     convId?: string | null;
+    webSearch?: boolean;
   },
   request: Request,
 ) {
@@ -17,6 +18,9 @@ export async function streamChat(
   const result = streamText({
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(body.messages),
+    providerOptions: body.webSearch
+      ? { unorouter: { web_search_options: {} } }
+      : undefined,
     onFinish: ({ usage, response }) => {
       if (!body.convId) return;
 

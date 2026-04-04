@@ -1290,7 +1290,10 @@
     "ATTACHMENT": "Anhang",
     "SEARCH_CHATS": "Chats durchsuchen",
     "TOKENS_IN": "ein",
-    "TOKENS_OUT": "aus"
+    "TOKENS_OUT": "aus",
+    "WEB_SEARCH": "Websuche",
+    "WEB_SEARCH_ON": "Websuche aktiviert",
+    "WEB_SEARCH_OFF": "Websuche deaktiviert"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Nicht autorisiert",

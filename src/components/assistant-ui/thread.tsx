@@ -12,9 +12,8 @@ import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { messageMetaAtom } from "@/store/chat-store";
-import { useAtomValue } from "jotai";
 import { cn } from "@/lib/utils";
+import { chatWebSearchAtom, messageMetaAtom } from "@/store/chat-store";
 import {
   ActionBarPrimitive,
   AuiIf,
@@ -26,6 +25,7 @@ import {
   ThreadPrimitive,
   useAuiState,
 } from "@assistant-ui/react";
+import { useAtom, useAtomValue } from "jotai";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -39,7 +39,7 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { createContext, type FC, type UIEvent, useContext } from "react";
-import { LuMessageCircle } from "react-icons/lu";
+import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
 
 const ReadOnlyContext = createContext(false);
 
@@ -190,11 +190,33 @@ const Composer: FC = () => {
   );
 };
 
+const ComposerWebSearchToggle: FC = () => {
+  const t = useTranslations();
+  const [webSearch, setWebSearch] = useAtom(chatWebSearchAtom);
+  return (
+    <TooltipIconButton
+      tooltip={webSearch ? t("CHAT.WEB_SEARCH_ON") : t("CHAT.WEB_SEARCH_OFF")}
+      variant={webSearch ? "default" : "ghost"}
+      className="aui-composer-web-search size-8 rounded-full transition-colors"
+      onClick={() => setWebSearch(!webSearch)}
+    >
+      {webSearch ? (
+        <LuGlobe className="size-4" />
+      ) : (
+        <LuGlobeLock className="size-4" />
+      )}
+    </TooltipIconButton>
+  );
+};
+
 const ComposerAction: FC = () => {
   const t = useTranslations();
   return (
     <div className="aui-composer-action-wrapper relative flex items-center justify-between">
-      <ComposerAddAttachment />
+      <div className="flex items-center">
+        <ComposerAddAttachment />
+        <ComposerWebSearchToggle />
+      </div>
       <AuiIf condition={(s) => !s.thread.isRunning}>
         <ComposerPrimitive.Send asChild>
           <TooltipIconButton
@@ -305,8 +327,12 @@ const AssistantMessageMeta: FC = () => {
       {hasTokens && (
         <>
           <span className="opacity-40">|</span>
-          <span>{meta.inputTokens ?? 0} {t("CHAT.TOKENS_IN")}</span>
-          <span>{meta.outputTokens ?? 0} {t("CHAT.TOKENS_OUT")}</span>
+          <span>
+            {meta.inputTokens ?? 0} {t("CHAT.TOKENS_IN")}
+          </span>
+          <span>
+            {meta.outputTokens ?? 0} {t("CHAT.TOKENS_OUT")}
+          </span>
         </>
       )}
       {meta.cost != null && meta.cost > 0 && (

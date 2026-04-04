@@ -40,6 +40,7 @@ export const streamBody = t.Object({
   model: t.String(),
   messages: t.Any(),
   convId: t.Optional(t.Union([t.String(), t.Null()])),
+  webSearch: t.Optional(t.Boolean()),
 });
 
 export const mediaUploadBody = t.Object({
