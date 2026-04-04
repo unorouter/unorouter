@@ -241,29 +241,34 @@ export function usePersistMessagesMutation() {
       );
       chatStore.set(messageMetaAtom, [...prev, ...newEntries]);
 
-      // Patch sidebar: update title and/or cost
-      if (data.title || data.usage) {
-        queryClient.setQueryData<InfiniteData<ConversationsData>>(
-          queryKeys.conversations(),
-          (old) => {
-            if (!old) return old;
-            return {
-              ...old,
-              pages: old.pages.map((page) => ({
-                ...page,
-                items: page.items.map((item) => {
-                  if (item.id !== id) return item;
-                  const updated = { ...item };
-                  if (data.title) updated.title = data.title;
-                  if (data.usage?.cost)
-                    updated.totalCost = (updated.totalCost ?? 0) + data.usage.cost;
-                  return updated;
-                }),
-              })),
-            };
-          },
-        );
-      }
+      // Patch sidebar: update timestamp, title, cost and move to top
+      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+        queryKeys.conversations(),
+        (old) => {
+          if (!old) return old;
+          let target: ConversationsData["items"][number] | undefined;
+          const pagesWithout = old.pages.map((page) => ({
+            ...page,
+            items: page.items.filter((item) => {
+              if (item.id !== id) return true;
+              target = { ...item, updatedAt: new Date() };
+              if (data.title) target.title = data.title;
+              if (data.usage?.cost)
+                target.totalCost = (target.totalCost ?? 0) + data.usage.cost;
+              return false;
+            }),
+          }));
+          if (!target) return old;
+          const firstPage = pagesWithout[0];
+          return {
+            ...old,
+            pages: [
+              { ...firstPage, items: [target, ...firstPage.items] },
+              ...pagesWithout.slice(1),
+            ],
+          };
+        },
+      );
 
       // Patch conversation meta cache for header totals
       if (data.usage) {
