@@ -24,9 +24,9 @@ import {
   useRemoteThreadListRuntime,
 } from "@assistant-ui/react";
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
+import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
 import { useAtomValue } from "jotai";
-import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 
 function ChatRuntimeHook() {
@@ -84,6 +84,7 @@ function ChatRuntimeHook() {
 
   // Feed loaded messages into useChat (initial load + older pages from infinite scroll)
   const loadedPagesRef = useRef<LoadedPagesState | null>(null);
+
   useEffect(() => {
     if (!messagesQuery.data) return;
     const pageCount = messagesQuery.data.pages.length;
@@ -97,27 +98,55 @@ function ChatRuntimeHook() {
     const messages = mapRawMessages(allPages.flatMap((p) => p.messages));
     if (messages.length === 0) return;
 
-    if (isPrepend) {
-      // Preserve scroll position when prepending older messages
-      const viewport = document.querySelector(".aui-thread-viewport");
-      const prevHeight = viewport?.scrollHeight ?? 0;
-      const prevTop = viewport?.scrollTop ?? 0;
+    const vp = isPrepend
+      ? document.querySelector(".aui-thread-viewport")
+      : null;
+
+    if (!isPrepend || !vp) {
       chat.setMessages(messages);
-      requestAnimationFrame(() => {
-        if (!viewport) return;
-        const target = prevTop + (viewport.scrollHeight - prevHeight);
-        viewport.scrollTop = target;
-        // Override autoScroll for a few frames
-        let frames = 0;
-        const keep = () => {
-          viewport.scrollTop = target;
-          if (++frames < 10) requestAnimationFrame(keep);
-        };
-        requestAnimationFrame(keep);
-      });
-    } else {
-      chat.setMessages(messages);
+      return;
     }
+
+    // Capture anchor before React replaces DOM nodes
+    const anchor = vp.querySelector("[data-message-id]") as HTMLElement | null;
+    const aid = anchor?.getAttribute("data-message-id");
+    const offset = anchor ? anchor.offsetTop - vp.scrollTop : null;
+    const msgCount = vp.querySelectorAll("[data-message-id]").length;
+
+    vp.classList.remove("scroll-smooth");
+    chat.setMessages(messages);
+
+    // Idempotent: sets scrollTop so anchor stays at its previous visual offset
+    const restore = () => {
+      const el = aid
+        ? (vp.querySelector(`[data-message-id="${aid}"]`) as HTMLElement)
+        : null;
+      if (el && offset !== null) vp.scrollTop = el.offsetTop - offset;
+    };
+
+    // Poll until React renders new messages, then anchor + watch for reflows
+    let n = 0;
+    const poll = () => {
+      if (vp.querySelectorAll("[data-message-id]").length <= msgCount) {
+        if (++n < 30) requestAnimationFrame(poll);
+        else vp.classList.add("scroll-smooth");
+        return;
+      }
+      restore();
+      let h = vp.scrollHeight;
+      const obs = new MutationObserver(() => {
+        if (vp.scrollHeight !== h) {
+          h = vp.scrollHeight;
+          restore();
+        }
+      });
+      obs.observe(vp, { childList: true, subtree: true, attributes: true });
+      setTimeout(() => {
+        obs.disconnect();
+        vp.classList.add("scroll-smooth");
+      }, 1000);
+    };
+    requestAnimationFrame(poll);
   }, [messagesQuery.data, threadId]);
 
   const wrappedChat = {
