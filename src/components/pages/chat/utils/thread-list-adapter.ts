@@ -1,3 +1,4 @@
+import { PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenResponse } from "@/lib/types/eden";
@@ -8,22 +9,28 @@ import type { InfiniteData, QueryClient } from "@tanstack/react-query";
 import { createAssistantStream } from "assistant-stream";
 
 type ConversationsData = EdenResponse<{ get: typeof rpc.api.chat.get }, "get">;
-type ConversationMeta = EdenResponse<ReturnType<typeof rpc.api.chat>, "get">;
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
 ): RemoteThreadListAdapter {
   return {
     async list() {
-      // Use SSR-prefetched data from React Query cache when available
-      const cached = queryClient.getQueryData<InfiniteData<ConversationsData>>(
-        queryKeys.conversations(),
-      );
-      const items = cached
-        ? cached.pages.flatMap((p) => p.items)
-        : handleElysia(
-            await rpc.api.chat.get({ query: { p: 1, page_size: 100 } }),
-          ).items;
+      // Use SSR-prefetched data or fetch into cache so useConversationsInfiniteQuery gets a hit
+      const data =
+        queryClient.getQueryData<InfiniteData<ConversationsData>>(
+          queryKeys.conversations(),
+        ) ??
+        (await queryClient.fetchInfiniteQuery({
+          queryKey: queryKeys.conversations(),
+          queryFn: async ({ pageParam }) =>
+            handleElysia(
+              await rpc.api.chat.get({
+                query: { p: pageParam, page_size: PAGE_SIZE },
+              }),
+            ),
+          initialPageParam: 1,
+        }));
+      const items = data.pages.flatMap((p) => p.items);
 
       return {
         threads: items.map((item) => ({
@@ -102,11 +109,11 @@ export function createThreadListAdapter(
     },
 
     async fetch(id) {
-      const cached = queryClient.getQueryData<ConversationMeta>(
-        queryKeys.conversation(id),
-      );
-      const data =
-        cached ?? handleElysia(await rpc.api.chat({ id }).meta.get());
+      const data = await queryClient.fetchQuery({
+        queryKey: queryKeys.conversation(id),
+        queryFn: async () =>
+          handleElysia(await rpc.api.chat({ id }).meta.get()),
+      });
       return {
         remoteId: data.id,
         status: "regular" as const,

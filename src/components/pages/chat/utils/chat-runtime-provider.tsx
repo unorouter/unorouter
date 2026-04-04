@@ -36,6 +36,7 @@ import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
 import { useAtom } from "jotai";
+import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 function ChatRuntimeHook() {
@@ -64,13 +65,15 @@ function ChatRuntimeHook() {
       setChatModel(conversationQuery.data.model);
   }, [conversationQuery.data?.model]);
 
-  // Persist model change to server when user switches model on an active conversation
+  // Persist model change to server when user switches model on an active conversation.
+  // Only fire when the user explicitly picks a model that differs from what the server has.
   const updateConversation = useUpdateConversationMutation();
+  const serverModel = conversationQuery.data?.model;
   useEffect(() => {
-    if (!remoteId || !model) return;
-    if (conversationQuery.data?.model === model) return;
+    if (!remoteId || !model || !serverModel) return;
+    if (model === serverModel) return;
     updateConversation.mutate({ id: remoteId, body: { model } });
-  }, [model]);
+  }, [model, remoteId, serverModel]);
 
   const transportRef = useRef(
     new DefaultChatTransport({
@@ -244,11 +247,13 @@ function ChatRuntimeHook() {
 }
 
 export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
+  const params = useParams<{ convId?: string }>();
   const queryClient = useQueryClient();
   const adapterRef = useRef(createThreadListAdapter(queryClient));
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
     adapter: adapterRef.current,
+    initialThreadId: params.convId,
   });
 
   return (

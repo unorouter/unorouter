@@ -7,10 +7,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUpdateConversationMutation } from "@/hooks/chat-hook";
+import {
+  prefetchConversation,
+  useUpdateConversationMutation,
+} from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 
 import { cn } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LuCheck, LuEllipsis, LuPencil, LuTrash2, LuX } from "react-icons/lu";
@@ -30,6 +34,7 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
+  const queryClient = useQueryClient();
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
   const [isEditing, setIsEditing] = useState(false);
@@ -68,6 +73,7 @@ export function ConversationItem(props: ConversationItemProps) {
       role="button"
       tabIndex={0}
       onClick={props.onSelect}
+      onMouseEnter={() => prefetchConversation(queryClient, props.conversation.id)}
       onKeyDown={(e) => e.key === "Enter" && props.onSelect()}
       data-active={props.isSelected || undefined}
       className={cn(

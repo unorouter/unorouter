@@ -13,6 +13,7 @@ import {
 } from "@/store/chat-store";
 import {
   type InfiniteData,
+  type QueryClient,
   useInfiniteQuery,
   useMutation,
   useQuery,
@@ -288,5 +289,22 @@ export function usePersistMessagesMutation() {
         );
       }
     },
+  });
+}
+
+export function prefetchConversation(queryClient: QueryClient, id: string) {
+  queryClient.prefetchQuery({
+    queryKey: queryKeys.conversation(id),
+    queryFn: async () => handleElysia(await chatRoute({ id }).meta.get()),
+  });
+  queryClient.prefetchInfiniteQuery({
+    queryKey: queryKeys.conversationMessages(id),
+    queryFn: async ({ pageParam }) =>
+      handleElysia(
+        await chatRoute({ id }).get({
+          query: { p: pageParam, page_size: PAGE_SIZE },
+        }),
+      ),
+    initialPageParam: 1,
   });
 }

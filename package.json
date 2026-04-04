@@ -80,5 +80,8 @@
     "prettier-plugin-tailwindcss": "0.7.2",
     "tailwindcss": "4.2.2",
     "typescript": "6.0.2"
+  },
+  "patchedDependencies": {
+    "@assistant-ui/core@0.1.10": "patches/@assistant-ui%2Fcore@0.1.10.patch"
   }
 }

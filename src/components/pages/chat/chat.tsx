@@ -6,7 +6,7 @@ import { formatPrice } from "@/lib/utils/base";
 import { useConversationQuery, useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
-import { useAui, useAuiState } from "@assistant-ui/react";
+import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
@@ -16,27 +16,17 @@ export function Chat(props: { initialConvId?: string }) {
   const t = useTranslations();
   const router = useRouter();
   const token = useApiKey();
-  const aui = useAui();
   const threadId = useAuiState((s) => s.threadListItem.remoteId);
-  const activeConvId = threadId ?? props.initialConvId;
-  const messagesQuery = useMessagesInfiniteQuery(activeConvId);
+  const messagesQuery = useMessagesInfiniteQuery(threadId);
   const convQuery = useConversationQuery(threadId);
-  const mountRef = useRef(true);
+  const skipFirstSync = useRef(true);
 
-  // Sync runtime thread with route on mount
+  // Keep URL in sync with active thread (skip first render to avoid fighting initialThreadId)
   useEffect(() => {
-    if (!mountRef.current) return;
-    mountRef.current = false;
-    if (props.initialConvId) {
-      aui.threads().switchToThread(props.initialConvId);
-    } else {
-      aui.threads().switchToNewThread();
+    if (skipFirstSync.current) {
+      skipFirstSync.current = false;
+      return;
     }
-  }, [props.initialConvId, aui]);
-
-  // Keep URL in sync with active thread (skip mount to avoid fighting page routing)
-  useEffect(() => {
-    if (mountRef.current) return;
     if (threadId) {
       router.replace({
         pathname: "/chat/[convId]",
