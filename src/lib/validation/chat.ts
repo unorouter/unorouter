@@ -1,6 +1,7 @@
 import { t } from "elysia";
 
 export const createConversationBody = t.Object({
+  id: t.Optional(t.String()),
   model: t.String(),
   title: t.Optional(t.String()),
 });
@@ -13,7 +14,6 @@ export const updateConversationBody = t.Object({
 export const persistMessagesBody = t.Object({
   messages: t.Array(
     t.Object({
-      id: t.Optional(t.String()),
       role: t.String(),
       model: t.Optional(t.String()),
       parts: t.Any(),
@@ -49,20 +49,17 @@ export const mediaUploadBody = t.Object({
     maxSize: "20m",
   }),
   convId: t.String(),
-  msgId: t.String(),
 });
 
 export const imageGenerationBody = t.Object({
   prompt: t.String(),
   model: t.String(),
   convId: t.String(),
-  msgId: t.String(),
 });
 
 export const videoGenerationBody = t.Object({
   prompt: t.String(),
   model: t.String(),
   convId: t.String(),
-  msgId: t.String(),
   image: t.Optional(t.String()),
 });

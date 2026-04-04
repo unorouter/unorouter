@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { uid } from "@/lib/utils/base";
 
 export const conversations = sqliteTable(
   "conversations",
@@ -28,7 +29,7 @@ export const conversations = sqliteTable(
 export const messages = sqliteTable(
   "messages",
   {
-    id: text("id").primaryKey(),
+    id: text("id").primaryKey().$defaultFn(() => uid()),
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),

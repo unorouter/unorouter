@@ -18,7 +18,12 @@ import type {
   PersistMessage,
 } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
-import { chatModelAtom } from "@/store/chat-store";
+import {
+  chatModelAtom,
+  getConvId,
+  getChatModel,
+  setConvId,
+} from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
   AssistantRuntimeProvider,
@@ -38,16 +43,16 @@ function ChatRuntimeHook() {
 
   const persistMutation = usePersistMessagesMutation();
 
-  // Mutable context for closures that outlive the render (onFinish, transport body, attachment adapter)
+  // Sync remoteId into jotai convId (single source of truth for conversation ID)
+  useEffect(() => {
+    if (remoteId) setConvId(remoteId);
+  }, [remoteId]);
+
+  // Mutable per-message context for closures that outlive the render
   const ctx = useRef<ChatRuntimeContext>({
-    remoteId,
-    model,
     sendModel: null,
-    msgId: "",
     pendingUserMessage: null,
   });
-  ctx.current.remoteId = remoteId;
-  ctx.current.model = model;
 
   // Sync conversation model to the selector when switching to an existing thread
   const conversationQuery = useConversationQuery(remoteId);
@@ -68,8 +73,8 @@ function ChatRuntimeHook() {
     new DefaultChatTransport({
       api: "/api/chat/stream",
       body: () => ({
-        model: ctx.current.model,
-        convId: ctx.current.remoteId,
+        model: getChatModel(),
+        convId: getConvId(),
       }),
     }),
   );
@@ -80,30 +85,33 @@ function ChatRuntimeHook() {
     id: threadId,
     transport: transportRef.current,
     onFinish: ({ message }) => {
-      const convId = ctx.current.remoteId;
-      if (!convId) return;
+      const convId = getConvId();
+      console.log(`[client onFinish] convId=${convId ?? "MISSING"}, msgId=${message.id}`);
+      if (!convId) {
+        console.log("[client onFinish] BAIL: no convId");
+        return;
+      }
 
       // Persist pending user message (from new thread where remoteId wasn't available at send time)
       const pending = ctx.current.pendingUserMessage;
-      const messages: PersistMessage[] = [];
+      const msgs: PersistMessage[] = [];
       const usedModel = ctx.current.sendModel ?? undefined;
       if (pending) {
-        messages.push({
-          id: pending.id,
+        msgs.push({
           role: "user",
           model: usedModel,
           parts: pending.parts,
         });
         ctx.current.pendingUserMessage = null;
       }
-      messages.push({
-        id: message.id,
+      msgs.push({
         role: message.role,
         model: usedModel,
         parts: message.parts,
       });
 
-      persistMutation.mutate({ id: convId, body: { messages } });
+      console.log(`[client onFinish] persisting ${msgs.length} messages to conv=${convId}`);
+      persistMutation.mutate({ id: convId, body: { messages: msgs } });
     },
   });
 
@@ -180,25 +188,30 @@ function ChatRuntimeHook() {
   const wrappedChat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
-      ctx.current.sendModel = ctx.current.model;
+      ctx.current.sendModel = getChatModel();
       const parts = extractParts(args[0]);
       if (parts.length > 0) {
-        const msgId = uid();
-        ctx.current.msgId = msgId;
-        const convId = ctx.current.remoteId;
+        const convId = getConvId();
+        console.log(`[sendMessage] convId before=${convId ?? "null"}, model=${getChatModel()}`);
+        if (!convId) {
+          // Pre-generate ID so the transport body and adapter.initialize use the same ID
+          const newId = uid();
+          setConvId(newId);
+          console.log(`[sendMessage] pre-generated convId=${newId}`);
+        }
         if (convId) {
           // Existing thread: persist immediately
           persistMutation.mutate({
             id: convId,
             body: {
               messages: [
-                { id: msgId, role: "user", model: ctx.current.model ?? undefined, parts },
+                { role: "user", model: getChatModel() ?? undefined, parts },
               ],
             },
           });
         } else {
           // New thread: stash until onFinish (after adapter.initialize sets remoteId)
-          ctx.current.pendingUserMessage = { id: msgId, parts };
+          ctx.current.pendingUserMessage = { parts };
         }
       }
 
@@ -209,8 +222,7 @@ function ChatRuntimeHook() {
   return useAISDKRuntime(wrappedChat, {
     adapters: {
       attachments: createR2AttachmentAdapter(() => ({
-        convId: ctx.current.remoteId ?? null,
-        msgId: ctx.current.msgId,
+        convId: getConvId(),
       })),
     },
   });

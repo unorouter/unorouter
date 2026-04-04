@@ -115,7 +115,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ body, cookie }) => {
       const db = getDb();
       const userId = getUserId(cookie);
-      const id = uid();
+      const id = body.id ?? uid();
       const now = new Date();
 
       await db.insert(conversations).values({
@@ -301,7 +301,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
       const toInsert = body.messages.map((msg) => ({
-        id: msg.id ?? uid(),
         convId: params.id,
         role: msg.role,
         model: msg.model,
@@ -309,8 +308,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         createdAt: new Date(),
       }));
 
+      let inserted: { id: string }[] = [];
       if (toInsert.length > 0) {
-        await db.insert(messages).values(toInsert).onConflictDoNothing();
+        inserted = await db
+          .insert(messages)
+          .values(toInsert)
+          .returning({ id: messages.id });
       }
 
       // Update conversation timestamp and title if first message
@@ -335,7 +338,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return {
         success: true,
         data: {
-          ids: toInsert.map((m) => m.id),
+          ids: inserted.map((m) => m.id),
           title: updates.title as string | undefined,
         },
       };
@@ -355,42 +358,56 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         model: provider.chatModel(body.model),
         messages: await convertToModelMessages(body.messages),
         onFinish: async ({ usage, response }) => {
-          if (!body.convId) return;
+          console.error(`[onFinish] convId=${body.convId ?? "MISSING"}, model=${body.model}`);
+          if (!body.convId) {
+            console.error("[onFinish] BAIL: no convId");
+            return;
+          }
           const db = getDb();
           const reqId = response.headers?.["x-oneapi-request-id"] ?? undefined;
           const inputTokens = usage.inputTokens ?? 0;
           const outputTokens = usage.outputTokens ?? 0;
+          console.error(`[onFinish] reqId=${reqId ?? "MISSING"}, tokens=${inputTokens}/${outputTokens}`);
 
           // Query new-api logs for exact cost
           let cost = 0;
           if (reqId) {
             try {
               const logRes = await getUserLogs(
-                { request_id: reqId, page_size: 1 },
+                { request_id: reqId, type: 2, page_size: 1 },
                 { headers: { cookie: cookieHeader } },
               );
               cost =
                 (logRes.data as { data?: { items?: { quota?: number }[] } })
                   ?.data?.items?.[0]?.quota ?? 0;
-            } catch {
-              // Log lookup failed, store tokens without cost
+              console.error(`[onFinish] cost lookup: ${cost}`);
+            } catch (e) {
+              console.error(`[onFinish] cost lookup FAILED: ${e}`);
             }
           }
 
-          // Update last assistant message with usage data
-          const lastMsg = await db
-            .select({ id: messages.id })
-            .from(messages)
-            .where(
-              and(
-                eq(messages.convId, body.convId),
-                eq(messages.role, "assistant"),
-              ),
-            )
-            .orderBy(desc(messages.createdAt))
-            .limit(1);
+          // Update last assistant message with usage data (retry since client may not have persisted yet)
+          let msgId: string | undefined;
+          for (let attempt = 0; attempt < 5; attempt++) {
+            const lastMsg = await db
+              .select({ id: messages.id })
+              .from(messages)
+              .where(
+                and(
+                  eq(messages.convId, body.convId),
+                  eq(messages.role, "assistant"),
+                ),
+              )
+              .orderBy(desc(messages.createdAt))
+              .limit(1);
+            msgId = lastMsg[0]?.id;
+            if (msgId) break;
+            console.error(`[onFinish] msg not found yet, attempt ${attempt + 1}/5`);
+            await new Promise((r) => setTimeout(r, 500));
+          }
 
-          if (lastMsg[0]) {
+          if (msgId) {
+            console.error(`[onFinish] UPDATING msg=${msgId} with reqId=${reqId}, cost=${cost}`);
             await db
               .update(messages)
               .set({
@@ -399,7 +416,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
                 outputTokens,
                 cost,
               })
-              .where(eq(messages.id, lastMsg[0].id));
+              .where(eq(messages.id, msgId));
+          } else {
+            console.error(`[onFinish] FAILED: could not find assistant msg for convId=${body.convId} after 5 attempts`);
           }
 
           // Increment conversation totals
@@ -429,7 +448,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const buffer = Buffer.from(await file.arrayBuffer());
       const ext = file.name.split(".").pop() ?? "bin";
       const filename = `${uid(8)}.${ext}`;
-      const key = mediaKey(body.convId, body.msgId, filename);
+      const key = mediaKey(body.convId, uid(8), filename);
       const url = await uploadToR2(key, buffer, file.type);
 
       return {
@@ -457,10 +476,11 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       }
 
       const urls: string[] = [];
+      const groupKey = uid(8);
       for (let i = 0; i < images.length; i++) {
         const image = images[i];
         const filename = `${uid(8)}.png`;
-        const key = mediaKey(body.convId, body.msgId, filename);
+        const key = mediaKey(body.convId, groupKey, filename);
         const buffer = Buffer.from(image.base64, "base64");
         const url = await uploadToR2(key, buffer, "image/png");
         urls.push(url);
@@ -506,7 +526,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
           const r2Url = await downloadAndUpload(
             videoUrl,
             body.convId,
-            body.msgId,
+            uid(8),
           );
           return { success: true, data: { url: r2Url } };
         }
@@ -543,7 +563,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
           const r2Url = await downloadAndUpload(
             videoUrl,
             body.convId,
-            body.msgId,
+            uid(8),
           );
           return { success: true, data: { url: r2Url } };
         }

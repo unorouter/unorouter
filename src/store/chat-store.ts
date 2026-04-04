@@ -1,5 +1,5 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
-import { atom, getDefaultStore } from "jotai";
+import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { getCookie } from "cookies-next/client";
 
@@ -26,13 +26,20 @@ export const chatModelAtom = atom(
   },
 );
 
-/** Read chat model outside React. Tries jotai store first, falls back to cookie. */
-export function getChatModel(): string | null {
-  const fromAtom = getDefaultStore().get(chatModelAtom);
+/** Active conversation ID (set by remoteId or pre-generated for new threads). */
+export const convIdAtom = atom<string | null>(null);
+
+export const chatStore = createStore();
+
+export const getChatModel = (): string | null => {
+  const fromAtom = chatStore.get(chatModelAtom);
   if (fromAtom) return fromAtom;
   try {
     const raw = getCookie(CHAT_STORE_KEY);
     if (raw) return (JSON.parse(String(raw)) as ChatState).model;
   } catch {}
   return null;
-}
+};
+
+export const getConvId = () => chatStore.get(convIdAtom);
+export const setConvId = (id: string | null) => chatStore.set(convIdAtom, id);

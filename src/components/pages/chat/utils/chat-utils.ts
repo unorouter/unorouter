@@ -1,7 +1,6 @@
 import type {
   AttachmentUploadContext,
   MessagePart,
-  PersistMessage,
 } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
 import type { useChat } from "@ai-sdk/react";
@@ -9,7 +8,7 @@ import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { UIMessage } from "ai";
 
 export function mapRawMessages(
-  raw: Pick<PersistMessage, "id" | "role" | "parts">[],
+  raw: { id: string; role: string; parts: unknown }[],
 ): UIMessage[] {
   return raw.map((msg) => ({
     id: msg.id,
@@ -86,7 +85,6 @@ export function createR2AttachmentAdapter(
       const formData = new FormData();
       formData.append("file", attachment.file!);
       formData.append("convId", ctx.convId);
-      formData.append("msgId", ctx.msgId);
 
       const res = await fetch("/api/chat/media", {
         method: "POST",
