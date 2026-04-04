@@ -10,6 +10,7 @@ import {
   useConversationQuery,
   useMessagesInfiniteQuery,
   usePersistMessagesMutation,
+  useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
 import type {
   ChatRuntimeContext,
@@ -54,6 +55,14 @@ function ChatRuntimeHook() {
       setChatModel(conversationQuery.data.model);
   }, [conversationQuery.data?.model]);
 
+  // Persist model change to server when user switches model on an active conversation
+  const updateConversation = useUpdateConversationMutation();
+  useEffect(() => {
+    if (!remoteId || !model) return;
+    if (conversationQuery.data?.model === model) return;
+    updateConversation.mutate({ id: remoteId, body: { model } });
+  }, [model]);
+
   const transportRef = useRef(
     new DefaultChatTransport({
       api: "/api/chat/stream",
@@ -94,7 +103,7 @@ function ChatRuntimeHook() {
   const loadedPagesRef = useRef<LoadedPagesState | null>(null);
 
   useEffect(() => {
-    if (!messagesQuery.data) return;
+    if (!remoteId || !messagesQuery.data) return;
     const pageCount = messagesQuery.data.pages.length;
     const prev = loadedPagesRef.current;
     if (prev && prev.threadId === threadId && prev.count === pageCount) return;
@@ -103,7 +112,10 @@ function ChatRuntimeHook() {
     loadedPagesRef.current = { threadId, count: pageCount };
 
     const allPages = [...messagesQuery.data.pages].reverse();
-    const messages = mapRawMessages(allPages.flatMap((p) => p.messages));
+    const seen = new Set<string>();
+    const messages = mapRawMessages(allPages.flatMap((p) => p.messages)).filter(
+      (m) => (seen.has(m.id) ? false : (seen.add(m.id), true)),
+    );
     if (messages.length === 0) return;
 
     const vp = isPrepend

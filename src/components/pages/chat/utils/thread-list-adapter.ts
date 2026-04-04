@@ -36,8 +36,7 @@ export function createThreadListAdapter(
     },
 
     async initialize(_id) {
-      const model =
-        getDefaultStore().get(chatModelAtom) ?? "claude-haiku-4-5-20251001";
+      const model = getDefaultStore().get(chatModelAtom)!;
       const data = handleElysia(await rpc.api.chat.post({ model }));
       const now = new Date();
       queryClient.setQueryData<InfiniteData<ConversationsData>>(
