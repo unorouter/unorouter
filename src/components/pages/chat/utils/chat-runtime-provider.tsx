@@ -208,12 +208,14 @@ function ChatRuntimeHook() {
       ctx.current.sendModel = getChatModel();
       const parts = extractParts(args[0]);
       if (parts.length > 0) {
-        const convId = getConvId();
+        // remoteId is the source of truth; getConvId() may be stale if useEffect hasn't synced yet
+        const convId = remoteId ?? null;
         if (!convId) {
           // Pre-generate ID so the transport body and adapter.initialize use the same ID
           setConvId(uid());
-        }
-        if (convId) {
+          // New thread: stash until onFinish (after adapter.initialize sets remoteId)
+          ctx.current.pendingUserMessage = { parts };
+        } else {
           // Existing thread: persist immediately
           persistMutation.mutate({
             id: convId,
@@ -223,9 +225,6 @@ function ChatRuntimeHook() {
               ],
             },
           });
-        } else {
-          // New thread: stash until onFinish (after adapter.initialize sets remoteId)
-          ctx.current.pendingUserMessage = { parts };
         }
       }
 
