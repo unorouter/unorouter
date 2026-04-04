@@ -9,6 +9,7 @@ import { createAssistantStream } from "assistant-stream";
 import { getDefaultStore } from "jotai";
 
 type ConversationsData = EdenResponse<{ get: typeof rpc.api.chat.get }, "get">;
+type ConversationMeta = EdenResponse<ReturnType<typeof rpc.api.chat>, "get">;
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -98,10 +99,14 @@ export function createThreadListAdapter(
     },
 
     async fetch(id) {
-      const data = handleElysia(await rpc.api.chat({ id }).meta.get());
+      const cached = queryClient.getQueryData<ConversationMeta>(
+        queryKeys.conversation(id),
+      );
+      const data =
+        cached ?? handleElysia(await rpc.api.chat({ id }).meta.get());
       return {
         remoteId: data.id,
-        status: "regular",
+        status: "regular" as const,
         title: data.title ?? undefined,
       };
     },
