@@ -44,9 +44,16 @@ export function AppSidebar(props: AppSidebarProps) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarNavigation navConfig={navConfig} chatContent={chatContent} />
-      </SidebarContent>
+      {navConfig === "chat" ? (
+        <>
+          <SidebarNavigation navConfig={navConfig} />
+          {chatContent}
+        </>
+      ) : (
+        <SidebarContent>
+          <SidebarNavigation navConfig={navConfig} />
+        </SidebarContent>
+      )}
     </Sidebar>
   );
 }

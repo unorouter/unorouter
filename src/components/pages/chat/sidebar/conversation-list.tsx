@@ -78,42 +78,50 @@ export function ConversationList() {
     if (activeThreadId === id) aui.threads().switchToNewThread();
   };
 
+  const searchInput = (
+    <div className="relative">
+      <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2" />
+      <Input
+        placeholder={t("CHAT.SEARCH_PLACEHOLDER")}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="h-8 pl-9 text-xs"
+      />
+    </div>
+  );
+
+  const conversationItems = (
+    <div className="flex flex-col gap-1">
+      {conversations.length === 0 ? (
+        <div className="text-muted-foreground p-4 text-center text-xs">
+          {search ? t("CHAT.NO_RESULTS") : t("CHAT.NO_CONVERSATIONS")}
+        </div>
+      ) : (
+        <>
+          {conversations.map((conv) => (
+            <ConversationItem
+              key={conv.id}
+              conversation={conv}
+              isSelected={conv.id === activeThreadId}
+              onSelect={() => handleSelect(conv.id)}
+              onDelete={() => handleDelete(conv.id)}
+            />
+          ))}
+          <div ref={sentinelRef} className="h-1" />
+          {conversationsQuery.isFetchingNextPage && (
+            <div className="flex items-center justify-center py-2">
+              <LuLoader className="text-muted-foreground h-4 w-4 animate-spin" />
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+
   const listContent = (
     <>
-      <div className="relative">
-        <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2" />
-        <Input
-          placeholder={t("CHAT.SEARCH_PLACEHOLDER")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="h-8 pl-9 text-xs"
-        />
-      </div>
-      <div className="mt-2 flex flex-col gap-1">
-        {conversations.length === 0 ? (
-          <div className="text-muted-foreground p-4 text-center text-xs">
-            {search ? t("CHAT.NO_RESULTS") : t("CHAT.NO_CONVERSATIONS")}
-          </div>
-        ) : (
-          <>
-            {conversations.map((conv) => (
-              <ConversationItem
-                key={conv.id}
-                conversation={conv}
-                isSelected={conv.id === activeThreadId}
-                onSelect={() => handleSelect(conv.id)}
-                onDelete={() => handleDelete(conv.id)}
-              />
-            ))}
-            <div ref={sentinelRef} className="h-1" />
-            {conversationsQuery.isFetchingNextPage && (
-              <div className="flex items-center justify-center py-2">
-                <LuLoader className="text-muted-foreground h-4 w-4 animate-spin" />
-              </div>
-            )}
-          </>
-        )}
-      </div>
+      {searchInput}
+      <div className="mt-2">{conversationItems}</div>
     </>
   );
 
@@ -147,8 +155,13 @@ export function ConversationList() {
   }
 
   return (
-    <SidebarGroup>
-      <SidebarGroupContent>{listContent}</SidebarGroupContent>
-    </SidebarGroup>
+    <>
+      <SidebarGroup className="shrink-0">
+        <SidebarGroupContent>{searchInput}</SidebarGroupContent>
+      </SidebarGroup>
+      <SidebarGroup className="min-h-0 flex-1 overflow-y-auto">
+        <SidebarGroupContent>{conversationItems}</SidebarGroupContent>
+      </SidebarGroup>
+    </>
   );
 }
