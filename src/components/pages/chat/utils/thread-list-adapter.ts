@@ -2,11 +2,10 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenResponse } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import { chatModelAtom } from "@/store/chat-store";
+import { getChatModel } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { InfiniteData, QueryClient } from "@tanstack/react-query";
 import { createAssistantStream } from "assistant-stream";
-import { getDefaultStore } from "jotai";
 
 type ConversationsData = EdenResponse<{ get: typeof rpc.api.chat.get }, "get">;
 type ConversationMeta = EdenResponse<ReturnType<typeof rpc.api.chat>, "get">;
@@ -36,7 +35,8 @@ export function createThreadListAdapter(
     },
 
     async initialize(_id) {
-      const model = getDefaultStore().get(chatModelAtom)!;
+      const model = getChatModel()!;
+      console.log("Initializing new thread with model", model);
       const data = handleElysia(await rpc.api.chat.post({ model }));
       const now = new Date();
       queryClient.setQueryData<InfiniteData<ConversationsData>>(
@@ -68,7 +68,7 @@ export function createThreadListAdapter(
     },
 
     async rename(id, title) {
-      handleElysia(await rpc.api.chat({ id }).put({ title }));
+      await rpc.api.chat({ id }).put({ title });
     },
 
     async archive(_id) {
@@ -80,7 +80,7 @@ export function createThreadListAdapter(
     },
 
     async delete(id) {
-      handleElysia(await rpc.api.chat({ id }).delete());
+      await rpc.api.chat({ id }).delete();
       queryClient.setQueryData<InfiniteData<ConversationsData>>(
         queryKeys.conversations(),
         (old) => {

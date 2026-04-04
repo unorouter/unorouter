@@ -1288,7 +1288,8 @@
     "IMAGE_PREVIEW": "Bildvorschau",
     "ATTACHMENT_PREVIEW": "Anhangsvorschau",
     "IMAGE_ATTACHMENT_PREVIEW": "Bild-Anhangsvorschau",
-    "ATTACHMENT": "Anhang"
+    "ATTACHMENT": "Anhang",
+    "SEARCH_CHATS": "Chats durchsuchen"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Nicht autorisiert",

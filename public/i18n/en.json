@@ -1288,7 +1288,8 @@
     "IMAGE_PREVIEW": "Image Preview",
     "ATTACHMENT_PREVIEW": "Attachment preview",
     "IMAGE_ATTACHMENT_PREVIEW": "Image Attachment Preview",
-    "ATTACHMENT": "attachment"
+    "ATTACHMENT": "attachment",
+    "SEARCH_CHATS": "Search chats"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Unauthorized",
