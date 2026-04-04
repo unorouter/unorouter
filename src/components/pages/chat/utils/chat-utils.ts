@@ -8,7 +8,9 @@ import type { useChat } from "@ai-sdk/react";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { UIMessage } from "ai";
 
-export function mapRawMessages(raw: PersistMessage[]): UIMessage[] {
+export function mapRawMessages(
+  raw: Pick<PersistMessage, "id" | "role" | "parts">[],
+): UIMessage[] {
   return raw.map((msg) => ({
     id: msg.id,
     role: msg.role as UIMessage["role"],

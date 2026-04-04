@@ -304,6 +304,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
         id: msg.id ?? uid(),
         convId: params.id,
         role: msg.role,
+        model: msg.model,
         parts: msg.parts,
         createdAt: new Date(),
       }));
@@ -392,7 +393,13 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
           if (lastMsg[0]) {
             await db
               .update(messages)
-              .set({ requestId: reqId, inputTokens, outputTokens, cost })
+              .set({
+                model: body.model,
+                requestId: reqId,
+                inputTokens,
+                outputTokens,
+                cost,
+              })
               .where(eq(messages.id, lastMsg[0].id));
           }
 

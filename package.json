@@ -11,8 +11,6 @@
     "prettier": "prettier --write .",
     "openapi": "orval --config ./orval.config.ts",
     "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio",
     "db:reset": "bun drizzle/reset-db.ts"
   },
   "dependencies": {

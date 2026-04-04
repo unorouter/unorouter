@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "fea9d8b2-2dd1-4cd2-8b12-ffc91a3f30ea",
+  "id": "79273c1a-2fb6-4fe8-a6ba-5c35a0a5f128",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "conversations": {
@@ -86,17 +86,24 @@
       "indexes": {
         "conversations_share_id_unique": {
           "name": "conversations_share_id_unique",
-          "columns": ["share_id"],
+          "columns": [
+            "share_id"
+          ],
           "isUnique": true
         },
         "idx_conv_user_updated": {
           "name": "idx_conv_user_updated",
-          "columns": ["user_id", "updated_at"],
+          "columns": [
+            "user_id",
+            "updated_at"
+          ],
           "isUnique": false
         },
         "idx_conv_share": {
           "name": "idx_conv_share",
-          "columns": ["share_id"],
+          "columns": [
+            "share_id"
+          ],
           "isUnique": false
         }
       },
@@ -155,7 +162,9 @@
       "indexes": {
         "idx_media_msg": {
           "name": "idx_media_msg",
-          "columns": ["msg_id"],
+          "columns": [
+            "msg_id"
+          ],
           "isUnique": false
         }
       },
@@ -164,8 +173,12 @@
           "name": "media_msg_id_messages_id_fk",
           "tableFrom": "media",
           "tableTo": "messages",
-          "columnsFrom": ["msg_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "msg_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -196,6 +209,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "model": {
+          "name": "model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "parts": {
@@ -245,7 +265,9 @@
       "indexes": {
         "idx_msg_conv": {
           "name": "idx_msg_conv",
-          "columns": ["conv_id"],
+          "columns": [
+            "conv_id"
+          ],
           "isUnique": false
         }
       },
@@ -254,8 +276,12 @@
           "name": "messages_conv_id_conversations_id_fk",
           "tableFrom": "messages",
           "tableTo": "conversations",
-          "columnsFrom": ["conv_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "conv_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

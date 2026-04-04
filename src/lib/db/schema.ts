@@ -33,6 +33,7 @@ export const messages = sqliteTable(
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),
     role: text("role").notNull(),
+    model: text("model"),
     parts: text("parts", { mode: "json" }).notNull(),
     requestId: text("request_id"),
     inputTokens: integer("input_tokens"),

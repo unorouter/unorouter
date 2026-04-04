@@ -15,6 +15,7 @@ export const persistMessagesBody = t.Object({
     t.Object({
       id: t.Optional(t.String()),
       role: t.String(),
+      model: t.Optional(t.String()),
       parts: t.Any(),
     }),
   ),

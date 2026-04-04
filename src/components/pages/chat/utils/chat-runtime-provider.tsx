@@ -92,6 +92,7 @@ function ChatRuntimeHook() {
       messages.push({
         id: message.id,
         role: message.role,
+        model: ctx.current.model ?? undefined,
         parts: message.parts,
       });
 

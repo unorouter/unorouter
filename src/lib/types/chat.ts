@@ -5,6 +5,7 @@ export type MessagePart = { type: string; [key: string]: unknown };
 export type PersistMessage = {
   id: string;
   role: string;
+  model?: string;
   parts: unknown;
 };
 

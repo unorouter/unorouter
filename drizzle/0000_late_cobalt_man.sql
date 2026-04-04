@@ -29,6 +29,7 @@ CREATE TABLE `messages` (
 	`id` text PRIMARY KEY NOT NULL,
 	`conv_id` text NOT NULL,
 	`role` text NOT NULL,
+	`model` text,
 	`parts` text NOT NULL,
 	`request_id` text,
 	`input_tokens` integer,
