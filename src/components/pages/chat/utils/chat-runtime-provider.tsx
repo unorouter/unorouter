@@ -7,6 +7,7 @@ import {
 } from "@/components/pages/chat/utils/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/chat/utils/thread-list-adapter";
 import {
+  useConversationQuery,
   useMessagesInfiniteQuery,
   usePersistMessagesMutation,
 } from "@/hooks/chat-hook";
@@ -26,13 +27,13 @@ import {
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { useEffect, useRef } from "react";
 
 function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
-  const model = useAtomValue(chatModelAtom);
+  const [model, setChatModel] = useAtom(chatModelAtom);
 
   const persistMutation = usePersistMessagesMutation();
 
@@ -45,6 +46,13 @@ function ChatRuntimeHook() {
   });
   ctx.current.remoteId = remoteId;
   ctx.current.model = model;
+
+  // Sync conversation model to the selector when switching to an existing thread
+  const conversationQuery = useConversationQuery(remoteId);
+  useEffect(() => {
+    if (conversationQuery.data?.model)
+      setChatModel(conversationQuery.data.model);
+  }, [conversationQuery.data?.model]);
 
   const transportRef = useRef(
     new DefaultChatTransport({
