@@ -299,8 +299,12 @@ html.dark .shiki span {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
   &:hover {
-    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
   }
+}
+
+.dark .thin-scrollbar:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
 @layer base {
