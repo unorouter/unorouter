@@ -294,6 +294,15 @@ html.dark .shiki span {
   display: none !important;
 }
 
+/* Thin overlay scrollbar that fades when idle */
+@utility thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  &:hover {
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

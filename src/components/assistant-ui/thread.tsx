@@ -58,7 +58,7 @@ export const Thread: FC<ThreadProps> = (props) => {
   return (
     <ReadOnlyContext.Provider value={!!props.readOnly}>
       <ThreadPrimitive.Root
-        className="aui-root aui-thread-root bg-background @container flex h-full flex-col pt-4"
+        className="aui-root aui-thread-root bg-background @container flex h-full flex-col"
         style={{
           ["--thread-max-width" as string]: "44rem",
           ["--composer-radius" as string]: "24px",
