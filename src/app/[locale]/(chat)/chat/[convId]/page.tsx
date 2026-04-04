@@ -21,14 +21,14 @@ export default async function ChatConvPage(props: Props) {
     const cookieHeaders = await setCookies();
     await Promise.all([
       queryClient.prefetchQuery({
-        queryKey: queryKeys.conversation(convId),
+        queryKey: queryKeys.chatMeta(convId),
         queryFn: async () =>
           handleElysia(
             await rpc.api.chat({ id: convId }).meta.get(cookieHeaders),
           ),
       }),
       queryClient.prefetchInfiniteQuery({
-        queryKey: queryKeys.conversationMessages(convId),
+        queryKey: queryKeys.chatMessages(convId),
         queryFn: async ({ pageParam }) =>
           handleElysia(
             await rpc.api.chat({ id: convId }).get({

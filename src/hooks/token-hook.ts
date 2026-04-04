@@ -30,7 +30,7 @@ export function useBestKeyQuery() {
   return useQuery({
     queryKey: queryKeys.bestKey(),
     queryFn: async () => handleElysia(await rpc.api.token["best-key"].get()),
-    enabled: !!authQuery.data,
+    enabled: false,
     select: (data) => (data?.key ? `sk-${data.key}` : null),
   });
 }

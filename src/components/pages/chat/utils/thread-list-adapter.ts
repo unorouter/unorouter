@@ -110,7 +110,7 @@ export function createThreadListAdapter(
 
     async fetch(id) {
       const data = await queryClient.fetchQuery({
-        queryKey: queryKeys.conversation(id),
+        queryKey: queryKeys.chatMeta(id),
         queryFn: async () =>
           handleElysia(await rpc.api.chat({ id }).meta.get()),
       });

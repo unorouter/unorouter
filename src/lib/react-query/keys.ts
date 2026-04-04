@@ -43,8 +43,8 @@ export const queryKeys = {
 
   // Chat
   conversations: (keyword?: string) => ["conversations", keyword] as const,
-  conversation: (id: string) => ["conversation", id] as const,
-  conversationMessages: (id: string) => ["conversation-messages", id] as const,
+  chatMeta: (id: string) => ["chat-meta", id] as const,
+  chatMessages: (id: string) => ["chat-messages", id] as const,
   sharedConversation: (shareId: string) =>
     ["shared-conversation", shareId] as const,
 

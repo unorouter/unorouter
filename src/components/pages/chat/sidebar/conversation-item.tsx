@@ -8,8 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  prefetchConversation,
-  useUpdateConversationMutation,
+  useUpdateConversationMutation
 } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 
@@ -73,7 +72,6 @@ export function ConversationItem(props: ConversationItemProps) {
       role="button"
       tabIndex={0}
       onClick={props.onSelect}
-      onMouseEnter={() => prefetchConversation(queryClient, props.conversation.id)}
       onKeyDown={(e) => e.key === "Enter" && props.onSelect()}
       data-active={props.isSelected || undefined}
       className={cn(

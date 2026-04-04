@@ -20,6 +20,7 @@ import type {
 import { uid } from "@/lib/utils/base";
 import {
   chatModelAtom,
+  chatStore,
   getChatModel,
   getChatWebSearch,
   getConvId,
@@ -60,20 +61,31 @@ function ChatRuntimeHook() {
 
   // Sync conversation model to the selector when switching to an existing thread
   const conversationQuery = useConversationQuery(remoteId);
+  const syncingRef = useRef(false);
+  const lastSyncedRemoteIdRef = useRef<string | undefined>(undefined);
   useEffect(() => {
-    if (conversationQuery.data?.model)
-      setChatModel(conversationQuery.data.model);
-  }, [conversationQuery.data?.model]);
+    if (remoteId === lastSyncedRemoteIdRef.current) return;
+    if (!conversationQuery.data?.model) return;
+    lastSyncedRemoteIdRef.current = remoteId;
+    syncingRef.current = true;
+    setChatModel(conversationQuery.data.model);
+    syncingRef.current = false;
+  }, [remoteId, conversationQuery.data?.model]);
 
-  // Persist model change to server when user switches model on an active conversation.
-  // Only fire when the user explicitly picks a model that differs from what the server has.
+  // Persist model change via jotai subscription (outside React render cycle).
+  // syncingRef prevents persisting when we're just syncing the server model into the atom.
   const updateConversation = useUpdateConversationMutation();
-  const serverModel = conversationQuery.data?.model;
+  const updateRef = useRef(updateConversation);
+  updateRef.current = updateConversation;
   useEffect(() => {
-    if (!remoteId || !model || !serverModel) return;
-    if (model === serverModel) return;
-    updateConversation.mutate({ id: remoteId, body: { model } });
-  }, [model, remoteId, serverModel]);
+    return chatStore.sub(chatModelAtom, () => {
+      if (syncingRef.current) return;
+      const id = getConvId();
+      const newModel = getChatModel();
+      if (!id || !newModel) return;
+      updateRef.current.mutate({ id, body: { model: newModel } });
+    });
+  }, []);
 
   const transportRef = useRef(
     new DefaultChatTransport({

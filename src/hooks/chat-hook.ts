@@ -12,12 +12,12 @@ import {
   type MessageMeta,
 } from "@/store/chat-store";
 import {
-  type InfiniteData,
-  type QueryClient,
+  keepPreviousData,
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
+  type InfiniteData,
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
@@ -31,6 +31,8 @@ type ChatParams = EdenArgs<typeof chatRoute, "get">;
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   const authQuery = useAuthQuery();
+
+  console.log("Using chat hook with keyword:", !!authQuery.data, keyword);
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) =>
@@ -42,6 +44,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
+    placeholderData: keepPreviousData,
     enabled: !!authQuery.data,
   });
 }
@@ -49,7 +52,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 export function useConversationQuery(id?: string) {
   const authQuery = useAuthQuery();
   return useQuery({
-    queryKey: queryKeys.conversation(id!),
+    queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => handleElysia(await chatRoute({ id: id! }).meta.get()),
     enabled: !!authQuery.data && !!id,
     retry: false,
@@ -59,7 +62,7 @@ export function useConversationQuery(id?: string) {
 export function useMessagesInfiniteQuery(id?: string) {
   const authQuery = useAuthQuery();
   return useInfiniteQuery({
-    queryKey: queryKeys.conversationMessages(id!),
+    queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) =>
       handleElysia(
         await chatRoute({ id: id! }).get({
@@ -70,6 +73,7 @@ export function useMessagesInfiniteQuery(id?: string) {
     getNextPageParam: (lastPage, allPages) =>
       lastPage.messages.length < PAGE_SIZE ? undefined : allPages.length + 1,
     enabled: !!authQuery.data && !!id,
+    placeholderData: keepPreviousData,
     retry: false,
   });
 }
@@ -150,7 +154,7 @@ export function useUpdateConversationMutation() {
         },
       );
       queryClient.setQueryData<ConversationData>(
-        queryKeys.conversation(id),
+        queryKeys.chatMeta(id),
         (old) => (old ? { ...old, ...patch } : old),
       );
     },
@@ -193,7 +197,7 @@ export function useShareConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       queryClient.setQueryData<ConversationData>(
-        queryKeys.conversation(String(args.id)),
+        queryKeys.chatMeta(String(args.id)),
         (old) => (old ? { ...old, shareId: data.shareId } : old),
       );
     },
@@ -209,7 +213,7 @@ export function useRevokeShareMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ConversationData>(
-        queryKeys.conversation(String(args.id)),
+        queryKeys.chatMeta(String(args.id)),
         (old) => (old ? { ...old, shareId: null } : old),
       );
     },
@@ -238,7 +242,12 @@ export function usePersistMessagesMutation() {
               outputTokens: data.usage.outputTokens,
               cost: data.usage.cost,
             }
-          : { model: m.model ?? null, inputTokens: null, outputTokens: null, cost: null },
+          : {
+              model: m.model ?? null,
+              inputTokens: null,
+              outputTokens: null,
+              cost: null,
+            },
       );
       chatStore.set(messageMetaAtom, [...prev, ...newEntries]);
 
@@ -274,7 +283,7 @@ export function usePersistMessagesMutation() {
       // Patch conversation meta cache for header totals
       if (data.usage) {
         queryClient.setQueryData<ConversationData>(
-          queryKeys.conversation(id),
+          queryKeys.chatMeta(id),
           (old) => {
             if (!old) return old;
             return {
@@ -289,22 +298,5 @@ export function usePersistMessagesMutation() {
         );
       }
     },
-  });
-}
-
-export function prefetchConversation(queryClient: QueryClient, id: string) {
-  queryClient.prefetchQuery({
-    queryKey: queryKeys.conversation(id),
-    queryFn: async () => handleElysia(await chatRoute({ id }).meta.get()),
-  });
-  queryClient.prefetchInfiniteQuery({
-    queryKey: queryKeys.conversationMessages(id),
-    queryFn: async ({ pageParam }) =>
-      handleElysia(
-        await chatRoute({ id }).get({
-          query: { p: pageParam, page_size: PAGE_SIZE },
-        }),
-      ),
-    initialPageParam: 1,
   });
 }
