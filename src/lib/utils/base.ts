@@ -1,5 +1,6 @@
+import { env } from "@/lib/config/env";
 import { msg } from "@/lib/config/constants";
-import type { UnwrapApiResponse } from "../types";
+import type { ExtractData, UnwrapApiResponse } from "../types/eden";
 
 const ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
@@ -13,6 +14,10 @@ export function uid(length = 21): string {
 
 export function copyToClipboard(text: string): Promise<void> {
   return navigator.clipboard.writeText(text);
+}
+
+export function shareUrl(shareId: string): string {
+  return `${env.appUrl}/shared/${shareId}`;
 }
 
 export function copyToClipboardAsync(
@@ -36,13 +41,6 @@ export function formatPrice(price: number): string {
   const decimals = Math.min(-exp + 1, 10);
   return `$${price.toFixed(decimals)}`;
 }
-
-/**
- * Extract the data field from an Eden treaty response, distributing over unions.
- * Eden returns { data: T; status: number } where T can be a union
- * (e.g. ResponseDto | void for error branches).
- */
-type ExtractData<T> = T extends { data: infer D } ? NonNullable<D> : never;
 
 /**
  * Handles an Elysia/Eden treaty response:

@@ -6,8 +6,7 @@ import {
   useRevokeShareMutation,
   useShareConversationMutation,
 } from "@/hooks/chat-hook";
-import { env } from "@/lib/config/env";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyToClipboard, shareUrl } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuCheck, LuLink, LuLink2Off } from "react-icons/lu";
@@ -19,22 +18,23 @@ export function ShareButton(props: { convId: string }) {
   const revokeMutation = useRevokeShareMutation();
   const [copied, setCopied] = useState(false);
 
-  const shareId = conversationQuery.data?.shareId;
+  const existingShareId = conversationQuery.data?.shareId;
   const isPending = shareMutation.isPending || revokeMutation.isPending;
 
-  if (shareId) {
-    const shareUrl = `${env.appUrl}/shared/${shareId}`;
+  const copyAndFlash = async (id: string) => {
+    await copyToClipboard(shareUrl(id));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  if (existingShareId) {
     return (
       <div className="flex items-center gap-1">
         <Button
           variant="ghost"
           size="icon"
           className="h-8 w-8"
-          onClick={async () => {
-            await copyToClipboard(shareUrl);
-            setCopied(true);
-            setTimeout(() => setCopied(false), 2000);
-          }}
+          onClick={() => copyAndFlash(existingShareId)}
           title={t("CHAT.COPY_SHARE_LINK")}
         >
           {copied ? (
@@ -65,14 +65,7 @@ export function ShareButton(props: { convId: string }) {
       onClick={() =>
         shareMutation.mutate(
           { id: props.convId },
-          {
-            onSuccess: async (data) => {
-              const url = `${env.appUrl}/shared/${data.shareId}`;
-              await copyToClipboard(url);
-              setCopied(true);
-              setTimeout(() => setCopied(false), 2000);
-            },
-          },
+          { onSuccess: (data) => copyAndFlash(data.shareId) },
         )
       }
       disabled={isPending}
