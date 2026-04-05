@@ -112,8 +112,9 @@ export function useCreateConversationMutation() {
 }
 
 export function useUpdateConversationMutation() {
-  const t = useTranslations();
   const queryClient = useQueryClient();
+  const t = useTranslations();
+
   return useMutation({
     mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) =>
       handleElysia(await chatRoute({ id: args.id }).put(args.body)),

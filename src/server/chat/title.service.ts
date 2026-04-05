@@ -48,9 +48,11 @@ export async function generateChatTitle(
 
   const result = await generateText({
     model: provider.chatModel(modelName),
-    system:
-      "Generate a concise title (max 8 words) for this conversation based on the user's message. Return only the title text, no quotes or formatting.",
-    prompt: text.slice(0, 500),
+    system: `Generate a concise title (max 8 words) for this conversation based on the user's message.
+The title MUST be in the same language as the user's message.
+Return only the title text, no quotes or formatting.`,
+    prompt: text,
+    maxOutputTokens: 30,
   });
 
   const title = result.text.trim();

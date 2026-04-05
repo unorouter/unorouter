@@ -9,6 +9,7 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, uid } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import { getChatModel, getConvId, setConvId } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -103,16 +104,25 @@ export function createThreadListAdapter(
         };
       }
 
-      const data = await queryClient.fetchQuery({
-        queryKey: queryKeys.chatMeta(id),
-        queryFn: async () =>
-          handleElysia(await rpc.api.chat({ id }).meta.get()),
-      });
-      return {
-        remoteId: data.id,
-        status: "regular" as const,
-        title: data.title ?? undefined,
-      };
+      try {
+        const data = await queryClient.fetchQuery({
+          queryKey: queryKeys.chatMeta(id),
+          queryFn: async () =>
+            handleElysia(await rpc.api.chat({ id }).meta.get()),
+        });
+        return {
+          remoteId: data.id,
+          status: "regular" as const,
+          title: data.title ?? undefined,
+        };
+      } catch (e) {
+        handleError(e, t, "chat-not-found");
+        return {
+          remoteId: id,
+          status: "regular" as const,
+          title: undefined,
+        };
+      }
     },
 
     async generateTitle(id, messages) {

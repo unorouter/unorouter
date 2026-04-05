@@ -13,20 +13,24 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
-export function handleError(
+export async function handleError(
   e: unknown,
   t?: ReturnType<typeof useTranslations<never>>,
+  toastId?: string,
 ) {
   let message = "";
 
   if (e instanceof Error) {
     message = e.message;
-  } else if (e && typeof e === "object" && "data" in e) {
-    const data = (e as { data: unknown }).data;
-    if (typeof data === "string") {
-      message = data;
-    } else if (data && typeof data === "object" && "message" in data) {
-      message = String((data as { message: unknown }).message);
+  } else if (e && typeof e === "object") {
+    const obj = e as { data?: unknown; response?: Response };
+    if (obj.data && typeof obj.data === "object" && "message" in obj.data) {
+      message = String((obj.data as { message: unknown }).message);
+    } else if (typeof obj.data === "string") {
+      message = obj.data;
+    } else if (obj.response) {
+      const body = await obj.response.clone().json().catch(() => null);
+      if (body?.message) message = body.message;
     }
   }
 
@@ -39,7 +43,7 @@ export function handleError(
     title = message;
   }
 
-  toast.error(title, { duration: 5000 });
+  toast.error(title, { duration: 5000, id: toastId });
 }
 
 /**

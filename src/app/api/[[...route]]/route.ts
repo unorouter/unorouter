@@ -14,10 +14,14 @@ import { Elysia } from "elysia";
 export const app = new Elysia({ prefix: "/api" })
   .onError(({ error, set }) => {
     const err = error as { status?: number; data?: unknown };
-    if (err.status && typeof err.status === "number") {
+    if (err.status && typeof err.status === "number" && err.data) {
       set.status = err.status;
       const data = err.data;
       return typeof data === "string" ? data : JSON.stringify(data);
+    }
+    if (error instanceof Error) {
+      set.status = 400;
+      return JSON.stringify({ message: error.message });
     }
   })
   .use(pricingRoute)

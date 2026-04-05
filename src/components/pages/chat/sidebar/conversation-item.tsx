@@ -111,27 +111,30 @@ export function ConversationItem(props: ConversationItemProps) {
         </div>
       ) : (
         <>
-          <div className="flex h-full min-w-0 flex-1 items-center gap-2 px-3 text-start text-sm">
+          <div className="relative flex h-full min-w-0 flex-1 items-center gap-2 px-3 text-start text-sm">
             <VendorIcon vendor={vendorName} size={14} className="shrink-0" />
             <span
-              className="min-w-0 flex-1 truncate"
+              className={cn(
+                "min-w-0 flex-1 truncate transition-[padding]",
+                (menuOpen || props.isSelected) && "pr-7",
+                "group-hover/conv:pr-7",
+              )}
               title={props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             >
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
-          </div>
-          <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-            <DropdownMenuTrigger
-              onClick={(e) => e.stopPropagation()}
-              className={cn(
-                "mr-2 flex size-7 items-center justify-center rounded-md p-0 transition-opacity",
-                "opacity-0 group-hover/conv:opacity-100",
-                "data-[state=open]:bg-accent data-[state=open]:opacity-100",
-                props.isSelected && "opacity-100",
-              )}
-            >
-              <LuEllipsis className="size-4" />
-            </DropdownMenuTrigger>
+            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+              <DropdownMenuTrigger
+                onClick={(e) => e.stopPropagation()}
+                className={cn(
+                  "absolute right-1 flex size-7 shrink-0 items-center justify-center rounded-md p-0 transition-opacity",
+                  "opacity-0 group-hover/conv:opacity-100",
+                  "data-[state=open]:bg-accent data-[state=open]:opacity-100",
+                  props.isSelected && "opacity-100",
+                )}
+              >
+                <LuEllipsis className="size-4" />
+              </DropdownMenuTrigger>
             <DropdownMenuContent
               side="bottom"
               align="start"
@@ -155,6 +158,7 @@ export function ConversationItem(props: ConversationItemProps) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </>
       )}
     </div>

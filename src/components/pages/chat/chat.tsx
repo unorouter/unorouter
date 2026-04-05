@@ -7,7 +7,7 @@ import {
   useMessagesInfiniteQuery,
 } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/base";
 import { useAuiState } from "@assistant-ui/react";
@@ -19,28 +19,19 @@ import { Button } from "../../ui/button";
 export function Chat() {
   const t = useTranslations();
   const locale = useLocale();
+  const router = useRouter();
   const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem.remoteId);
   const messagesQuery = useMessagesInfiniteQuery(threadId);
   const convQuery = useConversationQuery(threadId);
   const skipFirstSync = useRef(true);
 
-  // Keep URL in sync with active thread (skip first render to avoid fighting initialThreadId)
-  // router.replace causes a full server re-render flash, so use shallow history update instead
-  // useEffect(() => {
-  //   if (skipFirstSync.current) {
-  //     skipFirstSync.current = false;
-  //     return;
-  //   }
-  //   if (threadId) {
-  //     router.replace({
-  //       pathname: "/chat/[convId]",
-  //       params: { convId: threadId },
-  //     });
-  //   } else {
-  //     router.replace("/chat");
-  //   }
-  // }, [threadId, router]);
+  // Redirect to /chat if the conversation doesn't exist
+  useEffect(() => {
+    if (threadId && (convQuery.isError || messagesQuery.isError)) {
+      router.replace("/chat");
+    }
+  }, [threadId, convQuery.isError, messagesQuery.isError, router]);
 
   useEffect(() => {
     if (skipFirstSync.current) {
