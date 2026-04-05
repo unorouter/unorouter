@@ -7,7 +7,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { setCookies } from "@/lib/utils/server";
-import { getIsLoggedIn } from "@/store/auth-store";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 type Props = {
@@ -16,9 +15,15 @@ type Props = {
 
 export default async function ChatLayout(props: Props) {
   const queryClient = getQueryClient();
-  const isLoggedIn = getIsLoggedIn();
+  const cookieHeaders = await setCookies();
 
-  const cookieHeaders = isLoggedIn ? await setCookies() : undefined;
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.auth(),
+    queryFn: async () =>
+      handleElysia(await rpc.api.auth.self.get(cookieHeaders!)),
+  });
+
+  const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
   await Promise.all([
     queryClient.prefetchQuery({
