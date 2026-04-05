@@ -1,6 +1,14 @@
 "use client";
 
 import { PAGE_SIZE } from "@/lib/config/constants";
+import {
+  moveConvToTop,
+  patchConv,
+  prependConv,
+  removeConv,
+  type ConvItem,
+  type ConvsInfinite,
+} from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
@@ -20,10 +28,6 @@ import { useAuthQuery } from "./auth-hook";
 const chatRoute = rpc.api.chat;
 
 type ChatRouteReturn = ReturnType<typeof chatRoute>;
-type ConversationsData = EdenResponse<
-  { get: typeof chatRoute.conversations.get },
-  "get"
->;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<typeof chatRoute, "get">;
 
@@ -92,30 +96,16 @@ export function useCreateConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       const now = new Date();
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+      const newItem: ConvItem = {
+        ...data,
+        shareId: null,
+        totalCost: 0,
+        createdAt: now,
+        updatedAt: now,
+      };
+      queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
-        (old) => {
-          if (!old) return old;
-          const newItem = {
-            ...data,
-            shareId: null,
-            totalCost: 0,
-            createdAt: now,
-            updatedAt: now,
-          };
-          const firstPage = old.pages[0];
-          return {
-            ...old,
-            pages: [
-              {
-                ...firstPage,
-                total: firstPage.total + 1,
-                items: [newItem, ...firstPage.items],
-              },
-              ...old.pages.slice(1),
-            ],
-          };
-        },
+        (old) => prependConv(old, newItem),
       );
     },
   });
@@ -130,24 +120,13 @@ export function useUpdateConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       const id = String(args.id);
-      const patch: Record<string, unknown> = {};
+      const patch: Partial<ConvItem> = {};
       if (data.title !== undefined) patch.title = data.title;
       if (data.model !== undefined) patch.model = data.model;
 
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+      queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              items: page.items.map((item) =>
-                item.id === id ? { ...item, ...patch } : item,
-              ),
-            })),
-          };
-        },
+        (old) => patchConv(old, id, patch),
       );
       queryClient.setQueryData<ConversationData>(
         queryKeys.chatMeta(id),
@@ -166,19 +145,9 @@ export function useDeleteConversationMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       const id = String(args.id);
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+      queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              total: page.total - 1,
-              items: page.items.filter((item) => item.id !== id),
-            })),
-          };
-        },
+        (old) => removeConv(old, id),
       );
     },
   });
@@ -238,21 +207,19 @@ export function usePersistMessagesMutation() {
         queryKeys.chatMessages(id),
         (old) => {
           if (!old?.pages[0]) return old;
-          const newMessages = args.body.messages.map((m) => ({
-            id: crypto.randomUUID(),
-            role: m.role,
-            parts: m.parts,
-            model: m.model ?? null,
-            inputTokens:
-              m.role === "assistant" && data.usage
-                ? data.usage.inputTokens
-                : null,
-            outputTokens:
-              m.role === "assistant" && data.usage
-                ? data.usage.outputTokens
-                : null,
-            cost: m.role === "assistant" && data.usage ? data.usage.cost : null,
-          }));
+          const usage = data.usage;
+          const newMessages = args.body.messages.map((m) => {
+            const hasUsage = m.role === "assistant" && usage;
+            return {
+              id: crypto.randomUUID(),
+              role: m.role,
+              parts: m.parts,
+              model: m.model ?? null,
+              inputTokens: hasUsage ? usage.inputTokens : null,
+              outputTokens: hasUsage ? usage.outputTokens : null,
+              cost: hasUsage ? usage.cost : null,
+            };
+          });
           const firstPage = old.pages[0];
           return {
             ...old,
@@ -268,32 +235,16 @@ export function usePersistMessagesMutation() {
       );
 
       // Patch sidebar: update timestamp, title, cost and move to top
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+      queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
-        (old) => {
-          if (!old) return old;
-          let target: ConversationsData["items"][number] | undefined;
-          const pagesWithout = old.pages.map((page) => ({
-            ...page,
-            items: page.items.filter((item) => {
-              if (item.id !== id) return true;
-              target = { ...item, updatedAt: new Date() };
-              if (data.title) target.title = data.title;
-              if (data.usage?.cost)
-                target.totalCost = (target.totalCost ?? 0) + data.usage.cost;
-              return false;
+        (old) =>
+          moveConvToTop(old, id, (item) => ({
+            updatedAt: new Date(),
+            ...(data.title && { title: data.title }),
+            ...(data.usage?.cost && {
+              totalCost: (item.totalCost ?? 0) + data.usage.cost,
             }),
-          }));
-          if (!target) return old;
-          const firstPage = pagesWithout[0];
-          return {
-            ...old,
-            pages: [
-              { ...firstPage, items: [target, ...firstPage.items] },
-              ...pagesWithout.slice(1),
-            ],
-          };
-        },
+          })),
       );
 
       // Patch conversation meta cache for header totals

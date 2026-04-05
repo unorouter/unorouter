@@ -1,17 +1,18 @@
 import { PAGE_SIZE } from "@/lib/config/constants";
+import {
+  patchConv,
+  prependConv,
+  removeConv,
+  type ConvItem,
+  type ConvsInfinite,
+} from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { EdenResponse } from "@/lib/types/eden";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel, getConvId, setConvId } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
-import type { InfiniteData, QueryClient } from "@tanstack/react-query";
+import type { QueryClient } from "@tanstack/react-query";
 import { createAssistantStream } from "assistant-stream";
-
-type ConversationsData = EdenResponse<
-  { get: typeof rpc.api.chat.conversations.get },
-  "get"
->;
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -20,9 +21,7 @@ export function createThreadListAdapter(
     async list() {
       // Use SSR-prefetched data or fetch into cache so useConversationsInfiniteQuery gets a hit
       const data =
-        queryClient.getQueryData<InfiniteData<ConversationsData>>(
-          queryKeys.conversations(),
-        ) ??
+        queryClient.getQueryData<ConvsInfinite>(queryKeys.conversations()) ??
         (await queryClient.fetchInfiniteQuery({
           queryKey: queryKeys.conversations(),
           queryFn: async ({ pageParam }) =>
@@ -53,30 +52,16 @@ export function createThreadListAdapter(
       }
       const data = handleElysia(await rpc.api.chat.post({ id, model }));
       const now = new Date();
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+      const newItem: ConvItem = {
+        ...data,
+        shareId: null,
+        totalCost: 0,
+        createdAt: now,
+        updatedAt: now,
+      };
+      queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
-        (old) => {
-          if (!old?.pages[0]) return old;
-          const newItem = {
-            ...data,
-            shareId: null,
-            totalCost: 0,
-            createdAt: now,
-            updatedAt: now,
-          };
-          const firstPage = old.pages[0];
-          return {
-            ...old,
-            pages: [
-              {
-                ...firstPage,
-                total: firstPage.total + 1,
-                items: [newItem, ...firstPage.items],
-              },
-              ...old.pages.slice(1),
-            ],
-          };
-        },
+        (old) => prependConv(old, newItem),
       );
       return { remoteId: data.id, externalId: undefined };
     },
@@ -95,19 +80,9 @@ export function createThreadListAdapter(
 
     async delete(id) {
       await rpc.api.chat({ id }).delete();
-      queryClient.setQueryData<InfiniteData<ConversationsData>>(
+      queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              total: page.total - 1,
-              items: page.items.filter((item) => item.id !== id),
-            })),
-          };
-        },
+        (old) => removeConv(old, id),
       );
     },
 
@@ -141,20 +116,9 @@ export function createThreadListAdapter(
 
         // Persist to server and update sidebar cache
         await rpc.api.chat({ id }).put({ title });
-        queryClient.setQueryData<InfiniteData<ConversationsData>>(
+        queryClient.setQueryData<ConvsInfinite>(
           queryKeys.conversations(),
-          (old) => {
-            if (!old) return old;
-            return {
-              ...old,
-              pages: old.pages.map((page) => ({
-                ...page,
-                items: page.items.map((item) =>
-                  item.id === id ? { ...item, title } : item,
-                ),
-              })),
-            };
-          },
+          (old) => patchConv(old, id, { title }),
         );
       });
     },
