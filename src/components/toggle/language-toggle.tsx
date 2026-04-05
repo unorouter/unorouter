@@ -7,10 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { usePathname, useRouter } from "@/i18n/navigation";
 import { LANGUAGES } from "@/lib/config/constants";
 import { useLocale, useTranslations } from "next-intl";
-import { useParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 export function LanguageToggle() {
@@ -19,20 +18,16 @@ export function LanguageToggle() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
-  const params = useParams();
   const currentLanguage = LANGUAGES.find(
     (lang) => lang.code.toLowerCase() === locale.toLowerCase(),
   );
 
   const handleLanguageChange = (newLocale: string) => {
+    // Use the raw pathname (which stays in sync with shallow history updates)
+    // and swap the locale prefix. next-intl middleware handles path localization.
+    const newPath = pathname.replace(new RegExp(`^/${locale}(?=/|$)`), `/${newLocale}`);
     startTransition(() => {
-      router.replace(
-        // @ts-expect-error -- TypeScript will validate that only known `params`
-        // are used in combination with a given `pathname`. Since the two will
-        // always match for the current route, we can skip runtime checks.
-        { pathname, params },
-        { locale: newLocale },
-      );
+      router.replace(newPath);
     });
   };
 

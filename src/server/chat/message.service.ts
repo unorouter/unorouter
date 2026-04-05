@@ -4,6 +4,12 @@ import { conversations, messages } from "@/lib/db/schema";
 import type { PersistMessagesBody } from "@/lib/validation/chat";
 import { getUserLogs } from "@/openapi";
 import { and, eq, sql } from "drizzle-orm";
+import {
+  downloadAndUpload,
+  uploadBase64ToR2,
+} from "@/lib/config/r2";
+import { uid } from "@/lib/utils/base";
+import { serverEnv } from "@/server/env";
 
 export type PendingUsage = {
   requestId: string | undefined;
@@ -14,6 +20,59 @@ export type PendingUsage = {
 };
 
 export const pendingUsageByConv = new Map<string, PendingUsage>();
+
+const IMAGE_MD_RE = /!\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
+
+/** Strip image generation metadata from text parts and re-upload images to R2. */
+async function cleanImageParts(
+  parts: { type: string; text?: string; [k: string]: unknown }[],
+  convId: string,
+  groupKey: string,
+) {
+  const r2Domain = serverEnv.r2PublicUrl ?? "";
+  const cleaned = [];
+
+  for (const part of parts) {
+    if (part.type !== "text" || !part.text) {
+      cleaned.push(part);
+      continue;
+    }
+
+    const matches = [...part.text.matchAll(IMAGE_MD_RE)];
+    if (matches.length === 0) {
+      cleaned.push(part);
+      continue;
+    }
+
+    const needsProcessing = matches.some(
+      ([, , url]) =>
+        url.startsWith("data:") ||
+        (url.startsWith("http") && r2Domain && !url.startsWith(r2Domain)),
+    );
+    if (!needsProcessing) {
+      cleaned.push(part);
+      continue;
+    }
+
+    const imageMarkdowns: string[] = [];
+    for (const [, alt, url] of matches) {
+      try {
+        let r2Url: string;
+        if (url.startsWith("data:")) {
+          r2Url = await uploadBase64ToR2(url, convId, groupKey);
+        } else {
+          r2Url = await downloadAndUpload(url, convId, groupKey);
+        }
+        imageMarkdowns.push(`![${alt}](${r2Url})`);
+      } catch {
+        imageMarkdowns.push(`![${alt}](${url})`);
+      }
+    }
+    cleaned.push({ ...part, text: imageMarkdowns.join("\n\n") });
+  }
+
+  return cleaned;
+}
 
 export async function persistMessages(
   userId: number,
@@ -27,8 +86,17 @@ export async function persistMessages(
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
+  // Clean image generation metadata and re-upload external/base64 images to R2
+  const groupKey = uid(8);
+  const processedMsgs = await Promise.all(
+    msgs.map(async (m) => {
+      if (m.role !== "assistant") return m;
+      return { ...m, parts: await cleanImageParts(m.parts, convId, groupKey) };
+    }),
+  );
+
   const now = Date.now();
-  const toInsert = msgs.map((m, i) => ({
+  const toInsert = processedMsgs.map((m, i) => ({
     convId,
     role: m.role,
     model: m.model,

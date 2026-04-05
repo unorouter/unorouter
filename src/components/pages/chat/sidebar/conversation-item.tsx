@@ -113,7 +113,10 @@ export function ConversationItem(props: ConversationItemProps) {
         <>
           <div className="flex h-full min-w-0 flex-1 items-center gap-2 px-3 text-start text-sm">
             <VendorIcon vendor={vendorName} size={14} className="shrink-0" />
-            <span className="min-w-0 flex-1 truncate">
+            <span
+              className="min-w-0 flex-1 truncate"
+              title={props.conversation.title || t("CHAT.NEW_CONVERSATION")}
+            >
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
           </div>

@@ -86,3 +86,17 @@ export async function downloadAndUpload(
   const key = mediaKey(convId, msgId, filename);
   return uploadToR2(key, buffer, contentType);
 }
+
+export async function uploadBase64ToR2(
+  dataUrl: string,
+  convId: string,
+  msgId: string,
+): Promise<string> {
+  const [header, base64] = dataUrl.split(",");
+  const mimeType = header.match(/data:([^;]+)/)?.[1] ?? "image/png";
+  const ext = mimeType.split("/")[1] ?? "png";
+  const buffer = Buffer.from(base64, "base64");
+  const filename = `${uid(8)}.${ext}`;
+  const key = mediaKey(convId, msgId, filename);
+  return uploadToR2(key, buffer, mimeType);
+}
