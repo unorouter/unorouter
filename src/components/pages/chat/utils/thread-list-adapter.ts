@@ -12,10 +12,13 @@ import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel, getConvId, setConvId } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
+import type { useTranslations } from "next-intl";
 import { createAssistantStream } from "assistant-stream";
+import { extractFirstUserText } from "./chat-utils";
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
+  t: ReturnType<typeof useTranslations<never>>,
 ): RemoteThreadListAdapter {
   return {
     async list() {
@@ -87,6 +90,19 @@ export function createThreadListAdapter(
     },
 
     async fetch(id) {
+      const cached = queryClient
+        .getQueryData<ConvsInfinite>(queryKeys.conversations())
+        ?.pages.flatMap((p) => p.items)
+        .find((i) => i.id === id);
+
+      if (cached) {
+        return {
+          remoteId: cached.id,
+          status: "regular" as const,
+          title: cached.title ?? undefined,
+        };
+      }
+
       const data = await queryClient.fetchQuery({
         queryKey: queryKeys.chatMeta(id),
         queryFn: async () =>
@@ -101,24 +117,18 @@ export function createThreadListAdapter(
 
     async generateTitle(id, messages) {
       return createAssistantStream(async (controller) => {
-        const firstUserMsg = messages.find((m) => m.role === "user");
-        if (!firstUserMsg) {
-          controller.appendText("New Chat");
+        const text = extractFirstUserText(messages);
+        if (!text) {
+          controller.appendText(t("CHAT.NEW_CONVERSATION"));
           return;
         }
-        const text = firstUserMsg.content
-          .filter((c) => c.type === "text")
-          .map((c) => c.text)
-          .join(" ");
-        const title =
-          text.length > 50 ? text.slice(0, 50).trimEnd() + "..." : text;
-        controller.appendText(title);
 
-        // Persist to server and update sidebar cache
-        await rpc.api.chat({ id }).put({ title });
+        const res = await rpc.api.chat({ id }).title.post({ text });
+        const data = handleElysia(res);
+        controller.appendText(data.title);
         queryClient.setQueryData<ConvsInfinite>(
           queryKeys.conversations(),
-          (old) => patchConv(old, id, { title }),
+          (old) => patchConv(old, id, { title: data.title }),
         );
       });
     },

@@ -6,6 +6,7 @@ import {
   paginationQuery,
   persistMessagesBody,
   streamBody,
+  titleGenerationBody,
   updateConversationBody,
   videoGenerationBody,
 } from "@/lib/validation/chat";
@@ -29,6 +30,7 @@ import {
 } from "./media.service";
 import { persistMessages } from "./message.service";
 import { streamChat } from "./stream.service";
+import { generateChatTitle } from "./title.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -104,6 +106,17 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return { success: true, data };
     },
     { query: paginationQuery },
+  )
+
+  .post(
+    "/:id/title",
+    async ({ params, body, cookie }) => {
+      const userId = getUserId(cookie);
+      const apiKey = getApiKey(cookie);
+      const data = await generateChatTitle(apiKey, userId, params.id, body.text);
+      return { success: true, data };
+    },
+    { body: titleGenerationBody },
   )
 
   .post(

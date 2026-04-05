@@ -71,3 +71,8 @@ export const videoGenerationBody = t.Object({
   image: t.Optional(t.String()),
 });
 export type VideoGenerationBody = Static<typeof videoGenerationBody>;
+
+export const titleGenerationBody = t.Object({
+  text: t.String(),
+});
+export type TitleGenerationBody = Static<typeof titleGenerationBody>;

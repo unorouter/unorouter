@@ -23,6 +23,24 @@ export function getTextContent(message: UIMessage) {
     .join("");
 }
 
+/** Extracts text from the first user message in a list of content-bearing messages. */
+export function extractFirstUserText(
+  messages: readonly {
+    role: string;
+    content: readonly { type: string; text?: string }[];
+  }[],
+): string | null {
+  const first = messages.find((m) => m.role === "user");
+  if (!first) return null;
+  return (
+    first.content
+      .filter((c): c is { type: string; text: string } => c.type === "text" && !!c.text)
+      .map((c) => c.text)
+      .join(" ")
+      .trim() || null
+  );
+}
+
 export function extractParts(
   input: Parameters<ReturnType<typeof useChat>["sendMessage"]>[0],
 ) {

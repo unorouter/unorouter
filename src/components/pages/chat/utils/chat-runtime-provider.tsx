@@ -33,6 +33,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
 import { useSetAtom } from "jotai";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 
 function ChatRuntimeHook() {
@@ -43,8 +44,13 @@ function ChatRuntimeHook() {
 
   const persistMutation = usePersistMessagesMutation();
 
-  // Sync remoteId into convId (synchronous, no useEffect needed)
-  setConvId(remoteId ?? null);
+  // Sync remoteId into convId synchronously (transport body reads this immediately)
+  const prevRemoteIdRef = useRef<string | null | undefined>(undefined);
+  const nextConvId = remoteId ?? null;
+  if (prevRemoteIdRef.current !== nextConvId) {
+    prevRemoteIdRef.current = nextConvId;
+    setConvId(nextConvId);
+  }
 
   // Mutable per-message context for closures that outlive the render
   const ctx = useRef<ChatRuntimeContext>({
@@ -176,7 +182,8 @@ function ChatRuntimeHook() {
 export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const params = useParams<{ convId?: string }>();
   const queryClient = useQueryClient();
-  const adapterRef = useRef(createThreadListAdapter(queryClient));
+  const t = useTranslations();
+  const adapterRef = useRef(createThreadListAdapter(queryClient, t));
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
     adapter: adapterRef.current,

@@ -6,6 +6,11 @@ import type { LoadedPagesState } from "@/lib/types/chat";
 import type { UIMessage } from "ai";
 import { useEffect, useRef } from "react";
 
+/** Shared ref for the thread viewport element. Set by Thread, read by useLoadedMessages. */
+export const viewportRef: React.RefObject<HTMLDivElement | null> = {
+  current: null,
+};
+
 /**
  * Feeds loaded messages from the infinite query into useChat's setMessages,
  * handling both initial load and infinite scroll prepending with scroll anchor restoration.
@@ -34,9 +39,7 @@ export function useLoadedMessages(
     );
     if (messages.length === 0) return;
 
-    const vp = isPrepend
-      ? document.querySelector(".aui-thread-viewport")
-      : null;
+    const vp = isPrepend ? viewportRef.current : null;
 
     if (!isPrepend || !vp) {
       setMessages(messages);

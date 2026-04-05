@@ -15,6 +15,7 @@ import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import { useMessageMeta } from "@/hooks/use-message-meta";
+import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { chatWebSearchAtom } from "@/store/chat-store";
 import {
   ActionBarPrimitive,
@@ -40,7 +41,7 @@ import {
   SquareIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { createContext, type FC, type UIEvent, useContext } from "react";
+import { createContext, type FC, type UIEvent, useContext, useRef } from "react";
 import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
 
 const ReadOnlyContext = createContext(false);
@@ -51,10 +52,14 @@ type ThreadProps = {
 };
 
 export const Thread: FC<ThreadProps> = (props) => {
+  const nearTopRef = useRef(false);
+
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    if (e.currentTarget.scrollTop < 200) {
+    const nearTop = e.currentTarget.scrollTop < 200;
+    if (nearTop && !nearTopRef.current) {
       props.onScrollTop?.();
     }
+    nearTopRef.current = nearTop;
   };
 
   return (
@@ -68,6 +73,7 @@ export const Thread: FC<ThreadProps> = (props) => {
         }}
       >
         <ThreadPrimitive.Viewport
+          ref={(el) => { viewportRef.current = el; }}
           autoScroll
           onScroll={handleScroll}
           className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
