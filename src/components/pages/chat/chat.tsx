@@ -57,7 +57,7 @@ export function Chat() {
     document.title = convTitle
       ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
       : t("CHAT.META.TITLE", APP_VALUES);
-  }, [convQuery.data?.title, t]);
+  }, [convQuery.data?.title]);
 
   if (!token.isLoggedIn) {
     return (
