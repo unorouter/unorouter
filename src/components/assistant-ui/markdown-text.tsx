@@ -249,13 +249,16 @@ const defaultComponents = memoizeMarkdownComponents({
     const { isCopied, copyToClipboard } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
 
-    const handleDownload = () => {
+    const handleDownload = async () => {
       if (!imgSrc) return;
+      const res = await fetch(imgSrc);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-      link.href = imgSrc;
-      link.download = alt || "image";
-      link.target = "_blank";
+      link.href = url;
+      link.download = alt || "download";
       link.click();
+      URL.revokeObjectURL(url);
     };
 
     const handleCopyLink = () => {
