@@ -68,14 +68,11 @@ function ChatRuntimeHook() {
 
   // Server → atom: when conversation data arrives for a new thread, push its model into the selector
   const serverModel = conversationQuery.data?.model;
-  if (
-    remoteId &&
-    serverModel &&
-    remoteId !== modelSyncRef.current.lastSyncedId
-  ) {
+  useEffect(() => {
+    if (!remoteId || !serverModel || remoteId === modelSyncRef.current.lastSyncedId) return;
     modelSyncRef.current.lastSyncedId = remoteId;
     setChatModel(serverModel);
-  }
+  }, [remoteId, serverModel, setChatModel]);
 
   // Atom → server: persist user-initiated model changes
   useEffect(() => {
