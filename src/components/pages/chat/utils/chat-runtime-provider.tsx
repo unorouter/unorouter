@@ -3,20 +3,16 @@
 import {
   createR2AttachmentAdapter,
   extractParts,
-  mapRawMessages,
 } from "@/components/pages/chat/utils/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/chat/utils/thread-list-adapter";
 import {
   useConversationQuery,
-  useMessagesInfiniteQuery,
   usePersistMessagesMutation,
   useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
-import type {
-  ChatRuntimeContext,
-  LoadedPagesState,
-  PersistMessage,
-} from "@/lib/types/chat";
+import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
+import { queryKeys } from "@/lib/react-query/keys";
+import type { ChatRuntimeContext, PersistMessage } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
 import {
   chatModelAtom,
@@ -25,7 +21,6 @@ import {
   getChatWebSearch,
   getConvId,
   setConvId,
-  setMessageMeta
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
@@ -36,22 +31,20 @@ import {
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
-import { useAtom } from "jotai";
+import { useSetAtom } from "jotai";
 import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
-  const [model, setChatModel] = useAtom(chatModelAtom);
+  const setChatModel = useSetAtom(chatModelAtom);
+  const queryClient = useQueryClient();
 
   const persistMutation = usePersistMessagesMutation();
 
-  // Sync remoteId into jotai convId (single source of truth for conversation ID)
-  // Clear when switching to a new thread (remoteId becomes undefined)
-  useEffect(() => {
-    setConvId(remoteId ?? null);
-  }, [remoteId]);
+  // Sync remoteId into convId (synchronous, no useEffect needed)
+  setConvId(remoteId ?? null);
 
   // Mutable per-message context for closures that outlive the render
   const ctx = useRef<ChatRuntimeContext>({
@@ -59,31 +52,45 @@ function ChatRuntimeHook() {
     pendingUserMessage: null,
   });
 
-  // Sync conversation model to the selector when switching to an existing thread
+  // Two-way model sync: server → atom on thread switch, atom → server on user change.
+  // Single effect with a jotai subscription replaces two effects + multiple refs.
   const conversationQuery = useConversationQuery(remoteId);
-  const syncingRef = useRef(false);
-  const lastSyncedRemoteIdRef = useRef<string | undefined>(undefined);
-  useEffect(() => {
-    if (remoteId === lastSyncedRemoteIdRef.current) return;
-    if (!conversationQuery.data?.model) return;
-    lastSyncedRemoteIdRef.current = remoteId;
-    syncingRef.current = true;
-    setChatModel(conversationQuery.data.model);
-    syncingRef.current = false;
-  }, [remoteId, conversationQuery.data?.model]);
-
-  // Persist model change via jotai subscription (outside React render cycle).
-  // syncingRef prevents persisting when we're just syncing the server model into the atom.
   const updateConversation = useUpdateConversationMutation();
-  const updateRef = useRef(updateConversation);
-  updateRef.current = updateConversation;
+  const modelSyncRef = useRef({
+    lastSyncedId: undefined as string | undefined,
+    updateConversation,
+    queryClient,
+    setChatModel,
+  });
+  modelSyncRef.current.updateConversation = updateConversation;
+  modelSyncRef.current.queryClient = queryClient;
+  modelSyncRef.current.setChatModel = setChatModel;
+
+  // Server → atom: when conversation data arrives for a new thread, push its model into the selector
+  const serverModel = conversationQuery.data?.model;
+  if (
+    remoteId &&
+    serverModel &&
+    remoteId !== modelSyncRef.current.lastSyncedId
+  ) {
+    modelSyncRef.current.lastSyncedId = remoteId;
+    setChatModel(serverModel);
+  }
+
+  // Atom → server: persist user-initiated model changes
   useEffect(() => {
     return chatStore.sub(chatModelAtom, () => {
-      if (syncingRef.current) return;
       const id = getConvId();
       const newModel = getChatModel();
       if (!id || !newModel) return;
-      updateRef.current.mutate({ id, body: { model: newModel } });
+      const cached = modelSyncRef.current.queryClient.getQueryData<{
+        model?: string;
+      }>(queryKeys.chatMeta(id));
+      if (cached?.model === newModel) return;
+      modelSyncRef.current.updateConversation.mutate({
+        id,
+        body: { model: newModel },
+      });
     });
   }, []);
 
@@ -97,28 +104,6 @@ function ChatRuntimeHook() {
       }),
     }),
   );
-
-  // Load messages for existing conversations
-  const messagesQuery = useMessagesInfiniteQuery(remoteId);
-
-  // Sync per-message metadata (model, tokens, cost) into jotai atom
-  useEffect(() => {
-    if (!messagesQuery.data) {
-      setMessageMeta([]);
-      return;
-    }
-    const allPages = [...messagesQuery.data.pages].reverse();
-    setMessageMeta(
-      allPages
-        .flatMap((p) => p.messages)
-        .map((msg) => ({
-          model: msg.model ?? null,
-          inputTokens: msg.inputTokens ?? null,
-          outputTokens: msg.outputTokens ?? null,
-          cost: msg.cost ?? null,
-        })),
-    );
-  }, [messagesQuery.data]);
 
   const chat = useChat({
     id: threadId,
@@ -149,75 +134,8 @@ function ChatRuntimeHook() {
     },
   });
 
-  // Feed loaded messages into useChat (initial load + older pages from infinite scroll)
-  const loadedPagesRef = useRef<LoadedPagesState | null>(null);
-
-  useEffect(() => {
-    if (!remoteId || !messagesQuery.data) return;
-    const pageCount = messagesQuery.data.pages.length;
-    const prev = loadedPagesRef.current;
-    if (prev && prev.threadId === threadId && prev.count === pageCount) return;
-    const isPrepend =
-      prev?.threadId === threadId && pageCount > (prev?.count ?? 0);
-    loadedPagesRef.current = { threadId, count: pageCount };
-
-    const allPages = [...messagesQuery.data.pages].reverse();
-    const seen = new Set<string>();
-    const messages = mapRawMessages(allPages.flatMap((p) => p.messages)).filter(
-      (m) => (seen.has(m.id) ? false : (seen.add(m.id), true)),
-    );
-    if (messages.length === 0) return;
-
-    const vp = isPrepend
-      ? document.querySelector(".aui-thread-viewport")
-      : null;
-
-    if (!isPrepend || !vp) {
-      chat.setMessages(messages);
-      return;
-    }
-
-    // Capture anchor before React replaces DOM nodes
-    const anchor = vp.querySelector("[data-message-id]") as HTMLElement | null;
-    const aid = anchor?.getAttribute("data-message-id");
-    const offset = anchor ? anchor.offsetTop - vp.scrollTop : null;
-    const msgCount = vp.querySelectorAll("[data-message-id]").length;
-
-    vp.classList.remove("scroll-smooth");
-    chat.setMessages(messages);
-
-    // Idempotent: sets scrollTop so anchor stays at its previous visual offset
-    const restore = () => {
-      const el = aid
-        ? (vp.querySelector(`[data-message-id="${aid}"]`) as HTMLElement)
-        : null;
-      if (el && offset !== null) vp.scrollTop = el.offsetTop - offset;
-    };
-
-    // Poll until React renders new messages, then anchor + watch for reflows
-    let n = 0;
-    const poll = () => {
-      if (vp.querySelectorAll("[data-message-id]").length <= msgCount) {
-        if (++n < 30) requestAnimationFrame(poll);
-        else vp.classList.add("scroll-smooth");
-        return;
-      }
-      restore();
-      let h = vp.scrollHeight;
-      const obs = new MutationObserver(() => {
-        if (vp.scrollHeight !== h) {
-          h = vp.scrollHeight;
-          restore();
-        }
-      });
-      obs.observe(vp, { childList: true, subtree: true, attributes: true });
-      setTimeout(() => {
-        obs.disconnect();
-        vp.classList.add("scroll-smooth");
-      }, 1000);
-    };
-    requestAnimationFrame(poll);
-  }, [messagesQuery.data, threadId]);
+  // Feed loaded messages into useChat (initial load + infinite scroll)
+  useLoadedMessages(threadId, remoteId, chat.setMessages);
 
   const wrappedChat = {
     ...chat,

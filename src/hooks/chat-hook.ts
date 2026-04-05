@@ -7,11 +7,6 @@ import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
-  chatStore,
-  messageMetaAtom,
-  type MessageMeta,
-} from "@/store/chat-store";
-import {
   keepPreviousData,
   useInfiniteQuery,
   useMutation,
@@ -232,24 +227,42 @@ export function usePersistMessagesMutation() {
     onSuccess: (data, args) => {
       const id = String(args.id);
 
-      // Append message metadata to jotai atom (keeps indices aligned with assistant-ui)
-      const prev = chatStore.get(messageMetaAtom);
-      const newEntries: MessageMeta[] = args.body.messages.map((m) =>
-        m.role === "assistant" && data.usage
-          ? {
-              model: m.model ?? null,
-              inputTokens: data.usage.inputTokens,
-              outputTokens: data.usage.outputTokens,
-              cost: data.usage.cost,
-            }
-          : {
-              model: m.model ?? null,
-              inputTokens: null,
-              outputTokens: null,
-              cost: null,
-            },
+      // Append persisted messages (with usage data) to the messages query cache
+      // so useMessageMeta picks them up immediately without a refetch
+      type MessagesPage = { messages: Array<Record<string, unknown>>; total: number };
+      queryClient.setQueryData<InfiniteData<MessagesPage>>(
+        queryKeys.chatMessages(id),
+        (old) => {
+          if (!old?.pages[0]) return old;
+          const newMessages = args.body.messages.map((m) => ({
+            id: crypto.randomUUID(),
+            role: m.role,
+            parts: m.parts,
+            model: m.model ?? null,
+            inputTokens:
+              m.role === "assistant" && data.usage
+                ? data.usage.inputTokens
+                : null,
+            outputTokens:
+              m.role === "assistant" && data.usage
+                ? data.usage.outputTokens
+                : null,
+            cost:
+              m.role === "assistant" && data.usage ? data.usage.cost : null,
+          }));
+          const firstPage = old.pages[0];
+          return {
+            ...old,
+            pages: [
+              {
+                ...firstPage,
+                messages: [...firstPage.messages, ...newMessages],
+              },
+              ...old.pages.slice(1),
+            ],
+          };
+        },
       );
-      chatStore.set(messageMetaAtom, [...prev, ...newEntries]);
 
       // Patch sidebar: update timestamp, title, cost and move to top
       queryClient.setQueryData<InfiniteData<ConversationsData>>(

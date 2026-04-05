@@ -14,7 +14,8 @@ import { Button } from "@/components/ui/button";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
-import { chatWebSearchAtom, messageMetaAtom } from "@/store/chat-store";
+import { useMessageMeta } from "@/hooks/use-message-meta";
+import { chatWebSearchAtom } from "@/store/chat-store";
 import {
   ActionBarPrimitive,
   AuiIf,
@@ -26,7 +27,7 @@ import {
   ThreadPrimitive,
   useAuiState,
 } from "@assistant-ui/react";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -305,8 +306,7 @@ const AssistantMessage: FC = () => {
 const AssistantMessageMeta: FC = () => {
   const t = useTranslations();
   const messageIndex = useAuiState((s) => s.message.index);
-  const metaList = useAtomValue(messageMetaAtom);
-  const meta = metaList[messageIndex];
+  const meta = useMessageMeta(messageIndex);
   const pricingQuery = usePricingQuery();
 
   if (!meta?.model) return null;

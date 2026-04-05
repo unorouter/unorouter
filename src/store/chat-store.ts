@@ -35,9 +35,6 @@ export const chatWebSearchAtom = atom(
   },
 );
 
-/** Active conversation ID (set by remoteId or pre-generated for new threads). */
-export const convIdAtom = atom<string | null>(null);
-
 export const chatStore = createStore();
 
 export const getChatModel = (): string | null => {
@@ -58,16 +55,7 @@ export const getChatWebSearch = (): boolean => {
   return false;
 };
 
-export const getConvId = () => chatStore.get(convIdAtom);
-export const setConvId = (id: string | null) => chatStore.set(convIdAtom, id);
-
-/** Per-message metadata (model, tokens, cost) keyed by message index. */
-export type MessageMeta = {
-  model: string | null;
-  inputTokens: number | null;
-  outputTokens: number | null;
-  cost: number | null;
-};
-export const messageMetaAtom = atom<MessageMeta[]>([]);
-export const setMessageMeta = (meta: MessageMeta[]) =>
-  chatStore.set(messageMetaAtom, meta);
+/** Active conversation ID. Plain variable (not reactive, only read imperatively). */
+let _convId: string | null = null;
+export const getConvId = () => _convId;
+export const setConvId = (id: string | null) => { _convId = id; };
