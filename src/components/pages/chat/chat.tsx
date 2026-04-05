@@ -7,17 +7,18 @@ import {
   useMessagesInfiniteQuery,
 } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { Link, useRouter } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/base";
 import { useAuiState } from "@assistant-ui/react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
 
 export function Chat() {
   const t = useTranslations();
-  const router = useRouter();
+  const locale = useLocale();
   const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem.remoteId);
   const messagesQuery = useMessagesInfiniteQuery(threadId);
@@ -25,20 +26,38 @@ export function Chat() {
   const skipFirstSync = useRef(true);
 
   // Keep URL in sync with active thread (skip first render to avoid fighting initialThreadId)
+  // router.replace causes a full server re-render flash, so use shallow history update instead
+  // useEffect(() => {
+  //   if (skipFirstSync.current) {
+  //     skipFirstSync.current = false;
+  //     return;
+  //   }
+  //   if (threadId) {
+  //     router.replace({
+  //       pathname: "/chat/[convId]",
+  //       params: { convId: threadId },
+  //     });
+  //   } else {
+  //     router.replace("/chat");
+  //   }
+  // }, [threadId, router]);
+
   useEffect(() => {
     if (skipFirstSync.current) {
       skipFirstSync.current = false;
       return;
     }
-    if (threadId) {
-      router.replace({
-        pathname: "/chat/[convId]",
-        params: { convId: threadId },
-      });
-    } else {
-      router.replace("/chat");
-    }
-  }, [threadId, router]);
+    const url = threadId ? `/${locale}/chat/${threadId}` : `/${locale}/chat`;
+    window.history.replaceState(null, "", url);
+  }, [threadId, locale]);
+
+  // Update document title since shallow history update skips generateMetadata
+  useEffect(() => {
+    const convTitle = convQuery.data?.title;
+    document.title = convTitle
+      ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
+      : t("CHAT.META.TITLE", APP_VALUES);
+  }, [convQuery.data?.title, t]);
 
   if (!token.isLoggedIn) {
     return (
