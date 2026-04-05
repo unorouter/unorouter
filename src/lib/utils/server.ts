@@ -66,8 +66,9 @@ export const setCookies = async () => {
 
 export async function fetchConvTitle(convId: string): Promise<string | null> {
   try {
+    const cookieHeaders = await setCookies();
     const meta = handleElysia(
-      await rpc.api.chat({ id: convId }).meta.get(),
+      await rpc.api.chat({ id: convId }).meta.get(cookieHeaders),
     );
     return meta.title ?? null;
   } catch {
