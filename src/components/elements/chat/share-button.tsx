@@ -62,11 +62,27 @@ export function ShareButton(props: { convId: string }) {
       variant="ghost"
       size="icon"
       className="h-8 w-8"
-      onClick={() => shareMutation.mutate({ id: props.convId })}
+      onClick={() =>
+        shareMutation.mutate(
+          { id: props.convId },
+          {
+            onSuccess: async (data) => {
+              const url = `${env.appUrl}/shared/${data.shareId}`;
+              await copyToClipboard(url);
+              setCopied(true);
+              setTimeout(() => setCopied(false), 2000);
+            },
+          },
+        )
+      }
       disabled={isPending}
       title={t("CHAT.SHARE")}
     >
-      <LuLink className="h-4 w-4" />
+      {copied ? (
+        <LuCheck className="h-4 w-4 text-green-500" />
+      ) : (
+        <LuLink className="h-4 w-4" />
+      )}
     </Button>
   );
 }
