@@ -1294,6 +1294,8 @@
     "WEB_SEARCH": "Websuche",
     "WEB_SEARCH_ON": "Websuche aktiviert",
     "WEB_SEARCH_OFF": "Websuche deaktiviert",
+    "DOWNLOAD": "Herunterladen",
+    "COPY_LINK": "Link kopieren",
     "META": {
       "TITLE": "KI-Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | KI-Chat - {appName}",

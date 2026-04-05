@@ -10,7 +10,7 @@ import {
 } from "@assistant-ui/react-markdown";
 import remarkGfm from "remark-gfm";
 import { type FC, useState } from "react";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, DownloadIcon, LinkIcon } from "lucide-react";
 
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { ShikiSyntaxHighlighter } from "@/components/assistant-ui/syntax-highlighter";
@@ -244,4 +244,58 @@ const defaultComponents = memoizeMarkdownComponents({
   },
   CodeHeader,
   SyntaxHighlighter: ShikiSyntaxHighlighter,
+  img: function MarkdownImage({ src, alt, ...props }) {
+    const t = useTranslations();
+    const { isCopied, copyToClipboard } = useCopyToClipboard();
+    const imgSrc = typeof src === "string" ? src : undefined;
+
+    const handleDownload = () => {
+      if (!imgSrc) return;
+      const link = document.createElement("a");
+      link.href = imgSrc;
+      link.download = alt || "image";
+      link.target = "_blank";
+      link.click();
+    };
+
+    const handleCopyLink = () => {
+      if (!imgSrc) return;
+      copyToClipboard(imgSrc);
+    };
+
+    return (
+      <span className="group/img relative my-2 block first:mt-0 last:mb-0">
+        <img
+          src={imgSrc}
+          alt={alt}
+          className="max-w-full rounded-lg"
+          {...props}
+        />
+        {imgSrc && (
+          <span className="absolute bottom-2 left-2 flex gap-1 opacity-0 transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
+            <TooltipIconButton
+              tooltip={t("CHAT.DOWNLOAD")}
+              variant="outline"
+              className="bg-background/80 backdrop-blur-sm size-7"
+              onClick={handleDownload}
+            >
+              <DownloadIcon className="size-3.5" />
+            </TooltipIconButton>
+            <TooltipIconButton
+              tooltip={isCopied ? t("CHAT.LINK_COPIED") : t("CHAT.COPY_LINK")}
+              variant="outline"
+              className="bg-background/80 backdrop-blur-sm size-7"
+              onClick={handleCopyLink}
+            >
+              {isCopied ? (
+                <CheckIcon className="size-3.5" />
+              ) : (
+                <LinkIcon className="size-3.5" />
+              )}
+            </TooltipIconButton>
+          </span>
+        )}
+      </span>
+    );
+  },
 });

@@ -1294,6 +1294,8 @@
     "WEB_SEARCH": "Web Search",
     "WEB_SEARCH_ON": "Web search enabled",
     "WEB_SEARCH_OFF": "Web search disabled",
+    "DOWNLOAD": "Download",
+    "COPY_LINK": "Copy link",
     "META": {
       "TITLE": "AI Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",

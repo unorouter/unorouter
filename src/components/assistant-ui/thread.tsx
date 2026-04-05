@@ -300,7 +300,7 @@ const AssistantMessage: FC = () => {
         <MessageError />
       </div>
 
-      <div className="aui-assistant-message-footer mt-1 ml-2 flex min-h-6 items-center">
+      <div className="aui-assistant-message-footer mt-1 ml-2 flex min-h-6 flex-wrap items-center gap-y-1">
         <BranchPicker />
         <AssistantActionBar />
         <AssistantMessageMeta />
@@ -328,7 +328,7 @@ const AssistantMessageMeta: FC = () => {
   const hasTokens = meta.inputTokens != null || meta.outputTokens != null;
 
   return (
-    <div className="text-muted-foreground ml-auto flex items-center gap-1.5 text-[11px] tabular-nums">
+    <div className="text-muted-foreground ml-auto flex flex-wrap items-center gap-1.5 text-[11px] tabular-nums">
       {vendorName && <VendorIcon vendor={vendorName} size={12} />}
       <span className="opacity-70">{meta.model}</span>
       {hasTokens && (
