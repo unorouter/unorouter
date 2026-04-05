@@ -25,7 +25,7 @@ import { useAuthQuery } from "./auth-hook";
 const chatRoute = rpc.api.chat;
 
 type ChatRouteReturn = ReturnType<typeof chatRoute>;
-type ConversationsData = EdenResponse<{ get: typeof chatRoute.get }, "get">;
+type ConversationsData = EdenResponse<{ get: typeof chatRoute.conversations.get }, "get">;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<typeof chatRoute, "get">;
 
@@ -37,7 +37,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) =>
       handleElysia(
-        await chatRoute.get({
+        await chatRoute.conversations.get({
           query: { p: pageParam, page_size: PAGE_SIZE, keyword },
         }),
       ),

@@ -8,7 +8,10 @@ import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { InfiniteData, QueryClient } from "@tanstack/react-query";
 import { createAssistantStream } from "assistant-stream";
 
-type ConversationsData = EdenResponse<{ get: typeof rpc.api.chat.get }, "get">;
+type ConversationsData = EdenResponse<
+  { get: typeof rpc.api.chat.conversations.get },
+  "get"
+>;
 
 export function createThreadListAdapter(
   queryClient: QueryClient,
@@ -24,7 +27,7 @@ export function createThreadListAdapter(
           queryKey: queryKeys.conversations(),
           queryFn: async ({ pageParam }) =>
             handleElysia(
-              await rpc.api.chat.get({
+              await rpc.api.chat.conversations.get({
                 query: { p: pageParam, page_size: PAGE_SIZE },
               }),
             ),

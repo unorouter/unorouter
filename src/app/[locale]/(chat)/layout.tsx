@@ -1,6 +1,7 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ConversationList } from "@/components/pages/chat/sidebar/conversation-list";
 import { ChatRuntimeProvider } from "@/components/pages/chat/utils/chat-runtime-provider";
+import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -26,11 +27,11 @@ export default async function ChatLayout(props: Props) {
     }),
     isLoggedIn &&
       queryClient.prefetchInfiniteQuery({
-        queryKey: queryKeys.conversations(),
+        queryKey: queryKeys.conversations(undefined),
         queryFn: async ({ pageParam }) =>
           handleElysia(
-            await rpc.api.chat.get({
-              query: { p: pageParam, page_size: 20 },
+            await rpc.api.chat.conversations.get({
+              query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
               ...cookieHeaders!,
             }),
           ),

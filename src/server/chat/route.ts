@@ -33,7 +33,7 @@ import { streamChat } from "./stream.service";
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .get(
-    "/",
+    "/conversations",
     async ({ query, cookie }) => {
       const userId = getUserId(cookie);
       const data = await listConversations(userId, query);
