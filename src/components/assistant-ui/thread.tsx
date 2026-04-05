@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import { useMessageMeta } from "@/hooks/use-message-meta";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
-import { chatWebSearchAtom } from "@/store/chat-store";
+import { chatWebSearchAtom, getScrollControl } from "@/store/chat-store";
 import {
   ActionBarPrimitive,
   AuiIf,
@@ -48,7 +48,6 @@ const ReadOnlyContext = createContext(false);
 
 type ThreadProps = {
   readOnly?: boolean;
-  onScrollTop?: () => void;
 };
 
 export const Thread: FC<ThreadProps> = (props) => {
@@ -57,7 +56,10 @@ export const Thread: FC<ThreadProps> = (props) => {
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const nearTop = e.currentTarget.scrollTop < 200;
     if (nearTop && !nearTopRef.current) {
-      props.onScrollTop?.();
+      const ctrl = getScrollControl();
+      if (ctrl.hasNextPage && !ctrl.isFetchingNextPage) {
+        ctrl.fetchNextPage();
+      }
     }
     nearTopRef.current = nearTop;
   };

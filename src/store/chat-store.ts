@@ -61,3 +61,21 @@ export const getConvId = () => _convId;
 export const setConvId = (id: string | null) => {
   _convId = id;
 };
+
+/** Scroll control for infinite message loading. Written by useLoadedMessages, read by Chat. */
+export type ScrollControl = {
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
+};
+
+let _scrollControl: ScrollControl = {
+  hasNextPage: false,
+  isFetchingNextPage: false,
+  fetchNextPage: () => {},
+};
+
+export const getScrollControl = () => _scrollControl;
+export const setScrollControl = (ctrl: ScrollControl) => {
+  _scrollControl = ctrl;
+};

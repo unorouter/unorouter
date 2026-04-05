@@ -2,10 +2,7 @@
 
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
-import {
-  useConversationQuery,
-  useMessagesInfiniteQuery,
-} from "@/hooks/chat-hook";
+import { useConversationQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -22,16 +19,15 @@ export function Chat() {
   const router = useRouter();
   const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem.remoteId);
-  const messagesQuery = useMessagesInfiniteQuery(threadId);
   const convQuery = useConversationQuery(threadId);
   const skipFirstSync = useRef(true);
 
   // Redirect to /chat if the conversation doesn't exist
   useEffect(() => {
-    if (threadId && (convQuery.isError || messagesQuery.isError)) {
+    if (threadId && convQuery.isError) {
       router.replace("/chat");
     }
-  }, [threadId, convQuery.isError, messagesQuery.isError, router]);
+  }, [threadId, convQuery.isError, router]);
 
   useEffect(() => {
     if (skipFirstSync.current) {
@@ -128,13 +124,7 @@ export function Chat() {
           <ShareButton convId={threadId} />
         </div>
       )}
-      <Thread
-        onScrollTop={() => {
-          if (messagesQuery.hasNextPage && !messagesQuery.isFetchingNextPage) {
-            messagesQuery.fetchNextPage();
-          }
-        }}
-      />
+      <Thread />
     </div>
   );
 }
