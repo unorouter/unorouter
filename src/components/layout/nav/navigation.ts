@@ -25,6 +25,7 @@ export type NavigationItem = {
   icon?: ComponentType<{ className?: string }>;
   hidden?: boolean;
   exact?: boolean;
+  onClick?: (e: React.MouseEvent) => void;
   submenu?: NavigationItem[];
 };
 

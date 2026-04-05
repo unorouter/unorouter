@@ -18,6 +18,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import type { SidebarNavConfig } from "./app-sidebar";
 
@@ -35,7 +36,7 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
             return (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton
-                  render={<Link href={item.href} />}
+                  render={<Link href={item.href} onClick={item.onClick} />}
                   tooltip={t(item.name)}
                   isActive={isActive}
                   className={cn(
@@ -69,15 +70,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
   const authenticated = !!user;
 
   if (props.navConfig === "chat") {
-    const mainNavItems = navigation(authenticated).filter(
-      (item) => !item.hidden,
-    );
-    return (
-      <>
-        <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
-        {props.chatContent}
-      </>
-    );
+    return <ChatSidebarNav authenticated={authenticated} />;
   }
 
   if (props.navConfig === "docs") {
@@ -104,4 +97,18 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
       <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
     </>
   );
+}
+
+function ChatSidebarNav(props: { authenticated: boolean }) {
+  const t = useTranslations();
+  const aui = useAui();
+  const items = navigation(props.authenticated)
+    .filter((item) => !item.hidden)
+    .map((item) =>
+      item.href === "/chat"
+        ? { ...item, onClick: () => aui.threads().switchToNewThread() }
+        : item,
+    );
+
+  return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }
