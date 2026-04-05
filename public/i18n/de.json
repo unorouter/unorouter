@@ -1313,6 +1313,8 @@
     "NO_VIDEO_URL": "Video abgeschlossen, aber keine URL gefunden",
     "VIDEO_GENERATION_FAILED": "Videogenerierung fehlgeschlagen",
     "VIDEO_GENERATION_TIMED_OUT": "Zeitüberschreitung bei der Videogenerierung",
-    "REQUEST_FAILED": "Anfrage fehlgeschlagen"
+    "REQUEST_FAILED": "Anfrage fehlgeschlagen",
+    "PRICING_FETCH_FAILED": "Preisdaten konnten nicht abgerufen werden",
+    "NO_TEXT_MODELS": "Keine Textmodelle verfügbar"
   }
 }

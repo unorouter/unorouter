@@ -1313,6 +1313,8 @@
     "NO_VIDEO_URL": "Video completed but no URL was found",
     "VIDEO_GENERATION_FAILED": "Video generation failed",
     "VIDEO_GENERATION_TIMED_OUT": "Video generation timed out",
-    "REQUEST_FAILED": "Request failed"
+    "REQUEST_FAILED": "Request failed",
+    "PRICING_FETCH_FAILED": "Failed to fetch pricing data",
+    "NO_TEXT_MODELS": "No text models available"
   }
 }
