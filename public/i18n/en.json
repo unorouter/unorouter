@@ -1293,7 +1293,16 @@
     "TOKENS_OUT": "out",
     "WEB_SEARCH": "Web Search",
     "WEB_SEARCH_ON": "Web search enabled",
-    "WEB_SEARCH_OFF": "Web search disabled"
+    "WEB_SEARCH_OFF": "Web search disabled",
+    "META": {
+      "TITLE": "AI Chat - {appName}",
+      "TITLE_WITH_NAME": "{title} | AI Chat - {appName}",
+      "DESCRIPTION": "Chat with any AI model. Test GPT, Claude, Gemini, DeepSeek and more through a single interface.",
+      "KEYWORDS": "AI chat, chat with AI, GPT chat, Claude chat, Gemini chat, AI playground, model testing",
+      "SHARED_TITLE": "Shared Conversation - {appName}",
+      "SHARED_TITLE_WITH_NAME": "{title} | Shared Conversation - {appName}",
+      "SHARED_DESCRIPTION": "View a shared AI conversation on {appName}."
+    }
   },
   "ERRORS": {
     "UNAUTHORIZED": "Unauthorized",

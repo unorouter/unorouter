@@ -63,3 +63,27 @@ export const setCookies = async () => {
 
   return { headers: { cookie } };
 };
+
+export async function fetchConvTitle(convId: string): Promise<string | null> {
+  try {
+    const meta = handleElysia(
+      await rpc.api.chat({ id: convId }).meta.get(),
+    );
+    return meta.title ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchSharedConvTitle(
+  shareId: string,
+): Promise<string | null> {
+  try {
+    const data = handleElysia(
+      await rpc.api.chat.shared({ shareId }).get(),
+    );
+    return data.title ?? null;
+  } catch {
+    return null;
+  }
+}

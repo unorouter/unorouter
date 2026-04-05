@@ -4,7 +4,7 @@ import { mapRawMessages } from "@/components/pages/chat/utils/chat-utils";
 import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import type { LoadedPagesState } from "@/lib/types/chat";
 import type { UIMessage } from "ai";
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 /** Shared ref for the thread viewport element. Set by Thread, read by useLoadedMessages. */
 export const viewportRef: React.RefObject<HTMLDivElement | null> = {
@@ -23,7 +23,7 @@ export function useLoadedMessages(
   const messagesQuery = useMessagesInfiniteQuery(remoteId);
   const loadedPagesRef = useRef<LoadedPagesState | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!remoteId || !messagesQuery.data) return;
     const pageCount = messagesQuery.data.pages.length;
     const prev = loadedPagesRef.current;

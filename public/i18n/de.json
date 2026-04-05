@@ -1293,7 +1293,16 @@
     "TOKENS_OUT": "aus",
     "WEB_SEARCH": "Websuche",
     "WEB_SEARCH_ON": "Websuche aktiviert",
-    "WEB_SEARCH_OFF": "Websuche deaktiviert"
+    "WEB_SEARCH_OFF": "Websuche deaktiviert",
+    "META": {
+      "TITLE": "KI-Chat - {appName}",
+      "TITLE_WITH_NAME": "{title} | KI-Chat - {appName}",
+      "DESCRIPTION": "Chatten Sie mit jedem KI-Modell. Testen Sie GPT, Claude, Gemini, DeepSeek und mehr über eine einzige Oberfläche.",
+      "KEYWORDS": "KI-Chat, mit KI chatten, GPT-Chat, Claude-Chat, Gemini-Chat, KI-Spielplatz, Modell testen",
+      "SHARED_TITLE": "Geteilte Unterhaltung - {appName}",
+      "SHARED_TITLE_WITH_NAME": "{title} | Geteilte Unterhaltung - {appName}",
+      "SHARED_DESCRIPTION": "Sehen Sie sich eine geteilte KI-Unterhaltung auf {appName} an."
+    }
   },
   "ERRORS": {
     "UNAUTHORIZED": "Nicht autorisiert",

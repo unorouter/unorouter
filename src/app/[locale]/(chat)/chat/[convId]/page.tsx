@@ -1,15 +1,33 @@
 import { Chat } from "@/components/pages/chat/chat";
-import { PAGE_SIZE } from "@/lib/config/constants";
+import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
+import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { setCookies } from "@/lib/utils/server";
+import { serverLocale, setCookies, fetchConvTitle } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getTranslations } from "next-intl/server";
 
 type Props = {
-  params: Promise<{ convId: string }>;
+  params: Promise<{ locale: string; convId: string }>;
 };
+
+export async function generateMetadata(props: Props) {
+  const { convId } = await props.params;
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
+  const convTitle = await fetchConvTitle(convId);
+  return getPageMetadata({
+    locale,
+    title: convTitle
+      ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
+      : t("CHAT.META.TITLE", APP_VALUES),
+    description: t("CHAT.META.DESCRIPTION"),
+    keywords: t("CHAT.META.KEYWORDS"),
+    robots: false,
+  });
+}
 
 export default async function ChatConvPage(props: Props) {
   const { convId } = await props.params;
@@ -42,7 +60,7 @@ export default async function ChatConvPage(props: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Chat initialConvId={convId} />
+      <Chat />
     </HydrationBoundary>
   );
 }
