@@ -1,10 +1,10 @@
-import { env } from "@/lib/config/env";
 import {
   ACCESS_TOKEN_COOKIE,
   msg,
   NEW_API_USER,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
@@ -30,10 +30,16 @@ export async function getServerCookieHeader(): Promise<string> {
   }
 }
 
-export function getUserId(cookie: Record<string, Cookie<unknown>>): number {
+export function getUserId<T extends boolean = false>(
+  cookie: Record<string, Cookie<unknown>>,
+  optional?: T,
+): T extends true ? number | null : number {
   const raw = cookie[USER_ID_COOKIE]?.value;
-  if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  return Number(raw);
+  if (!raw) {
+    if (optional) return null as T extends true ? number | null : number;
+    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  }
+  return Number(raw) as T extends true ? number | null : number;
 }
 
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {

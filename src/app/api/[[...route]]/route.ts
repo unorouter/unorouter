@@ -12,6 +12,7 @@ import { tokenRoute } from "@/server/token/route";
 import { Elysia } from "elysia";
 
 export const app = new Elysia({ prefix: "/api" })
+
   .onError(({ error, set }) => {
     const err = error as { status?: number; data?: unknown };
     if (err.status && typeof err.status === "number" && err.data) {
