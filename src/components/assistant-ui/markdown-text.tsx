@@ -251,7 +251,7 @@ const defaultComponents = memoizeMarkdownComponents({
 
     const handleDownload = async () => {
       if (!imgSrc) return;
-      const res = await fetch(imgSrc);
+      const res = await fetch(imgSrc, { cache: "no-cache" });
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
