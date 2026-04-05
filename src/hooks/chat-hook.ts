@@ -20,14 +20,15 @@ import { useAuthQuery } from "./auth-hook";
 const chatRoute = rpc.api.chat;
 
 type ChatRouteReturn = ReturnType<typeof chatRoute>;
-type ConversationsData = EdenResponse<{ get: typeof chatRoute.conversations.get }, "get">;
+type ConversationsData = EdenResponse<
+  { get: typeof chatRoute.conversations.get },
+  "get"
+>;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<typeof chatRoute, "get">;
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   const authQuery = useAuthQuery();
-
-  console.log("Using chat hook with keyword:", !!authQuery.data, keyword);
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) =>
@@ -229,7 +230,10 @@ export function usePersistMessagesMutation() {
 
       // Append persisted messages (with usage data) to the messages query cache
       // so useMessageMeta picks them up immediately without a refetch
-      type MessagesPage = { messages: Array<Record<string, unknown>>; total: number };
+      type MessagesPage = {
+        messages: Array<Record<string, unknown>>;
+        total: number;
+      };
       queryClient.setQueryData<InfiniteData<MessagesPage>>(
         queryKeys.chatMessages(id),
         (old) => {
@@ -247,8 +251,7 @@ export function usePersistMessagesMutation() {
               m.role === "assistant" && data.usage
                 ? data.usage.outputTokens
                 : null,
-            cost:
-              m.role === "assistant" && data.usage ? data.usage.cost : null,
+            cost: m.role === "assistant" && data.usage ? data.usage.cost : null,
           }));
           const firstPage = old.pages[0];
           return {

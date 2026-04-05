@@ -2,7 +2,10 @@ import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { downloadAndUpload, mediaKey, uploadToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
-import type { ImageGenerationBody, VideoGenerationBody } from "@/lib/validation/chat";
+import type {
+  ImageGenerationBody,
+  VideoGenerationBody,
+} from "@/lib/validation/chat";
 import { getProvider } from "@/server/constants";
 import { generateImage } from "ai";
 
@@ -45,10 +48,7 @@ export async function generateImageMedia(
   return { urls };
 }
 
-export async function generateVideo(
-  apiKey: string,
-  body: VideoGenerationBody,
-) {
+export async function generateVideo(apiKey: string, body: VideoGenerationBody) {
   const submitBody: Record<string, unknown> = {
     model: body.model,
     prompt: body.prompt,
@@ -113,9 +113,7 @@ export async function generateVideo(
     }
 
     if (status === "failed" || status === "error") {
-      throw new Error(
-        pollData.error || msg("ERRORS.VIDEO_GENERATION_FAILED"),
-      );
+      throw new Error(pollData.error || msg("ERRORS.VIDEO_GENERATION_FAILED"));
     }
   }
 

@@ -58,4 +58,6 @@ export const getChatWebSearch = (): boolean => {
 /** Active conversation ID. Plain variable (not reactive, only read imperatively). */
 let _convId: string | null = null;
 export const getConvId = () => _convId;
-export const setConvId = (id: string | null) => { _convId = id; };
+export const setConvId = (id: string | null) => {
+  _convId = id;
+};

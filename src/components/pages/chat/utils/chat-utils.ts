@@ -1,7 +1,4 @@
-import type {
-  AttachmentUploadContext,
-  MessagePart,
-} from "@/lib/types/chat";
+import type { AttachmentUploadContext, MessagePart } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
 import { setConvId } from "@/store/chat-store";
 import type { useChat } from "@ai-sdk/react";

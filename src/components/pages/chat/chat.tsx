@@ -3,7 +3,10 @@
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
 import { formatPrice } from "@/lib/utils/base";
-import { useConversationQuery, useMessagesInfiniteQuery } from "@/hooks/chat-hook";
+import {
+  useConversationQuery,
+  useMessagesInfiniteQuery,
+} from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useAuiState } from "@assistant-ui/react";
@@ -93,17 +96,25 @@ export function Chat(props: { initialConvId?: string }) {
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
       {threadId && (
         <div className="absolute top-2 right-4 z-10 flex items-center gap-3">
-          {convQuery.data && (convQuery.data.totalInputTokens > 0 || convQuery.data.totalOutputTokens > 0) && (
-            <div className="text-muted-foreground flex items-center gap-2 text-[11px] tabular-nums">
-              <span>{convQuery.data.totalInputTokens.toLocaleString()} {t("CHAT.TOKENS_IN")}</span>
-              <span>{convQuery.data.totalOutputTokens.toLocaleString()} {t("CHAT.TOKENS_OUT")}</span>
-              {convQuery.data.totalCost > 0 && (
-                <span className="text-foreground/70 font-medium">
-                  {formatPrice(convQuery.data.totalCost)}
+          {convQuery.data &&
+            (convQuery.data.totalInputTokens > 0 ||
+              convQuery.data.totalOutputTokens > 0) && (
+              <div className="text-muted-foreground flex items-center gap-2 text-[11px] tabular-nums">
+                <span>
+                  {convQuery.data.totalInputTokens.toLocaleString()}{" "}
+                  {t("CHAT.TOKENS_IN")}
                 </span>
-              )}
-            </div>
-          )}
+                <span>
+                  {convQuery.data.totalOutputTokens.toLocaleString()}{" "}
+                  {t("CHAT.TOKENS_OUT")}
+                </span>
+                {convQuery.data.totalCost > 0 && (
+                  <span className="text-foreground/70 font-medium">
+                    {formatPrice(convQuery.data.totalCost)}
+                  </span>
+                )}
+              </div>
+            )}
           <ShareButton convId={threadId} />
         </div>
       )}

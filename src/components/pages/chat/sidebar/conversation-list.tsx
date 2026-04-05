@@ -1,7 +1,11 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -139,11 +143,7 @@ export function ConversationList() {
                 >
                   <LuSearch className="size-4" />
                 </PopoverTrigger>
-                <PopoverContent
-                  side="right"
-                  align="start"
-                  className="w-72 p-2"
-                >
+                <PopoverContent side="right" align="start" className="w-72 p-2">
                   {listContent}
                 </PopoverContent>
               </Popover>
