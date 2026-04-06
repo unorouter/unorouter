@@ -1,4 +1,8 @@
-import { buildPricingSummary, type ProcessedModel } from "@/lib/api/pricing";
+import {
+  buildPricingSummary,
+  ModelType,
+  type ProcessedModel,
+} from "@/lib/api/pricing";
 import { msg } from "@/lib/config/constants";
 import { getPricing } from "@/openapi";
 
@@ -14,10 +18,14 @@ async function getModels(): Promise<ProcessedModel[]> {
   return cache.models;
 }
 
-export async function isMediaModel(model: string): Promise<boolean> {
+export async function isMediaModel(model: string) {
   const models = await getModels();
   const found = models.find((m) => m.name === model);
-  return found?.type === "image" || found?.type === "video";
+
+  return {
+    buffered: found?.type === "image" || found?.type === "video",
+    mediaType: found?.type as ModelType,
+  };
 }
 
 export async function getCheapestTextModel(): Promise<string> {

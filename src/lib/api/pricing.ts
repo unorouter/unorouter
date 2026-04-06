@@ -1,7 +1,7 @@
 import type { PricingData, PricingDataDataItem } from "@/openapi";
 
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
-type ModelType = (typeof MODEL_TYPES)[number];
+export type ModelType = (typeof MODEL_TYPES)[number];
 
 export type GridPricingRow = Record<string, string | number>;
 

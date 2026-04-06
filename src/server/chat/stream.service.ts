@@ -1,4 +1,14 @@
+import { ModelType } from "@/lib/api/pricing";
+import { isMediaModel } from "@/lib/api/pricing-cache";
+import {
+  downloadAndUpload,
+  getContentType,
+  isVideoContentType,
+  uploadBase64ToR2,
+} from "@/lib/config/r2";
+import { uid } from "@/lib/utils/base";
 import { deriveUpstream, getProvider } from "@/server/constants";
+import { serverEnv } from "@/server/env";
 import {
   convertToModelMessages,
   createUIMessageStream,
@@ -6,10 +16,6 @@ import {
   streamText,
 } from "ai";
 import { pendingUsageByConv } from "./message.service";
-import { isMediaModel } from "@/lib/api/pricing-cache";
-import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
-import { uid } from "@/lib/utils/base";
-import { serverEnv } from "@/server/env";
 
 // ---------------------------------------------------------------------------
 // Image processing (mirrors cleanImageParts in message.service.ts)
@@ -17,32 +23,36 @@ import { serverEnv } from "@/server/env";
 
 const IMAGE_MD_RE = /!\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
-async function processImageText(
+async function processUrls(
   text: string,
   convId: string,
-  groupKey: string,
+  mediaType: ModelType,
 ): Promise<string> {
-  const r2Domain = serverEnv.r2PublicUrl ?? "";
   const matches = [...text.matchAll(IMAGE_MD_RE)];
   if (matches.length === 0) return text;
+  if (mediaType !== "video" && mediaType !== "image") return "";
 
-  const imageMarkdowns: string[] = [];
-  for (const [, alt, url] of matches) {
-    try {
-      let r2Url: string;
-      if (url.startsWith("data:")) {
-        r2Url = await uploadBase64ToR2(url, convId, groupKey);
-      } else if (r2Domain && !url.startsWith(r2Domain)) {
-        r2Url = await downloadAndUpload(url, convId, groupKey);
-      } else {
-        r2Url = url;
-      }
-      imageMarkdowns.push(`![${alt}](${r2Url})`);
-    } catch {
-      imageMarkdowns.push(`![${alt}](${url})`);
+  const r2Domain = serverEnv.r2PublicUrl ?? "";
+  const groupKey = uid(8);
+
+  const process = async ([, alt, url]: RegExpMatchArray) => {
+    if (url.startsWith("data:")) {
+      return `![${alt}](${await uploadBase64ToR2(url, convId, groupKey)})`;
     }
-  }
-  return imageMarkdowns.join("\n\n");
+    if (url.startsWith(r2Domain)) return `![${alt}](${url})`;
+
+    const contentType = await getContentType(url);
+    if (mediaType === "video" && !isVideoContentType(contentType)) return null;
+    if (mediaType === "image" && isVideoContentType(contentType)) return null;
+
+    try {
+      return `![${alt}](${await downloadAndUpload(url, convId, groupKey)})`;
+    } catch {
+      return `![${alt}](${url})`;
+    }
+  };
+
+  return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
 // ---------------------------------------------------------------------------
@@ -63,7 +73,7 @@ export async function streamChat(
   const { upstream } = deriveUpstream({ request });
 
   // Check if this is an image/video model
-  const buffered = await isMediaModel(body.model);
+  const { buffered, mediaType } = await isMediaModel(body.model);
 
   const result = streamText({
     model: provider.chatModel(body.model),
@@ -95,8 +105,8 @@ export async function streamChat(
       const fullText = await result.text;
 
       const convId = body.convId ?? "tmp";
-      const groupKey = uid(8);
-      const cleanText = await processImageText(fullText, convId, groupKey);
+
+      const cleanText = await processUrls(fullText, convId, mediaType);
 
       const partId = uid(12);
       writer.write({ type: "start" });

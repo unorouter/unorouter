@@ -1,3 +1,4 @@
+import { uid } from "@/lib/utils/base";
 import { serverEnv } from "@/server/env";
 import {
   DeleteObjectCommand,
@@ -6,7 +7,6 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { uid } from "@/lib/utils/base";
 
 const R2_BUCKET = "unorouter-chat-media";
 
@@ -73,6 +73,20 @@ export function mediaKey(
   return `chat/${convId}/${msgId}/${filename}`;
 }
 
+export async function getContentType(url: string): Promise<string | null> {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    return res.headers.get("content-type");
+  } catch {
+    return null;
+  }
+}
+
+export function isVideoContentType(contentType: string | null): boolean {
+  if (!contentType) return false;
+  return contentType.toLowerCase().startsWith("video/");
+}
+
 export async function downloadAndUpload(
   url: string,
   convId: string,
@@ -80,8 +94,8 @@ export async function downloadAndUpload(
 ): Promise<string> {
   const res = await fetch(url);
   const buffer = Buffer.from(await res.arrayBuffer());
-  const contentType = res.headers.get("content-type") ?? "video/mp4";
-  const ext = contentType.split("/")[1] ?? "mp4";
+  const contentType = res.headers.get("content-type")!;
+  const ext = contentType?.split("/")[1];
   const filename = `${uid(8)}.${ext}`;
   const key = mediaKey(convId, msgId, filename);
   return uploadToR2(key, buffer, contentType);
