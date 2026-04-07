@@ -1,9 +1,6 @@
 import { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
-import {
-  fetchCheckUpload,
-  uploadBase64ToR2,
-} from "@/lib/config/r2";
+import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
 import { deriveUpstream, getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
@@ -13,6 +10,7 @@ import {
   createUIMessageStreamResponse,
   streamText,
 } from "ai";
+import { log } from "console";
 import { pendingUsageByConv } from "./message.service";
 import {
   formatSearchContext,
@@ -45,7 +43,12 @@ async function processUrls(
     }
     if (url.startsWith(r2Domain)) return `![${alt}](${url})`;
 
-    const r2Url = await fetchCheckUpload(url, convId, groupKey, mediaType === "video");
+    const r2Url = await fetchCheckUpload(
+      url,
+      convId,
+      groupKey,
+      mediaType === "video",
+    );
 
     return r2Url ? `![${alt}](${r2Url})` : null;
   };
@@ -65,7 +68,11 @@ function extractLastUserText(
     if (msg.role !== "user") continue;
     if (Array.isArray(msg.parts)) {
       for (const part of msg.parts) {
-        if (part.type === "text" && typeof part.text === "string" && part.text.trim()) {
+        if (
+          part.type === "text" &&
+          typeof part.text === "string" &&
+          part.text.trim()
+        ) {
           return part.text.trim();
         }
       }
@@ -101,6 +108,7 @@ export async function streamChat(
     if (lastUserText) {
       const shouldSearch = await needsWebSearch(apiKey, lastUserText);
       if (shouldSearch) {
+        log(`[Tavily] Performing web search for query: "${lastUserText}"`);
         const searchResult = await searchTavily(lastUserText);
         if (searchResult && searchResult.results.length > 0) {
           searchSystemMessage = formatSearchContext(searchResult);
@@ -141,7 +149,11 @@ export async function streamChat(
       // Store raw response before URL processing so it can be persisted as backup
       if (body.convId) {
         const pending = pendingUsageByConv.get(body.convId);
-        if (pending) pendingUsageByConv.set(body.convId, { ...pending, rawResponse: fullText });
+        if (pending)
+          pendingUsageByConv.set(body.convId, {
+            ...pending,
+            rawResponse: fullText,
+          });
       }
 
       const cleanText = await processUrls(fullText, convId, mediaType);
