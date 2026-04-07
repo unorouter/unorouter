@@ -16,6 +16,8 @@ declare namespace NodeJS {
     R2_SECRET_ACCESS_KEY: string;
     R2_PUBLIC_URL: string;
 
+    TAVILY_API_KEY?: string;
+
     STANDALONE?: string;
     PORT?: string;
   }

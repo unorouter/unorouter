@@ -14,6 +14,11 @@ import {
   streamText,
 } from "ai";
 import { pendingUsageByConv } from "./message.service";
+import {
+  formatSearchContext,
+  needsWebSearch,
+  searchTavily,
+} from "./tavily.service";
 
 // ---------------------------------------------------------------------------
 // Image processing (mirrors cleanImageParts in message.service.ts)
@@ -49,6 +54,27 @@ async function processUrls(
 }
 
 // ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function extractLastUserText(
+  messages: Parameters<typeof convertToModelMessages>[0],
+): string | null {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const msg = messages[i];
+    if (msg.role !== "user") continue;
+    if (Array.isArray(msg.parts)) {
+      for (const part of msg.parts) {
+        if (part.type === "text" && typeof part.text === "string" && part.text.trim()) {
+          return part.text.trim();
+        }
+      }
+    }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
 // Stream
 // ---------------------------------------------------------------------------
 
@@ -68,12 +94,25 @@ export async function streamChat(
   // Check if this is an image/video model
   const { buffered, mediaType } = await isMediaModel(body.model);
 
+  // Web search via Tavily: cheap model decides if search is needed, then fetch results
+  let searchSystemMessage: string | undefined;
+  if (body.webSearch) {
+    const lastUserText = extractLastUserText(body.messages);
+    if (lastUserText) {
+      const shouldSearch = await needsWebSearch(apiKey, lastUserText);
+      if (shouldSearch) {
+        const searchResult = await searchTavily(lastUserText);
+        if (searchResult && searchResult.results.length > 0) {
+          searchSystemMessage = formatSearchContext(searchResult);
+        }
+      }
+    }
+  }
+
   const result = streamText({
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(body.messages),
-    providerOptions: body.webSearch
-      ? { unorouter: { web_search_options: {} } }
-      : undefined,
+    system: searchSystemMessage,
     onFinish: ({ usage, response }) => {
       if (!body.convId) return;
 
