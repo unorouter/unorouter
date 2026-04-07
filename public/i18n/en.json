@@ -1318,6 +1318,8 @@
     "REQUEST_FAILED": "Request failed",
     "PRICING_FETCH_FAILED": "Failed to fetch pricing data",
     "NO_TEXT_MODELS": "No text models available",
-    "UPLOAD_FAILED": "Failed to upload attachment"
+    "UPLOAD_FAILED": "Failed to upload attachment",
+    "NO_IMAGE_PROMPT": "No prompt provided for image generation",
+    "IMAGE_GENERATION_FAILED": "Image generation failed"
   }
 }

@@ -1,5 +1,7 @@
 import { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
+import { msg } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
 import { deriveUpstream, getProvider } from "@/server/constants";
@@ -9,6 +11,7 @@ import {
   createUIMessageStream,
   createUIMessageStreamResponse,
   streamText,
+  type UIMessageStreamWriter,
 } from "ai";
 import { log } from "console";
 import { pendingUsageByConv } from "./message.service";
@@ -19,10 +22,76 @@ import {
 } from "./tavily.service";
 
 // ---------------------------------------------------------------------------
-// Image processing (mirrors cleanImageParts in message.service.ts)
+// Types
 // ---------------------------------------------------------------------------
 
-// Matches both image embeds ![alt](url) and plain links [text](url)
+type StreamBody = {
+  model: string;
+  messages: Parameters<typeof convertToModelMessages>[0];
+  convId?: string | null;
+  webSearch?: boolean;
+};
+
+type UsageInfo = {
+  requestId?: string;
+  inputTokens: number;
+  outputTokens: number;
+  upstreamHeaders: Record<string, string>;
+  rawResponse?: string;
+};
+
+// ---------------------------------------------------------------------------
+// Shared helpers
+// ---------------------------------------------------------------------------
+
+function extractLastUserText(
+  messages: StreamBody["messages"],
+): string | null {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const msg = messages[i];
+    if (msg.role !== "user") continue;
+    if (Array.isArray(msg.parts)) {
+      for (const part of msg.parts) {
+        if (
+          part.type === "text" &&
+          typeof part.text === "string" &&
+          part.text.trim()
+        ) {
+          return part.text.trim();
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
+  const partId = uid(12);
+  writer.write({ type: "start" });
+  writer.write({ type: "start-step" });
+  writer.write({ type: "text-start", id: partId });
+  writer.write({ type: "text-delta", delta: text, id: partId });
+  writer.write({ type: "text-end", id: partId });
+  writer.write({ type: "finish-step" });
+  writer.write({ type: "finish", finishReason: "stop" });
+}
+
+function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
+  if (!convId) return;
+  pendingUsageByConv.set(convId, {
+    requestId: usage.requestId,
+    inputTokens: usage.inputTokens,
+    outputTokens: usage.outputTokens,
+    cost: 0,
+    upstreamHeaders: usage.upstreamHeaders,
+    rawResponse: usage.rawResponse,
+  });
+}
+
+// ---------------------------------------------------------------------------
+// URL processing (mirrors cleanImageParts in message.service.ts)
+// ---------------------------------------------------------------------------
+
 const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
 async function processUrls(
@@ -57,51 +126,150 @@ async function processUrls(
 }
 
 // ---------------------------------------------------------------------------
-// Helpers
+// Image generation
 // ---------------------------------------------------------------------------
 
-function extractLastUserText(
-  messages: Parameters<typeof convertToModelMessages>[0],
-): string | null {
-  for (let i = messages.length - 1; i >= 0; i--) {
-    const msg = messages[i];
-    if (msg.role !== "user") continue;
-    if (Array.isArray(msg.parts)) {
-      for (const part of msg.parts) {
-        if (
-          part.type === "text" &&
-          typeof part.text === "string" &&
-          part.text.trim()
-        ) {
-          return part.text.trim();
-        }
-      }
-    }
+async function generateImage(
+  apiKey: string,
+  model: string,
+  prompt: string,
+  endpointPath: string,
+): Promise<{ images: string[]; isBase64: boolean; requestId?: string }> {
+  const res = await fetch(`${env.apiUrl}${endpointPath}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ model, prompt, n: 1 }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
   }
-  return null;
+
+  const json = (await res.json()) as {
+    data: Array<{ url?: string; b64_json?: string }>;
+  };
+  const requestId =
+    res.headers.get("x-oneapi-request-id") ?? undefined;
+
+  // Prefer url, fall back to b64_json
+  const urls = json.data
+    .map((d) => d.url)
+    .filter((u): u is string => Boolean(u));
+  if (urls.length > 0) return { images: urls, isBase64: false, requestId };
+
+  const b64s = json.data
+    .map((d) => d.b64_json)
+    .filter((b): b is string => Boolean(b));
+  return { images: b64s, isBase64: true, requestId };
+}
+
+async function handleImageStream(
+  apiKey: string,
+  body: StreamBody,
+  upstreamHeaders: Record<string, string>,
+) {
+  const prompt = extractLastUserText(body.messages);
+  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
+
+  const { endpointPath } = await isMediaModel(body.model);
+  const stream = createUIMessageStream({
+    execute: async ({ writer }) => {
+      const { images, isBase64, requestId } = await generateImage(
+        apiKey,
+        body.model,
+        prompt,
+        endpointPath!,
+      );
+
+      const convId = body.convId ?? "tmp";
+      const groupKey = uid(8);
+      const r2Urls = await Promise.all(
+        images.map((img: string) =>
+          isBase64
+            ? uploadBase64ToR2(
+                `data:image/png;base64,${img}`,
+                convId,
+                groupKey,
+              )
+            : fetchCheckUpload(img, convId, groupKey, false),
+        ),
+      );
+
+      const markdown = r2Urls
+        .filter(Boolean)
+        .map((url: string | null) => `![image](${url})`)
+        .join("\n\n");
+
+      trackUsage(body.convId, {
+        requestId,
+        inputTokens: 0,
+        outputTokens: 0,
+        upstreamHeaders,
+        rawResponse: markdown,
+      });
+
+      writeBufferedMessage(writer, markdown);
+    },
+  });
+
+  return createUIMessageStreamResponse({ stream });
 }
 
 // ---------------------------------------------------------------------------
-// Stream
+// Video / buffered media stream
+// ---------------------------------------------------------------------------
+
+function handleBufferedStream(
+  result: ReturnType<typeof streamText>,
+  body: StreamBody,
+  mediaType: ModelType,
+) {
+  const stream = createUIMessageStream({
+    execute: async ({ writer }) => {
+      const fullText = await result.text;
+      const convId = body.convId ?? "tmp";
+
+      // Store raw response before URL processing so it can be persisted as backup
+      const pending = body.convId
+        ? pendingUsageByConv.get(body.convId)
+        : undefined;
+      if (pending && body.convId) {
+        pendingUsageByConv.set(body.convId, {
+          ...pending,
+          rawResponse: fullText,
+        });
+      }
+
+      const cleanText = await processUrls(fullText, convId, mediaType);
+      writeBufferedMessage(writer, cleanText);
+    },
+  });
+
+  return createUIMessageStreamResponse({ stream });
+}
+
+// ---------------------------------------------------------------------------
+// Main entry
 // ---------------------------------------------------------------------------
 
 export async function streamChat(
   apiKey: string,
-  body: {
-    model: string;
-    messages: Parameters<typeof convertToModelMessages>[0];
-    convId?: string | null;
-    webSearch?: boolean;
-  },
+  body: StreamBody,
   request: Request,
 ) {
-  const provider = getProvider(apiKey);
   const { upstream } = deriveUpstream({ request });
-
-  // Check if this is an image/video model
   const { buffered, mediaType } = await isMediaModel(body.model);
 
-  // Web search via Tavily: cheap model decides if search is needed, then fetch results
+  // Image models: call the images endpoint directly
+  if (mediaType === "image") {
+    return handleImageStream(apiKey, body, upstream.headers);
+  }
+
+  // Web search via Tavily
   let searchSystemMessage: string | undefined;
   if (body.webSearch) {
     const lastUserText = extractLastUserText(body.messages);
@@ -117,57 +285,24 @@ export async function streamChat(
     }
   }
 
+  const provider = getProvider(apiKey);
   const result = streamText({
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(body.messages),
     system: searchSystemMessage,
     onFinish: ({ usage, response }) => {
-      if (!body.convId) return;
-
-      pendingUsageByConv.set(body.convId, {
+      trackUsage(body.convId, {
         requestId: response.headers?.["x-oneapi-request-id"] ?? undefined,
         inputTokens: usage.inputTokens ?? 0,
         outputTokens: usage.outputTokens ?? 0,
-        cost: 0,
         upstreamHeaders: upstream.headers,
       });
     },
   });
 
   // Text models: stream directly
-  if (!buffered) {
-    return result.toUIMessageStreamResponse();
-  }
+  if (!buffered) return result.toUIMessageStreamResponse();
 
-  // Image/video models: buffer full response, upload to R2, then send clean text
-  const stream = createUIMessageStream({
-    execute: async ({ writer }) => {
-      const fullText = await result.text;
-
-      const convId = body.convId ?? "tmp";
-
-      // Store raw response before URL processing so it can be persisted as backup
-      if (body.convId) {
-        const pending = pendingUsageByConv.get(body.convId);
-        if (pending)
-          pendingUsageByConv.set(body.convId, {
-            ...pending,
-            rawResponse: fullText,
-          });
-      }
-
-      const cleanText = await processUrls(fullText, convId, mediaType);
-
-      const partId = uid(12);
-      writer.write({ type: "start" });
-      writer.write({ type: "start-step" });
-      writer.write({ type: "text-start", id: partId });
-      writer.write({ type: "text-delta", delta: cleanText, id: partId });
-      writer.write({ type: "text-end", id: partId });
-      writer.write({ type: "finish-step" });
-      writer.write({ type: "finish", finishReason: "stop" });
-    },
-  });
-
-  return createUIMessageStreamResponse({ stream });
+  // Video/buffered models: buffer, process URLs, then send
+  return handleBufferedStream(result, body, mediaType);
 }

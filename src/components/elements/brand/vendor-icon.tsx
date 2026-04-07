@@ -16,6 +16,7 @@ import {
   Mistral,
   Moonshot,
   OpenAI,
+  Stability,
   XAI,
   Zhipu,
 } from "@lobehub/icons";
@@ -40,6 +41,7 @@ const ICON_MAP: Record<string, IconComponent> = {
   [Vendor.MISTRAL_AI]: Mistral,
   [Vendor.MOONSHOT]: Moonshot,
   [Vendor.OPENAI]: OpenAI,
+  [Vendor.STABILITY]: Stability,
   [Vendor.XAI]: XAI,
   [Vendor.X_AI]: XAI,
   [Vendor.ZHIPU]: Zhipu,

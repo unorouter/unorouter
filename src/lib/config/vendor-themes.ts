@@ -92,6 +92,12 @@ export const VENDOR_THEMES: Record<string, VendorTheme> = {
     text: "text-cyan-400",
     tagBg: "bg-cyan-500/10",
   },
+  [Vendor.STABILITY]: {
+    bg: "bg-purple-500/5",
+    border: "border-purple-500/20",
+    text: "text-purple-300",
+    tagBg: "bg-purple-500/10",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {

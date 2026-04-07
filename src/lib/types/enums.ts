@@ -33,6 +33,7 @@ export enum Vendor {
   X_AI = "x.ai",
   MOONSHOT = "moonshot",
   ZHIPU = "zhipu",
+  STABILITY = "stability",
 }
 
 export enum OS {
