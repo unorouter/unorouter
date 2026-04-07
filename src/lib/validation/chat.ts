@@ -57,21 +57,6 @@ export const mediaUploadBody = t.Object({
   convId: t.String(),
 });
 
-export const imageGenerationBody = t.Object({
-  prompt: t.String(),
-  model: t.String(),
-  convId: t.String(),
-});
-export type ImageGenerationBody = Static<typeof imageGenerationBody>;
-
-export const videoGenerationBody = t.Object({
-  prompt: t.String(),
-  model: t.String(),
-  convId: t.String(),
-  image: t.Optional(t.String()),
-});
-export type VideoGenerationBody = Static<typeof videoGenerationBody>;
-
 export const titleGenerationBody = t.Object({
   text: t.String(),
 });

@@ -1317,6 +1317,7 @@
     "VIDEO_GENERATION_TIMED_OUT": "Video generation timed out",
     "REQUEST_FAILED": "Request failed",
     "PRICING_FETCH_FAILED": "Failed to fetch pricing data",
-    "NO_TEXT_MODELS": "No text models available"
+    "NO_TEXT_MODELS": "No text models available",
+    "UPLOAD_FAILED": "Failed to upload attachment"
   }
 }

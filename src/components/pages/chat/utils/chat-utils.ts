@@ -1,5 +1,6 @@
 import type { AttachmentUploadContext, MessagePart } from "@/lib/types/chat";
-import { uid } from "@/lib/utils/base";
+import { handleElysia, uid } from "@/lib/utils/base";
+import { rpc } from "@/lib/rpc";
 import { setConvId } from "@/store/chat-store";
 import type { useChat } from "@ai-sdk/react";
 import type { AttachmentAdapter } from "@assistant-ui/react";
@@ -83,22 +84,10 @@ export function createR2AttachmentAdapter(
         setConvId(ctx.convId);
       }
 
-      const formData = new FormData();
-      formData.append("file", attachment.file!);
-      formData.append("convId", ctx.convId);
-
-      const res = await fetch("/api/chat/media", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to upload attachment");
-      }
-
-      const json = await res.json();
-      const data = json.data;
-
+      const data = handleElysia(await rpc.api.chat.media.post({
+        file: attachment.file!,
+        convId: ctx.convId,
+      }));
       return {
         ...attachment,
         status: { type: "complete" },

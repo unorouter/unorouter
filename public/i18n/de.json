@@ -1317,6 +1317,7 @@
     "VIDEO_GENERATION_TIMED_OUT": "Zeitüberschreitung bei der Videogenerierung",
     "REQUEST_FAILED": "Anfrage fehlgeschlagen",
     "PRICING_FETCH_FAILED": "Preisdaten konnten nicht abgerufen werden",
-    "NO_TEXT_MODELS": "Keine Textmodelle verfügbar"
+    "NO_TEXT_MODELS": "Keine Textmodelle verfügbar",
+    "UPLOAD_FAILED": "Anhang konnte nicht hochgeladen werden"
   }
 }

@@ -1,14 +1,12 @@
 import {
   chatSearchQuery,
   createConversationBody,
-  imageGenerationBody,
   mediaUploadBody,
   paginationQuery,
   persistMessagesBody,
   streamBody,
   titleGenerationBody,
   updateConversationBody,
-  videoGenerationBody,
 } from "@/lib/validation/chat";
 import { getApiKey, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
@@ -23,12 +21,7 @@ import {
   revokeShareLink,
   updateConversation,
 } from "./conversation.service";
-import {
-  generateImageMedia,
-  generateVideo,
-  uploadMedia,
-} from "./media.service";
-import { persistMessages } from "./message.service";
+import { uploadMedia } from "./media.service";import { persistMessages } from "./message.service";
 import { streamChat } from "./stream.service";
 import { generateChatTitle } from "./title.service";
 
@@ -147,24 +140,4 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return { success: true, data };
     },
     { body: mediaUploadBody },
-  )
-
-  .post(
-    "/image",
-    async ({ body, cookie }) => {
-      const apiKey = getApiKey(cookie);
-      const data = await generateImageMedia(apiKey, body);
-      return { success: true, data };
-    },
-    { body: imageGenerationBody },
-  )
-
-  .post(
-    "/video",
-    async ({ body, cookie }) => {
-      const apiKey = getApiKey(cookie);
-      const data = await generateVideo(apiKey, body);
-      return { success: true, data };
-    },
-    { body: videoGenerationBody },
   );
