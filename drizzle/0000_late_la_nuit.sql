@@ -35,6 +35,7 @@ CREATE TABLE `messages` (
 	`input_tokens` integer,
 	`output_tokens` integer,
 	`cost` real,
+	`raw_response` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );

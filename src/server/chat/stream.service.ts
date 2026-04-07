@@ -21,21 +21,22 @@ import { pendingUsageByConv } from "./message.service";
 // Image processing (mirrors cleanImageParts in message.service.ts)
 // ---------------------------------------------------------------------------
 
-const IMAGE_MD_RE = /!\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
+// Matches both image embeds ![alt](url) and plain links [text](url)
+const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
 async function processUrls(
   text: string,
   convId: string,
   mediaType: ModelType,
 ): Promise<string> {
-  const matches = [...text.matchAll(IMAGE_MD_RE)];
+  const matches = [...text.matchAll(LINK_RE)];
   if (matches.length === 0) return text;
   if (mediaType !== "video" && mediaType !== "image") return "";
 
   const r2Domain = serverEnv.r2PublicUrl ?? "";
   const groupKey = uid(8);
 
-  const process = async ([, alt, url]: RegExpMatchArray) => {
+  const process = async ([, , alt, url]: RegExpMatchArray) => {
     if (url.startsWith("data:")) {
       return `![${alt}](${await uploadBase64ToR2(url, convId, groupKey)})`;
     }
@@ -105,6 +106,12 @@ export async function streamChat(
       const fullText = await result.text;
 
       const convId = body.convId ?? "tmp";
+
+      // Store raw response before URL processing so it can be persisted as backup
+      if (body.convId) {
+        const pending = pendingUsageByConv.get(body.convId);
+        if (pending) pendingUsageByConv.set(body.convId, { ...pending, rawResponse: fullText });
+      }
 
       const cleanText = await processUrls(fullText, convId, mediaType);
 

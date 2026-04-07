@@ -48,6 +48,7 @@ export const messages = sqliteTable(
     inputTokens: integer("input_tokens"),
     outputTokens: integer("output_tokens"),
     cost: real("cost"),
+    rawResponse: text("raw_response"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

@@ -17,6 +17,7 @@ export type PendingUsage = {
   outputTokens: number;
   cost: number;
   upstreamHeaders?: Record<string, string>;
+  rawResponse?: string;
 };
 
 export const pendingUsageByConv = new Map<string, PendingUsage>();
@@ -142,6 +143,7 @@ export async function persistMessages(
           inputTokens: pending.inputTokens,
           outputTokens: pending.outputTokens,
           cost: pending.cost,
+          rawResponse: pending.rawResponse,
         })
         .where(eq(messages.id, inserted[assistantIdx].id));
 
