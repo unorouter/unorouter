@@ -284,7 +284,7 @@ const defaultComponents = memoizeMarkdownComponents({
           />
         )}
         {imgSrc && (
-          <span className="absolute bottom-2 left-2 flex gap-1 opacity-0 transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
+          <span className="absolute top-2 left-2 flex gap-1 opacity-0 transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
             <TooltipIconButton
               tooltip={t("CHAT.DOWNLOAD")}
               variant="outline"

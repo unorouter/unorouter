@@ -181,6 +181,9 @@ export async function getSharedConversation(
     title: conv.title,
     model: conv.model,
     createdAt: conv.createdAt,
+    totalInputTokens: conv.totalInputTokens ?? 0,
+    totalOutputTokens: conv.totalOutputTokens ?? 0,
+    totalCost: conv.totalCost ?? 0,
     ...paginated,
   };
 }

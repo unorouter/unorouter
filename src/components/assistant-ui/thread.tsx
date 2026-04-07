@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  ComposerAddAttachment,
-  ComposerAttachments,
-  UserMessageAttachments,
+    ComposerAddAttachment,
+    ComposerAttachments,
+    UserMessageAttachments,
 } from "@/components/assistant-ui/attachment";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
@@ -12,36 +12,42 @@ import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { viewportRef } from "@/hooks/ui/use-loaded-messages";
+import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
-import { useMessageMeta } from "@/hooks/use-message-meta";
-import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { chatWebSearchAtom, getScrollControl } from "@/store/chat-store";
 import {
-  ActionBarPrimitive,
-  AuiIf,
-  BranchPickerPrimitive,
-  ComposerPrimitive,
-  ErrorPrimitive,
-  MessagePrimitive,
-  SuggestionPrimitive,
-  ThreadPrimitive,
-  useAuiState,
+    ActionBarPrimitive,
+    AuiIf,
+    BranchPickerPrimitive,
+    ComposerPrimitive,
+    ErrorPrimitive,
+    MessagePrimitive,
+    SuggestionPrimitive,
+    ThreadPrimitive,
+    useAuiState,
 } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  CheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CopyIcon,
-  PencilIcon,
-  RefreshCwIcon,
-  SquareIcon,
+    ArrowDownIcon,
+    ArrowUpIcon,
+    CheckIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    CopyIcon,
+    PencilIcon,
+    RefreshCwIcon,
+    SquareIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { createContext, type FC, type UIEvent, useContext, useRef } from "react";
+import {
+    createContext,
+    type FC,
+    type UIEvent,
+    useContext,
+    useRef,
+} from "react";
 import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
 
 const ReadOnlyContext = createContext(false);
@@ -75,7 +81,9 @@ export const Thread: FC<ThreadProps> = (props) => {
         }}
       >
         <ThreadPrimitive.Viewport
-          ref={(el) => { viewportRef.current = el; }}
+          ref={(el) => {
+            viewportRef.current = el;
+          }}
           autoScroll
           onScroll={handleScroll}
           className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
