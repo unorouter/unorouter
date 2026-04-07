@@ -101,6 +101,32 @@ export async function downloadAndUpload(
   return uploadToR2(key, buffer, contentType);
 }
 
+/**
+ * Fetches a URL, checks content-type via the GET response headers,
+ * and uploads to R2 only if the video/non-video type matches `wantVideo`.
+ * Returns the R2 URL or null if the type doesn't match or fetch fails.
+ */
+export async function fetchCheckUpload(
+  url: string,
+  convId: string,
+  groupKey: string,
+  wantVideo: boolean,
+): Promise<string | null> {
+  let res: Response;
+  try {
+    res = await fetch(url);
+    if (!res.ok) return null;
+  } catch {
+    return null;
+  }
+  const contentType = res.headers.get("content-type");
+  if (isVideoContentType(contentType) !== wantVideo) return null;
+  const buffer = Buffer.from(await res.arrayBuffer());
+  const ext = contentType?.split("/")[1] ?? "bin";
+  const key = mediaKey(convId, groupKey, `${uid(8)}.${ext}`);
+  return uploadToR2(key, buffer, contentType ?? "application/octet-stream");
+}
+
 export async function uploadBase64ToR2(
   dataUrl: string,
   convId: string,

@@ -1,9 +1,7 @@
 import { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import {
-  downloadAndUpload,
-  getContentType,
-  isVideoContentType,
+  fetchCheckUpload,
   uploadBase64ToR2,
 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
@@ -42,15 +40,9 @@ async function processUrls(
     }
     if (url.startsWith(r2Domain)) return `![${alt}](${url})`;
 
-    const contentType = await getContentType(url);
-    if (mediaType === "video" && !isVideoContentType(contentType)) return null;
-    if (mediaType === "image" && isVideoContentType(contentType)) return null;
+    const r2Url = await fetchCheckUpload(url, convId, groupKey, mediaType === "video");
 
-    try {
-      return `![${alt}](${await downloadAndUpload(url, convId, groupKey)})`;
-    } catch {
-      return `![${alt}](${url})`;
-    }
+    return r2Url ? `![${alt}](${r2Url})` : null;
   };
 
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");

@@ -248,6 +248,7 @@ const defaultComponents = memoizeMarkdownComponents({
     const t = useTranslations();
     const { isCopied, copyToClipboard } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
+    const isVideo = !!imgSrc && /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc);
 
     const handleDownload = async () => {
       if (!imgSrc) return;
@@ -268,12 +269,20 @@ const defaultComponents = memoizeMarkdownComponents({
 
     return (
       <span className="group/img relative my-2 block first:mt-0 last:mb-0">
-        <img
-          src={imgSrc}
-          alt={alt}
-          className="max-w-full rounded-lg"
-          {...props}
-        />
+        {isVideo ? (
+          <video
+            src={imgSrc}
+            controls
+            className="max-w-full rounded-lg"
+          />
+        ) : (
+          <img
+            src={imgSrc}
+            alt={alt}
+            className="max-w-full rounded-lg"
+            {...props}
+          />
+        )}
         {imgSrc && (
           <span className="absolute bottom-2 left-2 flex gap-1 opacity-0 transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
             <TooltipIconButton
