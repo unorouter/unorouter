@@ -45,8 +45,6 @@ export const queryKeys = {
   conversations: (keyword?: string) => ["conversations", keyword] as const,
   chatMeta: (id: string) => ["chat-meta", id] as const,
   chatMessages: (id: string) => ["chat-messages", id] as const,
-  sharedConversation: (shareId: string) =>
-    ["shared-conversation", shareId] as const,
 
   // Pricing & Search
   pricing: () => ["pricing"] as const,

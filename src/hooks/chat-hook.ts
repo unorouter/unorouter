@@ -50,17 +50,15 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 }
 
 export function useConversationQuery(id?: string) {
-  const authQuery = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => handleElysia(await chatRoute({ id: id! }).meta.get()),
-    enabled: !!authQuery.data && !!id,
+    enabled: !!id,
     retry: false,
   });
 }
 
 export function useMessagesInfiniteQuery(id?: string) {
-  const authQuery = useAuthQuery();
   return useInfiniteQuery({
     queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) =>
@@ -72,18 +70,9 @@ export function useMessagesInfiniteQuery(id?: string) {
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.messages.length < PAGE_SIZE ? undefined : allPages.length + 1,
-    enabled: !!authQuery.data && !!id,
+    enabled: !!id,
     placeholderData: keepPreviousData,
     retry: false,
-  });
-}
-
-export function useSharedConversationQuery(shareId: string) {
-  return useQuery({
-    queryKey: queryKeys.sharedConversation(shareId),
-    queryFn: async () =>
-      handleElysia(await chatRoute.shared({ shareId }).get()),
-    enabled: !!shareId,
   });
 }
 

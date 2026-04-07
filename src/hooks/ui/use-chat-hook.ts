@@ -2,7 +2,7 @@
 
 import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import { useAuiState } from "@assistant-ui/react";
-import { createElement, createContext, useContext, type ReactNode } from "react";
+import { createContext, useContext } from "react";
 
 export type MessageMeta = {
   model: string | null;
@@ -38,18 +38,14 @@ function getMessageCache(pages: object[]): MessageCache {
   return entry;
 }
 
-// Provides a conversation ID fallback for contexts without a thread list (e.g. shared pages)
-const SharedConvIdContext = createContext<string | null>(null);
-
-export function SharedConvIdProvider({ id, children }: { id: string; children: ReactNode }) {
-  return createElement(SharedConvIdContext.Provider, { value: id }, children);
-}
+/** Provides a conversation ID override for contexts without a thread list (e.g. shared pages). */
+export const ConvIdOverrideContext = createContext<string | null>(null);
 
 export function useMessageMeta(messageIndex: number): MessageMeta | null {
-  const remoteId = useAuiState((s) => s.threadListItem.remoteId);
+  const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const messageId = useAuiState((s) => s.message.id);
-  const sharedConvId = useContext(SharedConvIdContext);
-  const effectiveId = remoteId ?? sharedConvId ?? undefined;
+  const convIdOverride = useContext(ConvIdOverrideContext);
+  const effectiveId = remoteId ?? convIdOverride ?? undefined;
   const messagesQuery = useMessagesInfiniteQuery(effectiveId);
 
   if (!messagesQuery.data) return null;

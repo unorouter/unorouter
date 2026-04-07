@@ -13,40 +13,48 @@ import { useEffect, useRef } from "react";
 import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
 
-export function Chat() {
+type ChatProps = {
+  readOnly?: boolean;
+  convId?: string;
+};
+
+export function Chat(props: ChatProps) {
   const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const token = useApiKey();
-  const threadId = useAuiState((s) => s.threadListItem.remoteId);
-  const convQuery = useConversationQuery(threadId);
+  const threadId = useAuiState((s) => s.threadListItem?.remoteId);
+  const effectiveId = props.convId ?? threadId;
+  const convQuery = useConversationQuery(effectiveId);
   const skipFirstSync = useRef(true);
 
-  // Redirect to /chat if the conversation doesn't exist
+  // Redirect to /chat if the conversation doesn't exist (only for owned conversations)
   useEffect(() => {
-    if (threadId && convQuery.isError) {
+    if (!props.readOnly && threadId && convQuery.isError) {
       router.replace("/chat");
     }
-  }, [threadId, convQuery.isError, router]);
+  }, [props.readOnly, threadId, convQuery.isError, router]);
 
   useEffect(() => {
+    if (props.readOnly) return;
     if (skipFirstSync.current) {
       skipFirstSync.current = false;
       return;
     }
     const url = threadId ? `/${locale}/chat/${threadId}` : `/${locale}/chat`;
     window.history.replaceState(null, "", url);
-  }, [threadId, locale]);
+  }, [props.readOnly, threadId, locale]);
 
   // Update document title since shallow history update skips generateMetadata
   useEffect(() => {
+    if (props.readOnly) return;
     const convTitle = convQuery.data?.title;
     document.title = convTitle
       ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
       : t("CHAT.META.TITLE", APP_VALUES);
-  }, [convQuery.data?.title]);
+  }, [props.readOnly, convQuery.data?.title]);
 
-  if (!token.isLoggedIn) {
+  if (!props.readOnly && !token.isLoggedIn) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
         <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
@@ -67,7 +75,7 @@ export function Chat() {
     );
   }
 
-  if (token.needsToken) {
+  if (!props.readOnly && token.needsToken) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
         <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
@@ -100,7 +108,7 @@ export function Chat() {
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
-      {threadId && (
+      {effectiveId && (
         <div className="absolute top-2 right-4 z-10 flex items-center gap-3">
           {convQuery.data &&
             (convQuery.data.totalInputTokens > 0 ||
@@ -121,10 +129,10 @@ export function Chat() {
                 )}
               </div>
             )}
-          <ShareButton convId={threadId} />
+          {!props.readOnly && <ShareButton convId={effectiveId} />}
         </div>
       )}
-      <Thread />
+      <Thread readOnly={props.readOnly} />
     </div>
   );
 }

@@ -14,14 +14,15 @@ import {
   createConversation,
   createShareLink,
   deleteConversation,
-  getConversation,
+  getConversationOrShared,
   getPaginatedMessages,
   getSharedConversation,
   listConversations,
   revokeShareLink,
   updateConversation,
 } from "./conversation.service";
-import { uploadMedia } from "./media.service";import { persistMessages } from "./message.service";
+import { uploadMedia } from "./media.service";
+import { persistMessages } from "./message.service";
 import { streamChat } from "./stream.service";
 import { generateChatTitle } from "./title.service";
 
@@ -51,8 +52,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .get(
     "/:id",
     async ({ params, query, cookie }) => {
-      const userId = getUserId(cookie);
-      const conv = await getConversation(userId, params.id);
+      const userId = getUserId(cookie, true);
+      const conv = await getConversationOrShared(userId, params.id);
       const paginated = await getPaginatedMessages(params.id, query);
       return { success: true, data: { ...conv, ...paginated } };
     },
@@ -60,8 +61,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .get("/:id/meta", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
-    const data = await getConversation(userId, params.id);
+    const userId = getUserId(cookie, true);
+    const data = await getConversationOrShared(userId, params.id);
     return { success: true, data };
   })
 
@@ -107,7 +108,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     async ({ params, body, cookie }) => {
       const userId = getUserId(cookie);
       const apiKey = getApiKey(cookie);
-      const data = await generateChatTitle(apiKey, userId, params.id, body.text);
+      const data = await generateChatTitle(
+        apiKey,
+        userId,
+        params.id,
+        body.text,
+      );
       return { success: true, data };
     },
     { body: titleGenerationBody },

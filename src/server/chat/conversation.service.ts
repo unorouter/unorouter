@@ -187,3 +187,19 @@ export async function getSharedConversation(
     ...paginated,
   };
 }
+
+/** Get a conversation by ID, allowing access if the user owns it OR if it has a shareId (public). */
+export async function getConversationOrShared(
+  userId: number | null,
+  convId: string,
+) {
+  const db = getDb();
+  const conv = await db.query.conversations.findFirst({
+    where: eq(conversations.id, convId),
+  });
+  if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
+  // Allow if user owns it or if it's publicly shared
+  if (conv.userId !== userId && !conv.shareId)
+    throw new Error(msg("ERRORS.NOT_FOUND"));
+  return conv;
+}

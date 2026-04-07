@@ -1,11 +1,12 @@
-import { SharedConversationView } from "@/components/pages/chat/shared-conversation-view";
-import { APP_VALUES } from "@/lib/config/constants";
+import { Chat } from "@/components/pages/chat/chat";
+import { SharedChatProvider } from "@/components/pages/chat/utils/shared-chat-provider";
+import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
 import { getPageMetadata } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { fetchSharedConvTitle, serverLocale } from "@/lib/utils/server";
+import { resolveSharedConv, serverLocale } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -18,11 +19,11 @@ export async function generateMetadata(props: Props) {
   const { shareId } = await props.params;
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const convTitle = await fetchSharedConvTitle(shareId);
+  const resolved = await resolveSharedConv(shareId);
   return getPageMetadata({
     locale,
-    title: convTitle
-      ? t("CHAT.META.SHARED_TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
+    title: resolved?.title
+      ? t("CHAT.META.SHARED_TITLE_WITH_NAME", { ...APP_VALUES, title: resolved.title })
       : t("CHAT.META.SHARED_TITLE", APP_VALUES),
     description: t("CHAT.META.SHARED_DESCRIPTION", APP_VALUES),
     keywords: t("CHAT.META.KEYWORDS"),
@@ -32,21 +33,35 @@ export async function generateMetadata(props: Props) {
 
 export default async function SharedPage(props: Props) {
   const { shareId } = await props.params;
+  const resolved = await resolveSharedConv(shareId);
+  if (!resolved) notFound();
+
+  const { convId } = resolved;
   const queryClient = getQueryClient();
 
-  try {
-    await queryClient.prefetchQuery({
-      queryKey: queryKeys.sharedConversation(shareId),
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.chatMeta(convId),
       queryFn: async () =>
-        handleElysia(await rpc.api.chat.shared({ shareId }).get()),
-    });
-  } catch {
-    notFound();
-  }
+        handleElysia(await rpc.api.chat({ id: convId }).meta.get()),
+    }),
+    queryClient.prefetchInfiniteQuery({
+      queryKey: queryKeys.chatMessages(convId),
+      queryFn: async ({ pageParam }) =>
+        handleElysia(
+          await rpc.api.chat({ id: convId }).get({
+            query: { p: pageParam, page_size: PAGE_SIZE },
+          }),
+        ),
+      initialPageParam: 1,
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <SharedConversationView shareId={shareId} />
+      <SharedChatProvider convId={convId}>
+        <Chat readOnly convId={convId} />
+      </SharedChatProvider>
     </HydrationBoundary>
   );
 }

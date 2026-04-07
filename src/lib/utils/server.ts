@@ -76,14 +76,15 @@ export async function fetchConvTitle(convId: string): Promise<string | null> {
   }
 }
 
-export async function fetchSharedConvTitle(
+/** Resolve a shareId to the real conversation ID and title. Returns null if not found. */
+export async function resolveSharedConv(
   shareId: string,
-): Promise<string | null> {
+): Promise<{ convId: string; title: string | null } | null> {
   try {
     const data = handleElysia(
       await rpc.api.chat.shared({ shareId }).get(),
     );
-    return data.title ?? null;
+    return { convId: data.id, title: data.title ?? null };
   } catch {
     return null;
   }
