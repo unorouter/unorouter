@@ -183,7 +183,8 @@
     "SORT_PRICE_DESC": "Price (High)",
     "VIEW_GRID": "Grid view",
     "VIEW_LIST": "List view",
-    "PRICE_ORIGINAL": "Original price"
+    "PRICE_ORIGINAL": "Original price",
+    "OPEN_IN_CHAT": "Chat"
   },
   "PRICING": {
     "META": {

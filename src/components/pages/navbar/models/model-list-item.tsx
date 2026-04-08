@@ -3,10 +3,20 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useRouter } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
+import { chatModelAtom } from "@/store/chat-store";
+import { useSetAtom } from "jotai";
+import { useTranslations } from "next-intl";
+import { LuMessageSquare } from "react-icons/lu";
 
 export type ModelListItemLabels = {
   from: string;
@@ -23,6 +33,9 @@ export function ModelListItem(props: {
   onClick: () => void;
   labels: ModelListItemLabels;
 }) {
+  const t = useTranslations();
+  const router = useRouter();
+  const setChatModel = useSetAtom(chatModelAtom);
   const model = props.model;
   const theme = getVendorTheme(model.vendor.name);
 
@@ -45,6 +58,19 @@ export function ModelListItem(props: {
           <span className="shrink-0">
             <CopyButton text={model.name} iconSize="h-3 w-3" />
           </span>
+          <Tooltip>
+            <TooltipTrigger
+              className="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                setChatModel(model.name);
+                router.push("/chat");
+              }}
+            >
+              <LuMessageSquare className="h-3 w-3" />
+            </TooltipTrigger>
+            <TooltipContent>{t("MODELS.OPEN_IN_CHAT")}</TooltipContent>
+          </Tooltip>
         </div>
 
         <Badge
@@ -155,6 +181,7 @@ export function ModelListItem(props: {
           )}
         </div>
       </div>
+
     </div>
   );
 }
