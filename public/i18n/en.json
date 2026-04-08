@@ -1297,6 +1297,7 @@
     "DOWNLOAD": "Download",
     "COPY_LINK": "Copy link",
     "FREE_MODEL_BADGE": "FREE",
+    "FILTER_ALL": "All",
     "LOGIN_TO_USE_MODEL": "Login required",
     "META": {
       "TITLE": "AI Chat - {appName}",

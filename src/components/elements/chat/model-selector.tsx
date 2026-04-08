@@ -16,11 +16,14 @@ import {
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { Link } from "@/i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import { Badge } from "@/components/ui/badge";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
+import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { LuChevronsUpDown } from "react-icons/lu";
+import { LuChevronsUpDown, LuLock } from "react-icons/lu";
 
 type ModelSelectorProps = {
   value: string | null;
@@ -29,7 +32,10 @@ type ModelSelectorProps = {
 
 export function ModelSelector(props: ModelSelectorProps) {
   const t = useTranslations();
+  const router = useRouter();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const pricingQuery = usePricingQuery();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
@@ -49,7 +55,13 @@ export function ModelSelector(props: ModelSelectorProps) {
   }, [isLoggedIn, firstFreeModel?.name]);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={(next) => {
+        setOpen(next);
+        if (!next) setTypeFilter(null);
+      }}
+    >
       <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
         <div className="flex items-center gap-2 truncate">
           {selected && (
@@ -72,9 +84,35 @@ export function ModelSelector(props: ModelSelectorProps) {
             placeholder={t("CHAT.SEARCH_MODEL")}
             className="h-8 text-xs"
           />
+          {modelsByType.length > 1 && (
+            <div className="flex gap-1 overflow-x-auto border-b px-2 py-1.5">
+              <Badge
+                variant={typeFilter === null ? "default" : "outline"}
+                className="cursor-pointer text-[10px]"
+                onClick={() => setTypeFilter(null)}
+              >
+                {t("CHAT.FILTER_ALL")}
+              </Badge>
+              {modelsByType.map(({ tag }) => (
+                <Badge
+                  key={tag}
+                  variant={typeFilter === tag ? "default" : "outline"}
+                  className="cursor-pointer text-[10px]"
+                  onClick={() =>
+                    setTypeFilter(typeFilter === tag ? null : tag)
+                  }
+                >
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+          )}
           <CommandList>
             <CommandEmpty>{t("CHAT.NO_MODELS_FOUND")}</CommandEmpty>
-            {modelsByType.map(({ tag, models: tagModels }) => (
+            {(typeFilter
+              ? modelsByType.filter(({ tag }) => tag === typeFilter)
+              : modelsByType
+            ).map(({ tag, models: tagModels }) => (
               <CommandGroup key={tag} heading={tag}>
                 {tagModels.map((model) => {
                   const disabled = !isLoggedIn && !model.isFree;
@@ -84,13 +122,18 @@ export function ModelSelector(props: ModelSelectorProps) {
                       value={model.name}
                       data-checked={model.name === props.value || undefined}
                       onSelect={() => {
-                        if (disabled) return;
+                        if (disabled) {
+                          setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
+                          router.push("/login");
+                          setOpen(false);
+                          return;
+                        }
                         props.onChange(model.name);
                         setOpen(false);
                       }}
                       className={cn(
                         "text-xs",
-                        disabled && "opacity-40",
+                        disabled && "opacity-50 cursor-pointer",
                       )}
                     >
                       <VendorIcon vendor={model.vendor.name} size={14} />
@@ -103,13 +146,9 @@ export function ModelSelector(props: ModelSelectorProps) {
                         </span>
                       )}
                       {disabled && (
-                        <Link
-                          href="/login"
-                          className="text-muted-foreground hover:text-primary shrink-0 text-[10px] transition-colors"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {t("CHAT.LOGIN_TO_USE_MODEL")}
-                        </Link>
+                        <span className="text-muted-foreground shrink-0" title={t("CHAT.LOGIN_TO_USE_MODEL")}>
+                          <LuLock className="h-3 w-3" />
+                        </span>
                       )}
                     </CommandItem>
                   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { LoginLink } from "@/components/elements/auth/login-link";
 import { DocsSearch } from "@/components/layout/docs/docs-search";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
@@ -10,7 +11,6 @@ import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
-import { Link } from "@/i18n/navigation";
 import { LuLogIn } from "react-icons/lu";
 
 interface SidebarHeaderProps {
@@ -44,12 +44,11 @@ export function SidebarHeader(props: SidebarHeaderProps) {
               </button>
             </UserDropdown>
           ) : (
-            <Link
-              href="/login"
+            <LoginLink
               className="hover:bg-accent rounded-md p-1 transition-colors"
             >
               <LuLogIn className="size-5" />
-            </Link>
+            </LoginLink>
           )}
         </div>
       </div>

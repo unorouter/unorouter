@@ -1,6 +1,7 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
+import { LoginLink } from "@/components/elements/auth/login-link";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
@@ -113,12 +114,11 @@ export function Navbar() {
               </button>
             </UserDropdown>
           ) : authQuery.isLoading ? null : (
-            <Link
-              href="/login"
+            <LoginLink
               className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
             >
               {t("NAV.LOG_IN")}
-            </Link>
+            </LoginLink>
           )}
         </div>
 
@@ -133,12 +133,11 @@ export function Navbar() {
               </button>
             </UserDropdown>
           ) : authQuery.isLoading ? null : (
-            <Link
-              href="/login"
+            <LoginLink
               className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
             >
               {t("NAV.LOG_IN")}
-            </Link>
+            </LoginLink>
           )}
         </div>
       </div>

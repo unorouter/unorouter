@@ -1297,6 +1297,7 @@
     "DOWNLOAD": "Herunterladen",
     "COPY_LINK": "Link kopieren",
     "FREE_MODEL_BADGE": "GRATIS",
+    "FILTER_ALL": "Alle",
     "LOGIN_TO_USE_MODEL": "Anmeldung erforderlich",
     "META": {
       "TITLE": "KI-Chat - {appName}",
