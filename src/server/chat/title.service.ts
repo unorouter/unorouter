@@ -2,6 +2,7 @@ import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/client";
 import { conversations } from "@/lib/db/schema";
 import { getProvider } from "@/server/constants";
+import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
 import { and, eq } from "drizzle-orm";
 import { getCheapestTextModel } from "@/lib/api/pricing-cache";
@@ -22,7 +23,7 @@ export async function generateChatTitle(
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   const modelName = await getCheapestTextModel();
-  const provider = getProvider(apiKey);
+  const provider = getProvider(serverEnv.guestApiKey ?? apiKey);
 
   const result = await generateText({
     model: provider.chatModel(modelName),

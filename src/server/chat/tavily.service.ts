@@ -24,7 +24,7 @@ export async function needsWebSearch(
 ): Promise<boolean> {
   try {
     const modelName = await getCheapestTextModel();
-    const provider = getProvider(apiKey);
+    const provider = getProvider(serverEnv.guestApiKey ?? apiKey);
 
     const result = await generateText({
       model: provider.chatModel(modelName),

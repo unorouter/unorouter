@@ -9,8 +9,11 @@ import { formatPrice } from "@/lib/utils/base";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { LuKey, LuLoader, LuPlus } from "react-icons/lu";
-import { Button } from "../../ui/button";
+import { useChatGate } from "@/hooks/ui/use-chat-gate";
+import {
+  NeedsTokenGate,
+  ZeroBalanceGate,
+} from "./chat-elements";
 
 type ChatProps = {
   readOnly?: boolean;
@@ -21,6 +24,7 @@ export function Chat(props: ChatProps) {
   const t = useTranslations();
   const locale = useLocale();
   const token = useApiKey();
+  const gate = useChatGate();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
   const effectiveId = props.convId ?? threadId;
   const convQuery = useConversationQuery(effectiveId);
@@ -45,37 +49,8 @@ export function Chat(props: ChatProps) {
       : t("CHAT.META.TITLE", APP_VALUES);
   }, [props.readOnly, convQuery.data?.title]);
 
-  // Logged-in users who need to create an API token
-  if (!props.readOnly && token.isLoggedIn && token.needsToken) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
-        <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-          <LuKey className="text-muted-foreground h-8 w-8" />
-        </div>
-        <div className="text-center">
-          <h2 className="text-foreground text-lg font-medium">
-            {t("CHAT.NEEDS_TOKEN_TITLE")}
-          </h2>
-          <p className="text-muted-foreground mt-1 text-sm">
-            {t("CHAT.NEEDS_TOKEN_DESC")}
-          </p>
-        </div>
-        <Button
-          size="sm"
-          className="gap-1.5"
-          onClick={token.createToken}
-          disabled={token.isLoading}
-        >
-          {token.isLoading ? (
-            <LuLoader className="h-3.5 w-3.5 animate-spin" />
-          ) : (
-            <LuPlus className="h-3.5 w-3.5" />
-          )}
-          {t("DOCS.GENERATE_API_KEY")}
-        </Button>
-      </div>
-    );
-  }
+  if (!props.readOnly && gate.needsToken) return <NeedsTokenGate />;
+  if (!props.readOnly && gate.hasZeroBalance) return <ZeroBalanceGate />;
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
