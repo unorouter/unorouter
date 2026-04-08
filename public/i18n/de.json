@@ -246,7 +246,7 @@
     "TITLE": "Integrationen",
     "SUBTITLE": "Nutze {appName} mit deinen bevorzugten KI-Tools. Wähle eine Anleitung unten, um loszulegen.",
     "QUICK_START": "Schnellstart",
-    "VIEW_GUIDE": "Vollständige Anleitung",
+    "VIEW_GUIDE": "Zur Anleitung",
     "CTA_TITLE": "Bereit zum Starten?",
     "CTA_DESC": "Hole dir deinen API-Schlüssel und nutze {appName} mit einem dieser Tools.",
     "CTA_SIGNUP": "API-Schlüssel holen",
@@ -282,13 +282,13 @@
     "CONFIG_ENV_DESC": "Zum Shell-Profil hinzufügen. Wird beim Schließen des Terminals zurückgesetzt, sofern nicht aus einer Profildatei geladen.",
     "CC_SWITCH": {
       "META": {
-        "TITLE": "CC Switch Integrationsanleitung | {appName}",
+        "TITLE": "CC Switch Integration | {appName}",
         "DESCRIPTION": "CC Switch mit {appName} einrichten für einheitliche KI-CLI-Verwaltung",
         "KEYWORDS": "CC Switch, Claude Code, Codex, Gemini CLI, CLI-Verwaltung"
       },
       "BADGE": "CC Switch",
-      "TITLE": "CC Switch Integrationsanleitung",
-      "SUBTITLE": "All-in-One KI-CLI-Verwaltungstool für die einheitliche Verwaltung von Claude Code, Codex und Gemini CLI Anbieterkonfigurationen.",
+      "TITLE": "CC Switch Integration",
+      "SUBTITLE": "All-in-One KI-CLI-Tool zur Verwaltung von Claude Code, Codex und Gemini CLI Konfigurationen.",
       "INTRO_TITLE": "Projektübersicht",
       "INTRO_DESC": "Ein quelloffenes, plattformübergreifendes Tool zur einheitlichen Verwaltung von Claude Code, Codex und Gemini CLI Anbieterkonfigurationen, MCP-Servern und Systemprompts mit Anbieterwechsel per Knopfdruck.",
       "FEATURES": "Hauptfunktionen",
@@ -338,7 +338,7 @@
       },
       "BADGE": "Claude Code",
       "TITLE": "Claude Code Integration",
-      "SUBTITLE": "Nutze {appName} mit Claude Code, Cursor, VS Code Erweiterungen und jedem Anthropic-kompatiblen Client. Richte deine API auf {appName} und greife auf alle Modelle zu.",
+      "SUBTITLE": "Nutze {appName} mit Claude Code, Cursor, VS Code und jedem Anthropic-kompatiblen Client. API auf {appName} richten und alle Modelle nutzen.",
       "QUICK_START": "Schnellstart",
       "QUICK_START_DESC": "Setze diese Umgebungsvariablen, um {appName} mit einem Anthropic-kompatiblen Tool zu nutzen:",
       "CODE_EXAMPLES": "Codebeispiele",
@@ -1223,7 +1223,7 @@
     }
   },
   "SEARCH": {
-    "PLACEHOLDER": "Dokumentation durchsuchen...",
+    "PLACEHOLDER": "Docs durchsuchen...",
     "START_TYPING": "Tippen Sie, um die Dokumentation zu durchsuchen",
     "LOADING": "Suchindex wird geladen...",
     "NO_RESULTS": "Keine Ergebnisse gefunden."
