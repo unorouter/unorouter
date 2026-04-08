@@ -5,8 +5,9 @@ import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import type { DashboardStore } from "@/store/dashboard-store";
 import { dashboardStoreAtom } from "@/store/dashboard-store";
 import dayjs from "dayjs";
-import { useHydrateAtoms } from "jotai/react/utils";
+import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import { useRef } from "react";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
@@ -21,7 +22,12 @@ type DashboardProps = {
 };
 
 export function Dashboard(props: DashboardProps) {
-  useHydrateAtoms([[dashboardStoreAtom, props.serverTimestamps]]);
+  const setDashboardStore = useSetAtom(dashboardStoreAtom);
+  const hydrated = useRef(false);
+  if (!hydrated.current) {
+    hydrated.current = true;
+    setDashboardStore(props.serverTimestamps);
+  }
   const t = useTranslations();
   const { displayName } = useUserDisplay();
   const statusQuery = useStatusQuery();

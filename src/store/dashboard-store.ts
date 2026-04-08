@@ -16,8 +16,4 @@ export function defaultTimestamps() {
   return { startTs, endTs };
 }
 
-// Default is a placeholder; always hydrated with server timestamps via useHydrateAtoms
-export const dashboardStoreAtom = atom<DashboardStore>({
-  startTs: 0,
-  endTs: 0,
-});
+export const dashboardStoreAtom = atom<DashboardStore>(defaultTimestamps());
