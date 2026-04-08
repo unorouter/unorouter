@@ -17,6 +17,8 @@ import {
   useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
 } from "@/hooks/token-hook";
+import { usePricingQuery } from "@/hooks/pricing-hook";
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import type { ResponseDtoPageDataModelTokenDataItemsItem } from "@/openapi";
@@ -152,16 +154,55 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
 export function TokenModelsCell({ row }: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
   const token = row.original;
-  const modelCount =
-    token.model_limits_enabled && token.model_limits
-      ? token.model_limits.split(",").filter(Boolean).length
-      : 0;
+  const pricingQuery = usePricingQuery();
+  const models = pricingQuery.data?.models ?? [];
+
+  if (!token.model_limits_enabled || !token.model_limits) {
+    return (
+      <span className="text-muted-foreground text-xs">
+        {t("TOKEN.ALL_MODELS")}
+      </span>
+    );
+  }
+
+  const modelNames = token.model_limits.split(",").filter(Boolean);
+  if (modelNames.length === 0) {
+    return (
+      <span className="text-muted-foreground text-xs">
+        {t("TOKEN.ALL_MODELS")}
+      </span>
+    );
+  }
+
+  // Group selected models by vendor
+  const vendorModels = new Map<string, string[]>();
+  for (const name of modelNames) {
+    const found = models.find((m) => m.name === name);
+    const vendor = found?.vendor.name ?? "unknown";
+    const list = vendorModels.get(vendor);
+    if (list) list.push(name);
+    else vendorModels.set(vendor, [name]);
+  }
+
   return (
-    <span className="text-muted-foreground text-xs">
-      {token.model_limits_enabled && modelCount > 0
-        ? t("TOKEN.MODEL_COUNT", { count: modelCount })
-        : t("TOKEN.ALL_MODELS")}
-    </span>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger className="flex items-center gap-1">
+          {[...vendorModels.keys()].map((vendor) => (
+            <VendorIcon key={vendor} vendor={vendor} size={16} />
+          ))}
+        </TooltipTrigger>
+        <TooltipContent className="max-w-xs">
+          <ul className="space-y-0.5 text-xs">
+            {modelNames.map((name) => (
+              <li key={name} className="font-mono">
+                {name}
+              </li>
+            ))}
+          </ul>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
