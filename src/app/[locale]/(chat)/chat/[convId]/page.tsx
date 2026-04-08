@@ -5,9 +5,15 @@ import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { serverLocale, setCookies, fetchConvTitle } from "@/lib/utils/server";
+import {
+  fetchConvTitle,
+  getServerGuestConvIds,
+  serverLocale,
+  setCookies,
+} from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
+import { redirect } from "next/navigation";
 
 type Props = {
   params: Promise<{ locale: string; convId: string }>;
@@ -30,9 +36,14 @@ export async function generateMetadata(props: Props) {
 }
 
 export default async function ChatConvPage(props: Props) {
-  const { convId } = await props.params;
+  const { convId, locale } = await props.params;
   const queryClient = getQueryClient();
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
+
+  if (!isLoggedIn) {
+    const guestIds = await getServerGuestConvIds();
+    if (!guestIds.includes(convId)) redirect(`/${locale}/chat`);
+  }
 
   if (isLoggedIn) {
     const cookieHeaders = await setCookies();
