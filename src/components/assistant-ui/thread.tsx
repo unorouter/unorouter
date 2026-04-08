@@ -47,7 +47,9 @@ import {
     type FC,
     type UIEvent,
     useContext,
+    useEffect,
     useRef,
+    useState,
 } from "react";
 import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
 
@@ -282,12 +284,42 @@ const StreamingIndicator: FC = () => {
   const isStreaming = useAuiState(
     (s) => s.message.status?.type === "running" && s.message.parts.length === 0,
   );
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    if (!isStreaming) {
+      setElapsed(0);
+      return;
+    }
+    const start = Date.now();
+    const id = setInterval(() => setElapsed(Date.now() - start), 50);
+    return () => clearInterval(id);
+  }, [isStreaming]);
+
   if (!isStreaming) return null;
+
+  const seconds = elapsed / 1000;
+  const timerColor =
+    seconds < 2
+      ? "text-muted-foreground/60"
+      : seconds < 5
+        ? "text-amber-500"
+        : "text-red-500";
+  const display =
+    elapsed < 1000
+      ? `${elapsed}ms`
+      : `${seconds.toFixed(1)}s`;
+
   return (
-    <div className="flex items-center gap-1.5 px-1 py-2">
-      <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:0ms]" />
-      <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:150ms]" />
-      <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:300ms]" />
+    <div className="flex items-center gap-2.5 px-1 py-2">
+      <div className="flex items-center gap-1.5">
+        <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:0ms]" />
+        <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:150ms]" />
+        <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:300ms]" />
+      </div>
+      <span className={`font-mono text-[10px] tabular-nums ${timerColor} transition-colors`}>
+        {display}
+      </span>
     </div>
   );
 };
