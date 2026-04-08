@@ -36,5 +36,7 @@ jobs:
 
           echo TAVILY_API_KEY=${{ secrets.TAVILY_API_KEY }} >> .env
 
+          echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
+
       - name: Docker run
         run: docker compose up -d --force-recreate --build
