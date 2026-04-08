@@ -1,5 +1,6 @@
 "use client";
 
+import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -88,7 +89,7 @@ export function Affiliate() {
   }
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-0 p-4 md:p-6">
+    <PageContent>
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2">
@@ -308,6 +309,6 @@ export function Affiliate() {
         onOpenChange={setTransferOpen}
         pendingQuota={pendingQuota}
       />
-    </div>
+    </PageContent>
   );
 }

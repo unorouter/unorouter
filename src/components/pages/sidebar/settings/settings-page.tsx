@@ -1,5 +1,6 @@
 "use client";
 
+import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { useTranslations } from "next-intl";
 import { LuSettings } from "react-icons/lu";
 import { AccountCard } from "./account-card";
@@ -11,7 +12,7 @@ export function SettingsPage() {
   const t = useTranslations();
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-0 p-4 md:p-6">
+    <PageContent>
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2">
@@ -50,6 +51,6 @@ export function SettingsPage() {
       <div className="mb-6">
         <NotificationCard />
       </div>
-    </div>
+    </PageContent>
   );
 }

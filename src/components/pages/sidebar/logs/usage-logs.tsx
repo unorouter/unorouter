@@ -1,5 +1,6 @@
 "use client";
 
+import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { DataTable } from "@/components/elements/table/data-table";
 import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/filters";
 import { Badge } from "@/components/ui/badge";
@@ -149,7 +150,7 @@ export function UsageLogs() {
   ];
 
   return (
-    <div className="flex w-full flex-1 flex-col gap-0 p-4 md:p-6">
+    <PageContent>
       <div className="mb-6 flex items-center justify-between">
         <div>
           <div className="flex items-center gap-2">
@@ -217,6 +218,6 @@ export function UsageLogs() {
         )}
         emptyState={<LogEmptyState />}
       />
-    </div>
+    </PageContent>
   );
 }

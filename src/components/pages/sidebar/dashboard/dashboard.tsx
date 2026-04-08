@@ -7,6 +7,7 @@ import { dashboardStoreAtom } from "@/store/dashboard-store";
 import dayjs from "dayjs";
 import { useHydrateAtoms } from "jotai/react/utils";
 import { useTranslations } from "next-intl";
+import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
 import { ApiInfoPanel } from "./api-info-panel";
@@ -43,7 +44,7 @@ export function Dashboard(props: DashboardProps) {
   const hasInfoRow = hasAnnouncements || hasFaq || hasUptime;
 
   return (
-    <div className="flex min-w-0 flex-1 flex-col gap-0 p-4 md:p-6">
+    <PageContent>
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">
         <div>
@@ -53,10 +54,7 @@ export function Dashboard(props: DashboardProps) {
               {t("SIDEBAR.DASHBOARD")}
             </span>
           </div>
-          <h1
-            className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl"
-            suppressHydrationWarning
-          >
+          <h1 className="text-foreground mt-1 text-xl font-bold tracking-tight md:text-2xl">
             {greeting}, {displayName}
           </h1>
         </div>
@@ -94,6 +92,6 @@ export function Dashboard(props: DashboardProps) {
           {hasUptime && <UptimePanel />}
         </div>
       )}
-    </div>
+    </PageContent>
   );
 }
