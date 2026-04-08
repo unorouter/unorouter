@@ -112,7 +112,12 @@ export function ConversationItem(props: ConversationItemProps) {
       ) : (
         <>
           <div className="relative flex h-full min-w-0 flex-1 items-center gap-2 px-3 text-start text-sm">
-            <VendorIcon vendor={vendorName} size={14} className="shrink-0" />
+            <span
+              title={vendorName ? `${vendorName} · ${props.conversation.model}` : props.conversation.model}
+              className="shrink-0"
+            >
+              <VendorIcon vendor={vendorName} size={14} className="pointer-events-none" />
+            </span>
             <span
               className={cn(
                 "min-w-0 flex-1 truncate transition-[padding]",

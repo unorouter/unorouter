@@ -89,7 +89,7 @@ export function ConversationList() {
         placeholder={t("CHAT.SEARCH_PLACEHOLDER")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="h-8 pl-9 text-xs"
+        className="h-8 truncate pl-9 text-xs"
       />
     </div>
   );
