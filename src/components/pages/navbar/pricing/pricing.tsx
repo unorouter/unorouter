@@ -9,7 +9,7 @@ import { RESET_TRANSLATION_KEYS, getMultiplier } from "@/lib/api/subscription";
 import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
-import { LuShell, LuZap } from "react-icons/lu";
+import { LuZap } from "react-icons/lu";
 
 export function Pricing() {
   const t = useTranslations();
@@ -53,28 +53,6 @@ export function Pricing() {
           centered
           className="mb-16"
         />
-
-        {/* Coming Soon Banner */}
-        <div className="mb-12 overflow-hidden rounded-lg border border-red-600/20 bg-linear-to-r from-red-600/5 via-transparent to-red-600/5 p-6 md:flex md:items-center md:justify-between">
-          <div className="flex items-start gap-4">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm bg-red-600/10">
-              <LuShell className="h-5 w-5 text-red-500" />
-            </div>
-            <div>
-              <div className="flex items-center gap-3">
-                <h3 className="text-foreground font-mono text-sm font-bold">
-                  {t("PRICING.BANNER_TITLE")}
-                </h3>
-                <span className="rounded-sm bg-red-600/20 px-2 py-0.5 font-mono text-[10px] tracking-[0.15em] text-red-500 uppercase">
-                  {t("PRICING.BANNER_BADGE")}
-                </span>
-              </div>
-              <p className="text-muted-foreground mt-1 font-mono text-xs">
-                {t("PRICING.BANNER_SUBTITLE", APP_VALUES)}
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* Pricing Cards */}
         <div className="mb-16 grid gap-6 md:grid-cols-3">

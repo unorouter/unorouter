@@ -51,15 +51,15 @@ export function ModelListItem(props: {
           variant="secondary"
           className={cn(
             "shrink-0 font-mono text-[10px] uppercase sm:hidden",
-            model.type === "text" && `${theme.tagBg} ${theme.text}`,
+            model.type === "text" && `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
             model.type === "image" &&
-              "border-green-500/30 bg-green-500/10 text-green-400",
+              "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
             model.type === "video" &&
-              "border-purple-500/30 bg-purple-500/10 text-purple-400",
+              "border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-400",
             model.type === "audio" &&
-              "border-amber-500/30 bg-amber-500/10 text-amber-400",
+              "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
             model.type === "embedding" &&
-              "border-sky-500/30 bg-sky-500/10 text-sky-400",
+              "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-400",
           )}
         >
           {model.type}
@@ -75,15 +75,15 @@ export function ModelListItem(props: {
         variant="secondary"
         className={cn(
           "hidden font-mono text-[10px] uppercase sm:inline-flex",
-          model.type === "text" && `${theme.tagBg} ${theme.text}`,
+          model.type === "text" && `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
           model.type === "image" &&
-            "border-green-500/30 bg-green-500/10 text-green-400",
+            "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
           model.type === "video" &&
-            "border-purple-500/30 bg-purple-500/10 text-purple-400",
+            "border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-400",
           model.type === "audio" &&
-            "border-amber-500/30 bg-amber-500/10 text-amber-400",
+            "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
           model.type === "embedding" &&
-            "border-sky-500/30 bg-sky-500/10 text-sky-400",
+            "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-400",
         )}
       >
         {model.type}

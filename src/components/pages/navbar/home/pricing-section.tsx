@@ -23,8 +23,8 @@ export function PricingSection() {
       <div className="mx-auto max-w-360 px-6">
         <div className="mb-8 text-center lg:mb-16">
           <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
-            <LuZap className="h-3 w-3 text-purple-400" />
-            <span className="textpriceAmount >-[10px] font-mono tracking-[0.2em] text-purple-400 uppercase">
+            <LuZap className="h-3 w-3 text-purple-700 dark:text-purple-400" />
+            <span className="textpriceAmount >-[10px] font-mono tracking-[0.2em] text-purple-700 dark:text-purple-400 uppercase">
               {t("HOME.PRICING_LABEL")}
             </span>
           </div>
@@ -88,17 +88,17 @@ export function PricingSection() {
 
             <div className="space-y-4">
               <FeatureRow
-                icon={<LuShield className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuShield className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />}
                 title={t("HOME.FEATURE_FAILOVER_TITLE")}
                 description={t("HOME.FEATURE_FAILOVER_DESC")}
               />
               <FeatureRow
-                icon={<LuGlobe className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuGlobe className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />}
                 title={t("HOME.FEATURE_MULTIPROTOCOL_TITLE")}
                 description={t("HOME.FEATURE_MULTIPROTOCOL_DESC")}
               />
               <FeatureRow
-                icon={<LuActivity className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuActivity className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />}
                 title={t("HOME.FEATURE_LOADBALANCE_TITLE")}
                 description={t("HOME.FEATURE_LOADBALANCE_DESC")}
               />
@@ -123,12 +123,12 @@ export function PricingSection() {
           <div className="space-y-6">
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="flex items-center justify-between border-b border-purple-500/20 bg-purple-500/10 px-4 py-3">
-                <span className="font-mono text-[10px] tracking-wider text-purple-400 uppercase">
+                <span className="font-mono text-[10px] tracking-wider text-purple-700 dark:text-purple-400 uppercase">
                   {t("HOME.PRICING_PROVIDERS_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-                  <span className="font-mono text-[10px] text-green-400">
+                  <span className="font-mono text-[10px] text-green-700 dark:text-green-400">
                     {t("HOME.PRICING_PROVIDERS_ACTIVE")}
                   </span>
                 </div>
@@ -158,7 +158,7 @@ export function PricingSection() {
                         {vendor.models.map((model) => (
                           <span
                             key={model.name}
-                            className={`font-mono text-[10px] ${theme.text} ${theme.tagBg} rounded-sm px-2 py-0.5`}
+                            className={`font-mono text-[10px] ${theme.text} ${theme.tagBg} ${theme.tagBorder} border rounded-sm px-2 py-0.5`}
                           >
                             {model.name}
                           </span>
@@ -184,7 +184,7 @@ export function PricingSection() {
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-500" />
-                  <span className="font-mono text-[10px] text-purple-400">
+                  <span className="font-mono text-[10px] text-purple-700 dark:text-purple-400">
                     {t("HOME.PRICING_FLOW_LIVE")}
                   </span>
                 </div>
@@ -221,7 +221,7 @@ function PricingTile(props: {
         <span className="text-foreground font-mono text-xs tracking-wide uppercase">
           {props.name}
         </span>
-        <span className="font-mono text-sm font-bold text-purple-400">
+        <span className="font-mono text-sm font-bold text-purple-700 dark:text-purple-400">
           {props.price}
         </span>
       </div>
@@ -264,9 +264,9 @@ function FlowStep(props: {
   success?: boolean;
 }) {
   const bgColor = props.success ? "bg-green-500/20" : "bg-purple-500/20";
-  const textColor = props.success ? "text-green-400" : "text-purple-400";
+  const textColor = props.success ? "text-green-700 dark:text-green-400" : "text-purple-700 dark:text-purple-400";
   const labelColor = props.success
-    ? "text-green-400"
+    ? "text-green-700 dark:text-green-400"
     : props.muted
       ? "text-muted-foreground"
       : "text-foreground";

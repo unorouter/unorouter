@@ -18,15 +18,15 @@ export async function ReliabilitySection() {
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 rounded-sm border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5">
-              <LuRefreshCw className="h-3 w-3 text-cyan-400" />
-              <span className="font-mono text-[10px] tracking-[0.2em] text-cyan-400 uppercase">
+              <LuRefreshCw className="h-3 w-3 text-cyan-700 dark:text-cyan-400" />
+              <span className="font-mono text-[10px] tracking-[0.2em] text-cyan-700 dark:text-cyan-400 uppercase">
                 {t("HOME.RELIABILITY_BADGE")}
               </span>
             </div>
             <h2 className="text-4xl font-bold tracking-tighter md:text-5xl">
               {t("HOME.RELIABILITY_TITLE_1")}
               <br />
-              <span className="text-cyan-400">
+              <span className="text-cyan-600 dark:text-cyan-400">
                 {t("HOME.RELIABILITY_TITLE_2")}
               </span>
             </h2>
@@ -36,13 +36,13 @@ export async function ReliabilitySection() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <InfoCard
-                icon={<LuLayers className="h-3.5 w-3.5 text-cyan-400" />}
+                icon={<LuLayers className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400" />}
                 title={t("HOME.RELIABILITY_CARD1_TITLE")}
                 description={t("HOME.RELIABILITY_CARD1_DESC")}
                 color="cyan"
               />
               <InfoCard
-                icon={<LuServer className="h-3.5 w-3.5 text-purple-400" />}
+                icon={<LuServer className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />}
                 title={t("HOME.RELIABILITY_CARD2_TITLE")}
                 description={t("HOME.RELIABILITY_CARD2_DESC")}
                 color="purple"
@@ -67,12 +67,12 @@ export async function ReliabilitySection() {
           <div className="relative">
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="flex items-center justify-between border-b border-cyan-500/20 bg-cyan-500/10 px-4 py-3">
-                <span className="font-mono text-[10px] tracking-wider text-cyan-400 uppercase">
+                <span className="font-mono text-[10px] tracking-wider text-cyan-700 dark:text-cyan-400 uppercase">
                   {t("HOME.RELIABILITY_ARCH_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-500" />
-                  <span className="font-mono text-[10px] text-cyan-400">
+                  <span className="font-mono text-[10px] text-cyan-700 dark:text-cyan-400">
                     {t("HOME.RELIABILITY_ARCH_ACTIVE")}
                   </span>
                 </div>
@@ -108,7 +108,7 @@ export async function ReliabilitySection() {
                       {t("HOME.RELIABILITY_FORMATS_TITLE")}
                     </span>
                   </div>
-                  <code className="text-[10px] break-all text-cyan-400">
+                  <code className="text-[10px] break-all text-cyan-700 dark:text-cyan-400">
                     {`{ "openai": "/v1/chat/completions", "anthropic": "/v1/messages", "gemini": "/v1/models" }`}
                   </code>
                   <p className="text-muted-foreground mt-2 text-[9px]">
@@ -161,8 +161,12 @@ function ArchStep(props: {
   success?: boolean;
 }) {
   const bgColor = props.success ? "bg-green-500/20" : "bg-cyan-500/20";
-  const stepColor = props.success ? "text-green-400" : "text-cyan-400";
-  const titleColor = props.success ? "text-green-400" : "text-foreground";
+  const stepColor = props.success
+    ? "text-green-700 dark:text-green-400"
+    : "text-cyan-700 dark:text-cyan-400";
+  const titleColor = props.success
+    ? "text-green-700 dark:text-green-400"
+    : "text-foreground";
 
   return (
     <div className="flex items-start gap-3">

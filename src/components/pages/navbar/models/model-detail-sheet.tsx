@@ -93,6 +93,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     className={cn(
                       "font-mono text-[10px] uppercase",
                       theme.tagBg,
+                      theme.tagBorder,
                       theme.text,
                     )}
                   >
