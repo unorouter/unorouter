@@ -82,6 +82,9 @@ function processModels(response: PricingData) {
         outputPrice,
         fixedPrice,
         isFixedPrice,
+        isFree: isFixedPrice
+          ? fixedPrice === 0
+          : inputPrice === 0 && outputPrice === 0,
         quotaType: qt,
         gridPricing,
         type: getModelType(model),
@@ -98,7 +101,11 @@ function processModels(response: PricingData) {
         originalOutputPrice,
       };
     })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    .sort((a, b) => {
+      // Free models first, then alphabetical
+      if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    });
 }
 
 export function buildPricingSummary(response: PricingData) {
@@ -108,6 +115,7 @@ export function buildPricingSummary(response: PricingData) {
     EndpointInfo
   >;
 
+  // Group by vendor (for pricing page vendor cards)
   const vendorGroups = new Map<
     string,
     { vendor: ProcessedModel["vendor"]; models: ProcessedModel[] }
@@ -136,11 +144,37 @@ export function buildPricingSummary(response: PricingData) {
     })
     .sort((a, b) => b.modelCount - a.modelCount);
 
+  // Group by type tag (for chat model selector)
+  const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
+  const typeMap = new Map<string, ProcessedModel[]>();
+  for (const model of models) {
+    const tag = model.tags[0] ?? "Other";
+    const list = typeMap.get(tag);
+    if (list) list.push(model);
+    else typeMap.set(tag, [model]);
+  }
+  for (const [tag, tagModels] of typeMap) {
+    modelsByType.push({ tag, models: tagModels });
+  }
+
+  // First free model (prefers text type)
+  const firstFreeModel =
+    models.find((m) => m.isFree && m.type === "text") ??
+    models.find((m) => m.isFree) ??
+    null;
+
+  const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
+    (a, b) => a.localeCompare(b),
+  );
+
   return {
     modelCount: models.length,
     vendorCount: vendors.length,
     models,
     vendors,
+    vendorNames,
+    modelsByType,
+    firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
   };

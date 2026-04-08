@@ -4,13 +4,12 @@ import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { Link, useRouter } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/base";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { LuKey, LuLoader, LuLogIn, LuPlus } from "react-icons/lu";
+import { LuKey, LuLoader, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
 
 type ChatProps = {
@@ -21,19 +20,11 @@ type ChatProps = {
 export function Chat(props: ChatProps) {
   const t = useTranslations();
   const locale = useLocale();
-  const router = useRouter();
   const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
   const effectiveId = props.convId ?? threadId;
   const convQuery = useConversationQuery(effectiveId);
   const skipFirstSync = useRef(true);
-
-  // Redirect to /chat if the conversation doesn't exist (only for owned conversations)
-  useEffect(() => {
-    if (!props.readOnly && threadId && convQuery.isError) {
-      router.replace("/chat");
-    }
-  }, [props.readOnly, threadId, convQuery.isError, router]);
 
   useEffect(() => {
     if (props.readOnly) return;
@@ -54,28 +45,8 @@ export function Chat(props: ChatProps) {
       : t("CHAT.META.TITLE", APP_VALUES);
   }, [props.readOnly, convQuery.data?.title]);
 
-  if (!props.readOnly && !token.isLoggedIn) {
-    return (
-      <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
-        <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-          <LuLogIn className="text-muted-foreground h-8 w-8" />
-        </div>
-        <div className="text-center">
-          <p className="text-muted-foreground mt-1 text-sm">
-            {t("CHAT.LOGIN_REQUIRED_DESC")}
-          </p>
-        </div>
-        <Link href="/login">
-          <Button size="sm" className="gap-1.5">
-            <LuLogIn className="h-3.5 w-3.5" />
-            {t("AUTH.LOGIN_BUTTON")}
-          </Button>
-        </Link>
-      </div>
-    );
-  }
-
-  if (!props.readOnly && token.needsToken) {
+  // Logged-in users who need to create an API token
+  if (!props.readOnly && token.isLoggedIn && token.needsToken) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
         <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
@@ -129,7 +100,9 @@ export function Chat(props: ChatProps) {
                 )}
               </div>
             )}
-          {!props.readOnly && <ShareButton convId={effectiveId} />}
+          {!props.readOnly && token.isLoggedIn && (
+            <ShareButton convId={effectiveId} />
+          )}
         </div>
       )}
       <Thread readOnly={props.readOnly} />

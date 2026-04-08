@@ -10,7 +10,13 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import { getChatModel, getConvId, setConvId } from "@/store/chat-store";
+import {
+  addGuestConvId,
+  getChatModel,
+  getConvId,
+  removeGuestConvId,
+  setConvId,
+} from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
 import type { useTranslations } from "next-intl";
@@ -20,10 +26,10 @@ import { extractFirstUserText } from "./chat-utils";
 export function createThreadListAdapter(
   queryClient: QueryClient,
   t: ReturnType<typeof useTranslations<never>>,
+  isLoggedIn: boolean,
 ): RemoteThreadListAdapter {
   return {
     async list() {
-      // Use SSR-prefetched data or fetch into cache so useConversationsInfiniteQuery gets a hit
       const data =
         queryClient.getQueryData<ConvsInfinite>(queryKeys.conversations()) ??
         (await queryClient.fetchInfiniteQuery({
@@ -63,6 +69,9 @@ export function createThreadListAdapter(
         createdAt: now,
         updatedAt: now,
       };
+
+      if (!isLoggedIn) addGuestConvId(data.id);
+
       queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
         (old) => prependConv(old, newItem),
@@ -74,13 +83,8 @@ export function createThreadListAdapter(
       await rpc.api.chat({ id }).put({ title });
     },
 
-    async archive(_id) {
-      // Not implemented
-    },
-
-    async unarchive(_id) {
-      // Not implemented
-    },
+    async archive(_id) {},
+    async unarchive(_id) {},
 
     async delete(id) {
       await rpc.api.chat({ id }).delete();
@@ -88,6 +92,7 @@ export function createThreadListAdapter(
         queryKeys.conversations(),
         (old) => removeConv(old, id),
       );
+      if (!isLoggedIn) removeGuestConvId(id);
     },
 
     async fetch(id) {

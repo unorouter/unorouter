@@ -61,3 +61,8 @@ export const titleGenerationBody = t.Object({
   text: t.String(),
 });
 export type TitleGenerationBody = Static<typeof titleGenerationBody>;
+
+export const claimConversationsBody = t.Object({
+  convIds: t.Array(t.String()),
+});
+export type ClaimConversationsBody = Static<typeof claimConversationsBody>;

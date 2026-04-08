@@ -14,9 +14,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { Link } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LuChevronsUpDown } from "react-icons/lu";
 
 type ModelSelectorProps = {
@@ -28,37 +31,38 @@ export function ModelSelector(props: ModelSelectorProps) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
   const pricingQuery = usePricingQuery();
-  const rawModels = pricingQuery.data?.models ?? [];
+  const authQuery = useAuthQuery();
+  const isLoggedIn = !!authQuery.data;
+  const pricingData = pricingQuery.data;
+  const models = pricingData?.models ?? [];
+  const modelsByType = pricingData?.modelsByType ?? [];
+  const firstFreeModel = pricingData?.firstFreeModel ?? null;
 
-  const allModels = rawModels.map((m) => ({
-    name: m.name,
-    vendorName:
-      typeof m.vendor === "string" ? m.vendor : (m.vendor?.name ?? ""),
-    tags: Array.isArray(m.tags)
-      ? m.tags
-      : String(m.tags)
-          .split(",")
-          .map((s) => s.trim()),
-  }));
+  const selected = models.find((m) => m.name === props.value);
 
-  const groupMap = new Map<string, typeof allModels>();
-  for (const model of allModels) {
-    const tag = model.tags[0] ?? "Other";
-    const list = groupMap.get(tag);
-    if (list) list.push(model);
-    else groupMap.set(tag, [model]);
-  }
-
-  const selected = allModels.find((m) => m.name === props.value);
+  // Auto-select first free text model when not logged in and current selection is invalid
+  useEffect(() => {
+    if (isLoggedIn || !firstFreeModel) return;
+    const current = models.find((m) => m.name === props.value);
+    if (current?.isFree) return;
+    props.onChange(firstFreeModel.name);
+  }, [isLoggedIn, firstFreeModel?.name]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
         <div className="flex items-center gap-2 truncate">
-          {selected && <VendorIcon vendor={selected.vendorName} size={14} />}
+          {selected && (
+            <VendorIcon vendor={selected.vendor.name} size={14} />
+          )}
           <span className="truncate font-mono">
             {props.value || t("CHAT.SELECT_MODEL")}
           </span>
+          {selected?.isFree && (
+            <span className="bg-emerald-500/15 text-emerald-500 rounded px-1 py-0.5 text-[10px] font-medium leading-none">
+              {t("CHAT.FREE_MODEL_BADGE")}
+            </span>
+          )}
         </div>
         <LuChevronsUpDown className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0" />
       </PopoverTrigger>
@@ -70,23 +74,46 @@ export function ModelSelector(props: ModelSelectorProps) {
           />
           <CommandList>
             <CommandEmpty>{t("CHAT.NO_MODELS_FOUND")}</CommandEmpty>
-            {[...groupMap].map(([tag, models]) => (
+            {modelsByType.map(({ tag, models: tagModels }) => (
               <CommandGroup key={tag} heading={tag}>
-                {models.map((model) => (
-                  <CommandItem
-                    key={model.name}
-                    value={model.name}
-                    data-checked={model.name === props.value || undefined}
-                    onSelect={() => {
-                      props.onChange(model.name);
-                      setOpen(false);
-                    }}
-                    className="text-xs"
-                  >
-                    <VendorIcon vendor={model.vendorName} size={14} />
-                    <span className="font-mono">{model.name}</span>
-                  </CommandItem>
-                ))}
+                {tagModels.map((model) => {
+                  const disabled = !isLoggedIn && !model.isFree;
+                  return (
+                    <CommandItem
+                      key={model.name}
+                      value={model.name}
+                      data-checked={model.name === props.value || undefined}
+                      onSelect={() => {
+                        if (disabled) return;
+                        props.onChange(model.name);
+                        setOpen(false);
+                      }}
+                      className={cn(
+                        "text-xs",
+                        disabled && "opacity-40",
+                      )}
+                    >
+                      <VendorIcon vendor={model.vendor.name} size={14} />
+                      <span className="min-w-0 flex-1 font-mono">
+                        {model.name}
+                      </span>
+                      {model.isFree && (
+                        <span className="bg-emerald-500/15 text-emerald-500 shrink-0 rounded px-1 py-0.5 text-[10px] font-medium leading-none">
+                          {t("CHAT.FREE_MODEL_BADGE")}
+                        </span>
+                      )}
+                      {disabled && (
+                        <Link
+                          href="/login"
+                          className="text-muted-foreground hover:text-primary shrink-0 text-[10px] transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {t("CHAT.LOGIN_TO_USE_MODEL")}
+                        </Link>
+                      )}
+                    </CommandItem>
+                  );
+                })}
               </CommandGroup>
             ))}
           </CommandList>

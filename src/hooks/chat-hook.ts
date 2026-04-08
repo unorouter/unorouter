@@ -23,7 +23,6 @@ import {
   type InfiniteData,
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useAuthQuery } from "./auth-hook";
 
 const chatRoute = rpc.api.chat;
 
@@ -32,7 +31,6 @@ type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<typeof chatRoute, "get">;
 
 export function useConversationsInfiniteQuery(keyword?: string) {
-  const authQuery = useAuthQuery();
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) =>
@@ -45,7 +43,6 @@ export function useConversationsInfiniteQuery(keyword?: string) {
     getNextPageParam: (lastPage, allPages) =>
       lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
     placeholderData: keepPreviousData,
-    enabled: !!authQuery.data,
   });
 }
 
@@ -255,5 +252,14 @@ export function usePersistMessagesMutation() {
         );
       }
     },
+  });
+}
+
+export function useClaimConversationsMutation() {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (convIds: string[]) =>
+      handleElysia(await chatRoute.claim.post({ convIds })),
+    onError: (e) => handleError(e, t),
   });
 }

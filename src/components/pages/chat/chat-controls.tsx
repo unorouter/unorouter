@@ -2,8 +2,6 @@
 
 import { ModelSelector } from "@/components/elements/chat/model-selector";
 import { Button } from "@/components/ui/button";
-import { useUserDisplay } from "@/hooks/ui/user-display-hook";
-import { useRouter } from "@/i18n/navigation";
 import { chatModelAtom } from "@/store/chat-store";
 import { useAui } from "@assistant-ui/react";
 import { useAtom } from "jotai";
@@ -12,16 +10,10 @@ import { LuPlus } from "react-icons/lu";
 
 export function ChatControls() {
   const t = useTranslations();
-  const router = useRouter();
-  const userDisplay = useUserDisplay();
   const [chatModel, setNewChatModel] = useAtom(chatModelAtom);
   const aui = useAui();
 
   const handleNewChat = () => {
-    if (!userDisplay.user) {
-      router.push("/login");
-      return;
-    }
     aui.threads().switchToNewThread();
   };
 

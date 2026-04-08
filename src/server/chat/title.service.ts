@@ -14,7 +14,10 @@ export async function generateChatTitle(
 ) {
   const db = getDb();
   const conv = await db.query.conversations.findFirst({
-    where: and(eq(conversations.id, convId), eq(conversations.userId, userId)),
+    where: and(
+      eq(conversations.id, convId),
+      eq(conversations.userId, userId),
+    ),
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 

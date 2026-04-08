@@ -1296,6 +1296,8 @@
     "WEB_SEARCH_OFF": "Websuche deaktiviert",
     "DOWNLOAD": "Herunterladen",
     "COPY_LINK": "Link kopieren",
+    "FREE_MODEL_BADGE": "GRATIS",
+    "LOGIN_TO_USE_MODEL": "Anmeldung erforderlich",
     "META": {
       "TITLE": "KI-Chat - {appName}",
       "TITLE_WITH_NAME": "{title} | KI-Chat - {appName}",

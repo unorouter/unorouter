@@ -8,7 +8,7 @@ import type {
   CreateConversationBody,
   UpdateConversationBody,
 } from "@/lib/validation/chat";
-import { and, desc, eq, like, sql } from "drizzle-orm";
+import { and, desc, eq, inArray, like, sql } from "drizzle-orm";
 
 export async function getPaginatedMessages(
   convId: string,
@@ -42,6 +42,7 @@ export async function getPaginatedMessages(
 export async function listConversations(
   userId: number,
   query: ChatSearchQuery,
+  guestConvIds: string[],
 ) {
   const db = getDb();
   const page = query.p ?? 1;
@@ -49,7 +50,16 @@ export async function listConversations(
   const offset = (page - 1) * pageSize;
   const keyword = query.keyword?.trim();
 
-  const conditions = [eq(conversations.userId, userId)];
+  const isGuest = userId === 0 && guestConvIds.length > 0;
+
+  // Anonymous user with no stored conv IDs: nothing to list
+  if (userId === 0 && !isGuest)
+    return { items: [], total: 0, page, pageSize };
+
+  const conditions = isGuest
+    ? [inArray(conversations.id, guestConvIds), eq(conversations.userId, 0)]
+    : [eq(conversations.userId, userId)];
+
   if (keyword) {
     conditions.push(like(conversations.title, `%${keyword}%`));
   }
@@ -122,7 +132,9 @@ export async function updateConversation(
   const result = await db
     .update(conversations)
     .set(updates)
-    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
+    .where(
+      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
+    )
     .returning({ id: conversations.id });
 
   if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
@@ -130,10 +142,16 @@ export async function updateConversation(
 }
 
 export async function deleteConversation(userId: number, convId: string) {
-  const conv = await getConversation(userId, convId);
+  const db = getDb();
+  const conv = await db.query.conversations.findFirst({
+    where: and(
+      eq(conversations.id, convId),
+      eq(conversations.userId, userId),
+    ),
+  });
+  if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   deleteR2Prefix(`chat/${convId}/`).catch(() => {});
-  const db = getDb();
   await db.delete(conversations).where(eq(conversations.id, conv.id));
 
   return { id: convId };
@@ -190,7 +208,7 @@ export async function getSharedConversation(
 
 /** Get a conversation by ID, allowing access if the user owns it OR if it has a shareId (public). */
 export async function getConversationOrShared(
-  userId: number | null,
+  userId: number,
   convId: string,
 ) {
   const db = getDb();
@@ -198,8 +216,22 @@ export async function getConversationOrShared(
     where: eq(conversations.id, convId),
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
-  // Allow if user owns it or if it's publicly shared
-  if (conv.userId !== userId && !conv.shareId)
+  // Allow if user owns it, if it's an anonymous conv, or if it's publicly shared
+  if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)
     throw new Error(msg("ERRORS.NOT_FOUND"));
   return conv;
+}
+
+/** Transfer anonymous conversations (userId=0) to a real user account. */
+export async function claimConversations(userId: number, convIds: string[]) {
+  if (convIds.length === 0) return { claimed: 0 };
+  const db = getDb();
+  const result = await db
+    .update(conversations)
+    .set({ userId, updatedAt: new Date() })
+    .where(
+      and(eq(conversations.userId, 0), inArray(conversations.id, convIds)),
+    )
+    .returning({ id: conversations.id });
+  return { claimed: result.length };
 }

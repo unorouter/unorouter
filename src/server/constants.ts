@@ -1,5 +1,6 @@
 import {
   ACCESS_TOKEN_COOKIE,
+  GUEST_CONVS_COOKIE,
   msg,
   NEW_API_USER,
   USER_ID_COOKIE,
@@ -48,6 +49,30 @@ export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
   if (!parsed?.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
   return parsed.apiKey as string;
+}
+
+export function getApiKeyOrGuest(
+  cookie: Record<string, Cookie<unknown>>,
+): string {
+  try {
+    return getApiKey(cookie);
+  } catch {
+    if (serverEnv.guestApiKey) return serverEnv.guestApiKey;
+    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  }
+}
+
+export function getGuestConvIds(
+  cookie: Record<string, Cookie<unknown>>,
+): string[] {
+  try {
+    const raw = cookie[GUEST_CONVS_COOKIE]?.value;
+    if (!raw) return [];
+    const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 export function getProvider(apiKey: string) {

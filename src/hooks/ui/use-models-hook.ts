@@ -28,10 +28,7 @@ export function useModelsFilter() {
 
   const models = data?.models ?? [];
   const endpointMap = data?.endpointMap ?? {};
-
-  const vendorNames = [...new Set(models.map((m) => m.vendor.name))].sort(
-    (a, b) => a.localeCompare(b),
-  );
+  const vendorNames = data?.vendorNames ?? [];
 
   const selectedModel =
     models.find((m) => m.name === selectedModelName) ?? null;

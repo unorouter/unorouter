@@ -1,6 +1,7 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ConversationList } from "@/components/pages/chat/sidebar/conversation-list";
 import { ChatRuntimeProvider } from "@/components/pages/chat/utils/chat-runtime-provider";
+import { GuestConvsClaim } from "@/components/pages/chat/utils/guest-convs-claim";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -30,18 +31,17 @@ export default async function ChatLayout(props: Props) {
       queryKey: queryKeys.pricing(),
       queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
-    isLoggedIn &&
-      queryClient.prefetchInfiniteQuery({
-        queryKey: queryKeys.conversations(undefined),
-        queryFn: async ({ pageParam }) =>
-          handleElysia(
-            await rpc.api.chat.conversations.get({
-              query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
-              ...cookieHeaders!,
-            }),
-          ),
-        initialPageParam: 1,
-      }),
+    queryClient.prefetchInfiniteQuery({
+      queryKey: queryKeys.conversations(undefined),
+      queryFn: async ({ pageParam }) =>
+        handleElysia(
+          await rpc.api.chat.conversations.get({
+            query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
+            ...cookieHeaders!,
+          }),
+        ),
+      initialPageParam: 1,
+    }),
     isLoggedIn &&
       queryClient.prefetchQuery({
         queryKey: queryKeys.bestKey(),
@@ -57,6 +57,7 @@ export default async function ChatLayout(props: Props) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ChatRuntimeProvider>
+        <GuestConvsClaim />
         <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
           {props.children}
         </SidebarLayout>

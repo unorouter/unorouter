@@ -1,5 +1,6 @@
 import {
   chatSearchQuery,
+  claimConversationsBody,
   createConversationBody,
   mediaUploadBody,
   paginationQuery,
@@ -8,9 +9,14 @@ import {
   titleGenerationBody,
   updateConversationBody,
 } from "@/lib/validation/chat";
-import { getApiKey, getUserId } from "@/server/constants";
+import {
+  getApiKeyOrGuest,
+  getGuestConvIds,
+  getUserId,
+} from "@/server/constants";
 import { Elysia } from "elysia";
 import {
+  claimConversations,
   createConversation,
   createShareLink,
   deleteConversation,
@@ -31,9 +37,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .get(
     "/conversations",
     async ({ query, cookie }) => {
-      const userId = getUserId(cookie, true);
-      if (!userId) return { success: true, data: { items: [], total: 0 } };
-      const data = await listConversations(userId, query);
+      const userId = getUserId(cookie, true) ?? 0;
+      const data = await listConversations(
+        userId,
+        query,
+        userId === 0 ? getGuestConvIds(cookie) : [],
+      );
       return { success: true, data };
     },
     { query: chatSearchQuery },
@@ -42,7 +51,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = getUserId(cookie, true) ?? 0;
       const data = await createConversation(userId, body);
       return { success: true, data };
     },
@@ -52,7 +61,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .get(
     "/:id",
     async ({ params, query, cookie }) => {
-      const userId = getUserId(cookie, true);
+      const userId = getUserId(cookie, true) ?? 0;
       const conv = await getConversationOrShared(userId, params.id);
       const paginated = await getPaginatedMessages(params.id, query);
       return { success: true, data: { ...conv, ...paginated } };
@@ -61,7 +70,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .get("/:id/meta", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true);
+    const userId = getUserId(cookie, true) ?? 0;
     const data = await getConversationOrShared(userId, params.id);
     return { success: true, data };
   })
@@ -69,7 +78,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .put(
     "/:id",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = getUserId(cookie, true) ?? 0;
       const data = await updateConversation(userId, params.id, body);
       return { success: true, data };
     },
@@ -77,7 +86,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .delete("/:id", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = getUserId(cookie, true) ?? 0;
     const data = await deleteConversation(userId, params.id);
     return { success: true, data };
   })
@@ -106,8 +115,8 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/title",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
-      const apiKey = getApiKey(cookie);
+      const userId = getUserId(cookie, true) ?? 0;
+      const apiKey = getApiKeyOrGuest(cookie);
       const data = await generateChatTitle(
         apiKey,
         userId,
@@ -122,7 +131,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/messages",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = getUserId(cookie, true) ?? 0;
       const data = await persistMessages(userId, params.id, body.messages);
       return { success: true, data };
     },
@@ -132,10 +141,22 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/stream",
     async ({ body, cookie, request }) => {
-      const apiKey = getApiKey(cookie);
+      const apiKey = getApiKeyOrGuest(cookie);
+      const isGuest = !getUserId(cookie, true);
+      if (isGuest) body.webSearch = false;
       return streamChat(apiKey, body, request);
     },
     { body: streamBody },
+  )
+
+  .post(
+    "/claim",
+    async ({ body, cookie }) => {
+      const userId = getUserId(cookie);
+      const data = await claimConversations(userId, body.convIds);
+      return { success: true, data };
+    },
+    { body: claimConversationsBody },
   )
 
   .post(

@@ -11,6 +11,7 @@ import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
@@ -210,7 +211,9 @@ const Composer: FC = () => {
 
 const ComposerWebSearchToggle: FC = () => {
   const t = useTranslations();
+  const authQuery = useAuthQuery();
   const [webSearch, setWebSearch] = useAtom(chatWebSearchAtom);
+  if (!authQuery.data) return null;
   return (
     <TooltipIconButton
       tooltip={webSearch ? t("CHAT.WEB_SEARCH_ON") : t("CHAT.WEB_SEARCH_OFF")}

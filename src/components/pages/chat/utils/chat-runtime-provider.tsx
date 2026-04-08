@@ -10,6 +10,7 @@ import {
   usePersistMessagesMutation,
   useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatRuntimeContext, PersistMessage } from "@/lib/types/chat";
@@ -183,7 +184,15 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const params = useParams<{ convId?: string }>();
   const queryClient = useQueryClient();
   const t = useTranslations();
-  const adapterRef = useRef(createThreadListAdapter(queryClient, t));
+  const authQuery = useAuthQuery();
+  const isLoggedIn = !!authQuery.data;
+  const adapterRef = useRef(createThreadListAdapter(queryClient, t, isLoggedIn));
+
+  // Update the adapter's isLoggedIn state when auth changes
+  useEffect(() => {
+    adapterRef.current = createThreadListAdapter(queryClient, t, isLoggedIn);
+  }, [isLoggedIn]);
+
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,
     adapter: adapterRef.current,

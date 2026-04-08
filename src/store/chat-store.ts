@@ -1,3 +1,4 @@
+import { GUEST_CONVS_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
@@ -79,3 +80,40 @@ export const getScrollControl = () => _scrollControl;
 export const setScrollControl = (ctrl: ScrollControl) => {
   _scrollControl = ctrl;
 };
+
+// ---------------------------------------------------------------------------
+// Guest (anonymous) conversation IDs — persisted in a cookie
+// ---------------------------------------------------------------------------
+
+export const guestConvsAtom = atomWithStorage<string[]>(
+  GUEST_CONVS_COOKIE,
+  [],
+  jotaiCookieStorage,
+);
+
+export function getGuestConvIds(): string[] {
+  try {
+    const raw = getCookie(GUEST_CONVS_COOKIE);
+    if (raw) return JSON.parse(String(raw)) as string[];
+  } catch {}
+  return [];
+}
+
+export function addGuestConvId(id: string) {
+  const ids = getGuestConvIds();
+  if (!ids.includes(id)) {
+    chatStore.set(guestConvsAtom, [...ids, id]);
+  }
+}
+
+export function removeGuestConvId(id: string) {
+  const ids = getGuestConvIds();
+  chatStore.set(
+    guestConvsAtom,
+    ids.filter((i) => i !== id),
+  );
+}
+
+export function clearGuestConvIds() {
+  chatStore.set(guestConvsAtom, []);
+}
