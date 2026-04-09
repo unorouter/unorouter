@@ -19,7 +19,11 @@ export const app = new Elysia({ prefix: "/api" })
     const err = error as { status?: number; data?: unknown };
 
     if (err.status && typeof err.status === "number" && err.data) {
-      logger.warn("Request failed", { context: "elysia", status: err.status, path });
+      logger.warn("Request failed", {
+        context: "elysia",
+        status: err.status,
+        path,
+      });
       set.status = err.status;
       const data = err.data;
       return typeof data === "string" ? data : JSON.stringify(data);
@@ -36,7 +40,11 @@ export const app = new Elysia({ prefix: "/api" })
       return JSON.stringify({ message: error.message });
     }
 
-    logger.error("Unknown error shape", { context: "elysia", error: String(error), path });
+    logger.error("Unknown error shape", {
+      context: "elysia",
+      error: String(error),
+      path,
+    });
     set.status = 500;
     return JSON.stringify({ message: "Internal server error" });
   })

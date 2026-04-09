@@ -96,7 +96,9 @@ export interface ParsedOther {
   billing?: string;
 }
 
-export function parseOther(other: string | null | undefined): ParsedOther | null {
+export function parseOther(
+  other: string | null | undefined,
+): ParsedOther | null {
   if (!other) return null;
   try {
     return JSON.parse(other);

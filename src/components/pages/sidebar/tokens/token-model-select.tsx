@@ -118,9 +118,7 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                   placeholder={t("TOKEN.MODEL_SELECT_PLACEHOLDER")}
                 />
                 <CommandList className="max-h-64">
-                  <CommandEmpty>
-                    {t("TOKEN.MODEL_SELECT_EMPTY")}
-                  </CommandEmpty>
+                  <CommandEmpty>{t("TOKEN.MODEL_SELECT_EMPTY")}</CommandEmpty>
                   {props.modelsByVendor.map((group) => (
                     <CommandGroup
                       key={group.vendor}

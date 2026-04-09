@@ -130,7 +130,10 @@ async function processUrls(
     );
 
     if (!r2Url) {
-      logger.warn("URL upload failed, keeping original", { context: "stream.urls", url: url.slice(0, 100) });
+      logger.warn("URL upload failed, keeping original", {
+        context: "stream.urls",
+        url: url.slice(0, 100),
+      });
       return `![${alt}](${url})`;
     }
     return `![${alt}](${r2Url})`;
@@ -160,7 +163,11 @@ async function generateImage(
 
   if (!res.ok) {
     const err = await res.text();
-    logger.error("Image generation failed", { context: "stream.image", model, error: err.slice(0, 200) });
+    logger.error("Image generation failed", {
+      context: "stream.image",
+      model,
+      error: err.slice(0, 200),
+    });
     throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
   }
 
@@ -276,7 +283,12 @@ export async function streamChat(
   const { upstream } = deriveUpstream({ request });
   const { buffered, mediaType } = await isMediaModel(body.model);
 
-  logger.info("Stream started", { context: "stream", model: body.model, mediaType, convId: body.convId });
+  logger.info("Stream started", {
+    context: "stream",
+    model: body.model,
+    mediaType,
+    convId: body.convId,
+  });
 
   // Image models: call the images endpoint directly
   if (mediaType === "image") {
@@ -290,7 +302,10 @@ export async function streamChat(
     if (lastUserText) {
       const shouldSearch = await needsWebSearch(apiKey, lastUserText);
       if (shouldSearch) {
-        logger.info("Web search triggered", { context: "stream.tavily", query: lastUserText.slice(0, 100) });
+        logger.info("Web search triggered", {
+          context: "stream.tavily",
+          query: lastUserText.slice(0, 100),
+        });
         const searchResult = await searchTavily(lastUserText);
         if (searchResult && searchResult.results.length > 0) {
           searchSystemMessage = formatSearchContext(searchResult);

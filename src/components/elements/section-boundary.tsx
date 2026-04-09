@@ -8,9 +8,7 @@ import { LuRefreshCw, LuTriangleAlert } from "react-icons/lu";
 type FallbackProps = { error: Error; reset: () => void };
 
 function SectionFallback(props: FallbackProps) {
-  return (
-    <SectionFallbackInner error={props.error} reset={props.reset} />
-  );
+  return <SectionFallbackInner error={props.error} reset={props.reset} />;
 }
 
 function SectionFallbackInner(props: FallbackProps) {

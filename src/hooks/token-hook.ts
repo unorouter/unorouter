@@ -135,9 +135,8 @@ export function useToggleTokenStatusMutation() {
 }
 
 export function useFetchTokenKeyMutation() {
-  return useSimpleMutation(
-    async (args: EdenArgs<typeof _tokenRoute, "get">) =>
-      handleElysia(await rpc.api.token(args).key.post()),
+  return useSimpleMutation(async (args: EdenArgs<typeof _tokenRoute, "get">) =>
+    handleElysia(await rpc.api.token(args).key.post()),
   );
 }
 

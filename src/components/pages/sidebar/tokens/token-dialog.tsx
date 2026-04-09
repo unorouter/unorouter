@@ -420,7 +420,9 @@ export function TokenDialog(props: TokenDialogProps) {
                             size="icon"
                             onClick={handleToggleStatus}
                             disabled={toggleMutation.isPending}
-                            aria-label={isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")}
+                            aria-label={
+                              isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")
+                            }
                           />
                         }
                       >

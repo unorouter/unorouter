@@ -61,7 +61,11 @@ export const customFetch = async <T>(
 
       if (response.ok) break;
 
-      if (attempt < MAX_RETRIES && method === "GET" && RETRYABLE.has(response.status)) {
+      if (
+        attempt < MAX_RETRIES &&
+        method === "GET" &&
+        RETRYABLE.has(response.status)
+      ) {
         await new Promise((r) => setTimeout(r, RETRY_BACKOFF[attempt]));
         continue;
       }

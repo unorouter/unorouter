@@ -104,7 +104,10 @@ export function mediaKey(
 export async function getContentType(url: string): Promise<string | null> {
   try {
     validateExternalUrl(url);
-    const res = await fetch(url, { method: "HEAD", signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT) });
+    const res = await fetch(url, {
+      method: "HEAD",
+      signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
+    });
     return res.headers.get("content-type");
   } catch {
     return null;
@@ -122,7 +125,9 @@ export async function downloadAndUpload(
   msgId: string,
 ): Promise<string> {
   validateExternalUrl(url);
-  const res = await fetch(url, { signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT) });
+  const res = await fetch(url, {
+    signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
+  });
   const buffer = Buffer.from(await res.arrayBuffer());
   const contentType = res.headers.get("content-type")!;
   const ext = contentType?.split("/")[1];

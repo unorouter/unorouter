@@ -9,10 +9,6 @@ type Props = {
 
 export default function ChatError(props: Props) {
   return (
-    <ErrorFallback
-      error={props.error}
-      reset={props.reset}
-      homePath="/chat"
-    />
+    <ErrorFallback error={props.error} reset={props.reset} homePath="/chat" />
   );
 }

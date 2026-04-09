@@ -121,7 +121,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
                 variant="ghost"
                 size="icon-xs"
                 onClick={handleToggleReveal}
-                aria-label={revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+                aria-label={
+                  revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")
+                }
               />
             }
           >
@@ -140,7 +142,12 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
         <Tooltip>
           <TooltipTrigger
             render={
-              <Button variant="ghost" size="icon-xs" onClick={handleCopy} aria-label={t("TOKEN.COPY_KEY")} />
+              <Button
+                variant="ghost"
+                size="icon-xs"
+                onClick={handleCopy}
+                aria-label={t("TOKEN.COPY_KEY")}
+              />
             }
           >
             <LuCopy className="h-3 w-3" />

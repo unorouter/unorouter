@@ -8,7 +8,5 @@ type Props = {
 };
 
 export default function Error(props: Props) {
-  return (
-    <ErrorFallback error={props.error} reset={props.reset} fullScreen />
-  );
+  return <ErrorFallback error={props.error} reset={props.reset} fullScreen />;
 }

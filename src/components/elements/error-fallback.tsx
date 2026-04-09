@@ -57,9 +57,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
           <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
             <Button
               onClick={() =>
-                props.reset
-                  ? props.reset()
-                  : window.location.reload()
+                props.reset ? props.reset() : window.location.reload()
               }
               className="flex items-center gap-2"
             >
@@ -68,9 +66,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
             </Button>
             <Button
               variant="outline"
-              onClick={() =>
-                (window.location.href = props.homePath ?? "/")
-              }
+              onClick={() => (window.location.href = props.homePath ?? "/")}
               className="flex items-center gap-2"
             >
               {t("MAIN.ACTIONS.GO_HOME")}
