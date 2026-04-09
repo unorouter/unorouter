@@ -75,7 +75,7 @@ export function Logo(props: { size?: number }) {
       src={logoDataUri()}
       width={props.size ?? 40}
       height={props.size ?? 40}
-      style={{ borderRadius: "50%" }}
+      style={{ borderRadius: 0 }}
     />
   );
 }
