@@ -1,17 +1,18 @@
 import { handleAuthResponse } from "@/lib/api/auth";
 import {
+  loginBody,
+  oauthCallbackQuery,
+  oauthStateQuery,
+  registerBody,
+} from "@/lib/api/typebox/auth";
+import { twoFACodeBody, verificationQuery } from "@/lib/api/typebox/common";
+import {
   ACCESS_TOKEN_COOKIE,
   AUTH_REDIRECT_COOKIE,
   COOKIE_MAX_AGE,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
-import {
-  loginBody,
-  oauthCallbackQuery,
-  oauthStateQuery,
-  registerBody,
-} from "@/lib/typebox/auth";
-import { twoFACodeBody, verificationQuery } from "@/lib/typebox/common";
+import { unwrap } from "@/lib/utils/base";
 import {
   exchangeOAuthCode,
   generateOAuthCode,
@@ -23,7 +24,6 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
 import { Elysia, redirect } from "elysia";
 import { deriveUpstream } from "../constants";
 

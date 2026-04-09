@@ -4,7 +4,8 @@ import {
   stripePayBody,
   subscriptionPayBody,
   subscriptionPreferenceBody,
-} from "@/lib/typebox/billing";
+} from "@/lib/api/typebox/billing";
+import { unwrap } from "@/lib/utils/base";
 import {
   getSubscriptionPlans,
   getSubscriptionSelf,
@@ -15,7 +16,6 @@ import {
   subscriptionRequestStripePay,
   updateSubscriptionPreference,
 } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 

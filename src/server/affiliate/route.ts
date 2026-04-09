@@ -1,12 +1,12 @@
-import { transferQuotaBody } from "@/lib/typebox/affiliate";
-import { paginationQuery } from "@/lib/typebox/common";
+import { transferQuotaBody } from "@/lib/api/typebox/affiliate";
+import { paginationQuery } from "@/lib/api/typebox/common";
+import { unwrap } from "@/lib/utils/base";
 import {
   getAffCode,
   getInvitedUsers,
   getReferralCommissions,
   transferAffQuota,
 } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 

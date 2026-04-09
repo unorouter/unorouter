@@ -1,10 +1,11 @@
-import { twoFACodeBody, verificationQuery } from "@/lib/typebox/common";
+import { twoFACodeBody, verificationQuery } from "@/lib/api/typebox/common";
 import {
   emailBindQuery,
   passkeyCredentialBody,
   updateSelfBody,
   updateSettingBody,
-} from "@/lib/typebox/settings";
+} from "@/lib/api/typebox/settings";
+import { unwrap } from "@/lib/utils/base";
 import {
   deleteSelf,
   disable2FA,
@@ -23,7 +24,6 @@ import {
   updateSelf,
   updateUserSetting,
 } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 

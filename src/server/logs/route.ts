@@ -1,6 +1,6 @@
-import { logsQuery, logsStatQuery } from "@/lib/typebox/logs";
-import { getLogsSelfStat, getUserLogs } from "@/openapi";
+import { logsQuery, logsStatQuery } from "@/lib/api/typebox/logs";
 import { unwrap } from "@/lib/utils/base";
+import { getLogsSelfStat, getUserLogs } from "@/openapi";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 

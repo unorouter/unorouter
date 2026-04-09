@@ -1,9 +1,10 @@
-import { paginationQuery } from "@/lib/typebox/common";
+import { paginationQuery } from "@/lib/api/typebox/common";
 import {
   createTokenBody,
   tokenSearchQuery,
   updateTokenBody,
-} from "@/lib/typebox/token";
+} from "@/lib/api/typebox/token";
+import { unwrap } from "@/lib/utils/base";
 import {
   addToken,
   deleteToken,
@@ -15,7 +16,6 @@ import {
   searchTokens,
   updateToken,
 } from "@/openapi";
-import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
