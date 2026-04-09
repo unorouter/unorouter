@@ -4690,48 +4690,6 @@ export type SendEmailVerificationParams = {
   email?: string;
 };
 
-export type HTTPStatusCode1xx = 100 | 101 | 102 | 103;
-export type HTTPStatusCode2xx = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207;
-export type HTTPStatusCode3xx = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308;
-export type HTTPStatusCode4xx =
-  | 400
-  | 401
-  | 402
-  | 403
-  | 404
-  | 405
-  | 406
-  | 407
-  | 408
-  | 409
-  | 410
-  | 411
-  | 412
-  | 413
-  | 414
-  | 415
-  | 416
-  | 417
-  | 418
-  | 419
-  | 420
-  | 421
-  | 422
-  | 423
-  | 424
-  | 426
-  | 428
-  | 429
-  | 431
-  | 451;
-export type HTTPStatusCode5xx = 500 | 501 | 502 | 503 | 504 | 505 | 507 | 511;
-export type HTTPStatusCodes =
-  | HTTPStatusCode1xx
-  | HTTPStatusCode2xx
-  | HTTPStatusCode3xx
-  | HTTPStatusCode4xx
-  | HTTPStatusCode5xx;
-
 /**
  * @summary Get About
  */
@@ -4745,22 +4703,13 @@ export type getAboutResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAboutResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAboutResponseSuccess = (
   | getAboutResponse200ApplicationJson
   | getAboutResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAboutResponseError = getAboutResponseDefault & {
-  headers: Headers;
-};
-
-export type getAboutResponse = getAboutResponseSuccess | getAboutResponseError;
+export type getAboutResponse = getAboutResponseSuccess;
 
 export const getGetAboutUrl = () => {
   return `/api/about`;
@@ -4788,24 +4737,13 @@ export type getAllChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllChannelsResponseSuccess = (
   | getAllChannelsResponse200ApplicationJson
   | getAllChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllChannelsResponseError = getAllChannelsResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllChannelsResponse =
-  | getAllChannelsResponseSuccess
-  | getAllChannelsResponseError;
+export type getAllChannelsResponse = getAllChannelsResponseSuccess;
 
 export const getGetAllChannelsUrl = (params?: GetAllChannelsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -4846,24 +4784,13 @@ export type addChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type addChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type addChannelResponseSuccess = (
   | addChannelResponse200ApplicationJson
   | addChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type addChannelResponseError = addChannelResponseDefault & {
-  headers: Headers;
-};
-
-export type addChannelResponse =
-  | addChannelResponseSuccess
-  | addChannelResponseError;
+export type addChannelResponse = addChannelResponseSuccess;
 
 export const getAddChannelUrl = () => {
   return `/api/channel/`;
@@ -4894,24 +4821,13 @@ export type updateChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateChannelResponseSuccess = (
   | updateChannelResponse200ApplicationJson
   | updateChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateChannelResponseError = updateChannelResponseDefault & {
-  headers: Headers;
-};
-
-export type updateChannelResponse =
-  | updateChannelResponseSuccess
-  | updateChannelResponseError;
+export type updateChannelResponse = updateChannelResponseSuccess;
 
 export const getUpdateChannelUrl = () => {
   return `/api/channel/`;
@@ -4942,25 +4858,13 @@ export type deleteChannelBatchResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteChannelBatchResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteChannelBatchResponseSuccess = (
   | deleteChannelBatchResponse200ApplicationJson
   | deleteChannelBatchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteChannelBatchResponseError =
-  deleteChannelBatchResponseDefault & {
-    headers: Headers;
-  };
-
-export type deleteChannelBatchResponse =
-  | deleteChannelBatchResponseSuccess
-  | deleteChannelBatchResponseError;
+export type deleteChannelBatchResponse = deleteChannelBatchResponseSuccess;
 
 export const getDeleteChannelBatchUrl = () => {
   return `/api/channel/batch`;
@@ -4991,25 +4895,13 @@ export type batchSetChannelTagResponse200ApplicationXml = {
   status: 200;
 };
 
-export type batchSetChannelTagResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type batchSetChannelTagResponseSuccess = (
   | batchSetChannelTagResponse200ApplicationJson
   | batchSetChannelTagResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type batchSetChannelTagResponseError =
-  batchSetChannelTagResponseDefault & {
-    headers: Headers;
-  };
-
-export type batchSetChannelTagResponse =
-  | batchSetChannelTagResponseSuccess
-  | batchSetChannelTagResponseError;
+export type batchSetChannelTagResponse = batchSetChannelTagResponseSuccess;
 
 export const getBatchSetChannelTagUrl = () => {
   return `/api/channel/batch/tag`;
@@ -5040,25 +4932,13 @@ export type completeCodexOAuthResponse200ApplicationXml = {
   status: 200;
 };
 
-export type completeCodexOAuthResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type completeCodexOAuthResponseSuccess = (
   | completeCodexOAuthResponse200ApplicationJson
   | completeCodexOAuthResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type completeCodexOAuthResponseError =
-  completeCodexOAuthResponseDefault & {
-    headers: Headers;
-  };
-
-export type completeCodexOAuthResponse =
-  | completeCodexOAuthResponseSuccess
-  | completeCodexOAuthResponseError;
+export type completeCodexOAuthResponse = completeCodexOAuthResponseSuccess;
 
 export const getCompleteCodexOAuthUrl = () => {
   return `/api/channel/codex/oauth/complete`;
@@ -5089,24 +4969,13 @@ export type startCodexOAuthResponse200ApplicationXml = {
   status: 200;
 };
 
-export type startCodexOAuthResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type startCodexOAuthResponseSuccess = (
   | startCodexOAuthResponse200ApplicationJson
   | startCodexOAuthResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type startCodexOAuthResponseError = startCodexOAuthResponseDefault & {
-  headers: Headers;
-};
-
-export type startCodexOAuthResponse =
-  | startCodexOAuthResponseSuccess
-  | startCodexOAuthResponseError;
+export type startCodexOAuthResponse = startCodexOAuthResponseSuccess;
 
 export const getStartCodexOAuthUrl = () => {
   return `/api/channel/codex/oauth/start`;
@@ -5134,24 +5003,13 @@ export type copyChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type copyChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type copyChannelResponseSuccess = (
   | copyChannelResponse200ApplicationJson
   | copyChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type copyChannelResponseError = copyChannelResponseDefault & {
-  headers: Headers;
-};
-
-export type copyChannelResponse =
-  | copyChannelResponseSuccess
-  | copyChannelResponseError;
+export type copyChannelResponse = copyChannelResponseSuccess;
 
 export const getCopyChannelUrl = (id: string, params?: CopyChannelParams) => {
   const normalizedParams = new URLSearchParams();
@@ -5193,25 +5051,14 @@ export type deleteDisabledChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteDisabledChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteDisabledChannelResponseSuccess = (
   | deleteDisabledChannelResponse200ApplicationJson
   | deleteDisabledChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteDisabledChannelResponseError =
-  deleteDisabledChannelResponseDefault & {
-    headers: Headers;
-  };
-
 export type deleteDisabledChannelResponse =
-  | deleteDisabledChannelResponseSuccess
-  | deleteDisabledChannelResponseError;
+  deleteDisabledChannelResponseSuccess;
 
 export const getDeleteDisabledChannelUrl = () => {
   return `/api/channel/disabled`;
@@ -5242,24 +5089,13 @@ export type fetchModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type fetchModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type fetchModelsResponseSuccess = (
   | fetchModelsResponse200ApplicationJson
   | fetchModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type fetchModelsResponseError = fetchModelsResponseDefault & {
-  headers: Headers;
-};
-
-export type fetchModelsResponse =
-  | fetchModelsResponseSuccess
-  | fetchModelsResponseError;
+export type fetchModelsResponse = fetchModelsResponseSuccess;
 
 export const getFetchModelsUrl = () => {
   return `/api/channel/fetch_models`;
@@ -5290,25 +5126,13 @@ export type fetchUpstreamModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type fetchUpstreamModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type fetchUpstreamModelsResponseSuccess = (
   | fetchUpstreamModelsResponse200ApplicationJson
   | fetchUpstreamModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type fetchUpstreamModelsResponseError =
-  fetchUpstreamModelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type fetchUpstreamModelsResponse =
-  | fetchUpstreamModelsResponseSuccess
-  | fetchUpstreamModelsResponseError;
+export type fetchUpstreamModelsResponse = fetchUpstreamModelsResponseSuccess;
 
 export const getFetchUpstreamModelsUrl = (id: string) => {
   return `/api/channel/fetch_models/${id}`;
@@ -5340,25 +5164,13 @@ export type fixChannelsAbilitiesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type fixChannelsAbilitiesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type fixChannelsAbilitiesResponseSuccess = (
   | fixChannelsAbilitiesResponse200ApplicationJson
   | fixChannelsAbilitiesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type fixChannelsAbilitiesResponseError =
-  fixChannelsAbilitiesResponseDefault & {
-    headers: Headers;
-  };
-
-export type fixChannelsAbilitiesResponse =
-  | fixChannelsAbilitiesResponseSuccess
-  | fixChannelsAbilitiesResponseError;
+export type fixChannelsAbilitiesResponse = fixChannelsAbilitiesResponseSuccess;
 
 export const getFixChannelsAbilitiesUrl = () => {
   return `/api/channel/fix`;
@@ -5389,25 +5201,13 @@ export type channelListModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type channelListModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type channelListModelsResponseSuccess = (
   | channelListModelsResponse200ApplicationJson
   | channelListModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type channelListModelsResponseError =
-  channelListModelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type channelListModelsResponse =
-  | channelListModelsResponseSuccess
-  | channelListModelsResponseError;
+export type channelListModelsResponse = channelListModelsResponseSuccess;
 
 export const getChannelListModelsUrl = () => {
   return `/api/channel/models`;
@@ -5435,25 +5235,13 @@ export type enabledListModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type enabledListModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type enabledListModelsResponseSuccess = (
   | enabledListModelsResponse200ApplicationJson
   | enabledListModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type enabledListModelsResponseError =
-  enabledListModelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type enabledListModelsResponse =
-  | enabledListModelsResponseSuccess
-  | enabledListModelsResponseError;
+export type enabledListModelsResponse = enabledListModelsResponseSuccess;
 
 export const getEnabledListModelsUrl = () => {
   return `/api/channel/models_enabled`;
@@ -5481,24 +5269,13 @@ export type manageMultiKeysResponse200ApplicationXml = {
   status: 200;
 };
 
-export type manageMultiKeysResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type manageMultiKeysResponseSuccess = (
   | manageMultiKeysResponse200ApplicationJson
   | manageMultiKeysResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type manageMultiKeysResponseError = manageMultiKeysResponseDefault & {
-  headers: Headers;
-};
-
-export type manageMultiKeysResponse =
-  | manageMultiKeysResponseSuccess
-  | manageMultiKeysResponseError;
+export type manageMultiKeysResponse = manageMultiKeysResponseSuccess;
 
 export const getManageMultiKeysUrl = () => {
   return `/api/channel/multi_key/manage`;
@@ -5529,25 +5306,13 @@ export type ollamaDeleteModelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type ollamaDeleteModelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type ollamaDeleteModelResponseSuccess = (
   | ollamaDeleteModelResponse200ApplicationJson
   | ollamaDeleteModelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type ollamaDeleteModelResponseError =
-  ollamaDeleteModelResponseDefault & {
-    headers: Headers;
-  };
-
-export type ollamaDeleteModelResponse =
-  | ollamaDeleteModelResponseSuccess
-  | ollamaDeleteModelResponseError;
+export type ollamaDeleteModelResponse = ollamaDeleteModelResponseSuccess;
 
 export const getOllamaDeleteModelUrl = () => {
   return `/api/channel/ollama/delete`;
@@ -5578,24 +5343,13 @@ export type ollamaPullModelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type ollamaPullModelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type ollamaPullModelResponseSuccess = (
   | ollamaPullModelResponse200ApplicationJson
   | ollamaPullModelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type ollamaPullModelResponseError = ollamaPullModelResponseDefault & {
-  headers: Headers;
-};
-
-export type ollamaPullModelResponse =
-  | ollamaPullModelResponseSuccess
-  | ollamaPullModelResponseError;
+export type ollamaPullModelResponse = ollamaPullModelResponseSuccess;
 
 export const getOllamaPullModelUrl = () => {
   return `/api/channel/ollama/pull`;
@@ -5626,25 +5380,14 @@ export type ollamaPullModelStreamResponse200ApplicationXml = {
   status: 200;
 };
 
-export type ollamaPullModelStreamResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type ollamaPullModelStreamResponseSuccess = (
   | ollamaPullModelStreamResponse200ApplicationJson
   | ollamaPullModelStreamResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type ollamaPullModelStreamResponseError =
-  ollamaPullModelStreamResponseDefault & {
-    headers: Headers;
-  };
-
 export type ollamaPullModelStreamResponse =
-  | ollamaPullModelStreamResponseSuccess
-  | ollamaPullModelStreamResponseError;
+  ollamaPullModelStreamResponseSuccess;
 
 export const getOllamaPullModelStreamUrl = () => {
   return `/api/channel/ollama/pull/stream`;
@@ -5675,24 +5418,13 @@ export type ollamaVersionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type ollamaVersionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type ollamaVersionResponseSuccess = (
   | ollamaVersionResponse200ApplicationJson
   | ollamaVersionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type ollamaVersionResponseError = ollamaVersionResponseDefault & {
-  headers: Headers;
-};
-
-export type ollamaVersionResponse =
-  | ollamaVersionResponseSuccess
-  | ollamaVersionResponseError;
+export type ollamaVersionResponse = ollamaVersionResponseSuccess;
 
 export const getOllamaVersionUrl = (id: string) => {
   return `/api/channel/ollama/version/${id}`;
@@ -5721,24 +5453,13 @@ export type searchChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchChannelsResponseSuccess = (
   | searchChannelsResponse200ApplicationJson
   | searchChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchChannelsResponseError = searchChannelsResponseDefault & {
-  headers: Headers;
-};
-
-export type searchChannelsResponse =
-  | searchChannelsResponseSuccess
-  | searchChannelsResponseError;
+export type searchChannelsResponse = searchChannelsResponseSuccess;
 
 export const getSearchChannelsUrl = (params?: SearchChannelsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -5779,24 +5500,13 @@ export type editTagChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type editTagChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type editTagChannelsResponseSuccess = (
   | editTagChannelsResponse200ApplicationJson
   | editTagChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type editTagChannelsResponseError = editTagChannelsResponseDefault & {
-  headers: Headers;
-};
-
-export type editTagChannelsResponse =
-  | editTagChannelsResponseSuccess
-  | editTagChannelsResponseError;
+export type editTagChannelsResponse = editTagChannelsResponseSuccess;
 
 export const getEditTagChannelsUrl = () => {
   return `/api/channel/tag`;
@@ -5827,25 +5537,13 @@ export type disableTagChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type disableTagChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type disableTagChannelsResponseSuccess = (
   | disableTagChannelsResponse200ApplicationJson
   | disableTagChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type disableTagChannelsResponseError =
-  disableTagChannelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type disableTagChannelsResponse =
-  | disableTagChannelsResponseSuccess
-  | disableTagChannelsResponseError;
+export type disableTagChannelsResponse = disableTagChannelsResponseSuccess;
 
 export const getDisableTagChannelsUrl = () => {
   return `/api/channel/tag/disabled`;
@@ -5876,25 +5574,13 @@ export type enableTagChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type enableTagChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type enableTagChannelsResponseSuccess = (
   | enableTagChannelsResponse200ApplicationJson
   | enableTagChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type enableTagChannelsResponseError =
-  enableTagChannelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type enableTagChannelsResponse =
-  | enableTagChannelsResponseSuccess
-  | enableTagChannelsResponseError;
+export type enableTagChannelsResponse = enableTagChannelsResponseSuccess;
 
 export const getEnableTagChannelsUrl = () => {
   return `/api/channel/tag/enabled`;
@@ -5925,24 +5611,13 @@ export type getTagModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getTagModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getTagModelsResponseSuccess = (
   | getTagModelsResponse200ApplicationJson
   | getTagModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getTagModelsResponseError = getTagModelsResponseDefault & {
-  headers: Headers;
-};
-
-export type getTagModelsResponse =
-  | getTagModelsResponseSuccess
-  | getTagModelsResponseError;
+export type getTagModelsResponse = getTagModelsResponseSuccess;
 
 export const getGetTagModelsUrl = (params?: GetTagModelsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -5983,24 +5658,13 @@ export type testAllChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type testAllChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type testAllChannelsResponseSuccess = (
   | testAllChannelsResponse200ApplicationJson
   | testAllChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type testAllChannelsResponseError = testAllChannelsResponseDefault & {
-  headers: Headers;
-};
-
-export type testAllChannelsResponse =
-  | testAllChannelsResponseSuccess
-  | testAllChannelsResponseError;
+export type testAllChannelsResponse = testAllChannelsResponseSuccess;
 
 export const getTestAllChannelsUrl = () => {
   return `/api/channel/test`;
@@ -6028,24 +5692,13 @@ export type testChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type testChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type testChannelResponseSuccess = (
   | testChannelResponse200ApplicationJson
   | testChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type testChannelResponseError = testChannelResponseDefault & {
-  headers: Headers;
-};
-
-export type testChannelResponse =
-  | testChannelResponseSuccess
-  | testChannelResponseError;
+export type testChannelResponse = testChannelResponseSuccess;
 
 export const getTestChannelUrl = (id: string, params?: TestChannelParams) => {
   const normalizedParams = new URLSearchParams();
@@ -6087,25 +5740,14 @@ export type updateAllChannelsBalanceResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateAllChannelsBalanceResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateAllChannelsBalanceResponseSuccess = (
   | updateAllChannelsBalanceResponse200ApplicationJson
   | updateAllChannelsBalanceResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateAllChannelsBalanceResponseError =
-  updateAllChannelsBalanceResponseDefault & {
-    headers: Headers;
-  };
-
 export type updateAllChannelsBalanceResponse =
-  | updateAllChannelsBalanceResponseSuccess
-  | updateAllChannelsBalanceResponseError;
+  updateAllChannelsBalanceResponseSuccess;
 
 export const getUpdateAllChannelsBalanceUrl = () => {
   return `/api/channel/update_balance`;
@@ -6136,25 +5778,13 @@ export type updateChannelBalanceResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateChannelBalanceResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateChannelBalanceResponseSuccess = (
   | updateChannelBalanceResponse200ApplicationJson
   | updateChannelBalanceResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateChannelBalanceResponseError =
-  updateChannelBalanceResponseDefault & {
-    headers: Headers;
-  };
-
-export type updateChannelBalanceResponse =
-  | updateChannelBalanceResponseSuccess
-  | updateChannelBalanceResponseError;
+export type updateChannelBalanceResponse = updateChannelBalanceResponseSuccess;
 
 export const getUpdateChannelBalanceUrl = (id: string) => {
   return `/api/channel/update_balance/${id}`;
@@ -6186,25 +5816,14 @@ export type applyChannelUpstreamModelUpdatesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type applyChannelUpstreamModelUpdatesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type applyChannelUpstreamModelUpdatesResponseSuccess = (
   | applyChannelUpstreamModelUpdatesResponse200ApplicationJson
   | applyChannelUpstreamModelUpdatesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type applyChannelUpstreamModelUpdatesResponseError =
-  applyChannelUpstreamModelUpdatesResponseDefault & {
-    headers: Headers;
-  };
-
 export type applyChannelUpstreamModelUpdatesResponse =
-  | applyChannelUpstreamModelUpdatesResponseSuccess
-  | applyChannelUpstreamModelUpdatesResponseError;
+  applyChannelUpstreamModelUpdatesResponseSuccess;
 
 export const getApplyChannelUpstreamModelUpdatesUrl = () => {
   return `/api/channel/upstream_updates/apply`;
@@ -6235,25 +5854,14 @@ export type applyAllChannelUpstreamModelUpdatesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type applyAllChannelUpstreamModelUpdatesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type applyAllChannelUpstreamModelUpdatesResponseSuccess = (
   | applyAllChannelUpstreamModelUpdatesResponse200ApplicationJson
   | applyAllChannelUpstreamModelUpdatesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type applyAllChannelUpstreamModelUpdatesResponseError =
-  applyAllChannelUpstreamModelUpdatesResponseDefault & {
-    headers: Headers;
-  };
-
 export type applyAllChannelUpstreamModelUpdatesResponse =
-  | applyAllChannelUpstreamModelUpdatesResponseSuccess
-  | applyAllChannelUpstreamModelUpdatesResponseError;
+  applyAllChannelUpstreamModelUpdatesResponseSuccess;
 
 export const getApplyAllChannelUpstreamModelUpdatesUrl = () => {
   return `/api/channel/upstream_updates/apply_all`;
@@ -6284,25 +5892,14 @@ export type detectChannelUpstreamModelUpdatesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type detectChannelUpstreamModelUpdatesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type detectChannelUpstreamModelUpdatesResponseSuccess = (
   | detectChannelUpstreamModelUpdatesResponse200ApplicationJson
   | detectChannelUpstreamModelUpdatesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type detectChannelUpstreamModelUpdatesResponseError =
-  detectChannelUpstreamModelUpdatesResponseDefault & {
-    headers: Headers;
-  };
-
 export type detectChannelUpstreamModelUpdatesResponse =
-  | detectChannelUpstreamModelUpdatesResponseSuccess
-  | detectChannelUpstreamModelUpdatesResponseError;
+  detectChannelUpstreamModelUpdatesResponseSuccess;
 
 export const getDetectChannelUpstreamModelUpdatesUrl = () => {
   return `/api/channel/upstream_updates/detect`;
@@ -6333,25 +5930,14 @@ export type detectAllChannelUpstreamModelUpdatesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type detectAllChannelUpstreamModelUpdatesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type detectAllChannelUpstreamModelUpdatesResponseSuccess = (
   | detectAllChannelUpstreamModelUpdatesResponse200ApplicationJson
   | detectAllChannelUpstreamModelUpdatesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type detectAllChannelUpstreamModelUpdatesResponseError =
-  detectAllChannelUpstreamModelUpdatesResponseDefault & {
-    headers: Headers;
-  };
-
 export type detectAllChannelUpstreamModelUpdatesResponse =
-  | detectAllChannelUpstreamModelUpdatesResponseSuccess
-  | detectAllChannelUpstreamModelUpdatesResponseError;
+  detectAllChannelUpstreamModelUpdatesResponseSuccess;
 
 export const getDetectAllChannelUpstreamModelUpdatesUrl = () => {
   return `/api/channel/upstream_updates/detect_all`;
@@ -6382,24 +5968,13 @@ export type deleteChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteChannelResponseSuccess = (
   | deleteChannelResponse200ApplicationJson
   | deleteChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteChannelResponseError = deleteChannelResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteChannelResponse =
-  | deleteChannelResponseSuccess
-  | deleteChannelResponseError;
+export type deleteChannelResponse = deleteChannelResponseSuccess;
 
 export const getDeleteChannelUrl = (id: string) => {
   return `/api/channel/${id}`;
@@ -6428,24 +6003,13 @@ export type getChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getChannelResponseSuccess = (
   | getChannelResponse200ApplicationJson
   | getChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getChannelResponseError = getChannelResponseDefault & {
-  headers: Headers;
-};
-
-export type getChannelResponse =
-  | getChannelResponseSuccess
-  | getChannelResponseError;
+export type getChannelResponse = getChannelResponseSuccess;
 
 export const getGetChannelUrl = (id: string) => {
   return `/api/channel/${id}`;
@@ -6474,25 +6038,14 @@ export type completeCodexOAuthForChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type completeCodexOAuthForChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type completeCodexOAuthForChannelResponseSuccess = (
   | completeCodexOAuthForChannelResponse200ApplicationJson
   | completeCodexOAuthForChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type completeCodexOAuthForChannelResponseError =
-  completeCodexOAuthForChannelResponseDefault & {
-    headers: Headers;
-  };
-
 export type completeCodexOAuthForChannelResponse =
-  | completeCodexOAuthForChannelResponseSuccess
-  | completeCodexOAuthForChannelResponseError;
+  completeCodexOAuthForChannelResponseSuccess;
 
 export const getCompleteCodexOAuthForChannelUrl = (id: string) => {
   return `/api/channel/${id}/codex/oauth/complete`;
@@ -6527,25 +6080,14 @@ export type startCodexOAuthForChannelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type startCodexOAuthForChannelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type startCodexOAuthForChannelResponseSuccess = (
   | startCodexOAuthForChannelResponse200ApplicationJson
   | startCodexOAuthForChannelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type startCodexOAuthForChannelResponseError =
-  startCodexOAuthForChannelResponseDefault & {
-    headers: Headers;
-  };
-
 export type startCodexOAuthForChannelResponse =
-  | startCodexOAuthForChannelResponseSuccess
-  | startCodexOAuthForChannelResponseError;
+  startCodexOAuthForChannelResponseSuccess;
 
 export const getStartCodexOAuthForChannelUrl = (id: string) => {
   return `/api/channel/${id}/codex/oauth/start`;
@@ -6577,25 +6119,14 @@ export type refreshCodexChannelCredentialResponse200ApplicationXml = {
   status: 200;
 };
 
-export type refreshCodexChannelCredentialResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type refreshCodexChannelCredentialResponseSuccess = (
   | refreshCodexChannelCredentialResponse200ApplicationJson
   | refreshCodexChannelCredentialResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type refreshCodexChannelCredentialResponseError =
-  refreshCodexChannelCredentialResponseDefault & {
-    headers: Headers;
-  };
-
 export type refreshCodexChannelCredentialResponse =
-  | refreshCodexChannelCredentialResponseSuccess
-  | refreshCodexChannelCredentialResponseError;
+  refreshCodexChannelCredentialResponseSuccess;
 
 export const getRefreshCodexChannelCredentialUrl = (id: string) => {
   return `/api/channel/${id}/codex/refresh`;
@@ -6627,25 +6158,13 @@ export type getCodexChannelUsageResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getCodexChannelUsageResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getCodexChannelUsageResponseSuccess = (
   | getCodexChannelUsageResponse200ApplicationJson
   | getCodexChannelUsageResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getCodexChannelUsageResponseError =
-  getCodexChannelUsageResponseDefault & {
-    headers: Headers;
-  };
-
-export type getCodexChannelUsageResponse =
-  | getCodexChannelUsageResponseSuccess
-  | getCodexChannelUsageResponseError;
+export type getCodexChannelUsageResponse = getCodexChannelUsageResponseSuccess;
 
 export const getGetCodexChannelUsageUrl = (id: string) => {
   return `/api/channel/${id}/codex/usage`;
@@ -6677,24 +6196,13 @@ export type getChannelKeyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getChannelKeyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getChannelKeyResponseSuccess = (
   | getChannelKeyResponse200ApplicationJson
   | getChannelKeyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getChannelKeyResponseError = getChannelKeyResponseDefault & {
-  headers: Headers;
-};
-
-export type getChannelKeyResponse =
-  | getChannelKeyResponseSuccess
-  | getChannelKeyResponseError;
+export type getChannelKeyResponse = getChannelKeyResponseSuccess;
 
 export const getGetChannelKeyUrl = (id: string) => {
   return `/api/channel/${id}/key`;
@@ -6723,24 +6231,13 @@ export type creemWebhookResponse200ApplicationXml = {
   status: 200;
 };
 
-export type creemWebhookResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type creemWebhookResponseSuccess = (
   | creemWebhookResponse200ApplicationJson
   | creemWebhookResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type creemWebhookResponseError = creemWebhookResponseDefault & {
-  headers: Headers;
-};
-
-export type creemWebhookResponse =
-  | creemWebhookResponseSuccess
-  | creemWebhookResponseError;
+export type creemWebhookResponse = creemWebhookResponseSuccess;
 
 export const getCreemWebhookUrl = () => {
   return `/api/creem/webhook`;
@@ -6768,25 +6265,14 @@ export type getCustomOAuthProvidersResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getCustomOAuthProvidersResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getCustomOAuthProvidersResponseSuccess = (
   | getCustomOAuthProvidersResponse200ApplicationJson
   | getCustomOAuthProvidersResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getCustomOAuthProvidersResponseError =
-  getCustomOAuthProvidersResponseDefault & {
-    headers: Headers;
-  };
-
 export type getCustomOAuthProvidersResponse =
-  | getCustomOAuthProvidersResponseSuccess
-  | getCustomOAuthProvidersResponseError;
+  getCustomOAuthProvidersResponseSuccess;
 
 export const getGetCustomOAuthProvidersUrl = () => {
   return `/api/custom-oauth-provider/`;
@@ -6817,25 +6303,14 @@ export type createCustomOAuthProviderResponse200ApplicationXml = {
   status: 200;
 };
 
-export type createCustomOAuthProviderResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type createCustomOAuthProviderResponseSuccess = (
   | createCustomOAuthProviderResponse200ApplicationJson
   | createCustomOAuthProviderResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type createCustomOAuthProviderResponseError =
-  createCustomOAuthProviderResponseDefault & {
-    headers: Headers;
-  };
-
 export type createCustomOAuthProviderResponse =
-  | createCustomOAuthProviderResponseSuccess
-  | createCustomOAuthProviderResponseError;
+  createCustomOAuthProviderResponseSuccess;
 
 export const getCreateCustomOAuthProviderUrl = () => {
   return `/api/custom-oauth-provider/`;
@@ -6869,25 +6344,14 @@ export type fetchCustomOAuthDiscoveryResponse200ApplicationXml = {
   status: 200;
 };
 
-export type fetchCustomOAuthDiscoveryResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type fetchCustomOAuthDiscoveryResponseSuccess = (
   | fetchCustomOAuthDiscoveryResponse200ApplicationJson
   | fetchCustomOAuthDiscoveryResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type fetchCustomOAuthDiscoveryResponseError =
-  fetchCustomOAuthDiscoveryResponseDefault & {
-    headers: Headers;
-  };
-
 export type fetchCustomOAuthDiscoveryResponse =
-  | fetchCustomOAuthDiscoveryResponseSuccess
-  | fetchCustomOAuthDiscoveryResponseError;
+  fetchCustomOAuthDiscoveryResponseSuccess;
 
 export const getFetchCustomOAuthDiscoveryUrl = () => {
   return `/api/custom-oauth-provider/discovery`;
@@ -6921,25 +6385,14 @@ export type deleteCustomOAuthProviderResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteCustomOAuthProviderResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteCustomOAuthProviderResponseSuccess = (
   | deleteCustomOAuthProviderResponse200ApplicationJson
   | deleteCustomOAuthProviderResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteCustomOAuthProviderResponseError =
-  deleteCustomOAuthProviderResponseDefault & {
-    headers: Headers;
-  };
-
 export type deleteCustomOAuthProviderResponse =
-  | deleteCustomOAuthProviderResponseSuccess
-  | deleteCustomOAuthProviderResponseError;
+  deleteCustomOAuthProviderResponseSuccess;
 
 export const getDeleteCustomOAuthProviderUrl = (id: string) => {
   return `/api/custom-oauth-provider/${id}`;
@@ -6971,25 +6424,14 @@ export type getCustomOAuthProviderResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getCustomOAuthProviderResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getCustomOAuthProviderResponseSuccess = (
   | getCustomOAuthProviderResponse200ApplicationJson
   | getCustomOAuthProviderResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getCustomOAuthProviderResponseError =
-  getCustomOAuthProviderResponseDefault & {
-    headers: Headers;
-  };
-
 export type getCustomOAuthProviderResponse =
-  | getCustomOAuthProviderResponseSuccess
-  | getCustomOAuthProviderResponseError;
+  getCustomOAuthProviderResponseSuccess;
 
 export const getGetCustomOAuthProviderUrl = (id: string) => {
   return `/api/custom-oauth-provider/${id}`;
@@ -7021,25 +6463,14 @@ export type updateCustomOAuthProviderResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateCustomOAuthProviderResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateCustomOAuthProviderResponseSuccess = (
   | updateCustomOAuthProviderResponse200ApplicationJson
   | updateCustomOAuthProviderResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateCustomOAuthProviderResponseError =
-  updateCustomOAuthProviderResponseDefault & {
-    headers: Headers;
-  };
-
 export type updateCustomOAuthProviderResponse =
-  | updateCustomOAuthProviderResponseSuccess
-  | updateCustomOAuthProviderResponseError;
+  updateCustomOAuthProviderResponseSuccess;
 
 export const getUpdateCustomOAuthProviderUrl = (id: string) => {
   return `/api/custom-oauth-provider/${id}`;
@@ -7074,24 +6505,13 @@ export type getAllQuotaDatesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllQuotaDatesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllQuotaDatesResponseSuccess = (
   | getAllQuotaDatesResponse200ApplicationJson
   | getAllQuotaDatesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllQuotaDatesResponseError = getAllQuotaDatesResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllQuotaDatesResponse =
-  | getAllQuotaDatesResponseSuccess
-  | getAllQuotaDatesResponseError;
+export type getAllQuotaDatesResponse = getAllQuotaDatesResponseSuccess;
 
 export const getGetAllQuotaDatesUrl = (params?: GetAllQuotaDatesParams) => {
   const normalizedParams = new URLSearchParams();
@@ -7132,25 +6552,13 @@ export type getUserQuotaDatesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserQuotaDatesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserQuotaDatesResponseSuccess = (
   | getUserQuotaDatesResponse200ApplicationJson
   | getUserQuotaDatesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserQuotaDatesResponseError =
-  getUserQuotaDatesResponseDefault & {
-    headers: Headers;
-  };
-
-export type getUserQuotaDatesResponse =
-  | getUserQuotaDatesResponseSuccess
-  | getUserQuotaDatesResponseError;
+export type getUserQuotaDatesResponse = getUserQuotaDatesResponseSuccess;
 
 export const getGetUserQuotaDatesUrl = (params?: GetUserQuotaDatesParams) => {
   const normalizedParams = new URLSearchParams();
@@ -7194,25 +6602,13 @@ export type getAllDeploymentsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllDeploymentsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllDeploymentsResponseSuccess = (
   | getAllDeploymentsResponse200ApplicationJson
   | getAllDeploymentsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllDeploymentsResponseError =
-  getAllDeploymentsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getAllDeploymentsResponse =
-  | getAllDeploymentsResponseSuccess
-  | getAllDeploymentsResponseError;
+export type getAllDeploymentsResponse = getAllDeploymentsResponseSuccess;
 
 export const getGetAllDeploymentsUrl = (params?: GetAllDeploymentsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -7256,24 +6652,13 @@ export type createDeploymentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type createDeploymentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type createDeploymentResponseSuccess = (
   | createDeploymentResponse200ApplicationJson
   | createDeploymentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type createDeploymentResponseError = createDeploymentResponseDefault & {
-  headers: Headers;
-};
-
-export type createDeploymentResponse =
-  | createDeploymentResponseSuccess
-  | createDeploymentResponseError;
+export type createDeploymentResponse = createDeploymentResponseSuccess;
 
 export const getCreateDeploymentUrl = () => {
   return `/api/deployments/`;
@@ -7304,25 +6689,13 @@ export type getAvailableReplicasResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAvailableReplicasResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAvailableReplicasResponseSuccess = (
   | getAvailableReplicasResponse200ApplicationJson
   | getAvailableReplicasResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAvailableReplicasResponseError =
-  getAvailableReplicasResponseDefault & {
-    headers: Headers;
-  };
-
-export type getAvailableReplicasResponse =
-  | getAvailableReplicasResponseSuccess
-  | getAvailableReplicasResponseError;
+export type getAvailableReplicasResponse = getAvailableReplicasResponseSuccess;
 
 export const getGetAvailableReplicasUrl = (
   params?: GetAvailableReplicasParams,
@@ -7368,25 +6741,14 @@ export type checkClusterNameAvailabilityResponse200ApplicationXml = {
   status: 200;
 };
 
-export type checkClusterNameAvailabilityResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type checkClusterNameAvailabilityResponseSuccess = (
   | checkClusterNameAvailabilityResponse200ApplicationJson
   | checkClusterNameAvailabilityResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type checkClusterNameAvailabilityResponseError =
-  checkClusterNameAvailabilityResponseDefault & {
-    headers: Headers;
-  };
-
 export type checkClusterNameAvailabilityResponse =
-  | checkClusterNameAvailabilityResponseSuccess
-  | checkClusterNameAvailabilityResponseError;
+  checkClusterNameAvailabilityResponseSuccess;
 
 export const getCheckClusterNameAvailabilityUrl = (
   params?: CheckClusterNameAvailabilityParams,
@@ -7432,24 +6794,13 @@ export type getHardwareTypesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getHardwareTypesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getHardwareTypesResponseSuccess = (
   | getHardwareTypesResponse200ApplicationJson
   | getHardwareTypesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getHardwareTypesResponseError = getHardwareTypesResponseDefault & {
-  headers: Headers;
-};
-
-export type getHardwareTypesResponse =
-  | getHardwareTypesResponseSuccess
-  | getHardwareTypesResponseError;
+export type getHardwareTypesResponse = getHardwareTypesResponseSuccess;
 
 export const getGetHardwareTypesUrl = () => {
   return `/api/deployments/hardware-types`;
@@ -7477,24 +6828,13 @@ export type getLocationsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getLocationsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getLocationsResponseSuccess = (
   | getLocationsResponse200ApplicationJson
   | getLocationsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getLocationsResponseError = getLocationsResponseDefault & {
-  headers: Headers;
-};
-
-export type getLocationsResponse =
-  | getLocationsResponseSuccess
-  | getLocationsResponseError;
+export type getLocationsResponse = getLocationsResponseSuccess;
 
 export const getGetLocationsUrl = () => {
   return `/api/deployments/locations`;
@@ -7522,25 +6862,13 @@ export type getPriceEstimationResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getPriceEstimationResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getPriceEstimationResponseSuccess = (
   | getPriceEstimationResponse200ApplicationJson
   | getPriceEstimationResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getPriceEstimationResponseError =
-  getPriceEstimationResponseDefault & {
-    headers: Headers;
-  };
-
-export type getPriceEstimationResponse =
-  | getPriceEstimationResponseSuccess
-  | getPriceEstimationResponseError;
+export type getPriceEstimationResponse = getPriceEstimationResponseSuccess;
 
 export const getGetPriceEstimationUrl = () => {
   return `/api/deployments/price-estimation`;
@@ -7571,25 +6899,13 @@ export type searchDeploymentsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchDeploymentsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchDeploymentsResponseSuccess = (
   | searchDeploymentsResponse200ApplicationJson
   | searchDeploymentsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchDeploymentsResponseError =
-  searchDeploymentsResponseDefault & {
-    headers: Headers;
-  };
-
-export type searchDeploymentsResponse =
-  | searchDeploymentsResponseSuccess
-  | searchDeploymentsResponseError;
+export type searchDeploymentsResponse = searchDeploymentsResponseSuccess;
 
 export const getSearchDeploymentsUrl = (params?: SearchDeploymentsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -7633,25 +6949,14 @@ export type getModelDeploymentSettingsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getModelDeploymentSettingsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getModelDeploymentSettingsResponseSuccess = (
   | getModelDeploymentSettingsResponse200ApplicationJson
   | getModelDeploymentSettingsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getModelDeploymentSettingsResponseError =
-  getModelDeploymentSettingsResponseDefault & {
-    headers: Headers;
-  };
-
 export type getModelDeploymentSettingsResponse =
-  | getModelDeploymentSettingsResponseSuccess
-  | getModelDeploymentSettingsResponseError;
+  getModelDeploymentSettingsResponseSuccess;
 
 export const getGetModelDeploymentSettingsUrl = () => {
   return `/api/deployments/settings`;
@@ -7682,25 +6987,13 @@ export type testIoNetConnectionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type testIoNetConnectionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type testIoNetConnectionResponseSuccess = (
   | testIoNetConnectionResponse200ApplicationJson
   | testIoNetConnectionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type testIoNetConnectionResponseError =
-  testIoNetConnectionResponseDefault & {
-    headers: Headers;
-  };
-
-export type testIoNetConnectionResponse =
-  | testIoNetConnectionResponseSuccess
-  | testIoNetConnectionResponseError;
+export type testIoNetConnectionResponse = testIoNetConnectionResponseSuccess;
 
 export const getTestIoNetConnectionUrl = () => {
   return `/api/deployments/settings/test-connection`;
@@ -7731,25 +7024,14 @@ export type postApiDeploymentsTestConnectionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postApiDeploymentsTestConnectionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postApiDeploymentsTestConnectionResponseSuccess = (
   | postApiDeploymentsTestConnectionResponse200ApplicationJson
   | postApiDeploymentsTestConnectionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postApiDeploymentsTestConnectionResponseError =
-  postApiDeploymentsTestConnectionResponseDefault & {
-    headers: Headers;
-  };
-
 export type postApiDeploymentsTestConnectionResponse =
-  | postApiDeploymentsTestConnectionResponseSuccess
-  | postApiDeploymentsTestConnectionResponseError;
+  postApiDeploymentsTestConnectionResponseSuccess;
 
 export const getPostApiDeploymentsTestConnectionUrl = () => {
   return `/api/deployments/test-connection`;
@@ -7783,24 +7065,13 @@ export type deleteDeploymentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteDeploymentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteDeploymentResponseSuccess = (
   | deleteDeploymentResponse200ApplicationJson
   | deleteDeploymentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteDeploymentResponseError = deleteDeploymentResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteDeploymentResponse =
-  | deleteDeploymentResponseSuccess
-  | deleteDeploymentResponseError;
+export type deleteDeploymentResponse = deleteDeploymentResponseSuccess;
 
 export const getDeleteDeploymentUrl = (id: string) => {
   return `/api/deployments/${id}`;
@@ -7829,24 +7100,13 @@ export type getDeploymentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getDeploymentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getDeploymentResponseSuccess = (
   | getDeploymentResponse200ApplicationJson
   | getDeploymentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getDeploymentResponseError = getDeploymentResponseDefault & {
-  headers: Headers;
-};
-
-export type getDeploymentResponse =
-  | getDeploymentResponseSuccess
-  | getDeploymentResponseError;
+export type getDeploymentResponse = getDeploymentResponseSuccess;
 
 export const getGetDeploymentUrl = (id: string) => {
   return `/api/deployments/${id}`;
@@ -7875,24 +7135,13 @@ export type updateDeploymentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateDeploymentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateDeploymentResponseSuccess = (
   | updateDeploymentResponse200ApplicationJson
   | updateDeploymentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateDeploymentResponseError = updateDeploymentResponseDefault & {
-  headers: Headers;
-};
-
-export type updateDeploymentResponse =
-  | updateDeploymentResponseSuccess
-  | updateDeploymentResponseError;
+export type updateDeploymentResponse = updateDeploymentResponseSuccess;
 
 export const getUpdateDeploymentUrl = (id: string) => {
   return `/api/deployments/${id}`;
@@ -7924,25 +7173,14 @@ export type listDeploymentContainersResponse200ApplicationXml = {
   status: 200;
 };
 
-export type listDeploymentContainersResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type listDeploymentContainersResponseSuccess = (
   | listDeploymentContainersResponse200ApplicationJson
   | listDeploymentContainersResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type listDeploymentContainersResponseError =
-  listDeploymentContainersResponseDefault & {
-    headers: Headers;
-  };
-
 export type listDeploymentContainersResponse =
-  | listDeploymentContainersResponseSuccess
-  | listDeploymentContainersResponseError;
+  listDeploymentContainersResponseSuccess;
 
 export const getListDeploymentContainersUrl = (id: string) => {
   return `/api/deployments/${id}/containers`;
@@ -7974,25 +7212,13 @@ export type getContainerDetailsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getContainerDetailsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getContainerDetailsResponseSuccess = (
   | getContainerDetailsResponse200ApplicationJson
   | getContainerDetailsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getContainerDetailsResponseError =
-  getContainerDetailsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getContainerDetailsResponse =
-  | getContainerDetailsResponseSuccess
-  | getContainerDetailsResponseError;
+export type getContainerDetailsResponse = getContainerDetailsResponseSuccess;
 
 export const getGetContainerDetailsUrl = (id: string, containerId: string) => {
   return `/api/deployments/${id}/containers/${containerId}`;
@@ -8025,24 +7251,13 @@ export type extendDeploymentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type extendDeploymentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type extendDeploymentResponseSuccess = (
   | extendDeploymentResponse200ApplicationJson
   | extendDeploymentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type extendDeploymentResponseError = extendDeploymentResponseDefault & {
-  headers: Headers;
-};
-
-export type extendDeploymentResponse =
-  | extendDeploymentResponseSuccess
-  | extendDeploymentResponseError;
+export type extendDeploymentResponse = extendDeploymentResponseSuccess;
 
 export const getExtendDeploymentUrl = (id: string) => {
   return `/api/deployments/${id}/extend`;
@@ -8074,25 +7289,13 @@ export type getDeploymentLogsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getDeploymentLogsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getDeploymentLogsResponseSuccess = (
   | getDeploymentLogsResponse200ApplicationJson
   | getDeploymentLogsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getDeploymentLogsResponseError =
-  getDeploymentLogsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getDeploymentLogsResponse =
-  | getDeploymentLogsResponseSuccess
-  | getDeploymentLogsResponseError;
+export type getDeploymentLogsResponse = getDeploymentLogsResponseSuccess;
 
 export const getGetDeploymentLogsUrl = (
   id: string,
@@ -8140,25 +7343,13 @@ export type updateDeploymentNameResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateDeploymentNameResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateDeploymentNameResponseSuccess = (
   | updateDeploymentNameResponse200ApplicationJson
   | updateDeploymentNameResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateDeploymentNameResponseError =
-  updateDeploymentNameResponseDefault & {
-    headers: Headers;
-  };
-
-export type updateDeploymentNameResponse =
-  | updateDeploymentNameResponseSuccess
-  | updateDeploymentNameResponseError;
+export type updateDeploymentNameResponse = updateDeploymentNameResponseSuccess;
 
 export const getUpdateDeploymentNameUrl = (id: string) => {
   return `/api/deployments/${id}/name`;
@@ -8193,24 +7384,13 @@ export type getGroupsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getGroupsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getGroupsResponseSuccess = (
   | getGroupsResponse200ApplicationJson
   | getGroupsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getGroupsResponseError = getGroupsResponseDefault & {
-  headers: Headers;
-};
-
-export type getGroupsResponse =
-  | getGroupsResponseSuccess
-  | getGroupsResponseError;
+export type getGroupsResponse = getGroupsResponseSuccess;
 
 export const getGetGroupsUrl = () => {
   return `/api/group/`;
@@ -8238,25 +7418,13 @@ export type getHomePageContentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getHomePageContentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getHomePageContentResponseSuccess = (
   | getHomePageContentResponse200ApplicationJson
   | getHomePageContentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getHomePageContentResponseError =
-  getHomePageContentResponseDefault & {
-    headers: Headers;
-  };
-
-export type getHomePageContentResponse =
-  | getHomePageContentResponseSuccess
-  | getHomePageContentResponseError;
+export type getHomePageContentResponse = getHomePageContentResponseSuccess;
 
 export const getGetHomePageContentUrl = () => {
   return `/api/home_page_content`;
@@ -8284,25 +7452,13 @@ export type deleteHistoryLogsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteHistoryLogsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteHistoryLogsResponseSuccess = (
   | deleteHistoryLogsResponse200ApplicationJson
   | deleteHistoryLogsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteHistoryLogsResponseError =
-  deleteHistoryLogsResponseDefault & {
-    headers: Headers;
-  };
-
-export type deleteHistoryLogsResponse =
-  | deleteHistoryLogsResponseSuccess
-  | deleteHistoryLogsResponseError;
+export type deleteHistoryLogsResponse = deleteHistoryLogsResponseSuccess;
 
 export const getDeleteHistoryLogsUrl = (params?: DeleteHistoryLogsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8346,24 +7502,13 @@ export type getAllLogsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllLogsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllLogsResponseSuccess = (
   | getAllLogsResponse200ApplicationJson
   | getAllLogsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllLogsResponseError = getAllLogsResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllLogsResponse =
-  | getAllLogsResponseSuccess
-  | getAllLogsResponseError;
+export type getAllLogsResponse = getAllLogsResponseSuccess;
 
 export const getGetAllLogsUrl = (params?: GetAllLogsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8404,25 +7549,14 @@ export type getChannelAffinityUsageCacheStatsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getChannelAffinityUsageCacheStatsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getChannelAffinityUsageCacheStatsResponseSuccess = (
   | getChannelAffinityUsageCacheStatsResponse200ApplicationJson
   | getChannelAffinityUsageCacheStatsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getChannelAffinityUsageCacheStatsResponseError =
-  getChannelAffinityUsageCacheStatsResponseDefault & {
-    headers: Headers;
-  };
-
 export type getChannelAffinityUsageCacheStatsResponse =
-  | getChannelAffinityUsageCacheStatsResponseSuccess
-  | getChannelAffinityUsageCacheStatsResponseError;
+  getChannelAffinityUsageCacheStatsResponseSuccess;
 
 export const getGetChannelAffinityUsageCacheStatsUrl = (
   params?: GetChannelAffinityUsageCacheStatsParams,
@@ -8468,24 +7602,13 @@ export type searchAllLogsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchAllLogsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchAllLogsResponseSuccess = (
   | searchAllLogsResponse200ApplicationJson
   | searchAllLogsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchAllLogsResponseError = searchAllLogsResponseDefault & {
-  headers: Headers;
-};
-
-export type searchAllLogsResponse =
-  | searchAllLogsResponseSuccess
-  | searchAllLogsResponseError;
+export type searchAllLogsResponse = searchAllLogsResponseSuccess;
 
 export const getSearchAllLogsUrl = () => {
   return `/api/log/search`;
@@ -8513,24 +7636,13 @@ export type getUserLogsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserLogsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserLogsResponseSuccess = (
   | getUserLogsResponse200ApplicationJson
   | getUserLogsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserLogsResponseError = getUserLogsResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserLogsResponse =
-  | getUserLogsResponseSuccess
-  | getUserLogsResponseError;
+export type getUserLogsResponse = getUserLogsResponseSuccess;
 
 export const getGetUserLogsUrl = (params?: GetUserLogsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8571,24 +7683,13 @@ export type searchUserLogsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchUserLogsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchUserLogsResponseSuccess = (
   | searchUserLogsResponse200ApplicationJson
   | searchUserLogsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchUserLogsResponseError = searchUserLogsResponseDefault & {
-  headers: Headers;
-};
-
-export type searchUserLogsResponse =
-  | searchUserLogsResponseSuccess
-  | searchUserLogsResponseError;
+export type searchUserLogsResponse = searchUserLogsResponseSuccess;
 
 export const getSearchUserLogsUrl = () => {
   return `/api/log/self/search`;
@@ -8616,24 +7717,13 @@ export type getLogsSelfStatResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getLogsSelfStatResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getLogsSelfStatResponseSuccess = (
   | getLogsSelfStatResponse200ApplicationJson
   | getLogsSelfStatResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getLogsSelfStatResponseError = getLogsSelfStatResponseDefault & {
-  headers: Headers;
-};
-
-export type getLogsSelfStatResponse =
-  | getLogsSelfStatResponseSuccess
-  | getLogsSelfStatResponseError;
+export type getLogsSelfStatResponse = getLogsSelfStatResponseSuccess;
 
 export const getGetLogsSelfStatUrl = (params?: GetLogsSelfStatParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8674,24 +7764,13 @@ export type getLogsStatResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getLogsStatResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getLogsStatResponseSuccess = (
   | getLogsStatResponse200ApplicationJson
   | getLogsStatResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getLogsStatResponseError = getLogsStatResponseDefault & {
-  headers: Headers;
-};
-
-export type getLogsStatResponse =
-  | getLogsStatResponseSuccess
-  | getLogsStatResponseError;
+export type getLogsStatResponse = getLogsStatResponseSuccess;
 
 export const getGetLogsStatUrl = (params?: GetLogsStatParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8732,24 +7811,13 @@ export type getLogByKeyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getLogByKeyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getLogByKeyResponseSuccess = (
   | getLogByKeyResponse200ApplicationJson
   | getLogByKeyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getLogByKeyResponseError = getLogByKeyResponseDefault & {
-  headers: Headers;
-};
-
-export type getLogByKeyResponse =
-  | getLogByKeyResponseSuccess
-  | getLogByKeyResponseError;
+export type getLogByKeyResponse = getLogByKeyResponseSuccess;
 
 export const getGetLogByKeyUrl = () => {
   return `/api/log/token`;
@@ -8777,24 +7845,13 @@ export type getAllMidjourneyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllMidjourneyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllMidjourneyResponseSuccess = (
   | getAllMidjourneyResponse200ApplicationJson
   | getAllMidjourneyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllMidjourneyResponseError = getAllMidjourneyResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllMidjourneyResponse =
-  | getAllMidjourneyResponseSuccess
-  | getAllMidjourneyResponseError;
+export type getAllMidjourneyResponse = getAllMidjourneyResponseSuccess;
 
 export const getGetAllMidjourneyUrl = (params?: GetAllMidjourneyParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8835,25 +7892,13 @@ export type getUserMidjourneyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserMidjourneyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserMidjourneyResponseSuccess = (
   | getUserMidjourneyResponse200ApplicationJson
   | getUserMidjourneyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserMidjourneyResponseError =
-  getUserMidjourneyResponseDefault & {
-    headers: Headers;
-  };
-
-export type getUserMidjourneyResponse =
-  | getUserMidjourneyResponseSuccess
-  | getUserMidjourneyResponseError;
+export type getUserMidjourneyResponse = getUserMidjourneyResponseSuccess;
 
 export const getGetUserMidjourneyUrl = (params?: GetUserMidjourneyParams) => {
   const normalizedParams = new URLSearchParams();
@@ -8897,25 +7942,13 @@ export type dashboardListModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type dashboardListModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type dashboardListModelsResponseSuccess = (
   | dashboardListModelsResponse200ApplicationJson
   | dashboardListModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type dashboardListModelsResponseError =
-  dashboardListModelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type dashboardListModelsResponse =
-  | dashboardListModelsResponseSuccess
-  | dashboardListModelsResponseError;
+export type dashboardListModelsResponse = dashboardListModelsResponseSuccess;
 
 export const getDashboardListModelsUrl = () => {
   return `/api/models`;
@@ -8943,24 +7976,13 @@ export type createModelMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type createModelMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type createModelMetaResponseSuccess = (
   | createModelMetaResponse200ApplicationJson
   | createModelMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type createModelMetaResponseError = createModelMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type createModelMetaResponse =
-  | createModelMetaResponseSuccess
-  | createModelMetaResponseError;
+export type createModelMetaResponse = createModelMetaResponseSuccess;
 
 export const getCreateModelMetaUrl = () => {
   return `/api/models/`;
@@ -8991,24 +8013,13 @@ export type updateModelMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateModelMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateModelMetaResponseSuccess = (
   | updateModelMetaResponse200ApplicationJson
   | updateModelMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateModelMetaResponseError = updateModelMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type updateModelMetaResponse =
-  | updateModelMetaResponseSuccess
-  | updateModelMetaResponseError;
+export type updateModelMetaResponse = updateModelMetaResponseSuccess;
 
 export const getUpdateModelMetaUrl = (params?: UpdateModelMetaParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9052,24 +8063,13 @@ export type getAllModelsMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllModelsMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllModelsMetaResponseSuccess = (
   | getAllModelsMetaResponse200ApplicationJson
   | getAllModelsMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllModelsMetaResponseError = getAllModelsMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllModelsMetaResponse =
-  | getAllModelsMetaResponseSuccess
-  | getAllModelsMetaResponseError;
+export type getAllModelsMetaResponse = getAllModelsMetaResponseSuccess;
 
 export const getGetAllModelsMetaUrl = (params?: GetAllModelsMetaParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9110,24 +8110,13 @@ export type getMissingModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getMissingModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getMissingModelsResponseSuccess = (
   | getMissingModelsResponse200ApplicationJson
   | getMissingModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getMissingModelsResponseError = getMissingModelsResponseDefault & {
-  headers: Headers;
-};
-
-export type getMissingModelsResponse =
-  | getMissingModelsResponseSuccess
-  | getMissingModelsResponseError;
+export type getMissingModelsResponse = getMissingModelsResponseSuccess;
 
 export const getGetMissingModelsUrl = () => {
   return `/api/models/missing`;
@@ -9155,25 +8144,13 @@ export type deleteOrphanedModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteOrphanedModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteOrphanedModelsResponseSuccess = (
   | deleteOrphanedModelsResponse200ApplicationJson
   | deleteOrphanedModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteOrphanedModelsResponseError =
-  deleteOrphanedModelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type deleteOrphanedModelsResponse =
-  | deleteOrphanedModelsResponseSuccess
-  | deleteOrphanedModelsResponseError;
+export type deleteOrphanedModelsResponse = deleteOrphanedModelsResponseSuccess;
 
 export const getDeleteOrphanedModelsUrl = () => {
   return `/api/models/orphaned`;
@@ -9204,24 +8181,13 @@ export type searchModelsMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchModelsMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchModelsMetaResponseSuccess = (
   | searchModelsMetaResponse200ApplicationJson
   | searchModelsMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchModelsMetaResponseError = searchModelsMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type searchModelsMetaResponse =
-  | searchModelsMetaResponseSuccess
-  | searchModelsMetaResponseError;
+export type searchModelsMetaResponse = searchModelsMetaResponseSuccess;
 
 export const getSearchModelsMetaUrl = (params?: SearchModelsMetaParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9262,25 +8228,13 @@ export type syncUpstreamModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type syncUpstreamModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type syncUpstreamModelsResponseSuccess = (
   | syncUpstreamModelsResponse200ApplicationJson
   | syncUpstreamModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type syncUpstreamModelsResponseError =
-  syncUpstreamModelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type syncUpstreamModelsResponse =
-  | syncUpstreamModelsResponseSuccess
-  | syncUpstreamModelsResponseError;
+export type syncUpstreamModelsResponse = syncUpstreamModelsResponseSuccess;
 
 export const getSyncUpstreamModelsUrl = () => {
   return `/api/models/sync_upstream`;
@@ -9311,25 +8265,13 @@ export type syncUpstreamPreviewResponse200ApplicationXml = {
   status: 200;
 };
 
-export type syncUpstreamPreviewResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type syncUpstreamPreviewResponseSuccess = (
   | syncUpstreamPreviewResponse200ApplicationJson
   | syncUpstreamPreviewResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type syncUpstreamPreviewResponseError =
-  syncUpstreamPreviewResponseDefault & {
-    headers: Headers;
-  };
-
-export type syncUpstreamPreviewResponse =
-  | syncUpstreamPreviewResponseSuccess
-  | syncUpstreamPreviewResponseError;
+export type syncUpstreamPreviewResponse = syncUpstreamPreviewResponseSuccess;
 
 export const getSyncUpstreamPreviewUrl = (
   params?: SyncUpstreamPreviewParams,
@@ -9375,24 +8317,13 @@ export type deleteModelMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteModelMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteModelMetaResponseSuccess = (
   | deleteModelMetaResponse200ApplicationJson
   | deleteModelMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteModelMetaResponseError = deleteModelMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteModelMetaResponse =
-  | deleteModelMetaResponseSuccess
-  | deleteModelMetaResponseError;
+export type deleteModelMetaResponse = deleteModelMetaResponseSuccess;
 
 export const getDeleteModelMetaUrl = (id: string) => {
   return `/api/models/${id}`;
@@ -9421,24 +8352,13 @@ export type getModelMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getModelMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getModelMetaResponseSuccess = (
   | getModelMetaResponse200ApplicationJson
   | getModelMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getModelMetaResponseError = getModelMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type getModelMetaResponse =
-  | getModelMetaResponseSuccess
-  | getModelMetaResponseError;
+export type getModelMetaResponse = getModelMetaResponseSuccess;
 
 export const getGetModelMetaUrl = (id: string) => {
   return `/api/models/${id}`;
@@ -9467,24 +8387,13 @@ export type getNoticeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getNoticeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getNoticeResponseSuccess = (
   | getNoticeResponse200ApplicationJson
   | getNoticeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getNoticeResponseError = getNoticeResponseDefault & {
-  headers: Headers;
-};
-
-export type getNoticeResponse =
-  | getNoticeResponseSuccess
-  | getNoticeResponseError;
+export type getNoticeResponse = getNoticeResponseSuccess;
 
 export const getGetNoticeUrl = () => {
   return `/api/notice`;
@@ -9512,24 +8421,13 @@ export type emailBindResponse200ApplicationXml = {
   status: 200;
 };
 
-export type emailBindResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type emailBindResponseSuccess = (
   | emailBindResponse200ApplicationJson
   | emailBindResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type emailBindResponseError = emailBindResponseDefault & {
-  headers: Headers;
-};
-
-export type emailBindResponse =
-  | emailBindResponseSuccess
-  | emailBindResponseError;
+export type emailBindResponse = emailBindResponseSuccess;
 
 export const getEmailBindUrl = (params?: EmailBindParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9570,25 +8468,13 @@ export type exchangeOAuthCodeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type exchangeOAuthCodeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type exchangeOAuthCodeResponseSuccess = (
   | exchangeOAuthCodeResponse200ApplicationJson
   | exchangeOAuthCodeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type exchangeOAuthCodeResponseError =
-  exchangeOAuthCodeResponseDefault & {
-    headers: Headers;
-  };
-
-export type exchangeOAuthCodeResponse =
-  | exchangeOAuthCodeResponseSuccess
-  | exchangeOAuthCodeResponseError;
+export type exchangeOAuthCodeResponse = exchangeOAuthCodeResponseSuccess;
 
 export const getExchangeOAuthCodeUrl = () => {
   return `/api/oauth/exchange`;
@@ -9619,25 +8505,13 @@ export type generateOAuthCodeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type generateOAuthCodeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type generateOAuthCodeResponseSuccess = (
   | generateOAuthCodeResponse200ApplicationJson
   | generateOAuthCodeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type generateOAuthCodeResponseError =
-  generateOAuthCodeResponseDefault & {
-    headers: Headers;
-  };
-
-export type generateOAuthCodeResponse =
-  | generateOAuthCodeResponseSuccess
-  | generateOAuthCodeResponseError;
+export type generateOAuthCodeResponse = generateOAuthCodeResponseSuccess;
 
 export const getGenerateOAuthCodeUrl = (params?: GenerateOAuthCodeParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9681,24 +8555,13 @@ export type telegramBindResponse200ApplicationXml = {
   status: 200;
 };
 
-export type telegramBindResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type telegramBindResponseSuccess = (
   | telegramBindResponse200ApplicationJson
   | telegramBindResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type telegramBindResponseError = telegramBindResponseDefault & {
-  headers: Headers;
-};
-
-export type telegramBindResponse =
-  | telegramBindResponseSuccess
-  | telegramBindResponseError;
+export type telegramBindResponse = telegramBindResponseSuccess;
 
 export const getTelegramBindUrl = () => {
   return `/api/oauth/telegram/bind`;
@@ -9726,24 +8589,13 @@ export type telegramLoginResponse200ApplicationXml = {
   status: 200;
 };
 
-export type telegramLoginResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type telegramLoginResponseSuccess = (
   | telegramLoginResponse200ApplicationJson
   | telegramLoginResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type telegramLoginResponseError = telegramLoginResponseDefault & {
-  headers: Headers;
-};
-
-export type telegramLoginResponse =
-  | telegramLoginResponseSuccess
-  | telegramLoginResponseError;
+export type telegramLoginResponse = telegramLoginResponseSuccess;
 
 export const getTelegramLoginUrl = () => {
   return `/api/oauth/telegram/login`;
@@ -9771,24 +8623,13 @@ export type weChatAuthResponse200ApplicationXml = {
   status: 200;
 };
 
-export type weChatAuthResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type weChatAuthResponseSuccess = (
   | weChatAuthResponse200ApplicationJson
   | weChatAuthResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type weChatAuthResponseError = weChatAuthResponseDefault & {
-  headers: Headers;
-};
-
-export type weChatAuthResponse =
-  | weChatAuthResponseSuccess
-  | weChatAuthResponseError;
+export type weChatAuthResponse = weChatAuthResponseSuccess;
 
 export const getWeChatAuthUrl = (params?: WeChatAuthParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9829,24 +8670,13 @@ export type weChatBindResponse200ApplicationXml = {
   status: 200;
 };
 
-export type weChatBindResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type weChatBindResponseSuccess = (
   | weChatBindResponse200ApplicationJson
   | weChatBindResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type weChatBindResponseError = weChatBindResponseDefault & {
-  headers: Headers;
-};
-
-export type weChatBindResponse =
-  | weChatBindResponseSuccess
-  | weChatBindResponseError;
+export type weChatBindResponse = weChatBindResponseSuccess;
 
 export const getWeChatBindUrl = (params?: WeChatBindParams) => {
   const normalizedParams = new URLSearchParams();
@@ -9887,24 +8717,13 @@ export type handleOAuthResponse200ApplicationXml = {
   status: 200;
 };
 
-export type handleOAuthResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type handleOAuthResponseSuccess = (
   | handleOAuthResponse200ApplicationJson
   | handleOAuthResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type handleOAuthResponseError = handleOAuthResponseDefault & {
-  headers: Headers;
-};
-
-export type handleOAuthResponse =
-  | handleOAuthResponseSuccess
-  | handleOAuthResponseError;
+export type handleOAuthResponse = handleOAuthResponseSuccess;
 
 export const getHandleOAuthUrl = (
   provider: string,
@@ -9949,24 +8768,13 @@ export type getOptionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getOptionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getOptionsResponseSuccess = (
   | getOptionsResponse200ApplicationJson
   | getOptionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getOptionsResponseError = getOptionsResponseDefault & {
-  headers: Headers;
-};
-
-export type getOptionsResponse =
-  | getOptionsResponseSuccess
-  | getOptionsResponseError;
+export type getOptionsResponse = getOptionsResponseSuccess;
 
 export const getGetOptionsUrl = () => {
   return `/api/option/`;
@@ -9994,24 +8802,13 @@ export type updateOptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateOptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateOptionResponseSuccess = (
   | updateOptionResponse200ApplicationJson
   | updateOptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateOptionResponseError = updateOptionResponseDefault & {
-  headers: Headers;
-};
-
-export type updateOptionResponse =
-  | updateOptionResponseSuccess
-  | updateOptionResponseError;
+export type updateOptionResponse = updateOptionResponseSuccess;
 
 export const getUpdateOptionUrl = () => {
   return `/api/option/`;
@@ -10042,25 +8839,14 @@ export type clearChannelAffinityCacheResponse200ApplicationXml = {
   status: 200;
 };
 
-export type clearChannelAffinityCacheResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type clearChannelAffinityCacheResponseSuccess = (
   | clearChannelAffinityCacheResponse200ApplicationJson
   | clearChannelAffinityCacheResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type clearChannelAffinityCacheResponseError =
-  clearChannelAffinityCacheResponseDefault & {
-    headers: Headers;
-  };
-
 export type clearChannelAffinityCacheResponse =
-  | clearChannelAffinityCacheResponseSuccess
-  | clearChannelAffinityCacheResponseError;
+  clearChannelAffinityCacheResponseSuccess;
 
 export const getClearChannelAffinityCacheUrl = (
   params?: ClearChannelAffinityCacheParams,
@@ -10106,25 +8892,14 @@ export type getChannelAffinityCacheStatsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getChannelAffinityCacheStatsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getChannelAffinityCacheStatsResponseSuccess = (
   | getChannelAffinityCacheStatsResponse200ApplicationJson
   | getChannelAffinityCacheStatsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getChannelAffinityCacheStatsResponseError =
-  getChannelAffinityCacheStatsResponseDefault & {
-    headers: Headers;
-  };
-
 export type getChannelAffinityCacheStatsResponse =
-  | getChannelAffinityCacheStatsResponseSuccess
-  | getChannelAffinityCacheStatsResponseError;
+  getChannelAffinityCacheStatsResponseSuccess;
 
 export const getGetChannelAffinityCacheStatsUrl = () => {
   return `/api/option/channel_affinity_cache`;
@@ -10155,25 +8930,14 @@ export type migrateConsoleSettingResponse200ApplicationXml = {
   status: 200;
 };
 
-export type migrateConsoleSettingResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type migrateConsoleSettingResponseSuccess = (
   | migrateConsoleSettingResponse200ApplicationJson
   | migrateConsoleSettingResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type migrateConsoleSettingResponseError =
-  migrateConsoleSettingResponseDefault & {
-    headers: Headers;
-  };
-
 export type migrateConsoleSettingResponse =
-  | migrateConsoleSettingResponseSuccess
-  | migrateConsoleSettingResponseError;
+  migrateConsoleSettingResponseSuccess;
 
 export const getMigrateConsoleSettingUrl = () => {
   return `/api/option/migrate_console_setting`;
@@ -10204,24 +8968,13 @@ export type resetModelRatioResponse200ApplicationXml = {
   status: 200;
 };
 
-export type resetModelRatioResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type resetModelRatioResponseSuccess = (
   | resetModelRatioResponse200ApplicationJson
   | resetModelRatioResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type resetModelRatioResponseError = resetModelRatioResponseDefault & {
-  headers: Headers;
-};
-
-export type resetModelRatioResponse =
-  | resetModelRatioResponseSuccess
-  | resetModelRatioResponseError;
+export type resetModelRatioResponse = resetModelRatioResponseSuccess;
 
 export const getResetModelRatioUrl = () => {
   return `/api/option/rest_model_ratio`;
@@ -10249,24 +9002,13 @@ export type clearDiskCacheResponse200ApplicationXml = {
   status: 200;
 };
 
-export type clearDiskCacheResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type clearDiskCacheResponseSuccess = (
   | clearDiskCacheResponse200ApplicationJson
   | clearDiskCacheResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type clearDiskCacheResponseError = clearDiskCacheResponseDefault & {
-  headers: Headers;
-};
-
-export type clearDiskCacheResponse =
-  | clearDiskCacheResponseSuccess
-  | clearDiskCacheResponseError;
+export type clearDiskCacheResponse = clearDiskCacheResponseSuccess;
 
 export const getClearDiskCacheUrl = () => {
   return `/api/performance/disk_cache`;
@@ -10294,22 +9036,13 @@ export type forceGCResponse200ApplicationXml = {
   status: 200;
 };
 
-export type forceGCResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type forceGCResponseSuccess = (
   | forceGCResponse200ApplicationJson
   | forceGCResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type forceGCResponseError = forceGCResponseDefault & {
-  headers: Headers;
-};
-
-export type forceGCResponse = forceGCResponseSuccess | forceGCResponseError;
+export type forceGCResponse = forceGCResponseSuccess;
 
 export const getForceGCUrl = () => {
   return `/api/performance/gc`;
@@ -10337,24 +9070,13 @@ export type cleanupLogFilesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type cleanupLogFilesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type cleanupLogFilesResponseSuccess = (
   | cleanupLogFilesResponse200ApplicationJson
   | cleanupLogFilesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type cleanupLogFilesResponseError = cleanupLogFilesResponseDefault & {
-  headers: Headers;
-};
-
-export type cleanupLogFilesResponse =
-  | cleanupLogFilesResponseSuccess
-  | cleanupLogFilesResponseError;
+export type cleanupLogFilesResponse = cleanupLogFilesResponseSuccess;
 
 export const getCleanupLogFilesUrl = () => {
   return `/api/performance/logs`;
@@ -10382,24 +9104,13 @@ export type getLogFilesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getLogFilesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getLogFilesResponseSuccess = (
   | getLogFilesResponse200ApplicationJson
   | getLogFilesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getLogFilesResponseError = getLogFilesResponseDefault & {
-  headers: Headers;
-};
-
-export type getLogFilesResponse =
-  | getLogFilesResponseSuccess
-  | getLogFilesResponseError;
+export type getLogFilesResponse = getLogFilesResponseSuccess;
 
 export const getGetLogFilesUrl = () => {
   return `/api/performance/logs`;
@@ -10427,25 +9138,14 @@ export type resetPerformanceStatsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type resetPerformanceStatsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type resetPerformanceStatsResponseSuccess = (
   | resetPerformanceStatsResponse200ApplicationJson
   | resetPerformanceStatsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type resetPerformanceStatsResponseError =
-  resetPerformanceStatsResponseDefault & {
-    headers: Headers;
-  };
-
 export type resetPerformanceStatsResponse =
-  | resetPerformanceStatsResponseSuccess
-  | resetPerformanceStatsResponseError;
+  resetPerformanceStatsResponseSuccess;
 
 export const getResetPerformanceStatsUrl = () => {
   return `/api/performance/reset_stats`;
@@ -10476,25 +9176,13 @@ export type getPerformanceStatsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getPerformanceStatsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getPerformanceStatsResponseSuccess = (
   | getPerformanceStatsResponse200ApplicationJson
   | getPerformanceStatsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getPerformanceStatsResponseError =
-  getPerformanceStatsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getPerformanceStatsResponse =
-  | getPerformanceStatsResponseSuccess
-  | getPerformanceStatsResponseError;
+export type getPerformanceStatsResponse = getPerformanceStatsResponseSuccess;
 
 export const getGetPerformanceStatsUrl = () => {
   return `/api/performance/stats`;
@@ -10522,24 +9210,13 @@ export type getPrefillGroupsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getPrefillGroupsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getPrefillGroupsResponseSuccess = (
   | getPrefillGroupsResponse200ApplicationJson
   | getPrefillGroupsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getPrefillGroupsResponseError = getPrefillGroupsResponseDefault & {
-  headers: Headers;
-};
-
-export type getPrefillGroupsResponse =
-  | getPrefillGroupsResponseSuccess
-  | getPrefillGroupsResponseError;
+export type getPrefillGroupsResponse = getPrefillGroupsResponseSuccess;
 
 export const getGetPrefillGroupsUrl = (params?: GetPrefillGroupsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -10580,25 +9257,13 @@ export type createPrefillGroupResponse200ApplicationXml = {
   status: 200;
 };
 
-export type createPrefillGroupResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type createPrefillGroupResponseSuccess = (
   | createPrefillGroupResponse200ApplicationJson
   | createPrefillGroupResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type createPrefillGroupResponseError =
-  createPrefillGroupResponseDefault & {
-    headers: Headers;
-  };
-
-export type createPrefillGroupResponse =
-  | createPrefillGroupResponseSuccess
-  | createPrefillGroupResponseError;
+export type createPrefillGroupResponse = createPrefillGroupResponseSuccess;
 
 export const getCreatePrefillGroupUrl = () => {
   return `/api/prefill_group/`;
@@ -10629,25 +9294,13 @@ export type updatePrefillGroupResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updatePrefillGroupResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updatePrefillGroupResponseSuccess = (
   | updatePrefillGroupResponse200ApplicationJson
   | updatePrefillGroupResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updatePrefillGroupResponseError =
-  updatePrefillGroupResponseDefault & {
-    headers: Headers;
-  };
-
-export type updatePrefillGroupResponse =
-  | updatePrefillGroupResponseSuccess
-  | updatePrefillGroupResponseError;
+export type updatePrefillGroupResponse = updatePrefillGroupResponseSuccess;
 
 export const getUpdatePrefillGroupUrl = () => {
   return `/api/prefill_group/`;
@@ -10678,25 +9331,13 @@ export type deletePrefillGroupResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deletePrefillGroupResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deletePrefillGroupResponseSuccess = (
   | deletePrefillGroupResponse200ApplicationJson
   | deletePrefillGroupResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deletePrefillGroupResponseError =
-  deletePrefillGroupResponseDefault & {
-    headers: Headers;
-  };
-
-export type deletePrefillGroupResponse =
-  | deletePrefillGroupResponseSuccess
-  | deletePrefillGroupResponseError;
+export type deletePrefillGroupResponse = deletePrefillGroupResponseSuccess;
 
 export const getDeletePrefillGroupUrl = (id: string) => {
   return `/api/prefill_group/${id}`;
@@ -10725,24 +9366,13 @@ export type getPricingResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getPricingResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getPricingResponseSuccess = (
   | getPricingResponse200ApplicationJson
   | getPricingResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getPricingResponseError = getPricingResponseDefault & {
-  headers: Headers;
-};
-
-export type getPricingResponse =
-  | getPricingResponseSuccess
-  | getPricingResponseError;
+export type getPricingResponse = getPricingResponseSuccess;
 
 export const getGetPricingUrl = () => {
   return `/api/pricing`;
@@ -10770,24 +9400,13 @@ export type getPrivacyPolicyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getPrivacyPolicyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getPrivacyPolicyResponseSuccess = (
   | getPrivacyPolicyResponse200ApplicationJson
   | getPrivacyPolicyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getPrivacyPolicyResponseError = getPrivacyPolicyResponseDefault & {
-  headers: Headers;
-};
-
-export type getPrivacyPolicyResponse =
-  | getPrivacyPolicyResponseSuccess
-  | getPrivacyPolicyResponseError;
+export type getPrivacyPolicyResponse = getPrivacyPolicyResponseSuccess;
 
 export const getGetPrivacyPolicyUrl = () => {
   return `/api/privacy-policy`;
@@ -10815,24 +9434,13 @@ export type getRatioConfigResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getRatioConfigResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getRatioConfigResponseSuccess = (
   | getRatioConfigResponse200ApplicationJson
   | getRatioConfigResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getRatioConfigResponseError = getRatioConfigResponseDefault & {
-  headers: Headers;
-};
-
-export type getRatioConfigResponse =
-  | getRatioConfigResponseSuccess
-  | getRatioConfigResponseError;
+export type getRatioConfigResponse = getRatioConfigResponseSuccess;
 
 export const getGetRatioConfigUrl = () => {
   return `/api/ratio_config`;
@@ -10860,25 +9468,13 @@ export type getSyncableChannelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSyncableChannelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSyncableChannelsResponseSuccess = (
   | getSyncableChannelsResponse200ApplicationJson
   | getSyncableChannelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSyncableChannelsResponseError =
-  getSyncableChannelsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getSyncableChannelsResponse =
-  | getSyncableChannelsResponseSuccess
-  | getSyncableChannelsResponseError;
+export type getSyncableChannelsResponse = getSyncableChannelsResponseSuccess;
 
 export const getGetSyncableChannelsUrl = () => {
   return `/api/ratio_sync/channels`;
@@ -10906,25 +9502,13 @@ export type fetchUpstreamRatiosResponse200ApplicationXml = {
   status: 200;
 };
 
-export type fetchUpstreamRatiosResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type fetchUpstreamRatiosResponseSuccess = (
   | fetchUpstreamRatiosResponse200ApplicationJson
   | fetchUpstreamRatiosResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type fetchUpstreamRatiosResponseError =
-  fetchUpstreamRatiosResponseDefault & {
-    headers: Headers;
-  };
-
-export type fetchUpstreamRatiosResponse =
-  | fetchUpstreamRatiosResponseSuccess
-  | fetchUpstreamRatiosResponseError;
+export type fetchUpstreamRatiosResponse = fetchUpstreamRatiosResponseSuccess;
 
 export const getFetchUpstreamRatiosUrl = () => {
   return `/api/ratio_sync/fetch`;
@@ -10955,25 +9539,13 @@ export type getAllRedemptionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllRedemptionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllRedemptionsResponseSuccess = (
   | getAllRedemptionsResponse200ApplicationJson
   | getAllRedemptionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllRedemptionsResponseError =
-  getAllRedemptionsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getAllRedemptionsResponse =
-  | getAllRedemptionsResponseSuccess
-  | getAllRedemptionsResponseError;
+export type getAllRedemptionsResponse = getAllRedemptionsResponseSuccess;
 
 export const getGetAllRedemptionsUrl = (params?: GetAllRedemptionsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -11017,24 +9589,13 @@ export type addRedemptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type addRedemptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type addRedemptionResponseSuccess = (
   | addRedemptionResponse200ApplicationJson
   | addRedemptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type addRedemptionResponseError = addRedemptionResponseDefault & {
-  headers: Headers;
-};
-
-export type addRedemptionResponse =
-  | addRedemptionResponseSuccess
-  | addRedemptionResponseError;
+export type addRedemptionResponse = addRedemptionResponseSuccess;
 
 export const getAddRedemptionUrl = () => {
   return `/api/redemption/`;
@@ -11065,24 +9626,13 @@ export type updateRedemptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateRedemptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateRedemptionResponseSuccess = (
   | updateRedemptionResponse200ApplicationJson
   | updateRedemptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateRedemptionResponseError = updateRedemptionResponseDefault & {
-  headers: Headers;
-};
-
-export type updateRedemptionResponse =
-  | updateRedemptionResponseSuccess
-  | updateRedemptionResponseError;
+export type updateRedemptionResponse = updateRedemptionResponseSuccess;
 
 export const getUpdateRedemptionUrl = (params?: UpdateRedemptionParams) => {
   const normalizedParams = new URLSearchParams();
@@ -11126,25 +9676,14 @@ export type deleteInvalidRedemptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteInvalidRedemptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteInvalidRedemptionResponseSuccess = (
   | deleteInvalidRedemptionResponse200ApplicationJson
   | deleteInvalidRedemptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteInvalidRedemptionResponseError =
-  deleteInvalidRedemptionResponseDefault & {
-    headers: Headers;
-  };
-
 export type deleteInvalidRedemptionResponse =
-  | deleteInvalidRedemptionResponseSuccess
-  | deleteInvalidRedemptionResponseError;
+  deleteInvalidRedemptionResponseSuccess;
 
 export const getDeleteInvalidRedemptionUrl = () => {
   return `/api/redemption/invalid`;
@@ -11175,25 +9714,13 @@ export type searchRedemptionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchRedemptionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchRedemptionsResponseSuccess = (
   | searchRedemptionsResponse200ApplicationJson
   | searchRedemptionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchRedemptionsResponseError =
-  searchRedemptionsResponseDefault & {
-    headers: Headers;
-  };
-
-export type searchRedemptionsResponse =
-  | searchRedemptionsResponseSuccess
-  | searchRedemptionsResponseError;
+export type searchRedemptionsResponse = searchRedemptionsResponseSuccess;
 
 export const getSearchRedemptionsUrl = (params?: SearchRedemptionsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -11237,24 +9764,13 @@ export type deleteRedemptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteRedemptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteRedemptionResponseSuccess = (
   | deleteRedemptionResponse200ApplicationJson
   | deleteRedemptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteRedemptionResponseError = deleteRedemptionResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteRedemptionResponse =
-  | deleteRedemptionResponseSuccess
-  | deleteRedemptionResponseError;
+export type deleteRedemptionResponse = deleteRedemptionResponseSuccess;
 
 export const getDeleteRedemptionUrl = (id: string) => {
   return `/api/redemption/${id}`;
@@ -11283,24 +9799,13 @@ export type getRedemptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getRedemptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getRedemptionResponseSuccess = (
   | getRedemptionResponse200ApplicationJson
   | getRedemptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getRedemptionResponseError = getRedemptionResponseDefault & {
-  headers: Headers;
-};
-
-export type getRedemptionResponse =
-  | getRedemptionResponseSuccess
-  | getRedemptionResponseError;
+export type getRedemptionResponse = getRedemptionResponseSuccess;
 
 export const getGetRedemptionUrl = (id: string) => {
   return `/api/redemption/${id}`;
@@ -11329,25 +9834,14 @@ export type sendPasswordResetEmailResponse200ApplicationXml = {
   status: 200;
 };
 
-export type sendPasswordResetEmailResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type sendPasswordResetEmailResponseSuccess = (
   | sendPasswordResetEmailResponse200ApplicationJson
   | sendPasswordResetEmailResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type sendPasswordResetEmailResponseError =
-  sendPasswordResetEmailResponseDefault & {
-    headers: Headers;
-  };
-
 export type sendPasswordResetEmailResponse =
-  | sendPasswordResetEmailResponseSuccess
-  | sendPasswordResetEmailResponseError;
+  sendPasswordResetEmailResponseSuccess;
 
 export const getSendPasswordResetEmailUrl = (
   params?: SendPasswordResetEmailParams,
@@ -11393,22 +9887,13 @@ export type getSetupResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSetupResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSetupResponseSuccess = (
   | getSetupResponse200ApplicationJson
   | getSetupResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSetupResponseError = getSetupResponseDefault & {
-  headers: Headers;
-};
-
-export type getSetupResponse = getSetupResponseSuccess | getSetupResponseError;
+export type getSetupResponse = getSetupResponseSuccess;
 
 export const getGetSetupUrl = () => {
   return `/api/setup`;
@@ -11436,24 +9921,13 @@ export type postSetupResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postSetupResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postSetupResponseSuccess = (
   | postSetupResponse200ApplicationJson
   | postSetupResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postSetupResponseError = postSetupResponseDefault & {
-  headers: Headers;
-};
-
-export type postSetupResponse =
-  | postSetupResponseSuccess
-  | postSetupResponseError;
+export type postSetupResponse = postSetupResponseSuccess;
 
 export const getPostSetupUrl = () => {
   return `/api/setup`;
@@ -11484,24 +9958,13 @@ export type getStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getStatusResponseSuccess = (
   | getStatusResponse200ApplicationJson
   | getStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getStatusResponseError = getStatusResponseDefault & {
-  headers: Headers;
-};
-
-export type getStatusResponse =
-  | getStatusResponseSuccess
-  | getStatusResponseError;
+export type getStatusResponse = getStatusResponseSuccess;
 
 export const getGetStatusUrl = () => {
   return `/api/status`;
@@ -11529,24 +9992,13 @@ export type testStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type testStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type testStatusResponseSuccess = (
   | testStatusResponse200ApplicationJson
   | testStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type testStatusResponseError = testStatusResponseDefault & {
-  headers: Headers;
-};
-
-export type testStatusResponse =
-  | testStatusResponseSuccess
-  | testStatusResponseError;
+export type testStatusResponse = testStatusResponseSuccess;
 
 export const getTestStatusUrl = () => {
   return `/api/status/test`;
@@ -11574,24 +10026,13 @@ export type stripeWebhookResponse200ApplicationXml = {
   status: 200;
 };
 
-export type stripeWebhookResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type stripeWebhookResponseSuccess = (
   | stripeWebhookResponse200ApplicationJson
   | stripeWebhookResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type stripeWebhookResponseError = stripeWebhookResponseDefault & {
-  headers: Headers;
-};
-
-export type stripeWebhookResponse =
-  | stripeWebhookResponseSuccess
-  | stripeWebhookResponseError;
+export type stripeWebhookResponse = stripeWebhookResponseSuccess;
 
 export const getStripeWebhookUrl = () => {
   return `/api/stripe/webhook`;
@@ -11619,25 +10060,14 @@ export type adminBindSubscriptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminBindSubscriptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminBindSubscriptionResponseSuccess = (
   | adminBindSubscriptionResponse200ApplicationJson
   | adminBindSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminBindSubscriptionResponseError =
-  adminBindSubscriptionResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminBindSubscriptionResponse =
-  | adminBindSubscriptionResponseSuccess
-  | adminBindSubscriptionResponseError;
+  adminBindSubscriptionResponseSuccess;
 
 export const getAdminBindSubscriptionUrl = () => {
   return `/api/subscription/admin/bind`;
@@ -11671,25 +10101,14 @@ export type adminListSubscriptionPlansResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminListSubscriptionPlansResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminListSubscriptionPlansResponseSuccess = (
   | adminListSubscriptionPlansResponse200ApplicationJson
   | adminListSubscriptionPlansResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminListSubscriptionPlansResponseError =
-  adminListSubscriptionPlansResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminListSubscriptionPlansResponse =
-  | adminListSubscriptionPlansResponseSuccess
-  | adminListSubscriptionPlansResponseError;
+  adminListSubscriptionPlansResponseSuccess;
 
 export const getAdminListSubscriptionPlansUrl = () => {
   return `/api/subscription/admin/plans`;
@@ -11720,25 +10139,14 @@ export type adminCreateSubscriptionPlanResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminCreateSubscriptionPlanResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminCreateSubscriptionPlanResponseSuccess = (
   | adminCreateSubscriptionPlanResponse200ApplicationJson
   | adminCreateSubscriptionPlanResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminCreateSubscriptionPlanResponseError =
-  adminCreateSubscriptionPlanResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminCreateSubscriptionPlanResponse =
-  | adminCreateSubscriptionPlanResponseSuccess
-  | adminCreateSubscriptionPlanResponseError;
+  adminCreateSubscriptionPlanResponseSuccess;
 
 export const getAdminCreateSubscriptionPlanUrl = () => {
   return `/api/subscription/admin/plans`;
@@ -11772,25 +10180,14 @@ export type adminUpdateSubscriptionPlanStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminUpdateSubscriptionPlanStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminUpdateSubscriptionPlanStatusResponseSuccess = (
   | adminUpdateSubscriptionPlanStatusResponse200ApplicationJson
   | adminUpdateSubscriptionPlanStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminUpdateSubscriptionPlanStatusResponseError =
-  adminUpdateSubscriptionPlanStatusResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminUpdateSubscriptionPlanStatusResponse =
-  | adminUpdateSubscriptionPlanStatusResponseSuccess
-  | adminUpdateSubscriptionPlanStatusResponseError;
+  adminUpdateSubscriptionPlanStatusResponseSuccess;
 
 export const getAdminUpdateSubscriptionPlanStatusUrl = (id: string) => {
   return `/api/subscription/admin/plans/${id}`;
@@ -11825,25 +10222,14 @@ export type adminUpdateSubscriptionPlanResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminUpdateSubscriptionPlanResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminUpdateSubscriptionPlanResponseSuccess = (
   | adminUpdateSubscriptionPlanResponse200ApplicationJson
   | adminUpdateSubscriptionPlanResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminUpdateSubscriptionPlanResponseError =
-  adminUpdateSubscriptionPlanResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminUpdateSubscriptionPlanResponse =
-  | adminUpdateSubscriptionPlanResponseSuccess
-  | adminUpdateSubscriptionPlanResponseError;
+  adminUpdateSubscriptionPlanResponseSuccess;
 
 export const getAdminUpdateSubscriptionPlanUrl = (id: string) => {
   return `/api/subscription/admin/plans/${id}`;
@@ -11878,25 +10264,14 @@ export type adminDeleteUserSubscriptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminDeleteUserSubscriptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminDeleteUserSubscriptionResponseSuccess = (
   | adminDeleteUserSubscriptionResponse200ApplicationJson
   | adminDeleteUserSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminDeleteUserSubscriptionResponseError =
-  adminDeleteUserSubscriptionResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminDeleteUserSubscriptionResponse =
-  | adminDeleteUserSubscriptionResponseSuccess
-  | adminDeleteUserSubscriptionResponseError;
+  adminDeleteUserSubscriptionResponseSuccess;
 
 export const getAdminDeleteUserSubscriptionUrl = (id: string) => {
   return `/api/subscription/admin/user_subscriptions/${id}`;
@@ -11928,25 +10303,14 @@ export type adminInvalidateUserSubscriptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminInvalidateUserSubscriptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminInvalidateUserSubscriptionResponseSuccess = (
   | adminInvalidateUserSubscriptionResponse200ApplicationJson
   | adminInvalidateUserSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminInvalidateUserSubscriptionResponseError =
-  adminInvalidateUserSubscriptionResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminInvalidateUserSubscriptionResponse =
-  | adminInvalidateUserSubscriptionResponseSuccess
-  | adminInvalidateUserSubscriptionResponseError;
+  adminInvalidateUserSubscriptionResponseSuccess;
 
 export const getAdminInvalidateUserSubscriptionUrl = (id: string) => {
   return `/api/subscription/admin/user_subscriptions/${id}/invalidate`;
@@ -11978,25 +10342,14 @@ export type adminListUserSubscriptionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminListUserSubscriptionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminListUserSubscriptionsResponseSuccess = (
   | adminListUserSubscriptionsResponse200ApplicationJson
   | adminListUserSubscriptionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminListUserSubscriptionsResponseError =
-  adminListUserSubscriptionsResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminListUserSubscriptionsResponse =
-  | adminListUserSubscriptionsResponseSuccess
-  | adminListUserSubscriptionsResponseError;
+  adminListUserSubscriptionsResponseSuccess;
 
 export const getAdminListUserSubscriptionsUrl = (id: string) => {
   return `/api/subscription/admin/users/${id}/subscriptions`;
@@ -12028,25 +10381,14 @@ export type adminCreateUserSubscriptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminCreateUserSubscriptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminCreateUserSubscriptionResponseSuccess = (
   | adminCreateUserSubscriptionResponse200ApplicationJson
   | adminCreateUserSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminCreateUserSubscriptionResponseError =
-  adminCreateUserSubscriptionResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminCreateUserSubscriptionResponse =
-  | adminCreateUserSubscriptionResponseSuccess
-  | adminCreateUserSubscriptionResponseError;
+  adminCreateUserSubscriptionResponseSuccess;
 
 export const getAdminCreateUserSubscriptionUrl = (id: string) => {
   return `/api/subscription/admin/users/${id}/subscriptions`;
@@ -12081,25 +10423,14 @@ export type subscriptionRequestCreemPayResponse200ApplicationXml = {
   status: 200;
 };
 
-export type subscriptionRequestCreemPayResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type subscriptionRequestCreemPayResponseSuccess = (
   | subscriptionRequestCreemPayResponse200ApplicationJson
   | subscriptionRequestCreemPayResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionRequestCreemPayResponseError =
-  subscriptionRequestCreemPayResponseDefault & {
-    headers: Headers;
-  };
-
 export type subscriptionRequestCreemPayResponse =
-  | subscriptionRequestCreemPayResponseSuccess
-  | subscriptionRequestCreemPayResponseError;
+  subscriptionRequestCreemPayResponseSuccess;
 
 export const getSubscriptionRequestCreemPayUrl = () => {
   return `/api/subscription/creem/pay`;
@@ -12133,25 +10464,14 @@ export type getApiSubscriptionEpayNotifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getApiSubscriptionEpayNotifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getApiSubscriptionEpayNotifyResponseSuccess = (
   | getApiSubscriptionEpayNotifyResponse200ApplicationJson
   | getApiSubscriptionEpayNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getApiSubscriptionEpayNotifyResponseError =
-  getApiSubscriptionEpayNotifyResponseDefault & {
-    headers: Headers;
-  };
-
 export type getApiSubscriptionEpayNotifyResponse =
-  | getApiSubscriptionEpayNotifyResponseSuccess
-  | getApiSubscriptionEpayNotifyResponseError;
+  getApiSubscriptionEpayNotifyResponseSuccess;
 
 export const getGetApiSubscriptionEpayNotifyUrl = () => {
   return `/api/subscription/epay/notify`;
@@ -12182,25 +10502,14 @@ export type subscriptionEpayNotifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type subscriptionEpayNotifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type subscriptionEpayNotifyResponseSuccess = (
   | subscriptionEpayNotifyResponse200ApplicationJson
   | subscriptionEpayNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionEpayNotifyResponseError =
-  subscriptionEpayNotifyResponseDefault & {
-    headers: Headers;
-  };
-
 export type subscriptionEpayNotifyResponse =
-  | subscriptionEpayNotifyResponseSuccess
-  | subscriptionEpayNotifyResponseError;
+  subscriptionEpayNotifyResponseSuccess;
 
 export const getSubscriptionEpayNotifyUrl = () => {
   return `/api/subscription/epay/notify`;
@@ -12231,25 +10540,14 @@ export type subscriptionRequestEpayResponse200ApplicationXml = {
   status: 200;
 };
 
-export type subscriptionRequestEpayResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type subscriptionRequestEpayResponseSuccess = (
   | subscriptionRequestEpayResponse200ApplicationJson
   | subscriptionRequestEpayResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionRequestEpayResponseError =
-  subscriptionRequestEpayResponseDefault & {
-    headers: Headers;
-  };
-
 export type subscriptionRequestEpayResponse =
-  | subscriptionRequestEpayResponseSuccess
-  | subscriptionRequestEpayResponseError;
+  subscriptionRequestEpayResponseSuccess;
 
 export const getSubscriptionRequestEpayUrl = () => {
   return `/api/subscription/epay/pay`;
@@ -12283,25 +10581,14 @@ export type subscriptionEpayReturnResponse200ApplicationXml = {
   status: 200;
 };
 
-export type subscriptionEpayReturnResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type subscriptionEpayReturnResponseSuccess = (
   | subscriptionEpayReturnResponse200ApplicationJson
   | subscriptionEpayReturnResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionEpayReturnResponseError =
-  subscriptionEpayReturnResponseDefault & {
-    headers: Headers;
-  };
-
 export type subscriptionEpayReturnResponse =
-  | subscriptionEpayReturnResponseSuccess
-  | subscriptionEpayReturnResponseError;
+  subscriptionEpayReturnResponseSuccess;
 
 export const getSubscriptionEpayReturnUrl = () => {
   return `/api/subscription/epay/return`;
@@ -12332,25 +10619,14 @@ export type postApiSubscriptionEpayReturnResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postApiSubscriptionEpayReturnResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postApiSubscriptionEpayReturnResponseSuccess = (
   | postApiSubscriptionEpayReturnResponse200ApplicationJson
   | postApiSubscriptionEpayReturnResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postApiSubscriptionEpayReturnResponseError =
-  postApiSubscriptionEpayReturnResponseDefault & {
-    headers: Headers;
-  };
-
 export type postApiSubscriptionEpayReturnResponse =
-  | postApiSubscriptionEpayReturnResponseSuccess
-  | postApiSubscriptionEpayReturnResponseError;
+  postApiSubscriptionEpayReturnResponseSuccess;
 
 export const getPostApiSubscriptionEpayReturnUrl = () => {
   return `/api/subscription/epay/return`;
@@ -12381,25 +10657,13 @@ export type getSubscriptionPlansResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSubscriptionPlansResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSubscriptionPlansResponseSuccess = (
   | getSubscriptionPlansResponse200ApplicationJson
   | getSubscriptionPlansResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSubscriptionPlansResponseError =
-  getSubscriptionPlansResponseDefault & {
-    headers: Headers;
-  };
-
-export type getSubscriptionPlansResponse =
-  | getSubscriptionPlansResponseSuccess
-  | getSubscriptionPlansResponseError;
+export type getSubscriptionPlansResponse = getSubscriptionPlansResponseSuccess;
 
 export const getGetSubscriptionPlansUrl = () => {
   return `/api/subscription/plans`;
@@ -12430,25 +10694,13 @@ export type getSubscriptionSelfResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSubscriptionSelfResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSubscriptionSelfResponseSuccess = (
   | getSubscriptionSelfResponse200ApplicationJson
   | getSubscriptionSelfResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSubscriptionSelfResponseError =
-  getSubscriptionSelfResponseDefault & {
-    headers: Headers;
-  };
-
-export type getSubscriptionSelfResponse =
-  | getSubscriptionSelfResponseSuccess
-  | getSubscriptionSelfResponseError;
+export type getSubscriptionSelfResponse = getSubscriptionSelfResponseSuccess;
 
 export const getGetSubscriptionSelfUrl = () => {
   return `/api/subscription/self`;
@@ -12476,25 +10728,14 @@ export type updateSubscriptionPreferenceResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateSubscriptionPreferenceResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateSubscriptionPreferenceResponseSuccess = (
   | updateSubscriptionPreferenceResponse200ApplicationJson
   | updateSubscriptionPreferenceResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateSubscriptionPreferenceResponseError =
-  updateSubscriptionPreferenceResponseDefault & {
-    headers: Headers;
-  };
-
 export type updateSubscriptionPreferenceResponse =
-  | updateSubscriptionPreferenceResponseSuccess
-  | updateSubscriptionPreferenceResponseError;
+  updateSubscriptionPreferenceResponseSuccess;
 
 export const getUpdateSubscriptionPreferenceUrl = () => {
   return `/api/subscription/self/preference`;
@@ -12528,25 +10769,14 @@ export type subscriptionRequestStripePayResponse200ApplicationXml = {
   status: 200;
 };
 
-export type subscriptionRequestStripePayResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type subscriptionRequestStripePayResponseSuccess = (
   | subscriptionRequestStripePayResponse200ApplicationJson
   | subscriptionRequestStripePayResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type subscriptionRequestStripePayResponseError =
-  subscriptionRequestStripePayResponseDefault & {
-    headers: Headers;
-  };
-
 export type subscriptionRequestStripePayResponse =
-  | subscriptionRequestStripePayResponseSuccess
-  | subscriptionRequestStripePayResponseError;
+  subscriptionRequestStripePayResponseSuccess;
 
 export const getSubscriptionRequestStripePayUrl = () => {
   return `/api/subscription/stripe/pay`;
@@ -12580,24 +10810,13 @@ export type getAllTaskResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllTaskResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllTaskResponseSuccess = (
   | getAllTaskResponse200ApplicationJson
   | getAllTaskResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllTaskResponseError = getAllTaskResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllTaskResponse =
-  | getAllTaskResponseSuccess
-  | getAllTaskResponseError;
+export type getAllTaskResponse = getAllTaskResponseSuccess;
 
 export const getGetAllTaskUrl = (params?: GetAllTaskParams) => {
   const normalizedParams = new URLSearchParams();
@@ -12638,24 +10857,13 @@ export type getUserTaskResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserTaskResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserTaskResponseSuccess = (
   | getUserTaskResponse200ApplicationJson
   | getUserTaskResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserTaskResponseError = getUserTaskResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserTaskResponse =
-  | getUserTaskResponseSuccess
-  | getUserTaskResponseError;
+export type getUserTaskResponse = getUserTaskResponseSuccess;
 
 export const getGetUserTaskUrl = (params?: GetUserTaskParams) => {
   const normalizedParams = new URLSearchParams();
@@ -12696,24 +10904,13 @@ export type getAllTokensResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllTokensResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllTokensResponseSuccess = (
   | getAllTokensResponse200ApplicationJson
   | getAllTokensResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllTokensResponseError = getAllTokensResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllTokensResponse =
-  | getAllTokensResponseSuccess
-  | getAllTokensResponseError;
+export type getAllTokensResponse = getAllTokensResponseSuccess;
 
 export const getGetAllTokensUrl = (params?: GetAllTokensParams) => {
   const normalizedParams = new URLSearchParams();
@@ -12754,22 +10951,13 @@ export type addTokenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type addTokenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type addTokenResponseSuccess = (
   | addTokenResponse200ApplicationJson
   | addTokenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type addTokenResponseError = addTokenResponseDefault & {
-  headers: Headers;
-};
-
-export type addTokenResponse = addTokenResponseSuccess | addTokenResponseError;
+export type addTokenResponse = addTokenResponseSuccess;
 
 export const getAddTokenUrl = () => {
   return `/api/token/`;
@@ -12800,24 +10988,13 @@ export type updateTokenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateTokenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateTokenResponseSuccess = (
   | updateTokenResponse200ApplicationJson
   | updateTokenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateTokenResponseError = updateTokenResponseDefault & {
-  headers: Headers;
-};
-
-export type updateTokenResponse =
-  | updateTokenResponseSuccess
-  | updateTokenResponseError;
+export type updateTokenResponse = updateTokenResponseSuccess;
 
 export const getUpdateTokenUrl = (params?: UpdateTokenParams) => {
   const normalizedParams = new URLSearchParams();
@@ -12861,24 +11038,13 @@ export type deleteTokenBatchResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteTokenBatchResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteTokenBatchResponseSuccess = (
   | deleteTokenBatchResponse200ApplicationJson
   | deleteTokenBatchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteTokenBatchResponseError = deleteTokenBatchResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteTokenBatchResponse =
-  | deleteTokenBatchResponseSuccess
-  | deleteTokenBatchResponseError;
+export type deleteTokenBatchResponse = deleteTokenBatchResponseSuccess;
 
 export const getDeleteTokenBatchUrl = () => {
   return `/api/token/batch`;
@@ -12909,24 +11075,13 @@ export type searchTokensResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchTokensResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchTokensResponseSuccess = (
   | searchTokensResponse200ApplicationJson
   | searchTokensResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchTokensResponseError = searchTokensResponseDefault & {
-  headers: Headers;
-};
-
-export type searchTokensResponse =
-  | searchTokensResponseSuccess
-  | searchTokensResponseError;
+export type searchTokensResponse = searchTokensResponseSuccess;
 
 export const getSearchTokensUrl = (params?: SearchTokensParams) => {
   const normalizedParams = new URLSearchParams();
@@ -12967,24 +11122,13 @@ export type deleteTokenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteTokenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteTokenResponseSuccess = (
   | deleteTokenResponse200ApplicationJson
   | deleteTokenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteTokenResponseError = deleteTokenResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteTokenResponse =
-  | deleteTokenResponseSuccess
-  | deleteTokenResponseError;
+export type deleteTokenResponse = deleteTokenResponseSuccess;
 
 export const getDeleteTokenUrl = (id: string) => {
   return `/api/token/${id}`;
@@ -13013,22 +11157,13 @@ export type getTokenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getTokenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getTokenResponseSuccess = (
   | getTokenResponse200ApplicationJson
   | getTokenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getTokenResponseError = getTokenResponseDefault & {
-  headers: Headers;
-};
-
-export type getTokenResponse = getTokenResponseSuccess | getTokenResponseError;
+export type getTokenResponse = getTokenResponseSuccess;
 
 export const getGetTokenUrl = (id: string) => {
   return `/api/token/${id}`;
@@ -13057,24 +11192,13 @@ export type getTokenKeyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getTokenKeyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getTokenKeyResponseSuccess = (
   | getTokenKeyResponse200ApplicationJson
   | getTokenKeyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getTokenKeyResponseError = getTokenKeyResponseDefault & {
-  headers: Headers;
-};
-
-export type getTokenKeyResponse =
-  | getTokenKeyResponseSuccess
-  | getTokenKeyResponseError;
+export type getTokenKeyResponse = getTokenKeyResponseSuccess;
 
 export const getGetTokenKeyUrl = (id: string) => {
   return `/api/token/${id}/key`;
@@ -13103,25 +11227,13 @@ export type getUptimeKumaStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUptimeKumaStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUptimeKumaStatusResponseSuccess = (
   | getUptimeKumaStatusResponse200ApplicationJson
   | getUptimeKumaStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUptimeKumaStatusResponseError =
-  getUptimeKumaStatusResponseDefault & {
-    headers: Headers;
-  };
-
-export type getUptimeKumaStatusResponse =
-  | getUptimeKumaStatusResponseSuccess
-  | getUptimeKumaStatusResponseError;
+export type getUptimeKumaStatusResponse = getUptimeKumaStatusResponseSuccess;
 
 export const getGetUptimeKumaStatusUrl = () => {
   return `/api/uptime/status`;
@@ -13149,24 +11261,13 @@ export type getTokenUsageResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getTokenUsageResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getTokenUsageResponseSuccess = (
   | getTokenUsageResponse200ApplicationJson
   | getTokenUsageResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getTokenUsageResponseError = getTokenUsageResponseDefault & {
-  headers: Headers;
-};
-
-export type getTokenUsageResponse =
-  | getTokenUsageResponseSuccess
-  | getTokenUsageResponseError;
+export type getTokenUsageResponse = getTokenUsageResponseSuccess;
 
 export const getGetTokenUsageUrl = () => {
   return `/api/usage/token/`;
@@ -13194,24 +11295,13 @@ export type getUserAgreementResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserAgreementResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserAgreementResponseSuccess = (
   | getUserAgreementResponse200ApplicationJson
   | getUserAgreementResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserAgreementResponseError = getUserAgreementResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserAgreementResponse =
-  | getUserAgreementResponseSuccess
-  | getUserAgreementResponseError;
+export type getUserAgreementResponse = getUserAgreementResponseSuccess;
 
 export const getGetUserAgreementUrl = () => {
   return `/api/user-agreement`;
@@ -13239,24 +11329,13 @@ export type getAllUsersResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllUsersResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllUsersResponseSuccess = (
   | getAllUsersResponse200ApplicationJson
   | getAllUsersResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllUsersResponseError = getAllUsersResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllUsersResponse =
-  | getAllUsersResponseSuccess
-  | getAllUsersResponseError;
+export type getAllUsersResponse = getAllUsersResponseSuccess;
 
 export const getGetAllUsersUrl = (params?: GetAllUsersParams) => {
   const normalizedParams = new URLSearchParams();
@@ -13297,24 +11376,13 @@ export type createUserResponse200ApplicationXml = {
   status: 200;
 };
 
-export type createUserResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type createUserResponseSuccess = (
   | createUserResponse200ApplicationJson
   | createUserResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type createUserResponseError = createUserResponseDefault & {
-  headers: Headers;
-};
-
-export type createUserResponse =
-  | createUserResponseSuccess
-  | createUserResponseError;
+export type createUserResponse = createUserResponseSuccess;
 
 export const getCreateUserUrl = () => {
   return `/api/user/`;
@@ -13345,24 +11413,13 @@ export type updateUserResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateUserResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateUserResponseSuccess = (
   | updateUserResponse200ApplicationJson
   | updateUserResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateUserResponseError = updateUserResponseDefault & {
-  headers: Headers;
-};
-
-export type updateUserResponse =
-  | updateUserResponseSuccess
-  | updateUserResponseError;
+export type updateUserResponse = updateUserResponseSuccess;
 
 export const getUpdateUserUrl = () => {
   return `/api/user/`;
@@ -13393,25 +11450,14 @@ export type regenerateBackupCodesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type regenerateBackupCodesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type regenerateBackupCodesResponseSuccess = (
   | regenerateBackupCodesResponse200ApplicationJson
   | regenerateBackupCodesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type regenerateBackupCodesResponseError =
-  regenerateBackupCodesResponseDefault & {
-    headers: Headers;
-  };
-
 export type regenerateBackupCodesResponse =
-  | regenerateBackupCodesResponseSuccess
-  | regenerateBackupCodesResponseError;
+  regenerateBackupCodesResponseSuccess;
 
 export const getRegenerateBackupCodesUrl = () => {
   return `/api/user/2fa/backup_codes`;
@@ -13445,24 +11491,13 @@ export type disable2FAResponse200ApplicationXml = {
   status: 200;
 };
 
-export type disable2FAResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type disable2FAResponseSuccess = (
   | disable2FAResponse200ApplicationJson
   | disable2FAResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type disable2FAResponseError = disable2FAResponseDefault & {
-  headers: Headers;
-};
-
-export type disable2FAResponse =
-  | disable2FAResponseSuccess
-  | disable2FAResponseError;
+export type disable2FAResponse = disable2FAResponseSuccess;
 
 export const getDisable2FAUrl = () => {
   return `/api/user/2fa/disable`;
@@ -13493,24 +11528,13 @@ export type enable2FAResponse200ApplicationXml = {
   status: 200;
 };
 
-export type enable2FAResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type enable2FAResponseSuccess = (
   | enable2FAResponse200ApplicationJson
   | enable2FAResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type enable2FAResponseError = enable2FAResponseDefault & {
-  headers: Headers;
-};
-
-export type enable2FAResponse =
-  | enable2FAResponseSuccess
-  | enable2FAResponseError;
+export type enable2FAResponse = enable2FAResponseSuccess;
 
 export const getEnable2FAUrl = () => {
   return `/api/user/2fa/enable`;
@@ -13541,22 +11565,13 @@ export type setup2FAResponse200ApplicationXml = {
   status: 200;
 };
 
-export type setup2FAResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type setup2FAResponseSuccess = (
   | setup2FAResponse200ApplicationJson
   | setup2FAResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type setup2FAResponseError = setup2FAResponseDefault & {
-  headers: Headers;
-};
-
-export type setup2FAResponse = setup2FAResponseSuccess | setup2FAResponseError;
+export type setup2FAResponse = setup2FAResponseSuccess;
 
 export const getSetup2FAUrl = () => {
   return `/api/user/2fa/setup`;
@@ -13584,24 +11599,13 @@ export type admin2FAStatsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type admin2FAStatsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type admin2FAStatsResponseSuccess = (
   | admin2FAStatsResponse200ApplicationJson
   | admin2FAStatsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type admin2FAStatsResponseError = admin2FAStatsResponseDefault & {
-  headers: Headers;
-};
-
-export type admin2FAStatsResponse =
-  | admin2FAStatsResponseSuccess
-  | admin2FAStatsResponseError;
+export type admin2FAStatsResponse = admin2FAStatsResponseSuccess;
 
 export const getAdmin2FAStatsUrl = () => {
   return `/api/user/2fa/stats`;
@@ -13629,24 +11633,13 @@ export type get2FAStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type get2FAStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type get2FAStatusResponseSuccess = (
   | get2FAStatusResponse200ApplicationJson
   | get2FAStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type get2FAStatusResponseError = get2FAStatusResponseDefault & {
-  headers: Headers;
-};
-
-export type get2FAStatusResponse =
-  | get2FAStatusResponseSuccess
-  | get2FAStatusResponseError;
+export type get2FAStatusResponse = get2FAStatusResponseSuccess;
 
 export const getGet2FAStatusUrl = () => {
   return `/api/user/2fa/status`;
@@ -13674,24 +11667,13 @@ export type getAffCodeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAffCodeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAffCodeResponseSuccess = (
   | getAffCodeResponse200ApplicationJson
   | getAffCodeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAffCodeResponseError = getAffCodeResponseDefault & {
-  headers: Headers;
-};
-
-export type getAffCodeResponse =
-  | getAffCodeResponseSuccess
-  | getAffCodeResponseError;
+export type getAffCodeResponse = getAffCodeResponseSuccess;
 
 export const getGetAffCodeUrl = () => {
   return `/api/user/aff`;
@@ -13719,25 +11701,14 @@ export type getReferralCommissionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getReferralCommissionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getReferralCommissionsResponseSuccess = (
   | getReferralCommissionsResponse200ApplicationJson
   | getReferralCommissionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getReferralCommissionsResponseError =
-  getReferralCommissionsResponseDefault & {
-    headers: Headers;
-  };
-
 export type getReferralCommissionsResponse =
-  | getReferralCommissionsResponseSuccess
-  | getReferralCommissionsResponseError;
+  getReferralCommissionsResponseSuccess;
 
 export const getGetReferralCommissionsUrl = (
   params?: GetReferralCommissionsParams,
@@ -13783,24 +11754,13 @@ export type getInvitedUsersResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getInvitedUsersResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getInvitedUsersResponseSuccess = (
   | getInvitedUsersResponse200ApplicationJson
   | getInvitedUsersResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getInvitedUsersResponseError = getInvitedUsersResponseDefault & {
-  headers: Headers;
-};
-
-export type getInvitedUsersResponse =
-  | getInvitedUsersResponseSuccess
-  | getInvitedUsersResponseError;
+export type getInvitedUsersResponse = getInvitedUsersResponseSuccess;
 
 export const getGetInvitedUsersUrl = (params?: GetInvitedUsersParams) => {
   const normalizedParams = new URLSearchParams();
@@ -13841,24 +11801,13 @@ export type transferAffQuotaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type transferAffQuotaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type transferAffQuotaResponseSuccess = (
   | transferAffQuotaResponse200ApplicationJson
   | transferAffQuotaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type transferAffQuotaResponseError = transferAffQuotaResponseDefault & {
-  headers: Headers;
-};
-
-export type transferAffQuotaResponse =
-  | transferAffQuotaResponseSuccess
-  | transferAffQuotaResponseError;
+export type transferAffQuotaResponse = transferAffQuotaResponseSuccess;
 
 export const getTransferAffQuotaUrl = () => {
   return `/api/user/aff_transfer`;
@@ -13889,24 +11838,13 @@ export type requestAmountResponse200ApplicationXml = {
   status: 200;
 };
 
-export type requestAmountResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type requestAmountResponseSuccess = (
   | requestAmountResponse200ApplicationJson
   | requestAmountResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type requestAmountResponseError = requestAmountResponseDefault & {
-  headers: Headers;
-};
-
-export type requestAmountResponse =
-  | requestAmountResponseSuccess
-  | requestAmountResponseError;
+export type requestAmountResponse = requestAmountResponseSuccess;
 
 export const getRequestAmountUrl = () => {
   return `/api/user/amount`;
@@ -13937,24 +11875,13 @@ export type getCheckinStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getCheckinStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getCheckinStatusResponseSuccess = (
   | getCheckinStatusResponse200ApplicationJson
   | getCheckinStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getCheckinStatusResponseError = getCheckinStatusResponseDefault & {
-  headers: Headers;
-};
-
-export type getCheckinStatusResponse =
-  | getCheckinStatusResponseSuccess
-  | getCheckinStatusResponseError;
+export type getCheckinStatusResponse = getCheckinStatusResponseSuccess;
 
 export const getGetCheckinStatusUrl = (params?: GetCheckinStatusParams) => {
   const normalizedParams = new URLSearchParams();
@@ -13995,24 +11922,13 @@ export type doCheckinResponse200ApplicationXml = {
   status: 200;
 };
 
-export type doCheckinResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type doCheckinResponseSuccess = (
   | doCheckinResponse200ApplicationJson
   | doCheckinResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type doCheckinResponseError = doCheckinResponseDefault & {
-  headers: Headers;
-};
-
-export type doCheckinResponse =
-  | doCheckinResponseSuccess
-  | doCheckinResponseError;
+export type doCheckinResponse = doCheckinResponseSuccess;
 
 export const getDoCheckinUrl = (params?: DoCheckinParams) => {
   const normalizedParams = new URLSearchParams();
@@ -14053,24 +11969,13 @@ export type requestCreemPayResponse200ApplicationXml = {
   status: 200;
 };
 
-export type requestCreemPayResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type requestCreemPayResponseSuccess = (
   | requestCreemPayResponse200ApplicationJson
   | requestCreemPayResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type requestCreemPayResponseError = requestCreemPayResponseDefault & {
-  headers: Headers;
-};
-
-export type requestCreemPayResponse =
-  | requestCreemPayResponseSuccess
-  | requestCreemPayResponseError;
+export type requestCreemPayResponse = requestCreemPayResponseSuccess;
 
 export const getRequestCreemPayUrl = () => {
   return `/api/user/creem/pay`;
@@ -14101,25 +12006,13 @@ export type getApiUserEpayNotifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getApiUserEpayNotifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getApiUserEpayNotifyResponseSuccess = (
   | getApiUserEpayNotifyResponse200ApplicationJson
   | getApiUserEpayNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getApiUserEpayNotifyResponseError =
-  getApiUserEpayNotifyResponseDefault & {
-    headers: Headers;
-  };
-
-export type getApiUserEpayNotifyResponse =
-  | getApiUserEpayNotifyResponseSuccess
-  | getApiUserEpayNotifyResponseError;
+export type getApiUserEpayNotifyResponse = getApiUserEpayNotifyResponseSuccess;
 
 export const getGetApiUserEpayNotifyUrl = () => {
   return `/api/user/epay/notify`;
@@ -14150,24 +12043,13 @@ export type epayNotifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type epayNotifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type epayNotifyResponseSuccess = (
   | epayNotifyResponse200ApplicationJson
   | epayNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type epayNotifyResponseError = epayNotifyResponseDefault & {
-  headers: Headers;
-};
-
-export type epayNotifyResponse =
-  | epayNotifyResponseSuccess
-  | epayNotifyResponseError;
+export type epayNotifyResponse = epayNotifyResponseSuccess;
 
 export const getEpayNotifyUrl = () => {
   return `/api/user/epay/notify`;
@@ -14195,24 +12077,13 @@ export type getUserGroupsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserGroupsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserGroupsResponseSuccess = (
   | getUserGroupsResponse200ApplicationJson
   | getUserGroupsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserGroupsResponseError = getUserGroupsResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserGroupsResponse =
-  | getUserGroupsResponseSuccess
-  | getUserGroupsResponseError;
+export type getUserGroupsResponse = getUserGroupsResponseSuccess;
 
 export const getGetUserGroupsUrl = () => {
   return `/api/user/groups`;
@@ -14240,22 +12111,13 @@ export type loginResponse200ApplicationXml = {
   status: 200;
 };
 
-export type loginResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type loginResponseSuccess = (
   | loginResponse200ApplicationJson
   | loginResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type loginResponseError = loginResponseDefault & {
-  headers: Headers;
-};
-
-export type loginResponse = loginResponseSuccess | loginResponseError;
+export type loginResponse = loginResponseSuccess;
 
 export const getLoginUrl = (params?: LoginParams) => {
   const normalizedParams = new URLSearchParams();
@@ -14299,24 +12161,13 @@ export type verify2FALoginResponse200ApplicationXml = {
   status: 200;
 };
 
-export type verify2FALoginResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type verify2FALoginResponseSuccess = (
   | verify2FALoginResponse200ApplicationJson
   | verify2FALoginResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type verify2FALoginResponseError = verify2FALoginResponseDefault & {
-  headers: Headers;
-};
-
-export type verify2FALoginResponse =
-  | verify2FALoginResponseSuccess
-  | verify2FALoginResponseError;
+export type verify2FALoginResponse = verify2FALoginResponseSuccess;
 
 export const getVerify2FALoginUrl = () => {
   return `/api/user/login/2fa`;
@@ -14347,22 +12198,13 @@ export type logoutResponse200ApplicationXml = {
   status: 200;
 };
 
-export type logoutResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type logoutResponseSuccess = (
   | logoutResponse200ApplicationJson
   | logoutResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type logoutResponseError = logoutResponseDefault & {
-  headers: Headers;
-};
-
-export type logoutResponse = logoutResponseSuccess | logoutResponseError;
+export type logoutResponse = logoutResponseSuccess;
 
 export const getLogoutUrl = () => {
   return `/api/user/logout`;
@@ -14390,24 +12232,13 @@ export type manageUserResponse200ApplicationXml = {
   status: 200;
 };
 
-export type manageUserResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type manageUserResponseSuccess = (
   | manageUserResponse200ApplicationJson
   | manageUserResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type manageUserResponseError = manageUserResponseDefault & {
-  headers: Headers;
-};
-
-export type manageUserResponse =
-  | manageUserResponseSuccess
-  | manageUserResponseError;
+export type manageUserResponse = manageUserResponseSuccess;
 
 export const getManageUserUrl = () => {
   return `/api/user/manage`;
@@ -14438,24 +12269,13 @@ export type getUserModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserModelsResponseSuccess = (
   | getUserModelsResponse200ApplicationJson
   | getUserModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserModelsResponseError = getUserModelsResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserModelsResponse =
-  | getUserModelsResponseSuccess
-  | getUserModelsResponseError;
+export type getUserModelsResponse = getUserModelsResponseSuccess;
 
 export const getGetUserModelsUrl = () => {
   return `/api/user/models`;
@@ -14483,25 +12303,13 @@ export type getUserOAuthBindingsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserOAuthBindingsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserOAuthBindingsResponseSuccess = (
   | getUserOAuthBindingsResponse200ApplicationJson
   | getUserOAuthBindingsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserOAuthBindingsResponseError =
-  getUserOAuthBindingsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getUserOAuthBindingsResponse =
-  | getUserOAuthBindingsResponseSuccess
-  | getUserOAuthBindingsResponseError;
+export type getUserOAuthBindingsResponse = getUserOAuthBindingsResponseSuccess;
 
 export const getGetUserOAuthBindingsUrl = () => {
   return `/api/user/oauth/bindings`;
@@ -14532,25 +12340,13 @@ export type unbindCustomOAuthResponse200ApplicationXml = {
   status: 200;
 };
 
-export type unbindCustomOAuthResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type unbindCustomOAuthResponseSuccess = (
   | unbindCustomOAuthResponse200ApplicationJson
   | unbindCustomOAuthResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type unbindCustomOAuthResponseError =
-  unbindCustomOAuthResponseDefault & {
-    headers: Headers;
-  };
-
-export type unbindCustomOAuthResponse =
-  | unbindCustomOAuthResponseSuccess
-  | unbindCustomOAuthResponseError;
+export type unbindCustomOAuthResponse = unbindCustomOAuthResponseSuccess;
 
 export const getUnbindCustomOAuthUrl = (providerId: string) => {
   return `/api/user/oauth/bindings/${providerId}`;
@@ -14582,24 +12378,13 @@ export type passkeyDeleteResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyDeleteResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyDeleteResponseSuccess = (
   | passkeyDeleteResponse200ApplicationJson
   | passkeyDeleteResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyDeleteResponseError = passkeyDeleteResponseDefault & {
-  headers: Headers;
-};
-
-export type passkeyDeleteResponse =
-  | passkeyDeleteResponseSuccess
-  | passkeyDeleteResponseError;
+export type passkeyDeleteResponse = passkeyDeleteResponseSuccess;
 
 export const getPasskeyDeleteUrl = () => {
   return `/api/user/passkey`;
@@ -14627,24 +12412,13 @@ export type passkeyStatusResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyStatusResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyStatusResponseSuccess = (
   | passkeyStatusResponse200ApplicationJson
   | passkeyStatusResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyStatusResponseError = passkeyStatusResponseDefault & {
-  headers: Headers;
-};
-
-export type passkeyStatusResponse =
-  | passkeyStatusResponseSuccess
-  | passkeyStatusResponseError;
+export type passkeyStatusResponse = passkeyStatusResponseSuccess;
 
 export const getPasskeyStatusUrl = () => {
   return `/api/user/passkey`;
@@ -14672,25 +12446,13 @@ export type passkeyLoginBeginResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyLoginBeginResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyLoginBeginResponseSuccess = (
   | passkeyLoginBeginResponse200ApplicationJson
   | passkeyLoginBeginResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyLoginBeginResponseError =
-  passkeyLoginBeginResponseDefault & {
-    headers: Headers;
-  };
-
-export type passkeyLoginBeginResponse =
-  | passkeyLoginBeginResponseSuccess
-  | passkeyLoginBeginResponseError;
+export type passkeyLoginBeginResponse = passkeyLoginBeginResponseSuccess;
 
 export const getPasskeyLoginBeginUrl = () => {
   return `/api/user/passkey/login/begin`;
@@ -14718,25 +12480,13 @@ export type passkeyLoginFinishResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyLoginFinishResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyLoginFinishResponseSuccess = (
   | passkeyLoginFinishResponse200ApplicationJson
   | passkeyLoginFinishResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyLoginFinishResponseError =
-  passkeyLoginFinishResponseDefault & {
-    headers: Headers;
-  };
-
-export type passkeyLoginFinishResponse =
-  | passkeyLoginFinishResponseSuccess
-  | passkeyLoginFinishResponseError;
+export type passkeyLoginFinishResponse = passkeyLoginFinishResponseSuccess;
 
 export const getPasskeyLoginFinishUrl = () => {
   return `/api/user/passkey/login/finish`;
@@ -14764,25 +12514,13 @@ export type passkeyRegisterBeginResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyRegisterBeginResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyRegisterBeginResponseSuccess = (
   | passkeyRegisterBeginResponse200ApplicationJson
   | passkeyRegisterBeginResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyRegisterBeginResponseError =
-  passkeyRegisterBeginResponseDefault & {
-    headers: Headers;
-  };
-
-export type passkeyRegisterBeginResponse =
-  | passkeyRegisterBeginResponseSuccess
-  | passkeyRegisterBeginResponseError;
+export type passkeyRegisterBeginResponse = passkeyRegisterBeginResponseSuccess;
 
 export const getPasskeyRegisterBeginUrl = () => {
   return `/api/user/passkey/register/begin`;
@@ -14813,25 +12551,14 @@ export type passkeyRegisterFinishResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyRegisterFinishResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyRegisterFinishResponseSuccess = (
   | passkeyRegisterFinishResponse200ApplicationJson
   | passkeyRegisterFinishResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyRegisterFinishResponseError =
-  passkeyRegisterFinishResponseDefault & {
-    headers: Headers;
-  };
-
 export type passkeyRegisterFinishResponse =
-  | passkeyRegisterFinishResponseSuccess
-  | passkeyRegisterFinishResponseError;
+  passkeyRegisterFinishResponseSuccess;
 
 export const getPasskeyRegisterFinishUrl = () => {
   return `/api/user/passkey/register/finish`;
@@ -14862,25 +12589,13 @@ export type passkeyVerifyBeginResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyVerifyBeginResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyVerifyBeginResponseSuccess = (
   | passkeyVerifyBeginResponse200ApplicationJson
   | passkeyVerifyBeginResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyVerifyBeginResponseError =
-  passkeyVerifyBeginResponseDefault & {
-    headers: Headers;
-  };
-
-export type passkeyVerifyBeginResponse =
-  | passkeyVerifyBeginResponseSuccess
-  | passkeyVerifyBeginResponseError;
+export type passkeyVerifyBeginResponse = passkeyVerifyBeginResponseSuccess;
 
 export const getPasskeyVerifyBeginUrl = () => {
   return `/api/user/passkey/verify/begin`;
@@ -14908,25 +12623,13 @@ export type passkeyVerifyFinishResponse200ApplicationXml = {
   status: 200;
 };
 
-export type passkeyVerifyFinishResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type passkeyVerifyFinishResponseSuccess = (
   | passkeyVerifyFinishResponse200ApplicationJson
   | passkeyVerifyFinishResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type passkeyVerifyFinishResponseError =
-  passkeyVerifyFinishResponseDefault & {
-    headers: Headers;
-  };
-
-export type passkeyVerifyFinishResponse =
-  | passkeyVerifyFinishResponseSuccess
-  | passkeyVerifyFinishResponseError;
+export type passkeyVerifyFinishResponse = passkeyVerifyFinishResponseSuccess;
 
 export const getPasskeyVerifyFinishUrl = () => {
   return `/api/user/passkey/verify/finish`;
@@ -14954,24 +12657,13 @@ export type requestEpayResponse200ApplicationXml = {
   status: 200;
 };
 
-export type requestEpayResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type requestEpayResponseSuccess = (
   | requestEpayResponse200ApplicationJson
   | requestEpayResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type requestEpayResponseError = requestEpayResponseDefault & {
-  headers: Headers;
-};
-
-export type requestEpayResponse =
-  | requestEpayResponseSuccess
-  | requestEpayResponseError;
+export type requestEpayResponse = requestEpayResponseSuccess;
 
 export const getRequestEpayUrl = () => {
   return `/api/user/pay`;
@@ -15002,22 +12694,13 @@ export type registerResponse200ApplicationXml = {
   status: 200;
 };
 
-export type registerResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type registerResponseSuccess = (
   | registerResponse200ApplicationJson
   | registerResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type registerResponseError = registerResponseDefault & {
-  headers: Headers;
-};
-
-export type registerResponse = registerResponseSuccess | registerResponseError;
+export type registerResponse = registerResponseSuccess;
 
 export const getRegisterUrl = (params?: RegisterParams) => {
   const normalizedParams = new URLSearchParams();
@@ -15061,24 +12744,13 @@ export type resetPasswordResponse200ApplicationXml = {
   status: 200;
 };
 
-export type resetPasswordResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type resetPasswordResponseSuccess = (
   | resetPasswordResponse200ApplicationJson
   | resetPasswordResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type resetPasswordResponseError = resetPasswordResponseDefault & {
-  headers: Headers;
-};
-
-export type resetPasswordResponse =
-  | resetPasswordResponseSuccess
-  | resetPasswordResponseError;
+export type resetPasswordResponse = resetPasswordResponseSuccess;
 
 export const getResetPasswordUrl = () => {
   return `/api/user/reset`;
@@ -15109,24 +12781,13 @@ export type searchUsersResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchUsersResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchUsersResponseSuccess = (
   | searchUsersResponse200ApplicationJson
   | searchUsersResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchUsersResponseError = searchUsersResponseDefault & {
-  headers: Headers;
-};
-
-export type searchUsersResponse =
-  | searchUsersResponseSuccess
-  | searchUsersResponseError;
+export type searchUsersResponse = searchUsersResponseSuccess;
 
 export const getSearchUsersUrl = (params?: SearchUsersParams) => {
   const normalizedParams = new URLSearchParams();
@@ -15167,24 +12828,13 @@ export type deleteSelfResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteSelfResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteSelfResponseSuccess = (
   | deleteSelfResponse200ApplicationJson
   | deleteSelfResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteSelfResponseError = deleteSelfResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteSelfResponse =
-  | deleteSelfResponseSuccess
-  | deleteSelfResponseError;
+export type deleteSelfResponse = deleteSelfResponseSuccess;
 
 export const getDeleteSelfUrl = () => {
   return `/api/user/self`;
@@ -15212,22 +12862,13 @@ export type getSelfResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSelfResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSelfResponseSuccess = (
   | getSelfResponse200ApplicationJson
   | getSelfResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSelfResponseError = getSelfResponseDefault & {
-  headers: Headers;
-};
-
-export type getSelfResponse = getSelfResponseSuccess | getSelfResponseError;
+export type getSelfResponse = getSelfResponseSuccess;
 
 export const getGetSelfUrl = () => {
   return `/api/user/self`;
@@ -15255,24 +12896,13 @@ export type updateSelfResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateSelfResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateSelfResponseSuccess = (
   | updateSelfResponse200ApplicationJson
   | updateSelfResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateSelfResponseError = updateSelfResponseDefault & {
-  headers: Headers;
-};
-
-export type updateSelfResponse =
-  | updateSelfResponseSuccess
-  | updateSelfResponseError;
+export type updateSelfResponse = updateSelfResponseSuccess;
 
 export const getUpdateSelfUrl = () => {
   return `/api/user/self`;
@@ -15300,25 +12930,13 @@ export type getApiUserSelfGroupsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getApiUserSelfGroupsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getApiUserSelfGroupsResponseSuccess = (
   | getApiUserSelfGroupsResponse200ApplicationJson
   | getApiUserSelfGroupsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getApiUserSelfGroupsResponseError =
-  getApiUserSelfGroupsResponseDefault & {
-    headers: Headers;
-  };
-
-export type getApiUserSelfGroupsResponse =
-  | getApiUserSelfGroupsResponseSuccess
-  | getApiUserSelfGroupsResponseError;
+export type getApiUserSelfGroupsResponse = getApiUserSelfGroupsResponseSuccess;
 
 export const getGetApiUserSelfGroupsUrl = () => {
   return `/api/user/self/groups`;
@@ -15349,25 +12967,13 @@ export type updateUserSettingResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateUserSettingResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateUserSettingResponseSuccess = (
   | updateUserSettingResponse200ApplicationJson
   | updateUserSettingResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateUserSettingResponseError =
-  updateUserSettingResponseDefault & {
-    headers: Headers;
-  };
-
-export type updateUserSettingResponse =
-  | updateUserSettingResponseSuccess
-  | updateUserSettingResponseError;
+export type updateUserSettingResponse = updateUserSettingResponseSuccess;
 
 export const getUpdateUserSettingUrl = () => {
   return `/api/user/setting`;
@@ -15398,25 +13004,13 @@ export type requestStripeAmountResponse200ApplicationXml = {
   status: 200;
 };
 
-export type requestStripeAmountResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type requestStripeAmountResponseSuccess = (
   | requestStripeAmountResponse200ApplicationJson
   | requestStripeAmountResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type requestStripeAmountResponseError =
-  requestStripeAmountResponseDefault & {
-    headers: Headers;
-  };
-
-export type requestStripeAmountResponse =
-  | requestStripeAmountResponseSuccess
-  | requestStripeAmountResponseError;
+export type requestStripeAmountResponse = requestStripeAmountResponseSuccess;
 
 export const getRequestStripeAmountUrl = () => {
   return `/api/user/stripe/amount`;
@@ -15447,24 +13041,13 @@ export type requestStripePayResponse200ApplicationXml = {
   status: 200;
 };
 
-export type requestStripePayResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type requestStripePayResponseSuccess = (
   | requestStripePayResponse200ApplicationJson
   | requestStripePayResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type requestStripePayResponseError = requestStripePayResponseDefault & {
-  headers: Headers;
-};
-
-export type requestStripePayResponse =
-  | requestStripePayResponseSuccess
-  | requestStripePayResponseError;
+export type requestStripePayResponse = requestStripePayResponseSuccess;
 
 export const getRequestStripePayUrl = () => {
   return `/api/user/stripe/pay`;
@@ -15495,25 +13078,13 @@ export type generateAccessTokenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type generateAccessTokenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type generateAccessTokenResponseSuccess = (
   | generateAccessTokenResponse200ApplicationJson
   | generateAccessTokenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type generateAccessTokenResponseError =
-  generateAccessTokenResponseDefault & {
-    headers: Headers;
-  };
-
-export type generateAccessTokenResponse =
-  | generateAccessTokenResponseSuccess
-  | generateAccessTokenResponseError;
+export type generateAccessTokenResponse = generateAccessTokenResponseSuccess;
 
 export const getGenerateAccessTokenUrl = () => {
   return `/api/user/token`;
@@ -15541,24 +13112,13 @@ export type getAllTopUpsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllTopUpsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllTopUpsResponseSuccess = (
   | getAllTopUpsResponse200ApplicationJson
   | getAllTopUpsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllTopUpsResponseError = getAllTopUpsResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllTopUpsResponse =
-  | getAllTopUpsResponseSuccess
-  | getAllTopUpsResponseError;
+export type getAllTopUpsResponse = getAllTopUpsResponseSuccess;
 
 export const getGetAllTopUpsUrl = (params?: GetAllTopUpsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -15599,22 +13159,13 @@ export type topUpResponse200ApplicationXml = {
   status: 200;
 };
 
-export type topUpResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type topUpResponseSuccess = (
   | topUpResponse200ApplicationJson
   | topUpResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type topUpResponseError = topUpResponseDefault & {
-  headers: Headers;
-};
-
-export type topUpResponse = topUpResponseSuccess | topUpResponseError;
+export type topUpResponse = topUpResponseSuccess;
 
 export const getTopUpUrl = () => {
   return `/api/user/topup`;
@@ -15645,25 +13196,13 @@ export type adminCompleteTopUpResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminCompleteTopUpResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminCompleteTopUpResponseSuccess = (
   | adminCompleteTopUpResponse200ApplicationJson
   | adminCompleteTopUpResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminCompleteTopUpResponseError =
-  adminCompleteTopUpResponseDefault & {
-    headers: Headers;
-  };
-
-export type adminCompleteTopUpResponse =
-  | adminCompleteTopUpResponseSuccess
-  | adminCompleteTopUpResponseError;
+export type adminCompleteTopUpResponse = adminCompleteTopUpResponseSuccess;
 
 export const getAdminCompleteTopUpUrl = () => {
   return `/api/user/topup/complete`;
@@ -15694,24 +13233,13 @@ export type getTopUpInfoResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getTopUpInfoResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getTopUpInfoResponseSuccess = (
   | getTopUpInfoResponse200ApplicationJson
   | getTopUpInfoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getTopUpInfoResponseError = getTopUpInfoResponseDefault & {
-  headers: Headers;
-};
-
-export type getTopUpInfoResponse =
-  | getTopUpInfoResponseSuccess
-  | getTopUpInfoResponseError;
+export type getTopUpInfoResponse = getTopUpInfoResponseSuccess;
 
 export const getGetTopUpInfoUrl = () => {
   return `/api/user/topup/info`;
@@ -15739,24 +13267,13 @@ export type getUserTopUpsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserTopUpsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserTopUpsResponseSuccess = (
   | getUserTopUpsResponse200ApplicationJson
   | getUserTopUpsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserTopUpsResponseError = getUserTopUpsResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserTopUpsResponse =
-  | getUserTopUpsResponseSuccess
-  | getUserTopUpsResponseError;
+export type getUserTopUpsResponse = getUserTopUpsResponseSuccess;
 
 export const getGetUserTopUpsUrl = (params?: GetUserTopUpsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -15797,24 +13314,13 @@ export type deleteUserResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteUserResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteUserResponseSuccess = (
   | deleteUserResponse200ApplicationJson
   | deleteUserResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteUserResponseError = deleteUserResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteUserResponse =
-  | deleteUserResponseSuccess
-  | deleteUserResponseError;
+export type deleteUserResponse = deleteUserResponseSuccess;
 
 export const getDeleteUserUrl = (id: string) => {
   return `/api/user/${id}`;
@@ -15843,22 +13349,13 @@ export type getUserResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserResponseSuccess = (
   | getUserResponse200ApplicationJson
   | getUserResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserResponseError = getUserResponseDefault & {
-  headers: Headers;
-};
-
-export type getUserResponse = getUserResponseSuccess | getUserResponseError;
+export type getUserResponse = getUserResponseSuccess;
 
 export const getGetUserUrl = (id: string) => {
   return `/api/user/${id}`;
@@ -15887,24 +13384,13 @@ export type adminDisable2FAResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminDisable2FAResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminDisable2FAResponseSuccess = (
   | adminDisable2FAResponse200ApplicationJson
   | adminDisable2FAResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminDisable2FAResponseError = adminDisable2FAResponseDefault & {
-  headers: Headers;
-};
-
-export type adminDisable2FAResponse =
-  | adminDisable2FAResponseSuccess
-  | adminDisable2FAResponseError;
+export type adminDisable2FAResponse = adminDisable2FAResponseSuccess;
 
 export const getAdminDisable2FAUrl = (id: string) => {
   return `/api/user/${id}/2fa`;
@@ -15933,25 +13419,14 @@ export type adminClearUserBindingResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminClearUserBindingResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminClearUserBindingResponseSuccess = (
   | adminClearUserBindingResponse200ApplicationJson
   | adminClearUserBindingResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminClearUserBindingResponseError =
-  adminClearUserBindingResponseDefault & {
-    headers: Headers;
-  };
-
 export type adminClearUserBindingResponse =
-  | adminClearUserBindingResponseSuccess
-  | adminClearUserBindingResponseError;
+  adminClearUserBindingResponseSuccess;
 
 export const getAdminClearUserBindingUrl = (
   id: string,
@@ -15987,25 +13462,14 @@ export type getUserOAuthBindingsByAdminResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUserOAuthBindingsByAdminResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUserOAuthBindingsByAdminResponseSuccess = (
   | getUserOAuthBindingsByAdminResponse200ApplicationJson
   | getUserOAuthBindingsByAdminResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUserOAuthBindingsByAdminResponseError =
-  getUserOAuthBindingsByAdminResponseDefault & {
-    headers: Headers;
-  };
-
 export type getUserOAuthBindingsByAdminResponse =
-  | getUserOAuthBindingsByAdminResponseSuccess
-  | getUserOAuthBindingsByAdminResponseError;
+  getUserOAuthBindingsByAdminResponseSuccess;
 
 export const getGetUserOAuthBindingsByAdminUrl = (id: string) => {
   return `/api/user/${id}/oauth/bindings`;
@@ -16037,25 +13501,14 @@ export type unbindCustomOAuthByAdminResponse200ApplicationXml = {
   status: 200;
 };
 
-export type unbindCustomOAuthByAdminResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type unbindCustomOAuthByAdminResponseSuccess = (
   | unbindCustomOAuthByAdminResponse200ApplicationJson
   | unbindCustomOAuthByAdminResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type unbindCustomOAuthByAdminResponseError =
-  unbindCustomOAuthByAdminResponseDefault & {
-    headers: Headers;
-  };
-
 export type unbindCustomOAuthByAdminResponse =
-  | unbindCustomOAuthByAdminResponseSuccess
-  | unbindCustomOAuthByAdminResponseError;
+  unbindCustomOAuthByAdminResponseSuccess;
 
 export const getUnbindCustomOAuthByAdminUrl = (
   id: string,
@@ -16091,25 +13544,13 @@ export type adminResetPasskeyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type adminResetPasskeyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type adminResetPasskeyResponseSuccess = (
   | adminResetPasskeyResponse200ApplicationJson
   | adminResetPasskeyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type adminResetPasskeyResponseError =
-  adminResetPasskeyResponseDefault & {
-    headers: Headers;
-  };
-
-export type adminResetPasskeyResponse =
-  | adminResetPasskeyResponseSuccess
-  | adminResetPasskeyResponseError;
+export type adminResetPasskeyResponse = adminResetPasskeyResponseSuccess;
 
 export const getAdminResetPasskeyUrl = (id: string) => {
   return `/api/user/${id}/reset_passkey`;
@@ -16138,24 +13579,13 @@ export type getAllVendorsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getAllVendorsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getAllVendorsResponseSuccess = (
   | getAllVendorsResponse200ApplicationJson
   | getAllVendorsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getAllVendorsResponseError = getAllVendorsResponseDefault & {
-  headers: Headers;
-};
-
-export type getAllVendorsResponse =
-  | getAllVendorsResponseSuccess
-  | getAllVendorsResponseError;
+export type getAllVendorsResponse = getAllVendorsResponseSuccess;
 
 export const getGetAllVendorsUrl = (params?: GetAllVendorsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -16196,24 +13626,13 @@ export type createVendorMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type createVendorMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type createVendorMetaResponseSuccess = (
   | createVendorMetaResponse200ApplicationJson
   | createVendorMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type createVendorMetaResponseError = createVendorMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type createVendorMetaResponse =
-  | createVendorMetaResponseSuccess
-  | createVendorMetaResponseError;
+export type createVendorMetaResponse = createVendorMetaResponseSuccess;
 
 export const getCreateVendorMetaUrl = () => {
   return `/api/vendors/`;
@@ -16244,24 +13663,13 @@ export type updateVendorMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type updateVendorMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type updateVendorMetaResponseSuccess = (
   | updateVendorMetaResponse200ApplicationJson
   | updateVendorMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type updateVendorMetaResponseError = updateVendorMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type updateVendorMetaResponse =
-  | updateVendorMetaResponseSuccess
-  | updateVendorMetaResponseError;
+export type updateVendorMetaResponse = updateVendorMetaResponseSuccess;
 
 export const getUpdateVendorMetaUrl = () => {
   return `/api/vendors/`;
@@ -16292,24 +13700,13 @@ export type searchVendorsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type searchVendorsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type searchVendorsResponseSuccess = (
   | searchVendorsResponse200ApplicationJson
   | searchVendorsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type searchVendorsResponseError = searchVendorsResponseDefault & {
-  headers: Headers;
-};
-
-export type searchVendorsResponse =
-  | searchVendorsResponseSuccess
-  | searchVendorsResponseError;
+export type searchVendorsResponse = searchVendorsResponseSuccess;
 
 export const getSearchVendorsUrl = (params?: SearchVendorsParams) => {
   const normalizedParams = new URLSearchParams();
@@ -16350,24 +13747,13 @@ export type deleteVendorMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteVendorMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteVendorMetaResponseSuccess = (
   | deleteVendorMetaResponse200ApplicationJson
   | deleteVendorMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteVendorMetaResponseError = deleteVendorMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteVendorMetaResponse =
-  | deleteVendorMetaResponseSuccess
-  | deleteVendorMetaResponseError;
+export type deleteVendorMetaResponse = deleteVendorMetaResponseSuccess;
 
 export const getDeleteVendorMetaUrl = (id: string) => {
   return `/api/vendors/${id}`;
@@ -16396,24 +13782,13 @@ export type getVendorMetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getVendorMetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getVendorMetaResponseSuccess = (
   | getVendorMetaResponse200ApplicationJson
   | getVendorMetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getVendorMetaResponseError = getVendorMetaResponseDefault & {
-  headers: Headers;
-};
-
-export type getVendorMetaResponse =
-  | getVendorMetaResponseSuccess
-  | getVendorMetaResponseError;
+export type getVendorMetaResponse = getVendorMetaResponseSuccess;
 
 export const getGetVendorMetaUrl = (id: string) => {
   return `/api/vendors/${id}`;
@@ -16442,25 +13817,14 @@ export type sendEmailVerificationResponse200ApplicationXml = {
   status: 200;
 };
 
-export type sendEmailVerificationResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type sendEmailVerificationResponseSuccess = (
   | sendEmailVerificationResponse200ApplicationJson
   | sendEmailVerificationResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type sendEmailVerificationResponseError =
-  sendEmailVerificationResponseDefault & {
-    headers: Headers;
-  };
-
 export type sendEmailVerificationResponse =
-  | sendEmailVerificationResponseSuccess
-  | sendEmailVerificationResponseError;
+  sendEmailVerificationResponseSuccess;
 
 export const getSendEmailVerificationUrl = (
   params?: SendEmailVerificationParams,
@@ -16506,24 +13870,13 @@ export type universalVerifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type universalVerifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type universalVerifyResponseSuccess = (
   | universalVerifyResponse200ApplicationJson
   | universalVerifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type universalVerifyResponseError = universalVerifyResponseDefault & {
-  headers: Headers;
-};
-
-export type universalVerifyResponse =
-  | universalVerifyResponseSuccess
-  | universalVerifyResponseError;
+export type universalVerifyResponse = universalVerifyResponseSuccess;
 
 export const getUniversalVerifyUrl = () => {
   return `/api/verify`;
@@ -16551,24 +13904,13 @@ export type getSubscriptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSubscriptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSubscriptionResponseSuccess = (
   | getSubscriptionResponse200ApplicationJson
   | getSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSubscriptionResponseError = getSubscriptionResponseDefault & {
-  headers: Headers;
-};
-
-export type getSubscriptionResponse =
-  | getSubscriptionResponseSuccess
-  | getSubscriptionResponseError;
+export type getSubscriptionResponse = getSubscriptionResponseSuccess;
 
 export const getGetSubscriptionUrl = () => {
   return `/dashboard/billing/subscription`;
@@ -16596,22 +13938,13 @@ export type getUsageResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getUsageResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getUsageResponseSuccess = (
   | getUsageResponse200ApplicationJson
   | getUsageResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getUsageResponseError = getUsageResponseDefault & {
-  headers: Headers;
-};
-
-export type getUsageResponse = getUsageResponseSuccess | getUsageResponseError;
+export type getUsageResponse = getUsageResponseSuccess;
 
 export const getGetUsageUrl = () => {
   return `/dashboard/billing/usage`;
@@ -16639,24 +13972,13 @@ export type postJimengResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postJimengResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postJimengResponseSuccess = (
   | postJimengResponse200ApplicationJson
   | postJimengResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postJimengResponseError = postJimengResponseDefault & {
-  headers: Headers;
-};
-
-export type postJimengResponse =
-  | postJimengResponseSuccess
-  | postJimengResponseError;
+export type postJimengResponse = postJimengResponseSuccess;
 
 export const getPostJimengUrl = () => {
   return `/jimeng/`;
@@ -16684,25 +14006,14 @@ export type postKlingV1VideosImage2videoResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postKlingV1VideosImage2videoResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postKlingV1VideosImage2videoResponseSuccess = (
   | postKlingV1VideosImage2videoResponse200ApplicationJson
   | postKlingV1VideosImage2videoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postKlingV1VideosImage2videoResponseError =
-  postKlingV1VideosImage2videoResponseDefault & {
-    headers: Headers;
-  };
-
 export type postKlingV1VideosImage2videoResponse =
-  | postKlingV1VideosImage2videoResponseSuccess
-  | postKlingV1VideosImage2videoResponseError;
+  postKlingV1VideosImage2videoResponseSuccess;
 
 export const getPostKlingV1VideosImage2videoUrl = () => {
   return `/kling/v1/videos/image2video`;
@@ -16733,25 +14044,14 @@ export type getKlingV1VideosImage2videoTaskIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getKlingV1VideosImage2videoTaskIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getKlingV1VideosImage2videoTaskIdResponseSuccess = (
   | getKlingV1VideosImage2videoTaskIdResponse200ApplicationJson
   | getKlingV1VideosImage2videoTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getKlingV1VideosImage2videoTaskIdResponseError =
-  getKlingV1VideosImage2videoTaskIdResponseDefault & {
-    headers: Headers;
-  };
-
 export type getKlingV1VideosImage2videoTaskIdResponse =
-  | getKlingV1VideosImage2videoTaskIdResponseSuccess
-  | getKlingV1VideosImage2videoTaskIdResponseError;
+  getKlingV1VideosImage2videoTaskIdResponseSuccess;
 
 export const getGetKlingV1VideosImage2videoTaskIdUrl = (taskId: string) => {
   return `/kling/v1/videos/image2video/${taskId}`;
@@ -16783,25 +14083,14 @@ export type postKlingV1VideosText2videoResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postKlingV1VideosText2videoResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postKlingV1VideosText2videoResponseSuccess = (
   | postKlingV1VideosText2videoResponse200ApplicationJson
   | postKlingV1VideosText2videoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postKlingV1VideosText2videoResponseError =
-  postKlingV1VideosText2videoResponseDefault & {
-    headers: Headers;
-  };
-
 export type postKlingV1VideosText2videoResponse =
-  | postKlingV1VideosText2videoResponseSuccess
-  | postKlingV1VideosText2videoResponseError;
+  postKlingV1VideosText2videoResponseSuccess;
 
 export const getPostKlingV1VideosText2videoUrl = () => {
   return `/kling/v1/videos/text2video`;
@@ -16832,25 +14121,14 @@ export type getKlingV1VideosText2videoTaskIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getKlingV1VideosText2videoTaskIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getKlingV1VideosText2videoTaskIdResponseSuccess = (
   | getKlingV1VideosText2videoTaskIdResponse200ApplicationJson
   | getKlingV1VideosText2videoTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getKlingV1VideosText2videoTaskIdResponseError =
-  getKlingV1VideosText2videoTaskIdResponseDefault & {
-    headers: Headers;
-  };
-
 export type getKlingV1VideosText2videoTaskIdResponse =
-  | getKlingV1VideosText2videoTaskIdResponseSuccess
-  | getKlingV1VideosText2videoTaskIdResponseError;
+  getKlingV1VideosText2videoTaskIdResponseSuccess;
 
 export const getGetKlingV1VideosText2videoTaskIdUrl = (taskId: string) => {
   return `/kling/v1/videos/text2video/${taskId}`;
@@ -16882,25 +14160,14 @@ export type postMjInsightFaceSwapResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjInsightFaceSwapResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjInsightFaceSwapResponseSuccess = (
   | postMjInsightFaceSwapResponse200ApplicationJson
   | postMjInsightFaceSwapResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjInsightFaceSwapResponseError =
-  postMjInsightFaceSwapResponseDefault & {
-    headers: Headers;
-  };
-
 export type postMjInsightFaceSwapResponse =
-  | postMjInsightFaceSwapResponseSuccess
-  | postMjInsightFaceSwapResponseError;
+  postMjInsightFaceSwapResponseSuccess;
 
 export const getPostMjInsightFaceSwapUrl = () => {
   return `/mj/insight-face/swap`;
@@ -16931,24 +14198,13 @@ export type postMjNotifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjNotifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjNotifyResponseSuccess = (
   | postMjNotifyResponse200ApplicationJson
   | postMjNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjNotifyResponseError = postMjNotifyResponseDefault & {
-  headers: Headers;
-};
-
-export type postMjNotifyResponse =
-  | postMjNotifyResponseSuccess
-  | postMjNotifyResponseError;
+export type postMjNotifyResponse = postMjNotifyResponseSuccess;
 
 export const getPostMjNotifyUrl = () => {
   return `/mj/notify`;
@@ -16976,24 +14232,13 @@ export type relayMidjourneyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayMidjourneyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayMidjourneyResponseSuccess = (
   | relayMidjourneyResponse200ApplicationJson
   | relayMidjourneyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMidjourneyResponseError = relayMidjourneyResponseDefault & {
-  headers: Headers;
-};
-
-export type relayMidjourneyResponse =
-  | relayMidjourneyResponseSuccess
-  | relayMidjourneyResponseError;
+export type relayMidjourneyResponse = relayMidjourneyResponseSuccess;
 
 export const getRelayMidjourneyUrl = () => {
   return `/mj/submit/action`;
@@ -17021,25 +14266,13 @@ export type postMjSubmitBlendResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitBlendResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitBlendResponseSuccess = (
   | postMjSubmitBlendResponse200ApplicationJson
   | postMjSubmitBlendResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitBlendResponseError =
-  postMjSubmitBlendResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitBlendResponse =
-  | postMjSubmitBlendResponseSuccess
-  | postMjSubmitBlendResponseError;
+export type postMjSubmitBlendResponse = postMjSubmitBlendResponseSuccess;
 
 export const getPostMjSubmitBlendUrl = () => {
   return `/mj/submit/blend`;
@@ -17067,25 +14300,13 @@ export type postMjSubmitChangeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitChangeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitChangeResponseSuccess = (
   | postMjSubmitChangeResponse200ApplicationJson
   | postMjSubmitChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitChangeResponseError =
-  postMjSubmitChangeResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitChangeResponse =
-  | postMjSubmitChangeResponseSuccess
-  | postMjSubmitChangeResponseError;
+export type postMjSubmitChangeResponse = postMjSubmitChangeResponseSuccess;
 
 export const getPostMjSubmitChangeUrl = () => {
   return `/mj/submit/change`;
@@ -17113,25 +14334,13 @@ export type postMjSubmitDescribeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitDescribeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitDescribeResponseSuccess = (
   | postMjSubmitDescribeResponse200ApplicationJson
   | postMjSubmitDescribeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitDescribeResponseError =
-  postMjSubmitDescribeResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitDescribeResponse =
-  | postMjSubmitDescribeResponseSuccess
-  | postMjSubmitDescribeResponseError;
+export type postMjSubmitDescribeResponse = postMjSubmitDescribeResponseSuccess;
 
 export const getPostMjSubmitDescribeUrl = () => {
   return `/mj/submit/describe`;
@@ -17162,25 +14371,13 @@ export type postMjSubmitEditsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitEditsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitEditsResponseSuccess = (
   | postMjSubmitEditsResponse200ApplicationJson
   | postMjSubmitEditsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitEditsResponseError =
-  postMjSubmitEditsResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitEditsResponse =
-  | postMjSubmitEditsResponseSuccess
-  | postMjSubmitEditsResponseError;
+export type postMjSubmitEditsResponse = postMjSubmitEditsResponseSuccess;
 
 export const getPostMjSubmitEditsUrl = () => {
   return `/mj/submit/edits`;
@@ -17208,25 +14405,13 @@ export type postMjSubmitImagineResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitImagineResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitImagineResponseSuccess = (
   | postMjSubmitImagineResponse200ApplicationJson
   | postMjSubmitImagineResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitImagineResponseError =
-  postMjSubmitImagineResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitImagineResponse =
-  | postMjSubmitImagineResponseSuccess
-  | postMjSubmitImagineResponseError;
+export type postMjSubmitImagineResponse = postMjSubmitImagineResponseSuccess;
 
 export const getPostMjSubmitImagineUrl = () => {
   return `/mj/submit/imagine`;
@@ -17254,25 +14439,13 @@ export type postMjSubmitModalResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitModalResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitModalResponseSuccess = (
   | postMjSubmitModalResponse200ApplicationJson
   | postMjSubmitModalResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitModalResponseError =
-  postMjSubmitModalResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitModalResponse =
-  | postMjSubmitModalResponseSuccess
-  | postMjSubmitModalResponseError;
+export type postMjSubmitModalResponse = postMjSubmitModalResponseSuccess;
 
 export const getPostMjSubmitModalUrl = () => {
   return `/mj/submit/modal`;
@@ -17300,25 +14473,13 @@ export type postMjSubmitShortenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitShortenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitShortenResponseSuccess = (
   | postMjSubmitShortenResponse200ApplicationJson
   | postMjSubmitShortenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitShortenResponseError =
-  postMjSubmitShortenResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitShortenResponse =
-  | postMjSubmitShortenResponseSuccess
-  | postMjSubmitShortenResponseError;
+export type postMjSubmitShortenResponse = postMjSubmitShortenResponseSuccess;
 
 export const getPostMjSubmitShortenUrl = () => {
   return `/mj/submit/shorten`;
@@ -17346,25 +14507,14 @@ export type postMjSubmitSimpleChangeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitSimpleChangeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitSimpleChangeResponseSuccess = (
   | postMjSubmitSimpleChangeResponse200ApplicationJson
   | postMjSubmitSimpleChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitSimpleChangeResponseError =
-  postMjSubmitSimpleChangeResponseDefault & {
-    headers: Headers;
-  };
-
 export type postMjSubmitSimpleChangeResponse =
-  | postMjSubmitSimpleChangeResponseSuccess
-  | postMjSubmitSimpleChangeResponseError;
+  postMjSubmitSimpleChangeResponseSuccess;
 
 export const getPostMjSubmitSimpleChangeUrl = () => {
   return `/mj/submit/simple-change`;
@@ -17395,25 +14545,14 @@ export type postMjSubmitUploadDiscordImagesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitUploadDiscordImagesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitUploadDiscordImagesResponseSuccess = (
   | postMjSubmitUploadDiscordImagesResponse200ApplicationJson
   | postMjSubmitUploadDiscordImagesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitUploadDiscordImagesResponseError =
-  postMjSubmitUploadDiscordImagesResponseDefault & {
-    headers: Headers;
-  };
-
 export type postMjSubmitUploadDiscordImagesResponse =
-  | postMjSubmitUploadDiscordImagesResponseSuccess
-  | postMjSubmitUploadDiscordImagesResponseError;
+  postMjSubmitUploadDiscordImagesResponseSuccess;
 
 export const getPostMjSubmitUploadDiscordImagesUrl = () => {
   return `/mj/submit/upload-discord-images`;
@@ -17444,25 +14583,13 @@ export type postMjSubmitVideoResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjSubmitVideoResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjSubmitVideoResponseSuccess = (
   | postMjSubmitVideoResponse200ApplicationJson
   | postMjSubmitVideoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjSubmitVideoResponseError =
-  postMjSubmitVideoResponseDefault & {
-    headers: Headers;
-  };
-
-export type postMjSubmitVideoResponse =
-  | postMjSubmitVideoResponseSuccess
-  | postMjSubmitVideoResponseError;
+export type postMjSubmitVideoResponse = postMjSubmitVideoResponseSuccess;
 
 export const getPostMjSubmitVideoUrl = () => {
   return `/mj/submit/video`;
@@ -17490,25 +14617,14 @@ export type postMjTaskListByConditionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postMjTaskListByConditionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postMjTaskListByConditionResponseSuccess = (
   | postMjTaskListByConditionResponse200ApplicationJson
   | postMjTaskListByConditionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postMjTaskListByConditionResponseError =
-  postMjTaskListByConditionResponseDefault & {
-    headers: Headers;
-  };
-
 export type postMjTaskListByConditionResponse =
-  | postMjTaskListByConditionResponseSuccess
-  | postMjTaskListByConditionResponseError;
+  postMjTaskListByConditionResponseSuccess;
 
 export const getPostMjTaskListByConditionUrl = () => {
   return `/mj/task/list-by-condition`;
@@ -17539,24 +14655,13 @@ export type getMjTaskIdFetchResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getMjTaskIdFetchResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getMjTaskIdFetchResponseSuccess = (
   | getMjTaskIdFetchResponse200ApplicationJson
   | getMjTaskIdFetchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getMjTaskIdFetchResponseError = getMjTaskIdFetchResponseDefault & {
-  headers: Headers;
-};
-
-export type getMjTaskIdFetchResponse =
-  | getMjTaskIdFetchResponseSuccess
-  | getMjTaskIdFetchResponseError;
+export type getMjTaskIdFetchResponse = getMjTaskIdFetchResponseSuccess;
 
 export const getGetMjTaskIdFetchUrl = (id: string) => {
   return `/mj/task/${id}/fetch`;
@@ -17585,25 +14690,13 @@ export type getMjTaskIdImageSeedResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getMjTaskIdImageSeedResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getMjTaskIdImageSeedResponseSuccess = (
   | getMjTaskIdImageSeedResponse200ApplicationJson
   | getMjTaskIdImageSeedResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getMjTaskIdImageSeedResponseError =
-  getMjTaskIdImageSeedResponseDefault & {
-    headers: Headers;
-  };
-
-export type getMjTaskIdImageSeedResponse =
-  | getMjTaskIdImageSeedResponseSuccess
-  | getMjTaskIdImageSeedResponseError;
+export type getMjTaskIdImageSeedResponse = getMjTaskIdImageSeedResponseSuccess;
 
 export const getGetMjTaskIdImageSeedUrl = (id: string) => {
   return `/mj/task/${id}/image-seed`;
@@ -17635,24 +14728,13 @@ export type playgroundResponse200ApplicationXml = {
   status: 200;
 };
 
-export type playgroundResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type playgroundResponseSuccess = (
   | playgroundResponse200ApplicationJson
   | playgroundResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type playgroundResponseError = playgroundResponseDefault & {
-  headers: Headers;
-};
-
-export type playgroundResponse =
-  | playgroundResponseSuccess
-  | playgroundResponseError;
+export type playgroundResponse = playgroundResponseSuccess;
 
 export const getPlaygroundUrl = () => {
   return `/pg/chat/completions`;
@@ -17680,24 +14762,13 @@ export type relayTaskFetchResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayTaskFetchResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayTaskFetchResponseSuccess = (
   | relayTaskFetchResponse200ApplicationJson
   | relayTaskFetchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskFetchResponseError = relayTaskFetchResponseDefault & {
-  headers: Headers;
-};
-
-export type relayTaskFetchResponse =
-  | relayTaskFetchResponseSuccess
-  | relayTaskFetchResponseError;
+export type relayTaskFetchResponse = relayTaskFetchResponseSuccess;
 
 export const getRelayTaskFetchUrl = () => {
   return `/suno/fetch`;
@@ -17725,24 +14796,13 @@ export type getSunoFetchIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getSunoFetchIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getSunoFetchIdResponseSuccess = (
   | getSunoFetchIdResponse200ApplicationJson
   | getSunoFetchIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getSunoFetchIdResponseError = getSunoFetchIdResponseDefault & {
-  headers: Headers;
-};
-
-export type getSunoFetchIdResponse =
-  | getSunoFetchIdResponseSuccess
-  | getSunoFetchIdResponseError;
+export type getSunoFetchIdResponse = getSunoFetchIdResponseSuccess;
 
 export const getGetSunoFetchIdUrl = (id: string) => {
   return `/suno/fetch/${id}`;
@@ -17771,24 +14831,13 @@ export type relayTaskResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayTaskResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayTaskResponseSuccess = (
   | relayTaskResponse200ApplicationJson
   | relayTaskResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayTaskResponseError = relayTaskResponseDefault & {
-  headers: Headers;
-};
-
-export type relayTaskResponse =
-  | relayTaskResponseSuccess
-  | relayTaskResponseError;
+export type relayTaskResponse = relayTaskResponseSuccess;
 
 export const getRelayTaskUrl = (action: string) => {
   return `/suno/submit/${action}`;
@@ -17817,24 +14866,13 @@ export type relayAudioSpeechResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayAudioSpeechResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayAudioSpeechResponseSuccess = (
   | relayAudioSpeechResponse200ApplicationJson
   | relayAudioSpeechResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayAudioSpeechResponseError = relayAudioSpeechResponseDefault & {
-  headers: Headers;
-};
-
-export type relayAudioSpeechResponse =
-  | relayAudioSpeechResponseSuccess
-  | relayAudioSpeechResponseError;
+export type relayAudioSpeechResponse = relayAudioSpeechResponseSuccess;
 
 export const getRelayAudioSpeechUrl = () => {
   return `/v1/audio/speech`;
@@ -17862,25 +14900,14 @@ export type relayAudioTranscriptionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayAudioTranscriptionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayAudioTranscriptionsResponseSuccess = (
   | relayAudioTranscriptionsResponse200ApplicationJson
   | relayAudioTranscriptionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayAudioTranscriptionsResponseError =
-  relayAudioTranscriptionsResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayAudioTranscriptionsResponse =
-  | relayAudioTranscriptionsResponseSuccess
-  | relayAudioTranscriptionsResponseError;
+  relayAudioTranscriptionsResponseSuccess;
 
 export const getRelayAudioTranscriptionsUrl = () => {
   return `/v1/audio/transcriptions`;
@@ -17911,25 +14938,14 @@ export type relayAudioTranslationsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayAudioTranslationsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayAudioTranslationsResponseSuccess = (
   | relayAudioTranslationsResponse200ApplicationJson
   | relayAudioTranslationsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayAudioTranslationsResponseError =
-  relayAudioTranslationsResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayAudioTranslationsResponse =
-  | relayAudioTranslationsResponseSuccess
-  | relayAudioTranslationsResponseError;
+  relayAudioTranslationsResponseSuccess;
 
 export const getRelayAudioTranslationsUrl = () => {
   return `/v1/audio/translations`;
@@ -17960,25 +14976,13 @@ export type relayChatCompletionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayChatCompletionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayChatCompletionsResponseSuccess = (
   | relayChatCompletionsResponse200ApplicationJson
   | relayChatCompletionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayChatCompletionsResponseError =
-  relayChatCompletionsResponseDefault & {
-    headers: Headers;
-  };
-
-export type relayChatCompletionsResponse =
-  | relayChatCompletionsResponseSuccess
-  | relayChatCompletionsResponseError;
+export type relayChatCompletionsResponse = relayChatCompletionsResponseSuccess;
 
 export const getRelayChatCompletionsUrl = () => {
   return `/v1/chat/completions`;
@@ -18009,24 +15013,13 @@ export type relayCompletionsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayCompletionsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayCompletionsResponseSuccess = (
   | relayCompletionsResponse200ApplicationJson
   | relayCompletionsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayCompletionsResponseError = relayCompletionsResponseDefault & {
-  headers: Headers;
-};
-
-export type relayCompletionsResponse =
-  | relayCompletionsResponseSuccess
-  | relayCompletionsResponseError;
+export type relayCompletionsResponse = relayCompletionsResponseSuccess;
 
 export const getRelayCompletionsUrl = () => {
   return `/v1/completions`;
@@ -18054,25 +15047,14 @@ export type getV1DashboardBillingSubscriptionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1DashboardBillingSubscriptionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1DashboardBillingSubscriptionResponseSuccess = (
   | getV1DashboardBillingSubscriptionResponse200ApplicationJson
   | getV1DashboardBillingSubscriptionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1DashboardBillingSubscriptionResponseError =
-  getV1DashboardBillingSubscriptionResponseDefault & {
-    headers: Headers;
-  };
-
 export type getV1DashboardBillingSubscriptionResponse =
-  | getV1DashboardBillingSubscriptionResponseSuccess
-  | getV1DashboardBillingSubscriptionResponseError;
+  getV1DashboardBillingSubscriptionResponseSuccess;
 
 export const getGetV1DashboardBillingSubscriptionUrl = () => {
   return `/v1/dashboard/billing/subscription`;
@@ -18103,25 +15085,14 @@ export type getV1DashboardBillingUsageResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1DashboardBillingUsageResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1DashboardBillingUsageResponseSuccess = (
   | getV1DashboardBillingUsageResponse200ApplicationJson
   | getV1DashboardBillingUsageResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1DashboardBillingUsageResponseError =
-  getV1DashboardBillingUsageResponseDefault & {
-    headers: Headers;
-  };
-
 export type getV1DashboardBillingUsageResponse =
-  | getV1DashboardBillingUsageResponseSuccess
-  | getV1DashboardBillingUsageResponseError;
+  getV1DashboardBillingUsageResponseSuccess;
 
 export const getGetV1DashboardBillingUsageUrl = () => {
   return `/v1/dashboard/billing/usage`;
@@ -18152,24 +15123,13 @@ export type relayEditsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayEditsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayEditsResponseSuccess = (
   | relayEditsResponse200ApplicationJson
   | relayEditsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayEditsResponseError = relayEditsResponseDefault & {
-  headers: Headers;
-};
-
-export type relayEditsResponse =
-  | relayEditsResponseSuccess
-  | relayEditsResponseError;
+export type relayEditsResponse = relayEditsResponseSuccess;
 
 export const getRelayEditsUrl = () => {
   return `/v1/edits`;
@@ -18197,24 +15157,13 @@ export type relayEmbeddingsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayEmbeddingsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayEmbeddingsResponseSuccess = (
   | relayEmbeddingsResponse200ApplicationJson
   | relayEmbeddingsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayEmbeddingsResponseError = relayEmbeddingsResponseDefault & {
-  headers: Headers;
-};
-
-export type relayEmbeddingsResponse =
-  | relayEmbeddingsResponseSuccess
-  | relayEmbeddingsResponseError;
+export type relayEmbeddingsResponse = relayEmbeddingsResponseSuccess;
 
 export const getRelayEmbeddingsUrl = () => {
   return `/v1/embeddings`;
@@ -18242,25 +15191,14 @@ export type relayEngineEmbeddingsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayEngineEmbeddingsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayEngineEmbeddingsResponseSuccess = (
   | relayEngineEmbeddingsResponse200ApplicationJson
   | relayEngineEmbeddingsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayEngineEmbeddingsResponseError =
-  relayEngineEmbeddingsResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayEngineEmbeddingsResponse =
-  | relayEngineEmbeddingsResponseSuccess
-  | relayEngineEmbeddingsResponseError;
+  relayEngineEmbeddingsResponseSuccess;
 
 export const getRelayEngineEmbeddingsUrl = (model: string) => {
   return `/v1/engines/${model}/embeddings`;
@@ -18292,24 +15230,13 @@ export type getV1FilesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1FilesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1FilesResponseSuccess = (
   | getV1FilesResponse200ApplicationJson
   | getV1FilesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1FilesResponseError = getV1FilesResponseDefault & {
-  headers: Headers;
-};
-
-export type getV1FilesResponse =
-  | getV1FilesResponseSuccess
-  | getV1FilesResponseError;
+export type getV1FilesResponse = getV1FilesResponseSuccess;
 
 export const getGetV1FilesUrl = () => {
   return `/v1/files`;
@@ -18337,24 +15264,13 @@ export type postV1FilesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postV1FilesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postV1FilesResponseSuccess = (
   | postV1FilesResponse200ApplicationJson
   | postV1FilesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postV1FilesResponseError = postV1FilesResponseDefault & {
-  headers: Headers;
-};
-
-export type postV1FilesResponse =
-  | postV1FilesResponseSuccess
-  | postV1FilesResponseError;
+export type postV1FilesResponse = postV1FilesResponseSuccess;
 
 export const getPostV1FilesUrl = () => {
   return `/v1/files`;
@@ -18382,24 +15298,13 @@ export type deleteV1FilesIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteV1FilesIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteV1FilesIdResponseSuccess = (
   | deleteV1FilesIdResponse200ApplicationJson
   | deleteV1FilesIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteV1FilesIdResponseError = deleteV1FilesIdResponseDefault & {
-  headers: Headers;
-};
-
-export type deleteV1FilesIdResponse =
-  | deleteV1FilesIdResponseSuccess
-  | deleteV1FilesIdResponseError;
+export type deleteV1FilesIdResponse = deleteV1FilesIdResponseSuccess;
 
 export const getDeleteV1FilesIdUrl = (id: string) => {
   return `/v1/files/${id}`;
@@ -18428,24 +15333,13 @@ export type getV1FilesIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1FilesIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1FilesIdResponseSuccess = (
   | getV1FilesIdResponse200ApplicationJson
   | getV1FilesIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1FilesIdResponseError = getV1FilesIdResponseDefault & {
-  headers: Headers;
-};
-
-export type getV1FilesIdResponse =
-  | getV1FilesIdResponseSuccess
-  | getV1FilesIdResponseError;
+export type getV1FilesIdResponse = getV1FilesIdResponseSuccess;
 
 export const getGetV1FilesIdUrl = (id: string) => {
   return `/v1/files/${id}`;
@@ -18474,25 +15368,13 @@ export type getV1FilesIdContentResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1FilesIdContentResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1FilesIdContentResponseSuccess = (
   | getV1FilesIdContentResponse200ApplicationJson
   | getV1FilesIdContentResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1FilesIdContentResponseError =
-  getV1FilesIdContentResponseDefault & {
-    headers: Headers;
-  };
-
-export type getV1FilesIdContentResponse =
-  | getV1FilesIdContentResponseSuccess
-  | getV1FilesIdContentResponseError;
+export type getV1FilesIdContentResponse = getV1FilesIdContentResponseSuccess;
 
 export const getGetV1FilesIdContentUrl = (id: string) => {
   return `/v1/files/${id}/content`;
@@ -18524,24 +15406,13 @@ export type getV1FineTunesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1FineTunesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1FineTunesResponseSuccess = (
   | getV1FineTunesResponse200ApplicationJson
   | getV1FineTunesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1FineTunesResponseError = getV1FineTunesResponseDefault & {
-  headers: Headers;
-};
-
-export type getV1FineTunesResponse =
-  | getV1FineTunesResponseSuccess
-  | getV1FineTunesResponseError;
+export type getV1FineTunesResponse = getV1FineTunesResponseSuccess;
 
 export const getGetV1FineTunesUrl = () => {
   return `/v1/fine-tunes`;
@@ -18569,24 +15440,13 @@ export type postV1FineTunesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postV1FineTunesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postV1FineTunesResponseSuccess = (
   | postV1FineTunesResponse200ApplicationJson
   | postV1FineTunesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postV1FineTunesResponseError = postV1FineTunesResponseDefault & {
-  headers: Headers;
-};
-
-export type postV1FineTunesResponse =
-  | postV1FineTunesResponseSuccess
-  | postV1FineTunesResponseError;
+export type postV1FineTunesResponse = postV1FineTunesResponseSuccess;
 
 export const getPostV1FineTunesUrl = () => {
   return `/v1/fine-tunes`;
@@ -18614,24 +15474,13 @@ export type getV1FineTunesIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1FineTunesIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1FineTunesIdResponseSuccess = (
   | getV1FineTunesIdResponse200ApplicationJson
   | getV1FineTunesIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1FineTunesIdResponseError = getV1FineTunesIdResponseDefault & {
-  headers: Headers;
-};
-
-export type getV1FineTunesIdResponse =
-  | getV1FineTunesIdResponseSuccess
-  | getV1FineTunesIdResponseError;
+export type getV1FineTunesIdResponse = getV1FineTunesIdResponseSuccess;
 
 export const getGetV1FineTunesIdUrl = (id: string) => {
   return `/v1/fine-tunes/${id}`;
@@ -18660,25 +15509,14 @@ export type postV1FineTunesIdCancelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postV1FineTunesIdCancelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postV1FineTunesIdCancelResponseSuccess = (
   | postV1FineTunesIdCancelResponse200ApplicationJson
   | postV1FineTunesIdCancelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postV1FineTunesIdCancelResponseError =
-  postV1FineTunesIdCancelResponseDefault & {
-    headers: Headers;
-  };
-
 export type postV1FineTunesIdCancelResponse =
-  | postV1FineTunesIdCancelResponseSuccess
-  | postV1FineTunesIdCancelResponseError;
+  postV1FineTunesIdCancelResponseSuccess;
 
 export const getPostV1FineTunesIdCancelUrl = (id: string) => {
   return `/v1/fine-tunes/${id}/cancel`;
@@ -18710,25 +15548,14 @@ export type getV1FineTunesIdEventsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1FineTunesIdEventsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1FineTunesIdEventsResponseSuccess = (
   | getV1FineTunesIdEventsResponse200ApplicationJson
   | getV1FineTunesIdEventsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1FineTunesIdEventsResponseError =
-  getV1FineTunesIdEventsResponseDefault & {
-    headers: Headers;
-  };
-
 export type getV1FineTunesIdEventsResponse =
-  | getV1FineTunesIdEventsResponseSuccess
-  | getV1FineTunesIdEventsResponseError;
+  getV1FineTunesIdEventsResponseSuccess;
 
 export const getGetV1FineTunesIdEventsUrl = (id: string) => {
   return `/v1/fine-tunes/${id}/events`;
@@ -18760,24 +15587,13 @@ export type relayImageEditsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayImageEditsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayImageEditsResponseSuccess = (
   | relayImageEditsResponse200ApplicationJson
   | relayImageEditsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayImageEditsResponseError = relayImageEditsResponseDefault & {
-  headers: Headers;
-};
-
-export type relayImageEditsResponse =
-  | relayImageEditsResponseSuccess
-  | relayImageEditsResponseError;
+export type relayImageEditsResponse = relayImageEditsResponseSuccess;
 
 export const getRelayImageEditsUrl = () => {
   return `/v1/images/edits`;
@@ -18805,25 +15621,14 @@ export type relayImageGenerationsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayImageGenerationsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayImageGenerationsResponseSuccess = (
   | relayImageGenerationsResponse200ApplicationJson
   | relayImageGenerationsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayImageGenerationsResponseError =
-  relayImageGenerationsResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayImageGenerationsResponse =
-  | relayImageGenerationsResponseSuccess
-  | relayImageGenerationsResponseError;
+  relayImageGenerationsResponseSuccess;
 
 export const getRelayImageGenerationsUrl = () => {
   return `/v1/images/generations`;
@@ -18854,25 +15659,13 @@ export type relayNotImplementedResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayNotImplementedResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayNotImplementedResponseSuccess = (
   | relayNotImplementedResponse200ApplicationJson
   | relayNotImplementedResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayNotImplementedResponseError =
-  relayNotImplementedResponseDefault & {
-    headers: Headers;
-  };
-
-export type relayNotImplementedResponse =
-  | relayNotImplementedResponseSuccess
-  | relayNotImplementedResponseError;
+export type relayNotImplementedResponse = relayNotImplementedResponseSuccess;
 
 export const getRelayNotImplementedUrl = () => {
   return `/v1/images/variations`;
@@ -18900,24 +15693,13 @@ export type relayMessagesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayMessagesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayMessagesResponseSuccess = (
   | relayMessagesResponse200ApplicationJson
   | relayMessagesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayMessagesResponseError = relayMessagesResponseDefault & {
-  headers: Headers;
-};
-
-export type relayMessagesResponse =
-  | relayMessagesResponseSuccess
-  | relayMessagesResponseError;
+export type relayMessagesResponse = relayMessagesResponseSuccess;
 
 export const getRelayMessagesUrl = () => {
   return `/v1/messages`;
@@ -18945,24 +15727,13 @@ export type relayListModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayListModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayListModelsResponseSuccess = (
   | relayListModelsResponse200ApplicationJson
   | relayListModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayListModelsResponseError = relayListModelsResponseDefault & {
-  headers: Headers;
-};
-
-export type relayListModelsResponse =
-  | relayListModelsResponseSuccess
-  | relayListModelsResponseError;
+export type relayListModelsResponse = relayListModelsResponseSuccess;
 
 export const getRelayListModelsUrl = () => {
   return `/v1/models`;
@@ -18990,24 +15761,13 @@ export type relayGeminiModelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayGeminiModelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayGeminiModelResponseSuccess = (
   | relayGeminiModelResponse200ApplicationJson
   | relayGeminiModelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayGeminiModelResponseError = relayGeminiModelResponseDefault & {
-  headers: Headers;
-};
-
-export type relayGeminiModelResponse =
-  | relayGeminiModelResponseSuccess
-  | relayGeminiModelResponseError;
+export type relayGeminiModelResponse = relayGeminiModelResponseSuccess;
 
 export const getRelayGeminiModelUrl = () => {
   return `/v1/models/*path`;
@@ -19035,25 +15795,13 @@ export type deleteV1ModelsModelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type deleteV1ModelsModelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type deleteV1ModelsModelResponseSuccess = (
   | deleteV1ModelsModelResponse200ApplicationJson
   | deleteV1ModelsModelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type deleteV1ModelsModelResponseError =
-  deleteV1ModelsModelResponseDefault & {
-    headers: Headers;
-  };
-
-export type deleteV1ModelsModelResponse =
-  | deleteV1ModelsModelResponseSuccess
-  | deleteV1ModelsModelResponseError;
+export type deleteV1ModelsModelResponse = deleteV1ModelsModelResponseSuccess;
 
 export const getDeleteV1ModelsModelUrl = (model: string) => {
   return `/v1/models/${model}`;
@@ -19085,25 +15833,13 @@ export type relayRetrieveModelResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayRetrieveModelResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayRetrieveModelResponseSuccess = (
   | relayRetrieveModelResponse200ApplicationJson
   | relayRetrieveModelResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayRetrieveModelResponseError =
-  relayRetrieveModelResponseDefault & {
-    headers: Headers;
-  };
-
-export type relayRetrieveModelResponse =
-  | relayRetrieveModelResponseSuccess
-  | relayRetrieveModelResponseError;
+export type relayRetrieveModelResponse = relayRetrieveModelResponseSuccess;
 
 export const getRelayRetrieveModelUrl = (model: string) => {
   return `/v1/models/${model}`;
@@ -19135,24 +15871,13 @@ export type relayModerationsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayModerationsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayModerationsResponseSuccess = (
   | relayModerationsResponse200ApplicationJson
   | relayModerationsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayModerationsResponseError = relayModerationsResponseDefault & {
-  headers: Headers;
-};
-
-export type relayModerationsResponse =
-  | relayModerationsResponseSuccess
-  | relayModerationsResponseError;
+export type relayModerationsResponse = relayModerationsResponseSuccess;
 
 export const getRelayModerationsUrl = () => {
   return `/v1/moderations`;
@@ -19180,24 +15905,13 @@ export type relayRerankResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayRerankResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayRerankResponseSuccess = (
   | relayRerankResponse200ApplicationJson
   | relayRerankResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayRerankResponseError = relayRerankResponseDefault & {
-  headers: Headers;
-};
-
-export type relayRerankResponse =
-  | relayRerankResponseSuccess
-  | relayRerankResponseError;
+export type relayRerankResponse = relayRerankResponseSuccess;
 
 export const getRelayRerankUrl = () => {
   return `/v1/rerank`;
@@ -19225,24 +15939,13 @@ export type relayResponsesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayResponsesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayResponsesResponseSuccess = (
   | relayResponsesResponse200ApplicationJson
   | relayResponsesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayResponsesResponseError = relayResponsesResponseDefault & {
-  headers: Headers;
-};
-
-export type relayResponsesResponse =
-  | relayResponsesResponseSuccess
-  | relayResponsesResponseError;
+export type relayResponsesResponse = relayResponsesResponseSuccess;
 
 export const getRelayResponsesUrl = () => {
   return `/v1/responses`;
@@ -19270,25 +15973,14 @@ export type relayResponsesCompactResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayResponsesCompactResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayResponsesCompactResponseSuccess = (
   | relayResponsesCompactResponse200ApplicationJson
   | relayResponsesCompactResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayResponsesCompactResponseError =
-  relayResponsesCompactResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayResponsesCompactResponse =
-  | relayResponsesCompactResponseSuccess
-  | relayResponsesCompactResponseError;
+  relayResponsesCompactResponseSuccess;
 
 export const getRelayResponsesCompactUrl = () => {
   return `/v1/responses/compact`;
@@ -19319,25 +16011,14 @@ export type postV1VideoGenerationsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postV1VideoGenerationsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postV1VideoGenerationsResponseSuccess = (
   | postV1VideoGenerationsResponse200ApplicationJson
   | postV1VideoGenerationsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postV1VideoGenerationsResponseError =
-  postV1VideoGenerationsResponseDefault & {
-    headers: Headers;
-  };
-
 export type postV1VideoGenerationsResponse =
-  | postV1VideoGenerationsResponseSuccess
-  | postV1VideoGenerationsResponseError;
+  postV1VideoGenerationsResponseSuccess;
 
 export const getPostV1VideoGenerationsUrl = () => {
   return `/v1/video/generations`;
@@ -19368,25 +16049,14 @@ export type getV1VideoGenerationsTaskIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1VideoGenerationsTaskIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1VideoGenerationsTaskIdResponseSuccess = (
   | getV1VideoGenerationsTaskIdResponse200ApplicationJson
   | getV1VideoGenerationsTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1VideoGenerationsTaskIdResponseError =
-  getV1VideoGenerationsTaskIdResponseDefault & {
-    headers: Headers;
-  };
-
 export type getV1VideoGenerationsTaskIdResponse =
-  | getV1VideoGenerationsTaskIdResponseSuccess
-  | getV1VideoGenerationsTaskIdResponseError;
+  getV1VideoGenerationsTaskIdResponseSuccess;
 
 export const getGetV1VideoGenerationsTaskIdUrl = (taskId: string) => {
   return `/v1/video/generations/${taskId}`;
@@ -19418,24 +16088,13 @@ export type postV1VideosResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postV1VideosResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postV1VideosResponseSuccess = (
   | postV1VideosResponse200ApplicationJson
   | postV1VideosResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postV1VideosResponseError = postV1VideosResponseDefault & {
-  headers: Headers;
-};
-
-export type postV1VideosResponse =
-  | postV1VideosResponseSuccess
-  | postV1VideosResponseError;
+export type postV1VideosResponse = postV1VideosResponseSuccess;
 
 export const getPostV1VideosUrl = () => {
   return `/v1/videos`;
@@ -19463,25 +16122,13 @@ export type getV1VideosTaskIdResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getV1VideosTaskIdResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getV1VideosTaskIdResponseSuccess = (
   | getV1VideosTaskIdResponse200ApplicationJson
   | getV1VideosTaskIdResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getV1VideosTaskIdResponseError =
-  getV1VideosTaskIdResponseDefault & {
-    headers: Headers;
-  };
-
-export type getV1VideosTaskIdResponse =
-  | getV1VideosTaskIdResponseSuccess
-  | getV1VideosTaskIdResponseError;
+export type getV1VideosTaskIdResponse = getV1VideosTaskIdResponseSuccess;
 
 export const getGetV1VideosTaskIdUrl = (taskId: string) => {
   return `/v1/videos/${taskId}`;
@@ -19513,24 +16160,13 @@ export type videoProxyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type videoProxyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type videoProxyResponseSuccess = (
   | videoProxyResponse200ApplicationJson
   | videoProxyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type videoProxyResponseError = videoProxyResponseDefault & {
-  headers: Headers;
-};
-
-export type videoProxyResponse =
-  | videoProxyResponseSuccess
-  | videoProxyResponseError;
+export type videoProxyResponse = videoProxyResponseSuccess;
 
 export const getVideoProxyUrl = (taskId: string) => {
   return `/v1/videos/${taskId}/content`;
@@ -19559,25 +16195,14 @@ export type postV1VideosVideoIdRemixResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postV1VideosVideoIdRemixResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postV1VideosVideoIdRemixResponseSuccess = (
   | postV1VideosVideoIdRemixResponse200ApplicationJson
   | postV1VideosVideoIdRemixResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postV1VideosVideoIdRemixResponseError =
-  postV1VideosVideoIdRemixResponseDefault & {
-    headers: Headers;
-  };
-
 export type postV1VideosVideoIdRemixResponse =
-  | postV1VideosVideoIdRemixResponseSuccess
-  | postV1VideosVideoIdRemixResponseError;
+  postV1VideosVideoIdRemixResponseSuccess;
 
 export const getPostV1VideosVideoIdRemixUrl = (videoId: string) => {
   return `/v1/videos/${videoId}/remix`;
@@ -19609,25 +16234,14 @@ export type relayListGeminiModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayListGeminiModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayListGeminiModelsResponseSuccess = (
   | relayListGeminiModelsResponse200ApplicationJson
   | relayListGeminiModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayListGeminiModelsResponseError =
-  relayListGeminiModelsResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayListGeminiModelsResponse =
-  | relayListGeminiModelsResponseSuccess
-  | relayListGeminiModelsResponseError;
+  relayListGeminiModelsResponseSuccess;
 
 export const getRelayListGeminiModelsUrl = () => {
   return `/v1beta/models`;
@@ -19658,24 +16272,13 @@ export type relayGeminiBetaResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayGeminiBetaResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayGeminiBetaResponseSuccess = (
   | relayGeminiBetaResponse200ApplicationJson
   | relayGeminiBetaResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayGeminiBetaResponseError = relayGeminiBetaResponseDefault & {
-  headers: Headers;
-};
-
-export type relayGeminiBetaResponse =
-  | relayGeminiBetaResponseSuccess
-  | relayGeminiBetaResponseError;
+export type relayGeminiBetaResponse = relayGeminiBetaResponseSuccess;
 
 export const getRelayGeminiBetaUrl = () => {
   return `/v1beta/models/*path`;
@@ -19703,25 +16306,14 @@ export type relayListGeminiCompatModelsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type relayListGeminiCompatModelsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type relayListGeminiCompatModelsResponseSuccess = (
   | relayListGeminiCompatModelsResponse200ApplicationJson
   | relayListGeminiCompatModelsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type relayListGeminiCompatModelsResponseError =
-  relayListGeminiCompatModelsResponseDefault & {
-    headers: Headers;
-  };
-
 export type relayListGeminiCompatModelsResponse =
-  | relayListGeminiCompatModelsResponseSuccess
-  | relayListGeminiCompatModelsResponseError;
+  relayListGeminiCompatModelsResponseSuccess;
 
 export const getRelayListGeminiCompatModelsUrl = () => {
   return `/v1beta/openai/models`;
@@ -19752,25 +16344,14 @@ export type postModeMjInsightFaceSwapResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjInsightFaceSwapResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjInsightFaceSwapResponseSuccess = (
   | postModeMjInsightFaceSwapResponse200ApplicationJson
   | postModeMjInsightFaceSwapResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjInsightFaceSwapResponseError =
-  postModeMjInsightFaceSwapResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjInsightFaceSwapResponse =
-  | postModeMjInsightFaceSwapResponseSuccess
-  | postModeMjInsightFaceSwapResponseError;
+  postModeMjInsightFaceSwapResponseSuccess;
 
 export const getPostModeMjInsightFaceSwapUrl = (mode: string) => {
   return `/${mode}/mj/insight-face/swap`;
@@ -19802,24 +16383,13 @@ export type postModeMjNotifyResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjNotifyResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjNotifyResponseSuccess = (
   | postModeMjNotifyResponse200ApplicationJson
   | postModeMjNotifyResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjNotifyResponseError = postModeMjNotifyResponseDefault & {
-  headers: Headers;
-};
-
-export type postModeMjNotifyResponse =
-  | postModeMjNotifyResponseSuccess
-  | postModeMjNotifyResponseError;
+export type postModeMjNotifyResponse = postModeMjNotifyResponseSuccess;
 
 export const getPostModeMjNotifyUrl = (mode: string) => {
   return `/${mode}/mj/notify`;
@@ -19848,25 +16418,14 @@ export type postModeMjSubmitActionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitActionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitActionResponseSuccess = (
   | postModeMjSubmitActionResponse200ApplicationJson
   | postModeMjSubmitActionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitActionResponseError =
-  postModeMjSubmitActionResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitActionResponse =
-  | postModeMjSubmitActionResponseSuccess
-  | postModeMjSubmitActionResponseError;
+  postModeMjSubmitActionResponseSuccess;
 
 export const getPostModeMjSubmitActionUrl = (mode: string) => {
   return `/${mode}/mj/submit/action`;
@@ -19898,25 +16457,14 @@ export type postModeMjSubmitBlendResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitBlendResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitBlendResponseSuccess = (
   | postModeMjSubmitBlendResponse200ApplicationJson
   | postModeMjSubmitBlendResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitBlendResponseError =
-  postModeMjSubmitBlendResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitBlendResponse =
-  | postModeMjSubmitBlendResponseSuccess
-  | postModeMjSubmitBlendResponseError;
+  postModeMjSubmitBlendResponseSuccess;
 
 export const getPostModeMjSubmitBlendUrl = (mode: string) => {
   return `/${mode}/mj/submit/blend`;
@@ -19948,25 +16496,14 @@ export type postModeMjSubmitChangeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitChangeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitChangeResponseSuccess = (
   | postModeMjSubmitChangeResponse200ApplicationJson
   | postModeMjSubmitChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitChangeResponseError =
-  postModeMjSubmitChangeResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitChangeResponse =
-  | postModeMjSubmitChangeResponseSuccess
-  | postModeMjSubmitChangeResponseError;
+  postModeMjSubmitChangeResponseSuccess;
 
 export const getPostModeMjSubmitChangeUrl = (mode: string) => {
   return `/${mode}/mj/submit/change`;
@@ -19998,25 +16535,14 @@ export type postModeMjSubmitDescribeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitDescribeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitDescribeResponseSuccess = (
   | postModeMjSubmitDescribeResponse200ApplicationJson
   | postModeMjSubmitDescribeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitDescribeResponseError =
-  postModeMjSubmitDescribeResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitDescribeResponse =
-  | postModeMjSubmitDescribeResponseSuccess
-  | postModeMjSubmitDescribeResponseError;
+  postModeMjSubmitDescribeResponseSuccess;
 
 export const getPostModeMjSubmitDescribeUrl = (mode: string) => {
   return `/${mode}/mj/submit/describe`;
@@ -20048,25 +16574,14 @@ export type postModeMjSubmitEditsResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitEditsResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitEditsResponseSuccess = (
   | postModeMjSubmitEditsResponse200ApplicationJson
   | postModeMjSubmitEditsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitEditsResponseError =
-  postModeMjSubmitEditsResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitEditsResponse =
-  | postModeMjSubmitEditsResponseSuccess
-  | postModeMjSubmitEditsResponseError;
+  postModeMjSubmitEditsResponseSuccess;
 
 export const getPostModeMjSubmitEditsUrl = (mode: string) => {
   return `/${mode}/mj/submit/edits`;
@@ -20098,25 +16613,14 @@ export type postModeMjSubmitImagineResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitImagineResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitImagineResponseSuccess = (
   | postModeMjSubmitImagineResponse200ApplicationJson
   | postModeMjSubmitImagineResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitImagineResponseError =
-  postModeMjSubmitImagineResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitImagineResponse =
-  | postModeMjSubmitImagineResponseSuccess
-  | postModeMjSubmitImagineResponseError;
+  postModeMjSubmitImagineResponseSuccess;
 
 export const getPostModeMjSubmitImagineUrl = (mode: string) => {
   return `/${mode}/mj/submit/imagine`;
@@ -20148,25 +16652,14 @@ export type postModeMjSubmitModalResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitModalResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitModalResponseSuccess = (
   | postModeMjSubmitModalResponse200ApplicationJson
   | postModeMjSubmitModalResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitModalResponseError =
-  postModeMjSubmitModalResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitModalResponse =
-  | postModeMjSubmitModalResponseSuccess
-  | postModeMjSubmitModalResponseError;
+  postModeMjSubmitModalResponseSuccess;
 
 export const getPostModeMjSubmitModalUrl = (mode: string) => {
   return `/${mode}/mj/submit/modal`;
@@ -20198,25 +16691,14 @@ export type postModeMjSubmitShortenResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitShortenResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitShortenResponseSuccess = (
   | postModeMjSubmitShortenResponse200ApplicationJson
   | postModeMjSubmitShortenResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitShortenResponseError =
-  postModeMjSubmitShortenResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitShortenResponse =
-  | postModeMjSubmitShortenResponseSuccess
-  | postModeMjSubmitShortenResponseError;
+  postModeMjSubmitShortenResponseSuccess;
 
 export const getPostModeMjSubmitShortenUrl = (mode: string) => {
   return `/${mode}/mj/submit/shorten`;
@@ -20248,25 +16730,14 @@ export type postModeMjSubmitSimpleChangeResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitSimpleChangeResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitSimpleChangeResponseSuccess = (
   | postModeMjSubmitSimpleChangeResponse200ApplicationJson
   | postModeMjSubmitSimpleChangeResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitSimpleChangeResponseError =
-  postModeMjSubmitSimpleChangeResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitSimpleChangeResponse =
-  | postModeMjSubmitSimpleChangeResponseSuccess
-  | postModeMjSubmitSimpleChangeResponseError;
+  postModeMjSubmitSimpleChangeResponseSuccess;
 
 export const getPostModeMjSubmitSimpleChangeUrl = (mode: string) => {
   return `/${mode}/mj/submit/simple-change`;
@@ -20298,25 +16769,14 @@ export type postModeMjSubmitUploadDiscordImagesResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitUploadDiscordImagesResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitUploadDiscordImagesResponseSuccess = (
   | postModeMjSubmitUploadDiscordImagesResponse200ApplicationJson
   | postModeMjSubmitUploadDiscordImagesResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitUploadDiscordImagesResponseError =
-  postModeMjSubmitUploadDiscordImagesResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitUploadDiscordImagesResponse =
-  | postModeMjSubmitUploadDiscordImagesResponseSuccess
-  | postModeMjSubmitUploadDiscordImagesResponseError;
+  postModeMjSubmitUploadDiscordImagesResponseSuccess;
 
 export const getPostModeMjSubmitUploadDiscordImagesUrl = (mode: string) => {
   return `/${mode}/mj/submit/upload-discord-images`;
@@ -20348,25 +16808,14 @@ export type postModeMjSubmitVideoResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjSubmitVideoResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjSubmitVideoResponseSuccess = (
   | postModeMjSubmitVideoResponse200ApplicationJson
   | postModeMjSubmitVideoResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjSubmitVideoResponseError =
-  postModeMjSubmitVideoResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjSubmitVideoResponse =
-  | postModeMjSubmitVideoResponseSuccess
-  | postModeMjSubmitVideoResponseError;
+  postModeMjSubmitVideoResponseSuccess;
 
 export const getPostModeMjSubmitVideoUrl = (mode: string) => {
   return `/${mode}/mj/submit/video`;
@@ -20398,25 +16847,14 @@ export type postModeMjTaskListByConditionResponse200ApplicationXml = {
   status: 200;
 };
 
-export type postModeMjTaskListByConditionResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type postModeMjTaskListByConditionResponseSuccess = (
   | postModeMjTaskListByConditionResponse200ApplicationJson
   | postModeMjTaskListByConditionResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type postModeMjTaskListByConditionResponseError =
-  postModeMjTaskListByConditionResponseDefault & {
-    headers: Headers;
-  };
-
 export type postModeMjTaskListByConditionResponse =
-  | postModeMjTaskListByConditionResponseSuccess
-  | postModeMjTaskListByConditionResponseError;
+  postModeMjTaskListByConditionResponseSuccess;
 
 export const getPostModeMjTaskListByConditionUrl = (mode: string) => {
   return `/${mode}/mj/task/list-by-condition`;
@@ -20448,25 +16886,13 @@ export type getModeMjTaskIdFetchResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getModeMjTaskIdFetchResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getModeMjTaskIdFetchResponseSuccess = (
   | getModeMjTaskIdFetchResponse200ApplicationJson
   | getModeMjTaskIdFetchResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getModeMjTaskIdFetchResponseError =
-  getModeMjTaskIdFetchResponseDefault & {
-    headers: Headers;
-  };
-
-export type getModeMjTaskIdFetchResponse =
-  | getModeMjTaskIdFetchResponseSuccess
-  | getModeMjTaskIdFetchResponseError;
+export type getModeMjTaskIdFetchResponse = getModeMjTaskIdFetchResponseSuccess;
 
 export const getGetModeMjTaskIdFetchUrl = (mode: string, id: string) => {
   return `/${mode}/mj/task/${id}/fetch`;
@@ -20499,25 +16925,14 @@ export type getModeMjTaskIdImageSeedResponse200ApplicationXml = {
   status: 200;
 };
 
-export type getModeMjTaskIdImageSeedResponseDefault = {
-  data: void;
-  status: Exclude<HTTPStatusCodes, 200>;
-};
-
 export type getModeMjTaskIdImageSeedResponseSuccess = (
   | getModeMjTaskIdImageSeedResponse200ApplicationJson
   | getModeMjTaskIdImageSeedResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getModeMjTaskIdImageSeedResponseError =
-  getModeMjTaskIdImageSeedResponseDefault & {
-    headers: Headers;
-  };
-
 export type getModeMjTaskIdImageSeedResponse =
-  | getModeMjTaskIdImageSeedResponseSuccess
-  | getModeMjTaskIdImageSeedResponseError;
+  getModeMjTaskIdImageSeedResponseSuccess;
 
 export const getGetModeMjTaskIdImageSeedUrl = (mode: string, id: string) => {
   return `/${mode}/mj/task/${id}/image-seed`;
