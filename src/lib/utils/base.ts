@@ -1,6 +1,25 @@
 import { env } from "@/lib/config/env";
 import { msg } from "@/lib/config/constants";
-import type { ExtractData, UnwrapApiResponse } from "../types/eden";
+import type { ExcludeVoid, ExtractData, UnwrapApiResponse } from "../types/eden";
+
+export function devWarn(context: string, error: unknown) {
+  if (process.env.NODE_ENV === "development") {
+    console.warn(`[${context}]`, error);
+  }
+}
+
+export function safeJsonParse<T = Record<string, any>>(
+  raw: string | undefined | null,
+  fallback?: T,
+): T {
+  if (!fallback) fallback = {} as T;
+  if (!raw) return fallback;
+  try {
+    return JSON.parse(raw) as T;
+  } catch {
+    return fallback;
+  }
+}
 
 const ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
@@ -40,6 +59,15 @@ export function formatPrice(price: number): string {
   const exp = Math.floor(Math.log10(price));
   const decimals = Math.min(-exp + 1, 10);
   return `$${price.toFixed(decimals)}`;
+}
+
+/** Safely unwrap an Orval-generated API response, throwing if data is null. */
+export function unwrap<T extends { data: unknown }>(
+  res: T,
+): ExcludeVoid<NonNullable<T["data"]>> {
+  if (res.data == null)
+    throw new Error(msg("ERRORS.UNEXPECTED_RESPONSE"));
+  return res.data as ExcludeVoid<NonNullable<T["data"]>>;
 }
 
 /**

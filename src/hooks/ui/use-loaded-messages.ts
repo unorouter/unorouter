@@ -2,7 +2,6 @@
 
 import { mapRawMessages } from "@/components/pages/chat/utils/chat-utils";
 import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
-import type { LoadedPagesState } from "@/lib/types/chat";
 import { setScrollControl } from "@/store/chat-store";
 import type { UIMessage } from "ai";
 import { useLayoutEffect, useRef } from "react";
@@ -22,7 +21,9 @@ export function useLoadedMessages(
   setMessages: (messages: UIMessage[]) => void,
 ) {
   const messagesQuery = useMessagesInfiniteQuery(remoteId);
-  const loadedPagesRef = useRef<LoadedPagesState | null>(null);
+  const loadedPagesRef = useRef<{ threadId: string; count: number } | null>(
+    null,
+  );
 
   // Sync scroll control so Chat component can trigger fetchNextPage without a duplicate observer
   setScrollControl({

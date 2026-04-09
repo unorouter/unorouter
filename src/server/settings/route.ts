@@ -23,6 +23,7 @@ import {
   updateSelf,
   updateUserSetting,
 } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -39,20 +40,20 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
         },
         body: JSON.stringify(body),
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: updateSelfBody },
   )
 
   .delete("/self", async ({ upstream }) => {
     const res = await deleteSelf({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   // Access token
   .get("/token", async ({ upstream }) => {
     const res = await generateAccessToken({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   // User settings (notifications)
@@ -62,7 +63,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
       const res = await updateUserSetting(body, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: updateSettingBody },
   )
@@ -75,7 +76,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
         { email: query.email, turnstile: query.turnstile },
         { headers: upstream.headers },
       );
-      return res.data!;
+      return unwrap(res);
     },
     { query: verificationQuery },
   )
@@ -88,7 +89,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
         { email: query.email, code: query.code },
         { headers: upstream.headers },
       );
-      return res.data!;
+      return unwrap(res);
     },
     { query: emailBindQuery },
   )
@@ -96,19 +97,19 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   // 2FA
   .get("/2fa/status", async ({ upstream }) => {
     const res = await get2FAStatus({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .post("/2fa/setup", async ({ upstream }) => {
     const res = await setup2FA({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .post(
     "/2fa/enable",
     async ({ body, upstream }) => {
       const res = await enable2FA(body, { headers: upstream.headers });
-      return res.data!;
+      return unwrap(res);
     },
     { body: twoFACodeBody },
   )
@@ -117,7 +118,7 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     "/2fa/disable",
     async ({ body, upstream }) => {
       const res = await disable2FA(body, { headers: upstream.headers });
-      return res.data!;
+      return unwrap(res);
     },
     { body: twoFACodeBody },
   )
@@ -125,12 +126,12 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
   // Passkey
   .get("/passkey", async ({ upstream }) => {
     const res = await passkeyStatus({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .post("/passkey/register/begin", async ({ upstream }) => {
     const res = await passkeyRegisterBegin({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .post(
@@ -143,25 +144,25 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
         },
         body: JSON.stringify(body),
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: passkeyCredentialBody },
   )
 
   .delete("/passkey", async ({ upstream }) => {
     const res = await passkeyDelete({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   // OAuth bindings
   .get("/oauth/bindings", async ({ upstream }) => {
     const res = await getUserOAuthBindings({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .delete("/oauth/bindings/:providerId", async ({ params, upstream }) => {
     const res = await unbindCustomOAuth(params.providerId, {
       headers: upstream.headers,
     });
-    return res.data!;
+    return unwrap(res);
   });

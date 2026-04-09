@@ -46,9 +46,13 @@ export function getUserId<T extends boolean = false>(
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
   const raw = cookie[CLIENT_STORE_KEY]?.value;
   if (!raw) throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
-  if (!parsed?.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
-  return parsed.apiKey as string;
+  try {
+    const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+    if (!parsed?.apiKey) throw new Error(msg("ERRORS.NO_API_KEY"));
+    return parsed.apiKey as string;
+  } catch {
+    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  }
 }
 
 export function getApiKeyOrGuest(

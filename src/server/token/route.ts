@@ -15,6 +15,7 @@ import {
   searchTokens,
   updateToken,
 } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -25,7 +26,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     "/",
     async ({ query, upstream }) => {
       const res = await getAllTokens(query, { headers: upstream.headers });
-      return res.data!;
+      return unwrap(res);
     },
     { query: paginationQuery },
   )
@@ -34,14 +35,14 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
     "/search",
     async ({ query, upstream }) => {
       const res = await searchTokens(query, { headers: upstream.headers });
-      return res.data!;
+      return unwrap(res);
     },
     { query: tokenSearchQuery },
   )
 
   .get("/:id", async ({ params, upstream }) => {
     const res = await getToken(params.id, { headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .post(
@@ -50,7 +51,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
       const res = await addToken(body, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: createTokenBody },
   )
@@ -61,7 +62,7 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
       const res = await updateToken(body, undefined, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: updateTokenBody },
   )
@@ -76,14 +77,14 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
           headers: upstream.headers,
         },
       );
-      return res.data!;
+      return unwrap(res);
     },
     { body: updateTokenBody },
   )
 
   .post("/:id/key", async ({ params, upstream }) => {
     const res = await getTokenKey(params.id, { headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .get("/best-key", async ({ upstream }) => {
@@ -115,15 +116,15 @@ export const tokenRoute = new Elysia({ prefix: "/token" })
 
   .delete("/:id", async ({ params, upstream }) => {
     const res = await deleteToken(params.id, { headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .get("/user/groups", async ({ upstream }) => {
     const res = await getApiUserSelfGroups({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .get("/user/models", async ({ upstream }) => {
     const res = await getUserModels({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   });

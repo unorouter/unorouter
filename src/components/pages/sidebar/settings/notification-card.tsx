@@ -20,6 +20,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useUpdateSettingMutation } from "@/hooks/settings-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
+import { safeJsonParse } from "@/lib/utils/base";
 import {
   notificationSettingSchema,
   type NotificationSettingSchema,
@@ -30,14 +31,6 @@ import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-function parseUserSetting(settingStr: string) {
-  try {
-    return JSON.parse(settingStr || "{}");
-  } catch {
-    return {};
-  }
-}
 
 export function NotificationCard() {
   const t = useTranslations();
@@ -58,7 +51,7 @@ export function NotificationCard() {
   // Populate form when user data loads
   useEffect(() => {
     if (!user?.setting) return;
-    const s = parseUserSetting(user.setting);
+    const s = safeJsonParse(user.setting, );
     form.reset({
       notify_type: s.notify_type || "email",
       quota_threshold_dollars: s.quota_warning_threshold
@@ -75,7 +68,7 @@ export function NotificationCard() {
   }, [user?.setting, form]);
 
   function onSubmit(data: NotificationSettingSchema) {
-    const parsed = parseUserSetting(user?.setting || "");
+    const parsed = safeJsonParse(user?.setting, );
     updateSettingMutation.mutate(
       {
         body: {

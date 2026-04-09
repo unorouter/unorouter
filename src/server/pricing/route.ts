@@ -1,5 +1,6 @@
 import { buildPricingSummary } from "@/lib/api/pricing";
 import { processPlans } from "@/lib/api/subscription";
+import { unwrap } from "@/lib/utils/base";
 import { getPricing, getSubscriptionPlans } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "../constants";
@@ -7,7 +8,7 @@ import { ADMIN_HEADERS } from "../constants";
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get("/", async () => {
     const res = await getPricing();
-    return buildPricingSummary(res.data!);
+    return buildPricingSummary(unwrap(res));
   })
   .get("/subscriptions", async () => {
     const res = await getSubscriptionPlans({ headers: ADMIN_HEADERS });

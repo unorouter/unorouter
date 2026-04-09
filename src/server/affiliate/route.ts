@@ -6,6 +6,7 @@ import {
   getReferralCommissions,
   transferAffQuota,
 } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -14,7 +15,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
 
   .get("/code", async ({ upstream }) => {
     const res = await getAffCode({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
 
   .get(
@@ -23,7 +24,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       const res = await getInvitedUsers(query, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { query: paginationQuery },
   )
@@ -34,7 +35,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       const res = await getReferralCommissions(query, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { query: paginationQuery },
   )
@@ -45,7 +46,7 @@ export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
       const res = await transferAffQuota(body, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: transferQuotaBody },
   );

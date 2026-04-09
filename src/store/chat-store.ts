@@ -1,5 +1,6 @@
 import { GUEST_CONVS_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
+import { safeJsonParse } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 import { getCookie } from "cookies-next/client";
@@ -38,32 +39,31 @@ export const chatWebSearchAtom = atom(
 
 export const chatStore = createStore();
 
-export const getChatModel = (): string | null => {
-  const fromAtom = chatStore.get(chatModelAtom);
-  if (fromAtom) return fromAtom;
-  try {
-    const raw = getCookie(CHAT_STORE_KEY);
-    if (raw) return (JSON.parse(String(raw)) as ChatState).model;
-  } catch {}
-  return null;
-};
+function chatStateCookie(): ChatState {
+  return safeJsonParse<ChatState>(getCookie(CHAT_STORE_KEY), INITIAL_CHAT_STATE);
+}
 
-export const getChatWebSearch = (): boolean => {
-  try {
-    const raw = getCookie(CHAT_STORE_KEY);
-    if (raw) return (JSON.parse(String(raw)) as ChatState).webSearch ?? false;
-  } catch {}
-  return false;
-};
+export const getChatModel = (): string | null =>
+  chatStore.get(chatModelAtom) || chatStateCookie().model;
 
-/** Active conversation ID. Plain variable (not reactive, only read imperatively). */
+export const getChatWebSearch = (): boolean =>
+  chatStore.get(chatWebSearchAtom) || chatStateCookie().webSearch;
+
+/**
+ * Active conversation ID. Plain variable, not an atom, because it needs
+ * synchronous access from non-React code (stream service callbacks).
+ */
 let _convId: string | null = null;
 export const getConvId = () => _convId;
 export const setConvId = (id: string | null) => {
   _convId = id;
 };
 
-/** Scroll control for infinite message loading. Written by useLoadedMessages, read by Chat. */
+/**
+ * Scroll control for infinite message loading. Plain mutable ref bridging
+ * useLoadedMessages (writer) and the Chat component (reader). Not reactive
+ * because it holds callback references, not serializable state.
+ */
 export type ScrollControl = {
   hasNextPage: boolean;
   isFetchingNextPage: boolean;
@@ -92,11 +92,7 @@ export const guestConvsAtom = atomWithStorage<string[]>(
 );
 
 export function getGuestConvIds(): string[] {
-  try {
-    const raw = getCookie(GUEST_CONVS_COOKIE);
-    if (raw) return JSON.parse(String(raw)) as string[];
-  } catch {}
-  return [];
+  return safeJsonParse<string[]>(getCookie(GUEST_CONVS_COOKIE), []);
 }
 
 export function addGuestConvId(id: string) {

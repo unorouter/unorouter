@@ -3,7 +3,7 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, safeJsonParse } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import type { ResponseControllerSubscriptionSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -16,6 +16,10 @@ export function useTopUpInfoQuery() {
     queryKey: queryKeys.topUpInfo(),
     queryFn: async () =>
       handleElysia(await rpc.api.billing["topup-info"].get()),
+    select: (data) => ({
+      ...data,
+      creemProducts: safeJsonParse<{ productId: string; name: string; price: number; currency: string }[]>(data.creem_products, []),
+    }),
   });
 }
 

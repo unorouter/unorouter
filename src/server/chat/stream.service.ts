@@ -44,9 +44,7 @@ type UsageInfo = {
 // Shared helpers
 // ---------------------------------------------------------------------------
 
-function extractLastUserText(
-  messages: StreamBody["messages"],
-): string | null {
+function extractLastUserText(messages: StreamBody["messages"]): string | null {
   for (let i = messages.length - 1; i >= 0; i--) {
     const msg = messages[i];
     if (msg.role !== "user") continue;
@@ -85,6 +83,7 @@ function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
     cost: 0,
     upstreamHeaders: usage.upstreamHeaders,
     rawResponse: usage.rawResponse,
+    createdAt: Date.now(),
   });
 }
 
@@ -152,8 +151,7 @@ async function generateImage(
   const json = (await res.json()) as {
     data: Array<{ url?: string; b64_json?: string }>;
   };
-  const requestId =
-    res.headers.get("x-oneapi-request-id") ?? undefined;
+  const requestId = res.headers.get("x-oneapi-request-id") ?? undefined;
 
   // Prefer url, fall back to b64_json
   const urls = json.data
@@ -190,11 +188,7 @@ async function handleImageStream(
       const r2Urls = await Promise.all(
         images.map((img: string) =>
           isBase64
-            ? uploadBase64ToR2(
-                `data:image/png;base64,${img}`,
-                convId,
-                groupKey,
-              )
+            ? uploadBase64ToR2(`data:image/png;base64,${img}`, convId, groupKey)
             : fetchCheckUpload(img, convId, groupKey, false),
         ),
       );

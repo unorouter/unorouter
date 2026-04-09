@@ -13,7 +13,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
-import type { ChatRuntimeContext, PersistMessage } from "@/lib/types/chat";
+import type { MessagePart, PersistMessage } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
 import {
   chatModelAtom,
@@ -54,7 +54,10 @@ function ChatRuntimeHook() {
   }
 
   // Mutable per-message context for closures that outlive the render
-  const ctx = useRef<ChatRuntimeContext>({
+  const ctx = useRef<{
+    sendModel: string | null;
+    pendingUserMessage: { parts: MessagePart[] } | null;
+  }>({
     sendModel: null,
     pendingUserMessage: null,
   });

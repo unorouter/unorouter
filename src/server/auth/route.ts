@@ -23,6 +23,7 @@ import {
   sendEmailVerification,
   verify2FALogin,
 } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia, redirect } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -72,17 +73,17 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     for (const name of Object.keys(cookie)) {
       cookie[name].remove();
     }
-    return res.data!;
+    return unwrap(res);
   })
 
   .get("/self", async ({ upstream }) => {
     const res = await getSelf(upstream);
-    return res.data!;
+    return unwrap(res);
   })
 
   .get("/status", async () => {
     const res = await getStatus();
-    return res.data!;
+    return unwrap(res);
   })
 
   .get(
@@ -92,7 +93,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
         { aff: query.aff, redirect_uri: query.redirect, action: query.action },
         upstream,
       );
-      return res.data!;
+      return unwrap(res);
     },
     { query: oauthStateQuery },
   )
@@ -147,7 +148,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
     "/verification",
     async ({ query, upstream }) => {
       const res = await sendEmailVerification(query, upstream);
-      return res.data!;
+      return unwrap(res);
     },
     { query: verificationQuery },
   );

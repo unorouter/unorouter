@@ -3,29 +3,7 @@ export type MessagePart = { type: string; [key: string]: unknown };
 
 /** A message payload sent to the persist endpoint. */
 export type PersistMessage = {
-  role: string;
+  role: "system" | "user" | "assistant" | "tool";
   model?: string;
-  parts: unknown;
-};
-
-/** A pending user message stashed before the conversation is created. */
-export type PendingUserMessage = {
   parts: MessagePart[];
-};
-
-/** Context passed to the attachment adapter for R2 uploads. */
-export type AttachmentUploadContext = {
-  convId: string | null;
-};
-
-/** Tracks which thread's pages have been loaded into useChat. */
-export type LoadedPagesState = {
-  threadId: string;
-  count: number;
-};
-
-/** Mutable per-message context for closures that outlive the render in ChatRuntimeHook. */
-export type ChatRuntimeContext = {
-  sendModel: string | null;
-  pendingUserMessage: PendingUserMessage | null;
 };

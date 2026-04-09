@@ -1,4 +1,4 @@
-import type { AttachmentUploadContext, MessagePart } from "@/lib/types/chat";
+import type { MessagePart } from "@/lib/types/chat";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
 import { setConvId } from "@/store/chat-store";
@@ -58,7 +58,7 @@ export function extractParts(
 }
 
 export function createR2AttachmentAdapter(
-  getContext: () => AttachmentUploadContext,
+  getContext: () => { convId: string | null },
 ): AttachmentAdapter {
   return {
     accept: "image/png,image/jpeg,image/webp,image/gif,.pdf",

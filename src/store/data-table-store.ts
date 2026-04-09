@@ -10,9 +10,10 @@ import type {
   SortingState,
   VisibilityState,
 } from "@tanstack/react-table";
+import type { WritableAtom } from "jotai";
 import { atom } from "jotai";
-import { atomWithStorage } from "jotai/utils";
 import { atomFamily } from "jotai-family";
+import { atomWithStorage } from "jotai/utils";
 
 export type DataTableStore = {
   globalFilter: string;
@@ -72,6 +73,71 @@ export const dataTableAtomFamily = atomFamily((id: DataTableId) => {
   );
 });
 
+type TableUpdate =
+  | Partial<DataTableStore>
+  | ((prev: DataTableStore) => DataTableStore);
+type BaseAtom = WritableAtom<DataTableStore, [TableUpdate], void>;
+
+function buildFieldAtoms(
+  base: BaseAtom,
+  initialValues?: Partial<DataTableStore>,
+) {
+  function fieldAtom<T>(
+    selector: (s: DataTableStore) => T,
+    updater: (prev: DataTableStore, value: T) => DataTableStore,
+  ) {
+    return atom(
+      (get) => selector(get(base)),
+      (_get, set, updaterOrValue: T | ((prev: T) => T)) => {
+        set(base, (prev) => {
+          const resolved =
+            typeof updaterOrValue === "function"
+              ? (updaterOrValue as (prev: T) => T)(selector(prev))
+              : updaterOrValue;
+          return updater(prev, resolved);
+        });
+      },
+    );
+  }
+
+  return {
+    baseAtom: base,
+    globalFilterAtom: fieldAtom<string>(
+      (s) => s.globalFilter,
+      (prev, v) => ({
+        ...prev,
+        globalFilter: v,
+        pagination: { ...prev.pagination, pageIndex: 0 },
+      }),
+    ),
+    rowSelectionAtom: fieldAtom<RowSelectionState>(
+      (s) => s.rowSelection,
+      (prev, v) => ({ ...prev, rowSelection: v }),
+    ),
+    columnVisibilityAtom: fieldAtom<VisibilityState>(
+      (s) => s.columnVisibility,
+      (prev, v) => ({ ...prev, columnVisibility: v }),
+    ),
+    columnFiltersAtom: fieldAtom<ColumnFiltersState>(
+      (s) => s.columnFilters,
+      (prev, v) => ({ ...prev, columnFilters: v }),
+    ),
+    sortingAtom: fieldAtom<SortingState>(
+      (s) => s.sorting,
+      (prev, v) => ({ ...prev, sorting: v }),
+    ),
+    paginationAtom: fieldAtom<PaginationState>(
+      (s) => s.pagination,
+      (prev, v) => ({ ...prev, pagination: v }),
+    ),
+    resetTableAtom: atom(null, (_get, set) =>
+      set(base, initialTableStore(initialValues)),
+    ),
+  };
+}
+
+// NOTE: FRESH_STATE_IDS is currently empty, so all tables use persisted storage.
+// The fresh branch is kept for tables that should reset on navigation.
 export const createTableAtoms = (
   id: DataTableId,
   initialValues?: Partial<DataTableStore>,
@@ -92,224 +158,10 @@ export const createTableAtoms = (
       set(freshAtom, newState);
     });
 
-    return {
-      baseAtom: freshAtom,
-      globalFilterAtom: atom(
-        (get) => get(freshAtom).globalFilter,
-        (get, set, updaterOrValue: string | ((prev: string) => string)) => {
-          set(freshAtom, (prev) => ({
-            ...prev,
-            globalFilter:
-              typeof updaterOrValue === "function"
-                ? updaterOrValue(prev.globalFilter)
-                : updaterOrValue,
-            pagination: { ...prev.pagination, pageIndex: 0 },
-          }));
-        },
-      ),
-      rowSelectionAtom: atom(
-        (get) => get(freshAtom).rowSelection,
-        (
-          get,
-          set,
-          updaterOrValue:
-            | RowSelectionState
-            | ((prev: RowSelectionState) => RowSelectionState),
-        ) => {
-          set(freshAtom, (prev) => ({
-            ...prev,
-            rowSelection:
-              typeof updaterOrValue === "function"
-                ? updaterOrValue(prev.rowSelection)
-                : updaterOrValue,
-          }));
-        },
-      ),
-      columnVisibilityAtom: atom(
-        (get) => get(freshAtom).columnVisibility,
-        (
-          get,
-          set,
-          updaterOrValue:
-            | VisibilityState
-            | ((prev: VisibilityState) => VisibilityState),
-        ) => {
-          set(freshAtom, (prev) => ({
-            ...prev,
-            columnVisibility:
-              typeof updaterOrValue === "function"
-                ? updaterOrValue(prev.columnVisibility)
-                : updaterOrValue,
-          }));
-        },
-      ),
-      columnFiltersAtom: atom(
-        (get) => get(freshAtom).columnFilters,
-        (
-          get,
-          set,
-          updaterOrValue:
-            | ColumnFiltersState
-            | ((prev: ColumnFiltersState) => ColumnFiltersState),
-        ) => {
-          set(freshAtom, (prev) => ({
-            ...prev,
-            columnFilters:
-              typeof updaterOrValue === "function"
-                ? updaterOrValue(prev.columnFilters)
-                : updaterOrValue,
-          }));
-        },
-      ),
-      sortingAtom: atom(
-        (get) => get(freshAtom).sorting,
-        (
-          get,
-          set,
-          updaterOrValue: SortingState | ((prev: SortingState) => SortingState),
-        ) => {
-          set(freshAtom, (prev) => ({
-            ...prev,
-            sorting:
-              typeof updaterOrValue === "function"
-                ? updaterOrValue(prev.sorting)
-                : updaterOrValue,
-          }));
-        },
-      ),
-      paginationAtom: atom(
-        (get) => get(freshAtom).pagination,
-        (
-          get,
-          set,
-          updaterOrValue:
-            | PaginationState
-            | ((prev: PaginationState) => PaginationState),
-        ) => {
-          set(freshAtom, (prev) => ({
-            ...prev,
-            pagination:
-              typeof updaterOrValue === "function"
-                ? updaterOrValue(prev.pagination)
-                : updaterOrValue,
-          }));
-        },
-      ),
-      resetTableAtom: atom(null, (get, set) =>
-        set(freshAtom, initialTableStore(initialValues)),
-      ),
-    };
+    return buildFieldAtoms(freshAtom, initialValues);
   }
 
-  const baseAtom = dataTableAtomFamily(id);
-
-  return {
-    baseAtom,
-    globalFilterAtom: atom(
-      (get) => get(baseAtom).globalFilter,
-      (get, set, updaterOrValue: string | ((prev: string) => string)) => {
-        set(baseAtom, (prev) => ({
-          ...prev,
-          globalFilter:
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(prev.globalFilter)
-              : updaterOrValue,
-          pagination: { ...prev.pagination, pageIndex: 0 },
-        }));
-      },
-    ),
-    rowSelectionAtom: atom(
-      (get) => get(baseAtom).rowSelection,
-      (
-        get,
-        set,
-        updaterOrValue:
-          | RowSelectionState
-          | ((prev: RowSelectionState) => RowSelectionState),
-      ) => {
-        set(baseAtom, (prev) => ({
-          ...prev,
-          rowSelection:
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(prev.rowSelection)
-              : updaterOrValue,
-        }));
-      },
-    ),
-    columnVisibilityAtom: atom(
-      (get) => get(baseAtom).columnVisibility,
-      (
-        get,
-        set,
-        updaterOrValue:
-          | VisibilityState
-          | ((prev: VisibilityState) => VisibilityState),
-      ) => {
-        set(baseAtom, (prev) => ({
-          ...prev,
-          columnVisibility:
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(prev.columnVisibility)
-              : updaterOrValue,
-        }));
-      },
-    ),
-    columnFiltersAtom: atom(
-      (get) => get(baseAtom).columnFilters,
-      (
-        get,
-        set,
-        updaterOrValue:
-          | ColumnFiltersState
-          | ((prev: ColumnFiltersState) => ColumnFiltersState),
-      ) => {
-        set(baseAtom, (prev) => ({
-          ...prev,
-          columnFilters:
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(prev.columnFilters)
-              : updaterOrValue,
-        }));
-      },
-    ),
-    sortingAtom: atom(
-      (get) => get(baseAtom).sorting,
-      (
-        get,
-        set,
-        updaterOrValue: SortingState | ((prev: SortingState) => SortingState),
-      ) => {
-        set(baseAtom, (prev) => ({
-          ...prev,
-          sorting:
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(prev.sorting)
-              : updaterOrValue,
-        }));
-      },
-    ),
-    paginationAtom: atom(
-      (get) => get(baseAtom).pagination,
-      (
-        get,
-        set,
-        updaterOrValue:
-          | PaginationState
-          | ((prev: PaginationState) => PaginationState),
-      ) => {
-        set(baseAtom, (prev) => ({
-          ...prev,
-          pagination:
-            typeof updaterOrValue === "function"
-              ? updaterOrValue(prev.pagination)
-              : updaterOrValue,
-        }));
-      },
-    ),
-    resetTableAtom: atom(null, (get, set) =>
-      set(baseAtom, initialTableStore()),
-    ),
-  };
+  return buildFieldAtoms(dataTableAtomFamily(id), initialValues);
 };
 
 export const sort = (sorting?: SortingState) =>

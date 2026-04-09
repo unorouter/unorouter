@@ -20,7 +20,7 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   _db = drizzle(_client, { schema });
 
   // Run migrations at startup (skip during build)
-  if (!process.env.STANDALONE) {
+  if (!serverEnv.standalone) {
     migrate(_db, { migrationsFolder: resolve("drizzle") }).catch((e) =>
       error("Database migration failed", e),
     );

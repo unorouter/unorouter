@@ -1,15 +1,12 @@
 import { QUOTA_PER_DOLLAR, msg } from "@/lib/config/constants";
+import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
+import { uid, unwrap } from "@/lib/utils/base";
 import type { PersistMessagesBody } from "@/lib/validation/chat";
 import { getUserLogs } from "@/openapi";
-import { and, eq, sql } from "drizzle-orm";
-import {
-  downloadAndUpload,
-  uploadBase64ToR2,
-} from "@/lib/config/r2";
-import { uid } from "@/lib/utils/base";
 import { serverEnv } from "@/server/env";
+import { and, eq, sql } from "drizzle-orm";
 
 export type PendingUsage = {
   requestId: string | undefined;
@@ -18,9 +15,22 @@ export type PendingUsage = {
   cost: number;
   upstreamHeaders?: Record<string, string>;
   rawResponse?: string;
+  createdAt: number;
 };
 
+const PENDING_USAGE_TTL = 5 * 60 * 1000; // 5 minutes
+
 export const pendingUsageByConv = new Map<string, PendingUsage>();
+
+/** Remove stale entries that were never consumed (e.g. client disconnected). */
+export function sweepStalePending() {
+  const now = Date.now();
+  for (const [key, value] of pendingUsageByConv) {
+    if (now - value.createdAt > PENDING_USAGE_TTL) {
+      pendingUsageByConv.delete(key);
+    }
+  }
+}
 
 const IMAGE_MD_RE = /!\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
@@ -83,10 +93,7 @@ export async function persistMessages(
   const db = getDb();
 
   const conv = await db.query.conversations.findFirst({
-    where: and(
-      eq(conversations.id, convId),
-      eq(conversations.userId, userId),
-    ),
+    where: and(eq(conversations.id, convId), eq(conversations.userId, userId)),
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
@@ -131,7 +138,7 @@ export async function persistMessages(
             { request_id: pending.requestId, type: 2, page_size: 1 },
             { headers: pending.upstreamHeaders },
           );
-          const quota = logRes.data!.data?.items?.[0]?.quota ?? 0;
+          const quota = unwrap(logRes).data?.items?.[0]?.quota ?? 0;
           pending.cost = quota / QUOTA_PER_DOLLAR;
         } catch {
           // Cost lookup failed, continue with tokens only

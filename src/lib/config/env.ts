@@ -1,7 +1,13 @@
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const appUrl = process.env.NEXT_PUBLIC_URL;
+
+if (!apiUrl) throw new Error("Missing required env: NEXT_PUBLIC_API_URL");
+if (!appUrl) throw new Error("Missing required env: NEXT_PUBLIC_URL");
+
 export const env = {
-  apiUrl: process.env.NEXT_PUBLIC_API_URL,
+  apiUrl,
   appName: process.env.NEXT_PUBLIC_APP_NAME,
-  appUrl: process.env.NEXT_PUBLIC_URL,
+  appUrl,
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL,
 } as const;

@@ -170,13 +170,18 @@ export type ExtractData<T> = T extends { data: infer D }
   : never;
 
 /**
+ * Strips void from unions. TS's NonNullable only removes null | undefined;
+ * void survives as `void & {}` in strict mode.
+ */
+export type ExcludeVoid<T> = T extends void ? never : T;
+
+/**
  * Unwraps API response types that may be:
  * 1. Wrapped: { success: boolean; message: string; data: D } → D
  * 2. Direct: T (no wrapper) → T
  *
- * Distributes over unions so { success, data: D } | void → D | void
- * then NonNullable strips void/null/undefined.
+ * Distributes over unions so { success, data: D } | void → D
  */
-export type UnwrapApiResponse<T> = NonNullable<
-  T extends { success: boolean; data: infer D } ? D : T
+export type UnwrapApiResponse<T> = ExcludeVoid<
+  NonNullable<T extends { success: boolean; data: infer D } ? D : T>
 >;

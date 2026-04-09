@@ -1,6 +1,43 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
 
+// Permissive-but-structured message part schema.
+// Known part types are explicit; unknown future types pass through via the catch-all.
+const persistMessageRole = t.Union([
+  t.Literal("system"),
+  t.Literal("user"),
+  t.Literal("assistant"),
+  t.Literal("tool"),
+]);
+
+const messagePart = t.Union([
+  t.Object(
+    { type: t.Literal("text"), text: t.String() },
+    { additionalProperties: true },
+  ),
+  t.Object(
+    { type: t.Literal("reasoning"), reasoning: t.String() },
+    { additionalProperties: true },
+  ),
+  t.Object(
+    { type: t.Literal("tool-invocation"), toolInvocationId: t.String() },
+    { additionalProperties: true },
+  ),
+  t.Object(
+    { type: t.Literal("file") },
+    { additionalProperties: true },
+  ),
+  t.Object(
+    { type: t.Literal("source-url") },
+    { additionalProperties: true },
+  ),
+  // Catch-all for unknown/future part types
+  t.Object(
+    { type: t.String() },
+    { additionalProperties: true },
+  ),
+]);
+
 export const createConversationBody = t.Object({
   id: t.Optional(t.String()),
   model: t.String(),
@@ -17,9 +54,9 @@ export type UpdateConversationBody = Static<typeof updateConversationBody>;
 export const persistMessagesBody = t.Object({
   messages: t.Array(
     t.Object({
-      role: t.String(),
+      role: persistMessageRole,
       model: t.Optional(t.String()),
-      parts: t.Any(),
+      parts: t.Array(messagePart),
     }),
   ),
 });
@@ -38,7 +75,9 @@ export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 
 export const streamBody = t.Object({
   model: t.String(),
-  messages: t.Any(),
+  // Messages are typed by the AI SDK (UIMessage); schema validation
+  // is handled by convertToModelMessages at runtime.
+  messages: t.Array(t.Any()),
   convId: t.Optional(t.Union([t.String(), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
 });

@@ -1,5 +1,6 @@
 import { logsQuery, logsStatQuery } from "@/lib/typebox/logs";
 import { getLogsSelfStat, getUserLogs } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -10,7 +11,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
     "/",
     async ({ query, upstream }) => {
       const res = await getUserLogs(query, { headers: upstream.headers });
-      return res.data!;
+      return unwrap(res);
     },
     { query: logsQuery },
   )
@@ -19,7 +20,7 @@ export const logsRoute = new Elysia({ prefix: "/logs" })
     "/stat",
     async ({ query, upstream }) => {
       const res = await getLogsSelfStat(query, { headers: upstream.headers });
-      return res.data!;
+      return unwrap(res);
     },
     { query: logsStatQuery },
   );

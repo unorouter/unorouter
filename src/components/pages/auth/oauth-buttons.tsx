@@ -1,25 +1,23 @@
 "use client";
 
-import { useStatusQuery } from "@/hooks/status-hook";
 import { AFF_CODE_KEY } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import type { ResponseDtoStatusDataData } from "@/openapi";
 import { getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
 
-type StatusData = NonNullable<ReturnType<typeof useStatusQuery>["data"]>;
-
 interface OAuthButtonsProps {
-  status: StatusData;
+  status: ResponseDtoStatusDataData;
 }
 
 export function buildOAuthUrl(
   provider: string,
-  status: StatusData,
+  status: ResponseDtoStatusDataData,
   state: string,
 ): string | null {
   const serverAddress = status.server_address || env.apiUrl;

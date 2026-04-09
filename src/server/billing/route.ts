@@ -15,6 +15,7 @@ import {
   subscriptionRequestStripePay,
   updateSubscriptionPreference,
 } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 
@@ -22,7 +23,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
   .derive(deriveUpstream)
   .get("/topup-info", async ({ upstream }) => {
     const res = await getTopUpInfo({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
   .get("/subscription-plans", async ({ upstream }) => {
     const hasUser = !!upstream.headers.cookie;
@@ -34,7 +35,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
   })
   .get("/subscription-self", async ({ upstream }) => {
     const res = await getSubscriptionSelf({ headers: upstream.headers });
-    return res.data!;
+    return unwrap(res);
   })
   .put(
     "/subscription-preference",
@@ -42,7 +43,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       const res = await updateSubscriptionPreference(body, {
         headers: { ...upstream.headers },
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: subscriptionPreferenceBody },
   )
@@ -52,7 +53,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       const res = await requestStripePay(body, {
         headers: { ...upstream.headers },
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: stripePayBody },
   )
@@ -62,7 +63,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       const res = await requestCreemPay(body, {
         headers: { ...upstream.headers },
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: creemPayBody },
   )
@@ -72,7 +73,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       const res = await subscriptionRequestStripePay(body, {
         headers: { ...upstream.headers },
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: subscriptionPayBody },
   )
@@ -82,7 +83,7 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       const res = await subscriptionRequestCreemPay(body, {
         headers: { ...upstream.headers },
       });
-      return res.data!;
+      return unwrap(res);
     },
     { body: subscriptionPayBody },
   );

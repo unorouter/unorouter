@@ -9,13 +9,6 @@ import {
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-type CreemProduct = {
-  productId: string;
-  name: string;
-  price: number;
-  currency: string;
-};
-
 export function TopUpSection() {
   const t = useTranslations();
   const topUpInfoQuery = useTopUpInfoQuery();
@@ -28,13 +21,7 @@ export function TopUpSection() {
   const enableCreem = topUpInfo?.enable_creem_topup ?? false;
   const amountOptions = topUpInfo?.amount_options ?? [];
   const discount = topUpInfo?.discount ?? {};
-
-  let creemProducts: CreemProduct[] = [];
-  if (enableCreem && topUpInfo?.creem_products) {
-    try {
-      creemProducts = JSON.parse(topUpInfo.creem_products);
-    } catch {}
-  }
+  const creemProducts = topUpInfo?.creemProducts ?? [];
 
   const isLoading = topUpInfoQuery.isLoading;
   const isMutating =

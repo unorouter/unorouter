@@ -1,5 +1,6 @@
 import { quotaQuery } from "@/lib/typebox/dashboard";
 import { getUserQuotaDates, getUptimeKumaStatus } from "@/openapi";
+import { unwrap } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 import { deriveUpstream } from "../constants";
 
@@ -11,11 +12,11 @@ export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
       const res = await getUserQuotaDates(query, {
         headers: upstream.headers,
       });
-      return res.data!;
+      return unwrap(res);
     },
     { query: quotaQuery },
   )
   .get("/uptime", async () => {
     const res = await getUptimeKumaStatus();
-    return res.data!;
+    return unwrap(res);
   });
