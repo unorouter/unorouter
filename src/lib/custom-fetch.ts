@@ -61,8 +61,8 @@ export const customFetch = async <T>(
 
       if (response.ok) break;
 
-      if (attempt < MAX_RETRIES && isRetryable(method, response.status)) {
-        await sleep(RETRY_BACKOFF[attempt]);
+      if (attempt < MAX_RETRIES && method === "GET" && RETRYABLE.has(response.status)) {
+        await new Promise((r) => setTimeout(r, RETRY_BACKOFF[attempt]));
         continue;
       }
 
@@ -81,7 +81,7 @@ export const customFetch = async <T>(
         err instanceof TypeError
       ) {
         lastError = err;
-        await sleep(RETRY_BACKOFF[attempt]);
+        await new Promise((r) => setTimeout(r, RETRY_BACKOFF[attempt]));
         continue;
       }
       throw lastError ?? err;
