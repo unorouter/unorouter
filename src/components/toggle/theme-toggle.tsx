@@ -11,6 +11,7 @@ import {
   createAnimation,
   getRandomAnimation,
 } from "@/components/ui/theme-animations";
+import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useCallback } from "react";
@@ -37,6 +38,7 @@ export function ThemeToggle() {
 
   const handleThemeChange = useCallback(
     (theme: string) => {
+      analytics.settings.themeChanged(theme);
       const { variant: randomVariant, start: randomStart } =
         getRandomAnimation();
       const animation = createAnimation(randomVariant, randomStart);

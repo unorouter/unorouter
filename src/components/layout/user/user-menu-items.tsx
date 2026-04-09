@@ -1,6 +1,7 @@
 "use client";
 
 import { useLogoutMutation } from "@/hooks/auth-hook";
+import { analytics } from "@/lib/analytics";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
@@ -22,6 +23,7 @@ export function UserMenuItems(props: UserMenuItemsProps) {
 
   async function handleLogout() {
     props.onAction?.();
+    analytics.auth.logoutCompleted();
     try {
       await logoutMutation.mutateAsync();
       window.location.reload();

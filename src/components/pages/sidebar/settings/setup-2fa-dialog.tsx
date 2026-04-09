@@ -1,5 +1,6 @@
 "use client";
 
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
@@ -71,6 +72,7 @@ export function Setup2FADialog(props: {
       { body: { code: data.code } },
       {
         onSuccess: () => {
+          analytics.settings.twoFAEnabled();
           toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_ENABLED"));
           props.onOpenChange(false);
           resetState();
@@ -87,6 +89,7 @@ export function Setup2FADialog(props: {
       { body: { code: data.code } },
       {
         onSuccess: () => {
+          analytics.settings.twoFADisabled();
           toast.success(t("SETTINGS.SECURITY.TWO_FACTOR_DISABLED"));
           props.onOpenChange(false);
           resetState();

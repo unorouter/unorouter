@@ -38,5 +38,9 @@ jobs:
 
           echo GUEST_API_KEY=${{ secrets.GUEST_API_KEY }} >> .env
 
+          echo NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }} >> .env
+          echo POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }} >> .env
+          echo POSTHOG_ENV_ID=${{ secrets.POSTHOG_ENV_ID }} >> .env
+
       - name: Docker run
         run: docker compose up -d --force-recreate --build

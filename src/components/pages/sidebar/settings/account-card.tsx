@@ -12,6 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { analytics } from "@/lib/analytics";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useBindEmailMutation,
@@ -84,6 +85,7 @@ export function AccountCard() {
       },
       {
         onSuccess: () => {
+          analytics.settings.emailBound();
           toast.success(t("SETTINGS.ACCOUNT.EMAIL_BOUND"));
           setShowEmailForm(false);
           form.reset(Value.Default(emailBindSchema, {}) as EmailBindSchema);
@@ -98,6 +100,7 @@ export function AccountCard() {
   async function handleOAuthBind(provider: string) {
     const status = statusQuery.data;
     if (!status) return;
+    analytics.settings.oauthBound(provider);
     setBindLoading(provider);
     try {
       const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;

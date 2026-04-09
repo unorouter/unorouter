@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { analytics } from "@/lib/analytics";
 import { useDeleteSelfMutation } from "@/hooks/settings-hook";
 import {
   deleteAccountSchema,
@@ -59,6 +60,7 @@ export function DeleteAccountDialog(props: {
     }
     deleteSelfMutation.mutate(undefined, {
       onSuccess: () => {
+        analytics.settings.accountDeleted();
         toast.success(t("SETTINGS.SECURITY.ACCOUNT_DELETED"));
         router.push("/");
       },

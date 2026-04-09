@@ -1,5 +1,6 @@
 "use client";
 
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import {
   use2FAStatusQuery,
@@ -54,6 +55,7 @@ export function SecurityCard() {
             ? data
             : (data as { data?: string })?.data || "";
         setAccessToken(token);
+        analytics.settings.accessTokenGenerated();
         toast.success(t("SETTINGS.SECURITY.TOKEN_GENERATED"));
       },
       onError: (error) => {
@@ -99,6 +101,7 @@ export function SecurityCard() {
       };
 
       await passkeyRegisterFinishMutation.mutateAsync({ body: credentialData });
+      analytics.settings.passkeyRegistered();
       toast.success(t("SETTINGS.SECURITY.PASSKEY_REGISTERED_SUCCESS"));
     } catch (error) {
       if (error instanceof Error && error.name !== "NotAllowedError") {
@@ -110,6 +113,7 @@ export function SecurityCard() {
   function handleDeletePasskey() {
     passkeyDeleteMutation.mutate(undefined, {
       onSuccess: () => {
+        analytics.settings.passkeyDeleted();
         toast.success(t("SETTINGS.SECURITY.PASSKEY_DELETED"));
       },
       onError: (error) => {

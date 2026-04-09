@@ -4,6 +4,7 @@ import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SidebarHeader } from "@/components/layout/sidebar/sidebar-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { sidebarOpenAtom } from "@/store/navigation-store";
 import { useAtom } from "jotai";
@@ -38,7 +39,10 @@ export function SidebarLayout(props: SidebarLayoutProps) {
   return (
     <SidebarProvider
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={(next) => {
+        analytics.navigation.sidebarToggled(next);
+        setOpen(next);
+      }}
       style={
         {
           "--sidebar-width": "16rem",

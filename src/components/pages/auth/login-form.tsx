@@ -16,6 +16,7 @@ import {
   loginSchema,
   type LoginSchema,
 } from "@/lib/validation/auth";
+import { analytics } from "@/lib/analytics";
 import { safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
@@ -60,6 +61,7 @@ export function LoginForm() {
         return;
       }
 
+      analytics.auth.loginCompleted("email");
       router.push(getRedirectPath() as RouterPush);
       router.refresh();
     } catch {

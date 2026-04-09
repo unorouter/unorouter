@@ -19,6 +19,7 @@ import {
   useTopUpInfoQuery,
   useUpdateBillingPreferenceMutation,
 } from "@/hooks/billing-hook";
+import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
@@ -85,12 +86,18 @@ export function SubscriptionSection() {
   const isLoading = plansQuery.isLoading || selfQuery.isLoading;
 
   function handlePreferenceChange(value: string | null) {
-    if (value)
+    if (value) {
+      analytics.billing.preferenceUpdated(value);
       preferenceMutation.mutate({ body: { billing_preference: value } });
+    }
   }
 
   function handleSubscribe(plan: SubscriptionPlan) {
     if (enableStripe) {
+      analytics.billing.subscriptionInitiated({
+        planId: String(plan.id),
+        provider: "stripe",
+      });
       stripeSubMutation.mutate(
         { body: { plan_id: plan.id } },
         {
@@ -104,6 +111,10 @@ export function SubscriptionSection() {
         },
       );
     } else if (enableCreem) {
+      analytics.billing.subscriptionInitiated({
+        planId: String(plan.id),
+        provider: "creem",
+      });
       creemSubMutation.mutate(
         { body: { plan_id: plan.id } },
         {

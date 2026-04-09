@@ -9,6 +9,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useVerify2FAMutation } from "@/hooks/auth-hook";
+import { analytics } from "@/lib/analytics";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -25,6 +26,7 @@ export function TwoFAForm(props: TwoFAFormProps) {
   async function onSubmit(value: string) {
     try {
       await verify2FA.mutateAsync({ body: { code: value.trim() } });
+      analytics.auth.twoFAVerified();
       props.onSuccess();
     } catch {
       setCode("");

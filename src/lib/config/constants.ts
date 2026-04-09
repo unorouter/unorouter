@@ -3,6 +3,8 @@ import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 import { env } from "./env";
 
+export const IS_DEV = process.env.NODE_ENV === "development";
+
 export const NEW_API_USER = "New-Api-User";
 export const SESSION_COOKIE = "session" as const;
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;

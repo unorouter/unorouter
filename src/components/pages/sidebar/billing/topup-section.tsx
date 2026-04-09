@@ -6,6 +6,7 @@ import {
   useStripeTopUpMutation,
   useTopUpInfoQuery,
 } from "@/hooks/billing-hook";
+import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -41,6 +42,7 @@ export function TopUpSection() {
   }
 
   function handleStripeTopUp(amount: number) {
+    analytics.billing.topUpInitiated({ provider: "stripe", amount });
     stripeTopUpMutation.mutate(
       { body: { amount, payment_method: "stripe" } },
       {
@@ -55,6 +57,7 @@ export function TopUpSection() {
   }
 
   function handleCreemTopUp(productId: string) {
+    analytics.billing.topUpInitiated({ provider: "creem" });
     creemTopUpMutation.mutate(
       { body: { product_id: productId, payment_method: "creem" } },
       {

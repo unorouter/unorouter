@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import { analytics } from "@/lib/analytics";
 import { useTransferAffQuotaMutation } from "@/hooks/affiliate-hook";
 import { useRouter } from "@/i18n/navigation";
 import {
@@ -56,6 +57,7 @@ export function TransferDialog(props: TransferDialogProps) {
       { body: { quota: quotaUnits } },
       {
         onSuccess: () => {
+          analytics.affiliate.quotaTransferred(data.amount);
           toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
           props.onOpenChange(false);
           form.reset();

@@ -15,6 +15,7 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
+import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import { chatWebSearchAtom, getScrollControl } from "@/store/chat-store";
@@ -221,7 +222,10 @@ const ComposerWebSearchToggle: FC = () => {
       tooltip={webSearch ? t("CHAT.WEB_SEARCH_ON") : t("CHAT.WEB_SEARCH_OFF")}
       variant={webSearch ? "default" : "ghost"}
       className="aui-composer-web-search size-8 rounded-full transition-colors"
-      onClick={() => setWebSearch(!webSearch)}
+      onClick={() => {
+        analytics.chat.webSearchToggled(!webSearch);
+        setWebSearch(!webSearch);
+      }}
     >
       {webSearch ? (
         <LuGlobe className="size-4" />

@@ -5,6 +5,7 @@ import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { ResponseDtoStatusDataData } from "@/openapi";
+import { analytics } from "@/lib/analytics";
 import { getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -94,6 +95,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
     customScopes?: string,
   ) {
     setLoading(provider);
+    analytics.auth.oauthInitiated(provider);
     try {
       const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
       const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;

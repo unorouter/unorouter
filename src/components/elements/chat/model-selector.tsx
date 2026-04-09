@@ -15,6 +15,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { analytics } from "@/lib/analytics";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
@@ -127,6 +128,10 @@ export function ModelSelector(props: ModelSelectorProps) {
                           setOpen(false);
                           return;
                         }
+                        analytics.chat.modelChanged({
+                          from: props.value,
+                          to: model.name,
+                        });
                         props.onChange(model.name);
                         setOpen(false);
                       }}

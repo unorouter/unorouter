@@ -6,6 +6,7 @@ import {
   useRevokeShareMutation,
   useShareConversationMutation,
 } from "@/hooks/chat-hook";
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard, shareUrl } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -23,6 +24,7 @@ export function ShareButton(props: { convId: string }) {
 
   const copyAndFlash = async (id: string) => {
     await copyToClipboard(shareUrl(id));
+    analytics.chat.shareLinkCopied();
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -47,7 +49,10 @@ export function ShareButton(props: { convId: string }) {
           variant="ghost"
           size="icon"
           className="h-8 w-8"
-          onClick={() => revokeMutation.mutate({ id: props.convId })}
+          onClick={() => {
+            analytics.chat.shareRevoked(props.convId);
+            revokeMutation.mutate({ id: props.convId });
+          }}
           disabled={isPending}
           title={t("CHAT.REVOKE_SHARE")}
         >
@@ -62,12 +67,13 @@ export function ShareButton(props: { convId: string }) {
       variant="ghost"
       size="icon"
       className="h-8 w-8"
-      onClick={() =>
+      onClick={() => {
+        analytics.chat.conversationShared(props.convId);
         shareMutation.mutate(
           { id: props.convId },
           { onSuccess: (data) => copyAndFlash(data.shareId) },
-        )
-      }
+        );
+      }}
       disabled={isPending}
       title={t("CHAT.SHARE")}
     >

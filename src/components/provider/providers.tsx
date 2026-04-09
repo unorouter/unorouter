@@ -8,6 +8,7 @@ import {
 } from "@/store/navigation-store";
 import { ReactNode, use } from "react";
 import { LanguageProvider } from "./app/language-provider";
+import { PostHogProvider } from "./app/posthog-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserProvider } from "./app/user-provider";
 import { ClientProvider } from "./state/client-provider";
@@ -32,7 +33,9 @@ export function Providers(props: { children: ReactNode }) {
               <UserProvider>
                 <LanguageProvider>
                   <ThemeProvider>
-                    <TooltipProvider>{props.children}</TooltipProvider>
+                    <PostHogProvider>
+                      <TooltipProvider>{props.children}</TooltipProvider>
+                    </PostHogProvider>
                   </ThemeProvider>
                 </LanguageProvider>
               </UserProvider>

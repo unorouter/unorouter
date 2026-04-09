@@ -38,3 +38,10 @@ services:
       - "traefik.http.routers.unorouter.tls.certresolver=letsencrypt"
       - "traefik.http.routers.unorouter.service=unorouter"
       - "traefik.http.services.unorouter.loadbalancer.server.port=3000"
+      # PostHog reverse proxy (avoids ad blockers)
+      - "traefik.http.routers.posthog-proxy-uno.rule=Host(`ph.unorouter.ai`)"
+      - "traefik.http.routers.posthog-proxy-uno.entrypoints=websecure"
+      - "traefik.http.routers.posthog-proxy-uno.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.posthog-proxy-uno.service=posthog-ext-uno"
+      - "traefik.http.services.posthog-ext-uno.loadbalancer.server.url=https://eu.i.posthog.com"
+      - "traefik.http.services.posthog-ext-uno.loadbalancer.passHostHeader=false"

@@ -17,6 +17,7 @@ import {
   registerSchema,
   type RegisterSchema,
 } from "@/lib/validation/auth";
+import { analytics } from "@/lib/analytics";
 import { safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
@@ -51,6 +52,7 @@ export function RegisterForm() {
         turnstile: turnstileToken,
       },
     });
+    analytics.auth.verificationSent();
   }
 
   async function onSubmit(data: RegisterSchema) {
@@ -66,6 +68,7 @@ export function RegisterForm() {
           turnstile: turnstileToken,
         },
       });
+      analytics.auth.registerCompleted();
       deleteCookie(AFF_CODE_KEY);
       router.push("/login");
     } catch {

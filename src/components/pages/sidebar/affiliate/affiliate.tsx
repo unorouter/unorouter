@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -79,12 +80,14 @@ export function Affiliate() {
   function handleCopyLink() {
     if (!inviteLink) return;
     copyToClipboard(inviteLink);
+    analytics.affiliate.linkCopied();
     toast.success(t("AFFILIATE.LINK_COPIED"));
   }
 
   function handleCopyCode() {
     if (!affCode) return;
     copyToClipboard(affCode);
+    analytics.affiliate.codeCopied();
     toast.success(t("AFFILIATE.CODE_COPIED"));
   }
 

@@ -1,8 +1,10 @@
 "use client";
 
+import { IS_DEV } from "@/lib/config/constants";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
+import posthog from "posthog-js";
 import { useEffect } from "react";
 import { LuRefreshCw, LuTriangleAlert } from "react-icons/lu";
 
@@ -18,6 +20,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
 
   useEffect(() => {
     console.error(props.error);
+    posthog.captureException(props.error);
   }, [props.error]);
 
   return (
@@ -38,7 +41,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
             {t("MAIN.ERROR.UNEXPECTED_ERROR_OCCURRED")}
           </p>
 
-          {process.env.NODE_ENV === "development" && (
+          {IS_DEV && (
             <details className="text-left">
               <summary className="text-muted-foreground hover:text-foreground cursor-pointer text-sm font-medium">
                 {t("MAIN.ERROR.ERROR_DETAILS")}

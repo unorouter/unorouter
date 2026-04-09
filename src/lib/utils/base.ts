@@ -1,4 +1,4 @@
-import { msg } from "@/lib/config/constants";
+import { IS_DEV, msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import type {
   ExcludeVoid,
@@ -7,7 +7,7 @@ import type {
 } from "../types/eden";
 
 export function devWarn(context: string, error: unknown) {
-  if (process.env.NODE_ENV === "development") {
+  if (IS_DEV) {
     console.warn(`[${context}]`, error);
   }
 }

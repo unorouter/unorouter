@@ -29,6 +29,7 @@ import {
 } from "@/hooks/token-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
@@ -110,7 +111,10 @@ export function TokenDialog(props: TokenDialogProps) {
     fetchKeyMutation.mutate(
       { id: props.token.id },
       {
-        onSuccess: (data) => setRevealedKey(data.key),
+        onSuccess: (data) => {
+          setRevealedKey(data.key);
+          analytics.tokens.keyRevealed();
+        },
         onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
       },
     );
@@ -118,6 +122,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
   function handleCopyKey() {
     if (!props.token) return;
+    analytics.tokens.keyCopied();
     if (revealedKey) {
       copyToClipboard(`sk-${revealedKey}`);
       toast.success(t("TOKEN.KEY_COPIED"));
@@ -140,6 +145,7 @@ export function TokenDialog(props: TokenDialogProps) {
       { body: { ...props.token, status: isEnabled ? 2 : 1 } },
       {
         onSuccess: () => {
+          analytics.tokens.statusToggled(!isEnabled);
           toast.success(t("TOKEN.STATUS_CHANGED"));
           props.onOpenChange(false);
         },
@@ -154,6 +160,7 @@ export function TokenDialog(props: TokenDialogProps) {
       { id: props.token.id },
       {
         onSuccess: () => {
+          analytics.tokens.deleted();
           toast.success(t("TOKEN.DELETED_SUCCESS"));
           props.onOpenChange(false);
         },
@@ -188,6 +195,7 @@ export function TokenDialog(props: TokenDialogProps) {
         },
         {
           onSuccess: () => {
+            analytics.tokens.updated();
             toast.success(t("TOKEN.UPDATED_SUCCESS"));
             props.onOpenChange(false);
           },
@@ -202,6 +210,7 @@ export function TokenDialog(props: TokenDialogProps) {
         { body: payload },
         {
           onSuccess: () => {
+            analytics.tokens.created();
             toast.success(t("TOKEN.CREATED_SUCCESS"));
             props.onOpenChange(false);
           },
