@@ -1349,6 +1349,8 @@
     "MODELS_ONE_ENDPOINT": "40+ AI models, one endpoint",
     "DIRECT": "Direct",
     "MODEL": "Model",
-    "PRICES_NOTE": "Prices per 1M tokens"
+    "PRICES_NOTE": "Prices per 1M tokens",
+    "REFERRAL": "Referral",
+    "REFERRAL_CTA": "Sign up and get started with AI for less"
   }
 }

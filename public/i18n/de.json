@@ -1349,6 +1349,8 @@
     "MODELS_ONE_ENDPOINT": "40+ KI-Modelle, ein Endpunkt",
     "DIRECT": "Direkt",
     "MODEL": "Modell",
-    "PRICES_NOTE": "Preise pro 1M Tokens"
+    "PRICES_NOTE": "Preise pro 1M Tokens",
+    "REFERRAL": "Empfehlung",
+    "REFERRAL_CTA": "Registriere dich und nutze KI günstiger"
   }
 }

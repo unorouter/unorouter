@@ -1,6 +1,6 @@
 import { badgeQuery } from "@/lib/validation/badge";
 import { Elysia } from "elysia";
-import { getStats } from "./cache";
+import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
 import { parseTheme } from "./satori";
 import { generateHero } from "./svg/hero";
@@ -8,6 +8,7 @@ import { generatePricing } from "./svg/pricing";
 import { generateProviders } from "./svg/providers";
 import { generateSponsor } from "./svg/sponsor";
 import { generateTokensBanner } from "./svg/tokens-banner";
+import { generateReferral } from "./svg/referral";
 import { generateTokensSquare } from "./svg/tokens-square";
 
 const SVG_HEADERS = {
@@ -22,6 +23,7 @@ const BADGE_NAMES = [
   "providers",
   "pricing",
   "hero",
+  "referral",
 ] as const;
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })
@@ -77,8 +79,14 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   )
   .get(
     "/pricing",
-    async ({ query }) =>
-      generatePricing(parseLocale(query.locale), parseTheme(query.theme)),
+    async ({ query }) => {
+      const pricing = await getPricingData();
+      return generatePricing(
+        parseLocale(query.locale),
+        parseTheme(query.theme),
+        pricing.rows,
+      );
+    },
     { query: badgeQuery },
   )
   .get(
@@ -92,6 +100,16 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         query.ref,
       );
     },
+    { query: badgeQuery },
+  )
+  .get(
+    "/referral",
+    async ({ query }) =>
+      generateReferral(
+        parseLocale(query.locale),
+        parseTheme(query.theme),
+        query.ref ?? "YOUR_CODE",
+      ),
     { query: badgeQuery },
   )
   .get(
