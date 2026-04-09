@@ -52,6 +52,7 @@ export function ModelSelector(props: ModelSelectorProps) {
     const current = models.find((m) => m.name === props.value);
     if (current?.isFree) return;
     props.onChange(firstFreeModel.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run when login state or free model changes
   }, [isLoggedIn, firstFreeModel?.name]);
 
   return (

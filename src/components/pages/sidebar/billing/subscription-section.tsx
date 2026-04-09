@@ -158,7 +158,7 @@ export function SubscriptionSection() {
               <SelectValue>
                 {t(
                   PREFERENCE_OPTIONS.find((o) => o.value === billingPreference)
-                    ?.key!,
+                    ?.key ?? PREFERENCE_OPTIONS[0].key,
                 )}
               </SelectValue>
             </SelectTrigger>

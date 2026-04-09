@@ -287,10 +287,7 @@ const StreamingIndicator: FC = () => {
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
-    if (!isStreaming) {
-      setElapsed(0);
-      return;
-    }
+    if (!isStreaming) return;
     const start = Date.now();
     const id = setInterval(() => setElapsed(Date.now() - start), 50);
     return () => clearInterval(id);

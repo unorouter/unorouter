@@ -8,7 +8,7 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-const login = rpc.api.auth.login;
+const _login = rpc.api.auth.login;
 
 export function useAuthQuery() {
   return useQuery({
@@ -30,7 +30,7 @@ export function useLoginMutation() {
 export function useVerify2FAMutation() {
   const t = useTranslations();
   return useMutation({
-    mutationFn: async (args: EdenArgs<(typeof login)["2fa"], "post">) =>
+    mutationFn: async (args: EdenArgs<(typeof _login)["2fa"], "post">) =>
       handleElysia(await rpc.api.auth.login["2fa"].post(args.body)),
     onError: (e) => handleError(e, t),
   });
@@ -62,8 +62,6 @@ export function useLogoutMutation() {
   return useMutation({
     mutationFn: async () => handleElysia(await rpc.api.auth.logout.get()),
     onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      queryClient.setQueryData(queryKeys.auth(), null);
-    },
+    onSuccess: () => queryClient.setQueryData(queryKeys.auth(), null),
   });
 }

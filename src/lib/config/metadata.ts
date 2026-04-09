@@ -14,7 +14,6 @@ type MetadataParams = {
 
 export function getPageMetadata(params: MetadataParams): Metadata {
   const canonicalPath = params.path || `/${params.locale}`;
-  const ogImageUrl = params.ogImage || "/logo.webp";
   const shouldIndex = params.robots ?? true;
 
   return {

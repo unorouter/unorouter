@@ -47,7 +47,7 @@ export function Chat(props: ChatProps) {
     document.title = convTitle
       ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
       : t("CHAT.META.TITLE", APP_VALUES);
-  }, [props.readOnly, convQuery.data?.title]);
+  }, [props.readOnly, convQuery.data?.title, t]);
 
   if (!props.readOnly && gate.needsToken) return <NeedsTokenGate />;
   if (!props.readOnly && gate.hasZeroBalance) return <ZeroBalanceGate />;

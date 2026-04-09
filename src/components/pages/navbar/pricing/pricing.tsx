@@ -6,7 +6,7 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";
 import { RESET_TRANSLATION_KEYS, getMultiplier } from "@/lib/api/subscription";
-import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
+import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { LuZap } from "react-icons/lu";

@@ -9,9 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-
 import { cn } from "@/lib/utils";
-import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LuCheck, LuEllipsis, LuPencil, LuTrash2, LuX } from "react-icons/lu";
@@ -31,7 +29,6 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
-  const queryClient = useQueryClient();
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
   const [isEditing, setIsEditing] = useState(false);
@@ -113,10 +110,18 @@ export function ConversationItem(props: ConversationItemProps) {
         <>
           <div className="relative flex h-full min-w-0 flex-1 items-center gap-2 px-3 text-start text-sm">
             <span
-              title={vendorName ? `${vendorName} · ${props.conversation.model}` : props.conversation.model}
+              title={
+                vendorName
+                  ? `${vendorName} · ${props.conversation.model}`
+                  : props.conversation.model
+              }
               className="shrink-0"
             >
-              <VendorIcon vendor={vendorName} size={14} className="pointer-events-none" />
+              <VendorIcon
+                vendor={vendorName}
+                size={14}
+                className="pointer-events-none"
+              />
             </span>
             <span
               className={cn(
@@ -140,29 +145,29 @@ export function ConversationItem(props: ConversationItemProps) {
               >
                 <LuEllipsis className="size-4" />
               </DropdownMenuTrigger>
-            <DropdownMenuContent
-              side="bottom"
-              align="start"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <DropdownMenuItem onClick={startEditing} className="gap-2">
-                <LuPencil className="size-4" />
-                {t("CHAT.RENAME")}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  props.onDelete();
-                  setMenuOpen(false);
-                }}
-                className="gap-2"
+              <DropdownMenuContent
+                side="bottom"
+                align="start"
+                onClick={(e) => e.stopPropagation()}
               >
-                <LuTrash2 className="size-4" />
-                {t("CHAT.DELETE")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem onClick={startEditing} className="gap-2">
+                  <LuPencil className="size-4" />
+                  {t("CHAT.RENAME")}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    props.onDelete();
+                    setMenuOpen(false);
+                  }}
+                  className="gap-2"
+                >
+                  <LuTrash2 className="size-4" />
+                  {t("CHAT.DELETE")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </>
       )}

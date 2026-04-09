@@ -13,7 +13,7 @@ import type {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-const twoFA = rpc.api.settings["2fa"];
+const _twoFA = rpc.api.settings["2fa"];
 
 export function use2FAStatusQuery() {
   return useQuery({
@@ -134,7 +134,7 @@ export function useEnable2FAMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: EdenArgs<(typeof twoFA)["enable"], "post">) =>
+    mutationFn: async (args: EdenArgs<(typeof _twoFA)["enable"], "post">) =>
       handleElysia(await rpc.api.settings["2fa"].enable.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: () => {
@@ -150,7 +150,7 @@ export function useDisable2FAMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: EdenArgs<(typeof twoFA)["disable"], "post">) =>
+    mutationFn: async (args: EdenArgs<(typeof _twoFA)["disable"], "post">) =>
       handleElysia(await rpc.api.settings["2fa"].disable.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: () => {
@@ -163,7 +163,6 @@ export function useDisable2FAMutation() {
 }
 
 export function usePasskeyRegisterBeginMutation() {
-  const t = useTranslations();
   return useMutation({
     mutationFn: async () =>
       handleElysia(await rpc.api.settings.passkey.register.begin.post()),

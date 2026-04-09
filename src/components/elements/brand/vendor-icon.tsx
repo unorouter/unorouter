@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/static-components -- Icon is looked up from a constant map, not created dynamically */
 
 import { Vendor } from "@/lib/types/enums";
 import {

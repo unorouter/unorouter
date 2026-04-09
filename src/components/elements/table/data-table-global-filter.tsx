@@ -26,10 +26,12 @@ export function DataTableGlobalFilter<TData>(
     return () => clearTimeout(timeout);
   }, [value, props.table, props.debounceMs]);
 
+  const globalFilter = props.table.getState().globalFilter ?? "";
   useEffect(() => {
-    const globalFilter = props.table.getState().globalFilter ?? "";
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync local state from table filter
     setValue(globalFilter);
-  }, [props.table.getState().globalFilter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- extracted from complex expression
+  }, [globalFilter]);
 
   return (
     <div className="relative">

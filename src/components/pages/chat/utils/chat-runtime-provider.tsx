@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/refs -- refs accessed during render for sync transport/adapter state */
 
 import {
   createR2AttachmentAdapter,
@@ -99,6 +100,7 @@ function ChatRuntimeHook() {
         body: { model: newModel },
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- subscribe once on mount, refs hold latest values
   }, []);
 
   const transportRef = useRef(
@@ -196,7 +198,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   // Update the adapter's isLoggedIn state when auth changes
   useEffect(() => {
     adapterRef.current = createThreadListAdapter(queryClient, t, isLoggedIn);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, queryClient, t]);
 
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,

@@ -7,13 +7,15 @@ import {
 import { useStore } from "jotai";
 import { type ReactNode, useMemo, useSyncExternalStore } from "react";
 
+const EMPTY_STORES = {} as DataTableStores;
+
 export function DataTableProvider(props: {
   children: ReactNode;
   data?: DataTableStores;
 }) {
   const store = useStore();
 
-  const dataToHydrate = props.data || ({} as DataTableStores);
+  const dataToHydrate = props.data ?? EMPTY_STORES;
 
   useMemo(() => {
     try {

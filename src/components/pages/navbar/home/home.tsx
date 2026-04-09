@@ -8,9 +8,7 @@ import { IntegrationBanner } from "./integration-banner";
 import { PricingSection } from "./pricing-section";
 import { ReliabilitySection } from "./reliability-section";
 
-interface HomeProps {}
-
-export const Home: React.FC<HomeProps> = (props) => {
+export const Home: React.FC = () => {
   return (
     <>
       <StreakCanvas />

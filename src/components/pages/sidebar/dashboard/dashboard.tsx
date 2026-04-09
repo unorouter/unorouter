@@ -23,8 +23,8 @@ type DashboardProps = {
 
 export function Dashboard(props: DashboardProps) {
   const setDashboardStore = useSetAtom(dashboardStoreAtom);
-  const hydrated = useRef(false);
-  if (!hydrated.current) {
+  const hydrated = useRef<boolean | null>(null);
+  if (hydrated.current == null) {
     hydrated.current = true;
     setDashboardStore(props.serverTimestamps);
   }

@@ -1,7 +1,6 @@
 import {
   buildPricingSummary,
   type EndpointInfo,
-  ModelType,
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { msg } from "@/lib/config/constants";

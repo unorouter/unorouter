@@ -17,6 +17,7 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
   useEffect(() => {
     // Reset on mount (handles strict mode double-invoke)
     settledRef.current = 0;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset animation state on mount
     setSettled(0);
 
     const totalLetters = text.length;

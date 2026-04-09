@@ -19,7 +19,7 @@ export function GuestConvsClaim() {
     claimMutation.mutate(guestIds, {
       onSuccess: () => clearGuestConvIds(),
     });
-  }, [authQuery.data]);
+  }, [authQuery.data, claimMutation]);
 
   return null;
 }
