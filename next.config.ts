@@ -25,8 +25,8 @@ const configWithNextIntl = withNextIntl(nextConfig);
 
 export default process.env.STANDALONE
   ? withPostHogConfig(configWithNextIntl, {
-      personalApiKey: process.env.POSTHOG_API_KEY,
-      envId: process.env.POSTHOG_ENV_ID,
+      personalApiKey: process.env.POSTHOG_API_KEY!,
+      envId: process.env.POSTHOG_ENV_ID!,
       host: "https://eu.i.posthog.com",
       sourcemaps: {
         enabled: true,
