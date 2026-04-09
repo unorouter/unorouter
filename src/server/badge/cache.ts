@@ -1,4 +1,4 @@
-import { buildPricingSummary, type ProcessedModel } from "@/lib/api/pricing";
+import { buildPricingSummary } from "@/lib/api/pricing";
 import { FAR_FUTURE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import { getAllQuotaDates, getPricing } from "@/openapi";
@@ -22,6 +22,7 @@ export interface BadgePricingRow {
 export interface BadgePricing {
   modelCount: number;
   vendorCount: number;
+  vendorNames: string[];
   rows: BadgePricingRow[];
 }
 
@@ -59,32 +60,6 @@ export async function getStats(): Promise<BadgeStats> {
   return cachedStats;
 }
 
-/** Pick top discounted text models for the pricing badge */
-function pickPricingRows(models: ProcessedModel[]): BadgePricingRow[] {
-  return models
-    .filter(
-      (m) =>
-        m.type === "text" &&
-        !m.isFixedPrice &&
-        m.inputPrice > 0 &&
-        m.originalInputPrice !== null,
-    )
-    .sort((a, b) => {
-      const discA = 1 - a.inputPrice / (a.originalInputPrice ?? a.inputPrice);
-      const discB = 1 - b.inputPrice / (b.originalInputPrice ?? b.inputPrice);
-      return discB - discA;
-    })
-    .slice(0, 4)
-    .map((m) => ({
-      model: m.name,
-      vendor: m.vendor.name,
-      inputPrice: m.inputPrice,
-      outputPrice: m.outputPrice,
-      originalInputPrice: m.originalInputPrice,
-      originalOutputPrice: m.originalOutputPrice,
-    }));
-}
-
 export async function getPricingData(): Promise<BadgePricing> {
   if (cachedPricing && Date.now() - cachedPricingAt < CACHE_TTL)
     return cachedPricing;
@@ -95,7 +70,8 @@ export async function getPricingData(): Promise<BadgePricing> {
   cachedPricing = {
     modelCount: summary.modelCount,
     vendorCount: summary.vendorCount,
-    rows: pickPricingRows(summary.models),
+    vendorNames: summary.vendorNames,
+    rows: summary.topDiscounted,
   };
   cachedPricingAt = Date.now();
   return cachedPricing;

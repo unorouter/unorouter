@@ -1350,6 +1350,8 @@
     "DIRECT": "Direkt",
     "MODEL": "Modell",
     "PRICES_NOTE": "Preise pro 1M Tokens",
+    "INPUT": "Eingabe",
+    "OUTPUT": "Ausgabe",
     "REFERRAL": "Empfehlung",
     "REFERRAL_CTA": "Registriere dich und nutze KI günstiger"
   }

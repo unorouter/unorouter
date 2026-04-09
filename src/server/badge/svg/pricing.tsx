@@ -1,5 +1,5 @@
-import type { Locale } from "next-intl";
 import { formatPrice } from "@/lib/utils/base";
+import type { Locale } from "next-intl";
 import type { BadgePricingRow } from "../cache";
 import { t } from "../i18n";
 import {
@@ -8,12 +8,64 @@ import {
   type Theme,
   type ThemeColors,
 } from "../satori";
-import { Card, Row, BrandName, Label, FONT_SANS, FONT_MONO } from "./components";
+import {
+  BrandName,
+  Card,
+  FONT_MONO,
+  FONT_SANS,
+  Label,
+  Row,
+} from "./components";
+import { getVendorIcon, svgDataUri } from "./providers";
 
 function discount(original: number, current: number): string {
   if (original <= 0) return "";
   const pct = Math.round((1 - current / original) * 100);
   return pct > 0 ? `-${pct}%` : "";
+}
+
+/** Compact price cell: shows strikethrough original + bold current */
+function PriceCell(props: {
+  original: number | null;
+  current: number;
+  c: ThemeColors;
+  width: number;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: props.width,
+        gap: 1,
+      }}
+    >
+      {props.original !== null ? (
+        <span
+          style={{
+            fontFamily: FONT_MONO,
+            fontSize: 9,
+            color: props.c.muted,
+            textDecoration: "line-through",
+          }}
+        >
+          {formatPrice(props.original)}
+        </span>
+      ) : (
+        <span style={{ fontSize: 9 }}> </span>
+      )}
+      <span
+        style={{
+          fontFamily: FONT_MONO,
+          fontSize: 12,
+          fontWeight: 700,
+          color: props.c.text,
+        }}
+      >
+        {formatPrice(props.current)}
+      </span>
+    </div>
+  );
 }
 
 function PriceRow(props: { row: BadgePricingRow; c: ThemeColors }) {
@@ -23,14 +75,25 @@ function PriceRow(props: { row: BadgePricingRow; c: ThemeColors }) {
     ? discount(row.originalInputPrice, row.inputPrice)
     : "";
 
+  const iconSvg = getVendorIcon(row.vendor);
+
   return (
-    <Row style={{ alignItems: "center", padding: "10px 0" }}>
+    <Row style={{ alignItems: "center", padding: "8px 0" }}>
+      {iconSvg && (
+        // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+        <img
+          src={svgDataUri(iconSvg, c.muted)}
+          width={14}
+          height={14}
+          style={{ marginRight: 6 }}
+        />
+      )}
       <span
         style={{
           fontFamily: FONT_SANS,
-          fontSize: 12,
+          fontSize: 11,
           color: c.text,
-          width: 200,
+          width: 160,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
@@ -38,39 +101,24 @@ function PriceRow(props: { row: BadgePricingRow; c: ThemeColors }) {
       >
         {row.model}
       </span>
-      {row.originalInputPrice !== null ? (
-        <span
-          style={{
-            fontFamily: FONT_MONO,
-            fontSize: 12,
-            color: c.muted,
-            width: 100,
-            textDecoration: "line-through",
-          }}
-        >
-          {formatPrice(row.originalInputPrice)}
-        </span>
-      ) : (
-        <span style={{ width: 100 }} />
-      )}
-      <span
-        style={{
-          fontFamily: FONT_MONO,
-          fontSize: 12,
-          fontWeight: 700,
-          color: c.text,
-          width: 100,
-        }}
-      >
-        {formatPrice(row.inputPrice)}
-      </span>
+      <PriceCell
+        original={row.originalInputPrice}
+        current={row.inputPrice}
+        c={c}
+        width={100}
+      />
+      <PriceCell
+        original={row.originalOutputPrice}
+        current={row.outputPrice}
+        c={c}
+        width={100}
+      />
       {disc ? (
         <Row
           style={{
-            backgroundColor: c.accent,
-            opacity: 0.15,
+            backgroundColor: c.accentMuted,
             borderRadius: 4,
-            padding: "2px 8px",
+            padding: "3px 8px",
           }}
         >
           <span
@@ -95,8 +143,8 @@ export async function generatePricing(
   rows: BadgePricingRow[],
 ): Promise<string> {
   const c = themeVars(theme);
-  const W = 520;
-  const H = 300;
+  const W = 560;
+  const H = 320;
 
   const maxDiscount = rows.reduce((max, r) => {
     if (!r.originalInputPrice) return max;
@@ -119,21 +167,21 @@ export async function generatePricing(
           marginTop: 8,
         }}
       >
-        <Label text={t(locale, "BADGE.MODEL")} c={c} style={{ width: 200 }} />
-        <Label text={t(locale, "BADGE.DIRECT")} c={c} style={{ width: 100 }} />
-        <span
-          style={{
-            fontFamily: FONT_SANS,
-            fontSize: 11,
-            color: c.accent,
-            letterSpacing: 0.5,
-            fontWeight: 600,
-            width: 100,
-            textTransform: "uppercase",
-          }}
-        >
-          UNOROUTER
-        </span>
+        <Label
+          text={t(locale, "BADGE.MODEL")}
+          c={c}
+          style={{ width: 180 }}
+        />
+        <Label
+          text={t(locale, "BADGE.INPUT")}
+          c={c}
+          style={{ width: 100 }}
+        />
+        <Label
+          text={t(locale, "BADGE.OUTPUT")}
+          c={c}
+          style={{ width: 100 }}
+        />
       </Row>
       {rows.map((row) => (
         <PriceRow key={row.model} row={row} c={c} />

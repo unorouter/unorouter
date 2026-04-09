@@ -1,4 +1,5 @@
 /** @jsxImportSource @kitajs/html */
+/* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
 import { badgeQuery } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
@@ -29,7 +30,12 @@ const BADGE_NAMES = [
   "referral",
 ] as const;
 
-function AllPage(props: { qsStr: string; bg: string; fg: string; muted: string }) {
+function AllPage(props: {
+  qsStr: string;
+  bg: string;
+  fg: string;
+  muted: string;
+}) {
   return (
     <html>
       <head>
@@ -105,8 +111,14 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   )
   .get(
     "/providers",
-    async ({ query }) =>
-      generateProviders(parseLocale(query.locale), parseTheme(query.theme)),
+    async ({ query }) => {
+      const pricing = await getPricingData();
+      return generateProviders(
+        parseLocale(query.locale),
+        parseTheme(query.theme),
+        pricing.vendorNames,
+      );
+    },
     { query: badgeQuery },
   )
   .get(

@@ -1350,6 +1350,8 @@
     "DIRECT": "Direct",
     "MODEL": "Model",
     "PRICES_NOTE": "Prices per 1M tokens",
+    "INPUT": "Input",
+    "OUTPUT": "Output",
     "REFERRAL": "Referral",
     "REFERRAL_CTA": "Sign up and get started with AI for less"
   }

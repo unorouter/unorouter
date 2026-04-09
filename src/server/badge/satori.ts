@@ -25,7 +25,7 @@ const dark: ThemeColors = {
   muted: "#6b7280",
   border: "#1a1a1a",
   accent: "#22c55e",
-  accentMuted: "#166534",
+  accentMuted: "#052e16",
   brandRed: "#ef4444",
 };
 

@@ -167,6 +167,37 @@ export function buildPricingSummary(response: PricingData) {
     (a, b) => a.localeCompare(b),
   );
 
+  // Most expensive discounted text model per vendor (for badge/pricing use)
+  const discountedByVendor = new Map<string, ProcessedModel>();
+  for (const m of models) {
+    if (
+      m.type !== "text" ||
+      m.isFixedPrice ||
+      m.inputPrice <= 0 ||
+      m.originalInputPrice === null
+    )
+      continue;
+    const existing = discountedByVendor.get(m.vendor.name);
+    if (!existing || m.inputPrice > existing.inputPrice) {
+      discountedByVendor.set(m.vendor.name, m);
+    }
+  }
+  const topDiscounted = [...discountedByVendor.values()]
+    .sort((a, b) => {
+      const discA = 1 - a.inputPrice / (a.originalInputPrice ?? a.inputPrice);
+      const discB = 1 - b.inputPrice / (b.originalInputPrice ?? b.inputPrice);
+      return discB - discA;
+    })
+    .slice(0, 4)
+    .map((m) => ({
+      model: m.name,
+      vendor: m.vendor.name,
+      inputPrice: m.inputPrice,
+      outputPrice: m.outputPrice,
+      originalInputPrice: m.originalInputPrice,
+      originalOutputPrice: m.originalOutputPrice,
+    }));
+
   return {
     modelCount: models.length,
     vendorCount: vendors.length,
@@ -177,5 +208,6 @@ export function buildPricingSummary(response: PricingData) {
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
+    topDiscounted,
   };
 }
