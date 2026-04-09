@@ -2,6 +2,7 @@
 
 import { Thread } from "@/components/assistant-ui/thread";
 import { ShareButton } from "@/components/elements/chat/share-button";
+import { SectionBoundary } from "@/components/elements/section-boundary";
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -77,7 +78,9 @@ export function Chat(props: ChatProps) {
           )}
         </div>
       )}
-      <Thread readOnly={props.readOnly} />
+      <SectionBoundary>
+        <Thread readOnly={props.readOnly} />
+      </SectionBoundary>
     </div>
   );
 }

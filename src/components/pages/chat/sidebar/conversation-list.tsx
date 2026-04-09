@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { SectionBoundary } from "@/components/elements/section-boundary";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -126,7 +127,9 @@ export function ConversationList() {
   const listContent = (
     <>
       {searchInput}
-      <div className="mt-2">{conversationItems}</div>
+      <div className="mt-2">
+        <SectionBoundary>{conversationItems}</SectionBoundary>
+      </div>
     </>
   );
 

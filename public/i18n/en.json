@@ -766,7 +766,8 @@
       "SOMETHING_WENT_WRONG": "Something went wrong",
       "UNEXPECTED_ERROR_OCCURRED": "An unexpected error occurred. Please try again or return to the home page.",
       "ERROR_DETAILS": "Error Details",
-      "DIGEST": "Digest"
+      "DIGEST": "Digest",
+      "SECTION_LOAD_FAILED": "This section failed to load."
     },
     "NOT_FOUND": {
       "TITLE": "Page Not Found",

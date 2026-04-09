@@ -11,6 +11,8 @@ import ipaddr from "ipaddr.js";
 
 const BLOCKED_HOSTS = new Set(["localhost", "metadata.google.internal"]);
 const ALLOWED_RANGES = new Set(["unicast"]);
+const R2_TIMEOUT = 15_000;
+const DOWNLOAD_TIMEOUT = 10_000;
 
 function validateExternalUrl(url: string): void {
   let parsed: URL;
@@ -46,6 +48,7 @@ function getS3() {
       accessKeyId: serverEnv.r2AccessKeyId,
       secretAccessKey: serverEnv.r2SecretAccessKey,
     },
+    requestHandler: { requestTimeout: R2_TIMEOUT },
   });
   return _s3;
 }
@@ -101,7 +104,7 @@ export function mediaKey(
 export async function getContentType(url: string): Promise<string | null> {
   try {
     validateExternalUrl(url);
-    const res = await fetch(url, { method: "HEAD" });
+    const res = await fetch(url, { method: "HEAD", signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT) });
     return res.headers.get("content-type");
   } catch {
     return null;
@@ -119,7 +122,7 @@ export async function downloadAndUpload(
   msgId: string,
 ): Promise<string> {
   validateExternalUrl(url);
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT) });
   const buffer = Buffer.from(await res.arrayBuffer());
   const contentType = res.headers.get("content-type")!;
   const ext = contentType?.split("/")[1];
@@ -142,7 +145,7 @@ export async function fetchCheckUpload(
   let res: Response;
   try {
     validateExternalUrl(url);
-    res = await fetch(url);
+    res = await fetch(url, { signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT) });
     if (!res.ok) return null;
   } catch {
     return null;

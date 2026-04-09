@@ -1,5 +1,6 @@
 "use client";
 
+import { SectionBoundary } from "@/components/elements/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { useTranslations } from "next-intl";
 import { LuWallet } from "react-icons/lu";
@@ -33,17 +34,23 @@ export function Billing() {
             {t("BILLING.ACCOUNT_STATS")}
           </span>
         </div>
-        <AccountStats />
+        <SectionBoundary>
+          <AccountStats />
+        </SectionBoundary>
       </div>
 
       {/* Subscriptions */}
       <div className="mb-6">
-        <SubscriptionSection />
+        <SectionBoundary>
+          <SubscriptionSection />
+        </SectionBoundary>
       </div>
 
       {/* Top Up */}
       <div className="mb-6">
-        <TopUpSection />
+        <SectionBoundary>
+          <TopUpSection />
+        </SectionBoundary>
       </div>
     </PageContent>
   );

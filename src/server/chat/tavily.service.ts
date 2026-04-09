@@ -4,6 +4,8 @@ import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
 
+const TAVILY_TIMEOUT = 5_000;
+
 type TavilyResult = {
   title: string;
   url: string;
@@ -32,6 +34,7 @@ export async function needsWebSearch(
       system: `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`,
       prompt: userText,
       maxOutputTokens: 3,
+      abortSignal: AbortSignal.timeout(TAVILY_TIMEOUT),
     });
 
     return result.text.trim().toLowerCase().startsWith("yes");
@@ -58,6 +61,7 @@ export async function searchTavily(
     const res = await fetch("https://api.tavily.com/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(TAVILY_TIMEOUT),
       body: JSON.stringify({
         api_key: apiKey,
         query,

@@ -1,6 +1,11 @@
 import { env } from "@/lib/config/env";
 import { getServerCookieHeader } from "@/server/constants";
 
+const REQUEST_TIMEOUT = 30_000;
+const MAX_RETRIES = 2;
+const RETRY_BACKOFF = [500, 1000];
+const RETRYABLE = new Set([502, 503, 504]);
+
 function getHeaderValue(
   headers: HeadersInit | undefined,
   key: string,
@@ -33,25 +38,54 @@ export const customFetch = async <T>(
     getHeaderValue(options.headers, "cookie") ||
     getHeaderValue(options.headers, "Cookie");
 
-  const response = await fetch(new URL(url, env.apiUrl).toString(), {
-    ...options,
-    credentials: "include",
-    headers: {
-      ...(isJsonBody && { "Content-Type": "application/json" }),
-      ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
-      ...options.headers,
-    },
-  });
+  const method = (options.method ?? "GET").toUpperCase();
 
-  if (!response.ok) {
-    const text = await response.text();
-    let data: unknown;
+  const doFetch = () =>
+    fetch(new URL(url, env.apiUrl).toString(), {
+      ...options,
+      credentials: "include",
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+      headers: {
+        ...(isJsonBody && { "Content-Type": "application/json" }),
+        ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
+        ...options.headers,
+      },
+    });
+
+  let response: Response;
+  let lastError: unknown;
+
+  for (let attempt = 0; ; attempt++) {
     try {
-      data = JSON.parse(text);
-    } catch {
-      data = text;
+      response = await doFetch();
+
+      if (response.ok) break;
+
+      if (attempt < MAX_RETRIES && isRetryable(method, response.status)) {
+        await sleep(RETRY_BACKOFF[attempt]);
+        continue;
+      }
+
+      const text = await response.text();
+      let data: unknown;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        data = text;
+      }
+      throw { status: response.status, data, headers: response.headers };
+    } catch (err) {
+      if (
+        attempt < MAX_RETRIES &&
+        method === "GET" &&
+        err instanceof TypeError
+      ) {
+        lastError = err;
+        await sleep(RETRY_BACKOFF[attempt]);
+        continue;
+      }
+      throw lastError ?? err;
     }
-    throw { status: response.status, data, headers: response.headers };
   }
 
   const contentType = response.headers.get("content-type");

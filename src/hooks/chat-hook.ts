@@ -104,21 +104,39 @@ export function useUpdateConversationMutation() {
   return useMutation({
     mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) =>
       handleElysia(await chatRoute({ id: args.id }).put(args.body)),
-    onError: (e) => handleError(e, t),
-    onSuccess: (data, args) => {
+    onMutate: async (args) => {
       const id = String(args.id);
-      const patch: Partial<ConvItem> = {};
-      if (data.title !== undefined) patch.title = data.title;
-      if (data.model !== undefined) patch.model = data.model;
+      const convsKey = queryKeys.conversations();
+      const metaKey = queryKeys.chatMeta(id);
 
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => patchConv(old, id, patch),
+      await queryClient.cancelQueries({ queryKey: convsKey });
+      await queryClient.cancelQueries({ queryKey: metaKey });
+
+      const prevConvs = queryClient.getQueryData<ConvsInfinite>(convsKey);
+      const prevMeta = queryClient.getQueryData<ConversationData>(metaKey);
+
+      const patch: Partial<ConvItem> = {};
+      if (args.body.title !== undefined) patch.title = args.body.title;
+      if (args.body.model !== undefined) patch.model = args.body.model;
+
+      queryClient.setQueryData<ConvsInfinite>(convsKey, (old) =>
+        patchConv(old, id, patch),
       );
-      queryClient.setQueryData<ConversationData>(
-        queryKeys.chatMeta(id),
-        (old) => (old ? { ...old, ...patch } : old),
+      queryClient.setQueryData<ConversationData>(metaKey, (old) =>
+        old ? { ...old, ...patch } : old,
       );
+
+      return { prevConvs, prevMeta, id };
+    },
+    onError: (e, _args, context) => {
+      handleError(e, t);
+      if (context) {
+        queryClient.setQueryData(queryKeys.conversations(), context.prevConvs);
+        queryClient.setQueryData(
+          queryKeys.chatMeta(context.id),
+          context.prevMeta,
+        );
+      }
     },
   });
 }
@@ -129,13 +147,20 @@ export function useDeleteConversationMutation() {
   return useMutation({
     mutationFn: async (args: ChatParams) =>
       handleElysia(await chatRoute(args).delete()),
-    onError: (e) => handleError(e, t),
-    onSuccess: (_, args) => {
-      const id = String(args.id);
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => removeConv(old, id),
+    onMutate: async (args) => {
+      const convsKey = queryKeys.conversations();
+      await queryClient.cancelQueries({ queryKey: convsKey });
+      const prevConvs = queryClient.getQueryData<ConvsInfinite>(convsKey);
+      queryClient.setQueryData<ConvsInfinite>(convsKey, (old) =>
+        removeConv(old, String(args.id)),
       );
+      return { prevConvs };
+    },
+    onError: (e, _args, context) => {
+      handleError(e, t);
+      if (context) {
+        queryClient.setQueryData(queryKeys.conversations(), context.prevConvs);
+      }
     },
   });
 }
