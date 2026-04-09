@@ -9,7 +9,7 @@ import {
   type ThemeColors,
 } from "../satori";
 import {
-  BrandName,
+  Brand,
   Card,
   FONT_MONO,
   FONT_SANS,
@@ -155,7 +155,7 @@ export async function generatePricing(
   const node = (
     <Card c={c} style={{ flexDirection: "column", padding: 28 }}>
       <Row style={{ alignItems: "center", gap: 12 }}>
-        <BrandName c={c} />
+        <Brand c={c} logoSize={24} fontSize={14} gap={8} />
         <span style={{ fontFamily: FONT_SANS, fontSize: 14, color: c.muted }}>
           | {t(locale, "BADGE.SAVE_UP_TO")} {maxDiscount}%
         </span>

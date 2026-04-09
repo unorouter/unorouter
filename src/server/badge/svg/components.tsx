@@ -80,7 +80,7 @@ export function Logo(props: { size?: number }) {
   );
 }
 
-/** Brand name: UNO (white) + ROUTER (muted) */
+/** Brand name: UNO (white) + ROUTER (muted) + .AI (accent) */
 export function BrandName(props: { c: ThemeColors; size?: number }) {
   const fontSize = props.size ?? 16;
   return (
@@ -94,6 +94,7 @@ export function BrandName(props: { c: ThemeColors; size?: number }) {
     >
       <span style={{ color: props.c.text }}>UNO</span>
       <span style={{ color: props.c.muted }}>ROUTER</span>
+      <span style={{ color: props.c.muted }}>.AI</span>
     </Row>
   );
 }

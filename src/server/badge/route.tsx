@@ -20,21 +20,11 @@ const SVG_HEADERS = {
   "cache-control": "public, max-age=300, s-maxage=300",
 };
 
-const BADGE_NAMES = [
-  "banner",
-  "square",
-  "sponsor",
-  "providers",
-  "pricing",
-  "hero",
-  "referral",
-] as const;
-
 function AllPage(props: {
-  qsStr: string;
   bg: string;
   fg: string;
   muted: string;
+  badges: { name: string; svg: string }[];
 }) {
   return (
     <html>
@@ -46,15 +36,15 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
 .grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
 .badge{flex:0 0 auto}
 h2{margin:0 0 8px;font-size:14px;color:${props.muted};text-transform:uppercase;letter-spacing:1px}
-img{display:block;max-width:100%;height:auto}
+svg{display:block;max-width:100%;height:auto}
         `}</style>
       </head>
       <body>
         <div class="grid">
-          {BADGE_NAMES.map((name) => (
+          {props.badges.map((b) => (
             <div class="badge">
-              <h2>{name}</h2>
-              <img src={`/api/badge/${name}${props.qsStr}`} />
+              <h2>{b.name}</h2>
+              {b.svg}
             </div>
           ))}
         </div>
@@ -158,21 +148,33 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   )
   .get(
     "/all",
-    ({ query, html }) => {
-      const qs = new URLSearchParams();
-      if (query.locale) qs.set("locale", query.locale);
-      if (query.theme) qs.set("theme", query.theme);
-      if (query.ref) qs.set("ref", query.ref);
-      const qsStr = qs.toString() ? `?${qs.toString()}` : "";
+    async ({ query, html }) => {
+      const locale = parseLocale(query.locale);
+      const theme = parseTheme(query.theme);
+      const ref = query.ref;
+      const [stats, pricing] = await Promise.all([
+        getStats(),
+        getPricingData(),
+      ]);
+
+      const badges = await Promise.all([
+        { name: "banner", svg: generateTokensBanner(stats, locale, theme, ref) },
+        { name: "square", svg: generateTokensSquare(stats, locale, theme, ref) },
+        { name: "sponsor", svg: generateSponsor(stats, locale, theme, ref) },
+        { name: "providers", svg: generateProviders(locale, theme, pricing.vendorNames) },
+        { name: "pricing", svg: generatePricing(locale, theme, pricing.rows) },
+        { name: "hero", svg: generateHero(stats, locale, theme, ref) },
+        { name: "referral", svg: generateReferral(locale, theme, ref ?? "YOUR_CODE") },
+      ].map(async (b) => ({ name: b.name, svg: await b.svg })));
 
       const isLight = query.theme === "light";
 
       return html(
         <AllPage
-          qsStr={qsStr}
           bg={isLight ? "#fff" : "#111"}
           fg={isLight ? "#000" : "#fff"}
           muted={isLight ? "#666" : "#888"}
+          badges={badges}
         />,
       );
     },

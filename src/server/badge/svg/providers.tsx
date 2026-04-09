@@ -22,7 +22,7 @@ import {
   type Theme,
   type ThemeColors,
 } from "../satori";
-import { BrandName, Card, FONT_SANS, Row } from "./components";
+import { Brand, Card, FONT_SANS, Row } from "./components";
 
 /** Strip all fill declarations so we can control icon color via parent svg fill */
 function stripFills(svg: string): string {
@@ -72,7 +72,7 @@ export function svgDataUri(svg: string, color: string): string {
   return `data:image/svg+xml;base64,${b64}`;
 }
 
-const MAX_ICONS = 7;
+const MAX_ICONS = 14;
 
 function ProviderIcon(props: {
   name: string;
@@ -86,7 +86,7 @@ function ProviderIcon(props: {
         flexDirection: "column",
         alignItems: "center",
         gap: 4,
-        width: 64,
+        width: 68,
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
@@ -106,8 +106,8 @@ export async function generateProviders(
   vendorNames: string[],
 ): Promise<string> {
   const c = themeVars(theme);
-  const W = 420;
-  const H = 200;
+  const W = 460;
+  const H = 280;
 
   const resolved = vendorNames
     .map((name) => ({ name, svg: getVendorIcon(name) }))
@@ -147,7 +147,7 @@ export async function generateProviders(
               flexDirection: "column",
               alignItems: "center",
               gap: 4,
-              width: 64,
+              width: 56,
             }}
           >
             <Row
@@ -180,7 +180,7 @@ export async function generateProviders(
         )}
       </Row>
       <Row style={{ alignItems: "center", gap: 8 }}>
-        <BrandName c={c} size={12} />
+        <Brand c={c} logoSize={16} fontSize={12} gap={6} />
         <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: c.muted }}>
           | {t(locale, "BADGE.UNIFIED_INTELLIGENCE")}
         </span>

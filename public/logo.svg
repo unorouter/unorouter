@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <!-- Outer thin ring -->
+  <circle cx="250" cy="250" r="238" fill="none" stroke="#3a3a3a" stroke-width="2.5"/>
+
+  <!-- Background circle -->
+  <circle cx="250" cy="250" r="212" fill="#2d2d2d"/>
+  <circle cx="250" cy="250" r="212" fill="none" stroke="#3a3a3a" stroke-width="2.5"/>
+
+  <!--
+    The logo is two identical Z-shaped ribbons rotated 180° from each other.
+    Each ribbon: horizontal bar + diagonal connector + horizontal bar (one step down).
+
+    Top ribbon (red-left, white-right):
+      - Top horizontal: red parallelogram
+      - Diagonal going down-right
+      - Lower-right horizontal extension: white
+
+    Bottom ribbon (white-left, red-right):
+      - Upper-left extension: white
+      - Diagonal going down-right
+      - Bottom horizontal: red parallelogram
+  -->
+
+  <!-- TOP RIBBON -->
+  <!-- Red top-left horizontal bar -->
+  <polygon points="100,155 265,155 240,200 75,200" fill="#e63329"/>
+  <!-- Red diagonal connector (going down-right, behind bottom ribbon) -->
+  <polygon points="240,200 265,155 290,155 265,200" fill="#e63329"/>
+  <!-- White diagonal going down-right -->
+  <polygon points="265,200 290,155 350,215 325,260" fill="#ffffff"/>
+  <!-- White bottom-right horizontal bar -->
+  <polygon points="265,260 325,260 350,215 290,215" fill="#ffffff"/>
+
+  <!-- BOTTOM RIBBON -->
+  <!-- White diagonal going down-right (upper-left area) -->
+  <polygon points="150,285 175,240 235,300 210,345" fill="#ffffff"/>
+  <!-- White top-left horizontal bar -->
+  <polygon points="175,240 210,240 235,285 175,285" fill="#ffffff"/>
+  <!-- Red diagonal connector -->
+  <polygon points="210,300 235,300 260,345 235,345" fill="#e63329"/>
+  <!-- Red bottom-right horizontal bar -->
+  <polygon points="235,300 425,300 400,345 260,345" fill="#e63329"/>
+
+  <!-- Accent arcs -->
+  <path d="M 45,390 A 230,230 0 0,1 45,110" fill="none" stroke="#e63329" stroke-width="14" stroke-linecap="round"/>
+  <path d="M 455,110 A 230,230 0 0,1 455,390" fill="none" stroke="#e63329" stroke-width="14" stroke-linecap="round"/>
+</svg>
