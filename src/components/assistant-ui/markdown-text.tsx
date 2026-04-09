@@ -273,6 +273,7 @@ const defaultComponents = memoizeMarkdownComponents({
         {isVideo ? (
           <video src={imgSrc} controls className="max-w-full rounded-lg" />
         ) : (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imgSrc}
             alt={alt}

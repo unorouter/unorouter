@@ -5,7 +5,7 @@ import { chatRoute } from "@/server/chat/route";
 import { dashboardRoute } from "@/server/dashboard/route";
 import { logsRoute } from "@/server/logs/route";
 import { pricingRoute } from "@/server/pricing/route";
-
+import { healthRoute } from "@/server/health/route";
 import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
@@ -40,6 +40,7 @@ export const app = new Elysia({ prefix: "/api" })
     set.status = 500;
     return JSON.stringify({ message: "Internal server error" });
   })
+  .use(healthRoute)
   .use(pricingRoute)
   .use(statsRoute)
   .use(authRoute)
