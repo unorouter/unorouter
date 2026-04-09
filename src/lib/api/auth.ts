@@ -2,8 +2,14 @@ import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
 import { COOKIE_MAX_AGE, USER_ID_COOKIE } from "../config/constants";
 
+type AuthResponseData = {
+  success?: boolean;
+  message?: string;
+  data?: { id?: string | number };
+};
+
 export function handleAuthResponse(
-  res: { data: any; headers: Headers },
+  res: { data: AuthResponseData | undefined; headers: Headers },
   set: Context["set"],
 ) {
   const cookies = (res.headers?.getSetCookie?.() ?? []).map((str) => {

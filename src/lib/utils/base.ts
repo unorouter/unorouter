@@ -1,6 +1,10 @@
-import { env } from "@/lib/config/env";
 import { msg } from "@/lib/config/constants";
-import type { ExcludeVoid, ExtractData, UnwrapApiResponse } from "../types/eden";
+import { env } from "@/lib/config/env";
+import type {
+  ExcludeVoid,
+  ExtractData,
+  UnwrapApiResponse,
+} from "../types/eden";
 
 export function devWarn(context: string, error: unknown) {
   if (process.env.NODE_ENV === "development") {
@@ -8,13 +12,13 @@ export function devWarn(context: string, error: unknown) {
   }
 }
 
-export function safeJsonParse<T = Record<string, any>>(
+export function safeJsonParse<T = Record<string, unknown>>(
   raw: string | undefined | null,
-  fallback?: T,
+  fallback: T,
 ): T {
-  if (!fallback) fallback = {} as T;
   if (!raw) return fallback;
   try {
+    // SAFETY: caller provides typed fallback; parse failure is caught
     return JSON.parse(raw) as T;
   } catch {
     return fallback;
@@ -65,8 +69,8 @@ export function formatPrice(price: number): string {
 export function unwrap<T extends { data: unknown }>(
   res: T,
 ): ExcludeVoid<NonNullable<T["data"]>> {
-  if (res.data == null)
-    throw new Error(msg("ERRORS.UNEXPECTED_RESPONSE"));
+  if (res.data == null) throw new Error(msg("ERRORS.UNEXPECTED_RESPONSE"));
+  // SAFETY: null-checked above; cast needed for generic return type
   return res.data as ExcludeVoid<NonNullable<T["data"]>>;
 }
 
@@ -82,20 +86,20 @@ export function handleElysia<T extends { data: unknown; status: number }>(
 ): UnwrapApiResponse<ExtractData<T>> {
   if (response.status !== 200) throw response;
   const body = response.data;
-  if (
-    body &&
-    typeof body === "object" &&
-    "success" in body &&
-    !(body as { success: boolean }).success
-  ) {
-    throw new Error(
-      (body as { message?: string }).message ?? msg("ERRORS.REQUEST_FAILED"),
-    );
+  if (body && typeof body === "object" && "success" in body) {
+    const envelope = body as {
+      success: boolean;
+      data?: unknown;
+      message?: string;
+    };
+    if (!envelope.success) {
+      throw new Error(envelope.message ?? msg("ERRORS.REQUEST_FAILED"));
+    }
+    if ("data" in envelope) {
+      // SAFETY: generic return type cannot be inferred from runtime checks
+      return envelope.data as UnwrapApiResponse<ExtractData<T>>;
+    }
   }
-  if (body && typeof body === "object" && "success" in body && "data" in body) {
-    return (body as { data: unknown }).data as UnwrapApiResponse<
-      ExtractData<T>
-    >;
-  }
+  // SAFETY: generic return type cannot be inferred from runtime checks
   return body as UnwrapApiResponse<ExtractData<T>>;
 }

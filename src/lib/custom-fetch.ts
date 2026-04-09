@@ -1,6 +1,21 @@
 import { env } from "@/lib/config/env";
 import { getServerCookieHeader } from "@/server/constants";
 
+function getHeaderValue(
+  headers: HeadersInit | undefined,
+  key: string,
+): string | undefined {
+  if (!headers) return undefined;
+  if (headers instanceof Headers) return headers.get(key) ?? undefined;
+  if (Array.isArray(headers))
+    return headers.find(([k]) => k.toLowerCase() === key.toLowerCase())?.[1];
+  return (headers as Record<string, string>)[key];
+}
+
+/**
+ * Orval mutator: T is the full Orval response envelope (e.g. { data: D; status: 200; headers: Headers }).
+ * The function constructs this envelope from the fetch response.
+ */
 export const customFetch = async <T>(
   url: string,
   options: RequestInit,
@@ -15,8 +30,8 @@ export const customFetch = async <T>(
 
   const cookieHeader = await getServerCookieHeader();
   const hasCookie =
-    (options.headers as Record<string, string> | undefined)?.cookie ||
-    (options.headers as Record<string, string> | undefined)?.Cookie;
+    getHeaderValue(options.headers, "cookie") ||
+    getHeaderValue(options.headers, "Cookie");
 
   const response = await fetch(new URL(url, env.apiUrl).toString(), {
     ...options,
@@ -41,7 +56,7 @@ export const customFetch = async <T>(
 
   const contentType = response.headers.get("content-type");
 
-  let data: T;
+  let data: unknown;
   if (contentType?.includes("application/json")) {
     data = await response.json();
   } else if (
@@ -50,10 +65,11 @@ export const customFetch = async <T>(
     !contentType.includes("json") &&
     !contentType.includes("xml")
   ) {
-    data = (await response.blob()) as T;
+    data = await response.blob();
   } else {
-    data = (await response.text()) as T;
+    data = await response.text();
   }
 
+  // SAFETY: T is the Orval-generated envelope type { data, status, headers }
   return { status: response.status, data, headers: response.headers } as T;
 };

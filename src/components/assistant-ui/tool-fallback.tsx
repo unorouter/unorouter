@@ -309,22 +309,14 @@ const ToolFallbackImpl: ToolCallMessagePartComponent = ({
   );
 };
 
-const ToolFallback =
-  ToolFallbackImpl as unknown as ToolCallMessagePartComponent & {
-    Root: typeof ToolFallbackRoot;
-    Trigger: typeof ToolFallbackTrigger;
-    Content: typeof ToolFallbackContent;
-    Args: typeof ToolFallbackArgs;
-    Result: typeof ToolFallbackResult;
-    Error: typeof ToolFallbackError;
-  };
-
-ToolFallback.Root = ToolFallbackRoot;
-ToolFallback.Trigger = ToolFallbackTrigger;
-ToolFallback.Content = ToolFallbackContent;
-ToolFallback.Args = ToolFallbackArgs;
-ToolFallback.Result = ToolFallbackResult;
-ToolFallback.Error = ToolFallbackError;
+const ToolFallback = Object.assign(ToolFallbackImpl, {
+  Root: ToolFallbackRoot,
+  Trigger: ToolFallbackTrigger,
+  Content: ToolFallbackContent,
+  Args: ToolFallbackArgs,
+  Result: ToolFallbackResult,
+  Error: ToolFallbackError,
+});
 
 export {
   ToolFallback,

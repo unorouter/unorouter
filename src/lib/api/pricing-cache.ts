@@ -49,7 +49,7 @@ export async function isMediaModel(model: string) {
 
   return {
     buffered: found?.type === "image" || found?.type === "video",
-    mediaType: found?.type as ModelType,
+    mediaType: found?.type,
     endpointPath,
   };
 }

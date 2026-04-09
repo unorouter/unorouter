@@ -7,6 +7,31 @@ import {
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
+import ipaddr from "ipaddr.js";
+
+const BLOCKED_HOSTS = new Set(["localhost", "metadata.google.internal"]);
+const ALLOWED_RANGES = new Set(["unicast"]);
+
+function validateExternalUrl(url: string): void {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    throw new Error("Invalid URL");
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error(`Blocked URL scheme: ${parsed.protocol}`);
+  }
+  if (BLOCKED_HOSTS.has(parsed.hostname)) {
+    throw new Error("Blocked URL: reserved hostname");
+  }
+  if (ipaddr.isValid(parsed.hostname)) {
+    const addr = ipaddr.parse(parsed.hostname);
+    if (!ALLOWED_RANGES.has(addr.range())) {
+      throw new Error("Blocked URL: private/reserved address");
+    }
+  }
+}
 
 const R2_BUCKET = "unorouter-chat-media";
 
@@ -75,6 +100,7 @@ export function mediaKey(
 
 export async function getContentType(url: string): Promise<string | null> {
   try {
+    validateExternalUrl(url);
     const res = await fetch(url, { method: "HEAD" });
     return res.headers.get("content-type");
   } catch {
@@ -92,6 +118,7 @@ export async function downloadAndUpload(
   convId: string,
   msgId: string,
 ): Promise<string> {
+  validateExternalUrl(url);
   const res = await fetch(url);
   const buffer = Buffer.from(await res.arrayBuffer());
   const contentType = res.headers.get("content-type")!;
@@ -114,6 +141,7 @@ export async function fetchCheckUpload(
 ): Promise<string | null> {
   let res: Response;
   try {
+    validateExternalUrl(url);
     res = await fetch(url);
     if (!res.ok) return null;
   } catch {

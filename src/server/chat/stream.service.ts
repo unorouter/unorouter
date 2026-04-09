@@ -4,6 +4,7 @@ import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
+import { imageGenResponseChecker } from "@/lib/validation/media";
 import { deriveUpstream, getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import {
@@ -148,9 +149,13 @@ async function generateImage(
     throw new Error(`${msg("ERRORS.IMAGE_GENERATION_FAILED")}: ${err}`);
   }
 
-  const json = (await res.json()) as {
-    data: Array<{ url?: string; b64_json?: string }>;
-  };
+  const raw = await res.json();
+  if (
+    !imageGenResponseChecker.Check(raw)
+  ) {
+    throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
+  }
+  const json = raw;
   const requestId = res.headers.get("x-oneapi-request-id") ?? undefined;
 
   // Prefer url, fall back to b64_json
@@ -298,5 +303,5 @@ export async function streamChat(
   if (!buffered) return result.toUIMessageStreamResponse();
 
   // Video/buffered models: buffer, process URLs, then send
-  return handleBufferedStream(result, body, mediaType);
+  return handleBufferedStream(result, body, mediaType ?? "text");
 }

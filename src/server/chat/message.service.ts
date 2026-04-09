@@ -125,10 +125,11 @@ export async function persistMessages(
 
   // Apply buffered usage data from stream onFinish to the last assistant message
   let usage: PendingUsage | undefined;
-  const pending = pendingUsageByConv.get(convId);
-  if (pending) {
-    const assistantIdx = toInsert.findLastIndex((m) => m.role === "assistant");
-    if (assistantIdx !== -1 && inserted[assistantIdx]) {
+  const assistantIdx = toInsert.findLastIndex((m) => m.role === "assistant");
+  if (assistantIdx !== -1 && inserted[assistantIdx]) {
+    // Atomic get+delete before any await to prevent concurrent reads
+    const pending = pendingUsageByConv.get(convId);
+    if (pending) {
       pendingUsageByConv.delete(convId);
 
       // If cost lookup hasn't completed yet, do it here
@@ -174,9 +175,9 @@ export async function persistMessages(
   if (!conv.title && msgs.length > 0) {
     const firstUserMsg = msgs.find((m) => m.role === "user");
     if (firstUserMsg) {
-      const textPart = (
-        firstUserMsg.parts as { type: string; text?: string }[]
-      ).find((p) => p.type === "text");
+      const textPart = firstUserMsg.parts.find(
+        (p): p is { type: "text"; text: string } => p.type === "text",
+      );
       if (textPart?.text) {
         updates.title = textPart.text.slice(0, 100);
       }

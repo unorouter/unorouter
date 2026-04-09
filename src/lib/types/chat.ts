@@ -7,3 +7,13 @@ export type PersistMessage = {
   model?: string;
   parts: MessagePart[];
 };
+
+/** Shape of a message returned by the paginated messages API. */
+export type ApiMessage = {
+  id?: string;
+  model?: string | null;
+  inputTokens?: number | null;
+  outputTokens?: number | null;
+  cost?: number | null;
+  [key: string]: unknown;
+};

@@ -52,11 +52,15 @@ export const getChatWebSearch = (): boolean =>
 /**
  * Active conversation ID. Plain variable, not an atom, because it needs
  * synchronous access from non-React code (stream service callbacks).
+ * Version counter lets async consumers detect stale reads after awaits.
  */
 let _convId: string | null = null;
+let _convIdVersion = 0;
 export const getConvId = () => _convId;
+export const getConvIdVersion = () => _convIdVersion;
 export const setConvId = (id: string | null) => {
   _convId = id;
+  _convIdVersion++;
 };
 
 /**

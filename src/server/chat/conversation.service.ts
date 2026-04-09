@@ -151,7 +151,9 @@ export async function deleteConversation(userId: number, convId: string) {
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  deleteR2Prefix(`chat/${convId}/`).catch(() => {});
+  deleteR2Prefix(`chat/${convId}/`).catch((err) =>
+    console.warn("[R2] cleanup failed for", convId, err),
+  );
   await db.delete(conversations).where(eq(conversations.id, conv.id));
 
   return { id: convId };

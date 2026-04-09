@@ -63,8 +63,8 @@ export const persistMessagesBody = t.Object({
 export type PersistMessagesBody = Static<typeof persistMessagesBody>;
 
 export const paginationQuery = t.Object({
-  p: t.Optional(t.Number()),
-  page_size: t.Optional(t.Number()),
+  p: t.Optional(t.Number({ minimum: 1 })),
+  page_size: t.Optional(t.Number({ minimum: 1, maximum: 100 })),
 });
 
 export const chatSearchQuery = t.Composite([

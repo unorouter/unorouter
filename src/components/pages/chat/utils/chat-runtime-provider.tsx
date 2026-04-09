@@ -56,10 +56,10 @@ function ChatRuntimeHook() {
   // Mutable per-message context for closures that outlive the render
   const ctx = useRef<{
     sendModel: string | null;
-    pendingUserMessage: { parts: MessagePart[] } | null;
+    pendingUserMessages: Array<{ parts: MessagePart[] }>;
   }>({
     sendModel: null,
-    pendingUserMessage: null,
+    pendingUserMessages: [],
   });
 
   // Two-way model sync: server → atom on thread switch, atom → server on user change.
@@ -119,17 +119,19 @@ function ChatRuntimeHook() {
       const convId = getConvId();
       if (!convId) return;
 
-      // Persist pending user message (from new thread where remoteId wasn't available at send time)
-      const pending = ctx.current.pendingUserMessage;
+      // Drain all pending user messages (from new thread where remoteId wasn't available at send time)
+      const pendingMessages = ctx.current.pendingUserMessages;
       const msgs: PersistMessage[] = [];
       const usedModel = ctx.current.sendModel ?? undefined;
-      if (pending) {
-        msgs.push({
-          role: "user",
-          model: usedModel,
-          parts: pending.parts,
-        });
-        ctx.current.pendingUserMessage = null;
+      if (pendingMessages.length > 0) {
+        for (const pending of pendingMessages) {
+          msgs.push({
+            role: "user",
+            model: usedModel,
+            parts: pending.parts,
+          });
+        }
+        ctx.current.pendingUserMessages = [];
       }
       msgs.push({
         role: message.role,
@@ -155,8 +157,8 @@ function ChatRuntimeHook() {
         if (!convId) {
           // Pre-generate ID so the transport body and adapter.initialize use the same ID
           setConvId(uid());
-          // New thread: stash until onFinish (after adapter.initialize sets remoteId)
-          ctx.current.pendingUserMessage = { parts };
+          // New thread: queue until onFinish (after adapter.initialize sets remoteId)
+          ctx.current.pendingUserMessages.push({ parts });
         } else {
           // Existing thread: persist immediately
           persistMutation.mutate({

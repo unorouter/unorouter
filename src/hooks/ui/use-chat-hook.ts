@@ -1,6 +1,7 @@
 "use client";
 
 import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
+import type { ApiMessage } from "@/lib/types/chat";
 import { useAuiState } from "@assistant-ui/react";
 import { createContext, useContext } from "react";
 
@@ -11,10 +12,9 @@ export type MessageMeta = {
   cost: number | null;
 };
 
-type RawMessage = Record<string, unknown>;
 type MessageCache = {
-  flat: RawMessage[];
-  byId: Map<string, RawMessage>;
+  flat: ApiMessage[];
+  byId: Map<string, ApiMessage>;
 };
 
 const cache = new WeakMap<object, MessageCache>();
@@ -24,13 +24,13 @@ function getMessageCache(pages: object[]): MessageCache {
   if (!entry) {
     const flat = [...pages]
       .reverse()
-      .flatMap((p) => (p as { messages: RawMessage[] }).messages);
+      .flatMap((p) => (p as { messages: ApiMessage[] }).messages);
     entry = {
       flat,
       byId: new Map(
         flat
-          .filter((m) => m.id)
-          .map((m) => [m.id as string, m] as const),
+          .filter((m): m is ApiMessage & { id: string } => !!m.id)
+          .map((m) => [m.id, m] as const),
       ),
     };
     cache.set(pages, entry);
@@ -55,9 +55,9 @@ export function useMessageMeta(messageIndex: number): MessageMeta | null {
   if (!msg) return null;
 
   return {
-    model: (msg.model as string) ?? null,
-    inputTokens: (msg.inputTokens as number) ?? null,
-    outputTokens: (msg.outputTokens as number) ?? null,
-    cost: (msg.cost as number) ?? null,
+    model: msg.model ?? null,
+    inputTokens: msg.inputTokens ?? null,
+    outputTokens: msg.outputTokens ?? null,
+    cost: msg.cost ?? null,
   };
 }

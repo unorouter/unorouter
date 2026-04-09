@@ -26,9 +26,9 @@ export type DataTableStore = {
 
 export type DataTableStores = Record<DataTableId, DataTableStore>;
 
-export const dataTableStorageAtom = atomWithStorage<DataTableStores>(
+export const dataTableStorageAtom = atomWithStorage<Partial<DataTableStores>>(
   StoreId.DATA_TABLES_STORE,
-  {} as DataTableStores,
+  {},
   jotaiCookieStorage,
 );
 
@@ -169,8 +169,11 @@ export const sort = (sorting?: SortingState) =>
     ? sorting.map((s) => `${s.id},${s.desc ? "desc" : "asc"}`)
     : undefined;
 
-export const columnFilters = <T>(columnFilters?: ColumnFiltersState) =>
-  columnFilters?.reduce(
+export const columnFilters = <T extends Record<string, unknown>>(
+  columnFilters?: ColumnFiltersState,
+) =>
+  columnFilters?.reduce<T>(
     (acc, filter) => ({ ...acc, [filter.id]: filter.value }),
+    // SAFETY: accumulator is built up by reduce, starts empty
     {} as T,
   ) || undefined;

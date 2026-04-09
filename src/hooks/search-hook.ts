@@ -1,17 +1,11 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
+import { isSearchDoc, type SearchResult } from "@/lib/types/search";
 import { search } from "@orama/orama";
 import { restore } from "@orama/plugin-data-persistence";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
-
-type SearchResult = {
-  title: string;
-  description: string;
-  url: string;
-  category: string;
-};
 
 export function useSearchQueryIndex() {
   return useQuery({
@@ -39,12 +33,9 @@ export function useSearchQuery(query: string) {
         limit: 10,
       });
 
-      return searchResult.hits.map((hit) => ({
-        title: hit.document.title as string,
-        description: hit.document.description as string,
-        url: hit.document.url as string,
-        category: hit.document.category as string,
-      }));
+      return searchResult.hits
+        .filter((hit) => isSearchDoc(hit.document))
+        .map((hit) => hit.document as unknown as SearchResult);
     },
     enabled: !!db && !!query.trim(),
   });

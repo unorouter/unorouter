@@ -21,6 +21,20 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { useUpdateSettingMutation } from "@/hooks/settings-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { safeJsonParse } from "@/lib/utils/base";
+
+type ServerSetting = {
+  notify_type?: string;
+  quota_warning_threshold?: number;
+  notification_email?: string;
+  webhook_url?: string;
+  webhook_secret?: string;
+  bark_url?: string;
+  gotify_url?: string;
+  gotify_token?: string;
+  gotify_priority?: number;
+  accept_unset_model_ratio_model?: boolean;
+  record_ip_log?: boolean;
+};
 import {
   notificationSettingSchema,
   type NotificationSettingSchema,
@@ -51,7 +65,7 @@ export function NotificationCard() {
   // Populate form when user data loads
   useEffect(() => {
     if (!user?.setting) return;
-    const s = safeJsonParse(user.setting, );
+    const s = safeJsonParse<Partial<ServerSetting>>(user.setting, {});
     form.reset({
       notify_type: s.notify_type || "email",
       quota_threshold_dollars: s.quota_warning_threshold
@@ -68,7 +82,7 @@ export function NotificationCard() {
   }, [user?.setting, form]);
 
   function onSubmit(data: NotificationSettingSchema) {
-    const parsed = safeJsonParse(user?.setting, );
+    const parsed = safeJsonParse<Partial<ServerSetting>>(user?.setting, {});
     updateSettingMutation.mutate(
       {
         body: {
