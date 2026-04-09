@@ -1,5 +1,6 @@
 import { affiliateRoute } from "@/server/affiliate/route";
 import { authRoute } from "@/server/auth/route";
+import { badgeRoute } from "@/server/badge/route";
 import { billingRoute } from "@/server/billing/route";
 import { chatRoute } from "@/server/chat/route";
 import { dashboardRoute } from "@/server/dashboard/route";
@@ -70,6 +71,7 @@ export const app = new Elysia({ prefix: "/api" })
     set.status = 500;
     return JSON.stringify({ message: "Internal server error" });
   })
+  .use(badgeRoute)
   .use(healthRoute)
   .use(pricingRoute)
   .use(statsRoute)

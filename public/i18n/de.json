@@ -1330,5 +1330,25 @@
     "NO_IMAGE_PROMPT": "Kein Prompt für die Bildgenerierung angegeben",
     "IMAGE_GENERATION_FAILED": "Bildgenerierung fehlgeschlagen",
     "UNEXPECTED_RESPONSE": "Unerwartete leere Antwort von der Upstream-API"
+  },
+  "BADGE": {
+    "TOKENS_SERVED": "Tokens verarbeitet",
+    "POWERED_BY": "Unterstützt von",
+    "PROVIDERS": "Anbieter",
+    "UNIFIED_INTELLIGENCE": "Vereinte Intelligenz",
+    "UNIFIED_INTELLIGENCE_API": "Vereinte Intelligenz API",
+    "GET_STARTED": "Loslegen",
+    "SAVE_UP_TO": "Spare bis zu",
+    "PER_1M_TOKENS": "pro 1M Tokens",
+    "SMART_ROUTING": "Intelligentes Routing",
+    "ONE_ENDPOINT": "Ein Endpunkt",
+    "MODELS": "Modelle",
+    "UPTIME": "Verfügbarkeit",
+    "LIVE_STATS": "Live-Statistiken",
+    "CHEAPEST_API": "Günstigste Inferenz-API",
+    "MODELS_ONE_ENDPOINT": "40+ KI-Modelle, ein Endpunkt",
+    "DIRECT": "Direkt",
+    "MODEL": "Modell",
+    "PRICES_NOTE": "Preise pro 1M Tokens"
   }
 }

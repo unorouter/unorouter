@@ -1330,5 +1330,25 @@
     "NO_IMAGE_PROMPT": "No prompt provided for image generation",
     "IMAGE_GENERATION_FAILED": "Image generation failed",
     "UNEXPECTED_RESPONSE": "Unexpected null response from upstream API"
+  },
+  "BADGE": {
+    "TOKENS_SERVED": "tokens served",
+    "POWERED_BY": "Powered by",
+    "PROVIDERS": "Providers",
+    "UNIFIED_INTELLIGENCE": "Unified Intelligence",
+    "UNIFIED_INTELLIGENCE_API": "Unified Intelligence API",
+    "GET_STARTED": "Get Started",
+    "SAVE_UP_TO": "Save up to",
+    "PER_1M_TOKENS": "per 1M tokens",
+    "SMART_ROUTING": "Intelligent Routing",
+    "ONE_ENDPOINT": "One Endpoint",
+    "MODELS": "Models",
+    "UPTIME": "Uptime",
+    "LIVE_STATS": "Live Stats",
+    "CHEAPEST_API": "Cheapest Inference API",
+    "MODELS_ONE_ENDPOINT": "40+ AI models, one endpoint",
+    "DIRECT": "Direct",
+    "MODEL": "Model",
+    "PRICES_NOTE": "Prices per 1M tokens"
   }
 }

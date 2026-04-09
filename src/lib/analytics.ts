@@ -70,7 +70,10 @@ const chat = {
 };
 
 const billing = {
-  topUpInitiated: (props: { provider: "stripe" | "creem"; amount?: number }) => {
+  topUpInitiated: (props: {
+    provider: "stripe" | "creem";
+    amount?: number;
+  }) => {
     posthog.capture("billing_topup_initiated", {
       provider: props.provider,
       amount: props.amount,
