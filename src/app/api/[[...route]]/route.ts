@@ -10,17 +10,37 @@ import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
 import { logger } from "@/lib/utils/logger";
+import { uid } from "@/lib/utils/base";
 import { Elysia } from "elysia";
 
 export const app = new Elysia({ prefix: "/api" })
 
-  .onError(({ error, set, request }) => {
+  .derive(({ request }) => {
+    const requestId = request.headers.get("x-request-id") ?? uid(12);
+    return { requestId, startedAt: performance.now() };
+  })
+  .onAfterHandle(({ request, requestId, startedAt, set }) => {
+    const path = new URL(request.url).pathname;
+    const duration = Math.round(performance.now() - startedAt);
+    if (path !== "/api/health") {
+      logger.info("Request completed", {
+        context: "elysia",
+        requestId,
+        method: request.method,
+        path,
+        status: set.status ?? 200,
+        durationMs: duration,
+      });
+    }
+  })
+  .onError(({ error, set, request, requestId }) => {
     const path = new URL(request.url).pathname;
     const err = error as { status?: number; data?: unknown };
 
     if (err.status && typeof err.status === "number" && err.data) {
       logger.warn("Request failed", {
         context: "elysia",
+        requestId,
         status: err.status,
         path,
       });
@@ -32,6 +52,7 @@ export const app = new Elysia({ prefix: "/api" })
     if (error instanceof Error) {
       logger.error("Unhandled error", {
         context: "elysia",
+        requestId,
         message: error.message,
         stack: error.stack,
         path,
@@ -42,6 +63,7 @@ export const app = new Elysia({ prefix: "/api" })
 
     logger.error("Unknown error shape", {
       context: "elysia",
+      requestId,
       error: String(error),
       path,
     });

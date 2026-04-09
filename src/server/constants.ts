@@ -90,6 +90,10 @@ export function getProvider(apiKey: string) {
 export function deriveUpstream({ request }: { request: Request }) {
   const cookieHeader = request.headers.get("cookie") ?? "";
   const headers: Record<string, string> = {};
+
+  const requestId = request.headers.get("x-request-id");
+  if (requestId) headers["x-request-id"] = requestId;
+
   if (cookieHeader) {
     headers.cookie = cookieHeader;
     const parsed = parseCookie(cookieHeader);
