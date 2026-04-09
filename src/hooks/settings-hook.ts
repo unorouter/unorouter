@@ -4,7 +4,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
+import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type {
   ResponseDtoPasskeyStatusDataData,
   ResponseDtoTwoFAStatusDataData,
@@ -31,11 +31,9 @@ export function usePasskeyStatusQuery() {
 }
 
 export function useGenerateAccessTokenMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async () => handleElysia(await rpc.api.settings.token.get()),
-    onError: (e) => handleError(e, t),
-  });
+  return useSimpleMutation(async () =>
+    handleElysia(await rpc.api.settings.token.get()),
+  );
 }
 
 export function useBindEmailMutation() {
@@ -84,11 +82,9 @@ export function useUpdateSelfMutation() {
 }
 
 export function useDeleteSelfMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async () => handleElysia(await rpc.api.settings.self.delete()),
-    onError: (e) => handleError(e, t),
-  });
+  return useSimpleMutation(async () =>
+    handleElysia(await rpc.api.settings.self.delete()),
+  );
 }
 
 export function useUpdateSettingMutation() {
@@ -109,25 +105,18 @@ export function useUpdateSettingMutation() {
 }
 
 export function useSendSettingsVerificationMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.settings.verification, "get">,
-    ) =>
+  return useSimpleMutation(
+    async (args: EdenArgs<typeof rpc.api.settings.verification, "get">) =>
       handleElysia(
         await rpc.api.settings.verification.get({ query: args.query }),
       ),
-    onError: (e) => handleError(e, t),
-  });
+  );
 }
 
 export function useSetup2FAMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async () =>
-      handleElysia(await rpc.api.settings["2fa"].setup.post()),
-    onError: (e) => handleError(e, t),
-  });
+  return useSimpleMutation(async () =>
+    handleElysia(await rpc.api.settings["2fa"].setup.post()),
+  );
 }
 
 export function useEnable2FAMutation() {

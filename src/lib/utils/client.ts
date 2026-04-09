@@ -5,6 +5,7 @@ import {
   SetErrorFunction,
 } from "@sinclair/typebox/errors";
 import type { Static, TSchema } from "@sinclair/typebox/type";
+import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -22,31 +23,49 @@ export async function handleError(
 
   if (e instanceof Error) {
     message = e.message;
-  } else if (e && typeof e === "object") {
-    const obj = e as { data?: unknown; response?: Response };
-    if (obj.data && typeof obj.data === "object" && "message" in obj.data) {
-      message = String((obj.data as { message: unknown }).message);
-    } else if (typeof obj.data === "string") {
-      message = obj.data;
-    } else if (obj.response) {
-      const body = await obj.response
+  } else if (e !== null && typeof e === "object") {
+    if (
+      "data" in e &&
+      e.data !== null &&
+      typeof e.data === "object" &&
+      "message" in e.data
+    ) {
+      message = String((e.data as Record<string, unknown>).message);
+    } else if ("data" in e && typeof e.data === "string") {
+      message = e.data;
+    } else if ("response" in e && e.response instanceof Response) {
+      const body = await e.response
         .clone()
         .json()
         .catch(() => null);
-      if (body?.message) message = body.message;
+      if (body && typeof body === "object" && "message" in body) {
+        message = String(body.message);
+      }
     }
   }
 
   if (!message) message = "An unexpected error occurred";
 
-  let title = "";
-  try {
-    title = t ? t(message as TranslationKey) : message;
-  } catch {
-    title = message;
-  }
+  const title =
+    t && t.has(message as TranslationKey)
+      ? t(message as TranslationKey)
+      : message;
 
   toast.error(title, { duration: 5000, id: toastId });
+}
+
+/**
+ * Factory for mutation hooks that only need mutationFn + onError toast.
+ * For mutations with onSuccess cache logic, use useMutation directly.
+ */
+export function useSimpleMutation<TArgs, TResult>(
+  mutationFn: (args: TArgs) => Promise<TResult>,
+) {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn,
+    onError: (e) => handleError(e, t),
+  });
 }
 
 /**

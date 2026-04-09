@@ -9,21 +9,36 @@ import { pricingRoute } from "@/server/pricing/route";
 import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
+import { logger } from "@/lib/utils/logger";
 import { Elysia } from "elysia";
 
 export const app = new Elysia({ prefix: "/api" })
 
-  .onError(({ error, set }) => {
+  .onError(({ error, set, request }) => {
+    const path = new URL(request.url).pathname;
     const err = error as { status?: number; data?: unknown };
+
     if (err.status && typeof err.status === "number" && err.data) {
+      logger.warn("Request failed", { context: "elysia", status: err.status, path });
       set.status = err.status;
       const data = err.data;
       return typeof data === "string" ? data : JSON.stringify(data);
     }
+
     if (error instanceof Error) {
+      logger.error("Unhandled error", {
+        context: "elysia",
+        message: error.message,
+        stack: error.stack,
+        path,
+      });
       set.status = 400;
       return JSON.stringify({ message: error.message });
     }
+
+    logger.error("Unknown error shape", { context: "elysia", error: String(error), path });
+    set.status = 500;
+    return JSON.stringify({ message: "Internal server error" });
   })
   .use(pricingRoute)
   .use(statsRoute)

@@ -8,6 +8,7 @@ import { handleError } from "@/lib/utils/client";
 import type { ResponseControllerSubscriptionSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
+import { useSimpleMutation } from "@/lib/utils/client";
 
 const _billing = rpc.api.billing;
 
@@ -68,47 +69,37 @@ export function useUpdateBillingPreferenceMutation() {
 }
 
 export function useStripeTopUpMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (
-      args: EdenArgs<(typeof _billing)["stripe-pay"], "post">,
-    ) => handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
-    onError: (e) => handleError(e, t),
-  });
+  return useSimpleMutation(
+    async (args: EdenArgs<(typeof _billing)["stripe-pay"], "post">) =>
+      handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
+  );
 }
 
 export function useCreemTopUpMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (
-      args: EdenArgs<(typeof _billing)["creem-pay"], "post">,
-    ) => handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
-    onError: (e) => handleError(e, t),
-  });
+  return useSimpleMutation(
+    async (args: EdenArgs<(typeof _billing)["creem-pay"], "post">) =>
+      handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
+  );
 }
 
 export function useStripeSubscriptionMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (
+  return useSimpleMutation(
+    async (
       args: EdenArgs<(typeof _billing)["subscription"]["stripe-pay"], "post">,
     ) =>
       handleElysia(
         await rpc.api.billing.subscription["stripe-pay"].post(args.body),
       ),
-    onError: (e) => handleError(e, t),
-  });
+  );
 }
 
 export function useCreemSubscriptionMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (
+  return useSimpleMutation(
+    async (
       args: EdenArgs<(typeof _billing)["subscription"]["creem-pay"], "post">,
     ) =>
       handleElysia(
         await rpc.api.billing.subscription["creem-pay"].post(args.body),
       ),
-    onError: (e) => handleError(e, t),
-  });
+  );
 }

@@ -13,13 +13,10 @@ import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuRefreshCw } from "react-icons/lu";
+import type { LogRow } from "./log-helpers";
 import {
-  type LogRow,
   LogDetailsCell,
-  LogEmptyState,
   LogExpandToggleCell,
-  LogExpandedRow,
-  LogFilters,
   LogInputTokensCell,
   LogModelCell,
   LogOutputTokensCell,
@@ -28,8 +25,9 @@ import {
   LogTimingCell,
   LogTokenNameCell,
   LogTypeCell,
-  canLogRowExpand,
-} from "./logs-columns";
+} from "./log-cells";
+import { canLogRowExpand, LogExpandedRow } from "./log-expanded-row";
+import { LogEmptyState, LogFilters } from "./log-filters";
 
 export function UsageLogs() {
   const t = useTranslations();

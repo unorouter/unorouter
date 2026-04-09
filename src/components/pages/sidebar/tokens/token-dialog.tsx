@@ -2,16 +2,7 @@
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import {
   Dialog,
   DialogContent,
@@ -21,11 +12,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -34,7 +20,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
@@ -44,22 +29,16 @@ import {
 } from "@/hooks/token-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
-import { cn } from "@/lib/utils";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
-import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   LuCheck,
-  LuCopy,
-  LuEye,
-  LuEyeOff,
   LuGlobe,
-  LuKey,
   LuPlus,
   LuPower,
   LuPowerOff,
@@ -69,6 +48,8 @@ import {
 } from "react-icons/lu";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
+import { TokenKeyDisplay } from "./token-key-display";
+import { TokenModelSelect } from "./token-model-select";
 
 type TokenDialogProps = {
   open: boolean;
@@ -275,70 +256,13 @@ export function TokenDialog(props: TokenDialogProps) {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
               {isEdit && displayKey && (
-                <div>
-                  <div className="mb-3 flex items-center gap-2">
-                    <LuKey className="text-muted-foreground h-4 w-4" />
-                    <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                      {t("TOKEN.COL_KEY")}
-                    </span>
-                    <Badge
-                      variant={isEnabled ? "default" : "destructive"}
-                      className={
-                        isEnabled ? "bg-green-500/10 text-green-500" : ""
-                      }
-                    >
-                      {isEnabled
-                        ? t("TOKEN.STATUS_ENABLED")
-                        : t("TOKEN.STATUS_DISABLED")}
-                    </Badge>
-                  </div>
-
-                  <div className="flex min-w-0 items-center gap-1.5">
-                    <code className="bg-muted text-foreground block min-w-0 flex-1 truncate overflow-hidden rounded px-2 py-1.5 font-mono text-xs">
-                      {displayKey}
-                    </code>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger
-                          render={
-                            <Button
-                              variant="ghost"
-                              size="icon-sm"
-                              onClick={handleToggleReveal}
-                            />
-                          }
-                        >
-                          {revealedKey ? (
-                            <LuEyeOff className="h-3.5 w-3.5" />
-                          ) : (
-                            <LuEye className="h-3.5 w-3.5" />
-                          )}
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {revealedKey
-                            ? t("TOKEN.HIDE_KEY")
-                            : t("TOKEN.REVEAL_KEY")}
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger
-                          render={
-                            <Button
-                              variant="ghost"
-                              size="icon-sm"
-                              onClick={handleCopyKey}
-                            />
-                          }
-                        >
-                          <LuCopy className="h-3.5 w-3.5" />
-                        </TooltipTrigger>
-                        <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </div>
-                </div>
+                <TokenKeyDisplay
+                  displayKey={displayKey}
+                  revealedKey={revealedKey}
+                  isEnabled={isEnabled}
+                  onToggleReveal={handleToggleReveal}
+                  onCopyKey={handleCopyKey}
+                />
               )}
 
               {isEdit && <Separator />}
@@ -442,164 +366,10 @@ export function TokenDialog(props: TokenDialogProps) {
                   />
 
                   {modelLimitsEnabled && (
-                    <FormField
+                    <TokenModelSelect
                       control={form.control}
-                      name="model_limits"
-                      render={({ field }) => (
-                        <FormItem>
-                          <Popover>
-                            <PopoverTrigger
-                              render={
-                                <FormControl>
-                                  <Button
-                                    variant="outline"
-                                    className="h-auto min-h-9 w-full items-center justify-between gap-2 px-2 py-1.5 font-normal"
-                                  >
-                                    <div className="flex min-w-0 flex-1 flex-wrap gap-1">
-                                      {selectedModels.length > 0 ? (
-                                        selectedModels.map((modelName) => {
-                                          const vendor = modelsByVendor.find(
-                                            (g) =>
-                                              g.models.some(
-                                                (m) => m.name === modelName,
-                                              ),
-                                          )?.vendor;
-                                          return (
-                                            <Badge
-                                              key={modelName}
-                                              variant="secondary"
-                                              className="gap-1 rounded-sm px-1.5 py-0.5 font-mono text-[10px]"
-                                            >
-                                              {vendor && (
-                                                <VendorIcon
-                                                  vendor={vendor}
-                                                  size={12}
-                                                  className="shrink-0"
-                                                />
-                                              )}
-                                              {modelName}
-                                              <span
-                                                role="button"
-                                                tabIndex={0}
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                  field.onChange(
-                                                    selectedModels.filter(
-                                                      (m) => m !== modelName,
-                                                    ),
-                                                  );
-                                                }}
-                                                onKeyDown={(e) => {
-                                                  if (
-                                                    e.key === "Enter" ||
-                                                    e.key === " "
-                                                  ) {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    field.onChange(
-                                                      selectedModels.filter(
-                                                        (m) => m !== modelName,
-                                                      ),
-                                                    );
-                                                  }
-                                                }}
-                                                className="hover:text-foreground text-muted-foreground ml-0.5 cursor-pointer"
-                                              >
-                                                <X className="h-3 w-3" />
-                                              </span>
-                                            </Badge>
-                                          );
-                                        })
-                                      ) : (
-                                        <span className="text-muted-foreground text-xs">
-                                          {t("TOKEN.MODEL_LIMITS_PLACEHOLDER")}
-                                        </span>
-                                      )}
-                                    </div>
-                                    <ChevronsUpDown className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
-                                  </Button>
-                                </FormControl>
-                              }
-                            />
-                            <PopoverContent
-                              className="w-[--radix-popover-trigger-width] p-0"
-                              align="start"
-                            >
-                              <Command>
-                                <CommandInput
-                                  placeholder={t(
-                                    "TOKEN.MODEL_SELECT_PLACEHOLDER",
-                                  )}
-                                />
-                                <CommandList className="max-h-64">
-                                  <CommandEmpty>
-                                    {t("TOKEN.MODEL_SELECT_EMPTY")}
-                                  </CommandEmpty>
-                                  {modelsByVendor.map((group) => (
-                                    <CommandGroup
-                                      key={group.vendor}
-                                      heading={
-                                        <div className="flex items-center gap-1.5">
-                                          <VendorIcon
-                                            vendor={group.vendor}
-                                            size={14}
-                                          />
-                                          <span>{group.vendor}</span>
-                                          <span className="text-muted-foreground ml-auto font-mono text-[10px]">
-                                            {group.models.length}
-                                          </span>
-                                        </div>
-                                      }
-                                    >
-                                      {group.models.map((model) => {
-                                        const isSelected =
-                                          selectedModels.includes(model.name);
-                                        return (
-                                          <CommandItem
-                                            key={model.name}
-                                            value={model.name}
-                                            onSelect={() => {
-                                              const next = isSelected
-                                                ? selectedModels.filter(
-                                                    (m) => m !== model.name,
-                                                  )
-                                                : [
-                                                    ...selectedModels,
-                                                    model.name,
-                                                  ];
-                                              field.onChange(next);
-                                            }}
-                                            className="[&>svg]:hidden"
-                                          >
-                                            <div
-                                              className={cn(
-                                                "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
-                                                isSelected
-                                                  ? "bg-primary text-primary-foreground"
-                                                  : "opacity-50 [&_svg]:invisible",
-                                              )}
-                                            >
-                                              <Check className="h-4 w-4" />
-                                            </div>
-                                            <VendorIcon
-                                              vendor={model.vendor}
-                                              size={14}
-                                              className="mr-1.5 shrink-0"
-                                            />
-                                            <span className="truncate font-mono text-xs">
-                                              {model.name}
-                                            </span>
-                                          </CommandItem>
-                                        );
-                                      })}
-                                    </CommandGroup>
-                                  ))}
-                                </CommandList>
-                              </Command>
-                            </PopoverContent>
-                          </Popover>
-                        </FormItem>
-                      )}
+                      selectedModels={selectedModels}
+                      modelsByVendor={modelsByVendor}
                     />
                   )}
                 </div>

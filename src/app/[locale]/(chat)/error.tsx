@@ -7,8 +7,12 @@ type Props = {
   reset(): void;
 };
 
-export default function Error(props: Props) {
+export default function ChatError(props: Props) {
   return (
-    <ErrorFallback error={props.error} reset={props.reset} fullScreen />
+    <ErrorFallback
+      error={props.error}
+      reset={props.reset}
+      homePath="/chat"
+    />
   );
 }

@@ -71,10 +71,14 @@ export default async function LocaleLayout(props: Props) {
   if (!hasLocale(routing.locales, params.locale)) notFound();
 
   return (
-    <html lang={params.locale} suppressHydrationWarning>
+    <html
+      lang={params.locale}
+      /* suppressHydrationWarning required: next-themes injects a class
+         attribute via inline script before hydration to prevent theme flicker */
+      suppressHydrationWarning
+    >
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} flex min-h-screen flex-col font-sans antialiased`}
-        suppressHydrationWarning
       >
         <Providers>
           <Toaster richColors />

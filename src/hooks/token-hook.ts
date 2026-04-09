@@ -5,7 +5,7 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
 import { handleElysia } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
+import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -135,12 +135,10 @@ export function useToggleTokenStatusMutation() {
 }
 
 export function useFetchTokenKeyMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (args: EdenArgs<typeof _tokenRoute, "get">) =>
+  return useSimpleMutation(
+    async (args: EdenArgs<typeof _tokenRoute, "get">) =>
       handleElysia(await rpc.api.token(args).key.post()),
-    onError: (e) => handleError(e, t),
-  });
+  );
 }
 
 export function useDeleteTokenMutation() {

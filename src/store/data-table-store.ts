@@ -32,27 +32,8 @@ export const dataTableStorageAtom = atomWithStorage<Partial<DataTableStores>>(
   jotaiCookieStorage,
 );
 
-const FRESH_STATE_IDS: DataTableId[] = [];
-
-export const dataTableAtomFamily = atomFamily((id: DataTableId) => {
-  const isFresh = FRESH_STATE_IDS.includes(id);
-
-  if (isFresh) {
-    return atom<
-      DataTableStore,
-      [Partial<DataTableStore> | ((prev: DataTableStore) => DataTableStore)],
-      void
-    >(initialTableStore(), (get, set, update) => {
-      const current = get(dataTableAtomFamily(id));
-      const newState =
-        typeof update === "function"
-          ? update(current)
-          : { ...current, ...update };
-      set(dataTableAtomFamily(id), newState);
-    });
-  }
-
-  return atom<
+export const dataTableAtomFamily = atomFamily((id: DataTableId) =>
+  atom<
     DataTableStore,
     [Partial<DataTableStore> | ((prev: DataTableStore) => DataTableStore)],
     void
@@ -70,8 +51,8 @@ export const dataTableAtomFamily = atomFamily((id: DataTableId) => {
           : { ...current, ...update };
       set(dataTableStorageAtom, { ...allTables, [id]: newState });
     },
-  );
-});
+  ),
+);
 
 type TableUpdate =
   | Partial<DataTableStore>
@@ -136,33 +117,10 @@ function buildFieldAtoms(
   };
 }
 
-// NOTE: FRESH_STATE_IDS is currently empty, so all tables use persisted storage.
-// The fresh branch is kept for tables that should reset on navigation.
 export const createTableAtoms = (
   id: DataTableId,
   initialValues?: Partial<DataTableStore>,
-) => {
-  const isFresh = FRESH_STATE_IDS.includes(id);
-
-  if (isFresh) {
-    const freshAtom = atom<
-      DataTableStore,
-      [Partial<DataTableStore> | ((prev: DataTableStore) => DataTableStore)],
-      void
-    >(initialTableStore(initialValues), (get, set, update) => {
-      const current = get(freshAtom);
-      const newState =
-        typeof update === "function"
-          ? update(current)
-          : { ...current, ...update };
-      set(freshAtom, newState);
-    });
-
-    return buildFieldAtoms(freshAtom, initialValues);
-  }
-
-  return buildFieldAtoms(dataTableAtomFamily(id), initialValues);
-};
+) => buildFieldAtoms(dataTableAtomFamily(id), initialValues);
 
 export const sort = (sorting?: SortingState) =>
   sorting?.length
