@@ -162,7 +162,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/media",
     async ({ body, cookie }) => {
-      getUserId(cookie);
+      getUserId(cookie, true);
       const data = await uploadMedia(body.file, body.convId);
       return { success: true, data };
     },

@@ -299,12 +299,12 @@ const StreamingIndicator: FC = () => {
   if (!isStreaming) return null;
 
   const seconds = elapsed / 1000;
-  const timerColor =
-    seconds < 2
-      ? "text-muted-foreground/60"
-      : seconds < 5
-        ? "text-amber-500"
-        : "text-red-500";
+  // Gradient: muted → amber → red over 0–15s
+  const t = Math.min(seconds / 15, 1);
+  const r = Math.round(140 + t * 115);       // 140 → 255
+  const g = Math.round(140 - t * 100);       // 140 → 40
+  const b = Math.round(140 - t * 110);       // 140 → 30
+  const timerColor = `rgb(${r}, ${g}, ${b})`;
   const display =
     elapsed < 1000
       ? `${elapsed}ms`
@@ -317,7 +317,7 @@ const StreamingIndicator: FC = () => {
         <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:150ms]" />
         <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:300ms]" />
       </div>
-      <span className={`font-mono text-[10px] tabular-nums ${timerColor} transition-colors`}>
+      <span className="font-mono text-[10px] tabular-nums transition-colors" style={{ color: timerColor }}>
         {display}
       </span>
     </div>
