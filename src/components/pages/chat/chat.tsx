@@ -10,10 +10,7 @@ import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
-import {
-  NeedsTokenGate,
-  ZeroBalanceGate,
-} from "./chat-elements";
+import { NeedsTokenGate, ZeroBalanceGate } from "./chat-elements";
 
 type ChatProps = {
   readOnly?: boolean;

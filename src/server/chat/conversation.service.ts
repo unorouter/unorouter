@@ -53,8 +53,7 @@ export async function listConversations(
   const isGuest = userId === 0 && guestConvIds.length > 0;
 
   // Anonymous user with no stored conv IDs: nothing to list
-  if (userId === 0 && !isGuest)
-    return { items: [], total: 0, page, pageSize };
+  if (userId === 0 && !isGuest) return { items: [], total: 0, page, pageSize };
 
   const conditions = isGuest
     ? [inArray(conversations.id, guestConvIds), eq(conversations.userId, 0)]
@@ -132,9 +131,7 @@ export async function updateConversation(
   const result = await db
     .update(conversations)
     .set(updates)
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .returning({ id: conversations.id });
 
   if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
@@ -144,10 +141,7 @@ export async function updateConversation(
 export async function deleteConversation(userId: number, convId: string) {
   const db = getDb();
   const conv = await db.query.conversations.findFirst({
-    where: and(
-      eq(conversations.id, convId),
-      eq(conversations.userId, userId),
-    ),
+    where: and(eq(conversations.id, convId), eq(conversations.userId, userId)),
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
@@ -209,10 +203,7 @@ export async function getSharedConversation(
 }
 
 /** Get a conversation by ID, allowing access if the user owns it OR if it has a shareId (public). */
-export async function getConversationOrShared(
-  userId: number,
-  convId: string,
-) {
+export async function getConversationOrShared(userId: number, convId: string) {
   const db = getDb();
   const conv = await db.query.conversations.findFirst({
     where: eq(conversations.id, convId),
@@ -231,9 +222,7 @@ export async function claimConversations(userId: number, convIds: string[]) {
   const result = await db
     .update(conversations)
     .set({ userId, updatedAt: new Date() })
-    .where(
-      and(eq(conversations.userId, 0), inArray(conversations.id, convIds)),
-    )
+    .where(and(eq(conversations.userId, 0), inArray(conversations.id, convIds)))
     .returning({ id: conversations.id });
   return { claimed: result.length };
 }

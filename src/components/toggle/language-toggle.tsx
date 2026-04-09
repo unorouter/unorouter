@@ -25,7 +25,10 @@ export function LanguageToggle() {
   const handleLanguageChange = (newLocale: string) => {
     // Use the raw pathname (which stays in sync with shallow history updates)
     // and swap the locale prefix. next-intl middleware handles path localization.
-    const newPath = pathname.replace(new RegExp(`^/${locale}(?=/|$)`), `/${newLocale}`);
+    const newPath = pathname.replace(
+      new RegExp(`^/${locale}(?=/|$)`),
+      `/${newLocale}`,
+    );
     startTransition(() => {
       router.replace(newPath);
     });

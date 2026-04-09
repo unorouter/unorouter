@@ -65,14 +65,12 @@ export function ModelSelector(props: ModelSelectorProps) {
     >
       <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-8 w-full items-center justify-between rounded-md border px-3 text-xs">
         <div className="flex items-center gap-2 truncate">
-          {selected && (
-            <VendorIcon vendor={selected.vendor.name} size={14} />
-          )}
+          {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
           <span className="truncate font-mono">
             {props.value || t("CHAT.SELECT_MODEL")}
           </span>
           {selected?.isFree && (
-            <span className="bg-emerald-500/15 text-emerald-500 rounded px-1 py-0.5 text-[10px] font-medium leading-none">
+            <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
               {t("CHAT.FREE_MODEL_BADGE")}
             </span>
           )}
@@ -99,9 +97,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                   key={tag}
                   variant={typeFilter === tag ? "default" : "outline"}
                   className="cursor-pointer text-[10px]"
-                  onClick={() =>
-                    setTypeFilter(typeFilter === tag ? null : tag)
-                  }
+                  onClick={() => setTypeFilter(typeFilter === tag ? null : tag)}
                 >
                   {tag}
                 </Badge>
@@ -124,7 +120,9 @@ export function ModelSelector(props: ModelSelectorProps) {
                       data-checked={model.name === props.value || undefined}
                       onSelect={() => {
                         if (disabled) {
-                          setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
+                          setCookie(AUTH_REDIRECT_COOKIE, pathname, {
+                            maxAge: 300,
+                          });
                           router.push("/login");
                           setOpen(false);
                           return;
@@ -134,7 +132,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                       }}
                       className={cn(
                         "text-xs",
-                        disabled && "opacity-50 cursor-pointer",
+                        disabled && "cursor-pointer opacity-50",
                       )}
                     >
                       <VendorIcon vendor={model.vendor.name} size={14} />
@@ -142,12 +140,15 @@ export function ModelSelector(props: ModelSelectorProps) {
                         {model.name}
                       </span>
                       {model.isFree && (
-                        <span className="bg-emerald-500/15 text-emerald-500 shrink-0 rounded px-1 py-0.5 text-[10px] font-medium leading-none">
+                        <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
                           {t("CHAT.FREE_MODEL_BADGE")}
                         </span>
                       )}
                       {disabled && (
-                        <span className="text-muted-foreground shrink-0" title={t("CHAT.LOGIN_TO_USE_MODEL")}>
+                        <span
+                          className="text-muted-foreground shrink-0"
+                          title={t("CHAT.LOGIN_TO_USE_MODEL")}
+                        >
                           <LuLock className="h-3 w-3" />
                         </span>
                       )}

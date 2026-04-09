@@ -77,7 +77,8 @@ export function ModelListItem(props: {
           variant="secondary"
           className={cn(
             "shrink-0 font-mono text-[10px] uppercase sm:hidden",
-            model.type === "text" && `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
+            model.type === "text" &&
+              `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
             model.type === "image" &&
               "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
             model.type === "video" &&
@@ -101,7 +102,8 @@ export function ModelListItem(props: {
         variant="secondary"
         className={cn(
           "hidden font-mono text-[10px] uppercase sm:inline-flex",
-          model.type === "text" && `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
+          model.type === "text" &&
+            `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
           model.type === "image" &&
             "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
           model.type === "video" &&
@@ -181,7 +183,6 @@ export function ModelListItem(props: {
           )}
         </div>
       </div>
-
     </div>
   );
 }

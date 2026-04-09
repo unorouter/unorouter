@@ -11,10 +11,16 @@ export function useChatGate() {
   const authQuery = useAuthQuery();
   const selectedModel = useAtomValue(chatModelAtom);
   const pricingData = usePricingQuery().data;
-  const isSelectedModelFree = pricingData?.models.find((m) => m.name === selectedModel)?.isFree ?? false;
+  const isSelectedModelFree =
+    pricingData?.models.find((m) => m.name === selectedModel)?.isFree ?? false;
 
-  const needsToken = token.isLoggedIn && token.needsToken && !isSelectedModelFree;
-  const hasZeroBalance = token.isLoggedIn && !token.needsToken && !isSelectedModelFree && (authQuery.data?.quota ?? 0) <= 0;
+  const needsToken =
+    token.isLoggedIn && token.needsToken && !isSelectedModelFree;
+  const hasZeroBalance =
+    token.isLoggedIn &&
+    !token.needsToken &&
+    !isSelectedModelFree &&
+    (authQuery.data?.quota ?? 0) <= 0;
 
   return { needsToken, hasZeroBalance };
 }

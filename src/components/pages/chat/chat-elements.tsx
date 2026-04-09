@@ -86,7 +86,12 @@ export function ZeroBalanceGate() {
           {t("CHAT.ZERO_BALANCE_DESC")}
         </p>
       </div>
-      <Button size="sm" className="gap-1.5" nativeButton={false} render={<Link href="/billing" />}>
+      <Button
+        size="sm"
+        className="gap-1.5"
+        nativeButton={false}
+        render={<Link href="/billing" />}
+      >
         <LuWallet className="h-3.5 w-3.5" />
         {t("CHAT.GO_TO_BILLING")}
       </Button>

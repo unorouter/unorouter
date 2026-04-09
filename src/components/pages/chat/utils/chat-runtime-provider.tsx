@@ -80,7 +80,12 @@ function ChatRuntimeHook() {
   // Server → atom: when conversation data arrives for a new thread, push its model into the selector
   const serverModel = conversationQuery.data?.model;
   useEffect(() => {
-    if (!remoteId || !serverModel || remoteId === modelSyncRef.current.lastSyncedId) return;
+    if (
+      !remoteId ||
+      !serverModel ||
+      remoteId === modelSyncRef.current.lastSyncedId
+    )
+      return;
     modelSyncRef.current.lastSyncedId = remoteId;
     setChatModel(serverModel);
   }, [remoteId, serverModel, setChatModel]);
@@ -193,7 +198,9 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
-  const adapterRef = useRef(createThreadListAdapter(queryClient, t, isLoggedIn));
+  const adapterRef = useRef(
+    createThreadListAdapter(queryClient, t, isLoggedIn),
+  );
 
   // Update the adapter's isLoggedIn state when auth changes
   useEffect(() => {

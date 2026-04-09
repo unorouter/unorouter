@@ -114,9 +114,7 @@ export function Navbar() {
               </button>
             </UserDropdown>
           ) : authQuery.isLoading ? null : (
-            <LoginLink
-              className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
-            >
+            <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
               {t("NAV.LOG_IN")}
             </LoginLink>
           )}
@@ -133,9 +131,7 @@ export function Navbar() {
               </button>
             </UserDropdown>
           ) : authQuery.isLoading ? null : (
-            <LoginLink
-              className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors"
-            >
+            <LoginLink className="text-muted-foreground hover:text-foreground text-[11px] font-bold tracking-wider uppercase transition-colors">
               {t("NAV.LOG_IN")}
             </LoginLink>
           )}

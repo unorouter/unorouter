@@ -23,19 +23,10 @@ const messagePart = t.Union([
     { type: t.Literal("tool-invocation"), toolInvocationId: t.String() },
     { additionalProperties: true },
   ),
-  t.Object(
-    { type: t.Literal("file") },
-    { additionalProperties: true },
-  ),
-  t.Object(
-    { type: t.Literal("source-url") },
-    { additionalProperties: true },
-  ),
+  t.Object({ type: t.Literal("file") }, { additionalProperties: true }),
+  t.Object({ type: t.Literal("source-url") }, { additionalProperties: true }),
   // Catch-all for unknown/future part types
-  t.Object(
-    { type: t.String() },
-    { additionalProperties: true },
-  ),
+  t.Object({ type: t.String() }, { additionalProperties: true }),
 ]);
 
 export const createConversationBody = t.Object({

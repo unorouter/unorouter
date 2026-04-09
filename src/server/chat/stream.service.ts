@@ -150,9 +150,7 @@ async function generateImage(
   }
 
   const raw = await res.json();
-  if (
-    !imageGenResponseChecker.Check(raw)
-  ) {
+  if (!imageGenResponseChecker.Check(raw)) {
     throw new Error(msg("ERRORS.IMAGE_GENERATION_FAILED"));
   }
   const json = raw;

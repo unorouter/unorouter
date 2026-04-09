@@ -248,7 +248,8 @@ const defaultComponents = memoizeMarkdownComponents({
     const t = useTranslations();
     const { isCopied, copyToClipboard } = useCopyToClipboard();
     const imgSrc = typeof src === "string" ? src : undefined;
-    const isVideo = !!imgSrc && /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc);
+    const isVideo =
+      !!imgSrc && /\.(mp4|webm|mov|avi|mkv)(\?.*)?$/i.test(imgSrc);
 
     const handleDownload = async () => {
       if (!imgSrc) return;
@@ -270,11 +271,7 @@ const defaultComponents = memoizeMarkdownComponents({
     return (
       <span className="group/img relative my-2 block first:mt-0 last:mb-0">
         {isVideo ? (
-          <video
-            src={imgSrc}
-            controls
-            className="max-w-full rounded-lg"
-          />
+          <video src={imgSrc} controls className="max-w-full rounded-lg" />
         ) : (
           <img
             src={imgSrc}
@@ -288,7 +285,7 @@ const defaultComponents = memoizeMarkdownComponents({
             <TooltipIconButton
               tooltip={t("CHAT.DOWNLOAD")}
               variant="outline"
-              className="bg-background/80 backdrop-blur-sm size-7"
+              className="bg-background/80 size-7 backdrop-blur-sm"
               onClick={handleDownload}
             >
               <DownloadIcon className="size-3.5" />
@@ -296,7 +293,7 @@ const defaultComponents = memoizeMarkdownComponents({
             <TooltipIconButton
               tooltip={isCopied ? t("CHAT.LINK_COPIED") : t("CHAT.COPY_LINK")}
               variant="outline"
-              className="bg-background/80 backdrop-blur-sm size-7"
+              className="bg-background/80 size-7 backdrop-blur-sm"
               onClick={handleCopyLink}
             >
               {isCopied ? (

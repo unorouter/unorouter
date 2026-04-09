@@ -19,7 +19,7 @@ export async function ReliabilitySection() {
           <div className="space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 rounded-sm border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5">
               <LuRefreshCw className="h-3 w-3 text-cyan-700 dark:text-cyan-400" />
-              <span className="font-mono text-[10px] tracking-[0.2em] text-cyan-700 dark:text-cyan-400 uppercase">
+              <span className="font-mono text-[10px] tracking-[0.2em] text-cyan-700 uppercase dark:text-cyan-400">
                 {t("HOME.RELIABILITY_BADGE")}
               </span>
             </div>
@@ -36,13 +36,17 @@ export async function ReliabilitySection() {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <InfoCard
-                icon={<LuLayers className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400" />}
+                icon={
+                  <LuLayers className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400" />
+                }
                 title={t("HOME.RELIABILITY_CARD1_TITLE")}
                 description={t("HOME.RELIABILITY_CARD1_DESC")}
                 color="cyan"
               />
               <InfoCard
-                icon={<LuServer className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />}
+                icon={
+                  <LuServer className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />
+                }
                 title={t("HOME.RELIABILITY_CARD2_TITLE")}
                 description={t("HOME.RELIABILITY_CARD2_DESC")}
                 color="purple"
@@ -67,7 +71,7 @@ export async function ReliabilitySection() {
           <div className="relative">
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="flex items-center justify-between border-b border-cyan-500/20 bg-cyan-500/10 px-4 py-3">
-                <span className="font-mono text-[10px] tracking-wider text-cyan-700 dark:text-cyan-400 uppercase">
+                <span className="font-mono text-[10px] tracking-wider text-cyan-700 uppercase dark:text-cyan-400">
                   {t("HOME.RELIABILITY_ARCH_TITLE")}
                 </span>
                 <div className="flex items-center gap-2">

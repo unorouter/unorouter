@@ -35,7 +35,10 @@ export function extractFirstUserText(
   if (!first) return null;
   return (
     first.content
-      .filter((c): c is { type: string; text: string } => c.type === "text" && !!c.text)
+      .filter(
+        (c): c is { type: string; text: string } =>
+          c.type === "text" && !!c.text,
+      )
       .map((c) => c.text)
       .join(" ")
       .trim() || null
@@ -84,10 +87,12 @@ export function createR2AttachmentAdapter(
         setConvId(ctx.convId);
       }
 
-      const data = handleElysia(await rpc.api.chat.media.post({
-        file: attachment.file!,
-        convId: ctx.convId,
-      }));
+      const data = handleElysia(
+        await rpc.api.chat.media.post({
+          file: attachment.file!,
+          convId: ctx.convId,
+        }),
+      );
       return {
         ...attachment,
         status: { type: "complete" },

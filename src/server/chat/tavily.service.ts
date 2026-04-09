@@ -66,13 +66,13 @@ export async function searchTavily(
     const data = await res.json();
     return {
       query: data.query ?? query,
-      results: (data.results ?? []).slice(0, 5).map(
-        (r: { title?: string; url?: string; content?: string }) => ({
+      results: (data.results ?? [])
+        .slice(0, 5)
+        .map((r: { title?: string; url?: string; content?: string }) => ({
           title: r.title ?? "",
           url: r.url ?? "",
           content: r.content ?? "",
-        }),
-      ),
+        })),
     };
   } catch {
     return null;
@@ -84,9 +84,7 @@ export async function searchTavily(
  */
 export function formatSearchContext(search: TavilySearchResponse): string {
   const entries = search.results
-    .map(
-      (r, i) => `[${i + 1}] ${r.title}\nURL: ${r.url}\n${r.content}`,
-    )
+    .map((r, i) => `[${i + 1}] ${r.title}\nURL: ${r.url}\n${r.content}`)
     .join("\n\n");
 
   return [

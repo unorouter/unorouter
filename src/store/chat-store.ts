@@ -40,7 +40,10 @@ export const chatWebSearchAtom = atom(
 export const chatStore = createStore();
 
 function chatStateCookie(): ChatState {
-  return safeJsonParse<ChatState>(getCookie(CHAT_STORE_KEY), INITIAL_CHAT_STATE);
+  return safeJsonParse<ChatState>(
+    getCookie(CHAT_STORE_KEY),
+    INITIAL_CHAT_STATE,
+  );
 }
 
 export const getChatModel = (): string | null =>

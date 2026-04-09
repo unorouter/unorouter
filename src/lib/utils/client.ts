@@ -29,7 +29,10 @@ export async function handleError(
     } else if (typeof obj.data === "string") {
       message = obj.data;
     } else if (obj.response) {
-      const body = await obj.response.clone().json().catch(() => null);
+      const body = await obj.response
+        .clone()
+        .json()
+        .catch(() => null);
       if (body?.message) message = body.message;
     }
   }

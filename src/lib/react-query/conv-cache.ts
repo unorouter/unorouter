@@ -32,13 +32,10 @@ export function patchConv(
   if (!old) return old;
   return {
     ...old,
-    pages: old.pages.map(
-      (p) =>
-        ({
-          ...p,
-          items: p.items.map((i) => (i.id === id ? { ...i, ...patch } : i)),
-        }),
-    ),
+    pages: old.pages.map((p) => ({
+      ...p,
+      items: p.items.map((i) => (i.id === id ? { ...i, ...patch } : i)),
+    })),
   };
 }
 
@@ -49,14 +46,11 @@ export function removeConv(
   if (!old) return old;
   return {
     ...old,
-    pages: old.pages.map(
-      (p) =>
-        ({
-          ...p,
-          total: p.total - 1,
-          items: p.items.filter((i) => i.id !== id),
-        }),
-    ),
+    pages: old.pages.map((p) => ({
+      ...p,
+      total: p.total - 1,
+      items: p.items.filter((i) => i.id !== id),
+    })),
   };
 }
 
@@ -68,17 +62,14 @@ export function moveConvToTop(
 ): ConvsInfinite | undefined {
   if (!old) return old;
   let target: ConvItem | undefined;
-  const without = old.pages.map(
-    (p) =>
-      ({
-        ...p,
-        items: p.items.filter((i) => {
-          if (i.id !== id) return true;
-          target = patchFn ? { ...i, ...patchFn(i) } : { ...i };
-          return false;
-        }),
-      }),
-  );
+  const without = old.pages.map((p) => ({
+    ...p,
+    items: p.items.filter((i) => {
+      if (i.id !== id) return true;
+      target = patchFn ? { ...i, ...patchFn(i) } : { ...i };
+      return false;
+    }),
+  }));
   if (!target) return old;
   return {
     ...old,

@@ -1,9 +1,9 @@
 "use client";
 
 import {
-    ComposerAddAttachment,
-    ComposerAttachments,
-    UserMessageAttachments,
+  ComposerAddAttachment,
+  ComposerAttachments,
+  UserMessageAttachments,
 } from "@/components/assistant-ui/attachment";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
@@ -19,37 +19,37 @@ import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import { chatWebSearchAtom, getScrollControl } from "@/store/chat-store";
 import {
-    ActionBarPrimitive,
-    AuiIf,
-    BranchPickerPrimitive,
-    ComposerPrimitive,
-    ErrorPrimitive,
-    MessagePrimitive,
-    SuggestionPrimitive,
-    ThreadPrimitive,
-    useAuiState,
+  ActionBarPrimitive,
+  AuiIf,
+  BranchPickerPrimitive,
+  ComposerPrimitive,
+  ErrorPrimitive,
+  MessagePrimitive,
+  SuggestionPrimitive,
+  ThreadPrimitive,
+  useAuiState,
 } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import {
-    ArrowDownIcon,
-    ArrowUpIcon,
-    CheckIcon,
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    CopyIcon,
-    PencilIcon,
-    RefreshCwIcon,
-    SquareIcon,
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CheckIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CopyIcon,
+  PencilIcon,
+  RefreshCwIcon,
+  SquareIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
-    createContext,
-    type FC,
-    type UIEvent,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
+  createContext,
+  type FC,
+  type UIEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
 
@@ -298,14 +298,11 @@ const StreamingIndicator: FC = () => {
   const seconds = elapsed / 1000;
   // Gradient: muted → amber → red over 0–15s
   const t = Math.min(seconds / 15, 1);
-  const r = Math.round(140 + t * 115);       // 140 → 255
-  const g = Math.round(140 - t * 100);       // 140 → 40
-  const b = Math.round(140 - t * 110);       // 140 → 30
+  const r = Math.round(140 + t * 115); // 140 → 255
+  const g = Math.round(140 - t * 100); // 140 → 40
+  const b = Math.round(140 - t * 110); // 140 → 30
   const timerColor = `rgb(${r}, ${g}, ${b})`;
-  const display =
-    elapsed < 1000
-      ? `${elapsed}ms`
-      : `${seconds.toFixed(1)}s`;
+  const display = elapsed < 1000 ? `${elapsed}ms` : `${seconds.toFixed(1)}s`;
 
   return (
     <div className="flex items-center gap-2.5 px-1 py-2">
@@ -314,7 +311,10 @@ const StreamingIndicator: FC = () => {
         <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:150ms]" />
         <span className="bg-muted-foreground/60 h-1.5 w-1.5 animate-pulse rounded-full [animation-delay:300ms]" />
       </div>
-      <span className="font-mono text-[10px] tabular-nums transition-colors" style={{ color: timerColor }}>
+      <span
+        className="font-mono text-[10px] tabular-nums transition-colors"
+        style={{ color: timerColor }}
+      >
         {display}
       </span>
     </div>

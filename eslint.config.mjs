@@ -36,7 +36,13 @@ const disableReactPlugin = Object.fromEntries(
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts", "src/openapi.ts"]),
+  globalIgnores([
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+    "src/openapi.ts",
+  ]),
   {
     linterOptions: {
       reportUnusedDisableDirectives: "off",

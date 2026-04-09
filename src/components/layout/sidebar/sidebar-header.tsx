@@ -44,9 +44,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
               </button>
             </UserDropdown>
           ) : (
-            <LoginLink
-              className="hover:bg-accent rounded-md p-1 transition-colors"
-            >
+            <LoginLink className="hover:bg-accent rounded-md p-1 transition-colors">
               <LuLogIn className="size-5" />
             </LoginLink>
           )}

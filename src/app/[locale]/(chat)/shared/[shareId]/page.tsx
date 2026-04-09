@@ -23,7 +23,10 @@ export async function generateMetadata(props: Props) {
   return getPageMetadata({
     locale,
     title: resolved?.title
-      ? t("CHAT.META.SHARED_TITLE_WITH_NAME", { ...APP_VALUES, title: resolved.title })
+      ? t("CHAT.META.SHARED_TITLE_WITH_NAME", {
+          ...APP_VALUES,
+          title: resolved.title,
+        })
       : t("CHAT.META.SHARED_TITLE", APP_VALUES),
     description: t("CHAT.META.SHARED_DESCRIPTION", APP_VALUES),
     keywords: t("CHAT.META.KEYWORDS"),

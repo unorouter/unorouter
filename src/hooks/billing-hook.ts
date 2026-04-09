@@ -18,7 +18,9 @@ export function useTopUpInfoQuery() {
       handleElysia(await rpc.api.billing["topup-info"].get()),
     select: (data) => ({
       ...data,
-      creemProducts: safeJsonParse<{ productId: string; name: string; price: number; currency: string }[]>(data.creem_products, []),
+      creemProducts: safeJsonParse<
+        { productId: string; name: string; price: number; currency: string }[]
+      >(data.creem_products, []),
     }),
   });
 }
@@ -78,8 +80,9 @@ export function useStripeTopUpMutation() {
 export function useCreemTopUpMutation() {
   const t = useTranslations();
   return useMutation({
-    mutationFn: async (args: EdenArgs<(typeof _billing)["creem-pay"], "post">) =>
-      handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
+    mutationFn: async (
+      args: EdenArgs<(typeof _billing)["creem-pay"], "post">,
+    ) => handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
     onError: (e) => handleError(e, t),
   });
 }

@@ -2,7 +2,11 @@ import { env } from "@/lib/config/env";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
-import { GUEST_CONVS_COOKIE, LOCALE_COOKIE, LOCALES } from "../config/constants";
+import {
+  GUEST_CONVS_COOKIE,
+  LOCALE_COOKIE,
+  LOCALES,
+} from "../config/constants";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
 
@@ -85,9 +89,7 @@ export async function resolveSharedConv(
   shareId: string,
 ): Promise<{ convId: string; title: string | null } | null> {
   try {
-    const data = handleElysia(
-      await rpc.api.chat.shared({ shareId }).get(),
-    );
+    const data = handleElysia(await rpc.api.chat.shared({ shareId }).get());
     return { convId: data.id, title: data.title ?? null };
   } catch {
     return null;

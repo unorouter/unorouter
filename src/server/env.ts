@@ -15,11 +15,18 @@ export const serverEnv = {
 // Warn about missing optional vars that disable features
 if (typeof globalThis !== "undefined" && !process.env.NEXT_PHASE) {
   const warnings: string[] = [];
-  if (!serverEnv.guestApiKey) warnings.push("GUEST_API_KEY (guest chat disabled)");
-  if (!serverEnv.r2AccountId || !serverEnv.r2AccessKeyId || !serverEnv.r2SecretAccessKey)
+  if (!serverEnv.guestApiKey)
+    warnings.push("GUEST_API_KEY (guest chat disabled)");
+  if (
+    !serverEnv.r2AccountId ||
+    !serverEnv.r2AccessKeyId ||
+    !serverEnv.r2SecretAccessKey
+  )
     warnings.push("R2_* (media uploads disabled)");
-  if (!serverEnv.tavilyApiKey) warnings.push("TAVILY_API_KEY (web search disabled)");
-  if (!serverEnv.tursoUrl) warnings.push("TURSO_DATABASE_URL (database disabled)");
+  if (!serverEnv.tavilyApiKey)
+    warnings.push("TAVILY_API_KEY (web search disabled)");
+  if (!serverEnv.tursoUrl)
+    warnings.push("TURSO_DATABASE_URL (database disabled)");
   if (warnings.length > 0)
     console.warn(`[env] Missing optional vars: ${warnings.join(", ")}`);
 }
