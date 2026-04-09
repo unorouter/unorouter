@@ -146,13 +146,16 @@ export async function deleteConversation(userId: number, convId: string) {
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  deleteR2Prefix(`chat/${convId}/`).catch((err) =>
-    logger.error("R2 cleanup failed for conversation", {
+  // Best-effort R2 cleanup before DB delete to avoid orphaned storage
+  try {
+    await deleteR2Prefix(`chat/${convId}/`);
+  } catch (err) {
+    logger.error("R2 cleanup failed for conversation, proceeding with delete", {
       context: "conversation.delete",
       convId,
       error: String(err),
-    }),
-  );
+    });
+  }
   await db.delete(conversations).where(eq(conversations.id, conv.id));
 
   return { id: convId };

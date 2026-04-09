@@ -47,10 +47,10 @@ function chatStateCookie(): ChatState {
 }
 
 export const getChatModel = (): string | null =>
-  chatStore.get(chatModelAtom) || chatStateCookie().model;
+  chatStore.get(chatModelAtom) ?? chatStateCookie().model;
 
 export const getChatWebSearch = (): boolean =>
-  chatStore.get(chatWebSearchAtom) || chatStateCookie().webSearch;
+  chatStore.get(chatWebSearchAtom) ?? chatStateCookie().webSearch;
 
 /**
  * Active conversation ID. Plain variable, not an atom, because it needs

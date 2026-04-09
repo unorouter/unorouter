@@ -133,7 +133,7 @@ export async function persistMessages(
   let usage: PendingUsage | undefined;
   const assistantIdx = toInsert.findLastIndex((m) => m.role === "assistant");
   if (assistantIdx !== -1 && inserted[assistantIdx]) {
-    // Atomic get+delete before any await to prevent concurrent reads
+    // Claim and remove immediately so concurrent calls see nothing
     const pending = pendingUsageByConv.get(convId);
     if (pending) {
       pendingUsageByConv.delete(convId);

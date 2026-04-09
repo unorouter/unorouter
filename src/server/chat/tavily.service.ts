@@ -1,4 +1,5 @@
 import { getCheapestTextModel } from "@/lib/api/pricing-cache";
+import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
@@ -34,7 +35,11 @@ export async function needsWebSearch(
     });
 
     return result.text.trim().toLowerCase().startsWith("yes");
-  } catch {
+  } catch (err) {
+    logger.warn("Web search classification failed, skipping search", {
+      context: "tavily.classify",
+      error: String(err),
+    });
     return false;
   }
 }
@@ -61,7 +66,14 @@ export async function searchTavily(
       }),
     });
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      logger.warn("Tavily search request failed", {
+        context: "tavily.search",
+        status: res.status,
+        query: query.slice(0, 100),
+      });
+      return null;
+    }
 
     const data = await res.json();
     return {
@@ -74,7 +86,11 @@ export async function searchTavily(
           content: r.content ?? "",
         })),
     };
-  } catch {
+  } catch (err) {
+    logger.warn("Tavily search failed", {
+      context: "tavily.search",
+      error: String(err),
+    });
     return null;
   }
 }
