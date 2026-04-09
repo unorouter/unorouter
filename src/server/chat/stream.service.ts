@@ -77,6 +77,16 @@ function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
 
 function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
   if (!convId) return;
+  const existing = pendingUsageByConv.get(convId);
+  if (existing) {
+    logger.warn("Overwriting pending usage for conversation", {
+      context: "stream.usage",
+      convId,
+      existingRequestId: existing.requestId,
+      newRequestId: usage.requestId,
+      ageMs: Date.now() - existing.createdAt,
+    });
+  }
   pendingUsageByConv.set(convId, {
     requestId: usage.requestId,
     inputTokens: usage.inputTokens,
@@ -120,8 +130,8 @@ async function processUrls(
     );
 
     if (!r2Url) {
-      logger.warn("URL upload failed, skipping", { context: "stream.urls", url: url.slice(0, 100) });
-      return null;
+      logger.warn("URL upload failed, keeping original", { context: "stream.urls", url: url.slice(0, 100) });
+      return `![${alt}](${url})`;
     }
     return `![${alt}](${r2Url})`;
   };

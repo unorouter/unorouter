@@ -420,6 +420,7 @@ export function TokenDialog(props: TokenDialogProps) {
                             size="icon"
                             onClick={handleToggleStatus}
                             disabled={toggleMutation.isPending}
+                            aria-label={isEnabled ? t("TOKEN.DISABLE") : t("TOKEN.ENABLE")}
                           />
                         }
                       >
@@ -445,6 +446,7 @@ export function TokenDialog(props: TokenDialogProps) {
                             onClick={handleDelete}
                             disabled={deleteMutation.isPending}
                             className="text-destructive hover:bg-destructive/10"
+                            aria-label={t("TOKEN.DELETE")}
                           />
                         }
                       >

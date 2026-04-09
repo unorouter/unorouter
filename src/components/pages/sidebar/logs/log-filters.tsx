@@ -35,6 +35,29 @@ export function LogEmptyState() {
   );
 }
 
+function SearchFilterInput(props: {
+  value: string;
+  onChange: (value: string | undefined) => void;
+  placeholder: string;
+  className?: string;
+}) {
+  return (
+    <div className="relative">
+      <LuSearch
+        className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2"
+        aria-hidden="true"
+      />
+      <Input
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value || undefined)}
+        placeholder={props.placeholder}
+        className={`h-8 pl-7 font-mono text-xs ${props.className ?? "w-40"}`}
+        aria-label={props.placeholder}
+      />
+    </div>
+  );
+}
+
 export function LogFilters(props: {
   filters: LogFilterValues;
   onFilterChange: (id: string, value: unknown) => void;
@@ -121,39 +144,22 @@ export function LogFilters(props: {
 
       {filtersExpanded && (
         <div className="flex flex-wrap items-center gap-2">
-          <div className="relative">
-            <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
-            <Input
-              value={tokenName}
-              onChange={(e) =>
-                props.onFilterChange("token_name", e.target.value || undefined)
-              }
-              placeholder={t("LOGS.FILTER_TOKEN")}
-              className="h-8 w-40 pl-7 font-mono text-xs"
-            />
-          </div>
-          <div className="relative">
-            <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
-            <Input
-              value={modelName}
-              onChange={(e) =>
-                props.onFilterChange("model_name", e.target.value || undefined)
-              }
-              placeholder={t("LOGS.FILTER_MODEL")}
-              className="h-8 w-40 pl-7 font-mono text-xs"
-            />
-          </div>
-          <div className="relative">
-            <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
-            <Input
-              value={requestId}
-              onChange={(e) =>
-                props.onFilterChange("request_id", e.target.value || undefined)
-              }
-              placeholder={t("LOGS.FILTER_REQUEST_ID")}
-              className="h-8 w-48 pl-7 font-mono text-xs"
-            />
-          </div>
+          <SearchFilterInput
+            value={tokenName}
+            onChange={(v) => props.onFilterChange("token_name", v)}
+            placeholder={t("LOGS.FILTER_TOKEN")}
+          />
+          <SearchFilterInput
+            value={modelName}
+            onChange={(v) => props.onFilterChange("model_name", v)}
+            placeholder={t("LOGS.FILTER_MODEL")}
+          />
+          <SearchFilterInput
+            value={requestId}
+            onChange={(v) => props.onFilterChange("request_id", v)}
+            placeholder={t("LOGS.FILTER_REQUEST_ID")}
+            className="w-48"
+          />
           {(tokenName || modelName || requestId) && (
             <Button
               variant="ghost"

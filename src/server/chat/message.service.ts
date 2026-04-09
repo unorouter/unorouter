@@ -1,5 +1,6 @@
 import { QUOTA_PER_DOLLAR, msg } from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
+import { logger } from "@/lib/utils/logger";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
 import { uid, unwrap } from "@/lib/utils/base";
@@ -75,7 +76,12 @@ async function cleanImageParts(
           r2Url = await downloadAndUpload(url, convId, groupKey);
         }
         imageMarkdowns.push(`![${alt}](${r2Url})`);
-      } catch {
+      } catch (err) {
+        logger.warn("Image upload to R2 failed, keeping original URL", {
+          context: "message.images",
+          url: url.slice(0, 100),
+          error: String(err),
+        });
         imageMarkdowns.push(`![${alt}](${url})`);
       }
     }

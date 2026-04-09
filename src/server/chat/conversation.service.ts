@@ -1,5 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { deleteR2Prefix } from "@/lib/config/r2";
+import { logger } from "@/lib/utils/logger";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -146,7 +147,11 @@ export async function deleteConversation(userId: number, convId: string) {
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   deleteR2Prefix(`chat/${convId}/`).catch((err) =>
-    console.warn("[R2] cleanup failed for", convId, err),
+    logger.error("R2 cleanup failed for conversation", {
+      context: "conversation.delete",
+      convId,
+      error: String(err),
+    }),
   );
   await db.delete(conversations).where(eq(conversations.id, conv.id));
 

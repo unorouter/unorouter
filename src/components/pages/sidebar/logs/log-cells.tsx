@@ -30,6 +30,10 @@ import {
   type LogRow,
 } from "./log-helpers";
 
+const LOG_EMPTY = (
+  <span className="text-muted-foreground text-xs">{"\u2014"}</span>
+);
+
 export function LogTimeCell({ row }: CellContext<LogRow, unknown>) {
   return (
     <span className="text-muted-foreground font-mono text-xs">
@@ -60,7 +64,7 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
   const t = useTranslations();
   const log = row.original;
   if (!isConsumeLike(log.type) || !log.model_name) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   return (
     <TooltipProvider>
@@ -92,7 +96,7 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
 export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
   const log = row.original;
   if (!isConsumeLike(log.type) || !log.token_name) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   return (
     <span className="text-muted-foreground text-xs">{log.token_name}</span>
@@ -103,7 +107,7 @@ export function LogInputTokensCell({ row }: CellContext<LogRow, unknown>) {
   const t = useTranslations();
   const log = row.original;
   if (!isConsumeLike(log.type)) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   const other = parseOther(log.other);
   const cacheRead = other?.cache_tokens ? Number(other.cache_tokens) : 0;
@@ -131,7 +135,7 @@ export function LogInputTokensCell({ row }: CellContext<LogRow, unknown>) {
 export function LogOutputTokensCell({ row }: CellContext<LogRow, unknown>) {
   const log = row.original;
   if (!isConsumeLike(log.type) || log.completion_tokens <= 0) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   return (
     <span className="font-mono text-xs tabular-nums">
@@ -147,7 +151,7 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
     (log.type !== LOG_TYPE_CONSUME && log.type !== LOG_TYPE_ERROR) ||
     !log.use_time
   ) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   const other = parseOther(log.other);
   const frt = other?.frt;
@@ -198,7 +202,7 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
 export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
   const log = row.original;
   if (!isConsumeLike(log.type)) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   return (
     <span className="font-mono text-xs font-medium tabular-nums">
@@ -210,7 +214,7 @@ export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
 export function LogDetailsCell({ row }: CellContext<LogRow, unknown>) {
   const log = row.original;
   if (!log.content) {
-    return <span className="text-muted-foreground text-xs">{"\u2014"}</span>;
+    return LOG_EMPTY;
   }
   return (
     <TooltipProvider>
