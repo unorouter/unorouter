@@ -26,7 +26,7 @@ const dark: ThemeColors = {
   border: "#1a1a1a",
   accent: "#22c55e",
   accentMuted: "#052e16",
-  brandRed: "#ef4444",
+  brandRed: "#b91c1c",
 };
 
 const light: ThemeColors = {
@@ -37,7 +37,7 @@ const light: ThemeColors = {
   border: "#e4e4e7",
   accent: "#16a34a",
   accentMuted: "#bbf7d0",
-  brandRed: "#dc2626",
+  brandRed: "#991b1b",
 };
 
 export function themeVars(theme: Theme): ThemeColors {

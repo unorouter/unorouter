@@ -4,9 +4,11 @@
 import { badgeQuery } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
+import type { Locale } from "next-intl";
+import type { BadgePricing, BadgeStats } from "./cache";
 import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
-import { parseTheme } from "./satori";
+import { parseTheme, type Theme } from "./satori";
 import { generateHero } from "./svg/hero";
 import { generatePricing } from "./svg/pricing";
 import { generateProviders } from "./svg/providers";
@@ -20,10 +22,47 @@ const SVG_HEADERS = {
   "cache-control": "public, max-age=300, s-maxage=300",
 };
 
+// ── Badge registry ────────────────────────────────────────
+
+interface BadgeCtx {
+  locale: Locale;
+  theme: Theme;
+  ref?: string;
+  stats: BadgeStats;
+  pricing: BadgePricing;
+}
+
+const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
+  banner: (c) => generateTokensBanner(c.stats, c.locale, c.theme, c.ref),
+  square: (c) => generateTokensSquare(c.stats, c.locale, c.theme, c.ref),
+  sponsor: (c) => generateSponsor(c.stats, c.locale, c.theme, c.ref),
+  providers: (c) => generateProviders(c.locale, c.theme, c.pricing.vendorNames),
+  pricing: (c) => generatePricing(c.locale, c.theme, c.pricing.rows),
+  hero: (c) => generateHero(c.stats, c.locale, c.theme, c.ref),
+  referral: (c) => generateReferral(c.locale, c.theme, c.ref ?? "YOUR_CODE"),
+};
+
+const BADGE_NAMES = Object.keys(BADGES);
+
+// ── /all preview page ─────────────────────────────────────
+
+function copyScript(name: string, qsStr: string): string {
+  return [
+    `navigator.clipboard.writeText(location.origin+'/api/badge/${name}${qsStr}')`,
+    `.then(()=>{`,
+    `let t=document.getElementById('toast');`,
+    `t.textContent='Copied: /api/badge/${name}';`,
+    `t.classList.add('show');`,
+    `setTimeout(()=>t.classList.remove('show'),1500)`,
+    `})`,
+  ].join("");
+}
+
 function AllPage(props: {
   bg: string;
   fg: string;
   muted: string;
+  qsStr: string;
   badges: { name: string; svg: string }[];
 }) {
   return (
@@ -35,137 +74,84 @@ function AllPage(props: {
 body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px}
 .grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
 .badge{flex:0 0 auto}
-h2{margin:0 0 8px;font-size:14px;color:${props.muted};text-transform:uppercase;letter-spacing:1px}
-svg{display:block;max-width:100%;height:auto}
+.header{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+.header a{font-size:14px;color:${props.muted};text-transform:uppercase;letter-spacing:1px;text-decoration:none;transition:color 0.15s}
+.header a:hover{color:${props.fg}}
+.header:hover .copy{opacity:0.7}
+.copy{background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center;color:${props.muted};opacity:0.6;transition:opacity 0.15s,color 0.15s}
+.copy:hover{opacity:1;color:${props.fg}}
+.copy-icon{width:16px;height:16px;filter:invert(${props.bg === "#111" ? "1" : "0"}) opacity(0.5)}
+.copy:hover .copy-icon{filter:invert(${props.bg === "#111" ? "1" : "0"}) opacity(1)}
+.badge>svg{display:block;overflow:visible}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.2s;pointer-events:none}
+.toast.show{opacity:1}
         `}</style>
       </head>
       <body>
         <div class="grid">
           {props.badges.map((b) => (
             <div class="badge">
-              <h2>{b.name}</h2>
+              <div class="header">
+                <a href={`/api/badge/${b.name}${props.qsStr}`} target="_blank">
+                  {b.name}
+                </a>
+                <button
+                  class="copy"
+                  onclick={copyScript(b.name, props.qsStr)}
+                  title="Copy badge URL"
+                >
+                  <img
+                    class="copy-icon"
+                    src="/icons/copy.svg"
+                    width="16"
+                    height="16"
+                  />
+                </button>
+              </div>
               {b.svg}
             </div>
           ))}
         </div>
+        <div id="toast" class="toast" />
       </body>
     </html>
   );
 }
 
+// ── Routes ────────────────────────────────────────────────
+
 export const badgeRoute = new Elysia({ prefix: "/badge" })
   .use(html({ autoDetect: false, autoDoctype: false }))
+  .resolve({ as: "local" }, ({ query }) => ({
+    locale: parseLocale(query.locale),
+    theme: parseTheme(query.theme),
+  }))
   .onBeforeHandle(({ set, path }) => {
     if (!path.endsWith("/all")) {
       Object.assign(set.headers, SVG_HEADERS);
     }
   })
   .get(
-    "/banner",
-    async ({ query }) => {
-      const stats = await getStats();
-      return generateTokensBanner(
-        stats,
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        query.ref,
-      );
-    },
-    { query: badgeQuery },
-  )
-  .get(
-    "/square",
-    async ({ query }) => {
-      const stats = await getStats();
-      return generateTokensSquare(
-        stats,
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        query.ref,
-      );
-    },
-    { query: badgeQuery },
-  )
-  .get(
-    "/sponsor",
-    async ({ query }) => {
-      const stats = await getStats();
-      return generateSponsor(
-        stats,
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        query.ref,
-      );
-    },
-    { query: badgeQuery },
-  )
-  .get(
-    "/providers",
-    async ({ query }) => {
-      const pricing = await getPricingData();
-      return generateProviders(
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        pricing.vendorNames,
-      );
-    },
-    { query: badgeQuery },
-  )
-  .get(
-    "/pricing",
-    async ({ query }) => {
-      const pricing = await getPricingData();
-      return generatePricing(
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        pricing.rows,
-      );
-    },
-    { query: badgeQuery },
-  )
-  .get(
-    "/hero",
-    async ({ query }) => {
-      const stats = await getStats();
-      return generateHero(
-        stats,
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        query.ref,
-      );
-    },
-    { query: badgeQuery },
-  )
-  .get(
-    "/referral",
-    async ({ query }) =>
-      generateReferral(
-        parseLocale(query.locale),
-        parseTheme(query.theme),
-        query.ref ?? "YOUR_CODE",
-      ),
-    { query: badgeQuery },
-  )
-  .get(
     "/all",
-    async ({ query, html }) => {
-      const locale = parseLocale(query.locale);
-      const theme = parseTheme(query.theme);
-      const ref = query.ref;
+    async ({ query, html, locale, theme }) => {
+      const qs = new URLSearchParams();
+      if (query.locale) qs.set("locale", query.locale);
+      if (query.theme) qs.set("theme", query.theme);
+      if (query.ref) qs.set("ref", query.ref);
+      const qsStr = qs.toString() ? `?${qs.toString()}` : "";
+
       const [stats, pricing] = await Promise.all([
         getStats(),
         getPricingData(),
       ]);
 
-      const badges = await Promise.all([
-        { name: "banner", svg: generateTokensBanner(stats, locale, theme, ref) },
-        { name: "square", svg: generateTokensSquare(stats, locale, theme, ref) },
-        { name: "sponsor", svg: generateSponsor(stats, locale, theme, ref) },
-        { name: "providers", svg: generateProviders(locale, theme, pricing.vendorNames) },
-        { name: "pricing", svg: generatePricing(locale, theme, pricing.rows) },
-        { name: "hero", svg: generateHero(stats, locale, theme, ref) },
-        { name: "referral", svg: generateReferral(locale, theme, ref ?? "YOUR_CODE") },
-      ].map(async (b) => ({ name: b.name, svg: await b.svg })));
+      const ctx: BadgeCtx = { locale, theme, ref: query.ref, stats, pricing };
+      const badges = await Promise.all(
+        BADGE_NAMES.map(async (name) => ({
+          name,
+          svg: await BADGES[name](ctx),
+        })),
+      );
 
       const isLight = query.theme === "light";
 
@@ -174,9 +160,26 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           bg={isLight ? "#fff" : "#111"}
           fg={isLight ? "#000" : "#fff"}
           muted={isLight ? "#666" : "#888"}
+          qsStr={qsStr}
           badges={badges}
         />,
       );
+    },
+    { query: badgeQuery },
+  )
+  .get(
+    "/:name",
+    async ({ params, query, locale, theme, set }) => {
+      const gen = BADGES[params.name];
+      if (!gen) {
+        set.status = 404;
+        return "Unknown badge";
+      }
+      const [stats, pricing] = await Promise.all([
+        getStats(),
+        getPricingData(),
+      ]);
+      return gen({ locale, theme, ref: query.ref, stats, pricing });
     },
     { query: badgeQuery },
   );

@@ -26,7 +26,7 @@ export async function generateReferral(
         <Brand c={c} logoSize={32} fontSize={16} gap={10} />
         <Row
           style={{
-            backgroundColor: c.accent,
+            backgroundColor: c.brandRed,
             borderRadius: 4,
             padding: "3px 10px",
           }}
@@ -36,7 +36,7 @@ export async function generateReferral(
               fontFamily: FONT_SANS,
               fontSize: 10,
               fontWeight: 700,
-              color: c.bg,
+              color: "#fff",
               textTransform: "uppercase",
               letterSpacing: 0.5,
             }}
@@ -78,7 +78,7 @@ export async function generateReferral(
         </span>
         <Col
           style={{
-            backgroundColor: c.accent,
+            backgroundColor: c.brandRed,
             borderRadius: 4,
             padding: "4px 12px",
           }}
@@ -88,7 +88,7 @@ export async function generateReferral(
               fontFamily: FONT_SANS,
               fontSize: 10,
               fontWeight: 700,
-              color: c.bg,
+              color: "#fff",
               textTransform: "uppercase",
               letterSpacing: 0.5,
             }}
