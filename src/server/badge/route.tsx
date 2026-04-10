@@ -82,7 +82,7 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
 .copy:hover{opacity:1;color:${props.fg}}
 .copy-icon{width:16px;height:16px;filter:invert(${props.bg === "#111" ? "1" : "0"}) opacity(0.5)}
 .copy:hover .copy-icon{filter:invert(${props.bg === "#111" ? "1" : "0"}) opacity(1)}
-.badge>svg{display:block;overflow:visible}
+.badge img.badge-img{display:block;max-width:100%;height:auto}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.2s;pointer-events:none}
 .toast.show{opacity:1}
         `}</style>
@@ -108,7 +108,10 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
                   />
                 </button>
               </div>
-              {b.svg}
+              <img
+                class="badge-img"
+                src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
+              />
             </div>
           ))}
         </div>
