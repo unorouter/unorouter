@@ -4,7 +4,7 @@ import { cipherMarker, pulseDot } from "../elements/cipher";
 import { t } from "../lib/cache";
 import { BrandName, Card, Logo } from "../elements/primitives";
 import { renderBadgeTemplate } from "../lib/utils";
-import { themeVars } from "../lib/theme";
+import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 import { formatCompact } from "../lib/utils";
 
@@ -88,7 +88,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 };
 
 export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
-  const c = themeVars(ctx.theme);
+  const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const value = formatCompact(ctx.stats.tokenUsed);
   const m1 = cipherMarker(1);

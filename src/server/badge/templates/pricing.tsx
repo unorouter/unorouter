@@ -6,7 +6,7 @@ import { Brand, Card, Row } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
 import { t } from "../lib/cache";
 import { renderBadgeTemplate } from "../lib/utils";
-import { themeVars } from "../lib/theme";
+import { THEME_COLORS } from "../lib/theme";
 import type {
   BadgeCtx,
   BadgeDimsBase,
@@ -224,7 +224,7 @@ function PriceRow(props: {
 }
 
 export async function generatePricing(ctx: BadgeCtx): Promise<string> {
-  const c = themeVars(ctx.theme);
+  const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const displayRows = ctx.pricing.rows.slice(0, d.maxRows);
   const size = computeSize(d, displayRows.length);

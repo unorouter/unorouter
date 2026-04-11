@@ -4,7 +4,7 @@ import { FONT_MONO, FONT_SANS } from "../elements/typography";
 import { t } from "../lib/cache";
 import { Brand, Card, Col, Row } from "../elements/primitives";
 import { renderBadgeTemplate } from "../lib/utils";
-import { themeVars } from "../lib/theme";
+import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
 
 interface Dims extends BadgeDimsBase {
@@ -111,7 +111,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 };
 
 export async function generateReferral(ctx: BadgeCtx): Promise<string> {
-  const c = themeVars(ctx.theme);
+  const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const ref = ctx.ref ?? "YOUR_CODE";
   const domain = new URL(env.appUrl).host;
@@ -213,5 +213,10 @@ export async function generateReferral(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  return renderBadgeTemplate({ node, width: d.W, height: d.H, staticMode: ctx.staticMode });
+  return renderBadgeTemplate({
+    node,
+    width: d.W,
+    height: d.H,
+    staticMode: ctx.staticMode,
+  });
 }

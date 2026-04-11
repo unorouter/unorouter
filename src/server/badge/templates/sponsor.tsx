@@ -4,7 +4,7 @@ import { cipherMarker } from "../elements/cipher";
 import { t } from "../lib/cache";
 import { Brand, Card, Col, Divider, Row } from "../elements/primitives";
 import { renderBadgeTemplate } from "../lib/utils";
-import { themeVars } from "../lib/theme";
+import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase, CipherTarget } from "../lib/types";
 
 interface Dims extends BadgeDimsBase {
@@ -105,7 +105,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 };
 
 export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
-  const c = themeVars(ctx.theme);
+  const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
   const requestCount = ctx.stats.requestCount.toLocaleString("en-US");

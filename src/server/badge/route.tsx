@@ -11,7 +11,7 @@ import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
-import { themeVars } from "./lib/theme";
+import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
 import { AllPage } from "./templates/all-page";
 import { generateHero } from "./templates/hero";
@@ -94,7 +94,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         }),
       );
 
-      const c = themeVars(theme);
+      const c = THEME_COLORS[theme];
       return html(
         <AllPage
           bg={c.previewBg}

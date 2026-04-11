@@ -5,7 +5,7 @@ import { cipherMarker } from "../elements/cipher";
 import { t } from "../lib/cache";
 import { Brand, Card, Row } from "../elements/primitives";
 import { renderBadgeTemplate } from "../lib/utils";
-import { themeVars } from "../lib/theme";
+import { THEME_COLORS } from "../lib/theme";
 import type {
   BadgeCtx,
   BadgeDimsBase,
@@ -150,7 +150,7 @@ function ProviderIcon(props: {
 }
 
 export async function generateProviders(ctx: BadgeCtx): Promise<string> {
-  const c = themeVars(ctx.theme);
+  const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const providerCount = `${ctx.pricing.vendorCount}+`;
   const modelCountValue = `${ctx.pricing.modelCount}+`;
