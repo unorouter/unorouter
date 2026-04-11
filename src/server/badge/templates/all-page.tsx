@@ -1,10 +1,12 @@
 /** @jsxImportSource @kitajs/html */
 /* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
+import type { BadgeFormat } from "@/lib/validation/badge";
+
 export function copyScript(
   name: string,
   qsStr: string,
-  format: "svg" | "png",
+  format: BadgeFormat,
 ): string {
   const sep = qsStr ? "&" : "?";
   const suffix = format === "png" ? `${sep}format=png` : "";

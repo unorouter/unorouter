@@ -1,5 +1,6 @@
-import type { BadgeSize } from "@/lib/validation/badge";
+import type { BadgeSize, Theme } from "@/lib/validation/badge";
 import type { Locale } from "next-intl";
+import { ReactNode } from "react";
 
 export interface BadgeStats {
   tokenUsed: number;
@@ -23,8 +24,6 @@ export interface BadgePricing {
   vendorModelCounts: Record<string, number>;
   rows: BadgePricingRow[];
 }
-
-export type Theme = "dark" | "light" | "auto";
 
 export interface ThemeColors {
   bg: string;
@@ -68,7 +67,7 @@ export interface CipherTarget {
 }
 
 export interface RenderTemplateOpts {
-  node: import("react").ReactNode;
+  node: ReactNode;
   width: number;
   height: number;
   smil?: string;

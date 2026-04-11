@@ -1,4 +1,5 @@
-import type { Theme, ThemeColors } from "./types";
+import { Theme } from "@/lib/validation/badge";
+import type {  ThemeColors } from "./types";
 
 const dark: ThemeColors = {
   bg: "#050505",

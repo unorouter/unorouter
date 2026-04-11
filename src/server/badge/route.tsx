@@ -2,9 +2,11 @@
 /* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
 import {
+  BADGE_SIZES,
+  BADGE_TYPES,
   badgeQuery,
-  parseBadgeSize,
   type BadgeSize,
+  type BadgeType,
 } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
@@ -32,7 +34,7 @@ const PNG_HEADERS = {
   "cache-control": "public, max-age=300, s-maxage=300",
 };
 
-const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
+const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   banner: generateTokensBanner,
   square: generateTokensSquare,
   sponsor: generateSponsor,
@@ -42,14 +44,12 @@ const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
   referral: generateReferral,
 };
 
-const BADGE_NAMES = Object.keys(BADGES);
-
 export const badgeRoute = new Elysia({ prefix: "/badge" })
   .use(html({ autoDetect: false, autoDoctype: false }))
   .resolve({ as: "local" }, ({ query }) => ({
     locale: parseLocale(query.locale),
     theme: parseTheme(query.theme),
-    size: parseBadgeSize(query.size),
+    size: (query.size ?? BADGE_SIZES[2]) as BadgeSize,
   }))
   .onBeforeHandle(({ set, path }) => {
     if (!path.endsWith("/all")) {
@@ -70,13 +70,12 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getPricingData(),
       ]);
 
-      const sizes: BadgeSize[] = ["xs", "sm", "md", "lg", "xl"];
-      const typeFilter = query.type?.toLowerCase();
-      const filteredNames = typeFilter
-        ? BADGE_NAMES.filter((n) => n === typeFilter)
-        : BADGE_NAMES;
+      const sizes = BADGE_SIZES;
+      const filteredTypes = query.type
+        ? BADGE_TYPES.filter((n) => n === query.type)
+        : BADGE_TYPES;
       const allBadges = await Promise.all(
-        filteredNames.map(async (name) => {
+        filteredTypes.map(async (name) => {
           const badges = await Promise.all(
             sizes.map(async (s) => {
               const ctx: BadgeCtx = {
@@ -113,7 +112,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   .get(
     "/:name",
     async ({ params, query, locale, theme, size, set }) => {
-      const gen = BADGES[params.name];
+      const gen = BADGES[params.name as BadgeType];
       if (!gen) {
         set.status = 404;
         return "Unknown badge";

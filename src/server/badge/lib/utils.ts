@@ -1,5 +1,5 @@
 import { Vendor } from "@/lib/types/enums";
-import type { BadgeSize } from "@/lib/validation/badge";
+import { THEMES, type BadgeSize, type Theme } from "@/lib/validation/badge";
 import { LOCALES } from "@/lib/config/constants";
 import type { Locale } from "next-intl";
 import { readFileSync } from "fs";
@@ -27,7 +27,7 @@ import stabilityAi from "thesvg/stability-ai";
 import vertexai from "thesvg/vertexai-google";
 import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
-import type { BadgeDimsBase, Theme } from "./types";
+import type { BadgeDimsBase } from "./types";
 
 
 export function formatCompact(n: number): string {
@@ -51,7 +51,7 @@ export function resolveDims<T extends BadgeDimsBase>(
 
 
 export function parseTheme(raw: string | undefined): Theme {
-  if (raw === "dark" || raw === "light") return raw;
+  if (THEMES.includes(raw as Theme)) return raw as Theme;
   return "auto";
 }
 
