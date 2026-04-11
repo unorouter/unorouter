@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LOCALES } from "@/lib/config/constants";
+import { LOCALES, affLink } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import {
   BADGE_SIZES,
@@ -49,9 +49,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const previewUrl = `/api/badge/${type}?${params.toString()}`;
 
   const badgeAbsoluteUrl = `${env.appUrl}/api/badge/${type}?${params.toString()}`;
-  const linkUrl = props.refCode
-    ? `${env.appUrl}/?aff=${props.refCode}`
-    : env.appUrl;
+  const linkUrl = affLink(props.refCode);
   const embedHtml = `<a href="${linkUrl}" target="_blank">\n  <img src="${badgeAbsoluteUrl}" alt="${env.appName}" />\n</a>`;
   const embedMarkdown = `[![${env.appName}](${badgeAbsoluteUrl})](${linkUrl})`;
   const embedBbcode = `[url=${linkUrl}][img]${badgeAbsoluteUrl}[/img][/url]`;

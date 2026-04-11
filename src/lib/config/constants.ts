@@ -12,6 +12,9 @@ export const USER_ID_COOKIE = "user-id" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AFF_CODE_KEY = "aff" as const;
+export function affLink(code?: string) {
+  return code ? `${env.appUrl}/?${AFF_CODE_KEY}=${code}` : env.appUrl;
+}
 export const GUEST_CONVS_COOKIE = "guest-convs" as const;
 
 export const SERVER_URL_KEY = "x-url" as const;

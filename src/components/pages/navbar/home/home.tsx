@@ -1,20 +1,16 @@
 import { ModelTicker } from "@/components/elements/fx/model-ticker";
 import { StreakCanvas } from "@/components/elements/fx/streak-canvas";
-import React, { Suspense } from "react";
+import React from "react";
 import { CodeSection } from "./code-section";
 import { CtaSection } from "./cta-section";
 import { HeroSection } from "./hero-section";
 import { IntegrationBanner } from "./integration-banner";
 import { PricingSection } from "./pricing-section";
-import { ReferralCapture } from "./referral-capture";
 import { ReliabilitySection } from "./reliability-section";
 
 export const Home: React.FC = () => {
   return (
     <>
-      <Suspense>
-        <ReferralCapture />
-      </Suspense>
       <StreakCanvas />
       <HeroSection />
       <IntegrationBanner />
