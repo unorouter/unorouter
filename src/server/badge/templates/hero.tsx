@@ -1,5 +1,5 @@
 import type { Locale } from "next-intl";
-import type { BadgeStats } from "../cache";
+import type { BadgeStats, BadgePricing } from "../cache";
 import { t } from "../i18n";
 import { formatFull } from "../lib/format";
 import { Card, Brand, Row } from "../lib/primitives";
@@ -12,14 +12,19 @@ export async function generateHero(
   stats: BadgeStats,
   locale: Locale,
   theme: Theme,
+  pricing: BadgePricing,
   _ref?: string,
 ): Promise<string> {
   const c = themeVars(theme);
   const tokenCount = formatFull(stats.tokenUsed);
   const tokensLabel = t(locale, "BADGE.TOKENS_SERVED");
+  const modelCount = `${pricing.modelCount}+`;
+  const uptimeValue = "99.9%";
   const W = 500;
   const H = 260;
-  const marker1 = cipherMarker(1);
+  const m1 = cipherMarker(1);
+  const m2 = cipherMarker(2);
+  const m3 = cipherMarker(3);
 
   const node = (
     <Card
@@ -43,9 +48,21 @@ export async function generateHero(
         {t(locale, "BADGE.UNIFIED_INTELLIGENCE").toUpperCase()}.
       </span>
       <Row style={{ flexWrap: "wrap", gap: 8 }}>
+        <Row style={{ width: "45%", alignItems: "center", gap: 4 }}>
+          <Dot text="" c={c} dotSize={6} fontSize={12} />
+          <MonoValue value={modelCount} c={c} size={12} cipherMarker={m2} />
+          <span style={{ fontFamily: FONT_SANS, fontSize: 12, color: c.text }}>
+            {t(locale, "BADGE.MODELS")}
+          </span>
+        </Row>
+        <Row style={{ width: "45%", alignItems: "center", gap: 4 }}>
+          <Dot text="" c={c} dotSize={6} fontSize={12} />
+          <MonoValue value={uptimeValue} c={c} size={12} cipherMarker={m3} />
+          <span style={{ fontFamily: FONT_SANS, fontSize: 12, color: c.text }}>
+            {t(locale, "BADGE.UPTIME")}
+          </span>
+        </Row>
         {[
-          `40+ ${t(locale, "BADGE.MODELS")}`,
-          `99.9% ${t(locale, "BADGE.UPTIME")}`,
           t(locale, "BADGE.SMART_ROUTING"),
           t(locale, "BADGE.LIVE_STATS"),
         ].map((label) => (
@@ -55,7 +72,7 @@ export async function generateHero(
         ))}
       </Row>
       <Row style={{ alignItems: "center", gap: 8 }}>
-        <MonoValue value={tokenCount} c={c} size={14} cipherMarker={marker1} />
+        <MonoValue value={tokenCount} c={c} size={14} cipherMarker={m1} />
         <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: c.muted }}>
           {tokensLabel}
         </span>
@@ -69,13 +86,15 @@ export async function generateHero(
     H,
     pulseDot(
       28 + tokenCount.length * 8.5 + tokensLabel.length * 6 + 24,
-      H - 34,
+      H - 36,
       3,
       c.accent,
     ),
   );
   svg = await processCipherMarkers(svg, [
-    { value: tokenCount, fontSize: 14, color: c.text, markerColor: marker1, loop: true },
+    { value: tokenCount, fontSize: 14, color: c.text, markerColor: m1, loop: true },
+    { value: modelCount, fontSize: 12, color: c.text, markerColor: m2 },
+    { value: uptimeValue, fontSize: 12, color: c.text, markerColor: m3 },
   ]);
   return svg;
 }

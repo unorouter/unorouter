@@ -1347,6 +1347,7 @@
     "LIVE_STATS": "Live-Statistiken",
     "CHEAPEST_API": "Günstigste Inferenz-API",
     "MODELS_ONE_ENDPOINT": "40+ KI-Modelle, ein Endpunkt",
+    "MODELS_ONE_ENDPOINT_SUFFIX": "KI-Modelle, ein Endpunkt",
     "DIRECT": "Direkt",
     "MODEL": "Modell",
     "PRICES_NOTE": "Preise pro 1M Tokens",

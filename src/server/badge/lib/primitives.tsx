@@ -3,6 +3,7 @@ import { env } from "@/lib/config/env";
 import type { CSSProperties, ReactNode } from "react";
 import { logoDataUri } from "./logo";
 import type { ThemeColors } from "./theme";
+import { FONT_SANS } from "./typography";
 
 // Brand name split from env: "UnoRouter" → ["Uno", "Router"], TLD from domain
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
@@ -86,7 +87,7 @@ export function BrandName(props: { c: ThemeColors; size?: number }) {
   return (
     <Row
       style={{
-        fontFamily: "Space Grotesk",
+        fontFamily: FONT_SANS,
         fontSize,
         fontWeight: 700,
         letterSpacing: 0.5,

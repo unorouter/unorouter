@@ -6,7 +6,7 @@ import { Card, Logo, BrandName } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
 import { MonoValue, Label } from "../lib/typography";
-import { pulseDot } from "./cipher";
+import { cipherMarker, processCipherMarkers, pulseDot } from "./cipher";
 
 export async function generateTokensSquare(
   stats: BadgeStats,
@@ -17,6 +17,8 @@ export async function generateTokensSquare(
   const c = themeVars(theme);
   const W = 200;
   const H = 200;
+  const value = formatCompact(stats.tokenUsed);
+  const m1 = cipherMarker(1);
 
   const node = (
     <Card
@@ -32,10 +34,14 @@ export async function generateTokensSquare(
     >
       <Logo size={56} />
       <BrandName c={c} size={14} />
-      <MonoValue value={formatCompact(stats.tokenUsed)} c={c} size={24} />
+      <MonoValue value={value} c={c} size={24} cipherMarker={m1} />
       <Label text={t(locale, "BADGE.TOKENS_SERVED")} c={c} size={10} />
     </Card>
   );
 
-  return renderBadge(node, W, H, pulseDot(W / 2, H - 22, 3, c.accent));
+  let svg = await renderBadge(node, W, H, pulseDot(W / 2, H - 22, 3, c.accent));
+  svg = await processCipherMarkers(svg, [
+    { value, fontSize: 24, color: c.text, markerColor: m1 },
+  ]);
+  return svg;
 }

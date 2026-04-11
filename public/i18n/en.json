@@ -1347,6 +1347,7 @@
     "LIVE_STATS": "Live Stats",
     "CHEAPEST_API": "Cheapest Inference API",
     "MODELS_ONE_ENDPOINT": "40+ AI models, one endpoint",
+    "MODELS_ONE_ENDPOINT_SUFFIX": "AI models, one endpoint",
     "DIRECT": "Direct",
     "MODEL": "Model",
     "PRICES_NOTE": "Prices per 1M tokens",

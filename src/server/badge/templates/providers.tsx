@@ -19,7 +19,8 @@ import { t } from "../i18n";
 import { Brand, Card, Row } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme, type ThemeColors } from "../lib/theme";
-import { FONT_SANS } from "../lib/typography";
+import { FONT_SANS, MonoValue } from "../lib/typography";
+import { cipherMarker, processCipherMarkers } from "./cipher";
 
 /** Strip all fill declarations so we can control icon color via parent svg fill */
 function stripFills(svg: string): string {
@@ -87,7 +88,7 @@ function ProviderIcon(props: {
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-      <img src={svgDataUri(props.svg, props.c.muted)} width={28} height={28} />
+      <img src={svgDataUri(props.svg, props.c.text)} width={28} height={28} />
       <span
         style={{ fontFamily: FONT_SANS, fontSize: 8, color: props.c.muted }}
       >
@@ -105,6 +106,8 @@ export async function generateProviders(
   const c = themeVars(theme);
   const W = 460;
   const H = 280;
+  const countValue = `${vendorNames.length}+`;
+  const m1 = cipherMarker(1);
 
   const resolved = vendorNames
     .map((name) => ({ name, svg: getVendorIcon(name) }))
@@ -122,17 +125,29 @@ export async function generateProviders(
         justifyContent: "space-between",
       }}
     >
-      <span
-        style={{
-          fontFamily: FONT_SANS,
-          fontSize: 14,
-          fontWeight: 600,
-          color: c.text,
-        }}
-      >
-        {t(locale, "BADGE.POWERED_BY")} {vendorNames.length}+{" "}
-        {t(locale, "BADGE.PROVIDERS")}
-      </span>
+      <Row style={{ alignItems: "baseline", gap: 6 }}>
+        <span
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: 14,
+            fontWeight: 600,
+            color: c.text,
+          }}
+        >
+          {t(locale, "BADGE.POWERED_BY")}
+        </span>
+        <MonoValue value={countValue} c={c} size={14} cipherMarker={m1} />
+        <span
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: 14,
+            fontWeight: 600,
+            color: c.text,
+          }}
+        >
+          {t(locale, "BADGE.PROVIDERS")}
+        </span>
+      </Row>
       <Row style={{ flexWrap: "wrap", gap: 12 }}>
         {resolved.map((p) => (
           <ProviderIcon key={p.name} name={p.name} svg={p.svg} c={c} />
@@ -185,5 +200,9 @@ export async function generateProviders(
     </Card>
   );
 
-  return renderBadge(node, W, H);
+  let svg = await renderBadge(node, W, H);
+  svg = await processCipherMarkers(svg, [
+    { value: countValue, fontSize: 14, color: c.text, markerColor: m1 },
+  ]);
+  return svg;
 }

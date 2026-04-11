@@ -1,28 +1,31 @@
 import type { Locale } from "next-intl";
-import type { BadgeStats } from "../cache";
+import type { BadgePricing, BadgeStats } from "../cache";
 import { t } from "../i18n";
 import { formatFull } from "../lib/format";
 import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
-import { Stat, Dot, FONT_SANS } from "../lib/typography";
+import { Stat, Dot, FONT_SANS, MonoValue } from "../lib/typography";
 import { cipherMarker, processCipherMarkers, pulseDot } from "./cipher";
 
 export async function generateSponsor(
   stats: BadgeStats,
   locale: Locale,
   theme: Theme,
+  pricing: BadgePricing,
   _ref?: string,
 ): Promise<string> {
   const c = themeVars(theme);
   const tokenCount = formatFull(stats.tokenUsed);
   const requestCount = formatFull(stats.requestCount);
   const tpmCount = formatFull(stats.avgTpm);
+  const modelCount = `${pricing.modelCount}+`;
   const W = 800;
   const H = 280;
   const m1 = cipherMarker(1);
   const m2 = cipherMarker(2);
   const m3 = cipherMarker(3);
+  const m4 = cipherMarker(4);
 
   const node = (
     <Card c={c}>
@@ -42,7 +45,20 @@ export async function generateSponsor(
           >
             {t(locale, "BADGE.UNIFIED_INTELLIGENCE_API")}
           </span>
-          <Dot text={t(locale, "BADGE.MODELS_ONE_ENDPOINT")} c={c} />
+          <Row style={{ alignItems: "center", gap: 4, marginTop: 4 }}>
+            <Row
+              style={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                backgroundColor: c.accent,
+              }}
+            />
+            <MonoValue value={modelCount} c={c} size={13} cipherMarker={m4} />
+            <span style={{ fontFamily: FONT_SANS, fontSize: 13, color: c.text }}>
+              {t(locale, "BADGE.MODELS_ONE_ENDPOINT_SUFFIX")}
+            </span>
+          </Row>
           <Dot text={t(locale, "BADGE.SMART_ROUTING")} c={c} />
           <Dot text={t(locale, "BADGE.CHEAPEST_API")} c={c} />
         </Col>
@@ -108,6 +124,7 @@ export async function generateSponsor(
     { value: tokenCount, fontSize: 22, color: c.text, markerColor: m1, loop: true },
     { value: requestCount, fontSize: 22, color: c.text, markerColor: m2, loop: true },
     { value: tpmCount, fontSize: 22, color: c.text, markerColor: m3, loop: true },
+    { value: modelCount, fontSize: 13, color: c.text, markerColor: m4 },
   ]);
   return svg;
 }
