@@ -2,7 +2,6 @@ import type { Locale } from "next-intl";
 import type { BadgeStats } from "../cache";
 import { t } from "../i18n";
 import { renderBadge, themeVars, formatCompact, type Theme } from "../satori";
-import { cipherMarker, processCipherMarkers } from "./cipher";
 import {
   Card,
   Logo,
@@ -21,8 +20,6 @@ export async function generateTokensSquare(
   const c = themeVars(theme);
   const W = 200;
   const H = 200;
-  const tokenCount = formatCompact(stats.tokenUsed);
-  const marker1 = cipherMarker(1);
 
   const node = (
     <Card
@@ -38,14 +35,10 @@ export async function generateTokensSquare(
     >
       <Logo size={56} />
       <BrandName c={c} size={14} />
-      <MonoValue value={tokenCount} c={c} size={24} cipherMarker={marker1} />
+      <MonoValue value={formatCompact(stats.tokenUsed)} c={c} size={24} />
       <Label text={t(locale, "BADGE.TOKENS_SERVED")} c={c} size={10} />
     </Card>
   );
 
-  let svg = await renderBadge(node, W, H, pulseDot(W / 2, H - 22, 3, c.accent));
-  svg = await processCipherMarkers(svg, [
-    { value: tokenCount, fontSize: 24, color: c.text, markerColor: marker1, loop: true },
-  ]);
-  return svg;
+  return renderBadge(node, W, H, pulseDot(W / 2, H - 22, 3, c.accent));
 }

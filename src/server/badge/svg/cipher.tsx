@@ -1,5 +1,5 @@
-import { default as satori } from "satori";
 import type { SatoriOptions } from "satori";
+import { default as satori } from "satori";
 import { badgeFonts } from "../satori";
 import { FONT_MONO } from "./components";
 
@@ -7,10 +7,38 @@ import { FONT_MONO } from "./components";
 
 const DIGITS = "0123456789";
 const FRAME_COUNT = 8;
-const FRAME_DURATION_MS = 120;
-const SETTLE_DURATION_MS = 200;
+const FRAME_DURATION_MIN_MS = 100;
+const FRAME_DURATION_MAX_MS = 140;
+const STAGGER_MAX_MS = 300;
+
+// ── SVG string builder (like snk's h() helper) ───────────
+
+/** Build a self-closing SVG element string */
+function el(tag: string, attrs: Record<string, string | number>): string {
+  const a = Object.entries(attrs)
+    .map(([k, v]) => `${k}="${v}"`)
+    .join(" ");
+  return `<${tag} ${a}/>`;
+}
+
+/** Build an SVG element string with children */
+function wrap(
+  tag: string,
+  attrs: Record<string, string | number>,
+  children: string,
+): string {
+  const a = Object.entries(attrs)
+    .map(([k, v]) => `${k}="${v}"`)
+    .join(" ");
+  return `<${tag} ${a}>${children}</${tag}>`;
+}
 
 // ── Helpers ───────────────────────────────────────────────
+
+/** Random int in [min, max] */
+function randInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 /** Only scramble digit characters; preserve letters, dots, commas, plus, etc. */
 function scrambleValue(value: string): string {
@@ -28,8 +56,6 @@ function scrambleValue(value: string): string {
 /**
  * Scramble only the right half of digit positions.
  * Left-half digits keep their real values, right-half digits randomize.
- * E.g. "65,118" -> digit positions are [0,1,3,4,5], midpoint=2,
- * so positions 3,4,5 scramble: "65,802"
  */
 function scrambleRightHalf(value: string): string {
   const digitPositions: number[] = [];
@@ -156,11 +182,14 @@ async function buildCipherAnimation(
   y: number,
   loop: boolean,
 ): Promise<string> {
+  // Each cipher target gets independent timing so they feel organic
+  const frameDur = randInt(FRAME_DURATION_MIN_MS, FRAME_DURATION_MAX_MS);
+  const stagger = randInt(0, STAGGER_MAX_MS);
+
   const w = Math.ceil(fontSize * 0.65 * value.length) + 20;
   const h = Math.ceil(fontSize * 1.5);
   const opts: SatoriOptions = { width: w, height: h, fonts: badgeFonts() };
 
-  // Initial full-scramble frames (used for the intro cipher on all modes)
   const introJobs = [
     renderTextPath(value, fontSize, opts),
     ...Array.from({ length: FRAME_COUNT }, () =>
@@ -180,108 +209,132 @@ async function buildCipherAnimation(
   const dy = y - originY;
 
   if (loop) {
-    // Render right-half-only scramble frames for the continuous loop
     const loopDs = await Promise.all(
       Array.from({ length: FRAME_COUNT }, () =>
         renderTextPath(scrambleRightHalf(value), fontSize, opts),
       ),
     );
-    return buildLoopingCipher(introDs, loopDs, realPathD, color, dx, dy);
+    return renderLoopingCipher(introDs, loopDs, color, dx, dy, frameDur, stagger);
   }
-  return buildSettleCipher(introDs, realPathD, color, dx, dy);
+  return renderSettleCipher(introDs, realPathD, color, dx, dy, frameDur, stagger);
 }
 
+// ── Animation renderers using visibility + <set> ─────────
+//
+// Uses <set attributeName="visibility"> for discrete frame switching.
+// Unlike opacity animation, visibility is inherently discrete (no
+// interpolation), eliminating flash/gap artifacts between frames.
+// See: https://developer.mozilla.org/en-US/docs/Web/SVG/Guides/SVG_animation_with_SMIL
+
 /** Scramble plays once then settles on the real value permanently */
-function buildSettleCipher(
+function renderSettleCipher(
   scrambleDs: string[],
   realPathD: string,
   color: string,
   dx: number,
   dy: number,
+  frameDurMs: number,
+  staggerMs: number,
 ): string {
+  const durS = (frameDurMs / 1000).toFixed(3);
   const parts: string[] = [];
 
+  // Scramble frames: each visible for exactly one slot via <set>
   for (let i = 0; i < scrambleDs.length; i++) {
     if (!scrambleDs[i]) continue;
-    const beginS = ((i * FRAME_DURATION_MS) / 1000).toFixed(3);
-    const durS = (FRAME_DURATION_MS / 1000).toFixed(3);
-
+    const beginS = ((staggerMs + i * frameDurMs) / 1000).toFixed(3);
+    const path = el("path", { fill: color, d: scrambleDs[i] });
+    const show = el("set", {
+      attributeName: "visibility",
+      to: "visible",
+      begin: `${beginS}s`,
+      dur: `${durS}s`,
+    });
     parts.push(
-      `<g transform="translate(${dx},${dy})" opacity="0">` +
-        `<path fill="${color}" d="${scrambleDs[i]}"/>` +
-        `<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.01;0.99;1" dur="${durS}s" begin="${beginS}s" fill="freeze"/>` +
-        `</g>`,
+      wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, path + show),
     );
   }
 
-  const realBeginS = ((FRAME_COUNT * FRAME_DURATION_MS) / 1000).toFixed(3);
-  const settleDurS = (SETTLE_DURATION_MS / 1000).toFixed(3);
-
+  // Real value: becomes visible after all scramble frames and stays
+  const realBeginS = ((staggerMs + FRAME_COUNT * frameDurMs) / 1000).toFixed(3);
+  const realPath = el("path", { fill: color, d: realPathD });
+  const realShow = el("set", {
+    attributeName: "visibility",
+    to: "visible",
+    begin: `${realBeginS}s`,
+    fill: "freeze",
+  });
   parts.push(
-    `<g transform="translate(${dx},${dy})" opacity="0">` +
-      `<path fill="${color}" d="${realPathD}"/>` +
-      `<animate attributeName="opacity" values="0;1" dur="${settleDurS}s" begin="${realBeginS}s" fill="freeze"/>` +
-      `</g>`,
+    wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, realPath + realShow),
   );
 
   return parts.join("");
 }
 
 /**
- * Seamless cipher: intro full-scramble frames flow directly into
- * right-half-only loop frames with no gap or pause.
+ * Intro full-scramble frames flow directly into right-half-only loop frames.
+ * Intro plays once sequentially, then loop repeats indefinitely.
  *
- * Intro frames (all digits scrambled) play sequentially, then the loop
- * frames (only right-half digits scrambled) continue immediately and
- * repeat indefinitely via SMIL event chaining.
+ * Uses <animate calcMode="discrete"> on visibility for the loop phase,
+ * giving frame-perfect switching with zero flash.
  */
-function buildLoopingCipher(
+function renderLoopingCipher(
   introDs: string[],
   loopDs: string[],
-  _realPathD: string,
   color: string,
   dx: number,
   dy: number,
+  frameDurMs: number,
+  staggerMs: number,
 ): string {
+  const durS = (frameDurMs / 1000).toFixed(3);
+  const validLoopFrames = loopDs.filter(Boolean);
   const parts: string[] = [];
-  const durS = (FRAME_DURATION_MS / 1000).toFixed(3);
 
-  // ── Intro frames: play once sequentially ──
+  // Intro frames: each visible for exactly one slot via <set>
   for (let i = 0; i < introDs.length; i++) {
     if (!introDs[i]) continue;
-    const beginS = ((i * FRAME_DURATION_MS) / 1000).toFixed(3);
-
+    const beginS = ((staggerMs + i * frameDurMs) / 1000).toFixed(3);
+    const path = el("path", { fill: color, d: introDs[i] });
+    const show = el("set", {
+      attributeName: "visibility",
+      to: "visible",
+      begin: `${beginS}s`,
+      dur: `${durS}s`,
+    });
     parts.push(
-      `<g transform="translate(${dx},${dy})" opacity="0">` +
-        `<path fill="${color}" d="${introDs[i]}"/>` +
-        `<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.01;0.99;1" dur="${durS}s" begin="${beginS}s" fill="freeze"/>` +
-        `</g>`,
+      wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, path + show),
     );
   }
 
-  // ── Loop frames: start immediately after intro, repeat forever ──
-  const validLoopFrames = loopDs.filter(Boolean);
-  if (validLoopFrames.length === 0) return parts.join("");
+  // Loop frames: use calcMode="discrete" with visibility values
+  // Each frame gets its own <animate> that cycles between visible/hidden
+  // timed so exactly one frame is visible at any point in the cycle
+  if (validLoopFrames.length > 0) {
+    const loopStartMs = staggerMs + FRAME_COUNT * frameDurMs;
+    const loopStartS = (loopStartMs / 1000).toFixed(3);
+    const cycleDur = validLoopFrames.length * frameDurMs;
+    const cycleDurS = (cycleDur / 1000).toFixed(3);
 
-  // Loop starts right when the last intro frame ends
-  const loopStartMs = FRAME_COUNT * FRAME_DURATION_MS;
-  const uid = `cl${Math.abs(Math.round(dx * 100 + dy * 10))}`;
-  const lastIdx = validLoopFrames.length - 1;
+    for (let i = 0; i < validLoopFrames.length; i++) {
+      // Build values: "hidden" for all slots except this one which is "visible"
+      const values = validLoopFrames
+        .map((_, f) => (f === i ? "visible" : "hidden"))
+        .join(";");
 
-  for (let i = 0; i < validLoopFrames.length; i++) {
-    const firstBeginMs = loopStartMs + i * FRAME_DURATION_MS;
-    const firstBeginS = (firstBeginMs / 1000).toFixed(3);
-    const offsetS = ((i * FRAME_DURATION_MS) / 1000).toFixed(3);
-    // First play: absolute time. Repeats: relative to last frame ending.
-    const beginAttr = `${firstBeginS}s;${uid}.end+${offsetS}s`;
-    const idAttr = i === lastIdx ? ` id="${uid}"` : "";
-
-    parts.push(
-      `<g transform="translate(${dx},${dy})" opacity="0">` +
-        `<path fill="${color}" d="${validLoopFrames[i]}"/>` +
-        `<animate${idAttr} attributeName="opacity" values="0;1;1;0" keyTimes="0;0.01;0.99;1" dur="${durS}s" begin="${beginAttr}" fill="freeze"/>` +
-        `</g>`,
-    );
+      const path = el("path", { fill: color, d: validLoopFrames[i] });
+      const anim = el("animate", {
+        attributeName: "visibility",
+        values,
+        calcMode: "discrete",
+        dur: `${cycleDurS}s`,
+        begin: `${loopStartS}s`,
+        repeatCount: "indefinite",
+      });
+      parts.push(
+        wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, path + anim),
+      );
+    }
   }
 
   return parts.join("");
