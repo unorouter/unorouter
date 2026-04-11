@@ -1,4 +1,9 @@
 import { Vendor } from "@/lib/types/enums";
+import type { BadgeSize } from "@/lib/validation/badge";
+import { LOCALES } from "@/lib/config/constants";
+import type { Locale } from "next-intl";
+import { readFileSync } from "fs";
+import { join } from "path";
 import anthropic from "thesvg/anthropic";
 import bailian from "thesvg/bailian";
 import bytedance from "thesvg/bytedance";
@@ -14,8 +19,56 @@ import openai from "thesvg/openai";
 import stabilityAi from "thesvg/stability-ai";
 import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
+import type { BadgeDimsBase, Theme } from "./types";
 
-/** Strip all fill declarations so we can control icon color via parent svg fill */
+// ── Formatting ────────────────────────────────────────────
+
+export function formatCompact(n: number): string {
+  if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return n.toString();
+}
+
+export function formatFull(n: number): string {
+  return n.toLocaleString("en-US");
+}
+
+// ── Dims ──────────────────────────────────────────────────
+
+export function resolveDims<T extends BadgeDimsBase>(
+  configs: Partial<Record<BadgeSize, T>>,
+  size: BadgeSize,
+): T {
+  return configs[size] ?? configs.md!;
+}
+
+// ── Parsing ───────────────────────────────────────────────
+
+export function parseTheme(raw: string | undefined): Theme {
+  if (raw === "dark" || raw === "light") return raw;
+  return "auto";
+}
+
+export function parseLocale(raw: string | undefined): Locale {
+  if (LOCALES.includes(raw as Locale)) return raw as Locale;
+  return LOCALES[0];
+}
+
+// ── Logo ──────────────────────────────────────────────────
+
+let cachedLogoUri: string | null = null;
+
+export function logoDataUri(): string {
+  if (cachedLogoUri) return cachedLogoUri;
+  const path = join(process.cwd(), "public", "logo.png");
+  const buffer = readFileSync(path);
+  cachedLogoUri = `data:image/png;base64,${buffer.toString("base64")}`;
+  return cachedLogoUri;
+}
+
+// ── Vendor icons ──────────────────────────────────────────
+
 function stripFills(svg: string): string {
   return svg
     .replace(/fill="[^"]*"/g, "")
@@ -26,7 +79,6 @@ function pickVariant(v: Record<string, string>): string {
   return stripFills(v.mono ?? v.light ?? v.default);
 }
 
-/** Vendor enum → monochrome SVG string */
 const VENDOR_ICONS: Record<Vendor, string> = {
   [Vendor.OPENAI]: pickVariant(openai.variants),
   [Vendor.ANTHROPIC]: pickVariant(anthropic.variants),

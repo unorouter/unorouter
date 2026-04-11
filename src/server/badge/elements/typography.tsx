@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
+import type { ThemeColors } from "../lib/types";
 import { Col, Row } from "./primitives";
-import type { ThemeColors } from "./theme";
 
 export const FONT_SANS = "Space Grotesk";
 export const FONT_MONO = "JetBrains Mono";

@@ -1,27 +1,20 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { formatPrice } from "@/lib/utils/base";
 import type { BadgeSize } from "@/lib/validation/badge";
-import type { BadgePricingRow } from "../cache";
-import { t } from "../i18n";
-import {
-  type BadgeCtx,
-  type BadgeDimsBase,
-  Brand,
-  Card,
-  type CipherTarget,
-  FONT_MONO,
-  FONT_SANS,
-  Label,
-  MonoValue,
-  Row,
-  type ThemeColors,
-  cipherMarker,
-  getVendorIcon,
-  renderBadgeTemplate,
-  resolveDims,
-  svgDataUri,
-  themeVars,
-} from "../lib";
+import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
+import type { BadgePricingRow } from "../lib/types";
+import { cipherMarker } from "../elements/cipher";
+import { t } from "../lib/i18n";
+import { Brand, Card, Row } from "../elements/primitives";
+import { renderBadgeTemplate } from "../lib/render";
+import { themeVars } from "../lib/theme";
+import type {
+  BadgeCtx,
+  BadgeDimsBase,
+  CipherTarget,
+  ThemeColors,
+} from "../lib/types";
+import { getVendorIcon, resolveDims, svgDataUri } from "../lib/utils";
 
 // ── Dims ──────────────────────────────────────────────────
 

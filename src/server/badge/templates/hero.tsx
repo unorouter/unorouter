@@ -1,21 +1,12 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { t } from "../i18n";
-import {
-  type BadgeCtx,
-  type BadgeDimsBase,
-  type CipherTarget,
-  resolveDims,
-  formatFull,
-  themeVars,
-  cipherMarker,
-  renderBadgeTemplate,
-  Card,
-  Brand,
-  Row,
-  Dot,
-  MonoValue,
-  FONT_SANS,
-} from "../lib";
+import { Dot, FONT_SANS, MonoValue } from "../elements/typography";
+import { cipherMarker } from "../elements/cipher";
+import { t } from "../lib/i18n";
+import { Brand, Card, Row } from "../elements/primitives";
+import { renderBadgeTemplate } from "../lib/render";
+import { themeVars } from "../lib/theme";
+import type { BadgeCtx, BadgeDimsBase, CipherTarget } from "../lib/types";
+import { formatFull, resolveDims } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;

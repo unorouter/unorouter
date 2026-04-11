@@ -1,25 +1,4 @@
-// ── Theme ──────────────────────────────────────────────────
-
-export type Theme = "dark" | "light" | "auto";
-
-export interface ThemeColors {
-  bg: string;
-  cardBg: string;
-  text: string;
-  muted: string;
-  border: string;
-  accent: string;
-  accentMuted: string;
-  brandRed: string;
-  badgeBg: string;
-  badgeText: string;
-  /** Marker color for pulse dot placeholders (replaced post-render) */
-  pulseDotMarker: string;
-  /** Preview page colors */
-  previewBg: string;
-  previewFg: string;
-  previewMuted: string;
-}
+import type { Theme, ThemeColors } from "./types";
 
 const dark: ThemeColors = {
   bg: "#050505",
@@ -57,10 +36,5 @@ const light: ThemeColors = {
 
 export function themeVars(theme: Theme): ThemeColors {
   if (theme === "light") return light;
-  return dark; // dark and auto both resolve to dark
-}
-
-export function parseTheme(raw: string | undefined): Theme {
-  if (raw === "dark" || raw === "light") return raw;
-  return "auto";
+  return dark;
 }

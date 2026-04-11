@@ -9,11 +9,11 @@ import {
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import sharp from "sharp";
-import { getPricingData, getStats } from "./cache";
-import { parseLocale } from "./i18n";
-import type { BadgeCtx } from "./lib/context";
-import { setStaticMode } from "./lib/cipher";
-import { parseTheme, themeVars } from "./lib/theme";
+import { getPricingData, getStats } from "./lib/cache";
+import { setStaticMode } from "./elements/cipher";
+import { themeVars } from "./lib/theme";
+import type { BadgeCtx } from "./lib/types";
+import { parseLocale, parseTheme } from "./lib/utils";
 import { AllPage } from "./templates/all-page";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";

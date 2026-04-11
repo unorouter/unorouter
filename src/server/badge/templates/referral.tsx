@@ -1,19 +1,12 @@
 import { env } from "@/lib/config/env";
 import type { BadgeSize } from "@/lib/validation/badge";
-import { t } from "../i18n";
-import {
-  type BadgeCtx,
-  type BadgeDimsBase,
-  resolveDims,
-  themeVars,
-  renderBadgeTemplate,
-  Card,
-  Brand,
-  Col,
-  Row,
-  FONT_MONO,
-  FONT_SANS,
-} from "../lib";
+import { FONT_MONO, FONT_SANS } from "../elements/typography";
+import { t } from "../lib/i18n";
+import { Brand, Card, Col, Row } from "../elements/primitives";
+import { renderBadgeTemplate } from "../lib/render";
+import { themeVars } from "../lib/theme";
+import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
+import { resolveDims } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;

@@ -1,24 +1,18 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import type { BadgeSize } from "@/lib/validation/badge";
-import { t } from "../i18n";
-import {
-  type BadgeCtx,
-  type BadgeDimsBase,
-  type CipherTarget,
-  type ThemeColors,
-  resolveDims,
-  themeVars,
-  cipherMarker,
-  renderBadgeTemplate,
-  getVendorIcon,
-  svgDataUri,
-  Brand,
-  Card,
-  Row,
-  MonoValue,
-  FONT_MONO,
-  FONT_SANS,
-} from "../lib";
+import { FONT_MONO, FONT_SANS, MonoValue } from "../elements/typography";
+import { cipherMarker } from "../elements/cipher";
+import { t } from "../lib/i18n";
+import { Brand, Card, Row } from "../elements/primitives";
+import { renderBadgeTemplate } from "../lib/render";
+import { themeVars } from "../lib/theme";
+import type {
+  BadgeCtx,
+  BadgeDimsBase,
+  CipherTarget,
+  ThemeColors,
+} from "../lib/types";
+import { getVendorIcon, resolveDims, svgDataUri } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   headerFont: number;

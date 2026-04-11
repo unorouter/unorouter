@@ -29,8 +29,3 @@ export function t(locale: Locale, key: string): string {
     return key;
   }
 }
-
-export function parseLocale(raw: string | undefined): Locale {
-  if (LOCALES.includes(raw as Locale)) return raw as Locale;
-  return LOCALES[0];
-}

@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { env } from "@/lib/config/env";
 import type { CSSProperties, ReactNode } from "react";
-import { logoDataUri } from "./logo";
-import type { ThemeColors } from "./theme";
+import type { ThemeColors } from "../lib/types";
+import { logoDataUri } from "../lib/utils";
 import { FONT_SANS } from "./typography";
 
 // Brand name split from env: "UnoRouter" → ["Uno", "Router"], TLD from domain

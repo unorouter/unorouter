@@ -2,7 +2,8 @@
 
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
-import { badgeFonts } from "./render";
+import type { CipherTarget } from "../lib/types";
+import { fonts } from "../lib/render";
 import { FONT_MONO } from "./typography";
 
 // ── Config ────────────────────────────────────────────────
@@ -150,21 +151,7 @@ function LoopFrame(props: {
 
 // ── Public API ────────────────────────────────────────────
 
-export interface CipherTarget {
-  /** The real display value, e.g. "3,094,930,527" */
-  value: string;
-  /** Font size used in the badge for this value */
-  fontSize: number;
-  /** Fill color for the text (theme-dependent) */
-  color: string;
-  /** Unique marker color assigned to this value in the Satori render */
-  markerColor: string;
-  /**
-   * When true, after the initial cipher settles the right half of digits
-   * keeps scrambling continuously (live counter look).
-   */
-  loop?: boolean;
-}
+export type { CipherTarget } from "../lib/types";
 
 /**
  * When true, processCipherMarkers replaces marker fills instead of animating,
@@ -328,7 +315,7 @@ async function buildCipherAnimation(
 
   const w = Math.ceil(fontSize * 0.65 * value.length) + 20;
   const h = Math.ceil(fontSize * 1.5);
-  const opts: SatoriOptions = { width: w, height: h, fonts: badgeFonts() };
+  const opts: SatoriOptions = { width: w, height: h, fonts };
 
   const introJobs = [
     renderTextPath(value, fontSize, opts),

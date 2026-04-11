@@ -2,30 +2,8 @@ import { buildPricingSummary } from "@/lib/api/pricing";
 import { FAR_FUTURE } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import { getAllQuotaDates, getPricing } from "@/openapi";
-import { ADMIN_HEADERS } from "../constants";
-
-export interface BadgeStats {
-  tokenUsed: number;
-  requestCount: number;
-  avgTpm: number;
-}
-
-export interface BadgePricingRow {
-  model: string;
-  vendor: string;
-  inputPrice: number;
-  outputPrice: number;
-  originalInputPrice: number | null;
-  originalOutputPrice: number | null;
-}
-
-export interface BadgePricing {
-  modelCount: number;
-  vendorCount: number;
-  vendorNames: string[];
-  vendorModelCounts: Record<string, number>;
-  rows: BadgePricingRow[];
-}
+import { ADMIN_HEADERS } from "../../constants";
+import type { BadgePricing, BadgeStats } from "./types";
 
 let cachedStats: BadgeStats | null = null;
 let cachedStatsAt = 0;
