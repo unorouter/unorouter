@@ -6,7 +6,7 @@ import { Card, Brand, Row } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
 import { Dot, MonoValue, FONT_SANS } from "../lib/typography";
-import { cipherMarker, processCipherMarkers, pulseDot } from "./cipher";
+import { cipherMarker, isStaticMode, processCipherMarkers } from "./cipher";
 
 export async function generateHero(
   stats: BadgeStats,
@@ -76,21 +76,38 @@ export async function generateHero(
         <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: c.muted }}>
           {tokensLabel}
         </span>
+        <Row
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            backgroundColor: "#fe0099",
+          }}
+        />
       </Row>
     </Card>
   );
 
-  let svg = await renderBadge(
-    node,
-    W,
-    H,
-    pulseDot(
-      28 + tokenCount.length * 8.5 + tokensLabel.length * 6 + 24,
-      H - 36,
-      3,
-      c.accent,
-    ),
-  );
+  let svg = await renderBadge(node, W, H);
+
+  // Replace marker dot with animated (SVG) or static (PNG) circle
+  const dotMarker = svg.match(/<(?:path|rect)[^>]*fill="#fe0099"[^>]*\/?>/)
+    ?? svg.match(/<(?:path|rect)[^>]*>[^<]*fill="#fe0099"[^>]*\/?>/);
+  if (dotMarker) {
+    const xM = dotMarker[0].match(/\bx="([\d.]+)"/);
+    const yM = dotMarker[0].match(/\by="([\d.]+)"/);
+    const wM = dotMarker[0].match(/\bwidth="([\d.]+)"/);
+    const hM = dotMarker[0].match(/\bheight="([\d.]+)"/);
+    if (xM && yM && wM && hM) {
+      const cx = parseFloat(xM[1]) + parseFloat(wM[1]) / 2;
+      const cy = parseFloat(yM[1]) + parseFloat(hM[1]) / 2;
+      const r = parseFloat(wM[1]) / 2;
+      const circle = isStaticMode()
+        ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`
+        : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
+      svg = svg.replace(dotMarker[0], circle);
+    }
+  }
   svg = await processCipherMarkers(svg, [
     { value: tokenCount, fontSize: 14, color: c.text, markerColor: m1, loop: true },
     { value: modelCount, fontSize: 12, color: c.text, markerColor: m2 },

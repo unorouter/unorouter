@@ -46,21 +46,22 @@ export async function generateTokensBanner(
   let svg = await renderBadge(node, W, H);
 
   // Replace marker dot with animated (SVG) or static (PNG) circle
-  const dotMarker = svg.match(
-    /<rect[^>]*fill="#fe0099"[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"[^>]*\/?>|<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"[^>]*fill="#fe0099"[^>]*\/?>/,
-  );
+  const dotMarker = svg.match(/<(?:path|rect)[^>]*fill="#fe0099"[^>]*\/?>/)
+    ?? svg.match(/<(?:path|rect)[^>]*>[^<]*fill="#fe0099"[^>]*\/?>/);
   if (dotMarker) {
-    const x = parseFloat(dotMarker[1] ?? dotMarker[5]);
-    const y = parseFloat(dotMarker[2] ?? dotMarker[6]);
-    const w = parseFloat(dotMarker[3] ?? dotMarker[7]);
-    const h = parseFloat(dotMarker[4] ?? dotMarker[8]);
-    const cx = x + w / 2;
-    const cy = y + h / 2;
-    const r = w / 2;
-    const circle = isStaticMode()
-      ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`
-      : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
-    svg = svg.replace(dotMarker[0], circle);
+    const xM = dotMarker[0].match(/\bx="([\d.]+)"/);
+    const yM = dotMarker[0].match(/\by="([\d.]+)"/);
+    const wM = dotMarker[0].match(/\bwidth="([\d.]+)"/);
+    const hM = dotMarker[0].match(/\bheight="([\d.]+)"/);
+    if (xM && yM && wM && hM) {
+      const cx = parseFloat(xM[1]) + parseFloat(wM[1]) / 2;
+      const cy = parseFloat(yM[1]) + parseFloat(hM[1]) / 2;
+      const r = parseFloat(wM[1]) / 2;
+      const circle = isStaticMode()
+        ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`
+        : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
+      svg = svg.replace(dotMarker[0], circle);
+    }
   }
   svg = await processCipherMarkers(svg, [
     { value: tokenCount, fontSize: 22, color: c.text, markerColor: marker1, loop: true },
