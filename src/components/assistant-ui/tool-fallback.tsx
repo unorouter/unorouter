@@ -104,7 +104,7 @@ function ToolFallbackTrigger({
     status?.type === "incomplete" && status.reason === "cancelled";
 
   const Icon = statusIconMap[statusType];
-  const label = isCancelled ? t("CHAT.CANCELLED_TOOL") : t("CHAT.USED_TOOL");
+  const label = isCancelled ? t("CHAT.TOOL.CANCELLED") : t("CHAT.TOOL.USED");
 
   return (
     <CollapsibleTrigger
@@ -224,7 +224,7 @@ function ToolFallbackResult({
       {...props}
     >
       <p className="aui-tool-fallback-result-header font-semibold">
-        {t("CHAT.RESULT")}
+        {t("CHAT.TOOL.RESULT")}
       </p>
       <pre className="aui-tool-fallback-result-content whitespace-pre-wrap">
         {typeof result === "string" ? result : JSON.stringify(result, null, 2)}
@@ -253,7 +253,7 @@ function ToolFallbackError({
   if (!errorText) return null;
 
   const isCancelled = status.reason === "cancelled";
-  const headerText = isCancelled ? t("CHAT.CANCELLED_REASON") : t("CHAT.ERROR");
+  const headerText = isCancelled ? t("CHAT.TOOL.CANCELLED_REASON") : t("CHAT.TOOL.ERROR");
 
   return (
     <div

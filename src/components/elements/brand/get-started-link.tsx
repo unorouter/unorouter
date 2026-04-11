@@ -15,7 +15,7 @@ export function GetStartedLink(props: {
 }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const label = t(props.translationKey ?? "HOME.HERO_CTA_PRIMARY");
+  const label = t(props.translationKey ?? "HOME.HERO.CTA_PRIMARY");
 
   if (authQuery.data) {
     return (

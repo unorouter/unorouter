@@ -47,10 +47,10 @@ export function NeedsTokenGate() {
       </div>
       <div className="text-center">
         <h2 className="text-foreground text-lg font-medium">
-          {t("CHAT.NEEDS_TOKEN_TITLE")}
+          {t("CHAT.GATE.NEEDS_TOKEN_TITLE")}
         </h2>
         <p className="text-muted-foreground mt-1 text-sm">
-          {t("CHAT.NEEDS_TOKEN_DESC")}
+          {t("CHAT.GATE.NEEDS_TOKEN_DESC")}
         </p>
       </div>
       <Button
@@ -80,10 +80,10 @@ export function ZeroBalanceGate() {
       </div>
       <div className="text-center">
         <h2 className="text-foreground text-lg font-medium">
-          {t("CHAT.ZERO_BALANCE_TITLE")}
+          {t("CHAT.GATE.ZERO_BALANCE_TITLE")}
         </h2>
         <p className="text-muted-foreground mt-1 text-sm">
-          {t("CHAT.ZERO_BALANCE_DESC")}
+          {t("CHAT.GATE.ZERO_BALANCE_DESC")}
         </p>
       </div>
       <Button
@@ -93,7 +93,7 @@ export function ZeroBalanceGate() {
         render={<Link href="/billing" />}
       >
         <LuWallet className="h-3.5 w-3.5" />
-        {t("CHAT.GO_TO_BILLING")}
+        {t("CHAT.GATE.GO_TO_BILLING")}
       </Button>
     </div>
   );

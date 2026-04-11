@@ -50,7 +50,7 @@ export function TransferDialog(props: TransferDialogProps) {
   function onSubmit(data: TransferSchema) {
     const quotaUnits = dollarsToQuota(data.amount);
     if (quotaUnits > props.pendingQuota) {
-      toast.error(t("AFFILIATE.TRANSFER_EXCEEDS"));
+      toast.error(t("AFFILIATE.TRANSFER.EXCEEDS"));
       return;
     }
     transferMutation.mutate(
@@ -58,7 +58,7 @@ export function TransferDialog(props: TransferDialogProps) {
       {
         onSuccess: () => {
           analytics.affiliate.quotaTransferred(data.amount);
-          toast.success(t("AFFILIATE.TRANSFER_SUCCESS"));
+          toast.success(t("AFFILIATE.SUCCESS.TRANSFER"));
           props.onOpenChange(false);
           form.reset();
           router.refresh();
@@ -67,7 +67,7 @@ export function TransferDialog(props: TransferDialogProps) {
           toast.error(
             err instanceof Error && err.message
               ? err.message
-              : t("AFFILIATE.TRANSFER_FAILED"),
+              : t("AFFILIATE.ERROR.TRANSFER"),
           ),
       },
     );
@@ -79,9 +79,9 @@ export function TransferDialog(props: TransferDialogProps) {
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("AFFILIATE.TRANSFER_TITLE")}</DialogTitle>
+          <DialogTitle>{t("AFFILIATE.TRANSFER.TITLE")}</DialogTitle>
           <DialogDescription>
-            {t("AFFILIATE.TRANSFER_DIALOG_DESC")}
+            {t("AFFILIATE.TRANSFER.DIALOG_DESC")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -96,7 +96,7 @@ export function TransferDialog(props: TransferDialogProps) {
                 </span>
               </div>
               <div className="space-y-2">
-                <Label>{t("AFFILIATE.TRANSFER_AMOUNT")}</Label>
+                <Label>{t("AFFILIATE.TRANSFER.AMOUNT")}</Label>
                 <MyFormInput
                   control={form.control}
                   name="amount"
@@ -108,7 +108,7 @@ export function TransferDialog(props: TransferDialogProps) {
                   placeholder="0.00"
                   validate={(value: number) => {
                     if (dollarsToQuota(value) > props.pendingQuota) {
-                      return t("AFFILIATE.TRANSFER_EXCEEDS");
+                      return t("AFFILIATE.TRANSFER.EXCEEDS");
                     }
                     return true;
                   }}

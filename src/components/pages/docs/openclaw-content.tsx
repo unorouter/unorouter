@@ -27,7 +27,7 @@ export async function OpenClawContent() {
         depth: 2,
       },
       {
-        title: t("DOCS.CC_SWITCH_SETUP_TITLE"),
+        title: t("DOCS.SETUP.TITLE"),
         url: "#cc-switch-setup",
         depth: 2,
       },

@@ -34,9 +34,9 @@ export function UptimePanel() {
   const monitors = activeGroup?.monitors ?? [];
 
   function getStatusLabel(s: number | undefined): string {
-    if (s === 1) return t("DASHBOARD.MONITOR_UP");
-    if (s === 0) return t("DASHBOARD.MONITOR_DOWN");
-    return t("DASHBOARD.MONITOR_PENDING");
+    if (s === 1) return t("DASHBOARD.MONITOR.UP");
+    if (s === 0) return t("DASHBOARD.MONITOR.DOWN");
+    return t("DASHBOARD.MONITOR.PENDING");
   }
 
   return (
@@ -44,7 +44,7 @@ export function UptimePanel() {
       <div className="border-border flex items-center gap-2 border-b p-5">
         <LuShield className="text-muted-foreground h-4 w-4" />
         <span className="text-foreground font-mono text-sm font-medium">
-          {t("DASHBOARD.SERVICE_STATUS")}
+          {t("DASHBOARD.PANEL.SERVICE_STATUS")}
         </span>
         <a
           href="#"

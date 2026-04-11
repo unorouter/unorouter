@@ -2,9 +2,9 @@ import type { ResponseArrayControllerSubscriptionPlanDTODataItem } from "@/opena
 import { QUOTA_PER_DOLLAR, TranslationKey } from "../config/constants";
 
 export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
-  daily: "BILLING.PER_DAY",
-  weekly: "BILLING.PER_WEEK",
-  monthly: "BILLING.PER_MONTH",
+  daily: "BILLING.SUBSCRIPTION.PER_DAY",
+  weekly: "BILLING.SUBSCRIPTION.PER_WEEK",
+  monthly: "BILLING.SUBSCRIPTION.PER_MONTH",
 };
 
 export type SubscriptionPlan = ReturnType<typeof processPlans>[number];

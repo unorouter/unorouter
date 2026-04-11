@@ -37,10 +37,10 @@ export function Dashboard(props: DashboardProps) {
   const hours = dayjs().hour();
   const greetingKey =
     hours >= 5 && hours < 12
-      ? "DASHBOARD.GREETING_MORNING"
+      ? "DASHBOARD.GREETING.MORNING"
       : hours >= 12 && hours < 18
-        ? "DASHBOARD.GREETING_AFTERNOON"
-        : "DASHBOARD.GREETING_EVENING";
+        ? "DASHBOARD.GREETING.AFTERNOON"
+        : "DASHBOARD.GREETING.EVENING";
   const greeting = t(greetingKey);
 
   const hasApiInfo = status?.api_info_enabled ?? false;

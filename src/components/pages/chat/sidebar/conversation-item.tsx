@@ -152,7 +152,7 @@ export function ConversationItem(props: ConversationItemProps) {
               >
                 <DropdownMenuItem onClick={startEditing} className="gap-2">
                   <LuPencil className="size-4" />
-                  {t("CHAT.RENAME")}
+                  {t("CHAT.ACTION.RENAME")}
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   variant="destructive"
@@ -164,7 +164,7 @@ export function ConversationItem(props: ConversationItemProps) {
                   className="gap-2"
                 >
                   <LuTrash2 className="size-4" />
-                  {t("CHAT.DELETE")}
+                  {t("CHAT.ACTION.DELETE")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

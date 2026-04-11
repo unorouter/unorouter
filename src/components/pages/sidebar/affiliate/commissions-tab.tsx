@@ -32,7 +32,7 @@ export function CommissionsTab() {
     [
       {
         accessorKey: "created_at",
-        header: t("AFFILIATE.COL_DATE"),
+        header: t("AFFILIATE.TABLE.DATE"),
         cell: ({ row }) => (
           <span className="text-muted-foreground font-mono text-xs">
             {formatDate(row.original?.created_at)}
@@ -41,7 +41,7 @@ export function CommissionsTab() {
       },
       {
         accessorKey: "invitee_username",
-        header: t("AFFILIATE.COL_USER"),
+        header: t("AFFILIATE.TABLE.USER"),
         cell: ({ row }) => (
           <span className="text-foreground text-sm font-medium">
             {row.original?.invitee_username || "\u2014"}
@@ -50,7 +50,7 @@ export function CommissionsTab() {
       },
       {
         accessorKey: "recharge_amount",
-        header: t("AFFILIATE.COL_RECHARGE"),
+        header: t("AFFILIATE.TABLE.RECHARGE"),
         cell: ({ row }) => (
           <span className="font-mono text-sm tabular-nums">
             {renderQuota(row.original?.recharge_amount)}
@@ -59,7 +59,7 @@ export function CommissionsTab() {
       },
       {
         accessorKey: "commission_rate",
-        header: t("AFFILIATE.COL_RATE"),
+        header: t("AFFILIATE.TABLE.RATE"),
         cell: ({ row }) => (
           <span className="text-muted-foreground font-mono text-xs">
             {row.original?.commission_rate != null
@@ -70,7 +70,7 @@ export function CommissionsTab() {
       },
       {
         accessorKey: "commission_quota",
-        header: t("AFFILIATE.COL_EARNED"),
+        header: t("AFFILIATE.TABLE.EARNED"),
         meta: { headerClassName: "text-right", cellClassName: "text-right" },
         cell: ({ row }) => (
           <span

@@ -13,36 +13,36 @@ const integrations = [
     href: "/docs/claude-code",
     icon: Claude.Color,
     badge: "Claude Code",
-    titleKey: msg("HOME.INTEGRATION_CLAUDE_CODE_TITLE"),
-    descKey: msg("HOME.INTEGRATION_CLAUDE_CODE_DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION_CLAUDE_CODE_BADGE"),
+    titleKey: msg("HOME.INTEGRATION.CLAUDE_CODE.TITLE"),
+    descKey: msg("HOME.INTEGRATION.CLAUDE_CODE.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.CLAUDE_CODE.BADGE"),
     color: "orange",
   },
   {
     href: "/docs/codex",
     icon: Codex.Color,
     badge: "Codex CLI",
-    titleKey: msg("HOME.INTEGRATION_CODEX_TITLE"),
-    descKey: msg("HOME.INTEGRATION_CODEX_DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION_CODEX_BADGE"),
+    titleKey: msg("HOME.INTEGRATION.CODEX.TITLE"),
+    descKey: msg("HOME.INTEGRATION.CODEX.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.CODEX.BADGE"),
     color: "emerald",
   },
   {
     href: "/docs/gemini-cli",
     icon: Gemini.Color,
     badge: "Gemini CLI",
-    titleKey: msg("HOME.INTEGRATION_GEMINI_CLI_TITLE"),
-    descKey: msg("HOME.INTEGRATION_GEMINI_CLI_DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION_GEMINI_CLI_BADGE"),
+    titleKey: msg("HOME.INTEGRATION.GEMINI_CLI.TITLE"),
+    descKey: msg("HOME.INTEGRATION.GEMINI_CLI.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.GEMINI_CLI.BADGE"),
     color: "blue",
   },
   {
     href: "/docs/openclaw",
     icon: GiCrabClaw as ComponentType<{ className?: string; size?: number }>,
     badge: "OpenClaw",
-    titleKey: msg("HOME.INTEGRATION_OPENCLAW_TITLE"),
-    descKey: msg("HOME.INTEGRATION_OPENCLAW_DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION_OPENCLAW_BADGE"),
+    titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
+    descKey: msg("HOME.INTEGRATION.OPENCLAW.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.OPENCLAW.BADGE"),
     color: "red",
   },
 ] as const;
@@ -122,7 +122,7 @@ export async function IntegrationBanner() {
                 </p>
                 <div className="mt-auto flex items-center justify-end gap-3 pt-2 md:justify-start">
                   <span className="text-foreground/70 group-hover:text-foreground font-mono text-sm transition-colors">
-                    {t("HOME.INTEGRATION_VIEW_GUIDE")}
+                    {t("HOME.INTEGRATION.VIEW_GUIDE")}
                   </span>
                   <div
                     className={`h-8 w-8 rounded-full border ${colors.ring} flex items-center justify-center transition-all`}

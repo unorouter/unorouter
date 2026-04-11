@@ -15,7 +15,7 @@ export function StatsPanel() {
         <div className="mb-4 flex items-center justify-between">
           <span className="text-muted-foreground flex items-center gap-2 font-mono text-[10px] tracking-widest uppercase">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-            {t("HOME.STATS_PANEL_TOKENS_SERVED")}
+            {t("HOME.STATS.PANEL.TOKENS_SERVED")}
           </span>
           <LuActivity className="text-muted-foreground h-3.5 w-3.5" />
         </div>
@@ -28,7 +28,7 @@ export function StatsPanel() {
       <div className="bg-border grid grid-cols-2 gap-px">
         <div className="bg-card/80 flex h-full flex-col justify-between p-6">
           <span className="text-muted-foreground mb-2 font-mono text-[10px] tracking-widest uppercase">
-            {t("HOME.STATS_PANEL_REQUESTS")}
+            {t("HOME.STATS.PANEL.REQUESTS")}
           </span>
           <div className="text-foreground text-2xl font-bold tabular-nums">
             {requests.toLocaleString()}
@@ -37,10 +37,10 @@ export function StatsPanel() {
         <div className="bg-card/80 flex h-full flex-col justify-between p-6">
           <div className="mb-2 flex items-center justify-between">
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("HOME.STATS_PANEL_TOKENS_MIN")}
+              {t("HOME.STATS.PANEL.TOKENS_MIN")}
             </span>
             <span className="font-mono text-[10px] text-green-500">
-              {t("HOME.STATS_PANEL_LIVE")}
+              {t("HOME.STATS.PANEL.LIVE")}
             </span>
           </div>
           <div className="text-foreground text-2xl font-bold tabular-nums">

@@ -124,7 +124,7 @@ export function ConsumptionChart() {
         <div className="flex items-center gap-2">
           <LuChartBar className="text-muted-foreground h-4 w-4" />
           <span className="text-foreground font-mono text-sm font-medium">
-            {t("DASHBOARD.MODEL_DATA_ANALYSIS")}
+            {t("DASHBOARD.CHART.MODEL_DATA_ANALYSIS")}
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ export function ConsumptionChart() {
               variant="ghost"
               size="icon-sm"
               onClick={dashboard.resetDateRange}
-              title={t("DASHBOARD.RESET_DATE_RANGE")}
+              title={t("DASHBOARD.CHART.RESET_DATE_RANGE")}
             >
               <LuRotateCcw className="h-4 w-4" />
             </Button>
@@ -174,25 +174,25 @@ export function ConsumptionChart() {
                 value="distribution"
                 className="font-mono text-xs whitespace-nowrap"
               >
-                {t("DASHBOARD.CONSUMPTION_DISTRIBUTION")}
+                {t("DASHBOARD.CHART.CONSUMPTION_DISTRIBUTION")}
               </TabsTrigger>
               <TabsTrigger
                 value="trend"
                 className="font-mono text-xs whitespace-nowrap"
               >
-                {t("DASHBOARD.CONSUMPTION_TREND")}
+                {t("DASHBOARD.CHART.CONSUMPTION_TREND")}
               </TabsTrigger>
               <TabsTrigger
                 value="pie"
                 className="font-mono text-xs whitespace-nowrap"
               >
-                {t("DASHBOARD.CALLS_DISTRIBUTION")}
+                {t("DASHBOARD.CHART.CALLS_DISTRIBUTION")}
               </TabsTrigger>
               <TabsTrigger
                 value="ranking"
                 className="font-mono text-xs whitespace-nowrap"
               >
-                {t("DASHBOARD.CALLS_RANKING")}
+                {t("DASHBOARD.CHART.CALLS_RANKING")}
               </TabsTrigger>
             </TabsList>
           </div>

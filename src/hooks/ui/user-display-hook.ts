@@ -4,10 +4,10 @@ import { renderQuota, TranslationKey } from "@/lib/config/constants";
 import { useAuthQuery } from "../auth-hook";
 
 const ROLE_LABELS: Record<number, TranslationKey> = {
-  100: "AUTH.ROLE_ROOT",
-  10: "AUTH.ROLE_ADMIN",
-  1: "AUTH.ROLE_USER",
-  0: "AUTH.ROLE_GUEST",
+  100: "AUTH.ENUM.ROOT",
+  10: "AUTH.ENUM.ADMIN",
+  1: "AUTH.ENUM.USER",
+  0: "AUTH.ENUM.GUEST",
 };
 
 export function useUserDisplay() {

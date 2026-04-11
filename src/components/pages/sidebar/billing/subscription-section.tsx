@@ -29,20 +29,20 @@ import { LuRefreshCw, LuSparkles } from "react-icons/lu";
 import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
-  { value: "wallet_first", key: msg("BILLING.WALLET_FIRST") },
-  { value: "wallet_only", key: msg("BILLING.WALLET_ONLY") },
-  { value: "subscription_first", key: msg("BILLING.SUBSCRIPTION_FIRST") },
-  { value: "subscription_only", key: msg("BILLING.SUBSCRIPTION_ONLY") },
+  { value: "wallet_first", key: msg("BILLING.PREFERENCE.WALLET_FIRST") },
+  { value: "wallet_only", key: msg("BILLING.PREFERENCE.WALLET_ONLY") },
+  { value: "subscription_first", key: msg("BILLING.PREFERENCE.SUBSCRIPTION_FIRST") },
+  { value: "subscription_only", key: msg("BILLING.PREFERENCE.SUBSCRIPTION_ONLY") },
 ] as const;
 
 function formatResetPeriod(period: string): TranslationKey {
   switch (period) {
     case "weekly":
-      return msg("BILLING.WEEKLY");
+      return msg("BILLING.SUBSCRIPTION.WEEKLY");
     case "daily":
-      return msg("BILLING.DAILY");
+      return msg("BILLING.SUBSCRIPTION.DAILY");
     case "monthly":
-      return msg("BILLING.MONTHLY");
+      return msg("BILLING.SUBSCRIPTION.MONTHLY");
     default:
       return period as TranslationKey;
   }
@@ -51,11 +51,11 @@ function formatResetPeriod(period: string): TranslationKey {
 function getPerPeriodSuffix(period: string): TranslationKey {
   switch (period) {
     case "weekly":
-      return msg("BILLING.PER_WEEK");
+      return msg("BILLING.SUBSCRIPTION.PER_WEEK");
     case "daily":
-      return msg("BILLING.PER_DAY");
+      return msg("BILLING.SUBSCRIPTION.PER_DAY");
     case "monthly":
-      return msg("BILLING.PER_MONTH");
+      return msg("BILLING.SUBSCRIPTION.PER_MONTH");
     default:
       return "" as TranslationKey;
   }
@@ -106,7 +106,7 @@ export function SubscriptionSection() {
             if (link) window.open(link, "_blank");
           },
           onError: () => {
-            toast.error(t("BILLING.PAYMENT_FAILED"));
+            toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
           },
         },
       );
@@ -123,7 +123,7 @@ export function SubscriptionSection() {
             if (url) window.open(url, "_blank");
           },
           onError: () => {
-            toast.error(t("BILLING.PAYMENT_FAILED"));
+            toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
           },
         },
       );
@@ -154,10 +154,10 @@ export function SubscriptionSection() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <h2 className="text-foreground text-lg font-bold tracking-tight">
-            {t("BILLING.MY_SUBSCRIPTIONS")}
+            {t("BILLING.SUBSCRIPTION.MY")}
           </h2>
           <Badge variant={hasActive ? "default" : "secondary"}>
-            {hasActive ? t("BILLING.ACTIVE") : t("BILLING.NO_ACTIVE")}
+            {hasActive ? t("BILLING.SUBSCRIPTION.ACTIVE") : t("BILLING.SUBSCRIPTION.NO_ACTIVE")}
           </Badge>
         </div>
         <div className="flex items-center gap-2">
@@ -226,7 +226,7 @@ export function SubscriptionSection() {
                       variant={isActive ? "default" : "secondary"}
                       className="text-[10px]"
                     >
-                      {isActive ? t("BILLING.ACTIVE") : t("BILLING.EXPIRED")}
+                      {isActive ? t("BILLING.SUBSCRIPTION.ACTIVE") : t("BILLING.SUBSCRIPTION.EXPIRED")}
                     </Badge>
                   </div>
                   <span className="text-muted-foreground font-mono text-xs">
@@ -265,7 +265,7 @@ export function SubscriptionSection() {
                   <div className="absolute top-3 right-3">
                     <Badge className="bg-primary/10 text-primary gap-1">
                       <LuSparkles className="h-3 w-3" />
-                      {t("BILLING.RECOMMENDED")}
+                      {t("BILLING.SUBSCRIPTION.RECOMMENDED")}
                     </Badge>
                   </div>
                 )}
@@ -284,27 +284,27 @@ export function SubscriptionSection() {
                 <div className="text-muted-foreground mt-4 space-y-2 text-xs">
                   <div className="flex items-center gap-2">
                     <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                    {t("BILLING.VALIDITY")}: {plan.durationValue}{" "}
+                    {t("BILLING.SUBSCRIPTION.VALIDITY")}: {plan.durationValue}{" "}
                     {plan.durationValue === 1
-                      ? t("BILLING.MONTH")
-                      : t("BILLING.MONTHS")}
+                      ? t("BILLING.SUBSCRIPTION.MONTH")
+                      : t("BILLING.SUBSCRIPTION.MONTHS")}
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                    {t("BILLING.QUOTA_RESET")}:{" "}
+                    {t("BILLING.SUBSCRIPTION.QUOTA_RESET")}:{" "}
                     {t(formatResetPeriod(plan.quotaResetPeriod))}
                   </div>
                   {quotaUsd > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                      {t("BILLING.TOTAL_QUOTA")}: ${quotaUsd.toFixed(2)}
+                      {t("BILLING.SUBSCRIPTION.TOTAL_QUOTA")}: ${quotaUsd.toFixed(2)}
                       {t(periodSuffix)}
                     </div>
                   )}
                   {multiplier > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                      {t("BILLING.EST_TOTAL_QUOTA")}: ~$
+                      {t("BILLING.SUBSCRIPTION.EST_TOTAL_QUOTA")}: ~$
                       {plan.estimatedTotalUsd.toFixed(2)}
                     </div>
                   )}
@@ -317,7 +317,7 @@ export function SubscriptionSection() {
                     onClick={() => handleSubscribe(plan)}
                     disabled={isMutating || (!enableStripe && !enableCreem)}
                   >
-                    {t("BILLING.SUBSCRIBE_NOW")}
+                    {t("BILLING.SUBSCRIPTION.SUBSCRIBE_NOW")}
                   </Button>
                 </div>
               </div>

@@ -31,7 +31,7 @@ export function InviteesTab() {
     [
       {
         accessorKey: "username",
-        header: t("AFFILIATE.COL_USER"),
+        header: t("AFFILIATE.TABLE.USER"),
         cell: ({ row }) => (
           <span className="text-foreground text-sm font-medium">
             {row.original?.display_name || row.original?.username || "\u2014"}
@@ -40,7 +40,7 @@ export function InviteesTab() {
       },
       {
         accessorKey: "commission_count",
-        header: t("AFFILIATE.COL_COMMISSIONS"),
+        header: t("AFFILIATE.TABLE.COMMISSIONS"),
         cell: ({ row }) => (
           <span className="text-muted-foreground font-mono text-xs tabular-nums">
             {row.original?.commission_count}
@@ -49,7 +49,7 @@ export function InviteesTab() {
       },
       {
         accessorKey: "total_earned",
-        header: t("AFFILIATE.COL_TOTAL_EARNED"),
+        header: t("AFFILIATE.TABLE.TOTAL_EARNED"),
         cell: ({ row }) => (
           <span
             className="font-mono text-sm font-medium tabular-nums"
@@ -61,7 +61,7 @@ export function InviteesTab() {
       },
       {
         accessorKey: "status",
-        header: t("AFFILIATE.COL_STATUS"),
+        header: t("AFFILIATE.TABLE.STATUS"),
         cell: ({ row }) => (
           <span
             className="font-mono text-xs"
@@ -73,8 +73,8 @@ export function InviteesTab() {
             }}
           >
             {row.original?.status === 1
-              ? t("AFFILIATE.STATUS_ACTIVE")
-              : t("AFFILIATE.STATUS_DISABLED")}
+              ? t("AFFILIATE.ENUM.ACTIVE")
+              : t("AFFILIATE.ENUM.DISABLED")}
           </span>
         ),
       },

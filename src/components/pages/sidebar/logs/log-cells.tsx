@@ -46,16 +46,16 @@ export function LogTypeCell({ row }: CellContext<LogRow, unknown>) {
   const t = useTranslations();
   const type = row.original.type;
   const labels: Record<number, string> = {
-    [LOG_TYPE_TOPUP]: t("LOGS.TYPE_TOPUP"),
-    [LOG_TYPE_CONSUME]: t("LOGS.TYPE_CONSUME"),
-    [LOG_TYPE_MANAGE]: t("LOGS.TYPE_MANAGE"),
-    [LOG_TYPE_SYSTEM]: t("LOGS.TYPE_SYSTEM"),
-    [LOG_TYPE_ERROR]: t("LOGS.TYPE_ERROR"),
-    [LOG_TYPE_REFUND]: t("LOGS.TYPE_REFUND"),
+    [LOG_TYPE_TOPUP]: t("LOGS.ENUM.TOPUP"),
+    [LOG_TYPE_CONSUME]: t("LOGS.ENUM.CONSUME"),
+    [LOG_TYPE_MANAGE]: t("LOGS.ENUM.MANAGE"),
+    [LOG_TYPE_SYSTEM]: t("LOGS.ENUM.SYSTEM"),
+    [LOG_TYPE_ERROR]: t("LOGS.ENUM.ERROR"),
+    [LOG_TYPE_REFUND]: t("LOGS.ENUM.REFUND"),
   };
   return (
     <Badge variant="secondary" className={getLogTypeColor(type)}>
-      {labels[type] ?? t("LOGS.TYPE_UNKNOWN")}
+      {labels[type] ?? t("LOGS.ENUM.UNKNOWN")}
     </Badge>
   );
 }

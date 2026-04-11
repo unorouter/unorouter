@@ -73,7 +73,7 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
-      alt={t("CHAT.IMAGE_PREVIEW")}
+      alt={t("CHAT.ATTACHMENT.IMAGE_PREVIEW")}
       className={cn(
         "block h-auto max-h-[80vh] w-auto max-w-full object-contain",
         isLoaded
@@ -98,7 +98,7 @@ const AttachmentPreviewDialog: FC<PropsWithChildren> = ({ children }) => {
       </DialogTrigger>
       <DialogContent className="aui-attachment-preview-dialog-content [&>button]:bg-foreground/60 [&_svg]:text-background [&>button]:hover:[&_svg]:text-destructive p-2 sm:max-w-3xl [&>button]:rounded-full [&>button]:p-1 [&>button]:opacity-100 [&>button]:ring-0!">
         <DialogTitle className="aui-sr-only sr-only">
-          {t("CHAT.IMAGE_ATTACHMENT_PREVIEW")}
+          {t("CHAT.ATTACHMENT.IMAGE_PREVIEW_FULL")}
         </DialogTitle>
         <div className="aui-attachment-preview bg-background relative mx-auto flex max-h-[80dvh] w-full items-center justify-center overflow-hidden">
           <AttachmentPreview src={src} />
@@ -117,7 +117,7 @@ const AttachmentThumb: FC = () => {
     <Avatar className="aui-attachment-tile-avatar h-full w-full rounded-none">
       <AvatarImage
         src={src}
-        alt={t("CHAT.ATTACHMENT_PREVIEW")}
+        alt={t("CHAT.ATTACHMENT.PREVIEW")}
         className="aui-attachment-tile-image object-cover"
       />
       <AvatarFallback delay={isImage ? 200 : 0}>
@@ -137,11 +137,11 @@ const AttachmentUI: FC = () => {
     const type = s.attachment.type;
     switch (type) {
       case "image":
-        return t("CHAT.IMAGE");
+        return t("CHAT.ATTACHMENT.IMAGE");
       case "document":
-        return t("CHAT.DOCUMENT");
+        return t("CHAT.ATTACHMENT.DOCUMENT");
       case "file":
-        return t("CHAT.FILE");
+        return t("CHAT.ATTACHMENT.FILE");
       default:
         return type;
     }
@@ -161,7 +161,7 @@ const AttachmentUI: FC = () => {
               <div
                 className="aui-attachment-tile bg-muted size-14 cursor-pointer overflow-hidden rounded-[calc(var(--composer-radius)-var(--composer-padding))] border transition-opacity hover:opacity-75"
                 role="button"
-                aria-label={`${typeLabel} ${t("CHAT.ATTACHMENT")}`}
+                aria-label={`${typeLabel} ${t("CHAT.ATTACHMENT.LABEL")}`}
               />
             }
           >
@@ -182,7 +182,7 @@ const AttachmentRemove: FC = () => {
   return (
     <AttachmentPrimitive.Remove asChild>
       <TooltipIconButton
-        tooltip={t("CHAT.REMOVE_FILE")}
+        tooltip={t("CHAT.ACTION.REMOVE_FILE")}
         className="aui-attachment-tile-remove text-muted-foreground hover:[&_svg]:text-destructive absolute top-1.5 right-1.5 size-3.5 rounded-full bg-white opacity-100 shadow-sm hover:bg-white! [&_svg]:text-black"
         side="top"
       >
@@ -217,12 +217,12 @@ export const ComposerAddAttachment: FC = () => {
   return (
     <ComposerPrimitive.AddAttachment asChild>
       <TooltipIconButton
-        tooltip={t("CHAT.ADD_ATTACHMENT")}
+        tooltip={t("CHAT.ACTION.ADD_ATTACHMENT")}
         side="bottom"
         variant="ghost"
         size="icon"
         className="aui-composer-add-attachment hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30 size-8 rounded-full p-1 text-xs font-semibold"
-        aria-label={t("CHAT.ADD_ATTACHMENT")}
+        aria-label={t("CHAT.ACTION.ADD_ATTACHMENT")}
       >
         <PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
       </TooltipIconButton>

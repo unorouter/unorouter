@@ -35,8 +35,8 @@ export function TwoFAForm(props: TwoFAFormProps) {
 
   return (
     <GlassAuthCard
-      title={t("AUTH.TWO_FA_TITLE")}
-      description={t("AUTH.TWO_FA_DESCRIPTION")}
+      title={t("AUTH.TWO_FA.TITLE")}
+      description={t("AUTH.TWO_FA.DESCRIPTION")}
     >
       <div className="space-y-6">
         <div className="flex justify-center">
@@ -76,8 +76,8 @@ export function TwoFAForm(props: TwoFAFormProps) {
           className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
         >
           {verify2FA.isPending
-            ? t("AUTH.TWO_FA_VERIFYING")
-            : t("AUTH.TWO_FA_SUBMIT")}
+            ? t("AUTH.TWO_FA.VERIFYING")
+            : t("AUTH.TWO_FA.SUBMIT")}
         </Button>
       </div>
     </GlassAuthCard>

@@ -51,25 +51,25 @@ export function OAuthButtons(props: OAuthButtonsProps) {
     {
       key: "github",
       enabled: props.status.github_oauth,
-      label: t("AUTH.SIGN_IN_WITH_GITHUB"),
+      label: t("AUTH.OAUTH.GITHUB"),
       icon: <FaGithub className="h-4 w-4" />,
     },
     {
       key: "discord",
       enabled: props.status.discord_oauth,
-      label: t("AUTH.SIGN_IN_WITH_DISCORD"),
+      label: t("AUTH.OAUTH.DISCORD"),
       icon: <FaDiscord className="h-4 w-4" />,
     },
     {
       key: "oidc",
       enabled: props.status.oidc_enabled,
-      label: t("AUTH.SIGN_IN_WITH_OIDC"),
+      label: t("AUTH.OAUTH.OIDC"),
       icon: <LuLogIn className="h-4 w-4" />,
     },
     {
       key: "linuxdo",
       enabled: props.status.linuxdo_oauth,
-      label: t("AUTH.SIGN_IN_WITH_LINUXDO"),
+      label: t("AUTH.OAUTH.LINUXDO"),
       icon: <LuLogIn className="h-4 w-4" />,
     },
   ];

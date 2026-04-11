@@ -172,9 +172,9 @@ brew install --cask cc-switch`}
               </div>
             }
             labels={{
-              windows: t("DOCS.OS_TAB_WINDOWS"),
-              macos: t("DOCS.OS_TAB_MACOS"),
-              linux: t("DOCS.OS_TAB_LINUX"),
+              windows: t("DOCS.OS.WINDOWS"),
+              macos: t("DOCS.OS.MACOS"),
+              linux: t("DOCS.OS.LINUX"),
             }}
           />
 

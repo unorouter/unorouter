@@ -31,7 +31,7 @@ export function ModelTicker(props: Props) {
         {/* Live indicator */}
         <div className="text-foreground border-border bg-secondary flex shrink-0 items-center gap-3 border px-3 py-1 font-mono text-xs font-medium tracking-widest uppercase">
           <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
-          <span>{t("HOME.TICKER_LIVE_INFERENCE")}</span>
+          <span>{t("HOME.TICKER.LIVE_INFERENCE")}</span>
         </div>
 
         {/* Scrolling models */}
@@ -62,7 +62,7 @@ export function ModelTicker(props: Props) {
 
         {/* TPS counter */}
         <div className="text-foreground/70 shrink-0 font-mono text-xs font-medium">
-          <span>{t("HOME.TICKER_TPS")}</span>:{" "}
+          <span>{t("HOME.TICKER.TPS")}</span>:{" "}
           <span className="text-foreground font-bold">{tps}</span>
         </div>
       </div>

@@ -87,8 +87,8 @@ export function RegisterForm() {
 
   return (
     <GlassAuthCard
-      title={t("AUTH.REGISTER_TITLE")}
-      description={t("AUTH.REGISTER_DESCRIPTION", APP_VALUES)}
+      title={t("AUTH.REGISTER.TITLE")}
+      description={t("AUTH.REGISTER.DESCRIPTION", APP_VALUES)}
     >
       <div className="space-y-6">
         {showPasswordForm && (
@@ -99,20 +99,20 @@ export function RegisterForm() {
                   control={form.control}
                   name="username"
                   schema={registerSchema}
-                  label={t("AUTH.USERNAME")}
+                  label={t("AUTH.FORM.USERNAME")}
                   type="text"
                   autoComplete="username"
-                  placeholder={t("AUTH.USERNAME_PLACEHOLDER")}
+                  placeholder={t("AUTH.FORM.USERNAME_PLACEHOLDER")}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
                 <MyFormInput
                   control={form.control}
                   name="password"
                   schema={registerSchema}
-                  label={t("AUTH.PASSWORD")}
+                  label={t("AUTH.FORM.PASSWORD")}
                   type="password"
                   autoComplete="new-password"
-                  placeholder={t("AUTH.PASSWORD_PLACEHOLDER")}
+                  placeholder={t("AUTH.FORM.PASSWORD_PLACEHOLDER")}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
 
@@ -120,7 +120,7 @@ export function RegisterForm() {
                   <>
                     <div className="space-y-1.5">
                       <label className="text-foreground text-sm font-medium">
-                        {t("AUTH.EMAIL")}
+                        {t("AUTH.FORM.EMAIL")}
                       </label>
                       <div className="flex gap-2">
                         <MyFormInput
@@ -129,7 +129,7 @@ export function RegisterForm() {
                           schema={registerSchema}
                           type="email"
                           autoComplete="email"
-                          placeholder={t("AUTH.EMAIL_PLACEHOLDER")}
+                          placeholder={t("AUTH.FORM.EMAIL_PLACEHOLDER")}
                           className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                         />
                         <Button
@@ -144,15 +144,15 @@ export function RegisterForm() {
                           className="h-11 shrink-0 rounded-2xl px-4 text-xs"
                         >
                           {verificationMutation.isPending
-                            ? t("AUTH.SENDING_CODE")
+                            ? t("AUTH.VERIFICATION.SENDING")
                             : verificationMutation.isSuccess
-                              ? t("AUTH.CODE_SENT")
-                              : t("AUTH.SEND_CODE")}
+                              ? t("AUTH.VERIFICATION.SENT")
+                              : t("AUTH.VERIFICATION.SEND_CODE")}
                         </Button>
                       </div>
                       {verificationMutation.error && (
                         <p className="text-destructive text-xs font-medium">
-                          {t("AUTH.SEND_CODE_FAILED")}
+                          {t("AUTH.VERIFICATION.FAILED")}
                         </p>
                       )}
                     </div>
@@ -160,10 +160,10 @@ export function RegisterForm() {
                       control={form.control}
                       name="verification_code"
                       schema={registerSchema}
-                      label={t("AUTH.VERIFICATION_CODE")}
+                      label={t("AUTH.FORM.VERIFICATION_CODE")}
                       type="text"
                       inputMode="numeric"
-                      placeholder={t("AUTH.VERIFICATION_CODE_PLACEHOLDER")}
+                      placeholder={t("AUTH.FORM.VERIFICATION_CODE_PLACEHOLDER")}
                       className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                     />
                   </>
@@ -199,7 +199,7 @@ export function RegisterForm() {
               >
                 {registerMutation.isPending
                   ? t("AUTH.REGISTERING")
-                  : t("AUTH.REGISTER_BUTTON")}
+                  : t("AUTH.REGISTER.BUTTON")}
               </Button>
             </form>
           </Form>
@@ -213,7 +213,7 @@ export function RegisterForm() {
             href="/login"
             className="text-foreground font-medium hover:underline"
           >
-            {t("AUTH.LOGIN_BUTTON")}
+            {t("AUTH.LOGIN.BUTTON")}
           </Link>
         </p>
       </div>

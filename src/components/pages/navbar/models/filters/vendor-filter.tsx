@@ -58,7 +58,7 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
             className="h-8 border-dashed md:h-9"
           >
             <PlusCircle className="mr-1.5 h-4 w-4 md:mr-2" />
-            <span>{t("MODELS.FILTER_PROVIDER_MULTI")}</span>
+            <span>{t("MODELS.FILTER.PROVIDER_MULTI")}</span>
             {selectedVendors.length > 0 && (
               <>
                 <Separator
@@ -77,7 +77,7 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
                       variant="secondary"
                       className="rounded-sm px-1 font-normal"
                     >
-                      {selectedVendors.length} {t("MODELS.FILTER_SELECTED")}
+                      {selectedVendors.length} {t("MODELS.FILTER.SELECTED")}
                     </Badge>
                   ) : (
                     vendorOptions
@@ -100,9 +100,9 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
       />
       <PopoverContent className="w-[220px] p-0" align="start">
         <Command>
-          <CommandInput placeholder={t("MODELS.FILTER_SEARCH_PROVIDERS")} />
+          <CommandInput placeholder={t("MODELS.FILTER.SEARCH_PROVIDERS")} />
           <CommandList>
-            <CommandEmpty>{t("MODELS.FILTER_NO_PROVIDERS")}</CommandEmpty>
+            <CommandEmpty>{t("MODELS.FILTER.NO_PROVIDERS")}</CommandEmpty>
             <CommandGroup>
               {vendorOptions.map((option) => {
                 const isSelected = selectedSet.has(option.name);
@@ -148,7 +148,7 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
                     onSelect={() => setSelectedVendors([])}
                     className="justify-center text-center"
                   >
-                    {t("MODELS.FILTER_CLEAR")}
+                    {t("MODELS.FILTER.CLEAR")}
                   </CommandItem>
                 </CommandGroup>
               </>

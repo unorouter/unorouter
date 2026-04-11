@@ -100,7 +100,7 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                         })
                       ) : (
                         <span className="text-muted-foreground text-xs">
-                          {t("TOKEN.MODEL_LIMITS_PLACEHOLDER")}
+                          {t("TOKEN.FORM.MODEL_LIMITS_PLACEHOLDER")}
                         </span>
                       )}
                     </div>
@@ -115,10 +115,10 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
             >
               <Command>
                 <CommandInput
-                  placeholder={t("TOKEN.MODEL_SELECT_PLACEHOLDER")}
+                  placeholder={t("TOKEN.FORM.MODEL_SELECT_PLACEHOLDER")}
                 />
                 <CommandList className="max-h-64">
-                  <CommandEmpty>{t("TOKEN.MODEL_SELECT_EMPTY")}</CommandEmpty>
+                  <CommandEmpty>{t("TOKEN.FORM.MODEL_SELECT_EMPTY")}</CommandEmpty>
                   {props.modelsByVendor.map((group) => (
                     <CommandGroup
                       key={group.vendor}

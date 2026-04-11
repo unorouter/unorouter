@@ -89,7 +89,7 @@ export function ApiKeyCodeBlock(props: Props) {
                 )}
               </TooltipTrigger>
               <TooltipContent>
-                {revealed ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+                {revealed ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
               </TooltipContent>
             </Tooltip>
           )}
@@ -127,7 +127,7 @@ export function ApiKeyCodeBlock(props: Props) {
         <p className="text-muted-foreground mt-2 flex items-center gap-1.5 text-xs">
           <LuKey className="size-3" />
           <Link href="/login" className="text-primary underline">
-            {t("DOCS.CC_SWITCH_SETUP_LOGIN_REQUIRED")}
+            {t("DOCS.SETUP.LOGIN_REQUIRED")}
           </Link>
         </p>
       )}

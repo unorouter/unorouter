@@ -42,7 +42,7 @@ const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
       <span className="aui-code-header-language text-muted-foreground font-medium lowercase">
         {language}
       </span>
-      <TooltipIconButton tooltip={t("CHAT.COPY")} onClick={onCopy}>
+      <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")} onClick={onCopy}>
         {!isCopied && <CopyIcon />}
         {isCopied && <CheckIcon />}
       </TooltipIconButton>
@@ -284,7 +284,7 @@ const defaultComponents = memoizeMarkdownComponents({
         {imgSrc && (
           <span className="absolute top-2 left-2 flex gap-1 opacity-0 transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
             <TooltipIconButton
-              tooltip={t("CHAT.DOWNLOAD")}
+              tooltip={t("CHAT.ACTION.DOWNLOAD")}
               variant="outline"
               className="bg-background/80 size-7 backdrop-blur-sm"
               onClick={handleDownload}
@@ -292,7 +292,7 @@ const defaultComponents = memoizeMarkdownComponents({
               <DownloadIcon className="size-3.5" />
             </TooltipIconButton>
             <TooltipIconButton
-              tooltip={isCopied ? t("CHAT.LINK_COPIED") : t("CHAT.COPY_LINK")}
+              tooltip={isCopied ? t("CHAT.SHARE.LINK_COPIED") : t("CHAT.ACTION.COPY_LINK")}
               variant="outline"
               className="bg-background/80 size-7 backdrop-blur-sm"
               onClick={handleCopyLink}

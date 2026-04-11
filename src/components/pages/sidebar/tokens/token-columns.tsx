@@ -56,7 +56,7 @@ export function TokenStatusCell({ row }: CellContext<TokenRow, unknown>) {
       variant={isEnabled ? "default" : "destructive"}
       className={isEnabled ? "bg-green-500/10 text-green-500" : ""}
     >
-      {isEnabled ? t("TOKEN.STATUS_ENABLED") : t("TOKEN.STATUS_DISABLED")}
+      {isEnabled ? t("TOKEN.ENUM.ENABLED") : t("TOKEN.ENUM.DISABLED")}
     </Badge>
   );
 }
@@ -82,7 +82,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
   function handleCopy() {
     if (revealedKey) {
       copyToClipboard(`sk-${revealedKey}`);
-      toast.success(t("TOKEN.KEY_COPIED"));
+      toast.success(t("TOKEN.SUCCESS.KEY_COPIED"));
       return;
     }
     copyToClipboardAsync(() =>
@@ -90,8 +90,8 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
         .mutateAsync({ id: token.id })
         .then((data) => `sk-${data.key}`),
     )
-      .then(() => toast.success(t("TOKEN.KEY_COPIED")))
-      .catch(() => toast.error(t("TOKEN.FETCH_KEY_FAILED")));
+      .then(() => toast.success(t("TOKEN.SUCCESS.KEY_COPIED")))
+      .catch(() => toast.error(t("TOKEN.ERROR.FETCH_KEY")));
   }
 
   function handleToggleReveal() {
@@ -103,7 +103,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
       { id: token.id },
       {
         onSuccess: (data) => setRevealedKey(data.key),
-        onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
+        onError: () => toast.error(t("TOKEN.ERROR.FETCH_KEY")),
       },
     );
   }
@@ -122,7 +122,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
                 size="icon-xs"
                 onClick={handleToggleReveal}
                 aria-label={
-                  revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")
+                  revealedKey ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")
                 }
               />
             }
@@ -134,7 +134,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
             )}
           </TooltipTrigger>
           <TooltipContent>
-            {revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+            {revealedKey ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -242,14 +242,14 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
         toggleMutation.mutate(
           { body: { ...token, status: isEnabled ? 2 : 1 } },
           {
-            onSuccess: () => toast.success(t("TOKEN.STATUS_CHANGED")),
-            onError: () => toast.error(t("TOKEN.STATUS_UPDATE_FAILED")),
+            onSuccess: () => toast.success(t("TOKEN.SUCCESS.STATUS_CHANGED")),
+            onError: () => toast.error(t("TOKEN.ERROR.STATUS_UPDATE")),
           },
         ),
     },
     {
       value: "delete",
-      label: "TOKEN.DELETE",
+      label: "TOKEN.DELETE.BUTTON",
       icon: <LuTrash2 className="mr-2 h-3.5 w-3.5" />,
       variant: "destructive",
       separator: true,
@@ -258,8 +258,8 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
         deleteMutation.mutate(
           { id: token.id },
           {
-            onSuccess: () => toast.success(t("TOKEN.DELETED_SUCCESS")),
-            onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
+            onSuccess: () => toast.success(t("TOKEN.SUCCESS.DELETED")),
+            onError: () => toast.error(t("TOKEN.ERROR.DELETE")),
           },
         ),
     },
@@ -273,7 +273,7 @@ export function TokenDateCell({ row, column }: CellContext<TokenRow, unknown>) {
   const value = row.original[column.id as "created_time" | "expired_time"];
   return (
     <span className="text-muted-foreground font-mono text-xs">
-      {value === -1 ? t("TOKEN.NEVER_EXPIRES") : formatDate(value)}
+      {value === -1 ? t("TOKEN.FORM.NEVER_EXPIRES") : formatDate(value)}
     </span>
   );
 }

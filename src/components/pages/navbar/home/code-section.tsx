@@ -14,14 +14,14 @@ export async function CodeSection() {
       <div className="mx-auto flex max-w-360 flex-col gap-10 px-6 lg:flex-row lg:gap-20">
         <div className="flex-1 space-y-6 lg:space-y-10">
           <h2 className="text-foreground text-3xl leading-[1.1] font-bold tracking-tight md:text-5xl">
-            {t("HOME.CODE_TITLE_1")}
+            {t("HOME.CODE.TITLE_1")}
             <br />
             <span className="text-muted-foreground">
-              {t("HOME.CODE_TITLE_2")}
+              {t("HOME.CODE.TITLE_2")}
             </span>
           </h2>
           <p className="text-muted-foreground max-w-md font-mono text-sm leading-relaxed">
-            {t("HOME.CODE_DESCRIPTION")}
+            {t("HOME.CODE.DESCRIPTION")}
           </p>
 
           <div className="space-y-4 pt-4">
@@ -30,7 +30,7 @@ export async function CodeSection() {
                 <LuCheck className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
-                {t("HOME.CODE_FEATURE_1")}
+                {t("HOME.CODE.FEATURE_1")}
               </span>
             </div>
             <div className="text-foreground group flex items-center gap-4 text-sm">
@@ -38,7 +38,7 @@ export async function CodeSection() {
                 <LuCheck className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
-                {t("HOME.CODE_FEATURE_2")}
+                {t("HOME.CODE.FEATURE_2")}
               </span>
             </div>
             <div className="text-foreground group flex items-center gap-4 text-sm">
@@ -46,7 +46,7 @@ export async function CodeSection() {
                 <LuCheck className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
-                {t("HOME.CODE_FEATURE_3")}
+                {t("HOME.CODE.FEATURE_3")}
               </span>
             </div>
           </div>
@@ -55,7 +55,7 @@ export async function CodeSection() {
             href="/docs/claude-code"
             className="text-foreground border-foreground hover:text-muted-foreground hover:border-muted-foreground flex w-fit items-center gap-2 border-b pb-1 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
-            {t("HOME.CODE_READ_DOCS")}
+            {t("HOME.CODE.READ_DOCS")}
             <LuArrowRight className="h-3.5 w-3.5" />
           </Link>
         </div>

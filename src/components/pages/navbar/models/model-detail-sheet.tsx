@@ -70,7 +70,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <section>
               <SectionHeader
                 icon={<LuInfo className="h-3.5 w-3.5 text-cyan-400" />}
-                title={t("MODELS.DETAIL_DESCRIPTION")}
+                title={t("MODELS.DETAIL.DESCRIPTION")}
               />
               <p className="text-muted-foreground text-sm leading-relaxed">
                 {model.description}
@@ -83,7 +83,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <section>
               <SectionHeader
                 icon={<LuTag className="h-3.5 w-3.5 text-purple-400" />}
-                title={t("MODELS.DETAIL_TAGS")}
+                title={t("MODELS.DETAIL.TAGS")}
               />
               <div className="flex flex-wrap gap-1.5">
                 {model.tags.map((tag) => (
@@ -112,7 +112,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                   $
                 </span>
               }
-              title={t("MODELS.DETAIL_PRICING")}
+              title={t("MODELS.DETAIL.PRICING")}
             />
             <div
               className={cn("rounded-lg border p-4", theme.bg, theme.border)}
@@ -125,7 +125,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     {formatPrice(model.fixedPrice)}
                   </span>
                   <span className="text-muted-foreground font-mono text-xs">
-                    {t("MODELS.PRICE_PER_REQUEST")}
+                    {t("MODELS.PRICE.PER_REQUEST")}
                   </span>
                 </div>
               ) : (
@@ -133,7 +133,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                        {t("MODELS.PRICE_INPUT")}
+                        {t("MODELS.PRICE.INPUT")}
                       </span>
                       <div
                         className={cn(
@@ -144,12 +144,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                         {formatPrice(model.inputPrice)}
                       </div>
                       <span className="text-muted-foreground font-mono text-[10px]">
-                        {t("MODELS.PRICE_PER_MILLION")}
+                        {t("MODELS.PRICE.PER_MILLION")}
                       </span>
                     </div>
                     <div>
                       <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                        {t("MODELS.PRICE_OUTPUT")}
+                        {t("MODELS.PRICE.OUTPUT")}
                       </span>
                       <div
                         className={cn(
@@ -160,17 +160,17 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                         {formatPrice(model.outputPrice)}
                       </div>
                       <span className="text-muted-foreground font-mono text-[10px]">
-                        {t("MODELS.PRICE_PER_MILLION")}
+                        {t("MODELS.PRICE.PER_MILLION")}
                       </span>
                     </div>
                   </div>
                   {model.originalInputPrice !== null &&
                     model.originalOutputPrice !== null && (
                       <div className="text-muted-foreground/50 font-mono text-xs line-through">
-                        {t("MODELS.PRICE_ORIGINAL")}:{" "}
+                        {t("MODELS.PRICE.ORIGINAL")}:{" "}
                         {formatPrice(model.originalInputPrice)}/
                         {formatPrice(model.originalOutputPrice)}{" "}
-                        {t("MODELS.PRICE_PER_MILLION")}
+                        {t("MODELS.PRICE.PER_MILLION")}
                       </div>
                     )}
                 </div>
@@ -197,7 +197,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <section>
               <SectionHeader
                 icon={<LuLink className="h-3.5 w-3.5 text-green-400" />}
-                title={t("MODELS.DETAIL_ENDPOINTS")}
+                title={t("MODELS.DETAIL.ENDPOINTS")}
               />
               <div className="space-y-2">
                 {model.endpointTypes.map((endpoint) => {
@@ -243,7 +243,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
 
           {/* Pricing note */}
           <p className="text-muted-foreground/60 font-mono text-[10px] leading-relaxed italic">
-            {t("MODELS.PRICE_VARIES_TOOLTIP")}
+            {t("MODELS.PRICE.VARIES_TOOLTIP")}
           </p>
         </div>
       </SheetContent>
@@ -345,7 +345,7 @@ function GridPricingSection(props: {
     <section>
       <SectionHeader
         icon={<LuGrid3X3 className="h-3.5 w-3.5 text-cyan-400" />}
-        title={t("MODELS.DETAIL_GRID_PRICING")}
+        title={t("MODELS.DETAIL.GRID_PRICING")}
       />
       <div
         className={cn(
@@ -357,7 +357,7 @@ function GridPricingSection(props: {
         <GridPricingTable
           rows={props.gridPricing}
           theme={props.theme}
-          pricingLabel={t("MODELS.DETAIL_PRICING")}
+          pricingLabel={t("MODELS.DETAIL.PRICING")}
         />
       </div>
     </section>
@@ -398,8 +398,8 @@ function GroupPricingSection(props: {
         <LuLayers className="h-3.5 w-3.5 text-amber-400" />
         <span className="text-foreground font-mono text-xs tracking-wider uppercase">
           {hasGrid
-            ? t("MODELS.DETAIL_GRID_PRICING_GROUP")
-            : t("MODELS.DETAIL_GROUP_PRICING")}
+            ? t("MODELS.DETAIL.GRID_PRICING_GROUP")
+            : t("MODELS.DETAIL.GROUP_PRICING")}
         </span>
         <LuChevronDown
           className={cn(
@@ -432,7 +432,7 @@ function GroupPricingSection(props: {
                       rows={model.gridPricing!}
                       priceMultiplier={ge.ratio}
                       theme={theme}
-                      pricingLabel={t("MODELS.DETAIL_PRICING")}
+                      pricingLabel={t("MODELS.DETAIL.PRICING")}
                     />
                   </div>
                 </div>
@@ -453,10 +453,10 @@ function GroupPricingSection(props: {
                     >
                       <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto] gap-x-4 gap-y-0 border-b pb-2">
                         <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
+                          {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
                         </span>
                         <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL_PRICING")}
+                          {t("MODELS.DETAIL.PRICING")}
                         </span>
                       </div>
                       <div className="space-y-1.5">
@@ -476,7 +476,7 @@ function GroupPricingSection(props: {
                             >
                               {formatPrice(gp.price)}
                               <span className="text-muted-foreground ml-1 text-[10px] font-normal">
-                                {t("MODELS.PRICE_PER_REQUEST")}
+                                {t("MODELS.PRICE.PER_REQUEST")}
                               </span>
                             </span>
                           </div>
@@ -501,13 +501,13 @@ function GroupPricingSection(props: {
                     >
                       <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
                         <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL_GROUP_HEADER_GROUP")}
+                          {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
                         </span>
                         <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL_GROUP_HEADER_INPUT")}
+                          {t("MODELS.DETAIL.GROUP_HEADER_INPUT")}
                         </span>
                         <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL_GROUP_HEADER_OUTPUT")}
+                          {t("MODELS.DETAIL.GROUP_HEADER_OUTPUT")}
                         </span>
                       </div>
                       <div className="space-y-1.5">

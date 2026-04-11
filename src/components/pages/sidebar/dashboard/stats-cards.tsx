@@ -109,10 +109,10 @@ export function StatsCards() {
 
   const cards: StatsCardProps[] = [
     {
-      title: t("DASHBOARD.ACCOUNT_DATA"),
+      title: t("DASHBOARD.STATS.ACCOUNT_DATA"),
       items: [
         {
-          label: t("DASHBOARD.CURRENT_BALANCE"),
+          label: t("DASHBOARD.STATS.CURRENT_BALANCE"),
           value: renderQuota(user?.quota),
           icon: <LuWallet className="h-4 w-4" />,
           isLoading: !user,
@@ -128,17 +128,17 @@ export function StatsCards() {
       ],
     },
     {
-      title: t("DASHBOARD.USAGE_STATISTICS"),
+      title: t("DASHBOARD.STATS.USAGE_STATISTICS"),
       items: [
         {
-          label: t("DASHBOARD.REQUEST_COUNT"),
+          label: t("DASHBOARD.STATS.REQUEST_COUNT"),
           value: user?.request_count,
           icon: <LuSend className="h-4 w-4" />,
           isLoading: !user,
           accentColor: "var(--chart-1)",
         },
         {
-          label: t("DASHBOARD.STATISTICAL_COUNT"),
+          label: t("DASHBOARD.STATS.STATISTICAL_COUNT"),
           value: stats.totalCount,
           icon: <LuHash className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
@@ -149,10 +149,10 @@ export function StatsCards() {
       ],
     },
     {
-      title: t("DASHBOARD.RESOURCE_CONSUMPTION"),
+      title: t("DASHBOARD.STATS.RESOURCE_CONSUMPTION"),
       items: [
         {
-          label: t("DASHBOARD.STATISTICAL_QUOTA"),
+          label: t("DASHBOARD.STATS.STATISTICAL_QUOTA"),
           value: renderQuota(stats.totalQuota),
           icon: <LuDollarSign className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
@@ -161,7 +161,7 @@ export function StatsCards() {
           trendColor: "#f59e0b",
         },
         {
-          label: t("DASHBOARD.STATISTICAL_TOKENS"),
+          label: t("DASHBOARD.STATS.STATISTICAL_TOKENS"),
           value: stats.totalTokens,
           icon: <LuBinary className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
@@ -172,10 +172,10 @@ export function StatsCards() {
       ],
     },
     {
-      title: t("DASHBOARD.PERFORMANCE_INDICATORS"),
+      title: t("DASHBOARD.STATS.PERFORMANCE_INDICATORS"),
       items: [
         {
-          label: t("DASHBOARD.AVERAGE_RPM"),
+          label: t("DASHBOARD.STATS.AVERAGE_RPM"),
           value: stats.avgRpm.toFixed(1),
           icon: <LuGauge className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
@@ -184,7 +184,7 @@ export function StatsCards() {
           trendColor: "#6366f1",
         },
         {
-          label: t("DASHBOARD.AVERAGE_TPM"),
+          label: t("DASHBOARD.STATS.AVERAGE_TPM"),
           value: stats.avgTpm.toFixed(1),
           icon: <LuActivity className="h-4 w-4" />,
           isLoading: !quotaQuery.data,

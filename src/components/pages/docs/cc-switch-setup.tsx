@@ -44,10 +44,10 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
   return (
     <section className="mt-10">
       <h2 className="mb-4 text-2xl font-semibold" id="cc-switch-setup">
-        {t("DOCS.CC_SWITCH_SETUP_TITLE")}
+        {t("DOCS.SETUP.TITLE")}
       </h2>
       <p className="text-muted-foreground mb-6 text-sm">
-        {t("DOCS.CC_SWITCH_SETUP_DESC")}
+        {t("DOCS.SETUP.DESC")}
       </p>
 
       <div className="border-border bg-card rounded-lg border p-6">
@@ -66,7 +66,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
             ) : (
               <LuArrowLeftRight className="size-4" />
             )}
-            {t("DOCS.CC_SWITCH_SETUP_BUTTON")}
+            {t("DOCS.SETUP.BUTTON")}
             <LuExternalLink className="size-3.5" />
           </Button>
         </a>
@@ -75,7 +75,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
           <p className="text-muted-foreground mt-3 flex items-center gap-1.5 text-xs">
             <LuKey className="size-3" />
             <Link href="/login" className="text-primary underline">
-              {t("DOCS.CC_SWITCH_SETUP_LOGIN_REQUIRED")}
+              {t("DOCS.SETUP.LOGIN_REQUIRED")}
             </Link>
           </p>
         )}
@@ -110,7 +110,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
           >
             <LuCircleAlert className="text-muted-foreground size-3.5 shrink-0" />
             <span className="text-muted-foreground text-xs">
-              {t("DOCS.CC_SWITCH_SETUP_NO_APP")}
+              {t("DOCS.SETUP.NO_APP")}
             </span>
             <Button
               nativeButton={false}
@@ -124,14 +124,14 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
               }
             >
               <LuDownload className="size-3" />
-              {t("DOCS.CC_SWITCH_SETUP_INSTALL_LINK")}
+              {t("DOCS.SETUP.INSTALL_LINK")}
             </Button>
           </div>
         )}
 
         <div className="mt-6">
           <p className="text-muted-foreground mb-2 text-sm font-medium">
-            {t("DOCS.CC_SWITCH_SETUP_CLI_ALT")}
+            {t("DOCS.SETUP.CLI_ALT")}
           </p>
           {props.cliCodeBlock}
         </div>

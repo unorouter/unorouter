@@ -96,10 +96,10 @@ export const clearFiltersAtom = atom(null, (get, set) => {
 });
 
 export const FILTER_OPTIONS = [
-  { key: ModelTypeFilter.ALL, labelKey: msg("MODELS.FILTER_ALL") },
-  { key: ModelTypeFilter.TEXT, labelKey: msg("MODELS.FILTER_TEXT") },
-  { key: ModelTypeFilter.IMAGE, labelKey: msg("MODELS.FILTER_IMAGE") },
-  { key: ModelTypeFilter.VIDEO, labelKey: msg("MODELS.FILTER_VIDEO") },
-  { key: ModelTypeFilter.AUDIO, labelKey: msg("MODELS.FILTER_AUDIO") },
-  { key: ModelTypeFilter.EMBEDDING, labelKey: msg("MODELS.FILTER_EMBEDDING") },
+  { key: ModelTypeFilter.ALL, labelKey: msg("MODELS.FILTER.ALL") },
+  { key: ModelTypeFilter.TEXT, labelKey: msg("MODELS.FILTER.TEXT") },
+  { key: ModelTypeFilter.IMAGE, labelKey: msg("MODELS.FILTER.IMAGE") },
+  { key: ModelTypeFilter.VIDEO, labelKey: msg("MODELS.FILTER.VIDEO") },
+  { key: ModelTypeFilter.AUDIO, labelKey: msg("MODELS.FILTER.AUDIO") },
+  { key: ModelTypeFilter.EMBEDDING, labelKey: msg("MODELS.FILTER.EMBEDDING") },
 ];

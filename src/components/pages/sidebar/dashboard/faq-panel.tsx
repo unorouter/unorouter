@@ -20,7 +20,7 @@ export function FaqPanel() {
       <div className="border-border flex items-center gap-2 border-b p-5">
         <LuCircleHelp className="text-muted-foreground h-4 w-4" />
         <span className="text-foreground font-mono text-sm font-medium">
-          {t("DASHBOARD.FAQ")}
+          {t("DASHBOARD.PANEL.FAQ")}
         </span>
       </div>
 
@@ -29,7 +29,7 @@ export function FaqPanel() {
           <div className="flex h-32 flex-col items-center justify-center gap-2">
             <LuCircleHelp className="text-muted-foreground h-8 w-8 opacity-20" />
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("DASHBOARD.NO_FAQ")}
+              {t("DASHBOARD.PANEL.NO_FAQ")}
             </span>
           </div>
         ) : (

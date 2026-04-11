@@ -50,7 +50,7 @@ export function TopUpSection() {
           if (data.pay_link) window.open(data.pay_link, "_blank");
         },
         onError: () => {
-          toast.error(t("BILLING.PAYMENT_FAILED"));
+          toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
         },
       },
     );
@@ -65,7 +65,7 @@ export function TopUpSection() {
           if (data.checkout_url) window.open(data.checkout_url, "_blank");
         },
         onError: () => {
-          toast.error(t("BILLING.PAYMENT_FAILED"));
+          toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
         },
       },
     );
@@ -90,7 +90,7 @@ export function TopUpSection() {
   return (
     <div className="space-y-6">
       <h2 className="text-foreground text-lg font-bold tracking-tight">
-        {t("BILLING.QUOTA_TOP_UP")}
+        {t("BILLING.TOPUP.TITLE")}
       </h2>
 
       {/* Stripe top-up amounts */}
@@ -110,10 +110,10 @@ export function TopUpSection() {
                   {amount} $
                 </span>
                 <span className="text-muted-foreground font-mono text-[11px]">
-                  {t("BILLING.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
+                  {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${actual.toFixed(2)}
                   {save > 0 && (
                     <>
-                      , {t("BILLING.SAVE")} ${save.toFixed(2)}
+                      , {t("BILLING.TOPUP.SAVE")} ${save.toFixed(2)}
                     </>
                   )}
                 </span>
@@ -137,7 +137,7 @@ export function TopUpSection() {
                 {product.price} $
               </span>
               <span className="text-muted-foreground font-mono text-[11px]">
-                {t("BILLING.ACTUAL_PAYMENT")} ${product.price.toFixed(2)}
+                {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${product.price.toFixed(2)}
               </span>
             </button>
           ))}
@@ -160,7 +160,7 @@ export function TopUpSection() {
                   {amount} $
                 </span>
                 <span className="text-muted-foreground font-mono text-[11px]">
-                  {t("BILLING.ACTUAL_PAYMENT")} ${amount.toFixed(2)}
+                  {t("BILLING.TOPUP.ACTUAL_PAYMENT")} ${amount.toFixed(2)}
                 </span>
               </button>
             ))}

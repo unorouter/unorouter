@@ -25,18 +25,18 @@ export function PricingSection() {
           <div className="mb-6 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
             <LuZap className="h-3 w-3 text-purple-700 dark:text-purple-400" />
             <span className="textpriceAmount >-[10px] font-mono tracking-[0.2em] text-purple-700 uppercase dark:text-purple-400">
-              {t("HOME.PRICING_LABEL")}
+              {t("HOME.PRICING.LABEL")}
             </span>
           </div>
           <h2 className="text-foreground mb-4 text-3xl leading-[1.1] font-bold tracking-tight md:text-5xl">
-            {t("HOME.PRICING_TITLE")}
+            {t("HOME.PRICING.TITLE")}
             <br />
             <span className="text-muted-foreground">
-              {t("HOME.PRICING_SUBTITLE")}
+              {t("HOME.PRICING.SUBTITLE")}
             </span>
           </h2>
           <p className="text-muted-foreground mx-auto max-w-2xl font-mono text-sm leading-relaxed">
-            {t("HOME.PRICING_DESCRIPTION")}
+            {t("HOME.PRICING.DESCRIPTION")}
           </p>
         </div>
 
@@ -46,26 +46,26 @@ export function PricingSection() {
           className="mb-8 grid gap-4 md:grid-cols-2 lg:mb-16 lg:grid-cols-4"
         >
           <PricingTile
-            name={t("HOME.PRICING_PAYG_NAME")}
-            price={t("HOME.PRICING_PAYG_PRICE")}
-            description={t("HOME.PRICING_PAYG_DESC")}
-            endpoint={t("HOME.PRICING_PAYG_ENDPOINT")}
+            name={t("HOME.PRICING.PAYG.NAME")}
+            price={t("HOME.PRICING.PAYG.PRICE")}
+            description={t("HOME.PRICING.PAYG.DESC")}
+            endpoint={t("HOME.PRICING.PAYG.ENDPOINT")}
           />
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
             const resetLabel = t(
               RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ??
-                "BILLING.PER_MONTH",
+                "BILLING.SUBSCRIPTION.PER_MONTH",
             );
             return (
               <PricingTile
                 key={plan.id}
                 name={plan.title}
-                price={`$${plan.priceAmount}/${t("BILLING.MONTH").toLowerCase().slice(0, 3)}`}
+                price={`$${plan.priceAmount}/${t("BILLING.SUBSCRIPTION.MONTH").toLowerCase().slice(0, 3)}`}
                 description={
-                  t("PRICING.CARD_VALUE", {
+                  t("PRICING.CARD.VALUE", {
                     value: `~$${plan.estimatedTotalUsd}`,
-                  }) + `. ${multiplier}x ${t("PRICING.CARD_SPEC_MULTIPLIER")}.`
+                  }) + `. ${multiplier}x ${t("PRICING.CARD.SPEC_MULTIPLIER")}.`
                 }
                 endpoint={`$${plan.quotaPerResetUsd}${resetLabel}`}
                 highlight={i === 0}
@@ -79,10 +79,10 @@ export function PricingSection() {
           <div className="space-y-8">
             <div>
               <h3 className="text-foreground mb-4 font-mono text-xl font-bold">
-                {t("HOME.FEATURES_TITLE", APP_VALUES)}
+                {t("HOME.FEATURES.TITLE", APP_VALUES)}
               </h3>
               <p className="text-muted-foreground mb-6 font-mono text-sm leading-relaxed">
-                {t("HOME.FEATURES_DESCRIPTION")}
+                {t("HOME.FEATURES.DESCRIPTION")}
               </p>
             </div>
 
@@ -91,22 +91,22 @@ export function PricingSection() {
                 icon={
                   <LuShield className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />
                 }
-                title={t("HOME.FEATURE_FAILOVER_TITLE")}
-                description={t("HOME.FEATURE_FAILOVER_DESC")}
+                title={t("HOME.FEATURES.FAILOVER.TITLE")}
+                description={t("HOME.FEATURES.FAILOVER.DESC")}
               />
               <FeatureRow
                 icon={
                   <LuGlobe className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />
                 }
-                title={t("HOME.FEATURE_MULTIPROTOCOL_TITLE")}
-                description={t("HOME.FEATURE_MULTIPROTOCOL_DESC")}
+                title={t("HOME.FEATURES.MULTIPROTOCOL.TITLE")}
+                description={t("HOME.FEATURES.MULTIPROTOCOL.DESC")}
               />
               <FeatureRow
                 icon={
                   <LuActivity className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />
                 }
-                title={t("HOME.FEATURE_LOADBALANCE_TITLE")}
-                description={t("HOME.FEATURE_LOADBALANCE_DESC")}
+                title={t("HOME.FEATURES.LOADBALANCE.TITLE")}
+                description={t("HOME.FEATURES.LOADBALANCE.DESC")}
               />
             </div>
 
@@ -114,13 +114,13 @@ export function PricingSection() {
               <GetStartedLink
                 className="flex h-11 items-center gap-2 bg-purple-600 px-8 font-mono text-xs font-bold tracking-widest text-white uppercase transition-colors hover:bg-purple-500"
                 icon={<LuZap className="h-3.5 w-3.5" />}
-                translationKey="HOME.PRICING_CTA_GET_STARTED"
+                translationKey="HOME.PRICING.CTA.GET_STARTED"
               />
               <Link
                 href="/pricing"
                 className="border-border text-foreground hover:border-foreground flex h-11 items-center gap-2 border bg-transparent px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all"
               >
-                {t("HOME.PRICING_CTA_VIEW_PLANS")}
+                {t("HOME.PRICING.CTA.VIEW_PLANS")}
               </Link>
             </div>
           </div>
@@ -130,12 +130,12 @@ export function PricingSection() {
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="flex items-center justify-between border-b border-purple-500/20 bg-purple-500/10 px-4 py-3">
                 <span className="font-mono text-[10px] tracking-wider text-purple-700 uppercase dark:text-purple-400">
-                  {t("HOME.PRICING_PROVIDERS_TITLE")}
+                  {t("HOME.PRICING.PROVIDERS.TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
                   <span className="font-mono text-[10px] text-green-700 dark:text-green-400">
-                    {t("HOME.PRICING_PROVIDERS_ACTIVE")}
+                    {t("HOME.PRICING.PROVIDERS.ACTIVE")}
                   </span>
                 </div>
               </div>
@@ -186,21 +186,21 @@ export function PricingSection() {
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="bg-secondary border-border flex items-center justify-between border-b px-4 py-3">
                 <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
-                  {t("HOME.PRICING_FLOW_TITLE")}
+                  {t("HOME.PRICING.FLOW.TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-purple-500" />
                   <span className="font-mono text-[10px] text-purple-700 dark:text-purple-400">
-                    {t("HOME.PRICING_FLOW_LIVE")}
+                    {t("HOME.PRICING.FLOW.LIVE")}
                   </span>
                 </div>
               </div>
               <div className="space-y-3 p-4 font-mono text-xs">
-                <FlowStep step="1" text={t("HOME.PRICING_FLOW_STEP1")} />
-                <FlowStep step="2" text={t("HOME.PRICING_FLOW_STEP2")} muted />
+                <FlowStep step="1" text={t("HOME.PRICING.FLOW.STEP1")} />
+                <FlowStep step="2" text={t("HOME.PRICING.FLOW.STEP2")} muted />
                 <FlowStep
                   step="✓"
-                  text={t("HOME.PRICING_FLOW_STEP3")}
+                  text={t("HOME.PRICING.FLOW.STEP3")}
                   success
                 />
               </div>

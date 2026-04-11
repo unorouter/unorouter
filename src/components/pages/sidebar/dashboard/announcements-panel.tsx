@@ -26,7 +26,7 @@ export function AnnouncementsPanel() {
       <div className="border-border flex items-center gap-2 border-b p-5">
         <LuBell className="text-muted-foreground h-4 w-4" />
         <span className="text-foreground font-mono text-sm font-medium">
-          {t("DASHBOARD.SYSTEM_NOTICE")}
+          {t("DASHBOARD.PANEL.SYSTEM_NOTICE")}
         </span>
         {announcements.length > 0 && (
           <span className="bg-foreground/10 text-muted-foreground ml-auto px-1.5 py-0.5 font-mono text-[10px]">
@@ -40,7 +40,7 @@ export function AnnouncementsPanel() {
           <div className="flex h-32 flex-col items-center justify-center gap-2">
             <LuBell className="text-muted-foreground h-8 w-8 opacity-20" />
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("DASHBOARD.NO_ANNOUNCEMENTS")}
+              {t("DASHBOARD.PANEL.NO_ANNOUNCEMENTS")}
             </span>
           </div>
         ) : (

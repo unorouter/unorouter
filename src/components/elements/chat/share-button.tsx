@@ -37,7 +37,7 @@ export function ShareButton(props: { convId: string }) {
           size="icon"
           className="h-8 w-8"
           onClick={() => copyAndFlash(existingShareId)}
-          title={t("CHAT.COPY_SHARE_LINK")}
+          title={t("CHAT.SHARE.COPY_LINK")}
         >
           {copied ? (
             <LuCheck className="h-4 w-4 text-green-500" />
@@ -54,7 +54,7 @@ export function ShareButton(props: { convId: string }) {
             revokeMutation.mutate({ id: props.convId });
           }}
           disabled={isPending}
-          title={t("CHAT.REVOKE_SHARE")}
+          title={t("CHAT.SHARE.REVOKE")}
         >
           <LuLink2Off className="h-4 w-4" />
         </Button>
@@ -75,7 +75,7 @@ export function ShareButton(props: { convId: string }) {
         );
       }}
       disabled={isPending}
-      title={t("CHAT.SHARE")}
+      title={t("CHAT.SHARE.BUTTON")}
     >
       {copied ? (
         <LuCheck className="h-4 w-4 text-green-500" />

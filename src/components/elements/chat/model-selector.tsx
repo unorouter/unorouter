@@ -68,11 +68,11 @@ export function ModelSelector(props: ModelSelectorProps) {
         <div className="flex items-center gap-2 truncate">
           {selected && <VendorIcon vendor={selected.vendor.name} size={14} />}
           <span className="truncate font-mono">
-            {props.value || t("CHAT.SELECT_MODEL")}
+            {props.value || t("CHAT.MODEL.SELECT")}
           </span>
           {selected?.isFree && (
             <span className="rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
-              {t("CHAT.FREE_MODEL_BADGE")}
+              {t("CHAT.MODEL.FREE_BADGE")}
             </span>
           )}
         </div>
@@ -81,7 +81,7 @@ export function ModelSelector(props: ModelSelectorProps) {
       <PopoverContent className="w-72 p-0" align="start">
         <Command>
           <CommandInput
-            placeholder={t("CHAT.SEARCH_MODEL")}
+            placeholder={t("CHAT.MODEL.SEARCH")}
             className="h-8 text-xs"
           />
           {modelsByType.length > 1 && (
@@ -106,7 +106,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             </div>
           )}
           <CommandList>
-            <CommandEmpty>{t("CHAT.NO_MODELS_FOUND")}</CommandEmpty>
+            <CommandEmpty>{t("CHAT.MODEL.NO_RESULTS")}</CommandEmpty>
             {(typeFilter
               ? modelsByType.filter(({ tag }) => tag === typeFilter)
               : modelsByType
@@ -146,13 +146,13 @@ export function ModelSelector(props: ModelSelectorProps) {
                       </span>
                       {model.isFree && (
                         <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
-                          {t("CHAT.FREE_MODEL_BADGE")}
+                          {t("CHAT.MODEL.FREE_BADGE")}
                         </span>
                       )}
                       {disabled && (
                         <span
                           className="text-muted-foreground shrink-0"
-                          title={t("CHAT.LOGIN_TO_USE_MODEL")}
+                          title={t("CHAT.MODEL.LOGIN_REQUIRED")}
                         >
                           <LuLock className="h-3 w-3" />
                         </span>

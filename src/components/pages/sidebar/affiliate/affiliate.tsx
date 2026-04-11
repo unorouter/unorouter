@@ -177,10 +177,10 @@ export function Affiliate() {
                 </div>
                 <div>
                   <span className="text-foreground block text-sm font-medium">
-                    {t("AFFILIATE.STEP_1_TITLE")}
+                    {t("AFFILIATE.STEPS.1.TITLE")}
                   </span>
                   <span className="text-muted-foreground block text-xs">
-                    {t("AFFILIATE.STEP_1_DESC")}
+                    {t("AFFILIATE.STEPS.1.DESC")}
                   </span>
                 </div>
               </div>
@@ -193,10 +193,10 @@ export function Affiliate() {
                 </div>
                 <div>
                   <span className="text-foreground block text-sm font-medium">
-                    {t("AFFILIATE.STEP_2_TITLE")}
+                    {t("AFFILIATE.STEPS.2.TITLE")}
                   </span>
                   <span className="text-muted-foreground block text-xs">
-                    {t("AFFILIATE.STEP_2_DESC")}
+                    {t("AFFILIATE.STEPS.2.DESC")}
                   </span>
                 </div>
               </div>
@@ -209,10 +209,10 @@ export function Affiliate() {
                 </div>
                 <div>
                   <span className="text-foreground block text-sm font-medium">
-                    {t("AFFILIATE.STEP_3_TITLE")}
+                    {t("AFFILIATE.STEPS.3.TITLE")}
                   </span>
                   <span className="text-muted-foreground block text-xs">
-                    {t("AFFILIATE.STEP_3_DESC")}
+                    {t("AFFILIATE.STEPS.3.DESC")}
                   </span>
                 </div>
               </div>
@@ -260,10 +260,10 @@ export function Affiliate() {
             </div>
             <div className="border-border border-t p-5">
               <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
-                {t("AFFILIATE.TRANSFER_SECTION")}
+                {t("AFFILIATE.TRANSFER.SECTION")}
               </span>
               <p className="text-muted-foreground mb-3 text-xs">
-                {t("AFFILIATE.TRANSFER_DESC")}
+                {t("AFFILIATE.TRANSFER.DESC")}
               </p>
               <div className="flex items-center gap-2">
                 <span className="text-foreground font-mono text-sm font-bold tabular-nums">
@@ -283,7 +283,7 @@ export function Affiliate() {
                   data-icon="inline-start"
                   className="h-3.5 w-3.5"
                 />
-                {t("AFFILIATE.TRANSFER_TO_BALANCE")}
+                {t("AFFILIATE.TRANSFER.TO_BALANCE")}
               </Button>
             </div>
           </div>

@@ -31,7 +31,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (log.channel && log.channel_name) {
     items.push({
-      label: t("LOGS.EXPAND_CHANNEL"),
+      label: t("LOGS.DETAIL.CHANNEL"),
       value: (
         <Badge
           variant="secondary"
@@ -45,7 +45,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (log.request_id) {
     items.push({
-      label: t("LOGS.EXPAND_REQUEST_ID"),
+      label: t("LOGS.DETAIL.REQUEST_ID"),
       value: (
         <span className="flex items-center gap-1.5">
           <code className="bg-muted rounded px-1.5 py-0.5 font-mono text-xs text-amber-400">
@@ -68,7 +68,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (cacheRead > 0) {
     items.push({
-      label: t("LOGS.EXPAND_CACHE_TOKENS"),
+      label: t("LOGS.DETAIL.CACHE_TOKENS"),
       value: (
         <Badge
           variant="secondary"
@@ -82,7 +82,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (cacheWrite > 0) {
     items.push({
-      label: t("LOGS.EXPAND_CACHE_CREATION"),
+      label: t("LOGS.DETAIL.CACHE_CREATION"),
       value: (
         <Badge
           variant="secondary"
@@ -96,7 +96,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (log.content) {
     items.push({
-      label: t("LOGS.EXPAND_LOG_DETAILS"),
+      label: t("LOGS.DETAIL.LOG_DETAILS"),
       value: (
         <span className="font-mono text-xs whitespace-pre-wrap text-orange-300/80">
           {log.content}
@@ -107,7 +107,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (other?.request_path) {
     items.push({
-      label: t("LOGS.EXPAND_REQUEST_PATH"),
+      label: t("LOGS.DETAIL.REQUEST_PATH"),
       value: (
         <code className="rounded bg-purple-500/10 px-1.5 py-0.5 font-mono text-xs text-purple-400">
           {other.request_path}
@@ -118,7 +118,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (other?.request_conversion) {
     items.push({
-      label: t("LOGS.EXPAND_REQUEST_CONVERSION"),
+      label: t("LOGS.DETAIL.REQUEST_CONVERSION"),
       value: (
         <Badge
           variant="secondary"
@@ -132,7 +132,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
 
   if (other?.billing) {
     items.push({
-      label: t("LOGS.EXPAND_BILLING_MODE"),
+      label: t("LOGS.DETAIL.BILLING_MODE"),
       value: (
         <Badge
           variant="secondary"
@@ -143,8 +143,8 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
           }
         >
           {other.billing === "upstream"
-            ? t("LOGS.EXPAND_BILLING_UPSTREAM")
-            : t("LOGS.EXPAND_BILLING_LOCAL")}
+            ? t("LOGS.DETAIL.BILLING_UPSTREAM")
+            : t("LOGS.DETAIL.BILLING_LOCAL")}
         </Badge>
       ),
     });

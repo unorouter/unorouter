@@ -91,8 +91,8 @@ export function LoginForm() {
 
   return (
     <GlassAuthCard
-      title={t("AUTH.LOGIN_TITLE")}
-      description={t("AUTH.LOGIN_DESCRIPTION", APP_VALUES)}
+      title={t("AUTH.LOGIN.TITLE")}
+      description={t("AUTH.LOGIN.DESCRIPTION", APP_VALUES)}
     >
       <div className="space-y-6">
         {showPasswordForm && (
@@ -103,20 +103,20 @@ export function LoginForm() {
                   control={form.control}
                   name="username"
                   schema={loginSchema}
-                  label={t("AUTH.USERNAME")}
+                  label={t("AUTH.FORM.USERNAME")}
                   type="text"
                   autoComplete="username"
-                  placeholder={t("AUTH.USERNAME_PLACEHOLDER")}
+                  placeholder={t("AUTH.FORM.USERNAME_PLACEHOLDER")}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
                 <MyFormInput
                   control={form.control}
                   name="password"
                   schema={loginSchema}
-                  label={t("AUTH.PASSWORD")}
+                  label={t("AUTH.FORM.PASSWORD")}
                   type="password"
                   autoComplete="current-password"
-                  placeholder={t("AUTH.PASSWORD_PLACEHOLDER")}
+                  placeholder={t("AUTH.FORM.PASSWORD_PLACEHOLDER")}
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
               </div>
@@ -149,7 +149,7 @@ export function LoginForm() {
               >
                 {loginMutation.isPending
                   ? t("AUTH.LOGGING_IN")
-                  : t("AUTH.LOGIN_BUTTON")}
+                  : t("AUTH.LOGIN.BUTTON")}
               </Button>
             </form>
           </Form>
@@ -163,7 +163,7 @@ export function LoginForm() {
             href="/register"
             className="text-foreground font-medium hover:underline"
           >
-            {t("AUTH.REGISTER_BUTTON")}
+            {t("AUTH.REGISTER.BUTTON")}
           </Link>
         </p>
       </div>

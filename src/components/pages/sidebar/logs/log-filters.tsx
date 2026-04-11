@@ -77,13 +77,13 @@ export function LogFilters(props: {
   const requestId = props.filters.request_id ?? "";
 
   const logTypeOptions = [
-    { value: "all", label: t("LOGS.TYPE_ALL") },
-    { value: String(LOG_TYPE_CONSUME), label: t("LOGS.TYPE_CONSUME") },
-    { value: String(LOG_TYPE_TOPUP), label: t("LOGS.TYPE_TOPUP") },
-    { value: String(LOG_TYPE_ERROR), label: t("LOGS.TYPE_ERROR") },
-    { value: String(LOG_TYPE_SYSTEM), label: t("LOGS.TYPE_SYSTEM") },
-    { value: String(LOG_TYPE_MANAGE), label: t("LOGS.TYPE_MANAGE") },
-    { value: String(LOG_TYPE_REFUND), label: t("LOGS.TYPE_REFUND") },
+    { value: "all", label: t("LOGS.ENUM.ALL") },
+    { value: String(LOG_TYPE_CONSUME), label: t("LOGS.ENUM.CONSUME") },
+    { value: String(LOG_TYPE_TOPUP), label: t("LOGS.ENUM.TOPUP") },
+    { value: String(LOG_TYPE_ERROR), label: t("LOGS.ENUM.ERROR") },
+    { value: String(LOG_TYPE_SYSTEM), label: t("LOGS.ENUM.SYSTEM") },
+    { value: String(LOG_TYPE_MANAGE), label: t("LOGS.ENUM.MANAGE") },
+    { value: String(LOG_TYPE_REFUND), label: t("LOGS.ENUM.REFUND") },
   ];
 
   return (
@@ -118,7 +118,7 @@ export function LogFilters(props: {
             <SelectValue>
               {logTypeOptions.find(
                 (o) => o.value === (logType != null ? String(logType) : "all"),
-              )?.label ?? t("LOGS.TYPE_ALL")}
+              )?.label ?? t("LOGS.ENUM.ALL")}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -147,17 +147,17 @@ export function LogFilters(props: {
           <SearchFilterInput
             value={tokenName}
             onChange={(v) => props.onFilterChange("token_name", v)}
-            placeholder={t("LOGS.FILTER_TOKEN")}
+            placeholder={t("LOGS.FILTER.TOKEN")}
           />
           <SearchFilterInput
             value={modelName}
             onChange={(v) => props.onFilterChange("model_name", v)}
-            placeholder={t("LOGS.FILTER_MODEL")}
+            placeholder={t("LOGS.FILTER.MODEL")}
           />
           <SearchFilterInput
             value={requestId}
             onChange={(v) => props.onFilterChange("request_id", v)}
-            placeholder={t("LOGS.FILTER_REQUEST_ID")}
+            placeholder={t("LOGS.FILTER.REQUEST_ID")}
             className="w-48"
           />
           {(tokenName || modelName || requestId) && (

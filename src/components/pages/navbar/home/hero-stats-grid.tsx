@@ -10,19 +10,19 @@ export function HeroStatsGrid() {
   return (
     <div className="border-border grid w-full grid-cols-3 gap-0 border-t">
       <StatCard
-        label={t("HOME.STATS_MODELS")}
+        label={t("HOME.STATS.MODELS")}
         value={data ? String(data.modelCount) : "—"}
-        indicator={t("HOME.STATS_INDICATOR_GLOBAL")}
+        indicator={t("HOME.STATS.INDICATOR.GLOBAL")}
       />
       <StatCard
-        label={t("HOME.STATS_PROVIDERS")}
+        label={t("HOME.STATS.PROVIDERS")}
         value={data ? `${data.vendorCount}+` : "—"}
-        indicator={t("HOME.STATS_INDICATOR_INTEGRATED")}
+        indicator={t("HOME.STATS.INDICATOR.INTEGRATED")}
       />
       <StatCard
-        label={t("HOME.STATS_UPTIME")}
+        label={t("HOME.STATS.UPTIME")}
         value="99.9%"
-        indicator={t("HOME.STATS_INDICATOR_SLA")}
+        indicator={t("HOME.STATS.INDICATOR.SLA")}
       />
     </div>
   );

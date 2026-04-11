@@ -18,9 +18,9 @@ export function SortFilter() {
   const t = useTranslations();
 
   const getSortLabel = () => {
-    if (sortOrder === "priceAsc") return t("MODELS.SORT_PRICE_ASC");
-    if (sortOrder === "priceDesc") return t("MODELS.SORT_PRICE_DESC");
-    return t("MODELS.SORT_NAME");
+    if (sortOrder === "priceAsc") return t("MODELS.SORT.PRICE_ASC");
+    if (sortOrder === "priceDesc") return t("MODELS.SORT.PRICE_DESC");
+    return t("MODELS.SORT.NAME");
   };
 
   return (
@@ -43,13 +43,13 @@ export function SortFilter() {
           onValueChange={(value) => setSortOrder(value as SortOrder)}
         >
           <DropdownMenuRadioItem value="name">
-            {t("MODELS.SORT_NAME")}
+            {t("MODELS.SORT.NAME")}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="priceAsc">
-            {t("MODELS.SORT_PRICE_ASC")}
+            {t("MODELS.SORT.PRICE_ASC")}
           </DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="priceDesc">
-            {t("MODELS.SORT_PRICE_DESC")}
+            {t("MODELS.SORT.PRICE_DESC")}
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>

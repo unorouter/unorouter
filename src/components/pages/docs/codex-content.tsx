@@ -24,7 +24,7 @@ export async function CodexContent() {
   const toc = createTOC([
     { title: t("DOCS.CODEX.FEATURES_TITLE"), url: "#features", depth: 2 },
     {
-      title: t("DOCS.CC_SWITCH_SETUP_TITLE"),
+      title: t("DOCS.SETUP.TITLE"),
       url: "#cc-switch-setup",
       depth: 2,
     },
@@ -242,10 +242,10 @@ wire_api = "responses"`;
 
           {/* Config files (recommended) */}
           <h3 className="mb-2 text-lg font-medium">
-            {t("DOCS.CONFIG_FILE_LABEL")}
+            {t("DOCS.CONFIG.FILE_LABEL")}
           </h3>
           <p className="text-muted-foreground mb-3 text-sm">
-            {t("DOCS.CONFIG_FILE_DESC")}
+            {t("DOCS.CONFIG.FILE_DESC")}
           </p>
           <OSCodeBlock variants={authVariants} placeholder={docs.placeholder} />
           <div className="mt-4" />
@@ -256,10 +256,10 @@ wire_api = "responses"`;
 
           {/* Env vars (alternative) */}
           <h3 className="mt-8 mb-2 text-lg font-medium">
-            {t("DOCS.CONFIG_ENV_LABEL")}
+            {t("DOCS.CONFIG.ENV_LABEL")}
           </h3>
           <p className="text-muted-foreground mb-3 text-sm">
-            {t("DOCS.CONFIG_ENV_DESC")}
+            {t("DOCS.CONFIG.ENV_DESC")}
           </p>
           <OSCodeBlock variants={envVariants} placeholder={docs.placeholder} />
 
@@ -272,9 +272,9 @@ wire_api = "responses"`;
             macosContent={macosInstall}
             linuxContent={linuxInstall}
             labels={{
-              windows: t("DOCS.OS_TAB_WINDOWS"),
-              macos: t("DOCS.OS_TAB_MACOS"),
-              linux: t("DOCS.OS_TAB_LINUX"),
+              windows: t("DOCS.OS.WINDOWS"),
+              macos: t("DOCS.OS.MACOS"),
+              linux: t("DOCS.OS.LINUX"),
             }}
           />
         </section>

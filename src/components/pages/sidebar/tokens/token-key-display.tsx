@@ -25,15 +25,15 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
       <div className="mb-3 flex items-center gap-2">
         <LuKey className="text-muted-foreground h-4 w-4" />
         <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-          {t("TOKEN.COL_KEY")}
+          {t("TOKEN.TABLE.KEY")}
         </span>
         <Badge
           variant={props.isEnabled ? "default" : "destructive"}
           className={props.isEnabled ? "bg-green-500/10 text-green-500" : ""}
         >
           {props.isEnabled
-            ? t("TOKEN.STATUS_ENABLED")
-            : t("TOKEN.STATUS_DISABLED")}
+            ? t("TOKEN.ENUM.ENABLED")
+            : t("TOKEN.ENUM.DISABLED")}
         </Badge>
       </div>
 
@@ -59,7 +59,7 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
               )}
             </TooltipTrigger>
             <TooltipContent>
-              {props.revealedKey ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+              {props.revealedKey ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

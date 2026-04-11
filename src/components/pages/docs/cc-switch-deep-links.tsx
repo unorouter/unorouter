@@ -91,7 +91,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
                 )}
               </TooltipTrigger>
               <TooltipContent>
-                {revealed ? t("TOKEN.HIDE_KEY") : t("TOKEN.REVEAL_KEY")}
+                {revealed ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
               </TooltipContent>
             </Tooltip>
             <CopyButton
@@ -107,7 +107,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
         <div className="border-border bg-card flex items-center gap-2 rounded-lg border px-4 py-3">
           <LuKey className="text-muted-foreground size-3.5 shrink-0" />
           <Link href="/login" className="text-primary text-sm underline">
-            {t("DOCS.CC_SWITCH_SETUP_LOGIN_REQUIRED")}
+            {t("DOCS.SETUP.LOGIN_REQUIRED")}
           </Link>
         </div>
       )}
@@ -168,7 +168,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
         >
           <LuCircleAlert className="text-muted-foreground size-4 shrink-0" />
           <span className="text-muted-foreground text-sm">
-            {t("DOCS.CC_SWITCH_SETUP_NO_APP")}
+            {t("DOCS.SETUP.NO_APP")}
           </span>
           <Button
             nativeButton={false}
@@ -182,7 +182,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
             }
           >
             <LuDownload className="size-3" />
-            {t("DOCS.CC_SWITCH_SETUP_INSTALL_LINK")}
+            {t("DOCS.SETUP.INSTALL_LINK")}
           </Button>
         </div>
       )}

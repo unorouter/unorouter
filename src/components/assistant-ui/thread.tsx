@@ -125,7 +125,7 @@ const ThreadScrollToBottom: FC = () => {
   return (
     <ThreadPrimitive.ScrollToBottom asChild>
       <TooltipIconButton
-        tooltip={t("CHAT.SCROLL_TO_BOTTOM")}
+        tooltip={t("CHAT.ACTION.SCROLL_TO_BOTTOM")}
         variant="outline"
         className="aui-thread-scroll-to-bottom dark:border-border dark:bg-background dark:hover:bg-accent absolute -top-12 z-10 self-center rounded-full p-4 disabled:invisible"
       >
@@ -219,7 +219,7 @@ const ComposerWebSearchToggle: FC = () => {
   if (!authQuery.data) return null;
   return (
     <TooltipIconButton
-      tooltip={webSearch ? t("CHAT.WEB_SEARCH_ON") : t("CHAT.WEB_SEARCH_OFF")}
+      tooltip={webSearch ? t("CHAT.WEB_SEARCH.ON") : t("CHAT.WEB_SEARCH.OFF")}
       variant={webSearch ? "default" : "ghost"}
       className="aui-composer-web-search size-8 rounded-full transition-colors"
       onClick={() => {
@@ -247,11 +247,11 @@ const ComposerAction: FC = () => {
       <AuiIf condition={(s) => !s.thread.isRunning}>
         <ComposerPrimitive.Send asChild>
           <TooltipIconButton
-            tooltip={t("CHAT.SEND_MESSAGE")}
+            tooltip={t("CHAT.ACTION.SEND")}
             side="bottom"
             variant="default"
             className="aui-composer-send size-8 rounded-full"
-            aria-label={t("CHAT.SEND_MESSAGE")}
+            aria-label={t("CHAT.ACTION.SEND")}
           >
             <ArrowUpIcon className="aui-composer-send-icon size-4" />
           </TooltipIconButton>
@@ -264,7 +264,7 @@ const ComposerAction: FC = () => {
             variant="default"
             size="icon"
             className="aui-composer-cancel size-8 rounded-full"
-            aria-label={t("CHAT.STOP_GENERATING")}
+            aria-label={t("CHAT.ACTION.STOP")}
           >
             <SquareIcon className="aui-composer-cancel-icon size-3 fill-current" />
           </Button>
@@ -408,7 +408,7 @@ const AssistantActionBar: FC = () => {
       className="aui-assistant-action-bar-root text-muted-foreground col-start-3 row-start-2 -ml-1 flex gap-1"
     >
       <ActionBarPrimitive.Copy asChild>
-        <TooltipIconButton tooltip={t("CHAT.COPY")}>
+        <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
           <AuiIf condition={(s) => s.message.isCopied}>
             <CheckIcon />
           </AuiIf>
@@ -419,7 +419,7 @@ const AssistantActionBar: FC = () => {
       </ActionBarPrimitive.Copy>
       {!readOnly && (
         <ActionBarPrimitive.Reload asChild>
-          <TooltipIconButton tooltip={t("CHAT.REFRESH")}>
+          <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
             <RefreshCwIcon />
           </TooltipIconButton>
         </ActionBarPrimitive.Reload>
@@ -462,7 +462,7 @@ const UserActionBar: FC = () => {
     >
       <ActionBarPrimitive.Edit asChild>
         <TooltipIconButton
-          tooltip={t("CHAT.EDIT")}
+          tooltip={t("CHAT.ACTION.EDIT")}
           className="aui-user-action-edit p-4"
         >
           <PencilIcon />
@@ -484,11 +484,11 @@ const EditComposer: FC = () => {
         <div className="aui-edit-composer-footer mx-3 mb-3 flex items-center gap-2 self-end">
           <ComposerPrimitive.Cancel asChild>
             <Button variant="ghost" size="sm">
-              {t("CHAT.CANCEL")}
+              {t("CHAT.ACTION.CANCEL")}
             </Button>
           </ComposerPrimitive.Cancel>
           <ComposerPrimitive.Send asChild>
-            <Button size="sm">{t("CHAT.UPDATE")}</Button>
+            <Button size="sm">{t("CHAT.ACTION.UPDATE")}</Button>
           </ComposerPrimitive.Send>
         </div>
       </ComposerPrimitive.Root>
@@ -511,7 +511,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
       {...rest}
     >
       <BranchPickerPrimitive.Previous asChild>
-        <TooltipIconButton tooltip={t("CHAT.PREVIOUS")}>
+        <TooltipIconButton tooltip={t("CHAT.ACTION.PREVIOUS")}>
           <ChevronLeftIcon />
         </TooltipIconButton>
       </BranchPickerPrimitive.Previous>
@@ -519,7 +519,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
         <BranchPickerPrimitive.Number /> / <BranchPickerPrimitive.Count />
       </span>
       <BranchPickerPrimitive.Next asChild>
-        <TooltipIconButton tooltip={t("CHAT.NEXT")}>
+        <TooltipIconButton tooltip={t("CHAT.ACTION.NEXT")}>
           <ChevronRightIcon />
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>

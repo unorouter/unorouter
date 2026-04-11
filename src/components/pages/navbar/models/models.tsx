@@ -19,13 +19,13 @@ export function Models() {
   const m = useModelsFilter();
 
   const priceLabels = {
-    from: t("MODELS.PRICE_FROM"),
-    perRequest: t("MODELS.PRICE_PER_REQUEST"),
-    input: t("MODELS.PRICE_INPUT"),
-    output: t("MODELS.PRICE_OUTPUT"),
-    perMillion: t("MODELS.PRICE_PER_MILLION"),
-    gridPricing: t("MODELS.PRICE_GRID"),
-    customBilling: t("MODELS.PRICE_CUSTOM"),
+    from: t("MODELS.PRICE.FROM"),
+    perRequest: t("MODELS.PRICE.PER_REQUEST"),
+    input: t("MODELS.PRICE.INPUT"),
+    output: t("MODELS.PRICE.OUTPUT"),
+    perMillion: t("MODELS.PRICE.PER_MILLION"),
+    gridPricing: t("MODELS.PRICE.GRID"),
+    customBilling: t("MODELS.PRICE.CUSTOM"),
   };
 
   return (
@@ -52,7 +52,7 @@ export function Models() {
               onClick={() => m.clearFilters()}
               className="h-8 px-2 md:h-9 lg:px-3"
             >
-              {t("MODELS.FILTER_RESET")}
+              {t("MODELS.FILTER.RESET")}
               <LuX className="ml-1 h-4 w-4 md:ml-2" />
             </Button>
           )}

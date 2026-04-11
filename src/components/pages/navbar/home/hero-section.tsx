@@ -22,16 +22,16 @@ export async function HeroSection() {
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
             </span>
             <span className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
-              {t("HOME.HERO_BADGE")}
+              {t("HOME.HERO.BADGE")}
             </span>
           </div>
 
           {/* Title */}
           <h1 className="text-foreground text-[2.5rem] leading-[1.05] font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-            {t("HOME.HERO_TITLE_LINE1")} <br />
+            {t("HOME.HERO.TITLE_LINE1")} <br />
             <span className="text-muted-foreground">
               <ScrambleText
-                text={t("HOME.HERO_TITLE_LINE2")}
+                text={t("HOME.HERO.TITLE_LINE2")}
                 className="font-mono tracking-wider"
               />
             </span>
@@ -52,7 +52,7 @@ export async function HeroSection() {
             href="/models"
             className="border-border text-foreground hover:border-foreground group flex h-11 w-full items-center justify-center gap-2 border bg-transparent px-8 font-bold tracking-widest uppercase transition-all sm:w-auto"
           >
-            {t("HOME.HERO_CTA_SECONDARY")}
+            {t("HOME.HERO.CTA_SECONDARY")}
             <LuChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>

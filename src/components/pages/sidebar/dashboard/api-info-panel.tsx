@@ -19,7 +19,7 @@ export function ApiInfoPanel() {
       <div className="border-border flex items-center gap-2 border-b p-5">
         <LuCode className="text-muted-foreground h-4 w-4" />
         <span className="text-foreground font-mono text-sm font-medium">
-          {t("DASHBOARD.API_INFORMATION")}
+          {t("DASHBOARD.PANEL.API_INFORMATION")}
         </span>
       </div>
 
@@ -28,7 +28,7 @@ export function ApiInfoPanel() {
           <div className="flex h-32 flex-col items-center justify-center gap-2">
             <LuCode className="text-muted-foreground h-8 w-8 opacity-20" />
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("DASHBOARD.NO_API_INFO")}
+              {t("DASHBOARD.PANEL.NO_API_INFO")}
             </span>
           </div>
         ) : (

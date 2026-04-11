@@ -115,7 +115,7 @@ export function TokenDialog(props: TokenDialogProps) {
           setRevealedKey(data.key);
           analytics.tokens.keyRevealed();
         },
-        onError: () => toast.error(t("TOKEN.FETCH_KEY_FAILED")),
+        onError: () => toast.error(t("TOKEN.ERROR.FETCH_KEY")),
       },
     );
   }
@@ -125,7 +125,7 @@ export function TokenDialog(props: TokenDialogProps) {
     analytics.tokens.keyCopied();
     if (revealedKey) {
       copyToClipboard(`sk-${revealedKey}`);
-      toast.success(t("TOKEN.KEY_COPIED"));
+      toast.success(t("TOKEN.SUCCESS.KEY_COPIED"));
       return;
     }
     const tokenId = props.token.id;
@@ -134,8 +134,8 @@ export function TokenDialog(props: TokenDialogProps) {
         .mutateAsync({ id: tokenId })
         .then((data) => `sk-${data.key}`),
     )
-      .then(() => toast.success(t("TOKEN.KEY_COPIED")))
-      .catch(() => toast.error(t("TOKEN.FETCH_KEY_FAILED")));
+      .then(() => toast.success(t("TOKEN.SUCCESS.KEY_COPIED")))
+      .catch(() => toast.error(t("TOKEN.ERROR.FETCH_KEY")));
   }
 
   function handleToggleStatus() {
@@ -146,10 +146,10 @@ export function TokenDialog(props: TokenDialogProps) {
       {
         onSuccess: () => {
           analytics.tokens.statusToggled(!isEnabled);
-          toast.success(t("TOKEN.STATUS_CHANGED"));
+          toast.success(t("TOKEN.SUCCESS.STATUS_CHANGED"));
           props.onOpenChange(false);
         },
-        onError: () => toast.error(t("TOKEN.STATUS_UPDATE_FAILED")),
+        onError: () => toast.error(t("TOKEN.ERROR.STATUS_UPDATE")),
       },
     );
   }
@@ -161,10 +161,10 @@ export function TokenDialog(props: TokenDialogProps) {
       {
         onSuccess: () => {
           analytics.tokens.deleted();
-          toast.success(t("TOKEN.DELETED_SUCCESS"));
+          toast.success(t("TOKEN.SUCCESS.DELETED"));
           props.onOpenChange(false);
         },
-        onError: () => toast.error(t("TOKEN.DELETE_FAILED")),
+        onError: () => toast.error(t("TOKEN.ERROR.DELETE")),
       },
     );
   }
@@ -196,7 +196,7 @@ export function TokenDialog(props: TokenDialogProps) {
         {
           onSuccess: () => {
             analytics.tokens.updated();
-            toast.success(t("TOKEN.UPDATED_SUCCESS"));
+            toast.success(t("TOKEN.SUCCESS.UPDATED"));
             props.onOpenChange(false);
           },
           onError: (err) =>
@@ -211,7 +211,7 @@ export function TokenDialog(props: TokenDialogProps) {
         {
           onSuccess: () => {
             analytics.tokens.created();
-            toast.success(t("TOKEN.CREATED_SUCCESS"));
+            toast.success(t("TOKEN.SUCCESS.CREATED"));
             props.onOpenChange(false);
           },
           onError: (err) =>
@@ -279,7 +279,7 @@ export function TokenDialog(props: TokenDialogProps) {
               <div>
                 <div className="mb-3 flex items-center gap-2">
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.NAME")}
+                    {t("TOKEN.FORM.NAME")}
                   </span>
                 </div>
 
@@ -287,7 +287,7 @@ export function TokenDialog(props: TokenDialogProps) {
                   control={form.control}
                   name="name"
                   schema={tokenFormSchema}
-                  placeholder={t("TOKEN.NAME_PLACEHOLDER")}
+                  placeholder={t("TOKEN.FORM.NAME_PLACEHOLDER")}
                   maxLength={50}
                 />
               </div>
@@ -298,7 +298,7 @@ export function TokenDialog(props: TokenDialogProps) {
                 <div className="mb-3 flex items-center gap-2">
                   <LuWallet className="text-muted-foreground h-4 w-4" />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.QUOTA")}
+                    {t("TOKEN.FORM.QUOTA")}
                   </span>
                 </div>
 
@@ -306,8 +306,8 @@ export function TokenDialog(props: TokenDialogProps) {
                   <MyFormSwitch
                     control={form.control}
                     name="unlimited_quota"
-                    label={t("TOKEN.UNLIMITED_QUOTA")}
-                    description={t("TOKEN.UNLIMITED_QUOTA_DESC")}
+                    label={t("TOKEN.FORM.UNLIMITED_QUOTA")}
+                    description={t("TOKEN.FORM.UNLIMITED_QUOTA_DESC")}
                     size="sm"
                   />
 
@@ -318,9 +318,9 @@ export function TokenDialog(props: TokenDialogProps) {
                           control={form.control}
                           name="remain_quota"
                           schema={tokenFormSchema}
-                          label={t("TOKEN.QUOTA")}
+                          label={t("TOKEN.FORM.QUOTA")}
                           type="number"
-                          placeholder={t("TOKEN.QUOTA_PLACEHOLDER")}
+                          placeholder={t("TOKEN.FORM.QUOTA_PLACEHOLDER")}
                         />
                         <span className="text-muted-foreground font-mono text-[11px]">
                           = ${quotaToDollars(remainQuota).toFixed(2)}
@@ -328,7 +328,7 @@ export function TokenDialog(props: TokenDialogProps) {
                       </div>
                       <div className="flex flex-col gap-1.5">
                         <span className="text-muted-foreground text-[11px]">
-                          {t("TOKEN.QUOTA_PRESETS")}
+                          {t("TOKEN.FORM.QUOTA_PRESETS")}
                         </span>
                         <div className="flex flex-wrap gap-1.5">
                           {QUOTA_PRESETS.map((preset) => (
@@ -361,7 +361,7 @@ export function TokenDialog(props: TokenDialogProps) {
                 <div className="mb-3 flex items-center gap-2">
                   <LuShield className="text-muted-foreground h-4 w-4" />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.MODEL_LIMITS")}
+                    {t("TOKEN.FORM.MODEL_LIMITS")}
                   </span>
                 </div>
 
@@ -369,8 +369,8 @@ export function TokenDialog(props: TokenDialogProps) {
                   <MyFormSwitch
                     control={form.control}
                     name="model_limits_enabled"
-                    label={t("TOKEN.MODEL_LIMITS")}
-                    description={t("TOKEN.MODEL_LIMITS_DESC")}
+                    label={t("TOKEN.FORM.MODEL_LIMITS")}
+                    description={t("TOKEN.FORM.MODEL_LIMITS_DESC")}
                     size="sm"
                   />
 
@@ -390,7 +390,7 @@ export function TokenDialog(props: TokenDialogProps) {
                 <div className="mb-3 flex items-center gap-2">
                   <LuGlobe className="text-muted-foreground h-4 w-4" />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-                    {t("TOKEN.IP_WHITELIST")}
+                    {t("TOKEN.FORM.IP_WHITELIST")}
                   </span>
                 </div>
 
@@ -402,13 +402,13 @@ export function TokenDialog(props: TokenDialogProps) {
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder={t("TOKEN.IP_WHITELIST_PLACEHOLDER")}
+                          placeholder={t("TOKEN.FORM.IP_WHITELIST_PLACEHOLDER")}
                           rows={3}
                           className="font-mono text-xs"
                         />
                       </FormControl>
                       <p className="text-muted-foreground text-[11px]">
-                        {t("TOKEN.IP_WHITELIST_DESC")}
+                        {t("TOKEN.FORM.IP_WHITELIST_DESC")}
                       </p>
                     </FormItem>
                   )}
@@ -457,13 +457,13 @@ export function TokenDialog(props: TokenDialogProps) {
                             onClick={handleDelete}
                             disabled={deleteMutation.isPending}
                             className="text-destructive hover:bg-destructive/10"
-                            aria-label={t("TOKEN.DELETE")}
+                            aria-label={t("TOKEN.DELETE.BUTTON")}
                           />
                         }
                       >
                         <LuTrash2 className="h-4 w-4" />
                       </TooltipTrigger>
-                      <TooltipContent>{t("TOKEN.DELETE")}</TooltipContent>
+                      <TooltipContent>{t("TOKEN.DELETE.BUTTON")}</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
@@ -484,7 +484,7 @@ export function TokenDialog(props: TokenDialogProps) {
                   ) : (
                     <LuPlus data-icon="inline-start" className="h-4 w-4" />
                   )}
-                  {isEdit ? t("TOKEN.SAVE") : t("TOKEN.SUBMIT")}
+                  {isEdit ? t("TOKEN.FORM.SAVE") : t("TOKEN.FORM.SUBMIT")}
                 </Button>
               </div>
             </DialogFooter>

@@ -29,16 +29,16 @@ export function Pricing() {
 
   function buildFeatures(planIndex: number): string[] {
     const features: string[] = [];
-    features.push(t("PRICING.FEATURE_MODELS"));
-    features.push(t("PRICING.FEATURE_FAILOVER"));
-    features.push(t("PRICING.FEATURE_OPENAI_COMPAT"));
+    features.push(t("PRICING.FEATURE.MODELS"));
+    features.push(t("PRICING.FEATURE.FAILOVER"));
+    features.push(t("PRICING.FEATURE.OPENAI_COMPAT"));
     if (planIndex >= 1) {
-      features.push(t("PRICING.FEATURE_PRIORITY"));
+      features.push(t("PRICING.FEATURE.PRIORITY"));
     }
     if (planIndex >= 2) {
-      features.push(t("PRICING.FEATURE_DEDICATED"));
+      features.push(t("PRICING.FEATURE.DEDICATED"));
     }
-    features.push(t("PRICING.FEATURE_UPTIME"));
+    features.push(t("PRICING.FEATURE.UPTIME"));
     return features;
   }
 
@@ -46,7 +46,7 @@ export function Pricing() {
     <section className="border-border/50 relative z-10 border-t pt-24 pb-16">
       <div className="mx-auto max-w-360 px-6">
         <PageHeader
-          badge={t("HOME.PRICING_LABEL")}
+          badge={t("HOME.PRICING.LABEL")}
           badgeIcon={LuZap}
           title={t("PRICING.TITLE")}
           subtitle={t("PRICING.SUBTITLE")}
@@ -60,7 +60,7 @@ export function Pricing() {
             const multiplier = getMultiplier(plan);
             const resetLabel = t(
               RESET_TRANSLATION_KEYS[plan.quotaResetPeriod] ??
-                "BILLING.PER_MONTH",
+                "BILLING.SUBSCRIPTION.PER_MONTH",
             );
             const quotaLabel =
               plan.quotaPerResetUsd > 0
@@ -86,14 +86,14 @@ export function Pricing() {
 
         <div className="text-center">
           <p className="text-muted-foreground font-mono text-xs">
-            {t("HOME.PRICING_PAYG_DESC")}
+            {t("HOME.PRICING.PAYG.DESC")}
           </p>
           <button
             type="button"
             onClick={handleSubscribe}
             className="text-foreground hover:text-muted-foreground mt-3 inline-block cursor-pointer font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
-            {t("HOME.PRICING_PAYG_NAME")} &rarr;
+            {t("HOME.PRICING.PAYG.NAME")} &rarr;
           </button>
         </div>
       </div>

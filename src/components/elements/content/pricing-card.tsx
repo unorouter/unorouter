@@ -31,7 +31,7 @@ export function PricingCard(props: Props) {
       {props.popular && (
         <div className="bg-card border-foreground/30 absolute -top-4.5 left-1/2 z-10 -translate-x-1/2 rounded-sm border px-3 py-1 shadow-[0_4px_0_var(--color-card)]">
           <span className="text-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
-            {t("PRICING.CARD_POPULAR")}
+            {t("PRICING.CARD.POPULAR")}
           </span>
         </div>
       )}
@@ -42,7 +42,7 @@ export function PricingCard(props: Props) {
           ${props.price}
         </span>
         <span className="text-muted-foreground font-mono text-xs">
-          {t("PRICING.CARD_PER_MONTH")}
+          {t("PRICING.CARD.PER_MONTH")}
         </span>
       </div>
 
@@ -50,7 +50,7 @@ export function PricingCard(props: Props) {
       <div className="mt-5 space-y-4">
         <div>
           <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("PRICING.CARD_SPEC_CREDIT")}
+            {t("PRICING.CARD.SPEC_CREDIT")}
           </p>
           <p className="text-foreground text-lg font-bold tracking-tight">
             ${props.value}
@@ -58,7 +58,7 @@ export function PricingCard(props: Props) {
         </div>
         <div>
           <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("PRICING.CARD_SPEC_QUOTA")}
+            {t("PRICING.CARD.SPEC_QUOTA")}
           </p>
           <p className="text-foreground text-lg font-bold tracking-tight">
             {props.quotaLabel}
@@ -66,7 +66,7 @@ export function PricingCard(props: Props) {
         </div>
         <div>
           <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("PRICING.CARD_SPEC_MULTIPLIER")}
+            {t("PRICING.CARD.SPEC_MULTIPLIER")}
           </p>
           <p className="text-foreground text-lg font-bold tracking-tight">
             {props.multiplier}
@@ -79,11 +79,11 @@ export function PricingCard(props: Props) {
         <div className="flex items-center gap-2">
           <LuShell className="h-4 w-4 shrink-0 text-red-500" />
           <span className="text-foreground font-mono text-xs font-bold tracking-wide">
-            {t("PRICING.CARD_OPENCLAW_TITLE")}
+            {t("PRICING.CARD.OPENCLAW_TITLE")}
           </span>
         </div>
         <p className="text-muted-foreground mt-1.5 font-mono text-[11px]">
-          {t("PRICING.CARD_OPENCLAW_DESC")}
+          {t("PRICING.CARD.OPENCLAW_DESC")}
         </p>
       </div>
 
