@@ -72,21 +72,24 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
 
       const sizes: BadgeSize[] = ["xs", "sm", "md", "lg", "xl"];
       const allBadges = await Promise.all(
-        sizes.map(async (s) => {
-          const ctx: BadgeCtx = {
-            locale,
-            theme,
-            size: s,
-            ref: query.ref,
-            stats,
-            pricing,
-          };
-          return Promise.all(
-            BADGE_NAMES.map(async (name) => ({
-              name: `${name} (${s})`,
-              svg: await BADGES[name](ctx),
-            })),
+        BADGE_NAMES.map(async (name) => {
+          const badges = await Promise.all(
+            sizes.map(async (s) => {
+              const ctx: BadgeCtx = {
+                locale,
+                theme,
+                size: s,
+                ref: query.ref,
+                stats,
+                pricing,
+              };
+              return {
+                name: `${name} (${s})`,
+                svg: await BADGES[name](ctx),
+              };
+            }),
           );
+          return { type: name, badges };
         }),
       );
 
@@ -97,7 +100,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           fg={c.previewFg}
           muted={c.previewMuted}
           qsStr={qsStr}
-          badges={allBadges.flat()}
+          groups={allBadges}
         />,
       );
     },

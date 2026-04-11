@@ -24,7 +24,7 @@ interface Dims extends BadgeDimsBase {
 
 const DIMS: Partial<Record<BadgeSize, Dims>> = {
   xs: {
-    W: 380,
+    W: 480,
     H: 90,
     pad: 16,
     layout: "horizontal",
@@ -40,7 +40,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     modelCountFont: 0,
   },
   sm: {
-    W: 480,
+    W: 600,
     H: 120,
     pad: 24,
     layout: "horizontal",

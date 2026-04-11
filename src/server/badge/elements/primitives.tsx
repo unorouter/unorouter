@@ -6,7 +6,7 @@ import { logoDataUri } from "../lib/utils";
 import { FONT_SANS } from "./typography";
 
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
-const brandTld = `.${new URL(env.appUrl).hostname.split(".").pop()}`;
+const brandTld = `.${new URL(env.apiUrl).hostname.split(".").pop()}`;
 
 export function Row(props: { style?: CSSProperties; children?: ReactNode }) {
   return (

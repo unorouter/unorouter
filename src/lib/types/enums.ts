@@ -34,6 +34,18 @@ export enum Vendor {
   MOONSHOT = "moonshot",
   ZHIPU = "zhipu",
   STABILITY = "stability",
+  STABILITY_AI = "stability ai",
+  ALIBABA = "alibaba",
+  IFLOW = "iflow",
+  KUAISHOU = "kuaishou",
+  SAP = "sap ai core",
+  VERTEX = "vertex",
+  AIHUBMIX = "aihubmix",
+  OPENCODE = "opencode zen",
+  XUNFEI = "xunfei",
+  XUNFEI_CN = "讯飞",
+  ZHIPU_CN = "智谱",
+  ZHIPU_AI_CODING = "zhipu ai coding plan",
 }
 
 export enum OS {

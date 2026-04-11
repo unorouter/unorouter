@@ -4,6 +4,8 @@ import { LOCALES } from "@/lib/config/constants";
 import type { Locale } from "next-intl";
 import { readFileSync } from "fs";
 import { join } from "path";
+import aihubmix from "thesvg/aihubmix";
+import alibaba from "thesvg/alibaba";
 import anthropic from "thesvg/anthropic";
 import bailian from "thesvg/bailian";
 import bytedance from "thesvg/bytedance";
@@ -11,12 +13,18 @@ import cohere from "thesvg/cohere";
 import deepseek from "thesvg/deepseek";
 import flux from "thesvg/flux";
 import google from "thesvg/google";
+import iflow from "thesvg/iflow";
 import kling from "thesvg/kling";
+import kuaishou from "thesvg/kuaishou";
 import meta from "thesvg/meta";
 import mistral from "thesvg/mistral";
 import moonshot from "thesvg/moonshot";
 import openai from "thesvg/openai";
+import iflytekcloud from "thesvg/iflytekcloud";
+import opencode from "thesvg/opencode";
+import sap from "thesvg/sap";
 import stabilityAi from "thesvg/stability-ai";
+import vertexai from "thesvg/vertexai-google";
 import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
 import type { BadgeDimsBase, Theme } from "./types";
@@ -74,7 +82,7 @@ function pickVariant(v: Record<string, string>): string {
   return stripFills(v.mono ?? v.light ?? v.default);
 }
 
-const VENDOR_ICONS: Record<Vendor, string> = {
+const VENDOR_ICONS: Partial<Record<Vendor, string>> = {
   [Vendor.OPENAI]: pickVariant(openai.variants),
   [Vendor.ANTHROPIC]: pickVariant(anthropic.variants),
   [Vendor.GOOGLE]: pickVariant(google.variants),
@@ -92,7 +100,19 @@ const VENDOR_ICONS: Record<Vendor, string> = {
   [Vendor.KLING]: pickVariant(kling.variants),
   [Vendor.MOONSHOT]: pickVariant(moonshot.variants),
   [Vendor.ZHIPU]: pickVariant(zhipu.variants),
+  [Vendor.ZHIPU_CN]: pickVariant(zhipu.variants),
+  [Vendor.ZHIPU_AI_CODING]: pickVariant(zhipu.variants),
   [Vendor.STABILITY]: pickVariant(stabilityAi.variants),
+  [Vendor.STABILITY_AI]: pickVariant(stabilityAi.variants),
+  [Vendor.ALIBABA]: pickVariant(alibaba.variants),
+  [Vendor.IFLOW]: pickVariant(iflow.variants),
+  [Vendor.KUAISHOU]: pickVariant(kuaishou.variants),
+  [Vendor.SAP]: pickVariant(sap.variants),
+  [Vendor.VERTEX]: pickVariant(vertexai.variants),
+  [Vendor.AIHUBMIX]: pickVariant(aihubmix.variants),
+  [Vendor.OPENCODE]: pickVariant(opencode.variants),
+  [Vendor.XUNFEI]: pickVariant(iflytekcloud.variants),
+  [Vendor.XUNFEI_CN]: pickVariant(iflytekcloud.variants),
 };
 
 export function getVendorIcon(vendor: string): string | null {

@@ -24,7 +24,7 @@ export function AllPage(props: {
   fg: string;
   muted: string;
   qsStr: string;
-  badges: { name: string; svg: string }[];
+  groups: { type: string; badges: { name: string; svg: string }[] }[];
 }) {
   return (
     <html>
@@ -33,6 +33,8 @@ export function AllPage(props: {
         <title>Badge Preview</title>
         <style>{`
 body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px}
+.group{margin-bottom:48px}
+.group-title{font-size:20px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:${props.fg};margin:0 0 20px;padding-bottom:8px;border-bottom:1px solid ${props.muted}30}
 .grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
 .badge{flex:0 0 auto}
 .header{display:flex;align-items:center;gap:8px;margin:0 0 8px}
@@ -48,35 +50,43 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
         `}</style>
       </head>
       <body>
-        <div class="grid">
-          {props.badges.map((b) => (
-            <div class="badge">
-              <div class="header">
-                <a href={`/api/badge/${b.name}${props.qsStr}`} target="_blank">
-                  {b.name}
-                </a>
-                <button
-                  class="copy"
-                  onclick={copyScript(b.name, props.qsStr, "svg")}
-                  title="Copy SVG URL"
-                >
-                  <span class="copy-label">SVG</span>
-                </button>
-                <button
-                  class="copy"
-                  onclick={copyScript(b.name, props.qsStr, "png")}
-                  title="Copy PNG URL"
-                >
-                  <span class="copy-label">PNG</span>
-                </button>
-              </div>
-              <img
-                class="badge-img"
-                src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
-              />
+        {props.groups.map((g) => (
+          <div class="group">
+            <h2 class="group-title">{g.type}</h2>
+            <div class="grid">
+              {g.badges.map((b) => (
+                <div class="badge">
+                  <div class="header">
+                    <a
+                      href={`/api/badge/${b.name}${props.qsStr}`}
+                      target="_blank"
+                    >
+                      {b.name}
+                    </a>
+                    <button
+                      class="copy"
+                      onclick={copyScript(b.name, props.qsStr, "svg")}
+                      title="Copy SVG URL"
+                    >
+                      <span class="copy-label">SVG</span>
+                    </button>
+                    <button
+                      class="copy"
+                      onclick={copyScript(b.name, props.qsStr, "png")}
+                      title="Copy PNG URL"
+                    >
+                      <span class="copy-label">PNG</span>
+                    </button>
+                  </div>
+                  <img
+                    class="badge-img"
+                    src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
         <div id="toast" class="toast" />
       </body>
     </html>
