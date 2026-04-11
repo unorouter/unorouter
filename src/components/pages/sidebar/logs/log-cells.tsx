@@ -174,8 +174,8 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
           variant="secondary"
           className={
             log.is_stream
-              ? "bg-blue-500/10 text-blue-400"
-              : "bg-purple-500/10 text-purple-400"
+              ? "bg-blue-500/10 text-blue-700 dark:text-blue-400"
+              : "bg-purple-500/10 text-purple-700 dark:text-purple-400"
           }
         >
           {log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM")}
