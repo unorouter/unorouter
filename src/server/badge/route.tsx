@@ -5,6 +5,7 @@ import { badgeQuery } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import type { Locale } from "next-intl";
+import sharp from "sharp";
 import type { BadgePricing, BadgeStats } from "./cache";
 import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
@@ -19,6 +20,11 @@ import { generateTokensSquare } from "./templates/tokens-square";
 
 const SVG_HEADERS = {
   "content-type": "image/svg+xml; charset=utf-8",
+  "cache-control": "public, max-age=300, s-maxage=300",
+};
+
+const PNG_HEADERS = {
+  "content-type": "image/png",
   "cache-control": "public, max-age=300, s-maxage=300",
 };
 
@@ -46,12 +52,14 @@ const BADGE_NAMES = Object.keys(BADGES);
 
 // ── /all preview page ─────────────────────────────────────
 
-function copyScript(name: string, qsStr: string): string {
+function copyScript(name: string, qsStr: string, format: "svg" | "png"): string {
+  const sep = qsStr ? "&" : "?";
+  const suffix = format === "png" ? `${sep}format=png` : "";
   return [
-    `navigator.clipboard.writeText(location.origin+'/api/badge/${name}${qsStr}')`,
+    `navigator.clipboard.writeText(location.origin+'/api/badge/${name}${qsStr}${suffix}')`,
     `.then(()=>{`,
     `let t=document.getElementById('toast');`,
-    `t.textContent='Copied: /api/badge/${name}';`,
+    `t.textContent='Copied ${format.toUpperCase()}: /api/badge/${name}';`,
     `t.classList.add('show');`,
     `setTimeout(()=>t.classList.remove('show'),1500)`,
     `})`,
@@ -78,10 +86,9 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
 .header a{font-size:14px;color:${props.muted};text-transform:uppercase;letter-spacing:1px;text-decoration:none;transition:color 0.15s}
 .header a:hover{color:${props.fg}}
 .header:hover .copy{opacity:0.7}
-.copy{background:none;border:none;cursor:pointer;padding:4px;display:inline-flex;align-items:center;color:${props.muted};opacity:0.6;transition:opacity 0.15s,color 0.15s}
-.copy:hover{opacity:1;color:${props.fg}}
-.copy-icon{width:16px;height:16px;filter:invert(${props.bg === "#111" ? "1" : "0"}) opacity(0.5)}
-.copy:hover .copy-icon{filter:invert(${props.bg === "#111" ? "1" : "0"}) opacity(1)}
+.copy{background:none;border:1px solid ${props.muted}40;border-radius:4px;cursor:pointer;padding:2px 6px;display:inline-flex;align-items:center;color:${props.muted};opacity:0.6;transition:opacity 0.15s,color 0.15s,border-color 0.15s}
+.copy:hover{opacity:1;color:${props.fg};border-color:${props.fg}60}
+.copy-label{font-size:10px;font-weight:600;letter-spacing:0.5px}
 .badge img.badge-img{display:block;max-width:100%;height:auto}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.2s;pointer-events:none}
 .toast.show{opacity:1}
@@ -97,15 +104,17 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
                 </a>
                 <button
                   class="copy"
-                  onclick={copyScript(b.name, props.qsStr)}
-                  title="Copy badge URL"
+                  onclick={copyScript(b.name, props.qsStr, "svg")}
+                  title="Copy SVG URL"
                 >
-                  <img
-                    class="copy-icon"
-                    src="/icons/copy.svg"
-                    width="16"
-                    height="16"
-                  />
+                  <span class="copy-label">SVG</span>
+                </button>
+                <button
+                  class="copy"
+                  onclick={copyScript(b.name, props.qsStr, "png")}
+                  title="Copy PNG URL"
+                >
+                  <span class="copy-label">PNG</span>
                 </button>
               </div>
               <img
@@ -182,7 +191,14 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getStats(),
         getPricingData(),
       ]);
-      return gen({ locale, theme, ref: query.ref, stats, pricing });
+      const svg = await gen({ locale, theme, ref: query.ref, stats, pricing });
+
+      if (query.format === "png") {
+        const png = await sharp(Buffer.from(svg)).png().toBuffer();
+        return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
+      }
+
+      return svg;
     },
     { query: badgeQuery },
   );
