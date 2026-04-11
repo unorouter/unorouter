@@ -1055,7 +1055,20 @@
     "STATUS_ACTIVE": "Aktiv",
     "STATUS_DISABLED": "Deaktiviert",
     "NO_COMMISSIONS": "Noch keine Provisionshistorie. Teilen Sie Ihren Einladungslink, um mit dem Verdienen zu beginnen.",
-    "NO_INVITEES": "Noch keine eingeladenen Nutzer. Teilen Sie Ihren Einladungslink, um Ihr Netzwerk aufzubauen."
+    "NO_INVITEES": "Noch keine eingeladenen Nutzer. Teilen Sie Ihren Einladungslink, um Ihr Netzwerk aufzubauen.",
+    "BADGE_GENERATOR": {
+      "TITLE": "Badge-Generator",
+      "DESCRIPTION": "Erstellen Sie ein Badge zum Einbetten, um UnoRouter auf Ihrer Website oder Ihrem Blog zu bewerben.",
+      "TYPE": "Typ",
+      "SIZE": "Größe",
+      "THEME": "Design",
+      "FORMAT": "Format",
+      "PREVIEW": "Vorschau",
+      "EMBED_CODE": "Einbettungscode",
+      "COPIED": "Einbettungscode in die Zwischenablage kopiert",
+      "BADGE_ALT": "UnoRouter-Badge",
+      "LOCALE": "Sprache"
+    }
   },
   "THEME": {
     "LIGHT": "Hell",

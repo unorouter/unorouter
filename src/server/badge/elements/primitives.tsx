@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { env } from "@/lib/config/env";
 import type { CSSProperties, ReactNode } from "react";
-import type { ThemeColors } from "../lib/types";
 import { logoDataUri } from "../lib/cache";
+import type { ThemeColors } from "../lib/types";
 import { FONT_SANS } from "./typography";
 
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);

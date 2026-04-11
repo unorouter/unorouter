@@ -1055,7 +1055,20 @@
     "STATUS_ACTIVE": "Active",
     "STATUS_DISABLED": "Disabled",
     "NO_COMMISSIONS": "No commission history yet. Share your invite link to start earning.",
-    "NO_INVITEES": "No invited users yet. Share your invite link to start growing your network."
+    "NO_INVITEES": "No invited users yet. Share your invite link to start growing your network.",
+    "BADGE_GENERATOR": {
+      "TITLE": "Badge Generator",
+      "DESCRIPTION": "Create an embed badge to promote UnoRouter on your website or blog.",
+      "TYPE": "Type",
+      "SIZE": "Size",
+      "THEME": "Theme",
+      "FORMAT": "Format",
+      "PREVIEW": "Preview",
+      "EMBED_CODE": "Embed Code",
+      "COPIED": "Embed code copied to clipboard",
+      "BADGE_ALT": "UnoRouter badge",
+      "LOCALE": "Language"
+    }
   },
   "THEME": {
     "LIGHT": "Light",

@@ -22,6 +22,7 @@ import {
   LuWallet,
 } from "react-icons/lu";
 import { toast } from "sonner";
+import { BadgeGenerator } from "@/components/elements/badge/badge-generator";
 import { CommissionsTab } from "./commissions-tab";
 import { InviteesTab } from "./invitees-tab";
 import { TransferDialog } from "./transfer-dialog";
@@ -158,133 +159,141 @@ export function Affiliate() {
         </div>
       </div>
 
-      {/* Invite Link + Transfer */}
-      <div className="border-border mb-6 grid grid-cols-1 gap-px border md:grid-cols-2">
-        {/* Invite Link Section */}
-        <div className="p-5">
-          <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
-            {t("AFFILIATE.INVITE_LINK")}
-          </span>
-          <div className="flex items-center gap-2">
-            <div className="bg-muted flex min-w-0 flex-1 items-center overflow-hidden px-3 py-2">
-              <code className="text-foreground truncate font-mono text-xs">
-                {inviteLink || "\u2014"}
-              </code>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleCopyLink}
-              disabled={!inviteLink}
-            >
-              <LuCopy data-icon="inline-start" className="h-3.5 w-3.5" />
-              {t("AFFILIATE.COPY_LINK")}
-            </Button>
-          </div>
-          <div className="mt-3 flex items-center gap-2">
-            <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("AFFILIATE.YOUR_CODE")}
+      {/* Left: How It Works + Invite/Transfer | Right: Badge Generator */}
+      <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="flex flex-col gap-6">
+          {/* How It Works */}
+          <div className="border-border border p-5">
+            <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
+              {t("AFFILIATE.HOW_IT_WORKS")}
             </span>
-            <code className="bg-muted text-foreground px-2 py-0.5 font-mono text-xs">
-              {affCode || "\u2014"}
-            </code>
-            <Button
-              variant="ghost"
-              size="icon-xs"
-              onClick={handleCopyCode}
-              disabled={!affCode}
-            >
-              <LuCopy className="h-3 w-3" />
-            </Button>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <div
+                  className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+                  style={{ color: "var(--chart-1)" }}
+                >
+                  01
+                </div>
+                <div>
+                  <span className="text-foreground block text-sm font-medium">
+                    {t("AFFILIATE.STEP_1_TITLE")}
+                  </span>
+                  <span className="text-muted-foreground block text-xs">
+                    {t("AFFILIATE.STEP_1_DESC")}
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div
+                  className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+                  style={{ color: "var(--chart-2)" }}
+                >
+                  02
+                </div>
+                <div>
+                  <span className="text-foreground block text-sm font-medium">
+                    {t("AFFILIATE.STEP_2_TITLE")}
+                  </span>
+                  <span className="text-muted-foreground block text-xs">
+                    {t("AFFILIATE.STEP_2_DESC")}
+                  </span>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <div
+                  className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
+                  style={{ color: "var(--chart-3)" }}
+                >
+                  03
+                </div>
+                <div>
+                  <span className="text-foreground block text-sm font-medium">
+                    {t("AFFILIATE.STEP_3_TITLE")}
+                  </span>
+                  <span className="text-muted-foreground block text-xs">
+                    {t("AFFILIATE.STEP_3_DESC")}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Invite Link + Transfer */}
+          <div className="border-border grid grid-cols-1 gap-px border">
+            <div className="p-5">
+              <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
+                {t("AFFILIATE.INVITE_LINK")}
+              </span>
+              <div className="flex items-center gap-2">
+                <div className="bg-muted flex min-w-0 flex-1 items-center overflow-hidden px-3 py-2">
+                  <code className="text-foreground truncate font-mono text-xs">
+                    {inviteLink || "\u2014"}
+                  </code>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCopyLink}
+                  disabled={!inviteLink}
+                >
+                  <LuCopy data-icon="inline-start" className="h-3.5 w-3.5" />
+                  {t("AFFILIATE.COPY_LINK")}
+                </Button>
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+                  {t("AFFILIATE.YOUR_CODE")}
+                </span>
+                <code className="bg-muted text-foreground px-2 py-0.5 font-mono text-xs">
+                  {affCode || "\u2014"}
+                </code>
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  onClick={handleCopyCode}
+                  disabled={!affCode}
+                >
+                  <LuCopy className="h-3 w-3" />
+                </Button>
+              </div>
+            </div>
+            <div className="border-border border-t p-5">
+              <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
+                {t("AFFILIATE.TRANSFER_SECTION")}
+              </span>
+              <p className="text-muted-foreground mb-3 text-xs">
+                {t("AFFILIATE.TRANSFER_DESC")}
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-foreground font-mono text-sm font-bold tabular-nums">
+                  {renderQuota(pendingQuota)}
+                </span>
+                <span className="text-muted-foreground text-xs">
+                  {t("AFFILIATE.AVAILABLE")}
+                </span>
+              </div>
+              <Button
+                size="sm"
+                className="mt-3"
+                onClick={() => setTransferOpen(true)}
+                disabled={pendingQuota <= 0}
+              >
+                <LuArrowRightLeft
+                  data-icon="inline-start"
+                  className="h-3.5 w-3.5"
+                />
+                {t("AFFILIATE.TRANSFER_TO_BALANCE")}
+              </Button>
+            </div>
           </div>
         </div>
 
-        {/* Transfer Section */}
-        <div className="border-border border-t p-5 md:border-t-0 md:border-l">
-          <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
-            {t("AFFILIATE.TRANSFER_SECTION")}
-          </span>
-          <p className="text-muted-foreground mb-3 text-xs">
-            {t("AFFILIATE.TRANSFER_DESC")}
-          </p>
-          <div className="flex items-center gap-2">
-            <span className="text-foreground font-mono text-sm font-bold tabular-nums">
-              {renderQuota(pendingQuota)}
-            </span>
-            <span className="text-muted-foreground text-xs">
-              {t("AFFILIATE.AVAILABLE")}
-            </span>
-          </div>
-          <Button
-            size="sm"
-            className="mt-3"
-            onClick={() => setTransferOpen(true)}
-            disabled={pendingQuota <= 0}
-          >
-            <LuArrowRightLeft
-              data-icon="inline-start"
-              className="h-3.5 w-3.5"
-            />
-            {t("AFFILIATE.TRANSFER_TO_BALANCE")}
-          </Button>
-        </div>
-      </div>
-
-      {/* How It Works */}
-      <div className="border-border mb-6 border p-5">
-        <span className="text-muted-foreground mb-3 block font-mono text-[10px] font-medium tracking-widest uppercase">
-          {t("AFFILIATE.HOW_IT_WORKS")}
-        </span>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <div className="flex gap-3">
-            <div
-              className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
-              style={{ color: "var(--chart-1)" }}
-            >
-              01
-            </div>
-            <div>
-              <span className="text-foreground block text-sm font-medium">
-                {t("AFFILIATE.STEP_1_TITLE")}
-              </span>
-              <span className="text-muted-foreground block text-xs">
-                {t("AFFILIATE.STEP_1_DESC")}
-              </span>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div
-              className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
-              style={{ color: "var(--chart-2)" }}
-            >
-              02
-            </div>
-            <div>
-              <span className="text-foreground block text-sm font-medium">
-                {t("AFFILIATE.STEP_2_TITLE")}
-              </span>
-              <span className="text-muted-foreground block text-xs">
-                {t("AFFILIATE.STEP_2_DESC")}
-              </span>
-            </div>
-          </div>
-          <div className="flex gap-3">
-            <div
-              className="flex h-6 w-6 shrink-0 items-center justify-center font-mono text-xs font-bold"
-              style={{ color: "var(--chart-3)" }}
-            >
-              03
-            </div>
-            <div>
-              <span className="text-foreground block text-sm font-medium">
-                {t("AFFILIATE.STEP_3_TITLE")}
-              </span>
-              <span className="text-muted-foreground block text-xs">
-                {t("AFFILIATE.STEP_3_DESC")}
-              </span>
-            </div>
-          </div>
-        </div>
+        {/* Badge Generator */}
+        <BadgeGenerator
+          defaultType="referral"
+          refCode={affCode}
+        />
       </div>
 
       {/* Tabs: Invited Users + Commission History */}
