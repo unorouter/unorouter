@@ -20,31 +20,40 @@ interface Dims extends BadgeDimsBase {
   iconSize: number;
   slotWidth: number;
   gridGap: number;
-  showBadge: boolean;
+  showCountBadge: boolean;
+  showTagline: boolean;
+  brandLogoSize: number;
+  brandFontSize: number;
 }
 
 const DIMS: Partial<Record<BadgeSize, Dims>> = {
   xs: {
-    W: 320,
-    H: 110,
+    W: 220,
+    H: 116,
     pad: 12,
     headerFont: 9,
-    maxIcons: 5,
+    maxIcons: 4,
     iconSize: 18,
-    slotWidth: 40,
-    gridGap: 6,
-    showBadge: false,
+    slotWidth: 34,
+    gridGap: 4,
+    showCountBadge: false,
+    showTagline: false,
+    brandLogoSize: 10,
+    brandFontSize: 7,
   },
   sm: {
-    W: 400,
-    H: 140,
-    pad: 16,
+    W: 310,
+    H: 130,
+    pad: 14,
     headerFont: 11,
-    maxIcons: 7,
+    maxIcons: 6,
     iconSize: 22,
-    slotWidth: 48,
-    gridGap: 8,
-    showBadge: false,
+    slotWidth: 36,
+    gridGap: 6,
+    showCountBadge: false,
+    showTagline: false,
+    brandLogoSize: 12,
+    brandFontSize: 8,
   },
   md: {
     W: 400,
@@ -55,7 +64,10 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     iconSize: 24,
     slotWidth: 56,
     gridGap: 10,
-    showBadge: true,
+    showCountBadge: true,
+    showTagline: true,
+    brandLogoSize: 14,
+    brandFontSize: 10,
   },
   lg: {
     W: 500,
@@ -66,7 +78,10 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     iconSize: 30,
     slotWidth: 68,
     gridGap: 12,
-    showBadge: true,
+    showCountBadge: true,
+    showTagline: true,
+    brandLogoSize: 14,
+    brandFontSize: 10,
   },
   xl: {
     W: 620,
@@ -77,7 +92,10 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     iconSize: 38,
     slotWidth: 84,
     gridGap: 14,
-    showBadge: true,
+    showCountBadge: true,
+    showTagline: true,
+    brandLogoSize: 14,
+    brandFontSize: 10,
   },
 };
 
@@ -89,7 +107,7 @@ function ProviderIcon(props: {
   countMarker: string;
   iconSize: number;
   slotWidth: number;
-  showBadge: boolean;
+  showCountBadge: boolean;
 }) {
   return (
     <div
@@ -107,7 +125,7 @@ function ProviderIcon(props: {
         width={props.iconSize}
         height={props.iconSize}
       />
-      {props.showBadge && (
+      {props.showCountBadge && (
         <div
           style={{
             display: "flex",
@@ -173,7 +191,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
 
   const remaining = ctx.pricing.vendorNames.length - resolved.length;
   const iconMarkers = resolved.map(() =>
-    d.showBadge ? cipherMarker(markerIdx++) : "",
+    d.showCountBadge ? cipherMarker(markerIdx++) : "",
   );
 
   const node = (
@@ -249,7 +267,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
             countMarker={iconMarkers[i]}
             iconSize={d.iconSize}
             slotWidth={d.slotWidth}
-            showBadge={d.showBadge}
+            showCountBadge={d.showCountBadge}
           />
         ))}
         {remaining > 0 && (
@@ -291,14 +309,34 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
           </div>
         )}
       </Row>
-      {d.showBadge && (
-        <Row style={{ alignItems: "center", gap: 6 }}>
-          <Brand c={c} logoSize={14} fontSize={10} gap={6} />
-          <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: c.muted }}>
+      <Row style={{ alignItems: "center", gap: 5 }}>
+        <div
+          style={{
+            display: "flex",
+            width: 6,
+            height: 6,
+            borderRadius: 99,
+            backgroundColor: c.pulseDotMarker,
+          }}
+        />
+        <Brand
+          c={c}
+          logoSize={d.brandLogoSize}
+          fontSize={d.brandFontSize}
+          gap={5}
+        />
+        {d.showTagline && (
+          <span
+            style={{
+              fontFamily: FONT_SANS,
+              fontSize: d.brandFontSize,
+              color: c.muted,
+            }}
+          >
             | {t(ctx.locale, "BADGE.UNIFIED_INTELLIGENCE")}
           </span>
-        </Row>
-      )}
+        )}
+      </Row>
     </Card>
   );
 
@@ -316,7 +354,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
       markerColor: m2,
     },
   ];
-  if (d.showBadge) {
+  if (d.showCountBadge) {
     for (let i = 0; i < resolved.length; i++) {
       targets.push({
         value: String(resolved[i].models),
@@ -332,6 +370,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     width: d.W,
     height: d.H,
     cipherTargets: targets,
+    pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
     staticMode: ctx.staticMode,
   });
 }
