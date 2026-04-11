@@ -10,6 +10,7 @@ import type { BadgePricing, BadgeStats } from "./cache";
 import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
 import { parseTheme, type Theme } from "./lib/theme";
+import { setStaticMode } from "./templates/cipher";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
 import { generateProviders } from "./templates/providers";
@@ -191,9 +192,12 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getStats(),
         getPricingData(),
       ]);
+      const isPng = query.format === "png";
+      if (isPng) setStaticMode(true);
       const svg = await gen({ locale, theme, ref: query.ref, stats, pricing });
+      if (isPng) setStaticMode(false);
 
-      if (query.format === "png") {
+      if (isPng) {
         const png = await sharp(Buffer.from(svg)).png().toBuffer();
         return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
       }

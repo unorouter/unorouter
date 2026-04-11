@@ -6,7 +6,7 @@ import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
 import { Stat, Dot, FONT_SANS, MonoValue } from "../lib/typography";
-import { cipherMarker, processCipherMarkers, pulseDot } from "./cipher";
+import { cipherMarker, processCipherMarkers } from "./cipher";
 
 export async function generateSponsor(
   stats: BadgeStats,
@@ -88,14 +88,25 @@ export async function generateSponsor(
       <Divider c={c} margin="32px 0" opacity={0.5} />
 
       {/* Right: stats */}
-      <Col style={{ padding: 32, width: 340, justifyContent: "space-between" }}>
-        <Stat
-          value={tokenCount}
-          label={t(locale, "BADGE.TOKENS_SERVED")}
-          c={c}
-          size={22}
-          cipherMarker={m1}
-        />
+      <Col style={{ padding: 32, width: 340, justifyContent: "center", gap: 12 }}>
+        <Row style={{ alignItems: "center", gap: 10 }}>
+          <Stat
+            value={tokenCount}
+            label={t(locale, "BADGE.TOKENS_SERVED")}
+            c={c}
+            size={22}
+            cipherMarker={m1}
+          />
+          <Row
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: "50%",
+              backgroundColor: "#fe0099",
+              marginBottom: 12,
+            }}
+          />
+        </Row>
         <Stat
           value={requestCount}
           label="REQUESTS"
@@ -114,12 +125,25 @@ export async function generateSponsor(
     </Card>
   );
 
-  let svg = await renderBadge(
-    node,
-    W,
-    H,
-    pulseDot(W - 340 + 32 + tokenCount.length * 14 + 24, 52, 4, c.accent),
+  let svg = await renderBadge(node, W, H);
+
+  // Replace marker dot (#fe0099) with a pulse-animated circle (SVG) or static circle (PNG)
+  const dotMarker = svg.match(
+    /<rect[^>]*fill="#fe0099"[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"[^>]*\/?>|<rect[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*width="([\d.]+)"[^>]*height="([\d.]+)"[^>]*fill="#fe0099"[^>]*\/?>/,
   );
+  if (dotMarker) {
+    const x = parseFloat(dotMarker[1] ?? dotMarker[5]);
+    const y = parseFloat(dotMarker[2] ?? dotMarker[6]);
+    const w = parseFloat(dotMarker[3] ?? dotMarker[7]);
+    const h = parseFloat(dotMarker[4] ?? dotMarker[8]);
+    const cx = x + w / 2;
+    const cy = y + h / 2;
+    const r = w / 2;
+    const staticCircle = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`;
+    const animatedCircle = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
+    svg = svg.replace(dotMarker[0], animatedCircle);
+  }
+
   svg = await processCipherMarkers(svg, [
     { value: tokenCount, fontSize: 22, color: c.text, markerColor: m1, loop: true },
     { value: requestCount, fontSize: 22, color: c.text, markerColor: m2, loop: true },

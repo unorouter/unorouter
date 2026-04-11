@@ -166,13 +166,24 @@ export interface CipherTarget {
   loop?: boolean;
 }
 
-/** SMIL pulsing green circle (injected post-render) */
+/**
+ * When true, processCipherMarkers replaces marker fills instead of animating,
+ * and pulseDot returns empty. Used for static PNG rendering.
+ */
+let staticMode = false;
+
+export function setStaticMode(value: boolean) {
+  staticMode = value;
+}
+
+/** SMIL pulsing green circle (injected post-render). Returns empty in static mode. */
 export function pulseDot(
   cx: number,
   cy: number,
   r: number,
   fill: string,
 ): string {
+  if (staticMode) return "";
   return (
     <circle cx={cx} cy={cy} r={r} fill={fill}>
       <animate
@@ -183,6 +194,24 @@ export function pulseDot(
       />
     </circle>
   ) as string;
+}
+
+/**
+ * Replace cipher marker fill colors with real text colors (for static PNG).
+ * Keeps the original Satori-rendered text paths, just corrects their fill.
+ */
+export function stripCipherMarkers(
+  svg: string,
+  targets: CipherTarget[],
+): string {
+  let result = svg;
+  for (const target of targets) {
+    result = result.replaceAll(
+      `fill="${target.markerColor}"`,
+      `fill="${target.color}"`,
+    );
+  }
+  return result;
 }
 
 /** Marker color for a given slot index (1-based) */
@@ -199,6 +228,7 @@ export async function processCipherMarkers(
   targets: CipherTarget[],
 ): Promise<string> {
   if (targets.length === 0) return svg;
+  if (staticMode) return stripCipherMarkers(svg, targets);
 
   let result = svg;
   const injections: string[] = [];
