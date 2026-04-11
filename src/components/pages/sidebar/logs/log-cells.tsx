@@ -185,10 +185,10 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
             <Tooltip>
               <TooltipTrigger>
                 <span className="absolute -top-1 -right-1 cursor-help text-[10px] leading-none text-red-500">
-                  <LuCircleAlert className="size-3.5" />
+                  <LuCircleAlert className="size-3" />
                 </span>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent side="top" sideOffset={20}>
                 <p className="text-xs">{t("LOGS.STREAM_ERROR")}</p>
               </TooltipContent>
             </Tooltip>
