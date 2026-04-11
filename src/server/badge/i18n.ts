@@ -1,8 +1,8 @@
-import { createTranslator } from "use-intl/core";
-import type { Locale } from "next-intl";
 import { LOCALES } from "@/lib/config/constants";
 import { readFileSync } from "fs";
+import type { Locale } from "next-intl";
 import { join } from "path";
+import { createTranslator } from "use-intl/core";
 
 const cache = new Map<Locale, ReturnType<typeof createTranslator>>();
 
@@ -22,8 +22,8 @@ export function t(locale: Locale, key: string): string {
   try {
     return translator(key as never);
   } catch {
-    if (locale !== "en") {
-      const en = getTranslator("en");
+    if (locale !== LOCALES[0]) {
+      const en = getTranslator(LOCALES[0]);
       return en(key as never);
     }
     return key;
@@ -32,5 +32,5 @@ export function t(locale: Locale, key: string): string {
 
 export function parseLocale(raw: string | undefined): Locale {
   if (LOCALES.includes(raw as Locale)) return raw as Locale;
-  return "en";
+  return LOCALES[0];
 }

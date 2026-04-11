@@ -1,7 +1,11 @@
 /** @jsxImportSource @kitajs/html */
 /* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
-import { badgeQuery } from "@/lib/validation/badge";
+import {
+  badgeQuery,
+  parseBadgeSize,
+  type BadgeSize,
+} from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import type { Locale } from "next-intl";
@@ -9,7 +13,8 @@ import sharp from "sharp";
 import type { BadgePricing, BadgeStats } from "./cache";
 import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
-import { parseTheme, type Theme } from "./lib/theme";
+import { parseTheme, themeVars, type Theme } from "./lib/theme";
+import { AllPage } from "./templates/all-page";
 import { setStaticMode } from "./templates/cipher";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
@@ -31,105 +36,26 @@ const PNG_HEADERS = {
 
 // ── Badge registry ────────────────────────────────────────
 
-interface BadgeCtx {
+export interface BadgeCtx {
   locale: Locale;
   theme: Theme;
+  size: BadgeSize;
   ref?: string;
   stats: BadgeStats;
   pricing: BadgePricing;
 }
 
 const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
-  banner: (c) => generateTokensBanner(c.stats, c.locale, c.theme, c.ref),
-  square: (c) => generateTokensSquare(c.stats, c.locale, c.theme, c.ref),
-  sponsor: (c) => generateSponsor(c.stats, c.locale, c.theme, c.pricing, c.ref),
-  providers: (c) => generateProviders(c.locale, c.theme, c.pricing),
-  pricing: (c) => generatePricing(c.locale, c.theme, c.pricing.rows),
-  hero: (c) => generateHero(c.stats, c.locale, c.theme, c.pricing, c.ref),
-  referral: (c) => generateReferral(c.locale, c.theme, c.ref ?? "YOUR_CODE"),
+  banner: generateTokensBanner,
+  square: generateTokensSquare,
+  sponsor: generateSponsor,
+  providers: generateProviders,
+  pricing: generatePricing,
+  hero: generateHero,
+  referral: generateReferral,
 };
 
 const BADGE_NAMES = Object.keys(BADGES);
-
-// ── /all preview page ─────────────────────────────────────
-
-function copyScript(name: string, qsStr: string, format: "svg" | "png"): string {
-  const sep = qsStr ? "&" : "?";
-  const suffix = format === "png" ? `${sep}format=png` : "";
-  return [
-    `navigator.clipboard.writeText(location.origin+'/api/badge/${name}${qsStr}${suffix}')`,
-    `.then(()=>{`,
-    `let t=document.getElementById('toast');`,
-    `t.textContent='Copied ${format.toUpperCase()}: /api/badge/${name}';`,
-    `t.classList.add('show');`,
-    `setTimeout(()=>t.classList.remove('show'),1500)`,
-    `})`,
-  ].join("");
-}
-
-function AllPage(props: {
-  bg: string;
-  fg: string;
-  muted: string;
-  qsStr: string;
-  badges: { name: string; svg: string }[];
-}) {
-  return (
-    <html>
-      <head>
-        <meta charset="utf-8" />
-        <title>Badge Preview</title>
-        <style>{`
-body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px}
-.grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
-.badge{flex:0 0 auto}
-.header{display:flex;align-items:center;gap:8px;margin:0 0 8px}
-.header a{font-size:14px;color:${props.muted};text-transform:uppercase;letter-spacing:1px;text-decoration:none;transition:color 0.15s}
-.header a:hover{color:${props.fg}}
-.header:hover .copy{opacity:0.7}
-.copy{background:none;border:1px solid ${props.muted}40;border-radius:4px;cursor:pointer;padding:2px 6px;display:inline-flex;align-items:center;color:${props.muted};opacity:0.6;transition:opacity 0.15s,color 0.15s,border-color 0.15s}
-.copy:hover{opacity:1;color:${props.fg};border-color:${props.fg}60}
-.copy-label{font-size:10px;font-weight:600;letter-spacing:0.5px}
-.badge img.badge-img{display:block;max-width:100%;height:auto}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.2s;pointer-events:none}
-.toast.show{opacity:1}
-        `}</style>
-      </head>
-      <body>
-        <div class="grid">
-          {props.badges.map((b) => (
-            <div class="badge">
-              <div class="header">
-                <a href={`/api/badge/${b.name}${props.qsStr}`} target="_blank">
-                  {b.name}
-                </a>
-                <button
-                  class="copy"
-                  onclick={copyScript(b.name, props.qsStr, "svg")}
-                  title="Copy SVG URL"
-                >
-                  <span class="copy-label">SVG</span>
-                </button>
-                <button
-                  class="copy"
-                  onclick={copyScript(b.name, props.qsStr, "png")}
-                  title="Copy PNG URL"
-                >
-                  <span class="copy-label">PNG</span>
-                </button>
-              </div>
-              <img
-                class="badge-img"
-                src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
-              />
-            </div>
-          ))}
-        </div>
-        <div id="toast" class="toast" />
-      </body>
-    </html>
-  );
-}
 
 // ── Routes ────────────────────────────────────────────────
 
@@ -138,6 +64,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   .resolve({ as: "local" }, ({ query }) => ({
     locale: parseLocale(query.locale),
     theme: parseTheme(query.theme),
+    size: parseBadgeSize(query.size),
   }))
   .onBeforeHandle(({ set, path }) => {
     if (!path.endsWith("/all")) {
@@ -146,7 +73,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   })
   .get(
     "/all",
-    async ({ query, html, locale, theme }) => {
+    async ({ query, html, locale, theme, size: _size }) => {
       const qs = new URLSearchParams();
       if (query.locale) qs.set("locale", query.locale);
       if (query.theme) qs.set("theme", query.theme);
@@ -158,23 +85,36 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getPricingData(),
       ]);
 
-      const ctx: BadgeCtx = { locale, theme, ref: query.ref, stats, pricing };
-      const badges = await Promise.all(
-        BADGE_NAMES.map(async (name) => ({
-          name,
-          svg: await BADGES[name](ctx),
-        })),
+      const sizes: BadgeSize[] = ["xs", "sm", "md", "lg", "xl"];
+      const allBadges = await Promise.all(
+        sizes.map(async (s) => {
+          const ctx: BadgeCtx = {
+            locale,
+            theme,
+            size: s,
+            ref: query.ref,
+            stats,
+            pricing,
+          };
+          const badges = await Promise.all(
+            BADGE_NAMES.map(async (name) => ({
+              name: `${name} (${s})`,
+              svg: await BADGES[name](ctx),
+            })),
+          );
+          return badges;
+        }),
       );
 
-      const isLight = query.theme === "light";
+      const c = themeVars(theme);
 
       return html(
         <AllPage
-          bg={isLight ? "#fff" : "#111"}
-          fg={isLight ? "#000" : "#fff"}
-          muted={isLight ? "#666" : "#888"}
+          bg={c.previewBg}
+          fg={c.previewFg}
+          muted={c.previewMuted}
           qsStr={qsStr}
-          badges={badges}
+          badges={allBadges.flat()}
         />,
       );
     },
@@ -182,7 +122,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   )
   .get(
     "/:name",
-    async ({ params, query, locale, theme, set }) => {
+    async ({ params, query, locale, theme, size, set }) => {
       const gen = BADGES[params.name];
       if (!gen) {
         set.status = 404;
@@ -194,7 +134,14 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       ]);
       const isPng = query.format === "png";
       if (isPng) setStaticMode(true);
-      const svg = await gen({ locale, theme, ref: query.ref, stats, pricing });
+      const svg = await gen({
+        locale,
+        theme,
+        size,
+        ref: query.ref,
+        stats,
+        pricing,
+      });
       if (isPng) setStaticMode(false);
 
       if (isPng) {

@@ -56,6 +56,7 @@ export function Stat(props: {
   label: string;
   c: ThemeColors;
   size?: number;
+  labelSize?: number;
   cipherMarker?: string;
 }) {
   return (
@@ -66,7 +67,7 @@ export function Stat(props: {
         size={props.size}
         cipherMarker={props.cipherMarker}
       />
-      <Label text={props.label} c={props.c} />
+      <Label text={props.label} c={props.c} size={props.labelSize} />
     </Col>
   );
 }

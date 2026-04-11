@@ -1,33 +1,35 @@
 import { env } from "@/lib/config/env";
-import type { Locale } from "next-intl";
+import { REFERRAL_DIMS, resolveDims } from "../lib/config";
 import { t } from "../i18n";
 import { Brand, Card, Col, Row } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
-import { themeVars, type Theme } from "../lib/theme";
+import { themeVars } from "../lib/theme";
 import { FONT_MONO, FONT_SANS } from "../lib/typography";
+import type { BadgeCtx } from "../route";
 
-export async function generateReferral(
-  locale: Locale,
-  theme: Theme,
-  ref: string,
-): Promise<string> {
-  const c = themeVars(theme);
+export async function generateReferral(ctx: BadgeCtx): Promise<string> {
+  const c = themeVars(ctx.theme);
+  const d = resolveDims(REFERRAL_DIMS, ctx.size);
+  const ref = ctx.ref ?? "YOUR_CODE";
   const domain = new URL(env.appUrl).host;
   const url = `${domain}/?ref=${ref}`;
-  const W = 480;
-  const H = 160;
 
   const node = (
     <Card
       c={c}
       style={{
         flexDirection: "column",
-        padding: 28,
+        padding: d.pad,
         justifyContent: "space-between",
       }}
     >
       <Row style={{ alignItems: "center", justifyContent: "space-between" }}>
-        <Brand c={c} logoSize={32} fontSize={16} gap={10} />
+        <Brand
+          c={c}
+          logoSize={d.logoSize}
+          fontSize={d.brandFont}
+          gap={d.brandGap}
+        />
         <Row
           style={{
             backgroundColor: c.brandRed,
@@ -38,33 +40,35 @@ export async function generateReferral(
           <span
             style={{
               fontFamily: FONT_SANS,
-              fontSize: 10,
+              fontSize: d.badgeFont,
               fontWeight: 700,
-              color: "#fff",
+              color: c.badgeText,
               textTransform: "uppercase",
               letterSpacing: 0.5,
             }}
           >
-            {t(locale, "BADGE.REFERRAL")}
+            {t(ctx.locale, "BADGE.REFERRAL")}
           </span>
         </Row>
       </Row>
 
-      <span
-        style={{
-          fontFamily: FONT_SANS,
-          fontSize: 14,
-          color: c.muted,
-        }}
-      >
-        {t(locale, "BADGE.REFERRAL_CTA")}
-      </span>
+      {d.showSubtitle && (
+        <span
+          style={{
+            fontFamily: FONT_SANS,
+            fontSize: d.subtitleFont,
+            color: c.muted,
+          }}
+        >
+          {t(ctx.locale, "BADGE.REFERRAL_CTA")}
+        </span>
+      )}
 
       <Row
         style={{
           backgroundColor: c.border,
-          borderRadius: 6,
-          padding: "8px 16px",
+          borderRadius: d.radius,
+          padding: d.urlPad,
           alignItems: "center",
           justifyContent: "space-between",
         }}
@@ -72,7 +76,7 @@ export async function generateReferral(
         <span
           style={{
             fontFamily: FONT_MONO,
-            fontSize: 14,
+            fontSize: d.urlFont,
             fontWeight: 700,
             color: c.text,
             letterSpacing: 0.5,
@@ -80,29 +84,31 @@ export async function generateReferral(
         >
           {url}
         </span>
-        <Col
-          style={{
-            backgroundColor: c.brandRed,
-            borderRadius: 4,
-            padding: "4px 12px",
-          }}
-        >
-          <span
+        {d.showCta && (
+          <Col
             style={{
-              fontFamily: FONT_SANS,
-              fontSize: 10,
-              fontWeight: 700,
-              color: "#fff",
-              textTransform: "uppercase",
-              letterSpacing: 0.5,
+              backgroundColor: c.brandRed,
+              borderRadius: 4,
+              padding: d.ctaPad,
             }}
           >
-            {t(locale, "BADGE.GET_STARTED")}
-          </span>
-        </Col>
+            <span
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: d.ctaFont,
+                fontWeight: 700,
+                color: c.badgeText,
+                textTransform: "uppercase",
+                letterSpacing: 0.5,
+              }}
+            >
+              {t(ctx.locale, "BADGE.GET_STARTED")}
+            </span>
+          </Col>
+        )}
       </Row>
     </Card>
   );
 
-  return renderBadge(node, W, H);
+  return renderBadge(node, d.W, d.H);
 }

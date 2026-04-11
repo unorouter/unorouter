@@ -1,49 +1,130 @@
-import type { Locale } from "next-intl";
-import type { BadgePricing, BadgeStats } from "../cache";
+import { SPONSOR_DIMS, resolveDims } from "../lib/config";
 import { t } from "../i18n";
 import { formatFull } from "../lib/format";
 import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
-import { themeVars, type Theme } from "../lib/theme";
+import { themeVars } from "../lib/theme";
 import { Stat, Dot, FONT_SANS, MonoValue } from "../lib/typography";
-import { cipherMarker, isStaticMode, processCipherMarkers } from "./cipher";
+import type { BadgeCtx } from "../route";
+import {
+  cipherMarker,
+  processCipherMarkers,
+  replacePulseDotMarker,
+  type CipherTarget,
+} from "./cipher";
 
-export async function generateSponsor(
-  stats: BadgeStats,
-  locale: Locale,
-  theme: Theme,
-  pricing: BadgePricing,
-  _ref?: string,
-): Promise<string> {
-  const c = themeVars(theme);
-  const tokenCount = formatFull(stats.tokenUsed);
-  const requestCount = formatFull(stats.requestCount);
-  const tpmCount = formatFull(stats.avgTpm);
-  const modelCount = `${pricing.modelCount}+`;
-  const W = 800;
-  const H = 280;
+export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
+  const c = themeVars(ctx.theme);
+  const d = resolveDims(SPONSOR_DIMS, ctx.size);
+  const tokenCount = formatFull(ctx.stats.tokenUsed);
+  const requestCount = formatFull(ctx.stats.requestCount);
+  const tpmCount = formatFull(ctx.stats.avgTpm);
+  const modelCount = `${ctx.pricing.modelCount}+`;
+
   const m1 = cipherMarker(1);
   const m2 = cipherMarker(2);
   const m3 = cipherMarker(3);
   const m4 = cipherMarker(4);
 
+  if (d.layout === "horizontal") {
+    const node = (
+      <Card c={c} style={{ alignItems: "center", padding: `0 ${d.pad}px` }}>
+        <Brand
+          c={c}
+          logoSize={d.logoSize}
+          fontSize={d.brandFont}
+          gap={d.brandGap}
+        />
+        <Divider c={c} margin={`0 ${d.pad - 6}px`} opacity={0.5} />
+        <Row style={{ alignItems: "center", gap: 20, flexGrow: 1 }}>
+          <Stat
+            value={tokenCount}
+            label={t(ctx.locale, "BADGE.TOKENS_SERVED")}
+            c={c}
+            size={d.statSize}
+            labelSize={d.labelSize}
+            cipherMarker={m1}
+          />
+          <Stat
+            value={requestCount}
+            label="REQUESTS"
+            c={c}
+            size={d.statSize}
+            labelSize={d.labelSize}
+            cipherMarker={m2}
+          />
+          <Stat
+            value={tpmCount}
+            label={t(ctx.locale, "BADGE.TOKENS_MIN")}
+            c={c}
+            size={d.statSize}
+            labelSize={d.labelSize}
+            cipherMarker={m3}
+          />
+        </Row>
+        <Row
+          style={{
+            width: d.dotSize,
+            height: d.dotSize,
+            borderRadius: "50%",
+            backgroundColor: c.pulseDotMarker,
+            marginLeft: "auto",
+          }}
+        />
+      </Card>
+    );
+
+    let svg = await renderBadge(node, d.W, d.H);
+    svg = replacePulseDotMarker(svg, c.pulseDotMarker, c.accent);
+    svg = await processCipherMarkers(svg, [
+      {
+        value: tokenCount,
+        fontSize: d.statSize,
+        color: c.text,
+        markerColor: m1,
+        loop: true,
+      },
+      {
+        value: requestCount,
+        fontSize: d.statSize,
+        color: c.text,
+        markerColor: m2,
+        loop: true,
+      },
+      {
+        value: tpmCount,
+        fontSize: d.statSize,
+        color: c.text,
+        markerColor: m3,
+        loop: true,
+      },
+    ]);
+    return svg;
+  }
+
+  // Two-column layout
   const node = (
     <Card c={c}>
       {/* Left: brand + bullets + CTA */}
       <Col
-        style={{ padding: 32, flexGrow: 1, justifyContent: "space-between" }}
+        style={{ padding: d.pad, flexGrow: 1, justifyContent: "space-between" }}
       >
-        <Brand c={c} logoSize={44} fontSize={20} gap={14} />
+        <Brand
+          c={c}
+          logoSize={d.logoSize}
+          fontSize={d.brandFont}
+          gap={d.brandGap}
+        />
         <Col style={{ marginTop: 8 }}>
           <span
             style={{
               fontFamily: FONT_SANS,
-              fontSize: 13,
+              fontSize: d.bulletFont,
               color: c.muted,
               letterSpacing: 0.5,
             }}
           >
-            {t(locale, "BADGE.UNIFIED_INTELLIGENCE_API")}
+            {t(ctx.locale, "BADGE.UNIFIED_INTELLIGENCE_API")}
           </span>
           <Row style={{ alignItems: "center", gap: 4, marginTop: 4 }}>
             <Row
@@ -54,55 +135,81 @@ export async function generateSponsor(
                 backgroundColor: c.accent,
               }}
             />
-            <MonoValue value={modelCount} c={c} size={13} cipherMarker={m4} />
-            <span style={{ fontFamily: FONT_SANS, fontSize: 13, color: c.text }}>
-              {t(locale, "BADGE.MODELS_ONE_ENDPOINT_SUFFIX")}
+            <MonoValue
+              value={modelCount}
+              c={c}
+              size={d.modelCountFont}
+              cipherMarker={m4}
+            />
+            <span
+              style={{
+                fontFamily: FONT_SANS,
+                fontSize: d.bulletFont,
+                color: c.text,
+              }}
+            >
+              {t(ctx.locale, "BADGE.MODELS_ONE_ENDPOINT_SUFFIX")}
             </span>
           </Row>
-          <Dot text={t(locale, "BADGE.SMART_ROUTING")} c={c} />
-          <Dot text={t(locale, "BADGE.CHEAPEST_API")} c={c} />
+          <Dot
+            text={t(ctx.locale, "BADGE.SMART_ROUTING")}
+            c={c}
+            fontSize={d.bulletFont}
+          />
+          <Dot
+            text={t(ctx.locale, "BADGE.CHEAPEST_API")}
+            c={c}
+            fontSize={d.bulletFont}
+          />
         </Col>
         <Row
           style={{
-            marginTop: 12,
+            marginTop: 10,
             backgroundColor: c.text,
             borderRadius: 6,
-            padding: "6px 20px",
+            padding: "5px 16px",
             alignSelf: "flex-start",
           }}
         >
           <span
             style={{
               fontFamily: FONT_SANS,
-              fontSize: 11,
+              fontSize: d.ctaFont,
               fontWeight: 600,
               color: c.bg,
               letterSpacing: 0.5,
             }}
           >
-            {t(locale, "BADGE.GET_STARTED")}
+            {t(ctx.locale, "BADGE.GET_STARTED")}
           </span>
         </Row>
       </Col>
 
-      <Divider c={c} margin="32px 0" opacity={0.5} />
+      <Divider c={c} margin={`${d.pad}px 0`} opacity={0.5} />
 
       {/* Right: stats */}
-      <Col style={{ padding: 32, width: 340, justifyContent: "center", gap: 12 }}>
+      <Col
+        style={{
+          padding: d.pad,
+          width: d.rightWidth,
+          justifyContent: "center",
+          gap: 10,
+        }}
+      >
         <Row style={{ alignItems: "center", gap: 10 }}>
           <Stat
             value={tokenCount}
-            label={t(locale, "BADGE.TOKENS_SERVED")}
+            label={t(ctx.locale, "BADGE.TOKENS_SERVED")}
             c={c}
-            size={22}
+            size={d.statSize}
             cipherMarker={m1}
           />
           <Row
             style={{
-              width: 8,
-              height: 8,
+              width: d.dotSize,
+              height: d.dotSize,
               borderRadius: "50%",
-              backgroundColor: "#fe0099",
+              backgroundColor: c.pulseDotMarker,
               marginBottom: 12,
             }}
           />
@@ -111,46 +218,53 @@ export async function generateSponsor(
           value={requestCount}
           label="REQUESTS"
           c={c}
-          size={22}
+          size={d.statSize}
           cipherMarker={m2}
         />
         <Stat
           value={tpmCount}
-          label={t(locale, "BADGE.TOKENS_MIN")}
+          label={t(ctx.locale, "BADGE.TOKENS_MIN")}
           c={c}
-          size={22}
+          size={d.statSize}
           cipherMarker={m3}
         />
       </Col>
     </Card>
   );
 
-  let svg = await renderBadge(node, W, H);
+  let svg = await renderBadge(node, d.W, d.H);
+  svg = replacePulseDotMarker(svg, c.pulseDotMarker, c.accent);
 
-  // Replace marker dot (#fe0099) with a pulse-animated circle (SVG) or static circle (PNG)
-  const dotMarker = svg.match(/<(?:path|rect)[^>]*fill="#fe0099"[^>]*\/?>/)
-    ?? svg.match(/<(?:path|rect)[^>]*>[^<]*fill="#fe0099"[^>]*\/?>/);
-  if (dotMarker) {
-    const xM = dotMarker[0].match(/\bx="([\d.]+)"/);
-    const yM = dotMarker[0].match(/\by="([\d.]+)"/);
-    const wM = dotMarker[0].match(/\bwidth="([\d.]+)"/);
-    const hM = dotMarker[0].match(/\bheight="([\d.]+)"/);
-    if (xM && yM && wM && hM) {
-      const cx = parseFloat(xM[1]) + parseFloat(wM[1]) / 2;
-      const cy = parseFloat(yM[1]) + parseFloat(hM[1]) / 2;
-      const r = parseFloat(wM[1]) / 2;
-      const circle = isStaticMode()
-        ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`
-        : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
-      svg = svg.replace(dotMarker[0], circle);
-    }
-  }
+  const targets: CipherTarget[] = [
+    {
+      value: tokenCount,
+      fontSize: d.statSize,
+      color: c.text,
+      markerColor: m1,
+      loop: true,
+    },
+    {
+      value: requestCount,
+      fontSize: d.statSize,
+      color: c.text,
+      markerColor: m2,
+      loop: true,
+    },
+    {
+      value: tpmCount,
+      fontSize: d.statSize,
+      color: c.text,
+      markerColor: m3,
+      loop: true,
+    },
+    {
+      value: modelCount,
+      fontSize: d.modelCountFont,
+      color: c.text,
+      markerColor: m4,
+    },
+  ];
 
-  svg = await processCipherMarkers(svg, [
-    { value: tokenCount, fontSize: 22, color: c.text, markerColor: m1, loop: true },
-    { value: requestCount, fontSize: 22, color: c.text, markerColor: m2, loop: true },
-    { value: tpmCount, fontSize: 22, color: c.text, markerColor: m3, loop: true },
-    { value: modelCount, fontSize: 13, color: c.text, markerColor: m4 },
-  ]);
+  svg = await processCipherMarkers(svg, targets);
   return svg;
 }

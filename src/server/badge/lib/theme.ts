@@ -13,6 +13,12 @@ export interface ThemeColors {
   brandRed: string;
   badgeBg: string;
   badgeText: string;
+  /** Marker color for pulse dot placeholders (replaced post-render) */
+  pulseDotMarker: string;
+  /** Preview page colors */
+  previewBg: string;
+  previewFg: string;
+  previewMuted: string;
 }
 
 const dark: ThemeColors = {
@@ -26,6 +32,10 @@ const dark: ThemeColors = {
   brandRed: "#b91c1c",
   badgeBg: "#b91c1c",
   badgeText: "#ffffff",
+  pulseDotMarker: "#fe0099",
+  previewBg: "#111",
+  previewFg: "#fff",
+  previewMuted: "#888",
 };
 
 const light: ThemeColors = {
@@ -39,6 +49,10 @@ const light: ThemeColors = {
   brandRed: "#991b1b",
   badgeBg: "#991b1b",
   badgeText: "#ffffff",
+  pulseDotMarker: "#fe0099",
+  previewBg: "#fff",
+  previewFg: "#000",
+  previewMuted: "#666",
 };
 
 export function themeVars(theme: Theme): ThemeColors {

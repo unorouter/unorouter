@@ -1,5 +1,4 @@
 import { Vendor } from "@/lib/types/enums";
-import type { Locale } from "next-intl";
 import anthropic from "thesvg/anthropic";
 import bailian from "thesvg/bailian";
 import bytedance from "thesvg/bytedance";
@@ -15,12 +14,13 @@ import openai from "thesvg/openai";
 import stabilityAi from "thesvg/stability-ai";
 import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
-import type { BadgePricing } from "../cache";
 import { t } from "../i18n";
+import { PROVIDERS_DIMS, resolveDims } from "../lib/config";
 import { Brand, Card, Row } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
-import { themeVars, type Theme, type ThemeColors } from "../lib/theme";
+import { themeVars, type ThemeColors } from "../lib/theme";
 import { FONT_MONO, FONT_SANS, MonoValue } from "../lib/typography";
+import type { BadgeCtx } from "../route";
 import {
   cipherMarker,
   processCipherMarkers,
@@ -75,14 +75,15 @@ export function svgDataUri(svg: string, color: string): string {
   return `data:image/svg+xml;base64,${b64}`;
 }
 
-const MAX_ICONS = 14;
-
 function ProviderIcon(props: {
   name: string;
   svg: string;
   modelCount: number;
   c: ThemeColors;
   countMarker: string;
+  iconSize: number;
+  slotWidth: number;
+  showBadge: boolean;
 }) {
   const countValue = String(props.modelCount);
   return (
@@ -92,41 +93,51 @@ function ProviderIcon(props: {
         flexDirection: "column",
         alignItems: "center",
         gap: 4,
-        width: 68,
+        width: props.slotWidth,
         position: "relative",
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-      <img src={svgDataUri(props.svg, props.c.text)} width={28} height={28} />
-      {/* Notification badge with model count */}
-      <div
-        style={{
-          display: "flex",
-          position: "absolute",
-          top: -4,
-          right: 10,
-          backgroundColor: props.c.badgeBg,
-          borderRadius: 99,
-          minWidth: 16,
-          height: 16,
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 4px",
-        }}
-      >
-        <span
+      <img
+        src={svgDataUri(props.svg, props.c.text)}
+        width={props.iconSize}
+        height={props.iconSize}
+      />
+      {props.showBadge && (
+        <div
           style={{
-            fontFamily: FONT_MONO,
-            fontSize: 9,
-            fontWeight: 700,
-            color: "#000",
+            display: "flex",
+            position: "absolute",
+            top: -4,
+            right: props.slotWidth > 50 ? 10 : 4,
+            backgroundColor: props.c.badgeBg,
+            borderRadius: 99,
+            minWidth: 14,
+            height: 14,
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "0 3px",
           }}
         >
-          <MonoValue value={countValue} c={{ ...props.c, text: props.c.badgeText }} size={9} cipherMarker={props.countMarker} />
-        </span>
-      </div>
+          <span
+            style={{
+              fontFamily: FONT_MONO,
+              fontSize: 8,
+              fontWeight: 700,
+              color: props.c.badgeText,
+            }}
+          >
+            <MonoValue
+              value={countValue}
+              c={{ ...props.c, text: props.c.badgeText }}
+              size={8}
+              cipherMarker={props.countMarker}
+            />
+          </span>
+        </div>
+      )}
       <span
-        style={{ fontFamily: FONT_SANS, fontSize: 8, color: props.c.muted }}
+        style={{ fontFamily: FONT_SANS, fontSize: 7, color: props.c.muted }}
       >
         {props.name}
       </span>
@@ -134,17 +145,13 @@ function ProviderIcon(props: {
   );
 }
 
-export async function generateProviders(
-  locale: Locale,
-  theme: Theme,
-  pricing: BadgePricing,
-): Promise<string> {
-  const c = themeVars(theme);
-  const W = 460;
-  const H = 280;
-  const vendorNames = pricing.vendorNames;
-  const providerCount = `${pricing.vendorCount}+`;
-  const modelCountValue = `${pricing.modelCount}+`;
+export async function generateProviders(ctx: BadgeCtx): Promise<string> {
+  const c = themeVars(ctx.theme);
+  const d = resolveDims(PROVIDERS_DIMS, ctx.size);
+
+  const vendorNames = ctx.pricing.vendorNames;
+  const providerCount = `${ctx.pricing.vendorCount}+`;
+  const modelCountValue = `${ctx.pricing.modelCount}+`;
 
   let markerIdx = 1;
   const m1 = cipherMarker(markerIdx++);
@@ -154,22 +161,26 @@ export async function generateProviders(
     .map((name) => ({
       name,
       svg: getVendorIcon(name),
-      models: pricing.vendorModelCounts[name] ?? 0,
+      models: ctx.pricing.vendorModelCounts[name] ?? 0,
     }))
-    .filter((p): p is { name: string; svg: string; models: number } => p.svg !== null)
-    .slice(0, MAX_ICONS);
+    .filter(
+      (p): p is { name: string; svg: string; models: number } => p.svg !== null,
+    )
+    .slice(0, d.maxIcons);
 
   const remaining = vendorNames.length - resolved.length;
 
-  // Assign a cipher marker per provider icon count
-  const iconMarkers = resolved.map(() => cipherMarker(markerIdx++));
+  // Assign a cipher marker per provider icon count (only when badges shown)
+  const iconMarkers = resolved.map(() =>
+    d.showBadge ? cipherMarker(markerIdx++) : "",
+  );
 
   const node = (
     <Card
       c={c}
       style={{
         flexDirection: "column",
-        padding: 24,
+        padding: d.pad,
         justifyContent: "space-between",
       }}
     >
@@ -177,46 +188,56 @@ export async function generateProviders(
         <span
           style={{
             fontFamily: FONT_SANS,
-            fontSize: 14,
+            fontSize: d.headerFont,
             fontWeight: 600,
             color: c.text,
           }}
         >
-          {t(locale, "BADGE.POWERED_BY")}
+          {t(ctx.locale, "BADGE.POWERED_BY")}
         </span>
-        <MonoValue value={providerCount} c={c} size={14} cipherMarker={m1} />
+        <MonoValue
+          value={providerCount}
+          c={c}
+          size={d.headerFont}
+          cipherMarker={m1}
+        />
         <span
           style={{
             fontFamily: FONT_SANS,
-            fontSize: 14,
+            fontSize: d.headerFont,
             fontWeight: 600,
             color: c.text,
           }}
         >
-          {t(locale, "BADGE.PROVIDERS")}
+          {t(ctx.locale, "BADGE.PROVIDERS")}
         </span>
         <span
           style={{
             fontFamily: FONT_SANS,
-            fontSize: 14,
+            fontSize: d.headerFont,
             color: c.muted,
           }}
         >
           ·
         </span>
-        <MonoValue value={modelCountValue} c={c} size={14} cipherMarker={m2} />
+        <MonoValue
+          value={modelCountValue}
+          c={c}
+          size={d.headerFont}
+          cipherMarker={m2}
+        />
         <span
           style={{
             fontFamily: FONT_SANS,
-            fontSize: 14,
+            fontSize: d.headerFont,
             fontWeight: 600,
             color: c.text,
           }}
         >
-          {t(locale, "BADGE.MODELS")}
+          {t(ctx.locale, "BADGE.MODELS")}
         </span>
       </Row>
-      <Row style={{ flexWrap: "wrap", gap: 12 }}>
+      <Row style={{ flexWrap: "wrap", gap: d.gridGap }}>
         {resolved.map((p, i) => (
           <ProviderIcon
             key={p.name}
@@ -225,6 +246,9 @@ export async function generateProviders(
             modelCount={p.models}
             c={c}
             countMarker={iconMarkers[i]}
+            iconSize={d.iconSize}
+            slotWidth={d.slotWidth}
+            showBadge={d.showBadge}
           />
         ))}
         {remaining > 0 && (
@@ -234,13 +258,13 @@ export async function generateProviders(
               flexDirection: "column",
               alignItems: "center",
               gap: 4,
-              width: 56,
+              width: d.slotWidth - 8,
             }}
           >
             <Row
               style={{
-                width: 28,
-                height: 28,
+                width: d.iconSize,
+                height: d.iconSize,
                 borderRadius: 6,
                 backgroundColor: c.border,
                 alignItems: "center",
@@ -250,7 +274,7 @@ export async function generateProviders(
               <span
                 style={{
                   fontFamily: FONT_SANS,
-                  fontSize: 12,
+                  fontSize: d.headerFont - 1,
                   fontWeight: 600,
                   color: c.muted,
                 }}
@@ -259,38 +283,52 @@ export async function generateProviders(
               </span>
             </Row>
             <span
-              style={{ fontFamily: FONT_SANS, fontSize: 8, color: c.muted }}
+              style={{ fontFamily: FONT_SANS, fontSize: 7, color: c.muted }}
             >
-              More
+              {t(ctx.locale, "BADGE.MORE")}
             </span>
           </div>
         )}
       </Row>
-      <Row style={{ alignItems: "center", gap: 8 }}>
-        <Brand c={c} logoSize={16} fontSize={12} gap={6} />
-        <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: c.muted }}>
-          | {t(locale, "BADGE.UNIFIED_INTELLIGENCE")}
-        </span>
-      </Row>
+      {d.showBadge && (
+        <Row style={{ alignItems: "center", gap: 6 }}>
+          <Brand c={c} logoSize={14} fontSize={10} gap={6} />
+          <span style={{ fontFamily: FONT_SANS, fontSize: 10, color: c.muted }}>
+            | {t(ctx.locale, "BADGE.UNIFIED_INTELLIGENCE")}
+          </span>
+        </Row>
+      )}
     </Card>
   );
 
   // Build cipher targets
   const targets: CipherTarget[] = [
-    { value: providerCount, fontSize: 14, color: c.text, markerColor: m1 },
-    { value: modelCountValue, fontSize: 14, color: c.text, markerColor: m2 },
+    {
+      value: providerCount,
+      fontSize: d.headerFont,
+      color: c.text,
+      markerColor: m1,
+    },
+    {
+      value: modelCountValue,
+      fontSize: d.headerFont,
+      color: c.text,
+      markerColor: m2,
+    },
   ];
 
-  for (let i = 0; i < resolved.length; i++) {
-    targets.push({
-      value: String(resolved[i].models),
-      fontSize: 9,
-      color: c.badgeText,
-      markerColor: iconMarkers[i],
-    });
+  if (d.showBadge) {
+    for (let i = 0; i < resolved.length; i++) {
+      targets.push({
+        value: String(resolved[i].models),
+        fontSize: 8,
+        color: c.badgeText,
+        markerColor: iconMarkers[i],
+      });
+    }
   }
 
-  let svg = await renderBadge(node, W, H);
+  let svg = await renderBadge(node, d.W, d.H);
   svg = await processCipherMarkers(svg, targets);
   return svg;
 }

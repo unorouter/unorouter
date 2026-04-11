@@ -1,0 +1,84 @@
+/** @jsxImportSource @kitajs/html */
+/* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
+
+export function copyScript(
+  name: string,
+  qsStr: string,
+  format: "svg" | "png",
+): string {
+  const sep = qsStr ? "&" : "?";
+  const suffix = format === "png" ? `${sep}format=png` : "";
+  return [
+    `navigator.clipboard.writeText(location.origin+'/api/badge/${name}${qsStr}${suffix}')`,
+    `.then(()=>{`,
+    `let t=document.getElementById('toast');`,
+    `t.textContent='Copied ${format.toUpperCase()}: /api/badge/${name}';`,
+    `t.classList.add('show');`,
+    `setTimeout(()=>t.classList.remove('show'),1500)`,
+    `})`,
+  ].join("");
+}
+
+export function AllPage(props: {
+  bg: string;
+  fg: string;
+  muted: string;
+  qsStr: string;
+  badges: { name: string; svg: string }[];
+}) {
+  return (
+    <html>
+      <head>
+        <meta charset="utf-8" />
+        <title>Badge Preview</title>
+        <style>{`
+body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px}
+.grid{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start}
+.badge{flex:0 0 auto}
+.header{display:flex;align-items:center;gap:8px;margin:0 0 8px}
+.header a{font-size:14px;color:${props.muted};text-transform:uppercase;letter-spacing:1px;text-decoration:none;transition:color 0.15s}
+.header a:hover{color:${props.fg}}
+.header:hover .copy{opacity:0.7}
+.copy{background:none;border:1px solid ${props.muted}40;border-radius:4px;cursor:pointer;padding:2px 6px;display:inline-flex;align-items:center;color:${props.muted};opacity:0.6;transition:opacity 0.15s,color 0.15s,border-color 0.15s}
+.copy:hover{opacity:1;color:${props.fg};border-color:${props.fg}60}
+.copy-label{font-size:10px;font-weight:600;letter-spacing:0.5px}
+.badge img.badge-img{display:block;max-width:100%;height:auto}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;opacity:0;transition:opacity 0.2s;pointer-events:none}
+.toast.show{opacity:1}
+        `}</style>
+      </head>
+      <body>
+        <div class="grid">
+          {props.badges.map((b) => (
+            <div class="badge">
+              <div class="header">
+                <a href={`/api/badge/${b.name}${props.qsStr}`} target="_blank">
+                  {b.name}
+                </a>
+                <button
+                  class="copy"
+                  onclick={copyScript(b.name, props.qsStr, "svg")}
+                  title="Copy SVG URL"
+                >
+                  <span class="copy-label">SVG</span>
+                </button>
+                <button
+                  class="copy"
+                  onclick={copyScript(b.name, props.qsStr, "png")}
+                  title="Copy PNG URL"
+                >
+                  <span class="copy-label">PNG</span>
+                </button>
+              </div>
+              <img
+                class="badge-img"
+                src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
+              />
+            </div>
+          ))}
+        </div>
+        <div id="toast" class="toast" />
+      </body>
+    </html>
+  );
+}

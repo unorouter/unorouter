@@ -224,6 +224,51 @@ export function cipherMarker(index: number): string {
 }
 
 /**
+ * Find the pulseDotMarker rect/path in rendered SVG and replace it with
+ * an animated (SVG) or static (PNG) accent-colored circle.
+ */
+export function replacePulseDotMarker(
+  svg: string,
+  markerColor: string,
+  accentColor: string,
+): string {
+  const escaped = markerColor.replace("#", "\\#");
+  const dotMarker =
+    svg.match(
+      new RegExp(`<(?:path|rect)[^>]*fill="${escaped}"[^>]*/?>`),
+    )?.[0] ??
+    svg.match(
+      new RegExp(`<(?:path|rect)[^>]*>[^<]*fill="${escaped}"[^>]*/?>`),
+    )?.[0];
+  if (!dotMarker) return svg;
+
+  const xM = dotMarker.match(/\bx="([\d.]+)"/);
+  const yM = dotMarker.match(/\by="([\d.]+)"/);
+  const wM = dotMarker.match(/\bwidth="([\d.]+)"/);
+  const hM = dotMarker.match(/\bheight="([\d.]+)"/);
+  if (!xM || !yM || !wM || !hM) return svg;
+
+  const cx = parseFloat(xM[1]) + parseFloat(wM[1]) / 2;
+  const cy = parseFloat(yM[1]) + parseFloat(hM[1]) / 2;
+  const r = parseFloat(wM[1]) / 2;
+
+  const circle = staticMode
+    ? ((<circle cx={cx} cy={cy} r={r} fill={accentColor} />) as string)
+    : ((
+        <circle cx={cx} cy={cy} r={r} fill={accentColor}>
+          <animate
+            attributeName="opacity"
+            values="1;0.3;1"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+        </circle>
+      ) as string);
+
+  return svg.replace(dotMarker, circle);
+}
+
+/**
  * Process a rendered SVG string: find paths with cipher marker fills,
  * replace them with animated scramble sequences.
  */
