@@ -9,7 +9,7 @@ const DIGITS = "0123456789";
 const FRAME_COUNT = 8;
 const FRAME_DURATION_MIN_MS = 100;
 const FRAME_DURATION_MAX_MS = 140;
-const STAGGER_MAX_MS = 300;
+const STAGGER_MAX_MS = 80;
 
 // ── SVG string builder (like snk's h() helper) ───────────
 
