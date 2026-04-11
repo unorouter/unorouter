@@ -1,15 +1,11 @@
 import type { Locale } from "next-intl";
 import type { BadgeStats } from "../cache";
 import { t } from "../i18n";
-import { renderBadge, themeVars, formatCompact, type Theme } from "../satori";
-import {
-  Card,
-  Logo,
-  BrandName,
-  MonoValue,
-  Label,
-  pulseDot,
-} from "./components";
+import { formatCompact } from "../lib/format";
+import { Card, Logo, BrandName } from "../lib/primitives";
+import { renderBadge } from "../lib/render";
+import { themeVars, type Theme } from "../lib/theme";
+import { MonoValue, Label, pulseDot } from "../lib/typography";
 
 export async function generateTokensSquare(
   stats: BadgeStats,

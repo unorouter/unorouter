@@ -16,13 +16,10 @@ import stabilityAi from "thesvg/stability-ai";
 import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
 import { t } from "../i18n";
-import {
-  renderBadge,
-  themeVars,
-  type Theme,
-  type ThemeColors,
-} from "../satori";
-import { Brand, Card, FONT_SANS, Row } from "./components";
+import { Brand, Card, Row } from "../lib/primitives";
+import { renderBadge } from "../lib/render";
+import { themeVars, type Theme, type ThemeColors } from "../lib/theme";
+import { FONT_SANS } from "../lib/typography";
 
 /** Strip all fill declarations so we can control icon color via parent svg fill */
 function stripFills(svg: string): string {

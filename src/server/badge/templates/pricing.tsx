@@ -2,20 +2,10 @@ import { formatPrice } from "@/lib/utils/base";
 import type { Locale } from "next-intl";
 import type { BadgePricingRow } from "../cache";
 import { t } from "../i18n";
-import {
-  renderBadge,
-  themeVars,
-  type Theme,
-  type ThemeColors,
-} from "../satori";
-import {
-  Brand,
-  Card,
-  FONT_MONO,
-  FONT_SANS,
-  Label,
-  Row,
-} from "./components";
+import { Brand, Card, Row } from "../lib/primitives";
+import { renderBadge } from "../lib/render";
+import { themeVars, type Theme, type ThemeColors } from "../lib/theme";
+import { FONT_MONO, FONT_SANS, Label } from "../lib/typography";
 import { getVendorIcon, svgDataUri } from "./providers";
 
 function discount(original: number, current: number): string {

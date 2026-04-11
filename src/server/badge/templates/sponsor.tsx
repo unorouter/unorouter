@@ -1,24 +1,12 @@
 import type { Locale } from "next-intl";
 import type { BadgeStats } from "../cache";
 import { t } from "../i18n";
-import {
-  renderBadge,
-  themeVars,
-  formatFull,
-  type Theme,
-} from "../satori";
+import { formatFull } from "../lib/format";
+import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
+import { renderBadge } from "../lib/render";
+import { themeVars, type Theme } from "../lib/theme";
+import { Stat, Dot, FONT_SANS, pulseDot } from "../lib/typography";
 import { cipherMarker, processCipherMarkers } from "./cipher";
-import {
-  Card,
-  Brand,
-  Col,
-  Row,
-  Stat,
-  Divider,
-  Dot,
-  FONT_SANS,
-  pulseDot,
-} from "./components";
 
 export async function generateSponsor(
   stats: BadgeStats,

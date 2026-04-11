@@ -1,7 +1,7 @@
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
-import { badgeFonts } from "../satori";
-import { FONT_MONO } from "./components";
+import { badgeFonts } from "../lib/render";
+import { FONT_MONO } from "../lib/typography";
 
 // ── Config ────────────────────────────────────────────────
 

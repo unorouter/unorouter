@@ -1,7 +1,9 @@
 import type { Locale } from "next-intl";
 import { t } from "../i18n";
-import { renderBadge, themeVars, type Theme } from "../satori";
-import { Brand, Card, Col, FONT_MONO, FONT_SANS, Row } from "./components";
+import { Brand, Card, Col, Row } from "../lib/primitives";
+import { renderBadge } from "../lib/render";
+import { themeVars, type Theme } from "../lib/theme";
+import { FONT_MONO, FONT_SANS } from "../lib/typography";
 
 export async function generateReferral(
   locale: Locale,

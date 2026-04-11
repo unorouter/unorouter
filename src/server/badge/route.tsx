@@ -8,14 +8,14 @@ import type { Locale } from "next-intl";
 import type { BadgePricing, BadgeStats } from "./cache";
 import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
-import { parseTheme, type Theme } from "./satori";
-import { generateHero } from "./svg/hero";
-import { generatePricing } from "./svg/pricing";
-import { generateProviders } from "./svg/providers";
-import { generateReferral } from "./svg/referral";
-import { generateSponsor } from "./svg/sponsor";
-import { generateTokensBanner } from "./svg/tokens-banner";
-import { generateTokensSquare } from "./svg/tokens-square";
+import { parseTheme, type Theme } from "./lib/theme";
+import { generateHero } from "./templates/hero";
+import { generatePricing } from "./templates/pricing";
+import { generateProviders } from "./templates/providers";
+import { generateReferral } from "./templates/referral";
+import { generateSponsor } from "./templates/sponsor";
+import { generateTokensBanner } from "./templates/tokens-banner";
+import { generateTokensSquare } from "./templates/tokens-square";
 
 const SVG_HEADERS = {
   "content-type": "image/svg+xml; charset=utf-8",
