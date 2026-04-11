@@ -762,6 +762,15 @@
     "CONTACT_CONTENT": "Wenn Sie Fragen zu diesen Bedingungen haben, kontaktieren Sie uns bitte unter {supportEmail}."
   },
   "MAIN": {
+    "ENUM": {
+      "BANNER": "Banner",
+      "SQUARE": "Quadrat",
+      "SPONSOR": "Sponsor",
+      "PROVIDERS": "Anbieter",
+      "PRICING": "Preise",
+      "HERO": "Hero",
+      "REFERRAL": "Empfehlung"
+    },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Etwas ist schiefgelaufen",
       "UNEXPECTED_ERROR_OCCURRED": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder kehre zur Startseite zurück.",

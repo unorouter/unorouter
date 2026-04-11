@@ -50,7 +50,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
 
   const badgeAbsoluteUrl = `${env.appUrl}/api/badge/${type}?${params.toString()}`;
   const linkUrl = props.refCode
-    ? `${env.appUrl}/?ref=${props.refCode}`
+    ? `${env.appUrl}/?aff=${props.refCode}`
     : env.appUrl;
   const embedHtml = `<a href="${linkUrl}" target="_blank">\n  <img src="${badgeAbsoluteUrl}" alt="${env.appName}" />\n</a>`;
   const embedMarkdown = `[![${env.appName}](${badgeAbsoluteUrl})](${linkUrl})`;
@@ -82,13 +82,13 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
           <Select value={type} onValueChange={(v) => setType(v as BadgeType)}>
             <SelectTrigger size="sm" className="w-32">
               <SelectValue>
-                {type.charAt(0).toUpperCase() + type.slice(1)}
+                {t(`MAIN.ENUM.${type.toUpperCase()}` as "MAIN.ENUM.BANNER")}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {BADGE_TYPES.map((bt) => (
                 <SelectItem key={bt} value={bt}>
-                  {bt.charAt(0).toUpperCase() + bt.slice(1)}
+                  {t(`MAIN.ENUM.${bt.toUpperCase()}` as "MAIN.ENUM.BANNER")}
                 </SelectItem>
               ))}
             </SelectContent>

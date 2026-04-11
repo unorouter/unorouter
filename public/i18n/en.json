@@ -762,6 +762,15 @@
     "CONTACT_CONTENT": "If you have any questions about these Terms, please contact us at {supportEmail}."
   },
   "MAIN": {
+    "ENUM": {
+      "BANNER": "Banner",
+      "SQUARE": "Square",
+      "SPONSOR": "Sponsor",
+      "PROVIDERS": "Providers",
+      "PRICING": "Pricing",
+      "HERO": "Hero",
+      "REFERRAL": "Referral"
+    },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Something went wrong",
       "UNEXPECTED_ERROR_OCCURRED": "An unexpected error occurred. Please try again or return to the home page.",

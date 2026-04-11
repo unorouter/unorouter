@@ -1,3 +1,4 @@
+import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
@@ -8,6 +9,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
+import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import {
   JetBrains_Mono,
@@ -83,6 +85,9 @@ export default async function LocaleLayout(props: Props) {
       >
         <Providers>
           <Toaster richColors />
+          <Suspense>
+            <AffiliateCapture />
+          </Suspense>
           {props.children}
         </Providers>
       </body>

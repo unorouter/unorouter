@@ -1,5 +1,4 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { Link, redirect } from "@/i18n/navigation";
 import { Redirect } from "@/i18n/routing";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
@@ -12,7 +11,7 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getCookie } from "cookies-next/server";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 
 export default async function AuthLayout(props: { children: ReactNode }) {
   const t = await getTranslations();
@@ -43,10 +42,6 @@ export default async function AuthLayout(props: { children: ReactNode }) {
             <CompanyName className="text-foreground font-mono text-xl" />
           </Link>
         </div>
-
-        <Suspense>
-          <AffiliateCapture />
-        </Suspense>
 
         {props.children}
 

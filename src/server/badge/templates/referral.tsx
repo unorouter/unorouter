@@ -115,7 +115,7 @@ export async function generateReferral(ctx: BadgeCtx): Promise<string> {
   const d = DIMS[ctx.size]!;
   const ref = ctx.ref ?? "YOUR_CODE";
   const domain = new URL(env.appUrl).host;
-  const url = `${domain}/?ref=${ref}`;
+  const url = `${domain}/?aff=${ref}`;
 
   const node = (
     <Card
