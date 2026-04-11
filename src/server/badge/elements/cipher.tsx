@@ -2,8 +2,9 @@
 
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
-import type { CipherTarget } from "../lib/types";
 import { fonts } from "../lib/cache";
+import type { CipherTarget } from "../lib/types";
+import { randInt } from "../lib/utils";
 import { FONT_MONO } from "./typography";
 
 const DIGITS = "0123456789";
@@ -11,10 +12,6 @@ const FRAME_COUNT = 8;
 const FRAME_DURATION_MIN_MS = 100;
 const FRAME_DURATION_MAX_MS = 140;
 const STAGGER_MAX_MS = 80;
-
-function randInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function scrambleValue(value: string): string {
   return value
