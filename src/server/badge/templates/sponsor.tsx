@@ -194,6 +194,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
           loop: true,
         },
       ],
+      staticMode: ctx.staticMode,
     });
   }
 
@@ -360,5 +361,6 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
     height: d.H,
     pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
     cipherTargets: targets,
+    staticMode: ctx.staticMode,
   });
 }

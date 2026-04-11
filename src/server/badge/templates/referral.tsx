@@ -214,5 +214,5 @@ export async function generateReferral(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  return renderBadgeTemplate({ node, width: d.W, height: d.H });
+  return renderBadgeTemplate({ node, width: d.W, height: d.H, staticMode: ctx.staticMode });
 }

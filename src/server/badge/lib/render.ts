@@ -48,11 +48,12 @@ export async function renderBadgeTemplate(
       svg,
       opts.pulseDot.markerColor,
       opts.pulseDot.accentColor,
+      opts.staticMode,
     );
   }
 
   if (opts.cipherTargets && opts.cipherTargets.length > 0) {
-    svg = await processCipherMarkers(svg, opts.cipherTargets);
+    svg = await processCipherMarkers(svg, opts.cipherTargets, opts.staticMode);
   }
 
   return svg;

@@ -120,9 +120,10 @@ export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
     node,
     width: d.W,
     height: d.H,
-    smil: pulseDot(d.W / 2, d.dotY, d.dotR, c.accent),
+    smil: pulseDot(d.W / 2, d.dotY, d.dotR, c.accent, ctx.staticMode),
     cipherTargets: [
       { value, fontSize: d.valueSize, color: c.text, markerColor: m1 },
     ],
+    staticMode: ctx.staticMode,
   });
 }

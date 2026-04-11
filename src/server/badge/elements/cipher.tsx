@@ -6,22 +6,16 @@ import type { CipherTarget } from "../lib/types";
 import { fonts } from "../lib/render";
 import { FONT_MONO } from "./typography";
 
-// ── Config ────────────────────────────────────────────────
-
 const DIGITS = "0123456789";
 const FRAME_COUNT = 8;
 const FRAME_DURATION_MIN_MS = 100;
 const FRAME_DURATION_MAX_MS = 140;
 const STAGGER_MAX_MS = 80;
 
-// ── Helpers ───────────────────────────────────────────────
-
-/** Random int in [min, max] */
 function randInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/** Only scramble digit characters; preserve letters, dots, commas, plus, etc. */
 function scrambleValue(value: string): string {
   return value
     .split("")
@@ -34,10 +28,6 @@ function scrambleValue(value: string): string {
     .join("");
 }
 
-/**
- * Scramble only the right half of digit positions.
- * Left-half digits keep their real values, right-half digits randomize.
- */
 function scrambleRightHalf(value: string): string {
   const digitPositions: number[] = [];
   for (let i = 0; i < value.length; i++) {
@@ -57,7 +47,6 @@ function scrambleRightHalf(value: string): string {
     .join("");
 }
 
-/** Render a single text string via Satori and return just the path `d` attribute */
 async function renderTextPath(
   text: string,
   fontSize: number,
@@ -86,13 +75,6 @@ async function renderTextPath(
   return match ? match[1] : "";
 }
 
-// ── JSX Animation Components ─────────────────────────────
-//
-// Uses @kitajs/html JSX (renders to string, no React needed).
-// Visibility + <set>/<animate calcMode="discrete"> for flash-free
-// frame switching. See: https://developer.mozilla.org/en-US/docs/Web/SVG/Guides/SVG_animation_with_SMIL
-
-/** A frame visible for exactly one time slot via <set> */
 function Frame(props: {
   d: string;
   color: string;
@@ -124,7 +106,6 @@ function Frame(props: {
   );
 }
 
-/** A looping frame with calcMode="discrete" visibility cycling */
 function LoopFrame(props: {
   d: string;
   color: string;
@@ -149,30 +130,14 @@ function LoopFrame(props: {
   );
 }
 
-// ── Public API ────────────────────────────────────────────
-
 export type { CipherTarget } from "../lib/types";
 
-/**
- * When true, processCipherMarkers replaces marker fills instead of animating,
- * and pulseDot returns empty. Used for static PNG rendering.
- */
-let staticMode = false;
-
-export function setStaticMode(value: boolean) {
-  staticMode = value;
-}
-
-export function isStaticMode(): boolean {
-  return staticMode;
-}
-
-/** SMIL pulsing green circle (injected post-render). Returns empty in static mode. */
 export function pulseDot(
   cx: number,
   cy: number,
   r: number,
   fill: string,
+  staticMode?: boolean,
 ): string {
   if (staticMode) return "";
   return (
@@ -187,10 +152,6 @@ export function pulseDot(
   ) as string;
 }
 
-/**
- * Replace cipher marker fill colors with real text colors (for static PNG).
- * Keeps the original Satori-rendered text paths, just corrects their fill.
- */
 export function stripCipherMarkers(
   svg: string,
   targets: CipherTarget[],
@@ -205,19 +166,15 @@ export function stripCipherMarkers(
   return result;
 }
 
-/** Marker color for a given slot index (1-based) */
 export function cipherMarker(index: number): string {
   return `#fe00${String(index).padStart(2, "0")}`;
 }
 
-/**
- * Find the pulseDotMarker rect/path in rendered SVG and replace it with
- * an animated (SVG) or static (PNG) accent-colored circle.
- */
 export function replacePulseDotMarker(
   svg: string,
   markerColor: string,
   accentColor: string,
+  staticMode?: boolean,
 ): string {
   const escaped = markerColor.replace("#", "\\#");
   const dotMarker =
@@ -255,13 +212,10 @@ export function replacePulseDotMarker(
   return svg.replace(dotMarker, circle);
 }
 
-/**
- * Process a rendered SVG string: find paths with cipher marker fills,
- * replace them with animated scramble sequences.
- */
 export async function processCipherMarkers(
   svg: string,
   targets: CipherTarget[],
+  staticMode?: boolean,
 ): Promise<string> {
   if (targets.length === 0) return svg;
   if (staticMode) return stripCipherMarkers(svg, targets);
@@ -362,9 +316,6 @@ async function buildCipherAnimation(
   );
 }
 
-// ── Animation renderers ──────────────────────────────────
-
-/** Scramble plays once then settles on the real value permanently */
 function renderSettleCipher(
   scrambleDs: string[],
   realPathD: string,
@@ -409,10 +360,6 @@ function renderSettleCipher(
   return frames + realFrame;
 }
 
-/**
- * Intro full-scramble frames flow directly into right-half-only loop frames.
- * Intro plays once sequentially, then loop repeats indefinitely.
- */
 function renderLoopingCipher(
   introDs: string[],
   loopDs: string[],

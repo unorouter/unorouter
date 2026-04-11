@@ -5,8 +5,6 @@ import { Col, Row } from "./primitives";
 export const FONT_SANS = "Space Grotesk";
 export const FONT_MONO = "JetBrains Mono";
 
-/** Large monospace number. When `cipherMarker` is set, renders with that fill
- *  so the cipher post-processor can locate and replace the path. */
 export function MonoValue(props: {
   value: string;
   c: ThemeColors;
@@ -27,7 +25,6 @@ export function MonoValue(props: {
   );
 }
 
-/** Small uppercase label */
 export function Label(props: {
   text: string;
   c: ThemeColors;
@@ -50,7 +47,6 @@ export function Label(props: {
   );
 }
 
-/** Stat block: big number + label underneath */
 export function Stat(props: {
   value: string;
   label: string;
@@ -72,9 +68,6 @@ export function Stat(props: {
   );
 }
 
-// ── Decorative ─────────────────────────────────────────────
-
-/** Small colored dot + text label */
 export function Dot(props: {
   text: string;
   c: ThemeColors;

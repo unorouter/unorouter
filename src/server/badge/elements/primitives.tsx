@@ -5,13 +5,9 @@ import type { ThemeColors } from "../lib/types";
 import { logoDataUri } from "../lib/utils";
 import { FONT_SANS } from "./typography";
 
-// Brand name split from env: "UnoRouter" → ["Uno", "Router"], TLD from domain
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
 const brandTld = `.${new URL(env.appUrl).hostname.split(".").pop()}`;
 
-// ── Layout primitives ──────────────────────────────────────
-
-/** Flexbox div (Satori requires display:flex on all divs) */
 export function Row(props: { style?: CSSProperties; children?: ReactNode }) {
   return (
     <div style={{ display: "flex", ...props.style }}>{props.children}</div>
@@ -26,7 +22,6 @@ export function Col(props: { style?: CSSProperties; children?: ReactNode }) {
   );
 }
 
-/** Full-size card wrapper with border and rounded corners */
 export function Card(props: {
   c: ThemeColors;
   radius?: number;
@@ -49,7 +44,6 @@ export function Card(props: {
   );
 }
 
-/** Vertical divider line */
 export function Divider(props: {
   c: ThemeColors;
   margin?: string;
@@ -67,9 +61,6 @@ export function Divider(props: {
   );
 }
 
-// ── Brand ──────────────────────────────────────────────────
-
-/** Logo image */
 export function Logo(props: { size?: number }) {
   return (
     <img
@@ -81,7 +72,6 @@ export function Logo(props: { size?: number }) {
   );
 }
 
-/** Brand name: UNO (white) + ROUTER (muted) + .AI (accent) */
 export function BrandName(props: { c: ThemeColors; size?: number }) {
   const fontSize = props.size ?? 16;
   return (
@@ -102,7 +92,6 @@ export function BrandName(props: { c: ThemeColors; size?: number }) {
   );
 }
 
-/** Logo + Brand name in a row */
 export function Brand(props: {
   c: ThemeColors;
   logoSize?: number;

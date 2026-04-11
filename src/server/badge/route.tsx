@@ -10,7 +10,6 @@ import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
-import { setStaticMode } from "./elements/cipher";
 import { themeVars } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
 import { parseLocale, parseTheme } from "./lib/utils";
@@ -118,7 +117,6 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         getPricingData(),
       ]);
       const isPng = query.format === "png";
-      if (isPng) setStaticMode(true);
       const svg = await gen({
         locale,
         theme,
@@ -126,8 +124,8 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         ref: query.ref,
         stats,
         pricing,
+        staticMode: isPng,
       });
-      if (isPng) setStaticMode(false);
 
       if (isPng) {
         const png = await sharp(Buffer.from(svg)).png().toBuffer();

@@ -1,8 +1,6 @@
 import type { BadgeSize } from "@/lib/validation/badge";
 import type { Locale } from "next-intl";
 
-// ── Cache ─────────────────────────────────────────────────
-
 export interface BadgeStats {
   tokenUsed: number;
   requestCount: number;
@@ -26,8 +24,6 @@ export interface BadgePricing {
   rows: BadgePricingRow[];
 }
 
-// ── Theme ─────────────────────────────────────────────────
-
 export type Theme = "dark" | "light" | "auto";
 
 export interface ThemeColors {
@@ -47,8 +43,6 @@ export interface ThemeColors {
   previewMuted: string;
 }
 
-// ── Badge context ─────────────────────────────────────────
-
 export interface BadgeCtx {
   locale: Locale;
   theme: Theme;
@@ -56,17 +50,14 @@ export interface BadgeCtx {
   ref?: string;
   stats: BadgeStats;
   pricing: BadgePricing;
+  staticMode?: boolean;
 }
-
-// ── Dims ──────────────────────────────────────────────────
 
 export interface BadgeDimsBase {
   W: number;
   H: number;
   pad: number;
 }
-
-// ── Cipher ────────────────────────────────────────────────
 
 export interface CipherTarget {
   value: string;
@@ -76,8 +67,6 @@ export interface CipherTarget {
   loop?: boolean;
 }
 
-// ── Render ────────────────────────────────────────────────
-
 export interface RenderTemplateOpts {
   node: import("react").ReactNode;
   width: number;
@@ -85,4 +74,5 @@ export interface RenderTemplateOpts {
   smil?: string;
   pulseDot?: { markerColor: string; accentColor: string };
   cipherTargets?: CipherTarget[];
+  staticMode?: boolean;
 }

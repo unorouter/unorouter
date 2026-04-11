@@ -130,5 +130,6 @@ export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
         loop: true,
       },
     ],
+    staticMode: ctx.staticMode,
   });
 }

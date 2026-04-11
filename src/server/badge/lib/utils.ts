@@ -21,7 +21,6 @@ import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
 import type { BadgeDimsBase, Theme } from "./types";
 
-// ── Formatting ────────────────────────────────────────────
 
 export function formatCompact(n: number): string {
   if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
@@ -34,7 +33,6 @@ export function formatFull(n: number): string {
   return n.toLocaleString("en-US");
 }
 
-// ── Dims ──────────────────────────────────────────────────
 
 export function resolveDims<T extends BadgeDimsBase>(
   configs: Partial<Record<BadgeSize, T>>,
@@ -43,7 +41,6 @@ export function resolveDims<T extends BadgeDimsBase>(
   return configs[size] ?? configs.md!;
 }
 
-// ── Parsing ───────────────────────────────────────────────
 
 export function parseTheme(raw: string | undefined): Theme {
   if (raw === "dark" || raw === "light") return raw;
@@ -55,7 +52,6 @@ export function parseLocale(raw: string | undefined): Locale {
   return LOCALES[0];
 }
 
-// ── Logo ──────────────────────────────────────────────────
 
 let cachedLogoUri: string | null = null;
 
@@ -67,7 +63,6 @@ export function logoDataUri(): string {
   return cachedLogoUri;
 }
 
-// ── Vendor icons ──────────────────────────────────────────
 
 function stripFills(svg: string): string {
   return svg

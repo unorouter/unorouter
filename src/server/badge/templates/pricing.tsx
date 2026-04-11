@@ -1,22 +1,18 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { formatPrice } from "@/lib/utils/base";
 import type { BadgeSize } from "@/lib/validation/badge";
-import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
-import type { BadgePricingRow } from "../lib/types";
 import { cipherMarker } from "../elements/cipher";
-import { t } from "../lib/i18n";
 import { Brand, Card, Row } from "../elements/primitives";
+import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
+import { t } from "../lib/i18n";
 import { renderBadgeTemplate } from "../lib/render";
 import { themeVars } from "../lib/theme";
 import type {
   BadgeCtx,
-  BadgeDimsBase,
-  CipherTarget,
-  ThemeColors,
+  BadgeDimsBase, BadgePricingRow, CipherTarget,
+  ThemeColors
 } from "../lib/types";
 import { getVendorIcon, resolveDims, svgDataUri } from "../lib/utils";
-
-// ── Dims ──────────────────────────────────────────────────
 
 interface Dims extends BadgeDimsBase {
   showOriginal: boolean;
@@ -115,8 +111,6 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     headerFont: 17,
   },
 };
-
-// ── Components ────────────────────────────────────────────
 
 function discount(original: number, current: number): string {
   if (original <= 0) return "";
@@ -245,8 +239,6 @@ function PriceRow(props: {
     </Row>
   );
 }
-
-// ── Generator ─────────────────────────────────────────────
 
 export async function generatePricing(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
@@ -423,5 +415,6 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
     width: size.W,
     height: size.H,
     cipherTargets: targets,
+    staticMode: ctx.staticMode,
   });
 }

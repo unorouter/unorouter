@@ -250,5 +250,6 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
     height: d.H,
     pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
     cipherTargets: targets,
+    staticMode: ctx.staticMode,
   });
 }

@@ -331,5 +331,6 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     width: d.W,
     height: d.H,
     cipherTargets: targets,
+    staticMode: ctx.staticMode,
   });
 }
