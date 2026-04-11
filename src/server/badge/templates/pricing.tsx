@@ -1,7 +1,7 @@
 import { formatPrice } from "@/lib/utils/base";
 import type { BadgePricingRow } from "../cache";
 import { t } from "../i18n";
-import { PRICING_DIMS, resolveDims } from "../lib/config";
+import { PRICING_DIMS, pricingDims, resolveDims } from "../lib/config";
 import { Brand, Card, Row } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type ThemeColors } from "../lib/theme";
@@ -153,6 +153,7 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
 
   const rows = ctx.pricing.rows;
   const displayRows = rows.slice(0, d.maxRows);
+  const computed = pricingDims(d, displayRows.length);
 
   const maxDiscount = rows.reduce((max, r) => {
     if (!r.originalInputPrice) return max;
@@ -325,7 +326,7 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
     }
   }
 
-  let svg = await renderBadge(node, d.W, d.H);
+  let svg = await renderBadge(node, computed.W, computed.H);
   svg = await processCipherMarkers(svg, targets);
   return svg;
 }

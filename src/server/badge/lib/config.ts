@@ -347,72 +347,54 @@ export interface PricingDims extends BadgeDimsBase {
   showOriginal: boolean;
   modelWidth: number;
   priceWidth: number;
+  discountWidth: number;
   iconSize: number;
   maxRows: number;
+  rowHeight: number;
   headerLogoSize: number;
   headerFont: number;
 }
 
+/** Compute tight W/H for pricing based on column widths and row count */
+export function pricingDims(
+  d: PricingDims,
+  rowCount: number,
+): { W: number; H: number } {
+  const cols = d.modelWidth + d.iconSize + 6 + d.priceWidth * 2 + (d.showOriginal ? d.discountWidth : 0);
+  const W = cols + d.pad * 2;
+  // header(~30) + divider line(~26) + rows + footer(showOriginal ? ~24 : 0) + padding
+  const headerH = 30;
+  const dividerH = 26;
+  const footerH = d.showOriginal ? 24 : 0;
+  const H = d.pad * 2 + headerH + dividerH + rowCount * d.rowHeight + footerH;
+  return { W, H };
+}
+
 export const PRICING_DIMS: Partial<Record<BadgeSize, PricingDims>> = {
   xs: {
-    W: 340,
-    H: 160,
-    pad: 14,
-    showOriginal: false,
-    modelWidth: 110,
-    priceWidth: 65,
-    iconSize: 10,
-    maxRows: 3,
-    headerLogoSize: 16,
-    headerFont: 10,
+    W: 0, H: 0, pad: 14,
+    showOriginal: false, modelWidth: 110, priceWidth: 65, discountWidth: 0, iconSize: 10,
+    maxRows: 3, rowHeight: 30, headerLogoSize: 16, headerFont: 10,
   },
   sm: {
-    W: 420,
-    H: 200,
-    pad: 18,
-    showOriginal: false,
-    modelWidth: 130,
-    priceWidth: 80,
-    iconSize: 11,
-    maxRows: 3,
-    headerLogoSize: 18,
-    headerFont: 11,
+    W: 0, H: 0, pad: 18,
+    showOriginal: false, modelWidth: 130, priceWidth: 80, discountWidth: 0, iconSize: 11,
+    maxRows: 3, rowHeight: 32, headerLogoSize: 18, headerFont: 11,
   },
   md: {
-    W: 490,
-    H: 280,
-    pad: 24,
-    showOriginal: true,
-    modelWidth: 140,
-    priceWidth: 88,
-    iconSize: 12,
-    maxRows: 99,
-    headerLogoSize: 20,
-    headerFont: 12,
+    W: 0, H: 0, pad: 24,
+    showOriginal: true, modelWidth: 140, priceWidth: 88, discountWidth: 60, iconSize: 12,
+    maxRows: 99, rowHeight: 38, headerLogoSize: 20, headerFont: 12,
   },
   lg: {
-    W: 600,
-    H: 340,
-    pad: 30,
-    showOriginal: true,
-    modelWidth: 170,
-    priceWidth: 105,
-    iconSize: 14,
-    maxRows: 99,
-    headerLogoSize: 24,
-    headerFont: 14,
+    W: 0, H: 0, pad: 30,
+    showOriginal: true, modelWidth: 160, priceWidth: 100, discountWidth: 65, iconSize: 14,
+    maxRows: 99, rowHeight: 42, headerLogoSize: 24, headerFont: 14,
   },
   xl: {
-    W: 740,
-    H: 420,
-    pad: 38,
-    showOriginal: true,
-    modelWidth: 210,
-    priceWidth: 130,
-    iconSize: 16,
-    maxRows: 99,
-    headerLogoSize: 28,
-    headerFont: 17,
+    W: 0, H: 0, pad: 38,
+    showOriginal: true, modelWidth: 190, priceWidth: 120, discountWidth: 70, iconSize: 16,
+    maxRows: 99, rowHeight: 48, headerLogoSize: 28, headerFont: 17,
   },
 };
 
