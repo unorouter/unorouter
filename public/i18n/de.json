@@ -1353,6 +1353,7 @@
     "INPUT": "Eingabe",
     "OUTPUT": "Ausgabe",
     "REFERRAL": "Empfehlung",
-    "REFERRAL_CTA": "Registriere dich und nutze KI günstiger"
+    "REFERRAL_CTA": "Registriere dich und nutze KI günstiger",
+    "TOKENS_MIN": "Tokens / Min"
   }
 }

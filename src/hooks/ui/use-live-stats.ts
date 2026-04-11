@@ -9,13 +9,17 @@ export function useLiveStats() {
   const baseRequests = data?.requestCount ?? 0;
   const baseTpm = data?.avgTpm ?? 0;
 
-  const [tokens, setTokens] = useState(baseTokens);
-  const [requests, setRequests] = useState(baseRequests);
-  const [tpm, setTpm] = useState(baseTpm);
-  const [tps, setTps] = useState((baseTpm / 60).toFixed(1));
+  // Track accumulated increments (not absolute values) so the display
+  // value is always base + delta. When the base jumps from 0 to the real
+  // hydrated value, the display follows automatically with no sync effect.
+  const [tokenDelta, setTokenDelta] = useState(0);
+  const [requestDelta, setRequestDelta] = useState(0);
+  const [tpmDelta, setTpmDelta] = useState(0);
   const recentTokenIncrements = useRef<number[]>([]);
 
   useEffect(() => {
+    if (baseTpm <= 0) return;
+
     const tokensPerTick = baseTpm / 1200;
 
     const tokenInterval = setInterval(() => {
@@ -25,11 +29,11 @@ export function useLiveStats() {
       if (recentTokenIncrements.current.length > 1200) {
         recentTokenIncrements.current.shift();
       }
-      setTokens((v) => v + increment);
+      setTokenDelta((d) => d + increment);
     }, 50);
 
     const requestInterval = setInterval(() => {
-      setRequests((v) => v + Math.floor(Math.random() * 3));
+      setRequestDelta((d) => d + Math.floor(Math.random() * 3));
     }, 400);
 
     const tpmInterval = setInterval(() => {
@@ -37,8 +41,7 @@ export function useLiveStats() {
       if (recent.length > 0) {
         const sum = recent.reduce((a, b) => a + b, 0);
         const derivedTpm = Math.round((sum * 1200) / recent.length);
-        setTpm(derivedTpm);
-        setTps((derivedTpm / 60).toFixed(1));
+        setTpmDelta(derivedTpm - baseTpm);
       }
     }, 200);
 
@@ -48,6 +51,11 @@ export function useLiveStats() {
       clearInterval(tpmInterval);
     };
   }, [baseTpm]);
+
+  const tokens = baseTokens + tokenDelta;
+  const requests = baseRequests + requestDelta;
+  const tpm = baseTpm + tpmDelta;
+  const tps = (tpm / 60).toFixed(1);
 
   return { tokens, requests, tpm, tps };
 }

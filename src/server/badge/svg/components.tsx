@@ -116,11 +116,13 @@ export function Brand(props: {
 
 // ── Typography ─────────────────────────────────────────────
 
-/** Large monospace number */
+/** Large monospace number. When `cipherMarker` is set, renders with that fill
+ *  so the cipher post-processor can locate and replace the path. */
 export function MonoValue(props: {
   value: string;
   c: ThemeColors;
   size?: number;
+  cipherMarker?: string;
 }) {
   return (
     <span
@@ -128,7 +130,7 @@ export function MonoValue(props: {
         fontFamily: FONT_MONO,
         fontSize: props.size ?? 28,
         fontWeight: 700,
-        color: props.c.text,
+        color: props.cipherMarker ?? props.c.text,
       }}
     >
       {props.value}
@@ -165,10 +167,16 @@ export function Stat(props: {
   label: string;
   c: ThemeColors;
   size?: number;
+  cipherMarker?: string;
 }) {
   return (
     <Col>
-      <MonoValue value={props.value} c={props.c} size={props.size} />
+      <MonoValue
+        value={props.value}
+        c={props.c}
+        size={props.size}
+        cipherMarker={props.cipherMarker}
+      />
       <Label text={props.label} c={props.c} />
     </Col>
   );

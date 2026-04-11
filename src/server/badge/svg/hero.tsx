@@ -1,7 +1,8 @@
 import type { Locale } from "next-intl";
 import type { BadgeStats } from "../cache";
 import { t } from "../i18n";
-import { renderBadge, themeVars, formatCompact, type Theme } from "../satori";
+import { renderBadge, themeVars, formatFull, type Theme } from "../satori";
+import { cipherMarker, processCipherMarkers } from "./cipher";
 import {
   Card,
   Brand,
@@ -19,10 +20,11 @@ export async function generateHero(
   _ref?: string,
 ): Promise<string> {
   const c = themeVars(theme);
-  const tokenCount = formatCompact(stats.tokenUsed);
+  const tokenCount = formatFull(stats.tokenUsed);
   const tokensLabel = t(locale, "BADGE.TOKENS_SERVED");
   const W = 500;
   const H = 260;
+  const marker1 = cipherMarker(1);
 
   const node = (
     <Card
@@ -58,7 +60,7 @@ export async function generateHero(
         ))}
       </Row>
       <Row style={{ alignItems: "center", gap: 8 }}>
-        <MonoValue value={tokenCount} c={c} size={16} />
+        <MonoValue value={tokenCount} c={c} size={14} cipherMarker={marker1} />
         <span style={{ fontFamily: FONT_SANS, fontSize: 11, color: c.muted }}>
           {tokensLabel}
         </span>
@@ -66,15 +68,19 @@ export async function generateHero(
     </Card>
   );
 
-  return renderBadge(
+  let svg = await renderBadge(
     node,
     W,
     H,
     pulseDot(
-      28 + tokenCount.length * 10 + tokensLabel.length * 6 + 24,
+      28 + tokenCount.length * 8.5 + tokensLabel.length * 6 + 24,
       H - 34,
       3,
       c.accent,
     ),
   );
+  svg = await processCipherMarkers(svg, [
+    { value: tokenCount, fontSize: 14, color: c.text, markerColor: marker1, loop: true },
+  ]);
+  return svg;
 }

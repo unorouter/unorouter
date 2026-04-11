@@ -1,7 +1,13 @@
 import type { Locale } from "next-intl";
 import type { BadgeStats } from "../cache";
 import { t } from "../i18n";
-import { renderBadge, themeVars, formatCompact, type Theme } from "../satori";
+import {
+  renderBadge,
+  themeVars,
+  formatFull,
+  type Theme,
+} from "../satori";
+import { cipherMarker, processCipherMarkers } from "./cipher";
 import {
   Card,
   Brand,
@@ -21,9 +27,14 @@ export async function generateSponsor(
   _ref?: string,
 ): Promise<string> {
   const c = themeVars(theme);
-  const tokenCount = formatCompact(stats.tokenUsed);
+  const tokenCount = formatFull(stats.tokenUsed);
+  const requestCount = formatFull(stats.requestCount);
+  const tpmCount = formatFull(stats.avgTpm);
   const W = 800;
-  const H = 250;
+  const H = 280;
+  const m1 = cipherMarker(1);
+  const m2 = cipherMarker(2);
+  const m3 = cipherMarker(3);
 
   const node = (
     <Card c={c}>
@@ -73,33 +84,42 @@ export async function generateSponsor(
       <Divider c={c} margin="32px 0" opacity={0.5} />
 
       {/* Right: stats */}
-      <Col style={{ padding: 32, width: 300, justifyContent: "space-between" }}>
+      <Col style={{ padding: 32, width: 340, justifyContent: "space-between" }}>
         <Stat
           value={tokenCount}
           label={t(locale, "BADGE.TOKENS_SERVED")}
           c={c}
-          size={32}
+          size={22}
+          cipherMarker={m1}
         />
         <Stat
-          value={`${formatCompact(stats.requestCount)}+`}
+          value={requestCount}
           label="REQUESTS"
           c={c}
           size={22}
+          cipherMarker={m2}
         />
         <Stat
-          value="12+"
-          label={t(locale, "BADGE.PROVIDERS")}
+          value={tpmCount}
+          label={t(locale, "BADGE.TOKENS_MIN")}
           c={c}
           size={22}
+          cipherMarker={m3}
         />
       </Col>
     </Card>
   );
 
-  return renderBadge(
+  let svg = await renderBadge(
     node,
     W,
     H,
-    pulseDot(W - 300 + 32 + tokenCount.length * 20 + 24, 52, 4, c.accent),
+    pulseDot(W - 340 + 32 + tokenCount.length * 14 + 24, 52, 4, c.accent),
   );
+  svg = await processCipherMarkers(svg, [
+    { value: tokenCount, fontSize: 22, color: c.text, markerColor: m1, loop: true },
+    { value: requestCount, fontSize: 22, color: c.text, markerColor: m2, loop: true },
+    { value: tpmCount, fontSize: 22, color: c.text, markerColor: m3, loop: true },
+  ]);
+  return svg;
 }

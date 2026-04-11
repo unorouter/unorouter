@@ -1353,6 +1353,7 @@
     "INPUT": "Input",
     "OUTPUT": "Output",
     "REFERRAL": "Referral",
-    "REFERRAL_CTA": "Sign up and get started with AI for less"
+    "REFERRAL_CTA": "Sign up and get started with AI for less",
+    "TOKENS_MIN": "Tokens / Min"
   }
 }
