@@ -31,6 +31,7 @@ export async function generateMetadata(props: Props) {
     description: t("CHAT.META.SHARED_DESCRIPTION", APP_VALUES),
     keywords: t("CHAT.META.KEYWORDS"),
     robots: false,
+    ogImage: `/api/badge/pricing?format=png&theme=dark&locale=${locale}`,
   });
 }
 

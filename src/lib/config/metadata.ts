@@ -15,6 +15,7 @@ type MetadataParams = {
 export function getPageMetadata(params: MetadataParams): Metadata {
   const canonicalPath = params.path || `/${params.locale}`;
   const shouldIndex = params.robots ?? true;
+  const ogImageUrl = params.ogImage ?? "/api/badge/hero?format=png&theme=dark";
 
   return {
     metadataBase: new URL(env.appUrl),
@@ -36,25 +37,23 @@ export function getPageMetadata(params: MetadataParams): Metadata {
         ?.ogLocale,
       alternateLocale: LANGUAGES.map((l) => l.ogLocale),
       siteName: env.appName,
-      // images: [
-      //   {
-      //     url: ogImageUrl,
-      //     alt: params.title,
-      //     width: 512,
-      //     height: 512,
-      //   },
-      // ],
+      images: [
+        {
+          url: ogImageUrl,
+          alt: params.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: params.title,
       description: params.description,
-      // images: [
-      //   {
-      //     url: ogImageUrl,
-      //     alt: params.title,
-      //   },
-      // ],
+      images: [
+        {
+          url: ogImageUrl,
+          alt: params.title,
+        },
+      ],
     },
     robots: {
       index: shouldIndex,

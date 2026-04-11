@@ -14,6 +14,7 @@ export async function generateMetadata(props: {
     title: t("AUTH.META.LOGIN_TITLE", APP_VALUES),
     description: t("AUTH.META.LOGIN_DESCRIPTION", APP_VALUES),
     keywords: t("AUTH.META.KEYWORDS", APP_VALUES),
+    ogImage: `/api/badge/hero?format=png&theme=dark&locale=${locale}`,
   });
 }
 

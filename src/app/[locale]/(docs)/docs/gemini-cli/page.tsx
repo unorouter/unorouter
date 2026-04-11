@@ -14,6 +14,7 @@ export async function generateMetadata(props: {
     title: t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES),
     description: t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.GEMINI_CLI.META.KEYWORDS", APP_VALUES),
+    ogImage: `/api/badge/square?format=png&theme=dark&locale=${locale}`,
   });
 }
 

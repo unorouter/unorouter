@@ -14,6 +14,7 @@ export async function generateMetadata(props: {
     title: t("TERMS.META.TITLE", APP_VALUES),
     description: t("TERMS.META.DESCRIPTION", APP_VALUES),
     keywords: t("TERMS.META.KEYWORDS", APP_VALUES),
+    ogImage: `/api/badge/providers?format=png&theme=dark&locale=${locale}`,
   });
 }
 

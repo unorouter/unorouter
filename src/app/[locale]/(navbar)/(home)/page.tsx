@@ -19,6 +19,7 @@ export async function generateMetadata(props: {
     title: t("HOME.META.TITLE", APP_VALUES),
     description: t("HOME.META.DESCRIPTION"),
     keywords: t("HOME.META.KEYWORDS"),
+    ogImage: `/api/badge/hero?format=png&theme=dark&locale=${locale}`,
   });
 }
 

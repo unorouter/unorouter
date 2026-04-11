@@ -14,6 +14,7 @@ export async function generateMetadata(props: {
     title: t("DOCS.CC_SWITCH.META.TITLE", APP_VALUES),
     description: t("DOCS.CC_SWITCH.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.CC_SWITCH.META.KEYWORDS", APP_VALUES),
+    ogImage: `/api/badge/square?format=png&theme=dark&locale=${locale}`,
   });
 }
 

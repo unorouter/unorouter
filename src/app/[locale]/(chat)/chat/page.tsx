@@ -16,6 +16,7 @@ export async function generateMetadata(props: {
     keywords: t("CHAT.META.KEYWORDS"),
     path: `/${locale}/chat`,
     robots: false,
+    ogImage: `/api/badge/pricing?format=png&theme=dark&locale=${locale}`,
   });
 }
 

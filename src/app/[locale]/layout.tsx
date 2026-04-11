@@ -57,6 +57,7 @@ export async function generateMetadata(props: {
       modelCount: String(pricing?.modelCount),
     }),
     keywords: t("METADATA.KEYWORDS"),
+    ogImage: `/api/badge/hero?format=png&theme=dark&locale=${locale}`,
   });
 }
 

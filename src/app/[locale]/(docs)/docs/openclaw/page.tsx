@@ -14,6 +14,7 @@ export async function generateMetadata(props: {
     title: t("DOCS.OPENCLAW.META.TITLE", APP_VALUES),
     description: t("DOCS.OPENCLAW.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.OPENCLAW.META.KEYWORDS", APP_VALUES),
+    ogImage: `/api/badge/square?format=png&theme=dark&locale=${locale}`,
   });
 }
 
