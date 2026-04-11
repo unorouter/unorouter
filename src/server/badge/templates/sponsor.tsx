@@ -6,7 +6,7 @@ import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
 import { Stat, Dot, FONT_SANS, MonoValue } from "../lib/typography";
-import { cipherMarker, processCipherMarkers } from "./cipher";
+import { cipherMarker, isStaticMode, processCipherMarkers } from "./cipher";
 
 export async function generateSponsor(
   stats: BadgeStats,
@@ -139,9 +139,10 @@ export async function generateSponsor(
     const cx = x + w / 2;
     const cy = y + h / 2;
     const r = w / 2;
-    const staticCircle = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`;
-    const animatedCircle = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
-    svg = svg.replace(dotMarker[0], animatedCircle);
+    const circle = isStaticMode()
+      ? `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"/>`
+      : `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c.accent}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
+    svg = svg.replace(dotMarker[0], circle);
   }
 
   svg = await processCipherMarkers(svg, [

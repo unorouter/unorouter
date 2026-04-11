@@ -176,6 +176,10 @@ export function setStaticMode(value: boolean) {
   staticMode = value;
 }
 
+export function isStaticMode(): boolean {
+  return staticMode;
+}
+
 /** SMIL pulsing green circle (injected post-render). Returns empty in static mode. */
 export function pulseDot(
   cx: number,
