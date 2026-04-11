@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LOCALES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import {
@@ -51,7 +52,17 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const linkUrl = props.refCode
     ? `${env.appUrl}/?ref=${props.refCode}`
     : env.appUrl;
-  const embedCode = `<a href="${linkUrl}" target="_blank">\n  <img src="${badgeAbsoluteUrl}" alt="${env.appName}" />\n</a>`;
+  const embedHtml = `<a href="${linkUrl}" target="_blank">\n  <img src="${badgeAbsoluteUrl}" alt="${env.appName}" />\n</a>`;
+  const embedMarkdown = `[![${env.appName}](${badgeAbsoluteUrl})](${linkUrl})`;
+  const embedBbcode = `[url=${linkUrl}][img]${badgeAbsoluteUrl}[/img][/url]`;
+  const embedUrl = badgeAbsoluteUrl;
+
+  const EMBED_FORMATS = [
+    { key: "html", label: "HTML", code: embedHtml, lang: "html" },
+    { key: "markdown", label: "Markdown", code: embedMarkdown, lang: "markdown" },
+    { key: "bbcode", label: "BBCode", code: embedBbcode, lang: "text" },
+    { key: "url", label: "URL", code: embedUrl, lang: "text" },
+  ] as const;
 
   return (
     <div className="border-border border p-5">
@@ -181,23 +192,36 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         <span className="text-muted-foreground mb-2 block font-mono text-[10px] tracking-widest uppercase">
           {t("AFFILIATE.BADGE_GENERATOR.EMBED_CODE")}
         </span>
-        <div className="bg-card border-border group relative overflow-hidden rounded-sm border">
-          <ShikiHighlighter
-            language="html"
-            theme={{ dark: "vitesse-dark", light: "vitesse-light" }}
-            addDefaultStyles={false}
-            showLanguage={false}
-            defaultColor="light-dark()"
-            className="[&_pre]:bg-transparent! [&_pre]:p-4 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed [&_pre]:break-all [&_pre]:whitespace-pre-wrap"
-          >
-            {embedCode}
-          </ShikiHighlighter>
-          <CopyButton
-            text={embedCode}
-            toastMessage={t("AFFILIATE.BADGE_GENERATOR.COPIED")}
-            className="text-muted-foreground hover:text-foreground absolute top-2 right-2 transition-colors"
-          />
-        </div>
+        <Tabs defaultValue="html">
+          <TabsList variant="line">
+            {EMBED_FORMATS.map((ef) => (
+              <TabsTrigger key={ef.key} value={ef.key}>
+                {ef.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          {EMBED_FORMATS.map((ef) => (
+            <TabsContent key={ef.key} value={ef.key}>
+              <div className="bg-card border-border group relative overflow-hidden rounded-sm border">
+                <ShikiHighlighter
+                  language={ef.lang}
+                  theme={{ dark: "vitesse-dark", light: "vitesse-light" }}
+                  addDefaultStyles={false}
+                  showLanguage={false}
+                  defaultColor="light-dark()"
+                  className="[&_pre]:bg-transparent! [&_pre]:p-4 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed [&_pre]:break-all [&_pre]:whitespace-pre-wrap"
+                >
+                  {ef.code}
+                </ShikiHighlighter>
+                <CopyButton
+                  text={ef.code}
+                  toastMessage={t("AFFILIATE.BADGE_GENERATOR.COPIED")}
+                  className="text-muted-foreground hover:text-foreground absolute top-2 right-2 transition-colors"
+                />
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
       </div>
     </div>
   );
