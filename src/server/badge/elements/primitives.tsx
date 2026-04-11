@@ -2,7 +2,7 @@
 import { env } from "@/lib/config/env";
 import type { CSSProperties, ReactNode } from "react";
 import type { ThemeColors } from "../lib/types";
-import { logoDataUri } from "../lib/utils";
+import { logoDataUri } from "../lib/cache";
 import { FONT_SANS } from "./typography";
 
 const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);

@@ -1,9 +1,81 @@
 import { buildPricingSummary } from "@/lib/api/pricing";
-import { FAR_FUTURE } from "@/lib/config/constants";
+import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
 import { getAllQuotaDates, getPricing } from "@/openapi";
+import { readFileSync } from "fs";
+import type { Locale } from "next-intl";
+import { join } from "path";
+import type { SatoriOptions } from "satori";
+import { createTranslator } from "use-intl/core";
 import { ADMIN_HEADERS } from "../../constants";
 import type { BadgePricing, BadgeStats } from "./types";
+
+/* ── logo ── */
+
+let cachedLogoUri: string | null = null;
+
+export function logoDataUri(): string {
+  if (cachedLogoUri) return cachedLogoUri;
+  const path = join(process.cwd(), "public", "logo.png");
+  const buffer = readFileSync(path);
+  cachedLogoUri = `data:image/png;base64,${buffer.toString("base64")}`;
+  return cachedLogoUri;
+}
+
+/* ── fonts ── */
+
+const fontsDir = join(process.cwd(), "src", "server", "badge", "fonts");
+
+export const fonts: SatoriOptions["fonts"] = [
+  {
+    name: "Space Grotesk",
+    data: readFileSync(join(fontsDir, "space-grotesk-400.ttf")),
+    weight: 400 as const,
+    style: "normal" as const,
+  },
+  {
+    name: "Space Grotesk",
+    data: readFileSync(join(fontsDir, "space-grotesk-700.ttf")),
+    weight: 700 as const,
+    style: "normal" as const,
+  },
+  {
+    name: "JetBrains Mono",
+    data: readFileSync(join(fontsDir, "jetbrains-mono-700.ttf")),
+    weight: 700 as const,
+    style: "normal" as const,
+  },
+];
+
+/* ── i18n ── */
+
+const translatorCache = new Map<Locale, ReturnType<typeof createTranslator>>();
+
+function getTranslator(locale: Locale) {
+  const cached = translatorCache.get(locale);
+  if (cached) return cached;
+
+  const path = join(process.cwd(), "public", "i18n", `${locale}.json`);
+  const messages = JSON.parse(readFileSync(path, "utf-8"));
+  const translator = createTranslator({ locale, messages });
+  translatorCache.set(locale, translator);
+  return translator;
+}
+
+export function t(locale: Locale, key: string): string {
+  const translator = getTranslator(locale);
+  try {
+    return translator(key as never);
+  } catch {
+    if (locale !== LOCALES[0]) {
+      const en = getTranslator(LOCALES[0]);
+      return en(key as never);
+    }
+    return key;
+  }
+}
+
+/* ── stats & pricing ── */
 
 let cachedStats: BadgeStats | null = null;
 let cachedStatsAt = 0;

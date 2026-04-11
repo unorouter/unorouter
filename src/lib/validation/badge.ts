@@ -15,14 +15,18 @@ export const BADGE_TYPES = [
 ] as const;
 export type BadgeType = (typeof BADGE_TYPES)[number];
 
-export const THEMES = ["dark", "light", "auto"] as const;
+export const THEMES = ["dark", "light"] as const;
 export type Theme = (typeof THEMES)[number];
 export const FORMATS = ["svg", "png"] as const;
 export type BadgeFormat = (typeof FORMATS)[number];
 
 export const badgeQuery = t.Object({
-  locale: t.Optional(t.Union(LOCALES.map((v) => t.Literal(v)))),
-  theme: t.Optional(t.Union(THEMES.map((v) => t.Literal(v)))),
+  locale: t.Optional(
+    t.Union(LOCALES.map((v) => t.Literal(v)), { default: LOCALES[0] }),
+  ),
+  theme: t.Optional(
+    t.Union(THEMES.map((v) => t.Literal(v)), { default: THEMES[0] }),
+  ),
   ref: t.Optional(t.String()),
   format: t.Optional(t.Union(FORMATS.map((v) => t.Literal(v)))),
   size: t.Optional(

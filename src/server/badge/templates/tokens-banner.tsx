@@ -1,12 +1,11 @@
 import type { BadgeSize } from "@/lib/validation/badge";
 import { Stat } from "../elements/typography";
 import { cipherMarker } from "../elements/cipher";
-import { t } from "../lib/i18n";
+import { t } from "../lib/cache";
 import { Brand, Card, Divider, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/render";
+import { renderBadgeTemplate } from "../lib/utils";
 import { themeVars } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
-import { formatFull, resolveDims } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;
@@ -83,8 +82,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(DIMS, ctx.size);
-  const tokenCount = formatFull(ctx.stats.tokenUsed);
+  const d = DIMS[ctx.size]!;
+  const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
   const m1 = cipherMarker(1);
 
   const node = (

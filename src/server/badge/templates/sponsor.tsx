@@ -1,12 +1,11 @@
 import type { BadgeSize } from "@/lib/validation/badge";
 import { Dot, FONT_SANS, MonoValue, Stat } from "../elements/typography";
 import { cipherMarker } from "../elements/cipher";
-import { t } from "../lib/i18n";
+import { t } from "../lib/cache";
 import { Brand, Card, Col, Divider, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/render";
+import { renderBadgeTemplate } from "../lib/utils";
 import { themeVars } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase, CipherTarget } from "../lib/types";
-import { formatFull, resolveDims } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   layout: "horizontal" | "twoColumn";
@@ -107,10 +106,10 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(DIMS, ctx.size);
-  const tokenCount = formatFull(ctx.stats.tokenUsed);
-  const requestCount = formatFull(ctx.stats.requestCount);
-  const tpmCount = formatFull(ctx.stats.avgTpm);
+  const d = DIMS[ctx.size]!;
+  const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
+  const requestCount = ctx.stats.requestCount.toLocaleString("en-US");
+  const tpmCount = ctx.stats.avgTpm.toLocaleString("en-US");
   const modelCount = `${ctx.pricing.modelCount}+`;
 
   const m1 = cipherMarker(1);

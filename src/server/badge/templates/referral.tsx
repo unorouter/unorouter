@@ -1,12 +1,11 @@
 import { env } from "@/lib/config/env";
 import type { BadgeSize } from "@/lib/validation/badge";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
-import { t } from "../lib/i18n";
+import { t } from "../lib/cache";
 import { Brand, Card, Col, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/render";
+import { renderBadgeTemplate } from "../lib/utils";
 import { themeVars } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
-import { resolveDims } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;
@@ -113,7 +112,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateReferral(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(DIMS, ctx.size);
+  const d = DIMS[ctx.size]!;
   const ref = ctx.ref ?? "YOUR_CODE";
   const domain = new URL(env.appUrl).host;
   const url = `${domain}/?ref=${ref}`;

@@ -1,9 +1,11 @@
 import { Vendor } from "@/lib/types/enums";
-import { THEMES, type BadgeSize, type Theme } from "@/lib/validation/badge";
-import { LOCALES } from "@/lib/config/constants";
-import type { Locale } from "next-intl";
-import { readFileSync } from "fs";
-import { join } from "path";
+import satori from "satori";
+import {
+  processCipherMarkers,
+  replacePulseDotMarker,
+} from "../elements/cipher";
+import { fonts } from "./cache";
+import type { RenderTemplateOpts } from "./types";
 import aihubmix from "thesvg/aihubmix";
 import alibaba from "thesvg/alibaba";
 import anthropic from "thesvg/anthropic";
@@ -14,21 +16,20 @@ import deepseek from "thesvg/deepseek";
 import flux from "thesvg/flux";
 import google from "thesvg/google";
 import iflow from "thesvg/iflow";
+import iflytekcloud from "thesvg/iflytekcloud";
 import kling from "thesvg/kling";
 import kuaishou from "thesvg/kuaishou";
 import meta from "thesvg/meta";
 import mistral from "thesvg/mistral";
 import moonshot from "thesvg/moonshot";
 import openai from "thesvg/openai";
-import iflytekcloud from "thesvg/iflytekcloud";
 import opencode from "thesvg/opencode";
 import sap from "thesvg/sap";
 import stabilityAi from "thesvg/stability-ai";
 import vertexai from "thesvg/vertexai-google";
 import xai from "thesvg/xai";
 import zhipu from "thesvg/zhipu";
-import type { BadgeDimsBase } from "./types";
-
+import type { Dims } from "../templates/pricing";
 
 export function formatCompact(n: number): string {
   if (n >= 1_000_000_000) return `${(n / 1_000_000_000).toFixed(1)}B`;
@@ -37,49 +38,32 @@ export function formatCompact(n: number): string {
   return n.toString();
 }
 
-export function formatFull(n: number): string {
-  return n.toLocaleString("en-US");
+export function discount(original: number, current: number): string {
+  if (original <= 0) return "";
+  const pct = Math.round((1 - current / original) * 100);
+  return pct > 0 ? `-${pct}%` : "";
 }
 
-
-export function resolveDims<T extends BadgeDimsBase>(
-  configs: Partial<Record<BadgeSize, T>>,
-  size: BadgeSize,
-): T {
-  return configs[size] ?? configs.md!;
-}
-
-
-export function parseTheme(raw: string | undefined): Theme {
-  if (THEMES.includes(raw as Theme)) return raw as Theme;
-  return "auto";
-}
-
-export function parseLocale(raw: string | undefined): Locale {
-  if (LOCALES.includes(raw as Locale)) return raw as Locale;
-  return LOCALES[0];
-}
-
-
-let cachedLogoUri: string | null = null;
-
-export function logoDataUri(): string {
-  if (cachedLogoUri) return cachedLogoUri;
-  const path = join(process.cwd(), "public", "logo.png");
-  const buffer = readFileSync(path);
-  cachedLogoUri = `data:image/png;base64,${buffer.toString("base64")}`;
-  return cachedLogoUri;
-}
-
-
-function stripFills(svg: string): string {
-  return svg
-    .replace(/fill="[^"]*"/g, "")
-    .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
+export function computeSize(
+  d: Dims,
+  rowCount: number,
+): { W: number; H: number } {
+  const cols =
+    d.modelWidth +
+    d.iconSize +
+    6 +
+    d.priceWidth * 2 +
+    (d.showOriginal ? d.discountWidth : 0);
+  const W = cols + d.pad * 2;
+  const H =
+    d.pad * 2 + 30 + 26 + rowCount * d.rowHeight + (d.showOriginal ? 24 : 0);
+  return { W, H };
 }
 
 function pickVariant(v: Record<string, string>): string {
-  return stripFills(v.mono ?? v.light ?? v.default);
+  return (v.mono ?? v.light ?? v.default)
+    .replace(/fill="[^"]*"/g, "")
+    .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
 }
 
 const VENDOR_ICONS: Partial<Record<Vendor, string>> = {
@@ -128,4 +112,33 @@ export function svgDataUri(svg: string, color: string): string {
   const colored = svg.replace("<svg ", `<svg fill="${color}" `);
   const b64 = Buffer.from(colored).toString("base64");
   return `data:image/svg+xml;base64,${b64}`;
+}
+
+export async function renderBadgeTemplate(
+  opts: RenderTemplateOpts,
+): Promise<string> {
+  let svg = await satori(opts.node, {
+    width: opts.width,
+    height: opts.height,
+    fonts,
+  });
+
+  if (opts.smil) {
+    svg = svg.replace("</svg>", `${opts.smil}</svg>`);
+  }
+
+  if (opts.pulseDot) {
+    svg = replacePulseDotMarker(
+      svg,
+      opts.pulseDot.markerColor,
+      opts.pulseDot.accentColor,
+      opts.staticMode,
+    );
+  }
+
+  if (opts.cipherTargets && opts.cipherTargets.length > 0) {
+    svg = await processCipherMarkers(svg, opts.cipherTargets, opts.staticMode);
+  }
+
+  return svg;
 }

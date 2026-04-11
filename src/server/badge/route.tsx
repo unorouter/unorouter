@@ -5,7 +5,6 @@ import {
   BADGE_SIZES,
   BADGE_TYPES,
   badgeQuery,
-  type BadgeSize,
   type BadgeType,
 } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
@@ -14,7 +13,6 @@ import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
 import { themeVars } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
-import { parseLocale, parseTheme } from "./lib/utils";
 import { AllPage } from "./templates/all-page";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
@@ -47,9 +45,9 @@ const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
 export const badgeRoute = new Elysia({ prefix: "/badge" })
   .use(html({ autoDetect: false, autoDoctype: false }))
   .resolve({ as: "local" }, ({ query }) => ({
-    locale: parseLocale(query.locale),
-    theme: parseTheme(query.theme),
-    size: (query.size ?? BADGE_SIZES[2]) as BadgeSize,
+    locale: query.locale as BadgeCtx["locale"],
+    theme: query.theme as BadgeCtx["theme"],
+    size: query.size as BadgeCtx["size"],
   }))
   .onBeforeHandle(({ set, path }) => {
     if (!path.endsWith("/all")) {

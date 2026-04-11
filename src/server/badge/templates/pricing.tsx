@@ -4,17 +4,19 @@ import type { BadgeSize } from "@/lib/validation/badge";
 import { cipherMarker } from "../elements/cipher";
 import { Brand, Card, Row } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../elements/typography";
-import { t } from "../lib/i18n";
-import { renderBadgeTemplate } from "../lib/render";
+import { t } from "../lib/cache";
+import { renderBadgeTemplate } from "../lib/utils";
 import { themeVars } from "../lib/theme";
 import type {
   BadgeCtx,
-  BadgeDimsBase, BadgePricingRow, CipherTarget,
-  ThemeColors
+  BadgeDimsBase,
+  BadgePricingRow,
+  CipherTarget,
+  ThemeColors,
 } from "../lib/types";
-import { getVendorIcon, resolveDims, svgDataUri } from "../lib/utils";
+import { computeSize, discount, getVendorIcon, svgDataUri } from "../lib/utils";
 
-interface Dims extends BadgeDimsBase {
+export interface Dims extends BadgeDimsBase {
   showOriginal: boolean;
   modelWidth: number;
   priceWidth: number;
@@ -24,19 +26,6 @@ interface Dims extends BadgeDimsBase {
   rowHeight: number;
   headerLogoSize: number;
   headerFont: number;
-}
-
-function computeSize(d: Dims, rowCount: number): { W: number; H: number } {
-  const cols =
-    d.modelWidth +
-    d.iconSize +
-    6 +
-    d.priceWidth * 2 +
-    (d.showOriginal ? d.discountWidth : 0);
-  const W = cols + d.pad * 2;
-  const H =
-    d.pad * 2 + 30 + 26 + rowCount * d.rowHeight + (d.showOriginal ? 24 : 0);
-  return { W, H };
 }
 
 const DIMS: Partial<Record<BadgeSize, Dims>> = {
@@ -111,12 +100,6 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     headerFont: 17,
   },
 };
-
-function discount(original: number, current: number): string {
-  if (original <= 0) return "";
-  const pct = Math.round((1 - current / original) * 100);
-  return pct > 0 ? `-${pct}%` : "";
-}
 
 function PriceCell(props: {
   original: number | null;
@@ -242,7 +225,7 @@ function PriceRow(props: {
 
 export async function generatePricing(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(DIMS, ctx.size);
+  const d = DIMS[ctx.size]!;
   const displayRows = ctx.pricing.rows.slice(0, d.maxRows);
   const size = computeSize(d, displayRows.length);
 

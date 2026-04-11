@@ -1,5 +1,5 @@
 import { Theme } from "@/lib/validation/badge";
-import type {  ThemeColors } from "./types";
+import type { ThemeColors } from "./types";
 
 const dark: ThemeColors = {
   bg: "#050505",
@@ -36,6 +36,5 @@ const light: ThemeColors = {
 };
 
 export function themeVars(theme: Theme): ThemeColors {
-  if (theme === "light") return light;
-  return dark;
+  return theme === "light" ? light : dark;
 }

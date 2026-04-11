@@ -3,7 +3,7 @@
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
 import type { CipherTarget } from "../lib/types";
-import { fonts } from "../lib/render";
+import { fonts } from "../lib/cache";
 import { FONT_MONO } from "./typography";
 
 const DIGITS = "0123456789";

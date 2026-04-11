@@ -2,9 +2,9 @@
 import type { BadgeSize } from "@/lib/validation/badge";
 import { FONT_MONO, FONT_SANS, MonoValue } from "../elements/typography";
 import { cipherMarker } from "../elements/cipher";
-import { t } from "../lib/i18n";
+import { t } from "../lib/cache";
 import { Brand, Card, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/render";
+import { renderBadgeTemplate } from "../lib/utils";
 import { themeVars } from "../lib/theme";
 import type {
   BadgeCtx,
@@ -12,7 +12,7 @@ import type {
   CipherTarget,
   ThemeColors,
 } from "../lib/types";
-import { getVendorIcon, resolveDims, svgDataUri } from "../lib/utils";
+import { getVendorIcon, svgDataUri } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   headerFont: number;
@@ -151,7 +151,7 @@ function ProviderIcon(props: {
 
 export async function generateProviders(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(DIMS, ctx.size);
+  const d = DIMS[ctx.size]!;
   const providerCount = `${ctx.pricing.vendorCount}+`;
   const modelCountValue = `${ctx.pricing.modelCount}+`;
 

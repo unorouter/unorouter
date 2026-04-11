@@ -1,12 +1,12 @@
 import type { BadgeSize } from "@/lib/validation/badge";
 import { Label, MonoValue } from "../elements/typography";
 import { cipherMarker, pulseDot } from "../elements/cipher";
-import { t } from "../lib/i18n";
+import { t } from "../lib/cache";
 import { BrandName, Card, Logo } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/render";
+import { renderBadgeTemplate } from "../lib/utils";
 import { themeVars } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
-import { formatCompact, resolveDims } from "../lib/utils";
+import { formatCompact } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logo: number;
@@ -89,7 +89,7 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
 
 export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(DIMS, ctx.size);
+  const d = DIMS[ctx.size]!;
   const value = formatCompact(ctx.stats.tokenUsed);
   const m1 = cipherMarker(1);
 
