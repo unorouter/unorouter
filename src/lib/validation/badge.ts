@@ -26,4 +26,5 @@ export const badgeQuery = t.Object({
       t.Literal("xl"),
     ]),
   ),
+  type: t.Optional(t.String()),
 });

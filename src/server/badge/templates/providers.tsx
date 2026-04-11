@@ -25,22 +25,22 @@ interface Dims extends BadgeDimsBase {
 
 const DIMS: Partial<Record<BadgeSize, Dims>> = {
   xs: {
-    W: 280,
+    W: 320,
     H: 110,
     pad: 12,
     headerFont: 9,
-    maxIcons: 4,
+    maxIcons: 5,
     iconSize: 18,
     slotWidth: 40,
     gridGap: 6,
     showBadge: false,
   },
   sm: {
-    W: 360,
+    W: 400,
     H: 140,
     pad: 16,
     headerFont: 11,
-    maxIcons: 6,
+    maxIcons: 7,
     iconSize: 22,
     slotWidth: 48,
     gridGap: 8,
@@ -168,6 +168,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     .filter(
       (p): p is { name: string; svg: string; models: number } => p.svg !== null,
     )
+    .sort((a, b) => b.models - a.models)
     .slice(0, d.maxIcons);
 
   const remaining = ctx.pricing.vendorNames.length - resolved.length;

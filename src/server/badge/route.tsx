@@ -71,8 +71,12 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       ]);
 
       const sizes: BadgeSize[] = ["xs", "sm", "md", "lg", "xl"];
+      const typeFilter = query.type?.toLowerCase();
+      const filteredNames = typeFilter
+        ? BADGE_NAMES.filter((n) => n === typeFilter)
+        : BADGE_NAMES;
       const allBadges = await Promise.all(
-        BADGE_NAMES.map(async (name) => {
+        filteredNames.map(async (name) => {
           const badges = await Promise.all(
             sizes.map(async (s) => {
               const ctx: BadgeCtx = {
