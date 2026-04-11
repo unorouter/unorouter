@@ -5,8 +5,8 @@ import { formatFull } from "../lib/format";
 import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
-import { Stat, Dot, FONT_SANS, pulseDot } from "../lib/typography";
-import { cipherMarker, processCipherMarkers } from "./cipher";
+import { Stat, Dot, FONT_SANS } from "../lib/typography";
+import { cipherMarker, processCipherMarkers, pulseDot } from "./cipher";
 
 export async function generateSponsor(
   stats: BadgeStats,

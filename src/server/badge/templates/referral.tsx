@@ -1,3 +1,4 @@
+import { env } from "@/lib/config/env";
 import type { Locale } from "next-intl";
 import { t } from "../i18n";
 import { Brand, Card, Col, Row } from "../lib/primitives";
@@ -11,7 +12,8 @@ export async function generateReferral(
   ref: string,
 ): Promise<string> {
   const c = themeVars(theme);
-  const url = `unorouter.ai/?ref=${ref}`;
+  const domain = new URL(env.appUrl).host;
+  const url = `${domain}/?ref=${ref}`;
   const W = 480;
   const H = 160;
 

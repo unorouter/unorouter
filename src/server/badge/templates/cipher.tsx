@@ -1,3 +1,5 @@
+/** @jsxImportSource @kitajs/html */
+
 import type { SatoriOptions } from "satori";
 import { default as satori } from "satori";
 import { badgeFonts } from "../lib/render";
@@ -10,28 +12,6 @@ const FRAME_COUNT = 8;
 const FRAME_DURATION_MIN_MS = 100;
 const FRAME_DURATION_MAX_MS = 140;
 const STAGGER_MAX_MS = 80;
-
-// ── SVG string builder (like snk's h() helper) ───────────
-
-/** Build a self-closing SVG element string */
-function el(tag: string, attrs: Record<string, string | number>): string {
-  const a = Object.entries(attrs)
-    .map(([k, v]) => `${k}="${v}"`)
-    .join(" ");
-  return `<${tag} ${a}/>`;
-}
-
-/** Build an SVG element string with children */
-function wrap(
-  tag: string,
-  attrs: Record<string, string | number>,
-  children: string,
-): string {
-  const a = Object.entries(attrs)
-    .map(([k, v]) => `${k}="${v}"`)
-    .join(" ");
-  return `<${tag} ${a}>${children}</${tag}>`;
-}
 
 // ── Helpers ───────────────────────────────────────────────
 
@@ -105,6 +85,69 @@ async function renderTextPath(
   return match ? match[1] : "";
 }
 
+// ── JSX Animation Components ─────────────────────────────
+//
+// Uses @kitajs/html JSX (renders to string, no React needed).
+// Visibility + <set>/<animate calcMode="discrete"> for flash-free
+// frame switching. See: https://developer.mozilla.org/en-US/docs/Web/SVG/Guides/SVG_animation_with_SMIL
+
+/** A frame visible for exactly one time slot via <set> */
+function Frame(props: {
+  d: string;
+  color: string;
+  dx: number;
+  dy: number;
+  beginS: string;
+  durS: string;
+  freeze?: boolean;
+}) {
+  return (
+    <g transform={`translate(${props.dx},${props.dy})`} visibility="hidden">
+      <path fill={props.color} d={props.d} />
+      {props.freeze ? (
+        <set
+          attributeName="visibility"
+          to="visible"
+          begin={`${props.beginS}s`}
+          fill="freeze"
+        />
+      ) : (
+        <set
+          attributeName="visibility"
+          to="visible"
+          begin={`${props.beginS}s`}
+          dur={`${props.durS}s`}
+        />
+      )}
+    </g>
+  );
+}
+
+/** A looping frame with calcMode="discrete" visibility cycling */
+function LoopFrame(props: {
+  d: string;
+  color: string;
+  dx: number;
+  dy: number;
+  values: string;
+  cycleDurS: string;
+  loopStartS: string;
+}) {
+  return (
+    <g transform={`translate(${props.dx},${props.dy})`} visibility="hidden">
+      <path fill={props.color} d={props.d} />
+      <animate
+        attributeName="visibility"
+        values={props.values}
+        calcMode="discrete"
+        dur={`${props.cycleDurS}s`}
+        begin={`${props.loopStartS}s`}
+        repeatCount="indefinite"
+      />
+    </g>
+  );
+}
+
 // ── Public API ────────────────────────────────────────────
 
 export interface CipherTarget {
@@ -121,6 +164,25 @@ export interface CipherTarget {
    * keeps scrambling continuously (live counter look).
    */
   loop?: boolean;
+}
+
+/** SMIL pulsing green circle (injected post-render) */
+export function pulseDot(
+  cx: number,
+  cy: number,
+  r: number,
+  fill: string,
+): string {
+  return (
+    <circle cx={cx} cy={cy} r={r} fill={fill}>
+      <animate
+        attributeName="opacity"
+        values="1;0.3;1"
+        dur="2s"
+        repeatCount="indefinite"
+      />
+    </circle>
+  ) as string;
 }
 
 /** Marker color for a given slot index (1-based) */
@@ -182,7 +244,6 @@ async function buildCipherAnimation(
   y: number,
   loop: boolean,
 ): Promise<string> {
-  // Each cipher target gets independent timing so they feel organic
   const frameDur = randInt(FRAME_DURATION_MIN_MS, FRAME_DURATION_MAX_MS);
   const stagger = randInt(0, STAGGER_MAX_MS);
 
@@ -214,17 +275,28 @@ async function buildCipherAnimation(
         renderTextPath(scrambleRightHalf(value), fontSize, opts),
       ),
     );
-    return renderLoopingCipher(introDs, loopDs, color, dx, dy, frameDur, stagger);
+    return renderLoopingCipher(
+      introDs,
+      loopDs,
+      color,
+      dx,
+      dy,
+      frameDur,
+      stagger,
+    );
   }
-  return renderSettleCipher(introDs, realPathD, color, dx, dy, frameDur, stagger);
+  return renderSettleCipher(
+    introDs,
+    realPathD,
+    color,
+    dx,
+    dy,
+    frameDur,
+    stagger,
+  );
 }
 
-// ── Animation renderers using visibility + <set> ─────────
-//
-// Uses <set attributeName="visibility"> for discrete frame switching.
-// Unlike opacity animation, visibility is inherently discrete (no
-// interpolation), eliminating flash/gap artifacts between frames.
-// See: https://developer.mozilla.org/en-US/docs/Web/SVG/Guides/SVG_animation_with_SMIL
+// ── Animation renderers ──────────────────────────────────
 
 /** Scramble plays once then settles on the real value permanently */
 function renderSettleCipher(
@@ -237,46 +309,43 @@ function renderSettleCipher(
   staggerMs: number,
 ): string {
   const durS = (frameDurMs / 1000).toFixed(3);
-  const parts: string[] = [];
 
-  // Scramble frames: each visible for exactly one slot via <set>
-  for (let i = 0; i < scrambleDs.length; i++) {
-    if (!scrambleDs[i]) continue;
-    const beginS = ((staggerMs + i * frameDurMs) / 1000).toFixed(3);
-    const path = el("path", { fill: color, d: scrambleDs[i] });
-    const show = el("set", {
-      attributeName: "visibility",
-      to: "visible",
-      begin: `${beginS}s`,
-      dur: `${durS}s`,
-    });
-    parts.push(
-      wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, path + show),
-    );
-  }
+  const frames = scrambleDs
+    .map((d, i) => {
+      if (!d) return "";
+      const beginS = ((staggerMs + i * frameDurMs) / 1000).toFixed(3);
+      return (
+        <Frame
+          d={d}
+          color={color}
+          dx={dx}
+          dy={dy}
+          beginS={beginS}
+          durS={durS}
+        />
+      );
+    })
+    .join("");
 
-  // Real value: becomes visible after all scramble frames and stays
   const realBeginS = ((staggerMs + FRAME_COUNT * frameDurMs) / 1000).toFixed(3);
-  const realPath = el("path", { fill: color, d: realPathD });
-  const realShow = el("set", {
-    attributeName: "visibility",
-    to: "visible",
-    begin: `${realBeginS}s`,
-    fill: "freeze",
-  });
-  parts.push(
-    wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, realPath + realShow),
+  const realFrame = (
+    <Frame
+      d={realPathD}
+      color={color}
+      dx={dx}
+      dy={dy}
+      beginS={realBeginS}
+      durS=""
+      freeze
+    />
   );
 
-  return parts.join("");
+  return frames + realFrame;
 }
 
 /**
  * Intro full-scramble frames flow directly into right-half-only loop frames.
  * Intro plays once sequentially, then loop repeats indefinitely.
- *
- * Uses <animate calcMode="discrete"> on visibility for the loop phase,
- * giving frame-perfect switching with zero flash.
  */
 function renderLoopingCipher(
   introDs: string[],
@@ -289,53 +358,52 @@ function renderLoopingCipher(
 ): string {
   const durS = (frameDurMs / 1000).toFixed(3);
   const validLoopFrames = loopDs.filter(Boolean);
-  const parts: string[] = [];
 
-  // Intro frames: each visible for exactly one slot via <set>
-  for (let i = 0; i < introDs.length; i++) {
-    if (!introDs[i]) continue;
-    const beginS = ((staggerMs + i * frameDurMs) / 1000).toFixed(3);
-    const path = el("path", { fill: color, d: introDs[i] });
-    const show = el("set", {
-      attributeName: "visibility",
-      to: "visible",
-      begin: `${beginS}s`,
-      dur: `${durS}s`,
-    });
-    parts.push(
-      wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, path + show),
-    );
-  }
+  // Intro frames
+  const introFrames = introDs
+    .map((d, i) => {
+      if (!d) return "";
+      const beginS = ((staggerMs + i * frameDurMs) / 1000).toFixed(3);
+      return (
+        <Frame
+          d={d}
+          color={color}
+          dx={dx}
+          dy={dy}
+          beginS={beginS}
+          durS={durS}
+        />
+      );
+    })
+    .join("");
 
-  // Loop frames: use calcMode="discrete" with visibility values
-  // Each frame gets its own <animate> that cycles between visible/hidden
-  // timed so exactly one frame is visible at any point in the cycle
+  // Loop frames
+  let loopFrames = "";
   if (validLoopFrames.length > 0) {
     const loopStartMs = staggerMs + FRAME_COUNT * frameDurMs;
     const loopStartS = (loopStartMs / 1000).toFixed(3);
     const cycleDur = validLoopFrames.length * frameDurMs;
     const cycleDurS = (cycleDur / 1000).toFixed(3);
 
-    for (let i = 0; i < validLoopFrames.length; i++) {
-      // Build values: "hidden" for all slots except this one which is "visible"
-      const values = validLoopFrames
-        .map((_, f) => (f === i ? "visible" : "hidden"))
-        .join(";");
-
-      const path = el("path", { fill: color, d: validLoopFrames[i] });
-      const anim = el("animate", {
-        attributeName: "visibility",
-        values,
-        calcMode: "discrete",
-        dur: `${cycleDurS}s`,
-        begin: `${loopStartS}s`,
-        repeatCount: "indefinite",
-      });
-      parts.push(
-        wrap("g", { transform: `translate(${dx},${dy})`, visibility: "hidden" }, path + anim),
-      );
-    }
+    loopFrames = validLoopFrames
+      .map((d, i) => {
+        const values = validLoopFrames
+          .map((_, f) => (f === i ? "visible" : "hidden"))
+          .join(";");
+        return (
+          <LoopFrame
+            d={d}
+            color={color}
+            dx={dx}
+            dy={dy}
+            values={values}
+            cycleDurS={cycleDurS}
+            loopStartS={loopStartS}
+          />
+        );
+      })
+      .join("");
   }
 
-  return parts.join("");
+  return introFrames + loopFrames;
 }

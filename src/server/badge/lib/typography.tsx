@@ -1,13 +1,9 @@
 import type { CSSProperties } from "react";
+import { Col, Row } from "./primitives";
 import type { ThemeColors } from "./theme";
-import { Row, Col } from "./primitives";
-
-// ── Fonts ──────────────────────────────────────────────────
 
 export const FONT_SANS = "Space Grotesk";
 export const FONT_MONO = "JetBrains Mono";
-
-// ── Typography ─────────────────────────────────────────────
 
 /** Large monospace number. When `cipherMarker` is set, renders with that fill
  *  so the cipher post-processor can locate and replace the path. */
@@ -105,14 +101,4 @@ export function Dot(props: {
       </span>
     </Row>
   );
-}
-
-/** SMIL pulsing green circle string (injected post-render) */
-export function pulseDot(
-  cx: number,
-  cy: number,
-  r: number,
-  fill: string,
-): string {
-  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>`;
 }

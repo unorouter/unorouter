@@ -1,7 +1,7 @@
-import satori, { type SatoriOptions } from "satori";
 import { readFileSync } from "fs";
 import { join } from "path";
 import type { ReactNode } from "react";
+import satori, { type SatoriOptions } from "satori";
 
 const fontsDir = join(process.cwd(), "src", "server", "badge", "fonts");
 
@@ -38,7 +38,7 @@ export async function renderBadge(
   height: number,
   smilInjections?: string,
 ): Promise<string> {
-  let svg = await satori(node as never, { width, height, fonts });
+  let svg = await satori(node, { width, height, fonts });
 
   if (smilInjections) {
     svg = svg.replace("</svg>", `${smilInjections}</svg>`);

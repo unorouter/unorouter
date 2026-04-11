@@ -5,7 +5,8 @@ import { formatCompact } from "../lib/format";
 import { Card, Logo, BrandName } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
-import { MonoValue, Label, pulseDot } from "../lib/typography";
+import { MonoValue, Label } from "../lib/typography";
+import { pulseDot } from "./cipher";
 
 export async function generateTokensSquare(
   stats: BadgeStats,

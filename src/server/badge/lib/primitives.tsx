@@ -1,7 +1,12 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
+import { env } from "@/lib/config/env";
 import type { CSSProperties, ReactNode } from "react";
-import type { ThemeColors } from "./theme";
 import { logoDataUri } from "./logo";
+import type { ThemeColors } from "./theme";
+
+// Brand name split from env: "UnoRouter" → ["Uno", "Router"], TLD from domain
+const brandParts = env.appName!.split(/(?=[A-Z])/).filter(Boolean);
+const brandTld = `.${new URL(env.appUrl).hostname.split(".").pop()}`;
 
 // ── Layout primitives ──────────────────────────────────────
 
@@ -87,9 +92,11 @@ export function BrandName(props: { c: ThemeColors; size?: number }) {
         letterSpacing: 0.5,
       }}
     >
-      <span style={{ color: props.c.text }}>UNO</span>
-      <span style={{ color: props.c.muted }}>ROUTER</span>
-      <span style={{ color: props.c.muted }}>.AI</span>
+      <span style={{ color: props.c.text }}>{brandParts[0].toUpperCase()}</span>
+      <span style={{ color: props.c.muted }}>
+        {brandParts.slice(1).join("").toUpperCase()}
+      </span>
+      <span style={{ color: props.c.muted }}>{brandTld.toUpperCase()}</span>
     </Row>
   );
 }

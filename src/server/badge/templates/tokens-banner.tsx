@@ -5,8 +5,8 @@ import { formatFull } from "../lib/format";
 import { Card, Brand, Divider } from "../lib/primitives";
 import { renderBadge } from "../lib/render";
 import { themeVars, type Theme } from "../lib/theme";
-import { Stat, pulseDot } from "../lib/typography";
-import { cipherMarker, processCipherMarkers } from "./cipher";
+import { Stat } from "../lib/typography";
+import { cipherMarker, processCipherMarkers, pulseDot } from "./cipher";
 
 export async function generateTokensBanner(
   stats: BadgeStats,
