@@ -1,79 +1,91 @@
-import { Vendor } from "@/lib/types/enums";
-import anthropic from "thesvg/anthropic";
-import bailian from "thesvg/bailian";
-import bytedance from "thesvg/bytedance";
-import cohere from "thesvg/cohere";
-import deepseek from "thesvg/deepseek";
-import flux from "thesvg/flux";
-import google from "thesvg/google";
-import kling from "thesvg/kling";
-import meta from "thesvg/meta";
-import mistral from "thesvg/mistral";
-import moonshot from "thesvg/moonshot";
-import openai from "thesvg/openai";
-import stabilityAi from "thesvg/stability-ai";
-import xai from "thesvg/xai";
-import zhipu from "thesvg/zhipu";
+/* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
+import type { BadgeSize } from "@/lib/validation/badge";
 import { t } from "../i18n";
-import { PROVIDERS_DIMS, resolveDims } from "../lib/config";
-import { Brand, Card, Row } from "../lib/primitives";
-import { renderBadge } from "../lib/render";
-import { themeVars, type ThemeColors } from "../lib/theme";
-import { FONT_MONO, FONT_SANS, MonoValue } from "../lib/typography";
-import type { BadgeCtx } from "../route";
 import {
-  cipherMarker,
-  processCipherMarkers,
+  type BadgeCtx,
+  type BadgeDimsBase,
   type CipherTarget,
-} from "./cipher";
+  type ThemeColors,
+  resolveDims,
+  themeVars,
+  cipherMarker,
+  renderBadgeTemplate,
+  getVendorIcon,
+  svgDataUri,
+  Brand,
+  Card,
+  Row,
+  MonoValue,
+  FONT_MONO,
+  FONT_SANS,
+} from "../lib";
 
-/** Strip all fill declarations so we can control icon color via parent svg fill */
-function stripFills(svg: string): string {
-  return svg
-    .replace(/fill="[^"]*"/g, "")
-    .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
+interface Dims extends BadgeDimsBase {
+  headerFont: number;
+  maxIcons: number;
+  iconSize: number;
+  slotWidth: number;
+  gridGap: number;
+  showBadge: boolean;
 }
 
-function pickVariant(v: Record<string, string>): string {
-  return stripFills(v.mono ?? v.light ?? v.default);
-}
-
-/** Vendor enum → monochrome SVG string */
-const VENDOR_ICONS: Record<Vendor, string> = {
-  [Vendor.OPENAI]: pickVariant(openai.variants),
-  [Vendor.ANTHROPIC]: pickVariant(anthropic.variants),
-  [Vendor.GOOGLE]: pickVariant(google.variants),
-  [Vendor.GOOGLE_DEEPMIND]: pickVariant(google.variants),
-  [Vendor.META]: pickVariant(meta.variants),
-  [Vendor.DEEPSEEK]: pickVariant(deepseek.variants),
-  [Vendor.MISTRAL]: pickVariant(mistral.variants),
-  [Vendor.MISTRAL_AI]: pickVariant(mistral.variants),
-  [Vendor.COHERE]: pickVariant(cohere.variants),
-  [Vendor.XAI]: pickVariant(xai.variants),
-  [Vendor.X_AI]: pickVariant(xai.variants),
-  [Vendor.BAILIAN]: pickVariant(bailian.variants),
-  [Vendor.BYTEDANCE]: pickVariant(bytedance.variants),
-  [Vendor.FLUX]: pickVariant(flux.variants),
-  [Vendor.KLING]: pickVariant(kling.variants),
-  [Vendor.MOONSHOT]: pickVariant(moonshot.variants),
-  [Vendor.ZHIPU]: pickVariant(zhipu.variants),
-  [Vendor.STABILITY]: pickVariant(stabilityAi.variants),
+const DIMS: Partial<Record<BadgeSize, Dims>> = {
+  xs: {
+    W: 280,
+    H: 110,
+    pad: 12,
+    headerFont: 9,
+    maxIcons: 4,
+    iconSize: 18,
+    slotWidth: 40,
+    gridGap: 6,
+    showBadge: false,
+  },
+  sm: {
+    W: 360,
+    H: 140,
+    pad: 16,
+    headerFont: 11,
+    maxIcons: 6,
+    iconSize: 22,
+    slotWidth: 48,
+    gridGap: 8,
+    showBadge: false,
+  },
+  md: {
+    W: 400,
+    H: 245,
+    pad: 20,
+    headerFont: 12,
+    maxIcons: 14,
+    iconSize: 24,
+    slotWidth: 56,
+    gridGap: 10,
+    showBadge: true,
+  },
+  lg: {
+    W: 500,
+    H: 300,
+    pad: 24,
+    headerFont: 14,
+    maxIcons: 14,
+    iconSize: 30,
+    slotWidth: 68,
+    gridGap: 12,
+    showBadge: true,
+  },
+  xl: {
+    W: 620,
+    H: 370,
+    pad: 30,
+    headerFont: 17,
+    maxIcons: 14,
+    iconSize: 38,
+    slotWidth: 84,
+    gridGap: 14,
+    showBadge: true,
+  },
 };
-
-export function getVendorIcon(vendor: string): string | null {
-  const key = vendor.toLowerCase() as Vendor;
-  if (VENDOR_ICONS[key]) return VENDOR_ICONS[key];
-  for (const [k, svg] of Object.entries(VENDOR_ICONS)) {
-    if (key.includes(k)) return svg;
-  }
-  return null;
-}
-
-export function svgDataUri(svg: string, color: string): string {
-  const colored = svg.replace("<svg ", `<svg fill="${color}" `);
-  const b64 = Buffer.from(colored).toString("base64");
-  return `data:image/svg+xml;base64,${b64}`;
-}
 
 function ProviderIcon(props: {
   name: string;
@@ -85,7 +97,6 @@ function ProviderIcon(props: {
   slotWidth: number;
   showBadge: boolean;
 }) {
-  const countValue = String(props.modelCount);
   return (
     <div
       style={{
@@ -97,7 +108,6 @@ function ProviderIcon(props: {
         position: "relative",
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
       <img
         src={svgDataUri(props.svg, props.c.text)}
         width={props.iconSize}
@@ -128,7 +138,7 @@ function ProviderIcon(props: {
             }}
           >
             <MonoValue
-              value={countValue}
+              value={String(props.modelCount)}
               c={{ ...props.c, text: props.c.badgeText }}
               size={8}
               cipherMarker={props.countMarker}
@@ -147,9 +157,7 @@ function ProviderIcon(props: {
 
 export async function generateProviders(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(PROVIDERS_DIMS, ctx.size);
-
-  const vendorNames = ctx.pricing.vendorNames;
+  const d = resolveDims(DIMS, ctx.size);
   const providerCount = `${ctx.pricing.vendorCount}+`;
   const modelCountValue = `${ctx.pricing.modelCount}+`;
 
@@ -157,7 +165,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
   const m1 = cipherMarker(markerIdx++);
   const m2 = cipherMarker(markerIdx++);
 
-  const resolved = vendorNames
+  const resolved = ctx.pricing.vendorNames
     .map((name) => ({
       name,
       svg: getVendorIcon(name),
@@ -168,9 +176,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     )
     .slice(0, d.maxIcons);
 
-  const remaining = vendorNames.length - resolved.length;
-
-  // Assign a cipher marker per provider icon count (only when badges shown)
+  const remaining = ctx.pricing.vendorNames.length - resolved.length;
   const iconMarkers = resolved.map(() =>
     d.showBadge ? cipherMarker(markerIdx++) : "",
   );
@@ -301,7 +307,6 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  // Build cipher targets
   const targets: CipherTarget[] = [
     {
       value: providerCount,
@@ -316,7 +321,6 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
       markerColor: m2,
     },
   ];
-
   if (d.showBadge) {
     for (let i = 0; i < resolved.length; i++) {
       targets.push({
@@ -328,7 +332,10 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     }
   }
 
-  let svg = await renderBadge(node, d.W, d.H);
-  svg = await processCipherMarkers(svg, targets);
-  return svg;
+  return renderBadgeTemplate({
+    node,
+    width: d.W,
+    height: d.H,
+    cipherTargets: targets,
+  });
 }

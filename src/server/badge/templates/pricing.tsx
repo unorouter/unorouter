@@ -1,18 +1,129 @@
+/* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
 import { formatPrice } from "@/lib/utils/base";
+import type { BadgeSize } from "@/lib/validation/badge";
 import type { BadgePricingRow } from "../cache";
 import { t } from "../i18n";
-import { PRICING_DIMS, pricingDims, resolveDims } from "../lib/config";
-import { Brand, Card, Row } from "../lib/primitives";
-import { renderBadge } from "../lib/render";
-import { themeVars, type ThemeColors } from "../lib/theme";
-import { FONT_MONO, FONT_SANS, Label, MonoValue } from "../lib/typography";
-import type { BadgeCtx } from "../route";
 import {
-  cipherMarker,
-  processCipherMarkers,
+  type BadgeCtx,
+  type BadgeDimsBase,
+  Brand,
+  Card,
   type CipherTarget,
-} from "./cipher";
-import { getVendorIcon, svgDataUri } from "./providers";
+  FONT_MONO,
+  FONT_SANS,
+  Label,
+  MonoValue,
+  Row,
+  type ThemeColors,
+  cipherMarker,
+  getVendorIcon,
+  renderBadgeTemplate,
+  resolveDims,
+  svgDataUri,
+  themeVars,
+} from "../lib";
+
+// ── Dims ──────────────────────────────────────────────────
+
+interface Dims extends BadgeDimsBase {
+  showOriginal: boolean;
+  modelWidth: number;
+  priceWidth: number;
+  discountWidth: number;
+  iconSize: number;
+  maxRows: number;
+  rowHeight: number;
+  headerLogoSize: number;
+  headerFont: number;
+}
+
+function computeSize(d: Dims, rowCount: number): { W: number; H: number } {
+  const cols =
+    d.modelWidth +
+    d.iconSize +
+    6 +
+    d.priceWidth * 2 +
+    (d.showOriginal ? d.discountWidth : 0);
+  const W = cols + d.pad * 2;
+  const H =
+    d.pad * 2 + 30 + 26 + rowCount * d.rowHeight + (d.showOriginal ? 24 : 0);
+  return { W, H };
+}
+
+const DIMS: Partial<Record<BadgeSize, Dims>> = {
+  xs: {
+    W: 0,
+    H: 0,
+    pad: 14,
+    showOriginal: false,
+    modelWidth: 110,
+    priceWidth: 65,
+    discountWidth: 0,
+    iconSize: 10,
+    maxRows: 3,
+    rowHeight: 30,
+    headerLogoSize: 16,
+    headerFont: 10,
+  },
+  sm: {
+    W: 0,
+    H: 0,
+    pad: 18,
+    showOriginal: false,
+    modelWidth: 130,
+    priceWidth: 80,
+    discountWidth: 0,
+    iconSize: 11,
+    maxRows: 3,
+    rowHeight: 32,
+    headerLogoSize: 18,
+    headerFont: 11,
+  },
+  md: {
+    W: 0,
+    H: 0,
+    pad: 24,
+    showOriginal: true,
+    modelWidth: 140,
+    priceWidth: 88,
+    discountWidth: 60,
+    iconSize: 12,
+    maxRows: 99,
+    rowHeight: 38,
+    headerLogoSize: 20,
+    headerFont: 12,
+  },
+  lg: {
+    W: 0,
+    H: 0,
+    pad: 30,
+    showOriginal: true,
+    modelWidth: 160,
+    priceWidth: 100,
+    discountWidth: 65,
+    iconSize: 14,
+    maxRows: 99,
+    rowHeight: 42,
+    headerLogoSize: 24,
+    headerFont: 14,
+  },
+  xl: {
+    W: 0,
+    H: 0,
+    pad: 38,
+    showOriginal: true,
+    modelWidth: 190,
+    priceWidth: 120,
+    discountWidth: 70,
+    iconSize: 16,
+    maxRows: 99,
+    rowHeight: 48,
+    headerLogoSize: 28,
+    headerFont: 17,
+  },
+};
+
+// ── Components ────────────────────────────────────────────
 
 function discount(original: number, current: number): string {
   if (original <= 0) return "";
@@ -20,7 +131,6 @@ function discount(original: number, current: number): string {
   return pct > 0 ? `-${pct}%` : "";
 }
 
-/** Compact price cell: shows strikethrough original + bold current */
 function PriceCell(props: {
   original: number | null;
   current: number;
@@ -76,21 +186,17 @@ function PriceRow(props: {
   priceWidth: number;
   iconSize: number;
 }) {
-  const c = props.c;
-  const row = props.row;
   const disc =
-    props.showOriginal && row.originalInputPrice
-      ? discount(row.originalInputPrice, row.inputPrice)
+    props.showOriginal && props.row.originalInputPrice
+      ? discount(props.row.originalInputPrice, props.row.inputPrice)
       : "";
-
-  const iconSvg = getVendorIcon(row.vendor);
+  const iconSvg = getVendorIcon(props.row.vendor);
 
   return (
     <Row style={{ alignItems: "center", padding: "6px 0" }}>
       {iconSvg && (
-        // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
         <img
-          src={svgDataUri(iconSvg, c.text)}
+          src={svgDataUri(iconSvg, props.c.text)}
           width={props.iconSize}
           height={props.iconSize}
           style={{ marginRight: 6 }}
@@ -100,28 +206,28 @@ function PriceRow(props: {
         style={{
           fontFamily: FONT_SANS,
           fontSize: 10,
-          color: c.text,
+          color: props.c.text,
           width: props.modelWidth,
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
         }}
       >
-        {row.model}
+        {props.row.model}
       </span>
       <PriceCell
-        original={row.originalInputPrice}
-        current={row.inputPrice}
-        c={c}
+        original={props.row.originalInputPrice}
+        current={props.row.inputPrice}
+        c={props.c}
         width={props.priceWidth}
         currentMarker={props.inputCurrentMarker}
         originalMarker={props.inputOriginalMarker}
         showOriginal={props.showOriginal}
       />
       <PriceCell
-        original={row.originalOutputPrice}
-        current={row.outputPrice}
-        c={c}
+        original={props.row.originalOutputPrice}
+        current={props.row.outputPrice}
+        c={props.c}
         width={props.priceWidth}
         currentMarker={props.outputCurrentMarker}
         originalMarker={props.outputOriginalMarker}
@@ -130,14 +236,14 @@ function PriceRow(props: {
       {disc ? (
         <Row
           style={{
-            backgroundColor: c.accentMuted,
+            backgroundColor: props.c.accentMuted,
             borderRadius: 4,
             padding: "2px 6px",
           }}
         >
           <MonoValue
             value={disc}
-            c={{ ...c, text: c.accent }}
+            c={{ ...props.c, text: props.c.accent }}
             size={10}
             cipherMarker={props.discountMarker}
           />
@@ -147,21 +253,20 @@ function PriceRow(props: {
   );
 }
 
+// ── Generator ─────────────────────────────────────────────
+
 export async function generatePricing(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(PRICING_DIMS, ctx.size);
+  const d = resolveDims(DIMS, ctx.size);
+  const displayRows = ctx.pricing.rows.slice(0, d.maxRows);
+  const size = computeSize(d, displayRows.length);
 
-  const rows = ctx.pricing.rows;
-  const displayRows = rows.slice(0, d.maxRows);
-  const computed = pricingDims(d, displayRows.length);
-
-  const maxDiscount = rows.reduce((max, r) => {
+  const maxDiscount = ctx.pricing.rows.reduce((max, r) => {
     if (!r.originalInputPrice) return max;
     const pct = Math.round((1 - r.inputPrice / r.originalInputPrice) * 100);
     return pct > max ? pct : max;
   }, 0);
 
-  // Assign cipher markers
   let markerIdx = 1;
   const headerMarker = cipherMarker(markerIdx++);
   const headerValue = `${maxDiscount}%`;
@@ -274,7 +379,6 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  // Build cipher targets
   const targets: CipherTarget[] = [
     {
       value: headerValue,
@@ -283,50 +387,48 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
       markerColor: headerMarker,
     },
   ];
-
   for (let i = 0; i < displayRows.length; i++) {
     const row = displayRows[i];
     const rm = rowMarkers[i];
-
     targets.push({
       value: formatPrice(row.inputPrice),
       fontSize: 11,
       color: c.text,
       markerColor: rm.inputCurrent,
     });
-    if (rm.inputOriginal && row.originalInputPrice !== null) {
+    if (rm.inputOriginal && row.originalInputPrice !== null)
       targets.push({
         value: formatPrice(row.originalInputPrice),
         fontSize: 8,
         color: c.muted,
         markerColor: rm.inputOriginal,
       });
-    }
     targets.push({
       value: formatPrice(row.outputPrice),
       fontSize: 11,
       color: c.text,
       markerColor: rm.outputCurrent,
     });
-    if (rm.outputOriginal && row.originalOutputPrice !== null) {
+    if (rm.outputOriginal && row.originalOutputPrice !== null)
       targets.push({
         value: formatPrice(row.originalOutputPrice),
         fontSize: 8,
         color: c.muted,
         markerColor: rm.outputOriginal,
       });
-    }
-    if (rm.discountM && rm.disc) {
+    if (rm.discountM && rm.disc)
       targets.push({
         value: rm.disc,
         fontSize: 10,
         color: c.accent,
         markerColor: rm.discountM,
       });
-    }
   }
 
-  let svg = await renderBadge(node, computed.W, computed.H);
-  svg = await processCipherMarkers(svg, targets);
-  return svg;
+  return renderBadgeTemplate({
+    node,
+    width: size.W,
+    height: size.H,
+    cipherTargets: targets,
+  });
 }

@@ -1,23 +1,123 @@
+import type { BadgeSize } from "@/lib/validation/badge";
 import { t } from "../i18n";
-import { HERO_DIMS, resolveDims } from "../lib/config";
-import { formatFull } from "../lib/format";
-import { Brand, Card, Row } from "../lib/primitives";
-import { renderBadge } from "../lib/render";
-import { themeVars } from "../lib/theme";
-import { Dot, FONT_SANS, MonoValue } from "../lib/typography";
-import type { BadgeCtx } from "../route";
 import {
-  cipherMarker,
-  processCipherMarkers,
-  replacePulseDotMarker,
+  type BadgeCtx,
+  type BadgeDimsBase,
   type CipherTarget,
-} from "./cipher";
+  resolveDims,
+  formatFull,
+  themeVars,
+  cipherMarker,
+  renderBadgeTemplate,
+  Card,
+  Brand,
+  Row,
+  Dot,
+  MonoValue,
+  FONT_SANS,
+} from "../lib";
+
+interface Dims extends BadgeDimsBase {
+  logoSize: number;
+  brandFont: number;
+  headingSize: number;
+  headingSpacing: number;
+  metricFont: number;
+  tokenFont: number;
+  tokenLabelFont: number;
+  dotSize: number;
+  pulseDotSize: number;
+  metricWidth: string;
+  showMetrics: boolean;
+}
+
+const DIMS: Partial<Record<BadgeSize, Dims>> = {
+  xs: {
+    W: 280,
+    H: 120,
+    pad: 14,
+    logoSize: 20,
+    brandFont: 10,
+    headingSize: 14,
+    headingSpacing: 1,
+    metricFont: 9,
+    tokenFont: 10,
+    tokenLabelFont: 8,
+    dotSize: 3,
+    pulseDotSize: 4,
+    metricWidth: "45%",
+    showMetrics: false,
+  },
+  sm: {
+    W: 360,
+    H: 160,
+    pad: 20,
+    logoSize: 26,
+    brandFont: 13,
+    headingSize: 18,
+    headingSpacing: 2,
+    metricFont: 11,
+    tokenFont: 12,
+    tokenLabelFont: 10,
+    dotSize: 4,
+    pulseDotSize: 5,
+    metricWidth: "45%",
+    showMetrics: false,
+  },
+  md: {
+    W: 440,
+    H: 230,
+    pad: 24,
+    logoSize: 32,
+    brandFont: 16,
+    headingSize: 24,
+    headingSpacing: 3,
+    metricFont: 12,
+    tokenFont: 12,
+    tokenLabelFont: 11,
+    dotSize: 5,
+    pulseDotSize: 6,
+    metricWidth: "45%",
+    showMetrics: true,
+  },
+  lg: {
+    W: 540,
+    H: 280,
+    pad: 30,
+    logoSize: 40,
+    brandFont: 20,
+    headingSize: 30,
+    headingSpacing: 4,
+    metricFont: 14,
+    tokenFont: 14,
+    tokenLabelFont: 13,
+    dotSize: 6,
+    pulseDotSize: 7,
+    metricWidth: "45%",
+    showMetrics: true,
+  },
+  xl: {
+    W: 660,
+    H: 350,
+    pad: 38,
+    logoSize: 50,
+    brandFont: 25,
+    headingSize: 38,
+    headingSpacing: 5,
+    metricFont: 17,
+    tokenFont: 17,
+    tokenLabelFont: 16,
+    dotSize: 8,
+    pulseDotSize: 9,
+    metricWidth: "45%",
+    showMetrics: true,
+  },
+};
 
 export async function generateHero(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(HERO_DIMS, ctx.size);
+  const d = resolveDims(DIMS, ctx.size);
   const tokenCount = formatFull(ctx.stats.tokenUsed);
-  const tokensLabel = t(ctx.locale, "BADGE.TOKENS_SERVED");
   const modelCount = `${ctx.pricing.modelCount}+`;
   const uptimeValue = "99.9%";
 
@@ -115,7 +215,7 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
             color: c.muted,
           }}
         >
-          {tokensLabel}
+          {t(ctx.locale, "BADGE.TOKENS_SERVED")}
         </span>
         <Row
           style={{
@@ -128,9 +228,6 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
       </Row>
     </Card>
   );
-
-  let svg = await renderBadge(node, d.W, d.H);
-  svg = replacePulseDotMarker(svg, c.pulseDotMarker, c.accent);
 
   const targets: CipherTarget[] = [
     {
@@ -156,6 +253,11 @@ export async function generateHero(ctx: BadgeCtx): Promise<string> {
     });
   }
 
-  svg = await processCipherMarkers(svg, targets);
-  return svg;
+  return renderBadgeTemplate({
+    node,
+    width: d.W,
+    height: d.H,
+    pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
+    cipherTargets: targets,
+  });
 }

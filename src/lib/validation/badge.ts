@@ -12,10 +12,18 @@ export function parseBadgeSize(raw: string | undefined): BadgeSize {
 
 export const badgeQuery = t.Object({
   locale: t.Optional(t.Union([t.Literal("en"), t.Literal("de")])),
-  theme: t.Optional(t.Union([t.Literal("dark"), t.Literal("light"), t.Literal("auto")])),
+  theme: t.Optional(
+    t.Union([t.Literal("dark"), t.Literal("light"), t.Literal("auto")]),
+  ),
   ref: t.Optional(t.String()),
   format: t.Optional(t.Union([t.Literal("svg"), t.Literal("png")])),
-  size: t.Optional(t.Union([
-    t.Literal("xs"), t.Literal("sm"), t.Literal("md"), t.Literal("lg"), t.Literal("xl"),
-  ])),
+  size: t.Optional(
+    t.Union([
+      t.Literal("xs"),
+      t.Literal("sm"),
+      t.Literal("md"),
+      t.Literal("lg"),
+      t.Literal("xl"),
+    ]),
+  ),
 });

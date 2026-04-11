@@ -8,14 +8,13 @@ import {
 } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
-import type { Locale } from "next-intl";
 import sharp from "sharp";
-import type { BadgePricing, BadgeStats } from "./cache";
 import { getPricingData, getStats } from "./cache";
 import { parseLocale } from "./i18n";
-import { parseTheme, themeVars, type Theme } from "./lib/theme";
+import type { BadgeCtx } from "./lib/context";
+import { setStaticMode } from "./lib/cipher";
+import { parseTheme, themeVars } from "./lib/theme";
 import { AllPage } from "./templates/all-page";
-import { setStaticMode } from "./templates/cipher";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
 import { generateProviders } from "./templates/providers";
@@ -34,17 +33,6 @@ const PNG_HEADERS = {
   "cache-control": "public, max-age=300, s-maxage=300",
 };
 
-// ── Badge registry ────────────────────────────────────────
-
-export interface BadgeCtx {
-  locale: Locale;
-  theme: Theme;
-  size: BadgeSize;
-  ref?: string;
-  stats: BadgeStats;
-  pricing: BadgePricing;
-}
-
 const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
   banner: generateTokensBanner,
   square: generateTokensSquare,
@@ -56,8 +44,6 @@ const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
 };
 
 const BADGE_NAMES = Object.keys(BADGES);
-
-// ── Routes ────────────────────────────────────────────────
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })
   .use(html({ autoDetect: false, autoDoctype: false }))
@@ -96,18 +82,16 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
             stats,
             pricing,
           };
-          const badges = await Promise.all(
+          return Promise.all(
             BADGE_NAMES.map(async (name) => ({
               name: `${name} (${s})`,
               svg: await BADGES[name](ctx),
             })),
           );
-          return badges;
         }),
       );
 
       const c = themeVars(theme);
-
       return html(
         <AllPage
           bg={c.previewBg}
@@ -128,6 +112,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         set.status = 404;
         return "Unknown badge";
       }
+
       const [stats, pricing] = await Promise.all([
         getStats(),
         getPricingData(),
@@ -148,7 +133,6 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
         const png = await sharp(Buffer.from(svg)).png().toBuffer();
         return new Response(new Uint8Array(png), { headers: PNG_HEADERS });
       }
-
       return svg;
     },
     { query: badgeQuery },

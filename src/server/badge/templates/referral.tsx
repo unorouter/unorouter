@@ -1,15 +1,126 @@
 import { env } from "@/lib/config/env";
-import { REFERRAL_DIMS, resolveDims } from "../lib/config";
+import type { BadgeSize } from "@/lib/validation/badge";
 import { t } from "../i18n";
-import { Brand, Card, Col, Row } from "../lib/primitives";
-import { renderBadge } from "../lib/render";
-import { themeVars } from "../lib/theme";
-import { FONT_MONO, FONT_SANS } from "../lib/typography";
-import type { BadgeCtx } from "../route";
+import {
+  type BadgeCtx,
+  type BadgeDimsBase,
+  resolveDims,
+  themeVars,
+  renderBadgeTemplate,
+  Card,
+  Brand,
+  Col,
+  Row,
+  FONT_MONO,
+  FONT_SANS,
+} from "../lib";
+
+interface Dims extends BadgeDimsBase {
+  logoSize: number;
+  brandFont: number;
+  brandGap: number;
+  badgeFont: number;
+  subtitleFont: number;
+  urlFont: number;
+  urlPad: string;
+  ctaFont: number;
+  ctaPad: string;
+  radius: number;
+  showSubtitle: boolean;
+  showCta: boolean;
+}
+
+const DIMS: Partial<Record<BadgeSize, Dims>> = {
+  xs: {
+    W: 300,
+    H: 80,
+    pad: 12,
+    logoSize: 20,
+    brandFont: 10,
+    brandGap: 5,
+    badgeFont: 8,
+    subtitleFont: 9,
+    urlFont: 9,
+    urlPad: "4px 10px",
+    ctaFont: 8,
+    ctaPad: "2px 6px",
+    radius: 4,
+    showSubtitle: false,
+    showCta: false,
+  },
+  sm: {
+    W: 360,
+    H: 100,
+    pad: 16,
+    logoSize: 24,
+    brandFont: 12,
+    brandGap: 6,
+    badgeFont: 9,
+    subtitleFont: 11,
+    urlFont: 11,
+    urlPad: "5px 12px",
+    ctaFont: 9,
+    ctaPad: "3px 8px",
+    radius: 5,
+    showSubtitle: false,
+    showCta: false,
+  },
+  md: {
+    W: 420,
+    H: 140,
+    pad: 24,
+    logoSize: 28,
+    brandFont: 14,
+    brandGap: 8,
+    badgeFont: 10,
+    subtitleFont: 12,
+    urlFont: 12,
+    urlPad: "6px 14px",
+    ctaFont: 10,
+    ctaPad: "3px 10px",
+    radius: 6,
+    showSubtitle: true,
+    showCta: true,
+  },
+  lg: {
+    W: 520,
+    H: 170,
+    pad: 30,
+    logoSize: 34,
+    brandFont: 17,
+    brandGap: 10,
+    badgeFont: 12,
+    subtitleFont: 14,
+    urlFont: 14,
+    urlPad: "7px 16px",
+    ctaFont: 12,
+    ctaPad: "4px 12px",
+    radius: 7,
+    showSubtitle: true,
+    showCta: true,
+  },
+  xl: {
+    W: 640,
+    H: 210,
+    pad: 38,
+    logoSize: 42,
+    brandFont: 21,
+    brandGap: 12,
+    badgeFont: 14,
+    subtitleFont: 17,
+    urlFont: 17,
+    urlPad: "8px 20px",
+    ctaFont: 14,
+    ctaPad: "5px 14px",
+    radius: 8,
+    showSubtitle: true,
+    showCta: true,
+  },
+};
 
 export async function generateReferral(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(REFERRAL_DIMS, ctx.size);
+  const d = resolveDims(DIMS, ctx.size);
   const ref = ctx.ref ?? "YOUR_CODE";
   const domain = new URL(env.appUrl).host;
   const url = `${domain}/?ref=${ref}`;
@@ -110,5 +221,5 @@ export async function generateReferral(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  return renderBadge(node, d.W, d.H);
+  return renderBadgeTemplate({ node, width: d.W, height: d.H });
 }

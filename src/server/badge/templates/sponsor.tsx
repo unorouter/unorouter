@@ -1,21 +1,125 @@
-import { SPONSOR_DIMS, resolveDims } from "../lib/config";
+import type { BadgeSize } from "@/lib/validation/badge";
 import { t } from "../i18n";
-import { formatFull } from "../lib/format";
-import { Card, Brand, Col, Row, Divider } from "../lib/primitives";
-import { renderBadge } from "../lib/render";
-import { themeVars } from "../lib/theme";
-import { Stat, Dot, FONT_SANS, MonoValue } from "../lib/typography";
-import type { BadgeCtx } from "../route";
 import {
-  cipherMarker,
-  processCipherMarkers,
-  replacePulseDotMarker,
+  type BadgeCtx,
+  type BadgeDimsBase,
   type CipherTarget,
-} from "./cipher";
+  resolveDims,
+  formatFull,
+  themeVars,
+  cipherMarker,
+  renderBadgeTemplate,
+  Card,
+  Brand,
+  Col,
+  Row,
+  Divider,
+  Stat,
+  Dot,
+  MonoValue,
+  FONT_SANS,
+} from "../lib";
+
+interface Dims extends BadgeDimsBase {
+  layout: "horizontal" | "twoColumn";
+  logoSize: number;
+  brandFont: number;
+  brandGap: number;
+  statSize: number;
+  labelSize: number;
+  dotSize: number;
+  rightWidth: number;
+  bulletFont: number;
+  ctaFont: number;
+  modelCountFont: number;
+}
+
+const DIMS: Partial<Record<BadgeSize, Dims>> = {
+  xs: {
+    W: 380,
+    H: 90,
+    pad: 16,
+    layout: "horizontal",
+    logoSize: 22,
+    brandFont: 11,
+    brandGap: 8,
+    statSize: 13,
+    labelSize: 7,
+    dotSize: 5,
+    rightWidth: 0,
+    bulletFont: 0,
+    ctaFont: 0,
+    modelCountFont: 0,
+  },
+  sm: {
+    W: 480,
+    H: 120,
+    pad: 24,
+    layout: "horizontal",
+    logoSize: 28,
+    brandFont: 14,
+    brandGap: 10,
+    statSize: 16,
+    labelSize: 8,
+    dotSize: 7,
+    rightWidth: 0,
+    bulletFont: 0,
+    ctaFont: 0,
+    modelCountFont: 0,
+  },
+  md: {
+    W: 700,
+    H: 245,
+    pad: 28,
+    layout: "twoColumn",
+    logoSize: 38,
+    brandFont: 18,
+    brandGap: 12,
+    statSize: 19,
+    labelSize: 11,
+    dotSize: 7,
+    rightWidth: 300,
+    bulletFont: 12,
+    ctaFont: 10,
+    modelCountFont: 12,
+  },
+  lg: {
+    W: 860,
+    H: 300,
+    pad: 34,
+    layout: "twoColumn",
+    logoSize: 46,
+    brandFont: 22,
+    brandGap: 14,
+    statSize: 24,
+    labelSize: 13,
+    dotSize: 9,
+    rightWidth: 370,
+    bulletFont: 14,
+    ctaFont: 12,
+    modelCountFont: 14,
+  },
+  xl: {
+    W: 1040,
+    H: 370,
+    pad: 42,
+    layout: "twoColumn",
+    logoSize: 56,
+    brandFont: 27,
+    brandGap: 18,
+    statSize: 30,
+    labelSize: 16,
+    dotSize: 11,
+    rightWidth: 450,
+    bulletFont: 17,
+    ctaFont: 14,
+    modelCountFont: 17,
+  },
+};
 
 export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
   const c = themeVars(ctx.theme);
-  const d = resolveDims(SPONSOR_DIMS, ctx.size);
+  const d = resolveDims(DIMS, ctx.size);
   const tokenCount = formatFull(ctx.stats.tokenUsed);
   const requestCount = formatFull(ctx.stats.requestCount);
   const tpmCount = formatFull(ctx.stats.avgTpm);
@@ -74,38 +178,39 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
       </Card>
     );
 
-    let svg = await renderBadge(node, d.W, d.H);
-    svg = replacePulseDotMarker(svg, c.pulseDotMarker, c.accent);
-    svg = await processCipherMarkers(svg, [
-      {
-        value: tokenCount,
-        fontSize: d.statSize,
-        color: c.text,
-        markerColor: m1,
-        loop: true,
-      },
-      {
-        value: requestCount,
-        fontSize: d.statSize,
-        color: c.text,
-        markerColor: m2,
-        loop: true,
-      },
-      {
-        value: tpmCount,
-        fontSize: d.statSize,
-        color: c.text,
-        markerColor: m3,
-        loop: true,
-      },
-    ]);
-    return svg;
+    return renderBadgeTemplate({
+      node,
+      width: d.W,
+      height: d.H,
+      pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
+      cipherTargets: [
+        {
+          value: tokenCount,
+          fontSize: d.statSize,
+          color: c.text,
+          markerColor: m1,
+          loop: true,
+        },
+        {
+          value: requestCount,
+          fontSize: d.statSize,
+          color: c.text,
+          markerColor: m2,
+          loop: true,
+        },
+        {
+          value: tpmCount,
+          fontSize: d.statSize,
+          color: c.text,
+          markerColor: m3,
+          loop: true,
+        },
+      ],
+    });
   }
 
-  // Two-column layout
   const node = (
     <Card c={c}>
-      {/* Left: brand + bullets + CTA */}
       <Col
         style={{ padding: d.pad, flexGrow: 1, justifyContent: "space-between" }}
       >
@@ -187,7 +292,6 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
 
       <Divider c={c} margin={`${d.pad}px 0`} opacity={0.5} />
 
-      {/* Right: stats */}
       <Col
         style={{
           padding: d.pad,
@@ -232,9 +336,6 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
     </Card>
   );
 
-  let svg = await renderBadge(node, d.W, d.H);
-  svg = replacePulseDotMarker(svg, c.pulseDotMarker, c.accent);
-
   const targets: CipherTarget[] = [
     {
       value: tokenCount,
@@ -265,6 +366,11 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
     },
   ];
 
-  svg = await processCipherMarkers(svg, targets);
-  return svg;
+  return renderBadgeTemplate({
+    node,
+    width: d.W,
+    height: d.H,
+    pulseDot: { markerColor: c.pulseDotMarker, accentColor: c.accent },
+    cipherTargets: targets,
+  });
 }
