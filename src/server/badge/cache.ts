@@ -23,6 +23,7 @@ export interface BadgePricing {
   modelCount: number;
   vendorCount: number;
   vendorNames: string[];
+  vendorModelCounts: Record<string, number>;
   rows: BadgePricingRow[];
 }
 
@@ -67,10 +68,16 @@ export async function getPricingData(): Promise<BadgePricing> {
   const res = await getPricing();
   const summary = buildPricingSummary(unwrap(res));
 
+  const vendorModelCounts: Record<string, number> = {};
+  for (const v of summary.vendors) {
+    vendorModelCounts[v.name] = v.modelCount;
+  }
+
   cachedPricing = {
     modelCount: summary.modelCount,
     vendorCount: summary.vendorCount,
     vendorNames: summary.vendorNames,
+    vendorModelCounts,
     rows: summary.topDiscounted,
   };
   cachedPricingAt = Date.now();

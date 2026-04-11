@@ -36,7 +36,7 @@ const BADGES: Record<string, (ctx: BadgeCtx) => Promise<string>> = {
   banner: (c) => generateTokensBanner(c.stats, c.locale, c.theme, c.ref),
   square: (c) => generateTokensSquare(c.stats, c.locale, c.theme, c.ref),
   sponsor: (c) => generateSponsor(c.stats, c.locale, c.theme, c.pricing, c.ref),
-  providers: (c) => generateProviders(c.locale, c.theme, c.pricing.vendorNames),
+  providers: (c) => generateProviders(c.locale, c.theme, c.pricing),
   pricing: (c) => generatePricing(c.locale, c.theme, c.pricing.rows),
   hero: (c) => generateHero(c.stats, c.locale, c.theme, c.pricing, c.ref),
   referral: (c) => generateReferral(c.locale, c.theme, c.ref ?? "YOUR_CODE"),

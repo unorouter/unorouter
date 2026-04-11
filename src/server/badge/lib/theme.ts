@@ -11,6 +11,8 @@ export interface ThemeColors {
   accent: string;
   accentMuted: string;
   brandRed: string;
+  badgeBg: string;
+  badgeText: string;
 }
 
 const dark: ThemeColors = {
@@ -22,6 +24,8 @@ const dark: ThemeColors = {
   accent: "#22c55e",
   accentMuted: "#052e16",
   brandRed: "#b91c1c",
+  badgeBg: "#b91c1c",
+  badgeText: "#ffffff",
 };
 
 const light: ThemeColors = {
@@ -33,6 +37,8 @@ const light: ThemeColors = {
   accent: "#16a34a",
   accentMuted: "#bbf7d0",
   brandRed: "#991b1b",
+  badgeBg: "#991b1b",
+  badgeText: "#ffffff",
 };
 
 export function themeVars(theme: Theme): ThemeColors {
