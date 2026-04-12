@@ -20,30 +20,23 @@ export function formatDateForInput(d: dayjs.Dayjs): string {
   return d.format("YYYY-MM-DDTHH:mm");
 }
 
-const modelColors = [
-  "bg-amber-500/15 text-amber-700 dark:text-amber-400",
-  "bg-blue-500/15 text-blue-700 dark:text-blue-400",
-  "bg-cyan-500/15 text-cyan-700 dark:text-cyan-400",
-  "bg-green-500/15 text-green-700 dark:text-green-400",
-  "bg-indigo-500/15 text-indigo-700 dark:text-indigo-400",
-  "bg-sky-500/15 text-sky-700 dark:text-sky-400",
-  "bg-lime-500/15 text-lime-700 dark:text-lime-400",
-  "bg-orange-500/15 text-orange-700 dark:text-orange-400",
-  "bg-pink-500/15 text-pink-700 dark:text-pink-400",
-  "bg-purple-500/15 text-purple-700 dark:text-purple-400",
-  "bg-red-500/15 text-red-700 dark:text-red-400",
-  "bg-teal-500/15 text-teal-700 dark:text-teal-400",
-  "bg-violet-500/15 text-violet-700 dark:text-violet-400",
-  "bg-yellow-500/15 text-yellow-700 dark:text-yellow-400",
-  "bg-rose-500/15 text-rose-700 dark:text-rose-400",
-];
-
-export function stringToColor(str: string): string {
-  let sum = 0;
+// Deterministic per-name color. Uses a djb2 hash mapped onto the HSL hue wheel
+// so similar names (e.g. gpt-5.4 / gpt-5.4-mini / gpt-5.4-nano) land on clearly
+// distinct hues. Returns inline style props for use on a badge element.
+export function modelColorStyle(str: string): {
+  backgroundColor: string;
+  color: string;
+} {
+  let hash = 0;
   for (let i = 0; i < str.length; i++) {
-    sum += str.charCodeAt(i);
+    hash = (hash << 5) - hash + str.charCodeAt(i);
+    hash = hash & hash;
   }
-  return modelColors[sum % modelColors.length];
+  const hue = Math.abs(hash) % 360;
+  return {
+    backgroundColor: `hsl(${hue} 85% 50% / 0.15)`,
+    color: `hsl(${hue} 70% 40%)`,
+  };
 }
 
 export function getLogTypeColor(type: number): string {

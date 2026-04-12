@@ -39,12 +39,23 @@ const CHART_COLORS = [
   "var(--color-chart-5)",
 ];
 
+// Deterministic color for a given model name so the same model always renders
+// in the same color across tabs, time ranges and reloads.
+function modelColorFor(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = (hash << 5) - hash + name.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return CHART_COLORS[Math.abs(hash) % CHART_COLORS.length];
+}
+
 function buildChartConfig(modelNames: string[]): ChartConfig {
   const config: ChartConfig = {};
-  modelNames.forEach((name, i) => {
+  modelNames.forEach((name) => {
     config[name] = {
       label: name,
-      color: CHART_COLORS[i % CHART_COLORS.length],
+      color: modelColorFor(name),
     };
   });
   return config;
@@ -230,12 +241,12 @@ export function ConsumptionChart() {
                     }
                   />
                   <ChartLegend content={<ChartLegendContent />} />
-                  {distribution.modelList.map((model, i) => (
+                  {distribution.modelList.map((model) => (
                     <Bar
                       key={model}
                       dataKey={model}
                       stackId="a"
-                      fill={CHART_COLORS[i % CHART_COLORS.length]}
+                      fill={modelColorFor(model)}
                     />
                   ))}
                 </BarChart>
@@ -308,11 +319,8 @@ export function ConsumptionChart() {
                     fontSize={10}
                     fontFamily="monospace"
                   >
-                    {pieData.map((_, i) => (
-                      <Cell
-                        key={i}
-                        fill={CHART_COLORS[i % CHART_COLORS.length]}
-                      />
+                    {pieData.map((entry, i) => (
+                      <Cell key={i} fill={modelColorFor(entry.name)} />
                     ))}
                   </Pie>
                   <ChartLegend

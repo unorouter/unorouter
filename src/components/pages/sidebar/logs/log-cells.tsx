@@ -26,7 +26,7 @@ import {
   LOG_TYPE_SYSTEM,
   LOG_TYPE_TOPUP,
   parseOther,
-  stringToColor,
+  modelColorStyle,
   type LogRow,
 } from "./log-helpers";
 
@@ -82,7 +82,8 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
           }
         >
           <code
-            className={`rounded px-1.5 py-0.5 font-mono text-xs ${stringToColor(log.model_name)}`}
+            className="rounded px-1.5 py-0.5 font-mono text-xs"
+            style={modelColorStyle(log.model_name)}
           >
             {log.model_name}
           </code>
