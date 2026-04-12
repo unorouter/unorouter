@@ -28,34 +28,15 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice, modelColor } from "@/lib/utils/base";
 import { aggregateByModel, quotaToDollars, type QuotaDataItem } from "./stats";
-
-const CHART_COLORS = [
-  "var(--color-chart-1)",
-  "var(--color-chart-2)",
-  "var(--color-chart-3)",
-  "var(--color-chart-4)",
-  "var(--color-chart-5)",
-];
-
-// Deterministic color for a given model name so the same model always renders
-// in the same color across tabs, time ranges and reloads.
-function modelColorFor(name: string): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = (hash << 5) - hash + name.charCodeAt(i);
-    hash = hash & hash;
-  }
-  return CHART_COLORS[Math.abs(hash) % CHART_COLORS.length];
-}
 
 function buildChartConfig(modelNames: string[]): ChartConfig {
   const config: ChartConfig = {};
   modelNames.forEach((name) => {
     config[name] = {
       label: name,
-      color: modelColorFor(name),
+      color: modelColor(name),
     };
   });
   return config;
@@ -246,7 +227,7 @@ export function ConsumptionChart() {
                       key={model}
                       dataKey={model}
                       stackId="a"
-                      fill={modelColorFor(model)}
+                      fill={modelColor(model)}
                     />
                   ))}
                 </BarChart>
@@ -320,7 +301,7 @@ export function ConsumptionChart() {
                     fontFamily="monospace"
                   >
                     {pieData.map((entry, i) => (
-                      <Cell key={i} fill={modelColorFor(entry.name)} />
+                      <Cell key={i} fill={modelColor(entry.name)} />
                     ))}
                   </Pie>
                   <ChartLegend

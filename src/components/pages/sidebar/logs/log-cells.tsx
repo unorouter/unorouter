@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { renderQuota } from "@/lib/config/constants";
-import { copyToClipboard } from "@/lib/utils/base";
+import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { LuChevronRight, LuCircleAlert } from "react-icons/lu";
@@ -26,7 +26,6 @@ import {
   LOG_TYPE_SYSTEM,
   LOG_TYPE_TOPUP,
   parseOther,
-  modelColorStyle,
   type LogRow,
 } from "./log-helpers";
 

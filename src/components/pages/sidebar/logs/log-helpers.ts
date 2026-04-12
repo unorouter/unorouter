@@ -20,25 +20,6 @@ export function formatDateForInput(d: dayjs.Dayjs): string {
   return d.format("YYYY-MM-DDTHH:mm");
 }
 
-// Deterministic per-name color. Uses a djb2 hash mapped onto the HSL hue wheel
-// so similar names (e.g. gpt-5.4 / gpt-5.4-mini / gpt-5.4-nano) land on clearly
-// distinct hues. Returns inline style props for use on a badge element.
-export function modelColorStyle(str: string): {
-  backgroundColor: string;
-  color: string;
-} {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = (hash << 5) - hash + str.charCodeAt(i);
-    hash = hash & hash;
-  }
-  const hue = Math.abs(hash) % 360;
-  return {
-    backgroundColor: `hsl(${hue} 85% 50% / 0.15)`,
-    color: `hsl(${hue} 70% 40%)`,
-  };
-}
-
 export function getLogTypeColor(type: number): string {
   switch (type) {
     case LOG_TYPE_TOPUP:
