@@ -180,7 +180,7 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
         >
           {log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM")}
         </Badge>
-        {frt != null && frt < 0 && (
+        {log.is_stream && frt != null && frt < 0 && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
