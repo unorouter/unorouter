@@ -39,6 +39,13 @@ export async function generateMetadata(props: Props) {
 export default async function ChatConvPage(props: Props) {
   const { convId, locale } = await props.params;
   const queryClient = getQueryClient();
+  const cookieHeaders = await setCookies();
+
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.auth(),
+    queryFn: async () =>
+      handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
+  });
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
   if (!isLoggedIn) {
@@ -47,7 +54,6 @@ export default async function ChatConvPage(props: Props) {
   }
 
   if (isLoggedIn) {
-    const cookieHeaders = await setCookies();
     await Promise.all([
       queryClient.prefetchQuery({
         queryKey: queryKeys.chatMeta(convId),
