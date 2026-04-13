@@ -56,7 +56,7 @@ export async function isMediaModel(model: string) {
 export async function getCheapestTextModel(): Promise<string> {
   const models = await getModels();
   const textModels = models.filter(
-    (m) => m.type === "text" && !m.isFixedPrice && m.inputPrice > 0,
+    (m) => m.type === "text" && !m.isFixedPrice && !m.isFree && m.inputPrice > 0,
   );
   if (textModels.length === 0) throw new Error(msg("ERRORS.NO_TEXT_MODELS"));
   return textModels.reduce((min, m) =>
