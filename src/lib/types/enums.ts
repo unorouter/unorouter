@@ -46,6 +46,8 @@ export enum Vendor {
   XUNFEI_CN = "讯飞",
   ZHIPU_CN = "智谱",
   ZHIPU_AI_CODING = "zhipu ai coding plan",
+  XIAOMI = "xiaomi",
+  MINIMAX = "minimax",
 }
 
 export enum OS {

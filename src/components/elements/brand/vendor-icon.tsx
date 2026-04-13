@@ -14,11 +14,13 @@ import {
   Google,
   Kling,
   Meta,
+  Minimax,
   Mistral,
   Moonshot,
   OpenAI,
   Stability,
   XAI,
+  XiaomiMiMo,
   Zhipu,
 } from "@lobehub/icons";
 import type { FC } from "react";
@@ -38,6 +40,7 @@ const ICON_MAP: Record<string, IconComponent> = {
   [Vendor.GOOGLE_DEEPMIND]: Google,
   [Vendor.KLING]: Kling,
   [Vendor.META]: Meta,
+  [Vendor.MINIMAX]: Minimax,
   [Vendor.MISTRAL]: Mistral,
   [Vendor.MISTRAL_AI]: Mistral,
   [Vendor.MOONSHOT]: Moonshot,
@@ -45,6 +48,7 @@ const ICON_MAP: Record<string, IconComponent> = {
   [Vendor.STABILITY]: Stability,
   [Vendor.XAI]: XAI,
   [Vendor.X_AI]: XAI,
+  [Vendor.XIAOMI]: XiaomiMiMo,
   [Vendor.ZHIPU]: Zhipu,
 };
 

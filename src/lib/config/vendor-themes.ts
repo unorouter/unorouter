@@ -114,6 +114,20 @@ export const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBg: "bg-purple-500/10",
     tagBorder: "border-purple-500/20",
   },
+  [Vendor.XIAOMI]: {
+    bg: "bg-orange-500/5",
+    border: "border-orange-500/20",
+    text: "text-orange-700 dark:text-orange-400",
+    tagBg: "bg-orange-500/10",
+    tagBorder: "border-orange-500/20",
+  },
+  [Vendor.MINIMAX]: {
+    bg: "bg-violet-500/5",
+    border: "border-violet-500/20",
+    text: "text-violet-700 dark:text-violet-400",
+    tagBg: "bg-violet-500/10",
+    tagBorder: "border-violet-500/20",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
