@@ -1305,7 +1305,8 @@
       "CODE": "Code",
       "NAME": "Name",
       "AMOUNT": "Betrag",
-      "REMAIN_QUOTA": "Kontingent"
+      "REMAIN_QUOTA": "Kontingent",
+      "QUOTA_THRESHOLD_DOLLARS": "Guthaben-Warnschwelle"
     }
   },
   "SETTINGS": {

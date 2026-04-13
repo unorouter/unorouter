@@ -1305,7 +1305,8 @@
       "CODE": "Code",
       "NAME": "Name",
       "AMOUNT": "Amount",
-      "REMAIN_QUOTA": "Quota"
+      "REMAIN_QUOTA": "Quota",
+      "QUOTA_THRESHOLD_DOLLARS": "Quota warning threshold"
     }
   },
   "SETTINGS": {
