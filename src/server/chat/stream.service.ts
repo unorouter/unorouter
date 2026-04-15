@@ -16,6 +16,7 @@ import {
 } from "ai";
 import { logger } from "@/lib/utils/logger";
 import { pendingUsageByConv } from "./message.service";
+import { submitVideoTask } from "./task.service";
 import {
   formatSearchContext,
   needsWebSearch,
@@ -239,6 +240,43 @@ async function handleImageStream(
 }
 
 // ---------------------------------------------------------------------------
+// Video task stream (async task submission)
+// ---------------------------------------------------------------------------
+
+async function handleVideoTaskStream(
+  apiKey: string,
+  body: StreamBody,
+  upstreamHeaders: Record<string, string>,
+) {
+  const prompt = extractLastUserText(body.messages);
+  if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
+
+  const stream = createUIMessageStream({
+    execute: async ({ writer }) => {
+      const { taskId, status, progress } = await submitVideoTask(
+        apiKey,
+        body.model,
+        prompt,
+      );
+
+      const sentinel = `TASK_CARD:${JSON.stringify({ taskId, status, progress, model: body.model })}`;
+
+      trackUsage(body.convId, {
+        requestId: undefined,
+        inputTokens: 0,
+        outputTokens: 0,
+        upstreamHeaders,
+        rawResponse: sentinel,
+      });
+
+      writeBufferedMessage(writer, sentinel);
+    },
+  });
+
+  return createUIMessageStreamResponse({ stream });
+}
+
+// ---------------------------------------------------------------------------
 // Video / buffered media stream
 // ---------------------------------------------------------------------------
 
@@ -293,6 +331,11 @@ export async function streamChat(
   // Image models: call the images endpoint directly
   if (mediaType === "image") {
     return handleImageStream(apiKey, body, upstream.headers);
+  }
+
+  // Video models: submit async task and return task card sentinel
+  if (mediaType === "video") {
+    return handleVideoTaskStream(apiKey, body, upstream.headers);
   }
 
   // Web search via Tavily

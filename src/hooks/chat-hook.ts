@@ -288,3 +288,58 @@ export function useClaimConversationsMutation() {
     onError: (e) => handleError(e, t),
   });
 }
+
+export function useTaskStatusQuery(taskId: string, enabled = false) {
+  return useQuery({
+    queryKey: queryKeys.taskStatus(taskId),
+    queryFn: async () =>
+      handleElysia(await chatRoute.task({ taskId }).get()),
+    enabled: enabled && !!taskId,
+    retry: false,
+    staleTime: 0,
+  });
+}
+
+export function useFinalizeTaskMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: {
+      convId: string;
+      msgId: string;
+      taskId: string;
+      resultUrl: string;
+    }) =>
+      handleElysia(
+        await chatRoute({ id: args.convId }).task.finalize.post({
+          msgId: args.msgId,
+          taskId: args.taskId,
+          resultUrl: args.resultUrl,
+        }),
+      ),
+    onError: (e) => handleError(e, t),
+    onSuccess: (data, args) => {
+      type MessagesPage = {
+        messages: Array<Record<string, unknown>>;
+        total: number;
+      };
+      queryClient.setQueryData<InfiniteData<MessagesPage>>(
+        queryKeys.chatMessages(args.convId),
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              messages: page.messages.map((msg) =>
+                msg.id === args.msgId
+                  ? { ...msg, parts: data.parts }
+                  : msg,
+              ),
+            })),
+          };
+        },
+      );
+    },
+  });
+}

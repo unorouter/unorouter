@@ -25,6 +25,16 @@ const messagePart = t.Union([
   ),
   t.Object({ type: t.Literal("file") }, { additionalProperties: true }),
   t.Object({ type: t.Literal("source-url") }, { additionalProperties: true }),
+  t.Object(
+    {
+      type: t.Literal("task"),
+      taskId: t.String(),
+      status: t.String(),
+      progress: t.String(),
+      model: t.String(),
+    },
+    { additionalProperties: true },
+  ),
   // Catch-all for unknown/future part types
   t.Object({ type: t.String() }, { additionalProperties: true }),
 ]);
@@ -96,3 +106,10 @@ export const claimConversationsBody = t.Object({
   convIds: t.Array(t.String()),
 });
 export type ClaimConversationsBody = Static<typeof claimConversationsBody>;
+
+export const finalizeTaskBody = t.Object({
+  msgId: t.String(),
+  taskId: t.String(),
+  resultUrl: t.String(),
+});
+export type FinalizeTaskBody = Static<typeof finalizeTaskBody>;

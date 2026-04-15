@@ -34,6 +34,7 @@ export function sweepStalePending() {
 }
 
 const IMAGE_MD_RE = /!\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
+const TASK_CARD_RE = /^TASK_CARD:(\{.+\})$/;
 
 /** Strip image generation metadata from text parts and re-upload images to R2. */
 async function cleanImageParts(
@@ -48,6 +49,18 @@ async function cleanImageParts(
     if (part.type !== "text" || !part.text) {
       cleaned.push(part);
       continue;
+    }
+
+    // Detect task card sentinel and convert to a task part
+    const taskMatch = part.text.trim().match(TASK_CARD_RE);
+    if (taskMatch) {
+      try {
+        const payload = JSON.parse(taskMatch[1]) as Record<string, unknown>;
+        cleaned.push({ type: "task", ...payload });
+        continue;
+      } catch {
+        // Malformed sentinel — fall through to normal text handling
+      }
     }
 
     const matches = [...part.text.matchAll(IMAGE_MD_RE)];

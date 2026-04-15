@@ -8,6 +8,7 @@ import {
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
 import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
+import { TaskCardRenderer } from "@/components/assistant-ui/task-card";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
@@ -343,6 +344,7 @@ const AssistantMessage: FC = () => {
             },
           }}
         />
+        <TaskCardRenderer />
         <MessageError />
       </div>
 

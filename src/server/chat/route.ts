@@ -2,6 +2,7 @@ import {
   chatSearchQuery,
   claimConversationsBody,
   createConversationBody,
+  finalizeTaskBody,
   mediaUploadBody,
   paginationQuery,
   persistMessagesBody,
@@ -9,7 +10,13 @@ import {
   titleGenerationBody,
   updateConversationBody,
 } from "@/lib/validation/chat";
+import { downloadAndUpload } from "@/lib/config/r2";
+import { uid } from "@/lib/utils/base";
+import { getDb } from "@/lib/db/client";
+import { messages } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 import {
+  getApiKey,
   getApiKeyOrGuest,
   getGuestConvIds,
   getUserId,
@@ -30,6 +37,7 @@ import {
 import { uploadMedia } from "./media.service";
 import { persistMessages } from "./message.service";
 import { streamChat } from "./stream.service";
+import { fetchVideoTaskStatus } from "./task.service";
 import { generateChatTitle } from "./title.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
@@ -167,4 +175,47 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return { success: true, data };
     },
     { body: mediaUploadBody },
+  )
+
+  .get("/task/:taskId", async ({ params, cookie }) => {
+    const apiKey = getApiKey(cookie);
+    const data = await fetchVideoTaskStatus(apiKey, params.taskId);
+    return { success: true, data };
+  })
+
+  .post(
+    "/:id/task/finalize",
+    async ({ params, body, cookie }) => {
+      getUserId(cookie);
+      const convId = params.id;
+      const { msgId, taskId, resultUrl } = body;
+
+      const groupKey = uid(8);
+      const r2Url = await downloadAndUpload(resultUrl, convId, groupKey);
+
+      const db = getDb();
+      const rows = await db
+        .select()
+        .from(messages)
+        .where(eq(messages.id, msgId))
+        .limit(1);
+
+      if (rows.length === 0) throw new Error("Message not found");
+
+      const msg = rows[0];
+      const parts = (msg.parts ?? []) as Array<Record<string, unknown>>;
+      const updatedParts = parts.map((p) =>
+        p.type === "task" && p.taskId === taskId
+          ? { type: "text", text: `![video](${r2Url})` }
+          : p,
+      );
+
+      await db
+        .update(messages)
+        .set({ parts: updatedParts })
+        .where(eq(messages.id, msgId));
+
+      return { success: true, data: { parts: updatedParts } };
+    },
+    { body: finalizeTaskBody },
   );

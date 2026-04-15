@@ -1476,6 +1476,14 @@
       "ERROR": "Error:",
       "CANCELLED_REASON": "Cancelled reason:"
     },
+    "TASK": {
+      "STATUS_SUBMITTED": "Submitted",
+      "STATUS_QUEUED": "Queued",
+      "STATUS_IN_PROGRESS": "Generating",
+      "STATUS_SUCCESS": "Done",
+      "STATUS_FAILURE": "Failed",
+      "REFRESH": "Refresh"
+    },
     "ATTACHMENT": {
       "IMAGE": "Image",
       "DOCUMENT": "Document",

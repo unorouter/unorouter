@@ -1476,6 +1476,14 @@
       "ERROR": "Fehler:",
       "CANCELLED_REASON": "Abbruchgrund:"
     },
+    "TASK": {
+      "STATUS_SUBMITTED": "Eingereicht",
+      "STATUS_QUEUED": "In der Warteschlange",
+      "STATUS_IN_PROGRESS": "Wird generiert",
+      "STATUS_SUCCESS": "Fertig",
+      "STATUS_FAILURE": "Fehlgeschlagen",
+      "REFRESH": "Aktualisieren"
+    },
     "ATTACHMENT": {
       "IMAGE": "Bild",
       "DOCUMENT": "Dokument",
