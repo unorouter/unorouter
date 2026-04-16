@@ -3,7 +3,8 @@
 import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
 
-const LINE_COUNT = 40;
+const LINE_COUNT_DESKTOP = 40;
+const LINE_COUNT_MOBILE = 15;
 
 const DARK_COLORS = ["#ffffff", "#d4d4d4", "#a3a3a3", "#525252", "#22c55e"];
 const DARK_ACCENT = "#22c55e";
@@ -20,6 +21,8 @@ type Line = {
   width: number;
   length: number;
   color: string;
+  gradient: CanvasGradient | null;
+  gradientX: number;
 };
 
 export function StreakCanvas() {
@@ -29,19 +32,28 @@ export function StreakCanvas() {
 
   useEffect(() => {
     themeRef.current = resolvedTheme;
+    // invalidate cached gradients on theme change
+    linesRef.current.forEach((l) => {
+      l.gradient = null;
+    });
   }, [resolvedTheme]);
 
+  const linesRef = useRef<Line[]>([]);
+
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
-
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animationId: number;
     let width = 0;
     let height = 0;
-    const lines: Line[] = [];
+    let paused = false;
+
+    const isMobile = () => window.innerWidth < 768;
 
     const getColors = () => {
       const isDark = themeRef.current === "dark";
@@ -59,13 +71,15 @@ export function StreakCanvas() {
           ? accent
           : colors[Math.floor(Math.random() * (colors.length - 1))];
 
-      lines[index] = {
+      linesRef.current[index] = {
         x: initial ? Math.random() * width : -Math.random() * 500 - 200,
         y: Math.random() * height,
         speed: Math.random() * 8 + 5,
         width: Math.random() * 2 + 0.5,
         length: Math.random() * 400 + 100,
         color,
+        gradient: null,
+        gradientX: -Infinity,
       };
     };
 
@@ -74,19 +88,24 @@ export function StreakCanvas() {
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
-      lines.length = 0;
-      for (let n = 0; n < LINE_COUNT; n++) {
+      const count = isMobile() ? LINE_COUNT_MOBILE : LINE_COUNT_DESKTOP;
+      linesRef.current = [];
+      for (let n = 0; n < count; n++) {
         spawnLine(n, true);
       }
     };
 
     const animate = () => {
+      if (paused) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
+
       const { transparent } = getColors();
       ctx.clearRect(0, 0, width, height);
-      ctx.globalCompositeOperation = "source-over";
 
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+      for (let i = 0; i < linesRef.current.length; i++) {
+        const line = linesRef.current[i];
         line.x += line.speed;
 
         if (line.x > width + line.length) {
@@ -94,30 +113,50 @@ export function StreakCanvas() {
           continue;
         }
 
-        const gradient = ctx.createLinearGradient(
-          line.x - line.length,
-          line.y,
-          line.x,
-          line.y,
-        );
-        gradient.addColorStop(0, transparent);
-        gradient.addColorStop(0.2, transparent);
-        gradient.addColorStop(0.8, line.color);
-        gradient.addColorStop(1, transparent);
+        // reuse cached gradient unless line moved enough to matter
+        if (!line.gradient || Math.abs(line.x - line.gradientX) > 20) {
+          const g = ctx.createLinearGradient(
+            line.x - line.length,
+            line.y,
+            line.x,
+            line.y,
+          );
+          g.addColorStop(0, transparent);
+          g.addColorStop(0.2, transparent);
+          g.addColorStop(0.8, line.color);
+          g.addColorStop(1, transparent);
+          line.gradient = g;
+          line.gradientX = line.x;
+        }
 
-        ctx.fillStyle = gradient;
+        ctx.fillStyle = line.gradient;
         ctx.fillRect(line.x - line.length, line.y, line.length, line.width);
       }
 
       animationId = requestAnimationFrame(animate);
     };
 
-    window.addEventListener("resize", init);
+    // pause when tab is hidden
+    const onVisibilityChange = () => {
+      paused = document.hidden;
+    };
+
+    // debounced resize
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(init, 150);
+    };
+
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    window.addEventListener("resize", onResize);
     init();
     animate();
 
     return () => {
-      window.removeEventListener("resize", init);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      window.removeEventListener("resize", onResize);
+      clearTimeout(resizeTimer);
       cancelAnimationFrame(animationId);
     };
   }, []);
