@@ -60,10 +60,9 @@ export async function ReliabilitySection() {
               />
               <Link
                 href="/docs"
-                aria-label={t("HOME.RELIABILITY.LEARN_MORE_ARIA")}
                 className="border-border text-foreground hover:border-foreground flex h-11 items-center gap-2 border bg-transparent px-6 font-mono text-xs font-bold tracking-widest uppercase transition-all"
               >
-                {t("HOME.RELIABILITY.LEARN_MORE")}
+                {t("HOME.RELIABILITY.LEARN_MORE_DOCS")}
               </Link>
             </div>
           </div>
@@ -109,7 +108,7 @@ export async function ReliabilitySection() {
                 <div className="bg-muted border-border/50 rounded-md border p-3">
                   <div className="mb-2 flex items-center gap-2">
                     <LuCpu className="text-muted-foreground h-2.5 w-2.5" />
-                    <span className="text-foreground/60 text-[9px] tracking-wider uppercase">
+                    <span className="text-muted-foreground text-[9px] tracking-wider uppercase">
                       {t("HOME.RELIABILITY.FORMATS.TITLE")}
                     </span>
                   </div>

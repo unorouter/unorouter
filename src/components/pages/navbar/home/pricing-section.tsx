@@ -185,7 +185,7 @@ export function PricingSection() {
 
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="bg-secondary border-border flex items-center justify-between border-b px-4 py-3">
-                <span className="text-foreground/60 font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
                   {t("HOME.PRICING.FLOW.TITLE")}
                 </span>
                 <div className="flex items-center gap-2">
@@ -231,10 +231,10 @@ function PricingTile(props: {
           {props.price}
         </span>
       </div>
-      <p className="text-foreground/60 mb-3 font-mono text-[11px] leading-relaxed">
+      <p className="text-muted-foreground mb-3 font-mono text-[11px] leading-relaxed">
         {props.description}
       </p>
-      <code className="text-foreground/60 bg-muted block truncate rounded px-2 py-1 text-[9px]">
+      <code className="text-muted-foreground bg-muted block truncate rounded px-2 py-1 text-[9px]">
         {props.endpoint}
       </code>
     </div>
