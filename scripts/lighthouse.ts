@@ -57,19 +57,12 @@ function buildConfig(v: Variant) {
           disabled: false,
         };
 
-  const throttling =
-    v.formFactor === "mobile"
-      ? { rttMs: 150, throughputKbps: 1638.4, cpuSlowdownMultiplier: 4 }
-      : { rttMs: 40, throughputKbps: 10240, cpuSlowdownMultiplier: 1 };
-
   const config = {
     site,
     urls: [pathArg],
     lighthouseOptions: {
       formFactor: v.formFactor,
       screenEmulation: screen,
-      throttlingMethod: "simulate" as const,
-      throttling,
     },
   };
 
@@ -131,7 +124,8 @@ async function readScore(v: Variant) {
   }
 }
 
-log(`Auditing ${site}${pathArg} (4 variants in parallel)...\n`);
+log(`Auditing ${site}${pathArg} (4 variants in parallel)...`);
+log(`Reports: ${tmpDir}/.unlighthouse-<form>-<theme>/reports/<slug>/lighthouse.json\n`);
 
 // Wipe shared unlighthouse cache, generated configs, and per-variant leftovers
 // so every run starts fresh. Stale reports from a crashed previous run can

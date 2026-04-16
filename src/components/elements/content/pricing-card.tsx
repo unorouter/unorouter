@@ -36,8 +36,12 @@ export function PricingCard(props: Props) {
         </div>
       )}
 
+      <h2 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+        {props.name}
+      </h2>
+
       {/* Price hero */}
-      <div className="flex items-baseline gap-1.5">
+      <div className="mt-2 flex items-baseline gap-1.5">
         <span className="text-foreground text-4xl font-bold tracking-tight">
           ${props.price}
         </span>

@@ -16,6 +16,7 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
+    path: `/${locale}/pricing`,
     title: t("PRICING.META.TITLE", APP_VALUES),
     description: t("PRICING.META.DESCRIPTION"),
     keywords: t("PRICING.META.KEYWORDS"),
