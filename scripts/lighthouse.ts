@@ -17,7 +17,10 @@ type Variant = {
 };
 
 const pathArg = process.argv[2] ?? "/en";
-const site = "https://unorouter.ai";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+if (!apiUrl) throw new Error("NEXT_PUBLIC_API_URL is not set");
+const apiHost = new URL(apiUrl);
+const site = `${apiHost.protocol}//${apiHost.hostname.replace(/^api\./, "")}`;
 const tmpDir = tmpdir();
 const sharedCacheDir = path.join(tmpDir, ".unlighthouse");
 const generatedConfigDir = path.join(tmpDir, ".unlighthouse-configs");
