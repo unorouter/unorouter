@@ -2,13 +2,19 @@
   "METADATA": {
     "TITLE": "{appName} - Eine API für jedes KI-Modell",
     "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und {modelCount}+ KI-Modelle über einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, günstigere Preise.",
-    "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API"
+    "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API",
+    "ACCOUNT": {
+      "TITLE": "{appName} Konto",
+      "DESC": "Verwalten Sie Ihr {appName} Konto, Tokens, Nutzung und Abrechnung.",
+      "KEYWORDS": "{appName} Konto, API Tokens, Abrechnung, Nutzung"
+    }
   },
   "NAV": {
     "HOME": "Startseite",
     "MODELS": "Modelle",
     "PRICING": "Preise",
     "DOCS": "Docs",
+    "BLOG": "Blog",
     "CLAUDE_CODE": "Claude Code",
     "CODEX": "Codex",
     "GEMINI_CLI": "Gemini CLI",
@@ -262,7 +268,53 @@
     "SEARCH_PLACEHOLDER": "Modelle suchen...",
     "MODEL_COUNT": "Modelle",
     "EMPTY": "Keine Modelle gefunden.",
-    "OPEN_IN_CHAT": "Chat"
+    "OPEN_IN_CHAT": "Chat",
+    "VIEW_DETAILS": "Details ansehen"
+  },
+  "BLOG": {
+    "META_TITLE": "Blog | {appName}",
+    "META_DESC": "Produktneuigkeiten, Engineering-Notizen und Releases vom {appName}-Team.",
+    "META_KEYWORDS": "{appName} Blog, KI-API-News, LLM-Routing, Produktupdates",
+    "POST_META_TITLE": "{title} | {appName}",
+    "TITLE": "Blog",
+    "SUBTITLE": "Produktneuigkeiten, Engineering-Notizen und Releases.",
+    "READ_MORE": "Weiterlesen",
+    "PUBLISHED": "Veröffentlicht",
+    "UPDATED": "Aktualisiert",
+    "BY_AUTHOR": "Von {author}",
+    "TAGS": "Schlagwörter",
+    "RECENT": "Neueste Beiträge",
+    "BACK_TO_BLOG": "Zurück zu allen Beiträgen",
+    "EMPTY": "Noch keine Beiträge. Schau bald wieder vorbei.",
+    "RSS_TITLE": "{appName} Blog-Feed"
+  },
+  "MODEL_PAGE": {
+    "META_TITLE": "{name} API-Preise, Kontextfenster und Beispiele | {appName}",
+    "META_DESC": "Verwende {name} von {vendor} über einen einzigen OpenAI-kompatiblen Endpunkt. Preise pro Token, Kontextfenster, Endpunkte und einsatzfertige Codebeispiele.",
+    "META_KEYWORDS": "{name} API, {name} Preise, {name} Kontextfenster, {vendor} API, {appName}",
+    "ABOUT": "Über {name}",
+    "PRICING_TITLE": "Preise",
+    "PRICING_DESC": "Du zahlst nur, was du nutzt. {name} wird pro Token abgerechnet, kein monatliches Minimum bei Pay As You Go.",
+    "INPUT_PRICE": "Input-Preis",
+    "OUTPUT_PRICE": "Output-Preis",
+    "CONTEXT_WINDOW": "Kontextfenster",
+    "ENDPOINTS": "Kompatible Endpunkte",
+    "VENDOR": "Anbieter",
+    "CODE_TITLE": "{name} aus deinem Code aufrufen",
+    "CODE_DESC": "Richte jedes OpenAI-kompatible SDK auf {appName} aus und frage das Modell per Namen an. Ersetze YOUR_API_KEY durch einen echten Schlüssel aus deinem Dashboard.",
+    "FAQ_TITLE": "Häufige Fragen",
+    "FAQ_COST_Q": "Was kostet {name} pro 1M Tokens?",
+    "FAQ_COST_A": "Input kostet {input} pro 1M Tokens, Output {output} pro 1M Tokens. Abrechnung erfolgt pro Token, ohne Aufrundung auf Batch-Größen.",
+    "FAQ_API_Q": "Wie greife ich per API auf {name} zu?",
+    "FAQ_API_A": "Sende Anfragen an den {appName}-Endpunkt /v1/chat/completions mit model={name}. Jede OpenAI-kompatible Client-Bibliothek funktioniert. Die Authentifizierung erfolgt über einen Standard-Bearer-Token.",
+    "FAQ_CONTEXT_Q": "Wie groß ist das Kontextfenster von {name}?",
+    "FAQ_CONTEXT_A": "{name} unterstützt ein Kontextfenster von {context} Tokens, aufgeteilt zwischen deinem Prompt und der Modellantwort.",
+    "SIMILAR_TITLE": "Ähnliche Modelle",
+    "CTA_TITLE": "{name} jetzt ausprobieren",
+    "CTA_DESC": "Erstelle einen API-Schlüssel und starte in unter einer Minute.",
+    "CTA_SIGNUP": "API-Schlüssel holen",
+    "CTA_ALL_MODELS": "Alle Modelle ansehen",
+    "LAST_UPDATED": "Zuletzt aktualisiert {date}"
   },
   "PRICING": {
     "PLAN": {
@@ -323,7 +375,21 @@
     },
     "TITLE": "Preise",
     "SUBTITLE": "Wähle einen Plan, der zu deiner Nutzung passt. Alle Pläne beinhalten jedes Modell.",
-    "CTA": "Abonnieren"
+    "CTA": "Abonnieren",
+    "FAQ": {
+      "Q1": "Wie funktioniert das {appName}-Pricing?",
+      "A1": "Du zahlst pro verbrauchtem Token. Jedes Modell hat eigene Raten für Input, Output und Cache, die von deinem Kontoguthaben abgezogen werden. Für Pay As You Go ist kein Abonnement erforderlich.",
+      "Q2": "Brauche ich ein Abonnement?",
+      "A2": "Nein. Pay As You Go funktioniert vollständig selbstbedient: einmal aufladen und jedes Modell nutzen. Abonnements bieten besseren Wert (bis zu 1,75-facher Guthabenmultiplikator), wenn deine Nutzung planbar ist.",
+      "Q3": "Ist die API mit OpenAI kompatibel?",
+      "A3": "Ja. {appName} bietet einen OpenAI-kompatiblen Endpunkt für Chat Completions sowie Anthropic- und Gemini-kompatible Endpunkte. Richte jedes OpenAI-SDK auf unsere Basis-URL aus und verwende deinen {appName}-API-Schlüssel.",
+      "Q4": "Welche Modelle sind enthalten?",
+      "A4": "Jeder Plan umfasst Zugriff auf alle unterstützten Modelle (Claude, GPT, Gemini, DeepSeek und mehr). Modelle werden nicht nach Stufe beschränkt.",
+      "Q5": "Was passiert, wenn ein Anbieter ausfällt?",
+      "A5": "{appName} verteilt Anfragen auf mehrere Anbieter mit automatischem Failover. Wenn ein Anbieter rate-limited oder offline ist, wiederholen wir die Anfrage transparent über den nächsten gesunden Upstream.",
+      "Q6": "Kann ich eine Rückerstattung bekommen?",
+      "A6": "Nicht verbrauchtes Guthaben ist 30 Tage ab Kauf erstattungsfähig. Kontaktiere {supportEmail} für Rückerstattungsanfragen."
+    }
   },
   "DOCS_INDEX": {
     "META": {

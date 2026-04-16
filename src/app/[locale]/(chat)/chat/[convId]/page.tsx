@@ -1,9 +1,9 @@
 import { Chat } from "@/components/pages/chat/chat";
 import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { handleElysia } from "@/lib/utils/base";
 import {
   fetchConvTitle,

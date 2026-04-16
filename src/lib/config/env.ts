@@ -11,4 +11,5 @@ export const env = {
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL,
   posthogKey: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+  googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION,
 } as const;

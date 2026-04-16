@@ -2,13 +2,19 @@
   "METADATA": {
     "TITLE": "{appName} - One API for Every AI Model",
     "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and {modelCount}+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less.",
-    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API"
+    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API",
+    "ACCOUNT": {
+      "TITLE": "{appName} Account",
+      "DESC": "Manage your {appName} account, tokens, usage and billing.",
+      "KEYWORDS": "{appName} account, api tokens, billing, usage"
+    }
   },
   "NAV": {
     "HOME": "Home",
     "MODELS": "Models",
     "PRICING": "Pricing",
     "DOCS": "Docs",
+    "BLOG": "Blog",
     "CLAUDE_CODE": "Claude Code",
     "CODEX": "Codex",
     "GEMINI_CLI": "Gemini CLI",
@@ -262,7 +268,53 @@
     "SEARCH_PLACEHOLDER": "Search models...",
     "MODEL_COUNT": "models",
     "EMPTY": "No models match your search.",
-    "OPEN_IN_CHAT": "Chat"
+    "OPEN_IN_CHAT": "Chat",
+    "VIEW_DETAILS": "View details"
+  },
+  "BLOG": {
+    "META_TITLE": "Blog | {appName}",
+    "META_DESC": "Product updates, engineering notes and releases from the {appName} team.",
+    "META_KEYWORDS": "{appName} blog, AI API news, LLM routing, product updates",
+    "POST_META_TITLE": "{title} | {appName}",
+    "TITLE": "Blog",
+    "SUBTITLE": "Product updates, engineering notes and releases.",
+    "READ_MORE": "Read more",
+    "PUBLISHED": "Published",
+    "UPDATED": "Updated",
+    "BY_AUTHOR": "By {author}",
+    "TAGS": "Tags",
+    "RECENT": "Recent posts",
+    "BACK_TO_BLOG": "Back to all posts",
+    "EMPTY": "No posts yet. Check back soon.",
+    "RSS_TITLE": "{appName} blog feed"
+  },
+  "MODEL_PAGE": {
+    "META_TITLE": "{name} API pricing, context and examples | {appName}",
+    "META_DESC": "Use {name} from {vendor} through a single OpenAI-compatible endpoint. See per-token pricing, context window, endpoints and copy-paste code examples.",
+    "META_KEYWORDS": "{name} API, {name} pricing, {name} context window, {vendor} API, {appName}",
+    "ABOUT": "About {name}",
+    "PRICING_TITLE": "Pricing",
+    "PRICING_DESC": "Pay only for what you use. Pricing for {name} is billed per token, with no monthly minimum when using Pay As You Go.",
+    "INPUT_PRICE": "Input price",
+    "OUTPUT_PRICE": "Output price",
+    "CONTEXT_WINDOW": "Context window",
+    "ENDPOINTS": "Compatible endpoints",
+    "VENDOR": "Vendor",
+    "CODE_TITLE": "Call {name} from your code",
+    "CODE_DESC": "Point any OpenAI-compatible SDK at {appName} and request the model by name. Replace YOUR_API_KEY with a real key from your dashboard.",
+    "FAQ_TITLE": "Frequently asked questions",
+    "FAQ_COST_Q": "How much does {name} cost per 1M tokens?",
+    "FAQ_COST_A": "Input is priced at {input} per 1M tokens, output at {output} per 1M tokens. Billing is per token, no rounding to batch sizes.",
+    "FAQ_API_Q": "How do I access {name} via API?",
+    "FAQ_API_A": "Send requests to the {appName} /v1/chat/completions endpoint with model={name}. Any OpenAI-compatible client library works. Authentication uses a standard Bearer token.",
+    "FAQ_CONTEXT_Q": "What is the context window of {name}?",
+    "FAQ_CONTEXT_A": "{name} supports a context window of {context} tokens, shared between your prompt and the model's response.",
+    "SIMILAR_TITLE": "Similar models",
+    "CTA_TITLE": "Try {name} now",
+    "CTA_DESC": "Create an API key and start making requests in under a minute.",
+    "CTA_SIGNUP": "Get an API key",
+    "CTA_ALL_MODELS": "View all models",
+    "LAST_UPDATED": "Last updated {date}"
   },
   "PRICING": {
     "PLAN": {
@@ -323,7 +375,21 @@
     },
     "TITLE": "Pricing",
     "SUBTITLE": "Choose a plan that fits your usage. All plans include every model.",
-    "CTA": "Subscribe"
+    "CTA": "Subscribe",
+    "FAQ": {
+      "Q1": "How does {appName} pricing work?",
+      "A1": "You pay per token consumed. Each model has its own input, output and cache rate, billed from your account credit. There is no monthly subscription required for Pay As You Go.",
+      "Q2": "Do I need a subscription?",
+      "A2": "No. Pay As You Go is fully self-serve, top up once and consume any model. Subscriptions give better value (up to 1.75x credit multiplier) if your usage is predictable.",
+      "Q3": "Is the API compatible with OpenAI?",
+      "A3": "Yes. {appName} exposes an OpenAI-compatible endpoint for chat completions, plus Anthropic and Gemini compatible endpoints. Point any OpenAI SDK at our base URL and use your {appName} API key.",
+      "Q4": "Which models are included?",
+      "A4": "Every plan includes access to all supported models (Claude, GPT, Gemini, DeepSeek and more). We do not gate models by tier.",
+      "Q5": "What happens if a provider fails?",
+      "A5": "{appName} routes requests across multiple providers with automatic failover. If one provider is rate-limited or down, we retry against the next healthy upstream transparently.",
+      "Q6": "Can I get a refund?",
+      "A6": "Unused prepaid credit is refundable for 30 days from purchase. Contact {supportEmail} for refund requests."
+    }
   },
   "DOCS_INDEX": {
     "META": {

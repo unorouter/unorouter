@@ -1,8 +1,8 @@
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
-import { getTranslations } from "next-intl/server";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

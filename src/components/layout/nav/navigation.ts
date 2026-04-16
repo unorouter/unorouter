@@ -14,6 +14,7 @@ import {
   LuLayers,
   LuLayoutDashboard,
   LuMessageCircle,
+  LuNewspaper,
   LuScrollText,
   LuSettings,
   LuWallet,
@@ -70,6 +71,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
       { name: "NAV.OPENCLAW", href: "/docs/openclaw", icon: GiCrabClaw },
     ],
   },
+  { name: "NAV.BLOG", href: "/blog", icon: LuNewspaper },
 ];
 
 export const sidebarNavigation = (): NavigationItem[] => [

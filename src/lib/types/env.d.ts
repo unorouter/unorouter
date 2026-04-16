@@ -18,6 +18,8 @@ declare namespace NodeJS {
 
     TAVILY_API_KEY?: string;
 
+    GOOGLE_SITE_VERIFICATION?: string;
+
     STANDALONE?: string;
     PORT?: string;
   }

@@ -1,6 +1,6 @@
 import { RegisterForm } from "@/components/pages/auth/register-form";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
