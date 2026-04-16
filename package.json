@@ -89,8 +89,5 @@
     "sharp": "^0.34.5",
     "tailwindcss": "4.2.2",
     "typescript": "6.0.2"
-  },
-  "patchedDependencies": {
-    "@assistant-ui/core@0.1.11": "patches/@assistant-ui%2Fcore@0.1.11.patch"
   }
 }
