@@ -1,7 +1,7 @@
 "use client";
 
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { VendorIconLazy as VendorIcon } from "@/components/elements/brand/vendor-icon-lazy";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { Link } from "@/i18n/navigation";

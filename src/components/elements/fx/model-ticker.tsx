@@ -1,6 +1,6 @@
 "use client";
 
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { VendorIconLazy as VendorIcon } from "@/components/elements/brand/vendor-icon-lazy";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useLiveStats } from "@/hooks/ui/use-live-stats";
 import { cn } from "@/lib/utils";
