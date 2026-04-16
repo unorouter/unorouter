@@ -1,22 +1,24 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
+import { getRpc } from "@/lib/rpc-lazy";
 import type { EdenArgs } from "@/lib/types/eden";
-import { handleElysia, safeJsonParse } from "@/lib/utils/base";
-import { handleError } from "@/lib/utils/client";
+import { safeJsonParse } from "@/lib/utils/base";
+import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type { ResponseControllerSubscriptionSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-import { useSimpleMutation } from "@/lib/utils/client";
 
-const _billing = rpc.api.billing;
+type Billing = typeof rpc.api.billing;
 
 export function useTopUpInfoQuery() {
   return useQuery({
     queryKey: queryKeys.topUpInfo(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.billing["topup-info"].get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.billing["topup-info"].get());
+    },
     select: (data) => ({
       ...data,
       creemProducts: safeJsonParse<
@@ -29,16 +31,20 @@ export function useTopUpInfoQuery() {
 export function useBillingPlansQuery() {
   return useQuery({
     queryKey: queryKeys.billingPlans(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.billing["subscription-plans"].get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.billing["subscription-plans"].get());
+    },
   });
 }
 
 export function useSubscriptionSelfQuery() {
   return useQuery({
     queryKey: queryKeys.subscriptionSelf(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.billing["subscription-self"].get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.billing["subscription-self"].get());
+    },
   });
 }
 
@@ -47,11 +53,13 @@ export function useUpdateBillingPreferenceMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<(typeof _billing)["subscription-preference"], "put">,
-    ) =>
-      handleElysia(
+      args: EdenArgs<Billing["subscription-preference"], "put">,
+    ) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
         await rpc.api.billing["subscription-preference"].put(args.body),
-      ),
+      );
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseControllerSubscriptionSelfDataData>(
@@ -70,36 +78,44 @@ export function useUpdateBillingPreferenceMutation() {
 
 export function useStripeTopUpMutation() {
   return useSimpleMutation(
-    async (args: EdenArgs<(typeof _billing)["stripe-pay"], "post">) =>
-      handleElysia(await rpc.api.billing["stripe-pay"].post(args.body)),
+    async (args: EdenArgs<Billing["stripe-pay"], "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.billing["stripe-pay"].post(args.body));
+    },
   );
 }
 
 export function useCreemTopUpMutation() {
   return useSimpleMutation(
-    async (args: EdenArgs<(typeof _billing)["creem-pay"], "post">) =>
-      handleElysia(await rpc.api.billing["creem-pay"].post(args.body)),
+    async (args: EdenArgs<Billing["creem-pay"], "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.billing["creem-pay"].post(args.body));
+    },
   );
 }
 
 export function useStripeSubscriptionMutation() {
   return useSimpleMutation(
     async (
-      args: EdenArgs<(typeof _billing)["subscription"]["stripe-pay"], "post">,
-    ) =>
-      handleElysia(
+      args: EdenArgs<Billing["subscription"]["stripe-pay"], "post">,
+    ) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
         await rpc.api.billing.subscription["stripe-pay"].post(args.body),
-      ),
+      );
+    },
   );
 }
 
 export function useCreemSubscriptionMutation() {
   return useSimpleMutation(
     async (
-      args: EdenArgs<(typeof _billing)["subscription"]["creem-pay"], "post">,
-    ) =>
-      handleElysia(
+      args: EdenArgs<Billing["subscription"]["creem-pay"], "post">,
+    ) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
         await rpc.api.billing.subscription["creem-pay"].post(args.body),
-      ),
+      );
+    },
   );
 }

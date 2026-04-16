@@ -1,9 +1,9 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
+import { getRpc } from "@/lib/rpc-lazy";
 import type { EdenArgs } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import type { ResponseDtoUserSelfDataData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -14,10 +14,12 @@ export function useAffiliateCommissionsQuery(
 ) {
   return useQuery({
     queryKey: queryKeys.affiliateCommissions(args.query),
-    queryFn: async () =>
-      handleElysia(
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
         await rpc.api.affiliate.commissions.get({ query: args.query }),
-      ),
+      );
+    },
   });
 }
 
@@ -26,8 +28,12 @@ export function useAffiliateInviteesQuery(
 ) {
   return useQuery({
     queryKey: queryKeys.affiliateInvitees(args.query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.affiliate.invitees.get({ query: args.query })),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.affiliate.invitees.get({ query: args.query }),
+      );
+    },
   });
 }
 
@@ -37,7 +43,10 @@ export function useTransferAffQuotaMutation() {
   return useMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.affiliate.transfer, "post">,
-    ) => handleElysia(await rpc.api.affiliate.transfer.post(args.body)),
+    ) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.affiliate.transfer.post(args.body));
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoUserSelfDataData>(

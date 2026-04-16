@@ -1,9 +1,9 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
+import { getRpc } from "@/lib/rpc-lazy";
 import type { EdenArgs } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";
 
 export function useDashboardQuotaQuery(
@@ -11,14 +11,21 @@ export function useDashboardQuotaQuery(
 ) {
   return useQuery({
     queryKey: queryKeys.dashboardQuota(args.query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.dashboard.quota.get({ query: args.query })),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.dashboard.quota.get({ query: args.query }),
+      );
+    },
   });
 }
 
 export function useDashboardUptimeQuery() {
   return useQuery({
     queryKey: queryKeys.dashboardUptime(),
-    queryFn: async () => handleElysia(await rpc.api.dashboard.uptime.get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.dashboard.uptime.get());
+    },
   });
 }

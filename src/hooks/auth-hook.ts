@@ -1,48 +1,61 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
+import { getRpc } from "@/lib/rpc-lazy";
 import type { EdenArgs } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-const _login = rpc.api.auth.login;
+type AuthLogin = typeof rpc.api.auth.login;
 
 export function useAuthQuery() {
   return useQuery({
     queryKey: queryKeys.auth(),
-    queryFn: async () => handleElysia(await rpc.api.auth.self.get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.auth.self.get());
+    },
     enabled: false,
   });
 }
 
 export function useLoginMutation() {
   return useSimpleMutation(
-    async (args: EdenArgs<typeof rpc.api.auth.login, "post">) =>
-      handleElysia(await rpc.api.auth.login.post(args.body)),
+    async (args: EdenArgs<typeof rpc.api.auth.login, "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.auth.login.post(args.body));
+    },
   );
 }
 
 export function useVerify2FAMutation() {
   return useSimpleMutation(
-    async (args: EdenArgs<(typeof _login)["2fa"], "post">) =>
-      handleElysia(await rpc.api.auth.login["2fa"].post(args.body)),
+    async (args: EdenArgs<AuthLogin["2fa"], "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.auth.login["2fa"].post(args.body));
+    },
   );
 }
 
 export function useRegisterMutation() {
   return useSimpleMutation(
-    async (args: EdenArgs<typeof rpc.api.auth.register, "post">) =>
-      handleElysia(await rpc.api.auth.register.post(args.body)),
+    async (args: EdenArgs<typeof rpc.api.auth.register, "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.auth.register.post(args.body));
+    },
   );
 }
 
 export function useSendVerificationMutation() {
   return useSimpleMutation(
-    async (args: EdenArgs<typeof rpc.api.auth.verification, "get">) =>
-      handleElysia(await rpc.api.auth.verification.get({ query: args.query })),
+    async (args: EdenArgs<typeof rpc.api.auth.verification, "get">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.auth.verification.get({ query: args.query }),
+      );
+    },
   );
 }
 
@@ -50,7 +63,10 @@ export function useLogoutMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async () => handleElysia(await rpc.api.auth.logout.get()),
+    mutationFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.auth.logout.get());
+    },
     onError: (e) => handleError(e, t),
     onSuccess: () => queryClient.setQueryData(queryKeys.auth(), null),
   });

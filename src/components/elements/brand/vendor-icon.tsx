@@ -1,63 +1,62 @@
 "use client";
-/* eslint-disable react-hooks/static-components -- Icon is looked up from a constant map, not created dynamically */
 
 import { Vendor } from "@/lib/types/enums";
-import {
-  Anthropic,
-  Bailian,
-  ByteDance,
-  Claude,
-  Cohere,
-  DeepSeek,
-  Flux,
-  Gemini,
-  Google,
-  Kling,
-  Meta,
-  Minimax,
-  Mistral,
-  Moonshot,
-  OpenAI,
-  Stability,
-  XAI,
-  XiaomiMiMo,
-  Zhipu,
-} from "@lobehub/icons";
-import type { FC } from "react";
+import dynamic from "next/dynamic";
+import type { ComponentType } from "react";
 
-type IconComponent = FC<{ size?: number | string; className?: string }>;
+type IconComponent = ComponentType<{ size?: number | string; className?: string }>;
 
-const ICON_MAP: Record<string, IconComponent> = {
-  [Vendor.ANTHROPIC]: Anthropic,
-  [Vendor.BAILIAN]: Bailian,
-  [Vendor.BYTEDANCE]: ByteDance,
-  claude: Claude,
-  [Vendor.COHERE]: Cohere,
-  [Vendor.DEEPSEEK]: DeepSeek,
-  [Vendor.FLUX]: Flux,
-  gemini: Gemini,
-  [Vendor.GOOGLE]: Google,
-  [Vendor.GOOGLE_DEEPMIND]: Google,
-  [Vendor.KLING]: Kling,
-  [Vendor.META]: Meta,
-  [Vendor.MINIMAX]: Minimax,
-  [Vendor.MISTRAL]: Mistral,
-  [Vendor.MISTRAL_AI]: Mistral,
-  [Vendor.MOONSHOT]: Moonshot,
-  [Vendor.OPENAI]: OpenAI,
-  [Vendor.STABILITY]: Stability,
-  [Vendor.XAI]: XAI,
-  [Vendor.X_AI]: XAI,
-  [Vendor.XIAOMI]: XiaomiMiMo,
-  [Vendor.ZHIPU]: Zhipu,
+const LOADER_MAP: Record<string, () => Promise<{ default: IconComponent }>> = {
+  [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
+  [Vendor.BAILIAN]: () => import("@lobehub/icons/es/Bailian"),
+  [Vendor.BYTEDANCE]: () => import("@lobehub/icons/es/ByteDance"),
+  claude: () => import("@lobehub/icons/es/Claude"),
+  [Vendor.COHERE]: () => import("@lobehub/icons/es/Cohere"),
+  [Vendor.DEEPSEEK]: () => import("@lobehub/icons/es/DeepSeek"),
+  [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
+  gemini: () => import("@lobehub/icons/es/Gemini"),
+  [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.GOOGLE_DEEPMIND]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.KLING]: () => import("@lobehub/icons/es/Kling"),
+  [Vendor.META]: () => import("@lobehub/icons/es/Meta"),
+  [Vendor.MINIMAX]: () => import("@lobehub/icons/es/Minimax"),
+  [Vendor.MISTRAL]: () => import("@lobehub/icons/es/Mistral"),
+  [Vendor.MISTRAL_AI]: () => import("@lobehub/icons/es/Mistral"),
+  [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
+  [Vendor.OPENAI]: () => import("@lobehub/icons/es/OpenAI"),
+  [Vendor.STABILITY]: () => import("@lobehub/icons/es/Stability"),
+  [Vendor.XAI]: () => import("@lobehub/icons/es/XAI"),
+  [Vendor.X_AI]: () => import("@lobehub/icons/es/XAI"),
+  [Vendor.XIAOMI]: () => import("@lobehub/icons/es/XiaomiMiMo"),
+  [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
 };
 
-function resolveIcon(vendor: string): IconComponent | null {
+const iconCache = new Map<string, IconComponent>();
+
+function resolveLoader(vendor: string): (() => Promise<{ default: IconComponent }>) | null {
   const normalized = vendor.toLowerCase();
-  for (const [key, icon] of Object.entries(ICON_MAP)) {
-    if (normalized.includes(key)) return icon;
+  for (const [key, loader] of Object.entries(LOADER_MAP)) {
+    if (normalized.includes(key)) return loader;
   }
   return null;
+}
+
+function getIcon(vendor: string): IconComponent | null {
+  const cached = iconCache.get(vendor);
+  if (cached) return cached;
+
+  const loader = resolveLoader(vendor);
+  if (!loader) return null;
+
+  const Icon = dynamic(loader, {
+    ssr: false,
+    loading: () => (
+      <span style={{ width: 16, height: 16, display: "inline-block" }} />
+    ),
+  }) as IconComponent;
+
+  iconCache.set(vendor, Icon);
+  return Icon;
 }
 
 type VendorIconProps = {
@@ -67,7 +66,7 @@ type VendorIconProps = {
 };
 
 export function VendorIcon(props: VendorIconProps) {
-  const Icon = resolveIcon(props.vendor);
+  const Icon = getIcon(props.vendor);
 
   if (!Icon) {
     return (

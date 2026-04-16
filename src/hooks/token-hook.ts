@@ -1,10 +1,10 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
+import { getRpc } from "@/lib/rpc-lazy";
 import type { EdenArgs } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
-import { handleElysia } from "@/lib/utils/base";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
@@ -13,7 +13,7 @@ import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
 
-const _tokenRoute = rpc.api.token;
+type TokenRoute = typeof rpc.api.token;
 
 const tokenTableAtoms = createTableAtoms(DataTableId.TOKENS);
 
@@ -28,28 +28,38 @@ function useTokenTableQueryKey() {
 export function useBestKeyQuery() {
   return useQuery({
     queryKey: queryKeys.bestKey(),
-    queryFn: async () => handleElysia(await rpc.api.token["best-key"].get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token["best-key"].get());
+    },
     enabled: false,
     select: (data) => (data?.key ? `sk-${data.key}` : null),
   });
 }
 
 export function useTokensQuery(
-  args: EdenArgs<typeof _tokenRoute.search, "get"> = {},
+  args: EdenArgs<TokenRoute["search"], "get"> = {},
 ) {
   const authQuery = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.tokens(args.query),
-    queryFn: async () =>
-      handleElysia(await rpc.api.token.search.get({ query: args.query })),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.token.search.get({ query: args.query }),
+      );
+    },
     enabled: !!authQuery.data,
   });
 }
 
-export function useTokenQuery(args: EdenArgs<typeof rpc.api.token, "get">) {
+export function useTokenQuery(args: EdenArgs<TokenRoute, "get">) {
   return useQuery({
     queryKey: queryKeys.token(args.id),
-    queryFn: async () => handleElysia(await rpc.api.token(args).get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token(args).get());
+    },
     enabled: Number(args.id) > 0,
   });
 }
@@ -57,14 +67,20 @@ export function useTokenQuery(args: EdenArgs<typeof rpc.api.token, "get">) {
 export function useUserGroupsQuery() {
   return useQuery({
     queryKey: queryKeys.userGroups(),
-    queryFn: async () => handleElysia(await rpc.api.token.user.groups.get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token.user.groups.get());
+    },
   });
 }
 
 export function useUserModelsQuery() {
   return useQuery({
     queryKey: queryKeys.userModels(),
-    queryFn: async () => handleElysia(await rpc.api.token.user.models.get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token.user.models.get());
+    },
   });
 }
 
@@ -73,8 +89,10 @@ export function useCreateTokenMutation() {
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof _tokenRoute, "post">) =>
-      handleElysia(await rpc.api.token.post(args.body)),
+    mutationFn: async (args: EdenArgs<TokenRoute, "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token.post(args.body));
+    },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
@@ -87,8 +105,10 @@ export function useUpdateTokenMutation() {
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof _tokenRoute, "put">) =>
-      handleElysia(await rpc.api.token.put(args.body)),
+    mutationFn: async (args: EdenArgs<TokenRoute, "put">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token.put(args.body));
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
@@ -112,8 +132,10 @@ export function useToggleTokenStatusMutation() {
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof _tokenRoute.status, "put">) =>
-      handleElysia(await rpc.api.token.status.put(args.body)),
+    mutationFn: async (args: EdenArgs<TokenRoute["status"], "put">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token.status.put(args.body));
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(
@@ -135,9 +157,10 @@ export function useToggleTokenStatusMutation() {
 }
 
 export function useFetchTokenKeyMutation() {
-  return useSimpleMutation(async (args: EdenArgs<typeof _tokenRoute, "get">) =>
-    handleElysia(await rpc.api.token(args).key.post()),
-  );
+  return useSimpleMutation(async (args: EdenArgs<TokenRoute, "get">) => {
+    const { rpc, handleElysia } = await getRpc();
+    return handleElysia(await rpc.api.token(args).key.post());
+  });
 }
 
 export function useDeleteTokenMutation() {
@@ -145,8 +168,10 @@ export function useDeleteTokenMutation() {
   const queryClient = useQueryClient();
   const queryKey = useTokenTableQueryKey();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof _tokenRoute, "delete">) =>
-      handleElysia(await rpc.api.token(args).delete()),
+    mutationFn: async (args: EdenArgs<TokenRoute, "delete">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.token(args).delete());
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ResponseDtoPageDataModelTokenData>(

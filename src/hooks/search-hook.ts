@@ -2,8 +2,6 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { isSearchDoc, type SearchResult } from "@/lib/types/search";
-import { search } from "@orama/orama";
-import { restore } from "@orama/plugin-data-persistence";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 
@@ -11,7 +9,10 @@ export function useSearchQueryIndex() {
   return useQuery({
     queryKey: queryKeys.searchIndex(),
     queryFn: async () => {
-      const res = await fetch("/search-index.json");
+      const [{ restore }, res] = await Promise.all([
+        import("@orama/plugin-data-persistence"),
+        fetch("/search-index.json"),
+      ]);
       const data = await res.json();
       return restore("json", data);
     },
@@ -27,6 +28,7 @@ export function useSearchQuery(query: string) {
     queryFn: async (): Promise<SearchResult[]> => {
       if (!db || !query.trim()) return [];
 
+      const { search } = await import("@orama/orama");
       const searchResult = await search(db, {
         term: query,
         where: { locale: { eq: locale } },

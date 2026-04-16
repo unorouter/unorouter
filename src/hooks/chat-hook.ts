@@ -10,9 +10,9 @@ import {
   type ConvsInfinite,
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
+import { getRpc } from "@/lib/rpc-lazy";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   keepPreviousData,
@@ -24,21 +24,22 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-const chatRoute = rpc.api.chat;
-
-type ChatRouteReturn = ReturnType<typeof chatRoute>;
+type ChatRoute = typeof rpc.api.chat;
+type ChatRouteReturn = ReturnType<ChatRoute>;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
-type ChatParams = EdenArgs<typeof chatRoute, "get">;
+type ChatParams = EdenArgs<ChatRoute, "get">;
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
-    queryFn: async ({ pageParam }) =>
-      handleElysia(
-        await chatRoute.conversations.get({
+    queryFn: async ({ pageParam }) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.chat.conversations.get({
           query: { p: pageParam, page_size: PAGE_SIZE, keyword },
         }),
-      ),
+      );
+    },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
@@ -49,7 +50,10 @@ export function useConversationsInfiniteQuery(keyword?: string) {
 export function useConversationQuery(id?: string) {
   return useQuery({
     queryKey: queryKeys.chatMeta(id!),
-    queryFn: async () => handleElysia(await chatRoute({ id: id! }).meta.get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat({ id: id! }).meta.get());
+    },
     enabled: !!id,
     retry: false,
   });
@@ -58,12 +62,14 @@ export function useConversationQuery(id?: string) {
 export function useMessagesInfiniteQuery(id?: string) {
   return useInfiniteQuery({
     queryKey: queryKeys.chatMessages(id!),
-    queryFn: async ({ pageParam }) =>
-      handleElysia(
-        await chatRoute({ id: id! }).get({
+    queryFn: async ({ pageParam }) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.chat({ id: id! }).get({
           query: { p: pageParam, page_size: PAGE_SIZE },
         }),
-      ),
+      );
+    },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.messages.length < PAGE_SIZE ? undefined : allPages.length + 1,
@@ -77,8 +83,10 @@ export function useCreateConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof chatRoute, "post">) =>
-      handleElysia(await chatRoute.post(args.body)),
+    mutationFn: async (args: EdenArgs<ChatRoute, "post">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat.post(args.body));
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       const now = new Date();
@@ -102,8 +110,10 @@ export function useUpdateConversationMutation() {
   const t = useTranslations();
 
   return useMutation({
-    mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) =>
-      handleElysia(await chatRoute({ id: args.id }).put(args.body)),
+    mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat({ id: args.id }).put(args.body));
+    },
     onMutate: async (args) => {
       const id = String(args.id);
       const convsKey = queryKeys.conversations();
@@ -145,8 +155,10 @@ export function useDeleteConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: ChatParams) =>
-      handleElysia(await chatRoute(args).delete()),
+    mutationFn: async (args: ChatParams) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat(args).delete());
+    },
     onMutate: async (args) => {
       const convsKey = queryKeys.conversations();
       await queryClient.cancelQueries({ queryKey: convsKey });
@@ -169,8 +181,10 @@ export function useShareConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: ChatParams) =>
-      handleElysia(await chatRoute(args).share.post({})),
+    mutationFn: async (args: ChatParams) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat(args).share.post({}));
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       queryClient.setQueryData<ConversationData>(
@@ -185,8 +199,10 @@ export function useRevokeShareMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: ChatParams) =>
-      handleElysia(await chatRoute(args).share.delete()),
+    mutationFn: async (args: ChatParams) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat(args).share.delete());
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
       queryClient.setQueryData<ConversationData>(
@@ -204,13 +220,15 @@ export function usePersistMessagesMutation() {
     onError: (e) => handleError(e, t),
     mutationFn: async (
       args: ChatParams & EdenArgs<ChatRouteReturn["messages"], "post">,
-    ) =>
-      handleElysia(await chatRoute({ id: args.id }).messages.post(args.body)),
+    ) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.chat({ id: args.id }).messages.post(args.body),
+      );
+    },
     onSuccess: (data, args) => {
       const id = String(args.id);
 
-      // Append persisted messages (with usage data) to the messages query cache
-      // so useMessageMeta picks them up immediately without a refetch
       type MessagesPage = {
         messages: Array<Record<string, unknown>>;
         total: number;
@@ -246,7 +264,6 @@ export function usePersistMessagesMutation() {
         },
       );
 
-      // Patch sidebar: update timestamp, title, cost and move to top
       queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
         (old) =>
@@ -259,7 +276,6 @@ export function usePersistMessagesMutation() {
           })),
       );
 
-      // Patch conversation meta cache for header totals
       if (data.usage) {
         queryClient.setQueryData<ConversationData>(
           queryKeys.chatMeta(id),
@@ -283,8 +299,10 @@ export function usePersistMessagesMutation() {
 export function useClaimConversationsMutation() {
   const t = useTranslations();
   return useMutation({
-    mutationFn: async (convIds: string[]) =>
-      handleElysia(await chatRoute.claim.post({ convIds })),
+    mutationFn: async (convIds: string[]) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat.claim.post({ convIds }));
+    },
     onError: (e) => handleError(e, t),
   });
 }
@@ -292,8 +310,10 @@ export function useClaimConversationsMutation() {
 export function useTaskStatusQuery(taskId: string, enabled = false) {
   return useQuery({
     queryKey: queryKeys.taskStatus(taskId),
-    queryFn: async () =>
-      handleElysia(await chatRoute.task({ taskId }).get()),
+    queryFn: async () => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(await rpc.api.chat.task({ taskId }).get());
+    },
     enabled: enabled && !!taskId,
     retry: false,
     staleTime: 0,
@@ -309,14 +329,16 @@ export function useFinalizeTaskMutation() {
       msgId: string;
       taskId: string;
       resultUrl: string;
-    }) =>
-      handleElysia(
-        await chatRoute({ id: args.convId }).task.finalize.post({
+    }) => {
+      const { rpc, handleElysia } = await getRpc();
+      return handleElysia(
+        await rpc.api.chat({ id: args.convId }).task.finalize.post({
           msgId: args.msgId,
           taskId: args.taskId,
           resultUrl: args.resultUrl,
         }),
-      ),
+      );
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       type MessagesPage = {
