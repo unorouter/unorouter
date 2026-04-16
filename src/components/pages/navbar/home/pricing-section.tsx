@@ -171,7 +171,7 @@ export function PricingSection() {
                         ))}
                         {vendor.modelCount > 3 && (
                           <span
-                            className={`font-mono text-[10px] ${theme.text} px-1 py-0.5 opacity-60`}
+                            className={`font-mono text-[10px] ${theme.text} px-1 py-0.5`}
                           >
                             +{vendor.modelCount - 3}
                           </span>
@@ -185,7 +185,7 @@ export function PricingSection() {
 
             <div className="bg-card border-border w-full overflow-hidden rounded-lg border">
               <div className="bg-secondary border-border flex items-center justify-between border-b px-4 py-3">
-                <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
+                <span className="text-foreground/60 font-mono text-[10px] tracking-wider uppercase">
                   {t("HOME.PRICING.FLOW.TITLE")}
                 </span>
                 <div className="flex items-center gap-2">

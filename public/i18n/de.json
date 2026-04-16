@@ -153,6 +153,7 @@
         "DESC": "Latenz-basierte Kanalauswahl mit Prioritätsgewichtung. Der schnellste Anbieter gewinnt, jedes Mal."
       },
       "LEARN_MORE": "Mehr erfahren",
+      "LEARN_MORE_ARIA": "Mehr über die UnoRouter-Dokumentation erfahren",
       "ARCH": {
         "TITLE": "Architektur",
         "ACTIVE": "Aktiv",

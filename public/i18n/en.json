@@ -153,6 +153,7 @@
         "DESC": "Latency-based channel selection with priority weights. The fastest provider wins, every time."
       },
       "LEARN_MORE": "Learn More",
+      "LEARN_MORE_ARIA": "Learn more about UnoRouter documentation",
       "ARCH": {
         "TITLE": "Architecture",
         "ACTIVE": "Active",
