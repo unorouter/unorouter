@@ -1,6 +1,6 @@
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -19,7 +19,7 @@ export async function generateMetadata(props: {
     title: t("HOME.META.TITLE", APP_VALUES),
     description: t("HOME.META.DESCRIPTION"),
     keywords: t("HOME.META.KEYWORDS"),
-    ogImage: `/api/badge/hero?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("hero", locale),
   });
 }
 

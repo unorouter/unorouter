@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { getTranslations } from "next-intl/server";
 import { serverLocale } from "@/lib/utils/server";
 
@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
     title: t("PRIVACY.META.TITLE", APP_VALUES),
     description: t("PRIVACY.META.DESCRIPTION", APP_VALUES),
     keywords: t("PRIVACY.META.KEYWORDS", APP_VALUES),
-    ogImage: `/api/badge/providers?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("providers", locale),
   });
 }
 

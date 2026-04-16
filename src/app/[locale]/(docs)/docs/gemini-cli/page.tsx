@@ -1,5 +1,5 @@
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { GeminiCliContent } from "@/components/pages/docs/gemini-cli-content";
@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
     title: t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES),
     description: t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.GEMINI_CLI.META.KEYWORDS", APP_VALUES),
-    ogImage: `/api/badge/square?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("square", locale),
   });
 }
 

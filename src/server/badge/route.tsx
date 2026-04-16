@@ -22,14 +22,17 @@ import { generateSponsor } from "./templates/sponsor";
 import { generateTokensBanner } from "./templates/tokens-banner";
 import { generateTokensSquare } from "./templates/tokens-square";
 
+const CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=60";
+
 const SVG_HEADERS = {
   "content-type": "image/svg+xml; charset=utf-8",
-  "cache-control": "public, max-age=300, s-maxage=300",
+  "cache-control": CACHE_CONTROL,
 };
 
 const PNG_HEADERS = {
   "content-type": "image/png",
-  "cache-control": "public, max-age=300, s-maxage=300",
+  "cache-control": CACHE_CONTROL,
 };
 
 const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {

@@ -1,6 +1,6 @@
 import { RegisterForm } from "@/components/pages/auth/register-form";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
     title: t("AUTH.META.REGISTER_TITLE", APP_VALUES),
     description: t("AUTH.META.REGISTER_DESCRIPTION", APP_VALUES),
     keywords: t("AUTH.META.KEYWORDS", APP_VALUES),
-    ogImage: `/api/badge/hero?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("hero", locale),
   });
 }
 

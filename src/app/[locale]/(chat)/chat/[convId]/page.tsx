@@ -1,6 +1,6 @@
 import { Chat } from "@/components/pages/chat/chat";
 import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -32,7 +32,7 @@ export async function generateMetadata(props: Props) {
     description: t("CHAT.META.DESCRIPTION"),
     keywords: t("CHAT.META.KEYWORDS"),
     robots: false,
-    ogImage: `/api/badge/pricing?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("pricing", locale),
   });
 }
 

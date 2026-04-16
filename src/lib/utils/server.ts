@@ -1,11 +1,12 @@
 import { env } from "@/lib/config/env";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import {
   GUEST_CONVS_COOKIE,
   LOCALE_COOKIE,
   LOCALES,
+  SERVER_URL_KEY,
 } from "../config/constants";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
@@ -25,6 +26,11 @@ export const serverLocale = async (props?: {
     (await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
+
+export const serverPathname = async (fallbackLocale: string) => {
+  const reqUrl = (await headers()).get(SERVER_URL_KEY);
+  return reqUrl ? new URL(reqUrl).pathname : `/${fallbackLocale}`;
+};
 
 /**
  * get cookie from nextjs header for RPC calls in server components ONLY.

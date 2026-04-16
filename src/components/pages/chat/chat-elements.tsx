@@ -28,6 +28,7 @@ export function ChatControls() {
         size="sm"
         className="h-8 shrink-0 lg:px-3"
         onClick={handleNewChat}
+        aria-label={t("CHAT.NEW_CONVERSATION")}
       >
         <LuPlus className="h-3.5 w-3.5 lg:mr-1.5" />
         <span className="hidden lg:inline">{t("CHAT.NEW_CONVERSATION")}</span>

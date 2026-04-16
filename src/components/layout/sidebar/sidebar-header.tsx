@@ -11,6 +11,7 @@ import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
+import { useTranslations } from "next-intl";
 import { LuLogIn } from "react-icons/lu";
 
 interface SidebarHeaderProps {
@@ -19,6 +20,7 @@ interface SidebarHeaderProps {
 }
 
 export function SidebarHeader(props: SidebarHeaderProps) {
+  const t = useTranslations();
   const userDisplay = useUserDisplay();
   return (
     <header className="bg-background sticky top-0 z-20 flex h-12 shrink-0 items-center border-b transition-[width,height] ease-linear">
@@ -39,12 +41,18 @@ export function SidebarHeader(props: SidebarHeaderProps) {
           <ThemeToggle />
           {userDisplay.user ? (
             <UserDropdown side="bottom" align="end">
-              <button className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors">
+              <button
+                aria-label={t("COMMON.OPEN_MENU")}
+                className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors"
+              >
                 <UserAvatar />
               </button>
             </UserDropdown>
           ) : (
-            <LoginLink className="hover:bg-accent rounded-md p-1 transition-colors">
+            <LoginLink
+              aria-label={t("NAV.LOG_IN")}
+              className="hover:bg-accent rounded-md p-1 transition-colors"
+            >
               <LuLogIn className="size-5" />
             </LoginLink>
           )}

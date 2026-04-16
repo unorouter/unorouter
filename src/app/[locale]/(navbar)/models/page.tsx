@@ -1,6 +1,6 @@
 import { Models } from "@/components/pages/navbar/models/models";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -16,11 +16,10 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    path: `/${locale}/models`,
     title: t("MODELS.META.TITLE", APP_VALUES),
     description: t("MODELS.META.DESCRIPTION"),
     keywords: t("MODELS.META.KEYWORDS"),
-    ogImage: `/api/badge/sponsor?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("sponsor", locale),
   });
 }
 

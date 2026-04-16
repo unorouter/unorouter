@@ -3,7 +3,7 @@ import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
@@ -62,7 +62,7 @@ export async function generateMetadata(props: {
       modelCount: String(pricing?.modelCount),
     }),
     keywords: t("METADATA.KEYWORDS"),
-    ogImage: `/api/badge/hero?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("hero", locale),
   });
 }
 

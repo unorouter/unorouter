@@ -1,6 +1,6 @@
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -16,11 +16,10 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    path: `/${locale}/pricing`,
     title: t("PRICING.META.TITLE", APP_VALUES),
     description: t("PRICING.META.DESCRIPTION"),
     keywords: t("PRICING.META.KEYWORDS"),
-    ogImage: `/api/badge/sponsor?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("sponsor", locale),
   });
 }
 

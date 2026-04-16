@@ -1,5 +1,5 @@
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata } from "@/lib/config/metadata";
+import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { DocsIndexContent } from "@/components/pages/docs/docs-index-content";
@@ -14,7 +14,7 @@ export async function generateMetadata(props: {
     title: t("DOCS_INDEX.META.TITLE", APP_VALUES),
     description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS_INDEX.META.KEYWORDS"),
-    ogImage: `/api/badge/banner?format=png&theme=dark&locale=${locale}`,
+    ogImage: ogBadge("banner", locale),
   });
 }
 
