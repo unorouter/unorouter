@@ -1,4 +1,4 @@
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
 import type { EdenResponse } from "@/lib/types/eden";
 import type { InfiniteData } from "@tanstack/react-query";
 

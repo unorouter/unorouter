@@ -1,4 +1,4 @@
-import { rpc } from "@/lib/rpc";
+import type { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 
 export const queryKeys = {
