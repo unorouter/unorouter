@@ -289,6 +289,16 @@ html.dark .shiki span {
   background-color: var(--shiki-dark-bg);
 }
 
+/* Bump shiki comment contrast to meet WCAG AA.
+   vitesse-light uses #A0ADA0 (~3.3:1 on card bg) and vitesse-dark uses #758575
+   (~3.5:1) for comments. Override both so comments hit ~4.6:1. */
+html .shiki span[style*="#A0ADA0"] {
+  color: #6b7a6b;
+}
+html.dark .shiki span[style*="#758575"] {
+  color: #9aa89a;
+}
+
 /* Hide assistant-ui dot cursor when markdown is empty (our StreamingIndicator handles it) */
 .aui-md[data-status="running"]:empty::after {
   display: none !important;

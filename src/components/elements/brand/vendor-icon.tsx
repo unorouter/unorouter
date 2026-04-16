@@ -42,8 +42,9 @@ function resolveLoader(vendor: string): (() => Promise<{ default: IconComponent 
   return null;
 }
 
-function getIcon(vendor: string): IconComponent | null {
-  const cached = iconCache.get(vendor);
+function getIcon(vendor: string, size: number): IconComponent | null {
+  const key = `${vendor}:${size}`;
+  const cached = iconCache.get(key);
   if (cached) return cached;
 
   const loader = resolveLoader(vendor);
@@ -53,13 +54,13 @@ function getIcon(vendor: string): IconComponent | null {
     ssr: false,
     loading: () => (
       <LuLoader
+        size={size}
         className="text-muted-foreground animate-spin"
-        size={16}
       />
     ),
   }) as IconComponent;
 
-  iconCache.set(vendor, Icon);
+  iconCache.set(key, Icon);
   return Icon;
 }
 
@@ -70,18 +71,26 @@ type VendorIconProps = {
 };
 
 export function VendorIcon(props: VendorIconProps) {
+  const size = props.size ?? 20;
   const Icon = getIcon(props.vendor);
 
   if (!Icon) {
     return (
       <span
-        className={`bg-muted text-muted-foreground inline-flex items-center justify-center rounded font-mono text-[10px] font-bold ${props.className ?? ""}`}
-        style={{ width: props.size ?? 20, height: props.size ?? 20 }}
+        className={`bg-muted text-muted-foreground inline-flex shrink-0 items-center justify-center rounded font-mono text-[10px] font-bold ${props.className ?? ""}`}
+        style={{ width: size, height: size }}
       >
         {props.vendor.charAt(0).toUpperCase()}
       </span>
     );
   }
 
-  return <Icon size={props.size ?? 20} className={props.className} />;
+  return (
+    <span
+      className={`inline-flex shrink-0 items-center justify-center ${props.className ?? ""}`}
+      style={{ width: size, height: size }}
+    >
+      <Icon size={size} />
+    </span>
+  );
 }
