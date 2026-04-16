@@ -3,6 +3,7 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import type { rpc } from "@/lib/rpc";
 import { getRpc } from "@/lib/rpc-lazy";
+import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,7 +13,7 @@ export function useUsageLogsQuery(
   return useQuery({
     queryKey: queryKeys.usageLogs(args.query),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.logs.get({ query: args.query }));
     },
   });
@@ -24,7 +25,7 @@ export function useUsageLogsStatQuery(
   return useQuery({
     queryKey: queryKeys.usageLogsStat(args.query),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.logs.stat.get({ query: args.query }));
     },
   });

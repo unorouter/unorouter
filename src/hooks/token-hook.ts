@@ -3,6 +3,7 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import type { rpc } from "@/lib/rpc";
 import { getRpc } from "@/lib/rpc-lazy";
+import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
@@ -29,7 +30,7 @@ export function useBestKeyQuery() {
   return useQuery({
     queryKey: queryKeys.bestKey(),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token["best-key"].get());
     },
     enabled: false,
@@ -44,7 +45,7 @@ export function useTokensQuery(
   return useQuery({
     queryKey: queryKeys.tokens(args.query),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(
         await rpc.api.token.search.get({ query: args.query }),
       );
@@ -57,7 +58,7 @@ export function useTokenQuery(args: EdenArgs<TokenRoute, "get">) {
   return useQuery({
     queryKey: queryKeys.token(args.id),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token(args).get());
     },
     enabled: Number(args.id) > 0,
@@ -68,7 +69,7 @@ export function useUserGroupsQuery() {
   return useQuery({
     queryKey: queryKeys.userGroups(),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token.user.groups.get());
     },
   });
@@ -78,7 +79,7 @@ export function useUserModelsQuery() {
   return useQuery({
     queryKey: queryKeys.userModels(),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token.user.models.get());
     },
   });
@@ -90,7 +91,7 @@ export function useCreateTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute, "post">) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token.post(args.body));
     },
     onError: (e) => handleError(e, t),
@@ -106,7 +107,7 @@ export function useUpdateTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute, "put">) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token.put(args.body));
     },
     onError: (e) => handleError(e, t),
@@ -133,7 +134,7 @@ export function useToggleTokenStatusMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute["status"], "put">) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token.status.put(args.body));
     },
     onError: (e) => handleError(e, t),
@@ -158,7 +159,7 @@ export function useToggleTokenStatusMutation() {
 
 export function useFetchTokenKeyMutation() {
   return useSimpleMutation(async (args: EdenArgs<TokenRoute, "get">) => {
-    const { rpc, handleElysia } = await getRpc();
+    const rpc = await getRpc();
     return handleElysia(await rpc.api.token(args).key.post());
   });
 }
@@ -169,7 +170,7 @@ export function useDeleteTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute, "delete">) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.token(args).delete());
     },
     onError: (e) => handleError(e, t),

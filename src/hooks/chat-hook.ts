@@ -12,6 +12,7 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import type { rpc } from "@/lib/rpc";
 import { getRpc } from "@/lib/rpc-lazy";
+import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
 import {
@@ -33,7 +34,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(
         await rpc.api.chat.conversations.get({
           query: { p: pageParam, page_size: PAGE_SIZE, keyword },
@@ -51,7 +52,7 @@ export function useConversationQuery(id?: string) {
   return useQuery({
     queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat({ id: id! }).meta.get());
     },
     enabled: !!id,
@@ -63,7 +64,7 @@ export function useMessagesInfiniteQuery(id?: string) {
   return useInfiniteQuery({
     queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(
         await rpc.api.chat({ id: id! }).get({
           query: { p: pageParam, page_size: PAGE_SIZE },
@@ -84,7 +85,7 @@ export function useCreateConversationMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<ChatRoute, "post">) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat.post(args.body));
     },
     onError: (e) => handleError(e, t),
@@ -111,7 +112,7 @@ export function useUpdateConversationMutation() {
 
   return useMutation({
     mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat({ id: args.id }).put(args.body));
     },
     onMutate: async (args) => {
@@ -156,7 +157,7 @@ export function useDeleteConversationMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat(args).delete());
     },
     onMutate: async (args) => {
@@ -182,7 +183,7 @@ export function useShareConversationMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat(args).share.post({}));
     },
     onError: (e) => handleError(e, t),
@@ -200,7 +201,7 @@ export function useRevokeShareMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: ChatParams) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat(args).share.delete());
     },
     onError: (e) => handleError(e, t),
@@ -221,7 +222,7 @@ export function usePersistMessagesMutation() {
     mutationFn: async (
       args: ChatParams & EdenArgs<ChatRouteReturn["messages"], "post">,
     ) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(
         await rpc.api.chat({ id: args.id }).messages.post(args.body),
       );
@@ -300,7 +301,7 @@ export function useClaimConversationsMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (convIds: string[]) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat.claim.post({ convIds }));
     },
     onError: (e) => handleError(e, t),
@@ -311,7 +312,7 @@ export function useTaskStatusQuery(taskId: string, enabled = false) {
   return useQuery({
     queryKey: queryKeys.taskStatus(taskId),
     queryFn: async () => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(await rpc.api.chat.task({ taskId }).get());
     },
     enabled: enabled && !!taskId,
@@ -330,7 +331,7 @@ export function useFinalizeTaskMutation() {
       taskId: string;
       resultUrl: string;
     }) => {
-      const { rpc, handleElysia } = await getRpc();
+      const rpc = await getRpc();
       return handleElysia(
         await rpc.api.chat({ id: args.convId }).task.finalize.post({
           msgId: args.msgId,
