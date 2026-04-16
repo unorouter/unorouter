@@ -31,7 +31,7 @@ export function CopyButton(props: Props) {
       onClick={handleCopy}
       className={
         props.className ??
-        "text-muted-foreground hover:text-foreground transition-colors"
+        "text-muted-foreground hover:text-foreground flex size-6 items-center justify-center transition-colors"
       }
       aria-label={t("COMMON.COPY_CODE")}
     >

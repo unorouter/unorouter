@@ -60,7 +60,8 @@ export function ModelListItem(props: {
           </span>
           <Tooltip>
             <TooltipTrigger
-              className="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
+              aria-label={t("MODELS.OPEN_IN_CHAT")}
+              className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
               onClick={(e) => {
                 e.stopPropagation();
                 setChatModel(model.name);
@@ -174,7 +175,7 @@ export function ModelListItem(props: {
               </span>
               {model.originalInputPrice !== null &&
                 model.originalOutputPrice !== null && (
-                  <span className="text-muted-foreground/50 font-mono text-[10px] line-through sm:hidden md:inline">
+                  <span className="text-muted-foreground font-mono text-[10px] line-through sm:hidden md:inline">
                     {formatPrice(model.originalInputPrice)}/
                     {formatPrice(model.originalOutputPrice)}
                   </span>

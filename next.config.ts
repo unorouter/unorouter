@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/:locale(en|de)",
+        source: "/:locale(en|de)/:path(models|pricing|docs|docs/.*)?",
         headers: [
           {
             key: "Cache-Control",

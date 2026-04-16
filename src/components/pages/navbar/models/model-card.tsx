@@ -54,15 +54,16 @@ export function ModelCard(props: {
           <VendorIcon vendor={model.vendor.name} size={20} />
           <div className="min-w-0">
             <div className="flex items-center gap-1.5">
-              <h3 className="truncate font-mono text-sm font-medium tracking-wide">
+              <h2 className="truncate font-mono text-sm font-medium tracking-wide">
                 {model.name}
-              </h3>
+              </h2>
               <span className="shrink-0">
                 <CopyButton text={model.name} iconSize="h-3 w-3" />
               </span>
               <Tooltip>
                 <TooltipTrigger
-                  className="text-muted-foreground hover:text-foreground shrink-0 transition-colors"
+                  aria-label={t("MODELS.OPEN_IN_CHAT")}
+                  className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
                   onClick={(e) => {
                     e.stopPropagation();
                     setChatModel(model.name);
@@ -103,7 +104,7 @@ export function ModelCard(props: {
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           {model.isFixedPrice ? (
             <>
-              <span className="text-muted-foreground/60 font-mono text-[10px] italic">
+              <span className="text-muted-foreground font-mono text-[10px] italic">
                 {props.labels.from}
               </span>
               <span
@@ -117,7 +118,7 @@ export function ModelCard(props: {
             </>
           ) : (
             <>
-              <span className="text-muted-foreground/60 font-mono text-[10px] italic">
+              <span className="text-muted-foreground font-mono text-[10px] italic">
                 {props.labels.from}
               </span>
               <span className="text-muted-foreground font-mono text-[10px] uppercase">
@@ -141,7 +142,7 @@ export function ModelCard(props: {
               </span>
               {model.originalInputPrice !== null &&
                 model.originalOutputPrice !== null && (
-                  <span className="text-muted-foreground/50 w-full font-mono text-[10px] line-through">
+                  <span className="text-muted-foreground w-full font-mono text-[10px] line-through">
                     {formatPrice(model.originalInputPrice)}/
                     {formatPrice(model.originalOutputPrice)}{" "}
                     {props.labels.perMillion}
