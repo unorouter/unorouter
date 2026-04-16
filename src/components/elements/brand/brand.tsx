@@ -11,12 +11,11 @@ export function LogoImage(
 ) {
   return (
     <Image
-      src="/logo.webp"
+      src="/logo.png"
       alt={appName}
       width={32}
       height={32}
-      unoptimized
-      {...props}
+{...props}
       className={cn("rounded-full", props.className)}
     />
   );
