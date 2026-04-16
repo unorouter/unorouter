@@ -231,10 +231,10 @@ function PricingTile(props: {
           {props.price}
         </span>
       </div>
-      <p className="text-muted-foreground mb-3 font-mono text-[11px] leading-relaxed">
+      <p className="text-foreground/60 mb-3 font-mono text-[11px] leading-relaxed">
         {props.description}
       </p>
-      <code className="text-muted-foreground bg-muted block truncate rounded px-2 py-1 text-[9px]">
+      <code className="text-foreground/60 bg-muted block truncate rounded px-2 py-1 text-[9px]">
         {props.endpoint}
       </code>
     </div>

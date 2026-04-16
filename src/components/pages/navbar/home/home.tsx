@@ -1,6 +1,11 @@
 import { ModelTicker } from "@/components/elements/fx/model-ticker";
-import { StreakCanvas } from "@/components/elements/fx/streak-canvas";
+import dynamic from "next/dynamic";
 import React from "react";
+
+const StreakCanvas = dynamic(
+  () => import("@/components/elements/fx/streak-canvas").then((m) => m.StreakCanvas),
+  { ssr: false },
+);
 import { CodeSection } from "./code-section";
 import { CtaSection } from "./cta-section";
 import { HeroSection } from "./hero-section";

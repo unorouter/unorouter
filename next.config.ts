@@ -13,6 +13,19 @@ const nextConfig: NextConfig = {
     qualities: [10, 25, 50, 75, 90, 100],
     minimumCacheTTL: 60 * 60 * 24,
   },
+  async headers() {
+    return [
+      {
+        source: "/:locale(en|de)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=0, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 const withNextIntl = createNextIntlPlugin({

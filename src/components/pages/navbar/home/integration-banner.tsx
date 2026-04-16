@@ -112,9 +112,9 @@ export async function IntegrationBanner() {
                         {integration.badge}
                       </span>
                     </div>
-                    <h3 className="text-foreground text-base leading-tight font-bold tracking-tight md:text-lg">
+                    <h2 className="text-foreground text-base leading-tight font-bold tracking-tight md:text-lg">
                       {t(integration.titleKey)}
-                    </h3>
+                    </h2>
                   </div>
                 </div>
                 <p className="text-muted-foreground font-mono text-sm leading-relaxed">
