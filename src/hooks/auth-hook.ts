@@ -1,8 +1,7 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import type { rpc } from "@/lib/rpc";
-import { getRpc } from "@/lib/rpc-lazy";
+import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
@@ -15,7 +14,6 @@ export function useAuthQuery() {
   return useQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () => {
-      const rpc = await getRpc();
       return handleElysia(await rpc.api.auth.self.get());
     },
     enabled: false,
@@ -25,7 +23,6 @@ export function useAuthQuery() {
 export function useLoginMutation() {
   return useSimpleMutation(
     async (args: EdenArgs<typeof rpc.api.auth.login, "post">) => {
-      const rpc = await getRpc();
       return handleElysia(await rpc.api.auth.login.post(args.body));
     },
   );
@@ -34,7 +31,6 @@ export function useLoginMutation() {
 export function useVerify2FAMutation() {
   return useSimpleMutation(
     async (args: EdenArgs<AuthLogin["2fa"], "post">) => {
-      const rpc = await getRpc();
       return handleElysia(await rpc.api.auth.login["2fa"].post(args.body));
     },
   );
@@ -43,7 +39,6 @@ export function useVerify2FAMutation() {
 export function useRegisterMutation() {
   return useSimpleMutation(
     async (args: EdenArgs<typeof rpc.api.auth.register, "post">) => {
-      const rpc = await getRpc();
       return handleElysia(await rpc.api.auth.register.post(args.body));
     },
   );
@@ -52,7 +47,6 @@ export function useRegisterMutation() {
 export function useSendVerificationMutation() {
   return useSimpleMutation(
     async (args: EdenArgs<typeof rpc.api.auth.verification, "get">) => {
-      const rpc = await getRpc();
       return handleElysia(
         await rpc.api.auth.verification.get({ query: args.query }),
       );
@@ -65,7 +59,6 @@ export function useLogoutMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => {
-      const rpc = await getRpc();
       return handleElysia(await rpc.api.auth.logout.get());
     },
     onError: (e) => handleError(e, t),
