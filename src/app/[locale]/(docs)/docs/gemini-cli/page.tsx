@@ -2,7 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { GeminiCliContent } from "@/components/pages/docs/gemini-cli-content";
+import { GeminiCliContent } from "@/components/pages/docs/gemini-cli/gemini-cli-content";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

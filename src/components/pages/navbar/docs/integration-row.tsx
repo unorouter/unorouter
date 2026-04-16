@@ -1,6 +1,6 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
-import { OSCodeBlock } from "@/components/pages/docs/os-code-block";
-import { buildOSVariants } from "@/components/pages/docs/os-code-helpers";
+import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
+import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { OS, OS_VALUES } from "@/lib/types/enums";

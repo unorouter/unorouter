@@ -15,11 +15,11 @@ import { env } from "@/lib/config/env";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import Gemini from "@lobehub/icons/es/Gemini";
-import { CCSwitchSetup } from "./cc-switch-setup";
-import { OSCodeBlock } from "./os-code-block";
-import { buildOSVariants, envVarCode } from "./os-code-helpers";
+import { CCSwitchSetup } from "../cc-switch/cc-switch-setup";
+import { OSCodeBlock } from "../os/os-code-block";
+import { buildOSVariants, envVarCode } from "../os/os-code-helpers";
 import { OS } from "@/lib/types/enums";
-import { OSTabs } from "./os-tabs";
+import { OSTabs } from "../os/os-tabs";
 
 export async function GeminiCliContent() {
   const t = await getTranslations();

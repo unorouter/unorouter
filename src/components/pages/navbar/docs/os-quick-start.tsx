@@ -2,6 +2,7 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
+import { useHydrated } from "@/hooks/ui/use-hydrated";
 import { OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
 import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
@@ -18,9 +19,11 @@ const osTabs = [
 
 export function OSQuickStart(props: Props) {
   const docs = useApiKey();
+  const hydrated = useHydrated();
+  const value = hydrated ? docs.os : OS.WINDOWS;
 
   return (
-    <Tabs value={docs.os} onValueChange={(v) => docs.setOs(v as OS)}>
+    <Tabs value={value} onValueChange={(v) => docs.setOs(v as OS)}>
       <TabsList variant="line">
         {osTabs.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>

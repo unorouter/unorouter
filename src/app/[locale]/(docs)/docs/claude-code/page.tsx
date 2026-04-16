@@ -2,7 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { ClaudeCodeContent } from "@/components/pages/docs/claude-code-content";
+import { ClaudeCodeContent } from "@/components/pages/docs/claude-code/claude-code-content";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

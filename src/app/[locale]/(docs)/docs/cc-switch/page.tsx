@@ -2,7 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { CCSwitchContent } from "@/components/pages/docs/cc-switch-content";
+import { CCSwitchContent } from "@/components/pages/docs/cc-switch/cc-switch-content";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;

@@ -1,7 +1,7 @@
 import { Callout } from "@/components/elements/content/callout";
 import { CodeBlock } from "@/components/elements/code/code-block";
-import { OSCodeBlock } from "./os-code-block";
-import { buildOSVariants, envVarCode } from "./os-code-helpers";
+import { OSCodeBlock } from "../os/os-code-block";
+import { buildOSVariants, envVarCode } from "../os/os-code-helpers";
 import { OS } from "@/lib/types/enums";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { PageHeader } from "@/components/elements/content/page-header";
@@ -14,8 +14,8 @@ import { env } from "@/lib/config/env";
 import { getDocsApiKey } from "@/lib/utils/server";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import { getTranslations } from "next-intl/server";
-import { CCSwitchSetup } from "./cc-switch-setup";
-import { OSTabs } from "./os-tabs";
+import { CCSwitchSetup } from "../cc-switch/cc-switch-setup";
+import { OSTabs } from "../os/os-tabs";
 
 export async function CodexContent() {
   const t = await getTranslations();

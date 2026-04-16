@@ -2,7 +2,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { CodexContent } from "@/components/pages/docs/codex-content";
+import { CodexContent } from "@/components/pages/docs/codex/codex-content";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
