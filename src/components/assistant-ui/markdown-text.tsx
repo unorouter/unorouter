@@ -17,12 +17,17 @@ import { ShikiSyntaxHighlighter } from "@/components/assistant-ui/syntax-highlig
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
+// Strip the `TASK_CARD:{...}` sentinel that stream.service.ts writes as a
+// marker for TaskCardRenderer. Leaving it in would show raw JSON while streaming.
+const TASK_CARD_SENTINEL_RE = /^\s*TASK_CARD:\{.+\}\s*$/m;
+
 const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive
       remarkPlugins={[remarkGfm]}
       className="aui-md"
       components={defaultComponents}
+      preprocess={(text) => text.replace(TASK_CARD_SENTINEL_RE, "")}
     />
   );
 };

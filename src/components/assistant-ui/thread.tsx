@@ -342,6 +342,11 @@ const AssistantMessage: FC = () => {
             tools: {
               Fallback: ToolFallback,
             },
+            data: {
+              // Suppress default rendering of data-task parts; TaskCardRenderer
+              // reads them from runtime state and draws its own card below.
+              by_name: { task: () => null },
+            },
           }}
         />
         <TaskCardRenderer />

@@ -39,6 +39,29 @@ type VideoFetchData = {
   result_url?: string;
 };
 
+/**
+ * Map new-api's public task status vocabulary (lowercase: "queued",
+ * "in_progress", "completed", "failed", "unknown") to the UI vocabulary
+ * used by TaskCard (uppercase: SUBMITTED / QUEUED / IN_PROGRESS /
+ * SUCCESS / FAILURE / UNKNOWN).
+ */
+function normalizeStatus(raw: string | undefined): TaskStatus {
+  if (!raw) return "SUBMITTED";
+  const lower = raw.toLowerCase();
+  if (lower === "completed" || lower === "success") return "SUCCESS";
+  if (lower === "failed" || lower === "failure" || lower === "error")
+    return "FAILURE";
+  if (lower === "queued" || lower === "pending") return "QUEUED";
+  if (
+    lower === "in_progress" ||
+    lower === "processing" ||
+    lower === "running"
+  )
+    return "IN_PROGRESS";
+  if (lower === "submitted" || lower === "not_start") return "SUBMITTED";
+  return "UNKNOWN";
+}
+
 /** Submit a video generation task to new-api. */
 export async function submitVideoTask(
   apiKey: string,
@@ -68,7 +91,7 @@ export async function submitVideoTask(
 
   return {
     taskId,
-    status: (payload?.status as TaskStatus) ?? "SUBMITTED",
+    status: normalizeStatus(payload?.status),
     progress: "10%",
   };
 }
@@ -89,7 +112,7 @@ export async function fetchVideoTaskStatus(
       : (raw as VideoFetchData);
 
   return {
-    status: (payload?.status as TaskStatus) ?? "UNKNOWN",
+    status: normalizeStatus(payload?.status),
     progress: payload?.progress ?? "0%",
     resultUrl: payload?.result_url ?? undefined,
   };

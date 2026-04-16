@@ -15,13 +15,27 @@ import {
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-export type TaskPart = {
-  type: "task";
+type TaskPart = {
   taskId: string;
   status: string;
   progress: string;
   model: string;
 };
+
+type AnyPart = { type: string; [k: string]: unknown };
+
+const TASK_CARD_RE = /^TASK_CARD:(\{.+\})$/;
+
+/** Validate and normalize an untrusted object into a TaskPart. */
+function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
+  if (!source?.taskId || !source.model) return null;
+  return {
+    taskId: source.taskId,
+    status: source.status ?? "SUBMITTED",
+    progress: source.progress ?? "10%",
+    model: source.model,
+  };
+}
 
 type Props = {
   part: TaskPart;
@@ -138,13 +152,39 @@ export function TaskCard(props: Props) {
   );
 }
 
-/** Reads task parts from the assistant-ui runtime and renders a TaskCard for each. */
+/**
+ * Reads task parts from the assistant-ui runtime and renders a TaskCard
+ * for each. Handles two formats:
+ *   1. Live streaming: a text part `TASK_CARD:{...json}` from stream.service.ts.
+ *      Parsed inline so the card renders during streaming, before persistence.
+ *   2. Persisted: `{ type: "data-task", data: {...} }` written by
+ *      message.service.ts. The AI SDK → assistant-ui converter rewrites
+ *      `data-*` parts to `{ type: "data", name: "task", data: {...} }`,
+ *      which is what we read here.
+ */
 export function TaskCardRenderer() {
   const convId = useAuiState((s) => s.threadListItem?.remoteId ?? "");
-  const parts = useAuiState((s) => s.message.parts) as unknown as TaskPart[];
+  const parts = useAuiState((s) => s.message.parts) as unknown as AnyPart[];
   const msgId = useAuiState((s) => s.message.id);
 
-  const taskParts = parts.filter((p) => p.type === "task");
+  const taskParts: TaskPart[] = [];
+  for (const part of parts) {
+    if (part.type === "data" && part.name === "task") {
+      const built = buildTaskPart(part.data as Partial<TaskPart>);
+      if (built) taskParts.push(built);
+      continue;
+    }
+    if (part.type === "text" && typeof part.text === "string") {
+      const match = part.text.trim().match(TASK_CARD_RE);
+      if (!match) continue;
+      try {
+        const built = buildTaskPart(JSON.parse(match[1]));
+        if (built) taskParts.push(built);
+      } catch {
+        /* malformed sentinel, ignore */
+      }
+    }
+  }
 
   if (taskParts.length === 0) return null;
 

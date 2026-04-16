@@ -51,15 +51,18 @@ async function cleanImageParts(
       continue;
     }
 
-    // Detect task card sentinel and convert to a task part
+    // Detect task card sentinel and convert to a data-task part.
+    // `data-*` parts survive the AI SDK ↔ assistant-ui round trip because the
+    // converter (convertMessage.ts) emits them as {type:"data", name:"task"}
+    // instead of dropping them like unknown types.
     const taskMatch = part.text.trim().match(TASK_CARD_RE);
     if (taskMatch) {
       try {
         const payload = JSON.parse(taskMatch[1]) as Record<string, unknown>;
-        cleaned.push({ type: "task", ...payload });
+        cleaned.push({ type: "data-task", data: payload });
         continue;
       } catch {
-        // Malformed sentinel — fall through to normal text handling
+        // Malformed sentinel, fall through to normal text handling
       }
     }
 
