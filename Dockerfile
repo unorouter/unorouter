@@ -3,7 +3,6 @@ FROM oven/bun:1-alpine AS deps
 WORKDIR /app
 
 COPY package.json ./
-COPY patches/ ./patches/
 
 RUN bun install
 
