@@ -72,7 +72,7 @@ type VendorIconProps = {
 
 export function VendorIcon(props: VendorIconProps) {
   const size = props.size ?? 20;
-  const Icon = getIcon(props.vendor);
+  const Icon = getIcon(props.vendor, size);
 
   if (!Icon) {
     return (
