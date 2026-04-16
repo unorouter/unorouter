@@ -1,8 +1,11 @@
-import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
-import { serverLocale } from "@/lib/utils/server";
-import { getTranslations } from "next-intl/server";
 import { DocsIndexContent } from "@/components/pages/docs/docs-index-content";
+import { APP_VALUES } from "@/lib/config/constants";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
+import { serverLocale } from "@/lib/utils/server";
+import { getLocale, getTranslations } from "next-intl/server";
+
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -19,5 +22,18 @@ export async function generateMetadata(props: {
 }
 
 export default async function DocsPage() {
-  return <DocsIndexContent />;
+  const locale = await getLocale();
+  const t = await getTranslations();
+  return (
+    <>
+      <JsonLd
+        id="docs-index-breadcrumb"
+        data={buildBreadcrumbListSchema([
+          { name: t("NAV.HOME"), url: `/${locale}` },
+          { name: t("NAV.DOCS"), url: `/${locale}/docs` },
+        ])}
+      />
+      <DocsIndexContent />
+    </>
+  );
 }

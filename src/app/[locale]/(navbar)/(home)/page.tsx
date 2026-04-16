@@ -1,9 +1,11 @@
 import { Home } from "@/components/pages/navbar/home/home";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import { buildSoftwareApplicationSchema } from "@/lib/seo/structured-data";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
@@ -23,11 +25,15 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function HomePage() {
+export default async function HomePage(props: {
+  params: Promise<{ locale: string }>;
+}) {
   const queryClient = getQueryClient();
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
 
-  await Promise.all([
-    queryClient.prefetchQuery({
+  const [pricing] = await Promise.all([
+    queryClient.fetchQuery({
       queryKey: queryKeys.pricing(),
       queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
@@ -43,8 +49,18 @@ export default async function HomePage() {
   ]);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Home />
-    </HydrationBoundary>
+    <>
+      <JsonLd
+        id="home-software-app"
+        data={buildSoftwareApplicationSchema({
+          locale,
+          description: t("HOME.META.DESCRIPTION"),
+          modelCount: pricing?.modelCount,
+        })}
+      />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Home />
+      </HydrationBoundary>
+    </>
   );
 }

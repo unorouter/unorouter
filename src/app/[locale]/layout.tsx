@@ -3,13 +3,17 @@ import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import { rpc } from "@/lib/rpc";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  buildOrganizationSchema,
+  buildWebSiteSchema,
+} from "@/lib/seo/structured-data";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
-import { Suspense } from "react";
 import { getTranslations } from "next-intl/server";
 import {
   JetBrains_Mono,
@@ -17,6 +21,7 @@ import {
   Space_Grotesk,
 } from "next/font/google";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -86,6 +91,8 @@ export default async function LocaleLayout(props: Props) {
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
+        <JsonLd id="organization-jsonld" data={buildOrganizationSchema()} />
+        <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />
         <Providers>
           <Toaster richColors />
           <Suspense>

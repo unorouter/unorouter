@@ -1,8 +1,9 @@
+import { CCSwitchContent } from "@/components/pages/docs/cc-switch/cc-switch-content";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
+import { DocPageSchema } from "@/lib/seo/docs-schema";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { CCSwitchContent } from "@/components/pages/docs/cc-switch/cc-switch-content";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -19,5 +20,15 @@ export async function generateMetadata(props: {
 }
 
 export default async function CCSwitchPage() {
-  return <CCSwitchContent />;
+  const t = await getTranslations();
+  return (
+    <>
+      <DocPageSchema
+        slug="docs/cc-switch"
+        title={t("DOCS.CC_SWITCH.META.TITLE", APP_VALUES)}
+        description={t("DOCS.CC_SWITCH.META.DESCRIPTION", APP_VALUES)}
+      />
+      <CCSwitchContent />
+    </>
+  );
 }

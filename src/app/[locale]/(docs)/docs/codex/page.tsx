@@ -1,8 +1,10 @@
+import { CodexContent } from "@/components/pages/docs/codex/codex-content";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
+import { DocPageSchema } from "@/lib/seo/docs-schema";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { CodexContent } from "@/components/pages/docs/codex/codex-content";
+
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -19,5 +21,15 @@ export async function generateMetadata(props: {
 }
 
 export default async function CodexPage() {
-  return <CodexContent />;
+  const t = await getTranslations();
+  return (
+    <>
+      <DocPageSchema
+        slug="docs/codex"
+        title={t("DOCS.CODEX.META.TITLE", APP_VALUES)}
+        description={t("DOCS.CODEX.META.DESCRIPTION", APP_VALUES)}
+      />
+      <CodexContent />
+    </>
+  );
 }
