@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "dev:log": "next dev 2>&1 | tee /tmp/next.log",
-    "prebuild": "bun scripts/generate-search-index.ts",
+    "prebuild": "bun scripts/generate-search-index.ts && bun scripts/generate-seo-timestamps.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -86,6 +86,7 @@
     "orval": "8.8.0",
     "prettier": "3.8.3",
     "prettier-plugin-tailwindcss": "0.7.2",
+    "schema-dts": "^2.0.0",
     "sharp": "^0.34.5",
     "tailwindcss": "4.2.2",
     "typescript": "6.0.2"
