@@ -3,6 +3,7 @@
 import { Vendor } from "@/lib/types/enums";
 import dynamic from "next/dynamic";
 import type { ComponentType } from "react";
+import { LuLoader } from "react-icons/lu";
 
 type IconComponent = ComponentType<{ size?: number | string; className?: string }>;
 
@@ -51,7 +52,10 @@ function getIcon(vendor: string): IconComponent | null {
   const Icon = dynamic(loader, {
     ssr: false,
     loading: () => (
-      <span style={{ width: 16, height: 16, display: "inline-block" }} />
+      <LuLoader
+        className="text-muted-foreground animate-spin"
+        size={16}
+      />
     ),
   }) as IconComponent;
 
