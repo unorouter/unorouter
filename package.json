@@ -12,7 +12,8 @@
     "prettier": "prettier --write .",
     "openapi": "orval --config ./orval.config.ts",
     "db:generate": "drizzle-kit generate",
-    "db:reset": "bun drizzle/reset-db.ts"
+    "db:reset": "bun drizzle/reset-db.ts",
+    "lh": "bun scripts/lighthouse/run-all.ts"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "2.0.41",
