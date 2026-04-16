@@ -12,7 +12,9 @@ export function NavigationStoreProvider(props: {
   children: ReactNode;
   data?: NavigationState;
 }) {
-  useHydrateAtoms([[navigationAtom, props.data ?? INITIAL_NAVIGATION_STATE]]);
+  useHydrateAtoms([[navigationAtom, props.data ?? INITIAL_NAVIGATION_STATE]], {
+    dangerouslyForceHydrate: true,
+  });
 
   return <>{props.children}</>;
 }

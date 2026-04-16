@@ -12,7 +12,9 @@ export function ClientProvider(props: {
   children: ReactNode;
   data?: ClientState;
 }) {
-  useHydrateAtoms([[clientStoreAtom, props.data ?? INITIAL_CLIENT_STATE]]);
+  useHydrateAtoms([[clientStoreAtom, props.data ?? INITIAL_CLIENT_STATE]], {
+    dangerouslyForceHydrate: true,
+  });
 
   return <>{props.children}</>;
 }

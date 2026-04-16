@@ -12,7 +12,9 @@ export function ModelsStoreProvider(props: {
   children: ReactNode;
   data?: ModelsStoreState;
 }) {
-  useHydrateAtoms([[modelsStoreAtom, props.data ?? INITIAL_MODELS_STATE]]);
+  useHydrateAtoms([[modelsStoreAtom, props.data ?? INITIAL_MODELS_STATE]], {
+    dangerouslyForceHydrate: true,
+  });
 
   return <>{props.children}</>;
 }

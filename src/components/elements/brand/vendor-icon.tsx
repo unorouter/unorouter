@@ -72,6 +72,7 @@ type VendorIconProps = {
 
 export function VendorIcon(props: VendorIconProps) {
   const size = props.size ?? 20;
+  // eslint-disable-next-line react-hooks/static-components -- icon component is cached in module-scope iconCache keyed by (vendor, size), so it is referentially stable across renders
   const Icon = getIcon(props.vendor, size);
 
   if (!Icon) {
@@ -90,6 +91,7 @@ export function VendorIcon(props: VendorIconProps) {
       className={`inline-flex shrink-0 items-center justify-center ${props.className ?? ""}`}
       style={{ width: size, height: size }}
     >
+      {/* eslint-disable-next-line react-hooks/static-components -- Icon is cached in module-scope iconCache, referentially stable */}
       <Icon size={size} />
     </span>
   );
