@@ -7,37 +7,92 @@ import { LuLoader } from "react-icons/lu";
 
 type IconComponent = ComponentType<{ size?: number | string; className?: string }>;
 
-const LOADER_MAP: Record<string, () => Promise<{ default: IconComponent }>> = {
-  [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
-  [Vendor.BAILIAN]: () => import("@lobehub/icons/es/Bailian"),
-  [Vendor.BYTEDANCE]: () => import("@lobehub/icons/es/ByteDance"),
-  claude: () => import("@lobehub/icons/es/Claude"),
-  [Vendor.COHERE]: () => import("@lobehub/icons/es/Cohere"),
-  [Vendor.DEEPSEEK]: () => import("@lobehub/icons/es/DeepSeek"),
-  [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
-  gemini: () => import("@lobehub/icons/es/Gemini"),
-  [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
-  [Vendor.GOOGLE_DEEPMIND]: () => import("@lobehub/icons/es/Google"),
-  [Vendor.KLING]: () => import("@lobehub/icons/es/Kling"),
-  [Vendor.META]: () => import("@lobehub/icons/es/Meta"),
-  [Vendor.MINIMAX]: () => import("@lobehub/icons/es/Minimax"),
-  [Vendor.MISTRAL]: () => import("@lobehub/icons/es/Mistral"),
-  [Vendor.MISTRAL_AI]: () => import("@lobehub/icons/es/Mistral"),
-  [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
-  [Vendor.OPENAI]: () => import("@lobehub/icons/es/OpenAI"),
-  [Vendor.STABILITY]: () => import("@lobehub/icons/es/Stability"),
-  [Vendor.XAI]: () => import("@lobehub/icons/es/XAI"),
-  [Vendor.X_AI]: () => import("@lobehub/icons/es/XAI"),
-  [Vendor.XIAOMI]: () => import("@lobehub/icons/es/XiaomiMiMo"),
-  [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
+type IconModule = { default: IconComponent & Record<string, IconComponent> };
+
+type RawImport = () => Promise<unknown>;
+const asIcon = (load: RawImport) => () => load() as Promise<IconModule>;
+
+/** Static module loaders keyed by the upstream `icon` head (before any `.Color` suffix). Static imports keep the bundler from pulling in the whole @lobehub/icons tree. */
+const MODULE_LOADERS: Record<string, () => Promise<IconModule>> = {
+  AlibabaCloud: asIcon(() => import("@lobehub/icons/es/AlibabaCloud")),
+  Anthropic: asIcon(() => import("@lobehub/icons/es/Anthropic")),
+  Bailian: asIcon(() => import("@lobehub/icons/es/Bailian")),
+  ByteDance: asIcon(() => import("@lobehub/icons/es/ByteDance")),
+  Claude: asIcon(() => import("@lobehub/icons/es/Claude")),
+  Cohere: asIcon(() => import("@lobehub/icons/es/Cohere")),
+  DeepSeek: asIcon(() => import("@lobehub/icons/es/DeepSeek")),
+  Doubao: asIcon(() => import("@lobehub/icons/es/Doubao")),
+  Flux: asIcon(() => import("@lobehub/icons/es/Flux")),
+  Gemini: asIcon(() => import("@lobehub/icons/es/Gemini")),
+  Google: asIcon(() => import("@lobehub/icons/es/Google")),
+  Kling: asIcon(() => import("@lobehub/icons/es/Kling")),
+  Meta: asIcon(() => import("@lobehub/icons/es/Meta")),
+  Minimax: asIcon(() => import("@lobehub/icons/es/Minimax")),
+  Mistral: asIcon(() => import("@lobehub/icons/es/Mistral")),
+  Moonshot: asIcon(() => import("@lobehub/icons/es/Moonshot")),
+  OpenAI: asIcon(() => import("@lobehub/icons/es/OpenAI")),
+  Stability: asIcon(() => import("@lobehub/icons/es/Stability")),
+  XAI: asIcon(() => import("@lobehub/icons/es/XAI")),
+  Xiaomi: asIcon(() => import("@lobehub/icons/es/XiaomiMiMo")),
+  XiaomiMiMo: asIcon(() => import("@lobehub/icons/es/XiaomiMiMo")),
+  Zhipu: asIcon(() => import("@lobehub/icons/es/Zhipu")),
+};
+
+/** Substring fallbacks for raw vendor names that aren't valid upstream `icon` strings (e.g. "google-deepmind", "x-ai"). */
+const SUBSTRING_MAP: Record<string, keyof typeof MODULE_LOADERS> = {
+  [Vendor.ANTHROPIC]: "Anthropic",
+  [Vendor.BAILIAN]: "Bailian",
+  [Vendor.BYTEDANCE]: "ByteDance",
+  doubao: "Doubao",
+  claude: "Claude",
+  [Vendor.COHERE]: "Cohere",
+  [Vendor.DEEPSEEK]: "DeepSeek",
+  [Vendor.FLUX]: "Flux",
+  gemini: "Gemini",
+  [Vendor.GOOGLE]: "Google",
+  [Vendor.GOOGLE_DEEPMIND]: "Google",
+  [Vendor.KLING]: "Kling",
+  [Vendor.META]: "Meta",
+  [Vendor.MINIMAX]: "Minimax",
+  [Vendor.MISTRAL]: "Mistral",
+  [Vendor.MISTRAL_AI]: "Mistral",
+  [Vendor.MOONSHOT]: "Moonshot",
+  [Vendor.OPENAI]: "OpenAI",
+  alibabacloud: "AlibabaCloud",
+  [Vendor.STABILITY]: "Stability",
+  [Vendor.XAI]: "XAI",
+  [Vendor.X_AI]: "XAI",
+  [Vendor.XIAOMI]: "XiaomiMiMo",
+  [Vendor.ZHIPU]: "Zhipu",
 };
 
 const iconCache = new Map<string, IconComponent>();
 
-function resolveLoader(vendor: string): (() => Promise<{ default: IconComponent }>) | null {
+type Loader = () => Promise<{ default: IconComponent }>;
+
+function wrapLoader(
+  moduleLoader: () => Promise<IconModule>,
+  variant: string | undefined,
+): Loader {
+  return async () => {
+    const imported = await moduleLoader();
+    const Icon = variant ? imported.default[variant] : imported.default;
+    return { default: (Icon ?? imported.default) as IconComponent };
+  };
+}
+
+/** Resolves either "Doubao.Color" (direct module + subcomponent) or a vendor key like "bytedance" to a dynamic loader. */
+function resolveLoader(vendor: string): Loader | null {
+  const [head, sub] = vendor.split(".");
+  if (head && MODULE_LOADERS[head]) {
+    return wrapLoader(MODULE_LOADERS[head], sub);
+  }
+
   const normalized = vendor.toLowerCase();
-  for (const [key, loader] of Object.entries(LOADER_MAP)) {
-    if (normalized.includes(key)) return loader;
+  for (const [key, moduleName] of Object.entries(SUBSTRING_MAP)) {
+    if (normalized.includes(key)) {
+      return wrapLoader(MODULE_LOADERS[moduleName], undefined);
+    }
   }
   return null;
 }

@@ -7,10 +7,12 @@ import {
   findContextTag,
   findSimilarModels,
   formatTokenPrice,
+  type GridPricingRow,
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { formatPrice } from "@/lib/utils/base";
 import { getTranslations } from "next-intl/server";
 
 interface ModelDetailProps {
@@ -99,31 +101,46 @@ print(res.choices[0].message.content)`;
           {t("MODEL_PAGE.PRICING_TITLE")}
         </h2>
         <p className="text-muted-foreground mb-4 text-sm">
-          {t("MODEL_PAGE.PRICING_DESC", { name: m.name })}
+          {t("MODEL_PAGE.PRICING_DESC")}
         </p>
         <div className="border-border overflow-hidden rounded-lg border">
           <table className="w-full text-sm">
             <tbody className="divide-border divide-y">
-              <tr>
-                <td className="bg-muted/50 px-4 py-3 font-medium">
-                  {t("MODEL_PAGE.INPUT_PRICE")}
-                </td>
-                <td className="px-4 py-3 font-mono">
-                  {t("MODEL_PAGE.PRICE_PER_MILLION", {
-                    price: formatTokenPrice(m.inputPrice),
-                  })}
-                </td>
-              </tr>
-              <tr>
-                <td className="bg-muted/50 px-4 py-3 font-medium">
-                  {t("MODEL_PAGE.OUTPUT_PRICE")}
-                </td>
-                <td className="px-4 py-3 font-mono">
-                  {t("MODEL_PAGE.PRICE_PER_MILLION", {
-                    price: formatTokenPrice(m.outputPrice),
-                  })}
-                </td>
-              </tr>
+              {m.isFixedPrice ? (
+                <tr>
+                  <td className="bg-muted/50 px-4 py-3 font-medium">
+                    {t("MODEL_PAGE.FIXED_PRICE")}
+                  </td>
+                  <td className="px-4 py-3 font-mono">
+                    {t("MODEL_PAGE.PRICE_PER_REQUEST", {
+                      price: formatPrice(m.fixedPrice),
+                    })}
+                  </td>
+                </tr>
+              ) : (
+                <>
+                  <tr>
+                    <td className="bg-muted/50 px-4 py-3 font-medium">
+                      {t("MODEL_PAGE.INPUT_PRICE")}
+                    </td>
+                    <td className="px-4 py-3 font-mono">
+                      {t("MODEL_PAGE.PRICE_PER_MILLION", {
+                        price: formatTokenPrice(m.inputPrice),
+                      })}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="bg-muted/50 px-4 py-3 font-medium">
+                      {t("MODEL_PAGE.OUTPUT_PRICE")}
+                    </td>
+                    <td className="px-4 py-3 font-mono">
+                      {t("MODEL_PAGE.PRICE_PER_MILLION", {
+                        price: formatTokenPrice(m.outputPrice),
+                      })}
+                    </td>
+                  </tr>
+                </>
+              )}
               {contextTag && (
                 <tr>
                   <td className="bg-muted/50 px-4 py-3 font-medium">
@@ -151,6 +168,15 @@ print(res.choices[0].message.content)`;
             </tbody>
           </table>
         </div>
+
+        {m.gridPricing && (
+          <div className="mt-6">
+            <h3 className="mb-3 text-sm font-semibold">
+              {t("MODEL_PAGE.GRID_PRICING_TITLE")}
+            </h3>
+            <GridPricingTable rows={m.gridPricing} />
+          </div>
+        )}
       </section>
 
       {/* Code examples */}
@@ -185,14 +211,25 @@ print(res.choices[0].message.content)`;
         <div className="space-y-5">
           <div>
             <h3 className="mb-2 font-medium">
-              {t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })}
+              {m.isFixedPrice
+                ? t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name: m.name })
+                : m.gridPricing
+                  ? t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: m.name })
+                  : t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })}
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              {t("MODEL_PAGE.FAQ_COST_A", {
-                name: m.name,
-                input: formatTokenPrice(m.inputPrice),
-                output: formatTokenPrice(m.outputPrice),
-              })}
+              {m.isFixedPrice
+                ? t("MODEL_PAGE.FAQ_COST_FIXED_A", {
+                    name: m.name,
+                    price: formatPrice(m.fixedPrice),
+                  })
+                : m.gridPricing
+                  ? t("MODEL_PAGE.FAQ_COST_GRID_A", { name: m.name })
+                  : t("MODEL_PAGE.FAQ_COST_A", {
+                      name: m.name,
+                      input: formatTokenPrice(m.inputPrice),
+                      output: formatTokenPrice(m.outputPrice),
+                    })}
             </p>
           </div>
           <div>
@@ -271,6 +308,61 @@ print(res.choices[0].message.content)`;
           </Button>
         </div>
       </section>
+    </div>
+  );
+}
+
+function GridPricingTable(props: { rows: GridPricingRow[] }) {
+  const first = props.rows[0];
+  if (!first) return null;
+  const columns = Object.keys(first).filter(
+    (k) => k !== "Pricing" && k !== "PricingSuffix",
+  );
+
+  return (
+    <div className="border-border overflow-x-auto rounded-lg border">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-border border-b">
+            {columns.map((col) => (
+              <th
+                key={col}
+                className="bg-muted/50 text-muted-foreground px-4 py-2 text-left text-xs font-medium uppercase tracking-wide"
+              >
+                {col}
+              </th>
+            ))}
+            <th className="bg-muted/50 text-muted-foreground px-4 py-2 text-right text-xs font-medium uppercase tracking-wide">
+              Price
+            </th>
+          </tr>
+        </thead>
+        <tbody className="divide-border divide-y">
+          {props.rows.map((row, i) => {
+            const price = typeof row.Pricing === "number" ? row.Pricing : 0;
+            const suffix =
+              typeof row.PricingSuffix === "string" ? row.PricingSuffix : "";
+            return (
+              <tr key={i}>
+                {columns.map((col) => (
+                  <td
+                    key={col}
+                    className="text-muted-foreground px-4 py-2 font-mono text-xs"
+                  >
+                    {String(row[col] ?? "")}
+                  </td>
+                ))}
+                <td className="px-4 py-2 text-right font-mono text-xs">
+                  {formatPrice(price)}
+                  {suffix && (
+                    <span className="text-muted-foreground ml-1">{suffix}</span>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }
