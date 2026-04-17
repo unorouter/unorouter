@@ -207,13 +207,19 @@ npm install -g @anthropic-ai/claude-code`}
   const configCode = `{
   "env": {
     "ANTHROPIC_BASE_URL": "${docs.apiUrl}",
-    "ANTHROPIC_API_KEY": "${docs.placeholder}"
+    "ANTHROPIC_API_KEY": "${docs.placeholder}",
+    "MAX_THINKING_TOKENS": "0",
+    "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"
   }
 }`;
 
   const envVars = {
     ANTHROPIC_BASE_URL: docs.apiUrl,
     ANTHROPIC_API_KEY: docs.placeholder,
+    MAX_THINKING_TOKENS: "0",
+    CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS: "1",
+    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
   };
 
   const configVariants = await buildOSVariants({
