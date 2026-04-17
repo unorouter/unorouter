@@ -7,6 +7,11 @@ export type LinkHref = ComponentProps<typeof Link>["href"];
 export type RouterPush = Parameters<ReturnType<typeof useRouter>["push"]>[0];
 export type Redirect = Parameters<typeof redirect>[0];
 export type Pathname = Parameters<typeof getPathname>[0]["href"];
+/** Keys of pathnames that don't contain a [param] segment. */
+export type StaticRoute = Exclude<
+  keyof typeof pathnames,
+  `${string}[${string}`
+>;
 
 export type ValidRoutes = LinkHref | RouterPush | Redirect;
 
@@ -14,6 +19,9 @@ export const pathnames = {
   "/": "/",
   "/models": {
     de: "/modelle",
+  },
+  "/models/[slug]": {
+    de: "/modelle/[slug]",
   },
   "/pricing": {
     de: "/preise",
@@ -41,6 +49,12 @@ export const pathnames = {
   },
   "/settings": {
     de: "/einstellungen",
+  },
+  "/blog": {
+    de: "/blog",
+  },
+  "/blog/[slug]": {
+    de: "/blog/[slug]",
   },
   "/docs": {
     de: "/docs",
@@ -84,3 +98,27 @@ export const routing = defineRouting({
   localeDetection: true,
   pathnames,
 });
+
+/**
+ * Routes that must not be indexed by search engines.
+ * Used by robots.ts (disallow rules) and sitemap.ts (exclusion).
+ * Source of truth for private-area routing in one place.
+ */
+export const privateRoutes = {
+  static: [
+    "/dashboard",
+    "/billing",
+    "/token",
+    "/logs",
+    "/affiliate",
+    "/settings",
+    "/chat",
+    "/login",
+    "/register",
+  ],
+  // Dynamic routes: the parent path is what we disallow so every child is covered.
+  dynamicParents: ["/chat/[convId]", "/shared/[shareId]"],
+} as const satisfies {
+  static: readonly (keyof typeof pathnames)[];
+  dynamicParents: readonly (keyof typeof pathnames)[];
+};
