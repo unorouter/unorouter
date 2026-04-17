@@ -1,7 +1,30 @@
 import type { Pathname, StaticRoute } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
-import type { PostI18nKey } from "@/lib/types/blog";
 import type { MetadataRoute } from "next";
+import type { ComponentType } from "react";
+
+export type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
+
+/** Any translation-key prefix that has every PostLeaf under it (e.g. "BLOG.POSTS.LAUNCH"). */
+export type PostI18nKey = {
+  [K in TranslationKey]: K extends `${infer P}.${PostLeaf}`
+    ? `${P}.TITLE` extends TranslationKey
+      ? `${P}.DESCRIPTION` extends TranslationKey
+        ? `${P}.AUTHOR` extends TranslationKey
+          ? P
+          : never
+        : never
+      : never
+    : never;
+}[TranslationKey];
+
+export type BlogPost<Slug extends string = string> = {
+  slug: Slug;
+  date: string;
+  tags: string[];
+  Component: ComponentType;
+  i18nKey: PostI18nKey;
+};
 
 export type ChangeFrequency = NonNullable<
   MetadataRoute.Sitemap[number]["changeFrequency"]

@@ -99,6 +99,20 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     headerLogoSize: 28,
     headerFont: 17,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 48,
+    showOriginal: true,
+    modelWidth: 320,
+    priceWidth: 200,
+    discountWidth: 110,
+    iconSize: 24,
+    maxRows: 8,
+    rowHeight: 56,
+    headerLogoSize: 44,
+    headerFont: 28,
+  },
 };
 
 function PriceCell(props: {
@@ -227,7 +241,10 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
   const c = THEME_COLORS[ctx.theme];
   const d = DIMS[ctx.size]!;
   const displayRows = ctx.pricing.rows.slice(0, d.maxRows);
-  const size = computeSize(d, displayRows.length);
+  const size =
+    d.W > 0 && d.H > 0
+      ? { W: d.W, H: d.H }
+      : computeSize(d, displayRows.length);
 
   const maxDiscount = ctx.pricing.rows.reduce((max, r) => {
     if (!r.originalInputPrice) return max;

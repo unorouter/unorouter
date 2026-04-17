@@ -23,6 +23,8 @@ jobs:
           echo NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} >> .env
           echo NEXT_PUBLIC_SUPPORT_EMAIL=${{ secrets.NEXT_PUBLIC_SUPPORT_EMAIL }} >> .env
           echo NEXT_PUBLIC_GITHUB_URL=${{ secrets.NEXT_PUBLIC_GITHUB_URL }} >> .env
+          echo NEXT_PUBLIC_DISCORD_URL=${{ secrets.NEXT_PUBLIC_DISCORD_URL }} >> .env
+          echo NEXT_PUBLIC_TWITTER_HANDLE=${{ secrets.NEXT_PUBLIC_TWITTER_HANDLE }} >> .env
 
           echo SYSTEM_ACCESS_TOKEN=${{ secrets.SYSTEM_ACCESS_TOKEN }} >> .env
 

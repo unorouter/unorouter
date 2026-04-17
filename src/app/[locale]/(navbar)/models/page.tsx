@@ -3,7 +3,13 @@ import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  buildBreadcrumbListSchema,
+  buildCollectionPageSchema,
+} from "@/lib/seo/structured-data";
+import { localeUrl } from "@/i18n/routing";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
@@ -24,17 +30,49 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function ModelsPage() {
+export default async function ModelsPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
-  await queryClient.prefetchQuery({
+  const summary = await queryClient.fetchQuery({
     queryKey: queryKeys.pricing(),
     queryFn: async () => handleElysia(await rpc.api.pricing.get()),
   });
+  const topModels = summary.models
+    .filter((m) => m.type === "text")
+    .slice(0, 24);
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Models />
-    </HydrationBoundary>
+    <>
+      <JsonLd
+        id="models-breadcrumb"
+        data={buildBreadcrumbListSchema([
+          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+          { name: t("NAV.MODELS"), url: localeUrl(locale, "/models") },
+        ])}
+      />
+      <JsonLd
+        id="models-collection"
+        data={buildCollectionPageSchema({
+          name: t("MODELS.META.TITLE", APP_VALUES),
+          description: t("MODELS.META.DESCRIPTION"),
+          url: localeUrl(locale, "/models"),
+          items: topModels.map((m) => ({
+            name: m.name,
+            url: localeUrl(locale, {
+              pathname: "/models/[slug]",
+              params: { slug: m.name },
+            }),
+            description: m.description ?? m.vendor.name,
+          })),
+        })}
+      />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Models />
+      </HydrationBoundary>
+    </>
   );
 }

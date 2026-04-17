@@ -1,4 +1,5 @@
 import { pathnames } from "@/i18n/routing";
+import { env } from "@/lib/config/env";
 import { JsonLd } from "@/lib/seo/json-ld";
 import {
   buildArticleSchema,
@@ -48,6 +49,10 @@ export async function DocPageSchema(props: DocPageSchemaProps) {
           image: props.image,
           datePublished: ts?.published,
           dateModified: ts?.modified,
+          author: {
+            type: "Organization",
+            name: env.appName,
+          },
         })}
       />
     </>

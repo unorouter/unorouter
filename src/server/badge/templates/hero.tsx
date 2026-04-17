@@ -102,6 +102,22 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     metricWidth: "45%",
     showMetrics: true,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 64,
+    logoSize: 84,
+    brandFont: 42,
+    headingSize: 72,
+    headingSpacing: 8,
+    metricFont: 28,
+    tokenFont: 28,
+    tokenLabelFont: 26,
+    dotSize: 12,
+    pulseDotSize: 14,
+    metricWidth: "45%",
+    showMetrics: true,
+  },
 };
 
 export async function generateHero(ctx: BadgeCtx): Promise<string> {

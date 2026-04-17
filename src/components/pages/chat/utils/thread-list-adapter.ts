@@ -10,6 +10,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
+import dayjs from "dayjs";
 import {
   addGuestConvId,
   getChatModel,
@@ -61,7 +62,7 @@ export function createThreadListAdapter(
         setConvId(id);
       }
       const data = handleElysia(await rpc.api.chat.post({ id, model }));
-      const now = new Date();
+      const now = dayjs().toDate();
       const newItem: ConvItem = {
         ...data,
         shareId: null,

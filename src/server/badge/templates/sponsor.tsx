@@ -102,6 +102,22 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     ctaFont: 16,
     modelCountFont: 19,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 72,
+    layout: "twoColumn",
+    logoSize: 96,
+    brandFont: 48,
+    brandGap: 28,
+    statSize: 64,
+    labelSize: 32,
+    dotSize: 16,
+    rightWidth: 520,
+    bulletFont: 32,
+    ctaFont: 28,
+    modelCountFont: 32,
+  },
 };
 
 export async function generateSponsor(ctx: BadgeCtx): Promise<string> {

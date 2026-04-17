@@ -2,6 +2,7 @@ import { getAllPostsSorted, translated } from "@/components/pages/blog/posts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/timestamps";
+import dayjs from "dayjs";
 import { serverLocale } from "@/lib/utils/server";
 import { Feed } from "feed";
 import { getTranslations } from "next-intl/server";
@@ -26,7 +27,7 @@ export async function GET(
     link: siteUrl,
     language: locale,
     feedLinks: { rss2: `${siteOrigin}/${locale}/blog/feed.xml` },
-    copyright: `© ${new Date().getFullYear()} ${env.appName}`,
+    copyright: `© ${dayjs().year()} ${env.appName}`,
   });
 
   for (const post of posts) {
@@ -39,7 +40,7 @@ export async function GET(
       link: url,
       description,
       author: [{ name: author }],
-      date: new Date(ts?.modified ?? post.date),
+      date: dayjs(ts?.modified ?? post.date).toDate(),
       category: post.tags.map((tag) => ({ name: tag })),
     });
   }

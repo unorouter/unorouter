@@ -12,6 +12,7 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import dayjs from "dayjs";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
 import {
@@ -85,7 +86,7 @@ export function useCreateConversationMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      const now = new Date();
+      const now = dayjs().toDate();
       const newItem: ConvItem = {
         ...data,
         shareId: null,
@@ -259,7 +260,7 @@ export function usePersistMessagesMutation() {
         queryKeys.conversations(),
         (old) =>
           moveConvToTop(old, id, (item) => ({
-            updatedAt: new Date(),
+            updatedAt: dayjs().toDate(),
             ...(data.title && { title: data.title }),
             ...(data.usage?.cost && {
               totalCost: (item.totalCost ?? 0) + data.usage.cost,

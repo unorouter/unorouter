@@ -1,16 +1,23 @@
 #!/usr/bin/env bun
-import { BLOG_REGISTRY, DOCS_REGISTRY } from "@/i18n/registry";
+import {
+  BLOG_REGISTRY,
+  DOCS_REGISTRY,
+  LEGAL_REGISTRY,
+  type SeoTimestampSlug,
+} from "@/i18n/registry";
+import { dayjs } from "@/lib/utils/date";
 import { spawnSync } from "node:child_process";
 import { log } from "node:console";
 import { existsSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const SLUG_FILES: Record<string, readonly string[]> = {
-  ...Object.fromEntries(DOCS_REGISTRY.map((d) => [d.slug, d.contentFiles])),
-  ...Object.fromEntries(
-    BLOG_REGISTRY.map((b) => [`blog/${b.slug}`, b.contentFiles]),
-  ),
-};
+type SlugEntry = [SeoTimestampSlug, readonly string[]];
+
+const SLUG_FILES: readonly SlugEntry[] = [
+  ...DOCS_REGISTRY.map((d): SlugEntry => [d.slug, d.contentFiles]),
+  ...BLOG_REGISTRY.map((b): SlugEntry => [`blog/${b.slug}`, b.contentFiles]),
+  ...LEGAL_REGISTRY.map((l): SlugEntry => [l.slug, l.contentFiles]),
+];
 
 function gitLog(args: string[], paths: readonly string[]): string {
   const existing = paths.filter((p) => existsSync(resolve(process.cwd(), p)));
@@ -22,10 +29,7 @@ function gitLog(args: string[], paths: readonly string[]): string {
 }
 
 function firstCommitDate(paths: readonly string[]): string | null {
-  const out = gitLog(
-    ["--diff-filter=A", "--follow", "--format=%aI"],
-    paths,
-  );
+  const out = gitLog(["--diff-filter=A", "--follow", "--format=%aI"], paths);
   if (!out) return null;
   return out.split("\n").filter(Boolean).sort()[0] ?? null;
 }
@@ -34,10 +38,10 @@ function lastCommitDate(paths: readonly string[]): string | null {
   return gitLog(["-1", "--format=%aI"], paths) || null;
 }
 
-const now = new Date().toISOString();
+const now = dayjs().toISOString();
 const result: Record<string, { published: string; modified: string }> = {};
 
-for (const [slug, paths] of Object.entries(SLUG_FILES)) {
+for (const [slug, paths] of SLUG_FILES) {
   const published = firstCommitDate(paths) ?? now;
   const modified = lastCommitDate(paths) ?? published;
   result[slug] = { published, modified };

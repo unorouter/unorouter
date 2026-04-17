@@ -97,6 +97,20 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     brandLogoSize: 14,
     brandFontSize: 10,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 60,
+    headerFont: 36,
+    maxIcons: 18,
+    iconSize: 72,
+    slotWidth: 160,
+    gridGap: 28,
+    showCountBadge: true,
+    showTagline: true,
+    brandLogoSize: 28,
+    brandFontSize: 20,
+  },
 };
 
 function ProviderIcon(props: {

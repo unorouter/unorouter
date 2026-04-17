@@ -4,6 +4,7 @@ import {
   DEFAULT_PRIORITY,
   DOCS_REGISTRY,
   SECTION_PRIORITIES,
+  type SeoTimestampSlug,
 } from "@/i18n/registry";
 import {
   type Pathname,
@@ -15,13 +16,14 @@ import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/timestamps";
 import { handleElysia } from "@/lib/utils/base";
+import dayjs from "dayjs";
 import type { MetadataRoute } from "next";
 
 type EntryOptions = {
   priority?: number;
   changeFrequency?: MetadataRoute.Sitemap[number]["changeFrequency"];
   /** Either an explicit Date, a timestamp slug to look up, or nothing (uses now). */
-  lastModified?: Date | string;
+  lastModified?: Date | SeoTimestampSlug;
 };
 
 const ORIGIN = new URL(env.appUrl).origin;
@@ -39,7 +41,7 @@ function localizedEntries(
     typeof options.lastModified === "string"
       ? (getSeoTimestamps(options.lastModified)?.modified ?? null)
       : options.lastModified;
-  const resolved = lastModified ? new Date(lastModified) : new Date();
+  const resolved = (lastModified ? dayjs(lastModified) : dayjs()).toDate();
 
   const languages = Object.fromEntries(
     routing.locales.map((cur) => [

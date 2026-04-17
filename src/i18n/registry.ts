@@ -1,11 +1,11 @@
-import type {
-  BlogEntry,
+import {
   DocEntry,
-  PriorityEntry,
+  BlogEntry,
   SectionPriorities,
-} from "@/lib/types/registry";
+  PriorityEntry,
+} from "@/lib/types/seo";
 
-export const DOCS_REGISTRY: readonly DocEntry[] = [
+export const DOCS_REGISTRY = [
   {
     slug: "docs",
     path: "/docs",
@@ -69,9 +69,24 @@ export const DOCS_REGISTRY: readonly DocEntry[] = [
     priority: 0.7,
     changeFrequency: "weekly",
   },
-];
+] as const satisfies readonly DocEntry[];
 
-export const BLOG_REGISTRY: readonly BlogEntry[] = [
+/** Pages that get git-derived timestamps but aren't listed as "content". */
+export const LEGAL_REGISTRY = [
+  {
+    slug: "legal/privacy",
+    contentFiles: ["src/app/[locale]/(legal)/privacy/page.tsx"],
+  },
+  {
+    slug: "legal/terms",
+    contentFiles: ["src/app/[locale]/(legal)/terms/page.tsx"],
+  },
+] as const satisfies readonly {
+  slug: `legal/${string}`;
+  contentFiles: readonly string[];
+}[];
+
+export const BLOG_REGISTRY = [
   {
     slug: "launch",
     date: "2026-04-17",
@@ -83,7 +98,15 @@ export const BLOG_REGISTRY: readonly BlogEntry[] = [
     priority: 0.7,
     changeFrequency: "monthly",
   },
-];
+] as const satisfies readonly BlogEntry[];
+
+export type BlogSlug = (typeof BLOG_REGISTRY)[number]["slug"];
+
+/** Union of every slug with a git-derived timestamp entry in public/seo-timestamps.json. */
+export type SeoTimestampSlug =
+  | (typeof DOCS_REGISTRY)[number]["slug"]
+  | `blog/${BlogSlug}`
+  | (typeof LEGAL_REGISTRY)[number]["slug"];
 
 /** Priority + changeFrequency for top-level static routes. */
 export const SECTION_PRIORITIES = {

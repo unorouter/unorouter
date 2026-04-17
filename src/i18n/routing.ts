@@ -1,4 +1,5 @@
 import { LOCALES } from "@/lib/config/constants";
+import type { Locale } from "next-intl";
 import { defineRouting } from "next-intl/routing";
 import { ComponentProps } from "react";
 import { getPathname, Link, redirect, useRouter } from "./navigation";
@@ -112,13 +113,21 @@ export const privateRoutes = {
     "/logs",
     "/affiliate",
     "/settings",
-    "/chat",
-    "/login",
-    "/register",
   ],
   // Dynamic routes: the parent path is what we disallow so every child is covered.
+  // /chat/[convId] and /shared/[shareId] are user-specific; /chat itself is public.
   dynamicParents: ["/chat/[convId]", "/shared/[shareId]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];
 };
+
+/** Locale-aware localized pathname (honors pathnames overrides like /modelle for de). */
+export function localeUrl(locale: Locale, href: StaticRoute): string;
+export function localeUrl(
+  locale: Locale,
+  href: Exclude<Pathname, string>,
+): string;
+export function localeUrl(locale: Locale, href: Pathname): string {
+  return getPathname({ locale, href });
+}

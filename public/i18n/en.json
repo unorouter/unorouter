@@ -7,6 +7,11 @@
       "TITLE": "{appName} Account",
       "DESC": "Manage your {appName} account, tokens, usage and billing.",
       "KEYWORDS": "{appName} account, api tokens, billing, usage"
+    },
+    "MANIFEST": {
+      "NAME": "{appName} - One API for every AI model",
+      "SHORT_NAME": "{appName}",
+      "DESCRIPTION": "One API for every AI model. Pay-per-token, no subscription."
     }
   },
   "NAV": {

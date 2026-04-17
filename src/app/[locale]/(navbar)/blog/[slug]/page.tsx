@@ -8,6 +8,7 @@ import {
   buildBreadcrumbListSchema,
 } from "@/lib/seo/structured-data";
 import { getSeoTimestamps } from "@/lib/seo/timestamps";
+import { localeUrl } from "@/i18n/routing";
 import { serverLocale, serverPathname } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -57,8 +58,8 @@ export default async function BlogPostPage(props: PageProps) {
       <JsonLd
         id={`blog-${post.slug}-breadcrumb`}
         data={buildBreadcrumbListSchema([
-          { name: t("NAV.HOME"), url: `/${locale}` },
-          { name: t("BLOG.TITLE"), url: `/${locale}/blog` },
+          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+          { name: t("BLOG.TITLE"), url: localeUrl(locale, "/blog") },
           { name: title, url },
         ])}
       />

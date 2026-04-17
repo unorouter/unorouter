@@ -1,3 +1,6 @@
+// Side-effect: extend the shared dayjs singleton so plugins are available
+// for any `import dayjs from "dayjs"` call in client bundles.
+import "@/lib/utils/date";
 import { ReactNode } from "react";
 
 type Props = {

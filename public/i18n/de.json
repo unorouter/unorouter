@@ -7,6 +7,11 @@
       "TITLE": "{appName} Konto",
       "DESC": "Verwalten Sie Ihr {appName} Konto, Tokens, Nutzung und Abrechnung.",
       "KEYWORDS": "{appName} Konto, API Tokens, Abrechnung, Nutzung"
+    },
+    "MANIFEST": {
+      "NAME": "{appName} - Eine API für jedes KI-Modell",
+      "SHORT_NAME": "{appName}",
+      "DESCRIPTION": "Eine API für jedes KI-Modell. Pay-per-Token, kein Abonnement."
     }
   },
   "NAV": {

@@ -1,9 +1,10 @@
 import { QUOTA_PER_DOLLAR, msg } from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
-import { logger } from "@/lib/utils/logger";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
 import { uid, unwrap } from "@/lib/utils/base";
+import dayjs from "dayjs";
+import { logger } from "@/lib/utils/logger";
 import type { PersistMessagesBody } from "@/lib/validation/chat";
 import { getUserLogs } from "@/openapi";
 import { serverEnv } from "@/server/env";
@@ -128,13 +129,13 @@ export async function persistMessages(
     }),
   );
 
-  const now = Date.now();
+  const now = dayjs();
   const toInsert = processedMsgs.map((m, i) => ({
     convId,
     role: m.role,
     model: m.model,
     parts: m.parts,
-    createdAt: new Date(now + i),
+    createdAt: now.add(i, "millisecond").toDate(),
   }));
 
   let inserted: { id: string }[] = [];
@@ -193,7 +194,7 @@ export async function persistMessages(
   }
 
   // Update conversation timestamp and title if first message
-  const updates: Record<string, unknown> = { updatedAt: new Date() };
+  const updates: Record<string, unknown> = { updatedAt: dayjs().toDate() };
   if (!conv.title && msgs.length > 0) {
     const firstUserMsg = msgs.find((m) => m.role === "user");
     if (firstUserMsg) {

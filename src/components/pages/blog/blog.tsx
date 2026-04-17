@@ -1,5 +1,6 @@
 import { getAllPostsSorted, translated } from "@/components/pages/blog/posts";
 import { Link } from "@/i18n/navigation";
+import dayjs from "dayjs";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
@@ -33,7 +34,7 @@ export async function Blog() {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                }).format(new Date(post.date))}
+                }).format(dayjs(post.date).toDate())}
               </time>
               <h2 className="mt-2 text-2xl font-semibold">
                 <Link

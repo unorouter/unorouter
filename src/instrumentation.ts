@@ -1,6 +1,12 @@
 import { IS_DEV } from "./lib/config/constants";
 import { type Instrumentation } from "next";
 
+export async function register() {
+  // Load dayjs plugins onto the singleton so bare `import dayjs from "dayjs"`
+  // calls throughout the app pick them up without each file re-extending.
+  await import("./lib/utils/date");
+}
+
 export const onRequestError: Instrumentation.onRequestError = async (
   err,
   request,

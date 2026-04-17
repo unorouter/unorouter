@@ -9,6 +9,7 @@ import {
   buildFAQPageSchema,
   buildProductSchema,
 } from "@/lib/seo/structured-data";
+import { localeUrl } from "@/i18n/routing";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale, serverPathname } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -110,8 +111,8 @@ export default async function ModelDetailPage(props: PageProps) {
       <JsonLd
         id={`${params.slug}-breadcrumb`}
         data={buildBreadcrumbListSchema([
-          { name: t("NAV.HOME"), url: `/${locale}` },
-          { name: t("NAV.MODELS"), url: `/${locale}/models` },
+          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+          { name: t("NAV.MODELS"), url: localeUrl(locale, "/models") },
           { name: model.name, url },
         ])}
       />

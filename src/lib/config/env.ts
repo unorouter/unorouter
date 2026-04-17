@@ -10,6 +10,11 @@ export const env = {
   appUrl,
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL,
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL,
+  discordUrl: process.env.NEXT_PUBLIC_DISCORD_URL,
+  twitterHandle: process.env.NEXT_PUBLIC_TWITTER_HANDLE,
+  twitterUrl: process.env.NEXT_PUBLIC_TWITTER_HANDLE
+    ? `https://x.com/${process.env.NEXT_PUBLIC_TWITTER_HANDLE.replace(/^@/, "")}`
+    : undefined,
   posthogKey: process.env.NEXT_PUBLIC_POSTHOG_KEY,
   googleSiteVerification: process.env.GOOGLE_SITE_VERIFICATION,
 } as const;

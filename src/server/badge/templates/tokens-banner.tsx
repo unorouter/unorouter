@@ -78,6 +78,18 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     divMargin: "0 28px",
     dotSize: 10,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 80,
+    logoSize: 120,
+    brandFont: 56,
+    brandGap: 36,
+    statSize: 96,
+    labelSize: 40,
+    divMargin: "0 72px",
+    dotSize: 24,
+  },
 };
 
 export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {

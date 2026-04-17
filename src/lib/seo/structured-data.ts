@@ -1,7 +1,9 @@
 import { env } from "@/lib/config/env";
+import dayjs from "dayjs";
 import type {
   Article,
   BreadcrumbList,
+  CollectionPage,
   FAQPage,
   Organization,
   Product,
@@ -17,8 +19,9 @@ function abs(path: string): string {
 }
 
 export function buildOrganizationSchema(): WithContext<Organization> {
-  const sameAs: string[] = [];
-  if (env.githubUrl) sameAs.push(env.githubUrl);
+  const sameAs = [env.githubUrl, env.twitterUrl, env.discordUrl].filter(
+    (v): v is string => Boolean(v),
+  );
 
   return {
     "@context": "https://schema.org",
@@ -37,29 +40,47 @@ export function buildWebSiteSchema(locale: string): WithContext<WebSite> {
     name: env.appName || "unorouter",
     url: `${siteOrigin}/${locale}`,
     inLanguage: locale,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteOrigin}/${locale}/docs?q={search_term_string}`,
-      },
-      ...({ "query-input": "required name=search_term_string" } as Record<
-        string,
-        string
-      >),
-    },
   };
 }
+
+export type OfferInput = {
+  name: string;
+  price: number;
+  currency: string;
+  description?: string;
+};
 
 type SoftwareApplicationInput = {
   locale: string;
   description: string;
   modelCount?: number;
+  offers?: OfferInput[];
 };
+
+function offerSchema(input: OfferInput) {
+  return {
+    "@type": "Offer" as const,
+    name: input.name,
+    price: String(input.price),
+    priceCurrency: input.currency,
+    ...(input.description && { description: input.description }),
+  };
+}
 
 export function buildSoftwareApplicationSchema(
   input: SoftwareApplicationInput,
 ): WithContext<SoftwareApplication> {
+  const defaultOffer = {
+    "@type": "Offer" as const,
+    price: "0",
+    priceCurrency: "USD",
+    description: "Pay-as-you-go per-token pricing. No subscription.",
+  };
+  const offers =
+    input.offers && input.offers.length > 0
+      ? [defaultOffer, ...input.offers.map(offerSchema)]
+      : defaultOffer;
+
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -68,13 +89,13 @@ export function buildSoftwareApplicationSchema(
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
     description: input.description,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      description: "Pay-as-you-go per-token pricing. No subscription.",
-    },
-    ...(env.githubUrl && { sameAs: [env.githubUrl] }),
+    offers,
+    ...(() => {
+      const sameAs = [env.githubUrl, env.twitterUrl, env.discordUrl].filter(
+        (v): v is string => Boolean(v),
+      );
+      return sameAs.length > 0 ? { sameAs } : {};
+    })(),
   };
 }
 
@@ -169,6 +190,42 @@ export function buildProductSchema(input: ProductInput): WithContext<Product> {
   return schema;
 }
 
+export type CollectionItem = {
+  name: string;
+  url: string;
+  description?: string;
+};
+
+export type CollectionPageInput = {
+  name: string;
+  description: string;
+  url: string;
+  items: CollectionItem[];
+};
+
+export function buildCollectionPageSchema(
+  input: CollectionPageInput,
+): WithContext<CollectionPage> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: input.name,
+    description: input.description,
+    url: abs(input.url),
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: input.items.length,
+      itemListElement: input.items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        url: abs(item.url),
+        ...(item.description && { description: item.description }),
+      })),
+    },
+  };
+}
+
 export type ArticleInput = {
   headline: string;
   description: string;
@@ -176,7 +233,7 @@ export type ArticleInput = {
   image?: string;
   datePublished?: string;
   dateModified?: string;
-  author?: string;
+  author?: string | { name: string; type: "Person" | "Organization" };
   locale: string;
 };
 
@@ -191,13 +248,16 @@ export function buildArticleSchema(input: ArticleInput): WithContext<Article> {
     inLanguage: input.locale,
     ...(input.image && { image: abs(input.image) }),
     ...(input.datePublished && {
-      datePublished: new Date(input.datePublished).toISOString(),
+      datePublished: dayjs(input.datePublished).toISOString(),
     }),
     ...(input.dateModified && {
-      dateModified: new Date(input.dateModified).toISOString(),
+      dateModified: dayjs(input.dateModified).toISOString(),
     }),
     ...(input.author && {
-      author: { "@type": "Person", name: input.author },
+      author:
+        typeof input.author === "string"
+          ? { "@type": "Person", name: input.author }
+          : { "@type": input.author.type, name: input.author.name },
     }),
     publisher: buildOrganizationSchema(),
   };

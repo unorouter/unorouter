@@ -1,7 +1,7 @@
 import { Type as t } from "@sinclair/typebox/type";
 import { LOCALES } from "../config/constants";
 
-export const BADGE_SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
+export const BADGE_SIZES = ["xs", "sm", "md", "lg", "xl", "og"] as const;
 export type BadgeSize = (typeof BADGE_SIZES)[number];
 
 export const BADGE_TYPES = [

@@ -1,9 +1,10 @@
 import { msg } from "@/lib/config/constants";
 import { deleteR2Prefix } from "@/lib/config/r2";
-import { logger } from "@/lib/utils/logger";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
+import dayjs from "dayjs";
+import { logger } from "@/lib/utils/logger";
 import type {
   ChatSearchQuery,
   CreateConversationBody,
@@ -96,7 +97,7 @@ export async function createConversation(
 ) {
   const db = getDb();
   const id = body.id ?? uid();
-  const now = new Date();
+  const now = dayjs().toDate();
 
   await db.insert(conversations).values({
     id,
@@ -125,7 +126,7 @@ export async function updateConversation(
   body: UpdateConversationBody,
 ) {
   const db = getDb();
-  const updates: Record<string, unknown> = { updatedAt: new Date() };
+  const updates: Record<string, unknown> = { updatedAt: dayjs().toDate() };
   if (body.title !== undefined) updates.title = body.title;
   if (body.model !== undefined) updates.model = body.model;
 
@@ -229,7 +230,7 @@ export async function claimConversations(userId: number, convIds: string[]) {
   const db = getDb();
   const result = await db
     .update(conversations)
-    .set({ userId, updatedAt: new Date() })
+    .set({ userId, updatedAt: dayjs().toDate() })
     .where(and(eq(conversations.userId, 0), inArray(conversations.id, convIds)))
     .returning({ id: conversations.id });
   return { claimed: result.length };

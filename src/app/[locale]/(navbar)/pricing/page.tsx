@@ -8,8 +8,10 @@ import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
+  buildSoftwareApplicationSchema,
   type FAQEntry,
 } from "@/lib/seo/structured-data";
+import { localeUrl } from "@/i18n/routing";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
@@ -37,7 +39,7 @@ export default async function PricingPage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  await queryClient.prefetchQuery({
+  const plans = await queryClient.fetchQuery({
     queryKey: queryKeys.subscriptionPlans(),
     queryFn: async () =>
       handleElysia(await rpc.api.pricing.subscriptions.get()),
@@ -53,11 +55,24 @@ export default async function PricingPage(props: {
       <JsonLd
         id="pricing-breadcrumb"
         data={buildBreadcrumbListSchema([
-          { name: t("NAV.HOME"), url: `/${locale}` },
-          { name: t("NAV.PRICING"), url: `/${locale}/pricing` },
+          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+          { name: t("NAV.PRICING"), url: localeUrl(locale, "/pricing") },
         ])}
       />
       <JsonLd id="pricing-faq" data={buildFAQPageSchema(faqEntries)} />
+      <JsonLd
+        id="pricing-app"
+        data={buildSoftwareApplicationSchema({
+          locale,
+          description: t("PRICING.META.DESCRIPTION"),
+          offers: plans.map((p) => ({
+            name: p.title,
+            price: p.priceAmount,
+            currency: p.currency,
+            description: p.subtitle || undefined,
+          })),
+        })}
+      />
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Pricing />
       </HydrationBoundary>

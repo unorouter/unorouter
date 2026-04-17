@@ -1,8 +1,15 @@
-import { Link } from "@/i18n/navigation";
+import { TermsContent } from "@/components/pages/legal/terms-content";
 import { APP_VALUES } from "@/lib/config/constants";
+import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  buildArticleSchema,
+  buildBreadcrumbListSchema,
+} from "@/lib/seo/structured-data";
+import { getSeoTimestamps } from "@/lib/seo/timestamps";
+import { localeUrl } from "@/i18n/routing";
 import { serverLocale } from "@/lib/utils/server";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -21,122 +28,31 @@ export async function generateMetadata(props: {
 
 export default async function TermsPage() {
   const t = await getTranslations();
+  const locale = await getLocale();
+  const ts = getSeoTimestamps("legal/terms");
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-16">
-      <Link
-        href="/"
-        className="text-muted-foreground hover:text-foreground mb-8 inline-block text-sm"
-      >
-        &larr; {t("TERMS.TITLE")}
-      </Link>
-
-      <h1 className="mb-2 text-3xl font-bold">{t("TERMS.TITLE")}</h1>
-      <p className="text-muted-foreground mb-10 text-sm">
-        {t("TERMS.LAST_UPDATED")}
-      </p>
-
-      <p className="text-muted-foreground mb-10 leading-relaxed">
-        {t("TERMS.INTRO", APP_VALUES)}
-      </p>
-
-      <Section title={t("TERMS.SERVICE_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.SERVICE_CONTENT", APP_VALUES)}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.ELIGIBILITY_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.ELIGIBILITY_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.ACCOUNTS_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.ACCOUNTS_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.PAYMENT_TITLE")}>
-        <p className="text-muted-foreground mb-3 leading-relaxed">
-          {t("TERMS.PAYMENT_CONTENT_INTRO")}
-        </p>
-        <ul className="text-muted-foreground list-disc space-y-2 pl-6 leading-relaxed">
-          <li>{t("TERMS.PAYMENT_CREDITS")}</li>
-          <li>{t("TERMS.PAYMENT_REFUNDS")}</li>
-          <li>{t("TERMS.PAYMENT_EXPIRATION")}</li>
-        </ul>
-      </Section>
-
-      <Section title={t("TERMS.USER_CONTENT_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.USER_CONTENT_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.PROHIBITED_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.PROHIBITED_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.TERMINATION_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.TERMINATION_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.IP_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.IP_CONTENT", APP_VALUES)}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.DISCLAIMER_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.DISCLAIMER_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.LIABILITY_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.LIABILITY_CONTENT", APP_VALUES)}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.INDEMNIFICATION_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.INDEMNIFICATION_CONTENT", APP_VALUES)}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.LAW_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.LAW_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.CHANGES_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.CHANGES_CONTENT")}
-        </p>
-      </Section>
-
-      <Section title={t("TERMS.CONTACT_TITLE")}>
-        <p className="text-muted-foreground leading-relaxed">
-          {t("TERMS.CONTACT_CONTENT", APP_VALUES)}
-        </p>
-      </Section>
-    </main>
-  );
-}
-
-function Section(props: { title: string; children: React.ReactNode }) {
-  return (
-    <section className="mb-8">
-      <h2 className="mb-3 text-xl font-semibold">{props.title}</h2>
-      {props.children}
-    </section>
+    <>
+      <JsonLd
+        id="terms-breadcrumb"
+        data={buildBreadcrumbListSchema([
+          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+          { name: t("TERMS.TITLE"), url: localeUrl(locale, "/terms") },
+        ])}
+      />
+      <JsonLd
+        id="terms-article"
+        data={buildArticleSchema({
+          locale,
+          headline: t("TERMS.TITLE"),
+          description: t("TERMS.META.DESCRIPTION", APP_VALUES),
+          url: localeUrl(locale, "/terms"),
+          datePublished: ts?.published,
+          dateModified: ts?.modified,
+          author: { type: "Organization", name: APP_VALUES.appName },
+        })}
+      />
+      <TermsContent />
+    </>
   );
 }

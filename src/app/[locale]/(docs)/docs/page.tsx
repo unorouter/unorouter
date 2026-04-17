@@ -1,11 +1,15 @@
 import { DocsIndexContent } from "@/components/pages/docs/docs-index-content";
+import { DOCS_REGISTRY } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
-import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
+import {
+  buildBreadcrumbListSchema,
+  buildCollectionPageSchema,
+} from "@/lib/seo/structured-data";
+import { localeUrl } from "@/i18n/routing";
 import { serverLocale } from "@/lib/utils/server";
 import { getLocale, getTranslations } from "next-intl/server";
-
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -25,14 +29,29 @@ export async function generateMetadata(props: {
 export default async function DocsPage() {
   const locale = await getLocale();
   const t = await getTranslations();
+  const docs = DOCS_REGISTRY.filter((d) => d.slug !== "docs");
+
   return (
     <>
       <JsonLd
         id="docs-index-breadcrumb"
         data={buildBreadcrumbListSchema([
-          { name: t("NAV.HOME"), url: `/${locale}` },
-          { name: t("NAV.DOCS"), url: `/${locale}/docs` },
+          { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
+          { name: t("NAV.DOCS"), url: localeUrl(locale, "/docs") },
         ])}
+      />
+      <JsonLd
+        id="docs-index-collection"
+        data={buildCollectionPageSchema({
+          name: t("DOCS_INDEX.META.TITLE", APP_VALUES),
+          description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
+          url: localeUrl(locale, "/docs"),
+          items: docs.map((d) => ({
+            name: t(`${d.i18nPrefix}.TITLE`),
+            url: localeUrl(locale, d.path),
+            description: t(`${d.i18nPrefix}.SUBTITLE`),
+          })),
+        })}
       />
       <DocsIndexContent />
     </>
