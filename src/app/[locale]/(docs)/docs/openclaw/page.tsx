@@ -12,6 +12,7 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
+    href: "/docs/openclaw",
     title: t("DOCS.OPENCLAW.META.TITLE", APP_VALUES),
     description: t("DOCS.OPENCLAW.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.OPENCLAW.META.KEYWORDS", APP_VALUES),

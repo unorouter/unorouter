@@ -12,6 +12,7 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
+    href: "/docs/claude-code",
     title: t("DOCS.CLAUDE_CODE.META.TITLE", APP_VALUES),
     description: t("DOCS.CLAUDE_CODE.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.CLAUDE_CODE.META.KEYWORDS", APP_VALUES),

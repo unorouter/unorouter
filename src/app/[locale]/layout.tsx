@@ -62,6 +62,7 @@ export async function generateMetadata(props: {
 
   return getPageMetadata({
     locale,
+    href: "/",
     title: t("METADATA.TITLE", APP_VALUES),
     description: t("METADATA.DESCRIPTION", {
       modelCount: String(pricing?.modelCount),

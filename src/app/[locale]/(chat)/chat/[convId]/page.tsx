@@ -26,6 +26,7 @@ export async function generateMetadata(props: Props) {
   const convTitle = await fetchConvTitle(convId);
   return getPageMetadata({
     locale,
+    href: { pathname: "/chat/[convId]", params: { convId } },
     title: convTitle
       ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
       : t("CHAT.META.TITLE", APP_VALUES),

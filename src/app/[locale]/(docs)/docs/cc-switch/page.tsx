@@ -12,6 +12,7 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
+    href: "/docs/cc-switch",
     title: t("DOCS.CC_SWITCH.META.TITLE", APP_VALUES),
     description: t("DOCS.CC_SWITCH.META.DESCRIPTION", APP_VALUES),
     keywords: t("DOCS.CC_SWITCH.META.KEYWORDS", APP_VALUES),

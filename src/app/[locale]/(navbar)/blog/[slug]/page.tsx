@@ -33,6 +33,7 @@ export async function generateMetadata(props: PageProps) {
 
   return getPageMetadata({
     locale,
+    href: { pathname: "/blog/[slug]", params: { slug: post.slug } },
     title: t("BLOG.POST_META_TITLE", { ...APP_VALUES, title }),
     description,
     keywords: post.tags.join(", "),

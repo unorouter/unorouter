@@ -22,6 +22,7 @@ export async function generateMetadata(props: Props) {
   const resolved = await resolveSharedConv(shareId);
   return getPageMetadata({
     locale,
+    href: { pathname: "/shared/[shareId]", params: { shareId } },
     title: resolved?.title
       ? t("CHAT.META.SHARED_TITLE_WITH_NAME", {
           ...APP_VALUES,

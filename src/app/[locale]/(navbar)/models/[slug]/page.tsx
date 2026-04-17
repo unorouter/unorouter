@@ -41,6 +41,7 @@ export async function generateMetadata(props: PageProps) {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
+    href: { pathname: "/models/[slug]", params: { slug: model.name } },
     title: t("MODEL_PAGE.META_TITLE", {
       ...APP_VALUES,
       name: model.name,
