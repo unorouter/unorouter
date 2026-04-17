@@ -286,7 +286,30 @@
     "RECENT": "Neueste Beiträge",
     "BACK_TO_BLOG": "Zurück zu allen Beiträgen",
     "EMPTY": "Noch keine Beiträge. Schau bald wieder vorbei.",
-    "RSS_TITLE": "{appName} Blog-Feed"
+    "RSS_TITLE": "{appName} Blog-Feed",
+    "RSS_DESC": "Produktneuigkeiten und Engineering-Notizen von {appName}.",
+    "POSTS": {
+      "LAUNCH": {
+        "TITLE": "unorouter vorgestellt: Eine API für jedes KI-Modell",
+        "DESCRIPTION": "Warum wir unorouter gebaut haben, wie das Routing zwischen Anbietern funktioniert und was als Nächstes kommt.",
+        "AUTHOR": "unorouter-Team",
+        "INTRO": "Wir haben unorouter gebaut, weil der Umgang mit einem Dutzend KI-Anbieter-Schlüsseln, jedem mit eigenen Rate Limits, Preismodellen und Ausfallzeiten, das Gegenteil von produktiv ist. Ein Endpunkt, jedes große Modell, intelligentes Failover.",
+        "H_WHAT": "Was es macht",
+        "P_WHAT": "unorouter bietet einen einzigen OpenAI-kompatiblen Endpunkt, der alle unterstützten Modelle (Claude, GPT, Gemini, DeepSeek, Mistral und mehr) bündelt. Deine Anwendung wählt das Modell per Namen aus. Wir kümmern uns transparent um Routing, Authentifizierung, Rate-Limit-Retries und Anbieter-Failover.",
+        "H_START": "In 30 Sekunden loslegen",
+        "P_START": "Richte jedes OpenAI-SDK auf unsere Basis-URL aus und übergib deinen unorouter-API-Schlüssel. Der Rest deines Codes bleibt unverändert.",
+        "H_WHY": "Was anders ist",
+        "WHY_1_TITLE": "Automatisches Failover.",
+        "WHY_1_BODY": "Wenn ein Anbieter gedrosselt oder offline ist, versuchen wir die Anfrage transparent über den nächsten gesunden Upstream.",
+        "WHY_2_TITLE": "Preis pro Token, kein Abonnement nötig.",
+        "WHY_2_BODY": "Einmal aufladen, jedes Modell nutzen. Abonnements sind optional für Mengenrabatte.",
+        "WHY_3_TITLE": "Alle wichtigen Endpunkt-Formate.",
+        "WHY_3_BODY": "OpenAI Chat Completions, Anthropic Messages, Google Gemini. Nutze das Format, das du bereits verwendest.",
+        "H_NEXT": "Was kommt als Nächstes",
+        "P_NEXT": "Wir liefern wöchentlich neue Features. Erwartet: mehr Modelle, schlauere Routing-Heuristiken, bessere Dashboards für Kosten und Latenz und tiefere Integrationen mit Tools, die Entwickler bereits nutzen (Claude Code, Codex CLI, Gemini CLI).",
+        "CTA": "Bereit zum Ausprobieren? <register>Hol dir einen API-Schlüssel</register> oder <models>durchsuche den Modellkatalog</models>."
+      }
+    }
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API-Preise, Kontextfenster und Beispiele | {appName}",
@@ -297,7 +320,9 @@
     "PRICING_DESC": "Du zahlst nur, was du nutzt. {name} wird pro Token abgerechnet, kein monatliches Minimum bei Pay As You Go.",
     "INPUT_PRICE": "Input-Preis",
     "OUTPUT_PRICE": "Output-Preis",
+    "PRICE_PER_MILLION": "{price} / 1M Tokens",
     "CONTEXT_WINDOW": "Kontextfenster",
+    "CONTEXT_TOKENS": "{count} Tokens",
     "ENDPOINTS": "Kompatible Endpunkte",
     "VENDOR": "Anbieter",
     "CODE_TITLE": "{name} aus deinem Code aufrufen",

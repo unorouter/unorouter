@@ -286,7 +286,30 @@
     "RECENT": "Recent posts",
     "BACK_TO_BLOG": "Back to all posts",
     "EMPTY": "No posts yet. Check back soon.",
-    "RSS_TITLE": "{appName} blog feed"
+    "RSS_TITLE": "{appName} blog feed",
+    "RSS_DESC": "Product updates and engineering notes from {appName}.",
+    "POSTS": {
+      "LAUNCH": {
+        "TITLE": "Introducing unorouter: one API for every AI model",
+        "DESCRIPTION": "Why we built unorouter, how it routes across providers and what's next.",
+        "AUTHOR": "unorouter team",
+        "INTRO": "We built unorouter because managing a dozen AI provider keys, each with its own rate limits, pricing model, and outage window, is the opposite of productive. One endpoint, every major model, intelligent failover.",
+        "H_WHAT": "What it does",
+        "P_WHAT": "unorouter exposes a single OpenAI-compatible endpoint that fronts every model we support (Claude, GPT, Gemini, DeepSeek, Mistral, and more). Your application picks the model by name. We handle routing, authentication, rate-limit retries, and provider failover transparently.",
+        "H_START": "Getting started in 30 seconds",
+        "P_START": "Point any OpenAI SDK at our base URL and pass your unorouter API key. The rest of your code stays unchanged.",
+        "H_WHY": "Why it's different",
+        "WHY_1_TITLE": "Automatic failover.",
+        "WHY_1_BODY": "When one provider is degraded or rate-limited, we transparently retry against the next healthy upstream.",
+        "WHY_2_TITLE": "Per-token pricing, no subscription required.",
+        "WHY_2_BODY": "Top up once, use any model. Subscriptions are optional for volume discounts.",
+        "WHY_3_TITLE": "All major endpoint shapes.",
+        "WHY_3_BODY": "OpenAI Chat Completions, Anthropic Messages, Google Gemini. Use the shape you already have.",
+        "H_NEXT": "What's next",
+        "P_NEXT": "We're shipping weekly. Expect: more models, smarter routing heuristics, better dashboards for cost and latency, and deeper integrations with the tooling developers already use (Claude Code, Codex CLI, Gemini CLI).",
+        "CTA": "Ready to try it? <register>Grab an API key</register> or <models>browse the model catalog</models>."
+      }
+    }
   },
   "MODEL_PAGE": {
     "META_TITLE": "{name} API pricing, context and examples | {appName}",
@@ -297,7 +320,9 @@
     "PRICING_DESC": "Pay only for what you use. Pricing for {name} is billed per token, with no monthly minimum when using Pay As You Go.",
     "INPUT_PRICE": "Input price",
     "OUTPUT_PRICE": "Output price",
+    "PRICE_PER_MILLION": "{price} / 1M tokens",
     "CONTEXT_WINDOW": "Context window",
+    "CONTEXT_TOKENS": "{count} tokens",
     "ENDPOINTS": "Compatible endpoints",
     "VENDOR": "Vendor",
     "CODE_TITLE": "Call {name} from your code",
