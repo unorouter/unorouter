@@ -350,7 +350,8 @@
     "SIMILAR_TITLE": "Similar models",
     "CTA_TITLE": "Try {name} now",
     "CTA_DESC": "Create an API key and start making requests in under a minute.",
-    "CTA_SIGNUP": "Get an API key",
+    "CTA_SIGNUP": "Sign in to try {name}",
+    "CTA_TRY": "Try {name} in chat",
     "CTA_ALL_MODELS": "View all models",
     "LAST_UPDATED": "Last updated {date}"
   },

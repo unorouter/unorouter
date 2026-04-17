@@ -1,4 +1,5 @@
-import { CodeBlock } from "@/components/elements/code/code-block";
+import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
+import { highlightCode } from "@/components/elements/code/code-block";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,11 +17,12 @@ import {
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { env } from "@/lib/config/env";
 import { formatPrice } from "@/lib/utils/base";
+import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { CodeExamplesTabs } from "./code-examples-tabs";
 import { GridPricingTable } from "./grid-pricing-table";
+import { TryInChatButton } from "./try-in-chat-button";
 
 interface ModelDetailProps {
   model: ProcessedModel;
@@ -30,11 +32,12 @@ interface ModelDetailProps {
 export async function ModelDetail(props: ModelDetailProps) {
   const m = props.model;
   const t = await getTranslations();
+  const docs = await getDocsApiKey();
   const contextTag = findContextTag(m);
   const similar = findSimilarModels(props.models, m);
 
-  const curlExample = `curl ${env.apiUrl}/v1/chat/completions \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
+  const curlExample = `curl ${docs.apiUrl}/v1/chat/completions \\
+  -H "Authorization: Bearer ${docs.placeholder}" \\
   -H "Content-Type: application/json" \\
   -d '{
     "model": "${m.name}",
@@ -44,8 +47,8 @@ export async function ModelDetail(props: ModelDetailProps) {
   const tsExample = `import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "${env.apiUrl}/v1",
-  apiKey: process.env.UNOROUTER_API_KEY,
+  baseURL: "${docs.apiUrl}/v1",
+  apiKey: "${docs.placeholder}",
 });
 
 const res = await client.chat.completions.create({
@@ -58,8 +61,8 @@ console.log(res.choices[0].message.content);`;
   const pyExample = `from openai import OpenAI
 
 client = OpenAI(
-    base_url="${env.apiUrl}/v1",
-    api_key=os.environ["UNOROUTER_API_KEY"],
+    base_url="${docs.apiUrl}/v1",
+    api_key="${docs.placeholder}",
 )
 
 res = client.chat.completions.create(
@@ -68,6 +71,12 @@ res = client.chat.completions.create(
 )
 
 print(res.choices[0].message.content)`;
+
+  const [curlHtml, tsHtml, pyHtml] = await Promise.all([
+    highlightCode(curlExample, "bash"),
+    highlightCode(tsExample, "typescript"),
+    highlightCode(pyExample, "python"),
+  ]);
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-12">
@@ -198,9 +207,30 @@ print(res.choices[0].message.content)`;
           {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
         </p>
         <CodeExamplesTabs
-          curl={<CodeBlock language="bash" code={curlExample} />}
-          typescript={<CodeBlock language="typescript" code={tsExample} />}
-          python={<CodeBlock language="python" code={pyExample} />}
+          curl={
+            <ApiKeyCodeBlock
+              html={curlHtml}
+              code={curlExample}
+              language="bash"
+              placeholder={docs.placeholder}
+            />
+          }
+          typescript={
+            <ApiKeyCodeBlock
+              html={tsHtml}
+              code={tsExample}
+              language="typescript"
+              placeholder={docs.placeholder}
+            />
+          }
+          python={
+            <ApiKeyCodeBlock
+              html={pyHtml}
+              code={pyExample}
+              language="python"
+              placeholder={docs.placeholder}
+            />
+          }
         />
       </section>
 
@@ -297,9 +327,11 @@ print(res.choices[0].message.content)`;
           {t("MODEL_PAGE.CTA_DESC")}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button nativeButton={false} render={<Link href="/register" />}>
-            {t("MODEL_PAGE.CTA_SIGNUP")}
-          </Button>
+          <TryInChatButton
+            modelName={m.name}
+            label={t("MODEL_PAGE.CTA_TRY", { name: m.name })}
+            loginLabel={t("MODEL_PAGE.CTA_SIGNUP", { name: m.name })}
+          />
           <Button
             nativeButton={false}
             variant="outline"

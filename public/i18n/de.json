@@ -350,7 +350,8 @@
     "SIMILAR_TITLE": "Ähnliche Modelle",
     "CTA_TITLE": "{name} jetzt ausprobieren",
     "CTA_DESC": "Erstelle einen API-Schlüssel und starte in unter einer Minute.",
-    "CTA_SIGNUP": "API-Schlüssel holen",
+    "CTA_SIGNUP": "Anmelden und {name} testen",
+    "CTA_TRY": "{name} im Chat testen",
     "CTA_ALL_MODELS": "Alle Modelle ansehen",
     "LAST_UPDATED": "Zuletzt aktualisiert {date}"
   },

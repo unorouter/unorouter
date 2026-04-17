@@ -1,6 +1,8 @@
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { findContextTag, formatTokenPrice } from "@/lib/api/pricing";
 import { APP_VALUES, LOCALES } from "@/lib/config/constants";
+import getQueryClient from "@/lib/react-query/client";
+import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -11,7 +13,8 @@ import {
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
 import { handleElysia } from "@/lib/utils/base";
-import { serverLocale, serverPathname } from "@/lib/utils/server";
+import { serverLocale, serverPathname, setCookies } from "@/lib/utils/server";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -75,6 +78,24 @@ export default async function ModelDetailPage(props: PageProps) {
   const t = await getTranslations({ locale });
   const url = await serverPathname(locale);
 
+  const queryClient = getQueryClient();
+  const cookieHeaders = await setCookies();
+  await queryClient.prefetchQuery({
+    queryKey: queryKeys.auth(),
+    queryFn: async () =>
+      handleElysia(await rpc.api.auth.self.get(cookieHeaders!)),
+  });
+  const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
+  if (isLoggedIn) {
+    await queryClient.prefetchQuery({
+      queryKey: queryKeys.bestKey(),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.token["best-key"].get({ ...cookieHeaders }),
+        ),
+    });
+  }
+
   const contextTag = findContextTag(model);
 
   const faqEntries = [
@@ -107,7 +128,7 @@ export default async function ModelDetailPage(props: PageProps) {
   ];
 
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <JsonLd
         id={`${params.slug}-breadcrumb`}
         data={buildBreadcrumbListSchema([
@@ -136,6 +157,6 @@ export default async function ModelDetailPage(props: PageProps) {
       />
       <JsonLd id={`${params.slug}-faq`} data={buildFAQPageSchema(faqEntries)} />
       <ModelDetail model={model} models={data.models} />
-    </>
+    </HydrationBoundary>
   );
 }
