@@ -1,6 +1,7 @@
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { highlightCode } from "@/components/elements/code/code-block";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,11 +14,12 @@ import { Link } from "@/i18n/navigation";
 import {
   findContextTag,
   findSimilarModels,
-  formatTokenPrice,
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
+import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { formatPrice } from "@/lib/utils/base";
+import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { CodeExamplesTabs } from "./code-examples-tabs";
@@ -78,56 +80,179 @@ print(res.choices[0].message.content)`;
     highlightCode(pyExample, "python"),
   ]);
 
+  const theme = getVendorTheme(m.vendor.name);
+  const endpointsDisplay = (m.endpointTypes ?? []).join(", ") || "—";
+  const typeLabel = m.type.charAt(0).toUpperCase() + m.type.slice(1);
+
+  const stats: {
+    label: string;
+    value: string;
+    suffix?: string;
+    mono?: boolean;
+  }[] = [];
+
+  if (m.isFixedPrice) {
+    stats.push({
+      label: t("MODEL_PAGE.STAT_FIXED"),
+      value: m.isFree ? t("MODEL_PAGE.STAT_FREE") : formatPrice(m.fixedPrice),
+    });
+  } else {
+    stats.push(
+      {
+        label: t("MODEL_PAGE.STAT_INPUT"),
+        value: m.inputPrice === 0 ? t("MODEL_PAGE.STAT_FREE") : formatPrice(m.inputPrice),
+        suffix: m.inputPrice === 0 ? undefined : "/ 1M",
+      },
+      {
+        label: t("MODEL_PAGE.STAT_OUTPUT"),
+        value: m.outputPrice === 0 ? t("MODEL_PAGE.STAT_FREE") : formatPrice(m.outputPrice),
+        suffix: m.outputPrice === 0 ? undefined : "/ 1M",
+      },
+    );
+  }
+
+  if (m.type === "text" && contextTag) {
+    stats.push({
+      label: t("MODEL_PAGE.STAT_CONTEXT"),
+      value: contextTag,
+    });
+  } else if (m.type !== "text") {
+    stats.push({
+      label: t("MODEL_PAGE.STAT_TYPE"),
+      value: typeLabel,
+    });
+  }
+
+  stats.push({
+    label: t("MODEL_PAGE.STAT_ENDPOINTS"),
+    value: endpointsDisplay,
+    mono: true,
+  });
+
+  const statsColsClass =
+    stats.length === 2
+      ? "grid-cols-1 sm:grid-cols-2"
+      : stats.length === 3
+        ? "grid-cols-1 sm:grid-cols-3"
+        : "grid-cols-2 md:grid-cols-4";
+
   return (
-    <div className="mx-auto max-w-4xl px-6 py-12">
+    <div className="mx-auto max-w-5xl px-6 pb-16">
       {/* Hero */}
-      <div className="mb-10 flex items-start gap-5">
-        <div className="border-border bg-card flex size-16 shrink-0 items-center justify-center rounded-xl border">
-          <VendorIcon vendor={m.vendor.icon ?? m.vendor.name} size={40} />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="text-muted-foreground mb-1 text-sm">
+      <section className="relative overflow-hidden">
+        <div
+          className={cn(
+            "pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-96 rounded-full blur-3xl opacity-60",
+            theme.bg.replace("/5", "/30"),
+          )}
+          aria-hidden
+        />
+        <div className="relative flex flex-col items-center pt-20 pb-16 text-center">
+          <div
+            className={cn(
+              "mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5",
+              theme.tagBorder,
+              theme.tagBg,
+            )}
+          >
+            <span className="relative flex size-1.5">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
+            </span>
+            <span
+              className={cn(
+                "font-mono text-[10px] tracking-[0.2em] uppercase",
+                theme.text,
+              )}
+            >
+              {t("MODEL_PAGE.AVAILABLE_BADGE")}
+            </span>
+          </div>
+
+          <div
+            className={cn(
+              "mb-8 flex size-24 items-center justify-center rounded-2xl border",
+              theme.bg,
+              theme.border,
+            )}
+          >
+            <VendorIcon vendor={m.vendor.icon ?? m.vendor.name} size={56} />
+          </div>
+
+          <div className={cn("mb-2 font-mono text-xs tracking-widest uppercase", theme.text)}>
             {m.vendor.name}
           </div>
-          <h1 className="mb-3 text-3xl font-bold tracking-tight">{m.name}</h1>
-          <div className="flex flex-wrap gap-2">
+          <h1 className="text-foreground mb-4 text-4xl font-bold tracking-tighter break-all sm:text-5xl md:text-6xl">
+            <ScrambleText text={m.name} />
+          </h1>
+          {m.description && (
+            <p className="text-muted-foreground max-w-2xl text-[15px] leading-relaxed">
+              {m.description}
+            </p>
+          )}
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
             {(m.tags ?? []).map((tag) => (
-              <Badge key={tag} variant="outline">
+              <Badge
+                key={tag}
+                variant="outline"
+                className={cn(theme.tagBg, theme.tagBorder, theme.text)}
+              >
                 {tag}
               </Badge>
             ))}
           </div>
         </div>
-      </div>
+      </section>
 
-      {m.description && (
-        <section className="mb-12">
-          <h2 className="mb-3 text-xl font-semibold">
-            {t("MODEL_PAGE.ABOUT", { name: m.name })}
-          </h2>
-          <p className="text-muted-foreground text-[15px] leading-relaxed">
-            {m.description}
+      {/* Stats grid */}
+      <section
+        className={cn(
+          "border-border divide-border grid gap-0 border-y divide-y sm:divide-x sm:divide-y-0",
+          statsColsClass,
+        )}
+      >
+        {stats.map((s) => (
+          <StatCell
+            key={s.label}
+            label={s.label}
+            value={s.value}
+            suffix={s.suffix}
+            mono={s.mono}
+            theme={theme}
+          />
+        ))}
+      </section>
+
+      {/* Pricing detail */}
+      <section className="relative mt-16 mb-16">
+        <div className="mb-6 flex items-end justify-between gap-4">
+          <div>
+            <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+              § 01
+            </div>
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              {t("MODEL_PAGE.PRICING_TITLE")}
+            </h2>
+          </div>
+          <p className="text-muted-foreground hidden max-w-sm text-right text-sm md:block">
+            {t("MODEL_PAGE.PRICING_DESC")}
           </p>
-        </section>
-      )}
-
-      {/* Pricing */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-xl font-semibold">
-          {t("MODEL_PAGE.PRICING_TITLE")}
-        </h2>
-        <p className="text-muted-foreground mb-4 text-sm">
-          {t("MODEL_PAGE.PRICING_DESC")}
-        </p>
-        <div className="border-border overflow-hidden rounded-lg border">
+        </div>
+        <div
+          className={cn(
+            "overflow-hidden rounded-lg border backdrop-blur-sm",
+            theme.border,
+            theme.bg,
+          )}
+        >
           <Table>
             <TableBody>
               {m.isFixedPrice ? (
                 <TableRow>
-                  <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
+                  <TableCell className="w-1/3 px-4 py-3 font-medium">
                     {t("MODEL_PAGE.FIXED_PRICE")}
                   </TableCell>
-                  <TableCell className="px-4 py-3 font-mono">
+                  <TableCell className={cn("px-4 py-3 font-mono", theme.text)}>
                     {t("MODEL_PAGE.PRICE_PER_REQUEST", {
                       price: formatPrice(m.fixedPrice),
                     })}
@@ -136,22 +261,22 @@ print(res.choices[0].message.content)`;
               ) : (
                 <>
                   <TableRow>
-                    <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
+                    <TableCell className="w-1/3 px-4 py-3 font-medium">
                       {t("MODEL_PAGE.INPUT_PRICE")}
                     </TableCell>
-                    <TableCell className="px-4 py-3 font-mono">
+                    <TableCell className={cn("px-4 py-3 font-mono", theme.text)}>
                       {t("MODEL_PAGE.PRICE_PER_MILLION", {
-                        price: formatTokenPrice(m.inputPrice),
+                        price: formatPrice(m.inputPrice),
                       })}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
+                    <TableCell className="w-1/3 px-4 py-3 font-medium">
                       {t("MODEL_PAGE.OUTPUT_PRICE")}
                     </TableCell>
-                    <TableCell className="px-4 py-3 font-mono">
+                    <TableCell className={cn("px-4 py-3 font-mono", theme.text)}>
                       {t("MODEL_PAGE.PRICE_PER_MILLION", {
-                        price: formatTokenPrice(m.outputPrice),
+                        price: formatPrice(m.outputPrice),
                       })}
                     </TableCell>
                   </TableRow>
@@ -159,7 +284,7 @@ print(res.choices[0].message.content)`;
               )}
               {contextTag && (
                 <TableRow>
-                  <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
+                  <TableCell className="w-1/3 px-4 py-3 font-medium">
                     {t("MODEL_PAGE.CONTEXT_WINDOW")}
                   </TableCell>
                   <TableCell className="px-4 py-3 font-mono">
@@ -168,15 +293,13 @@ print(res.choices[0].message.content)`;
                 </TableRow>
               )}
               <TableRow>
-                <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
+                <TableCell className="w-1/3 px-4 py-3 font-medium">
                   {t("MODEL_PAGE.ENDPOINTS")}
                 </TableCell>
-                <TableCell className="px-4 py-3">
-                  {(m.endpointTypes ?? []).join(", ")}
-                </TableCell>
+                <TableCell className="px-4 py-3">{endpointsDisplay}</TableCell>
               </TableRow>
               <TableRow>
-                <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
+                <TableCell className="w-1/3 px-4 py-3 font-medium">
                   {t("MODEL_PAGE.VENDOR")}
                 </TableCell>
                 <TableCell className="px-4 py-3">{m.vendor.name}</TableCell>
@@ -199,13 +322,18 @@ print(res.choices[0].message.content)`;
       </section>
 
       {/* Code examples */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-xl font-semibold">
-          {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
-        </h2>
-        <p className="text-muted-foreground mb-4 text-sm">
-          {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
-        </p>
+      <section className="mb-16">
+        <div className="mb-6">
+          <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+            § 02
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+            {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
+          </h2>
+          <p className="text-muted-foreground mt-2 text-sm">
+            {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
+          </p>
+        </div>
         <CodeExamplesTabs
           curl={
             <ApiKeyCodeBlock
@@ -235,21 +363,26 @@ print(res.choices[0].message.content)`;
       </section>
 
       {/* FAQ */}
-      <section className="mb-12">
-        <h2 className="mb-4 text-xl font-semibold">
-          {t("MODEL_PAGE.FAQ_TITLE")}
-        </h2>
-        <div className="space-y-5">
-          <div>
-            <h3 className="mb-2 font-medium">
-              {m.isFixedPrice
+      <section className="mb-16">
+        <div className="mb-6">
+          <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+            § 03
+          </div>
+          <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+            {t("MODEL_PAGE.FAQ_TITLE")}
+          </h2>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FaqCard
+            question={
+              m.isFixedPrice
                 ? t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name: m.name })
                 : m.gridPricing
                   ? t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: m.name })
-                  : t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })}
-            </h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {m.isFixedPrice
+                  : t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })
+            }
+            answer={
+              m.isFixedPrice
                 ? t("MODEL_PAGE.FAQ_COST_FIXED_A", {
                     name: m.name,
                     price: formatPrice(m.fixedPrice),
@@ -258,89 +391,179 @@ print(res.choices[0].message.content)`;
                   ? t("MODEL_PAGE.FAQ_COST_GRID_A", { name: m.name })
                   : t("MODEL_PAGE.FAQ_COST_A", {
                       name: m.name,
-                      input: formatTokenPrice(m.inputPrice),
-                      output: formatTokenPrice(m.outputPrice),
-                    })}
-            </p>
-          </div>
-          <div>
-            <h3 className="mb-2 font-medium">
-              {t("MODEL_PAGE.FAQ_API_Q", { name: m.name })}
-            </h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              {t("MODEL_PAGE.FAQ_API_A", { ...APP_VALUES, name: m.name })}
-            </p>
-          </div>
+                      input: formatPrice(m.inputPrice),
+                      output: formatPrice(m.outputPrice),
+                    })
+            }
+            theme={theme}
+          />
+          <FaqCard
+            question={t("MODEL_PAGE.FAQ_API_Q", { name: m.name })}
+            answer={t("MODEL_PAGE.FAQ_API_A", { ...APP_VALUES, name: m.name })}
+            theme={theme}
+          />
           {contextTag && (
-            <div>
-              <h3 className="mb-2 font-medium">
-                {t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: m.name })}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {t("MODEL_PAGE.FAQ_CONTEXT_A", {
-                  name: m.name,
-                  context: contextTag,
-                })}
-              </p>
-            </div>
+            <FaqCard
+              question={t("MODEL_PAGE.FAQ_CONTEXT_Q", { name: m.name })}
+              answer={t("MODEL_PAGE.FAQ_CONTEXT_A", {
+                name: m.name,
+                context: contextTag,
+              })}
+              theme={theme}
+            />
           )}
         </div>
       </section>
 
       {/* Similar models */}
       {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
-        <section className="mb-12">
-          <h2 className="mb-4 text-xl font-semibold">
-            {t("MODEL_PAGE.SIMILAR_TITLE")}
-          </h2>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {[...similar.sameVendor, ...similar.sameTag].map(
-              (sim) => (
+        <section className="mb-16">
+          <div className="mb-6">
+            <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+              § 04
+            </div>
+            <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+              {t("MODEL_PAGE.SIMILAR_TITLE")}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {[...similar.sameVendor, ...similar.sameTag].map((sim) => {
+              const simTheme = getVendorTheme(sim.vendor.name);
+              return (
                 <Link
                   key={sim.name}
                   href={{
                     pathname: "/models/[slug]",
                     params: { slug: sim.name },
                   }}
-                  className="border-border hover:border-foreground/30 bg-card flex items-center gap-3 rounded-lg border p-4 transition-colors"
+                  className={cn(
+                    "group flex items-center gap-3 rounded-lg border p-4 transition-all hover:-translate-y-0.5",
+                    simTheme.bg,
+                    simTheme.border,
+                  )}
                 >
-                  <VendorIcon vendor={sim.vendor.icon ?? sim.vendor.name} size={28} />
+                  <div
+                    className={cn(
+                      "flex size-10 shrink-0 items-center justify-center rounded-md border",
+                      simTheme.tagBg,
+                      simTheme.tagBorder,
+                    )}
+                  >
+                    <VendorIcon
+                      vendor={sim.vendor.icon ?? sim.vendor.name}
+                      size={24}
+                    />
+                  </div>
                   <div className="min-w-0 flex-1">
                     <div className="truncate font-medium">{sim.name}</div>
-                    <div className="text-muted-foreground truncate text-xs">
+                    <div
+                      className={cn(
+                        "truncate font-mono text-[10px] tracking-wider uppercase",
+                        simTheme.text,
+                      )}
+                    >
                       {sim.vendor.name}
                     </div>
                   </div>
                 </Link>
-              ),
-            )}
+              );
+            })}
           </div>
         </section>
       )}
 
       {/* CTA */}
-      <section className="border-border mt-16 border-t pt-10 text-center">
-        <h2 className="text-2xl font-semibold">
-          {t("MODEL_PAGE.CTA_TITLE", { name: m.name })}
-        </h2>
-        <p className="text-muted-foreground mt-2">
-          {t("MODEL_PAGE.CTA_DESC")}
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <TryInChatButton
-            modelName={m.name}
-            label={t("MODEL_PAGE.CTA_TRY", { name: m.name })}
-            loginLabel={t("MODEL_PAGE.CTA_SIGNUP", { name: m.name })}
-          />
-          <Button
-            nativeButton={false}
-            variant="outline"
-            render={<Link href="/models" />}
-          >
-            {t("MODEL_PAGE.CTA_ALL_MODELS")}
-          </Button>
+      <section className="relative overflow-hidden rounded-2xl border-border border">
+        <div
+          className={cn(
+            "pointer-events-none absolute inset-0 opacity-60",
+            theme.bg.replace("/5", "/20"),
+          )}
+          aria-hidden
+        />
+        <div
+          className={cn(
+            "pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 size-80 rounded-full blur-3xl",
+            theme.bg.replace("/5", "/30"),
+          )}
+          aria-hidden
+        />
+        <div className="relative py-14 px-6 text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+            {t("MODEL_PAGE.CTA_TITLE", { name: m.name })}
+          </h2>
+          <p className="text-muted-foreground mx-auto mt-3 max-w-md">
+            {t("MODEL_PAGE.CTA_DESC")}
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <TryInChatButton
+              modelName={m.name}
+              label={t("MODEL_PAGE.CTA_TRY", { name: m.name })}
+              loginLabel={t("MODEL_PAGE.CTA_SIGNUP", { name: m.name })}
+            />
+            <Button
+              nativeButton={false}
+              variant="outline"
+              render={<Link href="/models" />}
+            >
+              {t("MODEL_PAGE.CTA_ALL_MODELS")}
+            </Button>
+          </div>
         </div>
       </section>
+    </div>
+  );
+}
+
+type Theme = ReturnType<typeof getVendorTheme>;
+
+function StatCell(props: {
+  label: string;
+  value: string;
+  suffix?: string;
+  theme: Theme;
+  mono?: boolean;
+}) {
+  return (
+    <div className="hover:bg-accent/40 flex flex-col p-5 transition-colors">
+      <span
+        className={cn(
+          "mb-3 font-mono text-[10px] tracking-widest uppercase",
+          props.theme.text,
+        )}
+      >
+        {props.label}
+      </span>
+      <span
+        className={cn(
+          "text-foreground text-2xl font-bold tracking-tight",
+          props.mono && "font-mono text-lg",
+        )}
+      >
+        {props.value}
+      </span>
+      {props.suffix && (
+        <span className="text-muted-foreground mt-1 font-mono text-[10px]">
+          {props.suffix}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function FaqCard(props: { question: string; answer: string; theme: Theme }) {
+  return (
+    <div
+      className={cn(
+        "rounded-lg border p-5 backdrop-blur-sm",
+        props.theme.border,
+        props.theme.bg,
+      )}
+    >
+      <h3 className="mb-2 font-medium">{props.question}</h3>
+      <p className="text-muted-foreground text-sm leading-relaxed">
+        {props.answer}
+      </p>
     </div>
   );
 }

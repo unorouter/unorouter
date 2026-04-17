@@ -239,11 +239,3 @@ export function findContextTag(model: ProcessedModel): string | undefined {
   return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
 }
 
-export function formatTokenPrice(value: number | null | undefined): string {
-  if (value === null || value === undefined) return "N/A";
-  if (value === 0) return "Free";
-  const perMillion = value * 1000;
-  if (perMillion < 0.01) return `$${perMillion.toFixed(4)}`;
-  if (perMillion < 1) return `$${perMillion.toFixed(3)}`;
-  return `$${perMillion.toFixed(2)}`;
-}

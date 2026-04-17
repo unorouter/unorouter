@@ -1,5 +1,6 @@
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
-import { findContextTag, formatTokenPrice } from "@/lib/api/pricing";
+import { findContextTag } from "@/lib/api/pricing";
+import { formatPrice } from "@/lib/utils/base";
 import { APP_VALUES, LOCALES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -103,8 +104,8 @@ export default async function ModelDetailPage(props: PageProps) {
       question: t("MODEL_PAGE.FAQ_COST_Q", { name: model.name }),
       answer: t("MODEL_PAGE.FAQ_COST_A", {
         name: model.name,
-        input: formatTokenPrice(model.inputPrice),
-        output: formatTokenPrice(model.outputPrice),
+        input: formatPrice(model.inputPrice),
+        output: formatPrice(model.outputPrice),
       }),
     },
     {
