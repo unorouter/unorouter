@@ -1,4 +1,4 @@
-import { ModelDetail } from "@/components/pages/navbar/models/model-detail";
+import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { findContextTag, formatTokenPrice } from "@/lib/api/pricing";
 import { APP_VALUES, LOCALES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";

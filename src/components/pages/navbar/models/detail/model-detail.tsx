@@ -2,18 +2,25 @@ import { CodeBlock } from "@/components/elements/code/code-block";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
 import { Link } from "@/i18n/navigation";
 import {
   findContextTag,
   findSimilarModels,
   formatTokenPrice,
-  type GridPricingRow,
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { formatPrice } from "@/lib/utils/base";
 import { getTranslations } from "next-intl/server";
+import { CodeExamplesTabs } from "./code-examples-tabs";
+import { GridPricingTable } from "./grid-pricing-table";
 
 interface ModelDetailProps {
   model: ProcessedModel;
@@ -104,69 +111,69 @@ print(res.choices[0].message.content)`;
           {t("MODEL_PAGE.PRICING_DESC")}
         </p>
         <div className="border-border overflow-hidden rounded-lg border">
-          <table className="w-full text-sm">
-            <tbody className="divide-border divide-y">
+          <Table>
+            <TableBody>
               {m.isFixedPrice ? (
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
+                <TableRow>
+                  <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
                     {t("MODEL_PAGE.FIXED_PRICE")}
-                  </td>
-                  <td className="px-4 py-3 font-mono">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 font-mono">
                     {t("MODEL_PAGE.PRICE_PER_REQUEST", {
                       price: formatPrice(m.fixedPrice),
                     })}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ) : (
                 <>
-                  <tr>
-                    <td className="bg-muted/50 px-4 py-3 font-medium">
+                  <TableRow>
+                    <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
                       {t("MODEL_PAGE.INPUT_PRICE")}
-                    </td>
-                    <td className="px-4 py-3 font-mono">
+                    </TableCell>
+                    <TableCell className="px-4 py-3 font-mono">
                       {t("MODEL_PAGE.PRICE_PER_MILLION", {
                         price: formatTokenPrice(m.inputPrice),
                       })}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="bg-muted/50 px-4 py-3 font-medium">
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
                       {t("MODEL_PAGE.OUTPUT_PRICE")}
-                    </td>
-                    <td className="px-4 py-3 font-mono">
+                    </TableCell>
+                    <TableCell className="px-4 py-3 font-mono">
                       {t("MODEL_PAGE.PRICE_PER_MILLION", {
                         price: formatTokenPrice(m.outputPrice),
                       })}
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 </>
               )}
               {contextTag && (
-                <tr>
-                  <td className="bg-muted/50 px-4 py-3 font-medium">
+                <TableRow>
+                  <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
                     {t("MODEL_PAGE.CONTEXT_WINDOW")}
-                  </td>
-                  <td className="px-4 py-3 font-mono">
+                  </TableCell>
+                  <TableCell className="px-4 py-3 font-mono">
                     {t("MODEL_PAGE.CONTEXT_TOKENS", { count: contextTag })}
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
-              <tr>
-                <td className="bg-muted/50 px-4 py-3 font-medium">
+              <TableRow>
+                <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
                   {t("MODEL_PAGE.ENDPOINTS")}
-                </td>
-                <td className="px-4 py-3">
+                </TableCell>
+                <TableCell className="px-4 py-3">
                   {(m.endpointTypes ?? []).join(", ")}
-                </td>
-              </tr>
-              <tr>
-                <td className="bg-muted/50 px-4 py-3 font-medium">
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="bg-muted/50 w-1/3 px-4 py-3 font-medium">
                   {t("MODEL_PAGE.VENDOR")}
-                </td>
-                <td className="px-4 py-3">{m.vendor.name}</td>
-              </tr>
-            </tbody>
-          </table>
+                </TableCell>
+                <TableCell className="px-4 py-3">{m.vendor.name}</TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
 
         {m.gridPricing && (
@@ -174,7 +181,10 @@ print(res.choices[0].message.content)`;
             <h3 className="mb-3 text-sm font-semibold">
               {t("MODEL_PAGE.GRID_PRICING_TITLE")}
             </h3>
-            <GridPricingTable rows={m.gridPricing} />
+            <GridPricingTable
+              rows={m.gridPricing}
+              priceLabel={t("MODEL_PAGE.GRID_PRICE_HEADER")}
+            />
           </div>
         )}
       </section>
@@ -187,20 +197,11 @@ print(res.choices[0].message.content)`;
         <p className="text-muted-foreground mb-4 text-sm">
           {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
         </p>
-        <div className="space-y-4">
-          <div>
-            <h3 className="mb-2 text-sm font-medium">curl</h3>
-            <CodeBlock language="bash" code={curlExample} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-medium">TypeScript</h3>
-            <CodeBlock language="typescript" code={tsExample} />
-          </div>
-          <div>
-            <h3 className="mb-2 text-sm font-medium">Python</h3>
-            <CodeBlock language="python" code={pyExample} />
-          </div>
-        </div>
+        <CodeExamplesTabs
+          curl={<CodeBlock language="bash" code={curlExample} />}
+          typescript={<CodeBlock language="typescript" code={tsExample} />}
+          python={<CodeBlock language="python" code={pyExample} />}
+        />
       </section>
 
       {/* FAQ */}
@@ -308,61 +309,6 @@ print(res.choices[0].message.content)`;
           </Button>
         </div>
       </section>
-    </div>
-  );
-}
-
-function GridPricingTable(props: { rows: GridPricingRow[] }) {
-  const first = props.rows[0];
-  if (!first) return null;
-  const columns = Object.keys(first).filter(
-    (k) => k !== "Pricing" && k !== "PricingSuffix",
-  );
-
-  return (
-    <div className="border-border overflow-x-auto rounded-lg border">
-      <table className="w-full text-sm">
-        <thead>
-          <tr className="border-border border-b">
-            {columns.map((col) => (
-              <th
-                key={col}
-                className="bg-muted/50 text-muted-foreground px-4 py-2 text-left text-xs font-medium uppercase tracking-wide"
-              >
-                {col}
-              </th>
-            ))}
-            <th className="bg-muted/50 text-muted-foreground px-4 py-2 text-right text-xs font-medium uppercase tracking-wide">
-              Price
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-border divide-y">
-          {props.rows.map((row, i) => {
-            const price = typeof row.Pricing === "number" ? row.Pricing : 0;
-            const suffix =
-              typeof row.PricingSuffix === "string" ? row.PricingSuffix : "";
-            return (
-              <tr key={i}>
-                {columns.map((col) => (
-                  <td
-                    key={col}
-                    className="text-muted-foreground px-4 py-2 font-mono text-xs"
-                  >
-                    {String(row[col] ?? "")}
-                  </td>
-                ))}
-                <td className="px-4 py-2 text-right font-mono text-xs">
-                  {formatPrice(price)}
-                  {suffix && (
-                    <span className="text-muted-foreground ml-1">{suffix}</span>
-                  )}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
     </div>
   );
 }

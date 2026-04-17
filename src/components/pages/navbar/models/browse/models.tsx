@@ -7,11 +7,11 @@ import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { FILTER_OPTIONS } from "@/store/models-store";
 import { useTranslations } from "next-intl";
 import { LuLayers, LuSearch, LuX } from "react-icons/lu";
-import { SortFilter } from "./filters/sort-filter";
-import { VendorFilter } from "./filters/vendor-filter";
-import { ViewModeToggle } from "./filters/view-mode-toggle";
+import { SortFilter } from "../filters/sort-filter";
+import { VendorFilter } from "../filters/vendor-filter";
+import { ViewModeToggle } from "../filters/view-mode-toggle";
+import { ModelDetailSheet } from "../detail/model-detail-sheet";
 import { ModelCard } from "./model-card";
-import { ModelDetailSheet } from "./model-detail-sheet";
 import { ModelListItem } from "./model-list-item";
 
 export function Models() {

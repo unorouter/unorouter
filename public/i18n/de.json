@@ -329,6 +329,7 @@
     "FIXED_PRICE": "Preis pro Anfrage",
     "PRICE_PER_REQUEST": "{price} / Anfrage",
     "GRID_PRICING_TITLE": "Preisraster",
+    "GRID_PRICE_HEADER": "Preis",
     "CONTEXT_WINDOW": "Kontextfenster",
     "CONTEXT_TOKENS": "{count} Tokens",
     "ENDPOINTS": "Kompatible Endpunkte",

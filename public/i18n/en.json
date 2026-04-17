@@ -329,6 +329,7 @@
     "FIXED_PRICE": "Price per request",
     "PRICE_PER_REQUEST": "{price} / request",
     "GRID_PRICING_TITLE": "Price grid",
+    "GRID_PRICE_HEADER": "Price",
     "CONTEXT_WINDOW": "Context window",
     "CONTEXT_TOKENS": "{count} tokens",
     "ENDPOINTS": "Compatible endpoints",
