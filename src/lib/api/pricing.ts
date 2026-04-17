@@ -211,3 +211,39 @@ export function buildPricingSummary(response: PricingData) {
     topDiscounted,
   };
 }
+
+export function findSimilarModels(
+  all: ProcessedModel[],
+  current: ProcessedModel,
+  limit = 6,
+): { sameVendor: ProcessedModel[]; sameTag: ProcessedModel[] } {
+  const others = all.filter((m) => m.name !== current.name);
+
+  const sameVendor = others
+    .filter((m) => m.vendor.id === current.vendor.id)
+    .slice(0, 3);
+
+  const currentTags = new Set(current.tags ?? []);
+  const sameTag = others
+    .filter(
+      (m) =>
+        m.vendor.id !== current.vendor.id &&
+        (m.tags ?? []).some((t) => currentTags.has(t)),
+    )
+    .slice(0, limit - sameVendor.length);
+
+  return { sameVendor, sameTag };
+}
+
+export function findContextTag(model: ProcessedModel): string | undefined {
+  return (model.tags ?? []).find((tag) => /\d+K$|\d+\.\d+K$/.test(tag));
+}
+
+export function formatTokenPrice(value: number | null | undefined): string {
+  if (value === null || value === undefined) return "N/A";
+  if (value === 0) return "Free";
+  const perMillion = value * 1000;
+  if (perMillion < 0.01) return `$${perMillion.toFixed(4)}`;
+  if (perMillion < 1) return `$${perMillion.toFixed(3)}`;
+  return `$${perMillion.toFixed(2)}`;
+}

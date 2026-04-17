@@ -8,7 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -16,7 +16,7 @@ import { formatPrice } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { LuMessageSquare } from "react-icons/lu";
+import { LuExternalLink, LuMessageSquare } from "react-icons/lu";
 
 export type ModelCardLabels = {
   from: string;
@@ -73,6 +73,24 @@ export function ModelCard(props: {
                   <LuMessageSquare className="h-3 w-3" />
                 </TooltipTrigger>
                 <TooltipContent>{t("MODELS.OPEN_IN_CHAT")}</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger
+                  aria-label={t("MODELS.VIEW_DETAILS")}
+                  className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                  render={
+                    <Link
+                      href={{
+                        pathname: "/models/[slug]",
+                        params: { slug: model.name },
+                      }}
+                    />
+                  }
+                >
+                  <LuExternalLink className="h-3 w-3" />
+                </TooltipTrigger>
+                <TooltipContent>{t("MODELS.VIEW_DETAILS")}</TooltipContent>
               </Tooltip>
             </div>
             <p className="text-muted-foreground truncate font-mono text-[10px] tracking-wider uppercase">

@@ -1,13 +1,19 @@
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
-import { getPageMetadata, ogBadge } from "@/lib/config/metadata";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { JsonLd } from "@/lib/seo/json-ld";
+import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
+import {
+  buildBreadcrumbListSchema,
+  buildFAQPageSchema,
+  type FAQEntry,
+} from "@/lib/seo/structured-data";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
-import { getTranslations } from "next-intl/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
@@ -23,8 +29,12 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function PricingPage() {
+export default async function PricingPage(props: {
+  params: Promise<{ locale: string }>;
+}) {
   const queryClient = getQueryClient();
+  const locale = await serverLocale(props);
+  const t = await getTranslations({ locale });
 
   await queryClient.prefetchQuery({
     queryKey: queryKeys.subscriptionPlans(),
@@ -32,9 +42,24 @@ export default async function PricingPage() {
       handleElysia(await rpc.api.pricing.subscriptions.get()),
   });
 
+  const faqEntries: FAQEntry[] = ([1, 2, 3, 4, 5, 6] as const).map((n) => ({
+    question: t(`PRICING.FAQ.Q${n}`, APP_VALUES),
+    answer: t(`PRICING.FAQ.A${n}`, APP_VALUES),
+  }));
+
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Pricing />
-    </HydrationBoundary>
+    <>
+      <JsonLd
+        id="pricing-breadcrumb"
+        data={buildBreadcrumbListSchema([
+          { name: t("NAV.HOME"), url: `/${locale}` },
+          { name: t("NAV.PRICING"), url: `/${locale}/pricing` },
+        ])}
+      />
+      <JsonLd id="pricing-faq" data={buildFAQPageSchema(faqEntries)} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <Pricing />
+      </HydrationBoundary>
+    </>
   );
 }

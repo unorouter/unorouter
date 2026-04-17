@@ -1,4 +1,4 @@
-import { getPostsByLocale } from "@/lib/blog/posts";
+import { getAllPostsSorted, translated } from "@/components/pages/blog/posts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { getSeoTimestamps } from "@/lib/seo/timestamps";
@@ -16,7 +16,7 @@ export async function GET(
 ) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
-  const posts = getPostsByLocale(locale);
+  const posts = getAllPostsSorted();
   const siteUrl = `${siteOrigin}/${locale}/blog`;
 
   const feed = new Feed({
@@ -32,14 +32,15 @@ export async function GET(
   for (const post of posts) {
     const ts = getSeoTimestamps(`blog/${post.slug}`);
     const url = `${siteOrigin}/${locale}/blog/${post.slug}`;
+    const { title, description, author } = translated(t, post);
     feed.addItem({
-      title: post.title,
+      title,
       id: url,
       link: url,
-      description: post.description,
-      author: [{ name: post.author }],
+      description,
+      author: [{ name: author }],
       date: new Date(ts?.modified ?? post.date),
-      category: post.tags.map((t) => ({ name: t })),
+      category: post.tags.map((tag) => ({ name: tag })),
     });
   }
 
