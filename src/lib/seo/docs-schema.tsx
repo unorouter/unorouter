@@ -1,4 +1,3 @@
-import { pathnames } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 import { JsonLd } from "@/lib/seo/json-ld";
 import {
@@ -6,14 +5,9 @@ import {
   buildBreadcrumbListSchema,
   type BreadcrumbItem,
 } from "@/lib/seo/structured-data";
+import type { DocSlug } from "@/lib/types/seo";
 import { getLocale, getTranslations } from "next-intl/server";
 import { getSeoTimestamps } from "./timestamps";
-
-type DocSlug = keyof typeof pathnames extends infer K
-  ? K extends `/${infer R extends `docs/${string}`}`
-    ? R
-    : never
-  : never;
 
 interface DocPageSchemaProps {
   slug: DocSlug;

@@ -1,7 +1,14 @@
-import type { Pathname, StaticRoute } from "@/i18n/routing";
+import type { Pathname, pathnames, StaticRoute } from "@/i18n/routing";
 import type { TranslationKey } from "@/lib/config/constants";
 import type { MetadataRoute } from "next";
 import type { ComponentType } from "react";
+
+/** Docs slugs extracted from the pathnames registry (e.g. "docs/claude-code"). */
+export type DocSlug = keyof typeof pathnames extends infer K
+  ? K extends `/${infer R extends `docs/${string}`}`
+    ? R
+    : never
+  : never;
 
 export type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
 

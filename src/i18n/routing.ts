@@ -1,8 +1,7 @@
 import { LOCALES } from "@/lib/config/constants";
-import type { Locale } from "next-intl";
 import { defineRouting } from "next-intl/routing";
 import { ComponentProps } from "react";
-import { getPathname, Link, redirect, useRouter } from "./navigation";
+import type { getPathname, Link, redirect, useRouter } from "./navigation";
 
 export type LinkHref = ComponentProps<typeof Link>["href"];
 export type RouterPush = Parameters<ReturnType<typeof useRouter>["push"]>[0];
@@ -122,12 +121,3 @@ export const privateRoutes = {
   dynamicParents: readonly (keyof typeof pathnames)[];
 };
 
-/** Locale-aware localized pathname (honors pathnames overrides like /modelle for de). */
-export function localeUrl(locale: Locale, href: StaticRoute): string;
-export function localeUrl(
-  locale: Locale,
-  href: Exclude<Pathname, string>,
-): string;
-export function localeUrl(locale: Locale, href: Pathname): string {
-  return getPathname({ locale, href });
-}

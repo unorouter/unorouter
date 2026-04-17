@@ -8,7 +8,7 @@ import {
   buildBreadcrumbListSchema,
 } from "@/lib/seo/structured-data";
 import { getSeoTimestamps } from "@/lib/seo/timestamps";
-import { localeUrl } from "@/i18n/routing";
+import { localeUrl } from "@/i18n/navigation";
 import { serverLocale, serverPathname } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";

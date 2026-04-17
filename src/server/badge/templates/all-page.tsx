@@ -27,6 +27,7 @@ export function AllPage(props: {
   muted: string;
   qsStr: string;
   groups: { type: string; badges: { name: string; svg: string }[] }[];
+  badgeAlt: string;
 }) {
   return (
     <html>
@@ -82,6 +83,7 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
                   </div>
                   <img
                     class="badge-img"
+                    alt={props.badgeAlt}
                     src={`data:image/svg+xml;base64,${Buffer.from(b.svg).toString("base64")}`}
                   />
                 </div>

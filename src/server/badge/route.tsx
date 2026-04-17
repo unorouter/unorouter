@@ -9,6 +9,7 @@ import {
 } from "@/lib/validation/badge";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
+import { getTranslations } from "next-intl/server";
 import sharp from "sharp";
 import { getPricingData, getStats } from "./lib/cache";
 import { THEME_COLORS } from "./lib/theme";
@@ -66,9 +67,10 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       if (query.ref) qs.set("ref", query.ref);
       const qsStr = qs.toString() ? `?${qs.toString()}` : "";
 
-      const [stats, pricing] = await Promise.all([
+      const [stats, pricing, t] = await Promise.all([
         getStats(),
         getPricingData(),
+        getTranslations({ locale }),
       ]);
 
       const sizes = BADGE_SIZES;
@@ -105,6 +107,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           muted={c.previewMuted}
           qsStr={qsStr}
           groups={allBadges}
+          badgeAlt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT")}
         />,
       );
     },

@@ -11,7 +11,7 @@ import {
   buildSoftwareApplicationSchema,
   type FAQEntry,
 } from "@/lib/seo/structured-data";
-import { localeUrl } from "@/i18n/routing";
+import { localeUrl } from "@/i18n/navigation";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";

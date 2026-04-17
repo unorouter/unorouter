@@ -9,7 +9,7 @@ import {
   buildFAQPageSchema,
   buildProductSchema,
 } from "@/lib/seo/structured-data";
-import { localeUrl } from "@/i18n/routing";
+import { localeUrl } from "@/i18n/navigation";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale, serverPathname } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
