@@ -47,9 +47,9 @@ export default async function DocsPage() {
           description: t("DOCS_INDEX.META.DESCRIPTION", APP_VALUES),
           url: localeUrl(locale, "/docs"),
           items: docs.map((d) => ({
-            name: t(`${d.i18nPrefix}.TITLE`),
+            name: t(`${d.i18nPrefix}.TITLE`, APP_VALUES),
             url: localeUrl(locale, d.path),
-            description: t(`${d.i18nPrefix}.SUBTITLE`),
+            description: t(`${d.i18nPrefix}.SUBTITLE`, APP_VALUES),
           })),
         })}
       />
