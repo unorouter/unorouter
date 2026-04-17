@@ -1,7 +1,7 @@
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { findContextTag } from "@/lib/api/pricing";
 import { formatPrice } from "@/lib/utils/base";
-import { APP_VALUES, LOCALES } from "@/lib/config/constants";
+import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -19,18 +19,10 @@ import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface PageProps {
   params: Promise<{ locale: string; slug: string }>;
-}
-
-export async function generateStaticParams() {
-  const data = await rpc.api.pricing
-    .get()
-    .then(handleElysia)
-    .catch(() => null);
-  return (data?.models ?? []).flatMap((model) =>
-    LOCALES.map((locale) => ({ locale, slug: model.name })),
-  );
 }
 
 export async function generateMetadata(props: PageProps) {
