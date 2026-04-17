@@ -14,7 +14,7 @@ COPY --from=deps /usr/local/bin/bun /usr/local/bin/bun
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 ENV STANDALONE=1
-# ENV NODE_ENV=development
+ENV NODE_ENV=development
 
 RUN bun run build
 
