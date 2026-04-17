@@ -9,6 +9,7 @@ import {
   formatTokenPrice,
   type ProcessedModel,
 } from "@/lib/api/pricing";
+import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { getTranslations } from "next-intl/server";
 
@@ -158,7 +159,7 @@ print(res.choices[0].message.content)`;
           {t("MODEL_PAGE.CODE_TITLE", { name: m.name })}
         </h2>
         <p className="text-muted-foreground mb-4 text-sm">
-          {t("MODEL_PAGE.CODE_DESC")}
+          {t("MODEL_PAGE.CODE_DESC", APP_VALUES)}
         </p>
         <div className="space-y-4">
           <div>
@@ -199,7 +200,7 @@ print(res.choices[0].message.content)`;
               {t("MODEL_PAGE.FAQ_API_Q", { name: m.name })}
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              {t("MODEL_PAGE.FAQ_API_A", { name: m.name })}
+              {t("MODEL_PAGE.FAQ_API_A", { ...APP_VALUES, name: m.name })}
             </p>
           </div>
           {contextTag && (
@@ -258,10 +259,14 @@ print(res.choices[0].message.content)`;
           {t("MODEL_PAGE.CTA_DESC")}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Button render={<Link href="/register" />}>
+          <Button nativeButton={false} render={<Link href="/register" />}>
             {t("MODEL_PAGE.CTA_SIGNUP")}
           </Button>
-          <Button variant="outline" render={<Link href="/models" />}>
+          <Button
+            nativeButton={false}
+            variant="outline"
+            render={<Link href="/models" />}
+          >
             {t("MODEL_PAGE.CTA_ALL_MODELS")}
           </Button>
         </div>
