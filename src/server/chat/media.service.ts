@@ -42,17 +42,15 @@ export async function uploadMedia(
     }
   }
 
-  const ext = file.name.split(".").pop() ?? "bin";
-  const filename = `${uid(8)}.${ext}`;
-  const key = mediaKey(isGuest ? "guest" : "user", convId, uid(8), filename);
-  const url = await uploadToR2(key, buffer, file.type);
+  const key = mediaKey(isGuest ? "guest" : "user", convId, uid(8), uid(8));
+  const { url, mime } = await uploadToR2(key, buffer, file.type);
   await db.insert(media).values({
     userId,
     convId,
     r2Key: key,
-    mimeType: file.type,
+    mimeType: mime,
     sizeBytes: buffer.length,
   });
 
-  return { url, mimeType: file.type, sizeBytes: buffer.length };
+  return { url, mimeType: mime, sizeBytes: buffer.length };
 }

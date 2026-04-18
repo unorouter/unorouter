@@ -3,15 +3,15 @@ import { getDb } from "@/lib/db/client";
 import { conversations, media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { serverEnv } from "@/server/env";
-import { eq, sql } from "drizzle-orm";
 import {
-  DeleteObjectCommand,
   DeleteObjectsCommand,
   HeadBucketCommand,
   ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
+import { eq, sql } from "drizzle-orm";
+import { fileTypeFromBuffer } from "file-type";
 import ipaddr from "ipaddr.js";
 import { lookup as dnsLookup } from "node:dns";
 import {
@@ -20,6 +20,7 @@ import {
   type Response as UndiciResponse,
 } from "undici";
 
+const R2_BUCKET = serverEnv.r2Bucket;
 const BLOCKED_HOSTS = new Set([
   "localhost",
   "metadata.google.internal",
@@ -31,6 +32,8 @@ const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
 const MAX_USER_BYTES = 100 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
 const ALLOWED_PORTS = new Set([80, 443]);
+
+let _s3: S3Client | null = null;
 
 const BLOCKED_IPV4_CIDRS: [ipaddr.IPv4, number][] = [
   "0.0.0.0/8",
@@ -196,22 +199,20 @@ async function readBodyWithLimit(res: UndiciResponse): Promise<Buffer> {
   return Buffer.concat(chunks);
 }
 
-function assertAllowedContentType(contentType: string | null): string {
-  const ct = (contentType ?? "").toLowerCase().split(";")[0].trim();
-  if (!ALLOWED_MEDIA_PREFIXES.some((p) => ct.startsWith(p))) {
+async function verifyMagicBytes(
+  body: Buffer | Uint8Array,
+  declaredCt?: string,
+): Promise<string> {
+  const detected = await fileTypeFromBuffer(body);
+  if (!detected) throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
+  if (!ALLOWED_MEDIA_PREFIXES.some((p) => detected.mime.startsWith(p))) {
     throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
   }
-  return ct;
+  if (declaredCt && declaredCt.split("/")[0] !== detected.mime.split("/")[0]) {
+    throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
+  }
+  return detected.mime;
 }
-
-function extFromContentType(ct: string): string {
-  const sub = ct.split("/")[1] ?? "bin";
-  return sub.replace(/[^a-z0-9]/gi, "") || "bin";
-}
-
-const R2_BUCKET = serverEnv.r2Bucket;
-
-let _s3: S3Client | null = null;
 
 function getS3() {
   if (_s3) return _s3;
@@ -227,10 +228,6 @@ function getS3() {
   return _s3;
 }
 
-function getPublicUrl() {
-  return serverEnv.r2PublicUrl;
-}
-
 export async function pingR2(): Promise<boolean> {
   try {
     await getS3().send(new HeadBucketCommand({ Bucket: R2_BUCKET }));
@@ -243,21 +240,18 @@ export async function pingR2(): Promise<boolean> {
 export async function uploadToR2(
   key: string,
   body: Buffer | Uint8Array,
-  contentType: string,
-): Promise<string> {
+  contentType?: string,
+): Promise<{ url: string; mime: string }> {
+  const mime = await verifyMagicBytes(body, contentType);
   await getS3().send(
     new PutObjectCommand({
       Bucket: R2_BUCKET,
       Key: key,
       Body: body,
-      ContentType: contentType,
+      ContentType: mime,
     }),
   );
-  return `${getPublicUrl()}/${key}`;
-}
-
-export async function deleteFromR2(key: string): Promise<void> {
-  await getS3().send(new DeleteObjectCommand({ Bucket: R2_BUCKET, Key: key }));
+  return { url: `${serverEnv.r2PublicUrl}/${key}`, mime };
 }
 
 export async function deleteR2Prefix(prefix: string): Promise<void> {
@@ -336,28 +330,39 @@ export function isVideoContentType(contentType: string | null): boolean {
   return contentType.toLowerCase().startsWith("video/");
 }
 
+async function putMedia(
+  convId: string,
+  msgId: string,
+  buffer: Buffer,
+  declaredCt?: string,
+): Promise<string> {
+  const owner = await resolveConvOwner(convId);
+  await assertUserQuota(owner.userId, buffer.length);
+  const key = mediaKey(owner.scope, convId, msgId, uid(8));
+  const { url, mime } = await uploadToR2(key, buffer, declaredCt);
+  await recordMedia(owner.userId, convId, key, mime, buffer.length);
+  return url;
+}
+
 export async function downloadAndUpload(
   url: string,
   convId: string,
   msgId: string,
 ): Promise<string> {
-  const owner = await resolveConvOwner(convId);
   const res = await safeFetch(url);
   if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
-  const ct = assertAllowedContentType(res.headers.get("content-type"));
   const buffer = await readBodyWithLimit(res);
-  await assertUserQuota(owner.userId, buffer.length);
-  const filename = `${uid(8)}.${extFromContentType(ct)}`;
-  const key = mediaKey(owner.scope, convId, msgId, filename);
-  const publicUrl = await uploadToR2(key, buffer, ct);
-  await recordMedia(owner.userId, convId, key, ct, buffer.length);
-  return publicUrl;
+  return putMedia(
+    convId,
+    msgId,
+    buffer,
+    res.headers.get("content-type") ?? undefined,
+  );
 }
 
 /**
- * Fetches a URL, checks content-type via the GET response headers,
- * and uploads to R2 only if the video/non-video type matches `wantVideo`.
- * Returns the R2 URL or null if the type doesn't match or fetch fails.
+ * Fetches a URL and uploads to R2 only if the detected type matches `wantVideo`.
+ * Returns null on fetch failure or type mismatch.
  */
 export async function fetchCheckUpload(
   url: string,
@@ -365,42 +370,16 @@ export async function fetchCheckUpload(
   groupKey: string,
   wantVideo: boolean,
 ): Promise<string | null> {
-  const owner = await resolveConvOwner(convId);
-  let res: UndiciResponse;
   try {
-    res = await safeFetch(url);
+    const res = await safeFetch(url);
     if (!res.ok) return null;
+    const header = res.headers.get("content-type");
+    if (isVideoContentType(header) !== wantVideo) return null;
+    const buffer = await readBodyWithLimit(res);
+    return await putMedia(convId, groupKey, buffer, header ?? undefined);
   } catch {
     return null;
   }
-  const contentType = res.headers.get("content-type");
-  if (isVideoContentType(contentType) !== wantVideo) return null;
-  let ct: string;
-  try {
-    ct = assertAllowedContentType(contentType);
-  } catch {
-    return null;
-  }
-  let buffer: Buffer;
-  try {
-    buffer = await readBodyWithLimit(res);
-  } catch {
-    return null;
-  }
-  try {
-    await assertUserQuota(owner.userId, buffer.length);
-  } catch {
-    return null;
-  }
-  const key = mediaKey(
-    owner.scope,
-    convId,
-    groupKey,
-    `${uid(8)}.${extFromContentType(ct)}`,
-  );
-  const publicUrl = await uploadToR2(key, buffer, ct);
-  await recordMedia(owner.userId, convId, key, ct, buffer.length);
-  return publicUrl;
 }
 
 export async function uploadBase64ToR2(
@@ -408,15 +387,7 @@ export async function uploadBase64ToR2(
   convId: string,
   msgId: string,
 ): Promise<string> {
-  const owner = await resolveConvOwner(convId);
   const [header, base64] = dataUrl.split(",");
-  const mimeType = header.match(/data:([^;]+)/)?.[1] ?? "image/png";
-  const ext = mimeType.split("/")[1] ?? "png";
-  const buffer = Buffer.from(base64, "base64");
-  await assertUserQuota(owner.userId, buffer.length);
-  const filename = `${uid(8)}.${ext}`;
-  const key = mediaKey(owner.scope, convId, msgId, filename);
-  const publicUrl = await uploadToR2(key, buffer, mimeType);
-  await recordMedia(owner.userId, convId, key, mimeType, buffer.length);
-  return publicUrl;
+  const declaredCt = header.match(/data:([^;]+)/)?.[1];
+  return putMedia(convId, msgId, Buffer.from(base64, "base64"), declaredCt);
 }
