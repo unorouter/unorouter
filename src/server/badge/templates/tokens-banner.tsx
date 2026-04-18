@@ -97,8 +97,44 @@ export async function generateTokensBanner(ctx: BadgeCtx): Promise<string> {
   const d = DIMS[ctx.size]!;
   const tokenCount = ctx.stats.tokenUsed.toLocaleString("en-US");
   const m1 = cipherMarker(1);
+  const isOg = ctx.size === "og";
 
-  const node = (
+  const node = isOg ? (
+    <Card
+      c={c}
+      radius={24}
+      style={{
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 56,
+        padding: d.pad,
+      }}
+    >
+      <Brand
+        c={c}
+        logoSize={d.logoSize}
+        fontSize={d.brandFont}
+        gap={d.brandGap}
+      />
+      <Stat
+        value={tokenCount}
+        label={t(ctx.locale, "BADGE.TOKENS_SERVED")}
+        c={c}
+        size={d.statSize}
+        labelSize={d.labelSize}
+        cipherMarker={m1}
+      />
+      <Row
+        style={{
+          width: d.dotSize,
+          height: d.dotSize,
+          borderRadius: "50%",
+          backgroundColor: c.pulseDotMarker,
+        }}
+      />
+    </Card>
+  ) : (
     <Card c={c} style={{ alignItems: "center", padding: `0 ${d.pad}px` }}>
       <Brand
         c={c}

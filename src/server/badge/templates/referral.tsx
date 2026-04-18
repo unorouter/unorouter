@@ -108,6 +108,23 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showSubtitle: true,
     showCta: true,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 96,
+    logoSize: 120,
+    brandFont: 56,
+    brandGap: 32,
+    badgeFont: 36,
+    subtitleFont: 42,
+    urlFont: 44,
+    urlPad: "24px 48px",
+    ctaFont: 36,
+    ctaPad: "14px 36px",
+    radius: 24,
+    showSubtitle: true,
+    showCta: true,
+  },
 };
 
 export async function generateReferral(ctx: BadgeCtx): Promise<string> {

@@ -85,6 +85,19 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     dotR: 4,
     dotY: 250,
   },
+  og: {
+    W: 1200,
+    H: 630,
+    pad: 80,
+    logo: 180,
+    brandFont: 48,
+    valueSize: 110,
+    labelSize: 40,
+    gap: 32,
+    radius: 40,
+    dotR: 12,
+    dotY: 560,
+  },
 };
 
 export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
