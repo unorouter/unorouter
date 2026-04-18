@@ -8,7 +8,7 @@ import {
   TOCItem,
   useActiveAnchors,
 } from "fumadocs-core/toc";
-import { atom, useAtom } from "jotai";
+import { atom, useAtom, useSetAtom } from "jotai";
 import { useHydrateAtoms } from "jotai/utils";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
@@ -261,7 +261,12 @@ interface TOCLayoutProps {
 }
 
 export function TOCLayout(props: TOCLayoutProps) {
-  useHydrateAtoms([[tocAtom, props.toc]], { dangerouslyForceHydrate: true });
+  useHydrateAtoms([[tocAtom, props.toc]]);
+  const setToc = useSetAtom(tocAtom);
+
+  useEffect(() => {
+    setToc(props.toc);
+  }, [props.toc, setToc]);
 
   return (
     <>
