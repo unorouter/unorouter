@@ -1,10 +1,13 @@
 "use client";
 
+import { createChatHistoryAdapter } from "@/components/pages/chat/utils/chat-history-adapter";
 import { ConvIdOverrideContext } from "@/hooks/ui/use-chat-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { useChat } from "@ai-sdk/react";
 import { AssistantRuntimeProvider } from "@assistant-ui/react";
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRef } from "react";
 
 type SharedChatProviderProps = {
   convId: string;
@@ -13,15 +16,21 @@ type SharedChatProviderProps = {
 
 /**
  * Lightweight runtime provider for shared (read-only) conversations.
- * Uses the pre-seeded chatMessages cache via useLoadedMessages,
- * mirroring the regular ChatRuntimeProvider's data flow.
+ * Reuses the chat history adapter for branch-aware loading.
  */
 export function SharedChatProvider(props: SharedChatProviderProps) {
   const chat = useChat({ id: props.convId });
+  const queryClient = useQueryClient();
 
-  useLoadedMessages(props.convId, props.convId, chat.setMessages);
+  const historyAdapterRef = useRef(
+    createChatHistoryAdapter(queryClient, () => props.convId),
+  );
 
-  const runtime = useAISDKRuntime(chat);
+  useLoadedMessages(props.convId, props.convId);
+
+  const runtime = useAISDKRuntime(chat, {
+    adapters: { history: historyAdapterRef.current },
+  });
 
   return (
     <ConvIdOverrideContext value={props.convId}>
