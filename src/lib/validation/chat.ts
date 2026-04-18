@@ -104,9 +104,7 @@ export const streamBody = t.Object({
   // Messages are typed by the AI SDK (UIMessage); schema validation
   // is handled by convertToModelMessages at runtime.
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
-  convId: t.Optional(
-    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-  ),
+  convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
 });
 

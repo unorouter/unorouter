@@ -11,13 +11,13 @@ import {
 } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import { AFF_CODE_KEY, APP_VALUES } from "@/lib/config/constants";
 import {
   registerChecker,
   registerSchema,
   type RegisterSchema,
 } from "@/lib/validation/auth";
-import { analytics } from "@/lib/analytics";
 import { safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
