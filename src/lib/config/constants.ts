@@ -1,4 +1,13 @@
-import { DE, US } from "country-flag-icons/react/3x2";
+import {
+  CN,
+  DE,
+  FR,
+  JP,
+  RU,
+  TW,
+  US,
+  VN,
+} from "country-flag-icons/react/3x2";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 import { env } from "./env";
@@ -26,14 +35,30 @@ export const FAR_FUTURE = 4102444800; // 2100-01-01
 export const PAGE_SIZE = 20;
 export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
-export const LOCALES = ["en", "de"] as const;
+export const LOCALES = [
+  "en",
+  "de",
+  "fr",
+  "ja",
+  "ru",
+  "vi",
+  "zh-CN",
+  "zh-TW",
+] as const;
 export const LANGUAGES: {
-  code: Uppercase<Locale>;
+  code: "EN" | "DE" | "FR" | "JA" | "RU" | "VI" | "ZH_CN" | "ZH_TW";
+  locale: Locale;
   Flag: FunctionComponent<SVGAttributes<SVGElement>>;
   ogLocale: string;
 }[] = [
-  { code: "EN", Flag: US, ogLocale: "en-US" },
-  { code: "DE", Flag: DE, ogLocale: "de-DE" },
+  { code: "EN", locale: "en", Flag: US, ogLocale: "en-US" },
+  { code: "DE", locale: "de", Flag: DE, ogLocale: "de-DE" },
+  { code: "FR", locale: "fr", Flag: FR, ogLocale: "fr-FR" },
+  { code: "JA", locale: "ja", Flag: JP, ogLocale: "ja-JP" },
+  { code: "RU", locale: "ru", Flag: RU, ogLocale: "ru-RU" },
+  { code: "VI", locale: "vi", Flag: VN, ogLocale: "vi-VN" },
+  { code: "ZH_CN", locale: "zh-CN", Flag: CN, ogLocale: "zh-CN" },
+  { code: "ZH_TW", locale: "zh-TW", Flag: TW, ogLocale: "zh-TW" },
 ];
 
 export const ALTERNATE_LANGUAGES = LOCALES.reduce(

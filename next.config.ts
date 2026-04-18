@@ -1,6 +1,7 @@
 import { withPostHogConfig } from "@posthog/nextjs-config";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { LOCALES } from "./src/lib/config/constants";
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
@@ -16,7 +17,7 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/:locale(en|de)/:path(models|pricing|docs|docs/.*)?",
+        source: `/:locale(${LOCALES.join("|")})/:path(models|models/.*|pricing|docs|docs/.*|blog|blog/.*)?`,
         headers: [
           {
             key: "Cache-Control",

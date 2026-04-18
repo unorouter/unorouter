@@ -18,9 +18,7 @@ export function LanguageToggle() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const pathname = usePathname();
-  const currentLanguage = LANGUAGES.find(
-    (lang) => lang.code.toLowerCase() === locale.toLowerCase(),
-  );
+  const currentLanguage = LANGUAGES.find((lang) => lang.locale === locale);
 
   const handleLanguageChange = (newLocale: string) => {
     // Use the raw pathname (which stays in sync with shallow history updates)
@@ -54,8 +52,8 @@ export function LanguageToggle() {
       <DropdownMenuContent align="end">
         {LANGUAGES.map((lang) => (
           <DropdownMenuItem
-            key={lang.code}
-            onClick={() => handleLanguageChange(lang.code.toLowerCase())}
+            key={lang.locale}
+            onClick={() => handleLanguageChange(lang.locale)}
             className="flex cursor-pointer items-center gap-2 px-3 py-2 text-sm"
           >
             <lang.Flag className="h-3.5 w-5 rounded-sm" />

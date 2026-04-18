@@ -1026,7 +1026,13 @@
   },
   "LANGUAGE": {
     "EN": "English",
-    "DE": "Deutsch"
+    "DE": "Deutsch",
+    "FR": "Français",
+    "JA": "日本語",
+    "RU": "Русский",
+    "VI": "Tiếng Việt",
+    "ZH_CN": "简体中文",
+    "ZH_TW": "繁體中文"
   },
   "AUTH": {
     "LOGIN": {
