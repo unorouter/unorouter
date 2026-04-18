@@ -52,6 +52,16 @@ export function useLoadedMessages(
 
     if (!isPrepend || !vp) {
       setMessages(messages);
+      // Scroll page to bottom after hydration renders messages
+      const scroller = document.querySelector("main");
+      if (scroller) {
+        let n = 0;
+        const pin = () => {
+          scroller.scrollTop = scroller.scrollHeight;
+          if (++n < 10) requestAnimationFrame(pin);
+        };
+        requestAnimationFrame(pin);
+      }
       return;
     }
 
