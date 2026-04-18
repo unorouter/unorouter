@@ -12,6 +12,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_POSTHOG_HOST?: string;
 
     SYSTEM_ACCESS_TOKEN: string;
+    INTERNAL_API_URL?: string;
 
     TURSO_DATABASE_URL: string;
     TURSO_AUTH_TOKEN?: string;

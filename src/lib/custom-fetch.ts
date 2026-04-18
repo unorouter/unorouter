@@ -1,6 +1,11 @@
 import { env } from "@/lib/config/env";
 import { getServerCookieHeader } from "@/server/constants";
 
+const upstreamApiUrl =
+  typeof window === "undefined"
+    ? (process.env.INTERNAL_API_URL ?? env.apiUrl)
+    : env.apiUrl;
+
 const REQUEST_TIMEOUT = 30_000;
 const MAX_RETRIES = 2;
 const RETRY_BACKOFF = [500, 1000];
@@ -41,7 +46,7 @@ export const customFetch = async <T>(
   const method = (options.method ?? "GET").toUpperCase();
 
   const doFetch = () =>
-    fetch(new URL(url, env.apiUrl).toString(), {
+    fetch(new URL(url, upstreamApiUrl).toString(), {
       ...options,
       credentials: "include",
       signal: AbortSignal.timeout(REQUEST_TIMEOUT),

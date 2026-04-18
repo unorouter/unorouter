@@ -17,6 +17,8 @@ export const ADMIN_HEADERS = {
   [NEW_API_USER]: "1",
 };
 
+export const upstreamApiUrl = serverEnv.internalApiUrl ?? env.apiUrl;
+
 export async function getServerCookieHeader(): Promise<string> {
   if (typeof window !== "undefined") return "";
   try {
@@ -82,7 +84,7 @@ export function getGuestConvIds(
 export function getProvider(apiKey: string) {
   return createOpenAICompatible({
     name: env.appName,
-    baseURL: `${env.apiUrl}/v1`,
+    baseURL: `${upstreamApiUrl}/v1`,
     apiKey,
   });
 }

@@ -1,6 +1,7 @@
 export const serverEnv = {
   systemAccessToken: process.env.SYSTEM_ACCESS_TOKEN,
   guestApiKey: process.env.GUEST_API_KEY,
+  internalApiUrl: process.env.INTERNAL_API_URL,
   tursoUrl: process.env.TURSO_DATABASE_URL,
   tursoToken: process.env.TURSO_AUTH_TOKEN,
   r2AccountId: process.env.R2_ACCOUNT_ID,

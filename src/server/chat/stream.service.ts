@@ -1,11 +1,14 @@
 import { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
-import { env } from "@/lib/config/env";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
 import { imageGenResponseChecker } from "@/lib/validation/media";
-import { deriveUpstream, getProvider } from "@/server/constants";
+import {
+  deriveUpstream,
+  getProvider,
+  upstreamApiUrl,
+} from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import {
   convertToModelMessages,
@@ -164,7 +167,7 @@ async function generateImage(
   prompt: string,
   endpointPath: string,
 ): Promise<{ images: string[]; isBase64: boolean; requestId?: string }> {
-  const res = await fetch(`${env.apiUrl}${endpointPath}`, {
+  const res = await fetch(`${upstreamApiUrl}${endpointPath}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
