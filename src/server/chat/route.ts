@@ -11,10 +11,11 @@ import {
   updateConversationBody,
 } from "@/lib/validation/chat";
 import { downloadAndUpload } from "@/lib/config/r2";
+import { msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { getDb } from "@/lib/db/client";
-import { messages } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { conversations, messages } from "@/lib/db/schema";
+import { and, eq } from "drizzle-orm";
 import {
   getApiKey,
   getApiKeyOrGuest,
@@ -186,24 +187,32 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/task/finalize",
     async ({ params, body, cookie }) => {
-      getUserId(cookie);
+      const userId = getUserId(cookie);
       const convId = params.id;
       const { msgId, taskId, resultUrl } = body;
+
+      const db = getDb();
+      const convRows = await db
+        .select({ id: conversations.id })
+        .from(conversations)
+        .where(
+          and(eq(conversations.id, convId), eq(conversations.userId, userId)),
+        )
+        .limit(1);
+      if (convRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+
+      const rows = await db
+        .select()
+        .from(messages)
+        .where(and(eq(messages.id, msgId), eq(messages.convId, convId)))
+        .limit(1);
+      if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 
       const groupKey = uid(8);
       const r2Url = await downloadAndUpload(resultUrl, convId, groupKey);
 
-      const db = getDb();
-      const rows = await db
-        .select()
-        .from(messages)
-        .where(eq(messages.id, msgId))
-        .limit(1);
-
-      if (rows.length === 0) throw new Error("Message not found");
-
-      const msg = rows[0];
-      const parts = (msg.parts ?? []) as Array<Record<string, unknown>>;
+      const row = rows[0];
+      const parts = (row.parts ?? []) as Array<Record<string, unknown>>;
       const updatedParts = parts.map((p) =>
         p.type === "task" && p.taskId === taskId
           ? { type: "text", text: `![video](${r2Url})` }
@@ -213,7 +222,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       await db
         .update(messages)
         .set({ parts: updatedParts })
-        .where(eq(messages.id, msgId));
+        .where(and(eq(messages.id, msgId), eq(messages.convId, convId)));
 
       return { success: true, data: { parts: updatedParts } };
     },

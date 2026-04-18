@@ -1685,7 +1685,12 @@
     "UPLOAD_FAILED": "附件上傳失敗",
     "NO_IMAGE_PROMPT": "未提供圖片生成的提示詞",
     "IMAGE_GENERATION_FAILED": "圖片生成失敗",
-    "UNEXPECTED_RESPONSE": "上游 API 回傳未預期的空值"
+    "UNEXPECTED_RESPONSE": "上游 API 回傳未預期的空值",
+    "INVALID_URL": "URL 無效",
+    "BLOCKED_URL": "基於安全考量，該 URL 已被封鎖",
+    "RESPONSE_TOO_LARGE": "回應超過允許的最大大小",
+    "DISALLOWED_CONTENT_TYPE": "不允許的內容類型",
+    "UPSTREAM_FETCH_FAILED": "從上游取得資料失敗"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

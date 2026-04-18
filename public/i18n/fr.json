@@ -1685,7 +1685,12 @@
     "UPLOAD_FAILED": "Échec de l'envoi de la pièce jointe",
     "NO_IMAGE_PROMPT": "Aucune invite fournie pour la génération d'image",
     "IMAGE_GENERATION_FAILED": "Échec de la génération de l'image",
-    "UNEXPECTED_RESPONSE": "Réponse nulle inattendue de l'API en amont"
+    "UNEXPECTED_RESPONSE": "Réponse nulle inattendue de l'API en amont",
+    "INVALID_URL": "URL invalide",
+    "BLOCKED_URL": "URL bloquée pour des raisons de sécurité",
+    "RESPONSE_TOO_LARGE": "La réponse dépasse la taille maximale autorisée",
+    "DISALLOWED_CONTENT_TYPE": "Type de contenu non autorisé",
+    "UPSTREAM_FETCH_FAILED": "Échec de la récupération depuis le service en amont"
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

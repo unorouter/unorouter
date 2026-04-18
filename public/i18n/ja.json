@@ -1685,7 +1685,12 @@
     "UPLOAD_FAILED": "添付のアップロードに失敗しました",
     "NO_IMAGE_PROMPT": "画像生成用のプロンプトが指定されていません",
     "IMAGE_GENERATION_FAILED": "画像生成に失敗しました",
-    "UNEXPECTED_RESPONSE": "アップストリーム API から予期しない null 応答"
+    "UNEXPECTED_RESPONSE": "アップストリーム API から予期しない null 応答",
+    "INVALID_URL": "無効な URL です",
+    "BLOCKED_URL": "セキュリティ上の理由で URL がブロックされました",
+    "RESPONSE_TOO_LARGE": "応答が許可された最大サイズを超えています",
+    "DISALLOWED_CONTENT_TYPE": "許可されていないコンテンツタイプです",
+    "UPSTREAM_FETCH_FAILED": "アップストリームからの取得に失敗しました"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",

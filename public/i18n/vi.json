@@ -1685,7 +1685,12 @@
     "UPLOAD_FAILED": "Tải lên tệp đính kèm thất bại",
     "NO_IMAGE_PROMPT": "Không có prompt để tạo hình ảnh",
     "IMAGE_GENERATION_FAILED": "Tạo hình ảnh thất bại",
-    "UNEXPECTED_RESPONSE": "Phản hồi null không mong muốn từ upstream API"
+    "UNEXPECTED_RESPONSE": "Phản hồi null không mong muốn từ upstream API",
+    "INVALID_URL": "URL không hợp lệ",
+    "BLOCKED_URL": "URL bị chặn vì lý do bảo mật",
+    "RESPONSE_TOO_LARGE": "Phản hồi vượt quá kích thước tối đa cho phép",
+    "DISALLOWED_CONTENT_TYPE": "Loại nội dung không được phép",
+    "UPSTREAM_FETCH_FAILED": "Không thể lấy dữ liệu từ upstream"
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",
