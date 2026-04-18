@@ -148,7 +148,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-muted/50 relative border-t pt-8">
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
-          <div className="text-muted-foreground flex flex-col items-center justify-center gap-1 text-sm">
+          <div className="text-muted-foreground relative flex items-center justify-center text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
                 year: String(dayjs().year()),
@@ -159,7 +159,7 @@ export function Footer() {
               type="button"
               onClick={() => setBreakoutOpen(true)}
               aria-label={t("FOOTER.EASTER_EGG_LABEL")}
-              className="text-muted-foreground/40 hover:text-primary font-mono text-xs leading-none transition-colors"
+              className="text-muted-foreground/30 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
             >
               ▞
             </button>

@@ -4,10 +4,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
-  productionBrowserSourceMaps: true,
-  experimental: {
-    allowDevelopmentBuild: true,
-  },
+  // productionBrowserSourceMaps: true,
+  // experimental: {
+  //   allowDevelopmentBuild: true,
+  // },
   images: {
     formats: ["image/webp"],
     qualities: [10, 25, 50, 75, 90, 100],
