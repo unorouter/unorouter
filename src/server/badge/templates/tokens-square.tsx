@@ -88,15 +88,15 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
   og: {
     W: 1200,
     H: 630,
-    pad: 80,
-    logo: 180,
-    brandFont: 48,
-    valueSize: 110,
-    labelSize: 40,
-    gap: 32,
+    pad: 56,
+    logo: 140,
+    brandFont: 40,
+    valueSize: 96,
+    labelSize: 32,
+    gap: 24,
     radius: 40,
-    dotR: 12,
-    dotY: 560,
+    dotR: 8,
+    dotY: 590,
   },
 };
 
