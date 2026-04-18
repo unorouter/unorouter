@@ -13,7 +13,7 @@ import type {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-type TwoFA = typeof rpc.api.settings["2fa"];
+type TwoFA = (typeof rpc.api.settings)["2fa"];
 
 export function use2FAStatusQuery() {
   return useQuery({
@@ -132,9 +132,7 @@ export function useEnable2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<TwoFA["enable"], "post">) => {
-      return handleElysia(
-        await rpc.api.settings["2fa"].enable.post(args.body),
-      );
+      return handleElysia(await rpc.api.settings["2fa"].enable.post(args.body));
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
@@ -168,9 +166,7 @@ export function useDisable2FAMutation() {
 export function usePasskeyRegisterBeginMutation() {
   return useMutation({
     mutationFn: async () => {
-      return handleElysia(
-        await rpc.api.settings.passkey.register.begin.post(),
-      );
+      return handleElysia(await rpc.api.settings.passkey.register.begin.post());
     },
   });
 }

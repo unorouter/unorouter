@@ -57,7 +57,12 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
 
   const EMBED_FORMATS = [
     { key: "html", label: "HTML", code: embedHtml, lang: "html" },
-    { key: "markdown", label: "Markdown", code: embedMarkdown, lang: "markdown" },
+    {
+      key: "markdown",
+      label: "Markdown",
+      code: embedMarkdown,
+      lang: "markdown",
+    },
     { key: "bbcode", label: "BBCode", code: embedBbcode, lang: "text" },
     { key: "url", label: "URL", code: embedUrl, lang: "text" },
   ] as const;

@@ -148,8 +148,9 @@ export async function deleteConversation(userId: number, convId: string) {
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
   // Best-effort R2 cleanup before DB delete to avoid orphaned storage
+  const scope = conv.userId === 0 ? "guest" : "user";
   try {
-    await deleteR2Prefix(`chat/${convId}/`);
+    await deleteR2Prefix(`chat/${scope}/${convId}/`);
   } catch (err) {
     logger.error("R2 cleanup failed for conversation, proceeding with delete", {
       context: "conversation.delete",

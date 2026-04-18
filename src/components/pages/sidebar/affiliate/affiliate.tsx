@@ -290,10 +290,7 @@ export function Affiliate() {
         </div>
 
         {/* Badge Generator */}
-        <BadgeGenerator
-          defaultType="referral"
-          refCode={affCode}
-        />
+        <BadgeGenerator defaultType="referral" refCode={affCode} />
       </div>
 
       {/* Tabs: Invited Users + Commission History */}

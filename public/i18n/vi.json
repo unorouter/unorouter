@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "URL bị chặn vì lý do bảo mật",
     "RESPONSE_TOO_LARGE": "Phản hồi vượt quá kích thước tối đa cho phép",
     "DISALLOWED_CONTENT_TYPE": "Loại nội dung không được phép",
-    "UPSTREAM_FETCH_FAILED": "Không thể lấy dữ liệu từ upstream"
+    "UPSTREAM_FETCH_FAILED": "Không thể lấy dữ liệu từ upstream",
+    "STORAGE_QUOTA_EXCEEDED": "Đã đạt giới hạn lưu trữ. Hãy xóa các cuộc trò chuyện cũ để giải phóng dung lượng."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

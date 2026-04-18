@@ -29,12 +29,12 @@ export function GridPricingTable(props: GridPricingTableProps) {
             {columns.map((col) => (
               <TableHead
                 key={col}
-                className="text-muted-foreground text-xs font-medium uppercase tracking-wide"
+                className="text-muted-foreground text-xs font-medium tracking-wide uppercase"
               >
                 {col}
               </TableHead>
             ))}
-            <TableHead className="text-muted-foreground text-right text-xs font-medium uppercase tracking-wide">
+            <TableHead className="text-muted-foreground text-right text-xs font-medium tracking-wide uppercase">
               {props.priceLabel}
             </TableHead>
           </TableRow>

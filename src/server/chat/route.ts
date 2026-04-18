@@ -190,6 +190,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const userId = getUserId(cookie);
       const convId = params.id;
       const { msgId, taskId, resultUrl } = body;
+      const isGuest = userId === 0;
+      if (isGuest) {
+        const guestConvIds = getGuestConvIds(cookie);
+        if (!guestConvIds.includes(convId))
+          throw new Error(msg("ERRORS.NOT_FOUND"));
+      }
 
       const db = getDb();
       const convRows = await db

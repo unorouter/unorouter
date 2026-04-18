@@ -1,6 +1,9 @@
 import { msg } from "@/lib/config/constants";
+import { getDb } from "@/lib/db/client";
+import { conversations, media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { serverEnv } from "@/server/env";
+import { eq, sql } from "drizzle-orm";
 import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
@@ -11,7 +14,11 @@ import {
 } from "@aws-sdk/client-s3";
 import ipaddr from "ipaddr.js";
 import { lookup as dnsLookup } from "node:dns";
-import { Agent, fetch as undiciFetch, type Response as UndiciResponse } from "undici";
+import {
+  Agent,
+  fetch as undiciFetch,
+  type Response as UndiciResponse,
+} from "undici";
 
 const BLOCKED_HOSTS = new Set([
   "localhost",
@@ -22,6 +29,7 @@ const ALLOWED_RANGES = new Set(["unicast"]);
 const R2_TIMEOUT = 15_000;
 const DOWNLOAD_TIMEOUT = 10_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
+const MAX_USER_BYTES = 100 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
 
 function isPublicIp(ip: string): boolean {
@@ -214,12 +222,50 @@ export async function deleteR2Prefix(prefix: string): Promise<void> {
   );
 }
 
+async function resolveConvOwner(
+  convId: string,
+): Promise<{ userId: number; isGuest: boolean; scope: "guest" | "user" }> {
+  const rows = await getDb()
+    .select({ userId: conversations.userId })
+    .from(conversations)
+    .where(eq(conversations.id, convId))
+    .limit(1);
+  const userId = rows[0]?.userId ?? 0;
+  const isGuest = userId === 0;
+  return { userId, isGuest, scope: isGuest ? "guest" : "user" };
+}
+
+async function assertUserQuota(userId: number, incomingBytes: number) {
+  if (userId === 0) return;
+  const rows = await getDb()
+    .select({ total: sql<number>`COALESCE(SUM(${media.sizeBytes}), 0)` })
+    .from(media)
+    .where(eq(media.userId, userId));
+  const current = Number(rows[0]?.total ?? 0);
+  if (current + incomingBytes > MAX_USER_BYTES) {
+    throw new Error(msg("ERRORS.STORAGE_QUOTA_EXCEEDED"));
+  }
+}
+
+async function recordMedia(
+  userId: number,
+  convId: string,
+  r2Key: string,
+  mimeType: string,
+  sizeBytes: number,
+) {
+  await getDb()
+    .insert(media)
+    .values({ userId, convId, r2Key, mimeType, sizeBytes });
+}
+
 export function mediaKey(
+  scope: "guest" | "user",
   convId: string,
   msgId: string,
   filename: string,
 ): string {
-  return `chat/${convId}/${msgId}/${filename}`;
+  return `chat/${scope}/${convId}/${msgId}/${filename}`;
 }
 
 export async function getContentType(url: string): Promise<string | null> {
@@ -241,13 +287,17 @@ export async function downloadAndUpload(
   convId: string,
   msgId: string,
 ): Promise<string> {
+  const owner = await resolveConvOwner(convId);
   const res = await safeFetch(url);
   if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   const ct = assertAllowedContentType(res.headers.get("content-type"));
   const buffer = await readBodyWithLimit(res);
+  await assertUserQuota(owner.userId, buffer.length);
   const filename = `${uid(8)}.${extFromContentType(ct)}`;
-  const key = mediaKey(convId, msgId, filename);
-  return uploadToR2(key, buffer, ct);
+  const key = mediaKey(owner.scope, convId, msgId, filename);
+  const publicUrl = await uploadToR2(key, buffer, ct);
+  await recordMedia(owner.userId, convId, key, ct, buffer.length);
+  return publicUrl;
 }
 
 /**
@@ -261,6 +311,7 @@ export async function fetchCheckUpload(
   groupKey: string,
   wantVideo: boolean,
 ): Promise<string | null> {
+  const owner = await resolveConvOwner(convId);
   let res: UndiciResponse;
   try {
     res = await safeFetch(url);
@@ -282,8 +333,20 @@ export async function fetchCheckUpload(
   } catch {
     return null;
   }
-  const key = mediaKey(convId, groupKey, `${uid(8)}.${extFromContentType(ct)}`);
-  return uploadToR2(key, buffer, ct);
+  try {
+    await assertUserQuota(owner.userId, buffer.length);
+  } catch {
+    return null;
+  }
+  const key = mediaKey(
+    owner.scope,
+    convId,
+    groupKey,
+    `${uid(8)}.${extFromContentType(ct)}`,
+  );
+  const publicUrl = await uploadToR2(key, buffer, ct);
+  await recordMedia(owner.userId, convId, key, ct, buffer.length);
+  return publicUrl;
 }
 
 export async function uploadBase64ToR2(
@@ -291,11 +354,15 @@ export async function uploadBase64ToR2(
   convId: string,
   msgId: string,
 ): Promise<string> {
+  const owner = await resolveConvOwner(convId);
   const [header, base64] = dataUrl.split(",");
   const mimeType = header.match(/data:([^;]+)/)?.[1] ?? "image/png";
   const ext = mimeType.split("/")[1] ?? "png";
   const buffer = Buffer.from(base64, "base64");
+  await assertUserQuota(owner.userId, buffer.length);
   const filename = `${uid(8)}.${ext}`;
-  const key = mediaKey(convId, msgId, filename);
-  return uploadToR2(key, buffer, mimeType);
+  const key = mediaKey(owner.scope, convId, msgId, filename);
+  const publicUrl = await uploadToR2(key, buffer, mimeType);
+  await recordMedia(owner.userId, convId, key, mimeType, buffer.length);
+  return publicUrl;
 }

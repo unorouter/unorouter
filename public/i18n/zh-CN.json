@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "出于安全考虑，该 URL 已被拦截",
     "RESPONSE_TOO_LARGE": "响应超过允许的最大大小",
     "DISALLOWED_CONTENT_TYPE": "不允许的内容类型",
-    "UPSTREAM_FETCH_FAILED": "从上游获取数据失败"
+    "UPSTREAM_FETCH_FAILED": "从上游获取数据失败",
+    "STORAGE_QUOTA_EXCEEDED": "已达到存储上限，请删除旧会话以释放空间。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

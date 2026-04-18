@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "URL bloquée pour des raisons de sécurité",
     "RESPONSE_TOO_LARGE": "La réponse dépasse la taille maximale autorisée",
     "DISALLOWED_CONTENT_TYPE": "Type de contenu non autorisé",
-    "UPSTREAM_FETCH_FAILED": "Échec de la récupération depuis le service en amont"
+    "UPSTREAM_FETCH_FAILED": "Échec de la récupération depuis le service en amont",
+    "STORAGE_QUOTA_EXCEEDED": "Limite de stockage atteinte. Supprimez d'anciennes conversations pour libérer de l'espace."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

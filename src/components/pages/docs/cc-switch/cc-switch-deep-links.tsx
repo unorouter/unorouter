@@ -91,7 +91,9 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
                 )}
               </TooltipTrigger>
               <TooltipContent>
-                {revealed ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
+                {revealed
+                  ? t("TOKEN.KEY_DISPLAY.HIDE")
+                  : t("TOKEN.KEY_DISPLAY.REVEAL")}
               </TooltipContent>
             </Tooltip>
             <CopyButton

@@ -29,11 +29,9 @@ export function useLoginMutation() {
 }
 
 export function useVerify2FAMutation() {
-  return useSimpleMutation(
-    async (args: EdenArgs<AuthLogin["2fa"], "post">) => {
-      return handleElysia(await rpc.api.auth.login["2fa"].post(args.body));
-    },
-  );
+  return useSimpleMutation(async (args: EdenArgs<AuthLogin["2fa"], "post">) => {
+    return handleElysia(await rpc.api.auth.login["2fa"].post(args.body));
+  });
 }
 
 export function useRegisterMutation() {

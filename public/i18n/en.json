@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "URL blocked for security reasons",
     "RESPONSE_TOO_LARGE": "Response exceeds the maximum allowed size",
     "DISALLOWED_CONTENT_TYPE": "Content type not allowed",
-    "UPSTREAM_FETCH_FAILED": "Failed to fetch from upstream"
+    "UPSTREAM_FETCH_FAILED": "Failed to fetch from upstream",
+    "STORAGE_QUOTA_EXCEEDED": "Storage limit reached. Delete old conversations to free up space."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

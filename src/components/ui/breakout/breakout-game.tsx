@@ -37,7 +37,7 @@ export function BreakoutGame() {
   }, []);
 
   return (
-    <div className="font-mono text-foreground grid aspect-4/3 w-full place-items-center bg-black p-3">
+    <div className="text-foreground grid aspect-4/3 w-full place-items-center bg-black p-3 font-mono">
       <canvas
         ref={canvasRef}
         className="ring-foreground/10 block h-full max-h-full w-full max-w-full rounded-lg ring-1 [image-rendering:crisp-edges]"

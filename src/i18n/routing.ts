@@ -264,4 +264,3 @@ export const privateRoutes = {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];
 };
-

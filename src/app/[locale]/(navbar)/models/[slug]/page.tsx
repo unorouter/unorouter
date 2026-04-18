@@ -83,9 +83,7 @@ export default async function ModelDetailPage(props: PageProps) {
     await queryClient.prefetchQuery({
       queryKey: queryKeys.bestKey(),
       queryFn: async () =>
-        handleElysia(
-          await rpc.api.token["best-key"].get({ ...cookieHeaders }),
-        ),
+        handleElysia(await rpc.api.token["best-key"].get({ ...cookieHeaders })),
     });
   }
 

@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "基於安全考量，該 URL 已被封鎖",
     "RESPONSE_TOO_LARGE": "回應超過允許的最大大小",
     "DISALLOWED_CONTENT_TYPE": "不允許的內容類型",
-    "UPSTREAM_FETCH_FAILED": "從上游取得資料失敗"
+    "UPSTREAM_FETCH_FAILED": "從上游取得資料失敗",
+    "STORAGE_QUOTA_EXCEEDED": "已達儲存上限，請刪除舊對話以釋出空間。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

@@ -122,7 +122,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
                 size="icon-xs"
                 onClick={handleToggleReveal}
                 aria-label={
-                  revealedKey ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")
+                  revealedKey
+                    ? t("TOKEN.KEY_DISPLAY.HIDE")
+                    : t("TOKEN.KEY_DISPLAY.REVEAL")
                 }
               />
             }
@@ -134,7 +136,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
             )}
           </TooltipTrigger>
           <TooltipContent>
-            {revealedKey ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
+            {revealedKey
+              ? t("TOKEN.KEY_DISPLAY.HIDE")
+              : t("TOKEN.KEY_DISPLAY.REVEAL")}
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>

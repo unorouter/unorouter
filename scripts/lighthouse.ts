@@ -128,7 +128,9 @@ async function readScore(v: Variant) {
 }
 
 log(`Auditing ${site}${pathArg} (4 variants in parallel)...`);
-log(`Reports: ${tmpDir}/.unlighthouse-<form>-<theme>/reports/<slug>/lighthouse.json\n`);
+log(
+  `Reports: ${tmpDir}/.unlighthouse-<form>-<theme>/reports/<slug>/lighthouse.json\n`,
+);
 
 // Wipe shared unlighthouse cache, generated configs, and per-variant leftovers
 // so every run starts fresh. Stale reports from a crashed previous run can

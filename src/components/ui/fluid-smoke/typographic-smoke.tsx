@@ -122,9 +122,7 @@ function createFieldStamp(
   const values = new Float32Array(sizeX * sizeY);
   for (let y = -radiusY; y <= radiusY; y++) {
     for (let x = -radiusX; x <= radiusX; x++) {
-      const nd = Math.sqrt(
-        (x / fieldRadiusX) ** 2 + (y / fieldRadiusY) ** 2,
-      );
+      const nd = Math.sqrt((x / fieldRadiusX) ** 2 + (y / fieldRadiusY) ** 2);
       values[(y + radiusY) * sizeX + x + radiusX] = spriteAlphaAt(nd);
     }
   }
@@ -176,8 +174,14 @@ export function TypographicSmoke() {
     const resize = () => {
       const rect = container.getBoundingClientRect();
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      cols = Math.min(MAX_COLS, Math.max(16, Math.floor(rect.width / palette.avgCharW)));
-      rows = Math.min(MAX_ROWS, Math.max(8, Math.floor(rect.height / LINE_HEIGHT)));
+      cols = Math.min(
+        MAX_COLS,
+        Math.max(16, Math.floor(rect.width / palette.avgCharW)),
+      );
+      rows = Math.min(
+        MAX_ROWS,
+        Math.max(8, Math.floor(rect.height / LINE_HEIGHT)),
+      );
       fieldCols = cols * FIELD_OVERSAMPLE;
       fieldRows = rows * FIELD_OVERSAMPLE;
       canvasW = rect.width;
@@ -236,7 +240,11 @@ export function TypographicSmoke() {
 
     const render = (now: number) => {
       if (!running) return;
-      if (particleStamp === null || largeAttractorStamp === null || smallAttractorStamp === null) {
+      if (
+        particleStamp === null ||
+        largeAttractorStamp === null ||
+        smallAttractorStamp === null
+      ) {
         rafId = requestAnimationFrame(render);
         return;
       }

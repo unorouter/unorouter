@@ -57,7 +57,7 @@ export function AppSidebar(props: AppSidebarProps) {
           <SidebarNavigation navConfig={navConfig} />
         </SidebarContent>
       )}
-      <SidebarFooter className="border-t md:hidden group-data-[collapsible=icon]:hidden">
+      <SidebarFooter className="border-t group-data-[collapsible=icon]:hidden md:hidden">
         <div className="flex items-center gap-1 px-1">
           <LanguageToggle />
           <ThemeToggle />

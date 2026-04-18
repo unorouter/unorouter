@@ -253,7 +253,9 @@ function ToolFallbackError({
   if (!errorText) return null;
 
   const isCancelled = status.reason === "cancelled";
-  const headerText = isCancelled ? t("CHAT.TOOL.CANCELLED_REASON") : t("CHAT.TOOL.ERROR");
+  const headerText = isCancelled
+    ? t("CHAT.TOOL.CANCELLED_REASON")
+    : t("CHAT.TOOL.ERROR");
 
   return (
     <div

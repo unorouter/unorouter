@@ -1,5 +1,8 @@
 import { PAGE_SIZE } from "@/lib/config/constants";
-import { moveConvToTop, type ConvsInfinite } from "@/lib/react-query/conv-cache";
+import {
+  moveConvToTop,
+  type ConvsInfinite,
+} from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { PersistMessage } from "@/lib/types/chat";
@@ -151,7 +154,10 @@ export function createChatHistoryAdapter(
               return {
                 ...old,
                 pages: [
-                  { ...firstPage, messages: [...firstPage.messages, newMessage] },
+                  {
+                    ...firstPage,
+                    messages: [...firstPage.messages, newMessage],
+                  },
                   ...old.pages.slice(1),
                 ],
               };

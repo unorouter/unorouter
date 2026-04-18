@@ -31,9 +31,7 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
           variant={props.isEnabled ? "default" : "destructive"}
           className={props.isEnabled ? "bg-green-500/10 text-green-500" : ""}
         >
-          {props.isEnabled
-            ? t("TOKEN.ENUM.ENABLED")
-            : t("TOKEN.ENUM.DISABLED")}
+          {props.isEnabled ? t("TOKEN.ENUM.ENABLED") : t("TOKEN.ENUM.DISABLED")}
         </Badge>
       </div>
 
@@ -59,7 +57,9 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
               )}
             </TooltipTrigger>
             <TooltipContent>
-              {props.revealedKey ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
+              {props.revealedKey
+                ? t("TOKEN.KEY_DISPLAY.HIDE")
+                : t("TOKEN.KEY_DISPLAY.REVEAL")}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

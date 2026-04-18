@@ -108,9 +108,7 @@ export async function GET() {
   }
 
   lines.push("## Legal");
-  lines.push(
-    line(t(msg("PRIVACY.TITLE")), abs(localeUrl(locale, "/privacy"))),
-  );
+  lines.push(line(t(msg("PRIVACY.TITLE")), abs(localeUrl(locale, "/privacy"))));
   lines.push(line(t(msg("TERMS.TITLE")), abs(localeUrl(locale, "/terms"))));
   lines.push("");
 

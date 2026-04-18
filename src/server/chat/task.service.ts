@@ -1,7 +1,4 @@
-import {
-  getV1VideoGenerationsTaskId,
-  postV1VideoGenerations,
-} from "@/openapi";
+import { getV1VideoGenerationsTaskId, postV1VideoGenerations } from "@/openapi";
 import { msg } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 
@@ -52,11 +49,7 @@ function normalizeStatus(raw: string | undefined): TaskStatus {
   if (lower === "failed" || lower === "failure" || lower === "error")
     return "FAILURE";
   if (lower === "queued" || lower === "pending") return "QUEUED";
-  if (
-    lower === "in_progress" ||
-    lower === "processing" ||
-    lower === "running"
-  )
+  if (lower === "in_progress" || lower === "processing" || lower === "running")
     return "IN_PROGRESS";
   if (lower === "submitted" || lower === "not_start") return "SUBMITTED";
   return "UNKNOWN";

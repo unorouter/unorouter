@@ -18,7 +18,10 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
   category: entry.category,
   wordCount: entry.wordCount,
   headings: entry.headings,
-  heroImage: "heroImage" in entry ? (entry as { heroImage?: string }).heroImage : undefined,
+  heroImage:
+    "heroImage" in entry
+      ? (entry as { heroImage?: string }).heroImage
+      : undefined,
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
@@ -42,10 +45,7 @@ export function getAdjacentPosts(slug: string): {
   };
 }
 
-export function getRelatedPosts(
-  slug: string,
-  limit = 3,
-): BlogPost<BlogSlug>[] {
+export function getRelatedPosts(slug: string, limit = 3): BlogPost<BlogSlug>[] {
   const current = getPost(slug);
   if (!current) return [];
   const others = POSTS.filter((p) => p.slug !== slug);

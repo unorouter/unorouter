@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "URL aus Sicherheitsgründen blockiert",
     "RESPONSE_TOO_LARGE": "Antwort überschreitet die maximal zulässige Größe",
     "DISALLOWED_CONTENT_TYPE": "Inhaltstyp nicht erlaubt",
-    "UPSTREAM_FETCH_FAILED": "Abruf vom Upstream fehlgeschlagen"
+    "UPSTREAM_FETCH_FAILED": "Abruf vom Upstream fehlgeschlagen",
+    "STORAGE_QUOTA_EXCEEDED": "Speichergrenze erreicht. Lösche alte Unterhaltungen, um Platz zu schaffen."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

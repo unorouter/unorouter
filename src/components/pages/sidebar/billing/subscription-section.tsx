@@ -31,8 +31,14 @@ import { toast } from "sonner";
 const PREFERENCE_OPTIONS = [
   { value: "wallet_first", key: msg("BILLING.PREFERENCE.WALLET_FIRST") },
   { value: "wallet_only", key: msg("BILLING.PREFERENCE.WALLET_ONLY") },
-  { value: "subscription_first", key: msg("BILLING.PREFERENCE.SUBSCRIPTION_FIRST") },
-  { value: "subscription_only", key: msg("BILLING.PREFERENCE.SUBSCRIPTION_ONLY") },
+  {
+    value: "subscription_first",
+    key: msg("BILLING.PREFERENCE.SUBSCRIPTION_FIRST"),
+  },
+  {
+    value: "subscription_only",
+    key: msg("BILLING.PREFERENCE.SUBSCRIPTION_ONLY"),
+  },
 ] as const;
 
 function formatResetPeriod(period: string): TranslationKey {
@@ -157,7 +163,9 @@ export function SubscriptionSection() {
             {t("BILLING.SUBSCRIPTION.MY")}
           </h2>
           <Badge variant={hasActive ? "default" : "secondary"}>
-            {hasActive ? t("BILLING.SUBSCRIPTION.ACTIVE") : t("BILLING.SUBSCRIPTION.NO_ACTIVE")}
+            {hasActive
+              ? t("BILLING.SUBSCRIPTION.ACTIVE")
+              : t("BILLING.SUBSCRIPTION.NO_ACTIVE")}
           </Badge>
         </div>
         <div className="flex items-center gap-2">
@@ -226,7 +234,9 @@ export function SubscriptionSection() {
                       variant={isActive ? "default" : "secondary"}
                       className="text-[10px]"
                     >
-                      {isActive ? t("BILLING.SUBSCRIPTION.ACTIVE") : t("BILLING.SUBSCRIPTION.EXPIRED")}
+                      {isActive
+                        ? t("BILLING.SUBSCRIPTION.ACTIVE")
+                        : t("BILLING.SUBSCRIPTION.EXPIRED")}
                     </Badge>
                   </div>
                   <span className="text-muted-foreground font-mono text-xs">
@@ -297,7 +307,8 @@ export function SubscriptionSection() {
                   {quotaUsd > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
-                      {t("BILLING.SUBSCRIPTION.TOTAL_QUOTA")}: ${quotaUsd.toFixed(2)}
+                      {t("BILLING.SUBSCRIPTION.TOTAL_QUOTA")}: $
+                      {quotaUsd.toFixed(2)}
                       {t(periodSuffix)}
                     </div>
                   )}

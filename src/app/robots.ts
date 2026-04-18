@@ -12,7 +12,8 @@ function localizedPath(
   isDynamic: boolean,
 ): string {
   const config = pathnames[route] as string | Record<string, string>;
-  const localized = typeof config === "string" ? config : config[locale] ?? route;
+  const localized =
+    typeof config === "string" ? config : (config[locale] ?? route);
   const bracketAt = localized.indexOf("/[");
   const parent = bracketAt === -1 ? localized : localized.slice(0, bracketAt);
   return `/${locale}${parent}${isDynamic ? "/" : ""}`;

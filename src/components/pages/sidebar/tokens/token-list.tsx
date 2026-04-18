@@ -107,7 +107,10 @@ export function TokenList() {
     },
     {
       id: "actions",
-      meta: { title: msg("TOKEN.TABLE.ACTIONS"), headerClassName: "text-right" },
+      meta: {
+        title: msg("TOKEN.TABLE.ACTIONS"),
+        headerClassName: "text-right",
+      },
       header: t("TOKEN.TABLE.ACTIONS"),
       enableHiding: false,
       enableSorting: false,

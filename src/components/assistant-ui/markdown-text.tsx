@@ -297,7 +297,11 @@ const defaultComponents = memoizeMarkdownComponents({
               <DownloadIcon className="size-3.5" />
             </TooltipIconButton>
             <TooltipIconButton
-              tooltip={isCopied ? t("CHAT.SHARE.LINK_COPIED") : t("CHAT.ACTION.COPY_LINK")}
+              tooltip={
+                isCopied
+                  ? t("CHAT.SHARE.LINK_COPIED")
+                  : t("CHAT.ACTION.COPY_LINK")
+              }
               variant="outline"
               className="bg-background/80 size-7 backdrop-blur-sm"
               onClick={handleCopyLink}

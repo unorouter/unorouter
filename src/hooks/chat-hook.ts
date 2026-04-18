@@ -344,9 +344,7 @@ export function useFinalizeTaskMutation() {
             pages: old.pages.map((page) => ({
               ...page,
               messages: page.messages.map((msg) =>
-                msg.id === args.msgId
-                  ? { ...msg, parts: data.parts }
-                  : msg,
+                msg.id === args.msgId ? { ...msg, parts: data.parts } : msg,
               ),
             })),
           };

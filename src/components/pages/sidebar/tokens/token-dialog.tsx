@@ -463,7 +463,9 @@ export function TokenDialog(props: TokenDialogProps) {
                       >
                         <LuTrash2 className="h-4 w-4" />
                       </TooltipTrigger>
-                      <TooltipContent>{t("TOKEN.DELETE.BUTTON")}</TooltipContent>
+                      <TooltipContent>
+                        {t("TOKEN.DELETE.BUTTON")}
+                      </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>

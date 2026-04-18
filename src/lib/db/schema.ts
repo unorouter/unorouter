@@ -67,10 +67,13 @@ export const messages = sqliteTable(
 export const media = sqliteTable(
   "media",
   {
-    id: text("id").primaryKey(),
-    msgId: text("msg_id")
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    convId: text("conv_id")
       .notNull()
-      .references(() => messages.id, { onDelete: "cascade" }),
+      .references(() => conversations.id, { onDelete: "cascade" }),
     r2Key: text("r2_key").notNull(),
     mimeType: text("mime_type").notNull(),
     sizeBytes: integer("size_bytes").notNull(),
@@ -78,7 +81,10 @@ export const media = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [index("idx_media_msg").on(table.msgId)],
+  (table) => [
+    index("idx_media_user").on(table.userId),
+    index("idx_media_conv").on(table.convId),
+  ],
 );
 
 export type Conversation = typeof conversations.$inferSelect;

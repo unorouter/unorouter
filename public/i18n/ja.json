@@ -1690,7 +1690,8 @@
     "BLOCKED_URL": "セキュリティ上の理由で URL がブロックされました",
     "RESPONSE_TOO_LARGE": "応答が許可された最大サイズを超えています",
     "DISALLOWED_CONTENT_TYPE": "許可されていないコンテンツタイプです",
-    "UPSTREAM_FETCH_FAILED": "アップストリームからの取得に失敗しました"
+    "UPSTREAM_FETCH_FAILED": "アップストリームからの取得に失敗しました",
+    "STORAGE_QUOTA_EXCEEDED": "ストレージの上限に達しました。古い会話を削除して空き容量を確保してください。"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",

@@ -90,9 +90,7 @@ export function useCreemTopUpMutation() {
 
 export function useStripeSubscriptionMutation() {
   return useSimpleMutation(
-    async (
-      args: EdenArgs<Billing["subscription"]["stripe-pay"], "post">,
-    ) => {
+    async (args: EdenArgs<Billing["subscription"]["stripe-pay"], "post">) => {
       return handleElysia(
         await rpc.api.billing.subscription["stripe-pay"].post(args.body),
       );
@@ -102,9 +100,7 @@ export function useStripeSubscriptionMutation() {
 
 export function useCreemSubscriptionMutation() {
   return useSimpleMutation(
-    async (
-      args: EdenArgs<Billing["subscription"]["creem-pay"], "post">,
-    ) => {
+    async (args: EdenArgs<Billing["subscription"]["creem-pay"], "post">) => {
       return handleElysia(
         await rpc.api.billing.subscription["creem-pay"].post(args.body),
       );

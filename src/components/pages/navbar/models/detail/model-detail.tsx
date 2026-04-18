@@ -4,12 +4,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Link } from "@/i18n/navigation";
 import {
   findContextTag,
@@ -100,12 +95,18 @@ print(res.choices[0].message.content)`;
     stats.push(
       {
         label: t("MODEL_PAGE.STAT_INPUT"),
-        value: m.inputPrice === 0 ? t("MODEL_PAGE.STAT_FREE") : formatPrice(m.inputPrice),
+        value:
+          m.inputPrice === 0
+            ? t("MODEL_PAGE.STAT_FREE")
+            : formatPrice(m.inputPrice),
         suffix: m.inputPrice === 0 ? undefined : "/ 1M",
       },
       {
         label: t("MODEL_PAGE.STAT_OUTPUT"),
-        value: m.outputPrice === 0 ? t("MODEL_PAGE.STAT_FREE") : formatPrice(m.outputPrice),
+        value:
+          m.outputPrice === 0
+            ? t("MODEL_PAGE.STAT_FREE")
+            : formatPrice(m.outputPrice),
         suffix: m.outputPrice === 0 ? undefined : "/ 1M",
       },
     );
@@ -142,7 +143,7 @@ print(res.choices[0].message.content)`;
       <section className="relative overflow-hidden">
         <div
           className={cn(
-            "pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-96 rounded-full blur-3xl opacity-60",
+            "pointer-events-none absolute top-1/2 left-1/2 size-96 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-3xl",
             theme.bg.replace("/5", "/30"),
           )}
           aria-hidden
@@ -179,7 +180,12 @@ print(res.choices[0].message.content)`;
             <VendorIcon vendor={m.vendor.icon ?? m.vendor.name} size={56} />
           </div>
 
-          <div className={cn("mb-2 font-mono text-xs tracking-widest uppercase", theme.text)}>
+          <div
+            className={cn(
+              "mb-2 font-mono text-xs tracking-widest uppercase",
+              theme.text,
+            )}
+          >
             {m.vendor.name}
           </div>
           <h1 className="text-foreground mb-4 text-4xl font-bold tracking-tighter break-all sm:text-5xl md:text-6xl">
@@ -207,7 +213,7 @@ print(res.choices[0].message.content)`;
       {/* Stats grid */}
       <section
         className={cn(
-          "border-border divide-border grid gap-0 border-y divide-y sm:divide-x sm:divide-y-0",
+          "border-border divide-border grid gap-0 divide-y border-y sm:divide-x sm:divide-y-0",
           statsColsClass,
         )}
       >
@@ -227,7 +233,12 @@ print(res.choices[0].message.content)`;
       <section className="relative mt-16 mb-16">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
-            <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+            <div
+              className={cn(
+                "mb-2 font-mono text-[10px] tracking-widest uppercase",
+                theme.text,
+              )}
+            >
               § 01
             </div>
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -264,7 +275,9 @@ print(res.choices[0].message.content)`;
                     <TableCell className="w-1/3 px-4 py-3 font-medium">
                       {t("MODEL_PAGE.INPUT_PRICE")}
                     </TableCell>
-                    <TableCell className={cn("px-4 py-3 font-mono", theme.text)}>
+                    <TableCell
+                      className={cn("px-4 py-3 font-mono", theme.text)}
+                    >
                       {t("MODEL_PAGE.PRICE_PER_MILLION", {
                         price: formatPrice(m.inputPrice),
                       })}
@@ -274,7 +287,9 @@ print(res.choices[0].message.content)`;
                     <TableCell className="w-1/3 px-4 py-3 font-medium">
                       {t("MODEL_PAGE.OUTPUT_PRICE")}
                     </TableCell>
-                    <TableCell className={cn("px-4 py-3 font-mono", theme.text)}>
+                    <TableCell
+                      className={cn("px-4 py-3 font-mono", theme.text)}
+                    >
                       {t("MODEL_PAGE.PRICE_PER_MILLION", {
                         price: formatPrice(m.outputPrice),
                       })}
@@ -324,7 +339,12 @@ print(res.choices[0].message.content)`;
       {/* Code examples */}
       <section className="mb-16">
         <div className="mb-6">
-          <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+          <div
+            className={cn(
+              "mb-2 font-mono text-[10px] tracking-widest uppercase",
+              theme.text,
+            )}
+          >
             § 02
           </div>
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -365,7 +385,12 @@ print(res.choices[0].message.content)`;
       {/* FAQ */}
       <section className="mb-16">
         <div className="mb-6">
-          <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+          <div
+            className={cn(
+              "mb-2 font-mono text-[10px] tracking-widest uppercase",
+              theme.text,
+            )}
+          >
             § 03
           </div>
           <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -419,7 +444,12 @@ print(res.choices[0].message.content)`;
       {(similar.sameVendor.length > 0 || similar.sameTag.length > 0) && (
         <section className="mb-16">
           <div className="mb-6">
-            <div className={cn("mb-2 font-mono text-[10px] tracking-widest uppercase", theme.text)}>
+            <div
+              className={cn(
+                "mb-2 font-mono text-[10px] tracking-widest uppercase",
+                theme.text,
+              )}
+            >
               § 04
             </div>
             <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
@@ -473,7 +503,7 @@ print(res.choices[0].message.content)`;
       )}
 
       {/* CTA */}
-      <section className="relative overflow-hidden rounded-2xl border-border border">
+      <section className="border-border relative overflow-hidden rounded-2xl border">
         <div
           className={cn(
             "pointer-events-none absolute inset-0 opacity-60",
@@ -483,12 +513,12 @@ print(res.choices[0].message.content)`;
         />
         <div
           className={cn(
-            "pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 size-80 rounded-full blur-3xl",
+            "pointer-events-none absolute -top-20 left-1/2 size-80 -translate-x-1/2 rounded-full blur-3xl",
             theme.bg.replace("/5", "/30"),
           )}
           aria-hidden
         />
-        <div className="relative py-14 px-6 text-center">
+        <div className="relative px-6 py-14 text-center">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
             {t("MODEL_PAGE.CTA_TITLE", { name: m.name })}
           </h2>

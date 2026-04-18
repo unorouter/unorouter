@@ -1,10 +1,7 @@
 import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-smoke-lazy";
 import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { BlogList } from "@/components/pages/blog/blog-list";
-import {
-  getAllPostsSorted,
-  translated,
-} from "@/components/pages/blog/posts";
+import { getAllPostsSorted, translated } from "@/components/pages/blog/posts";
 import { cn } from "@/lib/utils";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -56,9 +53,7 @@ export async function Blog() {
           </p>
 
           <div className="text-muted-foreground mt-8 flex flex-wrap items-center justify-center gap-4 font-mono text-xs tracking-wider uppercase">
-            <span>
-              {t("BLOG.POSTS_COUNT", { count: listPosts.length })}
-            </span>
+            <span>{t("BLOG.POSTS_COUNT", { count: listPosts.length })}</span>
             <span>·</span>
             <span>{locale.toUpperCase()}</span>
             <span>·</span>

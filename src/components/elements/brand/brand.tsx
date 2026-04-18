@@ -15,7 +15,7 @@ export function LogoImage(
       alt={appName}
       width={32}
       height={32}
-{...props}
+      {...props}
       className={cn("rounded-full", props.className)}
     />
   );

@@ -89,7 +89,9 @@ export function ApiKeyCodeBlock(props: Props) {
                 )}
               </TooltipTrigger>
               <TooltipContent>
-                {revealed ? t("TOKEN.KEY_DISPLAY.HIDE") : t("TOKEN.KEY_DISPLAY.REVEAL")}
+                {revealed
+                  ? t("TOKEN.KEY_DISPLAY.HIDE")
+                  : t("TOKEN.KEY_DISPLAY.REVEAL")}
               </TooltipContent>
             </Tooltip>
           )}

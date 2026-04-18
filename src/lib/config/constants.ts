@@ -1,13 +1,4 @@
-import {
-  CN,
-  DE,
-  FR,
-  JP,
-  RU,
-  TW,
-  US,
-  VN,
-} from "country-flag-icons/react/3x2";
+import { CN, DE, FR, JP, RU, TW, US, VN } from "country-flag-icons/react/3x2";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 import { env } from "./env";
@@ -29,6 +20,7 @@ export const GUEST_CONVS_COOKIE = "guest-convs" as const;
 export const SERVER_URL_KEY = "x-url" as const;
 
 export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
+export const GUEST_CONVS_MAX_AGE = 60 * 60 * 24 * 7; // 7 days, matches R2 TTL
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
 
