@@ -6,6 +6,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { verifyUserId } from "@/lib/utils/signed-cookie";
 import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
@@ -37,12 +38,14 @@ export function getUserId<T extends boolean = false>(
   cookie: Record<string, Cookie<unknown>>,
   optional?: T,
 ): T extends true ? number | null : number {
-  const raw = cookie[USER_ID_COOKIE]?.value;
-  if (!raw) {
+  const signed = cookie[USER_ID_COOKIE]?.value as string | undefined;
+  const accessToken = cookie[ACCESS_TOKEN_COOKIE]?.value as string | undefined;
+  const verified = verifyUserId(signed, accessToken);
+  if (verified === null) {
     if (optional) return null as T extends true ? number | null : number;
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
-  return Number(raw) as T extends true ? number | null : number;
+  return verified as T extends true ? number | null : number;
 }
 
 export function getApiKey(cookie: Record<string, Cookie<unknown>>): string {
@@ -99,11 +102,10 @@ export function deriveUpstream({ request }: { request: Request }) {
   if (cookieHeader) {
     headers.cookie = cookieHeader;
     const parsed = parseCookie(cookieHeader);
-    const userId = parsed[USER_ID_COOKIE];
-    if (userId) headers[NEW_API_USER] = userId;
-    // Forward access_token cookie as Authorization header for OAuth token flow
     const accessToken = parsed[ACCESS_TOKEN_COOKIE];
     if (accessToken) headers.Authorization = accessToken;
+    const verified = verifyUserId(parsed[USER_ID_COOKIE], accessToken);
+    if (verified !== null) headers[NEW_API_USER] = String(verified);
   }
   return { upstream: { headers } };
 }

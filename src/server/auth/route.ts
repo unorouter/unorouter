@@ -13,6 +13,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
+import { signUserId } from "@/lib/utils/signed-cookie";
 import {
   exchangeOAuthCode,
   generateOAuthCode,
@@ -126,7 +127,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
         httpOnly: true,
       });
       cookie[USER_ID_COOKIE].set({
-        value: String(data.user_id),
+        value: signUserId(data.user_id, data.access_token),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",

@@ -1,5 +1,6 @@
 export const serverEnv = {
   systemAccessToken: process.env.SYSTEM_ACCESS_TOKEN,
+  sessionSecret: process.env.SESSION_SECRET,
   guestApiKey: process.env.GUEST_API_KEY,
   internalApiUrl: process.env.INTERNAL_API_URL,
   tursoUrl: process.env.TURSO_DATABASE_URL,
@@ -17,6 +18,8 @@ export const serverEnv = {
 // Warn about missing optional vars that disable features
 if (typeof globalThis !== "undefined" && !process.env.NEXT_PHASE) {
   const warnings: string[] = [];
+  if (!serverEnv.sessionSecret)
+    warnings.push("SESSION_SECRET (user-id spoofable, chat auth broken)");
   if (!serverEnv.guestApiKey)
     warnings.push("GUEST_API_KEY (guest chat disabled)");
   if (
