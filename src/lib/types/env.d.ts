@@ -24,6 +24,7 @@ declare namespace NodeJS {
     R2_BUCKET: string;
 
     TAVILY_API_KEY?: string;
+    GUEST_API_KEY?: string;
 
     GOOGLE_SITE_VERIFICATION?: string;
 
