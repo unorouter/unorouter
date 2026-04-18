@@ -1,3 +1,4 @@
+import { FluidSmokeLazy } from "@/components/ui/fluid-smoke/fluid-smoke-lazy";
 import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
@@ -82,13 +83,7 @@ export async function BlogPost(props: BlogPostProps) {
                 <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-background/10" />
               </div>
             ) : (
-              <div
-                className={cn(
-                  "pointer-events-none absolute top-1/2 left-1/2 size-96 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-3xl",
-                  theme.bg.replace("/5", "/30"),
-                )}
-                aria-hidden
-              />
+              <FluidSmokeLazy />
             )}
 
             <div className="relative flex flex-col items-center pt-12 pb-10 text-center">

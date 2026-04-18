@@ -1,9 +1,10 @@
+import { FluidSmokeLazy } from "@/components/ui/fluid-smoke/fluid-smoke-lazy";
+import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { BlogList } from "@/components/pages/blog/blog-list";
 import {
   getAllPostsSorted,
   translated,
 } from "@/components/pages/blog/posts";
-import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { cn } from "@/lib/utils";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -31,10 +32,7 @@ export async function Blog() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-16">
       <section className="relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute top-1/2 left-1/2 size-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/30 opacity-60 blur-3xl"
-          aria-hidden
-        />
+        <FluidSmokeLazy />
         <div className="relative flex flex-col items-center pt-20 pb-12 text-center">
           <div
             className={cn(
