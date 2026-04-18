@@ -164,8 +164,13 @@ export async function persistMessages(
           );
           const quota = unwrap(logRes).data?.items?.[0]?.quota ?? 0;
           pending.cost = quota / QUOTA_PER_DOLLAR;
-        } catch {
-          // Cost lookup failed, continue with tokens only
+        } catch (err) {
+          logger.warn("Cost lookup failed, continuing with tokens only", {
+            context: "chat.message.costLookup",
+            err,
+            convId,
+            requestId: pending.requestId,
+          });
         }
       }
 

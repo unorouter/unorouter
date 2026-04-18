@@ -1,9 +1,9 @@
 import { GUEST_CONVS_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { safeJsonParse } from "@/lib/utils/base";
+import { getCookie } from "cookies-next/client";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
-import { getCookie } from "cookies-next/client";
 
 export const CHAT_STORE_KEY = "chat-store";
 
@@ -58,13 +58,8 @@ export const getChatWebSearch = (): boolean =>
  * Version counter lets async consumers detect stale reads after awaits.
  */
 let _convId: string | null = null;
-let _convIdVersion = 0;
 export const getConvId = () => _convId;
-export const getConvIdVersion = () => _convIdVersion;
-export const setConvId = (id: string | null) => {
-  _convId = id;
-  _convIdVersion++;
-};
+export const setConvId = (id: string | null) => (_convId = id);
 
 /**
  * Scroll control for infinite message loading. Plain mutable ref bridging

@@ -15,7 +15,7 @@ import {
   type UIMessageStreamWriter,
 } from "ai";
 import { logger } from "@/lib/utils/logger";
-import { pendingUsageByConv } from "./message.service";
+import { pendingUsageByConv, sweepStalePending } from "./message.service";
 import { submitVideoTask } from "./task.service";
 import {
   formatSearchContext,
@@ -78,15 +78,26 @@ function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
 
 function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
   if (!convId) return;
+  sweepStalePending();
   const existing = pendingUsageByConv.get(convId);
   if (existing) {
-    logger.warn("Overwriting pending usage for conversation", {
+    logger.warn("Merging concurrent pending usage for conversation", {
       context: "stream.usage",
       convId,
       existingRequestId: existing.requestId,
       newRequestId: usage.requestId,
       ageMs: Date.now() - existing.createdAt,
     });
+    pendingUsageByConv.set(convId, {
+      requestId: usage.requestId ?? existing.requestId,
+      inputTokens: existing.inputTokens + usage.inputTokens,
+      outputTokens: existing.outputTokens + usage.outputTokens,
+      cost: 0,
+      upstreamHeaders: usage.upstreamHeaders,
+      rawResponse: usage.rawResponse ?? existing.rawResponse,
+      createdAt: Date.now(),
+    });
+    return;
   }
   pendingUsageByConv.set(convId, {
     requestId: usage.requestId,
