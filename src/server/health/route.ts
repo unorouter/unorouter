@@ -1,3 +1,4 @@
+import { pingR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { upstreamApiUrl } from "@/server/constants";
 import { sql } from "drizzle-orm";
@@ -25,6 +26,9 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
     } catch {
       checks.upstream = "fail";
     }
+
+    // R2 (Cloudflare S3)
+    checks.r2 = (await pingR2()) ? "ok" : "fail";
 
     const healthy = Object.values(checks).every((v) => v === "ok");
 

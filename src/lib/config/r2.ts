@@ -3,6 +3,7 @@ import { serverEnv } from "@/server/env";
 import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
+  HeadBucketCommand,
   ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
@@ -55,6 +56,15 @@ function getS3() {
 
 function getPublicUrl() {
   return serverEnv.r2PublicUrl;
+}
+
+export async function pingR2(): Promise<boolean> {
+  try {
+    await getS3().send(new HeadBucketCommand({ Bucket: R2_BUCKET }));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 export async function uploadToR2(
