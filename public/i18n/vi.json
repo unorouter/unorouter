@@ -1049,6 +1049,8 @@
     "FORM": {
       "USERNAME": "Tên người dùng",
       "USERNAME_PLACEHOLDER": "Nhập tên người dùng của bạn",
+      "USERNAME_OR_EMAIL": "Tên người dùng hoặc email",
+      "USERNAME_OR_EMAIL_PLACEHOLDER": "Nhập tên người dùng hoặc email của bạn",
       "PASSWORD": "Mật khẩu",
       "PASSWORD_PLACEHOLDER": "Nhập mật khẩu của bạn",
       "PASSWORD_MIN_LENGTH": "Mật khẩu phải có ít nhất 8 ký tự",
@@ -1074,6 +1076,8 @@
       "SEND_CODE": "Gửi mã",
       "SENDING": "Đang gửi...",
       "SENT": "Đã gửi mã",
+      "RESEND": "Gửi lại",
+      "RESEND_IN": "Gửi lại sau {seconds}s",
       "FAILED": "Gửi mã xác minh thất bại"
     },
     "ENUM": {

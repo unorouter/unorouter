@@ -22,7 +22,7 @@
     "@assistant-ui/react-markdown": "0.12.9",
     "@aws-sdk/client-s3": "3.1032.0",
     "@base-ui/react": "1.4.0",
-    "@chenglou/pretext": "^0.0.5",
+    "@chenglou/pretext": "0.0.5",
     "@elysiajs/eden": "1.4.9",
     "@elysiajs/html": "1.4.0",
     "@hookform/resolvers": "5.2.2",

@@ -1049,6 +1049,8 @@
     "FORM": {
       "USERNAME": "Username",
       "USERNAME_PLACEHOLDER": "Enter your username",
+      "USERNAME_OR_EMAIL": "Username or Email",
+      "USERNAME_OR_EMAIL_PLACEHOLDER": "Enter your username or email",
       "PASSWORD": "Password",
       "PASSWORD_PLACEHOLDER": "Enter your password",
       "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters",
@@ -1074,6 +1076,8 @@
       "SEND_CODE": "Send Code",
       "SENDING": "Sending...",
       "SENT": "Code Sent",
+      "RESEND": "Resend",
+      "RESEND_IN": "Resend in {seconds}s",
       "FAILED": "Failed to send verification code"
     },
     "ENUM": {

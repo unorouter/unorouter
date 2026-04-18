@@ -1049,6 +1049,8 @@
     "FORM": {
       "USERNAME": "Имя пользователя",
       "USERNAME_PLACEHOLDER": "Введите имя пользователя",
+      "USERNAME_OR_EMAIL": "Имя пользователя или e-mail",
+      "USERNAME_OR_EMAIL_PLACEHOLDER": "Введите имя пользователя или e-mail",
       "PASSWORD": "Пароль",
       "PASSWORD_PLACEHOLDER": "Введите пароль",
       "PASSWORD_MIN_LENGTH": "Пароль должен содержать не менее 8 символов",
@@ -1074,6 +1076,8 @@
       "SEND_CODE": "Отправить код",
       "SENDING": "Отправка...",
       "SENT": "Код отправлен",
+      "RESEND": "Отправить снова",
+      "RESEND_IN": "Повтор через {seconds} с",
       "FAILED": "Не удалось отправить код подтверждения"
     },
     "ENUM": {

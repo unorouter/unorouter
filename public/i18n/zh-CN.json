@@ -1049,6 +1049,8 @@
     "FORM": {
       "USERNAME": "用户名",
       "USERNAME_PLACEHOLDER": "请输入用户名",
+      "USERNAME_OR_EMAIL": "用户名或邮箱",
+      "USERNAME_OR_EMAIL_PLACEHOLDER": "请输入用户名或邮箱",
       "PASSWORD": "密码",
       "PASSWORD_PLACEHOLDER": "请输入密码",
       "PASSWORD_MIN_LENGTH": "密码至少需要 8 个字符",
@@ -1074,6 +1076,8 @@
       "SEND_CODE": "发送验证码",
       "SENDING": "发送中...",
       "SENT": "验证码已发送",
+      "RESEND": "重新发送",
+      "RESEND_IN": "{seconds} 秒后可重发",
       "FAILED": "发送验证码失败"
     },
     "ENUM": {

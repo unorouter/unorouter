@@ -24,8 +24,10 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Value } from "@sinclair/typebox/value";
 import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+
+const RESEND_COOLDOWN_SECONDS = 60;
 
 export function RegisterForm() {
   const t = useTranslations();
@@ -42,6 +44,13 @@ export function RegisterForm() {
 
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
+  const [resendSeconds, setResendSeconds] = useState(0);
+
+  useEffect(() => {
+    if (resendSeconds <= 0) return;
+    const id = setTimeout(() => setResendSeconds((s) => s - 1), 1000);
+    return () => clearTimeout(id);
+  }, [resendSeconds]);
 
   async function handleSendCode() {
     const email = form.getValues("email");
@@ -53,16 +62,23 @@ export function RegisterForm() {
       },
     });
     analytics.auth.verificationSent();
+    turnstileRef.current?.reset();
+    setTurnstileToken(undefined);
+    setResendSeconds(RESEND_COOLDOWN_SECONDS);
   }
 
   async function onSubmit(data: RegisterSchema) {
     try {
       const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;
+      const email = data.email?.trim() || undefined;
+      const username = status?.email_verification
+        ? (email ?? "")
+        : data.username.trim();
       await registerMutation.mutateAsync({
         body: {
-          username: data.username.trim(),
+          username,
           password: data.password,
-          email: data.email?.trim() || undefined,
+          email,
           verification_code: data.verification_code?.trim() || undefined,
           aff_code: affCode,
           turnstile: turnstileToken,
@@ -78,10 +94,14 @@ export function RegisterForm() {
   }
 
   const showPasswordForm = status?.password_register_enabled !== false;
+  const emailAsUsername = status?.email_verification === true;
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = form.watch();
   const isValid = safeParse(registerChecker, {
-    username: formValues.username,
+    username: emailAsUsername
+      ? formValues.email?.trim() || ""
+      : formValues.username,
     password: formValues.password,
   }).success;
 
@@ -95,16 +115,39 @@ export function RegisterForm() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-3">
-                <MyFormInput
-                  control={form.control}
-                  name="username"
-                  schema={registerSchema}
-                  label={t("AUTH.FORM.USERNAME")}
-                  type="text"
-                  autoComplete="username"
-                  placeholder={t("AUTH.FORM.USERNAME_PLACEHOLDER")}
-                  className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
-                />
+                {!emailAsUsername && (
+                  <MyFormInput
+                    control={form.control}
+                    name="username"
+                    schema={registerSchema}
+                    label={t("AUTH.FORM.USERNAME")}
+                    type="text"
+                    autoComplete="username"
+                    placeholder={t("AUTH.FORM.USERNAME_PLACEHOLDER")}
+                    className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
+                  />
+                )}
+
+                {status?.email_verification && (
+                  <div className="space-y-1.5">
+                    <MyFormInput
+                      control={form.control}
+                      name="email"
+                      schema={registerSchema}
+                      label={t("AUTH.FORM.EMAIL")}
+                      type="email"
+                      autoComplete="email"
+                      placeholder={t("AUTH.FORM.EMAIL_PLACEHOLDER")}
+                      className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
+                    />
+                    {verificationMutation.error && (
+                      <p className="text-destructive text-xs font-medium">
+                        {t("AUTH.VERIFICATION.FAILED")}
+                      </p>
+                    )}
+                  </div>
+                )}
+
                 <MyFormInput
                   control={form.control}
                   name="password"
@@ -117,56 +160,47 @@ export function RegisterForm() {
                 />
 
                 {status?.email_verification && (
-                  <>
-                    <div className="space-y-1.5">
-                      <label className="text-foreground text-sm font-medium">
-                        {t("AUTH.FORM.EMAIL")}
-                      </label>
-                      <div className="flex gap-2">
+                  <div className="space-y-1.5">
+                    <label className="text-foreground text-sm font-medium">
+                      {t("AUTH.FORM.VERIFICATION_CODE")}
+                    </label>
+                    <div className="flex items-start gap-2">
+                      <div className="flex-1">
                         <MyFormInput
                           control={form.control}
-                          name="email"
+                          name="verification_code"
                           schema={registerSchema}
-                          type="email"
-                          autoComplete="email"
-                          placeholder={t("AUTH.FORM.EMAIL_PLACEHOLDER")}
+                          type="text"
+                          inputMode="numeric"
+                          placeholder={t(
+                            "AUTH.FORM.VERIFICATION_CODE_PLACEHOLDER",
+                          )}
                           className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                         />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={handleSendCode}
-                          disabled={
-                            !formValues.email?.trim() ||
-                            verificationMutation.isPending ||
-                            verificationMutation.isSuccess
-                          }
-                          className="h-11 shrink-0 rounded-2xl px-4 text-xs"
-                        >
-                          {verificationMutation.isPending
-                            ? t("AUTH.VERIFICATION.SENDING")
-                            : verificationMutation.isSuccess
-                              ? t("AUTH.VERIFICATION.SENT")
-                              : t("AUTH.VERIFICATION.SEND_CODE")}
-                        </Button>
                       </div>
-                      {verificationMutation.error && (
-                        <p className="text-destructive text-xs font-medium">
-                          {t("AUTH.VERIFICATION.FAILED")}
-                        </p>
-                      )}
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleSendCode}
+                        disabled={
+                          !formValues.email?.trim() ||
+                          verificationMutation.isPending ||
+                          resendSeconds > 0
+                        }
+                        className="h-11 shrink-0 rounded-2xl px-4 text-xs"
+                      >
+                        {verificationMutation.isPending
+                          ? t("AUTH.VERIFICATION.SENDING")
+                          : resendSeconds > 0
+                            ? t("AUTH.VERIFICATION.RESEND_IN", {
+                                seconds: resendSeconds,
+                              })
+                            : verificationMutation.isSuccess
+                              ? t("AUTH.VERIFICATION.RESEND")
+                              : t("AUTH.VERIFICATION.SEND_CODE")}
+                      </Button>
                     </div>
-                    <MyFormInput
-                      control={form.control}
-                      name="verification_code"
-                      schema={registerSchema}
-                      label={t("AUTH.FORM.VERIFICATION_CODE")}
-                      type="text"
-                      inputMode="numeric"
-                      placeholder={t("AUTH.FORM.VERIFICATION_CODE_PLACEHOLDER")}
-                      className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
-                    />
-                  </>
+                  </div>
                 )}
               </div>
 

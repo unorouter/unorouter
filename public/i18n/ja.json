@@ -1049,6 +1049,8 @@
     "FORM": {
       "USERNAME": "ユーザー名",
       "USERNAME_PLACEHOLDER": "ユーザー名を入力",
+      "USERNAME_OR_EMAIL": "ユーザー名またはメールアドレス",
+      "USERNAME_OR_EMAIL_PLACEHOLDER": "ユーザー名またはメールアドレスを入力",
       "PASSWORD": "パスワード",
       "PASSWORD_PLACEHOLDER": "パスワードを入力",
       "PASSWORD_MIN_LENGTH": "パスワードは 8 文字以上である必要があります",
@@ -1074,6 +1076,8 @@
       "SEND_CODE": "コードを送信",
       "SENDING": "送信中...",
       "SENT": "コード送信済み",
+      "RESEND": "再送信",
+      "RESEND_IN": "{seconds}秒後に再送信",
       "FAILED": "認証コードの送信に失敗しました"
     },
     "ENUM": {

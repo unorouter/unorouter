@@ -1049,6 +1049,8 @@
     "FORM": {
       "USERNAME": "Nom d'utilisateur",
       "USERNAME_PLACEHOLDER": "Entrez votre nom d'utilisateur",
+      "USERNAME_OR_EMAIL": "Nom d'utilisateur ou e-mail",
+      "USERNAME_OR_EMAIL_PLACEHOLDER": "Entrez votre nom d'utilisateur ou votre e-mail",
       "PASSWORD": "Mot de passe",
       "PASSWORD_PLACEHOLDER": "Entrez votre mot de passe",
       "PASSWORD_MIN_LENGTH": "Le mot de passe doit contenir au moins 8 caractères",
@@ -1074,6 +1076,8 @@
       "SEND_CODE": "Envoyer le code",
       "SENDING": "Envoi...",
       "SENT": "Code envoyé",
+      "RESEND": "Renvoyer",
+      "RESEND_IN": "Renvoyer dans {seconds}s",
       "FAILED": "Échec de l'envoi du code de vérification"
     },
     "ENUM": {

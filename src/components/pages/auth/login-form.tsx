@@ -82,6 +82,7 @@ export function LoginForm() {
   }
 
   const showPasswordForm = statusQuery.data?.password_login_enabled !== false;
+  const emailAsUsername = statusQuery.data?.email_verification === true;
 
   const formValues = form.watch();
   const isValid = safeParse(loginChecker, {
@@ -103,10 +104,18 @@ export function LoginForm() {
                   control={form.control}
                   name="username"
                   schema={loginSchema}
-                  label={t("AUTH.FORM.USERNAME")}
+                  label={
+                    emailAsUsername
+                      ? t("AUTH.FORM.USERNAME_OR_EMAIL")
+                      : t("AUTH.FORM.USERNAME")
+                  }
                   type="text"
                   autoComplete="username"
-                  placeholder={t("AUTH.FORM.USERNAME_PLACEHOLDER")}
+                  placeholder={
+                    emailAsUsername
+                      ? t("AUTH.FORM.USERNAME_OR_EMAIL_PLACEHOLDER")
+                      : t("AUTH.FORM.USERNAME_PLACEHOLDER")
+                  }
                   className="border-border/60 bg-background/60 h-11 rounded-2xl px-4"
                 />
                 <MyFormInput
