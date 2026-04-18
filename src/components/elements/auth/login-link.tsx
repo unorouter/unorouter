@@ -15,7 +15,9 @@ export function LoginLink(props: LoginLinkProps) {
       {...props}
       href="/login"
       onClick={(e) => {
-        setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
+        if (pathname.startsWith("/chat") || pathname.startsWith("/docs")) {
+          setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
+        }
         props.onClick?.(e);
       }}
     />
