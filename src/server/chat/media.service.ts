@@ -7,15 +7,27 @@ import { eq, sql } from "drizzle-orm";
 
 const MAX_USER_BYTES = 100 * 1024 * 1024;
 
-export async function uploadMedia(file: File, convId: string) {
+export async function uploadMedia(
+  file: File,
+  convId: string,
+  requestUserId: number = 0,
+) {
   const db = getDb();
   const convRows = await db
     .select({ userId: conversations.userId })
     .from(conversations)
     .where(eq(conversations.id, convId))
     .limit(1);
-  const userId = convRows[0]?.userId ?? 0;
+
+  const userId = convRows[0]?.userId ?? requestUserId;
   const isGuest = userId === 0;
+
+  if (convRows.length === 0) {
+    await db
+      .insert(conversations)
+      .values({ id: convId, userId, model: "" })
+      .onConflictDoNothing();
+  }
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
