@@ -188,7 +188,7 @@ export function buildPricingSummary(response: PricingData) {
       const discB = 1 - b.inputPrice / (b.originalInputPrice ?? b.inputPrice);
       return discB - discA;
     })
-    .slice(0, 4)
+    .slice(0, 5)
     .map((m) => ({
       model: m.name,
       vendor: m.vendor.name,

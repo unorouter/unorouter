@@ -20,6 +20,7 @@ import iflytekcloud from "thesvg/iflytekcloud";
 import kling from "thesvg/kling";
 import kuaishou from "thesvg/kuaishou";
 import meta from "thesvg/meta";
+import minimax from "thesvg/minimax";
 import mistral from "thesvg/mistral";
 import moonshot from "thesvg/moonshot";
 import openai from "thesvg/openai";
@@ -60,8 +61,11 @@ export function computeSize(
     d.priceWidth * 2 +
     (d.showOriginal ? d.discountWidth : 0);
   const W = cols + d.pad * 2;
+  const headerH = Math.max(d.headerLogoSize, d.headerFont) + 10;
+  const tableHeaderH = d.labelFont + 20;
+  const footerH = d.showOriginal ? d.noteFont + 14 : 0;
   const H =
-    d.pad * 2 + 30 + 26 + rowCount * d.rowHeight + (d.showOriginal ? 24 : 0);
+    d.pad * 2 + headerH + tableHeaderH + rowCount * d.rowHeight + footerH;
   return { W, H };
 }
 
@@ -77,6 +81,7 @@ const VENDOR_ICONS: Partial<Record<Vendor, string>> = {
   [Vendor.GOOGLE]: pickVariant(google.variants),
   [Vendor.GOOGLE_DEEPMIND]: pickVariant(google.variants),
   [Vendor.META]: pickVariant(meta.variants),
+  [Vendor.MINIMAX]: pickVariant(minimax.variants),
   [Vendor.DEEPSEEK]: pickVariant(deepseek.variants),
   [Vendor.MISTRAL]: pickVariant(mistral.variants),
   [Vendor.MISTRAL_AI]: pickVariant(mistral.variants),

@@ -26,6 +26,12 @@ export interface Dims extends BadgeDimsBase {
   rowHeight: number;
   headerLogoSize: number;
   headerFont: number;
+  modelFont: number;
+  priceFont: number;
+  origFont: number;
+  labelFont: number;
+  discountFont: number;
+  noteFont: number;
 }
 
 const DIMS: Partial<Record<BadgeSize, Dims>> = {
@@ -42,6 +48,12 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     rowHeight: 30,
     headerLogoSize: 16,
     headerFont: 10,
+    modelFont: 10,
+    priceFont: 11,
+    origFont: 8,
+    labelFont: 9,
+    discountFont: 9,
+    noteFont: 8,
   },
   sm: {
     W: 0,
@@ -56,6 +68,12 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     rowHeight: 32,
     headerLogoSize: 18,
     headerFont: 11,
+    modelFont: 11,
+    priceFont: 12,
+    origFont: 9,
+    labelFont: 9,
+    discountFont: 10,
+    noteFont: 9,
   },
   md: {
     W: 0,
@@ -65,53 +83,77 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     modelWidth: 140,
     priceWidth: 88,
     discountWidth: 60,
-    iconSize: 12,
+    iconSize: 14,
     maxRows: 99,
-    rowHeight: 38,
-    headerLogoSize: 20,
-    headerFont: 12,
+    rowHeight: 40,
+    headerLogoSize: 22,
+    headerFont: 14,
+    modelFont: 13,
+    priceFont: 14,
+    origFont: 10,
+    labelFont: 11,
+    discountFont: 11,
+    noteFont: 10,
   },
   lg: {
     W: 0,
     H: 0,
-    pad: 30,
+    pad: 32,
     showOriginal: true,
-    modelWidth: 160,
-    priceWidth: 100,
-    discountWidth: 65,
-    iconSize: 14,
-    maxRows: 99,
-    rowHeight: 42,
-    headerLogoSize: 24,
-    headerFont: 14,
-  },
-  xl: {
-    W: 0,
-    H: 0,
-    pad: 38,
-    showOriginal: true,
-    modelWidth: 190,
-    priceWidth: 120,
-    discountWidth: 70,
-    iconSize: 16,
+    modelWidth: 180,
+    priceWidth: 110,
+    discountWidth: 72,
+    iconSize: 18,
     maxRows: 99,
     rowHeight: 48,
     headerLogoSize: 28,
     headerFont: 17,
+    modelFont: 16,
+    priceFont: 17,
+    origFont: 12,
+    labelFont: 13,
+    discountFont: 13,
+    noteFont: 12,
+  },
+  xl: {
+    W: 0,
+    H: 0,
+    pad: 40,
+    showOriginal: true,
+    modelWidth: 220,
+    priceWidth: 140,
+    discountWidth: 90,
+    iconSize: 22,
+    maxRows: 99,
+    rowHeight: 56,
+    headerLogoSize: 34,
+    headerFont: 21,
+    modelFont: 19,
+    priceFont: 21,
+    origFont: 14,
+    labelFont: 15,
+    discountFont: 15,
+    noteFont: 14,
   },
   og: {
     W: 1200,
     H: 630,
-    pad: 48,
+    pad: 56,
     showOriginal: true,
-    modelWidth: 320,
-    priceWidth: 200,
-    discountWidth: 110,
-    iconSize: 24,
-    maxRows: 8,
-    rowHeight: 56,
-    headerLogoSize: 44,
-    headerFont: 28,
+    modelWidth: 460,
+    priceWidth: 190,
+    discountWidth: 120,
+    iconSize: 32,
+    maxRows: 5,
+    rowHeight: 68,
+    headerLogoSize: 56,
+    headerFont: 34,
+    modelFont: 26,
+    priceFont: 28,
+    origFont: 18,
+    labelFont: 22,
+    discountFont: 22,
+    noteFont: 18,
   },
 };
 
@@ -123,6 +165,8 @@ function PriceCell(props: {
   currentMarker: string;
   originalMarker?: string;
   showOriginal: boolean;
+  priceFont: number;
+  origFont: number;
 }) {
   return (
     <div
@@ -137,7 +181,7 @@ function PriceCell(props: {
         <span
           style={{
             fontFamily: FONT_MONO,
-            fontSize: 8,
+            fontSize: props.origFont,
             color: props.originalMarker ?? props.c.muted,
             textDecoration: "line-through",
           }}
@@ -145,12 +189,12 @@ function PriceCell(props: {
           {formatPrice(props.original)}
         </span>
       ) : props.showOriginal ? (
-        <span style={{ fontSize: 8 }}> </span>
+        <span style={{ fontSize: props.origFont }}> </span>
       ) : null}
       <MonoValue
         value={formatPrice(props.current)}
         c={props.c}
-        size={11}
+        size={props.priceFont}
         cipherMarker={props.currentMarker}
       />
     </div>
@@ -169,6 +213,10 @@ function PriceRow(props: {
   modelWidth: number;
   priceWidth: number;
   iconSize: number;
+  modelFont: number;
+  priceFont: number;
+  origFont: number;
+  discountFont: number;
 }) {
   const disc =
     props.showOriginal && props.row.originalInputPrice
@@ -189,7 +237,7 @@ function PriceRow(props: {
       <span
         style={{
           fontFamily: FONT_SANS,
-          fontSize: 10,
+          fontSize: props.modelFont,
           color: props.c.text,
           width: props.modelWidth,
           overflow: "hidden",
@@ -207,6 +255,8 @@ function PriceRow(props: {
         currentMarker={props.inputCurrentMarker}
         originalMarker={props.inputOriginalMarker}
         showOriginal={props.showOriginal}
+        priceFont={props.priceFont}
+        origFont={props.origFont}
       />
       <PriceCell
         original={props.row.originalOutputPrice}
@@ -216,6 +266,8 @@ function PriceRow(props: {
         currentMarker={props.outputCurrentMarker}
         originalMarker={props.outputOriginalMarker}
         showOriginal={props.showOriginal}
+        priceFont={props.priceFont}
+        origFont={props.origFont}
       />
       {disc ? (
         <Row
@@ -228,7 +280,7 @@ function PriceRow(props: {
           <MonoValue
             value={disc}
             c={{ ...props.c, text: props.c.accent }}
-            size={10}
+            size={props.discountFont}
             cipherMarker={props.discountMarker}
           />
         </Row>
@@ -317,19 +369,19 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
         <Label
           text={t(ctx.locale, "BADGE.MODEL")}
           c={c}
-          size={10}
+          size={d.labelFont}
           style={{ width: d.modelWidth + d.iconSize + 6 }}
         />
         <Label
           text={t(ctx.locale, "BADGE.INPUT")}
           c={c}
-          size={10}
+          size={d.labelFont}
           style={{ width: d.priceWidth }}
         />
         <Label
           text={t(ctx.locale, "BADGE.OUTPUT")}
           c={c}
-          size={10}
+          size={d.labelFont}
           style={{ width: d.priceWidth }}
         />
       </Row>
@@ -347,13 +399,17 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
           modelWidth={d.modelWidth}
           priceWidth={d.priceWidth}
           iconSize={d.iconSize}
+          modelFont={d.modelFont}
+          priceFont={d.priceFont}
+          origFont={d.origFont}
+          discountFont={d.discountFont}
         />
       ))}
       {d.showOriginal && (
         <span
           style={{
             fontFamily: FONT_SANS,
-            fontSize: 9,
+            fontSize: d.noteFont,
             color: c.muted,
             marginTop: 6,
           }}
@@ -377,34 +433,34 @@ export async function generatePricing(ctx: BadgeCtx): Promise<string> {
     const rm = rowMarkers[i];
     targets.push({
       value: formatPrice(row.inputPrice),
-      fontSize: 11,
+      fontSize: d.priceFont,
       color: c.text,
       markerColor: rm.inputCurrent,
     });
     if (rm.inputOriginal && row.originalInputPrice !== null)
       targets.push({
         value: formatPrice(row.originalInputPrice),
-        fontSize: 8,
+        fontSize: d.origFont,
         color: c.muted,
         markerColor: rm.inputOriginal,
       });
     targets.push({
       value: formatPrice(row.outputPrice),
-      fontSize: 11,
+      fontSize: d.priceFont,
       color: c.text,
       markerColor: rm.outputCurrent,
     });
     if (rm.outputOriginal && row.originalOutputPrice !== null)
       targets.push({
         value: formatPrice(row.originalOutputPrice),
-        fontSize: 8,
+        fontSize: d.origFont,
         color: c.muted,
         markerColor: rm.outputOriginal,
       });
     if (rm.discountM && rm.disc)
       targets.push({
         value: rm.disc,
-        fontSize: 10,
+        fontSize: d.discountFont,
         color: c.accent,
         markerColor: rm.discountM,
       });
