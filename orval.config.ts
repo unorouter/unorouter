@@ -1,8 +1,11 @@
 import { defineConfig } from "orval";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+if (!apiUrl) throw new Error("Missing required env: NEXT_PUBLIC_API_URL");
+
 export default defineConfig({
   api: {
-    input: "https://api.unorouter.ai/openapi.json",
+    input: `${apiUrl}/openapi.json`,
     output: {
       target: "./src/openapi.ts",
       client: "fetch",

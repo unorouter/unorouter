@@ -7,6 +7,7 @@ import {
   badgeQuery,
   type BadgeType,
 } from "@/lib/validation/badge";
+import { APP_VALUES } from "@/lib/config/constants";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
@@ -107,7 +108,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           muted={c.previewMuted}
           qsStr={qsStr}
           groups={allBadges}
-          badgeAlt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT")}
+          badgeAlt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
         />,
       );
     },

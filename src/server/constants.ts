@@ -81,7 +81,7 @@ export function getGuestConvIds(
 
 export function getProvider(apiKey: string) {
   return createOpenAICompatible({
-    name: "unorouter",
+    name: env.appName,
     baseURL: `${env.apiUrl}/v1`,
     apiKey,
   });

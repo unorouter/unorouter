@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LOCALES, affLink } from "@/lib/config/constants";
+import { APP_VALUES, LOCALES, affLink } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import {
   BADGE_SIZES,
@@ -68,7 +68,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
         {t("AFFILIATE.BADGE_GENERATOR.TITLE")}
       </span>
       <p className="text-muted-foreground mb-4 text-xs">
-        {t("AFFILIATE.BADGE_GENERATOR.DESCRIPTION")}
+        {t("AFFILIATE.BADGE_GENERATOR.DESCRIPTION", APP_VALUES)}
       </p>
 
       {/* Controls */}
@@ -175,7 +175,7 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
           <img
             key={previewUrl}
             src={previewUrl}
-            alt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT")}
+            alt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
             className="max-w-full"
           />
           <CopyButton

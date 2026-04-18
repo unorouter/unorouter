@@ -1,5 +1,6 @@
 import { LaunchContent } from "@/components/pages/blog/posts/2026-04-17-launch-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
+import { APP_VALUES } from "@/lib/config/constants";
 import type { BlogPost } from "@/lib/types/seo";
 import type { useTranslations } from "next-intl";
 import type { ComponentType } from "react";
@@ -66,8 +67,8 @@ export function translated(
   post: BlogPost,
 ) {
   return {
-    title: t(`${post.i18nKey}.TITLE`),
-    description: t(`${post.i18nKey}.DESCRIPTION`),
-    author: t(`${post.i18nKey}.AUTHOR`),
+    title: t(`${post.i18nKey}.TITLE`, APP_VALUES),
+    description: t(`${post.i18nKey}.DESCRIPTION`, APP_VALUES),
+    author: t(`${post.i18nKey}.AUTHOR`, APP_VALUES),
   };
 }

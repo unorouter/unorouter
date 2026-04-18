@@ -52,6 +52,7 @@ export const msg = <T extends TranslationKey>(key: T): T => key;
 
 export const APP_VALUES = {
   appName: env.appName,
+  appDomain: new URL(env.appUrl).hostname.replace(/^www\./, ""),
   supportEmail: env.supportEmail,
 };
 

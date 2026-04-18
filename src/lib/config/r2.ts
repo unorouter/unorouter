@@ -35,7 +35,7 @@ function validateExternalUrl(url: string): void {
   }
 }
 
-const R2_BUCKET = "unorouter-chat-media";
+const R2_BUCKET = serverEnv.r2Bucket;
 
 let _s3: S3Client | null = null;
 

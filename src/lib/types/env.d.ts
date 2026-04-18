@@ -5,6 +5,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_API_URL: string;
     NEXT_PUBLIC_SUPPORT_EMAIL: string;
     NEXT_PUBLIC_GITHUB_URL: string;
+    NEXT_PUBLIC_POSTHOG_HOST?: string;
 
     SYSTEM_ACCESS_TOKEN: string;
 
@@ -15,6 +16,7 @@ declare namespace NodeJS {
     R2_ACCESS_KEY_ID: string;
     R2_SECRET_ACCESS_KEY: string;
     R2_PUBLIC_URL: string;
+    R2_BUCKET: string;
 
     TAVILY_API_KEY?: string;
 

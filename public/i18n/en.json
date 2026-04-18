@@ -164,7 +164,7 @@
         "DESC": "Latency-based channel selection with priority weights. The fastest provider wins, every time."
       },
       "LEARN_MORE": "Learn More",
-      "LEARN_MORE_ARIA": "Learn more about UnoRouter documentation",
+      "LEARN_MORE_ARIA": "Learn more about {appName} documentation",
       "LEARN_MORE_DOCS": "View Documentation",
       "ARCH": {
         "TITLE": "Architecture",
@@ -316,14 +316,14 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "Introducing unorouter: one API for every AI model",
-        "DESCRIPTION": "Why we built unorouter, how it routes across providers and what's next.",
-        "AUTHOR": "unorouter team",
-        "INTRO": "We built unorouter because managing a dozen AI provider keys, each with its own rate limits, pricing model, and outage window, is the opposite of productive. One endpoint, every major model, intelligent failover.",
+        "TITLE": "Introducing {appName}: one API for every AI model",
+        "DESCRIPTION": "Why we built {appName}, how it routes across providers and what's next.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "We built {appName} because managing a dozen AI provider keys, each with its own rate limits, pricing model, and outage window, is the opposite of productive. One endpoint, every major model, intelligent failover.",
         "H_WHAT": "What it does",
-        "P_WHAT": "unorouter exposes a single OpenAI-compatible endpoint that fronts every model we support (Claude, GPT, Gemini, DeepSeek, Mistral, and more). Your application picks the model by name. We handle routing, authentication, rate-limit retries, and provider failover transparently.",
+        "P_WHAT": "{appName} exposes a single OpenAI-compatible endpoint that fronts every model we support (Claude, GPT, Gemini, DeepSeek, Mistral, and more). Your application picks the model by name. We handle routing, authentication, rate-limit retries, and provider failover transparently.",
         "H_START": "Getting started in 30 seconds",
-        "P_START": "Point any OpenAI SDK at our base URL and pass your unorouter API key. The rest of your code stays unchanged.",
+        "P_START": "Point any OpenAI SDK at our base URL and pass your {appName} API key. The rest of your code stays unchanged.",
         "H_WHY": "Why it's different",
         "WHY_1_TITLE": "Automatic failover.",
         "WHY_1_BODY": "When one provider is degraded or rate-limited, we transparently retry against the next healthy upstream.",
@@ -920,7 +920,7 @@
     },
     "TITLE": "Privacy Policy",
     "LAST_UPDATED": "Last Updated: February 21, 2026",
-    "INTRO": "{appName} (\"we\", \"us\", or \"our\") operates the unorouter.ai website and API services. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our services.",
+    "INTRO": "{appName} (\"we\", \"us\", or \"our\") operates the {appDomain} website and API services. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our services.",
     "COLLECTION_TITLE": "1. Collection of Personal Data",
     "COLLECTION_VOLUNTARY_TITLE": "Information You Provide",
     "COLLECTION_VOLUNTARY": "We collect information you voluntarily provide when you register for an account, make purchases, contact us for support, or otherwise interact with our services. This may include your name, email address, payment information, and any other details you choose to share.",
@@ -1362,7 +1362,7 @@
     "NO_INVITEES": "No invited users yet. Share your invite link to start growing your network.",
     "BADGE_GENERATOR": {
       "TITLE": "Badge Generator",
-      "DESCRIPTION": "Create an embed badge to promote UnoRouter on your website or blog.",
+      "DESCRIPTION": "Create an embed badge to promote {appName} on your website or blog.",
       "TYPE": "Type",
       "SIZE": "Size",
       "THEME": "Theme",
@@ -1370,7 +1370,7 @@
       "PREVIEW": "Preview",
       "EMBED_CODE": "Embed Code",
       "COPIED": "Embed code copied to clipboard",
-      "BADGE_ALT": "UnoRouter badge",
+      "BADGE_ALT": "{appName} badge",
       "LOCALE": "Language"
     }
   },

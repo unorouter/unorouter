@@ -39,7 +39,7 @@ services:
       - "traefik.http.routers.unorouter.service=unorouter"
       - "traefik.http.services.unorouter.loadbalancer.server.port=3000"
       # PostHog reverse proxy (avoids ad blockers)
-      - "traefik.http.routers.posthog-proxy-uno.rule=Host(`ph.unorouter.ai`)"
+      - "traefik.http.routers.posthog-proxy-uno.rule=Host(`${POSTHOG_PROXY_HOST}`)"
       - "traefik.http.routers.posthog-proxy-uno.entrypoints=websecure"
       - "traefik.http.routers.posthog-proxy-uno.tls.certresolver=letsencrypt"
       - "traefik.http.routers.posthog-proxy-uno.service=posthog-ext-uno"

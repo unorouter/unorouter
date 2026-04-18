@@ -4,8 +4,12 @@ import {
   type LayoutCursor,
   type PreparedTextWithSegments,
 } from '@chenglou/pretext'
+import { env } from '@/lib/config/env'
 import { gameAudio } from './audio/manager'
 import { PretextRenderer, type TextBlock } from './pretext-renderer'
+
+const APP_NAME = env.appName ?? 'App'
+const APP_NAME_LOWER = APP_NAME.toLowerCase()
 
 const VIEW_WIDTH = 960
 const VIEW_HEIGHT = 720
@@ -93,7 +97,7 @@ const SEQUENCE_CARD_HEIGHT = 88
 const LEVEL_FALLBACK_WORDS = ['TOKEN', 'STREAM', 'MODEL', 'ROUTE']
 
 const LEVEL_PARAGRAPHS = [
-  'Unorouter lights the gateway while bright tokens hold fast and the stream bends around the router edge.',
+  `${APP_NAME} lights the gateway while bright tokens hold fast and the stream bends around the router edge.`,
   'Measured tokens stay fixed above the completion as the glowing packet opens clean gaps below.',
   'The response tightens near the router then reroutes back through each pocket the packet clears.',
   'Cached tokens slide from border to border and seal each break without dragging anchored targets aside.',
@@ -103,7 +107,7 @@ const LEVEL_PARAGRAPHS = [
   'Stream parallel throttle split and signal crowd the output while the router carves narrow lanes for harder returns.',
   'Measured labels stay fixed while drifting fragments wake holes and fast rebounds push the smaller tokens around collisions.',
   'Cursor segments fold around fallback lines multiplex arcs and falling power tokens without pulling the surviving targets from position.',
-  'Unorouter reflow keeps the arena streaming through collisions pickups rescue flashes and looping wakes behind the anchored tokens.',
+  `${APP_NAME} reflow keeps the arena streaming through collisions pickups rescue flashes and looping wakes behind the anchored tokens.`,
   'Break the final anchors hold the packet above the footer and let the whole completion close around each fresh opening.',
 ]
 
@@ -2460,7 +2464,7 @@ export class TokenBreakout {
 
   private buildTextWallCopy(): string {
     const phrases = [
-      'unorouter gateway measure cursor segment rewrite packet inline retry stream parallel throttle fallback quota signal static dynamic vector module bounce trail track render flow',
+      `${APP_NAME_LOWER} gateway measure cursor segment rewrite packet inline retry stream parallel throttle fallback quota signal static dynamic vector module bounce trail track render flow`,
       'tokens snake between every obstacle and keep every model alive while the field reroutes around the moving packet and the waiting router',
       'small copy fills the arena from border to border and the larger block labels stay readable as targets floating above the token stream',
     ]

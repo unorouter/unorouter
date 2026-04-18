@@ -19,7 +19,7 @@ export async function RelatedPosts(props: RelatedPostsProps) {
 
   return (
     <section className="mt-16">
-      <div className="mb-6 font-mono text-[10px] tracking-widest text-muted-foreground uppercase">
+      <div className="text-muted-foreground mb-6 font-mono text-[10px] tracking-widest uppercase">
         {t("BLOG.RELATED")}
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -45,7 +45,7 @@ export async function RelatedPosts(props: RelatedPostsProps) {
             >
               <div
                 className={cn(
-                  "relative aspect-[16/9] overflow-hidden",
+                  "relative aspect-video overflow-hidden",
                   theme.bg,
                 )}
               >

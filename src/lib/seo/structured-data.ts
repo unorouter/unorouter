@@ -26,7 +26,7 @@ export function buildOrganizationSchema(): WithContext<Organization> {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: env.appName || "unorouter",
+    name: env.appName,
     url: siteOrigin,
     logo: abs("/logo.png"),
     ...(sameAs.length && { sameAs }),
@@ -37,7 +37,7 @@ export function buildWebSiteSchema(locale: string): WithContext<WebSite> {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: env.appName || "unorouter",
+    name: env.appName,
     url: `${siteOrigin}/${locale}`,
     inLanguage: locale,
   };
@@ -84,7 +84,7 @@ export function buildSoftwareApplicationSchema(
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: env.appName || "unorouter",
+    name: env.appName,
     url: `${siteOrigin}/${input.locale}`,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
@@ -124,9 +124,7 @@ export type FAQEntry = {
   answer: string;
 };
 
-export function buildFAQPageSchema(
-  entries: FAQEntry[],
-): WithContext<FAQPage> {
+export function buildFAQPageSchema(entries: FAQEntry[]): WithContext<FAQPage> {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",

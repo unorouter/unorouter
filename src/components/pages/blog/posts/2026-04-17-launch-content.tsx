@@ -1,5 +1,7 @@
 import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { getTranslations } from "next-intl/server";
 
 export async function LaunchContent() {
@@ -7,21 +9,21 @@ export async function LaunchContent() {
 
   return (
     <>
-      <p>{t("BLOG.POSTS.LAUNCH.INTRO")}</p>
+      <p>{t("BLOG.POSTS.LAUNCH.INTRO", APP_VALUES)}</p>
 
       <h2 id="what">{t("BLOG.POSTS.LAUNCH.H_WHAT")}</h2>
-      <p>{t("BLOG.POSTS.LAUNCH.P_WHAT")}</p>
+      <p>{t("BLOG.POSTS.LAUNCH.P_WHAT", APP_VALUES)}</p>
 
       <h2 id="start">{t("BLOG.POSTS.LAUNCH.H_START")}</h2>
-      <p>{t("BLOG.POSTS.LAUNCH.P_START")}</p>
+      <p>{t("BLOG.POSTS.LAUNCH.P_START", APP_VALUES)}</p>
 
       <CodeBlock
         language="typescript"
         code={`import OpenAI from "openai";
 
 const client = new OpenAI({
-  baseURL: "https://api.unorouter.ai/v1",
-  apiKey: process.env.UNOROUTER_API_KEY,
+  baseURL: "${env.apiUrl}/v1",
+  apiKey: process.env.${env.appName?.toUpperCase() ?? "APP"}_API_KEY,
 });
 
 const res = await client.chat.completions.create({
@@ -47,10 +49,11 @@ const res = await client.chat.completions.create({
       </ul>
 
       <h2 id="next">{t("BLOG.POSTS.LAUNCH.H_NEXT")}</h2>
-      <p>{t("BLOG.POSTS.LAUNCH.P_NEXT")}</p>
+      <p>{t("BLOG.POSTS.LAUNCH.P_NEXT", APP_VALUES)}</p>
 
       <p>
         {t.rich("BLOG.POSTS.LAUNCH.CTA", {
+          ...APP_VALUES,
           register: (chunks) => <Link href="/register">{chunks}</Link>,
           models: (chunks) => <Link href="/models">{chunks}</Link>,
         })}

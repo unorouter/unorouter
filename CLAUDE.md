@@ -1,5 +1,3 @@
-# unorouter
-
 Next.js 16 storefront. React 19, Tailwind v4, shadcn/ui, Elysia backend, Turso DB.
 
 ## Commands

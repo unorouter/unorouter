@@ -164,7 +164,7 @@
         "DESC": "Latenz-basierte Kanalauswahl mit Prioritätsgewichtung. Der schnellste Anbieter gewinnt, jedes Mal."
       },
       "LEARN_MORE": "Mehr erfahren",
-      "LEARN_MORE_ARIA": "Mehr über die UnoRouter-Dokumentation erfahren",
+      "LEARN_MORE_ARIA": "Mehr über die {appName}-Dokumentation erfahren",
       "LEARN_MORE_DOCS": "Dokumentation ansehen",
       "ARCH": {
         "TITLE": "Architektur",
@@ -316,14 +316,14 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "unorouter vorgestellt: Eine API für jedes KI-Modell",
-        "DESCRIPTION": "Warum wir unorouter gebaut haben, wie das Routing zwischen Anbietern funktioniert und was als Nächstes kommt.",
-        "AUTHOR": "unorouter-Team",
-        "INTRO": "Wir haben unorouter gebaut, weil der Umgang mit einem Dutzend KI-Anbieter-Schlüsseln, jedem mit eigenen Rate Limits, Preismodellen und Ausfallzeiten, das Gegenteil von produktiv ist. Ein Endpunkt, jedes große Modell, intelligentes Failover.",
+        "TITLE": "{appName} vorgestellt: Eine API für jedes KI-Modell",
+        "DESCRIPTION": "Warum wir {appName} gebaut haben, wie das Routing zwischen Anbietern funktioniert und was als Nächstes kommt.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Wir haben {appName} gebaut, weil der Umgang mit einem Dutzend KI-Anbieter-Schlüsseln, jedem mit eigenen Rate Limits, Preismodellen und Ausfallzeiten, das Gegenteil von produktiv ist. Ein Endpunkt, jedes große Modell, intelligentes Failover.",
         "H_WHAT": "Was es macht",
-        "P_WHAT": "unorouter bietet einen einzigen OpenAI-kompatiblen Endpunkt, der alle unterstützten Modelle (Claude, GPT, Gemini, DeepSeek, Mistral und mehr) bündelt. Deine Anwendung wählt das Modell per Namen aus. Wir kümmern uns transparent um Routing, Authentifizierung, Rate-Limit-Retries und Anbieter-Failover.",
+        "P_WHAT": "{appName} bietet einen einzigen OpenAI-kompatiblen Endpunkt, der alle unterstützten Modelle (Claude, GPT, Gemini, DeepSeek, Mistral und mehr) bündelt. Deine Anwendung wählt das Modell per Namen aus. Wir kümmern uns transparent um Routing, Authentifizierung, Rate-Limit-Retries und Anbieter-Failover.",
         "H_START": "In 30 Sekunden loslegen",
-        "P_START": "Richte jedes OpenAI-SDK auf unsere Basis-URL aus und übergib deinen unorouter-API-Schlüssel. Der Rest deines Codes bleibt unverändert.",
+        "P_START": "Richte jedes OpenAI-SDK auf unsere Basis-URL aus und übergib deinen {appName}-API-Schlüssel. Der Rest deines Codes bleibt unverändert.",
         "H_WHY": "Was anders ist",
         "WHY_1_TITLE": "Automatisches Failover.",
         "WHY_1_BODY": "Wenn ein Anbieter gedrosselt oder offline ist, versuchen wir die Anfrage transparent über den nächsten gesunden Upstream.",
@@ -920,7 +920,7 @@
     },
     "TITLE": "Datenschutzrichtlinie",
     "LAST_UPDATED": "Zuletzt aktualisiert: 21. Februar 2026",
-    "INTRO": "{appName} (\"wir\", \"uns\" oder \"unser\") betreibt die Website unorouter.ai und die API-Dienste. Diese Datenschutzrichtlinie erläutert, wie wir Ihre personenbezogenen Daten erheben, verwenden, offenlegen und schützen, wenn Sie unsere Dienste nutzen.",
+    "INTRO": "{appName} (\"wir\", \"uns\" oder \"unser\") betreibt die Website {appDomain} und die API-Dienste. Diese Datenschutzrichtlinie erläutert, wie wir Ihre personenbezogenen Daten erheben, verwenden, offenlegen und schützen, wenn Sie unsere Dienste nutzen.",
     "COLLECTION_TITLE": "1. Erhebung personenbezogener Daten",
     "COLLECTION_VOLUNTARY_TITLE": "Von Ihnen bereitgestellte Informationen",
     "COLLECTION_VOLUNTARY": "Wir erheben Informationen, die Sie freiwillig bereitstellen, wenn Sie ein Konto registrieren, Käufe tätigen, uns für Support kontaktieren oder anderweitig mit unseren Diensten interagieren. Dies kann Ihren Namen, Ihre E-Mail-Adresse, Zahlungsinformationen und alle anderen Details umfassen, die Sie uns mitteilen.",
@@ -1362,7 +1362,7 @@
     "NO_INVITEES": "Noch keine eingeladenen Nutzer. Teilen Sie Ihren Einladungslink, um Ihr Netzwerk aufzubauen.",
     "BADGE_GENERATOR": {
       "TITLE": "Badge-Generator",
-      "DESCRIPTION": "Erstellen Sie ein Badge zum Einbetten, um UnoRouter auf Ihrer Website oder Ihrem Blog zu bewerben.",
+      "DESCRIPTION": "Erstellen Sie ein Badge zum Einbetten, um {appName} auf Ihrer Website oder Ihrem Blog zu bewerben.",
       "TYPE": "Typ",
       "SIZE": "Größe",
       "THEME": "Design",
@@ -1370,7 +1370,7 @@
       "PREVIEW": "Vorschau",
       "EMBED_CODE": "Einbettungscode",
       "COPIED": "Einbettungscode in die Zwischenablage kopiert",
-      "BADGE_ALT": "UnoRouter-Badge",
+      "BADGE_ALT": "{appName}-Badge",
       "LOCALE": "Sprache"
     }
   },
