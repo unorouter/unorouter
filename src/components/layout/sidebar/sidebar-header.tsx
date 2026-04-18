@@ -5,7 +5,7 @@ import { DocsSearch } from "@/components/layout/docs/docs-search";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
-import { ChatControls } from "@/components/pages/chat/chat-elements";
+import { ChatControls, ChatShareSlot } from "@/components/pages/chat/chat-elements";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Separator } from "@/components/ui/separator";
@@ -36,9 +36,12 @@ export function SidebarHeader(props: SidebarHeaderProps) {
           </div>
         )}
         {props.navConfig === "chat" && <ChatControls />}
-        <div className="ml-auto hidden items-center gap-2 md:flex">
-          <LanguageToggle />
-          <ThemeToggle />
+        <div className="ml-auto flex items-center gap-2">
+          <div className="hidden items-center gap-2 md:flex">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+          {props.navConfig === "chat" && <ChatShareSlot />}
           {userDisplay.user ? (
             <UserDropdown side="bottom" align="end">
               <button

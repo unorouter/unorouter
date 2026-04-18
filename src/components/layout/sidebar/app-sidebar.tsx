@@ -1,9 +1,6 @@
 "use client";
 
-import { LoginLink } from "@/components/elements/auth/login-link";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import { UserAvatar } from "@/components/layout/user/user-avatar";
-import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import {
@@ -15,11 +12,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
 import * as React from "react";
-import { LuLogIn } from "react-icons/lu";
 import { SidebarNavigation } from "./sidebar-navigation";
 
 export type SidebarNavConfig = "default" | "docs" | "chat";
@@ -31,8 +25,6 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function AppSidebar(props: AppSidebarProps) {
   const { navConfig = "default", chatContent, ...sidebarProps } = props;
-  const t = useTranslations();
-  const userDisplay = useUserDisplay();
 
   return (
     <Sidebar collapsible="icon" {...sidebarProps}>
@@ -66,28 +58,9 @@ export function AppSidebar(props: AppSidebarProps) {
         </SidebarContent>
       )}
       <SidebarFooter className="border-t md:hidden group-data-[collapsible=icon]:hidden">
-        <div className="flex items-center justify-between gap-2 px-1">
-          <div className="flex items-center gap-1">
-            <LanguageToggle />
-            <ThemeToggle />
-          </div>
-          {userDisplay.user ? (
-            <UserDropdown side="top" align="end">
-              <button
-                aria-label={t("COMMON.OPEN_MENU")}
-                className="hover:bg-accent cursor-pointer rounded-md p-1 transition-colors"
-              >
-                <UserAvatar />
-              </button>
-            </UserDropdown>
-          ) : (
-            <LoginLink
-              aria-label={t("NAV.LOG_IN")}
-              className="hover:bg-accent rounded-md p-1 transition-colors"
-            >
-              <LuLogIn className="size-5" />
-            </LoginLink>
-          )}
+        <div className="flex items-center gap-1 px-1">
+          <LanguageToggle />
+          <ThemeToggle />
         </div>
       </SidebarFooter>
     </Sidebar>

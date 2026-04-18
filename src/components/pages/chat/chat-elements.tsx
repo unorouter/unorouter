@@ -1,10 +1,11 @@
 "use client";
 
 import { ModelSelector } from "@/components/elements/chat/model-selector";
+import { ShareButton } from "@/components/elements/chat/share-button";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { chatModelAtom } from "@/store/chat-store";
-import { useAui } from "@assistant-ui/react";
+import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuKey, LuLoader, LuPlus, LuWallet } from "react-icons/lu";
@@ -35,6 +36,13 @@ export function ChatControls() {
       </Button>
     </div>
   );
+}
+
+export function ChatShareSlot() {
+  const token = useApiKey();
+  const threadId = useAuiState((s) => s.threadListItem?.remoteId);
+  if (!threadId || !token.isLoggedIn) return null;
+  return <ShareButton convId={threadId} />;
 }
 
 export function NeedsTokenGate() {
