@@ -316,23 +316,18 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "Introducing {appName}: one API for every AI model",
-        "DESCRIPTION": "Why we built {appName}, how it routes across providers and what's next.",
+        "TITLE": "Introducing {appName}: always online, always the real model",
+        "DESCRIPTION": "Why {appName} exists: smart fallbacks that route around provider outages, and per-model authenticity checks so you always get the model you asked for.",
         "AUTHOR": "{appName} team",
-        "INTRO": "We built {appName} because managing a dozen AI provider keys, each with its own rate limits, pricing model, and outage window, is the opposite of productive. One endpoint, every major model, intelligent failover.",
-        "H_WHAT": "What it does",
-        "P_WHAT": "{appName} exposes a single OpenAI-compatible endpoint that fronts every model we support (Claude, GPT, Gemini, DeepSeek, Mistral, and more). Your application picks the model by name. We handle routing, authentication, rate-limit retries, and provider failover transparently.",
-        "H_START": "Getting started in 30 seconds",
-        "P_START": "Point any OpenAI SDK at our base URL and pass your {appName} API key. The rest of your code stays unchanged.",
-        "H_WHY": "Why it's different",
-        "WHY_1_TITLE": "Automatic failover.",
-        "WHY_1_BODY": "When one provider is degraded or rate-limited, we transparently retry against the next healthy upstream.",
-        "WHY_2_TITLE": "Per-token pricing, no subscription required.",
-        "WHY_2_BODY": "Top up once, use any model. Subscriptions are optional for volume discounts.",
-        "WHY_3_TITLE": "All major endpoint shapes.",
-        "WHY_3_BODY": "OpenAI Chat Completions, Anthropic Messages, Google Gemini. Use the shape you already have.",
+        "INTRO": "The cheap AI API market has two problems. Providers go down a lot, and some of them quietly forward your request to a weaker model while still charging you for the flagship. {appName} is built to fix both.",
+        "H_UPTIME": "Stay online when providers don't",
+        "P_UPTIME": "Cheap upstreams are cheap for a reason. They rate-limit, throttle, and drop connections under load. When one degrades, {appName} routes the same request to another healthy provider serving the same model, automatically. Your application doesn't see the outage. You don't rewrite your code. You just keep shipping.",
+        "H_AUTHENTIC": "Every model is the real model",
+        "P_AUTHENTIC": "Not every gateway serves what it advertises. Some forward premium model names to cheaper substitutes and hope you don't notice. {appName} validates authenticity on every model we list: we probe identity and behavior end to end, and if a provider lies, we cut them. When you call Claude, you get Claude. When you call GPT, you get GPT.",
+        "H_HARNESS": "Works in the terminals you actually use",
+        "P_HARNESS": "A model is only useful if it works in your tools. We test every model end to end for HTTP completion, streaming, and tool calling. Those three capabilities are what AI terminal harnesses depend on. If a model is in our catalog, it works in Claude Code, Codex CLI, Gemini CLI, and any OpenAI-compatible client. No surprise 'streaming not supported' failures mid-session.",
         "H_NEXT": "What's next",
-        "P_NEXT": "We're shipping weekly. Expect: more models, smarter routing heuristics, better dashboards for cost and latency, and deeper integrations with the tooling developers already use (Claude Code, Codex CLI, Gemini CLI).",
+        "P_NEXT": "We ship weekly. Expect more models, tighter health signals driving smarter fallbacks, richer cost and latency dashboards, and deeper integrations with the terminals and IDEs you already live in.",
         "CTA": "Ready to try it? <register>Grab an API key</register> or <models>browse the model catalog</models>."
       }
     }

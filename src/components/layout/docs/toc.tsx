@@ -8,20 +8,11 @@ import {
   TOCItem,
   useActiveAnchors,
 } from "fumadocs-core/toc";
-import { atom, useAtom, useSetAtom } from "jotai";
-import { useHydrateAtoms } from "jotai/utils";
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import type { TOCState } from "./toc-utils";
 
 export { createTOC, type TOCState } from "./toc-utils";
-
-const INITIAL_TOC_STATE: TOCState = {
-  items: [],
-  title: "On this page",
-};
-
-const tocAtom = atom<TOCState>(INITIAL_TOC_STATE);
 
 // Clerk-style offset helpers
 function getItemOffset(depth: number): number {
@@ -144,8 +135,9 @@ function ClerkTOCItem(props: {
   );
 }
 
-function TOCPanel(props: { className?: string }) {
-  const [{ items, title }] = useAtom(tocAtom);
+function TOCPanel(props: { toc: TOCState; className?: string }) {
+  const items = props.toc.items;
+  const title = props.toc.title;
   const containerRef = useRef<HTMLDivElement>(null);
   const [svg, setSvg] = useState<{
     path: string;
@@ -261,17 +253,10 @@ interface TOCLayoutProps {
 }
 
 export function TOCLayout(props: TOCLayoutProps) {
-  useHydrateAtoms([[tocAtom, props.toc]]);
-  const setToc = useSetAtom(tocAtom);
-
-  useEffect(() => {
-    setToc(props.toc);
-  }, [props.toc, setToc]);
-
   return (
     <>
       <main className="min-w-0 flex-1">{props.children}</main>
-      <TOCPanel className="mt-4 mr-4" />
+      <TOCPanel toc={props.toc} className="mt-4 mr-4" />
     </>
   );
 }

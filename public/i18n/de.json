@@ -316,23 +316,18 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "{appName} vorgestellt: Eine API für jedes KI-Modell",
-        "DESCRIPTION": "Warum wir {appName} gebaut haben, wie das Routing zwischen Anbietern funktioniert und was als Nächstes kommt.",
+        "TITLE": "{appName} vorgestellt: immer online, immer das echte Modell",
+        "DESCRIPTION": "Warum es {appName} gibt: intelligente Fallbacks, die Anbieterausfälle umgehen, und Authentizitätsprüfungen pro Modell, damit du immer das bekommst, was du angefragt hast.",
         "AUTHOR": "{appName}-Team",
-        "INTRO": "Wir haben {appName} gebaut, weil der Umgang mit einem Dutzend KI-Anbieter-Schlüsseln, jedem mit eigenen Rate Limits, Preismodellen und Ausfallzeiten, das Gegenteil von produktiv ist. Ein Endpunkt, jedes große Modell, intelligentes Failover.",
-        "H_WHAT": "Was es macht",
-        "P_WHAT": "{appName} bietet einen einzigen OpenAI-kompatiblen Endpunkt, der alle unterstützten Modelle (Claude, GPT, Gemini, DeepSeek, Mistral und mehr) bündelt. Deine Anwendung wählt das Modell per Namen aus. Wir kümmern uns transparent um Routing, Authentifizierung, Rate-Limit-Retries und Anbieter-Failover.",
-        "H_START": "In 30 Sekunden loslegen",
-        "P_START": "Richte jedes OpenAI-SDK auf unsere Basis-URL aus und übergib deinen {appName}-API-Schlüssel. Der Rest deines Codes bleibt unverändert.",
-        "H_WHY": "Was anders ist",
-        "WHY_1_TITLE": "Automatisches Failover.",
-        "WHY_1_BODY": "Wenn ein Anbieter gedrosselt oder offline ist, versuchen wir die Anfrage transparent über den nächsten gesunden Upstream.",
-        "WHY_2_TITLE": "Preis pro Token, kein Abonnement nötig.",
-        "WHY_2_BODY": "Einmal aufladen, jedes Modell nutzen. Abonnements sind optional für Mengenrabatte.",
-        "WHY_3_TITLE": "Alle wichtigen Endpunkt-Formate.",
-        "WHY_3_BODY": "OpenAI Chat Completions, Anthropic Messages, Google Gemini. Nutze das Format, das du bereits verwendest.",
+        "INTRO": "Der Markt für günstige KI-APIs hat zwei Probleme. Anbieter fallen oft aus, und manche leiten deine Anfrage still und heimlich an ein schwächeres Modell weiter, während sie dir trotzdem das Flaggschiff in Rechnung stellen. {appName} ist gebaut, um beides zu lösen.",
+        "H_UPTIME": "Online bleiben, wenn Anbieter es nicht tun",
+        "P_UPTIME": "Günstige Upstreams sind aus einem Grund günstig. Sie drosseln, limitieren und brechen Verbindungen unter Last ab. Wenn einer schwächelt, leitet {appName} dieselbe Anfrage automatisch an einen anderen gesunden Anbieter weiter, der dasselbe Modell bereitstellt. Deine Anwendung merkt nichts vom Ausfall. Du schreibst deinen Code nicht um. Du lieferst einfach weiter.",
+        "H_AUTHENTIC": "Jedes Modell ist das echte Modell",
+        "P_AUTHENTIC": "Nicht jedes Gateway liefert, was es verspricht. Manche leiten Premium-Modellnamen auf günstigere Ersatzmodelle um und hoffen, dass du es nicht merkst. {appName} prüft die Authentizität jedes gelisteten Modells: Wir testen Identität und Verhalten durchgängig, und wenn ein Anbieter lügt, fliegt er raus. Wenn du Claude aufrufst, bekommst du Claude. Wenn du GPT aufrufst, bekommst du GPT.",
+        "H_HARNESS": "Läuft in den Terminals, die du wirklich benutzt",
+        "P_HARNESS": "Ein Modell ist nur nützlich, wenn es in deinen Tools funktioniert. Wir testen jedes Modell durchgängig auf HTTP-Completion, Streaming und Tool-Calling. Genau diese drei Fähigkeiten sind es, auf die KI-Terminal-Harnesses angewiesen sind. Wenn ein Modell in unserem Katalog steht, läuft es in Claude Code, Codex CLI, Gemini CLI und jedem OpenAI-kompatiblen Client. Keine bösen Überraschungen mitten in der Session, weil plötzlich 'Streaming nicht unterstützt' kommt.",
         "H_NEXT": "Was kommt als Nächstes",
-        "P_NEXT": "Wir liefern wöchentlich neue Features. Erwartet: mehr Modelle, schlauere Routing-Heuristiken, bessere Dashboards für Kosten und Latenz und tiefere Integrationen mit Tools, die Entwickler bereits nutzen (Claude Code, Codex CLI, Gemini CLI).",
+        "P_NEXT": "Wir liefern wöchentlich. Erwarte mehr Modelle, präzisere Health-Signale für noch intelligentere Fallbacks, reichhaltigere Dashboards für Kosten und Latenz und tiefere Integrationen mit den Terminals und IDEs, in denen du ohnehin schon arbeitest.",
         "CTA": "Bereit zum Ausprobieren? <register>Hol dir einen API-Schlüssel</register> oder <models>durchsuche den Modellkatalog</models>."
       }
     }
