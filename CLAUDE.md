@@ -1,5 +1,3 @@
-# unorouter
-
 Next.js 16 AI chat app. React 19, Tailwind v4, shadcn/ui. Elysia BFF in front of an upstream `new-api` service. Turso/SQLite for chat-only local state.
 
 ## Commands
@@ -71,6 +69,7 @@ Two TypeBox folders, by route type:
 **Server pages**: prefetch with `getQueryClient()` + `HydrationBoundary` / `dehydrate()`.
 
 **Auth cookies** (`src/lib/config/constants.ts`):
+
 - `access_token` — httpOnly, upstream API token, 30 day TTL
 - `user-id` — readable by server handlers, used by `getUserId(cookie)` in `src/server/constants.ts`
 - `client-store` — JSON, holds user's own API key (for direct `getApiKey(cookie)` use)
