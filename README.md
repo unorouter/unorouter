@@ -68,48 +68,6 @@ TypeBox schema → Elysia validation → Eden Treaty RPC → handleElysia() → 
 - Dynamic OG image generation (Satori)
 - SEO: IndexNow submission, pregenerated timestamps, Orama search index
 
-## Directory Structure
-
-```
-src/
-  app/
-    api/[[...route]]/route.ts    # Elysia BFF entry
-    [locale]/
-      (auth)/                    # Login, register
-      (chat)/                    # Chat UI, shared view
-      (sidebar)/                 # Dashboard, billing, settings, tokens, logs
-      (navbar)/                  # Pricing, models, blog
-      (docs)/                    # Documentation
-      (legal)/                   # Privacy, terms
-  server/
-    chat/                        # Chat vertical (DB + streaming logic)
-      conversation.service.ts
-      message.service.ts
-      stream.service.ts
-      media.service.ts
-      title.service.ts
-      tavily.service.ts
-      task.service.ts
-      route.ts
-    auth/ billing/ token/ ...    # Pass-through verticals
-  components/
-    assistant-ui/                # Chat thread, attachments, markdown, reasoning
-    pages/                       # Page-level components
-    ui/                          # shadcn/ui components
-  hooks/                         # React Query + Eden mutations
-  store/                         # Jotai atoms, chat-store.ts
-  lib/
-    db/                          # Drizzle schema + client
-    react-query/                 # keys.ts, conv-cache.ts, cache helpers
-    validation/                  # TypeBox schemas (chat + media)
-    api/typebox/                 # TypeBox schemas (pass-through verticals)
-    config/                      # Constants, env, R2, cookies
-    utils/                       # base.ts, client.ts, logger.ts
-  public/i18n/                   # Translation JSON (8 locales)
-  drizzle/migrations/            # SQL migrations
-  scripts/                       # Build utilities (search index, SEO, Lighthouse)
-```
-
 ## Getting Started
 
 ### Prerequisites
