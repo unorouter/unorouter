@@ -14,6 +14,10 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
   tags: [...entry.tags],
   Component: COMPONENTS[entry.slug],
   i18nKey: entry.i18nKey,
+  category: entry.category,
+  wordCount: entry.wordCount,
+  headings: entry.headings,
+  heroImage: "heroImage" in entry ? (entry as { heroImage?: string }).heroImage : undefined,
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
@@ -22,6 +26,39 @@ export function getAllPostsSorted(): BlogPost<BlogSlug>[] {
 
 export function getPost(slug: string): BlogPost<BlogSlug> | undefined {
   return POSTS.find((p) => p.slug === slug);
+}
+
+export function getAdjacentPosts(slug: string): {
+  prev: BlogPost<BlogSlug> | null;
+  next: BlogPost<BlogSlug> | null;
+} {
+  const sorted = getAllPostsSorted();
+  const index = sorted.findIndex((p) => p.slug === slug);
+  if (index === -1) return { prev: null, next: null };
+  return {
+    next: index > 0 ? sorted[index - 1]! : null,
+    prev: index < sorted.length - 1 ? sorted[index + 1]! : null,
+  };
+}
+
+export function getRelatedPosts(
+  slug: string,
+  limit = 3,
+): BlogPost<BlogSlug>[] {
+  const current = getPost(slug);
+  if (!current) return [];
+  const others = POSTS.filter((p) => p.slug !== slug);
+
+  const sameCategory = others.filter((p) => p.category === current.category);
+  const byTag = others.filter(
+    (p) =>
+      p.category !== current.category &&
+      p.tags.some((t) => current.tags.includes(t)),
+  );
+
+  return [...sameCategory, ...byTag]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, limit);
 }
 
 export function translated(

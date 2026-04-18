@@ -25,12 +25,24 @@ export type PostI18nKey = {
     : never;
 }[TranslationKey];
 
+export type BlogCategory = "launch" | "engineering" | "product" | "update";
+
+export type BlogHeading = {
+  id: string;
+  i18nLeaf: string;
+  level: 2 | 3;
+};
+
 export type BlogPost<Slug extends string = string> = {
   slug: Slug;
   date: string;
   tags: string[];
   Component: ComponentType;
   i18nKey: PostI18nKey;
+  category: BlogCategory;
+  wordCount: number;
+  headings: readonly BlogHeading[];
+  heroImage?: string;
 };
 
 export type ChangeFrequency = NonNullable<
@@ -76,4 +88,8 @@ export type BlogEntry = {
   contentFiles: readonly string[];
   priority: number;
   changeFrequency: ChangeFrequency;
+  category: BlogCategory;
+  wordCount: number;
+  headings: readonly BlogHeading[];
+  heroImage?: string;
 };

@@ -291,8 +291,29 @@
     "RECENT": "Neueste Beiträge",
     "BACK_TO_BLOG": "Zurück zu allen Beiträgen",
     "EMPTY": "Noch keine Beiträge. Schau bald wieder vorbei.",
+    "EMPTY_FILTERED": "Keine Beiträge passen zu deinen Filtern.",
     "RSS_TITLE": "{appName} Blog-Feed",
     "RSS_DESC": "Produktneuigkeiten und Engineering-Notizen von {appName}.",
+    "LATEST_BADGE": "Neueste Beiträge",
+    "PUBLISHED_BADGE": "Veröffentlicht",
+    "POSTS_COUNT": "{count, plural, =0 {keine Beiträge} =1 {# Beitrag} other {# Beiträge}}",
+    "RSS_LINK": "RSS-Feed",
+    "READ_TIME": "{minutes} Min. Lesezeit",
+    "ON_THIS_PAGE": "Auf dieser Seite",
+    "PREV_POST": "Vorheriger Beitrag",
+    "NEXT_POST": "Nächster Beitrag",
+    "RELATED": "Ähnliche Beiträge",
+    "SEARCH_PLACEHOLDER": "Beiträge suchen...",
+    "FILTER": {
+      "RESET": "Zurücksetzen",
+      "ALL": "Alle"
+    },
+    "CATEGORY": {
+      "LAUNCH": "Launch",
+      "ENGINEERING": "Engineering",
+      "PRODUCT": "Produkt",
+      "UPDATE": "Update"
+    },
     "POSTS": {
       "LAUNCH": {
         "TITLE": "unorouter vorgestellt: Eine API für jedes KI-Modell",

@@ -97,6 +97,14 @@ export const BLOG_REGISTRY = [
     ],
     priority: 0.7,
     changeFrequency: "monthly",
+    category: "launch",
+    wordCount: 184,
+    headings: [
+      { id: "what", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "start", i18nLeaf: "H_START", level: 2 },
+      { id: "why", i18nLeaf: "H_WHY", level: 2 },
+      { id: "next", i18nLeaf: "H_NEXT", level: 2 },
+    ],
   },
 ] as const satisfies readonly BlogEntry[];
 

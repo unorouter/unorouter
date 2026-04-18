@@ -9,10 +9,10 @@ export async function LaunchContent() {
     <>
       <p>{t("BLOG.POSTS.LAUNCH.INTRO")}</p>
 
-      <h2>{t("BLOG.POSTS.LAUNCH.H_WHAT")}</h2>
+      <h2 id="what">{t("BLOG.POSTS.LAUNCH.H_WHAT")}</h2>
       <p>{t("BLOG.POSTS.LAUNCH.P_WHAT")}</p>
 
-      <h2>{t("BLOG.POSTS.LAUNCH.H_START")}</h2>
+      <h2 id="start">{t("BLOG.POSTS.LAUNCH.H_START")}</h2>
       <p>{t("BLOG.POSTS.LAUNCH.P_START")}</p>
 
       <CodeBlock
@@ -30,7 +30,7 @@ const res = await client.chat.completions.create({
 });`}
       />
 
-      <h2>{t("BLOG.POSTS.LAUNCH.H_WHY")}</h2>
+      <h2 id="why">{t("BLOG.POSTS.LAUNCH.H_WHY")}</h2>
       <ul>
         <li>
           <strong>{t("BLOG.POSTS.LAUNCH.WHY_1_TITLE")}</strong>{" "}
@@ -46,7 +46,7 @@ const res = await client.chat.completions.create({
         </li>
       </ul>
 
-      <h2>{t("BLOG.POSTS.LAUNCH.H_NEXT")}</h2>
+      <h2 id="next">{t("BLOG.POSTS.LAUNCH.H_NEXT")}</h2>
       <p>{t("BLOG.POSTS.LAUNCH.P_NEXT")}</p>
 
       <p>

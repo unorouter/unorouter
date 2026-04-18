@@ -55,9 +55,16 @@ export function ModelListItem(props: {
           <span className="truncate font-mono text-sm font-medium tracking-wide">
             {model.name}
           </span>
-          <span className="shrink-0">
-            <CopyButton text={model.name} iconSize="h-3 w-3" />
-          </span>
+          <Tooltip>
+            <TooltipTrigger render={<span className="shrink-0" />}>
+              <CopyButton
+                text={model.name}
+                iconSize="h-3 w-3"
+                className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
+              />
+            </TooltipTrigger>
+            <TooltipContent>{t("COMMON.COPY_CODE")}</TooltipContent>
+          </Tooltip>
           <Tooltip>
             <TooltipTrigger
               aria-label={t("MODELS.OPEN_IN_CHAT")}

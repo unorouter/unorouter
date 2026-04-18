@@ -291,8 +291,29 @@
     "RECENT": "Recent posts",
     "BACK_TO_BLOG": "Back to all posts",
     "EMPTY": "No posts yet. Check back soon.",
+    "EMPTY_FILTERED": "No posts match your filters.",
     "RSS_TITLE": "{appName} blog feed",
     "RSS_DESC": "Product updates and engineering notes from {appName}.",
+    "LATEST_BADGE": "Latest posts",
+    "PUBLISHED_BADGE": "Published",
+    "POSTS_COUNT": "{count, plural, =0 {no posts} =1 {# post} other {# posts}}",
+    "RSS_LINK": "RSS feed",
+    "READ_TIME": "{minutes} min read",
+    "ON_THIS_PAGE": "On this page",
+    "PREV_POST": "Previous post",
+    "NEXT_POST": "Next post",
+    "RELATED": "Related posts",
+    "SEARCH_PLACEHOLDER": "Search posts...",
+    "FILTER": {
+      "RESET": "Reset",
+      "ALL": "All"
+    },
+    "CATEGORY": {
+      "LAUNCH": "Launch",
+      "ENGINEERING": "Engineering",
+      "PRODUCT": "Product",
+      "UPDATE": "Update"
+    },
     "POSTS": {
       "LAUNCH": {
         "TITLE": "Introducing unorouter: one API for every AI model",

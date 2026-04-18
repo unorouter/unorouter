@@ -53,31 +53,48 @@ export function ModelCard(props: {
         <div className="flex min-w-0 flex-1 items-center gap-3">
           <VendorIcon vendor={model.vendor.name} size={20} />
           <div className="min-w-0">
-            <div className="flex items-center gap-1.5">
-              <h2 className="truncate font-mono text-sm font-medium tracking-wide">
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <h2 className="block truncate text-left font-mono text-sm font-medium tracking-wide" />
+                }
+              >
                 {model.name}
-              </h2>
-              <span className="shrink-0">
-                <CopyButton text={model.name} iconSize="h-3 w-3" />
-              </span>
+              </TooltipTrigger>
+              <TooltipContent>{model.name}</TooltipContent>
+            </Tooltip>
+            <div className="flex items-center gap-1.5">
+              <p className="text-muted-foreground truncate font-mono text-[10px] tracking-wider uppercase">
+                {model.vendor.name}
+              </p>
+              <Tooltip>
+                <TooltipTrigger render={<span className="shrink-0" />}>
+                  <CopyButton
+                    text={model.name}
+                    iconSize="h-2.5 w-2.5"
+                    className="text-muted-foreground hover:text-foreground flex size-3.5 shrink-0 items-center justify-center transition-colors"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>{t("COMMON.COPY_CODE")}</TooltipContent>
+              </Tooltip>
               <Tooltip>
                 <TooltipTrigger
                   aria-label={t("MODELS.OPEN_IN_CHAT")}
-                  className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
+                  className="text-muted-foreground hover:text-foreground flex size-3.5 shrink-0 items-center justify-center transition-colors"
                   onClick={(e) => {
                     e.stopPropagation();
                     setChatModel(model.name);
                     router.push("/chat");
                   }}
                 >
-                  <LuMessageSquare className="h-3 w-3" />
+                  <LuMessageSquare className="h-2.5 w-2.5" />
                 </TooltipTrigger>
                 <TooltipContent>{t("MODELS.OPEN_IN_CHAT")}</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger
                   aria-label={t("MODELS.VIEW_DETAILS")}
-                  className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 items-center justify-center transition-colors"
+                  className="text-muted-foreground hover:text-foreground flex size-3.5 shrink-0 items-center justify-center transition-colors"
                   onClick={(e) => e.stopPropagation()}
                   render={
                     <Link
@@ -88,14 +105,11 @@ export function ModelCard(props: {
                     />
                   }
                 >
-                  <LuExternalLink className="h-3 w-3" />
+                  <LuExternalLink className="h-2.5 w-2.5" />
                 </TooltipTrigger>
                 <TooltipContent>{t("MODELS.VIEW_DETAILS")}</TooltipContent>
               </Tooltip>
             </div>
-            <p className="text-muted-foreground truncate font-mono text-[10px] tracking-wider uppercase">
-              {model.vendor.name}
-            </p>
           </div>
         </div>
         <Badge
