@@ -67,8 +67,11 @@ jobs:
           exit 1
 
       - name: Submit to IndexNow
-        run: bun install --frozen-lockfile && bun scripts/indexnow.ts
-        env:
-          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
-          NEXT_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_URL }}
+        run: |
+          docker run --rm \
+            -v "$PWD":/app -w /app \
+            -e INDEXNOW_KEY="${{ secrets.INDEXNOW_KEY }}" \
+            -e NEXT_PUBLIC_URL="${{ secrets.NEXT_PUBLIC_URL }}" \
+            oven/bun:1-alpine \
+            sh -c "bun add indexnow-submitter --no-save && bun scripts/indexnow.ts"
         continue-on-error: true
