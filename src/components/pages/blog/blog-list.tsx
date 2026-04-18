@@ -144,7 +144,7 @@ export function BlogList(props: BlogListProps) {
                               variant="outline"
                               className="font-mono text-[10px]"
                             >
-                              {tag}
+                              {t(`BLOG.TAG.${tag}` as Parameters<typeof t>[0])}
                             </Badge>
                           ))}
                         </div>

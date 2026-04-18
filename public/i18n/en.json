@@ -314,6 +314,12 @@
       "PRODUCT": "Product",
       "UPDATE": "Update"
     },
+    "TAG": {
+      "announcement": "announcement",
+      "product": "product",
+      "engineering": "engineering",
+      "update": "update"
+    },
     "POSTS": {
       "LAUNCH": {
         "TITLE": "Introducing {appName}: always online, always the real model",
