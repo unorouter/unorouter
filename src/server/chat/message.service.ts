@@ -131,7 +131,9 @@ export async function persistMessages(
 
   const now = dayjs();
   const toInsert = processedMsgs.map((m, i) => ({
+    ...(m.id ? { id: m.id } : {}),
     convId,
+    parentId: m.parentId ?? null,
     role: m.role,
     model: m.model,
     parts: m.parts,

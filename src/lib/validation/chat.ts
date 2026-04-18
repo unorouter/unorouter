@@ -55,6 +55,8 @@ export type UpdateConversationBody = Static<typeof updateConversationBody>;
 export const persistMessagesBody = t.Object({
   messages: t.Array(
     t.Object({
+      id: t.Optional(t.String()),
+      parentId: t.Optional(t.Union([t.String(), t.Null()])),
       role: persistMessageRole,
       model: t.Optional(t.String()),
       parts: t.Array(messagePart),

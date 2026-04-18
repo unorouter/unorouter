@@ -19,6 +19,8 @@ export const conversations = sqliteTable(
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
     totalCost: real("total_cost").notNull().default(0),
+    archivedAt: integer("archived_at", { mode: "timestamp_ms" }),
+    starredAt: integer("starred_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -29,6 +31,8 @@ export const conversations = sqliteTable(
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
     index("idx_conv_share").on(table.shareId),
+    index("idx_conv_archived").on(table.userId, table.archivedAt),
+    index("idx_conv_starred").on(table.userId, table.starredAt),
   ],
 );
 
@@ -41,6 +45,7 @@ export const messages = sqliteTable(
     convId: text("conv_id")
       .notNull()
       .references(() => conversations.id, { onDelete: "cascade" }),
+    parentId: text("parent_id"),
     role: text("role").notNull(),
     model: text("model"),
     parts: text("parts", { mode: "json" }).notNull(),
@@ -53,7 +58,10 @@ export const messages = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [index("idx_msg_conv").on(table.convId)],
+  (table) => [
+    index("idx_msg_conv").on(table.convId),
+    index("idx_msg_parent").on(table.convId, table.parentId),
+  ],
 );
 
 export const media = sqliteTable(

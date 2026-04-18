@@ -233,7 +233,8 @@ export function usePersistMessagesMutation() {
           const newMessages = args.body.messages.map((m) => {
             const hasUsage = m.role === "assistant" && usage;
             return {
-              id: crypto.randomUUID(),
+              id: m.id ?? crypto.randomUUID(),
+              parentId: m.parentId ?? null,
               role: m.role,
               parts: m.parts,
               model: m.model ?? null,

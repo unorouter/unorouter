@@ -14,7 +14,7 @@ import {
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
-import type { MessagePart, PersistMessage } from "@/lib/types/chat";
+import type { PersistMessage } from "@/lib/types/chat";
 import { uid } from "@/lib/utils/base";
 import {
   chatModelAtom,
@@ -57,10 +57,10 @@ function ChatRuntimeHook() {
   // Mutable per-message context for closures that outlive the render
   const ctx = useRef<{
     sendModel: string | null;
-    pendingUserMessages: Array<{ parts: MessagePart[] }>;
+    persistedIds: Set<string>;
   }>({
     sendModel: null,
-    pendingUserMessages: [],
+    persistedIds: new Set(),
   });
 
   // Two-way model sync: server → atom on thread switch, atom → server on user change.
@@ -122,30 +122,43 @@ function ChatRuntimeHook() {
   const chat = useChat({
     id: threadId,
     transport: transportRef.current,
-    onFinish: ({ message }) => {
+    onFinish: ({ message, messages }) => {
       const convId = getConvId();
       if (!convId) return;
 
-      // Drain all pending user messages (from new thread where remoteId wasn't available at send time)
-      const pendingMessages = ctx.current.pendingUserMessages;
-      const msgs: PersistMessage[] = [];
       const usedModel = ctx.current.sendModel ?? undefined;
-      if (pendingMessages.length > 0) {
-        for (const pending of pendingMessages) {
-          msgs.push({
-            role: "user",
-            model: usedModel,
-            parts: pending.parts,
-          });
-        }
-        ctx.current.pendingUserMessages = [];
-      }
-      msgs.push({
-        role: message.role,
-        model: usedModel,
-        parts: message.parts,
-      });
+      const persisted = ctx.current.persistedIds;
 
+      // Persist every message that hasn't been sent to the server yet, in order,
+      // with parentId pointing to the previous message in the chat state.
+      const msgs: PersistMessage[] = [];
+      for (let i = 0; i < messages.length; i++) {
+        const ui = messages[i];
+        if (persisted.has(ui.id)) continue;
+        const parent = i > 0 ? messages[i - 1].id : null;
+        msgs.push({
+          id: ui.id,
+          parentId: parent,
+          role: ui.role,
+          model: usedModel,
+          parts: ui.parts,
+        });
+      }
+
+      // Also ensure the just-finished assistant message is included (may already be via loop)
+      if (!persisted.has(message.id) && !msgs.some((m) => m.id === message.id)) {
+        const idx = messages.findIndex((m) => m.id === message.id);
+        msgs.push({
+          id: message.id,
+          parentId: idx > 0 ? messages[idx - 1].id : null,
+          role: message.role,
+          model: usedModel,
+          parts: message.parts,
+        });
+      }
+
+      if (msgs.length === 0) return;
+      for (const m of msgs) if (m.id) persisted.add(m.id);
       persistMutation.mutate({ id: convId, body: { messages: msgs } });
     },
   });
@@ -158,26 +171,11 @@ function ChatRuntimeHook() {
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       ctx.current.sendModel = getChatModel();
       const parts = extractParts(args[0]);
-      if (parts.length > 0) {
-        // remoteId is the source of truth; getConvId() may be stale if useEffect hasn't synced yet
-        const convId = remoteId ?? null;
-        if (!convId) {
-          // Pre-generate ID so the transport body and adapter.initialize use the same ID
-          setConvId(uid());
-          // New thread: queue until onFinish (after adapter.initialize sets remoteId)
-          ctx.current.pendingUserMessages.push({ parts });
-        } else {
-          // Existing thread: persist immediately
-          persistMutation.mutate({
-            id: convId,
-            body: {
-              messages: [
-                { role: "user", model: getChatModel() ?? undefined, parts },
-              ],
-            },
-          });
-        }
+      if (parts.length > 0 && !remoteId) {
+        // Pre-generate convId so the transport body and adapter.initialize use the same id
+        setConvId(uid());
       }
+      // Persistence (user + assistant) is handled in onFinish with AI SDK-assigned ids
 
       return chat.sendMessage(...args);
     },

@@ -7,10 +7,16 @@ import type { AttachmentAdapter } from "@assistant-ui/react";
 import type { UIMessage } from "ai";
 
 export function mapRawMessages(
-  raw: { id: string; role: string; parts: unknown }[],
+  raw: {
+    id: string;
+    parentId?: string | null;
+    role: string;
+    parts: unknown;
+  }[],
 ): UIMessage[] {
   return raw.map((msg) => ({
     id: msg.id,
+    ...(msg.parentId ? { parentId: msg.parentId } : {}),
     role: msg.role as UIMessage["role"],
     parts: (msg.parts as UIMessage["parts"]) ?? [],
   }));

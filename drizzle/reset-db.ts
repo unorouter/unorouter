@@ -1,3 +1,4 @@
+import { deleteR2Prefix } from "@/lib/config/r2";
 import { createClient } from "@libsql/client";
 import { execSync } from "child_process";
 import { error, log } from "console";
@@ -10,6 +11,14 @@ const client = createClient({
 });
 
 try {
+  // Wipe R2 chat/ media so orphaned uploads don't linger after a DB reset
+  try {
+    await deleteR2Prefix("chat/");
+    log('Wiped R2 "chat/" prefix');
+  } catch (err) {
+    error("R2 wipe failed (continuing with DB reset):", err);
+  }
+
   // Drop all user tables
   const tables = await client.execute(
     "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '__drizzle%'",

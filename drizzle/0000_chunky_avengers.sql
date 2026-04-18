@@ -7,6 +7,8 @@ CREATE TABLE `conversations` (
 	`total_input_tokens` integer DEFAULT 0 NOT NULL,
 	`total_output_tokens` integer DEFAULT 0 NOT NULL,
 	`total_cost` real DEFAULT 0 NOT NULL,
+	`archived_at` integer,
+	`starred_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
@@ -14,6 +16,8 @@ CREATE TABLE `conversations` (
 CREATE UNIQUE INDEX `conversations_share_id_unique` ON `conversations` (`share_id`);--> statement-breakpoint
 CREATE INDEX `idx_conv_user_updated` ON `conversations` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_conv_share` ON `conversations` (`share_id`);--> statement-breakpoint
+CREATE INDEX `idx_conv_archived` ON `conversations` (`user_id`,`archived_at`);--> statement-breakpoint
+CREATE INDEX `idx_conv_starred` ON `conversations` (`user_id`,`starred_at`);--> statement-breakpoint
 CREATE TABLE `media` (
 	`id` text PRIMARY KEY NOT NULL,
 	`msg_id` text NOT NULL,
@@ -28,6 +32,7 @@ CREATE INDEX `idx_media_msg` ON `media` (`msg_id`);--> statement-breakpoint
 CREATE TABLE `messages` (
 	`id` text PRIMARY KEY NOT NULL,
 	`conv_id` text NOT NULL,
+	`parent_id` text,
 	`role` text NOT NULL,
 	`model` text,
 	`parts` text NOT NULL,
@@ -40,4 +45,5 @@ CREATE TABLE `messages` (
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `idx_msg_conv` ON `messages` (`conv_id`);
+CREATE INDEX `idx_msg_conv` ON `messages` (`conv_id`);--> statement-breakpoint
+CREATE INDEX `idx_msg_parent` ON `messages` (`conv_id`,`parent_id`);
