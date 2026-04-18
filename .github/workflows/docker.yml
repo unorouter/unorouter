@@ -69,9 +69,11 @@ jobs:
       - name: Submit to IndexNow
         run: |
           docker run --rm \
+            --user "$(id -u):$(id -g)" \
             -v "$PWD":/app -w /app \
             -e INDEXNOW_KEY="${{ secrets.INDEXNOW_KEY }}" \
             -e NEXT_PUBLIC_URL="${{ secrets.NEXT_PUBLIC_URL }}" \
+            -e HOME=/tmp \
             oven/bun:1-alpine \
             sh -c "bun add indexnow-submitter --no-save && bun scripts/indexnow.ts"
         continue-on-error: true
