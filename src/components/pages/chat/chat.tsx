@@ -53,11 +53,12 @@ export function Chat(props: ChatProps) {
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
       {effectiveId && (
-        <div className="absolute top-2 right-4 z-10 flex items-center gap-3">
+        <div className="pointer-events-none sticky top-12 z-10 flex h-0 justify-end">
+          <div className="pointer-events-auto mt-6 mr-4 flex items-center gap-3">
           {convQuery.data &&
             (convQuery.data.totalInputTokens > 0 ||
               convQuery.data.totalOutputTokens > 0) && (
-              <div className="text-muted-foreground flex items-center gap-2 text-[11px] tabular-nums">
+              <div className="text-muted-foreground hidden items-center gap-2 text-[11px] tabular-nums md:flex">
                 <span>
                   {convQuery.data.totalInputTokens.toLocaleString()}{" "}
                   {t("CHAT.TOKENS_IN")}
@@ -76,6 +77,7 @@ export function Chat(props: ChatProps) {
           {!props.readOnly && token.isLoggedIn && (
             <ShareButton convId={effectiveId} />
           )}
+          </div>
         </div>
       )}
       <SectionBoundary>

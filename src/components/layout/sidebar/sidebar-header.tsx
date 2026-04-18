@@ -36,7 +36,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
           </div>
         )}
         {props.navConfig === "chat" && <ChatControls />}
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto hidden items-center gap-2 md:flex">
           <LanguageToggle />
           <ThemeToggle />
           {userDisplay.user ? (
