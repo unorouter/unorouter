@@ -5,6 +5,10 @@ declare namespace NodeJS {
     NEXT_PUBLIC_API_URL: string;
     NEXT_PUBLIC_SUPPORT_EMAIL: string;
     NEXT_PUBLIC_GITHUB_URL: string;
+    NEXT_PUBLIC_DISCORD_URL?: string;
+    NEXT_PUBLIC_TWITTER_HANDLE?: string;
+    NEXT_PUBLIC_TRUSTPILOT_URL?: string;
+    NEXT_PUBLIC_POSTHOG_KEY?: string;
     NEXT_PUBLIC_POSTHOG_HOST?: string;
 
     SYSTEM_ACCESS_TOKEN: string;

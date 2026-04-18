@@ -14,6 +14,7 @@ import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import { SiTrustpilot } from "react-icons/si";
 import { isActiveLink } from "./navigation";
 
 const NAV_LINKS = [
@@ -81,6 +82,17 @@ export function Footer() {
                   aria-label="X"
                 >
                   <FaXTwitter className="h-5 w-5" />
+                </NextLink>
+              )}
+              {env.trustpilotUrl && (
+                <NextLink
+                  href={env.trustpilotUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
+                  aria-label={t("FOOTER.SOCIAL_TRUSTPILOT")}
+                >
+                  <SiTrustpilot className="h-5 w-5" />
                 </NextLink>
               )}
             </div>
