@@ -57,3 +57,4 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 seo-timestamps.json
+indexnow.log
