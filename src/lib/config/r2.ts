@@ -25,16 +25,62 @@ const BLOCKED_HOSTS = new Set([
   "metadata.google.internal",
   "metadata.goog",
 ]);
-const ALLOWED_RANGES = new Set(["unicast"]);
 const R2_TIMEOUT = 15_000;
 const DOWNLOAD_TIMEOUT = 10_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
 const MAX_USER_BYTES = 100 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
+const ALLOWED_PORTS = new Set([80, 443]);
+
+const BLOCKED_IPV4_CIDRS: [ipaddr.IPv4, number][] = [
+  "0.0.0.0/8",
+  "10.0.0.0/8",
+  "100.64.0.0/10",
+  "127.0.0.0/8",
+  "169.254.0.0/16",
+  "172.16.0.0/12",
+  "192.0.0.0/24",
+  "192.0.2.0/24",
+  "192.168.0.0/16",
+  "198.18.0.0/15",
+  "198.51.100.0/24",
+  "203.0.113.0/24",
+  "224.0.0.0/4",
+  "240.0.0.0/4",
+  "255.255.255.255/32",
+].map((c) => ipaddr.parseCIDR(c) as [ipaddr.IPv4, number]);
+
+const BLOCKED_IPV6_CIDRS: [ipaddr.IPv6, number][] = [
+  "::/128",
+  "::1/128",
+  "::ffff:0:0/96",
+  "64:ff9b::/96",
+  "100::/64",
+  "2001::/23",
+  "2001:db8::/32",
+  "fc00::/7",
+  "fe80::/10",
+  "ff00::/8",
+].map((c) => ipaddr.parseCIDR(c) as [ipaddr.IPv6, number]);
 
 function isPublicIp(ip: string): boolean {
   if (!ipaddr.isValid(ip)) return false;
-  return ALLOWED_RANGES.has(ipaddr.parse(ip).range());
+  const parsed = ipaddr.parse(ip);
+  if (parsed.kind() === "ipv4") {
+    const v4 = parsed as ipaddr.IPv4;
+    for (const cidr of BLOCKED_IPV4_CIDRS) {
+      if (v4.match(cidr)) return false;
+    }
+    return true;
+  }
+  const v6 = parsed as ipaddr.IPv6;
+  if (v6.isIPv4MappedAddress()) {
+    return isPublicIp(v6.toIPv4Address().toString());
+  }
+  for (const cidr of BLOCKED_IPV6_CIDRS) {
+    if (v6.match(cidr)) return false;
+  }
+  return true;
 }
 
 const filteringLookup: typeof dnsLookup = ((
@@ -85,6 +131,14 @@ function parseAndCheckUrl(url: string): URL {
     throw new Error(msg("ERRORS.INVALID_URL"));
   }
   if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    throw new Error(msg("ERRORS.BLOCKED_URL"));
+  }
+  const port = parsed.port
+    ? Number(parsed.port)
+    : parsed.protocol === "https:"
+      ? 443
+      : 80;
+  if (!ALLOWED_PORTS.has(port)) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
   }
   const host = parsed.hostname.toLowerCase();
