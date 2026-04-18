@@ -39,8 +39,7 @@ export function getUserId<T extends boolean = false>(
   optional?: T,
 ): T extends true ? number | null : number {
   const signed = cookie[USER_ID_COOKIE]?.value as string | undefined;
-  const accessToken = cookie[ACCESS_TOKEN_COOKIE]?.value as string | undefined;
-  const verified = verifyUserId(signed, accessToken);
+  const verified = verifyUserId(signed);
   if (verified === null) {
     if (optional) return null as T extends true ? number | null : number;
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
@@ -104,7 +103,7 @@ export function deriveUpstream({ request }: { request: Request }) {
     const parsed = parseCookie(cookieHeader);
     const accessToken = parsed[ACCESS_TOKEN_COOKIE];
     if (accessToken) headers.Authorization = accessToken;
-    const verified = verifyUserId(parsed[USER_ID_COOKIE], accessToken);
+    const verified = verifyUserId(parsed[USER_ID_COOKIE]);
     if (verified !== null) headers[NEW_API_USER] = String(verified);
   }
   return { upstream: { headers } };

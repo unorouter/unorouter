@@ -127,7 +127,7 @@ export const authRoute = new Elysia({ prefix: "/auth" })
         httpOnly: true,
       });
       cookie[USER_ID_COOKIE].set({
-        value: signUserId(data.user_id, data.access_token),
+        value: signUserId(data.user_id),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",

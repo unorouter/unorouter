@@ -8,26 +8,20 @@ function hmac(payload: string): string {
     .digest("base64url");
 }
 
-export function signUserId(
-  userId: number | string,
-  accessToken: string,
-): string {
+export function signUserId(userId: number | string): string {
   const id = String(userId);
-  return `${id}.${hmac(`${id}:${accessToken}`)}`;
+  return `${id}.${hmac(id)}`;
 }
 
-export function verifyUserId(
-  signed: string | undefined,
-  accessToken: string | undefined,
-): number | null {
-  if (!signed || !accessToken) return null;
+export function verifyUserId(signed: string | undefined): number | null {
+  if (!signed) return null;
   const dot = signed.lastIndexOf(".");
   if (dot <= 0) return null;
   const id = signed.slice(0, dot);
   const sig = signed.slice(dot + 1);
   let expected: string;
   try {
-    expected = hmac(`${id}:${accessToken}`);
+    expected = hmac(id);
   } catch {
     return null;
   }
