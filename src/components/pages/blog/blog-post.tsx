@@ -1,8 +1,7 @@
-import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-smoke-lazy";
-import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Badge } from "@/components/ui/badge";
+import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-smoke-lazy";
 import { Link } from "@/i18n/navigation";
 import { getBlogTheme } from "@/lib/config/blog-categories";
 import { cn } from "@/lib/utils";
@@ -56,10 +55,10 @@ export async function BlogPost(props: BlogPostProps) {
   }).format(dayjs(post.date).toDate());
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl min-w-0 gap-4 px-6 pt-24 pb-16">
+    <div className="mx-auto flex w-full max-w-6xl min-w-0 gap-4 px-6 pb-16">
       <TOCLayout toc={toc}>
         <article className="mx-auto w-full max-w-3xl min-w-0">
-          <nav>
+          <nav className="pt-15">
             <Link
               href="/blog"
               className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm transition-colors"
@@ -80,13 +79,13 @@ export async function BlogPost(props: BlogPostProps) {
                   className="object-cover"
                   priority
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-background/10" />
+                <div className="from-background via-background/60 to-background/10 absolute inset-0 bg-linear-to-t" />
               </div>
             ) : (
               <TypographicSmokeLazy />
             )}
 
-            <div className="relative flex flex-col items-center pt-12 pb-10 text-center">
+            <div className="relative flex flex-col items-center pt-6 pb-10 text-center">
               <div
                 className={cn(
                   "mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5",
@@ -118,7 +117,7 @@ export async function BlogPost(props: BlogPostProps) {
               </div>
 
               <h1 className="text-foreground mb-5 text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                <ScrambleText text={tr.title} />
+                {tr.title}
               </h1>
               <p className="text-muted-foreground max-w-2xl text-[15px] leading-relaxed">
                 {tr.description}
@@ -148,7 +147,7 @@ export async function BlogPost(props: BlogPostProps) {
             </div>
           </section>
 
-          <div className="prose prose-neutral dark:prose-invert border-border mt-4 min-w-0 max-w-none border-t pt-12 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:scroll-mt-24 [&_h2]:text-2xl [&_h2]:font-semibold [&_li]:my-1 [&_p]:my-4 [&_p]:leading-relaxed [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6">
+          <div className="prose prose-neutral dark:prose-invert border-border mt-4 max-w-none min-w-0 border-t pt-12 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:scroll-mt-24 [&_h2]:text-2xl [&_h2]:font-semibold [&_li]:my-1 [&_p]:my-4 [&_p]:leading-relaxed [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6">
             <post.Component />
           </div>
 
