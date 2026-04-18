@@ -909,7 +909,8 @@
     "LEGAL_TERMS": "Terms of Service",
     "LEGAL_AND": "and",
     "LEGAL_PRIVACY": "Privacy Policy",
-    "SOCIAL_GITHUB": "GitHub"
+    "SOCIAL_GITHUB": "GitHub",
+    "EASTER_EGG_LABEL": "Play hidden game"
   },
   "PRIVACY": {
     "META": {

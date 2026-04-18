@@ -1,11 +1,14 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
+import { BreakoutDialog } from "@/components/ui/breakout/breakout-dialog";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
+import { breakoutOpenAtom } from "@/store/breakout-store";
 import dayjs from "dayjs";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,6 +30,7 @@ const LEGAL_LINKS = [
 export function Footer() {
   const t = useTranslations();
   const pathname = usePathname();
+  const [breakoutOpen, setBreakoutOpen] = useAtom(breakoutOpenAtom);
 
   return (
     <footer className="bg-muted/30 relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">
@@ -144,16 +148,25 @@ export function Footer() {
         {/* Copyright */}
         <div className="border-muted/50 relative border-t pt-8">
           <div className="via-primary/70 absolute top-0 left-1/2 h-px w-1/2 -translate-x-1/2 bg-linear-to-r from-transparent to-transparent"></div>
-          <div className="text-muted-foreground flex flex-col items-center justify-center text-sm">
+          <div className="text-muted-foreground flex flex-col items-center justify-center gap-1 text-sm">
             <p className="text-center" suppressHydrationWarning>
               {t("FOOTER.COPYRIGHT", {
                 year: String(dayjs().year()),
                 ...APP_VALUES,
               })}
             </p>
+            <button
+              type="button"
+              onClick={() => setBreakoutOpen(true)}
+              aria-label={t("FOOTER.EASTER_EGG_LABEL")}
+              className="text-muted-foreground/40 hover:text-primary font-mono text-xs leading-none transition-colors"
+            >
+              ▞
+            </button>
           </div>
         </div>
       </div>
+      <BreakoutDialog open={breakoutOpen} onOpenChange={setBreakoutOpen} />
     </footer>
   );
 }

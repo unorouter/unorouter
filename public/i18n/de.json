@@ -909,7 +909,8 @@
     "LEGAL_TERMS": "Nutzungsbedingungen",
     "LEGAL_AND": "und",
     "LEGAL_PRIVACY": "Datenschutzrichtlinie",
-    "SOCIAL_GITHUB": "GitHub"
+    "SOCIAL_GITHUB": "GitHub",
+    "EASTER_EGG_LABEL": "Verstecktes Spiel öffnen"
   },
   "PRIVACY": {
     "META": {
