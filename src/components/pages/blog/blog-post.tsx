@@ -1,4 +1,4 @@
-import { FluidSmokeLazy } from "@/components/ui/fluid-smoke/fluid-smoke-lazy";
+import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-smoke-lazy";
 import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
@@ -83,7 +83,7 @@ export async function BlogPost(props: BlogPostProps) {
                 <div className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-background/10" />
               </div>
             ) : (
-              <FluidSmokeLazy />
+              <TypographicSmokeLazy />
             )}
 
             <div className="relative flex flex-col items-center pt-12 pb-10 text-center">
@@ -95,8 +95,8 @@ export async function BlogPost(props: BlogPostProps) {
                 )}
               >
                 <span className="relative flex size-1.5">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
-                  <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
+                  <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
+                  <span className="bg-primary relative inline-flex size-1.5 rounded-full" />
                 </span>
                 <span
                   className={cn(

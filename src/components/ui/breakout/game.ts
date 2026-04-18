@@ -63,8 +63,8 @@ const BRICK_FONT_MAX = 34
 const INITIAL_LIVES = 3
 const PADDLE_SPEED = 540
 const PADDLE_MARGIN_BOTTOM = 34
-const PADDLE_TEXT = '⟦==========⟧'
-const PADDLE_TEXT_WIDE = '⟦==============⟧'
+const PADDLE_TEXT = '⟦=== ROUTER ===⟧'
+const PADDLE_TEXT_WIDE = '⟦===== ROUTER =====⟧'
 const BALL_SPEED_BASE = 330
 const BALL_SPEED_STEP = 26
 const WALL_BOUNCE_PADDING = 10
@@ -78,7 +78,7 @@ const MULTI_BALL_MAX = 5
 const MULTI_BALL_ANGLE_OFFSETS = [-0.42, 0.42, -0.24, 0.24]
 const BALL_STUCK_OFFSET_Y = 28
 const GUARD_MARGIN_BOTTOM = 72
-const GUARD_TEXT = '⟦:::: SAFEGUARD :::::⟧'
+const GUARD_TEXT = '⟦::: FALLBACK :::⟧'
 
 const BRICK_COLORS = ['#ff9c5b', '#f0c35f', '#84d96c', '#55c6d9', '#8ba7ff']
 const SHADOW_COLOR = 'rgba(6, 10, 17, 0.8)'
@@ -90,21 +90,21 @@ const INTRO_SEQUENCE_DURATION = 2.34
 const CLEAR_SEQUENCE_DURATION = 2.18
 const SEQUENCE_CARD_WIDTH = 372
 const SEQUENCE_CARD_HEIGHT = 88
-const LEVEL_FALLBACK_WORDS = ['TEXT', 'WALL', 'GLYPH', 'FLOW']
+const LEVEL_FALLBACK_WORDS = ['TOKEN', 'STREAM', 'MODEL', 'ROUTE']
 
 const LEVEL_PARAGRAPHS = [
-  'Pretext turns motion into language while bright words hold fast and the wall bends around them.',
-  'Measured glyphs stay fixed above the copy as the glowing ball opens clean gaps below.',
-  'The paragraph tightens near the paddle then streams back through each pocket the ball clears.',
-  'Filler text slides from border to border and seals each break without dragging anchored targets aside.',
-  'Pretext layout cursor and segment wrap keep the paragraph wall alive beneath the anchored target words.',
-  'Inline reflow and measured glyphs thread through sparks wakes and fresh gaps around the waiting paddle line.',
-  'Bounce trail track render and flow circle the glowing glyph while the first power words drop through the copy.',
-  'Stream bidi kern split and signal crowd the wall while the paddle carves narrow lanes for harder returns.',
-  'Measured labels stay fixed while drifting fragments wake holes and fast rebounds push the smaller text around collisions.',
-  'Cursor segments fold around guard lines multiball arcs and falling power words without pulling the surviving targets from position.',
-  'Pretext reflow keeps the arena written through collisions pickups rescue flashes and looping wakes behind the anchored words.',
-  'Break the final anchors hold the glyph above the footer and let the whole paragraph close around each fresh opening.',
+  'Unorouter lights the gateway while bright tokens hold fast and the stream bends around the router edge.',
+  'Measured tokens stay fixed above the completion as the glowing packet opens clean gaps below.',
+  'The response tightens near the router then reroutes back through each pocket the packet clears.',
+  'Cached tokens slide from border to border and seal each break without dragging anchored targets aside.',
+  'Model routing cursor and segment rewrite keep the token stream alive beneath the anchored target words.',
+  'Inline retry and measured tokens thread through sparks wakes and fresh gaps around the waiting router line.',
+  'Bounce trail track render and flow circle the glowing packet while the first power tokens drop through the response.',
+  'Stream parallel throttle split and signal crowd the output while the router carves narrow lanes for harder returns.',
+  'Measured labels stay fixed while drifting fragments wake holes and fast rebounds push the smaller tokens around collisions.',
+  'Cursor segments fold around fallback lines multiplex arcs and falling power tokens without pulling the surviving targets from position.',
+  'Unorouter reflow keeps the arena streaming through collisions pickups rescue flashes and looping wakes behind the anchored tokens.',
+  'Break the final anchors hold the packet above the footer and let the whole completion close around each fresh opening.',
 ]
 
 const POWER_UP_DEFS = {
@@ -116,22 +116,22 @@ const POWER_UP_DEFS = {
   guard: {
     color: '#a4f094',
     duration: 0,
-    label: 'GUARD',
+    label: 'FALLBACK',
   },
   multi: {
     color: '#c7b2ff',
     duration: 0,
-    label: 'MULTI',
+    label: 'PARALLEL',
   },
   life: {
     color: '#ff9db8',
     duration: 0,
-    label: '+LIFE',
+    label: '+QUOTA',
   },
   slow: {
     color: '#ffd577',
     duration: 10,
-    label: 'SLOW',
+    label: 'THROTTLE',
   },
 } as const
 
@@ -319,7 +319,7 @@ function pointInRect(x: number, y: number, rect: Rect): boolean {
   return x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height
 }
 
-export class PretextBreaker {
+export class TokenBreakout {
   private readonly canvas: HTMLCanvasElement
   private readonly context: CanvasRenderingContext2D
   private readonly renderer = new PretextRenderer()
@@ -682,15 +682,15 @@ export class PretextBreaker {
     const active: string[] = []
     if (this.balls.length > 1) active.push(`${this.balls.length} BALLS`)
     if (this.isExpandActive()) active.push(`WIDEN ${Math.ceil(this.activeEffects.expand)}s`)
-    if (this.isSlowActive()) active.push(`SLOW ${Math.ceil(this.activeEffects.slow)}s`)
+    if (this.isSlowActive()) active.push(`THROTTLE ${Math.ceil(this.activeEffects.slow)}s`)
     if (this.activeEffects.guardCharges > 0) {
       active.push(
         this.activeEffects.guardCharges > 1
-          ? `GUARD x${this.activeEffects.guardCharges}`
-          : 'GUARD READY',
+          ? `FALLBACK x${this.activeEffects.guardCharges}`
+          : 'FALLBACK READY',
       )
     }
-    return active.length === 0 ? '' : `POWER WORDS: ${active.join('  |  ')}`
+    return active.length === 0 ? '' : `ACTIVE TOKENS: ${active.join('  |  ')}`
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {
@@ -1234,7 +1234,7 @@ export class PretextBreaker {
     const scoreY = HUD_RECT.y + 24
     const statusLineHeight = 22
     const audioRect = this.getAudioButtonRect()
-    const title = this.renderer.getBlock('PRETEXT BREAKER', FONTS.title, LINE_HEIGHTS.title)
+    const title = this.renderer.getBlock('TOKEN BREAKOUT', FONTS.title, LINE_HEIGHTS.title)
     const scoreLine = this.renderer.getBlock(
       `SCORE ${formatScore(this.score)}   LIVES ${'♥'.repeat(this.lives)}   LEVEL ${this.level
         .toString()
@@ -1316,7 +1316,7 @@ export class PretextBreaker {
 
   private drawFooter(): void {
     const footerCopy =
-      'MOVE: MOUSE, TOUCH, ARROWS, A/D. LAUNCH: UP/TAP. SOUND: ICON OR M. CATCH POWER WORDS.'
+      'MOVE: MOUSE, TOUCH, ARROWS, A/D. LAUNCH: UP/TAP. SOUND: ICON OR M. CATCH POWER TOKENS.'
     const footerHeight = this.renderer.measureParagraphHeight(
       footerCopy,
       FONTS.footer,
@@ -1527,15 +1527,15 @@ export class PretextBreaker {
     const wallAlpha = 0.32 + easeOutCubic((progress - 0.08) / 0.2) * 0.52
     const titleFont = `800 54px ${FONT_FAMILY}`
     const titleLineHeight = 58
-    const pretextBlock = this.renderer.getBlock('PRETEXT', titleFont, titleLineHeight)
-    const breakerBlock = this.renderer.getBlock('BREAKER', titleFont, titleLineHeight)
+    const pretextBlock = this.renderer.getBlock('TOKEN', titleFont, titleLineHeight)
+    const breakerBlock = this.renderer.getBlock('BREAKOUT', titleFont, titleLineHeight)
     const tagline = this.renderer.getBlock(
-      'BREAK WORDS. BEND THE WALL. LAUNCH THE GLYPH.',
+      'BREAK TOKENS. REROUTE THE STREAM. LAUNCH THE PACKET.',
       FONTS.status,
       LINE_HEIGHTS.panel,
     )
     const readyLine = this.renderer.getBlock(
-      `LEVEL ${sequence.level.toString().padStart(2, '0')}  TEXT WALL ONLINE`,
+      `LEVEL ${sequence.level.toString().padStart(2, '0')}  TOKEN STREAM ONLINE`,
       FONTS.footer,
       18,
     )
@@ -1739,7 +1739,7 @@ export class PretextBreaker {
     const bannerOut = 1 - easeOutCubic((progress - 0.5) / 0.14)
     const bannerFade = clamp(bannerIn * clamp(bannerOut, 0, 1), 0, 1)
     const bannerLift = (1 - easeOutCubic(progress / 0.38)) * 20
-    const label = `TEXT AWAKENS\nLEVEL ${sequence.level.toString().padStart(2, '0')}`
+    const label = `STREAM ONLINE\nLEVEL ${sequence.level.toString().padStart(2, '0')}`
 
     this.drawSequenceCard(
       {
@@ -1798,7 +1798,7 @@ export class PretextBreaker {
         x: VIEW_WIDTH / 2 - SEQUENCE_CARD_WIDTH / 2,
         y: PLAY_RECT.y + PLAY_RECT.height / 2 - SEQUENCE_CARD_HEIGHT / 2 - 28 + bannerDrop,
       },
-      `LEVEL ${sequence.level.toString().padStart(2, '0')} CLEAR\nTEXT RECOMPOSES`,
+      `LEVEL ${sequence.level.toString().padStart(2, '0')} CLEAR\nSTREAM REROUTED`,
       '#ffcf73',
       'rgba(21, 14, 8, 0.86)',
       'rgba(45, 24, 12, 0.76)',
@@ -2073,7 +2073,7 @@ export class PretextBreaker {
 
     if (this.mode === 'transition' && this.sequence !== null) {
       if (this.sequence.kind === 'opening') {
-        this.statusCopy = 'Pretext Breaker is slamming onto the screen.'
+        this.statusCopy = 'Token Breakout is slamming onto the screen.'
         return
       }
 
@@ -2081,42 +2081,42 @@ export class PretextBreaker {
         const introProgress = clamp(this.sequence.timer / this.sequence.duration, 0, 1)
         this.statusCopy =
           introProgress < 0.6
-            ? `Text awakens. Level ${this.sequence.level.toString().padStart(2, '0')} is forming.`
+            ? `Stream online. Level ${this.sequence.level.toString().padStart(2, '0')} is forming.`
             : `Level ${this.sequence.level
                 .toString()
-                .padStart(2, '0')} words are flying into place.`
+                .padStart(2, '0')} tokens are flying into place.`
         return
       }
 
       this.statusCopy = `Level ${this.sequence.level
         .toString()
-        .padStart(2, '0')} complete. The next paragraph is recomposing.`
+        .padStart(2, '0')} complete. The next completion is rerouting.`
       return
     }
 
     if (this.mode === 'game-over') {
       this.statusCopy = `Final ${formatScore(this.score)}. Best ${formatScore(
         this.bestScore,
-      )}. The text wall stands again.`
+      )}. The stream reroutes around you.`
       return
     }
 
     if (this.mode === 'serve' && this.clearedWave) {
       this.statusCopy = withEffects(
-        `Wave cleared. ${remaining} words queued for level ${this.level}. Serve the next glyph.`,
+        `Wave cleared. ${remaining} tokens queued for level ${this.level}. Serve the next packet.`,
       )
       return
     }
 
     if (this.mode === 'serve') {
       this.statusCopy = withEffects(
-        `Break ${remaining} words. Drag or tap to aim, then launch with the up arrow or another tap.`,
+        `Break ${remaining} tokens. Drag or tap to aim, then launch with the up arrow or another tap.`,
       )
       return
     }
 
     this.statusCopy = withEffects(
-      `${remaining} words remain. Angle the glyph off the paddle and keep it above the footer.`,
+      `${remaining} tokens remain. Angle the packet off the router and keep it above the footer.`,
     )
   }
 
@@ -2460,9 +2460,9 @@ export class PretextBreaker {
 
   private buildTextWallCopy(): string {
     const phrases = [
-      'pretext layout measure cursor segment wrap glyph inline reflow stream bidi kern space split signal static dynamic vector module bounce trail track render flow',
-      'text snakes between every obstacle and keeps every word alive while the field recomposes around the moving ball and the waiting paddle',
-      'small copy fills the arena from border to border and the larger block labels stay readable as targets floating above the paragraph wall',
+      'unorouter gateway measure cursor segment rewrite packet inline retry stream parallel throttle fallback quota signal static dynamic vector module bounce trail track render flow',
+      'tokens snake between every obstacle and keep every model alive while the field reroutes around the moving packet and the waiting router',
+      'small copy fills the arena from border to border and the larger block labels stay readable as targets floating above the token stream',
     ]
     return Array.from({ length: 80 }, (_, index) => phrases[index % phrases.length]!).join(' ')
   }

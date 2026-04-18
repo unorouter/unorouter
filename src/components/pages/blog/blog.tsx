@@ -1,4 +1,4 @@
-import { FluidSmokeLazy } from "@/components/ui/fluid-smoke/fluid-smoke-lazy";
+import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-smoke-lazy";
 import { ScrambleText } from "@/components/elements/fx/scramble-text";
 import { BlogList } from "@/components/pages/blog/blog-list";
 import {
@@ -32,18 +32,18 @@ export async function Blog() {
   return (
     <div className="mx-auto max-w-5xl px-6 pb-16">
       <section className="relative overflow-hidden">
-        <FluidSmokeLazy />
+        <TypographicSmokeLazy />
         <div className="relative flex flex-col items-center pt-20 pb-12 text-center">
           <div
             className={cn(
-              "mb-6 inline-flex items-center gap-2 rounded-sm border border-emerald-500/20 bg-emerald-500/10 px-3 py-1.5",
+              "border-primary/20 bg-primary/10 mb-6 inline-flex items-center gap-2 rounded-sm border px-3 py-1.5",
             )}
           >
             <span className="relative flex size-1.5">
-              <span className="absolute inline-flex size-full animate-ping rounded-full bg-green-500 opacity-75" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-green-500" />
+              <span className="bg-primary absolute inline-flex size-full animate-ping rounded-full opacity-75" />
+              <span className="bg-primary relative inline-flex size-1.5 rounded-full" />
             </span>
-            <span className="font-mono text-[10px] tracking-[0.2em] text-emerald-700 uppercase dark:text-emerald-300">
+            <span className="text-primary font-mono text-[10px] tracking-[0.2em] uppercase">
               {t("BLOG.LATEST_BADGE")}
             </span>
           </div>
