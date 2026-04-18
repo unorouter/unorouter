@@ -1,13 +1,13 @@
 /** @jsxImportSource @kitajs/html */
 /* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
+import { APP_VALUES } from "@/lib/config/constants";
 import {
   BADGE_SIZES,
   BADGE_TYPES,
   badgeQuery,
   type BadgeType,
 } from "@/lib/validation/badge";
-import { APP_VALUES } from "@/lib/config/constants";
 import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
@@ -36,6 +36,8 @@ const PNG_HEADERS = {
   "content-type": "image/png",
   "cache-control": CACHE_CONTROL,
 };
+
+// http://localhost:3000/api/badge/all?theme=dark
 
 const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   banner: generateTokensBanner,
