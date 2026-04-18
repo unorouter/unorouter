@@ -31,6 +31,7 @@ export const healthRoute = new Elysia({ prefix: "/health" }).get(
     return {
       status: healthy ? "healthy" : "degraded",
       checks,
+      upstreamUrl: upstreamApiUrl,
       uptime: process.uptime(),
     };
   },
