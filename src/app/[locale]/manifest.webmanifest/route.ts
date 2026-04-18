@@ -20,10 +20,10 @@ export async function GET(
     background_color: "#0a0a0a",
     theme_color: "#0a0a0a",
     icons: [
-      { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
-      { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      { src: "/images/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { src: "/images/icons/icon-512.png", sizes: "512x512", type: "image/png" },
       {
-        src: "/icon-512.png",
+        src: "/images/icons/icon-512.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

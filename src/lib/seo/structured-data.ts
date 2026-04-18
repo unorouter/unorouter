@@ -28,7 +28,7 @@ export function buildOrganizationSchema(): WithContext<Organization> {
     "@type": "Organization",
     name: env.appName,
     url: siteOrigin,
-    logo: abs("/logo.png"),
+    logo: abs("/images/logo/logo.png"),
     ...(sameAs.length && { sameAs }),
   };
 }

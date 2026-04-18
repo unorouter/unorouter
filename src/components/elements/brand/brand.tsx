@@ -11,7 +11,7 @@ export function LogoImage(
 ) {
   return (
     <Image
-      src="/logo.png"
+      src="/images/logo/logo.png"
       alt={appName}
       width={32}
       height={32}

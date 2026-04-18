@@ -47,6 +47,7 @@
     "elysia": "1.4.28",
     "feed": "5.2.0",
     "fumadocs-core": "16.7.16",
+    "indexnow-submitter": "^1.4.0",
     "input-otp": "1.4.2",
     "jotai": "2.19.1",
     "jotai-family": "1.0.1",

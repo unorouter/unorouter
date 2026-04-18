@@ -48,5 +48,27 @@ jobs:
           echo POSTHOG_API_KEY=${{ secrets.POSTHOG_API_KEY }} >> .env
           echo POSTHOG_ENV_ID=${{ secrets.POSTHOG_ENV_ID }} >> .env
 
+          echo INDEXNOW_KEY=${{ secrets.INDEXNOW_KEY }} >> .env
+
       - name: Docker run
         run: docker compose up -d --force-recreate --build
+
+      - name: Wait for site to be healthy
+        run: |
+          for i in {1..30}; do
+            if curl -fsS "${{ secrets.NEXT_PUBLIC_URL }}/sitemap.xml" > /dev/null; then
+              echo "Site is up"
+              exit 0
+            fi
+            echo "Waiting for site... ($i/30)"
+            sleep 5
+          done
+          echo "Site did not come up in time"
+          exit 1
+
+      - name: Submit to IndexNow
+        run: bun install --frozen-lockfile && bun scripts/indexnow.ts
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          NEXT_PUBLIC_URL: ${{ secrets.NEXT_PUBLIC_URL }}
+        continue-on-error: true
