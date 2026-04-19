@@ -66,25 +66,41 @@ export function createChatHistoryAdapter(
           const id = getConvId();
           if (!id) return { messages: [] };
 
-          // Fetch every page so the full tree is available for branch reconstruction
-          const allMessages: RawMessage[] = [];
-          let page = 1;
-          while (true) {
-            const data = handleElysia(
-              await rpc.api.chat({ id }).get({
-                query: { p: page, page_size: PAGE_SIZE },
-              }),
-            );
-            allMessages.push(...(data.messages as RawMessage[]));
-            if (data.messages.length < PAGE_SIZE) break;
-            page++;
-          }
+          type MsgPage = { messages: RawMessage[]; total: number };
+          type Cached = { pages: MsgPage[]; pageParams: number[] };
 
-          // Seed the react-query cache so other hooks (totals, title, etc.) keep working
-          queryClient.setQueryData(queryKeys.chatMessages(id), {
-            pages: [{ messages: allMessages, total: allMessages.length }],
-            pageParams: [1],
-          });
+          const cached = queryClient.getQueryData<Cached>(
+            queryKeys.chatMessages(id),
+          );
+
+          // Start from the hydrated cache and only fetch what's missing
+          const allMessages: RawMessage[] = cached
+            ? cached.pages.flatMap((p) => p.messages)
+            : [];
+          const lastCachedPage = cached?.pages.at(-1);
+          const startPage = cached ? cached.pages.length + 1 : 1;
+          const cacheIsComplete =
+            !!lastCachedPage && lastCachedPage.messages.length < PAGE_SIZE;
+
+          if (!cacheIsComplete) {
+            let page = startPage;
+            while (true) {
+              const data = handleElysia(
+                await rpc.api.chat({ id }).get({
+                  query: { p: page, page_size: PAGE_SIZE },
+                }),
+              );
+              allMessages.push(...(data.messages as RawMessage[]));
+              if (data.messages.length < PAGE_SIZE) break;
+              page++;
+            }
+
+            // Seed the react-query cache so other hooks (totals, title, etc.) keep working
+            queryClient.setQueryData(queryKeys.chatMessages(id), {
+              pages: [{ messages: allMessages, total: allMessages.length }],
+              pageParams: [1],
+            });
+          }
 
           return buildRepository(
             allMessages,

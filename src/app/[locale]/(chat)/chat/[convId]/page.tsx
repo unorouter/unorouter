@@ -54,28 +54,26 @@ export default async function ChatConvPage(props: Props) {
     if (!guestIds.includes(convId)) redirect(`/${locale}/chat`);
   }
 
-  if (isLoggedIn) {
-    await Promise.all([
-      queryClient.prefetchQuery({
-        queryKey: queryKeys.chatMeta(convId),
-        queryFn: async () =>
-          handleElysia(
-            await rpc.api.chat({ id: convId }).meta.get(cookieHeaders),
-          ),
-      }),
-      queryClient.prefetchInfiniteQuery({
-        queryKey: queryKeys.chatMessages(convId),
-        queryFn: async ({ pageParam }) =>
-          handleElysia(
-            await rpc.api.chat({ id: convId }).get({
-              query: { p: pageParam, page_size: PAGE_SIZE },
-              ...cookieHeaders,
-            }),
-          ),
-        initialPageParam: 1,
-      }),
-    ]);
-  }
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.chatMeta(convId),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.chat({ id: convId }).meta.get(cookieHeaders),
+        ),
+    }),
+    queryClient.prefetchInfiniteQuery({
+      queryKey: queryKeys.chatMessages(convId),
+      queryFn: async ({ pageParam }) =>
+        handleElysia(
+          await rpc.api.chat({ id: convId }).get({
+            query: { p: pageParam, page_size: PAGE_SIZE },
+            ...cookieHeaders,
+          }),
+        ),
+      initialPageParam: 1,
+    }),
+  ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
