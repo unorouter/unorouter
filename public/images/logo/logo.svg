@@ -8,9 +8,9 @@
     <polyline fill="#fff" points="121.44 92.21 120.46 121.5 169.08 142.64 202.84 127.72"/>
   </g>
   <g fill="none" stroke="#ff2a0c" stroke-linecap="round" stroke-miterlimit="10" stroke-width="5">
-    <!-- <animateTransform attributeName="transform" type="rotate" from="0 120.46 125" to="360 120.46 125" dur="10s" repeatCount="indefinite"/> -->
-    <path d="M198.71,43.81c5.93,5.86,33.07,33.97,34.47,78.89,1.46,47.2-26.58,77.87-31.91,83.49"/>
-    <path d="M42.22,43.81c-5.93,5.86-33.07,33.97-34.47,78.89-1.46,47.2,26.58,77.87,31.91,83.49"/>
+    <animateTransform attributeName="transform" type="rotate" from="0 120.46 125" to="360 120.46 125" dur="10s" repeatCount="indefinite"/>
+    <path d="M198.95,43.71 A113,113 0 0 1 198.95,206.29"/>
+    <path d="M41.97,43.71 A113,113 0 0 0 41.97,206.29"/>
   </g>
   <path fill="#fff" d="M120.46,20.8c-57.55,0-104.2,46.65-104.2,104.2s46.65,104.2,104.2,104.2,104.2-46.65,104.2-104.2S178.01,20.8,120.46,20.8ZM120.46,225c-55.23,0-100-44.77-100-100S65.24,25,120.46,25s100,44.77,100,100-44.77,100-100,100Z"/>
 </svg>
