@@ -19,7 +19,11 @@ import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
-import { chatWebSearchAtom, getScrollControl } from "@/store/chat-store";
+import {
+  chatModelAtom,
+  chatWebSearchAtom,
+  getScrollControl,
+} from "@/store/chat-store";
 import {
   ActionBarPrimitive,
   AuiIf,
@@ -31,7 +35,7 @@ import {
   ThreadPrimitive,
   useAuiState,
 } from "@assistant-ui/react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -290,6 +294,8 @@ const StreamingIndicator: FC = () => {
     (s) => s.message.status?.type === "running" && s.message.parts.length === 0,
   );
   const [elapsed, setElapsed] = useState(0);
+  const activeModel = useAtomValue(chatModelAtom);
+  const pricing = usePricingQuery();
 
   useEffect(() => {
     if (!isStreaming) return;
@@ -300,9 +306,17 @@ const StreamingIndicator: FC = () => {
 
   if (!isStreaming) return null;
 
+  const modelType = pricing.data?.models.find(
+    (m) => m.name === activeModel,
+  )?.type;
+  // Image/video generation is expected to take much longer than a text turn,
+  // so stretch the color gradient so the timer does not hit "red" prematurely.
+  const gradientWindow =
+    modelType === "image" ? 60 : modelType === "video" ? 180 : 15;
+
   const seconds = elapsed / 1000;
-  // Gradient: muted → amber → red over 0–15s
-  const t = Math.min(seconds / 15, 1);
+  // Gradient: muted → amber → red over 0–gradientWindow seconds
+  const t = Math.min(seconds / gradientWindow, 1);
   const r = Math.round(140 + t * 115); // 140 → 255
   const g = Math.round(140 - t * 100); // 140 → 40
   const b = Math.round(140 - t * 110); // 140 → 30
