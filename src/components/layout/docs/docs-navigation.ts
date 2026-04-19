@@ -11,6 +11,7 @@ export type DocsNavItem = {
   name: TranslationKey;
   href: LinkHref;
   icon: ComponentType<{ className?: string }>;
+  exact?: boolean;
 };
 
 export const docsNavItems: DocsNavItem[] = [
@@ -18,6 +19,7 @@ export const docsNavItems: DocsNavItem[] = [
     name: "DOCS_SIDEBAR.AI_APPLICATIONS",
     href: "/docs",
     icon: LuLayoutGrid,
+    exact: true,
   },
   {
     name: "DOCS_SIDEBAR.CC_SWITCH",
