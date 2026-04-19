@@ -312,7 +312,7 @@ const StreamingIndicator: FC = () => {
   // Image/video generation is expected to take much longer than a text turn,
   // so stretch the color gradient so the timer does not hit "red" prematurely.
   const gradientWindow =
-    modelType === "image" ? 60 : modelType === "video" ? 180 : 15;
+    modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
 
   const seconds = elapsed / 1000;
   // Gradient: muted → amber → red over 0–gradientWindow seconds
