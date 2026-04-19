@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
-import type { Locale } from "next-intl";
 import { getPathname } from "@/i18n/navigation";
 import { type Pathname, routing } from "@/i18n/routing";
+import type { Metadata } from "next";
+import type { Locale } from "next-intl";
 import { LANGUAGES, LOCALES } from "../config/constants";
 import { env } from "../config/env";
 import type { BadgeFormat, BadgeType, Theme } from "../validation/badge";
@@ -51,7 +51,7 @@ export function getPageMetadata(params: MetadataParams): Metadata {
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "any" },
-        { url: "/images/icons/icon.svg", type: "image/svg+xml" },
+        { url: "/images/logo/logo.svg", type: "image/svg+xml" },
         {
           url: "/images/icons/icon-192.png",
           sizes: "192x192",

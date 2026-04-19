@@ -4,7 +4,7 @@ import {
   processCipherMarkers,
   replacePulseDotMarker,
 } from "../elements/cipher";
-import { fonts } from "./cache";
+import { fonts, logoDataUri, logoInnerSvg } from "./cache";
 import type { RenderTemplateOpts } from "./types";
 import aihubmix from "thesvg/aihubmix";
 import alibaba from "thesvg/alibaba";
@@ -149,5 +149,35 @@ export async function renderBadgeTemplate(
     svg = await processCipherMarkers(svg, opts.cipherTargets, opts.staticMode);
   }
 
+  svg = inlineLogoImage(svg, opts.staticMode);
+
   return svg;
+}
+
+const LOGO_VIEWBOX = 250;
+
+function inlineLogoImage(svg: string, staticMode?: boolean): string {
+  const href = logoDataUri;
+  const re = new RegExp(
+    `<image\\s+([^>]*?)href="${href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"([^>]*?)/?>`,
+  );
+  return svg.replace(re, (_, before: string, after: string) => {
+    const attrs = `${before} ${after}`;
+    const xMatch = attrs.match(/\bx="([\d.]+)"/);
+    const yMatch = attrs.match(/\by="([\d.]+)"/);
+    const wMatch = attrs.match(/\bwidth="([\d.]+)"/);
+    const hMatch = attrs.match(/\bheight="([\d.]+)"/);
+    if (!xMatch || !yMatch || !wMatch || !hMatch) return _;
+    const x = parseFloat(xMatch[1]);
+    const y = parseFloat(yMatch[1]);
+    const w = parseFloat(wMatch[1]);
+    const h = parseFloat(hMatch[1]);
+    const sx = w / LOGO_VIEWBOX;
+    const sy = h / LOGO_VIEWBOX;
+    let inner = logoInnerSvg;
+    if (staticMode) {
+      inner = inner.replace(/<animateTransform[^>]*\/>/g, "");
+    }
+    return `<g transform="translate(${x},${y}) scale(${sx},${sy})">${inner}</g>`;
+  });
 }

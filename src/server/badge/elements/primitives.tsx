@@ -64,7 +64,7 @@ export function Divider(props: {
 export function Logo(props: { size?: number }) {
   return (
     <img
-      src={logoDataUri()}
+      src={logoDataUri}
       width={props.size ?? 40}
       height={props.size ?? 40}
       style={{ borderRadius: 0 }}

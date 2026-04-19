@@ -12,15 +12,15 @@ import type { BadgePricing, BadgeStats } from "./types";
 
 /* ── logo ── */
 
-let cachedLogoUri: string | null = null;
+const logoSvg = readFileSync(
+  join(process.cwd(), "public", "images", "logo", "logo.svg"),
+  "utf-8",
+);
 
-export function logoDataUri(): string {
-  if (cachedLogoUri) return cachedLogoUri;
-  const path = join(process.cwd(), "public", "images", "logo", "logo.png");
-  const buffer = readFileSync(path);
-  cachedLogoUri = `data:image/png;base64,${buffer.toString("base64")}`;
-  return cachedLogoUri;
-}
+export const logoDataUri = `data:image/svg+xml;base64,${Buffer.from(logoSvg).toString("base64")}`;
+
+export const logoInnerSvg =
+  logoSvg.match(/<svg[^>]*>([\s\S]*)<\/svg>/)?.[1].trim() ?? "";
 
 /* ── fonts ── */
 
