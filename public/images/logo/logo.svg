@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 250 250">
+  <!-- Generator: Adobe Illustrator 30.3.0, SVG Export Plug-In . SVG Version: 2.1.3 Build 182)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+
+      .st1 {
+        fill: none;
+        stroke: #ff2a0c;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+
+      .st2 {
+        fill: #ff2a0c;
+      }
+
+      .st3 {
+        fill: #1f2022;
+      }
+    </style>
+  </defs>
+  <circle class="st3" cx="120.46" cy="125" r="105"/>
+  <g>
+    <polyline class="st2" points="38.63 92.56 38.09 122.28 120.46 85.88 119.49 56.91"/>
+    <polyline class="st0" points="119.49 157.79 120.46 128.5 71.85 107.36 38.09 122.28"/>
+    <polyline class="st2" points="202.29 157.44 202.84 127.72 120.46 164.12 121.44 193.09"/>
+    <polyline class="st0" points="121.44 92.21 120.46 121.5 169.08 142.64 202.84 127.72"/>
+  </g>
+  <g>
+    <path class="st1" d="M198.71,43.81c5.93,5.86,33.07,33.97,34.47,78.89,1.46,47.2-26.58,77.87-31.91,83.49"/>
+    <path class="st1" d="M42.22,43.81c-5.93,5.86-33.07,33.97-34.47,78.89-1.46,47.2,26.58,77.87,31.91,83.49"/>
+  </g>
+  <path class="st0" d="M120.46,20.8c-57.55,0-104.2,46.65-104.2,104.2s46.65,104.2,104.2,104.2,104.2-46.65,104.2-104.2S178.01,20.8,120.46,20.8ZM120.46,225c-55.23,0-100-44.77-100-100S65.24,25,120.46,25s100,44.77,100,100-44.77,100-100,100Z"/>
+</svg>
