@@ -24,6 +24,8 @@ interface Dims extends BadgeDimsBase {
   showTagline: boolean;
   brandLogoSize: number;
   brandFontSize: number;
+  countBadgeFont: number;
+  countBadgeHeight: number;
 }
 
 const DIMS: Partial<Record<BadgeSize, Dims>> = {
@@ -40,6 +42,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showTagline: false,
     brandLogoSize: 10,
     brandFontSize: 7,
+    countBadgeFont: 8,
+    countBadgeHeight: 14,
   },
   sm: {
     W: 310,
@@ -54,6 +58,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showTagline: false,
     brandLogoSize: 12,
     brandFontSize: 8,
+    countBadgeFont: 8,
+    countBadgeHeight: 14,
   },
   md: {
     W: 400,
@@ -68,6 +74,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showTagline: true,
     brandLogoSize: 14,
     brandFontSize: 10,
+    countBadgeFont: 8,
+    countBadgeHeight: 14,
   },
   lg: {
     W: 500,
@@ -82,6 +90,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showTagline: true,
     brandLogoSize: 14,
     brandFontSize: 10,
+    countBadgeFont: 9,
+    countBadgeHeight: 16,
   },
   xl: {
     W: 620,
@@ -96,6 +106,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showTagline: true,
     brandLogoSize: 14,
     brandFontSize: 10,
+    countBadgeFont: 12,
+    countBadgeHeight: 20,
   },
   og: {
     W: 1200,
@@ -110,6 +122,8 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     showTagline: true,
     brandLogoSize: 28,
     brandFontSize: 20,
+    countBadgeFont: 22,
+    countBadgeHeight: 36,
   },
 };
 
@@ -122,6 +136,8 @@ function ProviderIcon(props: {
   iconSize: number;
   slotWidth: number;
   showCountBadge: boolean;
+  countBadgeFont: number;
+  countBadgeHeight: number;
 }) {
   return (
     <div
@@ -148,17 +164,17 @@ function ProviderIcon(props: {
             right: props.slotWidth > 50 ? 10 : 4,
             backgroundColor: props.c.badgeBg,
             borderRadius: 99,
-            minWidth: 14,
-            height: 14,
+            minWidth: props.countBadgeHeight,
+            height: props.countBadgeHeight,
             alignItems: "center",
             justifyContent: "center",
-            padding: "0 3px",
+            padding: `0 ${Math.round(props.countBadgeHeight / 4)}px`,
           }}
         >
           <span
             style={{
               fontFamily: FONT_MONO,
-              fontSize: 8,
+              fontSize: props.countBadgeFont,
               fontWeight: 700,
               color: props.c.badgeText,
             }}
@@ -166,7 +182,7 @@ function ProviderIcon(props: {
             <MonoValue
               value={String(props.modelCount)}
               c={{ ...props.c, text: props.c.badgeText }}
-              size={8}
+              size={props.countBadgeFont}
               cipherMarker={props.countMarker}
             />
           </span>
@@ -282,6 +298,8 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
             iconSize={d.iconSize}
             slotWidth={d.slotWidth}
             showCountBadge={d.showCountBadge}
+            countBadgeFont={d.countBadgeFont}
+            countBadgeHeight={d.countBadgeHeight}
           />
         ))}
         {remaining > 0 && (
@@ -372,7 +390,7 @@ export async function generateProviders(ctx: BadgeCtx): Promise<string> {
     for (let i = 0; i < resolved.length; i++) {
       targets.push({
         value: String(resolved[i].models),
-        fontSize: 8,
+        fontSize: d.countBadgeFont,
         color: c.badgeText,
         markerColor: iconMarkers[i],
       });
