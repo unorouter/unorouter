@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "サインインを完了しています...",
     "DASHBOARD": "ダッシュボード",
     "LOG_OUT": "ログアウト",
-    "BALANCE": "残高"
+    "BALANCE": "残高",
+    "SUBSCRIPTION": "サブスクリプション",
+    "SUBSCRIPTION_ACTIVE": "有効"
   },
   "SIDEBAR": {
     "MENU": "メニュー",

@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "正在完成登入...",
     "DASHBOARD": "儀表板",
     "LOG_OUT": "登出",
-    "BALANCE": "餘額"
+    "BALANCE": "餘額",
+    "SUBSCRIPTION": "訂閱",
+    "SUBSCRIPTION_ACTIVE": "生效中"
   },
   "SIDEBAR": {
     "MENU": "選單",

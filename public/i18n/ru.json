@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "Завершение входа...",
     "DASHBOARD": "Панель управления",
     "LOG_OUT": "Выйти",
-    "BALANCE": "Баланс"
+    "BALANCE": "Баланс",
+    "SUBSCRIPTION": "Подписка",
+    "SUBSCRIPTION_ACTIVE": "Активна"
   },
   "SIDEBAR": {
     "MENU": "Меню",

@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "Finalisation de la connexion...",
     "DASHBOARD": "Tableau de bord",
     "LOG_OUT": "Se déconnecter",
-    "BALANCE": "Solde"
+    "BALANCE": "Solde",
+    "SUBSCRIPTION": "Abonnement",
+    "SUBSCRIPTION_ACTIVE": "Actif"
   },
   "SIDEBAR": {
     "MENU": "Menu",

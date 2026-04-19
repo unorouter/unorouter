@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "Completing sign in...",
     "DASHBOARD": "Dashboard",
     "LOG_OUT": "Log Out",
-    "BALANCE": "Balance"
+    "BALANCE": "Balance",
+    "SUBSCRIPTION": "Subscription",
+    "SUBSCRIPTION_ACTIVE": "Active"
   },
   "SIDEBAR": {
     "MENU": "Menu",

@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "Anmeldung wird abgeschlossen...",
     "DASHBOARD": "Dashboard",
     "LOG_OUT": "Abmelden",
-    "BALANCE": "Guthaben"
+    "BALANCE": "Guthaben",
+    "SUBSCRIPTION": "Abonnement",
+    "SUBSCRIPTION_ACTIVE": "Aktiv"
   },
   "SIDEBAR": {
     "MENU": "Menü",

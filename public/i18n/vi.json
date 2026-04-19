@@ -1101,7 +1101,9 @@
     "CALLBACK_LOADING": "Đang hoàn tất đăng nhập...",
     "DASHBOARD": "Bảng điều khiển",
     "LOG_OUT": "Đăng xuất",
-    "BALANCE": "Số dư"
+    "BALANCE": "Số dư",
+    "SUBSCRIPTION": "Gói đăng ký",
+    "SUBSCRIPTION_ACTIVE": "Đang hoạt động"
   },
   "SIDEBAR": {
     "MENU": "Menu",
