@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { LuCheck, LuShell, LuZap } from "react-icons/lu";
+import { LuCheck, LuZap } from "react-icons/lu";
 
 type Props = {
   name: string;
@@ -52,13 +52,23 @@ export function PricingCard(props: Props) {
 
       {/* Spec rows */}
       <div className="mt-5 space-y-4">
-        <div>
-          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("PRICING.CARD.SPEC_CREDIT")}
-          </p>
-          <p className="text-foreground text-lg font-bold tracking-tight">
-            ${props.value}
-          </p>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+              {t("PRICING.CARD.SPEC_CREDIT")}
+            </p>
+            <p className="text-foreground text-lg font-bold tracking-tight">
+              ${props.value}
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+              {t("PRICING.CARD.SPEC_MULTIPLIER")}
+            </p>
+            <p className="text-foreground text-lg font-bold tracking-tight">
+              {props.multiplier}
+            </p>
+          </div>
         </div>
         <div>
           <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
@@ -68,27 +78,6 @@ export function PricingCard(props: Props) {
             {props.quotaLabel}
           </p>
         </div>
-        <div>
-          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("PRICING.CARD.SPEC_MULTIPLIER")}
-          </p>
-          <p className="text-foreground text-lg font-bold tracking-tight">
-            {props.multiplier}
-          </p>
-        </div>
-      </div>
-
-      {/* OpenClaw Support */}
-      <div className="mt-6 rounded-sm border border-red-600/20 bg-red-600/5 px-4 py-3">
-        <div className="flex items-center gap-2">
-          <LuShell className="h-4 w-4 shrink-0 text-red-500" />
-          <span className="text-foreground font-mono text-xs font-bold tracking-wide">
-            {t("PRICING.CARD.OPENCLAW_TITLE")}
-          </span>
-        </div>
-        <p className="text-muted-foreground mt-1.5 font-mono text-[11px]">
-          {t("PRICING.CARD.OPENCLAW_DESC")}
-        </p>
       </div>
 
       {/* Features */}

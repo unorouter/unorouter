@@ -1,3 +1,4 @@
+import { IntegrationBanner } from "@/components/pages/navbar/home/integration-banner";
 import { Pricing } from "@/components/pages/navbar/pricing/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
@@ -76,6 +77,7 @@ export default async function PricingPage(props: {
       <HydrationBoundary state={dehydrate(queryClient)}>
         <Pricing />
       </HydrationBoundary>
+      <IntegrationBanner />
     </>
   );
 }
