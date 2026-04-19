@@ -59,7 +59,7 @@ function SelectTrigger({
 function SelectContent({
   className,
   children,
-  side = "auto",
+  side = "bottom",
   sideOffset = 4,
   align = "center",
   alignOffset = 0,
