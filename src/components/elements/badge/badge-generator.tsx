@@ -18,6 +18,7 @@ import {
   BADGE_TYPES,
   FORMATS,
   THEMES,
+  buildBadgeUrl,
   type BadgeFormat,
   type BadgeSize,
   type BadgeType,
@@ -40,15 +41,18 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [format, setFormat] = useState<BadgeFormat>("svg");
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
 
-  const params = new URLSearchParams();
-  params.set("locale", locale);
-  params.set("theme", theme);
-  params.set("size", size);
-  if (format !== "svg") params.set("format", format);
-  if (props.refCode) params.set("ref", props.refCode);
-  const previewUrl = `/api/badge/${type}?${params.toString()}`;
-
-  const badgeAbsoluteUrl = `${env.appUrl}/api/badge/${type}?${params.toString()}`;
+  const urlOpts = {
+    locale,
+    theme,
+    size,
+    format,
+    ref: props.refCode,
+  };
+  const previewUrl = buildBadgeUrl(type, urlOpts);
+  const badgeAbsoluteUrl = buildBadgeUrl(type, {
+    ...urlOpts,
+    origin: env.appUrl,
+  });
   const linkUrl = affLink(props.refCode);
   const embedHtml = `<a href="${linkUrl}" target="_blank">\n  <img src="${badgeAbsoluteUrl}" alt="${env.appName}" />\n</a>`;
   const embedMarkdown = `[![${env.appName}](${badgeAbsoluteUrl})](${linkUrl})`;

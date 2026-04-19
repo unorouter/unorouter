@@ -4,7 +4,12 @@ import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { LANGUAGES, LOCALES } from "../config/constants";
 import { env } from "../config/env";
-import type { BadgeFormat, BadgeType, Theme } from "../validation/badge";
+import {
+  buildBadgeUrl,
+  type BadgeFormat,
+  type BadgeType,
+  type Theme,
+} from "../validation/badge";
 
 function buildAlternateLanguages(href: Pathname): Record<string, string> {
   const languages: Record<string, string> = {};
@@ -20,9 +25,12 @@ export function ogBadge(
   locale: string,
   opts: { theme?: Theme; format?: BadgeFormat } = {},
 ) {
-  const theme: Theme = opts.theme ?? "dark";
-  const format: BadgeFormat = opts.format ?? "png";
-  return `/api/badge/${variant}?format=${format}&theme=${theme}&locale=${locale}&size=og`;
+  return buildBadgeUrl(variant, {
+    locale,
+    theme: opts.theme ?? "dark",
+    format: opts.format ?? "png",
+    size: "og",
+  });
 }
 
 type MetadataParams = {

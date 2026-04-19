@@ -44,3 +44,27 @@ export const badgeQuery = t.Object({
   ),
   type: t.Optional(t.Union(BADGE_TYPES.map((v) => t.Literal(v)))),
 });
+
+export interface BuildBadgeUrlOptions {
+  locale?: string;
+  theme?: Theme;
+  size?: BadgeSize;
+  format?: BadgeFormat;
+  ref?: string;
+  origin?: string;
+}
+
+export function buildBadgeUrl(
+  type: BadgeType,
+  opts: BuildBadgeUrlOptions = {},
+): string {
+  const params = new URLSearchParams();
+  if (opts.locale) params.set("locale", opts.locale);
+  if (opts.theme) params.set("theme", opts.theme);
+  if (opts.size) params.set("size", opts.size);
+  if (opts.format && opts.format !== "svg") params.set("format", opts.format);
+  if (opts.ref) params.set("ref", opts.ref);
+  const qs = params.toString();
+  const path = `/api/badge/${type}${qs ? `?${qs}` : ""}`;
+  return opts.origin ? `${opts.origin}${path}` : path;
+}

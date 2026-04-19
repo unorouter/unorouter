@@ -1,20 +1,36 @@
 /** @jsxImportSource @kitajs/html */
 /* eslint-disable @next/next/no-head-element, @next/next/no-img-element, jsx-a11y/alt-text */
 
-import type { BadgeFormat } from "@/lib/validation/badge";
+import {
+  buildBadgeUrl,
+  type BadgeFormat,
+  type BadgeSize,
+  type BadgeType,
+  type BuildBadgeUrlOptions,
+} from "@/lib/validation/badge";
+
+function pageUrl(
+  type: BadgeType,
+  size: BadgeSize,
+  shared: BuildBadgeUrlOptions,
+  format?: BadgeFormat,
+): string {
+  return buildBadgeUrl(type, { ...shared, size, format });
+}
 
 export function copyScript(
-  name: string,
-  qsStr: string,
+  type: BadgeType,
+  size: BadgeSize,
+  label: string,
+  shared: BuildBadgeUrlOptions,
   format: BadgeFormat,
 ): string {
-  const sep = qsStr ? "&" : "?";
-  const suffix = format === "png" ? `${sep}format=png` : "";
+  const path = pageUrl(type, size, shared, format);
   return [
-    `navigator.clipboard.writeText(location.origin+'/api/badge/${name}${qsStr}${suffix}')`,
+    `navigator.clipboard.writeText(location.origin+'${path}')`,
     `.then(()=>{`,
     `let t=document.getElementById('toast');`,
-    `t.textContent='Copied ${format.toUpperCase()}: /api/badge/${name}';`,
+    `t.textContent='Copied ${format.toUpperCase()}: ${label}';`,
     `t.classList.add('show');`,
     `setTimeout(()=>t.classList.remove('show'),1500)`,
     `})`,
@@ -25,8 +41,11 @@ export function AllPage(props: {
   bg: string;
   fg: string;
   muted: string;
-  qsStr: string;
-  groups: { type: string; badges: { name: string; svg: string }[] }[];
+  shared: BuildBadgeUrlOptions;
+  groups: {
+    type: BadgeType;
+    badges: { size: BadgeSize; label: string; svg: string }[];
+  }[];
   badgeAlt: string;
 }) {
   return (
@@ -61,21 +80,33 @@ body{background:${props.bg};color:${props.fg};font-family:system-ui;padding:40px
                 <div class="badge">
                   <div class="header">
                     <a
-                      href={`/api/badge/${b.name}${props.qsStr}`}
+                      href={pageUrl(g.type, b.size, props.shared)}
                       target="_blank"
                     >
-                      {b.name}
+                      {b.label}
                     </a>
                     <button
                       class="copy"
-                      onclick={copyScript(b.name, props.qsStr, "svg")}
+                      onclick={copyScript(
+                        g.type,
+                        b.size,
+                        b.label,
+                        props.shared,
+                        "svg",
+                      )}
                       title="Copy SVG URL"
                     >
                       <span class="copy-label">SVG</span>
                     </button>
                     <button
                       class="copy"
-                      onclick={copyScript(b.name, props.qsStr, "png")}
+                      onclick={copyScript(
+                        g.type,
+                        b.size,
+                        b.label,
+                        props.shared,
+                        "png",
+                      )}
                       title="Copy PNG URL"
                     >
                       <span class="copy-label">PNG</span>

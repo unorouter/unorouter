@@ -66,11 +66,11 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   .get(
     "/all",
     async ({ query, html, locale, theme, size: _size }) => {
-      const qs = new URLSearchParams();
-      if (query.locale) qs.set("locale", query.locale);
-      if (query.theme) qs.set("theme", query.theme);
-      if (query.ref) qs.set("ref", query.ref);
-      const qsStr = qs.toString() ? `?${qs.toString()}` : "";
+      const shared = {
+        locale: query.locale,
+        theme: query.theme,
+        ref: query.ref,
+      };
 
       const [stats, pricing, t] = await Promise.all([
         getStats(),
@@ -95,7 +95,8 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
                 pricing,
               };
               return {
-                name: `${name} (${s})`,
+                size: s,
+                label: `${name} (${s})`,
                 svg: await BADGES[name](ctx),
               };
             }),
@@ -110,7 +111,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
           bg={c.previewBg}
           fg={c.previewFg}
           muted={c.previewMuted}
-          qsStr={qsStr}
+          shared={shared}
           groups={allBadges}
           badgeAlt={t("AFFILIATE.BADGE_GENERATOR.BADGE_ALT", APP_VALUES)}
         />,
