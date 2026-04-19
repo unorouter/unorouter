@@ -1000,7 +1000,8 @@
       "PROVIDERS": "プロバイダー",
       "PRICING": "料金",
       "HERO": "ヒーロー",
-      "REFERRAL": "リファラル"
+      "REFERRAL": "リファラル",
+      "BRAND": "ブランド"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "問題が発生しました",

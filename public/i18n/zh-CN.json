@@ -1000,7 +1000,8 @@
       "PROVIDERS": "提供方",
       "PRICING": "价格",
       "HERO": "主视觉",
-      "REFERRAL": "推荐"
+      "REFERRAL": "推荐",
+      "BRAND": "品牌"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "出错了",

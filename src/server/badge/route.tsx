@@ -16,6 +16,7 @@ import { getPricingData, getStats } from "./lib/cache";
 import { THEME_COLORS } from "./lib/theme";
 import type { BadgeCtx } from "./lib/types";
 import { AllPage } from "./templates/all-page";
+import { generateBrand } from "./templates/brand";
 import { generateHero } from "./templates/hero";
 import { generatePricing } from "./templates/pricing";
 import { generateProviders } from "./templates/providers";
@@ -47,6 +48,7 @@ const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
   pricing: generatePricing,
   hero: generateHero,
   referral: generateReferral,
+  brand: generateBrand,
 };
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })

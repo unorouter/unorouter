@@ -1000,7 +1000,8 @@
       "PROVIDERS": "供應商",
       "PRICING": "價格",
       "HERO": "主視覺",
-      "REFERRAL": "推薦"
+      "REFERRAL": "推薦",
+      "BRAND": "品牌"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "發生錯誤",

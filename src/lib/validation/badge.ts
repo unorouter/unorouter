@@ -12,6 +12,7 @@ export const BADGE_TYPES = [
   "pricing",
   "hero",
   "referral",
+  "brand",
 ] as const;
 export type BadgeType = (typeof BADGE_TYPES)[number];
 

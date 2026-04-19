@@ -1000,7 +1000,8 @@
       "PROVIDERS": "Anbieter",
       "PRICING": "Preise",
       "HERO": "Hero",
-      "REFERRAL": "Empfehlung"
+      "REFERRAL": "Empfehlung",
+      "BRAND": "Marke"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Etwas ist schiefgelaufen",

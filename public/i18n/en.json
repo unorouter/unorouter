@@ -1000,7 +1000,8 @@
       "PROVIDERS": "Providers",
       "PRICING": "Pricing",
       "HERO": "Hero",
-      "REFERRAL": "Referral"
+      "REFERRAL": "Referral",
+      "BRAND": "Brand"
     },
     "ERROR": {
       "SOMETHING_WENT_WRONG": "Something went wrong",
