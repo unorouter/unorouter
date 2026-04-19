@@ -13,7 +13,8 @@
     "openapi": "orval --config ./orval.config.ts",
     "db:generate": "drizzle-kit generate",
     "db:reset": "bun drizzle/reset-db.ts",
-    "lh": "bun scripts/lighthouse.ts"
+    "lh": "bun scripts/lighthouse.ts",
+    "icons": "bun scripts/generate-icons.ts"
   },
   "dependencies": {
     "@ai-sdk/openai-compatible": "2.0.41",
@@ -90,6 +91,7 @@
     "eslint": "10.2.0",
     "eslint-config-next": "16.2.4",
     "orval": "8.8.0",
+    "png-to-ico": "^3.0.1",
     "prettier": "3.8.3",
     "prettier-plugin-tailwindcss": "0.7.2",
     "schema-dts": "2.0.0",

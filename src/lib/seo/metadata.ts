@@ -50,8 +50,8 @@ export function getPageMetadata(params: MetadataParams): Metadata {
     keywords: params.keywords.split(", "),
     icons: {
       icon: [
-        { url: "/favicon.ico", sizes: "any" },
         { url: "/images/logo/logo.svg", type: "image/svg+xml" },
+        { url: "/favicon.ico", sizes: "any" },
         {
           url: "/images/icons/icon-192.png",
           sizes: "192x192",
