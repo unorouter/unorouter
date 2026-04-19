@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "3c19019c-6f9d-4d10-a805-679d65015ef9",
+  "id": "e908b2bf-4079-42ec-a7ff-df29d94866fc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "conversations": {
@@ -100,27 +100,40 @@
       "indexes": {
         "conversations_share_id_unique": {
           "name": "conversations_share_id_unique",
-          "columns": ["share_id"],
+          "columns": [
+            "share_id"
+          ],
           "isUnique": true
         },
         "idx_conv_user_updated": {
           "name": "idx_conv_user_updated",
-          "columns": ["user_id", "updated_at"],
+          "columns": [
+            "user_id",
+            "updated_at"
+          ],
           "isUnique": false
         },
         "idx_conv_share": {
           "name": "idx_conv_share",
-          "columns": ["share_id"],
+          "columns": [
+            "share_id"
+          ],
           "isUnique": false
         },
         "idx_conv_archived": {
           "name": "idx_conv_archived",
-          "columns": ["user_id", "archived_at"],
+          "columns": [
+            "user_id",
+            "archived_at"
+          ],
           "isUnique": false
         },
         "idx_conv_starred": {
           "name": "idx_conv_starred",
-          "columns": ["user_id", "starred_at"],
+          "columns": [
+            "user_id",
+            "starred_at"
+          ],
           "isUnique": false
         }
       },
@@ -174,6 +187,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "extracted_text": {
+          "name": "extracted_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "integer",
@@ -186,12 +206,16 @@
       "indexes": {
         "idx_media_user": {
           "name": "idx_media_user",
-          "columns": ["user_id"],
+          "columns": [
+            "user_id"
+          ],
           "isUnique": false
         },
         "idx_media_conv": {
           "name": "idx_media_conv",
-          "columns": ["conv_id"],
+          "columns": [
+            "conv_id"
+          ],
           "isUnique": false
         }
       },
@@ -200,8 +224,12 @@
           "name": "media_conv_id_conversations_id_fk",
           "tableFrom": "media",
           "tableTo": "conversations",
-          "columnsFrom": ["conv_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "conv_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -302,12 +330,17 @@
       "indexes": {
         "idx_msg_conv": {
           "name": "idx_msg_conv",
-          "columns": ["conv_id"],
+          "columns": [
+            "conv_id"
+          ],
           "isUnique": false
         },
         "idx_msg_parent": {
           "name": "idx_msg_parent",
-          "columns": ["conv_id", "parent_id"],
+          "columns": [
+            "conv_id",
+            "parent_id"
+          ],
           "isUnique": false
         }
       },
@@ -316,8 +349,12 @@
           "name": "messages_conv_id_conversations_id_fk",
           "tableFrom": "messages",
           "tableTo": "conversations",
-          "columnsFrom": ["conv_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "conv_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }

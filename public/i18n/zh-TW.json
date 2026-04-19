@@ -1640,7 +1640,8 @@
       "IMAGE_PREVIEW": "圖片預覽",
       "PREVIEW": "附件預覽",
       "IMAGE_PREVIEW_FULL": "圖片附件預覽",
-      "LABEL": "附件"
+      "LABEL": "附件",
+      "UNSUPPORTED_TYPE": "不支援的檔案類型 {type}。請上傳 PNG、JPEG、WebP 或 GIF 格式的圖片。"
     },
     "WEB_SEARCH": {
       "LABEL": "網路搜尋",

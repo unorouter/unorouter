@@ -25,6 +25,7 @@ CREATE TABLE `media` (
 	`r2_key` text NOT NULL,
 	`mime_type` text NOT NULL,
 	`size_bytes` integer NOT NULL,
+	`extracted_text` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );

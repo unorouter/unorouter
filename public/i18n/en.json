@@ -1640,7 +1640,8 @@
       "IMAGE_PREVIEW": "Image Preview",
       "PREVIEW": "Attachment preview",
       "IMAGE_PREVIEW_FULL": "Image Attachment Preview",
-      "LABEL": "attachment"
+      "LABEL": "attachment",
+      "UNSUPPORTED_TYPE": "File type {type} is not supported. Please upload a PNG, JPEG, WebP, or GIF image."
     },
     "WEB_SEARCH": {
       "LABEL": "Web Search",

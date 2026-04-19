@@ -1640,7 +1640,8 @@
       "IMAGE_PREVIEW": "Bildvorschau",
       "PREVIEW": "Anhangsvorschau",
       "IMAGE_PREVIEW_FULL": "Bild-Anhangsvorschau",
-      "LABEL": "Anhang"
+      "LABEL": "Anhang",
+      "UNSUPPORTED_TYPE": "Dateityp {type} wird nicht unterstützt. Bitte lade ein Bild im Format PNG, JPEG, WebP oder GIF hoch."
     },
     "WEB_SEARCH": {
       "LABEL": "Websuche",

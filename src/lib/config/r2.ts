@@ -31,6 +31,7 @@ const DOWNLOAD_TIMEOUT = 10_000;
 const MAX_DOWNLOAD_BYTES = 50 * 1024 * 1024;
 const MAX_USER_BYTES = 100 * 1024 * 1024;
 const ALLOWED_MEDIA_PREFIXES = ["video/", "image/", "audio/"];
+const ALLOWED_DOCUMENT_MIMES = new Set(["application/pdf"]);
 const ALLOWED_PORTS = new Set([80, 443]);
 
 let _s3: S3Client | null = null;
@@ -205,11 +206,21 @@ async function verifyMagicBytes(
 ): Promise<string> {
   const detected = await fileTypeFromBuffer(body);
   if (!detected) throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
-  if (!ALLOWED_MEDIA_PREFIXES.some((p) => detected.mime.startsWith(p))) {
+  const isMedia = ALLOWED_MEDIA_PREFIXES.some((p) =>
+    detected.mime.startsWith(p),
+  );
+  const isDocument = ALLOWED_DOCUMENT_MIMES.has(detected.mime);
+  if (!isMedia && !isDocument) {
     throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
   }
-  if (declaredCt && declaredCt.split("/")[0] !== detected.mime.split("/")[0]) {
-    throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
+  if (declaredCt && declaredCt !== detected.mime) {
+    // Media: category-level match is fine (browser may send a narrower subtype
+    // than file-type detects). Documents: exact match required.
+    const sameCategory =
+      isMedia && declaredCt.split("/")[0] === detected.mime.split("/")[0];
+    if (!sameCategory) {
+      throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
+    }
   }
   return detected.mime;
 }

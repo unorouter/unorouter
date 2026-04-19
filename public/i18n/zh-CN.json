@@ -1640,7 +1640,8 @@
       "IMAGE_PREVIEW": "图片预览",
       "PREVIEW": "附件预览",
       "IMAGE_PREVIEW_FULL": "图片附件预览",
-      "LABEL": "附件"
+      "LABEL": "附件",
+      "UNSUPPORTED_TYPE": "不支持的文件类型 {type}。请上传 PNG、JPEG、WebP 或 GIF 格式的图片。"
     },
     "WEB_SEARCH": {
       "LABEL": "联网搜索",

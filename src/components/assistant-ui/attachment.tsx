@@ -1,30 +1,31 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState, type FC } from "react";
-import { XIcon, PlusIcon, FileText } from "lucide-react";
+import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
-  AttachmentPrimitive,
-  ComposerPrimitive,
-  MessagePrimitive,
-  useAuiState,
-  useAui,
-} from "@assistant-ui/react";
-import { useShallow } from "zustand/shallow";
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { cn } from "@/lib/utils";
+import {
+  AttachmentPrimitive,
+  ComposerPrimitive,
+  MessagePrimitive,
+  useAui,
+  useAuiState,
+} from "@assistant-ui/react";
+import { FileText, PlusIcon, XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { PropsWithChildren, useEffect, useState, type FC } from "react";
+import { toast } from "sonner";
+import { useShallow } from "zustand/shallow";
 
 const useFileSrc = (file: File | undefined) => {
   const [src, setSrc] = useState<string | undefined>(undefined);
@@ -214,18 +215,53 @@ export const ComposerAttachments: FC = () => {
 
 export const ComposerAddAttachment: FC = () => {
   const t = useTranslations();
+  const aui = useAui();
+
+  const addFile = async (file: File) => {
+    try {
+      await aui.composer().addAttachment(file);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      toast.error(
+        /not accepted/i.test(message)
+          ? t("CHAT.ATTACHMENT.UNSUPPORTED_TYPE", {
+              type: file.type || t("CHAT.ATTACHMENT.FILE"),
+            })
+          : message,
+      );
+    }
+  };
+
+  const handleClick = () => {
+    const accept = aui.composer().getState().attachmentAccept;
+    const input = Object.assign(document.createElement("input"), {
+      type: "file",
+      multiple: true,
+      hidden: true,
+      accept: accept === "*" ? "" : accept,
+    });
+    document.body.appendChild(input);
+
+    const cleanup = () => input.remove();
+    input.onchange = async () => {
+      for (const file of input.files ?? []) await addFile(file);
+      cleanup();
+    };
+    input.oncancel = cleanup;
+    input.click();
+  };
+
   return (
-    <ComposerPrimitive.AddAttachment asChild>
-      <TooltipIconButton
-        tooltip={t("CHAT.ACTION.ADD_ATTACHMENT")}
-        side="bottom"
-        variant="ghost"
-        size="icon"
-        className="aui-composer-add-attachment hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30 size-8 rounded-full p-1 text-xs font-semibold"
-        aria-label={t("CHAT.ACTION.ADD_ATTACHMENT")}
-      >
-        <PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
-      </TooltipIconButton>
-    </ComposerPrimitive.AddAttachment>
+    <TooltipIconButton
+      tooltip={t("CHAT.ACTION.ADD_ATTACHMENT")}
+      side="bottom"
+      variant="ghost"
+      size="icon"
+      onClick={handleClick}
+      className="aui-composer-add-attachment hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30 size-8 rounded-full p-1 text-xs font-semibold"
+      aria-label={t("CHAT.ACTION.ADD_ATTACHMENT")}
+    >
+      <PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
+    </TooltipIconButton>
   );
 };

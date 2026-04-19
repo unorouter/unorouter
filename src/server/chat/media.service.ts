@@ -3,7 +3,31 @@ import { getDb } from "@/lib/db/client";
 import { conversations, media } from "@/lib/db/schema";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import { eq, sql } from "drizzle-orm";
+import { extractText, getDocumentProxy } from "unpdf";
+
+const MAX_PDF_TEXT_CHARS = 200_000;
+
+async function extractPdfText(buffer: Buffer): Promise<string | null> {
+  try {
+    const pdf = await getDocumentProxy(new Uint8Array(buffer));
+    const result = await extractText(pdf, { mergePages: true });
+    const text = (
+      Array.isArray(result.text) ? result.text.join("\n\n") : result.text
+    ).trim();
+    if (!text) return null;
+    return text.length > MAX_PDF_TEXT_CHARS
+      ? text.slice(0, MAX_PDF_TEXT_CHARS)
+      : text;
+  } catch (err) {
+    logger.warn("PDF text extraction failed", {
+      context: "media.pdf",
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return null;
+  }
+}
 
 const MAX_USER_BYTES = 100 * 1024 * 1024;
 
@@ -44,12 +68,17 @@ export async function uploadMedia(
 
   const key = mediaKey(isGuest ? "guest" : "user", convId, uid(8), uid(8));
   const { url, mime } = await uploadToR2(key, buffer, file.type);
+
+  const extractedText =
+    mime === "application/pdf" ? await extractPdfText(buffer) : null;
+
   await db.insert(media).values({
     userId,
     convId,
     r2Key: key,
     mimeType: mime,
     sizeBytes: buffer.length,
+    extractedText,
   });
 
   return { url, mimeType: mime, sizeBytes: buffer.length };

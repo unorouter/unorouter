@@ -2,6 +2,8 @@ import { ModelType } from "@/lib/api/pricing";
 import { isMediaModel } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
+import { getDb } from "@/lib/db/client";
+import { media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { imageGenResponseChecker } from "@/lib/validation/media";
 import {
@@ -10,6 +12,7 @@ import {
   upstreamApiUrl,
 } from "@/server/constants";
 import { serverEnv } from "@/server/env";
+import { inArray } from "drizzle-orm";
 import {
   convertToModelMessages,
   createUIMessageStream,
@@ -48,6 +51,70 @@ type UsageInfo = {
 // ---------------------------------------------------------------------------
 // Shared helpers
 // ---------------------------------------------------------------------------
+
+type PdfFilePart = {
+  type: "file";
+  mediaType: "application/pdf";
+  url: string;
+  filename?: string;
+};
+
+function isPdfFilePart(part: unknown): part is PdfFilePart {
+  const p = part as Partial<PdfFilePart>;
+  return (
+    p?.type === "file" &&
+    p.mediaType === "application/pdf" &&
+    typeof p.url === "string"
+  );
+}
+
+// Replace PDF `file` parts with a text part populated from the saved
+// extracted_text so the model sees the contents without the raw text bleeding
+// back into the user's bubble.
+async function inlinePdfText(
+  messages: StreamBody["messages"],
+): Promise<StreamBody["messages"]> {
+  const r2Base = serverEnv.r2PublicUrl;
+  if (!r2Base) return messages;
+  const urlToKey = (url: string) => url.slice(r2Base.length + 1);
+
+  const pdfUrls = new Set<string>();
+  for (const m of messages) {
+    if (m.role !== "user" || !Array.isArray(m.parts)) continue;
+    for (const part of m.parts) {
+      if (isPdfFilePart(part) && part.url.startsWith(r2Base)) {
+        pdfUrls.add(part.url);
+      }
+    }
+  }
+  if (pdfUrls.size === 0) return messages;
+
+  const rows = await getDb()
+    .select({ r2Key: media.r2Key, extractedText: media.extractedText })
+    .from(media)
+    .where(inArray(media.r2Key, [...pdfUrls].map(urlToKey)));
+  const textByUrl = new Map<string, string>();
+  for (const row of rows) {
+    if (row.extractedText) {
+      textByUrl.set(`${r2Base}/${row.r2Key}`, row.extractedText);
+    }
+  }
+  if (textByUrl.size === 0) return messages;
+
+  return messages.map((m) => {
+    if (m.role !== "user" || !Array.isArray(m.parts)) return m;
+    const parts = m.parts.flatMap((part) => {
+      if (!isPdfFilePart(part)) return [part];
+      const text = textByUrl.get(part.url);
+      if (!text) return [part];
+      const name = part.filename ?? "document.pdf";
+      return [
+        { type: "text" as const, text: `[Attached PDF "${name}":\n${text}\n]` },
+      ];
+    });
+    return { ...m, parts };
+  });
+}
 
 function extractLastUserText(messages: StreamBody["messages"]): string | null {
   for (let i = messages.length - 1; i >= 0; i--) {
@@ -372,9 +439,10 @@ export async function streamChat(
   }
 
   const provider = getProvider(apiKey);
+  const messagesWithPdfText = await inlinePdfText(body.messages);
   const result = streamText({
     model: provider.chatModel(body.model),
-    messages: await convertToModelMessages(body.messages),
+    messages: await convertToModelMessages(messagesWithPdfText),
     system: searchSystemMessage,
     onFinish: ({ usage, response }) => {
       trackUsage(body.convId, {

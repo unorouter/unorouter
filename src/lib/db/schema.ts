@@ -77,6 +77,7 @@ export const media = sqliteTable(
     r2Key: text("r2_key").notNull(),
     mimeType: text("mime_type").notNull(),
     sizeBytes: integer("size_bytes").notNull(),
+    extractedText: text("extracted_text"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
