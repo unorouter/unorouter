@@ -54,7 +54,7 @@ export function createR2AttachmentAdapter(
   getContext: () => { convId: string | null },
 ): AttachmentAdapter {
   return {
-    accept: "image/png,image/jpeg,image/webp,image/gif,.pdf",
+    accept: "image/png,image/jpeg,image/webp,image/gif",
 
     async add({ file }) {
       return {

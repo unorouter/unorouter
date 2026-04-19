@@ -110,13 +110,7 @@ export const streamBody = t.Object({
 
 export const mediaUploadBody = t.Object({
   file: t.File({
-    type: [
-      "image/png",
-      "image/jpeg",
-      "image/webp",
-      "image/gif",
-      "application/pdf",
-    ],
+    type: ["image/png", "image/jpeg", "image/webp", "image/gif"],
     maxSize: "20m",
   }),
   convId: t.String({ maxLength: MAX_ID_LEN }),
