@@ -31,6 +31,21 @@ import {
 import { formatPrice, modelColor } from "@/lib/utils/base";
 import { aggregateByModel, quotaToDollars, type QuotaDataItem } from "./stats";
 
+type Granularity = "hour" | "day" | "week";
+
+function pickGranularity(periodMinutes: number): Granularity {
+  if (periodMinutes <= 60 * 48) return "hour";
+  if (periodMinutes <= 60 * 24 * 60) return "day";
+  return "week";
+}
+
+function bucketKey(tsSeconds: number, g: Granularity): string {
+  const d = dayjs.unix(tsSeconds);
+  if (g === "hour") return d.format("MM/DD HH:00");
+  if (g === "week") return d.startOf("week").format("YYYY/MM/DD");
+  return d.format("MM/DD");
+}
+
 function buildChartConfig(modelNames: string[]): ChartConfig {
   const config: ChartConfig = {};
   modelNames.forEach((name) => {
@@ -42,13 +57,13 @@ function buildChartConfig(modelNames: string[]): ChartConfig {
   return config;
 }
 
-function processDistributionData(data: QuotaDataItem[]) {
+function processDistributionData(data: QuotaDataItem[], g: Granularity) {
   const byTime = new Map<string, Record<string, number>>();
   const models = new Set<string>();
 
   for (const item of data) {
     if (!item.created_at || !item.model_name) continue;
-    const key = dayjs.unix(item.created_at).format("MM/DD HH:00");
+    const key = bucketKey(item.created_at, g);
     models.add(item.model_name);
     const existing = byTime.get(key) ?? {};
     existing[item.model_name] =
@@ -64,12 +79,12 @@ function processDistributionData(data: QuotaDataItem[]) {
   return { chartData, modelList };
 }
 
-function processTrendData(data: QuotaDataItem[]) {
+function processTrendData(data: QuotaDataItem[], g: Granularity) {
   const byTime = new Map<string, { quota: number; count: number }>();
 
   for (const item of data) {
     if (!item.created_at) continue;
-    const key = dayjs.unix(item.created_at).format("MM/DD");
+    const key = bucketKey(item.created_at, g);
     const existing = byTime.get(key) ?? { quota: 0, count: 0 };
     existing.quota += quotaToDollars(item.quota ?? 0);
     existing.count += item.count ?? 0;
@@ -90,8 +105,9 @@ export function ConsumptionChart() {
   const dashboard = useDashboardData();
   const isLoading = dashboard.quotaQuery.isLoading;
 
-  const distribution = processDistributionData(dashboard.rawData);
-  const trendData = processTrendData(dashboard.rawData);
+  const granularity = pickGranularity(dashboard.periodMinutes);
+  const distribution = processDistributionData(dashboard.rawData, granularity);
+  const trendData = processTrendData(dashboard.rawData, granularity);
   const pieData = aggregateByModel(dashboard.rawData, "count", 8);
   const rankingData = aggregateByModel(dashboard.rawData, "count", 10);
 
