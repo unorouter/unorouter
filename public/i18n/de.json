@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "API Gateway Aktiv",
+      "BADGE": "Router online",
       "TITLE_LINE1": "VEREINTE",
       "TITLE_LINE2": "INTELLIGENZ",
       "SUBTITLE": "[SYSTEM]: {appName} aggregiert {modelCount}+ KI-Modelle durch intelligentes Routing für die schnellste und günstigste Inferenz-API.",
@@ -51,9 +51,9 @@
         "LIVE": "Live"
       },
       "INDICATOR": {
-        "GLOBAL": "Global",
-        "INTEGRATED": "Integriert",
-        "SLA": "SLA-Garantie"
+        "GLOBAL": "Routingfähig",
+        "INTEGRATED": "Upstreams",
+        "SLA": "Gemessen"
       }
     },
     "TICKER": {

@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "API 网关已激活",
+      "BADGE": "路由器在线",
       "TITLE_LINE1": "统一",
       "TITLE_LINE2": "智能",
       "SUBTITLE": "[系统]：{appName} 通过智能路由聚合 {modelCount}+ AI 模型，提供最快、最便宜的推理 API。",
@@ -51,9 +51,9 @@
         "LIVE": "实时"
       },
       "INDICATOR": {
-        "GLOBAL": "全球",
-        "INTEGRATED": "已集成",
-        "SLA": "SLA 保障"
+        "GLOBAL": "可路由",
+        "INTEGRATED": "上游节点",
+        "SLA": "实测值"
       }
     },
     "TICKER": {

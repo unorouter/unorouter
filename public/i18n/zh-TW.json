@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "API 閘道運行中",
+      "BADGE": "路由器在線",
       "TITLE_LINE1": "統一",
       "TITLE_LINE2": "智慧",
       "SUBTITLE": "[SYSTEM]：{appName} 透過智慧路由整合 {modelCount}+ 個 AI 模型，提供最快、最便宜的推論 API。",
@@ -51,9 +51,9 @@
         "LIVE": "即時"
       },
       "INDICATOR": {
-        "GLOBAL": "全球",
-        "INTEGRATED": "已整合",
-        "SLA": "SLA 保證"
+        "GLOBAL": "可路由",
+        "INTEGRATED": "上游節點",
+        "SLA": "實測值"
       }
     },
     "TICKER": {

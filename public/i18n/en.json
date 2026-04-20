@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "API Gateway Active",
+      "BADGE": "Router Online",
       "TITLE_LINE1": "UNIFIED",
       "TITLE_LINE2": "INTELLIGENCE",
       "SUBTITLE": "[SYSTEM]: {appName} aggregates {modelCount}+ AI models through intelligent routing to deliver the fastest, cheapest inference API.",
@@ -51,9 +51,9 @@
         "LIVE": "Live"
       },
       "INDICATOR": {
-        "GLOBAL": "Global",
-        "INTEGRATED": "Integrated",
-        "SLA": "SLA Guarantee"
+        "GLOBAL": "Routable",
+        "INTEGRATED": "Upstreams",
+        "SLA": "Measured"
       }
     },
     "TICKER": {

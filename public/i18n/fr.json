@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "Passerelle API active",
+      "BADGE": "Routeur en ligne",
       "TITLE_LINE1": "INTELLIGENCE",
       "TITLE_LINE2": "UNIFIÉE",
       "SUBTITLE": "[SYSTEM] : {appName} agrège {modelCount}+ modèles IA via un routage intelligent pour fournir l'API d'inférence la plus rapide et la moins chère.",
@@ -51,9 +51,9 @@
         "LIVE": "En direct"
       },
       "INDICATOR": {
-        "GLOBAL": "Mondial",
-        "INTEGRATED": "Intégré",
-        "SLA": "Garantie SLA"
+        "GLOBAL": "Routables",
+        "INTEGRATED": "Upstreams",
+        "SLA": "Mesurée"
       }
     },
     "TICKER": {

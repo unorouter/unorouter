@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "APIゲートウェイ稼働中",
+      "BADGE": "ルーター稼働中",
       "TITLE_LINE1": "統合された",
       "TITLE_LINE2": "インテリジェンス",
       "SUBTITLE": "[SYSTEM]：{appName} はインテリジェントルーティングで{modelCount}以上のAIモデルを集約し、最速かつ最安の推論APIを提供します。",
@@ -51,9 +51,9 @@
         "LIVE": "ライブ"
       },
       "INDICATOR": {
-        "GLOBAL": "グローバル",
-        "INTEGRATED": "統合済み",
-        "SLA": "SLA保証"
+        "GLOBAL": "ルーティング可能",
+        "INTEGRATED": "アップストリーム",
+        "SLA": "実測値"
       }
     },
     "TICKER": {

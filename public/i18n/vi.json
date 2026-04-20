@@ -31,7 +31,7 @@
   },
   "HOME": {
     "HERO": {
-      "BADGE": "Cổng API đang hoạt động",
+      "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TRÍ TUỆ",
       "TITLE_LINE2": "HỢP NHẤT",
       "SUBTITLE": "[SYSTEM]: {appName} tổng hợp hơn {modelCount} mô hình AI qua định tuyến thông minh để mang lại API suy luận nhanh nhất và rẻ nhất.",
@@ -51,9 +51,9 @@
         "LIVE": "Trực tiếp"
       },
       "INDICATOR": {
-        "GLOBAL": "Toàn cầu",
-        "INTEGRATED": "Tích hợp",
-        "SLA": "Bảo đảm SLA"
+        "GLOBAL": "Có thể định tuyến",
+        "INTEGRATED": "Upstream",
+        "SLA": "Đo thực tế"
       }
     },
     "TICKER": {
