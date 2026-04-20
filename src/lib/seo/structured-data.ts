@@ -6,7 +6,6 @@ import type {
   CollectionPage,
   FAQPage,
   Organization,
-  Product,
   SoftwareApplication,
   WebSite,
   WithContext,
@@ -55,6 +54,9 @@ type SoftwareApplicationInput = {
   description: string;
   modelCount?: number;
   offers?: OfferInput[];
+  name?: string;
+  url?: string;
+  brandName?: string;
 };
 
 function offerSchema(input: OfferInput) {
@@ -84,12 +86,15 @@ export function buildSoftwareApplicationSchema(
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: env.appName,
-    url: `${siteOrigin}/${input.locale}`,
+    name: input.name ?? env.appName,
+    url: input.url ? abs(input.url) : `${siteOrigin}/${input.locale}`,
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
     description: input.description,
     offers,
+    ...(input.brandName && {
+      brand: { "@type": "Brand", name: input.brandName },
+    }),
     ...(() => {
       const sameAs = [env.githubUrl, env.twitterUrl, env.discordUrl].filter(
         (v): v is string => Boolean(v),
@@ -137,55 +142,6 @@ export function buildFAQPageSchema(entries: FAQEntry[]): WithContext<FAQPage> {
       },
     })),
   };
-}
-
-export type ProductInput = {
-  name: string;
-  description: string;
-  url: string;
-  brandName: string;
-  price?: number;
-  priceCurrency?: string;
-  priceUnit?: string;
-  image?: string;
-};
-
-export function buildProductSchema(input: ProductInput): WithContext<Product> {
-  const schema: WithContext<Product> = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: input.name,
-    description: input.description,
-    url: abs(input.url),
-    brand: {
-      "@type": "Brand",
-      name: input.brandName,
-    },
-  };
-
-  if (input.image) {
-    schema.image = abs(input.image);
-  }
-
-  if (input.price !== undefined) {
-    schema.offers = {
-      "@type": "Offer",
-      price: String(input.price),
-      priceCurrency: input.priceCurrency ?? "USD",
-      url: abs(input.url),
-      availability: "https://schema.org/InStock",
-      ...(input.priceUnit && {
-        priceSpecification: {
-          "@type": "UnitPriceSpecification",
-          price: String(input.price),
-          priceCurrency: input.priceCurrency ?? "USD",
-          unitText: input.priceUnit,
-        },
-      }),
-    };
-  }
-
-  return schema;
 }
 
 export type CollectionItem = {

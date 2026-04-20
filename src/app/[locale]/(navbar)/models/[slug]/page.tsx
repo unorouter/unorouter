@@ -10,7 +10,7 @@ import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
   buildBreadcrumbListSchema,
   buildFAQPageSchema,
-  buildProductSchema,
+  buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
 import { handleElysia } from "@/lib/utils/base";
@@ -129,9 +129,15 @@ export default async function ModelDetailPage(props: PageProps) {
         ])}
       />
       <JsonLd
-        id={`${params.slug}-product`}
-        data={buildProductSchema({
+        id={`${params.slug}-software`}
+        data={buildSoftwareApplicationSchema({
+          locale,
           name: model.name,
+          url: localeUrl(locale, {
+            pathname: "/models/[slug]",
+            params: { slug: model.name },
+          }),
+          brandName: model.vendor.name,
           description:
             model.description ??
             t("MODEL_PAGE.META_DESC", {
@@ -139,11 +145,17 @@ export default async function ModelDetailPage(props: PageProps) {
               name: model.name,
               vendor: model.vendor.name,
             }),
-          url,
-          brandName: model.vendor.name,
-          price: model.inputPrice ?? undefined,
-          priceCurrency: "USD",
-          priceUnit: "per 1K input tokens",
+          offers:
+            model.inputPrice !== null && model.inputPrice !== undefined
+              ? [
+                  {
+                    name: `${model.name} input`,
+                    price: model.inputPrice,
+                    currency: "USD",
+                    description: "Per 1K input tokens",
+                  },
+                ]
+              : undefined,
         })}
       />
       <JsonLd id={`${params.slug}-faq`} data={buildFAQPageSchema(faqEntries)} />
