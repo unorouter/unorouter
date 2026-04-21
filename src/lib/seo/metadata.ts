@@ -20,6 +20,14 @@ function buildAlternateLanguages(href: Pathname): Record<string, string> {
   return languages;
 }
 
+function ogCacheVersion(): number {
+  const now = new Date();
+  const y = now.getUTCFullYear();
+  const m = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(now.getUTCDate()).padStart(2, "0");
+  return Number(`${y}${m}${d}`);
+}
+
 export function ogBadge(
   variant: BadgeType,
   locale: string,
@@ -30,6 +38,7 @@ export function ogBadge(
     theme: opts.theme ?? "dark",
     format: opts.format ?? "png",
     size: "og",
+    v: ogCacheVersion(),
   });
 }
 

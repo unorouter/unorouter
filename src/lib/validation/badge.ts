@@ -52,6 +52,7 @@ export interface BuildBadgeUrlOptions {
   format?: BadgeFormat;
   ref?: string;
   origin?: string;
+  v?: number;
 }
 
 export function buildBadgeUrl(
@@ -64,6 +65,7 @@ export function buildBadgeUrl(
   if (opts.size) params.set("size", opts.size);
   if (opts.format && opts.format !== "svg") params.set("format", opts.format);
   if (opts.ref) params.set("ref", opts.ref);
+  if (opts.v !== undefined) params.set("v", String(opts.v));
   const qs = params.toString();
   const path = `/api/badge/${type}${qs ? `?${qs}` : ""}`;
   return opts.origin ? `${opts.origin}${path}` : path;
