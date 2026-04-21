@@ -94,12 +94,33 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
 }
 
 export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
+  const t = useTranslations();
   const log = row.original;
   if (!isConsumeLike(log.type) || !log.token_name) {
     return LOG_EMPTY;
   }
   return (
-    <span className="text-muted-foreground text-xs">{log.token_name}</span>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <button
+              type="button"
+              className="cursor-pointer border-0 bg-transparent p-0"
+              onClick={() => {
+                copyToClipboard(log.token_name);
+                toast.success(t("LOGS.COPIED"));
+              }}
+            />
+          }
+        >
+          <span className="text-muted-foreground text-xs">
+            {log.token_name}
+          </span>
+        </TooltipTrigger>
+        <TooltipContent>{t("LOGS.CLICK_COPY")}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 
