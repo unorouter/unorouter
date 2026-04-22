@@ -29,12 +29,12 @@ import {
   AuiIf,
   BranchPickerPrimitive,
   ComposerPrimitive,
-  ErrorPrimitive,
   MessagePrimitive,
   SuggestionPrimitive,
   ThreadPrimitive,
   useAuiState,
 } from "@assistant-ui/react";
+import { useMessageError } from "@assistant-ui/core/react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   ArrowDownIcon,
@@ -279,12 +279,68 @@ const ComposerAction: FC = () => {
   );
 };
 
+type LooseT = {
+  has: (key: string) => boolean;
+  (key: string): string;
+};
+
+function unwrapJsonEnvelope(raw: string): string {
+  if (!raw.startsWith("{") && !raw.startsWith("[")) return raw;
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      const m = (parsed as { message?: unknown }).message;
+      if (typeof m === "string") return m;
+    }
+    if (Array.isArray(parsed)) {
+      for (const item of parsed) {
+        if (typeof item === "string") return item;
+        if (
+          item &&
+          typeof item === "object" &&
+          typeof (item as { message?: unknown }).message === "string"
+        ) {
+          return (item as { message: string }).message;
+        }
+      }
+    }
+  } catch {
+    // not JSON
+  }
+  return raw;
+}
+
+function resolveErrorMessage(
+  error: ReturnType<typeof useMessageError>,
+  t: LooseT,
+): string {
+  if (error === undefined) return "";
+  const raw = unwrapJsonEnvelope(
+    typeof error === "string" ? error : String(error),
+  );
+  return t.has(raw) ? t(raw) : raw;
+}
+
+const MessageErrorBody: FC = () => {
+  const error = useMessageError();
+  const t = useTranslations() as unknown as LooseT;
+  if (error === undefined) return null;
+  return (
+    <div
+      role="alert"
+      className="aui-message-error-root border-destructive bg-destructive/10 text-destructive dark:bg-destructive/5 mt-2 rounded-md border p-3 text-sm dark:text-red-200"
+    >
+      <span className="aui-message-error-message">
+        {resolveErrorMessage(error, t)}
+      </span>
+    </div>
+  );
+};
+
 const MessageError: FC = () => {
   return (
     <MessagePrimitive.Error>
-      <ErrorPrimitive.Root className="aui-message-error-root border-destructive bg-destructive/10 text-destructive dark:bg-destructive/5 mt-2 rounded-md border p-3 text-sm dark:text-red-200">
-        <ErrorPrimitive.Message className="aui-message-error-message" />
-      </ErrorPrimitive.Root>
+      <MessageErrorBody />
     </MessagePrimitive.Error>
   );
 };

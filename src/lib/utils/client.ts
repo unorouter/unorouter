@@ -14,6 +14,34 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
+// Server errors are serialized as strings (see Elysia .onError). Pull out a
+// usable message whether the body is `{ message }`, an array of field errors,
+// or an array of primitives.
+function extractMessageFromJson(raw: string): string | null {
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      const m = (parsed as { message?: unknown }).message;
+      if (typeof m === "string") return m;
+    }
+    if (Array.isArray(parsed)) {
+      for (const item of parsed) {
+        if (typeof item === "string") return item;
+        if (
+          item &&
+          typeof item === "object" &&
+          typeof (item as { message?: unknown }).message === "string"
+        ) {
+          return (item as { message: string }).message;
+        }
+      }
+    }
+  } catch {
+    // not JSON
+  }
+  return null;
+}
+
 export async function handleError(
   e: unknown,
   t?: ReturnType<typeof useTranslations<never>>,
@@ -23,6 +51,12 @@ export async function handleError(
 
   if (e instanceof Error) {
     message = e.message;
+    // The `ai` SDK surfaces failed stream responses as Error(bodyText); unwrap
+    // the JSON envelope so `{ "message": "ERRORS.X" }` becomes "ERRORS.X".
+    if (message.startsWith("{") || message.startsWith("[")) {
+      const extracted = extractMessageFromJson(message);
+      if (extracted) message = extracted;
+    }
   } else if (e !== null && typeof e === "object") {
     if (
       "data" in e &&
