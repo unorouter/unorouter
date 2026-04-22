@@ -1,6 +1,7 @@
 import {
   buildPricingSummary,
   type EndpointInfo,
+  type ModelMetadata,
   type ProcessedModel,
 } from "@/lib/api/pricing";
 import { msg } from "@/lib/config/constants";
@@ -51,6 +52,15 @@ export async function isMediaModel(model: string) {
     mediaType: found?.type,
     endpointPath,
   };
+}
+
+/** Look up the per-model metadata blob that the sync wrote into the
+ *  models.metadata column on new-api. Empty object when the model is
+ *  unknown or has no sync-provided hints. */
+export async function getModelMetadata(model: string): Promise<ModelMetadata> {
+  const { models } = await getSummary();
+  const found = models.find((m) => m.name === model);
+  return found?.metadata ?? {};
 }
 
 export async function getCheapestTextModel(): Promise<string> {

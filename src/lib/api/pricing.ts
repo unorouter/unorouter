@@ -10,6 +10,18 @@ export type EndpointInfo = {
   path: string;
 };
 
+// Per-model client hints populated by new-api-sync into the models.metadata
+// column and surfaced via /api/pricing. Opaque to new-api; consumers like
+// streamText pick up whichever keys they care about.
+export type ModelMetadata = {
+  /** Cap on generated tokens. Required for thinking models (glm, kimi, qwen
+   *  reasoning variants) whose reasoning_content phase eats the default
+   *  upstream budget before emitting user-visible content. */
+  maxOutputTokens?: number;
+  /** UI hint — used to render a reasoning badge / skin the Thinking block. */
+  isReasoning?: boolean;
+};
+
 export type ProcessedModel = ReturnType<typeof processModels>[number];
 export type PricingSummary = ReturnType<typeof buildPricingSummary>;
 
@@ -18,6 +30,17 @@ function getModelType(model: PricingDataDataItem): ModelType {
   return (MODEL_TYPES as readonly string[]).includes(tag)
     ? (tag as ModelType)
     : "text";
+}
+
+function parseModelMetadata(raw: string | undefined): ModelMetadata {
+  if (!raw) return {};
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") return parsed as ModelMetadata;
+  } catch {
+    // Malformed JSON from the sync — fall through to empty metadata.
+  }
+  return {};
 }
 
 function processModels(response: PricingData) {
@@ -99,6 +122,7 @@ function processModels(response: PricingData) {
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,
+        metadata: parseModelMetadata(model.metadata),
       };
     })
     .sort((a, b) => {

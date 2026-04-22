@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { defineConfig } from "orval";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;

@@ -1,5 +1,5 @@
 import { ModelType } from "@/lib/api/pricing";
-import { isMediaModel } from "@/lib/api/pricing-cache";
+import { getModelMetadata, isMediaModel } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
@@ -460,10 +460,19 @@ export async function streamChat(
 
   const provider = getProvider(apiKey);
   const messagesWithPdfText = await inlinePdfText(body.messages);
+  // Per-model client hints (maxOutputTokens, isReasoning, ...) sourced from
+  // new-api-sync's metadata column via /api/pricing. Thinking models need a
+  // generous maxOutputTokens because their reasoning_content phase otherwise
+  // exhausts the upstream's tiny default budget before any visible content
+  // streams. Non-thinking models get no cap here and keep upstream defaults.
+  const modelMetadata = await getModelMetadata(body.model);
   const result = streamText({
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(messagesWithPdfText),
     system: searchSystemMessage,
+    ...(modelMetadata.maxOutputTokens && {
+      maxOutputTokens: modelMetadata.maxOutputTokens,
+    }),
     onFinish: ({ usage, response }) => {
       trackUsage(body.convId, {
         requestId: response.headers?.["x-oneapi-request-id"] ?? undefined,
