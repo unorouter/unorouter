@@ -12,6 +12,7 @@ type IconComponent = ComponentType<{
 type Loader = () => Promise<{ default: IconComponent }>;
 
 const LOADERS: Record<string, Loader> = {
+  [Vendor.ALIBABA]: () => import("@lobehub/icons/es/AlibabaCloud"),
   [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
   [Vendor.BAILIAN]: () => import("@lobehub/icons/es/Bailian"),
   [Vendor.BYTEDANCE]: () => import("@lobehub/icons/es/ByteDance"),

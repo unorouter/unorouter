@@ -30,6 +30,13 @@ export const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBg: "bg-blue-500/10",
     tagBorder: "border-blue-500/20",
   },
+  [Vendor.ALIBABA]: {
+    bg: "bg-yellow-500/5",
+    border: "border-yellow-500/20",
+    text: "text-yellow-700 dark:text-yellow-300",
+    tagBg: "bg-yellow-500/10",
+    tagBorder: "border-yellow-500/20",
+  },
   [Vendor.BAILIAN]: {
     bg: "bg-orange-500/5",
     border: "border-orange-500/20",
