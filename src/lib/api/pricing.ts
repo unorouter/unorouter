@@ -153,9 +153,18 @@ export function buildPricingSummary(response: PricingData) {
     if (list) list.push(model);
     else typeMap.set(tag, [model]);
   }
+  const typeOrder = ["Text", "Image", "Video"];
+  const typeRank = (tag: string) => {
+    const idx = typeOrder.indexOf(tag);
+    return idx === -1 ? typeOrder.length : idx;
+  };
   for (const [tag, tagModels] of typeMap) {
     modelsByType.push({ tag, models: tagModels });
   }
+  modelsByType.sort((a, b) => {
+    const diff = typeRank(a.tag) - typeRank(b.tag);
+    return diff !== 0 ? diff : a.tag.localeCompare(b.tag);
+  });
 
   // First free model (prefers text type)
   const firstFreeModel =
