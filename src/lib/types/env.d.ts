@@ -27,6 +27,10 @@ declare namespace NodeJS {
     TAVILY_API_KEY?: string;
     GUEST_API_KEY?: string;
 
+    CREEM_API_KEY: string;
+    CREEM_API_URL: string;
+    CREEM_MODERATION_ENABLED: "0" | "1";
+
     GOOGLE_SITE_VERIFICATION?: string;
 
     STANDALONE?: string;

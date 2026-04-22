@@ -22,6 +22,7 @@ import {
 } from "ai";
 import { logger } from "@/lib/utils/logger";
 import { pendingUsageByConv, sweepStalePending } from "./message.service";
+import { assertPromptAllowed } from "./moderation.service";
 import { submitVideoTask } from "./task.service";
 import {
   formatSearchContext,
@@ -276,9 +277,18 @@ async function handleImageStream(
   apiKey: string,
   body: StreamBody,
   upstreamHeaders: Record<string, string>,
+  userId: number | "guest",
 ) {
   const prompt = extractLastUserText(body.messages);
   if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
+
+  await assertPromptAllowed({
+    prompt,
+    userId,
+    convId: body.convId,
+    model: body.model,
+    mediaType: "image",
+  });
 
   const { endpointPath } = await isMediaModel(body.model);
   const stream = createUIMessageStream({
@@ -328,9 +338,18 @@ async function handleVideoTaskStream(
   apiKey: string,
   body: StreamBody,
   upstreamHeaders: Record<string, string>,
+  userId: number | "guest",
 ) {
   const prompt = extractLastUserText(body.messages);
   if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
+
+  await assertPromptAllowed({
+    prompt,
+    userId,
+    convId: body.convId,
+    model: body.model,
+    mediaType: "video",
+  });
 
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
@@ -398,6 +417,7 @@ export async function streamChat(
   apiKey: string,
   body: StreamBody,
   request: Request,
+  userId: number | "guest",
 ) {
   const { upstream } = deriveUpstream({ request });
   const { buffered, mediaType } = await isMediaModel(body.model);
@@ -411,12 +431,12 @@ export async function streamChat(
 
   // Image models: call the images endpoint directly
   if (mediaType === "image") {
-    return handleImageStream(apiKey, body, upstream.headers);
+    return handleImageStream(apiKey, body, upstream.headers, userId);
   }
 
   // Video models: submit async task and return task card sentinel
   if (mediaType === "video") {
-    return handleVideoTaskStream(apiKey, body, upstream.headers);
+    return handleVideoTaskStream(apiKey, body, upstream.headers, userId);
   }
 
   // Web search via Tavily

@@ -151,9 +151,10 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/stream",
     async ({ body, cookie, request }) => {
       const apiKey = getApiKeyOrGuest(cookie);
-      const isGuest = !getUserId(cookie, true);
-      if (isGuest) body.webSearch = false;
-      return streamChat(apiKey, body, request);
+      const uid = getUserId(cookie, true);
+      const userId: number | "guest" = uid ?? "guest";
+      if (!uid) body.webSearch = false;
+      return streamChat(apiKey, body, request, userId);
     },
     { body: streamBody },
   )

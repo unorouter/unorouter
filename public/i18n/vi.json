@@ -1699,7 +1699,10 @@
     "RESPONSE_TOO_LARGE": "Phản hồi vượt quá kích thước tối đa cho phép",
     "DISALLOWED_CONTENT_TYPE": "Loại nội dung không được phép",
     "UPSTREAM_FETCH_FAILED": "Không thể lấy dữ liệu từ upstream",
-    "STORAGE_QUOTA_EXCEEDED": "Đã đạt giới hạn lưu trữ. Hãy xóa các cuộc trò chuyện cũ để giải phóng dung lượng."
+    "STORAGE_QUOTA_EXCEEDED": "Đã đạt giới hạn lưu trữ. Hãy xóa các cuộc trò chuyện cũ để giải phóng dung lượng.",
+    "PROMPT_REJECTED": "Prompt này vi phạm chính sách nội dung và không thể dùng để tạo hình ảnh hoặc video.",
+    "PROMPT_FLAGGED": "Prompt này bị gắn cờ là có thể không an toàn cho việc tạo nội dung. Vui lòng diễn đạt lại và thử lại.",
+    "MODERATION_UNAVAILABLE": "Tính năng tạo hình ảnh và video tạm thời không khả dụng. Vui lòng thử lại sau ít phút."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

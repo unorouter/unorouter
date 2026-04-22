@@ -12,6 +12,7 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import {
   chatModelAtom,
   chatStore,
@@ -39,6 +40,7 @@ function ChatRuntimeHook() {
   const remoteId = useAuiState((s) => s.threadListItem.remoteId);
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
+  const t = useTranslations();
 
   // Sync remoteId into convId synchronously (transport body reads this immediately)
   const prevRemoteIdRef = useRef<string | null | undefined>(undefined);
@@ -112,6 +114,7 @@ function ChatRuntimeHook() {
   const chat = useChat({
     id: threadId,
     transport: transportRef.current,
+    onError: (e) => handleError(e, t),
   });
 
   // Keep scroll anchoring + infinite-scroll fetches alive; the history adapter now owns setMessages

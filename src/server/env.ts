@@ -11,6 +11,9 @@ export const serverEnv = {
   r2PublicUrl: process.env.R2_PUBLIC_URL,
   r2Bucket: process.env.R2_BUCKET,
   tavilyApiKey: process.env.TAVILY_API_KEY,
+  creemApiKey: process.env.CREEM_API_KEY,
+  creemApiUrl: process.env.CREEM_API_URL,
+  creemModerationEnabled: process.env.CREEM_MODERATION_ENABLED === "1",
   standalone: process.env.STANDALONE,
   port: process.env.PORT ?? "3000",
 } as const;
@@ -32,6 +35,10 @@ if (typeof globalThis !== "undefined" && !process.env.NEXT_PHASE) {
     warnings.push("TAVILY_API_KEY (web search disabled)");
   if (!serverEnv.tursoUrl)
     warnings.push("TURSO_DATABASE_URL (database disabled)");
+  if (serverEnv.creemModerationEnabled && !serverEnv.creemApiKey)
+    warnings.push("CREEM_API_KEY (image/video generation will fail closed)");
+  if (serverEnv.creemModerationEnabled && !serverEnv.creemApiUrl)
+    warnings.push("CREEM_API_URL (image/video generation will fail closed)");
   if (warnings.length > 0)
     console.warn(`[env] Missing optional vars: ${warnings.join(", ")}`);
 }

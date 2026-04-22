@@ -88,9 +88,38 @@ export const media = sqliteTable(
   ],
 );
 
+export const moderationLog = sqliteTable(
+  "moderation_log",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    convId: text("conv_id"),
+    model: text("model").notNull(),
+    mediaType: text("media_type").notNull(),
+    decision: text("decision").notNull(),
+    reason: text("reason"),
+    prompt: text("prompt").notNull(),
+    externalId: text("external_id").notNull(),
+    creemId: text("creem_id"),
+    units: integer("units"),
+    latencyMs: integer("latency_ms").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_modlog_user_created").on(table.userId, table.createdAt),
+    index("idx_modlog_decision").on(table.decision, table.createdAt),
+  ],
+);
+
 export type Conversation = typeof conversations.$inferSelect;
 export type NewConversation = typeof conversations.$inferInsert;
 export type Message = typeof messages.$inferSelect;
 export type NewMessage = typeof messages.$inferInsert;
 export type Media = typeof media.$inferSelect;
 export type NewMedia = typeof media.$inferInsert;
+export type ModerationLog = typeof moderationLog.$inferSelect;
+export type NewModerationLog = typeof moderationLog.$inferInsert;

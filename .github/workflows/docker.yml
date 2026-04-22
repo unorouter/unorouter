@@ -51,6 +51,10 @@ jobs:
 
           echo INDEXNOW_KEY=${{ secrets.INDEXNOW_KEY }} >> .env
 
+          echo CREEM_API_KEY=${{ secrets.CREEM_API_KEY }} >> .env
+          echo CREEM_API_URL=${{ secrets.CREEM_API_URL }} >> .env
+          echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env
+
       - name: Docker run
         run: docker compose up -d --force-recreate --build
 

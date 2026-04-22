@@ -1699,7 +1699,10 @@
     "RESPONSE_TOO_LARGE": "Antwort überschreitet die maximal zulässige Größe",
     "DISALLOWED_CONTENT_TYPE": "Inhaltstyp nicht erlaubt",
     "UPSTREAM_FETCH_FAILED": "Abruf vom Upstream fehlgeschlagen",
-    "STORAGE_QUOTA_EXCEEDED": "Speichergrenze erreicht. Lösche alte Unterhaltungen, um Platz zu schaffen."
+    "STORAGE_QUOTA_EXCEEDED": "Speichergrenze erreicht. Lösche alte Unterhaltungen, um Platz zu schaffen.",
+    "PROMPT_REJECTED": "Dieser Prompt verstößt gegen die Inhaltsrichtlinien und kann nicht für die Bild- oder Videogenerierung verwendet werden.",
+    "PROMPT_FLAGGED": "Dieser Prompt wurde als potenziell unsicher für die Generierung markiert. Bitte formuliere ihn um und versuche es erneut.",
+    "MODERATION_UNAVAILABLE": "Bild- und Videogenerierung sind vorübergehend nicht verfügbar. Bitte versuche es in Kürze erneut."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",
