@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { navigationAtom, toggleNavigationAtom } from "@/store/navigation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { LuChevronRight, LuMenu } from "react-icons/lu";
 import { isActiveLink, NavigationItem, navigation } from "./navigation";
 
@@ -139,28 +139,45 @@ function CollapsibleNavItem(props: {
       </div>
       {isExpanded && (
         <ul className="mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
-          {props.item.submenu!.map((subItem) => {
+          {props.item.submenu!.map((subItem, idx) => {
             const isSubActive = isActiveLink(
               pathname,
               subItem.href,
               subItem.exact,
             );
+            const prevGroup =
+              idx > 0 ? props.item.submenu![idx - 1].group : undefined;
+            const showHeading =
+              subItem.group && subItem.group !== prevGroup;
             return (
-              <li key={subItem.name}>
-                <Link
-                  href={subItem.href}
-                  onClick={props.onNavigate}
-                  className={cn(
-                    "hover:bg-foreground/5 flex items-center gap-2 rounded-md px-3 py-2 text-sm tracking-wider uppercase transition-colors",
-                    isSubActive
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground",
-                  )}
-                >
-                  {subItem.icon && <subItem.icon className="h-3 w-3" />}
-                  {t(subItem.name)}
-                </Link>
-              </li>
+              <Fragment key={subItem.name}>
+                {showHeading && (
+                  <li
+                    className={cn(
+                      "text-muted-foreground/70 px-3 pt-2 pb-1 text-[10px] font-semibold tracking-widest uppercase",
+                      idx === 0 && "pt-0",
+                    )}
+                    aria-hidden="true"
+                  >
+                    {t(subItem.group!)}
+                  </li>
+                )}
+                <li>
+                  <Link
+                    href={subItem.href}
+                    onClick={props.onNavigate}
+                    className={cn(
+                      "hover:bg-foreground/5 flex items-center gap-2 rounded-md px-3 py-2 text-sm tracking-wider uppercase transition-colors",
+                      isSubActive
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground",
+                    )}
+                  >
+                    {subItem.icon && <subItem.icon className="h-3 w-3" />}
+                    {t(subItem.name)}
+                  </Link>
+                </li>
+              </Fragment>
             );
           })}
         </ul>

@@ -18,6 +18,7 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { Fragment } from "react";
 import { MobileNav } from "./mobile-nav";
 import { isActiveLink, navigation } from "./navigation";
 
@@ -78,23 +79,46 @@ export function Navbar() {
                   />
                   <NavigationMenuContent>
                     <ul className="grid gap-1">
-                      {docsItem.submenu!.map((link) => (
-                        <li key={link.name}>
-                          <NavigationMenuLink
-                            render={
-                              <Link
-                                href={link.href}
-                                className="flex items-center gap-2"
+                      {docsItem.submenu!.map((link, idx) => {
+                        const prevGroup =
+                          idx > 0
+                            ? docsItem.submenu![idx - 1].group
+                            : undefined;
+                        const showHeading =
+                          link.group && link.group !== prevGroup;
+                        return (
+                          <Fragment key={link.name}>
+                            {showHeading && (
+                              <li
+                                className={cn(
+                                  "text-muted-foreground/70 px-1 pt-2 pb-1 text-[9px] font-semibold tracking-widest uppercase",
+                                  idx === 0 && "pt-0",
+                                )}
+                                aria-hidden="true"
                               >
-                                {link.icon && <link.icon className="h-3 w-3" />}
-                                <span className="text-[11px] font-medium tracking-wider whitespace-nowrap uppercase">
-                                  {t(link.name)}
-                                </span>
-                              </Link>
-                            }
-                          />
-                        </li>
-                      ))}
+                                {t(link.group!)}
+                              </li>
+                            )}
+                            <li>
+                              <NavigationMenuLink
+                                render={
+                                  <Link
+                                    href={link.href}
+                                    className="flex items-center gap-2"
+                                  >
+                                    {link.icon && (
+                                      <link.icon className="h-3 w-3" />
+                                    )}
+                                    <span className="text-[11px] font-medium tracking-wider whitespace-nowrap uppercase">
+                                      {t(link.name)}
+                                    </span>
+                                  </Link>
+                                }
+                              />
+                            </li>
+                          </Fragment>
+                        );
+                      })}
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>

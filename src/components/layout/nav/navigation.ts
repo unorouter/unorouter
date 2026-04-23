@@ -4,11 +4,14 @@ import Claude from "@lobehub/icons/es/Claude";
 import Gemini from "@lobehub/icons/es/Gemini";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import type { ComponentType } from "react";
-import { GiCrabClaw } from "react-icons/gi";
+import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
 import {
+  LuArrowLeftRight,
   LuBookOpen,
   LuDollarSign,
+  LuDrama,
   LuGift,
+  LuHeart,
   LuHouse,
   LuKey,
   LuLayers,
@@ -28,6 +31,8 @@ export type NavigationItem = {
   exact?: boolean;
   onClick?: (e: React.MouseEvent) => void;
   submenu?: NavigationItem[];
+  /** Optional group label shown above this item when it differs from the previous item's group. */
+  group?: TranslationKey;
 };
 
 export const isActiveLink = (
@@ -65,10 +70,60 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
     icon: LuBookOpen,
     exact: true,
     submenu: [
-      { name: "NAV.CLAUDE_CODE", href: "/docs/claude-code", icon: Claude },
-      { name: "NAV.CODEX", href: "/docs/codex", icon: OpenAI },
-      { name: "NAV.GEMINI_CLI", href: "/docs/gemini-cli", icon: Gemini },
-      { name: "NAV.OPENCLAW", href: "/docs/openclaw", icon: GiCrabClaw },
+      {
+        name: "NAV.CC_SWITCH",
+        href: "/docs/cc-switch",
+        icon: LuArrowLeftRight,
+        group: "NAV.GROUP_CLI",
+      },
+      {
+        name: "NAV.OPENCLAW",
+        href: "/docs/openclaw",
+        icon: GiCrabClaw,
+        group: "NAV.GROUP_CLI",
+      },
+      {
+        name: "NAV.CLAUDE_CODE",
+        href: "/docs/claude-code",
+        icon: Claude,
+        group: "NAV.GROUP_CLI",
+      },
+      {
+        name: "NAV.CODEX",
+        href: "/docs/codex",
+        icon: OpenAI,
+        group: "NAV.GROUP_CLI",
+      },
+      {
+        name: "NAV.GEMINI_CLI",
+        href: "/docs/gemini-cli",
+        icon: Gemini,
+        group: "NAV.GROUP_CLI",
+      },
+      {
+        name: "NAV.SILLYTAVERN",
+        href: "/docs/sillytavern",
+        icon: LuDrama,
+        group: "NAV.GROUP_ROLEPLAY",
+      },
+      {
+        name: "NAV.JANITOR_AI",
+        href: "/docs/janitor-ai",
+        icon: GiBroom,
+        group: "NAV.GROUP_ROLEPLAY",
+      },
+      {
+        name: "NAV.RISUAI",
+        href: "/docs/risuai",
+        icon: GiFox,
+        group: "NAV.GROUP_ROLEPLAY",
+      },
+      {
+        name: "NAV.CHUB",
+        href: "/docs/chub",
+        icon: LuHeart,
+        group: "NAV.GROUP_ROLEPLAY",
+      },
     ],
   },
   { name: "NAV.BLOG", href: "/blog", icon: LuNewspaper },
