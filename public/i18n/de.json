@@ -270,11 +270,11 @@
       "GRID_PRICING_GROUP": "Preistabelle nach Gruppe"
     },
     "PRICE": {
-      "PER_REQUEST": "/Anfrage",
+      "PER_REQUEST": " · Anfrage",
       "INPUT": "EIN",
       "OUTPUT": "AUS",
       "FROM": "ab",
-      "PER_MILLION": "/1M Tokens",
+      "PER_MILLION": " · 1M Tokens",
       "VARIES_TOOLTIP": "Angezeigte Preise entsprechen dem niedrigsten verfügbaren Tarif. Die tatsächlichen Kosten hängen vom jeweiligen Anbieter ab.",
       "GRID": "Rasterpreise",
       "CUSTOM": "Individuelle Abrechnung",
@@ -374,9 +374,9 @@
     "PRICING_DESC": "Du zahlst nur, was du nutzt. Kein monatliches Minimum bei Pay As You Go.",
     "INPUT_PRICE": "Input-Preis",
     "OUTPUT_PRICE": "Output-Preis",
-    "PRICE_PER_MILLION": "{price} / 1M Tokens",
+    "PRICE_PER_MILLION": "{price} · 1M Tokens",
     "FIXED_PRICE": "Preis pro Anfrage",
-    "PRICE_PER_REQUEST": "{price} / Anfrage",
+    "PRICE_PER_REQUEST": "{price} · Anfrage",
     "GRID_PRICING_TITLE": "Preisraster",
     "GRID_PRICE_HEADER": "Preis",
     "AVAILABLE_BADGE": "Jetzt verfügbar",
@@ -448,7 +448,7 @@
     },
     "CARD": {
       "POPULAR": "Beliebt",
-      "PER_MONTH": "/Monat",
+      "PER_MONTH": " · Monat",
       "VALUE": "{value} Guthaben",
       "MULTIPLIER": "{multiplier} Multiplikator",
       "INCLUDES": "Enthalten",
@@ -485,6 +485,11 @@
       "A5": "{appName} verteilt Anfragen auf mehrere Anbieter mit automatischem Failover. Wenn ein Anbieter rate-limited oder offline ist, wiederholen wir die Anfrage transparent über den nächsten gesunden Upstream.",
       "Q6": "Kann ich eine Rückerstattung bekommen?",
       "A6": "Nicht verbrauchtes Guthaben ist 30 Tage ab Kauf erstattungsfähig. Kontaktiere {supportEmail} für Rückerstattungsanfragen."
+    },
+    "TOPUP": {
+      "LABEL": "Guthaben aufladen",
+      "DESC": "Kein Abo? Lade Guthaben auf.",
+      "FOOTNOTE": "Guthaben verfällt nie."
     }
   },
   "DOCS_INDEX": {
@@ -1716,9 +1721,9 @@
       "MONTHLY": "Monatlich",
       "TOTAL_QUOTA": "Gesamtkontingent",
       "EST_TOTAL_QUOTA": "Geschätztes Gesamtkontingent",
-      "PER_WEEK": "/Woche",
-      "PER_DAY": "/Tag",
-      "PER_MONTH": "/Monat",
+      "PER_WEEK": " · Woche",
+      "PER_DAY": " · Tag",
+      "PER_MONTH": " · Monat",
       "RECOMMENDED": "Empfohlen"
     },
     "PREFERENCE": {

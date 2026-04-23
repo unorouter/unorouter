@@ -270,11 +270,11 @@
       "GRID_PRICING_GROUP": "按分组显示的价格矩阵"
     },
     "PRICE": {
-      "PER_REQUEST": "/次请求",
+      "PER_REQUEST": " · 次请求",
       "INPUT": "输入",
       "OUTPUT": "输出",
       "FROM": "起",
-      "PER_MILLION": "/百万 Token",
+      "PER_MILLION": " · 百万 Token",
       "VARIES_TOOLTIP": "此处显示的价格反映最低可用费率。实际费用取决于处理您请求的提供方。",
       "GRID": "矩阵定价",
       "CUSTOM": "自定义计费",
@@ -374,9 +374,9 @@
     "PRICING_DESC": "按使用量付费。按量付费时无月度最低消费。",
     "INPUT_PRICE": "输入价格",
     "OUTPUT_PRICE": "输出价格",
-    "PRICE_PER_MILLION": "{price} / 百万 Token",
+    "PRICE_PER_MILLION": "{price} · 百万 Token",
     "FIXED_PRICE": "每次请求价格",
-    "PRICE_PER_REQUEST": "{price} / 次请求",
+    "PRICE_PER_REQUEST": "{price} · 次请求",
     "GRID_PRICING_TITLE": "价格矩阵",
     "GRID_PRICE_HEADER": "价格",
     "AVAILABLE_BADGE": "现已可用",
@@ -448,7 +448,7 @@
     },
     "CARD": {
       "POPULAR": "热门",
-      "PER_MONTH": "/月",
+      "PER_MONTH": " · 月",
       "VALUE": "价值 {value}",
       "MULTIPLIER": "{multiplier} 倍",
       "INCLUDES": "包含",
@@ -485,6 +485,11 @@
       "A5": "{appName} 会在多个提供方之间路由请求并自动容灾。若某个提供方被限流或宕机，我们会透明地重试下一个健康的上游。",
       "Q6": "可以退款吗？",
       "A6": "未使用的预付额度在购买后 30 天内可退款。退款请求请联系 {supportEmail}。"
+    },
+    "TOPUP": {
+      "LABEL": "按量充值",
+      "DESC": "不想订阅？直接充值使用。",
+      "FOOTNOTE": "余额永不过期。"
     }
   },
   "DOCS_INDEX": {
@@ -1716,9 +1721,9 @@
       "MONTHLY": "每月",
       "TOTAL_QUOTA": "总额度",
       "EST_TOTAL_QUOTA": "预计总额度",
-      "PER_WEEK": "/周",
-      "PER_DAY": "/日",
-      "PER_MONTH": "/月",
+      "PER_WEEK": " · 周",
+      "PER_DAY": " · 日",
+      "PER_MONTH": " · 月",
       "RECOMMENDED": "推荐"
     },
     "PREFERENCE": {

@@ -22,7 +22,10 @@ import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 export const billingRoute = new Elysia({ prefix: "/billing" })
   .derive(deriveUpstream)
   .get("/topup-info", async ({ upstream }) => {
-    const res = await getTopUpInfo({ headers: upstream.headers });
+    const hasUser = !!upstream.headers.cookie;
+    const res = await getTopUpInfo({
+      headers: hasUser ? upstream.headers : ADMIN_HEADERS,
+    });
     return unwrap(res);
   })
   .get("/subscription-plans", async ({ upstream }) => {

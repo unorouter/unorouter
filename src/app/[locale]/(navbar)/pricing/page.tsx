@@ -40,11 +40,18 @@ export default async function PricingPage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  await queryClient.prefetchQuery({
-    queryKey: queryKeys.subscriptionPlans(),
-    queryFn: async () =>
-      handleElysia(await rpc.api.pricing.subscriptions.get()),
-  });
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.subscriptionPlans(),
+      queryFn: async () =>
+        handleElysia(await rpc.api.pricing.subscriptions.get()),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.topUpInfo(),
+      queryFn: async () =>
+        handleElysia(await rpc.api.billing["topup-info"].get()),
+    }),
+  ]);
 
   const faqEntries: FAQEntry[] = ([1, 2, 3, 4, 5, 6] as const).map((n) => ({
     question: t(`PRICING.FAQ.Q${n}`, APP_VALUES),

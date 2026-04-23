@@ -270,11 +270,11 @@
       "GRID_PRICING_GROUP": "Lưới giá theo nhóm"
     },
     "PRICE": {
-      "PER_REQUEST": "/yêu cầu",
+      "PER_REQUEST": " · yêu cầu",
       "INPUT": "VÀO",
       "OUTPUT": "RA",
       "FROM": "từ",
-      "PER_MILLION": "/1 triệu token",
+      "PER_MILLION": " · 1 triệu token",
       "VARIES_TOOLTIP": "Giá hiển thị là mức thấp nhất khả dụng. Chi phí thực tế phụ thuộc vào nhà cung cấp xử lý yêu cầu của bạn.",
       "GRID": "Giá theo lưới",
       "CUSTOM": "Tính phí tùy chỉnh",
@@ -374,9 +374,9 @@
     "PRICING_DESC": "Chỉ trả cho những gì bạn dùng. Không cần tối thiểu hàng tháng khi dùng Trả theo nhu cầu.",
     "INPUT_PRICE": "Giá đầu vào",
     "OUTPUT_PRICE": "Giá đầu ra",
-    "PRICE_PER_MILLION": "{price} / 1 triệu token",
+    "PRICE_PER_MILLION": "{price} · 1 triệu token",
     "FIXED_PRICE": "Giá mỗi yêu cầu",
-    "PRICE_PER_REQUEST": "{price} / yêu cầu",
+    "PRICE_PER_REQUEST": "{price} · yêu cầu",
     "GRID_PRICING_TITLE": "Lưới giá",
     "GRID_PRICE_HEADER": "Giá",
     "AVAILABLE_BADGE": "Có sẵn ngay",
@@ -448,7 +448,7 @@
     },
     "CARD": {
       "POPULAR": "Phổ biến",
-      "PER_MONTH": "/tháng",
+      "PER_MONTH": " · tháng",
       "VALUE": "giá trị {value}",
       "MULTIPLIER": "hệ số nhân {multiplier}",
       "INCLUDES": "Bao gồm",
@@ -485,6 +485,11 @@
       "A5": "{appName} định tuyến yêu cầu qua nhiều nhà cung cấp với tự động chuyển đổi dự phòng. Nếu một bên bị giới hạn tốc độ hoặc ngừng hoạt động, chúng tôi tự động thử lại với upstream khỏe mạnh tiếp theo một cách minh bạch.",
       "Q6": "Tôi có được hoàn tiền không?",
       "A6": "Tín dụng trả trước chưa dùng có thể hoàn tiền trong vòng 30 ngày kể từ khi mua. Liên hệ {supportEmail} cho yêu cầu hoàn tiền."
+    },
+    "TOPUP": {
+      "LABEL": "Trả theo mức dùng",
+      "DESC": "Không muốn đăng ký? Nạp tín dụng.",
+      "FOOTNOTE": "Tín dụng không hết hạn."
     }
   },
   "DOCS_INDEX": {
@@ -1716,9 +1721,9 @@
       "MONTHLY": "Hàng tháng",
       "TOTAL_QUOTA": "Tổng hạn mức",
       "EST_TOTAL_QUOTA": "Tổng hạn mức ước tính",
-      "PER_WEEK": "/tuần",
-      "PER_DAY": "/ngày",
-      "PER_MONTH": "/tháng",
+      "PER_WEEK": " · tuần",
+      "PER_DAY": " · ngày",
+      "PER_MONTH": " · tháng",
       "RECOMMENDED": "Khuyến nghị"
     },
     "PREFERENCE": {

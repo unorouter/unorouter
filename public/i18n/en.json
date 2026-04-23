@@ -270,11 +270,11 @@
       "GRID_PRICING_GROUP": "Price Grid by Group"
     },
     "PRICE": {
-      "PER_REQUEST": "/request",
+      "PER_REQUEST": " · request",
       "INPUT": "IN",
       "OUTPUT": "OUT",
       "FROM": "from",
-      "PER_MILLION": "/1M tokens",
+      "PER_MILLION": " · 1M tokens",
       "VARIES_TOOLTIP": "Prices shown reflect the lowest available rate. Actual cost depends on which provider handles your request.",
       "GRID": "Grid pricing",
       "CUSTOM": "Custom billing",
@@ -374,9 +374,9 @@
     "PRICING_DESC": "Pay only for what you use. No monthly minimums when using Pay As You Go.",
     "INPUT_PRICE": "Input price",
     "OUTPUT_PRICE": "Output price",
-    "PRICE_PER_MILLION": "{price} / 1M tokens",
+    "PRICE_PER_MILLION": "{price} · 1M tokens",
     "FIXED_PRICE": "Price per request",
-    "PRICE_PER_REQUEST": "{price} / request",
+    "PRICE_PER_REQUEST": "{price} · request",
     "GRID_PRICING_TITLE": "Price grid",
     "GRID_PRICE_HEADER": "Price",
     "AVAILABLE_BADGE": "Available now",
@@ -448,7 +448,7 @@
     },
     "CARD": {
       "POPULAR": "Popular",
-      "PER_MONTH": "/mo",
+      "PER_MONTH": " · mo",
       "VALUE": "{value} value",
       "MULTIPLIER": "{multiplier} multiplier",
       "INCLUDES": "Includes",
@@ -485,6 +485,11 @@
       "A5": "{appName} routes requests across multiple providers with automatic failover. If one provider is rate-limited or down, we retry against the next healthy upstream transparently.",
       "Q6": "Can I get a refund?",
       "A6": "Unused prepaid credit is refundable for 30 days from purchase. Contact {supportEmail} for refund requests."
+    },
+    "TOPUP": {
+      "LABEL": "Pay as you go",
+      "DESC": "Prefer not to subscribe? Top up credits.",
+      "FOOTNOTE": "Credits never expire."
     }
   },
   "DOCS_INDEX": {
@@ -1716,9 +1721,9 @@
       "MONTHLY": "Monthly",
       "TOTAL_QUOTA": "Total quota",
       "EST_TOTAL_QUOTA": "Est. total quota",
-      "PER_WEEK": "/week",
-      "PER_DAY": "/day",
-      "PER_MONTH": "/month",
+      "PER_WEEK": " · week",
+      "PER_DAY": " · day",
+      "PER_MONTH": " · month",
       "RECOMMENDED": "Recommended"
     },
     "PREFERENCE": {

@@ -270,11 +270,11 @@
       "GRID_PRICING_GROUP": "グループ別料金グリッド"
     },
     "PRICE": {
-      "PER_REQUEST": "/リクエスト",
+      "PER_REQUEST": " · リクエスト",
       "INPUT": "入力",
       "OUTPUT": "出力",
       "FROM": "から",
-      "PER_MILLION": "/100万トークン",
+      "PER_MILLION": " · 100万トークン",
       "VARIES_TOOLTIP": "表示価格は最安値です。実際のコストはリクエストを処理するプロバイダーによって異なります。",
       "GRID": "グリッド料金",
       "CUSTOM": "カスタム請求",
@@ -374,9 +374,9 @@
     "PRICING_DESC": "使った分だけのお支払い。従量課金利用時は月額最低料金なし。",
     "INPUT_PRICE": "入力料金",
     "OUTPUT_PRICE": "出力料金",
-    "PRICE_PER_MILLION": "{price} / 100万トークン",
+    "PRICE_PER_MILLION": "{price} · 100万トークン",
     "FIXED_PRICE": "1リクエストあたりの料金",
-    "PRICE_PER_REQUEST": "{price} / リクエスト",
+    "PRICE_PER_REQUEST": "{price} · リクエスト",
     "GRID_PRICING_TITLE": "料金グリッド",
     "GRID_PRICE_HEADER": "料金",
     "AVAILABLE_BADGE": "現在利用可能",
@@ -448,7 +448,7 @@
     },
     "CARD": {
       "POPULAR": "人気",
-      "PER_MONTH": "/月",
+      "PER_MONTH": " · 月",
       "VALUE": "{value} 相当",
       "MULTIPLIER": "{multiplier} 倍率",
       "INCLUDES": "含まれるもの",
@@ -485,6 +485,11 @@
       "A5": "{appName} は複数のプロバイダーにリクエストをルーティングし、自動フェイルオーバーを行います。あるプロバイダーがレート制限やダウンの場合、次の健全なアップストリームへ透過的に再試行します。",
       "Q6": "返金は可能ですか？",
       "A6": "未使用のプリペイドクレジットは購入日から30日以内なら返金可能です。返金ご希望の場合は {supportEmail} までご連絡ください。"
+    },
+    "TOPUP": {
+      "LABEL": "都度払い",
+      "DESC": "サブスクなしでクレジットをチャージ。",
+      "FOOTNOTE": "クレジットは失効しません。"
     }
   },
   "DOCS_INDEX": {
@@ -1716,9 +1721,9 @@
       "MONTHLY": "月次",
       "TOTAL_QUOTA": "合計クォータ",
       "EST_TOTAL_QUOTA": "推定合計クォータ",
-      "PER_WEEK": "/週",
-      "PER_DAY": "/日",
-      "PER_MONTH": "/月",
+      "PER_WEEK": " · 週",
+      "PER_DAY": " · 日",
+      "PER_MONTH": " · 月",
       "RECOMMENDED": "おすすめ"
     },
     "PREFERENCE": {

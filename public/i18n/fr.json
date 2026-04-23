@@ -270,11 +270,11 @@
       "GRID_PRICING_GROUP": "Grille tarifaire par groupe"
     },
     "PRICE": {
-      "PER_REQUEST": "/requête",
+      "PER_REQUEST": " · requête",
       "INPUT": "ENTRÉE",
       "OUTPUT": "SORTIE",
       "FROM": "à partir de",
-      "PER_MILLION": "/1M jetons",
+      "PER_MILLION": " · 1M jetons",
       "VARIES_TOOLTIP": "Les prix affichés reflètent le tarif le plus bas disponible. Le coût réel dépend du fournisseur qui traite votre requête.",
       "GRID": "Tarification par grille",
       "CUSTOM": "Facturation personnalisée",
@@ -374,9 +374,9 @@
     "PRICING_DESC": "Payez uniquement ce que vous utilisez. Aucun minimum mensuel avec le paiement à l'usage.",
     "INPUT_PRICE": "Prix en entrée",
     "OUTPUT_PRICE": "Prix en sortie",
-    "PRICE_PER_MILLION": "{price} / 1M jetons",
+    "PRICE_PER_MILLION": "{price} · 1M jetons",
     "FIXED_PRICE": "Prix par requête",
-    "PRICE_PER_REQUEST": "{price} / requête",
+    "PRICE_PER_REQUEST": "{price} · requête",
     "GRID_PRICING_TITLE": "Grille tarifaire",
     "GRID_PRICE_HEADER": "Prix",
     "AVAILABLE_BADGE": "Disponible maintenant",
@@ -448,7 +448,7 @@
     },
     "CARD": {
       "POPULAR": "Populaire",
-      "PER_MONTH": "/mois",
+      "PER_MONTH": " · mois",
       "VALUE": "{value} de valeur",
       "MULTIPLIER": "Multiplicateur {multiplier}",
       "INCLUDES": "Inclut",
@@ -485,6 +485,11 @@
       "A5": "{appName} route les requêtes à travers plusieurs fournisseurs avec basculement automatique. Si un fournisseur est limité ou hors ligne, nous relançons la requête auprès du prochain upstream sain de manière transparente.",
       "Q6": "Puis-je obtenir un remboursement ?",
       "A6": "Le crédit prépayé non utilisé est remboursable pendant 30 jours à partir de l'achat. Contactez {supportEmail} pour toute demande de remboursement."
+    },
+    "TOPUP": {
+      "LABEL": "Paiement à l'usage",
+      "DESC": "Pas envie de vous abonner ? Rechargez des crédits.",
+      "FOOTNOTE": "Les crédits n'expirent jamais."
     }
   },
   "DOCS_INDEX": {
@@ -1716,9 +1721,9 @@
       "MONTHLY": "Mensuelle",
       "TOTAL_QUOTA": "Quota total",
       "EST_TOTAL_QUOTA": "Quota total estimé",
-      "PER_WEEK": "/semaine",
-      "PER_DAY": "/jour",
-      "PER_MONTH": "/mois",
+      "PER_WEEK": " · semaine",
+      "PER_DAY": " · jour",
+      "PER_MONTH": " · mois",
       "RECOMMENDED": "Recommandé"
     },
     "PREFERENCE": {
