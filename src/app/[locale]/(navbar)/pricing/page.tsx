@@ -40,7 +40,7 @@ export default async function PricingPage(props: {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
 
-  const plans = await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: queryKeys.subscriptionPlans(),
     queryFn: async () =>
       handleElysia(await rpc.api.pricing.subscriptions.get()),
@@ -66,12 +66,6 @@ export default async function PricingPage(props: {
         data={buildSoftwareApplicationSchema({
           locale,
           description: t("PRICING.META.DESCRIPTION"),
-          offers: plans.map((p) => ({
-            name: p.title,
-            price: p.priceAmount,
-            currency: p.currency,
-            description: p.subtitle || undefined,
-          })),
         })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>

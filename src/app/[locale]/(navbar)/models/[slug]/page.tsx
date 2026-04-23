@@ -145,17 +145,6 @@ export default async function ModelDetailPage(props: PageProps) {
               name: model.name,
               vendor: model.vendor.name,
             }),
-          offers:
-            model.inputPrice !== null && model.inputPrice !== undefined
-              ? [
-                  {
-                    name: `${model.name} input`,
-                    price: model.inputPrice,
-                    currency: "USD",
-                    description: "Per 1K input tokens",
-                  },
-                ]
-              : undefined,
         })}
       />
       <JsonLd id={`${params.slug}-faq`} data={buildFAQPageSchema(faqEntries)} />

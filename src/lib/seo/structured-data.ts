@@ -42,47 +42,18 @@ export function buildWebSiteSchema(locale: string): WithContext<WebSite> {
   };
 }
 
-export type OfferInput = {
-  name: string;
-  price: number;
-  currency: string;
-  description?: string;
-};
-
 type SoftwareApplicationInput = {
   locale: string;
   description: string;
   modelCount?: number;
-  offers?: OfferInput[];
   name?: string;
   url?: string;
   brandName?: string;
 };
 
-function offerSchema(input: OfferInput) {
-  return {
-    "@type": "Offer" as const,
-    name: input.name,
-    price: String(input.price),
-    priceCurrency: input.currency,
-    ...(input.description && { description: input.description }),
-  };
-}
-
 export function buildSoftwareApplicationSchema(
   input: SoftwareApplicationInput,
 ): WithContext<SoftwareApplication> {
-  const defaultOffer = {
-    "@type": "Offer" as const,
-    price: "0",
-    priceCurrency: "USD",
-    description: "Pay-as-you-go per-token pricing. No subscription.",
-  };
-  const offers =
-    input.offers && input.offers.length > 0
-      ? [defaultOffer, ...input.offers.map(offerSchema)]
-      : defaultOffer;
-
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -91,7 +62,6 @@ export function buildSoftwareApplicationSchema(
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
     description: input.description,
-    offers,
     ...(input.brandName && {
       brand: { "@type": "Brand", name: input.brandName },
     }),
