@@ -34,14 +34,17 @@ export function GetStartedLink(props: {
   );
 }
 
-export function GetStartedButton(props: { translationKey: TranslationKey }) {
+export function GetStartedButton(props: {
+  translationKey: TranslationKey;
+  authedTranslationKey?: TranslationKey;
+}) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
 
   if (authQuery.data) {
     return (
       <Button nativeButton={false} render={<Link href="/dashboard" />}>
-        {t(props.translationKey)}
+        {t(props.authedTranslationKey ?? props.translationKey)}
       </Button>
     );
   }

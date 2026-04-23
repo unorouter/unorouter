@@ -382,7 +382,8 @@ npm install -g @anthropic-ai/claude-code`}
             {t("DOCS.CLAUDE_CODE.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.CLAUDE_CODE.CTA_SIGNUP" />
+            <GetStartedButton translationKey="DOCS.CLAUDE_CODE.CTA_SIGNUP"
+              authedTranslationKey="DOCS.CLAUDE_CODE.CTA_DASHBOARD" />
             <Button
               nativeButton={false}
               variant="outline"

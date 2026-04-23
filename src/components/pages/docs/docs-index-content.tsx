@@ -59,7 +59,8 @@ export async function DocsIndexContent() {
             {t("DOCS_INDEX.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS_INDEX.CTA_SIGNUP" />
+            <GetStartedButton translationKey="DOCS_INDEX.CTA_SIGNUP"
+              authedTranslationKey="DOCS_INDEX.CTA_DASHBOARD" />
             <Button
               nativeButton={false}
               variant="outline"

@@ -186,7 +186,8 @@ ${t("DOCS.JANITOR_AI.QUICK_CONFIG_MODEL_LABEL")}: ${docs.modelFor("OpenAI")}`;
             {t("DOCS.JANITOR_AI.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.JANITOR_AI.CTA_SIGNUP" />
+            <GetStartedButton translationKey="DOCS.JANITOR_AI.CTA_SIGNUP"
+              authedTranslationKey="DOCS.JANITOR_AI.CTA_DASHBOARD" />
             <Button
               nativeButton={false}
               variant="outline"

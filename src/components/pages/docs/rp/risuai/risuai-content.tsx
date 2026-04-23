@@ -186,7 +186,8 @@ ${t("DOCS.RISUAI.QUICK_CONFIG_MODEL_LABEL")}:   ${docs.modelFor("OpenAI")}`;
             {t("DOCS.RISUAI.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.RISUAI.CTA_SIGNUP" />
+            <GetStartedButton translationKey="DOCS.RISUAI.CTA_SIGNUP"
+              authedTranslationKey="DOCS.RISUAI.CTA_DASHBOARD" />
             <Button
               nativeButton={false}
               variant="outline"

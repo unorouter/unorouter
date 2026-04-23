@@ -233,7 +233,8 @@ ${t("DOCS.SILLYTAVERN.QUICK_CONFIG_MODEL_LABEL")}:    ${docs.modelFor("OpenAI")}
             {t("DOCS.SILLYTAVERN.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.SILLYTAVERN.CTA_SIGNUP" />
+            <GetStartedButton translationKey="DOCS.SILLYTAVERN.CTA_SIGNUP"
+              authedTranslationKey="DOCS.SILLYTAVERN.CTA_DASHBOARD" />
             <Button
               nativeButton={false}
               variant="outline"

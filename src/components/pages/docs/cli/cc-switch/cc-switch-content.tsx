@@ -228,7 +228,8 @@ brew install --cask cc-switch`}
             {t("DOCS.CC_SWITCH.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.CC_SWITCH.CTA_SIGNUP" />
+            <GetStartedButton translationKey="DOCS.CC_SWITCH.CTA_SIGNUP"
+              authedTranslationKey="DOCS.CC_SWITCH.CTA_DASHBOARD" />
             <Button
               nativeButton={false}
               variant="outline"
