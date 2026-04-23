@@ -107,7 +107,7 @@ export async function SillyTavernContent() {
 
   const quickConfigCode = `${t("DOCS.SILLYTAVERN.QUICK_CONFIG_BASE_URL_LABEL")}: ${docs.apiUrl}/v1
 ${t("DOCS.SILLYTAVERN.QUICK_CONFIG_KEY_LABEL")}:  ${docs.placeholder}
-${t("DOCS.SILLYTAVERN.QUICK_CONFIG_MODEL_LABEL")}:    ${docs.modelFor("OpenAI")}`;
+${t("DOCS.SILLYTAVERN.QUICK_CONFIG_MODEL_LABEL")}:    ${docs.topTextModel}`;
 
   return (
     <TOCLayout toc={toc}>

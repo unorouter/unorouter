@@ -90,6 +90,26 @@
         "BADGE": "OpenAI API",
         "TITLE": "OpenClaw で動作",
         "DESCRIPTION": "{appName} を OpenClaw エージェントのモデルプロバイダーとして利用できます。一度設定すれば、あらゆるモデルにアクセスできます。"
+      },
+      "SILLYTAVERN": {
+        "BADGE": "ロールプレイ",
+        "TITLE": "SillyTavern と連携",
+        "DESCRIPTION": "{appName} を SillyTavern の Custom OpenAI 互換ソースに接続します。ベース URL を貼り付け、モデルを選び、チャットを始めてください。"
+      },
+      "JANITOR_AI": {
+        "BADGE": "ロールプレイ",
+        "TITLE": "Janitor.AI と連携",
+        "DESCRIPTION": "{appName} をカスタムプロキシとして Janitor.AI に追加します。完全な URL と API キーを入力し、保存して再読み込みするだけです。"
+      },
+      "RISUAI": {
+        "BADGE": "ロールプレイ",
+        "TITLE": "RisuAI と連携",
+        "DESCRIPTION": "{appName} を RisuAI の Custom Models エンドポイントとして使用します。自動入力をオフにし、URL を貼り付け、任意のモデルを読み込んでください。"
+      },
+      "CHUB": {
+        "BADGE": "ロールプレイ",
+        "TITLE": "Chub / Venus と連携",
+        "DESCRIPTION": "{appName} を Chub のファーストパーティリバースプロキシとして接続します。URL ひとつ、キーひとつで、すべてのモデルが使えます。"
       }
     },
     "PRICING": {

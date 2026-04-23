@@ -90,6 +90,26 @@
         "BADGE": "OpenAI API",
         "TITLE": "支援 OpenClaw",
         "DESCRIPTION": "將 {appName} 作為 OpenClaw 代理的模型供應商。一次設定，即可存取所有模型。"
+      },
+      "SILLYTAVERN": {
+        "BADGE": "角色扮演",
+        "TITLE": "相容 SillyTavern",
+        "DESCRIPTION": "將 {appName} 接入 SillyTavern 的 Custom OpenAI 相容來源。貼上基礎 URL，選擇模型，即可開始聊天。"
+      },
+      "JANITOR_AI": {
+        "BADGE": "角色扮演",
+        "TITLE": "相容 Janitor.AI",
+        "DESCRIPTION": "在 Janitor.AI 中將 {appName} 加為自訂代理。填入完整 URL 與 API 金鑰，儲存後重新整理即可使用。"
+      },
+      "RISUAI": {
+        "BADGE": "角色扮演",
+        "TITLE": "相容 RisuAI",
+        "DESCRIPTION": "把 {appName} 當作 RisuAI 的 Custom Models 端點使用。取消勾選自動填入，貼上 URL，載入任意模型。"
+      },
+      "CHUB": {
+        "BADGE": "角色扮演",
+        "TITLE": "相容 Chub / Venus",
+        "DESCRIPTION": "將 {appName} 作為 Chub 的第一方反向代理接入。一組 URL、一把金鑰，支援所有模型。"
       }
     },
     "PRICING": {

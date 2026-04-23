@@ -90,6 +90,26 @@
         "BADGE": "OpenAI API",
         "TITLE": "Works with OpenClaw",
         "DESCRIPTION": "Use {appName} as a model provider for your OpenClaw agent. Configure once, access every model."
+      },
+      "SILLYTAVERN": {
+        "BADGE": "Roleplay",
+        "TITLE": "Works with SillyTavern",
+        "DESCRIPTION": "Plug {appName} into SillyTavern's Custom OpenAI-compatible source. Paste the base URL, pick a model, chat."
+      },
+      "JANITOR_AI": {
+        "BADGE": "Roleplay",
+        "TITLE": "Works with Janitor.AI",
+        "DESCRIPTION": "Add {appName} as a custom proxy in Janitor.AI. Full URL plus API key, save, refresh, go."
+      },
+      "RISUAI": {
+        "BADGE": "Roleplay",
+        "TITLE": "Works with RisuAI",
+        "DESCRIPTION": "Use {appName} as RisuAI's Custom Models endpoint. Uncheck autofill, paste the URL, load any model."
+      },
+      "CHUB": {
+        "BADGE": "Roleplay",
+        "TITLE": "Works with Chub / Venus",
+        "DESCRIPTION": "Connect {appName} as a first-party reverse proxy in Chub. One URL, one key, every model."
       }
     },
     "PRICING": {

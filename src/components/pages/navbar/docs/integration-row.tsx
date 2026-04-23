@@ -1,4 +1,5 @@
-import { CodeBlock } from "@/components/elements/code/code-block";
+import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
+import { CodeBlock, highlightCode } from "@/components/elements/code/code-block";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { Link } from "@/i18n/navigation";
@@ -9,8 +10,13 @@ import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
 import type { ComponentType } from "react";
-import { GiCrabClaw } from "react-icons/gi";
-import { LuArrowLeftRight, LuArrowRight } from "react-icons/lu";
+import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
+import {
+  LuArrowLeftRight,
+  LuArrowRight,
+  LuDrama,
+  LuHeart,
+} from "react-icons/lu";
 import { type Integration, type IntegrationIconKey } from "./integrations";
 import { OSQuickStart } from "./os-quick-start";
 
@@ -23,6 +29,10 @@ const iconMap: Record<
   codex: Codex.Color,
   gemini: Gemini.Color,
   openclaw: GiCrabClaw,
+  sillytavern: LuDrama,
+  "janitor-ai": GiBroom,
+  risuai: GiFox,
+  chub: LuHeart,
 };
 
 export async function IntegrationRow(props: {
@@ -31,61 +41,65 @@ export async function IntegrationRow(props: {
 }) {
   const t = await getTranslations();
 
-  const Icon = iconMap[props.integration.iconKey];
-  const hasApiKey = Object.values(props.integration.quickStart).some((code) =>
-    code.includes("YOUR_API_KEY"),
-  );
+  const integration = props.integration;
+  const Icon = iconMap[integration.iconKey];
+  const hasApiKey =
+    integration.kind === "cli"
+      ? Object.values(integration.quickStart).some((code) =>
+          code.includes("YOUR_API_KEY"),
+        )
+      : integration.quickConfig.includes("YOUR_API_KEY");
 
   return (
     <div
-      className={`relative rounded-lg border ${props.integration.color.border} bg-card/40 overflow-hidden backdrop-blur-sm`}
+      className={`relative rounded-lg border ${integration.color.border} bg-card/40 overflow-hidden backdrop-blur-sm`}
     >
-      <div className={`h-0.5 ${props.integration.color.line}`} />
+      <div className={`h-0.5 ${integration.color.line}`} />
 
       <div className="p-6 md:p-8">
         <div className="flex flex-col gap-6 xl:flex-row xl:items-center">
           <div className="flex min-w-0 flex-1 flex-col items-start gap-4 md:flex-row md:items-center md:gap-5">
             <div className="relative shrink-0">
               <div
-                className={`absolute inset-0 ${props.integration.color.glow} rounded-full blur-xl`}
+                className={`absolute inset-0 ${integration.color.glow} rounded-full blur-xl`}
               />
               <Icon
                 size={48}
-                className={`relative ${props.integration.color.accent}`}
+                className={`relative ${integration.color.accent}`}
               />
             </div>
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">
                 <span
-                  className={`px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${props.integration.color.badge} rounded`}
+                  className={`px-2 py-0.5 font-mono text-[10px] tracking-wider uppercase ${integration.color.badge} rounded`}
                 >
-                  {t(props.integration.badgeKey)}
+                  {t(integration.badgeKey)}
                 </span>
               </div>
               <h2
                 id={props.id}
-                className={`text-xl font-bold tracking-tight md:text-2xl ${props.integration.color.accent}`}
+                className={`text-xl font-bold tracking-tight md:text-2xl ${integration.color.accent}`}
               >
-                {t(props.integration.titleKey)}
+                {t(integration.titleKey)}
               </h2>
               <p className="text-muted-foreground mt-1 font-mono text-sm leading-relaxed">
-                {t(props.integration.subtitleKey, APP_VALUES)}
+                {t(integration.subtitleKey, APP_VALUES)}
               </p>
             </div>
           </div>
 
           <Link
-            href={props.integration.href}
+            href={integration.href}
             className="group flex shrink-0 items-center gap-3"
           >
             <span className="text-foreground/70 group-hover:text-foreground font-mono text-sm transition-colors">
               {t("DOCS_INDEX.VIEW_GUIDE")}
             </span>
             <div
-              className={`h-10 w-10 rounded-full border ${props.integration.color.ring} flex items-center justify-center transition-all`}
+              className={`h-10 w-10 rounded-full border ${integration.color.ring} flex items-center justify-center transition-all`}
             >
               <LuArrowRight
-                className={`h-4 w-4 ${props.integration.color.arrow} transition-colors`}
+                className={`h-4 w-4 ${integration.color.arrow} transition-colors`}
               />
             </div>
           </Link>
@@ -95,20 +109,27 @@ export async function IntegrationRow(props: {
           <p className="text-muted-foreground mb-3 font-mono text-xs tracking-wider uppercase">
             {t("DOCS_INDEX.QUICK_START")}
           </p>
-          {hasApiKey ? (
+          {integration.kind === "rp" ? (
+            <ApiKeyCodeBlock
+              html={await highlightCode(integration.quickConfig, "text")}
+              code={integration.quickConfig}
+              language="text"
+              placeholder="YOUR_API_KEY"
+            />
+          ) : hasApiKey ? (
             <OSCodeBlock
               placeholder="YOUR_API_KEY"
               variants={await buildOSVariants({
                 windows: {
-                  code: props.integration.quickStart.windows,
+                  code: integration.quickStart.windows,
                   language: "powershell",
                 },
                 macos: {
-                  code: props.integration.quickStart.macos,
+                  code: integration.quickStart.macos,
                   language: "bash",
                 },
                 linux: {
-                  code: props.integration.quickStart.linux,
+                  code: integration.quickStart.linux,
                   language: "bash",
                 },
               })}
@@ -122,7 +143,7 @@ export async function IntegrationRow(props: {
                     <CodeBlock
                       key={os}
                       language={os === OS.WINDOWS ? "powershell" : "bash"}
-                      code={props.integration.quickStart[os]}
+                      code={integration.quickStart[os]}
                     />,
                   ]),
                 ) as Record<OS, React.ReactNode>

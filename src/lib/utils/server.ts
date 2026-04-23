@@ -50,18 +50,33 @@ export const getCookieValue = async <T>(
 /** Server-side utility for docs code block placeholders and model names */
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const data = handleElysia(await rpc.api.pricing.get());
-  const models = (data.models ?? []).map((m) => ({
+  const rawModels = data.models ?? [];
+  const models = rawModels.map((m) => ({
     name: m.name,
     vendor: m.vendor.name,
+    type: m.type,
+    outputPrice: m.isFixedPrice ? m.fixedPrice : m.outputPrice,
   }));
 
   const modelFor = (vendor: string) =>
     models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
 
+  /** Highest-output-price text model across all vendors. Used in docs Quick Config
+   *  blocks to show an aspirational default (the best model users can aim for)
+   *  rather than whatever happens to sort first upstream. */
+  const topTextModel = models
+    .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
+    .reduce<(typeof models)[number] | null>(
+      (best, m) =>
+        !best || (m.outputPrice ?? 0) > (best.outputPrice ?? 0) ? m : best,
+      null,
+    );
+
   return {
     apiUrl: env.apiUrl,
     placeholder,
     modelFor,
+    topTextModel: topTextModel?.name ?? models[0]?.name ?? "model-name",
   };
 };
 

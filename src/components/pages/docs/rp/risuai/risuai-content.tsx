@@ -51,7 +51,7 @@ export async function RisuAIContent() {
 
   const quickConfigCode = `${t("DOCS.RISUAI.QUICK_CONFIG_URL_LABEL")}: ${docs.apiUrl}/v1/chat/completions
 ${t("DOCS.RISUAI.QUICK_CONFIG_KEY_LABEL")}:    ${docs.placeholder}
-${t("DOCS.RISUAI.QUICK_CONFIG_MODEL_LABEL")}:   ${docs.modelFor("OpenAI")}`;
+${t("DOCS.RISUAI.QUICK_CONFIG_MODEL_LABEL")}:   ${docs.topTextModel}`;
 
   return (
     <TOCLayout toc={toc}>

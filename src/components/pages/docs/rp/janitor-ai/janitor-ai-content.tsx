@@ -64,7 +64,7 @@ export async function JanitorAIContent() {
 
   const quickConfigCode = `${t("DOCS.JANITOR_AI.QUICK_CONFIG_URL_LABEL")}:   ${docs.apiUrl}/v1/chat/completions
 ${t("DOCS.JANITOR_AI.QUICK_CONFIG_KEY_LABEL")}:   ${docs.placeholder}
-${t("DOCS.JANITOR_AI.QUICK_CONFIG_MODEL_LABEL")}: ${docs.modelFor("OpenAI")}`;
+${t("DOCS.JANITOR_AI.QUICK_CONFIG_MODEL_LABEL")}: ${docs.topTextModel}`;
 
   return (
     <TOCLayout toc={toc}>

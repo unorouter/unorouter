@@ -90,6 +90,26 @@
         "BADGE": "OpenAI API",
         "TITLE": "Tương thích với OpenClaw",
         "DESCRIPTION": "Sử dụng {appName} làm nhà cung cấp mô hình cho agent OpenClaw của bạn. Cấu hình một lần, truy cập mọi mô hình."
+      },
+      "SILLYTAVERN": {
+        "BADGE": "Roleplay",
+        "TITLE": "Hoạt động với SillyTavern",
+        "DESCRIPTION": "Cắm {appName} vào nguồn Custom OpenAI-compatible của SillyTavern. Dán URL gốc, chọn model, bắt đầu chat."
+      },
+      "JANITOR_AI": {
+        "BADGE": "Roleplay",
+        "TITLE": "Hoạt động với Janitor.AI",
+        "DESCRIPTION": "Thêm {appName} làm proxy tùy chỉnh trong Janitor.AI. Dán URL đầy đủ cùng API key, lưu lại, refresh, xong."
+      },
+      "RISUAI": {
+        "BADGE": "Roleplay",
+        "TITLE": "Hoạt động với RisuAI",
+        "DESCRIPTION": "Dùng {appName} làm endpoint Custom Models của RisuAI. Bỏ chọn autofill, dán URL, nạp bất kỳ model nào bạn muốn."
+      },
+      "CHUB": {
+        "BADGE": "Roleplay",
+        "TITLE": "Hoạt động với Chub / Venus",
+        "DESCRIPTION": "Kết nối {appName} như một reverse proxy gốc trong Chub. Một URL, một key, mọi model."
       }
     },
     "PRICING": {

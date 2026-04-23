@@ -1,14 +1,27 @@
 import { Link } from "@/i18n/navigation";
-import { APP_VALUES, msg } from "@/lib/config/constants";
+import type { LinkHref } from "@/i18n/routing";
+import { APP_VALUES, msg, type TranslationKey } from "@/lib/config/constants";
 import Claude from "@lobehub/icons/es/Claude";
 import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
 import type { ComponentType } from "react";
-import { GiCrabClaw } from "react-icons/gi";
-import { LuArrowRight } from "react-icons/lu";
+import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
+import { LuArrowRight, LuDrama, LuHeart } from "react-icons/lu";
 
-const integrations = [
+type IntegrationIcon = ComponentType<{ className?: string; size?: number }>;
+
+type IntegrationEntry = {
+  href: LinkHref;
+  icon: IntegrationIcon;
+  badge: string;
+  titleKey: TranslationKey;
+  descKey: TranslationKey;
+  badgeKey: TranslationKey;
+  color: keyof typeof colorMap;
+};
+
+const cliIntegrations: readonly IntegrationEntry[] = [
   {
     href: "/docs/claude-code",
     icon: Claude.Color,
@@ -38,14 +51,53 @@ const integrations = [
   },
   {
     href: "/docs/openclaw",
-    icon: GiCrabClaw as ComponentType<{ className?: string; size?: number }>,
+    icon: GiCrabClaw,
     badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
     descKey: msg("HOME.INTEGRATION.OPENCLAW.DESCRIPTION"),
     badgeKey: msg("HOME.INTEGRATION.OPENCLAW.BADGE"),
     color: "red",
   },
-] as const;
+];
+
+const rpIntegrations: readonly IntegrationEntry[] = [
+  {
+    href: "/docs/sillytavern",
+    icon: LuDrama,
+    badge: "SillyTavern",
+    titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
+    descKey: msg("HOME.INTEGRATION.SILLYTAVERN.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.SILLYTAVERN.BADGE"),
+    color: "fuchsia",
+  },
+  {
+    href: "/docs/janitor-ai",
+    icon: GiBroom,
+    badge: "Janitor.AI",
+    titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
+    descKey: msg("HOME.INTEGRATION.JANITOR_AI.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.JANITOR_AI.BADGE"),
+    color: "cyan",
+  },
+  {
+    href: "/docs/risuai",
+    icon: GiFox,
+    badge: "RisuAI",
+    titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
+    descKey: msg("HOME.INTEGRATION.RISUAI.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.RISUAI.BADGE"),
+    color: "yellow",
+  },
+  {
+    href: "/docs/chub",
+    icon: LuHeart,
+    badge: "Chub / Venus",
+    titleKey: msg("HOME.INTEGRATION.CHUB.TITLE"),
+    descKey: msg("HOME.INTEGRATION.CHUB.DESCRIPTION"),
+    badgeKey: msg("HOME.INTEGRATION.CHUB.BADGE"),
+    color: "purple",
+  },
+];
 
 const colorMap = {
   orange: {
@@ -80,20 +132,57 @@ const colorMap = {
     ring: "border-red-600/30 group-hover:bg-red-600 group-hover:border-red-600",
     arrow: "text-red-500",
   },
+  fuchsia: {
+    glow: "bg-fuchsia-600/20",
+    badge: "bg-fuchsia-600/20 text-fuchsia-400",
+    border: "border-fuchsia-600/20 hover:border-fuchsia-600/50",
+    hoverBg: "hover:bg-fuchsia-600/5",
+    ring: "border-fuchsia-600/30 group-hover:bg-fuchsia-600 group-hover:border-fuchsia-600",
+    arrow: "text-fuchsia-400",
+  },
+  cyan: {
+    glow: "bg-cyan-500/20",
+    badge: "bg-cyan-500/20 text-cyan-400",
+    border: "border-cyan-500/20 hover:border-cyan-500/50",
+    hoverBg: "hover:bg-cyan-500/5",
+    ring: "border-cyan-500/30 group-hover:bg-cyan-500 group-hover:border-cyan-500",
+    arrow: "text-cyan-400",
+  },
+  yellow: {
+    glow: "bg-yellow-500/20",
+    badge: "bg-yellow-500/20 text-yellow-400",
+    border: "border-yellow-500/20 hover:border-yellow-500/50",
+    hoverBg: "hover:bg-yellow-500/5",
+    ring: "border-yellow-500/30 group-hover:bg-yellow-500 group-hover:border-yellow-500",
+    arrow: "text-yellow-400",
+  },
+  purple: {
+    glow: "bg-purple-600/20",
+    badge: "bg-purple-600/20 text-purple-400",
+    border: "border-purple-600/20 hover:border-purple-600/50",
+    hoverBg: "hover:bg-purple-600/5",
+    ring: "border-purple-600/30 group-hover:bg-purple-600 group-hover:border-purple-600",
+    arrow: "text-purple-400",
+  },
 } as const;
 
-export async function IntegrationBanner() {
+async function IntegrationRow(props: {
+  items: readonly IntegrationEntry[];
+  tintClassName: string;
+}) {
   const t = await getTranslations();
 
   return (
-    <section className="border-border/50 relative border-t border-b bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5 py-8">
+    <section
+      className={`border-border/50 relative border-t border-b py-8 ${props.tintClassName}`}
+    >
       <div className="mx-auto max-w-360 px-6">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {integrations.map((integration) => {
+          {props.items.map((integration) => {
             const colors = colorMap[integration.color];
             return (
               <Link
-                key={integration.href}
+                key={integration.badge}
                 href={integration.href}
                 className={`group flex flex-col gap-4 rounded-lg border px-6 py-4 ${colors.border} bg-card/40 backdrop-blur-sm ${colors.hoverBg} transition-all duration-300`}
               >
@@ -138,5 +227,35 @@ export async function IntegrationBanner() {
         </div>
       </div>
     </section>
+  );
+}
+
+/** CLI tools row. Warm orange/red tint to match existing palette. */
+export function IntegrationBannerCli() {
+  return (
+    <IntegrationRow
+      items={cliIntegrations}
+      tintClassName="bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5"
+    />
+  );
+}
+
+/** Roleplay clients row. Cool fuchsia/purple tint, distinct from the CLI row. */
+export function IntegrationBannerRoleplay() {
+  return (
+    <IntegrationRow
+      items={rpIntegrations}
+      tintClassName="bg-linear-to-r from-fuchsia-600/5 via-transparent to-purple-600/5"
+    />
+  );
+}
+
+/** Combined stacked banner (CLI row followed by Roleplay row). Used on the pricing page. */
+export function IntegrationBanner() {
+  return (
+    <>
+      <IntegrationBannerCli />
+      <IntegrationBannerRoleplay />
+    </>
   );
 }

@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/elements/content/page-header";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
 import { IntegrationRow } from "@/components/pages/navbar/docs/integration-row";
-import { integrations } from "@/components/pages/navbar/docs/integrations";
+import {
+  cliIntegrations,
+  rpIntegrations,
+} from "@/components/pages/navbar/docs/integrations";
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { getTranslations } from "next-intl/server";
@@ -15,10 +18,25 @@ export async function DocsIndexContent() {
 
   const toc = createTOC(
     [
-      ...integrations.map((integration) => ({
+      {
+        title: t("DOCS_SIDEBAR.GROUP_CLI"),
+        url: "#group-cli",
+        depth: 2,
+      },
+      ...cliIntegrations.map((integration) => ({
         title: t(integration.titleKey),
         url: `#${integration.href.replace("/docs/", "")}`,
-        depth: 2 as const,
+        depth: 3 as const,
+      })),
+      {
+        title: t("DOCS_SIDEBAR.GROUP_ROLEPLAY"),
+        url: "#group-roleplay",
+        depth: 2,
+      },
+      ...rpIntegrations.map((integration) => ({
+        title: t(integration.titleKey),
+        url: `#${integration.href.replace("/docs/", "")}`,
+        depth: 3 as const,
       })),
       {
         title: t("DOCS_INDEX.CTA_TITLE"),
@@ -41,15 +59,41 @@ export async function DocsIndexContent() {
           className="mb-12"
         />
 
-        <div className="space-y-6">
-          {integrations.map((integration) => (
-            <IntegrationRow
-              key={integration.href}
-              integration={integration}
-              id={integration.href.replace("/docs/", "")}
-            />
-          ))}
-        </div>
+        <section>
+          <h2
+            id="group-cli"
+            className="text-muted-foreground mb-4 font-mono text-xs tracking-widest uppercase"
+          >
+            {t("DOCS_SIDEBAR.GROUP_CLI")}
+          </h2>
+          <div className="space-y-6">
+            {cliIntegrations.map((integration) => (
+              <IntegrationRow
+                key={integration.href}
+                integration={integration}
+                id={integration.href.replace("/docs/", "")}
+              />
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-12">
+          <h2
+            id="group-roleplay"
+            className="text-muted-foreground mb-4 font-mono text-xs tracking-widest uppercase"
+          >
+            {t("DOCS_SIDEBAR.GROUP_ROLEPLAY")}
+          </h2>
+          <div className="space-y-6">
+            {rpIntegrations.map((integration) => (
+              <IntegrationRow
+                key={integration.href}
+                integration={integration}
+                id={integration.href.replace("/docs/", "")}
+              />
+            ))}
+          </div>
+        </section>
 
         <section className="border-border mt-20 border-t pt-12 text-center">
           <h2 className="text-2xl font-semibold" id="get-started">
@@ -59,8 +103,10 @@ export async function DocsIndexContent() {
             {t("DOCS_INDEX.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS_INDEX.CTA_SIGNUP"
-              authedTranslationKey="DOCS_INDEX.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS_INDEX.CTA_SIGNUP"
+              authedTranslationKey="DOCS_INDEX.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

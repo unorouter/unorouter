@@ -90,6 +90,26 @@
         "BADGE": "OpenAI API",
         "TITLE": "Работает с OpenClaw",
         "DESCRIPTION": "Используйте {appName} как поставщика моделей для агента OpenClaw. Настройте один раз, получите доступ к любой модели."
+      },
+      "SILLYTAVERN": {
+        "BADGE": "Ролевая игра",
+        "TITLE": "Работает с SillyTavern",
+        "DESCRIPTION": "Подключите {appName} как OpenAI-совместимый Custom-источник в SillyTavern. Вставьте базовый URL, выберите модель, общайтесь."
+      },
+      "JANITOR_AI": {
+        "BADGE": "Ролевая игра",
+        "TITLE": "Работает с Janitor.AI",
+        "DESCRIPTION": "Добавьте {appName} как пользовательский прокси в Janitor.AI. Полный URL и API-ключ, сохраните, обновите, готово."
+      },
+      "RISUAI": {
+        "BADGE": "Ролевая игра",
+        "TITLE": "Работает с RisuAI",
+        "DESCRIPTION": "Используйте {appName} как эндпойнт Custom Models в RisuAI. Снимите автозаполнение, вставьте URL, загрузите любую модель."
+      },
+      "CHUB": {
+        "BADGE": "Ролевая игра",
+        "TITLE": "Работает с Chub / Venus",
+        "DESCRIPTION": "Подключите {appName} как нативный reverse-прокси в Chub. Один URL, один ключ, все модели."
       }
     },
     "PRICING": {
