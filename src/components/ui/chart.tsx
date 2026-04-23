@@ -119,6 +119,9 @@ function ChartTooltipContent({
   nameKey,
   labelKey,
   valueFormatter,
+  sortDesc = false,
+  showTotal = false,
+  totalLabel = "Total",
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
   React.ComponentProps<"div"> & {
     hideLabel?: boolean;
@@ -127,6 +130,9 @@ function ChartTooltipContent({
     nameKey?: string;
     labelKey?: string;
     valueFormatter?: (value: number) => string;
+    sortDesc?: boolean;
+    showTotal?: boolean;
+    totalLabel?: string;
   }) {
   const { config } = useChart();
 
@@ -172,6 +178,16 @@ function ChartTooltipContent({
 
   const nestLabel = payload.length === 1 && indicator !== "dot";
 
+  const visiblePayload = payload.filter((item) => item.type !== "none");
+  const orderedPayload = sortDesc
+    ? [...visiblePayload].sort(
+        (a, b) => Number(b.value ?? 0) - Number(a.value ?? 0),
+      )
+    : visiblePayload;
+  const total = showTotal
+    ? visiblePayload.reduce((sum, item) => sum + Number(item.value ?? 0), 0)
+    : 0;
+
   return (
     <div
       className={cn(
@@ -181,9 +197,15 @@ function ChartTooltipContent({
     >
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload
-          .filter((item) => item.type !== "none")
-          .map((item, index) => {
+        {showTotal && (
+          <div className="flex items-center justify-between gap-4 leading-none">
+            <span className="text-muted-foreground">{totalLabel}</span>
+            <span className="text-foreground font-mono font-medium tabular-nums">
+              {valueFormatter ? valueFormatter(total) : total.toLocaleString()}
+            </span>
+          </div>
+        )}
+        {orderedPayload.map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color || item.payload.fill || item.color;

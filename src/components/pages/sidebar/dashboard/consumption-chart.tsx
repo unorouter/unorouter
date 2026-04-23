@@ -59,19 +59,25 @@ function buildChartConfig(modelNames: string[]): ChartConfig {
 
 function processDistributionData(data: QuotaDataItem[], g: Granularity) {
   const byTime = new Map<string, Record<string, number>>();
-  const models = new Set<string>();
+  const modelTotals = new Map<string, number>();
 
   for (const item of data) {
     if (!item.created_at || !item.model_name) continue;
     const key = bucketKey(item.created_at, g);
-    models.add(item.model_name);
+    const dollars = quotaToDollars(item.quota ?? 0);
+    modelTotals.set(
+      item.model_name,
+      (modelTotals.get(item.model_name) ?? 0) + dollars,
+    );
     const existing = byTime.get(key) ?? {};
-    existing[item.model_name] =
-      (existing[item.model_name] ?? 0) + quotaToDollars(item.quota ?? 0);
+    existing[item.model_name] = (existing[item.model_name] ?? 0) + dollars;
     byTime.set(key, existing);
   }
 
-  const modelList = [...models].slice(0, 5);
+  const modelList = [...modelTotals.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([name]) => name);
+
   const chartData = [...byTime.entries()]
     .sort((a, b) => a[0].localeCompare(b[0]))
     .map(([time, values]) => ({ time, ...values }));
@@ -105,11 +111,18 @@ export function ConsumptionChart() {
   const dashboard = useDashboardData();
   const isLoading = dashboard.quotaQuery.isLoading;
 
+  const otherLabel = t("DASHBOARD.OTHER");
+  const totalLabel = t("DASHBOARD.TOTAL");
   const granularity = pickGranularity(dashboard.periodMinutes);
   const distribution = processDistributionData(dashboard.rawData, granularity);
   const trendData = processTrendData(dashboard.rawData, granularity);
-  const pieData = aggregateByModel(dashboard.rawData, "count", 8);
-  const rankingData = aggregateByModel(dashboard.rawData, "count", 10);
+  const pieData = aggregateByModel(dashboard.rawData, "count", 8, otherLabel);
+  const rankingData = aggregateByModel(
+    dashboard.rawData,
+    "count",
+    20,
+    otherLabel,
+  );
 
   const distributionConfig = buildChartConfig(distribution.modelList);
   const trendConfig: ChartConfig = {
@@ -230,11 +243,16 @@ export function ConsumptionChart() {
                     fontSize={10}
                     fontFamily="monospace"
                     allowDecimals
-                    tickFormatter={(v: number) => `$${v}`}
+                    tickFormatter={formatPrice}
                   />
                   <ChartTooltip
                     content={
-                      <ChartTooltipContent valueFormatter={formatPrice} />
+                      <ChartTooltipContent
+                        valueFormatter={formatPrice}
+                        sortDesc
+                        showTotal
+                        totalLabel={totalLabel}
+                      />
                     }
                   />
                   <ChartLegend content={<ChartLegendContent />} />
@@ -270,7 +288,7 @@ export function ConsumptionChart() {
                     fontSize={10}
                     fontFamily="monospace"
                     allowDecimals
-                    tickFormatter={(v: number) => `$${v}`}
+                    tickFormatter={formatPrice}
                   />
                   <ChartTooltip
                     content={
@@ -354,7 +372,11 @@ export function ConsumptionChart() {
                     }
                   />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey="count" fill="var(--color-chart-1)" />
+                  <Bar dataKey="count">
+                    {rankingData.map((entry, i) => (
+                      <Cell key={i} fill={modelColor(entry.name)} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ChartContainer>
             </TabsContent>

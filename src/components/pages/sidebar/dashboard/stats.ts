@@ -22,6 +22,7 @@ export function aggregateByModel(
   data: QuotaDataItem[],
   field: "count" | "quota",
   limit: number,
+  otherLabel?: string,
 ): { name: string; count: number }[] {
   const byModel = new Map<string, number>();
 
@@ -33,10 +34,17 @@ export function aggregateByModel(
     );
   }
 
-  return [...byModel.entries()]
+  const sorted = [...byModel.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, limit)
     .map(([name, value]) => ({ name, count: value }));
+
+  if (!otherLabel || sorted.length <= limit) return sorted.slice(0, limit);
+
+  const top = sorted.slice(0, limit);
+  const rest = sorted.slice(limit);
+  const otherCount = rest.reduce((sum, item) => sum + item.count, 0);
+  if (otherCount <= 0) return top;
+  return [...top, { name: otherLabel, count: otherCount }];
 }
 
 export type BucketData = {
