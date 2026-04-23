@@ -6,14 +6,14 @@ import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
 import type { ComponentType } from "react";
-import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
-import { LuArrowRight, LuDrama, LuHeart } from "react-icons/lu";
+import { LuArrowRight, LuHeart } from "react-icons/lu";
 
 type IntegrationIcon = ComponentType<{ className?: string; size?: number }>;
 
 type IntegrationEntry = {
   href: LinkHref;
   icon: IntegrationIcon;
+  logoSrc?: string;
   badge: string;
   titleKey: TranslationKey;
   descKey: TranslationKey;
@@ -51,7 +51,8 @@ const cliIntegrations: readonly IntegrationEntry[] = [
   },
   {
     href: "/docs/openclaw",
-    icon: GiCrabClaw,
+    icon: LuHeart,
+    logoSrc: "/icons/openclaw.svg",
     badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
     descKey: msg("HOME.INTEGRATION.OPENCLAW.DESCRIPTION"),
@@ -63,7 +64,8 @@ const cliIntegrations: readonly IntegrationEntry[] = [
 const rpIntegrations: readonly IntegrationEntry[] = [
   {
     href: "/docs/sillytavern",
-    icon: LuDrama,
+    icon: LuHeart,
+    logoSrc: "/icons/sillytavern.png",
     badge: "SillyTavern",
     titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
     descKey: msg("HOME.INTEGRATION.SILLYTAVERN.DESCRIPTION"),
@@ -72,7 +74,8 @@ const rpIntegrations: readonly IntegrationEntry[] = [
   },
   {
     href: "/docs/janitor-ai",
-    icon: GiBroom,
+    icon: LuHeart,
+    logoSrc: "/icons/janitor-ai.png",
     badge: "Janitor.AI",
     titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
     descKey: msg("HOME.INTEGRATION.JANITOR_AI.DESCRIPTION"),
@@ -81,7 +84,8 @@ const rpIntegrations: readonly IntegrationEntry[] = [
   },
   {
     href: "/docs/risuai",
-    icon: GiFox,
+    icon: LuHeart,
+    logoSrc: "/icons/risuai.png",
     badge: "RisuAI",
     titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
     descKey: msg("HOME.INTEGRATION.RISUAI.DESCRIPTION"),
@@ -91,6 +95,7 @@ const rpIntegrations: readonly IntegrationEntry[] = [
   {
     href: "/docs/chub",
     icon: LuHeart,
+    logoSrc: "/icons/chub-ai.png",
     badge: "Chub / Venus",
     titleKey: msg("HOME.INTEGRATION.CHUB.TITLE"),
     descKey: msg("HOME.INTEGRATION.CHUB.DESCRIPTION"),
@@ -191,7 +196,18 @@ async function IntegrationRow(props: {
                     <div
                       className={`absolute inset-0 ${colors.glow} rounded-full blur-xl`}
                     />
-                    <integration.icon size={40} className="relative" />
+                    {integration.logoSrc ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={integration.logoSrc}
+                        alt={integration.badge}
+                        width={40}
+                        height={40}
+                        className="relative h-10 w-10 object-contain"
+                      />
+                    ) : (
+                      <integration.icon size={40} className="relative" />
+                    )}
                   </div>
                   <div className="min-w-0 text-left">
                     <div className="mb-1 flex items-center gap-2">

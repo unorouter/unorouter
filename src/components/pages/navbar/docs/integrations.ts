@@ -33,6 +33,7 @@ type CliIntegrationDef = {
   subtitleKey: TranslationKey;
   badgeKey: TranslationKey;
   iconKey: IntegrationIconKey;
+  logoSrc?: string;
   color: IntegrationColor;
   quickStart: Record<OS, string>;
 };
@@ -45,6 +46,7 @@ type RpIntegrationDef = {
   subtitleKey: TranslationKey;
   badgeKey: TranslationKey;
   iconKey: IntegrationIconKey;
+  logoSrc?: string;
   color: IntegrationColor;
   /** Code-block content shown under Quick Start (e.g. URL + key lines). */
   quickConfig: string;
@@ -182,6 +184,7 @@ gemini`,
     subtitleKey: "DOCS.OPENCLAW.SUBTITLE",
     badgeKey: "DOCS.OPENCLAW.BADGE",
     iconKey: "openclaw",
+    logoSrc: "/icons/openclaw.svg",
     color: {
       accent: "text-red-500",
       badge: "bg-red-600 text-white",
@@ -220,6 +223,7 @@ export const rpIntegrations = [
     subtitleKey: "DOCS.SILLYTAVERN.SUBTITLE",
     badgeKey: "DOCS.SILLYTAVERN.BADGE",
     iconKey: "sillytavern",
+    logoSrc: "/icons/sillytavern.png",
     color: {
       accent: "text-pink-500",
       badge: "bg-pink-600 text-white",
@@ -240,6 +244,7 @@ API Key:  YOUR_API_KEY`,
     subtitleKey: "DOCS.JANITOR_AI.SUBTITLE",
     badgeKey: "DOCS.JANITOR_AI.BADGE",
     iconKey: "janitor-ai",
+    logoSrc: "/icons/janitor-ai.png",
     color: {
       accent: "text-teal-500",
       badge: "bg-teal-600 text-white",
@@ -260,6 +265,7 @@ API Key:   YOUR_API_KEY`,
     subtitleKey: "DOCS.RISUAI.SUBTITLE",
     badgeKey: "DOCS.RISUAI.BADGE",
     iconKey: "risuai",
+    logoSrc: "/icons/risuai.png",
     color: {
       accent: "text-amber-500",
       badge: "bg-amber-600 text-white",
@@ -280,6 +286,7 @@ API Key:     YOUR_API_KEY`,
     subtitleKey: "DOCS.CHUB.SUBTITLE",
     badgeKey: "DOCS.CHUB.BADGE",
     iconKey: "chub",
+    logoSrc: "/icons/chub-ai.png",
     color: {
       accent: "text-rose-500",
       badge: "bg-rose-600 text-white",

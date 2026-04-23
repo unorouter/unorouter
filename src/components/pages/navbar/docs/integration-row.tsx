@@ -63,10 +63,21 @@ export async function IntegrationRow(props: {
               <div
                 className={`absolute inset-0 ${integration.color.glow} rounded-full blur-xl`}
               />
-              <Icon
-                size={48}
-                className={`relative ${integration.color.accent}`}
-              />
+              {integration.logoSrc ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={integration.logoSrc}
+                  alt={integration.iconKey}
+                  width={48}
+                  height={48}
+                  className="relative h-12 w-12 object-contain"
+                />
+              ) : (
+                <Icon
+                  size={48}
+                  className={`relative ${integration.color.accent}`}
+                />
+              )}
             </div>
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">
