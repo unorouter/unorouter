@@ -10,13 +10,13 @@ import { useLoginMutation } from "@/hooks/auth-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { RouterPush } from "@/i18n/routing";
+import { analytics } from "@/lib/analytics";
 import { APP_VALUES, AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import {
   loginChecker,
   loginSchema,
   type LoginSchema,
 } from "@/lib/validation/auth";
-import { analytics } from "@/lib/analytics";
 import { safeParse } from "@/lib/validation/helpers";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
@@ -24,7 +24,7 @@ import { Value } from "@sinclair/typebox/value";
 import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 export function LoginForm() {
   const t = useTranslations();
@@ -40,6 +40,10 @@ export function LoginForm() {
   const [show2FA, setShow2FA] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
   const turnstileRef = useRef<TurnstileInstance>(null);
+
+  const username = useWatch({ control: form.control, name: "username" });
+  const password = useWatch({ control: form.control, name: "password" });
+  const isValid = safeParse(loginChecker, { username, password }).success;
 
   function getRedirectPath() {
     const redirect = getCookie(AUTH_REDIRECT_COOKIE);
@@ -84,12 +88,6 @@ export function LoginForm() {
   const showPasswordForm = statusQuery.data?.password_login_enabled !== false;
   const emailAsUsername = statusQuery.data?.email_verification === true;
 
-  const formValues = form.watch();
-  const isValid = safeParse(loginChecker, {
-    username: formValues.username,
-    password: formValues.password,
-  }).success;
-
   return (
     <GlassAuthCard
       title={t("AUTH.LOGIN.TITLE")}
@@ -98,7 +96,12 @@ export function LoginForm() {
       <div className="space-y-6">
         {showPasswordForm && (
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={(e) => {
+                form.handleSubmit(onSubmit)(e);
+              }}
+              className="space-y-4"
+            >
               <div className="space-y-3">
                 <MyFormInput
                   control={form.control}

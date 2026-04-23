@@ -58,3 +58,4 @@ yarn.lock
 pnpm-lock.yaml
 seo-timestamps.json
 indexnow.log
+.openapi-types/

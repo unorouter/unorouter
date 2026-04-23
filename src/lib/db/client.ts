@@ -12,6 +12,9 @@ let _client: Client | null = null;
 export function getDb(): LibSQLDatabase<typeof schema> {
   if (_db) return _db;
 
+  if (!serverEnv.tursoUrl)
+    throw new Error("Missing required env: TURSO_DATABASE_URL");
+
   _client = createClient({
     url: serverEnv.tursoUrl,
     authToken: serverEnv.tursoToken,

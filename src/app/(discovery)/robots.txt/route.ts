@@ -1,11 +1,9 @@
 import { pathnames, privateRoutes, routing } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
-import type { MetadataRoute } from "next";
 import type { Locale } from "next-intl";
 
 const siteOrigin = new URL(env.appUrl).origin;
 
-/** Resolve the localized form of a pathnames entry. Dynamic parents get a trailing slash so only children are blocked. */
 function localizedPath(
   route: keyof typeof pathnames,
   locale: Locale,
@@ -19,7 +17,7 @@ function localizedPath(
   return `/${locale}${parent}${isDynamic ? "/" : ""}`;
 }
 
-export default function robots(): MetadataRoute.Robots {
+function buildDisallowList(): string[] {
   const disallow = new Set<string>(["/api/"]);
   for (const route of privateRoutes.static) {
     for (const locale of routing.locales) {
@@ -31,16 +29,25 @@ export default function robots(): MetadataRoute.Robots {
       disallow.add(localizedPath(route, locale, true));
     }
   }
+  return Array.from(disallow).sort();
+}
 
-  return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: Array.from(disallow).sort(),
-      },
-    ],
-    sitemap: `${siteOrigin}/sitemap.xml`,
-    host: siteOrigin,
-  };
+export function GET() {
+  const disallow = buildDisallowList();
+  const lines: string[] = [
+    "User-Agent: *",
+    "Content-Signal: search=yes, ai-train=no, ai-input=yes",
+    "Allow: /",
+    ...disallow.map((path) => `Disallow: ${path}`),
+    "",
+    `Sitemap: ${siteOrigin}/sitemap.xml`,
+    `Host: ${siteOrigin}`,
+    "",
+  ];
+  return new Response(lines.join("\n"), {
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
 }

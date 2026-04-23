@@ -1,5 +1,5 @@
-import { IS_DEV } from "./lib/config/constants";
 import { type Instrumentation } from "next";
+import { IS_DEV } from "./lib/config/constants";
 
 export async function register() {
   // Load dayjs plugins onto the singleton so bare `import dayjs from "dayjs"`

@@ -13,6 +13,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   useBillingPlansQuery,
+  useBillingPortalMutation,
   useCreemSubscriptionMutation,
   useStripeSubscriptionMutation,
   useSubscriptionSelfQuery,
@@ -25,7 +26,7 @@ import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { LuRefreshCw, LuSparkles } from "react-icons/lu";
+import { LuExternalLink, LuRefreshCw, LuSparkles } from "react-icons/lu";
 import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
@@ -75,6 +76,7 @@ export function SubscriptionSection() {
   const preferenceMutation = useUpdateBillingPreferenceMutation();
   const stripeSubMutation = useStripeSubscriptionMutation();
   const creemSubMutation = useCreemSubscriptionMutation();
+  const portalMutation = useBillingPortalMutation();
 
   const plans = plansQuery.data ?? [];
   const selfData = selfQuery.data;
@@ -141,6 +143,19 @@ export function SubscriptionSection() {
     return plan?.title ?? `Plan #${planId}`;
   }
 
+  function handleManageBilling() {
+    portalMutation.mutate(undefined, {
+      onSuccess: (data) => {
+        const url = data?.portal_url;
+        if (url) window.open(url, "_blank");
+        else toast.error(t("BILLING.PORTAL.ERROR"));
+      },
+      onError: () => {
+        toast.error(t("BILLING.PORTAL.ERROR"));
+      },
+    });
+  }
+
   if (isLoading) {
     return (
       <div className="space-y-4">
@@ -189,6 +204,15 @@ export function SubscriptionSection() {
               ))}
             </SelectContent>
           </Select>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleManageBilling}
+            disabled={portalMutation.isPending}
+          >
+            <LuExternalLink className="h-4 w-4" />
+            {t("BILLING.PORTAL.MANAGE")}
+          </Button>
           <Button
             variant="ghost"
             size="icon"

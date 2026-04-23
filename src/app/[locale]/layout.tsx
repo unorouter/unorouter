@@ -1,4 +1,5 @@
 import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
+import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from "@/i18n/routing";
@@ -98,6 +99,7 @@ export default async function LocaleLayout(props: Props) {
           <Toaster richColors />
           <Suspense>
             <AffiliateCapture />
+            <AuthRedirectCapture />
           </Suspense>
           {props.children}
         </Providers>

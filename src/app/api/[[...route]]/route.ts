@@ -3,6 +3,7 @@ import { authRoute } from "@/server/auth/route";
 import { badgeRoute } from "@/server/badge/route";
 import { billingRoute } from "@/server/billing/route";
 import { chatRoute } from "@/server/chat/route";
+import { checkoutSessionsRoute } from "@/server/checkout-sessions/route";
 import { dashboardRoute } from "@/server/dashboard/route";
 import { logsRoute } from "@/server/logs/route";
 import { pricingRoute } from "@/server/pricing/route";
@@ -10,12 +11,68 @@ import { healthRoute } from "@/server/health/route";
 import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
+import { webBotAuthPlugin } from "@/server/web-bot-auth/middleware";
+import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { logger } from "@/lib/utils/logger";
 import { uid } from "@/lib/utils/base";
+import { fromTypes, openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+const openapiRefs =
+  process.env.NODE_ENV === "production"
+    ? (() => {
+        try {
+          const path = join(
+            process.cwd(),
+            ".next/.openapi-types/references.json",
+          );
+          return JSON.parse(readFileSync(path, "utf8"));
+        } catch {
+          return {};
+        }
+      })()
+    : fromTypes("src/app/api/[[...route]]/route.ts");
+
+const siteOrigin = new URL(env.appUrl).origin;
 
 export const app = new Elysia({ prefix: "/api" })
-
+  .use(
+    openapi({
+      path: "/openapi",
+      references: openapiRefs as never,
+      documentation: {
+        openapi: "3.1.0",
+        info: {
+          title: `${APP_VALUES.appName} BFF`,
+          version: "1.0.0",
+          description: `Backend-for-frontend for ${APP_VALUES.appName}. Pass-through verticals (auth, billing, token, affiliate, logs, pricing, dashboard, stats, settings, badge) proxy the upstream relay. The chat vertical owns local state and streaming logic.`,
+          contact: {
+            name: APP_VALUES.appName,
+            url: siteOrigin,
+            email: APP_VALUES.supportEmail,
+          },
+        },
+        servers: [{ url: `${siteOrigin}/api` }],
+        // MPP (Machine Payment Protocol) service metadata, paymentauth.org
+        // draft-payment-discovery-00. Agents read this alongside the
+        // per-operation x-payment-info annotations on /billing/*-pay routes
+        // to learn what the API does and which operations require payment.
+        ...({
+          "x-service-info": {
+            categories: ["ai", "developer-tools"],
+            docs: {
+              apiReference: `${siteOrigin}/api/openapi`,
+              homepage: siteOrigin,
+              llms: `${siteOrigin}/llms.txt`,
+            },
+          },
+        } as Record<string, unknown>),
+      },
+    }),
+  )
   .derive(({ request }) => {
     const requestId = request.headers.get("x-request-id") ?? uid(12);
     return { requestId, startedAt: performance.now() };
@@ -71,12 +128,14 @@ export const app = new Elysia({ prefix: "/api" })
     set.status = 500;
     return JSON.stringify({ message: "Internal server error" });
   })
+  .use(webBotAuthPlugin)
   .use(badgeRoute)
   .use(healthRoute)
   .use(pricingRoute)
   .use(statsRoute)
   .use(authRoute)
   .use(billingRoute)
+  .use(checkoutSessionsRoute)
   .use(chatRoute)
   .use(dashboardRoute)
   .use(tokenRoute)

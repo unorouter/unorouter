@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1776601792250,
-      "tag": "0000_freezing_shen",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1776883471503,
-      "tag": "0001_nifty_black_tarantula",
+      "when": 1777121362174,
+      "tag": "0000_goofy_franklin_storm",
       "breakpoints": true
     }
   ]

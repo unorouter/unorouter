@@ -362,6 +362,25 @@
         "H_NEXT": "Was kommt als Nächstes",
         "P_NEXT": "Wir liefern wöchentlich. Erwarte mehr Modelle, präzisere Health-Signale für noch intelligentere Fallbacks, reichhaltigere Dashboards für Kosten und Latenz und tiefere Integrationen mit den Terminals und IDEs, in denen du ohnehin schon arbeitest.",
         "CTA": "Bereit zum Ausprobieren? <register>Hol dir einen API-Schlüssel</register> oder <models>durchsuche den Modellkatalog</models>."
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName} erreicht 100/100 bei Is Your Site Agent-Ready",
+        "DESCRIPTION": "Cloudflares Scanner Is Your Site Agent-Ready vergibt {appName} ein perfektes Ergebnis von 100/100 und die Stufe 5 Agent-Native in allen 5 Kategorien: Auffindbarkeit, Inhalt, Bot-Zugriffskontrolle, API- und MCP-Discovery sowie Commerce.",
+        "AUTHOR": "{appName}-Team",
+        "INTRO": "Ein KI-Agent landet auf deiner Domain. Kann er herausfinden, wer du bist, was du anbietest, wie er mit dir spricht und wie er dich bezahlt? Genau das versucht der Scanner Is Your Site Agent-Ready von Cloudflare zu beantworten. Wir haben ihn auf {appDomain} losgelassen und ein perfektes 100/100 mit der höchsten Stufe 5 Agent-Native zurückbekommen.",
+        "H_SCORE": "Das Ergebnis",
+        "P_SCORE": "Fünf Kategorien, alle grün. Auffindbarkeit 3/3, Inhalt 1/1, Bot-Zugriffskontrolle 3/3, API/Auth/MCP/Skill-Discovery 7/7 und auch die optionale Commerce-Kategorie bestanden. Aus Sicht des Scanners sitzt jeder aufkommende Agentenstandard, den er kennt, sauber an Ort und Stelle auf {appDomain}.",
+        "IMG_ALT": "Bericht von Is Your Site Agent-Ready zeigt {appDomain} mit 100 Punkten und Level-5-Agent-Native-Abzeichen",
+        "IMG_CAPTION": "Live-Bericht unter <scanner>isitagentready.com/{appDomain}</scanner>.",
+        "H_WHAT": "Was Is Your Site Agent-Ready wirklich prüft",
+        "P_WHAT": "Es ist ein kostenloser Scanner von Cloudflare, der deine Domain abklopft und die technischen Signale sucht, die KI-Agenten nutzen, um eine Seite zu entdecken und mit ihr zu interagieren. Stell es dir wie eine Checkliste vor: robots.txt, Sitemap, Link-Header, Content-Type-Aushandlung für Markdown, KI-Bot-Regeln, MCP-Server-Karten, Agent-Skill-Manifeste, OAuth-Discovery-Dokumente, x402-Zahlungs-Header und mehrere aufkommende Commerce-Protokolle. Jede Prüfung ist ein kleiner HTTP-Aufruf gegen einen bekannten Pfad oder Header.",
+        "H_CATEGORIES": "Jede Prüfung in Klartext",
+        "P_CATEGORIES": "Auffindbarkeit deckt robotsTxt ab (eine robots.txt, die parsbar ist), sitemap (eine sitemap.xml, die der Scanner abrufen kann) und linkHeaders (Link-Header, die auf maschinenlesbare Manifeste zeigen). Inhalt deckt markdownNegotiation ab (ob die Seite mit Markdown antwortet, wenn ein Agent danach fragt). Bot-Zugriffskontrolle deckt robotsTxtAiRules ab (explizite Erlauben/Verbieten-Regeln für KI-Agenten), contentSignals (Cloudflares Format Content-Signals) und webBotAuth (signierte Bot-Identität). API/Auth/MCP/Skill-Discovery deckt apiCatalog ab (ein auffindbares API-Verzeichnis), oauthDiscovery und oauthProtectedResource (OAuth-Metadaten nach RFC 9728), mcpServerCard (ein Beschreibungsdokument für Model-Context-Protocol-Server), a2aAgentCard (Googles Agent-to-Agent-Karte), agentSkills (deklarierte Skill-Liste) und webMcp (HTTP-gebundenes MCP). Commerce deckt x402 ab (der HTTP-402-Zahlungsstandard), mpp, ucp und acp (drei konkurrierende Entwürfe für autonomen Handel). {appDomain} antwortet bei allen davon korrekt.",
+        "H_STUBS": "Eine ehrliche Einordnung",
+        "P_STUBS": "Diese Prüfungen sind einfache Stubs. Der Scanner verifiziert vor allem, dass eine well-known-URL existiert, mit 200 antwortet und die richtige oberste Form hat. Er fährt keinen echten OAuth-Flow durch, ruft kein MCP-Tool wirklich auf und wickelt keine x402-Zahlung ab. Ein grüner Haken bedeutet, dass die Tür offen ist, nicht, dass der Raum dahinter fertig eingerichtet ist. Wer in Produktion auf ein Protokoll setzt, sollte trotzdem eigene End-to-End-Tests fahren: den OAuth-Flow vollständig durchspielen, das MCP-Tool aus einem echten Client aufrufen, eine x402-Zahlung bis zur Verbuchung durchziehen. Das Ergebnis ist ein starkes Signal, dass die Oberfläche steht. Es ersetzt keine Konformitätsprüfung auf Protokollebene.",
+        "H_TRY": "Lass es auf deiner eigenen Seite laufen",
+        "P_TRY": "Wenn du irgendetwas baust, das KI-Agenten irgendwann anfassen könnten, lohnt sich der Scanner wirklich. Er bringt eine lange Liste kleiner Standards in einer Ansicht zusammen und sagt dir genau, welche well-known-Pfade fehlen oder kaputt sind. Wir nutzen ihn als Regressions-Check, wann immer wir etwas an Discovery, Auth oder Commerce anfassen.",
+        "CTA": "Scanne deine Seite auf <scanner>isitagentready.com</scanner>, oder wenn du wegen {appName} hier bist, <register>hol dir einen API-Schlüssel</register> und leg los."
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "Erstelle ein {appName}-Konto und nutze alle KI-Modelle über eine API.",
       "KEYWORDS": "{appName} Anmeldung, {appName} Registrierung, KI API Konto, Anmelden"
     },
+    "CONSENT": {
+      "TITLE": "Zugriff autorisieren",
+      "DESCRIPTION": "{clientId} möchte auf dein {appName}-Konto zugreifen.",
+      "REQUESTING_APP": "Anfragende App",
+      "SCOPES_LABEL": "Die App darf:",
+      "LIMITS_TITLE": "Du behältst die Kontrolle über Ausgaben",
+      "LIMITS_NOTE": "Apps können kein Geld eigenständig bewegen. Jede Aufladung oder jedes Abo öffnet eine Checkout-Seite, auf der du selbst bestätigst und bezahlst.",
+      "APPROVE": "Zugriff erlauben",
+      "DENY": "Abbrechen",
+      "INVALID_TITLE": "Autorisierungs-Link abgelaufen",
+      "INVALID": "Dieser Autorisierungs-Link ist ungültig oder abgelaufen. Bitte starte den Vorgang aus deiner App neu.",
+      "RETURN_HOME": "Zurück zum Dashboard",
+      "SECURITY_NOTE": "Erlaube nur Anfragen von Apps, denen du vertraust. Du kannst den Zugriff jederzeit im Dashboard widerrufen.",
+      "SECURITY_NOTE_PERSISTENT": "Diese App bleibt angemeldet, bis du den Zugriff widerrufst. Erlaube nur Anfragen von Apps, denen du vertraust. Du kannst den Zugriff jederzeit im Dashboard widerrufen.",
+      "META_TITLE": "App autorisieren, {appName}",
+      "META_DESCRIPTION": "Prüfe und bestätige die Zugriffsanfrage einer externen App auf dein {appName}-Konto.",
+      "SCOPE": {
+        "OPENID": "Dich als {appName}-Nutzer identifizieren",
+        "MODELS_READ": "Verfügbare Modelle und Preise anzeigen",
+        "BALANCE_READ": "Dein aktuelles Guthaben und Kontingent lesen",
+        "TOKENS_READ": "Deine API-Schlüssel auflisten",
+        "TOKENS_WRITE": "Neue API-Schlüssel in deinem Namen erstellen",
+        "SUBSCRIPTION_READ": "Aktive Abos und Kaufhistorie ansehen",
+        "SUBSCRIPTION_CANCEL": "Ein aktives Abo kündigen",
+        "CHECKOUT_CREATE": "Eine Checkout-Seite öffnen, um Guthaben oder Abos zu kaufen (du bestätigst jeden Kauf)"
+      }
+    },
     "LOGGING_IN": "Anmeldung...",
     "REGISTERING": "Konto wird erstellt...",
     "DONT_HAVE_ACCOUNT": "Noch kein Konto?",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "Zahlung fehlgeschlagen. Bitte versuchen Sie es erneut."
     },
+    "PORTAL": {
+      "MANAGE": "Abrechnung verwalten",
+      "ERROR": "Das Abrechnungsportal konnte nicht geöffnet werden. Bitte versuchen Sie es erneut."
+    },
     "TITLE": "Abrechnung",
     "ACCOUNT_STATS": "Kontostatistiken",
     "CURRENT_BALANCE": "Aktuelles Guthaben",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "Registriere dich und nutze KI günstiger",
     "TOKENS_MIN": "Tokens / Min",
     "MORE": "Weitere"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "Einheitliches KI-Modell-Gateway. Ein OpenAI-kompatibler Endpunkt für jedes große Modell (OpenAI, Anthropic, Google, DeepSeek und mehr) mit automatischem Failover und intelligentem Routing.",
+      "AUTH_DESCRIPTION": "Zwei Optionen. (1) {appName} API-Schlüssel: im Dashboard erstellen und als Authorization: Bearer sk-... senden. (2) OAuth 2.1 + PKCE für Agenten, die im Namen eines angemeldeten Benutzers handeln; der Agent kann anschließend über den Scope tokens:write einen eigenen API-Schlüssel erzeugen. Den Autorisierungsserver findest du unter /.well-known/oauth-authorization-server am API-Origin und die Ressourcenmetadaten unter /.well-known/oauth-protected-resource auf dieser Origin.",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "Chat-Vervollständigung",
+        "CHAT_COMPLETION_DESCRIPTION": "OpenAI-kompatible Chat-Vervollständigung über alle unterstützten Modelle. Unterstützt Streaming, Tool-Aufrufe und Vision, sofern das zugrunde liegende Modell dies beherrscht.",
+        "IMAGE_GENERATION_NAME": "Bildgenerierung",
+        "IMAGE_GENERATION_DESCRIPTION": "Bilder über unterstützte Bildmodelle generieren.",
+        "VIDEO_GENERATION_NAME": "Videogenerierung",
+        "VIDEO_GENERATION_DESCRIPTION": "Videos über unterstützte Videomodelle generieren, einschließlich asynchronem Task-Polling für länger laufende Renderings.",
+        "AUDIO_NAME": "Audio",
+        "AUDIO_DESCRIPTION": "Text-zu-Sprache, Sprache-zu-Text-Transkription und Audioverständnis über unterstützte Audiomodelle.",
+        "EMBEDDINGS_NAME": "Embeddings",
+        "EMBEDDINGS_DESCRIPTION": "Text-Embeddings über unterstützte Embedding-Modelle erzeugen.",
+        "MODEL_CATALOG_NAME": "Modellkatalog",
+        "MODEL_CATALOG_DESCRIPTION": "Alle verfügbaren Modelle mit aktueller Preisgestaltung auflisten. Nützlich für die dynamische Modellauswahl nach Kosten, Kontextfenster oder Fähigkeit."
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "Rufe eine OpenAI-kompatible Chat-Vervollständigung für jedes Modell von OpenAI, Anthropic, Google, DeepSeek und weiteren über einen einzigen Endpunkt auf. Verwende dies, wenn der Benutzer Modelle vergleichen möchte, automatisches Failover zwischen Anbietern benötigt oder eine einzige Abrechnung für mehrere LLM-Anbieter wünscht.",
+      "BROWSE_CATALOG": "Verfügbare KI-Modelle mit aktueller Preisgestaltung über OpenAI, Anthropic, Google, DeepSeek und weitere Anbieter entdecken. Verwende dies, wenn der Benutzer vor dem API-Aufruf ein Modell nach Kosten, Kontextfenster oder Fähigkeit auswählen möchte."
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "Browserbasierter KI-Modell-Router. Tools werden auf der Startseite über WebMCP mit navigator.modelContext registriert. Rufe die Startseite auf und nutze die Tools aus einem WebMCP-fähigen Client.",
+      "WEBMCP_BUNDLE_DESCRIPTION": "Browserbasierte Tools, die auf der {appName}-Startseite über navigator.modelContext registriert sind. Lade die Startseite in einem WebMCP-fähigen Client, um auf die Tools zuzugreifen.",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "Die {appName}-Modellkatalogseite öffnen, die alle verfügbaren Modelle mit aktueller Preisgestaltung über OpenAI, Anthropic, Google, DeepSeek und weitere Anbieter auflistet.",
+        "OPEN_PRICING": "Die {appName}-Preisseite öffnen, um Abopläne und Pay-as-you-go-Tarife zu prüfen.",
+        "OPEN_DOCS": "Eine {appName}-Integrationsanleitung öffnen. Akzeptiert einen Guide-Slug wie claude-code, codex, gemini-cli, openclaw, cc-switch, sillytavern, janitor-ai, risuai oder chub.",
+        "OPEN_CHAT": "Die {appName}-Chat-Oberfläche öffnen, um jedes unterstützte KI-Modell über eine einzige UI auszuprobieren.",
+        "OPEN_MODEL": "Die Detailseite für ein bestimmtes Modell öffnen. Akzeptiert einen Modell-Slug wie claude-opus-4-7, gpt-5, gemini-2.5-pro oder flux.1-dev."
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "{appName}-Modellkatalog geöffnet.",
+        "OPEN_PRICING": "Preisseite geöffnet.",
+        "OPEN_DOCS": "Integrationsanleitung {target} geöffnet.",
+        "OPEN_DOCS_INDEX": "Dokumentationsübersicht geöffnet.",
+        "OPEN_CHAT": "Chat-Oberfläche geöffnet.",
+        "OPEN_MODEL": "Modellseite für {target} geöffnet.",
+        "OPEN_MODEL_MISSING": "Modell-Slug fehlt. Rufe open_models_catalog auf, um verfügbare Modelle aufzulisten."
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "{appName} BFF OpenAPI-Spezifikation",
+      "RELAY_TITLE": "{appName} Relay-API (OpenAI-kompatibel, /v1)",
+      "DOCS_TITLE": "{appName} Integrationsdokumentation",
+      "AGENT_CARD_TITLE": "A2A Agent Card",
+      "AUTH_SERVER_TITLE": "Metadaten des OAuth-2.1-Autorisierungsservers (RFC 8414)",
+      "PROTECTED_RESOURCE_TITLE": "Metadaten der geschützten OAuth-Ressource (RFC 9728)"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "TEAM",
+      "SITE_SECTION": "SEITE",
+      "NAME_LABEL": "Name",
+      "CONTACT_LABEL": "Kontakt",
+      "LAST_UPDATE_LABEL": "Letzte Aktualisierung",
+      "LANGUAGE_LABEL": "Sprache",
+      "COMPONENTS_LABEL": "Komponenten",
+      "STANDARDS_LABEL": "Standards"
+    }
   }
 }

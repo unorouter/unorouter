@@ -362,6 +362,25 @@
         "H_NEXT": "Et ensuite",
         "P_NEXT": "Nous livrons chaque semaine. Attendez-vous à plus de modèles, des signaux de santé plus précis pour des basculements plus intelligents, des tableaux de bord de coût et de latence plus riches et des intégrations plus profondes avec les terminaux et IDE que vous utilisez déjà.",
         "CTA": "Prêt à essayer ? <register>Obtenez une clé API</register> ou <models>parcourez le catalogue de modèles</models>."
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName} obtient 100/100 sur Is Your Site Agent-Ready",
+        "DESCRIPTION": "Le scanner Is Your Site Agent-Ready de Cloudflare attribue à {appName} un score parfait de 100/100 et la note Niveau 5 Agent-Native sur les 5 catégories : découvrabilité, contenu, contrôle d'accès des bots, découverte d'API et de MCP, et commerce.",
+        "AUTHOR": "Équipe {appName}",
+        "INTRO": "Un agent IA arrive sur votre domaine. Peut-il deviner qui vous êtes, ce que vous proposez, comment vous parler et comment vous payer ? C'est exactement la question à laquelle le scanner Is Your Site Agent-Ready de Cloudflare cherche à répondre. Nous l'avons pointé sur {appDomain} et avons obtenu un 100/100 parfait, avec la mention la plus haute Niveau 5 Agent-Native.",
+        "H_SCORE": "Le résultat",
+        "P_SCORE": "Cinq catégories, toutes au vert. Découvrabilité 3/3, Contenu 1/1, Contrôle d'accès des bots 3/3, Découverte d'API/Auth/MCP/Compétences 7/7, et la catégorie Commerce optionnelle également validée. Du point de vue du scanner, chaque standard d'agent émergent qu'il sait détecter est bien en place sur {appDomain}.",
+        "IMG_ALT": "Rapport Is Your Site Agent-Ready affichant {appDomain} avec un score de 100 et le badge Niveau 5 Agent-Native",
+        "IMG_CAPTION": "Rapport en direct sur <scanner>isitagentready.com/{appDomain}</scanner>.",
+        "H_WHAT": "Ce que Is Your Site Agent-Ready vérifie réellement",
+        "P_WHAT": "C'est un scanner gratuit de Cloudflare qui interroge votre domaine et cherche les signaux techniques utilisés par les agents IA pour découvrir un site et interagir avec lui. Voyez-le comme une checklist : robots.txt, sitemap, en-têtes Link, négociation de type de contenu pour le markdown, règles pour bots IA, cartes de serveur MCP, manifestes de compétences d'agent, documents de découverte OAuth, en-têtes de paiement x402 et plusieurs protocoles de commerce émergents. Chaque vérification est un petit appel HTTP vers un chemin ou un en-tête bien connu.",
+        "H_CATEGORIES": "Toutes les vérifications, en clair",
+        "P_CATEGORIES": "Découvrabilité couvre robotsTxt (un robots.txt qui se parse correctement), sitemap (un sitemap.xml que le scanner peut récupérer) et linkHeaders (en-têtes Link pointant vers des manifestes lisibles par machine). Contenu couvre markdownNegotiation (le site répond-il en markdown lorsqu'un agent le demande). Contrôle d'accès des bots couvre robotsTxtAiRules (règles explicites d'autorisation ou d'interdiction des agents IA), contentSignals (le format Content-Signals de Cloudflare) et webBotAuth (identité de bot signée). Découverte d'API/Auth/MCP/Compétences couvre apiCatalog (un catalogue d'API découvrable), oauthDiscovery et oauthProtectedResource (métadonnées OAuth selon la RFC 9728), mcpServerCard (un descripteur de serveur Model Context Protocol), a2aAgentCard (la carte Agent-to-Agent de Google), agentSkills (liste de compétences déclarée) et webMcp (MCP transporté via HTTP). Commerce couvre x402 (le standard de paiement HTTP 402), mpp, ucp et acp (trois brouillons concurrents pour le commerce autonome). {appDomain} répond correctement à chacun.",
+        "H_STUBS": "Une mise au point honnête",
+        "P_STUBS": "Ces vérifications sont de simples stubs. Le scanner se contente la plupart du temps de constater qu'une URL well-known existe, renvoie un 200 et présente la bonne forme de premier niveau. Il ne déroule pas un vrai flux OAuth, n'invoque pas réellement un outil MCP et ne règle pas un paiement x402. Une coche verte signifie que la porte est ouverte, pas que la pièce derrière est terminée. Quiconque s'appuie sur un protocole en production doit toujours faire ses propres tests de bout en bout : dérouler le flux OAuth complet, appeler l'outil MCP depuis un vrai client, mener un paiement x402 jusqu'au règlement. Le score est un excellent signal que la surface est en place. Ce n'est pas un substitut à la conformité réelle au niveau du protocole.",
+        "H_TRY": "Lancez-le sur votre propre site",
+        "P_TRY": "Si vous construisez quoi que ce soit que des agents IA pourraient un jour toucher, ce scanner mérite vraiment quelques instants. Il regroupe en une seule vue une longue liste de petits standards et vous indique exactement quels chemins well-known sont absents ou mal formés. Nous l'utilisons comme test de non-régression à chaque fois que nous touchons à la découverte, à l'authentification ou aux surfaces commerciales.",
+        "CTA": "Scannez votre site sur <scanner>isitagentready.com</scanner>, ou si vous êtes ici pour {appName}, <register>récupérez une clé API</register> et commencez à router."
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "Créez un compte {appName} pour commencer à utiliser tous les modèles IA via une seule API.",
       "KEYWORDS": "connexion {appName}, inscription {appName}, compte API IA, se connecter"
     },
+    "CONSENT": {
+      "TITLE": "Autoriser l'accès",
+      "DESCRIPTION": "{clientId} demande l'accès à votre compte {appName}.",
+      "REQUESTING_APP": "Application demandeuse",
+      "SCOPES_LABEL": "L'application sera autorisée à :",
+      "LIMITS_TITLE": "Vos dépenses restent sous votre contrôle",
+      "LIMITS_NOTE": "Les applications ne peuvent pas déplacer d'argent toutes seules. Chaque recharge ou abonnement ouvre une page de paiement où vous confirmez et payez vous-même.",
+      "APPROVE": "Autoriser l'accès",
+      "DENY": "Annuler",
+      "INVALID_TITLE": "Lien d'autorisation expiré",
+      "INVALID": "Ce lien d'autorisation est invalide ou a expiré. Veuillez redémarrer le processus depuis votre application.",
+      "RETURN_HOME": "Retour au tableau de bord",
+      "SECURITY_NOTE": "N'autorisez que les applications de confiance. Vous pouvez révoquer l'accès à tout moment depuis votre tableau de bord.",
+      "SECURITY_NOTE_PERSISTENT": "Cette application restera connectée jusqu'à ce que vous révoquiez l'accès. N'autorisez que les applications de confiance. Vous pouvez révoquer l'accès à tout moment depuis votre tableau de bord.",
+      "META_TITLE": "Autoriser une application, {appName}",
+      "META_DESCRIPTION": "Examinez et approuvez la demande d'une application tierce d'accéder à votre compte {appName}.",
+      "SCOPE": {
+        "OPENID": "Vous identifier en tant qu'utilisateur {appName}",
+        "MODELS_READ": "Lister les modèles disponibles et leurs tarifs",
+        "BALANCE_READ": "Lire votre solde et votre quota actuels",
+        "TOKENS_READ": "Lister vos clés API",
+        "TOKENS_WRITE": "Créer de nouvelles clés API en votre nom",
+        "SUBSCRIPTION_READ": "Consulter vos abonnements actifs et votre historique d'achats",
+        "SUBSCRIPTION_CANCEL": "Annuler un abonnement actif",
+        "CHECKOUT_CREATE": "Ouvrir une page de paiement pour acheter des crédits ou abonnements (vous approuvez chaque achat)"
+      }
+    },
     "LOGGING_IN": "Connexion en cours...",
     "REGISTERING": "Création du compte...",
     "DONT_HAVE_ACCOUNT": "Vous n'avez pas de compte ?",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "Le paiement a échoué. Veuillez réessayer."
     },
+    "PORTAL": {
+      "MANAGE": "Gérer la facturation",
+      "ERROR": "Impossible d'ouvrir le portail de facturation. Veuillez réessayer."
+    },
     "TITLE": "Facturation",
     "ACCOUNT_STATS": "Statistiques du compte",
     "CURRENT_BALANCE": "Solde actuel",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "Inscrivez-vous et commencez avec l'IA à moindre coût",
     "TOKENS_MIN": "Jetons / min",
     "MORE": "Plus"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "Passerelle unifiée pour modèles d'IA. Un seul point de terminaison compatible OpenAI pour tous les grands modèles (OpenAI, Anthropic, Google, DeepSeek et plus), avec basculement automatique et routage intelligent.",
+      "AUTH_DESCRIPTION": "Deux options. (1) Clé API {appName} : génère-la dans le tableau de bord et envoie-la via Authorization: Bearer sk-... . (2) OAuth 2.1 + PKCE pour les agents agissant au nom d'un utilisateur connecté ; l'agent peut ensuite créer sa propre clé API via la portée tokens:write. Le serveur d'autorisation est disponible sur /.well-known/oauth-authorization-server côté API et les métadonnées de ressource sur /.well-known/oauth-protected-resource côté site.",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "Complétion de chat",
+        "CHAT_COMPLETION_DESCRIPTION": "Complétion de chat compatible OpenAI sur tous les modèles pris en charge. Prend en charge le streaming, les appels d'outils et la vision lorsque le modèle sous-jacent le permet.",
+        "IMAGE_GENERATION_NAME": "Génération d'images",
+        "IMAGE_GENERATION_DESCRIPTION": "Génère des images via les modèles d'image pris en charge.",
+        "VIDEO_GENERATION_NAME": "Génération de vidéos",
+        "VIDEO_GENERATION_DESCRIPTION": "Génère des vidéos via les modèles vidéo pris en charge, avec interrogation asynchrone des tâches pour les rendus longs.",
+        "AUDIO_NAME": "Audio",
+        "AUDIO_DESCRIPTION": "Synthèse vocale, transcription parole vers texte et compréhension audio via les modèles audio pris en charge.",
+        "EMBEDDINGS_NAME": "Embeddings",
+        "EMBEDDINGS_DESCRIPTION": "Génère des embeddings de texte via les modèles d'embeddings pris en charge.",
+        "MODEL_CATALOG_NAME": "Catalogue de modèles",
+        "MODEL_CATALOG_DESCRIPTION": "Liste tous les modèles disponibles avec les tarifs en direct. Utile pour choisir dynamiquement un modèle selon le coût, la fenêtre de contexte ou les capacités."
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "Appelle une complétion de chat compatible OpenAI sur n'importe quel modèle d'OpenAI, Anthropic, Google, DeepSeek et plus via un seul point de terminaison. À utiliser lorsque l'utilisateur veut comparer des modèles, profiter du basculement automatique entre fournisseurs, ou obtenir une facturation unique pour plusieurs fournisseurs de LLM.",
+      "BROWSE_CATALOG": "Découvre les modèles d'IA disponibles avec les tarifs en direct chez OpenAI, Anthropic, Google, DeepSeek et d'autres fournisseurs. À utiliser lorsque l'utilisateur doit choisir un modèle selon le coût, la fenêtre de contexte ou la capacité avant d'appeler l'API."
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "Routeur de modèles d'IA dans le navigateur. Les outils sont enregistrés via WebMCP sur la page d'accueil du site avec navigator.modelContext. Visite la page d'accueil et appelle les outils depuis un client compatible WebMCP.",
+      "WEBMCP_BUNDLE_DESCRIPTION": "Outils dans le navigateur enregistrés via navigator.modelContext sur la page d'accueil de {appName}. Charge la page d'accueil dans un client compatible WebMCP pour accéder aux outils.",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "Ouvre la page du catalogue de modèles {appName} qui liste tous les modèles disponibles avec les tarifs en direct chez OpenAI, Anthropic, Google, DeepSeek et d'autres fournisseurs.",
+        "OPEN_PRICING": "Ouvre la page tarifs de {appName} pour consulter les abonnements et tarifs à l'usage.",
+        "OPEN_DOCS": "Ouvre un guide d'intégration {appName}. Accepte un slug de guide tel que claude-code, codex, gemini-cli, openclaw, cc-switch, sillytavern, janitor-ai, risuai ou chub.",
+        "OPEN_CHAT": "Ouvre l'interface de chat {appName} pour essayer n'importe quel modèle d'IA pris en charge depuis une seule interface.",
+        "OPEN_MODEL": "Ouvre la page détail d'un modèle spécifique. Accepte un slug de modèle tel que claude-opus-4-7, gpt-5, gemini-2.5-pro ou flux.1-dev."
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "Catalogue de modèles {appName} ouvert.",
+        "OPEN_PRICING": "Page tarifs ouverte.",
+        "OPEN_DOCS": "Guide d'intégration {target} ouvert.",
+        "OPEN_DOCS_INDEX": "Index de la documentation ouvert.",
+        "OPEN_CHAT": "Interface de chat ouverte.",
+        "OPEN_MODEL": "Page du modèle {target} ouverte.",
+        "OPEN_MODEL_MISSING": "Slug de modèle manquant. Appelle open_models_catalog pour lister les modèles disponibles."
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "Spécification OpenAPI BFF de {appName}",
+      "RELAY_TITLE": "API relais {appName} (compatible OpenAI, /v1)",
+      "DOCS_TITLE": "Documentation d'intégration {appName}",
+      "AGENT_CARD_TITLE": "Carte d'agent A2A",
+      "AUTH_SERVER_TITLE": "Métadonnées du serveur d'autorisation OAuth 2.1 (RFC 8414)",
+      "PROTECTED_RESOURCE_TITLE": "Métadonnées de ressource protégée OAuth (RFC 9728)"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "ÉQUIPE",
+      "SITE_SECTION": "SITE",
+      "NAME_LABEL": "Nom",
+      "CONTACT_LABEL": "Contact",
+      "LAST_UPDATE_LABEL": "Dernière mise à jour",
+      "LANGUAGE_LABEL": "Langue",
+      "COMPONENTS_LABEL": "Composants",
+      "STANDARDS_LABEL": "Standards"
+    }
   }
 }

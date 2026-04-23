@@ -1,4 +1,5 @@
 import { LaunchContent } from "@/components/pages/blog/posts/2026-04-17-launch-content";
+import { AgentReadyContent } from "@/components/pages/blog/posts/2026-04-25-agent-ready-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { BlogPost } from "@/lib/types/seo";
@@ -7,6 +8,7 @@ import type { ComponentType } from "react";
 
 const COMPONENTS: Record<BlogSlug, ComponentType> = {
   launch: LaunchContent,
+  "agent-ready": AgentReadyContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

@@ -107,3 +107,9 @@ export function useCreemSubscriptionMutation() {
     },
   );
 }
+
+export function useBillingPortalMutation() {
+  return useSimpleMutation(async () => {
+    return handleElysia(await rpc.api.billing.portal.get());
+  });
+}

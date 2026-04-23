@@ -33,6 +33,9 @@ declare namespace NodeJS {
 
     GOOGLE_SITE_VERIFICATION?: string;
 
+    WEB_BOT_AUTH_PUBLIC_JWKS?: string;
+    WEB_BOT_AUTH_PRIVATE_JWK?: string;
+
     STANDALONE?: string;
     PORT?: string;
   }

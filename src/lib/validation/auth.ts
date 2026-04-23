@@ -47,3 +47,16 @@ export const twoFASchema = t.Object({
 });
 export const twoFAChecker = TypeCompiler.Compile(twoFASchema);
 export type TwoFASchema = Static<typeof twoFASchema>;
+
+// Shape of the upstream new-api response at GET /oauth/v1/authorize/info.
+// Matches the Gin handler in controller/oauth_consent.go (OAuthConsentInfo).
+// Used by the consent page to render the auth request before the user
+// approves it; treat as untrusted input until validated.
+export const authRequestInfoSchema = t.Object({
+  client_id: t.String(),
+  scope: t.String(),
+  redirect_uri: t.String(),
+  state: t.String(),
+});
+export const authRequestInfoChecker = TypeCompiler.Compile(authRequestInfoSchema);
+export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;

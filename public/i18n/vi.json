@@ -362,6 +362,25 @@
         "H_NEXT": "Tiếp theo là gì",
         "P_NEXT": "Chúng tôi phát hành hàng tuần. Hãy chờ đợi thêm nhiều mô hình, tín hiệu sức khỏe chặt chẽ hơn thúc đẩy dự phòng thông minh hơn, bảng điều khiển chi phí và độ trễ phong phú hơn, và tích hợp sâu hơn với các terminal và IDE mà bạn đã gắn bó.",
         "CTA": "Sẵn sàng thử? <register>Lấy API key</register> hoặc <models>duyệt catalog mô hình</models>."
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName} đạt 100/100 trên Is Your Site Agent-Ready",
+        "DESCRIPTION": "Trình quét Is Your Site Agent-Ready của Cloudflare chấm {appName} điểm tuyệt đối 100/100 cùng xếp hạng Cấp 5 Agent-Native ở cả 5 hạng mục: khả năng khám phá, nội dung, kiểm soát truy cập của bot, khám phá API và MCP, và thương mại.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "INTRO": "Một AI agent ghé tới domain của bạn. Nó có hiểu được bạn là ai, bạn cung cấp gì, nó nói chuyện với bạn ra sao và trả tiền cho bạn thế nào không? Đó chính là câu hỏi mà trình quét Is Your Site Agent-Ready của Cloudflare đang cố trả lời. Chúng tôi cho nó chạy trên {appDomain} và nhận lại điểm tuyệt đối 100/100 cùng xếp hạng cao nhất Cấp 5 Agent-Native.",
+        "H_SCORE": "Kết quả",
+        "P_SCORE": "Năm hạng mục, tất cả đều xanh. Khả năng khám phá 3/3, Nội dung 1/1, Kiểm soát truy cập của bot 3/3, Khám phá API/Auth/MCP/Skill 7/7, và hạng mục Thương mại tuỳ chọn cũng đạt. Theo trình quét, mọi tiêu chuẩn agent mới nổi mà nó biết tìm đều đã được đặt đúng chỗ trên {appDomain}.",
+        "IMG_ALT": "Báo cáo Is Your Site Agent-Ready cho thấy {appDomain} đạt 100 điểm và huy hiệu Cấp 5 Agent-Native",
+        "IMG_CAPTION": "Báo cáo trực tiếp tại <scanner>isitagentready.com/{appDomain}</scanner>.",
+        "H_WHAT": "Is Your Site Agent-Ready thực sự kiểm tra điều gì",
+        "P_WHAT": "Đây là một trình quét miễn phí của Cloudflare, gõ vào domain của bạn và tìm những tín hiệu kỹ thuật mà AI agent dùng để khám phá và tương tác với một website. Hãy xem nó như một danh sách kiểm: robots.txt, sitemap, header Link, thoả thuận content-type cho markdown, luật cho bot AI, thẻ máy chủ MCP, manifest kỹ năng agent, tài liệu OAuth discovery, header thanh toán x402, và một vài giao thức thương mại mới nổi. Mỗi kiểm tra chỉ là một cuộc gọi HTTP nhỏ tới một path hoặc header well-known.",
+        "H_CATEGORIES": "Mọi kiểm tra, nói cho dễ hiểu",
+        "P_CATEGORIES": "Khả năng khám phá gồm robotsTxt (một robots.txt phân tích được), sitemap (một sitemap.xml mà trình quét tải được) và linkHeaders (header Link trỏ tới các manifest máy đọc được). Nội dung gồm markdownNegotiation (website có trả về markdown khi agent yêu cầu hay không). Kiểm soát truy cập của bot gồm robotsTxtAiRules (luật cho phép hay từ chối agent AI một cách rõ ràng), contentSignals (định dạng Content-Signals của Cloudflare) và webBotAuth (định danh bot có ký số). Khám phá API/Auth/MCP/Skill gồm apiCatalog (danh bạ API có thể khám phá), oauthDiscovery và oauthProtectedResource (metadata OAuth theo RFC 9728), mcpServerCard (mô tả máy chủ Model Context Protocol), a2aAgentCard (thẻ Agent-to-Agent của Google), agentSkills (danh sách kỹ năng được khai báo) và webMcp (MCP qua HTTP). Thương mại gồm x402 (chuẩn thanh toán HTTP 402), mpp, ucp và acp (ba bản nháp cạnh tranh cho thương mại tự động). {appDomain} trả lời đúng tất cả những thứ trên.",
+        "H_STUBS": "Một lưu ý thẳng thắn",
+        "P_STUBS": "Những kiểm tra này là các stub đơn giản. Trình quét chủ yếu xác minh rằng một URL well-known tồn tại, trả 200 và có đúng hình dạng tầng trên. Nó không chạy hết một luồng OAuth thật, không thực sự gọi một công cụ MCP, không tất toán một khoản thanh toán x402. Một dấu tích xanh nghĩa là cánh cửa đã mở, chứ không phải căn phòng phía sau đã hoàn thiện. Ai dựa vào một giao thức trong môi trường sản xuất vẫn nên tự kiểm tra đầu cuối: chạy trọn luồng OAuth, gọi công cụ MCP từ một client thực, tất toán một khoản x402 đến cuối cùng. Điểm số là tín hiệu tốt cho thấy bề mặt đã sẵn sàng. Nó không thay thế cho kiểm tra tuân thủ ở tầng giao thức.",
+        "H_TRY": "Hãy chạy nó trên website của bạn",
+        "P_TRY": "Nếu bạn xây bất cứ thứ gì mà AI agent có thể chạm tới một ngày nào đó, trình quét này thực sự đáng dành ra một phút. Nó gom một danh sách dài các tiêu chuẩn nhỏ vào cùng một màn hình và chỉ rõ đường well-known nào đang thiếu hoặc bị hỏng. Chúng tôi dùng nó như một bài kiểm tra hồi quy mỗi khi đụng vào các bề mặt khám phá, xác thực hay thương mại.",
+        "CTA": "Hãy quét website của bạn tại <scanner>isitagentready.com</scanner>, hoặc nếu bạn ghé qua vì {appName}, <register>lấy một API key</register> rồi bắt đầu định tuyến."
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "Tạo tài khoản {appName} để bắt đầu dùng mọi mô hình AI qua một API.",
       "KEYWORDS": "đăng nhập {appName}, đăng ký {appName}, tài khoản API AI, đăng nhập"
     },
+    "CONSENT": {
+      "TITLE": "Cho phép truy cập",
+      "DESCRIPTION": "{clientId} đang yêu cầu truy cập tài khoản {appName} của bạn.",
+      "REQUESTING_APP": "Ứng dụng yêu cầu",
+      "SCOPES_LABEL": "Ứng dụng sẽ được phép:",
+      "LIMITS_TITLE": "Chi tiêu vẫn do bạn kiểm soát",
+      "LIMITS_NOTE": "Ứng dụng không thể tự thanh toán. Mọi giao dịch nạp tiền hoặc đăng ký đều mở trang thanh toán để bạn xác nhận và trả tiền.",
+      "APPROVE": "Cho phép truy cập",
+      "DENY": "Hủy",
+      "INVALID_TITLE": "Liên kết ủy quyền đã hết hạn",
+      "INVALID": "Liên kết ủy quyền này không hợp lệ hoặc đã hết hạn. Vui lòng thử lại từ ứng dụng của bạn.",
+      "RETURN_HOME": "Quay lại bảng điều khiển",
+      "SECURITY_NOTE": "Chỉ cho phép các ứng dụng đáng tin cậy. Bạn có thể thu hồi quyền bất kỳ lúc nào từ bảng điều khiển.",
+      "SECURITY_NOTE_PERSISTENT": "Ứng dụng này sẽ luôn đăng nhập cho đến khi bạn thu hồi quyền. Chỉ cho phép các ứng dụng đáng tin cậy. Bạn có thể thu hồi quyền bất kỳ lúc nào từ bảng điều khiển.",
+      "META_TITLE": "Ủy quyền ứng dụng, {appName}",
+      "META_DESCRIPTION": "Xem và chấp thuận yêu cầu truy cập của ứng dụng bên thứ ba vào tài khoản {appName} của bạn.",
+      "SCOPE": {
+        "OPENID": "Xác định bạn là người dùng {appName}",
+        "MODELS_READ": "Liệt kê các mô hình khả dụng và giá",
+        "BALANCE_READ": "Đọc số dư và hạn mức hiện tại",
+        "TOKENS_READ": "Xem danh sách khóa API của bạn",
+        "TOKENS_WRITE": "Tạo khóa API mới thay bạn",
+        "SUBSCRIPTION_READ": "Xem các gói đăng ký đang hoạt động và lịch sử mua hàng",
+        "SUBSCRIPTION_CANCEL": "Hủy một gói đăng ký đang hoạt động",
+        "CHECKOUT_CREATE": "Mở trang thanh toán để mua credit hoặc gói đăng ký (bạn xác nhận từng giao dịch)"
+      }
+    },
     "LOGGING_IN": "Đang đăng nhập...",
     "REGISTERING": "Đang tạo tài khoản...",
     "DONT_HAVE_ACCOUNT": "Chưa có tài khoản?",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "Thanh toán thất bại. Vui lòng thử lại."
     },
+    "PORTAL": {
+      "MANAGE": "Quản lý thanh toán",
+      "ERROR": "Không thể mở cổng quản lý thanh toán. Vui lòng thử lại."
+    },
     "TITLE": "Thanh toán",
     "ACCOUNT_STATS": "Thống kê tài khoản",
     "CURRENT_BALANCE": "Số dư hiện tại",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "Đăng ký và bắt đầu với AI giá tốt hơn",
     "TOKENS_MIN": "Token / Phút",
     "MORE": "Thêm"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "Cổng AI hợp nhất. Một endpoint tương thích OpenAI cho mọi mô hình lớn (OpenAI, Anthropic, Google, DeepSeek và nhiều hơn nữa) với chuyển đổi dự phòng tự động và định tuyến thông minh.",
+      "AUTH_DESCRIPTION": "Hai lựa chọn. (1) API key {appName}: tạo trong bảng điều khiển và gửi qua Authorization: Bearer sk-... . (2) OAuth 2.1 + PKCE cho các agent hoạt động thay mặt người dùng đã đăng nhập; agent có thể tự tạo API key bằng scope tokens:write. Tìm máy chủ ủy quyền tại /.well-known/oauth-authorization-server trên origin API và metadata tài nguyên tại /.well-known/oauth-protected-resource trên origin này.",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "Chat completion",
+        "CHAT_COMPLETION_DESCRIPTION": "Chat completion tương thích OpenAI cho mọi mô hình được hỗ trợ. Hỗ trợ streaming, gọi tool và vision khi mô hình nền tảng có.",
+        "IMAGE_GENERATION_NAME": "Tạo ảnh",
+        "IMAGE_GENERATION_DESCRIPTION": "Tạo ảnh qua các mô hình ảnh được hỗ trợ.",
+        "VIDEO_GENERATION_NAME": "Tạo video",
+        "VIDEO_GENERATION_DESCRIPTION": "Tạo video qua các mô hình video được hỗ trợ, kèm thăm dò tác vụ bất đồng bộ cho các phiên dựng dài.",
+        "AUDIO_NAME": "Âm thanh",
+        "AUDIO_DESCRIPTION": "Chuyển văn bản thành giọng nói, phiên âm giọng nói thành văn bản và hiểu âm thanh qua các mô hình âm thanh được hỗ trợ.",
+        "EMBEDDINGS_NAME": "Embeddings",
+        "EMBEDDINGS_DESCRIPTION": "Tạo vector nhúng văn bản qua các mô hình embedding được hỗ trợ.",
+        "MODEL_CATALOG_NAME": "Danh mục mô hình",
+        "MODEL_CATALOG_DESCRIPTION": "Liệt kê mọi mô hình khả dụng kèm giá thời gian thực. Hữu ích khi chọn mô hình theo chi phí, cửa sổ ngữ cảnh hoặc khả năng."
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "Gọi chat completion tương thích OpenAI tới bất kỳ mô hình nào của OpenAI, Anthropic, Google, DeepSeek và nhiều hơn nữa qua một endpoint duy nhất. Dùng khi người dùng muốn so sánh mô hình, cần tự động chuyển đổi giữa các nhà cung cấp, hoặc muốn gộp hóa đơn cho nhiều nhà cung cấp LLM.",
+      "BROWSE_CATALOG": "Khám phá các mô hình AI khả dụng kèm giá thời gian thực từ OpenAI, Anthropic, Google, DeepSeek và các nhà cung cấp khác. Dùng khi người dùng cần chọn mô hình theo chi phí, cửa sổ ngữ cảnh hoặc khả năng trước khi gọi API."
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "Router mô hình AI chạy trong trình duyệt. Các tool được đăng ký qua WebMCP trên trang chủ bằng navigator.modelContext. Truy cập trang chủ và gọi tool từ một client tương thích WebMCP.",
+      "WEBMCP_BUNDLE_DESCRIPTION": "Các tool trong trình duyệt được đăng ký qua navigator.modelContext trên trang chủ {appName}. Mở trang chủ trong một client tương thích WebMCP để truy cập tool.",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "Mở trang danh mục mô hình {appName}, liệt kê mọi mô hình khả dụng kèm giá thời gian thực từ OpenAI, Anthropic, Google, DeepSeek và các nhà cung cấp khác.",
+        "OPEN_PRICING": "Mở trang giá {appName} để xem các gói thuê bao và mức giá trả theo dùng.",
+        "OPEN_DOCS": "Mở một hướng dẫn tích hợp {appName}. Chấp nhận slug hướng dẫn như claude-code, codex, gemini-cli, openclaw, cc-switch, sillytavern, janitor-ai, risuai hoặc chub.",
+        "OPEN_CHAT": "Mở giao diện chat {appName} để dùng thử bất kỳ mô hình AI được hỗ trợ nào trong cùng một giao diện.",
+        "OPEN_MODEL": "Mở trang chi tiết của một mô hình cụ thể. Chấp nhận slug mô hình như claude-opus-4-7, gpt-5, gemini-2.5-pro hoặc flux.1-dev."
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "Đã mở danh mục mô hình {appName}.",
+        "OPEN_PRICING": "Đã mở trang giá.",
+        "OPEN_DOCS": "Đã mở hướng dẫn tích hợp {target}.",
+        "OPEN_DOCS_INDEX": "Đã mở mục lục tài liệu.",
+        "OPEN_CHAT": "Đã mở giao diện chat.",
+        "OPEN_MODEL": "Đã mở trang mô hình {target}.",
+        "OPEN_MODEL_MISSING": "Thiếu slug mô hình. Hãy gọi open_models_catalog để xem các mô hình khả dụng."
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "Đặc tả OpenAPI BFF {appName}",
+      "RELAY_TITLE": "API relay {appName} (tương thích OpenAI, /v1)",
+      "DOCS_TITLE": "Tài liệu tích hợp {appName}",
+      "AGENT_CARD_TITLE": "Thẻ Agent A2A",
+      "AUTH_SERVER_TITLE": "Metadata máy chủ ủy quyền OAuth 2.1 (RFC 8414)",
+      "PROTECTED_RESOURCE_TITLE": "Metadata tài nguyên được OAuth bảo vệ (RFC 9728)"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "NHÓM",
+      "SITE_SECTION": "TRANG",
+      "NAME_LABEL": "Tên",
+      "CONTACT_LABEL": "Liên hệ",
+      "LAST_UPDATE_LABEL": "Cập nhật gần nhất",
+      "LANGUAGE_LABEL": "Ngôn ngữ",
+      "COMPONENTS_LABEL": "Thành phần",
+      "STANDARDS_LABEL": "Tiêu chuẩn"
+    }
   }
 }

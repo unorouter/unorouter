@@ -7,6 +7,7 @@ import {
 } from "@/lib/api/typebox/billing";
 import { unwrap } from "@/lib/utils/base";
 import {
+  getBillingPortal,
   getSubscriptionPlans,
   getSubscriptionSelf,
   getTopUpInfo,
@@ -18,6 +19,26 @@ import {
 } from "@/openapi";
 import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "../constants";
+
+// MPP x-payment-info per paymentauth.org draft-payment-discovery-00.
+// intent: "session" because these endpoints return a checkout URL (agent
+// hands it to the user who completes payment), not a fixed per-call charge.
+// amount: null because the user selects the amount at checkout (top-up)
+// or the amount is plan-dependent (subscription). TypeScript casts through
+// Record because OperationObject in openapi-types has no x-* index.
+const xPaymentInfo = (
+  method: "stripe" | "creem",
+  description: string,
+) =>
+  ({
+    "x-payment-info": {
+      intent: "session",
+      method,
+      amount: null,
+      currency: "USD",
+      description,
+    },
+  }) as Record<string, unknown>;
 
 export const billingRoute = new Elysia({ prefix: "/billing" })
   .derive(deriveUpstream)
@@ -40,6 +61,10 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
     const res = await getSubscriptionSelf({ headers: upstream.headers });
     return unwrap(res);
   })
+  .get("/portal", async ({ upstream }) => {
+    const res = await getBillingPortal({ headers: upstream.headers });
+    return unwrap(res);
+  })
   .put(
     "/subscription-preference",
     async ({ body, upstream }) => {
@@ -58,7 +83,13 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return unwrap(res);
     },
-    { body: stripePayBody },
+    {
+      body: stripePayBody,
+      detail: {
+        summary: "Start a Stripe checkout session for a balance top-up",
+        ...xPaymentInfo("stripe", "Top-up balance via Stripe checkout URL"),
+      },
+    },
   )
   .post(
     "/creem-pay",
@@ -68,7 +99,13 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return unwrap(res);
     },
-    { body: creemPayBody },
+    {
+      body: creemPayBody,
+      detail: {
+        summary: "Start a Creem checkout session for a balance top-up",
+        ...xPaymentInfo("creem", "Top-up balance via Creem checkout URL"),
+      },
+    },
   )
   .post(
     "/subscription/stripe-pay",
@@ -78,7 +115,13 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return unwrap(res);
     },
-    { body: subscriptionPayBody },
+    {
+      body: subscriptionPayBody,
+      detail: {
+        summary: "Start a Stripe checkout session for a subscription plan",
+        ...xPaymentInfo("stripe", "Subscribe to a plan via Stripe checkout URL"),
+      },
+    },
   )
   .post(
     "/subscription/creem-pay",
@@ -88,5 +131,11 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       });
       return unwrap(res);
     },
-    { body: subscriptionPayBody },
+    {
+      body: subscriptionPayBody,
+      detail: {
+        summary: "Start a Creem checkout session for a subscription plan",
+        ...xPaymentInfo("creem", "Subscribe to a plan via Creem checkout URL"),
+      },
+    },
   );

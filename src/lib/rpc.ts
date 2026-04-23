@@ -1,7 +1,7 @@
 import type { App } from "@/app/api/[[...route]]/route";
-import { treaty } from "@elysiajs/eden";
+import { treaty, type Treaty } from "@elysiajs/eden";
 
-export const rpc = treaty<App>(
+export const rpc: Treaty.Create<App> = treaty<App>(
   typeof window === "undefined"
     ? `http://localhost:${process.env.PORT ?? "3000"}`
     : window.location.origin,

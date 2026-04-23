@@ -227,6 +227,13 @@ async function verifyMagicBytes(
 
 function getS3() {
   if (_s3) return _s3;
+  if (
+    !serverEnv.r2AccountId ||
+    !serverEnv.r2AccessKeyId ||
+    !serverEnv.r2SecretAccessKey
+  )
+    throw new Error("Missing required env: R2_ACCOUNT_ID/ACCESS_KEY/SECRET");
+
   _s3 = new S3Client({
     region: "auto",
     endpoint: `https://${serverEnv.r2AccountId}.r2.cloudflarestorage.com`,

@@ -180,14 +180,14 @@ export function Pricing() {
                 {t("PRICING.TOPUP.DESC")}
               </p>
             </div>
-            <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
+            <div className="mx-auto flex max-w-xl flex-wrap justify-center gap-2">
               {topUpOptions.map((option) => (
                 <button
                   key={option.key}
                   type="button"
                   onClick={option.handler}
                   disabled={isTopUpMutating}
-                  className="border-border hover:border-foreground/50 text-foreground flex cursor-pointer items-center justify-center border px-3 py-2.5 font-mono text-sm font-bold tabular-nums transition-colors disabled:opacity-50"
+                  className="border-border hover:border-foreground/50 text-foreground flex min-w-20 cursor-pointer items-center justify-center border px-4 py-2.5 font-mono text-sm font-bold tabular-nums transition-colors disabled:opacity-50"
                 >
                   ${option.amount}
                 </button>

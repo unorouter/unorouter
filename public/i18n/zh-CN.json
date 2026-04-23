@@ -362,6 +362,25 @@
         "H_NEXT": "接下来",
         "P_NEXT": "我们每周发版。期待更多模型、更精细的健康信号驱动更聪明的回退、更丰富的成本与延迟看板，以及与您日常使用的终端和 IDE 更深度的集成。",
         "CTA": "准备试用？<register>获取 API 密钥</register>或<models>浏览模型目录</models>。"
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName} 在 Is Your Site Agent-Ready 拿下 100/100",
+        "DESCRIPTION": "Cloudflare 的 Is Your Site Agent-Ready 扫描器给 {appName} 打出满分 100/100，并在五个全部类别——可发现性、内容、机器人访问控制、API 与 MCP 发现、商业——上拿到第 5 级 Agent-Native 评级。",
+        "AUTHOR": "{appName} 团队",
+        "INTRO": "一个 AI 代理来到你的域名前。它能不能搞清楚你是谁、提供什么、怎么和你对话、怎么向你付款？这正是 Cloudflare 的 Is Your Site Agent-Ready 扫描器要回答的问题。我们把它指向 {appDomain}，拿回了一份完美的 100/100，连同最高的第 5 级 Agent-Native 评级。",
+        "H_SCORE": "结果",
+        "P_SCORE": "五个类别，全部亮绿。可发现性 3/3，内容 1/1，机器人访问控制 3/3，API/Auth/MCP/Skill 发现 7/7，可选的商业类别也通过了。在扫描器看来，它能识别的所有新兴代理标准都已经稳稳落在 {appDomain} 上。",
+        "IMG_ALT": "Is Your Site Agent-Ready 报告显示 {appDomain} 100 分并获得第 5 级 Agent-Native 徽章",
+        "IMG_CAPTION": "实时报告位于 <scanner>isitagentready.com/{appDomain}</scanner>。",
+        "H_WHAT": "Is Your Site Agent-Ready 究竟在检查什么",
+        "P_WHAT": "它是 Cloudflare 提供的一个免费扫描器，会向你的域名发起请求，寻找 AI 代理用来发现并与网站交互的技术信号。可以把它当作一份清单：robots.txt、sitemap、Link 头、面向 markdown 的内容协商、AI 机器人规则、MCP 服务器卡、代理技能清单、OAuth 发现文档、x402 支付头，以及若干新兴商业协议。每一项检查都只是对一个 well-known 路径或头部发起的一次小小的 HTTP 调用。",
+        "H_CATEGORIES": "把每一项检查讲清楚",
+        "P_CATEGORIES": "可发现性涵盖 robotsTxt（一个能正确解析的 robots.txt）、sitemap（扫描器能拉到的 sitemap.xml）、linkHeaders（指向机器可读清单的 Link 头）。内容涵盖 markdownNegotiation（当代理请求 markdown 时，站点是否以 markdown 响应）。机器人访问控制涵盖 robotsTxtAiRules（针对 AI 代理的明确允许或拒绝规则）、contentSignals（Cloudflare 的 Content-Signals 格式）、webBotAuth（带签名的机器人身份）。API/Auth/MCP/Skill 发现涵盖 apiCatalog（可被发现的 API 目录）、oauthDiscovery 与 oauthProtectedResource（RFC 9728 中的 OAuth 元数据）、mcpServerCard（Model Context Protocol 服务器描述符）、a2aAgentCard（Google 的 Agent-to-Agent 卡片）、agentSkills（声明式技能列表）、webMcp（基于 HTTP 的 MCP）。商业涵盖 x402（HTTP 402 支付标准）、mpp、ucp 与 acp（三份在自主商业方向上互相竞争的草案）。{appDomain} 在以上每一项都给出了正确响应。",
+        "H_STUBS": "一句实话实说的提醒",
+        "P_STUBS": "这些检查都是很简单的桩。扫描器主要确认 well-known URL 存在、返回 200，并且顶层结构正确。它不会真的跑完一次 OAuth 流程，也不会真的调用 MCP 工具，更不会真的清算一笔 x402 支付。绿色对勾意味着门是开的，并不代表门后那间屋子已经装修完工。任何在生产环境中依赖某项协议的人，仍然应当自己做端到端验证：把 OAuth 流程完整跑一遍，从真实客户端调用 MCP 工具，把一笔 x402 支付一直走到清算。这个分数是一个很好的信号，说明表面已经就位，但它替代不了协议层面的合规测试。",
+        "H_TRY": "在自己的站点上跑一次",
+        "P_TRY": "如果你做的东西未来可能被 AI 代理触达，这个扫描器真的值得花上一分钟。它把一长串细小的标准汇集到一个视图里，并明确告诉你哪些 well-known 路径缺失或者格式不对。我们每次改到发现、认证或商业相关的接口，都会拿它跑一次回归。",
+        "CTA": "去 <scanner>isitagentready.com</scanner> 扫一扫你自己的站点；如果你是为 {appName} 而来，那就 <register>领一个 API 密钥</register>，开始路由。"
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "创建 {appName} 账户，通过一个 API 开始使用所有 AI 模型。",
       "KEYWORDS": "{appName} 登录, {appName} 注册, AI API 账户, 登录"
     },
+    "CONSENT": {
+      "TITLE": "授权访问",
+      "DESCRIPTION": "{clientId} 请求访问你的 {appName} 账户。",
+      "REQUESTING_APP": "请求方应用",
+      "SCOPES_LABEL": "该应用将被允许：",
+      "LIMITS_TITLE": "支出始终由你掌控",
+      "LIMITS_NOTE": "应用无法自行扣款。任何充值或订阅都会打开结账页面，由你亲自确认并支付。",
+      "APPROVE": "允许访问",
+      "DENY": "取消",
+      "INVALID_TITLE": "授权链接已过期",
+      "INVALID": "此授权链接无效或已过期，请从应用重新开始。",
+      "RETURN_HOME": "返回控制台",
+      "SECURITY_NOTE": "仅授权你信任的应用。你可以随时在控制台撤销授权。",
+      "SECURITY_NOTE_PERSISTENT": "在你撤销授权之前，此应用将保持登录状态。仅授权你信任的应用。你可以随时在控制台撤销授权。",
+      "META_TITLE": "授权应用，{appName}",
+      "META_DESCRIPTION": "查看并批准第三方应用访问你 {appName} 账户的请求。",
+      "SCOPE": {
+        "OPENID": "将你识别为 {appName} 用户",
+        "MODELS_READ": "查看可用模型和价格",
+        "BALANCE_READ": "读取你当前的余额和配额",
+        "TOKENS_READ": "查看你的 API 密钥列表",
+        "TOKENS_WRITE": "代表你创建新的 API 密钥",
+        "SUBSCRIPTION_READ": "查看你的有效订阅和购买历史",
+        "SUBSCRIPTION_CANCEL": "取消一个有效订阅",
+        "CHECKOUT_CREATE": "打开结账页面以购买额度或订阅（每次购买需要你确认）"
+      }
+    },
     "LOGGING_IN": "正在登录...",
     "REGISTERING": "正在创建账户...",
     "DONT_HAVE_ACCOUNT": "还没有账户？",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "支付失败，请重试。"
     },
+    "PORTAL": {
+      "MANAGE": "管理账单",
+      "ERROR": "无法打开账单门户，请重试。"
+    },
     "TITLE": "账单",
     "ACCOUNT_STATS": "账户统计",
     "CURRENT_BALANCE": "当前余额",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "注册并以更低价格开始使用 AI",
     "TOKENS_MIN": "Token / 分钟",
     "MORE": "更多"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "统一的 AI 模型网关。一个 OpenAI 兼容端点，接入 OpenAI、Anthropic、Google、DeepSeek 等各大主流模型，支持自动故障切换与智能路由。",
+      "AUTH_DESCRIPTION": "两种方式。（1）{appName} API 密钥：在控制台生成，通过 Authorization: Bearer sk-... 发送。（2）OAuth 2.1 + PKCE，用于代表已登录用户行动的 agent；agent 可以通过 tokens:write 作用域自助创建 API 密钥。授权服务器元数据位于 API 源的 /.well-known/oauth-authorization-server，资源元数据位于本站源的 /.well-known/oauth-protected-resource。",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "对话补全",
+        "CHAT_COMPLETION_DESCRIPTION": "在所有支持的模型上提供 OpenAI 兼容的对话补全。底层模型具备时支持流式输出、工具调用和视觉能力。",
+        "IMAGE_GENERATION_NAME": "图像生成",
+        "IMAGE_GENERATION_DESCRIPTION": "通过支持的图像模型生成图像。",
+        "VIDEO_GENERATION_NAME": "视频生成",
+        "VIDEO_GENERATION_DESCRIPTION": "通过支持的视频模型生成视频，对耗时较长的渲染提供异步任务轮询。",
+        "AUDIO_NAME": "音频",
+        "AUDIO_DESCRIPTION": "通过支持的音频模型提供文本转语音、语音转文本与音频理解能力。",
+        "EMBEDDINGS_NAME": "文本向量",
+        "EMBEDDINGS_DESCRIPTION": "通过支持的向量模型生成文本嵌入向量。",
+        "MODEL_CATALOG_NAME": "模型目录",
+        "MODEL_CATALOG_DESCRIPTION": "列出所有可用模型及实时价格。便于按成本、上下文长度或能力动态挑选模型。"
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "通过单一端点调用 OpenAI 兼容的对话补全，覆盖 OpenAI、Anthropic、Google、DeepSeek 等各家模型。适用于用户需要比较模型、需要在供应商间自动故障切换，或希望将多家 LLM 供应商合并到同一账单的场景。",
+      "BROWSE_CATALOG": "浏览 OpenAI、Anthropic、Google、DeepSeek 等各家供应商的可用 AI 模型及实时价格。适用于用户在调用 API 之前，根据成本、上下文长度或能力挑选模型的场景。"
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "浏览器内的 AI 模型路由。工具通过 navigator.modelContext 在站点主页注册为 WebMCP。打开主页后，通过支持 WebMCP 的客户端调用工具即可。",
+      "WEBMCP_BUNDLE_DESCRIPTION": "通过 navigator.modelContext 在 {appName} 主页注册的浏览器内工具。在支持 WebMCP 的客户端中加载主页即可访问这些工具。",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "打开 {appName} 模型目录页，列出所有可用模型及来自 OpenAI、Anthropic、Google、DeepSeek 等供应商的实时价格。",
+        "OPEN_PRICING": "打开 {appName} 价格页，查看订阅计划与按量付费费率。",
+        "OPEN_DOCS": "打开 {appName} 集成指南。接受指南标识，如 claude-code、codex、gemini-cli、openclaw、cc-switch、sillytavern、janitor-ai、risuai 或 chub。",
+        "OPEN_CHAT": "打开 {appName} 对话界面，在同一 UI 中试用任意受支持的 AI 模型。",
+        "OPEN_MODEL": "打开指定模型的详情页。接受模型标识，如 claude-opus-4-7、gpt-5、gemini-2.5-pro 或 flux.1-dev。"
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "已打开 {appName} 模型目录。",
+        "OPEN_PRICING": "已打开价格页。",
+        "OPEN_DOCS": "已打开 {target} 集成指南。",
+        "OPEN_DOCS_INDEX": "已打开文档目录。",
+        "OPEN_CHAT": "已打开对话界面。",
+        "OPEN_MODEL": "已打开 {target} 的模型页。",
+        "OPEN_MODEL_MISSING": "缺少模型标识。请调用 open_models_catalog 列出可用模型。"
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "{appName} BFF OpenAPI 规范",
+      "RELAY_TITLE": "{appName} 中继 API（OpenAI 兼容，/v1）",
+      "DOCS_TITLE": "{appName} 集成文档",
+      "AGENT_CARD_TITLE": "A2A Agent Card",
+      "AUTH_SERVER_TITLE": "OAuth 2.1 授权服务器元数据（RFC 8414）",
+      "PROTECTED_RESOURCE_TITLE": "OAuth 受保护资源元数据（RFC 9728）"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "团队",
+      "SITE_SECTION": "站点",
+      "NAME_LABEL": "名称",
+      "CONTACT_LABEL": "联系方式",
+      "LAST_UPDATE_LABEL": "最后更新",
+      "LANGUAGE_LABEL": "语言",
+      "COMPONENTS_LABEL": "组件",
+      "STANDARDS_LABEL": "标准"
+    }
   }
 }

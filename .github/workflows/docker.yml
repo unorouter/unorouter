@@ -51,6 +51,9 @@ jobs:
 
           echo INDEXNOW_KEY=${{ secrets.INDEXNOW_KEY }} >> .env
 
+          echo 'WEB_BOT_AUTH_PUBLIC_JWKS=${{ secrets.WEB_BOT_AUTH_PUBLIC_JWKS }}' >> .env
+          echo 'WEB_BOT_AUTH_PRIVATE_JWK=${{ secrets.WEB_BOT_AUTH_PRIVATE_JWK }}' >> .env
+
           echo CREEM_API_KEY=${{ secrets.CREEM_API_KEY }} >> .env
           echo CREEM_API_URL=${{ secrets.CREEM_API_URL }} >> .env
           echo CREEM_MODERATION_ENABLED=${{ secrets.CREEM_MODERATION_ENABLED }} >> .env

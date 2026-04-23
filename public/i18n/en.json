@@ -362,6 +362,25 @@
         "H_NEXT": "What's next",
         "P_NEXT": "We ship weekly. Expect more models, tighter health signals driving smarter fallbacks, richer cost and latency dashboards, and deeper integrations with the terminals and IDEs you already live in.",
         "CTA": "Ready to try it? <register>Grab an API key</register> or <models>browse the model catalog</models>."
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName} scores 100/100 on Is Your Site Agent-Ready",
+        "DESCRIPTION": "Cloudflare's Is Your Site Agent-Ready scanner gave {appName} a perfect 100/100 score and the Level 5 Agent-Native rating across all 5 categories: discoverability, content, bot access control, API and MCP discovery, and commerce.",
+        "AUTHOR": "{appName} team",
+        "INTRO": "An AI agent walks up to your domain. Can it figure out who you are, what you offer, how to talk to you, and how to pay you? That is the question Cloudflare's Is Your Site Agent-Ready scanner tries to answer. We pointed it at {appDomain} and got back a perfect 100/100 with the top-tier Level 5 Agent-Native rating.",
+        "H_SCORE": "The result",
+        "P_SCORE": "Five categories, all green. Discoverability 3/3, Content 1/1, Bot Access Control 3/3, API/Auth/MCP/Skill Discovery 7/7, and the optional Commerce category passing as well. As far as the scanner is concerned, every emerging agent standard it knows how to look for is in place on {appDomain}.",
+        "IMG_ALT": "Is Your Site Agent-Ready report card showing {appDomain} with a 100 score and Level 5 Agent-Native badge",
+        "IMG_CAPTION": "Live report at <scanner>isitagentready.com/{appDomain}</scanner>.",
+        "H_WHAT": "What Is Your Site Agent-Ready actually checks",
+        "P_WHAT": "It is a free Cloudflare scanner that hits your domain and looks for the technical signals AI agents use to discover and interact with a site. Think of it as a checklist: robots.txt, sitemap, link headers, content-type negotiation for markdown, AI bot rules, MCP server cards, agent skill manifests, OAuth discovery documents, x402 payment headers, and several emerging commerce protocols. Each check is one small HTTP call against a well-known path or header.",
+        "H_CATEGORIES": "Every check, in plain English",
+        "P_CATEGORIES": "Discoverability covers robotsTxt (a robots.txt that parses), sitemap (a sitemap.xml the scanner can fetch), and linkHeaders (Link: headers that point at machine-readable manifests). Content covers markdownNegotiation (whether the site responds with markdown when an agent asks for it). Bot Access Control covers robotsTxtAiRules (explicit AI-agent allow/deny rules), contentSignals (Cloudflare's content-signals format) and webBotAuth (signed bot identity). API/Auth/MCP/Skill Discovery covers apiCatalog (a discoverable API listing), oauthDiscovery and oauthProtectedResource (RFC 9728 OAuth metadata), mcpServerCard (a Model Context Protocol server descriptor), a2aAgentCard (Google's Agent-to-Agent card), agentSkills (declared skill list) and webMcp (HTTP-bound MCP). Commerce covers x402 (the HTTP 402 payment standard), mpp, ucp and acp (three competing autonomous-commerce drafts). {appDomain} answers correctly on all of them.",
+        "H_STUBS": "An honest disclaimer",
+        "P_STUBS": "These checks are simple stubs. The scanner mostly verifies that a well-known URL exists, returns a 200, and contains the right top-level shape. It does not run a real OAuth flow, it does not actually invoke an MCP tool, it does not settle an x402 payment. A green tick means the door is unlocked, not that the room behind it is finished. Anyone who depends on a protocol in production should still do their own end-to-end verification: round-trip the OAuth flow, call the MCP tool from a real client, run an x402 payment all the way to settlement. The score is a great signal that the surface area is in place. It is not a substitute for protocol-level conformance testing.",
+        "H_TRY": "Run it on your own site",
+        "P_TRY": "If you build anything that AI agents might one day touch, the scanner is genuinely worth a minute of your time. It surfaces a long list of small standards in one view and tells you exactly which well-known paths are missing or malformed. We use it as a regression check whenever we ship anything that touches discovery, auth, or commerce surfaces.",
+        "CTA": "Scan your site at <scanner>isitagentready.com</scanner>, or if you came here for {appName}, <register>grab an API key</register> and start routing."
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "Create a {appName} account to start using all AI models through one API.",
       "KEYWORDS": "{appName} login, {appName} register, AI API account, sign in"
     },
+    "CONSENT": {
+      "TITLE": "Authorize access",
+      "DESCRIPTION": "{clientId} is requesting access to your {appName} account.",
+      "REQUESTING_APP": "Requesting app",
+      "SCOPES_LABEL": "This app will be allowed to:",
+      "LIMITS_TITLE": "Spending stays under your control",
+      "LIMITS_NOTE": "Apps cannot move money on their own. Any top-up or subscription opens a checkout page where you confirm and pay yourself.",
+      "APPROVE": "Allow access",
+      "DENY": "Cancel",
+      "INVALID_TITLE": "Authorization link expired",
+      "INVALID": "This authorization link is invalid or has expired. Please restart the flow from your app.",
+      "RETURN_HOME": "Return to dashboard",
+      "SECURITY_NOTE": "Only approve requests from apps you trust. You can revoke access any time from your dashboard.",
+      "SECURITY_NOTE_PERSISTENT": "This app will stay signed in until you revoke access. Only approve requests from apps you trust. You can revoke access any time from your dashboard.",
+      "META_TITLE": "Authorize app - {appName}",
+      "META_DESCRIPTION": "Review and approve a third-party app's request to access your {appName} account.",
+      "SCOPE": {
+        "OPENID": "Identify you as a {appName} user",
+        "MODELS_READ": "List available models and their pricing",
+        "BALANCE_READ": "Read your current balance and quota",
+        "TOKENS_READ": "List your API keys",
+        "TOKENS_WRITE": "Create new API keys on your behalf",
+        "SUBSCRIPTION_READ": "View your active subscriptions and purchase history",
+        "SUBSCRIPTION_CANCEL": "Cancel an active subscription",
+        "CHECKOUT_CREATE": "Open a checkout page so you can buy credits or subscriptions (you confirm each purchase)"
+      }
+    },
     "LOGGING_IN": "Signing In...",
     "REGISTERING": "Creating Account...",
     "DONT_HAVE_ACCOUNT": "Don't have an account?",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "Payment failed. Please try again."
     },
+    "PORTAL": {
+      "MANAGE": "Manage billing",
+      "ERROR": "Could not open the billing portal. Please try again."
+    },
     "TITLE": "Billing",
     "ACCOUNT_STATS": "Account Statistics",
     "CURRENT_BALANCE": "Current Balance",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "Sign up and get started with AI for less",
     "TOKENS_MIN": "Tokens / Min",
     "MORE": "More"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "Unified AI model gateway. One OpenAI-compatible endpoint for every major model (OpenAI, Anthropic, Google, DeepSeek, and more) with automatic failover and intelligent routing.",
+      "AUTH_DESCRIPTION": "Two options. (1) {appName} API key: generate in the dashboard and send as Authorization: Bearer sk-... . (2) OAuth 2.1 + PKCE for agents acting on behalf of a signed-in user; the agent can then mint its own API key via the tokens:write scope. Discover the authorization server at /.well-known/oauth-authorization-server on the API origin and the resource metadata at /.well-known/oauth-protected-resource on this origin.",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "Chat completion",
+        "CHAT_COMPLETION_DESCRIPTION": "OpenAI-compatible chat completion across every supported model. Supports streaming, tool calls, and vision where the underlying model does.",
+        "IMAGE_GENERATION_NAME": "Image generation",
+        "IMAGE_GENERATION_DESCRIPTION": "Generate images through supported image models.",
+        "VIDEO_GENERATION_NAME": "Video generation",
+        "VIDEO_GENERATION_DESCRIPTION": "Generate videos through supported video models, including async task polling for long-running renders.",
+        "AUDIO_NAME": "Audio",
+        "AUDIO_DESCRIPTION": "Text-to-speech, speech-to-text transcription, and audio understanding through supported audio models.",
+        "EMBEDDINGS_NAME": "Embeddings",
+        "EMBEDDINGS_DESCRIPTION": "Text embedding generation through supported embedding models.",
+        "MODEL_CATALOG_NAME": "Model catalog",
+        "MODEL_CATALOG_DESCRIPTION": "List all available models with live pricing. Useful for dynamic model selection based on cost, context window, or capability."
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "Call an OpenAI-compatible chat completion against any model from OpenAI, Anthropic, Google, DeepSeek, and more through a single endpoint. Use when the user wants to compare models, needs automatic failover between providers, or wants one billing surface for multiple LLM providers.",
+      "BROWSE_CATALOG": "Discover available AI models with live pricing across OpenAI, Anthropic, Google, DeepSeek, and other providers. Use when the user needs to pick a model by cost, context window, or capability before calling the API."
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "In-browser AI model router. Tools are registered via WebMCP on the site homepage using navigator.modelContext. Visit the homepage and call the tools from a WebMCP-capable client.",
+      "WEBMCP_BUNDLE_DESCRIPTION": "In-browser tools registered via navigator.modelContext on the {appName} homepage. Load the homepage in a WebMCP-capable client to access tools.",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "Open the {appName} model catalog page, which lists every available model with live pricing across OpenAI, Anthropic, Google, DeepSeek, and other providers.",
+        "OPEN_PRICING": "Open the {appName} pricing page to review subscription plans and pay-as-you-go rates.",
+        "OPEN_DOCS": "Open a {appName} integration guide. Accepts a guide slug such as claude-code, codex, gemini-cli, openclaw, cc-switch, sillytavern, janitor-ai, risuai, or chub.",
+        "OPEN_CHAT": "Open the {appName} chat interface to try any supported AI model through a single UI.",
+        "OPEN_MODEL": "Open the detail page for a specific model. Accepts a model slug such as claude-opus-4-7, gpt-5, gemini-2.5-pro, or flux.1-dev."
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "Opened the {appName} model catalog.",
+        "OPEN_PRICING": "Opened the pricing page.",
+        "OPEN_DOCS": "Opened the {target} integration guide.",
+        "OPEN_DOCS_INDEX": "Opened the documentation index.",
+        "OPEN_CHAT": "Opened the chat interface.",
+        "OPEN_MODEL": "Opened the model page for {target}.",
+        "OPEN_MODEL_MISSING": "Missing model slug. Call open_models_catalog to list available models."
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "{appName} BFF OpenAPI specification",
+      "RELAY_TITLE": "{appName} relay API (OpenAI-compatible, /v1)",
+      "DOCS_TITLE": "{appName} integration documentation",
+      "AGENT_CARD_TITLE": "A2A Agent Card",
+      "AUTH_SERVER_TITLE": "OAuth 2.1 authorization server metadata (RFC 8414)",
+      "PROTECTED_RESOURCE_TITLE": "OAuth protected resource metadata (RFC 9728)"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "TEAM",
+      "SITE_SECTION": "SITE",
+      "NAME_LABEL": "Name",
+      "CONTACT_LABEL": "Contact",
+      "LAST_UPDATE_LABEL": "Last update",
+      "LANGUAGE_LABEL": "Language",
+      "COMPONENTS_LABEL": "Components",
+      "STANDARDS_LABEL": "Standards"
+    }
   }
 }

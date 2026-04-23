@@ -150,6 +150,27 @@ export const BLOG_REGISTRY = [
       { id: "next", i18nLeaf: "H_NEXT", level: 2 },
     ],
   },
+  {
+    slug: "agent-ready",
+    date: "2026-04-25",
+    tags: ["engineering", "announcement"],
+    i18nKey: "BLOG.POSTS.AGENT_READY",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-04-25-agent-ready-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "engineering",
+    wordCount: 490,
+    heroImage: "/images/agent-ready-score.png",
+    headings: [
+      { id: "score", i18nLeaf: "H_SCORE", level: 2 },
+      { id: "what", i18nLeaf: "H_WHAT", level: 2 },
+      { id: "categories", i18nLeaf: "H_CATEGORIES", level: 2 },
+      { id: "stubs", i18nLeaf: "H_STUBS", level: 2 },
+      { id: "try", i18nLeaf: "H_TRY", level: 2 },
+    ],
+  },
 ] as const satisfies readonly BlogEntry[];
 
 export type BlogSlug = (typeof BLOG_REGISTRY)[number]["slug"];

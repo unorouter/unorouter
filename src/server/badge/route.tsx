@@ -8,7 +8,6 @@ import {
   badgeQuery,
   type BadgeType,
 } from "@/lib/validation/badge";
-import { html } from "@elysiajs/html";
 import { Elysia } from "elysia";
 import { getTranslations } from "next-intl/server";
 import sharp from "sharp";
@@ -24,6 +23,11 @@ import { generateReferral } from "./templates/referral";
 import { generateSponsor } from "./templates/sponsor";
 import { generateTokensBanner } from "./templates/tokens-banner";
 import { generateTokensSquare } from "./templates/tokens-square";
+
+const HTML_HEADERS = { "content-type": "text/html; charset=utf-8" } as const;
+function htmlResponse(body: JSX.Element): Response {
+  return new Response(body as unknown as string, { headers: HTML_HEADERS });
+}
 
 const CACHE_CONTROL =
   "public, max-age=0, s-maxage=3600, stale-while-revalidate=60";
@@ -52,7 +56,6 @@ const BADGES: Record<BadgeType, (ctx: BadgeCtx) => Promise<string>> = {
 };
 
 export const badgeRoute = new Elysia({ prefix: "/badge" })
-  .use(html({ autoDetect: false, autoDoctype: false }))
   .resolve({ as: "local" }, ({ query }) => ({
     locale: query.locale as BadgeCtx["locale"],
     theme: query.theme as BadgeCtx["theme"],
@@ -65,7 +68,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
   })
   .get(
     "/all",
-    async ({ query, html, locale, theme, size: _size }) => {
+    async ({ query, locale, theme, size: _size }) => {
       const shared = {
         locale: query.locale,
         theme: query.theme,
@@ -106,7 +109,7 @@ export const badgeRoute = new Elysia({ prefix: "/badge" })
       );
 
       const c = THEME_COLORS[theme];
-      return html(
+      return htmlResponse(
         <AllPage
           bg={c.previewBg}
           fg={c.previewFg}

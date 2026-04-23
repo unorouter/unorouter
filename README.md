@@ -1,4 +1,4 @@
-# UnoRouter
+# AI Chat App
 
 Full-featured AI chat application with a Next.js frontend and an Elysia BFF in front of an upstream `new-api` service. Chat state (conversations, messages, shared links) lives in a local Turso/SQLite database; everything else is a typed pass-through to the upstream backend.
 
@@ -37,7 +37,7 @@ Full-featured AI chat application with a Next.js frontend and an Elysia BFF in f
 
 ## Architecture
 
-UnoRouter is a **BFF (backend-for-frontend)**, not a full ledger backend. The Elysia layer at `src/app/api/[[...route]]/route.ts` mounts all feature routes and adds request ID tracking, timing, and error taxonomy at the boundary.
+This app is a **BFF (backend-for-frontend)**, not a full ledger backend. The Elysia layer at `src/app/api/[[...route]]/route.ts` mounts all feature routes and adds request ID tracking, timing, and error taxonomy at the boundary.
 
 Two distinct verticals:
 

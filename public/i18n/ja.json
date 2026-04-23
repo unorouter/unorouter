@@ -362,6 +362,25 @@
         "H_NEXT": "今後の予定",
         "P_NEXT": "私たちは毎週リリースしています。より多くのモデル、スマートなフォールバックを導くより精密なヘルスシグナル、より充実したコストとレイテンシのダッシュボード、そしてすでに使い慣れたターミナルやIDEとのより深い統合をお届けします。",
         "CTA": "試してみませんか？<register>APIキーを取得</register> または <models>モデルカタログを閲覧</models> してください。"
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName}、Is Your Site Agent-Ready で 100/100 を達成",
+        "DESCRIPTION": "Cloudflare の Is Your Site Agent-Ready スキャナーが {appName} に 100/100 のパーフェクトスコアを与え、5 つすべてのカテゴリ（発見性、コンテンツ、ボットアクセス制御、API と MCP のディスカバリ、コマース）でレベル 5 の Agent-Native 評価を獲得しました。",
+        "AUTHOR": "{appName} チーム",
+        "INTRO": "AI エージェントがあなたのドメインに辿り着いたとき、あなたが何者で、何を提供していて、どう話しかけ、どう支払えばよいかを理解できるでしょうか。これこそが、Cloudflare の Is Your Site Agent-Ready スキャナーが答えようとしている問いです。{appDomain} に対して走らせたところ、最高位のレベル 5 Agent-Native とともに 100/100 のパーフェクトスコアが返ってきました。",
+        "H_SCORE": "結果",
+        "P_SCORE": "5 つのカテゴリ、すべて緑です。発見性 3/3、コンテンツ 1/1、ボットアクセス制御 3/3、API/Auth/MCP/Skill ディスカバリ 7/7、そしてオプションのコマースカテゴリも合格しました。スキャナーから見れば、検出方法を知っている新興のエージェント標準はすべて {appDomain} にきちんと整っているということです。",
+        "IMG_ALT": "{appDomain} が 100 点とレベル 5 Agent-Native バッジを獲得していることを示す Is Your Site Agent-Ready のレポート",
+        "IMG_CAPTION": "ライブレポートは <scanner>isitagentready.com/{appDomain}</scanner> で確認できます。",
+        "H_WHAT": "Is Your Site Agent-Ready が実際にチェックしていること",
+        "P_WHAT": "これは Cloudflare が提供する無料のスキャナーで、ドメインに対してリクエストを投げ、AI エージェントがサイトを発見し対話するために使う技術的な合図を探します。チェックリストとして見るとわかりやすいでしょう。robots.txt、sitemap、Link ヘッダー、Markdown のためのコンテンツタイプ折衝、AI ボットルール、MCP サーバーカード、エージェントスキルマニフェスト、OAuth ディスカバリ文書、x402 支払いヘッダー、そしていくつかの新興コマースプロトコル。各チェックは、よく知られたパスやヘッダーに対する小さな HTTP コール 1 本に過ぎません。",
+        "H_CATEGORIES": "すべてのチェック内容を平易に",
+        "P_CATEGORIES": "発見性は robotsTxt（パース可能な robots.txt）、sitemap（スキャナーが取得できる sitemap.xml）、linkHeaders（機械可読なマニフェストを指す Link ヘッダー）をカバーします。コンテンツは markdownNegotiation（エージェントが要求したときにサイトが Markdown を返すか）をカバーします。ボットアクセス制御は robotsTxtAiRules（AI エージェントへの明示的な許可/拒否ルール）、contentSignals（Cloudflare の Content-Signals 形式）、webBotAuth（署名付きボット ID）をカバーします。API/Auth/MCP/Skill ディスカバリは apiCatalog（発見可能な API 一覧）、oauthDiscovery と oauthProtectedResource（RFC 9728 の OAuth メタデータ）、mcpServerCard（Model Context Protocol サーバー記述子）、a2aAgentCard（Google の Agent-to-Agent カード）、agentSkills（宣言済みのスキル一覧）、webMcp（HTTP に載せた MCP）をカバーします。コマースは x402（HTTP 402 支払い標準）、mpp、ucp、acp（自律コマース向けの 3 つの競合ドラフト）をカバーします。{appDomain} はそのすべてに正しく応答します。",
+        "H_STUBS": "正直なお断り",
+        "P_STUBS": "これらのチェックは単純なスタブです。スキャナーは基本的に、ウェルノウン URL が存在し、200 を返し、最上位の形が正しいかを確認するだけです。本物の OAuth フローを最後まで走らせるわけではなく、MCP ツールを実際に呼び出すわけでもなく、x402 の支払いを精算するわけでもありません。緑のチェックはドアが開いていることを意味するだけで、その奥の部屋まで仕上がっているわけではありません。プロトコルを本番で頼りにする側は、独自のエンドツーエンド検証を行うべきです。OAuth フローを最後まで往復し、本物のクライアントから MCP ツールを呼び、x402 支払いを最終的な決済まで通すといった具合です。スコアは表面が整っていることを示す強いシグナルですが、プロトコルレベルの適合性テストの代わりにはなりません。",
+        "H_TRY": "あなたのサイトでも試してみてください",
+        "P_TRY": "AI エージェントがいつか触れる可能性のあるものを作っているなら、このスキャナーは本当に試す価値があります。多数の小さな標準を 1 つのビューにまとめ、どのウェルノウンパスが欠けていたり壊れていたりするかを正確に教えてくれます。私たちはディスカバリ、認証、コマース面に手を入れるたびに、リグレッションチェックとして使っています。",
+        "CTA": "あなたのサイトは <scanner>isitagentready.com</scanner> でスキャンできます。もし {appName} を試しに来てくれたなら、<register>API キーを取得</register> してルーティングを始めましょう。"
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "{appName} アカウントを作成し、ひとつの API からすべての AI モデルを利用しましょう。",
       "KEYWORDS": "{appName} ログイン, {appName} 登録, AI API アカウント, サインイン"
     },
+    "CONSENT": {
+      "TITLE": "アクセスを許可",
+      "DESCRIPTION": "{clientId} があなたの {appName} アカウントへのアクセスを求めています。",
+      "REQUESTING_APP": "リクエスト元のアプリ",
+      "SCOPES_LABEL": "このアプリに次を許可します：",
+      "LIMITS_TITLE": "支出は常にあなたの管理下です",
+      "LIMITS_NOTE": "アプリが単独で支払いを実行することはできません。チャージや購読の際は決済ページが開き、最終的にあなたが確認して支払います。",
+      "APPROVE": "アクセスを許可",
+      "DENY": "キャンセル",
+      "INVALID_TITLE": "認可リンクの期限が切れました",
+      "INVALID": "この認可リンクは無効または期限切れです。アプリから再度お試しください。",
+      "RETURN_HOME": "ダッシュボードへ戻る",
+      "SECURITY_NOTE": "信頼できるアプリのみを許可してください。ダッシュボードからいつでも取り消せます。",
+      "SECURITY_NOTE_PERSISTENT": "このアプリは取り消すまでサインイン状態が継続します。信頼できるアプリのみを許可してください。ダッシュボードからいつでも取り消せます。",
+      "META_TITLE": "アプリを認可 {appName}",
+      "META_DESCRIPTION": "サードパーティアプリが {appName} アカウントへのアクセスを要求しています。内容を確認して許可してください。",
+      "SCOPE": {
+        "OPENID": "あなたを {appName} ユーザーとして識別する",
+        "MODELS_READ": "利用可能なモデルと価格を一覧表示する",
+        "BALANCE_READ": "現在の残高と使用量を読み取る",
+        "TOKENS_READ": "API キーの一覧を参照する",
+        "TOKENS_WRITE": "あなたに代わって新しい API キーを作成する",
+        "SUBSCRIPTION_READ": "有効なサブスクリプションと購入履歴を表示する",
+        "SUBSCRIPTION_CANCEL": "有効なサブスクリプションを解約する",
+        "CHECKOUT_CREATE": "クレジットやサブスクを購入するための決済ページを開く（購入ごとに承認が必要）"
+      }
+    },
     "LOGGING_IN": "サインイン中...",
     "REGISTERING": "アカウント作成中...",
     "DONT_HAVE_ACCOUNT": "アカウントをお持ちでないですか？",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "支払いに失敗しました。もう一度お試しください。"
     },
+    "PORTAL": {
+      "MANAGE": "請求を管理",
+      "ERROR": "請求ポータルを開けませんでした。もう一度お試しください。"
+    },
     "TITLE": "請求",
     "ACCOUNT_STATS": "アカウント統計",
     "CURRENT_BALANCE": "現在の残高",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "登録して、より低コストで AI を始めよう",
     "TOKENS_MIN": "トークン / 分",
     "MORE": "さらに"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "統一された AI モデルゲートウェイ。OpenAI、Anthropic、Google、DeepSeek などあらゆる主要モデルに、OpenAI 互換の単一エンドポイントでアクセスできます。自動フェイルオーバーとインテリジェントなルーティングに対応。",
+      "AUTH_DESCRIPTION": "2 つの方式があります。(1) {appName} API キー：ダッシュボードで発行し、Authorization: Bearer sk-... として送信します。(2) サインイン済みユーザーの代理で動作するエージェント向けの OAuth 2.1 + PKCE。エージェントは tokens:write スコープを用いて自身の API キーを発行できます。認可サーバーは API オリジンの /.well-known/oauth-authorization-server、リソースメタデータは本オリジンの /.well-known/oauth-protected-resource で公開しています。",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "チャット補完",
+        "CHAT_COMPLETION_DESCRIPTION": "対応するすべてのモデルで OpenAI 互換のチャット補完を提供します。ストリーミング、ツール呼び出し、モデルが対応する場合はビジョンもサポートします。",
+        "IMAGE_GENERATION_NAME": "画像生成",
+        "IMAGE_GENERATION_DESCRIPTION": "対応する画像モデルで画像を生成します。",
+        "VIDEO_GENERATION_NAME": "動画生成",
+        "VIDEO_GENERATION_DESCRIPTION": "対応する動画モデルで動画を生成します。長時間のレンダリングには非同期タスクのポーリングを使用します。",
+        "AUDIO_NAME": "音声",
+        "AUDIO_DESCRIPTION": "対応する音声モデルによるテキスト読み上げ、音声書き起こし、音声理解を提供します。",
+        "EMBEDDINGS_NAME": "埋め込み",
+        "EMBEDDINGS_DESCRIPTION": "対応する埋め込みモデルでテキスト埋め込みを生成します。",
+        "MODEL_CATALOG_NAME": "モデルカタログ",
+        "MODEL_CATALOG_DESCRIPTION": "利用可能なモデルとリアルタイム料金を一覧表示します。コスト、コンテキスト長、機能に応じてモデルを動的に選択する際に便利です。"
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "OpenAI、Anthropic、Google、DeepSeek などあらゆるモデルに対して、1 つのエンドポイントで OpenAI 互換のチャット補完を呼び出します。モデルを比較したい、プロバイダ間の自動フェイルオーバーが必要、複数の LLM プロバイダを単一の請求にまとめたい場合に使用します。",
+      "BROWSE_CATALOG": "OpenAI、Anthropic、Google、DeepSeek など各プロバイダで利用可能な AI モデルとリアルタイム料金を確認できます。API 呼び出し前に、コスト、コンテキスト長、機能に応じてモデルを選ぶときに使用します。"
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "ブラウザ内で動作する AI モデルルーター。ツールはサイトのトップページで navigator.modelContext を通じて WebMCP に登録されます。トップページを開き、WebMCP 対応クライアントからツールを呼び出してください。",
+      "WEBMCP_BUNDLE_DESCRIPTION": "{appName} のトップページで navigator.modelContext 経由で登録されたブラウザ内ツール。WebMCP 対応クライアントでトップページを読み込むとツールを利用できます。",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "{appName} のモデルカタログページを開きます。OpenAI、Anthropic、Google、DeepSeek などのプロバイダにわたる利用可能な全モデルとリアルタイム料金を一覧表示します。",
+        "OPEN_PRICING": "{appName} の料金ページを開き、サブスクリプションプランと従量課金レートを確認します。",
+        "OPEN_DOCS": "{appName} の統合ガイドを開きます。claude-code、codex、gemini-cli、openclaw、cc-switch、sillytavern、janitor-ai、risuai、chub などのガイドスラッグを受け付けます。",
+        "OPEN_CHAT": "{appName} のチャット UI を開き、対応するあらゆる AI モデルを単一の画面で試せます。",
+        "OPEN_MODEL": "特定モデルの詳細ページを開きます。claude-opus-4-7、gpt-5、gemini-2.5-pro、flux.1-dev などのモデルスラッグを受け付けます。"
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "{appName} のモデルカタログを開きました。",
+        "OPEN_PRICING": "料金ページを開きました。",
+        "OPEN_DOCS": "{target} の統合ガイドを開きました。",
+        "OPEN_DOCS_INDEX": "ドキュメントの目次を開きました。",
+        "OPEN_CHAT": "チャット画面を開きました。",
+        "OPEN_MODEL": "{target} のモデルページを開きました。",
+        "OPEN_MODEL_MISSING": "モデルスラッグが指定されていません。open_models_catalog を呼び出して利用可能なモデルを一覧表示してください。"
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "{appName} BFF の OpenAPI 仕様",
+      "RELAY_TITLE": "{appName} リレー API（OpenAI 互換、/v1）",
+      "DOCS_TITLE": "{appName} 統合ドキュメント",
+      "AGENT_CARD_TITLE": "A2A エージェントカード",
+      "AUTH_SERVER_TITLE": "OAuth 2.1 認可サーバーのメタデータ（RFC 8414）",
+      "PROTECTED_RESOURCE_TITLE": "OAuth 保護リソースのメタデータ（RFC 9728）"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "チーム",
+      "SITE_SECTION": "サイト",
+      "NAME_LABEL": "名前",
+      "CONTACT_LABEL": "連絡先",
+      "LAST_UPDATE_LABEL": "最終更新",
+      "LANGUAGE_LABEL": "言語",
+      "COMPONENTS_LABEL": "コンポーネント",
+      "STANDARDS_LABEL": "標準"
+    }
   }
 }

@@ -115,6 +115,53 @@ export const moderationLog = sqliteTable(
   ],
 );
 
+export const acpCheckoutSessions = sqliteTable(
+  "acp_checkout_sessions",
+  {
+    id: text("id").primaryKey(),
+    userId: integer("user_id").notNull(),
+    status: text("status").notNull(),
+    currency: text("currency").notNull().default("usd"),
+    itemId: text("item_id").notNull(),
+    quantity: integer("quantity").notNull().default(1),
+    amountCents: integer("amount_cents").notNull(),
+    paymentMethod: text("payment_method").notNull(),
+    payLink: text("pay_link"),
+    // Upstream user quota at the moment the session was completed (i.e. when
+    // we generated the checkout URL). Used by GET to detect that the user has
+    // since paid and advance the session to "completed" without a webhook.
+    quotaAtComplete: integer("quota_at_complete"),
+    body: text("body", { mode: "json" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [index("idx_acp_user_created").on(table.userId, table.createdAt)],
+);
+
+export const acpIdempotencyKeys = sqliteTable(
+  "acp_idempotency_keys",
+  {
+    key: text("key").notNull(),
+    userId: integer("user_id").notNull(),
+    path: text("path").notNull(),
+    bodyHash: text("body_hash").notNull(),
+    status: integer("status").notNull(),
+    response: text("response", { mode: "json" }).notNull(),
+    state: text("state").notNull().default("done"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_acp_idem_lookup").on(table.userId, table.key, table.path),
+    index("idx_acp_idem_created").on(table.createdAt),
+  ],
+);
+
 export type Conversation = typeof conversations.$inferSelect;
 export type NewConversation = typeof conversations.$inferInsert;
 export type Message = typeof messages.$inferSelect;
@@ -123,3 +170,7 @@ export type Media = typeof media.$inferSelect;
 export type NewMedia = typeof media.$inferInsert;
 export type ModerationLog = typeof moderationLog.$inferSelect;
 export type NewModerationLog = typeof moderationLog.$inferInsert;
+export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
+export type NewAcpCheckoutSession = typeof acpCheckoutSessions.$inferInsert;
+export type AcpIdempotencyKey = typeof acpIdempotencyKeys.$inferSelect;
+export type NewAcpIdempotencyKey = typeof acpIdempotencyKeys.$inferInsert;

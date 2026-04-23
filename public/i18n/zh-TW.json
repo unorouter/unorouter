@@ -362,6 +362,25 @@
         "H_NEXT": "接下來有什麼",
         "P_NEXT": "我們每週都推出更新。您可以期待更多模型、更緊密的健康訊號驅動更聰明的備援、更豐富的成本與延遲儀表板，以及與您日常使用的終端機和 IDE 更深的整合。",
         "CTA": "準備好試試看了嗎？<register>取得 API 金鑰</register>或<models>瀏覽模型目錄</models>。"
+      },
+      "AGENT_READY": {
+        "TITLE": "{appName} 在 Is Your Site Agent-Ready 拿下 100/100",
+        "DESCRIPTION": "Cloudflare 的 Is Your Site Agent-Ready 掃描器替 {appName} 打出滿分 100/100，並在五個全部類別——可被發現性、內容、機器人存取控制、API 與 MCP 探索、商務——拿到第 5 級 Agent-Native 評等。",
+        "AUTHOR": "{appName} 團隊",
+        "INTRO": "一個 AI 代理走到你的網域前。它能不能搞清楚你是誰、提供什麼、要怎麼跟你對話、又該怎麼向你付款？這正是 Cloudflare 的 Is Your Site Agent-Ready 掃描器想回答的問題。我們把它指向 {appDomain}，拿回一份完美的 100/100，加上最高的第 5 級 Agent-Native 評等。",
+        "H_SCORE": "結果",
+        "P_SCORE": "五個類別，全部亮綠。可被發現性 3/3，內容 1/1，機器人存取控制 3/3，API/Auth/MCP/Skill 探索 7/7，連同可選的商務類別也通過。從掃描器的角度看，它認得的所有新興代理標準都已穩穩落在 {appDomain} 上。",
+        "IMG_ALT": "Is Your Site Agent-Ready 報告顯示 {appDomain} 取得 100 分以及第 5 級 Agent-Native 徽章",
+        "IMG_CAPTION": "即時報告位於 <scanner>isitagentready.com/{appDomain}</scanner>。",
+        "H_WHAT": "Is Your Site Agent-Ready 究竟在檢查什麼",
+        "P_WHAT": "這是一個由 Cloudflare 提供的免費掃描器，會對你的網域發出請求，尋找 AI 代理用來探索並與網站互動的技術訊號。可以把它當成一份清單：robots.txt、sitemap、Link 標頭、針對 markdown 的內容協商、AI 機器人規則、MCP 伺服器卡、代理技能清單、OAuth 探索文件、x402 付款標頭，以及若干新興的商務協定。每一項檢查都只是對一個 well-known 路徑或標頭的一次小小 HTTP 呼叫。",
+        "H_CATEGORIES": "把每一項檢查講清楚",
+        "P_CATEGORIES": "可被發現性涵蓋 robotsTxt（一個能正確解析的 robots.txt）、sitemap（掃描器能取得的 sitemap.xml）、linkHeaders（指向機器可讀清單的 Link 標頭）。內容涵蓋 markdownNegotiation（當代理請求 markdown 時，網站是否以 markdown 回應）。機器人存取控制涵蓋 robotsTxtAiRules（針對 AI 代理的明確允許或拒絕規則）、contentSignals（Cloudflare 的 Content-Signals 格式）、webBotAuth（帶簽名的機器人身分）。API/Auth/MCP/Skill 探索涵蓋 apiCatalog（可被探索的 API 目錄）、oauthDiscovery 與 oauthProtectedResource（RFC 9728 的 OAuth 中繼資料）、mcpServerCard（Model Context Protocol 伺服器描述符）、a2aAgentCard（Google 的 Agent-to-Agent 卡片）、agentSkills（宣告的技能清單）、webMcp（架在 HTTP 上的 MCP）。商務涵蓋 x402（HTTP 402 付款標準）、mpp、ucp 與 acp（三份在自主商務方向上彼此競爭的草案）。{appDomain} 在以上每一項都給出正確回應。",
+        "H_STUBS": "一段老實話",
+        "P_STUBS": "這些檢查都只是簡單的樁。掃描器主要在確認 well-known URL 存在、回傳 200，且頂層結構正確。它不會真的跑完一次 OAuth 流程，不會真的呼叫 MCP 工具，也不會真的結算一筆 x402 付款。綠色勾代表門是開著的，並不代表門後那間房間已經完工。任何在生產環境裡依賴某項協定的人，仍然應該自行做端到端驗證：把 OAuth 流程完整跑過，從真實的用戶端呼叫 MCP 工具，把一筆 x402 付款一路走到結算。分數是一個強烈的訊號，說明表面已經就位，但它無法取代協定層面的相容性測試。",
+        "H_TRY": "在自己的站點上跑一次",
+        "P_TRY": "如果你正在做的東西未來可能被 AI 代理碰到，這個掃描器真的值得花上一分鐘。它把一長串瑣碎的標準集中在同一個畫面，並明確告訴你哪些 well-known 路徑缺漏或格式錯誤。每當我們改動到探索、認證或商務相關的介面，就會拿它跑一次回歸。",
+        "CTA": "到 <scanner>isitagentready.com</scanner> 掃一掃自己的站點；如果你是為了 {appName} 而來，那就 <register>領一把 API 金鑰</register>，開始路由。"
       }
     }
   },
@@ -1403,6 +1422,33 @@
       "REGISTER_DESCRIPTION": "建立 {appName} 帳戶，透過單一 API 開始使用所有 AI 模型。",
       "KEYWORDS": "{appName} 登入、{appName} 註冊、AI API 帳戶、登入"
     },
+    "CONSENT": {
+      "TITLE": "授權存取",
+      "DESCRIPTION": "{clientId} 要求存取你的 {appName} 帳戶。",
+      "REQUESTING_APP": "請求方應用程式",
+      "SCOPES_LABEL": "此應用程式將被允許：",
+      "LIMITS_TITLE": "支出始終由你掌控",
+      "LIMITS_NOTE": "應用程式無法自行扣款。任何儲值或訂閱都會開啟結帳頁面，由你親自確認並付款。",
+      "APPROVE": "允許存取",
+      "DENY": "取消",
+      "INVALID_TITLE": "授權連結已過期",
+      "INVALID": "此授權連結無效或已過期，請從應用程式重新開始。",
+      "RETURN_HOME": "返回儀表板",
+      "SECURITY_NOTE": "僅授權你信任的應用程式。你可以隨時在儀表板撤銷授權。",
+      "SECURITY_NOTE_PERSISTENT": "在你撤銷授權之前，此應用程式將保持登入狀態。僅授權你信任的應用程式。你可以隨時在儀表板撤銷授權。",
+      "META_TITLE": "授權應用程式，{appName}",
+      "META_DESCRIPTION": "檢閱並批准第三方應用程式存取你 {appName} 帳戶的要求。",
+      "SCOPE": {
+        "OPENID": "將你識別為 {appName} 使用者",
+        "MODELS_READ": "查看可用模型與價格",
+        "BALANCE_READ": "讀取你目前的餘額與配額",
+        "TOKENS_READ": "查看你的 API 金鑰列表",
+        "TOKENS_WRITE": "代表你建立新的 API 金鑰",
+        "SUBSCRIPTION_READ": "查看你的有效訂閱與購買記錄",
+        "SUBSCRIPTION_CANCEL": "取消一個有效訂閱",
+        "CHECKOUT_CREATE": "開啟結帳頁面以購買額度或訂閱（每次購買需要你確認）"
+      }
+    },
     "LOGGING_IN": "登入中...",
     "REGISTERING": "建立帳戶中...",
     "DONT_HAVE_ACCOUNT": "還沒有帳戶？",
@@ -1743,6 +1789,10 @@
     "ERROR": {
       "PAYMENT_FAILED": "付款失敗，請重試。"
     },
+    "PORTAL": {
+      "MANAGE": "管理帳務",
+      "ERROR": "無法開啟帳務中心，請重試。"
+    },
     "TITLE": "帳務",
     "ACCOUNT_STATS": "帳戶統計",
     "CURRENT_BALANCE": "目前餘額",
@@ -2040,5 +2090,67 @@
     "REFERRAL_CTA": "註冊後用更低成本開始使用 AI",
     "TOKENS_MIN": "Tokens／分鐘",
     "MORE": "更多"
+  },
+  "WELL_KNOWN": {
+    "AGENT_CARD": {
+      "DESCRIPTION": "統一的 AI 模型閘道。一個 OpenAI 相容端點串接 OpenAI、Anthropic、Google、DeepSeek 等各大主流模型，支援自動容錯轉移與智慧路由。",
+      "AUTH_DESCRIPTION": "兩種方式。（1）{appName} API 金鑰：在儀表板產生，透過 Authorization: Bearer sk-... 送出。（2）OAuth 2.1 + PKCE，供代表已登入使用者行動的 agent 使用；agent 可透過 tokens:write 範圍自行建立 API 金鑰。授權伺服器中繼資料位於 API 來源的 /.well-known/oauth-authorization-server，資源中繼資料位於本站來源的 /.well-known/oauth-protected-resource。",
+      "SKILLS": {
+        "CHAT_COMPLETION_NAME": "對話補全",
+        "CHAT_COMPLETION_DESCRIPTION": "在所有支援的模型上提供 OpenAI 相容的對話補全。底層模型具備時支援串流、工具呼叫與視覺能力。",
+        "IMAGE_GENERATION_NAME": "圖像生成",
+        "IMAGE_GENERATION_DESCRIPTION": "透過支援的圖像模型產生圖像。",
+        "VIDEO_GENERATION_NAME": "影片生成",
+        "VIDEO_GENERATION_DESCRIPTION": "透過支援的影片模型產生影片，對耗時較長的渲染提供非同步工作輪詢。",
+        "AUDIO_NAME": "音訊",
+        "AUDIO_DESCRIPTION": "透過支援的音訊模型提供文字轉語音、語音轉文字與音訊理解能力。",
+        "EMBEDDINGS_NAME": "文字向量",
+        "EMBEDDINGS_DESCRIPTION": "透過支援的向量模型產生文字嵌入向量。",
+        "MODEL_CATALOG_NAME": "模型目錄",
+        "MODEL_CATALOG_DESCRIPTION": "列出所有可用模型及即時價格。便於依成本、上下文長度或能力動態挑選模型。"
+      }
+    },
+    "AGENT_SKILLS": {
+      "ROUTE_CHAT": "透過單一端點呼叫 OpenAI 相容的對話補全，覆蓋 OpenAI、Anthropic、Google、DeepSeek 等各家模型。適用於使用者需要比較模型、需要在供應商間自動容錯轉移，或希望將多家 LLM 供應商合併到同一帳單的情境。",
+      "BROWSE_CATALOG": "瀏覽 OpenAI、Anthropic、Google、DeepSeek 等各家供應商的可用 AI 模型與即時價格。適用於使用者在呼叫 API 之前，依成本、上下文長度或能力挑選模型的情境。"
+    },
+    "MCP": {
+      "SERVER_DESCRIPTION": "瀏覽器內的 AI 模型路由。工具透過 navigator.modelContext 在網站首頁註冊為 WebMCP。請開啟首頁，並從支援 WebMCP 的客戶端呼叫工具。",
+      "WEBMCP_BUNDLE_DESCRIPTION": "透過 navigator.modelContext 在 {appName} 首頁註冊的瀏覽器內工具。於支援 WebMCP 的客戶端載入首頁即可存取這些工具。",
+      "TOOLS": {
+        "OPEN_MODELS_CATALOG": "開啟 {appName} 模型目錄頁，列出所有可用模型與來自 OpenAI、Anthropic、Google、DeepSeek 等供應商的即時價格。",
+        "OPEN_PRICING": "開啟 {appName} 價格頁，查看訂閱方案與按量付費費率。",
+        "OPEN_DOCS": "開啟 {appName} 整合指南。接受指南識別碼，如 claude-code、codex、gemini-cli、openclaw、cc-switch、sillytavern、janitor-ai、risuai 或 chub。",
+        "OPEN_CHAT": "開啟 {appName} 對話介面，在同一 UI 中試用任意支援的 AI 模型。",
+        "OPEN_MODEL": "開啟指定模型的詳細頁。接受模型識別碼，如 claude-opus-4-7、gpt-5、gemini-2.5-pro 或 flux.1-dev。"
+      },
+      "RESULTS": {
+        "OPEN_MODELS_CATALOG": "已開啟 {appName} 模型目錄。",
+        "OPEN_PRICING": "已開啟價格頁。",
+        "OPEN_DOCS": "已開啟 {target} 整合指南。",
+        "OPEN_DOCS_INDEX": "已開啟文件目錄。",
+        "OPEN_CHAT": "已開啟對話介面。",
+        "OPEN_MODEL": "已開啟 {target} 的模型頁。",
+        "OPEN_MODEL_MISSING": "缺少模型識別碼。請呼叫 open_models_catalog 以列出可用模型。"
+      }
+    },
+    "API_CATALOG": {
+      "OPENAPI_TITLE": "{appName} BFF OpenAPI 規格",
+      "RELAY_TITLE": "{appName} 轉接 API（OpenAI 相容，/v1）",
+      "DOCS_TITLE": "{appName} 整合文件",
+      "AGENT_CARD_TITLE": "A2A Agent Card",
+      "AUTH_SERVER_TITLE": "OAuth 2.1 授權伺服器中繼資料（RFC 8414）",
+      "PROTECTED_RESOURCE_TITLE": "OAuth 受保護資源中繼資料（RFC 9728）"
+    },
+    "HUMANS": {
+      "TEAM_SECTION": "團隊",
+      "SITE_SECTION": "網站",
+      "NAME_LABEL": "名稱",
+      "CONTACT_LABEL": "聯絡方式",
+      "LAST_UPDATE_LABEL": "最後更新",
+      "LANGUAGE_LABEL": "語言",
+      "COMPONENTS_LABEL": "元件",
+      "STANDARDS_LABEL": "標準"
+    }
   }
 }

@@ -53,6 +53,15 @@ export const pathnames = {
     "zh-CN": "/denglu",
     "zh-TW": "/denglu",
   },
+  "/consent": {
+    de: "/zustimmung",
+    fr: "/consentement",
+    ja: "/shonin",
+    ru: "/согласие",
+    vi: "/xac-nhan",
+    "zh-CN": "/shouquan",
+    "zh-TW": "/shouquan",
+  },
   "/register": {
     de: "/registrieren",
     fr: "/inscription",
@@ -292,6 +301,7 @@ export const privateRoutes = {
     "/logs",
     "/affiliate",
     "/settings",
+    "/consent",
   ],
   // Dynamic routes: the parent path is what we disallow so every child is covered.
   // /chat/[convId] and /shared/[shareId] are user-specific; /chat itself is public.
