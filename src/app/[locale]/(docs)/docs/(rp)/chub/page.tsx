@@ -1,4 +1,4 @@
-import { CCSwitchContent } from "@/components/pages/docs/cc-switch/cc-switch-content";
+import { ChubContent } from "@/components/pages/docs/rp/chub/chub-content";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/docs-schema";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -12,24 +12,24 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: "/docs/cc-switch",
-    title: t("DOCS.CC_SWITCH.META.TITLE", APP_VALUES),
-    description: t("DOCS.CC_SWITCH.META.DESCRIPTION", APP_VALUES),
-    keywords: t("DOCS.CC_SWITCH.META.KEYWORDS", APP_VALUES),
+    href: "/docs/chub",
+    title: t("DOCS.CHUB.META.TITLE", APP_VALUES),
+    description: t("DOCS.CHUB.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.CHUB.META.KEYWORDS", APP_VALUES),
     ogImage: ogBadge("square", locale),
   });
 }
 
-export default async function CCSwitchPage() {
+export default async function ChubPage() {
   const t = await getTranslations();
   return (
     <>
       <DocPageSchema
-        slug="docs/cc-switch"
-        title={t("DOCS.CC_SWITCH.META.TITLE", APP_VALUES)}
-        description={t("DOCS.CC_SWITCH.META.DESCRIPTION", APP_VALUES)}
+        slug="docs/chub"
+        title={t("DOCS.CHUB.META.TITLE", APP_VALUES)}
+        description={t("DOCS.CHUB.META.DESCRIPTION", APP_VALUES)}
       />
-      <CCSwitchContent />
+      <ChubContent />
     </>
   );
 }

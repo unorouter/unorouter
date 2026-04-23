@@ -11,10 +11,10 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import Claude from "@lobehub/icons/es/Claude";
 import { getTranslations } from "next-intl/server";
 import { CCSwitchSetup } from "../cc-switch/cc-switch-setup";
-import { OSCodeBlock } from "../os/os-code-block";
-import { buildOSVariants, envVarCode } from "../os/os-code-helpers";
+import { OSCodeBlock } from "../../os/os-code-block";
+import { buildOSVariants, envVarCode } from "../../os/os-code-helpers";
 import { OS } from "@/lib/types/enums";
-import { OSTabs } from "../os/os-tabs";
+import { OSTabs } from "../../os/os-tabs";
 
 export async function ClaudeCodeContent() {
   const t = await getTranslations();

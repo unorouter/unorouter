@@ -1,4 +1,4 @@
-import { OpenClawContent } from "@/components/pages/docs/openclaw/openclaw-content";
+import { RisuAIContent } from "@/components/pages/docs/rp/risuai/risuai-content";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/docs-schema";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -12,24 +12,24 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: "/docs/openclaw",
-    title: t("DOCS.OPENCLAW.META.TITLE", APP_VALUES),
-    description: t("DOCS.OPENCLAW.META.DESCRIPTION", APP_VALUES),
-    keywords: t("DOCS.OPENCLAW.META.KEYWORDS", APP_VALUES),
+    href: "/docs/risuai",
+    title: t("DOCS.RISUAI.META.TITLE", APP_VALUES),
+    description: t("DOCS.RISUAI.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.RISUAI.META.KEYWORDS", APP_VALUES),
     ogImage: ogBadge("square", locale),
   });
 }
 
-export default async function OpenClawPage() {
+export default async function RisuAIPage() {
   const t = await getTranslations();
   return (
     <>
       <DocPageSchema
-        slug="docs/openclaw"
-        title={t("DOCS.OPENCLAW.META.TITLE", APP_VALUES)}
-        description={t("DOCS.OPENCLAW.META.DESCRIPTION", APP_VALUES)}
+        slug="docs/risuai"
+        title={t("DOCS.RISUAI.META.TITLE", APP_VALUES)}
+        description={t("DOCS.RISUAI.META.DESCRIPTION", APP_VALUES)}
       />
-      <OpenClawContent />
+      <RisuAIContent />
     </>
   );
 }

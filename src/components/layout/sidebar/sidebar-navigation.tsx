@@ -1,6 +1,10 @@
 "use client";
 
-import { docsNavItems } from "@/components/layout/docs/docs-navigation";
+import {
+  docsNavItemsCli,
+  docsNavItemsOverview,
+  docsNavItemsRoleplay,
+} from "@/components/layout/docs/docs-navigation";
 import {
   type NavigationItem,
   isActiveLink,
@@ -79,7 +83,18 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     );
     return (
       <>
-        <NavGroup label={t("DOCS_SIDEBAR.TITLE")} items={docsNavItems} />
+        <NavGroup
+          label={t("DOCS_SIDEBAR.TITLE")}
+          items={docsNavItemsOverview}
+        />
+        <NavGroup
+          label={t("DOCS_SIDEBAR.GROUP_CLI")}
+          items={docsNavItemsCli}
+        />
+        <NavGroup
+          label={t("DOCS_SIDEBAR.GROUP_ROLEPLAY")}
+          items={docsNavItemsRoleplay}
+        />
         <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
       </>
     );

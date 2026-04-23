@@ -1,4 +1,4 @@
-import { ClaudeCodeContent } from "@/components/pages/docs/claude-code/claude-code-content";
+import { GeminiCliContent } from "@/components/pages/docs/cli/gemini-cli/gemini-cli-content";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/docs-schema";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -12,24 +12,24 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: "/docs/claude-code",
-    title: t("DOCS.CLAUDE_CODE.META.TITLE", APP_VALUES),
-    description: t("DOCS.CLAUDE_CODE.META.DESCRIPTION", APP_VALUES),
-    keywords: t("DOCS.CLAUDE_CODE.META.KEYWORDS", APP_VALUES),
-    ogImage: ogBadge("banner", locale),
+    href: "/docs/gemini-cli",
+    title: t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES),
+    description: t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.GEMINI_CLI.META.KEYWORDS", APP_VALUES),
+    ogImage: ogBadge("square", locale),
   });
 }
 
-export default async function ClaudeCodePage() {
+export default async function GeminiCliPage() {
   const t = await getTranslations();
   return (
     <>
       <DocPageSchema
-        slug="docs/claude-code"
-        title={t("DOCS.CLAUDE_CODE.META.TITLE", APP_VALUES)}
-        description={t("DOCS.CLAUDE_CODE.META.DESCRIPTION", APP_VALUES)}
+        slug="docs/gemini-cli"
+        title={t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES)}
+        description={t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES)}
       />
-      <ClaudeCodeContent />
+      <GeminiCliContent />
     </>
   );
 }

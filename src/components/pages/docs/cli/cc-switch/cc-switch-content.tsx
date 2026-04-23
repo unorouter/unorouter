@@ -9,7 +9,7 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { LuArrowLeftRight } from "react-icons/lu";
-import { OSTabs } from "../os/os-tabs";
+import { OSTabs } from "../../os/os-tabs";
 import { CCSwitchDeepLinks } from "./cc-switch-deep-links";
 import { getDocsApiKey } from "@/lib/utils/server";
 

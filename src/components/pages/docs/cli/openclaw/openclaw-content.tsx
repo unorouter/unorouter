@@ -12,8 +12,8 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { GiCrabClaw } from "react-icons/gi";
 import { CCSwitchSetup } from "../cc-switch/cc-switch-setup";
-import { OSCodeBlock } from "../os/os-code-block";
-import { buildOSVariants } from "../os/os-code-helpers";
+import { OSCodeBlock } from "../../os/os-code-block";
+import { buildOSVariants } from "../../os/os-code-helpers";
 
 export async function OpenClawContent() {
   const t = await getTranslations();

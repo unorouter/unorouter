@@ -4,8 +4,13 @@ import Claude from "@lobehub/icons/es/Claude";
 import Gemini from "@lobehub/icons/es/Gemini";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import type { ComponentType } from "react";
-import { GiCrabClaw } from "react-icons/gi";
-import { LuArrowLeftRight, LuLayoutGrid } from "react-icons/lu";
+import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
+import {
+  LuArrowLeftRight,
+  LuDrama,
+  LuHeart,
+  LuLayoutGrid,
+} from "react-icons/lu";
 
 export type DocsNavItem = {
   name: TranslationKey;
@@ -14,13 +19,16 @@ export type DocsNavItem = {
   exact?: boolean;
 };
 
-export const docsNavItems: DocsNavItem[] = [
+export const docsNavItemsOverview: DocsNavItem[] = [
   {
     name: "DOCS_SIDEBAR.AI_APPLICATIONS",
     href: "/docs",
     icon: LuLayoutGrid,
     exact: true,
   },
+];
+
+export const docsNavItemsCli: DocsNavItem[] = [
   {
     name: "DOCS_SIDEBAR.CC_SWITCH",
     href: "/docs/cc-switch",
@@ -46,4 +54,34 @@ export const docsNavItems: DocsNavItem[] = [
     href: "/docs/gemini-cli",
     icon: Gemini,
   },
+];
+
+export const docsNavItemsRoleplay: DocsNavItem[] = [
+  {
+    name: "DOCS_SIDEBAR.SILLYTAVERN",
+    href: "/docs/sillytavern",
+    icon: LuDrama,
+  },
+  {
+    name: "DOCS_SIDEBAR.JANITOR_AI",
+    href: "/docs/janitor-ai",
+    icon: GiBroom,
+  },
+  {
+    name: "DOCS_SIDEBAR.RISUAI",
+    href: "/docs/risuai",
+    icon: GiFox,
+  },
+  {
+    name: "DOCS_SIDEBAR.CHUB",
+    href: "/docs/chub",
+    icon: LuHeart,
+  },
+];
+
+/** Backwards-compat flat alias for callers that still import `docsNavItems`. */
+export const docsNavItems: DocsNavItem[] = [
+  ...docsNavItemsOverview,
+  ...docsNavItemsCli,
+  ...docsNavItemsRoleplay,
 ];

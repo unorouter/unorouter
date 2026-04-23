@@ -1,4 +1,4 @@
-import { GeminiCliContent } from "@/components/pages/docs/gemini-cli/gemini-cli-content";
+import { JanitorAIContent } from "@/components/pages/docs/rp/janitor-ai/janitor-ai-content";
 import { APP_VALUES } from "@/lib/config/constants";
 import { DocPageSchema } from "@/lib/seo/docs-schema";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
@@ -12,24 +12,24 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: "/docs/gemini-cli",
-    title: t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES),
-    description: t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES),
-    keywords: t("DOCS.GEMINI_CLI.META.KEYWORDS", APP_VALUES),
+    href: "/docs/janitor-ai",
+    title: t("DOCS.JANITOR_AI.META.TITLE", APP_VALUES),
+    description: t("DOCS.JANITOR_AI.META.DESCRIPTION", APP_VALUES),
+    keywords: t("DOCS.JANITOR_AI.META.KEYWORDS", APP_VALUES),
     ogImage: ogBadge("square", locale),
   });
 }
 
-export default async function GeminiCliPage() {
+export default async function JanitorAIPage() {
   const t = await getTranslations();
   return (
     <>
       <DocPageSchema
-        slug="docs/gemini-cli"
-        title={t("DOCS.GEMINI_CLI.META.TITLE", APP_VALUES)}
-        description={t("DOCS.GEMINI_CLI.META.DESCRIPTION", APP_VALUES)}
+        slug="docs/janitor-ai"
+        title={t("DOCS.JANITOR_AI.META.TITLE", APP_VALUES)}
+        description={t("DOCS.JANITOR_AI.META.DESCRIPTION", APP_VALUES)}
       />
-      <GeminiCliContent />
+      <JanitorAIContent />
     </>
   );
 }
