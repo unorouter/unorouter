@@ -383,7 +383,7 @@
         "CTA": "Scan your site at <scanner>isitagentready.com</scanner>, or if you came here for {appName}, <register>grab an API key</register> and start routing."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "We tested 8 third-party Claude resellers for 17 days. 183 of their channels weren't actually serving Claude.",
+        "TITLE": "183 fake Claude channels across 8 resellers",
         "DESCRIPTION": "Across 8 upstream resellers and 17 days of automated probing, we found 183 (channel, model) pairs that fail authenticity checks. Most were serving Kiro Cascade or Codeium instead of real Claude. Methodology, data, and the open-source probe suite.",
         "AUTHOR": "{appName} team",
         "H_PROBES": "How the probes work",

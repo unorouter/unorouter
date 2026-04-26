@@ -383,7 +383,7 @@
         "CTA": "Hãy quét website của bạn tại <scanner>isitagentready.com</scanner>, hoặc nếu bạn ghé qua vì {appName}, <register>lấy một API key</register> rồi bắt đầu định tuyến."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "Chúng tôi đã kiểm tra 8 nhà bán lại Claude bên thứ ba trong 17 ngày. 183 kênh của họ thực ra không hề chạy Claude.",
+        "TITLE": "183 kênh Claude giả ở 8 nhà bán lại",
         "DESCRIPTION": "Trên 8 nhà bán lại đầu nguồn và 17 ngày kiểm tra tự động, chúng tôi tìm thấy 183 cặp (kênh, mô hình) không vượt qua bài kiểm tra tính xác thực. Phần lớn đang phục vụ Kiro Cascade hoặc Codeium thay vì Claude thật. Phương pháp, dữ liệu và bộ kiểm tra mã nguồn mở.",
         "AUTHOR": "Đội ngũ {appName}",
         "H_PROBES": "Cách các phép thử hoạt động",

@@ -383,7 +383,7 @@
         "CTA": "あなたのサイトは <scanner>isitagentready.com</scanner> でスキャンできます。もし {appName} を試しに来てくれたなら、<register>API キーを取得</register> してルーティングを始めましょう。"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "サードパーティの Claude 再販業者 8 社を 17 日間テストしました。そのうち 183 のチャネルは実際には Claude を提供していませんでした。",
+        "TITLE": "8 社の再販業者で見つかった 183 の偽 Claude チャネル",
         "DESCRIPTION": "8 つの上流再販業者と 17 日間の自動プローブで、真正性チェックに失敗した 183 の (チャネル, モデル) の組を発見しました。多くは本物の Claude ではなく Kiro Cascade や Codeium を提供していました。方法論、データ、オープンソースのプローブスイート。",
         "AUTHOR": "{appName} チーム",
         "H_PROBES": "プローブの仕組み",

@@ -383,7 +383,7 @@
         "CTA": "Scanne deine Seite auf <scanner>isitagentready.com</scanner>, oder wenn du wegen {appName} hier bist, <register>hol dir einen API-Schlüssel</register> und leg los."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "Wir haben 8 Drittanbieter von Claude 17 Tage lang getestet. 183 ihrer Kanäle haben gar kein echtes Claude ausgeliefert.",
+        "TITLE": "183 gefälschte Claude-Kanäle bei 8 Anbietern",
         "DESCRIPTION": "Über 8 Upstream-Anbieter und 17 Tage automatisierter Probes hinweg haben wir 183 (Kanal, Modell)-Paare gefunden, die die Echtheitsprüfung nicht bestehen. Die meisten lieferten Kiro Cascade oder Codeium statt echtem Claude. Methodik, Daten und der Open-Source-Probe-Suite.",
         "AUTHOR": "{appName}-Team",
         "H_PROBES": "Wie die Probes funktionieren",

@@ -383,7 +383,7 @@
         "CTA": "到 <scanner>isitagentready.com</scanner> 掃一掃自己的站點；如果你是為了 {appName} 而來，那就 <register>領一把 API 金鑰</register>，開始路由。"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "我們對 8 家第三方 Claude 轉售商連續測試 17 天，發現其中 183 條通道根本沒在跑真正的 Claude。",
+        "TITLE": "8 家轉售商裡發現 183 條假 Claude 通道",
         "DESCRIPTION": "在 8 家上游轉售商、17 天的自動偵測裡，我們找到 183 個 (通道, 模型) 組合無法通過真偽校驗。其中多數實際上跑的是 Kiro Cascade 或 Codeium，而不是真正的 Claude。完整方法、資料與開源偵測套件。",
         "AUTHOR": "{appName} 團隊",
         "H_PROBES": "偵測的運作方式",
