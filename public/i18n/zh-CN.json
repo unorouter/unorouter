@@ -381,6 +381,18 @@
         "H_TRY": "在自己的站点上跑一次",
         "P_TRY": "如果你做的东西未来可能被 AI 代理触达，这个扫描器真的值得花上一分钟。它把一长串细小的标准汇集到一个视图里，并明确告诉你哪些 well-known 路径缺失或者格式不对。我们每次改到发现、认证或商业相关的接口，都会拿它跑一次回归。",
         "CTA": "去 <scanner>isitagentready.com</scanner> 扫一扫你自己的站点；如果你是为 {appName} 而来，那就 <register>领一个 API 密钥</register>，开始路由。"
+      },
+      "CLAUDE_AUTHENTICITY": {
+        "TITLE": "我们对 8 家第三方 Claude 转售商连续测试 17 天，发现其中 183 条通道根本就没在跑真正的 Claude。",
+        "DESCRIPTION": "在 8 家上游转售商、17 天的自动探测里，我们找到 183 个 (通道, 模型) 组合无法通过真伪校验。其中多数实际上跑的是 Kiro Cascade 或 Codeium，而不是真正的 Claude。完整方法、数据和开源探测套件。",
+        "AUTHOR": "{appName} 团队",
+        "H_PROBES": "探测的工作原理",
+        "H_NOT_SPOOFING": "哪些情况不算冒充：Bedrock、Vertex、Foundry",
+        "H_RESULTS": "17 天探测的结果",
+        "H_WHY": "为什么会发生这种事",
+        "H_NEXT": "下一步",
+        "H_TEST": "5 分钟内自测你的服务商",
+        "H_NAMING": "关于匿名化的说明"
       }
     }
   },

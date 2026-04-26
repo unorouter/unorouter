@@ -381,6 +381,18 @@
         "H_TRY": "Lancez-le sur votre propre site",
         "P_TRY": "Si vous construisez quoi que ce soit que des agents IA pourraient un jour toucher, ce scanner mérite vraiment quelques instants. Il regroupe en une seule vue une longue liste de petits standards et vous indique exactement quels chemins well-known sont absents ou mal formés. Nous l'utilisons comme test de non-régression à chaque fois que nous touchons à la découverte, à l'authentification ou aux surfaces commerciales.",
         "CTA": "Scannez votre site sur <scanner>isitagentready.com</scanner>, ou si vous êtes ici pour {appName}, <register>récupérez une clé API</register> et commencez à router."
+      },
+      "CLAUDE_AUTHENTICITY": {
+        "TITLE": "Nous avons testé 8 revendeurs tiers de Claude pendant 17 jours. 183 de leurs canaux ne servaient pas réellement Claude.",
+        "DESCRIPTION": "Sur 8 revendeurs en amont et 17 jours de sondes automatisées, nous avons trouvé 183 paires (canal, modèle) qui échouent aux contrôles d'authenticité. La plupart servaient Kiro Cascade ou Codeium au lieu du vrai Claude. Méthodologie, données et suite de sondes open source.",
+        "AUTHOR": "Équipe {appName}",
+        "H_PROBES": "Comment fonctionnent les sondes",
+        "H_NOT_SPOOFING": "Ce qui n'est pas du spoofing : Bedrock, Vertex, Foundry",
+        "H_RESULTS": "Ce que 17 jours de sondes ont révélé",
+        "H_WHY": "Pourquoi cela arrive",
+        "H_NEXT": "La suite",
+        "H_TEST": "Testez votre propre fournisseur en 5 minutes",
+        "H_NAMING": "Une note sur l'anonymisation"
       }
     }
   },

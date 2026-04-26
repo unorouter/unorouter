@@ -171,6 +171,28 @@ export const BLOG_REGISTRY = [
       { id: "try", i18nLeaf: "H_TRY", level: 2 },
     ],
   },
+  {
+    slug: "claude-authenticity",
+    date: "2026-04-26",
+    tags: ["engineering", "announcement"],
+    i18nKey: "BLOG.POSTS.CLAUDE_AUTHENTICITY",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-04-26-claude-authenticity-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "engineering",
+    wordCount: 1100,
+    headings: [
+      { id: "probes", i18nLeaf: "H_PROBES", level: 2 },
+      { id: "not-spoofing", i18nLeaf: "H_NOT_SPOOFING", level: 2 },
+      { id: "results", i18nLeaf: "H_RESULTS", level: 2 },
+      { id: "why", i18nLeaf: "H_WHY", level: 2 },
+      { id: "next", i18nLeaf: "H_NEXT", level: 2 },
+      { id: "test", i18nLeaf: "H_TEST", level: 2 },
+      { id: "naming", i18nLeaf: "H_NAMING", level: 2 },
+    ],
+  },
 ] as const satisfies readonly BlogEntry[];
 
 export type BlogSlug = (typeof BLOG_REGISTRY)[number]["slug"];

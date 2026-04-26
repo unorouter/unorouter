@@ -381,6 +381,18 @@
         "H_TRY": "Hãy chạy nó trên website của bạn",
         "P_TRY": "Nếu bạn xây bất cứ thứ gì mà AI agent có thể chạm tới một ngày nào đó, trình quét này thực sự đáng dành ra một phút. Nó gom một danh sách dài các tiêu chuẩn nhỏ vào cùng một màn hình và chỉ rõ đường well-known nào đang thiếu hoặc bị hỏng. Chúng tôi dùng nó như một bài kiểm tra hồi quy mỗi khi đụng vào các bề mặt khám phá, xác thực hay thương mại.",
         "CTA": "Hãy quét website của bạn tại <scanner>isitagentready.com</scanner>, hoặc nếu bạn ghé qua vì {appName}, <register>lấy một API key</register> rồi bắt đầu định tuyến."
+      },
+      "CLAUDE_AUTHENTICITY": {
+        "TITLE": "Chúng tôi đã kiểm tra 8 nhà bán lại Claude bên thứ ba trong 17 ngày. 183 kênh của họ thực ra không hề chạy Claude.",
+        "DESCRIPTION": "Trên 8 nhà bán lại đầu nguồn và 17 ngày kiểm tra tự động, chúng tôi tìm thấy 183 cặp (kênh, mô hình) không vượt qua bài kiểm tra tính xác thực. Phần lớn đang phục vụ Kiro Cascade hoặc Codeium thay vì Claude thật. Phương pháp, dữ liệu và bộ kiểm tra mã nguồn mở.",
+        "AUTHOR": "Đội ngũ {appName}",
+        "H_PROBES": "Cách các phép thử hoạt động",
+        "H_NOT_SPOOFING": "Cái gì không phải là giả mạo: Bedrock, Vertex, Foundry",
+        "H_RESULTS": "Kết quả sau 17 ngày kiểm tra",
+        "H_WHY": "Vì sao điều này xảy ra",
+        "H_NEXT": "Bước tiếp theo",
+        "H_TEST": "Tự kiểm tra nhà cung cấp của bạn trong 5 phút",
+        "H_NAMING": "Lưu ý về việc ẩn danh"
       }
     }
   },

@@ -381,6 +381,18 @@
         "H_TRY": "Run it on your own site",
         "P_TRY": "If you build anything that AI agents might one day touch, the scanner is genuinely worth a minute of your time. It surfaces a long list of small standards in one view and tells you exactly which well-known paths are missing or malformed. We use it as a regression check whenever we ship anything that touches discovery, auth, or commerce surfaces.",
         "CTA": "Scan your site at <scanner>isitagentready.com</scanner>, or if you came here for {appName}, <register>grab an API key</register> and start routing."
+      },
+      "CLAUDE_AUTHENTICITY": {
+        "TITLE": "We tested 8 third-party Claude resellers for 17 days. 183 of their channels weren't actually serving Claude.",
+        "DESCRIPTION": "Across 8 upstream resellers and 17 days of automated probing, we found 183 (channel, model) pairs that fail authenticity checks. Most were serving Kiro Cascade or Codeium instead of real Claude. Methodology, data, and the open-source probe suite.",
+        "AUTHOR": "{appName} team",
+        "H_PROBES": "How the probes work",
+        "H_NOT_SPOOFING": "What is not spoofing: Bedrock, Vertex, Foundry",
+        "H_RESULTS": "What 17 days of probing turned up",
+        "H_WHY": "Why this happens",
+        "H_NEXT": "What's next",
+        "H_TEST": "Test your own provider in 5 minutes",
+        "H_NAMING": "A note on naming names"
       }
     }
   },

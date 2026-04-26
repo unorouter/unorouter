@@ -381,6 +381,18 @@
         "H_TRY": "在自己的站點上跑一次",
         "P_TRY": "如果你正在做的東西未來可能被 AI 代理碰到，這個掃描器真的值得花上一分鐘。它把一長串瑣碎的標準集中在同一個畫面，並明確告訴你哪些 well-known 路徑缺漏或格式錯誤。每當我們改動到探索、認證或商務相關的介面，就會拿它跑一次回歸。",
         "CTA": "到 <scanner>isitagentready.com</scanner> 掃一掃自己的站點；如果你是為了 {appName} 而來，那就 <register>領一把 API 金鑰</register>，開始路由。"
+      },
+      "CLAUDE_AUTHENTICITY": {
+        "TITLE": "我們對 8 家第三方 Claude 轉售商連續測試 17 天，發現其中 183 條通道根本沒在跑真正的 Claude。",
+        "DESCRIPTION": "在 8 家上游轉售商、17 天的自動偵測裡，我們找到 183 個 (通道, 模型) 組合無法通過真偽校驗。其中多數實際上跑的是 Kiro Cascade 或 Codeium，而不是真正的 Claude。完整方法、資料與開源偵測套件。",
+        "AUTHOR": "{appName} 團隊",
+        "H_PROBES": "偵測的運作方式",
+        "H_NOT_SPOOFING": "哪些情況不算冒充：Bedrock、Vertex、Foundry",
+        "H_RESULTS": "17 天偵測的結果",
+        "H_WHY": "為什麼會發生這種事",
+        "H_NEXT": "下一步",
+        "H_TEST": "5 分鐘內自行測試你的服務商",
+        "H_NAMING": "關於匿名化的說明"
       }
     }
   },

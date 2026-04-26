@@ -381,6 +381,18 @@
         "H_TRY": "Lass es auf deiner eigenen Seite laufen",
         "P_TRY": "Wenn du irgendetwas baust, das KI-Agenten irgendwann anfassen könnten, lohnt sich der Scanner wirklich. Er bringt eine lange Liste kleiner Standards in einer Ansicht zusammen und sagt dir genau, welche well-known-Pfade fehlen oder kaputt sind. Wir nutzen ihn als Regressions-Check, wann immer wir etwas an Discovery, Auth oder Commerce anfassen.",
         "CTA": "Scanne deine Seite auf <scanner>isitagentready.com</scanner>, oder wenn du wegen {appName} hier bist, <register>hol dir einen API-Schlüssel</register> und leg los."
+      },
+      "CLAUDE_AUTHENTICITY": {
+        "TITLE": "Wir haben 8 Drittanbieter von Claude 17 Tage lang getestet. 183 ihrer Kanäle haben gar kein echtes Claude ausgeliefert.",
+        "DESCRIPTION": "Über 8 Upstream-Anbieter und 17 Tage automatisierter Probes hinweg haben wir 183 (Kanal, Modell)-Paare gefunden, die die Echtheitsprüfung nicht bestehen. Die meisten lieferten Kiro Cascade oder Codeium statt echtem Claude. Methodik, Daten und der Open-Source-Probe-Suite.",
+        "AUTHOR": "{appName}-Team",
+        "H_PROBES": "Wie die Probes funktionieren",
+        "H_NOT_SPOOFING": "Was kein Spoofing ist: Bedrock, Vertex, Foundry",
+        "H_RESULTS": "Was 17 Tage Probing zutage gefördert haben",
+        "H_WHY": "Warum das passiert",
+        "H_NEXT": "Was als Nächstes kommt",
+        "H_TEST": "Teste deinen eigenen Anbieter in 5 Minuten",
+        "H_NAMING": "Hinweis zur Anonymisierung"
       }
     }
   },
