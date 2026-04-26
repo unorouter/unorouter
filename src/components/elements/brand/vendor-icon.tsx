@@ -14,6 +14,7 @@ type Loader = () => Promise<{ default: IconComponent }>;
 const LOADERS: Record<string, Loader> = {
   [Vendor.ALIBABA]: () => import("@lobehub/icons/es/AlibabaCloud"),
   [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
+  [Vendor.BAIDU]: () => import("@lobehub/icons/es/Baidu"),
   [Vendor.BAILIAN]: () => import("@lobehub/icons/es/Bailian"),
   [Vendor.BYTEDANCE]: () => import("@lobehub/icons/es/ByteDance"),
   [Vendor.COHERE]: () => import("@lobehub/icons/es/Cohere"),
@@ -21,14 +22,21 @@ const LOADERS: Record<string, Loader> = {
   [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
   [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
   [Vendor.GOOGLE_DEEPMIND]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
+  [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
   [Vendor.KLING]: () => import("@lobehub/icons/es/Kling"),
+  [Vendor.LING]: () => import("@lobehub/icons/es/AntGroup"),
+  [Vendor.LIQUID]: () => import("@lobehub/icons/es/Liquid"),
   [Vendor.META]: () => import("@lobehub/icons/es/Meta"),
   [Vendor.MINIMAX]: () => import("@lobehub/icons/es/Minimax"),
   [Vendor.MISTRAL]: () => import("@lobehub/icons/es/Mistral"),
   [Vendor.MISTRAL_AI]: () => import("@lobehub/icons/es/Mistral"),
   [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
+  [Vendor.NVIDIA]: () => import("@lobehub/icons/es/Nvidia"),
   [Vendor.OPENAI]: () => import("@lobehub/icons/es/OpenAI"),
+  [Vendor.QIANFAN]: () => import("@lobehub/icons/es/Baidu"),
   [Vendor.STABILITY]: () => import("@lobehub/icons/es/Stability"),
+  [Vendor.TENCENT]: () => import("@lobehub/icons/es/Tencent"),
   [Vendor.XAI]: () => import("@lobehub/icons/es/XAI"),
   [Vendor.X_AI]: () => import("@lobehub/icons/es/XAI"),
   [Vendor.XIAOMI]: () => import("@lobehub/icons/es/XiaomiMiMo"),
@@ -37,6 +45,7 @@ const LOADERS: Record<string, Loader> = {
   claude: () => import("@lobehub/icons/es/Claude"),
   doubao: () => import("@lobehub/icons/es/Doubao"),
   gemini: () => import("@lobehub/icons/es/Gemini"),
+  nemotron: () => import("@lobehub/icons/es/Nvidia"),
 };
 
 const cache = new Map<string, IconComponent>();

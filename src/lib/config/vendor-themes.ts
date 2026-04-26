@@ -135,6 +135,62 @@ export const VENDOR_THEMES: Record<string, VendorTheme> = {
     tagBg: "bg-violet-500/10",
     tagBorder: "border-violet-500/20",
   },
+  [Vendor.NVIDIA]: {
+    bg: "bg-lime-500/5",
+    border: "border-lime-500/20",
+    text: "text-lime-700 dark:text-lime-300",
+    tagBg: "bg-lime-500/10",
+    tagBorder: "border-lime-500/20",
+  },
+  [Vendor.TENCENT]: {
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-700 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+  },
+  [Vendor.HUNYUAN]: {
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-700 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+  },
+  [Vendor.BAIDU]: {
+    bg: "bg-indigo-500/5",
+    border: "border-indigo-500/20",
+    text: "text-indigo-700 dark:text-indigo-300",
+    tagBg: "bg-indigo-500/10",
+    tagBorder: "border-indigo-500/20",
+  },
+  [Vendor.QIANFAN]: {
+    bg: "bg-indigo-500/5",
+    border: "border-indigo-500/20",
+    text: "text-indigo-700 dark:text-indigo-300",
+    tagBg: "bg-indigo-500/10",
+    tagBorder: "border-indigo-500/20",
+  },
+  [Vendor.LIQUID]: {
+    bg: "bg-slate-500/5",
+    border: "border-slate-500/20",
+    text: "text-slate-700 dark:text-slate-300",
+    tagBg: "bg-slate-500/10",
+    tagBorder: "border-slate-500/20",
+  },
+  [Vendor.INCLUSIONAI]: {
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-600 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+  },
+  [Vendor.LING]: {
+    bg: "bg-blue-500/5",
+    border: "border-blue-500/20",
+    text: "text-blue-600 dark:text-blue-300",
+    tagBg: "bg-blue-500/10",
+    tagBorder: "border-blue-500/20",
+  },
 };
 
 export const DEFAULT_THEME: VendorTheme = {
