@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "Giá hiển thị là mức thấp nhất khả dụng. Chi phí thực tế phụ thuộc vào nhà cung cấp xử lý yêu cầu của bạn.",
       "GRID": "Giá theo lưới",
       "CUSTOM": "Tính phí tùy chỉnh",
-      "ORIGINAL": "Giá gốc"
+      "ORIGINAL": "Giá gốc",
+      "CACHE_WRITE_5M": "Ghi cache 5p",
+      "CACHE_WRITE_1H": "Ghi cache 1g",
+      "CACHE_READ": "Đọc cache"
     },
     "SORT": {
       "NAME": "Tên (A đến Z)",

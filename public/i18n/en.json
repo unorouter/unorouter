@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "Prices shown reflect the lowest available rate. Actual cost depends on which provider handles your request.",
       "GRID": "Grid pricing",
       "CUSTOM": "Custom billing",
-      "ORIGINAL": "Original price"
+      "ORIGINAL": "Original price",
+      "CACHE_WRITE_5M": "Cache write 5m",
+      "CACHE_WRITE_1H": "Cache write 1h",
+      "CACHE_READ": "Cache read"
     },
     "SORT": {
       "NAME": "Name (A to Z)",

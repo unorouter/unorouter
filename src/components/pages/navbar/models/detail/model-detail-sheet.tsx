@@ -29,6 +29,7 @@ import {
   LuLink,
   LuTag,
 } from "react-icons/lu";
+import { CachePricing } from "./cache-pricing";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;
@@ -173,6 +174,7 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                         {t("MODELS.PRICE.PER_MILLION")}
                       </div>
                     )}
+                  <CachePricing model={model} theme={theme} />
                 </div>
               )}
             </div>

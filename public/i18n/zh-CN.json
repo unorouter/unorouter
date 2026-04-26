@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "此处显示的价格反映最低可用费率。实际费用取决于处理您请求的提供方。",
       "GRID": "矩阵定价",
       "CUSTOM": "自定义计费",
-      "ORIGINAL": "原价"
+      "ORIGINAL": "原价",
+      "CACHE_WRITE_5M": "缓存写入 5分钟",
+      "CACHE_WRITE_1H": "缓存写入 1小时",
+      "CACHE_READ": "缓存读取"
     },
     "SORT": {
       "NAME": "名称（A 到 Z）",

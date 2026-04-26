@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "Les prix affichés reflètent le tarif le plus bas disponible. Le coût réel dépend du fournisseur qui traite votre requête.",
       "GRID": "Tarification par grille",
       "CUSTOM": "Facturation personnalisée",
-      "ORIGINAL": "Prix d'origine"
+      "ORIGINAL": "Prix d'origine",
+      "CACHE_WRITE_5M": "Écriture cache 5m",
+      "CACHE_WRITE_1H": "Écriture cache 1h",
+      "CACHE_READ": "Lecture du cache"
     },
     "SORT": {
       "NAME": "Nom (A à Z)",

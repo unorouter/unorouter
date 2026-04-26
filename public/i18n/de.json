@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "Angezeigte Preise entsprechen dem niedrigsten verfügbaren Tarif. Die tatsächlichen Kosten hängen vom jeweiligen Anbieter ab.",
       "GRID": "Rasterpreise",
       "CUSTOM": "Individuelle Abrechnung",
-      "ORIGINAL": "Originalpreis"
+      "ORIGINAL": "Originalpreis",
+      "CACHE_WRITE_5M": "Cache-Schreiben 5m",
+      "CACHE_WRITE_1H": "Cache-Schreiben 1h",
+      "CACHE_READ": "Cache-Lesen"
     },
     "SORT": {
       "NAME": "Name (A bis Z)",

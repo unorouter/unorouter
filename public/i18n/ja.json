@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "表示価格は最安値です。実際のコストはリクエストを処理するプロバイダーによって異なります。",
       "GRID": "グリッド料金",
       "CUSTOM": "カスタム請求",
-      "ORIGINAL": "元の価格"
+      "ORIGINAL": "元の価格",
+      "CACHE_WRITE_5M": "キャッシュ書込 5分",
+      "CACHE_WRITE_1H": "キャッシュ書込 1時間",
+      "CACHE_READ": "キャッシュ読取"
     },
     "SORT": {
       "NAME": "名前（A〜Z）",

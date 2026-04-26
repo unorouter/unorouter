@@ -278,7 +278,10 @@
       "VARIES_TOOLTIP": "顯示的價格為目前最低費率。實際費用依處理您請求的供應商而定。",
       "GRID": "網格計費",
       "CUSTOM": "自訂計費",
-      "ORIGINAL": "原始價格"
+      "ORIGINAL": "原始價格",
+      "CACHE_WRITE_5M": "快取寫入 5分鐘",
+      "CACHE_WRITE_1H": "快取寫入 1小時",
+      "CACHE_READ": "快取讀取"
     },
     "SORT": {
       "NAME": "名稱（A 到 Z）",
