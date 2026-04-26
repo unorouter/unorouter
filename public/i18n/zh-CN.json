@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · 周",
       "PER_DAY": " · 日",
       "PER_MONTH": " · 月",
-      "RECOMMENDED": "推荐"
+      "RECOMMENDED": "推荐",
+      "RESETS_IN": "重置剩余",
+      "RESETS_AT": "重置时间"
     },
     "PREFERENCE": {
       "TITLE": "计费偏好",

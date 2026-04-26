@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · tuần",
       "PER_DAY": " · ngày",
       "PER_MONTH": " · tháng",
-      "RECOMMENDED": "Khuyến nghị"
+      "RECOMMENDED": "Khuyến nghị",
+      "RESETS_IN": "Đặt lại sau",
+      "RESETS_AT": "Đặt lại lúc"
     },
     "PREFERENCE": {
       "TITLE": "Tùy chọn thanh toán",

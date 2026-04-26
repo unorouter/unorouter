@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · 週",
       "PER_DAY": " · 日",
       "PER_MONTH": " · 月",
-      "RECOMMENDED": "おすすめ"
+      "RECOMMENDED": "おすすめ",
+      "RESETS_IN": "リセットまで",
+      "RESETS_AT": "リセット日時"
     },
     "PREFERENCE": {
       "TITLE": "請求設定",

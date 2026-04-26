@@ -1770,7 +1770,9 @@
       "PER_WEEK": "／週",
       "PER_DAY": "／日",
       "PER_MONTH": "／月",
-      "RECOMMENDED": "推薦"
+      "RECOMMENDED": "推薦",
+      "RESETS_IN": "重置剩餘",
+      "RESETS_AT": "重置時間"
     },
     "PREFERENCE": {
       "TITLE": "計費偏好",

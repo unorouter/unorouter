@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · Woche",
       "PER_DAY": " · Tag",
       "PER_MONTH": " · Monat",
-      "RECOMMENDED": "Empfohlen"
+      "RECOMMENDED": "Empfohlen",
+      "RESETS_IN": "Zurücksetzung in",
+      "RESETS_AT": "Zurücksetzung am"
     },
     "PREFERENCE": {
       "TITLE": "Abrechnungspräferenz",

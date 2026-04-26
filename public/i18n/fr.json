@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · semaine",
       "PER_DAY": " · jour",
       "PER_MONTH": " · mois",
-      "RECOMMENDED": "Recommandé"
+      "RECOMMENDED": "Recommandé",
+      "RESETS_IN": "Réinitialisation dans",
+      "RESETS_AT": "Réinitialisation le"
     },
     "PREFERENCE": {
       "TITLE": "Préférence de facturation",

@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · week",
       "PER_DAY": " · day",
       "PER_MONTH": " · month",
-      "RECOMMENDED": "Recommended"
+      "RECOMMENDED": "Recommended",
+      "RESETS_IN": "Resets in",
+      "RESETS_AT": "Resets at"
     },
     "PREFERENCE": {
       "TITLE": "Billing Preference",

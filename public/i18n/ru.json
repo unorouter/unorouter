@@ -1770,7 +1770,9 @@
       "PER_WEEK": " · нед",
       "PER_DAY": " · день",
       "PER_MONTH": " · мес",
-      "RECOMMENDED": "Рекомендуется"
+      "RECOMMENDED": "Рекомендуется",
+      "RESETS_IN": "Сброс через",
+      "RESETS_AT": "Сброс в"
     },
     "PREFERENCE": {
       "TITLE": "Предпочтение оплаты",

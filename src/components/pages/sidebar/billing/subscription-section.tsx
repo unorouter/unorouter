@@ -26,7 +26,7 @@ import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { LuExternalLink, LuRefreshCw, LuSparkles } from "react-icons/lu";
+import { LuExternalLink, LuRefreshCw, LuRotateCw, LuSparkles } from "react-icons/lu";
 import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
@@ -246,6 +246,13 @@ export function SubscriptionSection() {
             const percentage =
               total > 0 ? Math.min((used / total) * 100, 100) : 0;
             const endDate = dayjs.unix(sub.end_time).format("MMM D, YYYY");
+            const resetMoment = dayjs.unix(sub.next_reset_time);
+            const showResetBadge =
+              isActive && sub.next_reset_time > 0 && resetMoment.isAfter(dayjs());
+            const resetRelative = showResetBadge ? resetMoment.fromNow(true) : "";
+            const resetAbsolute = showResetBadge
+              ? resetMoment.format("MMM D, HH:mm")
+              : "";
 
             return (
               <div key={sub.id} className="space-y-2">
@@ -262,6 +269,16 @@ export function SubscriptionSection() {
                         ? t("BILLING.SUBSCRIPTION.ACTIVE")
                         : t("BILLING.SUBSCRIPTION.EXPIRED")}
                     </Badge>
+                    {showResetBadge && (
+                      <Badge
+                        variant="secondary"
+                        className="gap-1 text-[10px]"
+                        title={`${t("BILLING.SUBSCRIPTION.RESETS_AT")} ${resetAbsolute}`}
+                      >
+                        <LuRotateCw className="h-3 w-3" />
+                        {t("BILLING.SUBSCRIPTION.RESETS_IN")} {resetRelative}
+                      </Badge>
+                    )}
                   </div>
                   <span className="text-muted-foreground font-mono text-xs">
                     ${used.toFixed(2)} {t("BILLING.USED_OF")} $
