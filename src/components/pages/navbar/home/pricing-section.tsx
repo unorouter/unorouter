@@ -16,7 +16,9 @@ export function PricingSection() {
   const { data } = useSubscriptionPlansQuery();
   const { data: pricingData } = usePricingQuery();
   const plans = data ?? [];
-  const vendors = pricingData?.vendors ?? [];
+  const vendors = (pricingData?.vendors ?? []).filter(
+    (v) => v.name.toLowerCase() !== "unknown",
+  );
 
   return (
     <section className="border-border/50 from-background to-card relative z-10 border-t bg-linear-to-b py-12 lg:py-24">
