@@ -24,7 +24,7 @@ import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/date";
 import { useTranslations } from "next-intl";
 import { LuExternalLink, LuRefreshCw, LuRotateCw, LuSparkles } from "react-icons/lu";
 import { toast } from "sonner";
