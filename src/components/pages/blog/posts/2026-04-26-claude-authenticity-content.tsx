@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/elements/code/code-block";
 import {
   Table,
   TableBody,
@@ -14,40 +15,22 @@ export async function ClaudeAuthenticityContent() {
   return (
     <>
       <p>
-        Claude is the most in-demand model on the market right now, and also one
-        of the most expensive. That combination, high demand and premium price,
-        has created a thriving market of third-party resellers offering
-        &quot;the same Claude&quot; at a fraction of the official price. Some of
-        them are legitimate. A lot of them aren&apos;t.
+        Claude is the most in-demand model on the market right now, and one of
+        the most expensive. That gap has created a thriving market of
+        third-party resellers offering &quot;the same Claude&quot; at a
+        fraction of the official price. Some are legitimate. A lot
+        aren&apos;t.
       </p>
 
       <p>
-        If you buy &quot;Claude&quot; from a reseller instead of from Anthropic
-        directly, there&apos;s a non-trivial chance you&apos;re not getting
-        Claude. You&apos;re getting a different model, sometimes a much weaker
-        one, with the response dressed up to look like a Claude response.
-      </p>
-
-      <p>
-        We&apos;ve been running automated probes against the Claude endpoints
-        sold by third-party AI gateways for the last 17 days. The methodology is
-        public, the code is open source, and across{" "}
-        <strong>8 upstream resellers</strong> we found{" "}
+        Over 17 days of automated probing across{" "}
+        <strong>8 upstream resellers</strong>, we found{" "}
         <strong>183 (channel, model) pairs</strong> that fail authenticity
         checks against models marketed as <code>claude-opus-4-7</code>,{" "}
         <code>claude-sonnet-4-6</code>, <code>claude-haiku-4-5</code>, and
-        friends.
-      </p>
-
-      <p>
-        The same demand-cheap-supply pressure exists for every premium model.{" "}
-        <strong>
-          The same substitution pattern is almost certainly happening to GPT,
-          Gemini, Grok, and every other premium model on these marketplaces.
-        </strong>{" "}
-        Claude is just where the gap between official price and resold price is
-        biggest right now, and where we have hard data so far. Probes for other
-        vendors are next.
+        friends. The same pressure exists for every premium model, so GPT,
+        Gemini, and Grok are almost certainly affected too. Claude is just
+        where the price gap is biggest right now and where we have hard data.
       </p>
 
       <h2 id="probes">How the probes work</h2>
@@ -92,8 +75,7 @@ export async function ClaudeAuthenticityContent() {
                 word.
               </TableCell>
               <TableCell className="text-xs">
-                Contains <code>anthropic</code>; no coding-refusal; no
-                foreign-vendor names
+                Contains <code>anthropic</code>; no foreign-vendor names
               </TableCell>
             </TableRow>
             <TableRow>
@@ -104,7 +86,7 @@ export async function ClaudeAuthenticityContent() {
               </TableCell>
               <TableCell className="text-xs">
                 Contains <code>claude</code> or <code>anthropic</code>; no
-                coding-refusal; no foreign-vendor names
+                foreign-vendor names
               </TableCell>
             </TableRow>
           </TableBody>
@@ -114,23 +96,20 @@ export async function ClaudeAuthenticityContent() {
       <p>Three failure types:</p>
       <ul>
         <li>
-          <code>coding-tool-refusal</code>: response matches a known Kiro
-          Cascade or Codeium / Windsurf Droid refusal pattern (
+          <code>coding-tool-refusal</code>: response matches a Kiro Cascade or
+          Codeium / Windsurf Droid refusal pattern (
           <em>&quot;I&apos;m here to help with coding&quot;</em>,{" "}
-          <em>&quot;that&apos;s outside what I can help with&quot;</em>,{" "}
-          <em>&quot;I&apos;m Droid, here to help with coding&quot;</em>, etc.).
-          The upstream is routing your request to an IDE-assistant product
-          instead of Anthropic, and the product is refusing the prompt because
+          <em>&quot;I&apos;m Droid&quot;</em>, etc.). The upstream is routing
+          to an IDE-assistant product, which refuses the prompt because
           it&apos;s not coding.
         </li>
         <li>
           <code>foreign-identity</code>: response identifies as a non-Anthropic
-          vendor (OpenAI, Meta, DeepSeek, Moonshot, Mistral, Llama, Grok, etc.)
-          when asked who made it.
+          vendor (OpenAI, Meta, DeepSeek, Moonshot, etc.).
         </li>
         <li>
-          <code>failed</code>: wrong-style output without the above signals: no
-          kitten story, no haiku, generic &quot;AI assistant&quot; answer, etc.
+          <code>failed</code>: wrong-style output without those signals (no
+          kitten story, no haiku, generic &quot;AI assistant&quot; reply).
         </li>
       </ul>
 
@@ -148,49 +127,20 @@ export async function ClaudeAuthenticityContent() {
       <p>
         A reseller routing through <strong>AWS Bedrock</strong>,{" "}
         <strong>Google Vertex AI</strong>, or <strong>Azure AI Foundry</strong>{" "}
-        is <strong>not</strong> spoofing. Those platforms host real Anthropic
-        Claude weights under license. Same model, same training, same
-        capabilities as <code>api.anthropic.com</code>. Buying capacity there at
-        enterprise discount and reselling it is a normal supply chain.
+        is not spoofing. Those platforms host real Anthropic Claude weights
+        under license. Buying capacity there at enterprise discount and
+        reselling it is a normal supply chain.
       </p>
       <p>
-        The probes can produce <strong>one false positive</strong> in this case:
-        cloud-hosted Claude sometimes answers the identity probe with{" "}
-        <code>Amazon</code> / <code>Google</code> / <code>Microsoft</code> (its
-        host) instead of <code>Anthropic</code>, because of system prompts those
-        platforms inject. So a channel flagged <em>only</em> by{" "}
-        <code>foreign-identity</code> against cloud-host names warrants a manual
-        second look. Channels flagged by <code>coding-tool-refusal</code> or by
-        foreign vendors with no Claude licensing relationship (OpenAI, Meta,
-        DeepSeek, Moonshot...) are unambiguous; real Bedrock/Vertex/Foundry
-        Claude never produces those responses.
+        One known false positive: cloud-hosted Claude sometimes answers the
+        identity probe with <code>Amazon</code> / <code>Google</code> /{" "}
+        <code>Microsoft</code> instead of <code>Anthropic</code>, because of
+        host system prompts. A channel flagged <em>only</em> by{" "}
+        <code>foreign-identity</code> against cloud-host names warrants a
+        manual second look. <code>coding-tool-refusal</code> and non-cloud
+        foreign vendors are unambiguous, real Bedrock/Vertex/Foundry Claude
+        never produces those responses.
       </p>
-      <p>Of the 183 entries:</p>
-      <ul>
-        <li>
-          <strong>
-            64 <code>coding-tool-refusal</code>
-          </strong>
-          : spoofing, no legitimate reading.
-        </li>
-        <li>
-          <strong>
-            115 <code>failed</code>
-          </strong>
-          : spoofing in the overwhelming majority; failures cluster on
-          emotional/creative/ model-name probes, not just identity.
-        </li>
-        <li>
-          <strong>
-            4 <code>foreign-identity</code>
-          </strong>
-          : we inspected all four; each had additional probe failures beyond the
-          identity answer alone, so we believe they&apos;re spoofed too. If you
-          reproduce against your own cloud-hosted Claude and see a lone{" "}
-          <code>foreign-identity</code> flag, check the other probes before
-          assuming the worst.
-        </li>
-      </ul>
 
       <h2 id="results">What 17 days of probing turned up</h2>
       <p>
@@ -199,14 +149,11 @@ export async function ClaudeAuthenticityContent() {
         2026-04-08 and 2026-04-24.
       </p>
 
-      <p>
-        <strong>By failure type:</strong>
-      </p>
       <div className="not-prose my-6">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Type</TableHead>
+              <TableHead>Failure type</TableHead>
               <TableHead className="text-right">Count</TableHead>
             </TableRow>
           </TableHeader>
@@ -268,14 +215,11 @@ export async function ClaudeAuthenticityContent() {
         <strong>
           <code>emotional</code> being the biggest catcher is the smoking gun.
         </strong>{" "}
-        Real Claude does not refuse to write a 2-sentence sad story about a
+        Real Claude doesn&apos;t refuse to write a 2-sentence sad story about a
         kitten. A coding-tool backend dressed as Claude does, every time.
       </p>
 
-      <p>
-        <strong>By upstream reseller:</strong>
-      </p>
-      <div className="not-prose my-6">
+      <div className="not-prose my-6 grid gap-4 md:grid-cols-2">
         <Table>
           <TableHeader>
             <TableRow>
@@ -301,12 +245,6 @@ export async function ClaudeAuthenticityContent() {
             ))}
           </TableBody>
         </Table>
-      </div>
-
-      <p>
-        <strong>By Claude model marketed:</strong>
-      </p>
-      <div className="not-prose my-6">
         <Table>
           <TableHeader>
             <TableRow>
@@ -320,15 +258,12 @@ export async function ClaudeAuthenticityContent() {
               ["claude-sonnet-4-6", "23"],
               ["claude-sonnet-4-6-thinking", "21"],
               ["claude-haiku-4-5-20251001", "20"],
-              ["claude-opus-4-7 (current flagship)", "16"],
+              ["claude-opus-4-7 (flagship)", "16"],
               ["claude-opus-4-6-thinking", "14"],
               ["claude-opus-4-5-20251101", "12"],
               ["claude-haiku-4-5-20251001-thinking", "11"],
               ["claude-sonnet-4-5-20250929", "10"],
-              ["claude-opus-4-5-20251101-thinking", "8"],
-              ["claude-sonnet-4-5-20250929-thinking", "8"],
-              ["claude-haiku-4-5", "5"],
-              ["(others)", "8"],
+              ["others", "29"],
             ].map(([model, count]) => (
               <TableRow key={model}>
                 <TableCell className="font-mono text-xs">{model}</TableCell>
@@ -340,96 +275,46 @@ export async function ClaudeAuthenticityContent() {
       </div>
 
       <p>
-        Older Claude variants have higher absolute counts only because
-        they&apos;ve been on the market longer. Opus 4.7 hit 16 spoofed channels
-        within weeks of release.
-      </p>
-
-      <p>
-        <strong>Detections over time:</strong>
-      </p>
-      <pre className="not-prose bg-muted my-4 overflow-x-auto rounded-md p-4 font-mono text-xs">
-        {`2026-04-08  +42 entries     2026-04-16  +18
-2026-04-11  +18             2026-04-17   +6
-2026-04-12   +3             2026-04-19  +11
-2026-04-13   +5             2026-04-20   +7
-2026-04-14  +13             2026-04-21  +30
-2026-04-15  +12             2026-04-24  +18`}
-      </pre>
-
-      <p>
-        This isn&apos;t a static snapshot. Resellers rotate upstreams. A channel
-        that passes today can start serving Kiro tomorrow if the reseller&apos;s
-        cheap path goes down.{" "}
+        Older Claude variants have higher counts only because they&apos;ve been
+        on the market longer. Opus 4.7 hit 16 spoofed channels within weeks of
+        release. This isn&apos;t a static snapshot, either, resellers rotate
+        upstreams and a channel that passes today can start serving Kiro
+        tomorrow.{" "}
         <strong>Authenticity has to be checked continuously.</strong>
       </p>
 
       <h2 id="why">Why this happens</h2>
       <p>
         Real Claude is expensive whether you buy from Anthropic or from a
-        licensed cloud reseller (Bedrock/Vertex/Foundry). A reseller advertising
-        Claude below the cheapest licensed price has four options:
+        licensed cloud reseller. A reseller advertising Claude below the
+        cheapest licensed price has four options:
       </p>
       <ol>
+        <li>Eat the loss (sustainable only with deep funding).</li>
         <li>
-          Eat the loss to acquire users (sustainable only with deep funding).
-        </li>
-        <li>
-          Buy Bedrock/Vertex/Foundry capacity at enterprise discount and resell
-          it. <strong>Legitimate</strong>, but the price floor is still set by
-          what those clouds charge.
+          Buy Bedrock/Vertex/Foundry capacity at enterprise discount and
+          resell. <strong>Legitimate</strong>, but bounded by what those clouds
+          charge.
         </li>
         <li>
           Run a fraction of traffic through real Claude and route the rest
-          somewhere cheaper, banking on most users not noticing.
+          cheaper, banking on users not noticing.
         </li>
-        <li>
-          Route everything through a non-Anthropic backend and hope nobody
-          checks.
-        </li>
+        <li>Route everything to a non-Anthropic backend and hope nobody checks.</li>
       </ol>
       <p>
-        Options 3 and 4 are what the probes catch. Coding tools like Kiro and
-        Codeium are tempting backends for option 4 because they have free /
-        near-free personal-use quotas and Anthropic-compatible response shapes.
-        Output looks structurally correct, just stylistically wrong, and most
-        users never notice unless they ask the model something non-coding.
-      </p>
-
-      <h2 id="next">What&apos;s next</h2>
-      <p>
-        We expect (but haven&apos;t yet confirmed with the same rigor) the same
-        substitution against:
-      </p>
-      <ul>
-        <li>
-          <strong>GPT-5.5</strong> (substituted with older GPT versions,
-          OpenAI-compatible distillations, or quantized hosts)
-        </li>
-        <li>
-          <strong>Gemini 3.1 Pro</strong> (substituted with smaller Gemini
-          variants or non-Google models entirely)
-        </li>
-        <li>
-          <strong>Grok 4.20</strong> (substituted with cheaper general-purpose
-          chat models passed off as the latest xAI release)
-        </li>
-        <li>
-          <strong>DeepSeek / Kimi / Qwen latest-version</strong> (silently
-          downgraded to older or smaller variants)
-        </li>
-      </ul>
-      <p>
-        The probe pattern generalizes: pick prompts that produce a stylistically
-        distinctive response from the real model and a recognizably wrong
-        response from anything else. We&apos;re extending the suite to these
-        vendors next. PRs welcome with refusal patterns you&apos;ve seen in the
-        wild.
+        Options 3 and 4 are what the probes catch. Kiro Cascade and Codeium are
+        tempting backends because they have free / near-free quotas and
+        Anthropic-compatible response shapes. The output looks structurally
+        correct, just stylistically wrong, and most users never notice unless
+        they ask for something non-coding.
       </p>
 
       <h2 id="test">Test your own provider in 5 minutes</h2>
-      <pre className="not-prose bg-muted my-4 overflow-x-auto rounded-md p-4 font-mono text-xs">
-        {`curl https://YOUR-PROVIDER/v1/messages \\
+      <div className="not-prose my-6">
+        <CodeBlock
+          language="bash"
+          code={`curl https://YOUR-PROVIDER/v1/messages \\
   -H "x-api-key: $YOUR_KEY" \\
   -H "anthropic-version: 2023-06-01" \\
   -H "content-type: application/json" \\
@@ -441,16 +326,16 @@ export async function ClaudeAuthenticityContent() {
       "content": "Tell me a 2-sentence sad story about a lost kitten."
     }]
   }'`}
-      </pre>
+        />
+      </div>
       <p>
         If the response refuses or redirects to coding, your &quot;Claude&quot;
-        is not Claude. Then run the identity probe with content{" "}
+        is not Claude. For a second check, send{" "}
         <em>
           &quot;What company created you? Reply with only the company name, one
           word.&quot;
         </em>{" "}
-        and if the answer isn&apos;t <code>Anthropic</code>, you have your
-        answer.
+        — anything other than <code>Anthropic</code> is your answer.
       </p>
     </>
   );
