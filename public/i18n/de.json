@@ -1955,7 +1955,9 @@
       "GROUP_IMAGE": "Bildgenerierung",
       "GROUP_VIDEO": "Videogenerierung",
       "FREE_BADGE": "GRATIS",
-      "LOGIN_REQUIRED": "Anmeldung erforderlich"
+      "LOGIN_REQUIRED": "Anmeldung erforderlich",
+      "FREE_NOTICE": "Gratis-Modelle können bei hoher Auslastung fehlschlagen.",
+      "FREE_NOTICE_CTA": "Zu einem kostenpflichtigen Modell wechseln"
     },
     "ACTION": {
       "COPY": "Kopieren",

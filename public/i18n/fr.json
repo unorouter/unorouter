@@ -1955,7 +1955,9 @@
       "GROUP_IMAGE": "Génération d'images",
       "GROUP_VIDEO": "Génération de vidéos",
       "FREE_BADGE": "GRATUIT",
-      "LOGIN_REQUIRED": "Connexion requise"
+      "LOGIN_REQUIRED": "Connexion requise",
+      "FREE_NOTICE": "Les modèles gratuits peuvent échouer en cas de forte charge.",
+      "FREE_NOTICE_CTA": "Passer à un modèle payant"
     },
     "ACTION": {
       "COPY": "Copier",

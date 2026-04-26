@@ -1955,7 +1955,9 @@
       "GROUP_IMAGE": "Image Generation",
       "GROUP_VIDEO": "Video Generation",
       "FREE_BADGE": "FREE",
-      "LOGIN_REQUIRED": "Login required"
+      "LOGIN_REQUIRED": "Login required",
+      "FREE_NOTICE": "Free models can fail under high load.",
+      "FREE_NOTICE_CTA": "Switch to a paid model"
     },
     "ACTION": {
       "COPY": "Copy",

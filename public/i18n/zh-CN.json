@@ -1955,7 +1955,9 @@
       "GROUP_IMAGE": "图像生成",
       "GROUP_VIDEO": "视频生成",
       "FREE_BADGE": "免费",
-      "LOGIN_REQUIRED": "需要登录"
+      "LOGIN_REQUIRED": "需要登录",
+      "FREE_NOTICE": "高负载时免费模型可能失败。",
+      "FREE_NOTICE_CTA": "切换到付费模型"
     },
     "ACTION": {
       "COPY": "复制",

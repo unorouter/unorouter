@@ -1955,7 +1955,9 @@
       "GROUP_IMAGE": "Tạo hình ảnh",
       "GROUP_VIDEO": "Tạo video",
       "FREE_BADGE": "MIỄN PHÍ",
-      "LOGIN_REQUIRED": "Yêu cầu đăng nhập"
+      "LOGIN_REQUIRED": "Yêu cầu đăng nhập",
+      "FREE_NOTICE": "Mô hình miễn phí có thể lỗi khi tải cao.",
+      "FREE_NOTICE_CTA": "Chuyển sang mô hình trả phí"
     },
     "ACTION": {
       "COPY": "Sao chép",

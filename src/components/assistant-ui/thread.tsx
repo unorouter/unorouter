@@ -14,6 +14,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { Link } from "@/i18n/navigation";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { analytics } from "@/lib/analytics";
@@ -210,10 +211,30 @@ const Composer: FC = () => {
           <ComposerAction />
         </div>
       </ComposerPrimitive.AttachmentDropzone>
+      <FreeModelNotice />
       <p className="text-muted-foreground mt-2 text-center text-[11px]">
         {t("CHAT.DISCLAIMER")}
       </p>
     </ComposerPrimitive.Root>
+  );
+};
+
+const FreeModelNotice: FC = () => {
+  const t = useTranslations();
+  const activeModel = useAtomValue(chatModelAtom);
+  const pricing = usePricingQuery();
+  const model = pricing.data?.models.find((m) => m.name === activeModel);
+  if (!model?.isFree) return null;
+  return (
+    <p className="text-muted-foreground mt-2 text-center text-[11px]">
+      <span>{t("CHAT.MODEL.FREE_NOTICE")}</span>{" "}
+      <Link
+        href="/models"
+        className="text-foreground/80 underline-offset-2 hover:underline"
+      >
+        {t("CHAT.MODEL.FREE_NOTICE_CTA")}
+      </Link>
+    </p>
   );
 };
 

@@ -1955,7 +1955,9 @@
       "GROUP_IMAGE": "画像生成",
       "GROUP_VIDEO": "動画生成",
       "FREE_BADGE": "無料",
-      "LOGIN_REQUIRED": "ログインが必要です"
+      "LOGIN_REQUIRED": "ログインが必要です",
+      "FREE_NOTICE": "無料モデルは高負荷時に失敗することがあります。",
+      "FREE_NOTICE_CTA": "有料モデルに切り替える"
     },
     "ACTION": {
       "COPY": "コピー",
