@@ -1,8 +1,8 @@
 import {
-  DocEntry,
   BlogEntry,
-  SectionPriorities,
+  DocEntry,
   PriorityEntry,
+  SectionPriorities,
 } from "@/lib/types/seo";
 
 export const DOCS_REGISTRY = [
@@ -190,7 +190,6 @@ export const BLOG_REGISTRY = [
       { id: "why", i18nLeaf: "H_WHY", level: 2 },
       { id: "next", i18nLeaf: "H_NEXT", level: 2 },
       { id: "test", i18nLeaf: "H_TEST", level: 2 },
-      { id: "naming", i18nLeaf: "H_NAMING", level: 2 },
     ],
   },
 ] as const satisfies readonly BlogEntry[];
