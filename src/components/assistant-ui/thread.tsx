@@ -17,6 +17,7 @@ import { usePricingQuery } from "@/hooks/pricing-hook";
 import { Link } from "@/i18n/navigation";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
+import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
@@ -193,6 +194,7 @@ const ThreadSuggestionItem: FC = () => {
 
 const Composer: FC = () => {
   const t = useTranslations();
+  const isMobile = useIsMobile();
   return (
     <ComposerPrimitive.Root className="aui-composer-root relative flex w-full flex-col">
       <ComposerPrimitive.AttachmentDropzone asChild>
@@ -207,6 +209,7 @@ const Composer: FC = () => {
             rows={1}
             autoFocus
             aria-label={t("CHAT.MESSAGE_INPUT")}
+            submitMode={isMobile ? "none" : "enter"}
           />
           <ComposerAction />
         </div>
@@ -572,12 +575,14 @@ const UserActionBar: FC = () => {
 
 const EditComposer: FC = () => {
   const t = useTranslations();
+  const isMobile = useIsMobile();
   return (
     <MessagePrimitive.Root className="aui-edit-composer-wrapper mx-auto flex w-full max-w-(--thread-max-width) flex-col px-2 py-3">
       <ComposerPrimitive.Root className="aui-edit-composer-root bg-muted ml-auto flex w-full max-w-[85%] flex-col rounded-2xl">
         <ComposerPrimitive.Input
           className="aui-edit-composer-input text-foreground min-h-14 w-full resize-none bg-transparent p-4 text-sm outline-none"
           autoFocus
+          submitMode={isMobile ? "none" : "enter"}
         />
         <div className="aui-edit-composer-footer mx-3 mb-3 flex items-center gap-2 self-end">
           <ComposerPrimitive.Cancel asChild>
