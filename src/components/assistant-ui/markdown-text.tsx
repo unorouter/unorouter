@@ -22,6 +22,18 @@ import { useTranslations } from "next-intl";
 // marker for TaskCardRenderer. Leaving it in would show raw JSON while streaming.
 const TASK_CARD_SENTINEL_RE = /^\s*TASK_CARD:\{.+\}\s*$/m;
 
+// Some models (e.g. MiniMax) emit raw <thinking>...</thinking> in the text body
+// instead of a proper reasoning part. Strip it so it doesn't appear as plain text.
+const THINKING_BLOCK_RE = /<thinking>[\s\S]*?<\/thinking>/gi;
+
+// Some models emit \[...\] and \(...\) instead of $$...$$ and $...$.
+// Normalize to the dollar-sign syntax that remark-math expects.
+function normalizeMathDelimiters(text: string): string {
+  return text
+    .replace(/\\\[(.+?)\\\]/gs, (_m, inner) => `$$${inner}$$`)
+    .replace(/\\\((.+?)\\\)/gs, (_m, inner) => `$${inner}$`);
+}
+
 const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive
@@ -29,7 +41,11 @@ const MarkdownTextImpl = () => {
       rehypePlugins={[rehypeMathjax]}
       className="aui-md"
       components={defaultComponents}
-      preprocess={(text) => text.replace(TASK_CARD_SENTINEL_RE, "")}
+      preprocess={(text) =>
+        normalizeMathDelimiters(
+          text.replace(TASK_CARD_SENTINEL_RE, "").replace(THINKING_BLOCK_RE, ""),
+        )
+      }
     />
   );
 };
