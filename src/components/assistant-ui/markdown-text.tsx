@@ -1,7 +1,6 @@
 "use client";
 
 import "@assistant-ui/react-markdown/styles/dot.css";
-
 import {
   type CodeHeaderProps,
   MarkdownTextPrimitive,
@@ -9,6 +8,8 @@ import {
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import rehypeMathjax from "rehype-mathjax";
 import { type FC, useState } from "react";
 import { CheckIcon, CopyIcon, DownloadIcon, LinkIcon } from "lucide-react";
 
@@ -24,7 +25,8 @@ const TASK_CARD_SENTINEL_RE = /^\s*TASK_CARD:\{.+\}\s*$/m;
 const MarkdownTextImpl = () => {
   return (
     <MarkdownTextPrimitive
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={[remarkGfm, remarkMath]}
+      rehypePlugins={[rehypeMathjax]}
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => text.replace(TASK_CARD_SENTINEL_RE, "")}

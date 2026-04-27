@@ -317,6 +317,17 @@ html.dark .shiki span[style*="#758575"] {
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
 }
 
+mjx-container {
+  display: inline-block !important;
+  vertical-align: middle;
+}
+
+mjx-container[display="true"] {
+  display: block !important;
+  text-align: center;
+  margin: 0.75rem 0;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
