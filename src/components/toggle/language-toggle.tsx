@@ -7,9 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { matchPathname, useRouter } from "@/i18n/navigation";
 import { LANGUAGES } from "@/lib/config/constants";
+import type { Locale } from "next-intl";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useTransition } from "react";
 
 export function LanguageToggle() {
@@ -20,15 +22,16 @@ export function LanguageToggle() {
   const pathname = usePathname();
   const currentLanguage = LANGUAGES.find((lang) => lang.locale === locale);
 
-  const handleLanguageChange = (newLocale: string) => {
-    // Use the raw pathname (which stays in sync with shallow history updates)
-    // and swap the locale prefix. next-intl middleware handles path localization.
-    const newPath = pathname.replace(
-      new RegExp(`^/${locale}(?=/|$)`),
-      `/${newLocale}`,
-    );
+  const handleLanguageChange = (newLocale: Locale) => {
+    // Resolve the (possibly localized) URL back to its typed { pathname, params }
+    // shape so next-intl's router can re-localize against the pathnames map.
+    const matched = matchPathname(pathname, locale);
     startTransition(() => {
-      router.replace(newPath);
+      if (matched) {
+        router.replace(matched, { locale: newLocale });
+      } else {
+        router.replace("/", { locale: newLocale });
+      }
     });
   };
 

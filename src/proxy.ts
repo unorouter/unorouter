@@ -31,8 +31,11 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Match all pathnames except:
-  // - … if they start with `/api`, `/trpc`, `/_next`, `/_vercel` or `/ingest`
-  // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: "/((?!api|trpc|_next|_vercel|ingest|.*\\..*).*)",
+  // Match everything except infra prefixes and real static-asset extensions.
+  // Don't exclude on "any dot" — slugs like `glm-5.1` legitimately contain dots
+  // and must hit next-intl middleware so localized paths (e.g. /ja/moderu/[slug])
+  // get rewritten to the canonical /models/[slug] route.
+  matcher: [
+    "/((?!api|trpc|_next|_vercel|ingest|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|js|map|txt|xml|json|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
+  ],
 };
