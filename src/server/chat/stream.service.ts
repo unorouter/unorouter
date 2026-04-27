@@ -5,6 +5,7 @@ import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import { imageGenResponseChecker } from "@/lib/validation/media";
 import {
   deriveUpstream,
@@ -12,7 +13,6 @@ import {
   upstreamApiUrl,
 } from "@/server/constants";
 import { serverEnv } from "@/server/env";
-import { inArray } from "drizzle-orm";
 import {
   convertToModelMessages,
   createUIMessageStream,
@@ -20,7 +20,7 @@ import {
   streamText,
   type UIMessageStreamWriter,
 } from "ai";
-import { logger } from "@/lib/utils/logger";
+import { inArray } from "drizzle-orm";
 import { pendingUsageByConv, sweepStalePending } from "./message.service";
 import { assertPromptAllowed } from "./moderation.service";
 import { submitVideoTask } from "./task.service";
@@ -470,6 +470,11 @@ export async function streamChat(
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(messagesWithPdfText),
     system: searchSystemMessage,
+    // new-api already performs cross-group/key retries internally. Disable the
+    // ai SDK's own retry+aggregation ("Failed after N attempts. Last error: ...")
+    // so the user sees the real upstream error verbatim (e.g. data_inspection_failed)
+    // instead of the last masked message after the SDK rotated through retries.
+    maxRetries: 0,
     ...(modelMetadata.maxOutputTokens && {
       maxOutputTokens: modelMetadata.maxOutputTokens,
     }),
