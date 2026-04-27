@@ -22,9 +22,11 @@ import { useTranslations } from "next-intl";
 // marker for TaskCardRenderer. Leaving it in would show raw JSON while streaming.
 const TASK_CARD_SENTINEL_RE = /^\s*TASK_CARD:\{.+\}\s*$/m;
 
-// Some models (e.g. MiniMax) emit raw <thinking>...</thinking> in the text body
-// instead of a proper reasoning part. Strip it so it doesn't appear as plain text.
-const THINKING_BLOCK_RE = /<thinking>[\s\S]*?<\/thinking>/gi;
+// Some models (e.g. MiniMax) emit raw <think>/<thinking> blocks in the text body
+// instead of a proper reasoning part. Strip complete blocks and any unclosed
+// opening tag plus everything after it (handles mid-stream partial blocks).
+const THINKING_BLOCK_RE = /<think(?:ing)?>([\s\S]*?)<\/think(?:ing)?>/gi;
+const THINKING_OPEN_RE = /<think(?:ing)?>/i;
 
 // Some models emit \[...\] and \(...\) instead of $$...$$ and $...$.
 // Normalize to the dollar-sign syntax that remark-math expects.
@@ -41,11 +43,12 @@ const MarkdownTextImpl = () => {
       rehypePlugins={[rehypeMathjax]}
       className="aui-md"
       components={defaultComponents}
-      preprocess={(text) =>
-        normalizeMathDelimiters(
-          text.replace(TASK_CARD_SENTINEL_RE, "").replace(THINKING_BLOCK_RE, ""),
-        )
-      }
+      preprocess={(text) => {
+        let t = text.replace(TASK_CARD_SENTINEL_RE, "").replace(THINKING_BLOCK_RE, "");
+        const openIdx = t.search(THINKING_OPEN_RE);
+        if (openIdx !== -1) t = t.slice(0, openIdx);
+        return normalizeMathDelimiters(t);
+      }}
     />
   );
 };
