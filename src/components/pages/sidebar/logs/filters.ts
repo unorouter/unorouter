@@ -10,6 +10,7 @@ export type LogFilterValues = {
   token_name?: string;
   model_name?: string;
   request_id?: string;
+  subscription_plan?: string;
 };
 
 export function buildLogQueryFilters(
@@ -34,6 +35,9 @@ export function buildLogQueryFilters(
     ...(filterValues.token_name ? { token_name: filterValues.token_name } : {}),
     ...(filterValues.model_name ? { model_name: filterValues.model_name } : {}),
     ...(filterValues.request_id ? { request_id: filterValues.request_id } : {}),
+    ...(filterValues.subscription_plan
+      ? { subscription_plan: filterValues.subscription_plan }
+      : {}),
   };
 
   const statFilters: GetLogsStatParams = {

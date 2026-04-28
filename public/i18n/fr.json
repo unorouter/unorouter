@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "Nom du token...",
       "MODEL": "Nom du modèle...",
-      "REQUEST_ID": "ID de requête..."
+      "REQUEST_ID": "ID de requête...",
+      "SUBSCRIPTION_PLAN": "Plan d'abonnement..."
     },
     "STAT": {
       "USED_QUOTA": "Quota utilisé"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "Écriture cache",
     "STREAM": "flux",
     "NON_STREAM": "hors flux",
-    "STREAM_ERROR": "Le flux s'est terminé anormalement (aucune réponse reçue)"
+    "STREAM_ERROR": "Le flux s'est terminé anormalement (aucune réponse reçue)",
+    "SUBSCRIPTION_DEDUCTION": "Déduit de l'abonnement"
   },
   "AFFILIATE": {
     "TABLE": {

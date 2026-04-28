@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "トークン名...",
       "MODEL": "モデル名...",
-      "REQUEST_ID": "リクエスト ID..."
+      "REQUEST_ID": "リクエスト ID...",
+      "SUBSCRIPTION_PLAN": "サブスクリプションプラン..."
     },
     "STAT": {
       "USED_QUOTA": "使用済みクォータ"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "キャッシュ書き込み",
     "STREAM": "ストリーム",
     "NON_STREAM": "非ストリーム",
-    "STREAM_ERROR": "ストリームが異常終了しました（応答を受信できませんでした）"
+    "STREAM_ERROR": "ストリームが異常終了しました（応答を受信できませんでした）",
+    "SUBSCRIPTION_DEDUCTION": "サブスクリプションから控除"
   },
   "AFFILIATE": {
     "TABLE": {

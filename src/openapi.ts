@@ -4178,6 +4178,10 @@ export type GetAllLogsParams = {
    * Filter by request ID
    */
   request_id?: string;
+  /**
+   * Filter by subscription plan title (substring)
+   */
+  subscription_plan?: string;
 };
 
 export type GetChannelAffinityUsageCacheStatsParams = {
@@ -4223,6 +4227,10 @@ export type GetUserLogsParams = {
    * Filter by request ID
    */
   request_id?: string;
+  /**
+   * Filter by subscription plan title (substring)
+   */
+  subscription_plan?: string;
 };
 
 export type GetLogsSelfStatParams = {

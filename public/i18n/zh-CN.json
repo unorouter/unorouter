@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "令牌名称...",
       "MODEL": "模型名称...",
-      "REQUEST_ID": "请求 ID..."
+      "REQUEST_ID": "请求 ID...",
+      "SUBSCRIPTION_PLAN": "订阅计划……"
     },
     "STAT": {
       "USED_QUOTA": "已用额度"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "缓存写入",
     "STREAM": "流式",
     "NON_STREAM": "非流式",
-    "STREAM_ERROR": "流异常结束（未收到响应）"
+    "STREAM_ERROR": "流异常结束（未收到响应）",
+    "SUBSCRIPTION_DEDUCTION": "订阅抵扣"
   },
   "AFFILIATE": {
     "TABLE": {

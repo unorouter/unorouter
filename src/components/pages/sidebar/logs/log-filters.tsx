@@ -75,6 +75,7 @@ export function LogFilters(props: {
   const tokenName = props.filters.token_name ?? "";
   const modelName = props.filters.model_name ?? "";
   const requestId = props.filters.request_id ?? "";
+  const subscriptionPlan = props.filters.subscription_plan ?? "";
 
   const logTypeOptions = [
     { value: "all", label: t("LOGS.ENUM.ALL") },
@@ -160,7 +161,15 @@ export function LogFilters(props: {
             placeholder={t("LOGS.FILTER.REQUEST_ID")}
             className="w-48"
           />
-          {(tokenName || modelName || requestId) && (
+          <SearchFilterInput
+            value={subscriptionPlan}
+            onChange={(v) => props.onFilterChange("subscription_plan", v)}
+            placeholder={t("LOGS.FILTER.SUBSCRIPTION_PLAN")}
+          />
+          {(tokenName ||
+            modelName ||
+            requestId ||
+            subscriptionPlan) && (
             <Button
               variant="ghost"
               size="icon-xs"
@@ -168,6 +177,7 @@ export function LogFilters(props: {
                 props.onFilterChange("token_name", undefined);
                 props.onFilterChange("model_name", undefined);
                 props.onFilterChange("request_id", undefined);
+                props.onFilterChange("subscription_plan", undefined);
               }}
             >
               <LuX className="h-3.5 w-3.5" />

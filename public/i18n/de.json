@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "Token-Name...",
       "MODEL": "Modellname...",
-      "REQUEST_ID": "Anfrage-ID..."
+      "REQUEST_ID": "Anfrage-ID...",
+      "SUBSCRIPTION_PLAN": "Abonnement-Plan..."
     },
     "STAT": {
       "USED_QUOTA": "Verbrauchtes Guthaben"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "Cache Schreiben",
     "STREAM": "Stream",
     "NON_STREAM": "Kein Stream",
-    "STREAM_ERROR": "Stream wurde vorzeitig beendet (keine Antwort erhalten)"
+    "STREAM_ERROR": "Stream wurde vorzeitig beendet (keine Antwort erhalten)",
+    "SUBSCRIPTION_DEDUCTION": "Vom Abonnement abgezogen"
   },
   "AFFILIATE": {
     "TABLE": {

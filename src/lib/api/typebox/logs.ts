@@ -10,6 +10,7 @@ export const logsQuery = t.Object({
   model_name: t.Optional(t.String()),
   group: t.Optional(t.String()),
   request_id: t.Optional(t.String()),
+  subscription_plan: t.Optional(t.String()),
 });
 
 export const logsStatQuery = t.Object({

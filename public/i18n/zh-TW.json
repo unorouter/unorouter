@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "金鑰名稱...",
       "MODEL": "模型名稱...",
-      "REQUEST_ID": "請求 ID..."
+      "REQUEST_ID": "請求 ID...",
+      "SUBSCRIPTION_PLAN": "訂閱方案……"
     },
     "STAT": {
       "USED_QUOTA": "已用額度"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "快取寫入",
     "STREAM": "串流",
     "NON_STREAM": "非串流",
-    "STREAM_ERROR": "串流異常結束（未收到回應）"
+    "STREAM_ERROR": "串流異常結束（未收到回應）",
+    "SUBSCRIPTION_DEDUCTION": "訂閱抵扣"
   },
   "AFFILIATE": {
     "TABLE": {

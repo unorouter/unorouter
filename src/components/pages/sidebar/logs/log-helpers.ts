@@ -68,6 +68,10 @@ export interface ParsedOther {
   request_path?: string;
   request_conversion?: string;
   billing?: string;
+  billing_source?: "subscription" | "wallet" | string;
+  subscription_id?: number;
+  subscription_plan_id?: number;
+  subscription_plan_title?: string;
 }
 
 export function parseOther(

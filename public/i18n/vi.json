@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "Tên token...",
       "MODEL": "Tên mô hình...",
-      "REQUEST_ID": "ID yêu cầu..."
+      "REQUEST_ID": "ID yêu cầu...",
+      "SUBSCRIPTION_PLAN": "Gói đăng ký..."
     },
     "STAT": {
       "USED_QUOTA": "Hạn mức đã dùng"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "Ghi bộ nhớ đệm",
     "STREAM": "stream",
     "NON_STREAM": "không stream",
-    "STREAM_ERROR": "Luồng kết thúc bất thường (không nhận được phản hồi)"
+    "STREAM_ERROR": "Luồng kết thúc bất thường (không nhận được phản hồi)",
+    "SUBSCRIPTION_DEDUCTION": "Khấu trừ từ gói đăng ký"
   },
   "AFFILIATE": {
     "TABLE": {

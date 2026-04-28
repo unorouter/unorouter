@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "Token name...",
       "MODEL": "Model name...",
-      "REQUEST_ID": "Request ID..."
+      "REQUEST_ID": "Request ID...",
+      "SUBSCRIPTION_PLAN": "Subscription plan..."
     },
     "STAT": {
       "USED_QUOTA": "Used Quota"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "Cache Write",
     "STREAM": "stream",
     "NON_STREAM": "non-stream",
-    "STREAM_ERROR": "Stream ended abnormally (no response received)"
+    "STREAM_ERROR": "Stream ended abnormally (no response received)",
+    "SUBSCRIPTION_DEDUCTION": "Deducted by subscription"
   },
   "AFFILIATE": {
     "TABLE": {

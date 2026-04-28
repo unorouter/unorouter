@@ -221,14 +221,50 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
 }
 
 export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
+  const t = useTranslations();
   const log = row.original;
   if (!isConsumeLike(log.type)) {
     return LOG_EMPTY;
   }
-  return (
+  const other = parseOther(log.other);
+  const isSubscription = other?.billing_source === "subscription";
+  const planTitle = other?.subscription_plan_title;
+  const planId = other?.subscription_plan_id;
+  const subId = other?.subscription_id;
+  const planLabel = planTitle || (planId ? `#${planId}` : "");
+
+  const amountNode = (
     <span className="font-mono text-xs font-medium tabular-nums">
       {renderQuota(log.quota, 6)}
     </span>
+  );
+
+  if (!isSubscription || !planLabel) {
+    return amountNode;
+  }
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <div className="flex flex-col items-end gap-0.5 cursor-default" />
+          }
+        >
+          {amountNode}
+          <Badge
+            variant="secondary"
+            className="bg-blue-500/10 text-blue-700 dark:text-blue-400 px-1.5 py-0 text-[10px] font-mono"
+          >
+            {planLabel}
+          </Badge>
+        </TooltipTrigger>
+        <TooltipContent>
+          {t("LOGS.SUBSCRIPTION_DEDUCTION")}: {planLabel}
+          {subId ? ` (#${subId})` : ""}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 

@@ -1658,7 +1658,8 @@
     "FILTER": {
       "TOKEN": "Имя токена...",
       "MODEL": "Имя модели...",
-      "REQUEST_ID": "ID запроса..."
+      "REQUEST_ID": "ID запроса...",
+      "SUBSCRIPTION_PLAN": "План подписки..."
     },
     "STAT": {
       "USED_QUOTA": "Использованная квота"
@@ -1676,7 +1677,8 @@
     "CACHE_WRITE": "Запись кэша",
     "STREAM": "стрим",
     "NON_STREAM": "без стрима",
-    "STREAM_ERROR": "Стрим завершился аварийно (ответ не получен)"
+    "STREAM_ERROR": "Стрим завершился аварийно (ответ не получен)",
+    "SUBSCRIPTION_DEDUCTION": "Списано с подписки"
   },
   "AFFILIATE": {
     "TABLE": {
