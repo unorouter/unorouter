@@ -1,11 +1,11 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { Stat } from "../elements/typography";
 import { cipherMarker } from "../elements/cipher";
-import { t } from "../lib/cache";
 import { Brand, Card, Divider, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/utils";
+import { Stat } from "../elements/typography";
+import { t } from "../lib/cache";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
+import { renderBadgeTemplate } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;
@@ -82,11 +82,11 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     W: 1200,
     H: 630,
     pad: 80,
-    logoSize: 120,
-    brandFont: 56,
-    brandGap: 36,
-    statSize: 96,
-    labelSize: 40,
+    logoSize: 200,
+    brandFont: 96,
+    brandGap: 48,
+    statSize: 110,
+    labelSize: 44,
     divMargin: "0 72px",
     dotSize: 24,
   },

@@ -1,11 +1,11 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { Dot, FONT_SANS, MonoValue, Stat } from "../elements/typography";
 import { cipherMarker } from "../elements/cipher";
-import { t } from "../lib/cache";
 import { Brand, Card, Col, Divider, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/utils";
+import { Dot, FONT_SANS, MonoValue, Stat } from "../elements/typography";
+import { t } from "../lib/cache";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase, CipherTarget } from "../lib/types";
+import { renderBadgeTemplate } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   layout: "horizontal" | "twoColumn";
@@ -105,18 +105,18 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
   og: {
     W: 1200,
     H: 630,
-    pad: 56,
+    pad: 64,
     layout: "twoColumn",
-    logoSize: 84,
-    brandFont: 40,
-    brandGap: 24,
+    logoSize: 130,
+    brandFont: 60,
+    brandGap: 28,
     statSize: 48,
     labelSize: 22,
     dotSize: 14,
-    rightWidth: 560,
-    bulletFont: 26,
-    ctaFont: 22,
-    modelCountFont: 26,
+    rightWidth: 820,
+    bulletFont: 34,
+    ctaFont: 30,
+    modelCountFont: 34,
   },
 };
 
@@ -298,7 +298,7 @@ export async function generateSponsor(ctx: BadgeCtx): Promise<string> {
 
       <Col
         style={{
-          padding: d.pad,
+          padding: `${d.pad}px ${d.pad}px ${d.pad}px 24px`,
           width: d.rightWidth,
           justifyContent: "center",
           gap: 10,

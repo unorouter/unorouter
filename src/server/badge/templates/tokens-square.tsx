@@ -1,12 +1,11 @@
 import type { BadgeSize } from "@/lib/validation/badge";
-import { Label, MonoValue } from "../elements/typography";
 import { cipherMarker, pulseDot } from "../elements/cipher";
-import { t } from "../lib/cache";
 import { BrandName, Card, Logo } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/utils";
+import { Label, MonoValue } from "../elements/typography";
+import { t } from "../lib/cache";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
-import { formatCompact } from "../lib/utils";
+import { formatCompact, renderBadgeTemplate } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logo: number;
@@ -88,11 +87,11 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
   og: {
     W: 1200,
     H: 630,
-    pad: 56,
-    logo: 140,
-    brandFont: 40,
-    valueSize: 96,
-    labelSize: 32,
+    pad: 80,
+    logo: 320,
+    brandFont: 56,
+    valueSize: 140,
+    labelSize: 40,
     gap: 24,
     radius: 40,
     dotR: 8,
@@ -105,8 +104,47 @@ export async function generateTokensSquare(ctx: BadgeCtx): Promise<string> {
   const d = DIMS[ctx.size]!;
   const value = formatCompact(ctx.stats.tokenUsed);
   const m1 = cipherMarker(1);
+  const isOg = ctx.size === "og";
 
-  const node = (
+  const node = isOg ? (
+    <Card
+      c={c}
+      radius={d.radius}
+      style={{
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 120,
+        padding: `0 ${d.pad}px`,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: d.gap,
+        }}
+      >
+        <Logo size={d.logo} />
+        <BrandName c={c} size={d.brandFont} />
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: d.gap / 2,
+        }}
+      >
+        <MonoValue value={value} c={c} size={d.valueSize} cipherMarker={m1} />
+        <Label
+          text={t(ctx.locale, "BADGE.TOKENS_SERVED")}
+          c={c}
+          size={d.labelSize}
+        />
+      </div>
+    </Card>
+  ) : (
     <Card
       c={c}
       radius={d.radius}
