@@ -1,0 +1,138 @@
+/**
+ * Single source of truth for vendor icon assets.
+ *
+ * Two complementary representations live here so that adding a new vendor
+ * icon is a one-place change:
+ *
+ * - `VENDOR_LOADERS` → dynamic `@lobehub/icons` React components, used by the
+ *   client `<VendorIcon>` component.
+ * - `VENDOR_SVGS` → inlined raw SVG strings from `thesvg`, used by the
+ *   server-side badge templates that render through `satori`.
+ *
+ * Both libraries are marked `sideEffects: false`, so the unused half is
+ * tree-shaken from each bundle.
+ */
+
+import type { ComponentType } from "react";
+
+import { Vendor } from "@/lib/types/enums";
+
+import aihubmix from "thesvg/aihubmix";
+import alibaba from "thesvg/alibaba";
+import anthropic from "thesvg/anthropic";
+import bailian from "thesvg/bailian";
+import bytedance from "thesvg/bytedance";
+import cohere from "thesvg/cohere";
+import deepseek from "thesvg/deepseek";
+import flux from "thesvg/flux";
+import google from "thesvg/google";
+import iflow from "thesvg/iflow";
+import iflytekcloud from "thesvg/iflytekcloud";
+import kling from "thesvg/kling";
+import kuaishou from "thesvg/kuaishou";
+import meta from "thesvg/meta";
+import minimax from "thesvg/minimax";
+import mistral from "thesvg/mistral";
+import moonshot from "thesvg/moonshot";
+import openai from "thesvg/openai";
+import opencode from "thesvg/opencode";
+import sap from "thesvg/sap";
+import stabilityAi from "thesvg/stability-ai";
+import vertexai from "thesvg/vertexai-google";
+import xai from "thesvg/xai";
+import xiaomiMimo from "thesvg/xiaomi-mimo";
+import zhipu from "thesvg/zhipu";
+
+export type IconComponent = ComponentType<{
+  size?: number | string;
+  className?: string;
+}>;
+
+export type IconLoader = () => Promise<{ default: IconComponent }>;
+
+function pickVariant(v: Record<string, string>): string {
+  return (v.mono ?? v.light ?? v.default)
+    .replace(/fill="[^"]*"/g, "")
+    .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
+}
+
+/** Lobehub icon loaders for client-side rendering. */
+export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
+  [Vendor.ALIBABA]: () => import("@lobehub/icons/es/AlibabaCloud"),
+  [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
+  [Vendor.BAIDU]: () => import("@lobehub/icons/es/Baidu"),
+  [Vendor.BAILIAN]: () => import("@lobehub/icons/es/Bailian"),
+  [Vendor.BYTEDANCE]: () => import("@lobehub/icons/es/ByteDance"),
+  [Vendor.COHERE]: () => import("@lobehub/icons/es/Cohere"),
+  [Vendor.DEEPSEEK]: () => import("@lobehub/icons/es/DeepSeek"),
+  [Vendor.FLUX]: () => import("@lobehub/icons/es/Flux"),
+  [Vendor.GOOGLE]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.GOOGLE_DEEPMIND]: () => import("@lobehub/icons/es/Google"),
+  [Vendor.HUNYUAN]: () => import("@lobehub/icons/es/Hunyuan"),
+  [Vendor.INCLUSIONAI]: () => import("@lobehub/icons/es/AntGroup"),
+  [Vendor.KLING]: () => import("@lobehub/icons/es/Kling"),
+  [Vendor.LING]: () => import("@lobehub/icons/es/AntGroup"),
+  [Vendor.LIQUID]: () => import("@lobehub/icons/es/Liquid"),
+  [Vendor.META]: () => import("@lobehub/icons/es/Meta"),
+  [Vendor.MINIMAX]: () => import("@lobehub/icons/es/Minimax"),
+  [Vendor.MISTRAL]: () => import("@lobehub/icons/es/Mistral"),
+  [Vendor.MISTRAL_AI]: () => import("@lobehub/icons/es/Mistral"),
+  [Vendor.MOONSHOT]: () => import("@lobehub/icons/es/Moonshot"),
+  [Vendor.NVIDIA]: () => import("@lobehub/icons/es/Nvidia"),
+  [Vendor.OPENAI]: () => import("@lobehub/icons/es/OpenAI"),
+  [Vendor.QIANFAN]: () => import("@lobehub/icons/es/Baidu"),
+  [Vendor.STABILITY]: () => import("@lobehub/icons/es/Stability"),
+  [Vendor.TENCENT]: () => import("@lobehub/icons/es/Tencent"),
+  [Vendor.XAI]: () => import("@lobehub/icons/es/XAI"),
+  [Vendor.X_AI]: () => import("@lobehub/icons/es/XAI"),
+  [Vendor.XIAOMI]: () => import("@lobehub/icons/es/XiaomiMiMo"),
+  [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
+};
+
+/**
+ * Substring aliases for vendor strings that don't match a `Vendor` enum value
+ * (e.g. when matching against a model slug). Checked after `VENDOR_LOADERS`.
+ */
+export const ALIAS_LOADERS: Record<string, IconLoader> = {
+  alibabacloud: () => import("@lobehub/icons/es/AlibabaCloud"),
+  claude: () => import("@lobehub/icons/es/Claude"),
+  doubao: () => import("@lobehub/icons/es/Doubao"),
+  gemini: () => import("@lobehub/icons/es/Gemini"),
+  nemotron: () => import("@lobehub/icons/es/Nvidia"),
+};
+
+/** Inlined SVG strings for server-side rendering (satori badges). */
+export const VENDOR_SVGS: Partial<Record<Vendor, string>> = {
+  [Vendor.OPENAI]: pickVariant(openai.variants),
+  [Vendor.ANTHROPIC]: pickVariant(anthropic.variants),
+  [Vendor.GOOGLE]: pickVariant(google.variants),
+  [Vendor.GOOGLE_DEEPMIND]: pickVariant(google.variants),
+  [Vendor.META]: pickVariant(meta.variants),
+  [Vendor.MINIMAX]: pickVariant(minimax.variants),
+  [Vendor.DEEPSEEK]: pickVariant(deepseek.variants),
+  [Vendor.MISTRAL]: pickVariant(mistral.variants),
+  [Vendor.MISTRAL_AI]: pickVariant(mistral.variants),
+  [Vendor.COHERE]: pickVariant(cohere.variants),
+  [Vendor.XAI]: pickVariant(xai.variants),
+  [Vendor.X_AI]: pickVariant(xai.variants),
+  [Vendor.BAILIAN]: pickVariant(bailian.variants),
+  [Vendor.BYTEDANCE]: pickVariant(bytedance.variants),
+  [Vendor.FLUX]: pickVariant(flux.variants),
+  [Vendor.KLING]: pickVariant(kling.variants),
+  [Vendor.MOONSHOT]: pickVariant(moonshot.variants),
+  [Vendor.ZHIPU]: pickVariant(zhipu.variants),
+  [Vendor.ZHIPU_CN]: pickVariant(zhipu.variants),
+  [Vendor.ZHIPU_AI_CODING]: pickVariant(zhipu.variants),
+  [Vendor.STABILITY]: pickVariant(stabilityAi.variants),
+  [Vendor.STABILITY_AI]: pickVariant(stabilityAi.variants),
+  [Vendor.ALIBABA]: pickVariant(alibaba.variants),
+  [Vendor.IFLOW]: pickVariant(iflow.variants),
+  [Vendor.KUAISHOU]: pickVariant(kuaishou.variants),
+  [Vendor.SAP]: pickVariant(sap.variants),
+  [Vendor.VERTEX]: pickVariant(vertexai.variants),
+  [Vendor.AIHUBMIX]: pickVariant(aihubmix.variants),
+  [Vendor.OPENCODE]: pickVariant(opencode.variants),
+  [Vendor.XUNFEI]: pickVariant(iflytekcloud.variants),
+  [Vendor.XUNFEI_CN]: pickVariant(iflytekcloud.variants),
+  [Vendor.XIAOMI]: pickVariant(xiaomiMimo.variants),
+};
