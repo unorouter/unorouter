@@ -1,11 +1,11 @@
 import { env } from "@/lib/config/env";
 import type { BadgeSize } from "@/lib/validation/badge";
+import { Brand, Card, Col, Row } from "../elements/primitives";
 import { FONT_MONO, FONT_SANS } from "../elements/typography";
 import { t } from "../lib/cache";
-import { Brand, Card, Col, Row } from "../elements/primitives";
-import { renderBadgeTemplate } from "../lib/utils";
 import { THEME_COLORS } from "../lib/theme";
 import type { BadgeCtx, BadgeDimsBase } from "../lib/types";
+import { renderBadgeTemplate } from "../lib/utils";
 
 interface Dims extends BadgeDimsBase {
   logoSize: number;
@@ -112,11 +112,11 @@ const DIMS: Partial<Record<BadgeSize, Dims>> = {
     W: 1200,
     H: 630,
     pad: 72,
-    logoSize: 96,
-    brandFont: 48,
-    brandGap: 28,
-    badgeFont: 28,
-    subtitleFont: 40,
+    logoSize: 150,
+    brandFont: 80,
+    brandGap: 36,
+    badgeFont: 44,
+    subtitleFont: 60,
     urlFont: 32,
     urlPad: "20px 36px",
     ctaFont: 28,
@@ -153,8 +153,8 @@ export async function generateReferral(ctx: BadgeCtx): Promise<string> {
         <Row
           style={{
             backgroundColor: c.brandRed,
-            borderRadius: 4,
-            padding: "3px 10px",
+            borderRadius: Math.max(4, Math.round(d.badgeFont * 0.3)),
+            padding: `${Math.round(d.badgeFont * 0.35)}px ${Math.round(d.badgeFont * 0.9)}px`,
           }}
         >
           <span
