@@ -122,7 +122,7 @@ export function ConsumptionChart() {
     "count",
     20,
     otherLabel,
-  );
+  ).toReversed();
 
   const distributionConfig = buildChartConfig(distribution.modelList);
   const trendConfig: ChartConfig = {
@@ -367,6 +367,7 @@ export function ConsumptionChart() {
                     fontSize={9}
                     fontFamily="monospace"
                     width={120}
+                    interval={0}
                     tickFormatter={(v: string) =>
                       v.length > 18 ? v.slice(0, 18) + "..." : v
                     }
