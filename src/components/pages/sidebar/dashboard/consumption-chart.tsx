@@ -140,7 +140,7 @@ export function ConsumptionChart() {
   );
 
   return (
-    <div className="border-border bg-card flex min-w-0 flex-col overflow-hidden border">
+    <div className="border-border bg-card flex min-w-0 flex-col border">
       <div className="border-border flex flex-col gap-3 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <LuChartBar className="text-muted-foreground h-4 w-4" />
