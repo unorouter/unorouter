@@ -3,24 +3,24 @@
 import { sidebarNavigation } from "@/components/layout/nav/navigation";
 import { Badge } from "@/components/ui/badge";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import { useLogoutMutation } from "@/hooks/auth-hook";
-import { useSubscriptionSelfQuery } from "@/hooks/billing-hook";
+import { useBillingPlansQuery, useSubscriptionSelfQuery } from "@/hooks/billing-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
-import { quotaToDollars } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
 import { LuLogOut, LuSparkles } from "react-icons/lu";
 import { UserInfo } from "./user-info";
+import { quotaToDollars } from "@/lib/config/constants";
 
 interface UserDropdownProps {
   children: ReactElement;
@@ -35,15 +35,18 @@ export function UserDropdown(props: UserDropdownProps) {
   const userDisplay = useUserDisplay();
   const logoutMutation = useLogoutMutation();
   const subQuery = useSubscriptionSelfQuery();
+  const plansQuery = useBillingPlansQuery();
 
-  const activeSub = (subQuery.data?.subscriptions ?? [])
+  const activeSubs = (subQuery.data?.subscriptions ?? [])
     .map((s) => s.subscription)
-    .find((sub) => sub && sub.status === "active");
+    .filter(
+      (sub): sub is NonNullable<typeof sub> => !!sub && sub.status === "active",
+    );
 
-  const subTotal = activeSub ? quotaToDollars(activeSub.amount_total) : 0;
-  const subUsed = activeSub ? quotaToDollars(activeSub.amount_used) : 0;
-  const subPercentage =
-    activeSub && subTotal > 0 ? Math.min((subUsed / subTotal) * 100, 100) : 0;
+  function getPlanTitle(planId: number): string {
+    const plan = (plansQuery.data ?? []).find((p) => p.id === planId);
+    return plan?.title ?? `#${planId}`;
+  }
 
   if (!userDisplay.user) return null;
 
@@ -76,10 +79,10 @@ export function UserDropdown(props: UserDropdownProps) {
             />
           </DropdownMenuLabel>
         </DropdownMenuGroup>
-        {activeSub && (
+        {activeSubs.length > 0 && (
           <>
             <DropdownMenuSeparator />
-            <div className="flex flex-col gap-1.5 px-2 py-1.5">
+            <div className="flex flex-col gap-2 px-2 py-1.5">
               <div className="flex items-center gap-2 text-xs">
                 <LuSparkles className="text-muted-foreground h-3.5 w-3.5" />
                 <span className="text-muted-foreground">
@@ -88,15 +91,33 @@ export function UserDropdown(props: UserDropdownProps) {
                 <Badge variant="default" className="h-4 px-1.5 text-[10px]">
                   {t("AUTH.SUBSCRIPTION_ACTIVE")}
                 </Badge>
-                {subTotal > 0 && (
-                  <span className="text-foreground ml-auto font-mono tabular-nums">
-                    ${subUsed.toFixed(2)} / ${subTotal.toFixed(2)}
-                  </span>
-                )}
+                <span className="text-muted-foreground ml-auto font-mono tabular-nums">
+                  {activeSubs.length}
+                </span>
               </div>
-              {subTotal > 0 && (
-                <Progress value={subPercentage} className="h-1.5" />
-              )}
+              {activeSubs.map((sub) => {
+                const total = quotaToDollars(sub.amount_total);
+                const used = quotaToDollars(sub.amount_used);
+                const percentage =
+                  total > 0 ? Math.min((used / total) * 100, 100) : 0;
+                return (
+                  <div key={sub.id} className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2 text-[11px]">
+                      <span className="text-foreground truncate">
+                        {getPlanTitle(sub.plan_id)}
+                      </span>
+                      {total > 0 && (
+                        <span className="text-muted-foreground ml-auto font-mono tabular-nums">
+                          ${used.toFixed(2)} / ${total.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                    {total > 0 && (
+                      <Progress value={percentage} className="h-1.5" />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </>
         )}
