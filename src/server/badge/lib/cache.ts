@@ -1,6 +1,7 @@
 import { buildPricingSummary } from "@/lib/api/pricing";
 import { FAR_FUTURE, LOCALES } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import { getAllQuotaDates, getPricing } from "@/openapi";
 import { readFileSync } from "fs";
 import type { Locale } from "next-intl";
@@ -83,15 +84,37 @@ let cachedPricing: BadgePricing | null = null;
 let cachedPricingAt = 0;
 const CACHE_TTL = 5 * 60 * 1000;
 
+const EMPTY_STATS: BadgeStats = { tokenUsed: 0, requestCount: 0, avgTpm: 0 };
+
 export async function getStats(): Promise<BadgeStats> {
   if (cachedStats && Date.now() - cachedStatsAt < CACHE_TTL) return cachedStats;
 
   const now = Math.floor(Date.now() / 1000);
-  const res = await getAllQuotaDates(
-    { start_timestamp: 0, end_timestamp: FAR_FUTURE },
-    { headers: ADMIN_HEADERS },
-  );
-  const body = unwrap(res);
+  let body;
+  try {
+    const res = await getAllQuotaDates(
+      { start_timestamp: 0, end_timestamp: FAR_FUTURE },
+      { headers: ADMIN_HEADERS },
+    );
+    if (res.status !== 200) {
+      logger.warn("badge getStats: upstream non-200, falling back to zero", {
+        context: "badge",
+        status: res.status,
+      });
+      cachedStats = EMPTY_STATS;
+      cachedStatsAt = Date.now();
+      return cachedStats;
+    }
+    body = unwrap(res);
+  } catch (err) {
+    logger.warn("badge getStats: upstream failed, falling back to zero", {
+      context: "badge",
+      message: err instanceof Error ? err.message : String(err),
+    });
+    cachedStats = EMPTY_STATS;
+    cachedStatsAt = Date.now();
+    return cachedStats;
+  }
   const data = body.data ?? [];
 
   const requestCount = data.reduce((s, d) => s + (d?.count ?? 0), 0);

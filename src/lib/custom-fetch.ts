@@ -38,7 +38,13 @@ export const customFetch = async <T>(
     } catch {}
   }
 
-  const cookieHeader = await getServerCookieHeader();
+  // If the caller passes an explicit Authorization header (server-to-server
+  // admin call via ADMIN_HEADERS), do NOT auto-attach the browser session
+  // cookie. Upstream auth checks the session before the Authorization header,
+  // so forwarding the end-user's cookie causes the access-token path to be
+  // skipped and the New-Api-User header to mismatch the session user.
+  const hasExplicitAuth = !!getHeaderValue(options.headers, "Authorization");
+  const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie =
     getHeaderValue(options.headers, "cookie") ||
     getHeaderValue(options.headers, "Cookie");
