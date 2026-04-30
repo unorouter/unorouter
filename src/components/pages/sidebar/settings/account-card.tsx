@@ -26,9 +26,10 @@ import {
   type EmailBindSchema,
 } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LuCopy, LuGithub, LuMail } from "react-icons/lu";
 import { SiDiscord } from "react-icons/si";
@@ -45,6 +46,11 @@ export function AccountCard() {
 
   const [countdown, setCountdown] = useState(0);
   const [showEmailForm, setShowEmailForm] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | undefined>();
+  const turnstileRef = useRef<TurnstileInstance>(null);
+
+  const turnstileEnabled = !!statusQuery.data?.turnstile_check;
+  const turnstileSiteKey = statusQuery.data?.turnstile_site_key;
 
   const form = useForm({
     resolver: typeboxResolver(emailBindSchema),
@@ -64,8 +70,9 @@ export function AccountCard() {
 
   function handleSendCode() {
     if (!emailValue) return;
+    if (turnstileEnabled && !turnstileToken) return;
     sendVerificationMutation.mutate(
-      { query: { email: emailValue } },
+      { query: { email: emailValue, turnstile: turnstileToken } },
       {
         onSuccess: () => {
           toast.success(t("SETTINGS.ACCOUNT.CODE_SENT", { seconds: 60 }));
@@ -73,6 +80,8 @@ export function AccountCard() {
         },
         onError: (error) => {
           toast.error(error.message);
+          turnstileRef.current?.reset();
+          setTurnstileToken(undefined);
         },
       },
     );
@@ -89,6 +98,8 @@ export function AccountCard() {
           toast.success(t("SETTINGS.ACCOUNT.EMAIL_BOUND"));
           setShowEmailForm(false);
           form.reset(Value.Default(emailBindSchema, {}) as EmailBindSchema);
+          turnstileRef.current?.reset();
+          setTurnstileToken(undefined);
         },
         onError: (error) => {
           toast.error(error.message);
@@ -222,7 +233,8 @@ export function AccountCard() {
                       disabled={
                         !emailValue ||
                         countdown > 0 ||
-                        sendVerificationMutation.isPending
+                        sendVerificationMutation.isPending ||
+                        (turnstileEnabled && !turnstileToken)
                       }
                       onClick={handleSendCode}
                     >
@@ -231,6 +243,15 @@ export function AccountCard() {
                         : t("SETTINGS.ACCOUNT.SEND_CODE")}
                     </Button>
                   </div>
+                  {turnstileEnabled && turnstileSiteKey && (
+                    <div className="flex justify-center">
+                      <Turnstile
+                        ref={turnstileRef}
+                        siteKey={turnstileSiteKey}
+                        onSuccess={setTurnstileToken}
+                      />
+                    </div>
+                  )}
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <MyFormInput
@@ -258,6 +279,8 @@ export function AccountCard() {
                         form.reset(
                           Value.Default(emailBindSchema, {}) as EmailBindSchema,
                         );
+                        turnstileRef.current?.reset();
+                        setTurnstileToken(undefined);
                       }}
                     >
                       {t("SETTINGS.CANCEL")}
