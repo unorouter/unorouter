@@ -109,8 +109,13 @@ function runVariant(v: Variant) {
 }
 
 async function readScore(v: Variant) {
-  const slug = pathArg.replace(/^\//, "").replace(/\/$/, "");
-  const jsonPath = path.join(v.outDir, "reports", slug, "lighthouse.json");
+  const slug = pathArg.replace(/^\/+/, "").replace(/\/+$/, "");
+  const jsonPath = path.join(
+    v.outDir,
+    "reports",
+    ...slug.split("/"),
+    "lighthouse.json",
+  );
   try {
     const raw = await readFile(jsonPath, "utf8");
     const d = JSON.parse(raw);
@@ -129,7 +134,7 @@ async function readScore(v: Variant) {
 
 log(`Auditing ${site}${pathArg} (4 variants in parallel)...`);
 log(
-  `Reports: ${tmpDir}/.unlighthouse-<form>-<theme>/reports/<slug>/lighthouse.json\n`,
+  `Reports: ${path.join(tmpDir, ".unlighthouse-<form>-<theme>", "reports", "<slug>", "lighthouse.json")}\n`,
 );
 
 // Wipe shared unlighthouse cache, generated configs, and per-variant leftovers
