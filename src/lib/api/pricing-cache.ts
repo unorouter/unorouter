@@ -57,10 +57,13 @@ export async function isMediaModel(model: string) {
 /** Look up the per-model metadata blob that the sync wrote into the
  *  models.metadata column on new-api. Empty object when the model is
  *  unknown or has no sync-provided hints. */
-export async function getModelMetadata(model: string): Promise<ModelMetadata> {
+export async function getModelMetadata(
+  model: string,
+): Promise<ModelMetadata & { isFree?: boolean }> {
   const { models } = await getSummary();
   const found = models.find((m) => m.name === model);
-  return found?.metadata ?? {};
+  if (!found) return {};
+  return { ...found.metadata, isFree: found.isFree };
 }
 
 export async function getCheapestTextModel(): Promise<string> {

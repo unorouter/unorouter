@@ -38,7 +38,7 @@ export default async function AuthLayout(props: { children: ReactNode }) {
       <div className="from-background via-muted to-background flex min-h-dvh flex-col items-center justify-center bg-linear-to-br px-4 py-12">
         <div className="animate-slide-up mb-8 flex items-center gap-2">
           <Link href="/" className="flex items-center gap-2">
-            <LogoImage width={36} height={36} />
+            <LogoImage width={36} height={36} priority />
             <CompanyName className="text-foreground font-mono text-xl" />
           </Link>
         </div>

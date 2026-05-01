@@ -466,6 +466,14 @@ export async function streamChat(
   // exhausts the upstream's tiny default budget before any visible content
   // streams. Non-thinking models get no cap here and keep upstream defaults.
   const modelMetadata = await getModelMetadata(body.model);
+  // Free models often have stale/inflated maxOutputTokens in metadata that
+  // exceeds what the upstream actually accepts (e.g. gemma claims 131072 but
+  // serves only 32768 total context). Cap to a safe budget so the request
+  // doesn't get rejected with a context-length 400.
+  const FREE_MODEL_OUTPUT_CAP = 8192;
+  const effectiveMaxOutputTokens = modelMetadata.isFree
+    ? Math.min(modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP, FREE_MODEL_OUTPUT_CAP)
+    : modelMetadata.maxOutputTokens;
   const result = streamText({
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(messagesWithPdfText),
@@ -475,8 +483,8 @@ export async function streamChat(
     // so the user sees the real upstream error verbatim (e.g. data_inspection_failed)
     // instead of the last masked message after the SDK rotated through retries.
     maxRetries: 0,
-    ...(modelMetadata.maxOutputTokens && {
-      maxOutputTokens: modelMetadata.maxOutputTokens,
+    ...(effectiveMaxOutputTokens && {
+      maxOutputTokens: effectiveMaxOutputTokens,
     }),
     onFinish: ({ usage, response }) => {
       trackUsage(body.convId, {
