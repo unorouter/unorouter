@@ -7,16 +7,15 @@ import {
 } from "@/components/assistant-ui/attachment";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
-import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TaskCardRenderer } from "@/components/assistant-ui/task-card";
+import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { Link } from "@/i18n/navigation";
-import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
+import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -26,6 +25,7 @@ import {
   chatWebSearchAtom,
   getScrollControl,
 } from "@/store/chat-store";
+import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
   AuiIf,
@@ -36,7 +36,6 @@ import {
   ThreadPrimitive,
   useAuiState,
 } from "@assistant-ui/react";
-import { useMessageError } from "@assistant-ui/core/react";
 import { useAtom, useAtomValue } from "jotai";
 import {
   ArrowDownIcon,
@@ -108,7 +107,7 @@ export const Thread: FC<ThreadProps> = (props) => {
           </ThreadPrimitive.Messages>
 
           {!props.readOnly && (
-            <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer bg-background sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-4 md:pb-6">
+            <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-1 *:pointer-events-auto md:pb-2.5">
               <ThreadScrollToBottom />
               <Composer />
             </ThreadPrimitive.ViewportFooter>
@@ -214,30 +213,7 @@ const Composer: FC = () => {
           <ComposerAction />
         </div>
       </ComposerPrimitive.AttachmentDropzone>
-      <FreeModelNotice />
-      <p className="text-muted-foreground mt-2 text-center text-[11px]">
-        {t("CHAT.DISCLAIMER")}
-      </p>
     </ComposerPrimitive.Root>
-  );
-};
-
-const FreeModelNotice: FC = () => {
-  const t = useTranslations();
-  const activeModel = useAtomValue(chatModelAtom);
-  const pricing = usePricingQuery();
-  const model = pricing.data?.models.find((m) => m.name === activeModel);
-  if (!model?.isFree) return null;
-  return (
-    <p className="text-muted-foreground mt-2 text-center text-[11px]">
-      <span>{t("CHAT.MODEL.FREE_NOTICE")}</span>{" "}
-      <Link
-        href="/models"
-        className="text-foreground/80 underline-offset-2 hover:underline"
-      >
-        {t("CHAT.MODEL.FREE_NOTICE_CTA")}
-      </Link>
-    </p>
   );
 };
 
@@ -537,7 +513,7 @@ const UserMessage: FC = () => {
     >
       <UserMessageAttachments />
 
-      <div className="aui-user-message-content-wrapper relative col-start-2 min-w-0 max-w-full">
+      <div className="aui-user-message-content-wrapper relative col-start-2 max-w-full min-w-0">
         <div className="aui-user-message-content peer bg-muted text-foreground max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
           <MessagePrimitive.Parts />
         </div>
