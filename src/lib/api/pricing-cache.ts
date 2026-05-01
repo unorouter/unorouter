@@ -78,10 +78,11 @@ export async function getCheapestTextModel(): Promise<string> {
   ).name;
 }
 
-export async function getFreeTextModels(limit = 3): Promise<string[]> {
+export async function getFreeTextModels(limit = 5): Promise<string[]> {
   const models = await getModels();
   return models
     .filter((m) => m.type === "text" && m.isFree)
+    .sort(() => Math.random() - 0.5)
     .slice(0, limit)
     .map((m) => m.name);
 }

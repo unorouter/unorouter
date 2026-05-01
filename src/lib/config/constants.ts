@@ -104,7 +104,7 @@ export const FREE_MODEL_OUTPUT_CAP = 8192;
 /** Number of free models to race in parallel for short auxiliary calls
  *  (title generation, web-search classifier). Free models are flaky so we
  *  fan out and take whichever responds first. */
-export const FREE_MODEL_RACE_COUNT = 3;
+export const FREE_MODEL_RACE_COUNT = 5;
 
 /** Timeout for the Tavily web-search request and its yes/no classifier. */
 export const TAVILY_TIMEOUT_MS = 5_000;
