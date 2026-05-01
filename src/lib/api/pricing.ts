@@ -12,14 +12,53 @@ export type EndpointInfo = {
 
 // Per-model client hints populated by new-api-sync into the models.metadata
 // column and surfaced via /api/pricing. Opaque to new-api; consumers like
-// streamText pick up whichever keys they care about.
+// streamText pick up whichever keys they care about. Mirrors the SourceMetadata
+// shape produced by new-api-sync (core/pricing/sources/types.ts).
 export type ModelMetadata = {
+  /** Maximum input context tokens. */
+  maxInputTokens?: number;
   /** Cap on generated tokens. Required for thinking models (glm, kimi, qwen
    *  reasoning variants) whose reasoning_content phase eats the default
    *  upstream budget before emitting user-visible content. */
   maxOutputTokens?: number;
-  /** UI hint — used to render a reasoning badge / skin the Thinking block. */
+  /** Total context window (typically == maxInputTokens). */
+  contextWindow?: number;
+  /** UI hint, used to render a reasoning badge / skin the Thinking block. */
   isReasoning?: boolean;
+  /** Supports tool / function calling. */
+  supportsTools?: boolean;
+  /** Supports image input. */
+  supportsVision?: boolean;
+  /** Supports audio input. */
+  supportsAudio?: boolean;
+  /** Supports PDF / document input. */
+  supportsPdf?: boolean;
+  /** Supports video input. */
+  supportsVideo?: boolean;
+  /** Supports prompt caching (cache_read pricing exists). */
+  supportsCache?: boolean;
+  /** Supports response_format / structured output. */
+  supportsResponseFormat?: boolean;
+  /** Supports parallel tool calls. */
+  supportsParallelTools?: boolean;
+  /** Supports web search tool. */
+  supportsWebSearch?: boolean;
+  /** Supports computer use tool (Anthropic). */
+  supportsComputerUse?: boolean;
+  /** Input modalities the model accepts (e.g. ["text","image","audio"]). */
+  inputModalities?: string[];
+  /** Output modalities the model produces. */
+  outputModalities?: string[];
+  /** Tokenizer family (OpenRouter only). */
+  tokenizer?: string;
+  /** Knowledge cutoff date (ISO string from OpenRouter). */
+  knowledgeCutoff?: string;
+  /** Deprecation date (LiteLLM only, ISO string). */
+  deprecationDate?: string;
+  /** Mode of the model: "chat", "embedding", "image", "audio", etc. */
+  mode?: string;
+  /** Free-form description (OpenRouter / basellm). */
+  description?: string;
 };
 
 export type ProcessedModel = ReturnType<typeof processModels>[number];
@@ -69,9 +108,15 @@ function processModels(response: PricingData) {
       let fixedPrice = 0;
       let originalInputPrice: number | null = null;
       let originalOutputPrice: number | null = null;
+      // Strict free check: a model is "truly free" only when every enabled
+      // group resolves to a zero price. Mirrors new-api-sync's guest-token
+      // allowlist so the FREE badge in the UI matches what the guest token
+      // can actually call.
+      let isFreeStrict = false;
 
       if (isFixedPrice) {
         fixedPrice = model.model_price ?? 0;
+        isFreeStrict = fixedPrice === 0;
       } else {
         const enabledGroups = model.enable_groups ?? [];
         let minRatio = 1;
@@ -85,6 +130,13 @@ function processModels(response: PricingData) {
         }
         inputPrice = (model.model_ratio ?? 0) * 2 * minRatio;
         outputPrice = inputPrice * (model.completion_ratio ?? 0);
+
+        const modelRatio = model.model_ratio ?? 0;
+        if (enabledGroups.length > 0 && modelRatio === 0) {
+          isFreeStrict = true;
+        } else if (enabledGroups.length > 0) {
+          isFreeStrict = enabledGroups.every((g) => (groupRatio[g] ?? 1) === 0);
+        }
 
         // Original price (groupRatio=1) for strikethrough display when discounted
         if (showOriginalPrice && minRatio < 1) {
@@ -105,9 +157,7 @@ function processModels(response: PricingData) {
         outputPrice,
         fixedPrice,
         isFixedPrice,
-        isFree: isFixedPrice
-          ? fixedPrice === 0
-          : inputPrice === 0 && outputPrice === 0,
+        isFree: isFreeStrict,
         quotaType: qt,
         gridPricing,
         type: getModelType(model),

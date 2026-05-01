@@ -1,10 +1,11 @@
-import { getCheapestTextModel } from "@/lib/api/pricing-cache";
+import { getFreeTextModels } from "@/lib/api/pricing-cache";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
 
 const TAVILY_TIMEOUT = 5_000;
+const CLASSIFIER_SYSTEM_PROMPT = `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`;
 
 type TavilyResult = {
   title: string;
@@ -26,17 +27,24 @@ export async function needsWebSearch(
   userText: string,
 ): Promise<boolean> {
   try {
-    const modelName = await getCheapestTextModel();
+    const freeModels = await getFreeTextModels(3);
+    if (freeModels.length === 0) return false;
+
     const provider = getProvider(serverEnv.guestApiKey ?? apiKey);
+    const signal = AbortSignal.timeout(TAVILY_TIMEOUT);
 
-    const result = await generateText({
-      model: provider.chatModel(modelName),
-      system: `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`,
-      prompt: userText,
-      maxOutputTokens: 3,
-      abortSignal: AbortSignal.timeout(TAVILY_TIMEOUT),
-    });
+    const attempts = freeModels.map((modelName) =>
+      generateText({
+        model: provider.chatModel(modelName),
+        system: CLASSIFIER_SYSTEM_PROMPT,
+        prompt: userText,
+        maxOutputTokens: 3,
+        maxRetries: 0,
+        abortSignal: signal,
+      }),
+    );
 
+    const result = await Promise.any(attempts);
     return result.text.trim().toLowerCase().startsWith("yes");
   } catch (err) {
     logger.warn("Web search classification failed, skipping search", {

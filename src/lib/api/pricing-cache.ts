@@ -77,3 +77,11 @@ export async function getCheapestTextModel(): Promise<string> {
     m.inputPrice < min.inputPrice ? m : min,
   ).name;
 }
+
+export async function getFreeTextModels(limit = 3): Promise<string[]> {
+  const models = await getModels();
+  return models
+    .filter((m) => m.type === "text" && m.isFree)
+    .slice(0, limit)
+    .map((m) => m.name);
+}
