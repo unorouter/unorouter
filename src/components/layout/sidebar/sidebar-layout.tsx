@@ -35,6 +35,9 @@ interface SidebarLayoutProps {
 
 export function SidebarLayout(props: SidebarLayoutProps) {
   const [open, setOpen] = useAtom(sidebarOpenAtom);
+  // Chat owns its own internal scroller (Thread.Viewport). Letting the inset
+  // also scroll produces two stacked scrollbars on long conversations.
+  const isChat = props.navConfig === "chat";
 
   return (
     <SidebarProvider
@@ -51,7 +54,7 @@ export function SidebarLayout(props: SidebarLayoutProps) {
     >
       {props.before}
       <AppSidebar navConfig={props.navConfig} chatContent={props.chatContent} />
-      <SidebarInset>
+      <SidebarInset className={isChat ? "overflow-hidden" : undefined}>
         <SidebarHeader
           showSearch={props.showSearch}
           navConfig={props.navConfig}
