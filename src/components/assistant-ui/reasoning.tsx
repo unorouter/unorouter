@@ -1,13 +1,5 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { BrainIcon, ChevronDownIcon } from "lucide-react";
-import {
-  useScrollLock,
-  useAuiState,
-  type ReasoningMessagePartComponent,
-  type ReasoningGroupComponent,
-} from "@assistant-ui/react";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import {
   Collapsible,
@@ -15,7 +7,15 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
+import {
+  useAuiState,
+  useScrollLock,
+  type ReasoningGroupComponent,
+  type ReasoningMessagePartComponent,
+} from "@assistant-ui/react";
+import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
 
 const ANIMATION_DURATION = 200;
 
@@ -146,7 +146,7 @@ function ReasoningContent({
       <div className="relative z-0 max-h-64 overflow-y-auto pt-2 pb-2 pl-6 leading-relaxed">
         {children}
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-8 bg-[linear-gradient(to_top,var(--color-background),transparent)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-[linear-gradient(to_top,var(--color-background),transparent)]" />
     </CollapsibleContent>
   );
 }
