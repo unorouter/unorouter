@@ -77,7 +77,7 @@ export default async function ChatConvPage(props: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Chat />
+      <Chat convId={convId} />
     </HydrationBoundary>
   );
 }

@@ -3,12 +3,12 @@
 import { Thread } from "@/components/assistant-ui/thread";
 import { SectionBoundary } from "@/components/elements/section-boundary";
 import { useConversationQuery } from "@/hooks/chat-hook";
+import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/base";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { NeedsTokenGate, ZeroBalanceGate } from "./chat-elements";
 
 type ChatProps = {
@@ -53,7 +53,7 @@ export function Chat(props: ChatProps) {
         convQuery.data &&
         (convQuery.data.totalInputTokens > 0 ||
           convQuery.data.totalOutputTokens > 0) && (
-          <div className="text-muted-foreground hidden items-center justify-end gap-2 px-4 pt-2 text-[11px] tabular-nums md:flex">
+          <div className="text-muted-foreground pointer-events-none sticky top-12 z-10 hidden items-center justify-end gap-2 px-4 py-1 pr-6 text-[11px] tabular-nums md:flex">
             <span>
               {convQuery.data.totalInputTokens.toLocaleString()}{" "}
               {t("CHAT.TOKENS_IN")}
