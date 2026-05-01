@@ -1,11 +1,13 @@
 import { getFreeTextModels } from "@/lib/api/pricing-cache";
+import {
+  FREE_MODEL_RACE_COUNT,
+  TAVILY_TIMEOUT_MS,
+  WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT,
+} from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
-
-const TAVILY_TIMEOUT = 5_000;
-const CLASSIFIER_SYSTEM_PROMPT = `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`;
 
 type TavilyResult = {
   title: string;
@@ -27,16 +29,16 @@ export async function needsWebSearch(
   userText: string,
 ): Promise<boolean> {
   try {
-    const freeModels = await getFreeTextModels(3);
+    const freeModels = await getFreeTextModels(FREE_MODEL_RACE_COUNT);
     if (freeModels.length === 0) return false;
 
     const provider = getProvider(serverEnv.guestApiKey ?? apiKey);
-    const signal = AbortSignal.timeout(TAVILY_TIMEOUT);
+    const signal = AbortSignal.timeout(TAVILY_TIMEOUT_MS);
 
     const attempts = freeModels.map((modelName) =>
       generateText({
         model: provider.chatModel(modelName),
-        system: CLASSIFIER_SYSTEM_PROMPT,
+        system: WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT,
         prompt: userText,
         maxOutputTokens: 3,
         maxRetries: 0,
@@ -69,7 +71,7 @@ export async function searchTavily(
     const res = await fetch("https://api.tavily.com/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      signal: AbortSignal.timeout(TAVILY_TIMEOUT),
+      signal: AbortSignal.timeout(TAVILY_TIMEOUT_MS),
       body: JSON.stringify({
         api_key: apiKey,
         query,

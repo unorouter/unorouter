@@ -4,10 +4,12 @@ import { conversations, media } from "@/lib/db/schema";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
+import {
+  MAX_PDF_TEXT_CHARS,
+  MAX_USER_UPLOAD_BYTES,
+} from "@/lib/validation/media";
 import { eq, sql } from "drizzle-orm";
 import { extractText, getDocumentProxy } from "unpdf";
-
-const MAX_PDF_TEXT_CHARS = 200_000;
 
 async function extractPdfText(buffer: Buffer): Promise<string | null> {
   try {
@@ -28,8 +30,6 @@ async function extractPdfText(buffer: Buffer): Promise<string | null> {
     return null;
   }
 }
-
-const MAX_USER_BYTES = 100 * 1024 * 1024;
 
 export async function uploadMedia(
   file: File,
@@ -61,7 +61,7 @@ export async function uploadMedia(
       .from(media)
       .where(eq(media.userId, userId));
     const current = Number(rows[0]?.total ?? 0);
-    if (current + buffer.length > MAX_USER_BYTES) {
+    if (current + buffer.length > MAX_USER_UPLOAD_BYTES) {
       throw new Error(msg("ERRORS.STORAGE_QUOTA_EXCEEDED"));
     }
   }

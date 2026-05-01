@@ -1,4 +1,8 @@
-import { QUOTA_PER_DOLLAR, msg } from "@/lib/config/constants";
+import {
+  PENDING_USAGE_TTL_MS,
+  QUOTA_PER_DOLLAR,
+  msg,
+} from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { conversations, messages } from "@/lib/db/schema";
@@ -20,15 +24,13 @@ export type PendingUsage = {
   createdAt: number;
 };
 
-const PENDING_USAGE_TTL = 5 * 60 * 1000; // 5 minutes
-
 export const pendingUsageByConv = new Map<string, PendingUsage>();
 
 /** Remove stale entries that were never consumed (e.g. client disconnected). */
 export function sweepStalePending() {
   const now = Date.now();
   for (const [key, value] of pendingUsageByConv) {
-    if (now - value.createdAt > PENDING_USAGE_TTL) {
+    if (now - value.createdAt > PENDING_USAGE_TTL_MS) {
       pendingUsageByConv.delete(key);
     }
   }

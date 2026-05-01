@@ -1,12 +1,13 @@
-import { msg } from "@/lib/config/constants";
+import {
+  GUEST_USER_ID,
+  MODERATION_TIMEOUT_MS,
+  msg,
+} from "@/lib/config/constants";
 import { getDb } from "@/lib/db/client";
 import { moderationLog } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { serverEnv } from "@/server/env";
-
-const MODERATION_TIMEOUT_MS = 5_000;
-const GUEST_USER_ID = -1;
 
 export type ModerationDecision = "allow" | "flag" | "deny" | "error";
 

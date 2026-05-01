@@ -1,6 +1,6 @@
 import { ModelType } from "@/lib/api/pricing";
 import { getModelMetadata, isMediaModel } from "@/lib/api/pricing-cache";
-import { msg } from "@/lib/config/constants";
+import { FREE_MODEL_OUTPUT_CAP, msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { media } from "@/lib/db/schema";
@@ -470,9 +470,11 @@ export async function streamChat(
   // exceeds what the upstream actually accepts (e.g. gemma claims 131072 but
   // serves only 32768 total context). Cap to a safe budget so the request
   // doesn't get rejected with a context-length 400.
-  const FREE_MODEL_OUTPUT_CAP = 8192;
   const effectiveMaxOutputTokens = modelMetadata.isFree
-    ? Math.min(modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP, FREE_MODEL_OUTPUT_CAP)
+    ? Math.min(
+        modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP,
+        FREE_MODEL_OUTPUT_CAP,
+      )
     : modelMetadata.maxOutputTokens;
   const result = streamText({
     model: provider.chatModel(body.model),
