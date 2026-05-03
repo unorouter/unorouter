@@ -92,8 +92,8 @@ export function Pricing() {
       }));
     }
 
-    if (enableStripe && topUpInfo.amount_options.length > 0) {
-      return topUpInfo.amount_options.map((amount) => ({
+    if (enableStripe && (topUpInfo.amount_options ?? []).length > 0) {
+      return (topUpInfo.amount_options ?? []).map((amount) => ({
         key: `stripe-${amount}`,
         amount,
         handler: isLoggedIn ? () => payWithStripe(amount) : redirectToLogin,

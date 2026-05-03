@@ -34,7 +34,8 @@
     "DASHBOARD": "Dashboard",
     "LOG_IN": "Log In",
     "GET_STARTED": "Get Started",
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "STATUS": "Status"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "Models",
     "PRICING": "Pricing",
     "DOCUMENTATION": "Documentation",
+    "STATUS": "Status",
     "LEGAL": "Legal",
     "PRIVACY": "Privacy Policy",
     "TERMS": "Terms & Conditions",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "Language",
       "COMPONENTS_LABEL": "Components",
       "STANDARDS_LABEL": "Standards"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "Model Status - {appName}",
+      "DESCRIPTION": "Live availability and latency for every AI model on {appName}. Real-time channel health, request volume, and historical uptime.",
+      "KEYWORDS": "AI model status, uptime, model availability, AI gateway health, latency monitoring"
+    },
+    "BADGE": "Live Status",
+    "TITLE": "Model Status",
+    "SUBTITLE": "Real-time availability and performance for every model. Updated every minute.",
+    "STATE": {
+      "OPERATIONAL": "Operational",
+      "DOWN": "Down",
+      "UNKNOWN": "Unknown",
+      "DEGRADED": "Degraded"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "All systems normal",
+      "N_DOWN": "{count, plural, one {# model down} other {# models down}}",
+      "LAST_CHECKED_AT": "Last checked {time}"
+    },
+    "KPI": {
+      "TOTAL": "Total models",
+      "OPERATIONAL": "Operational",
+      "DOWN": "Down",
+      "UNKNOWN": "Unknown"
+    },
+    "ROW": {
+      "CHANNELS": "ch",
+      "LATENCY_PROBE": "probe",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "req",
+      "ERR": "err",
+      "IDLE": "no traffic this minute"
+    },
+    "RIBBON": {
+      "TITLE": "Last 24 hours",
+      "LEGEND_UP": "up",
+      "LEGEND_DEGRADED": "degraded",
+      "LEGEND_DOWN": "down",
+      "LEGEND_NODATA": "no data"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Search models...",
+      "STATUS_ALL": "All",
+      "EMPTY": "No models match these filters."
     }
   }
 }

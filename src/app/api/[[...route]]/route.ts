@@ -6,6 +6,7 @@ import { chatRoute } from "@/server/chat/route";
 import { checkoutSessionsRoute } from "@/server/checkout-sessions/route";
 import { dashboardRoute } from "@/server/dashboard/route";
 import { logsRoute } from "@/server/logs/route";
+import { modelStatusRoute } from "@/server/model-status/route";
 import { pricingRoute } from "@/server/pricing/route";
 import { healthRoute } from "@/server/health/route";
 import { settingsRoute } from "@/server/settings/route";
@@ -132,6 +133,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(badgeRoute)
   .use(healthRoute)
   .use(pricingRoute)
+  .use(modelStatusRoute)
   .use(statsRoute)
   .use(authRoute)
   .use(billingRoute)

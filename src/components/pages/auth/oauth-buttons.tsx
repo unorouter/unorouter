@@ -4,7 +4,7 @@ import { AFF_CODE_KEY } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import type { ResponseDtoStatusDataData } from "@/openapi";
+import type { StatusData } from "@/openapi";
 import { analytics } from "@/lib/analytics";
 import { getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
@@ -13,12 +13,12 @@ import { FaDiscord, FaGithub } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
 
 interface OAuthButtonsProps {
-  status: ResponseDtoStatusDataData;
+  status: StatusData;
 }
 
 export function buildOAuthUrl(
   provider: string,
-  status: ResponseDtoStatusDataData,
+  status: StatusData,
   state: string,
 ): string | null {
   const serverAddress = status.server_address || env.apiUrl;

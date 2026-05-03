@@ -53,4 +53,13 @@ export const queryKeys = {
   searchIndex: () => ["search-index"] as const,
   statsLive: () => ["stats-live"] as const,
   statsHistory: () => ["stats-history"] as const,
+
+  // Model Status
+  modelStatusPage: (bucket: string, hours: number) =>
+    ["model-status", "page", bucket, hours] as const,
+  modelStatusComponents: () => ["model-status", "components"] as const,
+  modelStatusBuckets: (model: string, bucket: string, hours: number) =>
+    ["model-status", "buckets", model, bucket, hours] as const,
+  modelStatusIncidents: (since?: number) =>
+    ["model-status", "incidents", since ?? 0] as const,
 };

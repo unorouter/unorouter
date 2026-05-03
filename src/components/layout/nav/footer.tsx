@@ -20,7 +20,11 @@ import { isActiveLink } from "./navigation";
 const NAV_LINKS = [
   { href: "/models", key: "FOOTER.MODELS" },
   { href: "/pricing", key: "FOOTER.PRICING" },
-  { href: "/docs/claude-code", key: "FOOTER.DOCUMENTATION" },
+  { href: "/docs", key: "FOOTER.DOCUMENTATION" },
+] as const;
+
+const EXTERNAL_NAV_LINKS = [
+  { href: env.statusUrl, key: "FOOTER.STATUS" },
 ] as const;
 
 const LEGAL_LINKS = [
@@ -115,6 +119,18 @@ export function Footer() {
                     >
                       {t(item.key)}
                     </Link>
+                  </li>
+                ))}
+                {EXTERNAL_NAV_LINKS.map((item) => (
+                  <li key={item.key}>
+                    <NextLink
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {t(item.key)}
+                    </NextLink>
                   </li>
                 ))}
               </ul>

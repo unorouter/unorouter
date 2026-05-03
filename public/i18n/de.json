@@ -34,7 +34,8 @@
     "DASHBOARD": "Dashboard",
     "LOG_IN": "Anmelden",
     "GET_STARTED": "Loslegen",
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "STATUS": "Status"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "Modelle",
     "PRICING": "Preise",
     "DOCUMENTATION": "Dokumentation",
+    "STATUS": "Status",
     "LEGAL": "Rechtliches",
     "PRIVACY": "Datenschutz",
     "TERMS": "Nutzungsbedingungen",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "Sprache",
       "COMPONENTS_LABEL": "Komponenten",
       "STANDARDS_LABEL": "Standards"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "Modellstatus - {appName}",
+      "DESCRIPTION": "Live-Verfügbarkeit und Latenz für jedes KI-Modell auf {appName}. Kanal-Gesundheit in Echtzeit, Anfragevolumen und historische Verfügbarkeit.",
+      "KEYWORDS": "KI-Modellstatus, Verfügbarkeit, Modellverfügbarkeit, KI-Gateway-Health, Latenzüberwachung"
+    },
+    "BADGE": "Live-Status",
+    "TITLE": "Modellstatus",
+    "SUBTITLE": "Echtzeit-Verfügbarkeit und Leistung für jedes Modell. Aktualisierung jede Minute.",
+    "STATE": {
+      "OPERATIONAL": "Betriebsbereit",
+      "DOWN": "Ausgefallen",
+      "UNKNOWN": "Unbekannt",
+      "DEGRADED": "Eingeschränkt"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "Alle Systeme normal",
+      "N_DOWN": "{count, plural, one {# Modell ausgefallen} other {# Modelle ausgefallen}}",
+      "LAST_CHECKED_AT": "Zuletzt geprüft {time}"
+    },
+    "KPI": {
+      "TOTAL": "Modelle gesamt",
+      "OPERATIONAL": "Betriebsbereit",
+      "DOWN": "Ausgefallen",
+      "UNKNOWN": "Unbekannt"
+    },
+    "ROW": {
+      "CHANNELS": "Kan.",
+      "LATENCY_PROBE": "Probe",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "Anf.",
+      "ERR": "Fehl.",
+      "IDLE": "kein Verkehr in dieser Minute"
+    },
+    "RIBBON": {
+      "TITLE": "Letzte 24 Stunden",
+      "LEGEND_UP": "betriebsbereit",
+      "LEGEND_DEGRADED": "eingeschränkt",
+      "LEGEND_DOWN": "ausgefallen",
+      "LEGEND_NODATA": "keine Daten"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Modelle suchen...",
+      "STATUS_ALL": "Alle",
+      "EMPTY": "Keine Modelle entsprechen diesen Filtern."
     }
   }
 }

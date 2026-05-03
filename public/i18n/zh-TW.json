@@ -34,7 +34,8 @@
     "DASHBOARD": "儀表板",
     "LOG_IN": "登入",
     "GET_STARTED": "立即開始",
-    "CHAT": "對話"
+    "CHAT": "對話",
+    "STATUS": "狀態"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "模型",
     "PRICING": "價格",
     "DOCUMENTATION": "文件",
+    "STATUS": "狀態",
     "LEGAL": "法律",
     "PRIVACY": "隱私權政策",
     "TERMS": "服務條款",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "語言",
       "COMPONENTS_LABEL": "元件",
       "STANDARDS_LABEL": "標準"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "模型狀態 - {appName}",
+      "DESCRIPTION": "{appName} 上每個 AI 模型的即時可用性與延遲。即時通道健康狀況、請求量與歷史可用性數據。",
+      "KEYWORDS": "AI 模型狀態，可用性，模型健康，AI 閘道狀態，延遲監控"
+    },
+    "BADGE": "即時狀態",
+    "TITLE": "模型狀態",
+    "SUBTITLE": "每個模型的即時可用性與效能，每分鐘更新。",
+    "STATE": {
+      "OPERATIONAL": "正常",
+      "DOWN": "故障",
+      "UNKNOWN": "未知",
+      "DEGRADED": "降級"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "所有系統運行正常",
+      "N_DOWN": "{count} 個模型故障",
+      "LAST_CHECKED_AT": "上次檢查 {time}"
+    },
+    "KPI": {
+      "TOTAL": "模型總數",
+      "OPERATIONAL": "正常",
+      "DOWN": "故障",
+      "UNKNOWN": "未知"
+    },
+    "ROW": {
+      "CHANNELS": "通道",
+      "LATENCY_PROBE": "探測",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "請求",
+      "ERR": "錯誤",
+      "IDLE": "本分鐘無流量"
+    },
+    "RIBBON": {
+      "TITLE": "過去 24 小時",
+      "LEGEND_UP": "正常",
+      "LEGEND_DEGRADED": "降級",
+      "LEGEND_DOWN": "故障",
+      "LEGEND_NODATA": "無資料"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "搜尋模型……",
+      "STATUS_ALL": "全部",
+      "EMPTY": "沒有符合篩選條件的模型。"
     }
   }
 }

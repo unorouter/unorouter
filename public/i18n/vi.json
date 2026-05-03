@@ -34,7 +34,8 @@
     "DASHBOARD": "Bảng điều khiển",
     "LOG_IN": "Đăng nhập",
     "GET_STARTED": "Bắt đầu",
-    "CHAT": "Trò chuyện"
+    "CHAT": "Trò chuyện",
+    "STATUS": "Trạng thái"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "Mô hình",
     "PRICING": "Bảng giá",
     "DOCUMENTATION": "Tài liệu",
+    "STATUS": "Trạng thái",
     "LEGAL": "Pháp lý",
     "PRIVACY": "Chính sách bảo mật",
     "TERMS": "Điều khoản và điều kiện",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "Ngôn ngữ",
       "COMPONENTS_LABEL": "Thành phần",
       "STANDARDS_LABEL": "Tiêu chuẩn"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "Trạng thái mô hình - {appName}",
+      "DESCRIPTION": "Tính khả dụng và độ trễ thời gian thực cho mọi mô hình AI trên {appName}. Tình trạng kênh, lưu lượng yêu cầu và lịch sử thời gian hoạt động.",
+      "KEYWORDS": "trạng thái mô hình AI, thời gian hoạt động, tính khả dụng mô hình, sức khỏe cổng AI, giám sát độ trễ"
+    },
+    "BADGE": "Trạng thái trực tiếp",
+    "TITLE": "Trạng thái mô hình",
+    "SUBTITLE": "Tính khả dụng và hiệu năng thời gian thực cho mọi mô hình. Cập nhật mỗi phút.",
+    "STATE": {
+      "OPERATIONAL": "Hoạt động",
+      "DOWN": "Ngừng",
+      "UNKNOWN": "Không rõ",
+      "DEGRADED": "Suy giảm"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "Tất cả hệ thống bình thường",
+      "N_DOWN": "{count} mô hình đang ngừng",
+      "LAST_CHECKED_AT": "Kiểm tra lần cuối {time}"
+    },
+    "KPI": {
+      "TOTAL": "Tổng mô hình",
+      "OPERATIONAL": "Hoạt động",
+      "DOWN": "Ngừng",
+      "UNKNOWN": "Không rõ"
+    },
+    "ROW": {
+      "CHANNELS": "kênh",
+      "LATENCY_PROBE": "probe",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "req",
+      "ERR": "lỗi",
+      "IDLE": "không có lưu lượng phút này"
+    },
+    "RIBBON": {
+      "TITLE": "24 giờ qua",
+      "LEGEND_UP": "hoạt động",
+      "LEGEND_DEGRADED": "suy giảm",
+      "LEGEND_DOWN": "ngừng",
+      "LEGEND_NODATA": "không có dữ liệu"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Tìm kiếm mô hình...",
+      "STATUS_ALL": "Tất cả",
+      "EMPTY": "Không có mô hình phù hợp với bộ lọc."
     }
   }
 }

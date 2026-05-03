@@ -1,9 +1,9 @@
-import type { ResponseArrayModelQuotaDataDataItem } from "@/openapi";
+import type { QuotaData } from "@/openapi";
 import dayjs from "dayjs";
 
 export { quotaToDollars, renderQuota } from "@/lib/config/constants";
 
-export type QuotaDataItem = NonNullable<ResponseArrayModelQuotaDataDataItem>;
+export type QuotaDataItem = NonNullable<QuotaData>;
 
 export function formatDate(value: string | number | undefined): string {
   if (!value) return "";
@@ -13,7 +13,7 @@ export function formatDate(value: string | number | undefined): string {
 }
 
 export function filterQuotaData(
-  data: (ResponseArrayModelQuotaDataDataItem | null | undefined)[],
+  data: (QuotaData | null | undefined)[],
 ): QuotaDataItem[] {
   return data.filter((item): item is QuotaDataItem => item != null);
 }

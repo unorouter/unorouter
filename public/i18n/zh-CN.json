@@ -34,7 +34,8 @@
     "DASHBOARD": "控制台",
     "LOG_IN": "登录",
     "GET_STARTED": "立即开始",
-    "CHAT": "对话"
+    "CHAT": "对话",
+    "STATUS": "状态"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "模型",
     "PRICING": "价格",
     "DOCUMENTATION": "文档",
+    "STATUS": "状态",
     "LEGAL": "法律",
     "PRIVACY": "隐私政策",
     "TERMS": "条款与条件",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "语言",
       "COMPONENTS_LABEL": "组件",
       "STANDARDS_LABEL": "标准"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "模型状态 - {appName}",
+      "DESCRIPTION": "{appName} 上每个 AI 模型的实时可用性与延迟。实时通道健康、请求量和历史可用性数据。",
+      "KEYWORDS": "AI 模型状态，可用性，模型健康，AI 网关状态，延迟监控"
+    },
+    "BADGE": "实时状态",
+    "TITLE": "模型状态",
+    "SUBTITLE": "每个模型的实时可用性与性能，每分钟更新。",
+    "STATE": {
+      "OPERATIONAL": "正常",
+      "DOWN": "故障",
+      "UNKNOWN": "未知",
+      "DEGRADED": "降级"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "所有系统运行正常",
+      "N_DOWN": "{count} 个模型故障",
+      "LAST_CHECKED_AT": "上次检查 {time}"
+    },
+    "KPI": {
+      "TOTAL": "模型总数",
+      "OPERATIONAL": "正常",
+      "DOWN": "故障",
+      "UNKNOWN": "未知"
+    },
+    "ROW": {
+      "CHANNELS": "通道",
+      "LATENCY_PROBE": "探测",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "请求",
+      "ERR": "错误",
+      "IDLE": "本分钟无流量"
+    },
+    "RIBBON": {
+      "TITLE": "过去 24 小时",
+      "LEGEND_UP": "正常",
+      "LEGEND_DEGRADED": "降级",
+      "LEGEND_DOWN": "故障",
+      "LEGEND_NODATA": "无数据"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "搜索模型……",
+      "STATUS_ALL": "全部",
+      "EMPTY": "没有符合筛选条件的模型。"
     }
   }
 }

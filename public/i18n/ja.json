@@ -34,7 +34,8 @@
     "DASHBOARD": "ダッシュボード",
     "LOG_IN": "ログイン",
     "GET_STARTED": "はじめる",
-    "CHAT": "チャット"
+    "CHAT": "チャット",
+    "STATUS": "ステータス"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "モデル",
     "PRICING": "料金",
     "DOCUMENTATION": "ドキュメント",
+    "STATUS": "ステータス",
     "LEGAL": "法的情報",
     "PRIVACY": "プライバシーポリシー",
     "TERMS": "利用規約",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "言語",
       "COMPONENTS_LABEL": "コンポーネント",
       "STANDARDS_LABEL": "標準"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "モデルステータス - {appName}",
+      "DESCRIPTION": "{appName} 上の全 AI モデルのライブ可用性とレイテンシ。リアルタイムのチャネル状態、リクエスト量、稼働履歴を確認できます。",
+      "KEYWORDS": "AI モデルステータス, 稼働状況, モデル可用性, AI ゲートウェイヘルス, レイテンシ監視"
+    },
+    "BADGE": "ライブステータス",
+    "TITLE": "モデルステータス",
+    "SUBTITLE": "全モデルのリアルタイム可用性とパフォーマンス。毎分更新されます。",
+    "STATE": {
+      "OPERATIONAL": "正常",
+      "DOWN": "停止",
+      "UNKNOWN": "不明",
+      "DEGRADED": "部分障害"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "すべて正常に稼働中",
+      "N_DOWN": "{count} 個のモデルが停止中",
+      "LAST_CHECKED_AT": "最終チェック {time}"
+    },
+    "KPI": {
+      "TOTAL": "モデル総数",
+      "OPERATIONAL": "正常",
+      "DOWN": "停止",
+      "UNKNOWN": "不明"
+    },
+    "ROW": {
+      "CHANNELS": "ch",
+      "LATENCY_PROBE": "プローブ",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "req",
+      "ERR": "err",
+      "IDLE": "この 1 分間にトラフィックなし"
+    },
+    "RIBBON": {
+      "TITLE": "過去 24 時間",
+      "LEGEND_UP": "正常",
+      "LEGEND_DEGRADED": "部分障害",
+      "LEGEND_DOWN": "停止",
+      "LEGEND_NODATA": "データなし"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "モデルを検索...",
+      "STATUS_ALL": "すべて",
+      "EMPTY": "条件に一致するモデルはありません。"
     }
   }
 }

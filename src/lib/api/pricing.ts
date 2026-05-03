@@ -1,4 +1,4 @@
-import type { PricingData, PricingDataDataItem } from "@/openapi";
+import type { PricingData, PricingModel } from "@/openapi";
 
 const MODEL_TYPES = ["text", "image", "video", "audio", "embedding"] as const;
 export type ModelType = (typeof MODEL_TYPES)[number];
@@ -64,7 +64,7 @@ export type ModelMetadata = {
 export type ProcessedModel = ReturnType<typeof processModels>[number];
 export type PricingSummary = ReturnType<typeof buildPricingSummary>;
 
-function getModelType(model: PricingDataDataItem): ModelType {
+function getModelType(model: PricingModel): ModelType {
   const tag = (model.tags ?? "").split(",")[0]?.trim().toLowerCase();
   return (MODEL_TYPES as readonly string[]).includes(tag)
     ? (tag as ModelType)

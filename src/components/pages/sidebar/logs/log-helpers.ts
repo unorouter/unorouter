@@ -1,7 +1,7 @@
-import type { ResponseDtoPageDataModelLogDataItemsItem } from "@/openapi";
+import type { Log } from "@/openapi";
 import dayjs from "dayjs";
 
-export type LogRow = NonNullable<ResponseDtoPageDataModelLogDataItemsItem>;
+export type LogRow = NonNullable<Log>;
 
 export const LOG_TYPE_ALL = -1;
 export const LOG_TYPE_TOPUP = 1;

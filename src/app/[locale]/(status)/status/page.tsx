@@ -1,15 +1,12 @@
-import { Models } from "@/components/pages/navbar/models/browse/models";
+import { StatusPage } from "@/components/pages/navbar/status/status-page";
+import { localeUrl } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
-import {
-  buildBreadcrumbListSchema,
-  buildCollectionPageSchema,
-} from "@/lib/seo/structured-data";
-import { localeUrl } from "@/i18n/navigation";
+import { buildBreadcrumbListSchema } from "@/lib/seo/structured-data";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
@@ -22,63 +19,53 @@ export async function generateMetadata(props: {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: "/models",
-    title: t("MODELS.META.TITLE", APP_VALUES),
-    description: t("MODELS.META.DESCRIPTION"),
-    keywords: t("MODELS.META.KEYWORDS"),
+    href: "/status",
+    title: t("STATUS.META.TITLE", APP_VALUES),
+    description: t("STATUS.META.DESCRIPTION", APP_VALUES),
+    keywords: t("STATUS.META.KEYWORDS"),
     ogImage: ogBadge("sponsor", locale),
   });
 }
 
-export default async function ModelsPage(props: {
+export default async function StatusRoute(props: {
   params: Promise<{ locale: string }>;
 }) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   const queryClient = getQueryClient();
 
-  const [summary] = await Promise.all([
-    queryClient.fetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.modelStatusPage("1m", 24),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api["model-status"].page.get({
+            query: { bucket: "1m", hours: 24 },
+          }),
+        ),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.modelStatusComponents(),
       queryFn: async () =>
         handleElysia(await rpc.api["model-status"].components.get()),
     }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.pricing(),
+      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+    }),
   ]);
-  const topModels = summary.models
-    .filter((m) => m.type === "text")
-    .slice(0, 24);
 
   return (
     <>
       <JsonLd
-        id="models-breadcrumb"
+        id="status-breadcrumb"
         data={buildBreadcrumbListSchema([
           { name: t("NAV.HOME"), url: localeUrl(locale, "/") },
-          { name: t("NAV.MODELS"), url: localeUrl(locale, "/models") },
+          { name: t("NAV.STATUS"), url: localeUrl(locale, "/status") },
         ])}
       />
-      <JsonLd
-        id="models-collection"
-        data={buildCollectionPageSchema({
-          name: t("MODELS.META.TITLE", APP_VALUES),
-          description: t("MODELS.META.DESCRIPTION"),
-          url: localeUrl(locale, "/models"),
-          items: topModels.map((m) => ({
-            name: m.name,
-            url: localeUrl(locale, {
-              pathname: "/models/[slug]",
-              params: { slug: m.name },
-            }),
-            description: m.description ?? m.vendor.name,
-          })),
-        })}
-      />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Models />
+        <StatusPage />
       </HydrationBoundary>
     </>
   );

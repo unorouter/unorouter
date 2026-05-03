@@ -5,7 +5,7 @@ import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
 import { useAffiliateCommissionsQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
-import { ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem } from "@/openapi";
+import { ReferralCommissionWithUser } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
@@ -28,7 +28,7 @@ export function CommissionsTab() {
   const commissions = (responseData?.items ?? []).filter(Boolean);
   const total = responseData?.total ?? 0;
 
-  const columns: ColumnDef<ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem>[] =
+  const columns: ColumnDef<ReferralCommissionWithUser>[] =
     [
       {
         accessorKey: "created_at",

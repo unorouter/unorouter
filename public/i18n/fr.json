@@ -34,7 +34,8 @@
     "DASHBOARD": "Tableau de bord",
     "LOG_IN": "Se connecter",
     "GET_STARTED": "Commencer",
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "STATUS": "État"
   },
   "HOME": {
     "HERO": {
@@ -1242,6 +1243,7 @@
     "MODELS": "Modèles",
     "PRICING": "Tarifs",
     "DOCUMENTATION": "Documentation",
+    "STATUS": "Statut",
     "LEGAL": "Mentions légales",
     "PRIVACY": "Politique de confidentialité",
     "TERMS": "Conditions générales",
@@ -2172,6 +2174,54 @@
       "LANGUAGE_LABEL": "Langue",
       "COMPONENTS_LABEL": "Composants",
       "STANDARDS_LABEL": "Standards"
+    }
+  },
+  "STATUS": {
+    "META": {
+      "TITLE": "État des modèles - {appName}",
+      "DESCRIPTION": "Disponibilité et latence en direct de chaque modèle IA sur {appName}. État des canaux en temps réel, volume de requêtes et historique de disponibilité.",
+      "KEYWORDS": "état des modèles IA, disponibilité, santé de la passerelle IA, surveillance de latence"
+    },
+    "BADGE": "État en direct",
+    "TITLE": "État des modèles",
+    "SUBTITLE": "Disponibilité et performance en temps réel pour chaque modèle. Mis à jour chaque minute.",
+    "STATE": {
+      "OPERATIONAL": "Opérationnel",
+      "DOWN": "Hors service",
+      "UNKNOWN": "Inconnu",
+      "DEGRADED": "Dégradé"
+    },
+    "SUMMARY": {
+      "ALL_NORMAL": "Tous les systèmes sont normaux",
+      "N_DOWN": "{count, plural, one {# modèle hors service} other {# modèles hors service}}",
+      "LAST_CHECKED_AT": "Dernière vérification {time}"
+    },
+    "KPI": {
+      "TOTAL": "Modèles au total",
+      "OPERATIONAL": "Opérationnel",
+      "DOWN": "Hors service",
+      "UNKNOWN": "Inconnu"
+    },
+    "ROW": {
+      "CHANNELS": "can.",
+      "LATENCY_PROBE": "sonde",
+      "LATENCY_P50": "p50",
+      "LATENCY_P95": "p95",
+      "REQ": "req",
+      "ERR": "err",
+      "IDLE": "aucun trafic cette minute"
+    },
+    "RIBBON": {
+      "TITLE": "Dernières 24 heures",
+      "LEGEND_UP": "opérationnel",
+      "LEGEND_DEGRADED": "dégradé",
+      "LEGEND_DOWN": "hors service",
+      "LEGEND_NODATA": "aucune donnée"
+    },
+    "FILTER": {
+      "SEARCH_PLACEHOLDER": "Rechercher des modèles...",
+      "STATUS_ALL": "Tous",
+      "EMPTY": "Aucun modèle ne correspond à ces filtres."
     }
   }
 }

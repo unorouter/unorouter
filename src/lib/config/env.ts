@@ -9,10 +9,19 @@ if (!appName) throw new Error("Missing required env: NEXT_PUBLIC_APP_NAME");
 if (!supportEmail)
   throw new Error("Missing required env: NEXT_PUBLIC_SUPPORT_EMAIL");
 
+// Hoist appUrl to its apex (strip leading "www." if present) then prefix
+// "status." so deployments don't need an extra env var.
+function deriveStatusUrl(url: string): string {
+  const u = new URL(url);
+  u.hostname = `status.${u.hostname.replace(/^www\./, "")}`;
+  return u.origin;
+}
+
 export const env = {
   apiUrl,
   appName,
   appUrl,
+  statusUrl: deriveStatusUrl(appUrl),
   supportEmail,
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL,
   discordUrl: process.env.NEXT_PUBLIC_DISCORD_URL,

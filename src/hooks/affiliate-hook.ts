@@ -5,7 +5,7 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
-import type { ResponseDtoUserSelfDataData } from "@/openapi";
+import type { UserSelfData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
@@ -46,7 +46,7 @@ export function useTransferAffQuotaMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+      queryClient.setQueryData<UserSelfData>(
         queryKeys.auth(),
         (old) =>
           old

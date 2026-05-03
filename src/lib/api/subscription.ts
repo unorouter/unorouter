@@ -1,4 +1,4 @@
-import type { ResponseArrayControllerSubscriptionPlanDTODataItem } from "@/openapi";
+import type { SubscriptionPlanDTO } from "@/openapi";
 import { QUOTA_PER_DOLLAR, TranslationKey } from "../config/constants";
 
 export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
@@ -56,10 +56,8 @@ function estimateResetsPerDuration(
   return Math.floor(durationSeconds / resetSeconds);
 }
 
-export function processPlans(
-  raw: ResponseArrayControllerSubscriptionPlanDTODataItem[],
-) {
-  return raw
+export function processPlans(raw: SubscriptionPlanDTO[] | null) {
+  return (raw ?? [])
     .filter((entry) => entry.plan?.enabled)
     .map((entry) => {
       const p = entry.plan!;

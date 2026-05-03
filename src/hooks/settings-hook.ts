@@ -6,9 +6,9 @@ import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type {
-  ResponseDtoPasskeyStatusDataData,
-  ResponseDtoTwoFAStatusDataData,
-  ResponseDtoUserSelfDataData,
+  PasskeyStatusData,
+  TwoFAStatusData,
+  UserSelfData,
 } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
@@ -52,7 +52,7 @@ export function useBindEmailMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+      queryClient.setQueryData<UserSelfData>(
         queryKeys.auth(),
         (old) => (old ? { ...old, email: args.query.email } : old),
       );
@@ -69,7 +69,7 @@ export function useUpdateSelfMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+      queryClient.setQueryData<UserSelfData>(
         queryKeys.auth(),
         (old) =>
           old
@@ -103,7 +103,7 @@ export function useUpdateSettingMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<ResponseDtoUserSelfDataData>(
+      queryClient.setQueryData<UserSelfData>(
         queryKeys.auth(),
         (old) => (old ? { ...old, ...args.body } : old),
       );
@@ -136,7 +136,7 @@ export function useEnable2FAMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
+      queryClient.setQueryData<TwoFAStatusData>(
         queryKeys.twoFAStatus(),
         (old) => (old ? { ...old, enabled: true } : old),
       );
@@ -155,7 +155,7 @@ export function useDisable2FAMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoTwoFAStatusDataData>(
+      queryClient.setQueryData<TwoFAStatusData>(
         queryKeys.twoFAStatus(),
         (old) => (old ? { ...old, enabled: false } : old),
       );
@@ -184,7 +184,7 @@ export function usePasskeyRegisterFinishMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoPasskeyStatusDataData>(
+      queryClient.setQueryData<PasskeyStatusData>(
         queryKeys.passkeyStatus(),
         (old) => (old ? { ...old, enabled: true } : old),
       );
@@ -201,7 +201,7 @@ export function usePasskeyDeleteMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      queryClient.setQueryData<ResponseDtoPasskeyStatusDataData>(
+      queryClient.setQueryData<PasskeyStatusData>(
         queryKeys.passkeyStatus(),
         (old) => (old ? { ...old, enabled: false } : old),
       );

@@ -23,6 +23,17 @@ export default function proxy(request: NextRequest) {
     return rewrite;
   }
 
+  // status.* subdomain: rewrite (not redirect) the visible URL to the localized
+  // status page. Keeps the user on https://status.unorouter.ai/ while serving
+  // the /<locale>/status route. Deep links (/api, assets) pass through.
+  const host = request.headers.get("host") ?? "";
+  const hostNoWww = host.startsWith("www.") ? host.slice(4) : host;
+  if (hostNoWww.startsWith("status.") && isHomepage(request.nextUrl.pathname)) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${routing.defaultLocale}/status`;
+    return NextResponse.rewrite(url);
+  }
+
   const response = createMiddleware(routing)(request);
 
   response.headers.set(SERVER_URL_KEY, request.url);

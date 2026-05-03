@@ -4,7 +4,7 @@ import { DataTable } from "@/components/elements/table/data-table";
 import { useAffiliateInviteesQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
-import type { ResponseDtoPageDataModelInvitedUserDataItemsItem } from "@/openapi";
+import type { InvitedUser } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
@@ -27,7 +27,7 @@ export function InviteesTab() {
   const invitees = (responseData?.items ?? []).filter(Boolean);
   const total = responseData?.total ?? 0;
 
-  const columns: ColumnDef<ResponseDtoPageDataModelInvitedUserDataItemsItem>[] =
+  const columns: ColumnDef<InvitedUser>[] =
     [
       {
         accessorKey: "username",

@@ -110,7 +110,7 @@ export function useUpdateTokenMutation() {
           old
             ? {
                 ...old,
-                items: old.items.map((item) =>
+                items: (old.items ?? []).map((item) =>
                   item?.id === args.body.id ? { ...item, ...args.body } : item,
                 ),
               }
@@ -136,7 +136,7 @@ export function useToggleTokenStatusMutation() {
           old
             ? {
                 ...old,
-                items: old.items.map((item) =>
+                items: (old.items ?? []).map((item) =>
                   item?.id === args.body.id
                     ? { ...item, status: args.body.status }
                     : item,
@@ -171,7 +171,7 @@ export function useDeleteTokenMutation() {
             ? {
                 ...old,
                 total: old.total - 1,
-                items: old.items.filter((item) => item?.id !== Number(args.id)),
+                items: (old.items ?? []).filter((item) => item?.id !== Number(args.id)),
               }
             : old,
       );

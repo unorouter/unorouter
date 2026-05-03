@@ -21,7 +21,7 @@ import { usePricingQuery } from "@/hooks/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
-import type { ResponseDtoPageDataModelTokenDataItemsItem } from "@/openapi";
+import type { Token } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { useSetAtom } from "jotai";
@@ -41,7 +41,7 @@ import {
 import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
 
-export type TokenRow = NonNullable<ResponseDtoPageDataModelTokenDataItemsItem>;
+export type TokenRow = NonNullable<Token>;
 
 function formatDate(timestamp: number): string {
   if (timestamp <= 0) return "";

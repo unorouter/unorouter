@@ -44,6 +44,15 @@ export const pathnames = {
     "zh-CN": "/dingjia",
     "zh-TW": "/dingjia",
   },
+  "/status": {
+    de: "/status",
+    fr: "/etat",
+    ja: "/status",
+    ru: "/статус",
+    vi: "/trang-thai",
+    "zh-CN": "/zhuangtai",
+    "zh-TW": "/zhuangtai",
+  },
   "/login": {
     de: "/anmelden",
     fr: "/connexion",

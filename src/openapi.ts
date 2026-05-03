@@ -6,34 +6,30 @@
  * OpenAPI spec version: 0.0.1
  */
 import { customFetch } from "./lib/custom-fetch";
-export type AddChannelRequestChannelChannelInfoMultiKeyDisabledReason = {
+export type ChannelInfoMultiKeyDisabledReason = {
   [key: string]: string;
-};
+} | null;
 
-export type AddChannelRequestChannelChannelInfoMultiKeyDisabledTime = {
-  [key: string]: number;
-};
+export type ChannelInfoMultiKeyDisabledTime = { [key: string]: number } | null;
 
-export type AddChannelRequestChannelChannelInfoMultiKeyStatusList = {
-  [key: string]: number;
-};
+export type ChannelInfoMultiKeyStatusList = { [key: string]: number } | null;
 
-export type AddChannelRequestChannelChannelInfo = {
+export interface ChannelInfo {
   is_multi_key: boolean;
-  multi_key_disabled_reason?: AddChannelRequestChannelChannelInfoMultiKeyDisabledReason;
-  multi_key_disabled_time?: AddChannelRequestChannelChannelInfoMultiKeyDisabledTime;
+  multi_key_disabled_reason?: ChannelInfoMultiKeyDisabledReason;
+  multi_key_disabled_time?: ChannelInfoMultiKeyDisabledTime;
   multi_key_mode: string;
   multi_key_polling_index: number;
   multi_key_size: number;
-  multi_key_status_list: AddChannelRequestChannelChannelInfoMultiKeyStatusList;
-};
+  multi_key_status_list: ChannelInfoMultiKeyStatusList;
+}
 
-export type AddChannelRequestChannel = {
+export interface Channel {
   auto_ban: number | null;
   balance: number;
   balance_updated_time: number;
   base_url: string | null;
-  channel_info: AddChannelRequestChannelChannelInfo;
+  channel_info: ChannelInfo;
   created_time: number;
   group: string;
   header_override: string | null;
@@ -61,14 +57,14 @@ export type AddChannelRequestChannel = {
   used_quota: number;
   /** @minimum 0 */
   weight: number | null;
-} | null;
+}
 
 /**
  * AddChannelRequest schema
  */
 export interface AddChannelRequest {
   batch_add_set_key_prefix_2_name: boolean;
-  channel: AddChannelRequestChannel;
+  channel: Channel;
   mode: string;
   multi_key_mode: string;
 }
@@ -102,7 +98,7 @@ export interface AdminUpdateSubscriptionPlanStatusRequest {
   enabled: boolean | null;
 }
 
-export type AdminUpsertSubscriptionPlanRequestPlan = {
+export interface SubscriptionPlan {
   created_at: number;
   creem_product_id: string;
   currency: string;
@@ -122,13 +118,17 @@ export type AdminUpsertSubscriptionPlanRequestPlan = {
   total_amount: number;
   updated_at: number;
   upgrade_group: string;
-};
+}
 
 /**
  * AdminUpsertSubscriptionPlanRequest schema
  */
 export interface AdminUpsertSubscriptionPlanRequest {
-  plan: AdminUpsertSubscriptionPlanRequestPlan;
+  plan: SubscriptionPlan;
+}
+
+export interface AffinityCacheClearData {
+  deleted: number;
 }
 
 /**
@@ -138,9 +138,28 @@ export interface AmountRequest {
   amount: number;
 }
 
+export interface AnnouncementEntry {
+  content: string;
+  extra?: string;
+  publishDate: string;
+  type?: string;
+}
+
 /**
- * ApiResponse schema
+ * SubscriptionEpayPayRequest schema
  */
+export interface AnonymousSchema0 {
+  payment_method: string;
+  plan_id: number;
+}
+
+export interface ApiInfoEntry {
+  color: string;
+  description: string;
+  route: string;
+  url: string;
+}
+
 export interface ApiResponse {
   data?: unknown;
   message: string;
@@ -154,11 +173,81 @@ export interface AudioTranscriptionResponse {
   text: string;
 }
 
+export interface AvailableReplica {
+  available_count: number;
+  hardware_id: number;
+  hardware_name: string;
+  location_id: number;
+  location_name: string;
+  max_gpus: number;
+}
+
+export interface AvailableReplicasResponse {
+  replicas: AvailableReplica[] | null;
+}
+
+export interface BackupCodesData {
+  backup_codes: string[] | null;
+}
+
+export interface BarSegmentDTO {
+  height: number;
+  status: string;
+}
+
+export interface BillingPortalData {
+  portal_url: string;
+  provider: string;
+}
+
+export interface BillingPreferenceData {
+  billing_preference: string;
+}
+
 /**
  * BillingPreferenceRequest schema
  */
 export interface BillingPreferenceRequest {
   billing_preference: string;
+}
+
+export interface BoundChannel {
+  name: string;
+  type: number;
+}
+
+export interface CardItemDTO {
+  status: string;
+  value: string;
+}
+
+export type ChannelAffinityCacheStatsByRuleName = {
+  [key: string]: number;
+} | null;
+
+export interface ChannelAffinityCacheStats {
+  by_rule_name: ChannelAffinityCacheStatsByRuleName;
+  cache_algo: string;
+  cache_capacity: number;
+  enabled: boolean;
+  total: number;
+  unknown: number;
+}
+
+export interface ChannelAffinityUsageCacheStats {
+  cached_token_rate_mode: string;
+  cached_tokens: number;
+  completion_tokens: number;
+  hit: number;
+  key_fp: string;
+  last_seen_at: number;
+  prompt_cache_hit_tokens: number;
+  prompt_tokens: number;
+  rule_name: string;
+  total: number;
+  total_tokens: number;
+  using_group: string;
+  window_seconds: number;
 }
 
 /**
@@ -174,8 +263,12 @@ export interface ChannelBalanceResponse {
  * ChannelBatch schema
  */
 export interface ChannelBatch {
-  ids: number[];
+  ids: number[] | null;
   tag: string | null;
+}
+
+export interface ChannelKeyData {
+  key: string;
 }
 
 /**
@@ -194,40 +287,65 @@ export interface ChannelTag {
   weight: number | null;
 }
 
-export type ChatCompletionResponseChoicesItemMessage = {
+export interface ChatMessage {
   content: string;
   role: string;
-};
+}
 
-export type ChatCompletionResponseChoicesItem = {
+export interface ChatCompletionChoice {
   finish_reason: string;
   index: number;
-  message: ChatCompletionResponseChoicesItemMessage;
-};
+  message: ChatMessage;
+}
 
-export type ChatCompletionResponseUsage = {
+export interface CompletionUsage {
   completion_tokens: number;
   prompt_tokens: number;
   total_tokens: number;
-};
+}
 
 /**
  * ChatCompletionResponse schema
  */
 export interface ChatCompletionResponse {
-  choices: ChatCompletionResponseChoicesItem[];
+  choices: ChatCompletionChoice[] | null;
   created: number;
   id: string;
   model: string;
   object: string;
-  usage: ChatCompletionResponseUsage;
+  usage: CompletionUsage;
+}
+
+export interface CheckinRecord {
+  checkin_date: string;
+  quota_awarded: number;
+}
+
+export interface CheckinResultData {
+  checkin_date: string;
+  quota_awarded: number;
+}
+
+export interface CheckinStats {
+  checked_in_today: boolean;
+  checkin_count: number;
+  records: CheckinRecord[] | null;
+  total_checkins: number;
+  total_quota: number;
+}
+
+export interface CheckinStatusData {
+  enabled: boolean;
+  max_quota: number;
+  min_quota: number;
+  stats: CheckinStats;
 }
 
 /**
  * ClaudeMessageResponse schema
  */
 export interface ClaudeMessageResponse {
-  content: unknown[];
+  content: unknown[] | null;
   id: string;
   model: string;
   role: string;
@@ -235,6 +353,24 @@ export interface ClaudeMessageResponse {
   stop_sequence: string | null;
   type: string;
   usage: unknown;
+}
+
+export interface ClusterNameAvailabilityResponse {
+  available: boolean;
+  name: string;
+}
+
+export interface CodexOAuthCompleteData {
+  account_id: string;
+  channel_id?: number;
+  email: string;
+  expires_at: string;
+  key?: string;
+  last_refresh: string;
+}
+
+export interface CodexOAuthStartData {
+  authorize_url: string;
 }
 
 /**
@@ -247,22 +383,98 @@ export interface CodexUsageData {
   upstream_status: number;
 }
 
-export type CompletionResponseUsage = {
-  completion_tokens: number;
-  prompt_tokens: number;
-  total_tokens: number;
-};
-
 /**
  * CompletionResponse schema
  */
 export interface CompletionResponse {
-  choices: unknown[];
+  choices: unknown[] | null;
   created: number;
   id: string;
   model: string;
   object: string;
-  usage: CompletionResponseUsage;
+  usage: CompletionUsage;
+}
+
+export interface ComponentDTO {
+  description: string;
+  group_id?: number | null;
+  id: number;
+  name: string;
+  open_incident_id?: number | null;
+  probe_latency_ms: number;
+  sampled_at: number;
+  status: string;
+  total_channels: number;
+  up_channels: number;
+  uptime_24h: number;
+  uptime_30d: number;
+}
+
+export interface ConflictField {
+  field: string;
+  local: unknown;
+  upstream: unknown;
+}
+
+export interface ConflictItem {
+  fields: ConflictField[] | null;
+  model_name: string;
+}
+
+export type ContainerConfigEnvVariables = { [key: string]: string } | null;
+
+export type ContainerConfigSecretEnvVariables = {
+  [key: string]: string;
+} | null;
+
+export interface ContainerConfig {
+  args?: string[] | null;
+  entrypoint?: string[] | null;
+  env_variables?: ContainerConfigEnvVariables;
+  replica_count: number;
+  secret_env_variables?: ContainerConfigSecretEnvVariables;
+  traffic_port?: number;
+}
+
+export interface ContainerEventItem {
+  message: string;
+  time: number;
+}
+
+export interface ContainerDetailResponse {
+  brand_name: string;
+  container_id: string;
+  created_at: number;
+  deployment_id: string;
+  device_id: string;
+  events: ContainerEventItem[] | null;
+  gpus_per_container: number;
+  hardware: string;
+  public_url: string;
+  status: string;
+  uptime_percent: number;
+}
+
+export interface ContainerItem {
+  brand_name: string;
+  container_id: string;
+  created_at: number;
+  device_id: string;
+  events: ContainerEventItem[] | null;
+  gpus_per_container: number;
+  hardware: string;
+  public_url: string;
+  status: string;
+  uptime_percent: number;
+}
+
+export interface ContainerListResponse {
+  containers: ContainerItem[] | null;
+  total: number;
+}
+
+export interface CopyChannelData {
+  id: number;
 }
 
 /**
@@ -289,6 +501,12 @@ export interface CreateCustomOAuthProviderRequest {
   well_known: string;
 }
 
+export interface CreateDeploymentResponse {
+  deployment_id: string;
+  message: string;
+  status: string;
+}
+
 /**
  * CreateTokenRequest schema
  */
@@ -304,6 +522,11 @@ export interface CreateTokenRequest {
   unlimited_quota: boolean;
 }
 
+export interface CreemPayData {
+  checkout_url: string;
+  order_id: string;
+}
+
 /**
  * CreemPayRequest schema
  */
@@ -312,96 +535,273 @@ export interface CreemPayRequest {
   product_id: string;
 }
 
-export type DeploymentRequestContainerConfigEnvVariables = {
-  [key: string]: string;
-};
+export interface CustomOAuthInfo {
+  authorization_endpoint: string;
+  client_id: string;
+  icon: string;
+  id: number;
+  name: string;
+  scopes: string;
+  slug: string;
+}
 
-export type DeploymentRequestContainerConfigSecretEnvVariables = {
-  [key: string]: string;
-};
+export interface CustomOAuthProviderResponse {
+  access_denied_message: string;
+  access_policy: string;
+  auth_style: number;
+  authorization_endpoint: string;
+  client_id: string;
+  display_name_field: string;
+  email_field: string;
+  enabled: boolean;
+  icon: string;
+  id: number;
+  name: string;
+  scopes: string;
+  slug: string;
+  token_endpoint: string;
+  user_id_field: string;
+  user_info_endpoint: string;
+  username_field: string;
+  well_known: string;
+}
 
-export type DeploymentRequestContainerConfig = {
-  args?: string[];
-  entrypoint?: string[];
-  env_variables?: DeploymentRequestContainerConfigEnvVariables;
-  replica_count: number;
-  secret_env_variables?: DeploymentRequestContainerConfigSecretEnvVariables;
-  traffic_port?: number;
-};
+export interface DeleteDeploymentResponse {
+  deployment_id: string;
+  message: string;
+  status: string;
+}
 
-export type DeploymentRequestRegistryConfig = {
+export interface DeletedCountData {
+  deleted: number;
+}
+
+export type DeploymentContainerConfigEnvVariables = {
+  [key: string]: unknown;
+} | null;
+
+export interface DeploymentContainerConfig {
+  entrypoint: string[] | null;
+  env_variables: DeploymentContainerConfigEnvVariables;
+  image_url: string;
+  traffic_port: number;
+}
+
+export interface DeploymentLocation {
+  id: number;
+  iso2: string;
+  name: string;
+}
+
+export interface DeploymentResourceConfig {
+  cpu: string;
+  gpu: string;
+  memory: string;
+}
+
+export interface DeploymentDetailResponse {
+  amount_paid: number;
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_config: DeploymentContainerConfig;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  gpus_per_container: number;
+  hardware_id: number;
+  hardware_name: string;
+  id: string;
+  instance_count: number;
+  locations: DeploymentLocation[] | null;
+  model_name: string;
+  model_version: string;
+  resource_config: DeploymentResourceConfig;
+  status: string;
+  total_containers: number;
+  total_gpus: number;
+  updated_at: number;
+}
+
+export interface DeploymentItem {
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_name: string;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  hardware_info: string;
+  hardware_name: string;
+  hardware_quantity: number;
+  id: string;
+  instance_count: number;
+  model_name: string;
+  model_version: string;
+  provider: string;
+  resource_config: DeploymentResourceConfig;
+  status: string;
+  time_remaining: string;
+  time_remaining_minutes: number;
+  type: string;
+  updated_at: number;
+}
+
+export type DeploymentListResponseStatusCounts = {
+  [key: string]: number;
+} | null;
+
+export interface DeploymentListResponse {
+  items: DeploymentItem[] | null;
+  page: number;
+  page_size: number;
+  status_counts: DeploymentListResponseStatusCounts;
+  total: number;
+}
+
+export interface RegistryConfig {
   image_url: string;
   registry_secret?: string;
   registry_username?: string;
-};
+}
 
 /**
  * DeploymentRequest schema
  */
 export interface DeploymentRequest {
-  container_config: DeploymentRequestContainerConfig;
+  container_config: ContainerConfig;
   duration_hours: number;
   gpus_per_container: number;
   hardware_id: number;
-  location_ids: number[];
-  registry_config: DeploymentRequestRegistryConfig;
+  location_ids: number[] | null;
+  registry_config: RegistryConfig;
   resource_private_name: string;
 }
 
-export type EmbeddingResponseDataItem = {
-  embedding: number[];
+export interface DeploymentSearchResponse {
+  items: DeploymentItem[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+}
+
+export interface DeploymentSettingsResponse {
+  can_connect: boolean;
+  configured: boolean;
+  enabled: boolean;
+  provider: string;
+}
+
+export interface DeploymentStatusResponse {
+  deployment_id: string;
+  status: string;
+}
+
+export type DifferenceItemConfidence = { [key: string]: boolean } | null;
+
+export type DifferenceItemUpstreams = { [key: string]: unknown } | null;
+
+export interface DifferenceItem {
+  confidence: DifferenceItemConfidence;
+  current: unknown;
+  upstreams: DifferenceItemUpstreams;
+}
+
+export interface DiskCacheInfo {
+  exists: boolean;
+  file_count: number;
+  path: string;
+  total_size: number;
+}
+
+export interface DiskCacheStats {
+  active_disk_files: number;
+  active_memory_buffers: number;
+  current_disk_usage_bytes: number;
+  current_memory_usage_bytes: number;
+  disk_cache_hits: number;
+  disk_cache_max_bytes: number;
+  disk_cache_threshold_bytes: number;
+  memory_cache_hits: number;
+}
+
+export interface DiskSpaceInfo {
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  free: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  total: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  used: number;
+  used_percent: number;
+}
+
+export interface EmbeddingResponseItem {
+  embedding: number[] | null;
   index: number;
   object: string;
-};
+}
 
-export type EmbeddingResponseUsageCompletionTokensDetails = {
+export interface OutputTokenDetails {
   audio_tokens: number;
   image_tokens: number;
   reasoning_tokens: number;
   text_tokens: number;
-};
+}
 
-export type EmbeddingResponseUsageInputTokensDetails = {
+export interface InputTokenDetails {
   audio_tokens: number;
   cached_creation_tokens?: number;
   cached_tokens: number;
   image_tokens: number;
   text_tokens: number;
-} | null;
+}
 
-export type EmbeddingResponseUsagePromptTokensDetails = {
-  audio_tokens: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-};
-
-export type EmbeddingResponseUsage = {
+export interface Usage {
   claude_cache_creation_1_h_tokens: number;
   claude_cache_creation_5_m_tokens: number;
   completion_tokens: number;
-  completion_tokens_details: EmbeddingResponseUsageCompletionTokensDetails;
+  completion_tokens_details: OutputTokenDetails;
   cost?: unknown;
   input_tokens: number;
-  input_tokens_details: EmbeddingResponseUsageInputTokensDetails;
+  input_tokens_details: InputTokenDetails;
   output_tokens: number;
   prompt_cache_hit_tokens?: number;
   prompt_tokens: number;
-  prompt_tokens_details: EmbeddingResponseUsagePromptTokensDetails;
+  prompt_tokens_details: InputTokenDetails;
   total_tokens: number;
   usage_semantic?: string;
   usage_source?: string;
-};
+}
 
 /**
  * EmbeddingResponse schema
  */
 export interface EmbeddingResponse {
-  data: EmbeddingResponseDataItem[];
+  data: EmbeddingResponseItem[] | null;
   model: string;
   object: string;
-  usage: EmbeddingResponseUsage;
+  usage?: Usage;
+}
+
+export interface EndpointInfo {
+  method: string;
+  path: string;
+}
+
+export interface EpayPayResponse {
+  params: unknown;
+  url: string;
 }
 
 /**
@@ -412,6 +812,33 @@ export interface EpayRequest {
   payment_method: string;
 }
 
+export interface EventDTO {
+  from: number;
+  id: number;
+  is_aggregated?: boolean;
+  name: string;
+  to: number | null;
+  type: string;
+}
+
+export type ExposedRatioDataCacheRatio = { [key: string]: number } | null;
+
+export type ExposedRatioDataCompletionRatio = { [key: string]: number } | null;
+
+export type ExposedRatioDataCreateCacheRatio = { [key: string]: number } | null;
+
+export type ExposedRatioDataModelPrice = { [key: string]: number } | null;
+
+export type ExposedRatioDataModelRatio = { [key: string]: number } | null;
+
+export interface ExposedRatioData {
+  cache_ratio: ExposedRatioDataCacheRatio;
+  completion_ratio: ExposedRatioDataCompletionRatio;
+  create_cache_ratio: ExposedRatioDataCreateCacheRatio;
+  model_price: ExposedRatioDataModelPrice;
+  model_ratio: ExposedRatioDataModelRatio;
+}
+
 /**
  * ExtendDurationRequest schema
  */
@@ -419,11 +846,23 @@ export interface ExtendDurationRequest {
   duration_hours: number;
 }
 
+export interface FAQEntry {
+  answer: string;
+  question: string;
+}
+
 /**
  * FetchCustomOAuthDiscoveryRequest schema
  */
 export interface FetchCustomOAuthDiscoveryRequest {
   issuer_url: string;
+  well_known_url: string;
+}
+
+export type FetchDiscoveryDataDiscovery = { [key: string]: unknown } | null;
+
+export interface FetchDiscoveryData {
+  discovery: FetchDiscoveryDataDiscovery;
   well_known_url: string;
 }
 
@@ -436,6 +875,26 @@ export interface FetchModelsRequest {
   type: number;
 }
 
+export type FetchUpstreamRatiosResultDifferences = {
+  [key: string]: { [key: string]: DifferenceItem };
+} | null;
+
+export interface TestResult {
+  error?: string;
+  name: string;
+  status: string;
+}
+
+export interface FetchUpstreamRatiosResult {
+  differences: FetchUpstreamRatiosResultDifferences;
+  test_results: TestResult[] | null;
+}
+
+export interface FixAbilityData {
+  fails: number;
+  success: number;
+}
+
 /**
  * GeminiModelList schema
  */
@@ -444,18 +903,145 @@ export interface GeminiModelList {
   nextPageToken: unknown;
 }
 
-export type ImageGenerationResponseDataItem = {
+export type GetAllChannelsDataTypeCounts = { [key: string]: number } | null;
+
+export interface GetAllChannelsData {
+  items: Channel[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+  type_counts: GetAllChannelsDataTypeCounts;
+}
+
+export interface HardwareType {
+  available: boolean;
+  available_count?: number;
+  brand_name?: string;
+  cpu?: string;
+  description?: string;
+  gpu_memory: number;
+  gpu_type: string;
+  hourly_rate: number;
+  id: number;
+  max_gpus: number;
+  memory?: number;
+  name: string;
+  storage?: number;
+}
+
+export interface HardwareTypesResponse {
+  hardware_types: HardwareType[] | null;
+  total: number;
+  total_available: number;
+}
+
+export interface ImageData {
   b64_json: string;
   revised_prompt: string;
   url: string;
-};
+}
 
 /**
  * ImageGenerationResponse schema
  */
 export interface ImageGenerationResponse {
   created: number;
-  data: ImageGenerationResponseDataItem[];
+  data: ImageData[] | null;
+}
+
+export interface InvitedUser {
+  commission_count: number;
+  display_name: string;
+  id: number;
+  status: number;
+  total_earned: number;
+  username: string;
+}
+
+export interface KeyStatus {
+  disabled_time?: number;
+  index: number;
+  key_preview: string;
+  reason?: string;
+  status: number;
+}
+
+export interface Location {
+  available?: number;
+  country?: string;
+  description?: string;
+  id: number;
+  iso2?: string;
+  latitude?: number;
+  longitude?: number;
+  name: string;
+  region?: string;
+}
+
+export interface LocationsListResponse {
+  locations: Location[] | null;
+  total: number;
+}
+
+export interface Log {
+  channel: number;
+  channel_name: string;
+  completion_tokens: number;
+  content: string;
+  created_at: number;
+  group: string;
+  id: number;
+  ip: string;
+  is_stream: boolean;
+  model_name: string;
+  other: string;
+  prompt_tokens: number;
+  quota: number;
+  request_id?: string;
+  token_id: number;
+  token_name: string;
+  type: number;
+  use_time: number;
+  user_id: number;
+  username: string;
+}
+
+export interface LogCleanupResult {
+  deleted_count: number;
+  failed_files: string[] | null;
+  freed_bytes: number;
+}
+
+export interface LogFileInfo {
+  mod_time: string;
+  name: string;
+  size: number;
+}
+
+export interface LogFilesResponse {
+  enabled: boolean;
+  file_count: number;
+  files: LogFileInfo[] | null;
+  log_dir: string;
+  newest_time?: string | null;
+  oldest_time?: string | null;
+  total_size: number;
+}
+
+export interface LogStatData {
+  quota: number;
+  rpm: number;
+  tpm: number;
+}
+
+export interface LoginData {
+  display_name: string;
+  group: string;
+  id: number;
+  redirect_url?: string;
+  role: number;
+  status: number;
+  username: string;
 }
 
 /**
@@ -476,6 +1062,35 @@ export interface ManageRequest {
   value: number;
 }
 
+export interface ManageUserData {
+  role: number;
+  status: number;
+}
+
+export interface MemoryStats {
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  alloc: number;
+  /**
+   * @minimum 0
+   * @maximum 4294967295
+   */
+  num_gc: number;
+  num_goroutine: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  sys: number;
+  /**
+   * @minimum 0
+   * @maximum 18446744073709552000
+   */
+  total_alloc: number;
+}
+
 /**
  * MessageResponse schema
  */
@@ -484,1950 +1099,7 @@ export interface MessageResponse {
   success: boolean;
 }
 
-/**
- * MidjourneyResponse schema
- */
-export interface MidjourneyResponse {
-  code: number;
-  description: string;
-  properties: unknown;
-  result: string;
-}
-
-export type ModelBoundChannelsItem = {
-  name: string;
-  type: number;
-};
-
-/**
- * Model schema
- */
-export interface Model {
-  bound_channels?: ModelBoundChannelsItem[];
-  created_time: number;
-  description?: string;
-  enable_groups?: string[];
-  endpoints?: string;
-  icon?: string;
-  id: number;
-  matched_count?: number;
-  matched_models?: string[];
-  metadata: string;
-  model_name: string;
-  name_rule: number;
-  quota_types?: number[];
-  status: number;
-  sync_official: number;
-  tags?: string;
-  updated_time: number;
-  vendor_id?: number;
-}
-
-/**
- * ModerationResponse schema
- */
-export interface ModerationResponse {
-  id: string;
-  model: string;
-  results: unknown[];
-}
-
-/**
- * MultiKeyManageRequest schema
- */
-export interface MultiKeyManageRequest {
-  action: string;
-  channel_id: number;
-  key_index?: number | null;
-  page?: number;
-  page_size?: number;
-  status?: number | null;
-}
-
-/**
- * OAuthExchangeRequest schema
- */
-export interface OAuthExchangeRequest {
-  /** One-time authorization code from OAuth redirect */
-  code: string;
-}
-
-/**
- * OllamaModelRequest schema
- */
-export interface OllamaModelRequest {
-  channel_id: number;
-  model_name: string;
-}
-
-/**
- * OpenAIModels schema
- */
-export interface OpenAIModels {
-  created: number;
-  id: string;
-  object: string;
-  owned_by: string;
-  supported_endpoint_types: string[];
-}
-
-/**
- * OpenAISubscriptionResponse schema
- */
-export interface OpenAISubscriptionResponse {
-  access_until: number;
-  hard_limit_usd: number;
-  has_payment_method: boolean;
-  object: string;
-  soft_limit_usd: number;
-  system_hard_limit_usd: number;
-}
-
-/**
- * OpenAIUsageResponse schema
- */
-export interface OpenAIUsageResponse {
-  object: string;
-  total_usage: number;
-}
-
-/**
- * OptionUpdateRequest schema
- */
-export interface OptionUpdateRequest {
-  key: string;
-  value: unknown;
-}
-
-/**
- * PasswordResetRequest schema
- */
-export interface PasswordResetRequest {
-  email: string;
-  token: string;
-}
-
-export type PatchChannelChannelInfoMultiKeyDisabledReason = {
-  [key: string]: string;
-};
-
-export type PatchChannelChannelInfoMultiKeyDisabledTime = {
-  [key: string]: number;
-};
-
-export type PatchChannelChannelInfoMultiKeyStatusList = {
-  [key: string]: number;
-};
-
-export type PatchChannelChannelInfo = {
-  is_multi_key: boolean;
-  multi_key_disabled_reason?: PatchChannelChannelInfoMultiKeyDisabledReason;
-  multi_key_disabled_time?: PatchChannelChannelInfoMultiKeyDisabledTime;
-  multi_key_mode: string;
-  multi_key_polling_index: number;
-  multi_key_size: number;
-  multi_key_status_list: PatchChannelChannelInfoMultiKeyStatusList;
-};
-
-/**
- * PatchChannel schema
- */
-export interface PatchChannel {
-  auto_ban?: number | null;
-  balance?: number;
-  balance_updated_time?: number;
-  base_url?: string | null;
-  channel_info?: PatchChannelChannelInfo;
-  created_time?: number;
-  group?: string;
-  header_override?: string | null;
-  id?: number;
-  key?: string;
-  key_mode: string | null;
-  model_mapping?: string | null;
-  models?: string;
-  multi_key_mode: string | null;
-  name?: string;
-  openai_organization?: string | null;
-  other?: string;
-  other_info?: string;
-  param_override?: string | null;
-  priority?: number | null;
-  /** @maxLength 255 */
-  remark?: string | null;
-  response_time?: number;
-  setting?: string | null;
-  settings?: string;
-  status?: number;
-  status_code_mapping?: string | null;
-  tag?: string | null;
-  test_model?: string | null;
-  test_time?: number;
-  type?: number;
-  used_quota?: number;
-  /** @minimum 0 */
-  weight?: number | null;
-}
-
-/**
- * PrefillGroup schema
- */
-export interface PrefillGroup {
-  created_time: number;
-  description?: string;
-  id: number;
-  items: string;
-  name: string;
-  type: string;
-  updated_time: number;
-}
-
-/**
- * PriceEstimationRequest schema
- */
-export interface PriceEstimationRequest {
-  currency: string;
-  duration_hours: number;
-  duration_qty: number;
-  duration_type: string;
-  gpus_per_container: number;
-  hardware_id: number;
-  hardware_qty: number;
-  location_ids: number[];
-  replica_count: number;
-}
-
-export type PricingDataDataItem = {
-  audio_completion_ratio?: number | null;
-  audio_ratio?: number | null;
-  billing_expr?: string;
-  billing_mode?: string;
-  cache_ratio?: number | null;
-  completion_ratio: number;
-  create_cache_ratio?: number | null;
-  description?: string;
-  enable_groups: string[];
-  grid_pricing?: unknown;
-  icon?: string;
-  image_ratio?: number | null;
-  metadata: string;
-  model_name: string;
-  model_price: number;
-  model_ratio: number;
-  owner_by: string;
-  pricing_version?: string;
-  quota_type: number;
-  supported_endpoint_types: string[];
-  tags?: string;
-  vendor_id?: number;
-};
-
-export type PricingDataGroupRatio = { [key: string]: number };
-
-export type PricingDataSupportedEndpoint = {
-  [key: string]: {
-    method: string;
-    path: string;
-  };
-};
-
-export type PricingDataUsableGroup = { [key: string]: string };
-
-export type PricingDataVendorsItem = {
-  description?: string;
-  icon?: string;
-  id: number;
-  name: string;
-};
-
-/**
- * PricingData schema
- */
-export interface PricingData {
-  auto_groups: string[];
-  data: PricingDataDataItem[];
-  group_ratio: PricingDataGroupRatio;
-  show_original_price: boolean;
-  success: boolean;
-  supported_endpoint: PricingDataSupportedEndpoint;
-  usable_group: PricingDataUsableGroup;
-  vendors: PricingDataVendorsItem[];
-}
-
-/**
- * Redemption schema
- */
-export interface Redemption {
-  count: number;
-  created_time: number;
-  expired_time: number;
-  id: number;
-  key: string;
-  name: string;
-  quota: number;
-  redeemed_time: number;
-  status: number;
-  used_user_id: number;
-  user_id: number;
-}
-
-/**
- * RegisterRequest schema
- */
-export interface RegisterRequest {
-  aff_code?: string;
-  /** @maxLength 50 */
-  email?: string;
-  /**
-   * @minLength 8
-   * @maxLength 20
-   */
-  password: string;
-  /** @maxLength 64 */
-  username: string;
-  verification_code?: string;
-}
-
-export type RelayNotImplementedErrorError = {
-  message: string;
-  type: string;
-};
-
-/**
- * RelayNotImplementedError schema
- */
-export interface RelayNotImplementedError {
-  error: RelayNotImplementedErrorError;
-}
-
-export type RerankResponseResultsItem = {
-  document?: unknown;
-  index: number;
-  relevance_score: number;
-};
-
-export type RerankResponseUsageCompletionTokensDetails = {
-  audio_tokens: number;
-  image_tokens: number;
-  reasoning_tokens: number;
-  text_tokens: number;
-};
-
-export type RerankResponseUsageInputTokensDetails = {
-  audio_tokens: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-} | null;
-
-export type RerankResponseUsagePromptTokensDetails = {
-  audio_tokens: number;
-  cached_creation_tokens?: number;
-  cached_tokens: number;
-  image_tokens: number;
-  text_tokens: number;
-};
-
-export type RerankResponseUsage = {
-  claude_cache_creation_1_h_tokens: number;
-  claude_cache_creation_5_m_tokens: number;
-  completion_tokens: number;
-  completion_tokens_details: RerankResponseUsageCompletionTokensDetails;
-  cost?: unknown;
-  input_tokens: number;
-  input_tokens_details: RerankResponseUsageInputTokensDetails;
-  output_tokens: number;
-  prompt_cache_hit_tokens?: number;
-  prompt_tokens: number;
-  prompt_tokens_details: RerankResponseUsagePromptTokensDetails;
-  total_tokens: number;
-  usage_semantic?: string;
-  usage_source?: string;
-};
-
-/**
- * RerankResponse schema
- */
-export interface RerankResponse {
-  results: RerankResponseResultsItem[];
-  usage: RerankResponseUsage;
-}
-
-export type ResponseArrayControllerLiveModelStatusItemDataItem = {
-  error_count: number;
-  model: string;
-  p50_latency_ms: number;
-  p95_latency_ms: number;
-  probe_latency_ms: number;
-  request_count: number;
-  sampled_at: number;
-  status: string;
-  total_channels: number;
-  up_channels: number;
-};
-
-/**
- * Response_Array-controller.LiveModelStatusItem schema
- */
-export interface ResponseArrayControllerLiveModelStatusItem {
-  data: ResponseArrayControllerLiveModelStatusItemDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayControllerSubscriptionPlanDTODataItemPlan = {
-  created_at: number;
-  creem_product_id: string;
-  currency: string;
-  custom_seconds: number;
-  duration_unit: string;
-  duration_value: number;
-  enabled: boolean;
-  id: number;
-  max_purchase_per_user: number;
-  price_amount: number;
-  quota_reset_custom_seconds: number;
-  quota_reset_period: string;
-  sort_order: number;
-  stripe_price_id: string;
-  subtitle: string;
-  title: string;
-  total_amount: number;
-  updated_at: number;
-  upgrade_group: string;
-};
-
-export type ResponseArrayControllerSubscriptionPlanDTODataItem = {
-  plan: ResponseArrayControllerSubscriptionPlanDTODataItemPlan;
-};
-
-/**
- * Response_Array-controller.SubscriptionPlanDTO schema
- */
-export interface ResponseArrayControllerSubscriptionPlanDTO {
-  data: ResponseArrayControllerSubscriptionPlanDTODataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayDtoCustomOAuthProviderResponseDataItem = {
-  access_denied_message: string;
-  access_policy: string;
-  auth_style: number;
-  authorization_endpoint: string;
-  client_id: string;
-  display_name_field: string;
-  email_field: string;
-  enabled: boolean;
-  icon: string;
-  id: number;
-  name: string;
-  scopes: string;
-  slug: string;
-  token_endpoint: string;
-  user_id_field: string;
-  user_info_endpoint: string;
-  username_field: string;
-  well_known: string;
-} | null;
-
-/**
- * Response_Array-dto.CustomOAuthProviderResponse schema
- */
-export interface ResponseArrayDtoCustomOAuthProviderResponse {
-  data: ResponseArrayDtoCustomOAuthProviderResponseDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayDtoOpenAIModelsDataItem = {
-  created: number;
-  id: string;
-  object: string;
-  owned_by: string;
-  supported_endpoint_types: string[];
-};
-
-/**
- * Response_Array-dto.OpenAIModels schema
- */
-export interface ResponseArrayDtoOpenAIModels {
-  data: ResponseArrayDtoOpenAIModelsDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayDtoSyncableChannelDataItem = {
-  base_url: string;
-  id: number;
-  name: string;
-  status: number;
-  type: number;
-};
-
-/**
- * Response_Array-dto.SyncableChannel schema
- */
-export interface ResponseArrayDtoSyncableChannel {
-  data: ResponseArrayDtoSyncableChannelDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayDtoUptimeGroupResultDataItemMonitorsItem = {
-  group?: string;
-  name: string;
-  status: number;
-  uptime: number;
-};
-
-export type ResponseArrayDtoUptimeGroupResultDataItem = {
-  categoryName: string;
-  monitors: ResponseArrayDtoUptimeGroupResultDataItemMonitorsItem[];
-};
-
-/**
- * Response_Array-dto.UptimeGroupResult schema
- */
-export interface ResponseArrayDtoUptimeGroupResult {
-  data: ResponseArrayDtoUptimeGroupResultDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayDtoUserOAuthBindingResponseDataItem = {
-  provider_icon: string;
-  provider_id: number;
-  provider_name: string;
-  provider_slug: string;
-  provider_user_id: string;
-};
-
-/**
- * Response_Array-dto.UserOAuthBindingResponse schema
- */
-export interface ResponseArrayDtoUserOAuthBindingResponse {
-  data: ResponseArrayDtoUserOAuthBindingResponseDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayModelLogDataItem = {
-  channel: number;
-  channel_name: string;
-  completion_tokens: number;
-  content: string;
-  created_at: number;
-  group: string;
-  id: number;
-  ip: string;
-  is_stream: boolean;
-  model_name: string;
-  other: string;
-  prompt_tokens: number;
-  quota: number;
-  request_id?: string;
-  token_id: number;
-  token_name: string;
-  type: number;
-  use_time: number;
-  user_id: number;
-  username: string;
-} | null;
-
-/**
- * Response_Array-model.Log schema
- */
-export interface ResponseArrayModelLog {
-  data: ResponseArrayModelLogDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayModelModelStatusDataItem = {
-  error_count: number;
-  minute_bucket: number;
-  model: string;
-  p50_latency_ms: number;
-  p95_latency_ms: number;
-  probe_latency_ms: number;
-  request_count: number;
-  total_channels: number;
-  up_channels: number;
-} | null;
-
-/**
- * Response_Array-model.ModelStatus schema
- */
-export interface ResponseArrayModelModelStatus {
-  data: ResponseArrayModelModelStatusDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayModelOptionDataItem = {
-  key: string;
-  value: string;
-} | null;
-
-/**
- * Response_Array-model.Option schema
- */
-export interface ResponseArrayModelOption {
-  data: ResponseArrayModelOptionDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayModelPrefillGroupDataItem = {
-  created_time: number;
-  description?: string;
-  id: number;
-  items: string;
-  name: string;
-  type: string;
-  updated_time: number;
-} | null;
-
-/**
- * Response_Array-model.PrefillGroup schema
- */
-export interface ResponseArrayModelPrefillGroup {
-  data: ResponseArrayModelPrefillGroupDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayModelQuotaDataDataItem = {
-  count: number;
-  created_at: number;
-  id: number;
-  model_name: string;
-  quota: number;
-  token_used: number;
-  user_id: number;
-  username: string;
-} | null;
-
-/**
- * Response_Array-model.QuotaData schema
- */
-export interface ResponseArrayModelQuotaData {
-  data: ResponseArrayModelQuotaDataDataItem[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseArrayModelSubscriptionSummaryDataItemSubscription = {
-  amount_total: number;
-  amount_used: number;
-  created_at: number;
-  end_time: number;
-  id: number;
-  last_reset_time: number;
-  next_reset_time: number;
-  plan_id: number;
-  prev_user_group: string;
-  source: string;
-  start_time: number;
-  status: string;
-  updated_at: number;
-  upgrade_group: string;
-  user_id: number;
-} | null;
-
-export type ResponseArrayModelSubscriptionSummaryDataItem = {
-  subscription: ResponseArrayModelSubscriptionSummaryDataItemSubscription;
-};
-
-/**
- * Response_Array-model.SubscriptionSummary schema
- */
-export interface ResponseArrayModelSubscriptionSummary {
-  data: ResponseArrayModelSubscriptionSummaryDataItem[];
-  message: string;
-  success: boolean;
-}
-
-/**
- * Response_Array-string schema
- */
-export interface ResponseArrayString {
-  data: string[];
-  message: string;
-  success: boolean;
-}
-
-export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason =
-  { [key: string]: string };
-
-export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime =
-  { [key: string]: number };
-
-export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyStatusList =
-  { [key: string]: number };
-
-export type ResponseControllerGetAllChannelsDataDataItemsItemChannelInfo = {
-  is_multi_key: boolean;
-  multi_key_disabled_reason?: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason;
-  multi_key_disabled_time?: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime;
-  multi_key_mode: string;
-  multi_key_polling_index: number;
-  multi_key_size: number;
-  multi_key_status_list: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfoMultiKeyStatusList;
-};
-
-export type ResponseControllerGetAllChannelsDataDataItemsItem = {
-  auto_ban: number | null;
-  balance: number;
-  balance_updated_time: number;
-  base_url: string | null;
-  channel_info: ResponseControllerGetAllChannelsDataDataItemsItemChannelInfo;
-  created_time: number;
-  group: string;
-  header_override: string | null;
-  id: number;
-  key: string;
-  model_mapping: string | null;
-  models: string;
-  name: string;
-  openai_organization: string | null;
-  other: string;
-  other_info: string;
-  param_override: string | null;
-  priority: number | null;
-  /** @maxLength 255 */
-  remark: string | null;
-  response_time: number;
-  setting: string | null;
-  settings: string;
-  status: number;
-  status_code_mapping: string | null;
-  tag: string | null;
-  test_model: string | null;
-  test_time: number;
-  type: number;
-  used_quota: number;
-  /** @minimum 0 */
-  weight: number | null;
-} | null;
-
-export type ResponseControllerGetAllChannelsDataDataTypeCounts = {
-  [key: string]: number;
-};
-
-export type ResponseControllerGetAllChannelsDataData = {
-  items: ResponseControllerGetAllChannelsDataDataItemsItem[];
-  page: number;
-  page_size: number;
-  total: number;
-  type_counts: ResponseControllerGetAllChannelsDataDataTypeCounts;
-};
-
-/**
- * Response_controller.GetAllChannelsData schema
- */
-export interface ResponseControllerGetAllChannelsData {
-  data: ResponseControllerGetAllChannelsDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseControllerModelsMetaListDataDataItemsItemBoundChannelsItem =
-  {
-    name: string;
-    type: number;
-  };
-
-export type ResponseControllerModelsMetaListDataDataItemsItem = {
-  bound_channels?: ResponseControllerModelsMetaListDataDataItemsItemBoundChannelsItem[];
-  created_time: number;
-  description?: string;
-  enable_groups?: string[];
-  endpoints?: string;
-  icon?: string;
-  id: number;
-  matched_count?: number;
-  matched_models?: string[];
-  metadata: string;
-  model_name: string;
-  name_rule: number;
-  quota_types?: number[];
-  status: number;
-  sync_official: number;
-  tags?: string;
-  updated_time: number;
-  vendor_id?: number;
-} | null;
-
-export type ResponseControllerModelsMetaListDataDataVendorCounts = {
-  [key: string]: number;
-};
-
-export type ResponseControllerModelsMetaListDataData = {
-  items: ResponseControllerModelsMetaListDataDataItemsItem[];
-  page: number;
-  page_size: number;
-  total: number;
-  vendor_counts: ResponseControllerModelsMetaListDataDataVendorCounts;
-};
-
-/**
- * Response_controller.ModelsMetaListData schema
- */
-export interface ResponseControllerModelsMetaListData {
-  data: ResponseControllerModelsMetaListDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledReason =
-  { [key: string]: string };
-
-export type ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledTime =
-  { [key: string]: number };
-
-export type ResponseControllerPatchChannelDataChannelInfoMultiKeyStatusList = {
-  [key: string]: number;
-};
-
-export type ResponseControllerPatchChannelDataChannelInfo = {
-  is_multi_key: boolean;
-  multi_key_disabled_reason?: ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledReason;
-  multi_key_disabled_time?: ResponseControllerPatchChannelDataChannelInfoMultiKeyDisabledTime;
-  multi_key_mode: string;
-  multi_key_polling_index: number;
-  multi_key_size: number;
-  multi_key_status_list: ResponseControllerPatchChannelDataChannelInfoMultiKeyStatusList;
-};
-
-export type ResponseControllerPatchChannelData = {
-  auto_ban?: number | null;
-  balance?: number;
-  balance_updated_time?: number;
-  base_url?: string | null;
-  channel_info?: ResponseControllerPatchChannelDataChannelInfo;
-  created_time?: number;
-  group?: string;
-  header_override?: string | null;
-  id?: number;
-  key?: string;
-  key_mode: string | null;
-  model_mapping?: string | null;
-  models?: string;
-  multi_key_mode: string | null;
-  name?: string;
-  openai_organization?: string | null;
-  other?: string;
-  other_info?: string;
-  param_override?: string | null;
-  priority?: number | null;
-  /** @maxLength 255 */
-  remark?: string | null;
-  response_time?: number;
-  setting?: string | null;
-  settings?: string;
-  status?: number;
-  status_code_mapping?: string | null;
-  tag?: string | null;
-  test_model?: string | null;
-  test_time?: number;
-  type?: number;
-  used_quota?: number;
-  /** @minimum 0 */
-  weight?: number | null;
-};
-
-/**
- * Response_controller.PatchChannel schema
- */
-export interface ResponseControllerPatchChannel {
-  data: ResponseControllerPatchChannelData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason =
-  { [key: string]: string };
-
-export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime =
-  { [key: string]: number };
-
-export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyStatusList =
-  { [key: string]: number };
-
-export type ResponseControllerSearchChannelsDataDataItemsItemChannelInfo = {
-  is_multi_key: boolean;
-  multi_key_disabled_reason?: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledReason;
-  multi_key_disabled_time?: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyDisabledTime;
-  multi_key_mode: string;
-  multi_key_polling_index: number;
-  multi_key_size: number;
-  multi_key_status_list: ResponseControllerSearchChannelsDataDataItemsItemChannelInfoMultiKeyStatusList;
-};
-
-export type ResponseControllerSearchChannelsDataDataItemsItem = {
-  auto_ban: number | null;
-  balance: number;
-  balance_updated_time: number;
-  base_url: string | null;
-  channel_info: ResponseControllerSearchChannelsDataDataItemsItemChannelInfo;
-  created_time: number;
-  group: string;
-  header_override: string | null;
-  id: number;
-  key: string;
-  model_mapping: string | null;
-  models: string;
-  name: string;
-  openai_organization: string | null;
-  other: string;
-  other_info: string;
-  param_override: string | null;
-  priority: number | null;
-  /** @maxLength 255 */
-  remark: string | null;
-  response_time: number;
-  setting: string | null;
-  settings: string;
-  status: number;
-  status_code_mapping: string | null;
-  tag: string | null;
-  test_model: string | null;
-  test_time: number;
-  type: number;
-  used_quota: number;
-  /** @minimum 0 */
-  weight: number | null;
-} | null;
-
-export type ResponseControllerSearchChannelsDataDataTypeCounts = {
-  [key: string]: number;
-};
-
-export type ResponseControllerSearchChannelsDataData = {
-  items: ResponseControllerSearchChannelsDataDataItemsItem[];
-  total: number;
-  type_counts: ResponseControllerSearchChannelsDataDataTypeCounts;
-};
-
-/**
- * Response_controller.SearchChannelsData schema
- */
-export interface ResponseControllerSearchChannelsData {
-  data: ResponseControllerSearchChannelsDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItemSubscription =
-  {
-    amount_total: number;
-    amount_used: number;
-    created_at: number;
-    end_time: number;
-    id: number;
-    last_reset_time: number;
-    next_reset_time: number;
-    plan_id: number;
-    prev_user_group: string;
-    source: string;
-    start_time: number;
-    status: string;
-    updated_at: number;
-    upgrade_group: string;
-    user_id: number;
-  } | null;
-
-export type ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItem = {
-  subscription: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItemSubscription;
-};
-
-export type ResponseControllerSubscriptionSelfDataDataSubscriptionsItemSubscription =
-  {
-    amount_total: number;
-    amount_used: number;
-    created_at: number;
-    end_time: number;
-    id: number;
-    last_reset_time: number;
-    next_reset_time: number;
-    plan_id: number;
-    prev_user_group: string;
-    source: string;
-    start_time: number;
-    status: string;
-    updated_at: number;
-    upgrade_group: string;
-    user_id: number;
-  } | null;
-
-export type ResponseControllerSubscriptionSelfDataDataSubscriptionsItem = {
-  subscription: ResponseControllerSubscriptionSelfDataDataSubscriptionsItemSubscription;
-};
-
-export type ResponseControllerSubscriptionSelfDataData = {
-  all_subscriptions: ResponseControllerSubscriptionSelfDataDataAllSubscriptionsItem[];
-  billing_preference: string;
-  subscriptions: ResponseControllerSubscriptionSelfDataDataSubscriptionsItem[];
-};
-
-/**
- * Response_controller.SubscriptionSelfData schema
- */
-export interface ResponseControllerSubscriptionSelfData {
-  data: ResponseControllerSubscriptionSelfDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoAffinityCacheClearDataData = {
-  deleted: number;
-};
-
-/**
- * Response_dto.AffinityCacheClearData schema
- */
-export interface ResponseDtoAffinityCacheClearData {
-  data: ResponseDtoAffinityCacheClearDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoApiResponseData = {
-  data?: unknown;
-  message: string;
-  success: boolean;
-};
-
-/**
- * Response_dto.ApiResponse schema
- */
-export interface ResponseDtoApiResponse {
-  data: ResponseDtoApiResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoBackupCodesDataData = {
-  backup_codes: string[];
-};
-
-/**
- * Response_dto.BackupCodesData schema
- */
-export interface ResponseDtoBackupCodesData {
-  data: ResponseDtoBackupCodesDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoBillingPortalDataData = {
-  portal_url: string;
-  provider: string;
-};
-
-/**
- * Response_dto.BillingPortalData schema
- */
-export interface ResponseDtoBillingPortalData {
-  data: ResponseDtoBillingPortalDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoBillingPreferenceDataData = {
-  billing_preference: string;
-};
-
-/**
- * Response_dto.BillingPreferenceData schema
- */
-export interface ResponseDtoBillingPreferenceData {
-  data: ResponseDtoBillingPreferenceDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoChannelKeyDataData = {
-  key: string;
-};
-
-/**
- * Response_dto.ChannelKeyData schema
- */
-export interface ResponseDtoChannelKeyData {
-  data: ResponseDtoChannelKeyDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCheckinResultDataData = {
-  checkin_date: string;
-  quota_awarded: number;
-};
-
-/**
- * Response_dto.CheckinResultData schema
- */
-export interface ResponseDtoCheckinResultData {
-  data: ResponseDtoCheckinResultDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCheckinStatusDataDataStatsRecordsItem = {
-  checkin_date: string;
-  quota_awarded: number;
-};
-
-export type ResponseDtoCheckinStatusDataDataStats = {
-  checked_in_today: boolean;
-  checkin_count: number;
-  records: ResponseDtoCheckinStatusDataDataStatsRecordsItem[];
-  total_checkins: number;
-  total_quota: number;
-};
-
-export type ResponseDtoCheckinStatusDataData = {
-  enabled: boolean;
-  max_quota: number;
-  min_quota: number;
-  stats: ResponseDtoCheckinStatusDataDataStats;
-};
-
-/**
- * Response_dto.CheckinStatusData schema
- */
-export interface ResponseDtoCheckinStatusData {
-  data: ResponseDtoCheckinStatusDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoClusterNameAvailabilityResponseData = {
-  available: boolean;
-  name: string;
-};
-
-/**
- * Response_dto.ClusterNameAvailabilityResponse schema
- */
-export interface ResponseDtoClusterNameAvailabilityResponse {
-  data: ResponseDtoClusterNameAvailabilityResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCodexOAuthCompleteDataData = {
-  account_id: string;
-  channel_id?: number;
-  email: string;
-  expires_at: string;
-  key?: string;
-  last_refresh: string;
-};
-
-/**
- * Response_dto.CodexOAuthCompleteData schema
- */
-export interface ResponseDtoCodexOAuthCompleteData {
-  data: ResponseDtoCodexOAuthCompleteDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCodexOAuthStartDataData = {
-  authorize_url: string;
-};
-
-/**
- * Response_dto.CodexOAuthStartData schema
- */
-export interface ResponseDtoCodexOAuthStartData {
-  data: ResponseDtoCodexOAuthStartDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoContainerDetailResponseDataEventsItem = {
-  message: string;
-  time: number;
-};
-
-export type ResponseDtoContainerDetailResponseData = {
-  brand_name: string;
-  container_id: string;
-  created_at: number;
-  deployment_id: string;
-  device_id: string;
-  events: ResponseDtoContainerDetailResponseDataEventsItem[];
-  gpus_per_container: number;
-  hardware: string;
-  public_url: string;
-  status: string;
-  uptime_percent: number;
-};
-
-/**
- * Response_dto.ContainerDetailResponse schema
- */
-export interface ResponseDtoContainerDetailResponse {
-  data: ResponseDtoContainerDetailResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoContainerListResponseDataContainersItemEventsItem = {
-  message: string;
-  time: number;
-};
-
-export type ResponseDtoContainerListResponseDataContainersItem = {
-  brand_name: string;
-  container_id: string;
-  created_at: number;
-  device_id: string;
-  events: ResponseDtoContainerListResponseDataContainersItemEventsItem[];
-  gpus_per_container: number;
-  hardware: string;
-  public_url: string;
-  status: string;
-  uptime_percent: number;
-};
-
-export type ResponseDtoContainerListResponseData = {
-  containers: ResponseDtoContainerListResponseDataContainersItem[];
-  total: number;
-};
-
-/**
- * Response_dto.ContainerListResponse schema
- */
-export interface ResponseDtoContainerListResponse {
-  data: ResponseDtoContainerListResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCopyChannelDataData = {
-  id: number;
-};
-
-/**
- * Response_dto.CopyChannelData schema
- */
-export interface ResponseDtoCopyChannelData {
-  data: ResponseDtoCopyChannelDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCreateDeploymentResponseData = {
-  deployment_id: string;
-  message: string;
-  status: string;
-};
-
-/**
- * Response_dto.CreateDeploymentResponse schema
- */
-export interface ResponseDtoCreateDeploymentResponse {
-  data: ResponseDtoCreateDeploymentResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCreemPayDataData = {
-  checkout_url: string;
-  order_id: string;
-};
-
-/**
- * Response_dto.CreemPayData schema
- */
-export interface ResponseDtoCreemPayData {
-  data: ResponseDtoCreemPayDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoCustomOAuthProviderResponseData = {
-  access_denied_message: string;
-  access_policy: string;
-  auth_style: number;
-  authorization_endpoint: string;
-  client_id: string;
-  display_name_field: string;
-  email_field: string;
-  enabled: boolean;
-  icon: string;
-  id: number;
-  name: string;
-  scopes: string;
-  slug: string;
-  token_endpoint: string;
-  user_id_field: string;
-  user_info_endpoint: string;
-  username_field: string;
-  well_known: string;
-};
-
-/**
- * Response_dto.CustomOAuthProviderResponse schema
- */
-export interface ResponseDtoCustomOAuthProviderResponse {
-  data: ResponseDtoCustomOAuthProviderResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeleteDeploymentResponseData = {
-  deployment_id: string;
-  message: string;
-  status: string;
-};
-
-/**
- * Response_dto.DeleteDeploymentResponse schema
- */
-export interface ResponseDtoDeleteDeploymentResponse {
-  data: ResponseDtoDeleteDeploymentResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeletedCountDataData = {
-  deleted: number;
-};
-
-/**
- * Response_dto.DeletedCountData schema
- */
-export interface ResponseDtoDeletedCountData {
-  data: ResponseDtoDeletedCountDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables =
-  { [key: string]: unknown };
-
-export type ResponseDtoDeploymentDetailResponseDataContainerConfig = {
-  entrypoint: string[];
-  env_variables: ResponseDtoDeploymentDetailResponseDataContainerConfigEnvVariables;
-  image_url: string;
-  traffic_port: number;
-};
-
-export type ResponseDtoDeploymentDetailResponseDataLocationsItem = {
-  id: number;
-  iso2: string;
-  name: string;
-};
-
-export type ResponseDtoDeploymentDetailResponseDataResourceConfig = {
-  cpu: string;
-  gpu: string;
-  memory: string;
-};
-
-export type ResponseDtoDeploymentDetailResponseData = {
-  amount_paid: number;
-  brand_name: string;
-  completed_percent: number;
-  compute_minutes_remaining: number;
-  compute_minutes_served: number;
-  container_config: ResponseDtoDeploymentDetailResponseDataContainerConfig;
-  created_at: number;
-  deployment_name: string;
-  description: string;
-  gpus_per_container: number;
-  hardware_id: number;
-  hardware_name: string;
-  id: string;
-  instance_count: number;
-  locations: ResponseDtoDeploymentDetailResponseDataLocationsItem[];
-  model_name: string;
-  model_version: string;
-  resource_config: ResponseDtoDeploymentDetailResponseDataResourceConfig;
-  status: string;
-  total_containers: number;
-  total_gpus: number;
-  updated_at: number;
-};
-
-/**
- * Response_dto.DeploymentDetailResponse schema
- */
-export interface ResponseDtoDeploymentDetailResponse {
-  data: ResponseDtoDeploymentDetailResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeploymentItemDataResourceConfig = {
-  cpu: string;
-  gpu: string;
-  memory: string;
-};
-
-export type ResponseDtoDeploymentItemData = {
-  brand_name: string;
-  completed_percent: number;
-  compute_minutes_remaining: number;
-  compute_minutes_served: number;
-  container_name: string;
-  created_at: number;
-  deployment_name: string;
-  description: string;
-  hardware_info: string;
-  hardware_name: string;
-  hardware_quantity: number;
-  id: string;
-  instance_count: number;
-  model_name: string;
-  model_version: string;
-  provider: string;
-  resource_config: ResponseDtoDeploymentItemDataResourceConfig;
-  status: string;
-  time_remaining: string;
-  time_remaining_minutes: number;
-  type: string;
-  updated_at: number;
-};
-
-/**
- * Response_dto.DeploymentItem schema
- */
-export interface ResponseDtoDeploymentItem {
-  data: ResponseDtoDeploymentItemData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeploymentListResponseDataItemsItemResourceConfig = {
-  cpu: string;
-  gpu: string;
-  memory: string;
-};
-
-export type ResponseDtoDeploymentListResponseDataItemsItem = {
-  brand_name: string;
-  completed_percent: number;
-  compute_minutes_remaining: number;
-  compute_minutes_served: number;
-  container_name: string;
-  created_at: number;
-  deployment_name: string;
-  description: string;
-  hardware_info: string;
-  hardware_name: string;
-  hardware_quantity: number;
-  id: string;
-  instance_count: number;
-  model_name: string;
-  model_version: string;
-  provider: string;
-  resource_config: ResponseDtoDeploymentListResponseDataItemsItemResourceConfig;
-  status: string;
-  time_remaining: string;
-  time_remaining_minutes: number;
-  type: string;
-  updated_at: number;
-};
-
-export type ResponseDtoDeploymentListResponseDataStatusCounts = {
-  [key: string]: number;
-};
-
-export type ResponseDtoDeploymentListResponseData = {
-  items: ResponseDtoDeploymentListResponseDataItemsItem[];
-  page: number;
-  page_size: number;
-  status_counts: ResponseDtoDeploymentListResponseDataStatusCounts;
-  total: number;
-};
-
-/**
- * Response_dto.DeploymentListResponse schema
- */
-export interface ResponseDtoDeploymentListResponse {
-  data: ResponseDtoDeploymentListResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig = {
-  cpu: string;
-  gpu: string;
-  memory: string;
-};
-
-export type ResponseDtoDeploymentSearchResponseDataItemsItem = {
-  brand_name: string;
-  completed_percent: number;
-  compute_minutes_remaining: number;
-  compute_minutes_served: number;
-  container_name: string;
-  created_at: number;
-  deployment_name: string;
-  description: string;
-  hardware_info: string;
-  hardware_name: string;
-  hardware_quantity: number;
-  id: string;
-  instance_count: number;
-  model_name: string;
-  model_version: string;
-  provider: string;
-  resource_config: ResponseDtoDeploymentSearchResponseDataItemsItemResourceConfig;
-  status: string;
-  time_remaining: string;
-  time_remaining_minutes: number;
-  type: string;
-  updated_at: number;
-};
-
-export type ResponseDtoDeploymentSearchResponseData = {
-  items: ResponseDtoDeploymentSearchResponseDataItemsItem[];
-  page: number;
-  page_size: number;
-  total: number;
-};
-
-/**
- * Response_dto.DeploymentSearchResponse schema
- */
-export interface ResponseDtoDeploymentSearchResponse {
-  data: ResponseDtoDeploymentSearchResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeploymentSettingsResponseData = {
-  can_connect: boolean;
-  configured: boolean;
-  enabled: boolean;
-  provider: string;
-};
-
-/**
- * Response_dto.DeploymentSettingsResponse schema
- */
-export interface ResponseDtoDeploymentSettingsResponse {
-  data: ResponseDtoDeploymentSettingsResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoDeploymentStatusResponseData = {
-  deployment_id: string;
-  status: string;
-};
-
-/**
- * Response_dto.DeploymentStatusResponse schema
- */
-export interface ResponseDtoDeploymentStatusResponse {
-  data: ResponseDtoDeploymentStatusResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoEpayPayResponseData = {
-  params: unknown;
-  url: string;
-};
-
-/**
- * Response_dto.EpayPayResponse schema
- */
-export interface ResponseDtoEpayPayResponse {
-  data: ResponseDtoEpayPayResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoFetchDiscoveryDataDataDiscovery = {
-  [key: string]: unknown;
-};
-
-export type ResponseDtoFetchDiscoveryDataData = {
-  discovery: ResponseDtoFetchDiscoveryDataDataDiscovery;
-  well_known_url: string;
-};
-
-/**
- * Response_dto.FetchDiscoveryData schema
- */
-export interface ResponseDtoFetchDiscoveryData {
-  data: ResponseDtoFetchDiscoveryDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence = {
-  [key: string]: boolean;
-};
-
-export type ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams = {
-  [key: string]: unknown;
-};
-
-export type ResponseDtoFetchUpstreamRatiosResultDataDifferences = {
-  [key: string]: {
-    [key: string]: {
-      confidence: ResponseDtoFetchUpstreamRatiosResultDataDifferencesConfidence;
-      current: unknown;
-      upstreams: ResponseDtoFetchUpstreamRatiosResultDataDifferencesUpstreams;
-    };
-  };
-};
-
-export type ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem = {
-  error?: string;
-  name: string;
-  status: string;
-};
-
-export type ResponseDtoFetchUpstreamRatiosResultData = {
-  differences: ResponseDtoFetchUpstreamRatiosResultDataDifferences;
-  test_results: ResponseDtoFetchUpstreamRatiosResultDataTestResultsItem[];
-};
-
-/**
- * Response_dto.FetchUpstreamRatiosResult schema
- */
-export interface ResponseDtoFetchUpstreamRatiosResult {
-  data: ResponseDtoFetchUpstreamRatiosResultData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoFixAbilityDataData = {
-  fails: number;
-  success: number;
-};
-
-/**
- * Response_dto.FixAbilityData schema
- */
-export interface ResponseDtoFixAbilityData {
-  data: ResponseDtoFixAbilityDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoHardwareTypesResponseDataHardwareTypesItem = {
-  available: boolean;
-  available_count?: number;
-  brand_name?: string;
-  cpu?: string;
-  description?: string;
-  gpu_memory: number;
-  gpu_type: string;
-  hourly_rate: number;
-  id: number;
-  max_gpus: number;
-  memory?: number;
-  name: string;
-  storage?: number;
-};
-
-export type ResponseDtoHardwareTypesResponseData = {
-  hardware_types: ResponseDtoHardwareTypesResponseDataHardwareTypesItem[];
-  total: number;
-  total_available: number;
-};
-
-/**
- * Response_dto.HardwareTypesResponse schema
- */
-export interface ResponseDtoHardwareTypesResponse {
-  data: ResponseDtoHardwareTypesResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoLocationsListResponseDataLocationsItem = {
-  available?: number;
-  country?: string;
-  description?: string;
-  id: number;
-  iso2?: string;
-  latitude?: number;
-  longitude?: number;
-  name: string;
-  region?: string;
-};
-
-export type ResponseDtoLocationsListResponseData = {
-  locations: ResponseDtoLocationsListResponseDataLocationsItem[];
-  total: number;
-};
-
-/**
- * Response_dto.LocationsListResponse schema
- */
-export interface ResponseDtoLocationsListResponse {
-  data: ResponseDtoLocationsListResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoLogCleanupResultData = {
-  deleted_count: number;
-  failed_files: string[];
-  freed_bytes: number;
-};
-
-/**
- * Response_dto.LogCleanupResult schema
- */
-export interface ResponseDtoLogCleanupResult {
-  data: ResponseDtoLogCleanupResultData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoLogFilesResponseDataFilesItem = {
-  mod_time: string;
-  name: string;
-  size: number;
-};
-
-export type ResponseDtoLogFilesResponseData = {
-  enabled: boolean;
-  file_count: number;
-  files: ResponseDtoLogFilesResponseDataFilesItem[];
-  log_dir: string;
-  newest_time?: string | null;
-  oldest_time?: string | null;
-  total_size: number;
-};
-
-/**
- * Response_dto.LogFilesResponse schema
- */
-export interface ResponseDtoLogFilesResponse {
-  data: ResponseDtoLogFilesResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoLogStatDataData = {
-  quota: number;
-  rpm: number;
-  tpm: number;
-};
-
-/**
- * Response_dto.LogStatData schema
- */
-export interface ResponseDtoLogStatData {
-  data: ResponseDtoLogStatDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoLoginDataData = {
-  display_name: string;
-  group: string;
-  id: number;
-  redirect_url?: string;
-  role: number;
-  status: number;
-  username: string;
-};
-
-/**
- * Response_dto.LoginData schema
- */
-export interface ResponseDtoLoginData {
-  data: ResponseDtoLoginDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoManageUserDataData = {
-  role: number;
-  status: number;
-};
-
-/**
- * Response_dto.ManageUserData schema
- */
-export interface ResponseDtoManageUserData {
-  data: ResponseDtoManageUserDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoMultiKeyStatusResponseDataKeysItem = {
-  disabled_time?: number;
-  index: number;
-  key_preview: string;
-  reason?: string;
-  status: number;
-};
-
-export type ResponseDtoMultiKeyStatusResponseData = {
-  auto_disabled_count: number;
-  enabled_count: number;
-  keys: ResponseDtoMultiKeyStatusResponseDataKeysItem[];
-  manual_disabled_count: number;
-  page: number;
-  page_size: number;
-  total: number;
-  total_pages: number;
-};
-
-/**
- * Response_dto.MultiKeyStatusResponse schema
- */
-export interface ResponseDtoMultiKeyStatusResponse {
-  data: ResponseDtoMultiKeyStatusResponseData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoOAuthExchangeDataData = {
-  access_token: string;
-  action?: string;
-  display_name: string;
-  role: number;
-  user_id: number;
-  username: string;
-};
-
-/**
- * Response_dto.OAuthExchangeData schema
- */
-export interface ResponseDtoOAuthExchangeData {
-  data: ResponseDtoOAuthExchangeDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoOllamaVersionDataData = {
-  version: string;
-};
-
-/**
- * Response_dto.OllamaVersionData schema
- */
-export interface ResponseDtoOllamaVersionData {
-  data: ResponseDtoOllamaVersionDataData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoPageDataDtoTaskDtoDataItemsItem = {
-  action: string;
-  channel_id: number;
-  created_at: number;
-  data: unknown;
-  fail_reason: string;
-  finish_time: number;
-  group: string;
-  id: number;
-  platform: string;
-  progress: string;
-  properties: unknown;
-  quota: number;
-  result_url?: string;
-  start_time: number;
-  status: string;
-  submit_time: number;
-  task_id: string;
-  updated_at: number;
-  user_id: number;
-  username?: string;
-} | null;
-
-export type ResponseDtoPageDataDtoTaskDtoData = {
-  items: ResponseDtoPageDataDtoTaskDtoDataItemsItem[];
-  page: number;
-  page_size: number;
-  total: number;
-};
-
-/**
- * Response_dto.PageData-dto.TaskDto schema
- */
-export interface ResponseDtoPageDataDtoTaskDto {
-  data: ResponseDtoPageDataDtoTaskDtoData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoPageDataModelInvitedUserDataItemsItem = {
-  commission_count: number;
-  display_name: string;
-  id: number;
-  status: number;
-  total_earned: number;
-  username: string;
-} | null;
-
-export type ResponseDtoPageDataModelInvitedUserData = {
-  items: ResponseDtoPageDataModelInvitedUserDataItemsItem[];
-  page: number;
-  page_size: number;
-  total: number;
-};
-
-/**
- * Response_dto.PageData-model.InvitedUser schema
- */
-export interface ResponseDtoPageDataModelInvitedUser {
-  data: ResponseDtoPageDataModelInvitedUserData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoPageDataModelLogDataItemsItem = {
-  channel: number;
-  channel_name: string;
-  completion_tokens: number;
-  content: string;
-  created_at: number;
-  group: string;
-  id: number;
-  ip: string;
-  is_stream: boolean;
-  model_name: string;
-  other: string;
-  prompt_tokens: number;
-  quota: number;
-  request_id?: string;
-  token_id: number;
-  token_name: string;
-  type: number;
-  use_time: number;
-  user_id: number;
-  username: string;
-} | null;
-
-export type ResponseDtoPageDataModelLogData = {
-  items: ResponseDtoPageDataModelLogDataItemsItem[];
-  page: number;
-  page_size: number;
-  total: number;
-};
-
-/**
- * Response_dto.PageData-model.Log schema
- */
-export interface ResponseDtoPageDataModelLog {
-  data: ResponseDtoPageDataModelLogData;
-  message: string;
-  success: boolean;
-}
-
-export type ResponseDtoPageDataModelMidjourneyDataItemsItem = {
+export interface Midjourney {
   action: string;
   buttons: string;
   channel_id: number;
@@ -2450,10 +1122,1108 @@ export type ResponseDtoPageDataModelMidjourneyDataItemsItem = {
   user_id: number;
   video_url: string;
   video_urls: string;
+}
+
+/**
+ * MidjourneyResponse schema
+ */
+export interface MidjourneyResponse {
+  code: number;
+  description: string;
+  properties: unknown;
+  result: string;
+}
+
+export interface Model {
+  bound_channels?: BoundChannel[] | null;
+  created_time: number;
+  description?: string;
+  enable_groups?: string[] | null;
+  endpoints?: string;
+  icon?: string;
+  id: number;
+  matched_count?: number;
+  matched_models?: string[] | null;
+  metadata: string;
+  model_name: string;
+  name_rule: number;
+  quota_types?: number[] | null;
+  status: number;
+  sync_official: number;
+  tags?: string;
+  updated_time: number;
+  vendor_id?: number;
+}
+
+export type ModelsMetaListDataVendorCounts = { [key: string]: number } | null;
+
+export interface ModelsMetaListData {
+  items: Model[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+  vendor_counts: ModelsMetaListDataVendorCounts;
+}
+
+/**
+ * ModerationResponse schema
+ */
+export interface ModerationResponse {
+  id: string;
+  model: string;
+  results: unknown[] | null;
+}
+
+export interface Monitor {
+  group?: string;
+  name: string;
+  status: number;
+  uptime: number;
+}
+
+/**
+ * MultiKeyManageRequest schema
+ */
+export interface MultiKeyManageRequest {
+  action: string;
+  channel_id: number;
+  key_index?: number | null;
+  page?: number;
+  page_size?: number;
+  status?: number | null;
+}
+
+export interface MultiKeyStatusResponse {
+  auto_disabled_count: number;
+  enabled_count: number;
+  keys: KeyStatus[] | null;
+  manual_disabled_count: number;
+  page: number;
+  page_size: number;
+  total: number;
+  total_pages: number;
+}
+
+export interface OAuthExchangeData {
+  access_token: string;
+  action?: string;
+  display_name: string;
+  role: number;
+  user_id: number;
+  username: string;
+}
+
+/**
+ * OAuthExchangeRequest schema
+ */
+export interface OAuthExchangeRequest {
+  /** One-time authorization code from OAuth redirect */
+  code: string;
+}
+
+/**
+ * OllamaModelRequest schema
+ */
+export interface OllamaModelRequest {
+  channel_id: number;
+  model_name: string;
+}
+
+export interface OllamaVersionData {
+  version: string;
+}
+
+export interface OpenAIModels {
+  created: number;
+  id: string;
+  object: string;
+  owned_by: string;
+  supported_endpoint_types: string[] | null;
+}
+
+/**
+ * OpenAISubscriptionResponse schema
+ */
+export interface OpenAISubscriptionResponse {
+  access_until: number;
+  hard_limit_usd: number;
+  has_payment_method: boolean;
+  object: string;
+  soft_limit_usd: number;
+  system_hard_limit_usd: number;
+}
+
+/**
+ * OpenAIUsageResponse schema
+ */
+export interface OpenAIUsageResponse {
+  object: string;
+  total_usage: number;
+}
+
+export interface Option {
+  key: string;
+  value: string;
+}
+
+/**
+ * OptionUpdateRequest schema
+ */
+export interface OptionUpdateRequest {
+  key: string;
+  value: unknown;
+}
+
+export interface OverwriteField {
+  fields: string[] | null;
+  model_name: string;
+}
+
+export interface StatusBarDataDTO {
+  bar: BarSegmentDTO[] | null;
+  card: CardItemDTO[] | null;
+  day: string;
+  events: EventDTO[] | null;
+}
+
+export type PageDTOBars = { [key: string]: StatusBarDataDTO[] } | null;
+
+export interface PageDTO {
+  bars: PageDTOBars;
+  components: ComponentDTO[] | null;
+  incidents: EventDTO[] | null;
+}
+
+export interface PasskeyOptionsData {
+  options: unknown;
+}
+
+export interface PasskeyStatusData {
+  enabled: boolean;
+  last_used_at?: unknown;
+}
+
+/**
+ * PasswordResetRequest schema
+ */
+export interface PasswordResetRequest {
+  email: string;
+  token: string;
+}
+
+export interface PatchChannel {
+  auto_ban: number | null;
+  balance: number;
+  balance_updated_time: number;
+  base_url: string | null;
+  channel_info: ChannelInfo;
+  created_time: number;
+  group: string;
+  header_override: string | null;
+  id: number;
+  key: string;
+  key_mode: string | null;
+  model_mapping: string | null;
+  models: string;
+  multi_key_mode: string | null;
+  name: string;
+  openai_organization: string | null;
+  other: string;
+  other_info: string;
+  param_override: string | null;
+  priority: number | null;
+  /** @maxLength 255 */
+  remark: string | null;
+  response_time: number;
+  setting: string | null;
+  settings: string;
+  status: number;
+  status_code_mapping: string | null;
+  tag: string | null;
+  test_model: string | null;
+  test_time: number;
+  type: number;
+  used_quota: number;
+  /** @minimum 0 */
+  weight: number | null;
+}
+
+export interface PerformanceConfig {
+  disk_cache_enabled: boolean;
+  disk_cache_max_size_mb: number;
+  disk_cache_path: string;
+  disk_cache_threshold_mb: number;
+  is_running_in_container: boolean;
+  monitor_cpu_threshold: number;
+  monitor_disk_threshold: number;
+  monitor_enabled: boolean;
+  monitor_memory_threshold: number;
+}
+
+export interface PerformanceStats {
+  cache_stats: DiskCacheStats;
+  config: PerformanceConfig;
+  disk_cache_info: DiskCacheInfo;
+  disk_space_info: DiskSpaceInfo;
+  memory_stats: MemoryStats;
+}
+
+export interface PrefillGroup {
+  created_time: number;
+  description?: string;
+  id: number;
+  items: string | null;
+  name: string;
+  type: string;
+  updated_time: number;
+}
+
+export interface PriceBreakdown {
+  compute_cost: number;
+  hourly_rate: number;
+  network_cost?: number;
+  storage_cost?: number;
+  total_cost: number;
+}
+
+/**
+ * PriceEstimationRequest schema
+ */
+export interface PriceEstimationRequest {
+  currency: string;
+  duration_hours: number;
+  duration_qty: number;
+  duration_type: string;
+  gpus_per_container: number;
+  hardware_id: number;
+  hardware_qty: number;
+  location_ids: number[] | null;
+  replica_count: number;
+}
+
+export interface PriceEstimationResponse {
+  currency: string;
+  estimated_cost: number;
+  estimation_valid: boolean;
+  price_breakdown: PriceBreakdown;
+}
+
+export type PricingDataGroupRatio = { [key: string]: number } | null;
+
+export type PricingDataSupportedEndpoint = {
+  [key: string]: EndpointInfo;
 } | null;
 
+export type PricingDataUsableGroup = { [key: string]: string } | null;
+
+export interface PricingModel {
+  audio_completion_ratio?: number | null;
+  audio_ratio?: number | null;
+  billing_expr?: string;
+  billing_mode?: string;
+  cache_ratio?: number | null;
+  completion_ratio: number;
+  create_cache_ratio?: number | null;
+  description?: string;
+  enable_groups: string[] | null;
+  grid_pricing?: unknown;
+  icon?: string;
+  image_ratio?: number | null;
+  metadata: string;
+  model_name: string;
+  model_price: number;
+  model_ratio: number;
+  owner_by: string;
+  pricing_version?: string;
+  quota_type: number;
+  supported_endpoint_types: string[] | null;
+  tags?: string;
+  vendor_id?: number;
+}
+
+export interface PricingVendor {
+  description?: string;
+  icon?: string;
+  id: number;
+  name: string;
+}
+
+/**
+ * PricingData schema
+ */
+export interface PricingData {
+  auto_groups: string[] | null;
+  data: PricingModel[] | null;
+  group_ratio: PricingDataGroupRatio;
+  show_original_price: boolean;
+  success: boolean;
+  supported_endpoint: PricingDataSupportedEndpoint;
+  usable_group: PricingDataUsableGroup;
+  vendors: PricingVendor[] | null;
+}
+
+export interface QuotaData {
+  count: number;
+  created_at: number;
+  id: number;
+  model_name: string;
+  quota: number;
+  token_used: number;
+  user_id: number;
+  username: string;
+}
+
+export interface Redemption {
+  count: number;
+  created_time: number;
+  expired_time: number;
+  id: number;
+  key: string;
+  name: string;
+  quota: number;
+  redeemed_time: number;
+  status: number;
+  used_user_id: number;
+  user_id: number;
+}
+
+export interface ReferralCommissionWithUser {
+  commission_quota: number;
+  commission_rate: number;
+  created_at: number;
+  id: number;
+  invitee_id: number;
+  invitee_username: string;
+  inviter_id: number;
+  payment_method: string;
+  recharge_amount: number;
+  top_up_id: number;
+}
+
+export interface RefreshCodexData {
+  account_id: string;
+  channel_id: number;
+  channel_name: string;
+  channel_type: number;
+  email: string;
+  expires_at: string;
+  last_refresh: string;
+}
+
+/**
+ * RegisterRequest schema
+ */
+export interface RegisterRequest {
+  aff_code?: string;
+  /** @maxLength 50 */
+  email?: string;
+  /**
+   * @minLength 8
+   * @maxLength 20
+   */
+  password: string;
+  /** @maxLength 64 */
+  username: string;
+  verification_code?: string;
+}
+
+/**
+ * RelayNotImplementedError schema
+ */
+export interface RelayNotImplementedError {
+  error: AnonymousSchema0;
+}
+
+export interface RerankResponseResult {
+  document?: unknown;
+  index: number;
+  relevance_score: number;
+}
+
+/**
+ * RerankResponse schema
+ */
+export interface RerankResponse {
+  results: RerankResponseResult[] | null;
+  usage: Usage;
+}
+
+/**
+ * Response_Array-controller.ComponentDTO schema
+ */
+export interface ResponseArrayControllerComponentDTO {
+  data: ComponentDTO[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-controller.EventDTO schema
+ */
+export interface ResponseArrayControllerEventDTO {
+  data: EventDTO[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-controller.StatusBarDataDTO schema
+ */
+export interface ResponseArrayControllerStatusBarDataDTO {
+  data: StatusBarDataDTO[] | null;
+  message: string;
+  success: boolean;
+}
+
+export interface SubscriptionPlanDTO {
+  plan: SubscriptionPlan;
+}
+
+/**
+ * Response_Array-controller.SubscriptionPlanDTO schema
+ */
+export interface ResponseArrayControllerSubscriptionPlanDTO {
+  data: SubscriptionPlanDTO[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-dto.CustomOAuthProviderResponse schema
+ */
+export interface ResponseArrayDtoCustomOAuthProviderResponse {
+  data: CustomOAuthProviderResponse[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-dto.OpenAIModels schema
+ */
+export interface ResponseArrayDtoOpenAIModels {
+  data: OpenAIModels[] | null;
+  message: string;
+  success: boolean;
+}
+
+export interface SyncableChannel {
+  base_url: string;
+  id: number;
+  name: string;
+  status: number;
+  type: number;
+}
+
+/**
+ * Response_Array-dto.SyncableChannel schema
+ */
+export interface ResponseArrayDtoSyncableChannel {
+  data: SyncableChannel[] | null;
+  message: string;
+  success: boolean;
+}
+
+export interface UptimeGroupResult {
+  categoryName: string;
+  monitors: Monitor[] | null;
+}
+
+/**
+ * Response_Array-dto.UptimeGroupResult schema
+ */
+export interface ResponseArrayDtoUptimeGroupResult {
+  data: UptimeGroupResult[] | null;
+  message: string;
+  success: boolean;
+}
+
+export interface UserOAuthBindingResponse {
+  provider_icon: string;
+  provider_id: number;
+  provider_name: string;
+  provider_slug: string;
+  provider_user_id: string;
+}
+
+/**
+ * Response_Array-dto.UserOAuthBindingResponse schema
+ */
+export interface ResponseArrayDtoUserOAuthBindingResponse {
+  data: UserOAuthBindingResponse[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-model.Log schema
+ */
+export interface ResponseArrayModelLog {
+  data: Log[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-model.Option schema
+ */
+export interface ResponseArrayModelOption {
+  data: Option[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-model.PrefillGroup schema
+ */
+export interface ResponseArrayModelPrefillGroup {
+  data: PrefillGroup[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-model.QuotaData schema
+ */
+export interface ResponseArrayModelQuotaData {
+  data: QuotaData[] | null;
+  message: string;
+  success: boolean;
+}
+
+export interface UserSubscription {
+  amount_total: number;
+  amount_used: number;
+  created_at: number;
+  end_time: number;
+  id: number;
+  last_reset_time: number;
+  next_reset_time: number;
+  plan_id: number;
+  prev_user_group: string;
+  source: string;
+  start_time: number;
+  status: string;
+  updated_at: number;
+  upgrade_group: string;
+  user_id: number;
+}
+
+export interface SubscriptionSummary {
+  subscription: UserSubscription;
+}
+
+/**
+ * Response_Array-model.SubscriptionSummary schema
+ */
+export interface ResponseArrayModelSubscriptionSummary {
+  data: SubscriptionSummary[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_Array-string schema
+ */
+export interface ResponseArrayString {
+  data: string[] | null;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_controller.GetAllChannelsData schema
+ */
+export interface ResponseControllerGetAllChannelsData {
+  data: GetAllChannelsData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_controller.ModelsMetaListData schema
+ */
+export interface ResponseControllerModelsMetaListData {
+  data: ModelsMetaListData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_controller.PageDTO schema
+ */
+export interface ResponseControllerPageDTO {
+  data: PageDTO;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_controller.PatchChannel schema
+ */
+export interface ResponseControllerPatchChannel {
+  data: PatchChannel;
+  message: string;
+  success: boolean;
+}
+
+export type SearchChannelsDataTypeCounts = { [key: string]: number } | null;
+
+export interface SearchChannelsData {
+  items: Channel[] | null;
+  total: number;
+  type_counts: SearchChannelsDataTypeCounts;
+}
+
+/**
+ * Response_controller.SearchChannelsData schema
+ */
+export interface ResponseControllerSearchChannelsData {
+  data: SearchChannelsData;
+  message: string;
+  success: boolean;
+}
+
+export interface SubscriptionSelfData {
+  all_subscriptions: SubscriptionSummary[] | null;
+  billing_preference: string;
+  subscriptions: SubscriptionSummary[] | null;
+}
+
+/**
+ * Response_controller.SubscriptionSelfData schema
+ */
+export interface ResponseControllerSubscriptionSelfData {
+  data: SubscriptionSelfData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.AffinityCacheClearData schema
+ */
+export interface ResponseDtoAffinityCacheClearData {
+  data: AffinityCacheClearData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.ApiResponse schema
+ */
+export interface ResponseDtoApiResponse {
+  data: ApiResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.BackupCodesData schema
+ */
+export interface ResponseDtoBackupCodesData {
+  data: BackupCodesData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.BillingPortalData schema
+ */
+export interface ResponseDtoBillingPortalData {
+  data: BillingPortalData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.BillingPreferenceData schema
+ */
+export interface ResponseDtoBillingPreferenceData {
+  data: BillingPreferenceData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.ChannelKeyData schema
+ */
+export interface ResponseDtoChannelKeyData {
+  data: ChannelKeyData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CheckinResultData schema
+ */
+export interface ResponseDtoCheckinResultData {
+  data: CheckinResultData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CheckinStatusData schema
+ */
+export interface ResponseDtoCheckinStatusData {
+  data: CheckinStatusData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.ClusterNameAvailabilityResponse schema
+ */
+export interface ResponseDtoClusterNameAvailabilityResponse {
+  data: ClusterNameAvailabilityResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CodexOAuthCompleteData schema
+ */
+export interface ResponseDtoCodexOAuthCompleteData {
+  data: CodexOAuthCompleteData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CodexOAuthStartData schema
+ */
+export interface ResponseDtoCodexOAuthStartData {
+  data: CodexOAuthStartData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.ContainerDetailResponse schema
+ */
+export interface ResponseDtoContainerDetailResponse {
+  data: ContainerDetailResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.ContainerListResponse schema
+ */
+export interface ResponseDtoContainerListResponse {
+  data: ContainerListResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CopyChannelData schema
+ */
+export interface ResponseDtoCopyChannelData {
+  data: CopyChannelData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CreateDeploymentResponse schema
+ */
+export interface ResponseDtoCreateDeploymentResponse {
+  data: CreateDeploymentResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CreemPayData schema
+ */
+export interface ResponseDtoCreemPayData {
+  data: CreemPayData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.CustomOAuthProviderResponse schema
+ */
+export interface ResponseDtoCustomOAuthProviderResponse {
+  data: CustomOAuthProviderResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeleteDeploymentResponse schema
+ */
+export interface ResponseDtoDeleteDeploymentResponse {
+  data: DeleteDeploymentResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeletedCountData schema
+ */
+export interface ResponseDtoDeletedCountData {
+  data: DeletedCountData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeploymentDetailResponse schema
+ */
+export interface ResponseDtoDeploymentDetailResponse {
+  data: DeploymentDetailResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeploymentItem schema
+ */
+export interface ResponseDtoDeploymentItem {
+  data: DeploymentItem;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeploymentListResponse schema
+ */
+export interface ResponseDtoDeploymentListResponse {
+  data: DeploymentListResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeploymentSearchResponse schema
+ */
+export interface ResponseDtoDeploymentSearchResponse {
+  data: DeploymentSearchResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeploymentSettingsResponse schema
+ */
+export interface ResponseDtoDeploymentSettingsResponse {
+  data: DeploymentSettingsResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.DeploymentStatusResponse schema
+ */
+export interface ResponseDtoDeploymentStatusResponse {
+  data: DeploymentStatusResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.EpayPayResponse schema
+ */
+export interface ResponseDtoEpayPayResponse {
+  data: EpayPayResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.FetchDiscoveryData schema
+ */
+export interface ResponseDtoFetchDiscoveryData {
+  data: FetchDiscoveryData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.FetchUpstreamRatiosResult schema
+ */
+export interface ResponseDtoFetchUpstreamRatiosResult {
+  data: FetchUpstreamRatiosResult;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.FixAbilityData schema
+ */
+export interface ResponseDtoFixAbilityData {
+  data: FixAbilityData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.HardwareTypesResponse schema
+ */
+export interface ResponseDtoHardwareTypesResponse {
+  data: HardwareTypesResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.LocationsListResponse schema
+ */
+export interface ResponseDtoLocationsListResponse {
+  data: LocationsListResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.LogCleanupResult schema
+ */
+export interface ResponseDtoLogCleanupResult {
+  data: LogCleanupResult;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.LogFilesResponse schema
+ */
+export interface ResponseDtoLogFilesResponse {
+  data: LogFilesResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.LogStatData schema
+ */
+export interface ResponseDtoLogStatData {
+  data: LogStatData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.LoginData schema
+ */
+export interface ResponseDtoLoginData {
+  data: LoginData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.ManageUserData schema
+ */
+export interface ResponseDtoManageUserData {
+  data: ManageUserData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.MultiKeyStatusResponse schema
+ */
+export interface ResponseDtoMultiKeyStatusResponse {
+  data: MultiKeyStatusResponse;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.OAuthExchangeData schema
+ */
+export interface ResponseDtoOAuthExchangeData {
+  data: OAuthExchangeData;
+  message: string;
+  success: boolean;
+}
+
+/**
+ * Response_dto.OllamaVersionData schema
+ */
+export interface ResponseDtoOllamaVersionData {
+  data: OllamaVersionData;
+  message: string;
+  success: boolean;
+}
+
+export type TaskDtoData = unknown | null;
+
+export interface TaskDto {
+  action: string;
+  channel_id: number;
+  created_at: number;
+  data: TaskDtoData;
+  fail_reason: string;
+  finish_time: number;
+  group: string;
+  id: number;
+  platform: string;
+  progress: string;
+  properties: unknown;
+  quota: number;
+  result_url?: string;
+  start_time: number;
+  status: string;
+  submit_time: number;
+  task_id: string;
+  updated_at: number;
+  user_id: number;
+  username?: string;
+}
+
+export type ResponseDtoPageDataDtoTaskDtoData = {
+  items: TaskDto[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+};
+
+/**
+ * Response_dto.PageData-dto.TaskDto schema
+ */
+export interface ResponseDtoPageDataDtoTaskDto {
+  data: ResponseDtoPageDataDtoTaskDtoData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoPageDataModelInvitedUserData = {
+  items: InvitedUser[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+};
+
+/**
+ * Response_dto.PageData-model.InvitedUser schema
+ */
+export interface ResponseDtoPageDataModelInvitedUser {
+  data: ResponseDtoPageDataModelInvitedUserData;
+  message: string;
+  success: boolean;
+}
+
+export type ResponseDtoPageDataModelLogData = {
+  items: Log[] | null;
+  page: number;
+  page_size: number;
+  total: number;
+};
+
+/**
+ * Response_dto.PageData-model.Log schema
+ */
+export interface ResponseDtoPageDataModelLog {
+  data: ResponseDtoPageDataModelLogData;
+  message: string;
+  success: boolean;
+}
+
 export type ResponseDtoPageDataModelMidjourneyData = {
-  items: ResponseDtoPageDataModelMidjourneyDataItemsItem[];
+  items: Midjourney[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2468,34 +2238,8 @@ export interface ResponseDtoPageDataModelMidjourney {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelModelDataItemsItemBoundChannelsItem = {
-  name: string;
-  type: number;
-};
-
-export type ResponseDtoPageDataModelModelDataItemsItem = {
-  bound_channels?: ResponseDtoPageDataModelModelDataItemsItemBoundChannelsItem[];
-  created_time: number;
-  description?: string;
-  enable_groups?: string[];
-  endpoints?: string;
-  icon?: string;
-  id: number;
-  matched_count?: number;
-  matched_models?: string[];
-  metadata: string;
-  model_name: string;
-  name_rule: number;
-  quota_types?: number[];
-  status: number;
-  sync_official: number;
-  tags?: string;
-  updated_time: number;
-  vendor_id?: number;
-} | null;
-
 export type ResponseDtoPageDataModelModelData = {
-  items: ResponseDtoPageDataModelModelDataItemsItem[];
+  items: Model[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2510,22 +2254,8 @@ export interface ResponseDtoPageDataModelModel {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelRedemptionDataItemsItem = {
-  count: number;
-  created_time: number;
-  expired_time: number;
-  id: number;
-  key: string;
-  name: string;
-  quota: number;
-  redeemed_time: number;
-  status: number;
-  used_user_id: number;
-  user_id: number;
-} | null;
-
 export type ResponseDtoPageDataModelRedemptionData = {
-  items: ResponseDtoPageDataModelRedemptionDataItemsItem[];
+  items: Redemption[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2540,21 +2270,8 @@ export interface ResponseDtoPageDataModelRedemption {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem = {
-  commission_quota?: number;
-  commission_rate?: number;
-  created_at?: number;
-  id?: number;
-  invitee_id?: number;
-  invitee_username: string;
-  inviter_id?: number;
-  payment_method?: string;
-  recharge_amount?: number;
-  top_up_id?: number;
-} | null;
-
 export type ResponseDtoPageDataModelReferralCommissionWithUserData = {
-  items: ResponseDtoPageDataModelReferralCommissionWithUserDataItemsItem[];
+  items: ReferralCommissionWithUser[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2569,7 +2286,7 @@ export interface ResponseDtoPageDataModelReferralCommissionWithUser {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelTokenDataItemsItem = {
+export interface Token {
   accessed_time: number;
   allow_ips: string | null;
   created_time: number;
@@ -2586,10 +2303,10 @@ export type ResponseDtoPageDataModelTokenDataItemsItem = {
   unlimited_quota: boolean;
   used_quota: number;
   user_id: number;
-} | null;
+}
 
 export type ResponseDtoPageDataModelTokenData = {
-  items: ResponseDtoPageDataModelTokenDataItemsItem[];
+  items: Token[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2604,7 +2321,7 @@ export interface ResponseDtoPageDataModelToken {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelTopUpDataItemsItem = {
+export interface TopUp {
   amount: number;
   complete_time: number;
   create_time: number;
@@ -2615,10 +2332,10 @@ export type ResponseDtoPageDataModelTopUpDataItemsItem = {
   status: string;
   trade_no: string;
   user_id: number;
-} | null;
+}
 
 export type ResponseDtoPageDataModelTopUpData = {
-  items: ResponseDtoPageDataModelTopUpDataItemsItem[];
+  items: TopUp[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2633,7 +2350,7 @@ export interface ResponseDtoPageDataModelTopUp {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelUserDataItemsItem = {
+export interface User {
   access_token: string | null;
   aff_code: string;
   aff_count: number;
@@ -2674,10 +2391,10 @@ export type ResponseDtoPageDataModelUserDataItemsItem = {
   username: string;
   verification_code: string;
   wechat_id: string;
-} | null;
+}
 
 export type ResponseDtoPageDataModelUserData = {
-  items: ResponseDtoPageDataModelUserDataItemsItem[];
+  items: User[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2692,7 +2409,7 @@ export interface ResponseDtoPageDataModelUser {
   success: boolean;
 }
 
-export type ResponseDtoPageDataModelVendorDataItemsItem = {
+export interface Vendor {
   created_time: number;
   description?: string;
   icon?: string;
@@ -2700,10 +2417,10 @@ export type ResponseDtoPageDataModelVendorDataItemsItem = {
   name: string;
   status: number;
   updated_time: number;
-} | null;
+}
 
 export type ResponseDtoPageDataModelVendorData = {
-  items: ResponseDtoPageDataModelVendorDataItemsItem[];
+  items: Vendor[] | null;
   page: number;
   page_size: number;
   total: number;
@@ -2718,217 +2435,88 @@ export interface ResponseDtoPageDataModelVendor {
   success: boolean;
 }
 
-export type ResponseDtoPasskeyOptionsDataData = {
-  options: unknown;
-};
-
 /**
  * Response_dto.PasskeyOptionsData schema
  */
 export interface ResponseDtoPasskeyOptionsData {
-  data: ResponseDtoPasskeyOptionsDataData;
+  data: PasskeyOptionsData;
   message: string;
   success: boolean;
 }
-
-export type ResponseDtoPasskeyStatusDataData = {
-  enabled: boolean;
-  last_used_at?: unknown;
-};
 
 /**
  * Response_dto.PasskeyStatusData schema
  */
 export interface ResponseDtoPasskeyStatusData {
-  data: ResponseDtoPasskeyStatusDataData;
+  data: PasskeyStatusData;
   message: string;
   success: boolean;
 }
-
-export type ResponseDtoPerformanceStatsDataCacheStats = {
-  active_disk_files: number;
-  active_memory_buffers: number;
-  current_disk_usage_bytes: number;
-  current_memory_usage_bytes: number;
-  disk_cache_hits: number;
-  disk_cache_max_bytes: number;
-  disk_cache_threshold_bytes: number;
-  memory_cache_hits: number;
-};
-
-export type ResponseDtoPerformanceStatsDataConfig = {
-  disk_cache_enabled: boolean;
-  disk_cache_max_size_mb: number;
-  disk_cache_path: string;
-  disk_cache_threshold_mb: number;
-  is_running_in_container: boolean;
-  monitor_cpu_threshold: number;
-  monitor_disk_threshold: number;
-  monitor_enabled: boolean;
-  monitor_memory_threshold: number;
-};
-
-export type ResponseDtoPerformanceStatsDataDiskCacheInfo = {
-  exists: boolean;
-  file_count: number;
-  path: string;
-  total_size: number;
-};
-
-export type ResponseDtoPerformanceStatsDataDiskSpaceInfo = {
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  free: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  total: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  used: number;
-  used_percent: number;
-};
-
-export type ResponseDtoPerformanceStatsDataMemoryStats = {
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  alloc: number;
-  /**
-   * @minimum 0
-   * @maximum 4294967295
-   */
-  num_gc: number;
-  num_goroutine: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  sys: number;
-  /**
-   * @minimum 0
-   * @maximum 18446744073709552000
-   */
-  total_alloc: number;
-};
-
-export type ResponseDtoPerformanceStatsData = {
-  cache_stats: ResponseDtoPerformanceStatsDataCacheStats;
-  config: ResponseDtoPerformanceStatsDataConfig;
-  disk_cache_info: ResponseDtoPerformanceStatsDataDiskCacheInfo;
-  disk_space_info: ResponseDtoPerformanceStatsDataDiskSpaceInfo;
-  memory_stats: ResponseDtoPerformanceStatsDataMemoryStats;
-};
 
 /**
  * Response_dto.PerformanceStats schema
  */
 export interface ResponseDtoPerformanceStats {
-  data: ResponseDtoPerformanceStatsData;
+  data: PerformanceStats;
   message: string;
   success: boolean;
 }
-
-export type ResponseDtoRefreshCodexDataData = {
-  account_id: string;
-  channel_id: number;
-  channel_name: string;
-  channel_type: number;
-  email: string;
-  expires_at: string;
-  last_refresh: string;
-};
 
 /**
  * Response_dto.RefreshCodexData schema
  */
 export interface ResponseDtoRefreshCodexData {
-  data: ResponseDtoRefreshCodexDataData;
+  data: RefreshCodexData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoSetup2FAResponseData = {
-  backup_codes: string[];
+export interface Setup2FAResponse {
+  backup_codes: string[] | null;
   qr_code_data: string;
   secret: string;
-};
+}
 
 /**
  * Response_dto.Setup2FAResponse schema
  */
 export interface ResponseDtoSetup2FAResponse {
-  data: ResponseDtoSetup2FAResponseData;
+  data: Setup2FAResponse;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoSetupDataData = {
+export interface SetupData {
   database_type: string;
   root_init: boolean;
   status: boolean;
-};
+}
 
 /**
  * Response_dto.SetupData schema
  */
 export interface ResponseDtoSetupData {
-  data: ResponseDtoSetupDataData;
+  data: SetupData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoStatusDataDataAnnouncementsItem = {
-  content: string;
-  extra?: string;
-  publishDate: string;
-  type?: string;
-};
+export type StatusDataChatsItem = { [key: string]: string };
 
-export type ResponseDtoStatusDataDataApiInfoItem = {
-  color: string;
-  description: string;
-  route: string;
-  url: string;
-};
-
-export type ResponseDtoStatusDataDataChatsItem = { [key: string]: string };
-
-export type ResponseDtoStatusDataDataCustomOauthProvidersItem = {
-  authorization_endpoint: string;
-  client_id: string;
-  icon: string;
-  id: number;
-  name: string;
-  scopes: string;
-  slug: string;
-};
-
-export type ResponseDtoStatusDataDataFaqItem = {
-  answer: string;
-  question: string;
-};
-
-export type ResponseDtoStatusDataData = {
+export interface StatusData {
   HeaderNavModules: string;
   SidebarModulesAdmin: string;
   _qn: string;
   about_url?: string;
-  announcements?: ResponseDtoStatusDataDataAnnouncementsItem[];
+  announcements?: AnnouncementEntry[] | null;
   announcements_enabled: boolean;
-  api_info?: ResponseDtoStatusDataDataApiInfoItem[];
+  api_info?: ApiInfoEntry[] | null;
   api_info_enabled: boolean;
-  chats: ResponseDtoStatusDataDataChatsItem[];
+  chats: StatusDataChatsItem[] | null;
   checkin_enabled: boolean;
   custom_currency_exchange_rate: number;
   custom_currency_symbol: string;
-  custom_oauth_providers?: ResponseDtoStatusDataDataCustomOauthProvidersItem[];
+  custom_oauth_providers?: CustomOAuthInfo[] | null;
   data_export_default_time: string;
   default_collapse_sidebar: boolean;
   default_use_auto_group: boolean;
@@ -2942,7 +2530,7 @@ export type ResponseDtoStatusDataData = {
   enable_data_export: boolean;
   enable_drawing: boolean;
   enable_task: boolean;
-  faq?: ResponseDtoStatusDataDataFaqItem[];
+  faq?: FAQEntry[] | null;
   faq_enabled: boolean;
   footer_html: string;
   github_client_id: string;
@@ -2987,134 +2575,115 @@ export type ResponseDtoStatusDataData = {
   version: string;
   wechat_login: boolean;
   wechat_qrcode: string;
-};
+}
 
 /**
  * Response_dto.StatusData schema
  */
 export interface ResponseDtoStatusData {
-  data: ResponseDtoStatusDataData;
+  data: StatusData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoStripePayLinkDataData = {
+export interface StripePayLinkData {
   pay_link: string;
-};
+}
 
 /**
  * Response_dto.StripePayLinkData schema
  */
 export interface ResponseDtoStripePayLinkData {
-  data: ResponseDtoStripePayLinkDataData;
+  data: StripePayLinkData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoSubscriptionActionDataData = {
+export interface SubscriptionActionData {
   message?: string;
-};
+}
 
 /**
  * Response_dto.SubscriptionActionData schema
  */
 export interface ResponseDtoSubscriptionActionData {
-  data: ResponseDtoSubscriptionActionDataData;
+  data: SubscriptionActionData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem = {
-  field: string;
-  local: unknown;
-  upstream: unknown;
-};
-
-export type ResponseDtoSyncPreviewResultDataConflictsItem = {
-  fields: ResponseDtoSyncPreviewResultDataConflictsItemFieldsItem[];
-  model_name: string;
-};
-
-export type ResponseDtoSyncPreviewResultDataSource = {
+export interface SyncSource {
   locale: string;
   models_url: string;
   vendors_url: string;
-};
+}
 
-export type ResponseDtoSyncPreviewResultData = {
-  conflicts: ResponseDtoSyncPreviewResultDataConflictsItem[];
-  missing: string[];
-  source: ResponseDtoSyncPreviewResultDataSource;
-};
+export interface SyncPreviewResult {
+  conflicts: ConflictItem[] | null;
+  missing: string[] | null;
+  source: SyncSource;
+}
 
 /**
  * Response_dto.SyncPreviewResult schema
  */
 export interface ResponseDtoSyncPreviewResult {
-  data: ResponseDtoSyncPreviewResultData;
+  data: SyncPreviewResult;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoSyncUpstreamResultDataSource = {
-  locale: string;
-  models_url: string;
-  vendors_url: string;
-};
-
-export type ResponseDtoSyncUpstreamResultData = {
-  created_list: string[];
+export interface SyncUpstreamResult {
+  created_list: string[] | null;
   created_models: number;
   created_vendors: number;
-  skipped_models: string[];
-  source: ResponseDtoSyncUpstreamResultDataSource;
-  updated_list: string[];
+  skipped_models: string[] | null;
+  source: SyncSource;
+  updated_list: string[] | null;
   updated_models: number;
-};
+}
 
 /**
  * Response_dto.SyncUpstreamResult schema
  */
 export interface ResponseDtoSyncUpstreamResult {
-  data: ResponseDtoSyncUpstreamResultData;
+  data: SyncUpstreamResult;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoTestConnectionResponseData = {
+export interface TestConnectionResponse {
   hardware_count: number;
   total_available: number;
-};
+}
 
 /**
  * Response_dto.TestConnectionResponse schema
  */
 export interface ResponseDtoTestConnectionResponse {
-  data: ResponseDtoTestConnectionResponseData;
+  data: TestConnectionResponse;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoTestStatusDataData = {
+export interface TestStatusData {
   http_stats: unknown;
-};
+}
 
 /**
  * Response_dto.TestStatusData schema
  */
 export interface ResponseDtoTestStatusData {
-  data: ResponseDtoTestStatusDataData;
+  data: TestStatusData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoTokenUsageDataDataModelLimits = {
-  [key: string]: boolean;
-};
+export type TokenUsageDataModelLimits = { [key: string]: boolean } | null;
 
-export type ResponseDtoTokenUsageDataData = {
+export interface TokenUsageData {
   expires_at: number;
-  model_limits: ResponseDtoTokenUsageDataDataModelLimits;
+  model_limits: TokenUsageDataModelLimits;
   model_limits_enabled: boolean;
   name: string;
   object: string;
@@ -3122,79 +2691,77 @@ export type ResponseDtoTokenUsageDataData = {
   total_granted: number;
   total_used: number;
   unlimited_quota: boolean;
-};
+}
 
 /**
  * Response_dto.TokenUsageData schema
  */
 export interface ResponseDtoTokenUsageData {
-  data: ResponseDtoTokenUsageDataData;
+  data: TokenUsageData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoTopUpInfoDataDataDiscount = { [key: string]: number };
+export type TopUpInfoDataDiscount = { [key: string]: number } | null;
 
-export type ResponseDtoTopUpInfoDataDataPayMethodsItem = {
-  [key: string]: string;
-};
+export type TopUpInfoDataPayMethodsItem = { [key: string]: string };
 
-export type ResponseDtoTopUpInfoDataData = {
-  amount_options: number[];
+export interface TopUpInfoData {
+  amount_options: number[] | null;
   creem_products: string;
-  discount: ResponseDtoTopUpInfoDataDataDiscount;
+  discount: TopUpInfoDataDiscount;
   enable_creem_topup: boolean;
   enable_online_topup: boolean;
   enable_stripe_topup: boolean;
   enable_waffo_topup: boolean;
   min_topup: number;
-  pay_methods: ResponseDtoTopUpInfoDataDataPayMethodsItem[];
+  pay_methods: TopUpInfoDataPayMethodsItem[] | null;
   stripe_min_topup: number;
   waffo_min_topup: number;
   waffo_pay_methods: unknown;
-};
+}
 
 /**
  * Response_dto.TopUpInfoData schema
  */
 export interface ResponseDtoTopUpInfoData {
-  data: ResponseDtoTopUpInfoDataData;
+  data: TopUpInfoData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoTwoFAStatusDataData = {
+export interface TwoFAStatusData {
   backup_codes_remaining?: number;
   enabled: boolean;
   locked: boolean;
-};
+}
 
 /**
  * Response_dto.TwoFAStatusData schema
  */
 export interface ResponseDtoTwoFAStatusData {
-  data: ResponseDtoTwoFAStatusDataData;
+  data: TwoFAStatusData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoUpdateNameResponseData = {
+export interface UpdateNameResponse {
   id: string;
   message: string;
   name: string;
   status: string;
-};
+}
 
 /**
  * Response_dto.UpdateNameResponse schema
  */
 export interface ResponseDtoUpdateNameResponse {
-  data: ResponseDtoUpdateNameResponseData;
+  data: UpdateNameResponse;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoUserSelfDataData = {
+export interface UserSelfData {
   aff_code: string;
   aff_commission_max_recharges: number;
   aff_commission_rate: number;
@@ -3222,27 +2789,27 @@ export type ResponseDtoUserSelfDataData = {
   used_quota: number;
   username: string;
   wechat_id: string;
-};
+}
 
 /**
  * Response_dto.UserSelfData schema
  */
 export interface ResponseDtoUserSelfData {
-  data: ResponseDtoUserSelfDataData;
+  data: UserSelfData;
   message: string;
   success: boolean;
 }
 
-export type ResponseDtoVerificationStatusResponseData = {
+export interface VerificationStatusResponse {
   expires_at?: number;
   verified: boolean;
-};
+}
 
 /**
  * Response_dto.VerificationStatusResponse schema
  */
 export interface ResponseDtoVerificationStatusResponse {
-  data: ResponseDtoVerificationStatusResponseData;
+  data: VerificationStatusResponse;
   message: string;
   success: boolean;
 }
@@ -3265,53 +2832,25 @@ export interface ResponseInt64 {
   success: boolean;
 }
 
-export type ResponseIonetAvailableReplicasResponseDataReplicasItem = {
-  available_count: number;
-  hardware_id: number;
-  hardware_name: string;
-  location_id: number;
-  location_name: string;
-  max_gpus: number;
-};
-
-export type ResponseIonetAvailableReplicasResponseData = {
-  replicas: ResponseIonetAvailableReplicasResponseDataReplicasItem[];
-} | null;
-
 /**
  * Response_ionet.AvailableReplicasResponse schema
  */
 export interface ResponseIonetAvailableReplicasResponse {
-  data: ResponseIonetAvailableReplicasResponseData;
+  data: AvailableReplicasResponse;
   message: string;
   success: boolean;
 }
-
-export type ResponseIonetPriceEstimationResponseDataPriceBreakdown = {
-  compute_cost: number;
-  hourly_rate: number;
-  network_cost?: number;
-  storage_cost?: number;
-  total_cost: number;
-};
-
-export type ResponseIonetPriceEstimationResponseData = {
-  currency: string;
-  estimated_cost: number;
-  estimation_valid: boolean;
-  price_breakdown: ResponseIonetPriceEstimationResponseDataPriceBreakdown;
-} | null;
 
 /**
  * Response_ionet.PriceEstimationResponse schema
  */
 export interface ResponseIonetPriceEstimationResponse {
-  data: ResponseIonetPriceEstimationResponseData;
+  data: PriceEstimationResponse;
   message: string;
   success: boolean;
 }
 
-export type ResponseMapIntArrayStringData = { [key: string]: string[] };
+export type ResponseMapIntArrayStringData = { [key: string]: string[] } | null;
 
 /**
  * Response_map-int-Array-string schema
@@ -3322,12 +2861,14 @@ export interface ResponseMapIntArrayString {
   success: boolean;
 }
 
+export interface UserGroupInfo {
+  desc: string;
+  ratio: unknown;
+}
+
 export type ResponseMapStringDtoUserGroupInfoData = {
-  [key: string]: {
-    desc: string;
-    ratio: unknown;
-  };
-};
+  [key: string]: UserGroupInfo;
+} | null;
 
 /**
  * Response_map-string-dto.UserGroupInfo schema
@@ -3338,7 +2879,7 @@ export interface ResponseMapStringDtoUserGroupInfo {
   success: boolean;
 }
 
-export type ResponseMapStringStringData = { [key: string]: string };
+export type ResponseMapStringStringData = { [key: string]: string } | null;
 
 /**
  * Response_map-string-string schema
@@ -3349,374 +2890,116 @@ export interface ResponseMapStringString {
   success: boolean;
 }
 
-export type ResponseModelChannelDataChannelInfoMultiKeyDisabledReason = {
-  [key: string]: string;
-};
-
-export type ResponseModelChannelDataChannelInfoMultiKeyDisabledTime = {
-  [key: string]: number;
-};
-
-export type ResponseModelChannelDataChannelInfoMultiKeyStatusList = {
-  [key: string]: number;
-};
-
-export type ResponseModelChannelDataChannelInfo = {
-  is_multi_key: boolean;
-  multi_key_disabled_reason?: ResponseModelChannelDataChannelInfoMultiKeyDisabledReason;
-  multi_key_disabled_time?: ResponseModelChannelDataChannelInfoMultiKeyDisabledTime;
-  multi_key_mode: string;
-  multi_key_polling_index: number;
-  multi_key_size: number;
-  multi_key_status_list: ResponseModelChannelDataChannelInfoMultiKeyStatusList;
-};
-
-export type ResponseModelChannelData = {
-  auto_ban: number | null;
-  balance: number;
-  balance_updated_time: number;
-  base_url: string | null;
-  channel_info: ResponseModelChannelDataChannelInfo;
-  created_time: number;
-  group: string;
-  header_override: string | null;
-  id: number;
-  key: string;
-  model_mapping: string | null;
-  models: string;
-  name: string;
-  openai_organization: string | null;
-  other: string;
-  other_info: string;
-  param_override: string | null;
-  priority: number | null;
-  /** @maxLength 255 */
-  remark: string | null;
-  response_time: number;
-  setting: string | null;
-  settings: string;
-  status: number;
-  status_code_mapping: string | null;
-  tag: string | null;
-  test_model: string | null;
-  test_time: number;
-  type: number;
-  used_quota: number;
-  /** @minimum 0 */
-  weight: number | null;
-} | null;
-
 /**
  * Response_model.Channel schema
  */
 export interface ResponseModelChannel {
-  data: ResponseModelChannelData;
+  data: Channel;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelModelDataBoundChannelsItem = {
-  name: string;
-  type: number;
-};
-
-export type ResponseModelModelData = {
-  bound_channels?: ResponseModelModelDataBoundChannelsItem[];
-  created_time: number;
-  description?: string;
-  enable_groups?: string[];
-  endpoints?: string;
-  icon?: string;
-  id: number;
-  matched_count?: number;
-  matched_models?: string[];
-  metadata: string;
-  model_name: string;
-  name_rule: number;
-  quota_types?: number[];
-  status: number;
-  sync_official: number;
-  tags?: string;
-  updated_time: number;
-  vendor_id?: number;
-};
 
 /**
  * Response_model.Model schema
  */
 export interface ResponseModelModel {
-  data: ResponseModelModelData;
+  data: Model;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelPrefillGroupData = {
-  created_time: number;
-  description?: string;
-  id: number;
-  items: string;
-  name: string;
-  type: string;
-  updated_time: number;
-};
 
 /**
  * Response_model.PrefillGroup schema
  */
 export interface ResponseModelPrefillGroup {
-  data: ResponseModelPrefillGroupData;
+  data: PrefillGroup;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelRedemptionData = {
-  count: number;
-  created_time: number;
-  expired_time: number;
-  id: number;
-  key: string;
-  name: string;
-  quota: number;
-  redeemed_time: number;
-  status: number;
-  used_user_id: number;
-  user_id: number;
-};
 
 /**
  * Response_model.Redemption schema
  */
 export interface ResponseModelRedemption {
-  data: ResponseModelRedemptionData;
+  data: Redemption;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelSubscriptionPlanData = {
-  created_at: number;
-  creem_product_id: string;
-  currency: string;
-  custom_seconds: number;
-  duration_unit: string;
-  duration_value: number;
-  enabled: boolean;
-  id: number;
-  max_purchase_per_user: number;
-  price_amount: number;
-  quota_reset_custom_seconds: number;
-  quota_reset_period: string;
-  sort_order: number;
-  stripe_price_id: string;
-  subtitle: string;
-  title: string;
-  total_amount: number;
-  updated_at: number;
-  upgrade_group: string;
-};
 
 /**
  * Response_model.SubscriptionPlan schema
  */
 export interface ResponseModelSubscriptionPlan {
-  data: ResponseModelSubscriptionPlanData;
+  data: SubscriptionPlan;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelTokenData = {
-  accessed_time: number;
-  allow_ips: string | null;
-  created_time: number;
-  cross_group_retry: boolean;
-  expired_time: number;
-  group: string;
-  id: number;
-  key: string;
-  model_limits: string;
-  model_limits_enabled: boolean;
-  name: string;
-  remain_quota: number;
-  status: number;
-  unlimited_quota: boolean;
-  used_quota: number;
-  user_id: number;
-};
 
 /**
  * Response_model.Token schema
  */
 export interface ResponseModelToken {
-  data: ResponseModelTokenData;
+  data: Token;
   message: string;
   success: boolean;
 }
 
-export type ResponseModelTwoFAStatsData = {
+export interface TwoFAStats {
   enabled_rate: string;
   enabled_users: number;
   total_users: number;
-} | null;
+}
 
 /**
  * Response_model.TwoFAStats schema
  */
 export interface ResponseModelTwoFAStats {
-  data: ResponseModelTwoFAStatsData;
+  data: TwoFAStats;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelUserData = {
-  access_token: string | null;
-  aff_code: string;
-  aff_count: number;
-  aff_history_quota: number;
-  aff_quota: number;
-  created_at: number;
-  creem_customer: string;
-  discord_id: string;
-  /** @maxLength 20 */
-  display_name: string;
-  /** @maxLength 50 */
-  email: string;
-  github_id: string;
-  group: string;
-  id: number;
-  inviter_id: number;
-  last_login_at: number;
-  linux_do_id: string;
-  oidc_id: string;
-  original_password: string;
-  /**
-   * @minLength 8
-   * @maxLength 20
-   */
-  password: string;
-  quota: number;
-  referral_commission_percent: number | null;
-  /** @maxLength 255 */
-  remark?: string;
-  request_count: number;
-  role: number;
-  setting: string;
-  status: number;
-  stripe_customer: string;
-  telegram_id: string;
-  used_quota: number;
-  /** @maxLength 20 */
-  username: string;
-  verification_code: string;
-  wechat_id: string;
-};
 
 /**
  * Response_model.User schema
  */
 export interface ResponseModelUser {
-  data: ResponseModelUserData;
+  data: User;
   message: string;
   success: boolean;
 }
-
-export type ResponseModelVendorData = {
-  created_time: number;
-  description?: string;
-  icon?: string;
-  id: number;
-  name: string;
-  status: number;
-  updated_time: number;
-};
 
 /**
  * Response_model.Vendor schema
  */
 export interface ResponseModelVendor {
-  data: ResponseModelVendorData;
+  data: Vendor;
   message: string;
   success: boolean;
 }
-
-export type ResponseRatioSettingExposedRatioDataDataCacheRatio = {
-  [key: string]: number;
-};
-
-export type ResponseRatioSettingExposedRatioDataDataCompletionRatio = {
-  [key: string]: number;
-};
-
-export type ResponseRatioSettingExposedRatioDataDataCreateCacheRatio = {
-  [key: string]: number;
-};
-
-export type ResponseRatioSettingExposedRatioDataDataModelPrice = {
-  [key: string]: number;
-};
-
-export type ResponseRatioSettingExposedRatioDataDataModelRatio = {
-  [key: string]: number;
-};
-
-export type ResponseRatioSettingExposedRatioDataData = {
-  cache_ratio: ResponseRatioSettingExposedRatioDataDataCacheRatio;
-  completion_ratio: ResponseRatioSettingExposedRatioDataDataCompletionRatio;
-  create_cache_ratio: ResponseRatioSettingExposedRatioDataDataCreateCacheRatio;
-  model_price: ResponseRatioSettingExposedRatioDataDataModelPrice;
-  model_ratio: ResponseRatioSettingExposedRatioDataDataModelRatio;
-};
 
 /**
  * Response_ratio_setting.ExposedRatioData schema
  */
 export interface ResponseRatioSettingExposedRatioData {
-  data: ResponseRatioSettingExposedRatioDataData;
+  data: ExposedRatioData;
   message: string;
   success: boolean;
 }
-
-export type ResponseServiceChannelAffinityCacheStatsDataByRuleName = {
-  [key: string]: number;
-};
-
-export type ResponseServiceChannelAffinityCacheStatsData = {
-  by_rule_name: ResponseServiceChannelAffinityCacheStatsDataByRuleName;
-  cache_algo: string;
-  cache_capacity: number;
-  enabled: boolean;
-  total: number;
-  unknown: number;
-};
 
 /**
  * Response_service.ChannelAffinityCacheStats schema
  */
 export interface ResponseServiceChannelAffinityCacheStats {
-  data: ResponseServiceChannelAffinityCacheStatsData;
+  data: ChannelAffinityCacheStats;
   message: string;
   success: boolean;
 }
-
-export type ResponseServiceChannelAffinityUsageCacheStatsData = {
-  cached_token_rate_mode: string;
-  cached_tokens: number;
-  completion_tokens: number;
-  hit: number;
-  key_fp: string;
-  last_seen_at: number;
-  prompt_cache_hit_tokens: number;
-  prompt_tokens: number;
-  rule_name: string;
-  total: number;
-  total_tokens: number;
-  using_group: string;
-  window_seconds: number;
-};
 
 /**
  * Response_service.ChannelAffinityUsageCacheStats schema
  */
 export interface ResponseServiceChannelAffinityUsageCacheStats {
-  data: ResponseServiceChannelAffinityUsageCacheStatsData;
+  data: ChannelAffinityUsageCacheStats;
   message: string;
   success: boolean;
 }
@@ -3738,7 +3021,7 @@ export interface ResponsesAPIResponse {
   id: string;
   model: string;
   object: string;
-  output: unknown[];
+  output: unknown[] | null;
   status: string;
   usage?: unknown;
 }
@@ -3793,17 +3076,12 @@ export interface SubscriptionStripePayRequest {
   plan_id: number;
 }
 
-export type SyncRequestOverwriteItem = {
-  fields: string[];
-  model_name: string;
-};
-
 /**
  * SyncRequest schema
  */
 export interface SyncRequest {
   locale: string;
-  overwrite: SyncRequestOverwriteItem[];
+  overwrite: OverwriteField[] | null;
 }
 
 /**
@@ -3836,7 +3114,7 @@ export interface TestIoNetConnectionRequest {
  * TokenBatch schema
  */
 export interface TokenBatch {
-  ids: number[];
+  ids: number[] | null;
 }
 
 /**
@@ -3884,19 +3162,21 @@ export interface UpdateDeploymentNameRequest {
   name: string;
 }
 
-export type UpdateDeploymentRequestEnvVariables = { [key: string]: string };
+export type UpdateDeploymentRequestEnvVariables = {
+  [key: string]: string;
+} | null;
 
 export type UpdateDeploymentRequestSecretEnvVariables = {
   [key: string]: string;
-};
+} | null;
 
 /**
  * UpdateDeploymentRequest schema
  */
 export interface UpdateDeploymentRequest {
-  args?: string[];
+  args?: string[] | null;
   command?: string;
-  entrypoint?: string[];
+  entrypoint?: string[] | null;
   env_variables?: UpdateDeploymentRequestEnvVariables;
   image_url?: string;
   registry_secret?: string;
@@ -3940,79 +3220,20 @@ export interface UpdateUserSettingRequest {
   webhook_url?: string;
 }
 
-export type UpstreamRequestUpstreamsItem = {
+export interface UpstreamDTO {
   base_url: string;
   endpoint: string;
   id?: number;
   name: string;
-};
+}
 
 /**
  * UpstreamRequest schema
  */
 export interface UpstreamRequest {
-  channel_ids: number[];
+  channel_ids: number[] | null;
   timeout: number;
-  upstreams: UpstreamRequestUpstreamsItem[];
-}
-
-/**
- * User schema
- */
-export interface User {
-  access_token: string | null;
-  aff_code: string;
-  aff_count: number;
-  aff_history_quota: number;
-  aff_quota: number;
-  created_at: number;
-  creem_customer: string;
-  discord_id: string;
-  /** @maxLength 20 */
-  display_name: string;
-  /** @maxLength 50 */
-  email: string;
-  github_id: string;
-  group: string;
-  id: number;
-  inviter_id: number;
-  last_login_at: number;
-  linux_do_id: string;
-  oidc_id: string;
-  original_password: string;
-  /**
-   * @minLength 8
-   * @maxLength 20
-   */
-  password: string;
-  quota: number;
-  referral_commission_percent: number | null;
-  /** @maxLength 255 */
-  remark?: string;
-  request_count: number;
-  role: number;
-  setting: string;
-  status: number;
-  stripe_customer: string;
-  telegram_id: string;
-  used_quota: number;
-  /** @maxLength 20 */
-  username: string;
-  verification_code: string;
-  wechat_id: string;
-}
-
-/**
- * Vendor schema
- */
-export interface Vendor {
-  created_time: number;
-  description?: string;
-  icon?: string;
-  id: number;
-  name: string;
-  status: number;
-  updated_time: number;
+  upstreams: UpstreamDTO[] | null;
 }
 
 /**
@@ -4382,11 +3603,41 @@ export type GetUserMidjourneyParams = {
   end_timestamp?: string;
 };
 
-export type GetModelStatusHistoryParams = {
+export type GetModelStatusBucketsParams = {
   /**
    * Model name (required)
    */
   model?: string;
+  /**
+   * Bucket size: 1m|5m|15m|1h|1d (default 15m)
+   */
+  bucket?: string;
+  /**
+   * History window in hours (default 24, max 720)
+   */
+  hours?: number;
+};
+
+export type GetModelStatusIncidentsParams = {
+  /**
+   * Unix seconds; default now-24h
+   */
+  since?: number;
+  /**
+   * Unix seconds; default now
+   */
+  until?: number;
+  /**
+   * Optional model filter
+   */
+  model?: string;
+};
+
+export type GetModelStatusPageParams = {
+  /**
+   * Bucket size: 1m|5m|15m|1h|1d (default 15m)
+   */
+  bucket?: string;
   /**
    * History window in hours (default 24, max 720)
    */
@@ -8074,29 +7325,29 @@ export const getUserMidjourney = async (
 };
 
 /**
- * @summary Get Model Status History
+ * @summary Get Model Status Buckets
  */
-export type getModelStatusHistoryResponse200ApplicationJson = {
-  data: ResponseArrayModelModelStatus;
+export type getModelStatusBucketsResponse200ApplicationJson = {
+  data: ResponseArrayControllerStatusBarDataDTO;
   status: 200;
 };
 
-export type getModelStatusHistoryResponse200ApplicationXml = {
-  data: ResponseArrayModelModelStatus;
+export type getModelStatusBucketsResponse200ApplicationXml = {
+  data: ResponseArrayControllerStatusBarDataDTO;
   status: 200;
 };
 
-export type getModelStatusHistoryResponseSuccess = (
-  | getModelStatusHistoryResponse200ApplicationJson
-  | getModelStatusHistoryResponse200ApplicationXml
+export type getModelStatusBucketsResponseSuccess = (
+  | getModelStatusBucketsResponse200ApplicationJson
+  | getModelStatusBucketsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getModelStatusHistoryResponse =
-  getModelStatusHistoryResponseSuccess;
+export type getModelStatusBucketsResponse =
+  getModelStatusBucketsResponseSuccess;
 
-export const getGetModelStatusHistoryUrl = (
-  params?: GetModelStatusHistoryParams,
+export const getGetModelStatusBucketsUrl = (
+  params?: GetModelStatusBucketsParams,
 ) => {
   const normalizedParams = new URLSearchParams();
 
@@ -8109,16 +7360,16 @@ export const getGetModelStatusHistoryUrl = (
   const stringifiedParams = normalizedParams.toString();
 
   return stringifiedParams.length > 0
-    ? `/api/model_status/history?${stringifiedParams}`
-    : `/api/model_status/history`;
+    ? `/api/model_status/buckets?${stringifiedParams}`
+    : `/api/model_status/buckets`;
 };
 
-export const getModelStatusHistory = async (
-  params?: GetModelStatusHistoryParams,
+export const getModelStatusBuckets = async (
+  params?: GetModelStatusBucketsParams,
   options?: RequestInit,
-): Promise<getModelStatusHistoryResponse> => {
-  return customFetch<getModelStatusHistoryResponse>(
-    getGetModelStatusHistoryUrl(params),
+): Promise<getModelStatusBucketsResponse> => {
+  return customFetch<getModelStatusBucketsResponse>(
+    getGetModelStatusBucketsUrl(params),
     {
       ...options,
       method: "GET",
@@ -8127,37 +7378,144 @@ export const getModelStatusHistory = async (
 };
 
 /**
- * @summary Get Live Model Status
+ * @summary Get Model Status Components
  */
-export type getLiveModelStatusResponse200ApplicationJson = {
-  data: ResponseArrayControllerLiveModelStatusItem;
+export type getModelStatusComponentsResponse200ApplicationJson = {
+  data: ResponseArrayControllerComponentDTO;
   status: 200;
 };
 
-export type getLiveModelStatusResponse200ApplicationXml = {
-  data: ResponseArrayControllerLiveModelStatusItem;
+export type getModelStatusComponentsResponse200ApplicationXml = {
+  data: ResponseArrayControllerComponentDTO;
   status: 200;
 };
 
-export type getLiveModelStatusResponseSuccess = (
-  | getLiveModelStatusResponse200ApplicationJson
-  | getLiveModelStatusResponse200ApplicationXml
+export type getModelStatusComponentsResponseSuccess = (
+  | getModelStatusComponentsResponse200ApplicationJson
+  | getModelStatusComponentsResponse200ApplicationXml
 ) & {
   headers: Headers;
 };
-export type getLiveModelStatusResponse = getLiveModelStatusResponseSuccess;
+export type getModelStatusComponentsResponse =
+  getModelStatusComponentsResponseSuccess;
 
-export const getGetLiveModelStatusUrl = () => {
-  return `/api/model_status/live`;
+export const getGetModelStatusComponentsUrl = () => {
+  return `/api/model_status/components`;
 };
 
-export const getLiveModelStatus = async (
+export const getModelStatusComponents = async (
   options?: RequestInit,
-): Promise<getLiveModelStatusResponse> => {
-  return customFetch<getLiveModelStatusResponse>(getGetLiveModelStatusUrl(), {
-    ...options,
-    method: "GET",
+): Promise<getModelStatusComponentsResponse> => {
+  return customFetch<getModelStatusComponentsResponse>(
+    getGetModelStatusComponentsUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * @summary Get Model Status Incidents
+ */
+export type getModelStatusIncidentsResponse200ApplicationJson = {
+  data: ResponseArrayControllerEventDTO;
+  status: 200;
+};
+
+export type getModelStatusIncidentsResponse200ApplicationXml = {
+  data: ResponseArrayControllerEventDTO;
+  status: 200;
+};
+
+export type getModelStatusIncidentsResponseSuccess = (
+  | getModelStatusIncidentsResponse200ApplicationJson
+  | getModelStatusIncidentsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getModelStatusIncidentsResponse =
+  getModelStatusIncidentsResponseSuccess;
+
+export const getGetModelStatusIncidentsUrl = (
+  params?: GetModelStatusIncidentsParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
   });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/model_status/incidents?${stringifiedParams}`
+    : `/api/model_status/incidents`;
+};
+
+export const getModelStatusIncidents = async (
+  params?: GetModelStatusIncidentsParams,
+  options?: RequestInit,
+): Promise<getModelStatusIncidentsResponse> => {
+  return customFetch<getModelStatusIncidentsResponse>(
+    getGetModelStatusIncidentsUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+/**
+ * @summary Get Model Status Page
+ */
+export type getModelStatusPageResponse200ApplicationJson = {
+  data: ResponseControllerPageDTO;
+  status: 200;
+};
+
+export type getModelStatusPageResponse200ApplicationXml = {
+  data: ResponseControllerPageDTO;
+  status: 200;
+};
+
+export type getModelStatusPageResponseSuccess = (
+  | getModelStatusPageResponse200ApplicationJson
+  | getModelStatusPageResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getModelStatusPageResponse = getModelStatusPageResponseSuccess;
+
+export const getGetModelStatusPageUrl = (params?: GetModelStatusPageParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/model_status/page?${stringifiedParams}`
+    : `/api/model_status/page`;
+};
+
+export const getModelStatusPage = async (
+  params?: GetModelStatusPageParams,
+  options?: RequestInit,
+): Promise<getModelStatusPageResponse> => {
+  return customFetch<getModelStatusPageResponse>(
+    getGetModelStatusPageUrl(params),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
 };
 
 /**
