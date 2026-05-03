@@ -109,7 +109,8 @@ export async function withIdempotency<T>(
       throw acpError(409, {
         type: "invalid_request",
         code: "idempotency_in_flight",
-        message: "A request with this Idempotency-Key is currently being processed",
+        message:
+          "A request with this Idempotency-Key is currently being processed",
       });
     }
     setHeader(args.set, "Idempotent-Replayed", "true");

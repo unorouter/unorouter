@@ -26,10 +26,14 @@ export type MatchedPathname = {
     : { pathname: K };
 }[keyof typeof pathnames];
 
-export function matchPathname(url: string, locale: Locale): MatchedPathname | null {
+export function matchPathname(
+  url: string,
+  locale: Locale,
+): MatchedPathname | null {
   const path = url.replace(new RegExp(`^/${locale}(?=/|$)`), "") || "/";
-  const keys = (Object.keys(pathnames) as (keyof typeof pathnames)[])
-    .sort((a, b) => b.length - a.length);
+  const keys = (Object.keys(pathnames) as (keyof typeof pathnames)[]).sort(
+    (a, b) => b.length - a.length,
+  );
 
   for (const key of keys) {
     const v = pathnames[key];

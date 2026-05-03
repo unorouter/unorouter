@@ -44,7 +44,9 @@ const MarkdownTextImpl = () => {
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => {
-        let t = text.replace(TASK_CARD_SENTINEL_RE, "").replace(THINKING_BLOCK_RE, "");
+        let t = text
+          .replace(TASK_CARD_SENTINEL_RE, "")
+          .replace(THINKING_BLOCK_RE, "");
         const openIdx = t.search(THINKING_OPEN_RE);
         if (openIdx !== -1) t = t.slice(0, openIdx);
         return normalizeMathDelimiters(t);

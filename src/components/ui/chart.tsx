@@ -206,71 +206,71 @@ function ChartTooltipContent({
           </div>
         )}
         {orderedPayload.map((item, index) => {
-            const key = `${nameKey || item.name || item.dataKey || "value"}`;
-            const itemConfig = getPayloadConfigFromPayload(config, item, key);
-            const indicatorColor = color || item.payload.fill || item.color;
+          const key = `${nameKey || item.name || item.dataKey || "value"}`;
+          const itemConfig = getPayloadConfigFromPayload(config, item, key);
+          const indicatorColor = color || item.payload.fill || item.color;
 
-            return (
-              <div
-                key={item.dataKey}
-                className={cn(
-                  "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-3 [&>svg]:h-2.5 [&>svg]:w-2.5",
-                  indicator === "dot" && "items-center",
-                )}
-              >
-                {formatter && item?.value !== undefined && item.name ? (
-                  formatter(item.value, item.name, item, index, item.payload)
-                ) : (
-                  <>
-                    {itemConfig?.icon ? (
-                      <itemConfig.icon />
-                    ) : (
-                      !hideIndicator && (
-                        <div
-                          className={cn("shrink-0 rounded-[2px]", {
-                            "mr-1 h-2.5 w-2.5": indicator === "dot",
-                            "mr-1 w-1": indicator === "line",
-                            "w-0 border-[1.5px] border-dashed":
-                              indicator === "dashed",
-                            "my-0.5": nestLabel && indicator === "dashed",
-                          })}
-                          style={
-                            {
-                              backgroundColor:
-                                indicator === "dashed"
-                                  ? "transparent"
-                                  : indicatorColor,
-                              borderColor: indicatorColor,
-                            } as React.CSSProperties
-                          }
-                        />
-                      )
+          return (
+            <div
+              key={item.dataKey}
+              className={cn(
+                "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-3 [&>svg]:h-2.5 [&>svg]:w-2.5",
+                indicator === "dot" && "items-center",
+              )}
+            >
+              {formatter && item?.value !== undefined && item.name ? (
+                formatter(item.value, item.name, item, index, item.payload)
+              ) : (
+                <>
+                  {itemConfig?.icon ? (
+                    <itemConfig.icon />
+                  ) : (
+                    !hideIndicator && (
+                      <div
+                        className={cn("shrink-0 rounded-[2px]", {
+                          "mr-1 h-2.5 w-2.5": indicator === "dot",
+                          "mr-1 w-1": indicator === "line",
+                          "w-0 border-[1.5px] border-dashed":
+                            indicator === "dashed",
+                          "my-0.5": nestLabel && indicator === "dashed",
+                        })}
+                        style={
+                          {
+                            backgroundColor:
+                              indicator === "dashed"
+                                ? "transparent"
+                                : indicatorColor,
+                            borderColor: indicatorColor,
+                          } as React.CSSProperties
+                        }
+                      />
+                    )
+                  )}
+                  <div
+                    className={cn(
+                      "flex flex-1 justify-between gap-4 leading-none",
+                      nestLabel ? "items-end" : "items-center",
                     )}
-                    <div
-                      className={cn(
-                        "flex flex-1 justify-between gap-4 leading-none",
-                        nestLabel ? "items-end" : "items-center",
-                      )}
-                    >
-                      <div className="grid gap-1.5">
-                        {nestLabel ? tooltipLabel : null}
-                        <span className="text-muted-foreground">
-                          {itemConfig?.label || item.name}
-                        </span>
-                      </div>
-                      {item.value !== undefined && item.value !== null && (
-                        <span className="text-foreground font-mono font-medium tabular-nums">
-                          {valueFormatter && typeof item.value === "number"
-                            ? valueFormatter(item.value)
-                            : item.value.toLocaleString()}
-                        </span>
-                      )}
+                  >
+                    <div className="grid gap-1.5">
+                      {nestLabel ? tooltipLabel : null}
+                      <span className="text-muted-foreground">
+                        {itemConfig?.label || item.name}
+                      </span>
                     </div>
-                  </>
-                )}
-              </div>
-            );
-          })}
+                    {item.value !== undefined && item.value !== null && (
+                      <span className="text-foreground font-mono font-medium tabular-nums">
+                        {valueFormatter && typeof item.value === "number"
+                          ? valueFormatter(item.value)
+                          : item.value.toLocaleString()}
+                      </span>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

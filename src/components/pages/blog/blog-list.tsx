@@ -85,7 +85,9 @@ export function BlogList(props: BlogListProps) {
           {filter.filtered.map((post, index) => {
             const theme = getBlogTheme(post.category);
             const minutes = estimateReadingMinutes(post.wordCount);
-            const sectionNumber = String(filter.filtered.length - index).padStart(2, "0");
+            const sectionNumber = String(
+              filter.filtered.length - index,
+            ).padStart(2, "0");
             const categoryLabel = t(
               `BLOG.CATEGORY.${post.category.toUpperCase() as Uppercase<typeof post.category>}`,
             );

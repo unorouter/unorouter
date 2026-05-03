@@ -26,10 +26,7 @@ import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 // amount: null because the user selects the amount at checkout (top-up)
 // or the amount is plan-dependent (subscription). TypeScript casts through
 // Record because OperationObject in openapi-types has no x-* index.
-const xPaymentInfo = (
-  method: "stripe" | "creem",
-  description: string,
-) =>
+const xPaymentInfo = (method: "stripe" | "creem", description: string) =>
   ({
     "x-payment-info": {
       intent: "session",
@@ -119,7 +116,10 @@ export const billingRoute = new Elysia({ prefix: "/billing" })
       body: subscriptionPayBody,
       detail: {
         summary: "Start a Stripe checkout session for a subscription plan",
-        ...xPaymentInfo("stripe", "Subscribe to a plan via Stripe checkout URL"),
+        ...xPaymentInfo(
+          "stripe",
+          "Subscribe to a plan via Stripe checkout URL",
+        ),
       },
     },
   )

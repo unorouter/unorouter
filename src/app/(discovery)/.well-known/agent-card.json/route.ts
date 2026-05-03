@@ -24,7 +24,10 @@ export async function GET() {
   const t = await getTranslations({ locale });
 
   const scopeDescriptions = Object.fromEntries(
-    OAUTH_SCOPES.map((scope) => [scope, t(OAUTH_SCOPE_TRANSLATION_KEYS[scope])]),
+    OAUTH_SCOPES.map((scope) => [
+      scope,
+      t(OAUTH_SCOPE_TRANSLATION_KEYS[scope]),
+    ]),
   );
 
   const body = {

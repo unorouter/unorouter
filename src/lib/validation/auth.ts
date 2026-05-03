@@ -58,5 +58,7 @@ export const authRequestInfoSchema = t.Object({
   redirect_uri: t.String(),
   state: t.String(),
 });
-export const authRequestInfoChecker = TypeCompiler.Compile(authRequestInfoSchema);
+export const authRequestInfoChecker = TypeCompiler.Compile(
+  authRequestInfoSchema,
+);
 export type AuthRequestInfo = Static<typeof authRequestInfoSchema>;

@@ -27,58 +27,57 @@ export function InviteesTab() {
   const invitees = (responseData?.items ?? []).filter(Boolean);
   const total = responseData?.total ?? 0;
 
-  const columns: ColumnDef<InvitedUser>[] =
-    [
-      {
-        accessorKey: "username",
-        header: t("AFFILIATE.TABLE.USER"),
-        cell: ({ row }) => (
-          <span className="text-foreground text-sm font-medium">
-            {row.original?.display_name || row.original?.username || "\u2014"}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "commission_count",
-        header: t("AFFILIATE.TABLE.COMMISSIONS"),
-        cell: ({ row }) => (
-          <span className="text-muted-foreground font-mono text-xs tabular-nums">
-            {row.original?.commission_count}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "total_earned",
-        header: t("AFFILIATE.TABLE.TOTAL_EARNED"),
-        cell: ({ row }) => (
-          <span
-            className="font-mono text-sm font-medium tabular-nums"
-            style={{ color: "var(--chart-2)" }}
-          >
-            {renderQuota(row.original?.total_earned)}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "status",
-        header: t("AFFILIATE.TABLE.STATUS"),
-        cell: ({ row }) => (
-          <span
-            className="font-mono text-xs"
-            style={{
-              color:
-                row.original?.status === 1
-                  ? "var(--chart-2)"
-                  : "var(--destructive)",
-            }}
-          >
-            {row.original?.status === 1
-              ? t("AFFILIATE.ENUM.ACTIVE")
-              : t("AFFILIATE.ENUM.DISABLED")}
-          </span>
-        ),
-      },
-    ];
+  const columns: ColumnDef<InvitedUser>[] = [
+    {
+      accessorKey: "username",
+      header: t("AFFILIATE.TABLE.USER"),
+      cell: ({ row }) => (
+        <span className="text-foreground text-sm font-medium">
+          {row.original?.display_name || row.original?.username || "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "commission_count",
+      header: t("AFFILIATE.TABLE.COMMISSIONS"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs tabular-nums">
+          {row.original?.commission_count}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "total_earned",
+      header: t("AFFILIATE.TABLE.TOTAL_EARNED"),
+      cell: ({ row }) => (
+        <span
+          className="font-mono text-sm font-medium tabular-nums"
+          style={{ color: "var(--chart-2)" }}
+        >
+          {renderQuota(row.original?.total_earned)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: t("AFFILIATE.TABLE.STATUS"),
+      cell: ({ row }) => (
+        <span
+          className="font-mono text-xs"
+          style={{
+            color:
+              row.original?.status === 1
+                ? "var(--chart-2)"
+                : "var(--destructive)",
+          }}
+        >
+          {row.original?.status === 1
+            ? t("AFFILIATE.ENUM.ACTIVE")
+            : t("AFFILIATE.ENUM.DISABLED")}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <DataTable

@@ -171,7 +171,9 @@ export function useDeleteTokenMutation() {
             ? {
                 ...old,
                 total: old.total - 1,
-                items: (old.items ?? []).filter((item) => item?.id !== Number(args.id)),
+                items: (old.items ?? []).filter(
+                  (item) => item?.id !== Number(args.id),
+                ),
               }
             : old,
       );

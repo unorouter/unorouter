@@ -166,10 +166,7 @@ export function LogFilters(props: {
             onChange={(v) => props.onFilterChange("subscription_plan", v)}
             placeholder={t("LOGS.FILTER.SUBSCRIPTION_PLAN")}
           />
-          {(tokenName ||
-            modelName ||
-            requestId ||
-            subscriptionPlan) && (
+          {(tokenName || modelName || requestId || subscriptionPlan) && (
             <Button
               variant="ghost"
               size="icon-xs"

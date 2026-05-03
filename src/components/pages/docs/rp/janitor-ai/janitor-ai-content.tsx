@@ -45,21 +45,57 @@ export async function JanitorAIContent() {
   );
 
   const steps = [
-    { titleKey: msg("DOCS.JANITOR_AI.STEP_1_TITLE"), descKey: msg("DOCS.JANITOR_AI.STEP_1_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.STEP_2_TITLE"), descKey: msg("DOCS.JANITOR_AI.STEP_2_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.STEP_3_TITLE"), descKey: msg("DOCS.JANITOR_AI.STEP_3_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.STEP_4_TITLE"), descKey: msg("DOCS.JANITOR_AI.STEP_4_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.STEP_5_TITLE"), descKey: msg("DOCS.JANITOR_AI.STEP_5_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.STEP_6_TITLE"), descKey: msg("DOCS.JANITOR_AI.STEP_6_DESC") },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.STEP_1_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.STEP_1_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.STEP_2_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.STEP_2_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.STEP_3_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.STEP_3_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.STEP_4_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.STEP_4_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.STEP_5_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.STEP_5_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.STEP_6_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.STEP_6_DESC"),
+    },
   ];
 
   const troubles = [
-    { titleKey: msg("DOCS.JANITOR_AI.TS_1_TITLE"), descKey: msg("DOCS.JANITOR_AI.TS_1_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.TS_2_TITLE"), descKey: msg("DOCS.JANITOR_AI.TS_2_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.TS_3_TITLE"), descKey: msg("DOCS.JANITOR_AI.TS_3_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.TS_4_TITLE"), descKey: msg("DOCS.JANITOR_AI.TS_4_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.TS_5_TITLE"), descKey: msg("DOCS.JANITOR_AI.TS_5_DESC") },
-    { titleKey: msg("DOCS.JANITOR_AI.TS_6_TITLE"), descKey: msg("DOCS.JANITOR_AI.TS_6_DESC") },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.TS_1_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.TS_1_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.TS_2_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.TS_2_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.TS_3_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.TS_3_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.TS_4_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.TS_4_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.TS_5_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.TS_5_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.JANITOR_AI.TS_6_TITLE"),
+      descKey: msg("DOCS.JANITOR_AI.TS_6_DESC"),
+    },
   ];
 
   const quickConfigCode = `${t("DOCS.JANITOR_AI.QUICK_CONFIG_URL_LABEL")}:   ${docs.apiUrl}/v1/chat/completions
@@ -140,7 +176,9 @@ ${t("DOCS.JANITOR_AI.QUICK_CONFIG_MODEL_LABEL")}: ${docs.topTextModel}`;
                   {idx + 1}
                 </span>
                 <div>
-                  <strong className="text-foreground">{t(step.titleKey)}</strong>
+                  <strong className="text-foreground">
+                    {t(step.titleKey)}
+                  </strong>
                   <p className="mt-1">{t(step.descKey, APP_VALUES)}</p>
                 </div>
               </li>
@@ -186,8 +224,10 @@ ${t("DOCS.JANITOR_AI.QUICK_CONFIG_MODEL_LABEL")}: ${docs.topTextModel}`;
             {t("DOCS.JANITOR_AI.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.JANITOR_AI.CTA_SIGNUP"
-              authedTranslationKey="DOCS.JANITOR_AI.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.JANITOR_AI.CTA_SIGNUP"
+              authedTranslationKey="DOCS.JANITOR_AI.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

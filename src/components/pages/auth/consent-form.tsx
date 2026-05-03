@@ -108,7 +108,7 @@ export function ConsentForm(props: ConsentFormProps) {
           <Pencil className="text-muted-foreground size-4" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-muted-foreground text-xs uppercase tracking-wide">
+          <p className="text-muted-foreground text-xs tracking-wide uppercase">
             {t("AUTH.CONSENT.REQUESTING_APP")}
           </p>
           <p className="text-foreground truncate font-mono text-sm">

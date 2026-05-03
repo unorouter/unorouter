@@ -288,8 +288,10 @@ wire_api = "responses"`;
             {t("DOCS.CODEX.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.CODEX.CTA_SIGNUP"
-              authedTranslationKey="DOCS.CODEX.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.CODEX.CTA_SIGNUP"
+              authedTranslationKey="DOCS.CODEX.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

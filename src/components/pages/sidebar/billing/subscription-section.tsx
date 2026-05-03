@@ -26,7 +26,12 @@ import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/date";
 import { useTranslations } from "next-intl";
-import { LuExternalLink, LuRefreshCw, LuRotateCw, LuSparkles } from "react-icons/lu";
+import {
+  LuExternalLink,
+  LuRefreshCw,
+  LuRotateCw,
+  LuSparkles,
+} from "react-icons/lu";
 import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
@@ -248,8 +253,12 @@ export function SubscriptionSection() {
             const endDate = dayjs.unix(sub.end_time).format("MMM D, YYYY");
             const resetMoment = dayjs.unix(sub.next_reset_time);
             const showResetBadge =
-              isActive && sub.next_reset_time > 0 && resetMoment.isAfter(dayjs());
-            const resetRelative = showResetBadge ? resetMoment.fromNow(true) : "";
+              isActive &&
+              sub.next_reset_time > 0 &&
+              resetMoment.isAfter(dayjs());
+            const resetRelative = showResetBadge
+              ? resetMoment.fromNow(true)
+              : "";
             const resetAbsolute = showResetBadge
               ? resetMoment.format("MMM D, HH:mm")
               : "";

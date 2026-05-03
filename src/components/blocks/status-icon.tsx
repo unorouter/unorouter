@@ -115,7 +115,7 @@ export function StatusIcon({
     <div
       data-slot="status-icon"
       className={cn(
-        "flex items-center justify-center rounded-full bg-muted text-background",
+        "bg-muted text-background flex items-center justify-center rounded-full",
         sizeClasses,
         ...statusClasses,
         className,

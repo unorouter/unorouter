@@ -269,8 +269,10 @@ openclaw onboard`}
             {t("DOCS.OPENCLAW.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.OPENCLAW.CTA_SIGNUP"
-              authedTranslationKey="DOCS.OPENCLAW.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.OPENCLAW.CTA_SIGNUP"
+              authedTranslationKey="DOCS.OPENCLAW.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

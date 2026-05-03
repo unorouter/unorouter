@@ -3,17 +3,20 @@
 import { sidebarNavigation } from "@/components/layout/nav/navigation";
 import { Badge } from "@/components/ui/badge";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import { useLogoutMutation } from "@/hooks/auth-hook";
-import { useBillingPlansQuery, useSubscriptionSelfQuery } from "@/hooks/billing-hook";
+import {
+  useBillingPlansQuery,
+  useSubscriptionSelfQuery,
+} from "@/hooks/billing-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";

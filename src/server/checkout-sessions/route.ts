@@ -28,7 +28,9 @@ function assertApiVersion(request: Request) {
       supported_versions: SUPPORTED_VERSIONS,
     });
   }
-  if (!SUPPORTED_VERSIONS.includes(version as (typeof SUPPORTED_VERSIONS)[number])) {
+  if (
+    !SUPPORTED_VERSIONS.includes(version as (typeof SUPPORTED_VERSIONS)[number])
+  ) {
     acpError(400, {
       type: "invalid_request",
       code: "unsupported_api_version",
@@ -38,7 +40,9 @@ function assertApiVersion(request: Request) {
   }
 }
 
-export const checkoutSessionsRoute = new Elysia({ prefix: "/checkout_sessions" })
+export const checkoutSessionsRoute = new Elysia({
+  prefix: "/checkout_sessions",
+})
   .derive(deriveUpstream)
   .post(
     "/",

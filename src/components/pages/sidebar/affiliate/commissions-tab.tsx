@@ -28,60 +28,59 @@ export function CommissionsTab() {
   const commissions = (responseData?.items ?? []).filter(Boolean);
   const total = responseData?.total ?? 0;
 
-  const columns: ColumnDef<ReferralCommissionWithUser>[] =
-    [
-      {
-        accessorKey: "created_at",
-        header: t("AFFILIATE.TABLE.DATE"),
-        cell: ({ row }) => (
-          <span className="text-muted-foreground font-mono text-xs">
-            {formatDate(row.original?.created_at)}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "invitee_username",
-        header: t("AFFILIATE.TABLE.USER"),
-        cell: ({ row }) => (
-          <span className="text-foreground text-sm font-medium">
-            {row.original?.invitee_username || "\u2014"}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "recharge_amount",
-        header: t("AFFILIATE.TABLE.RECHARGE"),
-        cell: ({ row }) => (
-          <span className="font-mono text-sm tabular-nums">
-            {renderQuota(row.original?.recharge_amount)}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "commission_rate",
-        header: t("AFFILIATE.TABLE.RATE"),
-        cell: ({ row }) => (
-          <span className="text-muted-foreground font-mono text-xs">
-            {row.original?.commission_rate != null
-              ? `${(row.original.commission_rate * 100).toFixed(0)}%`
-              : "\u2014"}
-          </span>
-        ),
-      },
-      {
-        accessorKey: "commission_quota",
-        header: t("AFFILIATE.TABLE.EARNED"),
-        meta: { headerClassName: "text-right", cellClassName: "text-right" },
-        cell: ({ row }) => (
-          <span
-            className="font-mono text-sm font-medium tabular-nums"
-            style={{ color: "var(--chart-2)" }}
-          >
-            {renderQuota(row.original?.commission_quota)}
-          </span>
-        ),
-      },
-    ];
+  const columns: ColumnDef<ReferralCommissionWithUser>[] = [
+    {
+      accessorKey: "created_at",
+      header: t("AFFILIATE.TABLE.DATE"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs">
+          {formatDate(row.original?.created_at)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "invitee_username",
+      header: t("AFFILIATE.TABLE.USER"),
+      cell: ({ row }) => (
+        <span className="text-foreground text-sm font-medium">
+          {row.original?.invitee_username || "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "recharge_amount",
+      header: t("AFFILIATE.TABLE.RECHARGE"),
+      cell: ({ row }) => (
+        <span className="font-mono text-sm tabular-nums">
+          {renderQuota(row.original?.recharge_amount)}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "commission_rate",
+      header: t("AFFILIATE.TABLE.RATE"),
+      cell: ({ row }) => (
+        <span className="text-muted-foreground font-mono text-xs">
+          {row.original?.commission_rate != null
+            ? `${(row.original.commission_rate * 100).toFixed(0)}%`
+            : "\u2014"}
+        </span>
+      ),
+    },
+    {
+      accessorKey: "commission_quota",
+      header: t("AFFILIATE.TABLE.EARNED"),
+      meta: { headerClassName: "text-right", cellClassName: "text-right" },
+      cell: ({ row }) => (
+        <span
+          className="font-mono text-sm font-medium tabular-nums"
+          style={{ color: "var(--chart-2)" }}
+        >
+          {renderQuota(row.original?.commission_quota)}
+        </span>
+      ),
+    },
+  ];
 
   return (
     <DataTable

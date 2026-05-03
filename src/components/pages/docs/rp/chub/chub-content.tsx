@@ -19,32 +19,83 @@ export async function ChubContent() {
   const toc = createTOC(
     [
       { title: t("DOCS.CHUB.TOC_OVERVIEW"), url: "#overview", depth: 2 },
-      { title: t("DOCS.CHUB.TOC_TRUST_NOTICE"), url: "#trust-notice", depth: 3 },
-      { title: t("DOCS.CHUB.TOC_QUICK_CONFIG"), url: "#quick-config", depth: 2 },
+      {
+        title: t("DOCS.CHUB.TOC_TRUST_NOTICE"),
+        url: "#trust-notice",
+        depth: 3,
+      },
+      {
+        title: t("DOCS.CHUB.TOC_QUICK_CONFIG"),
+        url: "#quick-config",
+        depth: 2,
+      },
       { title: t("DOCS.CHUB.TOC_STEPS"), url: "#steps", depth: 2 },
       { title: t("DOCS.CHUB.TOC_PICK_MODEL"), url: "#pick-model", depth: 3 },
-      { title: t("DOCS.CHUB.TOC_TROUBLESHOOTING"), url: "#troubleshooting", depth: 2 },
+      {
+        title: t("DOCS.CHUB.TOC_TROUBLESHOOTING"),
+        url: "#troubleshooting",
+        depth: 2,
+      },
     ],
     t("DOCS.TOC_TITLE"),
   );
 
   const steps = [
-    { titleKey: msg("DOCS.CHUB.STEP_1_TITLE"), descKey: msg("DOCS.CHUB.STEP_1_DESC") },
-    { titleKey: msg("DOCS.CHUB.STEP_2_TITLE"), descKey: msg("DOCS.CHUB.STEP_2_DESC") },
-    { titleKey: msg("DOCS.CHUB.STEP_3_TITLE"), descKey: msg("DOCS.CHUB.STEP_3_DESC") },
-    { titleKey: msg("DOCS.CHUB.STEP_4_TITLE"), descKey: msg("DOCS.CHUB.STEP_4_DESC") },
-    { titleKey: msg("DOCS.CHUB.STEP_5_TITLE"), descKey: msg("DOCS.CHUB.STEP_5_DESC") },
-    { titleKey: msg("DOCS.CHUB.STEP_6_TITLE"), descKey: msg("DOCS.CHUB.STEP_6_DESC") },
-    { titleKey: msg("DOCS.CHUB.STEP_7_TITLE"), descKey: msg("DOCS.CHUB.STEP_7_DESC") },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_1_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_1_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_2_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_2_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_3_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_3_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_4_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_4_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_5_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_5_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_6_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_6_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.STEP_7_TITLE"),
+      descKey: msg("DOCS.CHUB.STEP_7_DESC"),
+    },
   ];
 
   const troubles = [
-    { titleKey: msg("DOCS.CHUB.TS_1_TITLE"), descKey: msg("DOCS.CHUB.TS_1_DESC") },
-    { titleKey: msg("DOCS.CHUB.TS_2_TITLE"), descKey: msg("DOCS.CHUB.TS_2_DESC") },
-    { titleKey: msg("DOCS.CHUB.TS_3_TITLE"), descKey: msg("DOCS.CHUB.TS_3_DESC") },
-    { titleKey: msg("DOCS.CHUB.TS_4_TITLE"), descKey: msg("DOCS.CHUB.TS_4_DESC") },
-    { titleKey: msg("DOCS.CHUB.TS_5_TITLE"), descKey: msg("DOCS.CHUB.TS_5_DESC") },
-    { titleKey: msg("DOCS.CHUB.TS_6_TITLE"), descKey: msg("DOCS.CHUB.TS_6_DESC") },
+    {
+      titleKey: msg("DOCS.CHUB.TS_1_TITLE"),
+      descKey: msg("DOCS.CHUB.TS_1_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.TS_2_TITLE"),
+      descKey: msg("DOCS.CHUB.TS_2_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.TS_3_TITLE"),
+      descKey: msg("DOCS.CHUB.TS_3_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.TS_4_TITLE"),
+      descKey: msg("DOCS.CHUB.TS_4_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.TS_5_TITLE"),
+      descKey: msg("DOCS.CHUB.TS_5_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.CHUB.TS_6_TITLE"),
+      descKey: msg("DOCS.CHUB.TS_6_DESC"),
+    },
   ];
 
   const quickConfigCode = `${t("DOCS.CHUB.QUICK_CONFIG_URL_LABEL")}: ${docs.apiUrl}/v1/chat/completions
@@ -134,7 +185,9 @@ ${t("DOCS.CHUB.QUICK_CONFIG_KEY_LABEL")}: ${docs.placeholder}`;
                   {idx + 1}
                 </span>
                 <div>
-                  <strong className="text-foreground">{t(step.titleKey)}</strong>
+                  <strong className="text-foreground">
+                    {t(step.titleKey)}
+                  </strong>
                   <p className="mt-1">{t(step.descKey, APP_VALUES)}</p>
                 </div>
               </li>
@@ -171,15 +224,15 @@ ${t("DOCS.CHUB.QUICK_CONFIG_KEY_LABEL")}: ${docs.placeholder}`;
 
         {/* CTA */}
         <section className="border-border mt-16 border-t pt-12 text-center">
-          <h2 className="text-2xl font-semibold">
-            {t("DOCS.CHUB.CTA_TITLE")}
-          </h2>
+          <h2 className="text-2xl font-semibold">{t("DOCS.CHUB.CTA_TITLE")}</h2>
           <p className="text-muted-foreground mt-2">
             {t("DOCS.CHUB.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.CHUB.CTA_SIGNUP"
-              authedTranslationKey="DOCS.CHUB.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.CHUB.CTA_SIGNUP"
+              authedTranslationKey="DOCS.CHUB.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

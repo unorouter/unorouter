@@ -106,10 +106,7 @@
       "indexes": {
         "idx_acp_user_created": {
           "name": "idx_acp_user_created",
-          "columns": [
-            "user_id",
-            "created_at"
-          ],
+          "columns": ["user_id", "created_at"],
           "isUnique": false
         }
       },
@@ -183,18 +180,12 @@
       "indexes": {
         "idx_acp_idem_lookup": {
           "name": "idx_acp_idem_lookup",
-          "columns": [
-            "user_id",
-            "key",
-            "path"
-          ],
+          "columns": ["user_id", "key", "path"],
           "isUnique": false
         },
         "idx_acp_idem_created": {
           "name": "idx_acp_idem_created",
-          "columns": [
-            "created_at"
-          ],
+          "columns": ["created_at"],
           "isUnique": false
         }
       },
@@ -299,40 +290,27 @@
       "indexes": {
         "conversations_share_id_unique": {
           "name": "conversations_share_id_unique",
-          "columns": [
-            "share_id"
-          ],
+          "columns": ["share_id"],
           "isUnique": true
         },
         "idx_conv_user_updated": {
           "name": "idx_conv_user_updated",
-          "columns": [
-            "user_id",
-            "updated_at"
-          ],
+          "columns": ["user_id", "updated_at"],
           "isUnique": false
         },
         "idx_conv_share": {
           "name": "idx_conv_share",
-          "columns": [
-            "share_id"
-          ],
+          "columns": ["share_id"],
           "isUnique": false
         },
         "idx_conv_archived": {
           "name": "idx_conv_archived",
-          "columns": [
-            "user_id",
-            "archived_at"
-          ],
+          "columns": ["user_id", "archived_at"],
           "isUnique": false
         },
         "idx_conv_starred": {
           "name": "idx_conv_starred",
-          "columns": [
-            "user_id",
-            "starred_at"
-          ],
+          "columns": ["user_id", "starred_at"],
           "isUnique": false
         }
       },
@@ -405,16 +383,12 @@
       "indexes": {
         "idx_media_user": {
           "name": "idx_media_user",
-          "columns": [
-            "user_id"
-          ],
+          "columns": ["user_id"],
           "isUnique": false
         },
         "idx_media_conv": {
           "name": "idx_media_conv",
-          "columns": [
-            "conv_id"
-          ],
+          "columns": ["conv_id"],
           "isUnique": false
         }
       },
@@ -423,12 +397,8 @@
           "name": "media_conv_id_conversations_id_fk",
           "tableFrom": "media",
           "tableTo": "conversations",
-          "columnsFrom": [
-            "conv_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["conv_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -529,17 +499,12 @@
       "indexes": {
         "idx_msg_conv": {
           "name": "idx_msg_conv",
-          "columns": [
-            "conv_id"
-          ],
+          "columns": ["conv_id"],
           "isUnique": false
         },
         "idx_msg_parent": {
           "name": "idx_msg_parent",
-          "columns": [
-            "conv_id",
-            "parent_id"
-          ],
+          "columns": ["conv_id", "parent_id"],
           "isUnique": false
         }
       },
@@ -548,12 +513,8 @@
           "name": "messages_conv_id_conversations_id_fk",
           "tableFrom": "messages",
           "tableTo": "conversations",
-          "columnsFrom": [
-            "conv_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["conv_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -661,18 +622,12 @@
       "indexes": {
         "idx_modlog_user_created": {
           "name": "idx_modlog_user_created",
-          "columns": [
-            "user_id",
-            "created_at"
-          ],
+          "columns": ["user_id", "created_at"],
           "isUnique": false
         },
         "idx_modlog_decision": {
           "name": "idx_modlog_decision",
-          "columns": [
-            "decision",
-            "created_at"
-          ],
+          "columns": ["decision", "created_at"],
           "isUnique": false
         }
       },

@@ -41,20 +41,13 @@ export function CachePricing(props: {
         : "grid-cols-3";
 
   return (
-    <div
-      className={cn(
-        "border-border/40 mt-3 grid gap-3 border-t pt-3",
-        cols,
-      )}
-    >
+    <div className={cn("border-border/40 mt-3 grid gap-3 border-t pt-3", cols)}>
       {tiers.map((tier) => (
         <div key={tier.labelKey}>
           <span className="text-muted-foreground font-mono text-[10px] uppercase">
             {t(tier.labelKey as Parameters<typeof t>[0])}
           </span>
-          <div
-            className={cn("font-mono text-sm font-bold", props.theme.text)}
-          >
+          <div className={cn("font-mono text-sm font-bold", props.theme.text)}>
             {formatPrice(props.model.inputPrice * tier.multiplier)}
           </div>
           <span className="text-muted-foreground font-mono text-[10px]">

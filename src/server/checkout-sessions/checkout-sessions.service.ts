@@ -2,10 +2,7 @@ import { processPlans } from "@/lib/api/subscription";
 import { QUOTA_PER_DOLLAR } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { getDb } from "@/lib/db/client";
-import {
-  acpCheckoutSessions,
-  type AcpCheckoutSession,
-} from "@/lib/db/schema";
+import { acpCheckoutSessions, type AcpCheckoutSession } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import {
   getSelf,
@@ -117,7 +114,10 @@ async function loadCatalog(
     enableStripeTopup = topup.data.data.enable_stripe_topup ?? false;
     enableCreemTopup = topup.data.data.enable_creem_topup ?? false;
     for (const product of parseCreemProducts(topup.data.data.creem_products)) {
-      if (typeof product.price === "number" && typeof product.productId === "string") {
+      if (
+        typeof product.price === "number" &&
+        typeof product.productId === "string"
+      ) {
         creemProductIdByAmount.set(product.price, product.productId);
       }
     }
@@ -160,7 +160,8 @@ async function resolveItem(
       acpError(400, {
         type: "invalid_request",
         code: "invalid",
-        message: "Stripe top-up is not currently enabled; use a *_creem item id",
+        message:
+          "Stripe top-up is not currently enabled; use a *_creem item id",
         param: `$.items[${index}].id`,
       });
     }
@@ -233,7 +234,8 @@ async function validateAndResolveItem(
     acpError(400, {
       type: "invalid_request",
       code: "invalid",
-      message: "Unknown item id; expected topup_<usd>_<method> or plan_<id>_<method>",
+      message:
+        "Unknown item id; expected topup_<usd>_<method> or plan_<id>_<method>",
       param: "$.items[0].id",
     });
   }

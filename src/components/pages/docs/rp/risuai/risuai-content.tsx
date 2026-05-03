@@ -19,34 +19,91 @@ export async function RisuAIContent() {
   const toc = createTOC(
     [
       { title: t("DOCS.RISUAI.TOC_OVERVIEW"), url: "#overview", depth: 2 },
-      { title: t("DOCS.RISUAI.TOC_QUICK_CONFIG"), url: "#quick-config", depth: 2 },
+      {
+        title: t("DOCS.RISUAI.TOC_QUICK_CONFIG"),
+        url: "#quick-config",
+        depth: 2,
+      },
       { title: t("DOCS.RISUAI.TOC_STEPS"), url: "#steps", depth: 2 },
-      { title: t("DOCS.RISUAI.TOC_AUTOFILL_WARNING"), url: "#autofill-warning", depth: 3 },
+      {
+        title: t("DOCS.RISUAI.TOC_AUTOFILL_WARNING"),
+        url: "#autofill-warning",
+        depth: 3,
+      },
       { title: t("DOCS.RISUAI.TOC_AUX_MODEL"), url: "#aux-model", depth: 3 },
-      { title: t("DOCS.RISUAI.TOC_TROUBLESHOOTING"), url: "#troubleshooting", depth: 2 },
+      {
+        title: t("DOCS.RISUAI.TOC_TROUBLESHOOTING"),
+        url: "#troubleshooting",
+        depth: 2,
+      },
     ],
     t("DOCS.TOC_TITLE"),
   );
 
   const steps = [
-    { titleKey: msg("DOCS.RISUAI.STEP_1_TITLE"), descKey: msg("DOCS.RISUAI.STEP_1_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_2_TITLE"), descKey: msg("DOCS.RISUAI.STEP_2_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_3_TITLE"), descKey: msg("DOCS.RISUAI.STEP_3_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_4_TITLE"), descKey: msg("DOCS.RISUAI.STEP_4_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_5_TITLE"), descKey: msg("DOCS.RISUAI.STEP_5_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_6_TITLE"), descKey: msg("DOCS.RISUAI.STEP_6_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_7_TITLE"), descKey: msg("DOCS.RISUAI.STEP_7_DESC") },
-    { titleKey: msg("DOCS.RISUAI.STEP_8_TITLE"), descKey: msg("DOCS.RISUAI.STEP_8_DESC") },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_1_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_1_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_2_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_2_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_3_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_3_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_4_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_4_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_5_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_5_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_6_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_6_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_7_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_7_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.STEP_8_TITLE"),
+      descKey: msg("DOCS.RISUAI.STEP_8_DESC"),
+    },
   ];
 
   const troubles = [
-    { titleKey: msg("DOCS.RISUAI.TS_1_TITLE"), descKey: msg("DOCS.RISUAI.TS_1_DESC") },
-    { titleKey: msg("DOCS.RISUAI.TS_2_TITLE"), descKey: msg("DOCS.RISUAI.TS_2_DESC") },
-    { titleKey: msg("DOCS.RISUAI.TS_3_TITLE"), descKey: msg("DOCS.RISUAI.TS_3_DESC") },
-    { titleKey: msg("DOCS.RISUAI.TS_4_TITLE"), descKey: msg("DOCS.RISUAI.TS_4_DESC") },
-    { titleKey: msg("DOCS.RISUAI.TS_5_TITLE"), descKey: msg("DOCS.RISUAI.TS_5_DESC") },
-    { titleKey: msg("DOCS.RISUAI.TS_6_TITLE"), descKey: msg("DOCS.RISUAI.TS_6_DESC") },
-    { titleKey: msg("DOCS.RISUAI.TS_7_TITLE"), descKey: msg("DOCS.RISUAI.TS_7_DESC") },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_1_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_1_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_2_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_2_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_3_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_3_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_4_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_4_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_5_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_5_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_6_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_6_DESC"),
+    },
+    {
+      titleKey: msg("DOCS.RISUAI.TS_7_TITLE"),
+      descKey: msg("DOCS.RISUAI.TS_7_DESC"),
+    },
   ];
 
   const quickConfigCode = `${t("DOCS.RISUAI.QUICK_CONFIG_URL_LABEL")}: ${docs.apiUrl}/v1/chat/completions
@@ -140,7 +197,9 @@ ${t("DOCS.RISUAI.QUICK_CONFIG_MODEL_LABEL")}:   ${docs.topTextModel}`;
                   {idx + 1}
                 </span>
                 <div>
-                  <strong className="text-foreground">{t(step.titleKey)}</strong>
+                  <strong className="text-foreground">
+                    {t(step.titleKey)}
+                  </strong>
                   <p className="mt-1">{t(step.descKey, APP_VALUES)}</p>
                 </div>
               </li>
@@ -186,8 +245,10 @@ ${t("DOCS.RISUAI.QUICK_CONFIG_MODEL_LABEL")}:   ${docs.topTextModel}`;
             {t("DOCS.RISUAI.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.RISUAI.CTA_SIGNUP"
-              authedTranslationKey="DOCS.RISUAI.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.RISUAI.CTA_SIGNUP"
+              authedTranslationKey="DOCS.RISUAI.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

@@ -52,9 +52,8 @@ export function useBindEmailMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(
-        queryKeys.auth(),
-        (old) => (old ? { ...old, email: args.query.email } : old),
+      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+        old ? { ...old, email: args.query.email } : old,
       );
     },
   });
@@ -69,18 +68,16 @@ export function useUpdateSelfMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(
-        queryKeys.auth(),
-        (old) =>
-          old
-            ? {
-                ...old,
-                ...(args.body.display_name && {
-                  display_name: args.body.display_name,
-                }),
-                ...(args.body.email && { email: args.body.email }),
-              }
-            : old,
+      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+        old
+          ? {
+              ...old,
+              ...(args.body.display_name && {
+                display_name: args.body.display_name,
+              }),
+              ...(args.body.email && { email: args.body.email }),
+            }
+          : old,
       );
     },
   });
@@ -103,9 +100,8 @@ export function useUpdateSettingMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(
-        queryKeys.auth(),
-        (old) => (old ? { ...old, ...args.body } : old),
+      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+        old ? { ...old, ...args.body } : old,
       );
     },
   });

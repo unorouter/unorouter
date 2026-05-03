@@ -147,8 +147,7 @@ function CollapsibleNavItem(props: {
             );
             const prevGroup =
               idx > 0 ? props.item.submenu![idx - 1].group : undefined;
-            const showHeading =
-              subItem.group && subItem.group !== prevGroup;
+            const showHeading = subItem.group && subItem.group !== prevGroup;
             return (
               <Fragment key={subItem.name}>
                 {showHeading && (

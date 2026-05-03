@@ -17,9 +17,8 @@ export async function ClaudeAuthenticityContent() {
       <p>
         Claude is the most in-demand model on the market right now, and one of
         the most expensive. That gap has created a thriving market of
-        third-party resellers offering &quot;the same Claude&quot; at a
-        fraction of the official price. Some are legitimate. A lot
-        aren&apos;t.
+        third-party resellers offering &quot;the same Claude&quot; at a fraction
+        of the official price. Some are legitimate. A lot aren&apos;t.
       </p>
 
       <p>
@@ -29,8 +28,8 @@ export async function ClaudeAuthenticityContent() {
         checks against models marketed as <code>claude-opus-4-7</code>,{" "}
         <code>claude-sonnet-4-6</code>, <code>claude-haiku-4-5</code>, and
         friends. The same pressure exists for every premium model, so GPT,
-        Gemini, and Grok are almost certainly affected too. Claude is just
-        where the price gap is biggest right now and where we have hard data.
+        Gemini, and Grok are almost certainly affected too. Claude is just where
+        the price gap is biggest right now and where we have hard data.
       </p>
 
       <h2 id="probes">How the probes work</h2>
@@ -99,9 +98,9 @@ export async function ClaudeAuthenticityContent() {
           <code>coding-tool-refusal</code>: response matches a Kiro Cascade or
           Codeium / Windsurf Droid refusal pattern (
           <em>&quot;I&apos;m here to help with coding&quot;</em>,{" "}
-          <em>&quot;I&apos;m Droid&quot;</em>, etc.). The upstream is routing
-          to an IDE-assistant product, which refuses the prompt because
-          it&apos;s not coding.
+          <em>&quot;I&apos;m Droid&quot;</em>, etc.). The upstream is routing to
+          an IDE-assistant product, which refuses the prompt because it&apos;s
+          not coding.
         </li>
         <li>
           <code>foreign-identity</code>: response identifies as a non-Anthropic
@@ -136,10 +135,10 @@ export async function ClaudeAuthenticityContent() {
         identity probe with <code>Amazon</code> / <code>Google</code> /{" "}
         <code>Microsoft</code> instead of <code>Anthropic</code>, because of
         host system prompts. A channel flagged <em>only</em> by{" "}
-        <code>foreign-identity</code> against cloud-host names warrants a
-        manual second look. <code>coding-tool-refusal</code> and non-cloud
-        foreign vendors are unambiguous, real Bedrock/Vertex/Foundry Claude
-        never produces those responses.
+        <code>foreign-identity</code> against cloud-host names warrants a manual
+        second look. <code>coding-tool-refusal</code> and non-cloud foreign
+        vendors are unambiguous, real Bedrock/Vertex/Foundry Claude never
+        produces those responses.
       </p>
 
       <h2 id="results">What 17 days of probing turned up</h2>
@@ -279,8 +278,7 @@ export async function ClaudeAuthenticityContent() {
         on the market longer. Opus 4.7 hit 16 spoofed channels within weeks of
         release. This isn&apos;t a static snapshot, either, resellers rotate
         upstreams and a channel that passes today can start serving Kiro
-        tomorrow.{" "}
-        <strong>Authenticity has to be checked continuously.</strong>
+        tomorrow. <strong>Authenticity has to be checked continuously.</strong>
       </p>
 
       <h2 id="why">Why this happens</h2>
@@ -292,15 +290,16 @@ export async function ClaudeAuthenticityContent() {
       <ol>
         <li>Eat the loss (sustainable only with deep funding).</li>
         <li>
-          Buy Bedrock/Vertex/Foundry capacity at enterprise discount and
-          resell. <strong>Legitimate</strong>, but bounded by what those clouds
-          charge.
+          Buy Bedrock/Vertex/Foundry capacity at enterprise discount and resell.{" "}
+          <strong>Legitimate</strong>, but bounded by what those clouds charge.
         </li>
         <li>
           Run a fraction of traffic through real Claude and route the rest
           cheaper, banking on users not noticing.
         </li>
-        <li>Route everything to a non-Anthropic backend and hope nobody checks.</li>
+        <li>
+          Route everything to a non-Anthropic backend and hope nobody checks.
+        </li>
       </ol>
       <p>
         Options 3 and 4 are what the probes catch. Kiro Cascade and Codeium are

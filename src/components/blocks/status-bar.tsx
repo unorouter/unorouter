@@ -1,23 +1,20 @@
 "use client";
 
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { cn } from "@/lib/utils";
-import { dayjs } from "@/lib/utils/date";
-import { useCallback, useEffect, useRef, useState, forwardRef } from "react";
-import { statusColors } from "@/components/blocks/status.utils";
+import { useStatusBlocksLabels } from "@/components/blocks/status-i18n";
 import type {
   StatusBarData,
   StatusEventType,
   StatusType,
 } from "@/components/blocks/status.types";
-import { useStatusBlocksLabels } from "@/components/blocks/status-i18n";
+import { statusColors } from "@/components/blocks/status.utils";
+import { HoverCard } from "@/components/ui/hover-card";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import { dayjs } from "@/lib/utils/date";
+import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
+import { useEffect, useRef, useState } from "react";
 
 interface StatusBarProps {
   data: StatusBarData[];
@@ -140,57 +137,46 @@ function useStatusBar({ dataLength, isTouch }: UseStatusBarProps) {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [interactionType, activeIndex]);
 
-  const clearHoverTimeout = useCallback(() => {
+  const clearHoverTimeout = () => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current);
       hoverTimeoutRef.current = null;
     }
-  }, []);
+  };
 
-  const handleClick = useCallback(
-    (index: number) => {
-      clearHoverTimeout();
-      setActiveIndex((prev) => {
-        if (prev === index) {
-          setInteractionType(null);
-          return null;
-        }
-        setInteractionType("pin");
-        return index;
-      });
-    },
-    [clearHoverTimeout],
-  );
+  const handleClick = (index: number) => {
+    clearHoverTimeout();
+    setActiveIndex((prev) => {
+      if (prev === index) {
+        setInteractionType(null);
+        return null;
+      }
+      setInteractionType("pin");
+      return index;
+    });
+  };
 
-  const handleHoverStart = useCallback(
-    (index: number) => {
-      // On touch devices, don't show hover state
-      if (isTouch) return;
+  const handleHoverStart = (index: number) => {
+    if (isTouch) return;
+    clearHoverTimeout();
+    setActiveIndex(index);
+    setInteractionType("hover");
+  };
 
-      clearHoverTimeout();
-      setActiveIndex(index);
-      setInteractionType("hover");
-    },
-    [isTouch, clearHoverTimeout],
-  );
-
-  const handleHoverEnd = useCallback(() => {
-    // Only clear hover state, not pinned or focused
+  const handleHoverEnd = () => {
     if (interactionType !== "hover") return;
-
     hoverTimeoutRef.current = setTimeout(() => {
       setActiveIndex(null);
       setInteractionType(null);
     }, 100);
-  }, [interactionType]);
+  };
 
-  const handleFocus = useCallback((index: number) => {
+  const handleFocus = (index: number) => {
     setActiveIndex(index);
     setInteractionType("focus");
-  }, []);
+  };
 
-  const handleBlur = useCallback((e: React.FocusEvent) => {
-    // Only clear if not moving to another bar
+  const handleBlur = (e: React.FocusEvent) => {
     const relatedTarget = e.relatedTarget as HTMLElement;
     const isMovingToAnotherBar =
       relatedTarget &&
@@ -201,86 +187,79 @@ function useStatusBar({ dataLength, isTouch }: UseStatusBarProps) {
       setActiveIndex(null);
       setInteractionType(null);
     }
-  }, []);
+  };
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, currentIndex: number) => {
-      switch (e.key) {
-        case "Escape":
-          e.preventDefault();
-          setActiveIndex(null);
-          setInteractionType(null);
-          clearHoverTimeout();
-          buttonRefs.current[currentIndex]?.blur();
-          break;
+  const handleKeyDown = (e: React.KeyboardEvent, currentIndex: number) => {
+    switch (e.key) {
+      case "Escape":
+        e.preventDefault();
+        setActiveIndex(null);
+        setInteractionType(null);
+        clearHoverTimeout();
+        buttonRefs.current[currentIndex]?.blur();
+        break;
 
-        case "ArrowLeft":
-          e.preventDefault();
-          {
-            const newIndex =
-              currentIndex > 0 ? currentIndex - 1 : dataLength - 1;
-            buttonRefs.current[newIndex]?.focus();
-          }
-          break;
+      case "ArrowLeft":
+        e.preventDefault();
+        {
+          const newIndex = currentIndex > 0 ? currentIndex - 1 : dataLength - 1;
+          buttonRefs.current[newIndex]?.focus();
+        }
+        break;
 
-        case "ArrowRight":
-          e.preventDefault();
-          {
-            const newIndex =
-              currentIndex < dataLength - 1 ? currentIndex + 1 : 0;
-            buttonRefs.current[newIndex]?.focus();
-          }
-          break;
+      case "ArrowRight":
+        e.preventDefault();
+        {
+          const newIndex = currentIndex < dataLength - 1 ? currentIndex + 1 : 0;
+          buttonRefs.current[newIndex]?.focus();
+        }
+        break;
 
-        case "ArrowUp":
-          e.preventDefault();
-          {
-            // Navigate to previous monitor's status bar
-            const prevMonitor = containerRef.current?.closest(
-              '[data-slot="status-component"]',
-            )?.previousElementSibling;
-            if (prevMonitor) {
-              const prevBar = prevMonitor.querySelector('[role="toolbar"]');
-              if (prevBar) {
-                const prevButtons = prevBar.querySelectorAll('[role="button"]');
-                const targetButton = prevButtons[currentIndex] as HTMLElement;
-                targetButton?.focus();
-              }
+      case "ArrowUp":
+        e.preventDefault();
+        {
+          const prevMonitor = containerRef.current?.closest(
+            '[data-slot="status-component"]',
+          )?.previousElementSibling;
+          if (prevMonitor) {
+            const prevBar = prevMonitor.querySelector('[role="toolbar"]');
+            if (prevBar) {
+              const prevButtons = prevBar.querySelectorAll('[role="button"]');
+              const targetButton = prevButtons[currentIndex] as HTMLElement;
+              targetButton?.focus();
             }
           }
-          break;
+        }
+        break;
 
-        case "ArrowDown":
-          e.preventDefault();
-          {
-            // Navigate to next monitor's status bar
-            const nextMonitor = containerRef.current?.closest(
-              '[data-slot="status-component"]',
-            )?.nextElementSibling;
-            if (nextMonitor) {
-              const nextBar = nextMonitor.querySelector('[role="toolbar"]');
-              if (nextBar) {
-                const nextButtons = nextBar.querySelectorAll('[role="button"]');
-                const targetButton = nextButtons[currentIndex] as HTMLElement;
-                targetButton?.focus();
-              }
+      case "ArrowDown":
+        e.preventDefault();
+        {
+          const nextMonitor = containerRef.current?.closest(
+            '[data-slot="status-component"]',
+          )?.nextElementSibling;
+          if (nextMonitor) {
+            const nextBar = nextMonitor.querySelector('[role="toolbar"]');
+            if (nextBar) {
+              const nextButtons = nextBar.querySelectorAll('[role="button"]');
+              const targetButton = nextButtons[currentIndex] as HTMLElement;
+              targetButton?.focus();
             }
           }
-          break;
+        }
+        break;
 
-        case "Enter":
-        case " ":
-          e.preventDefault();
-          handleClick(currentIndex);
-          break;
-      }
-    },
-    [dataLength, clearHoverTimeout, handleClick],
-  );
+      case "Enter":
+      case " ":
+        e.preventDefault();
+        handleClick(currentIndex);
+        break;
+    }
+  };
 
-  const setButtonRef = useCallback((index: number, el: HTMLElement | null) => {
+  const setButtonRef = (index: number, el: HTMLElement | null) => {
     buttonRefs.current[index] = el;
-  }, []);
+  };
 
   return {
     activeIndex,
@@ -430,6 +409,19 @@ export function StatusBar({
 
   const first = data[0];
   const last = data[data.length - 1];
+  const activeItem = activeIndex !== null ? data[activeIndex] : null;
+  const isPinned = interactionType === "pin";
+
+  // Shared anchor: resolve to the active bar's DOM node every call so the
+  // single HoverCard can re-position as activeIndex changes.
+  const getAnchor = () => {
+    if (activeIndex === null) return null;
+    return (
+      (containerRef.current?.querySelector(
+        `[data-bar-index="${activeIndex}"]`,
+      ) as HTMLElement | null) ?? null
+    );
+  };
 
   return (
     <div className="flex w-full flex-col gap-1.5" data-slot="status-bar-root">
@@ -442,113 +434,142 @@ export function StatusBar({
       >
         {data.map((item, index) => {
           const isActive = activeIndex === index;
-          const isPinned = isActive && interactionType === "pin";
+          const isLastItem = index === data.length - 1;
 
+          if (renderBar) {
+            // Custom bar renderers stay on their own — emit them verbatim.
+            return (
+              <StatusBarBar
+                key={item.day}
+                index={index}
+                item={item}
+                isActive={isActive}
+                isLastItem={isLastItem}
+                isPinned={isActive && isPinned}
+                handlers={handlers}
+                setButtonRef={setButtonRef}
+                renderBar={renderBar}
+                ariaLabel={labels.ariaDayStatus(index + 1)}
+              />
+            );
+          }
           return (
-            <StatusBarItem
+            <StatusBarBar
               key={item.day}
-              ref={(el) => setButtonRef(index, el)}
               index={index}
               item={item}
               isActive={isActive}
-              isPinned={isPinned}
-              isTouch={isTouch}
-              isLastItem={index === data.length - 1}
+              isLastItem={isLastItem}
+              isPinned={isActive && isPinned}
               handlers={handlers}
-              renderCard={renderCard}
-              renderBar={renderBar}
-              renderEvent={renderEvent}
+              setButtonRef={setButtonRef}
+              ariaLabel={labels.ariaDayStatus(index + 1)}
             />
           );
         })}
       </div>
       {first && last && (
         <div
-          className="flex w-full justify-between font-mono text-[10px] text-muted-foreground tabular-nums"
+          className="text-muted-foreground flex w-full justify-between font-mono text-[10px] tabular-nums"
           data-slot="status-bar-axis"
         >
           <span>{labels.formatDateTime(new Date(first.day))}</span>
           <span>{labels.formatDateTime(new Date(last.day))}</span>
         </div>
       )}
+      {activeItem && (
+        <HoverCard open onOpenChange={() => {}}>
+          <PreviewCardPrimitive.Portal>
+            <PreviewCardPrimitive.Positioner
+              anchor={getAnchor}
+              side="top"
+              sideOffset={4}
+              align="center"
+              alignOffset={4}
+              className="isolate z-50"
+            >
+              <PreviewCardPrimitive.Popup
+                className="bg-popover text-popover-foreground ring-foreground/10 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 w-auto min-w-40 origin-(--transform-origin) rounded-lg p-0 text-sm shadow-md ring-1 outline-hidden duration-100"
+                onMouseEnter={handlers.onHoverCardEnter}
+                onMouseLeave={handlers.onHoverCardLeave}
+              >
+                <StatusBarCard
+                  item={activeItem}
+                  isPinned={isPinned}
+                  isTouch={isTouch}
+                  renderCard={renderCard}
+                  renderEvent={renderEvent}
+                />
+              </PreviewCardPrimitive.Popup>
+            </PreviewCardPrimitive.Positioner>
+          </PreviewCardPrimitive.Portal>
+        </HoverCard>
+      )}
     </div>
   );
 }
 StatusBar.displayName = "StatusBar";
 
-interface StatusBarItemProps {
+interface StatusBarBarProps {
   index: number;
   item: StatusBarData;
   isActive: boolean;
   isPinned: boolean;
-  isTouch: boolean;
   isLastItem: boolean;
   handlers: ReturnType<typeof useStatusBar>["handlers"];
-  renderCard?: StatusBarProps["renderCard"];
+  setButtonRef: (index: number, el: HTMLElement | null) => void;
   renderBar?: StatusBarProps["renderBar"];
-  renderEvent?: StatusBarProps["renderEvent"];
+  ariaLabel: string;
 }
 
-const StatusBarItem = forwardRef<HTMLDivElement, StatusBarItemProps>(
-  (
-    {
-      index,
-      item,
-      isActive,
-      isPinned,
-      isTouch,
-      isLastItem,
-      handlers,
-      renderCard,
-      renderBar,
-      renderEvent,
-    },
-    ref,
-  ) => {
-    const labels = useStatusBlocksLabels();
-    return (
-      <HoverCard open={isActive}>
-        <HoverCardTrigger render={<div ref={ref} className="group relative flex h-full flex-1 cursor-pointer flex-col outline-none hover:opacity-80 focus-visible:opacity-80 focus-visible:ring-[2px] focus-visible:ring-ring/50 aria-pressed:opacity-80 rounded-full" onClick={() => handlers.onClick(index)} onFocus={() => handlers.onFocus(index)} onBlur={handlers.onBlur} onMouseEnter={() => handlers.onHoverStart(index)} onMouseLeave={handlers.onHoverEnd} onKeyDown={(e) => handlers.onKeyDown(e, index)} tabIndex={isLastItem && !isActive ? 0 : isActive ? 0 : -1} role="button" aria-label={labels.ariaDayStatus(index + 1)} aria-pressed={isPinned} aria-expanded={isActive} data-slot="status-bar-item" />}><div className="flex h-full w-full flex-col overflow-hidden rounded-full">
-                          {/* Render bar segments */}
-                          {item.bar.map((segment, segmentIndex) => {
-                            if (renderBar) {
-                              return renderBar(segment, segmentIndex);
-                            }
-                            return (
-                              <div
-                                key={`${item.day}-${segment.status}-${segmentIndex}`}
-                                className={cn("w-full transition-all", {
-                                  "rounded-t-full": segmentIndex === 0,
-                                  "rounded-b-full": segmentIndex === item.bar.length - 1,
-                                })}
-                                style={{
-                                  height: `${segment.height}%`,
-                                  backgroundColor: statusColors[segment.status],
-                                }}
-                              />
-                            );
-                          })}
-                        </div></HoverCardTrigger>
-        <HoverCardContent
-          side="top"
-          align="center"
-          className="w-auto min-w-40 p-0"
-          onMouseEnter={handlers.onHoverCardEnter}
-          onMouseLeave={handlers.onHoverCardLeave}
-        >
-          <StatusBarCard
-            item={item}
-            isPinned={isPinned}
-            isTouch={isTouch}
-            renderCard={renderCard}
-            renderEvent={renderEvent}
-          />
-        </HoverCardContent>
-      </HoverCard>
-    );
-  },
-);
-StatusBarItem.displayName = "StatusBarItem";
+// One bar = one plain div with handlers. No HoverCard per bar (that explodes
+// into thousands of Floating UI instances on a 78-row page). The parent
+// StatusBar mounts a single shared HoverCard and anchors it to whichever bar
+// is active.
+function StatusBarBar(props: StatusBarBarProps) {
+  return (
+    <div
+      ref={(el) => props.setButtonRef(props.index, el)}
+      data-slot="status-bar-item"
+      data-bar-index={props.index}
+      className="group focus-visible:ring-ring/50 relative flex h-full flex-1 cursor-pointer flex-col rounded-full outline-none hover:opacity-80 focus-visible:opacity-80 focus-visible:ring-2 aria-pressed:opacity-80"
+      role="button"
+      aria-label={props.ariaLabel}
+      aria-pressed={props.isPinned}
+      aria-expanded={props.isActive}
+      tabIndex={
+        props.isLastItem && !props.isActive ? 0 : props.isActive ? 0 : -1
+      }
+      onClick={() => props.handlers.onClick(props.index)}
+      onFocus={() => props.handlers.onFocus(props.index)}
+      onBlur={props.handlers.onBlur}
+      onMouseEnter={() => props.handlers.onHoverStart(props.index)}
+      onMouseLeave={props.handlers.onHoverEnd}
+      onKeyDown={(e) => props.handlers.onKeyDown(e, props.index)}
+    >
+      <div className="flex h-full w-full flex-col overflow-hidden rounded-full">
+        {props.item.bar.map((segment, segmentIndex) => {
+          if (props.renderBar) {
+            return props.renderBar(segment, segmentIndex);
+          }
+          return (
+            <div
+              key={`${props.item.day}-${segment.status}-${segmentIndex}`}
+              className={cn("w-full", {
+                "rounded-t-full": segmentIndex === 0,
+                "rounded-b-full": segmentIndex === props.item.bar.length - 1,
+              })}
+              style={{
+                height: `${segment.height}%`,
+                backgroundColor: statusColors[segment.status],
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 interface StatusBarCardProps {
   item: StatusBarData;
@@ -629,9 +650,9 @@ function StatusBarCard({
       {isPinned && !isTouch && (
         <>
           <Separator />
-          <div className="flex cursor-pointer items-center p-2 text-muted-foreground text-xs">
+          <div className="text-muted-foreground flex cursor-pointer items-center p-2 text-xs">
             <span>{labels.clickAgainToUnpin}</span>
-            <kbd className="ml-auto inline-flex h-5 max-h-5 min-w-5 items-center justify-center rounded border border-input bg-background px-1.5 font-mono text-[10px] font-medium text-muted-foreground">
+            <kbd className="border-input bg-background text-muted-foreground ml-auto inline-flex h-5 max-h-5 min-w-5 items-center justify-center rounded border px-1.5 font-mono text-[10px] font-medium">
               Esc
             </kbd>
           </div>
@@ -665,7 +686,7 @@ export function StatusBarSkeleton({
 }: React.ComponentProps<typeof Skeleton>) {
   return (
     <Skeleton
-      className={cn("h-12.5 w-full rounded-none bg-muted", className)}
+      className={cn("bg-muted h-12.5 w-full rounded-none", className)}
       {...props}
     />
   );
@@ -707,7 +728,7 @@ function StatusBarContent({
         />
         <div className="text-sm">{labels.requestStatus[status]}</div>
       </div>
-      <div className="ml-auto font-mono text-muted-foreground text-xs tracking-tight">
+      <div className="text-muted-foreground ml-auto font-mono text-xs tracking-tight">
         {value}
       </div>
     </div>
@@ -788,7 +809,7 @@ export function StatusBarEvent({
       {/* NOTE: this is to make the text truncate based on the width of the sibling element */}
       {/* REMINDER: height needs to be equal the text height */}
       <div className="h-4 w-full" />
-      <div className="absolute inset-0 text-muted-foreground hover:text-foreground">
+      <div className="text-muted-foreground hover:text-foreground absolute inset-0">
         <div className="flex items-center gap-2">
           <div
             className="h-2.5 w-2.5 shrink-0 rounded-sm"
@@ -799,9 +820,9 @@ export function StatusBarEvent({
           <div className="truncate">{name}</div>
         </div>
       </div>
-      <div className="mt-1 text-muted-foreground text-xs">
+      <div className="text-muted-foreground mt-1 text-xs">
         {labels.formatDateRange(from, to ?? undefined)}{" "}
-        <span className="ml-1.5 font-mono text-muted-foreground/70">
+        <span className="text-muted-foreground/70 ml-1.5 font-mono">
           {formatDuration({ from, to, name, type, isAggregated, labels })}
         </span>
       </div>

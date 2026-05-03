@@ -1,5 +1,8 @@
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
-import { CodeBlock, highlightCode } from "@/components/elements/code/code-block";
+import {
+  CodeBlock,
+  highlightCode,
+} from "@/components/elements/code/code-block";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { Link } from "@/i18n/navigation";

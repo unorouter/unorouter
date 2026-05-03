@@ -46,15 +46,13 @@ export function useTransferAffQuotaMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
-      queryClient.setQueryData<UserSelfData>(
-        queryKeys.auth(),
-        (old) =>
-          old
-            ? {
-                ...old,
-                quota: (old.quota ?? 0) - args.body.quota,
-              }
-            : old,
+      queryClient.setQueryData<UserSelfData>(queryKeys.auth(), (old) =>
+        old
+          ? {
+              ...old,
+              quota: (old.quota ?? 0) - args.body.quota,
+            }
+          : old,
       );
     },
   });

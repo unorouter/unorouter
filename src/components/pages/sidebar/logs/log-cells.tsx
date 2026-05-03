@@ -248,13 +248,13 @@ export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
       <Tooltip>
         <TooltipTrigger
           render={
-            <div className="flex flex-col items-end gap-0.5 cursor-default" />
+            <div className="flex cursor-default flex-col items-end gap-0.5" />
           }
         >
           {amountNode}
           <Badge
             variant="secondary"
-            className="bg-blue-500/10 text-blue-700 dark:text-blue-400 px-1.5 py-0 text-[10px] font-mono"
+            className="bg-blue-500/10 px-1.5 py-0 font-mono text-[10px] text-blue-700 dark:text-blue-400"
           >
             {planLabel}
           </Badge>

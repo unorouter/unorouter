@@ -214,10 +214,7 @@ ${t("DOCS.SILLYTAVERN.QUICK_CONFIG_MODEL_LABEL")}:    ${docs.topTextModel}`;
           <ul className="text-muted-foreground space-y-3 text-sm">
             {troubles.map((item) => (
               <li key={item.titleKey}>
-                <strong className="text-foreground">
-                  {t(item.titleKey)}
-                </strong>
-                {" "}
+                <strong className="text-foreground">{t(item.titleKey)}</strong>{" "}
                 {t(item.descKey, APP_VALUES)}
               </li>
             ))}
@@ -233,8 +230,10 @@ ${t("DOCS.SILLYTAVERN.QUICK_CONFIG_MODEL_LABEL")}:    ${docs.topTextModel}`;
             {t("DOCS.SILLYTAVERN.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.SILLYTAVERN.CTA_SIGNUP"
-              authedTranslationKey="DOCS.SILLYTAVERN.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.SILLYTAVERN.CTA_SIGNUP"
+              authedTranslationKey="DOCS.SILLYTAVERN.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

@@ -87,10 +87,7 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
           label={t("DOCS_SIDEBAR.TITLE")}
           items={docsNavItemsOverview}
         />
-        <NavGroup
-          label={t("DOCS_SIDEBAR.GROUP_CLI")}
-          items={docsNavItemsCli}
-        />
+        <NavGroup label={t("DOCS_SIDEBAR.GROUP_CLI")} items={docsNavItemsCli} />
         <NavGroup
           label={t("DOCS_SIDEBAR.GROUP_ROLEPLAY")}
           items={docsNavItemsRoleplay}

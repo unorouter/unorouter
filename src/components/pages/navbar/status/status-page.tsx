@@ -76,8 +76,7 @@ const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
 export function StatusPage() {
   const t = useTranslations();
   const [bucket, setBucket] = useState<StatusBucket>("1m");
-  const hours =
-    BUCKET_OPTIONS.find((o) => o.value === bucket)?.hours ?? 24;
+  const hours = BUCKET_OPTIONS.find((o) => o.value === bucket)?.hours ?? 24;
   const q = useStatusPage(bucket, hours);
   const data = q.data;
   const pricing = usePricingQuery();
@@ -214,10 +213,7 @@ export function StatusPage() {
                 </div>
                 <div className="flex flex-col gap-4">
                   {group.items.map((c) => (
-                    <StatusComponent
-                      key={c.id}
-                      variant={asVariant(c.status)}
-                    >
+                    <StatusComponent key={c.id} variant={asVariant(c.status)}>
                       <StatusComponentHeader>
                         <StatusComponentHeaderLeft>
                           <StatusComponentIcon />

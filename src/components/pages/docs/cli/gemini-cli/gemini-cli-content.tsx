@@ -282,8 +282,10 @@ gemini
             {t("DOCS.GEMINI_CLI.CTA_DESC", APP_VALUES)}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <GetStartedButton translationKey="DOCS.GEMINI_CLI.CTA_SIGNUP"
-              authedTranslationKey="DOCS.GEMINI_CLI.CTA_DASHBOARD" />
+            <GetStartedButton
+              translationKey="DOCS.GEMINI_CLI.CTA_SIGNUP"
+              authedTranslationKey="DOCS.GEMINI_CLI.CTA_DASHBOARD"
+            />
             <Button
               nativeButton={false}
               variant="outline"

@@ -186,7 +186,7 @@ function SimpleTimestamp({
       <Tooltip>
         <TooltipTrigger
           className={cn(
-            "font-mono text-muted-foreground underline decoration-muted-foreground/30 decoration-dashed underline-offset-4",
+            "text-muted-foreground decoration-muted-foreground/30 font-mono underline decoration-dashed underline-offset-4",
             className,
           )}
           {...props}
@@ -194,7 +194,9 @@ function SimpleTimestamp({
           {children || dayjs.utc(date).format("MMM DD, YYYY HH:mm [UTC]")}
         </TooltipTrigger>
         <TooltipContent data-slot="status-timestamp-content">
-          <p className="font-mono">{dayjs(date).format("MMM DD, YYYY HH:mm")}</p>
+          <p className="font-mono">
+            {dayjs(date).format("MMM DD, YYYY HH:mm")}
+          </p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
