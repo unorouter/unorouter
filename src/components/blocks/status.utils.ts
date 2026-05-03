@@ -2,8 +2,10 @@ import { dayjs } from "@/lib/utils/date";
 import type { StatusBlocksLabels } from "@/components/blocks/status-i18n";
 
 const isSameDay = (a: Date, b: Date) => dayjs(a).isSame(b, "day");
-const isStartOfDay = (d: Date) => dayjs(d).startOf("day").valueOf() === d.getTime();
-const isEndOfDay = (d: Date) => dayjs(d).endOf("day").valueOf() === d.getTime();
+const isStartOfDay = (d: Date) =>
+	dayjs(d).startOf("day").valueOf() === dayjs(d).valueOf();
+const isEndOfDay = (d: Date) =>
+	dayjs(d).endOf("day").valueOf() === dayjs(d).valueOf();
 
 /**
  * Formats a date range in a human-readable format.
@@ -32,7 +34,7 @@ export function formatDateRange(from?: Date, to?: Date) {
 	const isToEndDay = to && isEndOfDay(to);
 
 	if (sameDay) {
-		if (from && to && from.getTime() === to.getTime()) {
+		if (from && to && dayjs(from).valueOf() === dayjs(to).valueOf()) {
 			return formatDateTime(from);
 		}
 		if (from && to) {
