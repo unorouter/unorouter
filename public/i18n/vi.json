@@ -2221,7 +2221,9 @@
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Tìm kiếm mô hình...",
       "STATUS_ALL": "Tất cả",
-      "EMPTY": "Không có mô hình phù hợp với bộ lọc."
+      "EMPTY": "Không có mô hình phù hợp với bộ lọc.",
+      "COLLAPSE_ALL": "Thu gọn tất cả nhóm",
+      "EXPAND_ALL": "Mở rộng tất cả nhóm"
     }
   }
 }

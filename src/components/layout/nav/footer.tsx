@@ -127,8 +127,9 @@ export function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-muted-foreground hover:text-foreground inline-flex items-center justify-center gap-2 transition-colors md:justify-start"
                     >
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
                       {t(item.key)}
                     </NextLink>
                   </li>

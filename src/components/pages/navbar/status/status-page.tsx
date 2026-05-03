@@ -1,7 +1,8 @@
 "use client";
 
-import { PageHeader } from "@/components/elements/content/page-header";
+import { LogoImage } from "@/components/elements/brand/brand";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { env } from "@/lib/config/env";
 import { StatusBanner } from "@/components/blocks/status-banner";
 import { StatusBar } from "@/components/blocks/status-bar";
 import type { StatusBarData } from "@/components/blocks/status.types";
@@ -33,15 +34,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { selectedVendorsAtom } from "@/store/models-store";
-import { useAtom } from "jotai";
+import {
+  collapsedVendorsAtom,
+  selectedVendorsAtom,
+  toggleVendorCollapsedAtom,
+} from "@/store/models-store";
+import { statusBucketAtom, statusFilterAtom } from "@/store/status-store";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useDeferredValue, useState } from "react";
-import { LuActivity, LuSearch, LuX } from "react-icons/lu";
+import {
+  LuChevronDown,
+  LuChevronRight,
+  LuChevronsDownUp,
+  LuChevronsUpDown,
+  LuCircleAlert,
+  LuCircleCheck,
+  LuCircleX,
+  LuSearch,
+  LuX,
+} from "react-icons/lu";
 import { WindowVirtualizer } from "virtua";
 import { SummaryCards } from "./summary-cards";
-
-type StatusFilter = "all" | "success" | "degraded" | "error" | "empty";
 
 const VARIANT_FALLBACK: Exclude<StatusType, "empty"> = "success";
 const UNGROUPED_VENDOR = "Other";
@@ -90,7 +104,7 @@ const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
 
 export function StatusPage() {
   const t = useTranslations();
-  const [bucket, setBucket] = useState<StatusBucket>("1m");
+  const [bucket, setBucket] = useAtom(statusBucketAtom);
   const hours = BUCKET_OPTIONS.find((o) => o.value === bucket)?.hours ?? 24;
   const q = useStatusPage(bucket, hours);
   const data = q.data;
@@ -100,16 +114,24 @@ export function StatusPage() {
   // worth of bars. React keeps showing the previous list until the new filter
   // result is ready.
   const deferredSearch = useDeferredValue(search);
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [statusFilter, setStatusFilter] = useAtom(statusFilterAtom);
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
+  const collapsedVendors = useAtomValue(collapsedVendorsAtom);
+  const setCollapsedVendors = useSetAtom(collapsedVendorsAtom);
+  const toggleVendorCollapsed = useSetAtom(toggleVendorCollapsedAtom);
+  const collapsedSet = new Set(collapsedVendors);
   const hasActiveFilters =
     search.trim().length > 0 ||
     statusFilter !== "all" ||
-    selectedVendors.length > 0;
+    selectedVendors.length > 0 ||
+    collapsedVendors.length > 0 ||
+    bucket !== "1m";
   const resetFilters = () => {
     setSearch("");
     setStatusFilter("all");
     setSelectedVendors([]);
+    setCollapsedVendors([]);
+    setBucket("1m");
   };
 
   const components = data?.components ?? [];
@@ -124,11 +146,15 @@ export function StatusPage() {
   const searchLower = deferredSearch.toLowerCase();
   const filtered = components.filter((c) => {
     if (statusFilter !== "all" && c.status !== statusFilter) return false;
-    if (searchLower && !c.name.toLowerCase().includes(searchLower)) return false;
-    if (selectedVendors.length > 0) {
-      const vendor = vendorByModel.get(c.name) ?? UNGROUPED_VENDOR;
-      if (!selectedVendors.includes(vendor)) return false;
-    }
+    const vendor = vendorByModel.get(c.name) ?? UNGROUPED_VENDOR;
+    if (
+      searchLower &&
+      !c.name.toLowerCase().includes(searchLower) &&
+      !vendor.toLowerCase().includes(searchLower)
+    )
+      return false;
+    if (selectedVendors.length > 0 && !selectedVendors.includes(vendor))
+      return false;
     return true;
   });
 
@@ -149,20 +175,56 @@ export function StatusPage() {
       if (b.vendor === UNGROUPED_VENDOR) return -1;
       return b.items.length - a.items.length;
     });
+  const visibleVendors = groups.map((g) => g.vendor);
+  const allCollapsed =
+    visibleVendors.length > 0 &&
+    visibleVendors.every((v) => collapsedSet.has(v));
+  const toggleAllGroups = () => {
+    if (allCollapsed) {
+      // Expand: drop all visible vendors from collapsed list
+      setCollapsedVendors(
+        collapsedVendors.filter((v) => !visibleVendors.includes(v)),
+      );
+    } else {
+      // Collapse: add all visible vendors
+      const merged = new Set(collapsedVendors);
+      for (const v of visibleVendors) merged.add(v);
+      setCollapsedVendors([...merged]);
+    }
+  };
 
   // Flatten groups into a single virtualizable list of header + row items so
   // virtua only mounts what's on screen. Without this, all 78 rows mount
   // simultaneously (40k+ DOM nodes for the bars alone).
   type ListItem =
-    | { kind: "header"; vendor: string; count: number }
+    | {
+        kind: "header";
+        vendor: string;
+        count: number;
+        operational: number;
+        degraded: number;
+        down: number;
+      }
     | { kind: "row"; component: (typeof filtered)[number] };
   const items: ListItem[] = [];
   for (const group of groups) {
+    let operational = 0;
+    let degraded = 0;
+    let down = 0;
+    for (const c of group.items) {
+      if (c.status === "success") operational++;
+      else if (c.status === "degraded") degraded++;
+      else if (c.status === "error") down++;
+    }
     items.push({
       kind: "header",
       vendor: group.vendor,
       count: group.items.length,
+      operational,
+      degraded,
+      down,
     });
+    if (collapsedSet.has(group.vendor)) continue;
     for (const c of group.items) {
       items.push({ kind: "row", component: c });
     }
@@ -172,15 +234,28 @@ export function StatusPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
-      <PageHeader
-        badge={t("STATUS.BADGE")}
-        badgeIcon={LuActivity}
-        title={t("STATUS.TITLE")}
-        subtitle={t("STATUS.SUBTITLE")}
-        color="#22d3ee"
-        centered
-        className="mb-12"
-      />
+      <div className="mb-12 text-center">
+        <a
+          href={env.appUrl}
+          className="group focus-visible:ring-ring/50 mb-6 inline-flex cursor-pointer items-center gap-2 rounded-sm border border-red-500/30 bg-red-500/10 px-3 py-1.5 transition-colors hover:border-red-500/60 hover:bg-red-500/20 focus-visible:ring-2 focus-visible:outline-none"
+          aria-label={env.appName}
+        >
+          <LogoImage
+            width={14}
+            height={14}
+            className="rounded-none transition-transform group-hover:scale-110"
+          />
+          <span className="font-mono text-[10px] tracking-[0.2em] text-red-500 uppercase group-hover:underline">
+            {t("STATUS.BADGE")}
+          </span>
+        </a>
+        <h1 className="text-4xl font-bold tracking-tighter">
+          {t("STATUS.TITLE")}
+        </h1>
+        <p className="text-muted-foreground mt-3 font-mono text-sm leading-relaxed">
+          {t("STATUS.SUBTITLE")}
+        </p>
+      </div>
 
       <div className="space-y-6">
         <StatusBanner status={overallStatus} />
@@ -238,6 +313,29 @@ export function StatusPage() {
               label={t("STATUS.STATE.DOWN")}
             />
           </div>
+          {visibleVendors.length > 0 && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleAllGroups}
+              aria-label={
+                allCollapsed
+                  ? t("STATUS.FILTER.EXPAND_ALL")
+                  : t("STATUS.FILTER.COLLAPSE_ALL")
+              }
+              title={
+                allCollapsed
+                  ? t("STATUS.FILTER.EXPAND_ALL")
+                  : t("STATUS.FILTER.COLLAPSE_ALL")
+              }
+            >
+              {allCollapsed ? (
+                <LuChevronsUpDown className="h-4 w-4" />
+              ) : (
+                <LuChevronsDownUp className="h-4 w-4" />
+              )}
+            </Button>
+          )}
           {hasActiveFilters && (
             <Button
               variant="ghost"
@@ -259,10 +357,17 @@ export function StatusPage() {
           <WindowVirtualizer>
             {items.map((item) =>
               item.kind === "header" ? (
-                <div
+                <button
+                  type="button"
                   key={`header-${item.vendor}`}
-                  className="flex items-center gap-2 pt-6 pb-3 first:pt-0"
+                  onClick={() => toggleVendorCollapsed(item.vendor)}
+                  className="hover:bg-accent/40 flex w-full items-center gap-2 rounded-md px-2 pt-6 pb-3 text-left first:pt-0"
                 >
+                  {collapsedSet.has(item.vendor) ? (
+                    <LuChevronRight className="text-muted-foreground h-4 w-4 shrink-0" />
+                  ) : (
+                    <LuChevronDown className="text-muted-foreground h-4 w-4 shrink-0" />
+                  )}
                   <VendorIcon vendor={item.vendor} size={16} />
                   <h2 className="font-mono text-sm font-semibold tracking-wide">
                     {item.vendor}
@@ -270,7 +375,33 @@ export function StatusPage() {
                   <span className="text-muted-foreground font-mono text-xs">
                     {item.count}
                   </span>
-                </div>
+                  <div className="text-muted-foreground ml-auto flex items-center gap-3 font-mono text-xs">
+                    <span className="flex items-center gap-1">
+                      <LuCircleCheck className="h-3.5 w-3.5 text-emerald-500" />
+                      {item.operational}
+                    </span>
+                    <span
+                      className={
+                        item.degraded > 0
+                          ? "flex items-center gap-1 text-amber-500"
+                          : "flex items-center gap-1"
+                      }
+                    >
+                      <LuCircleAlert className="h-3.5 w-3.5" />
+                      {item.degraded}
+                    </span>
+                    <span
+                      className={
+                        item.down > 0
+                          ? "flex items-center gap-1 text-red-500"
+                          : "flex items-center gap-1"
+                      }
+                    >
+                      <LuCircleX className="h-3.5 w-3.5" />
+                      {item.down}
+                    </span>
+                  </div>
+                </button>
               ) : (
                 <div key={`row-${item.component.id}`} className="pb-4">
                   <StatusComponent variant={asVariant(item.component.status)}>

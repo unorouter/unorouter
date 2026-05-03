@@ -2221,7 +2221,9 @@
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Search models...",
       "STATUS_ALL": "All",
-      "EMPTY": "No models match these filters."
+      "EMPTY": "No models match these filters.",
+      "COLLAPSE_ALL": "Collapse all groups",
+      "EXPAND_ALL": "Expand all groups"
     }
   }
 }

@@ -2221,7 +2221,9 @@
     "FILTER": {
       "SEARCH_PLACEHOLDER": "モデルを検索...",
       "STATUS_ALL": "すべて",
-      "EMPTY": "条件に一致するモデルはありません。"
+      "EMPTY": "条件に一致するモデルはありません。",
+      "COLLAPSE_ALL": "すべてのグループを折りたたむ",
+      "EXPAND_ALL": "すべてのグループを展開"
     }
   }
 }

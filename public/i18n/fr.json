@@ -2221,7 +2221,9 @@
     "FILTER": {
       "SEARCH_PLACEHOLDER": "Rechercher des modèles...",
       "STATUS_ALL": "Tous",
-      "EMPTY": "Aucun modèle ne correspond à ces filtres."
+      "EMPTY": "Aucun modèle ne correspond à ces filtres.",
+      "COLLAPSE_ALL": "Réduire tous les groupes",
+      "EXPAND_ALL": "Développer tous les groupes"
     }
   }
 }

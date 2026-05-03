@@ -14,6 +14,7 @@ export type ModelsStoreState = {
   selectedModelName: string | null;
   viewMode: ViewMode;
   sortOrder: SortOrder;
+  collapsedVendors: string[];
 };
 
 export const MODELS_STORE_KEY = "models-store";
@@ -25,6 +26,7 @@ export const INITIAL_MODELS_STATE: ModelsStoreState = {
   selectedModelName: null,
   viewMode: "grid",
   sortOrder: "name",
+  collapsedVendors: [],
 };
 
 export const modelsStoreAtom = atomWithStorage<ModelsStoreState>(
@@ -81,6 +83,31 @@ export const sortOrderAtom = atom(
   (get, set, value: SortOrder) => {
     const state = get(modelsStoreAtom);
     set(modelsStoreAtom, { ...state, sortOrder: value });
+  },
+);
+
+export const collapsedVendorsAtom = atom(
+  (get) => {
+    const val = get(modelsStoreAtom).collapsedVendors;
+    return Array.isArray(val) ? val : [];
+  },
+  (get, set, value: string[]) => {
+    const state = get(modelsStoreAtom);
+    set(modelsStoreAtom, { ...state, collapsedVendors: value });
+  },
+);
+
+export const toggleVendorCollapsedAtom = atom(
+  null,
+  (get, set, vendor: string) => {
+    const state = get(modelsStoreAtom);
+    const current = Array.isArray(state.collapsedVendors)
+      ? state.collapsedVendors
+      : [];
+    const next = current.includes(vendor)
+      ? current.filter((v) => v !== vendor)
+      : [...current, vendor];
+    set(modelsStoreAtom, { ...state, collapsedVendors: next });
   },
 );
 

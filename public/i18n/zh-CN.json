@@ -2221,7 +2221,9 @@
     "FILTER": {
       "SEARCH_PLACEHOLDER": "搜索模型……",
       "STATUS_ALL": "全部",
-      "EMPTY": "没有符合筛选条件的模型。"
+      "EMPTY": "没有符合筛选条件的模型。",
+      "COLLAPSE_ALL": "收起所有分组",
+      "EXPAND_ALL": "展开所有分组"
     }
   }
 }
