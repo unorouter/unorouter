@@ -1,3 +1,8 @@
+import {
+  modelStatusBucketsQuery,
+  modelStatusIncidentsQuery,
+  modelStatusPageQuery,
+} from "@/lib/api/typebox/model-status";
 import { unwrap } from "@/lib/utils/base";
 import {
   getModelStatusBuckets,
@@ -5,7 +10,7 @@ import {
   getModelStatusIncidents,
   getModelStatusPage,
 } from "@/openapi";
-import { Elysia, t } from "elysia";
+import { Elysia } from "elysia";
 import { ADMIN_HEADERS } from "../constants";
 
 export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
@@ -15,12 +20,7 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
       const res = await getModelStatusPage(query, { headers: ADMIN_HEADERS });
       return unwrap(res).data;
     },
-    {
-      query: t.Object({
-        bucket: t.Optional(t.String()),
-        hours: t.Optional(t.Numeric()),
-      }),
-    },
+    { query: modelStatusPageQuery },
   )
   .get("/components", async () => {
     const res = await getModelStatusComponents({ headers: ADMIN_HEADERS });
@@ -34,13 +34,7 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
       });
       return unwrap(res).data;
     },
-    {
-      query: t.Object({
-        model: t.String(),
-        bucket: t.Optional(t.String()),
-        hours: t.Optional(t.Numeric()),
-      }),
-    },
+    { query: modelStatusBucketsQuery },
   )
   .get(
     "/incidents",
@@ -50,11 +44,5 @@ export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
       });
       return unwrap(res).data;
     },
-    {
-      query: t.Object({
-        since: t.Optional(t.Numeric()),
-        until: t.Optional(t.Numeric()),
-        model: t.Optional(t.String()),
-      }),
-    },
+    { query: modelStatusIncidentsQuery },
   );
