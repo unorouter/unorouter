@@ -36,8 +36,9 @@ import {
 import { selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useDeferredValue, useState } from "react";
 import { LuActivity, LuSearch, LuX } from "react-icons/lu";
+import { WindowVirtualizer } from "virtua";
 import { SummaryCards } from "./summary-cards";
 
 type StatusFilter = "all" | "success" | "degraded" | "error" | "empty";
@@ -95,6 +96,10 @@ export function StatusPage() {
   const data = q.data;
   const pricing = usePricingQuery();
   const [search, setSearch] = useState("");
+  // Defer search so the input feels responsive even while filtering 78 rows
+  // worth of bars. React keeps showing the previous list until the new filter
+  // result is ready.
+  const deferredSearch = useDeferredValue(search);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const hasActiveFilters =
@@ -116,10 +121,10 @@ export function StatusPage() {
     vendorByModel.set(m.name, m.vendor.name);
   }
 
+  const searchLower = deferredSearch.toLowerCase();
   const filtered = components.filter((c) => {
     if (statusFilter !== "all" && c.status !== statusFilter) return false;
-    if (search && !c.name.toLowerCase().includes(search.toLowerCase()))
-      return false;
+    if (searchLower && !c.name.toLowerCase().includes(searchLower)) return false;
     if (selectedVendors.length > 0) {
       const vendor = vendorByModel.get(c.name) ?? UNGROUPED_VENDOR;
       if (!selectedVendors.includes(vendor)) return false;
@@ -144,6 +149,24 @@ export function StatusPage() {
       if (b.vendor === UNGROUPED_VENDOR) return -1;
       return b.items.length - a.items.length;
     });
+
+  // Flatten groups into a single virtualizable list of header + row items so
+  // virtua only mounts what's on screen. Without this, all 78 rows mount
+  // simultaneously (40k+ DOM nodes for the bars alone).
+  type ListItem =
+    | { kind: "header"; vendor: string; count: number }
+    | { kind: "row"; component: (typeof filtered)[number] };
+  const items: ListItem[] = [];
+  for (const group of groups) {
+    items.push({
+      kind: "header",
+      vendor: group.vendor,
+      count: group.items.length,
+    });
+    for (const c of group.items) {
+      items.push({ kind: "row", component: c });
+    }
+  }
 
   const overallStatus = deriveOverallStatus(components);
 
@@ -233,51 +256,56 @@ export function StatusPage() {
             {t("STATUS.FILTER.EMPTY")}
           </p>
         ) : (
-          <div className="flex flex-col gap-8">
-            {groups.map((group) => (
-              <section key={group.vendor} className="flex flex-col gap-3">
-                <div className="flex items-center gap-2">
-                  <VendorIcon vendor={group.vendor} size={16} />
+          <WindowVirtualizer>
+            {items.map((item) =>
+              item.kind === "header" ? (
+                <div
+                  key={`header-${item.vendor}`}
+                  className="flex items-center gap-2 pt-6 pb-3 first:pt-0"
+                >
+                  <VendorIcon vendor={item.vendor} size={16} />
                   <h2 className="font-mono text-sm font-semibold tracking-wide">
-                    {group.vendor}
+                    {item.vendor}
                   </h2>
                   <span className="text-muted-foreground font-mono text-xs">
-                    {group.items.length}
+                    {item.count}
                   </span>
                 </div>
-                <div className="flex flex-col gap-4">
-                  {group.items.map((c) => (
-                    <StatusComponent key={c.id} variant={asVariant(c.status)}>
-                      <StatusComponentHeader>
-                        <StatusComponentHeaderLeft>
-                          <StatusComponentIcon />
-                          <StatusComponentTitle>{c.name}</StatusComponentTitle>
-                          {c.description && (
-                            <StatusComponentDescription>
-                              {c.description}
-                            </StatusComponentDescription>
-                          )}
-                        </StatusComponentHeaderLeft>
-                        <StatusComponentHeaderRight>
-                          <StatusComponentUptime>
-                            {c.uptime_24h.toFixed(2)}%
-                          </StatusComponentUptime>
-                          <StatusComponentStatus />
-                        </StatusComponentHeaderRight>
-                      </StatusComponentHeader>
-                      <StatusComponentBody>
-                        <StatusBar
-                          data={
-                            (bars[c.name] ?? []) as unknown as StatusBarData[]
-                          }
-                        />
-                      </StatusComponentBody>
-                    </StatusComponent>
-                  ))}
+              ) : (
+                <div key={`row-${item.component.id}`} className="pb-4">
+                  <StatusComponent variant={asVariant(item.component.status)}>
+                    <StatusComponentHeader>
+                      <StatusComponentHeaderLeft>
+                        <StatusComponentIcon />
+                        <StatusComponentTitle>
+                          {item.component.name}
+                        </StatusComponentTitle>
+                        {item.component.description && (
+                          <StatusComponentDescription>
+                            {item.component.description}
+                          </StatusComponentDescription>
+                        )}
+                      </StatusComponentHeaderLeft>
+                      <StatusComponentHeaderRight>
+                        <StatusComponentUptime>
+                          {item.component.uptime_24h.toFixed(2)}%
+                        </StatusComponentUptime>
+                        <StatusComponentStatus />
+                      </StatusComponentHeaderRight>
+                    </StatusComponentHeader>
+                    <StatusComponentBody>
+                      <StatusBar
+                        data={
+                          (bars[item.component.name] ??
+                            []) as unknown as StatusBarData[]
+                        }
+                      />
+                    </StatusComponentBody>
+                  </StatusComponent>
                 </div>
-              </section>
-            ))}
-          </div>
+              ),
+            )}
+          </WindowVirtualizer>
         )}
       </div>
     </div>
