@@ -1,5 +1,6 @@
 "use client";
 
+import { MyFormError } from "@/components/elements/form/my-form-error";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { MyFormError } from "@/components/elements/form/my-form-error";
 import {
   Form,
   FormControl,
@@ -28,6 +28,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
@@ -35,16 +36,15 @@ import {
   useToggleTokenStatusMutation,
   useUpdateTokenMutation,
 } from "@/hooks/token-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
-import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { analytics } from "@/lib/analytics";
+import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import { tokenFormSchema, type TokenFormSchema } from "@/lib/validation/token";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import {
   LuCheck,
   LuGlobe,
@@ -83,16 +83,31 @@ export function TokenDialog(props: TokenDialogProps) {
   const deleteMutation = useDeleteTokenMutation();
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const isEdit = !!props.token;
-
+  const pricingQuery = usePricingQuery();
   const form = useForm({
     resolver: typeboxResolver(tokenFormSchema),
     defaultValues: Value.Default(tokenFormSchema, {}) as TokenFormSchema,
   });
 
-  const [revealedKey, setRevealedKey] = useState<string | null>(null);
+  // revealedKey is keyed by the dialog session: bump the session whenever the
+  // dialog opens or the editing target changes, then derive null from the
+  // session key. No setState in effects, no cascading renders.
+  const sessionKey = props.open ? `${props.token?.id ?? "new"}` : "";
+  const [revealSession, setRevealSession] = useState({
+    key: sessionKey,
+    value: null as string | null,
+  });
+  if (revealSession.key !== sessionKey) {
+    setRevealSession({ key: sessionKey, value: null });
+  }
+  const revealedKey = revealSession.value;
+  const setRevealedKey = (value: string | null) => {
+    setRevealSession({ key: sessionKey, value });
+  };
 
   useEffect(() => {
-    if (props.open && props.token) {
+    if (!props.open) return;
+    if (props.token) {
       form.reset({
         name: props.token.name || "",
         remain_quota: props.token.remain_quota ?? 0,
@@ -103,10 +118,8 @@ export function TokenDialog(props: TokenDialogProps) {
           : [],
         allow_ips: props.token.allow_ips ?? "",
       });
-      setRevealedKey(null);
-    } else if (props.open && !props.token) {
+    } else {
       form.reset(Value.Default(tokenFormSchema, {}) as TokenFormSchema);
-      setRevealedKey(null);
     }
   }, [props.open, props.token, form]);
 
@@ -231,20 +244,19 @@ export function TokenDialog(props: TokenDialogProps) {
     }
   }
 
-  const pricingQuery = usePricingQuery();
-  const modelsByVendor = (() => {
-    const models = pricingQuery.data?.models ?? [];
-    const grouped = new Map<string, { name: string; vendor: string }[]>();
-    for (const m of models) {
-      const vendor = m.vendor.name;
-      const list = grouped.get(vendor);
-      if (list) list.push({ name: m.name, vendor });
-      else grouped.set(vendor, [{ name: m.name, vendor }]);
-    }
-    return [...grouped.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([vendor, items]) => ({ vendor, models: items }));
-  })();
+  const modelsByVendorMap = new Map<
+    string,
+    { name: string; vendor: string }[]
+  >();
+  for (const m of pricingQuery.data?.models ?? []) {
+    const vendor = m.vendor.name;
+    const list = modelsByVendorMap.get(vendor);
+    if (list) list.push({ name: m.name, vendor });
+    else modelsByVendorMap.set(vendor, [{ name: m.name, vendor }]);
+  }
+  const modelsByVendor = [...modelsByVendorMap.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([vendor, items]) => ({ vendor, models: items }));
 
   const isPending = createMutation.isPending || updateMutation.isPending;
   const isEnabled = props.token?.status === 1;
@@ -254,10 +266,22 @@ export function TokenDialog(props: TokenDialogProps) {
       : `sk-${props.token.key}`
     : null;
 
-  const unlimitedQuota = form.watch("unlimited_quota");
-  const remainQuota = form.watch("remain_quota");
-  const modelLimitsEnabled = form.watch("model_limits_enabled");
-  const selectedModels = form.watch("model_limits");
+  const unlimitedQuota = useWatch({
+    control: form.control,
+    name: "unlimited_quota",
+  });
+  const remainQuota = useWatch({
+    control: form.control,
+    name: "remain_quota",
+  });
+  const modelLimitsEnabled = useWatch({
+    control: form.control,
+    name: "model_limits_enabled",
+  });
+  const selectedModels = useWatch({
+    control: form.control,
+    name: "model_limits",
+  });
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
@@ -341,7 +365,9 @@ export function TokenDialog(props: TokenDialogProps) {
                                   step="0.01"
                                   min="0"
                                   className="pl-7"
-                                  placeholder={t("TOKEN.FORM.QUOTA_PLACEHOLDER")}
+                                  placeholder={t(
+                                    "TOKEN.FORM.QUOTA_PLACEHOLDER",
+                                  )}
                                   value={
                                     field.value
                                       ? Number(
