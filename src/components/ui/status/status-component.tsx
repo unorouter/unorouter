@@ -12,12 +12,12 @@ import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/date";
 import { InfoIcon } from "lucide-react";
 import { useState } from "react";
-import { StatusIcon as UnifiedStatusIcon } from "@/components/blocks/status-icon";
+import { StatusIcon as UnifiedStatusIcon } from "@/components/ui/status/status-icon";
 import type {
   StatusBarData,
   StatusType,
-} from "@/components/blocks/status.types";
-import { useStatusBlocksLabels } from "@/components/blocks/status-i18n";
+} from "@/components/ui/status/status.types";
+import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 
 // ============================================================================
 // Layout Components

@@ -1,12 +1,12 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { defaultStatusBlocksLabels } from "@/components/blocks/status.utils";
+import { defaultStatusBlocksLabels } from "@/components/ui/status/status.utils";
 import type {
   StatusReportUpdateType,
   StatusType,
   ThemeValue,
-} from "@/components/blocks/status.types";
+} from "@/components/ui/status/status.types";
 
 /**
  * Labels and locale-aware formatters consumed by block components.

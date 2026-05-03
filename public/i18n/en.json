@@ -1603,7 +1603,9 @@
     "ERROR": {
       "FETCH_KEY": "Failed to fetch token key",
       "STATUS_UPDATE": "Failed to update status",
-      "DELETE": "Failed to delete token"
+      "DELETE": "Failed to delete token",
+      "CREATE": "Failed to create token",
+      "UPDATE": "Failed to update token"
     },
     "KEY_DISPLAY": {
       "HIDE": "Hide",

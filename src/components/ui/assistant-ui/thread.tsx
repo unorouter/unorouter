@@ -4,12 +4,12 @@ import {
   ComposerAddAttachment,
   ComposerAttachments,
   UserMessageAttachments,
-} from "@/components/assistant-ui/attachment";
-import { MarkdownText } from "@/components/assistant-ui/markdown-text";
-import { Reasoning, ReasoningGroup } from "@/components/assistant-ui/reasoning";
-import { TaskCardRenderer } from "@/components/assistant-ui/task-card";
-import { ToolFallback } from "@/components/assistant-ui/tool-fallback";
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+} from "@/components/ui/assistant-ui/attachment";
+import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
+import { Reasoning, ReasoningGroup } from "@/components/ui/assistant-ui/reasoning";
+import { TaskCardRenderer } from "@/components/ui/assistant-ui/task-card";
+import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
+import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";

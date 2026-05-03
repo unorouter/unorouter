@@ -5,7 +5,7 @@ import {
   TriangleAlertIcon,
   WrenchIcon,
 } from "lucide-react";
-import type { StatusType } from "@/components/blocks/status.types";
+import type { StatusType } from "@/components/ui/status/status.types";
 
 interface StatusIconProps extends React.ComponentProps<"div"> {
   /**

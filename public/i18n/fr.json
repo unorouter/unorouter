@@ -1603,7 +1603,9 @@
     "ERROR": {
       "FETCH_KEY": "Échec de récupération de la clé",
       "STATUS_UPDATE": "Échec de mise à jour du statut",
-      "DELETE": "Échec de la suppression du token"
+      "DELETE": "Échec de la suppression du token",
+      "CREATE": "Échec de la création du token",
+      "UPDATE": "Échec de la mise à jour du token"
     },
     "KEY_DISPLAY": {
       "HIDE": "Masquer",

@@ -1603,7 +1603,9 @@
     "ERROR": {
       "FETCH_KEY": "Token-Schlüssel konnte nicht abgerufen werden",
       "STATUS_UPDATE": "Status konnte nicht aktualisiert werden",
-      "DELETE": "Token konnte nicht gelöscht werden"
+      "DELETE": "Token konnte nicht gelöscht werden",
+      "CREATE": "Token konnte nicht erstellt werden",
+      "UPDATE": "Token konnte nicht aktualisiert werden"
     },
     "KEY_DISPLAY": {
       "HIDE": "Verbergen",

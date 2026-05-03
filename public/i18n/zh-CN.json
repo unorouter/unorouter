@@ -1603,7 +1603,9 @@
     "ERROR": {
       "FETCH_KEY": "获取令牌密钥失败",
       "STATUS_UPDATE": "状态更新失败",
-      "DELETE": "令牌删除失败"
+      "DELETE": "令牌删除失败",
+      "CREATE": "创建令牌失败",
+      "UPDATE": "更新令牌失败"
     },
     "KEY_DISPLAY": {
       "HIDE": "隐藏",

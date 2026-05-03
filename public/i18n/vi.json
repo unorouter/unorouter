@@ -1603,7 +1603,9 @@
     "ERROR": {
       "FETCH_KEY": "Không lấy được token key",
       "STATUS_UPDATE": "Không cập nhật được trạng thái",
-      "DELETE": "Không xóa được token"
+      "DELETE": "Không xóa được token",
+      "CREATE": "Không tạo được token",
+      "UPDATE": "Không cập nhật được token"
     },
     "KEY_DISPLAY": {
       "HIDE": "Ẩn",

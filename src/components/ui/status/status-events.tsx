@@ -11,9 +11,9 @@ import {
 import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/date";
 import { Check } from "lucide-react";
-import type { StatusReportUpdateType } from "@/components/blocks/status.types";
-import { StatusTimestamp } from "@/components/blocks/status-timestamp";
-import { useStatusBlocksLabels } from "@/components/blocks/status-i18n";
+import type { StatusReportUpdateType } from "@/components/ui/status/status.types";
+import { StatusTimestamp } from "@/components/ui/status/status-timestamp";
+import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 
 // ============================================================================
 // Container Components

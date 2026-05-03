@@ -2,10 +2,10 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { StatusIcon as UnifiedStatusIcon } from "@/components/blocks/status-icon";
-import type { StatusType } from "@/components/blocks/status.types";
-import { StatusTimestamp } from "@/components/blocks/status-timestamp";
-import { useStatusBlocksLabels } from "@/components/blocks/status-i18n";
+import { StatusIcon as UnifiedStatusIcon } from "@/components/ui/status/status-icon";
+import type { StatusType } from "@/components/ui/status/status.types";
+import { StatusTimestamp } from "@/components/ui/status/status-timestamp";
+import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 
 /**
  * StatusBanner - Complete banner component with integrated icon, message, and timestamp

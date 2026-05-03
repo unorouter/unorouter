@@ -1,5 +1,5 @@
 import { dayjs } from "@/lib/utils/date";
-import type { StatusBlocksLabels } from "@/components/blocks/status-i18n";
+import type { StatusBlocksLabels } from "@/components/ui/status/status-i18n";
 
 const isSameDay = (a: Date, b: Date) => dayjs(a).isSame(b, "day");
 const isStartOfDay = (d: Date) =>
@@ -129,7 +129,7 @@ export function formatTime(date: Date, locale = "en-US") {
 import type {
   StatusReportUpdateType,
   StatusType,
-} from "@/components/blocks/status.types";
+} from "@/components/ui/status/status.types";
 
 /**
  * System status display messages

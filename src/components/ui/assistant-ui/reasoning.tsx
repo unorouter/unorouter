@@ -1,6 +1,6 @@
 "use client";
 
-import { MarkdownText } from "@/components/assistant-ui/markdown-text";
+import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
 import {
   Collapsible,
   CollapsibleContent,

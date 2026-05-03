@@ -1,12 +1,12 @@
 "use client";
 
-import { useStatusBlocksLabels } from "@/components/blocks/status-i18n";
+import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 import type {
   StatusBarData,
   StatusEventType,
   StatusType,
-} from "@/components/blocks/status.types";
-import { statusColors } from "@/components/blocks/status.utils";
+} from "@/components/ui/status/status.types";
+import { statusColors } from "@/components/ui/status/status.utils";
 import { HoverCard } from "@/components/ui/hover-card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";

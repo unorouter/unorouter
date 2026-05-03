@@ -222,7 +222,9 @@ export function TokenDialog(props: TokenDialogProps) {
           },
           onError: (err) =>
             toast.error(
-              err instanceof Error ? err.message : "Failed to update token",
+              err instanceof Error && err.message
+                ? err.message
+                : t("TOKEN.ERROR.UPDATE"),
             ),
         },
       );
@@ -237,7 +239,9 @@ export function TokenDialog(props: TokenDialogProps) {
           },
           onError: (err) =>
             toast.error(
-              err instanceof Error ? err.message : "Failed to create token",
+              err instanceof Error && err.message
+                ? err.message
+                : t("TOKEN.ERROR.CREATE"),
             ),
         },
       );

@@ -13,8 +13,8 @@ import rehypeMathjax from "rehype-mathjax";
 import { type FC, useState } from "react";
 import { CheckIcon, CopyIcon, DownloadIcon, LinkIcon } from "lucide-react";
 
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
-import { ShikiSyntaxHighlighter } from "@/components/assistant-ui/syntax-highlighter";
+import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
+import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 

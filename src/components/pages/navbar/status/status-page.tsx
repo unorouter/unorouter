@@ -2,10 +2,8 @@
 
 import { LogoImage } from "@/components/elements/brand/brand";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { env } from "@/lib/config/env";
-import { StatusBanner } from "@/components/blocks/status-banner";
-import { StatusBar } from "@/components/blocks/status-bar";
-import type { StatusBarData } from "@/components/blocks/status.types";
+import { StatusBanner } from "@/components/ui/status/status-banner";
+import { StatusBar } from "@/components/ui/status/status-bar";
 import {
   StatusComponent,
   StatusComponentBody,
@@ -17,16 +15,11 @@ import {
   StatusComponentStatus,
   StatusComponentTitle,
   StatusComponentUptime,
-} from "@/components/blocks/status-component";
-import type { StatusType } from "@/components/blocks/status.types";
+} from "@/components/ui/status/status-component";
+import type { StatusBarData, StatusType } from "@/components/ui/status/status.types";
+import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { usePricingQuery } from "@/hooks/pricing-hook";
-import {
-  type StatusBucket,
-  useStatusPage,
-} from "@/hooks/use-model-status-hook";
-import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
 import {
   Select,
   SelectContent,
@@ -34,15 +27,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  collapsedVendorsAtom,
-  selectedVendorsAtom,
-  toggleVendorCollapsedAtom,
-} from "@/store/models-store";
-import { statusBucketAtom, statusFilterAtom } from "@/store/status-store";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { usePricingQuery } from "@/hooks/pricing-hook";
+import type { StatusBucket } from "@/hooks/use-model-status-hook";
+import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
+import { env } from "@/lib/config/env";
 import { useTranslations } from "next-intl";
-import { useDeferredValue, useState } from "react";
 import {
   LuChevronDown,
   LuChevronRight,
@@ -58,7 +47,6 @@ import { WindowVirtualizer } from "virtua";
 import { SummaryCards } from "./summary-cards";
 
 const VARIANT_FALLBACK: Exclude<StatusType, "empty"> = "success";
-const UNGROUPED_VENDOR = "Other";
 
 function asVariant(status: string): Exclude<StatusType, "empty"> {
   switch (status) {
@@ -72,165 +60,13 @@ function asVariant(status: string): Exclude<StatusType, "empty"> {
   }
 }
 
-// Banner thresholds: a single broken model shouldn't paint the whole platform
-// red. Show "error" only when at least 10% of probed models are down, and
-// "degraded" when at least 10% are degraded (or any errors exist below the
-// error threshold). Below both thresholds, the banner stays "success".
-const ERROR_RATIO = 0.1;
-const DEGRADED_RATIO = 0.1;
-
-function deriveOverallStatus(
-  components: { status: string }[],
-): Exclude<StatusType, "empty"> {
-  const probed = components.filter((c) => c.status !== "empty");
-  if (probed.length === 0) return "success";
-
-  const errors = probed.filter((c) => c.status === "error").length;
-  const degraded = probed.filter((c) => c.status === "degraded").length;
-
-  if (errors / probed.length >= ERROR_RATIO) return "error";
-  if (errors > 0 || degraded / probed.length >= DEGRADED_RATIO)
-    return "degraded";
-  return "success";
-}
-
-const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
-  { value: "1m", hours: 24 },
-  { value: "5m", hours: 24 },
-  { value: "15m", hours: 24 },
-  { value: "1h", hours: 24 },
-  { value: "1d", hours: 720 },
-];
-
 export function StatusPage() {
   const t = useTranslations();
-  const [bucket, setBucket] = useAtom(statusBucketAtom);
-  const hours = BUCKET_OPTIONS.find((o) => o.value === bucket)?.hours ?? 24;
-  const q = useStatusPage(bucket, hours);
-  const data = q.data;
+  const s = useStatusFilter();
+  // Pricing models are still needed by the VendorFilter dropdown for icons +
+  // counts, so pull them straight from the cached pricing query.
   const pricing = usePricingQuery();
-  const [search, setSearch] = useState("");
-  // Defer search so the input feels responsive even while filtering 78 rows
-  // worth of bars. React keeps showing the previous list until the new filter
-  // result is ready.
-  const deferredSearch = useDeferredValue(search);
-  const [statusFilter, setStatusFilter] = useAtom(statusFilterAtom);
-  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
-  const collapsedVendors = useAtomValue(collapsedVendorsAtom);
-  const setCollapsedVendors = useSetAtom(collapsedVendorsAtom);
-  const toggleVendorCollapsed = useSetAtom(toggleVendorCollapsedAtom);
-  const collapsedSet = new Set(collapsedVendors);
-  const hasActiveFilters =
-    search.trim().length > 0 ||
-    statusFilter !== "all" ||
-    selectedVendors.length > 0 ||
-    collapsedVendors.length > 0 ||
-    bucket !== "1m";
-  const resetFilters = () => {
-    setSearch("");
-    setStatusFilter("all");
-    setSelectedVendors([]);
-    setCollapsedVendors([]);
-    setBucket("1m");
-  };
-
-  const components = data?.components ?? [];
-  const bars = data?.bars ?? {};
   const pricingModels = pricing.data?.models ?? [];
-
-  const vendorByModel = new Map<string, string>();
-  for (const m of pricingModels) {
-    vendorByModel.set(m.name, m.vendor.name);
-  }
-
-  const searchLower = deferredSearch.toLowerCase();
-  const filtered = components.filter((c) => {
-    if (statusFilter !== "all" && c.status !== statusFilter) return false;
-    const vendor = vendorByModel.get(c.name) ?? UNGROUPED_VENDOR;
-    if (
-      searchLower &&
-      !c.name.toLowerCase().includes(searchLower) &&
-      !vendor.toLowerCase().includes(searchLower)
-    )
-      return false;
-    if (selectedVendors.length > 0 && !selectedVendors.includes(vendor))
-      return false;
-    return true;
-  });
-
-  const groupsMap = new Map<string, typeof filtered>();
-  for (const c of filtered) {
-    const vendor = vendorByModel.get(c.name) ?? UNGROUPED_VENDOR;
-    const group = groupsMap.get(vendor);
-    if (group) {
-      group.push(c);
-    } else {
-      groupsMap.set(vendor, [c]);
-    }
-  }
-  const groups = [...groupsMap.entries()]
-    .map(([vendor, items]) => ({ vendor, items }))
-    .sort((a, b) => {
-      if (a.vendor === UNGROUPED_VENDOR) return 1;
-      if (b.vendor === UNGROUPED_VENDOR) return -1;
-      return b.items.length - a.items.length;
-    });
-  const visibleVendors = groups.map((g) => g.vendor);
-  const allCollapsed =
-    visibleVendors.length > 0 &&
-    visibleVendors.every((v) => collapsedSet.has(v));
-  const toggleAllGroups = () => {
-    if (allCollapsed) {
-      // Expand: drop all visible vendors from collapsed list
-      setCollapsedVendors(
-        collapsedVendors.filter((v) => !visibleVendors.includes(v)),
-      );
-    } else {
-      // Collapse: add all visible vendors
-      const merged = new Set(collapsedVendors);
-      for (const v of visibleVendors) merged.add(v);
-      setCollapsedVendors([...merged]);
-    }
-  };
-
-  // Flatten groups into a single virtualizable list of header + row items so
-  // virtua only mounts what's on screen. Without this, all 78 rows mount
-  // simultaneously (40k+ DOM nodes for the bars alone).
-  type ListItem =
-    | {
-        kind: "header";
-        vendor: string;
-        count: number;
-        operational: number;
-        degraded: number;
-        down: number;
-      }
-    | { kind: "row"; component: (typeof filtered)[number] };
-  const items: ListItem[] = [];
-  for (const group of groups) {
-    let operational = 0;
-    let degraded = 0;
-    let down = 0;
-    for (const c of group.items) {
-      if (c.status === "success") operational++;
-      else if (c.status === "degraded") degraded++;
-      else if (c.status === "error") down++;
-    }
-    items.push({
-      kind: "header",
-      vendor: group.vendor,
-      count: group.items.length,
-      operational,
-      degraded,
-      down,
-    });
-    if (collapsedSet.has(group.vendor)) continue;
-    for (const c of group.items) {
-      items.push({ kind: "row", component: c });
-    }
-  }
-
-  const overallStatus = deriveOverallStatus(components);
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -258,7 +94,7 @@ export function StatusPage() {
       </div>
 
       <div className="space-y-6">
-        <StatusBanner status={overallStatus} />
+        <StatusBanner status={s.overallStatus} />
         <SummaryCards />
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -266,15 +102,15 @@ export function StatusPage() {
             <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
             <Input
               placeholder={t("STATUS.FILTER.SEARCH_PLACEHOLDER")}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={s.search}
+              onChange={(e) => s.setSearch(e.target.value)}
               className="pl-10"
             />
           </div>
           <VendorFilter models={pricingModels} />
           <Select
-            value={bucket}
-            onValueChange={(v) => setBucket(v as StatusBucket)}
+            value={s.bucket}
+            onValueChange={(v) => s.setBucket(v as StatusBucket)}
           >
             <SelectTrigger className="w-27.5 font-mono text-xs">
               <SelectValue />
@@ -293,54 +129,54 @@ export function StatusPage() {
           </Select>
           <div className="flex flex-wrap gap-1">
             <FilterPill
-              active={statusFilter === "all"}
-              onClick={() => setStatusFilter("all")}
+              active={s.statusFilter === "all"}
+              onClick={() => s.setStatusFilter("all")}
               label={t("STATUS.FILTER.STATUS_ALL")}
             />
             <FilterPill
-              active={statusFilter === "success"}
-              onClick={() => setStatusFilter("success")}
+              active={s.statusFilter === "success"}
+              onClick={() => s.setStatusFilter("success")}
               label={t("STATUS.STATE.OPERATIONAL")}
             />
             <FilterPill
-              active={statusFilter === "degraded"}
-              onClick={() => setStatusFilter("degraded")}
+              active={s.statusFilter === "degraded"}
+              onClick={() => s.setStatusFilter("degraded")}
               label={t("STATUS.STATE.DEGRADED")}
             />
             <FilterPill
-              active={statusFilter === "error"}
-              onClick={() => setStatusFilter("error")}
+              active={s.statusFilter === "error"}
+              onClick={() => s.setStatusFilter("error")}
               label={t("STATUS.STATE.DOWN")}
             />
           </div>
-          {visibleVendors.length > 0 && (
+          {s.visibleVendors.length > 0 && (
             <Button
               variant="ghost"
               size="icon"
-              onClick={toggleAllGroups}
+              onClick={s.toggleAllGroups}
               aria-label={
-                allCollapsed
+                s.allCollapsed
                   ? t("STATUS.FILTER.EXPAND_ALL")
                   : t("STATUS.FILTER.COLLAPSE_ALL")
               }
               title={
-                allCollapsed
+                s.allCollapsed
                   ? t("STATUS.FILTER.EXPAND_ALL")
                   : t("STATUS.FILTER.COLLAPSE_ALL")
               }
             >
-              {allCollapsed ? (
+              {s.allCollapsed ? (
                 <LuChevronsUpDown className="h-4 w-4" />
               ) : (
                 <LuChevronsDownUp className="h-4 w-4" />
               )}
             </Button>
           )}
-          {hasActiveFilters && (
+          {s.hasActiveFilters && (
             <Button
               variant="ghost"
               size="sm"
-              onClick={resetFilters}
+              onClick={s.resetFilters}
               className="font-mono text-xs"
             >
               {t("MODELS.FILTER.RESET")}
@@ -349,21 +185,21 @@ export function StatusPage() {
           )}
         </div>
 
-        {filtered.length === 0 ? (
+        {s.filtered.length === 0 ? (
           <p className="text-muted-foreground py-24 text-center font-mono text-sm">
             {t("STATUS.FILTER.EMPTY")}
           </p>
         ) : (
           <WindowVirtualizer>
-            {items.map((item) =>
+            {s.items.map((item) =>
               item.kind === "header" ? (
                 <button
                   type="button"
                   key={`header-${item.vendor}`}
-                  onClick={() => toggleVendorCollapsed(item.vendor)}
+                  onClick={() => s.toggleVendorCollapsed(item.vendor)}
                   className="hover:bg-accent/40 flex w-full items-center gap-2 rounded-md px-2 pt-6 pb-3 text-left first:pt-0"
                 >
-                  {collapsedSet.has(item.vendor) ? (
+                  {s.collapsedSet.has(item.vendor) ? (
                     <LuChevronRight className="text-muted-foreground h-4 w-4 shrink-0" />
                   ) : (
                     <LuChevronDown className="text-muted-foreground h-4 w-4 shrink-0" />
@@ -427,7 +263,7 @@ export function StatusPage() {
                     <StatusComponentBody>
                       <StatusBar
                         data={
-                          (bars[item.component.name] ??
+                          (s.bars[item.component.name] ??
                             []) as unknown as StatusBarData[]
                         }
                       />

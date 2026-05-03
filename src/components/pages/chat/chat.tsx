@@ -1,6 +1,6 @@
 "use client";
 
-import { Thread } from "@/components/assistant-ui/thread";
+import { Thread } from "@/components/ui/assistant-ui/thread";
 import { SectionBoundary } from "@/components/elements/section-boundary";
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";

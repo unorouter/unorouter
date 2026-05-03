@@ -1603,7 +1603,9 @@
     "ERROR": {
       "FETCH_KEY": "取得金鑰失敗",
       "STATUS_UPDATE": "更新狀態失敗",
-      "DELETE": "刪除金鑰失敗"
+      "DELETE": "刪除金鑰失敗",
+      "CREATE": "建立金鑰失敗",
+      "UPDATE": "更新金鑰失敗"
     },
     "KEY_DISPLAY": {
       "HIDE": "隱藏",

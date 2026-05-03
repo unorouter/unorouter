@@ -1,6 +1,6 @@
 "use client";
 
-import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Dialog,
