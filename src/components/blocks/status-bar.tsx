@@ -489,7 +489,7 @@ export function StatusBar({
               className="isolate z-50"
             >
               <PreviewCardPrimitive.Popup
-                className="bg-popover text-popover-foreground ring-foreground/10 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 w-auto min-w-40 origin-(--transform-origin) rounded-lg p-0 text-sm shadow-md ring-1 outline-hidden duration-100"
+                className="bg-popover text-popover-foreground ring-foreground/10 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 w-max max-w-sm origin-(--transform-origin) rounded-lg p-0 text-sm shadow-md ring-1 outline-hidden duration-100"
                 onMouseEnter={handlers.onHoverCardEnter}
                 onMouseLeave={handlers.onHoverCardLeave}
               >
@@ -728,7 +728,7 @@ function StatusBarContent({
         />
         <div className="text-sm">{labels.requestStatus[status]}</div>
       </div>
-      <div className="text-muted-foreground ml-auto font-mono text-xs tracking-tight">
+      <div className="text-muted-foreground ml-auto whitespace-nowrap font-mono text-xs tracking-tight">
         {value}
       </div>
     </div>
@@ -805,22 +805,17 @@ export function StatusBarEvent({
     type === "incident" ? "error" : type === "report" ? "degraded" : "info";
 
   return (
-    <div className="group relative text-sm" data-slot="status-bar-event">
-      {/* NOTE: this is to make the text truncate based on the width of the sibling element */}
-      {/* REMINDER: height needs to be equal the text height */}
-      <div className="h-4 w-full" />
-      <div className="text-muted-foreground hover:text-foreground absolute inset-0">
-        <div className="flex items-center gap-2">
-          <div
-            className="h-2.5 w-2.5 shrink-0 rounded-sm"
-            style={{
-              backgroundColor: statusColors[status],
-            }}
-          />
-          <div className="truncate">{name}</div>
-        </div>
+    <div className="group text-sm" data-slot="status-bar-event">
+      <div className="text-muted-foreground hover:text-foreground flex items-start gap-2">
+        <div
+          className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-sm"
+          style={{
+            backgroundColor: statusColors[status],
+          }}
+        />
+        <div>{name}</div>
       </div>
-      <div className="text-muted-foreground mt-1 text-xs">
+      <div className="text-muted-foreground mt-1 pl-4.5 text-xs">
         {labels.formatDateRange(from, to ?? undefined)}{" "}
         <span className="text-muted-foreground/70 ml-1.5 font-mono">
           {formatDuration({ from, to, name, type, isAggregated, labels })}
