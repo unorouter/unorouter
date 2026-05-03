@@ -428,35 +428,49 @@ export function StatusBar({
       isTouch,
     });
 
-  return (
-    <div
-      ref={containerRef}
-      className="flex h-12.5 w-full items-end gap-px"
-      data-slot="status-bar"
-      role="toolbar"
-      aria-label={labels.ariaStatusTracker}
-    >
-      {data.map((item, index) => {
-        const isActive = activeIndex === index;
-        const isPinned = isActive && interactionType === "pin";
+  const first = data[0];
+  const last = data[data.length - 1];
 
-        return (
-          <StatusBarItem
-            key={item.day}
-            ref={(el) => setButtonRef(index, el)}
-            index={index}
-            item={item}
-            isActive={isActive}
-            isPinned={isPinned}
-            isTouch={isTouch}
-            isLastItem={index === data.length - 1}
-            handlers={handlers}
-            renderCard={renderCard}
-            renderBar={renderBar}
-            renderEvent={renderEvent}
-          />
-        );
-      })}
+  return (
+    <div className="flex w-full flex-col gap-1.5" data-slot="status-bar-root">
+      <div
+        ref={containerRef}
+        className="flex h-12.5 w-full items-end gap-px"
+        data-slot="status-bar"
+        role="toolbar"
+        aria-label={labels.ariaStatusTracker}
+      >
+        {data.map((item, index) => {
+          const isActive = activeIndex === index;
+          const isPinned = isActive && interactionType === "pin";
+
+          return (
+            <StatusBarItem
+              key={item.day}
+              ref={(el) => setButtonRef(index, el)}
+              index={index}
+              item={item}
+              isActive={isActive}
+              isPinned={isPinned}
+              isTouch={isTouch}
+              isLastItem={index === data.length - 1}
+              handlers={handlers}
+              renderCard={renderCard}
+              renderBar={renderBar}
+              renderEvent={renderEvent}
+            />
+          );
+        })}
+      </div>
+      {first && last && (
+        <div
+          className="flex w-full justify-between font-mono text-[10px] text-muted-foreground tabular-nums"
+          data-slot="status-bar-axis"
+        >
+          <span>{labels.formatDateTime(new Date(first.day))}</span>
+          <span>{labels.formatDateTime(new Date(last.day))}</span>
+        </div>
+      )}
     </div>
   );
 }
