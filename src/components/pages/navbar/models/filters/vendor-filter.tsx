@@ -121,11 +121,16 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
                       className={cn(
                         "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
                         isSelected
-                          ? "bg-primary text-primary-foreground"
-                          : "opacity-50 [&_svg]:invisible",
+                          ? "bg-primary"
+                          : "opacity-50",
                       )}
                     >
-                      <Check className="h-4 w-4" />
+                      <Check
+                        className={cn(
+                          "h-4 w-4 text-primary-foreground!",
+                          !isSelected && "invisible",
+                        )}
+                      />
                     </div>
                     <div className="flex flex-1 items-center gap-2">
                       <VendorIcon vendor={option.name} size={14} />

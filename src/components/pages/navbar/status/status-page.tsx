@@ -37,7 +37,7 @@ import { selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuActivity, LuSearch } from "react-icons/lu";
+import { LuActivity, LuSearch, LuX } from "react-icons/lu";
 import { SummaryCards } from "./summary-cards";
 
 type StatusFilter = "all" | "success" | "degraded" | "error" | "empty";
@@ -57,11 +57,25 @@ function asVariant(status: string): Exclude<StatusType, "empty"> {
   }
 }
 
+// Banner thresholds: a single broken model shouldn't paint the whole platform
+// red. Show "error" only when at least 10% of probed models are down, and
+// "degraded" when at least 10% are degraded (or any errors exist below the
+// error threshold). Below both thresholds, the banner stays "success".
+const ERROR_RATIO = 0.1;
+const DEGRADED_RATIO = 0.1;
+
 function deriveOverallStatus(
   components: { status: string }[],
 ): Exclude<StatusType, "empty"> {
-  if (components.some((c) => c.status === "error")) return "error";
-  if (components.some((c) => c.status === "degraded")) return "degraded";
+  const probed = components.filter((c) => c.status !== "empty");
+  if (probed.length === 0) return "success";
+
+  const errors = probed.filter((c) => c.status === "error").length;
+  const degraded = probed.filter((c) => c.status === "degraded").length;
+
+  if (errors / probed.length >= ERROR_RATIO) return "error";
+  if (errors > 0 || degraded / probed.length >= DEGRADED_RATIO)
+    return "degraded";
   return "success";
 }
 
@@ -82,7 +96,16 @@ export function StatusPage() {
   const pricing = usePricingQuery();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
-  const [selectedVendors] = useAtom(selectedVendorsAtom);
+  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
+  const hasActiveFilters =
+    search.trim().length > 0 ||
+    statusFilter !== "all" ||
+    selectedVendors.length > 0;
+  const resetFilters = () => {
+    setSearch("");
+    setStatusFilter("all");
+    setSelectedVendors([]);
+  };
 
   const components = data?.components ?? [];
   const bars = data?.bars ?? {};
@@ -192,6 +215,17 @@ export function StatusPage() {
               label={t("STATUS.STATE.DOWN")}
             />
           </div>
+          {hasActiveFilters && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={resetFilters}
+              className="font-mono text-xs"
+            >
+              {t("MODELS.FILTER.RESET")}
+              <LuX className="ml-1 h-4 w-4" />
+            </Button>
+          )}
         </div>
 
         {filtered.length === 0 ? (
