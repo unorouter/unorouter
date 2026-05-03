@@ -1567,7 +1567,7 @@
       "ONE_DAY": "1 ngày",
       "ONE_HOUR": "1 giờ",
       "QUOTA": "Hạn mức",
-      "QUOTA_PLACEHOLDER": "Nhập số lượng hạn mức",
+      "QUOTA_PLACEHOLDER": "Số tiền USD (vd. 10)",
       "QUOTA_PRESETS": "Mẫu sẵn",
       "UNLIMITED_QUOTA": "Hạn mức không giới hạn",
       "UNLIMITED_QUOTA_DESC": "Hạn mức token chỉ giới hạn bản thân key. Mức sử dụng thực tế vẫn bị giới hạn bởi số dư tài khoản.",

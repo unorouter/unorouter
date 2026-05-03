@@ -1567,7 +1567,7 @@
       "ONE_DAY": "1 天",
       "ONE_HOUR": "1 小時",
       "QUOTA": "額度",
-      "QUOTA_PLACEHOLDER": "輸入額度",
+      "QUOTA_PLACEHOLDER": "美元金額（如 10）",
       "QUOTA_PRESETS": "預設值",
       "UNLIMITED_QUOTA": "無限額度",
       "UNLIMITED_QUOTA_DESC": "金鑰額度僅限制該金鑰本身，實際用量仍會受帳戶餘額限制。",

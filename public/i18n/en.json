@@ -1567,7 +1567,7 @@
       "ONE_DAY": "1 Day",
       "ONE_HOUR": "1 Hour",
       "QUOTA": "Quota",
-      "QUOTA_PLACEHOLDER": "Enter quota amount",
+      "QUOTA_PLACEHOLDER": "Amount in USD (e.g. 10)",
       "QUOTA_PRESETS": "Presets",
       "UNLIMITED_QUOTA": "Unlimited Quota",
       "UNLIMITED_QUOTA_DESC": "Token quota only limits the key itself. Actual usage is still bounded by your account balance.",

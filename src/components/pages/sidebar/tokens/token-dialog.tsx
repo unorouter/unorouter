@@ -11,7 +11,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { MyFormError } from "@/components/elements/form/my-form-error";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -253,8 +261,8 @@ export function TokenDialog(props: TokenDialogProps) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
+      <DialogContent className="flex max-h-[90vh] flex-col gap-0 sm:max-w-lg">
+        <DialogHeader className="pb-6">
           <DialogTitle>
             {isEdit ? t("TOKEN.EDIT") : t("TOKEN.CREATE")}
           </DialogTitle>
@@ -262,8 +270,11 @@ export function TokenDialog(props: TokenDialogProps) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-6">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex min-h-0 flex-1 flex-col"
+          >
+            <div className="-mx-6 flex flex-1 flex-col gap-6 overflow-y-auto px-6">
               {isEdit && displayKey && (
                 <TokenKeyDisplay
                   displayKey={displayKey}
@@ -313,19 +324,61 @@ export function TokenDialog(props: TokenDialogProps) {
 
                   {!unlimitedQuota && (
                     <>
-                      <div className="flex flex-col gap-1.5">
-                        <MyFormInput
-                          control={form.control}
-                          name="remain_quota"
-                          schema={tokenFormSchema}
-                          label={t("TOKEN.FORM.QUOTA")}
-                          type="number"
-                          placeholder={t("TOKEN.FORM.QUOTA_PLACEHOLDER")}
-                        />
-                        <span className="text-muted-foreground font-mono text-[11px]">
-                          = ${quotaToDollars(remainQuota).toFixed(2)}
-                        </span>
-                      </div>
+                      <FormField
+                        control={form.control}
+                        name="remain_quota"
+                        render={({ field, fieldState }) => (
+                          <FormItem>
+                            <FormLabel>{t("TOKEN.FORM.QUOTA")}</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <span className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 font-mono text-sm">
+                                  $
+                                </span>
+                                <Input
+                                  type="number"
+                                  inputMode="decimal"
+                                  step="0.01"
+                                  min="0"
+                                  className="pl-7"
+                                  placeholder={t("TOKEN.FORM.QUOTA_PLACEHOLDER")}
+                                  value={
+                                    field.value
+                                      ? Number(
+                                          quotaToDollars(field.value).toFixed(
+                                            2,
+                                          ),
+                                        )
+                                      : ""
+                                  }
+                                  onChange={(e) => {
+                                    const v = e.target.value;
+                                    if (v === "") {
+                                      field.onChange(0);
+                                      return;
+                                    }
+                                    const dollars = Number(v);
+                                    if (Number.isNaN(dollars)) return;
+                                    // Clamp to 2 decimal places (cents).
+                                    const clamped =
+                                      Math.round(dollars * 100) / 100;
+                                    field.onChange(dollarsToQuota(clamped));
+                                  }}
+                                  onBlur={field.onBlur}
+                                />
+                              </div>
+                            </FormControl>
+                            <span className="text-muted-foreground font-mono text-[11px]">
+                              = {field.value.toLocaleString()} quota
+                            </span>
+                            <MyFormError
+                              name="remain_quota"
+                              schema={tokenFormSchema}
+                              error={fieldState.error?.message}
+                            />
+                          </FormItem>
+                        )}
+                      />
                       <div className="flex flex-col gap-1.5">
                         <span className="text-muted-foreground text-[11px]">
                           {t("TOKEN.FORM.QUOTA_PRESETS")}

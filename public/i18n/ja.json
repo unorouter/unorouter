@@ -1567,7 +1567,7 @@
       "ONE_DAY": "1 日",
       "ONE_HOUR": "1 時間",
       "QUOTA": "クォータ",
-      "QUOTA_PLACEHOLDER": "クォータ量を入力",
+      "QUOTA_PLACEHOLDER": "USD金額（例：10）",
       "QUOTA_PRESETS": "プリセット",
       "UNLIMITED_QUOTA": "無制限クォータ",
       "UNLIMITED_QUOTA_DESC": "トークンクォータはキー自体にのみ制限を設けます。実際の使用量はアカウント残高によって制限されます。",

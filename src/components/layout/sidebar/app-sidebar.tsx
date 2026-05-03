@@ -13,6 +13,9 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Link } from "@/i18n/navigation";
+import { env } from "@/lib/config/env";
+import { useTranslations } from "next-intl";
+import NextLink from "next/link";
 import * as React from "react";
 import { SidebarNavigation } from "./sidebar-navigation";
 
@@ -25,6 +28,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 export function AppSidebar(props: AppSidebarProps) {
   const { navConfig = "default", chatContent, ...sidebarProps } = props;
+  const t = useTranslations();
 
   return (
     <Sidebar collapsible="icon" {...sidebarProps}>
@@ -57,8 +61,31 @@ export function AppSidebar(props: AppSidebarProps) {
           <SidebarNavigation navConfig={navConfig} />
         </SidebarContent>
       )}
-      <SidebarFooter className="border-t group-data-[collapsible=icon]:hidden md:hidden">
-        <div className="flex items-center gap-1 px-1">
+      <SidebarFooter className="border-t">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip={t("FOOTER.STATUS")}
+              render={
+                <NextLink
+                  href={env.statusUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center gap-2 group-data-[collapsible=icon]:justify-center"
+                >
+                  <span className="relative flex h-2 w-2 shrink-0 items-center justify-center">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500 opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
+                  </span>
+                  <span className="group-data-[collapsible=icon]:hidden">
+                    {t("FOOTER.STATUS")}
+                  </span>
+                </NextLink>
+              }
+            />
+          </SidebarMenuItem>
+        </SidebarMenu>
+        <div className="flex items-center gap-1 px-1 group-data-[collapsible=icon]:hidden md:hidden">
           <LanguageToggle />
           <ThemeToggle />
         </div>

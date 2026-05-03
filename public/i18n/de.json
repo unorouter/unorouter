@@ -1567,7 +1567,7 @@
       "ONE_DAY": "1 Tag",
       "ONE_HOUR": "1 Stunde",
       "QUOTA": "Kontingent",
-      "QUOTA_PLACEHOLDER": "Kontingent eingeben",
+      "QUOTA_PLACEHOLDER": "Betrag in USD (z. B. 10)",
       "QUOTA_PRESETS": "Voreinstellungen",
       "UNLIMITED_QUOTA": "Unbegrenztes Kontingent",
       "UNLIMITED_QUOTA_DESC": "Das Token-Kontingent begrenzt nur den Schlüssel selbst. Der tatsächliche Verbrauch wird durch Ihr Kontoguthaben begrenzt.",
