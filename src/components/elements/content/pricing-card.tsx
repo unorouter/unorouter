@@ -36,48 +36,55 @@ export function PricingCard(props: Props) {
         </div>
       )}
 
-      <h2 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-        {props.name}
-      </h2>
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+          {props.name}
+        </h2>
+        <span className="rounded-sm border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-bold tracking-widest text-emerald-600 uppercase dark:text-emerald-400">
+          {props.multiplier} {t("PRICING.CARD.VALUE_BADGE")}
+        </span>
+      </div>
 
-      {/* Price hero */}
-      <div className="mt-2 flex items-baseline gap-1.5">
-        <span className="text-foreground text-4xl font-bold tracking-tight">
+      {/* Price hero: paid -> credit value */}
+      <div className="mt-3 flex items-baseline gap-2">
+        <span className="text-muted-foreground text-2xl font-bold tracking-tight line-through decoration-muted-foreground/60">
           ${props.price}
+        </span>
+        <svg
+          aria-hidden
+          viewBox="0 0 24 24"
+          className="text-muted-foreground/70 h-4 w-4 self-center"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M5 12h14" />
+          <path d="m13 6 6 6-6 6" />
+        </svg>
+        <span className="text-foreground text-4xl font-bold tracking-tight">
+          ${props.value}
         </span>
         <span className="text-muted-foreground font-mono text-xs">
           {t("PRICING.CARD.PER_MONTH")}
         </span>
       </div>
+      <p className="text-muted-foreground mt-1.5 font-mono text-[11px] leading-relaxed">
+        {t("PRICING.CARD.VALUE_EXPLAIN", {
+          paid: `$${props.price}`,
+          credit: `$${props.value}`,
+        })}
+      </p>
 
-      {/* Spec rows */}
-      <div className="mt-5 space-y-4">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("PRICING.CARD.SPEC_CREDIT")}
-            </p>
-            <p className="text-foreground text-lg font-bold tracking-tight">
-              ${props.value}
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-              {t("PRICING.CARD.SPEC_MULTIPLIER")}
-            </p>
-            <p className="text-foreground text-lg font-bold tracking-tight">
-              {props.multiplier}
-            </p>
-          </div>
-        </div>
-        <div>
-          <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
-            {t("PRICING.CARD.SPEC_QUOTA")}
-          </p>
-          <p className="text-foreground text-lg font-bold tracking-tight">
-            {props.quotaLabel}
-          </p>
-        </div>
+      {/* Spec row */}
+      <div className="mt-5">
+        <p className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+          {t("PRICING.CARD.SPEC_QUOTA")}
+        </p>
+        <p className="text-foreground text-lg font-bold tracking-tight">
+          {props.quotaLabel}
+        </p>
       </div>
 
       {/* Features */}

@@ -43,18 +43,23 @@ export function ModelSelector(props: ModelSelectorProps) {
   const pricingData = pricingQuery.data;
   const models = pricingData?.models ?? [];
   const modelsByType = pricingData?.modelsByType ?? [];
-  const firstFreeModel = pricingData?.firstFreeModel ?? null;
 
   const selected = models.find((m) => m.name === props.value);
 
-  // Auto-select first free text model when not logged in and current selection is invalid
+  // Auto-select a random free model (text preferred) when none is selected,
+  // or when the current pick isn't usable (guests can't use paid models).
   useEffect(() => {
-    if (isLoggedIn || !firstFreeModel) return;
+    if (models.length === 0) return;
     const current = models.find((m) => m.name === props.value);
-    if (current?.isFree) return;
-    props.onChange(firstFreeModel.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run when login state or free model changes
-  }, [isLoggedIn, firstFreeModel?.name]);
+    if (current && (isLoggedIn || current.isFree)) return;
+
+    const freeText = models.filter((m) => m.isFree && m.type === "text");
+    const pool = freeText.length > 0 ? freeText : models.filter((m) => m.isFree);
+    if (pool.length === 0) return;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    props.onChange(pick.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only re-run on login state or models list changes
+  }, [isLoggedIn, models.length]);
 
   return (
     <Popover

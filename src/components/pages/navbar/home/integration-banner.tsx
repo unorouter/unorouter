@@ -1,110 +1,12 @@
 import { Link } from "@/i18n/navigation";
-import type { LinkHref } from "@/i18n/routing";
+import {
+  CLI_INTEGRATIONS,
+  RP_INTEGRATIONS,
+  type IntegrationEntry,
+} from "@/components/pages/navbar/home/integrations";
 import { APP_VALUES, msg, type TranslationKey } from "@/lib/config/constants";
-import Claude from "@lobehub/icons/es/Claude";
-import Codex from "@lobehub/icons/es/Codex";
-import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
-import type { ComponentType } from "react";
-import { LuArrowRight, LuHeart } from "react-icons/lu";
-
-type IntegrationIcon = ComponentType<{ className?: string; size?: number }>;
-
-type IntegrationEntry = {
-  href: LinkHref;
-  icon: IntegrationIcon;
-  logoSrc?: string;
-  logoBg?: boolean;
-  badge: string;
-  titleKey: TranslationKey;
-  descKey: TranslationKey;
-  badgeKey: TranslationKey;
-  color: keyof typeof colorMap;
-};
-
-const cliIntegrations: readonly IntegrationEntry[] = [
-  {
-    href: "/docs/claude-code",
-    icon: Claude.Color,
-    badge: "Claude Code",
-    titleKey: msg("HOME.INTEGRATION.CLAUDE_CODE.TITLE"),
-    descKey: msg("HOME.INTEGRATION.CLAUDE_CODE.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.CLAUDE_CODE.BADGE"),
-    color: "orange",
-  },
-  {
-    href: "/docs/codex",
-    icon: Codex.Color,
-    badge: "Codex CLI",
-    titleKey: msg("HOME.INTEGRATION.CODEX.TITLE"),
-    descKey: msg("HOME.INTEGRATION.CODEX.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.CODEX.BADGE"),
-    color: "emerald",
-  },
-  {
-    href: "/docs/gemini-cli",
-    icon: Gemini.Color,
-    badge: "Gemini CLI",
-    titleKey: msg("HOME.INTEGRATION.GEMINI_CLI.TITLE"),
-    descKey: msg("HOME.INTEGRATION.GEMINI_CLI.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.GEMINI_CLI.BADGE"),
-    color: "blue",
-  },
-  {
-    href: "/docs/openclaw",
-    icon: LuHeart,
-    logoSrc: "/icons/openclaw.svg",
-    badge: "OpenClaw",
-    titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
-    descKey: msg("HOME.INTEGRATION.OPENCLAW.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.OPENCLAW.BADGE"),
-    color: "red",
-  },
-];
-
-const rpIntegrations: readonly IntegrationEntry[] = [
-  {
-    href: "/docs/sillytavern",
-    icon: LuHeart,
-    logoSrc: "/icons/sillytavern.png",
-    badge: "SillyTavern",
-    titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
-    descKey: msg("HOME.INTEGRATION.SILLYTAVERN.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.SILLYTAVERN.BADGE"),
-    color: "fuchsia",
-  },
-  {
-    href: "/docs/janitor-ai",
-    icon: LuHeart,
-    logoSrc: "/icons/janitor-ai.png",
-    badge: "Janitor.AI",
-    titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
-    descKey: msg("HOME.INTEGRATION.JANITOR_AI.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.JANITOR_AI.BADGE"),
-    color: "cyan",
-  },
-  {
-    href: "/docs/risuai",
-    icon: LuHeart,
-    logoSrc: "/icons/risuai.png",
-    badge: "RisuAI",
-    titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
-    descKey: msg("HOME.INTEGRATION.RISUAI.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.RISUAI.BADGE"),
-    color: "yellow",
-  },
-  {
-    href: "/docs/chub",
-    icon: LuHeart,
-    logoSrc: "/icons/chub-ai.png",
-    logoBg: true,
-    badge: "Chub / Venus",
-    titleKey: msg("HOME.INTEGRATION.CHUB.TITLE"),
-    descKey: msg("HOME.INTEGRATION.CHUB.DESCRIPTION"),
-    badgeKey: msg("HOME.INTEGRATION.CHUB.BADGE"),
-    color: "purple",
-  },
-];
+import { LuArrowRight } from "react-icons/lu";
 
 const colorMap = {
   orange: {
@@ -280,7 +182,7 @@ async function IntegrationRow(props: {
 export function IntegrationBannerCli() {
   return (
     <IntegrationRow
-      items={cliIntegrations}
+      items={CLI_INTEGRATIONS}
       tintClassName="bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5"
       headerKey={msg("HOME.INTEGRATION.CLI_HEADER")}
       headerAccent="via-orange-500/30"
@@ -292,7 +194,7 @@ export function IntegrationBannerCli() {
 export function IntegrationBannerRoleplay() {
   return (
     <IntegrationRow
-      items={rpIntegrations}
+      items={RP_INTEGRATIONS}
       tintClassName="bg-linear-to-r from-fuchsia-600/5 via-transparent to-purple-600/5"
       headerKey={msg("HOME.INTEGRATION.RP_HEADER")}
       headerAccent="via-fuchsia-500/30"

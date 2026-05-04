@@ -375,8 +375,8 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "{appName} 正式亮相：始终在线，始终是真实模型",
-        "DESCRIPTION": "{appName} 的存在价值：智能回退绕过提供方故障，逐模型真实性校验，确保您请求到的就是您要的模型。",
+        "TITLE": "我们受够了假 Claude。所以做了 {appName}。",
+        "DESCRIPTION": "三天两头宕机，旗舰模型还被偷偷换成廉价仿品。忍无可忍，我们自己上手做了路由器，并且对这两件事都偏执到极点。这就是上线故事。",
         "AUTHOR": "{appName} 团队",
         "INTRO": "廉价 AI API 市场有两大顽疾。提供方频繁宕机，还有些会悄悄把您的请求转发到更弱的模型，却仍按旗舰模型向您收费。{appName} 正是为解决这两个问题而生。",
         "H_UPTIME": "提供方崩了，您依然在线",
@@ -390,8 +390,8 @@
         "CTA": "准备试用？<register>获取 API 密钥</register>或<models>浏览模型目录</models>。"
       },
       "AGENT_READY": {
-        "TITLE": "{appName} 在 Is Your Site Agent-Ready 拿下 100/100",
-        "DESCRIPTION": "Cloudflare 的 Is Your Site Agent-Ready 扫描器给 {appName} 打出满分 100/100，并在五个全部类别——可发现性、内容、机器人访问控制、API 与 MCP 发现、商业——上拿到第 5 级 Agent-Native 评级。",
+        "TITLE": "我们让 Cloudflare 的 AI Agent 扫描器扫了我们的站。结果：100/100。",
+        "DESCRIPTION": "Cloudflare 刚上线了一款扫描器，用来评估你的站点对 AI Agent 的就绪程度。我们拿到了满分 100/100 和最高 Level 5。它到底在查什么，以及为什么大多数站点都过不了关。",
         "AUTHOR": "{appName} 团队",
         "INTRO": "一个 AI 代理来到你的域名前。它能不能搞清楚你是谁、提供什么、怎么和你对话、怎么向你付款？这正是 Cloudflare 的 Is Your Site Agent-Ready 扫描器要回答的问题。我们把它指向 {appDomain}，拿回了一份完美的 100/100，连同最高的第 5 级 Agent-Native 评级。",
         "H_SCORE": "结果",
@@ -409,8 +409,8 @@
         "CTA": "去 <scanner>isitagentready.com</scanner> 扫一扫你自己的站点；如果你是为 {appName} 而来，那就 <register>领一个 API 密钥</register>，开始路由。"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "8 家转售商里发现 183 条假 Claude 通道",
-        "DESCRIPTION": "在 8 家上游转售商、17 天的自动探测里，我们找到 183 个 (通道, 模型) 组合无法通过真伪校验。其中多数实际上跑的是 Kiro Cascade 或 Codeium，而不是真正的 Claude。完整方法、数据和开源探测套件。",
+        "TITLE": "你那个便宜的 Claude 大概率是假的。我们抓出了 183 个。",
+        "DESCRIPTION": "我们对 8 家热门 Claude 中转商连续 probe 了 17 天，发现其中 183 个 channel 根本不是 Claude，多数是 Kiro Cascade 或 Codeium 套了个 Claude 的壳。点名、数据，以及让你自己测自家 provider 的脚本。",
         "AUTHOR": "{appName} 团队",
         "H_PROBES": "探测的工作原理",
         "H_NOT_SPOOFING": "哪些情况不算冒充：Bedrock、Vertex、Foundry",
@@ -514,7 +514,9 @@
       "SPEC_QUOTA": "额度/重置",
       "SPEC_MULTIPLIER": "倍数",
       "OPENCLAW_TITLE": "OpenClaw 支持",
-      "OPENCLAW_DESC": "与 OpenClaw 代理完全兼容"
+      "OPENCLAW_DESC": "与 OpenClaw 代理完全兼容",
+      "VALUE_BADGE": "价值",
+      "VALUE_EXPLAIN": "支付 {paid}，获得 {credit} API 余额，可用于任意模型。"
     },
     "BANNER": {
       "TITLE": "Telegram 上的 OpenClaw AI 助手",

@@ -375,8 +375,8 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "Présentation de {appName} : toujours en ligne, toujours le vrai modèle",
-        "DESCRIPTION": "Pourquoi {appName} existe : des repositionnements intelligents qui contournent les pannes de fournisseurs et des vérifications d'authenticité par modèle pour que vous obteniez toujours le modèle demandé.",
+        "TITLE": "On en avait marre des faux Claude. Alors on a construit {appName}.",
+        "DESCRIPTION": "Des pannes une semaine sur deux. Des modèles premium silencieusement remplacés par des copies bon marché. On a craqué, on a sorti notre propre routeur, paranoïaque sur les deux fronts. Voici l'histoire.",
         "AUTHOR": "L'équipe {appName}",
         "INTRO": "Le marché des API IA bon marché a deux problèmes. Les fournisseurs tombent souvent en panne, et certains transmettent discrètement votre requête à un modèle plus faible tout en vous facturant le modèle phare. {appName} est conçu pour résoudre les deux.",
         "H_UPTIME": "Rester en ligne quand les fournisseurs ne le sont pas",
@@ -390,8 +390,8 @@
         "CTA": "Prêt à essayer ? <register>Obtenez une clé API</register> ou <models>parcourez le catalogue de modèles</models>."
       },
       "AGENT_READY": {
-        "TITLE": "{appName} obtient 100/100 sur Is Your Site Agent-Ready",
-        "DESCRIPTION": "Le scanner Is Your Site Agent-Ready de Cloudflare attribue à {appName} un score parfait de 100/100 et la note Niveau 5 Agent-Native sur les 5 catégories : découvrabilité, contenu, contrôle d'accès des bots, découverte d'API et de MCP, et commerce.",
+        "TITLE": "On a passé le scanner d'agents de Cloudflare sur notre site. Résultat : 100/100.",
+        "DESCRIPTION": "Cloudflare vient de sortir un scanner qui note la compatibilité de ton site avec les agents IA. On a décroché un 100/100 parfait et le top niveau 5. Voici ce qu'il vérifie et pourquoi la plupart des sites échouent.",
         "AUTHOR": "Équipe {appName}",
         "INTRO": "Un agent IA arrive sur votre domaine. Peut-il deviner qui vous êtes, ce que vous proposez, comment vous parler et comment vous payer ? C'est exactement la question à laquelle le scanner Is Your Site Agent-Ready de Cloudflare cherche à répondre. Nous l'avons pointé sur {appDomain} et avons obtenu un 100/100 parfait, avec la mention la plus haute Niveau 5 Agent-Native.",
         "H_SCORE": "Le résultat",
@@ -409,8 +409,8 @@
         "CTA": "Scannez votre site sur <scanner>isitagentready.com</scanner>, ou si vous êtes ici pour {appName}, <register>récupérez une clé API</register> et commencez à router."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "183 faux canaux Claude chez 8 revendeurs",
-        "DESCRIPTION": "Sur 8 revendeurs en amont et 17 jours de sondes automatisées, nous avons trouvé 183 paires (canal, modèle) qui échouent aux contrôles d'authenticité. La plupart servaient Kiro Cascade ou Codeium au lieu du vrai Claude. Méthodologie, données et suite de sondes open source.",
+        "TITLE": "Ton Claude pas cher est probablement un faux. On en a attrapé 183.",
+        "DESCRIPTION": "On a sondé 8 revendeurs Claude populaires pendant 17 jours. 183 de leurs canaux n'étaient pas du Claude du tout. La plupart étaient du Kiro Cascade ou du Codeium déguisé. Les noms, les chiffres, et le script pour tester ton propre fournisseur.",
         "AUTHOR": "Équipe {appName}",
         "H_PROBES": "Comment fonctionnent les sondes",
         "H_NOT_SPOOFING": "Ce qui n'est pas du spoofing : Bedrock, Vertex, Foundry",
@@ -514,7 +514,9 @@
       "SPEC_QUOTA": "Quota/Réinitialisation",
       "SPEC_MULTIPLIER": "Multiplicateur",
       "OPENCLAW_TITLE": "Support OpenClaw",
-      "OPENCLAW_DESC": "Compatibilité complète avec l'agent OpenClaw"
+      "OPENCLAW_DESC": "Compatibilité complète avec l'agent OpenClaw",
+      "VALUE_BADGE": "valeur",
+      "VALUE_EXPLAIN": "Payez {paid}, recevez {credit} en crédit API. Utilisable sur tout modèle."
     },
     "BANNER": {
       "TITLE": "Assistant IA OpenClaw sur Telegram",

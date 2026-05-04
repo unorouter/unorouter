@@ -375,8 +375,8 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "Giới thiệu {appName}: luôn trực tuyến, luôn là mô hình thật",
-        "DESCRIPTION": "Vì sao {appName} ra đời: dự phòng thông minh né tránh sự cố của nhà cung cấp, và kiểm tra tính xác thực cho từng mô hình để bạn luôn nhận đúng mô hình đã yêu cầu.",
+        "TITLE": "Chúng tôi quá mệt với Claude giả. Nên đã xây {appName}.",
+        "DESCRIPTION": "Sập cứ vài tuần một lần. Mô hình premium âm thầm bị tráo bằng bản clone rẻ tiền. Hết kiên nhẫn, chúng tôi tự ship router và làm nó hoang tưởng ở cả hai mặt. Đây là câu chuyện ra mắt.",
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "Thị trường API AI giá rẻ có hai vấn đề. Nhà cung cấp ngừng hoạt động rất nhiều, và một số âm thầm chuyển yêu cầu của bạn sang mô hình yếu hơn trong khi vẫn tính phí cho mô hình chủ lực. {appName} được xây dựng để khắc phục cả hai.",
         "H_UPTIME": "Luôn trực tuyến kể cả khi nhà cung cấp gặp sự cố",
@@ -390,8 +390,8 @@
         "CTA": "Sẵn sàng thử? <register>Lấy API key</register> hoặc <models>duyệt catalog mô hình</models>."
       },
       "AGENT_READY": {
-        "TITLE": "{appName} đạt 100/100 trên Is Your Site Agent-Ready",
-        "DESCRIPTION": "Trình quét Is Your Site Agent-Ready của Cloudflare chấm {appName} điểm tuyệt đối 100/100 cùng xếp hạng Cấp 5 Agent-Native ở cả 5 hạng mục: khả năng khám phá, nội dung, kiểm soát truy cập của bot, khám phá API và MCP, và thương mại.",
+        "TITLE": "Cho scanner AI agent của Cloudflare quét site. Kết quả: 100/100.",
+        "DESCRIPTION": "Cloudflare vừa tung ra scanner chấm độ sẵn sàng của site cho AI agent. Chúng tôi đạt 100/100 hoàn hảo và Level 5 cao nhất. Đây là những gì nó kiểm tra và vì sao hầu hết site đều rớt.",
         "AUTHOR": "Đội ngũ {appName}",
         "INTRO": "Một AI agent ghé tới domain của bạn. Nó có hiểu được bạn là ai, bạn cung cấp gì, nó nói chuyện với bạn ra sao và trả tiền cho bạn thế nào không? Đó chính là câu hỏi mà trình quét Is Your Site Agent-Ready của Cloudflare đang cố trả lời. Chúng tôi cho nó chạy trên {appDomain} và nhận lại điểm tuyệt đối 100/100 cùng xếp hạng cao nhất Cấp 5 Agent-Native.",
         "H_SCORE": "Kết quả",
@@ -409,8 +409,8 @@
         "CTA": "Hãy quét website của bạn tại <scanner>isitagentready.com</scanner>, hoặc nếu bạn ghé qua vì {appName}, <register>lấy một API key</register> rồi bắt đầu định tuyến."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "183 kênh Claude giả ở 8 nhà bán lại",
-        "DESCRIPTION": "Trên 8 nhà bán lại đầu nguồn và 17 ngày kiểm tra tự động, chúng tôi tìm thấy 183 cặp (kênh, mô hình) không vượt qua bài kiểm tra tính xác thực. Phần lớn đang phục vụ Kiro Cascade hoặc Codeium thay vì Claude thật. Phương pháp, dữ liệu và bộ kiểm tra mã nguồn mở.",
+        "TITLE": "Claude giá rẻ của bạn rất có thể là đồ giả. Chúng tôi tóm được 183 trường hợp.",
+        "DESCRIPTION": "Chúng tôi probe 8 reseller Claude phổ biến trong 17 ngày. 183 channel của họ không phải Claude. Phần lớn là Kiro Cascade hoặc Codeium đeo nhãn Claude. Tên, số liệu và script để bạn tự kiểm tra provider của mình.",
         "AUTHOR": "Đội ngũ {appName}",
         "H_PROBES": "Cách các phép thử hoạt động",
         "H_NOT_SPOOFING": "Cái gì không phải là giả mạo: Bedrock, Vertex, Foundry",
@@ -514,7 +514,9 @@
       "SPEC_QUOTA": "Hạn mức/Làm mới",
       "SPEC_MULTIPLIER": "Hệ số nhân",
       "OPENCLAW_TITLE": "Hỗ trợ OpenClaw",
-      "OPENCLAW_DESC": "Tương thích đầy đủ với agent OpenClaw"
+      "OPENCLAW_DESC": "Tương thích đầy đủ với agent OpenClaw",
+      "VALUE_BADGE": "Giá trị",
+      "VALUE_EXPLAIN": "Trả {paid}, nhận {credit} credit API. Dùng được với mọi mô hình."
     },
     "BANNER": {
       "TITLE": "Trợ lý AI OpenClaw trên Telegram",

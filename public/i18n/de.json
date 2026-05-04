@@ -375,8 +375,8 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "{appName} vorgestellt: immer online, immer das echte Modell",
-        "DESCRIPTION": "Warum es {appName} gibt: intelligente Fallbacks, die Anbieterausfälle umgehen, und Authentizitätsprüfungen pro Modell, damit du immer das bekommst, was du angefragt hast.",
+        "TITLE": "Wir hatten genug von falschem Claude. Also haben wir {appName} gebaut.",
+        "DESCRIPTION": "Ausfälle im Wochentakt. Premium-Modelle heimlich gegen billige Klone getauscht. Irgendwann war Schluss, also haben wir unseren eigenen Router gebaut und ihn paranoid gemacht. Das ist die Launch-Story.",
         "AUTHOR": "{appName}-Team",
         "INTRO": "Der Markt für günstige KI-APIs hat zwei Probleme. Anbieter fallen oft aus, und manche leiten deine Anfrage still und heimlich an ein schwächeres Modell weiter, während sie dir trotzdem das Flaggschiff in Rechnung stellen. {appName} ist gebaut, um beides zu lösen.",
         "H_UPTIME": "Online bleiben, wenn Anbieter es nicht tun",
@@ -390,8 +390,8 @@
         "CTA": "Bereit zum Ausprobieren? <register>Hol dir einen API-Schlüssel</register> oder <models>durchsuche den Modellkatalog</models>."
       },
       "AGENT_READY": {
-        "TITLE": "{appName} erreicht 100/100 bei Is Your Site Agent-Ready",
-        "DESCRIPTION": "Cloudflares Scanner Is Your Site Agent-Ready vergibt {appName} ein perfektes Ergebnis von 100/100 und die Stufe 5 Agent-Native in allen 5 Kategorien: Auffindbarkeit, Inhalt, Bot-Zugriffskontrolle, API- und MCP-Discovery sowie Commerce.",
+        "TITLE": "Wir haben Cloudflares Agent-Scanner auf unsere Seite losgelassen. Ergebnis: 100/100.",
+        "DESCRIPTION": "Cloudflare hat gerade einen Scanner veröffentlicht, der bewertet wie bereit deine Seite für KI-Agenten ist. Wir haben volle 100/100 und das höchste Level-5-Rating bekommen. Hier ist was er prüft und warum die meisten Seiten durchfallen.",
         "AUTHOR": "{appName}-Team",
         "INTRO": "Ein KI-Agent landet auf deiner Domain. Kann er herausfinden, wer du bist, was du anbietest, wie er mit dir spricht und wie er dich bezahlt? Genau das versucht der Scanner Is Your Site Agent-Ready von Cloudflare zu beantworten. Wir haben ihn auf {appDomain} losgelassen und ein perfektes 100/100 mit der höchsten Stufe 5 Agent-Native zurückbekommen.",
         "H_SCORE": "Das Ergebnis",
@@ -409,8 +409,8 @@
         "CTA": "Scanne deine Seite auf <scanner>isitagentready.com</scanner>, oder wenn du wegen {appName} hier bist, <register>hol dir einen API-Schlüssel</register> und leg los."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "183 gefälschte Claude-Kanäle bei 8 Anbietern",
-        "DESCRIPTION": "Über 8 Upstream-Anbieter und 17 Tage automatisierter Probes hinweg haben wir 183 (Kanal, Modell)-Paare gefunden, die die Echtheitsprüfung nicht bestehen. Die meisten lieferten Kiro Cascade oder Codeium statt echtem Claude. Methodik, Daten und der Open-Source-Probe-Suite.",
+        "TITLE": "Dein günstiger Claude ist vermutlich eine Fälschung. Wir haben 183 davon erwischt.",
+        "DESCRIPTION": "Wir haben 8 beliebte Claude-Reseller 17 Tage lang sondiert. 183 ihrer Channels waren überhaupt kein Claude. Die meisten waren Kiro Cascade oder Codeium mit einem Claude-Namensschild. Namen, Zahlen und das Skript zum Selbstprüfen.",
         "AUTHOR": "{appName}-Team",
         "H_PROBES": "Wie die Probes funktionieren",
         "H_NOT_SPOOFING": "Was kein Spoofing ist: Bedrock, Vertex, Foundry",
@@ -514,7 +514,9 @@
       "SPEC_QUOTA": "Quota/Reset",
       "SPEC_MULTIPLIER": "Multiplikator",
       "OPENCLAW_TITLE": "OpenClaw Support",
-      "OPENCLAW_DESC": "Volle Kompatibilität mit OpenClaw Agent"
+      "OPENCLAW_DESC": "Volle Kompatibilität mit OpenClaw Agent",
+      "VALUE_BADGE": "Wert",
+      "VALUE_EXPLAIN": "Zahle {paid}, bekomme {credit} an API-Guthaben. Nutzbar mit jedem Modell."
     },
     "BANNER": {
       "TITLE": "OpenClaw KI-Assistent auf Telegram",

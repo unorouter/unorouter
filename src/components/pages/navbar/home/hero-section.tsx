@@ -1,5 +1,6 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
+import { FloatingIntegrations } from "@/components/pages/navbar/home/floating-integrations";
 import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
@@ -64,9 +65,12 @@ export async function HeroSection() {
         <HeroStatsGrid />
       </div>
 
-      {/* Right column - Stats panel */}
+      {/* Right column - Stats panel with floating integration logos on desktop */}
       <div className="flex w-full max-w-lg flex-1 justify-center lg:max-w-none lg:justify-end">
-        <StatsPanel />
+        <div className="relative w-full max-w-lg">
+          <FloatingIntegrations />
+          <StatsPanel />
+        </div>
       </div>
     </main>
   );

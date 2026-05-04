@@ -375,8 +375,8 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "Introducing {appName}: always online, always the real model",
-        "DESCRIPTION": "Why {appName} exists: smart fallbacks that route around provider outages, and per-model authenticity checks so you always get the model you asked for.",
+        "TITLE": "We got tired of fake Claude. So we built {appName}.",
+        "DESCRIPTION": "Outages every other week. Premium models silently swapped for cheap clones. We snapped, shipped our own router, and made it paranoid about both. Here is the launch story.",
         "AUTHOR": "{appName} team",
         "INTRO": "The cheap AI API market has two problems. Providers go down a lot, and some of them quietly forward your request to a weaker model while still charging you for the flagship. {appName} is built to fix both.",
         "H_UPTIME": "Stay online when providers don't",
@@ -390,8 +390,8 @@
         "CTA": "Ready to try it? <register>Grab an API key</register> or <models>browse the model catalog</models>."
       },
       "AGENT_READY": {
-        "TITLE": "{appName} scores 100/100 on Is Your Site Agent-Ready",
-        "DESCRIPTION": "Cloudflare's Is Your Site Agent-Ready scanner gave {appName} a perfect 100/100 score and the Level 5 Agent-Native rating across all 5 categories: discoverability, content, bot access control, API and MCP discovery, and commerce.",
+        "TITLE": "We pointed Cloudflare's agent scanner at our site. It came back 100/100.",
+        "DESCRIPTION": "Cloudflare just shipped a scanner that grades how ready your site is for AI agents. We hit a perfect 100/100 and the top Level 5 rating. Here is exactly what it checks and why most sites fail.",
         "AUTHOR": "{appName} team",
         "INTRO": "An AI agent walks up to your domain. Can it figure out who you are, what you offer, how to talk to you, and how to pay you? That is the question Cloudflare's Is Your Site Agent-Ready scanner tries to answer. We pointed it at {appDomain} and got back a perfect 100/100 with the top-tier Level 5 Agent-Native rating.",
         "H_SCORE": "The result",
@@ -409,8 +409,8 @@
         "CTA": "Scan your site at <scanner>isitagentready.com</scanner>, or if you came here for {appName}, <register>grab an API key</register> and start routing."
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "183 fake Claude channels across 8 resellers",
-        "DESCRIPTION": "Across 8 upstream resellers and 17 days of automated probing, we found 183 (channel, model) pairs that fail authenticity checks. Most were serving Kiro Cascade or Codeium instead of real Claude. Methodology, data, and the open-source probe suite.",
+        "TITLE": "Your cheap Claude is probably a fake. We caught 183 of them.",
+        "DESCRIPTION": "We probed 8 popular Claude resellers for 17 days. 183 of their channels were not Claude at all. Most were Kiro Cascade or Codeium wearing a Claude name tag. Names, numbers, and the script we used so you can test your own provider.",
         "AUTHOR": "{appName} team",
         "H_PROBES": "How the probes work",
         "H_NOT_SPOOFING": "What is not spoofing: Bedrock, Vertex, Foundry",
@@ -513,6 +513,8 @@
       "SPEC_CREDIT": "API Credit Value",
       "SPEC_QUOTA": "Quota/Reset",
       "SPEC_MULTIPLIER": "Multiplier",
+      "VALUE_BADGE": "Value",
+      "VALUE_EXPLAIN": "Pay {paid}, get {credit} in API credit. Use it on any model.",
       "OPENCLAW_TITLE": "OpenClaw Support",
       "OPENCLAW_DESC": "Full compatibility with OpenClaw agent"
     },

@@ -375,8 +375,8 @@
     },
     "POSTS": {
       "LAUNCH": {
-        "TITLE": "{appName} のご紹介：常にオンライン、常に本物のモデル",
-        "DESCRIPTION": "{appName} が存在する理由：プロバイダー障害を回避するスマートなフォールバックと、常にリクエストしたモデルが得られるモデル別の真正性チェック。",
+        "TITLE": "偽Claude にうんざりしたので、{appName} を作りました。",
+        "DESCRIPTION": "毎週のように落ちる。プレミアムモデルがこっそり安物にすり替えられる。我慢の限界で自前のルーターを作り、その両方に病的なほど厳しくしました。ローンチ秘話です。",
         "AUTHOR": "{appName} チーム",
         "INTRO": "安価な AI API 市場には2つの問題があります。プロバイダーは頻繁にダウンし、一部のプロバイダーはフラッグシップ価格を請求しつつ、密かに弱いモデルへリクエストを転送します。{appName} はこの両方を解決するために作られました。",
         "H_UPTIME": "プロバイダーが落ちてもオンラインを維持",
@@ -390,8 +390,8 @@
         "CTA": "試してみませんか？<register>APIキーを取得</register> または <models>モデルカタログを閲覧</models> してください。"
       },
       "AGENT_READY": {
-        "TITLE": "{appName}、Is Your Site Agent-Ready で 100/100 を達成",
-        "DESCRIPTION": "Cloudflare の Is Your Site Agent-Ready スキャナーが {appName} に 100/100 のパーフェクトスコアを与え、5 つすべてのカテゴリ（発見性、コンテンツ、ボットアクセス制御、API と MCP のディスカバリ、コマース）でレベル 5 の Agent-Native 評価を獲得しました。",
+        "TITLE": "Cloudflare の AIエージェント対応スキャナーをかけたら、100点満点でした。",
+        "DESCRIPTION": "Cloudflare が AI エージェントへの対応度を採点する新しいスキャナーをリリース。私たちは 100/100 と最上位 Level 5 を獲得しました。何をチェックしていて、なぜほとんどのサイトが落ちるのかを解説します。",
         "AUTHOR": "{appName} チーム",
         "INTRO": "AI エージェントがあなたのドメインに辿り着いたとき、あなたが何者で、何を提供していて、どう話しかけ、どう支払えばよいかを理解できるでしょうか。これこそが、Cloudflare の Is Your Site Agent-Ready スキャナーが答えようとしている問いです。{appDomain} に対して走らせたところ、最高位のレベル 5 Agent-Native とともに 100/100 のパーフェクトスコアが返ってきました。",
         "H_SCORE": "結果",
@@ -409,8 +409,8 @@
         "CTA": "あなたのサイトは <scanner>isitagentready.com</scanner> でスキャンできます。もし {appName} を試しに来てくれたなら、<register>API キーを取得</register> してルーティングを始めましょう。"
       },
       "CLAUDE_AUTHENTICITY": {
-        "TITLE": "8 社の再販業者で見つかった 183 の偽 Claude チャネル",
-        "DESCRIPTION": "8 つの上流再販業者と 17 日間の自動プローブで、真正性チェックに失敗した 183 の (チャネル, モデル) の組を発見しました。多くは本物の Claude ではなく Kiro Cascade や Codeium を提供していました。方法論、データ、オープンソースのプローブスイート。",
+        "TITLE": "あなたの「安いClaude」、たぶん偽物です。私たちは 183 件捕まえました。",
+        "DESCRIPTION": "人気の Claude リセラー 8 社を 17 日間プローブ。そのうち 183 チャンネルが Claude ではありませんでした。大半は Kiro Cascade や Codeium に Claude の名札を付けただけ。名前と数字、自分でも試せる検証スクリプト付き。",
         "AUTHOR": "{appName} チーム",
         "H_PROBES": "プローブの仕組み",
         "H_NOT_SPOOFING": "なりすましではないもの：Bedrock、Vertex、Foundry",
@@ -514,7 +514,9 @@
       "SPEC_QUOTA": "クォータ/リセット",
       "SPEC_MULTIPLIER": "倍率",
       "OPENCLAW_TITLE": "OpenClaw 対応",
-      "OPENCLAW_DESC": "OpenClaw エージェントと完全互換"
+      "OPENCLAW_DESC": "OpenClaw エージェントと完全互換",
+      "VALUE_BADGE": "の価値",
+      "VALUE_EXPLAIN": "{paid} で {credit} 分の API クレジット。どのモデルにも使えます。"
     },
     "BANNER": {
       "TITLE": "Telegram で使える OpenClaw AI アシスタント",
