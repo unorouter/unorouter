@@ -236,7 +236,13 @@ export function usePersistMessagesMutation() {
               id: m.id ?? crypto.randomUUID(),
               parentId: m.parentId ?? null,
               role: m.role,
-              parts: m.parts,
+              items: m.items.map((it, seq) => ({
+                id: it.id ?? `tmp-${seq}`,
+                sequenceIndex: seq,
+                outputIndex: it.output_index ?? null,
+                type: it.type,
+                data: it.data,
+              })),
               model: m.model ?? null,
               inputTokens: hasUsage ? usage.inputTokens : null,
               outputTokens: hasUsage ? usage.outputTokens : null,
@@ -344,7 +350,7 @@ export function useFinalizeTaskMutation() {
             pages: old.pages.map((page) => ({
               ...page,
               messages: page.messages.map((msg) =>
-                msg.id === args.msgId ? { ...msg, parts: data.parts } : msg,
+                msg.id === args.msgId ? { ...msg, items: data.items } : msg,
               ),
             })),
           };

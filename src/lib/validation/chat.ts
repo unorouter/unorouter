@@ -1,15 +1,6 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
 
-// Permissive-but-structured message part schema.
-// Known part types are explicit; unknown future types pass through via the catch-all.
-const persistMessageRole = t.Union([
-  t.Literal("system"),
-  t.Literal("user"),
-  t.Literal("assistant"),
-  t.Literal("tool"),
-]);
-
 const MAX_ID_LEN = 64;
 const MAX_TEXT_LEN = 100_000;
 const MAX_MODEL_LEN = 128;
@@ -18,46 +9,108 @@ const MAX_URL_LEN = 2048;
 const MAX_TITLE_SEED_LEN = 10_000;
 const MAX_MESSAGES_PER_PERSIST = 500;
 const MAX_MESSAGES_PER_STREAM = 200;
-const MAX_PARTS_PER_MESSAGE = 200;
+const MAX_ITEMS_PER_MESSAGE = 200;
 const MAX_CLAIM_CONV_IDS = 500;
 
-const messagePart = t.Union([
-  t.Object(
-    { type: t.Literal("text"), text: t.String({ maxLength: MAX_TEXT_LEN }) },
-    { additionalProperties: true },
-  ),
-  t.Object(
-    {
-      type: t.Literal("reasoning"),
-      reasoning: t.String({ maxLength: MAX_TEXT_LEN }),
-    },
-    { additionalProperties: true },
-  ),
-  t.Object(
-    {
-      type: t.Literal("tool-invocation"),
-      toolInvocationId: t.String({ maxLength: MAX_ID_LEN }),
-    },
-    { additionalProperties: true },
-  ),
-  t.Object({ type: t.Literal("file") }, { additionalProperties: true }),
-  t.Object({ type: t.Literal("source-url") }, { additionalProperties: true }),
-  t.Object(
-    {
-      type: t.Literal("task"),
-      taskId: t.String({ maxLength: MAX_ID_LEN }),
-      status: t.String({ maxLength: 32 }),
-      progress: t.String({ maxLength: 16 }),
-      model: t.String({ maxLength: MAX_MODEL_LEN }),
-    },
-    { additionalProperties: true },
-  ),
-  // Catch-all for unknown/future part types
-  t.Object(
-    { type: t.String({ maxLength: 64 }) },
-    { additionalProperties: true },
-  ),
+const persistMessageRole = t.Union([
+  t.Literal("system"),
+  t.Literal("user"),
+  t.Literal("assistant"),
+  t.Literal("tool"),
 ]);
+
+// ---------------------------------------------------------------------------
+// Message items: typed discriminated union, one row per content unit
+// ---------------------------------------------------------------------------
+
+const itemTextData = t.Object({ text: t.String({ maxLength: MAX_TEXT_LEN }) });
+const itemReasoningData = t.Object({
+  text: t.String({ maxLength: MAX_TEXT_LEN }),
+  status: t.Optional(t.String({ maxLength: 32 })),
+});
+const itemToolCallData = t.Object(
+  {
+    tool_name: t.String({ maxLength: MAX_ID_LEN }),
+    tool_call_id: t.String({ maxLength: MAX_ID_LEN }),
+    args: t.Unknown(),
+  },
+  { additionalProperties: true },
+);
+const itemToolResultData = t.Object(
+  {
+    tool_call_id: t.String({ maxLength: MAX_ID_LEN }),
+    result: t.Unknown(),
+  },
+  { additionalProperties: true },
+);
+const itemFileData = t.Object(
+  {
+    url: t.String({ maxLength: MAX_URL_LEN }),
+    mime_type: t.String({ maxLength: 128 }),
+    name: t.Optional(t.String({ maxLength: 256 })),
+    r2_key: t.Optional(t.String({ maxLength: 512 })),
+  },
+  { additionalProperties: true },
+);
+const itemTaskData = t.Object(
+  {
+    task_id: t.String({ maxLength: MAX_ID_LEN }),
+    model: t.String({ maxLength: MAX_MODEL_LEN }),
+    status: t.String({ maxLength: 32 }),
+    progress: t.Optional(t.String({ maxLength: 16 })),
+  },
+  { additionalProperties: true },
+);
+
+const persistMessageItem = t.Union([
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("text"),
+    output_index: t.Optional(t.Number()),
+    data: itemTextData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("reasoning"),
+    output_index: t.Optional(t.Number()),
+    data: itemReasoningData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("tool_call"),
+    output_index: t.Optional(t.Number()),
+    data: itemToolCallData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("tool_result"),
+    output_index: t.Optional(t.Number()),
+    data: itemToolResultData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("file"),
+    output_index: t.Optional(t.Number()),
+    data: itemFileData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("image"),
+    output_index: t.Optional(t.Number()),
+    data: itemFileData,
+  }),
+  t.Object({
+    id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
+    type: t.Literal("task"),
+    output_index: t.Optional(t.Number()),
+    data: itemTaskData,
+  }),
+]);
+export type PersistMessageItem = Static<typeof persistMessageItem>;
+
+// ---------------------------------------------------------------------------
+// Conversation creation / update
+// ---------------------------------------------------------------------------
 
 export const createConversationBody = t.Object({
   id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
@@ -72,6 +125,84 @@ export const updateConversationBody = t.Object({
 });
 export type UpdateConversationBody = Static<typeof updateConversationBody>;
 
+// ---------------------------------------------------------------------------
+// Conversation settings (overrides)
+// ---------------------------------------------------------------------------
+
+export const reasoningEffort = t.Union([
+  t.Literal("xhigh"),
+  t.Literal("high"),
+  t.Literal("medium"),
+  t.Literal("low"),
+  t.Literal("minimal"),
+  t.Literal("none"),
+]);
+
+export const updateConversationSettingsBody = t.Object({
+  defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
+  personaId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
+  presetId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
+  systemPromptOverride: t.Optional(
+    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
+  ),
+  authorNote: t.Optional(t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()])),
+  authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
+  chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
+  reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
+  webSearchEnabled: t.Optional(t.Boolean()),
+  webSearchEngine: t.Optional(
+    t.Union([
+      t.Literal("auto"),
+      t.Literal("native"),
+      t.Literal("exa"),
+      t.Literal("tavily"),
+    ]),
+  ),
+  webSearchContextSize: t.Optional(
+    t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
+  ),
+});
+export type UpdateConversationSettingsBody = Static<
+  typeof updateConversationSettingsBody
+>;
+
+// ---------------------------------------------------------------------------
+// Conversation bindings (m:n)
+// ---------------------------------------------------------------------------
+
+export const updateConversationBindingsBody = t.Object({
+  characters: t.Optional(
+    t.Array(
+      t.Object({
+        characterId: t.String({ maxLength: MAX_ID_LEN }),
+        orderIndex: t.Optional(t.Number()),
+        isActive: t.Optional(t.Boolean()),
+        overrides: t.Optional(t.Unknown()),
+      }),
+    ),
+  ),
+  lorebookIds: t.Optional(
+    t.Array(t.String({ maxLength: MAX_ID_LEN }), { maxItems: 64 }),
+  ),
+});
+export type UpdateConversationBindingsBody = Static<
+  typeof updateConversationBindingsBody
+>;
+
+// ---------------------------------------------------------------------------
+// Persist messages (now items, not parts)
+// ---------------------------------------------------------------------------
+
+export const editMessageBody = t.Object({
+  items: t.Array(persistMessageItem, { maxItems: MAX_ITEMS_PER_MESSAGE }),
+});
+export type EditMessageBody = Static<typeof editMessageBody>;
+
+export const setActiveBranchBody = t.Object({
+  messageId: t.String({ maxLength: MAX_ID_LEN }),
+});
+export type SetActiveBranchBody = Static<typeof setActiveBranchBody>;
+
 export const persistMessagesBody = t.Object({
   messages: t.Array(
     t.Object({
@@ -79,14 +210,21 @@ export const persistMessagesBody = t.Object({
       parentId: t.Optional(
         t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
       ),
+      characterId: t.Optional(
+        t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
+      ),
       role: persistMessageRole,
       model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-      parts: t.Array(messagePart, { maxItems: MAX_PARTS_PER_MESSAGE }),
+      items: t.Array(persistMessageItem, { maxItems: MAX_ITEMS_PER_MESSAGE }),
     }),
     { maxItems: MAX_MESSAGES_PER_PERSIST },
   ),
 });
 export type PersistMessagesBody = Static<typeof persistMessagesBody>;
+
+// ---------------------------------------------------------------------------
+// Pagination + search
+// ---------------------------------------------------------------------------
 
 export const paginationQuery = t.Object({
   p: t.Optional(t.Number({ minimum: 1 })),
@@ -99,14 +237,22 @@ export const chatSearchQuery = t.Composite([
 ]);
 export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 
+// ---------------------------------------------------------------------------
+// Stream
+// ---------------------------------------------------------------------------
+
 export const streamBody = t.Object({
   model: t.String({ maxLength: MAX_MODEL_LEN }),
-  // Messages are typed by the AI SDK (UIMessage); schema validation
-  // is handled by convertToModelMessages at runtime.
+  // Messages typed by AI SDK (UIMessage); validation handled at runtime.
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
 });
+export type StreamBody = Static<typeof streamBody>;
+
+// ---------------------------------------------------------------------------
+// Media upload
+// ---------------------------------------------------------------------------
 
 export const mediaUploadBody = t.Object({
   file: t.File({
@@ -121,6 +267,10 @@ export const mediaUploadBody = t.Object({
   }),
   convId: t.String({ maxLength: MAX_ID_LEN }),
 });
+
+// ---------------------------------------------------------------------------
+// Title / claim / finalize task
+// ---------------------------------------------------------------------------
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),

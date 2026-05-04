@@ -7,19 +7,19 @@ import { useEffect, useState } from "react";
 import type { HoverCardContentProps } from "@radix-ui/react-hover-card";
 
 import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
+    HoverCard,
+    HoverCardContent,
+    HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 type BaseProps = {
@@ -293,7 +293,10 @@ function RichTimestamp({
         <dl className="flex flex-col gap-1">
           <StatusTimestampRow value={formatted} label={timezone} />
           <StatusTimestampRow value={utc} label="UTC" />
-          <StatusTimestampRow value={relative} label={labels.timestampRelative} />
+          <StatusTimestampRow
+            value={relative}
+            label={labels.timestampRelative}
+          />
         </dl>
       </HoverCardContent>
     </HoverCard>

@@ -1,5 +1,8 @@
 "use client";
 
+import { HoverCard } from "@/components/ui/hover-card";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 import type {
   StatusBarData,
@@ -7,10 +10,7 @@ import type {
   StatusType,
 } from "@/components/ui/status/status.types";
 import { statusColors } from "@/components/ui/status/status.utils";
-import { HoverCard } from "@/components/ui/hover-card";
-import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/date";
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
@@ -728,7 +728,7 @@ function StatusBarContent({
         />
         <div className="text-sm">{labels.requestStatus[status]}</div>
       </div>
-      <div className="text-muted-foreground ml-auto whitespace-nowrap font-mono text-xs tracking-tight">
+      <div className="text-muted-foreground ml-auto font-mono text-xs tracking-tight whitespace-nowrap">
         {value}
       </div>
     </div>

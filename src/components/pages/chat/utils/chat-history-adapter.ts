@@ -5,7 +5,11 @@ import {
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { PersistMessage } from "@/lib/types/chat";
+import type { ApiMessage, PersistMessage } from "@/lib/types/chat";
+import {
+  itemsToParts,
+  partsToItems,
+} from "@/lib/types/chat";
 import { handleElysia } from "@/lib/utils/base";
 import type {
   MessageFormatAdapter,
@@ -16,30 +20,28 @@ import type {
 import type { QueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
-type RawMessage = {
-  id: string;
-  parentId?: string | null;
-  role: string;
-  parts: unknown;
-  model?: string | null;
-};
+type RawMessage = ApiMessage;
 
 function buildRepository<TMessage>(
   raw: RawMessage[],
   formatAdapter: MessageFormatAdapter<TMessage, Record<string, unknown>>,
 ): MessageFormatRepository<TMessage> {
-  // Walk DB rows chronologically, prefer the newest sibling when two share a parent — that becomes the active branch tip on load
+  // Walk DB rows chronologically. Translate items -> parts at the boundary so
+  // assistant-ui sees the shape it expects.
   const messages = raw.map<MessageFormatItem<TMessage>>((m) => {
+    const parts = itemsToParts(m.items ?? []);
     const decoded = formatAdapter.decode({
       id: m.id,
       parent_id: m.parentId ?? null,
       format: formatAdapter.format,
-      content: { role: m.role, parts: m.parts } as Record<string, unknown>,
+      content: { role: m.role, parts } as Record<string, unknown>,
     });
     return decoded;
   });
 
-  const headId = raw.length > 0 ? raw[raw.length - 1].id : null;
+  // Head: prefer the latest active-branch tip; fall back to last message.
+  const activeTip = [...raw].reverse().find((m) => m.isActiveBranch !== false);
+  const headId = activeTip?.id ?? (raw.length > 0 ? raw[raw.length - 1].id : null);
   return { headId, messages };
 }
 
@@ -49,7 +51,7 @@ export function createChatHistoryAdapter(
 ): ThreadHistoryAdapter {
   return {
     async load() {
-      // Raw shape lives here; the assistant-ui hook pipes it through withFormat() before calling this — but load() on the outer type must return ExportedMessageRepository.
+      // Raw shape lives here; the assistant-ui hook pipes it through withFormat() before calling this, but load() on the outer type must return ExportedMessageRepository.
       // We return an empty outer, since useExternalHistory uses withFormat().load() (not this one) when a format adapter exists.
       return { messages: [] };
     },
@@ -119,9 +121,11 @@ export function createChatHistoryAdapter(
           const messageId = formatAdapter.getId(item.message);
           const content = stored as unknown as {
             role: PersistMessage["role"];
-            parts: PersistMessage["parts"];
+            parts: { type: string; [k: string]: unknown }[];
             [k: string]: unknown;
           };
+
+          const items = partsToItems(content.parts ?? []);
 
           const body = {
             messages: [
@@ -129,7 +133,7 @@ export function createChatHistoryAdapter(
                 id: messageId,
                 parentId: item.parentId,
                 role: content.role,
-                parts: content.parts,
+                items,
                 ...(typeof content.model === "string"
                   ? { model: content.model }
                   : {}),
@@ -160,7 +164,13 @@ export function createChatHistoryAdapter(
                 id: messageId,
                 parentId: item.parentId,
                 role: content.role,
-                parts: content.parts,
+                items: items.map((it, seq) => ({
+                  id: it.id ?? `tmp-${seq}`,
+                  sequenceIndex: seq,
+                  outputIndex: it.output_index ?? null,
+                  type: it.type,
+                  data: it.data,
+                })),
                 model: typeof content.model === "string" ? content.model : null,
                 inputTokens: hasUsage ? usage.inputTokens : null,
                 outputTokens: hasUsage ? usage.outputTokens : null,

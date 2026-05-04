@@ -10,6 +10,7 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuKey, LuLoader, LuPlus, LuWallet } from "react-icons/lu";
 import { Button } from "../../ui/button";
+import { ConversationOverridesDrawer } from "./conversation-overrides-drawer";
 
 export function ChatControls() {
   const t = useTranslations();
@@ -42,7 +43,12 @@ export function ChatShareSlot() {
   const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
   if (!threadId || !token.isLoggedIn) return null;
-  return <ShareButton convId={threadId} />;
+  return (
+    <div className="flex items-center gap-1">
+      <ConversationOverridesDrawer convId={threadId} />
+      <ShareButton convId={threadId} />
+    </div>
+  );
 }
 
 export function NeedsTokenGate() {

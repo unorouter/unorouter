@@ -34,6 +34,7 @@ import { useSetAtom } from "jotai";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 function ChatRuntimeHook() {
   const threadId = useAuiState((s) => s.threadListItem.id);
@@ -115,6 +116,16 @@ function ChatRuntimeHook() {
     id: threadId,
     transport: transportRef.current,
     onError: (e) => handleError(e, t),
+    onFinish: ({ message }) => {
+      const metadata = message.metadata as
+        | { droppedParams?: string }
+        | undefined;
+      if (metadata?.droppedParams) {
+        toast.warning(
+          t("RP.DROPPED_PARAMS", { params: metadata.droppedParams }),
+        );
+      }
+    },
   });
 
   // Keep scroll anchoring + infinite-scroll fetches alive; the history adapter now owns setMessages

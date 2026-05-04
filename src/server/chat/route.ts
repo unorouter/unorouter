@@ -2,10 +2,12 @@ import {
   chatSearchQuery,
   claimConversationsBody,
   createConversationBody,
+  editMessageBody,
   finalizeTaskBody,
   mediaUploadBody,
   paginationQuery,
   persistMessagesBody,
+  setActiveBranchBody,
   streamBody,
   titleGenerationBody,
   updateConversationBody,
@@ -14,8 +16,8 @@ import { downloadAndUpload } from "@/lib/config/r2";
 import { msg } from "@/lib/config/constants";
 import { uid } from "@/lib/utils/base";
 import { getDb } from "@/lib/db/client";
-import { conversations, messages } from "@/lib/db/schema";
-import { and, eq } from "drizzle-orm";
+import { conversations, messageItems, messages } from "@/lib/db/schema";
+import { and, asc, eq } from "drizzle-orm";
 import {
   getApiKey,
   getApiKeyOrGuest,
@@ -35,11 +37,15 @@ import {
   revokeShareLink,
   updateConversation,
 } from "./conversation.service";
-import { uploadMedia } from "./media.service";
-import { persistMessages } from "./message.service";
+import { uploadMedia } from "./augmentation/media.service";
+import { fetchVideoTaskStatus } from "./augmentation/task.service";
+import { generateChatTitle } from "./augmentation/title.service";
+import {
+  editMessageItems,
+  persistMessages,
+  setActiveBranch,
+} from "./message.service";
 import { streamChat } from "./stream.service";
-import { fetchVideoTaskStatus } from "./task.service";
-import { generateChatTitle } from "./title.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
 
@@ -147,6 +153,31 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     { body: persistMessagesBody },
   )
 
+  .put(
+    "/:id/messages/:msgId",
+    async ({ params, body, cookie }) => {
+      const userId = getUserId(cookie);
+      const data = await editMessageItems(
+        userId,
+        params.id,
+        params.msgId,
+        body.items,
+      );
+      return { success: true, data };
+    },
+    { body: editMessageBody },
+  )
+
+  .post(
+    "/:id/active-branch",
+    async ({ params, body, cookie }) => {
+      const userId = getUserId(cookie);
+      const data = await setActiveBranch(userId, params.id, body.messageId);
+      return { success: true, data };
+    },
+    { body: setActiveBranchBody },
+  )
+
   .post(
     "/stream",
     async ({ body, cookie, request }) => {
@@ -218,20 +249,46 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       const groupKey = uid(8);
       const r2Url = await downloadAndUpload(resultUrl, convId, groupKey);
 
-      const row = rows[0];
-      const parts = (row.parts ?? []) as Array<Record<string, unknown>>;
-      const updatedParts = parts.map((p) =>
-        p.type === "task" && p.taskId === taskId
-          ? { type: "text", text: `![video](${r2Url})` }
-          : p,
-      );
+      // Find the task item and replace with a text item pointing at the rehosted URL
+      const items = await db
+        .select()
+        .from(messageItems)
+        .where(eq(messageItems.messageId, msgId))
+        .orderBy(asc(messageItems.sequenceIndex));
 
-      await db
-        .update(messages)
-        .set({ parts: updatedParts })
-        .where(and(eq(messages.id, msgId), eq(messages.convId, convId)));
+      const updatedItems = items.map((it) => {
+        if (
+          it.type === "task" &&
+          (it.data as Record<string, unknown>).task_id === taskId
+        ) {
+          return {
+            ...it,
+            type: "text",
+            data: { text: `![video](${r2Url})` },
+          };
+        }
+        return it;
+      });
 
-      return { success: true, data: { parts: updatedParts } };
+      await db.transaction(async (tx) => {
+        await tx
+          .delete(messageItems)
+          .where(eq(messageItems.messageId, msgId));
+        if (updatedItems.length > 0) {
+          await tx.insert(messageItems).values(
+            updatedItems.map((it, seq) => ({
+              id: it.id,
+              messageId: msgId,
+              sequenceIndex: seq,
+              outputIndex: it.outputIndex,
+              type: it.type,
+              data: it.data,
+            })),
+          );
+        }
+      });
+
+      return { success: true, data: { items: updatedItems } };
     },
     { body: finalizeTaskBody },
   );

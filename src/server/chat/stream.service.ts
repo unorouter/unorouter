@@ -21,14 +21,18 @@ import {
   type UIMessageStreamWriter,
 } from "ai";
 import { inArray } from "drizzle-orm";
-import { pendingUsageByConv, sweepStalePending } from "./message.service";
-import { assertPromptAllowed } from "./moderation.service";
-import { submitVideoTask } from "./task.service";
+import { assertPromptAllowed } from "./augmentation/moderation.service";
+import {
+  assembleForStream,
+  loadConvContext,
+} from "./augmentation/prompt-assembler.service";
+import { submitVideoTask } from "./augmentation/task.service";
 import {
   formatSearchContext,
   needsWebSearch,
   searchTavily,
-} from "./tavily.service";
+} from "./augmentation/tavily.service";
+import { pendingUsageByConv, sweepStalePending } from "./message.service";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -139,6 +143,28 @@ function extractLastUserText(messages: StreamBody["messages"]): string | null {
     }
   }
   return null;
+}
+
+/**
+ * Concatenate the last `limit` user messages' text content. Used by the prompt
+ * assembler to scan against lorebook keywords.
+ */
+function collectRecentUserText(
+  messages: StreamBody["messages"],
+  limit = 6,
+): string {
+  const out: string[] = [];
+  for (let i = messages.length - 1; i >= 0 && out.length < limit; i--) {
+    const m = messages[i];
+    if (m.role !== "user") continue;
+    if (!Array.isArray(m.parts)) continue;
+    for (const part of m.parts) {
+      if (part.type === "text" && typeof part.text === "string") {
+        out.push(part.text);
+      }
+    }
+  }
+  return out.join("\n");
 }
 
 function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
@@ -444,9 +470,15 @@ export async function streamChat(
     return handleVideoTaskStream(apiKey, body, upstream.headers, userId);
   }
 
+  // Load conversation context up front so per-conversation web-search
+  // overrides (engine, contextSize, enabled) can gate the Tavily call below.
+  const convCtx = body.convId ? await loadConvContext(body.convId) : null;
+  const convWebSearchEnabled = convCtx?.settings.webSearchEnabled ?? false;
+  const effectiveWebSearch = convCtx ? convWebSearchEnabled : !!body.webSearch;
+
   // Web search via Tavily
   let searchSystemMessage: string | undefined;
-  if (body.webSearch) {
+  if (effectiveWebSearch) {
     const lastUserText = extractLastUserText(body.messages);
     if (lastUserText) {
       const shouldSearch = await needsWebSearch(apiKey, lastUserText);
@@ -454,6 +486,8 @@ export async function streamChat(
         logger.info("Web search triggered", {
           context: "stream.tavily",
           query: lastUserText.slice(0, 100),
+          engine: convCtx?.settings.webSearchEngine ?? "auto",
+          contextSize: convCtx?.settings.webSearchContextSize ?? "medium",
         });
         const searchResult = await searchTavily(lastUserText);
         if (searchResult && searchResult.results.length > 0) {
@@ -465,34 +499,74 @@ export async function streamChat(
 
   const provider = getProvider(apiKey);
   const messagesWithPdfText = await inlinePdfText(body.messages);
-  // Per-model client hints (maxOutputTokens, isReasoning, ...) sourced from
-  // new-api-sync's metadata column via /api/pricing. Thinking models need a
-  // generous maxOutputTokens because their reasoning_content phase otherwise
-  // exhausts the upstream's tiny default budget before any visible content
-  // streams. Non-thinking models get no cap here and keep upstream defaults.
+
+  // Assemble the final system message + sampling params, reusing the ctx we
+  // already loaded for web-search gating.
+  const recentUserText = collectRecentUserText(messagesWithPdfText);
+  const assembled =
+    body.convId && convCtx
+      ? await assembleForStream(body.convId, recentUserText, searchSystemMessage, convCtx)
+      : { system: searchSystemMessage, sampling: {}, chatMemory: 0, reasoningEffort: undefined };
+
+  // Slice messages by chat-memory window (only the user-typed messages count;
+  // we never trim system).
+  const slicedMessages =
+    assembled.chatMemory > 0
+      ? messagesWithPdfText.slice(-assembled.chatMemory)
+      : messagesWithPdfText;
+
   const modelMetadata = await getModelMetadata(body.model);
   // Free models often have stale/inflated maxOutputTokens in metadata that
-  // exceeds what the upstream actually accepts (e.g. gemma claims 131072 but
-  // serves only 32768 total context). Cap to a safe budget so the request
-  // doesn't get rejected with a context-length 400.
+  // exceeds what the upstream actually accepts. Cap to a safe budget.
+  // Captured during onFinish, surfaced via messageMetadata so the client can toast.
+  const droppedParamsRef: { value: string | null } = { value: null };
+
+  const presetMaxOut = assembled.sampling.maxOutputTokens;
   const effectiveMaxOutputTokens = modelMetadata.isFree
     ? Math.min(
-        modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP,
+        presetMaxOut ?? modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP,
         FREE_MODEL_OUTPUT_CAP,
       )
-    : modelMetadata.maxOutputTokens;
+    : presetMaxOut ?? modelMetadata.maxOutputTokens;
   const result = streamText({
     model: provider.chatModel(body.model),
-    messages: await convertToModelMessages(messagesWithPdfText),
-    system: searchSystemMessage,
-    // new-api already performs cross-group/key retries internally. Disable the
-    // ai SDK's own retry+aggregation ("Failed after N attempts. Last error: ...")
-    // so the user sees the real upstream error verbatim (e.g. data_inspection_failed)
-    // instead of the last masked message after the SDK rotated through retries.
+    messages: await convertToModelMessages(slicedMessages),
+    system: assembled.system,
+    // new-api performs cross-group/key retries; disable SDK retry aggregation
+    // so the user sees real upstream errors verbatim.
     maxRetries: 0,
     ...(effectiveMaxOutputTokens && {
       maxOutputTokens: effectiveMaxOutputTokens,
     }),
+    ...(assembled.sampling.temperature !== undefined && {
+      temperature: assembled.sampling.temperature,
+    }),
+    ...(assembled.sampling.topP !== undefined && {
+      topP: assembled.sampling.topP,
+    }),
+    ...(assembled.sampling.topK !== undefined && {
+      topK: assembled.sampling.topK,
+    }),
+    ...(assembled.sampling.frequencyPenalty !== undefined && {
+      frequencyPenalty: assembled.sampling.frequencyPenalty,
+    }),
+    ...(assembled.sampling.presencePenalty !== undefined && {
+      presencePenalty: assembled.sampling.presencePenalty,
+    }),
+    // The AI SDK passes unknown sampling fields (min_p, top_a, repetition_penalty)
+    // through providerOptions; new-api strips what the upstream doesn't accept.
+    providerOptions: {
+      openai: {
+        ...(assembled.sampling.minP !== undefined && { min_p: assembled.sampling.minP }),
+        ...(assembled.sampling.topA !== undefined && { top_a: assembled.sampling.topA }),
+        ...(assembled.sampling.repetitionPenalty !== undefined && {
+          repetition_penalty: assembled.sampling.repetitionPenalty,
+        }),
+        ...(assembled.reasoningEffort && {
+          reasoning_effort: assembled.reasoningEffort,
+        }),
+      },
+    },
     onFinish: ({ usage, response }) => {
       trackUsage(body.convId, {
         requestId: response.headers?.["x-oneapi-request-id"] ?? undefined,
@@ -500,11 +574,25 @@ export async function streamChat(
         outputTokens: usage.outputTokens ?? 0,
         upstreamHeaders: upstream.headers,
       });
+      // Capture dropped-params header for the messageMetadata callback below.
+      const dropped = response.headers?.["x-newapi-dropped-params"];
+      if (typeof dropped === "string" && dropped.length > 0) {
+        droppedParamsRef.value = dropped;
+      }
     },
   });
 
   // Text models: stream directly
-  if (!buffered) return result.toUIMessageStreamResponse();
+  if (!buffered) {
+    return result.toUIMessageStreamResponse({
+      messageMetadata: ({ part }) => {
+        if (part.type === "finish" && droppedParamsRef.value) {
+          return { droppedParams: droppedParamsRef.value };
+        }
+        return undefined;
+      },
+    });
+  }
 
   // Video/buffered models: buffer, process URLs, then send
   return handleBufferedStream(result, body, mediaType ?? "text");

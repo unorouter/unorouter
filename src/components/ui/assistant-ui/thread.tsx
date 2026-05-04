@@ -107,7 +107,7 @@ export const Thread: FC<ThreadProps> = (props) => {
           </ThreadPrimitive.Messages>
 
           {!props.readOnly && (
-            <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-1 *:pointer-events-auto md:pb-2.5">
+            <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))] before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:from-background before:to-transparent">
               <ThreadScrollToBottom />
               <Composer />
             </ThreadPrimitive.ViewportFooter>

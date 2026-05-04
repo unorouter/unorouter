@@ -1,23 +1,25 @@
+import { APP_VALUES } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
+import { uid } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import { affiliateRoute } from "@/server/affiliate/route";
 import { authRoute } from "@/server/auth/route";
 import { badgeRoute } from "@/server/badge/route";
 import { billingRoute } from "@/server/billing/route";
 import { chatRoute } from "@/server/chat/route";
+import { rpRoute } from "@/server/chat/rp/route";
 import { checkoutSessionsRoute } from "@/server/checkout-sessions/route";
 import { dashboardRoute } from "@/server/dashboard/route";
+import { healthRoute } from "@/server/health/route";
 import { logsRoute } from "@/server/logs/route";
 import { modelStatusRoute } from "@/server/model-status/route";
 import { pricingRoute } from "@/server/pricing/route";
-import { healthRoute } from "@/server/health/route";
 import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
 import { webBotAuthPlugin } from "@/server/web-bot-auth/middleware";
-import { APP_VALUES } from "@/lib/config/constants";
-import { env } from "@/lib/config/env";
-import { logger } from "@/lib/utils/logger";
-import { uid } from "@/lib/utils/base";
 import { fromTypes, openapi } from "@elysiajs/openapi";
+import { AdditionalReferences } from "@elysiajs/openapi/types";
 import { Elysia } from "elysia";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -43,7 +45,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(
     openapi({
       path: "/openapi",
-      references: openapiRefs as never,
+      references: openapiRefs as AdditionalReferences,
       documentation: {
         openapi: "3.1.0",
         info: {
@@ -61,7 +63,7 @@ export const app = new Elysia({ prefix: "/api" })
         // draft-payment-discovery-00. Agents read this alongside the
         // per-operation x-payment-info annotations on /billing/*-pay routes
         // to learn what the API does and which operations require payment.
-        ...({
+        ...{
           "x-service-info": {
             categories: ["ai", "developer-tools"],
             docs: {
@@ -70,7 +72,7 @@ export const app = new Elysia({ prefix: "/api" })
               llms: `${siteOrigin}/llms.txt`,
             },
           },
-        } as Record<string, unknown>),
+        },
       },
     }),
   )
@@ -139,6 +141,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(billingRoute)
   .use(checkoutSessionsRoute)
   .use(chatRoute)
+  .use(rpRoute)
   .use(dashboardRoute)
   .use(tokenRoute)
   .use(affiliateRoute)

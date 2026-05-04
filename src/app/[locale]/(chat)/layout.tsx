@@ -1,5 +1,6 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ConversationList } from "@/components/pages/chat/sidebar/conversation-list";
+import { SidebarRpNav } from "@/components/pages/chat/sidebar/sidebar-rp-nav";
 import { ChatRuntimeProvider } from "@/components/pages/chat/utils/chat-runtime-provider";
 import { GuestConvsClaim } from "@/components/pages/chat/utils/guest-convs-claim";
 import { PAGE_SIZE } from "@/lib/config/constants";
@@ -58,7 +59,15 @@ export default async function ChatLayout(props: Props) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ChatRuntimeProvider>
         <GuestConvsClaim />
-        <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
+        <SidebarLayout
+          navConfig="chat"
+          chatContent={
+            <>
+              <SidebarRpNav />
+              <ConversationList />
+            </>
+          }
+        >
           {props.children}
         </SidebarLayout>
       </ChatRuntimeProvider>

@@ -1,6 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/client";
-import { conversations, media } from "@/lib/db/schema";
+import { conversationSettings, conversations, media } from "@/lib/db/schema";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
@@ -47,10 +47,16 @@ export async function uploadMedia(
   const isGuest = userId === 0;
 
   if (convRows.length === 0) {
-    await db
-      .insert(conversations)
-      .values({ id: convId, userId, model: "" })
-      .onConflictDoNothing();
+    await db.transaction(async (tx) => {
+      await tx
+        .insert(conversations)
+        .values({ id: convId, userId })
+        .onConflictDoNothing();
+      await tx
+        .insert(conversationSettings)
+        .values({ convId, defaultModel: "" })
+        .onConflictDoNothing();
+    });
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());

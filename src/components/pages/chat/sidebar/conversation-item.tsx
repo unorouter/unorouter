@@ -18,7 +18,7 @@ type ConversationItemProps = {
   conversation: {
     id: string;
     title: string | null;
-    model: string;
+    model: string | null;
     totalCost?: number;
     updatedAt: Date;
   };
@@ -112,8 +112,8 @@ export function ConversationItem(props: ConversationItemProps) {
             <span
               title={
                 vendorName
-                  ? `${vendorName} · ${props.conversation.model}`
-                  : props.conversation.model
+                  ? `${vendorName} · ${props.conversation.model ?? ""}`
+                  : (props.conversation.model ?? "")
               }
               className="shrink-0"
             >

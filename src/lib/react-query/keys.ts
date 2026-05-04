@@ -45,7 +45,19 @@ export const queryKeys = {
   conversations: (keyword?: string) => ["conversations", keyword] as const,
   chatMeta: (id: string) => ["chat-meta", id] as const,
   chatMessages: (id: string) => ["chat-messages", id] as const,
+  chatSettings: (id: string) => ["chat-settings", id] as const,
+  chatBindings: (id: string) => ["chat-bindings", id] as const,
   taskStatus: (taskId: string) => ["task-status", taskId] as const,
+
+  // RP entities
+  characters: () => ["characters"] as const,
+  character: (id: string) => ["character", id] as const,
+  personas: () => ["personas"] as const,
+  persona: (id: string) => ["persona", id] as const,
+  lorebooks: () => ["lorebooks"] as const,
+  lorebook: (id: string) => ["lorebook", id] as const,
+  presets: () => ["sampling-presets"] as const,
+  preset: (id: string) => ["sampling-preset", id] as const,
 
   // Pricing & Search
   pricing: () => ["pricing"] as const,
