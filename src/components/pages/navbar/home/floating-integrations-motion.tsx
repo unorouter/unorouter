@@ -13,9 +13,10 @@ import {
 import { Link } from "@/i18n/navigation";
 import { motion } from "motion/react";
 
-// Cast Link to a motion-friendly component. motion.create wraps any component
-// so its `style` / `animate` / `transition` props drive a spring/keyframe.
-const MotionLink = motion.create(Link);
+// Two-layer chip: the outer motion.div owns the spring drift (x/y/rotate/scale),
+// the inner Link owns hover styling. This split prevents the previous bug
+// where `whileHover` would yank the chip back to its anchor — the spring loop
+// keeps running independently and only the inner element responds to hover.
 
 type FloatItem = {
   key: IntegrationKey;
@@ -169,67 +170,71 @@ export function FloatingIntegrationsMotion() {
           const integration = getIntegration(item.key);
           const Icon = integration.icon;
           return (
-            <Tooltip key={item.key}>
-              <TooltipTrigger
-                render={
-                  <MotionLink
-                    href={integration.href}
-                    aria-label={integration.badge}
-                    style={{
-                      top: item.top,
-                      bottom: item.bottom,
-                      left: item.left,
-                      right: item.right,
-                    }}
-                    initial={{ x: 0, y: 0, rotate: 0, scale: 1 }}
-                    animate={{
-                      x: item.driftX,
-                      y: item.driftY,
-                      rotate: item.driftRot,
-                      scale: item.driftScale,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: item.stiffness,
-                      damping: item.damping,
-                      mass: item.mass,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      delay: item.delay,
-                    }}
-                    whileHover={{ scale: 1.15, x: 0, y: 0, rotate: 0 }}
-                    className="border-border/60 bg-card/80 hover:border-foreground/40 hover:bg-card pointer-events-auto absolute flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md"
-                  />
-                }
-              >
-                {integration.logoSrc ? (
-                  integration.logoBg ? (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white p-1">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
+            <motion.div
+              key={item.key}
+              className="pointer-events-none absolute"
+              style={{
+                top: item.top,
+                bottom: item.bottom,
+                left: item.left,
+                right: item.right,
+              }}
+              initial={{ x: 0, y: 0, rotate: 0, scale: 1 }}
+              animate={{
+                x: item.driftX,
+                y: item.driftY,
+                rotate: item.driftRot,
+                scale: item.driftScale,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: item.stiffness,
+                damping: item.damping,
+                mass: item.mass,
+                repeat: Infinity,
+                repeatType: "reverse",
+                delay: item.delay,
+              }}
+            >
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <Link
+                      href={integration.href}
+                      aria-label={integration.badge}
+                      className="border-border/60 bg-card/80 hover:border-foreground/40 hover:bg-card hover:scale-110 pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md transition-transform duration-200"
+                    />
+                  }
+                >
+                  {integration.logoSrc ? (
+                    integration.logoBg ? (
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white p-1">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={integration.logoSrc}
+                          alt={integration.badge}
+                          width={24}
+                          height={24}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={integration.logoSrc}
                         alt={integration.badge}
-                        width={24}
-                        height={24}
-                        className="h-full w-full object-contain"
+                        width={28}
+                        height={28}
+                        className="h-7 w-7 object-contain"
                       />
-                    </div>
+                    )
                   ) : (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={integration.logoSrc}
-                      alt={integration.badge}
-                      width={28}
-                      height={28}
-                      className="h-7 w-7 object-contain"
-                    />
-                  )
-                ) : (
-                  <Icon size={28} />
-                )}
-              </TooltipTrigger>
-              <TooltipContent>{integration.badge}</TooltipContent>
-            </Tooltip>
+                    <Icon size={28} />
+                  )}
+                </TooltipTrigger>
+                <TooltipContent>{integration.badge}</TooltipContent>
+              </Tooltip>
+            </motion.div>
           );
         })}
       </div>
