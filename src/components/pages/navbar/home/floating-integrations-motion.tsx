@@ -29,6 +29,9 @@ type FloatItem = {
   driftY: number; // px
   driftX: number; // px (positive = rightward gust)
   driftRot: number; // deg
+  /** Scale at the drift apex. 1 = no scale change. Slightly > or < 1 simulates
+   * depth as the chip tilts through 3D space — subtle "near/far" cue. */
+  driftScale: number;
   // Spring parameters per chip — varied so chips don't sync.
   stiffness: number;
   damping: number;
@@ -52,9 +55,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 30,
     driftY: -16,
     driftRot: 2,
-    stiffness: 20,
+    driftScale: 1.06,
+    stiffness: 7,
     damping: 14,
-    mass: 2.4,
+    mass: 3.6,
     delay: -2.4,
   },
   // N
@@ -65,9 +69,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 38,
     driftY: -20,
     driftRot: 2.5,
-    stiffness: 18,
+    driftScale: 0.94,
+    stiffness: 6,
     damping: 14,
-    mass: 2.6,
+    mass: 4.0,
     delay: -3.7,
   },
   // NE
@@ -78,9 +83,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 28,
     driftY: 14,
     driftRot: 1.8,
-    stiffness: 22,
+    driftScale: 1.05,
+    stiffness: 8,
     damping: 16,
-    mass: 2.2,
+    mass: 3.4,
     delay: -0.6,
   },
   // E
@@ -91,9 +97,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 26,
     driftY: -16,
     driftRot: -1.6,
-    stiffness: 24,
+    driftScale: 0.95,
+    stiffness: 9,
     damping: 16,
-    mass: 2.0,
+    mass: 3.2,
     delay: -4.5,
   },
   // SE
@@ -104,9 +111,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 32,
     driftY: -18,
     driftRot: -2,
-    stiffness: 18,
+    driftScale: 1.07,
+    stiffness: 6,
     damping: 14,
-    mass: 2.6,
+    mass: 4.0,
     delay: -1.8,
   },
   // S
@@ -117,9 +125,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 40,
     driftY: 18,
     driftRot: 2.2,
-    stiffness: 19,
+    driftScale: 0.93,
+    stiffness: 7,
     damping: 14,
-    mass: 2.5,
+    mass: 3.8,
     delay: -3.1,
   },
   // SW
@@ -130,9 +139,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 34,
     driftY: -14,
     driftRot: 1.6,
-    stiffness: 21,
+    driftScale: 1.05,
+    stiffness: 8,
     damping: 15,
-    mass: 2.3,
+    mass: 3.5,
     delay: -2.9,
   },
   // W
@@ -143,9 +153,10 @@ const FLOATERS: readonly FloatItem[] = [
     driftX: 28,
     driftY: 16,
     driftRot: -2,
-    stiffness: 23,
+    driftScale: 0.96,
+    stiffness: 9,
     damping: 16,
-    mass: 2.1,
+    mass: 3.3,
     delay: -1.2,
   },
 ];
@@ -170,11 +181,12 @@ export function FloatingIntegrationsMotion() {
                       left: item.left,
                       right: item.right,
                     }}
-                    initial={{ x: 0, y: 0, rotate: 0 }}
+                    initial={{ x: 0, y: 0, rotate: 0, scale: 1 }}
                     animate={{
                       x: item.driftX,
                       y: item.driftY,
                       rotate: item.driftRot,
+                      scale: item.driftScale,
                     }}
                     transition={{
                       type: "spring",
@@ -185,7 +197,7 @@ export function FloatingIntegrationsMotion() {
                       repeatType: "reverse",
                       delay: item.delay,
                     }}
-                    whileHover={{ scale: 1.1, x: 0, y: 0, rotate: 0 }}
+                    whileHover={{ scale: 1.15, x: 0, y: 0, rotate: 0 }}
                     className="border-border/60 bg-card/80 hover:border-foreground/40 hover:bg-card pointer-events-auto absolute flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md"
                   />
                 }
