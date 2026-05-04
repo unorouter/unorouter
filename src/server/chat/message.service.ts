@@ -142,24 +142,15 @@ export async function persistMessages(
     createdAt: now.add(i, "millisecond").toDate(),
   }));
 
-  let inserted: { id: string }[] = [];
-  if (toInsert.length > 0) {
-    inserted = await db
-      .insert(messages)
-      .values(toInsert)
-      .returning({ id: messages.id });
-  }
-
-  // Apply buffered usage data from stream onFinish to the last assistant message
-  let usage: PendingUsage | undefined;
+  // Claim pending usage and resolve cost BEFORE opening the transaction so the
+  // upstream getUserLogs network call doesn't hold the SQLite write lock.
   const assistantIdx = toInsert.findLastIndex((m) => m.role === "assistant");
-  if (assistantIdx !== -1 && inserted[assistantIdx]) {
-    // Claim and remove immediately so concurrent calls see nothing
+  let usage: PendingUsage | undefined;
+  if (assistantIdx !== -1) {
     const pending = pendingUsageByConv.get(convId);
     if (pending) {
       pendingUsageByConv.delete(convId);
 
-      // If cost lookup hasn't completed yet, do it here
       if (pending.cost === 0 && pending.requestId && pending.upstreamHeaders) {
         try {
           const logRes = await getUserLogs(
@@ -179,31 +170,11 @@ export async function persistMessages(
       }
 
       usage = pending;
-      await db
-        .update(messages)
-        .set({
-          requestId: pending.requestId,
-          inputTokens: pending.inputTokens,
-          outputTokens: pending.outputTokens,
-          cost: pending.cost,
-          rawResponse: pending.rawResponse,
-        })
-        .where(eq(messages.id, inserted[assistantIdx].id));
-
-      // Update conversation totals
-      await db
-        .update(conversations)
-        .set({
-          totalInputTokens: sql`${conversations.totalInputTokens} + ${pending.inputTokens}`,
-          totalOutputTokens: sql`${conversations.totalOutputTokens} + ${pending.outputTokens}`,
-          totalCost: sql`${conversations.totalCost} + ${pending.cost}`,
-        })
-        .where(eq(conversations.id, convId));
     }
   }
 
-  // Update conversation timestamp and title if first message
-  const updates: Record<string, unknown> = { updatedAt: dayjs().toDate() };
+  // Build conversation update payload (timestamp + auto-title from first user message)
+  const convUpdates: Record<string, unknown> = { updatedAt: dayjs().toDate() };
   if (!conv.title && msgs.length > 0) {
     const firstUserMsg = msgs.find((m) => m.role === "user");
     if (firstUserMsg) {
@@ -211,19 +182,53 @@ export async function persistMessages(
         (p): p is { type: "text"; text: string } => p.type === "text",
       );
       if (textPart?.text) {
-        updates.title = textPart.text.slice(0, 100);
+        convUpdates.title = textPart.text.slice(0, 100);
       }
     }
   }
 
-  await db
-    .update(conversations)
-    .set(updates)
-    .where(eq(conversations.id, convId));
+  const inserted = await db.transaction(async (tx) => {
+    const ids =
+      toInsert.length > 0
+        ? await tx
+            .insert(messages)
+            .values(toInsert)
+            .returning({ id: messages.id })
+        : [];
+
+    if (usage && assistantIdx !== -1 && ids[assistantIdx]) {
+      await tx
+        .update(messages)
+        .set({
+          requestId: usage.requestId,
+          inputTokens: usage.inputTokens,
+          outputTokens: usage.outputTokens,
+          cost: usage.cost,
+          rawResponse: usage.rawResponse,
+        })
+        .where(eq(messages.id, ids[assistantIdx].id));
+
+      await tx
+        .update(conversations)
+        .set({
+          totalInputTokens: sql`${conversations.totalInputTokens} + ${usage.inputTokens}`,
+          totalOutputTokens: sql`${conversations.totalOutputTokens} + ${usage.outputTokens}`,
+          totalCost: sql`${conversations.totalCost} + ${usage.cost}`,
+        })
+        .where(eq(conversations.id, convId));
+    }
+
+    await tx
+      .update(conversations)
+      .set(convUpdates)
+      .where(eq(conversations.id, convId));
+
+    return ids;
+  });
 
   return {
     ids: inserted.map((m) => m.id),
-    title: updates.title as string | undefined,
+    title: convUpdates.title as string | undefined,
     usage: usage
       ? {
           inputTokens: usage.inputTokens,

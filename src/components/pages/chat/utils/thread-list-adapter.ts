@@ -55,7 +55,14 @@ export function createThreadListAdapter(
     },
 
     async initialize(_id) {
-      const model = getChatModel()!;
+      let model = getChatModel();
+      if (!model) {
+        const pricing = queryClient.getQueryData<{
+          firstFreeModel?: { name: string } | null;
+        }>(queryKeys.pricing());
+        model = pricing?.firstFreeModel?.name ?? null;
+      }
+      if (!model) throw new Error(t("ERRORS.NO_TEXT_MODELS"));
       let id = getConvId();
       if (!id) {
         id = uid();

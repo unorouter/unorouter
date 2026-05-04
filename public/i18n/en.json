@@ -2115,7 +2115,8 @@
     "STORAGE_QUOTA_EXCEEDED": "Storage limit reached. Delete old conversations to free up space.",
     "PROMPT_REJECTED": "This prompt violates the content policy and can't be used for image or video generation.",
     "PROMPT_FLAGGED": "This prompt was flagged as potentially unsafe for generation. Please rephrase and try again.",
-    "MODERATION_UNAVAILABLE": "Image and video generation are temporarily unavailable. Please try again shortly."
+    "MODERATION_UNAVAILABLE": "Image and video generation are temporarily unavailable. Please try again shortly.",
+    "PDF_EXTRACTION_FAILED": "We couldn't read the contents of the attached PDF. Please remove it or try a different file."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

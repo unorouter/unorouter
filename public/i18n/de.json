@@ -2115,7 +2115,8 @@
     "STORAGE_QUOTA_EXCEEDED": "Speichergrenze erreicht. Lösche alte Unterhaltungen, um Platz zu schaffen.",
     "PROMPT_REJECTED": "Dieser Prompt verstößt gegen die Inhaltsrichtlinien und kann nicht für die Bild- oder Videogenerierung verwendet werden.",
     "PROMPT_FLAGGED": "Dieser Prompt wurde als potenziell unsicher für die Generierung markiert. Bitte formuliere ihn um und versuche es erneut.",
-    "MODERATION_UNAVAILABLE": "Bild- und Videogenerierung sind vorübergehend nicht verfügbar. Bitte versuche es in Kürze erneut."
+    "MODERATION_UNAVAILABLE": "Bild- und Videogenerierung sind vorübergehend nicht verfügbar. Bitte versuche es in Kürze erneut.",
+    "PDF_EXTRACTION_FAILED": "Der Inhalt des angehängten PDFs konnte nicht gelesen werden. Bitte entferne es oder versuche eine andere Datei."
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

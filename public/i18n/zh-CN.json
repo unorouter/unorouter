@@ -2115,7 +2115,8 @@
     "STORAGE_QUOTA_EXCEEDED": "已达到存储上限，请删除旧会话以释放空间。",
     "PROMPT_REJECTED": "该提示词违反了内容政策，无法用于图像或视频生成。",
     "PROMPT_FLAGGED": "该提示词被标记为可能不适合生成内容，请修改后重试。",
-    "MODERATION_UNAVAILABLE": "图像和视频生成暂时不可用，请稍后重试。"
+    "MODERATION_UNAVAILABLE": "图像和视频生成暂时不可用，请稍后重试。",
+    "PDF_EXTRACTION_FAILED": "无法读取所附 PDF 的内容，请将其移除或换一个文件再试。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

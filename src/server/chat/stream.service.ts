@@ -96,8 +96,13 @@ async function inlinePdfText(
     .where(inArray(media.r2Key, [...pdfUrls].map(urlToKey)));
   const textByUrl = new Map<string, string>();
   for (const row of rows) {
+    const url = `${r2Base}/${row.r2Key}`;
     if (row.extractedText) {
-      textByUrl.set(`${r2Base}/${row.r2Key}`, row.extractedText);
+      textByUrl.set(url, row.extractedText);
+    } else {
+      // Row exists but extraction yielded nothing. Surface this instead of
+      // forwarding a binary PDF URL the model probably can't read.
+      throw new Error(msg("ERRORS.PDF_EXTRACTION_FAILED"));
     }
   }
   if (textByUrl.size === 0) return messages;
