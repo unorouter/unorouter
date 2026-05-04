@@ -2147,7 +2147,7 @@
     "PERSONAS_TITLE": "Personas",
     "PERSONAS_NEW": "New persona",
     "PERSONAS_EMPTY": "No personas yet.",
-    "PERSONA_NAME_HINT": "Used as {{user}} in character templates.",
+    "PERSONA_NAME_HINT": "Used as the user variable in character templates.",
     "PERSONA_DEFAULT": "Default persona",
     "LOREBOOKS_TITLE": "Lorebooks",
     "LOREBOOKS_NEW": "New lorebook",

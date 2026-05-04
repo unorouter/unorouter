@@ -2147,7 +2147,7 @@
     "PERSONAS_TITLE": "Persona",
     "PERSONAS_NEW": "Persona mới",
     "PERSONAS_EMPTY": "Chưa có persona.",
-    "PERSONA_NAME_HINT": "Dùng làm {{user}} trong các template nhân vật.",
+    "PERSONA_NAME_HINT": "Dùng làm biến người dùng trong các template nhân vật.",
     "PERSONA_DEFAULT": "Persona mặc định",
     "LOREBOOKS_TITLE": "Lorebook",
     "LOREBOOKS_NEW": "Lorebook mới",

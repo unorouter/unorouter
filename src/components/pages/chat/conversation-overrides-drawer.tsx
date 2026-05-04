@@ -34,7 +34,7 @@ import {
   useUpdateChatSettingsMutation,
 } from "@/hooks/rp-hook";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuSettings2 } from "react-icons/lu";
 
 type DrawerProps = {
@@ -70,9 +70,14 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const [webSearchContextSize, setWebSearchContextSize] = useState("medium");
   const [characterIds, setCharacterIds] = useState<string[]>([]);
   const [lorebookIds, setLorebookIds] = useState<string[]>([]);
+  // Seed once per convId; cache patches must not clobber unsaved edits.
+  const settingsSeededFor = useRef<string | null>(null);
+  const bindingsSeededFor = useRef<string | null>(null);
 
   useEffect(() => {
     if (!settings) return;
+    if (settingsSeededFor.current === props.convId) return;
+    settingsSeededFor.current = props.convId;
     setChatMemory(settings.chatMemory ?? 8);
     setAuthorNoteDepth(settings.authorNoteDepth ?? 4);
     setSystemPrompt(settings.systemPromptOverride ?? "");
@@ -83,13 +88,15 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     setWebSearchEnabled(settings.webSearchEnabled ?? false);
     setWebSearchEngine(settings.webSearchEngine ?? "auto");
     setWebSearchContextSize(settings.webSearchContextSize ?? "medium");
-  }, [settings]);
+  }, [settings, props.convId]);
 
   useEffect(() => {
     if (!bindings) return;
+    if (bindingsSeededFor.current === props.convId) return;
+    bindingsSeededFor.current = props.convId;
     setCharacterIds(bindings.characters.map((c) => c.characterId));
     setLorebookIds(bindings.lorebooks.map((l) => l.lorebookId));
-  }, [bindings]);
+  }, [bindings, props.convId]);
 
   const handleSave = async () => {
     await updateSettings.mutateAsync({

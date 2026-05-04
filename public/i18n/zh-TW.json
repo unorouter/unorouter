@@ -2147,7 +2147,7 @@
     "PERSONAS_TITLE": "人物（Persona）",
     "PERSONAS_NEW": "新增人物",
     "PERSONAS_EMPTY": "尚無人物。",
-    "PERSONA_NAME_HINT": "在角色範本中作為 {{user}} 使用。",
+    "PERSONA_NAME_HINT": "在角色範本中作為使用者變數使用。",
     "PERSONA_DEFAULT": "預設人物",
     "LOREBOOKS_TITLE": "知識庫",
     "LOREBOOKS_NEW": "新增知識庫",

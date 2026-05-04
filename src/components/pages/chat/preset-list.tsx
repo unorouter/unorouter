@@ -20,7 +20,7 @@ import {
   useUpdatePresetMutation,
 } from "@/hooks/rp-hook";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuPlus, LuTrash2 } from "react-icons/lu";
 
 type Props = {
@@ -103,18 +103,20 @@ export function PresetList(props: Props) {
   const updateMut = useUpdatePresetMutation();
   const deleteMut = useDeletePresetMutation();
 
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const [editingId, setEditingIdRaw] = useState<string | "new" | null>(null);
   const [form, setForm] = useState<SamplingForm>(empty);
 
   useEffect(() => {
-    if (!props.open) setEditingId(null);
+    if (!props.open) setEditingIdRaw(null);
   }, [props.open]);
 
-  useEffect(() => {
-    if (editingId === "new") {
+  // Direct setter that synchronously seeds the form.
+  const setEditingId = (id: string | "new" | null) => {
+    setEditingIdRaw(id);
+    if (id === "new") {
       setForm(empty);
-    } else if (editingId) {
-      const p = presetsQuery.data?.find((x) => x.id === editingId);
+    } else if (id) {
+      const p = presetsQuery.data?.find((x) => x.id === id);
       if (p) {
         setForm({
           name: p.name,
@@ -131,7 +133,7 @@ export function PresetList(props: Props) {
         });
       }
     }
-  }, [editingId, presetsQuery.data]);
+  };
 
   const handleSave = async () => {
     if (editingId === "new") {
@@ -175,28 +177,28 @@ export function PresetList(props: Props) {
             <Label>{t("COMMON.NAME")}</Label>
             <Input
               value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
             />
           </div>
 
           <NumberKnob
             label={t("RP.SAMPLING_TEMPERATURE")}
             value={form.temperature}
-            onChange={(v) => setForm({ ...form, temperature: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, temperature: v }))}
             min={0}
             max={2}
           />
           <NumberKnob
             label={t("RP.SAMPLING_TOP_P")}
             value={form.topP}
-            onChange={(v) => setForm({ ...form, topP: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, topP: v }))}
             min={0}
             max={1}
           />
           <NumberKnob
             label={t("RP.SAMPLING_TOP_K")}
             value={form.topK}
-            onChange={(v) => setForm({ ...form, topK: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, topK: v }))}
             min={0}
             max={200}
             step={1}
@@ -204,42 +206,42 @@ export function PresetList(props: Props) {
           <NumberKnob
             label={t("RP.SAMPLING_MIN_P")}
             value={form.minP}
-            onChange={(v) => setForm({ ...form, minP: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, minP: v }))}
             min={0}
             max={1}
           />
           <NumberKnob
             label={t("RP.SAMPLING_TOP_A")}
             value={form.topA}
-            onChange={(v) => setForm({ ...form, topA: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, topA: v }))}
             min={0}
             max={1}
           />
           <NumberKnob
             label={t("RP.SAMPLING_FREQUENCY_PENALTY")}
             value={form.frequencyPenalty}
-            onChange={(v) => setForm({ ...form, frequencyPenalty: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, frequencyPenalty: v }))}
             min={-2}
             max={2}
           />
           <NumberKnob
             label={t("RP.SAMPLING_PRESENCE_PENALTY")}
             value={form.presencePenalty}
-            onChange={(v) => setForm({ ...form, presencePenalty: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, presencePenalty: v }))}
             min={-2}
             max={2}
           />
           <NumberKnob
             label={t("RP.SAMPLING_REPETITION_PENALTY")}
             value={form.repetitionPenalty}
-            onChange={(v) => setForm({ ...form, repetitionPenalty: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, repetitionPenalty: v }))}
             min={0}
             max={2}
           />
           <NumberKnob
             label={t("RP.SAMPLING_MAX_TOKENS")}
             value={form.maxTokens}
-            onChange={(v) => setForm({ ...form, maxTokens: v })}
+            onChange={(v) => setForm((prev) => ({ ...prev, maxTokens: v }))}
             min={1}
             max={32000}
             step={1}
@@ -249,7 +251,7 @@ export function PresetList(props: Props) {
             <Label>{t("RP.PRESET_DEFAULT")}</Label>
             <Switch
               checked={form.isDefault}
-              onCheckedChange={(v) => setForm({ ...form, isDefault: v })}
+              onCheckedChange={(v) => setForm((prev) => ({ ...prev, isDefault: v }))}
             />
           </div>
 

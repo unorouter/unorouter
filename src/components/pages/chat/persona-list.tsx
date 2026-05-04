@@ -20,7 +20,7 @@ import {
   useUpdatePersonaMutation,
 } from "@/hooks/rp-hook";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuPlus, LuTrash2 } from "react-icons/lu";
 
 type Props = {
@@ -35,29 +35,32 @@ export function PersonaList(props: Props) {
   const updateMut = useUpdatePersonaMutation();
   const deleteMut = useDeletePersonaMutation();
 
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const [editingId, setEditingIdRaw] = useState<string | "new" | null>(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isDefault, setIsDefault] = useState(false);
 
   useEffect(() => {
-    if (!props.open) setEditingId(null);
+    if (!props.open) setEditingIdRaw(null);
   }, [props.open]);
 
-  useEffect(() => {
-    if (editingId === "new") {
+  // Direct setter that synchronously seeds the form, so typing can't race
+  // against a refetch-triggered re-seed.
+  const setEditingId = (id: string | "new" | null) => {
+    setEditingIdRaw(id);
+    if (id === "new") {
       setName("");
       setDescription("");
       setIsDefault(false);
-    } else if (editingId) {
-      const p = personasQuery.data?.find((x) => x.id === editingId);
+    } else if (id) {
+      const p = personasQuery.data?.find((x) => x.id === id);
       if (p) {
         setName(p.name);
         setDescription(p.description ?? "");
         setIsDefault(p.isDefault ?? false);
       }
     }
-  }, [editingId, personasQuery.data]);
+  };
 
   const handleSave = async () => {
     if (editingId === "new") {

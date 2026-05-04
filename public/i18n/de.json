@@ -2147,7 +2147,7 @@
     "PERSONAS_TITLE": "Personas",
     "PERSONAS_NEW": "Neue Persona",
     "PERSONAS_EMPTY": "Noch keine Personas.",
-    "PERSONA_NAME_HINT": "Wird in Charakter-Vorlagen als {{user}} verwendet.",
+    "PERSONA_NAME_HINT": "Wird in Charakter-Vorlagen als Benutzervariable verwendet.",
     "PERSONA_DEFAULT": "Standard-Persona",
     "LOREBOOKS_TITLE": "Lorebücher",
     "LOREBOOKS_NEW": "Neues Lorebuch",

@@ -189,9 +189,13 @@ function CharacterEditorInline(props: EditorInlineProps) {
   const [postHistoryInstructions, setPostHistoryInstructions] = useState("");
   const [tags, setTags] = useState("");
   const [nsfw, setNsfw] = useState(false);
+  // Seed once per characterId; later cache patches must not clobber typing.
+  const seededFor = useRef<string | null>(null);
 
   useEffect(() => {
     if (!existing) return;
+    if (seededFor.current === existing.id) return;
+    seededFor.current = existing.id;
     setName(existing.name ?? "");
     setDescription(existing.description ?? "");
     setPersonality(existing.personality ?? "");

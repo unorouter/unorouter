@@ -2147,7 +2147,7 @@
     "PERSONAS_TITLE": "ペルソナ",
     "PERSONAS_NEW": "新しいペルソナ",
     "PERSONAS_EMPTY": "ペルソナがありません。",
-    "PERSONA_NAME_HINT": "キャラクターテンプレートで {{user}} として使われます。",
+    "PERSONA_NAME_HINT": "キャラクターテンプレートでユーザー変数として使われます。",
     "PERSONA_DEFAULT": "既定のペルソナ",
     "LOREBOOKS_TITLE": "ロアブック",
     "LOREBOOKS_NEW": "新しいロアブック",

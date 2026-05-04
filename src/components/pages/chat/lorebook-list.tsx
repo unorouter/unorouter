@@ -31,7 +31,7 @@ import {
   useUpdateLorebookMutation,
 } from "@/hooks/rp-hook";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuArrowLeft, LuPlus, LuTrash2 } from "react-icons/lu";
 
 type Props = {
@@ -149,15 +149,19 @@ function LorebookEditorInline(props: {
   const [description, setDescription] = useState("");
   const [scanDepth, setScanDepth] = useState(4);
   const [tokenBudget, setTokenBudget] = useState(1500);
+  // Seed once per lorebookId; later refetches must not clobber user edits.
+  const seededFor = useRef<string | null>(null);
 
   useEffect(() => {
     const l = lbQuery.data;
     if (!l) return;
+    if (seededFor.current === props.lorebookId) return;
+    seededFor.current = props.lorebookId;
     setName(l.name);
     setDescription(l.description ?? "");
     setScanDepth(l.scanDepth ?? 4);
     setTokenBudget(l.tokenBudget ?? 1500);
-  }, [lbQuery.data]);
+  }, [lbQuery.data, props.lorebookId]);
 
   const saveHeader = async () => {
     await updateLb.mutateAsync({
@@ -261,14 +265,18 @@ function Entries(props: { lorebookId: string }) {
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
   const deleteMut = useDeleteLorebookEntryMutation(props.lorebookId);
 
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const [editingId, setEditingIdRaw] = useState<string | "new" | null>(null);
   const [form, setForm] = useState<EntryForm>(emptyEntry);
 
-  useEffect(() => {
-    if (editingId === "new") {
+  // Open the editor for a given entry id (or "new") and synchronously seed the
+  // form. Direct setter, not a useEffect, so subsequent typing never races
+  // against a refetch-triggered re-seed.
+  const openEditor = (id: string | "new" | null) => {
+    setEditingIdRaw(id);
+    if (id === "new") {
       setForm(emptyEntry);
-    } else if (editingId) {
-      const e = lbQuery.data?.entries.find((x) => x.id === editingId);
+    } else if (id) {
+      const e = lbQuery.data?.entries.find((x) => x.id === id);
       if (e) {
         setForm({
           keys: ((e.keys ?? []) as string[]).join(", "),
@@ -283,7 +291,8 @@ function Entries(props: { lorebookId: string }) {
         });
       }
     }
-  }, [editingId, lbQuery.data]);
+  };
+  const setEditingId = openEditor;
 
   const handleSave = async () => {
     const body = {
@@ -334,7 +343,7 @@ function Entries(props: { lorebookId: string }) {
             <Label>{t("RP.LOREBOOK_ENTRY_KEYS")}</Label>
             <Input
               value={form.keys}
-              onChange={(e) => setForm({ ...form, keys: e.target.value })}
+              onChange={(e) => setForm((prev) => ({ ...prev, keys: e.target.value }))}
               placeholder="dragon, wyrm, drake"
             />
           </div>
@@ -343,7 +352,7 @@ function Entries(props: { lorebookId: string }) {
             <Input
               value={form.secondaryKeys}
               onChange={(e) =>
-                setForm({ ...form, secondaryKeys: e.target.value })
+                setForm((prev) => ({ ...prev, secondaryKeys: e.target.value }))
               }
             />
           </div>
@@ -351,7 +360,7 @@ function Entries(props: { lorebookId: string }) {
             <Label>{t("RP.LOREBOOK_ENTRY_CONTENT")}</Label>
             <Textarea
               value={form.content}
-              onChange={(e) => setForm({ ...form, content: e.target.value })}
+              onChange={(e) => setForm((prev) => ({ ...prev, content: e.target.value }))}
               rows={5}
             />
           </div>
@@ -407,21 +416,21 @@ function Entries(props: { lorebookId: string }) {
             <Label>{t("RP.LOREBOOK_ENTRY_CONSTANT")}</Label>
             <Switch
               checked={form.constant}
-              onCheckedChange={(v) => setForm({ ...form, constant: v })}
+              onCheckedChange={(v) => setForm((prev) => ({ ...prev, constant: v }))}
             />
           </div>
           <div className="flex items-center justify-between rounded-md border p-2">
             <Label>{t("RP.LOREBOOK_ENTRY_SELECTIVE")}</Label>
             <Switch
               checked={form.selective}
-              onCheckedChange={(v) => setForm({ ...form, selective: v })}
+              onCheckedChange={(v) => setForm((prev) => ({ ...prev, selective: v }))}
             />
           </div>
           <div className="flex items-center justify-between rounded-md border p-2">
             <Label>{t("RP.LOREBOOK_ENTRY_ENABLED")}</Label>
             <Switch
               checked={form.enabled}
-              onCheckedChange={(v) => setForm({ ...form, enabled: v })}
+              onCheckedChange={(v) => setForm((prev) => ({ ...prev, enabled: v }))}
             />
           </div>
           <div className="flex justify-end gap-2">

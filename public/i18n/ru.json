@@ -2147,7 +2147,7 @@
     "PERSONAS_TITLE": "Персоны",
     "PERSONAS_NEW": "Новая персона",
     "PERSONAS_EMPTY": "Персон пока нет.",
-    "PERSONA_NAME_HINT": "Используется как {{user}} в шаблонах персонажей.",
+    "PERSONA_NAME_HINT": "Используется как переменная пользователя в шаблонах персонажей.",
     "PERSONA_DEFAULT": "Персона по умолчанию",
     "LOREBOOKS_TITLE": "Лорбуки",
     "LOREBOOKS_NEW": "Новый лорбук",
