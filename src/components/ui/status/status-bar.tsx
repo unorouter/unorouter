@@ -427,7 +427,7 @@ export function StatusBar({
     <div className="flex w-full flex-col gap-1.5" data-slot="status-bar-root">
       <div
         ref={containerRef}
-        className="flex h-12.5 w-full items-end gap-px"
+        className="flex h-12.5 w-full items-end overflow-hidden"
         data-slot="status-bar"
         role="toolbar"
         aria-label={labels.ariaStatusTracker}
@@ -532,7 +532,7 @@ function StatusBarBar(props: StatusBarBarProps) {
       ref={(el) => props.setButtonRef(props.index, el)}
       data-slot="status-bar-item"
       data-bar-index={props.index}
-      className="group focus-visible:ring-ring/50 relative flex h-full flex-1 cursor-pointer flex-col rounded-full outline-none hover:opacity-80 focus-visible:opacity-80 focus-visible:ring-2 aria-pressed:opacity-80"
+      className="group focus-visible:ring-ring/50 relative flex h-full min-w-0 flex-1 cursor-pointer flex-col rounded-full outline-none hover:opacity-80 focus-visible:opacity-80 focus-visible:ring-2 aria-pressed:opacity-80"
       role="button"
       aria-label={props.ariaLabel}
       aria-pressed={props.isPinned}
