@@ -62,7 +62,7 @@ export function LorebookList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {openLbId && (
@@ -105,7 +105,7 @@ export function LorebookList(props: Props) {
               {lorebooksQuery.data?.map((l) => (
                 <Card
                   key={l.id}
-                  className="hover:bg-accent flex cursor-pointer items-center gap-3 p-3 transition-colors"
+                  className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
                   onClick={() => setOpenLbId(l.id)}
                 >
                   <div className="flex min-w-0 flex-1 flex-col">
@@ -377,7 +377,17 @@ function Entries(props: { lorebookId: string }) {
                 }
               >
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue>
+                    {form.position === "before_char"
+                      ? t("RP.POSITION_BEFORE_CHAR")
+                      : form.position === "after_char"
+                        ? t("RP.POSITION_AFTER_CHAR")
+                        : form.position === "top"
+                          ? t("RP.POSITION_TOP")
+                          : form.position === "bottom"
+                            ? t("RP.POSITION_BOTTOM")
+                            : t("RP.POSITION_AT_DEPTH")}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="before_char">
@@ -442,11 +452,11 @@ function Entries(props: { lorebookId: string }) {
         </Card>
       )}
 
-      <div className="flex flex-col gap-2">
+      {!editingId && <div className="flex flex-col gap-2">
         {lbQuery.data?.entries.map((e) => (
           <Card
             key={e.id}
-            className="hover:bg-accent flex cursor-pointer items-start gap-3 p-3 transition-colors"
+            className="hover:bg-accent flex flex-row cursor-pointer items-start gap-3 p-3 transition-colors"
             onClick={() => setEditingId(e.id)}
           >
             <div className="flex min-w-0 flex-1 flex-col">
@@ -469,7 +479,7 @@ function Entries(props: { lorebookId: string }) {
             </Button>
           </Card>
         ))}
-      </div>
+      </div>}
     </Card>
   );
 }

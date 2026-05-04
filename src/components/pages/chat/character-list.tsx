@@ -57,7 +57,7 @@ export function CharacterList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {view.mode === "edit" && (
@@ -111,7 +111,7 @@ export function CharacterList(props: Props) {
               {charsQuery.data?.map((c) => (
                 <Card
                   key={c.id}
-                  className="hover:bg-accent flex cursor-pointer items-center gap-3 p-3 transition-colors"
+                  className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
                   onClick={() => setView({ mode: "edit", id: c.id })}
                 >
                   {c.avatarR2Key ? (

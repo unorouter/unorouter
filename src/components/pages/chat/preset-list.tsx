@@ -152,7 +152,7 @@ export function PresetList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{t("RP.PRESETS_TITLE")}</DialogTitle>
         </DialogHeader>
@@ -266,11 +266,11 @@ export function PresetList(props: Props) {
         </Card>
       )}
 
-      <div className="flex flex-col gap-2">
+      {!editingId && <div className="flex flex-col gap-2">
         {presetsQuery.data?.map((p) => (
           <Card
             key={p.id}
-            className="hover:bg-accent flex items-center gap-3 p-3 transition-colors"
+            className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
             onClick={() => setEditingId(p.id)}
           >
             <div className="flex min-w-0 flex-1 flex-col">
@@ -299,7 +299,7 @@ export function PresetList(props: Props) {
             </Button>
           </Card>
         ))}
-      </div>
+      </div>}
         </div>
       </DialogContent>
     </Dialog>

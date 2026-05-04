@@ -151,7 +151,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           )
         }
       />
-      <SheetContent className="overflow-y-auto sm:max-w-md">
+      <SheetContent className="overflow-y-auto overflow-x-hidden sm:max-w-md">
         <SheetHeader>
           <SheetTitle>{t("CHAT.OVERRIDES.TITLE")}</SheetTitle>
           <SheetDescription>
@@ -165,7 +165,12 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             <Label>{t("CHAT.OVERRIDES.PERSONA")}</Label>
             <Select value={personaId} onValueChange={(v) => setPersonaId(v ?? "__none__")}>
               <SelectTrigger>
-                <SelectValue placeholder={t("CHAT.OVERRIDES.NONE")} />
+                <SelectValue>
+                  {personaId === "__none__"
+                    ? t("CHAT.OVERRIDES.NONE")
+                    : personasQuery.data?.find((p) => p.id === personaId)?.name ??
+                      t("CHAT.OVERRIDES.NONE")}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">
@@ -253,7 +258,12 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             <Label>{t("CHAT.OVERRIDES.PRESET")}</Label>
             <Select value={presetId} onValueChange={(v) => setPresetId(v ?? "__none__")}>
               <SelectTrigger>
-                <SelectValue placeholder={t("CHAT.OVERRIDES.NONE")} />
+                <SelectValue>
+                  {presetId === "__none__"
+                    ? t("CHAT.OVERRIDES.NONE")
+                    : presetsQuery.data?.find((p) => p.id === presetId)?.name ??
+                      t("CHAT.OVERRIDES.NONE")}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">
@@ -273,7 +283,13 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             <Label>{t("CHAT.OVERRIDES.REASONING_EFFORT")}</Label>
             <Select value={reasoningEffort} onValueChange={(v) => setReasoningEffort(v ?? "__none__")}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue>
+                  {reasoningEffort === "__none__"
+                    ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
+                    : reasoningEffort === "none"
+                      ? t("CHAT.OVERRIDES.OFF")
+                      : reasoningEffort.charAt(0).toUpperCase() + reasoningEffort.slice(1)}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">
@@ -367,7 +383,10 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     onValueChange={(v) => setWebSearchEngine(v ?? "auto")}
                   >
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue>
+                        {webSearchEngine.charAt(0).toUpperCase() +
+                          webSearchEngine.slice(1)}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="auto">Auto</SelectItem>
@@ -386,7 +405,10 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     onValueChange={(v) => setWebSearchContextSize(v ?? "medium")}
                   >
                     <SelectTrigger>
-                      <SelectValue />
+                      <SelectValue>
+                        {webSearchContextSize.charAt(0).toUpperCase() +
+                          webSearchContextSize.slice(1)}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="low">Low</SelectItem>

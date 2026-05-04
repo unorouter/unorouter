@@ -84,7 +84,7 @@ export function PersonaList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{t("RP.PERSONAS_TITLE")}</DialogTitle>
         </DialogHeader>
@@ -138,11 +138,11 @@ export function PersonaList(props: Props) {
             </Card>
           )}
 
-          <div className="flex flex-col gap-2">
+          {!editingId && <div className="flex flex-col gap-2">
             {personasQuery.data?.map((p) => (
               <Card
                 key={p.id}
-                className="hover:bg-accent flex cursor-pointer items-center gap-3 p-3 transition-colors"
+                className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
                 onClick={() => setEditingId(p.id)}
               >
                 <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
@@ -175,7 +175,7 @@ export function PersonaList(props: Props) {
                 </Button>
               </Card>
             ))}
-          </div>
+          </div>}
         </div>
       </DialogContent>
     </Dialog>
