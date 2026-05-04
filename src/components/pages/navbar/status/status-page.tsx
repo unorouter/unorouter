@@ -122,7 +122,12 @@ export function StatusPage() {
                   value={o.value}
                   className="font-mono text-xs"
                 >
-                  {o.value}
+                  <span className="flex w-full items-center justify-between gap-3">
+                    <span>{o.value}</span>
+                    <span className="text-muted-foreground text-[10px]">
+                      {formatHoursLabel(o.hours)}
+                    </span>
+                  </span>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -277,6 +282,14 @@ export function StatusPage() {
       </div>
     </div>
   );
+}
+
+// Compact human label for the time-window the bucket spans (24h -> "24h",
+// 720h -> "30d"). Shown next to each bucket option so the user can see what
+// range it covers without having to do the math.
+function formatHoursLabel(hours: number): string {
+  if (hours >= 24 && hours % 24 === 0) return `${hours / 24}d`;
+  return `${hours}h`;
 }
 
 function FilterPill(props: {

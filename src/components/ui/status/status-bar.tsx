@@ -427,7 +427,7 @@ export function StatusBar({
     <div className="flex w-full flex-col gap-1.5" data-slot="status-bar-root">
       <div
         ref={containerRef}
-        className="flex h-12.5 w-full items-end overflow-hidden"
+        className="flex h-12.5 w-full items-end gap-px"
         data-slot="status-bar"
         role="toolbar"
         aria-label={labels.ariaStatusTracker}
