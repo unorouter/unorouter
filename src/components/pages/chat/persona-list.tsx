@@ -20,7 +20,7 @@ import {
   useUpdatePersonaMutation,
 } from "@/hooks/rp-hook";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { LuPlus, LuTrash2 } from "react-icons/lu";
 
 type Props = {
