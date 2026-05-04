@@ -783,7 +783,6 @@ StatusBarContent.displayName = "StatusBarContent";
  * ```
  *
  * @see StatusBarCard - For the card that contains event badges
- * @see formatDateRange - For date range formatting
  */
 export function StatusBarEvent({
   name,

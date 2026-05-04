@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - One API for Every AI Model",
-    "DESCRIPTION": "Access Claude, GPT, Gemini, DeepSeek and {modelCount}+ AI models through a single OpenAI-compatible endpoint. Intelligent routing, automatic failover, pay less.",
-    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API",
+    "TITLE": "{appName} - One Key for Every AI Model",
+    "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in SillyTavern, Janitor.AI, RisuAI, and Chub. Smart routing across every major provider.",
+    "KEYWORDS": "AI API, unified AI endpoint, OpenAI alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI router, AI gateway, multi-model API, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternative",
     "ACCOUNT": {
       "TITLE": "{appName} Account",
       "DESC": "Manage your {appName} account, tokens, usage and billing.",
@@ -42,7 +42,8 @@
       "BADGE": "Router Online",
       "TITLE_LINE1": "UNIFIED",
       "TITLE_LINE2": "INTELLIGENCE",
-      "SUBTITLE": "[SYSTEM]: {appName} aggregates {modelCount}+ AI models through intelligent routing to deliver the fastest, cheapest inference API.",
+      "TITLE_ROTATE": "INTELLIGENCE,ROLEPLAY,CHARACTERS,CODE,CHAT",
+      "SUBTITLE": "{appName} connects you to {modelCount}+ AI models through one key. Build apps, run agents, or roleplay with characters. Same key, same speed, same price.",
       "CTA_PRIMARY": "Get Started",
       "CTA_SECONDARY": "View Models"
     },
@@ -72,6 +73,8 @@
     "INTEGRATION": {
       "BADGE": "Integration",
       "VIEW_GUIDE": "View Guide",
+      "CLI_HEADER": "For coding agents and CLI tools",
+      "RP_HEADER": "For roleplay and creative chat",
       "CLAUDE_CODE": {
         "BADGE": "Anthropic API",
         "TITLE": "Works with Claude Code",
@@ -112,6 +115,22 @@
         "TITLE": "Works with Chub / Venus",
         "DESCRIPTION": "Connect {appName} as a first-party reverse proxy in Chub. One URL, one key, every model."
       }
+    },
+    "HOW_IT_WORKS": {
+      "LABEL": "Get started",
+      "TITLE": "Three steps.",
+      "SUBTITLE": "From zero to first request.",
+      "STEP1_NUM": "1",
+      "STEP1_TITLE": "Sign up",
+      "STEP1_DESC": "Create an account in under a minute. No credit card needed to start.",
+      "STEP2_NUM": "2",
+      "STEP2_TITLE": "Top up or subscribe",
+      "STEP2_DESC": "Pay as you go or pick a plan. Credits work with every model and never expire.",
+      "STEP3_NUM": "3",
+      "STEP3_TITLE": "Get your API key",
+      "STEP3_DESC": "Use it in your code, in Claude Code, or paste it into SillyTavern, Janitor.AI, RisuAI, or Chub.",
+      "CTA_PRIMARY": "Get Started",
+      "CTA_SECONDARY": "View Pricing"
     },
     "PRICING": {
       "LABEL": "Pricing",
@@ -226,19 +245,22 @@
       "FEATURE_1": "OpenAI-compatible endpoints",
       "FEATURE_2": "Automatic provider failover",
       "FEATURE_3": "Multi-protocol support",
-      "READ_DOCS": "Read Full API Docs"
+      "READ_DOCS": "Read Full API Docs",
+      "NO_CODE_LABEL": "Not a coder?",
+      "NO_CODE_OPTION": "Skip the code. Paste the URL into SillyTavern, Janitor.AI, RisuAI, or Chub and you are chatting.",
+      "NO_CODE_LINK": "See the integration guides"
     },
     "CTA": {
       "TITLE_1": "Ready to",
-      "TITLE_2": "Build",
-      "SUBTITLE": "Access every AI model through one endpoint. No vendor lock-in, no complexity.",
-      "PRIMARY": "Start Building",
-      "SECONDARY": "Documentation"
+      "TITLE_2": "Connect",
+      "SUBTITLE": "Every AI model, one key. Build, chat, code, or roleplay. Your call.",
+      "PRIMARY": "Get Started",
+      "SECONDARY": "Browse Integrations"
     },
     "META": {
-      "TITLE": "{appName} - Unified AI API Gateway",
-      "DESCRIPTION": "One endpoint for every AI model. Intelligent routing picks the fastest provider while automatic failover ensures your requests always succeed.",
-      "KEYWORDS": "AI API gateway, unified AI endpoint, OpenAI compatible, Claude API, GPT API, Gemini API, automatic failover, smart routing"
+      "TITLE": "{appName} - One Key for Every AI Model",
+      "DESCRIPTION": "One key for every AI model. Use it in your code, in Claude Code, or in SillyTavern, Janitor.AI, RisuAI, and Chub. Smart routing across every major provider.",
+      "KEYWORDS": "AI API gateway, unified AI endpoint, OpenAI compatible, Claude API, GPT API, Gemini API, automatic failover, smart routing, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, AI roleplay, character AI alternative"
     },
     "TITLE": "{appName}"
   },
@@ -295,12 +317,12 @@
     },
     "META": {
       "TITLE": "AI Models - {appName}",
-      "DESCRIPTION": "Browse all AI models from OpenAI, Anthropic, Google, DeepSeek and more. Compare real-time pricing across providers.",
-      "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison"
+      "DESCRIPTION": "Every AI model in one place. GPT, Claude, Gemini, DeepSeek and more. Use them in your code or in SillyTavern, Janitor.AI, RisuAI, and Chub. Same pricing for both.",
+      "KEYWORDS": "AI models, model library, AI pricing, GPT models, Claude models, Gemini models, DeepSeek models, AI model comparison, roleplay AI models, SillyTavern models, Janitor.AI models, character AI models"
     },
     "BADGE": "Model Library",
     "TITLE": "Model Library",
-    "SUBTITLE": "Browse all available AI models with real-time pricing.",
+    "SUBTITLE": "Every model, one key. Used by developers building apps and roleplayers running characters. Same pricing for both.",
     "SEARCH_PLACEHOLDER": "Search models...",
     "MODEL_COUNT": "models",
     "EMPTY": "No models match your search.",
@@ -309,11 +331,11 @@
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
-    "META_DESC": "Product updates, engineering notes and releases from the {appName} team.",
-    "META_KEYWORDS": "{appName} blog, AI API news, LLM routing, product updates",
+    "META_DESC": "Product updates, integration guides, and notes from the {appName} team.",
+    "META_KEYWORDS": "{appName} blog, AI API news, LLM routing, product updates, integration guides",
     "POST_META_TITLE": "{title} | {appName}",
     "TITLE": "Blog",
-    "SUBTITLE": "Product updates, engineering notes and releases.",
+    "SUBTITLE": "Product updates, integration guides, and notes from the team.",
     "READ_MORE": "Read more",
     "PUBLISHED": "Published",
     "UPDATED": "Updated",
@@ -501,11 +523,11 @@
     },
     "META": {
       "TITLE": "Pricing - {appName}",
-      "DESCRIPTION": "Simple, transparent pricing for AI API access. Subscribe for better value or pay as you go. All plans include every model.",
-      "KEYWORDS": "AI API pricing, AI subscription, pay per token, AI model pricing, cheap AI API, affordable AI"
+      "DESCRIPTION": "Simple pricing for every AI model. Subscribe for better value or pay as you go. Works with your code, with Claude Code, and with SillyTavern, Janitor.AI, RisuAI, and Chub.",
+      "KEYWORDS": "AI API pricing, AI subscription, pay per token, AI model pricing, cheap AI API, affordable AI, SillyTavern pricing, Janitor.AI pricing, roleplay AI pricing, character AI pricing"
     },
     "TITLE": "Pricing",
-    "SUBTITLE": "Choose a plan that fits your usage. All plans include every model.",
+    "SUBTITLE": "Whether you are shipping an app or running long roleplay sessions. One plan, every model.",
     "CTA": "Subscribe",
     "FAQ": {
       "Q1": "How does {appName} pricing work?",
@@ -519,7 +541,11 @@
       "Q5": "What happens if a provider fails?",
       "A5": "{appName} routes requests across multiple providers with automatic failover. If one provider is rate-limited or down, we retry against the next healthy upstream transparently.",
       "Q6": "Can I get a refund?",
-      "A6": "Unused prepaid credit is refundable for 30 days from purchase. Contact {supportEmail} for refund requests."
+      "A6": "Unused prepaid credit is refundable for 30 days from purchase. Contact {supportEmail} for refund requests.",
+      "Q7": "Can I use this with SillyTavern, Janitor.AI, Chub, or RisuAI?",
+      "A7": "Yes. Every plan works as a custom OpenAI-compatible source in any major roleplay client. SillyTavern, Janitor.AI, RisuAI, and Chub each have a setup guide in the docs.",
+      "Q8": "How long can my conversations or character history be?",
+      "A8": "{appName} supports the full context window of every model, up to 1M tokens on Gemini and 200k on Claude. Long roleplays and long codebases both work."
     },
     "TOPUP": {
       "LABEL": "Pay as you go",
@@ -530,8 +556,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Integrations - {appName}",
-      "DESCRIPTION": "Use {appName} with Claude Code, Codex CLI, Gemini CLI, OpenClaw and more. Setup guides for every major AI tool.",
-      "KEYWORDS": "AI integration guides, Claude Code setup, Codex CLI setup, Gemini CLI setup, OpenClaw setup, AI API documentation"
+      "DESCRIPTION": "Setup guides for every major AI tool and roleplay client. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI, and Chub.",
+      "KEYWORDS": "AI integration guides, Claude Code setup, Codex CLI setup, Gemini CLI setup, OpenClaw setup, SillyTavern setup, Janitor.AI setup, RisuAI setup, Chub setup, AI API documentation, roleplay AI proxy setup"
     },
     "BADGE": "Integrations",
     "TITLE": "Integrations",
@@ -2226,6 +2252,61 @@
       "EMPTY": "No models match these filters.",
       "COLLAPSE_ALL": "Collapse all groups",
       "EXPAND_ALL": "Expand all groups"
+    },
+    "BLOCKS": {
+      "BANNER_SUCCESS": "All Systems Operational",
+      "BANNER_DEGRADED": "Degraded Performance",
+      "BANNER_ERROR": "Partial Outage",
+      "BANNER_INFO": "Maintenance",
+      "BANNER_EMPTY": "No Data",
+      "PILL_SUCCESS": "Operational",
+      "PILL_DEGRADED": "Degraded",
+      "PILL_ERROR": "Outage",
+      "PILL_INFO": "Maintenance",
+      "PILL_EMPTY": "No Data",
+      "REQUEST_SUCCESS": "Normal",
+      "REQUEST_DEGRADED": "Degraded",
+      "REQUEST_ERROR": "Error",
+      "REQUEST_INFO": "Maintenance",
+      "REQUEST_EMPTY": "No Data",
+      "INCIDENT_RESOLVED": "Resolved",
+      "INCIDENT_MONITORING": "Monitoring",
+      "INCIDENT_IDENTIFIED": "Identified",
+      "INCIDENT_INVESTIGATING": "Investigating",
+      "TODAY": "Today",
+      "ONGOING": "Ongoing",
+      "REPORT_RESOLVED": "Report resolved",
+      "CLICK_AGAIN_TO_UNPIN": "Click again to unpin",
+      "ARIA_STATUS_TRACKER": "Status tracker",
+      "ARIA_DAY_STATUS": "Day {n} status",
+      "DURATION_IN": "(in {duration})",
+      "DURATION_EARLIER": "({duration} earlier)",
+      "DURATION_FOR": "(for {duration})",
+      "DURATION_ACROSS": "across {duration}",
+      "DATE_UNTIL": "Until {date}",
+      "DATE_SINCE": "Since {date}",
+      "DATE_ALL_TIME": "All time",
+      "NO_RECENT_NOTIFICATIONS": "No recent notifications",
+      "NO_RECENT_NOTIFICATIONS_DESCRIPTION": "There have been no reports within the last 7 days.",
+      "NO_REPORTS": "No reports",
+      "NO_REPORTS_DESCRIPTION": "There are no reports to display.",
+      "NO_PUBLIC_MONITORS": "No public monitors",
+      "NO_PUBLIC_MONITORS_DESCRIPTION": "There are no public monitors to display.",
+      "THEME_LIGHT": "Light",
+      "THEME_DARK": "Dark",
+      "THEME_SYSTEM": "System",
+      "ARIA_TOGGLE_THEME": "Toggle theme",
+      "SUBSCRIBE": "Get updates",
+      "SUBSCRIBE_RSS_DESCRIPTION": "Get the RSS feed",
+      "SUBSCRIBE_ATOM_DESCRIPTION": "Get the Atom feed",
+      "SUBSCRIBE_JSON_DESCRIPTION": "Get the JSON updates",
+      "SUBSCRIBE_SLACK_DESCRIPTION": "For status updates in Slack, paste the text below into any channel.",
+      "SUBSCRIBE_SSH_DESCRIPTION": "Get status via SSH",
+      "LINK_COPIED_TO_CLIPBOARD": "Link copied to clipboard",
+      "ARIA_COPY_LINK": "Copy Link",
+      "POWERED_BY": "powered by",
+      "GET_IN_TOUCH": "Get in touch",
+      "TIMESTAMP_RELATIVE": "Relative"
     }
   }
 }

@@ -14,6 +14,7 @@ type IntegrationEntry = {
   href: LinkHref;
   icon: IntegrationIcon;
   logoSrc?: string;
+  logoBg?: boolean;
   badge: string;
   titleKey: TranslationKey;
   descKey: TranslationKey;
@@ -96,6 +97,7 @@ const rpIntegrations: readonly IntegrationEntry[] = [
     href: "/docs/chub",
     icon: LuHeart,
     logoSrc: "/icons/chub-ai.png",
+    logoBg: true,
     badge: "Chub / Venus",
     titleKey: msg("HOME.INTEGRATION.CHUB.TITLE"),
     descKey: msg("HOME.INTEGRATION.CHUB.DESCRIPTION"),
@@ -174,6 +176,8 @@ const colorMap = {
 async function IntegrationRow(props: {
   items: readonly IntegrationEntry[];
   tintClassName: string;
+  headerKey?: TranslationKey;
+  headerAccent?: string;
 }) {
   const t = await getTranslations();
 
@@ -182,6 +186,19 @@ async function IntegrationRow(props: {
       className={`border-border/50 relative border-t border-b py-8 ${props.tintClassName}`}
     >
       <div className="mx-auto max-w-360 px-6">
+        {props.headerKey && (
+          <div className="mb-5 flex items-center gap-3">
+            <div
+              className={`h-px flex-1 bg-linear-to-r from-transparent ${props.headerAccent ?? "via-foreground/20"} to-transparent`}
+            />
+            <span className="text-muted-foreground font-mono text-[10px] tracking-[0.3em] uppercase">
+              {t(props.headerKey)}
+            </span>
+            <div
+              className={`h-px flex-1 bg-linear-to-r from-transparent ${props.headerAccent ?? "via-foreground/20"} to-transparent`}
+            />
+          </div>
+        )}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {props.items.map((integration) => {
             const colors = colorMap[integration.color];
@@ -197,14 +214,27 @@ async function IntegrationRow(props: {
                       className={`absolute inset-0 ${colors.glow} rounded-full blur-xl`}
                     />
                     {integration.logoSrc ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={integration.logoSrc}
-                        alt={integration.badge}
-                        width={40}
-                        height={40}
-                        className="relative h-10 w-10 object-contain"
-                      />
+                      integration.logoBg ? (
+                        <div className="relative flex h-10 w-10 items-center justify-center rounded-md bg-white p-1">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={integration.logoSrc}
+                            alt={integration.badge}
+                            width={32}
+                            height={32}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                      ) : (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={integration.logoSrc}
+                          alt={integration.badge}
+                          width={40}
+                          height={40}
+                          className="relative h-10 w-10 object-contain"
+                        />
+                      )
                     ) : (
                       <integration.icon size={40} className="relative" />
                     )}
@@ -252,6 +282,8 @@ export function IntegrationBannerCli() {
     <IntegrationRow
       items={cliIntegrations}
       tintClassName="bg-linear-to-r from-orange-600/5 via-transparent to-red-600/5"
+      headerKey={msg("HOME.INTEGRATION.CLI_HEADER")}
+      headerAccent="via-orange-500/30"
     />
   );
 }
@@ -262,6 +294,8 @@ export function IntegrationBannerRoleplay() {
     <IntegrationRow
       items={rpIntegrations}
       tintClassName="bg-linear-to-r from-fuchsia-600/5 via-transparent to-purple-600/5"
+      headerKey={msg("HOME.INTEGRATION.RP_HEADER")}
+      headerAccent="via-fuchsia-500/30"
     />
   );
 }

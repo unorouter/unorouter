@@ -67,14 +67,27 @@ export async function IntegrationRow(props: {
                 className={`absolute inset-0 ${integration.color.glow} rounded-full blur-xl`}
               />
               {integration.logoSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={integration.logoSrc}
-                  alt={integration.iconKey}
-                  width={48}
-                  height={48}
-                  className="relative h-12 w-12 object-contain"
-                />
+                integration.logoBg ? (
+                  <div className="relative flex h-12 w-12 items-center justify-center rounded-md bg-white p-1.5">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={integration.logoSrc}
+                      alt={integration.iconKey}
+                      width={36}
+                      height={36}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={integration.logoSrc}
+                    alt={integration.iconKey}
+                    width={48}
+                    height={48}
+                    className="relative h-12 w-12 object-contain"
+                  />
+                )
               ) : (
                 <Icon
                   size={48}

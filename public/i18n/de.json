@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Eine API für jedes KI-Modell",
-    "DESCRIPTION": "Zugriff auf Claude, GPT, Gemini, DeepSeek und {modelCount}+ KI-Modelle über einen einzigen OpenAI-kompatiblen Endpunkt. Intelligentes Routing, automatisches Failover, günstigere Preise.",
-    "KEYWORDS": "KI API, einheitlicher KI-Endpunkt, OpenAI Alternative, Claude API, GPT API, Gemini API, DeepSeek API, KI Router, KI Gateway, Multi-Modell API",
+    "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",
+    "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in SillyTavern, Janitor.AI, RisuAI und Chub. Smartes Routing über alle großen Anbieter.",
+    "KEYWORDS": "KI-API, einheitlicher KI-Endpunkt, OpenAI-Alternative, Claude API, GPT API, Gemini API, DeepSeek API, AI-Router, AI-Gateway, Multi-Modell-API, SillyTavern Proxy, Janitor.AI Proxy, Chub Proxy, RisuAI, KI-Rollenspiel, Character AI Alternative",
     "ACCOUNT": {
       "TITLE": "{appName} Konto",
       "DESC": "Verwalten Sie Ihr {appName} Konto, Tokens, Nutzung und Abrechnung.",
@@ -42,9 +42,10 @@
       "BADGE": "Router online",
       "TITLE_LINE1": "VEREINTE",
       "TITLE_LINE2": "INTELLIGENZ",
-      "SUBTITLE": "[SYSTEM]: {appName} aggregiert {modelCount}+ KI-Modelle durch intelligentes Routing für die schnellste und günstigste Inferenz-API.",
+      "SUBTITLE": "{appName} verbindet dich mit {modelCount}+ KI-Modellen über einen Schlüssel. Apps bauen, Agenten betreiben oder Charaktere im Rollenspiel führen. Gleicher Schlüssel, gleiches Tempo, gleicher Preis.",
       "CTA_PRIMARY": "Loslegen",
-      "CTA_SECONDARY": "Modelle ansehen"
+      "CTA_SECONDARY": "Modelle ansehen",
+      "TITLE_ROTATE": "INTELLIGENZ,ROLLENSPIEL,CHARAKTERE,CODE,CHAT"
     },
     "STATS": {
       "MODELS": "Modelle",
@@ -111,7 +112,9 @@
         "BADGE": "Rollenspiel",
         "TITLE": "Funktioniert mit Chub / Venus",
         "DESCRIPTION": "Verbinden Sie {appName} als nativen Reverse-Proxy in Chub. Eine URL, ein Key, alle Modelle."
-      }
+      },
+      "CLI_HEADER": "Für Coding-Agenten und CLI-Tools",
+      "RP_HEADER": "Für Rollenspiel und kreative Chats"
     },
     "PRICING": {
       "LABEL": "Preise",
@@ -226,21 +229,40 @@
       "FEATURE_1": "OpenAI-kompatible Endpunkte",
       "FEATURE_2": "Automatisches Provider-Failover",
       "FEATURE_3": "Multi-Protokoll-Support",
-      "READ_DOCS": "Vollständige API-Docs lesen"
+      "READ_DOCS": "Vollständige API-Docs lesen",
+      "NO_CODE_LABEL": "Kein Coder?",
+      "NO_CODE_OPTION": "Kein Code nötig. Füge die URL in SillyTavern, Janitor.AI, RisuAI oder Chub ein und du chattest.",
+      "NO_CODE_LINK": "Integrationsanleitungen ansehen"
     },
     "CTA": {
       "TITLE_1": "Bereit zum",
-      "TITLE_2": "Bauen",
-      "SUBTITLE": "Zugriff auf jedes KI-Modell über einen Endpunkt. Kein Vendor Lock-in, keine Komplexität.",
+      "TITLE_2": "verbinden",
+      "SUBTITLE": "Jedes KI-Modell, ein Schlüssel. Bauen, chatten, programmieren oder Rollenspiel. Du entscheidest.",
       "PRIMARY": "Jetzt starten",
-      "SECONDARY": "Dokumentation"
+      "SECONDARY": "Integrationen"
     },
     "META": {
-      "TITLE": "{appName} - Einheitliches KI API Gateway",
-      "DESCRIPTION": "Ein Endpunkt für jedes KI-Modell. Intelligentes Routing wählt den schnellsten Anbieter, automatisches Failover sichert deine Anfragen ab.",
-      "KEYWORDS": "KI API Gateway, einheitlicher KI-Endpunkt, OpenAI kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, intelligentes Routing"
+      "TITLE": "{appName} - Ein Schlüssel für jedes KI-Modell",
+      "DESCRIPTION": "Ein Schlüssel für jedes KI-Modell. Nutze ihn in deinem Code, in Claude Code oder in SillyTavern, Janitor.AI, RisuAI und Chub. Smartes Routing über alle großen Anbieter.",
+      "KEYWORDS": "KI-API-Gateway, einheitlicher KI-Endpunkt, OpenAI-kompatibel, Claude API, GPT API, Gemini API, automatisches Failover, smartes Routing, SillyTavern Proxy, Janitor.AI Proxy, Chub Proxy, RisuAI, KI-Rollenspiel, Character AI Alternative"
     },
-    "TITLE": "{appName}"
+    "TITLE": "{appName}",
+    "HOW_IT_WORKS": {
+      "LABEL": "Loslegen",
+      "TITLE": "Drei Schritte.",
+      "SUBTITLE": "Von null zur ersten Anfrage.",
+      "STEP1_NUM": "1",
+      "STEP1_TITLE": "Konto anlegen",
+      "STEP1_DESC": "In unter einer Minute. Keine Kreditkarte zum Start.",
+      "STEP2_NUM": "2",
+      "STEP2_TITLE": "Aufladen oder abonnieren",
+      "STEP2_DESC": "Pay as you go oder Plan wählen. Credits gelten für jedes Modell und verfallen nie.",
+      "STEP3_NUM": "3",
+      "STEP3_TITLE": "API-Schlüssel holen",
+      "STEP3_DESC": "Nutze ihn im Code, in Claude Code oder füge ihn in SillyTavern, Janitor.AI, RisuAI oder Chub ein.",
+      "CTA_PRIMARY": "Jetzt starten",
+      "CTA_SECONDARY": "Preise ansehen"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -295,12 +317,12 @@
     },
     "META": {
       "TITLE": "KI-Modelle - {appName}",
-      "DESCRIPTION": "Durchsuche alle KI-Modelle von OpenAI, Anthropic, Google, DeepSeek und mehr. Vergleiche Echtzeitpreise verschiedener Anbieter.",
-      "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich"
+      "DESCRIPTION": "Alle KI-Modelle an einem Ort. GPT, Claude, Gemini, DeepSeek und mehr. Nutze sie in deinem Code oder in SillyTavern, Janitor.AI, RisuAI und Chub. Gleicher Preis für beide.",
+      "KEYWORDS": "KI-Modelle, Modellbibliothek, KI-Preise, GPT-Modelle, Claude-Modelle, Gemini-Modelle, DeepSeek-Modelle, KI-Modellvergleich, Rollenspiel KI-Modelle, SillyTavern Modelle, Janitor.AI Modelle, Character AI Modelle"
     },
     "BADGE": "Modellbibliothek",
     "TITLE": "Modellbibliothek",
-    "SUBTITLE": "Durchsuche alle verfügbaren KI-Modelle mit Echtzeitpreisen.",
+    "SUBTITLE": "Jedes Modell, ein Schlüssel. Genutzt von Entwicklern und Rollenspielern. Gleicher Preis für beide.",
     "SEARCH_PLACEHOLDER": "Modelle suchen...",
     "MODEL_COUNT": "Modelle",
     "EMPTY": "Keine Modelle gefunden.",
@@ -309,11 +331,11 @@
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
-    "META_DESC": "Produktneuigkeiten, Engineering-Notizen und Releases vom {appName}-Team.",
-    "META_KEYWORDS": "{appName} Blog, KI-API-News, LLM-Routing, Produktupdates",
+    "META_DESC": "Produktupdates, Integrationsanleitungen und Notizen vom {appName}-Team.",
+    "META_KEYWORDS": "{appName} Blog, KI-API-News, LLM-Routing, Produktupdates, Integrationsanleitungen",
     "POST_META_TITLE": "{title} | {appName}",
     "TITLE": "Blog",
-    "SUBTITLE": "Produktneuigkeiten, Engineering-Notizen und Releases.",
+    "SUBTITLE": "Produktupdates, Integrationsanleitungen und Notizen vom Team.",
     "READ_MORE": "Weiterlesen",
     "PUBLISHED": "Veröffentlicht",
     "UPDATED": "Aktualisiert",
@@ -501,11 +523,11 @@
     },
     "META": {
       "TITLE": "Preise - {appName}",
-      "DESCRIPTION": "Einfache, transparente Preise für KI-API-Zugang. Abonniere für besseren Wert oder zahle nach Verbrauch. Alle Pläne beinhalten jedes Modell.",
-      "KEYWORDS": "KI API Preise, KI Abonnement, Pay-per-Token, KI-Modell-Preise, günstige KI API, erschwingliche KI"
+      "DESCRIPTION": "Einfache Preise für jedes KI-Modell. Abonniere für besseren Wert oder zahle nach Verbrauch. Funktioniert in deinem Code, in Claude Code und in SillyTavern, Janitor.AI, RisuAI und Chub.",
+      "KEYWORDS": "KI-API-Preise, KI-Abonnement, Pay-per-Token, KI-Modellpreise, günstige KI-API, bezahlbare KI, SillyTavern Preise, Janitor.AI Preise, Rollenspiel KI Preise, Character AI Preise"
     },
     "TITLE": "Preise",
-    "SUBTITLE": "Wähle einen Plan, der zu deiner Nutzung passt. Alle Pläne beinhalten jedes Modell.",
+    "SUBTITLE": "Egal ob du eine App ausspielst oder lange Rollenspiel-Sessions führst. Ein Plan, jedes Modell.",
     "CTA": "Abonnieren",
     "FAQ": {
       "Q1": "Wie funktioniert das {appName}-Pricing?",
@@ -519,7 +541,11 @@
       "Q5": "Was passiert, wenn ein Anbieter ausfällt?",
       "A5": "{appName} verteilt Anfragen auf mehrere Anbieter mit automatischem Failover. Wenn ein Anbieter rate-limited oder offline ist, wiederholen wir die Anfrage transparent über den nächsten gesunden Upstream.",
       "Q6": "Kann ich eine Rückerstattung bekommen?",
-      "A6": "Nicht verbrauchtes Guthaben ist 30 Tage ab Kauf erstattungsfähig. Kontaktiere {supportEmail} für Rückerstattungsanfragen."
+      "A6": "Nicht verbrauchtes Guthaben ist 30 Tage ab Kauf erstattungsfähig. Kontaktiere {supportEmail} für Rückerstattungsanfragen.",
+      "Q7": "Funktioniert das mit SillyTavern, Janitor.AI, Chub oder RisuAI?",
+      "A7": "Ja. Jeder Plan funktioniert als Custom-OpenAI-kompatible Quelle in jedem großen Rollenspiel-Client. SillyTavern, Janitor.AI, RisuAI und Chub haben jeweils eine Anleitung in den Docs.",
+      "Q8": "Wie lang können meine Gespräche oder Charakter-Verläufe sein?",
+      "A8": "{appName} unterstützt das volle Kontextfenster jedes Modells, bis zu 1M Tokens bei Gemini und 200k bei Claude. Lange Rollenspiele und große Codebasen funktionieren beide."
     },
     "TOPUP": {
       "LABEL": "Guthaben aufladen",
@@ -530,8 +556,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Integrationen - {appName}",
-      "DESCRIPTION": "Nutze {appName} mit Claude Code, Codex CLI, Gemini CLI, OpenClaw und mehr. Einrichtungsanleitungen für alle wichtigen KI-Tools.",
-      "KEYWORDS": "KI Integrationsanleitungen, Claude Code Einrichtung, Codex CLI Einrichtung, Gemini CLI Einrichtung, OpenClaw Einrichtung, KI API Dokumentation"
+      "DESCRIPTION": "Setup-Anleitungen für jedes große KI-Tool und jeden Rollenspiel-Client. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI und Chub.",
+      "KEYWORDS": "KI-Integrationsanleitungen, Claude Code Setup, Codex CLI Setup, Gemini CLI Setup, OpenClaw Setup, SillyTavern Setup, Janitor.AI Setup, RisuAI Setup, Chub Setup, KI-API-Dokumentation, Rollenspiel KI Proxy Setup"
     },
     "BADGE": "Integrationen",
     "TITLE": "Integrationen",
@@ -2226,6 +2252,61 @@
       "EMPTY": "Keine Modelle entsprechen diesen Filtern.",
       "COLLAPSE_ALL": "Alle Gruppen einklappen",
       "EXPAND_ALL": "Alle Gruppen ausklappen"
+    },
+    "BLOCKS": {
+      "BANNER_SUCCESS": "Alle Systeme betriebsbereit",
+      "BANNER_DEGRADED": "Beeinträchtigte Leistung",
+      "BANNER_ERROR": "Teilausfall",
+      "BANNER_INFO": "Wartung",
+      "BANNER_EMPTY": "Keine Daten",
+      "PILL_SUCCESS": "Betriebsbereit",
+      "PILL_DEGRADED": "Beeinträchtigt",
+      "PILL_ERROR": "Ausfall",
+      "PILL_INFO": "Wartung",
+      "PILL_EMPTY": "Keine Daten",
+      "REQUEST_SUCCESS": "Normal",
+      "REQUEST_DEGRADED": "Beeinträchtigt",
+      "REQUEST_ERROR": "Fehler",
+      "REQUEST_INFO": "Wartung",
+      "REQUEST_EMPTY": "Keine Daten",
+      "INCIDENT_RESOLVED": "Behoben",
+      "INCIDENT_MONITORING": "Überwachung",
+      "INCIDENT_IDENTIFIED": "Identifiziert",
+      "INCIDENT_INVESTIGATING": "Untersuchung",
+      "TODAY": "Heute",
+      "ONGOING": "Laufend",
+      "REPORT_RESOLVED": "Bericht behoben",
+      "CLICK_AGAIN_TO_UNPIN": "Erneut klicken zum Lösen",
+      "ARIA_STATUS_TRACKER": "Status-Tracker",
+      "ARIA_DAY_STATUS": "Status Tag {n}",
+      "DURATION_IN": "(in {duration})",
+      "DURATION_EARLIER": "(vor {duration})",
+      "DURATION_FOR": "(für {duration})",
+      "DURATION_ACROSS": "über {duration}",
+      "DATE_UNTIL": "Bis {date}",
+      "DATE_SINCE": "Seit {date}",
+      "DATE_ALL_TIME": "Gesamter Zeitraum",
+      "NO_RECENT_NOTIFICATIONS": "Keine aktuellen Benachrichtigungen",
+      "NO_RECENT_NOTIFICATIONS_DESCRIPTION": "In den letzten 7 Tagen wurden keine Berichte gemeldet.",
+      "NO_REPORTS": "Keine Berichte",
+      "NO_REPORTS_DESCRIPTION": "Es liegen keine Berichte vor.",
+      "NO_PUBLIC_MONITORS": "Keine öffentlichen Monitore",
+      "NO_PUBLIC_MONITORS_DESCRIPTION": "Es sind keine öffentlichen Monitore vorhanden.",
+      "THEME_LIGHT": "Hell",
+      "THEME_DARK": "Dunkel",
+      "THEME_SYSTEM": "System",
+      "ARIA_TOGGLE_THEME": "Theme wechseln",
+      "SUBSCRIBE": "Updates erhalten",
+      "SUBSCRIBE_RSS_DESCRIPTION": "RSS-Feed abrufen",
+      "SUBSCRIBE_ATOM_DESCRIPTION": "Atom-Feed abrufen",
+      "SUBSCRIBE_JSON_DESCRIPTION": "JSON-Updates abrufen",
+      "SUBSCRIBE_SLACK_DESCRIPTION": "Für Status-Updates in Slack den Text unten in einen Kanal einfügen.",
+      "SUBSCRIBE_SSH_DESCRIPTION": "Status über SSH abrufen",
+      "LINK_COPIED_TO_CLIPBOARD": "Link in die Zwischenablage kopiert",
+      "ARIA_COPY_LINK": "Link kopieren",
+      "POWERED_BY": "bereitgestellt von",
+      "GET_IN_TOUCH": "Kontakt aufnehmen",
+      "TIMESTAMP_RELATIVE": "Relativ"
     }
   }
 }

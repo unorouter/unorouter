@@ -59,7 +59,7 @@ export function buildSoftwareApplicationSchema(
     "@type": "SoftwareApplication",
     name: input.name ?? env.appName,
     url: input.url ? abs(input.url) : `${siteOrigin}/${input.locale}`,
-    applicationCategory: "DeveloperApplication",
+    applicationCategory: "WebApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
     description: input.description,
     ...(input.brandName && {

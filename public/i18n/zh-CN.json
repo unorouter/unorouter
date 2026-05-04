@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName}：一个 API 接入所有 AI 模型",
-    "DESCRIPTION": "通过单一 OpenAI 兼容端点访问 Claude、GPT、Gemini、DeepSeek 及 {modelCount}+ AI 模型。智能路由，自动容灾，花得更少。",
-    "KEYWORDS": "AI API, 统一 AI 端点, OpenAI 替代方案, Claude API, GPT API, Gemini API, DeepSeek API, AI 路由, AI 网关, 多模型 API",
+    "TITLE": "{appName} - 一把钥匙，连接所有 AI 模型",
+    "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在 SillyTavern、Janitor.AI、RisuAI、Chub 里都能用。智能路由覆盖所有主要厂商。",
+    "KEYWORDS": "AI API，统一 AI 端点，OpenAI 替代，Claude API，GPT API，Gemini API，DeepSeek API，AI 路由，AI 网关，多模型 API，SillyTavern 代理，Janitor.AI 代理，Chub 代理，RisuAI，AI 角色扮演，Character AI 替代",
     "ACCOUNT": {
       "TITLE": "{appName} 账户",
       "DESC": "管理您的 {appName} 账户、令牌、用量和账单。",
@@ -42,9 +42,10 @@
       "BADGE": "路由器在线",
       "TITLE_LINE1": "统一",
       "TITLE_LINE2": "智能",
-      "SUBTITLE": "[系统]：{appName} 通过智能路由聚合 {modelCount}+ AI 模型，提供最快、最便宜的推理 API。",
+      "SUBTITLE": "{appName} 用一把钥匙连接 {modelCount}+ 个 AI 模型。构建应用、运行 Agent，或与角色进行角色扮演。同一把钥匙、同样的速度、同样的价格。",
       "CTA_PRIMARY": "立即开始",
-      "CTA_SECONDARY": "查看模型"
+      "CTA_SECONDARY": "查看模型",
+      "TITLE_ROTATE": "智能,角色扮演,角色,代码,对话"
     },
     "STATS": {
       "MODELS": "模型",
@@ -111,7 +112,9 @@
         "BADGE": "角色扮演",
         "TITLE": "兼容 Chub / Venus",
         "DESCRIPTION": "将 {appName} 作为 Chub 的一方反向代理接入。一个 URL，一个密钥，支持全部模型。"
-      }
+      },
+      "CLI_HEADER": "面向编程 Agent 与 CLI 工具",
+      "RP_HEADER": "面向角色扮演与创意对话"
     },
     "PRICING": {
       "LABEL": "价格",
@@ -226,21 +229,40 @@
       "FEATURE_1": "兼容 OpenAI 的端点",
       "FEATURE_2": "自动提供方容灾",
       "FEATURE_3": "多协议支持",
-      "READ_DOCS": "阅读完整 API 文档"
+      "READ_DOCS": "阅读完整 API 文档",
+      "NO_CODE_LABEL": "不是开发者？",
+      "NO_CODE_OPTION": "无需代码。把 URL 粘贴到 SillyTavern、Janitor.AI、RisuAI 或 Chub，立刻开始聊天。",
+      "NO_CODE_LINK": "查看集成指南"
     },
     "CTA": {
       "TITLE_1": "准备好",
-      "TITLE_2": "开始构建",
-      "SUBTITLE": "通过一个端点访问所有 AI 模型。没有厂商锁定，没有复杂性。",
-      "PRIMARY": "开始构建",
-      "SECONDARY": "文档"
+      "TITLE_2": "连接",
+      "SUBTITLE": "每一个 AI 模型，一把钥匙。开发、聊天、写代码或角色扮演，你说了算。",
+      "PRIMARY": "开始使用",
+      "SECONDARY": "查看集成"
     },
     "META": {
-      "TITLE": "{appName}：统一 AI API 网关",
-      "DESCRIPTION": "一个端点接入所有 AI 模型。智能路由选择最快的提供方，自动容灾确保请求始终成功。",
-      "KEYWORDS": "AI API 网关, 统一 AI 端点, OpenAI 兼容, Claude API, GPT API, Gemini API, 自动容灾, 智能路由"
+      "TITLE": "{appName} - 一把钥匙，连接所有 AI 模型",
+      "DESCRIPTION": "一把钥匙，连接所有 AI 模型。在你的代码里、在 Claude Code 里，或在 SillyTavern、Janitor.AI、RisuAI、Chub 里都能用。智能路由覆盖所有主要厂商。",
+      "KEYWORDS": "AI API 网关，统一 AI 端点，OpenAI 兼容，Claude API，GPT API，Gemini API，自动故障切换，智能路由，SillyTavern 代理，Janitor.AI 代理，Chub 代理，RisuAI，AI 角色扮演，Character AI 替代"
     },
-    "TITLE": "{appName}"
+    "TITLE": "{appName}",
+    "HOW_IT_WORKS": {
+      "LABEL": "开始使用",
+      "TITLE": "三步完成。",
+      "SUBTITLE": "从注册到发出首个请求。",
+      "STEP1_NUM": "1",
+      "STEP1_TITLE": "注册账号",
+      "STEP1_DESC": "一分钟内完成注册，开始时无需信用卡。",
+      "STEP2_NUM": "2",
+      "STEP2_TITLE": "充值或订阅",
+      "STEP2_DESC": "按需付费或选择套餐。Credits 可用于任意模型，永不过期。",
+      "STEP3_NUM": "3",
+      "STEP3_TITLE": "获取 API Key",
+      "STEP3_DESC": "在代码里、在 Claude Code 里使用，或贴到 SillyTavern、Janitor.AI、RisuAI、Chub 里。",
+      "CTA_PRIMARY": "开始使用",
+      "CTA_SECONDARY": "查看价格"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -295,12 +317,12 @@
     },
     "META": {
       "TITLE": "AI 模型：{appName}",
-      "DESCRIPTION": "浏览来自 OpenAI、Anthropic、Google、DeepSeek 等的全部 AI 模型。比较跨提供方的实时价格。",
-      "KEYWORDS": "AI 模型, 模型库, AI 价格, GPT 模型, Claude 模型, Gemini 模型, DeepSeek 模型, AI 模型对比"
+      "DESCRIPTION": "所有 AI 模型集中一处。GPT、Claude、Gemini、DeepSeek 等。在你的代码里用，或在 SillyTavern、Janitor.AI、RisuAI、Chub 里用，价格一视同仁。",
+      "KEYWORDS": "AI 模型，模型库，AI 价格，GPT 模型，Claude 模型，Gemini 模型，DeepSeek 模型，AI 模型对比，角色扮演 AI 模型，SillyTavern 模型，Janitor.AI 模型，Character AI 模型"
     },
     "BADGE": "模型库",
     "TITLE": "模型库",
-    "SUBTITLE": "浏览全部可用 AI 模型及实时价格。",
+    "SUBTITLE": "每个模型，一把钥匙。开发者搭应用，角色扮演者跑角色，价格一视同仁。",
     "SEARCH_PLACEHOLDER": "搜索模型...",
     "MODEL_COUNT": "个模型",
     "EMPTY": "没有匹配搜索的模型。",
@@ -309,11 +331,11 @@
   },
   "BLOG": {
     "META_TITLE": "博客 | {appName}",
-    "META_DESC": "来自 {appName} 团队的产品更新、工程笔记和发布说明。",
-    "META_KEYWORDS": "{appName} 博客, AI API 资讯, LLM 路由, 产品更新",
+    "META_DESC": "{appName} 团队的产品更新、集成指南与笔记。",
+    "META_KEYWORDS": "{appName} 博客，AI API 资讯，LLM 路由，产品更新，集成指南",
     "POST_META_TITLE": "{title} | {appName}",
     "TITLE": "博客",
-    "SUBTITLE": "产品更新、工程笔记和发布说明。",
+    "SUBTITLE": "产品更新、集成指南与团队笔记。",
     "READ_MORE": "阅读更多",
     "PUBLISHED": "发布时间",
     "UPDATED": "更新时间",
@@ -501,11 +523,11 @@
     },
     "META": {
       "TITLE": "价格：{appName}",
-      "DESCRIPTION": "简单透明的 AI API 价格。订阅享更优价格或按量付费。所有套餐均包含全部模型。",
-      "KEYWORDS": "AI API 价格, AI 订阅, 按 Token 付费, AI 模型价格, 便宜的 AI API, 实惠 AI"
+      "DESCRIPTION": "每个 AI 模型一份简单价格。订阅更划算，也能按需付费。在代码里、在 Claude Code 里、在 SillyTavern、Janitor.AI、RisuAI、Chub 里都能用。",
+      "KEYWORDS": "AI API 价格，AI 订阅，按 token 付费，AI 模型价格，便宜 AI API，实惠 AI，SillyTavern 价格，Janitor.AI 价格，角色扮演 AI 价格，Character AI 价格"
     },
     "TITLE": "价格",
-    "SUBTITLE": "选择适合您用量的套餐。所有套餐均包含全部模型。",
+    "SUBTITLE": "无论你是上线应用还是进行长时间角色扮演。一个套餐，覆盖所有模型。",
     "CTA": "订阅",
     "FAQ": {
       "Q1": "{appName} 如何计费？",
@@ -519,7 +541,11 @@
       "Q5": "提供方故障怎么办？",
       "A5": "{appName} 会在多个提供方之间路由请求并自动容灾。若某个提供方被限流或宕机，我们会透明地重试下一个健康的上游。",
       "Q6": "可以退款吗？",
-      "A6": "未使用的预付额度在购买后 30 天内可退款。退款请求请联系 {supportEmail}。"
+      "A6": "未使用的预付额度在购买后 30 天内可退款。退款请求请联系 {supportEmail}。",
+      "Q7": "能配合 SillyTavern、Janitor.AI、Chub 或 RisuAI 使用吗？",
+      "A7": "可以。每个套餐都能在主流角色扮演客户端里作为自定义 OpenAI 兼容来源使用。SillyTavern、Janitor.AI、RisuAI 和 Chub 在文档里都有各自的设置指南。",
+      "Q8": "对话或角色历史最长能保留多久？",
+      "A8": "{appName} 支持每个模型的完整上下文窗口，Gemini 最高 1M tokens，Claude 最高 200k tokens。长篇角色扮演和大型代码库都能从容应对。"
     },
     "TOPUP": {
       "LABEL": "按量充值",
@@ -530,8 +556,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "集成：{appName}",
-      "DESCRIPTION": "在 Claude Code、Codex CLI、Gemini CLI、OpenClaw 等工具中使用 {appName}。为每款主流 AI 工具提供配置指南。",
-      "KEYWORDS": "AI 集成指南, Claude Code 配置, Codex CLI 配置, Gemini CLI 配置, OpenClaw 配置, AI API 文档"
+      "DESCRIPTION": "主流 AI 工具与角色扮演客户端的设置指南。Claude Code、Codex CLI、Gemini CLI、OpenClaw、SillyTavern、Janitor.AI、RisuAI 与 Chub。",
+      "KEYWORDS": "AI 集成指南，Claude Code 设置，Codex CLI 设置，Gemini CLI 设置，OpenClaw 设置，SillyTavern 设置，Janitor.AI 设置，RisuAI 设置，Chub 设置，AI API 文档，角色扮演 AI 代理设置"
     },
     "BADGE": "集成",
     "TITLE": "集成",
@@ -2226,6 +2252,61 @@
       "EMPTY": "没有符合筛选条件的模型。",
       "COLLAPSE_ALL": "收起所有分组",
       "EXPAND_ALL": "展开所有分组"
+    },
+    "BLOCKS": {
+      "BANNER_SUCCESS": "所有系统正常运行",
+      "BANNER_DEGRADED": "性能下降",
+      "BANNER_ERROR": "部分服务中断",
+      "BANNER_INFO": "维护中",
+      "BANNER_EMPTY": "无数据",
+      "PILL_SUCCESS": "正常",
+      "PILL_DEGRADED": "下降",
+      "PILL_ERROR": "中断",
+      "PILL_INFO": "维护",
+      "PILL_EMPTY": "无数据",
+      "REQUEST_SUCCESS": "正常",
+      "REQUEST_DEGRADED": "下降",
+      "REQUEST_ERROR": "错误",
+      "REQUEST_INFO": "维护",
+      "REQUEST_EMPTY": "无数据",
+      "INCIDENT_RESOLVED": "已解决",
+      "INCIDENT_MONITORING": "监控中",
+      "INCIDENT_IDENTIFIED": "已定位",
+      "INCIDENT_INVESTIGATING": "调查中",
+      "TODAY": "今天",
+      "ONGOING": "进行中",
+      "REPORT_RESOLVED": "报告已关闭",
+      "CLICK_AGAIN_TO_UNPIN": "再次点击取消固定",
+      "ARIA_STATUS_TRACKER": "状态追踪器",
+      "ARIA_DAY_STATUS": "第 {n} 天状态",
+      "DURATION_IN": "（{duration}后）",
+      "DURATION_EARLIER": "（{duration}前）",
+      "DURATION_FOR": "（持续 {duration}）",
+      "DURATION_ACROSS": "持续 {duration}",
+      "DATE_UNTIL": "截至 {date}",
+      "DATE_SINCE": "自 {date}",
+      "DATE_ALL_TIME": "所有时间",
+      "NO_RECENT_NOTIFICATIONS": "暂无近期通知",
+      "NO_RECENT_NOTIFICATIONS_DESCRIPTION": "过去 7 天内没有报告。",
+      "NO_REPORTS": "暂无报告",
+      "NO_REPORTS_DESCRIPTION": "没有可显示的报告。",
+      "NO_PUBLIC_MONITORS": "暂无公开监控",
+      "NO_PUBLIC_MONITORS_DESCRIPTION": "没有可显示的公开监控。",
+      "THEME_LIGHT": "浅色",
+      "THEME_DARK": "深色",
+      "THEME_SYSTEM": "跟随系统",
+      "ARIA_TOGGLE_THEME": "切换主题",
+      "SUBSCRIBE": "获取更新",
+      "SUBSCRIBE_RSS_DESCRIPTION": "获取 RSS 订阅",
+      "SUBSCRIBE_ATOM_DESCRIPTION": "获取 Atom 订阅",
+      "SUBSCRIBE_JSON_DESCRIPTION": "获取 JSON 更新",
+      "SUBSCRIBE_SLACK_DESCRIPTION": "如需在 Slack 中接收状态更新，请将下方文本粘贴到任意频道。",
+      "SUBSCRIBE_SSH_DESCRIPTION": "通过 SSH 获取状态",
+      "LINK_COPIED_TO_CLIPBOARD": "链接已复制到剪贴板",
+      "ARIA_COPY_LINK": "复制链接",
+      "POWERED_BY": "技术支持",
+      "GET_IN_TOUCH": "联系我们",
+      "TIMESTAMP_RELATIVE": "相对时间"
     }
   }
 }

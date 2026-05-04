@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} - Một API cho mọi mô hình AI",
-    "DESCRIPTION": "Truy cập Claude, GPT, Gemini, DeepSeek và hơn {modelCount} mô hình AI qua một endpoint tương thích OpenAI duy nhất. Định tuyến thông minh, tự động chuyển đổi dự phòng, trả ít hơn.",
-    "KEYWORDS": "API AI, endpoint AI hợp nhất, giải pháp thay thế OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, bộ định tuyến AI, cổng AI, API đa mô hình",
+    "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
+    "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong SillyTavern, Janitor.AI, RisuAI và Chub. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
+    "KEYWORDS": "API AI, endpoint AI thống nhất, thay thế OpenAI, Claude API, GPT API, Gemini API, DeepSeek API, router AI, gateway AI, API đa mô hình, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, roleplay AI, thay thế Character AI",
     "ACCOUNT": {
       "TITLE": "Tài khoản {appName}",
       "DESC": "Quản lý tài khoản {appName}, token, mức sử dụng và thanh toán.",
@@ -42,9 +42,10 @@
       "BADGE": "Router đang hoạt động",
       "TITLE_LINE1": "TRÍ TUỆ",
       "TITLE_LINE2": "HỢP NHẤT",
-      "SUBTITLE": "[SYSTEM]: {appName} tổng hợp hơn {modelCount} mô hình AI qua định tuyến thông minh để mang lại API suy luận nhanh nhất và rẻ nhất.",
+      "SUBTITLE": "{appName} kết nối bạn với hơn {modelCount} mô hình AI qua một khoá duy nhất. Xây ứng dụng, chạy agent, hay roleplay với nhân vật. Cùng một khoá, cùng tốc độ, cùng giá.",
       "CTA_PRIMARY": "Bắt đầu",
-      "CTA_SECONDARY": "Xem mô hình"
+      "CTA_SECONDARY": "Xem mô hình",
+      "TITLE_ROTATE": "TRÍ TUỆ,ROLEPLAY,NHÂN VẬT,CODE,CHAT"
     },
     "STATS": {
       "MODELS": "Mô hình",
@@ -111,7 +112,9 @@
         "BADGE": "Roleplay",
         "TITLE": "Hoạt động với Chub / Venus",
         "DESCRIPTION": "Kết nối {appName} như một reverse proxy gốc trong Chub. Một URL, một key, mọi model."
-      }
+      },
+      "CLI_HEADER": "Cho agent code và công cụ CLI",
+      "RP_HEADER": "Cho roleplay và chat sáng tạo"
     },
     "PRICING": {
       "LABEL": "Bảng giá",
@@ -226,21 +229,40 @@
       "FEATURE_1": "Endpoint tương thích OpenAI",
       "FEATURE_2": "Tự động chuyển đổi dự phòng giữa nhà cung cấp",
       "FEATURE_3": "Hỗ trợ đa giao thức",
-      "READ_DOCS": "Đọc toàn bộ tài liệu API"
+      "READ_DOCS": "Đọc toàn bộ tài liệu API",
+      "NO_CODE_LABEL": "Không phải lập trình viên?",
+      "NO_CODE_OPTION": "Không cần code. Dán URL vào SillyTavern, Janitor.AI, RisuAI hay Chub là chat được luôn.",
+      "NO_CODE_LINK": "Xem hướng dẫn tích hợp"
     },
     "CTA": {
       "TITLE_1": "Sẵn sàng để",
-      "TITLE_2": "Xây dựng",
-      "SUBTITLE": "Truy cập mọi mô hình AI qua một endpoint duy nhất. Không ràng buộc nhà cung cấp, không phức tạp.",
-      "PRIMARY": "Bắt đầu xây dựng",
-      "SECONDARY": "Tài liệu"
+      "TITLE_2": "kết nối",
+      "SUBTITLE": "Mọi mô hình AI, một khoá. Xây, chat, code, hay roleplay. Bạn chọn.",
+      "PRIMARY": "Bắt đầu",
+      "SECONDARY": "Tích hợp"
     },
     "META": {
-      "TITLE": "{appName} - Cổng API AI hợp nhất",
-      "DESCRIPTION": "Một endpoint cho mọi mô hình AI. Định tuyến thông minh chọn nhà cung cấp nhanh nhất, tự động chuyển đổi dự phòng đảm bảo yêu cầu của bạn luôn thành công.",
-      "KEYWORDS": "cổng API AI, endpoint AI hợp nhất, tương thích OpenAI, Claude API, GPT API, Gemini API, tự động chuyển đổi dự phòng, định tuyến thông minh"
+      "TITLE": "{appName} - Một khoá cho mọi mô hình AI",
+      "DESCRIPTION": "Một khoá cho mọi mô hình AI. Dùng trong code, trong Claude Code, hoặc trong SillyTavern, Janitor.AI, RisuAI và Chub. Định tuyến thông minh trên mọi nhà cung cấp lớn.",
+      "KEYWORDS": "gateway API AI, endpoint AI thống nhất, tương thích OpenAI, Claude API, GPT API, Gemini API, failover tự động, định tuyến thông minh, SillyTavern proxy, Janitor.AI proxy, Chub proxy, RisuAI, roleplay AI, thay thế Character AI"
     },
-    "TITLE": "{appName}"
+    "TITLE": "{appName}",
+    "HOW_IT_WORKS": {
+      "LABEL": "Bắt đầu",
+      "TITLE": "Ba bước.",
+      "SUBTITLE": "Từ con số 0 đến request đầu tiên.",
+      "STEP1_NUM": "1",
+      "STEP1_TITLE": "Đăng ký",
+      "STEP1_DESC": "Tạo tài khoản trong chưa tới một phút. Không cần thẻ để bắt đầu.",
+      "STEP2_NUM": "2",
+      "STEP2_TITLE": "Nạp hoặc đăng ký gói",
+      "STEP2_DESC": "Trả theo mức dùng hoặc chọn gói. Credit dùng được với mọi mô hình và không hết hạn.",
+      "STEP3_NUM": "3",
+      "STEP3_TITLE": "Lấy API key",
+      "STEP3_DESC": "Dùng trong code, trong Claude Code, hay dán vào SillyTavern, Janitor.AI, RisuAI hoặc Chub.",
+      "CTA_PRIMARY": "Bắt đầu",
+      "CTA_SECONDARY": "Xem giá"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -295,12 +317,12 @@
     },
     "META": {
       "TITLE": "Mô hình AI - {appName}",
-      "DESCRIPTION": "Duyệt mọi mô hình AI từ OpenAI, Anthropic, Google, DeepSeek và nhiều hơn nữa. So sánh giá thời gian thực giữa các nhà cung cấp.",
-      "KEYWORDS": "mô hình AI, thư viện mô hình, giá AI, mô hình GPT, mô hình Claude, mô hình Gemini, mô hình DeepSeek, so sánh mô hình AI"
+      "DESCRIPTION": "Mọi mô hình AI ở cùng một nơi. GPT, Claude, Gemini, DeepSeek và hơn nữa. Dùng trong code hay trong SillyTavern, Janitor.AI, RisuAI và Chub. Cùng một mức giá.",
+      "KEYWORDS": "mô hình AI, thư viện mô hình, giá AI, mô hình GPT, mô hình Claude, mô hình Gemini, mô hình DeepSeek, so sánh mô hình AI, mô hình AI roleplay, mô hình SillyTavern, mô hình Janitor.AI, mô hình Character AI"
     },
     "BADGE": "Thư viện mô hình",
     "TITLE": "Thư viện mô hình",
-    "SUBTITLE": "Duyệt mọi mô hình AI khả dụng kèm giá thời gian thực.",
+    "SUBTITLE": "Mọi mô hình, một khoá. Dành cho developer xây ứng dụng và roleplayer chạy nhân vật. Cùng một mức giá.",
     "SEARCH_PLACEHOLDER": "Tìm mô hình...",
     "MODEL_COUNT": "mô hình",
     "EMPTY": "Không có mô hình nào khớp với tìm kiếm của bạn.",
@@ -309,11 +331,11 @@
   },
   "BLOG": {
     "META_TITLE": "Blog | {appName}",
-    "META_DESC": "Cập nhật sản phẩm, ghi chú kỹ thuật và bản phát hành từ đội ngũ {appName}.",
-    "META_KEYWORDS": "blog {appName}, tin tức API AI, định tuyến LLM, cập nhật sản phẩm",
+    "META_DESC": "Cập nhật sản phẩm, hướng dẫn tích hợp và ghi chú từ đội ngũ {appName}.",
+    "META_KEYWORDS": "blog {appName}, tin tức API AI, định tuyến LLM, cập nhật sản phẩm, hướng dẫn tích hợp",
     "POST_META_TITLE": "{title} | {appName}",
     "TITLE": "Blog",
-    "SUBTITLE": "Cập nhật sản phẩm, ghi chú kỹ thuật và bản phát hành.",
+    "SUBTITLE": "Cập nhật sản phẩm, hướng dẫn tích hợp và ghi chú từ đội ngũ.",
     "READ_MORE": "Đọc thêm",
     "PUBLISHED": "Đã đăng",
     "UPDATED": "Đã cập nhật",
@@ -501,11 +523,11 @@
     },
     "META": {
       "TITLE": "Bảng giá - {appName}",
-      "DESCRIPTION": "Giá cả đơn giản, minh bạch cho quyền truy cập API AI. Đăng ký thuê bao để tiết kiệm hơn hoặc trả theo nhu cầu. Mọi gói đều bao gồm mọi mô hình.",
-      "KEYWORDS": "giá API AI, thuê bao AI, trả theo token, giá mô hình AI, API AI giá rẻ, AI giá phải chăng"
+      "DESCRIPTION": "Giá đơn giản cho mọi mô hình AI. Đăng ký để có giá tốt hơn hoặc trả theo mức dùng. Chạy trong code, trong Claude Code và trong SillyTavern, Janitor.AI, RisuAI và Chub.",
+      "KEYWORDS": "giá API AI, đăng ký AI, trả theo token, giá mô hình AI, API AI giá rẻ, AI giá hợp lý, giá SillyTavern, giá Janitor.AI, giá AI roleplay, giá Character AI"
     },
     "TITLE": "Bảng giá",
-    "SUBTITLE": "Chọn gói phù hợp với mức sử dụng của bạn. Mọi gói đều bao gồm mọi mô hình.",
+    "SUBTITLE": "Dù bạn deploy ứng dụng hay roleplay dài hơi. Một gói, mọi mô hình.",
     "CTA": "Đăng ký",
     "FAQ": {
       "Q1": "Giá cả {appName} hoạt động ra sao?",
@@ -519,7 +541,11 @@
       "Q5": "Điều gì xảy ra nếu nhà cung cấp bị lỗi?",
       "A5": "{appName} định tuyến yêu cầu qua nhiều nhà cung cấp với tự động chuyển đổi dự phòng. Nếu một bên bị giới hạn tốc độ hoặc ngừng hoạt động, chúng tôi tự động thử lại với upstream khỏe mạnh tiếp theo một cách minh bạch.",
       "Q6": "Tôi có được hoàn tiền không?",
-      "A6": "Tín dụng trả trước chưa dùng có thể hoàn tiền trong vòng 30 ngày kể từ khi mua. Liên hệ {supportEmail} cho yêu cầu hoàn tiền."
+      "A6": "Tín dụng trả trước chưa dùng có thể hoàn tiền trong vòng 30 ngày kể từ khi mua. Liên hệ {supportEmail} cho yêu cầu hoàn tiền.",
+      "Q7": "Có dùng được với SillyTavern, Janitor.AI, Chub hay RisuAI không?",
+      "A7": "Có. Mọi gói đều dùng như một nguồn tuỳ chỉnh tương thích OpenAI trong các client roleplay lớn. SillyTavern, Janitor.AI, RisuAI và Chub đều có hướng dẫn cài đặt riêng trong docs.",
+      "Q8": "Cuộc trò chuyện hoặc lịch sử nhân vật có thể dài đến đâu?",
+      "A8": "{appName} hỗ trợ toàn bộ context window của mỗi mô hình, lên tới 1M token trên Gemini và 200k trên Claude. Roleplay dài hay codebase lớn đều chạy ổn."
     },
     "TOPUP": {
       "LABEL": "Trả theo mức dùng",
@@ -530,8 +556,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "Tích hợp - {appName}",
-      "DESCRIPTION": "Sử dụng {appName} với Claude Code, Codex CLI, Gemini CLI, OpenClaw và nhiều hơn nữa. Hướng dẫn thiết lập cho mọi công cụ AI lớn.",
-      "KEYWORDS": "hướng dẫn tích hợp AI, thiết lập Claude Code, thiết lập Codex CLI, thiết lập Gemini CLI, thiết lập OpenClaw, tài liệu API AI"
+      "DESCRIPTION": "Hướng dẫn cài đặt cho mọi công cụ AI lớn và client roleplay. Claude Code, Codex CLI, Gemini CLI, OpenClaw, SillyTavern, Janitor.AI, RisuAI và Chub.",
+      "KEYWORDS": "hướng dẫn tích hợp AI, cài Claude Code, cài Codex CLI, cài Gemini CLI, cài OpenClaw, cài SillyTavern, cài Janitor.AI, cài RisuAI, cài Chub, tài liệu API AI, cài proxy AI roleplay"
     },
     "BADGE": "Tích hợp",
     "TITLE": "Tích hợp",
@@ -2226,6 +2252,61 @@
       "EMPTY": "Không có mô hình phù hợp với bộ lọc.",
       "COLLAPSE_ALL": "Thu gọn tất cả nhóm",
       "EXPAND_ALL": "Mở rộng tất cả nhóm"
+    },
+    "BLOCKS": {
+      "BANNER_SUCCESS": "Tất cả hệ thống hoạt động",
+      "BANNER_DEGRADED": "Hiệu năng suy giảm",
+      "BANNER_ERROR": "Mất một phần dịch vụ",
+      "BANNER_INFO": "Bảo trì",
+      "BANNER_EMPTY": "Không có dữ liệu",
+      "PILL_SUCCESS": "Hoạt động",
+      "PILL_DEGRADED": "Suy giảm",
+      "PILL_ERROR": "Mất dịch vụ",
+      "PILL_INFO": "Bảo trì",
+      "PILL_EMPTY": "Không có dữ liệu",
+      "REQUEST_SUCCESS": "Bình thường",
+      "REQUEST_DEGRADED": "Suy giảm",
+      "REQUEST_ERROR": "Lỗi",
+      "REQUEST_INFO": "Bảo trì",
+      "REQUEST_EMPTY": "Không có dữ liệu",
+      "INCIDENT_RESOLVED": "Đã giải quyết",
+      "INCIDENT_MONITORING": "Đang theo dõi",
+      "INCIDENT_IDENTIFIED": "Đã xác định",
+      "INCIDENT_INVESTIGATING": "Đang điều tra",
+      "TODAY": "Hôm nay",
+      "ONGOING": "Đang diễn ra",
+      "REPORT_RESOLVED": "Báo cáo đã đóng",
+      "CLICK_AGAIN_TO_UNPIN": "Nhấp lại để bỏ ghim",
+      "ARIA_STATUS_TRACKER": "Trình theo dõi trạng thái",
+      "ARIA_DAY_STATUS": "Trạng thái ngày {n}",
+      "DURATION_IN": "(trong {duration})",
+      "DURATION_EARLIER": "({duration} trước)",
+      "DURATION_FOR": "(trong {duration})",
+      "DURATION_ACROSS": "qua {duration}",
+      "DATE_UNTIL": "Đến {date}",
+      "DATE_SINCE": "Từ {date}",
+      "DATE_ALL_TIME": "Toàn thời gian",
+      "NO_RECENT_NOTIFICATIONS": "Không có thông báo gần đây",
+      "NO_RECENT_NOTIFICATIONS_DESCRIPTION": "Không có báo cáo nào trong 7 ngày qua.",
+      "NO_REPORTS": "Không có báo cáo",
+      "NO_REPORTS_DESCRIPTION": "Không có báo cáo để hiển thị.",
+      "NO_PUBLIC_MONITORS": "Không có giám sát công khai",
+      "NO_PUBLIC_MONITORS_DESCRIPTION": "Không có giám sát công khai để hiển thị.",
+      "THEME_LIGHT": "Sáng",
+      "THEME_DARK": "Tối",
+      "THEME_SYSTEM": "Hệ thống",
+      "ARIA_TOGGLE_THEME": "Đổi giao diện",
+      "SUBSCRIBE": "Nhận cập nhật",
+      "SUBSCRIBE_RSS_DESCRIPTION": "Lấy nguồn RSS",
+      "SUBSCRIBE_ATOM_DESCRIPTION": "Lấy nguồn Atom",
+      "SUBSCRIBE_JSON_DESCRIPTION": "Lấy cập nhật JSON",
+      "SUBSCRIBE_SLACK_DESCRIPTION": "Để nhận cập nhật trạng thái trong Slack, dán văn bản bên dưới vào bất kỳ kênh nào.",
+      "SUBSCRIBE_SSH_DESCRIPTION": "Lấy trạng thái qua SSH",
+      "LINK_COPIED_TO_CLIPBOARD": "Đã sao chép liên kết",
+      "ARIA_COPY_LINK": "Sao chép liên kết",
+      "POWERED_BY": "vận hành bởi",
+      "GET_IN_TOUCH": "Liên hệ",
+      "TIMESTAMP_RELATIVE": "Tương đối"
     }
   }
 }

@@ -44,6 +44,7 @@ import {
   LuX,
 } from "react-icons/lu";
 import { WindowVirtualizer } from "virtua";
+import { StatusBlocksI18n } from "./status-blocks-i18n";
 import { SummaryCards } from "./summary-cards";
 
 const VARIANT_FALLBACK: Exclude<StatusType, "empty"> = "success";
@@ -69,6 +70,7 @@ export function StatusPage() {
   const pricingModels = pricing.data?.models ?? [];
 
   return (
+    <StatusBlocksI18n>
     <div className="mx-auto max-w-6xl px-6 py-12">
       <div className="mb-12 text-center">
         <a
@@ -281,6 +283,7 @@ export function StatusPage() {
         )}
       </div>
     </div>
+    </StatusBlocksI18n>
   );
 }
 

@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
-import { ScrambleText } from "@/components/elements/fx/scramble-text";
+import { ScrambleRotate } from "@/components/elements/fx/scramble-rotate";
 import { LuChevronRight, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
 
@@ -30,8 +30,11 @@ export async function HeroSection() {
           <h1 className="text-foreground text-[2.5rem] leading-[1.05] font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             {t("HOME.HERO.TITLE_LINE1")} <br />
             <span className="text-muted-foreground">
-              <ScrambleText
-                text={t("HOME.HERO.TITLE_LINE2")}
+              <ScrambleRotate
+                words={t("HOME.HERO.TITLE_ROTATE")
+                  .split(",")
+                  .map((w) => w.trim())
+                  .filter((w) => w.length > 0)}
                 className="font-mono tracking-wider"
               />
             </span>

@@ -34,6 +34,7 @@ type CliIntegrationDef = {
   badgeKey: TranslationKey;
   iconKey: IntegrationIconKey;
   logoSrc?: string;
+  logoBg?: boolean;
   color: IntegrationColor;
   quickStart: Record<OS, string>;
 };
@@ -47,6 +48,7 @@ type RpIntegrationDef = {
   badgeKey: TranslationKey;
   iconKey: IntegrationIconKey;
   logoSrc?: string;
+  logoBg?: boolean;
   color: IntegrationColor;
   /** Code-block content shown under Quick Start (e.g. URL + key lines). */
   quickConfig: string;
@@ -287,6 +289,7 @@ API Key:     YOUR_API_KEY`,
     badgeKey: "DOCS.CHUB.BADGE",
     iconKey: "chub",
     logoSrc: "/icons/chub-ai.png",
+    logoBg: true,
     color: {
       accent: "text-rose-500",
       badge: "bg-rose-600 text-white",

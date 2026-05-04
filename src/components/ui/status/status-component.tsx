@@ -508,8 +508,8 @@ export function StatusComponentUptimeSkeleton({
  * - error: "Outage" (red)
  * - info: "Maintenance" (blue)
  *
- * The labels are sourced from systemStatusLabels.short for consistent messaging
- * across the application.
+ * Labels come from the active `StatusBlocksI18nProvider`
+ * (`labels.systemStatus[variant].short`).
  *
  * @example
  * ```tsx
@@ -532,7 +532,6 @@ export function StatusComponentUptimeSkeleton({
  * ```
  *
  * @see StatusComponent - For setting the variant that controls the displayed status
- * @see systemStatusLabels - For the status label text definitions
  */
 export function StatusComponentStatus({
   className,

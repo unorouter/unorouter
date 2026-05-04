@@ -53,10 +53,12 @@ export default async function PricingPage(props: {
     }),
   ]);
 
-  const faqEntries: FAQEntry[] = ([1, 2, 3, 4, 5, 6] as const).map((n) => ({
-    question: t(`PRICING.FAQ.Q${n}`, APP_VALUES),
-    answer: t(`PRICING.FAQ.A${n}`, APP_VALUES),
-  }));
+  const faqEntries: FAQEntry[] = ([1, 2, 3, 4, 5, 6, 7, 8] as const).map(
+    (n) => ({
+      question: t(`PRICING.FAQ.Q${n}`, APP_VALUES),
+      answer: t(`PRICING.FAQ.A${n}`, APP_VALUES),
+    }),
+  );
 
   return (
     <>

@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import { defaultStatusBlocksLabels } from "@/components/ui/status/status.utils";
 import type {
   StatusReportUpdateType,
   StatusType,
@@ -11,10 +10,10 @@ import type {
 /**
  * Labels and locale-aware formatters consumed by block components.
  *
- * Blocks read this via `useStatusBlocksLabels()`. When no provider is mounted,
- * the hook returns `defaultStatusBlocksLabels` (English, "en-US" formatting).
- * Apps wanting localized copy should mount `StatusBlocksI18nProvider` and
- * supply translated strings + locale-aware formatters.
+ * Blocks read this via `useStatusBlocksLabels()`. A `StatusBlocksI18nProvider`
+ * MUST be mounted above any block consuming this context — the hook throws
+ * otherwise. Apps supply translated strings + locale-aware formatters via the
+ * provider; there is no built-in fallback so untranslated copy can't slip in.
  */
 export type StatusBlocksLabels = {
   systemStatus: Record<StatusType, { long: string; short: string }>;
@@ -50,6 +49,9 @@ export type StatusBlocksLabels = {
   ariaDayStatus: (n: number) => string;
   clickAgainToUnpin: string;
 
+  /** Label for the "relative" timestamp row in the timestamp hover card. */
+  timestampRelative: string;
+
   durationIn: (s: string) => string;
   durationEarlier: (s: string) => string;
   durationFor: (s: string) => string;
@@ -64,11 +66,8 @@ export type StatusBlocksLabels = {
    * can render each side independently (e.g. wrap each in a hovercard)
    * without re-parsing the joined output of `formatDateRange`.
    *
-   * Implementations should collapse same-day ranges (date on `from`, time
-   * only on `to`) the same way `formatDateRange` does.
-   *
    * Closed ranges only — both `from` and `to` are required. For open-ended
-   * cases (`Since …` / `Until …` / `All time`) use `formatDateRange`.
+   * cases use `formatDateRange`.
    */
   formatDateRangeParts: (from: Date, to: Date) => { from: string; to: string };
 };
@@ -92,5 +91,11 @@ export function StatusBlocksI18nProvider({
 }
 
 export function useStatusBlocksLabels(): StatusBlocksLabels {
-  return useContext(StatusBlocksLabelsContext) ?? defaultStatusBlocksLabels;
+  const value = useContext(StatusBlocksLabelsContext);
+  if (!value) {
+    throw new Error(
+      "useStatusBlocksLabels: no StatusBlocksI18nProvider mounted. Wrap the consumer in <StatusBlocksI18n> (or a custom provider).",
+    );
+  }
+  return value;
 }

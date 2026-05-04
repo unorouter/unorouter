@@ -17,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
@@ -250,6 +251,7 @@ function RichTimestamp({
   onClick,
   ...props
 }: Omit<RichVariantProps, "variant">) {
+  const labels = useStatusBlocksLabels();
   const [open, setOpen] = useState(false);
   const isTouch = useMediaQuery("(hover: none)");
   const [_, setRerender] = useState(0);
@@ -291,7 +293,7 @@ function RichTimestamp({
         <dl className="flex flex-col gap-1">
           <StatusTimestampRow value={formatted} label={timezone} />
           <StatusTimestampRow value={utc} label="UTC" />
-          <StatusTimestampRow value={relative} label="Relative" />
+          <StatusTimestampRow value={relative} label={labels.timestampRelative} />
         </dl>
       </HoverCardContent>
     </HoverCard>

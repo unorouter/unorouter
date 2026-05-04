@@ -1,8 +1,8 @@
 {
   "METADATA": {
-    "TITLE": "{appName} あらゆるAIモデルをひとつのAPIで",
-    "DESCRIPTION": "Claude、GPT、Gemini、DeepSeekをはじめとする{modelCount}以上のAIモデルに、単一のOpenAI互換エンドポイントからアクセスできます。インテリジェントルーティング、自動フェイルオーバー、より低コスト。",
-    "KEYWORDS": "AI API, 統合AIエンドポイント, OpenAI代替, Claude API, GPT API, Gemini API, DeepSeek API, AIルーター, AIゲートウェイ, マルチモデルAPI",
+    "TITLE": "{appName} - すべてのAIモデルに、ひとつの鍵",
+    "DESCRIPTION": "すべてのAIモデルに、ひとつの鍵。コードでも、Claude Codeでも、SillyTavern、Janitor.AI、RisuAI、Chub でも使えます。主要プロバイダー全体へのスマートルーティング。",
+    "KEYWORDS": "AI API、統合AIエンドポイント、OpenAI代替、Claude API、GPT API、Gemini API、DeepSeek API、AIルーター、AIゲートウェイ、マルチモデルAPI、SillyTavern プロキシ、Janitor.AI プロキシ、Chub プロキシ、RisuAI、AIロールプレイ、Character AI 代替",
     "ACCOUNT": {
       "TITLE": "{appName} アカウント",
       "DESC": "{appName} のアカウント、トークン、利用状況、請求を管理します。",
@@ -42,9 +42,10 @@
       "BADGE": "ルーター稼働中",
       "TITLE_LINE1": "統合された",
       "TITLE_LINE2": "インテリジェンス",
-      "SUBTITLE": "[SYSTEM]：{appName} はインテリジェントルーティングで{modelCount}以上のAIモデルを集約し、最速かつ最安の推論APIを提供します。",
+      "SUBTITLE": "{appName} はひとつの鍵で {modelCount}+ のAIモデルにつながります。アプリ開発、エージェント運用、キャラクターとのロールプレイ。同じ鍵、同じ速さ、同じ価格。",
       "CTA_PRIMARY": "はじめる",
-      "CTA_SECONDARY": "モデルを見る"
+      "CTA_SECONDARY": "モデルを見る",
+      "TITLE_ROTATE": "INTELLIGENCE,ROLEPLAY,CHARACTERS,CODE,CHAT"
     },
     "STATS": {
       "MODELS": "モデル",
@@ -111,7 +112,9 @@
         "BADGE": "ロールプレイ",
         "TITLE": "Chub / Venus と連携",
         "DESCRIPTION": "{appName} を Chub のファーストパーティリバースプロキシとして接続します。URL ひとつ、キーひとつで、すべてのモデルが使えます。"
-      }
+      },
+      "CLI_HEADER": "コーディングエージェント・CLIツール向け",
+      "RP_HEADER": "ロールプレイ・クリエイティブチャット向け"
     },
     "PRICING": {
       "LABEL": "料金",
@@ -226,21 +229,40 @@
       "FEATURE_1": "OpenAI 互換エンドポイント",
       "FEATURE_2": "プロバイダー自動フェイルオーバー",
       "FEATURE_3": "マルチプロトコル対応",
-      "READ_DOCS": "APIドキュメントを読む"
+      "READ_DOCS": "APIドキュメントを読む",
+      "NO_CODE_LABEL": "コードを書かない方へ",
+      "NO_CODE_OPTION": "コードは不要。SillyTavern、Janitor.AI、RisuAI、Chub にURLを貼るだけでチャットできます。",
+      "NO_CODE_LINK": "連携ガイドを見る"
     },
     "CTA": {
       "TITLE_1": "さあ、",
-      "TITLE_2": "構築を始めよう",
-      "SUBTITLE": "ひとつのエンドポイントですべてのAIモデルへ。ベンダーロックインも複雑さもありません。",
-      "PRIMARY": "構築を始める",
-      "SECONDARY": "ドキュメント"
+      "TITLE_2": "つなぐ",
+      "SUBTITLE": "すべてのAIモデルに、ひとつの鍵。作る、話す、書く、ロールプレイする。あなた次第。",
+      "PRIMARY": "はじめる",
+      "SECONDARY": "連携を見る"
     },
     "META": {
-      "TITLE": "{appName} 統合AI APIゲートウェイ",
-      "DESCRIPTION": "あらゆるAIモデルをひとつのエンドポイントで。インテリジェントルーティングが最速のプロバイダーを選び、自動フェイルオーバーがリクエストの成功を保証します。",
-      "KEYWORDS": "AI APIゲートウェイ, 統合AIエンドポイント, OpenAI互換, Claude API, GPT API, Gemini API, 自動フェイルオーバー, スマートルーティング"
+      "TITLE": "{appName} - すべてのAIモデルに、ひとつの鍵",
+      "DESCRIPTION": "すべてのAIモデルに、ひとつの鍵。コードでも、Claude Codeでも、SillyTavern、Janitor.AI、RisuAI、Chub でも使えます。主要プロバイダー全体へのスマートルーティング。",
+      "KEYWORDS": "AI APIゲートウェイ、統合AIエンドポイント、OpenAI互換、Claude API、GPT API、Gemini API、自動フェイルオーバー、スマートルーティング、SillyTavern プロキシ、Janitor.AI プロキシ、Chub プロキシ、RisuAI、AIロールプレイ、Character AI 代替"
     },
-    "TITLE": "{appName}"
+    "TITLE": "{appName}",
+    "HOW_IT_WORKS": {
+      "LABEL": "はじめに",
+      "TITLE": "3ステップ。",
+      "SUBTITLE": "登録から最初のリクエストまで。",
+      "STEP1_NUM": "1",
+      "STEP1_TITLE": "サインアップ",
+      "STEP1_DESC": "1分以内にアカウント作成。クレジットカードは不要です。",
+      "STEP2_NUM": "2",
+      "STEP2_TITLE": "チャージまたはサブスク",
+      "STEP2_DESC": "従量課金もプランも選べます。クレジットはどのモデルでも使え、有効期限はありません。",
+      "STEP3_NUM": "3",
+      "STEP3_TITLE": "API キーを取得",
+      "STEP3_DESC": "コード、Claude Code、または SillyTavern、Janitor.AI、RisuAI、Chub に貼り付けて使えます。",
+      "CTA_PRIMARY": "はじめる",
+      "CTA_SECONDARY": "料金を見る"
+    }
   },
   "MODELS": {
     "FILTER": {
@@ -295,12 +317,12 @@
     },
     "META": {
       "TITLE": "AIモデル {appName}",
-      "DESCRIPTION": "OpenAI、Anthropic、Google、DeepSeek ほかあらゆるAIモデルを閲覧。プロバイダー間でリアルタイムに料金を比較できます。",
-      "KEYWORDS": "AIモデル, モデルライブラリ, AI料金, GPTモデル, Claudeモデル, Geminiモデル, DeepSeekモデル, AIモデル比較"
+      "DESCRIPTION": "すべてのAIモデルをひとつに。GPT、Claude、Gemini、DeepSeek など。コードでも、SillyTavern、Janitor.AI、RisuAI、Chub でも使えます。料金は同じです。",
+      "KEYWORDS": "AIモデル、モデルライブラリ、AI料金、GPTモデル、Claudeモデル、Geminiモデル、DeepSeekモデル、AIモデル比較、ロールプレイ AIモデル、SillyTavern モデル、Janitor.AI モデル、Character AI モデル"
     },
     "BADGE": "モデルライブラリ",
     "TITLE": "モデルライブラリ",
-    "SUBTITLE": "利用可能なすべてのAIモデルをリアルタイム料金で閲覧できます。",
+    "SUBTITLE": "すべてのモデルに、ひとつの鍵。アプリ開発者にも、キャラクターを動かすロールプレイヤーにも。料金は同じです。",
     "SEARCH_PLACEHOLDER": "モデルを検索...",
     "MODEL_COUNT": "モデル",
     "EMPTY": "検索条件に一致するモデルがありません。",
@@ -309,11 +331,11 @@
   },
   "BLOG": {
     "META_TITLE": "ブログ | {appName}",
-    "META_DESC": "{appName} チームからの製品アップデート、エンジニアリングノート、リリース情報。",
-    "META_KEYWORDS": "{appName} ブログ, AI APIニュース, LLMルーティング, 製品アップデート",
+    "META_DESC": "{appName} チームによるプロダクトアップデート、連携ガイド、メモ。",
+    "META_KEYWORDS": "{appName} ブログ、AI APIニュース、LLMルーティング、プロダクトアップデート、連携ガイド",
     "POST_META_TITLE": "{title} | {appName}",
     "TITLE": "ブログ",
-    "SUBTITLE": "製品アップデート、エンジニアリングノート、リリース情報。",
+    "SUBTITLE": "プロダクトアップデート、連携ガイド、チームのメモ。",
     "READ_MORE": "続きを読む",
     "PUBLISHED": "公開日",
     "UPDATED": "更新日",
@@ -501,11 +523,11 @@
     },
     "META": {
       "TITLE": "料金 {appName}",
-      "DESCRIPTION": "AI API アクセスのシンプルで透明な料金体系。お得なサブスクリプションか従量課金をお選びください。すべてのプランで全モデルを利用可能です。",
-      "KEYWORDS": "AI API 料金, AI サブスクリプション, トークン従量課金, AIモデル料金, 安い AI API, 低価格 AI"
+      "DESCRIPTION": "すべてのAIモデルにシンプルな料金。サブスクで割引、使った分だけの支払いも可。コード、Claude Code、SillyTavern、Janitor.AI、RisuAI、Chub すべてで使えます。",
+      "KEYWORDS": "AI API 料金、AI サブスク、トークン課金、AIモデル料金、安いAI API、手頃なAI、SillyTavern 料金、Janitor.AI 料金、ロールプレイAI 料金、Character AI 料金"
     },
     "TITLE": "料金",
-    "SUBTITLE": "ご利用量に合ったプランをお選びください。すべてのプランで全モデルを利用できます。",
+    "SUBTITLE": "アプリを出すときも、長時間のロールプレイを楽しむときも。ひとつのプランで、すべてのモデル。",
     "CTA": "サブスクライブ",
     "FAQ": {
       "Q1": "{appName} の料金はどのように計算されますか？",
@@ -519,7 +541,11 @@
       "Q5": "プロバイダーに障害が発生した場合はどうなりますか？",
       "A5": "{appName} は複数のプロバイダーにリクエストをルーティングし、自動フェイルオーバーを行います。あるプロバイダーがレート制限やダウンの場合、次の健全なアップストリームへ透過的に再試行します。",
       "Q6": "返金は可能ですか？",
-      "A6": "未使用のプリペイドクレジットは購入日から30日以内なら返金可能です。返金ご希望の場合は {supportEmail} までご連絡ください。"
+      "A6": "未使用のプリペイドクレジットは購入日から30日以内なら返金可能です。返金ご希望の場合は {supportEmail} までご連絡ください。",
+      "Q7": "SillyTavern、Janitor.AI、Chub、RisuAI で使えますか？",
+      "A7": "はい。すべてのプランが主要なロールプレイクライアントのカスタム OpenAI 互換ソースとして使えます。SillyTavern、Janitor.AI、RisuAI、Chub にはそれぞれセットアップガイドがあります。",
+      "Q8": "会話やキャラクターの履歴はどれくらい長くできますか？",
+      "A8": "{appName} は各モデルの最大コンテキストに対応します。Gemini で最大100万トークン、Claude で20万トークン。長いロールプレイも、長いコードベースも問題ありません。"
     },
     "TOPUP": {
       "LABEL": "都度払い",
@@ -530,8 +556,8 @@
   "DOCS_INDEX": {
     "META": {
       "TITLE": "連携 {appName}",
-      "DESCRIPTION": "{appName} を Claude Code、Codex CLI、Gemini CLI、OpenClaw ほかで利用できます。主要な AI ツール向けの設定ガイドを用意しています。",
-      "KEYWORDS": "AI 統合ガイド, Claude Code 設定, Codex CLI 設定, Gemini CLI 設定, OpenClaw 設定, AI API ドキュメント"
+      "DESCRIPTION": "主要なAIツールとロールプレイクライアントのセットアップガイド。Claude Code、Codex CLI、Gemini CLI、OpenClaw、SillyTavern、Janitor.AI、RisuAI、Chub。",
+      "KEYWORDS": "AI連携ガイド、Claude Code セットアップ、Codex CLI セットアップ、Gemini CLI セットアップ、OpenClaw セットアップ、SillyTavern セットアップ、Janitor.AI セットアップ、RisuAI セットアップ、Chub セットアップ、AI API ドキュメント、ロールプレイ AI プロキシ セットアップ"
     },
     "BADGE": "連携",
     "TITLE": "連携",
@@ -2226,6 +2252,61 @@
       "EMPTY": "条件に一致するモデルはありません。",
       "COLLAPSE_ALL": "すべてのグループを折りたたむ",
       "EXPAND_ALL": "すべてのグループを展開"
+    },
+    "BLOCKS": {
+      "BANNER_SUCCESS": "すべてのシステムが稼働中",
+      "BANNER_DEGRADED": "パフォーマンス低下",
+      "BANNER_ERROR": "一部障害",
+      "BANNER_INFO": "メンテナンス",
+      "BANNER_EMPTY": "データなし",
+      "PILL_SUCCESS": "稼働中",
+      "PILL_DEGRADED": "低下",
+      "PILL_ERROR": "障害",
+      "PILL_INFO": "メンテナンス",
+      "PILL_EMPTY": "データなし",
+      "REQUEST_SUCCESS": "正常",
+      "REQUEST_DEGRADED": "低下",
+      "REQUEST_ERROR": "エラー",
+      "REQUEST_INFO": "メンテナンス",
+      "REQUEST_EMPTY": "データなし",
+      "INCIDENT_RESOLVED": "解決済み",
+      "INCIDENT_MONITORING": "監視中",
+      "INCIDENT_IDENTIFIED": "特定済み",
+      "INCIDENT_INVESTIGATING": "調査中",
+      "TODAY": "今日",
+      "ONGOING": "進行中",
+      "REPORT_RESOLVED": "レポート解決",
+      "CLICK_AGAIN_TO_UNPIN": "もう一度クリックで固定解除",
+      "ARIA_STATUS_TRACKER": "ステータストラッカー",
+      "ARIA_DAY_STATUS": "{n}日目のステータス",
+      "DURATION_IN": "（{duration}後）",
+      "DURATION_EARLIER": "（{duration}前）",
+      "DURATION_FOR": "（{duration}間）",
+      "DURATION_ACROSS": "{duration}にわたって",
+      "DATE_UNTIL": "{date}まで",
+      "DATE_SINCE": "{date}から",
+      "DATE_ALL_TIME": "全期間",
+      "NO_RECENT_NOTIFICATIONS": "最近の通知はありません",
+      "NO_RECENT_NOTIFICATIONS_DESCRIPTION": "過去7日間にレポートはありません。",
+      "NO_REPORTS": "レポートなし",
+      "NO_REPORTS_DESCRIPTION": "表示するレポートはありません。",
+      "NO_PUBLIC_MONITORS": "公開モニターなし",
+      "NO_PUBLIC_MONITORS_DESCRIPTION": "表示する公開モニターはありません。",
+      "THEME_LIGHT": "ライト",
+      "THEME_DARK": "ダーク",
+      "THEME_SYSTEM": "システム",
+      "ARIA_TOGGLE_THEME": "テーマを切り替え",
+      "SUBSCRIBE": "更新を受け取る",
+      "SUBSCRIBE_RSS_DESCRIPTION": "RSSフィードを取得",
+      "SUBSCRIBE_ATOM_DESCRIPTION": "Atomフィードを取得",
+      "SUBSCRIBE_JSON_DESCRIPTION": "JSON更新を取得",
+      "SUBSCRIBE_SLACK_DESCRIPTION": "Slackでステータス更新を受け取るには、下のテキストを任意のチャンネルに貼り付けてください。",
+      "SUBSCRIBE_SSH_DESCRIPTION": "SSH経由でステータスを取得",
+      "LINK_COPIED_TO_CLIPBOARD": "リンクをクリップボードにコピーしました",
+      "ARIA_COPY_LINK": "リンクをコピー",
+      "POWERED_BY": "提供",
+      "GET_IN_TOUCH": "お問い合わせ",
+      "TIMESTAMP_RELATIVE": "相対時間"
     }
   }
 }

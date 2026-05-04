@@ -133,18 +133,16 @@ StatusBannerContainer.displayName = "StatusBannerContainer";
  * - error: "Partial Outage"
  * - info: "Maintenance"
  *
- * The messages are sourced from systemStatusLabels.long for consistent messaging.
+ * Messages come from the active `StatusBlocksI18nProvider` (`labels.systemStatus[status].long`).
  *
  * @example
  * ```tsx
  * <StatusBannerContainer status="success">
  *   <StatusBannerMessage className="text-xl font-semibold" />
- *   // Displays "All Systems Operational"
  * </StatusBannerContainer>
  * ```
  *
  * @see StatusBannerContainer - For setting the status context
- * @see systemStatusLabels - For the message text definitions
  */
 export function StatusBannerMessage({
   className,

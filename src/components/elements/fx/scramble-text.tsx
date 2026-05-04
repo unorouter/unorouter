@@ -10,28 +10,35 @@ interface ScrambleTextProps {
 }
 
 export function ScrambleText({ text, className }: ScrambleTextProps) {
-  const [displayed, setDisplayed] = useState(() => text.split(""));
+  const [displayed, setDisplayed] = useState<string[]>(() => text.split(""));
   const [settled, setSettled] = useState(0);
   const settledRef = useRef(0);
 
   useEffect(() => {
-    // Reset on mount (handles strict mode double-invoke)
     settledRef.current = 0;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset animation state on mount
-    setSettled(0);
-
     const totalLetters = text.length;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset animation state when text changes
+    setSettled(0);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- size buffer to current word length, dropping stale tail chars
+    setDisplayed(() =>
+      Array.from({ length: totalLetters }, (_, i) =>
+        text[i] === " "
+          ? " "
+          : CHARS[Math.floor(Math.random() * CHARS.length)] ?? "",
+      ),
+    );
 
     const scrambleInterval = setInterval(() => {
       const s = settledRef.current;
       if (s >= totalLetters) return;
       setDisplayed((prev) => {
-        const next = [...prev];
+        const next = prev.slice(0, totalLetters);
+        while (next.length < totalLetters) next.push("");
         for (let i = s; i < totalLetters; i++) {
           if (text[i] === " ") {
             next[i] = " ";
           } else {
-            next[i] = CHARS[Math.floor(Math.random() * CHARS.length)];
+            next[i] = CHARS[Math.floor(Math.random() * CHARS.length)] ?? "";
           }
         }
         return next;
@@ -48,8 +55,9 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
       settledRef.current = s + 1;
       setSettled(s + 1);
       setDisplayed((prev) => {
-        const next = [...prev];
-        next[s] = text[s];
+        const next = prev.slice(0, totalLetters);
+        while (next.length < totalLetters) next.push("");
+        next[s] = text[s] ?? "";
         return next;
       });
     }, 80);

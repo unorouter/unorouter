@@ -58,6 +58,22 @@ export async function CodeSection() {
             {t("HOME.CODE.READ_DOCS")}
             <LuArrowRight className="h-3.5 w-3.5" />
           </Link>
+
+          <div className="border-border/50 bg-card/40 mt-4 rounded-lg border p-4">
+            <div className="text-muted-foreground mb-2 font-mono text-[10px] tracking-[0.2em] uppercase">
+              {t("HOME.CODE.NO_CODE_LABEL")}
+            </div>
+            <p className="text-foreground/80 mb-3 font-mono text-sm leading-relaxed">
+              {t("HOME.CODE.NO_CODE_OPTION")}
+            </p>
+            <Link
+              href="/docs"
+              className="text-foreground hover:text-muted-foreground inline-flex items-center gap-2 font-mono text-xs font-bold tracking-wider uppercase transition-colors"
+            >
+              {t("HOME.CODE.NO_CODE_LINK")}
+              <LuArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
         </div>
 
         <div className="relative flex-1 pt-8 lg:pt-0">
