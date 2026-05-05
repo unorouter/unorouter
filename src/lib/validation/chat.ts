@@ -161,6 +161,16 @@ export const updateConversationSettingsBody = t.Object({
   webSearchContextSize: t.Optional(
     t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
   ),
+  // Inline sampling overrides (per-conversation). Null disables override.
+  temperature: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
+  topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
+  topK: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()])),
+  minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
+  topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
+  frequencyPenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
+  presencePenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
+  repetitionPenalty: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
+  maxTokens: t.Optional(t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()])),
 });
 export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody

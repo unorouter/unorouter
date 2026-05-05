@@ -311,7 +311,8 @@ export async function assembleForStream(
   const system =
     sections.filter(Boolean).join("\n\n").trim() || fallbackSystemMessage;
 
-  // Sampling: from preset, falling back to character defaults
+  // Sampling: layered. Preset provides the base; conversation-level inline
+  // overrides win field-by-field when non-null.
   const sampling: AssembledSystem["sampling"] = {};
   if (preset) {
     if (preset.temperature !== null) sampling.temperature = preset.temperature ?? undefined;
@@ -327,6 +328,18 @@ export async function assembleForStream(
       sampling.repetitionPenalty = preset.repetitionPenalty ?? undefined;
     if (preset.maxTokens !== null) sampling.maxOutputTokens = preset.maxTokens ?? undefined;
   }
+  if (settings.temperature !== null) sampling.temperature = settings.temperature ?? undefined;
+  if (settings.topP !== null) sampling.topP = settings.topP ?? undefined;
+  if (settings.topK !== null) sampling.topK = settings.topK ?? undefined;
+  if (settings.minP !== null) sampling.minP = settings.minP ?? undefined;
+  if (settings.topA !== null) sampling.topA = settings.topA ?? undefined;
+  if (settings.frequencyPenalty !== null)
+    sampling.frequencyPenalty = settings.frequencyPenalty ?? undefined;
+  if (settings.presencePenalty !== null)
+    sampling.presencePenalty = settings.presencePenalty ?? undefined;
+  if (settings.repetitionPenalty !== null)
+    sampling.repetitionPenalty = settings.repetitionPenalty ?? undefined;
+  if (settings.maxTokens !== null) sampling.maxOutputTokens = settings.maxTokens ?? undefined;
 
   const reasoningEffort =
     settings.reasoningEffort ?? primary?.defaultReasoningEffort ?? undefined;

@@ -23,6 +23,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { NumberKnob } from "./number-knob";
 import {
   useChatBindingsQuery,
   useChatSettingsQuery,
@@ -70,6 +71,16 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const [webSearchContextSize, setWebSearchContextSize] = useState("medium");
   const [characterIds, setCharacterIds] = useState<string[]>([]);
   const [lorebookIds, setLorebookIds] = useState<string[]>([]);
+  // Inline sampling overrides (null = use preset / model default).
+  const [temperature, setTemperature] = useState<number | null>(null);
+  const [topP, setTopP] = useState<number | null>(null);
+  const [topK, setTopK] = useState<number | null>(null);
+  const [minP, setMinP] = useState<number | null>(null);
+  const [topA, setTopA] = useState<number | null>(null);
+  const [frequencyPenalty, setFrequencyPenalty] = useState<number | null>(null);
+  const [presencePenalty, setPresencePenalty] = useState<number | null>(null);
+  const [repetitionPenalty, setRepetitionPenalty] = useState<number | null>(null);
+  const [maxTokens, setMaxTokens] = useState<number | null>(null);
   // Seed once per convId; cache patches must not clobber unsaved edits.
   const settingsSeededFor = useRef<string | null>(null);
   const bindingsSeededFor = useRef<string | null>(null);
@@ -88,6 +99,15 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     setWebSearchEnabled(settings.webSearchEnabled ?? false);
     setWebSearchEngine(settings.webSearchEngine ?? "auto");
     setWebSearchContextSize(settings.webSearchContextSize ?? "medium");
+    setTemperature(settings.temperature ?? null);
+    setTopP(settings.topP ?? null);
+    setTopK(settings.topK ?? null);
+    setMinP(settings.minP ?? null);
+    setTopA(settings.topA ?? null);
+    setFrequencyPenalty(settings.frequencyPenalty ?? null);
+    setPresencePenalty(settings.presencePenalty ?? null);
+    setRepetitionPenalty(settings.repetitionPenalty ?? null);
+    setMaxTokens(settings.maxTokens ?? null);
   }, [settings, props.convId]);
 
   useEffect(() => {
@@ -125,6 +145,15 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           | "exa"
           | "tavily",
         webSearchContextSize: webSearchContextSize as "low" | "medium" | "high",
+        temperature,
+        topP,
+        topK,
+        minP,
+        topA,
+        frequencyPenalty,
+        presencePenalty,
+        repetitionPenalty,
+        maxTokens,
       },
     });
     await updateBindings.mutateAsync({
@@ -160,29 +189,54 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         </SheetHeader>
 
         <div className="flex flex-col gap-5 px-4">
-          {/* Persona */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.PERSONA")}</Label>
-            <Select value={personaId} onValueChange={(v) => setPersonaId(v ?? "__none__")}>
-              <SelectTrigger>
-                <SelectValue>
-                  {personaId === "__none__"
-                    ? t("CHAT.OVERRIDES.NONE")
-                    : personasQuery.data?.find((p) => p.id === personaId)?.name ??
-                      t("CHAT.OVERRIDES.NONE")}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">
-                  {t("CHAT.OVERRIDES.NONE")}
-                </SelectItem>
-                {personasQuery.data?.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>
-                    {p.name}
+          {/* Persona + Sampling preset (paired) */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-2">
+              <Label>{t("CHAT.OVERRIDES.PERSONA")}</Label>
+              <Select value={personaId} onValueChange={(v) => setPersonaId(v ?? "__none__")}>
+                <SelectTrigger className="w-full">
+                  <SelectValue>
+                    {personaId === "__none__"
+                      ? t("CHAT.OVERRIDES.NONE")
+                      : personasQuery.data?.find((p) => p.id === personaId)?.name ??
+                        t("CHAT.OVERRIDES.NONE")}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__none__">
+                    {t("CHAT.OVERRIDES.NONE")}
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+                  {personasQuery.data?.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>{t("CHAT.OVERRIDES.PRESET")}</Label>
+              <Select value={presetId} onValueChange={(v) => setPresetId(v ?? "__none__")}>
+                <SelectTrigger className="w-full">
+                  <SelectValue>
+                    {presetId === "__none__"
+                      ? t("CHAT.OVERRIDES.NONE")
+                      : presetsQuery.data?.find((p) => p.id === presetId)?.name ??
+                        t("CHAT.OVERRIDES.NONE")}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__none__">
+                    {t("CHAT.OVERRIDES.NONE")}
+                  </SelectItem>
+                  {presetsQuery.data?.map((p) => (
+                    <SelectItem key={p.id} value={p.id}>
+                      {p.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           {/* Characters (multi-select via checkbox-y rows) */}
@@ -253,77 +307,132 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             </div>
           </div>
 
-          {/* Sampling preset */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.PRESET")}</Label>
-            <Select value={presetId} onValueChange={(v) => setPresetId(v ?? "__none__")}>
-              <SelectTrigger>
-                <SelectValue>
-                  {presetId === "__none__"
-                    ? t("CHAT.OVERRIDES.NONE")
-                    : presetsQuery.data?.find((p) => p.id === presetId)?.name ??
-                      t("CHAT.OVERRIDES.NONE")}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">
-                  {t("CHAT.OVERRIDES.NONE")}
-                </SelectItem>
-                {presetsQuery.data?.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>
-                    {p.name}
+          {/* Reasoning effort + Chat memory (paired) */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex flex-col gap-2">
+              <Label>{t("CHAT.OVERRIDES.REASONING_EFFORT")}</Label>
+              <Select value={reasoningEffort} onValueChange={(v) => setReasoningEffort(v ?? "__none__")}>
+                <SelectTrigger className="w-full">
+                  <SelectValue>
+                    {reasoningEffort === "__none__"
+                      ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
+                      : reasoningEffort === "none"
+                        ? t("CHAT.OVERRIDES.OFF")
+                        : reasoningEffort.charAt(0).toUpperCase() + reasoningEffort.slice(1)}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__none__">
+                    {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
                   </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Reasoning effort */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.REASONING_EFFORT")}</Label>
-            <Select value={reasoningEffort} onValueChange={(v) => setReasoningEffort(v ?? "__none__")}>
-              <SelectTrigger>
-                <SelectValue>
-                  {reasoningEffort === "__none__"
-                    ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
-                    : reasoningEffort === "none"
-                      ? t("CHAT.OVERRIDES.OFF")
-                      : reasoningEffort.charAt(0).toUpperCase() + reasoningEffort.slice(1)}
-                </SelectValue>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="__none__">
-                  {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
-                </SelectItem>
-                <SelectItem value="none">{t("CHAT.OVERRIDES.OFF")}</SelectItem>
-                <SelectItem value="minimal">Minimal</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-                <SelectItem value="xhigh">XHigh</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Chat memory */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <Label>{t("CHAT.OVERRIDES.CHAT_MEMORY")}</Label>
-              <span className="text-muted-foreground text-xs tabular-nums">
-                {chatMemory}
-              </span>
+                  <SelectItem value="none">{t("CHAT.OVERRIDES.OFF")}</SelectItem>
+                  <SelectItem value="minimal">Minimal</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="xhigh">XHigh</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <Slider
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <Label>{t("CHAT.OVERRIDES.CHAT_MEMORY")}</Label>
+                <span className="text-muted-foreground text-xs tabular-nums">
+                  {chatMemory}
+                </span>
+              </div>
+              <Slider
+                min={1}
+                max={200}
+                value={[chatMemory]}
+                onValueChange={(v) =>
+                  setChatMemory(Array.isArray(v) ? v[0] : v)
+                }
+              />
+            </div>
+          </div>
+
+          {/* Inline sampling overrides (pair of NumberKnobs per row).
+              When a knob is null the preset/model default is used; otherwise
+              the inline value wins. */}
+          <div className="flex flex-col gap-3 rounded-md border p-3">
+            <Label className="text-sm">{t("CHAT.OVERRIDES.SAMPLING")}</Label>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-3">
+              <NumberKnob
+                label={t("RP.SAMPLING_TEMPERATURE")}
+                value={temperature}
+                onChange={setTemperature}
+                min={0}
+                max={2}
+                defaultOn={1}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_TOP_P")}
+                value={topP}
+                onChange={setTopP}
+                min={0}
+                max={1}
+                defaultOn={1}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_TOP_K")}
+                value={topK}
+                onChange={setTopK}
+                min={0}
+                max={200}
+                step={1}
+                defaultOn={40}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_MIN_P")}
+                value={minP}
+                onChange={setMinP}
+                min={0}
+                max={1}
+                defaultOn={0}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_TOP_A")}
+                value={topA}
+                onChange={setTopA}
+                min={0}
+                max={1}
+                defaultOn={0}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_FREQUENCY_PENALTY")}
+                value={frequencyPenalty}
+                onChange={setFrequencyPenalty}
+                min={-2}
+                max={2}
+                defaultOn={0}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_PRESENCE_PENALTY")}
+                value={presencePenalty}
+                onChange={setPresencePenalty}
+                min={-2}
+                max={2}
+                defaultOn={0}
+              />
+              <NumberKnob
+                label={t("RP.SAMPLING_REPETITION_PENALTY")}
+                value={repetitionPenalty}
+                onChange={setRepetitionPenalty}
+                min={0}
+                max={2}
+                defaultOn={1}
+              />
+            </div>
+            <NumberKnob
+              label={t("RP.SAMPLING_MAX_TOKENS")}
+              value={maxTokens}
+              onChange={setMaxTokens}
               min={1}
-              max={200}
-              value={[chatMemory]}
-              onValueChange={(v) =>
-                setChatMemory(Array.isArray(v) ? v[0] : v)
-              }
+              max={32000}
+              step={1}
+              defaultOn={2048}
             />
-            <span className="text-muted-foreground text-xs">
-              {t("CHAT.OVERRIDES.CHAT_MEMORY_HINT")}
-            </span>
           </div>
 
           {/* System prompt override */}
@@ -373,7 +482,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
               />
             </div>
             {webSearchEnabled && (
-              <div className="flex flex-col gap-2 pt-2">
+              <div className="grid grid-cols-2 gap-3 pt-2">
                 <div className="flex flex-col gap-1">
                   <span className="text-muted-foreground text-xs">
                     {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
@@ -382,7 +491,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     value={webSearchEngine}
                     onValueChange={(v) => setWebSearchEngine(v ?? "auto")}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue>
                         {webSearchEngine.charAt(0).toUpperCase() +
                           webSearchEngine.slice(1)}
@@ -404,7 +513,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     value={webSearchContextSize}
                     onValueChange={(v) => setWebSearchContextSize(v ?? "medium")}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue>
                         {webSearchContextSize.charAt(0).toUpperCase() +
                           webSearchContextSize.slice(1)}

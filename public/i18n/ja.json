@@ -2121,6 +2121,7 @@
       "AUTHOR_NOTE_DEPTH": "挿入位置の深さ",
       "WEB_SEARCH": "ウェブ検索",
       "WEB_SEARCH_ENGINE": "エンジン",
+      "SAMPLING": "サンプリング",
       "WEB_SEARCH_CONTEXT_SIZE": "コンテキストサイズ",
       "NONE": "なし",
       "NO_CHARACTERS": "キャラクターがありません。先に作成またはインポートしてください。",

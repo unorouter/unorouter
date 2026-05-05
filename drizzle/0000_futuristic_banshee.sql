@@ -92,6 +92,15 @@ CREATE TABLE `conversation_settings` (
 	`web_search_enabled` integer DEFAULT false NOT NULL,
 	`web_search_engine` text DEFAULT 'auto' NOT NULL,
 	`web_search_context_size` text DEFAULT 'medium' NOT NULL,
+	`temperature` real,
+	`top_p` real,
+	`top_k` integer,
+	`min_p` real,
+	`top_a` real,
+	`frequency_penalty` real,
+	`presence_penalty` real,
+	`repetition_penalty` real,
+	`max_tokens` integer,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );

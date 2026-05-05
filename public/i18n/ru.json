@@ -2121,6 +2121,7 @@
       "AUTHOR_NOTE_DEPTH": "Глубина вставки",
       "WEB_SEARCH": "Веб-поиск",
       "WEB_SEARCH_ENGINE": "Движок",
+      "SAMPLING": "Сэмплинг",
       "WEB_SEARCH_CONTEXT_SIZE": "Размер контекста",
       "NONE": "Нет",
       "NO_CHARACTERS": "Персонажей пока нет. Создайте или импортируйте.",

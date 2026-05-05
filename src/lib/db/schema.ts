@@ -59,6 +59,17 @@ export const conversationSettings = sqliteTable("conversation_settings", {
   webSearchContextSize: text("web_search_context_size")
     .notNull()
     .default("medium"),
+  // Inline sampling overrides (per-conversation). Null = use preset / model default.
+  // When non-null, these win over any bound preset.
+  temperature: real("temperature"),
+  topP: real("top_p"),
+  topK: integer("top_k"),
+  minP: real("min_p"),
+  topA: real("top_a"),
+  frequencyPenalty: real("frequency_penalty"),
+  presencePenalty: real("presence_penalty"),
+  repetitionPenalty: real("repetition_penalty"),
+  maxTokens: integer("max_tokens"),
   updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),

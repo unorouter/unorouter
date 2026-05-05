@@ -2121,6 +2121,7 @@
       "AUTHOR_NOTE_DEPTH": "Insérer à la profondeur",
       "WEB_SEARCH": "Recherche web",
       "WEB_SEARCH_ENGINE": "Moteur",
+      "SAMPLING": "Échantillonnage",
       "WEB_SEARCH_CONTEXT_SIZE": "Taille du contexte",
       "NONE": "Aucun",
       "NO_CHARACTERS": "Aucun personnage. Créez ou importez-en un d'abord.",

@@ -2121,6 +2121,7 @@
       "AUTHOR_NOTE_DEPTH": "Inject at depth",
       "WEB_SEARCH": "Web search",
       "WEB_SEARCH_ENGINE": "Engine",
+      "SAMPLING": "Sampling",
       "WEB_SEARCH_CONTEXT_SIZE": "Context size",
       "NONE": "None",
       "NO_CHARACTERS": "No characters yet. Create or import one first.",
