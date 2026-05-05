@@ -2199,7 +2199,9 @@
     "EDIT_SAVE_ONLY": "Enregistrer",
     "EDIT_SAVE_AND_GENERATE": "Enregistrer et générer",
     "BRANCH_NEXT": "Variante suivante",
-    "BRANCH_PREV": "Variante précédente"
+    "BRANCH_PREV": "Variante précédente",
+    "LOREBOOKS_IMPORT": "Importer",
+    "PERSONAS_IMPORT": "Importer"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Non autorisé",

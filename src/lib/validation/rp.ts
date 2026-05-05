@@ -42,11 +42,17 @@ export type CharacterBody = Static<typeof characterBody>;
 
 export const characterCardImportBody = t.Object({
   file: t.File({
-    type: ["image/png", "image/webp", "application/json"],
     maxSize: "10m",
   }),
 });
 export type CharacterCardImportBody = Static<typeof characterCardImportBody>;
+
+export const lorebookImportBody = t.Object({
+  file: t.File({
+    maxSize: "10m",
+  }),
+});
+export type LorebookImportBody = Static<typeof lorebookImportBody>;
 
 // ---------------------------------------------------------------------------
 // Personas
@@ -59,6 +65,13 @@ export const personaBody = t.Object({
   isDefault: t.Optional(t.Boolean()),
 });
 export type PersonaBody = Static<typeof personaBody>;
+
+export const personaImportBody = t.Object({
+  file: t.File({
+    maxSize: "5m",
+  }),
+});
+export type PersonaImportBody = Static<typeof personaImportBody>;
 
 // ---------------------------------------------------------------------------
 // Lorebooks + entries
@@ -133,7 +146,6 @@ export type SamplingPresetBody = Static<typeof samplingPresetBody>;
 
 export const importConversationBody = t.Object({
   file: t.File({
-    type: ["application/json", "text/json"],
     maxSize: "20m",
   }),
 });

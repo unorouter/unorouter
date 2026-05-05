@@ -2199,7 +2199,9 @@
     "EDIT_SAVE_ONLY": "Сохранить",
     "EDIT_SAVE_AND_GENERATE": "Сохранить и сгенерировать",
     "BRANCH_NEXT": "Следующая ветка",
-    "BRANCH_PREV": "Предыдущая ветка"
+    "BRANCH_PREV": "Предыдущая ветка",
+    "LOREBOOKS_IMPORT": "Импорт",
+    "PERSONAS_IMPORT": "Импорт"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Не авторизовано",

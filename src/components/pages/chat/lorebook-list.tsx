@@ -30,6 +30,7 @@ import {
   useCreateLorebookMutation,
   useDeleteLorebookEntryMutation,
   useDeleteLorebookMutation,
+  useImportLorebookMutation,
   useLorebookQuery,
   useLorebooksQuery,
   useUpdateLorebookEntryMutation,
@@ -44,9 +45,9 @@ import {
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuArrowLeft, LuPlus, LuTrash2 } from "react-icons/lu";
+import { LuArrowLeft, LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
 
 type Props = {
   open: boolean;
@@ -58,6 +59,8 @@ export function LorebookList(props: Props) {
   const lorebooksQuery = useLorebooksQuery();
   const createMut = useCreateLorebookMutation();
   const deleteMut = useDeleteLorebookMutation();
+  const importMut = useImportLorebookMutation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
 
@@ -73,6 +76,13 @@ export function LorebookList(props: Props) {
   const handleDelete = async (id: string) => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteMut.mutateAsync(id);
+  };
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+    await importMut.mutateAsync(file);
   };
 
   return (
@@ -103,10 +113,30 @@ export function LorebookList(props: Props) {
           />
         ) : (
           <div className="flex flex-col gap-3">
-            <div className="flex justify-end">
-              <Button onClick={handleCreate} disabled={createMut.isPending}>
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/json"
+                onChange={handleFile}
+                className="hidden"
+              />
+              <Button
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={importMut.isPending}
+                className="min-w-0 flex-1 sm:flex-initial"
+              >
+                <LuUpload className="size-4" />
+                <span className="truncate">{t("RP.LOREBOOKS_IMPORT")}</span>
+              </Button>
+              <Button
+                onClick={handleCreate}
+                disabled={createMut.isPending}
+                className="min-w-0 flex-1 sm:flex-initial"
+              >
                 <LuPlus className="size-4" />
-                {t("RP.LOREBOOKS_NEW")}
+                <span className="truncate">{t("RP.LOREBOOKS_NEW")}</span>
               </Button>
             </div>
 

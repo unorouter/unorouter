@@ -223,6 +223,24 @@ export function useDeletePersonaMutation() {
   });
 }
 
+export function useImportPersonaMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (file: File) =>
+      handleElysia(await rpc.api.rp.personas.import.post({ file })),
+    onSuccess: (data) => {
+      const list = (data as Persona[]) ?? [];
+      queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) => {
+        const next = [...(old ?? [])];
+        for (const item of list) next.push(item);
+        return next;
+      });
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Lorebooks (+ entries)
 // ---------------------------------------------------------------------------
@@ -309,6 +327,21 @@ export function useDeleteLorebookMutation() {
         removeItemById(old, id),
       );
       queryClient.removeQueries({ queryKey: queryKeys.lorebook(id) });
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+export function useImportLorebookMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (file: File) =>
+      handleElysia(await rpc.api.rp.lorebooks.import.post({ file })),
+    onSuccess: (data) => {
+      queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
+        appendItem(old, data as Lorebook),
+      );
     },
     onError: (e) => handleError(e, t),
   });

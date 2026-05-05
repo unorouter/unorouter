@@ -5,6 +5,7 @@ import { uid } from "@/lib/utils/base";
 import type { PersonaBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, desc, eq } from "drizzle-orm";
+import { parsePersonaJson } from "./persona-import";
 
 export async function listPersonas(userId: number) {
   const db = getDb();
@@ -85,4 +86,42 @@ export async function deletePersona(userId: number, id: string) {
     .returning({ id: personas.id });
   if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
   return { id };
+}
+
+// ---------------------------------------------------------------------------
+// Import (SillyTavern / RisuAI persona JSON)
+// ---------------------------------------------------------------------------
+
+/**
+ * Read a JSON file in SillyTavern, RisuAI, or persona-settings-backup shape
+ * and create one or more personas. Returns the list of inserted personas
+ * (sorted by insert order). Skips entries without a name. Never marks any
+ * imported persona as default to avoid surprising the user.
+ */
+export async function importPersona(userId: number, file: File) {
+  let raw: unknown;
+  try {
+    raw = JSON.parse(await file.text());
+  } catch {
+    throw new Error(msg("ERRORS.REQUEST_FAILED"));
+  }
+
+  const parsed = parsePersonaJson(raw);
+  if (parsed.length === 0) throw new Error(msg("ERRORS.REQUEST_FAILED"));
+
+  const db = getDb();
+  const inserted: Array<typeof personas.$inferSelect> = [];
+  for (const p of parsed) {
+    const id = uid();
+    await db.insert(personas).values({
+      id,
+      userId,
+      name: p.name,
+      description: p.description ?? null,
+      isDefault: false,
+    });
+    const row = await getPersona(userId, id);
+    inserted.push(row);
+  }
+  return inserted;
 }

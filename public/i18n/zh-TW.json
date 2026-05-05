@@ -2199,7 +2199,9 @@
     "EDIT_SAVE_ONLY": "儲存",
     "EDIT_SAVE_AND_GENERATE": "儲存並重新生成",
     "BRANCH_NEXT": "下一分支",
-    "BRANCH_PREV": "上一分支"
+    "BRANCH_PREV": "上一分支",
+    "LOREBOOKS_IMPORT": "匯入",
+    "PERSONAS_IMPORT": "匯入"
   },
   "ERRORS": {
     "UNAUTHORIZED": "未授權",

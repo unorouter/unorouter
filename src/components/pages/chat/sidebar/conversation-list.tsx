@@ -28,7 +28,7 @@ import { ConversationItem } from "./conversation-item";
 export function ConversationList() {
   const t = useTranslations();
   const aui = useAui();
-  const { state } = useSidebar();
+  const sidebar = useSidebar();
   const activeThreadId = useAuiState((s) => s.threadListItem.remoteId);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -77,6 +77,7 @@ export function ConversationList() {
   const handleSelect = (id: string) => {
     aui.threads().switchToThread(id);
     setPopoverOpen(false);
+    if (sidebar.isMobile) sidebar.setOpenMobile(false);
   };
 
   const handleDelete = async (id: string) => {
@@ -133,7 +134,7 @@ export function ConversationList() {
     </>
   );
 
-  if (state === "collapsed") {
+  if (sidebar.state === "collapsed") {
     return (
       <SidebarGroup>
         <SidebarGroupContent>

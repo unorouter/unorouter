@@ -6,7 +6,9 @@ import {
   importConversationBody,
   lorebookBody,
   lorebookEntryBody,
+  lorebookImportBody,
   personaBody,
+  personaImportBody,
   samplingPresetBody,
 } from "@/lib/validation/rp";
 import {
@@ -39,6 +41,7 @@ import {
   deleteEntry,
   deleteLorebook,
   getLorebook,
+  importLorebook,
   listLorebooks,
   updateEntry,
   updateLorebook,
@@ -47,6 +50,7 @@ import {
   createPersona,
   deletePersona,
   getPersona,
+  importPersona,
   listPersonas,
   updatePersona,
 } from "./persona.service";
@@ -135,6 +139,17 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = getUserId(cookie);
     return { success: true, data: await deletePersona(userId, params.id) };
   })
+  .post(
+    "/personas/import",
+    async ({ body, cookie }) => {
+      const userId = getUserId(cookie);
+      return {
+        success: true,
+        data: await importPersona(userId, body.file),
+      };
+    },
+    { body: personaImportBody },
+  )
 
   // ----- Lorebooks ---------------------------------------------------------
   .get("/lorebooks", async ({ cookie }) => {
@@ -168,6 +183,17 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = getUserId(cookie);
     return { success: true, data: await deleteLorebook(userId, params.id) };
   })
+  .post(
+    "/lorebooks/import",
+    async ({ body, cookie }) => {
+      const userId = getUserId(cookie);
+      return {
+        success: true,
+        data: await importLorebook(userId, body.file),
+      };
+    },
+    { body: lorebookImportBody },
+  )
 
   // Lorebook entries
   .post(

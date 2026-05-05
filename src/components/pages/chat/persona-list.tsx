@@ -21,6 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   useCreatePersonaMutation,
   useDeletePersonaMutation,
+  useImportPersonaMutation,
   usePersonasQuery,
   useUpdatePersonaMutation,
 } from "@/hooks/rp-hook";
@@ -28,9 +29,9 @@ import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuPlus, LuTrash2 } from "react-icons/lu";
+import { LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
 
 type Props = {
   open: boolean;
@@ -43,8 +44,17 @@ export function PersonaList(props: Props) {
   const createMut = useCreatePersonaMutation();
   const updateMut = useUpdatePersonaMutation();
   const deleteMut = useDeletePersonaMutation();
+  const importMut = useImportPersonaMutation();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+    await importMut.mutateAsync(file);
+  };
 
   const form = useForm({
     resolver: typeboxResolver(personaFormSchema),
@@ -96,10 +106,29 @@ export function PersonaList(props: Props) {
         </DialogHeader>
 
         <div className="flex flex-col gap-3">
-          <div className="flex justify-end">
-            <Button onClick={() => setEditingId("new")}>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/json"
+              onChange={handleFile}
+              className="hidden"
+            />
+            <Button
+              variant="outline"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={importMut.isPending}
+              className="min-w-0 flex-1 sm:flex-initial"
+            >
+              <LuUpload className="size-4" />
+              <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
+            </Button>
+            <Button
+              onClick={() => setEditingId("new")}
+              className="min-w-0 flex-1 sm:flex-initial"
+            >
               <LuPlus className="size-4" />
-              {t("RP.PERSONAS_NEW")}
+              <span className="truncate">{t("RP.PERSONAS_NEW")}</span>
             </Button>
           </div>
 

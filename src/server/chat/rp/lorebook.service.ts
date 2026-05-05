@@ -5,6 +5,7 @@ import { uid } from "@/lib/utils/base";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, asc, desc, eq } from "drizzle-orm";
+import { parseLorebookJson } from "./lorebook-import";
 
 // ---------------------------------------------------------------------------
 // Lorebook CRUD
@@ -194,4 +195,60 @@ export async function deleteEntry(
     .returning({ id: lorebookEntries.id });
   if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
   return { id: entryId };
+}
+
+// ---------------------------------------------------------------------------
+// Import (SillyTavern / RisuAI world-info JSON)
+// ---------------------------------------------------------------------------
+
+/**
+ * Read a JSON file in SillyTavern, RisuAI, or chara_card_v2 (`character_book`)
+ * shape and create a new lorebook with all entries in one transaction.
+ */
+export async function importLorebook(userId: number, file: File) {
+  let raw: unknown;
+  try {
+    raw = JSON.parse(await file.text());
+  } catch {
+    throw new Error(msg("ERRORS.REQUEST_FAILED"));
+  }
+
+  const parsed = parseLorebookJson(raw);
+  if (!parsed) throw new Error(msg("ERRORS.REQUEST_FAILED"));
+
+  const db = getDb();
+  const id = uid();
+
+  await db.transaction(async (tx) => {
+    await tx.insert(lorebooks).values({
+      id,
+      userId,
+      name: parsed.name,
+      description: parsed.description ?? null,
+      scanDepth: parsed.scanDepth ?? 4,
+      tokenBudget: parsed.tokenBudget ?? 1500,
+      recursiveScanning: parsed.recursiveScanning ?? false,
+    });
+
+    if (parsed.entries.length > 0) {
+      await tx.insert(lorebookEntries).values(
+        parsed.entries.map((e, i) => ({
+          id: uid(),
+          lorebookId: id,
+          keys: e.keys,
+          secondaryKeys: e.secondaryKeys ?? null,
+          content: e.content,
+          constant: e.constant,
+          selective: e.selective,
+          priority: e.priority,
+          position: e.position,
+          depth: e.depth,
+          enabled: e.enabled,
+          orderIndex: e.orderIndex ?? i,
+        })),
+      );
+    }
+  });
+
+  return getLorebook(userId, id);
 }

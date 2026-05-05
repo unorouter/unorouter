@@ -10,8 +10,8 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { atom, useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import {
   LuBookText,
   LuSlidersHorizontal,
@@ -20,6 +20,14 @@ import {
 } from "react-icons/lu";
 
 type Tab = "characters" | "personas" | "lorebooks" | "presets";
+
+/**
+ * Open RP dialog tab. Lifted to a jotai atom so the dialogs (rendered at the
+ * layout root via <RpDialogs />) survive the mobile sidebar Sheet unmount
+ * when the user taps a tab. Without this, opening a Sheet-nested dialog
+ * while closing the Sheet would unmount the dialog before it ever paints.
+ */
+const openRpTabAtom = atom<Tab | null>(null);
 
 const items: Array<{
   tab: Tab;
@@ -52,32 +60,42 @@ const items: Array<{
   },
 ];
 
+/** Trigger row rendered inside the sidebar. */
 export function SidebarRpNav() {
   const t = useTranslations();
-  const [openTab, setOpenTab] = useState<Tab | null>(null);
+  const [, setOpenTab] = useAtom(openRpTabAtom);
 
   return (
-    <>
-      <div className="flex items-center gap-1 px-2 py-1">
-        {items.map((it) => (
-          <Tooltip key={it.tab}>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  aria-label={t(it.labelKey)}
-                  onClick={() => setOpenTab(it.tab)}
-                >
-                  <it.Icon className="size-4" />
-                </Button>
-              }
-            />
-            <TooltipContent side="bottom">{t(it.labelKey)}</TooltipContent>
-          </Tooltip>
-        ))}
-      </div>
+    <div className="flex items-center gap-1 px-2 py-1">
+      {items.map((it) => (
+        <Tooltip key={it.tab}>
+          <TooltipTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label={t(it.labelKey)}
+                onClick={() => setOpenTab(it.tab)}
+              >
+                <it.Icon className="size-4" />
+              </Button>
+            }
+          />
+          <TooltipContent side="bottom">{t(it.labelKey)}</TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
+  );
+}
 
+/**
+ * Dialog host. Rendered at the layout root so the dialogs are not nested
+ * inside the mobile sidebar Sheet (which would unmount them on close).
+ */
+export function RpDialogs() {
+  const [openTab, setOpenTab] = useAtom(openRpTabAtom);
+  return (
+    <>
       <CharacterList
         open={openTab === "characters"}
         onOpenChange={(o) => setOpenTab(o ? "characters" : null)}

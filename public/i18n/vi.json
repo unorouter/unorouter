@@ -2199,7 +2199,9 @@
     "EDIT_SAVE_ONLY": "Lưu",
     "EDIT_SAVE_AND_GENERATE": "Lưu và sinh lại",
     "BRANCH_NEXT": "Nhánh kế",
-    "BRANCH_PREV": "Nhánh trước"
+    "BRANCH_PREV": "Nhánh trước",
+    "LOREBOOKS_IMPORT": "Nhập",
+    "PERSONAS_IMPORT": "Nhập"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Không có quyền",

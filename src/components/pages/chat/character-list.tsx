@@ -91,7 +91,7 @@ export function CharacterList(props: Props) {
 
         {view.mode === "list" ? (
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-end gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
               <input
                 ref={fileInputRef}
                 type="file"
@@ -103,13 +103,17 @@ export function CharacterList(props: Props) {
                 variant="outline"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={importMut.isPending}
+                className="min-w-0 flex-1 sm:flex-initial"
               >
                 <LuUpload className="size-4" />
-                {t("RP.CHARACTERS_IMPORT")}
+                <span className="truncate">{t("RP.CHARACTERS_IMPORT")}</span>
               </Button>
-              <Button onClick={() => setView({ mode: "edit" })}>
+              <Button
+                onClick={() => setView({ mode: "edit" })}
+                className="min-w-0 flex-1 sm:flex-initial"
+              >
                 <LuPlus className="size-4" />
-                {t("RP.CHARACTERS_NEW")}
+                <span className="truncate">{t("RP.CHARACTERS_NEW")}</span>
               </Button>
             </div>
 

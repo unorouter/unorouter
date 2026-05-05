@@ -2199,7 +2199,9 @@
     "EDIT_SAVE_ONLY": "Save",
     "EDIT_SAVE_AND_GENERATE": "Save & Generate",
     "BRANCH_NEXT": "Next branch",
-    "BRANCH_PREV": "Previous branch"
+    "BRANCH_PREV": "Previous branch",
+    "LOREBOOKS_IMPORT": "Import",
+    "PERSONAS_IMPORT": "Import"
   },
   "ERRORS": {
     "UNAUTHORIZED": "Unauthorized",

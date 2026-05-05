@@ -211,7 +211,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             className="flex min-h-0 flex-1 flex-col"
           >
             <div className="flex flex-col gap-5 px-4">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="personaId"
@@ -342,7 +342,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 )}
               />
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="reasoningEffort"
@@ -508,7 +508,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   )}
                 />
                 {webSearchEnabled && (
-                  <div className="grid grid-cols-2 gap-3 pt-2">
+                  <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="webSearchEngine"
