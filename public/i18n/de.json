@@ -1408,7 +1408,8 @@
     "LOADING": "Lädt...",
     "NAME": "Name",
     "DESCRIPTION": "Beschreibung",
-    "CONFIRM_DELETE": "Möchtest du das wirklich löschen?"
+    "CONFIRM_DELETE": "Möchtest du das wirklich löschen?",
+    "RESET": "Zurücksetzen"
   },
   "LANGUAGE": {
     "EN": "English",

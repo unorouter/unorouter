@@ -1,7 +1,13 @@
 "use client";
-/* eslint-disable react-hooks/set-state-in-effect -- form state initialized from async server query when data arrives */
 
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -23,7 +29,6 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { NumberKnob } from "./number-knob";
 import {
   useChatBindingsQuery,
   useChatSettingsQuery,
@@ -34,9 +39,17 @@ import {
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
 } from "@/hooks/rp-hook";
+import {
+  conversationOverridesFormSchema,
+  type ConversationOverridesForm,
+} from "@/lib/validation/rp-forms";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
+import { useForm, useWatch } from "react-hook-form";
 import { LuSettings2 } from "react-icons/lu";
+import { SamplingFields } from "./sampling-fields";
 
 type DrawerProps = {
   convId: string;
@@ -58,113 +71,112 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const settings = settingsQuery.data;
   const bindings = bindingsQuery.data;
 
-  // Local state, initialized from server snapshot.
-  const [chatMemory, setChatMemory] = useState(8);
-  const [authorNoteDepth, setAuthorNoteDepth] = useState(4);
-  const [systemPrompt, setSystemPrompt] = useState("");
-  const [authorNote, setAuthorNote] = useState("");
-  const [personaId, setPersonaId] = useState<string>("__none__");
-  const [presetId, setPresetId] = useState<string>("__none__");
-  const [reasoningEffort, setReasoningEffort] = useState<string>("__none__");
-  const [webSearchEnabled, setWebSearchEnabled] = useState(false);
-  const [webSearchEngine, setWebSearchEngine] = useState("auto");
-  const [webSearchContextSize, setWebSearchContextSize] = useState("medium");
-  const [characterIds, setCharacterIds] = useState<string[]>([]);
-  const [lorebookIds, setLorebookIds] = useState<string[]>([]);
-  // Inline sampling overrides (null = use preset / model default).
-  const [temperature, setTemperature] = useState<number | null>(null);
-  const [topP, setTopP] = useState<number | null>(null);
-  const [topK, setTopK] = useState<number | null>(null);
-  const [minP, setMinP] = useState<number | null>(null);
-  const [topA, setTopA] = useState<number | null>(null);
-  const [frequencyPenalty, setFrequencyPenalty] = useState<number | null>(null);
-  const [presencePenalty, setPresencePenalty] = useState<number | null>(null);
-  const [repetitionPenalty, setRepetitionPenalty] = useState<number | null>(null);
-  const [maxTokens, setMaxTokens] = useState<number | null>(null);
-  // Seed once per convId; cache patches must not clobber unsaved edits.
-  const settingsSeededFor = useRef<string | null>(null);
-  const bindingsSeededFor = useRef<string | null>(null);
+  const form = useForm({
+    resolver: typeboxResolver(conversationOverridesFormSchema),
+    defaultValues: Value.Default(
+      conversationOverridesFormSchema,
+      {},
+    ) as ConversationOverridesForm,
+  });
 
+  // Seed form once settings + bindings are loaded for this convId.
   useEffect(() => {
-    if (!settings) return;
-    if (settingsSeededFor.current === props.convId) return;
-    settingsSeededFor.current = props.convId;
-    setChatMemory(settings.chatMemory ?? 8);
-    setAuthorNoteDepth(settings.authorNoteDepth ?? 4);
-    setSystemPrompt(settings.systemPromptOverride ?? "");
-    setAuthorNote(settings.authorNote ?? "");
-    setPersonaId(settings.personaId ?? "__none__");
-    setPresetId(settings.presetId ?? "__none__");
-    setReasoningEffort(settings.reasoningEffort ?? "__none__");
-    setWebSearchEnabled(settings.webSearchEnabled ?? false);
-    setWebSearchEngine(settings.webSearchEngine ?? "auto");
-    setWebSearchContextSize(settings.webSearchContextSize ?? "medium");
-    setTemperature(settings.temperature ?? null);
-    setTopP(settings.topP ?? null);
-    setTopK(settings.topK ?? null);
-    setMinP(settings.minP ?? null);
-    setTopA(settings.topA ?? null);
-    setFrequencyPenalty(settings.frequencyPenalty ?? null);
-    setPresencePenalty(settings.presencePenalty ?? null);
-    setRepetitionPenalty(settings.repetitionPenalty ?? null);
-    setMaxTokens(settings.maxTokens ?? null);
-  }, [settings, props.convId]);
+    if (!settings || !bindings) return;
+    form.reset({
+      personaId: settings.personaId ?? "__none__",
+      presetId: settings.presetId ?? "__none__",
+      reasoningEffort: settings.reasoningEffort ?? "__none__",
+      chatMemory: settings.chatMemory ?? 8,
+      authorNoteDepth: settings.authorNoteDepth ?? 4,
+      systemPromptOverride: settings.systemPromptOverride ?? "",
+      authorNote: settings.authorNote ?? "",
+      webSearchEnabled: settings.webSearchEnabled ?? false,
+      webSearchEngine: settings.webSearchEngine ?? "auto",
+      webSearchContextSize: settings.webSearchContextSize ?? "medium",
+      characterIds: bindings.characters.map((c) => c.characterId),
+      lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
+      temperature: settings.temperature ?? null,
+      topP: settings.topP ?? null,
+      topK: settings.topK ?? null,
+      minP: settings.minP ?? null,
+      topA: settings.topA ?? null,
+      frequencyPenalty: settings.frequencyPenalty ?? null,
+      presencePenalty: settings.presencePenalty ?? null,
+      repetitionPenalty: settings.repetitionPenalty ?? null,
+      maxTokens: settings.maxTokens ?? null,
+    });
+    // Re-seed only when convId or the underlying server data changes;
+    // form.reset is stable.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.convId, settings, bindings]);
 
-  useEffect(() => {
-    if (!bindings) return;
-    if (bindingsSeededFor.current === props.convId) return;
-    bindingsSeededFor.current = props.convId;
-    setCharacterIds(bindings.characters.map((c) => c.characterId));
-    setLorebookIds(bindings.lorebooks.map((l) => l.lorebookId));
-  }, [bindings, props.convId]);
+  const webSearchEnabled = useWatch({
+    control: form.control,
+    name: "webSearchEnabled",
+  });
 
-  const handleSave = async () => {
+  const resetSampling = () => {
+    form.setValue("temperature", null, { shouldDirty: true });
+    form.setValue("topP", null, { shouldDirty: true });
+    form.setValue("topK", null, { shouldDirty: true });
+    form.setValue("minP", null, { shouldDirty: true });
+    form.setValue("topA", null, { shouldDirty: true });
+    form.setValue("frequencyPenalty", null, { shouldDirty: true });
+    form.setValue("presencePenalty", null, { shouldDirty: true });
+    form.setValue("repetitionPenalty", null, { shouldDirty: true });
+    form.setValue("maxTokens", null, { shouldDirty: true });
+  };
+
+  const onSubmit = async (data: ConversationOverridesForm) => {
     await updateSettings.mutateAsync({
       convId: props.convId,
       body: {
-        chatMemory,
-        authorNoteDepth,
-        systemPromptOverride: systemPrompt || null,
-        authorNote: authorNote || null,
-        personaId: personaId === "__none__" ? null : personaId,
-        presetId: presetId === "__none__" ? null : presetId,
+        chatMemory: data.chatMemory,
+        authorNoteDepth: data.authorNoteDepth,
+        systemPromptOverride: data.systemPromptOverride || null,
+        authorNote: data.authorNote || null,
+        personaId: data.personaId === "__none__" ? null : data.personaId,
+        presetId: data.presetId === "__none__" ? null : data.presetId,
         reasoningEffort:
-          reasoningEffort === "__none__"
+          data.reasoningEffort === "__none__"
             ? null
-            : (reasoningEffort as
+            : (data.reasoningEffort as
                 | "xhigh"
                 | "high"
                 | "medium"
                 | "low"
                 | "minimal"
                 | "none"),
-        webSearchEnabled,
-        webSearchEngine: webSearchEngine as
+        webSearchEnabled: data.webSearchEnabled,
+        webSearchEngine: data.webSearchEngine as
           | "auto"
           | "native"
           | "exa"
           | "tavily",
-        webSearchContextSize: webSearchContextSize as "low" | "medium" | "high",
-        temperature,
-        topP,
-        topK,
-        minP,
-        topA,
-        frequencyPenalty,
-        presencePenalty,
-        repetitionPenalty,
-        maxTokens,
+        webSearchContextSize: data.webSearchContextSize as
+          | "low"
+          | "medium"
+          | "high",
+        temperature: data.temperature,
+        topP: data.topP,
+        topK: data.topK,
+        minP: data.minP,
+        topA: data.topA,
+        frequencyPenalty: data.frequencyPenalty,
+        presencePenalty: data.presencePenalty,
+        repetitionPenalty: data.repetitionPenalty,
+        maxTokens: data.maxTokens,
       },
     });
     await updateBindings.mutateAsync({
       convId: props.convId,
       body: {
-        characters: characterIds.map((id, i) => ({
+        characters: data.characterIds.map((id, i) => ({
           characterId: id,
           orderIndex: i,
           isActive: true,
         })),
-        lorebookIds,
+        lorebookIds: data.lorebookIds,
       },
     });
   };
@@ -174,7 +186,11 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       <SheetTrigger
         render={
           props.trigger ?? (
-            <Button variant="ghost" size="icon" aria-label={t("CHAT.OVERRIDES.OPEN")}>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label={t("CHAT.OVERRIDES.OPEN")}
+            >
               <LuSettings2 className="size-4" />
             </Button>
           )
@@ -188,357 +204,420 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           </SheetDescription>
         </SheetHeader>
 
-        <div className="flex flex-col gap-5 px-4">
-          {/* Persona + Sampling preset (paired) */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-2">
-              <Label>{t("CHAT.OVERRIDES.PERSONA")}</Label>
-              <Select value={personaId} onValueChange={(v) => setPersonaId(v ?? "__none__")}>
-                <SelectTrigger className="w-full">
-                  <SelectValue>
-                    {personaId === "__none__"
-                      ? t("CHAT.OVERRIDES.NONE")
-                      : personasQuery.data?.find((p) => p.id === personaId)?.name ??
-                        t("CHAT.OVERRIDES.NONE")}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none__">
-                    {t("CHAT.OVERRIDES.NONE")}
-                  </SelectItem>
-                  {personasQuery.data?.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label>{t("CHAT.OVERRIDES.PRESET")}</Label>
-              <Select value={presetId} onValueChange={(v) => setPresetId(v ?? "__none__")}>
-                <SelectTrigger className="w-full">
-                  <SelectValue>
-                    {presetId === "__none__"
-                      ? t("CHAT.OVERRIDES.NONE")
-                      : presetsQuery.data?.find((p) => p.id === presetId)?.name ??
-                        t("CHAT.OVERRIDES.NONE")}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none__">
-                    {t("CHAT.OVERRIDES.NONE")}
-                  </SelectItem>
-                  {presetsQuery.data?.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {/* Characters (multi-select via checkbox-y rows) */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.CHARACTERS")}</Label>
-            <div className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border p-2">
-              {charactersQuery.data?.length === 0 && (
-                <span className="text-muted-foreground text-xs">
-                  {t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                </span>
-              )}
-              {charactersQuery.data?.map((c) => {
-                const checked = characterIds.includes(c.id);
-                return (
-                  <label
-                    key={c.id}
-                    className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => {
-                        setCharacterIds(
-                          checked
-                            ? characterIds.filter((id) => id !== c.id)
-                            : [...characterIds, c.id],
-                        );
-                      }}
-                    />
-                    <span>{c.name}</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Lorebooks */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.LOREBOOKS")}</Label>
-            <div className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border p-2">
-              {lorebooksQuery.data?.length === 0 && (
-                <span className="text-muted-foreground text-xs">
-                  {t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                </span>
-              )}
-              {lorebooksQuery.data?.map((l) => {
-                const checked = lorebookIds.includes(l.id);
-                return (
-                  <label
-                    key={l.id}
-                    className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => {
-                        setLorebookIds(
-                          checked
-                            ? lorebookIds.filter((id) => id !== l.id)
-                            : [...lorebookIds, l.id],
-                        );
-                      }}
-                    />
-                    <span>{l.name}</span>
-                  </label>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Reasoning effort + Chat memory (paired) */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-2">
-              <Label>{t("CHAT.OVERRIDES.REASONING_EFFORT")}</Label>
-              <Select value={reasoningEffort} onValueChange={(v) => setReasoningEffort(v ?? "__none__")}>
-                <SelectTrigger className="w-full">
-                  <SelectValue>
-                    {reasoningEffort === "__none__"
-                      ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
-                      : reasoningEffort === "none"
-                        ? t("CHAT.OVERRIDES.OFF")
-                        : reasoningEffort.charAt(0).toUpperCase() + reasoningEffort.slice(1)}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none__">
-                    {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
-                  </SelectItem>
-                  <SelectItem value="none">{t("CHAT.OVERRIDES.OFF")}</SelectItem>
-                  <SelectItem value="minimal">Minimal</SelectItem>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
-                  <SelectItem value="xhigh">XHigh</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <Label>{t("CHAT.OVERRIDES.CHAT_MEMORY")}</Label>
-                <span className="text-muted-foreground text-xs tabular-nums">
-                  {chatMemory}
-                </span>
-              </div>
-              <Slider
-                min={1}
-                max={200}
-                value={[chatMemory]}
-                onValueChange={(v) =>
-                  setChatMemory(Array.isArray(v) ? v[0] : v)
-                }
-              />
-            </div>
-          </div>
-
-          {/* Inline sampling overrides (pair of NumberKnobs per row).
-              When a knob is null the preset/model default is used; otherwise
-              the inline value wins. */}
-          <div className="flex flex-col gap-3 rounded-md border p-3">
-            <Label className="text-sm">{t("CHAT.OVERRIDES.SAMPLING")}</Label>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-3">
-              <NumberKnob
-                label={t("RP.SAMPLING_TEMPERATURE")}
-                value={temperature}
-                onChange={setTemperature}
-                min={0}
-                max={2}
-                defaultOn={1}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_TOP_P")}
-                value={topP}
-                onChange={setTopP}
-                min={0}
-                max={1}
-                defaultOn={1}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_TOP_K")}
-                value={topK}
-                onChange={setTopK}
-                min={0}
-                max={200}
-                step={1}
-                defaultOn={40}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_MIN_P")}
-                value={minP}
-                onChange={setMinP}
-                min={0}
-                max={1}
-                defaultOn={0}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_TOP_A")}
-                value={topA}
-                onChange={setTopA}
-                min={0}
-                max={1}
-                defaultOn={0}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_FREQUENCY_PENALTY")}
-                value={frequencyPenalty}
-                onChange={setFrequencyPenalty}
-                min={-2}
-                max={2}
-                defaultOn={0}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_PRESENCE_PENALTY")}
-                value={presencePenalty}
-                onChange={setPresencePenalty}
-                min={-2}
-                max={2}
-                defaultOn={0}
-              />
-              <NumberKnob
-                label={t("RP.SAMPLING_REPETITION_PENALTY")}
-                value={repetitionPenalty}
-                onChange={setRepetitionPenalty}
-                min={0}
-                max={2}
-                defaultOn={1}
-              />
-            </div>
-            <NumberKnob
-              label={t("RP.SAMPLING_MAX_TOKENS")}
-              value={maxTokens}
-              onChange={setMaxTokens}
-              min={1}
-              max={32000}
-              step={1}
-              defaultOn={2048}
-            />
-          </div>
-
-          {/* System prompt override */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.SYSTEM_PROMPT")}</Label>
-            <Textarea
-              value={systemPrompt}
-              onChange={(e) => setSystemPrompt(e.target.value)}
-              placeholder={t("CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER")}
-              rows={4}
-            />
-          </div>
-
-          {/* Author's note */}
-          <div className="flex flex-col gap-2">
-            <Label>{t("CHAT.OVERRIDES.AUTHOR_NOTE")}</Label>
-            <Textarea
-              value={authorNote}
-              onChange={(e) => setAuthorNote(e.target.value)}
-              placeholder={t("CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER")}
-              rows={3}
-            />
-            <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-xs">
-                {t("CHAT.OVERRIDES.AUTHOR_NOTE_DEPTH")}
-              </span>
-              <Input
-                type="number"
-                min={0}
-                max={50}
-                value={authorNoteDepth}
-                onChange={(e) =>
-                  setAuthorNoteDepth(Number(e.target.value) || 0)
-                }
-                className="w-20"
-              />
-            </div>
-          </div>
-
-          {/* Web search */}
-          <div className="flex flex-col gap-2 rounded-md border p-3">
-            <div className="flex items-center justify-between">
-              <Label>{t("CHAT.OVERRIDES.WEB_SEARCH")}</Label>
-              <Switch
-                checked={webSearchEnabled}
-                onCheckedChange={setWebSearchEnabled}
-              />
-            </div>
-            {webSearchEnabled && (
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <div className="flex flex-col gap-1">
-                  <span className="text-muted-foreground text-xs">
-                    {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
-                  </span>
-                  <Select
-                    value={webSearchEngine}
-                    onValueChange={(v) => setWebSearchEngine(v ?? "auto")}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue>
-                        {webSearchEngine.charAt(0).toUpperCase() +
-                          webSearchEngine.slice(1)}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="auto">Auto</SelectItem>
-                      <SelectItem value="native">Native</SelectItem>
-                      <SelectItem value="tavily">Tavily</SelectItem>
-                      <SelectItem value="exa">Exa</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-muted-foreground text-xs">
-                    {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
-                  </span>
-                  <Select
-                    value={webSearchContextSize}
-                    onValueChange={(v) => setWebSearchContextSize(v ?? "medium")}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue>
-                        {webSearchContextSize.charAt(0).toUpperCase() +
-                          webSearchContextSize.slice(1)}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <SheetFooter>
-          <Button
-            onClick={handleSave}
-            disabled={updateSettings.isPending || updateBindings.isPending}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex min-h-0 flex-1 flex-col"
           >
-            {t("COMMON.SAVE")}
-          </Button>
-        </SheetFooter>
+            <div className="flex flex-col gap-5 px-4">
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  control={form.control}
+                  name="personaId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("CHAT.OVERRIDES.PERSONA")}</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={(v) =>
+                            field.onChange(v ?? "__none__")
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue>
+                              {field.value === "__none__"
+                                ? t("CHAT.OVERRIDES.NONE")
+                                : personasQuery.data?.find(
+                                    (p) => p.id === field.value,
+                                  )?.name ?? t("CHAT.OVERRIDES.NONE")}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none__">
+                              {t("CHAT.OVERRIDES.NONE")}
+                            </SelectItem>
+                            {personasQuery.data?.map((p) => (
+                              <SelectItem key={p.id} value={p.id}>
+                                {p.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="presetId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("CHAT.OVERRIDES.PRESET")}</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={(v) =>
+                            field.onChange(v ?? "__none__")
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue>
+                              {field.value === "__none__"
+                                ? t("CHAT.OVERRIDES.NONE")
+                                : presetsQuery.data?.find(
+                                    (p) => p.id === field.value,
+                                  )?.name ?? t("CHAT.OVERRIDES.NONE")}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none__">
+                              {t("CHAT.OVERRIDES.NONE")}
+                            </SelectItem>
+                            {presetsQuery.data?.map((p) => (
+                              <SelectItem key={p.id} value={p.id}>
+                                {p.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="characterIds"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
+                    <FormControl>
+                      <div className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border p-2">
+                        {charactersQuery.data?.length === 0 && (
+                          <span className="text-muted-foreground text-xs">
+                            {t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                          </span>
+                        )}
+                        {charactersQuery.data?.map((c) => {
+                          const checked = field.value.includes(c.id);
+                          return (
+                            <label
+                              key={c.id}
+                              className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={() => {
+                                  field.onChange(
+                                    checked
+                                      ? field.value.filter(
+                                          (id: string) => id !== c.id,
+                                        )
+                                      : [...field.value, c.id],
+                                  );
+                                }}
+                              />
+                              <span>{c.name}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="lorebookIds"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
+                    <FormControl>
+                      <div className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border p-2">
+                        {lorebooksQuery.data?.length === 0 && (
+                          <span className="text-muted-foreground text-xs">
+                            {t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                          </span>
+                        )}
+                        {lorebooksQuery.data?.map((l) => {
+                          const checked = field.value.includes(l.id);
+                          return (
+                            <label
+                              key={l.id}
+                              className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm"
+                            >
+                              <input
+                                type="checkbox"
+                                checked={checked}
+                                onChange={() => {
+                                  field.onChange(
+                                    checked
+                                      ? field.value.filter(
+                                          (id: string) => id !== l.id,
+                                        )
+                                      : [...field.value, l.id],
+                                  );
+                                }}
+                              />
+                              <span>{l.name}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  control={form.control}
+                  name="reasoningEffort"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("CHAT.OVERRIDES.REASONING_EFFORT")}
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={(v) =>
+                            field.onChange(v ?? "__none__")
+                          }
+                        >
+                          <SelectTrigger className="w-full">
+                            <SelectValue>
+                              {field.value === "__none__"
+                                ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
+                                : field.value === "none"
+                                  ? t("CHAT.OVERRIDES.OFF")
+                                  : field.value.charAt(0).toUpperCase() +
+                                    field.value.slice(1)}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none__">
+                              {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
+                            </SelectItem>
+                            <SelectItem value="none">
+                              {t("CHAT.OVERRIDES.OFF")}
+                            </SelectItem>
+                            <SelectItem value="minimal">Minimal</SelectItem>
+                            <SelectItem value="low">Low</SelectItem>
+                            <SelectItem value="medium">Medium</SelectItem>
+                            <SelectItem value="high">High</SelectItem>
+                            <SelectItem value="xhigh">XHigh</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="chatMemory"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>{t("CHAT.OVERRIDES.CHAT_MEMORY")}</FormLabel>
+                        <span className="text-muted-foreground text-xs tabular-nums">
+                          {field.value}
+                        </span>
+                      </div>
+                      <FormControl>
+                        <Slider
+                          min={1}
+                          max={200}
+                          value={[field.value]}
+                          onValueChange={(v) =>
+                            field.onChange(Array.isArray(v) ? v[0] : v)
+                          }
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <SamplingFields
+                control={form.control}
+                names={{
+                  temperature: "temperature",
+                  topP: "topP",
+                  topK: "topK",
+                  minP: "minP",
+                  topA: "topA",
+                  frequencyPenalty: "frequencyPenalty",
+                  presencePenalty: "presencePenalty",
+                  repetitionPenalty: "repetitionPenalty",
+                  maxTokens: "maxTokens",
+                }}
+                onReset={resetSampling}
+              />
+
+              <FormField
+                control={form.control}
+                name="systemPromptOverride"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("CHAT.OVERRIDES.SYSTEM_PROMPT")}</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder={t(
+                          "CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER",
+                        )}
+                        rows={4}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex flex-col gap-2">
+                <FormField
+                  control={form.control}
+                  name="authorNote"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("CHAT.OVERRIDES.AUTHOR_NOTE")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder={t(
+                            "CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER",
+                          )}
+                          rows={3}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="authorNoteDepth"
+                  render={({ field }) => (
+                    <FormItem className="flex-row items-center justify-between">
+                      <Label className="text-muted-foreground text-xs">
+                        {t("CHAT.OVERRIDES.AUTHOR_NOTE_DEPTH")}
+                      </Label>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={0}
+                          max={50}
+                          value={field.value}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value) || 0)
+                          }
+                          className="w-20"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col gap-2 rounded-md border p-3">
+                <FormField
+                  control={form.control}
+                  name="webSearchEnabled"
+                  render={({ field }) => (
+                    <FormItem className="flex-row items-center justify-between">
+                      <FormLabel>{t("CHAT.OVERRIDES.WEB_SEARCH")}</FormLabel>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                {webSearchEnabled && (
+                  <div className="grid grid-cols-2 gap-3 pt-2">
+                    <FormField
+                      control={form.control}
+                      name="webSearchEngine"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label className="text-muted-foreground text-xs">
+                            {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
+                          </Label>
+                          <FormControl>
+                            <Select
+                              value={field.value}
+                              onValueChange={(v) =>
+                                field.onChange(v ?? "auto")
+                              }
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue>
+                                  {field.value.charAt(0).toUpperCase() +
+                                    field.value.slice(1)}
+                                </SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="auto">Auto</SelectItem>
+                                <SelectItem value="native">Native</SelectItem>
+                                <SelectItem value="tavily">Tavily</SelectItem>
+                                <SelectItem value="exa">Exa</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="webSearchContextSize"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label className="text-muted-foreground text-xs">
+                            {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
+                          </Label>
+                          <FormControl>
+                            <Select
+                              value={field.value}
+                              onValueChange={(v) =>
+                                field.onChange(v ?? "medium")
+                              }
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue>
+                                  {field.value.charAt(0).toUpperCase() +
+                                    field.value.slice(1)}
+                                </SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="low">Low</SelectItem>
+                                <SelectItem value="medium">Medium</SelectItem>
+                                <SelectItem value="high">High</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <SheetFooter>
+              <Button
+                type="submit"
+                disabled={updateSettings.isPending || updateBindings.isPending}
+              >
+                {t("COMMON.SAVE")}
+              </Button>
+            </SheetFooter>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   );

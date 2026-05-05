@@ -1408,7 +1408,8 @@
     "LOADING": "Загрузка...",
     "NAME": "Название",
     "DESCRIPTION": "Описание",
-    "CONFIRM_DELETE": "Вы уверены, что хотите удалить?"
+    "CONFIRM_DELETE": "Вы уверены, что хотите удалить?",
+    "RESET": "Сброс"
   },
   "LANGUAGE": {
     "EN": "English",

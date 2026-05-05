@@ -1,6 +1,7 @@
 "use client";
-/* eslint-disable react-hooks/set-state-in-effect -- form initialized when row clicked */
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,9 +10,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import {
   useCharactersQuery,
@@ -20,9 +25,16 @@ import {
   useImportCharacterCardMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/rp-hook";
+import {
+  characterFormSchema,
+  type CharacterForm,
+} from "@/lib/validation/rp-forms";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import { LuArrowLeft, LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
 
 type Props = {
@@ -43,8 +55,8 @@ export function CharacterList(props: Props) {
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
 
-  // Reset view when dialog closes
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
     if (!props.open) setView({ mode: "list" });
   }, [props.open]);
 
@@ -179,49 +191,49 @@ function CharacterEditorInline(props: EditorInlineProps) {
     ? charsQuery.data?.find((c) => c.id === props.characterId)
     : undefined;
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [personality, setPersonality] = useState("");
-  const [scenario, setScenario] = useState("");
-  const [firstMessage, setFirstMessage] = useState("");
-  const [exampleMessages, setExampleMessages] = useState("");
-  const [systemPrompt, setSystemPrompt] = useState("");
-  const [postHistoryInstructions, setPostHistoryInstructions] = useState("");
-  const [tags, setTags] = useState("");
-  const [nsfw, setNsfw] = useState(false);
-  // Seed once per characterId; later cache patches must not clobber typing.
-  const seededFor = useRef<string | null>(null);
+  const form = useForm({
+    resolver: typeboxResolver(characterFormSchema),
+    defaultValues: Value.Default(characterFormSchema, {}) as CharacterForm,
+  });
 
   useEffect(() => {
-    if (!existing) return;
-    if (seededFor.current === existing.id) return;
-    seededFor.current = existing.id;
-    setName(existing.name ?? "");
-    setDescription(existing.description ?? "");
-    setPersonality(existing.personality ?? "");
-    setScenario(existing.scenario ?? "");
-    setFirstMessage(existing.firstMessage ?? "");
-    setExampleMessages(existing.exampleMessages ?? "");
-    setSystemPrompt(existing.systemPrompt ?? "");
-    setPostHistoryInstructions(existing.postHistoryInstructions ?? "");
-    setTags(Array.isArray(existing.tags) ? existing.tags.join(", ") : "");
-    setNsfw(existing.nsfw ?? false);
+    if (!existing) {
+      form.reset(Value.Default(characterFormSchema, {}) as CharacterForm);
+      return;
+    }
+    form.reset({
+      name: existing.name ?? "",
+      description: existing.description ?? "",
+      personality: existing.personality ?? "",
+      scenario: existing.scenario ?? "",
+      firstMessage: existing.firstMessage ?? "",
+      exampleMessages: existing.exampleMessages ?? "",
+      systemPrompt: existing.systemPrompt ?? "",
+      postHistoryInstructions: existing.postHistoryInstructions ?? "",
+      tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
+      nsfw: existing.nsfw ?? false,
+    });
+    // form.reset is stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existing]);
 
-  const handleSave = async () => {
+  const onSubmit = async (data: CharacterForm) => {
     const body = {
-      name,
-      description: description || undefined,
-      personality: personality || undefined,
-      scenario: scenario || undefined,
-      firstMessage: firstMessage || undefined,
-      exampleMessages: exampleMessages || undefined,
-      systemPrompt: systemPrompt || undefined,
-      postHistoryInstructions: postHistoryInstructions || undefined,
-      tags: tags
-        ? tags.split(",").map((s) => s.trim()).filter(Boolean)
+      name: data.name,
+      description: data.description || undefined,
+      personality: data.personality || undefined,
+      scenario: data.scenario || undefined,
+      firstMessage: data.firstMessage || undefined,
+      exampleMessages: data.exampleMessages || undefined,
+      systemPrompt: data.systemPrompt || undefined,
+      postHistoryInstructions: data.postHistoryInstructions || undefined,
+      tags: data.tags
+        ? data.tags
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
         : undefined,
-      nsfw,
+      nsfw: data.nsfw,
     };
     if (props.characterId) {
       await props.updateMut.mutateAsync({ id: props.characterId, body });
@@ -232,103 +244,126 @@ function CharacterEditorInline(props: EditorInlineProps) {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_NAME")}</Label>
-        <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-4"
+      >
+        <MyFormInput
+          control={form.control}
+          name="name"
+          schema={characterFormSchema}
+          label={t("RP.CHARACTER_NAME")}
         />
-      </div>
 
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_DESCRIPTION")}</Label>
-        <Textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_DESCRIPTION")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={4} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_PERSONALITY")}</Label>
-        <Textarea
-          value={personality}
-          onChange={(e) => setPersonality(e.target.value)}
-          rows={3}
+        <FormField
+          control={form.control}
+          name="personality"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_PERSONALITY")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={3} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_SCENARIO")}</Label>
-        <Textarea
-          value={scenario}
-          onChange={(e) => setScenario(e.target.value)}
-          rows={3}
+        <FormField
+          control={form.control}
+          name="scenario"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_SCENARIO")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={3} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_FIRST_MESSAGE")}</Label>
-        <Textarea
-          value={firstMessage}
-          onChange={(e) => setFirstMessage(e.target.value)}
-          rows={4}
+        <FormField
+          control={form.control}
+          name="firstMessage"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_FIRST_MESSAGE")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={4} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_EXAMPLE_MESSAGES")}</Label>
-        <Textarea
-          value={exampleMessages}
-          onChange={(e) => setExampleMessages(e.target.value)}
-          rows={4}
+        <FormField
+          control={form.control}
+          name="exampleMessages"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_EXAMPLE_MESSAGES")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={4} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_SYSTEM_PROMPT")}</Label>
-        <Textarea
-          value={systemPrompt}
-          onChange={(e) => setSystemPrompt(e.target.value)}
-          rows={4}
+        <FormField
+          control={form.control}
+          name="systemPrompt"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_SYSTEM_PROMPT")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={4} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_POST_HISTORY")}</Label>
-        <Textarea
-          value={postHistoryInstructions}
-          onChange={(e) => setPostHistoryInstructions(e.target.value)}
-          rows={3}
+        <FormField
+          control={form.control}
+          name="postHistoryInstructions"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("RP.CHARACTER_POST_HISTORY")}</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={3} />
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <Label>{t("RP.CHARACTER_TAGS")}</Label>
-        <Input
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
+        <MyFormInput
+          control={form.control}
+          name="tags"
+          schema={characterFormSchema}
+          label={t("RP.CHARACTER_TAGS")}
           placeholder="fantasy, adventure"
         />
-      </div>
+        <MyFormSwitch
+          control={form.control}
+          name="nsfw"
+          label={t("RP.CHARACTER_NSFW")}
+        />
 
-      <div className="flex items-center justify-between rounded-md border p-3">
-        <Label>{t("RP.CHARACTER_NSFW")}</Label>
-        <Switch checked={nsfw} onCheckedChange={setNsfw} />
-      </div>
-
-      <div className="flex justify-end gap-2 pt-2">
-        <Button
-          onClick={handleSave}
-          disabled={
-            !name || props.createMut.isPending || props.updateMut.isPending
-          }
-        >
-          {t("COMMON.SAVE")}
-        </Button>
-      </div>
-    </div>
+        <div className="flex justify-end gap-2 pt-2">
+          <Button
+            type="submit"
+            disabled={
+              props.createMut.isPending || props.updateMut.isPending
+            }
+          >
+            {t("COMMON.SAVE")}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 }

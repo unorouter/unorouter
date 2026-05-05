@@ -1408,7 +1408,8 @@
     "LOADING": "Chargement...",
     "NAME": "Nom",
     "DESCRIPTION": "Description",
-    "CONFIRM_DELETE": "Voulez-vous vraiment supprimer ceci ?"
+    "CONFIRM_DELETE": "Voulez-vous vraiment supprimer ceci ?",
+    "RESET": "Réinitialiser"
   },
   "LANGUAGE": {
     "EN": "English",

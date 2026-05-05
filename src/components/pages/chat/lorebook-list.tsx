@@ -1,6 +1,7 @@
 "use client";
-/* eslint-disable react-hooks/set-state-in-effect -- form initialized when entry clicked */
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,8 +10,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -18,7 +24,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import {
   useCreateLorebookEntryMutation,
@@ -30,8 +35,17 @@ import {
   useUpdateLorebookEntryMutation,
   useUpdateLorebookMutation,
 } from "@/hooks/rp-hook";
+import {
+  lorebookEntryFormSchema,
+  lorebookFormSchema,
+  type LorebookEntryForm,
+  type LorebookForm,
+} from "@/lib/validation/rp-forms";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { LuArrowLeft, LuPlus, LuTrash2 } from "react-icons/lu";
 
 type Props = {
@@ -48,6 +62,7 @@ export function LorebookList(props: Props) {
   const [openLbId, setOpenLbId] = useState<string | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset selection when dialog closes
     if (!props.open) setOpenLbId(null);
   }, [props.open]);
 
@@ -145,29 +160,26 @@ function LorebookEditorInline(props: {
   const updateLb = useUpdateLorebookMutation();
   const deleteLb = useDeleteLorebookMutation();
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [scanDepth, setScanDepth] = useState(4);
-  const [tokenBudget, setTokenBudget] = useState(1500);
-  // Seed once per lorebookId; later refetches must not clobber user edits.
-  const seededFor = useRef<string | null>(null);
+  const form = useForm({
+    resolver: typeboxResolver(lorebookFormSchema),
+    defaultValues: Value.Default(lorebookFormSchema, {}) as LorebookForm,
+  });
 
   useEffect(() => {
     const l = lbQuery.data;
     if (!l) return;
-    if (seededFor.current === props.lorebookId) return;
-    seededFor.current = props.lorebookId;
-    setName(l.name);
-    setDescription(l.description ?? "");
-    setScanDepth(l.scanDepth ?? 4);
-    setTokenBudget(l.tokenBudget ?? 1500);
+    form.reset({
+      name: l.name,
+      description: l.description ?? "",
+      scanDepth: l.scanDepth ?? 4,
+      tokenBudget: l.tokenBudget ?? 1500,
+    });
+    // form.reset is stable; we want to re-seed when the lorebook changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lbQuery.data, props.lorebookId]);
 
-  const saveHeader = async () => {
-    await updateLb.mutateAsync({
-      id: props.lorebookId,
-      body: { name, description, scanDepth, tokenBudget },
-    });
+  const onSubmit = async (data: LorebookForm) => {
+    await updateLb.mutateAsync({ id: props.lorebookId, body: data });
   };
 
   const handleDelete = async () => {
@@ -179,84 +191,71 @@ function LorebookEditorInline(props: {
   return (
     <div className="flex flex-col gap-4">
       <Card className="flex flex-col gap-3 p-4">
-        <div className="flex flex-col gap-2">
-          <Label>{t("COMMON.NAME")}</Label>
-          <Input value={name} onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div className="flex flex-col gap-2">
-          <Label>{t("COMMON.DESCRIPTION")}</Label>
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            rows={2}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex flex-col gap-2">
-            <Label>{t("RP.LOREBOOK_SCAN_DEPTH")}</Label>
-            <Input
-              type="number"
-              min={0}
-              max={100}
-              value={scanDepth}
-              onChange={(e) => setScanDepth(Number(e.target.value) || 0)}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-3"
+          >
+            <MyFormInput
+              control={form.control}
+              name="name"
+              schema={lorebookFormSchema}
+              label={t("COMMON.NAME")}
             />
-            <span className="text-muted-foreground text-xs">
-              {t("RP.LOREBOOK_SCAN_DEPTH_HINT")}
-            </span>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label>{t("RP.LOREBOOK_TOKEN_BUDGET")}</Label>
-            <Input
-              type="number"
-              min={100}
-              max={32000}
-              step={100}
-              value={tokenBudget}
-              onChange={(e) => setTokenBudget(Number(e.target.value) || 0)}
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("COMMON.DESCRIPTION")}</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} rows={2} />
+                  </FormControl>
+                </FormItem>
+              )}
             />
-            <span className="text-muted-foreground text-xs">
-              {t("RP.LOREBOOK_TOKEN_BUDGET_HINT")}
-            </span>
-          </div>
-        </div>
-        <div className="flex justify-between">
-          <Button variant="ghost" onClick={handleDelete}>
-            <LuTrash2 className="size-4" />
-            {t("COMMON.DELETE")}
-          </Button>
-          <Button onClick={saveHeader}>{t("COMMON.SAVE")}</Button>
-        </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="flex flex-col gap-2">
+                <MyFormInput
+                  control={form.control}
+                  name="scanDepth"
+                  schema={lorebookFormSchema}
+                  label={t("RP.LOREBOOK_SCAN_DEPTH")}
+                  type="number"
+                />
+                <span className="text-muted-foreground text-xs">
+                  {t("RP.LOREBOOK_SCAN_DEPTH_HINT")}
+                </span>
+              </div>
+              <div className="flex flex-col gap-2">
+                <MyFormInput
+                  control={form.control}
+                  name="tokenBudget"
+                  schema={lorebookFormSchema}
+                  label={t("RP.LOREBOOK_TOKEN_BUDGET")}
+                  type="number"
+                  step={100}
+                />
+                <span className="text-muted-foreground text-xs">
+                  {t("RP.LOREBOOK_TOKEN_BUDGET_HINT")}
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <Button type="button" variant="ghost" onClick={handleDelete}>
+                <LuTrash2 className="size-4" />
+                {t("COMMON.DELETE")}
+              </Button>
+              <Button type="submit">{t("COMMON.SAVE")}</Button>
+            </div>
+          </form>
+        </Form>
       </Card>
 
       <Entries lorebookId={props.lorebookId} />
     </div>
   );
 }
-
-type EntryForm = {
-  keys: string;
-  secondaryKeys: string;
-  content: string;
-  position: "before_char" | "after_char" | "top" | "bottom" | "at_depth";
-  priority: number;
-  depth: number;
-  constant: boolean;
-  selective: boolean;
-  enabled: boolean;
-};
-
-const emptyEntry: EntryForm = {
-  keys: "",
-  secondaryKeys: "",
-  content: "",
-  position: "before_char",
-  priority: 100,
-  depth: 4,
-  constant: false,
-  selective: false,
-  enabled: true,
-};
 
 function Entries(props: { lorebookId: string }) {
   const t = useTranslations();
@@ -265,51 +264,65 @@ function Entries(props: { lorebookId: string }) {
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
   const deleteMut = useDeleteLorebookEntryMutation(props.lorebookId);
 
-  const [editingId, setEditingIdRaw] = useState<string | "new" | null>(null);
-  const [form, setForm] = useState<EntryForm>(emptyEntry);
+  const [editingId, setEditingId] = useState<string | "new" | null>(null);
 
-  // Open the editor for a given entry id (or "new") and synchronously seed the
-  // form. Direct setter, not a useEffect, so subsequent typing never races
-  // against a refetch-triggered re-seed.
-  const openEditor = (id: string | "new" | null) => {
-    setEditingIdRaw(id);
-    if (id === "new") {
-      setForm(emptyEntry);
-    } else if (id) {
-      const e = lbQuery.data?.entries.find((x) => x.id === id);
-      if (e) {
-        setForm({
-          keys: ((e.keys ?? []) as string[]).join(", "),
-          secondaryKeys: ((e.secondaryKeys ?? []) as string[]).join(", "),
-          content: e.content ?? "",
-          position: (e.position ?? "before_char") as EntryForm["position"],
-          priority: e.priority ?? 100,
-          depth: e.depth ?? 4,
-          constant: e.constant ?? false,
-          selective: e.selective ?? false,
-          enabled: e.enabled ?? true,
-        });
-      }
+  const form = useForm({
+    resolver: typeboxResolver(lorebookEntryFormSchema),
+    defaultValues: Value.Default(
+      lorebookEntryFormSchema,
+      {},
+    ) as LorebookEntryForm,
+  });
+
+  useEffect(() => {
+    if (editingId === "new") {
+      form.reset(
+        Value.Default(lorebookEntryFormSchema, {}) as LorebookEntryForm,
+      );
+      return;
     }
-  };
-  const setEditingId = openEditor;
+    if (!editingId) return;
+    const e = lbQuery.data?.entries.find((x) => x.id === editingId);
+    if (!e) return;
+    form.reset({
+      keys: ((e.keys ?? []) as string[]).join(", "),
+      secondaryKeys: ((e.secondaryKeys ?? []) as string[]).join(", "),
+      content: e.content ?? "",
+      position: (e.position ?? "before_char") as LorebookEntryForm["position"],
+      priority: e.priority ?? 100,
+      depth: e.depth ?? 4,
+      constant: e.constant ?? false,
+      selective: e.selective ?? false,
+      enabled: e.enabled ?? true,
+    });
+    // form.reset is stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingId, lbQuery.data]);
 
-  const handleSave = async () => {
+  const onSubmit = async (data: LorebookEntryForm) => {
     const body = {
-      keys: form.keys
+      keys: data.keys
         .split(",")
         .map((s) => s.trim())
         .filter(Boolean),
-      secondaryKeys: form.secondaryKeys
-        ? form.secondaryKeys.split(",").map((s) => s.trim()).filter(Boolean)
+      secondaryKeys: data.secondaryKeys
+        ? data.secondaryKeys
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
         : undefined,
-      content: form.content,
-      position: form.position,
-      priority: form.priority,
-      depth: form.depth,
-      constant: form.constant,
-      selective: form.selective,
-      enabled: form.enabled,
+      content: data.content,
+      position: data.position as
+        | "before_char"
+        | "after_char"
+        | "top"
+        | "bottom"
+        | "at_depth",
+      priority: data.priority,
+      depth: data.depth,
+      constant: data.constant,
+      selective: data.selective,
+      enabled: data.enabled,
     };
     if (editingId === "new") {
       await createMut.mutateAsync(body);
@@ -339,147 +352,153 @@ function Entries(props: { lorebookId: string }) {
 
       {editingId && (
         <Card className="flex flex-col gap-3 p-4">
-          <div className="flex flex-col gap-2">
-            <Label>{t("RP.LOREBOOK_ENTRY_KEYS")}</Label>
-            <Input
-              value={form.keys}
-              onChange={(e) => setForm((prev) => ({ ...prev, keys: e.target.value }))}
-              placeholder="dragon, wyrm, drake"
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label>{t("RP.LOREBOOK_ENTRY_SECONDARY_KEYS")}</Label>
-            <Input
-              value={form.secondaryKeys}
-              onChange={(e) =>
-                setForm((prev) => ({ ...prev, secondaryKeys: e.target.value }))
-              }
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <Label>{t("RP.LOREBOOK_ENTRY_CONTENT")}</Label>
-            <Textarea
-              value={form.content}
-              onChange={(e) => setForm((prev) => ({ ...prev, content: e.target.value }))}
-              rows={5}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex flex-col gap-2">
-              <Label>{t("RP.LOREBOOK_ENTRY_POSITION")}</Label>
-              <Select
-                value={form.position}
-                onValueChange={(v) =>
-                  setForm({
-                    ...form,
-                    position: (v ?? "before_char") as EntryForm["position"],
-                  })
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue>
-                    {form.position === "before_char"
-                      ? t("RP.POSITION_BEFORE_CHAR")
-                      : form.position === "after_char"
-                        ? t("RP.POSITION_AFTER_CHAR")
-                        : form.position === "top"
-                          ? t("RP.POSITION_TOP")
-                          : form.position === "bottom"
-                            ? t("RP.POSITION_BOTTOM")
-                            : t("RP.POSITION_AT_DEPTH")}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="before_char">
-                    {t("RP.POSITION_BEFORE_CHAR")}
-                  </SelectItem>
-                  <SelectItem value="after_char">
-                    {t("RP.POSITION_AFTER_CHAR")}
-                  </SelectItem>
-                  <SelectItem value="top">{t("RP.POSITION_TOP")}</SelectItem>
-                  <SelectItem value="bottom">
-                    {t("RP.POSITION_BOTTOM")}
-                  </SelectItem>
-                  <SelectItem value="at_depth">
-                    {t("RP.POSITION_AT_DEPTH")}
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label>{t("RP.LOREBOOK_ENTRY_PRIORITY")}</Label>
-              <Input
-                type="number"
-                min={0}
-                max={1000}
-                value={form.priority}
-                onChange={(e) =>
-                  setForm({
-                    ...form,
-                    priority: Number(e.target.value) || 0,
-                  })
-                }
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-3"
+            >
+              <MyFormInput
+                control={form.control}
+                name="keys"
+                schema={lorebookEntryFormSchema}
+                label={t("RP.LOREBOOK_ENTRY_KEYS")}
+                placeholder="dragon, wyrm, drake"
               />
-            </div>
-          </div>
-          <div className="flex items-center justify-between rounded-md border p-2">
-            <Label>{t("RP.LOREBOOK_ENTRY_CONSTANT")}</Label>
-            <Switch
-              checked={form.constant}
-              onCheckedChange={(v) => setForm((prev) => ({ ...prev, constant: v }))}
-            />
-          </div>
-          <div className="flex items-center justify-between rounded-md border p-2">
-            <Label>{t("RP.LOREBOOK_ENTRY_SELECTIVE")}</Label>
-            <Switch
-              checked={form.selective}
-              onCheckedChange={(v) => setForm((prev) => ({ ...prev, selective: v }))}
-            />
-          </div>
-          <div className="flex items-center justify-between rounded-md border p-2">
-            <Label>{t("RP.LOREBOOK_ENTRY_ENABLED")}</Label>
-            <Switch
-              checked={form.enabled}
-              onCheckedChange={(v) => setForm((prev) => ({ ...prev, enabled: v }))}
-            />
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setEditingId(null)}>
-              {t("COMMON.CANCEL")}
-            </Button>
-            <Button onClick={handleSave}>{t("COMMON.SAVE")}</Button>
-          </div>
+              <MyFormInput
+                control={form.control}
+                name="secondaryKeys"
+                schema={lorebookEntryFormSchema}
+                label={t("RP.LOREBOOK_ENTRY_SECONDARY_KEYS")}
+              />
+              <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("RP.LOREBOOK_ENTRY_CONTENT")}</FormLabel>
+                    <FormControl>
+                      <Textarea {...field} rows={5} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <FormField
+                  control={form.control}
+                  name="position"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("RP.LOREBOOK_ENTRY_POSITION")}</FormLabel>
+                      <FormControl>
+                        <Select
+                          value={field.value}
+                          onValueChange={(v) =>
+                            field.onChange(v ?? "before_char")
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue>
+                              {field.value === "before_char"
+                                ? t("RP.POSITION_BEFORE_CHAR")
+                                : field.value === "after_char"
+                                  ? t("RP.POSITION_AFTER_CHAR")
+                                  : field.value === "top"
+                                    ? t("RP.POSITION_TOP")
+                                    : field.value === "bottom"
+                                      ? t("RP.POSITION_BOTTOM")
+                                      : t("RP.POSITION_AT_DEPTH")}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="before_char">
+                              {t("RP.POSITION_BEFORE_CHAR")}
+                            </SelectItem>
+                            <SelectItem value="after_char">
+                              {t("RP.POSITION_AFTER_CHAR")}
+                            </SelectItem>
+                            <SelectItem value="top">
+                              {t("RP.POSITION_TOP")}
+                            </SelectItem>
+                            <SelectItem value="bottom">
+                              {t("RP.POSITION_BOTTOM")}
+                            </SelectItem>
+                            <SelectItem value="at_depth">
+                              {t("RP.POSITION_AT_DEPTH")}
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <MyFormInput
+                  control={form.control}
+                  name="priority"
+                  schema={lorebookEntryFormSchema}
+                  label={t("RP.LOREBOOK_ENTRY_PRIORITY")}
+                  type="number"
+                />
+              </div>
+              <MyFormSwitch
+                control={form.control}
+                name="constant"
+                label={t("RP.LOREBOOK_ENTRY_CONSTANT")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="selective"
+                label={t("RP.LOREBOOK_ENTRY_SELECTIVE")}
+              />
+              <MyFormSwitch
+                control={form.control}
+                name="enabled"
+                label={t("RP.LOREBOOK_ENTRY_ENABLED")}
+              />
+              <div className="flex justify-end gap-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => setEditingId(null)}
+                >
+                  {t("COMMON.CANCEL")}
+                </Button>
+                <Button type="submit">{t("COMMON.SAVE")}</Button>
+              </div>
+            </form>
+          </Form>
         </Card>
       )}
 
-      {!editingId && <div className="flex flex-col gap-2">
-        {lbQuery.data?.entries.map((e) => (
-          <Card
-            key={e.id}
-            className="hover:bg-accent flex flex-row cursor-pointer items-start gap-3 p-3 transition-colors"
-            onClick={() => setEditingId(e.id)}
-          >
-            <div className="flex min-w-0 flex-1 flex-col">
-              <span className="text-sm font-medium">
-                {((e.keys ?? []) as string[]).join(", ") || "(no keys)"}
-              </span>
-              <span className="text-muted-foreground line-clamp-2 text-xs">
-                {e.content}
-              </span>
-            </div>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={(ev) => {
-                ev.stopPropagation();
-                handleDelete(e.id);
-              }}
+      {!editingId && (
+        <div className="flex flex-col gap-2">
+          {lbQuery.data?.entries.map((e) => (
+            <Card
+              key={e.id}
+              className="hover:bg-accent flex flex-row cursor-pointer items-start gap-3 p-3 transition-colors"
+              onClick={() => setEditingId(e.id)}
             >
-              <LuTrash2 className="size-4" />
-            </Button>
-          </Card>
-        ))}
-      </div>}
+              <div className="flex min-w-0 flex-1 flex-col">
+                <span className="text-sm font-medium">
+                  {((e.keys ?? []) as string[]).join(", ") || "(no keys)"}
+                </span>
+                <span className="text-muted-foreground line-clamp-2 text-xs">
+                  {e.content}
+                </span>
+              </div>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={(ev) => {
+                  ev.stopPropagation();
+                  handleDelete(e.id);
+                }}
+              >
+                <LuTrash2 className="size-4" />
+              </Button>
+            </Card>
+          ))}
+        </div>
+      )}
     </Card>
   );
 }

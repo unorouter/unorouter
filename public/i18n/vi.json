@@ -1408,7 +1408,8 @@
     "LOADING": "Đang tải...",
     "NAME": "Tên",
     "DESCRIPTION": "Mô tả",
-    "CONFIRM_DELETE": "Bạn có chắc muốn xoá không?"
+    "CONFIRM_DELETE": "Bạn có chắc muốn xoá không?",
+    "RESET": "Đặt lại"
   },
   "LANGUAGE": {
     "EN": "English",

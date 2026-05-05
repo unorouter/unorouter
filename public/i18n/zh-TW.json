@@ -1408,7 +1408,8 @@
     "LOADING": "載入中...",
     "NAME": "名稱",
     "DESCRIPTION": "描述",
-    "CONFIRM_DELETE": "確定要刪除嗎？"
+    "CONFIRM_DELETE": "確定要刪除嗎？",
+    "RESET": "重設"
   },
   "LANGUAGE": {
     "EN": "English",

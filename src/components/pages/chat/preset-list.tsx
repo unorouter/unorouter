@@ -1,6 +1,7 @@
 "use client";
-/* eslint-disable react-hooks/set-state-in-effect -- form initialized once when row clicked */
 
+import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -9,53 +10,29 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { NumberKnob } from "./number-knob";
+import { Form } from "@/components/ui/form";
 import {
   useCreatePresetMutation,
   useDeletePresetMutation,
   usePresetsQuery,
   useUpdatePresetMutation,
 } from "@/hooks/rp-hook";
+import {
+  samplingPresetFormSchema,
+  type SamplingPresetForm,
+} from "@/lib/validation/rp-forms";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { LuPlus, LuTrash2 } from "react-icons/lu";
+import { SamplingFields } from "./sampling-fields";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
-
-type SamplingForm = {
-  name: string;
-  temperature: number | null;
-  topP: number | null;
-  topK: number | null;
-  minP: number | null;
-  topA: number | null;
-  frequencyPenalty: number | null;
-  presencePenalty: number | null;
-  repetitionPenalty: number | null;
-  maxTokens: number | null;
-  isDefault: boolean;
-};
-
-const empty: SamplingForm = {
-  name: "",
-  temperature: 1,
-  topP: 1,
-  topK: null,
-  minP: null,
-  topA: null,
-  frequencyPenalty: 0,
-  presencePenalty: 0,
-  repetitionPenalty: null,
-  maxTokens: null,
-  isDefault: false,
-};
-
 
 export function PresetList(props: Props) {
   const t = useTranslations();
@@ -64,43 +41,70 @@ export function PresetList(props: Props) {
   const updateMut = useUpdatePresetMutation();
   const deleteMut = useDeletePresetMutation();
 
-  const [editingId, setEditingIdRaw] = useState<string | "new" | null>(null);
-  const [form, setForm] = useState<SamplingForm>(empty);
+  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+
+  const form = useForm({
+    resolver: typeboxResolver(samplingPresetFormSchema),
+    defaultValues: Value.Default(
+      samplingPresetFormSchema,
+      {},
+    ) as SamplingPresetForm,
+  });
 
   useEffect(() => {
-    if (!props.open) setEditingIdRaw(null);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
+    if (!props.open) setEditingId(null);
   }, [props.open]);
 
-  // Direct setter that synchronously seeds the form.
-  const setEditingId = (id: string | "new" | null) => {
-    setEditingIdRaw(id);
-    if (id === "new") {
-      setForm(empty);
-    } else if (id) {
-      const p = presetsQuery.data?.find((x) => x.id === id);
-      if (p) {
-        setForm({
-          name: p.name,
-          temperature: p.temperature ?? null,
-          topP: p.topP ?? null,
-          topK: p.topK ?? null,
-          minP: p.minP ?? null,
-          topA: p.topA ?? null,
-          frequencyPenalty: p.frequencyPenalty ?? null,
-          presencePenalty: p.presencePenalty ?? null,
-          repetitionPenalty: p.repetitionPenalty ?? null,
-          maxTokens: p.maxTokens ?? null,
-          isDefault: p.isDefault ?? false,
-        });
-      }
+  // Re-seed when entering the editor.
+  useEffect(() => {
+    if (editingId === "new") {
+      form.reset(
+        Value.Default(samplingPresetFormSchema, {}) as SamplingPresetForm,
+      );
+      return;
     }
+    if (!editingId) return;
+    const p = presetsQuery.data?.find((x) => x.id === editingId);
+    if (!p) return;
+    form.reset({
+      name: p.name,
+      temperature: p.temperature ?? null,
+      topP: p.topP ?? null,
+      topK: p.topK ?? null,
+      minP: p.minP ?? null,
+      topA: p.topA ?? null,
+      frequencyPenalty: p.frequencyPenalty ?? null,
+      presencePenalty: p.presencePenalty ?? null,
+      repetitionPenalty: p.repetitionPenalty ?? null,
+      maxTokens: p.maxTokens ?? null,
+      isDefault: p.isDefault ?? false,
+    });
+    // form.reset is stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editingId, presetsQuery.data]);
+
+  const resetSampling = () => {
+    (
+      [
+        "temperature",
+        "topP",
+        "topK",
+        "minP",
+        "topA",
+        "frequencyPenalty",
+        "presencePenalty",
+        "repetitionPenalty",
+        "maxTokens",
+      ] as const
+    ).forEach((k) => form.setValue(k, null, { shouldDirty: true }));
   };
 
-  const handleSave = async () => {
+  const onSubmit = async (data: SamplingPresetForm) => {
     if (editingId === "new") {
-      await createMut.mutateAsync({ body: form });
+      await createMut.mutateAsync({ body: data });
     } else if (editingId) {
-      await updateMut.mutateAsync({ id: editingId, body: form });
+      await updateMut.mutateAsync({ id: editingId, body: data });
     }
     setEditingId(null);
   };
@@ -132,135 +136,93 @@ export function PresetList(props: Props) {
             </Card>
           )}
 
-      {editingId && (
-        <Card className="flex flex-col gap-4 p-4">
-          <div className="flex flex-col gap-2">
-            <Label>{t("COMMON.NAME")}</Label>
-            <Input
-              value={form.name}
-              onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
-            />
-          </div>
+          {editingId && (
+            <Card className="flex flex-col gap-4 p-4">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-col gap-4"
+                >
+                  <MyFormInput
+                    control={form.control}
+                    name="name"
+                    schema={samplingPresetFormSchema}
+                    label={t("COMMON.NAME")}
+                  />
 
-          <NumberKnob
-            label={t("RP.SAMPLING_TEMPERATURE")}
-            value={form.temperature}
-            onChange={(v) => setForm((prev) => ({ ...prev, temperature: v }))}
-            min={0}
-            max={2}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_TOP_P")}
-            value={form.topP}
-            onChange={(v) => setForm((prev) => ({ ...prev, topP: v }))}
-            min={0}
-            max={1}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_TOP_K")}
-            value={form.topK}
-            onChange={(v) => setForm((prev) => ({ ...prev, topK: v }))}
-            min={0}
-            max={200}
-            step={1}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_MIN_P")}
-            value={form.minP}
-            onChange={(v) => setForm((prev) => ({ ...prev, minP: v }))}
-            min={0}
-            max={1}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_TOP_A")}
-            value={form.topA}
-            onChange={(v) => setForm((prev) => ({ ...prev, topA: v }))}
-            min={0}
-            max={1}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_FREQUENCY_PENALTY")}
-            value={form.frequencyPenalty}
-            onChange={(v) => setForm((prev) => ({ ...prev, frequencyPenalty: v }))}
-            min={-2}
-            max={2}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_PRESENCE_PENALTY")}
-            value={form.presencePenalty}
-            onChange={(v) => setForm((prev) => ({ ...prev, presencePenalty: v }))}
-            min={-2}
-            max={2}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_REPETITION_PENALTY")}
-            value={form.repetitionPenalty}
-            onChange={(v) => setForm((prev) => ({ ...prev, repetitionPenalty: v }))}
-            min={0}
-            max={2}
-          />
-          <NumberKnob
-            label={t("RP.SAMPLING_MAX_TOKENS")}
-            value={form.maxTokens}
-            onChange={(v) => setForm((prev) => ({ ...prev, maxTokens: v }))}
-            min={1}
-            max={32000}
-            step={1}
-          />
+                  <SamplingFields
+                    control={form.control}
+                    names={{
+                      temperature: "temperature",
+                      topP: "topP",
+                      topK: "topK",
+                      minP: "minP",
+                      topA: "topA",
+                      frequencyPenalty: "frequencyPenalty",
+                      presencePenalty: "presencePenalty",
+                      repetitionPenalty: "repetitionPenalty",
+                      maxTokens: "maxTokens",
+                    }}
+                    onReset={resetSampling}
+                  />
 
-          <div className="flex items-center justify-between">
-            <Label>{t("RP.PRESET_DEFAULT")}</Label>
-            <Switch
-              checked={form.isDefault}
-              onCheckedChange={(v) => setForm((prev) => ({ ...prev, isDefault: v }))}
-            />
-          </div>
+                  <MyFormSwitch
+                    control={form.control}
+                    name="isDefault"
+                    label={t("RP.PRESET_DEFAULT")}
+                  />
 
-          <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setEditingId(null)}>
-              {t("COMMON.CANCEL")}
-            </Button>
-            <Button onClick={handleSave} disabled={!form.name}>
-              {t("COMMON.SAVE")}
-            </Button>
-          </div>
-        </Card>
-      )}
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => setEditingId(null)}
+                    >
+                      {t("COMMON.CANCEL")}
+                    </Button>
+                    <Button type="submit">{t("COMMON.SAVE")}</Button>
+                  </div>
+                </form>
+              </Form>
+            </Card>
+          )}
 
-      {!editingId && <div className="flex flex-col gap-2">
-        {presetsQuery.data?.map((p) => (
-          <Card
-            key={p.id}
-            className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
-            onClick={() => setEditingId(p.id)}
-          >
-            <div className="flex min-w-0 flex-1 flex-col">
-              <span className="text-sm font-medium">
-                {p.name}
-                {p.isDefault && (
-                  <span className="text-muted-foreground ml-2 text-xs">
-                    ({t("RP.PRESET_DEFAULT").toLowerCase()})
-                  </span>
-                )}
-              </span>
-              <span className="text-muted-foreground truncate text-xs">
-                T={p.temperature ?? "off"} | TopP={p.topP ?? "off"} | TopK=
-                {p.topK ?? "off"}
-              </span>
+          {!editingId && (
+            <div className="flex flex-col gap-2">
+              {presetsQuery.data?.map((p) => (
+                <Card
+                  key={p.id}
+                  className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
+                  onClick={() => setEditingId(p.id)}
+                >
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <span className="text-sm font-medium">
+                      {p.name}
+                      {p.isDefault && (
+                        <span className="text-muted-foreground ml-2 text-xs">
+                          ({t("RP.PRESET_DEFAULT").toLowerCase()})
+                        </span>
+                      )}
+                    </span>
+                    <span className="text-muted-foreground truncate text-xs">
+                      T={p.temperature ?? "off"} | TopP={p.topP ?? "off"} |
+                      TopK={p.topK ?? "off"}
+                    </span>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(p.id);
+                    }}
+                  >
+                    <LuTrash2 className="size-4" />
+                  </Button>
+                </Card>
+              ))}
             </div>
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(p.id);
-              }}
-            >
-              <LuTrash2 className="size-4" />
-            </Button>
-          </Card>
-        ))}
-      </div>}
+          )}
         </div>
       </DialogContent>
     </Dialog>
