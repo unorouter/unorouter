@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "Размер контекста",
       "NONE": "Нет",
       "NO_CHARACTERS": "Персонажей пока нет. Создайте или импортируйте.",
-      "NO_LOREBOOKS": "Лорбуков пока нет."
+      "NO_LOREBOOKS": "Лорбуков пока нет.",
+      "SELECTED": "выбрано",
+      "SEARCH_CHARACTERS": "Поиск персонажей",
+      "SEARCH_LOREBOOKS": "Поиск лорбуков",
+      "CLEAR": "Очистить"
     }
   },
   "RP": {

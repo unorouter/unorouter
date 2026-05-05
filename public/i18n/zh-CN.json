@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "上下文大小",
       "NONE": "无",
       "NO_CHARACTERS": "暂无角色，请先创建或导入。",
-      "NO_LOREBOOKS": "暂无知识库。"
+      "NO_LOREBOOKS": "暂无知识库。",
+      "SELECTED": "已选",
+      "SEARCH_CHARACTERS": "搜索角色",
+      "SEARCH_LOREBOOKS": "搜索设定集",
+      "CLEAR": "清除"
     }
   },
   "RP": {

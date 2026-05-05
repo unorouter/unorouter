@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "Context size",
       "NONE": "None",
       "NO_CHARACTERS": "No characters yet. Create or import one first.",
-      "NO_LOREBOOKS": "No lorebooks yet."
+      "NO_LOREBOOKS": "No lorebooks yet.",
+      "SELECTED": "selected",
+      "SEARCH_CHARACTERS": "Search characters",
+      "SEARCH_LOREBOOKS": "Search lorebooks",
+      "CLEAR": "Clear"
     }
   },
   "RP": {

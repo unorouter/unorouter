@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "7bfac691-55a9-4171-95d8-76d7d3049e70",
+  "id": "94c55a34-7607-45da-b267-e4ff56d6e0a2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "acp_checkout_sessions": {

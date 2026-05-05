@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "コンテキストサイズ",
       "NONE": "なし",
       "NO_CHARACTERS": "キャラクターがありません。先に作成またはインポートしてください。",
-      "NO_LOREBOOKS": "ロアブックがありません。"
+      "NO_LOREBOOKS": "ロアブックがありません。",
+      "SELECTED": "選択済み",
+      "SEARCH_CHARACTERS": "キャラクターを検索",
+      "SEARCH_LOREBOOKS": "ロアブックを検索",
+      "CLEAR": "クリア"
     }
   },
   "RP": {

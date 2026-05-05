@@ -32,7 +32,7 @@ import {
   needsWebSearch,
   searchTavily,
 } from "./augmentation/tavily.service";
-import { pendingUsageByConv, sweepStalePending } from "./message.service";
+import { pendingUsageByConv } from "./message.service";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -178,10 +178,9 @@ function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
   writer.write({ type: "finish", finishReason: "stop" });
 }
 
-function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
+async function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
   if (!convId) return;
-  sweepStalePending();
-  const existing = pendingUsageByConv.get(convId);
+  const existing = await pendingUsageByConv.get(convId);
   if (existing) {
     logger.warn("Merging concurrent pending usage for conversation", {
       context: "stream.usage",
@@ -190,7 +189,7 @@ function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
       newRequestId: usage.requestId,
       ageMs: Date.now() - existing.createdAt,
     });
-    pendingUsageByConv.set(convId, {
+    await pendingUsageByConv.set(convId, {
       requestId: usage.requestId ?? existing.requestId,
       inputTokens: existing.inputTokens + usage.inputTokens,
       outputTokens: existing.outputTokens + usage.outputTokens,
@@ -201,7 +200,7 @@ function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
     });
     return;
   }
-  pendingUsageByConv.set(convId, {
+  await pendingUsageByConv.set(convId, {
     requestId: usage.requestId,
     inputTokens: usage.inputTokens,
     outputTokens: usage.outputTokens,
@@ -346,7 +345,7 @@ async function handleImageStream(
         .map((url: string | null) => `![image](${url})`)
         .join("\n\n");
 
-      trackUsage(body.convId, {
+      await trackUsage(body.convId, {
         requestId,
         inputTokens: 0,
         outputTokens: 0,
@@ -392,7 +391,7 @@ async function handleVideoTaskStream(
 
       const sentinel = `TASK_CARD:${JSON.stringify({ taskId, status, progress, model: body.model })}`;
 
-      trackUsage(body.convId, {
+      await trackUsage(body.convId, {
         requestId: undefined,
         inputTokens: 0,
         outputTokens: 0,
@@ -423,10 +422,10 @@ function handleBufferedStream(
 
       // Store raw response before URL processing so it can be persisted as backup
       const pending = body.convId
-        ? pendingUsageByConv.get(body.convId)
+        ? await pendingUsageByConv.get(body.convId)
         : undefined;
       if (pending && body.convId) {
-        pendingUsageByConv.set(body.convId, {
+        await pendingUsageByConv.set(body.convId, {
           ...pending,
           rawResponse: fullText,
         });
@@ -573,7 +572,9 @@ export async function streamChat(
         inputTokens: usage.inputTokens ?? 0,
         outputTokens: usage.outputTokens ?? 0,
         upstreamHeaders: upstream.headers,
-      });
+      }).catch((err) =>
+        logger.warn("trackUsage failed", { context: "stream.usage", err }),
+      );
       // Capture dropped-params header for the messageMetadata callback below.
       const dropped = response.headers?.["x-newapi-dropped-params"];
       if (typeof dropped === "string" && dropped.length > 0) {

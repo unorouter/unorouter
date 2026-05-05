@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "Kích thước ngữ cảnh",
       "NONE": "Không có",
       "NO_CHARACTERS": "Chưa có nhân vật. Hãy tạo hoặc nhập trước.",
-      "NO_LOREBOOKS": "Chưa có lorebook."
+      "NO_LOREBOOKS": "Chưa có lorebook.",
+      "SELECTED": "đã chọn",
+      "SEARCH_CHARACTERS": "Tìm nhân vật",
+      "SEARCH_LOREBOOKS": "Tìm lorebook",
+      "CLEAR": "Xóa"
     }
   },
   "RP": {

@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "Kontextgröße",
       "NONE": "Keine",
       "NO_CHARACTERS": "Noch keine Charaktere. Erstelle oder importiere zuerst einen.",
-      "NO_LOREBOOKS": "Noch keine Lorebücher."
+      "NO_LOREBOOKS": "Noch keine Lorebücher.",
+      "SELECTED": "ausgewählt",
+      "SEARCH_CHARACTERS": "Charaktere suchen",
+      "SEARCH_LOREBOOKS": "Lorebooks suchen",
+      "CLEAR": "Löschen"
     }
   },
   "RP": {

@@ -2126,7 +2126,11 @@
       "WEB_SEARCH_CONTEXT_SIZE": "Taille du contexte",
       "NONE": "Aucun",
       "NO_CHARACTERS": "Aucun personnage. Créez ou importez-en un d'abord.",
-      "NO_LOREBOOKS": "Aucun lorebook."
+      "NO_LOREBOOKS": "Aucun lorebook.",
+      "SELECTED": "sélectionnés",
+      "SEARCH_CHARACTERS": "Rechercher des personnages",
+      "SEARCH_LOREBOOKS": "Rechercher des lorebooks",
+      "CLEAR": "Effacer"
     }
   },
   "RP": {

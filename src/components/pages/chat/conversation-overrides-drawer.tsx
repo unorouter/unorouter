@@ -49,6 +49,7 @@ import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { LuSettings2 } from "react-icons/lu";
+import { MultiSelectPopover } from "./multi-select-popover";
 import { SamplingFields } from "./sampling-fields";
 
 type DrawerProps = {
@@ -294,37 +295,21 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   <FormItem>
                     <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
                     <FormControl>
-                      <div className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border p-2">
-                        {charactersQuery.data?.length === 0 && (
-                          <span className="text-muted-foreground text-xs">
-                            {t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                          </span>
+                      <MultiSelectPopover
+                        options={
+                          charactersQuery.data?.map((c) => ({
+                            id: c.id,
+                            label: c.name,
+                          })) ?? []
+                        }
+                        value={field.value}
+                        onChange={field.onChange}
+                        triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
+                        searchPlaceholder={t(
+                          "CHAT.OVERRIDES.SEARCH_CHARACTERS",
                         )}
-                        {charactersQuery.data?.map((c) => {
-                          const checked = field.value.includes(c.id);
-                          return (
-                            <label
-                              key={c.id}
-                              className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={checked}
-                                onChange={() => {
-                                  field.onChange(
-                                    checked
-                                      ? field.value.filter(
-                                          (id: string) => id !== c.id,
-                                        )
-                                      : [...field.value, c.id],
-                                  );
-                                }}
-                              />
-                              <span>{c.name}</span>
-                            </label>
-                          );
-                        })}
-                      </div>
+                        emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
@@ -337,37 +322,21 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   <FormItem>
                     <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
                     <FormControl>
-                      <div className="flex max-h-40 flex-col gap-1 overflow-y-auto rounded-md border p-2">
-                        {lorebooksQuery.data?.length === 0 && (
-                          <span className="text-muted-foreground text-xs">
-                            {t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                          </span>
+                      <MultiSelectPopover
+                        options={
+                          lorebooksQuery.data?.map((l) => ({
+                            id: l.id,
+                            label: l.name,
+                          })) ?? []
+                        }
+                        value={field.value}
+                        onChange={field.onChange}
+                        triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
+                        searchPlaceholder={t(
+                          "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
                         )}
-                        {lorebooksQuery.data?.map((l) => {
-                          const checked = field.value.includes(l.id);
-                          return (
-                            <label
-                              key={l.id}
-                              className="hover:bg-accent flex cursor-pointer items-center gap-2 rounded px-2 py-1 text-sm"
-                            >
-                              <input
-                                type="checkbox"
-                                checked={checked}
-                                onChange={() => {
-                                  field.onChange(
-                                    checked
-                                      ? field.value.filter(
-                                          (id: string) => id !== l.id,
-                                        )
-                                      : [...field.value, l.id],
-                                  );
-                                }}
-                              />
-                              <span>{l.name}</span>
-                            </label>
-                          );
-                        })}
-                      </div>
+                        emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
