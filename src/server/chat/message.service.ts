@@ -5,14 +5,8 @@ import {
 } from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
-import {
-  conversations,
-  messageItems,
-  messages,
-} from "@/lib/db/schema";
-import { redis } from "bun";
+import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid, unwrap } from "@/lib/utils/base";
-import dayjs from "dayjs";
 import { logger } from "@/lib/utils/logger";
 import type {
   PersistMessageItem,
@@ -20,6 +14,7 @@ import type {
 } from "@/lib/validation/chat";
 import { getUserLogs } from "@/openapi";
 import { serverEnv } from "@/server/env";
+import dayjs from "dayjs";
 import { and, eq, inArray, sql } from "drizzle-orm";
 
 export type PendingUsage = {
@@ -35,19 +30,29 @@ export type PendingUsage = {
 const PENDING_USAGE_TTL_SEC = Math.ceil(PENDING_USAGE_TTL_MS / 1000);
 const pendingKey = (convId: string) => `chat:pendingUsage:${convId}`;
 
+// Lazy access via globalThis so Next.js's Node-based build phase
+// (which can't resolve the `bun` module) doesn't fail during page-data
+// collection. Routes only touch redis at request time, where Bun is the runtime.
+function r() {
+  const bun = (globalThis as { Bun?: { redis: typeof import("bun").redis } })
+    .Bun;
+  if (!bun) throw new Error("Bun runtime not available (redis requires bun)");
+  return bun.redis;
+}
+
 export const pendingUsageByConv = {
   async get(convId: string): Promise<PendingUsage | undefined> {
-    const raw = await redis.get(pendingKey(convId));
+    const raw = await r().get(pendingKey(convId));
     if (!raw) return undefined;
     return JSON.parse(raw) as PendingUsage;
   },
   async set(convId: string, value: PendingUsage): Promise<void> {
     const key = pendingKey(convId);
-    await redis.set(key, JSON.stringify(value));
-    await redis.expire(key, PENDING_USAGE_TTL_SEC);
+    await r().set(key, JSON.stringify(value));
+    await r().expire(key, PENDING_USAGE_TTL_SEC);
   },
   async delete(convId: string): Promise<void> {
-    await redis.del(pendingKey(convId));
+    await r().del(pendingKey(convId));
   },
 };
 
@@ -135,7 +140,10 @@ export async function persistMessages(
   const processedMsgs = await Promise.all(
     msgs.map(async (m) => {
       if (m.role !== "assistant") return m;
-      return { ...m, items: await rehostTextItemImages(m.items, convId, groupKey) };
+      return {
+        ...m,
+        items: await rehostTextItemImages(m.items, convId, groupKey),
+      };
     }),
   );
 
@@ -202,7 +210,9 @@ export async function persistMessages(
     // currently active. We'll bump prior siblings to inactive and assign
     // monotonic branchIndex values to the new rows below.
     const parentIds = Array.from(
-      new Set(messageRows.map((r) => r.parentId).filter((x): x is string => !!x)),
+      new Set(
+        messageRows.map((r) => r.parentId).filter((x): x is string => !!x),
+      ),
     );
 
     const nextBranchIndexByParent = new Map<string, number>();
@@ -224,7 +234,8 @@ export async function persistMessages(
       for (const sib of existingSiblings) {
         if (!sib.parentId) continue;
         const cur = nextBranchIndexByParent.get(sib.parentId) ?? -1;
-        if (sib.branchIndex > cur) nextBranchIndexByParent.set(sib.parentId, sib.branchIndex);
+        if (sib.branchIndex > cur)
+          nextBranchIndexByParent.set(sib.parentId, sib.branchIndex);
         if (sib.isActiveBranch) parentsToDeactivate.add(sib.parentId);
       }
     }
@@ -282,7 +293,7 @@ export async function persistMessages(
     }
 
     // Insert items for each message
-    const itemRows: typeof messageItems.$inferInsert[] = [];
+    const itemRows: (typeof messageItems.$inferInsert)[] = [];
     for (let i = 0; i < processedMsgs.length; i++) {
       const m = processedMsgs[i];
       const messageId = ids[i].id;
