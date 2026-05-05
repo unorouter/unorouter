@@ -89,8 +89,8 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
   for (const part of parts) {
     if (part.type === "text" && typeof part.text === "string") {
       out.push({ type: "text", data: { text: part.text } });
-    } else if (part.type === "reasoning" && typeof part.reasoning === "string") {
-      out.push({ type: "reasoning", data: { text: part.reasoning } });
+    } else if (part.type === "reasoning" && typeof part.text === "string") {
+      out.push({ type: "reasoning", data: { text: part.text } });
     } else if (part.type === "tool-invocation") {
       const toolCallId = String(part.toolInvocationId ?? part.toolCallId ?? "");
       // assistant-ui round-trips both call and result through the same part
@@ -133,10 +133,10 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
           ...(typeof part.progress === "string" && { progress: part.progress }),
         },
       });
-    } else {
-      // Fallback: serialize unknown shapes as a text item with stringified payload.
-      out.push({ type: "text", data: { text: JSON.stringify(part) } });
     }
+    // Unknown part types (e.g. AI SDK stream markers like "step-start", or
+    // future part shapes we don't model) are intentionally dropped. Storing
+    // them would leak raw JSON into the rendered message body.
   }
   return out;
 }
@@ -152,7 +152,7 @@ export function itemsToParts(
         parts.push({ type: "text", text: String(data.text ?? "") });
         break;
       case "reasoning":
-        parts.push({ type: "reasoning", reasoning: String(data.text ?? "") });
+        parts.push({ type: "reasoning", text: String(data.text ?? "") });
         break;
       case "tool_call":
         parts.push({
@@ -188,8 +188,7 @@ export function itemsToParts(
           ...(typeof data.progress === "string" && { progress: data.progress }),
         });
         break;
-      default:
-        parts.push({ type: "text", text: JSON.stringify(data) });
+      // Unknown stored types are skipped rather than rendered as raw JSON.
     }
   }
   return parts;
