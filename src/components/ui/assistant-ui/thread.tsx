@@ -14,6 +14,8 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { useEditMessageMutation } from "@/hooks/chat-hook";
+import { partsToItems } from "@/lib/types/chat";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
@@ -23,8 +25,11 @@ import { formatPrice } from "@/lib/utils/base";
 import {
   chatModelAtom,
   chatWebSearchAtom,
+  getChatHelpers,
+  getConvId,
   getScrollControl,
 } from "@/store/chat-store";
+import { Textarea } from "@/components/ui/textarea";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive,
@@ -61,6 +66,13 @@ import {
 import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
 
 const ReadOnlyContext = createContext(false);
+
+/**
+ * Per-message context exposing the "begin assistant edit" callback.
+ * AssistantMessage owns the edit state; AssistantActionBar reads this to
+ * render the Edit button without prop-drilling.
+ */
+const AssistantEditContext = createContext<(() => void) | null>(null);
 
 type ThreadProps = {
   readOnly?: boolean;
@@ -397,38 +409,158 @@ const StreamingIndicator: FC = () => {
 };
 
 const AssistantMessage: FC = () => {
+  const [editing, setEditing] = useState(false);
   return (
-    <MessagePrimitive.Root
-      className="aui-assistant-message-root fade-in slide-in-from-bottom-1 animate-in relative mx-auto w-full max-w-(--thread-max-width) py-3 duration-150"
-      data-role="assistant"
-    >
-      <div className="aui-assistant-message-content text-foreground px-2 leading-relaxed wrap-break-word">
-        <StreamingIndicator />
-        <MessagePrimitive.Parts
-          components={{
-            Text: MarkdownText,
-            Reasoning,
-            ReasoningGroup,
-            tools: {
-              Fallback: ToolFallback,
-            },
-            data: {
-              // Suppress default rendering of data-task parts; TaskCardRenderer
-              // reads them from runtime state and draws its own card below.
-              by_name: { task: () => null },
-            },
-          }}
-        />
-        <TaskCardRenderer />
-        <MessageError />
-      </div>
+    <AssistantEditContext.Provider value={() => setEditing(true)}>
+      <MessagePrimitive.Root
+        className="aui-assistant-message-root fade-in slide-in-from-bottom-1 animate-in relative mx-auto w-full max-w-(--thread-max-width) py-3 duration-150"
+        data-role="assistant"
+      >
+        {editing ? (
+          <AssistantEditInPlace onClose={() => setEditing(false)} />
+        ) : (
+          <>
+            <div className="aui-assistant-message-content text-foreground px-2 leading-relaxed wrap-break-word">
+              <StreamingIndicator />
+              <MessagePrimitive.Parts
+                components={{
+                  Text: MarkdownText,
+                  Reasoning,
+                  ReasoningGroup,
+                  tools: {
+                    Fallback: ToolFallback,
+                  },
+                  data: {
+                    // Suppress default rendering of data-task parts; TaskCardRenderer
+                    // reads them from runtime state and draws its own card below.
+                    by_name: { task: () => null },
+                  },
+                }}
+              />
+              <TaskCardRenderer />
+              <MessageError />
+            </div>
 
-      <div className="aui-assistant-message-footer mt-1 ml-2 flex min-h-6 flex-wrap items-center gap-y-1">
-        <BranchPicker />
-        <AssistantActionBar />
-        <AssistantMessageMeta />
+            <div className="aui-assistant-message-footer mt-1 ml-2 flex min-h-6 flex-wrap items-center gap-y-1">
+              <BranchPicker />
+              <AssistantActionBar />
+              <AssistantMessageMeta />
+            </div>
+          </>
+        )}
+      </MessagePrimitive.Root>
+    </AssistantEditContext.Provider>
+  );
+};
+
+/**
+ * Custom in-place editor for assistant messages. Bypasses
+ * `ActionBarPrimitive.Edit` / `ComposerPrimitive.Send` because those always
+ * regenerate the run. Save persists the new text via PUT and patches the
+ * AI SDK message buffer in place. Reasoning and tool-call parts are
+ * preserved untouched; only text parts are replaced. To re-roll, use the
+ * existing Refresh action.
+ */
+const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
+  const t = useTranslations();
+  const messageId = useAuiState((s) => s.message.id);
+  const initialText = useAuiState((s) => {
+    const parts = s.message.content as ReadonlyArray<{
+      type: string;
+      text?: string;
+    }>;
+    return parts
+      .filter((p) => p.type === "text" && typeof p.text === "string")
+      .map((p) => p.text!)
+      .join("\n\n");
+  });
+  const [text, setText] = useState(initialText);
+  const editMut = useEditMessageMutation();
+
+  const handleSave = async () => {
+    const convId = getConvId();
+    if (!convId) return;
+
+    const helpers = getChatHelpers();
+    // Read the live AI SDK message so we preserve reasoning, tool calls,
+    // sources, etc. We only swap text parts; everything else is kept.
+    const liveMsg = (
+      helpers as unknown as {
+        messages?: Array<{
+          id: string;
+          parts?: Array<{ type: string; [k: string]: unknown }>;
+        }>;
+      } | null
+    )?.messages?.find((m) => m.id === messageId);
+
+    const liveParts = liveMsg?.parts ?? [];
+    const newParts: Array<{ type: string; [k: string]: unknown }> = [];
+    let textInjected = false;
+    for (const p of liveParts) {
+      if (p.type === "text") {
+        if (!textInjected) {
+          newParts.push({ type: "text", text });
+          textInjected = true;
+        }
+      } else {
+        newParts.push(p);
+      }
+    }
+    if (!textInjected) newParts.push({ type: "text", text });
+
+    const items = partsToItems(newParts);
+
+    await editMut.mutateAsync({
+      convId,
+      msgId: messageId,
+      body: { items },
+    });
+
+    // Patch the AI SDK message in place: spread the original message so we
+    // keep id, role, metadata, etc.; only replace `parts`. Without the
+    // spread, the message becomes malformed and the runtime treats the
+    // turn as incomplete (which kicked off a phantom regenerate before).
+    helpers?.setMessages((msgs) => {
+      const list = msgs as Array<{
+        id: string;
+        parts?: unknown[];
+        [k: string]: unknown;
+      }>;
+      return list.map((m) =>
+        m.id === messageId ? { ...m, parts: newParts } : m,
+      );
+    });
+
+    props.onClose();
+  };
+
+  return (
+    <div className="aui-assistant-edit-in-place flex flex-col gap-2 px-2">
+      <Textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        rows={Math.min(20, Math.max(4, text.split("\n").length + 1))}
+        autoFocus
+        className="font-sans text-sm"
+      />
+      <div className="flex justify-end gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={props.onClose}
+          disabled={editMut.isPending}
+        >
+          {t("CHAT.ACTION.CANCEL")}
+        </Button>
+        <Button
+          size="sm"
+          onClick={handleSave}
+          disabled={editMut.isPending}
+        >
+          {t("COMMON.SAVE")}
+        </Button>
       </div>
-    </MessagePrimitive.Root>
+    </div>
   );
 };
 
@@ -478,6 +610,7 @@ const AssistantMessageMeta: FC = () => {
 const AssistantActionBar: FC = () => {
   const t = useTranslations();
   const readOnly = useContext(ReadOnlyContext);
+  const beginEdit = useContext(AssistantEditContext);
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
@@ -500,6 +633,14 @@ const AssistantActionBar: FC = () => {
             <RefreshCwIcon />
           </TooltipIconButton>
         </ActionBarPrimitive.Reload>
+      )}
+      {!readOnly && beginEdit && (
+        <TooltipIconButton
+          tooltip={t("CHAT.ACTION.EDIT")}
+          onClick={beginEdit}
+        >
+          <PencilIcon />
+        </TooltipIconButton>
       )}
     </ActionBarPrimitive.Root>
   );

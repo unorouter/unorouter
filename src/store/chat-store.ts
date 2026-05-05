@@ -83,6 +83,26 @@ export const setScrollControl = (ctrl: ScrollControl) => {
   _scrollControl = ctrl;
 };
 
+/**
+ * AI SDK `useChat` helpers needed for in-place assistant-message edits.
+ * Set by `ChatRuntimeHook` on every render so the assistant action bar can
+ * mutate the message buffer without going through `composer.send()` (which
+ * always regenerates) or the history adapter (which only handles append).
+ *
+ * `messages` is exposed read-only so the editor can introspect existing
+ * parts (reasoning, tool calls) and preserve them when saving.
+ */
+export type ChatHelpersRef = {
+  setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
+  messages: ReadonlyArray<unknown>;
+};
+
+let _chatHelpers: ChatHelpersRef | null = null;
+export const getChatHelpers = () => _chatHelpers;
+export const setChatHelpers = (helpers: ChatHelpersRef | null) => {
+  _chatHelpers = helpers;
+};
+
 // ---------------------------------------------------------------------------
 // Guest (anonymous) conversation IDs — persisted in a cookie
 // ---------------------------------------------------------------------------

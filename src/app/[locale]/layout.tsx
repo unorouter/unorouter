@@ -52,14 +52,34 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>;
 }) {
+  const reqId = Math.random().toString(36).slice(2, 8);
+  const tag = (label: string) => `[layout-meta:${reqId}] ${label}`;
+  console.time(tag("total"));
+
+  console.time(tag("serverLocale"));
   const locale = await serverLocale(props);
+  console.timeEnd(tag("serverLocale"));
+
+  console.time(tag("getTranslations+rpc.pricing.get"));
   const [t, pricing] = await Promise.all([
-    getTranslations({ locale }),
-    rpc.api.pricing
-      .get()
-      .then((r) => handleElysia(r))
-      .catch(() => null),
+    (async () => {
+      console.time(tag("getTranslations"));
+      const r = await getTranslations({ locale });
+      console.timeEnd(tag("getTranslations"));
+      return r;
+    })(),
+    (async () => {
+      console.time(tag("rpc.pricing.get"));
+      const r = await rpc.api.pricing
+        .get()
+        .then((r) => handleElysia(r))
+        .catch(() => null);
+      console.timeEnd(tag("rpc.pricing.get"));
+      return r;
+    })(),
   ]);
+  console.timeEnd(tag("getTranslations+rpc.pricing.get"));
+  queueMicrotask(() => console.timeEnd(tag("total")));
 
   return getPageMetadata({
     locale,

@@ -7,9 +7,9 @@
  * - JSON: spec-v2 envelope `{ spec: "chara_card_v2", data: {...} }` or v1 flat
  */
 
-import exifr from "exifr";
 import pngText from "png-chunk-text";
 import extractChunks from "png-chunks-extract";
+import sharp from "sharp";
 
 export type ParsedCharacterCard = {
   spec: "v1" | "v2";
@@ -88,19 +88,58 @@ function readPngChara(buffer: Buffer): string | null {
   return null;
 }
 
+const EXIF_TAG_USER_COMMENT = 0x9286;
+const EXIF_TAG_EXIF_IFD_POINTER = 0x8769;
+
+function readUserCommentFromTiff(tiff: Buffer): string | null {
+  if (tiff.length < 8) return null;
+
+  const byteOrder = tiff.readUInt16BE(0);
+  const little = byteOrder === 0x4949;
+  const big = byteOrder === 0x4d4d;
+  if (!little && !big) return null;
+
+  const u16 = (off: number) =>
+    little ? tiff.readUInt16LE(off) : tiff.readUInt16BE(off);
+  const u32 = (off: number) =>
+    little ? tiff.readUInt32LE(off) : tiff.readUInt32BE(off);
+
+  if (u16(2) !== 0x002a) return null;
+
+  const findTag = (ifdOffset: number, tag: number): number | null => {
+    if (ifdOffset + 2 > tiff.length) return null;
+    const count = u16(ifdOffset);
+    for (let i = 0; i < count; i++) {
+      const entry = ifdOffset + 2 + i * 12;
+      if (entry + 12 > tiff.length) return null;
+      if (u16(entry) === tag) return entry;
+    }
+    return null;
+  };
+
+  const ifd0Offset = u32(4);
+  const exifPointerEntry = findTag(ifd0Offset, EXIF_TAG_EXIF_IFD_POINTER);
+  if (!exifPointerEntry) return null;
+  const exifIfdOffset = u32(exifPointerEntry + 8);
+
+  const userCommentEntry = findTag(exifIfdOffset, EXIF_TAG_USER_COMMENT);
+  if (!userCommentEntry) return null;
+
+  const length = u32(userCommentEntry + 4);
+  const valueOffset =
+    length <= 4 ? userCommentEntry + 8 : u32(userCommentEntry + 8);
+  if (valueOffset + length > tiff.length) return null;
+
+  // First 8 bytes are the character-code header (ASCII\0\0\0, UNICODE\0, JIS\0\0\0\0\0, or 8 zero bytes for undefined).
+  if (length <= 8) return null;
+  const payload = tiff.subarray(valueOffset + 8, valueOffset + length);
+  return new TextDecoder("utf-8", { fatal: false }).decode(payload);
+}
+
 async function readWebpChara(buffer: Buffer): Promise<string | null> {
-  // exifr.parse on WebP returns parsed EXIF; UserComment is the chara payload.
-  const parsed = await exifr.parse(buffer, {
-    userComment: true,
-    pick: ["UserComment"],
-  });
-  if (!parsed?.UserComment) return null;
-  // exifr returns UserComment as a string when it can decode it.
-  if (typeof parsed.UserComment === "string") return parsed.UserComment;
-  // Fall back: it can also come back as Uint8Array; first 8 bytes are the
-  // character-code header (e.g. ASCII\0\0\0 / UNICODE\0).
-  const bytes = parsed.UserComment as Uint8Array;
-  return new TextDecoder("utf-8", { fatal: false }).decode(bytes.subarray(8));
+  const meta = await sharp(buffer).metadata();
+  if (!meta.exif) return null;
+  return readUserCommentFromTiff(meta.exif);
 }
 
 export type CharacterCardImportResult = {

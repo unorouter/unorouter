@@ -359,3 +359,63 @@ export function useFinalizeTaskMutation() {
     },
   });
 }
+
+/**
+ * Edit a message's items in place. Used for assistant-message in-place edits
+ * that don't trigger a regeneration. Caches are patched via setQueryData so
+ * paginated lists reflect the new items immediately.
+ */
+export function useEditMessageMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: {
+      convId: string;
+      msgId: string;
+      body: EdenArgs<
+        ReturnType<ReturnType<ChatRoute>["messages"]>,
+        "put"
+      >["body"];
+    }) =>
+      handleElysia(
+        await rpc.api
+          .chat({ id: args.convId })
+          .messages({ msgId: args.msgId })
+          .put(args.body),
+      ),
+    onSuccess: (_data, args) => {
+      type MessagesPage = {
+        messages: Array<Record<string, unknown>>;
+        total: number;
+      };
+      queryClient.setQueryData<InfiniteData<MessagesPage>>(
+        queryKeys.chatMessages(args.convId),
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              messages: page.messages.map((msg) =>
+                msg.id === args.msgId
+                  ? {
+                      ...msg,
+                      isEdited: true,
+                      items: args.body.items.map((it, seq) => ({
+                        id: it.id ?? `tmp-${seq}`,
+                        sequenceIndex: seq,
+                        outputIndex: it.output_index ?? null,
+                        type: it.type,
+                        data: it.data,
+                      })),
+                    }
+                  : msg,
+              ),
+            })),
+          };
+        },
+      );
+    },
+  });
+}

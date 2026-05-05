@@ -29,25 +29,50 @@ export async function generateMetadata(props: {
 export default async function HomePage(props: {
   params: Promise<{ locale: string }>;
 }) {
+  const reqId = Math.random().toString(36).slice(2, 8);
+  const tag = (label: string) => `[home:${reqId}] ${label}`;
+  console.time(tag("total"));
+
+  console.time(tag("queryClient+locale+t"));
   const queryClient = getQueryClient();
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
+  console.timeEnd(tag("queryClient+locale+t"));
 
+  console.time(tag("Promise.all rpc x3"));
   const [pricing] = await Promise.all([
-    queryClient.fetchQuery({
-      queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.statsHistory(),
-      queryFn: async () => handleElysia(await rpc.api.stats.history.get()),
-    }),
-    queryClient.prefetchQuery({
-      queryKey: queryKeys.subscriptionPlans(),
-      queryFn: async () =>
-        handleElysia(await rpc.api.pricing.subscriptions.get()),
-    }),
+    (async () => {
+      console.time(tag("rpc.pricing.get"));
+      const r = await queryClient.fetchQuery({
+        queryKey: queryKeys.pricing(),
+        queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+      });
+      console.timeEnd(tag("rpc.pricing.get"));
+      return r;
+    })(),
+    (async () => {
+      console.time(tag("rpc.stats.history.get"));
+      const r = await queryClient.prefetchQuery({
+        queryKey: queryKeys.statsHistory(),
+        queryFn: async () => handleElysia(await rpc.api.stats.history.get()),
+      });
+      console.timeEnd(tag("rpc.stats.history.get"));
+      return r;
+    })(),
+    (async () => {
+      console.time(tag("rpc.pricing.subscriptions.get"));
+      const r = await queryClient.prefetchQuery({
+        queryKey: queryKeys.subscriptionPlans(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.pricing.subscriptions.get()),
+      });
+      console.timeEnd(tag("rpc.pricing.subscriptions.get"));
+      return r;
+    })(),
   ]);
+  console.timeEnd(tag("Promise.all rpc x3"));
+
+  queueMicrotask(() => console.timeEnd(tag("total")));
 
   return (
     <>

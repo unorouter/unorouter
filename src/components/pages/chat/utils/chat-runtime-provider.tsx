@@ -19,7 +19,9 @@ import {
   getChatModel,
   getChatWebSearch,
   getConvId,
+  setChatHelpers,
   setConvId,
+  type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
@@ -130,6 +132,13 @@ function ChatRuntimeHook() {
 
   // Keep scroll anchoring + infinite-scroll fetches alive; the history adapter now owns setMessages
   useLoadedMessages(threadId, remoteId);
+
+  // Expose setMessages / regenerate for the assistant edit-in-place button.
+  // Plain ref, not reactive: the button reads it at click time.
+  setChatHelpers({
+    setMessages: chat.setMessages as ChatHelpersRef["setMessages"],
+    messages: chat.messages as ChatHelpersRef["messages"],
+  });
 
   const wrappedChat = {
     ...chat,
