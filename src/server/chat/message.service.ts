@@ -4,6 +4,7 @@ import {
   msg,
 } from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
+import { getRedis } from "@/lib/config/redis";
 import { getDb } from "@/lib/db/client";
 import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid, unwrap } from "@/lib/utils/base";
@@ -30,29 +31,22 @@ export type PendingUsage = {
 const PENDING_USAGE_TTL_SEC = Math.ceil(PENDING_USAGE_TTL_MS / 1000);
 const pendingKey = (convId: string) => `chat:pendingUsage:${convId}`;
 
-// Lazy access via globalThis so Next.js's Node-based build phase
-// (which can't resolve the `bun` module) doesn't fail during page-data
-// collection. Routes only touch redis at request time, where Bun is the runtime.
-function r() {
-  const bun = (globalThis as { Bun?: { redis: typeof import("bun").redis } })
-    .Bun;
-  if (!bun) throw new Error("Bun runtime not available (redis requires bun)");
-  return bun.redis;
-}
-
 export const pendingUsageByConv = {
   async get(convId: string): Promise<PendingUsage | undefined> {
-    const raw = await r().get(pendingKey(convId));
+    const raw = await getRedis().get(pendingKey(convId));
     if (!raw) return undefined;
     return JSON.parse(raw) as PendingUsage;
   },
   async set(convId: string, value: PendingUsage): Promise<void> {
-    const key = pendingKey(convId);
-    await r().set(key, JSON.stringify(value));
-    await r().expire(key, PENDING_USAGE_TTL_SEC);
+    await getRedis().set(
+      pendingKey(convId),
+      JSON.stringify(value),
+      "EX",
+      PENDING_USAGE_TTL_SEC,
+    );
   },
   async delete(convId: string): Promise<void> {
-    await r().del(pendingKey(convId));
+    await getRedis().del(pendingKey(convId));
   },
 };
 
