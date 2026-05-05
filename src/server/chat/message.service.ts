@@ -10,7 +10,7 @@ import {
   messageItems,
   messages,
 } from "@/lib/db/schema";
-import { getRedis } from "@/lib/redis/client";
+import { redis } from "bun";
 import { uid, unwrap } from "@/lib/utils/base";
 import dayjs from "dayjs";
 import { logger } from "@/lib/utils/logger";
@@ -37,20 +37,17 @@ const pendingKey = (convId: string) => `chat:pendingUsage:${convId}`;
 
 export const pendingUsageByConv = {
   async get(convId: string): Promise<PendingUsage | undefined> {
-    const raw = await getRedis().get(pendingKey(convId));
+    const raw = await redis.get(pendingKey(convId));
     if (!raw) return undefined;
     return JSON.parse(raw) as PendingUsage;
   },
   async set(convId: string, value: PendingUsage): Promise<void> {
-    await getRedis().set(
-      pendingKey(convId),
-      JSON.stringify(value),
-      "EX",
-      PENDING_USAGE_TTL_SEC,
-    );
+    const key = pendingKey(convId);
+    await redis.set(key, JSON.stringify(value));
+    await redis.expire(key, PENDING_USAGE_TTL_SEC);
   },
   async delete(convId: string): Promise<void> {
-    await getRedis().del(pendingKey(convId));
+    await redis.del(pendingKey(convId));
   },
 };
 

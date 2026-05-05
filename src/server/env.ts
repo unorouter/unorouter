@@ -16,7 +16,6 @@ export const serverEnv = {
   creemModerationEnabled: process.env.CREEM_MODERATION_ENABLED === "1",
   standalone: process.env.STANDALONE,
   port: process.env.PORT ?? "3000",
-  redisUrl: process.env.REDIS_URL,
 } as const;
 
 // Warn about missing optional vars that disable features
