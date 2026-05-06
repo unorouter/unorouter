@@ -22,7 +22,7 @@ RUN bun run build
 # Prod runtime: Node (Next.js standalone is built for Node and is ~5-10x faster
 # than running it under Bun, which has incomplete fast paths for the RSC pipeline
 # and AsyncLocalStorage). Build still runs on Bun (faster install + build).
-FROM node:22-alpine AS prod
+FROM node:24-alpine AS prod
 WORKDIR /app
 
 ENV NODE_ENV=production
