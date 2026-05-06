@@ -65,10 +65,14 @@ type DrawerProps = {
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
   const isLoggedIn = !!useAuthQuery().data;
-  // Defaults mode: edits the jotai atom (used for next-chat seeding + as the
-  // server-side fallback for guest convs). Server mode: edits the
-  // conversation_settings row for the active convId.
-  const isDefaultsMode = !isLoggedIn || !props.convId;
+  // Defaults mode: edits the jotai atom (next-chat seeding). Server mode:
+  // edits the `conversation_settings` row for the active convId. Guests own
+  // their own row under userId=0, so once a guest has a convId they're in
+  // server mode just like logged-in users. The persona/preset/characters/
+  // lorebooks fields stay hidden for guests because those reference
+  // user-owned rows that guests can't create.
+  const isDefaultsMode = !props.convId;
+  const showServerOnlyFields = isLoggedIn && !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
   const settingsQuery = useChatSettingsQuery(
     !isDefaultsMode ? props.convId! : undefined,
@@ -281,7 +285,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             className="flex min-h-0 flex-1 flex-col"
           >
             <div className="flex flex-col gap-5 px-4">
-              {!isDefaultsMode && (
+              {showServerOnlyFields && (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField
                   control={form.control}
@@ -360,7 +364,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
               </div>
               )}
 
-              {!isDefaultsMode && (
+              {showServerOnlyFields && (
               <FormField
                 control={form.control}
                 name="characterIds"
@@ -389,7 +393,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
               />
               )}
 
-              {!isDefaultsMode && (
+              {showServerOnlyFields && (
               <FormField
                 control={form.control}
                 name="lorebookIds"
@@ -567,7 +571,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 />
               </div>
 
-              {!isDefaultsMode && (
+              {showServerOnlyFields && (
               <div className="flex flex-col gap-2 rounded-md border p-3">
                 <FormField
                   control={form.control}

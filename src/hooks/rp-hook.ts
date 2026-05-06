@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
@@ -32,9 +33,11 @@ type Character = CharactersList extends ReadonlyArray<infer Item>
   : never;
 
 export function useCharactersQuery() {
+  const isLoggedIn = !!useAuthQuery().data;
   return useQuery({
     queryKey: queryKeys.characters(),
     queryFn: async () => handleElysia(await rpc.api.rp.characters.get()),
+    enabled: isLoggedIn,
   });
 }
 
@@ -129,9 +132,11 @@ type PersonasList = ListResponse<typeof rpc.api.rp.personas.get>;
 type Persona = PersonasList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function usePersonasQuery() {
+  const isLoggedIn = !!useAuthQuery().data;
   return useQuery({
     queryKey: queryKeys.personas(),
     queryFn: async () => handleElysia(await rpc.api.rp.personas.get()),
+    enabled: isLoggedIn,
   });
 }
 
@@ -239,9 +244,11 @@ type LorebookEntry = LorebookDetail extends { entries: infer E }
   : never;
 
 export function useLorebooksQuery() {
+  const isLoggedIn = !!useAuthQuery().data;
   return useQuery({
     queryKey: queryKeys.lorebooks(),
     queryFn: async () => handleElysia(await rpc.api.rp.lorebooks.get()),
+    enabled: isLoggedIn,
   });
 }
 
@@ -428,9 +435,11 @@ type PresetsList = ListResponse<typeof rpc.api.rp.presets.get>;
 type Preset = PresetsList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function usePresetsQuery() {
+  const isLoggedIn = !!useAuthQuery().data;
   return useQuery({
     queryKey: queryKeys.presets(),
     queryFn: async () => handleElysia(await rpc.api.rp.presets.get()),
+    enabled: isLoggedIn,
   });
 }
 

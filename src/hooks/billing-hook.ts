@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
@@ -39,6 +40,7 @@ export function useBillingPlansQuery() {
 }
 
 export function useSubscriptionSelfQuery() {
+  const isLoggedIn = !!useAuthQuery().data;
   return useQuery({
     queryKey: queryKeys.subscriptionSelf(),
     queryFn: async () => {
@@ -46,6 +48,7 @@ export function useSubscriptionSelfQuery() {
     },
     // Subscription state changes rarely; mutations explicitly invalidate.
     staleTime: 5 * 60_000,
+    enabled: isLoggedIn,
   });
 }
 

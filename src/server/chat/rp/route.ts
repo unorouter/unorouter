@@ -263,14 +263,20 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
   })
 
   // ----- Conversation settings + bindings ----------------------------------
+  // Guests own conversation_settings rows under userId=0 (created by
+  // POST /api/chat for anonymous users). Reads + sampling-knob writes use
+  // `getUserId(cookie, true) ?? 0` so guests can edit per-conversation
+  // overrides for their own convs. Bindings remain logged-in only on the
+  // write path because they reference user-owned characters/lorebooks; reads
+  // return whatever rows exist (guest convs have none).
   .get("/conversations/:id/settings", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = getUserId(cookie, true) ?? 0;
     return { success: true, data: await getSettings(userId, params.id) };
   })
   .put(
     "/conversations/:id/settings",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = getUserId(cookie, true) ?? 0;
       return {
         success: true,
         data: await updateSettings(userId, params.id, body),
@@ -279,7 +285,7 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { body: updateConversationSettingsBody },
   )
   .get("/conversations/:id/bindings", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = getUserId(cookie, true) ?? 0;
     return { success: true, data: await getBindings(userId, params.id) };
   })
   .put(

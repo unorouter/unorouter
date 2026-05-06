@@ -291,6 +291,12 @@ export async function updateSettings(
     if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 
     // Verify persona/preset ids belong to this user before persisting them.
+    // Guests (userId=0) cannot own personas/presets, so we silently drop any
+    // such references in the body rather than 404'ing the whole update.
+    if (userId === 0) {
+      body.personaId = undefined;
+      body.presetId = undefined;
+    }
     if (body.personaId) {
       const owned = await tx
         .select({ id: personas.id })
