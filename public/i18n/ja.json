@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "ロールプレイ設定を管理するにはログインしてください。",
+    "LOGIN_CTA": "ログイン",
     "CHARACTERS_TITLE": "キャラクター",
     "CHARACTERS_NEW": "新しいキャラクター",
     "CHARACTERS_IMPORT": "カードをインポート",

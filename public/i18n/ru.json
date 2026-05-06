@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "Войдите, чтобы управлять настройками ролевой игры.",
+    "LOGIN_CTA": "Войти",
     "CHARACTERS_TITLE": "Персонажи",
     "CHARACTERS_NEW": "Новый персонаж",
     "CHARACTERS_IMPORT": "Импорт карточки",

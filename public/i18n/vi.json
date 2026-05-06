@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "Đăng nhập để quản lý thiết lập nhập vai của bạn.",
+    "LOGIN_CTA": "Đăng nhập",
     "CHARACTERS_TITLE": "Nhân vật",
     "CHARACTERS_NEW": "Nhân vật mới",
     "CHARACTERS_IMPORT": "Nhập thẻ",

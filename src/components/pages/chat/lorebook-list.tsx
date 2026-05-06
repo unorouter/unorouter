@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useCreateLorebookEntryMutation,
   useCreateLorebookMutation,
@@ -36,6 +37,7 @@ import {
   useUpdateLorebookEntryMutation,
   useUpdateLorebookMutation,
 } from "@/hooks/rp-hook";
+import { RpLoginGate } from "@/components/pages/chat/rp-login-gate";
 import {
   lorebookEntryFormSchema,
   lorebookFormSchema,
@@ -56,6 +58,7 @@ type Props = {
 
 export function LorebookList(props: Props) {
   const t = useTranslations();
+  const isLoggedIn = !!useAuthQuery().data;
   const lorebooksQuery = useLorebooksQuery();
   const createMut = useCreateLorebookMutation();
   const deleteMut = useDeleteLorebookMutation();
@@ -106,7 +109,9 @@ export function LorebookList(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        {openLbId ? (
+        {!isLoggedIn ? (
+          <RpLoginGate />
+        ) : openLbId ? (
           <LorebookEditorInline
             lorebookId={openLbId}
             onDeleted={() => setOpenLbId(null)}

@@ -73,6 +73,24 @@ export default async function ChatConvPage(props: Props) {
         ),
       initialPageParam: 1,
     }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.chatSettings(convId),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.rp
+            .conversations({ id: convId })
+            .settings.get(cookieHeaders),
+        ),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.chatBindings(convId),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.rp
+            .conversations({ id: convId })
+            .bindings.get(cookieHeaders),
+        ),
+    }),
   ]);
 
   return (

@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "Melde dich an, um dein Rollenspiel zu verwalten.",
+    "LOGIN_CTA": "Anmelden",
     "CHARACTERS_TITLE": "Charaktere",
     "CHARACTERS_NEW": "Neuer Charakter",
     "CHARACTERS_IMPORT": "Karte importieren",

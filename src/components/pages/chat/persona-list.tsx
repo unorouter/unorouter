@@ -18,6 +18,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useCreatePersonaMutation,
   useDeletePersonaMutation,
@@ -25,6 +26,7 @@ import {
   usePersonasQuery,
   useUpdatePersonaMutation,
 } from "@/hooks/rp-hook";
+import { RpLoginGate } from "@/components/pages/chat/rp-login-gate";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
@@ -40,6 +42,7 @@ type Props = {
 
 export function PersonaList(props: Props) {
   const t = useTranslations();
+  const isLoggedIn = !!useAuthQuery().data;
   const personasQuery = usePersonasQuery();
   const createMut = useCreatePersonaMutation();
   const updateMut = useUpdatePersonaMutation();
@@ -105,7 +108,7 @@ export function PersonaList(props: Props) {
           <DialogTitle>{t("RP.PERSONAS_TITLE")}</DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col gap-3">
+        {!isLoggedIn ? <RpLoginGate /> : <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center justify-end gap-2">
             <input
               ref={fileInputRef}
@@ -226,7 +229,7 @@ export function PersonaList(props: Props) {
               ))}
             </div>
           )}
-        </div>
+        </div>}
       </DialogContent>
     </Dialog>
   );

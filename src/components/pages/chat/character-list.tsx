@@ -18,6 +18,7 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useCharactersQuery,
   useCreateCharacterMutation,
@@ -25,6 +26,7 @@ import {
   useImportCharacterCardMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/rp-hook";
+import { RpLoginGate } from "@/components/pages/chat/rp-login-gate";
 import {
   characterFormSchema,
   type CharacterForm,
@@ -46,6 +48,7 @@ type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
 export function CharacterList(props: Props) {
   const t = useTranslations();
+  const isLoggedIn = !!useAuthQuery().data;
   const charsQuery = useCharactersQuery();
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
@@ -89,7 +92,9 @@ export function CharacterList(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        {view.mode === "list" ? (
+        {!isLoggedIn ? (
+          <RpLoginGate />
+        ) : view.mode === "list" ? (
           <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-end gap-2">
               <input

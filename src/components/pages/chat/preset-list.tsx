@@ -11,12 +11,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useCreatePresetMutation,
   useDeletePresetMutation,
   usePresetsQuery,
   useUpdatePresetMutation,
 } from "@/hooks/rp-hook";
+import { RpLoginGate } from "@/components/pages/chat/rp-login-gate";
 import {
   samplingPresetFormSchema,
   type SamplingPresetForm,
@@ -36,6 +38,7 @@ type Props = {
 
 export function PresetList(props: Props) {
   const t = useTranslations();
+  const isLoggedIn = !!useAuthQuery().data;
   const presetsQuery = usePresetsQuery();
   const createMut = useCreatePresetMutation();
   const updateMut = useUpdatePresetMutation();
@@ -122,7 +125,7 @@ export function PresetList(props: Props) {
           <DialogTitle>{t("RP.PRESETS_TITLE")}</DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col gap-4">
+        {!isLoggedIn ? <RpLoginGate /> : <div className="flex flex-col gap-4">
           <div className="flex justify-end">
             <Button onClick={() => setEditingId("new")}>
               <LuPlus className="size-4" />
@@ -223,7 +226,7 @@ export function PresetList(props: Props) {
               ))}
             </div>
           )}
-        </div>
+        </div>}
       </DialogContent>
     </Dialog>
   );

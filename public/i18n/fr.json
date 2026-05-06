@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "Connectez-vous pour gerer votre jeu de role.",
+    "LOGIN_CTA": "Se connecter",
     "CHARACTERS_TITLE": "Personnages",
     "CHARACTERS_NEW": "Nouveau personnage",
     "CHARACTERS_IMPORT": "Importer une carte",

@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "請登入以管理你的角色扮演設定。",
+    "LOGIN_CTA": "登入",
     "CHARACTERS_TITLE": "角色",
     "CHARACTERS_NEW": "新增角色",
     "CHARACTERS_IMPORT": "匯入角色卡",

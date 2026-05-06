@@ -12,31 +12,6 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-// Cache helpers (local to RP). Each list query is a flat array of items
-// returned by handleElysia(); we patch it in place with setQueryData rather
-// than invalidating, per the project's React Query convention.
-
-function appendItem<T>(old: T[] | undefined, item: T): T[] {
-  return old ? [...old, item] : [item];
-}
-
-function updateItemById<T extends { id: string }>(
-  old: T[] | undefined,
-  id: string,
-  patch: Partial<T>,
-): T[] | undefined {
-  if (!old) return old;
-  return old.map((it) => (it.id === id ? { ...it, ...patch } : it));
-}
-
-function removeItemById<T extends { id: string }>(
-  old: T[] | undefined,
-  id: string,
-): T[] | undefined {
-  if (!old) return old;
-  return old.filter((it) => it.id !== id);
-}
-
 // `EdenResponse<rpc.api.rp.characters, "get">` resolves to the *single* item
 // type because the route is hybrid (parameterized `({id}).get` wins over the
 // static list `.get`). `ListResponse` peels the wrapper off the static list
@@ -81,7 +56,7 @@ export function useCreateCharacterMutation() {
     ) => handleElysia(await rpc.api.rp.characters.post(args.body)),
     onSuccess: (data) => {
       queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        appendItem(old, data as Character),
+        old ? [...old, data as Character] : [data as Character],
       );
     },
     onError: (e) => handleError(e, t),
@@ -102,7 +77,9 @@ export function useUpdateCharacterMutation() {
       handleElysia(await rpc.api.rp.characters({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
       queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        updateItemById(old, args.id, data as Partial<Character>),
+        old?.map((it) =>
+          it.id === args.id ? { ...it, ...(data as Partial<Character>) } : it,
+        ),
       );
       queryClient.setQueryData<Character>(
         queryKeys.character(args.id),
@@ -121,7 +98,7 @@ export function useDeleteCharacterMutation() {
       handleElysia(await rpc.api.rp.characters({ id }).delete()),
     onSuccess: (_data, id) => {
       queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        removeItemById(old, id),
+        old?.filter((it) => it.id !== id),
       );
       queryClient.removeQueries({ queryKey: queryKeys.character(id) });
     },
@@ -137,7 +114,7 @@ export function useImportCharacterCardMutation() {
       handleElysia(await rpc.api.rp.characters.import.post({ file })),
     onSuccess: (data) => {
       queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        appendItem(old, data as Character),
+        old ? [...old, data as Character] : [data as Character],
       );
     },
     onError: (e) => handleError(e, t),
@@ -176,7 +153,7 @@ export function useCreatePersonaMutation() {
     ) => handleElysia(await rpc.api.rp.personas.post(args.body)),
     onSuccess: (data) => {
       queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        appendItem(old, data as Persona),
+        old ? [...old, data as Persona] : [data as Persona],
       );
     },
     onError: (e) => handleError(e, t),
@@ -197,7 +174,9 @@ export function useUpdatePersonaMutation() {
       handleElysia(await rpc.api.rp.personas({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
       queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        updateItemById(old, args.id, data as Partial<Persona>),
+        old?.map((it) =>
+          it.id === args.id ? { ...it, ...(data as Partial<Persona>) } : it,
+        ),
       );
       queryClient.setQueryData<Persona>(queryKeys.persona(args.id), (old) =>
         old ? { ...old, ...(data as Partial<Persona>) } : old,
@@ -215,7 +194,7 @@ export function useDeletePersonaMutation() {
       handleElysia(await rpc.api.rp.personas({ id }).delete()),
     onSuccess: (_data, id) => {
       queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        removeItemById(old, id),
+        old?.filter((it) => it.id !== id),
       );
       queryClient.removeQueries({ queryKey: queryKeys.persona(id) });
     },
@@ -284,7 +263,7 @@ export function useCreateLorebookMutation() {
     ) => handleElysia(await rpc.api.rp.lorebooks.post(args.body)),
     onSuccess: (data) => {
       queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        appendItem(old, data as Lorebook),
+        old ? [...old, data as Lorebook] : [data as Lorebook],
       );
     },
     onError: (e) => handleError(e, t),
@@ -305,7 +284,9 @@ export function useUpdateLorebookMutation() {
       handleElysia(await rpc.api.rp.lorebooks({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
       queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        updateItemById(old, args.id, data as Partial<Lorebook>),
+        old?.map((it) =>
+          it.id === args.id ? { ...it, ...(data as Partial<Lorebook>) } : it,
+        ),
       );
       queryClient.setQueryData<LorebookDetail>(
         queryKeys.lorebook(args.id),
@@ -324,7 +305,7 @@ export function useDeleteLorebookMutation() {
       handleElysia(await rpc.api.rp.lorebooks({ id }).delete()),
     onSuccess: (_data, id) => {
       queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        removeItemById(old, id),
+        old?.filter((it) => it.id !== id),
       );
       queryClient.removeQueries({ queryKey: queryKeys.lorebook(id) });
     },
@@ -340,7 +321,7 @@ export function useImportLorebookMutation() {
       handleElysia(await rpc.api.rp.lorebooks.import.post({ file })),
     onSuccess: (data) => {
       queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        appendItem(old, data as Lorebook),
+        old ? [...old, data as Lorebook] : [data as Lorebook],
       );
     },
     onError: (e) => handleError(e, t),
@@ -471,7 +452,7 @@ export function useCreatePresetMutation() {
     ) => handleElysia(await rpc.api.rp.presets.post(args.body)),
     onSuccess: (data) => {
       queryClient.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        appendItem(old, data as Preset),
+        old ? [...old, data as Preset] : [data as Preset],
       );
     },
     onError: (e) => handleError(e, t),
@@ -492,7 +473,9 @@ export function useUpdatePresetMutation() {
       handleElysia(await rpc.api.rp.presets({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
       queryClient.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        updateItemById(old, args.id, data as Partial<Preset>),
+        old?.map((it) =>
+          it.id === args.id ? { ...it, ...(data as Partial<Preset>) } : it,
+        ),
       );
       queryClient.setQueryData<Preset>(queryKeys.preset(args.id), (old) =>
         old ? { ...old, ...(data as Partial<Preset>) } : old,
@@ -510,7 +493,7 @@ export function useDeletePresetMutation() {
       handleElysia(await rpc.api.rp.presets({ id }).delete()),
     onSuccess: (_data, id) => {
       queryClient.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        removeItemById(old, id),
+        old?.filter((it) => it.id !== id),
       );
       queryClient.removeQueries({ queryKey: queryKeys.preset(id) });
     },

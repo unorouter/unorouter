@@ -2134,6 +2134,8 @@
     }
   },
   "RP": {
+    "LOGIN_REQUIRED": "Sign in to manage your roleplay setup.",
+    "LOGIN_CTA": "Sign in",
     "CHARACTERS_TITLE": "Characters",
     "CHARACTERS_NEW": "New character",
     "CHARACTERS_IMPORT": "Import card",

@@ -56,6 +56,30 @@ export default async function ChatLayout(props: Props) {
             }),
           ),
       }),
+    isLoggedIn &&
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.characters(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.rp.characters.get(cookieHeaders!)),
+      }),
+    isLoggedIn &&
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.personas(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.rp.personas.get(cookieHeaders!)),
+      }),
+    isLoggedIn &&
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.lorebooks(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.rp.lorebooks.get(cookieHeaders!)),
+      }),
+    isLoggedIn &&
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.presets(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.rp.presets.get(cookieHeaders!)),
+      }),
   ]);
 
   return (
