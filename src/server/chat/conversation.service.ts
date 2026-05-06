@@ -23,6 +23,7 @@ import type {
   UpdateConversationBindingsBody,
   UpdateConversationSettingsBody,
 } from "@/lib/validation/chat";
+import { expandTemplateVars } from "./augmentation/prompt-assembler.service";
 import { and, asc, desc, eq, inArray, like, sql } from "drizzle-orm";
 
 // ---------------------------------------------------------------------------
@@ -207,8 +208,6 @@ export async function getConversation(userId: number, convId: string) {
       totalInputTokens: conversations.totalInputTokens,
       totalOutputTokens: conversations.totalOutputTokens,
       totalCost: conversations.totalCost,
-      archivedAt: conversations.archivedAt,
-      starredAt: conversations.starredAt,
       createdAt: conversations.createdAt,
       updatedAt: conversations.updatedAt,
       model: conversationSettings.defaultModel,
@@ -463,6 +462,79 @@ export async function updateBindings(
       }
     }
 
+    // Seed the bound character's first message as the opening assistant turn,
+    // but only when the conversation has no messages yet (avoid double-seeding
+    // on rebinding). Mirrors SillyTavern's "first_mes" behavior.
+    if (body.characters && body.characters.length > 0) {
+      const existing = await tx
+        .select({ id: messages.id })
+        .from(messages)
+        .where(eq(messages.convId, convId))
+        .limit(1);
+      if (existing.length === 0) {
+        const primaryId = body.characters[0].characterId;
+        const charRows = await tx
+          .select()
+          .from(characters)
+          .where(eq(characters.id, primaryId))
+          .limit(1);
+        const primary = charRows[0];
+        if (primary?.firstMessage) {
+          // Resolve persona for {{user}} substitution if one is bound.
+          const settingsRows = await tx
+            .select({ personaId: conversationSettings.personaId })
+            .from(conversationSettings)
+            .where(eq(conversationSettings.convId, convId))
+            .limit(1);
+          const personaId = settingsRows[0]?.personaId;
+          const persona = personaId
+            ? (
+                await tx
+                  .select()
+                  .from(personas)
+                  .where(eq(personas.id, personaId))
+                  .limit(1)
+              )[0]
+            : undefined;
+          const greeting = expandTemplateVars(primary.firstMessage, {
+            user: persona?.name ?? "User",
+            char: primary.name,
+            user_description: persona?.description ?? "",
+            char_description: primary.description ?? "",
+            scenario: primary.scenario ?? "",
+          });
+          const msgId = uid();
+          const now = dayjs().toDate();
+          await tx.insert(messages).values({
+            id: msgId,
+            convId,
+            parentId: null,
+            characterId: primaryId,
+            role: "assistant",
+            model: null,
+            branchIndex: 0,
+            isActiveBranch: true,
+            isEdited: false,
+            createdAt: now,
+            updatedAt: now,
+          });
+          await tx.insert(messageItems).values({
+            id: uid(),
+            messageId: msgId,
+            sequenceIndex: 0,
+            outputIndex: null,
+            type: "text",
+            data: { text: greeting },
+          });
+          logger.info("Seeded character greeting", {
+            context: "chat.bindings.greeting",
+            convId,
+            characterId: primaryId,
+          });
+        }
+      }
+    }
+
     return getBindings(userId, convId);
   });
 }
@@ -572,8 +644,6 @@ export async function getConversationOrShared(userId: number, convId: string) {
       totalInputTokens: conversations.totalInputTokens,
       totalOutputTokens: conversations.totalOutputTokens,
       totalCost: conversations.totalCost,
-      archivedAt: conversations.archivedAt,
-      starredAt: conversations.starredAt,
       createdAt: conversations.createdAt,
       updatedAt: conversations.updatedAt,
       model: conversationSettings.defaultModel,
@@ -753,8 +823,6 @@ export async function duplicateConversation(userId: number, convId: string) {
           branchIndex: m.branchIndex,
           isActiveBranch: m.isActiveBranch,
           isEdited: m.isEdited,
-          isCollapsed: m.isCollapsed,
-          rawResponse: m.rawResponse,
           createdAt: m.createdAt,
           updatedAt: now,
         })),

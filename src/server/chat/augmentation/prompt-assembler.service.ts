@@ -5,6 +5,7 @@ import {
   conversationLorebooks,
   conversationSettings,
   lorebookEntries,
+  lorebooks,
   personas,
   samplingPresets,
 } from "@/lib/db/schema";
@@ -13,8 +14,15 @@ import { logger } from "@/lib/utils/logger";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
 
+/** Single synthetic system message to splice into the upstream message array
+ *  at `depth` turns from the end (1 = before the last message, etc). */
+export type DepthInjection = {
+  text: string;
+  depth: number;
+};
+
 export type AssembledSystem = {
-  /** Composed system prompt (character + persona + lorebook + author note + web search). */
+  /** Composed system prompt (character + persona + before/after-char lorebook + web search). */
   system: string | undefined;
   /** Numbers passed straight through to streamText; new-api strips unsupported. */
   sampling: {
@@ -31,16 +39,10 @@ export type AssembledSystem = {
   reasoningEffort?: string;
   /** Sliding-window size to apply to messages array. */
   chatMemory: number;
-  /** Active character (for {{char}} substitution and message metadata). */
-  activeCharacterId?: string;
-  /** Active persona name (for {{user}} substitution). */
-  activePersonaName?: string;
-  /** Per-conversation web-search overrides; absent = use the body flag. */
-  webSearch?: {
-    enabled: boolean;
-    engine: string;
-    contextSize: string;
-  };
+  /** Author's note as a depth-injected synthetic system message. */
+  authorNote?: DepthInjection;
+  /** Lorebook entries with `position=at_depth`, each with their own depth. */
+  atDepthEntries: DepthInjection[];
 };
 
 const TEMPLATE_VAR_RE = /\{\{(user|char|user_description|char_description|scenario)\}\}/g;
@@ -98,12 +100,17 @@ export function assembleFromOverrides(
   const sections: string[] = [];
   if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
   if (overrides?.systemPromptOverride) sections.push(overrides.systemPromptOverride);
-  if (overrides?.authorNote) sections.push(`# Author's note\n${overrides.authorNote}`);
+  const authorNote =
+    overrides?.authorNote
+      ? { text: overrides.authorNote, depth: overrides.authorNoteDepth ?? 4 }
+      : undefined;
   return {
     system: sections.length ? sections.join("\n\n") : undefined,
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
     chatMemory: overrides?.chatMemory ?? 0,
+    authorNote,
+    atDepthEntries: [],
   };
 }
 
@@ -183,62 +190,133 @@ export async function loadConvContext(convId: string) {
     .orderBy(asc(conversationLorebooks.orderIndex));
   const lorebookIds = lbBindings.map((b) => b.lorebookId);
 
-  const lbEntries =
+  const [lbRows, lbEntries] =
     lorebookIds.length > 0
-      ? await db
-          .select()
-          .from(lorebookEntries)
-          .where(
-            and(
-              inArray(lorebookEntries.lorebookId, lorebookIds),
-              eq(lorebookEntries.enabled, true),
+      ? await Promise.all([
+          db
+            .select()
+            .from(lorebooks)
+            .where(inArray(lorebooks.id, lorebookIds)),
+          db
+            .select()
+            .from(lorebookEntries)
+            .where(
+              and(
+                inArray(lorebookEntries.lorebookId, lorebookIds),
+                eq(lorebookEntries.enabled, true),
+              ),
             ),
-          )
-      : [];
+        ])
+      : [[], []];
 
-  return { settings, boundCharacters, persona, preset, lbEntries };
+  return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
 }
 
-/**
- * Match lorebook entries against recent user messages within the configured
- * scan depth + token budget. Returns the entries that should be injected.
- */
-export function selectLorebookEntries(
-  entries: LoadedConvContext extends infer T
-    ? T extends { lbEntries: infer E }
-      ? E
+type LbEntry = LoadedConvContext extends infer T
+  ? T extends { lbEntries: infer E }
+    ? E extends ReadonlyArray<infer Item>
+      ? Item
       : never
-    : never,
-  recentText: string,
-  tokenBudget: number,
-): typeof entries {
-  if (!entries || entries.length === 0) return entries;
+    : never
+  : never;
 
-  const lower = recentText.toLowerCase();
+type LbRow = LoadedConvContext extends infer T
+  ? T extends { lbRows: infer R }
+    ? R extends ReadonlyArray<infer Item>
+      ? Item
+      : never
+    : never
+  : never;
+
+/**
+ * Filter `entries` to those whose primary keys (or `constant`) match `text`.
+ * Returns matched entries in priority-desc order. Caller handles budgeting.
+ */
+function matchEntries(entries: LbEntry[], text: string): LbEntry[] {
+  if (entries.length === 0) return [];
+  const lower = text.toLowerCase();
   const matched = entries.filter((e) => {
     if (e.constant) return true;
     const keys = (e.keys ?? []) as string[];
-    const matches = keys.some((k) => lower.includes(k.toLowerCase()));
-    if (!matches) return false;
+    const hit = keys.some((k) => lower.includes(k.toLowerCase()));
+    if (!hit) return false;
     if (e.selective) {
       const sec = (e.secondaryKeys ?? []) as string[];
       return sec.length === 0 || sec.some((k) => lower.includes(k.toLowerCase()));
     }
     return true;
   });
-
-  // Highest priority first
   matched.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+  return matched;
+}
 
-  let used = 0;
-  const out: typeof matched = [];
-  for (const e of matched) {
-    const cost = estimateTokens(e.content);
-    if (used + cost > tokenBudget) break;
-    out.push(e);
-    used += cost;
+const MAX_RECURSIVE_PASSES = 3;
+
+/**
+ * Select lorebook entries to inject for this turn, respecting per-lorebook
+ * `scanDepth`, `tokenBudget`, and `recursiveScanning`. Each book is scanned
+ * independently; results are merged (dedup by entry id) and globally
+ * priority-sorted.
+ *
+ * @param recentUserTexts user-message texts in newest-first order
+ * @param entries all enabled entries from all bound books
+ * @param books book metadata keyed by id (provides scanDepth/tokenBudget/recursive)
+ */
+export function selectLorebookEntries(
+  recentUserTexts: string[],
+  entries: LbEntry[],
+  books: Map<string, LbRow>,
+): LbEntry[] {
+  if (entries.length === 0) return [];
+
+  const byBook = new Map<string, LbEntry[]>();
+  for (const e of entries) {
+    const arr = byBook.get(e.lorebookId) ?? [];
+    arr.push(e);
+    byBook.set(e.lorebookId, arr);
   }
-  return out;
+
+  const seen = new Set<string>();
+  const merged: LbEntry[] = [];
+
+  for (const [bookId, bookEntries] of byBook) {
+    const book = books.get(bookId);
+    const scanDepth = book?.scanDepth ?? 4;
+    const budget = book?.tokenBudget ?? 1500;
+    const recursive = book?.recursiveScanning ?? false;
+
+    let scanText = recentUserTexts.slice(0, scanDepth).join("\n");
+    let used = 0;
+    const accepted: LbEntry[] = [];
+
+    for (let pass = 0; pass < MAX_RECURSIVE_PASSES; pass++) {
+      const matched = matchEntries(
+        bookEntries.filter((e) => !seen.has(e.id) && !accepted.some((a) => a.id === e.id)),
+        scanText,
+      );
+      if (matched.length === 0) break;
+
+      let added = 0;
+      for (const e of matched) {
+        const cost = estimateTokens(e.content);
+        if (used + cost > budget) continue;
+        accepted.push(e);
+        used += cost;
+        added++;
+      }
+      if (added === 0 || !recursive) break;
+      // Next pass scans the freshly-injected content for further keyword hits.
+      scanText = accepted.map((e) => e.content).join("\n");
+    }
+
+    for (const e of accepted) {
+      seen.add(e.id);
+      merged.push(e);
+    }
+  }
+
+  merged.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+  return merged;
 }
 
 /**

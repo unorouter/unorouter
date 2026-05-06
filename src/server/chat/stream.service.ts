@@ -52,7 +52,8 @@ type UsageInfo = {
   inputTokens: number;
   outputTokens: number;
   upstreamHeaders: Record<string, string>;
-  rawResponse?: string;
+  durationMs?: number;
+  tokensPerSecond?: number;
 };
 
 // ---------------------------------------------------------------------------
@@ -197,8 +198,9 @@ function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
       inputTokens: existing.inputTokens + usage.inputTokens,
       outputTokens: existing.outputTokens + usage.outputTokens,
       cost: 0,
+      durationMs: usage.durationMs ?? existing.durationMs,
+      tokensPerSecond: usage.tokensPerSecond ?? existing.tokensPerSecond,
       upstreamHeaders: usage.upstreamHeaders,
-      rawResponse: usage.rawResponse ?? existing.rawResponse,
       createdAt: Date.now(),
     });
     return;
@@ -208,8 +210,9 @@ function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
     inputTokens: usage.inputTokens,
     outputTokens: usage.outputTokens,
     cost: 0,
+    durationMs: usage.durationMs,
+    tokensPerSecond: usage.tokensPerSecond,
     upstreamHeaders: usage.upstreamHeaders,
-    rawResponse: usage.rawResponse,
     createdAt: Date.now(),
   });
 }
@@ -353,7 +356,6 @@ async function handleImageStream(
         inputTokens: 0,
         outputTokens: 0,
         upstreamHeaders,
-        rawResponse: markdown,
       });
 
       writeBufferedMessage(writer, markdown);
@@ -399,7 +401,6 @@ async function handleVideoTaskStream(
         inputTokens: 0,
         outputTokens: 0,
         upstreamHeaders,
-        rawResponse: sentinel,
       });
 
       writeBufferedMessage(writer, sentinel);
@@ -422,17 +423,6 @@ function handleBufferedStream(
     execute: async ({ writer }) => {
       const fullText = await result.text;
       const convId = body.convId ?? "tmp";
-
-      // Store raw response before URL processing so it can be persisted as backup
-      const pending = body.convId
-        ? pendingUsageByConv.get(body.convId)
-        : undefined;
-      if (pending && body.convId) {
-        pendingUsageByConv.set(body.convId, {
-          ...pending,
-          rawResponse: fullText,
-        });
-      }
 
       const cleanText = await processUrls(fullText, convId, mediaType);
       writeBufferedMessage(writer, cleanText);

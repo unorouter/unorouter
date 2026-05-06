@@ -66,7 +66,6 @@ export async function createCharacter(userId: number, body: CharacterBody) {
     id,
     userId,
     name: body.name,
-    shortName: body.shortName ?? null,
     avatarR2Key: body.avatarR2Key ?? null,
     description: body.description ?? null,
     personality: body.personality ?? null,
@@ -75,12 +74,8 @@ export async function createCharacter(userId: number, body: CharacterBody) {
     exampleMessages: body.exampleMessages ?? null,
     systemPrompt: body.systemPrompt ?? null,
     postHistoryInstructions: body.postHistoryInstructions ?? null,
-    defaultModel: body.defaultModel ?? null,
-    defaultPresetId: body.defaultPresetId ?? null,
     defaultReasoningEffort: body.defaultReasoningEffort ?? null,
     tags: body.tags ?? null,
-    source: body.source ?? "user",
-    sourceId: body.sourceId ?? null,
     nsfw: body.nsfw ?? false,
   });
   return getCharacter(userId, id);
@@ -96,7 +91,6 @@ export async function updateCharacter(
     .update(characters)
     .set({
       name: body.name,
-      shortName: body.shortName ?? null,
       avatarR2Key: body.avatarR2Key ?? null,
       description: body.description ?? null,
       personality: body.personality ?? null,
@@ -105,12 +99,8 @@ export async function updateCharacter(
       exampleMessages: body.exampleMessages ?? null,
       systemPrompt: body.systemPrompt ?? null,
       postHistoryInstructions: body.postHistoryInstructions ?? null,
-      defaultModel: body.defaultModel ?? null,
-      defaultPresetId: body.defaultPresetId ?? null,
       defaultReasoningEffort: body.defaultReasoningEffort ?? null,
       tags: body.tags ?? null,
-      source: body.source ?? "user",
-      sourceId: body.sourceId ?? null,
       nsfw: body.nsfw ?? false,
       updatedAt: dayjs().toDate(),
     })
@@ -165,8 +155,6 @@ export async function importCharacterCard(userId: number, file: File) {
     systemPrompt: card.systemPrompt ?? null,
     postHistoryInstructions: card.postHistoryInstructions ?? null,
     tags: card.tags ?? null,
-    source: card.spec === "v3" ? "tavern_v3" : "tavern_v2",
-    sourceId: null,
   });
 
   return getCharacter(userId, id);

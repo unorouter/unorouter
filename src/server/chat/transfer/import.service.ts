@@ -54,8 +54,6 @@ type NativeExport = {
   conversation: {
     id?: string;
     title?: string | null;
-    archivedAt?: Date | null;
-    starredAt?: Date | null;
     createdAt?: Date;
     updatedAt?: Date;
   };
@@ -170,10 +168,7 @@ async function importNative(
         systemPrompt: (c.systemPrompt as string | null) ?? null,
         postHistoryInstructions:
           (c.postHistoryInstructions as string | null) ?? null,
-        defaultModel: (c.defaultModel as string | null) ?? null,
         tags: (c.tags as string[] | null) ?? null,
-        source: (c.source as string | undefined) ?? "import",
-        sourceId: (c.sourceId as string | null) ?? null,
         nsfw: (c.nsfw as boolean | undefined) ?? false,
       });
     }
@@ -325,9 +320,6 @@ async function importOrpg(
         userId,
         name: (c.name as string | undefined) ?? "Imported character",
         description: (c.description as string | null) ?? null,
-        defaultModel: (c.model as string | null) ?? null,
-        source: "openrouter",
-        sourceId: oldId,
       });
       await tx.insert(conversationCharacters).values({
         convId: newConvId,

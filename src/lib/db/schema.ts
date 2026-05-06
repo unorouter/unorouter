@@ -23,8 +23,6 @@ export const conversations = sqliteTable(
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
     totalCost: real("total_cost").notNull().default(0),
-    archivedAt: integer("archived_at", { mode: "timestamp_ms" }),
-    starredAt: integer("starred_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -35,8 +33,6 @@ export const conversations = sqliteTable(
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
     index("idx_conv_share").on(table.shareId),
-    index("idx_conv_archived").on(table.userId, table.archivedAt),
-    index("idx_conv_starred").on(table.userId, table.starredAt),
   ],
 );
 
@@ -105,10 +101,6 @@ export const messages = sqliteTable(
     isEdited: integer("is_edited", { mode: "boolean" })
       .notNull()
       .default(false),
-    isCollapsed: integer("is_collapsed", { mode: "boolean" })
-      .notNull()
-      .default(false),
-    rawResponse: text("raw_response"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -157,7 +149,6 @@ export const characters = sqliteTable(
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
-    shortName: text("short_name"),
     avatarR2Key: text("avatar_r2_key"),
     description: text("description"),
     personality: text("personality"),
@@ -166,12 +157,8 @@ export const characters = sqliteTable(
     exampleMessages: text("example_messages"),
     systemPrompt: text("system_prompt"),
     postHistoryInstructions: text("post_history_instructions"),
-    defaultModel: text("default_model"),
-    defaultPresetId: text("default_preset_id"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }),
-    source: text("source").notNull().default("user"),
-    sourceId: text("source_id"),
     nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -183,7 +170,6 @@ export const characters = sqliteTable(
   (table) => [
     index("idx_char_user_updated").on(table.userId, table.updatedAt),
     index("idx_char_user_name").on(table.userId, table.name),
-    index("idx_char_user_source").on(table.userId, table.source, table.sourceId),
   ],
 );
 
@@ -466,37 +452,9 @@ export const acpIdempotencyKeys = sqliteTable(
 );
 
 // ---------------------------------------------------------------------------
-// Inferred types
+// Inferred types (only the ones actually imported elsewhere)
 // ---------------------------------------------------------------------------
 
-export type Conversation = typeof conversations.$inferSelect;
-export type NewConversation = typeof conversations.$inferInsert;
-export type ConversationSettings = typeof conversationSettings.$inferSelect;
-export type NewConversationSettings = typeof conversationSettings.$inferInsert;
 export type Message = typeof messages.$inferSelect;
-export type NewMessage = typeof messages.$inferInsert;
 export type MessageItem = typeof messageItems.$inferSelect;
-export type NewMessageItem = typeof messageItems.$inferInsert;
-export type Character = typeof characters.$inferSelect;
-export type NewCharacter = typeof characters.$inferInsert;
-export type Persona = typeof personas.$inferSelect;
-export type NewPersona = typeof personas.$inferInsert;
-export type Lorebook = typeof lorebooks.$inferSelect;
-export type NewLorebook = typeof lorebooks.$inferInsert;
-export type LorebookEntry = typeof lorebookEntries.$inferSelect;
-export type NewLorebookEntry = typeof lorebookEntries.$inferInsert;
-export type SamplingPreset = typeof samplingPresets.$inferSelect;
-export type NewSamplingPreset = typeof samplingPresets.$inferInsert;
-export type ConversationCharacter = typeof conversationCharacters.$inferSelect;
-export type NewConversationCharacter =
-  typeof conversationCharacters.$inferInsert;
-export type ConversationLorebook = typeof conversationLorebooks.$inferSelect;
-export type NewConversationLorebook = typeof conversationLorebooks.$inferInsert;
-export type Media = typeof media.$inferSelect;
-export type NewMedia = typeof media.$inferInsert;
-export type ModerationLog = typeof moderationLog.$inferSelect;
-export type NewModerationLog = typeof moderationLog.$inferInsert;
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
-export type NewAcpCheckoutSession = typeof acpCheckoutSessions.$inferInsert;
-export type AcpIdempotencyKey = typeof acpIdempotencyKeys.$inferSelect;
-export type NewAcpIdempotencyKey = typeof acpIdempotencyKeys.$inferInsert;

@@ -164,7 +164,7 @@ export async function exportConversationOrpg(userId: number, convId: string) {
   for (const c of native.characters) {
     orpgCharacters[c.id] = {
       id: c.id,
-      model: c.defaultModel ?? null,
+      model: null,
       description: c.description ?? null,
       includeDefaultSystemPrompt: true,
       isStreaming: true,
@@ -192,7 +192,7 @@ export async function exportConversationOrpg(userId: number, convId: string) {
       updatedAt: m.updatedAt,
       isRetrying: false,
       isEdited: m.isEdited,
-      isCollapsed: m.isCollapsed,
+      isCollapsed: false,
       type: m.role,
       isGenerating: false,
       metadata: m.generationId

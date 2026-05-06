@@ -32,7 +32,6 @@ CREATE TABLE `characters` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
 	`name` text NOT NULL,
-	`short_name` text,
 	`avatar_r2_key` text,
 	`description` text,
 	`personality` text,
@@ -41,12 +40,8 @@ CREATE TABLE `characters` (
 	`example_messages` text,
 	`system_prompt` text,
 	`post_history_instructions` text,
-	`default_model` text,
-	`default_preset_id` text,
 	`default_reasoning_effort` text,
 	`tags` text,
-	`source` text DEFAULT 'user' NOT NULL,
-	`source_id` text,
 	`nsfw` integer DEFAULT false NOT NULL,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
@@ -54,7 +49,6 @@ CREATE TABLE `characters` (
 --> statement-breakpoint
 CREATE INDEX `idx_char_user_updated` ON `characters` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_char_user_name` ON `characters` (`user_id`,`name`);--> statement-breakpoint
-CREATE INDEX `idx_char_user_source` ON `characters` (`user_id`,`source`,`source_id`);--> statement-breakpoint
 CREATE TABLE `conversation_characters` (
 	`conv_id` text NOT NULL,
 	`character_id` text NOT NULL,
@@ -113,8 +107,6 @@ CREATE TABLE `conversations` (
 	`total_input_tokens` integer DEFAULT 0 NOT NULL,
 	`total_output_tokens` integer DEFAULT 0 NOT NULL,
 	`total_cost` real DEFAULT 0 NOT NULL,
-	`archived_at` integer,
-	`starred_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
@@ -122,8 +114,6 @@ CREATE TABLE `conversations` (
 CREATE UNIQUE INDEX `conversations_share_id_unique` ON `conversations` (`share_id`);--> statement-breakpoint
 CREATE INDEX `idx_conv_user_updated` ON `conversations` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_conv_share` ON `conversations` (`share_id`);--> statement-breakpoint
-CREATE INDEX `idx_conv_archived` ON `conversations` (`user_id`,`archived_at`);--> statement-breakpoint
-CREATE INDEX `idx_conv_starred` ON `conversations` (`user_id`,`starred_at`);--> statement-breakpoint
 CREATE TABLE `lorebook_entries` (
 	`id` text PRIMARY KEY NOT NULL,
 	`lorebook_id` text NOT NULL,
@@ -198,8 +188,6 @@ CREATE TABLE `messages` (
 	`branch_index` integer DEFAULT 0 NOT NULL,
 	`is_active_branch` integer DEFAULT true NOT NULL,
 	`is_edited` integer DEFAULT false NOT NULL,
-	`is_collapsed` integer DEFAULT false NOT NULL,
-	`raw_response` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade

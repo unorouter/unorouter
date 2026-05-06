@@ -2,10 +2,8 @@ import type { Static } from "elysia";
 import { t } from "elysia";
 import { reasoningEffort } from "./chat";
 
-const MAX_ID_LEN = 64;
 const MAX_NAME_LEN = 200;
 const MAX_DESC_LEN = 50_000;
-const MAX_MODEL_LEN = 128;
 const MAX_TAG_LEN = 64;
 const MAX_TAGS = 32;
 const MAX_KEYS_PER_ENTRY = 64;
@@ -17,7 +15,6 @@ const MAX_KEY_LEN = 200;
 
 export const characterBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  shortName: t.Optional(t.String({ maxLength: MAX_NAME_LEN })),
   avatarR2Key: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
   description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
   personality: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
@@ -26,16 +23,10 @@ export const characterBody = t.Object({
   exampleMessages: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
   systemPrompt: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
   postHistoryInstructions: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-  defaultPresetId: t.Optional(
-    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-  ),
   defaultReasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   tags: t.Optional(
     t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
   ),
-  source: t.Optional(t.String({ maxLength: 32 })),
-  sourceId: t.Optional(t.String({ maxLength: 256 })),
   nsfw: t.Optional(t.Boolean()),
 });
 export type CharacterBody = Static<typeof characterBody>;

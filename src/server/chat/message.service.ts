@@ -22,8 +22,9 @@ export type PendingUsage = {
   inputTokens: number;
   outputTokens: number;
   cost: number;
+  durationMs?: number;
+  tokensPerSecond?: number;
   upstreamHeaders?: Record<string, string>;
-  rawResponse?: string;
   createdAt: number;
 };
 
@@ -303,7 +304,8 @@ export async function persistMessages(
           inputTokens: usage.inputTokens,
           outputTokens: usage.outputTokens,
           cost: usage.cost,
-          rawResponse: usage.rawResponse,
+          durationMs: usage.durationMs,
+          tokensPerSecond: usage.tokensPerSecond,
         })
         .where(eq(messages.id, ids[assistantIdx].id));
 
