@@ -53,8 +53,8 @@ import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { LuSettings2 } from "react-icons/lu";
-import { MultiSelectPopover } from "./multi-select-popover";
-import { SamplingFields } from "./sampling-fields";
+import { MultiSelectPopover } from "../rp/multi-select-popover";
+import { SamplingFields } from "../rp/sampling-fields";
 
 type DrawerProps = {
   /** null when no conversation exists yet (fresh thread, or guest pre-create). */

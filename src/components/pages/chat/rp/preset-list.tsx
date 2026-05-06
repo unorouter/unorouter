@@ -10,58 +10,48 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
+import { Form } from "@/components/ui/form";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useCreatePersonaMutation,
-  useDeletePersonaMutation,
-  useImportPersonaMutation,
-  usePersonasQuery,
-  useUpdatePersonaMutation,
+  useCreatePresetMutation,
+  useDeletePresetMutation,
+  usePresetsQuery,
+  useUpdatePresetMutation,
 } from "@/hooks/rp-hook";
-import { RpLoginGate } from "@/components/pages/chat/rp-login-gate";
-import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
+import { RpLoginGate } from "./rp-login-gate";
+import {
+  samplingPresetFormSchema,
+  type SamplingPresetForm,
+} from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
+import { LuPlus, LuTrash2 } from "react-icons/lu";
+import { SamplingFields } from "./sampling-fields";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export function PersonaList(props: Props) {
+export function PresetList(props: Props) {
   const t = useTranslations();
   const isLoggedIn = !!useAuthQuery().data;
-  const personasQuery = usePersonasQuery();
-  const createMut = useCreatePersonaMutation();
-  const updateMut = useUpdatePersonaMutation();
-  const deleteMut = useDeletePersonaMutation();
-  const importMut = useImportPersonaMutation();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const presetsQuery = usePresetsQuery();
+  const createMut = useCreatePresetMutation();
+  const updateMut = useUpdatePresetMutation();
+  const deleteMut = useDeletePresetMutation();
 
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    e.target.value = "";
-    await importMut.mutateAsync(file);
-  };
-
   const form = useForm({
-    resolver: typeboxResolver(personaFormSchema),
-    defaultValues: Value.Default(personaFormSchema, {}) as PersonaForm,
+    resolver: typeboxResolver(samplingPresetFormSchema),
+    defaultValues: Value.Default(
+      samplingPresetFormSchema,
+      {},
+    ) as SamplingPresetForm,
   });
 
   useEffect(() => {
@@ -69,24 +59,51 @@ export function PersonaList(props: Props) {
     if (!props.open) setEditingId(null);
   }, [props.open]);
 
+  // Re-seed when entering the editor.
   useEffect(() => {
     if (editingId === "new") {
-      form.reset(Value.Default(personaFormSchema, {}) as PersonaForm);
+      form.reset(
+        Value.Default(samplingPresetFormSchema, {}) as SamplingPresetForm,
+      );
       return;
     }
     if (!editingId) return;
-    const p = personasQuery.data?.find((x) => x.id === editingId);
+    const p = presetsQuery.data?.find((x) => x.id === editingId);
     if (!p) return;
     form.reset({
       name: p.name,
-      description: p.description ?? "",
+      temperature: p.temperature ?? null,
+      topP: p.topP ?? null,
+      topK: p.topK ?? null,
+      minP: p.minP ?? null,
+      topA: p.topA ?? null,
+      frequencyPenalty: p.frequencyPenalty ?? null,
+      presencePenalty: p.presencePenalty ?? null,
+      repetitionPenalty: p.repetitionPenalty ?? null,
+      maxTokens: p.maxTokens ?? null,
       isDefault: p.isDefault ?? false,
     });
     // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editingId, personasQuery.data]);
+  }, [editingId, presetsQuery.data]);
 
-  const onSubmit = async (data: PersonaForm) => {
+  const resetSampling = () => {
+    (
+      [
+        "temperature",
+        "topP",
+        "topK",
+        "minP",
+        "topA",
+        "frequencyPenalty",
+        "presencePenalty",
+        "repetitionPenalty",
+        "maxTokens",
+      ] as const
+    ).forEach((k) => form.setValue(k, null, { shouldDirty: true }));
+  };
+
+  const onSubmit = async (data: SamplingPresetForm) => {
     if (editingId === "new") {
       await createMut.mutateAsync({ body: data });
     } else if (editingId) {
@@ -103,77 +120,61 @@ export function PersonaList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-xl">
+      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{t("RP.PERSONAS_TITLE")}</DialogTitle>
+          <DialogTitle>{t("RP.PRESETS_TITLE")}</DialogTitle>
         </DialogHeader>
 
-        {!isLoggedIn ? <RpLoginGate /> : <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="application/json"
-              onChange={handleFile}
-              className="hidden"
-            />
-            <Button
-              variant="outline"
-              onClick={() => fileInputRef.current?.click()}
-              disabled={importMut.isPending}
-              className="min-w-0 flex-1 sm:flex-initial"
-            >
-              <LuUpload className="size-4" />
-              <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
-            </Button>
-            <Button
-              onClick={() => setEditingId("new")}
-              className="min-w-0 flex-1 sm:flex-initial"
-            >
+        {!isLoggedIn ? <RpLoginGate /> : <div className="flex flex-col gap-4">
+          <div className="flex justify-end">
+            <Button onClick={() => setEditingId("new")}>
               <LuPlus className="size-4" />
-              <span className="truncate">{t("RP.PERSONAS_NEW")}</span>
+              {t("RP.PRESETS_NEW")}
             </Button>
           </div>
 
-          {personasQuery.data?.length === 0 && editingId !== "new" && (
+          {presetsQuery.data?.length === 0 && editingId !== "new" && (
             <Card className="text-muted-foreground py-10 text-center text-sm">
-              {t("RP.PERSONAS_EMPTY")}
+              {t("RP.PRESETS_EMPTY")}
             </Card>
           )}
 
           {editingId && (
-            <Card className="flex flex-col gap-3 p-4">
+            <Card className="flex flex-col gap-4 p-4">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="flex flex-col gap-3"
+                  className="flex flex-col gap-4"
                 >
                   <MyFormInput
                     control={form.control}
                     name="name"
-                    schema={personaFormSchema}
+                    schema={samplingPresetFormSchema}
                     label={t("COMMON.NAME")}
                   />
-                  <span className="text-muted-foreground -mt-2 text-xs">
-                    {t("RP.PERSONA_NAME_HINT")}
-                  </span>
-                  <FormField
+
+                  <SamplingFields
                     control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("COMMON.DESCRIPTION")}</FormLabel>
-                        <FormControl>
-                          <Textarea {...field} rows={3} />
-                        </FormControl>
-                      </FormItem>
-                    )}
+                    names={{
+                      temperature: "temperature",
+                      topP: "topP",
+                      topK: "topK",
+                      minP: "minP",
+                      topA: "topA",
+                      frequencyPenalty: "frequencyPenalty",
+                      presencePenalty: "presencePenalty",
+                      repetitionPenalty: "repetitionPenalty",
+                      maxTokens: "maxTokens",
+                    }}
+                    onReset={resetSampling}
                   />
+
                   <MyFormSwitch
                     control={form.control}
                     name="isDefault"
-                    label={t("RP.PERSONA_DEFAULT")}
+                    label={t("RP.PRESET_DEFAULT")}
                   />
+
                   <div className="flex justify-end gap-2">
                     <Button
                       type="button"
@@ -191,29 +192,25 @@ export function PersonaList(props: Props) {
 
           {!editingId && (
             <div className="flex flex-col gap-2">
-              {personasQuery.data?.map((p) => (
+              {presetsQuery.data?.map((p) => (
                 <Card
                   key={p.id}
                   className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
                   onClick={() => setEditingId(p.id)}
                 >
-                  <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
-                    {p.name[0]?.toUpperCase() ?? "?"}
-                  </div>
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="text-sm font-medium">
                       {p.name}
                       {p.isDefault && (
                         <span className="text-muted-foreground ml-2 text-xs">
-                          ({t("RP.PERSONA_DEFAULT").toLowerCase()})
+                          ({t("RP.PRESET_DEFAULT").toLowerCase()})
                         </span>
                       )}
                     </span>
-                    {p.description && (
-                      <span className="text-muted-foreground truncate text-xs">
-                        {p.description}
-                      </span>
-                    )}
+                    <span className="text-muted-foreground truncate text-xs">
+                      T={p.temperature ?? "off"} | TopP={p.topP ?? "off"} |
+                      TopK={p.topK ?? "off"}
+                    </span>
                   </div>
                   <Button
                     variant="ghost"

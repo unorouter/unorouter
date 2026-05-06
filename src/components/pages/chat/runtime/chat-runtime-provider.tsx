@@ -1,9 +1,9 @@
 "use client";
 /* eslint-disable react-hooks/refs -- refs accessed during render for sync transport/adapter state */
 
-import { createChatHistoryAdapter } from "@/components/pages/chat/utils/chat-history-adapter";
-import { createR2AttachmentAdapter } from "@/components/pages/chat/utils/chat-utils";
-import { createThreadListAdapter } from "@/components/pages/chat/utils/thread-list-adapter";
+import { createChatHistoryAdapter } from "@/components/pages/chat/runtime/chat-history-adapter";
+import { createR2AttachmentAdapter } from "@/components/pages/chat/runtime/chat-utils";
+import { createThreadListAdapter } from "@/components/pages/chat/runtime/thread-list-adapter";
 import {
   useConversationQuery,
   useUpdateConversationMutation,

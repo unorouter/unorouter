@@ -4,8 +4,8 @@ import {
   RpDialogs,
   SidebarRpNav,
 } from "@/components/pages/chat/sidebar/sidebar-rp-nav";
-import { ChatRuntimeProvider } from "@/components/pages/chat/utils/chat-runtime-provider";
-import { GuestConvsClaim } from "@/components/pages/chat/utils/guest-convs-claim";
+import { ChatRuntimeProvider } from "@/components/pages/chat/runtime/chat-runtime-provider";
+import { GuestConvsClaim } from "@/components/pages/chat/runtime/guest-convs-claim";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";

@@ -1,9 +1,9 @@
 "use client";
 
-import { CharacterList } from "@/components/pages/chat/character-list";
-import { LorebookList } from "@/components/pages/chat/lorebook-list";
-import { PersonaList } from "@/components/pages/chat/persona-list";
-import { PresetList } from "@/components/pages/chat/preset-list";
+import { CharacterList } from "@/components/pages/chat/rp/character-list";
+import { LorebookList } from "@/components/pages/chat/rp/lorebook-list";
+import { PersonaList } from "@/components/pages/chat/rp/persona-list";
+import { PresetList } from "@/components/pages/chat/rp/preset-list";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,

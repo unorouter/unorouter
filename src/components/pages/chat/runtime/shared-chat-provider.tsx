@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react-hooks/refs -- history adapter ref is a stable handle, not reactive state */
 
-import { createChatHistoryAdapter } from "@/components/pages/chat/utils/chat-history-adapter";
+import { createChatHistoryAdapter } from "@/components/pages/chat/runtime/chat-history-adapter";
 import { ConvIdOverrideContext } from "@/hooks/ui/use-chat-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { useChat } from "@ai-sdk/react";

@@ -1,4 +1,3 @@
-import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/client";
 import {
   characters,
@@ -15,7 +14,6 @@ import {
 } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-
 import {
   importSillyTavernChat,
   looksLikeSillyTavernChat,
@@ -89,11 +87,9 @@ async function importNative(
   const lbIdMap = new Map<string, string>();
   for (const l of native.lorebooks) lbIdMap.set(l.id as string, uid());
   const personaIdMap = new Map<string, string>();
-  if (native.persona)
-    personaIdMap.set(native.persona.id as string, uid());
+  if (native.persona) personaIdMap.set(native.persona.id as string, uid());
   const presetIdMap = new Map<string, string>();
-  if (native.preset)
-    presetIdMap.set(native.preset.id as string, uid());
+  if (native.preset) presetIdMap.set(native.preset.id as string, uid());
   const msgIdMap = new Map<string, string>();
   for (const m of native.messages) msgIdMap.set(m.id as string, uid());
 
@@ -106,13 +102,12 @@ async function importNative(
 
     await tx.insert(conversationSettings).values({
       convId: newConvId,
-      defaultModel:
-        (native.settings?.defaultModel as string | undefined) ?? "",
+      defaultModel: (native.settings?.defaultModel as string | undefined) ?? "",
       personaId: native.persona
-        ? personaIdMap.get(native.persona.id as string) ?? null
+        ? (personaIdMap.get(native.persona.id as string) ?? null)
         : null,
       presetId: native.preset
-        ? presetIdMap.get(native.preset.id as string) ?? null
+        ? (presetIdMap.get(native.preset.id as string) ?? null)
         : null,
       systemPromptOverride:
         (native.settings?.systemPromptOverride as string | null) ?? null,
@@ -241,8 +236,8 @@ async function importNative(
       await tx.insert(messages).values({
         id: newId,
         convId: newConvId,
-        parentId: oldParent ? msgIdMap.get(oldParent) ?? null : null,
-        characterId: oldChar ? charIdMap.get(oldChar) ?? null : null,
+        parentId: oldParent ? (msgIdMap.get(oldParent) ?? null) : null,
+        characterId: oldChar ? (charIdMap.get(oldChar) ?? null) : null,
         role: m.role as string,
         model: (m.model as string | null) ?? null,
         generationId: (m.generationId as string | null) ?? null,
@@ -252,8 +247,7 @@ async function importNative(
         durationMs: (m.durationMs as number | null) ?? null,
         tokensPerSecond: (m.tokensPerSecond as number | null) ?? null,
         branchIndex: (m.branchIndex as number | undefined) ?? 0,
-        isActiveBranch:
-          (m.isActiveBranch as boolean | undefined) ?? true,
+        isActiveBranch: (m.isActiveBranch as boolean | undefined) ?? true,
         isEdited: (m.isEdited as boolean | undefined) ?? false,
       });
     }
@@ -289,11 +283,14 @@ async function importOrpg(
   const db = getDb();
 
   const newConvId = uid();
-  const ext = (data._unorouter_extension as Record<string, unknown> | undefined) ??
-    {};
-  const orpgCharacters = (data.characters as Record<string, Record<string, unknown>>) ?? {};
-  const orpgMessages = (data.messages as Record<string, Record<string, unknown>>) ?? {};
-  const orpgItems = (data.items as Record<string, Record<string, unknown>>) ?? {};
+  const ext =
+    (data._unorouter_extension as Record<string, unknown> | undefined) ?? {};
+  const orpgCharacters =
+    (data.characters as Record<string, Record<string, unknown>>) ?? {};
+  const orpgMessages =
+    (data.messages as Record<string, Record<string, unknown>>) ?? {};
+  const orpgItems =
+    (data.items as Record<string, Record<string, unknown>>) ?? {};
 
   // Pick a default model from the first character
   const firstChar = Object.values(orpgCharacters)[0];
@@ -345,12 +342,12 @@ async function importOrpg(
       const oldParent = m.parentMessageId as string | null;
       const oldChar = m.characterId as string | null;
       const newChar =
-        oldChar && oldChar !== "USER" ? charIdMap.get(oldChar) ?? null : null;
+        oldChar && oldChar !== "USER" ? (charIdMap.get(oldChar) ?? null) : null;
       const meta = m.metadata as Record<string, unknown> | undefined;
       await tx.insert(messages).values({
         id: newId,
         convId: newConvId,
-        parentId: oldParent ? msgIdMap.get(oldParent) ?? null : null,
+        parentId: oldParent ? (msgIdMap.get(oldParent) ?? null) : null,
         characterId: newChar,
         role: (m.type as string | undefined) ?? "user",
         model: (meta?.variantSlug as string | null) ?? null,
@@ -396,15 +393,18 @@ async function importOrpg(
               return tp === "output_text" || tp === "input_text";
             });
             data = {
-              text: typeof t === "object" && t
-                ? String((t as Record<string, unknown>).text ?? "")
-                : "",
+              text:
+                typeof t === "object" && t
+                  ? String((t as Record<string, unknown>).text ?? "")
+                  : "",
             };
           } else {
             data = { text: "" };
           }
         } else if (ourType === "reasoning") {
-          const content = itemData.content as Array<Record<string, unknown>> | undefined;
+          const content = itemData.content as
+            | Array<Record<string, unknown>>
+            | undefined;
           const text = content?.find((p) => p.type === "reasoning_text");
           data = { text: typeof text?.text === "string" ? text.text : "" };
         } else {
@@ -461,9 +461,4 @@ async function importOrpg(
     convId: newConvId,
   });
   return { id: newConvId };
-}
-
-if (false) {
-  // Force the unused-import linter to keep `msg` available for potential future error paths.
-  msg("ERRORS.NOT_FOUND");
 }

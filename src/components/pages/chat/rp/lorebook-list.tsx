@@ -43,7 +43,7 @@ import {
   useUpdateLorebookEntryMutation,
   useUpdateLorebookMutation,
 } from "@/hooks/rp-hook";
-import { RpLoginGate } from "@/components/pages/chat/rp-login-gate";
+import { RpLoginGate } from "./rp-login-gate";
 import {
   lorebookEntryFormSchema,
   lorebookFormSchema,
