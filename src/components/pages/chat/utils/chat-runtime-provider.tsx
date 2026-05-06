@@ -16,6 +16,7 @@ import { handleError } from "@/lib/utils/client";
 import {
   chatModelAtom,
   chatStore,
+  getChatDefaults,
   getChatModel,
   getChatWebSearch,
   getConvId,
@@ -110,6 +111,10 @@ function ChatRuntimeHook() {
         model: getChatModel(),
         convId: getConvId(),
         webSearch: getChatWebSearch(),
+        // Used as fallback when the conversation has no settings row (guest
+        // convs). Logged-in convs always have a row seeded at creation time
+        // from this same value.
+        overrides: getChatDefaults(),
       }),
     }),
   );

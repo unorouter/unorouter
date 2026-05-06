@@ -29,6 +29,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useChatBindingsQuery,
   useChatSettingsQuery,
@@ -39,6 +40,9 @@ import {
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
 } from "@/hooks/rp-hook";
+import type { StreamOverrides } from "@/lib/validation/chat";
+import { chatDefaultsAtom } from "@/store/chat-store";
+import { useAtom } from "jotai";
 import {
   conversationOverridesFormSchema,
   type ConversationOverridesForm,
@@ -53,14 +57,25 @@ import { MultiSelectPopover } from "./multi-select-popover";
 import { SamplingFields } from "./sampling-fields";
 
 type DrawerProps = {
-  convId: string;
+  /** null when no conversation exists yet (fresh thread, or guest pre-create). */
+  convId: string | null;
   trigger?: React.ReactElement;
 };
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
-  const settingsQuery = useChatSettingsQuery(props.convId);
-  const bindingsQuery = useChatBindingsQuery(props.convId);
+  const isLoggedIn = !!useAuthQuery().data;
+  // Defaults mode: edits the jotai atom (used for next-chat seeding + as the
+  // server-side fallback for guest convs). Server mode: edits the
+  // conversation_settings row for the active convId.
+  const isDefaultsMode = !isLoggedIn || !props.convId;
+  const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
+  const settingsQuery = useChatSettingsQuery(
+    !isDefaultsMode ? props.convId! : undefined,
+  );
+  const bindingsQuery = useChatBindingsQuery(
+    !isDefaultsMode ? props.convId! : undefined,
+  );
   const charactersQuery = useCharactersQuery();
   const personasQuery = usePersonasQuery();
   const lorebooksQuery = useLorebooksQuery();
@@ -80,8 +95,35 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     ) as ConversationOverridesForm,
   });
 
-  // Seed form once settings + bindings are loaded for this convId.
+  // Seed form. In defaults mode read from the jotai atom; otherwise from the
+  // server settings + bindings as soon as they're loaded.
   useEffect(() => {
+    if (isDefaultsMode) {
+      form.reset({
+        personaId: "__none__",
+        presetId: "__none__",
+        reasoningEffort: chatDefaults.reasoningEffort ?? "__none__",
+        chatMemory: chatDefaults.chatMemory ?? 8,
+        authorNoteDepth: chatDefaults.authorNoteDepth ?? 4,
+        systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
+        authorNote: chatDefaults.authorNote ?? "",
+        webSearchEnabled: false,
+        webSearchEngine: chatDefaults.webSearchEngine ?? "auto",
+        webSearchContextSize: chatDefaults.webSearchContextSize ?? "medium",
+        characterIds: [],
+        lorebookIds: [],
+        temperature: chatDefaults.temperature ?? null,
+        topP: chatDefaults.topP ?? null,
+        topK: chatDefaults.topK ?? null,
+        minP: chatDefaults.minP ?? null,
+        topA: chatDefaults.topA ?? null,
+        frequencyPenalty: chatDefaults.frequencyPenalty ?? null,
+        presencePenalty: chatDefaults.presencePenalty ?? null,
+        repetitionPenalty: chatDefaults.repetitionPenalty ?? null,
+        maxTokens: chatDefaults.maxTokens ?? null,
+      });
+      return;
+    }
     if (!settings || !bindings) return;
     form.reset({
       personaId: settings.personaId ?? "__none__",
@@ -107,9 +149,10 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       maxTokens: settings.maxTokens ?? null,
     });
     // Re-seed only when convId or the underlying server data changes;
-    // form.reset is stable.
+    // form.reset is stable. `chatDefaults` is included so the form picks up
+    // the value once `atomWithStorage` hydrates from the cookie on mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.convId, settings, bindings]);
+  }, [props.convId, settings, bindings, isDefaultsMode, chatDefaults]);
 
   const webSearchEnabled = useWatch({
     control: form.control,
@@ -129,8 +172,35 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   };
 
   const onSubmit = async (data: ConversationOverridesForm) => {
+    if (isDefaultsMode) {
+      // Persist to the jotai atom so it survives across new chats and seeds
+      // the next conversation_settings row at create time. Drop server-only
+      // fields (persona/preset/characters/lorebooks/system prompt/author note/
+      // web search) — guests don't have those.
+      const next: StreamOverrides = {
+        reasoningEffort:
+          data.reasoningEffort === "__none__"
+            ? null
+            : (data.reasoningEffort as StreamOverrides["reasoningEffort"]),
+        chatMemory: data.chatMemory,
+        systemPromptOverride: data.systemPromptOverride || null,
+        authorNote: data.authorNote || null,
+        authorNoteDepth: data.authorNoteDepth,
+        temperature: data.temperature,
+        topP: data.topP,
+        topK: data.topK,
+        minP: data.minP,
+        topA: data.topA,
+        frequencyPenalty: data.frequencyPenalty,
+        presencePenalty: data.presencePenalty,
+        repetitionPenalty: data.repetitionPenalty,
+        maxTokens: data.maxTokens,
+      };
+      setChatDefaults(next);
+      return;
+    }
     await updateSettings.mutateAsync({
-      convId: props.convId,
+      convId: props.convId!,
       body: {
         chatMemory: data.chatMemory,
         authorNoteDepth: data.authorNoteDepth,
@@ -170,7 +240,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       },
     });
     await updateBindings.mutateAsync({
-      convId: props.convId,
+      convId: props.convId!,
       body: {
         characters: data.characterIds.map((id, i) => ({
           characterId: id,
@@ -211,6 +281,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             className="flex min-h-0 flex-1 flex-col"
           >
             <div className="flex flex-col gap-5 px-4">
+              {!isDefaultsMode && (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField
                   control={form.control}
@@ -287,7 +358,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   )}
                 />
               </div>
+              )}
 
+              {!isDefaultsMode && (
               <FormField
                 control={form.control}
                 name="characterIds"
@@ -314,7 +387,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   </FormItem>
                 )}
               />
+              )}
 
+              {!isDefaultsMode && (
               <FormField
                 control={form.control}
                 name="lorebookIds"
@@ -341,6 +416,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   </FormItem>
                 )}
               />
+              )}
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <FormField
@@ -491,6 +567,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 />
               </div>
 
+              {!isDefaultsMode && (
               <div className="flex flex-col gap-2 rounded-md border p-3">
                 <FormField
                   control={form.control}
@@ -575,6 +652,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   </div>
                 )}
               </div>
+              )}
             </div>
 
             <SheetFooter>

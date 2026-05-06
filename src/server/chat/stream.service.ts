@@ -24,6 +24,7 @@ import { inArray } from "drizzle-orm";
 import { assertPromptAllowed } from "./augmentation/moderation.service";
 import {
   assembleForStream,
+  assembleFromOverrides,
   loadConvContext,
 } from "./augmentation/prompt-assembler.service";
 import { submitVideoTask } from "./augmentation/task.service";
@@ -43,6 +44,7 @@ type StreamBody = {
   messages: Parameters<typeof convertToModelMessages>[0];
   convId?: string | null;
   webSearch?: boolean;
+  overrides?: import("@/lib/validation/chat").StreamOverrides;
 };
 
 type UsageInfo = {
@@ -474,7 +476,12 @@ export async function streamChat(
   // overrides (engine, contextSize, enabled) can gate the Tavily call below.
   const convCtx = body.convId ? await loadConvContext(body.convId) : null;
   const convWebSearchEnabled = convCtx?.settings.webSearchEnabled ?? false;
-  const effectiveWebSearch = convCtx ? convWebSearchEnabled : !!body.webSearch;
+  // Web search is a paid-only feature: a guest stream (no convCtx, no auth
+  // row) cannot enable it via body, even if the client somehow sends true.
+  const effectiveWebSearch =
+    convCtx && userId !== "guest"
+      ? convWebSearchEnabled
+      : userId !== "guest" && !!body.webSearch;
 
   // Web search via Tavily
   let searchSystemMessage: string | undefined;
@@ -501,12 +508,19 @@ export async function streamChat(
   const messagesWithPdfText = await inlinePdfText(body.messages);
 
   // Assemble the final system message + sampling params, reusing the ctx we
-  // already loaded for web-search gating.
+  // already loaded for web-search gating. When there's no conv ctx (guest
+  // convs, or pre-create), fall back to the per-stream overrides the client
+  // sends from its jotai defaults.
   const recentUserText = collectRecentUserText(messagesWithPdfText);
   const assembled =
     body.convId && convCtx
-      ? await assembleForStream(body.convId, recentUserText, searchSystemMessage, convCtx)
-      : { system: searchSystemMessage, sampling: {}, chatMemory: 0, reasoningEffort: undefined };
+      ? await assembleForStream(
+          body.convId,
+          recentUserText,
+          searchSystemMessage,
+          convCtx,
+        )
+      : assembleFromOverrides(body.overrides, searchSystemMessage);
 
   // Slice messages by chat-memory window (only the user-typed messages count;
   // we never trim system).

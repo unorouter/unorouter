@@ -13,6 +13,7 @@ import { handleError } from "@/lib/utils/client";
 import dayjs from "dayjs";
 import {
   addGuestConvId,
+  getChatDefaults,
   getChatModel,
   getConvId,
   removeGuestConvId,
@@ -68,7 +69,12 @@ export function createThreadListAdapter(
         id = uid();
         setConvId(id);
       }
-      const data = handleElysia(await rpc.api.chat.post({ id, model }));
+      // Seed conversation_settings from the user's current jotai defaults so
+      // the first turn already runs with their preferred sampling/effort/web
+      // search knobs. The drawer mutates the row directly afterward.
+      const data = handleElysia(
+        await rpc.api.chat.post({ id, model, overrides: getChatDefaults() }),
+      );
       const now = dayjs().toDate();
       const newItem: ConvItem = {
         ...data,

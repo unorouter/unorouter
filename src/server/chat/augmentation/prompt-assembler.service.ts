@@ -8,6 +8,7 @@ import {
   personas,
   samplingPresets,
 } from "@/lib/db/schema";
+import type { StreamOverrides } from "@/lib/validation/chat";
 import { logger } from "@/lib/utils/logger";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
@@ -67,6 +68,43 @@ export function expandTemplateVars(
 function estimateTokens(text: string): number {
   if (!text) return 0;
   return encode(text).length;
+}
+
+/**
+ * Build an `AssembledSystem` from per-stream `body.overrides` only. Used when
+ * the conversation has no `conversation_settings` row (guest convs, or the
+ * very first turn before the row is created). Mirrors the shape of
+ * `assembleForStream` so `streamChat` can pass either result through.
+ */
+export function assembleFromOverrides(
+  overrides: StreamOverrides | undefined,
+  fallbackSystemMessage: string | undefined,
+): AssembledSystem {
+  const sampling: AssembledSystem["sampling"] = {};
+  if (overrides) {
+    if (overrides.temperature != null) sampling.temperature = overrides.temperature;
+    if (overrides.topP != null) sampling.topP = overrides.topP;
+    if (overrides.topK != null) sampling.topK = overrides.topK;
+    if (overrides.minP != null) sampling.minP = overrides.minP;
+    if (overrides.topA != null) sampling.topA = overrides.topA;
+    if (overrides.frequencyPenalty != null)
+      sampling.frequencyPenalty = overrides.frequencyPenalty;
+    if (overrides.presencePenalty != null)
+      sampling.presencePenalty = overrides.presencePenalty;
+    if (overrides.repetitionPenalty != null)
+      sampling.repetitionPenalty = overrides.repetitionPenalty;
+    if (overrides.maxTokens != null) sampling.maxOutputTokens = overrides.maxTokens;
+  }
+  const sections: string[] = [];
+  if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
+  if (overrides?.systemPromptOverride) sections.push(overrides.systemPromptOverride);
+  if (overrides?.authorNote) sections.push(`# Author's note\n${overrides.authorNote}`);
+  return {
+    system: sections.length ? sections.join("\n\n") : undefined,
+    sampling,
+    reasoningEffort: overrides?.reasoningEffort ?? undefined,
+    chatMemory: overrides?.chatMemory ?? 0,
+  };
 }
 
 export type LoadedConvContext = Awaited<ReturnType<typeof loadConvContext>>;

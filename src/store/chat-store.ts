@@ -1,11 +1,13 @@
 import { GUEST_CONVS_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { safeJsonParse } from "@/lib/utils/base";
+import type { StreamOverrides } from "@/lib/validation/chat";
 import { getCookie } from "cookies-next/client";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
 export const CHAT_STORE_KEY = "chat-store";
+export const CHAT_DEFAULTS_KEY = "chat-defaults";
 
 export type ChatState = {
   model: string | null;
@@ -20,6 +22,21 @@ export const INITIAL_CHAT_STATE: ChatState = {
 export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
+  jotaiCookieStorage,
+);
+
+/**
+ * Default per-stream knobs used as the fallback when a conversation has no
+ * `conversation_settings` row (guest convs). For logged-in users, the row is
+ * seeded from this value at conversation creation time and edited via the
+ * overrides drawer afterward. Persisted in a cookie so the SSR prefetch
+ * already sees the user's preferences.
+ */
+export const INITIAL_CHAT_DEFAULTS: StreamOverrides = {};
+
+export const chatDefaultsAtom = atomWithStorage<StreamOverrides>(
+  CHAT_DEFAULTS_KEY,
+  INITIAL_CHAT_DEFAULTS,
   jotaiCookieStorage,
 );
 
@@ -51,6 +68,10 @@ export const getChatModel = (): string | null =>
 
 export const getChatWebSearch = (): boolean =>
   chatStore.get(chatWebSearchAtom) ?? chatStateCookie().webSearch;
+
+export const getChatDefaults = (): StreamOverrides =>
+  chatStore.get(chatDefaultsAtom) ??
+  safeJsonParse<StreamOverrides>(getCookie(CHAT_DEFAULTS_KEY), {});
 
 /**
  * Active conversation ID. Plain variable, not an atom, because it needs

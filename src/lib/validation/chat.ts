@@ -112,10 +112,60 @@ export type PersistMessageItem = Static<typeof persistMessageItem>;
 // Conversation creation / update
 // ---------------------------------------------------------------------------
 
+export const reasoningEffort = t.Union([
+  t.Literal("xhigh"),
+  t.Literal("high"),
+  t.Literal("medium"),
+  t.Literal("low"),
+  t.Literal("minimal"),
+  t.Literal("none"),
+]);
+
+/**
+ * Per-stream overrides usable both at conversation creation (seed
+ * `conversation_settings` for logged-in users) and on every stream call
+ * (fallback when there's no `conversation_settings` row, i.e. guest convs).
+ *
+ * Keep this in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
+ */
+export const streamOverrides = t.Object({
+  reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
+  chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
+  systemPromptOverride: t.Optional(
+    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
+  ),
+  authorNote: t.Optional(
+    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
+  ),
+  authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
+  webSearchEngine: t.Optional(
+    t.Union([
+      t.Literal("auto"),
+      t.Literal("native"),
+      t.Literal("exa"),
+      t.Literal("tavily"),
+    ]),
+  ),
+  webSearchContextSize: t.Optional(
+    t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
+  ),
+  temperature: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
+  topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
+  topK: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()])),
+  minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
+  topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
+  frequencyPenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
+  presencePenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
+  repetitionPenalty: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
+  maxTokens: t.Optional(t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()])),
+});
+export type StreamOverrides = Static<typeof streamOverrides>;
+
 export const createConversationBody = t.Object({
   id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
   model: t.String({ maxLength: MAX_MODEL_LEN }),
   title: t.Optional(t.String({ maxLength: MAX_TITLE_LEN })),
+  overrides: t.Optional(streamOverrides),
 });
 export type CreateConversationBody = Static<typeof createConversationBody>;
 
@@ -128,15 +178,6 @@ export type UpdateConversationBody = Static<typeof updateConversationBody>;
 // ---------------------------------------------------------------------------
 // Conversation settings (overrides)
 // ---------------------------------------------------------------------------
-
-export const reasoningEffort = t.Union([
-  t.Literal("xhigh"),
-  t.Literal("high"),
-  t.Literal("medium"),
-  t.Literal("low"),
-  t.Literal("minimal"),
-  t.Literal("none"),
-]);
 
 export const updateConversationSettingsBody = t.Object({
   defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
@@ -257,6 +298,10 @@ export const streamBody = t.Object({
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
+  // Used as a fallback when the conversation has no settings row (guest
+  // convs). Logged-in convs always have a row seeded at creation time, so
+  // these values are ignored on subsequent turns.
+  overrides: t.Optional(streamOverrides),
 });
 export type StreamBody = Static<typeof streamBody>;
 

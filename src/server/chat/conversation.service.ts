@@ -160,9 +160,35 @@ export async function createConversation(
       updatedAt: now,
     });
 
+    // Seed `conversation_settings` from the optional overrides the client
+    // sends from its jotai defaults, so the first turn already runs with the
+    // user's preferred knobs.
+    const o = body.overrides;
     await tx.insert(conversationSettings).values({
       convId: id,
       defaultModel: body.model,
+      reasoningEffort: o?.reasoningEffort ?? null,
+      ...(o?.chatMemory !== undefined && { chatMemory: o.chatMemory }),
+      systemPromptOverride: o?.systemPromptOverride ?? null,
+      authorNote: o?.authorNote ?? null,
+      ...(o?.authorNoteDepth !== undefined && {
+        authorNoteDepth: o.authorNoteDepth,
+      }),
+      ...(o?.webSearchEngine !== undefined && {
+        webSearchEngine: o.webSearchEngine,
+      }),
+      ...(o?.webSearchContextSize !== undefined && {
+        webSearchContextSize: o.webSearchContextSize,
+      }),
+      temperature: o?.temperature ?? null,
+      topP: o?.topP ?? null,
+      topK: o?.topK ?? null,
+      minP: o?.minP ?? null,
+      topA: o?.topA ?? null,
+      frequencyPenalty: o?.frequencyPenalty ?? null,
+      presencePenalty: o?.presencePenalty ?? null,
+      repetitionPenalty: o?.repetitionPenalty ?? null,
+      maxTokens: o?.maxTokens ?? null,
       updatedAt: now,
     });
   });

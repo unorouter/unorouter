@@ -42,11 +42,12 @@ export function ChatControls() {
 export function ChatShareSlot() {
   const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
-  if (!threadId || !token.isLoggedIn) return null;
+  // Always show the overrides drawer (guests edit jotai defaults; logged-in
+  // users edit the conversation_settings row). Sharing is logged-in only.
   return (
     <div className="flex items-center gap-1">
-      <ConversationOverridesDrawer convId={threadId} />
-      <ShareButton convId={threadId} />
+      <ConversationOverridesDrawer convId={threadId ?? null} />
+      {threadId && token.isLoggedIn && <ShareButton convId={threadId} />}
     </div>
   );
 }
