@@ -421,6 +421,7 @@ const AssistantMessage: FC = () => {
           <AssistantEditInPlace onClose={() => setEditing(false)} />
         ) : (
           <>
+            <AssistantMessageHeader />
             <div className="aui-assistant-message-content text-foreground px-2 leading-relaxed wrap-break-word">
               <StreamingIndicator />
               <MessagePrimitive.Parts
@@ -569,27 +570,17 @@ const AssistantMessageMeta: FC = () => {
   const t = useTranslations();
   const messageIndex = useAuiState((s) => s.message.index);
   const meta = useMessageMeta(messageIndex);
-  const pricingQuery = usePricingQuery();
 
-  if (!meta?.model) return null;
-
-  const modelData = pricingQuery.data?.models?.find(
-    (m) => m.name === meta.model,
-  );
-  const vendorName =
-    typeof modelData?.vendor === "string"
-      ? modelData.vendor
-      : (modelData?.vendor?.name ?? "");
+  if (!meta) return null;
 
   const hasTokens = meta.inputTokens != null || meta.outputTokens != null;
+  const hasCost = meta.cost != null && meta.cost > 0;
+  if (!hasTokens && !hasCost) return null;
 
   return (
     <div className="text-muted-foreground ml-auto flex flex-wrap items-center gap-1.5 text-[11px] tabular-nums">
-      {vendorName && <VendorIcon vendor={vendorName} size={12} />}
-      <span className="opacity-70">{meta.model}</span>
       {hasTokens && (
         <>
-          <span className="opacity-40">|</span>
           <span>
             {meta.inputTokens ?? 0} {t("CHAT.TOKENS_IN")}
           </span>
@@ -598,12 +589,35 @@ const AssistantMessageMeta: FC = () => {
           </span>
         </>
       )}
-      {meta.cost != null && meta.cost > 0 && (
+      {hasCost && (
         <>
-          <span className="opacity-40">|</span>
-          <span>{formatPrice(meta.cost)}</span>
+          {hasTokens && <span className="opacity-40">|</span>}
+          <span>{formatPrice(meta.cost!)}</span>
         </>
       )}
+    </div>
+  );
+};
+
+/** Header row above the assistant bubble showing vendor + model name. */
+const AssistantMessageHeader: FC = () => {
+  const messageIndex = useAuiState((s) => s.message.index);
+  const meta = useMessageMeta(messageIndex);
+  const pricingQuery = usePricingQuery();
+
+  if (!meta?.model) return null;
+  const modelData = pricingQuery.data?.models?.find(
+    (m) => m.name === meta.model,
+  );
+  const vendorName =
+    typeof modelData?.vendor === "string"
+      ? modelData.vendor
+      : (modelData?.vendor?.name ?? "");
+
+  return (
+    <div className="text-muted-foreground mb-1 ml-2 flex items-center gap-1.5 text-[11px]">
+      {vendorName && <VendorIcon vendor={vendorName} size={12} />}
+      <span className="opacity-70">{meta.model}</span>
     </div>
   );
 };

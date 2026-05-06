@@ -11,6 +11,7 @@ import {
   partsToItems,
 } from "@/lib/types/chat";
 import { handleElysia } from "@/lib/utils/base";
+import { getChatModel } from "@/store/chat-store";
 import type {
   MessageFormatAdapter,
   MessageFormatItem,
@@ -127,6 +128,16 @@ export function createChatHistoryAdapter(
 
           const items = partsToItems(content.parts ?? []);
 
+          // assistant-ui's MessageFormatAdapter doesn't carry model on the
+          // encoded message. For assistants, fall back to the chat-store
+          // selector (the model the user actively chose for this turn).
+          const resolvedModel =
+            typeof content.model === "string"
+              ? content.model
+              : content.role === "assistant"
+                ? getChatModel()
+                : null;
+
           const body = {
             messages: [
               {
@@ -134,9 +145,7 @@ export function createChatHistoryAdapter(
                 parentId: item.parentId,
                 role: content.role,
                 items,
-                ...(typeof content.model === "string"
-                  ? { model: content.model }
-                  : {}),
+                ...(resolvedModel ? { model: resolvedModel } : {}),
               },
             ],
           };
@@ -171,7 +180,7 @@ export function createChatHistoryAdapter(
                   type: it.type,
                   data: it.data,
                 })),
-                model: typeof content.model === "string" ? content.model : null,
+                model: resolvedModel,
                 inputTokens: hasUsage ? usage.inputTokens : null,
                 outputTokens: hasUsage ? usage.outputTokens : null,
                 cost: hasUsage ? usage.cost : null,
