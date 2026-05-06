@@ -6,21 +6,8 @@ export type StatusReportUpdateType =
   | "monitoring"
   | "resolved";
 
-export const THEME_VALUES = ["light", "dark", "system"] as const;
+const THEME_VALUES = ["light", "dark", "system"] as const;
 export type ThemeValue = (typeof THEME_VALUES)[number];
-
-export interface StatusReportUpdate {
-  date: Date;
-  message: string;
-  status: StatusReportUpdateType;
-}
-
-export interface StatusReport {
-  id: number;
-  title: string;
-  affected: string[];
-  updates: StatusReportUpdate[];
-}
 
 export interface Maintenance {
   id: number;
@@ -30,11 +17,6 @@ export interface Maintenance {
   from: Date;
   to: Date;
 }
-
-// Discriminated union for status events
-export type StatusEventData =
-  | { type: "report"; data: StatusReport }
-  | { type: "maintenance"; data: Maintenance };
 
 export type StatusBarData = {
   day: string;

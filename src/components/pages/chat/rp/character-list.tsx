@@ -37,6 +37,7 @@ import {
   characterFormSchema,
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
+import { analytics } from "@/lib/analytics";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
@@ -79,7 +80,15 @@ export function CharacterList(props: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     e.target.value = "";
-    await importMut.mutateAsync(file);
+    try {
+      await importMut.mutateAsync(file);
+      analytics.rp.entityAction({ entity: "character", action: "imported" });
+    } catch {
+      analytics.rp.entityAction({
+        entity: "character",
+        action: "import_failed",
+      });
+    }
   };
 
   const handleExport = async (
@@ -100,6 +109,11 @@ export function CharacterList(props: Props) {
     link.download = fname;
     link.click();
     URL.revokeObjectURL(url);
+    analytics.rp.entityAction({
+      entity: "character",
+      action: "exported",
+      format,
+    });
   };
 
   return (
@@ -138,7 +152,13 @@ export function CharacterList(props: Props) {
               />
               <Button
                 variant="outline"
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => {
+                  analytics.rp.entityAction({
+                    entity: "character",
+                    action: "import_picker_opened",
+                  });
+                  fileInputRef.current?.click();
+                }}
                 disabled={importMut.isPending}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
@@ -146,7 +166,13 @@ export function CharacterList(props: Props) {
                 <span className="truncate">{t("RP.CHARACTERS_IMPORT")}</span>
               </Button>
               <Button
-                onClick={() => setView({ mode: "edit" })}
+                onClick={() => {
+                  analytics.rp.entityAction({
+                    entity: "character",
+                    action: "create_started",
+                  });
+                  setView({ mode: "edit" });
+                }}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
                 <LuPlus className="size-4" />
@@ -165,7 +191,13 @@ export function CharacterList(props: Props) {
                 <Card
                   key={c.id}
                   className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
-                  onClick={() => setView({ mode: "edit", id: c.id })}
+                  onClick={() => {
+                    analytics.rp.entityAction({
+                      entity: "character",
+                      action: "edit_started",
+                    });
+                    setView({ mode: "edit", id: c.id });
+                  }}
                 >
                   {c.avatarR2Key ? (
                     <Image
@@ -225,6 +257,10 @@ export function CharacterList(props: Props) {
                       e.stopPropagation();
                       if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
                       await deleteMut.mutateAsync(c.id);
+                      analytics.rp.entityAction({
+                        entity: "character",
+                        action: "deleted",
+                      });
                     }}
                   >
                     <LuTrash2 className="size-4" />

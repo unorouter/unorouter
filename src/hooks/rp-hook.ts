@@ -47,15 +47,6 @@ export function useCharactersQuery() {
   });
 }
 
-export function useCharacterQuery(id?: string) {
-  return useQuery({
-    queryKey: queryKeys.character(id!),
-    queryFn: async () =>
-      handleElysia(await rpc.api.rp.characters({ id: id! }).get()),
-    enabled: !!id,
-  });
-}
-
 export function useCreateCharacterMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -139,15 +130,6 @@ export function usePersonasQuery() {
     queryKey: queryKeys.personas(),
     queryFn: async () => handleElysia(await rpc.api.rp.personas.get()),
     enabled: isLoggedIn,
-  });
-}
-
-export function usePersonaQuery(id?: string) {
-  return useQuery({
-    queryKey: queryKeys.persona(id!),
-    queryFn: async () =>
-      handleElysia(await rpc.api.rp.personas({ id: id! }).get()),
-    enabled: !!id,
   });
 }
 
@@ -424,15 +406,6 @@ export function usePresetsQuery() {
     queryKey: queryKeys.presets(),
     queryFn: async () => handleElysia(await rpc.api.rp.presets.get()),
     enabled: isLoggedIn,
-  });
-}
-
-export function usePresetQuery(id?: string) {
-  return useQuery({
-    queryKey: queryKeys.preset(id!),
-    queryFn: async () =>
-      handleElysia(await rpc.api.rp.presets({ id: id! }).get()),
-    enabled: !!id,
   });
 }
 

@@ -6,7 +6,6 @@ import { env } from "./env";
 export const IS_DEV = process.env.NODE_ENV === "development";
 
 export const NEW_API_USER = "New-Api-User";
-export const SESSION_COOKIE = "session" as const;
 export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
@@ -53,14 +52,6 @@ export const LANGUAGES: {
   { code: "ZH_TW", locale: "zh-TW", Flag: TW, ogLocale: "zh-TW" },
 ];
 
-export const ALTERNATE_LANGUAGES = LOCALES.reduce(
-  (acc, loc) => {
-    acc[loc] = `/${loc}`;
-    return acc;
-  },
-  {} as Record<string, string>,
-);
-
 export type TranslationKey = Parameters<
   ReturnType<typeof useTranslations<never>>
 >[0];
@@ -72,8 +63,6 @@ export const APP_VALUES = {
   appDomain: new URL(env.appUrl).hostname.replace(/^www\./, ""),
   supportEmail: env.supportEmail,
 };
-
-export const DOCS_TOKEN_PARAMS = { p: 1, page_size: 100 } as const;
 
 /** 1 USD = 500000 quota units in new-api */
 export const QUOTA_PER_DOLLAR = 500000;

@@ -55,6 +55,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
             text={log.request_id ?? ""}
             iconSize="h-3 w-3"
             toastMessage={t("LOGS.COPIED")}
+            analyticsLabel="logs_request_id"
           />
         </span>
       ),

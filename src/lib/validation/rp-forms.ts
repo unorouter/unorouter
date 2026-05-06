@@ -6,7 +6,6 @@
  * `Value.Default(schema, {})` produces a fully-shaped initial form.
  */
 
-import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg } from "../config/constants";
 
@@ -80,9 +79,6 @@ export const conversationOverridesFormSchema = t.Object({
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
 });
-export const conversationOverridesFormChecker = TypeCompiler.Compile(
-  conversationOverridesFormSchema,
-);
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
 >;
@@ -109,9 +105,6 @@ export const samplingPresetFormSchema = t.Object({
   maxTokens: nullableNumber(1, 1_000_000),
   isDefault: t.Boolean({ default: false }),
 });
-export const samplingPresetFormChecker = TypeCompiler.Compile(
-  samplingPresetFormSchema,
-);
 export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
 
 // ---------------------------------------------------------------------------
@@ -128,7 +121,6 @@ export const personaFormSchema = t.Object({
   description: t.String({ maxLength: 50_000, default: "" }),
   isDefault: t.Boolean({ default: false }),
 });
-export const personaFormChecker = TypeCompiler.Compile(personaFormSchema);
 export type PersonaForm = Static<typeof personaFormSchema>;
 
 // ---------------------------------------------------------------------------
@@ -146,7 +138,6 @@ export const lorebookFormSchema = t.Object({
   scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   tokenBudget: t.Number({ minimum: 100, maximum: 32_000, default: 1500 }),
 });
-export const lorebookFormChecker = TypeCompiler.Compile(lorebookFormSchema);
 export type LorebookForm = Static<typeof lorebookFormSchema>;
 
 // ---------------------------------------------------------------------------
@@ -173,9 +164,6 @@ export const lorebookEntryFormSchema = t.Object({
   selective: t.Boolean({ default: false }),
   enabled: t.Boolean({ default: true }),
 });
-export const lorebookEntryFormChecker = TypeCompiler.Compile(
-  lorebookEntryFormSchema,
-);
 export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
 
 // ---------------------------------------------------------------------------
@@ -199,5 +187,4 @@ export const characterFormSchema = t.Object({
   tags: t.String({ default: "" }),
   nsfw: t.Boolean({ default: false }),
 });
-export const characterFormChecker = TypeCompiler.Compile(characterFormSchema);
 export type CharacterForm = Static<typeof characterFormSchema>;

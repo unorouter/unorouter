@@ -1,16 +1,10 @@
-import { IS_DEV, msg } from "@/lib/config/constants";
+import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import type {
   ExcludeVoid,
   ExtractData,
   UnwrapApiResponse,
 } from "../types/eden";
-
-export function devWarn(context: string, error: unknown) {
-  if (IS_DEV) {
-    console.warn(`[${context}]`, error);
-  }
-}
 
 export function safeJsonParse<T = Record<string, unknown>>(
   raw: string | undefined | null,

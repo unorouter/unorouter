@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useUpdateSettingMutation } from "@/hooks/settings-hook";
+import { analytics } from "@/lib/analytics";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { safeJsonParse } from "@/lib/utils/base";
 
@@ -83,6 +84,10 @@ export function NotificationCard() {
 
   function onSubmit(data: NotificationSettingSchema) {
     const parsed = safeJsonParse<Partial<ServerSetting>>(user?.setting, {});
+    analytics.settings.notificationSaved({
+      method: data.notify_type,
+      quota_threshold_dollars: data.quota_threshold_dollars || 1,
+    });
     updateSettingMutation.mutate(
       {
         body: {
@@ -135,7 +140,13 @@ export function NotificationCard() {
                 <FormItem>
                   <FormLabel>{t("SETTINGS.NOTIFICATIONS.METHOD")}</FormLabel>
                   <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={(v) => {
+                        if (v) analytics.settings.notificationChannelChanged(v);
+                        field.onChange(v);
+                      }}
+                    >
                       <SelectTrigger className="w-full sm:w-64">
                         <SelectValue>
                           {{

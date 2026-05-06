@@ -44,6 +44,7 @@ import {
   useUpdateLorebookMutation,
 } from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
+import { analytics } from "@/lib/analytics";
 import {
   lorebookEntryFormSchema,
   lorebookFormSchema,
@@ -85,19 +86,32 @@ export function LorebookList(props: Props) {
   }, [props.open]);
 
   const handleCreate = async () => {
+    analytics.rp.entityAction({
+      entity: "lorebook",
+      action: "create_started",
+    });
     await createMut.mutateAsync({ body: { name: "Untitled lorebook" } });
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteMut.mutateAsync(id);
+    analytics.rp.entityAction({ entity: "lorebook", action: "deleted" });
   };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     e.target.value = "";
-    await importMut.mutateAsync(file);
+    try {
+      await importMut.mutateAsync(file);
+      analytics.rp.entityAction({ entity: "lorebook", action: "imported" });
+    } catch {
+      analytics.rp.entityAction({
+        entity: "lorebook",
+        action: "import_failed",
+      });
+    }
   };
 
   const handleExport = async (
@@ -118,6 +132,11 @@ export function LorebookList(props: Props) {
     link.download = fname;
     link.click();
     URL.revokeObjectURL(url);
+    analytics.rp.entityAction({
+      entity: "lorebook",
+      action: "exported",
+      format,
+    });
   };
 
   return (
@@ -160,7 +179,13 @@ export function LorebookList(props: Props) {
               />
               <Button
                 variant="outline"
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => {
+                  analytics.rp.entityAction({
+                    entity: "lorebook",
+                    action: "import_picker_opened",
+                  });
+                  fileInputRef.current?.click();
+                }}
                 disabled={importMut.isPending}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
@@ -188,7 +213,13 @@ export function LorebookList(props: Props) {
                 <Card
                   key={l.id}
                   className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
-                  onClick={() => setOpenLbId(l.id)}
+                  onClick={() => {
+                    analytics.rp.entityAction({
+                      entity: "lorebook",
+                      action: "edit_started",
+                    });
+                    setOpenLbId(l.id);
+                  }}
                 >
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="text-sm font-medium">{l.name}</span>
@@ -291,6 +322,7 @@ function LorebookEditorInline(props: {
   const handleDelete = async () => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteLb.mutateAsync(props.lorebookId);
+    analytics.rp.entityAction({ entity: "lorebook", action: "deleted" });
     props.onDeleted();
   };
 
@@ -441,6 +473,10 @@ function Entries(props: { lorebookId: string }) {
   const handleDelete = async (id: string) => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteMut.mutateAsync(id);
+    analytics.rp.entityAction({
+      entity: "lorebook_entry",
+      action: "deleted",
+    });
     if (editingId === id) setEditingId(null);
   };
 
@@ -450,7 +486,16 @@ function Entries(props: { lorebookId: string }) {
         <h2 className="text-foreground text-lg font-medium">
           {t("RP.LOREBOOK_ENTRIES_TITLE")}
         </h2>
-        <Button onClick={() => setEditingId("new")} size="sm">
+        <Button
+          onClick={() => {
+            analytics.rp.entityAction({
+              entity: "lorebook_entry",
+              action: "create_started",
+            });
+            setEditingId("new");
+          }}
+          size="sm"
+        >
           <LuPlus className="size-4" />
           {t("RP.LOREBOOK_ENTRY_NEW")}
         </Button>
@@ -581,7 +626,13 @@ function Entries(props: { lorebookId: string }) {
             <Card
               key={e.id}
               className="hover:bg-accent flex flex-row cursor-pointer items-start gap-3 p-3 transition-colors"
-              onClick={() => setEditingId(e.id)}
+              onClick={() => {
+                analytics.rp.entityAction({
+                  entity: "lorebook_entry",
+                  action: "edit_started",
+                });
+                setEditingId(e.id);
+              }}
             >
               <div className="flex min-w-0 flex-1 flex-col">
                 <span className="text-sm font-medium">

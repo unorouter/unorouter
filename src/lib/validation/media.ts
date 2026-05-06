@@ -1,7 +1,7 @@
 import { TypeCompiler } from "@sinclair/typebox/compiler";
-import { Type as t, type Static } from "@sinclair/typebox/type";
+import { Type as t } from "@sinclair/typebox/type";
 
-export const imageGenResponseSchema = t.Object({
+const imageGenResponseSchema = t.Object({
   data: t.Array(
     t.Object({
       url: t.Optional(t.String()),
@@ -12,7 +12,6 @@ export const imageGenResponseSchema = t.Object({
 export const imageGenResponseChecker = TypeCompiler.Compile(
   imageGenResponseSchema,
 );
-export type ImageGenResponse = Static<typeof imageGenResponseSchema>;
 
 /** Max characters of extracted PDF text to inline into a chat message. */
 export const MAX_PDF_TEXT_CHARS = 200_000;

@@ -40,6 +40,7 @@ import {
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
 } from "@/hooks/rp-hook";
+import { analytics } from "@/lib/analytics";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { chatDefaultsAtom } from "@/store/chat-store";
 import { useAtom } from "jotai";
@@ -194,9 +195,42 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     form.setValue("presencePenalty", null, { shouldDirty: true });
     form.setValue("repetitionPenalty", null, { shouldDirty: true });
     form.setValue("maxTokens", null, { shouldDirty: true });
+    analytics.chat.samplingReset();
   };
 
+  const SAMPLING_FIELDS = [
+    "temperature",
+    "topP",
+    "topK",
+    "minP",
+    "topA",
+    "frequencyPenalty",
+    "presencePenalty",
+    "repetitionPenalty",
+    "maxTokens",
+  ] as const;
+
   const onSubmit = async (data: ConversationOverridesForm) => {
+    const dirtyFields = Object.keys(form.formState.dirtyFields);
+    const samplingCustomized = SAMPLING_FIELDS.filter(
+      (f) => data[f] !== null && data[f] !== undefined,
+    );
+    analytics.chat.overridesSaved({
+      mode: isDefaultsMode ? "defaults" : "conversation",
+      changed_fields: dirtyFields,
+      has_persona: data.personaId !== "__none__",
+      has_preset: data.presetId !== "__none__",
+      character_count: data.characterIds.length,
+      lorebook_count: data.lorebookIds.length,
+      has_system_prompt: !!data.systemPromptOverride,
+      has_author_note: !!data.authorNote,
+      reasoning_effort:
+        data.reasoningEffort === "__none__" ? null : data.reasoningEffort,
+      web_search_enabled: data.webSearchEnabled,
+      web_search_engine: data.webSearchEnabled ? data.webSearchEngine : null,
+      sampling_customized_fields: samplingCustomized,
+    });
+
     if (isDefaultsMode) {
       // Persist to the jotai atom so it survives across new chats and seeds
       // the next conversation_settings row at create time. Drop server-only
@@ -280,6 +314,11 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   return (
     <Sheet>
       <SheetTrigger
+        onClick={() =>
+          analytics.chat.overridesDrawerOpened({
+            mode: isDefaultsMode ? "defaults" : "conversation",
+          })
+        }
         render={
           props.trigger ?? (
             <Button

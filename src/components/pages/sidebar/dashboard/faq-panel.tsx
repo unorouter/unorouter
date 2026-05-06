@@ -1,6 +1,7 @@
 "use client";
 
 import { useStatusQuery } from "@/hooks/status-hook";
+import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuChevronDown, LuCircleHelp } from "react-icons/lu";
@@ -38,7 +39,13 @@ export function FaqPanel() {
               <div key={i}>
                 <button
                   className="hover:bg-accent/50 flex w-full items-center gap-2 p-4 text-left transition-colors"
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                  onClick={() => {
+                    const next = openIndex === i ? null : i;
+                    if (next !== null) {
+                      analytics.dashboard.faqExpanded({ index: i });
+                    }
+                    setOpenIndex(next);
+                  }}
                 >
                   <span className="text-foreground flex-1 font-mono text-xs font-medium">
                     {item.question}

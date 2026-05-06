@@ -4,6 +4,7 @@ import { FREE_MODEL_OUTPUT_CAP, msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { media } from "@/lib/db/schema";
+import { captureServerEvent } from "@/lib/posthog-server";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { imageGenResponseChecker } from "@/lib/validation/media";
@@ -492,6 +493,19 @@ export async function streamChat(
     convId: body.convId,
   });
 
+  captureServerEvent({
+    event: "chat_stream_started",
+    request,
+    userId,
+    properties: {
+      model: body.model,
+      media_type: mediaType,
+      conv_id: body.convId,
+      web_search: !!body.webSearch,
+      is_guest: userId === "guest",
+    },
+  });
+
   // Image models: call the images endpoint directly
   if (mediaType === "image") {
     return handleImageStream(apiKey, body, upstream.headers, userId);
@@ -520,13 +534,26 @@ export async function streamChat(
     if (lastUserText) {
       const shouldSearch = await needsWebSearch(apiKey, lastUserText);
       if (shouldSearch) {
+        const engine = convCtx?.settings.webSearchEngine ?? "auto";
+        const contextSize = convCtx?.settings.webSearchContextSize ?? "medium";
         logger.info("Web search triggered", {
           context: "stream.tavily",
           query: lastUserText.slice(0, 100),
-          engine: convCtx?.settings.webSearchEngine ?? "auto",
-          contextSize: convCtx?.settings.webSearchContextSize ?? "medium",
+          engine,
+          contextSize,
         });
         const searchResult = await searchTavily(lastUserText);
+        captureServerEvent({
+          event: "chat_web_search_executed",
+          request,
+          userId,
+          properties: {
+            engine,
+            context_size: contextSize,
+            result_count: searchResult?.results.length ?? 0,
+            had_results: (searchResult?.results.length ?? 0) > 0,
+          },
+        });
         if (searchResult && searchResult.results.length > 0) {
           searchSystemMessage = formatSearchContext(searchResult);
         }
@@ -628,13 +655,16 @@ export async function streamChat(
     onFinish: ({ usage, response }) => {
       const durationMs = Date.now() - streamStartedAt;
       const outputTokens = usage.outputTokens ?? 0;
+      const inputTokens = usage.inputTokens ?? 0;
       const tokensPerSecond =
         outputTokens > 0 && durationMs > 0
           ? outputTokens / (durationMs / 1000)
           : undefined;
+      const requestId =
+        response.headers?.["x-oneapi-request-id"] ?? undefined;
       trackUsage(body.convId, {
-        requestId: response.headers?.["x-oneapi-request-id"] ?? undefined,
-        inputTokens: usage.inputTokens ?? 0,
+        requestId,
+        inputTokens,
         outputTokens,
         upstreamHeaders: upstream.headers,
         durationMs,
@@ -645,6 +675,40 @@ export async function streamChat(
       if (typeof dropped === "string" && dropped.length > 0) {
         droppedParamsRef.value = dropped;
       }
+      captureServerEvent({
+        event: "chat_stream_completed",
+        request,
+        userId,
+        properties: {
+          model: body.model,
+          duration_ms: durationMs,
+          input_tokens: inputTokens,
+          output_tokens: outputTokens,
+          tokens_per_second: tokensPerSecond,
+          web_search: effectiveWebSearch,
+          has_dropped_params: !!droppedParamsRef.value,
+          is_guest: userId === "guest",
+          request_id: requestId,
+        },
+      });
+    },
+    onError: ({ error }) => {
+      captureServerEvent({
+        event: "chat_stream_failed",
+        request,
+        userId,
+        properties: {
+          model: body.model,
+          duration_ms: Date.now() - streamStartedAt,
+          error_class:
+            error instanceof Error ? error.constructor.name : "Unknown",
+          error_message:
+            error instanceof Error
+              ? error.message.slice(0, 200)
+              : String(error).slice(0, 200),
+          is_guest: userId === "guest",
+        },
+      });
     },
   });
 

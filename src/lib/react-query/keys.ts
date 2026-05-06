@@ -1,5 +1,5 @@
 import type { rpc } from "@/lib/rpc";
-import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
+import type { EdenQuery } from "@/lib/types/eden";
 
 export const queryKeys = {
   // Auth & Status
@@ -16,11 +16,7 @@ export const queryKeys = {
   // Tokens
   tokens: (params?: EdenQuery<typeof rpc.api.token.search>) =>
     ["tokens", params] as const,
-  token: (id: EdenArgs<typeof rpc.api.token, "get">["id"]) =>
-    ["token", id] as const,
   bestKey: () => ["best-key"] as const,
-  userGroups: () => ["user-groups"] as const,
-  userModels: () => ["user-models"] as const,
 
   // Billing & Subscriptions
   topUpInfo: () => ["topup-info"] as const,
@@ -61,17 +57,11 @@ export const queryKeys = {
 
   // Pricing & Search
   pricing: () => ["pricing"] as const,
-  models: () => ["models"] as const,
   searchIndex: () => ["search-index"] as const,
-  statsLive: () => ["stats-live"] as const,
   statsHistory: () => ["stats-history"] as const,
 
   // Model Status
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,
-  modelStatusBuckets: (model: string, bucket: string, hours: number) =>
-    ["model-status", "buckets", model, bucket, hours] as const,
-  modelStatusIncidents: (since?: number) =>
-    ["model-status", "incidents", since ?? 0] as const,
 };

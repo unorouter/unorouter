@@ -42,7 +42,14 @@ export function TopUpSection() {
   }
 
   function handleStripeTopUp(amount: number) {
-    analytics.billing.topUpInitiated({ provider: "stripe", amount });
+    const key = String(amount);
+    const factor = discount[key];
+    analytics.billing.topUpInitiated({
+      provider: "stripe",
+      amount,
+      has_discount: !!factor,
+      discount_pct: factor ? Math.round((1 - factor) * 100) : undefined,
+    });
     stripeTopUpMutation.mutate(
       { body: { amount, payment_method: "stripe" } },
       {

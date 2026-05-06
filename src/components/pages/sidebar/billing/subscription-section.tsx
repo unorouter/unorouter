@@ -106,10 +106,13 @@ export function SubscriptionSection() {
   }
 
   function handleSubscribe(plan: SubscriptionPlan) {
+    const onlyStripe = enableStripe && !enableCreem;
+    const onlyCreem = enableCreem && !enableStripe;
     if (enableStripe) {
       analytics.billing.subscriptionInitiated({
         planId: String(plan.id),
         provider: "stripe",
+        provider_was_only_option: onlyStripe,
       });
       stripeSubMutation.mutate(
         { body: { plan_id: plan.id } },
@@ -127,6 +130,7 @@ export function SubscriptionSection() {
       analytics.billing.subscriptionInitiated({
         planId: String(plan.id),
         provider: "creem",
+        provider_was_only_option: onlyCreem,
       });
       creemSubMutation.mutate(
         { body: { plan_id: plan.id } },
@@ -149,6 +153,7 @@ export function SubscriptionSection() {
   }
 
   function handleManageBilling() {
+    analytics.billing.portalOpened();
     portalMutation.mutate(undefined, {
       onSuccess: (data) => {
         const url = data?.portal_url;
@@ -222,6 +227,7 @@ export function SubscriptionSection() {
             variant="ghost"
             size="icon"
             onClick={() => {
+              analytics.billing.refreshed();
               selfQuery.refetch();
               plansQuery.refetch();
               topUpInfoQuery.refetch();

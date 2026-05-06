@@ -13,6 +13,7 @@ import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
+import { analytics } from "@/lib/analytics";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { LuChartBar, LuRefreshCw, LuRotateCcw } from "react-icons/lu";
@@ -151,12 +152,20 @@ export function ConsumptionChart() {
         <div className="flex items-center gap-2">
           <DateTimeRangePicker
             value={dashboard.dateRange}
-            onChange={dashboard.setDateRange}
+            onChange={(range) => {
+              analytics.dashboard.dateRangeChanged({
+                period_minutes: dashboard.periodMinutes,
+              });
+              dashboard.setDateRange(range);
+            }}
           />
           <Button
             variant="ghost"
             size="icon-sm"
-            onClick={dashboard.refetchAll}
+            onClick={() => {
+              analytics.dashboard.refreshed();
+              dashboard.refetchAll();
+            }}
             disabled={dashboard.isFetching}
           >
             <LuRefreshCw
@@ -167,7 +176,10 @@ export function ConsumptionChart() {
             <Button
               variant="ghost"
               size="icon-sm"
-              onClick={dashboard.resetDateRange}
+              onClick={() => {
+                analytics.dashboard.dateRangeReset();
+                dashboard.resetDateRange();
+              }}
               title={t("DASHBOARD.CHART.RESET_DATE_RANGE")}
             >
               <LuRotateCcw className="h-4 w-4" />
@@ -188,7 +200,13 @@ export function ConsumptionChart() {
           </span>
         </div>
       ) : (
-        <Tabs defaultValue="distribution" className="flex-1">
+        <Tabs
+          defaultValue="distribution"
+          className="flex-1"
+          onValueChange={(tab) =>
+            analytics.dashboard.chartTabChanged({ tab })
+          }
+        >
           <div className="border-border overflow-hidden border-b px-5 pt-2">
             <TabsList variant="line" className="h-8">
               <TabsTrigger

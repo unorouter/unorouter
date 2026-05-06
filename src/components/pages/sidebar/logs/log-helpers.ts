@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 
 export type LogRow = NonNullable<Log>;
 
-export const LOG_TYPE_ALL = -1;
 export const LOG_TYPE_TOPUP = 1;
 export const LOG_TYPE_CONSUME = 2;
 export const LOG_TYPE_MANAGE = 3;

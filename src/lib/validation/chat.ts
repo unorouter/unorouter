@@ -247,12 +247,10 @@ export type UpdateConversationBindingsBody = Static<
 export const editMessageBody = t.Object({
   items: t.Array(persistMessageItem, { maxItems: MAX_ITEMS_PER_MESSAGE }),
 });
-export type EditMessageBody = Static<typeof editMessageBody>;
 
 export const setActiveBranchBody = t.Object({
   messageId: t.String({ maxLength: MAX_ID_LEN }),
 });
-export type SetActiveBranchBody = Static<typeof setActiveBranchBody>;
 
 export const persistMessagesBody = t.Object({
   messages: t.Array(
@@ -330,14 +328,12 @@ export const mediaUploadBody = t.Object({
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),
 });
-export type TitleGenerationBody = Static<typeof titleGenerationBody>;
 
 export const claimConversationsBody = t.Object({
   convIds: t.Array(t.String({ maxLength: MAX_ID_LEN }), {
     maxItems: MAX_CLAIM_CONV_IDS,
   }),
 });
-export type ClaimConversationsBody = Static<typeof claimConversationsBody>;
 
 export const finalizeTaskBody = t.Object({
   msgId: t.String({ maxLength: MAX_ID_LEN }),

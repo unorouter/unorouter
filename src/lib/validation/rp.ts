@@ -36,14 +36,12 @@ export const characterCardImportBody = t.Object({
     maxSize: "10m",
   }),
 });
-export type CharacterCardImportBody = Static<typeof characterCardImportBody>;
 
 export const lorebookImportBody = t.Object({
   file: t.File({
     maxSize: "10m",
   }),
 });
-export type LorebookImportBody = Static<typeof lorebookImportBody>;
 
 // ---------------------------------------------------------------------------
 // Personas
@@ -62,7 +60,6 @@ export const personaImportBody = t.Object({
     maxSize: "5m",
   }),
 });
-export type PersonaImportBody = Static<typeof personaImportBody>;
 
 // ---------------------------------------------------------------------------
 // Lorebooks + entries
@@ -84,7 +81,6 @@ export const lorebookEntryPosition = t.Union([
   t.Literal("bottom"),
   t.Literal("at_depth"),
 ]);
-export type LorebookEntryPosition = Static<typeof lorebookEntryPosition>;
 
 export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
@@ -140,14 +136,12 @@ export const importConversationBody = t.Object({
     maxSize: "20m",
   }),
 });
-export type ImportConversationBody = Static<typeof importConversationBody>;
 
-export const exportFormat = t.Union([
+const exportFormat = t.Union([
   t.Literal("native"),
   t.Literal("orpg"),
   t.Literal("sillytavern"),
 ]);
-export type ExportFormat = Static<typeof exportFormat>;
 
 export const exportQuery = t.Object({
   format: t.Optional(exportFormat),
@@ -163,7 +157,6 @@ export const characterExportQuery = t.Object({
     ]),
   ),
 });
-export type CharacterExportQuery = Static<typeof characterExportQuery>;
 
 export const lorebookExportQuery = t.Object({
   format: t.Optional(
@@ -175,4 +168,3 @@ export const lorebookExportQuery = t.Object({
     ]),
   ),
 });
-export type LorebookExportQuery = Static<typeof lorebookExportQuery>;

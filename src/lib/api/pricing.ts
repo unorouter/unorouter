@@ -62,7 +62,6 @@ export type ModelMetadata = {
 };
 
 export type ProcessedModel = ReturnType<typeof processModels>[number];
-export type PricingSummary = ReturnType<typeof buildPricingSummary>;
 
 function getModelType(model: PricingModel): ModelType {
   const tag = (model.tags ?? "").split(",")[0]?.trim().toLowerCase();

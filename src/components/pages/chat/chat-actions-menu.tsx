@@ -25,6 +25,7 @@ import {
   useExportConversation,
   useImportConversationMutation,
 } from "@/hooks/rp-hook";
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
@@ -82,6 +83,7 @@ export function ChatActionsMenu(props: Props) {
         { credentials: "include" },
       );
       if (!res.ok) {
+        analytics.chat.conversationExportFailed({ format });
         toast.error(t("CHAT.MORE.EXPORT_FAILED"));
         return;
       }
@@ -96,6 +98,7 @@ export function ChatActionsMenu(props: Props) {
       link.download = fname;
       link.click();
       URL.revokeObjectURL(url);
+      analytics.chat.conversationExported({ format });
       return;
     }
     const data = await exportMut.mutateAsync({
@@ -105,9 +108,13 @@ export function ChatActionsMenu(props: Props) {
     const date = new Date().toISOString().slice(0, 10);
     const suffix = format === "orpg" ? "orpg" : "native";
     downloadJson(data, `unorouter-chat-${suffix}-${date}.json`);
+    analytics.chat.conversationExported({ format });
   };
 
-  const handleImportClick = () => fileInputRef.current?.click();
+  const handleImportClick = () => {
+    analytics.chat.importPickerOpened();
+    fileInputRef.current?.click();
+  };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -115,6 +122,7 @@ export function ChatActionsMenu(props: Props) {
     e.target.value = "";
     const result = await importMut.mutateAsync(file);
     if (result?.id) {
+      analytics.chat.conversationImported();
       aui.threads().switchToThread(result.id);
       toast.success(t("CHAT.MORE.IMPORT_SUCCESS"));
     }
@@ -124,12 +132,14 @@ export function ChatActionsMenu(props: Props) {
     if (!props.convId) return;
     const data = await markdownMut.mutateAsync({ id: props.convId });
     await copyToClipboard(data.markdown);
+    analytics.chat.markdownCopied({ char_count: data.markdown.length });
     toast.success(t("CHAT.MORE.MARKDOWN_COPIED"));
   };
 
   const handleDuplicate = async () => {
     if (!props.convId) return;
     const data = await duplicateMut.mutateAsync({ id: props.convId });
+    analytics.chat.conversationDuplicated();
     aui.threads().switchToThread(data.id);
     toast.success(t("CHAT.MORE.DUPLICATE_SUCCESS"));
   };
@@ -138,6 +148,7 @@ export function ChatActionsMenu(props: Props) {
     if (!props.convId) return;
     setConfirmClearOpen(false);
     await clearMut.mutateAsync({ id: props.convId });
+    analytics.chat.conversationCleared();
     toast.success(t("CHAT.MORE.CLEAR_SUCCESS"));
   };
 
@@ -211,7 +222,10 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuItem
             variant="destructive"
             disabled={!hasConv || clearMut.isPending}
-            onClick={() => setConfirmClearOpen(true)}
+            onClick={() => {
+              analytics.chat.clearConfirmOpened();
+              setConfirmClearOpen(true);
+            }}
           >
             <LuTrash2 className="size-4" />
             {t("CHAT.MORE.CLEAR")}

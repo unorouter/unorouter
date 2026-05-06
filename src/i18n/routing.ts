@@ -13,8 +13,6 @@ export type StaticRoute = Exclude<
   `${string}[${string}`
 >;
 
-export type ValidRoutes = LinkHref | RouterPush | Redirect;
-
 export const pathnames = {
   "/": "/",
   "/models": {

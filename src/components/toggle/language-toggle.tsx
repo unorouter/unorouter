@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { matchPathname, useRouter } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import { LANGUAGES } from "@/lib/config/constants";
 import type { Locale } from "next-intl";
 import { useLocale, useTranslations } from "next-intl";
@@ -23,6 +24,7 @@ export function LanguageToggle() {
   const currentLanguage = LANGUAGES.find((lang) => lang.locale === locale);
 
   const handleLanguageChange = (newLocale: Locale) => {
+    analytics.settings.localeChanged(newLocale);
     // Resolve the (possibly localized) URL back to its typed { pathname, params }
     // shape so next-intl's router can re-localize against the pathnames map.
     const matched = matchPathname(pathname, locale);

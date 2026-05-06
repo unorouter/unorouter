@@ -19,6 +19,7 @@ import {
   useUpdatePresetMutation,
 } from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
+import { analytics } from "@/lib/analytics";
 import {
   samplingPresetFormSchema,
   type SamplingPresetForm,
@@ -115,6 +116,7 @@ export function PresetList(props: Props) {
   const handleDelete = async (id: string) => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteMut.mutateAsync(id);
+    analytics.rp.entityAction({ entity: "preset", action: "deleted" });
     if (editingId === id) setEditingId(null);
   };
 
@@ -127,7 +129,15 @@ export function PresetList(props: Props) {
 
         {!isLoggedIn ? <RpLoginGate /> : <div className="flex flex-col gap-4">
           <div className="flex justify-end">
-            <Button onClick={() => setEditingId("new")}>
+            <Button
+              onClick={() => {
+                analytics.rp.entityAction({
+                  entity: "preset",
+                  action: "create_started",
+                });
+                setEditingId("new");
+              }}
+            >
               <LuPlus className="size-4" />
               {t("RP.PRESETS_NEW")}
             </Button>
@@ -196,7 +206,13 @@ export function PresetList(props: Props) {
                 <Card
                   key={p.id}
                   className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
-                  onClick={() => setEditingId(p.id)}
+                  onClick={() => {
+                    analytics.rp.entityAction({
+                      entity: "preset",
+                      action: "edit_started",
+                    });
+                    setEditingId(p.id);
+                  }}
                 >
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="text-sm font-medium">

@@ -13,14 +13,12 @@ import {
   enable2FA,
   generateAccessToken,
   get2FAStatus,
-  getUserOAuthBindings,
   passkeyDelete,
   passkeyRegisterBegin,
   passkeyRegisterFinish,
   passkeyStatus,
   sendEmailVerification,
   setup2FA,
-  unbindCustomOAuth,
   updateSelf,
   updateUserSetting,
 } from "@/openapi";
@@ -151,18 +149,5 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
 
   .delete("/passkey", async ({ upstream }) => {
     const res = await passkeyDelete({ headers: upstream.headers });
-    return unwrap(res);
-  })
-
-  // OAuth bindings
-  .get("/oauth/bindings", async ({ upstream }) => {
-    const res = await getUserOAuthBindings({ headers: upstream.headers });
-    return unwrap(res);
-  })
-
-  .delete("/oauth/bindings/:providerId", async ({ params, upstream }) => {
-    const res = await unbindCustomOAuth(params.providerId, {
-      headers: upstream.headers,
-    });
     return unwrap(res);
   });

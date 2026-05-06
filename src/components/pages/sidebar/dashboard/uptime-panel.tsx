@@ -3,6 +3,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardUptimeQuery } from "@/hooks/dashboard-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
+import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { LuExternalLink, LuShield } from "react-icons/lu";
@@ -72,7 +73,11 @@ export function UptimePanel() {
               {groups.map((group) => (
                 <button
                   key={group.categoryName}
-                  onClick={() => setActiveCategory(group.categoryName ?? "")}
+                  onClick={() => {
+                    const category = group.categoryName ?? "";
+                    analytics.dashboard.uptimeCategoryChanged({ category });
+                    setActiveCategory(category);
+                  }}
                   className={`bg-card px-3 py-2 font-mono text-[10px] tracking-widest uppercase transition-colors ${
                     selectedCategory === group.categoryName
                       ? "text-foreground"

@@ -2,10 +2,6 @@ export enum StoreId {
   DATA_TABLES_STORE = "DATA_TABLES_STORE",
 }
 
-export enum FilterAll {
-  ALL = "all",
-}
-
 export enum ModelTypeFilter {
   ALL = "all",
   TEXT = "text",

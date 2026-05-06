@@ -27,7 +27,7 @@ async function sha256Hex(input: string): Promise<string> {
     .join("");
 }
 
-export type IdempotentResult<T> = {
+type IdempotentResult<T> = {
   status: number;
   body: T;
   replayed: boolean;

@@ -1,4 +1,3 @@
-import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg } from "../config/constants";
 
@@ -15,5 +14,4 @@ export const tokenFormSchema = t.Object({
   model_limits: t.Array(t.String(), { default: [] }),
   allow_ips: t.String({ default: "" }),
 });
-export const tokenFormChecker = TypeCompiler.Compile(tokenFormSchema);
 export type TokenFormSchema = Static<typeof tokenFormSchema>;

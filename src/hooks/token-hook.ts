@@ -51,34 +51,6 @@ export function useTokensQuery(
   });
 }
 
-export function useTokenQuery(args: EdenArgs<TokenRoute, "get">) {
-  return useQuery({
-    queryKey: queryKeys.token(args.id),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.token(args).get());
-    },
-    enabled: Number(args.id) > 0,
-  });
-}
-
-export function useUserGroupsQuery() {
-  return useQuery({
-    queryKey: queryKeys.userGroups(),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.token.user.groups.get());
-    },
-  });
-}
-
-export function useUserModelsQuery() {
-  return useQuery({
-    queryKey: queryKeys.userModels(),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.token.user.models.get());
-    },
-  });
-}
-
 export function useCreateTokenMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();

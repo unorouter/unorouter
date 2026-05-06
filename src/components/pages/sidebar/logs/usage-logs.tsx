@@ -6,6 +6,7 @@ import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/filters";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUsageLogsQuery, useUsageLogsStatQuery } from "@/hooks/logs-hook";
+import { analytics } from "@/lib/analytics";
 import { msg, renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";
@@ -47,6 +48,10 @@ export function UsageLogs() {
   const stat = statQuery.data;
 
   function handleFilterChange(id: string, value: unknown) {
+    analytics.logs.filterChanged({
+      filter_id: id,
+      has_value: value != null,
+    });
     setColumnFilters((prev: ColumnFiltersState) => {
       const next = prev.filter((f) => f.id !== id);
       if (value != null) next.push({ id, value });
@@ -56,6 +61,7 @@ export function UsageLogs() {
   }
 
   function handleReset() {
+    analytics.logs.filtersReset();
     setColumnFilters([]);
     setPagination((prev) => ({ ...prev, pageIndex: 0 }));
   }
@@ -189,7 +195,10 @@ export function UsageLogs() {
         <Button
           variant="ghost"
           size="icon-sm"
-          onClick={() => logsQuery.refetch()}
+          onClick={() => {
+            analytics.logs.refreshed();
+            logsQuery.refetch();
+          }}
         >
           <LuRefreshCw className="h-4 w-4" />
         </Button>

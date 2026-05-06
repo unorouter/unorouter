@@ -276,7 +276,10 @@ export function Affiliate() {
               <Button
                 size="sm"
                 className="mt-3"
-                onClick={() => setTransferOpen(true)}
+                onClick={() => {
+                  analytics.affiliate.transferDialogOpened();
+                  setTransferOpen(true);
+                }}
                 disabled={pendingQuota <= 0}
               >
                 <LuArrowRightLeft
@@ -294,7 +297,10 @@ export function Affiliate() {
       </div>
 
       {/* Tabs: Invited Users + Commission History */}
-      <Tabs defaultValue="invitees">
+      <Tabs
+        defaultValue="invitees"
+        onValueChange={(tab) => analytics.affiliate.tabChanged({ tab })}
+      >
         <TabsList variant="line">
           <TabsTrigger value="invitees">
             <LuUsers className="h-3.5 w-3.5" />

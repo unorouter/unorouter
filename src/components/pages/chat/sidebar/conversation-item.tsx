@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
@@ -45,6 +46,7 @@ export function ConversationItem(props: ConversationItemProps) {
       : (modelData?.vendor?.name ?? "");
 
   function startEditing() {
+    analytics.chat.conversationRenameStarted();
     setEditValue(props.conversation.title || "");
     setIsEditing(true);
     setMenuOpen(false);
@@ -87,7 +89,10 @@ export function ConversationItem(props: ConversationItemProps) {
             onKeyDown={(e) => {
               e.stopPropagation();
               if (e.key === "Enter") saveEdit();
-              if (e.key === "Escape") setIsEditing(false);
+              if (e.key === "Escape") {
+                analytics.chat.conversationRenameCancelled();
+                setIsEditing(false);
+              }
             }}
             className="bg-background border-border ring-ring min-w-0 flex-1 rounded border px-1.5 py-0.5 text-sm outline-none focus:ring-1"
           />
@@ -101,7 +106,10 @@ export function ConversationItem(props: ConversationItemProps) {
           <button
             type="button"
             className="text-muted-foreground hover:text-foreground flex size-6 items-center justify-center rounded-md"
-            onClick={() => setIsEditing(false)}
+            onClick={() => {
+              analytics.chat.conversationRenameCancelled();
+              setIsEditing(false);
+            }}
           >
             <LuX className="size-3.5" />
           </button>

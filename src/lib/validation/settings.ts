@@ -1,4 +1,3 @@
-import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg } from "../config/constants";
 
@@ -20,7 +19,6 @@ export const changePasswordSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
 });
-export const changePasswordChecker = TypeCompiler.Compile(changePasswordSchema);
 export type ChangePasswordSchema = Static<typeof changePasswordSchema>;
 
 export const emailBindSchema = t.Object({
@@ -35,7 +33,6 @@ export const emailBindSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
 });
-export const emailBindChecker = TypeCompiler.Compile(emailBindSchema);
 export type EmailBindSchema = Static<typeof emailBindSchema>;
 
 export const twoFACodeSchema = t.Object({
@@ -46,7 +43,6 @@ export const twoFACodeSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
 });
-export const twoFACodeChecker = TypeCompiler.Compile(twoFACodeSchema);
 export type TwoFACodeSchema = Static<typeof twoFACodeSchema>;
 
 export const deleteAccountSchema = t.Object({
@@ -56,7 +52,6 @@ export const deleteAccountSchema = t.Object({
     error: msg("FORM.ERROR.REQUIRED"),
   }),
 });
-export const deleteAccountChecker = TypeCompiler.Compile(deleteAccountSchema);
 export type DeleteAccountSchema = Static<typeof deleteAccountSchema>;
 
 export const notificationSettingSchema = t.Object({
@@ -74,9 +69,6 @@ export const notificationSettingSchema = t.Object({
   gotify_token: t.String({ default: "" }),
   gotify_priority: t.Number({ minimum: 0, maximum: 10, default: 5 }),
 });
-export const notificationSettingChecker = TypeCompiler.Compile(
-  notificationSettingSchema,
-);
 export type NotificationSettingSchema = Static<
   typeof notificationSettingSchema
 >;

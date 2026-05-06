@@ -194,35 +194,6 @@ export async function createConversation(
   return { id, model: body.model, title: body.title ?? null };
 }
 
-export async function getConversation(userId: number, convId: string) {
-  const db = getDb();
-  const rows = await db
-    .select({
-      id: conversations.id,
-      userId: conversations.userId,
-      title: conversations.title,
-      shareId: conversations.shareId,
-      totalInputTokens: conversations.totalInputTokens,
-      totalOutputTokens: conversations.totalOutputTokens,
-      totalCost: conversations.totalCost,
-      createdAt: conversations.createdAt,
-      updatedAt: conversations.updatedAt,
-      model: conversationSettings.defaultModel,
-    })
-    .from(conversations)
-    .leftJoin(
-      conversationSettings,
-      eq(conversationSettings.convId, conversations.id),
-    )
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
-    .limit(1);
-
-  assertFound(rows);
-  return rows[0];
-}
-
 // ---------------------------------------------------------------------------
 // Update
 // ---------------------------------------------------------------------------

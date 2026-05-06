@@ -3,6 +3,7 @@
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { BreakoutDialog } from "@/components/ui/breakout/breakout-dialog";
 import { Link } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
@@ -62,6 +63,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
                   aria-label="GitHub"
+                  onClick={() => analytics.navigation.socialClicked("github")}
                 >
                   <FaGithub className="h-5 w-5" />
                 </NextLink>
@@ -73,6 +75,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
                   aria-label="Discord"
+                  onClick={() => analytics.navigation.socialClicked("discord")}
                 >
                   <FaDiscord className="h-5 w-5" />
                 </NextLink>
@@ -84,6 +87,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
                   aria-label="X"
+                  onClick={() => analytics.navigation.socialClicked("x")}
                 >
                   <FaXTwitter className="h-5 w-5" />
                 </NextLink>
@@ -95,6 +99,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
                   aria-label={t("FOOTER.SOCIAL_TRUSTPILOT")}
+                  onClick={() => analytics.navigation.socialClicked("trustpilot")}
                 >
                   <SiTrustpilot className="h-5 w-5" />
                 </NextLink>
@@ -116,6 +121,12 @@ export function Footer() {
                         isActiveLink(pathname, item.href) &&
                           "text-primary font-medium",
                       )}
+                      onClick={() =>
+                        analytics.navigation.footerLinkClicked({
+                          key: item.key,
+                          external: false,
+                        })
+                      }
                     >
                       {t(item.key)}
                     </Link>
@@ -128,6 +139,12 @@ export function Footer() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-muted-foreground hover:text-foreground inline-flex items-center justify-center gap-2 transition-colors md:justify-start"
+                      onClick={() =>
+                        analytics.navigation.footerLinkClicked({
+                          key: item.key,
+                          external: true,
+                        })
+                      }
                     >
                       <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
                       {t(item.key)}
@@ -150,6 +167,12 @@ export function Footer() {
                         isActiveLink(pathname, item.href) &&
                           "text-primary font-medium",
                       )}
+                      onClick={() =>
+                        analytics.navigation.footerLinkClicked({
+                          key: item.key,
+                          external: false,
+                        })
+                      }
                     >
                       {t(item.key)}
                     </Link>
@@ -167,6 +190,7 @@ export function Footer() {
               <NextLink
                 href={`mailto:${env.supportEmail}`}
                 className="text-primary hover:underline"
+                onClick={() => analytics.navigation.supportEmailClicked()}
               >
                 {env.supportEmail}
               </NextLink>
@@ -186,7 +210,12 @@ export function Footer() {
             </p>
             <button
               type="button"
-              onClick={() => setBreakoutOpen(true)}
+              onClick={() => {
+                analytics.easterEgg.breakoutOpened({
+                  from_route: pathname,
+                });
+                setBreakoutOpen(true);
+              }}
               aria-label={t("FOOTER.EASTER_EGG_LABEL")}
               className="text-muted-foreground/30 hover:text-primary absolute right-0 font-mono text-xs leading-none transition-colors"
             >

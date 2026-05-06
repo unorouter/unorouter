@@ -20,7 +20,6 @@ import { acpError } from "./errors";
 const SITE_ORIGIN = new URL(env.appUrl).origin;
 const PAYMENT_METHOD_DEFAULT = "card";
 
-export type AcpItemKind = "topup" | "subscription";
 export type AcpPaymentMethod = "stripe" | "creem";
 
 export type ParsedItemId =

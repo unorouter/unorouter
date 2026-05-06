@@ -81,31 +81,6 @@ export function useMessagesInfiniteQuery(id?: string) {
   });
 }
 
-export function useCreateConversationMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: EdenArgs<ChatRoute, "post">) => {
-      return handleElysia(await rpc.api.chat.post(args.body));
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: (data) => {
-      const now = dayjs().toDate();
-      const newItem: ConvItem = {
-        ...data,
-        shareId: null,
-        totalCost: 0,
-        createdAt: now,
-        updatedAt: now,
-      };
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => prependConv(old, newItem),
-      );
-    },
-  });
-}
-
 export function useUpdateConversationMutation() {
   const queryClient = useQueryClient();
   const t = useTranslations();

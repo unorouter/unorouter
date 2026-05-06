@@ -27,6 +27,7 @@ import {
   useUpdatePersonaMutation,
 } from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
+import { analytics } from "@/lib/analytics";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
@@ -56,7 +57,15 @@ export function PersonaList(props: Props) {
     const file = e.target.files?.[0];
     if (!file) return;
     e.target.value = "";
-    await importMut.mutateAsync(file);
+    try {
+      await importMut.mutateAsync(file);
+      analytics.rp.entityAction({ entity: "persona", action: "imported" });
+    } catch {
+      analytics.rp.entityAction({
+        entity: "persona",
+        action: "import_failed",
+      });
+    }
   };
 
   const form = useForm({
@@ -98,6 +107,7 @@ export function PersonaList(props: Props) {
   const handleDelete = async (id: string) => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteMut.mutateAsync(id);
+    analytics.rp.entityAction({ entity: "persona", action: "deleted" });
     if (editingId === id) setEditingId(null);
   };
 
@@ -119,7 +129,13 @@ export function PersonaList(props: Props) {
             />
             <Button
               variant="outline"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => {
+                analytics.rp.entityAction({
+                  entity: "persona",
+                  action: "import_picker_opened",
+                });
+                fileInputRef.current?.click();
+              }}
               disabled={importMut.isPending}
               className="min-w-0 flex-1 sm:flex-initial"
             >
@@ -127,7 +143,13 @@ export function PersonaList(props: Props) {
               <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
             </Button>
             <Button
-              onClick={() => setEditingId("new")}
+              onClick={() => {
+                analytics.rp.entityAction({
+                  entity: "persona",
+                  action: "create_started",
+                });
+                setEditingId("new");
+              }}
               className="min-w-0 flex-1 sm:flex-initial"
             >
               <LuPlus className="size-4" />
@@ -195,7 +217,13 @@ export function PersonaList(props: Props) {
                 <Card
                   key={p.id}
                   className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
-                  onClick={() => setEditingId(p.id)}
+                  onClick={() => {
+                    analytics.rp.entityAction({
+                      entity: "persona",
+                      action: "edit_started",
+                    });
+                    setEditingId(p.id);
+                  }}
                 >
                   <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
                     {p.name[0]?.toUpperCase() ?? "?"}

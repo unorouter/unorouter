@@ -334,16 +334,7 @@ export function mediaKey(
   return `chat/${scope}/${convId}/${msgId}/${filename}`;
 }
 
-export async function getContentType(url: string): Promise<string | null> {
-  try {
-    const res = await safeFetch(url, "HEAD");
-    return res.headers.get("content-type");
-  } catch {
-    return null;
-  }
-}
-
-export function isVideoContentType(contentType: string | null): boolean {
+function isVideoContentType(contentType: string | null): boolean {
   if (!contentType) return false;
   return contentType.toLowerCase().startsWith("video/");
 }

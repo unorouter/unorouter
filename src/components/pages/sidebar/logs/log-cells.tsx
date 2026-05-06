@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
 import type { CellContext } from "@tanstack/react-table";
@@ -75,6 +76,7 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
               className="cursor-pointer border-0 bg-transparent p-0"
               onClick={() => {
                 copyToClipboard(log.model_name);
+                analytics.logs.modelNameCopied();
                 toast.success(t("LOGS.COPIED"));
               }}
             />
@@ -109,6 +111,7 @@ export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
               className="cursor-pointer border-0 bg-transparent p-0"
               onClick={() => {
                 copyToClipboard(log.token_name);
+                analytics.logs.tokenNameCopied();
                 toast.success(t("LOGS.COPIED"));
               }}
             />

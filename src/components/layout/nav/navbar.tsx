@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { Fragment } from "react";
@@ -61,6 +62,12 @@ export function Navbar() {
                   ? "text-foreground"
                   : "text-muted-foreground hover:text-foreground",
               )}
+              onClick={() =>
+                analytics.navigation.topLinkClicked({
+                  name: link.name,
+                  from_route: pathname,
+                })
+              }
             >
               {t(link.name)}
             </Link>
@@ -105,6 +112,11 @@ export function Navbar() {
                                   <Link
                                     href={link.href}
                                     className="flex items-center gap-2"
+                                    onClick={() =>
+                                      analytics.navigation.docsSubmenuLinkClicked(
+                                        { name: link.name },
+                                      )
+                                    }
                                   >
                                     {link.icon && (
                                       <link.icon className="h-3 w-3" />

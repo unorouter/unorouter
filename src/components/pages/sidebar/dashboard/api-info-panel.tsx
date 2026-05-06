@@ -51,6 +51,7 @@ export function ApiInfoPanel() {
                     <CopyButton
                       text={entry.url}
                       className="text-muted-foreground hover:text-foreground shrink-0 p-1 transition-colors"
+                      analyticsLabel="dashboard_api_url"
                     />
                   </div>
                 )}

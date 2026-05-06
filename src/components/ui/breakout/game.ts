@@ -334,9 +334,19 @@ function pointInRect(x: number, y: number, rect: Rect): boolean {
   );
 }
 
+export type BreakoutEvent =
+  | { type: "level-cleared"; level: number; score: number }
+  | { type: "game-over"; level: number; score: number }
+  | { type: "new-best"; score: number };
+
+export type BreakoutOptions = {
+  onEvent?: (event: BreakoutEvent) => void;
+};
+
 export class TokenBreakout {
   private readonly canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
+  private readonly onEvent?: (event: BreakoutEvent) => void;
   private readonly renderer = new PretextRenderer();
   private readonly pointer: PointerState = { active: false, x: VIEW_WIDTH / 2 };
   private readonly keys = {
@@ -410,8 +420,9 @@ export class TokenBreakout {
   private statusCopy = "";
   private wakeHoles: WakeHole[] = [];
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, options?: BreakoutOptions) {
     this.canvas = canvas;
+    this.onEvent = options?.onEvent;
     const context = canvas.getContext("2d");
     if (context === null) throw new Error("2D canvas not available");
     this.context = context;
@@ -464,6 +475,18 @@ export class TokenBreakout {
     this.canvas.addEventListener("pointercancel", this.onPointerUp);
     this.canvas.addEventListener("pointerleave", this.onPointerUp);
     this.canvas.style.touchAction = "none";
+  }
+
+  getScore(): number {
+    return this.score;
+  }
+
+  getLevel(): number {
+    return this.level;
+  }
+
+  isGameOver(): boolean {
+    return this.mode === "game-over";
   }
 
   destroy(): void {
@@ -716,6 +739,11 @@ export class TokenBreakout {
     }
 
     if (this.sequence.kind === "clear") {
+      this.onEvent?.({
+        type: "level-cleared",
+        level: this.level,
+        score: this.score,
+      });
       this.level += 1;
       this.resetWave(false);
       return;
@@ -990,7 +1018,15 @@ export class TokenBreakout {
 
         brick.alive = false;
         this.score += brick.value;
-        this.bestScore = Math.max(this.bestScore, this.score);
+        if (this.score > this.bestScore) {
+          // Only emit new-best after a player has any prior best to beat;
+          // the first brick of a fresh session would otherwise spam the event.
+          const wasNonZeroPrev = this.bestScore > 0;
+          this.bestScore = this.score;
+          if (wasNonZeroPrev) {
+            this.onEvent?.({ type: "new-best", score: this.bestScore });
+          }
+        }
         this.screenShake = 2.2;
         gameAudio.playBrick(
           clamp(stripLabelDecorators(brick.label).length / 10, 0.2, 1),
@@ -2359,6 +2395,11 @@ export class TokenBreakout {
     if (this.lives <= 0) {
       this.mode = "game-over";
       this.bestScore = Math.max(this.bestScore, this.score);
+      this.onEvent?.({
+        type: "game-over",
+        level: this.level,
+        score: this.score,
+      });
       gameAudio.playGameOver();
       gameAudio.setScene("game-over");
       this.updateStatusCopy();

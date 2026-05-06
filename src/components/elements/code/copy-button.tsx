@@ -1,5 +1,6 @@
 "use client";
 
+import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -11,6 +12,7 @@ type Props = {
   className?: string;
   iconSize?: string;
   toastMessage?: string;
+  analyticsLabel?: string;
 };
 
 export function CopyButton(props: Props) {
@@ -21,6 +23,9 @@ export function CopyButton(props: Props) {
   function handleCopy(e: React.MouseEvent) {
     e.stopPropagation();
     copyToClipboard(props.text);
+    if (props.analyticsLabel) {
+      analytics.content.copied({ label: props.analyticsLabel });
+    }
     setCopied(true);
     toast.success(props.toastMessage ?? t("DASHBOARD.COPIED"));
     setTimeout(() => setCopied(false), 1500);

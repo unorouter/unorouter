@@ -66,18 +66,6 @@ export async function getModelMetadata(
   return { ...found.metadata, isFree: found.isFree };
 }
 
-export async function getCheapestTextModel(): Promise<string> {
-  const models = await getModels();
-  const textModels = models.filter(
-    (m) =>
-      m.type === "text" && !m.isFixedPrice && !m.isFree && m.inputPrice > 0,
-  );
-  if (textModels.length === 0) throw new Error(msg("ERRORS.NO_TEXT_MODELS"));
-  return textModels.reduce((min, m) =>
-    m.inputPrice < min.inputPrice ? m : min,
-  ).name;
-}
-
 export async function getFreeTextModels(limit = 5): Promise<string[]> {
   const models = await getModels();
   return models

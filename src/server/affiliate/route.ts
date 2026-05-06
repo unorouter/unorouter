@@ -2,7 +2,6 @@ import { transferQuotaBody } from "@/lib/api/typebox/affiliate";
 import { paginationQuery } from "@/lib/api/typebox/common";
 import { unwrap } from "@/lib/utils/base";
 import {
-  getAffCode,
   getInvitedUsers,
   getReferralCommissions,
   transferAffQuota,
@@ -12,11 +11,6 @@ import { deriveUpstream } from "../constants";
 
 export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
   .derive(deriveUpstream)
-
-  .get("/code", async ({ upstream }) => {
-    const res = await getAffCode({ headers: upstream.headers });
-    return unwrap(res);
-  })
 
   .get(
     "/invitees",

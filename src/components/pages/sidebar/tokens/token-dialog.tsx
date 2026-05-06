@@ -205,6 +205,13 @@ export function TokenDialog(props: TokenDialogProps) {
       cross_group_retry: true,
     };
 
+    const trackProps = {
+      has_ip_whitelist: !!payload.allow_ips,
+      unlimited_quota: payload.unlimited_quota,
+      model_limits_enabled: payload.model_limits_enabled,
+      model_count: data.model_limits_enabled ? data.model_limits.length : 0,
+    };
+
     if (isEdit) {
       updateMutation.mutate(
         {
@@ -216,7 +223,7 @@ export function TokenDialog(props: TokenDialogProps) {
         },
         {
           onSuccess: () => {
-            analytics.tokens.updated();
+            analytics.tokens.updated(trackProps);
             toast.success(t("TOKEN.SUCCESS.UPDATED"));
             props.onOpenChange(false);
           },
@@ -233,7 +240,7 @@ export function TokenDialog(props: TokenDialogProps) {
         { body: payload },
         {
           onSuccess: () => {
-            analytics.tokens.created();
+            analytics.tokens.created(trackProps);
             toast.success(t("TOKEN.SUCCESS.CREATED"));
             props.onOpenChange(false);
           },
@@ -424,9 +431,12 @@ export function TokenDialog(props: TokenDialogProps) {
                                   : "outline"
                               }
                               size="xs"
-                              onClick={() =>
-                                form.setValue("remain_quota", preset.value)
-                              }
+                              onClick={() => {
+                                analytics.tokens.quotaPresetClicked({
+                                  amount: preset.value,
+                                });
+                                form.setValue("remain_quota", preset.value);
+                              }}
                             >
                               {preset.label}
                             </Button>

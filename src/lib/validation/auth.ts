@@ -37,17 +37,6 @@ export const registerSchema = t.Object({
 export const registerChecker = TypeCompiler.Compile(registerSchema);
 export type RegisterSchema = Static<typeof registerSchema>;
 
-export const twoFASchema = t.Object({
-  code: t.String({
-    minLength: 6,
-    maxLength: 6,
-    default: "",
-    error: msg("FORM.ERROR.EXACT_LENGTH"),
-  }),
-});
-export const twoFAChecker = TypeCompiler.Compile(twoFASchema);
-export type TwoFASchema = Static<typeof twoFASchema>;
-
 // Shape of the upstream new-api response at GET /oauth/v1/authorize/info.
 // Matches the Gin handler in controller/oauth_consent.go (OAuthConsentInfo).
 // Used by the consent page to render the auth request before the user
