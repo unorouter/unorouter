@@ -599,15 +599,36 @@ export function useUpdateChatBindingsMutation() {
 
 export function useImportConversationMutation() {
   const t = useTranslations();
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(
         await rpc.api.rp.conversations.import.post({ file }),
       ),
-    // The created conversation lands in the conversations list as soon as the
-    // user opens the sidebar; we don't have its full ConvItem shape here, so
-    // there's nothing to patch optimistically. The list query refetches on
-    // mount, which is fine for an import action.
+    // We get the new convId back from the server but not the full ConvItem
+    // shape. Invalidate the conversations list so the sidebar shows the
+    // imported conversation immediately.
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+    },
     onError: (e) => handleError(e, t),
+  });
+}
+
+/**
+ * Export a single conversation as native (`unorouter.1.0`) or `orpg.3.0`
+ * JSON. Returns the JSON object; the caller serializes + triggers download.
+ */
+export function useExportConversation() {
+  const t = useTranslations();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: { convId: string; format: "native" | "orpg" }) => {
+      return handleElysia(
+        await rpc.api.rp
+          .conversations({ id: args.convId })
+          .export.get({ query: { format: args.format } }),
+      );
+    },
   });
 }

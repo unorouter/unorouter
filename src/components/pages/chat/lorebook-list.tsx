@@ -11,6 +11,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Form,
   FormControl,
   FormField,
@@ -49,7 +55,13 @@ import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuArrowLeft, LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
+import {
+  LuArrowLeft,
+  LuDownload,
+  LuPlus,
+  LuTrash2,
+  LuUpload,
+} from "react-icons/lu";
 
 type Props = {
   open: boolean;
@@ -86,6 +98,26 @@ export function LorebookList(props: Props) {
     if (!file) return;
     e.target.value = "";
     await importMut.mutateAsync(file);
+  };
+
+  const handleExport = async (
+    id: string,
+    format: "sillytavern" | "agnai" | "risu" | "ccv3",
+  ) => {
+    const res = await fetch(`/api/rp/lorebooks/${id}/export?format=${format}`, {
+      credentials: "include",
+    });
+    if (!res.ok) return;
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const fname =
+      res.headers.get("content-disposition")?.match(/filename="([^"]+)"/)?.[1] ??
+      `lorebook-${id}.${format}.json`;
+    link.href = url;
+    link.download = fname;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -166,6 +198,45 @@ export function LorebookList(props: Props) {
                       </span>
                     )}
                   </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          aria-label={t("RP.LOREBOOKS_EXPORT")}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      }
+                    >
+                      <LuDownload className="size-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <DropdownMenuItem
+                        onClick={() => handleExport(l.id, "sillytavern")}
+                      >
+                        {t("RP.EXPORT_SILLYTAVERN")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleExport(l.id, "agnai")}
+                      >
+                        {t("RP.EXPORT_AGNAI")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleExport(l.id, "risu")}
+                      >
+                        {t("RP.EXPORT_RISU")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleExport(l.id, "ccv3")}
+                      >
+                        {t("RP.EXPORT_CCV3")}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Button
                     variant="ghost"
                     size="icon-sm"

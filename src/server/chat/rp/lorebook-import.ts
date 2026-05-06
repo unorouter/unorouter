@@ -1,21 +1,18 @@
 /**
- * Parse a SillyTavern / RisuAI world-info JSON file into our lorebook schema.
+ * Lorebook parsing and emission via @character-foundry/character-foundry.
  *
- * Reference shapes:
- *  - SillyTavern: `{ name, entries: { "0": { keys[], content, position, ... } } }`
- *    `position`: 0=before_char, 1=after_char, 2=top, 3=bottom, 4=at_depth
- *  - RisuAI: similar, `entries` may be an array; sometimes wraps under
- *    `data.entries` with extra `risu_*` keys we ignore.
- *  - Chub.ai/AICC: same `chara_card_v2`-style envelope with `data.character_book`.
+ * Read: SillyTavern world_info, Agnai, RisuAI, Wyvern, CCv3 character_book.
+ * Write: same set; we emit SillyTavern format by default since it's the
+ * lingua franca for SillyTavern, Chub, and most RP clients.
  */
 
-const POSITION_MAP: Record<number, string> = {
-  0: "before_char",
-  1: "after_char",
-  2: "top",
-  3: "bottom",
-  4: "at_depth",
-};
+import {
+  parseLorebook,
+  serializeLorebook,
+  type CCv3CharacterBook,
+  type CCv3LorebookEntry,
+  type LorebookFormat,
+} from "@character-foundry/character-foundry/lorebook";
 
 export type ParsedLorebook = {
   name: string;
@@ -37,134 +34,169 @@ export type ParsedLorebook = {
   }>;
 };
 
-function asString(v: unknown): string | undefined {
-  return typeof v === "string" && v.trim() ? v : undefined;
-}
+const FOUNDRY_TO_DB_POSITION = {
+  before_char: "before_char",
+  after_char: "after_char",
+  in_chat: "at_depth",
+} as const;
 
-function asStringArray(v: unknown): string[] {
-  if (!Array.isArray(v)) return [];
-  return v.filter((x): x is string => typeof x === "string" && x.length > 0);
-}
+const DB_TO_FOUNDRY_POSITION = {
+  before_char: "before_char",
+  after_char: "after_char",
+  top: "before_char",
+  bottom: "after_char",
+  at_depth: "in_chat",
+} as const;
 
-function asNumber(v: unknown, fallback: number): number {
-  return typeof v === "number" && Number.isFinite(v) ? v : fallback;
-}
-
-function asBool(v: unknown, fallback: boolean): boolean {
-  return typeof v === "boolean" ? v : fallback;
-}
-
-function mapPosition(
+function mapPositionToDb(
   raw: unknown,
 ): "before_char" | "after_char" | "top" | "bottom" | "at_depth" {
-  if (typeof raw === "string") {
-    const lower = raw.toLowerCase();
-    if (
-      lower === "before_char" ||
-      lower === "after_char" ||
-      lower === "top" ||
-      lower === "bottom" ||
-      lower === "at_depth"
-    ) {
-      return lower;
-    }
+  // CCv3 numeric positions: SillyTavern convention is
+  // 0=before_char, 1=after_char, 2=top, 3=bottom, 4=at_depth.
+  if (typeof raw === "number") {
+    return raw === 0
+      ? "before_char"
+      : raw === 1
+        ? "after_char"
+        : raw === 2
+          ? "top"
+          : raw === 3
+            ? "bottom"
+            : "at_depth";
   }
-  if (typeof raw === "number" && raw in POSITION_MAP) {
-    return POSITION_MAP[raw] as
-      | "before_char"
-      | "after_char"
-      | "top"
-      | "bottom"
-      | "at_depth";
+  if (typeof raw === "string") {
+    const key = raw as keyof typeof FOUNDRY_TO_DB_POSITION;
+    if (key in FOUNDRY_TO_DB_POSITION) return FOUNDRY_TO_DB_POSITION[key];
+    if (
+      raw === "top" ||
+      raw === "bottom" ||
+      raw === "at_depth" ||
+      raw === "before_char" ||
+      raw === "after_char"
+    ) {
+      return raw;
+    }
   }
   return "before_char";
 }
 
-function mapEntry(
-  raw: Record<string, unknown>,
-  fallbackOrder: number,
-): ParsedLorebook["entries"][number] | null {
-  const content = asString(raw.content);
-  if (!content) return null;
-
-  const keys = asStringArray(raw.keys ?? raw.key ?? raw.primary_keys);
-  if (keys.length === 0) {
-    // Some exports rely on `comment` as a label and infer keys from there.
-    // We keep entries with no keys but `constant: true` (always-on); skip
-    // others since they would never match.
-    if (!asBool(raw.constant, false)) return null;
-  }
-
-  const secondaryKeys = asStringArray(
-    raw.secondary_keys ?? raw.secondaryKeys ?? raw.keysecondary,
-  );
-
-  return {
-    keys,
-    secondaryKeys: secondaryKeys.length > 0 ? secondaryKeys : undefined,
-    content,
-    constant: asBool(raw.constant, false),
-    selective: asBool(raw.selective, false),
-    priority: asNumber(raw.priority ?? raw.order ?? raw.insertion_order, 100),
-    position: mapPosition(raw.position),
-    depth: asNumber(raw.depth, 4),
-    enabled: !asBool(raw.disable ?? raw.disabled, false),
-    orderIndex: asNumber(raw.order ?? raw.uid ?? raw.id, fallbackOrder),
-  };
-}
-
+/**
+ * Parse a lorebook JSON file (any of the supported formats) into our flat
+ * shape. Returns null when the input has no content; the caller decides how
+ * to surface that.
+ */
 export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
   if (!raw || typeof raw !== "object") return null;
-  const root = raw as Record<string, unknown>;
 
-  // Unwrap chara_card_v2 / v3 character_book envelope if present.
-  const data = (() => {
-    const d = root.data;
-    if (d && typeof d === "object" && "character_book" in d) {
-      return (d as Record<string, unknown>).character_book as Record<
-        string,
-        unknown
-      >;
-    }
-    if (root.character_book && typeof root.character_book === "object") {
-      return root.character_book as Record<string, unknown>;
-    }
-    return root;
-  })();
-
-  // Entries may be a record (`{"0": {...}}`) or an array.
-  const rawEntries = data.entries;
-  const list: Array<Record<string, unknown>> = [];
-  if (Array.isArray(rawEntries)) {
-    for (const e of rawEntries) {
-      if (e && typeof e === "object") list.push(e as Record<string, unknown>);
-    }
-  } else if (rawEntries && typeof rawEntries === "object") {
-    for (const v of Object.values(rawEntries)) {
-      if (v && typeof v === "object") list.push(v as Record<string, unknown>);
-    }
+  let parsed;
+  try {
+    parsed = parseLorebook(
+      new TextEncoder().encode(JSON.stringify(raw)),
+    );
+  } catch {
+    return null;
   }
 
+  if (!parsed.book.entries || parsed.book.entries.length === 0) return null;
+
   const entries: ParsedLorebook["entries"] = [];
-  list.forEach((e, i) => {
-    const mapped = mapEntry(e, i);
-    if (mapped) entries.push(mapped);
+  parsed.book.entries.forEach((e: CCv3LorebookEntry, i: number) => {
+    if (!e.content) return;
+    const keys = e.keys ?? [];
+    if (keys.length === 0 && !e.constant) return;
+
+    entries.push({
+      keys,
+      secondaryKeys:
+        Array.isArray(e.secondary_keys) && e.secondary_keys.length > 0
+          ? e.secondary_keys
+          : undefined,
+      content: e.content,
+      constant: e.constant ?? false,
+      selective: e.selective ?? false,
+      priority: e.priority ?? 100,
+      position: mapPositionToDb(e.position),
+      // CCv3 doesn't carry per-entry depth in its core schema; fall back to
+      // a sensible default. SillyTavern stores depth in extensions, which
+      // the library normalizes into the core data when present.
+      depth:
+        typeof (e as Record<string, unknown>).depth === "number"
+          ? ((e as Record<string, unknown>).depth as number)
+          : 4,
+      enabled: e.enabled,
+      orderIndex:
+        typeof e.insertion_order === "number" ? e.insertion_order : i,
+    });
   });
 
   if (entries.length === 0) return null;
 
-  const name =
-    asString(data.name) ?? asString(root.name) ?? "Imported lorebook";
-
   return {
-    name,
-    description: asString(data.description),
-    scanDepth: asNumber(data.scan_depth ?? data.scanDepth, 4),
-    tokenBudget: asNumber(data.token_budget ?? data.tokenBudget, 1500),
-    recursiveScanning: asBool(
-      data.recursive_scanning ?? data.recursiveScanning,
-      false,
-    ),
+    name: parsed.book.name ?? "Imported lorebook",
+    description: parsed.book.description,
+    scanDepth: parsed.book.scan_depth,
+    tokenBudget: parsed.book.token_budget,
+    recursiveScanning: parsed.book.recursive_scanning,
     entries,
   };
+}
+
+/**
+ * Serialize our DB lorebook + entries into a JSON string in the requested
+ * format. Defaults to SillyTavern (`world_info`) since that's what every
+ * downstream RP client accepts.
+ */
+export function serializeLorebookForExport(
+  book: {
+    name: string;
+    description: string | null;
+    scanDepth: number | null;
+    tokenBudget: number | null;
+    recursiveScanning: boolean | null;
+  },
+  entries: Array<{
+    keys: unknown;
+    secondaryKeys: unknown;
+    content: string;
+    constant: boolean | null;
+    selective: boolean | null;
+    priority: number | null;
+    position: string | null;
+    depth: number | null;
+    enabled: boolean | null;
+    orderIndex: number | null;
+  }>,
+  format: LorebookFormat = "sillytavern",
+): string {
+  const ccv3Entries: CCv3LorebookEntry[] = entries.map((e, i) => {
+    const pos = (e.position ?? "before_char") as keyof typeof DB_TO_FOUNDRY_POSITION;
+    return {
+      keys: Array.isArray(e.keys)
+        ? (e.keys as unknown[]).filter((k): k is string => typeof k === "string")
+        : [],
+      content: e.content,
+      enabled: e.enabled ?? true,
+      insertion_order: e.orderIndex ?? i,
+      secondary_keys: Array.isArray(e.secondaryKeys)
+        ? (e.secondaryKeys as unknown[]).filter(
+            (k): k is string => typeof k === "string",
+          )
+        : undefined,
+      constant: e.constant ?? false,
+      selective: e.selective ?? false,
+      priority: e.priority ?? 100,
+      position: DB_TO_FOUNDRY_POSITION[pos] ?? "before_char",
+    };
+  });
+
+  const ccv3Book: CCv3CharacterBook = {
+    name: book.name,
+    description: book.description ?? undefined,
+    scan_depth: book.scanDepth ?? undefined,
+    token_budget: book.tokenBudget ?? undefined,
+    recursive_scanning: book.recursiveScanning ?? undefined,
+    entries: ccv3Entries,
+  };
+
+  return serializeLorebook(ccv3Book, format, undefined, true);
 }

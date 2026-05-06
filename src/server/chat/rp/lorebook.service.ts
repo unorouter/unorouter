@@ -5,7 +5,10 @@ import { uid } from "@/lib/utils/base";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, asc, desc, eq } from "drizzle-orm";
-import { parseLorebookJson } from "./lorebook-import";
+import {
+  parseLorebookJson,
+  serializeLorebookForExport,
+} from "./lorebook-import";
 
 // ---------------------------------------------------------------------------
 // Lorebook CRUD
@@ -251,4 +254,20 @@ export async function importLorebook(userId: number, file: File) {
   });
 
   return getLorebook(userId, id);
+}
+
+/**
+ * Export a lorebook + entries as a SillyTavern world_info JSON (default) or
+ * any other supported format. Returns the JSON string ready for download.
+ */
+export async function exportLorebook(
+  userId: number,
+  id: string,
+  format: "sillytavern" | "agnai" | "risu" | "ccv3" = "sillytavern",
+): Promise<{ data: string; filename: string }> {
+  const book = await getLorebook(userId, id);
+  const json = serializeLorebookForExport(book, book.entries, format);
+  const slug = book.name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) ||
+    "lorebook";
+  return { data: json, filename: `${slug}.${format}.json` };
 }

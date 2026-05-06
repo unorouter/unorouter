@@ -27,9 +27,12 @@ import {
 import { Elysia } from "elysia";
 import {
   claimConversations,
+  clearConversation,
   createConversation,
   createShareLink,
   deleteConversation,
+  duplicateConversation,
+  getConversationMarkdown,
   getConversationOrShared,
   getPaginatedMessages,
   getSharedConversation,
@@ -116,6 +119,24 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .delete("/:id/share", async ({ params, cookie }) => {
     const userId = getUserId(cookie);
     const data = await revokeShareLink(userId, params.id);
+    return { success: true, data };
+  })
+
+  .post("/:id/clear", async ({ params, cookie }) => {
+    const userId = getUserId(cookie, true) ?? 0;
+    const data = await clearConversation(userId, params.id);
+    return { success: true, data };
+  })
+
+  .post("/:id/duplicate", async ({ params, cookie }) => {
+    const userId = getUserId(cookie, true) ?? 0;
+    const data = await duplicateConversation(userId, params.id);
+    return { success: true, data };
+  })
+
+  .get("/:id/markdown", async ({ params, cookie }) => {
+    const userId = getUserId(cookie, true) ?? 0;
+    const data = await getConversationMarkdown(userId, params.id);
     return { success: true, data };
   })
 

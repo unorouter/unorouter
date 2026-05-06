@@ -3,10 +3,41 @@ import { uploadToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/client";
 import { characters } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
+import { logger } from "@/lib/utils/logger";
 import type { CharacterBody } from "@/lib/validation/rp";
+import { serverEnv } from "@/server/env";
 import dayjs from "dayjs";
 import { and, desc, eq } from "drizzle-orm";
-import { parseCharacterCardFile } from "./character-card";
+import {
+  exportCharacterCard,
+  parseCharacterCardFile,
+} from "./character-card";
+
+async function fetchAvatarBuffer(
+  r2Key: string,
+): Promise<{ data: Buffer; mime: string } | null> {
+  if (!serverEnv.r2PublicUrl) return null;
+  try {
+    const res = await fetch(`${serverEnv.r2PublicUrl}/${r2Key}`);
+    if (!res.ok) return null;
+    const buf = Buffer.from(await res.arrayBuffer());
+    const mime =
+      res.headers.get("content-type") ||
+      (r2Key.endsWith(".webp")
+        ? "image/webp"
+        : r2Key.endsWith(".jpg") || r2Key.endsWith(".jpeg")
+          ? "image/jpeg"
+          : "image/png");
+    return { data: buf, mime };
+  } catch (err) {
+    logger.warn("Avatar fetch failed", {
+      context: "character.export",
+      r2Key,
+      error: String(err),
+    });
+    return null;
+  }
+}
 
 export async function listCharacters(userId: number) {
   const db = getDb();
@@ -134,9 +165,62 @@ export async function importCharacterCard(userId: number, file: File) {
     systemPrompt: card.systemPrompt ?? null,
     postHistoryInstructions: card.postHistoryInstructions ?? null,
     tags: card.tags ?? null,
-    source: card.spec === "v2" ? "tavern_v2" : "tavern_v1",
+    source: card.spec === "v3" ? "tavern_v3" : "tavern_v2",
     sourceId: null,
   });
 
   return getCharacter(userId, id);
+}
+
+/**
+ * Export a character as a Tavern PNG card, RisuAI CharX, Voxta package, or
+ * raw CCv3 JSON. PNG re-embeds the avatar as the icon asset; JSON is a
+ * pure metadata blob without the avatar.
+ */
+export async function exportCharacter(
+  userId: number,
+  id: string,
+  format: "png" | "charx" | "voxta" | "json",
+): Promise<{ data: Uint8Array; mimeType: string; ext: string }> {
+  const row = await getCharacter(userId, id);
+
+  if (format === "json") {
+    // Build a minimal CCv3 structure for direct JSON download. Reuses the
+    // exporter's CharX path internally is overkill; emit a hand-built CCv3
+    // wrapper so consumers can still pick it up via parseCard().
+    const payload = {
+      spec: "chara_card_v3",
+      spec_version: "3.0",
+      data: {
+        name: row.name,
+        description: row.description ?? "",
+        personality: row.personality ?? "",
+        scenario: row.scenario ?? "",
+        first_mes: row.firstMessage ?? "",
+        mes_example: row.exampleMessages ?? "",
+        creator_notes: "",
+        system_prompt: row.systemPrompt ?? "",
+        post_history_instructions: row.postHistoryInstructions ?? "",
+        alternate_greetings: [] as string[],
+        tags: Array.isArray(row.tags)
+          ? (row.tags as unknown[]).filter(
+              (t): t is string => typeof t === "string",
+            )
+          : [],
+        creator: "",
+        character_version: "",
+        extensions: {},
+      },
+    };
+    return {
+      data: new TextEncoder().encode(JSON.stringify(payload, null, 2)),
+      mimeType: "application/json",
+      ext: "json",
+    };
+  }
+
+  const avatar = row.avatarR2Key
+    ? await fetchAvatarBuffer(row.avatarR2Key)
+    : null;
+  return exportCharacterCard(row, avatar, format);
 }

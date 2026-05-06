@@ -154,9 +154,34 @@ export type ImportConversationBody = Static<typeof importConversationBody>;
 export const exportFormat = t.Union([
   t.Literal("native"),
   t.Literal("orpg"),
+  t.Literal("sillytavern"),
 ]);
 export type ExportFormat = Static<typeof exportFormat>;
 
 export const exportQuery = t.Object({
   format: t.Optional(exportFormat),
 });
+
+export const characterExportQuery = t.Object({
+  format: t.Optional(
+    t.Union([
+      t.Literal("png"),
+      t.Literal("charx"),
+      t.Literal("voxta"),
+      t.Literal("json"),
+    ]),
+  ),
+});
+export type CharacterExportQuery = Static<typeof characterExportQuery>;
+
+export const lorebookExportQuery = t.Object({
+  format: t.Optional(
+    t.Union([
+      t.Literal("sillytavern"),
+      t.Literal("agnai"),
+      t.Literal("risu"),
+      t.Literal("ccv3"),
+    ]),
+  ),
+});
+export type LorebookExportQuery = Static<typeof lorebookExportQuery>;

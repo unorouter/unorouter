@@ -20,6 +20,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   useCharactersQuery,
   useCreateCharacterMutation,
   useDeleteCharacterMutation,
@@ -37,7 +43,13 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuArrowLeft, LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
+import {
+  LuArrowLeft,
+  LuDownload,
+  LuPlus,
+  LuTrash2,
+  LuUpload,
+} from "react-icons/lu";
 
 type Props = {
   open: boolean;
@@ -68,6 +80,26 @@ export function CharacterList(props: Props) {
     if (!file) return;
     e.target.value = "";
     await importMut.mutateAsync(file);
+  };
+
+  const handleExport = async (
+    id: string,
+    format: "png" | "json" | "charx",
+  ) => {
+    const res = await fetch(`/api/rp/characters/${id}/export?format=${format}`, {
+      credentials: "include",
+    });
+    if (!res.ok) return;
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const fname =
+      res.headers.get("content-disposition")?.match(/filename="([^"]+)"/)?.[1] ??
+      `character-${id}.${format}`;
+    link.href = url;
+    link.download = fname;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -158,6 +190,34 @@ export function CharacterList(props: Props) {
                       </span>
                     )}
                   </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          aria-label={t("RP.CHARACTERS_EXPORT")}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      }
+                    >
+                      <LuDownload className="size-4" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <DropdownMenuItem onClick={() => handleExport(c.id, "png")}>
+                        {t("RP.EXPORT_PNG")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleExport(c.id, "json")}>
+                        {t("RP.EXPORT_JSON")}
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleExport(c.id, "charx")}>
+                        {t("RP.EXPORT_CHARX")}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                   <Button
                     variant="ghost"
                     size="icon-sm"

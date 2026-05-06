@@ -2,10 +2,12 @@ import { Elysia } from "elysia";
 import {
   characterBody,
   characterCardImportBody,
+  characterExportQuery,
   exportQuery,
   importConversationBody,
   lorebookBody,
   lorebookEntryBody,
+  lorebookExportQuery,
   lorebookImportBody,
   personaBody,
   personaImportBody,
@@ -19,6 +21,7 @@ import { getUserId } from "@/server/constants";
 import {
   createCharacter,
   deleteCharacter,
+  exportCharacter,
   getCharacter,
   importCharacterCard,
   listCharacters,
@@ -33,6 +36,7 @@ import {
 import {
   exportConversationNative,
   exportConversationOrpg,
+  exportConversationSillyTavern,
 } from "../transfer/export.service";
 import { importConversation } from "../transfer/import.service";
 import {
@@ -40,6 +44,7 @@ import {
   createLorebook,
   deleteEntry,
   deleteLorebook,
+  exportLorebook,
   getLorebook,
   importLorebook,
   listLorebooks,
@@ -105,6 +110,25 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
       };
     },
     { body: characterCardImportBody },
+  )
+  .get(
+    "/characters/:id/export",
+    async ({ params, query, cookie, set }) => {
+      const userId = getUserId(cookie);
+      const format = query.format ?? "png";
+      const result = await exportCharacter(userId, params.id, format);
+      set.headers["content-type"] = result.mimeType;
+      set.headers["content-disposition"] =
+        `attachment; filename="character-${params.id}.${result.ext}"`;
+      // Copy bytes onto a fresh ArrayBuffer so the Web `BodyInit` typing
+      // accepts it (Uint8Array<ArrayBufferLike> doesn't match BlobPart).
+      const ab = new ArrayBuffer(result.data.byteLength);
+      new Uint8Array(ab).set(result.data);
+      return new Response(new Blob([ab], { type: result.mimeType }), {
+        headers: { "content-type": result.mimeType },
+      });
+    },
+    { query: characterExportQuery },
   )
 
   // ----- Personas ----------------------------------------------------------
@@ -193,6 +217,21 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
       };
     },
     { body: lorebookImportBody },
+  )
+  .get(
+    "/lorebooks/:id/export",
+    async ({ params, query, cookie, set }) => {
+      const userId = getUserId(cookie);
+      const format = query.format ?? "sillytavern";
+      const result = await exportLorebook(userId, params.id, format);
+      set.headers["content-type"] = "application/json";
+      set.headers["content-disposition"] =
+        `attachment; filename="${result.filename}"`;
+      return new Response(result.data, {
+        headers: { "content-type": "application/json" },
+      });
+    },
+    { query: lorebookExportQuery },
   )
 
   // Lorebook entries
@@ -301,10 +340,25 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
   )
 
   // ----- Export / Import ---------------------------------------------------
+  // Conversation export is guest-tolerant: guests own their own conversation
+  // rows under userId=0 and should be able to back them up. The export
+  // services already gate access by `(userId, convId)` so a guest's cookie
+  // can only ever pull their own convs.
   .get(
     "/conversations/:id/export",
-    async ({ params, query, cookie }) => {
-      const userId = getUserId(cookie);
+    async ({ params, query, cookie, set }) => {
+      const userId = getUserId(cookie, true) ?? 0;
+      // SillyTavern JSONL is a download; native and orpg flow through the
+      // standard JSON envelope so the client can copy/inspect them.
+      if (query.format === "sillytavern") {
+        const result = await exportConversationSillyTavern(userId, params.id);
+        set.headers["content-type"] = "application/jsonl";
+        set.headers["content-disposition"] =
+          `attachment; filename="${result.filename}"`;
+        return new Response(result.data, {
+          headers: { "content-type": "application/jsonl" },
+        });
+      }
       const data =
         query.format === "orpg"
           ? await exportConversationOrpg(userId, params.id)

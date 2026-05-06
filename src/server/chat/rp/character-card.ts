@@ -1,18 +1,24 @@
 /**
- * Read SillyTavern character cards (PNG / WebP / JSON) into our character schema.
+ * Character card parsing and emission via @character-foundry/character-foundry.
  *
- * - PNG: a `chara` tEXt chunk holding base64(JSON)
- *   spec: https://github.com/malfoyslastname/character-card-spec-v2
- * - WebP: EXIF UserComment holding the same JSON
- * - JSON: spec-v2 envelope `{ spec: "chara_card_v2", data: {...} }` or v1 flat
+ * Supports CCv2/CCv3 PNG/JSON, CharX (RisuAI ZIP), JPEG+ZIP hybrids, and
+ * Voxta `.voxpkg` multi-character packages on read; PNG (CCv3 with backfilled
+ * V2 chunk for legacy readers), CharX, and Voxta on write.
  */
 
-import pngText from "png-chunk-text";
-import extractChunks from "png-chunks-extract";
-import sharp from "sharp";
+import { parseCard } from "@character-foundry/character-foundry/loader";
+import {
+  exportCard,
+  type ExportAsset,
+  type ExportFormat,
+} from "@character-foundry/character-foundry/exporter";
+import {
+  denormalizeToV3,
+  type NormalizedCard,
+} from "@character-foundry/character-foundry/normalizer";
 
 export type ParsedCharacterCard = {
-  spec: "v1" | "v2";
+  spec: "v2" | "v3";
   name: string;
   description?: string;
   personality?: string;
@@ -22,168 +28,173 @@ export type ParsedCharacterCard = {
   systemPrompt?: string;
   postHistoryInstructions?: string;
   tags?: string[];
+  /** Raw data preserved for round-trip. */
   raw: Record<string, unknown>;
 };
 
-function pickStr(obj: Record<string, unknown>, key: string): string | undefined {
-  const v = obj[key];
-  return typeof v === "string" && v.trim() ? v : undefined;
-}
-
-function mapJsonToCard(
-  raw: Record<string, unknown>,
-): ParsedCharacterCard | null {
-  if (
-    raw.spec === "chara_card_v2" ||
-    raw.spec === "chara_card_v3" ||
-    typeof raw.data === "object"
-  ) {
-    const data = (raw.data ?? raw) as Record<string, unknown>;
-    const name = pickStr(data, "name");
-    if (!name) return null;
-    return {
-      spec: "v2",
-      name,
-      description: pickStr(data, "description"),
-      personality: pickStr(data, "personality"),
-      scenario: pickStr(data, "scenario"),
-      firstMessage: pickStr(data, "first_mes"),
-      exampleMessages: pickStr(data, "mes_example"),
-      systemPrompt: pickStr(data, "system_prompt"),
-      postHistoryInstructions: pickStr(data, "post_history_instructions"),
-      tags: Array.isArray(data.tags)
-        ? (data.tags as unknown[]).filter((x): x is string => typeof x === "string")
-        : undefined,
-      raw,
-    };
-  }
-
-  // v1 flat
-  const name = pickStr(raw, "name") ?? pickStr(raw, "char_name");
-  if (!name) return null;
-  return {
-    spec: "v1",
-    name,
-    description: pickStr(raw, "description") ?? pickStr(raw, "char_persona"),
-    personality: pickStr(raw, "personality"),
-    scenario: pickStr(raw, "scenario") ?? pickStr(raw, "world_scenario"),
-    firstMessage: pickStr(raw, "first_mes") ?? pickStr(raw, "char_greeting"),
-    exampleMessages:
-      pickStr(raw, "mes_example") ?? pickStr(raw, "example_dialogue"),
-    systemPrompt: pickStr(raw, "system_prompt"),
-    postHistoryInstructions: pickStr(raw, "post_history_instructions"),
-    raw,
-  };
-}
-
-function readPngChara(buffer: Buffer): string | null {
-  const chunks = extractChunks(buffer);
-  for (const chunk of chunks) {
-    if (chunk.name !== "tEXt") continue;
-    const decoded = pngText.decode(chunk.data);
-    if (decoded.keyword === "chara" || decoded.keyword === "ccv3") {
-      return decoded.text;
-    }
-  }
-  return null;
-}
-
-const EXIF_TAG_USER_COMMENT = 0x9286;
-const EXIF_TAG_EXIF_IFD_POINTER = 0x8769;
-
-function readUserCommentFromTiff(tiff: Buffer): string | null {
-  if (tiff.length < 8) return null;
-
-  const byteOrder = tiff.readUInt16BE(0);
-  const little = byteOrder === 0x4949;
-  const big = byteOrder === 0x4d4d;
-  if (!little && !big) return null;
-
-  const u16 = (off: number) =>
-    little ? tiff.readUInt16LE(off) : tiff.readUInt16BE(off);
-  const u32 = (off: number) =>
-    little ? tiff.readUInt32LE(off) : tiff.readUInt32BE(off);
-
-  if (u16(2) !== 0x002a) return null;
-
-  const findTag = (ifdOffset: number, tag: number): number | null => {
-    if (ifdOffset + 2 > tiff.length) return null;
-    const count = u16(ifdOffset);
-    for (let i = 0; i < count; i++) {
-      const entry = ifdOffset + 2 + i * 12;
-      if (entry + 12 > tiff.length) return null;
-      if (u16(entry) === tag) return entry;
-    }
-    return null;
-  };
-
-  const ifd0Offset = u32(4);
-  const exifPointerEntry = findTag(ifd0Offset, EXIF_TAG_EXIF_IFD_POINTER);
-  if (!exifPointerEntry) return null;
-  const exifIfdOffset = u32(exifPointerEntry + 8);
-
-  const userCommentEntry = findTag(exifIfdOffset, EXIF_TAG_USER_COMMENT);
-  if (!userCommentEntry) return null;
-
-  const length = u32(userCommentEntry + 4);
-  const valueOffset =
-    length <= 4 ? userCommentEntry + 8 : u32(userCommentEntry + 8);
-  if (valueOffset + length > tiff.length) return null;
-
-  // First 8 bytes are the character-code header (ASCII\0\0\0, UNICODE\0, JIS\0\0\0\0\0, or 8 zero bytes for undefined).
-  if (length <= 8) return null;
-  const payload = tiff.subarray(valueOffset + 8, valueOffset + length);
-  return new TextDecoder("utf-8", { fatal: false }).decode(payload);
-}
-
-async function readWebpChara(buffer: Buffer): Promise<string | null> {
-  const meta = await sharp(buffer).metadata();
-  if (!meta.exif) return null;
-  return readUserCommentFromTiff(meta.exif);
-}
-
 export type CharacterCardImportResult = {
   card: ParsedCharacterCard;
-  /** Raw image bytes for avatar storage. Null when source was JSON. */
+  /** First image asset (icon/avatar). Null when source was JSON or had none. */
   imageBuffer: Buffer | null;
   imageMime: string | null;
 };
 
+const NON_EMPTY = (v: unknown): string | undefined =>
+  typeof v === "string" && v.trim() ? v : undefined;
+
+/**
+ * Parse a character card file (PNG/WebP/JPEG/CharX/Voxta/JSON) into our
+ * flat ParsedCharacterCard shape. The library normalizes V1/V2/V3 → CCv3
+ * internally; we read the (already normalized) inner `data` block.
+ */
 export async function parseCharacterCardFile(
   file: File,
 ): Promise<CharacterCardImportResult> {
-  const buf = Buffer.from(await file.arrayBuffer());
   const mime = file.type;
+  const buf = Buffer.from(await file.arrayBuffer());
 
-  if (mime === "application/json" || mime === "text/json") {
-    const parsed = JSON.parse(buf.toString("utf-8")) as Record<string, unknown>;
-    const card = mapJsonToCard(parsed);
-    if (!card) throw new Error("Character card missing required `name` field");
-    return { card, imageBuffer: null, imageMime: null };
+  let parsed;
+  try {
+    parsed = parseCard(new Uint8Array(buf));
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    throw new Error(`Character card parse failed: ${message}`);
   }
 
-  if (mime === "image/png") {
-    const charaB64 = readPngChara(buf);
-    if (!charaB64) {
-      throw new Error("PNG has no `chara` text chunk (not a character card?)");
-    }
-    const json = Buffer.from(charaB64, "base64").toString("utf-8");
-    const parsed = JSON.parse(json) as Record<string, unknown>;
-    const card = mapJsonToCard(parsed);
-    if (!card) throw new Error("Character card missing required `name` field");
-    return { card, imageBuffer: buf, imageMime: "image/png" };
+  const data = parsed.card.data;
+  if (!data?.name) {
+    throw new Error("Character card missing required `name` field");
   }
 
-  if (mime === "image/webp") {
-    const userComment = await readWebpChara(buf);
-    if (!userComment) {
-      throw new Error("WebP has no EXIF UserComment (not a character card?)");
-    }
-    const parsed = JSON.parse(userComment) as Record<string, unknown>;
-    const card = mapJsonToCard(parsed);
-    if (!card) throw new Error("Character card missing required `name` field");
-    return { card, imageBuffer: buf, imageMime: "image/webp" };
+  // Map the library's CCv3 inner data to our flat shape. The library
+  // normalizes V1 → V2 internally and reports `spec: "v2" | "v3"`.
+  const card: ParsedCharacterCard = {
+    spec: parsed.spec === "v3" ? "v3" : "v2",
+    name: data.name,
+    description: NON_EMPTY(data.description),
+    personality: NON_EMPTY(data.personality),
+    scenario: NON_EMPTY(data.scenario),
+    firstMessage: NON_EMPTY(data.first_mes),
+    exampleMessages: NON_EMPTY(data.mes_example),
+    systemPrompt: NON_EMPTY(data.system_prompt),
+    postHistoryInstructions: NON_EMPTY(data.post_history_instructions),
+    tags: Array.isArray(data.tags)
+      ? data.tags.filter((t): t is string => typeof t === "string")
+      : undefined,
+    raw: parsed.card as unknown as Record<string, unknown>,
+  };
+
+  // Pick the first icon asset for the avatar; fall back to the original file
+  // bytes for PNG containers (the original IS the avatar).
+  const iconAsset = parsed.assets.find((a) => a.type === "icon") ??
+    parsed.assets[0];
+  let imageBuffer: Buffer | null = null;
+  let imageMime: string | null = null;
+  if (iconAsset?.data) {
+    imageBuffer = Buffer.from(iconAsset.data);
+    imageMime =
+      iconAsset.ext === "webp"
+        ? "image/webp"
+        : iconAsset.ext === "jpeg" || iconAsset.ext === "jpg"
+          ? "image/jpeg"
+          : "image/png";
+  } else if (mime === "image/png" || mime === "image/webp") {
+    // CCv3 PNG: when no icon asset is extracted, the file itself is the avatar.
+    imageBuffer = buf;
+    imageMime = mime;
   }
 
-  throw new Error(`Unsupported character card format: ${mime}`);
+  return { card, imageBuffer, imageMime };
 }
+
+/**
+ * Re-emit a character row + avatar bytes as a PNG/CharX/Voxta blob.
+ *
+ * @param row Our DB row shape (flat fields from `characters` table).
+ * @param avatar Optional avatar bytes; embedded as the icon asset on PNG.
+ * @param format Target container.
+ */
+export function exportCharacterCard(
+  row: {
+    name: string;
+    description: string | null;
+    personality: string | null;
+    scenario: string | null;
+    firstMessage: string | null;
+    exampleMessages: string | null;
+    systemPrompt: string | null;
+    postHistoryInstructions: string | null;
+    tags: unknown;
+  },
+  avatar: { data: Buffer; mime: string } | null,
+  format: ExportFormat,
+): { data: Uint8Array; mimeType: string; ext: string } {
+  // Build a NormalizedCard from the flat row, then denormalize to CCv3.
+  // The library handles default-filling and the spec/spec_version envelope.
+  const normalized: NormalizedCard = {
+    name: row.name,
+    description: row.description ?? "",
+    personality: row.personality ?? "",
+    scenario: row.scenario ?? "",
+    firstMes: row.firstMessage ?? "",
+    mesExample: row.exampleMessages ?? "",
+    systemPrompt: row.systemPrompt ?? undefined,
+    postHistoryInstructions: row.postHistoryInstructions ?? undefined,
+    alternateGreetings: [],
+    groupOnlyGreetings: [],
+    tags: Array.isArray(row.tags)
+      ? (row.tags as unknown[]).filter(
+          (t): t is string => typeof t === "string",
+        )
+      : [],
+    extensions: {},
+  };
+  const card = denormalizeToV3(normalized);
+
+  const assets: ExportAsset[] = [];
+  if (avatar) {
+    assets.push({
+      name: "main",
+      type: "icon",
+      ext:
+        avatar.mime === "image/webp"
+          ? "webp"
+          : avatar.mime === "image/jpeg"
+            ? "jpeg"
+            : "png",
+      data: new Uint8Array(avatar.data),
+    });
+  }
+
+  // The library validates that PNG export has a PNG icon asset. Fall back
+  // to a 1×1 transparent PNG when none is provided so the call never throws.
+  if (format === "png" && assets.length === 0) {
+    assets.push({
+      name: "main",
+      type: "icon",
+      ext: "png",
+      data: ONE_PIXEL_PNG,
+    });
+  }
+
+  const result = exportCard(card, assets, { format });
+
+  const ext = format === "voxta" ? "voxpkg" : format;
+  const mimeType =
+    format === "png"
+      ? "image/png"
+      : format === "voxta"
+        ? "application/octet-stream"
+        : "application/zip";
+  return { data: result.buffer, mimeType, ext };
+}
+
+// 1x1 transparent PNG, base64-decoded, used as the empty-avatar fallback.
+const ONE_PIXEL_PNG = new Uint8Array([
+  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49,
+  0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x06,
+  0x00, 0x00, 0x00, 0x1f, 0x15, 0xc4, 0x89, 0x00, 0x00, 0x00, 0x0d, 0x49, 0x44,
+  0x41, 0x54, 0x78, 0x9c, 0x62, 0x00, 0x01, 0x00, 0x00, 0x05, 0x00, 0x01, 0x0d,
+  0x0a, 0x2d, 0xb4, 0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4e, 0x44, 0xae, 0x42,
+  0x60, 0x82,
+]);

@@ -15,6 +15,8 @@ import {
 } from "@/lib/db/schema";
 import { and, asc, eq, inArray } from "drizzle-orm";
 
+export { exportConversationSillyTavern } from "./sillytavern-chat";
+
 const NATIVE_VERSION = "unorouter.1.0";
 const ORPG_VERSION = "orpg.3.0";
 

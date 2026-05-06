@@ -16,8 +16,20 @@ import {
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 
+import {
+  importSillyTavernChat,
+  looksLikeSillyTavernChat,
+} from "./sillytavern-chat";
+
 export async function importConversation(userId: number, file: File) {
   const text = await file.text();
+
+  // SillyTavern JSONL: line-delimited, not a single JSON object. Detect first
+  // so we don't fail JSON.parse on multi-line input.
+  if (looksLikeSillyTavernChat(text)) {
+    return importSillyTavernChat(userId, file);
+  }
+
   let parsed: Record<string, unknown>;
   try {
     parsed = JSON.parse(text);
@@ -372,12 +384,17 @@ async function importOrpg(
                 : orpgType;
         let data: unknown;
         if (ourType === "text") {
-          // Find a content text payload
+          // Find a content text payload. OpenRouter writes user content as
+          // `input_text` and assistant content as `output_text`; both forms
+          // appear in the same items map keyed by id.
           const content = itemData.content;
           if (typeof content === "string") {
             data = { text: content };
           } else if (Array.isArray(content)) {
-            const t = content.find((p) => (p as Record<string, unknown>).type === "output_text");
+            const t = content.find((p) => {
+              const tp = (p as Record<string, unknown>).type;
+              return tp === "output_text" || tp === "input_text";
+            });
             data = {
               text: typeof t === "object" && t
                 ? String((t as Record<string, unknown>).text ?? "")

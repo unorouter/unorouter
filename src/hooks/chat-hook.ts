@@ -421,6 +421,84 @@ export function useEditMessageMutation() {
 }
 
 /**
+ * Drop all messages from a conversation, keeping settings/bindings/title.
+ * Replaces the messages cache with an empty first page so the UI clears
+ * immediately without a refetch.
+ */
+export function useClearConversationMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: ChatParams) =>
+      handleElysia(await rpc.api.chat({ id: args.id }).clear.post()),
+    onSuccess: (_data, args) => {
+      const id = String(args.id);
+      type MessagesPage = {
+        messages: Array<Record<string, unknown>>;
+        total: number;
+      };
+      queryClient.setQueryData<InfiniteData<MessagesPage>>(
+        queryKeys.chatMessages(id),
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: [{ messages: [], total: 0 }],
+            pageParams: [1],
+          };
+        },
+      );
+    },
+  });
+}
+
+/**
+ * Clone a conversation (messages, items, settings, bindings) under a new id.
+ * Prepends the new conversation to the sidebar list optimistically by
+ * patching the conversations cache.
+ */
+export function useDuplicateConversationMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: ChatParams) =>
+      handleElysia(await rpc.api.chat({ id: args.id }).duplicate.post()),
+    onSuccess: (data) => {
+      const now = dayjs().toDate();
+      const newItem: ConvItem = {
+        id: data.id,
+        title: data.title ?? null,
+        model: null,
+        shareId: null,
+        totalCost: 0,
+        createdAt: now,
+        updatedAt: now,
+      };
+      queryClient.setQueryData<ConvsInfinite>(
+        queryKeys.conversations(),
+        (old) => prependConv(old, newItem),
+      );
+    },
+  });
+}
+
+/**
+ * Render the conversation as markdown for clipboard copy. Returns the raw
+ * string; the caller decides how to surface it (toast, download, etc.).
+ */
+export function useConversationMarkdown() {
+  const t = useTranslations();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: ChatParams) => {
+      return handleElysia(await rpc.api.chat({ id: args.id }).markdown.get());
+    },
+  });
+}
+
+/**
  * Splice-delete a single message: server rewires children's parentId to the
  * deleted message's parent. Cache update mirrors that rewire so the active
  * branch path stays valid without a refetch.
