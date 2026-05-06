@@ -780,26 +780,35 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
   const t = useTranslations();
   // Persist the active-branch flip server-side so refreshes preserve the
   // user's pick. assistant-ui's primitive flips the in-memory message id;
-  // we watch it for changes and POST.
+  // we watch it for changes and POST. Gating on `branchCount > 1` avoids
+  // firing on the very first send (a freshly-created assistant message has
+  // no server row yet, and its id is the AI SDK's temporary client id).
   const messageId = useAuiState((s) => s.message.id);
+  const branchCount = useAuiState((s) => s.message.branchCount);
   const readOnly = useContext(ReadOnlyContext);
   const setActiveBranchMut = useSetActiveBranchMutation();
   const lastIdRef = useRef<string | null>(null);
   useEffect(() => {
     if (readOnly) return;
     if (!messageId) return;
+    // First observation: just record. We never want to fire on initial mount.
     if (lastIdRef.current === null) {
       lastIdRef.current = messageId;
       return;
     }
     if (lastIdRef.current === messageId) return;
     lastIdRef.current = messageId;
+    // Only persist when this slot actually has multiple branches. Without
+    // this gate, a fresh send/regenerate flips messageId (old assistant id ->
+    // newly-streaming temp id) and we'd POST a not-yet-persisted id, getting
+    // a 404 toast.
+    if (branchCount < 2) return;
     const convId = getConvId();
     if (!convId) return;
     setActiveBranchMut.mutate({ convId, msgId: messageId });
     // setActiveBranchMut is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageId, readOnly]);
+  }, [messageId, branchCount, readOnly]);
   return (
     <BranchPickerPrimitive.Root
       hideWhenSingleBranch

@@ -14,6 +14,7 @@ import {
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { getChatHelpers } from "@/store/chat-store";
 import { handleElysia } from "@/lib/utils/base";
 import dayjs from "dayjs";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
@@ -305,7 +306,9 @@ export function useEditMessageMutation() {
 /**
  * Drop all messages from a conversation, keeping settings/bindings/title.
  * Replaces the messages cache with an empty first page so the UI clears
- * immediately without a refetch.
+ * immediately without a refetch. Also flushes the live `useChat` buffer via
+ * `getChatHelpers()` because assistant-ui owns its in-memory message array
+ * separately from the React Query cache.
  */
 export function useClearConversationMutation() {
   const t = useTranslations();
@@ -324,6 +327,8 @@ export function useClearConversationMutation() {
         (old) =>
           old && { ...old, pages: [{ messages: [], total: 0 }], pageParams: [1] },
       );
+      // Flush the live useChat buffer so the thread renders empty without a reload.
+      getChatHelpers()?.setMessages(() => []);
     },
   });
 }
