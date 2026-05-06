@@ -1,4 +1,5 @@
 import { msg } from "@/lib/config/constants";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { lorebookEntries, lorebooks } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -30,7 +31,7 @@ export async function getLorebook(userId: number, id: string) {
     .from(lorebooks)
     .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   const entries = await db
     .select()
     .from(lorebookEntries)
@@ -72,7 +73,7 @@ export async function updateLorebook(
     })
     .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
     .returning({ id: lorebooks.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return getLorebook(userId, id);
 }
 
@@ -82,7 +83,7 @@ export async function deleteLorebook(userId: number, id: string) {
     .delete(lorebooks)
     .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
     .returning({ id: lorebooks.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { id };
 }
 
@@ -97,7 +98,7 @@ async function ensureLorebookOwned(userId: number, lorebookId: string) {
     .from(lorebooks)
     .where(and(eq(lorebooks.id, lorebookId), eq(lorebooks.userId, userId)))
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
 }
 
 export async function createEntry(
@@ -142,7 +143,7 @@ export async function getEntry(
       ),
     )
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   return rows[0];
 }
 
@@ -176,7 +177,7 @@ export async function updateEntry(
       ),
     )
     .returning({ id: lorebookEntries.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return getEntry(userId, lorebookId, entryId);
 }
 
@@ -196,7 +197,7 @@ export async function deleteEntry(
       ),
     )
     .returning({ id: lorebookEntries.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { id: entryId };
 }
 

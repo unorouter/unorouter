@@ -1,4 +1,4 @@
-import { msg } from "@/lib/config/constants";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { samplingPresets } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -24,7 +24,7 @@ export async function getPreset(userId: number, id: string) {
       and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
     )
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   return rows[0];
 }
 
@@ -93,7 +93,7 @@ export async function updatePreset(
         and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
       )
       .returning({ id: samplingPresets.id });
-    if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(result);
   });
   return getPreset(userId, id);
 }
@@ -106,6 +106,6 @@ export async function deletePreset(userId: number, id: string) {
       and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
     )
     .returning({ id: samplingPresets.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { id };
 }

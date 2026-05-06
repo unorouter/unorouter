@@ -1,6 +1,12 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
+import {
+  itemPatch,
+  listAdd,
+  listRemove,
+  listUpdate,
+} from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
@@ -52,14 +58,13 @@ export function useCharacterQuery(id?: string) {
 
 export function useCreateCharacterMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.rp.characters, "post">,
-    ) => handleElysia(await rpc.api.rp.characters.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.characters, "post">) =>
+      handleElysia(await rpc.api.rp.characters.post(args.body)),
     onSuccess: (data) => {
-      queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        old ? [...old, data as Character] : [data as Character],
+      qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
+        listAdd(old, data as Character),
       );
     },
     onError: (e) => handleError(e, t),
@@ -68,25 +73,22 @@ export function useCreateCharacterMutation() {
 
 export function useUpdateCharacterMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.characters>,
-        "put"
-      >["body"];
+      body: EdenArgs<ReturnType<typeof rpc.api.rp.characters>, "put">["body"];
     }) =>
-      handleElysia(await rpc.api.rp.characters({ id: args.id }).put(args.body)),
+      handleElysia(
+        await rpc.api.rp.characters({ id: args.id }).put(args.body),
+      ),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        old?.map((it) =>
-          it.id === args.id ? { ...it, ...(data as Partial<Character>) } : it,
-        ),
+      const patch = data as Partial<Character>;
+      qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
+        listUpdate(old, args.id, patch),
       );
-      queryClient.setQueryData<Character>(
-        queryKeys.character(args.id),
-        (old) => (old ? { ...old, ...(data as Partial<Character>) } : old),
+      qc.setQueryData<Character>(queryKeys.character(args.id), (old) =>
+        itemPatch(old, patch),
       );
     },
     onError: (e) => handleError(e, t),
@@ -95,15 +97,15 @@ export function useUpdateCharacterMutation() {
 
 export function useDeleteCharacterMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) =>
       handleElysia(await rpc.api.rp.characters({ id }).delete()),
     onSuccess: (_data, id) => {
-      queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        old?.filter((it) => it.id !== id),
+      qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
+        listRemove(old, id),
       );
-      queryClient.removeQueries({ queryKey: queryKeys.character(id) });
+      qc.removeQueries({ queryKey: queryKeys.character(id) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -111,13 +113,13 @@ export function useDeleteCharacterMutation() {
 
 export function useImportCharacterCardMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.characters.import.post({ file })),
     onSuccess: (data) => {
-      queryClient.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        old ? [...old, data as Character] : [data as Character],
+      qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
+        listAdd(old, data as Character),
       );
     },
     onError: (e) => handleError(e, t),
@@ -151,14 +153,13 @@ export function usePersonaQuery(id?: string) {
 
 export function useCreatePersonaMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.rp.personas, "post">,
-    ) => handleElysia(await rpc.api.rp.personas.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.personas, "post">) =>
+      handleElysia(await rpc.api.rp.personas.post(args.body)),
     onSuccess: (data) => {
-      queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        old ? [...old, data as Persona] : [data as Persona],
+      qc.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
+        listAdd(old, data as Persona),
       );
     },
     onError: (e) => handleError(e, t),
@@ -167,24 +168,20 @@ export function useCreatePersonaMutation() {
 
 export function useUpdatePersonaMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.personas>,
-        "put"
-      >["body"];
+      body: EdenArgs<ReturnType<typeof rpc.api.rp.personas>, "put">["body"];
     }) =>
       handleElysia(await rpc.api.rp.personas({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        old?.map((it) =>
-          it.id === args.id ? { ...it, ...(data as Partial<Persona>) } : it,
-        ),
+      const patch = data as Partial<Persona>;
+      qc.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
+        listUpdate(old, args.id, patch),
       );
-      queryClient.setQueryData<Persona>(queryKeys.persona(args.id), (old) =>
-        old ? { ...old, ...(data as Partial<Persona>) } : old,
+      qc.setQueryData<Persona>(queryKeys.persona(args.id), (old) =>
+        itemPatch(old, patch),
       );
     },
     onError: (e) => handleError(e, t),
@@ -193,15 +190,15 @@ export function useUpdatePersonaMutation() {
 
 export function useDeletePersonaMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) =>
       handleElysia(await rpc.api.rp.personas({ id }).delete()),
     onSuccess: (_data, id) => {
-      queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        old?.filter((it) => it.id !== id),
+      qc.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
+        listRemove(old, id),
       );
-      queryClient.removeQueries({ queryKey: queryKeys.persona(id) });
+      qc.removeQueries({ queryKey: queryKeys.persona(id) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -209,17 +206,18 @@ export function useDeletePersonaMutation() {
 
 export function useImportPersonaMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.personas.import.post({ file })),
     onSuccess: (data) => {
-      const list = (data as Persona[]) ?? [];
-      queryClient.setQueryData<Persona[]>(queryKeys.personas(), (old) => {
-        const next = [...(old ?? [])];
-        for (const item of list) next.push(item);
-        return next;
-      });
+      // Persona import returns either a single persona or an array (multi-card
+      // imports). Append all of them.
+      const list = Array.isArray(data) ? (data as Persona[]) : [data as Persona];
+      qc.setQueryData<Persona[]>(queryKeys.personas(), (old) => [
+        ...(old ?? []),
+        ...list,
+      ]);
     },
     onError: (e) => handleError(e, t),
   });
@@ -263,14 +261,13 @@ export function useLorebookQuery(id?: string) {
 
 export function useCreateLorebookMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.rp.lorebooks, "post">,
-    ) => handleElysia(await rpc.api.rp.lorebooks.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.lorebooks, "post">) =>
+      handleElysia(await rpc.api.rp.lorebooks.post(args.body)),
     onSuccess: (data) => {
-      queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        old ? [...old, data as Lorebook] : [data as Lorebook],
+      qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
+        listAdd(old, data as Lorebook),
       );
     },
     onError: (e) => handleError(e, t),
@@ -279,25 +276,22 @@ export function useCreateLorebookMutation() {
 
 export function useUpdateLorebookMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.lorebooks>,
-        "put"
-      >["body"];
+      body: EdenArgs<ReturnType<typeof rpc.api.rp.lorebooks>, "put">["body"];
     }) =>
-      handleElysia(await rpc.api.rp.lorebooks({ id: args.id }).put(args.body)),
+      handleElysia(
+        await rpc.api.rp.lorebooks({ id: args.id }).put(args.body),
+      ),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        old?.map((it) =>
-          it.id === args.id ? { ...it, ...(data as Partial<Lorebook>) } : it,
-        ),
+      const patch = data as Partial<Lorebook>;
+      qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
+        listUpdate(old, args.id, patch),
       );
-      queryClient.setQueryData<LorebookDetail>(
-        queryKeys.lorebook(args.id),
-        (old) => (old ? { ...old, ...(data as Partial<LorebookDetail>) } : old),
+      qc.setQueryData<LorebookDetail>(queryKeys.lorebook(args.id), (old) =>
+        itemPatch(old, patch as Partial<LorebookDetail>),
       );
     },
     onError: (e) => handleError(e, t),
@@ -306,15 +300,15 @@ export function useUpdateLorebookMutation() {
 
 export function useDeleteLorebookMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) =>
       handleElysia(await rpc.api.rp.lorebooks({ id }).delete()),
     onSuccess: (_data, id) => {
-      queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        old?.filter((it) => it.id !== id),
+      qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
+        listRemove(old, id),
       );
-      queryClient.removeQueries({ queryKey: queryKeys.lorebook(id) });
+      qc.removeQueries({ queryKey: queryKeys.lorebook(id) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -322,22 +316,34 @@ export function useDeleteLorebookMutation() {
 
 export function useImportLorebookMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.lorebooks.import.post({ file })),
     onSuccess: (data) => {
-      queryClient.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        old ? [...old, data as Lorebook] : [data as Lorebook],
+      qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
+        listAdd(old, data as Lorebook),
       );
     },
     onError: (e) => handleError(e, t),
   });
 }
 
+// Lorebook entries: nested under a specific lorebook detail. Each mutation
+// patches the parent lorebook's `entries` array in place.
+function patchLorebookEntries(
+  qc: ReturnType<typeof useQueryClient>,
+  lorebookId: string,
+  fn: (entries: LorebookEntry[]) => LorebookEntry[],
+) {
+  qc.setQueryData<LorebookDetail>(queryKeys.lorebook(lorebookId), (old) =>
+    old ? { ...old, entries: fn(old.entries) } : old,
+  );
+}
+
 export function useCreateLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (
       body: EdenArgs<
@@ -349,13 +355,10 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
         await rpc.api.rp.lorebooks({ id: lorebookId }).entries.post(body),
       ),
     onSuccess: (data) => {
-      queryClient.setQueryData<LorebookDetail>(
-        queryKeys.lorebook(lorebookId),
-        (old) => {
-          if (!old) return old;
-          return { ...old, entries: [...old.entries, data as LorebookEntry] };
-        },
-      );
+      patchLorebookEntries(qc, lorebookId, (entries) => [
+        ...entries,
+        data as LorebookEntry,
+      ]);
     },
     onError: (e) => handleError(e, t),
   });
@@ -363,14 +366,12 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
 
 export function useUpdateLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       entryId: string;
       body: EdenArgs<
-        ReturnType<
-          ReturnType<typeof rpc.api.rp.lorebooks>["entries"]
-        >,
+        ReturnType<ReturnType<typeof rpc.api.rp.lorebooks>["entries"]>,
         "put"
       >["body"];
     }) =>
@@ -381,19 +382,9 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
           .put(args.body),
       ),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<LorebookDetail>(
-        queryKeys.lorebook(lorebookId),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            entries: old.entries.map((e) =>
-              e.id === args.entryId
-                ? { ...e, ...(data as Partial<LorebookEntry>) }
-                : e,
-            ),
-          };
-        },
+      const patch = data as Partial<LorebookEntry>;
+      patchLorebookEntries(qc, lorebookId, (entries) =>
+        entries.map((e) => (e.id === args.entryId ? { ...e, ...patch } : e)),
       );
     },
     onError: (e) => handleError(e, t),
@@ -402,7 +393,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
 
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (entryId: string) =>
       handleElysia(
@@ -412,15 +403,8 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
           .delete(),
       ),
     onSuccess: (_data, entryId) => {
-      queryClient.setQueryData<LorebookDetail>(
-        queryKeys.lorebook(lorebookId),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            entries: old.entries.filter((e) => e.id !== entryId),
-          };
-        },
+      patchLorebookEntries(qc, lorebookId, (entries) =>
+        entries.filter((e) => e.id !== entryId),
       );
     },
     onError: (e) => handleError(e, t),
@@ -454,14 +438,13 @@ export function usePresetQuery(id?: string) {
 
 export function useCreatePresetMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (
-      args: EdenArgs<typeof rpc.api.rp.presets, "post">,
-    ) => handleElysia(await rpc.api.rp.presets.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.presets, "post">) =>
+      handleElysia(await rpc.api.rp.presets.post(args.body)),
     onSuccess: (data) => {
-      queryClient.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        old ? [...old, data as Preset] : [data as Preset],
+      qc.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
+        listAdd(old, data as Preset),
       );
     },
     onError: (e) => handleError(e, t),
@@ -470,24 +453,20 @@ export function useCreatePresetMutation() {
 
 export function useUpdatePresetMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.presets>,
-        "put"
-      >["body"];
+      body: EdenArgs<ReturnType<typeof rpc.api.rp.presets>, "put">["body"];
     }) =>
       handleElysia(await rpc.api.rp.presets({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        old?.map((it) =>
-          it.id === args.id ? { ...it, ...(data as Partial<Preset>) } : it,
-        ),
+      const patch = data as Partial<Preset>;
+      qc.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
+        listUpdate(old, args.id, patch),
       );
-      queryClient.setQueryData<Preset>(queryKeys.preset(args.id), (old) =>
-        old ? { ...old, ...(data as Partial<Preset>) } : old,
+      qc.setQueryData<Preset>(queryKeys.preset(args.id), (old) =>
+        itemPatch(old, patch),
       );
     },
     onError: (e) => handleError(e, t),
@@ -496,15 +475,15 @@ export function useUpdatePresetMutation() {
 
 export function useDeletePresetMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) =>
       handleElysia(await rpc.api.rp.presets({ id }).delete()),
     onSuccess: (_data, id) => {
-      queryClient.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        old?.filter((it) => it.id !== id),
+      qc.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
+        listRemove(old, id),
       );
-      queryClient.removeQueries({ queryKey: queryKeys.preset(id) });
+      qc.removeQueries({ queryKey: queryKeys.preset(id) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -536,7 +515,7 @@ export function useChatSettingsQuery(convId?: string) {
 
 export function useUpdateChatSettingsMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       convId: string;
@@ -546,12 +525,17 @@ export function useUpdateChatSettingsMutation() {
       >["body"];
     }) =>
       handleElysia(
-        await rpc.api.rp.conversations({ id: args.convId }).settings.put(args.body),
+        await rpc.api.rp
+          .conversations({ id: args.convId })
+          .settings.put(args.body),
       ),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<ChatSettings>(
+      qc.setQueryData<ChatSettings>(
         queryKeys.chatSettings(args.convId),
-        (old) => (old ? { ...old, ...(data as Partial<ChatSettings>) } : (data as ChatSettings)),
+        (old) =>
+          old
+            ? itemPatch(old, data as Partial<ChatSettings>)
+            : (data as ChatSettings),
       );
     },
     onError: (e) => handleError(e, t),
@@ -571,7 +555,7 @@ export function useChatBindingsQuery(convId?: string) {
 
 export function useUpdateChatBindingsMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       convId: string;
@@ -581,10 +565,12 @@ export function useUpdateChatBindingsMutation() {
       >["body"];
     }) =>
       handleElysia(
-        await rpc.api.rp.conversations({ id: args.convId }).bindings.put(args.body),
+        await rpc.api.rp
+          .conversations({ id: args.convId })
+          .bindings.put(args.body),
       ),
     onSuccess: (data, args) => {
-      queryClient.setQueryData<ChatBindings>(
+      qc.setQueryData<ChatBindings>(
         queryKeys.chatBindings(args.convId),
         () => data as ChatBindings,
       );
@@ -599,17 +585,14 @@ export function useUpdateChatBindingsMutation() {
 
 export function useImportConversationMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(
-        await rpc.api.rp.conversations.import.post({ file }),
-      ),
-    // We get the new convId back from the server but not the full ConvItem
-    // shape. Invalidate the conversations list so the sidebar shows the
-    // imported conversation immediately.
+      handleElysia(await rpc.api.rp.conversations.import.post({ file })),
+    // Server returns only the new convId; not enough to optimistically build a
+    // ConvItem. Invalidate so the sidebar list refetches.
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+      qc.invalidateQueries({ queryKey: queryKeys.conversations() });
     },
     onError: (e) => handleError(e, t),
   });
@@ -623,12 +606,11 @@ export function useExportConversation() {
   const t = useTranslations();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: { convId: string; format: "native" | "orpg" }) => {
-      return handleElysia(
+    mutationFn: async (args: { convId: string; format: "native" | "orpg" }) =>
+      handleElysia(
         await rpc.api.rp
           .conversations({ id: args.convId })
           .export.get({ query: { format: args.format } }),
-      );
-    },
+      ),
   });
 }

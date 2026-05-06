@@ -2130,7 +2130,19 @@
       "SELECTED": "ausgewählt",
       "SEARCH_CHARACTERS": "Charaktere suchen",
       "SEARCH_LOREBOOKS": "Lorebooks suchen",
-      "CLEAR": "Löschen"
+      "CLEAR": "Löschen",
+      "EFFORT_MINIMAL": "Minimal",
+      "EFFORT_LOW": "Niedrig",
+      "EFFORT_MEDIUM": "Mittel",
+      "EFFORT_HIGH": "Hoch",
+      "EFFORT_XHIGH": "Sehr hoch",
+      "ENGINE_AUTO": "Automatisch",
+      "ENGINE_NATIVE": "Anbieter-eigene",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "Klein",
+      "CONTEXT_MEDIUM": "Mittel",
+      "CONTEXT_HIGH": "Groß"
     },
     "MORE": {
       "OPEN": "Weitere Aktionen",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "Dieser Prompt verstößt gegen die Inhaltsrichtlinien und kann nicht für die Bild- oder Videogenerierung verwendet werden.",
     "PROMPT_FLAGGED": "Dieser Prompt wurde als potenziell unsicher für die Generierung markiert. Bitte formuliere ihn um und versuche es erneut.",
     "MODERATION_UNAVAILABLE": "Bild- und Videogenerierung sind vorübergehend nicht verfügbar. Bitte versuche es in Kürze erneut.",
-    "PDF_EXTRACTION_FAILED": "Der Inhalt des angehängten PDFs konnte nicht gelesen werden. Bitte entferne es oder versuche eine andere Datei."
+    "PDF_EXTRACTION_FAILED": "Der Inhalt des angehängten PDFs konnte nicht gelesen werden. Bitte entferne es oder versuche eine andere Datei.",
+    "IMPORT_INVALID_JSON": "Die Datei ist kein gültiges JSON.",
+    "IMPORT_UNSUPPORTED_VERSION": "Nicht unterstützte Export-Version.",
+    "CARD_PARSE_FAILED": "Charakterkarte konnte nicht gelesen werden.",
+    "CARD_MISSING_NAME": "Der Charakterkarte fehlt das erforderliche Namensfeld.",
+    "UNEXPECTED_ERROR": "Ein unerwarteter Fehler ist aufgetreten"
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",

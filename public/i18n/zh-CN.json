@@ -2130,7 +2130,19 @@
       "SELECTED": "已选",
       "SEARCH_CHARACTERS": "搜索角色",
       "SEARCH_LOREBOOKS": "搜索设定集",
-      "CLEAR": "清除"
+      "CLEAR": "清除",
+      "EFFORT_MINIMAL": "最低",
+      "EFFORT_LOW": "低",
+      "EFFORT_MEDIUM": "中",
+      "EFFORT_HIGH": "高",
+      "EFFORT_XHIGH": "最高",
+      "ENGINE_AUTO": "自动",
+      "ENGINE_NATIVE": "原生",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "小",
+      "CONTEXT_MEDIUM": "中",
+      "CONTEXT_HIGH": "大"
     },
     "MORE": {
       "OPEN": "更多操作",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "该提示词违反了内容政策，无法用于图像或视频生成。",
     "PROMPT_FLAGGED": "该提示词被标记为可能不适合生成内容，请修改后重试。",
     "MODERATION_UNAVAILABLE": "图像和视频生成暂时不可用，请稍后重试。",
-    "PDF_EXTRACTION_FAILED": "无法读取所附 PDF 的内容，请将其移除或换一个文件再试。"
+    "PDF_EXTRACTION_FAILED": "无法读取所附 PDF 的内容，请将其移除或换一个文件再试。",
+    "IMPORT_INVALID_JSON": "文件不是有效的JSON。",
+    "IMPORT_UNSUPPORTED_VERSION": "不支持的导出版本。",
+    "CARD_PARSE_FAILED": "无法解析角色卡。",
+    "CARD_MISSING_NAME": "角色卡缺少必填的名称字段。",
+    "UNEXPECTED_ERROR": "发生意外错误"
   },
   "BADGE": {
     "TOKENS_SERVED": "已处理 Token",

@@ -2130,7 +2130,19 @@
       "SELECTED": "selected",
       "SEARCH_CHARACTERS": "Search characters",
       "SEARCH_LOREBOOKS": "Search lorebooks",
-      "CLEAR": "Clear"
+      "CLEAR": "Clear",
+      "EFFORT_MINIMAL": "Minimal",
+      "EFFORT_LOW": "Low",
+      "EFFORT_MEDIUM": "Medium",
+      "EFFORT_HIGH": "High",
+      "EFFORT_XHIGH": "Extra high",
+      "ENGINE_AUTO": "Auto",
+      "ENGINE_NATIVE": "Native",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "Low",
+      "CONTEXT_MEDIUM": "Medium",
+      "CONTEXT_HIGH": "High"
     },
     "MORE": {
       "OPEN": "More actions",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "This prompt violates the content policy and can't be used for image or video generation.",
     "PROMPT_FLAGGED": "This prompt was flagged as potentially unsafe for generation. Please rephrase and try again.",
     "MODERATION_UNAVAILABLE": "Image and video generation are temporarily unavailable. Please try again shortly.",
-    "PDF_EXTRACTION_FAILED": "We couldn't read the contents of the attached PDF. Please remove it or try a different file."
+    "PDF_EXTRACTION_FAILED": "We couldn't read the contents of the attached PDF. Please remove it or try a different file.",
+    "IMPORT_INVALID_JSON": "The file isn't valid JSON.",
+    "IMPORT_UNSUPPORTED_VERSION": "Unsupported export version.",
+    "CARD_PARSE_FAILED": "Could not parse character card.",
+    "CARD_MISSING_NAME": "Character card is missing the required name field.",
+    "UNEXPECTED_ERROR": "An unexpected error occurred"
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",

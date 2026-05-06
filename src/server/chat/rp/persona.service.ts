@@ -1,4 +1,5 @@
 import { msg } from "@/lib/config/constants";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { personas } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -23,7 +24,7 @@ export async function getPersona(userId: number, id: string) {
     .from(personas)
     .where(and(eq(personas.id, id), eq(personas.userId, userId)))
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   return rows[0];
 }
 
@@ -73,7 +74,7 @@ export async function updatePersona(
       })
       .where(and(eq(personas.id, id), eq(personas.userId, userId)))
       .returning({ id: personas.id });
-    if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(result);
   });
   return getPersona(userId, id);
 }
@@ -84,7 +85,7 @@ export async function deletePersona(userId: number, id: string) {
     .delete(personas)
     .where(and(eq(personas.id, id), eq(personas.userId, userId)))
     .returning({ id: personas.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { id };
 }
 

@@ -1,4 +1,5 @@
 import { msg } from "@/lib/config/constants";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import {
   characters,
@@ -27,7 +28,7 @@ export async function getBindings(userId: number, convId: string) {
       and(eq(conversations.id, convId), eq(conversations.userId, userId)),
     )
     .limit(1);
-  if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(ownership);
 
   const [chars, lbs] = await Promise.all([
     db
@@ -60,7 +61,7 @@ export async function updateBindings(
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     if (body.characters !== undefined) {
       // Verify every character id belongs to this user before binding;

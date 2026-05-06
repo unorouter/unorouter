@@ -2,6 +2,10 @@
 
 import { PAGE_SIZE } from "@/lib/config/constants";
 import {
+  mutateMessages,
+  patchMessages,
+} from "@/lib/react-query/cache-helpers";
+import {
   patchConv,
   prependConv,
   removeConv,
@@ -233,42 +237,25 @@ export function useTaskStatusQuery(taskId: string, enabled = false) {
 
 export function useFinalizeTaskMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       convId: string;
       msgId: string;
       taskId: string;
       resultUrl: string;
-    }) => {
-      return handleElysia(
+    }) =>
+      handleElysia(
         await rpc.api.chat({ id: args.convId }).task.finalize.post({
           msgId: args.msgId,
           taskId: args.taskId,
           resultUrl: args.resultUrl,
         }),
-      );
-    },
+      ),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
-      type MessagesPage = {
-        messages: Array<Record<string, unknown>>;
-        total: number;
-      };
-      queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(args.convId),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              messages: page.messages.map((msg) =>
-                msg.id === args.msgId ? { ...msg, items: data.items } : msg,
-              ),
-            })),
-          };
-        },
+      patchMessages(qc, args.convId, (msg) =>
+        msg.id === args.msgId ? { ...msg, items: data.items } : msg,
       );
     },
   });
@@ -276,12 +263,12 @@ export function useFinalizeTaskMutation() {
 
 /**
  * Edit a message's items in place. Used for assistant-message in-place edits
- * that don't trigger a regeneration. Caches are patched via setQueryData so
- * paginated lists reflect the new items immediately.
+ * that don't trigger a regeneration. The cache is patched so paginated lists
+ * reflect the new items immediately.
  */
 export function useEditMessageMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: {
@@ -299,36 +286,17 @@ export function useEditMessageMutation() {
           .put(args.body),
       ),
     onSuccess: (_data, args) => {
-      type MessagesPage = {
-        messages: Array<Record<string, unknown>>;
-        total: number;
-      };
-      queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(args.convId),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              messages: page.messages.map((msg) =>
-                msg.id === args.msgId
-                  ? {
-                      ...msg,
-                      isEdited: true,
-                      items: args.body.items.map((it, seq) => ({
-                        id: it.id ?? `tmp-${seq}`,
-                        sequenceIndex: seq,
-                        outputIndex: it.output_index ?? null,
-                        type: it.type,
-                        data: it.data,
-                      })),
-                    }
-                  : msg,
-              ),
-            })),
-          };
-        },
+      const newItems = args.body.items.map((it, seq) => ({
+        id: it.id ?? `tmp-${seq}`,
+        sequenceIndex: seq,
+        outputIndex: it.output_index ?? null,
+        type: it.type,
+        data: it.data,
+      }));
+      patchMessages(qc, args.convId, (msg) =>
+        msg.id === args.msgId
+          ? { ...msg, isEdited: true, items: newItems }
+          : msg,
       );
     },
   });
@@ -347,21 +315,14 @@ export function useClearConversationMutation() {
     mutationFn: async (args: ChatParams) =>
       handleElysia(await rpc.api.chat({ id: args.id }).clear.post()),
     onSuccess: (_data, args) => {
-      const id = String(args.id);
       type MessagesPage = {
         messages: Array<Record<string, unknown>>;
         total: number;
       };
       queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(id),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: [{ messages: [], total: 0 }],
-            pageParams: [1],
-          };
-        },
+        queryKeys.chatMessages(String(args.id)),
+        (old) =>
+          old && { ...old, pages: [{ messages: [], total: 0 }], pageParams: [1] },
       );
     },
   });
@@ -419,7 +380,7 @@ export function useConversationMarkdown() {
  */
 export function useSetActiveBranchMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: { convId: string; msgId: string }) =>
@@ -429,43 +390,25 @@ export function useSetActiveBranchMutation() {
           ["active-branch"].post({ messageId: args.msgId }),
       ),
     onSuccess: (_data, args) => {
-      type Msg = {
-        id: string;
-        parentId?: string | null;
-        isActiveBranch?: boolean;
-      } & Record<string, unknown>;
-      type MessagesPage = { messages: Msg[]; total: number };
-      queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(args.convId),
-        (old) => {
-          if (!old) return old;
-          let target: Msg | undefined;
-          for (const page of old.pages) {
-            target = page.messages.find((m) => m.id === args.msgId);
-            if (target) break;
-          }
-          if (!target) return old;
-          const targetParentId = target.parentId ?? null;
-          return {
-            ...old,
-            pages: old.pages.map((page) => ({
-              ...page,
-              messages: page.messages.map((m) => {
-                const sameParent = (m.parentId ?? null) === targetParentId;
-                if (!sameParent) return m;
-                return { ...m, isActiveBranch: m.id === args.msgId };
-              }),
-            })),
-          };
-        },
-      );
+      // Find target's parentId across all pages, then flip isActiveBranch on
+      // every sibling.
+      mutateMessages(qc, args.convId, (messages) => {
+        const target = messages.find((m) => m.id === args.msgId);
+        if (!target) return messages;
+        const targetParent = target.parentId ?? null;
+        return messages.map((m) =>
+          (m.parentId ?? null) === targetParent
+            ? { ...m, isActiveBranch: m.id === args.msgId }
+            : m,
+        );
+      });
     },
   });
 }
 
 export function useDeleteMessageMutation() {
   const t = useTranslations();
-  const queryClient = useQueryClient();
+  const qc = useQueryClient();
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: { convId: string; msgId: string }) =>
@@ -476,30 +419,17 @@ export function useDeleteMessageMutation() {
           .delete(),
       ),
     onSuccess: (_data, args) => {
-      type Msg = { id: string; parentId?: string | null } & Record<string, unknown>;
-      type MessagesPage = { messages: Msg[]; total: number };
-      queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(args.convId),
-        (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            pages: old.pages.map((page) => {
-              const target = page.messages.find((m) => m.id === args.msgId);
-              const newParentId = target?.parentId ?? null;
-              return {
-                ...page,
-                total: Math.max(0, page.total - 1),
-                messages: page.messages
-                  .filter((m) => m.id !== args.msgId)
-                  .map((m) =>
-                    m.parentId === args.msgId ? { ...m, parentId: newParentId } : m,
-                  ),
-              };
-            }),
-          };
-        },
-      );
+      // Splice-delete: rewire children's parentId to deleted node's parentId,
+      // then drop the row.
+      mutateMessages(qc, args.convId, (messages) => {
+        const target = messages.find((m) => m.id === args.msgId);
+        const newParentId = target?.parentId ?? null;
+        return messages
+          .filter((m) => m.id !== args.msgId)
+          .map((m) =>
+            m.parentId === args.msgId ? { ...m, parentId: newParentId } : m,
+          );
+      });
     },
   });
 }

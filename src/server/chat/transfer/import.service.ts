@@ -1,3 +1,4 @@
+import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/client";
 import {
   characters,
@@ -32,7 +33,7 @@ export async function importConversation(userId: number, file: File) {
   try {
     parsed = JSON.parse(text);
   } catch {
-    throw new Error("Invalid JSON file");
+    throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
   }
 
   if (parsed.version === "unorouter.1.0") {
@@ -41,14 +42,27 @@ export async function importConversation(userId: number, file: File) {
   if (parsed.version === "orpg.3.0") {
     return importOrpg(userId, parsed);
   }
-  throw new Error(
-    `Unsupported export version: ${String(parsed.version ?? "(missing)")}`,
-  );
+  throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
 }
 
 // ---------------------------------------------------------------------------
 // Native: full-fidelity round-trip
 // ---------------------------------------------------------------------------
+
+/**
+ * Build a Map from each item's old `id` to a freshly-generated new `id`. Used
+ * by both native and orpg importers to remap entity ids so a re-import
+ * doesn't collide with existing rows.
+ */
+function buildIdMap(
+  items: ReadonlyArray<Record<string, unknown>> | undefined,
+): Map<string, string> {
+  const map = new Map<string, string>();
+  for (const it of items ?? []) {
+    if (typeof it.id === "string") map.set(it.id, uid());
+  }
+  return map;
+}
 
 type NativeExport = {
   conversation: {
@@ -79,17 +93,12 @@ async function importNative(
   const native = data as unknown as NativeExport;
 
   const newConvId = uid();
-  // ID remap for child entities to avoid collisions with existing user data
-  const charIdMap = new Map<string, string>();
-  for (const c of native.characters) charIdMap.set(c.id as string, uid());
-  const lbIdMap = new Map<string, string>();
-  for (const l of native.lorebooks) lbIdMap.set(l.id as string, uid());
-  const personaIdMap = new Map<string, string>();
-  if (native.persona) personaIdMap.set(native.persona.id as string, uid());
-  const presetIdMap = new Map<string, string>();
-  if (native.preset) presetIdMap.set(native.preset.id as string, uid());
-  const msgIdMap = new Map<string, string>();
-  for (const m of native.messages) msgIdMap.set(m.id as string, uid());
+  // ID remap for child entities to avoid collisions with existing user data.
+  const charIdMap = buildIdMap(native.characters);
+  const lbIdMap = buildIdMap(native.lorebooks);
+  const personaIdMap = buildIdMap(native.persona ? [native.persona] : []);
+  const presetIdMap = buildIdMap(native.preset ? [native.preset] : []);
+  const msgIdMap = buildIdMap(native.messages);
 
   await db.transaction(async (tx) => {
     await tx.insert(conversations).values({
@@ -292,16 +301,13 @@ async function importOrpg(
   const defaultModel =
     (firstChar?.model as string | undefined) ?? "openrouter/auto";
 
-  // Map orpg character ids -> our character ids
-  const charIdMap = new Map<string, string>();
-  for (const [oldId, c] of Object.entries(orpgCharacters)) {
-    charIdMap.set(oldId, uid());
-    void c;
-  }
-  const msgIdMap = new Map<string, string>();
-  for (const oldId of Object.keys(orpgMessages)) {
-    msgIdMap.set(oldId, uid());
-  }
+  // Map orpg character/message ids → freshly-generated unorouter ids
+  const charIdMap = new Map(
+    Object.keys(orpgCharacters).map((id) => [id, uid()]),
+  );
+  const msgIdMap = new Map(
+    Object.keys(orpgMessages).map((id) => [id, uid()]),
+  );
 
   await db.transaction(async (tx) => {
     await tx.insert(conversations).values({

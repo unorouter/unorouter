@@ -2130,7 +2130,19 @@
       "SELECTED": "選択済み",
       "SEARCH_CHARACTERS": "キャラクターを検索",
       "SEARCH_LOREBOOKS": "ロアブックを検索",
-      "CLEAR": "クリア"
+      "CLEAR": "クリア",
+      "EFFORT_MINIMAL": "最小",
+      "EFFORT_LOW": "低",
+      "EFFORT_MEDIUM": "中",
+      "EFFORT_HIGH": "高",
+      "EFFORT_XHIGH": "最高",
+      "ENGINE_AUTO": "自動",
+      "ENGINE_NATIVE": "ネイティブ",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "小",
+      "CONTEXT_MEDIUM": "中",
+      "CONTEXT_HIGH": "大"
     },
     "MORE": {
       "OPEN": "その他の操作",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "このプロンプトはコンテンツポリシーに違反しており、画像や動画の生成には使用できません。",
     "PROMPT_FLAGGED": "このプロンプトは生成にあたり安全性に懸念があると判断されました。表現を変えて再度お試しください。",
     "MODERATION_UNAVAILABLE": "画像および動画の生成は現在一時的にご利用いただけません。しばらくしてから再度お試しください。",
-    "PDF_EXTRACTION_FAILED": "添付されたPDFの内容を読み取れませんでした。ファイルを削除するか、別のファイルでお試しください。"
+    "PDF_EXTRACTION_FAILED": "添付されたPDFの内容を読み取れませんでした。ファイルを削除するか、別のファイルでお試しください。",
+    "IMPORT_INVALID_JSON": "ファイルが有効なJSONではありません。",
+    "IMPORT_UNSUPPORTED_VERSION": "サポートされていないエクスポート形式です。",
+    "CARD_PARSE_FAILED": "キャラクターカードを解析できませんでした。",
+    "CARD_MISSING_NAME": "キャラクターカードに必須の名前フィールドがありません。",
+    "UNEXPECTED_ERROR": "予期しないエラーが発生しました"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",

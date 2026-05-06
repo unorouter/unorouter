@@ -2130,7 +2130,19 @@
       "SELECTED": "đã chọn",
       "SEARCH_CHARACTERS": "Tìm nhân vật",
       "SEARCH_LOREBOOKS": "Tìm lorebook",
-      "CLEAR": "Xóa"
+      "CLEAR": "Xóa",
+      "EFFORT_MINIMAL": "Tối thiểu",
+      "EFFORT_LOW": "Thấp",
+      "EFFORT_MEDIUM": "Trung bình",
+      "EFFORT_HIGH": "Cao",
+      "EFFORT_XHIGH": "Rất cao",
+      "ENGINE_AUTO": "Tự động",
+      "ENGINE_NATIVE": "Tích hợp",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "Nhỏ",
+      "CONTEXT_MEDIUM": "Trung bình",
+      "CONTEXT_HIGH": "Lớn"
     },
     "MORE": {
       "OPEN": "Thao tác khác",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "Prompt này vi phạm chính sách nội dung và không thể dùng để tạo hình ảnh hoặc video.",
     "PROMPT_FLAGGED": "Prompt này bị gắn cờ là có thể không an toàn cho việc tạo nội dung. Vui lòng diễn đạt lại và thử lại.",
     "MODERATION_UNAVAILABLE": "Tính năng tạo hình ảnh và video tạm thời không khả dụng. Vui lòng thử lại sau ít phút.",
-    "PDF_EXTRACTION_FAILED": "Không thể đọc nội dung tệp PDF đính kèm. Vui lòng xoá tệp hoặc thử một tệp khác."
+    "PDF_EXTRACTION_FAILED": "Không thể đọc nội dung tệp PDF đính kèm. Vui lòng xoá tệp hoặc thử một tệp khác.",
+    "IMPORT_INVALID_JSON": "Tệp không phải JSON hợp lệ.",
+    "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
+    "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
+    "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
+    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn"
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",

@@ -1,6 +1,7 @@
 import { getV1VideoGenerationsTaskId, postV1VideoGenerations } from "@/openapi";
 import { msg } from "@/lib/config/constants";
 import { downloadAndUpload } from "@/lib/config/r2";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -122,14 +123,14 @@ export async function finalizeVideoTask(
     .from(conversations)
     .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
-  if (convRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(convRows);
 
   const rows = await db
     .select()
     .from(messages)
     .where(and(eq(messages.id, body.msgId), eq(messages.convId, convId)))
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
 
   const groupKey = uid(8);
   const r2Url = await downloadAndUpload(body.resultUrl, convId, groupKey);

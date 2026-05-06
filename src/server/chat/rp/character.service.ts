@@ -1,5 +1,5 @@
-import { msg } from "@/lib/config/constants";
 import { uploadToR2 } from "@/lib/config/r2";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { characters } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -56,7 +56,7 @@ export async function getCharacter(userId: number, id: string) {
     .from(characters)
     .where(and(eq(characters.id, id), eq(characters.userId, userId)))
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   return rows[0];
 }
 
@@ -107,7 +107,7 @@ export async function updateCharacter(
     })
     .where(and(eq(characters.id, id), eq(characters.userId, userId)))
     .returning({ id: characters.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return getCharacter(userId, id);
 }
 
@@ -117,7 +117,7 @@ export async function deleteCharacter(userId: number, id: string) {
     .delete(characters)
     .where(and(eq(characters.id, id), eq(characters.userId, userId)))
     .returning({ id: characters.id });
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { id };
 }
 

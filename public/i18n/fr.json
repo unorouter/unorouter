@@ -2130,7 +2130,19 @@
       "SELECTED": "sélectionnés",
       "SEARCH_CHARACTERS": "Rechercher des personnages",
       "SEARCH_LOREBOOKS": "Rechercher des lorebooks",
-      "CLEAR": "Effacer"
+      "CLEAR": "Effacer",
+      "EFFORT_MINIMAL": "Minimal",
+      "EFFORT_LOW": "Faible",
+      "EFFORT_MEDIUM": "Moyen",
+      "EFFORT_HIGH": "Élevé",
+      "EFFORT_XHIGH": "Très élevé",
+      "ENGINE_AUTO": "Automatique",
+      "ENGINE_NATIVE": "Natif",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "Faible",
+      "CONTEXT_MEDIUM": "Moyen",
+      "CONTEXT_HIGH": "Élevé"
     },
     "MORE": {
       "OPEN": "Plus d'actions",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "Ce prompt enfreint la politique de contenu et ne peut pas être utilisé pour la génération d'images ou de vidéos.",
     "PROMPT_FLAGGED": "Ce prompt a été signalé comme potentiellement non sûr pour la génération. Veuillez le reformuler et réessayer.",
     "MODERATION_UNAVAILABLE": "La génération d'images et de vidéos est temporairement indisponible. Veuillez réessayer dans quelques instants.",
-    "PDF_EXTRACTION_FAILED": "Impossible de lire le contenu du PDF joint. Veuillez le retirer ou essayer un autre fichier."
+    "PDF_EXTRACTION_FAILED": "Impossible de lire le contenu du PDF joint. Veuillez le retirer ou essayer un autre fichier.",
+    "IMPORT_INVALID_JSON": "Le fichier n'est pas du JSON valide.",
+    "IMPORT_UNSUPPORTED_VERSION": "Version d'export non prise en charge.",
+    "CARD_PARSE_FAILED": "Impossible de lire la carte de personnage.",
+    "CARD_MISSING_NAME": "Le nom est obligatoire dans la carte de personnage.",
+    "UNEXPECTED_ERROR": "Une erreur inattendue s'est produite"
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",

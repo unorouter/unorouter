@@ -78,7 +78,7 @@ export async function handleError(
     }
   }
 
-  if (!message) message = "An unexpected error occurred";
+  if (!message) message = "ERRORS.UNEXPECTED_ERROR";
 
   const title =
     t && t.has(message as TranslationKey)

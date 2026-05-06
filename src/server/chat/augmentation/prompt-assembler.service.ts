@@ -21,6 +21,43 @@ export type DepthInjection = {
   depth: number;
 };
 
+/**
+ * Source shape that can carry sampling overrides: presets, conversation
+ * settings, and per-stream overrides all match this. `maxTokens` maps to the
+ * SDK's `maxOutputTokens`; the rest pass through verbatim.
+ */
+type SamplingSource = {
+  temperature?: number | null;
+  topP?: number | null;
+  topK?: number | null;
+  minP?: number | null;
+  topA?: number | null;
+  frequencyPenalty?: number | null;
+  presencePenalty?: number | null;
+  repetitionPenalty?: number | null;
+  maxTokens?: number | null;
+};
+
+/**
+ * Merge non-null sampling fields from `src` into `dest`. Later calls win
+ * field-by-field, so callers should layer base → overrides.
+ */
+function mergeSampling(
+  dest: AssembledSystem["sampling"],
+  src: SamplingSource | null | undefined,
+): void {
+  if (!src) return;
+  if (src.temperature != null) dest.temperature = src.temperature;
+  if (src.topP != null) dest.topP = src.topP;
+  if (src.topK != null) dest.topK = src.topK;
+  if (src.minP != null) dest.minP = src.minP;
+  if (src.topA != null) dest.topA = src.topA;
+  if (src.frequencyPenalty != null) dest.frequencyPenalty = src.frequencyPenalty;
+  if (src.presencePenalty != null) dest.presencePenalty = src.presencePenalty;
+  if (src.repetitionPenalty != null) dest.repetitionPenalty = src.repetitionPenalty;
+  if (src.maxTokens != null) dest.maxOutputTokens = src.maxTokens;
+}
+
 export type AssembledSystem = {
   /** Composed system prompt (character + persona + before/after-char lorebook + web search). */
   system: string | undefined;
@@ -83,20 +120,7 @@ export function assembleFromOverrides(
   fallbackSystemMessage: string | undefined,
 ): AssembledSystem {
   const sampling: AssembledSystem["sampling"] = {};
-  if (overrides) {
-    if (overrides.temperature != null) sampling.temperature = overrides.temperature;
-    if (overrides.topP != null) sampling.topP = overrides.topP;
-    if (overrides.topK != null) sampling.topK = overrides.topK;
-    if (overrides.minP != null) sampling.minP = overrides.minP;
-    if (overrides.topA != null) sampling.topA = overrides.topA;
-    if (overrides.frequencyPenalty != null)
-      sampling.frequencyPenalty = overrides.frequencyPenalty;
-    if (overrides.presencePenalty != null)
-      sampling.presencePenalty = overrides.presencePenalty;
-    if (overrides.repetitionPenalty != null)
-      sampling.repetitionPenalty = overrides.repetitionPenalty;
-    if (overrides.maxTokens != null) sampling.maxOutputTokens = overrides.maxTokens;
-  }
+  mergeSampling(sampling, overrides);
   const sections: string[] = [];
   if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
   if (overrides?.systemPromptOverride) sections.push(overrides.systemPromptOverride);
@@ -425,34 +449,11 @@ export async function assembleForStream(
     ? { text: expand(settings.authorNote), depth: settings.authorNoteDepth ?? 4 }
     : undefined;
 
-  // Sampling: preset → settings overrides
+  // Sampling: layer preset (base) under settings (overrides). Field-by-field
+  // non-null wins.
   const sampling: AssembledSystem["sampling"] = {};
-  if (preset) {
-    if (preset.temperature !== null) sampling.temperature = preset.temperature ?? undefined;
-    if (preset.topP !== null) sampling.topP = preset.topP ?? undefined;
-    if (preset.topK !== null) sampling.topK = preset.topK ?? undefined;
-    if (preset.minP !== null) sampling.minP = preset.minP ?? undefined;
-    if (preset.topA !== null) sampling.topA = preset.topA ?? undefined;
-    if (preset.frequencyPenalty !== null)
-      sampling.frequencyPenalty = preset.frequencyPenalty ?? undefined;
-    if (preset.presencePenalty !== null)
-      sampling.presencePenalty = preset.presencePenalty ?? undefined;
-    if (preset.repetitionPenalty !== null)
-      sampling.repetitionPenalty = preset.repetitionPenalty ?? undefined;
-    if (preset.maxTokens !== null) sampling.maxOutputTokens = preset.maxTokens ?? undefined;
-  }
-  if (settings.temperature !== null) sampling.temperature = settings.temperature ?? undefined;
-  if (settings.topP !== null) sampling.topP = settings.topP ?? undefined;
-  if (settings.topK !== null) sampling.topK = settings.topK ?? undefined;
-  if (settings.minP !== null) sampling.minP = settings.minP ?? undefined;
-  if (settings.topA !== null) sampling.topA = settings.topA ?? undefined;
-  if (settings.frequencyPenalty !== null)
-    sampling.frequencyPenalty = settings.frequencyPenalty ?? undefined;
-  if (settings.presencePenalty !== null)
-    sampling.presencePenalty = settings.presencePenalty ?? undefined;
-  if (settings.repetitionPenalty !== null)
-    sampling.repetitionPenalty = settings.repetitionPenalty ?? undefined;
-  if (settings.maxTokens !== null) sampling.maxOutputTokens = settings.maxTokens ?? undefined;
+  mergeSampling(sampling, preset);
+  mergeSampling(sampling, settings);
 
   const reasoningEffort =
     settings.reasoningEffort ?? primary?.defaultReasoningEffort ?? undefined;

@@ -30,6 +30,7 @@
  */
 
 import { msg } from "@/lib/config/constants";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import {
   characters,
@@ -90,7 +91,7 @@ export async function exportConversationSillyTavern(
     .from(conversations)
     .where(eq(conversations.id, convId))
     .limit(1);
-  if (convRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(convRows);
   const conv = convRows[0];
   if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)
     throw new Error(msg("ERRORS.NOT_FOUND"));

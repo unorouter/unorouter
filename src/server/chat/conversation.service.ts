@@ -1,5 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { deleteR2Prefix } from "@/lib/config/r2";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import {
   conversationCharacters,
@@ -218,7 +219,7 @@ export async function getConversation(userId: number, convId: string) {
     )
     .limit(1);
 
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   return rows[0];
 }
 
@@ -242,7 +243,7 @@ export async function updateConversation(
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     if (body.title !== undefined) {
       await tx
@@ -283,7 +284,7 @@ export async function updateSettings(
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     // Verify persona/preset ids belong to this user before persisting them.
     // Guests (userId=0) cannot own personas/presets, so we silently drop any
@@ -298,7 +299,7 @@ export async function updateSettings(
         .from(personas)
         .where(and(eq(personas.userId, userId), eq(personas.id, body.personaId)))
         .limit(1);
-      if (owned.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+      assertFound(owned);
     }
     if (body.presetId) {
       const owned = await tx
@@ -311,7 +312,7 @@ export async function updateSettings(
           ),
         )
         .limit(1);
-      if (owned.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+      assertFound(owned);
     }
 
     const updates: Record<string, unknown> = { updatedAt: now };
@@ -341,7 +342,7 @@ export async function getSettings(userId: number, convId: string) {
       and(eq(conversations.id, convId), eq(conversations.userId, userId)),
     )
     .limit(1);
-  if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(ownership);
 
   const rows = await db
     .select()
@@ -368,7 +369,7 @@ export async function deleteConversation(userId: number, convId: string) {
       and(eq(conversations.id, convId), eq(conversations.userId, userId)),
     )
     .limit(1);
-  if (conv.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(conv);
 
   const scope = conv[0].userId === 0 ? "guest" : "user";
   try {
@@ -401,7 +402,7 @@ export async function createShareLink(userId: number, convId: string) {
     )
     .returning({ id: conversations.id });
 
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { shareId };
 }
 
@@ -415,7 +416,7 @@ export async function revokeShareLink(userId: number, convId: string) {
     )
     .returning({ id: conversations.id });
 
-  if (result.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(result);
   return { id: convId };
 }
 
@@ -442,7 +443,7 @@ export async function getSharedConversation(
     .where(eq(conversations.shareId, shareId))
     .limit(1);
 
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   const conv = rows[0];
 
   const paginated = await getPaginatedMessages(conv.id, query);
@@ -471,7 +472,7 @@ export async function getConversationOrShared(userId: number, convId: string) {
     )
     .where(eq(conversations.id, convId))
     .limit(1);
-  if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(rows);
   const conv = rows[0];
   if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)
     throw new Error(msg("ERRORS.NOT_FOUND"));
@@ -505,7 +506,7 @@ export async function clearConversation(userId: number, convId: string) {
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     await tx.delete(messages).where(eq(messages.convId, convId));
     await tx
@@ -531,7 +532,7 @@ export async function duplicateConversation(userId: number, convId: string) {
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (srcRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(srcRows);
     const src = srcRows[0];
 
     const newConvId = uid();
@@ -736,7 +737,7 @@ export async function getConversationMarkdown(userId: number, convId: string) {
     .from(conversations)
     .where(eq(conversations.id, convId))
     .limit(1);
-  if (convRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(convRows);
   const conv = convRows[0];
   // Match getConversationOrShared: allow guest convs (userId=0) and shared.
   if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)

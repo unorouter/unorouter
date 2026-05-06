@@ -2130,7 +2130,19 @@
       "SELECTED": "已選",
       "SEARCH_CHARACTERS": "搜尋角色",
       "SEARCH_LOREBOOKS": "搜尋設定集",
-      "CLEAR": "清除"
+      "CLEAR": "清除",
+      "EFFORT_MINIMAL": "最低",
+      "EFFORT_LOW": "低",
+      "EFFORT_MEDIUM": "中",
+      "EFFORT_HIGH": "高",
+      "EFFORT_XHIGH": "最高",
+      "ENGINE_AUTO": "自動",
+      "ENGINE_NATIVE": "原生",
+      "ENGINE_TAVILY": "Tavily",
+      "ENGINE_EXA": "Exa",
+      "CONTEXT_LOW": "小",
+      "CONTEXT_MEDIUM": "中",
+      "CONTEXT_HIGH": "大"
     },
     "MORE": {
       "OPEN": "更多操作",
@@ -2256,7 +2268,12 @@
     "PROMPT_REJECTED": "此提示詞違反內容政策，無法用於圖像或影片生成。",
     "PROMPT_FLAGGED": "此提示詞被標記為可能不適合生成內容，請修改後再試。",
     "MODERATION_UNAVAILABLE": "圖像和影片生成暫時無法使用，請稍後再試。",
-    "PDF_EXTRACTION_FAILED": "無法讀取所附 PDF 的內容，請將其移除或更換檔案再試。"
+    "PDF_EXTRACTION_FAILED": "無法讀取所附 PDF 的內容，請將其移除或更換檔案再試。",
+    "IMPORT_INVALID_JSON": "檔案不是有效的JSON。",
+    "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
+    "CARD_PARSE_FAILED": "無法解析角色卡。",
+    "CARD_MISSING_NAME": "角色卡缺少必填的名稱欄位。",
+    "UNEXPECTED_ERROR": "發生未預期的錯誤"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",

@@ -4,6 +4,7 @@ import {
   msg,
 } from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid, unwrap } from "@/lib/utils/base";
@@ -363,14 +364,14 @@ export async function setActiveBranch(
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     const target = await tx
       .select({ parentId: messages.parentId })
       .from(messages)
       .where(and(eq(messages.id, messageId), eq(messages.convId, convId)))
       .limit(1);
-    if (target.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(target);
     const parentId = target[0].parentId;
 
     await tx
@@ -413,14 +414,14 @@ export async function editMessageItems(
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     const exists = await tx
       .select({ id: messages.id })
       .from(messages)
       .where(and(eq(messages.id, messageId), eq(messages.convId, convId)))
       .limit(1);
-    if (exists.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(exists);
 
     await tx.delete(messageItems).where(eq(messageItems.messageId, messageId));
 
@@ -471,14 +472,14 @@ export async function deleteMessage(
         and(eq(conversations.id, convId), eq(conversations.userId, userId)),
       )
       .limit(1);
-    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(ownership);
 
     const target = await tx
       .select({ id: messages.id, parentId: messages.parentId })
       .from(messages)
       .where(and(eq(messages.id, messageId), eq(messages.convId, convId)))
       .limit(1);
-    if (target.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+    assertFound(target);
 
     const newParentId = target[0].parentId;
 

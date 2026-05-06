@@ -62,6 +62,27 @@ type DrawerProps = {
   trigger?: React.ReactElement;
 };
 
+const REASONING_EFFORT_KEY = {
+  minimal: "CHAT.OVERRIDES.EFFORT_MINIMAL",
+  low: "CHAT.OVERRIDES.EFFORT_LOW",
+  medium: "CHAT.OVERRIDES.EFFORT_MEDIUM",
+  high: "CHAT.OVERRIDES.EFFORT_HIGH",
+  xhigh: "CHAT.OVERRIDES.EFFORT_XHIGH",
+} as const;
+
+const WEB_SEARCH_ENGINE_KEY = {
+  auto: "CHAT.OVERRIDES.ENGINE_AUTO",
+  native: "CHAT.OVERRIDES.ENGINE_NATIVE",
+  tavily: "CHAT.OVERRIDES.ENGINE_TAVILY",
+  exa: "CHAT.OVERRIDES.ENGINE_EXA",
+} as const;
+
+const WEB_SEARCH_CONTEXT_KEY = {
+  low: "CHAT.OVERRIDES.CONTEXT_LOW",
+  medium: "CHAT.OVERRIDES.CONTEXT_MEDIUM",
+  high: "CHAT.OVERRIDES.CONTEXT_HIGH",
+} as const;
+
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
   const isLoggedIn = !!useAuthQuery().data;
@@ -444,8 +465,11 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                                 ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
                                 : field.value === "none"
                                   ? t("CHAT.OVERRIDES.OFF")
-                                  : field.value.charAt(0).toUpperCase() +
-                                    field.value.slice(1)}
+                                  : t(
+                                      REASONING_EFFORT_KEY[
+                                        field.value as keyof typeof REASONING_EFFORT_KEY
+                                      ],
+                                    )}
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
@@ -455,11 +479,15 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                             <SelectItem value="none">
                               {t("CHAT.OVERRIDES.OFF")}
                             </SelectItem>
-                            <SelectItem value="minimal">Minimal</SelectItem>
-                            <SelectItem value="low">Low</SelectItem>
-                            <SelectItem value="medium">Medium</SelectItem>
-                            <SelectItem value="high">High</SelectItem>
-                            <SelectItem value="xhigh">XHigh</SelectItem>
+                            {(
+                              Object.keys(REASONING_EFFORT_KEY) as Array<
+                                keyof typeof REASONING_EFFORT_KEY
+                              >
+                            ).map((k) => (
+                              <SelectItem key={k} value={k}>
+                                {t(REASONING_EFFORT_KEY[k])}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -607,15 +635,23 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                             >
                               <SelectTrigger className="w-full">
                                 <SelectValue>
-                                  {field.value.charAt(0).toUpperCase() +
-                                    field.value.slice(1)}
+                                  {t(
+                                    WEB_SEARCH_ENGINE_KEY[
+                                      field.value as keyof typeof WEB_SEARCH_ENGINE_KEY
+                                    ],
+                                  )}
                                 </SelectValue>
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="auto">Auto</SelectItem>
-                                <SelectItem value="native">Native</SelectItem>
-                                <SelectItem value="tavily">Tavily</SelectItem>
-                                <SelectItem value="exa">Exa</SelectItem>
+                                {(
+                                  Object.keys(
+                                    WEB_SEARCH_ENGINE_KEY,
+                                  ) as Array<keyof typeof WEB_SEARCH_ENGINE_KEY>
+                                ).map((k) => (
+                                  <SelectItem key={k} value={k}>
+                                    {t(WEB_SEARCH_ENGINE_KEY[k])}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </FormControl>
@@ -639,14 +675,23 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                             >
                               <SelectTrigger className="w-full">
                                 <SelectValue>
-                                  {field.value.charAt(0).toUpperCase() +
-                                    field.value.slice(1)}
+                                  {t(
+                                    WEB_SEARCH_CONTEXT_KEY[
+                                      field.value as keyof typeof WEB_SEARCH_CONTEXT_KEY
+                                    ],
+                                  )}
                                 </SelectValue>
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="low">Low</SelectItem>
-                                <SelectItem value="medium">Medium</SelectItem>
-                                <SelectItem value="high">High</SelectItem>
+                                {(
+                                  Object.keys(
+                                    WEB_SEARCH_CONTEXT_KEY,
+                                  ) as Array<keyof typeof WEB_SEARCH_CONTEXT_KEY>
+                                ).map((k) => (
+                                  <SelectItem key={k} value={k}>
+                                    {t(WEB_SEARCH_CONTEXT_KEY[k])}
+                                  </SelectItem>
+                                ))}
                               </SelectContent>
                             </Select>
                           </FormControl>

@@ -1,4 +1,4 @@
-import { msg } from "@/lib/config/constants";
+import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import {
   characters,
@@ -35,7 +35,7 @@ export async function exportConversationNative(
     .from(conversations)
     .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
-  if (convRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+  assertFound(convRows);
   const conv = convRows[0];
 
   const settingsRows = await db

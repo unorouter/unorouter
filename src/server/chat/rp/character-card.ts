@@ -6,6 +6,7 @@
  * V2 chunk for legacy readers), CharX, and Voxta on write.
  */
 
+import { msg } from "@/lib/config/constants";
 import { parseCard } from "@character-foundry/character-foundry/loader";
 import {
   exportCard,
@@ -56,14 +57,13 @@ export async function parseCharacterCardFile(
   let parsed;
   try {
     parsed = parseCard(new Uint8Array(buf));
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    throw new Error(`Character card parse failed: ${message}`);
+  } catch {
+    throw new Error(msg("ERRORS.CARD_PARSE_FAILED"));
   }
 
   const data = parsed.card.data;
   if (!data?.name) {
-    throw new Error("Character card missing required `name` field");
+    throw new Error(msg("ERRORS.CARD_MISSING_NAME"));
   }
 
   // Map the library's CCv3 inner data to our flat shape. The library
