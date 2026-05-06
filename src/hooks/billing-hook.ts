@@ -2,9 +2,8 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs } from "@/lib/types/eden";
-import { safeJsonParse } from "@/lib/utils/base";
+import { handleElysia, safeJsonParse } from "@/lib/utils/base";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type { SubscriptionSelfData } from "@/openapi";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -33,6 +32,9 @@ export function useBillingPlansQuery() {
     queryFn: async () => {
       return handleElysia(await rpc.api.billing["subscription-plans"].get());
     },
+    // Plans rarely change; keep the hydrated value fresh across navigations
+    // so we don't fire a new request on every page load.
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -42,6 +44,8 @@ export function useSubscriptionSelfQuery() {
     queryFn: async () => {
       return handleElysia(await rpc.api.billing["subscription-self"].get());
     },
+    // Subscription state changes rarely; mutations explicitly invalidate.
+    staleTime: 5 * 60_000,
   });
 }
 

@@ -12,6 +12,7 @@ import { PostHogProvider } from "./app/posthog-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserProvider } from "./app/user-provider";
 import { WebMcpProvider } from "./app/webmcp-provider";
+import { AppPrefetchProvider } from "./state/app-prefetch-provider";
 import { ClientProvider } from "./state/client-provider";
 import { JotaiProvider } from "./state/jotai-provider";
 import { ModelsStoreProvider } from "./state/models-store-provider";
@@ -36,7 +37,11 @@ export function Providers(props: { children: ReactNode }) {
                   <ThemeProvider>
                     <PostHogProvider>
                       <WebMcpProvider />
-                      <TooltipProvider>{props.children}</TooltipProvider>
+                      <TooltipProvider>
+                        <AppPrefetchProvider>
+                          {props.children}
+                        </AppPrefetchProvider>
+                      </TooltipProvider>
                     </PostHogProvider>
                   </ThemeProvider>
                 </LanguageProvider>
