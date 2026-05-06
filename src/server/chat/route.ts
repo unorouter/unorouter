@@ -12,12 +12,6 @@ import {
   titleGenerationBody,
   updateConversationBody,
 } from "@/lib/validation/chat";
-import { downloadAndUpload } from "@/lib/config/r2";
-import { msg } from "@/lib/config/constants";
-import { uid } from "@/lib/utils/base";
-import { getDb } from "@/lib/db/client";
-import { conversations, messageItems, messages } from "@/lib/db/schema";
-import { and, asc, eq } from "drizzle-orm";
 import {
   getApiKey,
   getApiKeyOrGuest,
@@ -41,7 +35,10 @@ import {
   updateConversation,
 } from "./conversation.service";
 import { uploadMedia } from "./augmentation/media.service";
-import { fetchVideoTaskStatus } from "./augmentation/task.service";
+import {
+  fetchVideoTaskStatus,
+  finalizeVideoTask,
+} from "./augmentation/task.service";
 import { generateChatTitle } from "./augmentation/title.service";
 import {
   deleteMessage,
@@ -247,76 +244,9 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/task/finalize",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
-      const convId = params.id;
-      const { msgId, taskId, resultUrl } = body;
-      const isGuest = userId === 0;
-      if (isGuest) {
-        const guestConvIds = getGuestConvIds(cookie);
-        if (!guestConvIds.includes(convId))
-          throw new Error(msg("ERRORS.NOT_FOUND"));
-      }
-
-      const db = getDb();
-      const convRows = await db
-        .select({ id: conversations.id })
-        .from(conversations)
-        .where(
-          and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-        )
-        .limit(1);
-      if (convRows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
-
-      const rows = await db
-        .select()
-        .from(messages)
-        .where(and(eq(messages.id, msgId), eq(messages.convId, convId)))
-        .limit(1);
-      if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
-
-      const groupKey = uid(8);
-      const r2Url = await downloadAndUpload(resultUrl, convId, groupKey);
-
-      // Find the task item and replace with a text item pointing at the rehosted URL
-      const items = await db
-        .select()
-        .from(messageItems)
-        .where(eq(messageItems.messageId, msgId))
-        .orderBy(asc(messageItems.sequenceIndex));
-
-      const updatedItems = items.map((it) => {
-        if (
-          it.type === "task" &&
-          (it.data as Record<string, unknown>).task_id === taskId
-        ) {
-          return {
-            ...it,
-            type: "text",
-            data: { text: `![video](${r2Url})` },
-          };
-        }
-        return it;
-      });
-
-      await db.transaction(async (tx) => {
-        await tx
-          .delete(messageItems)
-          .where(eq(messageItems.messageId, msgId));
-        if (updatedItems.length > 0) {
-          await tx.insert(messageItems).values(
-            updatedItems.map((it, seq) => ({
-              id: it.id,
-              messageId: msgId,
-              sequenceIndex: seq,
-              outputIndex: it.outputIndex,
-              type: it.type,
-              data: it.data,
-            })),
-          );
-        }
-      });
-
-      return { success: true, data: { items: updatedItems } };
+      const userId = getUserId(cookie, true) ?? 0;
+      const data = await finalizeVideoTask(userId, cookie, params.id, body);
+      return { success: true, data };
     },
     { body: finalizeTaskBody },
   );

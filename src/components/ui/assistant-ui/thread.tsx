@@ -14,10 +14,13 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { useDeleteMessageMutation, useEditMessageMutation } from "@/hooks/chat-hook";
+import {
+  useDeleteMessageMutation,
+  useEditMessageMutation,
+  useSetActiveBranchMutation,
+} from "@/hooks/chat-hook";
 import { partsToItems } from "@/lib/types/chat";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
-import { viewportRef } from "@/hooks/ui/use-loaded-messages";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -27,7 +30,6 @@ import {
   chatWebSearchAtom,
   getChatHelpers,
   getConvId,
-  getScrollControl,
 } from "@/store/chat-store";
 import { Textarea } from "@/components/ui/textarea";
 import { useMessageError } from "@assistant-ui/core/react";
@@ -58,7 +60,6 @@ import { useTranslations } from "next-intl";
 import {
   createContext,
   type FC,
-  type UIEvent,
   useContext,
   useEffect,
   useRef,
@@ -80,19 +81,6 @@ type ThreadProps = {
 };
 
 export const Thread: FC<ThreadProps> = (props) => {
-  const nearTopRef = useRef(false);
-
-  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
-    const nearTop = e.currentTarget.scrollTop < 200;
-    if (nearTop && !nearTopRef.current) {
-      const ctrl = getScrollControl();
-      if (ctrl.hasNextPage && !ctrl.isFetchingNextPage) {
-        ctrl.fetchNextPage();
-      }
-    }
-    nearTopRef.current = nearTop;
-  };
-
   return (
     <ReadOnlyContext.Provider value={!!props.readOnly}>
       <ThreadPrimitive.Root
@@ -104,11 +92,7 @@ export const Thread: FC<ThreadProps> = (props) => {
         }}
       >
         <ThreadPrimitive.Viewport
-          ref={(el) => {
-            viewportRef.current = el;
-          }}
           autoScroll
-          onScroll={handleScroll}
           className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
         >
           <AuiIf condition={(s) => s.thread.isEmpty}>
@@ -792,19 +776,38 @@ const EditComposer: FC = () => {
   );
 };
 
-const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
-  className,
-  ...rest
-}) => {
+const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
   const t = useTranslations();
+  // Persist the active-branch flip server-side so refreshes preserve the
+  // user's pick. assistant-ui's primitive flips the in-memory message id;
+  // we watch it for changes and POST.
+  const messageId = useAuiState((s) => s.message.id);
+  const readOnly = useContext(ReadOnlyContext);
+  const setActiveBranchMut = useSetActiveBranchMutation();
+  const lastIdRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (readOnly) return;
+    if (!messageId) return;
+    if (lastIdRef.current === null) {
+      lastIdRef.current = messageId;
+      return;
+    }
+    if (lastIdRef.current === messageId) return;
+    lastIdRef.current = messageId;
+    const convId = getConvId();
+    if (!convId) return;
+    setActiveBranchMut.mutate({ convId, msgId: messageId });
+    // setActiveBranchMut is stable
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messageId, readOnly]);
   return (
     <BranchPickerPrimitive.Root
       hideWhenSingleBranch
       className={cn(
         "aui-branch-picker-root text-muted-foreground mr-2 -ml-2 inline-flex items-center text-xs",
-        className,
+        props.className,
       )}
-      {...rest}
+      {...props}
     >
       <BranchPickerPrimitive.Previous asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.PREVIOUS")}>

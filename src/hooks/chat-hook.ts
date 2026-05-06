@@ -2,7 +2,6 @@
 
 import { PAGE_SIZE } from "@/lib/config/constants";
 import {
-  moveConvToTop,
   patchConv,
   prependConv,
   removeConv,
@@ -206,94 +205,9 @@ export function useRevokeShareMutation() {
   });
 }
 
-export function usePersistMessagesMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  return useMutation({
-    onError: (e) => handleError(e, t),
-    mutationFn: async (
-      args: ChatParams & EdenArgs<ChatRouteReturn["messages"], "post">,
-    ) => {
-      return handleElysia(
-        await rpc.api.chat({ id: args.id }).messages.post(args.body),
-      );
-    },
-    onSuccess: (data, args) => {
-      const id = String(args.id);
-
-      type MessagesPage = {
-        messages: Array<Record<string, unknown>>;
-        total: number;
-      };
-      queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(id),
-        (old) => {
-          if (!old?.pages[0]) return old;
-          const usage = data.usage;
-          const newMessages = args.body.messages.map((m) => {
-            const hasUsage = m.role === "assistant" && usage;
-            return {
-              id: m.id ?? crypto.randomUUID(),
-              parentId: m.parentId ?? null,
-              role: m.role,
-              items: m.items.map((it, seq) => ({
-                id: it.id ?? `tmp-${seq}`,
-                sequenceIndex: seq,
-                outputIndex: it.output_index ?? null,
-                type: it.type,
-                data: it.data,
-              })),
-              model: m.model ?? null,
-              inputTokens: hasUsage ? usage.inputTokens : null,
-              outputTokens: hasUsage ? usage.outputTokens : null,
-              cost: hasUsage ? usage.cost : null,
-            };
-          });
-          const firstPage = old.pages[0];
-          return {
-            ...old,
-            pages: [
-              {
-                ...firstPage,
-                messages: [...firstPage.messages, ...newMessages],
-              },
-              ...old.pages.slice(1),
-            ],
-          };
-        },
-      );
-
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) =>
-          moveConvToTop(old, id, (item) => ({
-            updatedAt: dayjs().toDate(),
-            ...(data.title && { title: data.title }),
-            ...(data.usage?.cost && {
-              totalCost: (item.totalCost ?? 0) + data.usage.cost,
-            }),
-          })),
-      );
-
-      if (data.usage) {
-        queryClient.setQueryData<ConversationData>(
-          queryKeys.chatMeta(id),
-          (old) => {
-            if (!old) return old;
-            return {
-              ...old,
-              totalInputTokens:
-                (old.totalInputTokens ?? 0) + data.usage!.inputTokens,
-              totalOutputTokens:
-                (old.totalOutputTokens ?? 0) + data.usage!.outputTokens,
-              totalCost: (old.totalCost ?? 0) + data.usage!.cost,
-            };
-          },
-        );
-      }
-    },
-  });
-}
+// `usePersistMessagesMutation` was removed: the chat-history-adapter inlines
+// the POST and replicates the same cache patches. Keeping this hook would
+// drift out of sync with the adapter without surfacing.
 
 export function useClaimConversationsMutation() {
   const t = useTranslations();
@@ -503,6 +417,52 @@ export function useConversationMarkdown() {
  * deleted message's parent. Cache update mirrors that rewire so the active
  * branch path stays valid without a refetch.
  */
+export function useSetActiveBranchMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: { convId: string; msgId: string }) =>
+      handleElysia(
+        await rpc.api
+          .chat({ id: args.convId })
+          ["active-branch"].post({ messageId: args.msgId }),
+      ),
+    onSuccess: (_data, args) => {
+      type Msg = {
+        id: string;
+        parentId?: string | null;
+        isActiveBranch?: boolean;
+      } & Record<string, unknown>;
+      type MessagesPage = { messages: Msg[]; total: number };
+      queryClient.setQueryData<InfiniteData<MessagesPage>>(
+        queryKeys.chatMessages(args.convId),
+        (old) => {
+          if (!old) return old;
+          let target: Msg | undefined;
+          for (const page of old.pages) {
+            target = page.messages.find((m) => m.id === args.msgId);
+            if (target) break;
+          }
+          if (!target) return old;
+          const targetParentId = target.parentId ?? null;
+          return {
+            ...old,
+            pages: old.pages.map((page) => ({
+              ...page,
+              messages: page.messages.map((m) => {
+                const sameParent = (m.parentId ?? null) === targetParentId;
+                if (!sameParent) return m;
+                return { ...m, isActiveBranch: m.id === args.msgId };
+              }),
+            })),
+          };
+        },
+      );
+    },
+  });
+}
+
 export function useDeleteMessageMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();

@@ -107,30 +107,20 @@ export async function parseCharacterCardFile(
   return { card, imageBuffer, imageMime };
 }
 
-/**
- * Re-emit a character row + avatar bytes as a PNG/CharX/Voxta blob.
- *
- * @param row Our DB row shape (flat fields from `characters` table).
- * @param avatar Optional avatar bytes; embedded as the icon asset on PNG.
- * @param format Target container.
- */
-export function exportCharacterCard(
-  row: {
-    name: string;
-    description: string | null;
-    personality: string | null;
-    scenario: string | null;
-    firstMessage: string | null;
-    exampleMessages: string | null;
-    systemPrompt: string | null;
-    postHistoryInstructions: string | null;
-    tags: unknown;
-  },
-  avatar: { data: Buffer; mime: string } | null,
-  format: ExportFormat,
-): { data: Uint8Array; mimeType: string; ext: string } {
-  // Build a NormalizedCard from the flat row, then denormalize to CCv3.
-  // The library handles default-filling and the spec/spec_version envelope.
+type ExportableRow = {
+  name: string;
+  description: string | null;
+  personality: string | null;
+  scenario: string | null;
+  firstMessage: string | null;
+  exampleMessages: string | null;
+  systemPrompt: string | null;
+  postHistoryInstructions: string | null;
+  tags: unknown;
+};
+
+/** Build the canonical CCv3 envelope from a DB row via the foundry normalizer. */
+function buildCCv3Card(row: ExportableRow) {
   const normalized: NormalizedCard = {
     name: row.name,
     description: row.description ?? "",
@@ -149,7 +139,41 @@ export function exportCharacterCard(
       : [],
     extensions: {},
   };
-  const card = denormalizeToV3(normalized);
+  return denormalizeToV3(normalized);
+}
+
+/**
+ * Build a JSON-stringified CCv3 envelope. The foundry library doesn't ship a
+ * JSON exporter (only PNG/CharX/Voxta containers); this returns the same
+ * envelope shape its parser accepts on read so round-trip via parseCard()
+ * works.
+ */
+export function exportCharacterCardAsJson(row: ExportableRow): {
+  data: Uint8Array;
+  mimeType: string;
+  ext: string;
+} {
+  const card = buildCCv3Card(row);
+  return {
+    data: new TextEncoder().encode(JSON.stringify({ ...card }, null, 2)),
+    mimeType: "application/json",
+    ext: "json",
+  };
+}
+
+/**
+ * Re-emit a character row + avatar bytes as a PNG/CharX/Voxta blob.
+ *
+ * @param row Our DB row shape (flat fields from `characters` table).
+ * @param avatar Optional avatar bytes; embedded as the icon asset on PNG.
+ * @param format Target container.
+ */
+export function exportCharacterCard(
+  row: ExportableRow,
+  avatar: { data: Buffer; mime: string } | null,
+  format: ExportFormat,
+): { data: Uint8Array; mimeType: string; ext: string } {
+  const card = buildCCv3Card(row);
 
   const assets: ExportAsset[] = [];
   if (avatar) {

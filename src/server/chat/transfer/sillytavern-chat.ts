@@ -38,13 +38,13 @@ import {
   conversationSettings,
   messageItems,
   messages,
-  type Message,
   type MessageItem,
 } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
+import { walkActiveBranch } from "../conversation.service";
 import dayjs from "dayjs";
-import { asc, eq, inArray } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 
 type STMetadata = {
   user_name: string;
@@ -113,51 +113,7 @@ export async function exportConversationSillyTavern(
         )[0]
       : undefined;
 
-  const settings = (
-    await db
-      .select({ chatMemory: conversationSettings.chatMemory })
-      .from(conversationSettings)
-      .where(eq(conversationSettings.convId, convId))
-      .limit(1)
-  )[0];
-  void settings; // kept for parity; not emitted directly into ST chat metadata
-
-  const msgRows = await db
-    .select()
-    .from(messages)
-    .where(eq(messages.convId, convId))
-    .orderBy(asc(messages.createdAt));
-
-  const itemRows: MessageItem[] =
-    msgRows.length > 0
-      ? await db
-          .select()
-          .from(messageItems)
-          .where(
-            inArray(
-              messageItems.messageId,
-              msgRows.map((m) => m.id),
-            ),
-          )
-          .orderBy(asc(messageItems.messageId), asc(messageItems.sequenceIndex))
-      : [];
-
-  const itemsByMsg = new Map<string, MessageItem[]>();
-  for (const it of itemRows) {
-    const arr = itemsByMsg.get(it.messageId) ?? [];
-    arr.push(it);
-    itemsByMsg.set(it.messageId, arr);
-  }
-
-  // Walk the active branch.
-  const byId = new Map(msgRows.map((m) => [m.id, m]));
-  const tip = [...msgRows].reverse().find((m) => m.isActiveBranch !== false);
-  const path: Message[] = [];
-  let cur = tip;
-  while (cur) {
-    path.unshift(cur);
-    cur = cur.parentId ? byId.get(cur.parentId) : undefined;
-  }
+  const { path, itemsByMsg, tipId } = await walkActiveBranch(convId);
 
   const characterName = charRow?.name ?? "Assistant";
   const userName = "User";
@@ -166,13 +122,13 @@ export async function exportConversationSillyTavern(
     user_name: userName,
     character_name: characterName,
     create_date: humanizedDate(conv.createdAt ?? new Date()),
-    chat_metadata: { chatIdHash: conv.id, lastInContextMessageId: tip?.id },
+    chat_metadata: { chatIdHash: conv.id, lastInContextMessageId: tipId },
   };
 
   const lines: string[] = [JSON.stringify(metadata)];
 
   for (const m of path) {
-    const items = itemsByMsg.get(m.id) ?? [];
+    const items = (itemsByMsg.get(m.id) ?? []) as MessageItem[];
     const text = renderItemsAsText(items);
     if (m.role === "system") continue; // ST treats system rows separately
     const reasoning = items.find((it) => it.type === "reasoning")?.data as

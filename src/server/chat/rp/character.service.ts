@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { and, desc, eq } from "drizzle-orm";
 import {
   exportCharacterCard,
+  exportCharacterCardAsJson,
   parseCharacterCardFile,
 } from "./character-card";
 
@@ -173,38 +174,7 @@ export async function exportCharacter(
   const row = await getCharacter(userId, id);
 
   if (format === "json") {
-    // Build a minimal CCv3 structure for direct JSON download. Reuses the
-    // exporter's CharX path internally is overkill; emit a hand-built CCv3
-    // wrapper so consumers can still pick it up via parseCard().
-    const payload = {
-      spec: "chara_card_v3",
-      spec_version: "3.0",
-      data: {
-        name: row.name,
-        description: row.description ?? "",
-        personality: row.personality ?? "",
-        scenario: row.scenario ?? "",
-        first_mes: row.firstMessage ?? "",
-        mes_example: row.exampleMessages ?? "",
-        creator_notes: "",
-        system_prompt: row.systemPrompt ?? "",
-        post_history_instructions: row.postHistoryInstructions ?? "",
-        alternate_greetings: [] as string[],
-        tags: Array.isArray(row.tags)
-          ? (row.tags as unknown[]).filter(
-              (t): t is string => typeof t === "string",
-            )
-          : [],
-        creator: "",
-        character_version: "",
-        extensions: {},
-      },
-    };
-    return {
-      data: new TextEncoder().encode(JSON.stringify(payload, null, 2)),
-      mimeType: "application/json",
-      ext: "json",
-    };
+    return exportCharacterCardAsJson(row);
   }
 
   const avatar = row.avatarR2Key

@@ -36,7 +36,7 @@ export async function generateChatTitle(
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  const provider = getProvider(serverEnv.guestApiKey ?? apiKey);
+  const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
 
   // Race up to 3 free models in parallel and take the first successful response.
   // Free models can be flaky (rate limits, channel exhaustion); racing them keeps

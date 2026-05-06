@@ -27,12 +27,8 @@ import {
   listCharacters,
   updateCharacter,
 } from "./character.service";
-import {
-  getBindings,
-  getSettings,
-  updateBindings,
-  updateSettings,
-} from "../conversation.service";
+import { getSettings, updateSettings } from "../conversation.service";
+import { getBindings, updateBindings } from "./binding.service";
 import {
   exportConversationNative,
   exportConversationOrpg,

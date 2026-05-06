@@ -52,13 +52,19 @@ export function createChatHistoryAdapter(
 ): ThreadHistoryAdapter {
   return {
     async load() {
-      // Raw shape lives here; the assistant-ui hook pipes it through withFormat() before calling this, but load() on the outer type must return ExportedMessageRepository.
-      // We return an empty outer, since useExternalHistory uses withFormat().load() (not this one) when a format adapter exists.
-      return { messages: [] };
+      // assistant-ui's `useExternalHistory` calls `withFormat().load()` when a
+      // format adapter is registered (always, in this codebase). Reaching the
+      // outer load() means a future caller bypassed the format adapter and
+      // would silently lose data. Throw loudly instead.
+      throw new Error(
+        "chat-history-adapter: outer load() should not be called; use withFormat()",
+      );
     },
 
     async append() {
-      // Same: unused when withFormat() is provided.
+      throw new Error(
+        "chat-history-adapter: outer append() should not be called; use withFormat()",
+      );
     },
 
     withFormat<TMessage, TStorageFormat extends Record<string, unknown>>(

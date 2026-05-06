@@ -32,7 +32,7 @@ export async function needsWebSearch(
     const freeModels = await getFreeTextModels(FREE_MODEL_RACE_COUNT);
     if (freeModels.length === 0) return false;
 
-    const provider = getProvider(serverEnv.guestApiKey ?? apiKey);
+    const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
     const signal = AbortSignal.timeout(TAVILY_TIMEOUT_MS);
 
     const attempts = freeModels.map((modelName) =>

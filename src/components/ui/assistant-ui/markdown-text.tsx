@@ -18,10 +18,6 @@ import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-high
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-// Strip the `TASK_CARD:{...}` sentinel that stream.service.ts writes as a
-// marker for TaskCardRenderer. Leaving it in would show raw JSON while streaming.
-const TASK_CARD_SENTINEL_RE = /^\s*TASK_CARD:\{.+\}\s*$/m;
-
 // Some models (e.g. MiniMax) emit raw <think>/<thinking> blocks in the text body
 // instead of a proper reasoning part. Strip complete blocks and any unclosed
 // opening tag plus everything after it (handles mid-stream partial blocks).
@@ -44,9 +40,7 @@ const MarkdownTextImpl = () => {
       className="aui-md"
       components={defaultComponents}
       preprocess={(text) => {
-        let t = text
-          .replace(TASK_CARD_SENTINEL_RE, "")
-          .replace(THINKING_BLOCK_RE, "");
+        let t = text.replace(THINKING_BLOCK_RE, "");
         const openIdx = t.search(THINKING_OPEN_RE);
         if (openIdx !== -1) t = t.slice(0, openIdx);
         return normalizeMathDelimiters(t);
@@ -57,18 +51,18 @@ const MarkdownTextImpl = () => {
 
 export const MarkdownText = MarkdownTextImpl;
 
-const CodeHeader: FC<CodeHeaderProps> = ({ language, code }) => {
+const CodeHeader: FC<CodeHeaderProps> = (props) => {
   const t = useTranslations();
   const { isCopied, copyToClipboard } = useCopyToClipboard();
   const onCopy = () => {
-    if (!code || isCopied) return;
-    copyToClipboard(code);
+    if (!props.code || isCopied) return;
+    copyToClipboard(props.code);
   };
 
   return (
     <div className="aui-code-header-root border-border/50 bg-muted/50 mt-2.5 flex items-center justify-between rounded-t-lg border border-b-0 px-3 py-1.5 text-xs">
       <span className="aui-code-header-language text-muted-foreground font-medium lowercase">
-        {language}
+        {props.language}
       </span>
       <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")} onClick={onCopy}>
         {!isCopied && <CopyIcon />}

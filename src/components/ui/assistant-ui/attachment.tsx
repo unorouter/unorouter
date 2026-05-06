@@ -67,13 +67,13 @@ type AttachmentPreviewProps = {
   src: string;
 };
 
-const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
+const AttachmentPreview: FC<AttachmentPreviewProps> = (props) => {
   const t = useTranslations();
   const [isLoaded, setIsLoaded] = useState(false);
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={src}
+      src={props.src}
       alt={t("CHAT.ATTACHMENT.IMAGE_PREVIEW")}
       className={cn(
         "block h-auto max-h-[80vh] w-auto max-w-full object-contain",
@@ -86,16 +86,16 @@ const AttachmentPreview: FC<AttachmentPreviewProps> = ({ src }) => {
   );
 };
 
-const AttachmentPreviewDialog: FC<PropsWithChildren> = ({ children }) => {
+const AttachmentPreviewDialog: FC<PropsWithChildren> = (props) => {
   const t = useTranslations();
   const src = useAttachmentSrc();
 
-  if (!src) return children;
+  if (!src) return props.children;
 
   return (
     <Dialog>
       <DialogTrigger className="aui-attachment-preview-trigger hover:bg-accent/50 cursor-pointer transition-colors">
-        {children}
+        {props.children}
       </DialogTrigger>
       <DialogContent className="aui-attachment-preview-dialog-content [&>button]:bg-foreground/60 [&_svg]:text-background [&>button]:hover:[&_svg]:text-destructive p-2 sm:max-w-3xl [&>button]:rounded-full [&>button]:p-1 [&>button]:opacity-100 [&>button]:ring-0!">
         <DialogTitle className="aui-sr-only sr-only">

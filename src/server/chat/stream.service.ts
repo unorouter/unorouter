@@ -149,13 +149,44 @@ function extractLastUserText(messages: StreamBody["messages"]): string | null {
 }
 
 /**
- * Concatenate the last `limit` user messages' text content. Used by the prompt
- * assembler to scan against lorebook keywords.
+ * Collect the last `limit` user messages' text content as an array, newest
+ * first. The prompt assembler uses this to honor per-lorebook scanDepth.
  */
-function collectRecentUserText(
+type DepthInjection = { text: string; depth: number };
+
+/**
+ * Splice synthetic system messages into a message array at depth-from-end
+ * positions. SillyTavern semantics: `depth` counts back from the end (0 =
+ * after last, 1 = before last, etc). When two injections collide on the same
+ * insertion index, the one passed first wins (caller controls ordering).
+ */
+function spliceDepthInjections(
   messages: StreamBody["messages"],
-  limit = 6,
-): string {
+  injections: DepthInjection[],
+): StreamBody["messages"] {
+  if (injections.length === 0) return messages;
+  // Map each injection to an insertion index, then splice in descending order
+  // so earlier inserts don't shift later indices.
+  const withIdx = injections
+    .map((inj) => {
+      const idx = Math.max(0, messages.length - inj.depth);
+      return { idx, inj };
+    })
+    .sort((a, b) => b.idx - a.idx);
+  const out = messages.slice();
+  for (const { idx, inj } of withIdx) {
+    out.splice(idx, 0, {
+      role: "system",
+      parts: [{ type: "text", text: inj.text }],
+    } as StreamBody["messages"][number]);
+  }
+  return out;
+}
+
+function collectRecentUserTexts(
+  messages: StreamBody["messages"],
+  limit = 32,
+): string[] {
   const out: string[] = [];
   for (let i = messages.length - 1; i >= 0 && out.length < limit; i--) {
     const m = messages[i];
@@ -167,7 +198,7 @@ function collectRecentUserText(
       }
     }
   }
-  return out.join("\n");
+  return out;
 }
 
 function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
@@ -394,8 +425,6 @@ async function handleVideoTaskStream(
         prompt,
       );
 
-      const sentinel = `TASK_CARD:${JSON.stringify({ taskId, status, progress, model: body.model })}`;
-
       trackUsage(body.convId, {
         requestId: undefined,
         inputTokens: 0,
@@ -403,7 +432,18 @@ async function handleVideoTaskStream(
         upstreamHeaders,
       });
 
-      writeBufferedMessage(writer, sentinel);
+      // Emit a structured `data-task` part. AI SDK forwards this to the
+      // client; assistant-ui rewrites it as `{type:"data", name:"task"}`.
+      // Persistence picks it up via partsToItems → `task` item, so reopens
+      // re-render the saved card and finalize can rewrite it to a video link.
+      writer.write({ type: "start" });
+      writer.write({ type: "start-step" });
+      writer.write({
+        type: "data-task",
+        data: { taskId, status, progress, model: body.model },
+      });
+      writer.write({ type: "finish-step" });
+      writer.write({ type: "finish", finishReason: "stop" });
     },
   });
 
@@ -501,12 +541,12 @@ export async function streamChat(
   // already loaded for web-search gating. When there's no conv ctx (guest
   // convs, or pre-create), fall back to the per-stream overrides the client
   // sends from its jotai defaults.
-  const recentUserText = collectRecentUserText(messagesWithPdfText);
+  const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
   const assembled =
     body.convId && convCtx
       ? await assembleForStream(
           body.convId,
-          recentUserText,
+          recentUserTexts,
           searchSystemMessage,
           convCtx,
         )
@@ -518,6 +558,19 @@ export async function streamChat(
     assembled.chatMemory > 0
       ? messagesWithPdfText.slice(-assembled.chatMemory)
       : messagesWithPdfText;
+
+  // Splice depth-injections (author note + at_depth lorebook entries) into the
+  // sliced message array as synthetic system messages. SillyTavern semantics:
+  // depth=0 inserts after the last message; depth=1 inserts before the last;
+  // depth=N inserts N messages from the end.
+  const depthInjections = [
+    ...assembled.atDepthEntries,
+    ...(assembled.authorNote ? [assembled.authorNote] : []),
+  ];
+  const messagesForUpstream =
+    depthInjections.length > 0
+      ? spliceDepthInjections(slicedMessages, depthInjections)
+      : slicedMessages;
 
   const modelMetadata = await getModelMetadata(body.model);
   // Free models often have stale/inflated maxOutputTokens in metadata that
@@ -532,9 +585,10 @@ export async function streamChat(
         FREE_MODEL_OUTPUT_CAP,
       )
     : presetMaxOut ?? modelMetadata.maxOutputTokens;
+  const streamStartedAt = Date.now();
   const result = streamText({
     model: provider.chatModel(body.model),
-    messages: await convertToModelMessages(slicedMessages),
+    messages: await convertToModelMessages(messagesForUpstream),
     system: assembled.system,
     // new-api performs cross-group/key retries; disable SDK retry aggregation
     // so the user sees real upstream errors verbatim.
@@ -572,11 +626,19 @@ export async function streamChat(
       },
     },
     onFinish: ({ usage, response }) => {
+      const durationMs = Date.now() - streamStartedAt;
+      const outputTokens = usage.outputTokens ?? 0;
+      const tokensPerSecond =
+        outputTokens > 0 && durationMs > 0
+          ? outputTokens / (durationMs / 1000)
+          : undefined;
       trackUsage(body.convId, {
         requestId: response.headers?.["x-oneapi-request-id"] ?? undefined,
         inputTokens: usage.inputTokens ?? 0,
-        outputTokens: usage.outputTokens ?? 0,
+        outputTokens,
         upstreamHeaders: upstream.headers,
+        durationMs,
+        tokensPerSecond,
       });
       // Capture dropped-params header for the messageMetadata callback below.
       const dropped = response.headers?.["x-newapi-dropped-params"];

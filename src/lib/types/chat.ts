@@ -123,14 +123,18 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
           ...(typeof part.filename === "string" && { name: part.filename }),
         },
       });
-    } else if (part.type === "task") {
+    } else if (
+      part.type === "data-task" ||
+      (part.type === "data" && part.name === "task")
+    ) {
+      const data = (part.data ?? part) as Record<string, unknown>;
       out.push({
         type: "task",
         data: {
-          task_id: String(part.taskId ?? ""),
-          model: String(part.model ?? ""),
-          status: String(part.status ?? "pending"),
-          ...(typeof part.progress === "string" && { progress: part.progress }),
+          task_id: String(data.taskId ?? data.task_id ?? ""),
+          model: String(data.model ?? ""),
+          status: String(data.status ?? "pending"),
+          ...(typeof data.progress === "string" && { progress: data.progress }),
         },
       });
     }
@@ -180,12 +184,18 @@ export function itemsToParts(
         });
         break;
       case "task":
+        // Emit AI SDK data-part shape; the runtime rewrites this to
+        // `{ type: "data", name: "task", data: {...} }` for the client.
         parts.push({
-          type: "task",
-          taskId: String(data.task_id ?? ""),
-          model: String(data.model ?? ""),
-          status: String(data.status ?? "pending"),
-          ...(typeof data.progress === "string" && { progress: data.progress }),
+          type: "data-task",
+          data: {
+            taskId: String(data.task_id ?? ""),
+            model: String(data.model ?? ""),
+            status: String(data.status ?? "pending"),
+            ...(typeof data.progress === "string" && {
+              progress: data.progress,
+            }),
+          },
         });
         break;
       // Unknown stored types are skipped rather than rendered as raw JSON.

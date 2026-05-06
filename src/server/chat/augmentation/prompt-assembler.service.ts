@@ -320,15 +320,16 @@ export function selectLorebookEntries(
 }
 
 /**
- * Compose the final system prompt and sampling parameters for a stream call.
+ * Compose the final system prompt + sampling + depth-injections for a stream
+ * call.
  *
  * @param convId conversation id
- * @param recentUserText concatenation of the last N user-message texts (caller passes this in; this fn doesn't fetch messages)
+ * @param recentUserTexts user-message texts in newest-first order
  * @param fallbackSystemMessage e.g. web-search context the caller already built
  */
 export async function assembleForStream(
   convId: string,
-  recentUserText: string,
+  recentUserTexts: string[],
   fallbackSystemMessage?: string,
   preloadedCtx?: LoadedConvContext,
 ): Promise<AssembledSystem> {
@@ -338,10 +339,11 @@ export async function assembleForStream(
       system: fallbackSystemMessage,
       sampling: {},
       chatMemory: 8,
+      atDepthEntries: [],
     };
   }
 
-  const { settings, boundCharacters, persona, preset, lbEntries } = ctx;
+  const { settings, boundCharacters, persona, preset, lbRows, lbEntries } = ctx;
 
   // Pick the primary character (first active) for {{char}} resolution
   const primary = boundCharacters[0]?.character;
@@ -362,25 +364,21 @@ export async function assembleForStream(
         })
       : "";
 
-  // Lorebook entries selected against recent user text. The token budget is
-  // intentionally a constant; per-lorebook tokenBudget overrides land in
-  // selectLorebookEntries when we ship per-book budgeting.
-  const selected = selectLorebookEntries(lbEntries, recentUserText, 1500);
+  // Per-book selection (each book brings its own scanDepth, tokenBudget,
+  // recursiveScanning).
+  const booksById = new Map(lbRows.map((b) => [b.id, b]));
+  const selected = selectLorebookEntries(recentUserTexts, lbEntries, booksById);
 
-  // Compose
+  // Compose static system block
   const sections: string[] = [];
 
   if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
 
-  // Top-position lorebook entries
-  const top = selected.filter((e) => e.position === "top");
-  for (const e of top) sections.push(expand(e.content));
+  for (const e of selected.filter((x) => x.position === "top"))
+    sections.push(expand(e.content));
+  for (const e of selected.filter((x) => x.position === "before_char"))
+    sections.push(expand(e.content));
 
-  // before_char (default)
-  const beforeChar = selected.filter((e) => e.position === "before_char");
-  for (const e of beforeChar) sections.push(expand(e.content));
-
-  // Character description block
   if (primary) {
     const charBlock: string[] = [];
     if (primary.description) {
@@ -397,38 +395,37 @@ export async function assembleForStream(
     if (charBlock.length > 0) sections.push(charBlock.join("\n\n"));
   }
 
-  // Persona block
   if (persona) {
-    const pBlock: string[] = [];
-    pBlock.push(`# User persona: ${persona.name}`);
+    const pBlock: string[] = [`# User persona: ${persona.name}`];
     if (persona.description) pBlock.push(expand(persona.description));
     sections.push(pBlock.join("\n\n"));
   }
 
-  // after_char lorebook entries
-  const afterChar = selected.filter((e) => e.position === "after_char");
-  for (const e of afterChar) sections.push(expand(e.content));
+  for (const e of selected.filter((x) => x.position === "after_char"))
+    sections.push(expand(e.content));
 
-  // System prompt override (or character system prompt)
   const sysOverride = settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
   if (sysOverride) sections.push(expand(sysOverride));
 
-  // Author's note (depth-injection signaled via marker; new-api/upstream-side handling is out of scope here, we append)
-  if (settings.authorNote) sections.push(`# Author's note\n${expand(settings.authorNote)}`);
-
-  // Post-history instructions (jailbreak / final guidance)
   if (primary?.postHistoryInstructions)
     sections.push(expand(primary.postHistoryInstructions));
 
-  // bottom-position lorebook entries
-  const bottom = selected.filter((e) => e.position === "bottom");
-  for (const e of bottom) sections.push(expand(e.content));
+  for (const e of selected.filter((x) => x.position === "bottom"))
+    sections.push(expand(e.content));
 
   const system =
     sections.filter(Boolean).join("\n\n").trim() || fallbackSystemMessage;
 
-  // Sampling: layered. Preset provides the base; conversation-level inline
-  // overrides win field-by-field when non-null.
+  // Depth injections: author note + at_depth lorebook entries. Caller splices
+  // these as synthetic system messages into the message array.
+  const atDepthEntries: DepthInjection[] = selected
+    .filter((e) => e.position === "at_depth")
+    .map((e) => ({ text: expand(e.content), depth: e.depth ?? 4 }));
+  const authorNote = settings.authorNote
+    ? { text: expand(settings.authorNote), depth: settings.authorNoteDepth ?? 4 }
+    : undefined;
+
+  // Sampling: preset → settings overrides
   const sampling: AssembledSystem["sampling"] = {};
   if (preset) {
     if (preset.temperature !== null) sampling.temperature = preset.temperature ?? undefined;
@@ -467,6 +464,7 @@ export async function assembleForStream(
     hasPersona: !!persona,
     hasPreset: !!preset,
     lorebookEntries: selected.length,
+    atDepthEntries: atDepthEntries.length,
     chatMemory: settings.chatMemory,
   });
 
@@ -475,12 +473,7 @@ export async function assembleForStream(
     sampling,
     reasoningEffort: reasoningEffort ?? undefined,
     chatMemory: settings.chatMemory,
-    activeCharacterId: primary?.id,
-    activePersonaName: persona?.name,
-    webSearch: {
-      enabled: settings.webSearchEnabled,
-      engine: settings.webSearchEngine,
-      contextSize: settings.webSearchContextSize,
-    },
+    authorNote,
+    atDepthEntries,
   };
 }

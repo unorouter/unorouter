@@ -1,18 +1,7 @@
-import type { MessagePart } from "@/lib/types/chat";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
 import { setConvId } from "@/store/chat-store";
-import type { useChat } from "@ai-sdk/react";
 import type { AttachmentAdapter } from "@assistant-ui/react";
-import type { UIMessage } from "ai";
-
-export function getTextContent(message: UIMessage) {
-  if (!message.parts) return "";
-  return message.parts
-    .filter((p) => p.type === "text")
-    .map((p) => ("text" in p ? p.text : ""))
-    .join("");
-}
 
 /** Extracts text from the first user message in a list of content-bearing messages. */
 export function extractFirstUserText(
@@ -33,21 +22,6 @@ export function extractFirstUserText(
       .join(" ")
       .trim() || null
   );
-}
-
-export function extractParts(
-  input: Parameters<ReturnType<typeof useChat>["sendMessage"]>[0],
-) {
-  if (!input) return [];
-  if (typeof input === "string") return [{ type: "text", text: input }];
-
-  const msg = input as {
-    text?: string;
-    parts?: MessagePart[];
-  };
-  if (msg.parts) return msg.parts;
-  if (msg.text) return [{ type: "text", text: msg.text }];
-  return [];
 }
 
 export function createR2AttachmentAdapter(

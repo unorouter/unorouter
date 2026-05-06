@@ -24,8 +24,6 @@ type TaskPart = {
 
 type AnyPart = { type: string; [k: string]: unknown };
 
-const TASK_CARD_RE = /^TASK_CARD:(\{.+\})$/;
-
 /** Validate and normalize an untrusted object into a TaskPart. */
 function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
   if (!source?.taskId || !source.model) return null;
@@ -62,10 +60,10 @@ function statusVariant(
   return "outline";
 }
 
-function StatusIcon({ status }: { status: TaskStatus }) {
-  if (status === "SUCCESS") return <CheckIcon className="size-3" />;
-  if (status === "FAILURE") return <XCircleIcon className="size-3" />;
-  if (IN_PROGRESS_STATUSES.has(status))
+function StatusIcon(props: { status: TaskStatus }) {
+  if (props.status === "SUCCESS") return <CheckIcon className="size-3" />;
+  if (props.status === "FAILURE") return <XCircleIcon className="size-3" />;
+  if (IN_PROGRESS_STATUSES.has(props.status))
     return <LoaderIcon className="size-3 animate-spin" />;
   return <VideoIcon className="size-3" />;
 }
@@ -153,14 +151,11 @@ export function TaskCard(props: Props) {
 }
 
 /**
- * Reads task parts from the assistant-ui runtime and renders a TaskCard
- * for each. Handles two formats:
- *   1. Live streaming: a text part `TASK_CARD:{...json}` from stream.service.ts.
- *      Parsed inline so the card renders during streaming, before persistence.
- *   2. Persisted: `{ type: "data-task", data: {...} }` written by
- *      message.service.ts. The AI SDK → assistant-ui converter rewrites
- *      `data-*` parts to `{ type: "data", name: "task", data: {...} }`,
- *      which is what we read here.
+ * Reads task parts from the assistant-ui runtime and renders a TaskCard for
+ * each. AI SDK delivers stream-side `data-task` parts as
+ * `{ type: "data", name: "task", data: {...} }` in the message parts array;
+ * the persisted `task` items are converted back to the same shape via
+ * `itemsToParts`. Single render path covers both live streaming and reopens.
  */
 export function TaskCardRenderer() {
   const convId = useAuiState((s) => s.threadListItem?.remoteId ?? "");
@@ -172,17 +167,6 @@ export function TaskCardRenderer() {
     if (part.type === "data" && part.name === "task") {
       const built = buildTaskPart(part.data as Partial<TaskPart>);
       if (built) taskParts.push(built);
-      continue;
-    }
-    if (part.type === "text" && typeof part.text === "string") {
-      const match = part.text.trim().match(TASK_CARD_RE);
-      if (!match) continue;
-      try {
-        const built = buildTaskPart(JSON.parse(match[1]));
-        if (built) taskParts.push(built);
-      } catch {
-        /* malformed sentinel, ignore */
-      }
     }
   }
 

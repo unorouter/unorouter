@@ -83,28 +83,6 @@ export const getConvId = () => _convId;
 export const setConvId = (id: string | null) => (_convId = id);
 
 /**
- * Scroll control for infinite message loading. Plain mutable ref bridging
- * useLoadedMessages (writer) and the Chat component (reader). Not reactive
- * because it holds callback references, not serializable state.
- */
-export type ScrollControl = {
-  hasNextPage: boolean;
-  isFetchingNextPage: boolean;
-  fetchNextPage: () => void;
-};
-
-let _scrollControl: ScrollControl = {
-  hasNextPage: false,
-  isFetchingNextPage: false,
-  fetchNextPage: () => {},
-};
-
-export const getScrollControl = () => _scrollControl;
-export const setScrollControl = (ctrl: ScrollControl) => {
-  _scrollControl = ctrl;
-};
-
-/**
  * AI SDK `useChat` helpers needed for in-place assistant-message edits.
  * Set by `ChatRuntimeHook` on every render so the assistant action bar can
  * mutate the message buffer without going through `composer.send()` (which
