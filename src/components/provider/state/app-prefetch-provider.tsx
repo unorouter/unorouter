@@ -9,13 +9,6 @@ type Props = {
   children: React.ReactNode;
 };
 
-/**
- * Server-side prefetch for data the navbar UserDropdown reads on every page.
- * Hydrates the React Query cache so the dropdown's badge / progress bar comes
- * from cache instead of firing two extra client-side requests on each
- * navigation. `subscription-self` is gated on auth (guests have no subs);
- * plans are public so we always prefetch them.
- */
 export async function AppPrefetchProvider(props: Props) {
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();

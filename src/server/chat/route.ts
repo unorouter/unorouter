@@ -41,6 +41,7 @@ import { uploadMedia } from "./augmentation/media.service";
 import { fetchVideoTaskStatus } from "./augmentation/task.service";
 import { generateChatTitle } from "./augmentation/title.service";
 import {
+  deleteMessage,
   editMessageItems,
   persistMessages,
   setActiveBranch,
@@ -156,7 +157,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .put(
     "/:id/messages/:msgId",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = getUserId(cookie, true) ?? 0;
       const data = await editMessageItems(
         userId,
         params.id,
@@ -167,6 +168,12 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     },
     { body: editMessageBody },
   )
+
+  .delete("/:id/messages/:msgId", async ({ params, cookie }) => {
+    const userId = getUserId(cookie, true) ?? 0;
+    const data = await deleteMessage(userId, params.id, params.msgId);
+    return { success: true, data };
+  })
 
   .post(
     "/:id/active-branch",

@@ -14,7 +14,7 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import { useEditMessageMutation } from "@/hooks/chat-hook";
+import { useDeleteMessageMutation, useEditMessageMutation } from "@/hooks/chat-hook";
 import { partsToItems } from "@/lib/types/chat";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { viewportRef } from "@/hooks/ui/use-loaded-messages";
@@ -52,6 +52,7 @@ import {
   PencilIcon,
   RefreshCwIcon,
   SquareIcon,
+  Trash2Icon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
@@ -607,13 +608,77 @@ const AssistantMessageMeta: FC = () => {
   );
 };
 
+/**
+ * Splice-delete a single message. Click-to-arm: first click reddens the
+ * button and starts a 3s disarm timer; a second click while armed fires the
+ * delete (optimistic remove + DELETE call). If the user moves on, the timer
+ * disarms it without further interaction.
+ */
+const DeleteMessageButton: FC = () => {
+  const t = useTranslations();
+  const messageId = useAuiState((s) => s.message.id);
+  const deleteMut = useDeleteMessageMutation();
+  const [armed, setArmed] = useState(false);
+  const disarmTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearTimer = () => {
+    if (disarmTimerRef.current) clearTimeout(disarmTimerRef.current);
+    disarmTimerRef.current = null;
+  };
+
+  useEffect(() => clearTimer, []);
+
+  const handleClick = () => {
+    if (!armed) {
+      setArmed(true);
+      clearTimer();
+      disarmTimerRef.current = setTimeout(() => setArmed(false), 3000);
+      return;
+    }
+
+    clearTimer();
+    setArmed(false);
+
+    const convId = getConvId();
+    if (!convId) return;
+
+    const helpers = getChatHelpers();
+    type Msg = { id: string; [k: string]: unknown };
+    helpers?.setMessages((msgs) => {
+      const list = msgs as Msg[];
+      return list.filter((m) => m.id !== messageId);
+    });
+
+    deleteMut.mutate({ convId, msgId: messageId });
+  };
+
+  return (
+    <TooltipIconButton
+      tooltip={t("CHAT.ACTION.DELETE")}
+      onClick={handleClick}
+      onBlur={() => {
+        clearTimer();
+        setArmed(false);
+      }}
+      className={cn(
+        armed &&
+          "bg-destructive/15 text-destructive hover:bg-destructive/25 hover:text-destructive",
+      )}
+    >
+      <Trash2Icon />
+    </TooltipIconButton>
+  );
+};
+
 const AssistantActionBar: FC = () => {
   const t = useTranslations();
   const readOnly = useContext(ReadOnlyContext);
   const beginEdit = useContext(AssistantEditContext);
+  const isMobile = useIsMobile();
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
+      autohide={isMobile ? undefined : "not-last"}
       className="aui-assistant-action-bar-root text-muted-foreground col-start-3 row-start-2 -ml-1 flex gap-1"
     >
       <ActionBarPrimitive.Copy asChild>
@@ -641,6 +706,7 @@ const AssistantActionBar: FC = () => {
           <PencilIcon />
         </TooltipIconButton>
       )}
+      {!readOnly && <DeleteMessageButton />}
     </ActionBarPrimitive.Root>
   );
 };
@@ -653,16 +719,14 @@ const UserMessage: FC = () => {
     >
       <UserMessageAttachments />
 
-      <div className="aui-user-message-content-wrapper relative col-start-2 max-w-full min-w-0">
-        <div className="aui-user-message-content peer bg-muted text-foreground max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
-          <MessagePrimitive.Parts />
-        </div>
-        <div className="aui-user-action-bar-wrapper absolute top-1/2 left-0 -translate-x-full -translate-y-1/2 pr-2 peer-empty:hidden">
-          <UserActionBar />
-        </div>
+      <div className="aui-user-message-content peer bg-muted text-foreground col-start-2 max-w-full rounded-2xl px-4 py-2.5 wrap-break-word empty:hidden">
+        <MessagePrimitive.Parts />
       </div>
 
-      <BranchPicker className="aui-user-branch-picker col-span-full col-start-1 row-start-3 -mr-1 justify-end" />
+      <div className="aui-user-message-footer col-span-full col-start-1 row-start-3 flex min-h-6 items-center justify-end gap-2 peer-empty:hidden">
+        <UserActionBar />
+        <BranchPicker className="aui-user-branch-picker -mr-1" />
+      </div>
     </MessagePrimitive.Root>
   );
 };
@@ -670,20 +734,20 @@ const UserMessage: FC = () => {
 const UserActionBar: FC = () => {
   const t = useTranslations();
   const readOnly = useContext(ReadOnlyContext);
+  const isMobile = useIsMobile();
   if (readOnly) return null;
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
-      className="aui-user-action-bar-root flex flex-col items-end"
+      autohide={isMobile ? undefined : "not-last"}
+      className="aui-user-action-bar-root text-muted-foreground flex gap-1"
     >
       <ActionBarPrimitive.Edit asChild>
-        <TooltipIconButton
-          tooltip={t("CHAT.ACTION.EDIT")}
-          className="aui-user-action-edit p-4"
-        >
+        <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")}>
           <PencilIcon />
         </TooltipIconButton>
       </ActionBarPrimitive.Edit>
+      <DeleteMessageButton />
     </ActionBarPrimitive.Root>
   );
 };

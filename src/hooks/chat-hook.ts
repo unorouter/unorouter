@@ -419,3 +419,49 @@ export function useEditMessageMutation() {
     },
   });
 }
+
+/**
+ * Splice-delete a single message: server rewires children's parentId to the
+ * deleted message's parent. Cache update mirrors that rewire so the active
+ * branch path stays valid without a refetch.
+ */
+export function useDeleteMessageMutation() {
+  const t = useTranslations();
+  const queryClient = useQueryClient();
+  return useMutation({
+    onError: (e) => handleError(e, t),
+    mutationFn: async (args: { convId: string; msgId: string }) =>
+      handleElysia(
+        await rpc.api
+          .chat({ id: args.convId })
+          .messages({ msgId: args.msgId })
+          .delete(),
+      ),
+    onSuccess: (_data, args) => {
+      type Msg = { id: string; parentId?: string | null } & Record<string, unknown>;
+      type MessagesPage = { messages: Msg[]; total: number };
+      queryClient.setQueryData<InfiniteData<MessagesPage>>(
+        queryKeys.chatMessages(args.convId),
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            pages: old.pages.map((page) => {
+              const target = page.messages.find((m) => m.id === args.msgId);
+              const newParentId = target?.parentId ?? null;
+              return {
+                ...page,
+                total: Math.max(0, page.total - 1),
+                messages: page.messages
+                  .filter((m) => m.id !== args.msgId)
+                  .map((m) =>
+                    m.parentId === args.msgId ? { ...m, parentId: newParentId } : m,
+                  ),
+              };
+            }),
+          };
+        },
+      );
+    },
+  });
+}

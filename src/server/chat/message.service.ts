@@ -443,3 +443,52 @@ export async function editMessageItems(
     return { id: messageId };
   });
 }
+
+/**
+ * Splice-delete a message: rewire its children's parentId to the deleted
+ * message's parent, then drop the message + its items. Sibling messages on
+ * the deleted message's parent are NOT touched (preserves retry-branches).
+ *
+ * The branch tree stays connected: every child of the deleted node now
+ * points at the deleted node's parent and keeps its own branchIndex /
+ * isActiveBranch as-is. The history adapter recomputes the active path
+ * from there.
+ */
+export async function deleteMessage(
+  userId: number,
+  convId: string,
+  messageId: string,
+) {
+  const db = getDb();
+
+  return db.transaction(async (tx) => {
+    const ownership = await tx
+      .select({ id: conversations.id })
+      .from(conversations)
+      .where(
+        and(eq(conversations.id, convId), eq(conversations.userId, userId)),
+      )
+      .limit(1);
+    if (ownership.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+
+    const target = await tx
+      .select({ id: messages.id, parentId: messages.parentId })
+      .from(messages)
+      .where(and(eq(messages.id, messageId), eq(messages.convId, convId)))
+      .limit(1);
+    if (target.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
+
+    const newParentId = target[0].parentId;
+
+    // Rewire children to skip over the deleted node.
+    await tx
+      .update(messages)
+      .set({ parentId: newParentId, updatedAt: dayjs().toDate() })
+      .where(eq(messages.parentId, messageId));
+
+    await tx.delete(messageItems).where(eq(messageItems.messageId, messageId));
+    await tx.delete(messages).where(eq(messages.id, messageId));
+
+    return { id: messageId };
+  });
+}
