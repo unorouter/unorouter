@@ -4,7 +4,6 @@ import {
   msg,
 } from "@/lib/config/constants";
 import { downloadAndUpload, uploadBase64ToR2 } from "@/lib/config/r2";
-import { getRedis } from "@/lib/config/redis";
 import { getDb } from "@/lib/db/client";
 import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid, unwrap } from "@/lib/utils/base";
@@ -28,27 +27,17 @@ export type PendingUsage = {
   createdAt: number;
 };
 
-const PENDING_USAGE_TTL_SEC = Math.ceil(PENDING_USAGE_TTL_MS / 1000);
-const pendingKey = (convId: string) => `chat:pendingUsage:${convId}`;
+export const pendingUsageByConv = new Map<string, PendingUsage>();
 
-export const pendingUsageByConv = {
-  async get(convId: string): Promise<PendingUsage | undefined> {
-    const raw = await getRedis().get(pendingKey(convId));
-    if (!raw) return undefined;
-    return JSON.parse(raw) as PendingUsage;
-  },
-  async set(convId: string, value: PendingUsage): Promise<void> {
-    await getRedis().set(
-      pendingKey(convId),
-      JSON.stringify(value),
-      "EX",
-      PENDING_USAGE_TTL_SEC,
-    );
-  },
-  async delete(convId: string): Promise<void> {
-    await getRedis().del(pendingKey(convId));
-  },
-};
+/** Remove stale entries that were never consumed (e.g. client disconnected). */
+export function sweepStalePending() {
+  const now = Date.now();
+  for (const [key, value] of pendingUsageByConv) {
+    if (now - value.createdAt > PENDING_USAGE_TTL_MS) {
+      pendingUsageByConv.delete(key);
+    }
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Image rehosting: re-upload assistant-generated image markdown to R2
@@ -157,9 +146,9 @@ export async function persistMessages(
   const assistantIdx = messageRows.findLastIndex((m) => m.role === "assistant");
   let usage: PendingUsage | undefined;
   if (assistantIdx !== -1) {
-    const pending = await pendingUsageByConv.get(convId);
+    const pending = pendingUsageByConv.get(convId);
     if (pending) {
-      await pendingUsageByConv.delete(convId);
+      pendingUsageByConv.delete(convId);
 
       if (pending.cost === 0 && pending.requestId && pending.upstreamHeaders) {
         try {

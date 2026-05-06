@@ -2,21 +2,15 @@ networks:
   proxy:
     external: false
     name: proxy
-  unorouter-internal:
-    name: unorouter-internal
 
 services:
   unorouter:
+    container_name: unorouter
     restart: always
     build:
       context: ./
       dockerfile: Dockerfile
       target: prod
-    deploy:
-      replicas: 3
-    depends_on:
-      unorouter-redis:
-        condition: service_healthy
     healthcheck:
       test:
         [
@@ -35,10 +29,8 @@ services:
       - .env
     environment:
       - INTERNAL_API_URL=http://unorouter-new-api:3000
-      - REDIS_URL=redis://unorouter-redis:6379
     networks:
       - proxy
-      - unorouter-internal
     labels:
       - "autoheal=true"
       - "traefik.enable=true"
@@ -55,18 +47,3 @@ services:
       - "traefik.http.routers.posthog-proxy-uno.service=posthog-ext-uno"
       - "traefik.http.services.posthog-ext-uno.loadbalancer.server.url=https://eu.i.posthog.com"
       - "traefik.http.services.posthog-ext-uno.loadbalancer.passHostHeader=false"
-
-  unorouter-redis:
-    container_name: unorouter-redis
-    image: redis:7-alpine
-    restart: always
-    command: redis-server --save "" --appendonly no --maxmemory 256mb --maxmemory-policy allkeys-lru
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 5
-    networks:
-      - unorouter-internal
-    labels:
-      - "traefik.enable=false"
