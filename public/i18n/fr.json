@@ -1651,6 +1651,11 @@
       "HIDE": "Masquer",
       "REVEAL": "Afficher"
     },
+    "ENDPOINT": {
+      "LABEL": "Point de terminaison API",
+      "COPIED": "Point de terminaison copié dans le presse-papiers",
+      "HINT": "Point de terminaison compatible OpenAI. Utilisez cette URL comme base lors de la configuration d'un client API."
+    },
     "TITLE": "Clés API",
     "DESCRIPTION": "Créez et gérez les clés API pour accéder aux modèles IA.",
     "CREATE": "Créer une clé",
@@ -2159,7 +2164,13 @@
       "CLEAR": "Vider le chat",
       "CLEAR_SUCCESS": "Chat vide",
       "CLEAR_CONFIRM_TITLE": "Supprimer tous les messages ?",
-      "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible."
+      "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible.",
+      "FONT": "Police",
+      "FONT_SANS": "Sans",
+      "FONT_DISPLAY": "Display",
+      "FONT_SERIF": "Serif",
+      "FONT_MONO": "Monospace",
+      "FONT_SYSTEM": "Systeme"
     }
   },
   "RP": {

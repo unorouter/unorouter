@@ -9,14 +9,18 @@ import { atomWithStorage } from "jotai/utils";
 export const CHAT_STORE_KEY = "chat-store";
 export const CHAT_DEFAULTS_KEY = "chat-defaults";
 
+export type ChatFont = "sans" | "mono" | "display" | "serif" | "system";
+
 export type ChatState = {
   model: string | null;
   webSearch: boolean;
+  font: ChatFont;
 };
 
 export const INITIAL_CHAT_STATE: ChatState = {
   model: null,
   webSearch: false,
+  font: "sans",
 };
 
 export const chatStoreAtom = atomWithStorage<ChatState>(
@@ -51,6 +55,13 @@ export const chatWebSearchAtom = atom(
   (get) => get(chatStoreAtom).webSearch,
   (get, set, value: boolean) => {
     set(chatStoreAtom, { ...get(chatStoreAtom), webSearch: value });
+  },
+);
+
+export const chatFontAtom = atom(
+  (get) => get(chatStoreAtom).font ?? "sans",
+  (get, set, value: ChatFont) => {
+    set(chatStoreAtom, { ...get(chatStoreAtom), font: value });
   },
 );
 

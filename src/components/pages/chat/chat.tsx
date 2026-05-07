@@ -6,7 +6,9 @@ import { useConversationQuery } from "@/hooks/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";
 import { formatPrice } from "@/lib/utils/base";
+import { chatFontAtom } from "@/store/chat-store";
 import { useAuiState } from "@assistant-ui/react";
+import { useAtomValue } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { NeedsTokenGate, ZeroBalanceGate } from "./chat-elements";
@@ -23,6 +25,7 @@ export function Chat(props: ChatProps) {
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
   const effectiveId = props.convId ?? threadId;
   const convQuery = useConversationQuery(effectiveId);
+  const font = useAtomValue(chatFontAtom);
   const skipFirstSync = useRef(true);
 
   useEffect(() => {
@@ -48,7 +51,10 @@ export function Chat(props: ChatProps) {
   if (!props.readOnly && gate.hasZeroBalance) return <ZeroBalanceGate />;
 
   return (
-    <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+    <div
+      data-chat-font={font}
+      className="relative flex min-h-0 min-w-0 flex-1 flex-col"
+    >
       {effectiveId &&
         convQuery.data &&
         (convQuery.data.totalInputTokens > 0 ||

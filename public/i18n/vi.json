@@ -1651,6 +1651,11 @@
       "HIDE": "Ẩn",
       "REVEAL": "Hiện"
     },
+    "ENDPOINT": {
+      "LABEL": "Endpoint API",
+      "COPIED": "Đã sao chép endpoint vào bộ nhớ tạm",
+      "HINT": "Endpoint tương thích OpenAI. Sử dụng URL này làm địa chỉ gốc khi cấu hình API client."
+    },
     "TITLE": "API Key",
     "DESCRIPTION": "Tạo và quản lý API key để truy cập các mô hình AI.",
     "CREATE": "Tạo Key",
@@ -2159,7 +2164,13 @@
       "CLEAR": "Xóa cuộc trò chuyện",
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
       "CLEAR_CONFIRM_TITLE": "Xóa tất cả tin nhắn?",
-      "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác."
+      "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
+      "FONT": "Phông chữ",
+      "FONT_SANS": "Sans",
+      "FONT_DISPLAY": "Display",
+      "FONT_SERIF": "Serif",
+      "FONT_MONO": "Đẳng khoảng",
+      "FONT_SYSTEM": "Hệ thống"
     }
   },
   "RP": {

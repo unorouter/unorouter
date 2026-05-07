@@ -13,7 +13,12 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -27,7 +32,9 @@ import {
 } from "@/hooks/rp-hook";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
+import { chatFontAtom, type ChatFont } from "@/store/chat-store";
 import { useAui } from "@assistant-ui/react";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import {
@@ -35,6 +42,7 @@ import {
   LuCopy,
   LuDownload,
   LuEllipsisVertical,
+  LuType,
   LuTrash2,
   LuUpload,
 } from "react-icons/lu";
@@ -69,6 +77,7 @@ export function ChatActionsMenu(props: Props) {
   const markdownMut = useConversationMarkdown();
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
+  const [font, setFont] = useAtom(chatFontAtom);
 
   const hasConv = !!props.convId;
 
@@ -218,6 +227,35 @@ export function ChatActionsMenu(props: Props) {
             <LuCopy className="size-4" />
             {t("CHAT.MORE.DUPLICATE")}
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <LuType className="size-4" />
+              {t("CHAT.MORE.FONT")}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuRadioGroup
+                value={font}
+                onValueChange={(v) => setFont(v as ChatFont)}
+              >
+                <DropdownMenuRadioItem value="sans">
+                  {t("CHAT.MORE.FONT_SANS")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="display">
+                  {t("CHAT.MORE.FONT_DISPLAY")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="serif">
+                  {t("CHAT.MORE.FONT_SERIF")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="mono">
+                  {t("CHAT.MORE.FONT_MONO")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="system">
+                  {t("CHAT.MORE.FONT_SYSTEM")}
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"

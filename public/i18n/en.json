@@ -1651,6 +1651,11 @@
       "HIDE": "Hide",
       "REVEAL": "Reveal"
     },
+    "ENDPOINT": {
+      "LABEL": "API endpoint",
+      "COPIED": "Endpoint copied to clipboard",
+      "HINT": "OpenAI-compatible endpoint. Use this URL as the base when configuring an API client."
+    },
     "TITLE": "API Keys",
     "DESCRIPTION": "Create and manage API keys for accessing AI models.",
     "CREATE": "Create Key",
@@ -2159,7 +2164,13 @@
       "CLEAR": "Clear chat",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_TITLE": "Clear all messages?",
-      "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone."
+      "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
+      "FONT": "Font",
+      "FONT_SANS": "Sans",
+      "FONT_DISPLAY": "Display",
+      "FONT_SERIF": "Serif",
+      "FONT_MONO": "Monospace",
+      "FONT_SYSTEM": "System"
     }
   },
   "RP": {

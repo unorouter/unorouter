@@ -24,6 +24,7 @@ import {
   TokenStatusCell,
 } from "./token-columns";
 import { TokenDialog } from "./token-dialog";
+import { TokenEndpoint } from "./token-endpoint";
 
 export const editingTokenAtom = atom<TokenRow | null>(null);
 
@@ -140,6 +141,8 @@ export function TokenList() {
           {t("TOKEN.CREATE")}
         </Button>
       </div>
+
+      <TokenEndpoint />
 
       <DataTable
         id={DataTableId.TOKENS}

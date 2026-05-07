@@ -349,4 +349,22 @@ mjx-container[display="true"] {
   button {
     @apply cursor-pointer;
   }
+
+  [data-chat-font="sans"] {
+    font-family: var(--font-sans);
+  }
+  [data-chat-font="mono"] {
+    font-family: var(--font-mono);
+  }
+  [data-chat-font="display"] {
+    font-family: var(--font-display);
+  }
+  [data-chat-font="serif"] {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+  [data-chat-font="system"] {
+    font-family:
+      system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+      sans-serif;
+  }
 }

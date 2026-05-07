@@ -1651,6 +1651,11 @@
       "HIDE": "Verbergen",
       "REVEAL": "Anzeigen"
     },
+    "ENDPOINT": {
+      "LABEL": "API-Endpunkt",
+      "COPIED": "Endpunkt in die Zwischenablage kopiert",
+      "HINT": "OpenAI-kompatibler Endpunkt. Nutze diese URL als Basis bei der Einrichtung eines API-Clients."
+    },
     "TITLE": "API-Schlüssel",
     "DESCRIPTION": "API-Schlüssel für den Zugriff auf KI-Modelle erstellen und verwalten.",
     "CREATE": "Schlüssel erstellen",
@@ -2159,7 +2164,13 @@
       "CLEAR": "Chat leeren",
       "CLEAR_SUCCESS": "Chat geleert",
       "CLEAR_CONFIRM_TITLE": "Alle Nachrichten löschen?",
-      "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden."
+      "CLEAR_CONFIRM_DESC": "Dadurch werden alle Nachrichten dieser Unterhaltung gelöscht, die Einstellungen, Charakterbindungen und der Titel bleiben jedoch erhalten. Diese Aktion kann nicht rückgängig gemacht werden.",
+      "FONT": "Schrift",
+      "FONT_SANS": "Sans",
+      "FONT_DISPLAY": "Display",
+      "FONT_SERIF": "Serif",
+      "FONT_MONO": "Monospace",
+      "FONT_SYSTEM": "System"
     }
   },
   "RP": {
