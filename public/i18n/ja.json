@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "小",
       "CONTEXT_MEDIUM": "中",
-      "CONTEXT_HIGH": "大"
+      "CONTEXT_HIGH": "大",
+      "EXTRA_BODY": "追加リクエストボディ (JSON)",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "送信前にリクエストへ統合されます。スライダーで対応していないフィールド向けです。キーが衝突した場合はスライダーが優先されます。",
+      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。"
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "このモデルを提供するすべてのプロバイダーで対応していません。設定しても効果はありません。"
     },
     "MORE": {
       "OPEN": "その他の操作",

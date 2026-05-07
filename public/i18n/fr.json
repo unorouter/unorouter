@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "Faible",
       "CONTEXT_MEDIUM": "Moyen",
-      "CONTEXT_HIGH": "Élevé"
+      "CONTEXT_HIGH": "Élevé",
+      "EXTRA_BODY": "Corps de requête supplémentaire (JSON)",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "Fusionné dans la requête avant envoi. Pour les champs non couverts par les curseurs. Les curseurs l'emportent sur les conflits de cles.",
+      "EXTRA_BODY_INVALID": "JSON invalide. Encadrer avec '{}' et echapper les chaines."
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "Non pris en charge par tous les fournisseurs de ce modele. Le definir n'a aucun effet."
     },
     "MORE": {
       "OPEN": "Plus d'actions",

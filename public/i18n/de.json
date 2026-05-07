@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "Klein",
       "CONTEXT_MEDIUM": "Mittel",
-      "CONTEXT_HIGH": "Groß"
+      "CONTEXT_HIGH": "Groß",
+      "EXTRA_BODY": "Zusätzlicher Anfrage-Body (JSON)",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "Wird vor dem Senden in die Anfrage eingefügt. Für Felder, die die Regler nicht abdecken. Bei Schlüsselkonflikten gewinnen die Regler.",
+      "EXTRA_BODY_INVALID": "Ungültiges JSON. Mit '{}' umschließen und Zeichenfolgen escapen."
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "Wird nicht von allen Anbietern dieses Modells unterstützt. Eine Änderung hat keine Wirkung."
     },
     "MORE": {
       "OPEN": "Weitere Aktionen",

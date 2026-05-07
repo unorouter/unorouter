@@ -640,8 +640,11 @@ export async function streamChat(
     }),
     // The AI SDK passes unknown sampling fields (min_p, top_a, repetition_penalty)
     // through providerOptions; new-api strips what the upstream doesn't accept.
+    // extraBody is merged FIRST so explicit slider/reasoning values win on key
+    // collision (sliders are the primary surface; extraBody is the escape hatch).
     providerOptions: {
       openai: {
+        ...(assembled.extraBody ?? {}),
         ...(assembled.sampling.minP !== undefined && { min_p: assembled.sampling.minP }),
         ...(assembled.sampling.topA !== undefined && { top_a: assembled.sampling.topA }),
         ...(assembled.sampling.repetitionPenalty !== undefined && {

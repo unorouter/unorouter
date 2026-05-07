@@ -95,6 +95,7 @@ CREATE TABLE `conversation_settings` (
 	`presence_penalty` real,
 	`repetition_penalty` real,
 	`max_tokens` integer,
+	`extra_body` text,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );
@@ -240,6 +241,7 @@ CREATE TABLE `sampling_presets` (
 	`presence_penalty` real,
 	`repetition_penalty` real,
 	`max_tokens` integer,
+	`extra_body` text,
 	`is_default` integer DEFAULT false NOT NULL,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL

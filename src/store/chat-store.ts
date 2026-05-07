@@ -8,6 +8,7 @@ import { atomWithStorage } from "jotai/utils";
 
 export const CHAT_STORE_KEY = "chat-store";
 export const CHAT_DEFAULTS_KEY = "chat-defaults";
+export const SAMPLER_MEMORY_KEY = "chat-sampler-memory";
 
 export type ChatFont = "sans" | "mono" | "display" | "serif" | "system";
 
@@ -22,6 +23,29 @@ export const INITIAL_CHAT_STATE: ChatState = {
   webSearch: false,
   font: "sans",
 };
+
+/**
+ * Subset of StreamOverrides that's worth remembering per-model: switching
+ * from Claude (no min_p) to GLM-5.1 (has min_p) restores the user's prior
+ * GLM-5.1 sampler values rather than resetting them to global defaults.
+ *
+ * Only sampler/output knobs go here — system prompt, persona, characters,
+ * lorebooks etc. are conversation-scoped, not model-scoped.
+ */
+export type ModelSamplerMemory = Pick<
+  StreamOverrides,
+  | "temperature"
+  | "topP"
+  | "topK"
+  | "minP"
+  | "topA"
+  | "frequencyPenalty"
+  | "presencePenalty"
+  | "repetitionPenalty"
+  | "maxTokens"
+  | "reasoningEffort"
+  | "extraBody"
+>;
 
 export const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
@@ -64,6 +88,25 @@ export const chatFontAtom = atom(
     set(chatStoreAtom, { ...get(chatStoreAtom), font: value });
   },
 );
+
+/**
+ * Per-model sampler memory. Keyed by model name (the same string that ends
+ * up in the `model` field of /v1/chat/completions). Cookie-backed so SSR
+ * sees the same values; small payload (one Pick<StreamOverrides, ...> per
+ * model the user has actually touched) so cookie size stays manageable.
+ */
+export const samplerMemoryByModelAtom = atomWithStorage<
+  Record<string, ModelSamplerMemory>
+>(SAMPLER_MEMORY_KEY, {}, jotaiCookieStorage);
+
+/** Read sampler memory for one model; returns {} when nothing remembered. */
+export function getModelSamplerMemory(
+  byModel: Record<string, ModelSamplerMemory>,
+  model: string | null | undefined,
+): ModelSamplerMemory {
+  if (!model) return {};
+  return byModel[model] ?? {};
+}
 
 export const chatStore = createStore();
 

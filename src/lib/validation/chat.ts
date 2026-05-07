@@ -158,6 +158,12 @@ export const streamOverrides = t.Object({
   presencePenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
   repetitionPenalty: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
   maxTokens: t.Optional(t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()])),
+  /**
+   * Free-form JSON object merged into the upstream request body. Sliders win
+   * on key conflicts. Validated as a string here; parsed at the prompt
+   * assembler. Keep generous to avoid blocking power users; cap at 8 KiB.
+   */
+  extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
 
@@ -212,6 +218,7 @@ export const updateConversationSettingsBody = t.Object({
   presencePenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
   repetitionPenalty: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
   maxTokens: t.Optional(t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()])),
+  extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
 });
 export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody

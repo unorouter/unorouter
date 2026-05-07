@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "小",
       "CONTEXT_MEDIUM": "中",
-      "CONTEXT_HIGH": "大"
+      "CONTEXT_HIGH": "大",
+      "EXTRA_BODY": "附加請求主體（JSON）",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "送出前合併進請求，用於滑桿未涵蓋的欄位。鍵衝突時以滑桿為準。",
+      "EXTRA_BODY_INVALID": "JSON 無效。請以 '{}' 包覆並跳脫字串。"
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "此模型並非所有提供者都支援。設定後不會生效。"
     },
     "MORE": {
       "OPEN": "更多操作",

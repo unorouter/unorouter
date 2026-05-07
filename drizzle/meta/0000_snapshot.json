@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "412cfd31-5ebe-4cce-8af9-a3df81b4f917",
+  "id": "5a8c5e5a-04da-4343-9e89-0f202163b422",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "acp_checkout_sessions": {
@@ -679,6 +679,13 @@
         "max_tokens": {
           "name": "max_tokens",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "extra_body": {
+          "name": "extra_body",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -1678,6 +1685,13 @@
         "max_tokens": {
           "name": "max_tokens",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "extra_body": {
+          "name": "extra_body",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

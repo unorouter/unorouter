@@ -42,8 +42,14 @@ import {
 } from "@/hooks/rp-hook";
 import { analytics } from "@/lib/analytics";
 import type { StreamOverrides } from "@/lib/validation/chat";
-import { chatDefaultsAtom } from "@/store/chat-store";
-import { useAtom } from "jotai";
+import {
+  chatDefaultsAtom,
+  chatModelAtom,
+  samplerMemoryByModelAtom,
+  type ModelSamplerMemory,
+} from "@/store/chat-store";
+import { usePricingQuery } from "@/hooks/pricing-hook";
+import { useAtom, useAtomValue } from "jotai";
 import {
   conversationOverridesFormSchema,
   type ConversationOverridesForm,
@@ -96,6 +102,16 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   const isDefaultsMode = !props.convId;
   const showServerOnlyFields = isLoggedIn && !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
+  const [samplerMemoryByModel, setSamplerMemoryByModel] = useAtom(
+    samplerMemoryByModelAtom,
+  );
+  const activeModelName = useAtomValue(chatModelAtom);
+  // Look up the active model's metadata so SamplingFields can gray out
+  // unsupported sliders. Pricing data is loaded elsewhere; we just read it.
+  const pricing = usePricingQuery().data;
+  const activeModelMetadata = activeModelName
+    ? pricing?.models.find((m) => m.name === activeModelName)?.metadata
+    : undefined;
   const settingsQuery = useChatSettingsQuery(
     !isDefaultsMode ? props.convId! : undefined,
   );
@@ -122,13 +138,19 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   });
 
   // Seed form. In defaults mode read from the jotai atom; otherwise from the
-  // server settings + bindings as soon as they're loaded.
+  // server settings + bindings as soon as they're loaded. Per-model sampler
+  // memory layers on top: switching from Claude to GLM-5.1 restores GLM-5.1's
+  // last-used sliders rather than resetting to global defaults.
   useEffect(() => {
     if (isDefaultsMode) {
+      const mem: ModelSamplerMemory = activeModelName
+        ? (samplerMemoryByModel[activeModelName] ?? {})
+        : {};
       form.reset({
         personaId: "__none__",
         presetId: "__none__",
-        reasoningEffort: chatDefaults.reasoningEffort ?? "__none__",
+        reasoningEffort:
+          mem.reasoningEffort ?? chatDefaults.reasoningEffort ?? "__none__",
         chatMemory: chatDefaults.chatMemory ?? 8,
         authorNoteDepth: chatDefaults.authorNoteDepth ?? 4,
         systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
@@ -138,15 +160,19 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         webSearchContextSize: chatDefaults.webSearchContextSize ?? "medium",
         characterIds: [],
         lorebookIds: [],
-        temperature: chatDefaults.temperature ?? null,
-        topP: chatDefaults.topP ?? null,
-        topK: chatDefaults.topK ?? null,
-        minP: chatDefaults.minP ?? null,
-        topA: chatDefaults.topA ?? null,
-        frequencyPenalty: chatDefaults.frequencyPenalty ?? null,
-        presencePenalty: chatDefaults.presencePenalty ?? null,
-        repetitionPenalty: chatDefaults.repetitionPenalty ?? null,
-        maxTokens: chatDefaults.maxTokens ?? null,
+        temperature: mem.temperature ?? chatDefaults.temperature ?? null,
+        topP: mem.topP ?? chatDefaults.topP ?? null,
+        topK: mem.topK ?? chatDefaults.topK ?? null,
+        minP: mem.minP ?? chatDefaults.minP ?? null,
+        topA: mem.topA ?? chatDefaults.topA ?? null,
+        frequencyPenalty:
+          mem.frequencyPenalty ?? chatDefaults.frequencyPenalty ?? null,
+        presencePenalty:
+          mem.presencePenalty ?? chatDefaults.presencePenalty ?? null,
+        repetitionPenalty:
+          mem.repetitionPenalty ?? chatDefaults.repetitionPenalty ?? null,
+        maxTokens: mem.maxTokens ?? chatDefaults.maxTokens ?? null,
+        extraBody: mem.extraBody ?? chatDefaults.extraBody ?? "",
       });
       return;
     }
@@ -173,12 +199,22 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       presencePenalty: settings.presencePenalty ?? null,
       repetitionPenalty: settings.repetitionPenalty ?? null,
       maxTokens: settings.maxTokens ?? null,
+      extraBody: settings.extraBody ?? "",
     });
     // Re-seed only when convId or the underlying server data changes;
     // form.reset is stable. `chatDefaults` is included so the form picks up
     // the value once `atomWithStorage` hydrates from the cookie on mount.
+    // `activeModelName` so swapping models restores per-model sampler memory.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.convId, settings, bindings, isDefaultsMode, chatDefaults]);
+  }, [
+    props.convId,
+    settings,
+    bindings,
+    isDefaultsMode,
+    chatDefaults,
+    activeModelName,
+    samplerMemoryByModel,
+  ]);
 
   const webSearchEnabled = useWatch({
     control: form.control,
@@ -210,11 +246,37 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     "maxTokens",
   ] as const;
 
+  const writeSamplerMemory = (data: ConversationOverridesForm) => {
+    if (!activeModelName) return;
+    const next: ModelSamplerMemory = {
+      temperature: data.temperature,
+      topP: data.topP,
+      topK: data.topK,
+      minP: data.minP,
+      topA: data.topA,
+      frequencyPenalty: data.frequencyPenalty,
+      presencePenalty: data.presencePenalty,
+      repetitionPenalty: data.repetitionPenalty,
+      maxTokens: data.maxTokens,
+      reasoningEffort:
+        data.reasoningEffort === "__none__"
+          ? null
+          : (data.reasoningEffort as ModelSamplerMemory["reasoningEffort"]),
+      extraBody: data.extraBody || null,
+    };
+    setSamplerMemoryByModel({
+      ...samplerMemoryByModel,
+      [activeModelName]: next,
+    });
+  };
+
   const onSubmit = async (data: ConversationOverridesForm) => {
     const dirtyFields = Object.keys(form.formState.dirtyFields);
     const samplingCustomized = SAMPLING_FIELDS.filter(
       (f) => data[f] !== null && data[f] !== undefined,
     );
+
+    writeSamplerMemory(data);
     analytics.chat.overridesSaved({
       mode: isDefaultsMode ? "defaults" : "conversation",
       changed_fields: dirtyFields,
@@ -254,6 +316,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         presencePenalty: data.presencePenalty,
         repetitionPenalty: data.repetitionPenalty,
         maxTokens: data.maxTokens,
+        extraBody: data.extraBody || null,
       };
       setChatDefaults(next);
       return;
@@ -296,6 +359,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         presencePenalty: data.presencePenalty,
         repetitionPenalty: data.repetitionPenalty,
         maxTokens: data.maxTokens,
+        extraBody: data.extraBody || null,
       },
     });
     await updateBindings.mutateAsync({
@@ -572,7 +636,49 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   repetitionPenalty: "repetitionPenalty",
                   maxTokens: "maxTokens",
                 }}
+                metadata={activeModelMetadata}
                 onReset={resetSampling}
+              />
+
+              <FormField
+                control={form.control}
+                name="extraBody"
+                render={({ field }) => {
+                  const value = field.value as string;
+                  let invalid = false;
+                  if (value && value.trim().length > 0) {
+                    try {
+                      const parsed = JSON.parse(value);
+                      invalid = !parsed || typeof parsed !== "object";
+                    } catch {
+                      invalid = true;
+                    }
+                  }
+                  return (
+                    <FormItem>
+                      <FormLabel>{t("CHAT.OVERRIDES.EXTRA_BODY")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder={t(
+                            "CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER",
+                          )}
+                          rows={4}
+                          className={
+                            invalid
+                              ? "border-destructive focus-visible:ring-destructive font-mono text-xs"
+                              : "font-mono text-xs"
+                          }
+                        />
+                      </FormControl>
+                      <p className="text-muted-foreground text-xs">
+                        {invalid
+                          ? t("CHAT.OVERRIDES.EXTRA_BODY_INVALID")
+                          : t("CHAT.OVERRIDES.EXTRA_BODY_HINT")}
+                      </p>
+                    </FormItem>
+                  );
+                }}
               />
 
               <FormField

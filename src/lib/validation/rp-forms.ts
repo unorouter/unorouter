@@ -78,6 +78,8 @@ export const conversationOverridesFormSchema = t.Object({
   presencePenalty: nullableNumber(-2, 2),
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
+  /** Free-form JSON merged into the upstream request body (escape hatch). */
+  extraBody: t.String({ default: "", maxLength: 8_192 }),
 });
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema

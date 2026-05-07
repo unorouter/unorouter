@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "Low",
       "CONTEXT_MEDIUM": "Medium",
-      "CONTEXT_HIGH": "High"
+      "CONTEXT_HIGH": "High",
+      "EXTRA_BODY": "Extra request body (JSON)",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "Merged into the request before sending. Use for fields the sliders don't cover. Sliders win on key conflicts.",
+      "EXTRA_BODY_INVALID": "Invalid JSON. Wrap with '{}' and escape strings."
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "Not supported by all providers serving this model. Setting it has no effect."
     },
     "MORE": {
       "OPEN": "More actions",

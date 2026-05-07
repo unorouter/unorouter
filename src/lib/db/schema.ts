@@ -66,6 +66,10 @@ export const conversationSettings = sqliteTable("conversation_settings", {
   presencePenalty: real("presence_penalty"),
   repetitionPenalty: real("repetition_penalty"),
   maxTokens: integer("max_tokens"),
+  // Free-form JSON merged into the request body before stream. Power-user
+  // escape hatch for fields the slider UI doesn't cover (e.g. reasoning_effort,
+  // service_tier, prediction). Sliders win on key conflicts.
+  extraBody: text("extra_body"),
   updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),
@@ -285,6 +289,8 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
+    /** Free-form JSON merged into request body. See conversationSettings.extraBody. */
+    extraBody: text("extra_body"),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),

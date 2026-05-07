@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "小",
       "CONTEXT_MEDIUM": "中",
-      "CONTEXT_HIGH": "大"
+      "CONTEXT_HIGH": "大",
+      "EXTRA_BODY": "附加请求体（JSON）",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "发送前合并到请求中，用于滑块未覆盖的字段。键冲突时滑块优先。",
+      "EXTRA_BODY_INVALID": "JSON 无效。请使用 '{}' 包裹并转义字符串。"
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "并非该模型的所有提供方都支持。设置后不会生效。"
     },
     "MORE": {
       "OPEN": "更多操作",

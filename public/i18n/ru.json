@@ -2147,7 +2147,14 @@
       "ENGINE_EXA": "Exa",
       "CONTEXT_LOW": "Малый",
       "CONTEXT_MEDIUM": "Средний",
-      "CONTEXT_HIGH": "Большой"
+      "CONTEXT_HIGH": "Большой",
+      "EXTRA_BODY": "Дополнительное тело запроса (JSON)",
+      "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
+      "EXTRA_BODY_HINT": "Объединяется с запросом перед отправкой. Для полей, которые не охвачены ползунками. При конфликте ключей побеждают ползунки.",
+      "EXTRA_BODY_INVALID": "Некорректный JSON. Оберните в '{}' и экранируйте строки."
+    },
+    "SAMPLING": {
+      "UNSUPPORTED": "Поддерживается не всеми провайдерами этой модели. Установка значения не даст эффекта."
     },
     "MORE": {
       "OPEN": "Другие действия",

@@ -80,7 +80,34 @@ export type AssembledSystem = {
   authorNote?: DepthInjection;
   /** Lorebook entries with `position=at_depth`, each with their own depth. */
   atDepthEntries: DepthInjection[];
+  /**
+   * Parsed extra body JSON merged into providerOptions. User escape hatch
+   * for fields the slider UI doesn't cover (reasoning_effort, service_tier,
+   * prediction). Sliders win on key conflicts. Empty/invalid JSON yields
+   * undefined and is silently ignored.
+   */
+  extraBody?: Record<string, unknown>;
 };
+
+/**
+ * Try to parse a free-form extraBody JSON string. Returns undefined when the
+ * string is empty, whitespace, or doesn't parse as a plain object — same
+ * behavior as the UI's invalid-state indicator.
+ */
+function parseExtraBody(
+  raw: string | null | undefined,
+): Record<string, unknown> | undefined {
+  if (!raw || raw.trim().length === 0) return undefined;
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      return parsed as Record<string, unknown>;
+    }
+  } catch {
+    // Malformed JSON — drop silently. UI surfaces this with a red border.
+  }
+  return undefined;
+}
 
 const TEMPLATE_VAR_RE = /\{\{(user|char|user_description|char_description|scenario)\}\}/g;
 
@@ -135,6 +162,7 @@ export function assembleFromOverrides(
     chatMemory: overrides?.chatMemory ?? 0,
     authorNote,
     atDepthEntries: [],
+    extraBody: parseExtraBody(overrides?.extraBody),
   };
 }
 
@@ -455,6 +483,10 @@ export async function assembleForStream(
   mergeSampling(sampling, preset);
   mergeSampling(sampling, settings);
 
+  // Extra body: settings (per-conversation) wins over preset (per-user).
+  const extraBody =
+    parseExtraBody(settings.extraBody) ?? parseExtraBody(preset?.extraBody);
+
   const reasoningEffort =
     settings.reasoningEffort ?? primary?.defaultReasoningEffort ?? undefined;
 
@@ -476,5 +508,6 @@ export async function assembleForStream(
     chatMemory: settings.chatMemory,
     authorNote,
     atDepthEntries,
+    extraBody,
   };
 }

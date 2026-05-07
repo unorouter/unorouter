@@ -1,6 +1,12 @@
 "use client";
 
 import { Slider } from "@/components/ui/slider";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -12,12 +18,16 @@ type Props = {
   step?: number;
   /** Default value when value is null (slider sits at this position visually). */
   fallback?: number;
+  /** Disable the slider with a tooltip explaining why (e.g. unsupported by provider). */
+  disabled?: boolean;
+  /** Tooltip text shown when disabled. */
+  disabledReason?: string;
 };
 
 /**
  * Openrouter-style sampling slider: label on the left, value pill on the right,
- * full-width slider underneath. Always interactive. Use the section-level
- * Reset/Remove to clear values back to null.
+ * full-width slider underneath. When `disabled` is set, the slider is muted
+ * and a tooltip surfaces `disabledReason` on hover.
  */
 export function NumberKnob(props: Props) {
   const step = props.step ?? 0.01;
@@ -25,8 +35,13 @@ export function NumberKnob(props: Props) {
   const visible = props.value ?? props.fallback ?? props.min;
   const isOff = props.value === null;
 
-  return (
-    <div className="flex flex-col gap-2">
+  const body = (
+    <div
+      className={cn(
+        "flex flex-col gap-2",
+        props.disabled && "pointer-events-none opacity-50",
+      )}
+    >
       <div className="flex items-center justify-between gap-3">
         <span className="text-foreground text-sm">{props.label}</span>
         <span
@@ -44,7 +59,21 @@ export function NumberKnob(props: Props) {
         step={step}
         value={[visible]}
         onValueChange={(v) => props.onChange(Array.isArray(v) ? v[0] : v)}
+        disabled={props.disabled}
       />
     </div>
   );
+
+  if (props.disabled && props.disabledReason) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger render={<div className="cursor-help">{body}</div>} />
+          <TooltipContent side="top">{props.disabledReason}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
+
+  return body;
 }

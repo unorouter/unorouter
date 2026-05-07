@@ -59,6 +59,34 @@ export type ModelMetadata = {
   mode?: string;
   /** Free-form description (OpenRouter / basellm). */
   description?: string;
+
+  // Sampler / parameter awareness. Drives gray-out logic for sampler sliders.
+  /** Conservative intersection across all OR endpoints serving this model. */
+  supportedParameters?: string[];
+  /** Permissive union (for "expert mode" toggle). */
+  supportedParametersAll?: string[];
+  /** OR's recommended defaults; null = OR says "don't send". */
+  defaultParameters?: Record<string, number | null>;
+
+  /** Reasoning-effort levels accepted by the model. */
+  reasoningEfforts?: ("none" | "minimal" | "low" | "medium" | "high" | "max")[];
+
+  /** Lifecycle / quality. */
+  expirationDate?: string;
+  isModerated?: boolean;
+  huggingFaceId?: string;
+  quantization?: string;
+
+  /** Additional capability flags from LiteLLM. */
+  supportsAssistantPrefill?: boolean;
+  supportsCodeExecution?: boolean;
+  supportsFileSearch?: boolean;
+  supportsServiceTier?: boolean;
+  supportsUrlContext?: boolean;
+  supportsAudioOutput?: boolean;
+  supportsNativeStreaming?: boolean;
+  supportsNativeStructuredOutput?: boolean;
+  supportsSystemMessages?: boolean;
 };
 
 export type ProcessedModel = ReturnType<typeof processModels>[number];

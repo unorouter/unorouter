@@ -123,6 +123,8 @@ export const samplingPresetBody = t.Object({
     t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
   ),
   maxTokens: t.Optional(t.Union([t.Number({ minimum: 1 }), t.Null()])),
+  /** Free-form JSON merged into request body. See conversationSettings. */
+  extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;
