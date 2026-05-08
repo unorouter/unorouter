@@ -2,6 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { PerfBadge } from "@/components/elements/model/perf-badge";
 import { StatusPill } from "@/components/elements/model/status-pill";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,6 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
+import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -18,6 +20,7 @@ import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuExternalLink, LuMessageSquare } from "react-icons/lu";
+import { CapabilityChips } from "../detail/sections/capability-chips";
 
 export type ModelListItemLabels = {
   from: string;
@@ -33,6 +36,7 @@ export function ModelListItem(props: {
   model: ProcessedModel;
   onClick: () => void;
   labels: ModelListItemLabels;
+  perf?: PerfModelSummary;
 }) {
   const t = useTranslations();
   const router = useRouter();
@@ -144,6 +148,17 @@ export function ModelListItem(props: {
       >
         {model.type}
       </Badge>
+
+      <CapabilityChips
+        metadata={model.metadata}
+        limit={3}
+        variant="card"
+        className="hidden md:flex"
+      />
+
+      {props.perf && (
+        <PerfBadge perf={props.perf} className="hidden lg:flex" />
+      )}
 
       {/* Row 2: Pricing */}
       <div className="flex shrink-0 items-center gap-2 text-right">

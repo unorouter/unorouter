@@ -47,6 +47,13 @@ export default async function ModelsPage(props: {
       queryFn: async () =>
         handleElysia(await rpc.api["model-status"].components.get()),
     }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.perfMetricsSummary(24),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api["perf-metrics"].summary.get({ query: { hours: 24 } }),
+        ),
+    }),
   ]);
   const topModels = summary.models
     .filter((m) => m.type === "text")

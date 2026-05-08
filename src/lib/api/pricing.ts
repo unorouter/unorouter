@@ -318,6 +318,7 @@ export function buildPricingSummary(response: PricingData) {
     firstFreeModel,
     endpointMap,
     groupRatioMap: response.group_ratio ?? {},
+    autoGroups: response.auto_groups ?? [],
     topDiscounted,
   };
 }

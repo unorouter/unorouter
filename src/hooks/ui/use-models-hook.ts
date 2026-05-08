@@ -86,5 +86,6 @@ export function useModelsFilter() {
     vendorNames,
     endpointMap,
     groupRatioMap: data?.groupRatioMap ?? {},
+    autoGroups: data?.autoGroups ?? [],
   };
 }

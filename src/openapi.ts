@@ -145,39 +145,63 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
-export interface BoundChannel {
-  name: string;
-  type: number;
+export type AnonymousSchema0GroupRatio = { [key: string]: number } | null;
+
+export interface EndpointInfo {
+  method: string;
+  path: string;
 }
 
-export interface Model {
-  bound_channels?: BoundChannel[] | null;
-  created_time: number;
+export type AnonymousSchema0SupportedEndpoint = {
+  [key: string]: EndpointInfo;
+} | null;
+
+export type AnonymousSchema0UsableGroup = { [key: string]: string } | null;
+
+export interface PricingModel {
+  audio_completion_ratio?: number | null;
+  audio_ratio?: number | null;
+  billing_expr?: string;
+  billing_mode?: string;
+  cache_ratio?: number | null;
+  completion_ratio: number;
+  create_cache_ratio?: number | null;
   description?: string;
-  enable_groups?: string[] | null;
-  endpoints?: string;
+  enable_groups: string[] | null;
+  grid_pricing?: unknown;
   icon?: string;
-  id: number;
-  matched_count?: number;
-  matched_models?: string[] | null;
+  image_ratio?: number | null;
   metadata: string;
   model_name: string;
-  name_rule: number;
-  quota_types?: number[] | null;
-  status: number;
-  sync_official: number;
+  model_price: number;
+  model_ratio: number;
+  owner_by: string;
+  pricing_version?: string;
+  quota_type: number;
+  supported_endpoint_types: string[] | null;
   tags?: string;
-  updated_time: number;
   vendor_id?: number;
 }
 
+export interface PricingVendor {
+  description?: string;
+  icon?: string;
+  id: number;
+  name: string;
+}
+
 /**
- * Response_model.Model schema
+ * PricingData schema
  */
 export interface AnonymousSchema0 {
-  data: Model;
-  message: string;
+  auto_groups: string[] | null;
+  data: PricingModel[] | null;
+  group_ratio: AnonymousSchema0GroupRatio;
+  show_original_price: boolean;
   success: boolean;
+  supported_endpoint: AnonymousSchema0SupportedEndpoint;
+  usable_group: AnonymousSchema0UsableGroup;
+  vendors: PricingVendor[] | null;
 }
 
 export interface ApiInfoEntry {
@@ -236,6 +260,11 @@ export interface BillingPreferenceData {
  */
 export interface BillingPreferenceRequest {
   billing_preference: string;
+}
+
+export interface BoundChannel {
+  name: string;
+  type: number;
 }
 
 export interface CardItemDTO {
@@ -816,11 +845,6 @@ export interface EmbeddingResponse {
   usage?: Usage;
 }
 
-export interface EndpointInfo {
-  method: string;
-  path: string;
-}
-
 export interface EpayPayResponse {
   params: unknown;
   url: string;
@@ -1156,6 +1180,27 @@ export interface MidjourneyResponse {
   result: string;
 }
 
+export interface Model {
+  bound_channels?: BoundChannel[] | null;
+  created_time: number;
+  description?: string;
+  enable_groups?: string[] | null;
+  endpoints?: string;
+  icon?: string;
+  id: number;
+  matched_count?: number;
+  matched_models?: string[] | null;
+  metadata: string;
+  model_name: string;
+  name_rule: number;
+  quota_types?: number[] | null;
+  status: number;
+  sync_official: number;
+  tags?: string;
+  updated_time: number;
+  vendor_id?: number;
+}
+
 export type ModelsMetaListDataVendorCounts = { [key: string]: number } | null;
 
 export interface ModelsMetaListData {
@@ -1416,38 +1461,6 @@ export type PricingDataSupportedEndpoint = {
 } | null;
 
 export type PricingDataUsableGroup = { [key: string]: string } | null;
-
-export interface PricingModel {
-  audio_completion_ratio?: number | null;
-  audio_ratio?: number | null;
-  billing_expr?: string;
-  billing_mode?: string;
-  cache_ratio?: number | null;
-  completion_ratio: number;
-  create_cache_ratio?: number | null;
-  description?: string;
-  enable_groups: string[] | null;
-  grid_pricing?: unknown;
-  icon?: string;
-  image_ratio?: number | null;
-  metadata: string;
-  model_name: string;
-  model_price: number;
-  model_ratio: number;
-  owner_by: string;
-  pricing_version?: string;
-  quota_type: number;
-  supported_endpoint_types: string[] | null;
-  tags?: string;
-  vendor_id?: number;
-}
-
-export interface PricingVendor {
-  description?: string;
-  icon?: string;
-  id: number;
-  name: string;
-}
 
 /**
  * PricingData schema
@@ -8599,6 +8612,78 @@ export const resetModelRatio = async (
   });
 };
 
+export type getPerfMetricsResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getPerfMetricsResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getPerfMetricsResponseSuccess = (
+  | getPerfMetricsResponse200ApplicationJson
+  | getPerfMetricsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getPerfMetricsResponse = getPerfMetricsResponseSuccess;
+
+export const getGetPerfMetricsUrl = () => {
+  return `/api/perf-metrics`;
+};
+
+/**
+ * @summary Get Perf Metrics
+ */
+export const getPerfMetrics = async (
+  options?: RequestInit,
+): Promise<getPerfMetricsResponse> => {
+  return customFetch<getPerfMetricsResponse>(getGetPerfMetricsUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getPerfMetricsSummaryResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getPerfMetricsSummaryResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getPerfMetricsSummaryResponseSuccess = (
+  | getPerfMetricsSummaryResponse200ApplicationJson
+  | getPerfMetricsSummaryResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getPerfMetricsSummaryResponse =
+  getPerfMetricsSummaryResponseSuccess;
+
+export const getGetPerfMetricsSummaryUrl = () => {
+  return `/api/perf-metrics/summary`;
+};
+
+/**
+ * @summary Get Perf Metrics Summary
+ */
+export const getPerfMetricsSummary = async (
+  options?: RequestInit,
+): Promise<getPerfMetricsSummaryResponse> => {
+  return customFetch<getPerfMetricsSummaryResponse>(
+    getGetPerfMetricsSummaryUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
 export type clearDiskCacheResponse200ApplicationJson = {
   data: MessageResponse;
   status: 200;
@@ -9026,6 +9111,40 @@ export const getPrivacyPolicy = async (
   options?: RequestInit,
 ): Promise<getPrivacyPolicyResponse> => {
   return customFetch<getPrivacyPolicyResponse>(getGetPrivacyPolicyUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export type getRankingsResponse200ApplicationJson = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getRankingsResponse200ApplicationXml = {
+  data: ApiResponse;
+  status: 200;
+};
+
+export type getRankingsResponseSuccess = (
+  | getRankingsResponse200ApplicationJson
+  | getRankingsResponse200ApplicationXml
+) & {
+  headers: Headers;
+};
+export type getRankingsResponse = getRankingsResponseSuccess;
+
+export const getGetRankingsUrl = () => {
+  return `/api/rankings`;
+};
+
+/**
+ * @summary Get Rankings
+ */
+export const getRankings = async (
+  options?: RequestInit,
+): Promise<getRankingsResponse> => {
+  return customFetch<getRankingsResponse>(getGetRankingsUrl(), {
     ...options,
     method: "GET",
   });

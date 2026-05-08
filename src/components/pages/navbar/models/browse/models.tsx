@@ -3,7 +3,9 @@
 import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
+import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { FILTER_OPTIONS } from "@/store/models-store";
 import { useTranslations } from "next-intl";
 import { LuLayers, LuSearch, LuX } from "react-icons/lu";
@@ -17,6 +19,10 @@ import { ModelListItem } from "./model-list-item";
 export function Models() {
   const t = useTranslations();
   const m = useModelsFilter();
+  const perfQuery = usePerfMetricsSummaryQuery(24);
+  const perfMap = new Map<string, PerfModelSummary>(
+    (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
+  );
 
   const priceLabels = {
     from: t("MODELS.PRICE.FROM"),
@@ -101,6 +107,7 @@ export function Models() {
               model={model}
               onClick={() => m.setSelectedModelName(model.name)}
               labels={priceLabels}
+              perf={perfMap.get(model.name)}
             />
           ))}
         </div>
@@ -112,6 +119,7 @@ export function Models() {
               model={model}
               onClick={() => m.setSelectedModelName(model.name)}
               labels={priceLabels}
+              perf={perfMap.get(model.name)}
             />
           ))}
         </div>
@@ -121,6 +129,7 @@ export function Models() {
         model={m.selectedModel}
         endpointMap={m.endpointMap}
         groupRatioMap={m.groupRatioMap}
+        autoGroups={m.autoGroups}
         open={m.selectedModel !== null}
         onOpenChange={(open) => {
           if (!open) m.setSelectedModelName(null);

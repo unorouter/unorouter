@@ -60,6 +60,12 @@ export const queryKeys = {
   searchIndex: () => ["search-index"] as const,
   statsHistory: () => ["stats-history"] as const,
 
+  // Performance Metrics
+  perfMetricsSummary: (hours: number) =>
+    ["perf-metrics", "summary", hours] as const,
+  perfMetrics: (modelName: string, hours: number) =>
+    ["perf-metrics", modelName, hours] as const,
+
   // Model Status
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,

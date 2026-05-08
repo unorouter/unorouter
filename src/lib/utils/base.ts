@@ -90,6 +90,22 @@ export function formatPrice(price: number): string {
   return `$${price.toFixed(decimals)}`;
 }
 
+/** Compact token-count formatter: 200000 -> "200K", 1000000 -> "1M". */
+export function formatTokenCount(tokens: number | undefined): string {
+  if (tokens === undefined || !Number.isFinite(tokens) || tokens <= 0) {
+    return "—";
+  }
+  if (tokens >= 1_000_000) {
+    const m = tokens / 1_000_000;
+    return m === Math.floor(m) ? `${m}M` : `${m.toFixed(1)}M`;
+  }
+  if (tokens >= 1_000) {
+    const k = tokens / 1_000;
+    return k === Math.floor(k) ? `${k}K` : `${k.toFixed(1)}K`;
+  }
+  return String(tokens);
+}
+
 /** Safely unwrap an Orval-generated API response, throwing if data is null. */
 export function unwrap<T extends { data: unknown }>(
   res: T,

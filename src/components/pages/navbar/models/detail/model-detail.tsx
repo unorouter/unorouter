@@ -19,6 +19,16 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { CodeExamplesTabs } from "./code-examples-tabs";
 import { GridPricingTable } from "./grid-pricing-table";
+import { CapabilityChips } from "./sections/capability-chips";
+import {
+  hasAnyCapability,
+  hasAnyParameter,
+  hasAnyQuickStat,
+} from "./sections/capability-helpers";
+import { ModalitiesRow } from "./sections/modalities-row";
+import { PerformanceSection } from "./sections/performance-section";
+import { QuickStats } from "./sections/quick-stats";
+import { SupportedParameters } from "./sections/supported-parameters";
 import { TryInChatButton } from "./try-in-chat-button";
 
 interface ModelDetailProps {
@@ -228,6 +238,93 @@ print(res.choices[0].message.content)`;
           />
         ))}
       </section>
+
+      {/* Metadata sections (real model.metadata only) */}
+      {(hasAnyCapability(m.metadata) ||
+        (m.metadata.inputModalities ?? []).length > 0 ||
+        (m.metadata.outputModalities ?? []).length > 0 ||
+        hasAnyQuickStat(m.metadata)) && (
+        <section className="mt-12 grid gap-6">
+          {hasAnyCapability(m.metadata) && (
+            <div>
+              <h3
+                className={cn(
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODELS.DETAIL.CAPABILITIES")}
+              </h3>
+              <CapabilityChips metadata={m.metadata} variant="drawer" />
+            </div>
+          )}
+          {((m.metadata.inputModalities ?? []).length > 0 ||
+            (m.metadata.outputModalities ?? []).length > 0) && (
+            <div>
+              <h3
+                className={cn(
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODELS.DETAIL.MODALITIES")}
+              </h3>
+              <ModalitiesRow metadata={m.metadata} />
+            </div>
+          )}
+          {hasAnyQuickStat(m.metadata) && (
+            <div>
+              <h3
+                className={cn(
+                  "mb-3 font-mono text-[10px] tracking-widest uppercase",
+                  theme.text,
+                )}
+              >
+                {t("MODELS.DETAIL.QUICK_STATS")}
+              </h3>
+              <QuickStats metadata={m.metadata} />
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* Performance */}
+      <section className="mt-12">
+        <div className="mb-3 flex items-end justify-between gap-4">
+          <h3
+            className={cn(
+              "font-mono text-[10px] tracking-widest uppercase",
+              theme.text,
+            )}
+          >
+            {t("MODELS.DETAIL.PERFORMANCE")}
+          </h3>
+        </div>
+        <PerformanceSection modelName={m.name} />
+      </section>
+
+      {/* Supported parameters */}
+      {hasAnyParameter(m.metadata) && (
+        <section className="mt-12">
+          <h3
+            className={cn(
+              "mb-3 font-mono text-[10px] tracking-widest uppercase",
+              theme.text,
+            )}
+          >
+            {t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
+          </h3>
+          <div
+            className={cn(
+              "overflow-hidden rounded-lg border",
+              theme.border,
+              theme.bg,
+            )}
+          >
+            <SupportedParameters metadata={m.metadata} />
+          </div>
+        </section>
+      )}
 
       {/* Pricing detail */}
       <section className="relative mt-16 mb-16">

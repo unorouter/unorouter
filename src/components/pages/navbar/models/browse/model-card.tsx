@@ -2,6 +2,7 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { PerfBadge } from "@/components/elements/model/perf-badge";
 import { StatusPill } from "@/components/elements/model/status-pill";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,6 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
+import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -18,6 +20,7 @@ import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuExternalLink, LuMessageSquare } from "react-icons/lu";
+import { CapabilityChips } from "../detail/sections/capability-chips";
 
 export type ModelCardLabels = {
   from: string;
@@ -33,6 +36,7 @@ export function ModelCard(props: {
   model: ProcessedModel;
   onClick: () => void;
   labels: ModelCardLabels;
+  perf?: PerfModelSummary;
 }) {
   const t = useTranslations();
   const router = useRouter();
@@ -137,6 +141,11 @@ export function ModelCard(props: {
       </div>
 
       <div className="mt-auto pt-3">
+        {props.perf && (
+          <div className="border-border/40 mb-2 flex justify-end border-b pb-2">
+            <PerfBadge perf={props.perf} />
+          </div>
+        )}
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           {model.isFixedPrice ? (
             <>
@@ -197,6 +206,12 @@ export function ModelCard(props: {
             </span>
           )}
         </div>
+        <CapabilityChips
+          metadata={model.metadata}
+          limit={5}
+          variant="card"
+          className="mt-2"
+        />
       </div>
     </div>
   );

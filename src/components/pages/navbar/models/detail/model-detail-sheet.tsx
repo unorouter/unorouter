@@ -24,17 +24,32 @@ import { useState } from "react";
 import {
   LuChevronDown,
   LuGrid3X3,
+  LuHeartPulse,
   LuInfo,
   LuLayers,
   LuLink,
+  LuSettings,
+  LuSparkles,
   LuTag,
 } from "react-icons/lu";
 import { CachePricing } from "./cache-pricing";
+import { AutoGroupChain } from "./sections/auto-group-chain";
+import { CapabilityChips } from "./sections/capability-chips";
+import {
+  hasAnyCapability,
+  hasAnyParameter,
+  hasAnyQuickStat,
+} from "./sections/capability-helpers";
+import { ModalitiesRow } from "./sections/modalities-row";
+import { PerformanceSection } from "./sections/performance-section";
+import { QuickStats } from "./sections/quick-stats";
+import { SupportedParameters } from "./sections/supported-parameters";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;
   endpointMap: Record<string, EndpointInfo>;
   groupRatioMap: Record<string, number>;
+  autoGroups: string[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
@@ -102,6 +117,40 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                   </Badge>
                 ))}
               </div>
+            </section>
+          )}
+
+          {/* Capabilities */}
+          {hasAnyCapability(model.metadata) && (
+            <section>
+              <SectionHeader
+                icon={<LuSparkles className="h-3.5 w-3.5 text-emerald-400" />}
+                title={t("MODELS.DETAIL.CAPABILITIES")}
+              />
+              <CapabilityChips metadata={model.metadata} variant="drawer" />
+            </section>
+          )}
+
+          {/* Modalities */}
+          {((model.metadata.inputModalities ?? []).length > 0 ||
+            (model.metadata.outputModalities ?? []).length > 0) && (
+            <section>
+              <SectionHeader
+                icon={<LuLayers className="h-3.5 w-3.5 text-emerald-400" />}
+                title={t("MODELS.DETAIL.MODALITIES")}
+              />
+              <ModalitiesRow metadata={model.metadata} />
+            </section>
+          )}
+
+          {/* Quick stats */}
+          {hasAnyQuickStat(model.metadata) && (
+            <section>
+              <SectionHeader
+                icon={<LuInfo className="h-3.5 w-3.5 text-cyan-400" />}
+                title={t("MODELS.DETAIL.QUICK_STATS")}
+              />
+              <QuickStats metadata={model.metadata} />
             </section>
           )}
 
@@ -190,9 +239,30 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <GroupPricingSection
               model={model}
               groupRatioMap={props.groupRatioMap}
+              autoGroups={props.autoGroups}
               theme={theme}
             />
           )}
+
+          {/* Supported parameters */}
+          {hasAnyParameter(model.metadata) && (
+            <section>
+              <SectionHeader
+                icon={<LuSettings className="h-3.5 w-3.5 text-purple-400" />}
+                title={t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
+              />
+              <SupportedParameters metadata={model.metadata} />
+            </section>
+          )}
+
+          {/* Performance */}
+          <section>
+            <SectionHeader
+              icon={<LuHeartPulse className="h-3.5 w-3.5 text-rose-400" />}
+              title={t("MODELS.DETAIL.PERFORMANCE")}
+            />
+            <PerformanceSection modelName={model.name} />
+          </section>
 
           {/* API Endpoints */}
           {model.endpointTypes.length > 0 && (
@@ -369,6 +439,7 @@ function GridPricingSection(props: {
 function GroupPricingSection(props: {
   model: ProcessedModel;
   groupRatioMap: Record<string, number>;
+  autoGroups: string[];
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
@@ -393,6 +464,11 @@ function GroupPricingSection(props: {
 
   return (
     <section>
+      <AutoGroupChain
+        enableGroups={model.enableGroups}
+        autoGroups={props.autoGroups}
+        className="mb-3"
+      />
       <button
         onClick={() => setOpen(!open)}
         className="mb-3 flex w-full items-center gap-2"

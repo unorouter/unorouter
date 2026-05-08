@@ -98,6 +98,7 @@
     "@types/node": "25.6.2",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "ajv": "8.20.0",
     "drizzle-kit": "0.31.10",
     "eslint": "10.3.0",
     "eslint-config-next": "16.2.6",
