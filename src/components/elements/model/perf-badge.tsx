@@ -59,17 +59,19 @@ export function PerfBadge(props: Props) {
         </span>
         <span className="text-foreground">{formatTps(props.perf.avg_tps)}</span>
       </div>
-      <div className="flex flex-col items-end gap-0.5">
+      <div className="flex flex-col items-center gap-0.5">
         <span className="text-muted-foreground/60 uppercase tracking-wider">
           {t("MODELS.PERF.STATUS")}
         </span>
-        <span
-          className={cn(
-            "h-2 w-2 rounded-full",
-            statusClass(props.perf.success_rate),
-          )}
-          title={`${props.perf.success_rate.toFixed(2)}%`}
-        />
+        <span className="flex h-3.5 items-center">
+          <span
+            className={cn(
+              "h-2 w-2 rounded-full",
+              statusClass(props.perf.success_rate),
+            )}
+            title={`${props.perf.success_rate.toFixed(2)}%`}
+          />
+        </span>
       </div>
     </div>
   );
