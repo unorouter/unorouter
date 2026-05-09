@@ -126,7 +126,7 @@ export function LogChannelCell({ row }: CellContext<LogRow, unknown>) {
     return LOG_EMPTY;
   }
   const channelLabel = `#${log.channel}`;
-  const name = log.channel_name || log.group;
+  const name = log.channel_name;
   return (
     <StackedCell
       primary={
@@ -248,7 +248,7 @@ export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
       </Tooltip>
     </TooltipProvider>
   );
-  return primary;
+  return <StackedCell primary={primary} secondary={log.group || null} />;
 }
 
 export function LogInputTokensCell({ row }: CellContext<LogRow, unknown>) {
@@ -492,16 +492,47 @@ export function LogPricingDetailsCell({
         ? t("LOGS.PRICING.TIERED")
         : t("LOGS.PRICING.STANDARD");
 
+    const userOverride =
+      other?.user_group_ratio != null && other.user_group_ratio > 0
+        ? other.user_group_ratio
+        : null;
+    const groupRatio = userOverride ?? other?.group_ratio;
+    const hasDiscount =
+      groupRatio != null && groupRatio > 0 && groupRatio !== 1;
+    const effectiveInput = hasDiscount ? inputPrice * groupRatio : inputPrice;
+    const effectiveOutput = hasDiscount ? outputPrice * groupRatio : outputPrice;
+
     return (
-      <span className="font-mono text-[11px]">
-        <span className="text-muted-foreground">{tierLabel}</span>
-        <span className="text-muted-foreground">{" \u00b7 "}</span>
-        <span className="text-foreground">
-          {formatPriceCompact(inputPrice)} / {formatPriceCompact(outputPrice)}
+      <span className="flex flex-col gap-0.5 font-mono text-[11px] leading-tight">
+        <span>
+          <span className="text-muted-foreground">{tierLabel}</span>
+          <span className="text-muted-foreground">{" \u00b7 "}</span>
+          <span
+            className={
+              hasDiscount
+                ? "text-muted-foreground/70 line-through"
+                : "text-foreground"
+            }
+          >
+            {formatPriceCompact(inputPrice)} / {formatPriceCompact(outputPrice)}
+          </span>
+          {!hasDiscount && (
+            <span className="text-muted-foreground">
+              {t("LOGS.PRICING.PER_M")}
+            </span>
+          )}
         </span>
-        <span className="text-muted-foreground">
-          {t("LOGS.PRICING.PER_M")}
-        </span>
+        {hasDiscount && (
+          <span>
+            <span className="text-foreground">
+              {formatPriceCompact(effectiveInput)} /{" "}
+              {formatPriceCompact(effectiveOutput)}
+            </span>
+            <span className="text-muted-foreground">
+              {t("LOGS.PRICING.PER_M")}
+            </span>
+          </span>
+        )}
       </span>
     );
   })();
