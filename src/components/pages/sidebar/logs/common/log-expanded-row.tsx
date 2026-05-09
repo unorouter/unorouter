@@ -154,7 +154,7 @@ export function LogExpandedRow(props: { row: Row<LogRow> }) {
   if (items.length === 0) return null;
 
   return (
-    <div className="border-border/50 divide-border/50 flex flex-col divide-y px-6 py-2">
+    <div className="border-border/50 divide-border/50 bg-muted/10 flex flex-col divide-y px-6 py-4">
       {items.map((item) => (
         <DetailItem key={item.label} label={item.label} value={item.value} />
       ))}

@@ -126,7 +126,7 @@ export function LogChannelCell({ row }: CellContext<LogRow, unknown>) {
     return LOG_EMPTY;
   }
   const channelLabel = `#${log.channel}`;
-  const name = log.channel_name;
+  const name = log.channel_name || log.group;
   return (
     <StackedCell
       primary={
@@ -183,7 +183,8 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
             <button
               type="button"
               className="border-border/60 bg-muted/30 inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md border px-1.5 py-0.5"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 copyToClipboard(log.model_name);
                 analytics.logs.modelNameCopied();
                 toast.success(t("LOGS.COPIED"));
@@ -227,7 +228,8 @@ export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
             <button
               type="button"
               className="inline-flex w-fit cursor-pointer items-center gap-1 border-0 bg-transparent p-0"
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
                 copyToClipboard(log.token_name);
                 analytics.logs.tokenNameCopied();
                 toast.success(t("LOGS.COPIED"));
@@ -515,7 +517,10 @@ export function LogPricingDetailsCell({
   return (
     <button
       type="button"
-      onClick={trigger}
+      onClick={(e) => {
+        e.stopPropagation();
+        trigger();
+      }}
       className="hover:text-foreground cursor-pointer text-left underline-offset-4 hover:underline"
     >
       {inner}

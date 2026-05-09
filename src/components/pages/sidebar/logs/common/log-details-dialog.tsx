@@ -133,7 +133,7 @@ export function LogDetailsDialog(props: {
                     value={`${formatPriceCompact(cacheCreatePrice)} ${t("LOGS.PRICING.PER_M")}`}
                   />
                 )}
-                {groupRatio != null && groupRatio !== 1 && (
+                {groupRatio != null && groupRatio > 0 && groupRatio !== 1 && (
                   <PriceRow
                     label={t("LOGS.DETAILS_DIALOG.GROUP_RATIO")}
                     value={`x${groupRatio}`}
