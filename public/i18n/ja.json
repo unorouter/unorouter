@@ -2549,6 +2549,10 @@
       "POWERED_BY": "提供",
       "GET_IN_TOUCH": "お問い合わせ",
       "TIMESTAMP_RELATIVE": "相対時間"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "平均レイテンシ (24時間)",
+      "TPS_TOOLTIP": "平均TPS (24時間)"
     }
   }
 }

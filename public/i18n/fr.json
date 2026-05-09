@@ -2549,6 +2549,10 @@
       "POWERED_BY": "propulsé par",
       "GET_IN_TOUCH": "Nous contacter",
       "TIMESTAMP_RELATIVE": "Relatif"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "Latence moyenne (24h)",
+      "TPS_TOOLTIP": "TPS moyen (24h)"
     }
   }
 }

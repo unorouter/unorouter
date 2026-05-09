@@ -2549,6 +2549,10 @@
       "POWERED_BY": "powered by",
       "GET_IN_TOUCH": "Get in touch",
       "TIMESTAMP_RELATIVE": "Relative"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "Average latency (24h)",
+      "TPS_TOOLTIP": "Average TPS (24h)"
     }
   }
 }

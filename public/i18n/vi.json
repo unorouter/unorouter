@@ -2549,6 +2549,10 @@
       "POWERED_BY": "vận hành bởi",
       "GET_IN_TOUCH": "Liên hệ",
       "TIMESTAMP_RELATIVE": "Tương đối"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "Độ trễ trung bình (24h)",
+      "TPS_TOOLTIP": "TPS trung bình (24h)"
     }
   }
 }

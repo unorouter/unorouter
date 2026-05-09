@@ -53,6 +53,13 @@ export default async function StatusRoute(props: {
       queryKey: queryKeys.pricing(),
       queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.perfMetricsSummary(24),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api["perf-metrics"].summary.get({ query: { hours: 24 } }),
+        ),
+    }),
   ]);
 
   return (

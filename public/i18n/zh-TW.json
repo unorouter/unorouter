@@ -2549,6 +2549,10 @@
       "POWERED_BY": "技術支援",
       "GET_IN_TOUCH": "聯絡我們",
       "TIMESTAMP_RELATIVE": "相對時間"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "平均延遲（24小時）",
+      "TPS_TOOLTIP": "平均TPS（24小時）"
     }
   }
 }

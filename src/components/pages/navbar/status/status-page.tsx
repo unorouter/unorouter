@@ -27,9 +27,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import type { StatusBucket } from "@/hooks/use-model-status-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
+import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { env } from "@/lib/config/env";
 import { useTranslations } from "next-intl";
 import {
@@ -68,6 +70,11 @@ export function StatusPage() {
   // counts, so pull them straight from the cached pricing query.
   const pricing = usePricingQuery();
   const pricingModels = pricing.data?.models ?? [];
+  // Per-model perf summary, keyed by model_name for O(1) lookup per row.
+  const perfQuery = usePerfMetricsSummaryQuery(24);
+  const perfMap = new Map<string, PerfModelSummary>(
+    (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
+  );
 
   return (
     <StatusBlocksI18n>
@@ -261,6 +268,7 @@ export function StatusPage() {
                         )}
                       </StatusComponentHeaderLeft>
                       <StatusComponentHeaderRight>
+                        <PerfStats perf={perfMap.get(item.component.name)} />
                         <StatusComponentUptime>
                           {item.component.uptime_24h.toFixed(2)}%
                         </StatusComponentUptime>
@@ -309,5 +317,32 @@ function FilterPill(props: {
     >
       {props.label}
     </Button>
+  );
+}
+
+function formatLatency(ms: number): string {
+  if (!ms) return "—";
+  if (ms >= 1000) return `${(ms / 1000).toFixed(1)}s`;
+  return `${Math.round(ms)}ms`;
+}
+
+function formatTps(tps: number): string {
+  if (!tps) return "—";
+  if (tps >= 100) return `${tps.toFixed(0)}t/s`;
+  return `${tps.toFixed(1)}t/s`;
+}
+
+function PerfStats(props: { perf: PerfModelSummary | undefined }) {
+  const t = useTranslations();
+  if (!props.perf || props.perf.request_count <= 0) return null;
+  return (
+    <div className="text-muted-foreground hidden items-center gap-3 font-mono text-[10px] tabular-nums sm:flex">
+      <span title={t("STATUS.PERF.LATENCY_TOOLTIP")}>
+        {formatLatency(props.perf.avg_latency_ms)}
+      </span>
+      <span title={t("STATUS.PERF.TPS_TOOLTIP")}>
+        {formatTps(props.perf.avg_tps)}
+      </span>
+    </div>
   );
 }

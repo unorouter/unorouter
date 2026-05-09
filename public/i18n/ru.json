@@ -2549,6 +2549,10 @@
       "POWERED_BY": "работает на",
       "GET_IN_TOUCH": "Связаться с нами",
       "TIMESTAMP_RELATIVE": "Относительно"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "Средняя задержка (24ч)",
+      "TPS_TOOLTIP": "Средний TPS (24ч)"
     }
   }
 }

@@ -2549,6 +2549,10 @@
       "POWERED_BY": "bereitgestellt von",
       "GET_IN_TOUCH": "Kontakt aufnehmen",
       "TIMESTAMP_RELATIVE": "Relativ"
+    },
+    "PERF": {
+      "LATENCY_TOOLTIP": "Durchschnittliche Latenz (24h)",
+      "TPS_TOOLTIP": "Durchschnittlicher TPS (24h)"
     }
   }
 }
