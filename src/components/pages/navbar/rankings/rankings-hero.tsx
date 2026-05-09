@@ -4,13 +4,13 @@ import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-const PERIODS: { id: RankingPeriod; key: string }[] = [
+const PERIODS = [
   { id: "today", key: "RANKINGS.PERIODS.TODAY" },
   { id: "week", key: "RANKINGS.PERIODS.WEEK" },
   { id: "month", key: "RANKINGS.PERIODS.MONTH" },
   { id: "year", key: "RANKINGS.PERIODS.YEAR" },
   { id: "all", key: "RANKINGS.PERIODS.ALL" },
-];
+] as const satisfies ReadonlyArray<{ id: RankingPeriod; key: string }>;
 
 type RankingsHeroProps = {
   period: RankingPeriod;
@@ -59,7 +59,7 @@ export function RankingsHero(props: RankingsHeroProps) {
               <span
                 aria-hidden
                 className={cn(
-                  "bg-foreground absolute inset-x-3 -bottom-px h-[2px] rounded-full transition-opacity",
+                  "bg-foreground absolute inset-x-3 -bottom-px h-0.5 rounded-full transition-opacity",
                   isActive ? "opacity-100" : "opacity-0",
                 )}
               />
