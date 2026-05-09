@@ -8,6 +8,7 @@ import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
 import {
   LuArrowLeftRight,
   LuBookOpen,
+  LuChartColumnBig,
   LuDollarSign,
   LuDrama,
   LuGift,
@@ -62,6 +63,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
     hidden: !authenticated,
   },
   { name: "NAV.MODELS", href: "/models", icon: LuLayers },
+  { name: "NAV.RANKINGS", href: "/rankings", icon: LuChartColumnBig },
   { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
   { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle, exact: true },
   {

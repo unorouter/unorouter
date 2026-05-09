@@ -15,6 +15,7 @@ import { logsRoute } from "@/server/logs/route";
 import { modelStatusRoute } from "@/server/model-status/route";
 import { perfMetricsRoute } from "@/server/perf-metrics/route";
 import { pricingRoute } from "@/server/pricing/route";
+import { rankingsRoute } from "@/server/rankings/route";
 import { settingsRoute } from "@/server/settings/route";
 import { statsRoute } from "@/server/stats/route";
 import { tokenRoute } from "@/server/token/route";
@@ -139,6 +140,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(perfMetricsRoute)
   .use(modelStatusRoute)
   .use(statsRoute)
+  .use(rankingsRoute)
   .use(authRoute)
   .use(billingRoute)
   .use(checkoutSessionsRoute)

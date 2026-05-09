@@ -17,6 +17,7 @@
   "NAV": {
     "HOME": "Trang chủ",
     "MODELS": "Mô hình",
+    "RANKINGS": "Xếp hạng",
     "PRICING": "Bảng giá",
     "DOCS": "Tài liệu",
     "BLOG": "Blog",
@@ -391,6 +392,70 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Trạng thái"
+    }
+  },
+  "RANKINGS": {
+    "META": {
+      "TITLE": "Xếp hạng | {appName}",
+      "DESCRIPTION": "Khám phá những mô hình AI được dùng nhiều nhất và các nhà cung cấp đang lên trên {appName}, xếp theo lượng token thực tế. Cập nhật liên tục từ dữ liệu sử dụng nền tảng.",
+      "KEYWORDS": "xếp hạng mô hình AI, bảng xếp hạng LLM, mô hình AI phổ biến, thị phần nhà cung cấp AI, mô hình AI dùng nhiều nhất, thống kê sử dụng mô hình"
+    },
+    "HERO": {
+      "EYEBROW": "Bảng xếp hạng",
+      "TITLE": "Xếp hạng",
+      "SUBTITLE": "Khám phá những mô hình được dùng nhiều nhất và các nhà cung cấp đang lên trên nền tảng, từ dữ liệu sử dụng theo thời gian thực."
+    },
+    "PERIODS": {
+      "TODAY": "Hôm nay",
+      "WEEK": "Tuần",
+      "MONTH": "Tháng",
+      "YEAR": "Năm",
+      "ALL": "Tất cả"
+    },
+    "MODELS": {
+      "TITLE": "Mô hình hàng đầu",
+      "SUBTITLE": "Mô hình xếp theo lượng token trong khoảng thời gian đã chọn",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Lượng token theo giờ của từng mô hình trong 24 giờ qua",
+        "WEEK": "Lượng token theo tuần của từng mô hình trong các tuần gần đây",
+        "MONTH": "Lượng token theo ngày của từng mô hình trong tháng qua",
+        "YEAR": "Lượng token theo tuần của từng mô hình trong năm qua",
+        "ALL": "Lượng token của từng mô hình kể từ khi ra mắt"
+      },
+      "LEADERBOARD_TITLE": "Bảng xếp hạng LLM",
+      "LEADERBOARD_SUBTITLE": "So sánh các mô hình phổ biến nhất trên nền tảng",
+      "EMPTY": "Không có mô hình nào khớp với bộ lọc đã chọn",
+      "TOTAL_LABEL": "Tổng token",
+      "TOKENS_SUFFIX": "token",
+      "TOOLTIP_TOTAL": "Tổng",
+      "BY_AUTHOR_LABEL": "bởi"
+    },
+    "VENDORS": {
+      "TITLE": "Thị phần",
+      "SUBTITLE": "Thị phần token theo nhà cung cấp mô hình",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Thị phần token theo nhà cung cấp trong 24 giờ qua",
+        "WEEK": "Thị phần token theo nhà cung cấp trong các tuần gần đây",
+        "MONTH": "Thị phần token theo nhà cung cấp trong tháng qua",
+        "YEAR": "Thị phần token theo nhà cung cấp trong năm qua",
+        "ALL": "Thị phần token theo nhà cung cấp kể từ khi ra mắt"
+      },
+      "LIST_TITLE": "Theo nhà cung cấp",
+      "LIST_SUBTITLE": "Nhà cung cấp xếp theo tổng lượng token",
+      "EMPTY": "Không có dữ liệu nhà cung cấp"
+    },
+    "PULSE": {
+      "UP_TITLE": "Đang lên",
+      "UP_SUBTITLE": "Mô hình đang leo bảng xếp hạng",
+      "UP_EMPTY": "Hiện chưa có mô hình nào nổi bật đi lên",
+      "DOWN_TITLE": "Đang xuống",
+      "DOWN_SUBTITLE": "Mô hình đang mất vị trí",
+      "DOWN_EMPTY": "Hiện chưa có mô hình nào nổi bật đi xuống"
+    },
+    "ERROR": {
+      "TITLE": "Không thể tải bảng xếp hạng",
+      "GENERIC": "Không thể tải dữ liệu bảng xếp hạng. Vui lòng thử lại sau.",
+      "NO_HISTORY": "Không có dữ liệu lịch sử"
     }
   },
   "BLOG": {

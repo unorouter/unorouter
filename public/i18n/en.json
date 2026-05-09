@@ -17,6 +17,7 @@
   "NAV": {
     "HOME": "Home",
     "MODELS": "Models",
+    "RANKINGS": "Rankings",
     "PRICING": "Pricing",
     "DOCS": "Docs",
     "BLOG": "Blog",
@@ -391,6 +392,70 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    }
+  },
+  "RANKINGS": {
+    "META": {
+      "TITLE": "Rankings | {appName}",
+      "DESCRIPTION": "Discover the most-used AI models and rising vendors on {appName}, ranked by live token volume. Updated continuously from real platform usage.",
+      "KEYWORDS": "AI model rankings, LLM leaderboard, top AI models, AI vendor market share, most used AI models, model usage statistics"
+    },
+    "HERO": {
+      "EYEBROW": "Leaderboards",
+      "TITLE": "Rankings",
+      "SUBTITLE": "Discover the most-used models and rising vendors on the platform, updated from live usage data."
+    },
+    "PERIODS": {
+      "TODAY": "Today",
+      "WEEK": "Week",
+      "MONTH": "Month",
+      "YEAR": "Year",
+      "ALL": "All-time"
+    },
+    "MODELS": {
+      "TITLE": "Top Models",
+      "SUBTITLE": "Models ranked by token volume in the selected period",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Hourly token usage by model across the last 24 hours",
+        "WEEK": "Weekly token usage by model across the past few weeks",
+        "MONTH": "Daily token usage by model across the past month",
+        "YEAR": "Weekly token usage by model across the past year",
+        "ALL": "Token usage by model since launch"
+      },
+      "LEADERBOARD_TITLE": "LLM Leaderboard",
+      "LEADERBOARD_SUBTITLE": "Compare the most popular models on the platform",
+      "EMPTY": "No models match the selected filters",
+      "TOTAL_LABEL": "Total tokens",
+      "TOKENS_SUFFIX": "tokens",
+      "TOOLTIP_TOTAL": "Total",
+      "BY_AUTHOR_LABEL": "by"
+    },
+    "VENDORS": {
+      "TITLE": "Market Share",
+      "SUBTITLE": "Token share by model author",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Token share by model author across the last 24 hours",
+        "WEEK": "Token share by model author across the past few weeks",
+        "MONTH": "Token share by model author across the past month",
+        "YEAR": "Token share by model author across the past year",
+        "ALL": "Token share by model author since launch"
+      },
+      "LIST_TITLE": "By model author",
+      "LIST_SUBTITLE": "Vendors ranked by aggregated token volume",
+      "EMPTY": "No vendor data available"
+    },
+    "PULSE": {
+      "UP_TITLE": "Trending up",
+      "UP_SUBTITLE": "Models climbing the leaderboard",
+      "UP_EMPTY": "No notable climbers right now",
+      "DOWN_TITLE": "Trending down",
+      "DOWN_SUBTITLE": "Models losing positions",
+      "DOWN_EMPTY": "No notable drops right now"
+    },
+    "ERROR": {
+      "TITLE": "Unable to load rankings",
+      "GENERIC": "Unable to load rankings data. Please try again later.",
+      "NO_HISTORY": "No history data available"
     }
   },
   "BLOG": {

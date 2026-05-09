@@ -17,6 +17,7 @@
   "NAV": {
     "HOME": "首頁",
     "MODELS": "模型",
+    "RANKINGS": "排行榜",
     "PRICING": "價格",
     "DOCS": "文件",
     "BLOG": "部落格",
@@ -391,6 +392,70 @@
       "LATENCY": "延遲",
       "TPS": "TPS",
       "STATUS": "狀態"
+    }
+  },
+  "RANKINGS": {
+    "META": {
+      "TITLE": "排行榜｜{appName}",
+      "DESCRIPTION": "在 {appName} 上探索最熱門的 AI 模型與崛起中的供應商，依即時令牌用量排序。根據平台真實使用資料持續更新。",
+      "KEYWORDS": "AI 模型排行榜，LLM 排行榜，熱門 AI 模型，AI 供應商市佔率，最常用 AI 模型，模型使用統計"
+    },
+    "HERO": {
+      "EYEBROW": "排行榜",
+      "TITLE": "排行榜",
+      "SUBTITLE": "依即時使用資料，探索平台上最熱門的模型與崛起中的供應商。"
+    },
+    "PERIODS": {
+      "TODAY": "今日",
+      "WEEK": "本週",
+      "MONTH": "本月",
+      "YEAR": "本年",
+      "ALL": "全部"
+    },
+    "MODELS": {
+      "TITLE": "熱門模型",
+      "SUBTITLE": "依所選期間令牌用量排序的模型",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "過去 24 小時內各模型的每小時令牌用量",
+        "WEEK": "過去數週各模型的每週令牌用量",
+        "MONTH": "過去一個月各模型的每日令牌用量",
+        "YEAR": "過去一年各模型的每週令牌用量",
+        "ALL": "上線以來各模型的令牌用量"
+      },
+      "LEADERBOARD_TITLE": "LLM 排行榜",
+      "LEADERBOARD_SUBTITLE": "比較平台上最熱門的模型",
+      "EMPTY": "沒有模型符合所選的篩選條件",
+      "TOTAL_LABEL": "令牌總數",
+      "TOKENS_SUFFIX": "令牌",
+      "TOOLTIP_TOTAL": "合計",
+      "BY_AUTHOR_LABEL": "作者："
+    },
+    "VENDORS": {
+      "TITLE": "市場份額",
+      "SUBTITLE": "依模型作者劃分的令牌佔比",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "過去 24 小時內各供應商的令牌佔比",
+        "WEEK": "過去數週各供應商的令牌佔比",
+        "MONTH": "過去一個月各供應商的令牌佔比",
+        "YEAR": "過去一年各供應商的令牌佔比",
+        "ALL": "上線以來各供應商的令牌佔比"
+      },
+      "LIST_TITLE": "依模型作者",
+      "LIST_SUBTITLE": "依累計令牌用量排序的供應商",
+      "EMPTY": "暫無供應商資料"
+    },
+    "PULSE": {
+      "UP_TITLE": "上升中",
+      "UP_SUBTITLE": "排名持續上升的模型",
+      "UP_EMPTY": "目前沒有明顯上升的模型",
+      "DOWN_TITLE": "下降中",
+      "DOWN_SUBTITLE": "排名持續下滑的模型",
+      "DOWN_EMPTY": "目前沒有明顯下降的模型"
+    },
+    "ERROR": {
+      "TITLE": "無法載入排行榜",
+      "GENERIC": "無法載入排行榜資料，請稍後再試。",
+      "NO_HISTORY": "暫無歷史資料"
     }
   },
   "BLOG": {

@@ -17,6 +17,7 @@
   "NAV": {
     "HOME": "Startseite",
     "MODELS": "Modelle",
+    "RANKINGS": "Rangliste",
     "PRICING": "Preise",
     "DOCS": "Docs",
     "BLOG": "Blog",
@@ -391,6 +392,70 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Status"
+    }
+  },
+  "RANKINGS": {
+    "META": {
+      "TITLE": "Rangliste | {appName}",
+      "DESCRIPTION": "Entdecke die meistgenutzten KI-Modelle und aufstrebende Anbieter auf {appName}, sortiert nach aktuellem Token-Volumen. Wird kontinuierlich aus echter Plattformnutzung aktualisiert.",
+      "KEYWORDS": "KI-Modell-Rangliste, LLM-Leaderboard, beliebteste KI-Modelle, KI-Anbieter-Marktanteil, meistgenutzte KI-Modelle, Modell-Nutzungsstatistik"
+    },
+    "HERO": {
+      "EYEBROW": "Leaderboards",
+      "TITLE": "Rangliste",
+      "SUBTITLE": "Entdecke die meistgenutzten Modelle und aufstrebende Anbieter auf der Plattform, basierend auf Live-Nutzungsdaten."
+    },
+    "PERIODS": {
+      "TODAY": "Heute",
+      "WEEK": "Woche",
+      "MONTH": "Monat",
+      "YEAR": "Jahr",
+      "ALL": "Gesamt"
+    },
+    "MODELS": {
+      "TITLE": "Top-Modelle",
+      "SUBTITLE": "Modelle nach Token-Volumen im gewählten Zeitraum",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Stündliche Token-Nutzung pro Modell in den letzten 24 Stunden",
+        "WEEK": "Wöchentliche Token-Nutzung pro Modell in den letzten Wochen",
+        "MONTH": "Tägliche Token-Nutzung pro Modell im letzten Monat",
+        "YEAR": "Wöchentliche Token-Nutzung pro Modell im letzten Jahr",
+        "ALL": "Token-Nutzung pro Modell seit dem Start"
+      },
+      "LEADERBOARD_TITLE": "LLM-Leaderboard",
+      "LEADERBOARD_SUBTITLE": "Vergleiche die beliebtesten Modelle auf der Plattform",
+      "EMPTY": "Keine Modelle entsprechen den gewählten Filtern",
+      "TOTAL_LABEL": "Tokens insgesamt",
+      "TOKENS_SUFFIX": "Tokens",
+      "TOOLTIP_TOTAL": "Gesamt",
+      "BY_AUTHOR_LABEL": "von"
+    },
+    "VENDORS": {
+      "TITLE": "Marktanteil",
+      "SUBTITLE": "Token-Anteil nach Modellanbieter",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Token-Anteil pro Modellanbieter in den letzten 24 Stunden",
+        "WEEK": "Token-Anteil pro Modellanbieter in den letzten Wochen",
+        "MONTH": "Token-Anteil pro Modellanbieter im letzten Monat",
+        "YEAR": "Token-Anteil pro Modellanbieter im letzten Jahr",
+        "ALL": "Token-Anteil pro Modellanbieter seit dem Start"
+      },
+      "LIST_TITLE": "Nach Modellanbieter",
+      "LIST_SUBTITLE": "Anbieter sortiert nach kumuliertem Token-Volumen",
+      "EMPTY": "Keine Anbieterdaten verfuegbar"
+    },
+    "PULSE": {
+      "UP_TITLE": "Im Aufwind",
+      "UP_SUBTITLE": "Modelle, die in der Rangliste steigen",
+      "UP_EMPTY": "Aktuell keine nennenswerten Aufsteiger",
+      "DOWN_TITLE": "Im Abstieg",
+      "DOWN_SUBTITLE": "Modelle, die Plaetze verlieren",
+      "DOWN_EMPTY": "Aktuell keine nennenswerten Verluste"
+    },
+    "ERROR": {
+      "TITLE": "Rangliste konnte nicht geladen werden",
+      "GENERIC": "Die Ranglistendaten konnten nicht geladen werden. Bitte versuche es spaeter erneut.",
+      "NO_HISTORY": "Keine Verlaufsdaten verfuegbar"
     }
   },
   "BLOG": {

@@ -6,8 +6,11 @@ import { Input } from "@/components/ui/input";
 import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
-import { FILTER_OPTIONS } from "@/store/models-store";
+import { FILTER_OPTIONS, selectedVendorsAtom } from "@/store/models-store";
+import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { LuLayers, LuSearch, LuX } from "react-icons/lu";
 import { SortFilter } from "../filters/sort-filter";
 import { VendorFilter } from "../filters/vendor-filter";
@@ -23,6 +26,18 @@ export function Models() {
   const perfMap = new Map<string, PerfModelSummary>(
     (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
   );
+
+  const searchParams = useSearchParams();
+  const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
+  useEffect(() => {
+    const vendorParam = searchParams.get("vendor");
+    if (vendorParam && selectedVendors.length === 0) {
+      setSelectedVendors([vendorParam]);
+    }
+    // Only seed once on mount; ignore subsequent searchParams changes so the
+    // user can clear the filter without it snapping back from the URL.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const priceLabels = {
     from: t("MODELS.PRICE.FROM"),

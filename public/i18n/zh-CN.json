@@ -17,6 +17,7 @@
   "NAV": {
     "HOME": "首页",
     "MODELS": "模型",
+    "RANKINGS": "排行榜",
     "PRICING": "价格",
     "DOCS": "文档",
     "BLOG": "博客",
@@ -391,6 +392,70 @@
       "LATENCY": "延迟",
       "TPS": "TPS",
       "STATUS": "状态"
+    }
+  },
+  "RANKINGS": {
+    "META": {
+      "TITLE": "排行榜 | {appName}",
+      "DESCRIPTION": "在 {appName} 上发现最受欢迎的 AI 模型与正在崛起的供应商，按实时令牌用量排序。基于平台真实使用数据持续更新。",
+      "KEYWORDS": "AI 模型排行榜，LLM 排行榜，热门 AI 模型，AI 供应商市场份额，最常用 AI 模型，模型使用统计"
+    },
+    "HERO": {
+      "EYEBROW": "排行榜",
+      "TITLE": "排行榜",
+      "SUBTITLE": "基于实时使用数据，发现平台上最受欢迎的模型与正在崛起的供应商。"
+    },
+    "PERIODS": {
+      "TODAY": "今日",
+      "WEEK": "本周",
+      "MONTH": "本月",
+      "YEAR": "本年",
+      "ALL": "全部"
+    },
+    "MODELS": {
+      "TITLE": "热门模型",
+      "SUBTITLE": "按所选时段令牌用量排序的模型",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "过去 24 小时内各模型的小时级令牌用量",
+        "WEEK": "过去几周内各模型的周令牌用量",
+        "MONTH": "过去一个月内各模型的日令牌用量",
+        "YEAR": "过去一年内各模型的周令牌用量",
+        "ALL": "自上线以来各模型的令牌用量"
+      },
+      "LEADERBOARD_TITLE": "LLM 排行榜",
+      "LEADERBOARD_SUBTITLE": "比较平台上最受欢迎的模型",
+      "EMPTY": "没有模型符合所选筛选条件",
+      "TOTAL_LABEL": "令牌总数",
+      "TOKENS_SUFFIX": "令牌",
+      "TOOLTIP_TOTAL": "合计",
+      "BY_AUTHOR_LABEL": "作者："
+    },
+    "VENDORS": {
+      "TITLE": "市场份额",
+      "SUBTITLE": "按模型作者划分的令牌占比",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "过去 24 小时内各供应商的令牌占比",
+        "WEEK": "过去几周内各供应商的令牌占比",
+        "MONTH": "过去一个月内各供应商的令牌占比",
+        "YEAR": "过去一年内各供应商的令牌占比",
+        "ALL": "自上线以来各供应商的令牌占比"
+      },
+      "LIST_TITLE": "按模型作者",
+      "LIST_SUBTITLE": "按累计令牌用量排序的供应商",
+      "EMPTY": "暂无供应商数据"
+    },
+    "PULSE": {
+      "UP_TITLE": "上升中",
+      "UP_SUBTITLE": "排名正在攀升的模型",
+      "UP_EMPTY": "暂无明显上升的模型",
+      "DOWN_TITLE": "下降中",
+      "DOWN_SUBTITLE": "排名正在下滑的模型",
+      "DOWN_EMPTY": "暂无明显下降的模型"
+    },
+    "ERROR": {
+      "TITLE": "无法加载排行榜",
+      "GENERIC": "无法加载排行榜数据，请稍后再试。",
+      "NO_HISTORY": "暂无历史数据"
     }
   },
   "BLOG": {

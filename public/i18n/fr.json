@@ -17,6 +17,7 @@
   "NAV": {
     "HOME": "Accueil",
     "MODELS": "Modèles",
+    "RANKINGS": "Classements",
     "PRICING": "Tarifs",
     "DOCS": "Docs",
     "BLOG": "Blog",
@@ -391,6 +392,70 @@
       "LATENCY": "Lat.",
       "TPS": "TPS",
       "STATUS": "Statut"
+    }
+  },
+  "RANKINGS": {
+    "META": {
+      "TITLE": "Classements | {appName}",
+      "DESCRIPTION": "Découvrez les modèles d'IA les plus utilisés et les fournisseurs en plein essor sur {appName}, classés par volume de jetons en temps réel. Mis à jour en continu à partir de l'usage réel de la plateforme.",
+      "KEYWORDS": "classement modèles IA, classement LLM, modèles IA populaires, part de marché fournisseurs IA, modèles IA les plus utilisés, statistiques d'usage des modèles"
+    },
+    "HERO": {
+      "EYEBROW": "Classements",
+      "TITLE": "Classements",
+      "SUBTITLE": "Découvrez les modèles les plus utilisés et les fournisseurs en plein essor sur la plateforme, à partir de données d'usage en direct."
+    },
+    "PERIODS": {
+      "TODAY": "Aujourd'hui",
+      "WEEK": "Semaine",
+      "MONTH": "Mois",
+      "YEAR": "Année",
+      "ALL": "Tout"
+    },
+    "MODELS": {
+      "TITLE": "Top modèles",
+      "SUBTITLE": "Modèles classés par volume de jetons sur la période sélectionnée",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Usage horaire de jetons par modèle sur les 24 dernières heures",
+        "WEEK": "Usage hebdomadaire de jetons par modèle sur les dernières semaines",
+        "MONTH": "Usage quotidien de jetons par modèle sur le dernier mois",
+        "YEAR": "Usage hebdomadaire de jetons par modèle sur la dernière année",
+        "ALL": "Usage de jetons par modèle depuis le lancement"
+      },
+      "LEADERBOARD_TITLE": "Classement LLM",
+      "LEADERBOARD_SUBTITLE": "Comparez les modèles les plus populaires de la plateforme",
+      "EMPTY": "Aucun modèle ne correspond aux filtres sélectionnés",
+      "TOTAL_LABEL": "Jetons totaux",
+      "TOKENS_SUFFIX": "jetons",
+      "TOOLTIP_TOTAL": "Total",
+      "BY_AUTHOR_LABEL": "par"
+    },
+    "VENDORS": {
+      "TITLE": "Part de marché",
+      "SUBTITLE": "Part des jetons par fournisseur",
+      "PERIOD_DESCRIPTIONS": {
+        "TODAY": "Part des jetons par fournisseur sur les 24 dernières heures",
+        "WEEK": "Part des jetons par fournisseur sur les dernières semaines",
+        "MONTH": "Part des jetons par fournisseur sur le dernier mois",
+        "YEAR": "Part des jetons par fournisseur sur la dernière année",
+        "ALL": "Part des jetons par fournisseur depuis le lancement"
+      },
+      "LIST_TITLE": "Par fournisseur",
+      "LIST_SUBTITLE": "Fournisseurs classés par volume de jetons cumulé",
+      "EMPTY": "Aucune donnée fournisseur disponible"
+    },
+    "PULSE": {
+      "UP_TITLE": "En progression",
+      "UP_SUBTITLE": "Modèles qui montent dans le classement",
+      "UP_EMPTY": "Aucune progression notable pour le moment",
+      "DOWN_TITLE": "En recul",
+      "DOWN_SUBTITLE": "Modèles qui perdent des places",
+      "DOWN_EMPTY": "Aucune chute notable pour le moment"
+    },
+    "ERROR": {
+      "TITLE": "Impossible de charger les classements",
+      "GENERIC": "Impossible de charger les données de classement. Réessayez plus tard.",
+      "NO_HISTORY": "Aucune donnée historique disponible"
     }
   },
   "BLOG": {

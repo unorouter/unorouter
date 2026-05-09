@@ -64,6 +64,9 @@ export const queryKeys = {
   searchIndex: () => ["search-index"] as const,
   statsHistory: () => ["stats-history"] as const,
 
+  // Rankings
+  rankings: (period?: string) => ["rankings", period] as const,
+
   // Performance Metrics
   perfMetricsSummary: (hours: number) =>
     ["perf-metrics", "summary", hours] as const,
