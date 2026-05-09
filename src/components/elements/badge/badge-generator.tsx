@@ -25,6 +25,7 @@ import {
   type Theme,
 } from "@/lib/validation/badge";
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import { useState } from "react";
 import ShikiHighlighter from "react-shiki";
 
@@ -35,9 +36,12 @@ type BadgeGeneratorProps = {
 
 export function BadgeGenerator(props: BadgeGeneratorProps) {
   const t = useTranslations();
+  const themes = useTheme();
   const [type, setType] = useState<BadgeType>(props.defaultType ?? "referral");
   const [size, setSize] = useState<BadgeSize>("md");
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>(
+    themes.resolvedTheme === "light" ? "light" : "dark",
+  );
   const [format, setFormat] = useState<BadgeFormat>("svg");
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
 
