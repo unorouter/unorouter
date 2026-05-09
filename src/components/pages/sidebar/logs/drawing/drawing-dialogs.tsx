@@ -42,6 +42,7 @@ export function ImagePreviewDialog(props: {
               className="max-h-[60vh] w-full object-contain"
             />
           ) : (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
               src={props.imageUrl}
               alt={props.mjId || "preview"}
@@ -90,7 +91,10 @@ export function PromptDialog(props: {
           <DialogTitle>{t("LOGS.DRAWING.PROMPT")}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-3">
-          <PromptBlock label={t("LOGS.DRAWING.PROMPT_SOURCE")} value={props.prompt} />
+          <PromptBlock
+            label={t("LOGS.DRAWING.PROMPT_SOURCE")}
+            value={props.prompt}
+          />
           {props.promptEn && props.promptEn !== props.prompt && (
             <PromptBlock
               label={t("LOGS.DRAWING.PROMPT_EN")}
@@ -108,7 +112,7 @@ function PromptBlock(props: { label: string; value: string }) {
   return (
     <div className="border-border/40 flex flex-col gap-2 rounded-md border p-3">
       <div className="flex items-center justify-between">
-        <span className="text-muted-foreground text-xs uppercase tracking-wider">
+        <span className="text-muted-foreground text-xs tracking-wider uppercase">
           {props.label}
         </span>
         <button
@@ -123,7 +127,7 @@ function PromptBlock(props: { label: string; value: string }) {
           {t("LOGS.DRAWING.COPY")}
         </button>
       </div>
-      <p className="text-foreground text-sm whitespace-pre-wrap break-words">
+      <p className="text-foreground text-sm wrap-break-word whitespace-pre-wrap">
         {props.value}
       </p>
     </div>
@@ -144,7 +148,7 @@ export function FailReasonDialog(props: {
         </DialogHeader>
         <div className="border-border/40 flex flex-col gap-2 rounded-md border p-3">
           <div className="flex items-center justify-between">
-            <span className="text-muted-foreground text-xs uppercase tracking-wider">
+            <span className="text-muted-foreground text-xs tracking-wider uppercase">
               {t("LOGS.DRAWING.ERROR_DETAILS")}
             </span>
             <button
@@ -159,7 +163,7 @@ export function FailReasonDialog(props: {
               {t("LOGS.DRAWING.COPY")}
             </button>
           </div>
-          <p className="text-foreground text-sm whitespace-pre-wrap break-words">
+          <p className="text-foreground text-sm wrap-break-word whitespace-pre-wrap">
             {props.failReason}
           </p>
         </div>

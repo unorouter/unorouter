@@ -183,7 +183,7 @@ export function LogDetailsDialog(props: {
               <span className="text-muted-foreground text-xs uppercase tracking-wider">
                 {t("LOGS.DETAIL.LOG_DETAILS")}
               </span>
-              <p className="text-foreground text-xs whitespace-pre-wrap break-words">
+              <p className="text-foreground text-xs whitespace-pre-wrap wrap-break-word">
                 {log.content}
               </p>
             </div>
