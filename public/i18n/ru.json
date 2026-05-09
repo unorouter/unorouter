@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "Время",
       "TYPE": "Тип",
+      "CHANNEL": "Канал",
+      "USER": "Пользователь",
       "MODEL": "Модель",
       "TOKEN": "Токен",
       "INPUT": "Вход",
       "OUTPUT": "Выход",
-      "TIME_FIRST": "Время / первый",
-      "SPEND": "Расход",
-      "DETAILS": "Детали"
+      "TOKENS": "Токены",
+      "TIME_FIRST": "Время",
+      "SPEND": "Стоимость",
+      "DETAILS": "Тариф"
+    },
+    "PRICING": {
+      "STANDARD": "Стандарт",
+      "TIERED": "Тариф",
+      "PER_M": "/М"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "Детали лога",
+      "PRICING": "Тарифы",
+      "USAGE": "Использование",
+      "INPUT_PRICE": "Вход",
+      "OUTPUT_PRICE": "Выход",
+      "CACHE_READ": "Чтение кэша",
+      "CACHE_WRITE": "Запись кэша",
+      "GROUP_RATIO": "Коэффициент группы",
+      "NO_PRICING": "Для этой записи нет данных о ценах."
+    },
+    "MAPPED_VIA": "через {upstream}",
+    "SUBSCRIPTION": "Подписка",
+    "TABS": {
+      "COMMON": "Общие логи",
+      "DRAWING": "Логи рисования",
+      "TASK": "Логи задач"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "Время отправки",
+      "ACTION": "Действие",
+      "TASK_ID": "ID задачи",
+      "DURATION": "Длительность",
+      "PROGRESS": "Прогресс",
+      "IMAGE": "Изображение",
+      "PROMPT": "Промпт",
+      "PROMPT_SOURCE": "Исходный промпт",
+      "PROMPT_EN": "Английский промпт",
+      "FAIL_REASON": "Причина сбоя",
+      "ERROR_DETAILS": "Подробности ошибки",
+      "VIEW": "Просмотр",
+      "COPY": "Копировать",
+      "COPY_URL": "Копировать URL",
+      "OPEN": "Открыть",
+      "IMAGE_PREVIEW": "Предпросмотр изображения",
+      "FILTER_MJ_ID": "ID задачи MJ..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "Время отправки",
+      "TASK_ID": "ID задачи",
+      "DURATION": "Длительность",
+      "STATUS": "Статус",
+      "PROGRESS": "Прогресс",
+      "DETAILS": "Детали",
+      "PLAY_AUDIO": "Воспроизвести аудио",
+      "OPEN_VIDEO": "Открыть видео",
+      "AUDIO_NOT_READY": "Аудио ещё не готово.",
+      "FILTER_TASK_ID": "ID задачи..."
     },
     "ENUM": {
       "ALL": "Все типы",

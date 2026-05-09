@@ -1,5 +1,7 @@
-import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/filters";
-import { UsageLogs } from "@/components/pages/sidebar/logs/usage-logs";
+import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/filters";
+import { buildDrawingFilters } from "@/components/pages/sidebar/logs/drawing/drawing-filters";
+import { LogsShell } from "@/components/pages/sidebar/logs/logs-shell";
+import { buildTaskFilters } from "@/components/pages/sidebar/logs/task/task-filters";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
   initialTableStore,
@@ -25,10 +27,22 @@ export default async function LogsPage() {
   );
 
   const logsTable = tableStores?.[DataTableId.LOGS] || initialTableStore();
+  const drawingTable =
+    tableStores?.[DataTableId.MIDJOURNEY_LOGS] || initialTableStore();
+  const taskTable =
+    tableStores?.[DataTableId.TASK_LOGS] || initialTableStore();
 
   const { queryFilters, statFilters } = buildLogQueryFilters(
     logsTable.columnFilters,
     logsTable.pagination,
+  );
+  const { queryFilters: drawingQueryFilters } = buildDrawingFilters(
+    drawingTable.columnFilters,
+    drawingTable.pagination,
+  );
+  const { queryFilters: taskQueryFilters } = buildTaskFilters(
+    taskTable.columnFilters,
+    taskTable.pagination,
   );
 
   const serverCookies = await setCookies();
@@ -54,12 +68,32 @@ export default async function LogsPage() {
           }),
         ),
     }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.midjourneyLogs(drawingQueryFilters),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.logs.midjourney.get({
+            query: drawingQueryFilters,
+            ...serverCookies,
+          }),
+        ),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: queryKeys.taskLogs(taskQueryFilters),
+      queryFn: async () =>
+        handleElysia(
+          await rpc.api.logs.task.get({
+            query: taskQueryFilters,
+            ...serverCookies,
+          }),
+        ),
+    }),
   ]);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <DataTableProvider data={tableStores}>
-        <UsageLogs />
+        <LogsShell />
       </DataTableProvider>
     </HydrationBoundary>
   );

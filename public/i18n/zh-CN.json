@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "时间",
       "TYPE": "类型",
+      "CHANNEL": "渠道",
+      "USER": "用户",
       "MODEL": "模型",
       "TOKEN": "令牌",
       "INPUT": "输入",
       "OUTPUT": "输出",
-      "TIME_FIRST": "用时 / 首包",
-      "SPEND": "花费",
-      "DETAILS": "详情"
+      "TOKENS": "令牌数",
+      "TIME_FIRST": "耗时",
+      "SPEND": "费用",
+      "DETAILS": "价格"
+    },
+    "PRICING": {
+      "STANDARD": "标准",
+      "TIERED": "阶梯",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "日志详情",
+      "PRICING": "价格",
+      "USAGE": "使用量",
+      "INPUT_PRICE": "输入",
+      "OUTPUT_PRICE": "输出",
+      "CACHE_READ": "缓存读取",
+      "CACHE_WRITE": "缓存写入",
+      "GROUP_RATIO": "分组倍率",
+      "NO_PRICING": "该条目暂无价格详情。"
+    },
+    "MAPPED_VIA": "经由 {upstream}",
+    "SUBSCRIPTION": "订阅",
+    "TABS": {
+      "COMMON": "通用日志",
+      "DRAWING": "绘画日志",
+      "TASK": "任务日志"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "提交时间",
+      "ACTION": "操作",
+      "TASK_ID": "任务 ID",
+      "DURATION": "用时",
+      "PROGRESS": "进度",
+      "IMAGE": "图片",
+      "PROMPT": "提示词",
+      "PROMPT_SOURCE": "原始提示词",
+      "PROMPT_EN": "英文提示词",
+      "FAIL_REASON": "失败原因",
+      "ERROR_DETAILS": "错误详情",
+      "VIEW": "查看",
+      "COPY": "复制",
+      "COPY_URL": "复制链接",
+      "OPEN": "打开",
+      "IMAGE_PREVIEW": "图片预览",
+      "FILTER_MJ_ID": "MJ 任务 ID..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "提交时间",
+      "TASK_ID": "任务 ID",
+      "DURATION": "用时",
+      "STATUS": "状态",
+      "PROGRESS": "进度",
+      "DETAILS": "详情",
+      "PLAY_AUDIO": "播放音频",
+      "OPEN_VIDEO": "打开视频",
+      "AUDIO_NOT_READY": "音频暂未就绪。",
+      "FILTER_TASK_ID": "任务 ID..."
     },
     "ENUM": {
       "ALL": "全部类型",

@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "時間",
       "TYPE": "類型",
+      "CHANNEL": "通道",
+      "USER": "使用者",
       "MODEL": "模型",
       "TOKEN": "金鑰",
       "INPUT": "輸入",
       "OUTPUT": "輸出",
-      "TIME_FIRST": "耗時／首 token",
-      "SPEND": "花費",
-      "DETAILS": "詳情"
+      "TOKENS": "Token 數",
+      "TIME_FIRST": "耗時",
+      "SPEND": "費用",
+      "DETAILS": "價格"
+    },
+    "PRICING": {
+      "STANDARD": "標準",
+      "TIERED": "階梯",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "日誌詳情",
+      "PRICING": "價格",
+      "USAGE": "使用量",
+      "INPUT_PRICE": "輸入",
+      "OUTPUT_PRICE": "輸出",
+      "CACHE_READ": "快取讀取",
+      "CACHE_WRITE": "快取寫入",
+      "GROUP_RATIO": "群組倍率",
+      "NO_PRICING": "此條目暫無價格詳情。"
+    },
+    "MAPPED_VIA": "經由 {upstream}",
+    "SUBSCRIPTION": "訂閱",
+    "TABS": {
+      "COMMON": "通用日誌",
+      "DRAWING": "繪圖日誌",
+      "TASK": "任務日誌"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "提交時間",
+      "ACTION": "操作",
+      "TASK_ID": "任務 ID",
+      "DURATION": "耗時",
+      "PROGRESS": "進度",
+      "IMAGE": "圖片",
+      "PROMPT": "提示詞",
+      "PROMPT_SOURCE": "原始提示詞",
+      "PROMPT_EN": "英文提示詞",
+      "FAIL_REASON": "失敗原因",
+      "ERROR_DETAILS": "錯誤詳情",
+      "VIEW": "檢視",
+      "COPY": "複製",
+      "COPY_URL": "複製連結",
+      "OPEN": "開啟",
+      "IMAGE_PREVIEW": "圖片預覽",
+      "FILTER_MJ_ID": "MJ 任務 ID..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "提交時間",
+      "TASK_ID": "任務 ID",
+      "DURATION": "耗時",
+      "STATUS": "狀態",
+      "PROGRESS": "進度",
+      "DETAILS": "詳情",
+      "PLAY_AUDIO": "播放音訊",
+      "OPEN_VIDEO": "開啟影片",
+      "AUDIO_NOT_READY": "音訊尚未準備好。",
+      "FILTER_TASK_ID": "任務 ID..."
     },
     "ENUM": {
       "ALL": "所有類型",

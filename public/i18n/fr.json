@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "Heure",
       "TYPE": "Type",
+      "CHANNEL": "Canal",
+      "USER": "Utilisateur",
       "MODEL": "Modèle",
       "TOKEN": "Token",
       "INPUT": "Entrée",
       "OUTPUT": "Sortie",
-      "TIME_FIRST": "Heure / Premier",
-      "SPEND": "Dépense",
-      "DETAILS": "Détails"
+      "TOKENS": "Tokens",
+      "TIME_FIRST": "Durée",
+      "SPEND": "Coût",
+      "DETAILS": "Tarif"
+    },
+    "PRICING": {
+      "STANDARD": "Standard",
+      "TIERED": "Paliers",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "Détails du log",
+      "PRICING": "Tarifs",
+      "USAGE": "Utilisation",
+      "INPUT_PRICE": "Entrée",
+      "OUTPUT_PRICE": "Sortie",
+      "CACHE_READ": "Lecture cache",
+      "CACHE_WRITE": "Écriture cache",
+      "GROUP_RATIO": "Coefficient de groupe",
+      "NO_PRICING": "Aucun détail tarifaire disponible pour cette entrée."
+    },
+    "MAPPED_VIA": "via {upstream}",
+    "SUBSCRIPTION": "Abonnement",
+    "TABS": {
+      "COMMON": "Logs courants",
+      "DRAWING": "Logs de dessin",
+      "TASK": "Logs de tâches"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "Heure de soumission",
+      "ACTION": "Action",
+      "TASK_ID": "ID de tâche",
+      "DURATION": "Durée",
+      "PROGRESS": "Progression",
+      "IMAGE": "Image",
+      "PROMPT": "Prompt",
+      "PROMPT_SOURCE": "Prompt source",
+      "PROMPT_EN": "Prompt anglais",
+      "FAIL_REASON": "Motif d'échec",
+      "ERROR_DETAILS": "Détails de l'erreur",
+      "VIEW": "Voir",
+      "COPY": "Copier",
+      "COPY_URL": "Copier l'URL",
+      "OPEN": "Ouvrir",
+      "IMAGE_PREVIEW": "Aperçu d'image",
+      "FILTER_MJ_ID": "ID de tâche MJ..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "Heure de soumission",
+      "TASK_ID": "ID de tâche",
+      "DURATION": "Durée",
+      "STATUS": "Statut",
+      "PROGRESS": "Progression",
+      "DETAILS": "Détails",
+      "PLAY_AUDIO": "Lire l'audio",
+      "OPEN_VIDEO": "Ouvrir la vidéo",
+      "AUDIO_NOT_READY": "Audio non encore disponible.",
+      "FILTER_TASK_ID": "ID de tâche..."
     },
     "ENUM": {
       "ALL": "Tous les types",

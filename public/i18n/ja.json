@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "時刻",
       "TYPE": "タイプ",
+      "CHANNEL": "チャネル",
+      "USER": "ユーザー",
       "MODEL": "モデル",
       "TOKEN": "トークン",
       "INPUT": "入力",
       "OUTPUT": "出力",
-      "TIME_FIRST": "時間 / 初回",
-      "SPEND": "支出",
-      "DETAILS": "詳細"
+      "TOKENS": "トークン数",
+      "TIME_FIRST": "応答時間",
+      "SPEND": "コスト",
+      "DETAILS": "料金"
+    },
+    "PRICING": {
+      "STANDARD": "標準",
+      "TIERED": "段階制",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "ログ詳細",
+      "PRICING": "料金",
+      "USAGE": "使用量",
+      "INPUT_PRICE": "入力",
+      "OUTPUT_PRICE": "出力",
+      "CACHE_READ": "キャッシュ読み込み",
+      "CACHE_WRITE": "キャッシュ書き込み",
+      "GROUP_RATIO": "グループ係数",
+      "NO_PRICING": "このエントリの料金情報はありません。"
+    },
+    "MAPPED_VIA": "{upstream} 経由",
+    "SUBSCRIPTION": "サブスクリプション",
+    "TABS": {
+      "COMMON": "通常ログ",
+      "DRAWING": "画像ログ",
+      "TASK": "タスクログ"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "送信時刻",
+      "ACTION": "アクション",
+      "TASK_ID": "タスクID",
+      "DURATION": "所要時間",
+      "PROGRESS": "進捗",
+      "IMAGE": "画像",
+      "PROMPT": "プロンプト",
+      "PROMPT_SOURCE": "元のプロンプト",
+      "PROMPT_EN": "英語プロンプト",
+      "FAIL_REASON": "失敗理由",
+      "ERROR_DETAILS": "エラー詳細",
+      "VIEW": "表示",
+      "COPY": "コピー",
+      "COPY_URL": "URLをコピー",
+      "OPEN": "開く",
+      "IMAGE_PREVIEW": "画像プレビュー",
+      "FILTER_MJ_ID": "MJ タスクID..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "送信時刻",
+      "TASK_ID": "タスクID",
+      "DURATION": "所要時間",
+      "STATUS": "ステータス",
+      "PROGRESS": "進捗",
+      "DETAILS": "詳細",
+      "PLAY_AUDIO": "音声を再生",
+      "OPEN_VIDEO": "動画を開く",
+      "AUDIO_NOT_READY": "音声はまだ利用できません。",
+      "FILTER_TASK_ID": "タスクID..."
     },
     "ENUM": {
       "ALL": "すべての種類",

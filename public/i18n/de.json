@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "Zeit",
       "TYPE": "Typ",
+      "CHANNEL": "Kanal",
+      "USER": "Benutzer",
       "MODEL": "Modell",
       "TOKEN": "Token",
       "INPUT": "Eingabe",
       "OUTPUT": "Ausgabe",
-      "TIME_FIRST": "Zeit / Erste",
-      "SPEND": "Ausgaben",
-      "DETAILS": "Details"
+      "TOKENS": "Tokens",
+      "TIME_FIRST": "Zeit",
+      "SPEND": "Kosten",
+      "DETAILS": "Preise"
+    },
+    "PRICING": {
+      "STANDARD": "Standard",
+      "TIERED": "Gestaffelt",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "Log-Details",
+      "PRICING": "Preise",
+      "USAGE": "Nutzung",
+      "INPUT_PRICE": "Eingabe",
+      "OUTPUT_PRICE": "Ausgabe",
+      "CACHE_READ": "Cache lesen",
+      "CACHE_WRITE": "Cache schreiben",
+      "GROUP_RATIO": "Gruppenfaktor",
+      "NO_PRICING": "Für diesen Eintrag sind keine Preisangaben verfügbar."
+    },
+    "MAPPED_VIA": "via {upstream}",
+    "SUBSCRIPTION": "Abonnement",
+    "TABS": {
+      "COMMON": "Allgemein",
+      "DRAWING": "Bilder",
+      "TASK": "Aufgaben"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "Einreichungszeit",
+      "ACTION": "Aktion",
+      "TASK_ID": "Aufgaben-ID",
+      "DURATION": "Dauer",
+      "PROGRESS": "Fortschritt",
+      "IMAGE": "Bild",
+      "PROMPT": "Prompt",
+      "PROMPT_SOURCE": "Original-Prompt",
+      "PROMPT_EN": "Englischer Prompt",
+      "FAIL_REASON": "Fehlergrund",
+      "ERROR_DETAILS": "Fehlerdetails",
+      "VIEW": "Ansehen",
+      "COPY": "Kopieren",
+      "COPY_URL": "URL kopieren",
+      "OPEN": "Öffnen",
+      "IMAGE_PREVIEW": "Bildvorschau",
+      "FILTER_MJ_ID": "MJ Aufgaben-ID..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "Einreichungszeit",
+      "TASK_ID": "Aufgaben-ID",
+      "DURATION": "Dauer",
+      "STATUS": "Status",
+      "PROGRESS": "Fortschritt",
+      "DETAILS": "Details",
+      "PLAY_AUDIO": "Audio abspielen",
+      "OPEN_VIDEO": "Video öffnen",
+      "AUDIO_NOT_READY": "Audio ist noch nicht verfügbar.",
+      "FILTER_TASK_ID": "Aufgaben-ID..."
     },
     "ENUM": {
       "ALL": "Alle Typen",

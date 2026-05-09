@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "Time",
       "TYPE": "Type",
+      "CHANNEL": "Channel",
+      "USER": "User",
       "MODEL": "Model",
       "TOKEN": "Token",
       "INPUT": "Input",
       "OUTPUT": "Output",
-      "TIME_FIRST": "Time / First",
-      "SPEND": "Spend",
-      "DETAILS": "Details"
+      "TOKENS": "Tokens",
+      "TIME_FIRST": "Timing",
+      "SPEND": "Cost",
+      "DETAILS": "Pricing"
+    },
+    "PRICING": {
+      "STANDARD": "Standard",
+      "TIERED": "Tiered",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "Log Details",
+      "PRICING": "Pricing",
+      "USAGE": "Usage",
+      "INPUT_PRICE": "Input",
+      "OUTPUT_PRICE": "Output",
+      "CACHE_READ": "Cache Read",
+      "CACHE_WRITE": "Cache Write",
+      "GROUP_RATIO": "Group Ratio",
+      "NO_PRICING": "No pricing details available for this entry."
+    },
+    "MAPPED_VIA": "via {upstream}",
+    "SUBSCRIPTION": "Subscription",
+    "TABS": {
+      "COMMON": "Common Logs",
+      "DRAWING": "Drawing Logs",
+      "TASK": "Task Logs"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "Submit Time",
+      "ACTION": "Action",
+      "TASK_ID": "Task ID",
+      "DURATION": "Duration",
+      "PROGRESS": "Progress",
+      "IMAGE": "Image",
+      "PROMPT": "Prompt",
+      "PROMPT_SOURCE": "Source Prompt",
+      "PROMPT_EN": "English Prompt",
+      "FAIL_REASON": "Fail Reason",
+      "ERROR_DETAILS": "Error Details",
+      "VIEW": "View",
+      "COPY": "Copy",
+      "COPY_URL": "Copy URL",
+      "OPEN": "Open",
+      "IMAGE_PREVIEW": "Image Preview",
+      "FILTER_MJ_ID": "MJ Task ID..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "Submit Time",
+      "TASK_ID": "Task ID",
+      "DURATION": "Duration",
+      "STATUS": "Status",
+      "PROGRESS": "Progress",
+      "DETAILS": "Details",
+      "PLAY_AUDIO": "Play Audio",
+      "OPEN_VIDEO": "Open Video",
+      "AUDIO_NOT_READY": "Audio is not yet available.",
+      "FILTER_TASK_ID": "Task ID..."
     },
     "ENUM": {
       "ALL": "All Types",

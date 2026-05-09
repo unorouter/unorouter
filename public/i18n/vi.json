@@ -1738,13 +1738,70 @@
     "TABLE": {
       "TIME": "Thời gian",
       "TYPE": "Loại",
+      "CHANNEL": "Kênh",
+      "USER": "Người dùng",
       "MODEL": "Mô hình",
       "TOKEN": "Token",
       "INPUT": "Đầu vào",
       "OUTPUT": "Đầu ra",
-      "TIME_FIRST": "Thời gian / Đầu tiên",
-      "SPEND": "Chi tiêu",
-      "DETAILS": "Chi tiết"
+      "TOKENS": "Token",
+      "TIME_FIRST": "Thời gian",
+      "SPEND": "Chi phí",
+      "DETAILS": "Giá"
+    },
+    "PRICING": {
+      "STANDARD": "Tiêu chuẩn",
+      "TIERED": "Theo bậc",
+      "PER_M": "/M"
+    },
+    "DETAILS_DIALOG": {
+      "TITLE": "Chi tiết nhật ký",
+      "PRICING": "Giá",
+      "USAGE": "Sử dụng",
+      "INPUT_PRICE": "Đầu vào",
+      "OUTPUT_PRICE": "Đầu ra",
+      "CACHE_READ": "Đọc cache",
+      "CACHE_WRITE": "Ghi cache",
+      "GROUP_RATIO": "Hệ số nhóm",
+      "NO_PRICING": "Không có thông tin giá cho mục này."
+    },
+    "MAPPED_VIA": "qua {upstream}",
+    "SUBSCRIPTION": "Đăng ký",
+    "TABS": {
+      "COMMON": "Nhật ký chung",
+      "DRAWING": "Nhật ký vẽ",
+      "TASK": "Nhật ký tác vụ"
+    },
+    "DRAWING": {
+      "SUBMIT_TIME": "Thời gian gửi",
+      "ACTION": "Thao tác",
+      "TASK_ID": "ID tác vụ",
+      "DURATION": "Thời lượng",
+      "PROGRESS": "Tiến độ",
+      "IMAGE": "Ảnh",
+      "PROMPT": "Prompt",
+      "PROMPT_SOURCE": "Prompt gốc",
+      "PROMPT_EN": "Prompt tiếng Anh",
+      "FAIL_REASON": "Lý do thất bại",
+      "ERROR_DETAILS": "Chi tiết lỗi",
+      "VIEW": "Xem",
+      "COPY": "Sao chép",
+      "COPY_URL": "Sao chép URL",
+      "OPEN": "Mở",
+      "IMAGE_PREVIEW": "Xem trước ảnh",
+      "FILTER_MJ_ID": "ID tác vụ MJ..."
+    },
+    "TASK": {
+      "SUBMIT_TIME": "Thời gian gửi",
+      "TASK_ID": "ID tác vụ",
+      "DURATION": "Thời lượng",
+      "STATUS": "Trạng thái",
+      "PROGRESS": "Tiến độ",
+      "DETAILS": "Chi tiết",
+      "PLAY_AUDIO": "Phát âm thanh",
+      "OPEN_VIDEO": "Mở video",
+      "AUDIO_NOT_READY": "Âm thanh chưa sẵn sàng.",
+      "FILTER_TASK_ID": "ID tác vụ..."
     },
     "ENUM": {
       "ALL": "Mọi loại",
