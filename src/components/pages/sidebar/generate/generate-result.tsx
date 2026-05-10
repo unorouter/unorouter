@@ -2,15 +2,52 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   useDeleteGenerationMutation,
+  useExportGenerationMutation,
   useGenerationStatusQuery,
+  useImportGenerationMutation,
+  useRevokeShareMutation,
+  useShareGenerationMutation,
 } from "@/hooks/generation-hook";
 import { getModelDescriptor } from "@/lib/config/generation-models";
+import {
+  downloadGenerationImage,
+  downloadGenerationSnapshot,
+  readGenerationSnapshotFile,
+} from "@/lib/utils/generation-export";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { LuSparkles, LuTrash2, LuWand } from "react-icons/lu";
+import { useRef, useState } from "react";
+import {
+  LuCheck,
+  LuCopy,
+  LuDownload,
+  LuLink2,
+  LuLink2Off,
+  LuShare2,
+  LuSparkles,
+  LuTrash2,
+  LuUpload,
+  LuWand,
+} from "react-icons/lu";
 
 // Result view for one generation row. Renders 1, 2, or 4 images in a grid
 // depending on how many were produced. Subscribes to the polling hook and
@@ -42,40 +79,83 @@ function ParamsBadge(props: { model: string; params: unknown }) {
 
 // Renders 1, 2, or 4 tiles. Grid spans the same container width as the
 // previous single-tile view; each cell is a square aspect.
-function BatchGrid(props: { images: GenerationImage[]; prompt: string }) {
+function BatchGrid(props: {
+  images: GenerationImage[];
+  prompt: string;
+  generationId: string;
+}) {
   const count = props.images.length;
   const sorted = props.images
     .slice()
     .sort((a, b) => a.sequenceIndex - b.sequenceIndex);
   if (count === 1) {
-    const img = sorted[0];
     return (
-      <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
-        {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies, skip optimization */}
-        <img
-          src={img.r2Url}
-          alt={props.prompt}
-          className="h-full w-full object-cover"
-        />
-      </div>
+      <ImageTile
+        url={sorted[0].r2Url}
+        alt={props.prompt}
+        filename={`${props.generationId}.png`}
+        className="aspect-square w-full"
+      />
     );
   }
-  const cols = count === 2 ? "grid-cols-2" : "grid-cols-2";
   return (
-    <div className={`grid w-full gap-2 ${cols}`}>
+    <div className="grid w-full grid-cols-2 gap-2">
       {sorted.map((img) => (
-        <div
+        <ImageTile
           key={img.sequenceIndex}
-          className="bg-muted relative aspect-square overflow-hidden rounded-lg"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies */}
-          <img
-            src={img.r2Url}
-            alt={`${props.prompt} (${img.sequenceIndex + 1})`}
-            className="h-full w-full object-cover"
-          />
-        </div>
+          url={img.r2Url}
+          alt={`${props.prompt} (${img.sequenceIndex + 1})`}
+          filename={`${props.generationId}-${img.sequenceIndex}.png`}
+          className="aspect-square"
+        />
       ))}
+    </div>
+  );
+}
+
+// Single tile with a hover-download button. Mirrors the chat-thread
+// markdown-text pattern: button fades in on group-hover, stays visible
+// on mobile so touch users can still reach it. fetch+blob trick handles
+// R2 URLs (cross-origin allowed) so the browser doesn't open the image
+// in a new tab.
+function ImageTile(props: {
+  url: string;
+  alt: string;
+  filename: string;
+  className?: string;
+}) {
+  const t = useTranslations();
+  const onDownload = async () => {
+    try {
+      await downloadGenerationImage(props.url, props.filename);
+    } catch {
+      // R2 URLs are cross-origin but allow CORS; if a future CDN strips
+      // it, we'd silently fail here. Open in a new tab as a fallback so
+      // the user can right-click-save.
+      window.open(props.url, "_blank", "noopener");
+    }
+  };
+  return (
+    <div
+      className={
+        "bg-muted group/img relative overflow-hidden rounded-lg " +
+        (props.className ?? "")
+      }
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies */}
+      <img
+        src={props.url}
+        alt={props.alt}
+        className="h-full w-full object-cover"
+      />
+      <button
+        type="button"
+        onClick={onDownload}
+        title={t("IMAGE.DOWNLOAD_IMAGE")}
+        className="bg-background/80 text-foreground absolute top-2 right-2 rounded-md p-1.5 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100"
+      >
+        <LuDownload className="h-4 w-4" />
+      </button>
     </div>
   );
 }
@@ -99,6 +179,21 @@ export function GenerateResult(props: Props) {
   const router = useRouter();
   const query = useGenerationStatusQuery(props.generationId, true);
   const deleteMut = useDeleteGenerationMutation();
+  const shareMut = useShareGenerationMutation();
+  const revokeMut = useRevokeShareMutation();
+  const exportMut = useExportGenerationMutation();
+  const importMut = useImportGenerationMutation();
+
+  // Local UI state for the Share dialog (open + "copied" feedback) and
+  // the Import dialog (file picker + mode select). Share copies the
+  // /shared/<shareId> URL to clipboard.
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [copiedTick, setCopiedTick] = useState(false);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const [importMode, setImportMode] = useState<"restore" | "regenerate">(
+    "restore",
+  );
+  const importFileRef = useRef<HTMLInputElement>(null);
 
   const data = query.data;
   const status = data?.status;
@@ -106,11 +201,52 @@ export function GenerateResult(props: Props) {
   const images = (data?.images as GenerationImage[] | undefined) ?? [];
   const isDone = status === "success" && images.length > 0;
   const requestedCount = (data?.requestedCount as number | undefined) ?? 1;
+  const shareId = (data as { shareId?: string | null } | undefined)?.shareId ?? null;
 
   const onDelete = async () => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     await deleteMut.mutateAsync({ id: props.generationId });
     router.push("/generate");
+  };
+
+  const onShare = async () => {
+    if (!shareId) {
+      await shareMut.mutateAsync({ id: props.generationId });
+    }
+    setShareDialogOpen(true);
+  };
+
+  const onCopyShareLink = async () => {
+    if (!shareId) return;
+    const url = `${window.location.origin}/shared/g/${shareId}`;
+    await navigator.clipboard.writeText(url);
+    setCopiedTick(true);
+    setTimeout(() => setCopiedTick(false), 1500);
+  };
+
+  const onRevokeShare = async () => {
+    if (!shareId) return;
+    await revokeMut.mutateAsync({ id: props.generationId });
+    setShareDialogOpen(false);
+  };
+
+  const onExport = async () => {
+    const snapshot = await exportMut.mutateAsync({ id: props.generationId });
+    downloadGenerationSnapshot(snapshot, `${props.generationId}.json`);
+  };
+
+  const onImportFile = async (file: File) => {
+    const parsed = await readGenerationSnapshotFile(file);
+    const result = await importMut.mutateAsync({
+      body: {
+        // The validator pins `version: "unorouter-generation-1"` on the
+        // server; if a user picks a malformed file Elysia will reject.
+        snapshot: parsed as never,
+        mode: importMode,
+      },
+    });
+    setImportDialogOpen(false);
+    router.push(`/generate/${result.id}`);
   };
 
   if (!data) {
@@ -120,7 +256,11 @@ export function GenerateResult(props: Props) {
   return (
     <div className="flex max-w-2xl flex-col gap-4">
       {isDone ? (
-        <BatchGrid images={images} prompt={data.prompt} />
+        <BatchGrid
+          images={images}
+          prompt={data.prompt}
+          generationId={props.generationId}
+        />
       ) : isFailed ? (
         <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
           <div className="text-destructive flex h-full flex-col items-center justify-center p-4 text-center text-sm">
@@ -179,6 +319,36 @@ export function GenerateResult(props: Props) {
             {t("IMAGE.HIRES_SHORTCUT")}
           </Button>
         )}
+        {isDone && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onShare}
+            disabled={shareMut.isPending}
+          >
+            <LuShare2 className="mr-2" />
+            {t("IMAGE.SHARE")}
+          </Button>
+        )}
+        {isDone && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onExport}
+            disabled={exportMut.isPending}
+          >
+            <LuDownload className="mr-2" />
+            {t("IMAGE.EXPORT")}
+          </Button>
+        )}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setImportDialogOpen(true)}
+        >
+          <LuUpload className="mr-2" />
+          {t("IMAGE.IMPORT")}
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -189,6 +359,94 @@ export function GenerateResult(props: Props) {
           {t("IMAGE.DELETE")}
         </Button>
       </div>
+
+      <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("IMAGE.SHARE_TITLE")}</DialogTitle>
+            <DialogDescription>{t("IMAGE.SHARE_DESCRIPTION")}</DialogDescription>
+          </DialogHeader>
+          {shareId && (
+            <div className="flex items-center gap-2">
+              <Input
+                readOnly
+                value={`${typeof window !== "undefined" ? window.location.origin : ""}/shared/g/${shareId}`}
+              />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={onCopyShareLink}
+              >
+                {copiedTick ? (
+                  <LuCheck className="h-4 w-4" />
+                ) : (
+                  <LuCopy className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          )}
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onRevokeShare}
+              disabled={revokeMut.isPending || !shareId}
+            >
+              <LuLink2Off className="mr-2" />
+              {t("IMAGE.SHARE_REVOKE")}
+            </Button>
+            <Button
+              type="button"
+              onClick={() => setShareDialogOpen(false)}
+            >
+              <LuLink2 className="mr-2" />
+              {t("IMAGE.SHARE_DONE")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={importDialogOpen} onOpenChange={setImportDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("IMAGE.IMPORT_TITLE")}</DialogTitle>
+            <DialogDescription>
+              {t("IMAGE.IMPORT_DESCRIPTION")}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Select
+              value={importMode}
+              onValueChange={(v) =>
+                setImportMode(v as "restore" | "regenerate")
+              }
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="restore">
+                  {t("IMAGE.IMPORT_MODE_RESTORE")}
+                </SelectItem>
+                <SelectItem value="regenerate">
+                  {t("IMAGE.IMPORT_MODE_REGENERATE")}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <input
+              ref={importFileRef}
+              type="file"
+              accept="application/json"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) void onImportFile(file);
+              }}
+              className="text-sm"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -504,6 +504,10 @@ export const generations = sqliteTable(
     costQuota: integer("cost_quota"),
     // private (default), unlisted (link-only), public (in feed).
     visibility: text("visibility").notNull().default("private"),
+    // Public share token. When set, anyone with the URL /shared/<shareId>
+    // can view the generation (read-only). Null = sharing revoked /
+    // never enabled. Same shape as conversations.shareId.
+    shareId: text("share_id").unique(),
     // NSFW flag persists per-image so future moderation can hide entries
     // without wiping the row. Default true since most catalog models are
     // NSFW-capable; UI can flip on submit.
@@ -546,6 +550,8 @@ export const generations = sqliteTable(
     index("idx_gen_remixed_from").on(table.remixedFrom),
     // retention sweeper scan
     index("idx_gen_expires").on(table.expiresAt),
+    // public share lookup
+    index("idx_gen_share").on(table.shareId),
   ],
 );
 

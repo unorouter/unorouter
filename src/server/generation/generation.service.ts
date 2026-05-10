@@ -653,3 +653,226 @@ export async function listExpiredGenerationIds(
     .limit(limit);
   return rows.map((r) => r.id);
 }
+
+// ---------------------------------------------------------------------------
+// Sharing
+// ---------------------------------------------------------------------------
+
+/** Mint a public share token. Idempotent: returns the existing shareId
+ *  when one is already set so a repeated click on Share doesn't churn
+ *  the link the user just copied. */
+export async function createShareLink(userId: number, id: string) {
+  const db = getDb();
+  const existing = await getGeneration(userId, id);
+  if (existing.shareId) return { shareId: existing.shareId };
+  const shareId = uid(12);
+  const result = await db
+    .update(generations)
+    .set({ shareId, updatedAt: dayjs().toDate() })
+    .where(and(eq(generations.id, id), eq(generations.userId, userId)))
+    .returning({ id: generations.id });
+  assertFound(result);
+  return { shareId };
+}
+
+export async function revokeShareLink(userId: number, id: string) {
+  const db = getDb();
+  const result = await db
+    .update(generations)
+    .set({ shareId: null, updatedAt: dayjs().toDate() })
+    .where(and(eq(generations.id, id), eq(generations.userId, userId)))
+    .returning({ id: generations.id });
+  assertFound(result);
+  return { id };
+}
+
+/** Public read by shareId. Returns the same shape as getGenerationWithImages
+ *  but strips submitter-only fields (submittedKey, etc). No userId check —
+ *  anyone with the link can read. */
+export async function getSharedGeneration(shareId: string) {
+  const db = getDb();
+  const rows = await db
+    .select()
+    .from(generations)
+    .where(eq(generations.shareId, shareId))
+    .limit(1);
+  assertFound(rows);
+  const row = rows[0];
+  const images = await listGenerationImages(row.id);
+  // Strip server-only fields before returning publicly.
+  const { submittedKey: _sk, ...safe } = row;
+  return { ...safe, images };
+}
+
+// ---------------------------------------------------------------------------
+// Export / Import / Clone
+// ---------------------------------------------------------------------------
+//
+// Three operations sharing one payload shape: a portable JSON snapshot of
+// the generation row (prompt, params, references, loras, etc.) plus the
+// produced images. Used by:
+//   - GET /:id/export        → download the snapshot as a file
+//   - POST /import           → upload a snapshot to recreate it in my account
+//   - POST /from-share/:sid  → clone a shared generation into my account
+// All three converge on cloneFromSnapshot.
+
+export type GenerationSnapshot = {
+  version: "unorouter-generation-1";
+  model: string;
+  prompt: string;
+  negativePrompt: string | null;
+  params: unknown;
+  loras: unknown;
+  references: unknown;
+  extraParams: unknown;
+  nsfw: boolean;
+  // The R2 URLs we produced. Import "restore" mode downloads each into
+  // the new user's R2 prefix; "regenerate" mode ignores these and fires
+  // a fresh upstream submission.
+  images: Array<{
+    sequenceIndex: number;
+    r2Url: string;
+    mimeType: string | null;
+    width: number | null;
+    height: number | null;
+  }>;
+};
+
+export type CloneMode = "restore" | "regenerate";
+
+function rowToSnapshot(
+  row: typeof generations.$inferSelect,
+  images: GenerationImage[],
+): GenerationSnapshot {
+  return {
+    version: "unorouter-generation-1",
+    model: row.model,
+    prompt: row.prompt,
+    negativePrompt: row.negativePrompt,
+    params: row.params,
+    loras: row.loras,
+    references: row.references,
+    extraParams: row.extraParams,
+    nsfw: row.nsfw,
+    images: images.map((img) => ({
+      sequenceIndex: img.sequenceIndex,
+      r2Url: img.r2Url,
+      mimeType: img.mimeType,
+      width: img.width,
+      height: img.height,
+    })),
+  };
+}
+
+/** Build a downloadable snapshot for a generation the user owns. */
+export async function exportGeneration(
+  userId: number,
+  id: string,
+): Promise<GenerationSnapshot> {
+  const row = await getGeneration(userId, id);
+  const images = await listGenerationImages(id);
+  return rowToSnapshot(row, images);
+}
+
+/** Build a snapshot from a public shareId. Same shape as exportGeneration
+ *  but skips the ownership check. */
+export async function exportSharedGeneration(
+  shareId: string,
+): Promise<GenerationSnapshot> {
+  const db = getDb();
+  const rows = await db
+    .select()
+    .from(generations)
+    .where(eq(generations.shareId, shareId))
+    .limit(1);
+  assertFound(rows);
+  const images = await listGenerationImages(rows[0].id);
+  return rowToSnapshot(rows[0], images);
+}
+
+/** Clone a snapshot into the target user's account.
+ *
+ *  - mode="restore": insert a generation row in `success` state and copy
+ *    each image into the new user's R2 prefix. No upstream call, no quota
+ *    debit (the original generator already paid).
+ *  - mode="regenerate": insert a `pending` row and fire a fresh upstream
+ *    submission. New images, new quota debit, same prompt+params.
+ */
+export async function cloneFromSnapshot(args: {
+  userId: number;
+  apiKey: string;
+  snapshot: GenerationSnapshot;
+  mode: CloneMode;
+}): Promise<{ id: string }> {
+  const { userId, apiKey, snapshot, mode } = args;
+  const db = getDb();
+  const id = uid();
+  const now = Date.now();
+
+  if (mode === "regenerate") {
+    // Build a submit body from the snapshot and run it through the normal
+    // submit path. Cost + N images come from upstream; this row ends up
+    // identical-shaped to one the user typed in by hand.
+    const body: GenerationSubmitBody = {
+      model: snapshot.model,
+      prompt: snapshot.prompt,
+      negativePrompt: snapshot.negativePrompt ?? undefined,
+      params: snapshot.params as GenerationSubmitBody["params"],
+      loras: snapshot.loras as GenerationSubmitBody["loras"],
+      references: snapshot.references as GenerationSubmitBody["references"],
+      extraParams: snapshot.extraParams as Record<string, unknown> | undefined,
+      visibility: "private",
+      nsfw: snapshot.nsfw,
+    };
+    const row = await submitGeneration(userId, apiKey, body);
+    return { id: row.id };
+  }
+
+  // restore: insert a complete success row + re-host every image to the
+  // cloning user's R2 prefix. We don't share R2 keys across users; a
+  // delete by the original owner should not break the clone.
+  await db.insert(generations).values({
+    id,
+    userId,
+    requestedCount: Math.max(1, snapshot.images.length),
+    model: snapshot.model,
+    prompt: snapshot.prompt,
+    negativePrompt: snapshot.negativePrompt,
+    params: snapshot.params as never,
+    loras: snapshot.loras as never,
+    references: snapshot.references as never,
+    extraParams: snapshot.extraParams as never,
+    status: "pending",
+    visibility: "private",
+    nsfw: snapshot.nsfw,
+    costQuota: 0,
+    expiresAt: new Date(now + RETENTION_MS),
+    submittedKey: apiKey,
+  });
+
+  try {
+    const collected: ImagePayload[] = [];
+    for (const img of snapshot.images) {
+      const uploaded = await downloadAndUploadGeneration(img.r2Url, id, apiKey);
+      collected.push({ resultUri: img.r2Url, uploaded });
+    }
+    if (collected.length === 0) {
+      // Snapshot had no images (legitimate: a failed-then-shared gen).
+      // Mark the row failure so the UI doesn't show an infinite spinner.
+      await finalizeRowFailure(db, id, "snapshot contained no images");
+      return { id };
+    }
+    await finalizeRowSuccess(db, id, collected);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    logger.error("clone restore failed", {
+      context: "generation.clone",
+      generationId: id,
+      err: message,
+    });
+    await finalizeRowFailure(db, id, message);
+    throw err;
+  }
+
+  return { id };
+}

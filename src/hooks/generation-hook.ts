@@ -162,4 +162,119 @@ export function useUploadReferenceMutation() {
   });
 }
 
+// ---------- Sharing / export / import / fork ----------
+
+/** Mint a public share token for a generation the user owns. Idempotent;
+ *  the server returns the existing shareId when called twice. Cache is
+ *  updated so the result-row reflects the new shareId without refetching. */
+export function useShareGenerationMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: { id: string }) =>
+      handleElysia(
+        await rpc.api.generation({ id: args.id }).share.post(),
+      ),
+    onError: (e) => handleError(e, t),
+    onSuccess: (data, args) => {
+      const prev = qc.getQueryData<{ shareId: string | null }>(
+        queryKeys.generation(args.id),
+      );
+      if (prev) {
+        qc.setQueryData(queryKeys.generation(args.id), {
+          ...prev,
+          shareId: data.shareId,
+        });
+      }
+    },
+  });
+}
+
+export function useRevokeShareMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: { id: string }) =>
+      handleElysia(
+        await rpc.api.generation({ id: args.id }).share.delete(),
+      ),
+    onError: (e) => handleError(e, t),
+    onSuccess: (_data, args) => {
+      const prev = qc.getQueryData<{ shareId: string | null }>(
+        queryKeys.generation(args.id),
+      );
+      if (prev) {
+        qc.setQueryData(queryKeys.generation(args.id), {
+          ...prev,
+          shareId: null,
+        });
+      }
+    },
+  });
+}
+
+/** Fetches a snapshot for the user's own generation. The caller wraps the
+ *  result in a Blob + downloadable anchor; see exportGenerationToFile in
+ *  src/lib/utils/generation-export.ts for the helper. */
+export function useExportGenerationMutation() {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (args: { id: string }) =>
+      handleElysia(
+        await rpc.api.generation({ id: args.id }).export.get(),
+      ),
+    onError: (e) => handleError(e, t),
+  });
+}
+
+/** Uploads a snapshot from a JSON file and clones it into the user's
+ *  account in restore or regenerate mode. Returns the new generation id. */
+export function useImportGenerationMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: EdenArgs<typeof rpc.api.generation.import, "post">) =>
+      handleElysia(await rpc.api.generation.import.post(args.body)),
+    onError: (e) => handleError(e, t),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["generation-history"] });
+    },
+  });
+}
+
+/** Forks a shared generation into the visitor's account. Used by the
+ *  "Save to my account" button on /shared/<shareId>. */
+export function useForkSharedGenerationMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: {
+      shareId: string;
+      body: { mode: "restore" | "regenerate" };
+    }) =>
+      handleElysia(
+        await rpc.api.generation
+          .shared({ shareId: args.shareId })
+          .fork.post(args.body),
+      ),
+    onError: (e) => handleError(e, t),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["generation-history"] });
+    },
+  });
+}
+
+/** Public read of a shared generation by its share token. No auth. */
+export function useSharedGenerationQuery(shareId: string | null | undefined) {
+  return useQuery({
+    queryKey: queryKeys.sharedGeneration(shareId ?? ""),
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.generation.shared({ shareId: shareId! }).get(),
+      ),
+    enabled: !!shareId,
+    retry: false,
+  });
+}
+
 export type Generation = NonNullable<GenerationDetail>;

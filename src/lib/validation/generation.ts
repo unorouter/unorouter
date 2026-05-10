@@ -140,6 +140,51 @@ export const generationHistoryQuery = t.Object({
 });
 export type GenerationHistoryQuery = Static<typeof generationHistoryQuery>;
 
+// Clone-mode for share-fork and import:
+//   restore    = recreate the row with the original images re-hosted (no upstream call)
+//   regenerate = fire a fresh upstream submission using the same prompt+params
+export const generationCloneMode = t.Union([
+  t.Literal("restore"),
+  t.Literal("regenerate"),
+]);
+export type GenerationCloneMode = Static<typeof generationCloneMode>;
+
+// Snapshot of a generation row + its images. Same shape exportGeneration
+// emits; the import route accepts this verbatim. Loose typing on the
+// nested fields (params, loras, refs, extraParams) so a slightly-older
+// export with extra keys still parses.
+export const generationSnapshot = t.Object({
+  version: t.Literal("unorouter-generation-1"),
+  model: t.String({ minLength: 1, maxLength: 128 }),
+  prompt: t.String({ minLength: 1, maxLength: 8000 }),
+  negativePrompt: t.Union([t.String({ maxLength: 4000 }), t.Null()]),
+  params: t.Unknown(),
+  loras: t.Unknown(),
+  references: t.Unknown(),
+  extraParams: t.Unknown(),
+  nsfw: t.Boolean(),
+  images: t.Array(
+    t.Object({
+      sequenceIndex: t.Integer({ minimum: 0, maximum: 15 }),
+      r2Url: t.String({ format: "uri", maxLength: 2048 }),
+      mimeType: t.Union([t.String({ maxLength: 64 }), t.Null()]),
+      width: t.Union([t.Integer(), t.Null()]),
+      height: t.Union([t.Integer(), t.Null()]),
+    }),
+    { maxItems: 16 },
+  ),
+});
+export type GenerationSnapshot = Static<typeof generationSnapshot>;
+
+export const generationImportBody = t.Object({
+  snapshot: generationSnapshot,
+  mode: generationCloneMode,
+});
+
+export const generationCloneFromShareBody = t.Object({
+  mode: generationCloneMode,
+});
+
 export const generationVisibilityBody = t.Object({
   visibility: generationVisibility,
 });

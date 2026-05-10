@@ -83,6 +83,8 @@ export const queryKeys = {
     ["generation-history", params] as const,
   generation: (id: string) => ["generation", id] as const,
   generationStatus: (id: string) => ["generation-status", id] as const,
+  sharedGeneration: (shareId: string) =>
+    ["shared-generation", shareId] as const,
   loraCatalog: (params?: EdenQuery<typeof rpc.api.generation.loras>) =>
     ["lora-catalog", params] as const,
 };
