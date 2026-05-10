@@ -1,4 +1,4 @@
-import { SharedGenerationView } from "@/components/pages/sidebar/generate/shared-generation-view";
+import { SharedGenerationView } from "@/components/pages/sidebar/generate/shared/shared-generation-view";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

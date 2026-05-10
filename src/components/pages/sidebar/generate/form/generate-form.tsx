@@ -1,7 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -36,6 +36,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   useSnapshotQuery,
   useSubmitGenerationMutation,
+  useUploadMaskMutation,
 } from "@/hooks/generation-hook";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
@@ -46,7 +47,7 @@ import {
 } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import {
   getModelDescriptor,
   type GenerationModelDescriptor,
@@ -61,23 +62,38 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
-  generateDraftAtom,
+  activeSubPillAtom,
+  activeTabAtom,
+  editDraftAtom,
+  img2imgDraftAtom,
+  inpaintMaskAtom,
   restoreSnapshotIntoFormAtom,
   samplerMemoryAtom,
+  text2imgDraftAtom,
   type GenerateDraft,
+  type GenerateTab,
 } from "@/store/generation-store";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { LuChevronsUpDown, LuDices, LuLock, LuSparkles } from "react-icons/lu";
-import { LoraPicker, type LoraEntry } from "./lora-picker";
+import { AdetailerSection, type AdetailerValue } from "../fields/adetailer-section";
+import { AdvancedSettingsAccordion } from "../fields/advanced-settings-accordion";
+import { ControlNetModal, type ControlNetValue } from "../fields/controlnet-modal";
+import { EmbeddingPicker, type EmbeddingEntry } from "../fields/embedding-picker";
+import { InpaintCanvas } from "../fields/inpaint-canvas";
+import { LayerDiffusionField } from "../fields/layer-diffusion-field";
+import { LoraPicker, type LoraEntry } from "../fields/lora-picker";
 import { PngImport } from "./png-import";
+import { PromptEncoderField } from "../fields/prompt-encoder-field";
 import {
   ReferenceUploader,
   type ReferenceEntry,
-} from "./reference-uploader";
+} from "../fields/reference-uploader";
+import { UpscalerField } from "../fields/upscaler-field";
+import { VaePicker } from "../fields/vae-picker";
 
 const VARIANT_CHOICES = [1, 2, 4] as const;
 
@@ -107,6 +123,11 @@ export function GenerateForm() {
   const t = useTranslations();
   const locale = useLocale();
   const submitMut = useSubmitGenerationMutation();
+  // Phase 1 tab / sub-pill awareness — submit threads these as `mode`.
+  const activeTab = useAtomValue(activeTabAtom);
+  const activeSubPill = useAtomValue(activeSubPillAtom);
+  const [inpaintMask, setInpaintMask] = useAtom(inpaintMaskAtom);
+  const uploadMaskMut = useUploadMaskMutation();
   const searchParams = useSearchParams();
   const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
   const [activeSnapshotId, setActiveSnapshotId] = useAtom(
@@ -115,11 +136,26 @@ export function GenerateForm() {
   const [restorePayload, setRestorePayload] = useAtom(
     restoreSnapshotIntoFormAtom,
   );
-  // Form persistence atoms. generateDraftAtom holds the in-progress form
-  // values so a navigation away and back restores the user's edits.
+  // Form persistence atoms. Each top-level tab has its own draft slot,
+  // so switching tabs preserves each one's last state independently.
   // samplerMemoryAtom holds per-model param snapshots so flipping back to
   // a previously-used model restores its sampler/cfg/steps values.
-  const [draft, setDraft] = useAtom(generateDraftAtom);
+  //
+  // Picks the right atom for the currently active tab. The hover-toolbar
+  // shortcut routes between tabs via activeTabAtom; the form mount/effect
+  // chain below re-runs when this swap fires so the draft for the new tab
+  // is loaded.
+  const tabDraftAtom = (() => {
+    switch (activeTab as GenerateTab) {
+      case "img2img":
+        return img2imgDraftAtom;
+      case "edit":
+        return editDraftAtom;
+      default:
+        return text2imgDraftAtom;
+    }
+  })();
+  const [draft, setDraft] = useAtom(tabDraftAtom);
   const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
   const remixId = searchParams.get("remix");
   // ?hires=1 is set by the result tile's "Hires" shortcut. When the seed
@@ -256,12 +292,19 @@ export function GenerateForm() {
   // seed source — those win over the persisted draft so a remix click
   // shows the source's settings, not last-typed prompt. The ref guard
   // means we only attempt restore once per mount.
-  const draftRestoredRef = useRef(false);
+  // The restore-guard is keyed by active tab. Switching tabs (e.g. via
+  // the hover toolbar) resets it so the new tab's draft gets re-applied
+  // on the next render. Without this, the form keeps the previous tab's
+  // values even though the user explicitly switched modes.
+  const draftRestoredRef = useRef<string | null>(null);
   useEffect(() => {
-    if (draftRestoredRef.current) return;
+    if (draftRestoredRef.current === activeTab) return;
     if (seedSourceId) return; // remix / active id takes precedence
-    if (!draft) return;
-    draftRestoredRef.current = true;
+    if (!draft) {
+      draftRestoredRef.current = activeTab;
+      return;
+    }
+    draftRestoredRef.current = activeTab;
     form.reset({
       ...defaultsFor(getModelDescriptor((draft.model as GenerationModel) || INITIAL_MODEL)),
       model: draft.model as GenerationModel,
@@ -274,7 +317,7 @@ export function GenerateForm() {
       extraParams: draft.extraParams as never,
     } as never);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [seedSourceId, draft, form]);
+  }, [activeTab, seedSourceId, draft, form]);
 
   // Persist current form values to the draft atom whenever they change.
   // Debounced via a 500ms trailing write so each keystroke doesn't hit
@@ -338,11 +381,36 @@ export function GenerateForm() {
     delete extras.variants;
     const cleanedExtras = Object.keys(extras).length > 0 ? extras : undefined;
     const existingParams = (data.params as Record<string, unknown> | undefined) ?? {};
-    const paramsWithN = { ...existingParams, n: variants };
+    const paramsWithN: Record<string, unknown> = {
+      ...existingParams,
+      n: variants,
+    };
+
+    // Resolve generation mode from tab + sub-pill. Text2Img top tab =>
+    // always txt2img. Img2Img top tab => the active sub-pill. Edit tab
+    // => the "edit" mode. Legacy snapshots that don't carry a mode are
+    // treated as txt2img by the server.
+    const mode: "txt2img" | "img2img" | "upscale" | "adetailer" | "inpaint" | "edit" =
+      activeTab === "text2img"
+        ? "txt2img"
+        : activeTab === "edit"
+          ? "edit"
+          : activeSubPill;
+
+    // Inpaint: if the brush canvas has a mask, upload it now and
+    // thread the URL into params.maskUrl. The mask atom is cleared
+    // after a successful submit so the next generation starts clean.
+    if (mode === "inpaint" && inpaintMask) {
+      const blob = await (await fetch(inpaintMask)).blob();
+      const file = new File([blob], "mask.png", { type: "image/png" });
+      const uploaded = await uploadMaskMut.mutateAsync(file);
+      paramsWithN.maskUrl = uploaded.url;
+    }
 
     const submitted = await submitMut.mutateAsync({
       body: {
         ...data,
+        mode,
         // Append to the active session if there is one; otherwise the
         // server creates a fresh session and the response carries its id.
         sessionId: activeSessionId ?? undefined,
@@ -350,6 +418,7 @@ export function GenerateForm() {
         extraParams: cleanedExtras,
       },
     });
+    if (mode === "inpaint") setInpaintMask(null);
 
     // Persist the params under this model's key so a future model switch
     // back to it restores the same sampler/cfg/steps values.
@@ -378,15 +447,23 @@ export function GenerateForm() {
     if (!restorePayload) return;
     const modelId = (restorePayload.model as GenerationModel) ?? INITIAL_MODEL;
     const desc = findDescriptor(modelId);
+    // Hover toolbar (Inpaint/Upscale/ADetailer/Edit) sends an
+    // initImageUrl + target tab/sub-pill. Merge initImageUrl into
+    // params so the worker has the source image; the tab/sub-pill is
+    // applied by the result panel before the restore fires.
+    const mergedParams: Record<string, unknown> = {
+      ...desc.defaultParams,
+      ...(restorePayload.params ?? {}),
+    };
+    if (restorePayload.initImageUrl) {
+      mergedParams.initImageUrl = restorePayload.initImageUrl;
+    }
     form.reset({
       ...defaultsFor(desc),
       model: modelId,
       prompt: restorePayload.prompt,
       negativePrompt: restorePayload.negativePrompt ?? "",
-      params: {
-        ...desc.defaultParams,
-        ...(restorePayload.params ?? {}),
-      } as never,
+      params: mergedParams as never,
       loras: (restorePayload.loras as LoraEntry[] | null) ?? undefined,
       references:
         (restorePayload.references as { url: string }[] | null) ?? undefined,
@@ -401,15 +478,6 @@ export function GenerateForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restorePayload]);
 
-  // "New session" handler: clear the active session/snapshot ids and bounce
-  // the URL back to /generate so the next Generate click creates a fresh
-  // session. The draft form state is intentionally kept (user may want to
-  // tweak the prompt against a clean slate without retyping).
-  const onNewSession = () => {
-    setActiveSessionId(null);
-    setActiveSnapshotId(null);
-    window.history.replaceState(null, "", `/${locale}/generate`);
-  };
   void activeSnapshotId;
 
   // Helper to read a numeric value out of params with a fallback to the
@@ -985,6 +1053,186 @@ export function GenerateForm() {
           </div>
         )}
 
+        {/* Inpaint brush canvas. Visible only when the user routed into
+            the Img2Img > Inpaint sub-pill AND we have a source image
+            (set by the hover-toolbar Inpaint shortcut). Without a
+            source image the canvas hides; the user picks one through
+            the Img2Img upload first. */}
+        {activeTab === "img2img" &&
+          activeSubPill === "inpaint" &&
+          (() => {
+            // eslint-disable-next-line react-hooks/incompatible-library
+            const params = form.watch("params") as { initImageUrl?: string } | undefined;
+            return params?.initImageUrl ? (
+              <InpaintCanvas imageUrl={params.initImageUrl} />
+            ) : null;
+          })()}
+
+        {/* ---- Phase 2-4: studio knobs (gated by descriptor flags) ---- */}
+        {descriptor.supportsEmbedding && (
+          <EmbeddingPicker
+            family={descriptor.family}
+            value={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              ((form.watch("params") as { embeddings?: EmbeddingEntry[] } | undefined)?.embeddings ?? [])
+            }
+            onChange={(embeddings) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue(
+                "params",
+                {
+                  ...cur,
+                  embeddings: embeddings.length > 0 ? embeddings : undefined,
+                } as never,
+                { shouldDirty: true },
+              );
+            }}
+          />
+        )}
+
+        {descriptor.supportsVae && (
+          <VaePicker
+            value={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              ((form.watch("params") as { vae?: string } | undefined)?.vae)
+            }
+            onChange={(vae) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue("params", { ...cur, vae } as never, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        )}
+
+        {descriptor.supportsControlNet && (
+          <ControlNetModal
+            value={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              ((form.watch("params") as { controlNet?: ControlNetValue } | undefined)?.controlNet)
+            }
+            onChange={(controlNet) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue("params", { ...cur, controlNet } as never, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        )}
+
+        {descriptor.supportsAdetailer && (
+          <AdetailerSection
+            family={descriptor.family}
+            value={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              ((form.watch("params") as { adetailer?: AdetailerValue } | undefined)?.adetailer)
+            }
+            onChange={(adetailer) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue("params", { ...cur, adetailer } as never, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        )}
+
+        {descriptor.supportsLayerDiffusion && (
+          <LayerDiffusionField
+            value={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              ((form.watch("params") as { layerDiffusion?: { weight: number } } | undefined)?.layerDiffusion)
+            }
+            onChange={(layerDiffusion) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue("params", { ...cur, layerDiffusion } as never, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        )}
+
+        {descriptor.supportsHiresFix && (
+          <UpscalerField
+            upscaler={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { upscaler?: string } | undefined)?.upscaler
+            }
+            multiplier={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { upscalerMultiplier?: number; hiresUpscale?: number } | undefined)?.upscalerMultiplier ??
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { hiresUpscale?: number } | undefined)?.hiresUpscale
+            }
+            hiresSteps={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { hiresSteps?: number } | undefined)?.hiresSteps
+            }
+            denoise={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { hiresDenoise?: number } | undefined)?.hiresDenoise
+            }
+            onChange={(patch) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue(
+                "params",
+                {
+                  ...cur,
+                  ...(patch.upscaler !== undefined && { upscaler: patch.upscaler }),
+                  ...(patch.multiplier !== undefined && {
+                    upscalerMultiplier: patch.multiplier,
+                    hiresUpscale: patch.multiplier,
+                  }),
+                  ...(patch.hiresSteps !== undefined && { hiresSteps: patch.hiresSteps }),
+                  ...(patch.denoise !== undefined && { hiresDenoise: patch.denoise }),
+                } as never,
+                { shouldDirty: true },
+              );
+            }}
+          />
+        )}
+
+        {descriptor.supportsClipSkip && (
+          <AdvancedSettingsAccordion
+            clipSkip={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { clipSkip?: number } | undefined)?.clipSkip
+            }
+            ensd={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { ensd?: number } | undefined)?.ensd
+            }
+            onChange={(patch) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue("params", { ...cur, ...patch } as never, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        )}
+
+        {descriptor.supportsPromptEncoder && (
+          <PromptEncoderField
+            value={
+              // eslint-disable-next-line react-hooks/incompatible-library
+              (form.watch("params") as { promptEncoder?: "default" | "a1111" | "ella" } | undefined)?.promptEncoder
+            }
+            onChange={(promptEncoder) => {
+              // eslint-disable-next-line react-hooks/incompatible-library
+              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              form.setValue("params", { ...cur, promptEncoder } as never, {
+                shouldDirty: true,
+              });
+            }}
+          />
+        )}
+
         {/* Submit + New-session row. The "New session" pill only renders
             when there's already an active session so it doesn't add UI
             noise on the first submit. */}
@@ -1004,14 +1252,19 @@ export function GenerateForm() {
               : `${t("IMAGE.SUBMIT")} - ${renderQuota(totalQuota, 2)}`}
           </Button>
           {activeSessionId && (
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={onNewSession}
+            // Proper navigation so the URL drops both pathname and search
+            // params (including ?snap=) and the page re-resolves the route
+            // segment. Clearing atoms in an onClick handler was racy with
+            // the page-level effect that re-writes ?snap= once a session
+            // loads.
+            <Link
+              href="/generate"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "sm" }),
+              )}
             >
               {t("IMAGE.NEW_SESSION")}
-            </Button>
+            </Link>
           )}
         </div>
       </form>

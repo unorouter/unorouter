@@ -37,7 +37,13 @@ import {
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
+  activeSubPillAtom,
+  activeTabAtom,
   restoreSnapshotIntoFormAtom,
+} from "@/store/generation-store";
+import type {
+  GenerateTab,
+  Img2ImgSubPill,
 } from "@/store/generation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -51,6 +57,10 @@ import {
   LuDownload,
   LuLink2,
   LuLink2Off,
+  LuMaximize2,
+  LuPaintbrush,
+  LuPencil,
+  LuPencilRuler,
   LuShare2,
   LuSparkles,
   LuTrash2,
@@ -106,6 +116,10 @@ function BatchGrid(props: {
   prompt: string;
   snapshotId: string;
   onOpenLightbox: (index: number) => void;
+  onQuickAction?: (
+    url: string,
+    target: { tab: GenerateTab; subPill?: Img2ImgSubPill },
+  ) => void;
 }) {
   const count = props.images.length;
   const sorted = props.images
@@ -119,6 +133,7 @@ function BatchGrid(props: {
         filename={`${props.snapshotId}.png`}
         className="aspect-square w-full"
         onZoom={() => props.onOpenLightbox(0)}
+        onQuickAction={props.onQuickAction}
       />
     );
   }
@@ -132,6 +147,7 @@ function BatchGrid(props: {
           filename={`${props.snapshotId}-${img.sequenceIndex}.png`}
           className="aspect-square"
           onZoom={() => props.onOpenLightbox(i)}
+          onQuickAction={props.onQuickAction}
         />
       ))}
     </div>
@@ -144,6 +160,10 @@ function ImageTile(props: {
   filename: string;
   className?: string;
   onZoom: () => void;
+  onQuickAction?: (
+    url: string,
+    target: { tab: GenerateTab; subPill?: Img2ImgSubPill },
+  ) => void;
 }) {
   const t = useTranslations();
   const onDownload = async (e: React.MouseEvent) => {
@@ -153,6 +173,13 @@ function ImageTile(props: {
     } catch {
       window.open(props.url, "_blank", "noopener");
     }
+  };
+  const quick = (
+    e: React.MouseEvent,
+    target: { tab: GenerateTab; subPill?: Img2ImgSubPill },
+  ) => {
+    e.stopPropagation();
+    props.onQuickAction?.(props.url, target);
   };
   return (
     <button
@@ -176,6 +203,40 @@ function ImageTile(props: {
       >
         <LuDownload className="h-4 w-4" />
       </span>
+      {props.onQuickAction && (
+        <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
+          <span
+            onClick={(e) => quick(e, { tab: "img2img", subPill: "inpaint" })}
+            title={t("IMAGE.HOVER_INPAINT")}
+            className="hover:bg-accent cursor-pointer rounded p-1"
+          >
+            <LuPaintbrush className="h-3.5 w-3.5" />
+          </span>
+          <span
+            onClick={(e) => quick(e, { tab: "img2img", subPill: "upscale" })}
+            title={t("IMAGE.HOVER_UPSCALE")}
+            className="hover:bg-accent cursor-pointer rounded p-1"
+          >
+            <LuMaximize2 className="h-3.5 w-3.5" />
+          </span>
+          <span
+            onClick={(e) =>
+              quick(e, { tab: "img2img", subPill: "adetailer" })
+            }
+            title={t("IMAGE.HOVER_ADETAILER")}
+            className="hover:bg-accent cursor-pointer rounded p-1"
+          >
+            <LuPencilRuler className="h-3.5 w-3.5" />
+          </span>
+          <span
+            onClick={(e) => quick(e, { tab: "edit" })}
+            title={t("IMAGE.HOVER_EDIT")}
+            className="hover:bg-accent cursor-pointer rounded p-1"
+          >
+            <LuPencil className="h-3.5 w-3.5" />
+          </span>
+        </div>
+      )}
     </button>
   );
 }
@@ -301,6 +362,8 @@ export function GenerateResult(props: Props) {
   const [, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
   const [, setActiveSessionId] = useAtom(activeSessionIdAtom);
   const setRestore = useSetAtom(restoreSnapshotIntoFormAtom);
+  const setActiveTab = useSetAtom(activeTabAtom);
+  const setActiveSubPill = useSetAtom(activeSubPillAtom);
 
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [copiedTick, setCopiedTick] = useState(false);
@@ -476,6 +539,37 @@ export function GenerateResult(props: Props) {
           onOpenLightbox={(i) => {
             setLightboxIndex(i);
             setLightboxOpen(true);
+          }}
+          onQuickAction={(url, target) => {
+            // Route the studio to the picked tab + sub-pill and hand the
+            // image to the form via the restore atom. The hover toolbar
+            // is the inverse of the chevron restore: the user picks the
+            // next mode and the source image, the form re-hydrates.
+            setActiveTab(target.tab);
+            if (target.subPill) setActiveSubPill(target.subPill);
+            const urlObj = new URL(window.location.href);
+            urlObj.searchParams.set("tab", target.tab);
+            if (target.subPill) {
+              urlObj.searchParams.set("mode", target.subPill);
+            } else {
+              urlObj.searchParams.delete("mode");
+            }
+            window.history.replaceState(null, "", urlObj.toString());
+            setRestore({
+              model: data.model,
+              prompt: data.prompt,
+              negativePrompt: (data as { negativePrompt: string | null })
+                .negativePrompt,
+              params: (data.params as Record<string, unknown> | null) ?? null,
+              loras: data.loras,
+              references: data.references,
+              extraParams:
+                (data.extraParams as Record<string, unknown> | null) ?? null,
+              nsfw: data.nsfw,
+              tab: target.tab,
+              subPill: target.subPill,
+              initImageUrl: url,
+            });
           }}
         />
       ) : isFailed ? (

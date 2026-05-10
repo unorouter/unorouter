@@ -691,6 +691,96 @@ export const loraCatalog = sqliteTable(
   ],
 );
 
+// embeddingCatalog mirrors loraCatalog but for textual-inversion files.
+// Filename must match the file on /workspace/models/embeddings/ — the
+// prompt assembler rewrites `<embed:name>` tokens into the ComfyUI
+// embedding syntax `embedding:<filename>`.
+export const embeddingCatalog = sqliteTable(
+  "embedding_catalog",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    source: text("source").notNull(),
+    sourceId: text("source_id").notNull(),
+    filename: text("filename").notNull(),
+    baseModel: text("base_model").notNull(),
+    // "negative" | "style" | "character" | "concept" - operator-defined
+    category: text("category").notNull(),
+    description: text("description"),
+    thumbnailR2Key: text("thumbnail_r2_key"),
+    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
+    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_embedding_basemodel_visible").on(table.baseModel, table.visible),
+    index("idx_embedding_category").on(table.category),
+  ],
+);
+
+// upscalerCatalog tracks the upscaler models on the RunPod volume.
+// Family-agnostic: SDXL / Flux / Z-Image all use the same ESRGAN/SwinIR/DAT
+// upscalers, so no baseModel field. `category` partitions them for picker
+// grouping (Latent vs ESRGAN vs SwinIR vs DAT vs APISR).
+export const upscalerCatalog = sqliteTable(
+  "upscaler_catalog",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    // filename or built-in name ("Latent (nearest)" / "R-ESRGAN 4x+" / etc.)
+    filename: text("filename").notNull(),
+    category: text("category").notNull(),
+    // Recommended scale: 2/3/4. Used to set default multiplier when picked.
+    nativeScale: integer("native_scale").notNull().default(4),
+    description: text("description"),
+    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_upscaler_category_visible").on(table.category, table.visible),
+  ],
+);
+
+// controlNetCatalog lists per-family ControlNet checkpoints. Single-unit
+// only on the worker side for now: each row has a `kind` (depth/canny/
+// openpose) and the worker template wires its preprocessor automatically
+// based on the kind.
+export const controlNetCatalog = sqliteTable(
+  "controlnet_catalog",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    filename: text("filename").notNull(),
+    baseModel: text("base_model").notNull(),
+    // "depth" | "canny" | "openpose"
+    kind: text("kind").notNull(),
+    description: text("description"),
+    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_controlnet_basemodel_kind").on(table.baseModel, table.kind),
+  ],
+);
+
 // ---------------------------------------------------------------------------
 // Inferred types (only the ones actually imported elsewhere)
 // ---------------------------------------------------------------------------
@@ -703,3 +793,6 @@ export type Generation = typeof generations.$inferSelect;
 export type GenerationImage = typeof generationImages.$inferSelect;
 export type GenerationLike = typeof generationLikes.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
+export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
+export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;
+export type ControlNetCatalogEntry = typeof controlNetCatalog.$inferSelect;

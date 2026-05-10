@@ -8,7 +8,7 @@
 
 import type { GenerationModel } from "@/lib/validation/generation";
 
-export type ModelFamily = "sdxl" | "flux2" | "sync-image";
+export type ModelFamily = "sdxl" | "flux2" | "sync-image" | "edit";
 
 export type GenerationModelDescriptor = {
   id: GenerationModel;
@@ -75,6 +75,27 @@ export type GenerationModelDescriptor = {
   // "public" for any nsfw=true row. Pony / Endgame default true; vanilla
   // SDXL + Flux 2 default false. User can override per submission.
   nsfwDefault: boolean;
+  // ---------------------------------------------------------------------
+  // Phase 2-4 capability flags. Each gates a specific UI section in the
+  // studio. Defaults are conservative (undefined = false); SDXL-family
+  // descriptors opt in explicitly. Edit-family descriptors (Kontext,
+  // gpt-image-1 edits, Gemini 3 image-preview) opt into multi-image-ref
+  // but not the SDXL knobs (no Clip Skip/ENSD/A1111).
+  // ---------------------------------------------------------------------
+  supportsImg2Img?: boolean;
+  supportsUpscale?: boolean;
+  supportsInpaint?: boolean;
+  supportsAdetailer?: boolean;
+  supportsEmbedding?: boolean;
+  supportsControlNet?: boolean;
+  supportsVae?: boolean;
+  supportsLayerDiffusion?: boolean;
+  supportsClipSkip?: boolean;
+  supportsPromptEncoder?: boolean;
+  // Tab gating. Each descriptor declares which top-level tabs it can
+  // appear in. Picker filters by the active tab. A model with no `tabs`
+  // is assumed Text2Img-only, matching v1 behavior.
+  tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
 
 const SDXL_SAMPLERS = [
@@ -117,6 +138,19 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     estimatedSeconds: 8,
     recommendedPromptStyle: "natural-language",
     nsfwDefault: true,
+    // Pony is the SDXL-family workhorse: opt in to every studio knob the
+    // ComfyUI worker can handle on this checkpoint.
+    supportsImg2Img: true,
+    supportsUpscale: true,
+    supportsInpaint: true,
+    supportsAdetailer: true,
+    supportsEmbedding: true,
+    supportsControlNet: true,
+    supportsVae: true,
+    supportsLayerDiffusion: true,
+    supportsClipSkip: true,
+    supportsPromptEncoder: true,
+    tabs: ["text2img", "img2img"],
   },
   {
     id: "endgame",
@@ -145,6 +179,17 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     estimatedSeconds: 10,
     recommendedPromptStyle: "natural-language",
     nsfwDefault: true,
+    supportsImg2Img: true,
+    supportsUpscale: true,
+    supportsInpaint: true,
+    supportsAdetailer: true,
+    supportsEmbedding: true,
+    supportsControlNet: true,
+    supportsVae: true,
+    supportsLayerDiffusion: true,
+    supportsClipSkip: true,
+    supportsPromptEncoder: true,
+    tabs: ["text2img", "img2img"],
   },
   {
     id: "comfyui-sdxl-txt2img-lora",
@@ -173,6 +218,17 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     estimatedSeconds: 8,
     recommendedPromptStyle: "natural-language",
     nsfwDefault: false,
+    supportsImg2Img: true,
+    supportsUpscale: true,
+    supportsInpaint: true,
+    supportsAdetailer: true,
+    supportsEmbedding: true,
+    supportsControlNet: true,
+    supportsVae: true,
+    supportsLayerDiffusion: true,
+    supportsClipSkip: true,
+    supportsPromptEncoder: true,
+    tabs: ["text2img", "img2img"],
   },
   {
     id: "flux2-dev",
@@ -198,6 +254,10 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     estimatedSeconds: 45,
     recommendedPromptStyle: "natural-language",
     nsfwDefault: false,
+    // Flux 2 dev: no SDXL-specific knobs (no Clip Skip / ENSD / A1111 /
+    // Ella / Layer Diffusion). Worker doesn't expose Img2Img/Inpaint on
+    // this template either.
+    tabs: ["text2img"],
   },
   {
     id: "flux2-dev-compose",
@@ -227,6 +287,92 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     // by default so the publish toggle is hidden until the user opts
     // out per submission.
     nsfwDefault: true,
+    // Compose is multi-reference image-edit-style; surface it under
+    // both Text2Img (still works as a generator) and Edit.
+    tabs: ["text2img", "edit"],
+  },
+  // ---------------------------------------------------------------------
+  // Edit-family static descriptors. Multi-image-reference instruction-edit
+  // models that route through the OpenAI / Gemini sync-image endpoints.
+  // These are also surfaced by getEffectiveGenerationModels() when their
+  // pricing rows declare metadata.maxImageInputs >= 6, but we list them
+  // here so the Edit tab always has at least one default option visible
+  // even before the pricing payload loads.
+  //
+  // The IDs match upstream new-api canonical names (see new-api-sync
+  // modelMapping). Pricing comes from the dynamic descriptor when the
+  // pricing payload is present; static prices below are fallback only.
+  // ---------------------------------------------------------------------
+  {
+    id: "flux-kontext-max",
+    family: "edit",
+    displayName: "FLUX.1 Kontext Max",
+    vendor: "flux",
+    pricePerCall: 0.08,
+    supportsNegativePrompt: false,
+    supportsCfg: false,
+    supportsGuidance: true,
+    supportsSize: false,
+    supportsLoraChain: false,
+    supportsReferences: true,
+    supportsSampler: false,
+    supportsHiresFix: false,
+    maxReferenceImages: 4,
+    defaultParams: { width: 1024, height: 1024, steps: 28, guidance: 2.5 },
+    estimatedSeconds: 25,
+    recommendedPromptStyle: "natural-language",
+    nsfwDefault: false,
+    tabs: ["edit"],
+  },
+  {
+    id: "gpt-image-1",
+    family: "edit",
+    displayName: "GPT Image 1",
+    vendor: "openai",
+    pricePerCall: 0.04,
+    supportsNegativePrompt: false,
+    supportsCfg: false,
+    supportsGuidance: false,
+    supportsSize: true,
+    supportsLoraChain: false,
+    supportsReferences: true,
+    supportsSampler: false,
+    supportsHiresFix: false,
+    supportsQuality: true,
+    qualityChoices: ["low", "medium", "high"] as const,
+    supportsOutputFormat: true,
+    outputFormatChoices: ["png", "jpeg", "webp"] as const,
+    supportsBackground: true,
+    maxReferenceImages: 4,
+    defaultParams: { width: 1024, height: 1024, steps: 1 },
+    estimatedSeconds: 18,
+    recommendedPromptStyle: "natural-language",
+    nsfwDefault: false,
+    tabs: ["edit"],
+  },
+  {
+    id: "gemini-3-pro-image-preview",
+    family: "edit",
+    displayName: "Gemini 3 Pro Image",
+    vendor: "gemini",
+    pricePerCall: 0.04,
+    supportsNegativePrompt: false,
+    supportsCfg: false,
+    supportsGuidance: false,
+    supportsSize: true,
+    supportsLoraChain: false,
+    supportsReferences: true,
+    supportsSampler: false,
+    supportsHiresFix: false,
+    supportsQuality: true,
+    qualityChoices: ["1K", "2K", "4K"] as const,
+    supportsSeed: true,
+    maxReferenceImages: 4,
+    defaultParams: { width: 1024, height: 1024, steps: 1 },
+    estimatedSeconds: 15,
+    recommendedPromptStyle: "natural-language",
+    nsfwDefault: false,
+    tabs: ["edit"],
   },
 ];
 

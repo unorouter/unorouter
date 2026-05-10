@@ -93,4 +93,13 @@ export const queryKeys = {
     ["shared-generation-session", shareId] as const,
   loraCatalog: (params?: EdenQuery<typeof rpc.api.generation.loras>) =>
     ["lora-catalog", params] as const,
+  embeddingCatalog: (
+    params?: EdenQuery<typeof rpc.api.generation.embeddings>,
+  ) => ["embedding-catalog", params] as const,
+  upscalerCatalog: (
+    params?: EdenQuery<typeof rpc.api.generation.upscalers>,
+  ) => ["upscaler-catalog", params] as const,
+  controlNetCatalog: (
+    params?: EdenQuery<typeof rpc.api.generation.controlnets>,
+  ) => ["controlnet-catalog", params] as const,
 };

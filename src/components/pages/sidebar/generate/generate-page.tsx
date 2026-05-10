@@ -1,14 +1,17 @@
 "use client";
 
-import { GenerateForm } from "@/components/pages/sidebar/generate/generate-form";
+import { GenerateForm } from "@/components/pages/sidebar/generate/form/generate-form";
 import { GenerateResult } from "@/components/pages/sidebar/generate/generate-result";
-import { RecentStrip } from "@/components/pages/sidebar/generate/recent-strip";
+import { Img2ImgSubPills } from "@/components/pages/sidebar/generate/form/img2img-sub-pills";
+import { ModeTabs } from "@/components/pages/sidebar/generate/form/mode-tabs";
+import { RecentStrip } from "@/components/pages/sidebar/generate/shared/recent-strip";
 import { useSessionQuery } from "@/hooks/generation-hook";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
+  activeTabAtom,
 } from "@/store/generation-store";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -64,10 +67,14 @@ export function GeneratePage(props: {
     }
   }, [props.sessionId, sessionQuery.isError, router]);
 
+  const activeTab = useAtomValue(activeTabAtom);
+
   return (
     <div className="thin-scrollbar flex min-h-0 min-w-0 flex-1 flex-col gap-6 overflow-y-auto p-4 md:p-6 lg:flex-row lg:overflow-hidden">
       <div className="thin-scrollbar flex-1 lg:overflow-y-auto lg:pr-2">
-        <div className="max-w-2xl">
+        <div className="flex max-w-2xl flex-col gap-4">
+          <ModeTabs />
+          {activeTab === "img2img" && <Img2ImgSubPills />}
           <GenerateForm />
         </div>
       </div>

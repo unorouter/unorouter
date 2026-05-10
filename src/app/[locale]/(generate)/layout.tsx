@@ -1,6 +1,6 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
-import { GenerationList } from "@/components/pages/sidebar/generate/generation-list";
+import { GenerationList } from "@/components/pages/sidebar/generate/shared/generation-list";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

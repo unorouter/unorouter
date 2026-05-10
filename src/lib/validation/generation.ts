@@ -57,12 +57,93 @@ export const generationSize = t.Union([
   t.Literal("1536x1024"),
 ]);
 
+// Mode determines which sub-graph the ComfyUI worker runs and which
+// extra fields are required:
+//   txt2img    -> no init image, default
+//   img2img    -> initImageUrl required, denoise drives the strength
+//   upscale    -> initImageUrl required, no diffusion (or low denoise)
+//   adetailer  -> initImageUrl required, runs YOLO + inpaint on detections
+//   inpaint    -> initImageUrl + maskUrl required, brush mask drives the region
+//   edit       -> single or multi reference, model-family specific (Kontext etc.)
+export const generationMode = t.Union([
+  t.Literal("txt2img"),
+  t.Literal("img2img"),
+  t.Literal("upscale"),
+  t.Literal("adetailer"),
+  t.Literal("inpaint"),
+  t.Literal("edit"),
+]);
+export type GenerationMode = Static<typeof generationMode>;
+
+// ADetailer subform. Bound to a single YOLO detector + its own inpaint
+// pass. LoRA chain here is independent of the main LoRA list because
+// face-fixer models often want a face-specific LoRA the main pass shouldn't.
+export const generationAdetailer = t.Object({
+  yoloModel: t.String({ maxLength: 128 }),
+  prompt: t.Optional(t.String({ maxLength: 2000 })),
+  negativePrompt: t.Optional(t.String({ maxLength: 2000 })),
+  steps: t.Optional(t.Integer({ minimum: 0, maximum: 80 })),
+  confidence: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
+  maskBlur: t.Optional(t.Integer({ minimum: 0, maximum: 64 })),
+  denoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
+  inpaintOnlyMasked: t.Optional(t.Boolean()),
+  loras: t.Optional(
+    t.Array(
+      t.Object({
+        name: t.String({ maxLength: 256 }),
+        weight: t.Number({ minimum: 0, maximum: 2 }),
+      }),
+      { maxItems: 6 },
+    ),
+  ),
+});
+export type GenerationAdetailer = Static<typeof generationAdetailer>;
+
+// ControlNet unit. Single-unit only on the SDXL Z-Image style we expose;
+// preprocessor selection is implicit by `kind` (Depth/Canny/Openpose
+// each have their own preprocessor wired into the ComfyUI template).
+export const generationControlNetKind = t.Union([
+  t.Literal("depth"),
+  t.Literal("canny"),
+  t.Literal("openpose"),
+]);
+
+export const generationControlNet = t.Object({
+  kind: generationControlNetKind,
+  imageUrl: t.String({ format: "uri", maxLength: 2048 }),
+  weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
+});
+export type GenerationControlNet = Static<typeof generationControlNet>;
+
+// Layer Diffusion: transparent PNG output via the LayerDiffusion custom
+// nodes. Weight drives the alpha-leak slider; the ComfyUI template
+// branches the VAE decode + saves a PNG with alpha when enabled.
+export const generationLayerDiffusion = t.Object({
+  weight: t.Number({ minimum: 0, maximum: 2 }),
+});
+
+// Prompt encoder choice. A1111-syntax keeps the SD-WebUI `(token:weight)`
+// convention; Ella routes the prompt through the T5 encoder for long
+// natural-language prompts on SDXL. Only one can be active at a time;
+// they're independent toggles on tensor but mutually exclusive in
+// behavior (Ella replaces the encoder, A1111 changes the tokenizer).
+export const generationPromptEncoder = t.Union([
+  t.Literal("default"),
+  t.Literal("a1111"),
+  t.Literal("ella"),
+]);
+
 // Per-call params shared across families. Optional fields mean "use the
 // template default for the chosen model". The server merges these against
 // MODEL_CAPABILITIES defaults before the upstream call.
 export const generationParams = t.Object({
-  width: t.Optional(t.Integer({ minimum: 64, maximum: 2048 })),
-  height: t.Optional(t.Integer({ minimum: 64, maximum: 2048 })),
+  // Width/height bounds bumped from 2048 -> 5060 to match tensor.art's
+  // custom-aspect range. Per-model descriptors gate this further: Flux 2
+  // is locked to 1024x1024 by its template, SDXL still aborts >2048 inside
+  // the ComfyUI worker (worker VRAM). Validate broadly here; the
+  // descriptor + adapter narrow.
+  width: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
+  height: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   steps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
   cfg: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
   guidance: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
@@ -87,6 +168,45 @@ export const generationParams = t.Object({
   watermark: t.Optional(t.Boolean()),
   background: t.Optional(t.String({ maxLength: 32 })),
   strength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
+  // ---- Phase 2-4: power-user knobs ----
+  // Inpaint / Img2Img / Upscale init image + mask
+  initImageUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
+  maskUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
+  // VAE override (filename on the RunPod volume; "Automatic" / "None" skip)
+  vae: t.Optional(t.String({ maxLength: 128 })),
+  // Upscaler model name (one of the 18 upscalers on the volume). When
+  // present the worker uses it instead of the template default and
+  // skips its built-in latent-upscale path.
+  upscaler: t.Optional(t.String({ maxLength: 128 })),
+  // Multiplier on top of upscaler. Tensor uses discrete radios
+  // (1x/1.5x/2x/3x/4x/custom); we accept any float in range and clamp
+  // worker-side.
+  upscalerMultiplier: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
+  hiresSteps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
+  // Embeddings to inject into the prompt as `embedding:<name>:weight`
+  // tokens; the prompt-assembler in the worker rewrites these into the
+  // expected ComfyUI CLIPTextEncode syntax.
+  embeddings: t.Optional(
+    t.Array(
+      t.Object({
+        name: t.String({ maxLength: 256 }),
+        weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
+      }),
+      { maxItems: 6 },
+    ),
+  ),
+  // ControlNet unit (single-unit only). Image rehosted through R2 first.
+  controlNet: t.Optional(generationControlNet),
+  // ADetailer subform. When present, the worker fires a 2nd-pass after
+  // the main diffusion.
+  adetailer: t.Optional(generationAdetailer),
+  // Layer Diffusion transparent-output. When present the result image
+  // is saved as PNG with alpha and stored in R2 with the same key suffix.
+  layerDiffusion: t.Optional(generationLayerDiffusion),
+  // SDXL-family Advanced Settings. Other families ignore both.
+  clipSkip: t.Optional(t.Integer({ minimum: 0, maximum: 12 })),
+  ensd: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
+  promptEncoder: t.Optional(generationPromptEncoder),
 });
 export type GenerationParams = Static<typeof generationParams>;
 
@@ -115,6 +235,10 @@ export const generationReferenceEntry = t.Object({
 // row are produced by `params.n` (clamped to [1, 4] server-side).
 export const generationSubmitBody = t.Object({
   model: generationModel,
+  // Mode is optional: legacy clients send no `mode` and the server
+  // treats them as txt2img. Phase 1 onward, the studio sets this
+  // explicitly per top-tab + Img2Img sub-pill.
+  mode: t.Optional(generationMode),
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
   negativePrompt: t.Optional(t.String({ maxLength: 4000 })),
   params: t.Optional(generationParams),
@@ -239,3 +363,63 @@ export const loraCatalogQuery = t.Object({
   ),
 });
 export type LoraCatalogQuery = Static<typeof loraCatalogQuery>;
+
+// ---------------------------------------------------------------------------
+// Catalog queries for the new pickers (Phase 2-4). Same shape as loraCatalog
+// so the picker UI can share components: filter by base-model family + an
+// optional category facet. The category enums differ per catalog; we keep
+// the validator forgiving so the worker can add categories without a
+// schema bump.
+// ---------------------------------------------------------------------------
+
+export const embeddingCatalogQuery = t.Object({
+  baseModel: t.Optional(
+    t.Union([
+      t.Literal("sdxl"),
+      t.Literal("pony"),
+      t.Literal("flux2"),
+      t.Literal("z-image"),
+    ]),
+  ),
+  category: t.Optional(t.String({ maxLength: 64 })),
+});
+export type EmbeddingCatalogQuery = Static<typeof embeddingCatalogQuery>;
+
+export const upscalerCatalogQuery = t.Object({
+  // Upscalers are family-agnostic on the volume; the field is here for
+  // future-proofing and the worker passes whichever was selected through.
+  category: t.Optional(
+    t.Union([
+      t.Literal("latent"),
+      t.Literal("esrgan"),
+      t.Literal("swinir"),
+      t.Literal("dat"),
+      t.Literal("apisr"),
+      t.Literal("other"),
+    ]),
+  ),
+});
+export type UpscalerCatalogQuery = Static<typeof upscalerCatalogQuery>;
+
+export const controlNetCatalogQuery = t.Object({
+  baseModel: t.Optional(
+    t.Union([
+      t.Literal("sdxl"),
+      t.Literal("pony"),
+      t.Literal("flux2"),
+      t.Literal("z-image"),
+    ]),
+  ),
+  kind: t.Optional(generationControlNetKind),
+});
+export type ControlNetCatalogQuery = Static<typeof controlNetCatalogQuery>;
+
+// Mask upload body. Browser draws an inpaint mask on canvas, encodes to
+// PNG via toBlob, sends as multipart. Same allowed types as references
+// minus webp (the worker expects PNG/JPEG for the mask sub-graph).
+export const generationMaskUploadBody = t.Object({
+  file: t.File({
+    maxSize: "10m",
+    type: ["image/png", "image/jpeg"],
+  }),
+});

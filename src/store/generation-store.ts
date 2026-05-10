@@ -14,6 +14,17 @@ export const activeSnapshotIdAtom = atom<string | null>(null);
 // frozen params here, the form subscribes and overwrites its fields. The
 // payload is cleared after a tick so a second click on the same snapshot
 // triggers another restore.
+//
+// Phase 1 added `tab` and `subPill` to the payload. The hover toolbar on
+// result tiles (Inpaint/Upscale/ADetailer/Edit shortcuts) writes one of
+// these to route the user to the right tab/sub-pill while pre-filling the
+// form with the source image as init.
+export type Img2ImgSubPill =
+  | "img2img"
+  | "upscale"
+  | "adetailer"
+  | "inpaint";
+
 export type SnapshotRestorePayload = {
   model: string;
   prompt: string;
@@ -23,6 +34,15 @@ export type SnapshotRestorePayload = {
   references: unknown;
   extraParams: Record<string, unknown> | null;
   nsfw: boolean;
+  // Optional route hint: when present, the page should switch to this
+  // tab + sub-pill before applying the rest of the payload. Absent for
+  // the legacy chevron-snapshot path.
+  tab?: GenerateTab;
+  subPill?: Img2ImgSubPill;
+  // When the hover toolbar routes to Img2Img/Inpaint/etc., the source
+  // image needs to land on `params.initImageUrl`. The payload sets this
+  // directly; the form merges it into `params`.
+  initImageUrl?: string;
 };
 
 export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
@@ -34,6 +54,12 @@ export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
 // something, then coming back should not lose work. Stored in localStorage
 // (not cookies — refs/loras can blow past the 4 KB limit). Cleared on a
 // successful submit so the user doesn't see stale state on next visit.
+//
+// Per-tab atoms (tensor-style): Text2Img, Img2Img, and Edit each maintain
+// their own model + prompt + params. Switching tabs preserves each tab's
+// last draft separately. A new atom is added once the per-tab UI ships
+// (Phase 1); for now the legacy single-atom `generateDraftAtom` still
+// powers the existing single-mode form and aliases to the Text2Img slot.
 export type GenerateDraft = {
   model: string;
   prompt: string;
@@ -44,6 +70,8 @@ export type GenerateDraft = {
   nsfw: boolean;
   extraParams: Record<string, unknown>;
 };
+
+export type GenerateTab = "text2img" | "img2img" | "edit";
 
 export const INITIAL_GENERATE_DRAFT: GenerateDraft = {
   model: "pony",
@@ -56,10 +84,28 @@ export const INITIAL_GENERATE_DRAFT: GenerateDraft = {
   extraParams: { variants: 1 },
 };
 
-export const generateDraftAtom = atomWithStorage<GenerateDraft | null>(
-  "generate-draft-v1",
+// Per-tab draft slots. Each tab gets its own storage key so layouts and
+// model picks don't bleed across modes. The pre-tab atom `generateDraftAtom`
+// is kept as an alias to the Text2Img slot for backwards compatibility with
+// the existing form until Phase 1 lands the tab UI.
+export const text2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
+  "generate-draft-text2img-v1",
   null,
 );
+
+export const img2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
+  "generate-draft-img2img-v1",
+  null,
+);
+
+export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
+  "generate-draft-edit-v1",
+  null,
+);
+
+// Legacy alias. The current form imports this; Phase 1 swaps callers to
+// the per-tab atoms above and removes this re-export.
+export const generateDraftAtom = text2imgDraftAtom;
 
 // Per-model setting memory: when the user switches to a model they used
 // before, restore the params they last left it at. Falls back to the
@@ -72,3 +118,21 @@ export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
   "generate-sampler-memory-v1",
   {},
 );
+
+// ---------------------------------------------------------------------------
+// Phase 1: tab + sub-pill state for the studio. Both are URL-synced via
+// generate-page.tsx (?tab=... &mode=...) so deep links and back/forward
+// work. They're plain in-memory atoms; persistence comes from the URL.
+// ---------------------------------------------------------------------------
+export const activeTabAtom = atom<GenerateTab>("text2img");
+
+// Active sub-pill inside the Img2Img tab. Ignored when activeTab !==
+// "img2img". Defaults to "img2img" so the section header is meaningful
+// even before the user picks a sub-mode.
+export const activeSubPillAtom = atom<Img2ImgSubPill>("img2img");
+
+// Inpaint mask data: stored as a data URL (PNG with white = mask,
+// transparent = keep). The canvas component writes this; the submit
+// handler uploads the decoded blob to R2 and sets params.maskUrl.
+// Cleared on tab switch + after a successful submit.
+export const inpaintMaskAtom = atom<string | null>(null);

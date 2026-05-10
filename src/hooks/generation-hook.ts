@@ -220,6 +220,63 @@ export function useUploadReferenceMutation() {
   });
 }
 
+// Inpaint mask upload: same shape as reference upload (multipart -> R2)
+// but routes through /generation/masks so the server-side route can grow
+// mask-specific validation later (size, channel count, etc.) without
+// touching the existing reference pipeline.
+export function useUploadMaskMutation() {
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (file: File) =>
+      handleElysia(await rpc.api.generation.masks.post({ file })),
+    onError: (e) => handleError(e, t),
+  });
+}
+
+// ---------------------------------------------------------------------------
+// New catalogs: embeddings, upscalers, controlnets. Same shape and cache
+// strategy as the LoRA catalog.
+// ---------------------------------------------------------------------------
+
+export function useEmbeddingCatalogQuery(
+  params?: EdenQuery<typeof rpc.api.generation.embeddings>,
+) {
+  return useQuery({
+    queryKey: queryKeys.embeddingCatalog(params),
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.generation.embeddings.get({ query: params ?? {} }),
+      ),
+    staleTime: 5 * 60_000,
+  });
+}
+
+export function useUpscalerCatalogQuery(
+  params?: EdenQuery<typeof rpc.api.generation.upscalers>,
+) {
+  return useQuery({
+    queryKey: queryKeys.upscalerCatalog(params),
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.generation.upscalers.get({ query: params ?? {} }),
+      ),
+    staleTime: 5 * 60_000,
+  });
+}
+
+export function useControlNetCatalogQuery(
+  params?: EdenQuery<typeof rpc.api.generation.controlnets>,
+) {
+  return useQuery({
+    queryKey: queryKeys.controlNetCatalog(params),
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.generation.controlnets.get({ query: params ?? {} }),
+      ),
+    staleTime: 5 * 60_000,
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Sharing / export / import / fork (now session-level)
 // ---------------------------------------------------------------------------
