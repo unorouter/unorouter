@@ -146,23 +146,48 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
     description: "Pixel nearest-neighbor on the decoded image.",
     sortOrder: 50,
   },
-  // OPERATOR TODO: add the ESRGAN / SwinIR / DAT entries once their
-  // model files are staged in /workspace/models/upscale_models/ on the
-  // RunPod volume. Reference list (filenames match the volume layout):
-  //   { filename: "R-ESRGAN 4x+",            category: "esrgan",  nativeScale: 4 }
-  //   { filename: "R-ESRGAN 4x+ Anime6B",    category: "esrgan",  nativeScale: 4 }
-  //   { filename: "4x-UltraSharp",           category: "esrgan",  nativeScale: 4 }
-  //   { filename: "4x_foolhardy_Remacri",    category: "esrgan",  nativeScale: 4 }
-  //   { filename: "ESRGAN_4x",               category: "esrgan",  nativeScale: 4 }
-  //   { filename: "4x_NMKD-Siax_200k",       category: "esrgan",  nativeScale: 4 }
-  //   { filename: "4x-AnimeSharp",           category: "esrgan",  nativeScale: 4 }
-  //   { filename: "4x_NMKD-Superscale-SP_178000_G", category: "esrgan", nativeScale: 4 }
-  //   { filename: "SwinIR_4x",               category: "swinir",  nativeScale: 4 }
-  //   { filename: "2x_APISR_RRDB_GAN_generator", category: "apisr", nativeScale: 2 }
-  //   { filename: "4x_APISR_GRL_GAN_generator", category: "apisr", nativeScale: 4 }
-  //   { filename: "DAT_x2.pth",              category: "dat",     nativeScale: 2 }
-  //   { filename: "DAT_x3.pth",              category: "dat",     nativeScale: 3 }
-  //   { filename: "DAT_x4.pth",              category: "dat",     nativeScale: 4 }
+  // ESRGAN entries staged on the volume at /workspace/models/upscale_models/.
+  // Filename must match the on-disk filename exactly (case-sensitive, with
+  // extension), the ComfyUI UpscaleModelLoader reads from that directory.
+  {
+    id: "realesrgan-4xplus",
+    name: "R-ESRGAN 4x+",
+    filename: "RealESRGAN_x4plus.pth",
+    category: "esrgan",
+    nativeScale: 4,
+    description:
+      "General-purpose 4x ESRGAN. Good first pick for photoreal upscales.",
+    sortOrder: 100,
+  },
+  {
+    id: "realesr-anime-videov3",
+    name: "R-ESRGAN AnimeVideo v3",
+    filename: "RealESR_AnimeVideoV3.pth",
+    category: "esrgan",
+    nativeScale: 4,
+    description:
+      "Anime / illustration specialist. Lighter than 6B but anime-tuned.",
+    sortOrder: 110,
+  },
+  {
+    id: "4x-ultrasharp",
+    name: "4x UltraSharp",
+    filename: "4x-UltraSharp.pth",
+    category: "esrgan",
+    nativeScale: 4,
+    description:
+      "Detail-preserving general upscaler. Stronger texture than R-ESRGAN.",
+    sortOrder: 120,
+  },
+  {
+    id: "4x-nmkd-siax-200k",
+    name: "4x NMKD Siax 200k",
+    filename: "4x_NMKD-Siax_200k.pth",
+    category: "esrgan",
+    nativeScale: 4,
+    description: "Sharp photoreal upscaler. Strong on faces and skin.",
+    sortOrder: 130,
+  },
 ];
 
 // embeddingCatalog stays empty until operator stages files in
@@ -170,14 +195,40 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
 // references the worker can't resolve.
 const EMBEDDING_SEEDS: EmbeddingSeed[] = [];
 
-// controlNetCatalog stays empty until ControlNet checkpoints land in
-// /workspace/models/controlnet/. Each kind needs a separate file:
-//   depth:    diffusers/control-v11f1p-sd15-depth.safetensors (~1.4 GB SDXL)
-//   canny:    diffusers/control-v11p-sd15-canny.safetensors  (~1.4 GB SDXL)
-//   openpose: diffusers/control-v11p-sd15-openpose.safetensors (~1.4 GB SDXL)
-// Volume has ~4 GB headroom, so all 3 fit. Bump volume size first if
-// adding more.
-const CONTROLNET_SEEDS: ControlNetSeed[] = [];
+// SDXL ControlNets staged on the volume at /workspace/models/controlnet/.
+// xinsir variants chosen over the diffusers official ones (better quality
+// at the same size, ~2.4 GB each).
+const CONTROLNET_SEEDS: ControlNetSeed[] = [
+  {
+    id: "xinsir-depth-sdxl",
+    name: "Depth (xinsir SDXL)",
+    kind: "depth",
+    baseModel: "sdxl",
+    filename: "control-depth-sdxl.safetensors",
+    description:
+      "Depth-conditioned generation. Pair with a depth map (we autopreprocess from your reference image).",
+    sortOrder: 10,
+  },
+  {
+    id: "xinsir-canny-sdxl",
+    name: "Canny (xinsir SDXL)",
+    kind: "canny",
+    baseModel: "sdxl",
+    filename: "control-canny-sdxl.safetensors",
+    description:
+      "Edge-conditioned generation. Strong for line-art / silhouette preservation.",
+    sortOrder: 20,
+  },
+  {
+    id: "xinsir-openpose-sdxl",
+    name: "OpenPose (xinsir SDXL)",
+    kind: "openpose",
+    baseModel: "sdxl",
+    filename: "control-openpose-sdxl.safetensors",
+    description: "Body / hand / face pose-conditioned generation.",
+    sortOrder: 30,
+  },
+];
 
 export async function runSeeds(
   db: LibSQLDatabase<typeof schema>,

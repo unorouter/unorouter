@@ -97,6 +97,19 @@ import { VaePicker } from "../fields/vae-picker";
 
 const VARIANT_CHOICES = [1, 2, 4] as const;
 
+// Filter that decides whether a model descriptor is allowed on the
+// currently active tab. A descriptor without `tabs` is treated as
+// Text2Img-only (the v1 default). Edit tab only accepts descriptors
+// that explicitly opt in (Flux Kontext, gpt-image-1, Gemini 3 Pro Image,
+// flux2-dev-compose).
+function isModelInTab(
+  m: GenerationModelDescriptor,
+  tab: GenerateTab,
+): boolean {
+  if (!m.tabs) return tab === "text2img";
+  return m.tabs.includes(tab);
+}
+
 const INITIAL_MODEL: GenerationModel = "pony";
 
 // Build the initial form values from the chosen model's descriptor.
@@ -288,6 +301,22 @@ export function GenerateForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, effectiveModels.length]);
 
+  // Tab-gated default: the currently selected model may not exist on the
+  // newly active tab (e.g. Pony is Text2Img/Img2Img only — switching to
+  // Edit must auto-swap to a Kontext / gpt-image-1 / Gemini variant).
+  // First model in the tab's allowlist wins.
+  useEffect(() => {
+    if (effectiveModels.length === 0) return;
+    // eslint-disable-next-line react-hooks/incompatible-library
+    const current = (form.watch("model") as string | undefined) ?? "";
+    const desc = effectiveModels.find((m) => m.id === current);
+    if (desc && isModelInTab(desc, activeTab)) return;
+    const pool = effectiveModels.filter((m) => isModelInTab(m, activeTab));
+    if (pool.length === 0) return;
+    handleModelChange(pool[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, effectiveModels.length]);
+
   // Draft restore on mount. Only fires when there's no remix or active-id
   // seed source — those win over the persisted draft so a remix click
   // shows the source's settings, not last-typed prompt. The ref guard
@@ -300,11 +329,19 @@ export function GenerateForm() {
   useEffect(() => {
     if (draftRestoredRef.current === activeTab) return;
     if (seedSourceId) return; // remix / active id takes precedence
+    draftRestoredRef.current = activeTab;
     if (!draft) {
-      draftRestoredRef.current = activeTab;
+      // First visit to this tab — clear the form back to a descriptor
+      // appropriate for the active tab. Text2Img uses INITIAL_MODEL
+      // (pony); Edit needs an edit-family default since pony's tabs
+      // list doesn't include "edit". Pick the first descriptor whose
+      // `tabs` allows the current tab.
+      const fallback =
+        effectiveModels.find((m) => isModelInTab(m, activeTab)) ??
+        getModelDescriptor(INITIAL_MODEL);
+      form.reset(defaultsFor(fallback) as never);
       return;
     }
-    draftRestoredRef.current = activeTab;
     form.reset({
       ...defaultsFor(getModelDescriptor((draft.model as GenerationModel) || INITIAL_MODEL)),
       model: draft.model as GenerationModel,
@@ -322,6 +359,14 @@ export function GenerateForm() {
   // Persist current form values to the draft atom whenever they change.
   // Debounced via a 500ms trailing write so each keystroke doesn't hit
   // localStorage. Cleared on successful submit (see onSubmit below).
+  //
+  // The setter is held in a ref so swapping tabs re-aims the write at
+  // the new tab's atom without unsubscribing/resubscribing the form-
+  // watcher (which would lose its in-flight debounce).
+  const setDraftRef = useRef(setDraft);
+  useEffect(() => {
+    setDraftRef.current = setDraft;
+  }, [setDraft]);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch((values) => {
@@ -337,7 +382,7 @@ export function GenerateForm() {
           extraParams:
             (values.extraParams as Record<string, unknown>) ?? { variants: 1 },
         };
-        setDraft(next);
+        setDraftRef.current(next);
       }, 500);
       return () => clearTimeout(timer);
     });
@@ -533,6 +578,7 @@ export function GenerateForm() {
                           <CommandGroup heading={t("IMAGE.MODEL_GROUP_COMFYUI")}>
                             {effectiveModels
                               .filter((m) => m.family !== "sync-image")
+                              .filter((m) => isModelInTab(m, activeTab))
                               .map((m) => {
                                 const disabled = !isLoggedIn && !m.isFree;
                                 return (
@@ -578,6 +624,7 @@ export function GenerateForm() {
                             <CommandGroup heading={t("IMAGE.MODEL_GROUP_HOSTED")}>
                               {effectiveModels
                                 .filter((m) => m.family === "sync-image")
+                                .filter((m) => isModelInTab(m, activeTab))
                                 .map((m) => {
                                   const disabled = !isLoggedIn && !m.isFree;
                                   return (
@@ -842,47 +889,37 @@ export function GenerateForm() {
           <SeedField form={form} />
         )}
 
-        {/* Variants + Hires fix share a row when both apply. Variants is
-            always present; Hires fix is SDXL-family only and stretches to
-            fill the right half when shown. */}
-        <div
-          className={
-            descriptor.supportsHiresFix
-              ? "grid grid-cols-1 gap-4 sm:grid-cols-2"
-              : ""
-          }
-        >
-          <FormItem>
-            <FormLabel>{t("IMAGE.VARIANTS_LABEL")}</FormLabel>
-            <div className="flex gap-2">
-              {VARIANT_CHOICES.map((n) => (
-                <Button
-                  key={n}
-                  type="button"
-                  variant={variants === n ? "default" : "outline"}
-                  size="sm"
-                  className="flex-1"
-                  onClick={() => {
-                    // eslint-disable-next-line react-hooks/incompatible-library
-                    const cur =
-                      (form.watch("extraParams") as
-                        | Record<string, unknown>
-                        | undefined) ?? {};
-                    form.setValue("extraParams", { ...cur, variants: n });
-                  }}
-                >
-                  {n}
-                </Button>
-              ))}
-            </div>
-          </FormItem>
-
-          {/* Hires fix - SDXL family only. Toggle gates the two sliders;
-              when off, hiresDenoise / hiresUpscale stay undefined and
-              the server skips sending the extra.hires block to the
-              adapter (template defaults apply). */}
-          {descriptor.supportsHiresFix && <HiresFixField form={form} />}
-        </div>
+        {/* Variants standalone row. The legacy Hires-fix toggle that
+            used to share this row was removed in the redesign — the
+            new UpscalerField below (rendered when descriptor.supportsHiresFix)
+            replaces it with multiplier radios + Upscaler dropdown
+            +  Hires Steps + Denoise. Keeping both would let users
+            create invalid state (multiplier=3 while the legacy
+            upscale slider caps at 2). */}
+        <FormItem>
+          <FormLabel>{t("IMAGE.VARIANTS_LABEL")}</FormLabel>
+          <div className="flex gap-2">
+            {VARIANT_CHOICES.map((n) => (
+              <Button
+                key={n}
+                type="button"
+                variant={variants === n ? "default" : "outline"}
+                size="sm"
+                className="flex-1"
+                onClick={() => {
+                  // eslint-disable-next-line react-hooks/incompatible-library
+                  const cur =
+                    (form.watch("extraParams") as
+                      | Record<string, unknown>
+                      | undefined) ?? {};
+                  form.setValue("extraParams", { ...cur, variants: n });
+                }}
+              >
+                {n}
+              </Button>
+            ))}
+          </div>
+        </FormItem>
 
         {/* LoRAs - SDXL family only */}
         {descriptor.supportsLoraChain && (
@@ -1269,86 +1306,6 @@ export function GenerateForm() {
         </div>
       </form>
     </Form>
-  );
-}
-
-// Hires fix toggle group. The "enabled" state is implicit: any non-
-// undefined hiresDenoise / hiresUpscale on params signals enabled to
-// the server. Toggling off clears both fields so the form's submit
-// payload goes back to {}.
-function HiresFixField(props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- form is typed by typeboxResolver; threading it via generic adds noise without value
-  form: any;
-}) {
-  const t = useTranslations();
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const params = (props.form.watch("params") as
-    | { hiresDenoise?: number; hiresUpscale?: number }
-    | undefined) ?? {};
-  const enabled =
-    params.hiresDenoise !== undefined || params.hiresUpscale !== undefined;
-  const denoise = params.hiresDenoise ?? 0.5;
-  const upscale = params.hiresUpscale ?? 1.5;
-
-  const setParams = (next: { hiresDenoise?: number; hiresUpscale?: number }) => {
-    // eslint-disable-next-line react-hooks/incompatible-library
-    const cur = (props.form.watch("params") as Record<string, unknown> | undefined) ?? {};
-    props.form.setValue(
-      "params",
-      { ...cur, ...next },
-      { shouldDirty: true },
-    );
-  };
-
-  return (
-    <FormItem>
-      <div className="flex items-center justify-between">
-        <FormLabel>{t("IMAGE.HIRES_FIX_ENABLE")}</FormLabel>
-        <Button
-          type="button"
-          variant={enabled ? "default" : "outline"}
-          size="sm"
-          onClick={() =>
-            setParams(
-              enabled
-                ? { hiresDenoise: undefined, hiresUpscale: undefined }
-                : { hiresDenoise: 0.5, hiresUpscale: 1.5 },
-            )
-          }
-        >
-          {enabled ? "On" : "Off"}
-        </Button>
-      </div>
-
-      {enabled && (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <div className="text-muted-foreground mb-1 text-xs">
-              {t("IMAGE.HIRES_FIX_DENOISE")}
-            </div>
-            <SliderWithInput
-              min={0}
-              max={1}
-              step={0.05}
-              value={denoise}
-              onChange={(v) => setParams({ hiresDenoise: v })}
-            />
-          </div>
-          <div>
-            <div className="text-muted-foreground mb-1 text-xs">
-              {t("IMAGE.HIRES_FIX_UPSCALE")}
-            </div>
-            <SliderWithInput
-              min={1}
-              max={2}
-              step={0.1}
-              value={upscale}
-              onChange={(v) => setParams({ hiresUpscale: v })}
-            />
-          </div>
-        </div>
-      )}
-    </FormItem>
   );
 }
 
