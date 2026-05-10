@@ -18,7 +18,11 @@ export type UpstreamFetchResp = {
   task_id?: string;
   status?: string;
   progress?: string;
+  // Single-output task (most video models, single-image comfyui).
   result_url?: string;
+  // Multi-output task (ComfyUI batch_size>1). When set the poll handler
+  // walks every entry and writes one generation_images row per image.
+  result_urls?: string[];
   fail_reason?: string;
 };
 

@@ -490,15 +490,12 @@ export async function pollGenerationStatus(
   // SUCCESS: normalize the payload into a list of upstream URIs. ComfyUI
   // batch_size>1 returns result_urls[]; single-image responses still use
   // result_url. We support both.
-  const payloadUnknown = payload as Record<string, unknown> | undefined;
-  const multi = payloadUnknown?.result_urls;
-  const upstreamUrls: string[] = Array.isArray(multi)
-    ? (multi as unknown[]).filter(
-        (u): u is string => typeof u === "string" && u.length > 0,
-      )
-    : payload?.result_url
-      ? [payload.result_url]
-      : [];
+  const upstreamUrls: string[] =
+    payload?.result_urls && payload.result_urls.length > 0
+      ? payload.result_urls.filter((u): u is string => typeof u === "string" && u.length > 0)
+      : payload?.result_url
+        ? [payload.result_url]
+        : [];
 
   if (upstreamUrls.length === 0) {
     await finalizeRowFailure(db, id, "upstream success without result url(s)", {
