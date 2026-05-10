@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "Upscale",
     "PNG_IMPORT_HINT": "Drop a ComfyUI PNG to import its prompt and params",
     "PNG_IMPORT_BROWSE": "Import PNG",
-    "PNG_IMPORT_NO_METADATA": "No ComfyUI metadata found in this image."
+    "PNG_IMPORT_NO_METADATA": "No ComfyUI metadata found in this image.",
+    "NEW_SESSION": "New session",
+    "SESSION_NEW_TOOLTIP": "Start a fresh session. The current one stays in your history.",
+    "RECENT_SESSIONS": "Recent sessions",
+    "SNAPSHOT_COUNT": "{count, plural, one {# snapshot} other {# snapshots}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, one {# image} other {# images}}",
+    "SNAPSHOT_NAV_LABEL": "Snapshot {current} of {total}",
+    "SHARE_SESSION_HELP": "Anyone with the link can view this session's history.",
+    "LIGHTBOX_PREV": "Previous image",
+    "LIGHTBOX_NEXT": "Next image",
+    "LIGHTBOX_CLOSE": "Close"
   }
 }

@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "Увеличение",
     "PNG_IMPORT_HINT": "Перетащите PNG из ComfyUI, чтобы импортировать промпт и параметры",
     "PNG_IMPORT_BROWSE": "Импортировать PNG",
-    "PNG_IMPORT_NO_METADATA": "В этом изображении не найдены метаданные ComfyUI."
+    "PNG_IMPORT_NO_METADATA": "В этом изображении не найдены метаданные ComfyUI.",
+    "NEW_SESSION": "Новая сессия",
+    "SESSION_NEW_TOOLTIP": "Начать новую сессию. Текущая останется в истории.",
+    "RECENT_SESSIONS": "Недавние сессии",
+    "SNAPSHOT_COUNT": "{count, plural, one {# снимок} few {# снимка} many {# снимков} other {# снимка}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, one {# изображение} few {# изображения} many {# изображений} other {# изображения}}",
+    "SNAPSHOT_NAV_LABEL": "Снимок {current} из {total}",
+    "SHARE_SESSION_HELP": "Любой, у кого есть ссылка, может видеть историю этой сессии.",
+    "LIGHTBOX_PREV": "Предыдущее изображение",
+    "LIGHTBOX_NEXT": "Следующее изображение",
+    "LIGHTBOX_CLOSE": "Закрыть"
   }
 }

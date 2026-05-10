@@ -461,10 +461,55 @@ export const acpIdempotencyKeys = sqliteTable(
 // Image generation
 // ---------------------------------------------------------------------------
 
-// generations is one row per user submit (one click of Generate). The N
-// images that come back live in generation_images, linked by FK with
-// cascade-delete. Stored regardless of user visibility so the public feed
-// has content even if creators set their gens to private later.
+// generation_sessions is the long-lived container the user iterates inside.
+// One Generate click appends a snapshot (`generations` row) to the active
+// session. Sharing, retention, and the recent-list card all live at the
+// session level. Cascade delete fires through to snapshots + images via FK.
+export const generationSessions = sqliteTable(
+  "generation_sessions",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    // Optional friendly label. Defaults to first 60 chars of the opening
+    // snapshot's prompt; users can rename later (v2).
+    title: text("title"),
+    // The opening snapshot's model. Useful for the session card without
+    // a join to the latest snapshot row.
+    firstModel: text("first_model"),
+    // Public share token. Same pattern as conversations.shareId: minted on
+    // first share, idempotent, cleared on revoke. Recipients see the full
+    // snapshot history (read-only).
+    shareId: text("share_id").unique(),
+    // Denormalized counters bumped in the same tx as snapshot inserts /
+    // image finalize. Drive the session card's "N snapshots, M images".
+    snapshotCount: integer("snapshot_count").notNull().default(0),
+    imageCount: integer("image_count").notNull().default(0),
+    // Retention: every new snapshot extends this to now + 30d. Sweeper
+    // deletes the session (cascading snapshots + images) when expired.
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    // user's session list, newest-updated first
+    index("idx_session_user_updated").on(table.userId, table.updatedAt),
+    // share-link lookup
+    index("idx_session_share").on(table.shareId),
+    // retention sweeper scan
+    index("idx_session_expires").on(table.expiresAt),
+  ],
+);
+
+// generations is one snapshot inside a session. A snapshot freezes the
+// form state at submit time (prompt + params + loras + references + refs)
+// and the 1/2/4 images it produced (stored in generation_images by FK).
+// Sharing and retention sit on the parent session, not here.
 export const generations = sqliteTable(
   "generations",
   {
@@ -472,6 +517,14 @@ export const generations = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
+    // Parent session. Cascade delete: removing the session removes every
+    // snapshot it contains.
+    sessionId: text("session_id")
+      .notNull()
+      .references(() => generationSessions.id, { onDelete: "cascade" }),
+    // 0-based monotonic index within the session. Newest has the highest
+    // value; chevron nav reads the snapshot list sorted by this DESC.
+    sessionOrder: integer("session_order").notNull(),
     // How many images the user asked for (1, 2, or 4). Drives the UI's
     // "generating M of N" progress display until all N images are saved.
     requestedCount: integer("requested_count").notNull().default(1),
@@ -504,13 +557,6 @@ export const generations = sqliteTable(
     costQuota: integer("cost_quota"),
     // private (default), unlisted (link-only), public (in feed).
     visibility: text("visibility").notNull().default("private"),
-    // Public share token. When set, anyone with the URL /shared/<shareId>
-    // can view the generation (read-only). Null = sharing revoked /
-    // never enabled. Same shape as conversations.shareId.
-    shareId: text("share_id").unique(),
-    // NSFW flag persists per-image so future moderation can hide entries
-    // without wiping the row. Default true since most catalog models are
-    // NSFW-capable; UI can flip on submit.
     nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(true),
     flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
     flagReason: text("flag_reason"),
@@ -531,15 +577,13 @@ export const generations = sqliteTable(
     updatedAt: integer("updated_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
-    // Auto-deletion timestamp. Set on insert to createdAt + 30 days. The
-    // retention sweeper scans for rows past expiresAt and cascades the
-    // delete (DB row + R2 objects). UI shows a warning badge inside the
-    // last 7 days.
+    // Auto-deletion timestamp. Mirrors the parent session's expiresAt so
+    // expiry queries can still hit a snapshot directly when needed.
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
   },
   (table) => [
-    // user history pages, mine sort
-    index("idx_gen_user_created").on(table.userId, table.createdAt),
+    // chevron nav: snapshots within a session sorted by sessionOrder
+    index("idx_gen_session_order").on(table.sessionId, table.sessionOrder),
     // public feed query
     index("idx_gen_visibility_created").on(table.visibility, table.createdAt),
     // per-model browse
@@ -550,8 +594,6 @@ export const generations = sqliteTable(
     index("idx_gen_remixed_from").on(table.remixedFrom),
     // retention sweeper scan
     index("idx_gen_expires").on(table.expiresAt),
-    // public share lookup
-    index("idx_gen_share").on(table.shareId),
   ],
 );
 
@@ -656,6 +698,7 @@ export const loraCatalog = sqliteTable(
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
+export type GenerationSession = typeof generationSessions.$inferSelect;
 export type Generation = typeof generations.$inferSelect;
 export type GenerationImage = typeof generationImages.$inferSelect;
 export type GenerationLike = typeof generationLikes.$inferSelect;

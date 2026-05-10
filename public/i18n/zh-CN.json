@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "放大倍率",
     "PNG_IMPORT_HINT": "拖放 ComfyUI PNG 以导入提示词和参数",
     "PNG_IMPORT_BROWSE": "导入 PNG",
-    "PNG_IMPORT_NO_METADATA": "此图像中未找到 ComfyUI 元数据。"
+    "PNG_IMPORT_NO_METADATA": "此图像中未找到 ComfyUI 元数据。",
+    "NEW_SESSION": "新会话",
+    "SESSION_NEW_TOOLTIP": "开始一个新会话。当前会话仍会保留在历史记录中。",
+    "RECENT_SESSIONS": "最近的会话",
+    "SNAPSHOT_COUNT": "{count, plural, other {# 个快照}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, other {# 张图像}}",
+    "SNAPSHOT_NAV_LABEL": "快照 {current} / {total}",
+    "SHARE_SESSION_HELP": "任何拥有此链接的人都可以查看此会话的历史记录。",
+    "LIGHTBOX_PREV": "上一张图像",
+    "LIGHTBOX_NEXT": "下一张图像",
+    "LIGHTBOX_CLOSE": "关闭"
   }
 }

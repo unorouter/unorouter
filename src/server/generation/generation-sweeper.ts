@@ -10,12 +10,12 @@
 //   - Bounded concurrency. POLL_CONCURRENCY parallel polls per sweep so
 //     one stuck upstream call doesn't block the rest.
 //   - Each poll uses the row's `submittedKey` (the user's API key captured
-//     at submit time). pollGenerationStatus enforces userId ownership.
+//     at submit time). pollSnapshotStatus enforces userId ownership.
 //
 // Singleton: started once per process via instrumentation.register().
 // Multi-instance deploys would dedupe via the staleness window: workers
 // poll the same row only if their wall-clock drift is large enough that
-// both see it as stale, which is fine since pollGenerationStatus is
+// both see it as stale, which is fine since pollSnapshotStatus is
 // idempotent.
 
 import { getDb } from "@/lib/db/client";
@@ -23,9 +23,9 @@ import { generations } from "@/lib/db/schema";
 import { logger } from "@/lib/utils/logger";
 import { and, isNotNull, lt, ne } from "drizzle-orm";
 import {
-  deleteGenerationAsSystem,
-  listExpiredGenerationIds,
-  pollGenerationStatus,
+  deleteSessionAsSystem,
+  listExpiredSessionIds,
+  pollSnapshotStatus,
 } from "./generation.service";
 
 const SWEEP_INTERVAL_MS = 5_000;
@@ -116,7 +116,7 @@ async function sweepOnce(): Promise<void> {
       const row = candidates[i];
       if (!row.submittedKey) continue;
       try {
-        await pollGenerationStatus(row.userId, row.submittedKey, row.id);
+        await pollSnapshotStatus(row.userId, row.submittedKey, row.id);
       } catch (err) {
         logger.warn("sweep poll failed", {
           context: "generation.sweeper",
@@ -129,12 +129,12 @@ async function sweepOnce(): Promise<void> {
   await Promise.all(workers);
 }
 
-// Retention sweep: find rows past expiresAt and cascade-delete them.
-// generation_images cascades via FK. R2 objects are deleted per image
-// inside deleteGenerationAsSystem. Concurrency is bounded so we don't
-// hammer R2 if a large backlog accumulates.
+// Retention sweep: find sessions past expiresAt and cascade-delete them.
+// generations + generation_images cascade via FK. R2 objects are deleted
+// per image inside deleteSessionAsSystem. Concurrency is bounded so we
+// don't hammer R2 if a large backlog accumulates.
 async function sweepExpired(): Promise<void> {
-  const ids = await listExpiredGenerationIds(RETENTION_BATCH_SIZE);
+  const ids = await listExpiredSessionIds(RETENTION_BATCH_SIZE);
   if (ids.length === 0) return;
 
   logger.info("retention sweep starting", {
@@ -151,11 +151,11 @@ async function sweepExpired(): Promise<void> {
         if (i >= ids.length) return;
         const id = ids[i];
         try {
-          await deleteGenerationAsSystem(id);
+          await deleteSessionAsSystem(id);
         } catch (err) {
           logger.warn("retention delete failed", {
             context: "generation.sweeper.retention",
-            generationId: id,
+            sessionId: id,
             err: err instanceof Error ? err.message : String(err),
           });
         }

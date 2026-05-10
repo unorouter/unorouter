@@ -127,6 +127,9 @@ export const generationSubmitBody = t.Object({
   visibility: t.Optional(generationVisibility),
   // NSFW marker on the row. Default true (catalog is NSFW-capable).
   nsfw: t.Optional(t.Boolean()),
+  // Append this snapshot to an existing session the user owns. Absent
+  // means "start a new session"; the server creates one and uses its id.
+  sessionId: t.Optional(t.String({ maxLength: 64 })),
 });
 export type GenerationSubmitBody = Static<typeof generationSubmitBody>;
 
@@ -176,8 +179,23 @@ export const generationSnapshot = t.Object({
 });
 export type GenerationSnapshot = Static<typeof generationSnapshot>;
 
+// Snapshot of a whole session: every iteration plus metadata. Used by
+// session export / import. Snapshots are stored in their original order
+// (oldest first) so a restore preserves the same sessionOrder layout.
+export const sessionSnapshot = t.Object({
+  version: t.Literal("unorouter-session-1"),
+  session: t.Object({
+    title: t.Union([t.String({ maxLength: 256 }), t.Null()]),
+    firstModel: t.Union([t.String({ maxLength: 128 }), t.Null()]),
+  }),
+  snapshots: t.Array(generationSnapshot, { maxItems: 200 }),
+});
+export type SessionSnapshot = Static<typeof sessionSnapshot>;
+
+// Import body accepts either shape. Eden / TypeBox unions just dispatch
+// on the `version` literal.
 export const generationImportBody = t.Object({
-  snapshot: generationSnapshot,
+  payload: t.Union([generationSnapshot, sessionSnapshot]),
   mode: generationCloneMode,
 });
 

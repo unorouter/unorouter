@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "Hochskalieren",
     "PNG_IMPORT_HINT": "ComfyUI-PNG ablegen, um Prompt und Parameter zu importieren",
     "PNG_IMPORT_BROWSE": "PNG importieren",
-    "PNG_IMPORT_NO_METADATA": "Keine ComfyUI-Metadaten in diesem Bild gefunden."
+    "PNG_IMPORT_NO_METADATA": "Keine ComfyUI-Metadaten in diesem Bild gefunden.",
+    "NEW_SESSION": "Neue Sitzung",
+    "SESSION_NEW_TOOLTIP": "Starte eine neue Sitzung. Die aktuelle bleibt in deinem Verlauf.",
+    "RECENT_SESSIONS": "Aktuelle Sitzungen",
+    "SNAPSHOT_COUNT": "{count, plural, one {# Snapshot} other {# Snapshots}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, one {# Bild} other {# Bilder}}",
+    "SNAPSHOT_NAV_LABEL": "Snapshot {current} von {total}",
+    "SHARE_SESSION_HELP": "Jeder mit dem Link kann den Verlauf dieser Sitzung sehen.",
+    "LIGHTBOX_PREV": "Vorheriges Bild",
+    "LIGHTBOX_NEXT": "Nächstes Bild",
+    "LIGHTBOX_CLOSE": "Schließen"
   }
 }

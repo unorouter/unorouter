@@ -21,7 +21,11 @@ export async function generateMetadata(props: {
 
 export default async function GenerateByIdPage(props: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ snap?: string }>;
 }) {
   const params = await props.params;
-  return <GeneratePage generationId={params.id} />;
+  const search = await props.searchParams;
+  return (
+    <GeneratePage sessionId={params.id} snapshotId={search.snap ?? undefined} />
+  );
 }

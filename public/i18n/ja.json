@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "拡大率",
     "PNG_IMPORT_HINT": "ComfyUI PNG をドロップして、プロンプトとパラメータを取り込み",
     "PNG_IMPORT_BROWSE": "PNG をインポート",
-    "PNG_IMPORT_NO_METADATA": "この画像に ComfyUI メタデータが見つかりませんでした。"
+    "PNG_IMPORT_NO_METADATA": "この画像に ComfyUI メタデータが見つかりませんでした。",
+    "NEW_SESSION": "新しいセッション",
+    "SESSION_NEW_TOOLTIP": "新しいセッションを開始します。現在のセッションは履歴に残ります。",
+    "RECENT_SESSIONS": "最近のセッション",
+    "SNAPSHOT_COUNT": "{count, plural, other {スナップショット #}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, other {画像 #}}",
+    "SNAPSHOT_NAV_LABEL": "スナップショット {current} / {total}",
+    "SHARE_SESSION_HELP": "リンクを持つ誰でもこのセッションの履歴を閲覧できます。",
+    "LIGHTBOX_PREV": "前の画像",
+    "LIGHTBOX_NEXT": "次の画像",
+    "LIGHTBOX_CLOSE": "閉じる"
   }
 }

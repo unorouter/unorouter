@@ -9,15 +9,21 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  useForkSharedGenerationMutation,
-  useSharedGenerationQuery,
+  useForkSharedSessionMutation,
+  useSharedSessionQuery,
 } from "@/hooks/generation-hook";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { downloadGenerationImage } from "@/lib/utils/generation-export";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { LuCopy, LuDownload, LuSparkles } from "react-icons/lu";
+import {
+  LuChevronLeft,
+  LuChevronRight,
+  LuCopy,
+  LuDownload,
+  LuSparkles,
+} from "react-icons/lu";
 import { setCookie } from "cookies-next";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { usePathname } from "next/navigation";
@@ -31,24 +37,28 @@ type Props = {
   shareId: string;
 };
 
-// Read-only view of a shared generation. Anyone can view; only logged-in
-// users can fork. The fork mutation copies the row (and either the
-// images or a fresh upstream call, per the chosen mode) into the
-// visitor's account.
+// Read-only public view of a shared session. Shows the full snapshot
+// history with chevron navigation. Fork copies the whole session into
+// the visitor's account.
 export function SharedGenerationView(props: Props) {
   const t = useTranslations();
   const router = useRouter();
   const pathname = usePathname();
-  const query = useSharedGenerationQuery(props.shareId);
+  const query = useSharedSessionQuery(props.shareId);
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
-  const forkMut = useForkSharedGenerationMutation();
+  const forkMut = useForkSharedSessionMutation();
   const [forkMode, setForkMode] = useState<"restore" | "regenerate">(
     "restore",
   );
+  const [snapshotIndex, setSnapshotIndex] = useState(0);
 
   const data = query.data;
-  const images = (data?.images as GenerationImage[] | undefined) ?? [];
+  const session = data?.session;
+  const snapshots = data?.snapshots ?? [];
+  const total = snapshots.length;
+  const active = snapshots[snapshotIndex];
+  const images = (active?.images as GenerationImage[] | undefined) ?? [];
 
   const onFork = async () => {
     if (!isLoggedIn) {
@@ -60,19 +70,51 @@ export function SharedGenerationView(props: Props) {
       shareId: props.shareId,
       body: { mode: forkMode },
     });
-    router.push(`/generate/${result.id}`);
+    router.push(`/generate/${result.sessionId}`);
   };
 
-  if (!data) return null;
+  if (!data || !session) return null;
+
+  const onPrev = () => setSnapshotIndex((i) => (i + 1) % total);
+  const onNext = () => setSnapshotIndex((i) => (i - 1 + total) % total);
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-6 p-4 md:p-6">
       <header>
         <h1 className="text-foreground text-2xl font-semibold">
-          {t("IMAGE.SHARED_TITLE")}
+          {session.title ?? t("IMAGE.SHARED_TITLE")}
         </h1>
-        <p className="text-muted-foreground mt-1 text-sm">{data.model}</p>
+        <p className="text-muted-foreground mt-1 text-sm">
+          {session.firstModel ?? active?.model ?? ""}
+        </p>
       </header>
+
+      {total > 1 && (
+        <div className="text-muted-foreground flex items-center justify-center gap-3 text-xs">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onPrev}
+            aria-label={t("IMAGE.LIGHTBOX_PREV")}
+          >
+            <LuChevronLeft />
+          </Button>
+          <span>
+            {t("IMAGE.SNAPSHOT_NAV_LABEL", {
+              current: snapshotIndex + 1,
+              total,
+            })}
+          </span>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={onNext}
+            aria-label={t("IMAGE.LIGHTBOX_NEXT")}
+          >
+            <LuChevronRight />
+          </Button>
+        </div>
+      )}
 
       {images.length > 0 && (
         <div
@@ -90,10 +132,10 @@ export function SharedGenerationView(props: Props) {
                 key={img.sequenceIndex}
                 className="bg-muted group/img relative aspect-square overflow-hidden rounded-lg"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies */}
+                {/* eslint-disable-next-line @next/next/no-img-element -- R2 */}
                 <img
                   src={img.r2Url}
-                  alt={data.prompt}
+                  alt={active?.prompt ?? ""}
                   className="h-full w-full object-cover"
                 />
                 <button
@@ -114,30 +156,32 @@ export function SharedGenerationView(props: Props) {
         </div>
       )}
 
-      <div className="bg-card flex flex-col gap-2 rounded-lg border p-4">
-        <p className="text-muted-foreground text-xs">
-          {t("IMAGE.PROMPT_LABEL")}
-        </p>
-        <p className="text-sm whitespace-pre-wrap">{data.prompt}</p>
-        {data.negativePrompt && (
-          <>
-            <p className="text-muted-foreground mt-2 text-xs">
-              {t("IMAGE.NEGATIVE_PROMPT_LABEL")}
-            </p>
-            <p className="text-sm whitespace-pre-wrap">
-              {data.negativePrompt}
-            </p>
-          </>
-        )}
-        <button
-          type="button"
-          onClick={() => navigator.clipboard.writeText(data.prompt)}
-          className="text-muted-foreground hover:text-foreground mt-2 inline-flex w-fit items-center gap-1 text-xs"
-        >
-          <LuCopy className="h-3 w-3" />
-          {t("IMAGE.COPY_PROMPT")}
-        </button>
-      </div>
+      {active && (
+        <div className="bg-card flex flex-col gap-2 rounded-lg border p-4">
+          <p className="text-muted-foreground text-xs">
+            {t("IMAGE.PROMPT_LABEL")}
+          </p>
+          <p className="text-sm whitespace-pre-wrap">{active.prompt}</p>
+          {active.negativePrompt && (
+            <>
+              <p className="text-muted-foreground mt-2 text-xs">
+                {t("IMAGE.NEGATIVE_PROMPT_LABEL")}
+              </p>
+              <p className="text-sm whitespace-pre-wrap">
+                {active.negativePrompt}
+              </p>
+            </>
+          )}
+          <button
+            type="button"
+            onClick={() => navigator.clipboard.writeText(active.prompt)}
+            className="text-muted-foreground hover:text-foreground mt-2 inline-flex w-fit items-center gap-1 text-xs"
+          >
+            <LuCopy className="h-3 w-3" />
+            {t("IMAGE.COPY_PROMPT")}
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <Select

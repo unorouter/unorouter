@@ -12,24 +12,24 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-type GenerationDetail = Awaited<
-  ReturnType<typeof rpc.api.generation.submit.post>
->["data"];
-
-// 2s polling cadence is the same as the chat-task hook. ~30 polls per
-// minute per active tile is acceptable load given Phase 1 traffic; the
-// query auto-stops on terminal status.
+// 2s polling cadence matches the chat task hook. Stops on terminal.
 const POLL_INTERVAL_MS = 2000;
 
 function isTerminalStatus(s: string | undefined): boolean {
   return s === "success" || s === "failure";
 }
 
-export function useGenerationHistoryQuery(
+// ---------------------------------------------------------------------------
+// Sessions: history list + per-session detail
+// ---------------------------------------------------------------------------
+
+/** Recent sessions list, newest-updated first. Feeds the vertical session
+ *  rail under the result column and the sidebar list. */
+export function useSessionHistoryQuery(
   params?: EdenQuery<typeof rpc.api.generation.me>,
 ) {
   return useQuery({
-    queryKey: queryKeys.generationHistory(params),
+    queryKey: queryKeys.generationSessionList(params),
     queryFn: async () =>
       handleElysia(
         await rpc.api.generation.me.get({
@@ -40,29 +40,49 @@ export function useGenerationHistoryQuery(
   });
 }
 
-export function useGenerationQuery(id: string | null | undefined) {
+/** Full session: the session row + all snapshots (with their images),
+ *  newest first. Powers the chevron view. */
+export function useSessionQuery(sessionId: string | null | undefined) {
   return useQuery({
-    queryKey: queryKeys.generation(id ?? ""),
+    queryKey: queryKeys.generationSession(sessionId ?? ""),
     queryFn: async () =>
-      handleElysia(await rpc.api.generation({ id: id! }).get()),
-    enabled: !!id,
-    // Don't retry on 404 / not-found; the page redirects to /generate on
-    // first error and retries would just delay the bounce.
+      handleElysia(
+        await rpc.api.generation
+          .session({ sessionId: sessionId! })
+          .get(),
+      ),
+    enabled: !!sessionId,
     retry: false,
   });
 }
 
-// Polls /generation/:id/status until terminal. The server inline-finalizes
-// (downloads + uploads to R2) on the first SUCCESS observation, so the
-// response that flips status to "success" already carries r2Url.
-export function useGenerationStatusQuery(
+// ---------------------------------------------------------------------------
+// Snapshots: single detail + polling
+// ---------------------------------------------------------------------------
+
+export function useSnapshotQuery(id: string | null | undefined) {
+  return useQuery({
+    queryKey: queryKeys.generationSnapshot(id ?? ""),
+    queryFn: async () =>
+      handleElysia(
+        await rpc.api.generation.snapshot({ id: id! }).get(),
+      ),
+    enabled: !!id,
+    retry: false,
+  });
+}
+
+/** Polls /generation/snapshot/:id/status until terminal. */
+export function useSnapshotStatusQuery(
   id: string | null | undefined,
   enabled = true,
 ) {
   return useQuery({
-    queryKey: queryKeys.generationStatus(id ?? ""),
+    queryKey: queryKeys.generationSnapshotStatus(id ?? ""),
     queryFn: async () =>
-      handleElysia(await rpc.api.generation({ id: id! }).status.get()),
+      handleElysia(
+        await rpc.api.generation.snapshot({ id: id! }).status.get(),
+      ),
     enabled: enabled && !!id,
     retry: false,
     staleTime: 0,
@@ -75,64 +95,107 @@ export function useGenerationStatusQuery(
   });
 }
 
+// ---------------------------------------------------------------------------
+// Submit + delete
+// ---------------------------------------------------------------------------
+
 export function useSubmitGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.generation.submit, "post">) =>
-      handleElysia(await rpc.api.generation.submit.post(args.body)),
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.generation.submit, "post">,
+    ) => handleElysia(await rpc.api.generation.submit.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      // Seed the per-row cache so the polling hook starts from the same
-      // shape the server returned, instead of waiting for the first poll.
-      qc.setQueryData(queryKeys.generation(data.id), data);
-      qc.setQueryData(queryKeys.generationStatus(data.id), data);
-      // Invalidate history so the new row appears at the top of the rail.
-      qc.invalidateQueries({ queryKey: ["generation-history"] });
+      // Seed the snapshot's status cache so the polling hook starts from
+      // the server-returned shape.
+      qc.setQueryData(queryKeys.generationSnapshot(data.snapshot.id), data.snapshot);
+      qc.setQueryData(queryKeys.generationSnapshotStatus(data.snapshot.id), data.snapshot);
+      // Invalidate the session list (new session created or existing one
+      // moved to the top) and the session detail (new snapshot appended).
+      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
+      qc.invalidateQueries({
+        queryKey: queryKeys.generationSession(data.session.id),
+      });
     },
   });
 }
 
-export function useSetGenerationVisibilityMutation() {
+export function useSetSnapshotVisibilityMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<
-        ReturnType<typeof rpc.api.generation>["visibility"],
+        ReturnType<typeof rpc.api.generation.snapshot>["visibility"],
         "post"
       >["body"];
     }) =>
       handleElysia(
-        await rpc.api.generation({ id: args.id }).visibility.post(args.body),
+        await rpc.api.generation
+          .snapshot({ id: args.id })
+          .visibility.post(args.body),
       ),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
-      qc.setQueryData(queryKeys.generation(data.id), data);
-      qc.invalidateQueries({ queryKey: ["generation-history"] });
+      qc.setQueryData(queryKeys.generationSnapshot(data.id), data);
+      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
     },
   });
 }
 
-export function useDeleteGenerationMutation() {
+export function useDeleteSnapshotMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: { id: string }) =>
-      handleElysia(await rpc.api.generation({ id: args.id }).delete()),
+      handleElysia(
+        await rpc.api.generation.snapshot({ id: args.id }).delete(),
+      ),
     onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
-      qc.removeQueries({ queryKey: queryKeys.generation(args.id) });
-      qc.removeQueries({ queryKey: queryKeys.generationStatus(args.id) });
-      qc.invalidateQueries({ queryKey: ["generation-history"] });
+    onSuccess: (data, args) => {
+      qc.removeQueries({
+        queryKey: queryKeys.generationSnapshot(args.id),
+      });
+      qc.removeQueries({
+        queryKey: queryKeys.generationSnapshotStatus(args.id),
+      });
+      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
+      if (data?.sessionId) {
+        qc.invalidateQueries({
+          queryKey: queryKeys.generationSession(data.sessionId),
+        });
+      }
     },
   });
 }
 
-// LoRA catalog list. Picker filters by the selected model's family;
-// optional category facet. Read-only public endpoint; cache for 5 min
-// since the catalog rarely changes (operator-managed).
+export function useDeleteSessionMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: { sessionId: string }) =>
+      handleElysia(
+        await rpc.api.generation
+          .session({ sessionId: args.sessionId })
+          .delete(),
+      ),
+    onError: (e) => handleError(e, t),
+    onSuccess: (_data, args) => {
+      qc.removeQueries({
+        queryKey: queryKeys.generationSession(args.sessionId),
+      });
+      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// LoRA catalog (unchanged)
+// ---------------------------------------------------------------------------
+
 export function useLoraCatalogQuery(
   params?: EdenQuery<typeof rpc.api.generation.loras>,
 ) {
@@ -148,11 +211,6 @@ export function useLoraCatalogQuery(
   });
 }
 
-// Re-uploads a chosen file to R2 (per-user prefix) and returns the URL
-// the form should put into references[].url. Eden Treaty handles the
-// multipart serialization from the {file} object. v1 imposes no
-// per-user quota; the reference uploader caps to 6 entries via the
-// validator.
 export function useUploadReferenceMutation() {
   const t = useTranslations();
   return useMutation({
@@ -162,89 +220,94 @@ export function useUploadReferenceMutation() {
   });
 }
 
-// ---------- Sharing / export / import / fork ----------
+// ---------------------------------------------------------------------------
+// Sharing / export / import / fork (now session-level)
+// ---------------------------------------------------------------------------
 
-/** Mint a public share token for a generation the user owns. Idempotent;
- *  the server returns the existing shareId when called twice. Cache is
- *  updated so the result-row reflects the new shareId without refetching. */
-export function useShareGenerationMutation() {
+/** Mint a public share token for a session. Idempotent. */
+export function useShareSessionMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (args: { id: string }) =>
+    mutationFn: async (args: { sessionId: string }) =>
       handleElysia(
-        await rpc.api.generation({ id: args.id }).share.post(),
+        await rpc.api.generation
+          .session({ sessionId: args.sessionId })
+          .share.post(),
       ),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
-      const prev = qc.getQueryData<{ shareId: string | null }>(
-        queryKeys.generation(args.id),
+      const prev = qc.getQueryData<{ session: { shareId: string | null } }>(
+        queryKeys.generationSession(args.sessionId),
       );
-      if (prev) {
-        qc.setQueryData(queryKeys.generation(args.id), {
+      if (prev?.session) {
+        qc.setQueryData(queryKeys.generationSession(args.sessionId), {
           ...prev,
-          shareId: data.shareId,
+          session: { ...prev.session, shareId: data.shareId },
         });
       }
     },
   });
 }
 
-export function useRevokeShareMutation() {
+export function useRevokeSessionShareMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (args: { id: string }) =>
+    mutationFn: async (args: { sessionId: string }) =>
       handleElysia(
-        await rpc.api.generation({ id: args.id }).share.delete(),
+        await rpc.api.generation
+          .session({ sessionId: args.sessionId })
+          .share.delete(),
       ),
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
-      const prev = qc.getQueryData<{ shareId: string | null }>(
-        queryKeys.generation(args.id),
+      const prev = qc.getQueryData<{ session: { shareId: string | null } }>(
+        queryKeys.generationSession(args.sessionId),
       );
-      if (prev) {
-        qc.setQueryData(queryKeys.generation(args.id), {
+      if (prev?.session) {
+        qc.setQueryData(queryKeys.generationSession(args.sessionId), {
           ...prev,
-          shareId: null,
+          session: { ...prev.session, shareId: null },
         });
       }
     },
   });
 }
 
-/** Fetches a snapshot for the user's own generation. The caller wraps the
- *  result in a Blob + downloadable anchor; see exportGenerationToFile in
- *  src/lib/utils/generation-export.ts for the helper. */
-export function useExportGenerationMutation() {
+/** Fetches the full session export payload. The caller wraps the result
+ *  in a Blob + downloadable anchor. */
+export function useExportSessionMutation() {
   const t = useTranslations();
   return useMutation({
-    mutationFn: async (args: { id: string }) =>
+    mutationFn: async (args: { sessionId: string }) =>
       handleElysia(
-        await rpc.api.generation({ id: args.id }).export.get(),
+        await rpc.api.generation
+          .session({ sessionId: args.sessionId })
+          .export.get(),
       ),
     onError: (e) => handleError(e, t),
   });
 }
 
-/** Uploads a snapshot from a JSON file and clones it into the user's
- *  account in restore or regenerate mode. Returns the new generation id. */
+/** Uploads a payload (single-snapshot or session) and clones it into the
+ *  user's account. Returns the new session id. */
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.generation.import, "post">) =>
-      handleElysia(await rpc.api.generation.import.post(args.body)),
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.generation.import, "post">,
+    ) => handleElysia(await rpc.api.generation.import.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["generation-history"] });
+      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
     },
   });
 }
 
-/** Forks a shared generation into the visitor's account. Used by the
- *  "Save to my account" button on /shared/<shareId>. */
-export function useForkSharedGenerationMutation() {
+/** Forks a shared session into the visitor's account. */
+export function useForkSharedSessionMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   return useMutation({
@@ -259,15 +322,15 @@ export function useForkSharedGenerationMutation() {
       ),
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["generation-history"] });
+      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
     },
   });
 }
 
-/** Public read of a shared generation by its share token. No auth. */
-export function useSharedGenerationQuery(shareId: string | null | undefined) {
+/** Public read of a shared session by its share token. */
+export function useSharedSessionQuery(shareId: string | null | undefined) {
   return useQuery({
-    queryKey: queryKeys.sharedGeneration(shareId ?? ""),
+    queryKey: queryKeys.sharedGenerationSession(shareId ?? ""),
     queryFn: async () =>
       handleElysia(
         await rpc.api.generation.shared({ shareId: shareId! }).get(),
@@ -277,4 +340,12 @@ export function useSharedGenerationQuery(shareId: string | null | undefined) {
   });
 }
 
-export type Generation = NonNullable<GenerationDetail>;
+type SessionListData = NonNullable<
+  NonNullable<Awaited<ReturnType<typeof rpc.api.generation.me.get>>["data"]>
+>["data"];
+type SubmitData = NonNullable<
+  NonNullable<Awaited<ReturnType<typeof rpc.api.generation.submit.post>>["data"]>
+>["data"];
+
+export type GenerationSnapshotDetail = SubmitData["snapshot"];
+export type GenerationSessionItem = SessionListData["items"][number];

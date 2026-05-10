@@ -14,25 +14,26 @@ import { getApiKeyOrGuest, getUserId } from "@/server/constants";
 import { and, asc, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
 import {
-  cloneFromSnapshot,
+  cloneFromPayload,
   createShareLink,
-  deleteGeneration,
-  exportGeneration,
-  exportSharedGeneration,
-  getGenerationWithImages,
-  getSharedGeneration,
-  listUserGenerations,
-  pollGenerationStatus,
+  deleteSession,
+  deleteSnapshot,
+  exportSession,
+  exportSharedSession,
+  getSession,
+  getSharedSession,
+  getSnapshotWithImages,
+  listUserSessions,
+  pollSnapshotStatus,
   revokeShareLink,
   setVisibility,
   submitGeneration,
 } from "./generation.service";
 
 export const generationRoute = new Elysia({ prefix: "/generation" })
-  // Submit one image generation. One row per click; the upstream may
-  // produce N images depending on `params.n` (1, 2, or 4). Returns the
-  // freshly-inserted row with its images attached (empty until upstream
-  // finalizes for async ComfyUI tasks; populated for sync image models).
+  // Submit one snapshot. If body.sessionId is set the snapshot is
+  // appended to that session; otherwise a fresh session is created and
+  // returned. Response: { session, snapshot }.
   .post(
     "/submit",
     async ({ body, cookie }) => {
@@ -45,42 +46,79 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
     },
     { body: generationSubmitBody },
   )
-  // List the current user's history. Cursor-paginated by createdAt desc;
-  // optional batchId / model filters.
+  // List the current user's sessions. Cursor-paginated by updatedAt
+  // desc. Each item carries the latest snapshot + that snapshot's first
+  // image so the recent-list cards render without a second roundtrip.
   .get(
     "/me",
     async ({ query, cookie }) => {
       const userId = getUserId(cookie);
       return {
         success: true,
-        data: await listUserGenerations(userId, query),
+        data: await listUserSessions(userId, query),
       };
     },
     { query: generationHistoryQuery },
   )
-  // Single generation detail (also used as a polling read).
-  .get("/:id", async ({ params, cookie }) => {
+  // Full session payload for the chevron view.
+  .get("/session/:sessionId", async ({ params, cookie }) => {
     const userId = getUserId(cookie);
     return {
       success: true,
-      data: await getGenerationWithImages(userId, params.id),
+      data: await getSession(userId, params.sessionId),
     };
   })
-  // Poll upstream and reflect the latest status into the row. On terminal
-  // success the upstream image is downloaded + uploaded to R2 inline so
-  // the response already carries r2Url.
-  .get("/:id/status", async ({ params, cookie }) => {
+  // Delete a whole session and every snapshot it contains.
+  .delete("/session/:sessionId", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return {
+      success: true,
+      data: await deleteSession(userId, params.sessionId),
+    };
+  })
+  // Mint a public share token for a session. Idempotent.
+  .post("/session/:sessionId/share", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return {
+      success: true,
+      data: await createShareLink(userId, params.sessionId),
+    };
+  })
+  .delete("/session/:sessionId/share", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return {
+      success: true,
+      data: await revokeShareLink(userId, params.sessionId),
+    };
+  })
+  // Download a snapshot of a session the user owns (full history).
+  .get("/session/:sessionId/export", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return {
+      success: true,
+      data: await exportSession(userId, params.sessionId),
+    };
+  })
+  // Single snapshot detail (polling read and form-restore source).
+  .get("/snapshot/:id", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return {
+      success: true,
+      data: await getSnapshotWithImages(userId, params.id),
+    };
+  })
+  // Poll upstream + reflect status into the snapshot row.
+  .get("/snapshot/:id/status", async ({ params, cookie }) => {
     const userId = getUserId(cookie);
     const apiKey = getApiKeyOrGuest(cookie);
     return {
       success: true,
-      data: await pollGenerationStatus(userId, apiKey, params.id),
+      data: await pollSnapshotStatus(userId, apiKey, params.id),
     };
   })
-  // Owner-only visibility toggle. Public makes the row eligible for the
-  // /feed route below.
+  // Owner-only visibility toggle on a single snapshot.
   .post(
-    "/:id/visibility",
+    "/snapshot/:id/visibility",
     async ({ params, body, cookie }) => {
       const userId = getUserId(cookie);
       return {
@@ -90,60 +128,31 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
     },
     { body: generationVisibilityBody },
   )
-  // Delete a generation row + its R2 object. Cascade-deletes likes via
-  // the FK in the schema.
-  .delete("/:id", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
-    return { success: true, data: await deleteGeneration(userId, params.id) };
-  })
-  // Mint a public share token. Idempotent; returns the existing shareId
-  // when called twice on the same row. The URL the client builds is
-  // /shared/<shareId>.
-  .post("/:id/share", async ({ params, cookie }) => {
+  // Delete a single snapshot. If it was the last in its session, the
+  // session is dropped too.
+  .delete("/snapshot/:id", async ({ params, cookie }) => {
     const userId = getUserId(cookie);
     return {
       success: true,
-      data: await createShareLink(userId, params.id),
+      data: await deleteSnapshot(userId, params.id),
     };
   })
-  .delete("/:id/share", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
-    return {
-      success: true,
-      data: await revokeShareLink(userId, params.id),
-    };
-  })
-  // Public read of a shared generation. No auth required; anyone with
-  // the shareId can view. Strips submitted-key and other server-only
-  // fields. Returns the same shape getGenerationWithImages does.
+  // Public read of a shared session. Returns the full snapshot history.
   .get("/shared/:shareId", async ({ params }) => {
     return {
       success: true,
-      data: await getSharedGeneration(params.shareId),
+      data: await getSharedSession(params.shareId),
     };
   })
-  // Download a snapshot JSON of the user's own generation. Same payload
-  // shape that the import route accepts. UI wraps the response in a
-  // Blob and triggers the browser's save dialog.
-  .get("/:id/export", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
-    return {
-      success: true,
-      data: await exportGeneration(userId, params.id),
-    };
-  })
-  // Download a snapshot of a shared generation. Lets a recipient pull
-  // a portable file without needing the original creator's account.
+  // Download a session snapshot from a public share token.
   .get("/shared/:shareId/export", async ({ params }) => {
     return {
       success: true,
-      data: await exportSharedGeneration(params.shareId),
+      data: await exportSharedSession(params.shareId),
     };
   })
-  // Clone a snapshot (uploaded file or pasted JSON) into the current
-  // user's account. mode=restore re-hosts the original images; mode=
-  // regenerate fires a fresh upstream submission. Returns the new row's
-  // id so the client can navigate to /generate/<id>.
+  // Clone an uploaded payload (single-snapshot or full-session) into the
+  // current user's account. Returns { sessionId }.
   .post(
     "/import",
     async ({ body, cookie }) => {
@@ -151,42 +160,36 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
       const apiKey = getApiKeyOrGuest(cookie);
       return {
         success: true,
-        data: await cloneFromSnapshot({
+        data: await cloneFromPayload({
           userId,
           apiKey,
-          snapshot: body.snapshot,
+          payload: body.payload,
           mode: body.mode,
         }),
       };
     },
     { body: generationImportBody },
   )
-  // Fork a shared generation into the current user's account. Same
-  // result shape as import, just sourced from the share token instead
-  // of an uploaded file. Lives under /shared/:shareId/fork so Eden's
-  // type surface puts it cleanly under .shared({shareId}).fork.
+  // Fork a shared session into the current user's account.
   .post(
     "/shared/:shareId/fork",
     async ({ params, body, cookie }) => {
       const userId = getUserId(cookie);
       const apiKey = getApiKeyOrGuest(cookie);
-      const snapshot = await exportSharedGeneration(params.shareId);
+      const payload = await exportSharedSession(params.shareId);
       return {
         success: true,
-        data: await cloneFromSnapshot({
+        data: await cloneFromPayload({
           userId,
           apiKey,
-          snapshot,
+          payload,
           mode: body.mode,
         }),
       };
     },
     { body: generationCloneFromShareBody },
   )
-  // Reference image upload. Multipart input -> R2 -> URL the form should
-  // pass into references[].url on the next /submit. Per-user prefix means
-  // refs are reusable across batches without re-upload. v1 imposes no
-  // quota; tighten if abuse becomes a problem.
+  // Reference image upload. Same as before: multipart -> R2 -> URL.
   .post(
     "/references",
     async ({ body, cookie }) => {
@@ -203,10 +206,7 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
     },
     { body: generationReferenceUploadBody },
   )
-  // LoRA catalog. Picker query: visible LoRAs filtered by the selected
-  // model's family, optionally faceted by category. Public read; only
-  // admin-curated rows ever appear (no user-uploaded LoRAs in v1, so
-  // there's no per-user filter).
+  // LoRA catalog (unchanged).
   .get(
     "/loras",
     async ({ query }) => {

@@ -1,13 +1,33 @@
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
-// Active generation id for the unified /generate page. The form sets it on
-// submit; the result column reads it. Stays in sync with the URL via the
-// page-level effect that seeds it from the route id at mount.
-//
-// Not persisted: refreshes drop back to the URL-derived id, which is what
-// we want for share/refresh/back-button behavior.
-export const activeGenerationIdAtom = atom<string | null>(null);
+// Active session + snapshot ids for the unified /generate page.
+//   - sessionId comes from /generate/<sessionId>
+//   - snapshotId comes from ?snap=<id> (defaults to the session's newest)
+// The form's submit sets both; the result column reads them. Chevron nav
+// only flips snapshotId; sessionId is stable for the lifetime of a session.
+// Not persisted: refreshes drop back to URL-derived values.
+export const activeSessionIdAtom = atom<string | null>(null);
+export const activeSnapshotIdAtom = atom<string | null>(null);
+
+// Write-only fire-and-forget atom: the chevron nav writes a snapshot's
+// frozen params here, the form subscribes and overwrites its fields. The
+// payload is cleared after a tick so a second click on the same snapshot
+// triggers another restore.
+export type SnapshotRestorePayload = {
+  model: string;
+  prompt: string;
+  negativePrompt: string | null;
+  params: Record<string, unknown> | null;
+  loras: unknown;
+  references: unknown;
+  extraParams: Record<string, unknown> | null;
+  nsfw: boolean;
+};
+
+export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
+  null,
+);
 
 // Form draft persisted across page navigations. The chat surface taught us
 // this is non-negotiable: typing a prompt, switching to dashboard to check

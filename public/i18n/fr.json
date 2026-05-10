@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "Mise à l'échelle",
     "PNG_IMPORT_HINT": "Déposer un PNG ComfyUI pour importer son prompt et ses paramètres",
     "PNG_IMPORT_BROWSE": "Importer PNG",
-    "PNG_IMPORT_NO_METADATA": "Aucune métadonnée ComfyUI trouvée dans cette image."
+    "PNG_IMPORT_NO_METADATA": "Aucune métadonnée ComfyUI trouvée dans cette image.",
+    "NEW_SESSION": "Nouvelle session",
+    "SESSION_NEW_TOOLTIP": "Démarrer une nouvelle session. La session actuelle reste dans votre historique.",
+    "RECENT_SESSIONS": "Sessions récentes",
+    "SNAPSHOT_COUNT": "{count, plural, one {# instantané} other {# instantanés}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, one {# image} other {# images}}",
+    "SNAPSHOT_NAV_LABEL": "Instantané {current} sur {total}",
+    "SHARE_SESSION_HELP": "Toute personne disposant du lien peut consulter l'historique de cette session.",
+    "LIGHTBOX_PREV": "Image précédente",
+    "LIGHTBOX_NEXT": "Image suivante",
+    "LIGHTBOX_CLOSE": "Fermer"
   }
 }

@@ -1,76 +1,120 @@
 "use client";
 
-import { useGenerationHistoryQuery } from "@/hooks/generation-hook";
-import { activeGenerationIdAtom } from "@/store/generation-store";
+import { useSessionHistoryQuery } from "@/hooks/generation-hook";
+import {
+  activeSessionIdAtom,
+  activeSnapshotIdAtom,
+} from "@/store/generation-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-// Horizontal scrolling strip of the user's last ~10 generations, rendered
-// under the result column. Matic's feedback: "i want to quickly be able
-// to compare without going to an entirely diff page and then back." The
-// sidebar GenerationList still exists for full history; this strip is the
-// always-visible session-scoped view.
+// Vertical session list rendered under the result column. Replaces the
+// old horizontal submit strip: now sessions are the unit of history,
+// each session is a long-lived bucket of snapshots the user iterated
+// on. Click selects the session; the page defaults to the newest
+// snapshot inside.
 //
 // Hides for anonymous users (no history) or an empty list.
 export function RecentStrip() {
   const t = useTranslations();
   const router = useRouter();
-  const [activeId, setActiveId] = useAtom(activeGenerationIdAtom);
-  const query = useGenerationHistoryQuery({ limit: 10 });
+  const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
+  const [, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
+  const query = useSessionHistoryQuery({ limit: 10 });
   const items = query.data?.items ?? [];
 
   if (items.length === 0) return null;
 
+  const fmtAgo = (when: Date | string | number | null | undefined) => {
+    if (!when) return "";
+    const ms = new Date(when).getTime();
+    const diff = Date.now() - ms;
+    const m = Math.floor(diff / 60_000);
+    if (m < 1) return "0m";
+    if (m < 60) return `${m}m`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h`;
+    const d = Math.floor(h / 24);
+    return `${d}d`;
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <p className="text-muted-foreground text-xs">
-        {t("IMAGE.RECENT_TITLE")}
+        {t("IMAGE.RECENT_SESSIONS")}
       </p>
-      <div className="thin-scrollbar flex gap-2 overflow-x-auto pb-1">
+      <div className="thin-scrollbar flex max-h-96 flex-col gap-2 overflow-y-auto pr-1">
         {items.map((row) => {
-          const images = (row as { images?: { r2Url: string }[] }).images ?? [];
-          const first = images[0]?.r2Url;
-          const extra = images.length > 1 ? images.length - 1 : 0;
-          const isActive = activeId === row.id;
+          const session = row.session;
+          const latest = row.latestSnapshot;
+          const firstImage = row.latestImage;
+          const isActive = activeSessionId === session.id;
+          const snapshotCount = session.snapshotCount ?? 0;
+          const imageCount = session.imageCount ?? 0;
+          const prompt = latest?.prompt ?? session.title ?? "";
           return (
             <button
-              key={row.id}
+              key={session.id}
               type="button"
-              title={row.prompt}
+              title={prompt}
               onClick={() => {
-                setActiveId(row.id);
+                setActiveSessionId(session.id);
+                setActiveSnapshotId(null);
                 window.history.replaceState(
                   null,
                   "",
-                  `/generate/${row.id}`,
+                  `/generate/${session.id}`,
                 );
                 router.refresh();
               }}
               className={
-                "bg-muted ring-offset-background relative h-16 w-16 shrink-0 overflow-hidden rounded " +
+                "bg-muted ring-offset-background flex w-full items-center gap-3 rounded-md p-2 text-left transition-colors " +
                 (isActive
                   ? "ring-ring ring-2"
                   : "hover:ring-ring hover:ring-1")
               }
             >
-              {first ? (
-                // eslint-disable-next-line @next/next/no-img-element -- R2 host varies
-                <img
-                  src={first}
-                  alt={row.prompt}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
-                  {row.status === "failure" ? "!" : (row.progress ?? "?")}
-                </div>
-              )}
-              {extra > 0 && (
-                <span className="bg-background/80 text-foreground absolute right-1 bottom-1 rounded px-1 text-[10px] font-medium">
-                  +{extra}
+              <div className="bg-background relative h-16 w-16 shrink-0 overflow-hidden rounded">
+                {firstImage?.r2Url ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- R2
+                  <img
+                    src={firstImage.r2Url}
+                    alt={prompt}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
+                    {latest?.status === "failure"
+                      ? "!"
+                      : (latest?.progress ?? "?")}
+                  </div>
+                )}
+              </div>
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                <span className="truncate text-sm">{prompt || "—"}</span>
+                <span className="text-muted-foreground text-xs">
+                  {session.firstModel ?? latest?.model ?? ""}
+                  {snapshotCount > 0 && (
+                    <>
+                      {" · "}
+                      {t("IMAGE.SNAPSHOT_COUNT", { count: snapshotCount })}
+                    </>
+                  )}
+                  {imageCount > 0 && (
+                    <>
+                      {" · "}
+                      {t("IMAGE.IMAGE_COUNT_TOTAL", { count: imageCount })}
+                    </>
+                  )}
+                  {session.updatedAt && (
+                    <>
+                      {" · "}
+                      {fmtAgo(session.updatedAt as never)}
+                    </>
+                  )}
                 </span>
-              )}
+              </div>
             </button>
           );
         })}

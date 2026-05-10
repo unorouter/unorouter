@@ -34,7 +34,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  useGenerationQuery,
+  useSnapshotQuery,
   useSubmitGenerationMutation,
 } from "@/hooks/generation-hook";
 import { useAuthQuery } from "@/hooks/auth-hook";
@@ -59,8 +59,10 @@ import {
 import type { RestoredFromPng } from "@/lib/utils/png-metadata";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import {
-  activeGenerationIdAtom,
+  activeSessionIdAtom,
+  activeSnapshotIdAtom,
   generateDraftAtom,
+  restoreSnapshotIntoFormAtom,
   samplerMemoryAtom,
   type GenerateDraft,
 } from "@/store/generation-store";
@@ -106,8 +108,12 @@ export function GenerateForm() {
   const locale = useLocale();
   const submitMut = useSubmitGenerationMutation();
   const searchParams = useSearchParams();
-  const [activeGenerationId, setActiveGenerationId] = useAtom(
-    activeGenerationIdAtom,
+  const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
+  const [activeSnapshotId, setActiveSnapshotId] = useAtom(
+    activeSnapshotIdAtom,
+  );
+  const [restorePayload, setRestorePayload] = useAtom(
+    restoreSnapshotIntoFormAtom,
   );
   // Form persistence atoms. generateDraftAtom holds the in-progress form
   // values so a navigation away and back restores the user's edits.
@@ -121,11 +127,11 @@ export function GenerateForm() {
   // hiresDenoise / hiresUpscale to the canonical defaults so the user
   // gets a higher-detail second pass without manually toggling.
   const hiresShortcut = searchParams.get("hires") === "1";
-  // Seed source: explicit ?remix=<id> wins, otherwise the active gen from
-  // the URL/sidebar selection. Either way we fetch that gen's settings and
-  // pre-fill the form.
-  const seedSourceId = remixId ?? activeGenerationId;
-  const seedQuery = useGenerationQuery(seedSourceId);
+  // Seed source: explicit ?remix=<snapshotId> wins. Otherwise the form
+  // doesn't auto-seed from the active snapshot — restoring older snapshots
+  // happens via the chevron-driven `restoreSnapshotIntoFormAtom` channel.
+  const seedSourceId = remixId;
+  const seedQuery = useSnapshotQuery(seedSourceId);
 
   // Pricing-derived dynamic image models (hosted vendors with
   // metadata.maxImageInputs >= 6) merged with the static ComfyUI templates.
@@ -337,6 +343,9 @@ export function GenerateForm() {
     const submitted = await submitMut.mutateAsync({
       body: {
         ...data,
+        // Append to the active session if there is one; otherwise the
+        // server creates a fresh session and the response carries its id.
+        sessionId: activeSessionId ?? undefined,
         params: paramsWithN as never,
         extraParams: cleanedExtras,
       },
@@ -349,20 +358,59 @@ export function GenerateForm() {
       ...samplerMemory,
       [modelKey]: existingParams,
     });
-    // The submission is the source of truth from here; drop the draft so
-    // the next navigation back to /generate doesn't restore stale state.
     setDraft(null);
 
-    // Set the active id via Jotai so the result column re-renders without
-    // remounting the form. The URL is updated shallowly so refresh /
-    // share / back-button still work. Mirrors chat's replaceState.
-    setActiveGenerationId(submitted.id);
+    // Sync both atoms so the result column re-renders without remounting
+    // the form. URL becomes /generate/<sessionId>?snap=<snapshotId>.
+    setActiveSessionId(submitted.session.id);
+    setActiveSnapshotId(submitted.snapshot.id);
     window.history.replaceState(
       null,
       "",
-      `/${locale}/generate/${submitted.id}`,
+      `/${locale}/generate/${submitted.session.id}?snap=${submitted.snapshot.id}`,
     );
   });
+
+  // Subscribe to the chevron-driven restore payload. When the result column
+  // navigates to an older snapshot, this atom is set with that snapshot's
+  // frozen params; we overwrite the form fields once, then clear the atom.
+  useEffect(() => {
+    if (!restorePayload) return;
+    const modelId = (restorePayload.model as GenerationModel) ?? INITIAL_MODEL;
+    const desc = findDescriptor(modelId);
+    form.reset({
+      ...defaultsFor(desc),
+      model: modelId,
+      prompt: restorePayload.prompt,
+      negativePrompt: restorePayload.negativePrompt ?? "",
+      params: {
+        ...desc.defaultParams,
+        ...(restorePayload.params ?? {}),
+      } as never,
+      loras: (restorePayload.loras as LoraEntry[] | null) ?? undefined,
+      references:
+        (restorePayload.references as { url: string }[] | null) ?? undefined,
+      nsfw: restorePayload.nsfw,
+      extraParams: (restorePayload.extraParams ?? {
+        variants: 1,
+      }) as Record<string, unknown>,
+    } as never);
+    setRestorePayload(null);
+    // findDescriptor closes over effectiveModels and is intentionally not
+    // a dep. Restore runs only when the payload identity flips.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [restorePayload]);
+
+  // "New session" handler: clear the active session/snapshot ids and bounce
+  // the URL back to /generate so the next Generate click creates a fresh
+  // session. The draft form state is intentionally kept (user may want to
+  // tweak the prompt against a clean slate without retyping).
+  const onNewSession = () => {
+    setActiveSessionId(null);
+    setActiveSnapshotId(null);
+    window.history.replaceState(null, "", `/${locale}/generate`);
+  };
+  void activeSnapshotId;
 
   // Helper to read a numeric value out of params with a fallback to the
   // descriptor's default. Avoids the union-of-undefined mess in render.
@@ -937,21 +985,35 @@ export function GenerateForm() {
           </div>
         )}
 
-        {/* Submit */}
-        {/* eslint-disable-next-line react-hooks/incompatible-library */}
-        <Button
-          type="submit"
-          disabled={
-            submitMut.isPending ||
-            !((form.watch("prompt") as string | undefined) ?? "")
-          }
-          size="lg"
-        >
-          <LuSparkles className="mr-2" />
-          {submitMut.isPending
-            ? t("IMAGE.SUBMITTING")
-            : `${t("IMAGE.SUBMIT")} - ${renderQuota(totalQuota, 2)}`}
-        </Button>
+        {/* Submit + New-session row. The "New session" pill only renders
+            when there's already an active session so it doesn't add UI
+            noise on the first submit. */}
+        <div className="flex flex-col gap-2">
+          {/* eslint-disable-next-line react-hooks/incompatible-library */}
+          <Button
+            type="submit"
+            disabled={
+              submitMut.isPending ||
+              !((form.watch("prompt") as string | undefined) ?? "")
+            }
+            size="lg"
+          >
+            <LuSparkles className="mr-2" />
+            {submitMut.isPending
+              ? t("IMAGE.SUBMITTING")
+              : `${t("IMAGE.SUBMIT")} - ${renderQuota(totalQuota, 2)}`}
+          </Button>
+          {activeSessionId && (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={onNewSession}
+            >
+              {t("IMAGE.NEW_SESSION")}
+            </Button>
+          )}
+        </div>
       </form>
     </Form>
   );

@@ -6,34 +6,32 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useGenerationHistoryQuery } from "@/hooks/generation-hook";
+import { useSessionHistoryQuery } from "@/hooks/generation-hook";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { LuPlus } from "react-icons/lu";
 
-// Sidebar rail mirroring chat's ConversationList shape: a "new" button at the
-// top, then the user's recent generations as small thumbnail tiles. Selecting
-// a tile navigates to /generate/<id>; the page-level component takes that
-// id and renders the result alongside the form.
+// Sidebar rail: a "new session" entry at the top, then the user's recent
+// sessions as small thumbnail tiles. Selecting a tile navigates to
+// /generate/<sessionId>; the page seeds the active session/snapshot atoms
+// and defaults to the session's newest snapshot.
 export function GenerationList() {
   const t = useTranslations();
   const sidebar = useSidebar();
   const pathname = usePathname();
-  const query = useGenerationHistoryQuery({ limit: 30 });
+  const query = useSessionHistoryQuery({ limit: 30 });
 
   const items = query.data?.items ?? [];
-  // /en/generate/abc123 -> activeId = "abc123"; /en/generate -> undefined.
+  // /en/generate/<sessionId> -> activeSessionId; /en/generate -> undefined.
   const segments = pathname.split("/").filter(Boolean);
   const generateIdx = segments.findIndex((s) => s === "generate");
-  const activeId =
+  const activeSessionId =
     generateIdx >= 0 && segments[generateIdx + 1]
       ? segments[generateIdx + 1]
       : undefined;
 
-  // Collapsed sidebar: hide the rail entirely (nav-only). The "+ new"
-  // button is reachable via the main nav's Generate link.
   if (sidebar.state === "collapsed") return null;
 
   return (
@@ -45,7 +43,7 @@ export function GenerationList() {
             className="border-input hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-full items-center justify-start rounded-md border bg-transparent px-3 text-sm font-medium"
           >
             <LuPlus className="mr-2 h-3.5 w-3.5" />
-            {t("IMAGE.NEW_GENERATION")}
+            {t("IMAGE.NEW_SESSION")}
           </Link>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -64,31 +62,37 @@ export function GenerationList() {
           ) : (
             <div className="grid grid-cols-3 gap-1.5">
               {items.map((row) => {
-                const images = (row as { images?: { r2Url: string }[] })
-                  .images ?? [];
-                const first = images[0]?.r2Url;
-                const extra = images.length > 1 ? images.length - 1 : 0;
+                const session = row.session;
+                const latest = row.latestSnapshot;
+                const firstImage = row.latestImage;
+                const snapshotCount = session.snapshotCount ?? 0;
+                const extra = snapshotCount > 1 ? snapshotCount - 1 : 0;
                 return (
                   <Link
-                    key={row.id}
-                    href={{ pathname: "/generate/[id]", params: { id: row.id } }}
-                    title={row.prompt}
+                    key={session.id}
+                    href={{
+                      pathname: "/generate/[id]",
+                      params: { id: session.id },
+                    }}
+                    title={latest?.prompt ?? session.title ?? ""}
                     className={cn(
                       "bg-muted relative block aspect-square overflow-hidden rounded",
                       "ring-offset-background hover:ring-ring hover:ring-1",
-                      activeId === row.id && "ring-ring ring-2",
+                      activeSessionId === session.id && "ring-ring ring-2",
                     )}
                   >
-                    {first ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- R2 host varies
+                    {firstImage?.r2Url ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- R2
                       <img
-                        src={first}
-                        alt={row.prompt}
+                        src={firstImage.r2Url}
+                        alt={latest?.prompt ?? session.title ?? ""}
                         className="h-full w-full object-cover"
                       />
                     ) : (
                       <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
-                        {row.status === "failure" ? "!" : (row.progress ?? "?")}
+                        {latest?.status === "failure"
+                          ? "!"
+                          : (latest?.progress ?? "?")}
                       </div>
                     )}
                     {extra > 0 && (

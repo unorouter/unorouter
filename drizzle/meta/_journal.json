@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1778439195633,
-      "tag": "0000_curvy_flatman",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1778440875137,
-      "tag": "0001_medical_demogoblin",
+      "when": 1778444191836,
+      "tag": "0000_silly_legion",
       "breakpoints": true
     }
   ]

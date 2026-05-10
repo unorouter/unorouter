@@ -140,9 +140,28 @@ CREATE TABLE `generation_likes` (
 );
 --> statement-breakpoint
 CREATE INDEX `idx_likes_user` ON `generation_likes` (`user_id`);--> statement-breakpoint
+CREATE TABLE `generation_sessions` (
+	`id` text PRIMARY KEY NOT NULL,
+	`user_id` integer NOT NULL,
+	`title` text,
+	`first_model` text,
+	`share_id` text,
+	`snapshot_count` integer DEFAULT 0 NOT NULL,
+	`image_count` integer DEFAULT 0 NOT NULL,
+	`expires_at` integer NOT NULL,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `generation_sessions_share_id_unique` ON `generation_sessions` (`share_id`);--> statement-breakpoint
+CREATE INDEX `idx_session_user_updated` ON `generation_sessions` (`user_id`,`updated_at`);--> statement-breakpoint
+CREATE INDEX `idx_session_share` ON `generation_sessions` (`share_id`);--> statement-breakpoint
+CREATE INDEX `idx_session_expires` ON `generation_sessions` (`expires_at`);--> statement-breakpoint
 CREATE TABLE `generations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
+	`session_id` text NOT NULL,
+	`session_order` integer NOT NULL,
 	`requested_count` integer DEFAULT 1 NOT NULL,
 	`task_id` text,
 	`model` text NOT NULL,
@@ -166,10 +185,11 @@ CREATE TABLE `generations` (
 	`submitted_key` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
-	`expires_at` integer NOT NULL
+	`expires_at` integer NOT NULL,
+	FOREIGN KEY (`session_id`) REFERENCES `generation_sessions`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE INDEX `idx_gen_user_created` ON `generations` (`user_id`,`created_at`);--> statement-breakpoint
+CREATE INDEX `idx_gen_session_order` ON `generations` (`session_id`,`session_order`);--> statement-breakpoint
 CREATE INDEX `idx_gen_visibility_created` ON `generations` (`visibility`,`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_gen_model_created` ON `generations` (`model`,`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_gen_task` ON `generations` (`task_id`);--> statement-breakpoint

@@ -78,13 +78,19 @@ export const queryKeys = {
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,
 
-  // Image generation
-  generationHistory: (params?: EdenQuery<typeof rpc.api.generation.me>) =>
-    ["generation-history", params] as const,
-  generation: (id: string) => ["generation", id] as const,
-  generationStatus: (id: string) => ["generation-status", id] as const,
-  sharedGeneration: (shareId: string) =>
-    ["shared-generation", shareId] as const,
+  // Image generation: sessions (history list) + snapshots (the unit of
+  // submission). Each session contains many snapshots; chevrons walk the
+  // snapshot list inside a session.
+  generationSessionList: (
+    params?: EdenQuery<typeof rpc.api.generation.me>,
+  ) => ["generation-session-list", params] as const,
+  generationSession: (id: string) => ["generation-session", id] as const,
+  generationSnapshot: (id: string) =>
+    ["generation-snapshot", id] as const,
+  generationSnapshotStatus: (id: string) =>
+    ["generation-snapshot-status", id] as const,
+  sharedGenerationSession: (shareId: string) =>
+    ["shared-generation-session", shareId] as const,
   loraCatalog: (params?: EdenQuery<typeof rpc.api.generation.loras>) =>
     ["lora-catalog", params] as const,
 };

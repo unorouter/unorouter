@@ -2770,6 +2770,16 @@
     "HIRES_FIX_UPSCALE": "Phóng to",
     "PNG_IMPORT_HINT": "Thả ảnh PNG từ ComfyUI để nhập prompt và tham số",
     "PNG_IMPORT_BROWSE": "Nhập PNG",
-    "PNG_IMPORT_NO_METADATA": "Không tìm thấy metadata ComfyUI trong ảnh này."
+    "PNG_IMPORT_NO_METADATA": "Không tìm thấy metadata ComfyUI trong ảnh này.",
+    "NEW_SESSION": "Phiên mới",
+    "SESSION_NEW_TOOLTIP": "Bắt đầu một phiên mới. Phiên hiện tại vẫn được lưu trong lịch sử.",
+    "RECENT_SESSIONS": "Phiên gần đây",
+    "SNAPSHOT_COUNT": "{count, plural, other {# ảnh chụp}}",
+    "IMAGE_COUNT_TOTAL": "{count, plural, other {# ảnh}}",
+    "SNAPSHOT_NAV_LABEL": "Ảnh chụp {current} trên {total}",
+    "SHARE_SESSION_HELP": "Bất kỳ ai có liên kết đều có thể xem lịch sử của phiên này.",
+    "LIGHTBOX_PREV": "Ảnh trước",
+    "LIGHTBOX_NEXT": "Ảnh tiếp theo",
+    "LIGHTBOX_CLOSE": "Đóng"
   }
 }
