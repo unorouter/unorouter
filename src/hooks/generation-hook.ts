@@ -46,6 +46,9 @@ export function useGenerationQuery(id: string | null | undefined) {
     queryFn: async () =>
       handleElysia(await rpc.api.generation({ id: id! }).get()),
     enabled: !!id,
+    // Don't retry on 404 / not-found; the page redirects to /generate on
+    // first error and retries would just delay the bounce.
+    retry: false,
   });
 }
 

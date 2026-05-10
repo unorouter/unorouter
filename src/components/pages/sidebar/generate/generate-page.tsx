@@ -3,9 +3,11 @@
 import { GenerateForm } from "@/components/pages/sidebar/generate/generate-form";
 import { GenerateResult } from "@/components/pages/sidebar/generate/generate-result";
 import { RecentStrip } from "@/components/pages/sidebar/generate/recent-strip";
+import { useGenerationQuery } from "@/hooks/generation-hook";
 import { activeGenerationIdAtom } from "@/store/generation-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 // Unified generate page: form on the left, active result (or placeholder) on
@@ -18,6 +20,7 @@ import { useEffect } from "react";
 // composer + viewer side by side in the main column.
 export function GeneratePage(props: { generationId?: string }) {
   const t = useTranslations();
+  const router = useRouter();
   const [activeId, setActiveId] = useAtom(activeGenerationIdAtom);
 
   // Seed atom from the route. Two cases:
@@ -26,6 +29,19 @@ export function GeneratePage(props: { generationId?: string }) {
   useEffect(() => {
     setActiveId(props.generationId ?? null);
   }, [props.generationId, setActiveId]);
+
+  // If the route id points at a generation that no longer exists (deleted,
+  // expired, or after a DB reset), bounce back to /generate so the user
+  // isn't staring at a blank result column with a dead URL. We use the
+  // bare detail query here (cheap, no polling) rather than reading the
+  // result component's state — keeps the redirect logic at the page edge.
+  const detailQuery = useGenerationQuery(props.generationId);
+  useEffect(() => {
+    if (!props.generationId) return;
+    if (detailQuery.isError) {
+      router.replace("/generate");
+    }
+  }, [props.generationId, detailQuery.isError, router]);
 
   return (
     // Single scroller on mobile (form stacked over result), split into two
