@@ -96,6 +96,33 @@ export const pathnames = {
     "zh-CN": "/kongzhitai",
     "zh-TW": "/kongzhitai",
   },
+  "/generate": {
+    de: "/generieren",
+    fr: "/generer",
+    ja: "/generate",
+    ru: "/генерация",
+    vi: "/tao-anh",
+    "zh-CN": "/shengcheng",
+    "zh-TW": "/shengcheng",
+  },
+  "/generate/[id]": {
+    de: "/generieren/[id]",
+    fr: "/generer/[id]",
+    ja: "/generate/[id]",
+    ru: "/генерация/[id]",
+    vi: "/tao-anh/[id]",
+    "zh-CN": "/shengcheng/[id]",
+    "zh-TW": "/shengcheng/[id]",
+  },
+  "/my-generations": {
+    de: "/meine-generierungen",
+    fr: "/mes-generations",
+    ja: "/my-generations",
+    ru: "/мои-генерации",
+    vi: "/anh-cua-toi",
+    "zh-CN": "/wo-de-shengcheng",
+    "zh-TW": "/wo-de-shengcheng",
+  },
   "/token": {
     de: "/token",
     fr: "/jetons",
@@ -318,10 +345,17 @@ export const privateRoutes = {
     "/affiliate",
     "/settings",
     "/consent",
+    "/generate",
+    "/my-generations",
   ],
   // Dynamic routes: the parent path is what we disallow so every child is covered.
   // /chat/[convId] and /shared/[shareId] are user-specific; /chat itself is public.
-  dynamicParents: ["/chat/[convId]", "/shared/[shareId]"],
+  // /generate/[id] is per-user submission state.
+  dynamicParents: [
+    "/chat/[convId]",
+    "/shared/[shareId]",
+    "/generate/[id]",
+  ],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];

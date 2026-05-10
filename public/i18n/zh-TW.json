@@ -36,6 +36,7 @@
     "LOG_IN": "登入",
     "GET_STARTED": "立即開始",
     "CHAT": "對話",
+    "GENERATE": "生成",
     "STATUS": "狀態"
   },
   "HOME": {
@@ -1656,7 +1657,9 @@
     "AFFILIATE": "聯盟推廣",
     "BILLING": "帳務",
     "SETTINGS": "設定",
-    "CHAT": "對話"
+    "CHAT": "對話",
+    "GENERATE": "圖像生成",
+    "MY_GENERATIONS": "我的生成紀錄"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2477,7 +2480,8 @@
     "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
     "CARD_PARSE_FAILED": "無法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名稱欄位。",
-    "UNEXPECTED_ERROR": "發生未預期的錯誤"
+    "UNEXPECTED_ERROR": "發生未預期的錯誤",
+    "NSFW_NOT_PUBLISHABLE": "NSFW 圖像不能設為公開。"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",
@@ -2676,5 +2680,58 @@
       "LATENCY_TOOLTIP": "平均延遲（24小時）",
       "TPS_TOOLTIP": "平均TPS（24小時）"
     }
+  },
+  "IMAGE": {
+    "GENERATE_TITLE": "圖像生成",
+    "GENERATE_SUBTITLE": "選擇模型、撰寫提示詞、取得圖像。",
+    "PROMPT_LABEL": "提示詞",
+    "PROMPT_PLACEHOLDER": "描述您想要的圖像。",
+    "NEGATIVE_PROMPT_LABEL": "負面提示詞",
+    "MODEL_LABEL": "模型",
+    "SIZE_LABEL": "尺寸",
+    "STEPS_LABEL": "步數",
+    "CFG_LABEL": "CFG",
+    "GUIDANCE_LABEL": "引導強度",
+    "SEED_LABEL": "種子",
+    "SEED_RANDOMIZE": "隨機",
+    "SAMPLER_LABEL": "取樣器",
+    "SCHEDULER_LABEL": "排程器",
+    "VARIANTS_LABEL": "變體數量",
+    "SUBMIT": "生成",
+    "SUBMITTING": "生成中……",
+    "REFERENCES_TITLE": "參考圖像",
+    "REFERENCES_ADD": "新增參考",
+    "REFERENCES_UNSUPPORTED": "此模型不支援參考圖像。",
+    "LORAS_TITLE": "LoRA",
+    "LORAS_UNSUPPORTED": "此模型不支援 LoRA 鏈。",
+    "HISTORY_TITLE": "我的生成紀錄",
+    "NEW_GENERATION": "新建生成",
+    "PICK_OR_GENERATE": "在側邊欄選擇生成記錄，或者新建一個。",
+    "HISTORY_EMPTY": "尚無紀錄，請生成您的第一張圖像。",
+    "STATUS_PENDING": "等待中",
+    "STATUS_SUBMITTED": "已提交",
+    "STATUS_QUEUED": "排隊中",
+    "STATUS_IN_PROGRESS": "生成中",
+    "STATUS_SUCCESS": "完成",
+    "STATUS_FAILURE": "失敗",
+    "REMIX": "再創作",
+    "DELETE": "刪除",
+    "PUBLISH": "公開",
+    "UNLIST": "取消公開",
+    "PRIVATE": "設為私人",
+    "PRICE_PER_CALL": "每張 {price}",
+    "META_TITLE": "圖像生成",
+    "META_DESC": "透過 {appName} 的 ComfyUI 管線（SDXL 與 Flux 2）生成圖像。",
+    "NSFW_REVEAL": "點擊查看（18+）",
+    "LIKE": "點讚",
+    "UNLIKE": "取消點讚",
+    "REFERENCES_DROP_HINT": "拖放圖像或瀏覽",
+    "LORAS_EMPTY": "磁碟區尚未部署 LoRA。維運可透過目錄表新增。",
+    "HIRES_FIX_ENABLE": "高解析度修復",
+    "HIRES_FIX_DENOISE": "去噪強度",
+    "HIRES_FIX_UPSCALE": "放大倍率",
+    "PNG_IMPORT_HINT": "拖放 ComfyUI PNG 以匯入提示詞和參數",
+    "PNG_IMPORT_BROWSE": "匯入 PNG",
+    "PNG_IMPORT_NO_METADATA": "此圖像中未找到 ComfyUI 元資料。"
   }
 }

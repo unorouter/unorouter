@@ -36,6 +36,7 @@
     "LOG_IN": "Войти",
     "GET_STARTED": "Начать",
     "CHAT": "Чат",
+    "GENERATE": "Генерация",
     "STATUS": "Статус"
   },
   "HOME": {
@@ -1656,7 +1657,9 @@
     "AFFILIATE": "Партнёрская программа",
     "BILLING": "Оплата",
     "SETTINGS": "Настройки",
-    "CHAT": "Чат"
+    "CHAT": "Чат",
+    "GENERATE": "Генерация",
+    "MY_GENERATIONS": "Мои генерации"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2477,7 +2480,8 @@
     "IMPORT_UNSUPPORTED_VERSION": "Неподдерживаемая версия экспорта.",
     "CARD_PARSE_FAILED": "Не удалось разобрать карточку персонажа.",
     "CARD_MISSING_NAME": "В карточке персонажа отсутствует обязательное поле имени.",
-    "UNEXPECTED_ERROR": "Произошла непредвиденная ошибка"
+    "UNEXPECTED_ERROR": "Произошла непредвиденная ошибка",
+    "NSFW_NOT_PUBLISHABLE": "Изображения NSFW нельзя сделать публичными."
   },
   "BADGE": {
     "TOKENS_SERVED": "обработано токенов",
@@ -2676,5 +2680,58 @@
       "LATENCY_TOOLTIP": "Средняя задержка (24ч)",
       "TPS_TOOLTIP": "Средний TPS (24ч)"
     }
+  },
+  "IMAGE": {
+    "GENERATE_TITLE": "Генерация изображения",
+    "GENERATE_SUBTITLE": "Выберите модель, напишите промпт, получите изображение.",
+    "PROMPT_LABEL": "Промпт",
+    "PROMPT_PLACEHOLDER": "Опишите желаемое изображение.",
+    "NEGATIVE_PROMPT_LABEL": "Негативный промпт",
+    "MODEL_LABEL": "Модель",
+    "SIZE_LABEL": "Размер",
+    "STEPS_LABEL": "Шаги",
+    "CFG_LABEL": "CFG",
+    "GUIDANCE_LABEL": "Guidance",
+    "SEED_LABEL": "Сид",
+    "SEED_RANDOMIZE": "Случайно",
+    "SAMPLER_LABEL": "Сэмплер",
+    "SCHEDULER_LABEL": "Планировщик",
+    "VARIANTS_LABEL": "Варианты",
+    "SUBMIT": "Сгенерировать",
+    "SUBMITTING": "Генерация...",
+    "REFERENCES_TITLE": "Референсные изображения",
+    "REFERENCES_ADD": "Добавить референс",
+    "REFERENCES_UNSUPPORTED": "Эта модель не принимает референсные изображения.",
+    "LORAS_TITLE": "LoRA",
+    "LORAS_UNSUPPORTED": "Эта модель не поддерживает цепочки LoRA.",
+    "HISTORY_TITLE": "Мои генерации",
+    "NEW_GENERATION": "Новая генерация",
+    "PICK_OR_GENERATE": "Выберите генерацию в боковой панели или создайте новую.",
+    "HISTORY_EMPTY": "Пока ничего. Сгенерируйте первое изображение.",
+    "STATUS_PENDING": "Ожидание",
+    "STATUS_SUBMITTED": "Отправлено",
+    "STATUS_QUEUED": "В очереди",
+    "STATUS_IN_PROGRESS": "Генерация",
+    "STATUS_SUCCESS": "Готово",
+    "STATUS_FAILURE": "Ошибка",
+    "REMIX": "Ремикс",
+    "DELETE": "Удалить",
+    "PUBLISH": "Сделать публичным",
+    "UNLIST": "Скрыть из списка",
+    "PRIVATE": "Сделать приватным",
+    "PRICE_PER_CALL": "{price} за изображение",
+    "META_TITLE": "Генерация изображений",
+    "META_DESC": "Генерируйте изображения через пайплайн ComfyUI {appName} (SDXL + Flux 2).",
+    "NSFW_REVEAL": "Нажмите, чтобы показать (18+)",
+    "LIKE": "Нравится",
+    "UNLIKE": "Убрать лайк",
+    "REFERENCES_DROP_HINT": "Перетащите изображения или выберите",
+    "LORAS_EMPTY": "На томе пока нет LoRA. Оператор может добавить их через таблицу каталога.",
+    "HIRES_FIX_ENABLE": "Hires fix",
+    "HIRES_FIX_DENOISE": "Шумоподавление",
+    "HIRES_FIX_UPSCALE": "Увеличение",
+    "PNG_IMPORT_HINT": "Перетащите PNG из ComfyUI, чтобы импортировать промпт и параметры",
+    "PNG_IMPORT_BROWSE": "Импортировать PNG",
+    "PNG_IMPORT_NO_METADATA": "В этом изображении не найдены метаданные ComfyUI."
   }
 }

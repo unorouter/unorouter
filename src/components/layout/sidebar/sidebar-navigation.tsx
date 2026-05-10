@@ -77,6 +77,10 @@ export function SidebarNavigation(props: SidebarNavigationProps) {
     return <ChatSidebarNav authenticated={authenticated} />;
   }
 
+  if (props.navConfig === "generate") {
+    return <GenerateSidebarNav authenticated={authenticated} />;
+  }
+
   if (props.navConfig === "docs") {
     const mainNavItems = navigation(authenticated).filter(
       (item) => !item.hidden && item.href !== "/docs",
@@ -122,5 +126,14 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
         : item,
     );
 
+  return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
+}
+
+// Generate's sidebar mirrors chat's shape (single Navigate group, full top-
+// level nav) but doesn't depend on the chat aui runtime. The history rail
+// is rendered separately as `chatContent` by the (generate) layout.
+function GenerateSidebarNav(props: { authenticated: boolean }) {
+  const t = useTranslations();
+  const items = navigation(props.authenticated).filter((item) => !item.hidden);
   return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }

@@ -5,6 +5,7 @@ import { drizzle, type LibSQLDatabase } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { resolve } from "path";
 import * as schema from "./schema";
+import { runSeeds } from "./seeds";
 
 let _db: LibSQLDatabase<typeof schema> | null = null;
 let _client: Client | null = null;
@@ -22,11 +23,15 @@ export function getDb(): LibSQLDatabase<typeof schema> {
 
   _db = drizzle(_client, { schema });
 
-  // Run migrations at startup (skip during build)
+  // Run migrations + seeds at startup (skip during build). Seeds are awaited
+  // sequentially after migrate so they never race against an in-flight
+  // schema change. Both fire-and-forget; failures log but don't block the
+  // first request — getDb still returns a usable client.
   if (!serverEnv.standalone) {
-    migrate(_db, { migrationsFolder: resolve("drizzle") }).catch((e) =>
-      error("Database migration failed", e),
-    );
+    const db = _db;
+    migrate(db, { migrationsFolder: resolve("drizzle") })
+      .then(() => runSeeds(db))
+      .catch((e) => error("Database migration / seed failed", e));
   }
 
   return _db;

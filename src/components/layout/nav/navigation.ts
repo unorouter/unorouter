@@ -22,6 +22,7 @@ import {
   LuScrollText,
   LuSettings,
   LuWallet,
+  LuWand,
 } from "react-icons/lu";
 
 export type NavigationItem = {
@@ -66,6 +67,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   { name: "NAV.RANKINGS", href: "/rankings", icon: LuChartColumnBig },
   { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
   { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle, exact: true },
+  { name: "NAV.GENERATE", href: "/generate", icon: LuWand, exact: true },
   {
     name: "NAV.DOCS",
     href: "/docs",
@@ -136,6 +138,11 @@ export const sidebarNavigation = (): NavigationItem[] => [
     name: "SIDEBAR.DASHBOARD",
     href: "/dashboard",
     icon: LuLayoutDashboard,
+  },
+  {
+    name: "SIDEBAR.GENERATE",
+    href: "/generate",
+    icon: LuWand,
   },
   {
     name: "SIDEBAR.TOKENS",

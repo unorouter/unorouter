@@ -77,4 +77,12 @@ export const queryKeys = {
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,
+
+  // Image generation
+  generationHistory: (params?: EdenQuery<typeof rpc.api.generation.me>) =>
+    ["generation-history", params] as const,
+  generation: (id: string) => ["generation", id] as const,
+  generationStatus: (id: string) => ["generation-status", id] as const,
+  loraCatalog: (params?: EdenQuery<typeof rpc.api.generation.loras>) =>
+    ["lora-catalog", params] as const,
 };

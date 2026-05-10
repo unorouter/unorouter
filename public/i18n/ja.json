@@ -36,6 +36,7 @@
     "LOG_IN": "ログイン",
     "GET_STARTED": "はじめる",
     "CHAT": "チャット",
+    "GENERATE": "生成",
     "STATUS": "ステータス"
   },
   "HOME": {
@@ -1656,7 +1657,9 @@
     "AFFILIATE": "アフィリエイト",
     "BILLING": "請求",
     "SETTINGS": "設定",
-    "CHAT": "チャット"
+    "CHAT": "チャット",
+    "GENERATE": "生成",
+    "MY_GENERATIONS": "マイ生成履歴"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2477,7 +2480,8 @@
     "IMPORT_UNSUPPORTED_VERSION": "サポートされていないエクスポート形式です。",
     "CARD_PARSE_FAILED": "キャラクターカードを解析できませんでした。",
     "CARD_MISSING_NAME": "キャラクターカードに必須の名前フィールドがありません。",
-    "UNEXPECTED_ERROR": "予期しないエラーが発生しました"
+    "UNEXPECTED_ERROR": "予期しないエラーが発生しました",
+    "NSFW_NOT_PUBLISHABLE": "NSFW 画像は公開できません。"
   },
   "BADGE": {
     "TOKENS_SERVED": "処理済みトークン",
@@ -2676,5 +2680,58 @@
       "LATENCY_TOOLTIP": "平均レイテンシ (24時間)",
       "TPS_TOOLTIP": "平均TPS (24時間)"
     }
+  },
+  "IMAGE": {
+    "GENERATE_TITLE": "画像生成",
+    "GENERATE_SUBTITLE": "モデルを選び、プロンプトを書いて、画像を取得。",
+    "PROMPT_LABEL": "プロンプト",
+    "PROMPT_PLACEHOLDER": "生成したい画像を説明してください。",
+    "NEGATIVE_PROMPT_LABEL": "ネガティブプロンプト",
+    "MODEL_LABEL": "モデル",
+    "SIZE_LABEL": "サイズ",
+    "STEPS_LABEL": "ステップ",
+    "CFG_LABEL": "CFG",
+    "GUIDANCE_LABEL": "ガイダンス",
+    "SEED_LABEL": "シード",
+    "SEED_RANDOMIZE": "ランダム",
+    "SAMPLER_LABEL": "サンプラー",
+    "SCHEDULER_LABEL": "スケジューラ",
+    "VARIANTS_LABEL": "バリアント数",
+    "SUBMIT": "生成",
+    "SUBMITTING": "生成中...",
+    "REFERENCES_TITLE": "参照画像",
+    "REFERENCES_ADD": "参照を追加",
+    "REFERENCES_UNSUPPORTED": "このモデルは参照画像をサポートしていません。",
+    "LORAS_TITLE": "LoRA",
+    "LORAS_UNSUPPORTED": "このモデルはLoRAチェーンをサポートしていません。",
+    "HISTORY_TITLE": "マイ生成履歴",
+    "NEW_GENERATION": "新規生成",
+    "PICK_OR_GENERATE": "サイドバーから生成を選ぶか、新しく作成してください。",
+    "HISTORY_EMPTY": "まだありません。最初の画像を生成しましょう。",
+    "STATUS_PENDING": "待機中",
+    "STATUS_SUBMITTED": "送信済み",
+    "STATUS_QUEUED": "キュー待ち",
+    "STATUS_IN_PROGRESS": "生成中",
+    "STATUS_SUCCESS": "完了",
+    "STATUS_FAILURE": "失敗",
+    "REMIX": "リミックス",
+    "DELETE": "削除",
+    "PUBLISH": "公開する",
+    "UNLIST": "非公開に",
+    "PRIVATE": "プライベートに",
+    "PRICE_PER_CALL": "1枚 {price}",
+    "META_TITLE": "画像生成",
+    "META_DESC": "{appName} の ComfyUI パイプライン (SDXL + Flux 2) で画像を生成。",
+    "NSFW_REVEAL": "クリックして表示 (18+)",
+    "LIKE": "いいね",
+    "UNLIKE": "いいねを取り消す",
+    "REFERENCES_DROP_HINT": "画像をドロップまたは選択",
+    "LORAS_EMPTY": "ボリュームにLoRAがまだ配置されていません。オペレーターがカタログテーブルから追加できます。",
+    "HIRES_FIX_ENABLE": "Hires fix",
+    "HIRES_FIX_DENOISE": "ノイズ除去",
+    "HIRES_FIX_UPSCALE": "拡大率",
+    "PNG_IMPORT_HINT": "ComfyUI PNG をドロップして、プロンプトとパラメータを取り込み",
+    "PNG_IMPORT_BROWSE": "PNG をインポート",
+    "PNG_IMPORT_NO_METADATA": "この画像に ComfyUI メタデータが見つかりませんでした。"
   }
 }

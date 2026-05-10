@@ -36,6 +36,7 @@
     "LOG_IN": "Đăng nhập",
     "GET_STARTED": "Bắt đầu",
     "CHAT": "Trò chuyện",
+    "GENERATE": "Tạo ảnh",
     "STATUS": "Trạng thái"
   },
   "HOME": {
@@ -1656,7 +1657,9 @@
     "AFFILIATE": "Tiếp thị liên kết",
     "BILLING": "Thanh toán",
     "SETTINGS": "Cài đặt",
-    "CHAT": "Trò chuyện"
+    "CHAT": "Trò chuyện",
+    "GENERATE": "Tạo ảnh",
+    "MY_GENERATIONS": "Ảnh của tôi"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2477,7 +2480,8 @@
     "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
     "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
-    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn"
+    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",
+    "NSFW_NOT_PUBLISHABLE": "Ảnh NSFW không thể đặt thành công khai."
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",
@@ -2676,5 +2680,58 @@
       "LATENCY_TOOLTIP": "Độ trễ trung bình (24h)",
       "TPS_TOOLTIP": "TPS trung bình (24h)"
     }
+  },
+  "IMAGE": {
+    "GENERATE_TITLE": "Tạo ảnh",
+    "GENERATE_SUBTITLE": "Chọn mô hình, viết prompt, nhận ảnh.",
+    "PROMPT_LABEL": "Prompt",
+    "PROMPT_PLACEHOLDER": "Mô tả ảnh bạn muốn.",
+    "NEGATIVE_PROMPT_LABEL": "Prompt phủ định",
+    "MODEL_LABEL": "Mô hình",
+    "SIZE_LABEL": "Kích thước",
+    "STEPS_LABEL": "Số bước",
+    "CFG_LABEL": "CFG",
+    "GUIDANCE_LABEL": "Guidance",
+    "SEED_LABEL": "Seed",
+    "SEED_RANDOMIZE": "Ngẫu nhiên",
+    "SAMPLER_LABEL": "Sampler",
+    "SCHEDULER_LABEL": "Scheduler",
+    "VARIANTS_LABEL": "Số phiên bản",
+    "SUBMIT": "Tạo",
+    "SUBMITTING": "Đang tạo...",
+    "REFERENCES_TITLE": "Ảnh tham chiếu",
+    "REFERENCES_ADD": "Thêm tham chiếu",
+    "REFERENCES_UNSUPPORTED": "Mô hình này không nhận ảnh tham chiếu.",
+    "LORAS_TITLE": "LoRA",
+    "LORAS_UNSUPPORTED": "Mô hình này không hỗ trợ chuỗi LoRA.",
+    "HISTORY_TITLE": "Ảnh của tôi",
+    "NEW_GENERATION": "Tạo mới",
+    "PICK_OR_GENERATE": "Chọn một bản tạo từ thanh bên hoặc tạo mới.",
+    "HISTORY_EMPTY": "Chưa có gì. Hãy tạo ảnh đầu tiên.",
+    "STATUS_PENDING": "Đang chờ",
+    "STATUS_SUBMITTED": "Đã gửi",
+    "STATUS_QUEUED": "Trong hàng đợi",
+    "STATUS_IN_PROGRESS": "Đang tạo",
+    "STATUS_SUCCESS": "Hoàn tất",
+    "STATUS_FAILURE": "Thất bại",
+    "REMIX": "Remix",
+    "DELETE": "Xóa",
+    "PUBLISH": "Công khai",
+    "UNLIST": "Ẩn khỏi danh sách",
+    "PRIVATE": "Riêng tư",
+    "PRICE_PER_CALL": "{price}/ảnh",
+    "META_TITLE": "Tạo ảnh",
+    "META_DESC": "Tạo ảnh qua pipeline ComfyUI của {appName} (SDXL + Flux 2).",
+    "NSFW_REVEAL": "Nhấn để hiển thị (18+)",
+    "LIKE": "Thích",
+    "UNLIKE": "Bỏ thích",
+    "REFERENCES_DROP_HINT": "Thả ảnh vào đây hoặc chọn",
+    "LORAS_EMPTY": "Chưa có LoRA nào trên ổ đĩa. Quản trị viên có thể thêm qua bảng danh mục.",
+    "HIRES_FIX_ENABLE": "Hires fix",
+    "HIRES_FIX_DENOISE": "Khử nhiễu",
+    "HIRES_FIX_UPSCALE": "Phóng to",
+    "PNG_IMPORT_HINT": "Thả ảnh PNG từ ComfyUI để nhập prompt và tham số",
+    "PNG_IMPORT_BROWSE": "Nhập PNG",
+    "PNG_IMPORT_NO_METADATA": "Không tìm thấy metadata ComfyUI trong ảnh này."
   }
 }

@@ -458,9 +458,167 @@ export const acpIdempotencyKeys = sqliteTable(
 );
 
 // ---------------------------------------------------------------------------
+// Image generation
+// ---------------------------------------------------------------------------
+
+// generations is one row per image we produced (or attempted to produce).
+// Stored regardless of user visibility so the public feed has content even
+// if creators set their gens to private later.
+export const generations = sqliteTable(
+  "generations",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    // batchId groups variants from one click (variants=4 -> four rows
+    // sharing one batchId, distinct variantIndex).
+    batchId: text("batch_id").notNull(),
+    variantIndex: integer("variant_index").notNull().default(0),
+    // Upstream task id from new-api; nullable while submit is in flight.
+    taskId: text("task_id"),
+    model: text("model").notNull(),
+    prompt: text("prompt").notNull(),
+    negativePrompt: text("negative_prompt"),
+    // Compact JSON: { width, height, steps, cfg, guidance, sampler,
+    // scheduler, seed, denoise, n }. Schema is per-model; readers should
+    // tolerate missing keys.
+    params: text("params", { mode: "json" }),
+    // [{ name, weight, source: "civitai-id" | "hf-id" | "filename" }]
+    loras: text("loras", { mode: "json" }),
+    // [{ url, name?, weight? }] - the raw refs the user submitted, plus
+    // r2Url for ones we re-uploaded. Null for non-compose models.
+    references: text("references", { mode: "json" }),
+    // Free-form spillover (Flux 2 guidance, future per-model knobs).
+    extraParams: text("extra_params", { mode: "json" }),
+    // Status mirrors new-api's task lifecycle:
+    //   pending     row inserted, upstream submit in flight
+    //   submitted   upstream returned task_id
+    //   in_progress upstream worker is generating
+    //   success     r2Url populated, cost settled
+    //   failure     errorMessage populated, quota refunded
+    status: text("status").notNull().default("pending"),
+    progress: text("progress"),
+    // Raw upstream URL pre-R2 (data: URI or S3). Kept for debugging; the
+    // canonical user-facing link is r2Url.
+    upstreamResultUrl: text("upstream_result_url"),
+    r2Url: text("r2_url"),
+    r2Key: text("r2_key"),
+    mimeType: text("mime_type").default("image/png"),
+    width: integer("width"),
+    height: integer("height"),
+    sizeBytes: integer("size_bytes"),
+    // The price we billed the user, in unorouter quota units. Settled on
+    // terminal success, refunded on failure.
+    costQuota: integer("cost_quota"),
+    // private (default), unlisted (link-only), public (in feed).
+    visibility: text("visibility").notNull().default("private"),
+    // NSFW flag persists per-image so future moderation can hide entries
+    // without wiping the row. Default true since most catalog models are
+    // NSFW-capable; UI can flip on submit.
+    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(true),
+    flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
+    flagReason: text("flag_reason"),
+    // Denormalized counters for cheap feed sorts.
+    remixCount: integer("remix_count").notNull().default(0),
+    likeCount: integer("like_count").notNull().default(0),
+    // Lineage: if this gen was a remix of another, points back. ON DELETE
+    // SET NULL so deleting the parent doesn't cascade-kill descendants.
+    remixedFrom: text("remixed_from"),
+    errorMessage: text("error_message"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    // user history pages, mine sort
+    index("idx_gen_user_created").on(table.userId, table.createdAt),
+    // public feed query
+    index("idx_gen_visibility_created").on(table.visibility, table.createdAt),
+    // per-model browse
+    index("idx_gen_model_created").on(table.model, table.createdAt),
+    // batch result-grid query
+    index("idx_gen_user_batch").on(table.userId, table.batchId),
+    // upstream cross-reference (poller looks up rows by taskId)
+    index("idx_gen_task").on(table.taskId),
+    // lineage walks
+    index("idx_gen_remixed_from").on(table.remixedFrom),
+  ],
+);
+
+// generation_likes is the join table for "favorited" / "liked" gens. Kept
+// separate from generations so we can drop / rebuild without losing the
+// underlying images.
+export const generationLikes = sqliteTable(
+  "generation_likes",
+  {
+    generationId: text("generation_id")
+      .notNull()
+      .references(() => generations.id, { onDelete: "cascade" }),
+    userId: integer("user_id").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    primaryKey({ columns: [table.generationId, table.userId] }),
+    index("idx_likes_user").on(table.userId),
+  ],
+);
+
+// loraCatalog is the curated set of LoRAs we expose in the picker.
+// Operators add rows manually (admin-only API in v1). The filename must
+// match exactly what's on the RunPod network volume at
+// /workspace/models/loras/, since LoraLoader.lora_name is patched with
+// this string verbatim by new-api's applyLoraChain.
+export const loraCatalog = sqliteTable(
+  "lora_catalog",
+  {
+    // Slug we coin (e.g. "anatomy-fix-pony-v3"). Stable across re-syncs.
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    // "civitai" | "hf" | "local"
+    source: text("source").notNull(),
+    // Upstream id for re-download / attribution (Civitai version id, HF
+    // path, or empty for local).
+    sourceId: text("source_id").notNull(),
+    filename: text("filename").notNull(),
+    // "pony" | "sdxl" | "flux2" | "z-image" - constrains which models
+    // can use the LoRA. Picker filters by selected model's family.
+    baseModel: text("base_model").notNull(),
+    // "anatomy" | "style" | "character" | "concept"
+    category: text("category").notNull(),
+    defaultWeight: real("default_weight").notNull().default(1.0),
+    description: text("description"),
+    thumbnailR2Key: text("thumbnail_r2_key"),
+    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
+    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    // picker query: visible LoRAs for selected model family
+    index("idx_lora_basemodel_visible").on(table.baseModel, table.visible),
+    // category facet
+    index("idx_lora_category").on(table.category),
+  ],
+);
+
+// ---------------------------------------------------------------------------
 // Inferred types (only the ones actually imported elsewhere)
 // ---------------------------------------------------------------------------
 
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
+export type Generation = typeof generations.$inferSelect;
+export type GenerationLike = typeof generationLikes.$inferSelect;
+export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;

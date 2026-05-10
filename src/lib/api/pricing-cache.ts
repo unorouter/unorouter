@@ -66,6 +66,16 @@ export async function getModelMetadata(
   return { ...found.metadata, isFree: found.isFree };
 }
 
+/** Per-call USD price for fixed-price models (quota_type 1/3/4). Returns
+ *  0 when the model is unknown or uses ratio-based pricing - callers
+ *  should treat 0 as "skip pre-charge" rather than "free". */
+export async function getModelFixedPrice(model: string): Promise<number> {
+  const { models } = await getSummary();
+  const found = models.find((m) => m.name === model);
+  if (!found || !found.isFixedPrice) return 0;
+  return found.fixedPrice ?? 0;
+}
+
 export async function getFreeTextModels(limit = 5): Promise<string[]> {
   const models = await getModels();
   return models

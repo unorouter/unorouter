@@ -36,6 +36,7 @@
     "LOG_IN": "Log In",
     "GET_STARTED": "Get Started",
     "CHAT": "Chat",
+    "GENERATE": "Generate",
     "STATUS": "Status"
   },
   "HOME": {
@@ -1656,7 +1657,9 @@
     "AFFILIATE": "Affiliate",
     "BILLING": "Billing",
     "SETTINGS": "Settings",
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "GENERATE": "Generate",
+    "MY_GENERATIONS": "My Generations"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2477,7 +2480,8 @@
     "IMPORT_UNSUPPORTED_VERSION": "Unsupported export version.",
     "CARD_PARSE_FAILED": "Could not parse character card.",
     "CARD_MISSING_NAME": "Character card is missing the required name field.",
-    "UNEXPECTED_ERROR": "An unexpected error occurred"
+    "UNEXPECTED_ERROR": "An unexpected error occurred",
+    "NSFW_NOT_PUBLISHABLE": "NSFW images cannot be made public."
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",
@@ -2676,5 +2680,58 @@
       "LATENCY_TOOLTIP": "Average latency (24h)",
       "TPS_TOOLTIP": "Average TPS (24h)"
     }
+  },
+  "IMAGE": {
+    "GENERATE_TITLE": "Generate Image",
+    "GENERATE_SUBTITLE": "Pick a model, write a prompt, get an image.",
+    "PROMPT_LABEL": "Prompt",
+    "PROMPT_PLACEHOLDER": "Describe the image you want.",
+    "NEGATIVE_PROMPT_LABEL": "Negative prompt",
+    "MODEL_LABEL": "Model",
+    "SIZE_LABEL": "Size",
+    "STEPS_LABEL": "Steps",
+    "CFG_LABEL": "CFG",
+    "GUIDANCE_LABEL": "Guidance",
+    "SEED_LABEL": "Seed",
+    "SEED_RANDOMIZE": "Randomize",
+    "SAMPLER_LABEL": "Sampler",
+    "SCHEDULER_LABEL": "Scheduler",
+    "VARIANTS_LABEL": "Variants",
+    "SUBMIT": "Generate",
+    "SUBMITTING": "Generating...",
+    "REFERENCES_TITLE": "Reference images",
+    "REFERENCES_ADD": "Add reference",
+    "REFERENCES_UNSUPPORTED": "This model does not accept reference images.",
+    "LORAS_TITLE": "LoRAs",
+    "LORAS_UNSUPPORTED": "This model does not support LoRA chains.",
+    "HISTORY_TITLE": "My Generations",
+    "NEW_GENERATION": "New generation",
+    "PICK_OR_GENERATE": "Pick a generation from the sidebar, or create a new one.",
+    "HISTORY_EMPTY": "Nothing yet. Generate your first image.",
+    "STATUS_PENDING": "Pending",
+    "STATUS_SUBMITTED": "Submitted",
+    "STATUS_QUEUED": "Queued",
+    "STATUS_IN_PROGRESS": "Generating",
+    "STATUS_SUCCESS": "Done",
+    "STATUS_FAILURE": "Failed",
+    "REMIX": "Remix",
+    "DELETE": "Delete",
+    "PUBLISH": "Make public",
+    "UNLIST": "Unlist",
+    "PRIVATE": "Make private",
+    "PRICE_PER_CALL": "{price} per image",
+    "META_TITLE": "Image generation",
+    "META_DESC": "Generate images with the {appName} ComfyUI pipeline (SDXL + Flux 2).",
+    "NSFW_REVEAL": "Click to reveal (18+)",
+    "LIKE": "Like",
+    "UNLIKE": "Unlike",
+    "REFERENCES_DROP_HINT": "Drop images or browse",
+    "LORAS_EMPTY": "No LoRAs staged on the volume yet. Operator can add them via the catalog table.",
+    "HIRES_FIX_ENABLE": "Hires fix",
+    "HIRES_FIX_DENOISE": "Denoise",
+    "HIRES_FIX_UPSCALE": "Upscale",
+    "PNG_IMPORT_HINT": "Drop a ComfyUI PNG to import its prompt and params",
+    "PNG_IMPORT_BROWSE": "Import PNG",
+    "PNG_IMPORT_NO_METADATA": "No ComfyUI metadata found in this image."
   }
 }

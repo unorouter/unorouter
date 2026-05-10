@@ -36,6 +36,7 @@
     "LOG_IN": "Se connecter",
     "GET_STARTED": "Commencer",
     "CHAT": "Chat",
+    "GENERATE": "Générer",
     "STATUS": "État"
   },
   "HOME": {
@@ -1656,7 +1657,9 @@
     "AFFILIATE": "Affiliation",
     "BILLING": "Facturation",
     "SETTINGS": "Paramètres",
-    "CHAT": "Chat"
+    "CHAT": "Chat",
+    "GENERATE": "Générer",
+    "MY_GENERATIONS": "Mes générations"
   },
   "DASHBOARD": {
     "GREETING": {
@@ -2477,7 +2480,8 @@
     "IMPORT_UNSUPPORTED_VERSION": "Version d'export non prise en charge.",
     "CARD_PARSE_FAILED": "Impossible de lire la carte de personnage.",
     "CARD_MISSING_NAME": "Le nom est obligatoire dans la carte de personnage.",
-    "UNEXPECTED_ERROR": "Une erreur inattendue s'est produite"
+    "UNEXPECTED_ERROR": "Une erreur inattendue s'est produite",
+    "NSFW_NOT_PUBLISHABLE": "Les images NSFW ne peuvent pas être rendues publiques."
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",
@@ -2676,5 +2680,58 @@
       "LATENCY_TOOLTIP": "Latence moyenne (24h)",
       "TPS_TOOLTIP": "TPS moyen (24h)"
     }
+  },
+  "IMAGE": {
+    "GENERATE_TITLE": "Générer une image",
+    "GENERATE_SUBTITLE": "Choisissez un modèle, écrivez un prompt, obtenez une image.",
+    "PROMPT_LABEL": "Prompt",
+    "PROMPT_PLACEHOLDER": "Décrivez l'image souhaitée.",
+    "NEGATIVE_PROMPT_LABEL": "Prompt négatif",
+    "MODEL_LABEL": "Modèle",
+    "SIZE_LABEL": "Taille",
+    "STEPS_LABEL": "Étapes",
+    "CFG_LABEL": "CFG",
+    "GUIDANCE_LABEL": "Guidage",
+    "SEED_LABEL": "Seed",
+    "SEED_RANDOMIZE": "Aléatoire",
+    "SAMPLER_LABEL": "Échantillonneur",
+    "SCHEDULER_LABEL": "Planificateur",
+    "VARIANTS_LABEL": "Variantes",
+    "SUBMIT": "Générer",
+    "SUBMITTING": "Génération...",
+    "REFERENCES_TITLE": "Images de référence",
+    "REFERENCES_ADD": "Ajouter une référence",
+    "REFERENCES_UNSUPPORTED": "Ce modèle n'accepte pas d'images de référence.",
+    "LORAS_TITLE": "LoRA",
+    "LORAS_UNSUPPORTED": "Ce modèle ne prend pas en charge les chaînes LoRA.",
+    "HISTORY_TITLE": "Mes générations",
+    "NEW_GENERATION": "Nouvelle génération",
+    "PICK_OR_GENERATE": "Choisissez une génération dans la barre latérale ou créez-en une nouvelle.",
+    "HISTORY_EMPTY": "Rien pour le moment. Générez votre première image.",
+    "STATUS_PENDING": "En attente",
+    "STATUS_SUBMITTED": "Soumis",
+    "STATUS_QUEUED": "En file d'attente",
+    "STATUS_IN_PROGRESS": "Génération",
+    "STATUS_SUCCESS": "Terminé",
+    "STATUS_FAILURE": "Échec",
+    "REMIX": "Remix",
+    "DELETE": "Supprimer",
+    "PUBLISH": "Rendre public",
+    "UNLIST": "Retirer du listing",
+    "PRIVATE": "Rendre privé",
+    "PRICE_PER_CALL": "{price} par image",
+    "META_TITLE": "Génération d'images",
+    "META_DESC": "Générez des images avec le pipeline ComfyUI de {appName} (SDXL + Flux 2).",
+    "NSFW_REVEAL": "Cliquer pour afficher (18+)",
+    "LIKE": "J'aime",
+    "UNLIKE": "Je n'aime plus",
+    "REFERENCES_DROP_HINT": "Déposer des images ou parcourir",
+    "LORAS_EMPTY": "Aucun LoRA disponible sur le volume. L'opérateur peut en ajouter via la table de catalogue.",
+    "HIRES_FIX_ENABLE": "Hires fix",
+    "HIRES_FIX_DENOISE": "Denoise",
+    "HIRES_FIX_UPSCALE": "Mise à l'échelle",
+    "PNG_IMPORT_HINT": "Déposer un PNG ComfyUI pour importer son prompt et ses paramètres",
+    "PNG_IMPORT_BROWSE": "Importer PNG",
+    "PNG_IMPORT_NO_METADATA": "Aucune métadonnée ComfyUI trouvée dans cette image."
   }
 }

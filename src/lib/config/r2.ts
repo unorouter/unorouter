@@ -158,6 +158,7 @@ function parseAndCheckUrl(url: string): URL {
 async function safeFetch(
   url: string,
   method: "GET" | "HEAD" = "GET",
+  headers?: Record<string, string>,
 ): Promise<UndiciResponse> {
   parseAndCheckUrl(url);
   const res = await undiciFetch(url, {
@@ -165,6 +166,7 @@ async function safeFetch(
     signal: AbortSignal.timeout(DOWNLOAD_TIMEOUT),
     dispatcher: safeAgent,
     redirect: "manual",
+    headers,
   });
   if (res.status >= 300 && res.status < 400) {
     throw new Error(msg("ERRORS.BLOCKED_URL"));
@@ -273,19 +275,31 @@ export async function uploadToR2(
 }
 
 export async function deleteR2Prefix(prefix: string): Promise<void> {
-  const listed = await getS3().send(
-    new ListObjectsV2Command({ Bucket: R2_BUCKET, Prefix: prefix }),
-  );
-
-  const objects = listed.Contents;
-  if (!objects || objects.length === 0) return;
-
-  await getS3().send(
-    new DeleteObjectsCommand({
-      Bucket: R2_BUCKET,
-      Delete: { Objects: objects.map((o) => ({ Key: o.Key! })) },
-    }),
-  );
+  // Paginated wipe: ListObjectsV2 caps at 1000 keys per page, and the
+  // DeleteObjects API caps at 1000 keys per call. Loop until the bucket
+  // page reports no continuation token.
+  let continuationToken: string | undefined;
+  do {
+    const listed = await getS3().send(
+      new ListObjectsV2Command({
+        Bucket: R2_BUCKET,
+        Prefix: prefix,
+        ContinuationToken: continuationToken,
+      }),
+    );
+    const objects = listed.Contents;
+    if (objects && objects.length > 0) {
+      await getS3().send(
+        new DeleteObjectsCommand({
+          Bucket: R2_BUCKET,
+          Delete: { Objects: objects.map((o) => ({ Key: o.Key! })) },
+        }),
+      );
+    }
+    continuationToken = listed.IsTruncated
+      ? listed.NextContinuationToken
+      : undefined;
+  } while (continuationToken);
 }
 
 async function resolveConvOwner(
@@ -399,4 +413,87 @@ export async function uploadBase64ToR2(
   const [header, base64] = dataUrl.split(",");
   const declaredCt = header.match(/data:([^;]+)/)?.[1];
   return putMedia(convId, msgId, Buffer.from(base64, "base64"), declaredCt);
+}
+
+// ---------------------------------------------------------------------------
+// Generation media (image-gen pipeline)
+// ---------------------------------------------------------------------------
+//
+// These siblings of putMedia/downloadAndUpload key under a separate prefix
+// (`generations/<id>/...`) and skip the `media` table entirely. Generation
+// rows track their own size + mime; the chat quota is intentionally not
+// charged. Reference images get their own prefix (`generations-refs/...`)
+// so deletion of a generation doesn't sweep its references.
+
+export function generationKey(generationId: string, filename: string): string {
+  return `generations/${generationId}/${filename}`;
+}
+
+export function generationReferenceKey(
+  userId: number,
+  filename: string,
+): string {
+  return `generations-refs/${userId}/${filename}`;
+}
+
+export async function uploadGenerationToR2(
+  generationId: string,
+  body: Buffer | Uint8Array,
+  declaredCt?: string,
+): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
+  const key = generationKey(generationId, uid(8));
+  const { url, mime } = await uploadToR2(key, body, declaredCt);
+  return { url, key, mime, sizeBytes: body.length };
+}
+
+export async function downloadAndUploadGeneration(
+  url: string,
+  generationId: string,
+  authToken?: string,
+): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
+  // result_url from new-api can be a remote URL (S3) or a data URI when the
+  // worker returns base64 inline. Branch on prefix.
+  if (url.startsWith("data:")) {
+    const [header, base64] = url.split(",");
+    const declaredCt = header.match(/data:([^;]+)/)?.[1];
+    return uploadGenerationToR2(
+      generationId,
+      Buffer.from(base64, "base64"),
+      declaredCt,
+    );
+  }
+  // The proxied result_url (.../v1/videos/<task>/content) requires the user's
+  // bearer token. For S3/CDN URLs the token is ignored upstream. We thread it
+  // unconditionally because the SSRF-safe agent doesn't redirect, so there's
+  // no leak path to a third-party origin.
+  const headers = authToken
+    ? { authorization: `Bearer ${authToken}` }
+    : undefined;
+  const res = await safeFetch(url, "GET", headers);
+  if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  const buffer = await readBodyWithLimit(res);
+  return uploadGenerationToR2(
+    generationId,
+    buffer,
+    res.headers.get("content-type") ?? undefined,
+  );
+}
+
+export async function uploadReferenceToR2(
+  userId: number,
+  body: Buffer | Uint8Array,
+  declaredCt?: string,
+): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
+  const key = generationReferenceKey(userId, uid(8));
+  const { url, mime } = await uploadToR2(key, body, declaredCt);
+  return { url, key, mime, sizeBytes: body.length };
+}
+
+export async function deleteGenerationObject(r2Key: string): Promise<void> {
+  await getS3().send(
+    new DeleteObjectsCommand({
+      Bucket: R2_BUCKET,
+      Delete: { Objects: [{ Key: r2Key }] },
+    }),
+  );
 }

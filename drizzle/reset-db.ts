@@ -11,12 +11,16 @@ const client = createClient({
 });
 
 try {
-  // Wipe R2 chat/ media so orphaned uploads don't linger after a DB reset
-  try {
-    await deleteR2Prefix("chat/");
-    log('Wiped R2 "chat/" prefix');
-  } catch (err) {
-    error("R2 wipe failed (continuing with DB reset):", err);
+  // Wipe every R2 prefix the app writes to so orphaned uploads don't linger
+  // after a DB reset. Add new prefixes here when introducing new media types.
+  const r2Prefixes = ["chat/", "generations/", "generations-refs/"];
+  for (const prefix of r2Prefixes) {
+    try {
+      await deleteR2Prefix(prefix);
+      log(`Wiped R2 "${prefix}" prefix`);
+    } catch (err) {
+      error(`R2 wipe failed for "${prefix}" (continuing with DB reset):`, err);
+    }
   }
 
   // Drop all user tables
