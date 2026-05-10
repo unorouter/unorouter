@@ -1,5 +1,14 @@
 import { getV1VideoGenerationsTaskId, postV1VideoGenerations } from "@/openapi";
-import { getModelFixedPrice } from "@/lib/api/pricing-cache";
+import {
+  buildBody,
+  extractResultUri,
+  fetchAllRefs,
+} from "@/lib/api/generation-dispatch";
+import {
+  getModelEndpointTypes,
+  getModelFixedPrice,
+  getModelMetadata,
+} from "@/lib/api/pricing-cache";
 import {
   isTerminalTaskStatus,
   normalizeTaskStatus,
@@ -12,6 +21,10 @@ import {
   deleteGenerationObject,
   downloadAndUploadGeneration,
 } from "@/lib/config/r2";
+import {
+  chooseEndpoint,
+  type SyncImageEndpoint,
+} from "@/lib/config/generation-models-dynamic";
 import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
 import { generations } from "@/lib/db/schema";
@@ -22,8 +35,39 @@ import type {
   GenerationSubmitBody,
   GenerationVisibility,
 } from "@/lib/validation/generation";
+import { upstreamApiUrl } from "@/server/constants";
 import dayjs from "dayjs";
 import { and, asc, desc, eq, lt } from "drizzle-orm";
+
+// ComfyUI templates live behind new-api's task adapter (channel type 59);
+// they aren't in /api/pricing as image models. Treat them as "comfyui-task"
+// when resolving the submission shape.
+const COMFYUI_TEMPLATE_IDS = new Set([
+  "pony",
+  "endgame",
+  "comfyui-sdxl-txt2img-lora",
+  "flux2-dev",
+  "flux2-dev-compose",
+]);
+
+type ResolvedEndpoint =
+  | { kind: "comfyui-task" }
+  | { kind: "sync"; endpoint: SyncImageEndpoint };
+
+async function resolveSubmissionEndpoint(
+  model: string,
+): Promise<ResolvedEndpoint> {
+  if (COMFYUI_TEMPLATE_IDS.has(model)) return { kind: "comfyui-task" };
+  const types = await getModelEndpointTypes(model);
+  if (!types) {
+    throw new Error(`model ${model} not in catalog`);
+  }
+  const endpoint = chooseEndpoint(types);
+  if (!endpoint) {
+    throw new Error(`model ${model} declares no supported endpoint`);
+  }
+  return { kind: "sync", endpoint };
+}
 
 export async function submitGeneration(
   userId: number,
@@ -65,9 +109,53 @@ export async function submitGeneration(
     submittedKey: apiKey,
   });
 
-  // Build the upstream submit body. The new-api ComfyUI adapter reads
-  //   prompt, size?, metadata.extra.{steps,cfg,seed,denoise,n,loras,references}
-  // negative_prompt rides in metadata.negative_prompt for SDXL templates.
+  const resolved = await resolveSubmissionEndpoint(body.model);
+
+  try {
+    if (resolved.kind === "comfyui-task") {
+      await submitComfyUITask({ db, id, apiKey, body });
+    } else {
+      await submitSyncImage({
+        db,
+        id,
+        apiKey,
+        body,
+        endpoint: resolved.endpoint,
+      });
+    }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    logger.error("generation submit failed", {
+      context: "generation.submit",
+      generationId: id,
+      model: body.model,
+      err: message,
+    });
+    await db
+      .update(generations)
+      .set({
+        status: "failure",
+        errorMessage: message.slice(0, 500),
+        submittedKey: null,
+        updatedAt: dayjs().toDate(),
+      })
+      .where(eq(generations.id, id));
+    throw err;
+  }
+
+  return getGeneration(userId, id);
+}
+
+// ComfyUI task adapter (channel type 59). Async submit; status is reached
+// via pollGenerationStatus. The submitted row is left in flight with
+// `submittedKey = apiKey` so the server-side sweeper can poll it.
+async function submitComfyUITask(args: {
+  db: ReturnType<typeof getDb>;
+  id: string;
+  apiKey: string;
+  body: GenerationSubmitBody;
+}) {
+  const { db, id, apiKey, body } = args;
   const params = body.params ?? {};
   const size =
     params.width && params.height ? `${params.width}x${params.height}` : undefined;
@@ -77,10 +165,6 @@ export async function submitGeneration(
   if (params.guidance !== undefined) extra.cfg = params.guidance;
   if (params.seed !== undefined) extra.seed = params.seed;
   if (params.denoise !== undefined) extra.denoise = params.denoise;
-  // The Go adapter expects extra.hires.{denoise,upscale_by} (HiresSpec
-  // shape in new-api/relay/channel/task/comfyui/types.go). Send only
-  // when at least one knob is set; templates that don't declare the
-  // hires_denoise / hires_upscale params silently ignore it.
   if (params.hiresDenoise !== undefined || params.hiresUpscale !== undefined) {
     const hires: Record<string, unknown> = {};
     if (params.hiresDenoise !== undefined) hires.denoise = params.hiresDenoise;
@@ -103,46 +187,118 @@ export async function submitGeneration(
   if (size) upstreamBody.size = size;
   if (Object.keys(metadata).length > 0) upstreamBody.metadata = metadata;
 
-  let taskId: string | undefined;
-  try {
-    const res = await postV1VideoGenerations({
-      headers: { Authorization: `Bearer ${apiKey}` },
-      body: JSON.stringify(upstreamBody),
+  const res = await postV1VideoGenerations({
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body: JSON.stringify(upstreamBody),
+  });
+  const payload = unwrapTaskData<UpstreamSubmitResp>(res.data);
+  const taskId = payload?.task_id ?? payload?.id;
+  if (!taskId) {
+    throw new Error(msg("ERRORS.NO_TASK_ID"));
+  }
+  await db
+    .update(generations)
+    .set({
+      taskId,
+      status: normalizeTaskStatus(payload?.status),
+      progress: "10%",
+      updatedAt: dayjs().toDate(),
+    })
+    .where(eq(generations.id, id));
+}
+
+// Sync image submission. Hits one of three upstream paths based on the
+// model's declared supported_endpoint_types. Reference URLs are fetched
+// once and re-encoded per endpoint shape. Result lands inline; we extract
+// the URL/data URI, hand it to downloadAndUploadGeneration, and finalize
+// the row in a single update. No polling.
+async function submitSyncImage(args: {
+  db: ReturnType<typeof getDb>;
+  id: string;
+  apiKey: string;
+  body: GenerationSubmitBody;
+  endpoint: SyncImageEndpoint;
+}) {
+  const { db, id, apiKey, body, endpoint } = args;
+  const params = body.params ?? {};
+  const size =
+    params.width && params.height ? `${params.width}x${params.height}` : undefined;
+
+  // Cap refs to the model's declared maxImageInputs as a server-side
+  // belt-and-braces guard. If the catalog says max=6 and the form sent 8,
+  // drop the tail rather than fail upstream.
+  const meta = await getModelMetadata(body.model);
+  const cap = meta.maxImageInputs ?? 6;
+  const refUrls = (body.references ?? []).slice(0, cap).map((r) => r.url);
+  const refs = refUrls.length > 0 ? await fetchAllRefs(refUrls) : [];
+
+  const built = buildBody(endpoint, {
+    model: body.model,
+    prompt: body.prompt,
+    size,
+    refs,
+    quality: params.quality,
+    outputFormat: params.outputFormat,
+    watermark: params.watermark,
+    background: params.background,
+    strength: params.strength,
+    seed: params.seed,
+  });
+
+  const headers: Record<string, string> = {
+    Authorization: `Bearer ${apiKey}`,
+  };
+  let res: Response;
+  if (built.kind === "json") {
+    headers["Content-Type"] = "application/json";
+    res = await fetch(`${upstreamApiUrl}${built.path}`, {
+      method: "POST",
+      headers,
+      body: built.body,
     });
-    const payload = unwrapTaskData<UpstreamSubmitResp>(res.data);
-    taskId = payload?.task_id ?? payload?.id;
-    if (!taskId) {
-      throw new Error(msg("ERRORS.NO_TASK_ID"));
-    }
-    await db
-      .update(generations)
-      .set({
-        taskId,
-        status: normalizeTaskStatus(payload?.status),
-        progress: "10%",
-        updatedAt: dayjs().toDate(),
-      })
-      .where(eq(generations.id, id));
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    logger.error("generation submit failed", {
-      context: "generation.submit",
-      generationId: id,
-      model: body.model,
-      err: message,
+  } else {
+    // multipart - let fetch set the boundary
+    res = await fetch(`${upstreamApiUrl}${built.path}`, {
+      method: "POST",
+      headers,
+      body: built.form,
     });
-    await db
-      .update(generations)
-      .set({
-        status: "failure",
-        errorMessage: message.slice(0, 500),
-        updatedAt: dayjs().toDate(),
-      })
-      .where(eq(generations.id, id));
-    throw err;
   }
 
-  return getGeneration(userId, id);
+  const text = await res.text();
+  if (!res.ok) {
+    throw new Error(`upstream ${res.status}: ${text.slice(0, 300)}`);
+  }
+  let payload: unknown;
+  try {
+    payload = JSON.parse(text);
+  } catch {
+    throw new Error(`upstream returned non-JSON: ${text.slice(0, 200)}`);
+  }
+
+  const resultUri = extractResultUri(endpoint, payload);
+  if (!resultUri) {
+    throw new Error(
+      `no image in upstream response (${endpoint}): ${text.slice(0, 200)}`,
+    );
+  }
+
+  const uploaded = await downloadAndUploadGeneration(resultUri, id, apiKey);
+
+  await db
+    .update(generations)
+    .set({
+      status: "success",
+      progress: "100%",
+      upstreamResultUrl: resultUri.startsWith("data:") ? null : resultUri,
+      r2Url: uploaded.url,
+      r2Key: uploaded.key,
+      mimeType: uploaded.mime,
+      sizeBytes: uploaded.sizeBytes,
+      submittedKey: null,
+      updatedAt: dayjs().toDate(),
+    })
+    .where(eq(generations.id, id));
 }
 
 export async function getGeneration(userId: number, id: string) {

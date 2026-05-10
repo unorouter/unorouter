@@ -76,6 +76,18 @@ export async function getModelFixedPrice(model: string): Promise<number> {
   return found.fixedPrice ?? 0;
 }
 
+/** Returns the model's declared `supported_endpoint_types` from /api/pricing,
+ *  or null when the model is not in the catalog. Used by the generation
+ *  service to dispatch sync image submissions to the right upstream path. */
+export async function getModelEndpointTypes(
+  model: string,
+): Promise<string[] | null> {
+  const { models } = await getSummary();
+  const found = models.find((m) => m.name === model);
+  if (!found) return null;
+  return found.endpointTypes ?? [];
+}
+
 export async function getFreeTextModels(limit = 5): Promise<string[]> {
   const models = await getModels();
   return models

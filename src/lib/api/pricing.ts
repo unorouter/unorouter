@@ -49,6 +49,10 @@ export type ModelMetadata = {
   inputModalities?: string[];
   /** Output modalities the model produces. */
   outputModalities?: string[];
+  /** Max reference images the model accepts in a single request. Set by
+   *  new-api-sync's per-model metadata; surfaced here so the unorouter
+   *  studio can include the model in the dynamic image-model dropdown. */
+  maxImageInputs?: number;
   /** Tokenizer family (OpenRouter only). */
   tokenizer?: string;
   /** Knowledge cutoff date (ISO string from OpenRouter). */

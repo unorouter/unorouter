@@ -1,14 +1,11 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
 
-// Mirror new-api's catalog. Update when a model is added/removed there.
-export const generationModel = t.Union([
-  t.Literal("pony"),
-  t.Literal("endgame"),
-  t.Literal("comfyui-sdxl-txt2img-lora"),
-  t.Literal("flux2-dev"),
-  t.Literal("flux2-dev-compose"),
-]);
+// Open string. The catalog is upstream-driven via /api/pricing now; the
+// 5 ComfyUI templates plus any image model with metadata.maxImageInputs
+// >= 6 are valid. Server-side assertGenerationModelAllowed checks the
+// pricing cache before submit.
+export const generationModel = t.String({ minLength: 1, maxLength: 128 });
 export type GenerationModel = Static<typeof generationModel>;
 
 export const generationVisibility = t.Union([
@@ -82,6 +79,14 @@ export const generationParams = t.Object({
   hiresUpscale: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
   // Worker-comfyui caps batch_size at 4 inside the adapter.
   n: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
+  // Sync-image vendor knobs. Each is forwarded by the dispatch layer to
+  // the right field on the upstream body shape (see generation-dispatch.ts).
+  // Only relevant for the "sync-image" family; ComfyUI ignores them.
+  quality: t.Optional(t.String({ maxLength: 32 })),
+  outputFormat: t.Optional(t.String({ maxLength: 16 })),
+  watermark: t.Optional(t.Boolean()),
+  background: t.Optional(t.String({ maxLength: 32 })),
+  strength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
 });
 export type GenerationParams = Static<typeof generationParams>;
 

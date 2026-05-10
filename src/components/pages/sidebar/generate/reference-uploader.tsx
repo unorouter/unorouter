@@ -19,12 +19,15 @@ export type ReferenceEntry = {
   weight?: number;
 };
 
-const MAX_REFERENCES = 6;
+const MAX_REFERENCES_DEFAULT = 6;
 const ACCEPTED_MIMES = ["image/png", "image/jpeg", "image/webp"];
 
 type Props = {
   value: ReferenceEntry[];
   onChange: (next: ReferenceEntry[]) => void;
+  // Per-model cap. Falls back to 6 (the TypeBox cap on `references[]`)
+  // when the descriptor doesn't declare a value.
+  maxFiles?: number;
 };
 
 export function ReferenceUploader(props: Props) {
@@ -33,7 +36,8 @@ export function ReferenceUploader(props: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  const remaining = MAX_REFERENCES - props.value.length;
+  const cap = props.maxFiles ?? MAX_REFERENCES_DEFAULT;
+  const remaining = cap - props.value.length;
 
   const uploadFiles = async (files: FileList | File[]) => {
     if (remaining <= 0) return;
@@ -80,7 +84,7 @@ export function ReferenceUploader(props: Props) {
       <FormLabel>
         {t("IMAGE.REFERENCES_TITLE")}
         <span className="text-muted-foreground ml-2 text-xs font-normal">
-          {props.value.length}/{MAX_REFERENCES}
+          {props.value.length}/{cap}
         </span>
       </FormLabel>
 

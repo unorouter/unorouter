@@ -129,11 +129,22 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
   return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
 }
 
-// Generate's sidebar mirrors chat's shape (single Navigate group, full top-
-// level nav) but doesn't depend on the chat aui runtime. The history rail
-// is rendered separately as `chatContent` by the (generate) layout.
+// Generate's sidebar mirrors the default sidebar (Menu + Navigate) so the
+// account links (Dashboard, Generate, API Keys, ...) stay reachable while
+// the user works in the studio. The history rail is rendered separately
+// as `chatContent` by the (generate) layout.
 function GenerateSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();
-  const items = navigation(props.authenticated).filter((item) => !item.hidden);
-  return <NavGroup label={t("SIDEBAR.NAVIGATE")} items={items} />;
+  const navItems = sidebarNavigation();
+  const sidebarPaths = new Set(navItems.map((item) => item.href));
+  const mainNavItems = navigation(props.authenticated).filter(
+    (item) => !item.hidden && !sidebarPaths.has(item.href),
+  );
+
+  return (
+    <>
+      <NavGroup label={t("SIDEBAR.MENU")} items={navItems} />
+      <NavGroup label={t("SIDEBAR.NAVIGATE")} items={mainNavItems} />
+    </>
+  );
 }

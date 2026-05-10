@@ -8,7 +8,7 @@
 
 import type { GenerationModel } from "@/lib/validation/generation";
 
-export type ModelFamily = "sdxl" | "flux2";
+export type ModelFamily = "sdxl" | "flux2" | "sync-image";
 
 export type GenerationModelDescriptor = {
   id: GenerationModel;
@@ -30,6 +30,29 @@ export type GenerationModelDescriptor = {
   // a ~2s no-op when the user doesn't enable the toggle. Flux 2 has no
   // equivalent and stays false.
   supportsHiresFix: boolean;
+  // Sync-image-only knobs surfaced from each vendor's relay adapter.
+  // Each flag drives a single form control; the dispatch layer inserts
+  // the value into the upstream body shape per endpoint kind.
+  supportsQuality?: boolean;
+  qualityChoices?: readonly string[];
+  supportsOutputFormat?: boolean;
+  outputFormatChoices?: readonly string[];
+  supportsWatermark?: boolean;
+  supportsSeed?: boolean;
+  supportsStrength?: boolean;
+  supportsBackground?: boolean;
+  // Vendor identifier passed to <VendorIcon vendor=...>. Lowercased
+  // substring lookup against @lobehub/icons. Optional — falls back to
+  // an alphabet badge.
+  vendor?: string;
+  // Upper bound on references[] entries the model can usefully accept.
+  // Drives the uploader's max-files cap. Optional — when undefined the
+  // form treats it as 6 for ComfyUI compose templates and 1 otherwise.
+  maxReferenceImages?: number;
+  // Surface a "Free" badge in the picker. Mirrors the chat model
+  // selector's behavior. ComfyUI templates always carry a price; the
+  // dynamic helper sets this from ProcessedModel.isFree.
+  isFree?: boolean;
   defaultParams: {
     width: number;
     height: number;
@@ -71,6 +94,7 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     id: "pony",
     family: "sdxl",
     displayName: "Pony",
+    vendor: "stability",
     pricePerCall: 0.06,
     supportsNegativePrompt: true,
     supportsCfg: true,
@@ -98,6 +122,7 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     id: "endgame",
     family: "sdxl",
     displayName: "Endgame",
+    vendor: "stability",
     pricePerCall: 0.08,
     supportsNegativePrompt: true,
     supportsCfg: true,
@@ -125,6 +150,7 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     id: "comfyui-sdxl-txt2img-lora",
     family: "sdxl",
     displayName: "SDXL base + LoRA",
+    vendor: "stability",
     pricePerCall: 0.04,
     supportsNegativePrompt: true,
     supportsCfg: true,
@@ -152,6 +178,7 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     id: "flux2-dev",
     family: "flux2",
     displayName: "Flux 2 dev",
+    vendor: "flux",
     pricePerCall: 0.12,
     supportsNegativePrompt: false,
     supportsCfg: false,
@@ -176,6 +203,8 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     id: "flux2-dev-compose",
     family: "flux2",
     displayName: "Flux 2 compose (multi-reference)",
+    vendor: "flux",
+    maxReferenceImages: 6,
     pricePerCall: 0.25,
     supportsNegativePrompt: false,
     supportsCfg: false,

@@ -1,6 +1,15 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -10,6 +19,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -23,11 +37,21 @@ import {
   useGenerationQuery,
   useSubmitGenerationMutation,
 } from "@/hooks/generation-hook";
-import { dollarsToQuota, renderQuota } from "@/lib/config/constants";
+import { useAuthQuery } from "@/hooks/auth-hook";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  GENERATION_MODELS,
+  AUTH_REDIRECT_COOKIE,
+  dollarsToQuota,
+  renderQuota,
+} from "@/lib/config/constants";
+import { cn } from "@/lib/utils";
+import { setCookie } from "cookies-next";
+import { usePathname, useRouter } from "@/i18n/navigation";
+import {
   getModelDescriptor,
+  type GenerationModelDescriptor,
 } from "@/lib/config/generation-models";
+import { getEffectiveGenerationModels } from "@/lib/config/generation-models-dynamic";
 import {
   generationSubmitBody,
   type GenerationModel,
@@ -39,9 +63,9 @@ import { activeGenerationIdAtom } from "@/store/generation-store";
 import { useAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuDices, LuSparkles } from "react-icons/lu";
+import { LuChevronsUpDown, LuDices, LuLock, LuSparkles } from "react-icons/lu";
 import { LoraPicker, type LoraEntry } from "./lora-picker";
 import { PngImport } from "./png-import";
 import {
@@ -57,8 +81,8 @@ const INITIAL_MODEL: GenerationModel = "pony";
 // Cast at the boundary because the form schema's `params` is a partial
 // shape (every numeric is optional) while the descriptor provides every
 // default. The runtime contract is enforced by typeboxResolver.
-function defaultsFor(modelId: GenerationModel) {
-  const d = getModelDescriptor(modelId);
+function defaultsFor(d: GenerationModelDescriptor) {
+  const modelId = d.id;
   return {
     model: modelId,
     prompt: "",
@@ -88,17 +112,33 @@ export function GenerateForm() {
   const seedSourceId = remixId ?? activeGenerationId;
   const seedQuery = useGenerationQuery(seedSourceId);
 
+  // Pricing-derived dynamic image models (hosted vendors with
+  // metadata.maxImageInputs >= 6) merged with the static ComfyUI templates.
+  // The pricing payload is prefetched in (generate)/layout.tsx so the data
+  // is available on first paint.
+  const pricingQuery = usePricingQuery();
+  const effectiveModels = getEffectiveGenerationModels(pricingQuery.data?.models);
+  const findDescriptor = (id: GenerationModel): GenerationModelDescriptor =>
+    effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
+  const [modelPickerOpen, setModelPickerOpen] = useState(false);
+  // Anonymous browsing: free models are clickable, paid ones look disabled
+  // and trigger a redirect to /login on click. Mirrors the chat selector.
+  const authQuery = useAuthQuery();
+  const isLoggedIn = !!authQuery.data;
+  const router = useRouter();
+  const pathname = usePathname();
+
   const form = useForm({
     resolver: typeboxResolver(generationSubmitBody),
     // typeboxResolver wants the inferred shape; the descriptor-derived
     // defaults are a structurally-compatible superset.
-    defaultValues: defaultsFor(INITIAL_MODEL) as never,
+    defaultValues: defaultsFor(getModelDescriptor(INITIAL_MODEL)) as never,
   });
 
   // form.watch returns string | undefined; coerce to GenerationModel.
   // eslint-disable-next-line react-hooks/incompatible-library -- form.watch is the documented react-hook-form API; the React Compiler warning is acceptable per existing codebase precedent.
   const selectedModel = (form.watch("model") as GenerationModel | undefined) ?? INITIAL_MODEL;
-  const descriptor = getModelDescriptor(selectedModel);
+  const descriptor = findDescriptor(selectedModel);
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const variantsRaw = (form.watch("extraParams") as { variants?: number } | undefined)?.variants;
@@ -110,7 +150,7 @@ export function GenerateForm() {
 
   const handleModelChange = (next: string) => {
     const nextModel = next as GenerationModel;
-    const nextDesc = getModelDescriptor(nextModel);
+    const nextDesc = findDescriptor(nextModel);
     form.setValue("model", nextModel);
     form.setValue("params", { ...nextDesc.defaultParams } as never, {
       shouldDirty: true,
@@ -138,9 +178,9 @@ export function GenerateForm() {
     seededIdRef.current = data.id;
 
     const model = data.model as GenerationModel;
-    const desc = getModelDescriptor(model);
+    const desc = findDescriptor(model);
     form.reset({
-      ...defaultsFor(model),
+      ...defaultsFor(desc),
       prompt: data.prompt,
       negativePrompt: data.negativePrompt ?? "",
       params: {
@@ -154,7 +194,27 @@ export function GenerateForm() {
       nsfw: data.nsfw ?? true,
       extraParams: { variants: 1 },
     } as never);
+    // findDescriptor closes over effectiveModels which derives from
+    // pricingQuery.data; the seededIdRef guard prevents re-runs so we
+    // intentionally exclude it from the dep array.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
+
+  // Anonymous-friendly default: when the form's current model is paid and
+  // the visitor isn't logged in, swap to the cheapest free image model so
+  // the studio is immediately usable without an account. Mirrors the chat
+  // selector's auto-pick behavior.
+  useEffect(() => {
+    if (effectiveModels.length === 0) return;
+    // eslint-disable-next-line react-hooks/incompatible-library
+    const current = (form.watch("model") as string | undefined) ?? "";
+    const desc = effectiveModels.find((m) => m.id === current);
+    if (desc && (isLoggedIn || desc.isFree)) return;
+    const freePool = effectiveModels.filter((m) => m.isFree);
+    if (freePool.length === 0) return;
+    handleModelChange(freePool[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, effectiveModels.length]);
 
   // PNG metadata import. Best-effort overlay onto the current form
   // state: only fields the parser recovered get touched, the rest
@@ -252,28 +312,117 @@ export function GenerateForm() {
               <FormItem>
                 <FormLabel>{t("IMAGE.MODEL_LABEL")}</FormLabel>
                 <FormControl>
-                  <Select
-                    value={field.value as string}
-                    onValueChange={(v) => {
-                      if (v === null) return;
-                      field.onChange(v);
-                      handleModelChange(v);
-                    }}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {GENERATION_MODELS.map((m) => (
-                        <SelectItem key={m.id} value={m.id}>
-                          {m.displayName}
-                          <span className="text-muted-foreground ml-2 text-xs">
-                            {renderQuota(dollarsToQuota(m.pricePerCall), 2)}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Popover open={modelPickerOpen} onOpenChange={setModelPickerOpen}>
+                    <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-9 w-full items-center justify-between rounded-md border px-3 text-sm">
+                      <span className="flex min-w-0 items-center gap-2">
+                        {descriptor.vendor && (
+                          <VendorIcon vendor={descriptor.vendor} size={16} />
+                        )}
+                        <span className="truncate">{descriptor.displayName}</span>
+                      </span>
+                      <LuChevronsUpDown className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                      <Command>
+                        <CommandInput placeholder={t("IMAGE.MODEL_SEARCH")} />
+                        <CommandList>
+                          <CommandEmpty>{t("IMAGE.MODEL_NO_RESULTS")}</CommandEmpty>
+                          <CommandGroup heading={t("IMAGE.MODEL_GROUP_COMFYUI")}>
+                            {effectiveModels
+                              .filter((m) => m.family !== "sync-image")
+                              .map((m) => {
+                                const disabled = !isLoggedIn && !m.isFree;
+                                return (
+                                  <CommandItem
+                                    key={m.id}
+                                    value={`${m.displayName} ${m.id}`}
+                                    onSelect={() => {
+                                      if (disabled) {
+                                        setCookie(AUTH_REDIRECT_COOKIE, pathname, {
+                                          maxAge: 300,
+                                        });
+                                        router.push("/login");
+                                        setModelPickerOpen(false);
+                                        return;
+                                      }
+                                      field.onChange(m.id);
+                                      handleModelChange(m.id);
+                                      setModelPickerOpen(false);
+                                    }}
+                                    className={cn(disabled && "opacity-50")}
+                                  >
+                                    {m.vendor && <VendorIcon vendor={m.vendor} size={14} />}
+                                    <span className="min-w-0 flex-1 truncate">
+                                      {m.displayName}
+                                    </span>
+                                    {m.isFree ? (
+                                      <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
+                                        {t("IMAGE.FREE_BADGE")}
+                                      </span>
+                                    ) : (
+                                      <span className="text-muted-foreground shrink-0 text-xs">
+                                        {renderQuota(dollarsToQuota(m.pricePerCall), 2)}
+                                      </span>
+                                    )}
+                                    {disabled && (
+                                      <LuLock className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
+                                    )}
+                                  </CommandItem>
+                                );
+                              })}
+                          </CommandGroup>
+                          {effectiveModels.some((m) => m.family === "sync-image") && (
+                            <CommandGroup heading={t("IMAGE.MODEL_GROUP_HOSTED")}>
+                              {effectiveModels
+                                .filter((m) => m.family === "sync-image")
+                                .map((m) => {
+                                  const disabled = !isLoggedIn && !m.isFree;
+                                  return (
+                                    <CommandItem
+                                      key={m.id}
+                                      value={`${m.displayName} ${m.vendor ?? ""} ${m.id}`}
+                                      onSelect={() => {
+                                        if (disabled) {
+                                          setCookie(AUTH_REDIRECT_COOKIE, pathname, {
+                                            maxAge: 300,
+                                          });
+                                          router.push("/login");
+                                          setModelPickerOpen(false);
+                                          return;
+                                        }
+                                        field.onChange(m.id);
+                                        handleModelChange(m.id);
+                                        setModelPickerOpen(false);
+                                      }}
+                                      className={cn(disabled && "opacity-50")}
+                                    >
+                                      {m.vendor && <VendorIcon vendor={m.vendor} size={14} />}
+                                      <span className="min-w-0 flex-1 truncate">
+                                        {m.displayName}
+                                      </span>
+                                      {m.isFree ? (
+                                        <span className="shrink-0 rounded bg-emerald-500/15 px-1 py-0.5 text-[10px] leading-none font-medium text-emerald-500">
+                                          {t("IMAGE.FREE_BADGE")}
+                                        </span>
+                                      ) : (
+                                        <span className="text-muted-foreground shrink-0 text-xs">
+                                          {m.pricePerCall > 0
+                                            ? renderQuota(dollarsToQuota(m.pricePerCall), 2)
+                                            : t("IMAGE.PRICING_RATIO_BASED")}
+                                        </span>
+                                      )}
+                                      {disabled && (
+                                        <LuLock className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
+                                      )}
+                                    </CommandItem>
+                                  );
+                                })}
+                            </CommandGroup>
+                          )}
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -552,9 +701,10 @@ export function GenerateForm() {
           />
         )}
 
-        {/* References - flux2-dev-compose only */}
+        {/* References - flux2-dev-compose + sync-image models */}
         {descriptor.supportsReferences && (
           <ReferenceUploader
+            maxFiles={descriptor.maxReferenceImages}
             value={
               // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("references") as ReferenceEntry[] | undefined) ?? []
@@ -567,6 +717,147 @@ export function GenerateForm() {
               )
             }
           />
+        )}
+
+        {/* Vendor-specific sync-image knobs. Only render the controls the
+            current model's relay adapter actually consumes. The dispatch
+            layer in generation-dispatch.ts threads these into the upstream
+            body shape per endpoint kind. */}
+        {(descriptor.supportsQuality ||
+          descriptor.supportsOutputFormat ||
+          descriptor.supportsBackground ||
+          descriptor.supportsWatermark ||
+          descriptor.supportsStrength ||
+          descriptor.supportsSeed) && (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {descriptor.supportsQuality && descriptor.qualityChoices && (
+              <QualityField
+                form={form}
+                choices={descriptor.qualityChoices}
+                label={t("IMAGE.QUALITY_LABEL")}
+                placeholder={t("IMAGE.QUALITY_DEFAULT")}
+              />
+            )}
+
+            {descriptor.supportsOutputFormat && descriptor.outputFormatChoices && (
+              <OutputFormatField
+                form={form}
+                choices={descriptor.outputFormatChoices}
+                label={t("IMAGE.OUTPUT_FORMAT_LABEL")}
+                placeholder={t("IMAGE.OUTPUT_FORMAT_DEFAULT")}
+              />
+            )}
+
+            {descriptor.supportsBackground && (
+              <FormField
+                control={form.control}
+                name="params.background"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("IMAGE.BACKGROUND_LABEL")}</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={(field.value as string | undefined) ?? ""}
+                        onValueChange={(v) => field.onChange(v || undefined)}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue
+                            placeholder={t("IMAGE.BACKGROUND_DEFAULT")}
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="opaque">
+                            {t("IMAGE.BACKGROUND_OPAQUE")}
+                          </SelectItem>
+                          <SelectItem value="transparent">
+                            {t("IMAGE.BACKGROUND_TRANSPARENT")}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {descriptor.supportsWatermark && (
+              <FormField
+                control={form.control}
+                name="params.watermark"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-md border px-3 py-2">
+                    <FormLabel className="m-0">
+                      {t("IMAGE.WATERMARK_LABEL")}
+                    </FormLabel>
+                    <FormControl>
+                      <input
+                        type="checkbox"
+                        checked={(field.value as boolean | undefined) ?? false}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
+
+            {descriptor.supportsStrength && (
+              <FormField
+                control={form.control}
+                name="params.strength"
+                render={({ field }) => {
+                  const v =
+                    typeof field.value === "number" ? field.value : 0.5;
+                  return (
+                    <FormItem>
+                      <FormLabel>
+                        {t("IMAGE.STRENGTH_LABEL")}: {v.toFixed(2)}
+                      </FormLabel>
+                      <FormControl>
+                        <Slider
+                          min={0}
+                          max={1}
+                          step={0.05}
+                          value={[v]}
+                          onValueChange={(next) =>
+                            field.onChange(
+                              Array.isArray(next) ? next[0] : next,
+                            )
+                          }
+                        />
+                      </FormControl>
+                    </FormItem>
+                  );
+                }}
+              />
+            )}
+
+            {descriptor.supportsSeed && (
+              <FormField
+                control={form.control}
+                name="params.seed"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("IMAGE.SEED_LABEL")}</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder={t("IMAGE.SEED_RANDOMIZE")}
+                        value={(field.value as number | undefined) ?? ""}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === ""
+                              ? undefined
+                              : Number(e.target.value),
+                          )
+                        }
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            )}
+          </div>
         )}
 
         {/* Submit */}
@@ -674,6 +965,83 @@ function HiresFixField(props: {
         </div>
       )}
     </FormItem>
+  );
+}
+
+// Vendor knob: select-style enum (gpt-image quality, BFL output_format, etc.).
+// Choices come from the descriptor; the field leaves params.<key> undefined
+// when nothing is picked so the dispatch layer skips the field entirely.
+function QualityField(props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: any;
+  choices: readonly string[];
+  label: string;
+  placeholder: string;
+}) {
+  return (
+    <FormField
+      control={props.form.control}
+      name="params.quality"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{props.label}</FormLabel>
+          <FormControl>
+            <Select
+              value={(field.value as string | undefined) ?? ""}
+              onValueChange={(v) => field.onChange(v || undefined)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {props.choices.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+        </FormItem>
+      )}
+    />
+  );
+}
+
+function OutputFormatField(props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: any;
+  choices: readonly string[];
+  label: string;
+  placeholder: string;
+}) {
+  return (
+    <FormField
+      control={props.form.control}
+      name="params.outputFormat"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>{props.label}</FormLabel>
+          <FormControl>
+            <Select
+              value={(field.value as string | undefined) ?? ""}
+              onValueChange={(v) => field.onChange(v || undefined)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={props.placeholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {props.choices.map((c) => (
+                  <SelectItem key={c} value={c}>
+                    {c}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+        </FormItem>
+      )}
+    />
   );
 }
 
