@@ -106,6 +106,11 @@ export function GenerateForm() {
     activeGenerationIdAtom,
   );
   const remixId = searchParams.get("remix");
+  // ?hires=1 is set by the result tile's "Hires" shortcut. When the seed
+  // source's model supports the hires-fix block, the seed effect bumps
+  // hiresDenoise / hiresUpscale to the canonical defaults so the user
+  // gets a higher-detail second pass without manually toggling.
+  const hiresShortcut = searchParams.get("hires") === "1";
   // Seed source: explicit ?remix=<id> wins, otherwise the active gen from
   // the URL/sidebar selection. Either way we fetch that gen's settings and
   // pre-fill the form.
@@ -179,6 +184,14 @@ export function GenerateForm() {
 
     const model = data.model as GenerationModel;
     const desc = findDescriptor(model);
+    // Hires shortcut: when the source model supports the hires-fix
+    // pass and the URL flag is set, pre-toggle denoise + upscale to
+    // the canonical defaults the toggle uses (matches HiresFixField's
+    // 0.5 / 1.5). Models without supportsHiresFix ignore the flag.
+    const hiresParams =
+      hiresShortcut && desc.supportsHiresFix
+        ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
+        : {};
     form.reset({
       ...defaultsFor(desc),
       prompt: data.prompt,
@@ -186,6 +199,7 @@ export function GenerateForm() {
       params: {
         ...desc.defaultParams,
         ...((data.params as Record<string, unknown> | null) ?? {}),
+        ...hiresParams,
       },
       loras: (data.loras as LoraEntry[] | null) ?? undefined,
       references:

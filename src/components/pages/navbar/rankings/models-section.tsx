@@ -59,7 +59,8 @@ export function ModelsSection(props: ModelsSectionProps) {
             {t("RANKINGS.MODELS.TITLE")}
           </h2>
           <p className="text-muted-foreground mt-1 text-sm">
-            {t(PERIOD_KEY[props.period])}
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- PERIOD_KEY values are valid translation keys but inferred as `string` from the record type */}
+            {t(PERIOD_KEY[props.period] as any)}
           </p>
         </div>
         <div className="shrink-0 text-right">

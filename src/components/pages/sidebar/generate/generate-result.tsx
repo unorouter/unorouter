@@ -6,9 +6,10 @@ import {
   useDeleteGenerationMutation,
   useGenerationStatusQuery,
 } from "@/hooks/generation-hook";
+import { getModelDescriptor } from "@/lib/config/generation-models";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { LuSparkles, LuTrash2 } from "react-icons/lu";
+import { LuSparkles, LuTrash2, LuWand } from "react-icons/lu";
 
 // Single-tile result view. Subscribes to the polling hook and renders
 // skeleton -> progress badge -> image. Used by /generate/[id] today;
@@ -95,6 +96,21 @@ export function GenerateResult(props: Props) {
           <LuSparkles className="mr-2" />
           {t("IMAGE.REMIX")}
         </Button>
+        {/* Hires shortcut: same as Remix, but pre-toggles the SDXL hires
+            fix block. Only surfaces when the source model supports it
+            (Pony, Endgame, vanilla SDXL). Only meaningful on success. */}
+        {isDone && getModelDescriptor(data.model).supportsHiresFix && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              router.push(`/generate?remix=${props.generationId}&hires=1`)
+            }
+          >
+            <LuWand className="mr-2" />
+            {t("IMAGE.HIRES_SHORTCUT")}
+          </Button>
+        )}
         <Button
           variant="outline"
           size="sm"
