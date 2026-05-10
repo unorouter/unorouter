@@ -69,6 +69,68 @@ async function resolveSubmissionEndpoint(
   return { kind: "sync", endpoint };
 }
 
+// ---------- Row-finalize helpers (de-duplicate the success / failure blocks
+// that previously lived in submitSyncImage, pollGenerationStatus, and the
+// submitGeneration catch). All terminal writes share the same trio of
+// invariants: clear submittedKey (so the sweeper stops polling), bump
+// updatedAt, set the row to a terminal status. ----------
+
+type R2Uploaded = {
+  url: string;
+  key: string;
+  mime: string;
+  sizeBytes: number;
+};
+
+function paramsToSize(params: GenerationSubmitBody["params"]): string | undefined {
+  const p = params ?? {};
+  return p.width && p.height ? `${p.width}x${p.height}` : undefined;
+}
+
+async function finalizeRowSuccess(
+  db: ReturnType<typeof getDb>,
+  id: string,
+  resultUri: string,
+  uploaded: R2Uploaded,
+  progress: string = "100%",
+) {
+  await db
+    .update(generations)
+    .set({
+      status: "success",
+      progress,
+      // Don't persist a `data:` URI back into the row — it's just the
+      // inline payload from the worker. Keep the column as the public
+      // upstream URL when one exists.
+      upstreamResultUrl: resultUri.startsWith("data:") ? null : resultUri,
+      r2Url: uploaded.url,
+      r2Key: uploaded.key,
+      mimeType: uploaded.mime,
+      sizeBytes: uploaded.sizeBytes,
+      submittedKey: null,
+      updatedAt: dayjs().toDate(),
+    })
+    .where(eq(generations.id, id));
+}
+
+async function finalizeRowFailure(
+  db: ReturnType<typeof getDb>,
+  id: string,
+  errorMessage: string,
+  opts?: { progress?: string },
+) {
+  await db
+    .update(generations)
+    .set({
+      status: "failure",
+      errorMessage: errorMessage.slice(0, 500),
+      submittedKey: null,
+      ...(opts?.progress !== undefined && { progress: opts.progress }),
+      updatedAt: dayjs().toDate(),
+    })
+    .where(eq(generations.id, id));
+}
+
 export async function submitGeneration(
   userId: number,
   apiKey: string,
@@ -131,15 +193,7 @@ export async function submitGeneration(
       model: body.model,
       err: message,
     });
-    await db
-      .update(generations)
-      .set({
-        status: "failure",
-        errorMessage: message.slice(0, 500),
-        submittedKey: null,
-        updatedAt: dayjs().toDate(),
-      })
-      .where(eq(generations.id, id));
+    await finalizeRowFailure(db, id, message);
     throw err;
   }
 
@@ -157,8 +211,7 @@ async function submitComfyUITask(args: {
 }) {
   const { db, id, apiKey, body } = args;
   const params = body.params ?? {};
-  const size =
-    params.width && params.height ? `${params.width}x${params.height}` : undefined;
+  const size = paramsToSize(body.params);
   const extra: Record<string, unknown> = {};
   if (params.steps !== undefined) extra.steps = params.steps;
   if (params.cfg !== undefined) extra.cfg = params.cfg;
@@ -221,8 +274,7 @@ async function submitSyncImage(args: {
 }) {
   const { db, id, apiKey, body, endpoint } = args;
   const params = body.params ?? {};
-  const size =
-    params.width && params.height ? `${params.width}x${params.height}` : undefined;
+  const size = paramsToSize(body.params);
 
   // Cap refs to the model's declared maxImageInputs as a server-side
   // belt-and-braces guard. If the catalog says max=6 and the form sent 8,
@@ -284,21 +336,7 @@ async function submitSyncImage(args: {
   }
 
   const uploaded = await downloadAndUploadGeneration(resultUri, id, apiKey);
-
-  await db
-    .update(generations)
-    .set({
-      status: "success",
-      progress: "100%",
-      upstreamResultUrl: resultUri.startsWith("data:") ? null : resultUri,
-      r2Url: uploaded.url,
-      r2Key: uploaded.key,
-      mimeType: uploaded.mime,
-      sizeBytes: uploaded.sizeBytes,
-      submittedKey: null,
-      updatedAt: dayjs().toDate(),
-    })
-    .where(eq(generations.id, id));
+  await finalizeRowSuccess(db, id, resultUri, uploaded);
 }
 
 export async function getGeneration(userId: number, id: string) {
@@ -332,16 +370,7 @@ export async function pollGenerationStatus(
   const progress = payload?.progress ?? current.progress ?? "0%";
 
   if (status === "failure") {
-    await db
-      .update(generations)
-      .set({
-        status,
-        progress,
-        errorMessage: (payload?.fail_reason ?? "").slice(0, 500),
-        submittedKey: null,
-        updatedAt: dayjs().toDate(),
-      })
-      .where(eq(generations.id, id));
+    await finalizeRowFailure(db, id, payload?.fail_reason ?? "", { progress });
     return getGeneration(userId, id);
   }
 
@@ -356,16 +385,9 @@ export async function pollGenerationStatus(
   // SUCCESS: download the result + upload to R2 + write the final row.
   const upstreamUrl = payload?.result_url;
   if (!upstreamUrl) {
-    await db
-      .update(generations)
-      .set({
-        status: "failure",
-        progress,
-        errorMessage: "upstream success without result_url",
-        submittedKey: null,
-        updatedAt: dayjs().toDate(),
-      })
-      .where(eq(generations.id, id));
+    await finalizeRowFailure(db, id, "upstream success without result_url", {
+      progress,
+    });
     return getGeneration(userId, id);
   }
 
@@ -373,22 +395,7 @@ export async function pollGenerationStatus(
   // worker returns base64 inline. That endpoint requires the user's bearer
   // token; for HTTPS-CDN URLs (S3) the token is ignored upstream.
   const uploaded = await downloadAndUploadGeneration(upstreamUrl, id, apiKey);
-
-  await db
-    .update(generations)
-    .set({
-      status: "success",
-      progress: "100%",
-      upstreamResultUrl: upstreamUrl,
-      r2Url: uploaded.url,
-      r2Key: uploaded.key,
-      mimeType: uploaded.mime,
-      sizeBytes: uploaded.sizeBytes,
-      submittedKey: null,
-      updatedAt: dayjs().toDate(),
-    })
-    .where(eq(generations.id, id));
-
+  await finalizeRowSuccess(db, id, upstreamUrl, uploaded);
   return getGeneration(userId, id);
 }
 
