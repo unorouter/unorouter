@@ -140,11 +140,6 @@ export const sidebarNavigation = (): NavigationItem[] => [
     icon: LuLayoutDashboard,
   },
   {
-    name: "SIDEBAR.GENERATE",
-    href: "/generate",
-    icon: LuWand,
-  },
-  {
     name: "SIDEBAR.TOKENS",
     href: "/token",
     icon: LuKey,
