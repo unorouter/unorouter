@@ -60,6 +60,9 @@ export async function submitGeneration(
     visibility,
     nsfw,
     costQuota,
+    // Persisted so the server-side sweeper can poll upstream as the same
+    // user when the client tab is closed. Cleared on terminal status.
+    submittedKey: apiKey,
   });
 
   // Build the upstream submit body. The new-api ComfyUI adapter reads
@@ -179,6 +182,7 @@ export async function pollGenerationStatus(
         status,
         progress,
         errorMessage: (payload?.fail_reason ?? "").slice(0, 500),
+        submittedKey: null,
         updatedAt: dayjs().toDate(),
       })
       .where(eq(generations.id, id));
@@ -202,6 +206,7 @@ export async function pollGenerationStatus(
         status: "failure",
         progress,
         errorMessage: "upstream success without result_url",
+        submittedKey: null,
         updatedAt: dayjs().toDate(),
       })
       .where(eq(generations.id, id));
@@ -223,6 +228,7 @@ export async function pollGenerationStatus(
       r2Key: uploaded.key,
       mimeType: uploaded.mime,
       sizeBytes: uploaded.sizeBytes,
+      submittedKey: null,
       updatedAt: dayjs().toDate(),
     })
     .where(eq(generations.id, id));

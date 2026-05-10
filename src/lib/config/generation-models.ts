@@ -70,7 +70,7 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
   {
     id: "pony",
     family: "sdxl",
-    displayName: "Pony (Prefect XL v4)",
+    displayName: "Pony",
     pricePerCall: 0.06,
     supportsNegativePrompt: true,
     supportsCfg: true,
@@ -97,7 +97,7 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
   {
     id: "endgame",
     family: "sdxl",
-    displayName: "Endgame (LUSTIFY photoreal)",
+    displayName: "Endgame",
     pricePerCall: 0.08,
     supportsNegativePrompt: true,
     supportsCfg: true,

@@ -526,6 +526,10 @@ export const generations = sqliteTable(
     // SET NULL so deleting the parent doesn't cascade-kill descendants.
     remixedFrom: text("remixed_from"),
     errorMessage: text("error_message"),
+    // The submitter's API key, captured at submit time so the server-side
+    // sweeper can poll upstream as the same user when the client tab is
+    // closed. Cleared on terminal status to limit exposure.
+    submittedKey: text("submitted_key"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

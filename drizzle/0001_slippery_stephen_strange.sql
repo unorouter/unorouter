@@ -1,0 +1,1 @@
+ALTER TABLE `generations` ADD `submitted_key` text;

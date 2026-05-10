@@ -5,6 +5,17 @@ export async function register() {
   // Load dayjs plugins onto the singleton so bare `import dayjs from "dayjs"`
   // calls throughout the app pick them up without each file re-extending.
   await import("./lib/utils/date");
+
+  // Server-side generation status sweeper. Only on the Node runtime - the
+  // edge runtime has no DB client and the loop has no business there. The
+  // sweeper is lazily started so a build that imports instrumentation for
+  // edge route metadata doesn't load Drizzle on the wrong runtime.
+  if (process.env.NEXT_RUNTIME === "nodejs") {
+    const { startGenerationSweeper } = await import(
+      "./server/generation/generation-sweeper"
+    );
+    startGenerationSweeper();
+  }
 }
 
 export const onRequestError: Instrumentation.onRequestError = async (
