@@ -41,7 +41,6 @@ const RETENTION_DELETE_CONCURRENCY = 4;
 const RETENTION_BATCH_SIZE = 100;
 
 let started = false;
-let timer: ReturnType<typeof setTimeout> | null = null;
 
 export function startGenerationSweeper(): void {
   if (started) return;
@@ -55,7 +54,7 @@ export function startGenerationSweeper(): void {
 }
 
 function schedule(): void {
-  timer = setTimeout(() => {
+  setTimeout(() => {
     const tasks: Array<Promise<void>> = [sweepOnce()];
     // Amortized retention pass: ~1 in 10 ticks runs the expiry scan.
     // The retention task is independent of the poll sweep so a slow R2

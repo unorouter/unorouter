@@ -61,6 +61,7 @@ export function NotificationCard() {
     ) as NotificationSettingSchema,
   });
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const notifyType = form.watch("notify_type");
 
   // Populate form when user data loads

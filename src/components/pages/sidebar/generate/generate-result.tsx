@@ -87,8 +87,12 @@ function ParamsBadge(props: { model: string; params: unknown }) {
 
 function RetentionBadge(props: { expiresAt: Date | string | number }) {
   const t = useTranslations();
+  // Stable "now" captured at mount so the render is pure. The badge is
+  // re-rendered when the parent's data changes (React Query polling cadence);
+  // a per-second-accurate countdown isn't required for a "days left" badge.
+  const [now] = useState(() => Date.now());
   const expiresMs = new Date(props.expiresAt).getTime();
-  const daysLeft = Math.ceil((expiresMs - Date.now()) / (24 * 60 * 60 * 1000));
+  const daysLeft = Math.ceil((expiresMs - now) / (24 * 60 * 60 * 1000));
   if (!Number.isFinite(daysLeft) || daysLeft > 7) return null;
   return (
     <Badge variant="outline" className="text-xs">
@@ -187,10 +191,16 @@ function ImageLightbox(props: {
   alt: string;
 }) {
   const t = useTranslations();
+  // Derived-state pattern: when startIndex changes (parent picked a different
+  // tile), reset `index` during render instead of in an effect. React supports
+  // calling setState during render in this exact shape — the second render
+  // sees the updated value and no cascading effect fires.
   const [index, setIndex] = useState(props.startIndex);
-  useEffect(() => {
-    if (props.open) setIndex(props.startIndex);
-  }, [props.open, props.startIndex]);
+  const [prevStartIndex, setPrevStartIndex] = useState(props.startIndex);
+  if (prevStartIndex !== props.startIndex) {
+    setPrevStartIndex(props.startIndex);
+    setIndex(props.startIndex);
+  }
 
   const sorted = props.images
     .slice()

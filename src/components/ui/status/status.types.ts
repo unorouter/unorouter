@@ -6,8 +6,7 @@ export type StatusReportUpdateType =
   | "monitoring"
   | "resolved";
 
-const THEME_VALUES = ["light", "dark", "system"] as const;
-export type ThemeValue = (typeof THEME_VALUES)[number];
+export type ThemeValue = "light" | "dark" | "system";
 
 export interface Maintenance {
   id: number;

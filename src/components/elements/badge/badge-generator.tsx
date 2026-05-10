@@ -26,7 +26,7 @@ import {
 } from "@/lib/validation/badge";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ShikiHighlighter from "react-shiki";
 
 type BadgeGeneratorProps = {
@@ -42,14 +42,21 @@ export function BadgeGenerator(props: BadgeGeneratorProps) {
   const [theme, setTheme] = useState<Theme>(
     themes.resolvedTheme === "light" ? "light" : "dark",
   );
+  const [prevResolvedTheme, setPrevResolvedTheme] = useState(
+    themes.resolvedTheme,
+  );
+  // Sync the local `theme` selector with the global resolvedTheme during
+  // render (the derived-state pattern). User can still override the theme
+  // dropdown manually; the next system toggle will reset it again.
+  if (
+    prevResolvedTheme !== themes.resolvedTheme &&
+    (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark")
+  ) {
+    setPrevResolvedTheme(themes.resolvedTheme);
+    setTheme(themes.resolvedTheme);
+  }
   const [format, setFormat] = useState<BadgeFormat>("svg");
   const [locale, setLocale] = useState<(typeof LOCALES)[number]>(LOCALES[0]);
-
-  useEffect(() => {
-    if (themes.resolvedTheme === "light" || themes.resolvedTheme === "dark") {
-      setTheme(themes.resolvedTheme);
-    }
-  }, [themes.resolvedTheme]);
 
   const urlOpts = {
     locale,

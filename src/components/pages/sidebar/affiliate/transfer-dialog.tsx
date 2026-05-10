@@ -73,6 +73,7 @@ export function TransferDialog(props: TransferDialogProps) {
     );
   }
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const amount = form.watch("amount");
 
   return (

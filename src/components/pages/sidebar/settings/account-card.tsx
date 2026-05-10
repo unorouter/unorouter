@@ -66,6 +66,7 @@ export function AccountCard() {
   if (!user) return null;
 
   const emailBound = !!user.email;
+  // eslint-disable-next-line react-hooks/incompatible-library
   const emailValue = form.watch("email");
 
   function handleSendCode() {
