@@ -2,6 +2,7 @@
 
 import { GenerateForm } from "@/components/pages/sidebar/generate/generate-form";
 import { GenerateResult } from "@/components/pages/sidebar/generate/generate-result";
+import { RecentStrip } from "@/components/pages/sidebar/generate/recent-strip";
 import { activeGenerationIdAtom } from "@/store/generation-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -39,8 +40,10 @@ export function GeneratePage(props: { generationId?: string }) {
         </div>
       </div>
 
-      {/* Result column. */}
-      <div className="thin-scrollbar flex-1 lg:overflow-y-auto lg:pl-2">
+      {/* Result column. RecentStrip below renders a horizontal strip of
+          last-N generations so users can flip between them without going
+          to the sidebar list. */}
+      <div className="thin-scrollbar flex flex-1 flex-col gap-6 lg:overflow-y-auto lg:pl-2">
         {activeId ? (
           <GenerateResult generationId={activeId} />
         ) : (
@@ -48,6 +51,7 @@ export function GeneratePage(props: { generationId?: string }) {
             {t("IMAGE.PICK_OR_GENERATE")}
           </div>
         )}
+        <RecentStrip />
       </div>
     </div>
   );

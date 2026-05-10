@@ -22,12 +22,23 @@ import { getDb } from "@/lib/db/client";
 import { generations } from "@/lib/db/schema";
 import { logger } from "@/lib/utils/logger";
 import { and, isNotNull, lt, ne } from "drizzle-orm";
-import { pollGenerationStatus } from "./generation.service";
+import {
+  deleteGenerationAsSystem,
+  listExpiredGenerationIds,
+  pollGenerationStatus,
+} from "./generation.service";
 
 const SWEEP_INTERVAL_MS = 5_000;
 const STALE_AFTER_MS = 4_000;
 const POLL_CONCURRENCY = 4;
 const ROWS_PER_SWEEP = 50;
+
+// Probability the sweep tick also runs a retention pass. 0.1 amortizes
+// the scan to roughly once per 50 seconds at the 5s interval, which is
+// plenty for a 30-day window. Keep low to avoid hammering R2 deletes.
+const RETENTION_SWEEP_CHANCE = 0.1;
+const RETENTION_DELETE_CONCURRENCY = 4;
+const RETENTION_BATCH_SIZE = 100;
 
 let started = false;
 let timer: ReturnType<typeof setTimeout> | null = null;
@@ -45,12 +56,26 @@ export function startGenerationSweeper(): void {
 
 function schedule(): void {
   timer = setTimeout(() => {
-    void sweepOnce()
-      .catch((err) => {
-        logger.error("generation sweep failed", {
-          context: "generation.sweeper",
-          err: err instanceof Error ? err.message : String(err),
-        });
+    const tasks: Array<Promise<void>> = [sweepOnce()];
+    // Amortized retention pass: ~1 in 10 ticks runs the expiry scan.
+    // The retention task is independent of the poll sweep so a slow R2
+    // delete doesn't block live polling.
+    if (Math.random() < RETENTION_SWEEP_CHANCE) {
+      tasks.push(sweepExpired());
+    }
+    void Promise.allSettled(tasks)
+      .then((results) => {
+        for (const r of results) {
+          if (r.status === "rejected") {
+            logger.error("generation sweep failed", {
+              context: "generation.sweeper",
+              err:
+                r.reason instanceof Error
+                  ? r.reason.message
+                  : String(r.reason),
+            });
+          }
+        }
       })
       .finally(() => schedule());
   }, SWEEP_INTERVAL_MS);
@@ -101,5 +126,41 @@ async function sweepOnce(): Promise<void> {
       }
     }
   });
+  await Promise.all(workers);
+}
+
+// Retention sweep: find rows past expiresAt and cascade-delete them.
+// generation_images cascades via FK. R2 objects are deleted per image
+// inside deleteGenerationAsSystem. Concurrency is bounded so we don't
+// hammer R2 if a large backlog accumulates.
+async function sweepExpired(): Promise<void> {
+  const ids = await listExpiredGenerationIds(RETENTION_BATCH_SIZE);
+  if (ids.length === 0) return;
+
+  logger.info("retention sweep starting", {
+    context: "generation.sweeper.retention",
+    count: ids.length,
+  });
+
+  let cursor = 0;
+  const workers = Array.from(
+    { length: RETENTION_DELETE_CONCURRENCY },
+    async () => {
+      while (true) {
+        const i = cursor++;
+        if (i >= ids.length) return;
+        const id = ids[i];
+        try {
+          await deleteGenerationAsSystem(id);
+        } catch (err) {
+          logger.warn("retention delete failed", {
+            context: "generation.sweeper.retention",
+            generationId: id,
+            err: err instanceof Error ? err.message : String(err),
+          });
+        }
+      }
+    },
+  );
   await Promise.all(workers);
 }

@@ -13,7 +13,7 @@ import { and, asc, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
 import {
   deleteGeneration,
-  getGeneration,
+  getGenerationWithImages,
   listUserGenerations,
   pollGenerationStatus,
   setVisibility,
@@ -21,9 +21,10 @@ import {
 } from "./generation.service";
 
 export const generationRoute = new Elysia({ prefix: "/generation" })
-  // Submit one image generation. The client makes N parallel calls when
-  // batching variants, sharing one batchId. Each call inserts a row, then
-  // forwards to upstream new-api; returns the freshly-inserted row.
+  // Submit one image generation. One row per click; the upstream may
+  // produce N images depending on `params.n` (1, 2, or 4). Returns the
+  // freshly-inserted row with its images attached (empty until upstream
+  // finalizes for async ComfyUI tasks; populated for sync image models).
   .post(
     "/submit",
     async ({ body, cookie }) => {
@@ -52,7 +53,10 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
   // Single generation detail (also used as a polling read).
   .get("/:id", async ({ params, cookie }) => {
     const userId = getUserId(cookie);
-    return { success: true, data: await getGeneration(userId, params.id) };
+    return {
+      success: true,
+      data: await getGenerationWithImages(userId, params.id),
+    };
   })
   // Poll upstream and reflect the latest status into the row. On terminal
   // success the upstream image is downloaded + uploaded to R2 inline so

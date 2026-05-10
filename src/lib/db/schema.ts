@@ -461,9 +461,10 @@ export const acpIdempotencyKeys = sqliteTable(
 // Image generation
 // ---------------------------------------------------------------------------
 
-// generations is one row per image we produced (or attempted to produce).
-// Stored regardless of user visibility so the public feed has content even
-// if creators set their gens to private later.
+// generations is one row per user submit (one click of Generate). The N
+// images that come back live in generation_images, linked by FK with
+// cascade-delete. Stored regardless of user visibility so the public feed
+// has content even if creators set their gens to private later.
 export const generations = sqliteTable(
   "generations",
   {
@@ -471,10 +472,9 @@ export const generations = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
-    // batchId groups variants from one click (variants=4 -> four rows
-    // sharing one batchId, distinct variantIndex).
-    batchId: text("batch_id").notNull(),
-    variantIndex: integer("variant_index").notNull().default(0),
+    // How many images the user asked for (1, 2, or 4). Drives the UI's
+    // "generating M of N" progress display until all N images are saved.
+    requestedCount: integer("requested_count").notNull().default(1),
     // Upstream task id from new-api; nullable while submit is in flight.
     taskId: text("task_id"),
     model: text("model").notNull(),
@@ -495,19 +495,10 @@ export const generations = sqliteTable(
     //   pending     row inserted, upstream submit in flight
     //   submitted   upstream returned task_id
     //   in_progress upstream worker is generating
-    //   success     r2Url populated, cost settled
+    //   success     all generation_images rows populated, cost settled
     //   failure     errorMessage populated, quota refunded
     status: text("status").notNull().default("pending"),
     progress: text("progress"),
-    // Raw upstream URL pre-R2 (data: URI or S3). Kept for debugging; the
-    // canonical user-facing link is r2Url.
-    upstreamResultUrl: text("upstream_result_url"),
-    r2Url: text("r2_url"),
-    r2Key: text("r2_key"),
-    mimeType: text("mime_type").default("image/png"),
-    width: integer("width"),
-    height: integer("height"),
-    sizeBytes: integer("size_bytes"),
     // The price we billed the user, in unorouter quota units. Settled on
     // terminal success, refunded on failure.
     costQuota: integer("cost_quota"),
@@ -536,6 +527,11 @@ export const generations = sqliteTable(
     updatedAt: integer("updated_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
+    // Auto-deletion timestamp. Set on insert to createdAt + 30 days. The
+    // retention sweeper scans for rows past expiresAt and cascades the
+    // delete (DB row + R2 objects). UI shows a warning badge inside the
+    // last 7 days.
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
   },
   (table) => [
     // user history pages, mine sort
@@ -544,12 +540,43 @@ export const generations = sqliteTable(
     index("idx_gen_visibility_created").on(table.visibility, table.createdAt),
     // per-model browse
     index("idx_gen_model_created").on(table.model, table.createdAt),
-    // batch result-grid query
-    index("idx_gen_user_batch").on(table.userId, table.batchId),
     // upstream cross-reference (poller looks up rows by taskId)
     index("idx_gen_task").on(table.taskId),
     // lineage walks
     index("idx_gen_remixed_from").on(table.remixedFrom),
+    // retention sweeper scan
+    index("idx_gen_expires").on(table.expiresAt),
+  ],
+);
+
+// One image attached to a generation. v1 supports up to 4 images per row
+// (matches the form's variants buttons 1/2/4). The (generationId,
+// sequenceIndex) compound PK enforces ordering and de-dupes accidental
+// double-inserts during retry. Cascade delete fires when the parent row
+// is removed (whether by deleteGeneration or by the retention sweeper).
+export const generationImages = sqliteTable(
+  "generation_images",
+  {
+    generationId: text("generation_id")
+      .notNull()
+      .references(() => generations.id, { onDelete: "cascade" }),
+    sequenceIndex: integer("sequence_index").notNull(),
+    // Raw upstream URL pre-R2 (data: URI or S3). Kept for debugging; the
+    // canonical user-facing link is r2Url.
+    upstreamResultUrl: text("upstream_result_url"),
+    r2Url: text("r2_url").notNull(),
+    r2Key: text("r2_key").notNull(),
+    mimeType: text("mime_type").default("image/png"),
+    width: integer("width"),
+    height: integer("height"),
+    sizeBytes: integer("size_bytes"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    primaryKey({ columns: [table.generationId, table.sequenceIndex] }),
+    index("idx_genimg_generation_id").on(table.generationId),
   ],
 );
 
@@ -624,5 +651,6 @@ export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type Generation = typeof generations.$inferSelect;
+export type GenerationImage = typeof generationImages.$inferSelect;
 export type GenerationLike = typeof generationLikes.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;

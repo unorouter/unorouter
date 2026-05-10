@@ -1,7 +1,7 @@
 import { getV1VideoGenerationsTaskId, postV1VideoGenerations } from "@/openapi";
 import {
   buildBody,
-  extractResultUri,
+  extractResultUris,
   fetchAllRefs,
 } from "@/lib/api/generation-dispatch";
 import {
@@ -27,7 +27,11 @@ import {
 } from "@/lib/config/generation-models-dynamic";
 import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
-import { generations } from "@/lib/db/schema";
+import {
+  generationImages,
+  generations,
+  type GenerationImage,
+} from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type {
@@ -37,7 +41,17 @@ import type {
 } from "@/lib/validation/generation";
 import { upstreamApiUrl } from "@/server/constants";
 import dayjs from "dayjs";
-import { and, asc, desc, eq, lt } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, lt } from "drizzle-orm";
+
+// Retention window: rows older than this are removed by the background
+// sweeper (DB cascade-deletes generation_images, then we delete the R2
+// objects). The 30-day cap matches what the UI promises in the about/
+// retention copy. Bump here when changing the policy.
+const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
+
+// Cap on per-submission images. Must stay aligned with the form's
+// variants buttons (1/2/4) and validator's generationParams.n bounds.
+const MAX_IMAGES_PER_GEN = 4;
 
 // ComfyUI templates live behind new-api's task adapter (channel type 59);
 // they aren't in /api/pricing as image models. Treat them as "comfyui-task"
@@ -69,11 +83,11 @@ async function resolveSubmissionEndpoint(
   return { kind: "sync", endpoint };
 }
 
-// ---------- Row-finalize helpers (de-duplicate the success / failure blocks
-// that previously lived in submitSyncImage, pollGenerationStatus, and the
-// submitGeneration catch). All terminal writes share the same trio of
+// ---------- Row-finalize helpers. All terminal writes share the same
 // invariants: clear submittedKey (so the sweeper stops polling), bump
-// updatedAt, set the row to a terminal status. ----------
+// updatedAt, set the row to a terminal status. The success path also
+// inserts one generation_images row per produced image in the same
+// transaction so consumers don't see a half-populated row. ----------
 
 type R2Uploaded = {
   url: string;
@@ -82,35 +96,67 @@ type R2Uploaded = {
   sizeBytes: number;
 };
 
+type ImagePayload = {
+  /** The upstream-returned URI or data: blob we downloaded from. */
+  resultUri: string;
+  uploaded: R2Uploaded;
+};
+
 function paramsToSize(params: GenerationSubmitBody["params"]): string | undefined {
   const p = params ?? {};
   return p.width && p.height ? `${p.width}x${p.height}` : undefined;
 }
 
+/** Per-call image count (1..MAX_IMAGES_PER_GEN). Reads `params.n` and
+ *  clamps. The validator already constrains the input range, but defending
+ *  here keeps the helpers honest if the validator is ever loosened. */
+function imageCountFor(body: GenerationSubmitBody): number {
+  const n = body.params?.n ?? 1;
+  if (!Number.isFinite(n) || n < 1) return 1;
+  return Math.min(MAX_IMAGES_PER_GEN, Math.floor(n));
+}
+
 async function finalizeRowSuccess(
   db: ReturnType<typeof getDb>,
   id: string,
-  resultUri: string,
-  uploaded: R2Uploaded,
+  images: ImagePayload[],
   progress: string = "100%",
 ) {
-  await db
-    .update(generations)
-    .set({
-      status: "success",
-      progress,
-      // Don't persist a `data:` URI back into the row — it's just the
-      // inline payload from the worker. Keep the column as the public
-      // upstream URL when one exists.
-      upstreamResultUrl: resultUri.startsWith("data:") ? null : resultUri,
-      r2Url: uploaded.url,
-      r2Key: uploaded.key,
-      mimeType: uploaded.mime,
-      sizeBytes: uploaded.sizeBytes,
-      submittedKey: null,
-      updatedAt: dayjs().toDate(),
-    })
-    .where(eq(generations.id, id));
+  if (images.length === 0) {
+    throw new Error("finalizeRowSuccess called with no images");
+  }
+  await db.transaction(async (tx) => {
+    // Clear any prior partial inserts from a retry. The (generationId,
+    // sequenceIndex) PK would otherwise reject the re-insert.
+    await tx
+      .delete(generationImages)
+      .where(eq(generationImages.generationId, id));
+    await tx.insert(generationImages).values(
+      images.map((img, idx) => ({
+        generationId: id,
+        sequenceIndex: idx,
+        // Don't persist data: URIs - they're just inline payloads, not
+        // addressable resources. Keep the column as the public URL when
+        // one exists.
+        upstreamResultUrl: img.resultUri.startsWith("data:")
+          ? null
+          : img.resultUri,
+        r2Url: img.uploaded.url,
+        r2Key: img.uploaded.key,
+        mimeType: img.uploaded.mime,
+        sizeBytes: img.uploaded.sizeBytes,
+      })),
+    );
+    await tx
+      .update(generations)
+      .set({
+        status: "success",
+        progress,
+        submittedKey: null,
+        updatedAt: dayjs().toDate(),
+      })
+      .where(eq(generations.id, id));
+  });
 }
 
 async function finalizeRowFailure(
@@ -138,23 +184,22 @@ export async function submitGeneration(
 ) {
   const db = getDb();
   const id = uid();
-  const batchId = body.batchId ?? uid(8);
-  const variantIndex = body.variantIndex ?? 0;
   const visibility = body.visibility ?? "private";
   const nsfw = body.nsfw ?? true;
-  // Server-side cost estimate from the cached pricing summary. Keeps
-  // "this will cost X" honest before we know the upstream-billed quota;
-  // final cost is settled from upstream's logs at finalize time. Zero
-  // for unknown / ratio-based models.
-  const costQuota = dollarsToQuota(await getModelFixedPrice(body.model));
+  const requestedCount = imageCountFor(body);
+  // Bill per image. The pre-charge mirrors what the UI quotes on the
+  // Generate button (pricePerCall * variants); final cost is settled
+  // from upstream logs at finalize time. Zero for ratio-based models.
+  const costQuota =
+    dollarsToQuota(await getModelFixedPrice(body.model)) * requestedCount;
+  const now = Date.now();
 
   // Insert pending row first so the UI's history rail can show the tile
   // immediately and so a crash mid-submit doesn't lose the request.
   await db.insert(generations).values({
     id,
     userId,
-    batchId,
-    variantIndex,
+    requestedCount,
     model: body.model,
     prompt: body.prompt,
     negativePrompt: body.negativePrompt,
@@ -166,6 +211,7 @@ export async function submitGeneration(
     visibility,
     nsfw,
     costQuota,
+    expiresAt: new Date(now + RETENTION_MS),
     // Persisted so the server-side sweeper can poll upstream as the same
     // user when the client tab is closed. Cleared on terminal status.
     submittedKey: apiKey,
@@ -175,7 +221,7 @@ export async function submitGeneration(
 
   try {
     if (resolved.kind === "comfyui-task") {
-      await submitComfyUITask({ db, id, apiKey, body });
+      await submitComfyUITask({ db, id, apiKey, body, n: requestedCount });
     } else {
       await submitSyncImage({
         db,
@@ -183,6 +229,7 @@ export async function submitGeneration(
         apiKey,
         body,
         endpoint: resolved.endpoint,
+        n: requestedCount,
       });
     }
   } catch (err) {
@@ -197,19 +244,22 @@ export async function submitGeneration(
     throw err;
   }
 
-  return getGeneration(userId, id);
+  return getGenerationWithImages(userId, id);
 }
 
 // ComfyUI task adapter (channel type 59). Async submit; status is reached
-// via pollGenerationStatus. The submitted row is left in flight with
-// `submittedKey = apiKey` so the server-side sweeper can poll it.
+// via pollGenerationStatus. The workflow's batch_size input is patched
+// from `extra.n` server-side, so a single upstream task returns N images.
+// The submitted row is left in flight with `submittedKey = apiKey` so the
+// server-side sweeper can poll it.
 async function submitComfyUITask(args: {
   db: ReturnType<typeof getDb>;
   id: string;
   apiKey: string;
   body: GenerationSubmitBody;
+  n: number;
 }) {
-  const { db, id, apiKey, body } = args;
+  const { db, id, apiKey, body, n } = args;
   const params = body.params ?? {};
   const size = paramsToSize(body.params);
   const extra: Record<string, unknown> = {};
@@ -224,7 +274,9 @@ async function submitComfyUITask(args: {
     if (params.hiresUpscale !== undefined) hires.upscale_by = params.hiresUpscale;
     extra.hires = hires;
   }
-  if (params.n !== undefined) extra.n = params.n;
+  // Always forward `n` so the workflow's batch_size patch fires; the
+  // adapter caps at its own batchSizeMax internally.
+  extra.n = n;
   if (body.loras && body.loras.length > 0) extra.loras = body.loras;
   if (body.references && body.references.length > 0)
     extra.references = body.references;
@@ -263,16 +315,21 @@ async function submitComfyUITask(args: {
 // Sync image submission. Hits one of three upstream paths based on the
 // model's declared supported_endpoint_types. Reference URLs are fetched
 // once and re-encoded per endpoint shape. Result lands inline; we extract
-// the URL/data URI, hand it to downloadAndUploadGeneration, and finalize
-// the row in a single update. No polling.
+// the URL(s)/data URI(s), hand them to downloadAndUploadGeneration, and
+// finalize the row in a single transaction. No polling.
+//
+// Batch handling: image-generation supports `n` natively, so one call
+// returns N images. chat / gemini don't, so we loop server-side. Either
+// way the row ends up with N generation_images rows on success.
 async function submitSyncImage(args: {
   db: ReturnType<typeof getDb>;
   id: string;
   apiKey: string;
   body: GenerationSubmitBody;
   endpoint: SyncImageEndpoint;
+  n: number;
 }) {
-  const { db, id, apiKey, body, endpoint } = args;
+  const { db, id, apiKey, body, endpoint, n } = args;
   const params = body.params ?? {};
   const size = paramsToSize(body.params);
 
@@ -284,61 +341,89 @@ async function submitSyncImage(args: {
   const refUrls = (body.references ?? []).slice(0, cap).map((r) => r.url);
   const refs = refUrls.length > 0 ? await fetchAllRefs(refUrls) : [];
 
-  const built = buildBody(endpoint, {
-    model: body.model,
-    prompt: body.prompt,
-    size,
-    refs,
-    quality: params.quality,
-    outputFormat: params.outputFormat,
-    watermark: params.watermark,
-    background: params.background,
-    strength: params.strength,
-    seed: params.seed,
-  });
+  const supportsNativeBatch = endpoint === "image-generation";
+  // For chat/gemini we loop one call at a time. For image-generation we
+  // hit upstream once with n=N. Reference fetch happens once either way.
+  const callsToMake = supportsNativeBatch ? 1 : n;
+  const perCallN = supportsNativeBatch ? n : 1;
 
-  const headers: Record<string, string> = {
-    Authorization: `Bearer ${apiKey}`,
-  };
-  let res: Response;
-  if (built.kind === "json") {
-    headers["Content-Type"] = "application/json";
-    res = await fetch(`${upstreamApiUrl}${built.path}`, {
-      method: "POST",
-      headers,
-      body: built.body,
+  const collected: ImagePayload[] = [];
+  for (let i = 0; i < callsToMake; i++) {
+    const built = buildBody(endpoint, {
+      model: body.model,
+      prompt: body.prompt,
+      size,
+      refs,
+      n: perCallN,
+      quality: params.quality,
+      outputFormat: params.outputFormat,
+      watermark: params.watermark,
+      background: params.background,
+      strength: params.strength,
+      seed: params.seed,
     });
-  } else {
-    // multipart - let fetch set the boundary
-    res = await fetch(`${upstreamApiUrl}${built.path}`, {
-      method: "POST",
-      headers,
-      body: built.form,
-    });
+
+    const headers: Record<string, string> = {
+      Authorization: `Bearer ${apiKey}`,
+    };
+    let res: Response;
+    if (built.kind === "json") {
+      headers["Content-Type"] = "application/json";
+      res = await fetch(`${upstreamApiUrl}${built.path}`, {
+        method: "POST",
+        headers,
+        body: built.body,
+      });
+    } else {
+      // multipart - let fetch set the boundary
+      res = await fetch(`${upstreamApiUrl}${built.path}`, {
+        method: "POST",
+        headers,
+        body: built.form,
+      });
+    }
+
+    const text = await res.text();
+    if (!res.ok) {
+      throw new Error(`upstream ${res.status}: ${text.slice(0, 300)}`);
+    }
+    let payload: unknown;
+    try {
+      payload = JSON.parse(text);
+    } catch {
+      throw new Error(`upstream returned non-JSON: ${text.slice(0, 200)}`);
+    }
+
+    const uris = extractResultUris(endpoint, payload);
+    if (uris.length === 0) {
+      throw new Error(
+        `no image in upstream response (${endpoint}): ${text.slice(0, 200)}`,
+      );
+    }
+    for (const uri of uris) {
+      const uploaded = await downloadAndUploadGeneration(uri, id, apiKey);
+      collected.push({ resultUri: uri, uploaded });
+      // Live progress hint while we loop chat/gemini. The UI shows
+      // "Generating M of N..." until the row hits terminal.
+      if (!supportsNativeBatch && collected.length < n) {
+        await db
+          .update(generations)
+          .set({
+            status: "in_progress",
+            progress: `${collected.length}/${n}`,
+            updatedAt: dayjs().toDate(),
+          })
+          .where(eq(generations.id, id));
+      }
+    }
   }
 
-  const text = await res.text();
-  if (!res.ok) {
-    throw new Error(`upstream ${res.status}: ${text.slice(0, 300)}`);
-  }
-  let payload: unknown;
-  try {
-    payload = JSON.parse(text);
-  } catch {
-    throw new Error(`upstream returned non-JSON: ${text.slice(0, 200)}`);
-  }
-
-  const resultUri = extractResultUri(endpoint, payload);
-  if (!resultUri) {
-    throw new Error(
-      `no image in upstream response (${endpoint}): ${text.slice(0, 200)}`,
-    );
-  }
-
-  const uploaded = await downloadAndUploadGeneration(resultUri, id, apiKey);
-  await finalizeRowSuccess(db, id, resultUri, uploaded);
+  await finalizeRowSuccess(db, id, collected);
 }
 
+// Bare-row lookup. Used internally where we don't need the images (the
+// poll path that's about to write images anyway). External callers should
+// use getGenerationWithImages so the wire shape stays consistent.
 export async function getGeneration(userId: number, id: string) {
   const db = getDb();
   const rows = await db
@@ -350,8 +435,28 @@ export async function getGeneration(userId: number, id: string) {
   return rows[0];
 }
 
+export async function getGenerationWithImages(userId: number, id: string) {
+  const row = await getGeneration(userId, id);
+  const images = await listGenerationImages(id);
+  return { ...row, images };
+}
+
+async function listGenerationImages(
+  generationId: string,
+): Promise<GenerationImage[]> {
+  const db = getDb();
+  return db
+    .select()
+    .from(generationImages)
+    .where(eq(generationImages.generationId, generationId))
+    .orderBy(asc(generationImages.sequenceIndex));
+}
+
 // Poll one generation's status from upstream, write it back to the row,
 // and inline-finalize on terminal success (download + R2 + cost settle).
+// On batch results (ComfyUI batch_size > 1) the upstream returns
+// `result_urls: string[]` instead of the single `result_url` field;
+// both shapes are normalized here.
 export async function pollGenerationStatus(
   userId: number,
   apiKey: string,
@@ -359,8 +464,8 @@ export async function pollGenerationStatus(
 ) {
   const db = getDb();
   const current = await getGeneration(userId, id);
-  if (isTerminalTaskStatus(current.status)) return current;
-  if (!current.taskId) return current;
+  if (isTerminalTaskStatus(current.status)) return getGenerationWithImages(userId, id);
+  if (!current.taskId) return getGenerationWithImages(userId, id);
 
   const res = await getV1VideoGenerationsTaskId(current.taskId, {
     headers: { Authorization: `Bearer ${apiKey}` },
@@ -371,7 +476,7 @@ export async function pollGenerationStatus(
 
   if (status === "failure") {
     await finalizeRowFailure(db, id, payload?.fail_reason ?? "", { progress });
-    return getGeneration(userId, id);
+    return getGenerationWithImages(userId, id);
   }
 
   if (status !== "success") {
@@ -379,24 +484,39 @@ export async function pollGenerationStatus(
       .update(generations)
       .set({ status, progress, updatedAt: dayjs().toDate() })
       .where(eq(generations.id, id));
-    return getGeneration(userId, id);
+    return getGenerationWithImages(userId, id);
   }
 
-  // SUCCESS: download the result + upload to R2 + write the final row.
-  const upstreamUrl = payload?.result_url;
-  if (!upstreamUrl) {
-    await finalizeRowFailure(db, id, "upstream success without result_url", {
+  // SUCCESS: normalize the payload into a list of upstream URIs. ComfyUI
+  // batch_size>1 returns result_urls[]; single-image responses still use
+  // result_url. We support both.
+  const payloadUnknown = payload as Record<string, unknown> | undefined;
+  const multi = payloadUnknown?.result_urls;
+  const upstreamUrls: string[] = Array.isArray(multi)
+    ? (multi as unknown[]).filter(
+        (u): u is string => typeof u === "string" && u.length > 0,
+      )
+    : payload?.result_url
+      ? [payload.result_url]
+      : [];
+
+  if (upstreamUrls.length === 0) {
+    await finalizeRowFailure(db, id, "upstream success without result url(s)", {
       progress,
     });
-    return getGeneration(userId, id);
+    return getGenerationWithImages(userId, id);
   }
 
   // The upstream proxies its own /v1/videos/<task_id>/content URL when the
   // worker returns base64 inline. That endpoint requires the user's bearer
   // token; for HTTPS-CDN URLs (S3) the token is ignored upstream.
-  const uploaded = await downloadAndUploadGeneration(upstreamUrl, id, apiKey);
-  await finalizeRowSuccess(db, id, upstreamUrl, uploaded);
-  return getGeneration(userId, id);
+  const collected: ImagePayload[] = [];
+  for (const u of upstreamUrls) {
+    const uploaded = await downloadAndUploadGeneration(u, id, apiKey);
+    collected.push({ resultUri: u, uploaded });
+  }
+  await finalizeRowSuccess(db, id, collected);
+  return getGenerationWithImages(userId, id);
 }
 
 export async function listUserGenerations(
@@ -406,7 +526,6 @@ export async function listUserGenerations(
   const db = getDb();
   const limit = q.limit ?? 30;
   const conds = [eq(generations.userId, userId)];
-  if (q.batchId) conds.push(eq(generations.batchId, q.batchId));
   if (q.model) conds.push(eq(generations.model, q.model));
   if (q.cursor) {
     const cursorMs = Number(q.cursor);
@@ -418,14 +537,35 @@ export async function listUserGenerations(
     .select()
     .from(generations)
     .where(and(...conds))
-    .orderBy(desc(generations.createdAt), asc(generations.variantIndex))
+    .orderBy(desc(generations.createdAt))
     .limit(limit + 1);
   const hasMore = rows.length > limit;
   const items = hasMore ? rows.slice(0, limit) : rows;
   const nextCursor = hasMore
     ? String(items[items.length - 1].createdAt.getTime())
     : null;
-  return { items, nextCursor };
+
+  // Bulk-load images for the page in one query and bucket them by
+  // generationId so the response carries the same shape getGeneration does.
+  const ids = items.map((it) => it.id);
+  const imageRows =
+    ids.length > 0
+      ? await db
+          .select()
+          .from(generationImages)
+          .where(inArray(generationImages.generationId, ids))
+          .orderBy(asc(generationImages.sequenceIndex))
+      : [];
+  const byGen = new Map<string, GenerationImage[]>();
+  for (const img of imageRows) {
+    const list = byGen.get(img.generationId);
+    if (list) list.push(img);
+    else byGen.set(img.generationId, [img]);
+  }
+  return {
+    items: items.map((it) => ({ ...it, images: byGen.get(it.id) ?? [] })),
+    nextCursor,
+  };
 }
 
 export async function setVisibility(
@@ -450,28 +590,66 @@ export async function setVisibility(
     .where(and(eq(generations.id, id), eq(generations.userId, userId)))
     .returning({ id: generations.id });
   assertFound(result);
-  return getGeneration(userId, id);
+  return getGenerationWithImages(userId, id);
 }
 
 export async function deleteGeneration(userId: number, id: string) {
   const db = getDb();
-  const existing = await getGeneration(userId, id);
-  if (existing.r2Key) {
+  // Ownership check; throws assertFound if not the user's row.
+  await getGeneration(userId, id);
+  const images = await listGenerationImages(id);
+  for (const img of images) {
     try {
-      await deleteGenerationObject(existing.r2Key);
+      await deleteGenerationObject(img.r2Key);
     } catch (err) {
       logger.warn("r2 delete failed", {
         context: "generation.delete",
         generationId: id,
-        r2Key: existing.r2Key,
+        r2Key: img.r2Key,
         err: err instanceof Error ? err.message : String(err),
       });
     }
   }
+  // generation_images cascades on this delete.
   const result = await db
     .delete(generations)
     .where(and(eq(generations.id, id), eq(generations.userId, userId)))
     .returning({ id: generations.id });
   assertFound(result);
   return { id };
+}
+
+// Sweeper-friendly delete: bypasses the ownership check. Used by the
+// retention pass to wipe expired rows regardless of user. Same R2 +
+// cascade behavior as deleteGeneration.
+export async function deleteGenerationAsSystem(id: string) {
+  const db = getDb();
+  const images = await listGenerationImages(id);
+  for (const img of images) {
+    try {
+      await deleteGenerationObject(img.r2Key);
+    } catch (err) {
+      logger.warn("r2 delete failed (sweeper)", {
+        context: "generation.sweep.delete",
+        generationId: id,
+        r2Key: img.r2Key,
+        err: err instanceof Error ? err.message : String(err),
+      });
+    }
+  }
+  await db.delete(generations).where(eq(generations.id, id));
+}
+
+// Sweeper helper: returns ids of expired rows. The retention pass scans
+// this in batches and calls deleteGenerationAsSystem on each.
+export async function listExpiredGenerationIds(
+  limit: number = 100,
+): Promise<string[]> {
+  const db = getDb();
+  const rows = await db
+    .select({ id: generations.id })
+    .from(generations)
+    .where(lt(generations.expiresAt, new Date()))
+    .limit(limit);
+  return rows.map((r) => r.id);
 }

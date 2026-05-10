@@ -63,31 +63,42 @@ export function GenerationList() {
             </p>
           ) : (
             <div className="grid grid-cols-3 gap-1.5">
-              {items.map((row) => (
-                <Link
-                  key={row.id}
-                  href={{ pathname: "/generate/[id]", params: { id: row.id } }}
-                  title={row.prompt}
-                  className={cn(
-                    "bg-muted relative block aspect-square overflow-hidden rounded",
-                    "ring-offset-background hover:ring-ring hover:ring-1",
-                    activeId === row.id && "ring-ring ring-2",
-                  )}
-                >
-                  {row.r2Url ? (
-                    // eslint-disable-next-line @next/next/no-img-element -- R2 host varies
-                    <img
-                      src={row.r2Url}
-                      alt={row.prompt}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
-                      {row.status === "failure" ? "!" : (row.progress ?? "?")}
-                    </div>
-                  )}
-                </Link>
-              ))}
+              {items.map((row) => {
+                const images = (row as { images?: { r2Url: string }[] })
+                  .images ?? [];
+                const first = images[0]?.r2Url;
+                const extra = images.length > 1 ? images.length - 1 : 0;
+                return (
+                  <Link
+                    key={row.id}
+                    href={{ pathname: "/generate/[id]", params: { id: row.id } }}
+                    title={row.prompt}
+                    className={cn(
+                      "bg-muted relative block aspect-square overflow-hidden rounded",
+                      "ring-offset-background hover:ring-ring hover:ring-1",
+                      activeId === row.id && "ring-ring ring-2",
+                    )}
+                  >
+                    {first ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- R2 host varies
+                      <img
+                        src={first}
+                        alt={row.prompt}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
+                        {row.status === "failure" ? "!" : (row.progress ?? "?")}
+                      </div>
+                    )}
+                    {extra > 0 && (
+                      <span className="bg-background/80 text-foreground absolute right-1 bottom-1 rounded px-1 text-[10px] font-medium">
+                        +{extra}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
             </div>
           )}
         </SidebarGroupContent>

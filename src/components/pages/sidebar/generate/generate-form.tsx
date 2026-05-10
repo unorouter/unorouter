@@ -56,10 +56,14 @@ import {
   generationSubmitBody,
   type GenerationModel,
 } from "@/lib/validation/generation";
-import { uid } from "@/lib/utils/base";
 import type { RestoredFromPng } from "@/lib/utils/png-metadata";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { activeGenerationIdAtom } from "@/store/generation-store";
+import {
+  activeGenerationIdAtom,
+  generateDraftAtom,
+  samplerMemoryAtom,
+  type GenerateDraft,
+} from "@/store/generation-store";
 import { useAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -105,6 +109,12 @@ export function GenerateForm() {
   const [activeGenerationId, setActiveGenerationId] = useAtom(
     activeGenerationIdAtom,
   );
+  // Form persistence atoms. generateDraftAtom holds the in-progress form
+  // values so a navigation away and back restores the user's edits.
+  // samplerMemoryAtom holds per-model param snapshots so flipping back to
+  // a previously-used model restores its sampler/cfg/steps values.
+  const [draft, setDraft] = useAtom(generateDraftAtom);
+  const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
   const remixId = searchParams.get("remix");
   // ?hires=1 is set by the result tile's "Hires" shortcut. When the seed
   // source's model supports the hires-fix block, the seed effect bumps
@@ -157,9 +167,15 @@ export function GenerateForm() {
     const nextModel = next as GenerationModel;
     const nextDesc = findDescriptor(nextModel);
     form.setValue("model", nextModel);
-    form.setValue("params", { ...nextDesc.defaultParams } as never, {
-      shouldDirty: true,
-    });
+    // Restore per-model param memory when we've seen this model before;
+    // otherwise apply the descriptor's defaults. This makes "I always run
+    // Pony at CFG 10 but Endgame at CFG 4" actually stick across model
+    // switches instead of resetting every time.
+    const remembered = samplerMemory[nextModel];
+    const params = remembered
+      ? { ...nextDesc.defaultParams, ...remembered }
+      : { ...nextDesc.defaultParams };
+    form.setValue("params", params as never, { shouldDirty: true });
     if (!nextDesc.supportsNegativePrompt) form.setValue("negativePrompt", "");
     if (!nextDesc.supportsReferences) form.setValue("references", undefined);
     if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
@@ -230,6 +246,56 @@ export function GenerateForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, effectiveModels.length]);
 
+  // Draft restore on mount. Only fires when there's no remix or active-id
+  // seed source — those win over the persisted draft so a remix click
+  // shows the source's settings, not last-typed prompt. The ref guard
+  // means we only attempt restore once per mount.
+  const draftRestoredRef = useRef(false);
+  useEffect(() => {
+    if (draftRestoredRef.current) return;
+    if (seedSourceId) return; // remix / active id takes precedence
+    if (!draft) return;
+    draftRestoredRef.current = true;
+    form.reset({
+      ...defaultsFor(getModelDescriptor((draft.model as GenerationModel) || INITIAL_MODEL)),
+      model: draft.model as GenerationModel,
+      prompt: draft.prompt,
+      negativePrompt: draft.negativePrompt ?? "",
+      params: draft.params as never,
+      loras: draft.loras as never,
+      references: draft.references as never,
+      nsfw: draft.nsfw,
+      extraParams: draft.extraParams as never,
+    } as never);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seedSourceId, draft, form]);
+
+  // Persist current form values to the draft atom whenever they change.
+  // Debounced via a 500ms trailing write so each keystroke doesn't hit
+  // localStorage. Cleared on successful submit (see onSubmit below).
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/incompatible-library
+    const subscription = form.watch((values) => {
+      const timer = setTimeout(() => {
+        const next: GenerateDraft = {
+          model: (values.model as string) ?? INITIAL_MODEL,
+          prompt: (values.prompt as string) ?? "",
+          negativePrompt: (values.negativePrompt as string) ?? "",
+          params: (values.params as Record<string, unknown>) ?? {},
+          loras: values.loras,
+          references: values.references,
+          nsfw: (values.nsfw as boolean) ?? true,
+          extraParams:
+            (values.extraParams as Record<string, unknown>) ?? { variants: 1 },
+        };
+        setDraft(next);
+      }, 500);
+      return () => clearTimeout(timer);
+    });
+    return () => subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
+
   // PNG metadata import. Best-effort overlay onto the current form
   // state: only fields the parser recovered get touched, the rest
   // (model, visibility, batch, loras, references) stay as-is. Reads
@@ -259,36 +325,43 @@ export function GenerateForm() {
   };
 
   const onSubmit = form.handleSubmit(async (data) => {
-    // Strip the UI-only `variants` field out before forwarding.
+    // Strip the UI-only `variants` field out before forwarding; convert
+    // it to `params.n` which the server uses to pick batch_size /
+    // upstream `n` / loop count.
     const extras = { ...((data.extraParams ?? {}) as Record<string, unknown>) };
     delete extras.variants;
     const cleanedExtras = Object.keys(extras).length > 0 ? extras : undefined;
+    const existingParams = (data.params as Record<string, unknown> | undefined) ?? {};
+    const paramsWithN = { ...existingParams, n: variants };
 
-    const batchId = uid(8);
-    const submissions = Array.from({ length: variants }, (_, i) =>
-      submitMut.mutateAsync({
-        body: {
-          ...data,
-          batchId,
-          variantIndex: i,
-          extraParams: cleanedExtras,
-        },
-      }),
+    const submitted = await submitMut.mutateAsync({
+      body: {
+        ...data,
+        params: paramsWithN as never,
+        extraParams: cleanedExtras,
+      },
+    });
+
+    // Persist the params under this model's key so a future model switch
+    // back to it restores the same sampler/cfg/steps values.
+    const modelKey = (data.model as string) ?? INITIAL_MODEL;
+    setSamplerMemory({
+      ...samplerMemory,
+      [modelKey]: existingParams,
+    });
+    // The submission is the source of truth from here; drop the draft so
+    // the next navigation back to /generate doesn't restore stale state.
+    setDraft(null);
+
+    // Set the active id via Jotai so the result column re-renders without
+    // remounting the form. The URL is updated shallowly so refresh /
+    // share / back-button still work. Mirrors chat's replaceState.
+    setActiveGenerationId(submitted.id);
+    window.history.replaceState(
+      null,
+      "",
+      `/${locale}/generate/${submitted.id}`,
     );
-
-    const results = await Promise.allSettled(submissions);
-    const firstOk = results.find((r) => r.status === "fulfilled");
-    if (firstOk && firstOk.status === "fulfilled") {
-      // Set the active id via Jotai so the result column re-renders without
-      // remounting the form. The URL is updated shallowly so refresh /
-      // share / back-button still work. Mirrors chat's replaceState.
-      setActiveGenerationId(firstOk.value.id);
-      window.history.replaceState(
-        null,
-        "",
-        `/${locale}/generate/${firstOk.value.id}`,
-      );
-    }
   });
 
   // Helper to read a numeric value out of params with a fallback to the

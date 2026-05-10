@@ -56,6 +56,10 @@ export type SubmitArgs = {
   prompt: string;
   size?: string;
   refs: RefBytes[];
+  /** Number of images to ask for in a single upstream call. OAI image-
+   *  generation supports n>1 natively; chat / gemini ignore this and the
+   *  caller must loop instead. Defaults to 1 if unset. */
+  n?: number;
   // Vendor knobs - only fields the relay adapter for the chosen model
   // actually consumes are forwarded. The form renders a control only
   // when the descriptor flag is set, so unset values stay undefined.
@@ -72,11 +76,12 @@ export type Built =
   | { kind: "multipart"; path: string; form: FormData };
 
 export function buildImageGenerationsBody(args: SubmitArgs): Built {
+  const n = args.n ?? 1;
   if (args.refs.length === 0) {
     const body: Record<string, unknown> = {
       model: args.model,
       prompt: args.prompt,
-      n: 1,
+      n,
     };
     if (args.size) body.size = args.size;
     if (args.quality) body.quality = args.quality;
@@ -94,7 +99,7 @@ export function buildImageGenerationsBody(args: SubmitArgs): Built {
   const form = new FormData();
   form.append("model", args.model);
   form.append("prompt", args.prompt);
-  form.append("n", "1");
+  form.append("n", String(n));
   if (args.size) form.append("size", args.size);
   if (args.quality) form.append("quality", args.quality);
   if (args.outputFormat) form.append("output_format", args.outputFormat);
@@ -177,30 +182,33 @@ export function buildBody(endpoint: SyncImageEndpoint, args: SubmitArgs): Built 
 
 // ---------- Result extraction ----------
 
-// Each vendor returns the image URL or bytes in a different shape. Returns
-// either a public URL or a data: URI ready for downloadAndUploadGeneration.
-export function extractResultUri(
+// Each vendor returns image URLs or bytes in a different shape. Returns
+// an array of public URLs or data: URIs ready for downloadAndUploadGeneration.
+// Empty array means "no image found" - callers should treat as failure.
+export function extractResultUris(
   endpoint: SyncImageEndpoint,
   payload: unknown,
-): string | null {
-  if (!payload || typeof payload !== "object") return null;
+): string[] {
+  if (!payload || typeof payload !== "object") return [];
   const p = payload as Record<string, unknown>;
+  const out: string[] = [];
 
   if (endpoint === "image-generation") {
     const data = (p.data as Array<Record<string, unknown>> | undefined) ?? [];
-    const first = data[0];
-    if (!first) return null;
-    if (typeof first.url === "string" && first.url.length > 0) return first.url;
-    if (typeof first.b64_json === "string" && first.b64_json.length > 0) {
-      return `data:image/png;base64,${first.b64_json}`;
+    for (const entry of data) {
+      if (typeof entry.url === "string" && entry.url.length > 0) {
+        out.push(entry.url);
+      } else if (typeof entry.b64_json === "string" && entry.b64_json.length > 0) {
+        out.push(`data:image/png;base64,${entry.b64_json}`);
+      }
     }
-    return null;
+    return out;
   }
 
   if (endpoint === "openai") {
     const choices = p.choices as Array<Record<string, unknown>> | undefined;
     const msg = (choices?.[0]?.message ?? null) as Record<string, unknown> | null;
-    if (!msg) return null;
+    if (!msg) return [];
     // Two common shapes: array of parts with image_url, or markdown/data-URI string.
     const content = msg.content;
     if (Array.isArray(content)) {
@@ -208,14 +216,16 @@ export function extractResultUri(
         const pp = part as Record<string, unknown>;
         if (pp.type === "image_url") {
           const url = (pp.image_url as Record<string, unknown> | undefined)?.url;
-          if (typeof url === "string" && url.length > 0) return url;
+          if (typeof url === "string" && url.length > 0) out.push(url);
         }
       }
+      return out;
     }
     if (typeof content === "string") {
-      return extractFromMarkdownOrText(content);
+      const found = extractFromMarkdownOrText(content);
+      if (found) out.push(found);
     }
-    return null;
+    return out;
   }
 
   // gemini
@@ -232,9 +242,9 @@ export function extractResultUri(
     if (!inline) continue;
     const mime = (inline.mime_type ?? inline.mimeType) as string | undefined;
     const data = inline.data as string | undefined;
-    if (mime && data) return `data:${mime};base64,${data}`;
+    if (mime && data) out.push(`data:${mime};base64,${data}`);
   }
-  return null;
+  return out;
 }
 
 function extractFromMarkdownOrText(text: string): string | null {

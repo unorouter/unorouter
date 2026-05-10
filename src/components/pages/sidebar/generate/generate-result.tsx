@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -11,12 +12,16 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { LuSparkles, LuTrash2, LuWand } from "react-icons/lu";
 
-// Single-tile result view. Subscribes to the polling hook and renders
-// skeleton -> progress badge -> image. Used by /generate/[id] today;
-// the multi-variant grid will compose multiple of these by batchId in
-// a later phase.
+// Result view for one generation row. Renders 1, 2, or 4 images in a grid
+// depending on how many were produced. Subscribes to the polling hook and
+// shows progress / failure / final grid.
 type Props = {
   generationId: string;
+};
+
+type GenerationImage = {
+  sequenceIndex: number;
+  r2Url: string;
 };
 
 function ParamsBadge(props: { model: string; params: unknown }) {
@@ -35,6 +40,60 @@ function ParamsBadge(props: { model: string; params: unknown }) {
   );
 }
 
+// Renders 1, 2, or 4 tiles. Grid spans the same container width as the
+// previous single-tile view; each cell is a square aspect.
+function BatchGrid(props: { images: GenerationImage[]; prompt: string }) {
+  const count = props.images.length;
+  const sorted = props.images
+    .slice()
+    .sort((a, b) => a.sequenceIndex - b.sequenceIndex);
+  if (count === 1) {
+    const img = sorted[0];
+    return (
+      <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
+        {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies, skip optimization */}
+        <img
+          src={img.r2Url}
+          alt={props.prompt}
+          className="h-full w-full object-cover"
+        />
+      </div>
+    );
+  }
+  const cols = count === 2 ? "grid-cols-2" : "grid-cols-2";
+  return (
+    <div className={`grid w-full gap-2 ${cols}`}>
+      {sorted.map((img) => (
+        <div
+          key={img.sequenceIndex}
+          className="bg-muted relative aspect-square overflow-hidden rounded-lg"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies */}
+          <img
+            src={img.r2Url}
+            alt={`${props.prompt} (${img.sequenceIndex + 1})`}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Computes days remaining until expiresAt and renders a small badge when
+// the row is inside the warning window (<7 days). Returns null otherwise.
+function RetentionBadge(props: { expiresAt: Date | string | number }) {
+  const t = useTranslations();
+  const expiresMs = new Date(props.expiresAt).getTime();
+  const daysLeft = Math.ceil((expiresMs - Date.now()) / (24 * 60 * 60 * 1000));
+  if (!Number.isFinite(daysLeft) || daysLeft > 7) return null;
+  return (
+    <Badge variant="outline" className="text-xs">
+      {t("IMAGE.EXPIRES_IN_DAYS", { days: Math.max(0, daysLeft) })}
+    </Badge>
+  );
+}
+
 export function GenerateResult(props: Props) {
   const t = useTranslations();
   const router = useRouter();
@@ -44,7 +103,9 @@ export function GenerateResult(props: Props) {
   const data = query.data;
   const status = data?.status;
   const isFailed = status === "failure";
-  const isDone = status === "success" && data?.r2Url;
+  const images = (data?.images as GenerationImage[] | undefined) ?? [];
+  const isDone = status === "success" && images.length > 0;
+  const requestedCount = (data?.requestedCount as number | undefined) ?? 1;
 
   const onDelete = async () => {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
@@ -57,33 +118,40 @@ export function GenerateResult(props: Props) {
   }
 
   return (
-    <div className="flex flex-col gap-4 max-w-2xl">
-      <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
-        {isDone ? (
-          // eslint-disable-next-line @next/next/no-img-element -- R2 host varies, skip optimization
-          <img
-            src={data.r2Url ?? ""}
-            alt={data.prompt}
-            className="h-full w-full object-cover"
-          />
-        ) : isFailed ? (
+    <div className="flex max-w-2xl flex-col gap-4">
+      {isDone ? (
+        <BatchGrid images={images} prompt={data.prompt} />
+      ) : isFailed ? (
+        <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
           <div className="text-destructive flex h-full flex-col items-center justify-center p-4 text-center text-sm">
             <p className="font-medium">{t("IMAGE.STATUS_FAILURE")}</p>
             {data.errorMessage && (
               <p className="mt-2 text-xs opacity-70">{data.errorMessage}</p>
             )}
           </div>
-        ) : (
+        </div>
+      ) : (
+        <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-lg">
           <div className="flex h-full flex-col items-center justify-center gap-2">
             <Skeleton className="h-full w-full" />
             <p className="text-muted-foreground absolute text-sm">
-              {data.progress ?? "0%"}
+              {requestedCount > 1
+                ? t("IMAGE.PROGRESS_OF_N", {
+                    current: images.length,
+                    total: requestedCount,
+                  })
+                : (data.progress ?? "0%")}
             </p>
           </div>
+        </div>
+      )}
+
+      <div className="flex flex-wrap items-center gap-2">
+        <ParamsBadge model={data.model} params={data.params} />
+        {data.expiresAt && (
+          <RetentionBadge expiresAt={data.expiresAt as Date | string} />
         )}
       </div>
-
-      <ParamsBadge model={data.model} params={data.params} />
 
       <p className="text-sm">{data.prompt}</p>
 

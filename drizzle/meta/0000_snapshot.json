@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d609918b-0e14-46b0-8ae5-e575c45b8956",
+  "id": "479714ae-3269-4146-ba7c-4c3cee8c62d4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "acp_checkout_sessions": {
@@ -820,6 +820,118 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "generation_images": {
+      "name": "generation_images",
+      "columns": {
+        "generation_id": {
+          "name": "generation_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sequence_index": {
+          "name": "sequence_index",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "upstream_result_url": {
+          "name": "upstream_result_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "r2_url": {
+          "name": "r2_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "r2_key": {
+          "name": "r2_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": "'image/png'"
+        },
+        "width": {
+          "name": "width",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "height": {
+          "name": "height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "size_bytes": {
+          "name": "size_bytes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch() * 1000)"
+        }
+      },
+      "indexes": {
+        "idx_genimg_generation_id": {
+          "name": "idx_genimg_generation_id",
+          "columns": [
+            "generation_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "generation_images_generation_id_generations_id_fk": {
+          "name": "generation_images_generation_id_generations_id_fk",
+          "tableFrom": "generation_images",
+          "tableTo": "generations",
+          "columnsFrom": [
+            "generation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "generation_images_generation_id_sequence_index_pk": {
+          "columns": [
+            "generation_id",
+            "sequence_index"
+          ],
+          "name": "generation_images_generation_id_sequence_index_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "generation_likes": {
       "name": "generation_likes",
       "columns": {
@@ -899,20 +1011,13 @@
           "notNull": true,
           "autoincrement": false
         },
-        "batch_id": {
-          "name": "batch_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "variant_index": {
-          "name": "variant_index",
+        "requested_count": {
+          "name": "requested_count",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": 0
+          "default": 1
         },
         "task_id": {
           "name": "task_id",
@@ -985,56 +1090,6 @@
           "notNull": false,
           "autoincrement": false
         },
-        "upstream_result_url": {
-          "name": "upstream_result_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "r2_url": {
-          "name": "r2_url",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "r2_key": {
-          "name": "r2_key",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "mime_type": {
-          "name": "mime_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": "'image/png'"
-        },
-        "width": {
-          "name": "width",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "height": {
-          "name": "height",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "size_bytes": {
-          "name": "size_bytes",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
         "cost_quota": {
           "name": "cost_quota",
           "type": "integer",
@@ -1103,6 +1158,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "submitted_key": {
+          "name": "submitted_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "integer",
@@ -1118,6 +1180,13 @@
           "notNull": true,
           "autoincrement": false,
           "default": "(unixepoch() * 1000)"
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {
@@ -1145,14 +1214,6 @@
           ],
           "isUnique": false
         },
-        "idx_gen_user_batch": {
-          "name": "idx_gen_user_batch",
-          "columns": [
-            "user_id",
-            "batch_id"
-          ],
-          "isUnique": false
-        },
         "idx_gen_task": {
           "name": "idx_gen_task",
           "columns": [
@@ -1164,6 +1225,13 @@
           "name": "idx_gen_remixed_from",
           "columns": [
             "remixed_from"
+          ],
+          "isUnique": false
+        },
+        "idx_gen_expires": {
+          "name": "idx_gen_expires",
+          "columns": [
+            "expires_at"
           ],
           "isUnique": false
         }

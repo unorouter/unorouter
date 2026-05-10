@@ -111,8 +111,8 @@ export const generationReferenceEntry = t.Object({
 });
 
 // Submit body. The server creates a `pending` row first, then forwards a
-// shaped request to upstream new-api. A single submit makes one row; the
-// client makes N parallel calls when variants > 1, sharing one batchId.
+// shaped request to upstream new-api. One row per submit; N images per
+// row are produced by `params.n` (clamped to [1, 4] server-side).
 export const generationSubmitBody = t.Object({
   model: generationModel,
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
@@ -123,10 +123,6 @@ export const generationSubmitBody = t.Object({
   // Free-form spillover for per-model knobs (Flux guidance is just a CFG
   // alias today, but future models may add new fields).
   extraParams: t.Optional(t.Record(t.String(), t.Any())),
-  // Optional; client supplies when batching. Server generates one if absent.
-  batchId: t.Optional(t.String({ minLength: 1, maxLength: 32 })),
-  // Position within the batch; 0-based. Defaults to 0 server-side.
-  variantIndex: t.Optional(t.Integer({ minimum: 0, maximum: 7 })),
   // Initial visibility. Owner can flip later via /visibility.
   visibility: t.Optional(generationVisibility),
   // NSFW marker on the row. Default true (catalog is NSFW-capable).
@@ -139,8 +135,6 @@ export type GenerationSubmitBody = Static<typeof generationSubmitBody>;
 export const generationHistoryQuery = t.Object({
   limit: t.Optional(t.Integer({ minimum: 1, maximum: 100 })),
   cursor: t.Optional(t.String({ maxLength: 64 })),
-  // Filter to one batch (used by the result-grid view).
-  batchId: t.Optional(t.String({ maxLength: 32 })),
   // Filter by model (used by per-model browse).
   model: t.Optional(generationModel),
 });

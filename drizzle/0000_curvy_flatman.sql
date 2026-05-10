@@ -115,6 +115,22 @@ CREATE TABLE `conversations` (
 CREATE UNIQUE INDEX `conversations_share_id_unique` ON `conversations` (`share_id`);--> statement-breakpoint
 CREATE INDEX `idx_conv_user_updated` ON `conversations` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_conv_share` ON `conversations` (`share_id`);--> statement-breakpoint
+CREATE TABLE `generation_images` (
+	`generation_id` text NOT NULL,
+	`sequence_index` integer NOT NULL,
+	`upstream_result_url` text,
+	`r2_url` text NOT NULL,
+	`r2_key` text NOT NULL,
+	`mime_type` text DEFAULT 'image/png',
+	`width` integer,
+	`height` integer,
+	`size_bytes` integer,
+	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	PRIMARY KEY(`generation_id`, `sequence_index`),
+	FOREIGN KEY (`generation_id`) REFERENCES `generations`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_genimg_generation_id` ON `generation_images` (`generation_id`);--> statement-breakpoint
 CREATE TABLE `generation_likes` (
 	`generation_id` text NOT NULL,
 	`user_id` integer NOT NULL,
@@ -127,8 +143,7 @@ CREATE INDEX `idx_likes_user` ON `generation_likes` (`user_id`);--> statement-br
 CREATE TABLE `generations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
-	`batch_id` text NOT NULL,
-	`variant_index` integer DEFAULT 0 NOT NULL,
+	`requested_count` integer DEFAULT 1 NOT NULL,
 	`task_id` text,
 	`model` text NOT NULL,
 	`prompt` text NOT NULL,
@@ -139,13 +154,6 @@ CREATE TABLE `generations` (
 	`extra_params` text,
 	`status` text DEFAULT 'pending' NOT NULL,
 	`progress` text,
-	`upstream_result_url` text,
-	`r2_url` text,
-	`r2_key` text,
-	`mime_type` text DEFAULT 'image/png',
-	`width` integer,
-	`height` integer,
-	`size_bytes` integer,
 	`cost_quota` integer,
 	`visibility` text DEFAULT 'private' NOT NULL,
 	`nsfw` integer DEFAULT true NOT NULL,
@@ -155,16 +163,18 @@ CREATE TABLE `generations` (
 	`like_count` integer DEFAULT 0 NOT NULL,
 	`remixed_from` text,
 	`error_message` text,
+	`submitted_key` text,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
-	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`expires_at` integer NOT NULL
 );
 --> statement-breakpoint
 CREATE INDEX `idx_gen_user_created` ON `generations` (`user_id`,`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_gen_visibility_created` ON `generations` (`visibility`,`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_gen_model_created` ON `generations` (`model`,`created_at`);--> statement-breakpoint
-CREATE INDEX `idx_gen_user_batch` ON `generations` (`user_id`,`batch_id`);--> statement-breakpoint
 CREATE INDEX `idx_gen_task` ON `generations` (`task_id`);--> statement-breakpoint
 CREATE INDEX `idx_gen_remixed_from` ON `generations` (`remixed_from`);--> statement-breakpoint
+CREATE INDEX `idx_gen_expires` ON `generations` (`expires_at`);--> statement-breakpoint
 CREATE TABLE `lora_catalog` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
