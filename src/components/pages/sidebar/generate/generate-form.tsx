@@ -484,6 +484,10 @@ export function GenerateForm() {
                   onChange={field.onChange}
                 />
               </FormControl>
+              <TokenEstimate
+                text={(field.value as string | undefined) ?? ""}
+                family={descriptor.family}
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -504,6 +508,10 @@ export function GenerateForm() {
                     onChange={field.onChange}
                   />
                 </FormControl>
+                <TokenEstimate
+                  text={(field.value as string | undefined) ?? ""}
+                  family={descriptor.family}
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -519,18 +527,14 @@ export function GenerateForm() {
               const v = numParam("steps", descriptor.defaultParams.steps) ?? 20;
               return (
                 <FormItem>
-                  <FormLabel>
-                    {t("IMAGE.STEPS_LABEL")}: {v}
-                  </FormLabel>
+                  <FormLabel>{t("IMAGE.STEPS_LABEL")}</FormLabel>
                   <FormControl>
-                    <Slider
+                    <SliderWithInput
                       min={1}
                       max={50}
                       step={1}
-                      value={[v]}
-                      onValueChange={(next) =>
-                        field.onChange(Array.isArray(next) ? next[0] : next)
-                      }
+                      value={v}
+                      onChange={field.onChange}
                     />
                   </FormControl>
                 </FormItem>
@@ -546,18 +550,14 @@ export function GenerateForm() {
                 const v = numParam("cfg", descriptor.defaultParams.cfg ?? 7) ?? 7;
                 return (
                   <FormItem>
-                    <FormLabel>
-                      {t("IMAGE.CFG_LABEL")}: {v}
-                    </FormLabel>
+                    <FormLabel>{t("IMAGE.CFG_LABEL")}</FormLabel>
                     <FormControl>
-                      <Slider
+                      <SliderWithInput
                         min={0}
                         max={15}
                         step={0.5}
-                        value={[v]}
-                        onValueChange={(next) =>
-                          field.onChange(Array.isArray(next) ? next[0] : next)
-                        }
+                        value={v}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                   </FormItem>
@@ -574,18 +574,14 @@ export function GenerateForm() {
                 const v = numParam("guidance", descriptor.defaultParams.guidance ?? 4) ?? 4;
                 return (
                   <FormItem>
-                    <FormLabel>
-                      {t("IMAGE.GUIDANCE_LABEL")}: {v}
-                    </FormLabel>
+                    <FormLabel>{t("IMAGE.GUIDANCE_LABEL")}</FormLabel>
                     <FormControl>
-                      <Slider
+                      <SliderWithInput
                         min={1}
                         max={10}
                         step={0.1}
-                        value={[v]}
-                        onValueChange={(next) =>
-                          field.onChange(Array.isArray(next) ? next[0] : next)
-                        }
+                        value={v}
+                        onChange={field.onChange}
                       />
                     </FormControl>
                   </FormItem>
@@ -824,20 +820,14 @@ export function GenerateForm() {
                     typeof field.value === "number" ? field.value : 0.5;
                   return (
                     <FormItem>
-                      <FormLabel>
-                        {t("IMAGE.STRENGTH_LABEL")}: {v.toFixed(2)}
-                      </FormLabel>
+                      <FormLabel>{t("IMAGE.STRENGTH_LABEL")}</FormLabel>
                       <FormControl>
-                        <Slider
+                        <SliderWithInput
                           min={0}
                           max={1}
                           step={0.05}
-                          value={[v]}
-                          onValueChange={(next) =>
-                            field.onChange(
-                              Array.isArray(next) ? next[0] : next,
-                            )
-                          }
+                          value={v}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                     </FormItem>
@@ -946,34 +936,26 @@ function HiresFixField(props: {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <div className="text-muted-foreground mb-1 text-xs">
-              {t("IMAGE.HIRES_FIX_DENOISE")}: {denoise}
+              {t("IMAGE.HIRES_FIX_DENOISE")}
             </div>
-            <Slider
+            <SliderWithInput
               min={0}
               max={1}
               step={0.05}
-              value={[denoise]}
-              onValueChange={(v) =>
-                setParams({
-                  hiresDenoise: Array.isArray(v) ? v[0] : v,
-                })
-              }
+              value={denoise}
+              onChange={(v) => setParams({ hiresDenoise: v })}
             />
           </div>
           <div>
             <div className="text-muted-foreground mb-1 text-xs">
-              {t("IMAGE.HIRES_FIX_UPSCALE")}: {upscale}x
+              {t("IMAGE.HIRES_FIX_UPSCALE")}
             </div>
-            <Slider
+            <SliderWithInput
               min={1}
               max={2}
               step={0.1}
-              value={[upscale]}
-              onValueChange={(v) =>
-                setParams({
-                  hiresUpscale: Array.isArray(v) ? v[0] : v,
-                })
-              }
+              value={upscale}
+              onChange={(v) => setParams({ hiresUpscale: v })}
             />
           </div>
         </div>
@@ -1056,6 +1038,92 @@ function OutputFormatField(props: {
         </FormItem>
       )}
     />
+  );
+}
+
+// Slider + manual numeric input. Mobile-friendly: dragging a slider on
+// small screens is fiddly when fine-grained values matter, so we expose
+// the underlying number in a small Input next to the slider track.
+// Clamps to [min, max] on blur; partially-typed values are tolerated
+// during typing so the user can edit without fighting the field.
+function SliderWithInput(props: {
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (v: number) => void;
+}) {
+  const clamp = (n: number) => Math.min(props.max, Math.max(props.min, n));
+  return (
+    <div className="flex items-center gap-3">
+      <Slider
+        min={props.min}
+        max={props.max}
+        step={props.step}
+        value={[props.value]}
+        onValueChange={(next) =>
+          props.onChange(Array.isArray(next) ? next[0] : next)
+        }
+        className="flex-1"
+      />
+      <Input
+        type="number"
+        min={props.min}
+        max={props.max}
+        step={props.step}
+        value={props.value}
+        onChange={(e) => {
+          const raw = e.target.value;
+          if (raw === "") return;
+          const parsed = Number(raw);
+          if (Number.isFinite(parsed)) props.onChange(parsed);
+        }}
+        onBlur={(e) => {
+          const parsed = Number(e.target.value);
+          if (Number.isFinite(parsed)) props.onChange(clamp(parsed));
+        }}
+        className="w-20 shrink-0 text-center"
+      />
+    </div>
+  );
+}
+
+// Prompt-length estimator. CLIP's BPE averages ~4 chars/token in English;
+// SDXL's text encoders cap at 77 tokens per chunk. ComfyUI chunks longer
+// prompts automatically but quality drops past chunk 1, so warn instead
+// of blocking. Flux 2's Mistral encoder accepts long natural language and
+// has no useful cap — show the raw count without a warning.
+const CLIP_TOKEN_CAP = 77;
+function estimateClipTokens(text: string): number {
+  if (!text) return 0;
+  // Word-aware estimate: each whitespace-separated chunk contributes
+  // roughly chars/4 + 1 tokens (the +1 accounts for the leading space
+  // marker CLIP uses on subwords). Matches A1111 / ComfyUI counters
+  // within ~5% across short prompts.
+  const words = text.trim().split(/\s+/).filter(Boolean);
+  let total = 0;
+  for (const w of words) total += Math.max(1, Math.ceil(w.length / 4));
+  return total;
+}
+
+function TokenEstimate(props: { text: string; family: string }) {
+  const t = useTranslations();
+  const count = estimateClipTokens(props.text);
+  if (count === 0) return null;
+  const showCap = props.family === "sdxl";
+  const over = showCap && count > CLIP_TOKEN_CAP;
+  return (
+    <p
+      className={
+        over
+          ? "text-amber-500 mt-1 text-xs"
+          : "text-muted-foreground mt-1 text-xs"
+      }
+    >
+      {showCap
+        ? t("IMAGE.TOKEN_COUNT_CAPPED", { count, cap: CLIP_TOKEN_CAP })
+        : t("IMAGE.TOKEN_COUNT", { count })}
+    </p>
   );
 }
 

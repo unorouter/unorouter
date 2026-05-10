@@ -2714,6 +2714,8 @@
     "SCHEDULER_LABEL": "Planificateur",
     "VARIANTS_LABEL": "Nombre d'images",
     "HIRES_SHORTCUT": "Hires",
+    "TOKEN_COUNT": "~{count} jetons",
+    "TOKEN_COUNT_CAPPED": "~{count} / {cap} jetons",
     "SUBMIT": "Générer",
     "SUBMITTING": "Génération...",
     "REFERENCES_TITLE": "Images de référence",

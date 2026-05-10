@@ -2714,6 +2714,8 @@
     "SCHEDULER_LABEL": "调度器",
     "VARIANTS_LABEL": "生成数量",
     "HIRES_SHORTCUT": "高清",
+    "TOKEN_COUNT": "约 {count} 个 token",
+    "TOKEN_COUNT_CAPPED": "约 {count} / {cap} 个 token",
     "SUBMIT": "生成",
     "SUBMITTING": "生成中……",
     "REFERENCES_TITLE": "参考图像",

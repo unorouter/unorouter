@@ -2714,6 +2714,8 @@
     "SCHEDULER_LABEL": "Scheduler",
     "VARIANTS_LABEL": "Số lượng ảnh",
     "HIRES_SHORTCUT": "Hires",
+    "TOKEN_COUNT": "~{count} token",
+    "TOKEN_COUNT_CAPPED": "~{count} / {cap} token",
     "SUBMIT": "Tạo",
     "SUBMITTING": "Đang tạo...",
     "REFERENCES_TITLE": "Ảnh tham chiếu",

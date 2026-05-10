@@ -2714,6 +2714,8 @@
     "SCHEDULER_LABEL": "スケジューラ",
     "VARIANTS_LABEL": "画像数",
     "HIRES_SHORTCUT": "Hires",
+    "TOKEN_COUNT": "約 {count} トークン",
+    "TOKEN_COUNT_CAPPED": "約 {count} / {cap} トークン",
     "SUBMIT": "生成",
     "SUBMITTING": "生成中...",
     "REFERENCES_TITLE": "参照画像",
