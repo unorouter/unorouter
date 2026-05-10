@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "Toute personne disposant du lien peut consulter l'historique de cette session.",
     "LIGHTBOX_PREV": "Image précédente",
     "LIGHTBOX_NEXT": "Image suivante",
-    "LIGHTBOX_CLOSE": "Fermer"
+    "LIGHTBOX_CLOSE": "Fermer",
+    "SESSION_SNAPSHOTS": "Instantanés dans cette session"
   }
 }

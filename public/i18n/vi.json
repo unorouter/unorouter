@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "Bất kỳ ai có liên kết đều có thể xem lịch sử của phiên này.",
     "LIGHTBOX_PREV": "Ảnh trước",
     "LIGHTBOX_NEXT": "Ảnh tiếp theo",
-    "LIGHTBOX_CLOSE": "Đóng"
+    "LIGHTBOX_CLOSE": "Đóng",
+    "SESSION_SNAPSHOTS": "Ảnh chụp trong phiên này"
   }
 }

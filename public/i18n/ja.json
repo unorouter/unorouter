@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "リンクを持つ誰でもこのセッションの履歴を閲覧できます。",
     "LIGHTBOX_PREV": "前の画像",
     "LIGHTBOX_NEXT": "次の画像",
-    "LIGHTBOX_CLOSE": "閉じる"
+    "LIGHTBOX_CLOSE": "閉じる",
+    "SESSION_SNAPSHOTS": "このセッションのスナップショット"
   }
 }

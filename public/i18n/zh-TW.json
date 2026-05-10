@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "任何擁有此連結的人都可以查看此工作階段的歷程。",
     "LIGHTBOX_PREV": "上一張圖像",
     "LIGHTBOX_NEXT": "下一張圖像",
-    "LIGHTBOX_CLOSE": "關閉"
+    "LIGHTBOX_CLOSE": "關閉",
+    "SESSION_SNAPSHOTS": "本工作階段中的快照"
   }
 }

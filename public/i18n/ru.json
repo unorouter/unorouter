@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "Любой, у кого есть ссылка, может видеть историю этой сессии.",
     "LIGHTBOX_PREV": "Предыдущее изображение",
     "LIGHTBOX_NEXT": "Следующее изображение",
-    "LIGHTBOX_CLOSE": "Закрыть"
+    "LIGHTBOX_CLOSE": "Закрыть",
+    "SESSION_SNAPSHOTS": "Снимки в этой сессии"
   }
 }

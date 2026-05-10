@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "任何拥有此链接的人都可以查看此会话的历史记录。",
     "LIGHTBOX_PREV": "上一张图像",
     "LIGHTBOX_NEXT": "下一张图像",
-    "LIGHTBOX_CLOSE": "关闭"
+    "LIGHTBOX_CLOSE": "关闭",
+    "SESSION_SNAPSHOTS": "本会话中的快照"
   }
 }

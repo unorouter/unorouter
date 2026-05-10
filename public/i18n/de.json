@@ -2780,6 +2780,7 @@
     "SHARE_SESSION_HELP": "Jeder mit dem Link kann den Verlauf dieser Sitzung sehen.",
     "LIGHTBOX_PREV": "Vorheriges Bild",
     "LIGHTBOX_NEXT": "Nächstes Bild",
-    "LIGHTBOX_CLOSE": "Schließen"
+    "LIGHTBOX_CLOSE": "Schließen",
+    "SESSION_SNAPSHOTS": "Snapshots in dieser Sitzung"
   }
 }
