@@ -28,24 +28,26 @@ import { Textarea } from "@/components/ui/textarea";
 import type { ModelFamily } from "@/lib/config/generation-models";
 import { LoraPicker, type LoraEntry } from "./lora-picker";
 
-// YOLO + mediapipe choices ship with the RunPod Impact Pack. The list
-// matches what's on the network volume; the worker rejects unknown
-// names. Keep this in sync with comfyui-runpod-memory.md.
-const YOLO_MODELS: ReadonlyArray<string> = [
-  "face_yolov8s.pt",
-  "face_yolov9c.pt",
-  "face_yolov8m.pt",
-  "face_yolov8n.pt",
-  "face_yolov8n_v2.pt",
-  "hand_yolov8s.pt",
-  "hand_yolov9c.pt",
-  "hand_yolov8n.pt",
-  "person_yolov8n-seg.pt",
-  "person_yolov8m-seg.pt",
-  "person_yolov8s-seg.pt",
-  "mediapipe_face_full",
-  "mediapipe_face_mesh",
-  "mediapipe_face_short",
+// YOLO + mediapipe choices. Impact Pack's UltralyticsDetectorProvider
+// scans `models/ultralytics/{bbox,segm}/` so face/hand files use the
+// `bbox/` prefix and person-segmentation files use `segm/`. mediapipe_*
+// are internal identifiers (no on-disk file), Impact Pack maps them to
+// its bundled mediapipe library.
+const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
+  { id: "bbox/face_yolov8s.pt",        label: "face_yolov8s.pt" },
+  { id: "bbox/face_yolov9c.pt",        label: "face_yolov9c.pt" },
+  { id: "bbox/face_yolov8m.pt",        label: "face_yolov8m.pt" },
+  { id: "bbox/face_yolov8n.pt",        label: "face_yolov8n.pt" },
+  { id: "bbox/face_yolov8n_v2.pt",     label: "face_yolov8n_v2.pt" },
+  { id: "bbox/hand_yolov8s.pt",        label: "hand_yolov8s.pt" },
+  { id: "bbox/hand_yolov9c.pt",        label: "hand_yolov9c.pt" },
+  { id: "bbox/hand_yolov8n.pt",        label: "hand_yolov8n.pt" },
+  { id: "segm/person_yolov8n-seg.pt",  label: "person_yolov8n-seg.pt" },
+  { id: "segm/person_yolov8m-seg.pt",  label: "person_yolov8m-seg.pt" },
+  { id: "segm/person_yolov8s-seg.pt",  label: "person_yolov8s-seg.pt" },
+  { id: "mediapipe_face_full",         label: "mediapipe_face_full" },
+  { id: "mediapipe_face_mesh",         label: "mediapipe_face_mesh" },
+  { id: "mediapipe_face_short",        label: "mediapipe_face_short" },
 ];
 
 export type AdetailerValue = {
@@ -132,8 +134,8 @@ export function AdetailerSection(props: Props) {
               </SelectTrigger>
               <SelectContent>
                 {YOLO_MODELS.map((m) => (
-                  <SelectItem key={m} value={m}>
-                    {m}
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.label}
                   </SelectItem>
                 ))}
               </SelectContent>
