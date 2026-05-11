@@ -1,5 +1,5 @@
-import { Chat } from "@/components/pages/chat/chat";
-import { SharedChatProvider } from "@/components/pages/chat/runtime/shared-chat-provider";
+import { Chat } from "@/components/pages/sidebar/chat/chat";
+import { SharedChatProvider } from "@/components/pages/sidebar/chat/runtime/shared-chat-provider";
 import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";

@@ -1,4 +1,4 @@
-import { Chat } from "@/components/pages/chat/chat";
+import { Chat } from "@/components/pages/sidebar/chat/chat";
 import { APP_VALUES, PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -6,10 +6,10 @@ import { rpc } from "@/lib/rpc";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { handleElysia } from "@/lib/utils/base";
 import {
-  fetchConvTitle,
-  getServerGuestConvIds,
-  serverLocale,
-  setCookies,
+    fetchConvTitle,
+    getServerGuestConvIds,
+    serverLocale,
+    setCookies,
 } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";

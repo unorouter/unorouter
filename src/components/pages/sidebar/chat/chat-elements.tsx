@@ -9,7 +9,7 @@ import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { LuKey, LuLoader, LuPlus, LuWallet } from "react-icons/lu";
-import { Button } from "../../ui/button";
+import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
 import { ConversationOverridesDrawer } from "./conversation/conversation-overrides-drawer";
 

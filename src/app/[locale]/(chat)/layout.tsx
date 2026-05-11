@@ -1,11 +1,11 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
-import { ConversationList } from "@/components/pages/chat/sidebar/conversation-list";
+import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
+import { GuestConvsClaim } from "@/components/pages/sidebar/chat/runtime/guest-convs-claim";
+import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import {
-  RpDialogs,
-  SidebarRpNav,
-} from "@/components/pages/chat/sidebar/sidebar-rp-nav";
-import { ChatRuntimeProvider } from "@/components/pages/chat/runtime/chat-runtime-provider";
-import { GuestConvsClaim } from "@/components/pages/chat/runtime/guest-convs-claim";
+    RpDialogs,
+    SidebarRpNav,
+} from "@/components/pages/sidebar/chat/sidebar/sidebar-rp-nav";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";

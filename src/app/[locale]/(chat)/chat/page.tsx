@@ -1,4 +1,4 @@
-import { Chat } from "@/components/pages/chat/chat";
+import { Chat } from "@/components/pages/sidebar/chat/chat";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";

@@ -1,41 +1,41 @@
 "use client";
 /* eslint-disable react-hooks/refs -- refs accessed during render for sync transport/adapter state */
 
-import { createChatHistoryAdapter } from "@/components/pages/chat/runtime/chat-history-adapter";
-import { createR2AttachmentAdapter } from "@/components/pages/chat/runtime/chat-utils";
-import { createThreadListAdapter } from "@/components/pages/chat/runtime/thread-list-adapter";
-import {
-  useConversationQuery,
-  useUpdateConversationMutation,
-} from "@/hooks/chat-hook";
+import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
+import { createR2AttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
+import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import {
+    useConversationQuery,
+    useUpdateConversationMutation,
+} from "@/hooks/chat-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
-  chatModelAtom,
-  chatStore,
-  getChatDefaults,
-  getChatModel,
-  getChatWebSearch,
-  getConvId,
-  setChatHelpers,
-  setConvId,
-  type ChatHelpersRef,
+    chatModelAtom,
+    chatStore,
+    getChatDefaults,
+    getChatModel,
+    getChatWebSearch,
+    getConvId,
+    setChatHelpers,
+    setConvId,
+    type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
-  AssistantRuntimeProvider,
-  useAuiState,
-  useRemoteThreadListRuntime,
+    AssistantRuntimeProvider,
+    useAuiState,
+    useRemoteThreadListRuntime,
 } from "@assistant-ui/react";
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";
 import { DefaultChatTransport } from "ai";
 import { useSetAtom } from "jotai";
-import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
