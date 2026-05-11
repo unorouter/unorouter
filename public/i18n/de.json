@@ -2731,10 +2731,6 @@
     "CLIP_SKIP": "Clip Skip",
     "ENSD": "ENSD",
     "ADVANCED_SETTINGS": "Erweiterte Einstellungen",
-    "PROMPT_ENCODER": "Prompt-Encoder",
-    "PROMPT_ENCODER_DEFAULT": "Standard",
-    "PROMPT_ENCODER_A1111": "A1111",
-    "PROMPT_ENCODER_ELLA": "Ella",
     "INPAINT_BRUSH_SIZE": "Pinselgröße",
     "INPAINT_BRUSH_OPACITY": "Pinseldeckkraft",
     "INPAINT_CLEAR": "Leeren",
@@ -2845,6 +2841,7 @@
     "SESSION_SNAPSHOTS": "Snapshots in dieser Sitzung",
     "EDIT": "Bearbeiten",
     "UPLOAD_IMAGE": "Bild hochladen",
-    "UPLOADING": "Wird hochgeladen..."
+    "UPLOADING": "Wird hochgeladen...",
+    "INIT_IMAGE": "Quellbild"
   }
 }

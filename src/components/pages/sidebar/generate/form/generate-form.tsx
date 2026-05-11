@@ -83,11 +83,11 @@ import { AdetailerSection, type AdetailerValue } from "../fields/adetailer-secti
 import { AdvancedSettingsAccordion } from "../fields/advanced-settings-accordion";
 import { ControlNetModal, type ControlNetValue } from "../fields/controlnet-modal";
 import { EmbeddingPicker, type EmbeddingEntry } from "../fields/embedding-picker";
+import { InitImageField } from "../fields/init-image-field";
 import { InpaintCanvas } from "../fields/inpaint-canvas";
 import { LayerDiffusionField } from "../fields/layer-diffusion-field";
 import { LoraPicker, type LoraEntry } from "../fields/lora-picker";
 import { PngImport } from "./png-import";
-import { PromptEncoderField } from "../fields/prompt-encoder-field";
 import {
   ReferenceUploader,
   type ReferenceEntry,
@@ -136,7 +136,7 @@ export function GenerateForm() {
   const t = useTranslations();
   const locale = useLocale();
   const submitMut = useSubmitGenerationMutation();
-  // Phase 1 tab / sub-pill awareness — submit threads these as `mode`.
+  // Studio tab / sub-pill awareness — submit threads these as `mode`.
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
   const [inpaintMask, setInpaintMask] = useAtom(inpaintMaskAtom);
@@ -1090,11 +1090,28 @@ export function GenerateForm() {
           </div>
         )}
 
-        {/* Inpaint brush canvas. Visible only when the user routed into
-            the Img2Img > Inpaint sub-pill AND we have a source image
-            (set by the hover-toolbar Inpaint shortcut). Without a
-            source image the canvas hides; the user picks one through
-            the Img2Img upload first. */}
+        {/* Init image upload — shown on all Img2Img sub-pills. The brush
+            canvas (Inpaint sub-pill) mounts on top of this once an image
+            is picked. */}
+        {activeTab === "img2img" && (() => {
+          // eslint-disable-next-line react-hooks/incompatible-library
+          const params = form.watch("params") as { initImageUrl?: string } | undefined;
+          return (
+            <InitImageField
+              value={params?.initImageUrl}
+              onChange={(initImageUrl) => {
+                // eslint-disable-next-line react-hooks/incompatible-library
+                const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+                form.setValue("params", { ...cur, initImageUrl } as never, {
+                  shouldDirty: true,
+                });
+              }}
+            />
+          );
+        })()}
+
+        {/* Inpaint brush canvas. Mounts when sub-pill is inpaint AND a
+            source image is set. Hidden otherwise. */}
         {activeTab === "img2img" &&
           activeSubPill === "inpaint" &&
           (() => {
@@ -1105,7 +1122,7 @@ export function GenerateForm() {
             ) : null;
           })()}
 
-        {/* ---- Phase 2-4: studio knobs (gated by descriptor flags) ---- */}
+        {/* ---- Studio knobs (gated by descriptor flags) ---- */}
         {descriptor.supportsEmbedding && (
           <EmbeddingPicker
             family={descriptor.family}
@@ -1248,22 +1265,6 @@ export function GenerateForm() {
               // eslint-disable-next-line react-hooks/incompatible-library
               const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
               form.setValue("params", { ...cur, ...patch } as never, {
-                shouldDirty: true,
-              });
-            }}
-          />
-        )}
-
-        {descriptor.supportsPromptEncoder && (
-          <PromptEncoderField
-            value={
-              // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { promptEncoder?: "default" | "a1111" | "ella" } | undefined)?.promptEncoder
-            }
-            onChange={(promptEncoder) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
-              form.setValue("params", { ...cur, promptEncoder } as never, {
                 shouldDirty: true,
               });
             }}

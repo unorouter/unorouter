@@ -1,10 +1,9 @@
 "use client";
 
-// SDXL-family-only Advanced Settings accordion. Exposes the two
-// power-user knobs that tensor.art hides behind its identical-named
-// accordion: Clip Skip and ENSD (Eta Noise Seed Delta). Both route into
-// the KSampler/CLIPSkip node pair in the ComfyUI template; non-SDXL
-// model templates ignore them.
+// SDXL-family-only Advanced Settings accordion. Exposes two power-user
+// knobs: Clip Skip and ENSD (Eta Noise Seed Delta). Both route into the
+// KSampler / CLIPSetLastLayer nodes in the ComfyUI template; non-SDXL
+// templates ignore them.
 
 import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { useTranslations } from "next-intl";

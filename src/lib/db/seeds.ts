@@ -190,10 +190,25 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
   },
 ];
 
-// embeddingCatalog stays empty until operator stages files in
-// /workspace/models/embeddings/. Seeding without files would dangle
-// references the worker can't resolve.
-const EMBEDDING_SEEDS: EmbeddingSeed[] = [];
+// Textual inversion embeddings staged on the volume at
+// /workspace/models/embeddings/. The worker rewrites prompts to inject
+// `(embedding:<filename>:<weight>) ` tokens (filename with extension —
+// ComfyUI tokenizer errors on bare names when weighted).
+const EMBEDDING_SEEDS: EmbeddingSeed[] = [
+  {
+    id: "easynegative",
+    name: "EasyNegative",
+    source: "hf",
+    sourceId: "embed/EasyNegative",
+    filename: "EasyNegative.safetensors",
+    baseModel: "sdxl",
+    category: "negative",
+    description:
+      "Canonical SDXL negative embedding. Cleans anatomy and reduces common artifacts when applied to the negative prompt.",
+    nsfw: false,
+    sortOrder: 10,
+  },
+];
 
 // SDXL ControlNets staged on the volume at /workspace/models/controlnet/.
 // xinsir variants chosen over the diffusers official ones (better quality

@@ -82,6 +82,7 @@ export function AdetailerSection(props: Props) {
   const enabled = !!props.value;
   const v = props.value ?? DEFAULTS;
   const stepsToggleOn = (props.value?.steps ?? 0) > 0;
+  const expanded = open && enabled;
 
   const update = (patch: Partial<AdetailerValue>) => {
     if (!props.value) return;
@@ -92,11 +93,15 @@ export function AdetailerSection(props: Props) {
     <div className="rounded-md border">
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          // Clicking the row only opens / closes when ADetailer is on.
+          // When it's off there's nothing to show, so the row no-ops.
+          if (enabled) setOpen((o) => !o);
+        }}
         className="flex w-full items-center justify-between px-3 py-2 text-sm font-medium"
       >
         <span className="flex items-center gap-2">
-          {open ? (
+          {expanded ? (
             <LuChevronDown className="h-4 w-4" />
           ) : (
             <LuChevronRight className="h-4 w-4" />
@@ -105,13 +110,16 @@ export function AdetailerSection(props: Props) {
         </span>
         <Switch
           checked={enabled}
-          onCheckedChange={(c) =>
-            props.onChange(c ? { ...DEFAULTS } : undefined)
-          }
+          onCheckedChange={(c) => {
+            // Flip the section open as soon as it gets enabled so the
+            // user sees the new controls. Disabling collapses it.
+            setOpen(c);
+            props.onChange(c ? { ...DEFAULTS } : undefined);
+          }}
           onClick={(e) => e.stopPropagation()}
         />
       </button>
-      {open && enabled && (
+      {expanded && (
         <div className="flex flex-col gap-4 border-t p-3">
           <div>
             <Label className="mb-1 block">{t("IMAGE.ADETAILER_MODEL")}</Label>

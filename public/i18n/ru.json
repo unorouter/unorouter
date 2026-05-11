@@ -2731,10 +2731,6 @@
     "CLIP_SKIP": "Clip Skip",
     "ENSD": "ENSD",
     "ADVANCED_SETTINGS": "Дополнительные настройки",
-    "PROMPT_ENCODER": "Кодировщик промпта",
-    "PROMPT_ENCODER_DEFAULT": "По умолчанию",
-    "PROMPT_ENCODER_A1111": "A1111",
-    "PROMPT_ENCODER_ELLA": "Ella",
     "INPAINT_BRUSH_SIZE": "Размер кисти",
     "INPAINT_BRUSH_OPACITY": "Прозрачность кисти",
     "INPAINT_CLEAR": "Очистить",
@@ -2845,6 +2841,7 @@
     "SESSION_SNAPSHOTS": "Снимки в этой сессии",
     "EDIT": "Изменить",
     "UPLOAD_IMAGE": "Загрузить изображение",
-    "UPLOADING": "Загрузка..."
+    "UPLOADING": "Загрузка...",
+    "INIT_IMAGE": "Исходное изображение"
   }
 }

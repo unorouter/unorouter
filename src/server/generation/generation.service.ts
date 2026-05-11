@@ -31,6 +31,7 @@ import {
   generationImages,
   generationSessions,
   generations,
+  upscalerCatalog,
   type Generation,
   type GenerationImage,
   type GenerationSession,
@@ -345,6 +346,54 @@ async function submitComfyUITask(args: {
   if (body.loras && body.loras.length > 0) extra.loras = body.loras;
   if (body.references && body.references.length > 0)
     extra.references = body.references;
+
+  // Studio sub-mode + advanced knobs. Each writes to the upstream `extra`
+  // block under a snake_case key the new-api ComfyUI adapter recognizes.
+  // Adapter source of truth: relay/channel/task/comfyui/adaptor.go.
+  if (params.initImageUrl) extra.init_image_url = params.initImageUrl;
+  if (params.maskUrl) extra.mask_url = params.maskUrl;
+
+  // Upscaler: the form sends `upscalerMultiplier` as the FINAL desired
+  // multiplier (1..4). Templates run UpscaleModelLoader (native scale,
+  // typically 4x) then ImageScaleBy(scale_by). To get a final multiplier
+  // of M with a model of native N, we need scale_by = M / N. We resolve
+  // the upscaler's nativeScale from the catalog here so the adapter
+  // doesn't need a DB roundtrip.
+  if (params.upscaler) {
+    extra.upscaler = params.upscaler;
+    const rows = await args.db
+      .select({ nativeScale: upscalerCatalog.nativeScale })
+      .from(upscalerCatalog)
+      .where(eq(upscalerCatalog.filename, params.upscaler))
+      .limit(1);
+    const native = Number(rows[0]?.nativeScale ?? 4);
+    const desired = params.upscalerMultiplier ?? 1;
+    extra.upscaler_scale_by = native > 0 ? desired / native : 1;
+    extra.upscaler_multiplier = desired;
+  }
+  if (params.hiresSteps !== undefined) extra.hires_steps = params.hiresSteps;
+
+  // Embeddings: the worker rewrites the prompt to inject
+  // `(embedding:<filename>:<weight>)` tokens. Filename (with extension)
+  // is mandatory for weight syntax — ComfyUI tokenizer errors on a bare
+  // name when a weight is set.
+  if (params.embeddings && params.embeddings.length > 0)
+    extra.embeddings = params.embeddings;
+
+  // ControlNet: { kind, imageUrl, weight }. The adapter rehosts the
+  // image into the workflow's extras.Images before patching the workflow.
+  if (params.controlNet) extra.control_net = params.controlNet;
+
+  // Layer Diffusion: weight 0 is a no-op; non-zero rewires SaveImage to
+  // the LayeredDiffusionDecodeRGBA output.
+  if (params.layerDiffusion) extra.layer_diffusion = params.layerDiffusion;
+
+  // ADetailer subform — the full nested object.
+  if (params.adetailer) extra.adetailer = params.adetailer;
+
+  // SDXL Advanced Settings.
+  if (params.clipSkip !== undefined) extra.clip_skip = params.clipSkip;
+  if (params.ensd !== undefined) extra.ensd = params.ensd;
 
   const metadata: Record<string, unknown> = {};
   if (body.negativePrompt) metadata.negative_prompt = body.negativePrompt;

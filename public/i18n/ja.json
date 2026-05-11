@@ -2731,10 +2731,6 @@
     "CLIP_SKIP": "Clip Skip",
     "ENSD": "ENSD",
     "ADVANCED_SETTINGS": "高度な設定",
-    "PROMPT_ENCODER": "プロンプトエンコーダ",
-    "PROMPT_ENCODER_DEFAULT": "デフォルト",
-    "PROMPT_ENCODER_A1111": "A1111",
-    "PROMPT_ENCODER_ELLA": "Ella",
     "INPAINT_BRUSH_SIZE": "ブラシサイズ",
     "INPAINT_BRUSH_OPACITY": "ブラシ不透明度",
     "INPAINT_CLEAR": "クリア",
@@ -2845,6 +2841,7 @@
     "SESSION_SNAPSHOTS": "このセッションのスナップショット",
     "EDIT": "編集",
     "UPLOAD_IMAGE": "画像をアップロード",
-    "UPLOADING": "アップロード中..."
+    "UPLOADING": "アップロード中...",
+    "INIT_IMAGE": "ソース画像"
   }
 }

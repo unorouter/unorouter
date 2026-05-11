@@ -2731,10 +2731,6 @@
     "CLIP_SKIP": "Clip Skip",
     "ENSD": "ENSD",
     "ADVANCED_SETTINGS": "Cài đặt nâng cao",
-    "PROMPT_ENCODER": "Bộ mã hóa prompt",
-    "PROMPT_ENCODER_DEFAULT": "Mặc định",
-    "PROMPT_ENCODER_A1111": "A1111",
-    "PROMPT_ENCODER_ELLA": "Ella",
     "INPAINT_BRUSH_SIZE": "Kích thước cọ",
     "INPAINT_BRUSH_OPACITY": "Độ mờ cọ",
     "INPAINT_CLEAR": "Xóa",
@@ -2845,6 +2841,7 @@
     "SESSION_SNAPSHOTS": "Ảnh chụp trong phiên này",
     "EDIT": "Sửa",
     "UPLOAD_IMAGE": "Tải ảnh lên",
-    "UPLOADING": "Đang tải lên..."
+    "UPLOADING": "Đang tải lên...",
+    "INIT_IMAGE": "Ảnh nguồn"
   }
 }

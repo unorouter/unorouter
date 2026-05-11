@@ -76,11 +76,11 @@ export type GenerationModelDescriptor = {
   // SDXL + Flux 2 default false. User can override per submission.
   nsfwDefault: boolean;
   // ---------------------------------------------------------------------
-  // Phase 2-4 capability flags. Each gates a specific UI section in the
-  // studio. Defaults are conservative (undefined = false); SDXL-family
-  // descriptors opt in explicitly. Edit-family descriptors (Kontext,
-  // gpt-image-1 edits, Gemini 3 image-preview) opt into multi-image-ref
-  // but not the SDXL knobs (no Clip Skip/ENSD/A1111).
+  // Studio capability flags. Each gates a specific UI section. Defaults
+  // are conservative (undefined = false); SDXL-family descriptors opt in
+  // explicitly. Edit-family descriptors (Kontext, gpt-image-1 edits,
+  // Gemini 3 image-preview) opt into multi-image references but not the
+  // SDXL-only knobs.
   // ---------------------------------------------------------------------
   supportsImg2Img?: boolean;
   supportsUpscale?: boolean;
@@ -91,7 +91,6 @@ export type GenerationModelDescriptor = {
   supportsVae?: boolean;
   supportsLayerDiffusion?: boolean;
   supportsClipSkip?: boolean;
-  supportsPromptEncoder?: boolean;
   // Tab gating. Each descriptor declares which top-level tabs it can
   // appear in. Picker filters by the active tab. A model with no `tabs`
   // is assumed Text2Img-only, matching v1 behavior.
@@ -147,9 +146,11 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     supportsEmbedding: true,
     supportsControlNet: true,
     supportsVae: true,
-    supportsLayerDiffusion: true,
+    // Layer Diffusion weights are only compatible with SDXL base + SD1.5.
+    // Pony is an SDXL finetune so the LayerDiffuse LoRA cannot patch its
+    // weights cleanly. Field hidden here; only the base-SDXL descriptor
+    // (`comfyui-sdxl-txt2img-lora`) opts in.
     supportsClipSkip: true,
-    supportsPromptEncoder: true,
     tabs: ["text2img", "img2img"],
   },
   {
@@ -186,9 +187,8 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     supportsEmbedding: true,
     supportsControlNet: true,
     supportsVae: true,
-    supportsLayerDiffusion: true,
+    // Endgame is an SDXL finetune; same constraint as Pony — no LayerDiffuse.
     supportsClipSkip: true,
-    supportsPromptEncoder: true,
     tabs: ["text2img", "img2img"],
   },
   {
@@ -227,7 +227,6 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
     supportsVae: true,
     supportsLayerDiffusion: true,
     supportsClipSkip: true,
-    supportsPromptEncoder: true,
     tabs: ["text2img", "img2img"],
   },
   {

@@ -2731,10 +2731,6 @@
     "CLIP_SKIP": "Clip Skip",
     "ENSD": "ENSD",
     "ADVANCED_SETTINGS": "Advanced Settings",
-    "PROMPT_ENCODER": "Prompt encoder",
-    "PROMPT_ENCODER_DEFAULT": "Default",
-    "PROMPT_ENCODER_A1111": "A1111",
-    "PROMPT_ENCODER_ELLA": "Ella",
     "INPAINT_BRUSH_SIZE": "Brush size",
     "INPAINT_BRUSH_OPACITY": "Brush opacity",
     "INPAINT_CLEAR": "Clear",
@@ -2845,6 +2841,7 @@
     "SESSION_SNAPSHOTS": "Snapshots in this session",
     "EDIT": "Edit",
     "UPLOAD_IMAGE": "Upload image",
-    "UPLOADING": "Uploading..."
+    "UPLOADING": "Uploading...",
+    "INIT_IMAGE": "Source image"
   }
 }

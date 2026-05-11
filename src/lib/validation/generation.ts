@@ -122,23 +122,12 @@ export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
 });
 
-// Prompt encoder choice. A1111-syntax keeps the SD-WebUI `(token:weight)`
-// convention; Ella routes the prompt through the T5 encoder for long
-// natural-language prompts on SDXL. Only one can be active at a time;
-// they're independent toggles on tensor but mutually exclusive in
-// behavior (Ella replaces the encoder, A1111 changes the tokenizer).
-export const generationPromptEncoder = t.Union([
-  t.Literal("default"),
-  t.Literal("a1111"),
-  t.Literal("ella"),
-]);
-
 // Per-call params shared across families. Optional fields mean "use the
 // template default for the chosen model". The server merges these against
 // MODEL_CAPABILITIES defaults before the upstream call.
 export const generationParams = t.Object({
-  // Width/height bounds bumped from 2048 -> 5060 to match tensor.art's
-  // custom-aspect range. Per-model descriptors gate this further: Flux 2
+  // Width/height max 5060 to support the studio's custom-aspect range.
+  // Per-model descriptors gate this further: Flux 2
   // is locked to 1024x1024 by its template, SDXL still aborts >2048 inside
   // the ComfyUI worker (worker VRAM). Validate broadly here; the
   // descriptor + adapter narrow.
@@ -168,7 +157,7 @@ export const generationParams = t.Object({
   watermark: t.Optional(t.Boolean()),
   background: t.Optional(t.String({ maxLength: 32 })),
   strength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
-  // ---- Phase 2-4: power-user knobs ----
+  // ---- studio power-user knobs ----
   // Inpaint / Img2Img / Upscale init image + mask
   initImageUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
   maskUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
@@ -206,7 +195,6 @@ export const generationParams = t.Object({
   // SDXL-family Advanced Settings. Other families ignore both.
   clipSkip: t.Optional(t.Integer({ minimum: 0, maximum: 12 })),
   ensd: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
-  promptEncoder: t.Optional(generationPromptEncoder),
 });
 export type GenerationParams = Static<typeof generationParams>;
 
@@ -236,8 +224,8 @@ export const generationReferenceEntry = t.Object({
 export const generationSubmitBody = t.Object({
   model: generationModel,
   // Mode is optional: legacy clients send no `mode` and the server
-  // treats them as txt2img. Phase 1 onward, the studio sets this
-  // explicitly per top-tab + Img2Img sub-pill.
+  // treats them as txt2img. The studio sets this explicitly per top-tab
+  // + Img2Img sub-pill.
   mode: t.Optional(generationMode),
   prompt: t.String({ minLength: 1, maxLength: 8000 }),
   negativePrompt: t.Optional(t.String({ maxLength: 4000 })),
@@ -365,11 +353,11 @@ export const loraCatalogQuery = t.Object({
 export type LoraCatalogQuery = Static<typeof loraCatalogQuery>;
 
 // ---------------------------------------------------------------------------
-// Catalog queries for the new pickers (Phase 2-4). Same shape as loraCatalog
-// so the picker UI can share components: filter by base-model family + an
-// optional category facet. The category enums differ per catalog; we keep
-// the validator forgiving so the worker can add categories without a
-// schema bump.
+// Catalog queries for the embedding / upscaler / controlnet pickers. Same
+// shape as loraCatalog so picker UI can share components: filter by
+// base-model family + an optional category facet. Category enums differ
+// per catalog; the validator is forgiving so the worker can add new
+// categories without a schema bump.
 // ---------------------------------------------------------------------------
 
 export const embeddingCatalogQuery = t.Object({

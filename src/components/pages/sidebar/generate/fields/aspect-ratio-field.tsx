@@ -2,8 +2,7 @@
 
 // Aspect Ratio picker for the generate form: 4 preset radios (Portrait /
 // Landscape / Square / custom) + Width and Height sliders 128-5060.
-// Replaces the legacy size dropdown. Mirrors tensor.art's Settings ->
-// Aspect Ratio block.
+// Replaces the legacy size dropdown.
 //
 // The field is controlled: parent owns width/height as numbers and the
 // component reflects them. Picking a preset writes both at once; sliding

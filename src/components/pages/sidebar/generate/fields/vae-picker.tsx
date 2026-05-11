@@ -2,8 +2,8 @@
 
 // VAE override dropdown. "Automatic" tells the worker to use the
 // checkpoint's baked VAE; "None" forces the raw latent decode (rarely
-// useful but matches tensor's behavior). Any other value is a filename
-// on the RunPod volume's /workspace/models/vae/.
+// useful). Any other value is a filename on the RunPod volume's
+// /workspace/models/vae/.
 //
 // The list is hardcoded to the 10 VAEs known to live on the volume per
 // comfyui-runpod-memory.md. Operators add files to the volume + edit

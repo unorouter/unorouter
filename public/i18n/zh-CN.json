@@ -2731,10 +2731,6 @@
     "CLIP_SKIP": "Clip Skip",
     "ENSD": "ENSD",
     "ADVANCED_SETTINGS": "高级设置",
-    "PROMPT_ENCODER": "提示词编码器",
-    "PROMPT_ENCODER_DEFAULT": "默认",
-    "PROMPT_ENCODER_A1111": "A1111",
-    "PROMPT_ENCODER_ELLA": "Ella",
     "INPAINT_BRUSH_SIZE": "笔刷大小",
     "INPAINT_BRUSH_OPACITY": "笔刷不透明度",
     "INPAINT_CLEAR": "清空",
@@ -2845,6 +2841,7 @@
     "SESSION_SNAPSHOTS": "本会话中的快照",
     "EDIT": "编辑",
     "UPLOAD_IMAGE": "上传图片",
-    "UPLOADING": "上传中…"
+    "UPLOADING": "上传中…",
+    "INIT_IMAGE": "源图像"
   }
 }

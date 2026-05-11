@@ -15,10 +15,9 @@ export const activeSnapshotIdAtom = atom<string | null>(null);
 // payload is cleared after a tick so a second click on the same snapshot
 // triggers another restore.
 //
-// Phase 1 added `tab` and `subPill` to the payload. The hover toolbar on
-// result tiles (Inpaint/Upscale/ADetailer/Edit shortcuts) writes one of
-// these to route the user to the right tab/sub-pill while pre-filling the
-// form with the source image as init.
+// The hover toolbar on result tiles (Inpaint / Upscale / ADetailer / Edit
+// shortcuts) writes `tab` and `subPill` to route the user to the right
+// tab + sub-pill while pre-filling the form with the source image as init.
 export type Img2ImgSubPill =
   | "img2img"
   | "upscale"
@@ -55,11 +54,10 @@ export const restoreSnapshotIntoFormAtom = atom<SnapshotRestorePayload | null>(
 // (not cookies — refs/loras can blow past the 4 KB limit). Cleared on a
 // successful submit so the user doesn't see stale state on next visit.
 //
-// Per-tab atoms (tensor-style): Text2Img, Img2Img, and Edit each maintain
-// their own model + prompt + params. Switching tabs preserves each tab's
-// last draft separately. A new atom is added once the per-tab UI ships
-// (Phase 1); for now the legacy single-atom `generateDraftAtom` still
-// powers the existing single-mode form and aliases to the Text2Img slot.
+// Per-tab atoms: Text2Img, Img2Img, and Edit each maintain their own
+// model + prompt + params. Switching tabs preserves each tab's last draft
+// separately. The legacy single-atom `generateDraftAtom` is kept as an
+// alias to the Text2Img slot for any callers that haven't migrated yet.
 export type GenerateDraft = {
   model: string;
   prompt: string;
@@ -85,9 +83,8 @@ export const INITIAL_GENERATE_DRAFT: GenerateDraft = {
 };
 
 // Per-tab draft slots. Each tab gets its own storage key so layouts and
-// model picks don't bleed across modes. The pre-tab atom `generateDraftAtom`
-// is kept as an alias to the Text2Img slot for backwards compatibility with
-// the existing form until Phase 1 lands the tab UI.
+// model picks don't bleed across modes. The legacy `generateDraftAtom` is
+// re-exported below as an alias to the Text2Img slot for back-compat.
 export const text2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
   "generate-draft-text2img-v1",
   null,
@@ -103,8 +100,8 @@ export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
   null,
 );
 
-// Legacy alias. The current form imports this; Phase 1 swaps callers to
-// the per-tab atoms above and removes this re-export.
+// Legacy alias. The current form imports this; remove once all callers
+// switch to the per-tab atoms above.
 export const generateDraftAtom = text2imgDraftAtom;
 
 // Per-model setting memory: when the user switches to a model they used
@@ -120,9 +117,9 @@ export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
 );
 
 // ---------------------------------------------------------------------------
-// Phase 1: tab + sub-pill state for the studio. Both are URL-synced via
-// generate-page.tsx (?tab=... &mode=...) so deep links and back/forward
-// work. They're plain in-memory atoms; persistence comes from the URL.
+// Studio tab + sub-pill state. Both are URL-synced via generate-page.tsx
+// (?tab=... &mode=...) so deep links and back/forward work. Plain in-memory
+// atoms; persistence comes from the URL.
 // ---------------------------------------------------------------------------
 export const activeTabAtom = atom<GenerateTab>("text2img");
 
