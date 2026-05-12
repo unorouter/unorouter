@@ -32,37 +32,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useSnapshotQuery,
   useSubmitGenerationMutation,
   useUploadMaskMutation,
 } from "@/hooks/generation-hook";
-import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import {
   AUTH_REDIRECT_COOKIE,
   dollarsToQuota,
   renderQuota,
 } from "@/lib/config/constants";
-import { cn } from "@/lib/utils";
-import { setCookie } from "cookies-next";
-import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import {
   getModelDescriptor,
   type GenerationModelDescriptor,
 } from "@/lib/config/generation-models";
 import { getEffectiveGenerationModels } from "@/lib/config/generation-models-dynamic";
+import { cn } from "@/lib/utils";
+import type { RestoredFromPng } from "@/lib/utils/png-metadata";
 import {
   generationFormValues,
   type GenerationFormValues,
   type GenerationMode,
   type GenerationModel,
 } from "@/lib/validation/generation";
-import type { LoraEntry } from "../fields/lora-picker";
-import type { EmbeddingEntry } from "../fields/embedding-picker";
-import type { ReferenceEntry } from "../fields/reference-uploader";
-import type { RestoredFromPng } from "@/lib/utils/png-metadata";
-import { typeboxResolver } from "@hookform/resolvers/typebox";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
@@ -76,6 +71,8 @@ import {
   type GenerateDraft,
   type GenerateTab,
 } from "@/store/generation-store";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { setCookie } from "cookies-next";
 import { useAtom, useAtomValue } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
@@ -87,19 +84,23 @@ import {
   type AdetailerValue,
 } from "../fields/adetailer-section";
 import { AdvancedSettingsAccordion } from "../fields/advanced-settings-accordion";
+import { AspectRatioField } from "../fields/aspect-ratio-field";
 import {
   ControlNetModal,
   type ControlNetValue,
 } from "../fields/controlnet-modal";
+import type { EmbeddingEntry } from "../fields/embedding-picker";
 import { EmbeddingPicker } from "../fields/embedding-picker";
 import { InitImageField } from "../fields/init-image-field";
 import { InpaintCanvas } from "../fields/inpaint-canvas";
 import { LayerDiffusionField } from "../fields/layer-diffusion-field";
+import type { LoraEntry } from "../fields/lora-picker";
 import { LoraPicker } from "../fields/lora-picker";
-import { PngImport } from "./png-import";
+import type { ReferenceEntry } from "../fields/reference-uploader";
 import { ReferenceUploader } from "../fields/reference-uploader";
 import { UpscalerField } from "../fields/upscaler-field";
 import { VaePicker } from "../fields/vae-picker";
+import { INITIAL_MODEL, VARIANT_CHOICES } from "../generate-constants";
 import {
   OutputFormatField,
   QualityField,
@@ -107,9 +108,8 @@ import {
   SliderWithInput,
   TokenEstimate,
 } from "./generate-form-fields";
-import { AspectRatioField } from "../fields/aspect-ratio-field";
+import { PngImport } from "./png-import";
 import { toSubmitBody } from "./submit-transform";
-import { INITIAL_MODEL, VARIANT_CHOICES } from "../generate-constants";
 
 function isModelInTab(m: GenerationModelDescriptor, tab: GenerateTab): boolean {
   if (!m.tabs) return tab === "text2img";
@@ -256,7 +256,7 @@ export function GenerateForm() {
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     // eslint-disable-next-line react-hooks/incompatible-library
-    const current = (form.watch("model") as string | undefined) ?? "";
+    const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
     if (desc && (isLoggedIn || desc.isFree)) return;
     const freePool = effectiveModels.filter((m) => m.isFree);
@@ -268,7 +268,7 @@ export function GenerateForm() {
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     // eslint-disable-next-line react-hooks/incompatible-library
-    const current = (form.watch("model") as string | undefined) ?? "";
+    const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
     if (desc && isModelInTab(desc, activeTab)) return;
     const pool = effectiveModels.filter((m) => isModelInTab(m, activeTab));
@@ -642,12 +642,12 @@ export function GenerateForm() {
                 <Textarea
                   rows={4}
                   placeholder={t("IMAGE.PROMPT_PLACEHOLDER")}
-                  value={(field.value as string | undefined) ?? ""}
+                  value={field.value ?? ""}
                   onChange={field.onChange}
                 />
               </FormControl>
               <TokenEstimate
-                text={(field.value as string | undefined) ?? ""}
+                text={field.value ?? ""}
                 family={descriptor.family}
               />
               <FormMessage />
@@ -665,12 +665,12 @@ export function GenerateForm() {
                 <FormControl>
                   <Textarea
                     rows={2}
-                    value={(field.value as string | undefined) ?? ""}
+                    value={field.value ?? ""}
                     onChange={field.onChange}
                   />
                 </FormControl>
                 <TokenEstimate
-                  text={(field.value as string | undefined) ?? ""}
+                  text={field.value ?? ""}
                   family={descriptor.family}
                 />
                 <FormMessage />
@@ -767,9 +767,7 @@ export function GenerateForm() {
                   <FormControl>
                     <Select
                       value={
-                        (field.value as string | undefined) ??
-                        descriptor.defaultParams.sampler ??
-                        ""
+                        field.value ?? descriptor.defaultParams.sampler ?? ""
                       }
                       onValueChange={field.onChange}
                     >
@@ -797,9 +795,7 @@ export function GenerateForm() {
                   <FormControl>
                     <Select
                       value={
-                        (field.value as string | undefined) ??
-                        descriptor.defaultParams.scheduler ??
-                        ""
+                        field.value ?? descriptor.defaultParams.scheduler ?? ""
                       }
                       onValueChange={field.onChange}
                     >
@@ -909,7 +905,7 @@ export function GenerateForm() {
                     <FormLabel>{t("IMAGE.BACKGROUND_LABEL")}</FormLabel>
                     <FormControl>
                       <Select
-                        value={(field.value as string | undefined) ?? ""}
+                        value={field.value ?? ""}
                         onValueChange={(v) => field.onChange(v || undefined)}
                       >
                         <SelectTrigger className="w-full">
@@ -1237,10 +1233,7 @@ export function GenerateForm() {
           {/* eslint-disable-next-line react-hooks/incompatible-library */}
           <Button
             type="submit"
-            disabled={
-              submitMut.isPending ||
-              !((form.watch("prompt") as string | undefined) ?? "")
-            }
+            disabled={submitMut.isPending || !(form.watch("prompt") ?? "")}
             size="lg"
           >
             <LuSparkles className="mr-2" />
