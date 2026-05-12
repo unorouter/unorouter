@@ -14,9 +14,6 @@ import type { ModelFamily } from "@/lib/config/generation-models";
 import { useTranslations } from "next-intl";
 import { LuPlus, LuX } from "react-icons/lu";
 
-// One LoRA entry as it lives on the form's `loras` array. `name` is the
-// filename on the volume; LoraLoader.lora_name receives it verbatim. The
-// `source` field is informational for attribution; the adapter ignores it.
 export type LoraEntry = {
   name: string;
   weight: number;
@@ -29,10 +26,6 @@ type Props = {
   onChange: (next: LoraEntry[]) => void;
 };
 
-// Maps the descriptor's "sdxl" family to the catalog's `baseModel` enum.
-// Pony fine-tunes sit under "pony" in the catalog (so "anatomy-pony-v3"
-// only shows up when the user picks pony, not vanilla SDXL); generic
-// SDXL LoRAs stay under "sdxl" and show up for all SDXL-family models.
 function familyToBaseModel(family: ModelFamily) {
   if (family === "sdxl") return "sdxl";
   if (family === "flux2") return "flux2";
@@ -43,28 +36,23 @@ export function LoraPicker(props: Props) {
   const t = useTranslations();
   const baseModel = familyToBaseModel(props.family);
   const catalog = useLoraCatalogQuery({ baseModel });
-
   const items = catalog.data?.items ?? [];
 
-  // Drop already-selected LoRAs from the picker so users can't add the
-  // same one twice. The lora_chain mechanism on the adapter handles
-  // dedup gracefully but the UX is cleaner this way.
-  const selectedNames = new Set(props.value.map((l) => l.name));
+  const value = props.value;
+  const selectedNames = new Set(value.map((l) => l.name));
   const available = items.filter((it) => !selectedNames.has(it.filename));
 
   const onAdd = (filename: string, defaultWeight: number, source: string) => {
     props.onChange([
-      ...props.value,
+      ...value,
       { name: filename, weight: defaultWeight, source },
     ]);
   };
-
   const onRemove = (idx: number) => {
-    props.onChange(props.value.filter((_, j) => j !== idx));
+    props.onChange(value.filter((_, j) => j !== idx));
   };
-
   const onWeightChange = (idx: number, weight: number) => {
-    const next = [...props.value];
+    const next = [...value];
     next[idx] = { ...next[idx], weight };
     props.onChange(next);
   };
@@ -73,9 +61,8 @@ export function LoraPicker(props: Props) {
     <FormItem>
       <FormLabel>{t("IMAGE.LORAS_TITLE")}</FormLabel>
 
-      {/* Selected chain */}
       <div className="flex flex-col gap-3">
-        {props.value.map((lora, i) => (
+        {value.map((lora, i) => (
           <div
             key={`${lora.name}-${i}`}
             className="bg-muted/50 flex items-center gap-3 rounded-md p-3"
@@ -118,9 +105,6 @@ export function LoraPicker(props: Props) {
           </div>
         ))}
 
-        {/* Add button -> popover with the catalog. PopoverTrigger
-            renders its own button; we style via className to match the
-            outline variant. */}
         <Popover>
           <PopoverTrigger className="bg-background hover:bg-accent inline-flex h-9 items-center justify-center rounded-md border px-3 text-sm font-medium">
             <LuPlus className="mr-2" />
@@ -132,19 +116,11 @@ export function LoraPicker(props: Props) {
                 {t("IMAGE.STATUS_PENDING")}
               </div>
             )}
-
-            {/* Empty catalog: operator hasn't staged any LoRAs yet on
-                the network volume. The form only renders this picker
-                for models that DO support LoRAs (Flux 2 hides it
-                entirely), so the right copy is "nothing staged yet",
-                not "unsupported". */}
             {!catalog.isLoading && items.length === 0 && (
               <div className="text-muted-foreground p-4 text-sm">
                 {t("IMAGE.LORAS_EMPTY")}
               </div>
             )}
-
-            {/* All catalog entries already added */}
             {!catalog.isLoading &&
               items.length > 0 &&
               available.length === 0 && (
@@ -152,7 +128,6 @@ export function LoraPicker(props: Props) {
                   {t("IMAGE.HISTORY_EMPTY")}
                 </div>
               )}
-
             {available.length > 0 && (
               <div className="flex max-h-72 flex-col overflow-y-auto py-2">
                 {available.map((lora) => (

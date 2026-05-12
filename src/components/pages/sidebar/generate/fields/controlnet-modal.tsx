@@ -1,10 +1,5 @@
 "use client";
 
-// ControlNet modal: pick one of Depth / Canny / Openpose, upload the
-// reference image, set the weight, done. Single-unit only on the worker
-// side. Each `kind` is wired to its preprocessor automatically in the
-// ComfyUI template; the user just supplies the source image and weight.
-
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LuPlus, LuTrash, LuUpload } from "react-icons/lu";
@@ -23,21 +18,13 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useUploadReferenceMutation } from "@/hooks/generation-hook";
 import { cn } from "@/lib/utils";
+import { CONTROLNET_KINDS as KINDS } from "../generate-constants";
 
 export type ControlNetValue = {
   kind: "depth" | "canny" | "openpose";
   imageUrl: string;
   weight: number;
 };
-
-const KINDS: ReadonlyArray<{
-  id: ControlNetValue["kind"];
-  i18nKey: string;
-}> = [
-  { id: "depth", i18nKey: "IMAGE.CONTROLNET_DEPTH" },
-  { id: "canny", i18nKey: "IMAGE.CONTROLNET_CANNY" },
-  { id: "openpose", i18nKey: "IMAGE.CONTROLNET_OPENPOSE" },
-];
 
 type Props = {
   value: ControlNetValue | undefined;
@@ -54,6 +41,19 @@ export function ControlNetModal(props: Props) {
   const [weight, setWeight] = useState<number>(props.value?.weight ?? 0.8);
   const fileRef = useRef<HTMLInputElement | null>(null);
   const upload = useUploadReferenceMutation();
+
+  // Reset scratch state when dialog opens so the user sees the current
+  // committed value (not a half-edited previous open). Derived-state via
+  // the prevOpen guard avoids the effect-as-sync anti-pattern.
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open && !prevOpen) {
+    setPrevOpen(true);
+    setKind(props.value?.kind ?? "depth");
+    setImageUrl(props.value?.imageUrl ?? "");
+    setWeight(props.value?.weight ?? 0.8);
+  } else if (!open && prevOpen) {
+    setPrevOpen(false);
+  }
 
   const onPickFile = async (file: File) => {
     const result = await upload.mutateAsync(file);
@@ -90,9 +90,6 @@ export function ControlNetModal(props: Props) {
             </Button>
           )}
           <Dialog open={open} onOpenChange={setOpen}>
-            {/* base-ui Dialog renders its own <button>; we style it
-                directly instead of wrapping in <Button asChild> which
-                would nest two buttons and break hydration. */}
             <DialogTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-8 items-center justify-center rounded-md px-3 text-xs font-medium">
               <LuPlus className="mr-1 h-4 w-4" />
               {hasValue ? t("IMAGE.EDIT") : t("IMAGE.CONTROLNET_ADD")}

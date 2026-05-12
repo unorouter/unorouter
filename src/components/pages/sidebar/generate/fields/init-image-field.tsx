@@ -1,11 +1,5 @@
 "use client";
 
-// Init image upload for the Img2Img / Upscale / ADetailer / Inpaint
-// sub-pills. Uploads a PNG/JPG/WebP to R2 via /api/generation/references
-// and writes the returned URL to params.initImageUrl. Inpaint then mounts
-// its brush canvas on top of this image; Upscale + ADetailer feed it
-// straight into the worker's LoadImage node.
-
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { LuTrash, LuUpload } from "react-icons/lu";
@@ -24,6 +18,7 @@ export function InitImageField(props: Props) {
   const fileRef = useRef<HTMLInputElement | null>(null);
   const upload = useUploadReferenceMutation();
 
+  const value = props.value;
   const onPick = async (file: File) => {
     const result = await upload.mutateAsync(file);
     props.onChange(result.url);
@@ -32,11 +27,11 @@ export function InitImageField(props: Props) {
   return (
     <div>
       <Label className="mb-2 block">{t("IMAGE.INIT_IMAGE")}</Label>
-      {props.value ? (
+      {value ? (
         <div className="bg-muted relative overflow-hidden rounded-md">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={props.value}
+            src={value}
             alt="Init image"
             className="max-h-64 w-full object-contain"
           />

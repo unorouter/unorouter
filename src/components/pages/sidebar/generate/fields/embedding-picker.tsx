@@ -1,14 +1,5 @@
 "use client";
 
-// Embedding (textual-inversion) picker. Mirrors LoraPicker: a chain of
-// selected embeddings, each with a weight slider, plus a popover that
-// browses the embedding catalog for the active base-model family.
-//
-// On submit, the form serializes the chain as
-// `params.embeddings = [{ name, weight }]`. The ComfyUI prompt-assembler
-// in the worker rewrites these into `embedding:<filename>:weight` tokens
-// inside the CLIPTextEncode call.
-
 import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -24,7 +15,7 @@ import { useTranslations } from "next-intl";
 import { LuPlus, LuX } from "react-icons/lu";
 
 export type EmbeddingEntry = {
-  name: string; // filename on the volume
+  name: string;
   weight: number;
 };
 
@@ -46,17 +37,18 @@ export function EmbeddingPicker(props: Props) {
   const catalog = useEmbeddingCatalogQuery({ baseModel });
   const items = catalog.data?.items ?? [];
 
-  const selected = new Set(props.value.map((e) => e.name));
+  const value = props.value;
+  const selected = new Set(value.map((e) => e.name));
   const available = items.filter((it) => !selected.has(it.filename));
 
   const onAdd = (filename: string) => {
-    props.onChange([...props.value, { name: filename, weight: 1.0 }]);
+    props.onChange([...value, { name: filename, weight: 1.0 }]);
   };
   const onRemove = (idx: number) => {
-    props.onChange(props.value.filter((_, j) => j !== idx));
+    props.onChange(value.filter((_, j) => j !== idx));
   };
   const onWeight = (idx: number, weight: number) => {
-    const next = [...props.value];
+    const next = [...value];
     next[idx] = { ...next[idx], weight };
     props.onChange(next);
   };
@@ -66,7 +58,7 @@ export function EmbeddingPicker(props: Props) {
       <FormLabel>{t("IMAGE.EMBEDDINGS_TITLE")}</FormLabel>
 
       <div className="flex flex-col gap-3">
-        {props.value.map((emb, i) => (
+        {value.map((emb, i) => (
           <div
             key={`${emb.name}-${i}`}
             className="bg-muted/50 flex items-center gap-3 rounded-md p-3"

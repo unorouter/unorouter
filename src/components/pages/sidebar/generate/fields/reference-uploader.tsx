@@ -8,11 +8,6 @@ import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LuLoader, LuUpload, LuX } from "react-icons/lu";
 
-// One reference entry as it lives on the form's `references` array.
-// `url` is the R2 URL the new-api adapter will fetch + base64-encode +
-// pre-upload to ComfyUI's input/ via input.images. `name` is advisory
-// (for prompts that mention it); `weight` is unused by the stock
-// ReferenceLatent node but reserved for future weighted variants.
 export type ReferenceEntry = {
   url: string;
   name?: string;
@@ -23,11 +18,9 @@ const MAX_REFERENCES_DEFAULT = 6;
 const ACCEPTED_MIMES = ["image/png", "image/jpeg", "image/webp"];
 
 type Props = {
+  maxFiles?: number;
   value: ReferenceEntry[];
   onChange: (next: ReferenceEntry[]) => void;
-  // Per-model cap. Falls back to 6 (the TypeBox cap on `references[]`)
-  // when the descriptor doesn't declare a value.
-  maxFiles?: number;
 };
 
 export function ReferenceUploader(props: Props) {
@@ -37,7 +30,8 @@ export function ReferenceUploader(props: Props) {
   const [isDragging, setIsDragging] = useState(false);
 
   const cap = props.maxFiles ?? MAX_REFERENCES_DEFAULT;
-  const remaining = cap - props.value.length;
+  const value = props.value;
+  const remaining = cap - value.length;
 
   const uploadFiles = async (files: FileList | File[]) => {
     if (remaining <= 0) return;
@@ -45,22 +39,16 @@ export function ReferenceUploader(props: Props) {
       .filter((f) => ACCEPTED_MIMES.includes(f.type))
       .slice(0, remaining);
     if (valid.length === 0) return;
-
-    // Upload sequentially to avoid request-rate spikes against R2 and
-    // keep per-file errors scoped (a failed upload doesn't taint the
-    // others). Only successful uploads land in the references array.
-    const next: ReferenceEntry[] = [...props.value];
+    const next: ReferenceEntry[] = [...value];
     for (const file of valid) {
       try {
         const result = await uploadMut.mutateAsync(file);
         next.push({ url: result.url });
       } catch {
-        // handleError in the hook already shows a toast; just skip
+        // toast handled in the hook
       }
     }
-    if (next.length !== props.value.length) {
-      props.onChange(next);
-    }
+    if (next.length !== value.length) props.onChange(next);
   };
 
   const onDrop = async (e: React.DragEvent) => {
@@ -75,7 +63,6 @@ export function ReferenceUploader(props: Props) {
     if (e.target.files && e.target.files.length > 0) {
       await uploadFiles(e.target.files);
     }
-    // Reset so the same file can be re-picked after a remove
     e.target.value = "";
   };
 
@@ -84,14 +71,13 @@ export function ReferenceUploader(props: Props) {
       <FormLabel>
         {t("IMAGE.REFERENCES_TITLE")}
         <span className="text-muted-foreground ml-2 text-xs font-normal">
-          {props.value.length}/{cap}
+          {value.length}/{cap}
         </span>
       </FormLabel>
 
-      {/* Existing references as thumbnail tiles */}
-      {props.value.length > 0 && (
+      {value.length > 0 && (
         <div className="mb-2 grid grid-cols-3 gap-2 sm:grid-cols-4">
-          {props.value.map((ref, i) => (
+          {value.map((ref, i) => (
             <div
               key={`${ref.url}-${i}`}
               className="bg-muted relative aspect-square overflow-hidden rounded-md"
@@ -104,9 +90,7 @@ export function ReferenceUploader(props: Props) {
               />
               <button
                 type="button"
-                onClick={() =>
-                  props.onChange(props.value.filter((_, j) => j !== i))
-                }
+                onClick={() => props.onChange(value.filter((_, j) => j !== i))}
                 className="bg-background/80 hover:bg-background absolute top-1 right-1 rounded-full p-1 transition-colors"
                 title={t("IMAGE.DELETE")}
               >
@@ -117,7 +101,6 @@ export function ReferenceUploader(props: Props) {
         </div>
       )}
 
-      {/* Drop zone + browse button - hidden when at the cap */}
       {remaining > 0 && (
         <div
           onDragOver={(e) => {

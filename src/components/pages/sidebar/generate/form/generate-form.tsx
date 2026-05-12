@@ -53,9 +53,14 @@ import {
 } from "@/lib/config/generation-models";
 import { getEffectiveGenerationModels } from "@/lib/config/generation-models-dynamic";
 import {
-  generationSubmitBody,
+  generationFormValues,
+  type GenerationFormValues,
+  type GenerationMode,
   type GenerationModel,
 } from "@/lib/validation/generation";
+import type { LoraEntry } from "../fields/lora-picker";
+import type { EmbeddingEntry } from "../fields/embedding-picker";
+import type { ReferenceEntry } from "../fields/reference-uploader";
 import type { RestoredFromPng } from "@/lib/utils/png-metadata";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import {
@@ -65,7 +70,6 @@ import {
   activeTabAtom,
   editDraftAtom,
   img2imgDraftAtom,
-  inpaintMaskAtom,
   restoreSnapshotIntoFormAtom,
   samplerMemoryAtom,
   text2imgDraftAtom,
@@ -87,72 +91,58 @@ import {
   ControlNetModal,
   type ControlNetValue,
 } from "../fields/controlnet-modal";
-import {
-  EmbeddingPicker,
-  type EmbeddingEntry,
-} from "../fields/embedding-picker";
+import { EmbeddingPicker } from "../fields/embedding-picker";
 import { InitImageField } from "../fields/init-image-field";
 import { InpaintCanvas } from "../fields/inpaint-canvas";
 import { LayerDiffusionField } from "../fields/layer-diffusion-field";
-import { LoraPicker, type LoraEntry } from "../fields/lora-picker";
+import { LoraPicker } from "../fields/lora-picker";
 import { PngImport } from "./png-import";
-import {
-  ReferenceUploader,
-  type ReferenceEntry,
-} from "../fields/reference-uploader";
+import { ReferenceUploader } from "../fields/reference-uploader";
 import { UpscalerField } from "../fields/upscaler-field";
 import { VaePicker } from "../fields/vae-picker";
 import {
   OutputFormatField,
   QualityField,
   SeedField,
-  SizeField,
   SliderWithInput,
   TokenEstimate,
 } from "./generate-form-fields";
+import { AspectRatioField } from "../fields/aspect-ratio-field";
+import { toSubmitBody } from "./submit-transform";
+import { INITIAL_MODEL, VARIANT_CHOICES } from "../generate-constants";
 
-const VARIANT_CHOICES = [1, 2, 4] as const;
-
-// Filter that decides whether a model descriptor is allowed on the
-// currently active tab. A descriptor without `tabs` is treated as
-// Text2Img-only (the v1 default). Edit tab only accepts descriptors
-// that explicitly opt in (Flux Kontext, gpt-image-1, Gemini 3 Pro Image,
-// flux2-dev-compose).
 function isModelInTab(m: GenerationModelDescriptor, tab: GenerateTab): boolean {
   if (!m.tabs) return tab === "text2img";
   return m.tabs.includes(tab);
 }
 
-const INITIAL_MODEL: GenerationModel = "pony";
-
-// Build the initial form values from the chosen model's descriptor.
-// Cast at the boundary because the form schema's `params` is a partial
-// shape (every numeric is optional) while the descriptor provides every
-// default. The runtime contract is enforced by typeboxResolver.
-function defaultsFor(d: GenerationModelDescriptor) {
-  const modelId = d.id;
+function defaultsFor(d: GenerationModelDescriptor): GenerationFormValues {
   return {
-    model: modelId,
+    model: d.id,
     prompt: "",
     negativePrompt: "",
     params: { ...d.defaultParams },
-    visibility: "private" as const,
-    // Per model: Pony / Endgame / Flux 2 compose default to NSFW true;
-    // vanilla SDXL + Flux 2 dev default to false. Owner-only is the
-    // policy when nsfw=true (see setVisibility on the server).
+    visibility: "private",
     nsfw: d.nsfwDefault,
-    extraParams: { variants: 1 } as Record<string, unknown>,
-  };
+    ui: { variants: 1 },
+  } as GenerationFormValues;
+}
+
+function deriveMode(
+  activeTab: GenerateTab,
+  activeSubPill: "img2img" | "upscale" | "adetailer" | "inpaint",
+): GenerationMode {
+  if (activeTab === "text2img") return "txt2img";
+  if (activeTab === "edit") return "edit";
+  return activeSubPill;
 }
 
 export function GenerateForm() {
   const t = useTranslations();
   const locale = useLocale();
   const submitMut = useSubmitGenerationMutation();
-  // Studio tab / sub-pill awareness — submit threads these as `mode`.
   const activeTab = useAtomValue(activeTabAtom);
   const activeSubPill = useAtomValue(activeSubPillAtom);
-  const [inpaintMask, setInpaintMask] = useAtom(inpaintMaskAtom);
   const uploadMaskMut = useUploadMaskMutation();
   const searchParams = useSearchParams();
   const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
@@ -160,15 +150,6 @@ export function GenerateForm() {
   const [restorePayload, setRestorePayload] = useAtom(
     restoreSnapshotIntoFormAtom,
   );
-  // Form persistence atoms. Each top-level tab has its own draft slot,
-  // so switching tabs preserves each one's last state independently.
-  // samplerMemoryAtom holds per-model param snapshots so flipping back to
-  // a previously-used model restores its sampler/cfg/steps values.
-  //
-  // Picks the right atom for the currently active tab. The hover-toolbar
-  // shortcut routes between tabs via activeTabAtom; the form mount/effect
-  // chain below re-runs when this swap fires so the draft for the new tab
-  // is loaded.
   const tabDraftAtom = (() => {
     switch (activeTab as GenerateTab) {
       case "img2img":
@@ -182,21 +163,10 @@ export function GenerateForm() {
   const [draft, setDraft] = useAtom(tabDraftAtom);
   const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
   const remixId = searchParams.get("remix");
-  // ?hires=1 is set by the result tile's "Hires" shortcut. When the seed
-  // source's model supports the hires-fix block, the seed effect bumps
-  // hiresDenoise / hiresUpscale to the canonical defaults so the user
-  // gets a higher-detail second pass without manually toggling.
   const hiresShortcut = searchParams.get("hires") === "1";
-  // Seed source: explicit ?remix=<snapshotId> wins. Otherwise the form
-  // doesn't auto-seed from the active snapshot — restoring older snapshots
-  // happens via the chevron-driven `restoreSnapshotIntoFormAtom` channel.
   const seedSourceId = remixId;
   const seedQuery = useSnapshotQuery(seedSourceId);
 
-  // Pricing-derived dynamic image models (hosted vendors with
-  // metadata.maxImageInputs >= 6) merged with the static ComfyUI templates.
-  // The pricing payload is prefetched in (generate)/layout.tsx so the data
-  // is available on first paint.
   const pricingQuery = usePricingQuery();
   const effectiveModels = getEffectiveGenerationModels(
     pricingQuery.data?.models,
@@ -204,44 +174,43 @@ export function GenerateForm() {
   const findDescriptor = (id: GenerationModel): GenerationModelDescriptor =>
     effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
   const [modelPickerOpen, setModelPickerOpen] = useState(false);
-  // Anonymous browsing: free models are clickable, paid ones look disabled
-  // and trigger a redirect to /login on click. Mirrors the chat selector.
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const router = useRouter();
   const pathname = usePathname();
 
-  const form = useForm({
-    resolver: typeboxResolver(generationSubmitBody),
-    // typeboxResolver wants the inferred shape; the descriptor-derived
-    // defaults are a structurally-compatible superset.
-    defaultValues: defaultsFor(getModelDescriptor(INITIAL_MODEL)) as never,
+  const form = useForm<GenerationFormValues>({
+    resolver: typeboxResolver(generationFormValues),
+    defaultValues: defaultsFor(
+      getModelDescriptor(INITIAL_MODEL),
+    ) as GenerationFormValues,
   });
 
-  // form.watch returns string | undefined; coerce to GenerationModel.
-  // eslint-disable-next-line react-hooks/incompatible-library -- form.watch is the documented react-hook-form API; the React Compiler warning is acceptable per existing codebase precedent.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedModel =
     (form.watch("model") as GenerationModel | undefined) ?? INITIAL_MODEL;
   const descriptor = findDescriptor(selectedModel);
 
   // eslint-disable-next-line react-hooks/incompatible-library
-  const variantsRaw = (
-    form.watch("extraParams") as { variants?: number } | undefined
-  )?.variants;
+  const ui = (form.watch("ui") as Record<string, unknown> | undefined) ?? {};
+  const variantsRaw = ui.variants as number | undefined;
   const variants =
     typeof variantsRaw === "number" && [1, 2, 4].includes(variantsRaw)
       ? (variantsRaw as 1 | 2 | 4)
       : 1;
   const totalQuota = dollarsToQuota(descriptor.pricePerCall * variants);
 
+  // Mirror tab + sub-pill into the form's `mode` so the resolver and any
+  // mode-aware children see the canonical value, not just the atoms.
+  useEffect(() => {
+    form.setValue("mode", deriveMode(activeTab, activeSubPill));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, activeSubPill]);
+
   const handleModelChange = (next: string) => {
     const nextModel = next as GenerationModel;
     const nextDesc = findDescriptor(nextModel);
     form.setValue("model", nextModel);
-    // Restore per-model param memory when we've seen this model before;
-    // otherwise apply the descriptor's defaults. This makes "I always run
-    // Pony at CFG 10 but Endgame at CFG 4" actually stick across model
-    // switches instead of resetting every time.
     const remembered = samplerMemory[nextModel];
     const params = remembered
       ? { ...nextDesc.defaultParams, ...remembered }
@@ -250,18 +219,9 @@ export function GenerateForm() {
     if (!nextDesc.supportsNegativePrompt) form.setValue("negativePrompt", "");
     if (!nextDesc.supportsReferences) form.setValue("references", undefined);
     if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
-    // Reset nsfw to the new model's default. The user's previous toggle
-    // doesn't carry over because the policy is model-driven (Pony is
-    // always NSFW-capable; switching to Flux 2 dev should clear the
-    // flag so the publish toggle reappears).
     form.setValue("nsfw", nextDesc.nsfwDefault, { shouldDirty: true });
   };
 
-  // Seeding. The form pre-fills with another gen's settings when:
-  //   - `?remix=<id>` is in the URL (explicit Remix click), or
-  //   - the user opens an existing gen via the sidebar / URL id.
-  // Guarded by a ref so we only seed once per source id (the form's dirty
-  // state then takes over and the user can edit freely).
   const seededIdRef = useRef<string | null>(null);
   useEffect(() => {
     const data = seedQuery.data;
@@ -271,10 +231,6 @@ export function GenerateForm() {
 
     const model = data.model as GenerationModel;
     const desc = findDescriptor(model);
-    // Hires shortcut: when the source model supports the hires-fix
-    // pass and the URL flag is set, pre-toggle denoise + upscale to
-    // the canonical defaults the toggle uses (matches HiresFixField's
-    // 0.5 / 1.5). Models without supportsHiresFix ignore the flag.
     const hiresParams =
       hiresShortcut && desc.supportsHiresFix
         ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
@@ -292,18 +248,11 @@ export function GenerateForm() {
       references: (data.references as { url: string }[] | null) ?? undefined,
       visibility: "private",
       nsfw: data.nsfw ?? true,
-      extraParams: { variants: 1 },
-    } as never);
-    // findDescriptor closes over effectiveModels which derives from
-    // pricingQuery.data; the seededIdRef guard prevents re-runs so we
-    // intentionally exclude it from the dep array.
+      ui: { variants: 1 },
+    } as GenerationFormValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [seedQuery.data, form]);
 
-  // Anonymous-friendly default: when the form's current model is paid and
-  // the visitor isn't logged in, swap to the cheapest free image model so
-  // the studio is immediately usable without an account. Mirrors the chat
-  // selector's auto-pick behavior.
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     // eslint-disable-next-line react-hooks/incompatible-library
@@ -316,10 +265,6 @@ export function GenerateForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn, effectiveModels.length]);
 
-  // Tab-gated default: the currently selected model may not exist on the
-  // newly active tab (e.g. Pony is Text2Img/Img2Img only — switching to
-  // Edit must auto-swap to a Kontext / gpt-image-1 / Gemini variant).
-  // First model in the tab's allowlist wins.
   useEffect(() => {
     if (effectiveModels.length === 0) return;
     // eslint-disable-next-line react-hooks/incompatible-library
@@ -332,29 +277,16 @@ export function GenerateForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, effectiveModels.length]);
 
-  // Draft restore on mount. Only fires when there's no remix or active-id
-  // seed source — those win over the persisted draft so a remix click
-  // shows the source's settings, not last-typed prompt. The ref guard
-  // means we only attempt restore once per mount.
-  // The restore-guard is keyed by active tab. Switching tabs (e.g. via
-  // the hover toolbar) resets it so the new tab's draft gets re-applied
-  // on the next render. Without this, the form keeps the previous tab's
-  // values even though the user explicitly switched modes.
   const draftRestoredRef = useRef<string | null>(null);
   useEffect(() => {
     if (draftRestoredRef.current === activeTab) return;
-    if (seedSourceId) return; // remix / active id takes precedence
+    if (seedSourceId) return;
     draftRestoredRef.current = activeTab;
     if (!draft) {
-      // First visit to this tab — clear the form back to a descriptor
-      // appropriate for the active tab. Text2Img uses INITIAL_MODEL
-      // (pony); Edit needs an edit-family default since pony's tabs
-      // list doesn't include "edit". Pick the first descriptor whose
-      // `tabs` allows the current tab.
       const fallback =
         effectiveModels.find((m) => isModelInTab(m, activeTab)) ??
         getModelDescriptor(INITIAL_MODEL);
-      form.reset(defaultsFor(fallback) as never);
+      form.reset(defaultsFor(fallback));
       return;
     }
     form.reset({
@@ -368,18 +300,13 @@ export function GenerateForm() {
       loras: draft.loras as never,
       references: draft.references as never,
       nsfw: draft.nsfw,
-      extraParams: draft.extraParams as never,
-    } as never);
+      ui: (draft.extraParams as { variants?: number } | undefined) ?? {
+        variants: 1,
+      },
+    } as GenerationFormValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab, seedSourceId, draft, form]);
 
-  // Persist current form values to the draft atom whenever they change.
-  // Debounced via a 500ms trailing write so each keystroke doesn't hit
-  // localStorage. Cleared on successful submit (see onSubmit below).
-  //
-  // The setter is held in a ref so swapping tabs re-aims the write at
-  // the new tab's atom without unsubscribing/resubscribing the form-
-  // watcher (which would lose its in-flight debounce).
   const setDraftRef = useRef(setDraft);
   useEffect(() => {
     setDraftRef.current = setDraft;
@@ -396,7 +323,7 @@ export function GenerateForm() {
           loras: values.loras,
           references: values.references,
           nsfw: (values.nsfw as boolean) ?? true,
-          extraParams: (values.extraParams as Record<string, unknown>) ?? {
+          extraParams: (values.ui as Record<string, unknown>) ?? {
             variants: 1,
           },
         };
@@ -408,11 +335,6 @@ export function GenerateForm() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form]);
 
-  // PNG metadata import. Best-effort overlay onto the current form
-  // state: only fields the parser recovered get touched, the rest
-  // (model, visibility, batch, loras, references) stay as-is. Reads
-  // params from the watched form so the user's other in-progress
-  // edits don't get clobbered.
   const onPngImport = (data: RestoredFromPng) => {
     if (data.prompt !== undefined) {
       form.setValue("prompt", data.prompt, { shouldDirty: true });
@@ -438,70 +360,26 @@ export function GenerateForm() {
   };
 
   const onSubmit = form.handleSubmit(async (data) => {
-    // Strip the UI-only `variants` field out before forwarding; convert
-    // it to `params.n` which the server uses to pick batch_size /
-    // upstream `n` / loop count.
-    const extras = { ...((data.extraParams ?? {}) as Record<string, unknown>) };
-    delete extras.variants;
-    const cleanedExtras = Object.keys(extras).length > 0 ? extras : undefined;
-    const existingParams =
-      (data.params as Record<string, unknown> | undefined) ?? {};
-    const paramsWithN: Record<string, unknown> = {
-      ...existingParams,
-      n: variants,
-    };
+    const mode = deriveMode(activeTab, activeSubPill);
+    const body = await toSubmitBody(data as GenerationFormValues, {
+      activeSessionId,
+      mode,
+      uploadMaskAsync: (file) => uploadMaskMut.mutateAsync(file),
+    });
+    const submitted = await submitMut.mutateAsync({ body });
 
-    // Resolve generation mode from tab + sub-pill. Text2Img top tab =>
-    // always txt2img. Img2Img top tab => the active sub-pill. Edit tab
-    // => the "edit" mode. Legacy snapshots that don't carry a mode are
-    // treated as txt2img by the server.
-    const mode:
-      | "txt2img"
-      | "img2img"
-      | "upscale"
-      | "adetailer"
-      | "inpaint"
-      | "edit" =
-      activeTab === "text2img"
-        ? "txt2img"
-        : activeTab === "edit"
-          ? "edit"
-          : activeSubPill;
-
-    // Inpaint: if the brush canvas has a mask, upload it now and
-    // thread the URL into params.maskUrl. The mask atom is cleared
-    // after a successful submit so the next generation starts clean.
-    if (mode === "inpaint" && inpaintMask) {
-      const blob = await (await fetch(inpaintMask)).blob();
-      const file = new File([blob], "mask.png", { type: "image/png" });
-      const uploaded = await uploadMaskMut.mutateAsync(file);
-      paramsWithN.maskUrl = uploaded.url;
+    if (mode === "inpaint") {
+      const curUi = (data.ui as Record<string, unknown> | undefined) ?? {};
+      form.setValue("ui", { ...curUi, inpaintMaskDataUrl: undefined } as never);
     }
 
-    const submitted = await submitMut.mutateAsync({
-      body: {
-        ...data,
-        mode,
-        // Append to the active session if there is one; otherwise the
-        // server creates a fresh session and the response carries its id.
-        sessionId: activeSessionId ?? undefined,
-        params: paramsWithN as never,
-        extraParams: cleanedExtras,
-      },
-    });
-    if (mode === "inpaint") setInpaintMask(null);
-
-    // Persist the params under this model's key so a future model switch
-    // back to it restores the same sampler/cfg/steps values.
     const modelKey = (data.model as string) ?? INITIAL_MODEL;
     setSamplerMemory({
       ...samplerMemory,
-      [modelKey]: existingParams,
+      [modelKey]: (data.params as Record<string, unknown> | undefined) ?? {},
     });
     setDraft(null);
 
-    // Sync both atoms so the result column re-renders without remounting
-    // the form. URL becomes /generate/<sessionId>?snap=<snapshotId>.
     setActiveSessionId(submitted.session.id);
     setActiveSnapshotId(submitted.snapshot.id);
     window.history.replaceState(
@@ -511,17 +389,10 @@ export function GenerateForm() {
     );
   });
 
-  // Subscribe to the chevron-driven restore payload. When the result column
-  // navigates to an older snapshot, this atom is set with that snapshot's
-  // frozen params; we overwrite the form fields once, then clear the atom.
   useEffect(() => {
     if (!restorePayload) return;
     const modelId = (restorePayload.model as GenerationModel) ?? INITIAL_MODEL;
     const desc = findDescriptor(modelId);
-    // Hover toolbar (Inpaint/Upscale/ADetailer/Edit) sends an
-    // initImageUrl + target tab/sub-pill. Merge initImageUrl into
-    // params so the worker has the source image; the tab/sub-pill is
-    // applied by the result panel before the restore fires.
     const mergedParams: Record<string, unknown> = {
       ...desc.defaultParams,
       ...(restorePayload.params ?? {}),
@@ -539,20 +410,16 @@ export function GenerateForm() {
       references:
         (restorePayload.references as { url: string }[] | null) ?? undefined,
       nsfw: restorePayload.nsfw,
-      extraParams: (restorePayload.extraParams ?? {
+      ui: (restorePayload.extraParams as { variants?: number } | undefined) ?? {
         variants: 1,
-      }) as Record<string, unknown>,
-    } as never);
+      },
+    } as GenerationFormValues);
     setRestorePayload(null);
-    // findDescriptor closes over effectiveModels and is intentionally not
-    // a dep. Restore runs only when the payload identity flips.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [restorePayload]);
 
   void activeSnapshotId;
 
-  // Helper to read a numeric value out of params with a fallback to the
-  // descriptor's default. Avoids the union-of-undefined mess in render.
   const numParam = (
     key: "steps" | "cfg" | "guidance" | "seed",
     fallback?: number,
@@ -564,23 +431,16 @@ export function GenerateForm() {
     return params?.[key] ?? fallback;
   };
 
+  const setVariants = (n: 1 | 2 | 4) => {
+    form.setValue("ui", { ...ui, variants: n } as never);
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="flex flex-col gap-6">
-        {/* Drop a ComfyUI PNG to restore prompt + params from its
-            embedded tEXt chunks. Best-effort - anything we can't
-            recover stays at the form's current value. */}
         <PngImport onImport={onPngImport} />
 
-        {/* Model + Size — small dropdowns, share a row when both apply.
-            Falls back to model-only on Flux 2 (locked to 1024x1024). */}
-        <div
-          className={
-            descriptor.supportsSize
-              ? "grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1fr]"
-              : ""
-          }
-        >
+        <div>
           <FormField
             control={form.control}
             name="model"
@@ -630,9 +490,7 @@ export function GenerateForm() {
                                         setCookie(
                                           AUTH_REDIRECT_COOKIE,
                                           pathname,
-                                          {
-                                            maxAge: 300,
-                                          },
+                                          { maxAge: 300 },
                                         );
                                         router.push("/login");
                                         setModelPickerOpen(false);
@@ -689,9 +547,7 @@ export function GenerateForm() {
                                           setCookie(
                                             AUTH_REDIRECT_COOKIE,
                                             pathname,
-                                            {
-                                              maxAge: 300,
-                                            },
+                                            { maxAge: 300 },
                                           );
                                           router.push("/login");
                                           setModelPickerOpen(false);
@@ -743,35 +599,39 @@ export function GenerateForm() {
               </FormItem>
             )}
           />
-
-          {/* Size lives in the same row as Model when supported (SDXL only). */}
-          {descriptor.supportsSize && (
-            <SizeField
-              value={(() => {
-                // eslint-disable-next-line react-hooks/incompatible-library
-                const p = form.watch("params") as
-                  | { width?: number; height?: number }
-                  | undefined;
-                return `${p?.width ?? 1024}x${p?.height ?? 1024}`;
-              })()}
-              onChange={(v) => {
-                const [nw, nh] = v.split("x").map(Number);
-                // eslint-disable-next-line react-hooks/incompatible-library
-                const cur =
-                  (form.watch("params") as
-                    | Record<string, unknown>
-                    | undefined) ?? {};
-                form.setValue(
-                  "params",
-                  { ...cur, width: nw, height: nh } as never,
-                  { shouldDirty: true },
-                );
-              }}
-            />
-          )}
         </div>
 
-        {/* Prompt */}
+        {descriptor.supportsSize &&
+          (() => {
+            // eslint-disable-next-line react-hooks/incompatible-library
+            const p =
+              (form.watch("params") as
+                | { width?: number; height?: number }
+                | undefined) ?? {};
+            return (
+              <AspectRatioField
+                width={p.width ?? 1024}
+                height={p.height ?? 1024}
+                onChange={(next) => {
+                  // eslint-disable-next-line react-hooks/incompatible-library
+                  const cur =
+                    (form.watch("params") as
+                      | Record<string, unknown>
+                      | undefined) ?? {};
+                  form.setValue(
+                    "params",
+                    {
+                      ...cur,
+                      width: next.width,
+                      height: next.height,
+                    } as never,
+                    { shouldDirty: true },
+                  );
+                }}
+              />
+            );
+          })()}
+
         <FormField
           control={form.control}
           name="prompt"
@@ -795,7 +655,6 @@ export function GenerateForm() {
           )}
         />
 
-        {/* Negative prompt - SDXL family only */}
         {descriptor.supportsNegativePrompt && (
           <FormField
             control={form.control}
@@ -820,7 +679,6 @@ export function GenerateForm() {
           />
         )}
 
-        {/* Steps + CFG/Guidance sliders */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <FormField
             control={form.control}
@@ -898,8 +756,6 @@ export function GenerateForm() {
           )}
         </div>
 
-        {/* Sampler + Scheduler + Seed share one row when sampler is supported.
-            On Flux 2 (no sampler) we drop to Seed-only on a single row. */}
         {descriptor.supportsSampler ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <FormField
@@ -962,19 +818,12 @@ export function GenerateForm() {
                 </FormItem>
               )}
             />
-            <SeedField form={form} />
+            <SeedField />
           </div>
         ) : (
-          <SeedField form={form} />
+          <SeedField />
         )}
 
-        {/* Variants standalone row. The legacy Hires-fix toggle that
-            used to share this row was removed in the redesign — the
-            new UpscalerField below (rendered when descriptor.supportsHiresFix)
-            replaces it with multiplier radios + Upscaler dropdown
-            +  Hires Steps + Denoise. Keeping both would let users
-            create invalid state (multiplier=3 while the legacy
-            upscale slider caps at 2). */}
         <FormItem>
           <FormLabel>{t("IMAGE.VARIANTS_LABEL")}</FormLabel>
           <div className="flex gap-2">
@@ -985,14 +834,7 @@ export function GenerateForm() {
                 variant={variants === n ? "default" : "outline"}
                 size="sm"
                 className="flex-1"
-                onClick={() => {
-                  // eslint-disable-next-line react-hooks/incompatible-library
-                  const cur =
-                    (form.watch("extraParams") as
-                      | Record<string, unknown>
-                      | undefined) ?? {};
-                  form.setValue("extraParams", { ...cur, variants: n });
-                }}
+                onClick={() => setVariants(n)}
               >
                 {n}
               </Button>
@@ -1000,7 +842,6 @@ export function GenerateForm() {
           </div>
         </FormItem>
 
-        {/* LoRAs - SDXL family only */}
         {descriptor.supportsLoraChain && (
           <LoraPicker
             family={descriptor.family}
@@ -1009,14 +850,15 @@ export function GenerateForm() {
               (form.watch("loras") as LoraEntry[] | undefined) ?? []
             }
             onChange={(loras) =>
-              form.setValue("loras", loras.length > 0 ? loras : undefined, {
-                shouldDirty: true,
-              })
+              form.setValue(
+                "loras",
+                loras.length > 0 ? (loras as never) : (undefined as never),
+                { shouldDirty: true },
+              )
             }
           />
         )}
 
-        {/* References - flux2-dev-compose + sync-image models */}
         {descriptor.supportsReferences && (
           <ReferenceUploader
             maxFiles={descriptor.maxReferenceImages}
@@ -1025,17 +867,15 @@ export function GenerateForm() {
               (form.watch("references") as ReferenceEntry[] | undefined) ?? []
             }
             onChange={(refs) =>
-              form.setValue("references", refs.length > 0 ? refs : undefined, {
-                shouldDirty: true,
-              })
+              form.setValue(
+                "references",
+                refs.length > 0 ? (refs as never) : (undefined as never),
+                { shouldDirty: true },
+              )
             }
           />
         )}
 
-        {/* Vendor-specific sync-image knobs. Only render the controls the
-            current model's relay adapter actually consumes. The dispatch
-            layer in generation-dispatch.ts threads these into the upstream
-            body shape per endpoint kind. */}
         {(descriptor.supportsQuality ||
           descriptor.supportsOutputFormat ||
           descriptor.supportsBackground ||
@@ -1045,7 +885,6 @@ export function GenerateForm() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {descriptor.supportsQuality && descriptor.qualityChoices && (
               <QualityField
-                form={form}
                 choices={descriptor.qualityChoices}
                 label={t("IMAGE.QUALITY_LABEL")}
                 placeholder={t("IMAGE.QUALITY_DEFAULT")}
@@ -1055,7 +894,6 @@ export function GenerateForm() {
             {descriptor.supportsOutputFormat &&
               descriptor.outputFormatChoices && (
                 <OutputFormatField
-                  form={form}
                   choices={descriptor.outputFormatChoices}
                   label={t("IMAGE.OUTPUT_FORMAT_LABEL")}
                   placeholder={t("IMAGE.OUTPUT_FORMAT_DEFAULT")}
@@ -1167,9 +1005,6 @@ export function GenerateForm() {
           </div>
         )}
 
-        {/* Init image upload — shown on all Img2Img sub-pills. The brush
-            canvas (Inpaint sub-pill) mounts on top of this once an image
-            is picked. */}
         {activeTab === "img2img" &&
           (() => {
             // eslint-disable-next-line react-hooks/incompatible-library
@@ -1193,8 +1028,6 @@ export function GenerateForm() {
             );
           })()}
 
-        {/* Inpaint brush canvas. Mounts when sub-pill is inpaint AND a
-            source image is set. Hidden otherwise. */}
         {activeTab === "img2img" &&
           activeSubPill === "inpaint" &&
           (() => {
@@ -1207,7 +1040,6 @@ export function GenerateForm() {
             ) : null;
           })()}
 
-        {/* ---- Studio knobs (gated by descriptor flags) ---- */}
         {descriptor.supportsEmbedding && (
           <EmbeddingPicker
             family={descriptor.family}
@@ -1401,9 +1233,6 @@ export function GenerateForm() {
           />
         )}
 
-        {/* Submit + New-session row. The "New session" pill only renders
-            when there's already an active session so it doesn't add UI
-            noise on the first submit. */}
         <div className="flex flex-col gap-2">
           {/* eslint-disable-next-line react-hooks/incompatible-library */}
           <Button
@@ -1420,11 +1249,6 @@ export function GenerateForm() {
               : `${t("IMAGE.SUBMIT")} - ${renderQuota(totalQuota, 2)}`}
           </Button>
           {activeSessionId && (
-            // Proper navigation so the URL drops both pathname and search
-            // params (including ?snap=) and the page re-resolves the route
-            // segment. Clearing atoms in an onClick handler was racy with
-            // the page-level effect that re-writes ?snap= once a session
-            // loads.
             <Link
               href="/generate"
               className={cn(buttonVariants({ variant: "outline", size: "sm" }))}

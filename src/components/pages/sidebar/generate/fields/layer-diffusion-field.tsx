@@ -1,10 +1,5 @@
 "use client";
 
-// Layer Diffusion: transparent-PNG output via the layerdiffusion ComfyUI
-// custom nodes. Single toggle + weight slider. When enabled, the worker
-// branches the VAE decode through the LayerDiffusion subgraph and saves
-// the resulting PNG with an alpha channel.
-
 import { useTranslations } from "next-intl";
 
 import { Label } from "@/components/ui/label";
@@ -18,9 +13,9 @@ type Props = {
 
 export function LayerDiffusionField(props: Props) {
   const t = useTranslations();
-  const enabled = !!props.value;
-  const weight = props.value?.weight ?? 1;
-
+  const v = props.value;
+  const enabled = !!v;
+  const weight = v?.weight ?? 1;
   return (
     <div className="rounded-md border">
       <div className="flex items-center justify-between px-3 py-2">
@@ -43,8 +38,10 @@ export function LayerDiffusionField(props: Props) {
             max={2}
             step={0.05}
             value={[weight]}
-            onValueChange={(v) =>
-              props.onChange({ weight: Array.isArray(v) ? v[0] : v })
+            onValueChange={(s) =>
+              props.onChange({
+                weight: Array.isArray(s) ? s[0] : s,
+              })
             }
           />
         </div>

@@ -1,19 +1,10 @@
 "use client";
 
-// ADetailer section: face/hand fixer. Wraps a small subform that builds a
-// `params.adetailer` object. The worker fires this as a second pass after
-// the main diffusion: YOLO detects faces/hands, the model inpaints each
-// region with the (optional) ADetailer prompt + LoRA chain, then composites.
-//
-// Available on the SDXL-family templates. Off by default; the parent
-// passes value === undefined to mean "off" and the section is collapsed.
-
 import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -27,28 +18,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import type { ModelFamily } from "@/lib/config/generation-models";
 import { LoraPicker, type LoraEntry } from "./lora-picker";
-
-// YOLO + mediapipe choices. Impact Pack's UltralyticsDetectorProvider
-// scans `models/ultralytics/{bbox,segm}/` so face/hand files use the
-// `bbox/` prefix and person-segmentation files use `segm/`. mediapipe_*
-// are internal identifiers (no on-disk file), Impact Pack maps them to
-// its bundled mediapipe library.
-const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
-  { id: "bbox/face_yolov8s.pt", label: "face_yolov8s.pt" },
-  { id: "bbox/face_yolov9c.pt", label: "face_yolov9c.pt" },
-  { id: "bbox/face_yolov8m.pt", label: "face_yolov8m.pt" },
-  { id: "bbox/face_yolov8n.pt", label: "face_yolov8n.pt" },
-  { id: "bbox/face_yolov8n_v2.pt", label: "face_yolov8n_v2.pt" },
-  { id: "bbox/hand_yolov8s.pt", label: "hand_yolov8s.pt" },
-  { id: "bbox/hand_yolov9c.pt", label: "hand_yolov9c.pt" },
-  { id: "bbox/hand_yolov8n.pt", label: "hand_yolov8n.pt" },
-  { id: "segm/person_yolov8n-seg.pt", label: "person_yolov8n-seg.pt" },
-  { id: "segm/person_yolov8m-seg.pt", label: "person_yolov8m-seg.pt" },
-  { id: "segm/person_yolov8s-seg.pt", label: "person_yolov8s-seg.pt" },
-  { id: "mediapipe_face_full", label: "mediapipe_face_full" },
-  { id: "mediapipe_face_mesh", label: "mediapipe_face_mesh" },
-  { id: "mediapipe_face_short", label: "mediapipe_face_short" },
-];
+import { YOLO_MODELS } from "../generate-constants";
 
 export type AdetailerValue = {
   yoloModel: string;
@@ -70,7 +40,7 @@ type Props = {
 
 const DEFAULTS: AdetailerValue = {
   yoloModel: "face_yolov8s.pt",
-  steps: 0, // 0 = use base steps
+  steps: 0,
   confidence: 0.5,
   maskBlur: 4,
   denoise: 0.25,
@@ -96,8 +66,6 @@ export function AdetailerSection(props: Props) {
       <button
         type="button"
         onClick={() => {
-          // Clicking the row only opens / closes when ADetailer is on.
-          // When it's off there's nothing to show, so the row no-ops.
           if (enabled) setOpen((o) => !o);
         }}
         className="flex w-full items-center justify-between px-3 py-2 text-sm font-medium"
@@ -113,8 +81,6 @@ export function AdetailerSection(props: Props) {
         <Switch
           checked={enabled}
           onCheckedChange={(c) => {
-            // Flip the section open as soon as it gets enabled so the
-            // user sees the new controls. Disabling collapses it.
             setOpen(c);
             props.onChange(c ? { ...DEFAULTS } : undefined);
           }}
@@ -146,7 +112,9 @@ export function AdetailerSection(props: Props) {
           <LoraPicker
             family={props.family}
             value={v.loras ?? []}
-            onChange={(loras) => update({ loras })}
+            onChange={(loras) =>
+              update({ loras: loras.length > 0 ? loras : undefined })
+            }
           />
           <div>
             <Label className="mb-1 block">{t("IMAGE.ADETAILER_PROMPT")}</Label>
@@ -247,13 +215,6 @@ export function AdetailerSection(props: Props) {
             />
             {t("IMAGE.ADETAILER_INPAINT_ONLY_MASKED")}
           </label>
-          <p className="text-muted-foreground text-xs">
-            {/* dev-only hint to avoid noise */}
-            <span className="hidden">
-              {Number.isFinite(v.steps ? 1 : 0) ? "" : ""}
-            </span>
-            <Input className="hidden" type="hidden" />
-          </p>
         </div>
       )}
     </div>

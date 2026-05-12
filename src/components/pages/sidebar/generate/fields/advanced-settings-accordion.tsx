@@ -1,10 +1,5 @@
 "use client";
 
-// SDXL-family-only Advanced Settings accordion. Exposes two power-user
-// knobs: Clip Skip and ENSD (Eta Noise Seed Delta). Both route into the
-// KSampler / CLIPSetLastLayer nodes in the ComfyUI template; non-SDXL
-// templates ignore them.
-
 import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -13,15 +8,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 
+export type AdvancedSettingsPatch = {
+  clipSkip?: number;
+  ensd?: number;
+};
+
 type Props = {
   clipSkip: number | undefined;
   ensd: number | undefined;
-  onChange: (next: { clipSkip?: number; ensd?: number }) => void;
+  onChange: (patch: AdvancedSettingsPatch) => void;
 };
 
 export function AdvancedSettingsAccordion(props: Props) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
+
   const clipSkip = props.clipSkip ?? 2;
   const ensd = props.ensd ?? 31337;
 
@@ -51,9 +52,9 @@ export function AdvancedSettingsAccordion(props: Props) {
               max={12}
               step={1}
               value={[clipSkip]}
-              onValueChange={(v) =>
+              onValueChange={(s) =>
                 props.onChange({
-                  clipSkip: Array.isArray(v) ? v[0] : v,
+                  clipSkip: Array.isArray(s) ? s[0] : s,
                 })
               }
             />
