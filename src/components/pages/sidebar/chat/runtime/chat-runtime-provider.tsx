@@ -6,29 +6,29 @@ import { createR2AttachmentAdapter } from "@/components/pages/sidebar/chat/runti
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-    useConversationQuery,
-    useUpdateConversationMutation,
+  useConversationQuery,
+  useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
 import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
-    chatModelAtom,
-    chatStore,
-    getChatDefaults,
-    getChatModel,
-    getChatWebSearch,
-    getConvId,
-    setChatHelpers,
-    setConvId,
-    type ChatHelpersRef,
+  chatModelAtom,
+  chatStore,
+  getChatDefaults,
+  getChatModel,
+  getChatWebSearch,
+  getConvId,
+  setChatHelpers,
+  setConvId,
+  type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
 import {
-    AssistantRuntimeProvider,
-    useAuiState,
-    useRemoteThreadListRuntime,
+  AssistantRuntimeProvider,
+  useAuiState,
+  useRemoteThreadListRuntime,
 } from "@assistant-ui/react";
 import { useAISDKRuntime } from "@assistant-ui/react-ai-sdk";
 import { useQueryClient } from "@tanstack/react-query";

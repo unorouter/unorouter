@@ -11,9 +11,8 @@ export async function register() {
   // sweeper is lazily started so a build that imports instrumentation for
   // edge route metadata doesn't load Drizzle on the wrong runtime.
   if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { startGenerationSweeper } = await import(
-      "./server/generation/generation-sweeper"
-    );
+    const { startGenerationSweeper } =
+      await import("./server/generation/generation-sweeper");
     startGenerationSweeper();
   }
 }

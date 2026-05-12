@@ -46,8 +46,7 @@ export function LogDetailsDialog(props: {
 
   const inputPrice = modelRatio * 2;
   const outputPrice = inputPrice * completionRatio;
-  const cacheReadPrice =
-    cacheRatio != null ? inputPrice * cacheRatio : null;
+  const cacheReadPrice = cacheRatio != null ? inputPrice * cacheRatio : null;
   const cacheCreatePrice =
     cacheCreationRatio != null ? inputPrice * cacheCreationRatio : null;
 
@@ -103,7 +102,7 @@ export function LogDetailsDialog(props: {
 
           <div className="border-border/40 flex flex-col gap-2 rounded-md border p-3">
             <div className="flex items-center justify-between">
-              <span className="text-muted-foreground text-xs uppercase tracking-wider">
+              <span className="text-muted-foreground text-xs tracking-wider uppercase">
                 {t("LOGS.DETAILS_DIALOG.PRICING")}
               </span>
               <Badge variant="secondary" className="font-mono text-[10px]">
@@ -148,7 +147,7 @@ export function LogDetailsDialog(props: {
           </div>
 
           <div className="border-border/40 flex flex-col gap-2 rounded-md border p-3">
-            <span className="text-muted-foreground text-xs uppercase tracking-wider">
+            <span className="text-muted-foreground text-xs tracking-wider uppercase">
               {t("LOGS.DETAILS_DIALOG.USAGE")}
             </span>
             <PriceRow
@@ -180,10 +179,10 @@ export function LogDetailsDialog(props: {
 
           {log.content && (
             <div className="border-border/40 flex flex-col gap-1 rounded-md border p-3">
-              <span className="text-muted-foreground text-xs uppercase tracking-wider">
+              <span className="text-muted-foreground text-xs tracking-wider uppercase">
                 {t("LOGS.DETAIL.LOG_DETAILS")}
               </span>
-              <p className="text-foreground text-xs whitespace-pre-wrap wrap-break-word">
+              <p className="text-foreground text-xs wrap-break-word whitespace-pre-wrap">
                 {log.content}
               </p>
             </div>

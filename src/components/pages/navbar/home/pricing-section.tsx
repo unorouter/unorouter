@@ -87,7 +87,7 @@ function StepCard(props: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-card/40 border-border/60 hover:border-purple-500/40 flex flex-col gap-3 rounded-lg border p-4 backdrop-blur-sm transition-colors lg:p-5">
+    <div className="bg-card/40 border-border/60 flex flex-col gap-3 rounded-lg border p-4 backdrop-blur-sm transition-colors hover:border-purple-500/40 lg:p-5">
       <div className="flex items-center gap-2.5">
         <span className="flex h-7 w-7 items-center justify-center rounded-full border border-purple-500/40 bg-purple-500/10 font-mono text-xs font-bold text-purple-700 dark:text-purple-400">
           {props.num}

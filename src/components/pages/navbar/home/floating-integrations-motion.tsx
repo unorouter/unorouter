@@ -165,7 +165,7 @@ const FLOATERS: readonly FloatItem[] = [
 export function FloatingIntegrationsMotion() {
   return (
     <TooltipProvider delay={200}>
-      <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden lg:block motion-reduce:hidden">
+      <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden motion-reduce:hidden lg:block">
         {FLOATERS.map((item) => {
           const integration = getIntegration(item.key);
           const Icon = integration.icon;
@@ -202,7 +202,7 @@ export function FloatingIntegrationsMotion() {
                     <Link
                       href={integration.href}
                       aria-label={integration.badge}
-                      className="border-border/60 bg-card/80 hover:border-foreground/40 hover:bg-card hover:scale-110 pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md transition-transform duration-200"
+                      className="border-border/60 bg-card/80 hover:border-foreground/40 hover:bg-card pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border shadow-lg backdrop-blur-md transition-transform duration-200 hover:scale-110"
                     />
                   }
                 >

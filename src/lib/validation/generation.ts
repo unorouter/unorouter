@@ -221,6 +221,21 @@ export const generationReferenceEntry = t.Object({
 // Submit body. The server creates a `pending` row first, then forwards a
 // shaped request to upstream new-api. One row per submit; N images per
 // row are produced by `params.n` (clamped to [1, 4] server-side).
+// UI-only state held on the form but stripped before submit. Lives next
+// to the wire schema so RHF can validate both shapes against one resolver.
+// Stripped by `toSubmitBody` in components/pages/sidebar/generate/form/submit-transform.ts.
+export const generationFormUi = t.Object({
+  // Variants is a UI selector translated into `params.n` by the submit transform.
+  variants: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
+  // Inpaint canvas writes a PNG data URL here; submit uploads to R2 and
+  // threads the URL into params.maskUrl.
+  inpaintMaskDataUrl: t.Optional(t.String()),
+  // Brush controls (UI only).
+  inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
+  inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
+});
+export type GenerationFormUi = Static<typeof generationFormUi>;
+
 export const generationSubmitBody = t.Object({
   model: generationModel,
   // Mode is optional: legacy clients send no `mode` and the server
@@ -244,6 +259,15 @@ export const generationSubmitBody = t.Object({
   sessionId: t.Optional(t.String({ maxLength: 64 })),
 });
 export type GenerationSubmitBody = Static<typeof generationSubmitBody>;
+
+// The shape RHF works with: wire body + UI-only `ui` slot. The submit
+// transform strips `ui` and applies its effects (variants -> params.n,
+// inpaintMaskDataUrl -> uploaded -> params.maskUrl).
+export const generationFormValues = t.Composite([
+  generationSubmitBody,
+  t.Object({ ui: t.Optional(generationFormUi) }),
+]);
+export type GenerationFormValues = Static<typeof generationFormValues>;
 
 // History query (paginated). Uses cursor-style pagination keyed by
 // createdAt (descending) to keep page changes stable as new rows arrive.

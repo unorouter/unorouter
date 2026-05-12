@@ -143,9 +143,7 @@ export function MarketShareSection(props: MarketShareSectionProps) {
                 <ChartTooltip
                   content={
                     <ChartTooltipContent
-                      valueFormatter={(v: number) =>
-                        `${(v * 100).toFixed(1)}%`
-                      }
+                      valueFormatter={(v: number) => `${(v * 100).toFixed(1)}%`}
                       sortDesc
                     />
                   }

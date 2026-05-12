@@ -55,10 +55,7 @@ export function MultiSelectPopover(props: Props) {
             <span className="truncate">{props.triggerLabel}</span>
             {props.value.length > 0 && (
               <>
-                <Separator
-                  orientation="vertical"
-                  className="mx-1.5 h-4"
-                />
+                <Separator orientation="vertical" className="mx-1.5 h-4" />
                 <div className="flex gap-1">
                   {props.value.length > 2 ? (
                     <Badge
@@ -113,7 +110,7 @@ export function MultiSelectPopover(props: Props) {
                     >
                       <Check
                         className={cn(
-                          "h-4 w-4 text-primary-foreground!",
+                          "text-primary-foreground! h-4 w-4",
                           !isSelected && "invisible",
                         )}
                       />

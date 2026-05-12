@@ -90,7 +90,10 @@ export function getMjActionColor(action: string): string {
   }
 }
 
-export function formatMjDuration(submitMs: number, finishMs: number): {
+export function formatMjDuration(
+  submitMs: number,
+  finishMs: number,
+): {
   durationSec: number;
   isWarning: boolean;
 } | null {

@@ -81,12 +81,10 @@ export const queryKeys = {
   // Image generation: sessions (history list) + snapshots (the unit of
   // submission). Each session contains many snapshots; chevrons walk the
   // snapshot list inside a session.
-  generationSessionList: (
-    params?: EdenQuery<typeof rpc.api.generation.me>,
-  ) => ["generation-session-list", params] as const,
+  generationSessionList: (params?: EdenQuery<typeof rpc.api.generation.me>) =>
+    ["generation-session-list", params] as const,
   generationSession: (id: string) => ["generation-session", id] as const,
-  generationSnapshot: (id: string) =>
-    ["generation-snapshot", id] as const,
+  generationSnapshot: (id: string) => ["generation-snapshot", id] as const,
   generationSnapshotStatus: (id: string) =>
     ["generation-snapshot-status", id] as const,
   sharedGenerationSession: (shareId: string) =>
@@ -96,9 +94,8 @@ export const queryKeys = {
   embeddingCatalog: (
     params?: EdenQuery<typeof rpc.api.generation.embeddings>,
   ) => ["embedding-catalog", params] as const,
-  upscalerCatalog: (
-    params?: EdenQuery<typeof rpc.api.generation.upscalers>,
-  ) => ["upscaler-catalog", params] as const,
+  upscalerCatalog: (params?: EdenQuery<typeof rpc.api.generation.upscalers>) =>
+    ["upscaler-catalog", params] as const,
   controlNetCatalog: (
     params?: EdenQuery<typeof rpc.api.generation.controlnets>,
   ) => ["controlnet-catalog", params] as const,

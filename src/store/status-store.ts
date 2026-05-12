@@ -32,7 +32,8 @@ export const statusBucketAtom = atom(
 );
 
 export const statusFilterAtom = atom(
-  (get) => get(statusStoreAtom).statusFilter ?? INITIAL_STATUS_STATE.statusFilter,
+  (get) =>
+    get(statusStoreAtom).statusFilter ?? INITIAL_STATUS_STATE.statusFilter,
   (get, set, value: StatusFilter) => {
     const state = get(statusStoreAtom);
     set(statusStoreAtom, { ...state, statusFilter: value });

@@ -34,20 +34,20 @@ import { LoraPicker, type LoraEntry } from "./lora-picker";
 // are internal identifiers (no on-disk file), Impact Pack maps them to
 // its bundled mediapipe library.
 const YOLO_MODELS: ReadonlyArray<{ id: string; label: string }> = [
-  { id: "bbox/face_yolov8s.pt",        label: "face_yolov8s.pt" },
-  { id: "bbox/face_yolov9c.pt",        label: "face_yolov9c.pt" },
-  { id: "bbox/face_yolov8m.pt",        label: "face_yolov8m.pt" },
-  { id: "bbox/face_yolov8n.pt",        label: "face_yolov8n.pt" },
-  { id: "bbox/face_yolov8n_v2.pt",     label: "face_yolov8n_v2.pt" },
-  { id: "bbox/hand_yolov8s.pt",        label: "hand_yolov8s.pt" },
-  { id: "bbox/hand_yolov9c.pt",        label: "hand_yolov9c.pt" },
-  { id: "bbox/hand_yolov8n.pt",        label: "hand_yolov8n.pt" },
-  { id: "segm/person_yolov8n-seg.pt",  label: "person_yolov8n-seg.pt" },
-  { id: "segm/person_yolov8m-seg.pt",  label: "person_yolov8m-seg.pt" },
-  { id: "segm/person_yolov8s-seg.pt",  label: "person_yolov8s-seg.pt" },
-  { id: "mediapipe_face_full",         label: "mediapipe_face_full" },
-  { id: "mediapipe_face_mesh",         label: "mediapipe_face_mesh" },
-  { id: "mediapipe_face_short",        label: "mediapipe_face_short" },
+  { id: "bbox/face_yolov8s.pt", label: "face_yolov8s.pt" },
+  { id: "bbox/face_yolov9c.pt", label: "face_yolov9c.pt" },
+  { id: "bbox/face_yolov8m.pt", label: "face_yolov8m.pt" },
+  { id: "bbox/face_yolov8n.pt", label: "face_yolov8n.pt" },
+  { id: "bbox/face_yolov8n_v2.pt", label: "face_yolov8n_v2.pt" },
+  { id: "bbox/hand_yolov8s.pt", label: "hand_yolov8s.pt" },
+  { id: "bbox/hand_yolov9c.pt", label: "hand_yolov9c.pt" },
+  { id: "bbox/hand_yolov8n.pt", label: "hand_yolov8n.pt" },
+  { id: "segm/person_yolov8n-seg.pt", label: "person_yolov8n-seg.pt" },
+  { id: "segm/person_yolov8m-seg.pt", label: "person_yolov8m-seg.pt" },
+  { id: "segm/person_yolov8s-seg.pt", label: "person_yolov8s-seg.pt" },
+  { id: "mediapipe_face_full", label: "mediapipe_face_full" },
+  { id: "mediapipe_face_mesh", label: "mediapipe_face_mesh" },
+  { id: "mediapipe_face_short", label: "mediapipe_face_short" },
 ];
 
 export type AdetailerValue = {
@@ -126,8 +126,10 @@ export function AdetailerSection(props: Props) {
           <div>
             <Label className="mb-1 block">{t("IMAGE.ADETAILER_MODEL")}</Label>
             <Select
-              value={v.yoloModel}
-              onValueChange={(yoloModel) => update({ yoloModel })}
+              value={v.yoloModel ?? undefined}
+              onValueChange={(yoloModel) =>
+                update({ yoloModel: yoloModel ?? undefined })
+              }
             >
               <SelectTrigger className="w-full">
                 <SelectValue />
@@ -171,9 +173,7 @@ export function AdetailerSection(props: Props) {
                 <Label className="flex items-center gap-2">
                   <Switch
                     checked={stepsToggleOn}
-                    onCheckedChange={(c) =>
-                      update({ steps: c ? 20 : 0 })
-                    }
+                    onCheckedChange={(c) => update({ steps: c ? 20 : 0 })}
                   />
                   {t("IMAGE.ADETAILER_STEPS")}
                 </Label>
@@ -243,9 +243,7 @@ export function AdetailerSection(props: Props) {
           <label className="flex items-center gap-2 text-sm">
             <Checkbox
               checked={v.inpaintOnlyMasked ?? true}
-              onCheckedChange={(c) =>
-                update({ inpaintOnlyMasked: c === true })
-              }
+              onCheckedChange={(c) => update({ inpaintOnlyMasked: c === true })}
             />
             {t("IMAGE.ADETAILER_INPAINT_ONLY_MASKED")}
           </label>

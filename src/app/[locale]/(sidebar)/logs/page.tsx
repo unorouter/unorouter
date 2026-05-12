@@ -29,8 +29,7 @@ export default async function LogsPage() {
   const logsTable = tableStores?.[DataTableId.LOGS] || initialTableStore();
   const drawingTable =
     tableStores?.[DataTableId.MIDJOURNEY_LOGS] || initialTableStore();
-  const taskTable =
-    tableStores?.[DataTableId.TASK_LOGS] || initialTableStore();
+  const taskTable = tableStores?.[DataTableId.TASK_LOGS] || initialTableStore();
 
   const { queryFilters, statFilters } = buildLogQueryFilters(
     logsTable.columnFilters,

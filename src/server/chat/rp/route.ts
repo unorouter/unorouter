@@ -253,16 +253,13 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     },
     { body: lorebookEntryBody },
   )
-  .delete(
-    "/lorebooks/:id/entries/:entryId",
-    async ({ params, cookie }) => {
-      const userId = getUserId(cookie);
-      return {
-        success: true,
-        data: await deleteEntry(userId, params.id, params.entryId),
-      };
-    },
-  )
+  .delete("/lorebooks/:id/entries/:entryId", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return {
+      success: true,
+      data: await deleteEntry(userId, params.id, params.entryId),
+    };
+  })
 
   // ----- Presets -----------------------------------------------------------
   .get("/presets", async ({ cookie }) => {

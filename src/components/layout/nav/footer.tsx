@@ -99,7 +99,9 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="bg-background hover:bg-muted rounded-full p-2 transition-colors"
                   aria-label={t("FOOTER.SOCIAL_TRUSTPILOT")}
-                  onClick={() => analytics.navigation.socialClicked("trustpilot")}
+                  onClick={() =>
+                    analytics.navigation.socialClicked("trustpilot")
+                  }
                 >
                   <SiTrustpilot className="h-5 w-5" />
                 </NextLink>

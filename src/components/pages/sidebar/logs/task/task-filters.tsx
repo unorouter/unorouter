@@ -16,9 +16,7 @@ export function TaskEmptyState() {
   return (
     <div className="flex flex-col items-center gap-3">
       <LuScrollText className="text-muted-foreground h-8 w-8" />
-      <span className="text-muted-foreground text-sm">
-        {t("LOGS.NO_LOGS")}
-      </span>
+      <span className="text-muted-foreground text-sm">{t("LOGS.NO_LOGS")}</span>
     </div>
   );
 }
@@ -70,4 +68,3 @@ export function TaskFiltersBar(props: {
     </div>
   );
 }
-

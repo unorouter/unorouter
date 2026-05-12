@@ -6,10 +6,10 @@ import { rpc } from "@/lib/rpc";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { handleElysia } from "@/lib/utils/base";
 import {
-    fetchConvTitle,
-    getServerGuestConvIds,
-    serverLocale,
-    setCookies,
+  fetchConvTitle,
+  getServerGuestConvIds,
+  serverLocale,
+  setCookies,
 } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";

@@ -40,7 +40,7 @@ export function VendorLink(props: VendorLinkProps) {
     <a
       href={href}
       className={cn(
-        "hover:text-foreground decoration-current/40 underline decoration-1 underline-offset-2 transition-colors hover:decoration-current",
+        "hover:text-foreground underline decoration-current/40 decoration-1 underline-offset-2 transition-colors hover:decoration-current",
         props.className,
       )}
     >

@@ -268,7 +268,7 @@ export async function exportLorebook(
 ): Promise<{ data: string; filename: string }> {
   const book = await getLorebook(userId, id);
   const json = serializeLorebookForExport(book, book.entries, format);
-  const slug = book.name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) ||
-    "lorebook";
+  const slug =
+    book.name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || "lorebook";
   return { data: json, filename: `${slug}.${format}.json` };
 }

@@ -203,9 +203,7 @@ export function ConsumptionChart() {
         <Tabs
           defaultValue="distribution"
           className="flex-1"
-          onValueChange={(tab) =>
-            analytics.dashboard.chartTabChanged({ tab })
-          }
+          onValueChange={(tab) => analytics.dashboard.chartTabChanged({ tab })}
         >
           <div className="border-border overflow-hidden border-b px-5 pt-2">
             <TabsList variant="line" className="h-8">

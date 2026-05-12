@@ -270,7 +270,8 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
     async ({ query }) => {
       const db = getDb();
       const conds = [eq(loraCatalog.visible, true)];
-      if (query.baseModel) conds.push(eq(loraCatalog.baseModel, query.baseModel));
+      if (query.baseModel)
+        conds.push(eq(loraCatalog.baseModel, query.baseModel));
       if (query.category) conds.push(eq(loraCatalog.category, query.category));
       const items = await db
         .select()

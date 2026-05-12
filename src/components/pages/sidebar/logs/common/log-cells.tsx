@@ -206,9 +206,7 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
     <StackedCell
       primary={primary}
       secondary={
-        upstream
-          ? t("LOGS.MAPPED_VIA", { upstream: upstream as string })
-          : null
+        upstream ? t("LOGS.MAPPED_VIA", { upstream: upstream as string }) : null
       }
     />
   );
@@ -340,9 +338,7 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
   const completion = log.completion_tokens ?? 0;
   const tokensPerSecond =
     log.use_time > 0 && completion > 0 ? completion / log.use_time : 0;
-  const streamLabel = log.is_stream
-    ? t("LOGS.STREAM")
-    : t("LOGS.NON_STREAM");
+  const streamLabel = log.is_stream ? t("LOGS.STREAM") : t("LOGS.NON_STREAM");
   const secondary =
     tokensPerSecond > 0
       ? `${streamLabel} \u00b7 ${tokensPerSecond.toFixed(0)} t/s`
@@ -444,9 +440,7 @@ export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogPricingDetailsCell({
-  row,
-}: CellContext<LogRow, unknown>) {
+export function LogPricingDetailsCell({ row }: CellContext<LogRow, unknown>) {
   const t = useTranslations();
   const log = row.original;
   const other = parseOther(log.other);
@@ -500,7 +494,9 @@ export function LogPricingDetailsCell({
     const hasDiscount =
       groupRatio != null && groupRatio > 0 && groupRatio !== 1;
     const effectiveInput = hasDiscount ? inputPrice * groupRatio : inputPrice;
-    const effectiveOutput = hasDiscount ? outputPrice * groupRatio : outputPrice;
+    const effectiveOutput = hasDiscount
+      ? outputPrice * groupRatio
+      : outputPrice;
 
     return (
       <span className="flex flex-col gap-0.5 font-mono text-[11px] leading-tight">
@@ -537,11 +533,7 @@ export function LogPricingDetailsCell({
     );
   })();
 
-  if (
-    !isConsumeLike(log.type) &&
-    log.type !== LOG_TYPE_ERROR &&
-    !log.content
-  ) {
+  if (!isConsumeLike(log.type) && log.type !== LOG_TYPE_ERROR && !log.content) {
     return LOG_EMPTY;
   }
 

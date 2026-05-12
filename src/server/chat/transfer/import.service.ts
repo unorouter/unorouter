@@ -305,9 +305,7 @@ async function importOrpg(
   const charIdMap = new Map(
     Object.keys(orpgCharacters).map((id) => [id, uid()]),
   );
-  const msgIdMap = new Map(
-    Object.keys(orpgMessages).map((id) => [id, uid()]),
-  );
+  const msgIdMap = new Map(Object.keys(orpgMessages).map((id) => [id, uid()]));
 
   await db.transaction(async (tx) => {
     await tx.insert(conversations).values({

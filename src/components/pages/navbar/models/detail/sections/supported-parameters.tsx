@@ -39,13 +39,13 @@ export function SupportedParameters(props: Props) {
       <Table className="text-sm">
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead className="text-muted-foreground h-9 text-[10px] uppercase tracking-wider">
+            <TableHead className="text-muted-foreground h-9 text-[10px] tracking-wider uppercase">
               {t("MODELS.DETAIL.PARAMETER")}
             </TableHead>
-            <TableHead className="text-muted-foreground h-9 w-32 text-[10px] uppercase tracking-wider">
+            <TableHead className="text-muted-foreground h-9 w-32 text-[10px] tracking-wider uppercase">
               {t("MODELS.DETAIL.ALWAYS_SUPPORTED")}
             </TableHead>
-            <TableHead className="text-muted-foreground h-9 text-right text-[10px] uppercase tracking-wider">
+            <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
               {t("MODELS.DETAIL.DEFAULT")}
             </TableHead>
           </TableRow>
@@ -58,9 +58,7 @@ export function SupportedParameters(props: Props) {
 
             let defaultCell: React.ReactNode;
             if (!hasDefault) {
-              defaultCell = (
-                <span className="text-muted-foreground/60">—</span>
-              );
+              defaultCell = <span className="text-muted-foreground/60">—</span>;
             } else if (defaultValue === null) {
               defaultCell = (
                 <span className="text-muted-foreground/80 italic">
@@ -73,9 +71,7 @@ export function SupportedParameters(props: Props) {
 
             return (
               <TableRow key={name}>
-                <TableCell className="py-2 font-mono text-xs">
-                  {name}
-                </TableCell>
+                <TableCell className="py-2 font-mono text-xs">{name}</TableCell>
                 <TableCell className="py-2">
                   {inIntersection ? (
                     <LuCheck

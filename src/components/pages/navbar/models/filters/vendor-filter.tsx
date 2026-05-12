@@ -120,14 +120,12 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
                     <div
                       className={cn(
                         "border-primary mr-2 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border",
-                        isSelected
-                          ? "bg-primary"
-                          : "opacity-50",
+                        isSelected ? "bg-primary" : "opacity-50",
                       )}
                     >
                       <Check
                         className={cn(
-                          "h-4 w-4 text-primary-foreground!",
+                          "text-primary-foreground! h-4 w-4",
                           !isSelected && "invisible",
                         )}
                       />

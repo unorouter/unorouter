@@ -132,10 +132,7 @@ export function extractFromComfyGraph(graph: unknown): RestoredFromPng {
       out.steps ??= asNumber(inputs.steps);
       out.width ??= asNumber(inputs.width);
       out.height ??= asNumber(inputs.height);
-    } else if (
-      cls === "EmptyLatentImage" ||
-      cls === "EmptyFlux2LatentImage"
-    ) {
+    } else if (cls === "EmptyLatentImage" || cls === "EmptyFlux2LatentImage") {
       out.width ??= asNumber(inputs.width);
       out.height ??= asNumber(inputs.height);
     } else if (cls === "KSamplerSelect") {

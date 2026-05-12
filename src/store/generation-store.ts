@@ -18,11 +18,7 @@ export const activeSnapshotIdAtom = atom<string | null>(null);
 // The hover toolbar on result tiles (Inpaint / Upscale / ADetailer / Edit
 // shortcuts) writes `tab` and `subPill` to route the user to the right
 // tab + sub-pill while pre-filling the form with the source image as init.
-export type Img2ImgSubPill =
-  | "img2img"
-  | "upscale"
-  | "adetailer"
-  | "inpaint";
+export type Img2ImgSubPill = "img2img" | "upscale" | "adetailer" | "inpaint";
 
 export type SnapshotRestorePayload = {
   model: string;

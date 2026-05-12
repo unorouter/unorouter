@@ -1,10 +1,7 @@
 "use client";
 
 import { PAGE_SIZE } from "@/lib/config/constants";
-import {
-  mutateMessages,
-  patchMessages,
-} from "@/lib/react-query/cache-helpers";
+import { mutateMessages, patchMessages } from "@/lib/react-query/cache-helpers";
 import {
   patchConv,
   prependConv,
@@ -300,7 +297,11 @@ export function useClearConversationMutation() {
       queryClient.setQueryData<InfiniteData<MessagesPage>>(
         queryKeys.chatMessages(String(args.id)),
         (old) =>
-          old && { ...old, pages: [{ messages: [], total: 0 }], pageParams: [1] },
+          old && {
+            ...old,
+            pages: [{ messages: [], total: 0 }],
+            pageParams: [1],
+          },
       );
       // Flush the live useChat buffer so the thread renders empty without a reload.
       getChatHelpers()?.setMessages(() => []);

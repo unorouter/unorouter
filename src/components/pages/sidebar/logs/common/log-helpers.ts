@@ -90,8 +90,7 @@ const TIMING_PILL_CLASSES: Record<TimingVariant, string> = {
     "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
   warning:
     "border-orange-500/30 bg-orange-500/10 text-orange-700 dark:text-orange-400",
-  danger:
-    "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400",
+  danger: "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400",
 };
 
 const TIMING_PILL_DOTS: Record<TimingVariant, string> = {

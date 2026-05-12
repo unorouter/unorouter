@@ -48,9 +48,7 @@ export function SharedGenerationView(props: Props) {
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
   const forkMut = useForkSharedSessionMutation();
-  const [forkMode, setForkMode] = useState<"restore" | "regenerate">(
-    "restore",
-  );
+  const [forkMode, setForkMode] = useState<"restore" | "regenerate">("restore");
   const [snapshotIndex, setSnapshotIndex] = useState(0);
 
   const data = query.data;
@@ -119,9 +117,7 @@ export function SharedGenerationView(props: Props) {
       {images.length > 0 && (
         <div
           className={
-            images.length === 1
-              ? "w-full"
-              : "grid w-full grid-cols-2 gap-2"
+            images.length === 1 ? "w-full" : "grid w-full grid-cols-2 gap-2"
           }
         >
           {images

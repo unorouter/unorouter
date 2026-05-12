@@ -103,16 +103,15 @@ export async function exportConversationSillyTavern(
     .where(eq(conversationCharacters.convId, convId))
     .orderBy(asc(conversationCharacters.orderIndex))
     .limit(1);
-  const charRow =
-    charBindings[0]?.characterId
-      ? (
-          await db
-            .select({ name: characters.name })
-            .from(characters)
-            .where(eq(characters.id, charBindings[0].characterId))
-            .limit(1)
-        )[0]
-      : undefined;
+  const charRow = charBindings[0]?.characterId
+    ? (
+        await db
+          .select({ name: characters.name })
+          .from(characters)
+          .where(eq(characters.id, charBindings[0].characterId))
+          .limit(1)
+      )[0]
+    : undefined;
 
   const { path, itemsByMsg, tipId } = await walkActiveBranch(convId);
 

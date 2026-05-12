@@ -113,151 +113,155 @@ export function PersonaList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-xl">
+      <DialogContent className="max-h-[85vh] overflow-x-hidden overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{t("RP.PERSONAS_TITLE")}</DialogTitle>
         </DialogHeader>
 
-        {!isLoggedIn ? <RpLoginGate /> : <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center justify-end gap-2">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="application/json"
-              onChange={handleFile}
-              className="hidden"
-            />
-            <Button
-              variant="outline"
-              onClick={() => {
-                analytics.rp.entityAction({
-                  entity: "persona",
-                  action: "import_picker_opened",
-                });
-                fileInputRef.current?.click();
-              }}
-              disabled={importMut.isPending}
-              className="min-w-0 flex-1 sm:flex-initial"
-            >
-              <LuUpload className="size-4" />
-              <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
-            </Button>
-            <Button
-              onClick={() => {
-                analytics.rp.entityAction({
-                  entity: "persona",
-                  action: "create_started",
-                });
-                setEditingId("new");
-              }}
-              className="min-w-0 flex-1 sm:flex-initial"
-            >
-              <LuPlus className="size-4" />
-              <span className="truncate">{t("RP.PERSONAS_NEW")}</span>
-            </Button>
-          </div>
+        {!isLoggedIn ? (
+          <RpLoginGate />
+        ) : (
+          <div className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="application/json"
+                onChange={handleFile}
+                className="hidden"
+              />
+              <Button
+                variant="outline"
+                onClick={() => {
+                  analytics.rp.entityAction({
+                    entity: "persona",
+                    action: "import_picker_opened",
+                  });
+                  fileInputRef.current?.click();
+                }}
+                disabled={importMut.isPending}
+                className="min-w-0 flex-1 sm:flex-initial"
+              >
+                <LuUpload className="size-4" />
+                <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
+              </Button>
+              <Button
+                onClick={() => {
+                  analytics.rp.entityAction({
+                    entity: "persona",
+                    action: "create_started",
+                  });
+                  setEditingId("new");
+                }}
+                className="min-w-0 flex-1 sm:flex-initial"
+              >
+                <LuPlus className="size-4" />
+                <span className="truncate">{t("RP.PERSONAS_NEW")}</span>
+              </Button>
+            </div>
 
-          {personasQuery.data?.length === 0 && editingId !== "new" && (
-            <Card className="text-muted-foreground py-10 text-center text-sm">
-              {t("RP.PERSONAS_EMPTY")}
-            </Card>
-          )}
+            {personasQuery.data?.length === 0 && editingId !== "new" && (
+              <Card className="text-muted-foreground py-10 text-center text-sm">
+                {t("RP.PERSONAS_EMPTY")}
+              </Card>
+            )}
 
-          {editingId && (
-            <Card className="flex flex-col gap-3 p-4">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="flex flex-col gap-3"
-                >
-                  <MyFormInput
-                    control={form.control}
-                    name="name"
-                    schema={personaFormSchema}
-                    label={t("COMMON.NAME")}
-                  />
-                  <span className="text-muted-foreground -mt-2 text-xs">
-                    {t("RP.PERSONA_NAME_HINT")}
-                  </span>
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("COMMON.DESCRIPTION")}</FormLabel>
-                        <FormControl>
-                          <Textarea {...field} rows={3} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <MyFormSwitch
-                    control={form.control}
-                    name="isDefault"
-                    label={t("RP.PERSONA_DEFAULT")}
-                  />
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setEditingId(null)}
-                    >
-                      {t("COMMON.CANCEL")}
-                    </Button>
-                    <Button type="submit">{t("COMMON.SAVE")}</Button>
-                  </div>
-                </form>
-              </Form>
-            </Card>
-          )}
-
-          {!editingId && (
-            <div className="flex flex-col gap-2">
-              {personasQuery.data?.map((p) => (
-                <Card
-                  key={p.id}
-                  className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
-                  onClick={() => {
-                    analytics.rp.entityAction({
-                      entity: "persona",
-                      action: "edit_started",
-                    });
-                    setEditingId(p.id);
-                  }}
-                >
-                  <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
-                    {p.name[0]?.toUpperCase() ?? "?"}
-                  </div>
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <span className="text-sm font-medium">
-                      {p.name}
-                      {p.isDefault && (
-                        <span className="text-muted-foreground ml-2 text-xs">
-                          ({t("RP.PERSONA_DEFAULT").toLowerCase()})
-                        </span>
-                      )}
+            {editingId && (
+              <Card className="flex flex-col gap-3 p-4">
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col gap-3"
+                  >
+                    <MyFormInput
+                      control={form.control}
+                      name="name"
+                      schema={personaFormSchema}
+                      label={t("COMMON.NAME")}
+                    />
+                    <span className="text-muted-foreground -mt-2 text-xs">
+                      {t("RP.PERSONA_NAME_HINT")}
                     </span>
-                    {p.description && (
-                      <span className="text-muted-foreground truncate text-xs">
-                        {p.description}
-                      </span>
-                    )}
-                  </div>
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDelete(p.id);
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("COMMON.DESCRIPTION")}</FormLabel>
+                          <FormControl>
+                            <Textarea {...field} rows={3} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <MyFormSwitch
+                      control={form.control}
+                      name="isDefault"
+                      label={t("RP.PERSONA_DEFAULT")}
+                    />
+                    <div className="flex justify-end gap-2">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={() => setEditingId(null)}
+                      >
+                        {t("COMMON.CANCEL")}
+                      </Button>
+                      <Button type="submit">{t("COMMON.SAVE")}</Button>
+                    </div>
+                  </form>
+                </Form>
+              </Card>
+            )}
+
+            {!editingId && (
+              <div className="flex flex-col gap-2">
+                {personasQuery.data?.map((p) => (
+                  <Card
+                    key={p.id}
+                    className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
+                    onClick={() => {
+                      analytics.rp.entityAction({
+                        entity: "persona",
+                        action: "edit_started",
+                      });
+                      setEditingId(p.id);
                     }}
                   >
-                    <LuTrash2 className="size-4" />
-                  </Button>
-                </Card>
-              ))}
-            </div>
-          )}
-        </div>}
+                    <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
+                      {p.name[0]?.toUpperCase() ?? "?"}
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-col">
+                      <span className="text-sm font-medium">
+                        {p.name}
+                        {p.isDefault && (
+                          <span className="text-muted-foreground ml-2 text-xs">
+                            ({t("RP.PERSONA_DEFAULT").toLowerCase()})
+                          </span>
+                        )}
+                      </span>
+                      {p.description && (
+                        <span className="text-muted-foreground truncate text-xs">
+                          {p.description}
+                        </span>
+                      )}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(p.id);
+                      }}
+                    >
+                      <LuTrash2 className="size-4" />
+                    </Button>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   );

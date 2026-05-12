@@ -3,8 +3,8 @@ import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/cha
 import { GuestConvsClaim } from "@/components/pages/sidebar/chat/runtime/guest-convs-claim";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import {
-    RpDialogs,
-    SidebarRpNav,
+  RpDialogs,
+  SidebarRpNav,
 } from "@/components/pages/sidebar/chat/sidebar/sidebar-rp-nav";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";

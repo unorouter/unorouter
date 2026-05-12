@@ -91,20 +91,21 @@ export function CharacterList(props: Props) {
     }
   };
 
-  const handleExport = async (
-    id: string,
-    format: "png" | "json" | "charx",
-  ) => {
-    const res = await fetch(`/api/rp/characters/${id}/export?format=${format}`, {
-      credentials: "include",
-    });
+  const handleExport = async (id: string, format: "png" | "json" | "charx") => {
+    const res = await fetch(
+      `/api/rp/characters/${id}/export?format=${format}`,
+      {
+        credentials: "include",
+      },
+    );
     if (!res.ok) return;
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     const fname =
-      res.headers.get("content-disposition")?.match(/filename="([^"]+)"/)?.[1] ??
-      `character-${id}.${format}`;
+      res.headers
+        .get("content-disposition")
+        ?.match(/filename="([^"]+)"/)?.[1] ?? `character-${id}.${format}`;
     link.href = url;
     link.download = fname;
     link.click();
@@ -118,7 +119,7 @@ export function CharacterList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-2xl">
+      <DialogContent className="max-h-[85vh] overflow-x-hidden overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {view.mode === "edit" && (
@@ -190,7 +191,7 @@ export function CharacterList(props: Props) {
               {charsQuery.data?.map((c) => (
                 <Card
                   key={c.id}
-                  className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
+                  className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
                   onClick={() => {
                     analytics.rp.entityAction({
                       entity: "character",
@@ -239,13 +240,19 @@ export function CharacterList(props: Props) {
                       align="end"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <DropdownMenuItem onClick={() => handleExport(c.id, "png")}>
+                      <DropdownMenuItem
+                        onClick={() => handleExport(c.id, "png")}
+                      >
                         {t("RP.EXPORT_PNG")}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleExport(c.id, "json")}>
+                      <DropdownMenuItem
+                        onClick={() => handleExport(c.id, "json")}
+                      >
                         {t("RP.EXPORT_JSON")}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => handleExport(c.id, "charx")}>
+                      <DropdownMenuItem
+                        onClick={() => handleExport(c.id, "charx")}
+                      >
                         {t("RP.EXPORT_CHARX")}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -461,9 +468,7 @@ function CharacterEditorInline(props: EditorInlineProps) {
         <div className="flex justify-end gap-2 pt-2">
           <Button
             type="submit"
-            disabled={
-              props.createMut.isPending || props.updateMut.isPending
-            }
+            disabled={props.createMut.isPending || props.updateMut.isPending}
           >
             {t("COMMON.SAVE")}
           </Button>

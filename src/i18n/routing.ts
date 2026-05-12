@@ -351,11 +351,7 @@ export const privateRoutes = {
   // Dynamic routes: the parent path is what we disallow so every child is covered.
   // /chat/[convId] and /shared/[shareId] are user-specific; /chat itself is public.
   // /generate/[id] is per-user submission state.
-  dynamicParents: [
-    "/chat/[convId]",
-    "/shared/[shareId]",
-    "/generate/[id]",
-  ],
+  dynamicParents: ["/chat/[convId]", "/shared/[shareId]", "/generate/[id]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];

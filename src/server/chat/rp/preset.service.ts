@@ -20,18 +20,13 @@ export async function getPreset(userId: number, id: string) {
   const rows = await db
     .select()
     .from(samplingPresets)
-    .where(
-      and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-    )
+    .where(and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)))
     .limit(1);
   assertFound(rows);
   return rows[0];
 }
 
-export async function createPreset(
-  userId: number,
-  body: SamplingPresetBody,
-) {
+export async function createPreset(userId: number, body: SamplingPresetBody) {
   const db = getDb();
   const id = uid();
   await db.transaction(async (tx) => {
@@ -102,9 +97,7 @@ export async function deletePreset(userId: number, id: string) {
   const db = getDb();
   const result = await db
     .delete(samplingPresets)
-    .where(
-      and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-    )
+    .where(and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)))
     .returning({ id: samplingPresets.id });
   assertFound(result);
   return { id };

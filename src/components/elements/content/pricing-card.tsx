@@ -47,7 +47,7 @@ export function PricingCard(props: Props) {
 
       {/* Price hero: paid -> credit value */}
       <div className="mt-3 flex items-baseline gap-2">
-        <span className="text-muted-foreground text-2xl font-bold tracking-tight line-through decoration-muted-foreground/60">
+        <span className="text-muted-foreground decoration-muted-foreground/60 text-2xl font-bold tracking-tight line-through">
           ${props.price}
         </span>
         <svg

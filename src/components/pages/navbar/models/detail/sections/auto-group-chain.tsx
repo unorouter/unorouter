@@ -23,7 +23,7 @@ export function AutoGroupChain(props: Props) {
         props.className,
       )}
     >
-      <span className="font-mono text-[10px] uppercase tracking-wider">
+      <span className="font-mono text-[10px] tracking-wider uppercase">
         {t("MODELS.DETAIL.AUTO_CHAIN")}
       </span>
       {chain.map((group, idx) => (

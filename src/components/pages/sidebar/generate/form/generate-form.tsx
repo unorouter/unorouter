@@ -31,7 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import {
   useSnapshotQuery,
@@ -78,11 +77,20 @@ import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuChevronsUpDown, LuDices, LuLock, LuSparkles } from "react-icons/lu";
-import { AdetailerSection, type AdetailerValue } from "../fields/adetailer-section";
+import { LuChevronsUpDown, LuLock, LuSparkles } from "react-icons/lu";
+import {
+  AdetailerSection,
+  type AdetailerValue,
+} from "../fields/adetailer-section";
 import { AdvancedSettingsAccordion } from "../fields/advanced-settings-accordion";
-import { ControlNetModal, type ControlNetValue } from "../fields/controlnet-modal";
-import { EmbeddingPicker, type EmbeddingEntry } from "../fields/embedding-picker";
+import {
+  ControlNetModal,
+  type ControlNetValue,
+} from "../fields/controlnet-modal";
+import {
+  EmbeddingPicker,
+  type EmbeddingEntry,
+} from "../fields/embedding-picker";
 import { InitImageField } from "../fields/init-image-field";
 import { InpaintCanvas } from "../fields/inpaint-canvas";
 import { LayerDiffusionField } from "../fields/layer-diffusion-field";
@@ -94,6 +102,14 @@ import {
 } from "../fields/reference-uploader";
 import { UpscalerField } from "../fields/upscaler-field";
 import { VaePicker } from "../fields/vae-picker";
+import {
+  OutputFormatField,
+  QualityField,
+  SeedField,
+  SizeField,
+  SliderWithInput,
+  TokenEstimate,
+} from "./generate-form-fields";
 
 const VARIANT_CHOICES = [1, 2, 4] as const;
 
@@ -102,10 +118,7 @@ const VARIANT_CHOICES = [1, 2, 4] as const;
 // Text2Img-only (the v1 default). Edit tab only accepts descriptors
 // that explicitly opt in (Flux Kontext, gpt-image-1, Gemini 3 Pro Image,
 // flux2-dev-compose).
-function isModelInTab(
-  m: GenerationModelDescriptor,
-  tab: GenerateTab,
-): boolean {
+function isModelInTab(m: GenerationModelDescriptor, tab: GenerateTab): boolean {
   if (!m.tabs) return tab === "text2img";
   return m.tabs.includes(tab);
 }
@@ -143,9 +156,7 @@ export function GenerateForm() {
   const uploadMaskMut = useUploadMaskMutation();
   const searchParams = useSearchParams();
   const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
-  const [activeSnapshotId, setActiveSnapshotId] = useAtom(
-    activeSnapshotIdAtom,
-  );
+  const [activeSnapshotId, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
   const [restorePayload, setRestorePayload] = useAtom(
     restoreSnapshotIntoFormAtom,
   );
@@ -187,7 +198,9 @@ export function GenerateForm() {
   // The pricing payload is prefetched in (generate)/layout.tsx so the data
   // is available on first paint.
   const pricingQuery = usePricingQuery();
-  const effectiveModels = getEffectiveGenerationModels(pricingQuery.data?.models);
+  const effectiveModels = getEffectiveGenerationModels(
+    pricingQuery.data?.models,
+  );
   const findDescriptor = (id: GenerationModel): GenerationModelDescriptor =>
     effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
   const [modelPickerOpen, setModelPickerOpen] = useState(false);
@@ -207,11 +220,14 @@ export function GenerateForm() {
 
   // form.watch returns string | undefined; coerce to GenerationModel.
   // eslint-disable-next-line react-hooks/incompatible-library -- form.watch is the documented react-hook-form API; the React Compiler warning is acceptable per existing codebase precedent.
-  const selectedModel = (form.watch("model") as GenerationModel | undefined) ?? INITIAL_MODEL;
+  const selectedModel =
+    (form.watch("model") as GenerationModel | undefined) ?? INITIAL_MODEL;
   const descriptor = findDescriptor(selectedModel);
 
   // eslint-disable-next-line react-hooks/incompatible-library
-  const variantsRaw = (form.watch("extraParams") as { variants?: number } | undefined)?.variants;
+  const variantsRaw = (
+    form.watch("extraParams") as { variants?: number } | undefined
+  )?.variants;
   const variants =
     typeof variantsRaw === "number" && [1, 2, 4].includes(variantsRaw)
       ? (variantsRaw as 1 | 2 | 4)
@@ -273,8 +289,7 @@ export function GenerateForm() {
         ...hiresParams,
       },
       loras: (data.loras as LoraEntry[] | null) ?? undefined,
-      references:
-        (data.references as { url: string }[] | null) ?? undefined,
+      references: (data.references as { url: string }[] | null) ?? undefined,
       visibility: "private",
       nsfw: data.nsfw ?? true,
       extraParams: { variants: 1 },
@@ -343,7 +358,9 @@ export function GenerateForm() {
       return;
     }
     form.reset({
-      ...defaultsFor(getModelDescriptor((draft.model as GenerationModel) || INITIAL_MODEL)),
+      ...defaultsFor(
+        getModelDescriptor((draft.model as GenerationModel) || INITIAL_MODEL),
+      ),
       model: draft.model as GenerationModel,
       prompt: draft.prompt,
       negativePrompt: draft.negativePrompt ?? "",
@@ -379,8 +396,9 @@ export function GenerateForm() {
           loras: values.loras,
           references: values.references,
           nsfw: (values.nsfw as boolean) ?? true,
-          extraParams:
-            (values.extraParams as Record<string, unknown>) ?? { variants: 1 },
+          extraParams: (values.extraParams as Record<string, unknown>) ?? {
+            variants: 1,
+          },
         };
         setDraftRef.current(next);
       }, 500);
@@ -405,7 +423,8 @@ export function GenerateForm() {
       });
     }
     // eslint-disable-next-line react-hooks/incompatible-library
-    const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+    const cur =
+      (form.watch("params") as Record<string, unknown> | undefined) ?? {};
     const next: Record<string, unknown> = { ...cur };
     if (data.seed !== undefined) next.seed = data.seed;
     if (data.steps !== undefined) next.steps = data.steps;
@@ -425,7 +444,8 @@ export function GenerateForm() {
     const extras = { ...((data.extraParams ?? {}) as Record<string, unknown>) };
     delete extras.variants;
     const cleanedExtras = Object.keys(extras).length > 0 ? extras : undefined;
-    const existingParams = (data.params as Record<string, unknown> | undefined) ?? {};
+    const existingParams =
+      (data.params as Record<string, unknown> | undefined) ?? {};
     const paramsWithN: Record<string, unknown> = {
       ...existingParams,
       n: variants,
@@ -435,7 +455,13 @@ export function GenerateForm() {
     // always txt2img. Img2Img top tab => the active sub-pill. Edit tab
     // => the "edit" mode. Legacy snapshots that don't carry a mode are
     // treated as txt2img by the server.
-    const mode: "txt2img" | "img2img" | "upscale" | "adetailer" | "inpaint" | "edit" =
+    const mode:
+      | "txt2img"
+      | "img2img"
+      | "upscale"
+      | "adetailer"
+      | "inpaint"
+      | "edit" =
       activeTab === "text2img"
         ? "txt2img"
         : activeTab === "edit"
@@ -532,7 +558,9 @@ export function GenerateForm() {
     fallback?: number,
   ): number | undefined => {
     // eslint-disable-next-line react-hooks/incompatible-library
-    const params = form.watch("params") as Record<string, number | undefined> | undefined;
+    const params = form.watch("params") as
+      | Record<string, number | undefined>
+      | undefined;
     return params?.[key] ?? fallback;
   };
 
@@ -560,22 +588,34 @@ export function GenerateForm() {
               <FormItem>
                 <FormLabel>{t("IMAGE.MODEL_LABEL")}</FormLabel>
                 <FormControl>
-                  <Popover open={modelPickerOpen} onOpenChange={setModelPickerOpen}>
+                  <Popover
+                    open={modelPickerOpen}
+                    onOpenChange={setModelPickerOpen}
+                  >
                     <PopoverTrigger className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground flex h-9 w-full items-center justify-between rounded-md border px-3 text-sm">
                       <span className="flex min-w-0 items-center gap-2">
                         {descriptor.vendor && (
                           <VendorIcon vendor={descriptor.vendor} size={16} />
                         )}
-                        <span className="truncate">{descriptor.displayName}</span>
+                        <span className="truncate">
+                          {descriptor.displayName}
+                        </span>
                       </span>
                       <LuChevronsUpDown className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
                     </PopoverTrigger>
-                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+                    <PopoverContent
+                      className="w-[--radix-popover-trigger-width] p-0"
+                      align="start"
+                    >
                       <Command>
                         <CommandInput placeholder={t("IMAGE.MODEL_SEARCH")} />
                         <CommandList>
-                          <CommandEmpty>{t("IMAGE.MODEL_NO_RESULTS")}</CommandEmpty>
-                          <CommandGroup heading={t("IMAGE.MODEL_GROUP_COMFYUI")}>
+                          <CommandEmpty>
+                            {t("IMAGE.MODEL_NO_RESULTS")}
+                          </CommandEmpty>
+                          <CommandGroup
+                            heading={t("IMAGE.MODEL_GROUP_COMFYUI")}
+                          >
                             {effectiveModels
                               .filter((m) => m.family !== "sync-image")
                               .filter((m) => isModelInTab(m, activeTab))
@@ -587,9 +627,13 @@ export function GenerateForm() {
                                     value={`${m.displayName} ${m.id}`}
                                     onSelect={() => {
                                       if (disabled) {
-                                        setCookie(AUTH_REDIRECT_COOKIE, pathname, {
-                                          maxAge: 300,
-                                        });
+                                        setCookie(
+                                          AUTH_REDIRECT_COOKIE,
+                                          pathname,
+                                          {
+                                            maxAge: 300,
+                                          },
+                                        );
                                         router.push("/login");
                                         setModelPickerOpen(false);
                                         return;
@@ -600,7 +644,9 @@ export function GenerateForm() {
                                     }}
                                     className={cn(disabled && "opacity-50")}
                                   >
-                                    {m.vendor && <VendorIcon vendor={m.vendor} size={14} />}
+                                    {m.vendor && (
+                                      <VendorIcon vendor={m.vendor} size={14} />
+                                    )}
                                     <span className="min-w-0 flex-1 truncate">
                                       {m.displayName}
                                     </span>
@@ -610,7 +656,10 @@ export function GenerateForm() {
                                       </span>
                                     ) : (
                                       <span className="text-muted-foreground shrink-0 text-xs">
-                                        {renderQuota(dollarsToQuota(m.pricePerCall), 2)}
+                                        {renderQuota(
+                                          dollarsToQuota(m.pricePerCall),
+                                          2,
+                                        )}
                                       </span>
                                     )}
                                     {disabled && (
@@ -620,8 +669,12 @@ export function GenerateForm() {
                                 );
                               })}
                           </CommandGroup>
-                          {effectiveModels.some((m) => m.family === "sync-image") && (
-                            <CommandGroup heading={t("IMAGE.MODEL_GROUP_HOSTED")}>
+                          {effectiveModels.some(
+                            (m) => m.family === "sync-image",
+                          ) && (
+                            <CommandGroup
+                              heading={t("IMAGE.MODEL_GROUP_HOSTED")}
+                            >
                               {effectiveModels
                                 .filter((m) => m.family === "sync-image")
                                 .filter((m) => isModelInTab(m, activeTab))
@@ -633,9 +686,13 @@ export function GenerateForm() {
                                       value={`${m.displayName} ${m.vendor ?? ""} ${m.id}`}
                                       onSelect={() => {
                                         if (disabled) {
-                                          setCookie(AUTH_REDIRECT_COOKIE, pathname, {
-                                            maxAge: 300,
-                                          });
+                                          setCookie(
+                                            AUTH_REDIRECT_COOKIE,
+                                            pathname,
+                                            {
+                                              maxAge: 300,
+                                            },
+                                          );
                                           router.push("/login");
                                           setModelPickerOpen(false);
                                           return;
@@ -646,7 +703,12 @@ export function GenerateForm() {
                                       }}
                                       className={cn(disabled && "opacity-50")}
                                     >
-                                      {m.vendor && <VendorIcon vendor={m.vendor} size={14} />}
+                                      {m.vendor && (
+                                        <VendorIcon
+                                          vendor={m.vendor}
+                                          size={14}
+                                        />
+                                      )}
                                       <span className="min-w-0 flex-1 truncate">
                                         {m.displayName}
                                       </span>
@@ -657,7 +719,10 @@ export function GenerateForm() {
                                       ) : (
                                         <span className="text-muted-foreground shrink-0 text-xs">
                                           {m.pricePerCall > 0
-                                            ? renderQuota(dollarsToQuota(m.pricePerCall), 2)
+                                            ? renderQuota(
+                                                dollarsToQuota(m.pricePerCall),
+                                                2,
+                                              )
                                             : t("IMAGE.PRICING_RATIO_BASED")}
                                         </span>
                                       )}
@@ -693,8 +758,9 @@ export function GenerateForm() {
                 const [nw, nh] = v.split("x").map(Number);
                 // eslint-disable-next-line react-hooks/incompatible-library
                 const cur =
-                  (form.watch("params") as Record<string, unknown> | undefined) ??
-                  {};
+                  (form.watch("params") as
+                    | Record<string, unknown>
+                    | undefined) ?? {};
                 form.setValue(
                   "params",
                   { ...cur, width: nw, height: nh } as never,
@@ -783,7 +849,8 @@ export function GenerateForm() {
               control={form.control}
               name="params.cfg"
               render={({ field }) => {
-                const v = numParam("cfg", descriptor.defaultParams.cfg ?? 7) ?? 7;
+                const v =
+                  numParam("cfg", descriptor.defaultParams.cfg ?? 7) ?? 7;
                 return (
                   <FormItem>
                     <FormLabel>{t("IMAGE.CFG_LABEL")}</FormLabel>
@@ -807,7 +874,11 @@ export function GenerateForm() {
               control={form.control}
               name="params.guidance"
               render={({ field }) => {
-                const v = numParam("guidance", descriptor.defaultParams.guidance ?? 4) ?? 4;
+                const v =
+                  numParam(
+                    "guidance",
+                    descriptor.defaultParams.guidance ?? 4,
+                  ) ?? 4;
                 return (
                   <FormItem>
                     <FormLabel>{t("IMAGE.GUIDANCE_LABEL")}</FormLabel>
@@ -839,7 +910,11 @@ export function GenerateForm() {
                   <FormLabel>{t("IMAGE.SAMPLER_LABEL")}</FormLabel>
                   <FormControl>
                     <Select
-                      value={(field.value as string | undefined) ?? descriptor.defaultParams.sampler ?? ""}
+                      value={
+                        (field.value as string | undefined) ??
+                        descriptor.defaultParams.sampler ??
+                        ""
+                      }
                       onValueChange={field.onChange}
                     >
                       <SelectTrigger className="w-full">
@@ -865,7 +940,11 @@ export function GenerateForm() {
                   <FormLabel>{t("IMAGE.SCHEDULER_LABEL")}</FormLabel>
                   <FormControl>
                     <Select
-                      value={(field.value as string | undefined) ?? descriptor.defaultParams.scheduler ?? ""}
+                      value={
+                        (field.value as string | undefined) ??
+                        descriptor.defaultParams.scheduler ??
+                        ""
+                      }
                       onValueChange={field.onChange}
                     >
                       <SelectTrigger className="w-full">
@@ -946,11 +1025,9 @@ export function GenerateForm() {
               (form.watch("references") as ReferenceEntry[] | undefined) ?? []
             }
             onChange={(refs) =>
-              form.setValue(
-                "references",
-                refs.length > 0 ? refs : undefined,
-                { shouldDirty: true },
-              )
+              form.setValue("references", refs.length > 0 ? refs : undefined, {
+                shouldDirty: true,
+              })
             }
           />
         )}
@@ -975,14 +1052,15 @@ export function GenerateForm() {
               />
             )}
 
-            {descriptor.supportsOutputFormat && descriptor.outputFormatChoices && (
-              <OutputFormatField
-                form={form}
-                choices={descriptor.outputFormatChoices}
-                label={t("IMAGE.OUTPUT_FORMAT_LABEL")}
-                placeholder={t("IMAGE.OUTPUT_FORMAT_DEFAULT")}
-              />
-            )}
+            {descriptor.supportsOutputFormat &&
+              descriptor.outputFormatChoices && (
+                <OutputFormatField
+                  form={form}
+                  choices={descriptor.outputFormatChoices}
+                  label={t("IMAGE.OUTPUT_FORMAT_LABEL")}
+                  placeholder={t("IMAGE.OUTPUT_FORMAT_DEFAULT")}
+                />
+              )}
 
             {descriptor.supportsBackground && (
               <FormField
@@ -1042,8 +1120,7 @@ export function GenerateForm() {
                 control={form.control}
                 name="params.strength"
                 render={({ field }) => {
-                  const v =
-                    typeof field.value === "number" ? field.value : 0.5;
+                  const v = typeof field.value === "number" ? field.value : 0.5;
                   return (
                     <FormItem>
                       <FormLabel>{t("IMAGE.STRENGTH_LABEL")}</FormLabel>
@@ -1093,22 +1170,28 @@ export function GenerateForm() {
         {/* Init image upload — shown on all Img2Img sub-pills. The brush
             canvas (Inpaint sub-pill) mounts on top of this once an image
             is picked. */}
-        {activeTab === "img2img" && (() => {
-          // eslint-disable-next-line react-hooks/incompatible-library
-          const params = form.watch("params") as { initImageUrl?: string } | undefined;
-          return (
-            <InitImageField
-              value={params?.initImageUrl}
-              onChange={(initImageUrl) => {
-                // eslint-disable-next-line react-hooks/incompatible-library
-                const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
-                form.setValue("params", { ...cur, initImageUrl } as never, {
-                  shouldDirty: true,
-                });
-              }}
-            />
-          );
-        })()}
+        {activeTab === "img2img" &&
+          (() => {
+            // eslint-disable-next-line react-hooks/incompatible-library
+            const params = form.watch("params") as
+              | { initImageUrl?: string }
+              | undefined;
+            return (
+              <InitImageField
+                value={params?.initImageUrl}
+                onChange={(initImageUrl) => {
+                  // eslint-disable-next-line react-hooks/incompatible-library
+                  const cur =
+                    (form.watch("params") as
+                      | Record<string, unknown>
+                      | undefined) ?? {};
+                  form.setValue("params", { ...cur, initImageUrl } as never, {
+                    shouldDirty: true,
+                  });
+                }}
+              />
+            );
+          })()}
 
         {/* Inpaint brush canvas. Mounts when sub-pill is inpaint AND a
             source image is set. Hidden otherwise. */}
@@ -1116,7 +1199,9 @@ export function GenerateForm() {
           activeSubPill === "inpaint" &&
           (() => {
             // eslint-disable-next-line react-hooks/incompatible-library
-            const params = form.watch("params") as { initImageUrl?: string } | undefined;
+            const params = form.watch("params") as
+              | { initImageUrl?: string }
+              | undefined;
             return params?.initImageUrl ? (
               <InpaintCanvas imageUrl={params.initImageUrl} />
             ) : null;
@@ -1128,11 +1213,17 @@ export function GenerateForm() {
             family={descriptor.family}
             value={
               // eslint-disable-next-line react-hooks/incompatible-library
-              ((form.watch("params") as { embeddings?: EmbeddingEntry[] } | undefined)?.embeddings ?? [])
+              (
+                form.watch("params") as
+                  | { embeddings?: EmbeddingEntry[] }
+                  | undefined
+              )?.embeddings ?? []
             }
             onChange={(embeddings) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue(
                 "params",
                 {
@@ -1149,11 +1240,13 @@ export function GenerateForm() {
           <VaePicker
             value={
               // eslint-disable-next-line react-hooks/incompatible-library
-              ((form.watch("params") as { vae?: string } | undefined)?.vae)
+              (form.watch("params") as { vae?: string } | undefined)?.vae
             }
             onChange={(vae) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue("params", { ...cur, vae } as never, {
                 shouldDirty: true,
               });
@@ -1165,11 +1258,17 @@ export function GenerateForm() {
           <ControlNetModal
             value={
               // eslint-disable-next-line react-hooks/incompatible-library
-              ((form.watch("params") as { controlNet?: ControlNetValue } | undefined)?.controlNet)
+              (
+                form.watch("params") as
+                  | { controlNet?: ControlNetValue }
+                  | undefined
+              )?.controlNet
             }
             onChange={(controlNet) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue("params", { ...cur, controlNet } as never, {
                 shouldDirty: true,
               });
@@ -1182,11 +1281,17 @@ export function GenerateForm() {
             family={descriptor.family}
             value={
               // eslint-disable-next-line react-hooks/incompatible-library
-              ((form.watch("params") as { adetailer?: AdetailerValue } | undefined)?.adetailer)
+              (
+                form.watch("params") as
+                  | { adetailer?: AdetailerValue }
+                  | undefined
+              )?.adetailer
             }
             onChange={(adetailer) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue("params", { ...cur, adetailer } as never, {
                 shouldDirty: true,
               });
@@ -1198,11 +1303,17 @@ export function GenerateForm() {
           <LayerDiffusionField
             value={
               // eslint-disable-next-line react-hooks/incompatible-library
-              ((form.watch("params") as { layerDiffusion?: { weight: number } } | undefined)?.layerDiffusion)
+              (
+                form.watch("params") as
+                  | { layerDiffusion?: { weight: number } }
+                  | undefined
+              )?.layerDiffusion
             }
             onChange={(layerDiffusion) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue("params", { ...cur, layerDiffusion } as never, {
                 shouldDirty: true,
               });
@@ -1214,36 +1325,52 @@ export function GenerateForm() {
           <UpscalerField
             upscaler={
               // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { upscaler?: string } | undefined)?.upscaler
+              (form.watch("params") as { upscaler?: string } | undefined)
+                ?.upscaler
             }
             multiplier={
               // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { upscalerMultiplier?: number; hiresUpscale?: number } | undefined)?.upscalerMultiplier ??
+              (
+                form.watch("params") as
+                  | { upscalerMultiplier?: number; hiresUpscale?: number }
+                  | undefined
+              )?.upscalerMultiplier ??
               // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { hiresUpscale?: number } | undefined)?.hiresUpscale
+              (form.watch("params") as { hiresUpscale?: number } | undefined)
+                ?.hiresUpscale
             }
             hiresSteps={
               // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { hiresSteps?: number } | undefined)?.hiresSteps
+              (form.watch("params") as { hiresSteps?: number } | undefined)
+                ?.hiresSteps
             }
             denoise={
               // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { hiresDenoise?: number } | undefined)?.hiresDenoise
+              (form.watch("params") as { hiresDenoise?: number } | undefined)
+                ?.hiresDenoise
             }
             onChange={(patch) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue(
                 "params",
                 {
                   ...cur,
-                  ...(patch.upscaler !== undefined && { upscaler: patch.upscaler }),
+                  ...(patch.upscaler !== undefined && {
+                    upscaler: patch.upscaler,
+                  }),
                   ...(patch.multiplier !== undefined && {
                     upscalerMultiplier: patch.multiplier,
                     hiresUpscale: patch.multiplier,
                   }),
-                  ...(patch.hiresSteps !== undefined && { hiresSteps: patch.hiresSteps }),
-                  ...(patch.denoise !== undefined && { hiresDenoise: patch.denoise }),
+                  ...(patch.hiresSteps !== undefined && {
+                    hiresSteps: patch.hiresSteps,
+                  }),
+                  ...(patch.denoise !== undefined && {
+                    hiresDenoise: patch.denoise,
+                  }),
                 } as never,
                 { shouldDirty: true },
               );
@@ -1255,7 +1382,8 @@ export function GenerateForm() {
           <AdvancedSettingsAccordion
             clipSkip={
               // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { clipSkip?: number } | undefined)?.clipSkip
+              (form.watch("params") as { clipSkip?: number } | undefined)
+                ?.clipSkip
             }
             ensd={
               // eslint-disable-next-line react-hooks/incompatible-library
@@ -1263,7 +1391,9 @@ export function GenerateForm() {
             }
             onChange={(patch) => {
               // eslint-disable-next-line react-hooks/incompatible-library
-              const cur = (form.watch("params") as Record<string, unknown> | undefined) ?? {};
+              const cur =
+                (form.watch("params") as Record<string, unknown> | undefined) ??
+                {};
               form.setValue("params", { ...cur, ...patch } as never, {
                 shouldDirty: true,
               });
@@ -1297,9 +1427,7 @@ export function GenerateForm() {
             // loads.
             <Link
               href="/generate"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-              )}
+              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
             >
               {t("IMAGE.NEW_SESSION")}
             </Link>
@@ -1309,245 +1437,3 @@ export function GenerateForm() {
     </Form>
   );
 }
-
-// Vendor knob: select-style enum (gpt-image quality, BFL output_format, etc.).
-// Choices come from the descriptor; the field leaves params.<key> undefined
-// when nothing is picked so the dispatch layer skips the field entirely.
-function QualityField(props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: any;
-  choices: readonly string[];
-  label: string;
-  placeholder: string;
-}) {
-  return (
-    <FormField
-      control={props.form.control}
-      name="params.quality"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{props.label}</FormLabel>
-          <FormControl>
-            <Select
-              value={(field.value as string | undefined) ?? ""}
-              onValueChange={(v) => field.onChange(v || undefined)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={props.placeholder} />
-              </SelectTrigger>
-              <SelectContent>
-                {props.choices.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormControl>
-        </FormItem>
-      )}
-    />
-  );
-}
-
-function OutputFormatField(props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  form: any;
-  choices: readonly string[];
-  label: string;
-  placeholder: string;
-}) {
-  return (
-    <FormField
-      control={props.form.control}
-      name="params.outputFormat"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{props.label}</FormLabel>
-          <FormControl>
-            <Select
-              value={(field.value as string | undefined) ?? ""}
-              onValueChange={(v) => field.onChange(v || undefined)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder={props.placeholder} />
-              </SelectTrigger>
-              <SelectContent>
-                {props.choices.map((c) => (
-                  <SelectItem key={c} value={c}>
-                    {c}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormControl>
-        </FormItem>
-      )}
-    />
-  );
-}
-
-// Slider + manual numeric input. Mobile-friendly: dragging a slider on
-// small screens is fiddly when fine-grained values matter, so we expose
-// the underlying number in a small Input next to the slider track.
-// Clamps to [min, max] on blur; partially-typed values are tolerated
-// during typing so the user can edit without fighting the field.
-function SliderWithInput(props: {
-  value: number;
-  min: number;
-  max: number;
-  step: number;
-  onChange: (v: number) => void;
-}) {
-  const clamp = (n: number) => Math.min(props.max, Math.max(props.min, n));
-  return (
-    <div className="flex items-center gap-3">
-      <Slider
-        min={props.min}
-        max={props.max}
-        step={props.step}
-        value={[props.value]}
-        onValueChange={(next) =>
-          props.onChange(Array.isArray(next) ? next[0] : next)
-        }
-        className="flex-1"
-      />
-      <Input
-        type="number"
-        min={props.min}
-        max={props.max}
-        step={props.step}
-        value={props.value}
-        onChange={(e) => {
-          const raw = e.target.value;
-          if (raw === "") return;
-          const parsed = Number(raw);
-          if (Number.isFinite(parsed)) props.onChange(parsed);
-        }}
-        onBlur={(e) => {
-          const parsed = Number(e.target.value);
-          if (Number.isFinite(parsed)) props.onChange(clamp(parsed));
-        }}
-        className="w-20 shrink-0 text-center"
-      />
-    </div>
-  );
-}
-
-// Prompt-length estimator. CLIP's BPE averages ~4 chars/token in English;
-// SDXL's text encoders cap at 77 tokens per chunk. ComfyUI chunks longer
-// prompts automatically but quality drops past chunk 1, so warn instead
-// of blocking. Flux 2's Mistral encoder accepts long natural language and
-// has no useful cap — show the raw count without a warning.
-const CLIP_TOKEN_CAP = 77;
-function estimateClipTokens(text: string): number {
-  if (!text) return 0;
-  // Word-aware estimate: each whitespace-separated chunk contributes
-  // roughly chars/4 + 1 tokens (the +1 accounts for the leading space
-  // marker CLIP uses on subwords). Matches A1111 / ComfyUI counters
-  // within ~5% across short prompts.
-  const words = text.trim().split(/\s+/).filter(Boolean);
-  let total = 0;
-  for (const w of words) total += Math.max(1, Math.ceil(w.length / 4));
-  return total;
-}
-
-function TokenEstimate(props: { text: string; family: string }) {
-  const t = useTranslations();
-  const count = estimateClipTokens(props.text);
-  if (count === 0) return null;
-  const showCap = props.family === "sdxl";
-  const over = showCap && count > CLIP_TOKEN_CAP;
-  return (
-    <p
-      className={
-        over
-          ? "text-amber-500 mt-1 text-xs"
-          : "text-muted-foreground mt-1 text-xs"
-      }
-    >
-      {showCap
-        ? t("IMAGE.TOKEN_COUNT_CAPPED", { count, cap: CLIP_TOKEN_CAP })
-        : t("IMAGE.TOKEN_COUNT", { count })}
-    </p>
-  );
-}
-
-function SizeField(props: { value: string; onChange: (v: string) => void }) {
-  const t = useTranslations();
-  return (
-    <FormItem>
-      <FormLabel>{t("IMAGE.SIZE_LABEL")}</FormLabel>
-      <FormControl>
-        <Select
-          value={props.value}
-          onValueChange={(v) => v !== null && props.onChange(v)}
-        >
-          <SelectTrigger className="w-full">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {[
-              "1024x1024",
-              "832x1216",
-              "1216x832",
-              "1024x1536",
-              "1536x1024",
-            ].map((s) => (
-              <SelectItem key={s} value={s}>
-                {s}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FormControl>
-    </FormItem>
-  );
-}
-
-// Seed input + randomize button. Lifted out so it slots cleanly into the
-// Sampler/Scheduler/Seed three-column grid (and falls back to a single full-
-// width row on Flux 2 where samplers don't apply).
-function SeedField(props: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- form is typeboxResolver-typed; threading the generic adds noise without value
-  form: any;
-}) {
-  const t = useTranslations();
-  return (
-    <FormField
-      control={props.form.control}
-      name="params.seed"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>{t("IMAGE.SEED_LABEL")}</FormLabel>
-          <div className="flex gap-2">
-            <FormControl>
-              <Input
-                type="number"
-                placeholder="auto"
-                value={(field.value as number | undefined) ?? ""}
-                onChange={(e) =>
-                  field.onChange(
-                    e.target.value === "" ? undefined : Number(e.target.value),
-                  )
-                }
-              />
-            </FormControl>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              onClick={() =>
-                field.onChange(Math.floor(Math.random() * 4_000_000_000))
-              }
-              title={t("IMAGE.SEED_RANDOMIZE")}
-            >
-              <LuDices />
-            </Button>
-          </div>
-        </FormItem>
-      )}
-    />
-  );
-}
-

@@ -122,7 +122,7 @@ export function ControlNetModal(props: Props) {
                             : "border-border text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                         )}
                       >
-                        {t(k.i18nKey)}
+                        {t(k.i18nKey as Parameters<typeof t>[0])}
                       </button>
                     ))}
                   </div>
@@ -209,7 +209,8 @@ export function ControlNetModal(props: Props) {
         <div className="bg-muted/40 border-t px-3 py-2 text-xs">
           {t("IMAGE.CONTROLNET_ACTIVE", {
             kind: t(
-              KINDS.find((k) => k.id === props.value?.kind)?.i18nKey ?? "",
+              (KINDS.find((k) => k.id === props.value?.kind)?.i18nKey ??
+                "") as Parameters<typeof t>[0],
             ),
             weight: props.value!.weight.toFixed(2),
           })}

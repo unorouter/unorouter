@@ -36,4 +36,3 @@ export function useStatusComponents() {
     staleTime: 30_000,
   });
 }
-

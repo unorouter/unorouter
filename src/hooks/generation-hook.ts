@@ -5,11 +5,7 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 // 2s polling cadence matches the chat task hook. Stops on terminal.
@@ -47,9 +43,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
     queryKey: queryKeys.generationSession(sessionId ?? ""),
     queryFn: async () =>
       handleElysia(
-        await rpc.api.generation
-          .session({ sessionId: sessionId! })
-          .get(),
+        await rpc.api.generation.session({ sessionId: sessionId! }).get(),
       ),
     enabled: !!sessionId,
     retry: false,
@@ -64,9 +58,7 @@ export function useSnapshotQuery(id: string | null | undefined) {
   return useQuery({
     queryKey: queryKeys.generationSnapshot(id ?? ""),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.generation.snapshot({ id: id! }).get(),
-      ),
+      handleElysia(await rpc.api.generation.snapshot({ id: id! }).get()),
     enabled: !!id,
     retry: false,
   });
@@ -80,9 +72,7 @@ export function useSnapshotStatusQuery(
   return useQuery({
     queryKey: queryKeys.generationSnapshotStatus(id ?? ""),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.generation.snapshot({ id: id! }).status.get(),
-      ),
+      handleElysia(await rpc.api.generation.snapshot({ id: id! }).status.get()),
     enabled: enabled && !!id,
     retry: false,
     staleTime: 0,
@@ -110,8 +100,14 @@ export function useSubmitGenerationMutation() {
     onSuccess: (data) => {
       // Seed the snapshot's status cache so the polling hook starts from
       // the server-returned shape.
-      qc.setQueryData(queryKeys.generationSnapshot(data.snapshot.id), data.snapshot);
-      qc.setQueryData(queryKeys.generationSnapshotStatus(data.snapshot.id), data.snapshot);
+      qc.setQueryData(
+        queryKeys.generationSnapshot(data.snapshot.id),
+        data.snapshot,
+      );
+      qc.setQueryData(
+        queryKeys.generationSnapshotStatus(data.snapshot.id),
+        data.snapshot,
+      );
       // Invalidate the session list (new session created or existing one
       // moved to the top) and the session detail (new snapshot appended).
       qc.invalidateQueries({ queryKey: ["generation-session-list"] });
@@ -151,9 +147,7 @@ export function useDeleteSnapshotMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: { id: string }) =>
-      handleElysia(
-        await rpc.api.generation.snapshot({ id: args.id }).delete(),
-      ),
+      handleElysia(await rpc.api.generation.snapshot({ id: args.id }).delete()),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       qc.removeQueries({
@@ -401,7 +395,9 @@ type SessionListData = NonNullable<
   NonNullable<Awaited<ReturnType<typeof rpc.api.generation.me.get>>["data"]>
 >["data"];
 type SubmitData = NonNullable<
-  NonNullable<Awaited<ReturnType<typeof rpc.api.generation.submit.post>>["data"]>
+  NonNullable<
+    Awaited<ReturnType<typeof rpc.api.generation.submit.post>>["data"]
+  >
 >["data"];
 
 export type GenerationSnapshotDetail = SubmitData["snapshot"];

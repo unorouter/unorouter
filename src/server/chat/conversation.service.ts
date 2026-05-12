@@ -268,7 +268,9 @@ export async function updateSettings(
       const owned = await tx
         .select({ id: personas.id })
         .from(personas)
-        .where(and(eq(personas.userId, userId), eq(personas.id, body.personaId)))
+        .where(
+          and(eq(personas.userId, userId), eq(personas.id, body.personaId)),
+        )
         .limit(1);
       assertFound(owned);
     }
@@ -309,9 +311,7 @@ export async function getSettings(userId: number, convId: string) {
   const ownership = await db
     .select({ id: conversations.id })
     .from(conversations)
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
   assertFound(ownership);
 
@@ -336,9 +336,7 @@ export async function deleteConversation(userId: number, convId: string) {
   const conv = await db
     .select()
     .from(conversations)
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
   assertFound(conv);
 
@@ -368,9 +366,7 @@ export async function createShareLink(userId: number, convId: string) {
   const result = await db
     .update(conversations)
     .set({ shareId })
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .returning({ id: conversations.id });
 
   assertFound(result);
@@ -382,9 +378,7 @@ export async function revokeShareLink(userId: number, convId: string) {
   const result = await db
     .update(conversations)
     .set({ shareId: null })
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .returning({ id: conversations.id });
 
   assertFound(result);
@@ -456,9 +450,7 @@ export async function claimConversations(userId: number, convIds: string[]) {
   const result = await db
     .update(conversations)
     .set({ userId, updatedAt: dayjs().toDate() })
-    .where(
-      and(eq(conversations.userId, 0), inArray(conversations.id, convIds)),
-    )
+    .where(and(eq(conversations.userId, 0), inArray(conversations.id, convIds)))
     .returning({ id: conversations.id });
   return { claimed: result.length };
 }
@@ -598,7 +590,7 @@ export async function duplicateConversation(userId: number, convId: string) {
         srcMessages.map((m) => ({
           id: idMap.get(m.id)!,
           convId: newConvId,
-          parentId: m.parentId ? idMap.get(m.parentId) ?? null : null,
+          parentId: m.parentId ? (idMap.get(m.parentId) ?? null) : null,
           characterId: m.characterId,
           role: m.role,
           model: m.model,

@@ -24,9 +24,7 @@ export async function getBindings(userId: number, convId: string) {
   const ownership = await db
     .select({ id: conversations.id })
     .from(conversations)
-    .where(
-      and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-    )
+    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .limit(1);
   assertFound(ownership);
 
@@ -71,7 +69,9 @@ export async function updateBindings(
         const owned = await tx
           .select({ id: characters.id })
           .from(characters)
-          .where(and(eq(characters.userId, userId), inArray(characters.id, ids)));
+          .where(
+            and(eq(characters.userId, userId), inArray(characters.id, ids)),
+          );
         if (owned.length !== new Set(ids).size) {
           throw new Error(msg("ERRORS.NOT_FOUND"));
         }

@@ -29,9 +29,7 @@ import {
   type TaskRow,
 } from "./task-helpers";
 
-const EMPTY = (
-  <span className="text-muted-foreground text-xs">{"—"}</span>
-);
+const EMPTY = <span className="text-muted-foreground text-xs">{"—"}</span>;
 
 export const TaskDialogContext = createContext<{
   openFailReason: (row: TaskRow) => void;
@@ -63,9 +61,7 @@ export function TaskTimeCell({ row }: CellContext<TaskRow, unknown>) {
           {formatTaskTimestamp(log.submit_time)}
         </span>
       }
-      secondary={
-        log.finish_time ? formatTaskTimestamp(log.finish_time) : null
-      }
+      secondary={log.finish_time ? formatTaskTimestamp(log.finish_time) : null}
     />
   );
 }

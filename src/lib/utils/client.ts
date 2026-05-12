@@ -99,4 +99,3 @@ export function useSimpleMutation<TArgs, TResult>(
     onError: (e) => handleError(e, t),
   });
 }
-

@@ -40,7 +40,8 @@ export async function fetchRefBytes(url: string): Promise<RefBytes> {
     throw new Error(`reference too large: ${arr.byteLength} bytes`);
   }
   const buf = Buffer.from(arr);
-  const mime = res.headers.get("content-type")?.split(";")[0]?.trim() || "image/png";
+  const mime =
+    res.headers.get("content-type")?.split(";")[0]?.trim() || "image/png";
   const base64 = buf.toString("base64");
   return { buf, mime, base64, dataUri: `data:${mime};base64,${base64}` };
 }
@@ -109,7 +110,11 @@ export function buildImageGenerationsBody(args: SubmitArgs): Built {
   if (args.seed !== undefined) form.append("seed", String(args.seed));
   for (const r of args.refs) {
     const blob = new Blob([new Uint8Array(r.buf)], { type: r.mime });
-    form.append("image[]", blob, `ref-${form.getAll("image[]").length}.${mimeExt(r.mime)}`);
+    form.append(
+      "image[]",
+      blob,
+      `ref-${form.getAll("image[]").length}.${mimeExt(r.mime)}`,
+    );
   }
   return { kind: "multipart", path: "/v1/images/edits", form };
 }
@@ -161,7 +166,8 @@ export function buildGeminiGenerateBody(args: SubmitArgs): Built {
     contents: [{ parts }],
     generationConfig,
   };
-  if (args.seed !== undefined) (body.generationConfig as Record<string, unknown>).seed = args.seed;
+  if (args.seed !== undefined)
+    (body.generationConfig as Record<string, unknown>).seed = args.seed;
   return {
     kind: "json",
     path: `/v1beta/models/${encodeURIComponent(args.model)}:generateContent`,
@@ -169,7 +175,10 @@ export function buildGeminiGenerateBody(args: SubmitArgs): Built {
   };
 }
 
-export function buildBody(endpoint: SyncImageEndpoint, args: SubmitArgs): Built {
+export function buildBody(
+  endpoint: SyncImageEndpoint,
+  args: SubmitArgs,
+): Built {
   switch (endpoint) {
     case "image-generation":
       return buildImageGenerationsBody(args);
@@ -198,7 +207,10 @@ export function extractResultUris(
     for (const entry of data) {
       if (typeof entry.url === "string" && entry.url.length > 0) {
         out.push(entry.url);
-      } else if (typeof entry.b64_json === "string" && entry.b64_json.length > 0) {
+      } else if (
+        typeof entry.b64_json === "string" &&
+        entry.b64_json.length > 0
+      ) {
         out.push(`data:image/png;base64,${entry.b64_json}`);
       }
     }
@@ -207,7 +219,10 @@ export function extractResultUris(
 
   if (endpoint === "openai") {
     const choices = p.choices as Array<Record<string, unknown>> | undefined;
-    const msg = (choices?.[0]?.message ?? null) as Record<string, unknown> | null;
+    const msg = (choices?.[0]?.message ?? null) as Record<
+      string,
+      unknown
+    > | null;
     if (!msg) return [];
     // Two common shapes: array of parts with image_url, or markdown/data-URI string.
     const content = msg.content;
@@ -215,7 +230,8 @@ export function extractResultUris(
       for (const part of content) {
         const pp = part as Record<string, unknown>;
         if (pp.type === "image_url") {
-          const url = (pp.image_url as Record<string, unknown> | undefined)?.url;
+          const url = (pp.image_url as Record<string, unknown> | undefined)
+            ?.url;
           if (typeof url === "string" && url.length > 0) out.push(url);
         }
       }
@@ -230,11 +246,9 @@ export function extractResultUris(
 
   // gemini
   const candidates = p.candidates as Array<Record<string, unknown>> | undefined;
-  const parts = (
-    (candidates?.[0]?.content as Record<string, unknown> | undefined)?.parts as
-      | Array<Record<string, unknown>>
-      | undefined
-  ) ?? [];
+  const parts =
+    ((candidates?.[0]?.content as Record<string, unknown> | undefined)
+      ?.parts as Array<Record<string, unknown>> | undefined) ?? [];
   for (const part of parts) {
     const inline =
       (part.inline_data as Record<string, unknown> | undefined) ??
@@ -249,7 +263,9 @@ export function extractResultUris(
 
 function extractFromMarkdownOrText(text: string): string | null {
   // Markdown image: ![alt](url)
-  const md = text.match(/!\[[^\]]*\]\((https?:\/\/[^\s)]+|data:image\/[^\s)]+)\)/);
+  const md = text.match(
+    /!\[[^\]]*\]\((https?:\/\/[^\s)]+|data:image\/[^\s)]+)\)/,
+  );
   if (md?.[1]) return md[1];
   // Bare data URI
   const data = text.match(/data:image\/[^\s)]+/);

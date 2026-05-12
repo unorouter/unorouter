@@ -280,10 +280,7 @@ export function ChatActionsMenu(props: Props) {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button
-              variant="ghost"
-              onClick={() => setConfirmClearOpen(false)}
-            >
+            <Button variant="ghost" onClick={() => setConfirmClearOpen(false)}>
               {t("COMMON.CANCEL")}
             </Button>
             <Button

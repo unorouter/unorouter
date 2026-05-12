@@ -431,12 +431,7 @@ const docs = {
 
 const rp = {
   entityAction: (props: {
-    entity:
-      | "character"
-      | "persona"
-      | "lorebook"
-      | "preset"
-      | "lorebook_entry";
+    entity: "character" | "persona" | "lorebook" | "preset" | "lorebook_entry";
     action:
       | "create_started"
       | "edit_started"

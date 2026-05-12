@@ -46,9 +46,9 @@ export function VaePicker(props: {
     <div>
       <Label className="mb-1 block">{t("IMAGE.VAE")}</Label>
       <Select
-        value={v}
+        value={v ?? undefined}
         onValueChange={(next) =>
-          props.onChange(next === "automatic" ? undefined : next)
+          props.onChange(next === "automatic" ? undefined : (next ?? undefined))
         }
       >
         <SelectTrigger className="w-full">

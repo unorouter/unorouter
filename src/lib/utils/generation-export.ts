@@ -19,9 +19,7 @@ export function downloadGenerationSnapshot(
 
 /** Reads a File picked from <input type="file"> and parses it as JSON.
  *  Throws on parse failure; callers handle the toast. */
-export async function readGenerationSnapshotFile(
-  file: File,
-): Promise<unknown> {
+export async function readGenerationSnapshotFile(file: File): Promise<unknown> {
   const text = await file.text();
   return JSON.parse(text);
 }

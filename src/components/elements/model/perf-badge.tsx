@@ -46,7 +46,7 @@ export function PerfBadge(props: Props) {
       )}
     >
       <div className="flex flex-col items-end gap-0.5">
-        <span className="text-muted-foreground/60 uppercase tracking-wider">
+        <span className="text-muted-foreground/60 tracking-wider uppercase">
           {t("MODELS.PERF.LATENCY")}
         </span>
         <span className="text-foreground">
@@ -54,13 +54,13 @@ export function PerfBadge(props: Props) {
         </span>
       </div>
       <div className="flex flex-col items-end gap-0.5">
-        <span className="text-muted-foreground/60 uppercase tracking-wider">
+        <span className="text-muted-foreground/60 tracking-wider uppercase">
           {t("MODELS.PERF.TPS")}
         </span>
         <span className="text-foreground">{formatTps(props.perf.avg_tps)}</span>
       </div>
       <div className="flex flex-col items-center gap-0.5">
-        <span className="text-muted-foreground/60 uppercase tracking-wider">
+        <span className="text-muted-foreground/60 tracking-wider uppercase">
           {t("MODELS.PERF.STATUS")}
         </span>
         <span className="flex h-3.5 items-center">

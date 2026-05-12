@@ -611,7 +611,7 @@ export async function streamChat(
         presetMaxOut ?? modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP,
         FREE_MODEL_OUTPUT_CAP,
       )
-    : presetMaxOut ?? modelMetadata.maxOutputTokens;
+    : (presetMaxOut ?? modelMetadata.maxOutputTokens);
   const streamStartedAt = Date.now();
   const result = streamText({
     model: provider.chatModel(body.model),
@@ -645,8 +645,12 @@ export async function streamChat(
     providerOptions: {
       openai: {
         ...(assembled.extraBody ?? {}),
-        ...(assembled.sampling.minP !== undefined && { min_p: assembled.sampling.minP }),
-        ...(assembled.sampling.topA !== undefined && { top_a: assembled.sampling.topA }),
+        ...(assembled.sampling.minP !== undefined && {
+          min_p: assembled.sampling.minP,
+        }),
+        ...(assembled.sampling.topA !== undefined && {
+          top_a: assembled.sampling.topA,
+        }),
         ...(assembled.sampling.repetitionPenalty !== undefined && {
           repetition_penalty: assembled.sampling.repetitionPenalty,
         }),
@@ -663,8 +667,7 @@ export async function streamChat(
         outputTokens > 0 && durationMs > 0
           ? outputTokens / (durationMs / 1000)
           : undefined;
-      const requestId =
-        response.headers?.["x-oneapi-request-id"] ?? undefined;
+      const requestId = response.headers?.["x-oneapi-request-id"] ?? undefined;
       trackUsage(body.convId, {
         requestId,
         inputTokens,

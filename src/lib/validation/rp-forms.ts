@@ -52,7 +52,10 @@ const nullableNumber = (min: number, max: number) =>
 export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: "__none__" }),
   presetId: t.String({ default: "__none__" }),
-  reasoningEffort: t.String({ ...reasoningEffortLiterals, default: "__none__" }),
+  reasoningEffort: t.String({
+    ...reasoningEffortLiterals,
+    default: "__none__",
+  }),
   chatMemory: t.Number({ minimum: 1, maximum: 1000, default: 8 }),
   authorNoteDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   systemPromptOverride: t.String({ default: "" }),

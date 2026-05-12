@@ -156,9 +156,7 @@ export function ModelListItem(props: {
         className="hidden md:flex"
       />
 
-      {props.perf && (
-        <PerfBadge perf={props.perf} className="hidden lg:flex" />
-      )}
+      {props.perf && <PerfBadge perf={props.perf} className="hidden lg:flex" />}
 
       {/* Row 2: Pricing */}
       <div className="flex shrink-0 items-center gap-2 text-right">

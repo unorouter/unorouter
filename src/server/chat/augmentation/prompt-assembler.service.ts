@@ -52,9 +52,11 @@ function mergeSampling(
   if (src.topK != null) dest.topK = src.topK;
   if (src.minP != null) dest.minP = src.minP;
   if (src.topA != null) dest.topA = src.topA;
-  if (src.frequencyPenalty != null) dest.frequencyPenalty = src.frequencyPenalty;
+  if (src.frequencyPenalty != null)
+    dest.frequencyPenalty = src.frequencyPenalty;
   if (src.presencePenalty != null) dest.presencePenalty = src.presencePenalty;
-  if (src.repetitionPenalty != null) dest.repetitionPenalty = src.repetitionPenalty;
+  if (src.repetitionPenalty != null)
+    dest.repetitionPenalty = src.repetitionPenalty;
   if (src.maxTokens != null) dest.maxOutputTokens = src.maxTokens;
 }
 
@@ -109,7 +111,8 @@ function parseExtraBody(
   return undefined;
 }
 
-const TEMPLATE_VAR_RE = /\{\{(user|char|user_description|char_description|scenario)\}\}/g;
+const TEMPLATE_VAR_RE =
+  /\{\{(user|char|user_description|char_description|scenario)\}\}/g;
 
 export function expandTemplateVars(
   text: string,
@@ -150,11 +153,11 @@ export function assembleFromOverrides(
   mergeSampling(sampling, overrides);
   const sections: string[] = [];
   if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
-  if (overrides?.systemPromptOverride) sections.push(overrides.systemPromptOverride);
-  const authorNote =
-    overrides?.authorNote
-      ? { text: overrides.authorNote, depth: overrides.authorNoteDepth ?? 4 }
-      : undefined;
+  if (overrides?.systemPromptOverride)
+    sections.push(overrides.systemPromptOverride);
+  const authorNote = overrides?.authorNote
+    ? { text: overrides.authorNote, depth: overrides.authorNoteDepth ?? 4 }
+    : undefined;
   return {
     system: sections.length ? sections.join("\n\n") : undefined,
     sampling,
@@ -211,8 +214,12 @@ export async function loadConvContext(convId: string) {
   const boundCharacters = charBindings
     .map((b) => ({ binding: b, character: charById.get(b.characterId) }))
     .filter(
-      (x): x is { binding: typeof charBindings[number]; character: typeof charRows[number] } =>
-        !!x.character,
+      (
+        x,
+      ): x is {
+        binding: (typeof charBindings)[number];
+        character: (typeof charRows)[number];
+      } => !!x.character,
     );
 
   const persona = settings.personaId
@@ -245,10 +252,7 @@ export async function loadConvContext(convId: string) {
   const [lbRows, lbEntries] =
     lorebookIds.length > 0
       ? await Promise.all([
-          db
-            .select()
-            .from(lorebooks)
-            .where(inArray(lorebooks.id, lorebookIds)),
+          db.select().from(lorebooks).where(inArray(lorebooks.id, lorebookIds)),
           db
             .select()
             .from(lorebookEntries)
@@ -294,7 +298,9 @@ function matchEntries(entries: LbEntry[], text: string): LbEntry[] {
     if (!hit) return false;
     if (e.selective) {
       const sec = (e.secondaryKeys ?? []) as string[];
-      return sec.length === 0 || sec.some((k) => lower.includes(k.toLowerCase()));
+      return (
+        sec.length === 0 || sec.some((k) => lower.includes(k.toLowerCase()))
+      );
     }
     return true;
   });
@@ -343,7 +349,9 @@ export function selectLorebookEntries(
 
     for (let pass = 0; pass < MAX_RECURSIVE_PASSES; pass++) {
       const matched = matchEntries(
-        bookEntries.filter((e) => !seen.has(e.id) && !accepted.some((a) => a.id === e.id)),
+        bookEntries.filter(
+          (e) => !seen.has(e.id) && !accepted.some((a) => a.id === e.id),
+        ),
         scanText,
       );
       if (matched.length === 0) break;
@@ -456,7 +464,8 @@ export async function assembleForStream(
   for (const e of selected.filter((x) => x.position === "after_char"))
     sections.push(expand(e.content));
 
-  const sysOverride = settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
+  const sysOverride =
+    settings.systemPromptOverride ?? primary?.systemPrompt ?? null;
   if (sysOverride) sections.push(expand(sysOverride));
 
   if (primary?.postHistoryInstructions)
@@ -474,7 +483,10 @@ export async function assembleForStream(
     .filter((e) => e.position === "at_depth")
     .map((e) => ({ text: expand(e.content), depth: e.depth ?? 4 }));
   const authorNote = settings.authorNote
-    ? { text: expand(settings.authorNote), depth: settings.authorNoteDepth ?? 4 }
+    ? {
+        text: expand(settings.authorNote),
+        depth: settings.authorNoteDepth ?? 4,
+      }
     : undefined;
 
   // Sampling: layer preset (base) under settings (overrides). Field-by-field

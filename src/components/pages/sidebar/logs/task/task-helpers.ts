@@ -46,7 +46,10 @@ export function getTaskStatusLabel(status: string): string {
   );
 }
 
-export function formatTaskDuration(submitSec: number, finishSec: number): {
+export function formatTaskDuration(
+  submitSec: number,
+  finishSec: number,
+): {
   durationSec: number;
   isWarning: boolean;
 } | null {

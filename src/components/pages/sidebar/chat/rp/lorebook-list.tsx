@@ -126,8 +126,9 @@ export function LorebookList(props: Props) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     const fname =
-      res.headers.get("content-disposition")?.match(/filename="([^"]+)"/)?.[1] ??
-      `lorebook-${id}.${format}.json`;
+      res.headers
+        .get("content-disposition")
+        ?.match(/filename="([^"]+)"/)?.[1] ?? `lorebook-${id}.${format}.json`;
     link.href = url;
     link.download = fname;
     link.click();
@@ -141,7 +142,7 @@ export function LorebookList(props: Props) {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="max-h-[85vh] overflow-y-auto overflow-x-hidden sm:max-w-2xl">
+      <DialogContent className="max-h-[85vh] overflow-x-hidden overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             {openLbId && (
@@ -154,8 +155,8 @@ export function LorebookList(props: Props) {
               </Button>
             )}
             {openLbId
-              ? lorebooksQuery.data?.find((l) => l.id === openLbId)?.name ??
-                t("RP.LOREBOOKS_TITLE")
+              ? (lorebooksQuery.data?.find((l) => l.id === openLbId)?.name ??
+                t("RP.LOREBOOKS_TITLE"))
               : t("RP.LOREBOOKS_TITLE")}
           </DialogTitle>
         </DialogHeader>
@@ -212,7 +213,7 @@ export function LorebookList(props: Props) {
               {lorebooksQuery.data?.map((l) => (
                 <Card
                   key={l.id}
-                  className="hover:bg-accent flex flex-row cursor-pointer items-center gap-3 p-3 transition-colors"
+                  className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
                   onClick={() => {
                     analytics.rp.entityAction({
                       entity: "lorebook",
@@ -625,7 +626,7 @@ function Entries(props: { lorebookId: string }) {
           {lbQuery.data?.entries.map((e) => (
             <Card
               key={e.id}
-              className="hover:bg-accent flex flex-row cursor-pointer items-start gap-3 p-3 transition-colors"
+              className="hover:bg-accent flex cursor-pointer flex-row items-start gap-3 p-3 transition-colors"
               onClick={() => {
                 analytics.rp.entityAction({
                   entity: "lorebook_entry",

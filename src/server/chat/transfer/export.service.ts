@@ -24,10 +24,7 @@ const ORPG_VERSION = "orpg.3.0";
 // Native: full-fidelity export of one conversation + everything bound to it
 // ---------------------------------------------------------------------------
 
-export async function exportConversationNative(
-  userId: number,
-  convId: string,
-) {
+export async function exportConversationNative(userId: number, convId: string) {
   const db = getDb();
 
   const convRows = await db
@@ -110,22 +107,22 @@ export async function exportConversationNative(
       : [];
 
   const persona = settings?.personaId
-    ? (
+    ? ((
         await db
           .select()
           .from(personas)
           .where(eq(personas.id, settings.personaId))
           .limit(1)
-      )[0] ?? null
+      )[0] ?? null)
     : null;
   const preset = settings?.presetId
-    ? (
+    ? ((
         await db
           .select()
           .from(samplingPresets)
           .where(eq(samplingPresets.id, settings.presetId))
           .limit(1)
-      )[0] ?? null
+      )[0] ?? null)
     : null;
 
   return {

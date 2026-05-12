@@ -25,9 +25,7 @@ export default async function SharedGenerationPage(props: Props) {
     await queryClient.fetchQuery({
       queryKey: queryKeys.sharedGenerationSession(shareId),
       queryFn: async () =>
-        handleElysia(
-          await rpc.api.generation.shared({ shareId }).get(),
-        ),
+        handleElysia(await rpc.api.generation.shared({ shareId }).get()),
     });
   } catch {
     notFound();

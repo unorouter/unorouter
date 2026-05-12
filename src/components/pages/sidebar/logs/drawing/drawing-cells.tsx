@@ -23,9 +23,7 @@ import {
   type DrawingRow,
 } from "./drawing-helpers";
 
-const EMPTY = (
-  <span className="text-muted-foreground text-xs">{"—"}</span>
-);
+const EMPTY = <span className="text-muted-foreground text-xs">{"—"}</span>;
 
 export const DrawingDialogContext = createContext<{
   openImage: (row: DrawingRow) => void;
@@ -61,7 +59,9 @@ export function DrawingTimeCell({ row }: CellContext<DrawingRow, unknown>) {
         </span>
       }
       secondary={
-        <span className={`inline-flex items-center gap-1 rounded px-1 text-[10px] ${statusColor}`}>
+        <span
+          className={`inline-flex items-center gap-1 rounded px-1 text-[10px] ${statusColor}`}
+        >
           {statusLabel}
         </span>
       }
@@ -202,4 +202,3 @@ export function DrawingFailReasonCell({
     </button>
   );
 }
-

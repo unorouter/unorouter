@@ -252,51 +252,83 @@ export async function runSeeds(
   // N-row INSERTs on every cold start once the seed list has been
   // applied at least once. ON CONFLICT DO NOTHING handles the rare
   // race where two concurrent processes both try to seed.
-  await seedCatalog(db, "lora_catalog", LORA_SEEDS, async (row) => {
-    const r = await db
-      .insert(loraCatalog)
-      .values(row)
-      .onConflictDoNothing()
-      .returning({ id: loraCatalog.id });
-    return r.length > 0;
-  }, () =>
-    db.select({ n: sql<number>`count(*)` }).from(loraCatalog).then((r) => Number(r[0]?.n ?? 0)),
+  await seedCatalog(
+    db,
+    "lora_catalog",
+    LORA_SEEDS,
+    async (row) => {
+      const r = await db
+        .insert(loraCatalog)
+        .values(row)
+        .onConflictDoNothing()
+        .returning({ id: loraCatalog.id });
+      return r.length > 0;
+    },
+    () =>
+      db
+        .select({ n: sql<number>`count(*)` })
+        .from(loraCatalog)
+        .then((r) => Number(r[0]?.n ?? 0)),
   );
 
-  await seedCatalog(db, "upscaler_catalog", UPSCALER_SEEDS, async (row) => {
-    const r = await db
-      .insert(upscalerCatalog)
-      .values(row)
-      .onConflictDoNothing()
-      .returning({ id: upscalerCatalog.id });
-    return r.length > 0;
-  }, () =>
-    db.select({ n: sql<number>`count(*)` }).from(upscalerCatalog).then((r) => Number(r[0]?.n ?? 0)),
+  await seedCatalog(
+    db,
+    "upscaler_catalog",
+    UPSCALER_SEEDS,
+    async (row) => {
+      const r = await db
+        .insert(upscalerCatalog)
+        .values(row)
+        .onConflictDoNothing()
+        .returning({ id: upscalerCatalog.id });
+      return r.length > 0;
+    },
+    () =>
+      db
+        .select({ n: sql<number>`count(*)` })
+        .from(upscalerCatalog)
+        .then((r) => Number(r[0]?.n ?? 0)),
   );
 
   // Embeddings + ControlNets are intentionally empty seeds today. The
   // helper is still called so future seed-row additions work without
   // changing this function.
-  await seedCatalog(db, "embedding_catalog", EMBEDDING_SEEDS, async (row) => {
-    const r = await db
-      .insert(embeddingCatalog)
-      .values(row)
-      .onConflictDoNothing()
-      .returning({ id: embeddingCatalog.id });
-    return r.length > 0;
-  }, () =>
-    db.select({ n: sql<number>`count(*)` }).from(embeddingCatalog).then((r) => Number(r[0]?.n ?? 0)),
+  await seedCatalog(
+    db,
+    "embedding_catalog",
+    EMBEDDING_SEEDS,
+    async (row) => {
+      const r = await db
+        .insert(embeddingCatalog)
+        .values(row)
+        .onConflictDoNothing()
+        .returning({ id: embeddingCatalog.id });
+      return r.length > 0;
+    },
+    () =>
+      db
+        .select({ n: sql<number>`count(*)` })
+        .from(embeddingCatalog)
+        .then((r) => Number(r[0]?.n ?? 0)),
   );
 
-  await seedCatalog(db, "controlnet_catalog", CONTROLNET_SEEDS, async (row) => {
-    const r = await db
-      .insert(controlNetCatalog)
-      .values(row)
-      .onConflictDoNothing()
-      .returning({ id: controlNetCatalog.id });
-    return r.length > 0;
-  }, () =>
-    db.select({ n: sql<number>`count(*)` }).from(controlNetCatalog).then((r) => Number(r[0]?.n ?? 0)),
+  await seedCatalog(
+    db,
+    "controlnet_catalog",
+    CONTROLNET_SEEDS,
+    async (row) => {
+      const r = await db
+        .insert(controlNetCatalog)
+        .values(row)
+        .onConflictDoNothing()
+        .returning({ id: controlNetCatalog.id });
+      return r.length > 0;
+    },
+    () =>
+      db
+        .select({ n: sql<number>`count(*)` })
+        .from(controlNetCatalog)
+        .then((r) => Number(r[0]?.n ?? 0)),
   );
 }
 

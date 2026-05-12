@@ -31,7 +31,7 @@ export function CapabilityChips(props: Props) {
           key={chip.labelKey}
           variant="secondary"
           className={cn(
-            "font-mono text-[10px] uppercase tracking-wide",
+            "font-mono text-[10px] tracking-wide uppercase",
             isCard && "px-1.5 py-0",
           )}
         >

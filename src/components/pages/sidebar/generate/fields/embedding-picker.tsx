@@ -91,9 +91,7 @@ export function EmbeddingPicker(props: Props) {
                   max={2}
                   step={0.05}
                   value={emb.weight}
-                  onChange={(e) =>
-                    onWeight(i, Number(e.target.value) || 0)
-                  }
+                  onChange={(e) => onWeight(i, Number(e.target.value) || 0)}
                 />
               </div>
             </div>
@@ -147,7 +145,7 @@ export function EmbeddingPicker(props: Props) {
                         {emb.description}
                       </div>
                     )}
-                    <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] uppercase tracking-wide">
+                    <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] tracking-wide uppercase">
                       <span>{emb.category}</span>
                       <span>{emb.baseModel}</span>
                       {emb.nsfw && <span className="text-pink-500">nsfw</span>}

@@ -54,7 +54,8 @@ export function ModelSelector(props: ModelSelectorProps) {
     if (current && (isLoggedIn || current.isFree)) return;
 
     const freeText = models.filter((m) => m.isFree && m.type === "text");
-    const pool = freeText.length > 0 ? freeText : models.filter((m) => m.isFree);
+    const pool =
+      freeText.length > 0 ? freeText : models.filter((m) => m.isFree);
     if (pool.length === 0) return;
     const pick = pool[Math.floor(Math.random() * pool.length)];
     props.onChange(pick.name);

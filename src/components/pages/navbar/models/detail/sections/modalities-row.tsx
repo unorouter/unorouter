@@ -69,7 +69,7 @@ export function ModalitiesRow(props: Props) {
   return (
     <div className={cn("grid gap-2 sm:grid-cols-2", props.className)}>
       <div className="border-border flex items-center justify-between gap-3 rounded-md border px-3 py-2">
-        <span className="text-muted-foreground font-mono text-[10px] uppercase tracking-wider">
+        <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
           {t("MODELS.DETAIL.INPUT")}
         </span>
         <ModalityIcons
@@ -78,7 +78,7 @@ export function ModalitiesRow(props: Props) {
         />
       </div>
       <div className="border-border flex items-center justify-between gap-3 rounded-md border px-3 py-2">
-        <span className="text-muted-foreground font-mono text-[10px] uppercase tracking-wider">
+        <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
           {t("MODELS.DETAIL.OUTPUT")}
         </span>
         <ModalityIcons

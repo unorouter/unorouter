@@ -4,14 +4,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 import { StatusIcon as UnifiedStatusIcon } from "@/components/ui/status/status-icon";
 import type {
-    StatusBarData,
-    StatusType,
+  StatusBarData,
+  StatusType,
 } from "@/components/ui/status/status.types";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { cn } from "@/lib/utils";

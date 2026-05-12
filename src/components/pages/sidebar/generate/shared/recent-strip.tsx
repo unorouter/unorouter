@@ -18,9 +18,7 @@ import { useTranslations } from "next-intl";
 export function RecentStrip() {
   const t = useTranslations();
   const [activeSessionId] = useAtom(activeSessionIdAtom);
-  const [activeSnapshotId, setActiveSnapshotId] = useAtom(
-    activeSnapshotIdAtom,
-  );
+  const [activeSnapshotId, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
   const query = useSessionQuery(activeSessionId);
   const snapshots = query.data?.snapshots ?? [];
 
@@ -65,7 +63,8 @@ export function RecentStrip() {
       </p>
       <div className="thin-scrollbar flex max-h-96 flex-col gap-2 overflow-y-auto pr-1">
         {snapshots.map((snap) => {
-          const images = (snap as { images?: { r2Url: string }[] }).images ?? [];
+          const images =
+            (snap as { images?: { r2Url: string }[] }).images ?? [];
           const firstImage = images[0];
           const extra = images.length > 1 ? images.length - 1 : 0;
           const isActive = activeSnapshotId === snap.id;
@@ -81,9 +80,7 @@ export function RecentStrip() {
               onClick={() => swapTo(snap.id)}
               className={
                 "bg-muted ring-offset-background flex w-full items-center gap-3 rounded-md p-2 text-left transition-colors " +
-                (isActive
-                  ? "ring-ring ring-2"
-                  : "hover:ring-ring hover:ring-1")
+                (isActive ? "ring-ring ring-2" : "hover:ring-ring hover:ring-1")
               }
             >
               <div className="bg-background relative h-16 w-16 shrink-0 overflow-hidden rounded">
@@ -96,9 +93,7 @@ export function RecentStrip() {
                   />
                 ) : (
                   <div className="text-muted-foreground absolute inset-0 flex items-center justify-center text-[10px]">
-                    {snap.status === "failure"
-                      ? "!"
-                      : (snap.progress ?? "?")}
+                    {snap.status === "failure" ? "!" : (snap.progress ?? "?")}
                   </div>
                 )}
                 {extra > 0 && (

@@ -41,10 +41,7 @@ import {
   activeTabAtom,
   restoreSnapshotIntoFormAtom,
 } from "@/store/generation-store";
-import type {
-  GenerateTab,
-  Img2ImgSubPill,
-} from "@/store/generation-store";
+import type { GenerateTab, Img2ImgSubPill } from "@/store/generation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -220,9 +217,7 @@ function ImageTile(props: {
             <LuMaximize2 className="h-3.5 w-3.5" />
           </span>
           <span
-            onClick={(e) =>
-              quick(e, { tab: "img2img", subPill: "adetailer" })
-            }
+            onClick={(e) => quick(e, { tab: "img2img", subPill: "adetailer" })}
             title={t("IMAGE.HOVER_ADETAILER")}
             className="hover:bg-accent cursor-pointer rounded p-1"
           >
@@ -288,7 +283,7 @@ function ImageLightbox(props: {
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent
-        className="max-w-[95vw]! w-[95vw]! p-2! gap-2! sm:rounded-xl!"
+        className="w-[95vw]! max-w-[95vw]! gap-2! p-2! sm:rounded-xl!"
         showCloseButton={false}
       >
         <div className="relative flex items-center justify-center">
@@ -420,12 +415,12 @@ export function GenerateResult(props: Props) {
     setRestore({
       model: data.model,
       prompt: data.prompt,
-      negativePrompt: (data as { negativePrompt: string | null }).negativePrompt,
+      negativePrompt: (data as { negativePrompt: string | null })
+        .negativePrompt,
       params: (data.params as Record<string, unknown> | null) ?? null,
       loras: data.loras,
       references: data.references,
-      extraParams:
-        (data.extraParams as Record<string, unknown> | null) ?? null,
+      extraParams: (data.extraParams as Record<string, unknown> | null) ?? null,
       nsfw: data.nsfw,
     });
     // We only re-restore when the active snapshot id changes.
@@ -610,9 +605,7 @@ export function GenerateResult(props: Props) {
         <Button
           variant="default"
           size="sm"
-          onClick={() =>
-            router.push(`/generate?remix=${props.snapshotId}`)
-          }
+          onClick={() => router.push(`/generate?remix=${props.snapshotId}`)}
         >
           <LuSparkles className="mr-2" />
           {t("IMAGE.REMIX")}
@@ -717,10 +710,7 @@ export function GenerateResult(props: Props) {
               <LuLink2Off className="mr-2" />
               {t("IMAGE.SHARE_REVOKE")}
             </Button>
-            <Button
-              type="button"
-              onClick={() => setShareDialogOpen(false)}
-            >
+            <Button type="button" onClick={() => setShareDialogOpen(false)}>
               <LuLink2 className="mr-2" />
               {t("IMAGE.SHARE_DONE")}
             </Button>

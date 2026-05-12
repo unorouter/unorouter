@@ -9,7 +9,12 @@ export type MessageItemData =
     }
   | {
       type: "tool_call";
-      data: { tool_name: string; tool_call_id: string; args: unknown; [k: string]: unknown };
+      data: {
+        tool_name: string;
+        tool_call_id: string;
+        args: unknown;
+        [k: string]: unknown;
+      };
       output_index?: number;
       id?: string;
     }
@@ -119,7 +124,9 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
         type: part.type === "file" ? "file" : "image",
         data: {
           url: String(part.url ?? ""),
-          mime_type: String(part.mediaType ?? part.mimeType ?? "application/octet-stream"),
+          mime_type: String(
+            part.mediaType ?? part.mimeType ?? "application/octet-stream",
+          ),
           ...(typeof part.filename === "string" && { name: part.filename }),
         },
       });
@@ -145,9 +152,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
   return out;
 }
 
-export function itemsToParts(
-  items: ApiMessage["items"],
-): MessagePart[] {
+export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
   const parts: MessagePart[] = [];
   for (const it of items) {
     const data = (it.data ?? {}) as Record<string, unknown>;

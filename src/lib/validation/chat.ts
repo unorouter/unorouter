@@ -149,15 +149,27 @@ export const streamOverrides = t.Object({
   webSearchContextSize: t.Optional(
     t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
   ),
-  temperature: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
+  temperature: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
+  ),
   topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topK: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()])),
+  topK: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()]),
+  ),
   minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
   topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  frequencyPenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
-  presencePenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
-  repetitionPenalty: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
-  maxTokens: t.Optional(t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()])),
+  frequencyPenalty: t.Optional(
+    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
+  ),
+  presencePenalty: t.Optional(
+    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
+  ),
+  repetitionPenalty: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
+  ),
+  maxTokens: t.Optional(
+    t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
+  ),
   /**
    * Free-form JSON object merged into the upstream request body. Sliders win
    * on key conflicts. Validated as a string here; parsed at the prompt
@@ -187,12 +199,18 @@ export type UpdateConversationBody = Static<typeof updateConversationBody>;
 
 export const updateConversationSettingsBody = t.Object({
   defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-  personaId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
-  presetId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
+  personaId: t.Optional(
+    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
+  ),
+  presetId: t.Optional(
+    t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
+  ),
   systemPromptOverride: t.Optional(
     t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
   ),
-  authorNote: t.Optional(t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()])),
+  authorNote: t.Optional(
+    t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
+  ),
   authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
   chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
@@ -209,15 +227,27 @@ export const updateConversationSettingsBody = t.Object({
     t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
   ),
   // Inline sampling overrides (per-conversation). Null disables override.
-  temperature: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
+  temperature: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
+  ),
   topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topK: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()])),
+  topK: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()]),
+  ),
   minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
   topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  frequencyPenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
-  presencePenalty: t.Optional(t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()])),
-  repetitionPenalty: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()])),
-  maxTokens: t.Optional(t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()])),
+  frequencyPenalty: t.Optional(
+    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
+  ),
+  presencePenalty: t.Optional(
+    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
+  ),
+  repetitionPenalty: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
+  ),
+  maxTokens: t.Optional(
+    t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
+  ),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
 });
 export type UpdateConversationSettingsBody = Static<

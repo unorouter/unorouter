@@ -86,8 +86,8 @@ export async function parseCharacterCardFile(
 
   // Pick the first icon asset for the avatar; fall back to the original file
   // bytes for PNG containers (the original IS the avatar).
-  const iconAsset = parsed.assets.find((a) => a.type === "icon") ??
-    parsed.assets[0];
+  const iconAsset =
+    parsed.assets.find((a) => a.type === "icon") ?? parsed.assets[0];
   let imageBuffer: Buffer | null = null;
   let imageMime: string | null = null;
   if (iconAsset?.data) {

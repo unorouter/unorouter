@@ -110,7 +110,11 @@ export function QuickStats(props: Props) {
       value: (
         <div className="flex flex-wrap gap-1">
           {meta.reasoningEfforts.map((effort) => (
-            <Badge key={effort} variant="secondary" className="font-mono text-[10px]">
+            <Badge
+              key={effort}
+              variant="secondary"
+              className="font-mono text-[10px]"
+            >
               {effort}
             </Badge>
           ))}
@@ -133,12 +137,10 @@ export function QuickStats(props: Props) {
           key={row.label}
           className="flex items-baseline justify-between gap-3"
         >
-          <span className="text-muted-foreground font-mono text-[10px] uppercase tracking-wider">
+          <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
             {row.label}
           </span>
-          <span className="text-foreground font-mono text-xs">
-            {row.value}
-          </span>
+          <span className="text-foreground font-mono text-xs">{row.value}</span>
         </div>
       ))}
     </div>

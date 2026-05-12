@@ -111,7 +111,8 @@ export function StatusBlocksI18n(props: { children: React.ReactNode }) {
     formatDateTime: (d) => formatDateTime(d, locale),
     formatDateRange: (from, to) => {
       if (from && to && isSameDay(from, to)) {
-        if (from.getTime() === to.getTime()) return formatDateTime(from, locale);
+        if (from.getTime() === to.getTime())
+          return formatDateTime(from, locale);
         return `${formatDateTime(from, locale)} - ${formatTime(to, locale)}`;
       }
       if (from && to) {

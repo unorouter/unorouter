@@ -52,7 +52,7 @@ function StatCard(props: {
   const intent = props.intent ?? "default";
   return (
     <div className="border-border bg-background flex flex-col gap-1 rounded-md border p-3">
-      <span className="text-muted-foreground font-mono text-[10px] uppercase tracking-wider">
+      <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
         {props.label}
       </span>
       <span
@@ -99,10 +99,14 @@ export function PerformanceSection(props: Props) {
     tpsValues.length > 0
       ? tpsValues.reduce((s, v) => s + v, 0) / tpsValues.length
       : 0;
-  const latencyValues = groups.map((g) => g.avg_latency_ms).filter((v) => v > 0);
+  const latencyValues = groups
+    .map((g) => g.avg_latency_ms)
+    .filter((v) => v > 0);
   const avgLatency =
     latencyValues.length > 0
-      ? Math.round(latencyValues.reduce((s, v) => s + v, 0) / latencyValues.length)
+      ? Math.round(
+          latencyValues.reduce((s, v) => s + v, 0) / latencyValues.length,
+        )
       : 0;
   const successValues = groups
     .map((g) => g.success_rate)
@@ -160,19 +164,19 @@ export function PerformanceSection(props: Props) {
         <Table className="text-sm">
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="text-muted-foreground h-9 text-[10px] uppercase tracking-wider">
+              <TableHead className="text-muted-foreground h-9 text-[10px] tracking-wider uppercase">
                 {t("MODELS.DETAIL.PERF_GROUP")}
               </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] uppercase tracking-wider">
+              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
                 {t("MODELS.DETAIL.PERF_TPS")}
               </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] uppercase tracking-wider">
+              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
                 {t("MODELS.DETAIL.PERF_TTFT")}
               </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] uppercase tracking-wider">
+              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
                 {t("MODELS.DETAIL.PERF_LATENCY")}
               </TableHead>
-              <TableHead className="text-muted-foreground h-9 text-right text-[10px] uppercase tracking-wider">
+              <TableHead className="text-muted-foreground h-9 text-right text-[10px] tracking-wider uppercase">
                 {t("MODELS.DETAIL.PERF_SUCCESS")}
               </TableHead>
             </TableRow>

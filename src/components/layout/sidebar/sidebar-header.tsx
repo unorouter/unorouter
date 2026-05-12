@@ -6,8 +6,8 @@ import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import {
-    ChatControls,
-    ChatShareSlot,
+  ChatControls,
+  ChatShareSlot,
 } from "@/components/pages/sidebar/chat/chat-elements";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";

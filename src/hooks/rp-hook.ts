@@ -12,11 +12,7 @@ import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 // `EdenResponse<rpc.api.rp.characters, "get">` resolves to the *single* item
@@ -34,9 +30,8 @@ type ListResponse<TFn> = TFn extends (...args: never[]) => Promise<infer R>
 // ---------------------------------------------------------------------------
 
 type CharactersList = ListResponse<typeof rpc.api.rp.characters.get>;
-type Character = CharactersList extends ReadonlyArray<infer Item>
-  ? Item
-  : never;
+type Character =
+  CharactersList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function useCharactersQuery() {
   const isLoggedIn = !!useAuthQuery().data;
@@ -70,9 +65,7 @@ export function useUpdateCharacterMutation() {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.characters>, "put">["body"];
     }) =>
-      handleElysia(
-        await rpc.api.rp.characters({ id: args.id }).put(args.body),
-      ),
+      handleElysia(await rpc.api.rp.characters({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
       const patch = data as Partial<Character>;
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
@@ -195,7 +188,9 @@ export function useImportPersonaMutation() {
     onSuccess: (data) => {
       // Persona import returns either a single persona or an array (multi-card
       // imports). Append all of them.
-      const list = Array.isArray(data) ? (data as Persona[]) : [data as Persona];
+      const list = Array.isArray(data)
+        ? (data as Persona[])
+        : [data as Persona];
       qc.setQueryData<Persona[]>(queryKeys.personas(), (old) => [
         ...(old ?? []),
         ...list,
@@ -210,9 +205,7 @@ export function useImportPersonaMutation() {
 // ---------------------------------------------------------------------------
 
 type LorebooksList = ListResponse<typeof rpc.api.rp.lorebooks.get>;
-type Lorebook = LorebooksList extends ReadonlyArray<infer Item>
-  ? Item
-  : never;
+type Lorebook = LorebooksList extends ReadonlyArray<infer Item> ? Item : never;
 type LorebookDetail = EdenResponse<
   ReturnType<typeof rpc.api.rp.lorebooks>,
   "get"
@@ -264,9 +257,7 @@ export function useUpdateLorebookMutation() {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.lorebooks>, "put">["body"];
     }) =>
-      handleElysia(
-        await rpc.api.rp.lorebooks({ id: args.id }).put(args.body),
-      ),
+      handleElysia(await rpc.api.rp.lorebooks({ id: args.id }).put(args.body)),
     onSuccess: (data, args) => {
       const patch = data as Partial<Lorebook>;
       qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>

@@ -68,7 +68,7 @@ export function Img2ImgSubPills() {
           className={cn("gap-1.5")}
         >
           <p.Icon className="h-4 w-4" />
-          {t(p.i18nKey)}
+          {t(p.i18nKey as Parameters<typeof t>[0])}
         </Button>
       ))}
     </div>

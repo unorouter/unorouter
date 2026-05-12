@@ -80,7 +80,7 @@ export function LoraPicker(props: Props) {
             key={`${lora.name}-${i}`}
             className="bg-muted/50 flex items-center gap-3 rounded-md p-3"
           >
-            <div className="flex-1 min-w-0">
+            <div className="min-w-0 flex-1">
               <div className="truncate text-sm font-medium">{lora.name}</div>
               <div className="mt-1 flex items-center gap-2">
                 <Slider
@@ -174,7 +174,7 @@ export function LoraPicker(props: Props) {
                         {lora.description}
                       </div>
                     )}
-                    <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] uppercase tracking-wide">
+                    <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] tracking-wide uppercase">
                       <span>{lora.category}</span>
                       <span>{lora.baseModel}</span>
                       {lora.nsfw && <span className="text-pink-500">nsfw</span>}

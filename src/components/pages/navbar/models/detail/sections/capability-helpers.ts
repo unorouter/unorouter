@@ -57,18 +57,18 @@ export function hasAnyCapability(metadata: ModelMetadata): boolean {
 export function hasAnyQuickStat(metadata: ModelMetadata): boolean {
   return Boolean(
     metadata.contextWindow ||
-      metadata.maxInputTokens ||
-      metadata.maxOutputTokens ||
-      metadata.mode ||
-      metadata.tokenizer ||
-      metadata.knowledgeCutoff ||
-      metadata.deprecationDate ||
-      metadata.expirationDate ||
-      (metadata.quantization &&
-        metadata.quantization.toLowerCase() !== "unknown") ||
-      metadata.huggingFaceId ||
-      metadata.isModerated === true ||
-      (metadata.reasoningEfforts && metadata.reasoningEfforts.length > 0),
+    metadata.maxInputTokens ||
+    metadata.maxOutputTokens ||
+    metadata.mode ||
+    metadata.tokenizer ||
+    metadata.knowledgeCutoff ||
+    metadata.deprecationDate ||
+    metadata.expirationDate ||
+    (metadata.quantization &&
+      metadata.quantization.toLowerCase() !== "unknown") ||
+    metadata.huggingFaceId ||
+    metadata.isModerated === true ||
+    (metadata.reasoningEfforts && metadata.reasoningEfforts.length > 0),
   );
 }
 

@@ -24,7 +24,7 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
       Array.from({ length: totalLetters }, (_, i) =>
         text[i] === " "
           ? " "
-          : CHARS[Math.floor(Math.random() * CHARS.length)] ?? "",
+          : (CHARS[Math.floor(Math.random() * CHARS.length)] ?? ""),
       ),
     );
 

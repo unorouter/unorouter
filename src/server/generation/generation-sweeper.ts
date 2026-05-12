@@ -69,9 +69,7 @@ function schedule(): void {
             logger.error("generation sweep failed", {
               context: "generation.sweeper",
               err:
-                r.reason instanceof Error
-                  ? r.reason.message
-                  : String(r.reason),
+                r.reason instanceof Error ? r.reason.message : String(r.reason),
             });
           }
         }

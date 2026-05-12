@@ -29,9 +29,7 @@ export function LayerDiffusionField(props: Props) {
         </span>
         <Switch
           checked={enabled}
-          onCheckedChange={(c) =>
-            props.onChange(c ? { weight: 1 } : undefined)
-          }
+          onCheckedChange={(c) => props.onChange(c ? { weight: 1 } : undefined)}
         />
       </div>
       {enabled && (

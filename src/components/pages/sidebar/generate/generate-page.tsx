@@ -26,15 +26,18 @@ export function GeneratePage(props: {
   const t = useTranslations();
   const router = useRouter();
   const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
-  const [activeSnapshotId, setActiveSnapshotId] = useAtom(
-    activeSnapshotIdAtom,
-  );
+  const [activeSnapshotId, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
 
   // Seed atoms from the route on mount + whenever the URL props change.
   useEffect(() => {
     setActiveSessionId(props.sessionId ?? null);
     setActiveSnapshotId(props.snapshotId ?? null);
-  }, [props.sessionId, props.snapshotId, setActiveSessionId, setActiveSnapshotId]);
+  }, [
+    props.sessionId,
+    props.snapshotId,
+    setActiveSessionId,
+    setActiveSnapshotId,
+  ]);
 
   // Load the session for the chevron view + to pick the newest snapshot
   // when the route didn't carry a ?snap=. The hook auto-skips when

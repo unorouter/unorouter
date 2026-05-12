@@ -23,8 +23,18 @@ type Preset = {
 };
 
 const PRESETS: ReadonlyArray<Preset> = [
-  { id: "portrait", width: 768, height: 1152, i18nKey: "IMAGE.ASPECT_PORTRAIT" },
-  { id: "landscape", width: 1152, height: 768, i18nKey: "IMAGE.ASPECT_LANDSCAPE" },
+  {
+    id: "portrait",
+    width: 768,
+    height: 1152,
+    i18nKey: "IMAGE.ASPECT_PORTRAIT",
+  },
+  {
+    id: "landscape",
+    width: 1152,
+    height: 768,
+    i18nKey: "IMAGE.ASPECT_LANDSCAPE",
+  },
   { id: "square", width: 1024, height: 1024, i18nKey: "IMAGE.ASPECT_SQUARE" },
   { id: "custom", width: 0, height: 0, i18nKey: "IMAGE.ASPECT_CUSTOM" },
 ];
@@ -41,7 +51,8 @@ export function AspectRatioField(props: {
   const min = props.min ?? 128;
   const max = props.max ?? 5060;
   const matched = PRESETS.find(
-    (p) => p.id !== "custom" && p.width === props.width && p.height === props.height,
+    (p) =>
+      p.id !== "custom" && p.width === props.width && p.height === props.height,
   );
   const activeId = matched ? matched.id : "custom";
 
@@ -80,7 +91,9 @@ export function AspectRatioField(props: {
               props.disabled && "cursor-not-allowed opacity-50",
             )}
           >
-            <span className="font-medium">{t(p.i18nKey)}</span>
+            <span className="font-medium">
+              {t(p.i18nKey as Parameters<typeof t>[0])}
+            </span>
             {p.id !== "custom" && (
               <span className="text-[10px] tabular-nums opacity-80">
                 {p.width}x{p.height}

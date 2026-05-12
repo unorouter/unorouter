@@ -6,17 +6,17 @@ import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
 import { PresetList } from "@/components/pages/sidebar/chat/rp/preset-list";
 import { Button } from "@/components/ui/button";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { atom, useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import {
-    LuBookText,
-    LuSlidersHorizontal,
-    LuUser,
-    LuUsers,
+  LuBookText,
+  LuSlidersHorizontal,
+  LuUser,
+  LuUsers,
 } from "react-icons/lu";
 
 type Tab = "characters" | "personas" | "lorebooks" | "presets";

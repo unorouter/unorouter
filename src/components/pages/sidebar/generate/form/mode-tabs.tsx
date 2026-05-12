@@ -36,7 +36,10 @@ export function ModeTabs() {
   // URL is the source of truth on mount. On subsequent tab clicks the
   // setter below also rewrites the URL so reloads land on the same tab.
   useEffect(() => {
-    if (urlTab && (urlTab === "text2img" || urlTab === "img2img" || urlTab === "edit")) {
+    if (
+      urlTab &&
+      (urlTab === "text2img" || urlTab === "img2img" || urlTab === "edit")
+    ) {
       setActiveTab(urlTab);
     }
   }, [urlTab, setActiveTab]);
@@ -58,7 +61,7 @@ export function ModeTabs() {
         {TABS.map((tab) => (
           <TabsTrigger key={tab.id} value={tab.id}>
             <tab.Icon className="mr-1.5 h-4 w-4" />
-            {t(tab.i18nKey)}
+            {t(tab.i18nKey as Parameters<typeof t>[0])}
           </TabsTrigger>
         ))}
       </TabsList>

@@ -108,9 +108,13 @@ export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  temperature: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 4 }), t.Null()])),
+  temperature: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 4 }), t.Null()]),
+  ),
   topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topK: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()])),
+  topK: t.Optional(
+    t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()]),
+  ),
   minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
   topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
   frequencyPenalty: t.Optional(

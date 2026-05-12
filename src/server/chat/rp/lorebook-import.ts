@@ -90,9 +90,7 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
 
   let parsed;
   try {
-    parsed = parseLorebook(
-      new TextEncoder().encode(JSON.stringify(raw)),
-    );
+    parsed = parseLorebook(new TextEncoder().encode(JSON.stringify(raw)));
   } catch {
     return null;
   }
@@ -124,8 +122,7 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
           ? ((e as Record<string, unknown>).depth as number)
           : 4,
       enabled: e.enabled,
-      orderIndex:
-        typeof e.insertion_order === "number" ? e.insertion_order : i,
+      orderIndex: typeof e.insertion_order === "number" ? e.insertion_order : i,
     });
   });
 
@@ -169,10 +166,13 @@ export function serializeLorebookForExport(
   format: LorebookFormat = "sillytavern",
 ): string {
   const ccv3Entries: CCv3LorebookEntry[] = entries.map((e, i) => {
-    const pos = (e.position ?? "before_char") as keyof typeof DB_TO_FOUNDRY_POSITION;
+    const pos = (e.position ??
+      "before_char") as keyof typeof DB_TO_FOUNDRY_POSITION;
     return {
       keys: Array.isArray(e.keys)
-        ? (e.keys as unknown[]).filter((k): k is string => typeof k === "string")
+        ? (e.keys as unknown[]).filter(
+            (k): k is string => typeof k === "string",
+          )
         : [],
       content: e.content,
       enabled: e.enabled ?? true,

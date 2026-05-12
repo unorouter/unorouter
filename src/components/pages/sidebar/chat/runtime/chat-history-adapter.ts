@@ -6,10 +6,7 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { ApiMessage, PersistMessage } from "@/lib/types/chat";
-import {
-  itemsToParts,
-  partsToItems,
-} from "@/lib/types/chat";
+import { itemsToParts, partsToItems } from "@/lib/types/chat";
 import { handleElysia } from "@/lib/utils/base";
 import { getChatModel } from "@/store/chat-store";
 import type {
@@ -42,7 +39,8 @@ function buildRepository<TMessage>(
 
   // Head: prefer the latest active-branch tip; fall back to last message.
   const activeTip = [...raw].reverse().find((m) => m.isActiveBranch !== false);
-  const headId = activeTip?.id ?? (raw.length > 0 ? raw[raw.length - 1].id : null);
+  const headId =
+    activeTip?.id ?? (raw.length > 0 ? raw[raw.length - 1].id : null);
   return { headId, messages };
 }
 

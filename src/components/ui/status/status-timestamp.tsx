@@ -7,16 +7,16 @@ import { useEffect, useState } from "react";
 import type { HoverCardContentProps } from "@radix-ui/react-hover-card";
 
 import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";

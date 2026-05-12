@@ -62,33 +62,22 @@ import { useForm, useWatch } from "react-hook-form";
 import { LuSettings2 } from "react-icons/lu";
 import { MultiSelectPopover } from "../rp/multi-select-popover";
 import { SamplingFields } from "../rp/sampling-fields";
+import {
+  REASONING_EFFORT_KEY,
+  WEB_SEARCH_CONTEXT_KEY,
+  WEB_SEARCH_ENGINE_KEY,
+} from "./conversation-overrides-i18n-keys";
+import {
+  resetSampling as resetSamplingHelper,
+  SAMPLING_FIELDS,
+  writeSamplerMemory,
+} from "./conversation-overrides-form-handler";
 
 type DrawerProps = {
   /** null when no conversation exists yet (fresh thread, or guest pre-create). */
   convId: string | null;
   trigger?: React.ReactElement;
 };
-
-const REASONING_EFFORT_KEY = {
-  minimal: "CHAT.OVERRIDES.EFFORT_MINIMAL",
-  low: "CHAT.OVERRIDES.EFFORT_LOW",
-  medium: "CHAT.OVERRIDES.EFFORT_MEDIUM",
-  high: "CHAT.OVERRIDES.EFFORT_HIGH",
-  xhigh: "CHAT.OVERRIDES.EFFORT_XHIGH",
-} as const;
-
-const WEB_SEARCH_ENGINE_KEY = {
-  auto: "CHAT.OVERRIDES.ENGINE_AUTO",
-  native: "CHAT.OVERRIDES.ENGINE_NATIVE",
-  tavily: "CHAT.OVERRIDES.ENGINE_TAVILY",
-  exa: "CHAT.OVERRIDES.ENGINE_EXA",
-} as const;
-
-const WEB_SEARCH_CONTEXT_KEY = {
-  low: "CHAT.OVERRIDES.CONTEXT_LOW",
-  medium: "CHAT.OVERRIDES.CONTEXT_MEDIUM",
-  high: "CHAT.OVERRIDES.CONTEXT_HIGH",
-} as const;
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
@@ -221,54 +210,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     name: "webSearchEnabled",
   });
 
-  const resetSampling = () => {
-    form.setValue("temperature", null, { shouldDirty: true });
-    form.setValue("topP", null, { shouldDirty: true });
-    form.setValue("topK", null, { shouldDirty: true });
-    form.setValue("minP", null, { shouldDirty: true });
-    form.setValue("topA", null, { shouldDirty: true });
-    form.setValue("frequencyPenalty", null, { shouldDirty: true });
-    form.setValue("presencePenalty", null, { shouldDirty: true });
-    form.setValue("repetitionPenalty", null, { shouldDirty: true });
-    form.setValue("maxTokens", null, { shouldDirty: true });
-    analytics.chat.samplingReset();
-  };
-
-  const SAMPLING_FIELDS = [
-    "temperature",
-    "topP",
-    "topK",
-    "minP",
-    "topA",
-    "frequencyPenalty",
-    "presencePenalty",
-    "repetitionPenalty",
-    "maxTokens",
-  ] as const;
-
-  const writeSamplerMemory = (data: ConversationOverridesForm) => {
-    if (!activeModelName) return;
-    const next: ModelSamplerMemory = {
-      temperature: data.temperature,
-      topP: data.topP,
-      topK: data.topK,
-      minP: data.minP,
-      topA: data.topA,
-      frequencyPenalty: data.frequencyPenalty,
-      presencePenalty: data.presencePenalty,
-      repetitionPenalty: data.repetitionPenalty,
-      maxTokens: data.maxTokens,
-      reasoningEffort:
-        data.reasoningEffort === "__none__"
-          ? null
-          : (data.reasoningEffort as ModelSamplerMemory["reasoningEffort"]),
-      extraBody: data.extraBody || null,
-    };
-    setSamplerMemoryByModel({
-      ...samplerMemoryByModel,
-      [activeModelName]: next,
-    });
-  };
+  const resetSampling = () => resetSamplingHelper(form);
 
   const onSubmit = async (data: ConversationOverridesForm) => {
     const dirtyFields = Object.keys(form.formState.dirtyFields);
@@ -276,7 +218,12 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       (f) => data[f] !== null && data[f] !== undefined,
     );
 
-    writeSamplerMemory(data);
+    writeSamplerMemory(
+      data,
+      activeModelName,
+      samplerMemoryByModel,
+      setSamplerMemoryByModel,
+    );
     analytics.chat.overridesSaved({
       mode: isDefaultsMode ? "defaults" : "conversation",
       changed_fields: dirtyFields,
@@ -395,12 +342,10 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           )
         }
       />
-      <SheetContent className="overflow-y-auto overflow-x-hidden sm:max-w-md">
+      <SheetContent className="overflow-x-hidden overflow-y-auto sm:max-w-md">
         <SheetHeader>
           <SheetTitle>{t("CHAT.OVERRIDES.TITLE")}</SheetTitle>
-          <SheetDescription>
-            {t("CHAT.OVERRIDES.DESCRIPTION")}
-          </SheetDescription>
+          <SheetDescription>{t("CHAT.OVERRIDES.DESCRIPTION")}</SheetDescription>
         </SheetHeader>
 
         <Form {...form}>
@@ -410,140 +355,140 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           >
             <div className="flex flex-col gap-5 px-4">
               {showServerOnlyFields && (
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                  <FormField
+                    control={form.control}
+                    name="personaId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("CHAT.OVERRIDES.PERSONA")}</FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={(v) =>
+                              field.onChange(v ?? "__none__")
+                            }
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue>
+                                {field.value === "__none__"
+                                  ? t("CHAT.OVERRIDES.NONE")
+                                  : (personasQuery.data?.find(
+                                      (p) => p.id === field.value,
+                                    )?.name ?? t("CHAT.OVERRIDES.NONE"))}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="__none__">
+                                {t("CHAT.OVERRIDES.NONE")}
+                              </SelectItem>
+                              {personasQuery.data?.map((p) => (
+                                <SelectItem key={p.id} value={p.id}>
+                                  {p.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="presetId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("CHAT.OVERRIDES.PRESET")}</FormLabel>
+                        <FormControl>
+                          <Select
+                            value={field.value}
+                            onValueChange={(v) =>
+                              field.onChange(v ?? "__none__")
+                            }
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue>
+                                {field.value === "__none__"
+                                  ? t("CHAT.OVERRIDES.NONE")
+                                  : (presetsQuery.data?.find(
+                                      (p) => p.id === field.value,
+                                    )?.name ?? t("CHAT.OVERRIDES.NONE"))}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="__none__">
+                                {t("CHAT.OVERRIDES.NONE")}
+                              </SelectItem>
+                              {presetsQuery.data?.map((p) => (
+                                <SelectItem key={p.id} value={p.id}>
+                                  {p.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
+
+              {showServerOnlyFields && (
                 <FormField
                   control={form.control}
-                  name="personaId"
+                  name="characterIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("CHAT.OVERRIDES.PERSONA")}</FormLabel>
+                      <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
                       <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={(v) =>
-                            field.onChange(v ?? "__none__")
+                        <MultiSelectPopover
+                          options={
+                            charactersQuery.data?.map((c) => ({
+                              id: c.id,
+                              label: c.name,
+                            })) ?? []
                           }
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue>
-                              {field.value === "__none__"
-                                ? t("CHAT.OVERRIDES.NONE")
-                                : personasQuery.data?.find(
-                                    (p) => p.id === field.value,
-                                  )?.name ?? t("CHAT.OVERRIDES.NONE")}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="__none__">
-                              {t("CHAT.OVERRIDES.NONE")}
-                            </SelectItem>
-                            {personasQuery.data?.map((p) => (
-                              <SelectItem key={p.id} value={p.id}>
-                                {p.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                          value={field.value}
+                          onChange={field.onChange}
+                          triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
+                          searchPlaceholder={t(
+                            "CHAT.OVERRIDES.SEARCH_CHARACTERS",
+                          )}
+                          emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
                 />
+              )}
+
+              {showServerOnlyFields && (
                 <FormField
                   control={form.control}
-                  name="presetId"
+                  name="lorebookIds"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("CHAT.OVERRIDES.PRESET")}</FormLabel>
+                      <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
                       <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={(v) =>
-                            field.onChange(v ?? "__none__")
+                        <MultiSelectPopover
+                          options={
+                            lorebooksQuery.data?.map((l) => ({
+                              id: l.id,
+                              label: l.name,
+                            })) ?? []
                           }
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue>
-                              {field.value === "__none__"
-                                ? t("CHAT.OVERRIDES.NONE")
-                                : presetsQuery.data?.find(
-                                    (p) => p.id === field.value,
-                                  )?.name ?? t("CHAT.OVERRIDES.NONE")}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="__none__">
-                              {t("CHAT.OVERRIDES.NONE")}
-                            </SelectItem>
-                            {presetsQuery.data?.map((p) => (
-                              <SelectItem key={p.id} value={p.id}>
-                                {p.name}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                          value={field.value}
+                          onChange={field.onChange}
+                          triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
+                          searchPlaceholder={t(
+                            "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
+                          )}
+                          emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
                 />
-              </div>
-              )}
-
-              {showServerOnlyFields && (
-              <FormField
-                control={form.control}
-                name="characterIds"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
-                    <FormControl>
-                      <MultiSelectPopover
-                        options={
-                          charactersQuery.data?.map((c) => ({
-                            id: c.id,
-                            label: c.name,
-                          })) ?? []
-                        }
-                        value={field.value}
-                        onChange={field.onChange}
-                        triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
-                        searchPlaceholder={t(
-                          "CHAT.OVERRIDES.SEARCH_CHARACTERS",
-                        )}
-                        emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              )}
-
-              {showServerOnlyFields && (
-              <FormField
-                control={form.control}
-                name="lorebookIds"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
-                    <FormControl>
-                      <MultiSelectPopover
-                        options={
-                          lorebooksQuery.data?.map((l) => ({
-                            id: l.id,
-                            label: l.name,
-                          })) ?? []
-                        }
-                        value={field.value}
-                        onChange={field.onChange}
-                        triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
-                        searchPlaceholder={t(
-                          "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
-                        )}
-                        emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
               )}
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -558,9 +503,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                       <FormControl>
                         <Select
                           value={field.value}
-                          onValueChange={(v) =>
-                            field.onChange(v ?? "__none__")
-                          }
+                          onValueChange={(v) => field.onChange(v ?? "__none__")}
                         >
                           <SelectTrigger className="w-full">
                             <SelectValue>
@@ -745,107 +688,109 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
               </div>
 
               {showServerOnlyFields && (
-              <div className="flex flex-col gap-2 rounded-md border p-3">
-                <FormField
-                  control={form.control}
-                  name="webSearchEnabled"
-                  render={({ field }) => (
-                    <FormItem className="flex-row items-center justify-between">
-                      <FormLabel>{t("CHAT.OVERRIDES.WEB_SEARCH")}</FormLabel>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </FormItem>
+                <div className="flex flex-col gap-2 rounded-md border p-3">
+                  <FormField
+                    control={form.control}
+                    name="webSearchEnabled"
+                    render={({ field }) => (
+                      <FormItem className="flex-row items-center justify-between">
+                        <FormLabel>{t("CHAT.OVERRIDES.WEB_SEARCH")}</FormLabel>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  {webSearchEnabled && (
+                    <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+                      <FormField
+                        control={form.control}
+                        name="webSearchEngine"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Label className="text-muted-foreground text-xs">
+                              {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
+                            </Label>
+                            <FormControl>
+                              <Select
+                                value={field.value}
+                                onValueChange={(v) =>
+                                  field.onChange(v ?? "auto")
+                                }
+                              >
+                                <SelectTrigger className="w-full">
+                                  <SelectValue>
+                                    {t(
+                                      WEB_SEARCH_ENGINE_KEY[
+                                        field.value as keyof typeof WEB_SEARCH_ENGINE_KEY
+                                      ],
+                                    )}
+                                  </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {(
+                                    Object.keys(WEB_SEARCH_ENGINE_KEY) as Array<
+                                      keyof typeof WEB_SEARCH_ENGINE_KEY
+                                    >
+                                  ).map((k) => (
+                                    <SelectItem key={k} value={k}>
+                                      {t(WEB_SEARCH_ENGINE_KEY[k])}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="webSearchContextSize"
+                        render={({ field }) => (
+                          <FormItem>
+                            <Label className="text-muted-foreground text-xs">
+                              {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
+                            </Label>
+                            <FormControl>
+                              <Select
+                                value={field.value}
+                                onValueChange={(v) =>
+                                  field.onChange(v ?? "medium")
+                                }
+                              >
+                                <SelectTrigger className="w-full">
+                                  <SelectValue>
+                                    {t(
+                                      WEB_SEARCH_CONTEXT_KEY[
+                                        field.value as keyof typeof WEB_SEARCH_CONTEXT_KEY
+                                      ],
+                                    )}
+                                  </SelectValue>
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {(
+                                    Object.keys(
+                                      WEB_SEARCH_CONTEXT_KEY,
+                                    ) as Array<
+                                      keyof typeof WEB_SEARCH_CONTEXT_KEY
+                                    >
+                                  ).map((k) => (
+                                    <SelectItem key={k} value={k}>
+                                      {t(WEB_SEARCH_CONTEXT_KEY[k])}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                   )}
-                />
-                {webSearchEnabled && (
-                  <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
-                    <FormField
-                      control={form.control}
-                      name="webSearchEngine"
-                      render={({ field }) => (
-                        <FormItem>
-                          <Label className="text-muted-foreground text-xs">
-                            {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
-                          </Label>
-                          <FormControl>
-                            <Select
-                              value={field.value}
-                              onValueChange={(v) =>
-                                field.onChange(v ?? "auto")
-                              }
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue>
-                                  {t(
-                                    WEB_SEARCH_ENGINE_KEY[
-                                      field.value as keyof typeof WEB_SEARCH_ENGINE_KEY
-                                    ],
-                                  )}
-                                </SelectValue>
-                              </SelectTrigger>
-                              <SelectContent>
-                                {(
-                                  Object.keys(
-                                    WEB_SEARCH_ENGINE_KEY,
-                                  ) as Array<keyof typeof WEB_SEARCH_ENGINE_KEY>
-                                ).map((k) => (
-                                  <SelectItem key={k} value={k}>
-                                    {t(WEB_SEARCH_ENGINE_KEY[k])}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="webSearchContextSize"
-                      render={({ field }) => (
-                        <FormItem>
-                          <Label className="text-muted-foreground text-xs">
-                            {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
-                          </Label>
-                          <FormControl>
-                            <Select
-                              value={field.value}
-                              onValueChange={(v) =>
-                                field.onChange(v ?? "medium")
-                              }
-                            >
-                              <SelectTrigger className="w-full">
-                                <SelectValue>
-                                  {t(
-                                    WEB_SEARCH_CONTEXT_KEY[
-                                      field.value as keyof typeof WEB_SEARCH_CONTEXT_KEY
-                                    ],
-                                  )}
-                                </SelectValue>
-                              </SelectTrigger>
-                              <SelectContent>
-                                {(
-                                  Object.keys(
-                                    WEB_SEARCH_CONTEXT_KEY,
-                                  ) as Array<keyof typeof WEB_SEARCH_CONTEXT_KEY>
-                                ).map((k) => (
-                                  <SelectItem key={k} value={k}>
-                                    {t(WEB_SEARCH_CONTEXT_KEY[k])}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                )}
-              </div>
+                </div>
               )}
             </div>
 
