@@ -150,10 +150,20 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
   .get("/snapshot/:id/status", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     const apiKey = getApiKeyOrGuest(cookie);
-    return {
-      success: true,
-      data: await pollSnapshotStatus(userId, apiKey, params.id),
-    };
+    try {
+      return {
+        success: true,
+        data: await pollSnapshotStatus(userId, apiKey, params.id),
+      };
+    } catch (e) {
+      if (e instanceof Error && e.message === "ERRORS.NOT_FOUND") {
+        return {
+          success: true,
+          data: { id: params.id, status: "failure" as const },
+        };
+      }
+      throw e;
+    }
   })
   // Owner-only visibility toggle on a single snapshot.
   .post(
