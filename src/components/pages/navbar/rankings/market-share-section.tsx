@@ -131,6 +131,8 @@ export function MarketShareSection(props: MarketShareSectionProps) {
                   axisLine={false}
                   fontSize={10}
                   fontFamily="monospace"
+                  minTickGap={24}
+                  interval="preserveStartEnd"
                 />
                 <YAxis
                   tickLine={false}
@@ -247,7 +249,9 @@ function buildChartData(
   const labelsSorted = [...byLabel.keys()].sort((a, b) => {
     const ta = String(orderByLabel.get(a) ?? a);
     const tb = String(orderByLabel.get(b) ?? b);
-    return ta.localeCompare(tb);
+    if (ta < tb) return -1;
+    if (ta > tb) return 1;
+    return 0;
   });
 
   return labelsSorted.map((label) => {
