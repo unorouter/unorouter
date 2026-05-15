@@ -3,7 +3,6 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
-import { StatusPill } from "@/components/elements/model/status-pill";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -58,19 +57,16 @@ export function ModelCard(props: {
         <div className="flex min-w-0 flex-1 items-center gap-3">
           <VendorIcon vendor={model.vendor.name} size={20} />
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
-              <StatusPill modelName={model.name} />
-              <Tooltip>
-                <TooltipTrigger
-                  render={
-                    <h2 className="block truncate text-left font-mono text-sm font-medium tracking-wide" />
-                  }
-                >
-                  {model.name}
-                </TooltipTrigger>
-                <TooltipContent>{model.name}</TooltipContent>
-              </Tooltip>
-            </div>
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <h2 className="block truncate text-left font-mono text-sm font-medium tracking-wide" />
+                }
+              >
+                {model.name}
+              </TooltipTrigger>
+              <TooltipContent>{model.name}</TooltipContent>
+            </Tooltip>
             <div className="flex items-center gap-1.5">
               <p className="text-muted-foreground truncate font-mono text-[10px] tracking-wider uppercase">
                 {model.vendor.name}

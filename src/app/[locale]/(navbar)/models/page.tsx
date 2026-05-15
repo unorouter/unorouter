@@ -43,11 +43,6 @@ export default async function ModelsPage(props: {
       queryFn: async () => handleElysia(await rpc.api.pricing.get()),
     }),
     queryClient.prefetchQuery({
-      queryKey: queryKeys.modelStatusComponents(),
-      queryFn: async () =>
-        handleElysia(await rpc.api["model-status"].components.get()),
-    }),
-    queryClient.prefetchQuery({
       queryKey: queryKeys.perfMetricsSummary(24),
       queryFn: async () =>
         handleElysia(

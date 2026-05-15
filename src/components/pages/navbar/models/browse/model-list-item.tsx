@@ -3,7 +3,6 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
-import { StatusPill } from "@/components/elements/model/status-pill";
 import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
@@ -57,7 +56,6 @@ export function ModelListItem(props: {
         <VendorIcon vendor={model.vendor.name} size={18} />
 
         <div className="flex min-w-0 flex-1 items-center gap-1.5">
-          <StatusPill modelName={model.name} />
           <span className="truncate font-mono text-sm font-medium tracking-wide">
             {model.name}
           </span>
