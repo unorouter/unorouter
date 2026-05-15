@@ -2307,7 +2307,7 @@
       "REASONING_EFFORT": "推論の深さ",
       "MODEL_DEFAULT": "モデル既定",
       "OFF": "オフ",
-      "CHAT_MEMORY": "チャット記憶",
+      "CHAT_MEMORY": "チャット記憶（送信メッセージ数）",
       "CHAT_MEMORY_HINT": "リクエストごとに送信される直近のメッセージ数。",
       "SYSTEM_PROMPT": "システムプロンプトの上書き",
       "SYSTEM_PROMPT_PLACEHOLDER": "空欄にするとキャラクターのシステムプロンプトが使われます。",

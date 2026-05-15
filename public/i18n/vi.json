@@ -2307,7 +2307,7 @@
       "REASONING_EFFORT": "Mức độ suy luận",
       "MODEL_DEFAULT": "Mặc định của mô hình",
       "OFF": "Tắt",
-      "CHAT_MEMORY": "Bộ nhớ chat",
+      "CHAT_MEMORY": "Bộ nhớ chat (số tin nhắn đã gửi)",
       "CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi kèm mỗi yêu cầu.",
       "SYSTEM_PROMPT": "Ghi đè prompt hệ thống",
       "SYSTEM_PROMPT_PLACEHOLDER": "Để trống để dùng prompt hệ thống của nhân vật.",

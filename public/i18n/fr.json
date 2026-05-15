@@ -2307,7 +2307,7 @@
       "REASONING_EFFORT": "Effort de raisonnement",
       "MODEL_DEFAULT": "Défaut du modèle",
       "OFF": "Désactivé",
-      "CHAT_MEMORY": "Mémoire de chat",
+      "CHAT_MEMORY": "Mémoire de chat (nombre de messages envoyés)",
       "CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête.",
       "SYSTEM_PROMPT": "Surcharge du prompt système",
       "SYSTEM_PROMPT_PLACEHOLDER": "Laissez vide pour utiliser le prompt système du personnage.",

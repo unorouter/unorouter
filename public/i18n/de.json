@@ -2307,7 +2307,7 @@
       "REASONING_EFFORT": "Reasoning-Tiefe",
       "MODEL_DEFAULT": "Modell-Standard",
       "OFF": "Aus",
-      "CHAT_MEMORY": "Chat-Speicher",
+      "CHAT_MEMORY": "Chat-Speicher (Anzahl gesendeter Nachrichten)",
       "CHAT_MEMORY_HINT": "Anzahl der zuletzt gesendeten Nachrichten pro Anfrage.",
       "SYSTEM_PROMPT": "System-Prompt überschreiben",
       "SYSTEM_PROMPT_PLACEHOLDER": "Leer lassen, um den System-Prompt des Charakters zu verwenden.",

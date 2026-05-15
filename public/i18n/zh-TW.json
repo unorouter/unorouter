@@ -2307,7 +2307,7 @@
       "REASONING_EFFORT": "推理強度",
       "MODEL_DEFAULT": "模型預設",
       "OFF": "關閉",
-      "CHAT_MEMORY": "聊天記憶",
+      "CHAT_MEMORY": "聊天記憶（傳送訊息數量）",
       "CHAT_MEMORY_HINT": "每次請求隨附的最近訊息數量。",
       "SYSTEM_PROMPT": "覆寫系統提示詞",
       "SYSTEM_PROMPT_PLACEHOLDER": "留空則使用角色內建的系統提示詞。",

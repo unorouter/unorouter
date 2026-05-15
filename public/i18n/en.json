@@ -2307,7 +2307,7 @@
       "REASONING_EFFORT": "Reasoning effort",
       "MODEL_DEFAULT": "Model default",
       "OFF": "Off",
-      "CHAT_MEMORY": "Chat memory",
+      "CHAT_MEMORY": "Chat memory (number of messages sent)",
       "CHAT_MEMORY_HINT": "Number of recent messages sent with each request.",
       "SYSTEM_PROMPT": "System prompt override",
       "SYSTEM_PROMPT_PLACEHOLDER": "Leave empty to use the character's system prompt.",
