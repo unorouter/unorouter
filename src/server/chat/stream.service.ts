@@ -26,7 +26,9 @@ import { assertPromptAllowed } from "./augmentation/moderation.service";
 import {
   assembleForStream,
   assembleFromOverrides,
+  expandTemplateVars,
   loadConvContext,
+  type AssembledSystem,
 } from "./augmentation/prompt-assembler.service";
 import { submitVideoTask } from "./augmentation/task.service";
 import {
@@ -153,21 +155,26 @@ function extractLastUserText(messages: StreamBody["messages"]): string | null {
  * Collect the last `limit` user messages' text content as an array, newest
  * first. The prompt assembler uses this to honor per-lorebook scanDepth.
  */
-type DepthInjection = { text: string; depth: number };
+type DepthInjection = {
+  text: string;
+  depth: number;
+  role?: "system" | "user";
+};
 
 /**
- * Splice synthetic system messages into a message array at depth-from-end
- * positions. SillyTavern semantics: `depth` counts back from the end (0 =
- * after last, 1 = before last, etc). When two injections collide on the same
- * insertion index, the one passed first wins (caller controls ordering).
+ * Splice synthetic messages into a message array at depth-from-end positions.
+ * SillyTavern semantics: `depth` counts back from the end (0 = after last,
+ * 1 = before last, etc). When two injections collide on the same insertion
+ * index, the one passed first wins (caller controls ordering). `role`
+ * defaults to "system"; users opt into the user-role downgrade explicitly
+ * via the per-preset `noSystemRole` flag (applied by `stripSystemRole`
+ * later in the pipeline), so this function trusts the requested role.
  */
 function spliceDepthInjections(
   messages: StreamBody["messages"],
   injections: DepthInjection[],
 ): StreamBody["messages"] {
   if (injections.length === 0) return messages;
-  // Map each injection to an insertion index, then splice in descending order
-  // so earlier inserts don't shift later indices.
   const withIdx = injections
     .map((inj) => {
       const idx = Math.max(0, messages.length - inj.depth);
@@ -177,12 +184,133 @@ function spliceDepthInjections(
   const out = messages.slice();
   for (const { idx, inj } of withIdx) {
     out.splice(idx, 0, {
-      role: "system",
+      role: inj.role ?? "system",
       parts: [{ type: "text", text: inj.text }],
     } as StreamBody["messages"][number]);
   }
   return out;
 }
+
+/**
+ * Expand {{user}}/{{char}}/{{scenario}}/{{user_description}}/{{char_description}}
+ * macros in every text part of every message before sending upstream. Applied
+ * after slicing so we never expand history we don't actually send. The LLM
+ * never sees the literal `{{user}}` token.
+ */
+function expandMessageMacros(
+  messages: StreamBody["messages"],
+  vars: AssembledSystem["vars"],
+): StreamBody["messages"] {
+  return messages.map((m) => {
+    if (!Array.isArray(m.parts)) return m;
+    return {
+      ...m,
+      parts: m.parts.map((p) =>
+        p.type === "text" && typeof p.text === "string"
+          ? { ...p, text: expandTemplateVars(p.text, vars) }
+          : p,
+      ),
+    };
+  });
+}
+
+/**
+ * Append a prefill assistant message at the very end. Primes the LLM to
+ * continue from this seed text, looking like its own prior reply. Powerful
+ * jailbreak technique. Caller already expanded macros in the prefill string.
+ */
+function appendPrefill(
+  messages: StreamBody["messages"],
+  prefill: string,
+): StreamBody["messages"] {
+  return [
+    ...messages,
+    {
+      role: "assistant",
+      parts: [{ type: "text", text: prefill }],
+    } as StreamBody["messages"][number],
+  ];
+}
+
+/**
+ * Convert every system-role message to a user-role message, prefixing the
+ * text with `[System]:` so the model still distinguishes it. Required for
+ * providers that reject system role mid-conversation (Gemini, some GLM
+ * configurations). The top-level `system` parameter is unaffected.
+ */
+function stripSystemRole(
+  messages: StreamBody["messages"],
+): StreamBody["messages"] {
+  return messages.map((m) => {
+    if (m.role !== "system") return m;
+    const parts = Array.isArray(m.parts)
+      ? m.parts.map((p) =>
+          p.type === "text" && typeof p.text === "string"
+            ? { ...p, text: `[System]: ${p.text}` }
+            : p,
+        )
+      : m.parts;
+    return { ...m, role: "user", parts } as StreamBody["messages"][number];
+  });
+}
+
+/**
+ * Merge consecutive same-role messages into one. Result strictly alternates
+ * user/assistant. Required by GLM and some Anthropic configurations. Joins
+ * text parts with double newlines; non-text parts (images, files) carry over
+ * in order.
+ */
+function mergeAlternateRoles(
+  messages: StreamBody["messages"],
+): StreamBody["messages"] {
+  if (messages.length < 2) return messages;
+  const out: StreamBody["messages"] = [];
+  for (const m of messages) {
+    const prev = out[out.length - 1];
+    if (
+      prev &&
+      prev.role === m.role &&
+      Array.isArray(prev.parts) &&
+      Array.isArray(m.parts)
+    ) {
+      out[out.length - 1] = {
+        ...prev,
+        parts: [...prev.parts, ...m.parts],
+      } as StreamBody["messages"][number];
+    } else {
+      out.push(m);
+    }
+  }
+  return out;
+}
+
+/**
+ * If the first message is not a user message, prepend a tiny user stub.
+ * Anthropic and Gemini both reject conversations that start with assistant
+ * or system role. The stub's text is intentionally minimal so it adds no
+ * meaningful content to the prompt.
+ */
+function prependUserStub(
+  messages: StreamBody["messages"],
+): StreamBody["messages"] {
+  if (messages.length === 0) return messages;
+  if (messages[0].role === "user") return messages;
+  return [
+    {
+      role: "user",
+      parts: [{ type: "text", text: "[Start a new chat]" }],
+    } as StreamBody["messages"][number],
+    ...messages,
+  ];
+}
+
+const GEMINI_SAFETY_OFF = [
+  "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+  "HARM_CATEGORY_HATE_SPEECH",
+  "HARM_CATEGORY_HARASSMENT",
+  "HARM_CATEGORY_DANGEROUS_CONTENT",
+  "HARM_CATEGORY_CIVIC_INTEGRITY",
+].map((category) => ({ category, threshold: "OFF" as const }));
 
 function collectRecentUserTexts(
   messages: StreamBody["messages"],
@@ -594,10 +722,43 @@ export async function streamChat(
     ...assembled.atDepthEntries,
     ...(assembled.authorNote ? [assembled.authorNote] : []),
   ];
-  const messagesForUpstream =
+  const splicedMessages =
     depthInjections.length > 0
       ? spliceDepthInjections(slicedMessages, depthInjections)
       : slicedMessages;
+  // Expand {{user}}/{{char}} macros in every text part. The LLM never sees
+  // the literal token; persona name is swapped in before the upstream call.
+  let processedMessages = expandMessageMacros(splicedMessages, assembled.vars);
+
+  // Per-preset transport flags. ORDER LOCKED — do not reshuffle:
+  //  1. noSystemRole BEFORE merge: stripped system-as-user must be eligible
+  //     to collapse with an adjacent user during the merge step.
+  //  2. prefill BEFORE merge: prefill is assistant role; if user already
+  //     ended on assistant, mergeAlternateRoles will collapse them. Setting
+  //     `skipPrefillIfLastIsAssistant` opts out of that collapse.
+  //  3. mergeAlternateRoles AFTER prefill: merge runs once over the final
+  //     shape so output is strictly user/assistant/user/assistant.
+  //  4. prependUserStub LAST: must run after merge so the merge can't fold
+  //     the stub into a following user message and erase the stub semantics.
+  if (assembled.flags.noSystemRole) {
+    processedMessages = stripSystemRole(processedMessages);
+  }
+  const lastIsAssistant =
+    processedMessages[processedMessages.length - 1]?.role === "assistant";
+  const prefillBlocked =
+    assembled.flags.skipPrefillIfLastIsAssistant &&
+    assembled.flags.forceAlternateRoles &&
+    lastIsAssistant;
+  if (assembled.prefill && !prefillBlocked) {
+    processedMessages = appendPrefill(processedMessages, assembled.prefill);
+  }
+  if (assembled.flags.forceAlternateRoles) {
+    processedMessages = mergeAlternateRoles(processedMessages);
+  }
+  if (assembled.flags.mustStartWithUserInput) {
+    processedMessages = prependUserStub(processedMessages);
+  }
+  const messagesForUpstream = processedMessages;
 
   const modelMetadata = await getModelMetadata(body.model);
   // Free models often have stale/inflated maxOutputTokens in metadata that
@@ -656,6 +817,12 @@ export async function streamChat(
         }),
         ...(assembled.reasoningEffort && {
           reasoning_effort: assembled.reasoningEffort,
+        }),
+        // Gemini "block off" jailbreak: send safetySettings with threshold=OFF
+        // for every harm category. Stronger than BLOCK_NONE. Only takes effect
+        // when upstream routes to Gemini; ignored elsewhere.
+        ...(assembled.flags.geminiBlockOff && {
+          safetySettings: GEMINI_SAFETY_OFF,
         }),
       },
     },
@@ -718,8 +885,13 @@ export async function streamChat(
     },
   });
 
-  // Text models: stream directly
-  if (!buffered) {
+  // User opt-in: when assembled.streamingEnabled is false, force the same
+  // buffered path that media models use. Whole reply waits, single chunk
+  // emits at end. Useful for picky models that mangle streaming output.
+  const userOptedOutOfStreaming = !assembled.streamingEnabled;
+
+  // Text models with streaming on: stream directly token-by-token.
+  if (!buffered && !userOptedOutOfStreaming) {
     return result.toUIMessageStreamResponse({
       messageMetadata: ({ part }) => {
         if (part.type === "finish" && droppedParamsRef.value) {
@@ -730,6 +902,6 @@ export async function streamChat(
     });
   }
 
-  // Video/buffered models: buffer, process URLs, then send
+  // Video/buffered models OR user-opted-out: buffer, process URLs, then send.
   return handleBufferedStream(result, body, mediaType ?? "text");
 }

@@ -58,6 +58,13 @@ export const queryKeys = {
   lorebook: (id: string) => ["lorebook", id] as const,
   presets: () => ["sampling-presets"] as const,
   preset: (id: string) => ["sampling-preset", id] as const,
+  cards: () => ["rp-cards"] as const,
+  card: (id: string) => ["rp-card", id] as const,
+
+  // Sync (server-mirror state for synced rows)
+  syncState: () => ["sync-state"] as const,
+  syncBundle: (kind: string, id: string) =>
+    ["sync-bundle", kind, id] as const,
 
   // Pricing & Search
   pricing: () => ["pricing"] as const,

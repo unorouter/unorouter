@@ -10,6 +10,15 @@ import {
 import { uid } from "@/lib/utils/base";
 
 // ---------------------------------------------------------------------------
+// Shared schema: tables mirrored both server-side (Turso) and client-side
+// (SQLocal/OPFS). Top-level user-owned entities + their cascade children.
+//
+// `syncExpiresAt` is the only sync-state column. Null = not synced (server has
+// no copy on Turso; row exists only locally). Non-null = currently synced and
+// will be purged server-side after the timestamp.
+// ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
 // Conversations
 // ---------------------------------------------------------------------------
 
@@ -23,6 +32,7 @@ export const conversations = sqliteTable(
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
     totalCost: real("total_cost").notNull().default(0),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -33,6 +43,7 @@ export const conversations = sqliteTable(
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
     index("idx_conv_share").on(table.shareId),
+    index("idx_conv_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -55,8 +66,6 @@ export const conversationSettings = sqliteTable("conversation_settings", {
   webSearchContextSize: text("web_search_context_size")
     .notNull()
     .default("medium"),
-  // Inline sampling overrides (per-conversation). Null = use preset / model default.
-  // When non-null, these win over any bound preset.
   temperature: real("temperature"),
   topP: real("top_p"),
   topK: integer("top_k"),
@@ -66,17 +75,17 @@ export const conversationSettings = sqliteTable("conversation_settings", {
   presencePenalty: real("presence_penalty"),
   repetitionPenalty: real("repetition_penalty"),
   maxTokens: integer("max_tokens"),
-  // Free-form JSON merged into the request body before stream. Power-user
-  // escape hatch for fields the slider UI doesn't cover (e.g. reasoning_effort,
-  // service_tier, prediction). Sliders win on key conflicts.
   extraBody: text("extra_body"),
+  streamingEnabled: integer("streaming_enabled", { mode: "boolean" })
+    .notNull()
+    .default(true),
   updatedAt: integer("updated_at", { mode: "timestamp_ms" })
     .notNull()
     .default(sql`(unixepoch() * 1000)`),
 });
 
 // ---------------------------------------------------------------------------
-// Messages + items (normalized; matches OpenAI Responses API output shape)
+// Messages + items
 // ---------------------------------------------------------------------------
 
 export const messages = sqliteTable(
@@ -164,6 +173,14 @@ export const characters = sqliteTable(
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }),
     nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
+    triggers: text("triggers", { mode: "json" }),
+    alwaysActive: integer("always_active", { mode: "boolean" })
+      .notNull()
+      .default(true),
+    matchWholeWords: integer("match_whole_words", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -174,11 +191,12 @@ export const characters = sqliteTable(
   (table) => [
     index("idx_char_user_updated").on(table.userId, table.updatedAt),
     index("idx_char_user_name").on(table.userId, table.name),
+    index("idx_char_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
 // ---------------------------------------------------------------------------
-// Personas (the user's own RP identity)
+// Personas
 // ---------------------------------------------------------------------------
 
 export const personas = sqliteTable(
@@ -194,6 +212,7 @@ export const personas = sqliteTable(
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -204,6 +223,7 @@ export const personas = sqliteTable(
   (table) => [
     index("idx_persona_user_default").on(table.userId, table.isDefault),
     index("idx_persona_user").on(table.userId),
+    index("idx_persona_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
@@ -225,6 +245,7 @@ export const lorebooks = sqliteTable(
     recursiveScanning: integer("recursive_scanning", { mode: "boolean" })
       .notNull()
       .default(false),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -232,7 +253,10 @@ export const lorebooks = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [index("idx_lorebook_user").on(table.userId)],
+  (table) => [
+    index("idx_lorebook_user").on(table.userId),
+    index("idx_lorebook_sync_expires").on(table.syncExpiresAt),
+  ],
 );
 
 export const lorebookEntries = sqliteTable(
@@ -256,6 +280,10 @@ export const lorebookEntries = sqliteTable(
     depth: integer("depth").notNull().default(4),
     enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
     orderIndex: integer("order_index").notNull().default(0),
+    matchWholeWords: integer("match_whole_words", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    injectionRole: text("injection_role").notNull().default("user"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -289,11 +317,33 @@ export const samplingPresets = sqliteTable(
     presencePenalty: real("presence_penalty"),
     repetitionPenalty: real("repetition_penalty"),
     maxTokens: integer("max_tokens"),
-    /** Free-form JSON merged into request body. See conversationSettings.extraBody. */
     extraBody: text("extra_body"),
+    mainPrompt: text("main_prompt"),
+    postHistory: text("post_history"),
+    prefill: text("prefill"),
+    forceAlternateRoles: integer("force_alternate_roles", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    noSystemRole: integer("no_system_role", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    mustStartWithUserInput: integer("must_start_with_user_input", {
+      mode: "boolean",
+    })
+      .notNull()
+      .default(false),
+    skipPrefillIfLastIsAssistant: integer("skip_prefill_if_last_is_assistant", {
+      mode: "boolean",
+    })
+      .notNull()
+      .default(false),
+    geminiBlockOff: integer("gemini_block_off", { mode: "boolean" })
+      .notNull()
+      .default(false),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -301,7 +351,10 @@ export const samplingPresets = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
-  (table) => [index("idx_preset_user_name").on(table.userId, table.name)],
+  (table) => [
+    index("idx_preset_user_name").on(table.userId, table.name),
+    index("idx_preset_sync_expires").on(table.syncExpiresAt),
+  ],
 );
 
 // ---------------------------------------------------------------------------
@@ -351,7 +404,69 @@ export const conversationLorebooks = sqliteTable(
 );
 
 // ---------------------------------------------------------------------------
-// Media (untouched; reused for character avatars and chat attachments)
+// Cards
+// ---------------------------------------------------------------------------
+
+export const cards = sqliteTable(
+  "cards",
+  {
+    id: text("id")
+      .primaryKey()
+      .$defaultFn(() => uid()),
+    userId: integer("user_id").notNull(),
+    name: text("name").notNull(),
+    description: text("description"),
+    personaId: text("persona_id"),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [
+    index("idx_card_user_updated").on(table.userId, table.updatedAt),
+    index("idx_card_sync_expires").on(table.syncExpiresAt),
+  ],
+);
+
+export const cardCharacters = sqliteTable(
+  "card_characters",
+  {
+    cardId: text("card_id")
+      .notNull()
+      .references(() => cards.id, { onDelete: "cascade" }),
+    characterId: text("character_id")
+      .notNull()
+      .references(() => characters.id, { onDelete: "cascade" }),
+    orderIndex: integer("order_index").notNull().default(0),
+  },
+  (table) => [
+    primaryKey({ columns: [table.cardId, table.characterId] }),
+    index("idx_cardchar_card_order").on(table.cardId, table.orderIndex),
+  ],
+);
+
+export const cardLorebooks = sqliteTable(
+  "card_lorebooks",
+  {
+    cardId: text("card_id")
+      .notNull()
+      .references(() => cards.id, { onDelete: "cascade" }),
+    lorebookId: text("lorebook_id")
+      .notNull()
+      .references(() => lorebooks.id, { onDelete: "cascade" }),
+    orderIndex: integer("order_index").notNull().default(0),
+  },
+  (table) => [
+    primaryKey({ columns: [table.cardId, table.lorebookId] }),
+    index("idx_cardlb_card_order").on(table.cardId, table.orderIndex),
+  ],
+);
+
+// ---------------------------------------------------------------------------
+// Media (character avatars + chat attachments)
 // ---------------------------------------------------------------------------
 
 export const media = sqliteTable(
@@ -379,92 +494,9 @@ export const media = sqliteTable(
 );
 
 // ---------------------------------------------------------------------------
-// Moderation log (untouched)
+// Image generation (session + snapshots + images + likes)
 // ---------------------------------------------------------------------------
 
-export const moderationLog = sqliteTable(
-  "moderation_log",
-  {
-    id: text("id")
-      .primaryKey()
-      .$defaultFn(() => uid()),
-    userId: integer("user_id").notNull(),
-    convId: text("conv_id"),
-    model: text("model").notNull(),
-    mediaType: text("media_type").notNull(),
-    decision: text("decision").notNull(),
-    reason: text("reason"),
-    prompt: text("prompt").notNull(),
-    externalId: text("external_id").notNull(),
-    creemId: text("creem_id"),
-    units: integer("units"),
-    latencyMs: integer("latency_ms").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    index("idx_modlog_user_created").on(table.userId, table.createdAt),
-    index("idx_modlog_decision").on(table.decision, table.createdAt),
-  ],
-);
-
-// ---------------------------------------------------------------------------
-// ACP checkout (untouched)
-// ---------------------------------------------------------------------------
-
-export const acpCheckoutSessions = sqliteTable(
-  "acp_checkout_sessions",
-  {
-    id: text("id").primaryKey(),
-    userId: integer("user_id").notNull(),
-    status: text("status").notNull(),
-    currency: text("currency").notNull().default("usd"),
-    itemId: text("item_id").notNull(),
-    quantity: integer("quantity").notNull().default(1),
-    amountCents: integer("amount_cents").notNull(),
-    paymentMethod: text("payment_method").notNull(),
-    payLink: text("pay_link"),
-    quotaAtComplete: integer("quota_at_complete"),
-    body: text("body", { mode: "json" }),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [index("idx_acp_user_created").on(table.userId, table.createdAt)],
-);
-
-export const acpIdempotencyKeys = sqliteTable(
-  "acp_idempotency_keys",
-  {
-    key: text("key").notNull(),
-    userId: integer("user_id").notNull(),
-    path: text("path").notNull(),
-    bodyHash: text("body_hash").notNull(),
-    status: integer("status").notNull(),
-    response: text("response", { mode: "json" }).notNull(),
-    state: text("state").notNull().default("done"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    index("idx_acp_idem_lookup").on(table.userId, table.key, table.path),
-    index("idx_acp_idem_created").on(table.createdAt),
-  ],
-);
-
-// ---------------------------------------------------------------------------
-// Image generation
-// ---------------------------------------------------------------------------
-
-// generation_sessions is the long-lived container the user iterates inside.
-// One Generate click appends a snapshot (`generations` row) to the active
-// session. Sharing, retention, and the recent-list card all live at the
-// session level. Cascade delete fires through to snapshots + images via FK.
 export const generationSessions = sqliteTable(
   "generation_sessions",
   {
@@ -472,23 +504,13 @@ export const generationSessions = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
-    // Optional friendly label. Defaults to first 60 chars of the opening
-    // snapshot's prompt; users can rename later (v2).
     title: text("title"),
-    // The opening snapshot's model. Useful for the session card without
-    // a join to the latest snapshot row.
     firstModel: text("first_model"),
-    // Public share token. Same pattern as conversations.shareId: minted on
-    // first share, idempotent, cleared on revoke. Recipients see the full
-    // snapshot history (read-only).
     shareId: text("share_id").unique(),
-    // Denormalized counters bumped in the same tx as snapshot inserts /
-    // image finalize. Drive the session card's "N snapshots, M images".
     snapshotCount: integer("snapshot_count").notNull().default(0),
     imageCount: integer("image_count").notNull().default(0),
-    // Retention: every new snapshot extends this to now + 30d. Sweeper
-    // deletes the session (cascading snapshots + images) when expired.
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -497,19 +519,13 @@ export const generationSessions = sqliteTable(
       .default(sql`(unixepoch() * 1000)`),
   },
   (table) => [
-    // user's session list, newest-updated first
     index("idx_session_user_updated").on(table.userId, table.updatedAt),
-    // share-link lookup
     index("idx_session_share").on(table.shareId),
-    // retention sweeper scan
     index("idx_session_expires").on(table.expiresAt),
+    index("idx_session_sync_expires").on(table.syncExpiresAt),
   ],
 );
 
-// generations is one snapshot inside a session. A snapshot freezes the
-// form state at submit time (prompt + params + loras + references + refs)
-// and the 1/2/4 images it produced (stored in generation_images by FK).
-// Sharing and retention sit on the parent session, not here.
 export const generations = sqliteTable(
   "generations",
   {
@@ -517,59 +533,30 @@ export const generations = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
-    // Parent session. Cascade delete: removing the session removes every
-    // snapshot it contains.
     sessionId: text("session_id")
       .notNull()
       .references(() => generationSessions.id, { onDelete: "cascade" }),
-    // 0-based monotonic index within the session. Newest has the highest
-    // value; chevron nav reads the snapshot list sorted by this DESC.
     sessionOrder: integer("session_order").notNull(),
-    // How many images the user asked for (1, 2, or 4). Drives the UI's
-    // "generating M of N" progress display until all N images are saved.
     requestedCount: integer("requested_count").notNull().default(1),
-    // Upstream task id from new-api; nullable while submit is in flight.
     taskId: text("task_id"),
     model: text("model").notNull(),
     prompt: text("prompt").notNull(),
     negativePrompt: text("negative_prompt"),
-    // Compact JSON: { width, height, steps, cfg, guidance, sampler,
-    // scheduler, seed, denoise, n }. Schema is per-model; readers should
-    // tolerate missing keys.
     params: text("params", { mode: "json" }),
-    // [{ name, weight, source: "civitai-id" | "hf-id" | "filename" }]
     loras: text("loras", { mode: "json" }),
-    // [{ url, name?, weight? }] - the raw refs the user submitted, plus
-    // r2Url for ones we re-uploaded. Null for non-compose models.
     references: text("references", { mode: "json" }),
-    // Free-form spillover (Flux 2 guidance, future per-model knobs).
     extraParams: text("extra_params", { mode: "json" }),
-    // Status mirrors new-api's task lifecycle:
-    //   pending     row inserted, upstream submit in flight
-    //   submitted   upstream returned task_id
-    //   in_progress upstream worker is generating
-    //   success     all generation_images rows populated, cost settled
-    //   failure     errorMessage populated, quota refunded
     status: text("status").notNull().default("pending"),
     progress: text("progress"),
-    // The price we billed the user, in unorouter quota units. Settled on
-    // terminal success, refunded on failure.
     costQuota: integer("cost_quota"),
-    // private (default), unlisted (link-only), public (in feed).
     visibility: text("visibility").notNull().default("private"),
     nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(true),
     flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
     flagReason: text("flag_reason"),
-    // Denormalized counters for cheap feed sorts.
     remixCount: integer("remix_count").notNull().default(0),
     likeCount: integer("like_count").notNull().default(0),
-    // Lineage: if this gen was a remix of another, points back. ON DELETE
-    // SET NULL so deleting the parent doesn't cascade-kill descendants.
     remixedFrom: text("remixed_from"),
     errorMessage: text("error_message"),
-    // The submitter's API key, captured at submit time so the server-side
-    // sweeper can poll upstream as the same user when the client tab is
-    // closed. Cleared on terminal status to limit exposure.
     submittedKey: text("submitted_key"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -577,31 +564,18 @@ export const generations = sqliteTable(
     updatedAt: integer("updated_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
-    // Auto-deletion timestamp. Mirrors the parent session's expiresAt so
-    // expiry queries can still hit a snapshot directly when needed.
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
   },
   (table) => [
-    // chevron nav: snapshots within a session sorted by sessionOrder
     index("idx_gen_session_order").on(table.sessionId, table.sessionOrder),
-    // public feed query
     index("idx_gen_visibility_created").on(table.visibility, table.createdAt),
-    // per-model browse
     index("idx_gen_model_created").on(table.model, table.createdAt),
-    // upstream cross-reference (poller looks up rows by taskId)
     index("idx_gen_task").on(table.taskId),
-    // lineage walks
     index("idx_gen_remixed_from").on(table.remixedFrom),
-    // retention sweeper scan
     index("idx_gen_expires").on(table.expiresAt),
   ],
 );
 
-// One image attached to a generation. v1 supports up to 4 images per row
-// (matches the form's variants buttons 1/2/4). The (generationId,
-// sequenceIndex) compound PK enforces ordering and de-dupes accidental
-// double-inserts during retry. Cascade delete fires when the parent row
-// is removed (whether by deleteGeneration or by the retention sweeper).
 export const generationImages = sqliteTable(
   "generation_images",
   {
@@ -609,8 +583,6 @@ export const generationImages = sqliteTable(
       .notNull()
       .references(() => generations.id, { onDelete: "cascade" }),
     sequenceIndex: integer("sequence_index").notNull(),
-    // Raw upstream URL pre-R2 (data: URI or S3). Kept for debugging; the
-    // canonical user-facing link is r2Url.
     upstreamResultUrl: text("upstream_result_url"),
     r2Url: text("r2_url").notNull(),
     r2Key: text("r2_key").notNull(),
@@ -628,9 +600,6 @@ export const generationImages = sqliteTable(
   ],
 );
 
-// generation_likes is the join table for "favorited" / "liked" gens. Kept
-// separate from generations so we can drop / rebuild without losing the
-// underlying images.
 export const generationLikes = sqliteTable(
   "generation_likes",
   {
@@ -648,151 +617,13 @@ export const generationLikes = sqliteTable(
   ],
 );
 
-// loraCatalog is the curated set of LoRAs we expose in the picker.
-// Operators add rows manually (admin-only API in v1). The filename must
-// match exactly what's on the RunPod network volume at
-// /workspace/models/loras/, since LoraLoader.lora_name is patched with
-// this string verbatim by new-api's applyLoraChain.
-export const loraCatalog = sqliteTable(
-  "lora_catalog",
-  {
-    // Slug we coin (e.g. "anatomy-fix-pony-v3"). Stable across re-syncs.
-    id: text("id").primaryKey(),
-    name: text("name").notNull(),
-    // "civitai" | "hf" | "local"
-    source: text("source").notNull(),
-    // Upstream id for re-download / attribution (Civitai version id, HF
-    // path, or empty for local).
-    sourceId: text("source_id").notNull(),
-    filename: text("filename").notNull(),
-    // "pony" | "sdxl" | "flux2" | "z-image" - constrains which models
-    // can use the LoRA. Picker filters by selected model's family.
-    baseModel: text("base_model").notNull(),
-    // "anatomy" | "style" | "character" | "concept"
-    category: text("category").notNull(),
-    defaultWeight: real("default_weight").notNull().default(1.0),
-    description: text("description"),
-    thumbnailR2Key: text("thumbnail_r2_key"),
-    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
-    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    // picker query: visible LoRAs for selected model family
-    index("idx_lora_basemodel_visible").on(table.baseModel, table.visible),
-    // category facet
-    index("idx_lora_category").on(table.category),
-  ],
-);
-
-// embeddingCatalog mirrors loraCatalog but for textual-inversion files.
-// Filename must match the file on /workspace/models/embeddings/ — the
-// prompt assembler rewrites `<embed:name>` tokens into the ComfyUI
-// embedding syntax `embedding:<filename>`.
-export const embeddingCatalog = sqliteTable(
-  "embedding_catalog",
-  {
-    id: text("id").primaryKey(),
-    name: text("name").notNull(),
-    source: text("source").notNull(),
-    sourceId: text("source_id").notNull(),
-    filename: text("filename").notNull(),
-    baseModel: text("base_model").notNull(),
-    // "negative" | "style" | "character" | "concept" - operator-defined
-    category: text("category").notNull(),
-    description: text("description"),
-    thumbnailR2Key: text("thumbnail_r2_key"),
-    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
-    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    index("idx_embedding_basemodel_visible").on(table.baseModel, table.visible),
-    index("idx_embedding_category").on(table.category),
-  ],
-);
-
-// upscalerCatalog tracks the upscaler models on the RunPod volume.
-// Family-agnostic: SDXL / Flux / Z-Image all use the same ESRGAN/SwinIR/DAT
-// upscalers, so no baseModel field. `category` partitions them for picker
-// grouping (Latent vs ESRGAN vs SwinIR vs DAT vs APISR).
-export const upscalerCatalog = sqliteTable(
-  "upscaler_catalog",
-  {
-    id: text("id").primaryKey(),
-    name: text("name").notNull(),
-    // filename or built-in name ("Latent (nearest)" / "R-ESRGAN 4x+" / etc.)
-    filename: text("filename").notNull(),
-    category: text("category").notNull(),
-    // Recommended scale: 2/3/4. Used to set default multiplier when picked.
-    nativeScale: integer("native_scale").notNull().default(4),
-    description: text("description"),
-    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    index("idx_upscaler_category_visible").on(table.category, table.visible),
-  ],
-);
-
-// controlNetCatalog lists per-family ControlNet checkpoints. Single-unit
-// only on the worker side for now: each row has a `kind` (depth/canny/
-// openpose) and the worker template wires its preprocessor automatically
-// based on the kind.
-export const controlNetCatalog = sqliteTable(
-  "controlnet_catalog",
-  {
-    id: text("id").primaryKey(),
-    name: text("name").notNull(),
-    filename: text("filename").notNull(),
-    baseModel: text("base_model").notNull(),
-    // "depth" | "canny" | "openpose"
-    kind: text("kind").notNull(),
-    description: text("description"),
-    visible: integer("visible", { mode: "boolean" }).notNull().default(true),
-    sortOrder: integer("sort_order").notNull().default(0),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    index("idx_controlnet_basemodel_kind").on(table.baseModel, table.kind),
-  ],
-);
-
 // ---------------------------------------------------------------------------
-// Inferred types (only the ones actually imported elsewhere)
+// Inferred types (re-exported via schema/index.ts barrel)
 // ---------------------------------------------------------------------------
 
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
-export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type GenerationSession = typeof generationSessions.$inferSelect;
 export type Generation = typeof generations.$inferSelect;
 export type GenerationImage = typeof generationImages.$inferSelect;
 export type GenerationLike = typeof generationLikes.$inferSelect;
-export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;
-export type EmbeddingCatalogEntry = typeof embeddingCatalog.$inferSelect;
-export type UpscalerCatalogEntry = typeof upscalerCatalog.$inferSelect;
-export type ControlNetCatalogEntry = typeof controlNetCatalog.$inferSelect;

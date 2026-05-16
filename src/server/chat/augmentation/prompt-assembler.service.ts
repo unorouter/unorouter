@@ -14,11 +14,15 @@ import { logger } from "@/lib/utils/logger";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
 
-/** Single synthetic system message to splice into the upstream message array
- *  at `depth` turns from the end (1 = before the last message, etc). */
+/** Single synthetic message to splice into the upstream message array at
+ *  `depth` turns from the end (1 = before the last message, etc).
+ *  `role` defaults to "system" for author note; lorebook entries pass their
+ *  own role. Stream service downgrades "system" to "user" for providers that
+ *  don't accept mid-conversation system messages (e.g. Gemini). */
 export type DepthInjection = {
   text: string;
   depth: number;
+  role?: "system" | "user";
 };
 
 /**
@@ -78,6 +82,8 @@ export type AssembledSystem = {
   reasoningEffort?: string;
   /** Sliding-window size to apply to messages array. */
   chatMemory: number;
+  /** When false, BFF buffers the full upstream reply before emitting. */
+  streamingEnabled: boolean;
   /** Author's note as a depth-injected synthetic system message. */
   authorNote?: DepthInjection;
   /** Lorebook entries with `position=at_depth`, each with their own depth. */
@@ -89,6 +95,24 @@ export type AssembledSystem = {
    * undefined and is silently ignored.
    */
   extraBody?: Record<string, unknown>;
+  /** Assistant-role priming message appended last (jailbreak-style prefill). */
+  prefill?: string;
+  /** Variable map for {{user}}/{{char}} expansion in user message text. */
+  vars: {
+    user: string;
+    char: string;
+    user_description: string;
+    char_description: string;
+    scenario: string;
+  };
+  /** Per-preset transport flags controlling message-array rewriting. */
+  flags: {
+    forceAlternateRoles: boolean;
+    noSystemRole: boolean;
+    mustStartWithUserInput: boolean;
+    skipPrefillIfLastIsAssistant: boolean;
+    geminiBlockOff: boolean;
+  };
 };
 
 /**
@@ -163,9 +187,24 @@ export function assembleFromOverrides(
     sampling,
     reasoningEffort: overrides?.reasoningEffort ?? undefined,
     chatMemory: overrides?.chatMemory ?? 0,
+    streamingEnabled: overrides?.streamingEnabled ?? true,
     authorNote,
     atDepthEntries: [],
     extraBody: parseExtraBody(overrides?.extraBody),
+    vars: {
+      user: "User",
+      char: "Assistant",
+      user_description: "",
+      char_description: "",
+      scenario: "",
+    },
+    flags: {
+      forceAlternateRoles: false,
+      noSystemRole: false,
+      mustStartWithUserInput: false,
+      skipPrefillIfLastIsAssistant: false,
+      geminiBlockOff: false,
+    },
   };
 }
 
@@ -288,19 +327,29 @@ type LbRow = LoadedConvContext extends infer T
  * Filter `entries` to those whose primary keys (or `constant`) match `text`.
  * Returns matched entries in priority-desc order. Caller handles budgeting.
  */
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function keyHits(key: string, text: string, wholeWords: boolean): boolean {
+  if (!key) return false;
+  if (wholeWords) {
+    return new RegExp(`\\b${escapeRegex(key)}\\b`, "i").test(text);
+  }
+  return text.toLowerCase().includes(key.toLowerCase());
+}
+
 function matchEntries(entries: LbEntry[], text: string): LbEntry[] {
   if (entries.length === 0) return [];
-  const lower = text.toLowerCase();
   const matched = entries.filter((e) => {
     if (e.constant) return true;
     const keys = (e.keys ?? []) as string[];
-    const hit = keys.some((k) => lower.includes(k.toLowerCase()));
+    const whole = !!e.matchWholeWords;
+    const hit = keys.some((k) => keyHits(k, text, whole));
     if (!hit) return false;
     if (e.selective) {
       const sec = (e.secondaryKeys ?? []) as string[];
-      return (
-        sec.length === 0 || sec.some((k) => lower.includes(k.toLowerCase()))
-      );
+      return sec.length === 0 || sec.some((k) => keyHits(k, text, whole));
     }
     return true;
   });
@@ -399,7 +448,22 @@ export async function assembleForStream(
       system: fallbackSystemMessage,
       sampling: {},
       chatMemory: 8,
+      streamingEnabled: true,
       atDepthEntries: [],
+      vars: {
+        user: "User",
+        char: "Assistant",
+        user_description: "",
+        char_description: "",
+        scenario: "",
+      },
+      flags: {
+        forceAlternateRoles: false,
+        noSystemRole: false,
+        mustStartWithUserInput: false,
+        skipPrefillIfLastIsAssistant: false,
+        geminiBlockOff: false,
+      },
     };
   }
 
@@ -432,6 +496,9 @@ export async function assembleForStream(
   // Compose static system block
   const sections: string[] = [];
 
+  // Preset main prompt: top-of-prompt instructions, first thing the LLM sees.
+  if (preset?.mainPrompt) sections.push(expand(preset.mainPrompt));
+
   if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
 
   for (const e of selected.filter((x) => x.position === "top"))
@@ -439,19 +506,42 @@ export async function assembleForStream(
   for (const e of selected.filter((x) => x.position === "before_char"))
     sections.push(expand(e.content));
 
-  if (primary) {
-    const charBlock: string[] = [];
-    if (primary.description) {
-      charBlock.push(`# ${primary.name}\n\n${expand(primary.description)}`);
-    } else if (primary.name) {
-      charBlock.push(`# ${primary.name}`);
+  // Multi-character: render every bound character block in orderIndex order.
+  // {{char}} still resolves to the primary (first) character, but each bound
+  // character gets its own block in the system prompt so the LLM can keep
+  // them distinct (matches RisuAI/SillyTavern multi-char convention).
+  // Trigger gating: when `alwaysActive` is false AND the character has
+  // triggers, scan recent user texts; skip the block if no key matches.
+  // Primary character is always rendered regardless of triggers so the
+  // conversation doesn't suddenly lose its protagonist.
+  const charScanText = recentUserTexts.join("\n");
+  for (let i = 0; i < boundCharacters.length; i++) {
+    const binding = boundCharacters[i];
+    const ch = binding.character;
+    const isPrimary = i === 0;
+    const triggers = (ch.triggers ?? null) as string[] | null;
+    const gated =
+      !isPrimary &&
+      ch.alwaysActive === false &&
+      Array.isArray(triggers) &&
+      triggers.length > 0;
+    if (gated) {
+      const hit = triggers.some((k) =>
+        keyHits(k, charScanText, !!ch.matchWholeWords),
+      );
+      if (!hit) continue;
     }
-    if (primary.personality)
-      charBlock.push(`## Personality\n${expand(primary.personality)}`);
-    if (primary.scenario)
-      charBlock.push(`## Scenario\n${expand(primary.scenario)}`);
-    if (primary.exampleMessages)
-      charBlock.push(`## Example dialogue\n${expand(primary.exampleMessages)}`);
+    const charBlock: string[] = [];
+    if (ch.description) {
+      charBlock.push(`# ${ch.name}\n\n${expand(ch.description)}`);
+    } else if (ch.name) {
+      charBlock.push(`# ${ch.name}`);
+    }
+    if (ch.personality)
+      charBlock.push(`## Personality\n${expand(ch.personality)}`);
+    if (ch.scenario) charBlock.push(`## Scenario\n${expand(ch.scenario)}`);
+    if (ch.exampleMessages)
+      charBlock.push(`## Example dialogue\n${expand(ch.exampleMessages)}`);
     if (charBlock.length > 0) sections.push(charBlock.join("\n\n"));
   }
 
@@ -471,6 +561,9 @@ export async function assembleForStream(
   if (primary?.postHistoryInstructions)
     sections.push(expand(primary.postHistoryInstructions));
 
+  // Preset post-history: tail-end injected instructions (end-of-system-prompt).
+  if (preset?.postHistory) sections.push(expand(preset.postHistory));
+
   for (const e of selected.filter((x) => x.position === "bottom"))
     sections.push(expand(e.content));
 
@@ -481,7 +574,11 @@ export async function assembleForStream(
   // these as synthetic system messages into the message array.
   const atDepthEntries: DepthInjection[] = selected
     .filter((e) => e.position === "at_depth")
-    .map((e) => ({ text: expand(e.content), depth: e.depth ?? 4 }));
+    .map((e) => ({
+      text: expand(e.content),
+      depth: e.depth ?? 4,
+      role: e.injectionRole === "system" ? "system" : "user",
+    }));
   const authorNote = settings.authorNote
     ? {
         text: expand(settings.authorNote),
@@ -518,8 +615,25 @@ export async function assembleForStream(
     sampling,
     reasoningEffort: reasoningEffort ?? undefined,
     chatMemory: settings.chatMemory,
+    streamingEnabled: settings.streamingEnabled ?? true,
     authorNote,
     atDepthEntries,
     extraBody,
+    prefill: preset?.prefill ? expand(preset.prefill) : undefined,
+    vars: {
+      user: userName,
+      char: charName,
+      user_description: userDesc,
+      char_description: charDesc,
+      scenario,
+    },
+    flags: {
+      forceAlternateRoles: preset?.forceAlternateRoles ?? false,
+      noSystemRole: preset?.noSystemRole ?? false,
+      mustStartWithUserInput: preset?.mustStartWithUserInput ?? false,
+      skipPrefillIfLastIsAssistant:
+        preset?.skipPrefillIfLastIsAssistant ?? false,
+      geminiBlockOff: preset?.geminiBlockOff ?? false,
+    },
   };
 }

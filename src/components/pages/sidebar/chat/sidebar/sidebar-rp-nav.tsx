@@ -3,23 +3,24 @@
 import { CharacterList } from "@/components/pages/sidebar/chat/rp/character-list";
 import { LorebookList } from "@/components/pages/sidebar/chat/rp/lorebook-list";
 import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
-import { PresetList } from "@/components/pages/sidebar/chat/rp/preset-list";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Link } from "@/i18n/navigation";
 import { atom, useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import {
   LuBookText,
+  LuLayers,
   LuSlidersHorizontal,
   LuUser,
   LuUsers,
 } from "react-icons/lu";
 
-type Tab = "characters" | "personas" | "lorebooks" | "presets";
+type Tab = "characters" | "personas" | "lorebooks";
 
 /**
  * Open RP dialog tab. Lifted to a jotai atom so the dialogs (rendered at the
@@ -34,8 +35,7 @@ const items: Array<{
   labelKey:
     | "RP.SIDEBAR_TAB_CHARACTERS"
     | "RP.SIDEBAR_TAB_PERSONAS"
-    | "RP.SIDEBAR_TAB_LOREBOOKS"
-    | "RP.SIDEBAR_TAB_PRESETS";
+    | "RP.SIDEBAR_TAB_LOREBOOKS";
   Icon: React.ComponentType<{ className?: string }>;
 }> = [
   {
@@ -52,11 +52,6 @@ const items: Array<{
     tab: "lorebooks",
     labelKey: "RP.SIDEBAR_TAB_LOREBOOKS",
     Icon: LuBookText,
-  },
-  {
-    tab: "presets",
-    labelKey: "RP.SIDEBAR_TAB_PRESETS",
-    Icon: LuSlidersHorizontal,
   },
 ];
 
@@ -84,6 +79,44 @@ export function SidebarRpNav() {
           <TooltipContent side="bottom">{t(it.labelKey)}</TooltipContent>
         </Tooltip>
       ))}
+      {/* Presets + cards have their own pages now (more room for prompt + flag
+          editing). Sidebar icons navigate instead of opening a dialog. */}
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t("RP.SIDEBAR_TAB_PRESETS")}
+              nativeButton={false}
+              render={<Link href="/chat/presets" />}
+            >
+              <LuSlidersHorizontal className="size-4" />
+            </Button>
+          }
+        />
+        <TooltipContent side="bottom">
+          {t("RP.SIDEBAR_TAB_PRESETS")}
+        </TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label={t("RP.SIDEBAR_TAB_CARDS")}
+              nativeButton={false}
+              render={<Link href="/chat/cards" />}
+            >
+              <LuLayers className="size-4" />
+            </Button>
+          }
+        />
+        <TooltipContent side="bottom">
+          {t("RP.SIDEBAR_TAB_CARDS")}
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
@@ -107,10 +140,6 @@ export function RpDialogs() {
       <LorebookList
         open={openTab === "lorebooks"}
         onOpenChange={(o) => setOpenTab(o ? "lorebooks" : null)}
-      />
-      <PresetList
-        open={openTab === "presets"}
-        onOpenChange={(o) => setOpenTab(o ? "presets" : null)}
       />
     </>
   );

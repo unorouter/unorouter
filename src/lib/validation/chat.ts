@@ -176,6 +176,8 @@ export const streamOverrides = t.Object({
    * assembler. Keep generous to avoid blocking power users; cap at 8 KiB.
    */
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
+  /** false = BFF buffers full upstream reply, then emits one chunk. */
+  streamingEnabled: t.Optional(t.Boolean()),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
 
@@ -249,6 +251,7 @@ export const updateConversationSettingsBody = t.Object({
     t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
   ),
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
+  streamingEnabled: t.Optional(t.Boolean()),
 });
 export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody

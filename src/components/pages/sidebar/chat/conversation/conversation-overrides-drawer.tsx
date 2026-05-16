@@ -1,5 +1,6 @@
 "use client";
 
+import { SortableList } from "@/components/elements/dnd/sortable-list";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,7 +42,9 @@ import {
   useUpdateChatSettingsMutation,
 } from "@/hooks/rp-hook";
 import { analytics } from "@/lib/analytics";
+import { handleError } from "@/lib/utils/client";
 import type { StreamOverrides } from "@/lib/validation/chat";
+import { toast } from "sonner";
 import {
   chatDefaultsAtom,
   chatModelAtom,
@@ -162,6 +165,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           mem.repetitionPenalty ?? chatDefaults.repetitionPenalty ?? null,
         maxTokens: mem.maxTokens ?? chatDefaults.maxTokens ?? null,
         extraBody: mem.extraBody ?? chatDefaults.extraBody ?? "",
+        streamingEnabled: chatDefaults.streamingEnabled ?? true,
       });
       return;
     }
@@ -189,6 +193,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       repetitionPenalty: settings.repetitionPenalty ?? null,
       maxTokens: settings.maxTokens ?? null,
       extraBody: settings.extraBody ?? "",
+      streamingEnabled: settings.streamingEnabled ?? true,
     });
     // Re-seed only when convId or the underlying server data changes;
     // form.reset is stable. `chatDefaults` is included so the form picks up
@@ -264,62 +269,70 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         repetitionPenalty: data.repetitionPenalty,
         maxTokens: data.maxTokens,
         extraBody: data.extraBody || null,
+        streamingEnabled: data.streamingEnabled,
       };
       setChatDefaults(next);
+      toast.success(t("COMMON.SAVED"));
       return;
     }
-    await updateSettings.mutateAsync({
-      convId: props.convId!,
-      body: {
-        chatMemory: data.chatMemory,
-        authorNoteDepth: data.authorNoteDepth,
-        systemPromptOverride: data.systemPromptOverride || null,
-        authorNote: data.authorNote || null,
-        personaId: data.personaId === "__none__" ? null : data.personaId,
-        presetId: data.presetId === "__none__" ? null : data.presetId,
-        reasoningEffort:
-          data.reasoningEffort === "__none__"
-            ? null
-            : (data.reasoningEffort as
-                | "xhigh"
-                | "high"
-                | "medium"
-                | "low"
-                | "minimal"
-                | "none"),
-        webSearchEnabled: data.webSearchEnabled,
-        webSearchEngine: data.webSearchEngine as
-          | "auto"
-          | "native"
-          | "exa"
-          | "tavily",
-        webSearchContextSize: data.webSearchContextSize as
-          | "low"
-          | "medium"
-          | "high",
-        temperature: data.temperature,
-        topP: data.topP,
-        topK: data.topK,
-        minP: data.minP,
-        topA: data.topA,
-        frequencyPenalty: data.frequencyPenalty,
-        presencePenalty: data.presencePenalty,
-        repetitionPenalty: data.repetitionPenalty,
-        maxTokens: data.maxTokens,
-        extraBody: data.extraBody || null,
-      },
-    });
-    await updateBindings.mutateAsync({
-      convId: props.convId!,
-      body: {
-        characters: data.characterIds.map((id, i) => ({
-          characterId: id,
-          orderIndex: i,
-          isActive: true,
-        })),
-        lorebookIds: data.lorebookIds,
-      },
-    });
+    try {
+      await updateSettings.mutateAsync({
+        convId: props.convId!,
+        body: {
+          chatMemory: data.chatMemory,
+          authorNoteDepth: data.authorNoteDepth,
+          systemPromptOverride: data.systemPromptOverride || null,
+          authorNote: data.authorNote || null,
+          personaId: data.personaId === "__none__" ? null : data.personaId,
+          presetId: data.presetId === "__none__" ? null : data.presetId,
+          reasoningEffort:
+            data.reasoningEffort === "__none__"
+              ? null
+              : (data.reasoningEffort as
+                  | "xhigh"
+                  | "high"
+                  | "medium"
+                  | "low"
+                  | "minimal"
+                  | "none"),
+          webSearchEnabled: data.webSearchEnabled,
+          webSearchEngine: data.webSearchEngine as
+            | "auto"
+            | "native"
+            | "exa"
+            | "tavily",
+          webSearchContextSize: data.webSearchContextSize as
+            | "low"
+            | "medium"
+            | "high",
+          temperature: data.temperature,
+          topP: data.topP,
+          topK: data.topK,
+          minP: data.minP,
+          topA: data.topA,
+          frequencyPenalty: data.frequencyPenalty,
+          presencePenalty: data.presencePenalty,
+          repetitionPenalty: data.repetitionPenalty,
+          maxTokens: data.maxTokens,
+          extraBody: data.extraBody || null,
+          streamingEnabled: data.streamingEnabled,
+        },
+      });
+      await updateBindings.mutateAsync({
+        convId: props.convId!,
+        body: {
+          characters: data.characterIds.map((id, i) => ({
+            characterId: id,
+            orderIndex: i,
+            isActive: true,
+          })),
+          lorebookIds: data.lorebookIds,
+        },
+      });
+      toast.success(t("COMMON.SAVED"));
+    } catch (e) {
+      handleError(e, t);
+    }
   };
 
   return (
@@ -437,28 +450,58 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 <FormField
                   control={form.control}
                   name="characterIds"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
-                      <FormControl>
-                        <MultiSelectPopover
-                          options={
-                            charactersQuery.data?.map((c) => ({
-                              id: c.id,
-                              label: c.name,
-                            })) ?? []
-                          }
-                          value={field.value}
-                          onChange={field.onChange}
-                          triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
-                          searchPlaceholder={t(
-                            "CHAT.OVERRIDES.SEARCH_CHARACTERS",
-                          )}
-                          emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const ids = field.value as string[];
+                    const lookup = new Map(
+                      (charactersQuery.data ?? []).map((c) => [c.id, c.name]),
+                    );
+                    const orderedItems = ids
+                      .map((id) => ({ id, name: lookup.get(id) ?? id }))
+                      .filter((it) => lookup.has(it.id));
+                    return (
+                      <FormItem>
+                        <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
+                        <FormControl>
+                          <MultiSelectPopover
+                            options={
+                              charactersQuery.data?.map((c) => ({
+                                id: c.id,
+                                label: c.name,
+                              })) ?? []
+                            }
+                            value={field.value}
+                            onChange={field.onChange}
+                            triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
+                            searchPlaceholder={t(
+                              "CHAT.OVERRIDES.SEARCH_CHARACTERS",
+                            )}
+                            emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                          />
+                        </FormControl>
+                        {orderedItems.length > 1 && (
+                          <div className="mt-2">
+                            <p className="text-muted-foreground mb-1 text-xs">
+                              {t("CHAT.OVERRIDES.REORDER_HINT")}
+                            </p>
+                            <SortableList
+                              items={orderedItems}
+                              onReorder={(orderedIds) =>
+                                field.onChange(orderedIds)
+                              }
+                              renderItem={(item, handle) => (
+                                <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
+                                  {handle}
+                                  <span className="truncate text-sm">
+                                    {item.name}
+                                  </span>
+                                </div>
+                              )}
+                            />
+                          </div>
+                        )}
+                      </FormItem>
+                    );
+                  }}
                 />
               )}
 
@@ -466,28 +509,58 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                 <FormField
                   control={form.control}
                   name="lorebookIds"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
-                      <FormControl>
-                        <MultiSelectPopover
-                          options={
-                            lorebooksQuery.data?.map((l) => ({
-                              id: l.id,
-                              label: l.name,
-                            })) ?? []
-                          }
-                          value={field.value}
-                          onChange={field.onChange}
-                          triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
-                          searchPlaceholder={t(
-                            "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
-                          )}
-                          emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    const ids = field.value as string[];
+                    const lookup = new Map(
+                      (lorebooksQuery.data ?? []).map((l) => [l.id, l.name]),
+                    );
+                    const orderedItems = ids
+                      .map((id) => ({ id, name: lookup.get(id) ?? id }))
+                      .filter((it) => lookup.has(it.id));
+                    return (
+                      <FormItem>
+                        <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
+                        <FormControl>
+                          <MultiSelectPopover
+                            options={
+                              lorebooksQuery.data?.map((l) => ({
+                                id: l.id,
+                                label: l.name,
+                              })) ?? []
+                            }
+                            value={field.value}
+                            onChange={field.onChange}
+                            triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
+                            searchPlaceholder={t(
+                              "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
+                            )}
+                            emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                          />
+                        </FormControl>
+                        {orderedItems.length > 1 && (
+                          <div className="mt-2">
+                            <p className="text-muted-foreground mb-1 text-xs">
+                              {t("CHAT.OVERRIDES.REORDER_HINT")}
+                            </p>
+                            <SortableList
+                              items={orderedItems}
+                              onReorder={(orderedIds) =>
+                                field.onChange(orderedIds)
+                              }
+                              renderItem={(item, handle) => (
+                                <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
+                                  {handle}
+                                  <span className="truncate text-sm">
+                                    {item.name}
+                                  </span>
+                                </div>
+                              )}
+                            />
+                          </div>
+                        )}
+                      </FormItem>
+                    );
+                  }}
                 />
               )}
 
@@ -561,6 +634,28 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                           }
                         />
                       </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="streamingEnabled"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center justify-between">
+                        <FormLabel>
+                          {t("CHAT.OVERRIDES.STREAMING_ENABLED")}
+                        </FormLabel>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </div>
+                      <span className="text-muted-foreground text-xs">
+                        {t("CHAT.OVERRIDES.STREAMING_ENABLED_HINT")}
+                      </span>
                     </FormItem>
                   )}
                 />

@@ -324,6 +324,11 @@ function CharacterEditorInline(props: EditorInlineProps) {
       postHistoryInstructions: existing.postHistoryInstructions ?? "",
       tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
       nsfw: existing.nsfw ?? false,
+      triggers: Array.isArray(existing.triggers)
+        ? existing.triggers.join(", ")
+        : "",
+      alwaysActive: existing.alwaysActive ?? true,
+      matchWholeWords: existing.matchWholeWords ?? false,
     });
     // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -346,6 +351,14 @@ function CharacterEditorInline(props: EditorInlineProps) {
             .filter(Boolean)
         : undefined,
       nsfw: data.nsfw,
+      triggers: data.triggers
+        ? data.triggers
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : undefined,
+      alwaysActive: data.alwaysActive,
+      matchWholeWords: data.matchWholeWords,
     };
     if (props.characterId) {
       await props.updateMut.mutateAsync({ id: props.characterId, body });
@@ -464,6 +477,47 @@ function CharacterEditorInline(props: EditorInlineProps) {
           name="nsfw"
           label={t("RP.CHARACTER_NSFW")}
         />
+
+        <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
+          <div className="text-foreground text-xs font-medium tracking-wide uppercase">
+            {t("RP.CHARACTER_ACTIVATION_TITLE")}
+          </div>
+          <p className="text-muted-foreground text-xs">
+            {t("RP.CHARACTER_ACTIVATION_HINT")}
+          </p>
+          <div className="flex flex-col gap-1">
+            <MyFormSwitch
+              control={form.control}
+              name="alwaysActive"
+              label={t("RP.CHARACTER_ALWAYS_ACTIVE")}
+            />
+            <p className="text-muted-foreground text-xs">
+              {t("RP.CHARACTER_ALWAYS_ACTIVE_HINT")}
+            </p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <MyFormInput
+              control={form.control}
+              name="triggers"
+              schema={characterFormSchema}
+              label={t("RP.CHARACTER_TRIGGERS")}
+              placeholder="alice, knight, sword"
+            />
+            <p className="text-muted-foreground text-xs">
+              {t("RP.CHARACTER_TRIGGERS_HINT")}
+            </p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <MyFormSwitch
+              control={form.control}
+              name="matchWholeWords"
+              label={t("RP.CHARACTER_MATCH_WHOLE_WORDS")}
+            />
+            <p className="text-muted-foreground text-xs">
+              {t("RP.CHARACTER_MATCH_WHOLE_WORDS_HINT")}
+            </p>
+          </div>
+        </div>
 
         <div className="flex justify-end gap-2 pt-2">
           <Button

@@ -78,6 +78,9 @@ export async function createCharacter(userId: number, body: CharacterBody) {
     defaultReasoningEffort: body.defaultReasoningEffort ?? null,
     tags: body.tags ?? null,
     nsfw: body.nsfw ?? false,
+    triggers: body.triggers ?? null,
+    alwaysActive: body.alwaysActive ?? true,
+    matchWholeWords: body.matchWholeWords ?? false,
   });
   return getCharacter(userId, id);
 }
@@ -103,6 +106,9 @@ export async function updateCharacter(
       defaultReasoningEffort: body.defaultReasoningEffort ?? null,
       tags: body.tags ?? null,
       nsfw: body.nsfw ?? false,
+      triggers: body.triggers ?? null,
+      alwaysActive: body.alwaysActive ?? true,
+      matchWholeWords: body.matchWholeWords ?? false,
       updatedAt: dayjs().toDate(),
     })
     .where(and(eq(characters.id, id), eq(characters.userId, userId)))

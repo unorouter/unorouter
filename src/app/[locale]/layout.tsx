@@ -16,6 +16,7 @@ import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import { allFontVariablesClass } from "@/lib/config/theme-fonts";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -91,7 +92,7 @@ export default async function LocaleLayout(props: Props) {
       suppressHydrationWarning
     >
       <body
-        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} flex min-h-screen flex-col font-sans antialiased`}
+        className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-screen flex-col font-sans antialiased`}
       >
         <JsonLd id="organization-jsonld" data={buildOrganizationSchema()} />
         <JsonLd id="website-jsonld" data={buildWebSiteSchema(params.locale)} />

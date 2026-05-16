@@ -122,6 +122,8 @@ export async function createEntry(
     depth: body.depth ?? 4,
     enabled: body.enabled ?? true,
     orderIndex: body.orderIndex ?? 0,
+    matchWholeWords: body.matchWholeWords ?? false,
+    injectionRole: body.injectionRole ?? "user",
   });
   return getEntry(userId, lorebookId, id);
 }
@@ -168,6 +170,8 @@ export async function updateEntry(
       depth: body.depth ?? 4,
       enabled: body.enabled ?? true,
       orderIndex: body.orderIndex ?? 0,
+      matchWholeWords: body.matchWholeWords ?? false,
+      injectionRole: body.injectionRole ?? "user",
       updatedAt: dayjs().toDate(),
     })
     .where(

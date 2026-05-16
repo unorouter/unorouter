@@ -433,6 +433,9 @@ function Entries(props: { lorebookId: string }) {
       constant: e.constant ?? false,
       selective: e.selective ?? false,
       enabled: e.enabled ?? true,
+      matchWholeWords: e.matchWholeWords ?? false,
+      injectionRole: (e.injectionRole ??
+        "user") as LorebookEntryForm["injectionRole"],
     });
     // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -462,6 +465,8 @@ function Entries(props: { lorebookId: string }) {
       constant: data.constant,
       selective: data.selective,
       enabled: data.enabled,
+      matchWholeWords: data.matchWholeWords,
+      injectionRole: data.injectionRole as "system" | "user",
     };
     if (editingId === "new") {
       await createMut.mutateAsync(body);
@@ -509,13 +514,20 @@ function Entries(props: { lorebookId: string }) {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-3"
             >
-              <MyFormInput
-                control={form.control}
-                name="keys"
-                schema={lorebookEntryFormSchema}
-                label={t("RP.LOREBOOK_ENTRY_KEYS")}
-                placeholder="dragon, wyrm, drake"
-              />
+              {/* DB column + JSON field stay named `keys` for SillyTavern/RisuAI
+                  import-export compat. Only the user-facing label is "Triggers". */}
+              <div className="flex flex-col gap-1">
+                <MyFormInput
+                  control={form.control}
+                  name="keys"
+                  schema={lorebookEntryFormSchema}
+                  label={t("RP.LOREBOOK_ENTRY_KEYS")}
+                  placeholder="dragon, wyrm, drake"
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.LOREBOOK_ENTRY_KEYS_HINT")}
+                </p>
+              </div>
               <MyFormInput
                 control={form.control}
                 name="secondaryKeys"
@@ -583,14 +595,65 @@ function Entries(props: { lorebookId: string }) {
                     </FormItem>
                   )}
                 />
-                <MyFormInput
-                  control={form.control}
-                  name="priority"
-                  schema={lorebookEntryFormSchema}
-                  label={t("RP.LOREBOOK_ENTRY_PRIORITY")}
-                  type="number"
-                />
+                <div className="flex flex-col gap-1">
+                  <MyFormInput
+                    control={form.control}
+                    name="priority"
+                    schema={lorebookEntryFormSchema}
+                    label={t("RP.LOREBOOK_ENTRY_PRIORITY")}
+                    type="number"
+                  />
+                  <p className="text-muted-foreground text-xs">
+                    {t("RP.LOREBOOK_ENTRY_PRIORITY_HINT")}
+                  </p>
+                </div>
               </div>
+              <div className="flex flex-col gap-1">
+                <MyFormSwitch
+                  control={form.control}
+                  name="matchWholeWords"
+                  label={t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS")}
+                />
+                <p className="text-muted-foreground text-xs">
+                  {t("RP.LOREBOOK_ENTRY_MATCH_WHOLE_WORDS_HINT")}
+                </p>
+              </div>
+              <FormField
+                control={form.control}
+                name="injectionRole"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE")}
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={(v) => field.onChange(v ?? "user")}
+                      >
+                        <SelectTrigger>
+                          <SelectValue>
+                            {field.value === "system"
+                              ? t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM")
+                              : t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER")}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="user">
+                            {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_USER")}
+                          </SelectItem>
+                          <SelectItem value="system">
+                            {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_SYSTEM")}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <p className="text-muted-foreground text-xs">
+                      {t("RP.LOREBOOK_ENTRY_INJECTION_ROLE_HINT")}
+                    </p>
+                  </FormItem>
+                )}
+              />
               <MyFormSwitch
                 control={form.control}
                 name="constant"

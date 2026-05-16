@@ -16,10 +16,22 @@ import { toast } from "sonner";
 export function TokenEndpoint() {
   const t = useTranslations();
   const endpoint = `${env.apiUrl}/v1/chat/completions`;
+  const curlExample = `curl ${endpoint} \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [{"role": "user", "content": "Hello!"}],
+    "stream": true
+  }'`;
 
   const handleCopy = () => {
     copyToClipboard(endpoint);
     toast.success(t("TOKEN.ENDPOINT.COPIED"));
+  };
+  const handleCopyCurl = () => {
+    copyToClipboard(curlExample);
+    toast.success(t("TOKEN.ENDPOINT.CURL_COPIED"));
   };
 
   return (
@@ -50,6 +62,25 @@ export function TokenEndpoint() {
       <p className="text-muted-foreground mt-2 text-xs">
         {t("TOKEN.ENDPOINT.HINT")}
       </p>
+
+      <div className="mt-4">
+        <div className="mb-2 flex items-center justify-between gap-2">
+          <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
+            {t("TOKEN.ENDPOINT.CURL_EXAMPLE")}
+          </span>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            onClick={handleCopyCurl}
+            aria-label={t("TOKEN.ENDPOINT.CURL_COPY")}
+          >
+            <LuCopy className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+        <pre className="bg-background text-foreground overflow-x-auto rounded border px-3 py-2 font-mono text-xs whitespace-pre">
+          {curlExample}
+        </pre>
+      </div>
     </div>
   );
 }

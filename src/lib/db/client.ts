@@ -29,7 +29,7 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   // first request — getDb still returns a usable client.
   if (!serverEnv.standalone) {
     const db = _db;
-    migrate(db, { migrationsFolder: resolve("drizzle") })
+    migrate(db, { migrationsFolder: resolve("drizzle/server") })
       .then(() => runSeeds(db))
       .catch((e) => error("Database migration / seed failed", e));
   }

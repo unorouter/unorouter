@@ -1,33 +1,36 @@
-CREATE TABLE `acp_checkout_sessions` (
+CREATE TABLE `card_characters` (
+	`card_id` text NOT NULL,
+	`character_id` text NOT NULL,
+	`order_index` integer DEFAULT 0 NOT NULL,
+	PRIMARY KEY(`card_id`, `character_id`),
+	FOREIGN KEY (`card_id`) REFERENCES `cards`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`character_id`) REFERENCES `characters`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_cardchar_card_order` ON `card_characters` (`card_id`,`order_index`);--> statement-breakpoint
+CREATE TABLE `card_lorebooks` (
+	`card_id` text NOT NULL,
+	`lorebook_id` text NOT NULL,
+	`order_index` integer DEFAULT 0 NOT NULL,
+	PRIMARY KEY(`card_id`, `lorebook_id`),
+	FOREIGN KEY (`card_id`) REFERENCES `cards`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`lorebook_id`) REFERENCES `lorebooks`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_cardlb_card_order` ON `card_lorebooks` (`card_id`,`order_index`);--> statement-breakpoint
+CREATE TABLE `cards` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
-	`status` text NOT NULL,
-	`currency` text DEFAULT 'usd' NOT NULL,
-	`item_id` text NOT NULL,
-	`quantity` integer DEFAULT 1 NOT NULL,
-	`amount_cents` integer NOT NULL,
-	`payment_method` text NOT NULL,
-	`pay_link` text,
-	`quota_at_complete` integer,
-	`body` text,
+	`name` text NOT NULL,
+	`description` text,
+	`persona_id` text,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX `idx_acp_user_created` ON `acp_checkout_sessions` (`user_id`,`created_at`);--> statement-breakpoint
-CREATE TABLE `acp_idempotency_keys` (
-	`key` text NOT NULL,
-	`user_id` integer NOT NULL,
-	`path` text NOT NULL,
-	`body_hash` text NOT NULL,
-	`status` integer NOT NULL,
-	`response` text NOT NULL,
-	`state` text DEFAULT 'done' NOT NULL,
-	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
-);
---> statement-breakpoint
-CREATE INDEX `idx_acp_idem_lookup` ON `acp_idempotency_keys` (`user_id`,`key`,`path`);--> statement-breakpoint
-CREATE INDEX `idx_acp_idem_created` ON `acp_idempotency_keys` (`created_at`);--> statement-breakpoint
+CREATE INDEX `idx_card_user_updated` ON `cards` (`user_id`,`updated_at`);--> statement-breakpoint
+CREATE INDEX `idx_card_sync_expires` ON `cards` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `characters` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
@@ -43,12 +46,17 @@ CREATE TABLE `characters` (
 	`default_reasoning_effort` text,
 	`tags` text,
 	`nsfw` integer DEFAULT false NOT NULL,
+	`triggers` text,
+	`always_active` integer DEFAULT true NOT NULL,
+	`match_whole_words` integer DEFAULT false NOT NULL,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
 CREATE INDEX `idx_char_user_updated` ON `characters` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_char_user_name` ON `characters` (`user_id`,`name`);--> statement-breakpoint
+CREATE INDEX `idx_char_sync_expires` ON `characters` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `conversation_characters` (
 	`conv_id` text NOT NULL,
 	`character_id` text NOT NULL,
@@ -96,6 +104,7 @@ CREATE TABLE `conversation_settings` (
 	`repetition_penalty` real,
 	`max_tokens` integer,
 	`extra_body` text,
+	`streaming_enabled` integer DEFAULT true NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`conv_id`) REFERENCES `conversations`(`id`) ON UPDATE no action ON DELETE cascade
 );
@@ -108,6 +117,7 @@ CREATE TABLE `conversations` (
 	`total_input_tokens` integer DEFAULT 0 NOT NULL,
 	`total_output_tokens` integer DEFAULT 0 NOT NULL,
 	`total_cost` real DEFAULT 0 NOT NULL,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
@@ -115,6 +125,7 @@ CREATE TABLE `conversations` (
 CREATE UNIQUE INDEX `conversations_share_id_unique` ON `conversations` (`share_id`);--> statement-breakpoint
 CREATE INDEX `idx_conv_user_updated` ON `conversations` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_conv_share` ON `conversations` (`share_id`);--> statement-breakpoint
+CREATE INDEX `idx_conv_sync_expires` ON `conversations` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `generation_images` (
 	`generation_id` text NOT NULL,
 	`sequence_index` integer NOT NULL,
@@ -149,6 +160,7 @@ CREATE TABLE `generation_sessions` (
 	`snapshot_count` integer DEFAULT 0 NOT NULL,
 	`image_count` integer DEFAULT 0 NOT NULL,
 	`expires_at` integer NOT NULL,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
@@ -157,6 +169,7 @@ CREATE UNIQUE INDEX `generation_sessions_share_id_unique` ON `generation_session
 CREATE INDEX `idx_session_user_updated` ON `generation_sessions` (`user_id`,`updated_at`);--> statement-breakpoint
 CREATE INDEX `idx_session_share` ON `generation_sessions` (`share_id`);--> statement-breakpoint
 CREATE INDEX `idx_session_expires` ON `generation_sessions` (`expires_at`);--> statement-breakpoint
+CREATE INDEX `idx_session_sync_expires` ON `generation_sessions` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `generations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
@@ -195,26 +208,6 @@ CREATE INDEX `idx_gen_model_created` ON `generations` (`model`,`created_at`);-->
 CREATE INDEX `idx_gen_task` ON `generations` (`task_id`);--> statement-breakpoint
 CREATE INDEX `idx_gen_remixed_from` ON `generations` (`remixed_from`);--> statement-breakpoint
 CREATE INDEX `idx_gen_expires` ON `generations` (`expires_at`);--> statement-breakpoint
-CREATE TABLE `lora_catalog` (
-	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
-	`source` text NOT NULL,
-	`source_id` text NOT NULL,
-	`filename` text NOT NULL,
-	`base_model` text NOT NULL,
-	`category` text NOT NULL,
-	`default_weight` real DEFAULT 1 NOT NULL,
-	`description` text,
-	`thumbnail_r2_key` text,
-	`nsfw` integer DEFAULT false NOT NULL,
-	`visible` integer DEFAULT true NOT NULL,
-	`sort_order` integer DEFAULT 0 NOT NULL,
-	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
-	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
-);
---> statement-breakpoint
-CREATE INDEX `idx_lora_basemodel_visible` ON `lora_catalog` (`base_model`,`visible`);--> statement-breakpoint
-CREATE INDEX `idx_lora_category` ON `lora_catalog` (`category`);--> statement-breakpoint
 CREATE TABLE `lorebook_entries` (
 	`id` text PRIMARY KEY NOT NULL,
 	`lorebook_id` text NOT NULL,
@@ -228,6 +221,8 @@ CREATE TABLE `lorebook_entries` (
 	`depth` integer DEFAULT 4 NOT NULL,
 	`enabled` integer DEFAULT true NOT NULL,
 	`order_index` integer DEFAULT 0 NOT NULL,
+	`match_whole_words` integer DEFAULT false NOT NULL,
+	`injection_role` text DEFAULT 'user' NOT NULL,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	FOREIGN KEY (`lorebook_id`) REFERENCES `lorebooks`(`id`) ON UPDATE no action ON DELETE cascade
@@ -242,11 +237,13 @@ CREATE TABLE `lorebooks` (
 	`scan_depth` integer DEFAULT 4 NOT NULL,
 	`token_budget` integer DEFAULT 1500 NOT NULL,
 	`recursive_scanning` integer DEFAULT false NOT NULL,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
 CREATE INDEX `idx_lorebook_user` ON `lorebooks` (`user_id`);--> statement-breakpoint
+CREATE INDEX `idx_lorebook_sync_expires` ON `lorebooks` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `media` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
@@ -297,24 +294,6 @@ CREATE TABLE `messages` (
 CREATE INDEX `idx_msg_conv_parent` ON `messages` (`conv_id`,`parent_id`);--> statement-breakpoint
 CREATE INDEX `idx_msg_conv_created` ON `messages` (`conv_id`,`created_at`);--> statement-breakpoint
 CREATE INDEX `idx_msg_parent_branch` ON `messages` (`parent_id`,`branch_index`);--> statement-breakpoint
-CREATE TABLE `moderation_log` (
-	`id` text PRIMARY KEY NOT NULL,
-	`user_id` integer NOT NULL,
-	`conv_id` text,
-	`model` text NOT NULL,
-	`media_type` text NOT NULL,
-	`decision` text NOT NULL,
-	`reason` text,
-	`prompt` text NOT NULL,
-	`external_id` text NOT NULL,
-	`creem_id` text,
-	`units` integer,
-	`latency_ms` integer NOT NULL,
-	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
-);
---> statement-breakpoint
-CREATE INDEX `idx_modlog_user_created` ON `moderation_log` (`user_id`,`created_at`);--> statement-breakpoint
-CREATE INDEX `idx_modlog_decision` ON `moderation_log` (`decision`,`created_at`);--> statement-breakpoint
 CREATE TABLE `personas` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
@@ -322,12 +301,14 @@ CREATE TABLE `personas` (
 	`description` text,
 	`avatar_r2_key` text,
 	`is_default` integer DEFAULT false NOT NULL,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
 CREATE INDEX `idx_persona_user_default` ON `personas` (`user_id`,`is_default`);--> statement-breakpoint
 CREATE INDEX `idx_persona_user` ON `personas` (`user_id`);--> statement-breakpoint
+CREATE INDEX `idx_persona_sync_expires` ON `personas` (`sync_expires_at`);--> statement-breakpoint
 CREATE TABLE `sampling_presets` (
 	`id` text PRIMARY KEY NOT NULL,
 	`user_id` integer NOT NULL,
@@ -342,9 +323,36 @@ CREATE TABLE `sampling_presets` (
 	`repetition_penalty` real,
 	`max_tokens` integer,
 	`extra_body` text,
+	`main_prompt` text,
+	`post_history` text,
+	`prefill` text,
+	`force_alternate_roles` integer DEFAULT false NOT NULL,
+	`no_system_role` integer DEFAULT false NOT NULL,
+	`must_start_with_user_input` integer DEFAULT false NOT NULL,
+	`skip_prefill_if_last_is_assistant` integer DEFAULT false NOT NULL,
+	`gemini_block_off` integer DEFAULT false NOT NULL,
 	`is_default` integer DEFAULT false NOT NULL,
+	`sync_expires_at` integer,
 	`created_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
 	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
 );
 --> statement-breakpoint
-CREATE INDEX `idx_preset_user_name` ON `sampling_presets` (`user_id`,`name`);
+CREATE INDEX `idx_preset_user_name` ON `sampling_presets` (`user_id`,`name`);--> statement-breakpoint
+CREATE INDEX `idx_preset_sync_expires` ON `sampling_presets` (`sync_expires_at`);--> statement-breakpoint
+CREATE TABLE `local_meta` (
+	`key` text PRIMARY KEY NOT NULL,
+	`value` text NOT NULL,
+	`updated_at` integer DEFAULT (unixepoch() * 1000) NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE `local_pending_sync` (
+	`kind` text NOT NULL,
+	`id` text NOT NULL,
+	`op` text NOT NULL,
+	`queued_at` integer DEFAULT (unixepoch() * 1000) NOT NULL,
+	`attempts` integer DEFAULT 0 NOT NULL,
+	`last_error` text,
+	PRIMARY KEY(`kind`, `id`)
+);
+--> statement-breakpoint
+CREATE INDEX `idx_pending_queued` ON `local_pending_sync` (`queued_at`);

@@ -1,4 +1,5 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { SyncStateHydrator } from "@/lib/local-db/sync-state-hydrator";
 import { getCookieValue } from "@/lib/utils/server";
 import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
 import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
@@ -11,6 +12,7 @@ import { LanguageProvider } from "./app/language-provider";
 import { PostHogProvider } from "./app/posthog-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserProvider } from "./app/user-provider";
+import { UserThemeProvider } from "./app/user-theme-provider";
 import { WebMcpProvider } from "./app/webmcp-provider";
 import { AppPrefetchProvider } from "./state/app-prefetch-provider";
 import { ClientProvider } from "./state/client-provider";
@@ -35,14 +37,17 @@ export function Providers(props: { children: ReactNode }) {
               <UserProvider>
                 <LanguageProvider>
                   <ThemeProvider>
-                    <PostHogProvider>
-                      <WebMcpProvider />
-                      <TooltipProvider>
-                        <AppPrefetchProvider>
-                          {props.children}
-                        </AppPrefetchProvider>
-                      </TooltipProvider>
-                    </PostHogProvider>
+                    <UserThemeProvider>
+                      <PostHogProvider>
+                        <WebMcpProvider />
+                        <TooltipProvider>
+                          <AppPrefetchProvider>
+                            <SyncStateHydrator />
+                            {props.children}
+                          </AppPrefetchProvider>
+                        </TooltipProvider>
+                      </PostHogProvider>
+                    </UserThemeProvider>
                   </ThemeProvider>
                 </LanguageProvider>
               </UserProvider>

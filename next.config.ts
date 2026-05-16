@@ -13,6 +13,27 @@ const nextConfig: NextConfig = {
     qualities: [10, 25, 50, 75, 90, 100],
     minimumCacheTTL: 60 * 60 * 24,
   },
+  // Cross-origin isolation for OPFS sync access handles used by SQLocal
+  // on the chat + generate route groups. Required for SQLite WASM to
+  // persist its DB file across reloads. Marketing pages are untouched.
+  async headers() {
+    return [
+      {
+        source: "/:locale/chat/:path*",
+        headers: [
+          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+        ],
+      },
+      {
+        source: "/:locale/generate/:path*",
+        headers: [
+          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+        ],
+      },
+    ];
+  },
 };
 
 const withNextIntl = createNextIntlPlugin({

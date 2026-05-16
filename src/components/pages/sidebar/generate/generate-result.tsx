@@ -378,7 +378,28 @@ export function GenerateResult(props: Props) {
   const snapshots = sessionData?.snapshots ?? [];
   const liveSnapshot = statusQuery.data;
   const cachedSnapshot = snapshots.find((s) => s.id === props.snapshotId);
-  const data = liveSnapshot ?? cachedSnapshot;
+  // Snapshot is a discriminated union (full vs { id, status: "failure" }).
+  // Cast to a partial wide shape so call sites can read optional fields
+  // without per-access narrowing; downstream renders gate on `status` /
+  // `images.length` already.
+  type SnapshotWide = {
+    id: string;
+    status: "pending" | "running" | "success" | "failure" | string;
+    model?: string;
+    prompt?: string;
+    negativePrompt?: string | null;
+    params?: Record<string, unknown> | null;
+    loras?: unknown;
+    references?: unknown;
+    extraParams?: Record<string, unknown> | null;
+    nsfw?: boolean;
+    images?: GenerationImage[];
+    errorMessage?: string | null;
+    progress?: number | null;
+    expiresAt?: Date | null;
+    requestedCount?: number;
+  };
+  const data = (liveSnapshot ?? cachedSnapshot) as SnapshotWide | undefined;
   const shareId = session?.shareId ?? null;
 
   // Chevron index. Snapshots are returned newest-first; index 0 is the
@@ -412,16 +433,27 @@ export function GenerateResult(props: Props) {
   useEffect(() => {
     if (!data) return;
     if (currentIndex === 0) return;
+    // Failure snapshots carry only { id, status }; skip restore in that case.
+    if (data.status === "failure") return;
+    const d = data as {
+      model: string;
+      prompt: string;
+      negativePrompt: string | null;
+      params: Record<string, unknown> | null;
+      loras: unknown;
+      references: unknown;
+      extraParams: Record<string, unknown> | null;
+      nsfw: boolean;
+    };
     setRestore({
-      model: data.model,
-      prompt: data.prompt,
-      negativePrompt: (data as { negativePrompt: string | null })
-        .negativePrompt,
-      params: (data.params as Record<string, unknown> | null) ?? null,
-      loras: data.loras,
-      references: data.references,
-      extraParams: (data.extraParams as Record<string, unknown> | null) ?? null,
-      nsfw: data.nsfw,
+      model: d.model,
+      prompt: d.prompt,
+      negativePrompt: d.negativePrompt,
+      params: d.params ?? null,
+      loras: d.loras,
+      references: d.references,
+      extraParams: d.extraParams ?? null,
+      nsfw: d.nsfw,
     });
     // We only re-restore when the active snapshot id changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -529,7 +561,7 @@ export function GenerateResult(props: Props) {
       {isDone ? (
         <BatchGrid
           images={images}
-          prompt={data.prompt}
+          prompt={data.prompt ?? ""}
           snapshotId={props.snapshotId}
           onOpenLightbox={(i) => {
             setLightboxIndex(i);
@@ -551,16 +583,14 @@ export function GenerateResult(props: Props) {
             }
             window.history.replaceState(null, "", urlObj.toString());
             setRestore({
-              model: data.model,
-              prompt: data.prompt,
-              negativePrompt: (data as { negativePrompt: string | null })
-                .negativePrompt,
-              params: (data.params as Record<string, unknown> | null) ?? null,
+              model: data.model ?? "",
+              prompt: data.prompt ?? "",
+              negativePrompt: data.negativePrompt ?? null,
+              params: data.params ?? null,
               loras: data.loras,
               references: data.references,
-              extraParams:
-                (data.extraParams as Record<string, unknown> | null) ?? null,
-              nsfw: data.nsfw,
+              extraParams: data.extraParams ?? null,
+              nsfw: data.nsfw ?? false,
               tab: target.tab,
               subPill: target.subPill,
               initImageUrl: url,
@@ -593,7 +623,7 @@ export function GenerateResult(props: Props) {
       )}
 
       <div className="flex flex-wrap items-center gap-2">
-        <ParamsBadge model={data.model} params={data.params} />
+        <ParamsBadge model={data.model ?? ""} params={data.params} />
         {data.expiresAt && (
           <RetentionBadge expiresAt={data.expiresAt as Date | string} />
         )}
@@ -610,7 +640,7 @@ export function GenerateResult(props: Props) {
           <LuSparkles className="mr-2" />
           {t("IMAGE.REMIX")}
         </Button>
-        {isDone && getModelDescriptor(data.model).supportsHiresFix && (
+        {isDone && getModelDescriptor(data.model ?? "").supportsHiresFix && (
           <Button
             variant="outline"
             size="sm"
@@ -669,7 +699,7 @@ export function GenerateResult(props: Props) {
         open={lightboxOpen}
         onOpenChange={setLightboxOpen}
         snapshotId={props.snapshotId}
-        alt={data.prompt}
+        alt={data.prompt ?? ""}
       />
 
       <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>

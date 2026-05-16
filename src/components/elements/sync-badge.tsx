@@ -1,0 +1,112 @@
+"use client";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  useRemoveSyncMutation,
+  useSyncMutation,
+  useSyncStateForRow,
+} from "@/hooks/sync-hook";
+import type { SyncKindName } from "@/lib/validation/sync";
+import { useLocale, useTranslations } from "next-intl";
+import { LuCloudOff, LuCloudUpload, LuRefreshCcw } from "react-icons/lu";
+
+type Props = {
+  kind: SyncKindName;
+  id: string;
+  /** Body payload for Add/Resync. Omit if the row is already synced and the
+   *  client knows the server has the latest version. */
+  payload?: unknown;
+  /** Optional compact rendering for tight rows. */
+  compact?: boolean;
+};
+
+// ---------------------------------------------------------------------------
+// SyncBadge: per-row sync state + actions. Reads `syncExpiresAt` from the
+// bulk sync-state cache (one fetch covers every row on the page). Both
+// "Add sync" and "Resync" call the same idempotent POST endpoint; only the
+// button label changes by current state.
+// ---------------------------------------------------------------------------
+
+export function SyncBadge(props: Props) {
+  const t = useTranslations();
+  const locale = useLocale();
+  const state = useSyncStateForRow(props.kind, props.id);
+  const syncMut = useSyncMutation();
+  const removeMut = useRemoveSyncMutation();
+
+  const isSynced = state.syncExpiresAt != null;
+  const expiresAt =
+    state.syncExpiresAt != null
+      ? new Date(state.syncExpiresAt).toLocaleDateString(locale, {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })
+      : null;
+
+  const onSync = () =>
+    syncMut.mutate({
+      kind: props.kind,
+      id: props.id,
+      payload: props.payload,
+    });
+  const onRemove = () => {
+    if (!window.confirm(t("SYNC.CONFIRM_REMOVE"))) return;
+    removeMut.mutate({ kind: props.kind, id: props.id });
+  };
+
+  if (!isSynced) {
+    return (
+      <div className="flex items-center gap-2">
+        {props.compact ? null : (
+          <Badge variant="outline" className="gap-1">
+            <LuCloudOff className="size-3" />
+            {t("SYNC.NOT_SYNCED")}
+          </Badge>
+        )}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onSync}
+          disabled={syncMut.isPending}
+        >
+          <LuCloudUpload className="size-3.5" />
+          {props.compact ? null : t("SYNC.ADD_SYNC")}
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <Badge variant="default" className="gap-1 bg-success/15 text-success">
+        <LuCloudUpload className="size-3" />
+        {expiresAt
+          ? t("SYNC.EXPIRES_AT", { date: expiresAt })
+          : t("SYNC.SYNCED")}
+      </Badge>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onSync}
+        disabled={syncMut.isPending}
+        title={t("SYNC.RESYNC")}
+      >
+        <LuRefreshCcw className="size-3.5" />
+        {props.compact ? null : t("SYNC.RESYNC")}
+      </Button>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onRemove}
+        disabled={removeMut.isPending}
+        title={t("SYNC.REMOVE_SYNC")}
+        className="text-destructive"
+      >
+        <LuCloudOff className="size-3.5" />
+        {props.compact ? null : t("SYNC.REMOVE_SYNC")}
+      </Button>
+    </div>
+  );
+}

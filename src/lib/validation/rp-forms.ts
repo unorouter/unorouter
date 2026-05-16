@@ -83,13 +83,15 @@ export const conversationOverridesFormSchema = t.Object({
   maxTokens: nullableNumber(1, 1_000_000),
   /** Free-form JSON merged into the upstream request body (escape hatch). */
   extraBody: t.String({ default: "", maxLength: 8_192 }),
+  /** false = BFF buffers the full reply, then streams it as one chunk. */
+  streamingEnabled: t.Boolean({ default: true }),
 });
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
 >;
 
 // ---------------------------------------------------------------------------
-// Sampling preset (preset-list dialog)
+// Sampling preset (presets page)
 // ---------------------------------------------------------------------------
 
 export const samplingPresetFormSchema = t.Object({
@@ -108,6 +110,14 @@ export const samplingPresetFormSchema = t.Object({
   presencePenalty: nullableNumber(-2, 2),
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
+  mainPrompt: t.String({ default: "", maxLength: 50_000 }),
+  postHistory: t.String({ default: "", maxLength: 50_000 }),
+  prefill: t.String({ default: "", maxLength: 50_000 }),
+  forceAlternateRoles: t.Boolean({ default: false }),
+  noSystemRole: t.Boolean({ default: false }),
+  mustStartWithUserInput: t.Boolean({ default: false }),
+  skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
+  geminiBlockOff: t.Boolean({ default: false }),
   isDefault: t.Boolean({ default: false }),
 });
 export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
@@ -168,6 +178,11 @@ export const lorebookEntryFormSchema = t.Object({
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
   enabled: t.Boolean({ default: true }),
+  matchWholeWords: t.Boolean({ default: false }),
+  injectionRole: t.String({
+    enum: ["system", "user"],
+    default: "user",
+  }),
 });
 export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
 
@@ -191,5 +206,9 @@ export const characterFormSchema = t.Object({
   postHistoryInstructions: t.String({ maxLength: 50_000, default: "" }),
   tags: t.String({ default: "" }),
   nsfw: t.Boolean({ default: false }),
+  /** Comma-separated keywords; assembler matches against recent user texts. */
+  triggers: t.String({ default: "" }),
+  alwaysActive: t.Boolean({ default: true }),
+  matchWholeWords: t.Boolean({ default: false }),
 });
 export type CharacterForm = Static<typeof characterFormSchema>;

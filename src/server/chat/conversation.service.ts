@@ -187,6 +187,9 @@ export async function createConversation(
       presencePenalty: o?.presencePenalty ?? null,
       repetitionPenalty: o?.repetitionPenalty ?? null,
       maxTokens: o?.maxTokens ?? null,
+      ...(o?.streamingEnabled !== undefined && {
+        streamingEnabled: o.streamingEnabled,
+      }),
       updatedAt: now,
     });
   });
@@ -542,6 +545,7 @@ export async function duplicateConversation(userId: number, convId: string) {
         presencePenalty: s.presencePenalty,
         repetitionPenalty: s.repetitionPenalty,
         maxTokens: s.maxTokens,
+        streamingEnabled: s.streamingEnabled,
         updatedAt: now,
       });
     }

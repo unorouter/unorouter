@@ -1,5 +1,7 @@
 import { Elysia } from "elysia";
 import {
+  cardApplyBody,
+  cardBody,
   characterBody,
   characterCardImportBody,
   characterExportQuery,
@@ -58,10 +60,20 @@ import {
 import {
   createPreset,
   deletePreset,
+  exportPreset,
   getPreset,
   listPresets,
   updatePreset,
 } from "./preset.service";
+import {
+  applyCardToConversation,
+  createCard,
+  deleteCard,
+  exportCard,
+  getCard,
+  listCards,
+  updateCard,
+} from "./card.service";
 
 export const rpRoute = new Elysia({ prefix: "/rp" })
   // ----- Characters --------------------------------------------------------
@@ -293,6 +305,70 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = getUserId(cookie);
     return { success: true, data: await deletePreset(userId, params.id) };
   })
+  .get("/presets/:id/export", async ({ params, cookie, set }) => {
+    const userId = getUserId(cookie);
+    const result = await exportPreset(userId, params.id);
+    set.headers["content-type"] = "application/json";
+    set.headers["content-disposition"] =
+      `attachment; filename="${result.filename}"`;
+    return new Response(result.data, {
+      headers: { "content-type": "application/json" },
+    });
+  })
+
+  // ----- Cards (chars + persona + lorebooks bundle) -----------------------
+  .get("/cards", async ({ cookie }) => {
+    const userId = getUserId(cookie);
+    return { success: true, data: await listCards(userId) };
+  })
+  .get("/cards/:id", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return { success: true, data: await getCard(userId, params.id) };
+  })
+  .post(
+    "/cards",
+    async ({ body, cookie }) => {
+      const userId = getUserId(cookie);
+      return { success: true, data: await createCard(userId, body) };
+    },
+    { body: cardBody },
+  )
+  .put(
+    "/cards/:id",
+    async ({ params, body, cookie }) => {
+      const userId = getUserId(cookie);
+      return {
+        success: true,
+        data: await updateCard(userId, params.id, body),
+      };
+    },
+    { body: cardBody },
+  )
+  .delete("/cards/:id", async ({ params, cookie }) => {
+    const userId = getUserId(cookie);
+    return { success: true, data: await deleteCard(userId, params.id) };
+  })
+  .get("/cards/:id/export", async ({ params, cookie, set }) => {
+    const userId = getUserId(cookie);
+    const result = await exportCard(userId, params.id);
+    set.headers["content-type"] = "application/json";
+    set.headers["content-disposition"] =
+      `attachment; filename="${result.filename}"`;
+    return new Response(result.data, {
+      headers: { "content-type": "application/json" },
+    });
+  })
+  .post(
+    "/cards/:id/apply",
+    async ({ params, body, cookie }) => {
+      const userId = getUserId(cookie);
+      return {
+        success: true,
+        data: await applyCardToConversation(userId, params.id, body),
+      };
+    },
+    { body: cardApplyBody },
+  )
 
   // ----- Conversation settings + bindings ----------------------------------
   // Guests own conversation_settings rows under userId=0 (created by

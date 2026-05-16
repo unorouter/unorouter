@@ -454,6 +454,107 @@ export function useDeletePresetMutation() {
 }
 
 // ---------------------------------------------------------------------------
+// Cards (chars + persona + lorebooks bundle)
+// ---------------------------------------------------------------------------
+
+type CardsList = ListResponse<typeof rpc.api.rp.cards.get>;
+type Card = CardsList extends ReadonlyArray<infer Item> ? Item : never;
+
+export function useCardsQuery() {
+  const isLoggedIn = !!useAuthQuery().data;
+  return useQuery({
+    queryKey: queryKeys.cards(),
+    queryFn: async () => handleElysia(await rpc.api.rp.cards.get()),
+    enabled: isLoggedIn,
+  });
+}
+
+export function useCardQuery(id: string | undefined) {
+  return useQuery({
+    queryKey: queryKeys.card(id ?? ""),
+    queryFn: async () =>
+      handleElysia(await rpc.api.rp.cards({ id: id! }).get()),
+    enabled: !!id,
+  });
+}
+
+export function useCreateCardMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.cards, "post">) =>
+      handleElysia(await rpc.api.rp.cards.post(args.body)),
+    onSuccess: (data) => {
+      qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
+        listAdd(old, data as Card),
+      );
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+export function useUpdateCardMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: {
+      id: string;
+      body: EdenArgs<ReturnType<typeof rpc.api.rp.cards>, "put">["body"];
+    }) => handleElysia(await rpc.api.rp.cards({ id: args.id }).put(args.body)),
+    onSuccess: (data, args) => {
+      const patch = data as Partial<Card>;
+      qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
+        listUpdate(old, args.id, patch),
+      );
+      qc.setQueryData<Card>(queryKeys.card(args.id), (old) =>
+        itemPatch(old, patch),
+      );
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+export function useDeleteCardMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) =>
+      handleElysia(await rpc.api.rp.cards({ id }).delete()),
+    onSuccess: (_data, id) => {
+      qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
+        listRemove(old, id),
+      );
+      qc.removeQueries({ queryKey: queryKeys.card(id) });
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+export function useApplyCardMutation() {
+  const t = useTranslations();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (args: {
+      id: string;
+      body: { convId: string; mode: "replace" | "merge" };
+    }) =>
+      handleElysia(
+        await rpc.api.rp.cards({ id: args.id }).apply.post(args.body),
+      ),
+    onSuccess: (_data, args) => {
+      // Bindings + settings changed on the target conversation; refetch both.
+      qc.invalidateQueries({
+        queryKey: queryKeys.chatBindings(args.body.convId),
+      });
+      qc.invalidateQueries({
+        queryKey: queryKeys.chatSettings(args.body.convId),
+      });
+    },
+    onError: (e) => handleError(e, t),
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Conversation settings + bindings
 // ---------------------------------------------------------------------------
 

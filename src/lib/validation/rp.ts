@@ -28,6 +28,16 @@ export const characterBody = t.Object({
     t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
   ),
   nsfw: t.Optional(t.Boolean()),
+  triggers: t.Optional(
+    t.Union([
+      t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
+        maxItems: MAX_KEYS_PER_ENTRY,
+      }),
+      t.Null(),
+    ]),
+  ),
+  alwaysActive: t.Optional(t.Boolean()),
+  matchWholeWords: t.Optional(t.Boolean()),
 });
 export type CharacterBody = Static<typeof characterBody>;
 
@@ -82,6 +92,11 @@ export const lorebookEntryPosition = t.Union([
   t.Literal("at_depth"),
 ]);
 
+export const lorebookInjectionRole = t.Union([
+  t.Literal("system"),
+  t.Literal("user"),
+]);
+
 export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
     maxItems: MAX_KEYS_PER_ENTRY,
@@ -99,6 +114,8 @@ export const lorebookEntryBody = t.Object({
   depth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
   enabled: t.Optional(t.Boolean()),
   orderIndex: t.Optional(t.Number()),
+  matchWholeWords: t.Optional(t.Boolean()),
+  injectionRole: t.Optional(lorebookInjectionRole),
 });
 export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
@@ -129,9 +146,54 @@ export const samplingPresetBody = t.Object({
   maxTokens: t.Optional(t.Union([t.Number({ minimum: 1 }), t.Null()])),
   /** Free-form JSON merged into request body. See conversationSettings. */
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
+  mainPrompt: t.Optional(
+    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
+  ),
+  postHistory: t.Optional(
+    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
+  ),
+  prefill: t.Optional(
+    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
+  ),
+  forceAlternateRoles: t.Optional(t.Boolean()),
+  noSystemRole: t.Optional(t.Boolean()),
+  mustStartWithUserInput: t.Optional(t.Boolean()),
+  skipPrefillIfLastIsAssistant: t.Optional(t.Boolean()),
+  geminiBlockOff: t.Optional(t.Boolean()),
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;
+
+// ---------------------------------------------------------------------------
+// Cards (creative bundle)
+// ---------------------------------------------------------------------------
+
+const MAX_BUNDLE_ITEMS = 64;
+
+export const cardBody = t.Object({
+  name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
+  description: t.Optional(
+    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
+  ),
+  personaId: t.Optional(
+    t.Union([t.String({ maxLength: 64 }), t.Null()]),
+  ),
+  characterIds: t.Array(t.String({ maxLength: 64 }), {
+    maxItems: MAX_BUNDLE_ITEMS,
+    default: [],
+  }),
+  lorebookIds: t.Array(t.String({ maxLength: 64 }), {
+    maxItems: MAX_BUNDLE_ITEMS,
+    default: [],
+  }),
+});
+export type CardBody = Static<typeof cardBody>;
+
+export const cardApplyBody = t.Object({
+  convId: t.String({ maxLength: 64 }),
+  mode: t.Union([t.Literal("replace"), t.Literal("merge")]),
+});
+export type CardApplyBody = Static<typeof cardApplyBody>;
 
 // ---------------------------------------------------------------------------
 // Import (full conversation: native or orpg.3.0)
