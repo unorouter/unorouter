@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { SyncBadge } from "@/components/elements/sync-badge";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -222,6 +223,9 @@ export function CharacterList(props: Props) {
                         {c.description}
                       </span>
                     )}
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <SyncBadge kind="characters" id={c.id} payload={c} compact />
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger

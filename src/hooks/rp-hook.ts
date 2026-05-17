@@ -1,6 +1,15 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { enqueuePending } from "@/lib/local-db/pending-sync";
+import {
+  readLocalCharacter,
+  readLocalCharacters,
+} from "@/lib/local-db/reads";
+import {
+  deleteLocalCharacter,
+  upsertLocalCharacter,
+} from "@/lib/local-db/writes";
 import {
   itemPatch,
   listAdd,
@@ -33,11 +42,32 @@ type CharactersList = ListResponse<typeof rpc.api.rp.characters.get>;
 type Character =
   CharactersList extends ReadonlyArray<infer Item> ? Item : never;
 
+// IDB-first hybrid: try SQLocal first; fall back to server when local is
+// empty AND user is logged in. Server hits get written through to SQLocal
+// so subsequent reads stay local. Pattern repeats per kind (persona /
+// lorebook / preset / card / conversation) and follows the exact same
+// shape; only the entity name varies.
 export function useCharactersQuery() {
   const isLoggedIn = !!useAuthQuery().data;
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.characters(),
-    queryFn: async () => handleElysia(await rpc.api.rp.characters.get()),
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const local = await readLocalCharacters(userId);
+        if (local && local.length > 0) return local as Character[];
+      }
+      const remote = handleElysia(
+        await rpc.api.rp.characters.get(),
+      ) as Character[];
+      if (userId != null) {
+        for (const row of remote) {
+          await upsertLocalCharacter(userId, row as never);
+        }
+      }
+      return remote;
+    },
     enabled: isLoggedIn,
   });
 }
@@ -45,12 +75,18 @@ export function useCharactersQuery() {
 export function useCreateCharacterMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof rpc.api.rp.characters, "post">) =>
       handleElysia(await rpc.api.rp.characters.post(args.body)),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const character = data as Character;
+      const userId = auth.data?.id;
+      if (userId != null) {
+        await upsertLocalCharacter(userId, character as never);
+      }
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        listAdd(old, data as Character),
+        listAdd(old, character),
       );
     },
     onError: (e) => handleError(e, t),
@@ -60,20 +96,42 @@ export function useCreateCharacterMutation() {
 export function useUpdateCharacterMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.characters>, "put">["body"];
     }) =>
       handleElysia(await rpc.api.rp.characters({ id: args.id }).put(args.body)),
-    onSuccess: (data, args) => {
-      const patch = data as Partial<Character>;
+    onSuccess: async (data, args) => {
+      const patch = data as Partial<Character> & Character;
+      const userId = auth.data?.id;
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
         listUpdate(old, args.id, patch),
       );
       qc.setQueryData<Character>(queryKeys.character(args.id), (old) =>
         itemPatch(old, patch),
       );
+      if (userId == null) return;
+      // Write-through to SQLocal.
+      await upsertLocalCharacter(userId, patch as never);
+      // If the row was synced, mirror the new content to the server while
+      // preserving the existing 30-day window.
+      const localRow = await readLocalCharacter(userId, args.id);
+      const syncExpiresAt = (
+        localRow as { syncExpiresAt?: Date | null } | null
+      )?.syncExpiresAt;
+      if (syncExpiresAt != null) {
+        try {
+          handleElysia(
+            await rpc.api
+              .sync({ kind: "characters" })({ id: args.id })
+              .post({ payload: patch, keepExpiry: true }),
+          );
+        } catch (err) {
+          await enqueuePending(userId, "characters", args.id, "patch", err);
+        }
+      }
     },
     onError: (e) => handleError(e, t),
   });
@@ -82,14 +140,34 @@ export function useUpdateCharacterMutation() {
 export function useDeleteCharacterMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (id: string) =>
       handleElysia(await rpc.api.rp.characters({ id }).delete()),
-    onSuccess: (_data, id) => {
+    onSuccess: async (_data, id) => {
+      const userId = auth.data?.id;
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
         listRemove(old, id),
       );
       qc.removeQueries({ queryKey: queryKeys.character(id) });
+      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
+      if (userId == null) return;
+      // Read sync state BEFORE wiping the local row so we know whether to
+      // also delete the server mirror.
+      const localRow = await readLocalCharacter(userId, id);
+      const wasSynced =
+        (localRow as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        null;
+      await deleteLocalCharacter(userId, id);
+      if (wasSynced) {
+        try {
+          handleElysia(
+            await rpc.api.sync({ kind: "characters" })({ id }).delete(),
+          );
+        } catch (err) {
+          await enqueuePending(userId, "characters", id, "delete", err);
+        }
+      }
     },
     onError: (e) => handleError(e, t),
   });

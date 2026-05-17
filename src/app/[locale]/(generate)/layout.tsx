@@ -1,6 +1,7 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { GenerationList } from "@/components/pages/sidebar/generate/shared/generation-list";
+import { SyncStateHydrator } from "@/lib/local-db/sync-state-hydrator";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -29,6 +30,7 @@ export default async function GenerateGroupLayout(props: {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <SyncStateHydrator />
       <SidebarLayout
         before={<AuthRedirectCleanup />}
         navConfig="generate"

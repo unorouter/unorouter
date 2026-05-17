@@ -18,6 +18,14 @@ export type LocalClient = {
   transaction: <T>(cb: () => Promise<T>) => Promise<T>;
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
+  // `reactiveQuery` from sqlocal/drizzle. Exposed loosely-typed because
+  // SQLocal's generic surface is awkward to thread through.
+  reactiveQuery: (query: unknown) => {
+    subscribe: (
+      onData: (data: unknown) => void,
+      onError?: (err: unknown) => void,
+    ) => { unsubscribe: () => void };
+  };
 };
 
 let cached = new Map<number, Promise<LocalClient>>();
@@ -43,7 +51,7 @@ async function openClient(userId: number): Promise<LocalClient> {
   const { SQLocalDrizzle } = await import("sqlocal/drizzle");
   const sql = new SQLocalDrizzle({
     databasePath: `unorouter-${userId}.sqlite3`,
-    reactive: true,
+    reactive: false,
   });
   const { driver, batchDriver } = sql;
   const db = drizzle(driver, batchDriver, {
@@ -56,12 +64,20 @@ async function openClient(userId: number): Promise<LocalClient> {
   const { runMigrations } = await import("./migrations");
   await runMigrations(sql);
 
-  return {
+  const wrapped: LocalClient = {
     db,
     transaction: <T>(cb: () => Promise<T>) => sql.transaction(cb),
     destroy: () => sql.destroy(),
     deleteDatabaseFile: () => sql.deleteDatabaseFile(),
+    reactiveQuery: sql.reactiveQuery.bind(sql) as LocalClient["reactiveQuery"],
   };
+  // dev-only debug hook
+  if (typeof window !== "undefined") {
+    (window as unknown as { __local: unknown }).__local = wrapped;
+    (window as unknown as { __shared: unknown }).__shared = shared;
+    (window as unknown as { __sqlocal: unknown }).__sqlocal = sql;
+  }
+  return wrapped;
 }
 
 export function resetLocalDbCache() {

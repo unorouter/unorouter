@@ -466,6 +466,29 @@ export const cardLorebooks = sqliteTable(
 );
 
 // ---------------------------------------------------------------------------
+// User theme (one row per user). Mirrors the runtime UserTheme JSON blob
+// the Jotai/cookie store holds locally. Cross-device sync re-uses the same
+// Add/Resync/Remove model as every other Group A entity. PK is userId so a
+// user can only have one synced theme row at a time.
+// ---------------------------------------------------------------------------
+
+export const userThemes = sqliteTable(
+  "user_themes",
+  {
+    userId: integer("user_id").primaryKey(),
+    themeJson: text("theme_json", { mode: "json" }).notNull(),
+    syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
+    createdAt: integer("created_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .notNull()
+      .default(sql`(unixepoch() * 1000)`),
+  },
+  (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
+);
+
+// ---------------------------------------------------------------------------
 // Media (character avatars + chat attachments)
 // ---------------------------------------------------------------------------
 

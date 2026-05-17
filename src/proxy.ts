@@ -11,6 +11,27 @@ function isHomepage(pathname: string): boolean {
 }
 
 export default function proxy(request: NextRequest) {
+  // Cross-Origin-Resource-Policy for static chunks + API. The (chat) +
+  // (generate) layouts set COEP: require-corp, which blocks any sub-resource
+  // load that lacks CORP. Next dev/turbopack serves `_next/static/*` outside
+  // the `headers()` config pipeline, so we stamp CORP here for every same-
+  // origin asset request the worker pulls in.
+  if (
+    request.nextUrl.pathname.startsWith("/_next/") ||
+    request.nextUrl.pathname.startsWith("/api/") ||
+    request.nextUrl.pathname.startsWith("/sqlocal/")
+  ) {
+    const res = NextResponse.next();
+    res.headers.set("Cross-Origin-Resource-Policy", "same-origin");
+    // Workers spawned by a COEP-isolated page must themselves carry COEP +
+    // COOP. The SQLocal worker is one of these turbopack chunks; stamp the
+    // headers on every static chunk so any of them can be used as a worker
+    // script.
+    res.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+    res.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+    return res;
+  }
+
   if (
     request.method === "GET" &&
     isHomepage(request.nextUrl.pathname) &&
@@ -47,6 +68,6 @@ export const config = {
   // and must hit next-intl middleware so localized paths (e.g. /ja/moderu/[slug])
   // get rewritten to the canonical /models/[slug] route.
   matcher: [
-    "/((?!api|trpc|_next|_vercel|ingest|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|js|map|txt|xml|json|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
+    "/((?!trpc|_vercel|ingest|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|map|txt|xml|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
   ],
 };

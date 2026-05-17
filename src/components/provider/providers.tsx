@@ -1,5 +1,4 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { SyncStateHydrator } from "@/lib/local-db/sync-state-hydrator";
 import { getCookieValue } from "@/lib/utils/server";
 import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
 import { MODELS_STORE_KEY, type ModelsStoreState } from "@/store/models-store";
@@ -42,7 +41,6 @@ export function Providers(props: { children: ReactNode }) {
                         <WebMcpProvider />
                         <TooltipProvider>
                           <AppPrefetchProvider>
-                            <SyncStateHydrator />
                             {props.children}
                           </AppPrefetchProvider>
                         </TooltipProvider>

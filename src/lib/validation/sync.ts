@@ -16,6 +16,7 @@ export const SYNC_KINDS = [
   "cards",
   "conversations",
   "generationSessions",
+  "theme",
 ] as const;
 
 export const syncKind = t.Union(SYNC_KINDS.map((k) => t.Literal(k)));
@@ -28,6 +29,12 @@ export type SyncKindName = Static<typeof syncKind>;
 export const syncRequestBody = t.Object({
   days: t.Optional(t.Integer({ minimum: 1, maximum: 90 })),
   payload: t.Optional(t.Unknown()),
+  // When true, server upserts the payload but leaves the existing
+  // `syncExpiresAt` untouched. Used by mirror PATCH on save: the row is
+  // already synced; we just want fresh content, not a renewed window.
+  // Ignored when the row does not yet exist server-side (a fresh sync
+  // always needs an expiry).
+  keepExpiry: t.Optional(t.Boolean()),
 });
 export type SyncRequestBody = Static<typeof syncRequestBody>;
 

@@ -20,6 +20,7 @@ import {
   messages,
   personas,
   samplingPresets,
+  userThemes,
 } from "@/lib/db/schema/shared";
 import dayjs from "dayjs";
 import { and, eq, inArray, isNotNull, lt } from "drizzle-orm";
@@ -38,7 +39,8 @@ export type SyncKind =
   | "presets"
   | "cards"
   | "conversations"
-  | "generationSessions";
+  | "generationSessions"
+  | "theme";
 
 const DEFAULT_TTL_DAYS = 30;
 
@@ -62,9 +64,14 @@ export async function sweepExpired(userId: number, key?: object) {
   if (key) sweptThisRequest.add(key);
   const db = getDb();
   const now = new Date();
+  // Expiry sweep null-outs `syncExpiresAt` so the row drops out of the
+  // mirror without losing content. After the IDB-first read inversion is
+  // complete this can become a hard-delete (IDB owns the canonical copy).
+  // Theme is the sole hard-delete because its presence == sync state.
   await Promise.all([
     db
-      .delete(characters)
+      .update(characters)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(characters.userId, userId),
@@ -73,7 +80,8 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(personas)
+      .update(personas)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(personas.userId, userId),
@@ -82,7 +90,8 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(lorebooks)
+      .update(lorebooks)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(lorebooks.userId, userId),
@@ -91,7 +100,8 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(samplingPresets)
+      .update(samplingPresets)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(samplingPresets.userId, userId),
@@ -100,7 +110,8 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(cards)
+      .update(cards)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(cards.userId, userId),
@@ -109,7 +120,8 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(conversations)
+      .update(conversations)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(conversations.userId, userId),
@@ -118,12 +130,22 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(generationSessions)
+      .update(generationSessions)
+      .set({ syncExpiresAt: null })
       .where(
         and(
           eq(generationSessions.userId, userId),
           isNotNull(generationSessions.syncExpiresAt),
           lt(generationSessions.syncExpiresAt, now),
+        ),
+      ),
+    db
+      .delete(userThemes)
+      .where(
+        and(
+          eq(userThemes.userId, userId),
+          isNotNull(userThemes.syncExpiresAt),
+          lt(userThemes.syncExpiresAt, now),
         ),
       ),
   ]);
@@ -153,6 +175,7 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
     cardsRows,
     conversationsRows,
     generationSessionsRows,
+    themeRows,
   ] = await Promise.all([
     db
       .select({
@@ -231,6 +254,16 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
           isNotNull(generationSessions.syncExpiresAt),
         ),
       ),
+    db
+      .select({
+        userId: userThemes.userId,
+        syncExpiresAt: userThemes.syncExpiresAt,
+        updatedAt: userThemes.updatedAt,
+      })
+      .from(userThemes)
+      .where(
+        and(eq(userThemes.userId, userId), isNotNull(userThemes.syncExpiresAt)),
+      ),
   ]);
 
   return {
@@ -241,6 +274,11 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
     cards: cardsRows,
     conversations: conversationsRows,
     generationSessions: generationSessionsRows,
+    theme: themeRows.map((r) => ({
+      id: String(r.userId),
+      syncExpiresAt: r.syncExpiresAt,
+      updatedAt: r.updatedAt,
+    })),
   };
 }
 
@@ -396,6 +434,17 @@ export async function getSyncedBundle(
         generationLikes: likes,
       };
     }
+    case "theme": {
+      // Theme has userId as PK; the route-level `:id` is ignored on read
+      // because there is only one row per user. Returning the row directly.
+      const rows = await db
+        .select()
+        .from(userThemes)
+        .where(eq(userThemes.userId, userId))
+        .limit(1);
+      assertFound(rows);
+      return { theme: rows[0] };
+    }
   }
 }
 
@@ -413,6 +462,10 @@ export type SyncRequestPayload = {
   // of a local-only row). For Resync of an extant row, payload still wins
   // (client is authoritative for any drift).
   payload?: unknown;
+  // Mirror PATCH on save: keep existing expiry, refresh content only. If the
+  // row doesn't exist yet we fall back to a fresh `now+30d` window because
+  // an upsert without an expiry would be invisible to the mirror.
+  keepExpiry?: boolean;
 };
 
 export async function setSyncExpiry(
@@ -422,14 +475,97 @@ export async function setSyncExpiry(
   req: SyncRequestPayload,
 ) {
   const db = getDb();
-  const expiresAt = expiryFromDays(req.days);
-  // Per-kind upsert handlers live in separate small functions to keep this
-  // dispatcher legible. Each handler returns the canonical post-upsert bundle
-  // shape so the client can mirror the now-authoritative server state into
-  // its local DB without a second round trip.
+  // If caller asked to preserve the existing window, read the current
+  // `sync_expires_at` (if any) and reuse it. Otherwise compute a fresh one.
+  let expiresAt = expiryFromDays(req.days);
+  if (req.keepExpiry) {
+    const existing = await readExistingSyncExpiry(db, userId, kind, id);
+    if (existing) expiresAt = existing;
+  }
   const handler = upsertHandlers[kind];
   await handler(db, userId, id, expiresAt, req.payload);
   return getSyncedBundle(userId, kind, id);
+}
+
+async function readExistingSyncExpiry(
+  db: ReturnType<typeof getDb>,
+  userId: number,
+  kind: SyncKind,
+  id: string,
+): Promise<Date | null> {
+  switch (kind) {
+    case "characters": {
+      const rows = await db
+        .select({ syncExpiresAt: characters.syncExpiresAt })
+        .from(characters)
+        .where(and(eq(characters.id, id), eq(characters.userId, userId)))
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "personas": {
+      const rows = await db
+        .select({ syncExpiresAt: personas.syncExpiresAt })
+        .from(personas)
+        .where(and(eq(personas.id, id), eq(personas.userId, userId)))
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "lorebooks": {
+      const rows = await db
+        .select({ syncExpiresAt: lorebooks.syncExpiresAt })
+        .from(lorebooks)
+        .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "presets": {
+      const rows = await db
+        .select({ syncExpiresAt: samplingPresets.syncExpiresAt })
+        .from(samplingPresets)
+        .where(
+          and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
+        )
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "cards": {
+      const rows = await db
+        .select({ syncExpiresAt: cards.syncExpiresAt })
+        .from(cards)
+        .where(and(eq(cards.id, id), eq(cards.userId, userId)))
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "conversations": {
+      const rows = await db
+        .select({ syncExpiresAt: conversations.syncExpiresAt })
+        .from(conversations)
+        .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "generationSessions": {
+      const rows = await db
+        .select({ syncExpiresAt: generationSessions.syncExpiresAt })
+        .from(generationSessions)
+        .where(
+          and(
+            eq(generationSessions.id, id),
+            eq(generationSessions.userId, userId),
+          ),
+        )
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+    case "theme": {
+      const rows = await db
+        .select({ syncExpiresAt: userThemes.syncExpiresAt })
+        .from(userThemes)
+        .where(eq(userThemes.userId, userId))
+        .limit(1);
+      return rows[0]?.syncExpiresAt ?? null;
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -1022,10 +1158,47 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
       }
     });
   },
+
+  // Theme is single-row per user keyed by userId. The route-level `:id` is
+  // ignored because there is only one row. Payload shape: `{ themeJson: ... }`
+  // OR the raw theme JSON itself (we accept either for client convenience).
+  theme: async (db, userId, _id, expiresAt, payload) => {
+    const body = (payload ?? {}) as Record<string, unknown>;
+    const themeJson =
+      (body.themeJson as unknown) ?? (body as unknown);
+    await db.transaction(async (tx) => {
+      const existing = await tx
+        .select({ userId: userThemes.userId })
+        .from(userThemes)
+        .where(eq(userThemes.userId, userId))
+        .limit(1);
+      if (existing.length === 0) {
+        await tx.insert(userThemes).values({
+          userId,
+          themeJson,
+          syncExpiresAt: expiresAt,
+        });
+      } else {
+        await tx
+          .update(userThemes)
+          .set({
+            themeJson,
+            syncExpiresAt: expiresAt,
+            updatedAt: new Date(),
+          })
+          .where(eq(userThemes.userId, userId));
+      }
+    });
+  },
 };
 
 // ---------------------------------------------------------------------------
-// Remove sync. Hard-delete server row; FK cascades children. IDB untouched.
+// Remove sync. Null out `syncExpiresAt` so the row drops out of the mirror
+// without losing the entity content. After the IDB-first read inversion
+// completes, deleting the server row would be safe (IDB has the canonical
+// copy), but during the transition we keep the data side-by-side. The theme
+// table is the exception: its single-row-per-user existence is the sync
+// state itself, so we hard-delete it on remove.
 // ---------------------------------------------------------------------------
 
 export async function clearSyncExpiry(
@@ -1038,25 +1211,29 @@ export async function clearSyncExpiry(
   switch (kind) {
     case "characters":
       result = await db
-        .delete(characters)
+        .update(characters)
+        .set({ syncExpiresAt: null })
         .where(and(eq(characters.id, id), eq(characters.userId, userId)))
         .returning({ id: characters.id });
       break;
     case "personas":
       result = await db
-        .delete(personas)
+        .update(personas)
+        .set({ syncExpiresAt: null })
         .where(and(eq(personas.id, id), eq(personas.userId, userId)))
         .returning({ id: personas.id });
       break;
     case "lorebooks":
       result = await db
-        .delete(lorebooks)
+        .update(lorebooks)
+        .set({ syncExpiresAt: null })
         .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
         .returning({ id: lorebooks.id });
       break;
     case "presets":
       result = await db
-        .delete(samplingPresets)
+        .update(samplingPresets)
+        .set({ syncExpiresAt: null })
         .where(
           and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
         )
@@ -1064,13 +1241,15 @@ export async function clearSyncExpiry(
       break;
     case "cards":
       result = await db
-        .delete(cards)
+        .update(cards)
+        .set({ syncExpiresAt: null })
         .where(and(eq(cards.id, id), eq(cards.userId, userId)))
         .returning({ id: cards.id });
       break;
     case "conversations":
       result = await db
-        .delete(conversations)
+        .update(conversations)
+        .set({ syncExpiresAt: null })
         .where(
           and(eq(conversations.id, id), eq(conversations.userId, userId)),
         )
@@ -1078,7 +1257,8 @@ export async function clearSyncExpiry(
       break;
     case "generationSessions":
       result = await db
-        .delete(generationSessions)
+        .update(generationSessions)
+        .set({ syncExpiresAt: null })
         .where(
           and(
             eq(generationSessions.id, id),
@@ -1086,6 +1266,16 @@ export async function clearSyncExpiry(
           ),
         )
         .returning({ id: generationSessions.id });
+      break;
+    case "theme":
+      // Theme table only exists as the sync mirror; hard-delete on remove.
+      // `id` ignored — user_themes is keyed by userId.
+      result = (
+        await db
+          .delete(userThemes)
+          .where(eq(userThemes.userId, userId))
+          .returning({ userId: userThemes.userId })
+      ).map((r) => ({ id: String(r.userId) }));
       break;
   }
   assertFound(result);

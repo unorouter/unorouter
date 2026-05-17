@@ -366,9 +366,14 @@ export async function createShareLink(userId: number, convId: string) {
   const db = getDb();
   const shareId = uid(12);
 
+  // Sharing is sync in disguise. Mint the shareId AND extend the sync window
+  // 30 days from now so the recipient (and any other device of the owner)
+  // can pull the conv. `updatedAt` bump signals hydrators that the bundle
+  // (including new shareId) is stale.
+  const syncExpiresAt = dayjs().add(30, "day").toDate();
   const result = await db
     .update(conversations)
-    .set({ shareId })
+    .set({ shareId, syncExpiresAt, updatedAt: dayjs().toDate() })
     .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
     .returning({ id: conversations.id });
 

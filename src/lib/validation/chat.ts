@@ -330,6 +330,30 @@ export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 // Stream
 // ---------------------------------------------------------------------------
 
+// Client-supplied RP context. After the IDB-first flip the server no longer
+// reads characters/personas/lorebooks/presets/settings from Turso during
+// stream assembly; the client ships exactly what the prompt assembler needs
+// every turn. Loose `Any()` for sub-shapes because each entity body is its
+// own validation surface and re-validating here would double-cost on every
+// turn; assembler trusts the shape because the user owns their own keys +
+// content anyway.
+export const chatContext = t.Object({
+  persona: t.Optional(t.Union([t.Any(), t.Null()])),
+  characters: t.Optional(t.Array(t.Any(), { maxItems: 64 })),
+  lorebooks: t.Optional(
+    t.Array(
+      t.Object({
+        lorebook: t.Any(),
+        entries: t.Array(t.Any(), { maxItems: 1024 }),
+      }),
+      { maxItems: 16 },
+    ),
+  ),
+  preset: t.Optional(t.Union([t.Any(), t.Null()])),
+  settings: t.Optional(t.Union([t.Any(), t.Null()])),
+});
+export type ChatContext = Static<typeof chatContext>;
+
 export const streamBody = t.Object({
   model: t.String({ maxLength: MAX_MODEL_LEN }),
   // Messages typed by AI SDK (UIMessage); validation handled at runtime.
@@ -340,6 +364,10 @@ export const streamBody = t.Object({
   // convs). Logged-in convs always have a row seeded at creation time, so
   // these values are ignored on subsequent turns.
   overrides: t.Optional(streamOverrides),
+  // Client-supplied RP context — replaces server-side Turso reads after the
+  // IDB-first flip. Optional so legacy callers + guest stream paths keep
+  // working until the assembler signature is changed.
+  chatContext: t.Optional(chatContext),
 });
 export type StreamBody = Static<typeof streamBody>;
 

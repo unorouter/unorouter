@@ -2,6 +2,7 @@
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
+import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -229,6 +230,9 @@ export function LorebookList(props: Props) {
                         {l.description}
                       </span>
                     )}
+                  </div>
+                  <div onClick={(e) => e.stopPropagation()}>
+                    <SyncBadge kind="lorebooks" id={l.id} payload={l} compact />
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger

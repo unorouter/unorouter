@@ -1,6 +1,7 @@
 "use client";
 
 import { SortableList } from "@/components/elements/dnd/sortable-list";
+import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -359,6 +360,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
         <SheetHeader>
           <SheetTitle>{t("CHAT.OVERRIDES.TITLE")}</SheetTitle>
           <SheetDescription>{t("CHAT.OVERRIDES.DESCRIPTION")}</SheetDescription>
+          {props.convId && (
+            <SyncBadge kind="conversations" id={props.convId} />
+          )}
         </SheetHeader>
 
         <Form {...form}>

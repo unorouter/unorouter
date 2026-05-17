@@ -29,6 +29,8 @@ type SyncArgs = {
   id: string;
   payload?: unknown;
   days?: number;
+  /** Mirror PATCH on save: refresh content w/o resetting the 30-day window. */
+  keepExpiry?: boolean;
 };
 
 export function useSyncMutation() {
@@ -40,6 +42,7 @@ export function useSyncMutation() {
         await rpc.api.sync({ kind: args.kind })({ id: args.id }).post({
           days: args.days,
           payload: args.payload,
+          keepExpiry: args.keepExpiry,
         }),
       ),
     onError: (e) => handleError(e, t),

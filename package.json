@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "dev:log": "next dev 2>&1 | tee /tmp/next.log",
-    "prebuild": "bun scripts/generate-search-index.ts && bun scripts/generate-seo-timestamps.ts && bun scripts/bundle-migrations.ts",
+    "prebuild": "bun scripts/generate-search-index.ts && bun scripts/generate-seo-timestamps.ts && bun scripts/bundle-migrations.ts && bun scripts/bundle-sqlocal-worker.ts",
+    "postinstall": "bun scripts/bundle-sqlocal-worker.ts",
     "postbuild": "bun scripts/generate-openapi-refs.ts",
     "build": "next build",
     "start": "next start",
@@ -118,5 +119,8 @@
     "sharp": "0.34.5",
     "tailwindcss": "4.3.0",
     "typescript": "6.0.3"
+  },
+  "patchedDependencies": {
+    "sqlocal@0.18.0": "patches/sqlocal@0.18.0.patch"
   }
 }

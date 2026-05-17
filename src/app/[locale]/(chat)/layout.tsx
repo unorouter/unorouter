@@ -6,6 +6,7 @@ import {
   RpDialogs,
   SidebarRpNav,
 } from "@/components/pages/sidebar/chat/sidebar/sidebar-rp-nav";
+import { SyncStateHydrator } from "@/lib/local-db/sync-state-hydrator";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -85,6 +86,7 @@ export default async function ChatLayout(props: Props) {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ChatRuntimeProvider>
+        <SyncStateHydrator />
         <GuestConvsClaim />
         <SidebarLayout
           navConfig="chat"

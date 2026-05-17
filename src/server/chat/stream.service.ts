@@ -25,6 +25,7 @@ import { inArray } from "drizzle-orm";
 import { assertPromptAllowed } from "./augmentation/moderation.service";
 import {
   assembleForStream,
+  buildContextFromClient,
   assembleFromOverrides,
   expandTemplateVars,
   loadConvContext,
@@ -48,6 +49,7 @@ type StreamBody = {
   convId?: string | null;
   webSearch?: boolean;
   overrides?: import("@/lib/validation/chat").StreamOverrides;
+  chatContext?: import("@/lib/validation/chat").ChatContext;
 };
 
 type UsageInfo = {
@@ -646,7 +648,15 @@ export async function streamChat(
 
   // Load conversation context up front so per-conversation web-search
   // overrides (engine, contextSize, enabled) can gate the Tavily call below.
-  const convCtx = body.convId ? await loadConvContext(body.convId) : null;
+  // Prefer the client-supplied `chatContext` payload (IDB-first path) so
+  // Turso never sees RP rows for synced or local-only convs. Fall back to
+  // Turso reads only when the client didn't ship a context (guest path,
+  // legacy callers, share-page reads).
+  const convCtx = body.chatContext
+    ? buildContextFromClient(body.chatContext)
+    : body.convId
+      ? await loadConvContext(body.convId)
+      : null;
   const convWebSearchEnabled = convCtx?.settings.webSearchEnabled ?? false;
   // Web search is a paid-only feature: a guest stream (no convCtx, no auth
   // row) cannot enable it via body, even if the client somehow sends true.

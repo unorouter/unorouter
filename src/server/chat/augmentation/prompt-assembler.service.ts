@@ -307,6 +307,60 @@ export async function loadConvContext(convId: string) {
   return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
 }
 
+// ---------------------------------------------------------------------------
+// Build the same LoadedConvContext shape from a client-supplied chatContext
+// payload. Used by the IDB-first stream path so the server never touches
+// Turso RP tables. Shape matches loadConvContext() exactly so downstream
+// code paths (assembleForStream, selectLorebookEntries) work unchanged.
+// ---------------------------------------------------------------------------
+
+type ClientChatContext = {
+  persona?: unknown;
+  characters?: Array<unknown>;
+  lorebooks?: Array<{ lorebook: unknown; entries: Array<unknown> }>;
+  preset?: unknown;
+  settings?: unknown;
+};
+
+export function buildContextFromClient(
+  ctx: ClientChatContext,
+): LoadedConvContext {
+  if (!ctx.settings) return null;
+  // The client ships full row bodies — same column names as the Turso rows.
+  // We trust the shape (user owns content) and skip per-field validation.
+  const settings = ctx.settings as NonNullable<LoadedConvContext>["settings"];
+  const charRows = (ctx.characters ?? []) as Array<
+    NonNullable<LoadedConvContext>["boundCharacters"][number]["character"]
+  >;
+  const boundCharacters = charRows.map((character, i) => ({
+    binding: {
+      characterId: character.id,
+      orderIndex: i,
+      isActive: true,
+      overrides: null,
+    },
+    character,
+  })) as NonNullable<LoadedConvContext>["boundCharacters"];
+
+  const persona = (ctx.persona ?? undefined) as
+    | NonNullable<LoadedConvContext>["persona"]
+    | undefined;
+  const preset = (ctx.preset ?? undefined) as
+    | NonNullable<LoadedConvContext>["preset"]
+    | undefined;
+
+  const lbRows: NonNullable<LoadedConvContext>["lbRows"] = [];
+  const lbEntries: NonNullable<LoadedConvContext>["lbEntries"] = [];
+  for (const lb of ctx.lorebooks ?? []) {
+    lbRows.push(lb.lorebook as (typeof lbRows)[number]);
+    for (const e of lb.entries) {
+      lbEntries.push(e as (typeof lbEntries)[number]);
+    }
+  }
+
+  return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
+}
+
 type LbEntry = LoadedConvContext extends infer T
   ? T extends { lbEntries: infer E }
     ? E extends ReadonlyArray<infer Item>

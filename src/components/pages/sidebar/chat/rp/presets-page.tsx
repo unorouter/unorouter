@@ -1,6 +1,7 @@
 "use client";
 
 import { RpLoginGate } from "@/components/pages/sidebar/chat/rp/rp-login-gate";
+import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuthQuery } from "@/hooks/auth-hook";
@@ -132,6 +133,9 @@ export function PresetsPage() {
                   T={p.temperature ?? "off"} | TopP={p.topP ?? "off"} | TopK=
                   {p.topK ?? "off"}
                 </span>
+              </div>
+              <div onClick={(e) => e.stopPropagation()}>
+                <SyncBadge kind="presets" id={p.id} payload={p} compact />
               </div>
               <Button
                 variant="ghost"

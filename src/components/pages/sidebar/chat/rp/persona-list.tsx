@@ -2,6 +2,7 @@
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
+import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -245,6 +246,9 @@ export function PersonaList(props: Props) {
                           {p.description}
                         </span>
                       )}
+                    </div>
+                    <div onClick={(e) => e.stopPropagation()}>
+                      <SyncBadge kind="personas" id={p.id} payload={p} compact />
                     </div>
                     <Button
                       variant="ghost"

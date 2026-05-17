@@ -1,0 +1,71 @@
+diff --git a/node_modules/sqlocal/.bun-tag-2323487831bf0c8f b/.bun-tag-2323487831bf0c8f
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/dist/client.js b/dist/client.js
+index c51880cf9589b91754e7645c4f376ddff62c4d91..d19d81a83fdd713fbc47e7200ebc7eb9a91badc1 100644
+--- a/dist/client.js
++++ b/dist/client.js
+@@ -726,9 +726,15 @@ export class SQLocal {
+         }
+         else if (typeof globalThis.Worker !== 'undefined' &&
+             databasePath !== ':memory:') {
+-            this.processor = new Worker(new URL('./worker', import.meta.url), {
+-                type: 'module',
+-            });
++            // PATCHED: webpack/turbopack mangle the SQLocal worker chunk by
++            // rewriting `new URL('./worker', import.meta.url)` into bundler-
++            // managed chunks that crash a `type: 'module'` worker (webpack
++            // injects `importScripts` chunk loader; Turbopack hits #79). Load
++            // the prebundled worker from /public so the bundler never sees it.
++            const workerUrl = typeof globalThis.__SQLOCAL_WORKER_URL__ === 'string'
++                ? globalThis.__SQLOCAL_WORKER_URL__
++                : '/sqlocal/worker.mjs';
++            this.processor = new Worker(workerUrl, { type: 'module' });
+         }
+         else {
+             const driver = new SQLiteMemoryDriver();
+diff --git a/dist/lib/create-mutex.js b/dist/lib/create-mutex.js
+index 890987033de95fb3b3a991e99408b8dcb0906d40..6b1ac0c8f20dace81aea8f4857e3b5666cb3381b 100644
+--- a/dist/lib/create-mutex.js
++++ b/dist/lib/create-mutex.js
+@@ -1,19 +1,28 @@
++// PATCHED: original implementation had a race where multiple concurrent
++// callers of lock() all saw `promise === undefined` synchronously and each
++// installed their own promise, so only the last writer's resolver got
++// tracked. Earlier waiters were orphaned and deadlocked forever. We replace
++// with a proper FIFO chain that preserves the original `await lock();` /
++// `await unlock();` API. Upstream fix pending; remove this file once SQLocal
++// merges. PR: <link tbd>.
+ export function createMutex() {
+-    let promise;
+-    let resolve;
+-    const lock = async () => {
+-        while (promise) {
+-            await promise;
+-        }
+-        promise = new Promise((res) => {
+-            resolve = res;
++    let tail = Promise.resolve();
++    let releaseCurrent = null;
++    const lock = () => {
++        let release;
++        const next = new Promise((res) => {
++            release = res;
+         });
++        const ticket = tail.then(() => {
++            releaseCurrent = release;
++        });
++        tail = next;
++        return ticket;
+     };
+     const unlock = async () => {
+-        const res = resolve;
+-        promise = undefined;
+-        resolve = undefined;
+-        res?.();
++        const r = releaseCurrent;
++        releaseCurrent = null;
++        r?.();
+     };
+     return { lock, unlock };
+ }

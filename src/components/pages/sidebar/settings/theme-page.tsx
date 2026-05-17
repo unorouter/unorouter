@@ -9,6 +9,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
+import { SyncBadge } from "@/components/elements/sync-badge";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { INITIAL_USER_THEME, userThemeAtom } from "@/store/theme-store";
 import type { UserTheme } from "@/store/theme-store";
 import { useAtom } from "jotai";
@@ -45,6 +47,7 @@ const DEFAULTS = {
 export function ThemePage() {
   const t = useTranslations();
   const [theme, setTheme] = useAtom(userThemeAtom);
+  const auth = useAuthQuery();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const setColor = (key: keyof NonNullable<UserTheme["colors"]>) =>
@@ -119,6 +122,13 @@ export function ThemePage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
+          {auth.data && (
+            <SyncBadge
+              kind="theme"
+              id={String(auth.data.id)}
+              payload={theme}
+            />
+          )}
           <Button
             type="button"
             variant="outline"
