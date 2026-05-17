@@ -1,35 +1,17 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { Icon } from "@/components/ui/icon";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  useRemoveSyncMutation,
-  useSyncMutation,
-  useSyncStateForRow,
-} from "@/hooks/sync-hook";
+  useRemoveSyncMutation, useSyncMutation, useSyncStateForRow, } from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import {
-  LuCheck,
-  LuCloudOff,
-  LuCloudUpload,
-  LuEllipsis,
-  LuPencil,
-  LuRefreshCcw,
-  LuTrash2,
-  LuX,
-} from "react-icons/lu";
-
 type ConversationItemProps = {
   conversation: {
     id: string;
@@ -128,7 +110,7 @@ export function ConversationItem(props: ConversationItemProps) {
             className="text-muted-foreground hover:text-foreground flex size-6 items-center justify-center rounded-md"
             onClick={saveEdit}
           >
-            <LuCheck className="size-3.5" />
+            <Icon name="check" className="size-3.5" />
           </button>
           <button
             type="button"
@@ -138,7 +120,7 @@ export function ConversationItem(props: ConversationItemProps) {
               setIsEditing(false);
             }}
           >
-            <LuX className="size-3.5" />
+            <Icon name="x" className="size-3.5" />
           </button>
         </div>
       ) : (
@@ -173,14 +155,14 @@ export function ConversationItem(props: ConversationItemProps) {
             <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
               {isSynced ? (
                 <>
-                  <LuCloudUpload className="size-2.5 text-emerald-500" />
+                  <Icon name="cloud-upload" className="size-2.5 text-emerald-500" />
                   {syncExpiresLabel
                     ? t("SYNC.EXPIRES_AT", { date: syncExpiresLabel })
                     : t("SYNC.SYNCED")}
                 </>
               ) : (
                 <>
-                  <LuCloudOff className="size-2.5" />
+                  <Icon name="cloud-off" className="size-2.5" />
                   {t("SYNC.NOT_SYNCED")}
                 </>
               )}
@@ -196,7 +178,7 @@ export function ConversationItem(props: ConversationItemProps) {
                 props.isSelected && "opacity-100",
               )}
             >
-              <LuEllipsis className="size-4" />
+              <Icon name="ellipsis" className="size-4" />
             </DropdownMenuTrigger>
             <DropdownMenuContent
               side="bottom"
@@ -204,7 +186,7 @@ export function ConversationItem(props: ConversationItemProps) {
               onClick={(e) => e.stopPropagation()}
             >
               <DropdownMenuItem onClick={startEditing} className="gap-2">
-                <LuPencil className="size-4" />
+                <Icon name="pencil" className="size-4" />
                 {t("CHAT.ACTION.RENAME")}
               </DropdownMenuItem>
               {!isSynced && (
@@ -220,7 +202,7 @@ export function ConversationItem(props: ConversationItemProps) {
                   }}
                   className="gap-2"
                 >
-                  <LuCloudUpload className="size-4" />
+                  <Icon name="cloud-upload" className="size-4" />
                   {t("SYNC.ADD_SYNC")}
                 </DropdownMenuItem>
               )}
@@ -238,7 +220,7 @@ export function ConversationItem(props: ConversationItemProps) {
                     }}
                     className="gap-2"
                   >
-                    <LuRefreshCcw className="size-4" />
+                    <Icon name="refresh-ccw" className="size-4" />
                     {t("SYNC.RESYNC")}
                   </DropdownMenuItem>
                   <DropdownMenuItem
@@ -255,7 +237,7 @@ export function ConversationItem(props: ConversationItemProps) {
                     }}
                     className="gap-2"
                   >
-                    <LuCloudOff className="size-4" />
+                    <Icon name="cloud-off" className="size-4" />
                     {t("SYNC.REMOVE_SYNC")}
                   </DropdownMenuItem>
                 </>
@@ -270,7 +252,7 @@ export function ConversationItem(props: ConversationItemProps) {
                 }}
                 className="gap-2"
               >
-                <LuTrash2 className="size-4" />
+                <Icon name="trash-2" className="size-4" />
                 {t("CHAT.ACTION.DELETE")}
               </DropdownMenuItem>
             </DropdownMenuContent>

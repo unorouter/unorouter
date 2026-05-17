@@ -1,16 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { LuCopy, LuExternalLink } from "react-icons/lu";
 import { toast } from "sonner";
 
 export function ImagePreviewDialog(props: {
@@ -59,7 +54,7 @@ export function ImagePreviewDialog(props: {
               toast.success(t("LOGS.COPIED"));
             }}
           >
-            <LuCopy className="size-3.5" />
+            <Icon name="copy" className="size-3.5" />
             {t("LOGS.DRAWING.COPY_URL")}
           </Button>
           <a
@@ -68,7 +63,7 @@ export function ImagePreviewDialog(props: {
             rel="noreferrer"
             className="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-8 items-center gap-1.5 rounded-md border px-3 text-xs font-medium"
           >
-            <LuExternalLink className="size-3.5" />
+            <Icon name="external-link" className="size-3.5" />
             {t("LOGS.DRAWING.OPEN")}
           </a>
         </div>
@@ -123,7 +118,7 @@ function PromptBlock(props: { label: string; value: string }) {
             toast.success(t("LOGS.COPIED"));
           }}
         >
-          <LuCopy className="size-3" />
+          <Icon name="copy" className="size-3" />
           {t("LOGS.DRAWING.COPY")}
         </button>
       </div>
@@ -159,7 +154,7 @@ export function FailReasonDialog(props: {
                 toast.success(t("LOGS.COPIED"));
               }}
             >
-              <LuCopy className="size-3" />
+              <Icon name="copy" className="size-3" />
               {t("LOGS.DRAWING.COPY")}
             </button>
           </div>

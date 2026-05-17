@@ -2,6 +2,7 @@
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { LoginLink } from "@/components/elements/auth/login-link";
+import { Icon } from "@/components/ui/icon";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
@@ -118,8 +119,11 @@ export function Navbar() {
                                       )
                                     }
                                   >
-                                    {link.icon && (
-                                      <link.icon className="h-3 w-3" />
+                                    {link.iconName && (
+                                      <Icon name={link.iconName} className="h-3 w-3" />
+                                    )}
+                                    {link.iconComponent && (
+                                      <link.iconComponent className="h-3 w-3" />
                                     )}
                                     <span className="text-[11px] font-medium tracking-wider whitespace-nowrap uppercase">
                                       {t(link.name)}

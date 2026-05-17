@@ -10,7 +10,7 @@ import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { LuGift } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 export function CommissionsTab() {
   const t = useTranslations();
@@ -91,7 +91,7 @@ export function CommissionsTab() {
       isLoading={commissionsQuery.isLoading}
       emptyState={
         <div className="flex flex-col items-center gap-2">
-          <LuGift className="text-muted-foreground h-6 w-6" />
+          <Icon name="gift" className="text-muted-foreground h-6 w-6" />
           <span className="text-muted-foreground text-sm">
             {t("AFFILIATE.NO_COMMISSIONS")}
           </span>

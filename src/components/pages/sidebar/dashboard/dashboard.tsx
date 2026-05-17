@@ -9,13 +9,13 @@ import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
-import { LuActivity } from "react-icons/lu";
 import { AnnouncementsPanel } from "./announcements-panel";
 import { ApiInfoPanel } from "./api-info-panel";
 import { ConsumptionChart } from "./consumption-chart";
 import { FaqPanel } from "./faq-panel";
 import { StatsCards } from "./stats-cards";
 import { UptimePanel } from "./uptime-panel";
+import { Icon } from "@/components/ui/icon";
 
 type DashboardProps = {
   serverTimestamps: DashboardStore;
@@ -65,7 +65,7 @@ export function Dashboard(props: DashboardProps) {
           </h1>
         </div>
         <div className="text-muted-foreground hidden items-center gap-1.5 md:flex">
-          <LuActivity className="h-3 w-3" />
+          <Icon name="activity" className="h-3 w-3" />
           <span
             className="font-mono text-[10px] tracking-widest uppercase"
             suppressHydrationWarning

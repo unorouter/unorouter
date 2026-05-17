@@ -1,9 +1,14 @@
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import type { ComponentType, CSSProperties } from "react";
 
 interface PageHeaderProps {
   badge: string;
-  badgeIcon?: ComponentType<{ className?: string; style?: CSSProperties }>;
+  /** Icon name from the central registry. */
+  badgeIcon?: IconName;
+  /** Legacy escape hatch for vendor brand components (e.g. <Gemini.Color/>). */
+  badgeIconComponent?: ComponentType<{ className?: string; style?: CSSProperties }>;
   title: string;
   subtitle: string;
   centered?: boolean;
@@ -12,7 +17,7 @@ interface PageHeaderProps {
 }
 
 export function PageHeader(props: PageHeaderProps) {
-  const Icon = props.badgeIcon;
+  const BadgeCmp = props.badgeIconComponent;
   const color = props.color ?? "currentColor";
 
   return (
@@ -24,7 +29,10 @@ export function PageHeader(props: PageHeaderProps) {
           backgroundColor: `color-mix(in srgb, ${color} 10%, transparent)`,
         }}
       >
-        {Icon && <Icon className="size-3" style={{ color }} />}
+        {props.badgeIcon && (
+          <Icon name={props.badgeIcon} className="size-3" style={{ color }} />
+        )}
+        {BadgeCmp && <BadgeCmp className="size-3" style={{ color }} />}
         <span
           className="font-mono text-[10px] tracking-[0.2em] uppercase"
           style={{ color }}

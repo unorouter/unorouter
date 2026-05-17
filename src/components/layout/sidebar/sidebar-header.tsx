@@ -1,6 +1,7 @@
 "use client";
 
 import { LoginLink } from "@/components/elements/auth/login-link";
+import { Icon } from "@/components/ui/icon";
 import { DocsSearch } from "@/components/layout/docs/docs-search";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
@@ -16,7 +17,6 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { useTranslations } from "next-intl";
-import { LuLogIn } from "react-icons/lu";
 
 interface SidebarHeaderProps {
   showSearch?: boolean;
@@ -61,7 +61,7 @@ export function SidebarHeader(props: SidebarHeaderProps) {
               aria-label={t("NAV.LOG_IN")}
               className="hover:bg-accent rounded-md p-1 transition-colors"
             >
-              <LuLogIn className="size-5" />
+              <Icon name="log-in" className="size-5" />
             </LoginLink>
           )}
         </div>

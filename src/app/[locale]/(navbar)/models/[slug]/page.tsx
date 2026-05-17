@@ -1,6 +1,6 @@
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
 import { findContextTag } from "@/lib/api/pricing";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice, modelSlug } from "@/lib/utils/base";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -38,7 +38,7 @@ export async function generateMetadata(props: PageProps) {
   const t = await getTranslations({ locale });
   return getPageMetadata({
     locale,
-    href: { pathname: "/models/[slug]", params: { slug: model.name } },
+    href: { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } },
     title: t("MODEL_PAGE.META_TITLE", {
       ...APP_VALUES,
       name: model.name,
@@ -135,7 +135,7 @@ export default async function ModelDetailPage(props: PageProps) {
           name: model.name,
           url: localeUrl(locale, {
             pathname: "/models/[slug]",
-            params: { slug: model.name },
+            params: { slug: modelSlug(model.name) },
           }),
           brandName: model.vendor.name,
           description:

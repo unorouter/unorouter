@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { Icon } from "@/components/ui/icon";
 import {
   Command,
   CommandEmpty,
@@ -24,7 +25,6 @@ import { cn } from "@/lib/utils";
 import { setCookie } from "cookies-next";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { LuChevronsUpDown, LuLock } from "react-icons/lu";
 
 type ModelSelectorProps = {
   value: string | null;
@@ -82,7 +82,7 @@ export function ModelSelector(props: ModelSelectorProps) {
             </span>
           )}
         </div>
-        <LuChevronsUpDown className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0" />
+        <Icon name="chevrons-up-down" className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0" />
       </PopoverTrigger>
       <PopoverContent
         className="w-[calc(100vw-1rem)] p-0 sm:w-96"
@@ -163,7 +163,7 @@ export function ModelSelector(props: ModelSelectorProps) {
                           className="text-muted-foreground shrink-0"
                           title={t("CHAT.MODEL.LOGIN_REQUIRED")}
                         >
-                          <LuLock className="h-3 w-3" />
+                          <Icon name="lock" className="h-3 w-3" />
                         </span>
                       )}
                     </CommandItem>

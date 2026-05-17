@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { useDeepLink } from "@/hooks/ui/use-deep-link";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { env } from "@/lib/config/env";
@@ -9,17 +10,6 @@ import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import {
-  LuCircleAlert,
-  LuDownload,
-  LuExternalLink,
-  LuEye,
-  LuEyeOff,
-  LuKey,
-  LuLoader,
-  LuPlus,
-  LuTerminal,
-} from "react-icons/lu";
 import {
   Tooltip,
   TooltipContent,
@@ -69,7 +59,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
       {/* API Key display */}
       {token.apiKey && (
         <div className="border-border bg-card flex items-center gap-3 rounded-lg border px-4 py-3">
-          <LuKey className="text-muted-foreground size-4 shrink-0" />
+          <Icon name="key" className="text-muted-foreground size-4 shrink-0" />
           <span className="min-w-0 flex-1 truncate font-mono text-sm">
             {displayKey}
           </span>
@@ -85,9 +75,9 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
                 }
               >
                 {revealed ? (
-                  <LuEyeOff className="size-3.5" />
+                  <Icon name="eye-off" className="size-3.5" />
                 ) : (
-                  <LuEye className="size-3.5" />
+                  <Icon name="eye" className="size-3.5" />
                 )}
               </TooltipTrigger>
               <TooltipContent>
@@ -107,7 +97,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
       {/* Login or generate key prompts */}
       {!token.isLoggedIn && (
         <div className="border-border bg-card flex items-center gap-2 rounded-lg border px-4 py-3">
-          <LuKey className="text-muted-foreground size-3.5 shrink-0" />
+          <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
           <Link href="/login" className="text-primary text-sm underline">
             {t("DOCS.SETUP.LOGIN_REQUIRED")}
           </Link>
@@ -116,7 +106,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
 
       {token.isLoggedIn && token.needsToken && (
         <div className="border-border bg-card flex items-center gap-2 rounded-lg border px-4 py-3">
-          <LuKey className="text-muted-foreground size-3.5 shrink-0" />
+          <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
           <span className="text-muted-foreground text-xs">
             {t("DOCS.GENERATE_API_KEY_DESC")}
           </span>
@@ -128,9 +118,9 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
             disabled={token.isLoading}
           >
             {token.isLoading ? (
-              <LuLoader className="size-3 animate-spin" />
+              <Icon name="loader" className="size-3 animate-spin" />
             ) : (
-              <LuPlus className="size-3" />
+              <Icon name="plus" className="size-3" />
             )}
             {t("DOCS.GENERATE_API_KEY")}
           </Button>
@@ -152,9 +142,9 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
               disabled={token.isLoading}
             >
               {token.isLoading ? (
-                <LuLoader className="size-4 animate-spin" />
+                <Icon name="loader" className="size-4 animate-spin" />
               ) : (
-                <LuExternalLink className="size-4" />
+                <Icon name="external-link" className="size-4" />
               )}
               {app.label}
             </Button>
@@ -168,7 +158,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
           ref={installRef}
           className="border-border bg-card animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-lg border px-4 py-3"
         >
-          <LuCircleAlert className="text-muted-foreground size-4 shrink-0" />
+          <Icon name="circle-alert" className="text-muted-foreground size-4 shrink-0" />
           <span className="text-muted-foreground text-sm">
             {t("DOCS.SETUP.NO_APP")}
           </span>
@@ -183,7 +173,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
               />
             }
           >
-            <LuDownload className="size-3" />
+            <Icon name="download" className="size-3" />
             {t("DOCS.SETUP.INSTALL_LINK")}
           </Button>
         </div>
@@ -192,7 +182,7 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
       {/* CLI Alternative */}
       <div>
         <p className="text-muted-foreground mb-2 flex items-center gap-1.5 text-sm font-medium">
-          <LuTerminal className="size-3.5" />
+          <Icon name="terminal" className="size-3.5" />
           {t("DOCS.CC_SWITCH.CLI_ALTERNATIVE")}
         </p>
         {props.cliCodeBlock}

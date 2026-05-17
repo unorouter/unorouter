@@ -1,35 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import {
-  useClearConversationMutation,
-  useConversationMarkdown,
-  useDuplicateConversationMutation,
-} from "@/hooks/chat-hook";
+  useClearConversationMutation, useConversationMarkdown, useDuplicateConversationMutation, } from "@/hooks/chat-hook";
 import {
-  useExportConversation,
-  useImportConversationMutation,
-} from "@/hooks/rp-hook";
+  useExportConversation, useImportConversationMutation, } from "@/hooks/rp-hook";
 import {
-  useRemoveSyncMutation,
-  useSyncMutation,
-  useSyncStateForRow,
-} from "@/hooks/sync-hook";
+  useRemoveSyncMutation, useSyncMutation, useSyncStateForRow, } from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";
@@ -37,19 +19,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LocalDbStudio } from "@/components/elements/local-db-studio";
 import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
-import {
-  LuCloudOff,
-  LuCloudUpload,
-  LuClipboardCopy,
-  LuCopy,
-  LuDatabase,
-  LuDownload,
-  LuEllipsisVertical,
-  LuRefreshCcw,
-  LuSettings2,
-  LuTrash2,
-  LuUpload,
-} from "react-icons/lu";
 import { toast } from "sonner";
 
 type Props = {
@@ -208,11 +177,11 @@ export function ChatActionsMenu(props: Props) {
             />
           }
         >
-          <LuEllipsisVertical className="size-4" />
+          <Icon name="ellipsis-vertical" className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
           <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
-            <LuSettings2 className="size-4" />
+            <Icon name="settings-2" className="size-4" />
             {t("CHAT.OVERRIDES.OPEN")}
           </DropdownMenuItem>
           {hasConv && !isSynced && (
@@ -220,7 +189,7 @@ export function ChatActionsMenu(props: Props) {
               onClick={handleAddSync}
               disabled={syncMut.isPending}
             >
-              <LuCloudUpload className="size-4" />
+              <Icon name="cloud-upload" className="size-4" />
               {t("SYNC.ADD_SYNC")}
             </DropdownMenuItem>
           )}
@@ -230,7 +199,7 @@ export function ChatActionsMenu(props: Props) {
                 onClick={handleAddSync}
                 disabled={syncMut.isPending}
               >
-                <LuRefreshCcw className="size-4" />
+                <Icon name="refresh-ccw" className="size-4" />
                 {syncExpiresLabel
                   ? t("SYNC.RESYNC_EXPIRES", { date: syncExpiresLabel })
                   : t("SYNC.RESYNC")}
@@ -240,7 +209,7 @@ export function ChatActionsMenu(props: Props) {
                 onClick={handleRemoveSync}
                 disabled={removeSyncMut.isPending}
               >
-                <LuCloudOff className="size-4" />
+                <Icon name="cloud-off" className="size-4" />
                 {t("SYNC.REMOVE_SYNC")}
               </DropdownMenuItem>
             </>
@@ -250,28 +219,28 @@ export function ChatActionsMenu(props: Props) {
             disabled={!hasConv || exportMut.isPending}
             onClick={() => handleExport("native")}
           >
-            <LuDownload className="size-4" />
+            <Icon name="download" className="size-4" />
             {t("CHAT.MORE.EXPORT_NATIVE")}
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={!hasConv || exportMut.isPending}
             onClick={() => handleExport("orpg")}
           >
-            <LuDownload className="size-4" />
+            <Icon name="download" className="size-4" />
             {t("CHAT.MORE.EXPORT_ORPG")}
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={!hasConv}
             onClick={() => handleExport("sillytavern")}
           >
-            <LuDownload className="size-4" />
+            <Icon name="download" className="size-4" />
             {t("CHAT.MORE.EXPORT_SILLYTAVERN")}
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={importMut.isPending}
             onClick={handleImportClick}
           >
-            <LuUpload className="size-4" />
+            <Icon name="upload" className="size-4" />
             {t("CHAT.MORE.IMPORT")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
@@ -279,19 +248,19 @@ export function ChatActionsMenu(props: Props) {
             disabled={!hasConv || markdownMut.isPending}
             onClick={handleMarkdown}
           >
-            <LuClipboardCopy className="size-4" />
+            <Icon name="clipboard-copy" className="size-4" />
             {t("CHAT.MORE.GET_MARKDOWN")}
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={!hasConv || duplicateMut.isPending}
             onClick={handleDuplicate}
           >
-            <LuCopy className="size-4" />
+            <Icon name="copy" className="size-4" />
             {t("CHAT.MORE.DUPLICATE")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setDbStudioOpen(true)}>
-            <LuDatabase className="size-4" />
+            <Icon name="database" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB")}
           </DropdownMenuItem>
           <DropdownMenuItem
@@ -302,7 +271,7 @@ export function ChatActionsMenu(props: Props) {
               setConfirmClearOpen(true);
             }}
           >
-            <LuTrash2 className="size-4" />
+            <Icon name="trash-2" className="size-4" />
             {t("CHAT.MORE.CLEAR")}
           </DropdownMenuItem>
         </DropdownMenuContent>

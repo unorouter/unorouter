@@ -6,10 +6,10 @@ import { cn } from "@/lib/utils";
 import { apiKeyRevealedAtom, obfuscateApiKey } from "@/store/client-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { LuEye, LuEyeOff, LuKey, LuLoader, LuPlus } from "react-icons/lu";
 import { Button } from "../../ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../../ui/tooltip";
 import { CopyButton } from "./copy-button";
+import { Icon } from "@/components/ui/icon";
 
 type Props = {
   /** Pre-highlighted HTML from highlightCode() */
@@ -83,9 +83,9 @@ export function ApiKeyCodeBlock(props: Props) {
                 }
               >
                 {revealed ? (
-                  <LuEyeOff className="size-3.5" />
+                  <Icon name="eye-off" className="size-3.5" />
                 ) : (
-                  <LuEye className="size-3.5" />
+                  <Icon name="eye" className="size-3.5" />
                 )}
               </TooltipTrigger>
               <TooltipContent>
@@ -104,7 +104,7 @@ export function ApiKeyCodeBlock(props: Props) {
 
       {token.isLoggedIn && token.needsToken && (
         <div className="border-border bg-card mt-2 flex items-center gap-2 rounded-lg border px-4 py-2">
-          <LuKey className="text-muted-foreground size-3.5 shrink-0" />
+          <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
           <span className="text-muted-foreground text-xs">
             {t("DOCS.GENERATE_API_KEY_DESC")}
           </span>
@@ -116,9 +116,9 @@ export function ApiKeyCodeBlock(props: Props) {
             disabled={token.isLoading}
           >
             {token.isLoading ? (
-              <LuLoader className="size-3 animate-spin" />
+              <Icon name="loader" className="size-3 animate-spin" />
             ) : (
-              <LuPlus className="size-3" />
+              <Icon name="plus" className="size-3" />
             )}
             {t("DOCS.GENERATE_API_KEY")}
           </Button>
@@ -127,7 +127,7 @@ export function ApiKeyCodeBlock(props: Props) {
 
       {!token.isLoggedIn && (
         <p className="text-muted-foreground mt-2 flex items-center gap-1.5 text-xs">
-          <LuKey className="size-3" />
+          <Icon name="key" className="size-3" />
           <Link href="/login" className="text-primary underline">
             {t("DOCS.SETUP.LOGIN_REQUIRED")}
           </Link>

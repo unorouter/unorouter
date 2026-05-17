@@ -5,7 +5,8 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 import { formatTokenCount } from "@/lib/utils/base";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { LuExternalLink } from "react-icons/lu";
+
+import { Icon } from "@/components/ui/icon";
 
 type Props = {
   metadata: ModelMetadata;
@@ -89,7 +90,7 @@ export function QuickStats(props: Props) {
           className="hover:text-foreground inline-flex items-center gap-1 underline-offset-4 hover:underline"
         >
           {meta.huggingFaceId}
-          <LuExternalLink className="h-2.5 w-2.5" />
+          <Icon name="external-link" className="h-2.5 w-2.5" />
         </a>
       ),
     });

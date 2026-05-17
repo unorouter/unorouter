@@ -1,63 +1,25 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  useDeleteSnapshotMutation,
-  useExportSessionMutation,
-  useImportGenerationMutation,
-  useSessionQuery,
-  useSnapshotStatusQuery,
-} from "@/hooks/generation-hook";
+  useDeleteSnapshotMutation, useExportSessionMutation, useImportGenerationMutation, useSessionQuery, useSnapshotStatusQuery, } from "@/hooks/generation-hook";
 import { getModelDescriptor } from "@/lib/config/generation-models";
 import {
-  downloadGenerationImage,
-  downloadGenerationSnapshot,
-  readGenerationSnapshotFile,
-} from "@/lib/utils/generation-export";
+  downloadGenerationImage, downloadGenerationSnapshot, readGenerationSnapshotFile, } from "@/lib/utils/generation-export";
 import {
-  activeSessionIdAtom,
-  activeSnapshotIdAtom,
-  activeSubPillAtom,
-  activeTabAtom,
-  restoreSnapshotIntoFormAtom,
-} from "@/store/generation-store";
+  activeSessionIdAtom, activeSnapshotIdAtom, activeSubPillAtom, activeTabAtom, restoreSnapshotIntoFormAtom, } from "@/store/generation-store";
 import type { GenerateTab, Img2ImgSubPill } from "@/store/generation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuDownload,
-  LuMaximize2,
-  LuPaintbrush,
-  LuPencil,
-  LuPencilRuler,
-  LuSparkles,
-  LuTrash2,
-  LuUpload,
-  LuWand,
-  LuX,
-} from "react-icons/lu";
-
 type Props = {
   sessionId: string;
   snapshotId: string;
@@ -190,7 +152,7 @@ function ImageTile(props: {
         title={t("IMAGE.DOWNLOAD_IMAGE")}
         className="bg-background/80 text-foreground absolute top-2 right-2 cursor-pointer rounded-md p-1.5 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100"
       >
-        <LuDownload className="h-4 w-4" />
+        <Icon name="download" className="h-4 w-4" />
       </span>
       {props.onQuickAction && (
         <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
@@ -199,28 +161,28 @@ function ImageTile(props: {
             title={t("IMAGE.HOVER_INPAINT")}
             className="hover:bg-accent cursor-pointer rounded p-1"
           >
-            <LuPaintbrush className="h-3.5 w-3.5" />
+            <Icon name="paintbrush" className="h-3.5 w-3.5" />
           </span>
           <span
             onClick={(e) => quick(e, { tab: "img2img", subPill: "upscale" })}
             title={t("IMAGE.HOVER_UPSCALE")}
             className="hover:bg-accent cursor-pointer rounded p-1"
           >
-            <LuMaximize2 className="h-3.5 w-3.5" />
+            <Icon name="maximize-2" className="h-3.5 w-3.5" />
           </span>
           <span
             onClick={(e) => quick(e, { tab: "img2img", subPill: "adetailer" })}
             title={t("IMAGE.HOVER_ADETAILER")}
             className="hover:bg-accent cursor-pointer rounded p-1"
           >
-            <LuPencilRuler className="h-3.5 w-3.5" />
+            <Icon name="pencil-ruler" className="h-3.5 w-3.5" />
           </span>
           <span
             onClick={(e) => quick(e, { tab: "edit" })}
             title={t("IMAGE.HOVER_EDIT")}
             className="hover:bg-accent cursor-pointer rounded p-1"
           >
-            <LuPencil className="h-3.5 w-3.5" />
+            <Icon name="pencil" className="h-3.5 w-3.5" />
           </span>
         </div>
       )}
@@ -294,7 +256,7 @@ function ImageLightbox(props: {
                 aria-label={t("IMAGE.LIGHTBOX_PREV")}
                 className="bg-background/80 absolute top-1/2 left-2 -translate-y-1/2 backdrop-blur"
               >
-                <LuChevronLeft />
+                <Icon name="chevron-left" />
               </Button>
               <Button
                 variant="outline"
@@ -303,7 +265,7 @@ function ImageLightbox(props: {
                 aria-label={t("IMAGE.LIGHTBOX_NEXT")}
                 className="bg-background/80 absolute top-1/2 right-2 -translate-y-1/2 backdrop-blur"
               >
-                <LuChevronRight />
+                <Icon name="chevron-right" />
               </Button>
             </>
           )}
@@ -314,7 +276,7 @@ function ImageLightbox(props: {
             aria-label={t("IMAGE.LIGHTBOX_CLOSE")}
             className="bg-background/80 absolute top-2 right-2 backdrop-blur"
           >
-            <LuX />
+            <Icon name="x" />
           </Button>
         </div>
         <div className="flex items-center justify-between gap-2 px-2 pb-1">
@@ -322,7 +284,7 @@ function ImageLightbox(props: {
             {total > 1 ? `${index + 1} / ${total}` : ""}
           </span>
           <Button size="sm" variant="outline" onClick={onDownload}>
-            <LuDownload className="mr-2" />
+            <Icon name="download" className="mr-2" />
             {t("IMAGE.DOWNLOAD_IMAGE")}
           </Button>
         </div>
@@ -507,7 +469,7 @@ export function GenerateResult(props: Props) {
             onClick={onPrevSnapshot}
             aria-label={t("IMAGE.LIGHTBOX_PREV")}
           >
-            <LuChevronLeft />
+            <Icon name="chevron-left" />
           </Button>
           <span>
             {t("IMAGE.SNAPSHOT_NAV_LABEL", {
@@ -521,7 +483,7 @@ export function GenerateResult(props: Props) {
             onClick={onNextSnapshot}
             aria-label={t("IMAGE.LIGHTBOX_NEXT")}
           >
-            <LuChevronRight />
+            <Icon name="chevron-right" />
           </Button>
         </div>
       )}
@@ -605,7 +567,7 @@ export function GenerateResult(props: Props) {
           size="sm"
           onClick={() => router.push(`/generate?remix=${props.snapshotId}`)}
         >
-          <LuSparkles className="mr-2" />
+          <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.REMIX")}
         </Button>
         {isDone && getModelDescriptor(data.model ?? "").supportsHiresFix && (
@@ -616,7 +578,7 @@ export function GenerateResult(props: Props) {
               router.push(`/generate?remix=${props.snapshotId}&hires=1`)
             }
           >
-            <LuWand className="mr-2" />
+            <Icon name="wand" className="mr-2" />
             {t("IMAGE.HIRES_SHORTCUT")}
           </Button>
         )}
@@ -627,7 +589,7 @@ export function GenerateResult(props: Props) {
             onClick={onExport}
             disabled={exportMut.isPending}
           >
-            <LuDownload className="mr-2" />
+            <Icon name="download" className="mr-2" />
             {t("IMAGE.EXPORT")}
           </Button>
         )}
@@ -636,7 +598,7 @@ export function GenerateResult(props: Props) {
           size="sm"
           onClick={() => setImportDialogOpen(true)}
         >
-          <LuUpload className="mr-2" />
+          <Icon name="upload" className="mr-2" />
           {t("IMAGE.IMPORT")}
         </Button>
         <Button
@@ -645,7 +607,7 @@ export function GenerateResult(props: Props) {
           onClick={onDeleteSnapshot}
           disabled={deleteMut.isPending}
         >
-          <LuTrash2 className="mr-2" />
+          <Icon name="trash-2" className="mr-2" />
           {t("IMAGE.DELETE")}
         </Button>
       </div>

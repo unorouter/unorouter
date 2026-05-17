@@ -3,18 +3,16 @@
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import type { ComponentType } from "react";
-import { LuFile, LuImage, LuMic, LuType, LuVideo } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 
-type IconType = ComponentType<{ className?: string }>;
-
-const ICON_MAP: Record<string, IconType> = {
-  text: LuType,
-  image: LuImage,
-  audio: LuMic,
-  video: LuVideo,
-  file: LuFile,
-  pdf: LuFile,
+const ICON_MAP: Record<string, IconName> = {
+  text: "type",
+  image: "image",
+  audio: "mic",
+  video: "video",
+  file: "file",
+  pdf: "file",
 };
 
 function ModalityIcons(props: { modalities: string[]; emptyLabel: string }) {
@@ -28,8 +26,8 @@ function ModalityIcons(props: { modalities: string[]; emptyLabel: string }) {
   return (
     <div className="flex items-center gap-1.5">
       {props.modalities.map((modality) => {
-        const Icon = ICON_MAP[modality.toLowerCase()];
-        if (!Icon) {
+        const iconName = ICON_MAP[modality.toLowerCase()];
+        if (!iconName) {
           return (
             <span
               key={modality}
@@ -45,7 +43,7 @@ function ModalityIcons(props: { modalities: string[]; emptyLabel: string }) {
             className="text-foreground inline-flex items-center gap-1"
             title={modality}
           >
-            <Icon className="h-3 w-3" />
+            <Icon name={iconName} className="h-3 w-3" />
             <span className="font-mono text-[10px] uppercase">{modality}</span>
           </span>
         );

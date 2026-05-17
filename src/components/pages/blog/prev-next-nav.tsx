@@ -3,8 +3,9 @@ import { getBlogTheme } from "@/lib/config/blog-categories";
 import type { BlogPost } from "@/lib/types/seo";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+
 import { translated } from "./posts";
+import { Icon } from "@/components/ui/icon";
 
 interface PrevNextNavProps {
   prev: BlogPost | null;
@@ -66,9 +67,9 @@ function PostLink(props: {
         )}
       >
         {props.direction === "prev" ? (
-          <LuArrowLeft className="h-3 w-3" />
+          <Icon name="arrow-left" className="h-3 w-3" />
         ) : (
-          <LuArrowRight className="h-3 w-3" />
+          <Icon name="arrow-right" className="h-3 w-3" />
         )}
         {props.label}
       </div>

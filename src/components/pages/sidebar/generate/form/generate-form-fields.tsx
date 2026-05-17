@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   FormControl,
   FormField,
@@ -19,7 +20,6 @@ import { Slider } from "@/components/ui/slider";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { LuDices } from "react-icons/lu";
 import { CLIP_TOKEN_CAP } from "../generate-constants";
 
 export function QualityField(props: {
@@ -207,7 +207,7 @@ export function SeedField() {
               }
               title={t("IMAGE.SEED_RANDOMIZE")}
             >
-              <LuDices />
+              <Icon name="dices" />
             </Button>
           </div>
         </FormItem>

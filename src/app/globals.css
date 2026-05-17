@@ -42,13 +42,13 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-sm: calc((var(--radius) - 4px) * var(--style-radius-scale, 1));
+  --radius-md: calc((var(--radius) - 2px) * var(--style-radius-scale, 1));
+  --radius-lg: calc(var(--radius) * var(--style-radius-scale, 1));
+  --radius-xl: calc((var(--radius) + 4px) * var(--style-radius-scale, 1));
+  --radius-2xl: calc((var(--radius) + 8px) * var(--style-radius-scale, 1));
+  --radius-3xl: calc((var(--radius) + 12px) * var(--style-radius-scale, 1));
+  --radius-4xl: calc((var(--radius) + 16px) * var(--style-radius-scale, 1));
 }
 
 :root {

@@ -5,8 +5,8 @@ import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Input } from "@/components/ui/input";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { LuScrollText, LuSearch } from "react-icons/lu";
 import type { DrawingFilterValues } from "./drawing-query";
+import { Icon } from "@/components/ui/icon";
 
 export type { DrawingFilterValues } from "./drawing-query";
 export { buildDrawingFilters } from "./drawing-query";
@@ -15,7 +15,7 @@ export function DrawingEmptyState() {
   const t = useTranslations();
   return (
     <div className="flex flex-col items-center gap-3">
-      <LuScrollText className="text-muted-foreground h-8 w-8" />
+      <Icon name="scroll-text" className="text-muted-foreground h-8 w-8" />
       <span className="text-muted-foreground text-sm">{t("LOGS.NO_LOGS")}</span>
     </div>
   );
@@ -52,7 +52,7 @@ export function DrawingFilters(props: {
         }}
       />
       <div className="relative">
-        <LuSearch className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
+        <Icon name="search" className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
         <Input
           value={mjId}
           onChange={(e) =>

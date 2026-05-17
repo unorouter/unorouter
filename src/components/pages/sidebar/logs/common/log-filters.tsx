@@ -1,20 +1,15 @@
 "use client";
 
 import type { LogFilterValues } from "@/components/pages/sidebar/logs/common/filters";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuFilter, LuScrollText, LuSearch, LuX } from "react-icons/lu";
 import {
   formatDateForInput,
   LOG_TYPE_CONSUME,
@@ -29,7 +24,7 @@ export function LogEmptyState() {
   const t = useTranslations();
   return (
     <div className="flex flex-col items-center gap-3">
-      <LuScrollText className="text-muted-foreground h-8 w-8" />
+      <Icon name="scroll-text" className="text-muted-foreground h-8 w-8" />
       <span className="text-muted-foreground text-sm">{t("LOGS.NO_LOGS")}</span>
     </div>
   );
@@ -43,7 +38,7 @@ function SearchFilterInput(props: {
 }) {
   return (
     <div className="relative">
-      <LuSearch
+      <Icon name="search"
         className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2"
         aria-hidden="true"
       />
@@ -138,7 +133,7 @@ export function LogFilters(props: {
           size="sm"
           onClick={() => setFiltersExpanded(!filtersExpanded)}
         >
-          <LuFilter data-icon="inline-start" className="h-3.5 w-3.5" />
+          <Icon name="filter" data-icon="inline-start" className="h-3.5 w-3.5" />
           {t("LOGS.FILTERS")}
         </Button>
       </div>
@@ -177,7 +172,7 @@ export function LogFilters(props: {
                 props.onFilterChange("subscription_plan", undefined);
               }}
             >
-              <LuX className="h-3.5 w-3.5" />
+              <Icon name="x" className="h-3.5 w-3.5" />
             </Button>
           )}
         </div>

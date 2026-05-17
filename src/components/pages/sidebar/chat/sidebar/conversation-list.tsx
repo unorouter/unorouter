@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { Icon } from "@/components/ui/icon";
 import {
   Popover,
   PopoverContent,
@@ -23,7 +24,6 @@ import { analytics } from "@/lib/analytics";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { LuLoader, LuSearch } from "react-icons/lu";
 import { ConversationItem } from "./conversation-item";
 
 export function ConversationList() {
@@ -105,7 +105,7 @@ export function ConversationList() {
 
   const searchInput = (
     <div className="relative">
-      <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2" />
+      <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2" />
       <Input
         placeholder={t("CHAT.SEARCH_PLACEHOLDER")}
         value={search}
@@ -135,7 +135,7 @@ export function ConversationList() {
           <div ref={sentinelRef} className="h-1" />
           {conversationsQuery.isFetchingNextPage && (
             <div className="flex items-center justify-center py-2">
-              <LuLoader className="text-muted-foreground h-4 w-4 animate-spin" />
+              <Icon name="loader" className="text-muted-foreground h-4 w-4 animate-spin" />
             </div>
           )}
         </>
@@ -164,7 +164,7 @@ export function ConversationList() {
                     <SidebarMenuButton tooltip={t("CHAT.SEARCH_CHATS")} />
                   }
                 >
-                  <LuSearch className="size-4" />
+                  <Icon name="search" className="size-4" />
                 </PopoverTrigger>
                 <PopoverContent side="right" align="start" className="w-72 p-2">
                   {listContent}

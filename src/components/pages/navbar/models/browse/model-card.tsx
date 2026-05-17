@@ -1,24 +1,22 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
 import { Badge } from "@/components/ui/badge";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice, modelSlug } from "@/lib/utils/base";
 import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { LuExternalLink, LuMessageSquare } from "react-icons/lu";
+
 import { CapabilityChips } from "../detail/sections/capability-chips";
 
 export type ModelCardLabels = {
@@ -91,7 +89,7 @@ export function ModelCard(props: {
                     router.push("/chat");
                   }}
                 >
-                  <LuMessageSquare className="h-2.5 w-2.5" />
+                  <Icon name="message-square" className="h-2.5 w-2.5" />
                 </TooltipTrigger>
                 <TooltipContent>{t("MODELS.OPEN_IN_CHAT")}</TooltipContent>
               </Tooltip>
@@ -104,12 +102,12 @@ export function ModelCard(props: {
                     <Link
                       href={{
                         pathname: "/models/[slug]",
-                        params: { slug: model.name },
+                        params: { slug: modelSlug(model.name) },
                       }}
                     />
                   }
                 >
-                  <LuExternalLink className="h-2.5 w-2.5" />
+                  <Icon name="external-link" className="h-2.5 w-2.5" />
                 </TooltipTrigger>
                 <TooltipContent>{t("MODELS.VIEW_DETAILS")}</TooltipContent>
               </Tooltip>

@@ -5,8 +5,8 @@ import { HeroStatsGrid } from "@/components/pages/navbar/home/hero-stats-grid";
 import { HeroSubtitle } from "@/components/pages/navbar/home/hero-subtitle";
 import { StatsPanel } from "@/components/pages/navbar/home/stats-panel";
 import { ScrambleRotate } from "@/components/elements/fx/scramble-rotate";
-import { LuChevronRight, LuZap } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
+import { Icon } from "@/components/ui/icon";
 
 export async function HeroSection() {
   const t = await getTranslations();
@@ -50,14 +50,14 @@ export async function HeroSection() {
         <div className="flex flex-col items-center justify-center gap-4 font-mono text-xs sm:flex-row lg:justify-start">
           <GetStartedLink
             className="bg-primary text-primary-foreground hover:bg-primary/80 flex h-11 w-full items-center justify-center gap-2 px-8 font-bold tracking-widest uppercase transition-colors sm:w-auto"
-            icon={<LuZap className="h-3.5 w-3.5" />}
+            icon={<Icon name="zap" className="h-3.5 w-3.5" />}
           />
           <Link
             href="/models"
             className="border-border text-foreground hover:border-foreground group flex h-11 w-full items-center justify-center gap-2 border bg-transparent px-8 font-bold tracking-widest uppercase transition-all sm:w-auto"
           >
             {t("HOME.HERO.CTA_SECONDARY")}
-            <LuChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            <Icon name="chevron-right" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 

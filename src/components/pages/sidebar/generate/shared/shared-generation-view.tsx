@@ -1,29 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import {
-  useForkSharedSessionMutation,
-  useSharedSessionQuery,
-} from "@/hooks/generation-hook";
+  useForkSharedSessionMutation, useSharedSessionQuery, } from "@/hooks/generation-hook";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { downloadGenerationImage } from "@/lib/utils/generation-export";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuCopy,
-  LuDownload,
-  LuSparkles,
-} from "react-icons/lu";
 import { setCookie } from "cookies-next";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { usePathname } from "next/navigation";
@@ -95,7 +82,7 @@ export function SharedGenerationView(props: Props) {
             onClick={onPrev}
             aria-label={t("IMAGE.LIGHTBOX_PREV")}
           >
-            <LuChevronLeft />
+            <Icon name="chevron-left" />
           </Button>
           <span>
             {t("IMAGE.SNAPSHOT_NAV_LABEL", {
@@ -109,7 +96,7 @@ export function SharedGenerationView(props: Props) {
             onClick={onNext}
             aria-label={t("IMAGE.LIGHTBOX_NEXT")}
           >
-            <LuChevronRight />
+            <Icon name="chevron-right" />
           </Button>
         </div>
       )}
@@ -145,7 +132,7 @@ export function SharedGenerationView(props: Props) {
                   title={t("IMAGE.DOWNLOAD_IMAGE")}
                   className="bg-background/80 text-foreground absolute top-2 right-2 rounded-md p-1.5 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100"
                 >
-                  <LuDownload className="h-4 w-4" />
+                  <Icon name="download" className="h-4 w-4" />
                 </button>
               </div>
             ))}
@@ -173,7 +160,7 @@ export function SharedGenerationView(props: Props) {
             onClick={() => navigator.clipboard.writeText(active.prompt)}
             className="text-muted-foreground hover:text-foreground mt-2 inline-flex w-fit items-center gap-1 text-xs"
           >
-            <LuCopy className="h-3 w-3" />
+            <Icon name="copy" className="h-3 w-3" />
             {t("IMAGE.COPY_PROMPT")}
           </button>
         </div>
@@ -197,7 +184,7 @@ export function SharedGenerationView(props: Props) {
           </SelectContent>
         </Select>
         <Button onClick={onFork} disabled={forkMut.isPending}>
-          <LuSparkles className="mr-2" />
+          <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.SAVE_TO_ACCOUNT")}
         </Button>
       </div>

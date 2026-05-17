@@ -4,8 +4,8 @@ import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { OS } from "@/lib/types/enums";
-import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
-
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 export type OSCodeVariant = {
   code: string;
   html: string;
@@ -19,10 +19,10 @@ type OSCodeBlockProps = {
   className?: string;
 };
 
-const osTabs = [
-  { value: OS.WINDOWS, icon: FaWindows, label: "Windows" },
-  { value: OS.MACOS, icon: FaApple, label: "macOS" },
-  { value: OS.LINUX, icon: FaLinux, label: "Linux" },
+const osTabs: { value: OS; icon: IconName; label: string }[] = [
+  { value: OS.WINDOWS, icon: "brand-windows", label: "Windows" },
+  { value: OS.MACOS, icon: "brand-apple", label: "macOS" },
+  { value: OS.LINUX, icon: "brand-linux", label: "Linux" },
 ];
 
 export function OSCodeBlock(props: OSCodeBlockProps) {
@@ -33,7 +33,7 @@ export function OSCodeBlock(props: OSCodeBlockProps) {
       <TabsList variant="line">
         {osTabs.map((tab) => (
           <TabsTrigger key={tab.value} value={tab.value}>
-            <tab.icon className="size-3" />
+            <Icon name={tab.icon} className="size-3" />
             {tab.label}
           </TabsTrigger>
         ))}

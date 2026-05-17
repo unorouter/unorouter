@@ -10,7 +10,7 @@ import {
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
 import { localeUrl } from "@/i18n/navigation";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -73,7 +73,7 @@ export default async function ModelsPage(props: {
             name: m.name,
             url: localeUrl(locale, {
               pathname: "/models/[slug]",
-              params: { slug: m.name },
+              params: { slug: modelSlug(m.name) },
             }),
             description: m.description ?? m.vendor.name,
           })),

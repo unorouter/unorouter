@@ -19,6 +19,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Icon } from "@/components/ui/icon";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
@@ -47,8 +48,14 @@ function NavGroup(props: { label: string; items: NavigationItem[] }) {
                     isActive && "bg-primary/10 text-primary font-medium",
                   )}
                 >
-                  {item.icon && (
-                    <item.icon
+                  {item.iconName && (
+                    <Icon
+                      name={item.iconName}
+                      className={cn("size-4", isActive && "text-primary")}
+                    />
+                  )}
+                  {item.iconComponent && (
+                    <item.iconComponent
                       className={cn("size-4", isActive && "text-primary")}
                     />
                   )}

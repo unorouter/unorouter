@@ -1,14 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
+  ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, type ChartConfig, } from "@/components/ui/chart";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,7 +11,7 @@ import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { analytics } from "@/lib/analytics";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { LuChartBar, LuRefreshCw, LuRotateCcw } from "react-icons/lu";
+
 import {
   Bar,
   BarChart,
@@ -144,7 +139,7 @@ export function ConsumptionChart() {
     <div className="border-border bg-card flex min-w-0 flex-col border">
       <div className="border-border flex flex-col gap-3 border-b p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
-          <LuChartBar className="text-muted-foreground h-4 w-4" />
+          <Icon name="chart-bar" className="text-muted-foreground h-4 w-4" />
           <span className="text-foreground font-mono text-sm font-medium">
             {t("DASHBOARD.CHART.MODEL_DATA_ANALYSIS")}
           </span>
@@ -168,7 +163,7 @@ export function ConsumptionChart() {
             }}
             disabled={dashboard.isFetching}
           >
-            <LuRefreshCw
+            <Icon name="refresh-cw"
               className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
             />
           </Button>
@@ -182,7 +177,7 @@ export function ConsumptionChart() {
               }}
               title={t("DASHBOARD.CHART.RESET_DATE_RANGE")}
             >
-              <LuRotateCcw className="h-4 w-4" />
+              <Icon name="rotate-ccw" className="h-4 w-4" />
             </Button>
           )}
         </div>
@@ -194,7 +189,7 @@ export function ConsumptionChart() {
         </div>
       ) : dashboard.rawData.length === 0 ? (
         <div className="flex h-80 flex-col items-center justify-center gap-2 p-5">
-          <LuChartBar className="text-muted-foreground h-10 w-10 opacity-30" />
+          <Icon name="chart-bar" className="text-muted-foreground h-10 w-10 opacity-30" />
           <span className="text-muted-foreground font-mono text-xs">
             {t("DASHBOARD.NO_DATA")}
           </span>

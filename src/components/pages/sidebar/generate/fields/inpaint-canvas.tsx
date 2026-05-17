@@ -1,16 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Icon } from "@/components/ui/icon";
 import { useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
-  MaskEditor,
-  toMask,
-  type MaskEditorCanvasRef,
-} from "react-canvas-masker";
+  MaskEditor, toMask, type MaskEditorCanvasRef, } from "react-canvas-masker";
 import "react-canvas-masker/dist/style.css";
-import { LuEraser, LuRotateCcw } from "react-icons/lu";
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -109,7 +105,7 @@ export function InpaintCanvas(props: Props) {
                 field.onChange(undefined);
               }}
             >
-              <LuRotateCcw className="mr-1 h-4 w-4" />
+              <Icon name="rotate-ccw" className="mr-1 h-4 w-4" />
               {t("IMAGE.INPAINT_CLEAR")}
             </Button>
             <Button
@@ -118,7 +114,7 @@ export function InpaintCanvas(props: Props) {
               size="sm"
               onClick={() => field.onChange(undefined)}
             >
-              <LuEraser className="mr-1 h-4 w-4" />
+              <Icon name="eraser" className="mr-1 h-4 w-4" />
               {t("IMAGE.INPAINT_DISCARD")}
             </Button>
           </div>

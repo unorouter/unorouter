@@ -1,37 +1,20 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  useBillingPlansQuery,
-  useBillingPortalMutation,
-  useCreemSubscriptionMutation,
-  useStripeSubscriptionMutation,
-  useSubscriptionSelfQuery,
-  useTopUpInfoQuery,
-  useUpdateBillingPreferenceMutation,
-} from "@/hooks/billing-hook";
+  useBillingPlansQuery, useBillingPortalMutation, useCreemSubscriptionMutation, useStripeSubscriptionMutation, useSubscriptionSelfQuery, useTopUpInfoQuery, useUpdateBillingPreferenceMutation, } from "@/hooks/billing-hook";
 import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/date";
 import { useTranslations } from "next-intl";
-import {
-  LuExternalLink,
-  LuRefreshCw,
-  LuRotateCw,
-  LuSparkles,
-} from "react-icons/lu";
 import { toast } from "sonner";
 
 const PREFERENCE_OPTIONS = [
@@ -220,7 +203,7 @@ export function SubscriptionSection() {
             onClick={handleManageBilling}
             disabled={portalMutation.isPending}
           >
-            <LuExternalLink className="h-4 w-4" />
+            <Icon name="external-link" className="h-4 w-4" />
             {t("BILLING.PORTAL.MANAGE")}
           </Button>
           <Button
@@ -238,7 +221,7 @@ export function SubscriptionSection() {
               topUpInfoQuery.isFetching
             }
           >
-            <LuRefreshCw
+            <Icon name="refresh-cw"
               className={`h-4 w-4 ${selfQuery.isFetching || plansQuery.isFetching || topUpInfoQuery.isFetching ? "animate-spin" : ""}`}
             />
           </Button>
@@ -290,7 +273,7 @@ export function SubscriptionSection() {
                         className="gap-1 text-[10px]"
                         title={`${t("BILLING.SUBSCRIPTION.RESETS_AT")} ${resetAbsolute}`}
                       >
-                        <LuRotateCw className="h-3 w-3" />
+                        <Icon name="rotate-cw" className="h-3 w-3" />
                         {t("BILLING.SUBSCRIPTION.RESETS_IN")} {resetRelative}
                       </Badge>
                     )}
@@ -330,7 +313,7 @@ export function SubscriptionSection() {
                 {i === 0 && (
                   <div className="absolute top-3 right-3">
                     <Badge className="bg-primary/10 text-primary gap-1">
-                      <LuSparkles className="h-3 w-3" />
+                      <Icon name="sparkles" className="h-3 w-3" />
                       {t("BILLING.SUBSCRIPTION.RECOMMENDED")}
                     </Badge>
                   </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,7 +13,6 @@ import { Slider } from "@/components/ui/slider";
 import { useLoraCatalogQuery } from "@/hooks/generation-hook";
 import type { ModelFamily } from "@/lib/config/generation-models";
 import { useTranslations } from "next-intl";
-import { LuPlus, LuX } from "react-icons/lu";
 
 export type LoraEntry = {
   name: string;
@@ -100,14 +100,14 @@ export function LoraPicker(props: Props) {
               onClick={() => onRemove(i)}
               title={t("IMAGE.DELETE")}
             >
-              <LuX />
+              <Icon name="x" />
             </Button>
           </div>
         ))}
 
         <Popover>
           <PopoverTrigger className="bg-background hover:bg-accent inline-flex h-9 items-center justify-center rounded-md border px-3 text-sm font-medium">
-            <LuPlus className="mr-2" />
+            <Icon name="plus" className="mr-2" />
             {t("IMAGE.LORAS_TITLE")}
           </PopoverTrigger>
           <PopoverContent className="w-80 p-0" align="start">

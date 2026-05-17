@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/icon";
 import {
   DndContext,
   KeyboardSensor,
@@ -19,7 +20,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { ReactNode } from "react";
-import { LuGripVertical } from "react-icons/lu";
 
 /**
  * Vertical list with drag-to-reorder. Generic over an item id. The drag
@@ -110,7 +110,7 @@ function SortableRow(props: {
       className="text-muted-foreground hover:text-foreground flex size-6 shrink-0 cursor-grab items-center justify-center rounded transition active:cursor-grabbing"
       aria-label="Drag to reorder"
     >
-      <LuGripVertical className="size-4" />
+      <Icon name="grip-vertical" className="size-4" />
     </button>
   );
   return (

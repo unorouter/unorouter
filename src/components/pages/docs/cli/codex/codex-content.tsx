@@ -162,7 +162,7 @@ wire_api = "responses"`;
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.CODEX.BADGE")}
-          badgeIcon={OpenAI}
+          badgeIconComponent={OpenAI}
           title={t("DOCS.CODEX.TITLE")}
           subtitle={t("DOCS.CODEX.SUBTITLE", APP_VALUES)}
           centered

@@ -1,17 +1,12 @@
 "use client";
 
 import { LocalDbStudio } from "@/components/elements/local-db-studio";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuDatabase, LuEllipsisVertical } from "react-icons/lu";
-
 export function GenerateActionsMenu() {
   const t = useTranslations();
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
@@ -29,11 +24,11 @@ export function GenerateActionsMenu() {
             />
           }
         >
-          <LuEllipsisVertical className="size-4" />
+          <Icon name="ellipsis-vertical" className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
           <DropdownMenuItem onClick={() => setDbStudioOpen(true)}>
-            <LuDatabase className="size-4" />
+            <Icon name="database" className="size-4" />
             {t("CHAT.MORE.LOCAL_DB")}
           </DropdownMenuItem>
         </DropdownMenuContent>

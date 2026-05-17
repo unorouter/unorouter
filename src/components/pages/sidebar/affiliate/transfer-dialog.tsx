@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -28,7 +29,7 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import { LuArrowRightLeft } from "react-icons/lu";
+
 import { toast } from "sonner";
 
 type TransferDialogProps = {
@@ -148,7 +149,7 @@ export function TransferDialog(props: TransferDialogProps) {
                 type="submit"
                 disabled={transferMutation.isPending || !amount}
               >
-                <LuArrowRightLeft
+                <Icon name="arrow-right-left"
                   data-icon="inline-start"
                   className="h-4 w-4"
                 />

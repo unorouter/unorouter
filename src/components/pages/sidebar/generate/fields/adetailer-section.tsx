@@ -1,6 +1,6 @@
 "use client";
 
-import { LuChevronDown, LuChevronRight } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -72,9 +72,9 @@ export function AdetailerSection(props: Props) {
       >
         <span className="flex items-center gap-2">
           {expanded ? (
-            <LuChevronDown className="h-4 w-4" />
+            <Icon name="chevron-down" className="h-4 w-4" />
           ) : (
-            <LuChevronRight className="h-4 w-4" />
+            <Icon name="chevron-right" className="h-4 w-4" />
           )}
           {t("IMAGE.ADETAILER")}
         </span>

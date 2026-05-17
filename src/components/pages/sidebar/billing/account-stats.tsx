@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
-import { LuSend, LuTrendingDown, LuWallet } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 export function AccountStats() {
   const t = useTranslations();
@@ -17,13 +17,13 @@ export function AccountStats() {
     {
       label: t("BILLING.CURRENT_BALANCE"),
       value: renderQuota(user?.quota),
-      icon: <LuWallet className="h-4 w-4" />,
+      icon: <Icon name="wallet" className="h-4 w-4" />,
       color: "var(--chart-2)",
     },
     {
       label: t("BILLING.CONSUMPTION"),
       value: renderQuota(user?.used_quota),
-      icon: <LuTrendingDown className="h-4 w-4" />,
+      icon: <Icon name="trending-down" className="h-4 w-4" />,
       color: "var(--chart-3)",
     },
     {
@@ -32,7 +32,7 @@ export function AccountStats() {
         user?.request_count !== undefined
           ? user.request_count.toLocaleString()
           : "0",
-      icon: <LuSend className="h-4 w-4" />,
+      icon: <Icon name="send" className="h-4 w-4" />,
       color: "var(--chart-1)",
     },
   ];

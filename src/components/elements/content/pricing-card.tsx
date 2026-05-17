@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { LuCheck, LuZap } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 type Props = {
   name: string;
@@ -95,7 +95,7 @@ export function PricingCard(props: Props) {
               key={feature}
               className="flex items-center gap-2.5 font-mono text-xs"
             >
-              <LuCheck className="h-3.5 w-3.5 shrink-0 text-emerald-500/70" />
+              <Icon name="check" className="h-3.5 w-3.5 shrink-0 text-emerald-500/70" />
               <span className="text-foreground">{feature}</span>
             </li>
           ))}
@@ -114,7 +114,7 @@ export function PricingCard(props: Props) {
               : "border-border text-foreground hover:border-foreground border bg-transparent",
           )}
         >
-          {props.popular && <LuZap className="h-3.5 w-3.5" />}
+          {props.popular && <Icon name="zap" className="h-3.5 w-3.5" />}
           {props.cta}
         </button>
       </div>

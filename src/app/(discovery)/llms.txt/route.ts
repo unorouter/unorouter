@@ -3,7 +3,7 @@ import { BLOG_REGISTRY, DOCS_REGISTRY } from "@/i18n/registry";
 import { APP_VALUES, msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 
@@ -62,7 +62,7 @@ export async function GET() {
   if (models.length > 0) {
     lines.push(`## ${t(msg("FOOTER.MODELS"))}`);
     for (const model of models.slice(0, 50)) {
-      const url = `${siteOrigin}${localeUrl(locale, { pathname: "/models/[slug]", params: { slug: model.name } })}`;
+      const url = `${siteOrigin}${localeUrl(locale, { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } })}`;
       lines.push(`- [${model.name}](${url})`);
     }
     lines.push("");

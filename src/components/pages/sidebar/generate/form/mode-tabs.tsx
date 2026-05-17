@@ -7,12 +7,13 @@
 // sub-pill row under it is rendered conditionally when activeTab is
 // "img2img".
 
-import { LuImage, LuPaintbrush, LuPencil } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { activeTabAtom } from "@/store/generation-store";
 import type { GenerateTab } from "@/store/generation-store";
@@ -20,11 +21,11 @@ import type { GenerateTab } from "@/store/generation-store";
 const TABS: ReadonlyArray<{
   id: GenerateTab;
   i18nKey: string;
-  Icon: typeof LuImage;
+  iconName: IconName;
 }> = [
-  { id: "text2img", i18nKey: "IMAGE.TAB_TEXT2IMG", Icon: LuImage },
-  { id: "img2img", i18nKey: "IMAGE.TAB_IMG2IMG", Icon: LuPaintbrush },
-  { id: "edit", i18nKey: "IMAGE.TAB_EDIT", Icon: LuPencil },
+  { id: "text2img", i18nKey: "IMAGE.TAB_TEXT2IMG", iconName: "image" },
+  { id: "img2img", i18nKey: "IMAGE.TAB_IMG2IMG", iconName: "paintbrush" },
+  { id: "edit", i18nKey: "IMAGE.TAB_EDIT", iconName: "pencil" },
 ];
 
 export function ModeTabs() {
@@ -60,7 +61,7 @@ export function ModeTabs() {
       <TabsList>
         {TABS.map((tab) => (
           <TabsTrigger key={tab.id} value={tab.id}>
-            <tab.Icon className="mr-1.5 h-4 w-4" />
+            <Icon name={tab.iconName} className="mr-1.5 h-4 w-4" />
             {t(tab.i18nKey as Parameters<typeof t>[0])}
           </TabsTrigger>
         ))}

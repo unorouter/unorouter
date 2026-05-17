@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { Icon } from "@/components/ui/icon";
 import {
   CLI_INTEGRATIONS,
   RP_INTEGRATIONS,
@@ -6,7 +7,6 @@ import {
 } from "@/components/pages/navbar/home/integrations";
 import { APP_VALUES, msg, type TranslationKey } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
-import { LuArrowRight } from "react-icons/lu";
 
 const colorMap = {
   orange: {
@@ -137,9 +137,9 @@ async function IntegrationRow(props: {
                           className="relative h-10 w-10 object-contain"
                         />
                       )
-                    ) : (
+                    ) : integration.icon ? (
                       <integration.icon size={40} className="relative" />
-                    )}
+                    ) : null}
                   </div>
                   <div className="min-w-0 text-left">
                     <div className="mb-1 flex items-center gap-2">
@@ -164,7 +164,7 @@ async function IntegrationRow(props: {
                   <div
                     className={`h-8 w-8 rounded-full border ${colors.ring} flex items-center justify-center transition-all`}
                   >
-                    <LuArrowRight
+                    <Icon name="arrow-right"
                       className={`h-3.5 w-3.5 ${colors.arrow} transition-colors group-hover:text-white`}
                     />
                   </div>

@@ -1,21 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { PAGE_SIZE_OPTIONS } from "@/lib/config/constants";
 import type { Table } from "@tanstack/react-table";
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuChevronsLeft,
-  LuChevronsRight,
-} from "react-icons/lu";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
@@ -63,7 +53,7 @@ export function DataTablePagination<TData>(
             onClick={() => props.table.setPageIndex(0)}
             disabled={!props.table.getCanPreviousPage()}
           >
-            <LuChevronsLeft className="h-4 w-4" />
+            <Icon name="chevrons-left" className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
@@ -71,7 +61,7 @@ export function DataTablePagination<TData>(
             onClick={() => props.table.previousPage()}
             disabled={!props.table.getCanPreviousPage()}
           >
-            <LuChevronLeft className="h-4 w-4" />
+            <Icon name="chevron-left" className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
@@ -79,7 +69,7 @@ export function DataTablePagination<TData>(
             onClick={() => props.table.nextPage()}
             disabled={!props.table.getCanNextPage()}
           >
-            <LuChevronRight className="h-4 w-4" />
+            <Icon name="chevron-right" className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
@@ -90,7 +80,7 @@ export function DataTablePagination<TData>(
             }
             disabled={!props.table.getCanNextPage()}
           >
-            <LuChevronsRight className="h-4 w-4" />
+            <Icon name="chevrons-right" className="h-4 w-4" />
           </Button>
         </div>
       </div>

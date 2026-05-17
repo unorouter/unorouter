@@ -1,8 +1,6 @@
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import {
-  CodeBlock,
-  highlightCode,
-} from "@/components/elements/code/code-block";
+  CodeBlock, highlightCode, } from "@/components/elements/code/code-block";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { Link } from "@/i18n/navigation";
@@ -13,29 +11,25 @@ import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
 import type { ComponentType } from "react";
-import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
-import {
-  LuArrowLeftRight,
-  LuArrowRight,
-  LuDrama,
-  LuHeart,
-} from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 import { type Integration, type IntegrationIconKey } from "./integrations";
 import { OSQuickStart } from "./os-quick-start";
 
-const iconMap: Record<
-  IntegrationIconKey,
-  ComponentType<{ className?: string; size?: number }>
-> = {
-  "cc-switch": LuArrowLeftRight,
-  "claude-code": Claude.Color,
-  codex: Codex.Color,
-  gemini: Gemini.Color,
-  openclaw: GiCrabClaw,
-  sillytavern: LuDrama,
-  "janitor-ai": GiBroom,
-  risuai: GiFox,
-  chub: LuHeart,
+type IconEntry =
+  | { kind: "name"; value: IconName }
+  | { kind: "component"; value: ComponentType<{ className?: string; size?: number }> };
+
+const iconMap: Record<IntegrationIconKey, IconEntry> = {
+  "cc-switch": { kind: "name", value: "arrow-left-right" },
+  "claude-code": { kind: "component", value: Claude.Color },
+  codex: { kind: "component", value: Codex.Color },
+  gemini: { kind: "component", value: Gemini.Color },
+  openclaw: { kind: "name", value: "crab-claw" },
+  sillytavern: { kind: "name", value: "drama" },
+  "janitor-ai": { kind: "name", value: "broom" },
+  risuai: { kind: "name", value: "fox" },
+  chub: { kind: "name", value: "heart" },
 };
 
 export async function IntegrationRow(props: {
@@ -45,7 +39,7 @@ export async function IntegrationRow(props: {
   const t = await getTranslations();
 
   const integration = props.integration;
-  const Icon = iconMap[integration.iconKey];
+  const iconEntry = iconMap[integration.iconKey];
   const hasApiKey =
     integration.kind === "cli"
       ? Object.values(integration.quickStart).some((code) =>
@@ -88,8 +82,14 @@ export async function IntegrationRow(props: {
                     className="relative h-12 w-12 object-contain"
                   />
                 )
-              ) : (
+              ) : iconEntry.kind === "name" ? (
                 <Icon
+                  name={iconEntry.value}
+                  size={48}
+                  className={`relative ${integration.color.accent}`}
+                />
+              ) : (
+                <iconEntry.value
                   size={48}
                   className={`relative ${integration.color.accent}`}
                 />
@@ -125,7 +125,7 @@ export async function IntegrationRow(props: {
             <div
               className={`h-10 w-10 rounded-full border ${integration.color.ring} flex items-center justify-center transition-all`}
             >
-              <LuArrowRight
+              <Icon name="arrow-right"
                 className={`h-4 w-4 ${integration.color.arrow} transition-colors`}
               />
             </div>

@@ -6,13 +6,14 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { Icon } from "@/components/ui/icon";
 import type {
   RankedVendor,
   RankingPeriod,
   VendorShareSeries,
 } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
-import { LuChartPie } from "react-icons/lu";
+
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { VendorLink } from "./entity-links";
 import { formatShare, formatTokens } from "./format";
@@ -107,7 +108,7 @@ export function MarketShareSection(props: MarketShareSectionProps) {
     <section className="bg-card overflow-hidden rounded-lg border">
       <header className="px-5 py-4">
         <h2 className="text-foreground inline-flex items-center gap-2 text-base font-semibold">
-          <LuChartPie className="text-primary size-4" />
+          <Icon name="chart-pie" className="text-primary size-4" />
           {t("RANKINGS.VENDORS.TITLE")}
         </h2>
         <p className="text-muted-foreground mt-1 text-sm">

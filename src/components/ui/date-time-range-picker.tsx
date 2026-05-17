@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar } from "@/components/ui/calendar";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,7 +13,6 @@ import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
-import { LuCalendar } from "react-icons/lu";
 
 type DateTimeRange = {
   from: Date;
@@ -70,7 +70,7 @@ export function DateTimeRangePicker(props: DateTimeRangePickerProps) {
         )}
         suppressHydrationWarning
       >
-        <LuCalendar className="h-3.5 w-3.5 shrink-0 opacity-50" />
+        <Icon name="calendar" className="h-3.5 w-3.5 shrink-0 opacity-50" />
         {label}
       </PopoverTrigger>
       <PopoverContent align="end" className="w-auto p-0">

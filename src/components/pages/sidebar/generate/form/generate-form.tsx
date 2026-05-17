@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { Icon } from "@/components/ui/icon";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Command,
@@ -78,7 +79,6 @@ import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuChevronsUpDown, LuLock, LuSparkles } from "react-icons/lu";
 import {
   AdetailerSection,
   type AdetailerValue,
@@ -461,7 +461,7 @@ export function GenerateForm() {
                           {descriptor.displayName}
                         </span>
                       </span>
-                      <LuChevronsUpDown className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
+                      <Icon name="chevrons-up-down" className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
                     </PopoverTrigger>
                     <PopoverContent
                       className="w-[--radix-popover-trigger-width] p-0"
@@ -521,7 +521,7 @@ export function GenerateForm() {
                                       </span>
                                     )}
                                     {disabled && (
-                                      <LuLock className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
+                                      <Icon name="lock" className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
                                     )}
                                   </CommandItem>
                                 );
@@ -583,7 +583,7 @@ export function GenerateForm() {
                                         </span>
                                       )}
                                       {disabled && (
-                                        <LuLock className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
+                                        <Icon name="lock" className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
                                       )}
                                     </CommandItem>
                                   );
@@ -1236,7 +1236,7 @@ export function GenerateForm() {
             disabled={submitMut.isPending || !(form.watch("prompt") ?? "")}
             size="lg"
           >
-            <LuSparkles className="mr-2" />
+            <Icon name="sparkles" className="mr-2" />
             {submitMut.isPending
               ? t("IMAGE.SUBMITTING")
               : `${t("IMAGE.SUBMIT")} - ${renderQuota(totalQuota, 2)}`}

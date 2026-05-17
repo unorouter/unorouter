@@ -168,7 +168,7 @@ export function FloatingIntegrationsMotion() {
       <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden motion-reduce:hidden lg:block">
         {FLOATERS.map((item) => {
           const integration = getIntegration(item.key);
-          const Icon = integration.icon;
+          const IconCmp = integration.icon;
           return (
             <motion.div
               key={item.key}
@@ -228,9 +228,9 @@ export function FloatingIntegrationsMotion() {
                         className="h-7 w-7 object-contain"
                       />
                     )
-                  ) : (
-                    <Icon size={28} />
-                  )}
+                  ) : IconCmp ? (
+                    <IconCmp size={28} />
+                  ) : null}
                 </TooltipTrigger>
                 <TooltipContent>{integration.badge}</TooltipContent>
               </Tooltip>

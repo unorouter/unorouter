@@ -9,7 +9,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { LuHeart } from "react-icons/lu";
 import { getDocsApiKey } from "@/lib/utils/server";
 
 export async function ChubContent() {
@@ -106,7 +105,7 @@ ${t("DOCS.CHUB.QUICK_CONFIG_KEY_LABEL")}: ${docs.placeholder}`;
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.CHUB.BADGE")}
-          badgeIcon={LuHeart}
+          badgeIcon="heart"
           title={t("DOCS.CHUB.TITLE")}
           subtitle={t("DOCS.CHUB.SUBTITLE", APP_VALUES)}
           centered

@@ -15,7 +15,7 @@ import {
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/timestamps";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, modelSlug } from "@/lib/utils/base";
 import dayjs from "dayjs";
 import type { MetadataRoute } from "next";
 
@@ -103,7 +103,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ),
     ...(pricing?.models ?? []).flatMap((model) =>
       localizedEntries(
-        { pathname: "/models/[slug]", params: { slug: model.name } },
+        { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } },
         { priority: 0.6, changeFrequency: "weekly" },
       ),
     ),

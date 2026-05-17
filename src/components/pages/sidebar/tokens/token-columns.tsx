@@ -1,22 +1,13 @@
 "use client";
 
-import {
-  DataTableRowActions,
-  type RowAction,
-} from "@/components/elements/table/data-table-row-actions";
+import { DataTableRowActions, type RowAction, } from "@/components/elements/table/data-table-row-actions";
+import { Icon } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
 import {
-  useDeleteTokenMutation,
-  useFetchTokenKeyMutation,
-  useToggleTokenStatusMutation,
-} from "@/hooks/token-hook";
+  useDeleteTokenMutation, useFetchTokenKeyMutation, useToggleTokenStatusMutation, } from "@/hooks/token-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
@@ -27,17 +18,6 @@ import dayjs from "dayjs";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  LuCopy,
-  LuEye,
-  LuEyeOff,
-  LuKey,
-  LuPencil,
-  LuPlus,
-  LuPower,
-  LuPowerOff,
-  LuTrash2,
-} from "react-icons/lu";
 import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
 
@@ -130,9 +110,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
             }
           >
             {revealedKey ? (
-              <LuEyeOff className="h-3 w-3" />
+              <Icon name="eye-off" className="h-3 w-3" />
             ) : (
-              <LuEye className="h-3 w-3" />
+              <Icon name="eye" className="h-3 w-3" />
             )}
           </TooltipTrigger>
           <TooltipContent>
@@ -154,7 +134,7 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
               />
             }
           >
-            <LuCopy className="h-3 w-3" />
+            <Icon name="copy" className="h-3 w-3" />
           </TooltipTrigger>
           <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
         </Tooltip>
@@ -230,16 +210,16 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
     {
       value: "edit",
       label: "TOKEN.EDIT",
-      icon: <LuPencil className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />,
+      icon: <Icon name="pencil" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />,
       onClick: () => setEditingToken(token),
     },
     {
       value: "toggle",
       label: isEnabled ? "TOKEN.DISABLE" : "TOKEN.ENABLE",
       icon: isEnabled ? (
-        <LuPowerOff className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+        <Icon name="power-off" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
       ) : (
-        <LuPower className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+        <Icon name="power" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
       ),
       disabled: toggleMutation.isPending,
       onClick: () =>
@@ -254,7 +234,7 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
     {
       value: "delete",
       label: "TOKEN.DELETE.BUTTON",
-      icon: <LuTrash2 className="mr-2 h-3.5 w-3.5" />,
+      icon: <Icon name="trash-2" className="mr-2 h-3.5 w-3.5" />,
       variant: "destructive",
       separator: true,
       disabled: deleteMutation.isPending,
@@ -286,12 +266,12 @@ export function TokenEmptyState(props: { onCreate: () => void }) {
   const t = useTranslations();
   return (
     <div className="flex flex-col items-center gap-3">
-      <LuKey className="text-muted-foreground h-8 w-8" />
+      <Icon name="key" className="text-muted-foreground h-8 w-8" />
       <span className="text-muted-foreground text-sm">
         {t("TOKEN.NO_TOKENS")}
       </span>
       <Button size="sm" onClick={props.onCreate}>
-        <LuPlus data-icon="inline-start" className="h-4 w-4" />
+        <Icon name="plus" data-icon="inline-start" className="h-4 w-4" />
         {t("TOKEN.CREATE")}
       </Button>
     </div>

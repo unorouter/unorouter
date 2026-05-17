@@ -1,6 +1,7 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
+import { Icon } from "@/components/ui/icon";
 import { copyToClipboard } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Button } from "@/components/ui/button";
@@ -30,7 +31,6 @@ import { useTranslations } from "next-intl";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuCopy } from "react-icons/lu";
 import { toast } from "sonner";
 
 export function Setup2FADialog(props: {
@@ -222,7 +222,7 @@ export function Setup2FADialog(props: {
                     toast.success(t("SETTINGS.SECURITY.TOKEN_COPIED"));
                   }}
                 >
-                  <LuCopy className="h-4 w-4" />
+                  <Icon name="copy" className="h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -234,7 +234,7 @@ export function Setup2FADialog(props: {
               <div className="flex items-center justify-between">
                 <Label>{t("SETTINGS.SECURITY.BACKUP_CODES")}</Label>
                 <Button variant="ghost" size="sm" onClick={copyBackupCodes}>
-                  <LuCopy className="mr-1 h-3 w-3" />
+                  <Icon name="copy" className="mr-1 h-3 w-3" />
                   {t("SETTINGS.SECURITY.COPY_TOKEN")}
                 </Button>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,6 @@ import {
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { LuCopy } from "react-icons/lu";
 import { toast } from "sonner";
 import {
   formatPriceCompact,
@@ -215,7 +215,7 @@ function DetailRow(props: {
               toast.success(t("LOGS.COPIED"));
             }}
           >
-            <LuCopy className="size-3" />
+            <Icon name="copy" className="size-3" />
           </button>
         )}
       </div>

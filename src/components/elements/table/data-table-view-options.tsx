@@ -13,7 +13,7 @@ import {
 import type { TranslationKey } from "@/lib/config/constants";
 import type { Table } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import { LuSettings2 } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -29,7 +29,7 @@ export function DataTableViewOptions<TData>(
       <DropdownMenuTrigger
         render={<Button variant="outline" size="sm" className="h-8" />}
       >
-        <LuSettings2 className="mr-2 h-4 w-4" />
+        <Icon name="settings-2" className="mr-2 h-4 w-4" />
         View
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">

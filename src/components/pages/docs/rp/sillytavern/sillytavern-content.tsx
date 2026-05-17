@@ -9,7 +9,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { LuDrama } from "react-icons/lu";
 import { getDocsApiKey } from "@/lib/utils/server";
 
 export async function SillyTavernContent() {
@@ -114,7 +113,7 @@ ${t("DOCS.SILLYTAVERN.QUICK_CONFIG_MODEL_LABEL")}:    ${docs.topTextModel}`;
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.SILLYTAVERN.BADGE")}
-          badgeIcon={LuDrama}
+          badgeIcon="drama"
           title={t("DOCS.SILLYTAVERN.TITLE")}
           subtitle={t("DOCS.SILLYTAVERN.SUBTITLE", APP_VALUES)}
           centered

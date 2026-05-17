@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   extractMetadataFromPngFile,
   type RestoredFromPng,
 } from "@/lib/utils/png-metadata";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { LuImageDown, LuLoader } from "react-icons/lu";
 
 // Drop a PNG that came from ComfyUI (or any tool that writes the same
 // tEXt chunks) and the form's prompt + params get pre-filled. The
@@ -69,9 +69,9 @@ export function PngImport(props: Props) {
     >
       <div className="flex items-center gap-2">
         {isParsing ? (
-          <LuLoader className="h-4 w-4 animate-spin" />
+          <Icon name="loader" className="h-4 w-4 animate-spin" />
         ) : (
-          <LuImageDown className="h-4 w-4" />
+          <Icon name="image-down" className="h-4 w-4" />
         )}
         <span className="text-muted-foreground text-xs">
           {error ?? t("IMAGE.PNG_IMPORT_HINT")}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,
@@ -10,7 +11,6 @@ import {
 import { env } from "@/lib/config/env";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { LuCopy, LuLink } from "react-icons/lu";
 import { toast } from "sonner";
 
 export function TokenEndpoint() {
@@ -37,7 +37,7 @@ export function TokenEndpoint() {
   return (
     <div className="bg-muted/40 mb-6 rounded-lg border p-4">
       <div className="mb-2 flex items-center gap-2">
-        <LuLink className="text-muted-foreground h-4 w-4" />
+        <Icon name="link" className="text-muted-foreground h-4 w-4" />
         <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
           {t("TOKEN.ENDPOINT.LABEL")}
         </span>
@@ -53,7 +53,7 @@ export function TokenEndpoint() {
                 <Button variant="ghost" size="icon-sm" onClick={handleCopy} />
               }
             >
-              <LuCopy className="h-3.5 w-3.5" />
+              <Icon name="copy" className="h-3.5 w-3.5" />
             </TooltipTrigger>
             <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
           </Tooltip>
@@ -74,7 +74,7 @@ export function TokenEndpoint() {
             onClick={handleCopyCurl}
             aria-label={t("TOKEN.ENDPOINT.CURL_COPY")}
           >
-            <LuCopy className="h-3.5 w-3.5" />
+            <Icon name="copy" className="h-3.5 w-3.5" />
           </Button>
         </div>
         <pre className="bg-background text-foreground overflow-x-auto rounded border px-3 py-2 font-mono text-xs whitespace-pre">

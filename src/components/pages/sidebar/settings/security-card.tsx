@@ -1,15 +1,10 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
+import { Icon } from "@/components/ui/icon";
 import { copyToClipboard } from "@/lib/utils/base";
 import {
-  use2FAStatusQuery,
-  useGenerateAccessTokenMutation,
-  usePasskeyDeleteMutation,
-  usePasskeyRegisterBeginMutation,
-  usePasskeyRegisterFinishMutation,
-  usePasskeyStatusQuery,
-} from "@/hooks/settings-hook";
+  use2FAStatusQuery, useGenerateAccessTokenMutation, usePasskeyDeleteMutation, usePasskeyRegisterBeginMutation, usePasskeyRegisterFinishMutation, usePasskeyStatusQuery, } from "@/hooks/settings-hook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,14 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import {
-  LuCopy,
-  LuKey,
-  LuLock,
-  LuFingerprint,
-  LuShieldCheck,
-  LuTrash2,
-} from "react-icons/lu";
 import { ChangePasswordDialog } from "./change-password-dialog";
 import { Setup2FADialog } from "./setup-2fa-dialog";
 import { DeleteAccountDialog } from "./delete-account-dialog";
@@ -132,7 +119,7 @@ export function SecurityCard() {
           {/* Access Token */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <LuKey className="text-muted-foreground h-4 w-4" />
+              <Icon name="key" className="text-muted-foreground h-4 w-4" />
               <span className="font-medium">
                 {t("SETTINGS.SECURITY.ACCESS_TOKEN")}
               </span>
@@ -147,7 +134,7 @@ export function SecurityCard() {
                     {accessToken}
                   </code>
                   <Button variant="outline" size="sm" onClick={handleCopyToken}>
-                    <LuCopy className="mr-1 h-3 w-3" />
+                    <Icon name="copy" className="mr-1 h-3 w-3" />
                     {t("SETTINGS.SECURITY.COPY_TOKEN")}
                   </Button>
                 </>
@@ -158,7 +145,7 @@ export function SecurityCard() {
                   disabled={generateTokenMutation.isPending}
                   onClick={handleGenerateToken}
                 >
-                  <LuKey className="mr-1 h-3 w-3" />
+                  <Icon name="key" className="mr-1 h-3 w-3" />
                   {t("SETTINGS.SECURITY.GENERATE_TOKEN")}
                 </Button>
               )}
@@ -170,7 +157,7 @@ export function SecurityCard() {
           {/* Password */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <LuLock className="text-muted-foreground h-4 w-4" />
+              <Icon name="lock" className="text-muted-foreground h-4 w-4" />
               <span className="font-medium">
                 {t("SETTINGS.SECURITY.PASSWORD")}
               </span>
@@ -190,7 +177,7 @@ export function SecurityCard() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <LuFingerprint className="text-muted-foreground h-4 w-4" />
+                <Icon name="fingerprint" className="text-muted-foreground h-4 w-4" />
                 <span className="font-medium">
                   {t("SETTINGS.SECURITY.PASSKEY")}
                 </span>
@@ -212,7 +199,7 @@ export function SecurityCard() {
                     disabled={passkeyDeleteMutation.isPending}
                     onClick={handleDeletePasskey}
                   >
-                    <LuTrash2 className="mr-1 h-3 w-3" />
+                    <Icon name="trash-2" className="mr-1 h-3 w-3" />
                     {t("SETTINGS.SECURITY.DELETE_PASSKEY")}
                   </Button>
                 ) : (
@@ -238,7 +225,7 @@ export function SecurityCard() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <LuShieldCheck className="text-muted-foreground h-4 w-4" />
+                <Icon name="shield-check" className="text-muted-foreground h-4 w-4" />
                 <span className="font-medium">
                   {t("SETTINGS.SECURITY.TWO_FACTOR")}
                 </span>
@@ -277,7 +264,7 @@ export function SecurityCard() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <div className="flex items-center gap-2">
-                  <LuTrash2 className="h-4 w-4 text-red-500" />
+                  <Icon name="trash-2" className="h-4 w-4 text-red-500" />
                   <span className="font-medium text-red-500">
                     {t("SETTINGS.SECURITY.DELETE_ACCOUNT")}
                   </span>

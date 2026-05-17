@@ -5,8 +5,9 @@ import type { ModelMetadata } from "@/lib/api/pricing";
 import { Controller } from "react-hook-form";
 import type { Control, Path } from "react-hook-form";
 import { useTranslations } from "next-intl";
-import { LuRotateCcw } from "react-icons/lu";
+
 import { NumberKnob } from "./number-knob";
+import { Icon } from "@/components/ui/icon";
 
 type FieldKey = string;
 
@@ -183,7 +184,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
             size="xs"
             onClick={props.onReset}
           >
-            <LuRotateCcw className="size-3.5" />
+            <Icon name="rotate-ccw" className="size-3.5" />
             {t("COMMON.RESET")}
           </Button>
         )}

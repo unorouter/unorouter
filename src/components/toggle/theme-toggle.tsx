@@ -5,21 +5,24 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   createAnimation,
   getRandomAnimation,
 } from "@/components/ui/theme-animations";
+import { ThemeCustomizerSheet } from "@/components/ui/theme-customizer/theme-customizer-sheet";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useCallback } from "react";
-import { LuMonitor, LuMoon, LuSun } from "react-icons/lu";
+import { useCallback, useState } from "react";
+import { Icon } from "@/components/ui/icon";
 
 export function ThemeToggle() {
   const t = useTranslations();
   const { setTheme } = useTheme();
+  const [sheetOpen, setSheetOpen] = useState(false);
   const styleId = "theme-transition-styles";
 
   const updateStyles = useCallback((css: string) => {
@@ -61,38 +64,49 @@ export function ThemeToggle() {
   );
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button variant="ghost" size="icon-sm" aria-label="Toggle theme" />
-        }
-      >
-        <LuSun className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-        <LuMoon className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem
-          onClick={() => handleThemeChange("light")}
-          className="cursor-pointer"
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button variant="ghost" size="icon-sm" aria-label="Toggle theme" />
+          }
         >
-          <LuSun className="h-4 w-4" />
-          {t("THEME.LIGHT")}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => handleThemeChange("dark")}
-          className="cursor-pointer"
-        >
-          <LuMoon className="h-4 w-4" />
-          {t("THEME.DARK")}
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => handleThemeChange("system")}
-          className="cursor-pointer"
-        >
-          <LuMonitor className="h-4 w-4" />
-          {t("THEME.SYSTEM")}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <Icon name="sun" className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+          <Icon name="moon" className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => handleThemeChange("light")}
+            className="cursor-pointer"
+          >
+            <Icon name="sun" className="h-4 w-4" />
+            {t("THEME.LIGHT")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleThemeChange("dark")}
+            className="cursor-pointer"
+          >
+            <Icon name="moon" className="h-4 w-4" />
+            {t("THEME.DARK")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => handleThemeChange("system")}
+            className="cursor-pointer"
+          >
+            <Icon name="monitor" className="h-4 w-4" />
+            {t("THEME.SYSTEM")}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => setSheetOpen(true)}
+            className="cursor-pointer"
+          >
+            <Icon name="paintbrush" className="h-4 w-4" />
+            {t("THEME.CUSTOMIZE")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <ThemeCustomizerSheet open={sheetOpen} onOpenChange={setSheetOpen} />
+    </>
   );
 }

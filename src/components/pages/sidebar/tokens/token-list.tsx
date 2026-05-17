@@ -1,6 +1,7 @@
 "use client";
 
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
+import { Icon } from "@/components/ui/icon";
 import { DataTable } from "@/components/elements/table/data-table";
 import { DataTableGlobalFilter } from "@/components/elements/table/data-table-global-filter";
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,6 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuPlus } from "react-icons/lu";
 import {
   TokenActionCell,
   TokenDateCell,
@@ -137,7 +137,7 @@ export function TokenList() {
           </p>
         </div>
         <Button onClick={() => setCreateOpen(true)} size="sm">
-          <LuPlus data-icon="inline-start" className="h-4 w-4" />
+          <Icon name="plus" data-icon="inline-start" className="h-4 w-4" />
           {t("TOKEN.CREATE")}
         </Button>
       </div>

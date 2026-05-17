@@ -2,7 +2,7 @@
 
 import { useLiveStats } from "@/hooks/ui/use-live-stats";
 import { useTranslations } from "next-intl";
-import { LuActivity } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 export function StatsPanel() {
   const t = useTranslations();
@@ -17,7 +17,7 @@ export function StatsPanel() {
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
             {t("HOME.STATS.PANEL.TOKENS_SERVED")}
           </span>
-          <LuActivity className="text-muted-foreground h-3.5 w-3.5" />
+          <Icon name="activity" className="text-muted-foreground h-3.5 w-3.5" />
         </div>
         <div className="text-foreground text-4xl font-bold tracking-tight tabular-nums md:text-5xl lg:text-5xl">
           {tokens.toLocaleString()}

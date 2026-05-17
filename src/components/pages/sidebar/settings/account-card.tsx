@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { Icon } from "@/components/ui/icon";
 import { buildOAuthUrl } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,31 +9,22 @@ import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
 import { analytics } from "@/lib/analytics";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useBindEmailMutation,
-  useSendSettingsVerificationMutation,
-} from "@/hooks/settings-hook";
+  useBindEmailMutation, useSendSettingsVerificationMutation, } from "@/hooks/settings-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import {
-  emailBindSchema,
-  type EmailBindSchema,
-} from "@/lib/validation/settings";
+  emailBindSchema, type EmailBindSchema, } from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuCopy, LuGithub, LuMail } from "react-icons/lu";
-import { SiDiscord } from "react-icons/si";
 import { toast } from "sonner";
 
 export function AccountCard() {
@@ -153,7 +145,7 @@ export function AccountCard() {
                     className="hover:text-foreground flex items-center gap-1 transition-colors"
                   >
                     {boundId}
-                    <LuCopy className="h-3 w-3" />
+                    <Icon name="copy" className="h-3 w-3" />
                   </TooltipTrigger>
                   <TooltipContent>{idLabel}</TooltipContent>
                 </Tooltip>
@@ -186,7 +178,7 @@ export function AccountCard() {
         {/* Email Binding */}
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <LuMail className="text-muted-foreground h-4 w-4" />
+            <Icon name="mail" className="text-muted-foreground h-4 w-4" />
             <span className="font-medium">
               {t("SETTINGS.ACCOUNT.EMAIL_BINDING")}
             </span>
@@ -300,14 +292,14 @@ export function AccountCard() {
           <Label>{t("SETTINGS.ACCOUNT.OAUTH_BINDINGS")}</Label>
           <div className="grid gap-3 sm:grid-cols-2">
             {renderOAuthBinding(
-              <LuGithub className="h-5 w-5" />,
+              <Icon name="github" className="h-5 w-5" />,
               t("SETTINGS.ACCOUNT.GITHUB"),
               user.github_id,
               "GitHub ID",
               "github",
             )}
             {renderOAuthBinding(
-              <SiDiscord className="h-5 w-5" />,
+              <Icon name="brand-discord-si" className="h-5 w-5" />,
               t("SETTINGS.ACCOUNT.DISCORD"),
               user.discord_id,
               "Discord ID",

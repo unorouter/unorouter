@@ -8,10 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Icon } from "@/components/ui/icon";
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { LuCheck } from "react-icons/lu";
 
 type Props = {
   metadata: ModelMetadata;
@@ -74,7 +74,7 @@ export function SupportedParameters(props: Props) {
                 <TableCell className="py-2 font-mono text-xs">{name}</TableCell>
                 <TableCell className="py-2">
                   {inIntersection ? (
-                    <LuCheck
+                    <Icon name="check"
                       className="h-3.5 w-3.5 text-emerald-500"
                       aria-label={t("MODELS.DETAIL.ALWAYS_SUPPORTED")}
                     />

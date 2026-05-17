@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { mergeProps } from "@base-ui/react/merge-props";
+import { Icon } from "@/components/ui/icon";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -23,7 +24,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { LuPanelLeft } from "react-icons/lu";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -271,7 +271,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <LuPanelLeft />
+      <Icon name="panel-left" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );

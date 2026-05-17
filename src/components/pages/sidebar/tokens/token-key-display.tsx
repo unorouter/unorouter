@@ -1,14 +1,9 @@
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
 import { useTranslations } from "next-intl";
-import { LuCopy, LuEye, LuEyeOff, LuKey } from "react-icons/lu";
-
 type TokenKeyDisplayProps = {
   displayKey: string;
   revealedKey: string | null;
@@ -23,7 +18,7 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
   return (
     <div>
       <div className="mb-3 flex items-center gap-2">
-        <LuKey className="text-muted-foreground h-4 w-4" />
+        <Icon name="key" className="text-muted-foreground h-4 w-4" />
         <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
           {t("TOKEN.TABLE.KEY")}
         </span>
@@ -51,9 +46,9 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
               }
             >
               {props.revealedKey ? (
-                <LuEyeOff className="h-3.5 w-3.5" />
+                <Icon name="eye-off" className="h-3.5 w-3.5" />
               ) : (
-                <LuEye className="h-3.5 w-3.5" />
+                <Icon name="eye" className="h-3.5 w-3.5" />
               )}
             </TooltipTrigger>
             <TooltipContent>
@@ -74,7 +69,7 @@ export function TokenKeyDisplay(props: TokenKeyDisplayProps) {
                 />
               }
             >
-              <LuCopy className="h-3.5 w-3.5" />
+              <Icon name="copy" className="h-3.5 w-3.5" />
             </TooltipTrigger>
             <TooltipContent>{t("TOKEN.COPY_KEY")}</TooltipContent>
           </Tooltip>

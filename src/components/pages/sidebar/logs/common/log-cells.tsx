@@ -1,26 +1,17 @@
 "use client";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Icon } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
 import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { createContext, useContext, type ReactNode } from "react";
-import {
-  LuChevronRight,
-  LuCircleAlert,
-  LuKeyRound,
-  LuUser,
-} from "react-icons/lu";
 import { toast } from "sonner";
 import {
   formatPriceCompact,
@@ -158,7 +149,7 @@ export function LogUserCell({ row }: CellContext<LogRow, unknown>) {
     <div className="flex items-center gap-2">
       <Avatar size="sm" style={modelColorStyle(log.username)}>
         <AvatarFallback className="bg-transparent text-[10px] font-medium text-current">
-          {initial || <LuUser className="size-3" />}
+          {initial || <Icon name="user" className="size-3" />}
         </AvatarFallback>
       </Avatar>
       <span className="text-foreground truncate text-xs">{log.username}</span>
@@ -236,7 +227,7 @@ export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
           }
         >
           <span className="border-border/60 bg-muted/30 inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5">
-            <LuKeyRound className="text-muted-foreground size-3" />
+            <Icon name="key-round" className="text-muted-foreground size-3" />
             <span className="text-foreground font-mono text-xs">
               {log.token_name}
             </span>
@@ -368,7 +359,7 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
           <Tooltip>
             <TooltipTrigger>
               <span className="cursor-help text-red-500">
-                <LuCircleAlert className="size-3" />
+                <Icon name="circle-alert" className="size-3" />
               </span>
             </TooltipTrigger>
             <TooltipContent side="top" sideOffset={6}>
@@ -577,7 +568,7 @@ export function LogDetailsCell({ row }: CellContext<LogRow, unknown>) {
 export function LogExpandToggleCell({ row }: CellContext<LogRow, unknown>) {
   if (!row.getCanExpand()) return null;
   return (
-    <LuChevronRight
+    <Icon name="chevron-right"
       className={`text-muted-foreground h-4 w-4 transition-transform ${row.getIsExpanded() ? "rotate-90" : ""}`}
     />
   );

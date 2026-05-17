@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,
@@ -16,7 +17,6 @@ import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
-import { LuExternalLink, LuMusic } from "react-icons/lu";
 import { toast } from "sonner";
 import {
   formatTaskDuration,
@@ -171,7 +171,7 @@ export function TaskDetailsCell({ row }: CellContext<TaskRow, unknown>) {
         onClick={() => ctx?.openAudio(log)}
         className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs"
       >
-        <LuMusic className="size-3.5" />
+        <Icon name="music" className="size-3.5" />
         {t("LOGS.TASK.PLAY_AUDIO")}
       </button>
     );
@@ -189,7 +189,7 @@ export function TaskDetailsCell({ row }: CellContext<TaskRow, unknown>) {
         rel="noreferrer"
         className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs"
       >
-        <LuExternalLink className="size-3.5" />
+        <Icon name="external-link" className="size-3.5" />
         {t("LOGS.TASK.OPEN_VIDEO")}
       </a>
     );

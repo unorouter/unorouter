@@ -11,7 +11,7 @@ import {
   buildBreadcrumbListSchema,
   buildCollectionPageSchema,
 } from "@/lib/seo/structured-data";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -86,7 +86,7 @@ export default async function RankingsPage(props: {
             name: m.model_name,
             url: localeUrl(locale, {
               pathname: "/models/[slug]",
-              params: { slug: m.model_name },
+              params: { slug: modelSlug(m.model_name) },
             }),
             description: m.vendor,
           })),

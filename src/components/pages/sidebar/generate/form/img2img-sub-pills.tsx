@@ -5,18 +5,14 @@
 // form's settings panel and the outgoing submit's `params.mode`.
 // URL-synced via ?mode=... so deep links restore the right sub-pill.
 
-import {
-  LuImage,
-  LuMaximize2,
-  LuPaintbrush,
-  LuPencilRuler,
-} from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { activeSubPillAtom } from "@/store/generation-store";
 import type { Img2ImgSubPill } from "@/store/generation-store";
@@ -24,12 +20,12 @@ import type { Img2ImgSubPill } from "@/store/generation-store";
 const PILLS: ReadonlyArray<{
   id: Img2ImgSubPill;
   i18nKey: string;
-  Icon: typeof LuImage;
+  iconName: IconName;
 }> = [
-  { id: "img2img", i18nKey: "IMAGE.SUB_IMG2IMG", Icon: LuImage },
-  { id: "upscale", i18nKey: "IMAGE.SUB_UPSCALE", Icon: LuMaximize2 },
-  { id: "adetailer", i18nKey: "IMAGE.SUB_ADETAILER", Icon: LuPencilRuler },
-  { id: "inpaint", i18nKey: "IMAGE.SUB_INPAINT", Icon: LuPaintbrush },
+  { id: "img2img", i18nKey: "IMAGE.SUB_IMG2IMG", iconName: "image" },
+  { id: "upscale", i18nKey: "IMAGE.SUB_UPSCALE", iconName: "maximize-2" },
+  { id: "adetailer", i18nKey: "IMAGE.SUB_ADETAILER", iconName: "pencil-ruler" },
+  { id: "inpaint", i18nKey: "IMAGE.SUB_INPAINT", iconName: "paintbrush" },
 ];
 
 export function Img2ImgSubPills() {
@@ -67,7 +63,7 @@ export function Img2ImgSubPills() {
           onClick={() => onPick(p.id)}
           className={cn("gap-1.5")}
         >
-          <p.Icon className="h-4 w-4" />
+          <Icon name={p.iconName} className="h-4 w-4" />
           {t(p.i18nKey as Parameters<typeof t>[0])}
         </Button>
       ))}

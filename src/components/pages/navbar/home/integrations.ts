@@ -4,7 +4,6 @@ import Claude from "@lobehub/icons/es/Claude";
 import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import type { ComponentType } from "react";
-import { LuHeart } from "react-icons/lu";
 
 export type IntegrationIcon = ComponentType<{
   className?: string;
@@ -34,7 +33,7 @@ export type IntegrationColor =
 export type IntegrationEntry = {
   key: IntegrationKey;
   href: LinkHref;
-  icon: IntegrationIcon;
+  icon?: IntegrationIcon;
   logoSrc?: string;
   logoBg?: boolean;
   badge: string;
@@ -78,7 +77,7 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "openclaw",
     href: "/docs/openclaw",
-    icon: LuHeart,
+    // icon omitted - logoSrc is used
     logoSrc: "/icons/openclaw.svg",
     badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
@@ -92,7 +91,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "sillytavern",
     href: "/docs/sillytavern",
-    icon: LuHeart,
+    // icon omitted - logoSrc is used
     logoSrc: "/icons/sillytavern.png",
     badge: "SillyTavern",
     titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
@@ -103,7 +102,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "janitor-ai",
     href: "/docs/janitor-ai",
-    icon: LuHeart,
+    // icon omitted - logoSrc is used
     logoSrc: "/icons/janitor-ai.png",
     badge: "Janitor.AI",
     titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
@@ -114,7 +113,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "risuai",
     href: "/docs/risuai",
-    icon: LuHeart,
+    // icon omitted - logoSrc is used
     logoSrc: "/icons/risuai.png",
     badge: "RisuAI",
     titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
@@ -125,7 +124,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "chub",
     href: "/docs/chub",
-    icon: LuHeart,
+    // icon omitted - logoSrc is used
     logoSrc: "/icons/chub-ai.png",
     logoBg: true,
     badge: "Chub / Venus",

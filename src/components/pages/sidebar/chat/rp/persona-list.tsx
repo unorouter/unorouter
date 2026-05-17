@@ -1,32 +1,19 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { Icon } from "@/components/ui/icon";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useCreatePersonaMutation,
-  useDeletePersonaMutation,
-  useImportPersonaMutation,
-  usePersonasQuery,
-  useUpdatePersonaMutation,
-} from "@/hooks/rp-hook";
+  useCreatePersonaMutation, useDeletePersonaMutation, useImportPersonaMutation, usePersonasQuery, useUpdatePersonaMutation, } from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
@@ -35,8 +22,6 @@ import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { LuPlus, LuTrash2, LuUpload } from "react-icons/lu";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -143,7 +128,7 @@ export function PersonaList(props: Props) {
                 disabled={importMut.isPending}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
-                <LuUpload className="size-4" />
+                <Icon name="upload" className="size-4" />
                 <span className="truncate">{t("RP.PERSONAS_IMPORT")}</span>
               </Button>
               <Button
@@ -156,7 +141,7 @@ export function PersonaList(props: Props) {
                 }}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
-                <LuPlus className="size-4" />
+                <Icon name="plus" className="size-4" />
                 <span className="truncate">{t("RP.PERSONAS_NEW")}</span>
               </Button>
             </div>
@@ -258,7 +243,7 @@ export function PersonaList(props: Props) {
                         handleDelete(p.id);
                       }}
                     >
-                      <LuTrash2 className="size-4" />
+                      <Icon name="trash-2" className="size-4" />
                     </Button>
                   </Card>
                 ))}

@@ -128,7 +128,7 @@ GOOGLE_GEMINI_BASE_URL=${env.apiUrl}`;
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.GEMINI_CLI.BADGE")}
-          badgeIcon={Gemini}
+          badgeIconComponent={Gemini}
           title={t("DOCS.GEMINI_CLI.TITLE")}
           subtitle={t("DOCS.GEMINI_CLI.SUBTITLE", APP_VALUES)}
           centered

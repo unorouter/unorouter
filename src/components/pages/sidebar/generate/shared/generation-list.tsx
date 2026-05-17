@@ -5,13 +5,13 @@ import {
   SidebarGroupContent,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSessionHistoryQuery } from "@/hooks/generation-hook";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { LuPlus } from "react-icons/lu";
 
 // Sidebar rail: a "new session" entry at the top, then the user's recent
 // sessions as small thumbnail tiles. Selecting a tile navigates to
@@ -42,7 +42,7 @@ export function GenerationList() {
             href="/generate"
             className="border-input hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-full items-center justify-start rounded-md border bg-transparent px-3 text-sm font-medium"
           >
-            <LuPlus className="mr-2 h-3.5 w-3.5" />
+            <Icon name="plus" className="mr-2 h-3.5 w-3.5" />
             {t("IMAGE.NEW_SESSION")}
           </Link>
         </SidebarGroupContent>

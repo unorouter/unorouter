@@ -4,18 +4,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { useTranslations } from "next-intl";
-import {
-  LuActivity,
-  LuBinary,
-  LuDollarSign,
-  LuGauge,
-  LuHash,
-  LuSend,
-  LuTrendingDown,
-  LuWallet,
-} from "react-icons/lu";
 import { Line, LineChart, ResponsiveContainer } from "recharts";
 import { processQuotaData, renderQuota } from "./stats";
+import { Icon } from "@/components/ui/icon";
 
 function Sparkline(props: { data: number[]; color: string }) {
   if (props.data.length < 2) return null;
@@ -114,14 +105,14 @@ export function StatsCards() {
         {
           label: t("DASHBOARD.STATS.CURRENT_BALANCE"),
           value: renderQuota(user?.quota),
-          icon: <LuWallet className="h-4 w-4" />,
+          icon: <Icon name="wallet" className="h-4 w-4" />,
           isLoading: !user,
           accentColor: "var(--chart-2)",
         },
         {
           label: t("DASHBOARD.CONSUMPTION"),
           value: renderQuota(user?.used_quota),
-          icon: <LuTrendingDown className="h-4 w-4" />,
+          icon: <Icon name="trending-down" className="h-4 w-4" />,
           isLoading: !user,
           accentColor: "var(--chart-3)",
         },
@@ -133,14 +124,14 @@ export function StatsCards() {
         {
           label: t("DASHBOARD.STATS.REQUEST_COUNT"),
           value: user?.request_count,
-          icon: <LuSend className="h-4 w-4" />,
+          icon: <Icon name="send" className="h-4 w-4" />,
           isLoading: !user,
           accentColor: "var(--chart-1)",
         },
         {
           label: t("DASHBOARD.STATS.STATISTICAL_COUNT"),
           value: stats.totalCount,
-          icon: <LuHash className="h-4 w-4" />,
+          icon: <Icon name="hash" className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
           accentColor: "var(--chart-4)",
           trendData: stats.trends.count,
@@ -154,7 +145,7 @@ export function StatsCards() {
         {
           label: t("DASHBOARD.STATS.STATISTICAL_QUOTA"),
           value: renderQuota(stats.totalQuota),
-          icon: <LuDollarSign className="h-4 w-4" />,
+          icon: <Icon name="dollar-sign" className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
           accentColor: "var(--chart-5)",
           trendData: stats.trends.quota,
@@ -163,7 +154,7 @@ export function StatsCards() {
         {
           label: t("DASHBOARD.STATS.STATISTICAL_TOKENS"),
           value: stats.totalTokens,
-          icon: <LuBinary className="h-4 w-4" />,
+          icon: <Icon name="binary" className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
           accentColor: "var(--chart-1)",
           trendData: stats.trends.tokens,
@@ -177,7 +168,7 @@ export function StatsCards() {
         {
           label: t("DASHBOARD.STATS.AVERAGE_RPM"),
           value: stats.avgRpm.toFixed(1),
-          icon: <LuGauge className="h-4 w-4" />,
+          icon: <Icon name="gauge" className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
           accentColor: "var(--chart-2)",
           trendData: stats.trends.rpm,
@@ -186,7 +177,7 @@ export function StatsCards() {
         {
           label: t("DASHBOARD.STATS.AVERAGE_TPM"),
           value: stats.avgTpm.toFixed(1),
-          icon: <LuActivity className="h-4 w-4" />,
+          icon: <Icon name="activity" className="h-4 w-4" />,
           isLoading: !quotaQuery.data,
           accentColor: "var(--chart-4)",
           trendData: stats.trends.tpm,

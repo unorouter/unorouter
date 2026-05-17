@@ -1,12 +1,12 @@
 "use client";
 
-import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { Icon } from "@/components/ui/icon";
 
 export type AdvancedSettingsPatch = {
   clipSkip?: number;
@@ -34,9 +34,9 @@ export function AdvancedSettingsAccordion(props: Props) {
         className="flex w-full items-center gap-2 px-3 py-2 text-sm font-medium"
       >
         {open ? (
-          <LuChevronDown className="h-4 w-4" />
+          <Icon name="chevron-down" className="h-4 w-4" />
         ) : (
-          <LuChevronRight className="h-4 w-4" />
+          <Icon name="chevron-right" className="h-4 w-4" />
         )}
         {t("IMAGE.ADVANCED_SETTINGS")}
       </button>

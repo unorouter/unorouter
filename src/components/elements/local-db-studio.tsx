@@ -12,23 +12,17 @@
 // ---------------------------------------------------------------------------
 
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { getLocalDb } from "@/lib/local-db/client";
 import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Sheet, SheetContent, SheetTitle, } from "@/components/ui/sheet";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { LuDownload, LuTrash2, LuUpload } from "react-icons/lu";
 import { toast } from "sonner";
 
 type Props = {
@@ -109,7 +103,7 @@ export function LocalDbStudio(props: Props) {
                   onClick={handleWipe}
                   className="size-7"
                 >
-                  <LuTrash2 className="size-3" />
+                  <Icon name="trash-2" className="size-3" />
                 </Button>
               }
             />
@@ -127,7 +121,7 @@ export function LocalDbStudio(props: Props) {
                   onClick={handleDownload}
                   className="size-7"
                 >
-                  <LuDownload className="size-3" />
+                  <Icon name="download" className="size-3" />
                 </Button>
               }
             />
@@ -145,7 +139,7 @@ export function LocalDbStudio(props: Props) {
                   onClick={() => uploadInputRef.current?.click()}
                   className="size-7"
                 >
-                  <LuUpload className="size-3" />
+                  <Icon name="upload" className="size-3" />
                 </Button>
               }
             />

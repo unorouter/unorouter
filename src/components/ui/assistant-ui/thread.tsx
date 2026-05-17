@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  ComposerAddAttachment,
-  ComposerAttachments,
-  UserMessageAttachments,
-} from "@/components/ui/assistant-ui/attachment";
+import { ComposerAddAttachment, ComposerAttachments, UserMessageAttachments, } from "@/components/ui/assistant-ui/attachment";
+import { Icon } from "@/components/ui/icon";
 import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
 import {
-  Reasoning,
-  ReasoningGroup,
-} from "@/components/ui/assistant-ui/reasoning";
+  Reasoning, ReasoningGroup, } from "@/components/ui/assistant-ui/reasoning";
 import { TaskCardRenderer } from "@/components/ui/assistant-ui/task-card";
 import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
@@ -18,10 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  useDeleteMessageMutation,
-  useEditMessageMutation,
-  useSetActiveBranchMutation,
-} from "@/hooks/chat-hook";
+  useDeleteMessageMutation, useEditMessageMutation, useSetActiveBranchMutation, } from "@/hooks/chat-hook";
 import { partsToItems } from "@/lib/types/chat";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
@@ -29,47 +21,17 @@ import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import {
-  chatModelAtom,
-  chatWebSearchAtom,
-  getChatHelpers,
-  getConvId,
-} from "@/store/chat-store";
+  chatModelAtom, chatWebSearchAtom, getChatHelpers, getConvId, } from "@/store/chat-store";
 import { Textarea } from "@/components/ui/textarea";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
-  ActionBarPrimitive,
-  AuiIf,
-  BranchPickerPrimitive,
-  ComposerPrimitive,
-  MessagePrimitive,
-  SuggestionPrimitive,
-  ThreadPrimitive,
-  useAuiState,
-} from "@assistant-ui/react";
+  ActionBarPrimitive, AuiIf, BranchPickerPrimitive, ComposerPrimitive, MessagePrimitive, SuggestionPrimitive, ThreadPrimitive, useAuiState, } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  CheckIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  CopyIcon,
-  PencilIcon,
-  RefreshCwIcon,
-  SquareIcon,
-  Trash2Icon,
-} from "lucide-react";
+  ArrowDownIcon, ArrowUpIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon, CopyIcon, PencilIcon, RefreshCwIcon, SquareIcon, Trash2Icon, } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
-  createContext,
-  type FC,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { LuGlobe, LuGlobeLock, LuMessageCircle } from "react-icons/lu";
-
+  createContext, type FC, useContext, useEffect, useRef, useState, } from "react";
 const ReadOnlyContext = createContext(false);
 
 /**
@@ -148,7 +110,7 @@ const ThreadWelcome: FC = () => {
       <div className="aui-thread-welcome-center flex w-full grow flex-col items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-            <LuMessageCircle className="text-muted-foreground h-8 w-8" />
+            <Icon name="message-circle" className="text-muted-foreground h-8 w-8" />
           </div>
           <div className="text-center">
             <h1 className="text-foreground text-lg font-semibold">
@@ -233,9 +195,9 @@ const ComposerWebSearchToggle: FC = () => {
       }}
     >
       {webSearch ? (
-        <LuGlobe className="size-4" />
+        <Icon name="globe" className="size-4" />
       ) : (
-        <LuGlobeLock className="size-4" />
+        <Icon name="globe-lock" className="size-4" />
       )}
     </TooltipIconButton>
   );

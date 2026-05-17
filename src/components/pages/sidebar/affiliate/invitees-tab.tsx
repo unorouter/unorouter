@@ -9,7 +9,7 @@ import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { LuUsers } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 export function InviteesTab() {
   const t = useTranslations();
@@ -88,7 +88,7 @@ export function InviteesTab() {
       isLoading={inviteesQuery.isLoading}
       emptyState={
         <div className="flex flex-col items-center gap-2">
-          <LuUsers className="text-muted-foreground h-6 w-6" />
+          <Icon name="users" className="text-muted-foreground h-6 w-6" />
           <span className="text-muted-foreground text-sm">
             {t("AFFILIATE.NO_INVITEES")}
           </span>

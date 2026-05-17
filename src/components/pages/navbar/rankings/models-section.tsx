@@ -6,6 +6,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
+import { Icon } from "@/components/ui/icon";
 import type {
   ModelHistorySeries,
   RankedModel,
@@ -13,7 +14,6 @@ import type {
 } from "@/lib/api/typebox/rankings";
 import { modelColor } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-import { LuChartColumn, LuTrophy } from "react-icons/lu";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { formatTokens } from "./format";
 import { ModelLeaderboard } from "./model-leaderboard";
@@ -55,7 +55,7 @@ export function ModelsSection(props: ModelsSectionProps) {
       <header className="flex items-start justify-between gap-4 px-5 py-4">
         <div className="min-w-0 flex-1">
           <h2 className="text-foreground inline-flex items-center gap-2 text-base font-semibold">
-            <LuChartColumn className="text-primary size-4" />
+            <Icon name="chart-column" className="text-primary size-4" />
             {t("RANKINGS.MODELS.TITLE")}
           </h2>
           <p className="text-muted-foreground mt-1 text-sm">
@@ -129,7 +129,7 @@ export function ModelsSection(props: ModelsSectionProps) {
       <div className="border-t">
         <header className="px-5 pt-4 pb-2">
           <h3 className="text-foreground inline-flex items-center gap-2 text-sm font-semibold">
-            <LuTrophy className="size-3.5 text-amber-500" />
+            <Icon name="trophy" className="size-3.5 text-amber-500" />
             {t("RANKINGS.MODELS.LEADERBOARD_TITLE")}
           </h3>
           <p className="text-muted-foreground/80 mt-0.5 text-xs">

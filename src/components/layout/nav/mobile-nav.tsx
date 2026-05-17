@@ -1,6 +1,7 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
+import { Icon } from "@/components/ui/icon";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import {
@@ -17,7 +18,6 @@ import { navigationAtom, toggleNavigationAtom } from "@/store/navigation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { Fragment, useState } from "react";
-import { LuChevronRight, LuMenu } from "react-icons/lu";
 import { isActiveLink, NavigationItem, navigation } from "./navigation";
 
 export function MobileNav() {
@@ -36,7 +36,7 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={<button className="text-foreground md:hidden" />}>
-        <LuMenu className="h-5 w-5" />
+        <Icon name="menu" className="h-5 w-5" />
         <span className="sr-only">Menu</span>
       </SheetTrigger>
       <SheetContent side="left" className="flex w-80 flex-col font-mono">
@@ -79,7 +79,8 @@ export function MobileNav() {
                       : "text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  {item.icon && <item.icon className="h-4 w-4" />}
+                  {item.iconName && <Icon name={item.iconName} className="h-4 w-4" />}
+                  {item.iconComponent && <item.iconComponent className="h-4 w-4" />}
                   {t(item.name)}
                 </Link>
               );
@@ -121,7 +122,8 @@ function CollapsibleNavItem(props: {
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {props.item.icon && <props.item.icon className="h-4 w-4" />}
+          {props.item.iconName && <Icon name={props.item.iconName} className="h-4 w-4" />}
+          {props.item.iconComponent && <props.item.iconComponent className="h-4 w-4" />}
           {t(props.item.name)}
         </Link>
         <button
@@ -129,7 +131,7 @@ function CollapsibleNavItem(props: {
           onClick={() => toggleNavigation(props.item.name)}
           className="hover:bg-foreground/5 flex size-8 items-center justify-center rounded-md transition-colors"
         >
-          <LuChevronRight
+          <Icon name="chevron-right"
             className={cn(
               "size-4 transition-transform duration-200",
               isExpanded && "rotate-90",
@@ -172,7 +174,8 @@ function CollapsibleNavItem(props: {
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    {subItem.icon && <subItem.icon className="h-3 w-3" />}
+                    {subItem.iconName && <Icon name={subItem.iconName} className="h-3 w-3" />}
+                    {subItem.iconComponent && <subItem.iconComponent className="h-3 w-3" />}
                     {t(subItem.name)}
                   </Link>
                 </li>

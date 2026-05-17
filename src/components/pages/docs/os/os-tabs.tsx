@@ -5,8 +5,8 @@ import { useApiKey } from "@/hooks/ui/use-api-key";
 import { analytics } from "@/lib/analytics";
 import { OS } from "@/lib/types/enums";
 import type { ReactNode } from "react";
-import { FaApple, FaLinux, FaWindows } from "react-icons/fa";
 
+import { Icon } from "@/components/ui/icon";
 interface OSTabsProps {
   windowsContent: ReactNode;
   macosContent: ReactNode;
@@ -32,15 +32,15 @@ export function OSTabs(props: OSTabsProps) {
     >
       <TabsList variant="line">
         <TabsTrigger value={OS.WINDOWS}>
-          <FaWindows className="size-3.5" />
+          <Icon name="brand-windows" className="size-3.5" />
           {props.labels.windows}
         </TabsTrigger>
         <TabsTrigger value={OS.MACOS}>
-          <FaApple className="size-3.5" />
+          <Icon name="brand-apple" className="size-3.5" />
           {props.labels.macos}
         </TabsTrigger>
         <TabsTrigger value={OS.LINUX}>
-          <FaLinux className="size-3.5" />
+          <Icon name="brand-linux" className="size-3.5" />
           {props.labels.linux}
         </TabsTrigger>
       </TabsList>

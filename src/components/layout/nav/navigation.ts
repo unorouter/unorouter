@@ -1,39 +1,22 @@
 import type { LinkHref } from "@/i18n/routing";
 import { TranslationKey } from "@/lib/config/constants";
+import type { IconName } from "@/lib/config/icon-map";
 import Claude from "@lobehub/icons/es/Claude";
 import Gemini from "@lobehub/icons/es/Gemini";
 import OpenAI from "@lobehub/icons/es/OpenAI";
 import type { ComponentType } from "react";
-import { GiBroom, GiCrabClaw, GiFox } from "react-icons/gi";
-import {
-  LuArrowLeftRight,
-  LuBookOpen,
-  LuChartColumnBig,
-  LuDollarSign,
-  LuDrama,
-  LuGift,
-  LuHeart,
-  LuHouse,
-  LuKey,
-  LuLayers,
-  LuLayoutDashboard,
-  LuMessageCircle,
-  LuNewspaper,
-  LuScrollText,
-  LuSettings,
-  LuWallet,
-  LuWand,
-} from "react-icons/lu";
 
 export type NavigationItem = {
   name: TranslationKey;
   href: LinkHref;
-  icon?: ComponentType<{ className?: string }>;
+  /** Icon name from the central registry. */
+  iconName?: IconName;
+  /** Vendor brand component (Claude/Gemini/OpenAI) - rendered as-is. */
+  iconComponent?: ComponentType<{ className?: string }>;
   hidden?: boolean;
   exact?: boolean;
   onClick?: (e: React.MouseEvent) => void;
   submenu?: NavigationItem[];
-  /** Optional group label shown above this item when it differs from the previous item's group. */
   group?: TranslationKey;
 };
 
@@ -56,118 +39,118 @@ export const isActiveLink = (
 };
 
 export const navigation = (authenticated?: boolean): NavigationItem[] => [
-  { name: "NAV.HOME", href: "/", icon: LuHouse, hidden: true },
+  { name: "NAV.HOME", href: "/", iconName: "house", hidden: true },
   {
     name: "NAV.DASHBOARD",
     href: "/dashboard",
-    icon: LuLayoutDashboard,
+    iconName: "layout-dashboard",
     hidden: !authenticated,
   },
-  { name: "NAV.MODELS", href: "/models", icon: LuLayers },
-  { name: "NAV.RANKINGS", href: "/rankings", icon: LuChartColumnBig },
-  { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
-  { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle, exact: true },
+  { name: "NAV.MODELS", href: "/models", iconName: "layers" },
+  { name: "NAV.RANKINGS", href: "/rankings", iconName: "chart-column-big" },
+  { name: "NAV.PRICING", href: "/pricing", iconName: "dollar-sign" },
+  { name: "NAV.CHAT", href: "/chat", iconName: "message-circle", exact: true },
   {
     name: "NAV.PLAYGROUND",
     href: "/generate",
-    icon: LuWand,
+    iconName: "wand",
     exact: true,
     hidden: true,
   },
   {
     name: "NAV.DOCS",
     href: "/docs",
-    icon: LuBookOpen,
+    iconName: "book-open",
     exact: true,
     submenu: [
       {
         name: "NAV.CC_SWITCH",
         href: "/docs/cc-switch",
-        icon: LuArrowLeftRight,
+        iconName: "arrow-left-right",
         group: "NAV.GROUP_CLI",
       },
       {
         name: "NAV.OPENCLAW",
         href: "/docs/openclaw",
-        icon: GiCrabClaw,
+        iconName: "crab-claw",
         group: "NAV.GROUP_CLI",
       },
       {
         name: "NAV.CLAUDE_CODE",
         href: "/docs/claude-code",
-        icon: Claude,
+        iconComponent: Claude,
         group: "NAV.GROUP_CLI",
       },
       {
         name: "NAV.CODEX",
         href: "/docs/codex",
-        icon: OpenAI,
+        iconComponent: OpenAI,
         group: "NAV.GROUP_CLI",
       },
       {
         name: "NAV.GEMINI_CLI",
         href: "/docs/gemini-cli",
-        icon: Gemini,
+        iconComponent: Gemini,
         group: "NAV.GROUP_CLI",
       },
       {
         name: "NAV.SILLYTAVERN",
         href: "/docs/sillytavern",
-        icon: LuDrama,
+        iconName: "drama",
         group: "NAV.GROUP_ROLEPLAY",
       },
       {
         name: "NAV.JANITOR_AI",
         href: "/docs/janitor-ai",
-        icon: GiBroom,
+        iconName: "broom",
         group: "NAV.GROUP_ROLEPLAY",
       },
       {
         name: "NAV.RISUAI",
         href: "/docs/risuai",
-        icon: GiFox,
+        iconName: "fox",
         group: "NAV.GROUP_ROLEPLAY",
       },
       {
         name: "NAV.CHUB",
         href: "/docs/chub",
-        icon: LuHeart,
+        iconName: "heart",
         group: "NAV.GROUP_ROLEPLAY",
       },
     ],
   },
-  { name: "NAV.BLOG", href: "/blog", icon: LuNewspaper },
+  { name: "NAV.BLOG", href: "/blog", iconName: "newspaper" },
 ];
 
 export const sidebarNavigation = (): NavigationItem[] => [
   {
     name: "SIDEBAR.DASHBOARD",
     href: "/dashboard",
-    icon: LuLayoutDashboard,
+    iconName: "layout-dashboard",
   },
   {
     name: "SIDEBAR.TOKENS",
     href: "/token",
-    icon: LuKey,
+    iconName: "key",
   },
   {
     name: "SIDEBAR.LOGS",
     href: "/logs",
-    icon: LuScrollText,
+    iconName: "scroll-text",
   },
   {
     name: "SIDEBAR.BILLING",
     href: "/billing",
-    icon: LuWallet,
+    iconName: "wallet",
   },
   {
     name: "SIDEBAR.AFFILIATE",
     href: "/affiliate",
-    icon: LuGift,
+    iconName: "gift",
   },
   {
     name: "SIDEBAR.SETTINGS",
     href: "/settings",
-    icon: LuSettings,
+    iconName: "settings",
   },
 ];

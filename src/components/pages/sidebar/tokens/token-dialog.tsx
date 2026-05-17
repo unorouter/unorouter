@@ -1,41 +1,22 @@
 "use client";
 
 import { MyFormError } from "@/components/elements/form/my-form-error";
+import { Icon } from "@/components/ui/icon";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  useCreateTokenMutation,
-  useDeleteTokenMutation,
-  useFetchTokenKeyMutation,
-  useToggleTokenStatusMutation,
-  useUpdateTokenMutation,
-} from "@/hooks/token-hook";
+  useCreateTokenMutation, useDeleteTokenMutation, useFetchTokenKeyMutation, useToggleTokenStatusMutation, useUpdateTokenMutation, } from "@/hooks/token-hook";
 import { analytics } from "@/lib/analytics";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
@@ -45,16 +26,6 @@ import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import {
-  LuCheck,
-  LuGlobe,
-  LuPlus,
-  LuPower,
-  LuPowerOff,
-  LuShield,
-  LuTrash2,
-  LuWallet,
-} from "react-icons/lu";
 import { toast } from "sonner";
 import type { TokenRow } from "./token-columns";
 import { TokenKeyDisplay } from "./token-key-display";
@@ -342,7 +313,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <LuWallet className="text-muted-foreground h-4 w-4" />
+                  <Icon name="wallet" className="text-muted-foreground h-4 w-4" />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                     {t("TOKEN.FORM.QUOTA")}
                   </span>
@@ -452,7 +423,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <LuShield className="text-muted-foreground h-4 w-4" />
+                  <Icon name="shield" className="text-muted-foreground h-4 w-4" />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                     {t("TOKEN.FORM.MODEL_LIMITS")}
                   </span>
@@ -481,7 +452,7 @@ export function TokenDialog(props: TokenDialogProps) {
 
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <LuGlobe className="text-muted-foreground h-4 w-4" />
+                  <Icon name="globe" className="text-muted-foreground h-4 w-4" />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                     {t("TOKEN.FORM.IP_WHITELIST")}
                   </span>
@@ -529,9 +500,9 @@ export function TokenDialog(props: TokenDialogProps) {
                         }
                       >
                         {isEnabled ? (
-                          <LuPowerOff className="h-4 w-4" />
+                          <Icon name="power-off" className="h-4 w-4" />
                         ) : (
-                          <LuPower className="h-4 w-4" />
+                          <Icon name="power" className="h-4 w-4" />
                         )}
                       </TooltipTrigger>
                       <TooltipContent>
@@ -554,7 +525,7 @@ export function TokenDialog(props: TokenDialogProps) {
                           />
                         }
                       >
-                        <LuTrash2 className="h-4 w-4" />
+                        <Icon name="trash-2" className="h-4 w-4" />
                       </TooltipTrigger>
                       <TooltipContent>
                         {t("TOKEN.DELETE.BUTTON")}
@@ -575,9 +546,9 @@ export function TokenDialog(props: TokenDialogProps) {
                 </Button>
                 <Button type="submit" disabled={isPending}>
                   {isEdit ? (
-                    <LuCheck data-icon="inline-start" className="h-4 w-4" />
+                    <Icon name="check" data-icon="inline-start" className="h-4 w-4" />
                   ) : (
-                    <LuPlus data-icon="inline-start" className="h-4 w-4" />
+                    <Icon name="plus" data-icon="inline-start" className="h-4 w-4" />
                   )}
                   {isEdit ? t("TOKEN.FORM.SAVE") : t("TOKEN.FORM.SUBMIT")}
                 </Button>

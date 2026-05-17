@@ -1,15 +1,12 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  useRemoveSyncMutation,
-  useSyncMutation,
-  useSyncStateForRow,
-} from "@/hooks/sync-hook";
+  useRemoveSyncMutation, useSyncMutation, useSyncStateForRow, } from "@/hooks/sync-hook";
 import type { SyncKindName } from "@/lib/validation/sync";
 import { useLocale, useTranslations } from "next-intl";
-import { LuCloudOff, LuCloudUpload, LuRefreshCcw } from "react-icons/lu";
 
 type Props = {
   kind: SyncKindName;
@@ -61,7 +58,7 @@ export function SyncBadge(props: Props) {
       <div className="flex items-center gap-2">
         {props.compact ? null : (
           <Badge variant="outline" className="gap-1">
-            <LuCloudOff className="size-3" />
+            <Icon name="cloud-off" className="size-3" />
             {t("SYNC.NOT_SYNCED")}
           </Badge>
         )}
@@ -71,7 +68,7 @@ export function SyncBadge(props: Props) {
           onClick={onSync}
           disabled={syncMut.isPending}
         >
-          <LuCloudUpload className="size-3.5" />
+          <Icon name="cloud-upload" className="size-3.5" />
           {props.compact ? null : t("SYNC.ADD_SYNC")}
         </Button>
       </div>
@@ -81,7 +78,7 @@ export function SyncBadge(props: Props) {
   return (
     <div className="flex items-center gap-2">
       <Badge variant="default" className="gap-1 bg-success/15 text-success">
-        <LuCloudUpload className="size-3" />
+        <Icon name="cloud-upload" className="size-3" />
         {expiresAt
           ? t("SYNC.EXPIRES_AT", { date: expiresAt })
           : t("SYNC.SYNCED")}
@@ -93,7 +90,7 @@ export function SyncBadge(props: Props) {
         disabled={syncMut.isPending}
         title={t("SYNC.RESYNC")}
       >
-        <LuRefreshCcw className="size-3.5" />
+        <Icon name="refresh-ccw" className="size-3.5" />
         {props.compact ? null : t("SYNC.RESYNC")}
       </Button>
       <Button
@@ -104,7 +101,7 @@ export function SyncBadge(props: Props) {
         title={t("SYNC.REMOVE_SYNC")}
         className="text-destructive"
       >
-        <LuCloudOff className="size-3.5" />
+        <Icon name="cloud-off" className="size-3.5" />
         {props.compact ? null : t("SYNC.REMOVE_SYNC")}
       </Button>
     </div>

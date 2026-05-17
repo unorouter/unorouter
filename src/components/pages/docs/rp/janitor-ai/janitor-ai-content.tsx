@@ -9,7 +9,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { GiBroom } from "react-icons/gi";
 import { getDocsApiKey } from "@/lib/utils/server";
 
 export async function JanitorAIContent() {
@@ -107,7 +106,7 @@ ${t("DOCS.JANITOR_AI.QUICK_CONFIG_MODEL_LABEL")}: ${docs.topTextModel}`;
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.JANITOR_AI.BADGE")}
-          badgeIcon={GiBroom}
+          badgeIcon="broom"
           title={t("DOCS.JANITOR_AI.TITLE")}
           subtitle={t("DOCS.JANITOR_AI.SUBTITLE", APP_VALUES)}
           centered

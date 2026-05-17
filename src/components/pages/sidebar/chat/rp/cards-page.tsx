@@ -1,33 +1,18 @@
 "use client";
 
 import { RpLoginGate } from "@/components/pages/sidebar/chat/rp/rp-login-gate";
+import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useApplyCardMutation,
-  useCardsQuery,
-  useDeleteCardMutation,
-} from "@/hooks/rp-hook";
+  useApplyCardMutation, useCardsQuery, useDeleteCardMutation, } from "@/hooks/rp-hook";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  LuArrowLeft,
-  LuDownload,
-  LuPlay,
-  LuPlus,
-  LuTrash2,
-} from "react-icons/lu";
 import { toast } from "sonner";
 import { CardForm } from "./card-form";
 
@@ -104,13 +89,13 @@ export function CardsPage() {
         </div>
         {!editingId && (
           <Button onClick={() => setEditingId("new")}>
-            <LuPlus className="mr-2 size-4" />
+            <Icon name="plus" className="mr-2 size-4" />
             {t("RP.CARDS_NEW")}
           </Button>
         )}
         {editingId && (
           <Button variant="ghost" onClick={() => setEditingId(null)}>
-            <LuArrowLeft className="mr-2 size-4" />
+            <Icon name="arrow-left" className="mr-2 size-4" />
             {t("RP.CARDS_BACK")}
           </Button>
         )}
@@ -156,7 +141,7 @@ export function CardsPage() {
                   setApplyTarget({ cardId: c.id, cardName: c.name });
                 }}
               >
-                <LuPlay className="size-4" />
+                <Icon name="play" className="size-4" />
               </Button>
               <Button
                 variant="ghost"
@@ -167,7 +152,7 @@ export function CardsPage() {
                   void handleExport(c.id);
                 }}
               >
-                <LuDownload className="size-4" />
+                <Icon name="download" className="size-4" />
               </Button>
               <Button
                 variant="ghost"
@@ -177,7 +162,7 @@ export function CardsPage() {
                   void handleDelete(c.id);
                 }}
               >
-                <LuTrash2 className="size-4" />
+                <Icon name="trash-2" className="size-4" />
               </Button>
             </Card>
           ))}

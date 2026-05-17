@@ -1,43 +1,24 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/sync-badge";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import {
-  useCharactersQuery,
-  useCreateCharacterMutation,
-  useDeleteCharacterMutation,
-  useImportCharacterCardMutation,
-  useUpdateCharacterMutation,
-} from "@/hooks/rp-hook";
+  useCharactersQuery, useCreateCharacterMutation, useDeleteCharacterMutation, useImportCharacterCardMutation, useUpdateCharacterMutation, } from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
 import {
-  characterFormSchema,
-  type CharacterForm,
-} from "@/lib/validation/rp-forms";
+  characterFormSchema, type CharacterForm, } from "@/lib/validation/rp-forms";
 import { analytics } from "@/lib/analytics";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
@@ -45,14 +26,6 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  LuArrowLeft,
-  LuDownload,
-  LuPlus,
-  LuTrash2,
-  LuUpload,
-} from "react-icons/lu";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -129,7 +102,7 @@ export function CharacterList(props: Props) {
                 size="icon-sm"
                 onClick={() => setView({ mode: "list" })}
               >
-                <LuArrowLeft className="size-4" />
+                <Icon name="arrow-left" className="size-4" />
               </Button>
             )}
             {view.mode === "list"
@@ -164,7 +137,7 @@ export function CharacterList(props: Props) {
                 disabled={importMut.isPending}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
-                <LuUpload className="size-4" />
+                <Icon name="upload" className="size-4" />
                 <span className="truncate">{t("RP.CHARACTERS_IMPORT")}</span>
               </Button>
               <Button
@@ -177,7 +150,7 @@ export function CharacterList(props: Props) {
                 }}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
-                <LuPlus className="size-4" />
+                <Icon name="plus" className="size-4" />
                 <span className="truncate">{t("RP.CHARACTERS_NEW")}</span>
               </Button>
             </div>
@@ -238,7 +211,7 @@ export function CharacterList(props: Props) {
                         />
                       }
                     >
-                      <LuDownload className="size-4" />
+                      <Icon name="download" className="size-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="end"
@@ -274,7 +247,7 @@ export function CharacterList(props: Props) {
                       });
                     }}
                   >
-                    <LuTrash2 className="size-4" />
+                    <Icon name="trash-2" className="size-4" />
                   </Button>
                 </Card>
               ))}

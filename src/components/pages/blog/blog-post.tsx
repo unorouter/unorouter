@@ -1,4 +1,5 @@
 import { TOCLayout } from "@/components/layout/docs/toc";
+import { Icon } from "@/components/ui/icon";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Badge } from "@/components/ui/badge";
 import { TypographicSmokeLazy } from "@/components/ui/fluid-smoke/typographic-smoke-lazy";
@@ -12,7 +13,7 @@ import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { LuArrowLeft } from "react-icons/lu";
+
 import {
   getAdjacentPosts,
   getPost,
@@ -63,7 +64,7 @@ export async function BlogPost(props: BlogPostProps) {
               href="/blog"
               className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-sm transition-colors"
             >
-              <LuArrowLeft className="h-4 w-4" />
+              <Icon name="arrow-left" className="h-4 w-4" />
               {t("BLOG.BACK_TO_BLOG")}
             </Link>
           </nav>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Icon } from "@/components/ui/icon";
 import { useRef, useState } from "react";
-import { LuPlus, LuTrash, LuUpload } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -85,13 +85,13 @@ export function ControlNetModal(props: Props) {
               variant="outline"
               onClick={onRemove}
             >
-              <LuTrash className="mr-1 h-4 w-4" />
+              <Icon name="trash" className="mr-1 h-4 w-4" />
               {t("IMAGE.DELETE")}
             </Button>
           )}
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-8 items-center justify-center rounded-md px-3 text-xs font-medium">
-              <LuPlus className="mr-1 h-4 w-4" />
+              <Icon name="plus" className="mr-1 h-4 w-4" />
               {hasValue ? t("IMAGE.EDIT") : t("IMAGE.CONTROLNET_ADD")}
             </DialogTrigger>
             <DialogContent className="max-w-md">
@@ -143,7 +143,7 @@ export function ControlNetModal(props: Props) {
                         onClick={() => setImageUrl("")}
                         className="absolute top-2 right-2"
                       >
-                        <LuTrash className="h-3 w-3" />
+                        <Icon name="trash" className="h-3 w-3" />
                       </Button>
                     </div>
                   ) : (
@@ -153,7 +153,7 @@ export function ControlNetModal(props: Props) {
                       disabled={upload.isPending}
                       className="border-border hover:bg-accent flex h-32 w-full items-center justify-center rounded-md border border-dashed text-sm"
                     >
-                      <LuUpload className="mr-2 h-4 w-4" />
+                      <Icon name="upload" className="mr-2 h-4 w-4" />
                       {upload.isPending
                         ? t("IMAGE.UPLOADING")
                         : t("IMAGE.UPLOAD_IMAGE")}

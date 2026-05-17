@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,
@@ -11,7 +12,6 @@ import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { createContext, useContext } from "react";
-import { LuImage } from "react-icons/lu";
 import { toast } from "sonner";
 import {
   formatMjDuration,
@@ -165,7 +165,7 @@ export function DrawingImageCell({ row }: CellContext<DrawingRow, unknown>) {
       className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1 text-xs"
       onClick={() => ctx?.openImage(log)}
     >
-      <LuImage className="size-3.5" />
+      <Icon name="image" className="size-3.5" />
       {t("LOGS.DRAWING.VIEW")}
     </button>
   );

@@ -5,7 +5,7 @@ import { getAllPostsSorted, translated } from "@/components/pages/blog/posts";
 import { cn } from "@/lib/utils";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { LuRss } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 export async function Blog() {
   const locale = await serverLocale();
@@ -61,7 +61,7 @@ export async function Blog() {
               href={`/${locale}/blog/feed.xml`}
               className="hover:text-foreground inline-flex items-center gap-1 transition-colors"
             >
-              <LuRss className="h-3 w-3" />
+              <Icon name="rss" className="h-3 w-3" />
               {t("BLOG.RSS_LINK")}
             </a>
           </div>

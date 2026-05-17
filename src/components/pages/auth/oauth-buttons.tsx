@@ -9,8 +9,8 @@ import { analytics } from "@/lib/analytics";
 import { getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { FaDiscord, FaGithub } from "react-icons/fa";
-import { LuLogIn } from "react-icons/lu";
+
+import { Icon } from "@/components/ui/icon";
 
 interface OAuthButtonsProps {
   status: StatusData;
@@ -52,25 +52,25 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       key: "github",
       enabled: props.status.github_oauth,
       label: t("AUTH.OAUTH.GITHUB"),
-      icon: <FaGithub className="h-4 w-4" />,
+      icon: <Icon name="brand-github" className="h-4 w-4" />,
     },
     {
       key: "discord",
       enabled: props.status.discord_oauth,
       label: t("AUTH.OAUTH.DISCORD"),
-      icon: <FaDiscord className="h-4 w-4" />,
+      icon: <Icon name="brand-discord" className="h-4 w-4" />,
     },
     {
       key: "oidc",
       enabled: props.status.oidc_enabled,
       label: t("AUTH.OAUTH.OIDC"),
-      icon: <LuLogIn className="h-4 w-4" />,
+      icon: <Icon name="log-in" className="h-4 w-4" />,
     },
     {
       key: "linuxdo",
       enabled: props.status.linuxdo_oauth,
       label: t("AUTH.OAUTH.LINUXDO"),
-      icon: <LuLogIn className="h-4 w-4" />,
+      icon: <Icon name="log-in" className="h-4 w-4" />,
     },
   ];
 
@@ -167,7 +167,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
               <span className="text-muted-foreground text-xs">...</span>
             ) : (
               <>
-                <LuLogIn className="h-4 w-4" />
+                <Icon name="log-in" className="h-4 w-4" />
                 {provider.name}
               </>
             )}

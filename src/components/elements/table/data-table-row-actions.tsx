@@ -12,7 +12,7 @@ import type { TranslationKey } from "@/lib/config/constants";
 import type { Row } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import { RxDotsHorizontal } from "react-icons/rx";
+import { Icon } from "@/components/ui/icon";
 
 export type RowAction = {
   value: string;
@@ -46,7 +46,7 @@ export function DataTableRowActions<TData>(
             />
           }
         >
-          <RxDotsHorizontal className="h-4 w-4" />
+          <Icon name="dots-horizontal" className="h-4 w-4" />
           <span className="sr-only">{t("COMMON.OPEN_MENU")}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align={props.align || "end"}>

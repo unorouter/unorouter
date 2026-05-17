@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useUploadReferenceMutation } from "@/hooks/generation-hook";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { LuLoader, LuUpload, LuX } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 export type ReferenceEntry = {
   url: string;
@@ -94,7 +94,7 @@ export function ReferenceUploader(props: Props) {
                 className="bg-background/80 hover:bg-background absolute top-1 right-1 rounded-full p-1 transition-colors"
                 title={t("IMAGE.DELETE")}
               >
-                <LuX className="h-3 w-3" />
+                <Icon name="x" className="h-3 w-3" />
               </button>
             </div>
           ))}
@@ -116,9 +116,9 @@ export function ReferenceUploader(props: Props) {
           }`}
         >
           {uploadMut.isPending ? (
-            <LuLoader className="h-5 w-5 animate-spin" />
+            <Icon name="loader" className="h-5 w-5 animate-spin" />
           ) : (
-            <LuUpload className="h-5 w-5" />
+            <Icon name="upload" className="h-5 w-5" />
           )}
           <p className="text-muted-foreground text-xs">
             {t("IMAGE.REFERENCES_DROP_HINT")}

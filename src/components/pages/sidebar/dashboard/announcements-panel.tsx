@@ -2,8 +2,8 @@
 
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useTranslations } from "next-intl";
-import { LuBell } from "react-icons/lu";
 import { formatDate } from "./stats";
+import { Icon } from "@/components/ui/icon";
 
 const typeStyles: Record<string, string> = {
   success: "bg-green-500/10 text-green-500",
@@ -24,7 +24,7 @@ export function AnnouncementsPanel() {
   return (
     <div className="border-border bg-card flex flex-col border">
       <div className="border-border flex items-center gap-2 border-b p-5">
-        <LuBell className="text-muted-foreground h-4 w-4" />
+        <Icon name="bell" className="text-muted-foreground h-4 w-4" />
         <span className="text-foreground font-mono text-sm font-medium">
           {t("DASHBOARD.PANEL.SYSTEM_NOTICE")}
         </span>
@@ -38,7 +38,7 @@ export function AnnouncementsPanel() {
       <div className="max-h-64 flex-1 overflow-y-auto">
         {announcements.length === 0 ? (
           <div className="flex h-32 flex-col items-center justify-center gap-2">
-            <LuBell className="text-muted-foreground h-8 w-8 opacity-20" />
+            <Icon name="bell" className="text-muted-foreground h-8 w-8 opacity-20" />
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
               {t("DASHBOARD.PANEL.NO_ANNOUNCEMENTS")}
             </span>

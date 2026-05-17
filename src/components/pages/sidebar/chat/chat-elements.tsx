@@ -7,9 +7,9 @@ import { chatModelAtom } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import { LuKey, LuLoader, LuPlus, LuWallet } from "react-icons/lu";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
+import { Icon } from "@/components/ui/icon";
 
 export function ChatControls() {
   const t = useTranslations();
@@ -31,7 +31,7 @@ export function ChatControls() {
         onClick={handleNewChat}
         aria-label={t("CHAT.NEW_CONVERSATION")}
       >
-        <LuPlus className="h-3.5 w-3.5 lg:mr-1.5" />
+        <Icon name="plus" className="h-3.5 w-3.5 lg:mr-1.5" />
         <span className="hidden lg:inline">{t("CHAT.NEW_CONVERSATION")}</span>
       </Button>
     </div>
@@ -54,7 +54,7 @@ export function NeedsTokenGate() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
       <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-        <LuKey className="text-muted-foreground h-8 w-8" />
+        <Icon name="key" className="text-muted-foreground h-8 w-8" />
       </div>
       <div className="text-center">
         <h2 className="text-foreground text-lg font-medium">
@@ -71,9 +71,9 @@ export function NeedsTokenGate() {
         disabled={token.isLoading}
       >
         {token.isLoading ? (
-          <LuLoader className="h-3.5 w-3.5 animate-spin" />
+          <Icon name="loader" className="h-3.5 w-3.5 animate-spin" />
         ) : (
-          <LuPlus className="h-3.5 w-3.5" />
+          <Icon name="plus" className="h-3.5 w-3.5" />
         )}
         {t("DOCS.GENERATE_API_KEY")}
       </Button>
@@ -87,7 +87,7 @@ export function ZeroBalanceGate() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
       <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-        <LuWallet className="text-muted-foreground h-8 w-8" />
+        <Icon name="wallet" className="text-muted-foreground h-8 w-8" />
       </div>
       <div className="text-center">
         <h2 className="text-foreground text-lg font-medium">
@@ -103,7 +103,7 @@ export function ZeroBalanceGate() {
         nativeButton={false}
         render={<Link href="/billing" />}
       >
-        <LuWallet className="h-3.5 w-3.5" />
+        <Icon name="wallet" className="h-3.5 w-3.5" />
         {t("CHAT.GATE.GO_TO_BILLING")}
       </Button>
     </div>

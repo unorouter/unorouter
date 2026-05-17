@@ -13,10 +13,8 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { FaDiscord, FaGithub } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { SiTrustpilot } from "react-icons/si";
 import { isActiveLink } from "./navigation";
+import { Icon } from "@/components/ui/icon";
 
 const NAV_LINKS = [
   { href: "/models", key: "FOOTER.MODELS" },
@@ -65,7 +63,7 @@ export function Footer() {
                   aria-label="GitHub"
                   onClick={() => analytics.navigation.socialClicked("github")}
                 >
-                  <FaGithub className="h-5 w-5" />
+                  <Icon name="brand-github" className="h-5 w-5" />
                 </NextLink>
               )}
               {env.discordUrl && (
@@ -77,7 +75,7 @@ export function Footer() {
                   aria-label="Discord"
                   onClick={() => analytics.navigation.socialClicked("discord")}
                 >
-                  <FaDiscord className="h-5 w-5" />
+                  <Icon name="brand-discord" className="h-5 w-5" />
                 </NextLink>
               )}
               {env.twitterUrl && (
@@ -89,7 +87,7 @@ export function Footer() {
                   aria-label="X"
                   onClick={() => analytics.navigation.socialClicked("x")}
                 >
-                  <FaXTwitter className="h-5 w-5" />
+                  <Icon name="brand-x-twitter" className="h-5 w-5" />
                 </NextLink>
               )}
               {env.trustpilotUrl && (
@@ -103,7 +101,7 @@ export function Footer() {
                     analytics.navigation.socialClicked("trustpilot")
                   }
                 >
-                  <SiTrustpilot className="h-5 w-5" />
+                  <Icon name="brand-trustpilot" className="h-5 w-5" />
                 </NextLink>
               )}
             </div>

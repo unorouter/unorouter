@@ -13,7 +13,7 @@ import {
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice, modelSlug } from "@/lib/utils/base";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
@@ -561,7 +561,7 @@ print(res.choices[0].message.content)`;
                   key={sim.name}
                   href={{
                     pathname: "/models/[slug]",
-                    params: { slug: sim.name },
+                    params: { slug: modelSlug(sim.name) },
                   }}
                   className={cn(
                     "group flex items-center gap-3 rounded-lg border p-4 transition-all hover:-translate-y-0.5",

@@ -1,70 +1,32 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { Icon } from "@/components/ui/icon";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useCreateLorebookEntryMutation,
-  useCreateLorebookMutation,
-  useDeleteLorebookEntryMutation,
-  useDeleteLorebookMutation,
-  useImportLorebookMutation,
-  useLorebookQuery,
-  useLorebooksQuery,
-  useUpdateLorebookEntryMutation,
-  useUpdateLorebookMutation,
-} from "@/hooks/rp-hook";
+  useCreateLorebookEntryMutation, useCreateLorebookMutation, useDeleteLorebookEntryMutation, useDeleteLorebookMutation, useImportLorebookMutation, useLorebookQuery, useLorebooksQuery, useUpdateLorebookEntryMutation, useUpdateLorebookMutation, } from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import {
-  lorebookEntryFormSchema,
-  lorebookFormSchema,
-  type LorebookEntryForm,
-  type LorebookForm,
-} from "@/lib/validation/rp-forms";
+  lorebookEntryFormSchema, lorebookFormSchema, type LorebookEntryForm, type LorebookForm, } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  LuArrowLeft,
-  LuDownload,
-  LuPlus,
-  LuTrash2,
-  LuUpload,
-} from "react-icons/lu";
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -152,7 +114,7 @@ export function LorebookList(props: Props) {
                 size="icon-sm"
                 onClick={() => setOpenLbId(null)}
               >
-                <LuArrowLeft className="size-4" />
+                <Icon name="arrow-left" className="size-4" />
               </Button>
             )}
             {openLbId
@@ -191,7 +153,7 @@ export function LorebookList(props: Props) {
                 disabled={importMut.isPending}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
-                <LuUpload className="size-4" />
+                <Icon name="upload" className="size-4" />
                 <span className="truncate">{t("RP.LOREBOOKS_IMPORT")}</span>
               </Button>
               <Button
@@ -199,7 +161,7 @@ export function LorebookList(props: Props) {
                 disabled={createMut.isPending}
                 className="min-w-0 flex-1 sm:flex-initial"
               >
-                <LuPlus className="size-4" />
+                <Icon name="plus" className="size-4" />
                 <span className="truncate">{t("RP.LOREBOOKS_NEW")}</span>
               </Button>
             </div>
@@ -245,7 +207,7 @@ export function LorebookList(props: Props) {
                         />
                       }
                     >
-                      <LuDownload className="size-4" />
+                      <Icon name="download" className="size-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                       align="end"
@@ -281,7 +243,7 @@ export function LorebookList(props: Props) {
                       handleDelete(l.id);
                     }}
                   >
-                    <LuTrash2 className="size-4" />
+                    <Icon name="trash-2" className="size-4" />
                   </Button>
                 </Card>
               ))}
@@ -386,7 +348,7 @@ function LorebookEditorInline(props: {
             </div>
             <div className="flex justify-between">
               <Button type="button" variant="ghost" onClick={handleDelete}>
-                <LuTrash2 className="size-4" />
+                <Icon name="trash-2" className="size-4" />
                 {t("COMMON.DELETE")}
               </Button>
               <Button type="submit">{t("COMMON.SAVE")}</Button>
@@ -506,7 +468,7 @@ function Entries(props: { lorebookId: string }) {
           }}
           size="sm"
         >
-          <LuPlus className="size-4" />
+          <Icon name="plus" className="size-4" />
           {t("RP.LOREBOOK_ENTRY_NEW")}
         </Button>
       </div>
@@ -718,7 +680,7 @@ function Entries(props: { lorebookId: string }) {
                   handleDelete(e.id);
                 }}
               >
-                <LuTrash2 className="size-4" />
+                <Icon name="trash-2" className="size-4" />
               </Button>
             </Card>
           ))}

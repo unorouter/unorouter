@@ -6,7 +6,7 @@ import { useStatusQuery } from "@/hooks/status-hook";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuExternalLink, LuShield } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 const STATUS_COLORS: Record<number, { bg: string; dot: string }> = {
   0: { bg: "bg-red-500/10", dot: "bg-red-500" },
@@ -43,7 +43,7 @@ export function UptimePanel() {
   return (
     <div className="border-border bg-card flex flex-col border">
       <div className="border-border flex items-center gap-2 border-b p-5">
-        <LuShield className="text-muted-foreground h-4 w-4" />
+        <Icon name="shield" className="text-muted-foreground h-4 w-4" />
         <span className="text-foreground font-mono text-sm font-medium">
           {t("DASHBOARD.PANEL.SERVICE_STATUS")}
         </span>
@@ -51,7 +51,7 @@ export function UptimePanel() {
           href="#"
           className="text-muted-foreground hover:text-foreground ml-auto transition-colors"
         >
-          <LuExternalLink className="h-3.5 w-3.5" />
+          <Icon name="external-link" className="h-3.5 w-3.5" />
         </a>
       </div>
 
@@ -61,7 +61,7 @@ export function UptimePanel() {
         </div>
       ) : groups.length === 0 ? (
         <div className="flex h-32 flex-col items-center justify-center gap-2">
-          <LuShield className="text-muted-foreground h-8 w-8 opacity-20" />
+          <Icon name="shield" className="text-muted-foreground h-8 w-8 opacity-20" />
           <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
             {t("DASHBOARD.NO_DATA")}
           </span>

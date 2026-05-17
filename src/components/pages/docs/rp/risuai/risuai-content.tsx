@@ -9,7 +9,6 @@ import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import { GiFox } from "react-icons/gi";
 import { getDocsApiKey } from "@/lib/utils/server";
 
 export async function RisuAIContent() {
@@ -115,7 +114,7 @@ ${t("DOCS.RISUAI.QUICK_CONFIG_MODEL_LABEL")}:   ${docs.topTextModel}`;
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.RISUAI.BADGE")}
-          badgeIcon={GiFox}
+          badgeIcon="fox"
           title={t("DOCS.RISUAI.TITLE")}
           subtitle={t("DOCS.RISUAI.SUBTITLE", APP_VALUES)}
           centered

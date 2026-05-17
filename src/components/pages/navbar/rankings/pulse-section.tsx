@@ -4,13 +4,9 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import type { RankingMover } from "@/lib/api/typebox/rankings";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import {
-  LuArrowDownRight,
-  LuArrowUpRight,
-  LuTrendingDown,
-  LuTrendingUp,
-} from "react-icons/lu";
+
 import { ModelLink, VendorLink } from "./entity-links";
+import { Icon } from "@/components/ui/icon";
 
 type PulseSectionProps = {
   movers: RankingMover[];
@@ -25,7 +21,7 @@ export function PulseSection(props: PulseSectionProps) {
       <PulseCard
         title={t("RANKINGS.PULSE.UP_TITLE")}
         description={t("RANKINGS.PULSE.UP_SUBTITLE")}
-        icon={<LuTrendingUp className="size-4 text-emerald-500" />}
+        icon={<Icon name="trending-up" className="size-4 text-emerald-500" />}
       >
         {props.movers.length === 0 ? (
           <PulseEmpty label={t("RANKINGS.PULSE.UP_EMPTY")} />
@@ -41,7 +37,7 @@ export function PulseSection(props: PulseSectionProps) {
       <PulseCard
         title={t("RANKINGS.PULSE.DOWN_TITLE")}
         description={t("RANKINGS.PULSE.DOWN_SUBTITLE")}
-        icon={<LuTrendingDown className="size-4 text-rose-500" />}
+        icon={<Icon name="trending-down" className="size-4 text-rose-500" />}
       >
         {props.droppers.length === 0 ? (
           <PulseEmpty label={t("RANKINGS.PULSE.DOWN_EMPTY")} />
@@ -117,9 +113,9 @@ function MoverRow(props: { row: RankingMover; intent: "up" | "down" }) {
         )}
       >
         {props.intent === "up" ? (
-          <LuArrowUpRight className="size-3" />
+          <Icon name="arrow-up-right" className="size-3" />
         ) : (
-          <LuArrowDownRight className="size-3" />
+          <Icon name="arrow-down-right" className="size-3" />
         )}
         {Math.abs(props.row.rank_delta)}
       </span>

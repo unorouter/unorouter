@@ -1,35 +1,19 @@
 "use client";
 
 import { LogoImage } from "@/components/elements/brand/brand";
+import { Icon } from "@/components/ui/icon";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { StatusBanner } from "@/components/ui/status/status-banner";
 import { StatusBar } from "@/components/ui/status/status-bar";
 import {
-  StatusComponent,
-  StatusComponentBody,
-  StatusComponentDescription,
-  StatusComponentHeader,
-  StatusComponentHeaderLeft,
-  StatusComponentHeaderRight,
-  StatusComponentIcon,
-  StatusComponentStatus,
-  StatusComponentTitle,
-  StatusComponentUptime,
-} from "@/components/ui/status/status-component";
+  StatusComponent, StatusComponentBody, StatusComponentDescription, StatusComponentHeader, StatusComponentHeaderLeft, StatusComponentHeaderRight, StatusComponentIcon, StatusComponentStatus, StatusComponentTitle, StatusComponentUptime, } from "@/components/ui/status/status-component";
 import type {
-  StatusBarData,
-  StatusType,
-} from "@/components/ui/status/status.types";
+  StatusBarData, StatusType, } from "@/components/ui/status/status.types";
 import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import type { StatusBucket } from "@/hooks/use-model-status-hook";
@@ -37,17 +21,6 @@ import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { env } from "@/lib/config/env";
 import { useTranslations } from "next-intl";
-import {
-  LuChevronDown,
-  LuChevronRight,
-  LuChevronsDownUp,
-  LuChevronsUpDown,
-  LuCircleAlert,
-  LuCircleCheck,
-  LuCircleX,
-  LuSearch,
-  LuX,
-} from "react-icons/lu";
 import { WindowVirtualizer } from "virtua";
 import { StatusBlocksI18n } from "./status-blocks-i18n";
 import { SummaryCards } from "./summary-cards";
@@ -111,7 +84,7 @@ export function StatusPage() {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="relative flex-1">
-              <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+              <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
               <Input
                 placeholder={t("STATUS.FILTER.SEARCH_PLACEHOLDER")}
                 value={s.search}
@@ -183,9 +156,9 @@ export function StatusPage() {
                 }
               >
                 {s.allCollapsed ? (
-                  <LuChevronsUpDown className="h-4 w-4" />
+                  <Icon name="chevrons-up-down" className="h-4 w-4" />
                 ) : (
-                  <LuChevronsDownUp className="h-4 w-4" />
+                  <Icon name="chevrons-down-up" className="h-4 w-4" />
                 )}
               </Button>
             )}
@@ -197,7 +170,7 @@ export function StatusPage() {
                 className="font-mono text-xs"
               >
                 {t("MODELS.FILTER.RESET")}
-                <LuX className="ml-1 h-4 w-4" />
+                <Icon name="x" className="ml-1 h-4 w-4" />
               </Button>
             )}
           </div>
@@ -217,9 +190,9 @@ export function StatusPage() {
                     className="hover:bg-accent/40 flex w-full items-center gap-2 rounded-md px-2 pt-6 pb-3 text-left first:pt-0"
                   >
                     {s.collapsedSet.has(item.vendor) ? (
-                      <LuChevronRight className="text-muted-foreground h-4 w-4 shrink-0" />
+                      <Icon name="chevron-right" className="text-muted-foreground h-4 w-4 shrink-0" />
                     ) : (
-                      <LuChevronDown className="text-muted-foreground h-4 w-4 shrink-0" />
+                      <Icon name="chevron-down" className="text-muted-foreground h-4 w-4 shrink-0" />
                     )}
                     <VendorIcon vendor={item.vendor} size={16} />
                     <h2 className="font-mono text-sm font-semibold tracking-wide">
@@ -230,7 +203,7 @@ export function StatusPage() {
                     </span>
                     <div className="text-muted-foreground ml-auto flex items-center gap-3 font-mono text-xs">
                       <span className="flex items-center gap-1">
-                        <LuCircleCheck className="h-3.5 w-3.5 text-emerald-500" />
+                        <Icon name="circle-check" className="h-3.5 w-3.5 text-emerald-500" />
                         {item.operational}
                       </span>
                       <span
@@ -240,7 +213,7 @@ export function StatusPage() {
                             : "flex items-center gap-1"
                         }
                       >
-                        <LuCircleAlert className="h-3.5 w-3.5" />
+                        <Icon name="circle-alert" className="h-3.5 w-3.5" />
                         {item.degraded}
                       </span>
                       <span
@@ -250,7 +223,7 @@ export function StatusPage() {
                             : "flex items-center gap-1"
                         }
                       >
-                        <LuCircleX className="h-3.5 w-3.5" />
+                        <Icon name="circle-x" className="h-3.5 w-3.5" />
                         {item.down}
                       </span>
                     </div>

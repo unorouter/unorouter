@@ -2,7 +2,7 @@
 
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { cn } from "@/lib/utils";
-import { LuUser } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 interface UserAvatarProps {
   className?: string;
@@ -30,5 +30,5 @@ export function UserAvatar(props: UserAvatarProps) {
     );
   }
 
-  return <LuUser className={cn("size-4 shrink-0", props.className)} />;
+  return <Icon name="user" className={cn("size-4 shrink-0", props.className)} />;
 }

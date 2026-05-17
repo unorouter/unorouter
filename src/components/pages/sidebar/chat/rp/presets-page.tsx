@@ -1,18 +1,16 @@
 "use client";
 
 import { RpLoginGate } from "@/components/pages/sidebar/chat/rp/rp-login-gate";
+import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useDeletePresetMutation,
-  usePresetsQuery,
-} from "@/hooks/rp-hook";
+  useDeletePresetMutation, usePresetsQuery, } from "@/hooks/rp-hook";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuArrowLeft, LuDownload, LuPlus, LuTrash2 } from "react-icons/lu";
 import { PresetForm } from "./preset-form";
 
 /**
@@ -82,13 +80,13 @@ export function PresetsPage() {
               setEditingId("new");
             }}
           >
-            <LuPlus className="mr-2 size-4" />
+            <Icon name="plus" className="mr-2 size-4" />
             {t("RP.PRESETS_NEW")}
           </Button>
         )}
         {editingId && (
           <Button variant="ghost" onClick={() => setEditingId(null)}>
-            <LuArrowLeft className="mr-2 size-4" />
+            <Icon name="arrow-left" className="mr-2 size-4" />
             {t("RP.PRESETS_BACK")}
           </Button>
         )}
@@ -146,7 +144,7 @@ export function PresetsPage() {
                 }}
                 aria-label={t("RP.PRESETS_EXPORT")}
               >
-                <LuDownload className="size-4" />
+                <Icon name="download" className="size-4" />
               </Button>
               <Button
                 variant="ghost"
@@ -156,7 +154,7 @@ export function PresetsPage() {
                   void handleDelete(p.id);
                 }}
               >
-                <LuTrash2 className="size-4" />
+                <Icon name="trash-2" className="size-4" />
               </Button>
             </Card>
           ))}

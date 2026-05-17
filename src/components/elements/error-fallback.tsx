@@ -6,7 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import posthog from "posthog-js";
 import { useEffect } from "react";
-import { LuRefreshCw, LuTriangleAlert } from "react-icons/lu";
+
+import { Icon } from "@/components/ui/icon";
 
 type ErrorFallbackProps = {
   error: Error & { digest?: string };
@@ -30,7 +31,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="bg-destructive/10 mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full">
-            <LuTriangleAlert className="text-destructive h-6 w-6" />
+            <Icon name="triangle-alert" className="text-destructive h-6 w-6" />
           </div>
           <CardTitle className="text-xl font-semibold">
             {t("MAIN.ERROR.SOMETHING_WENT_WRONG")}
@@ -64,7 +65,7 @@ export function ErrorFallback(props: ErrorFallbackProps) {
               }
               className="flex items-center gap-2"
             >
-              <LuRefreshCw className="h-4 w-4" />
+              <Icon name="refresh-cw" className="h-4 w-4" />
               {t("MAIN.ACTIONS.TRY_AGAIN")}
             </Button>
             <Button

@@ -1,7 +1,8 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
-import { LuChevronRight } from "react-icons/lu";
+
 import { getTranslations } from "next-intl/server";
+import { Icon } from "@/components/ui/icon";
 
 export async function CtaSection() {
   const t = await getTranslations();
@@ -30,7 +31,7 @@ export async function CtaSection() {
               className="border-border text-foreground hover:border-foreground group flex h-12 w-full items-center justify-center gap-2 border bg-transparent px-10 font-bold tracking-widest uppercase transition-all sm:w-auto"
             >
               {t("HOME.CTA.SECONDARY")}
-              <LuChevronRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              <Icon name="chevron-right" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,7 +15,6 @@ import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { LuArrowRight, LuSearch, LuX } from "react-icons/lu";
 
 interface BlogListProps {
   posts: BlogListPost[];
@@ -46,14 +46,14 @@ export function BlogList(props: BlogListProps) {
             className="h-8 px-2 md:h-9 lg:px-3"
           >
             {t("BLOG.FILTER.RESET")}
-            <LuX className="ml-1 h-4 w-4 md:ml-2" />
+            <Icon name="x" className="ml-1 h-4 w-4 md:ml-2" />
           </Button>
         )}
       </div>
 
       <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+          <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder={t("BLOG.SEARCH_PLACEHOLDER")}
             value={filter.search}
@@ -162,7 +162,7 @@ export function BlogList(props: BlogListProps) {
                         )}
                       >
                         {t("BLOG.READ_MORE")}
-                        <LuArrowRight className="h-4 w-4" />
+                        <Icon name="arrow-right" className="h-4 w-4" />
                       </div>
                     </div>
 

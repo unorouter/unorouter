@@ -7,15 +7,7 @@ import { env } from "@/lib/config/env";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
-import {
-  LuArrowLeftRight,
-  LuCircleAlert,
-  LuDownload,
-  LuExternalLink,
-  LuKey,
-  LuLoader,
-  LuPlus,
-} from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 type CCSwitchApp = "claude" | "codex" | "gemini" | "openclaw";
 
@@ -62,18 +54,18 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
             disabled={token.isLoading || !token.apiKey}
           >
             {token.isLoading ? (
-              <LuLoader className="size-4 animate-spin" />
+              <Icon name="loader" className="size-4 animate-spin" />
             ) : (
-              <LuArrowLeftRight className="size-4" />
+              <Icon name="arrow-left-right" className="size-4" />
             )}
             {t("DOCS.SETUP.BUTTON")}
-            <LuExternalLink className="size-3.5" />
+            <Icon name="external-link" className="size-3.5" />
           </Button>
         </a>
 
         {!token.isLoggedIn && (
           <p className="text-muted-foreground mt-3 flex items-center gap-1.5 text-xs">
-            <LuKey className="size-3" />
+            <Icon name="key" className="size-3" />
             <Link href="/login" className="text-primary underline">
               {t("DOCS.SETUP.LOGIN_REQUIRED")}
             </Link>
@@ -82,7 +74,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
 
         {token.isLoggedIn && token.needsToken && (
           <div className="mt-3 flex items-center gap-2">
-            <LuKey className="text-muted-foreground size-3.5 shrink-0" />
+            <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
             <span className="text-muted-foreground text-xs">
               {t("DOCS.GENERATE_API_KEY_DESC")}
             </span>
@@ -94,9 +86,9 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
               disabled={token.isLoading}
             >
               {token.isLoading ? (
-                <LuLoader className="size-3 animate-spin" />
+                <Icon name="loader" className="size-3 animate-spin" />
               ) : (
-                <LuPlus className="size-3" />
+                <Icon name="plus" className="size-3" />
               )}
               {t("DOCS.GENERATE_API_KEY")}
             </Button>
@@ -108,7 +100,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
             ref={installRef}
             className="animate-in fade-in slide-in-from-top-2 mt-3 flex items-center gap-2"
           >
-            <LuCircleAlert className="text-muted-foreground size-3.5 shrink-0" />
+            <Icon name="circle-alert" className="text-muted-foreground size-3.5 shrink-0" />
             <span className="text-muted-foreground text-xs">
               {t("DOCS.SETUP.NO_APP")}
             </span>
@@ -123,7 +115,7 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
                 />
               }
             >
-              <LuDownload className="size-3" />
+              <Icon name="download" className="size-3" />
               {t("DOCS.SETUP.INSTALL_LINK")}
             </Button>
           </div>

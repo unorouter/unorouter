@@ -172,15 +172,6 @@ export const pathnames = {
     "zh-CN": "/shezhi",
     "zh-TW": "/shezhi",
   },
-  "/settings/theme": {
-    de: "/einstellungen/design",
-    fr: "/parametres/theme",
-    ja: "/settei/theme",
-    ru: "/настройки/тема",
-    vi: "/cai-dat/giao-dien",
-    "zh-CN": "/shezhi/zhuti",
-    "zh-TW": "/shezhi/zhuti",
-  },
   "/blog": {
     de: "/blog",
     fr: "/blog",

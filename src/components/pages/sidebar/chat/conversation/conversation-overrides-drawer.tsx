@@ -63,7 +63,7 @@ import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { LuSettings2 } from "react-icons/lu";
+
 import { MultiSelectPopover } from "../rp/multi-select-popover";
 import { SamplingFields } from "../rp/sampling-fields";
 import {
@@ -76,6 +76,7 @@ import {
   SAMPLING_FIELDS,
   writeSamplerMemory,
 } from "./conversation-overrides-form-handler";
+import { Icon } from "@/components/ui/icon";
 
 type DrawerProps = {
   /** null when no conversation exists yet (fresh thread, or guest pre-create). */
@@ -358,7 +359,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
               size="icon"
               aria-label={t("CHAT.OVERRIDES.OPEN")}
             >
-              <LuSettings2 className="size-4" />
+              <Icon name="settings-2" className="size-4" />
             </Button>
           )
         }

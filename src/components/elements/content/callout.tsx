@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { LuCircleX, LuInfo, LuTriangleAlert } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
+import type { IconName } from "@/lib/config/icon-map";
 
 type CalloutType = "info" | "warn" | "error";
 
@@ -9,26 +10,26 @@ const calloutStyles: Record<
     border: string;
     bg: string;
     icon: string;
-    Icon: React.ComponentType<{ className?: string }>;
+    iconName: IconName;
   }
 > = {
   info: {
     border: "border-blue-500/40",
     bg: "bg-blue-500/5",
     icon: "text-blue-500",
-    Icon: LuInfo,
+    iconName: "info",
   },
   warn: {
     border: "border-amber-500/40",
     bg: "bg-amber-500/5",
     icon: "text-amber-500",
-    Icon: LuTriangleAlert,
+    iconName: "triangle-alert",
   },
   error: {
     border: "border-red-500/40",
     bg: "bg-red-500/5",
     icon: "text-red-500",
-    Icon: LuCircleX,
+    iconName: "circle-x",
   },
 };
 
@@ -52,7 +53,7 @@ export function Callout(props: CalloutProps) {
       )}
     >
       <div className="flex items-center gap-2">
-        <style.Icon className={cn("size-4 shrink-0", style.icon)} />
+        <Icon name={style.iconName} className={cn("size-4 shrink-0", style.icon)} />
         <span className="text-sm font-semibold">{props.title}</span>
       </div>
       <div className="text-muted-foreground mt-2 text-sm [&_code]:text-xs [&_pre]:my-2">

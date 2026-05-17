@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 import { Component, type PropsWithChildren, type ReactNode } from "react";
-import { LuRefreshCw, LuTriangleAlert } from "react-icons/lu";
 
 type FallbackProps = { error: Error; reset: () => void };
 
@@ -16,7 +16,10 @@ function SectionFallbackInner(props: FallbackProps) {
 
   return (
     <div className="border-destructive/20 bg-destructive/5 flex items-center gap-3 rounded-lg border p-4">
-      <LuTriangleAlert className="text-destructive h-4 w-4 shrink-0" />
+      <Icon
+        name="triangle-alert"
+        className="text-destructive h-4 w-4 shrink-0"
+      />
       <span className="text-muted-foreground text-sm">
         {t("MAIN.ERROR.SECTION_LOAD_FAILED")}
       </span>
@@ -26,7 +29,7 @@ function SectionFallbackInner(props: FallbackProps) {
         onClick={props.reset}
         className="ml-auto shrink-0"
       >
-        <LuRefreshCw className="mr-1.5 h-3 w-3" />
+        <Icon name="refresh-cw" className="mr-1.5 h-3 w-3" />
         {t("MAIN.ACTIONS.TRY_AGAIN")}
       </Button>
     </div>

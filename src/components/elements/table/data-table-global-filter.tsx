@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { LuSearch } from "react-icons/lu";
+import { Icon } from "@/components/ui/icon";
 
 interface DataTableGlobalFilterProps<TData> {
   table: Table<TData>;
@@ -35,7 +35,7 @@ export function DataTableGlobalFilter<TData>(
 
   return (
     <div className="relative">
-      <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+      <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
       <Input
         placeholder={props.placeholder || t("COMMON.SEARCH")}
         value={value}

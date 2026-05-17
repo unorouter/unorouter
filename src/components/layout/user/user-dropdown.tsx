@@ -1,6 +1,7 @@
 "use client";
 
 import { sidebarNavigation } from "@/components/layout/nav/navigation";
+import { Icon } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -21,7 +22,6 @@ import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { ReactElement } from "react";
-import { LuLogOut, LuSparkles } from "react-icons/lu";
 import { UserInfo } from "./user-info";
 import { quotaToDollars } from "@/lib/config/constants";
 
@@ -87,7 +87,7 @@ export function UserDropdown(props: UserDropdownProps) {
             <DropdownMenuSeparator />
             <div className="flex flex-col gap-2 px-2 py-1.5">
               <div className="flex items-center gap-2 text-xs">
-                <LuSparkles className="text-muted-foreground h-3.5 w-3.5" />
+                <Icon name="sparkles" className="text-muted-foreground h-3.5 w-3.5" />
                 <span className="text-muted-foreground">
                   {t("AUTH.SUBSCRIPTION")}
                 </span>
@@ -129,7 +129,8 @@ export function UserDropdown(props: UserDropdownProps) {
           {sidebarNavigation().map((item) => (
             <Link key={String(item.href)} href={item.href}>
               <DropdownMenuItem>
-                {item.icon && <item.icon />}
+                {item.iconName && <Icon name={item.iconName} />}
+                {item.iconComponent && <item.iconComponent />}
                 {t(item.name)}
               </DropdownMenuItem>
             </Link>
@@ -137,7 +138,7 @@ export function UserDropdown(props: UserDropdownProps) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
-          <LuLogOut />
+          <Icon name="log-out" />
           {t("AUTH.LOG_OUT")}
         </DropdownMenuItem>
       </DropdownMenuContent>

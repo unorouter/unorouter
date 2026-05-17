@@ -2,8 +2,8 @@ import { CodeBlock } from "@/components/elements/code/code-block";
 import { Link } from "@/i18n/navigation";
 import { env } from "@/lib/config/env";
 import { getDocsApiKey } from "@/lib/utils/server";
-import { LuArrowRight, LuCheck } from "react-icons/lu";
 import { getTranslations } from "next-intl/server";
+import { Icon } from "@/components/ui/icon";
 
 export async function CodeSection() {
   const t = await getTranslations();
@@ -27,7 +27,7 @@ export async function CodeSection() {
           <div className="space-y-4 pt-4">
             <div className="text-foreground group flex items-center gap-4 text-sm">
               <div className="border-border group-hover:border-foreground/30 flex h-6 w-6 items-center justify-center rounded border transition-colors">
-                <LuCheck className="text-foreground h-3 w-3" />
+                <Icon name="check" className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
                 {t("HOME.CODE.FEATURE_1")}
@@ -35,7 +35,7 @@ export async function CodeSection() {
             </div>
             <div className="text-foreground group flex items-center gap-4 text-sm">
               <div className="border-border group-hover:border-foreground/30 flex h-6 w-6 items-center justify-center rounded border transition-colors">
-                <LuCheck className="text-foreground h-3 w-3" />
+                <Icon name="check" className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
                 {t("HOME.CODE.FEATURE_2")}
@@ -43,7 +43,7 @@ export async function CodeSection() {
             </div>
             <div className="text-foreground group flex items-center gap-4 text-sm">
               <div className="border-border group-hover:border-foreground/30 flex h-6 w-6 items-center justify-center rounded border transition-colors">
-                <LuCheck className="text-foreground h-3 w-3" />
+                <Icon name="check" className="text-foreground h-3 w-3" />
               </div>
               <span className="font-mono text-xs tracking-wide uppercase">
                 {t("HOME.CODE.FEATURE_3")}
@@ -56,7 +56,7 @@ export async function CodeSection() {
             className="text-foreground border-foreground hover:text-muted-foreground hover:border-muted-foreground flex w-fit items-center gap-2 border-b pb-1 font-mono text-xs font-bold tracking-widest uppercase transition-colors"
           >
             {t("HOME.CODE.READ_DOCS")}
-            <LuArrowRight className="h-3.5 w-3.5" />
+            <Icon name="arrow-right" className="h-3.5 w-3.5" />
           </Link>
 
           <div className="border-border/50 bg-card/40 mt-4 rounded-lg border p-4">
@@ -71,7 +71,7 @@ export async function CodeSection() {
               className="text-foreground hover:text-muted-foreground inline-flex items-center gap-2 font-mono text-xs font-bold tracking-wider uppercase transition-colors"
             >
               {t("HOME.CODE.NO_CODE_LINK")}
-              <LuArrowRight className="h-3.5 w-3.5" />
+              <Icon name="arrow-right" className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>

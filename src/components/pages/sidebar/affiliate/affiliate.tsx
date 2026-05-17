@@ -11,21 +11,12 @@ import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import {
-  LuArrowRightLeft,
-  LuCopy,
-  LuDollarSign,
-  LuGift,
-  LuPercent,
-  LuRepeat,
-  LuUsers,
-  LuWallet,
-} from "react-icons/lu";
 import { toast } from "sonner";
 import { BadgeGenerator } from "@/components/elements/badge/badge-generator";
 import { CommissionsTab } from "./commissions-tab";
 import { InviteesTab } from "./invitees-tab";
 import { TransferDialog } from "./transfer-dialog";
+import { Icon } from "@/components/ui/icon";
 
 type StatItemProps = {
   label: string;
@@ -116,7 +107,7 @@ export function Affiliate() {
           <StatItem
             label={t("AFFILIATE.COMMISSION_RATE")}
             value={`${commissionRate}%`}
-            icon={<LuPercent className="h-4 w-4" />}
+            icon={<Icon name="percent" className="h-4 w-4" />}
             isLoading={isLoading}
             accentColor="var(--chart-4)"
           />
@@ -125,7 +116,7 @@ export function Affiliate() {
           <StatItem
             label={t("AFFILIATE.MAX_RECHARGES")}
             value={maxRecharges === 0 ? t("AFFILIATE.UNLIMITED") : maxRecharges}
-            icon={<LuRepeat className="h-4 w-4" />}
+            icon={<Icon name="repeat" className="h-4 w-4" />}
             isLoading={isLoading}
             accentColor="var(--chart-5)"
           />
@@ -134,7 +125,7 @@ export function Affiliate() {
           <StatItem
             label={t("AFFILIATE.PENDING_EARNINGS")}
             value={renderQuota(pendingQuota)}
-            icon={<LuWallet className="h-4 w-4" />}
+            icon={<Icon name="wallet" className="h-4 w-4" />}
             isLoading={isLoading}
             accentColor="var(--chart-2)"
           />
@@ -143,7 +134,7 @@ export function Affiliate() {
           <StatItem
             label={t("AFFILIATE.TOTAL_EARNED")}
             value={renderQuota(totalEarned)}
-            icon={<LuDollarSign className="h-4 w-4" />}
+            icon={<Icon name="dollar-sign" className="h-4 w-4" />}
             isLoading={isLoading}
             accentColor="var(--chart-3)"
           />
@@ -152,7 +143,7 @@ export function Affiliate() {
           <StatItem
             label={t("AFFILIATE.INVITE_COUNT")}
             value={inviteCount}
-            icon={<LuUsers className="h-4 w-4" />}
+            icon={<Icon name="users" className="h-4 w-4" />}
             isLoading={isLoading}
             accentColor="var(--chart-1)"
           />
@@ -237,7 +228,7 @@ export function Affiliate() {
                   onClick={handleCopyLink}
                   disabled={!inviteLink}
                 >
-                  <LuCopy data-icon="inline-start" className="h-3.5 w-3.5" />
+                  <Icon name="copy" data-icon="inline-start" className="h-3.5 w-3.5" />
                   {t("AFFILIATE.COPY_LINK")}
                 </Button>
               </div>
@@ -254,7 +245,7 @@ export function Affiliate() {
                   onClick={handleCopyCode}
                   disabled={!affCode}
                 >
-                  <LuCopy className="h-3 w-3" />
+                  <Icon name="copy" className="h-3 w-3" />
                 </Button>
               </div>
             </div>
@@ -282,7 +273,7 @@ export function Affiliate() {
                 }}
                 disabled={pendingQuota <= 0}
               >
-                <LuArrowRightLeft
+                <Icon name="arrow-right-left"
                   data-icon="inline-start"
                   className="h-3.5 w-3.5"
                 />
@@ -303,11 +294,11 @@ export function Affiliate() {
       >
         <TabsList variant="line">
           <TabsTrigger value="invitees">
-            <LuUsers className="h-3.5 w-3.5" />
+            <Icon name="users" className="h-3.5 w-3.5" />
             {t("AFFILIATE.TAB_INVITEES")}
           </TabsTrigger>
           <TabsTrigger value="commissions">
-            <LuGift className="h-3.5 w-3.5" />
+            <Icon name="gift" className="h-3.5 w-3.5" />
             {t("AFFILIATE.TAB_COMMISSIONS")}
           </TabsTrigger>
         </TabsList>

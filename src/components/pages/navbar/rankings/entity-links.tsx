@@ -1,6 +1,7 @@
 "use client";
 
 import { getPathname, Link } from "@/i18n/navigation";
+import { modelSlug } from "@/lib/utils/base";
 import { cn } from "@/lib/utils";
 import { useLocale } from "next-intl";
 
@@ -16,7 +17,7 @@ type ModelLinkProps = EntityLinkBaseProps & {
 export function ModelLink(props: ModelLinkProps) {
   return (
     <Link
-      href={{ pathname: "/models/[slug]", params: { slug: props.modelName } }}
+      href={{ pathname: "/models/[slug]", params: { slug: modelSlug(props.modelName) } }}
       className={cn(
         "decoration-foreground/30 hover:decoration-foreground underline decoration-1 underline-offset-4 transition-colors",
         props.className,

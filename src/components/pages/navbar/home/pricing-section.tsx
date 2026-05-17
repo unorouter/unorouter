@@ -1,16 +1,7 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
-import {
-  LuCopy,
-  LuGithub,
-  LuKey,
-  LuMail,
-  LuUserPlus,
-  LuWallet,
-  LuZap,
-} from "react-icons/lu";
-import { FaDiscord } from "react-icons/fa";
+import { Icon } from "@/components/ui/icon";
 
 export async function PricingSection() {
   const t = await getTranslations();
@@ -20,7 +11,7 @@ export async function PricingSection() {
       <div className="mx-auto max-w-360 px-6">
         <div className="mb-8 text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
-            <LuZap className="h-3 w-3 text-purple-700 dark:text-purple-400" />
+            <Icon name="zap" className="h-3 w-3 text-purple-700 dark:text-purple-400" />
             <span className="font-mono text-[10px] tracking-[0.2em] text-purple-700 uppercase dark:text-purple-400">
               {t("HOME.HOW_IT_WORKS.LABEL")}
             </span>
@@ -38,7 +29,7 @@ export async function PricingSection() {
             num={t("HOME.HOW_IT_WORKS.STEP1_NUM")}
             title={t("HOME.HOW_IT_WORKS.STEP1_TITLE")}
             desc={t("HOME.HOW_IT_WORKS.STEP1_DESC")}
-            icon={<LuUserPlus className="text-muted-foreground h-4 w-4" />}
+            icon={<Icon name="user-plus" className="text-muted-foreground h-4 w-4" />}
           >
             <SignupDemo />
           </StepCard>
@@ -47,7 +38,7 @@ export async function PricingSection() {
             num={t("HOME.HOW_IT_WORKS.STEP2_NUM")}
             title={t("HOME.HOW_IT_WORKS.STEP2_TITLE")}
             desc={t("HOME.HOW_IT_WORKS.STEP2_DESC")}
-            icon={<LuWallet className="text-muted-foreground h-4 w-4" />}
+            icon={<Icon name="wallet" className="text-muted-foreground h-4 w-4" />}
           >
             <TopUpDemo />
           </StepCard>
@@ -56,7 +47,7 @@ export async function PricingSection() {
             num={t("HOME.HOW_IT_WORKS.STEP3_NUM")}
             title={t("HOME.HOW_IT_WORKS.STEP3_TITLE")}
             desc={t("HOME.HOW_IT_WORKS.STEP3_DESC")}
-            icon={<LuKey className="text-muted-foreground h-4 w-4" />}
+            icon={<Icon name="key" className="text-muted-foreground h-4 w-4" />}
           >
             <ApiKeyDemo />
           </StepCard>
@@ -113,19 +104,19 @@ function SignupDemo() {
   return (
     <div className="space-y-1.5">
       <div className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5">
-        <LuGithub className="text-foreground/80 h-3.5 w-3.5" />
+        <Icon name="github" className="text-foreground/80 h-3.5 w-3.5" />
         <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
           Continue with GitHub
         </span>
       </div>
       <div className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5">
-        <FaDiscord className="text-foreground/80 h-3.5 w-3.5" />
+        <Icon name="brand-discord" className="text-foreground/80 h-3.5 w-3.5" />
         <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
           Continue with Discord
         </span>
       </div>
       <div className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5">
-        <LuMail className="text-foreground/80 h-3.5 w-3.5" />
+        <Icon name="mail" className="text-foreground/80 h-3.5 w-3.5" />
         <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
           Continue with Email
         </span>
@@ -172,7 +163,7 @@ function ApiKeyDemo() {
         <code className="text-foreground/90 truncate font-mono text-[11px] tracking-tight">
           sk-uno-{"•".repeat(24)}
         </code>
-        <LuCopy className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+        <Icon name="copy" className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
       </div>
       <div className="text-muted-foreground font-mono text-[10px]">
         Fully OpenAI compatible

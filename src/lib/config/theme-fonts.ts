@@ -69,8 +69,11 @@ export type FontOption = {
   id: string;
   /** Human label shown in the picker. */
   label: string;
-  /** CSS variable that resolves to the font family at runtime. */
+  /** Tailwind className from next/font (attached to body for cascade). */
   cssVar: string;
+  /** Explicit CSS variable name passed to next/font (e.g. "--font-inter").
+   *  Use this in `var(...)` references; `cssVar` is the className. */
+  varName: string;
   /** Which buckets this font is suitable for. */
   kinds: FontKind[];
   /** Whether to mark in the picker as accessibility-tuned. */
@@ -83,37 +86,42 @@ export const FONT_OPTIONS: FontOption[] = [
     id: "inter",
     label: "Inter",
     cssVar: inter.variable,
+    varName: "--font-inter",
     kinds: ["sans", "display"],
   },
   {
     id: "geist",
     label: "Geist",
     cssVar: geist.variable,
+    varName: "--font-geist",
     kinds: ["sans", "display"],
   },
   {
     id: "manrope",
     label: "Manrope",
     cssVar: manrope.variable,
+    varName: "--font-manrope",
     kinds: ["sans", "display"],
   },
   {
     id: "plus-jakarta",
     label: "Plus Jakarta Sans",
     cssVar: plusJakarta.variable,
+    varName: "--font-plus-jakarta",
     kinds: ["sans", "display"],
   },
   {
     id: "space-grotesk",
     label: "Space Grotesk",
     cssVar: spaceGrotesk.variable,
+    varName: "--font-space-grotesk",
     kinds: ["sans", "display"],
   },
-  // Accessibility-tuned
   {
     id: "lexend",
     label: "Lexend (dyslexia-friendly)",
     cssVar: lexend.variable,
+    varName: "--font-lexend",
     kinds: ["sans"],
     accessibility: true,
   },
@@ -121,39 +129,43 @@ export const FONT_OPTIONS: FontOption[] = [
     id: "atkinson",
     label: "Atkinson Hyperlegible (low-vision)",
     cssVar: atkinson.variable,
+    varName: "--font-atkinson",
     kinds: ["sans"],
     accessibility: true,
   },
-  // Serif
   {
     id: "source-serif",
     label: "Source Serif 4",
     cssVar: sourceSerif.variable,
+    varName: "--font-source-serif",
     kinds: ["display"],
   },
-  // Mono
   {
     id: "geist-mono",
     label: "Geist Mono",
     cssVar: geistMono.variable,
+    varName: "--font-geist-mono",
     kinds: ["mono"],
   },
   {
     id: "jetbrains-mono",
     label: "JetBrains Mono",
     cssVar: jetbrainsMono.variable,
+    varName: "--font-jetbrains-mono",
     kinds: ["mono"],
   },
   {
     id: "ibm-plex-mono",
     label: "IBM Plex Mono",
     cssVar: ibmPlexMono.variable,
+    varName: "--font-ibm-plex-mono",
     kinds: ["mono"],
   },
   {
     id: "roboto-mono",
     label: "Roboto Mono",
     cssVar: robotoMono.variable,
+    varName: "--font-roboto-mono",
     kinds: ["mono"],
   },
 ];

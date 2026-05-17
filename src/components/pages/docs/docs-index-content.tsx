@@ -11,7 +11,6 @@ import {
 import { TOCLayout } from "@/components/layout/docs/toc";
 import { createTOC } from "@/components/layout/docs/toc-utils";
 import { getTranslations } from "next-intl/server";
-import { LuBookOpen } from "react-icons/lu";
 
 export async function DocsIndexContent() {
   const t = await getTranslations();
@@ -52,7 +51,7 @@ export async function DocsIndexContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS_INDEX.BADGE")}
-          badgeIcon={LuBookOpen}
+          badgeIcon="book-open"
           title={t("DOCS_INDEX.TITLE")}
           subtitle={t("DOCS_INDEX.SUBTITLE", APP_VALUES)}
           centered

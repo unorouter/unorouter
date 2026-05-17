@@ -4,8 +4,8 @@ import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { LuCheck, LuCopy } from "react-icons/lu";
 import { toast } from "sonner";
+import { Icon } from "@/components/ui/icon";
 
 type Props = {
   text: string;
@@ -41,9 +41,9 @@ export function CopyButton(props: Props) {
       aria-label={t("COMMON.COPY_CODE")}
     >
       {copied ? (
-        <LuCheck className={iconClass} />
+        <Icon name="check" className={iconClass} />
       ) : (
-        <LuCopy className={iconClass} />
+        <Icon name="copy" className={iconClass} />
       )}
     </button>
   );

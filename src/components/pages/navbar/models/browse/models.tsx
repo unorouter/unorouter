@@ -11,13 +11,13 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { LuLayers, LuSearch, LuX } from "react-icons/lu";
 import { SortFilter } from "../filters/sort-filter";
 import { VendorFilter } from "../filters/vendor-filter";
 import { ViewModeToggle } from "../filters/view-mode-toggle";
 import { ModelDetailSheet } from "../detail/model-detail-sheet";
 import { ModelCard } from "./model-card";
 import { ModelListItem } from "./model-list-item";
+import { Icon } from "@/components/ui/icon";
 
 export function Models() {
   const t = useTranslations();
@@ -53,7 +53,7 @@ export function Models() {
     <div className="mx-auto max-w-6xl px-6 pt-24 pb-16">
       <PageHeader
         badge={t("MODELS.BADGE")}
-        badgeIcon={LuLayers}
+        badgeIcon="layers"
         title={t("MODELS.TITLE")}
         subtitle={t("MODELS.SUBTITLE")}
         color="#22d3ee"
@@ -74,7 +74,7 @@ export function Models() {
               className="h-8 px-2 md:h-9 lg:px-3"
             >
               {t("MODELS.FILTER.RESET")}
-              <LuX className="ml-1 h-4 w-4 md:ml-2" />
+              <Icon name="x" className="ml-1 h-4 w-4 md:ml-2" />
             </Button>
           )}
           <VendorFilter models={m.models} />
@@ -86,7 +86,7 @@ export function Models() {
       {/* Search + Type Filter */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <LuSearch className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+          <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
             placeholder={t("MODELS.SEARCH_PLACEHOLDER")}
             value={m.search}

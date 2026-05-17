@@ -10,7 +10,6 @@ import { createTOC } from "@/components/layout/docs/toc-utils";
 import { Link } from "@/i18n/navigation";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
-import { GiCrabClaw } from "react-icons/gi";
 import { CCSwitchSetup } from "../cc-switch/cc-switch-setup";
 import { OSCodeBlock } from "../../os/os-code-block";
 import { buildOSVariants } from "../../os/os-code-helpers";
@@ -97,7 +96,7 @@ export async function OpenClawContent() {
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.OPENCLAW.BADGE")}
-          badgeIcon={GiCrabClaw}
+          badgeIcon="crab-claw"
           title={t("DOCS.OPENCLAW.TITLE")}
           subtitle={t("DOCS.OPENCLAW.SUBTITLE", APP_VALUES)}
           centered

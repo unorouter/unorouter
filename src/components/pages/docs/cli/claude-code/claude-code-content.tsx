@@ -262,7 +262,7 @@ npm install -g @anthropic-ai/claude-code`}
       <div className="mx-auto max-w-3xl px-6 py-16">
         <PageHeader
           badge={t("DOCS.CLAUDE_CODE.BADGE")}
-          badgeIcon={Claude}
+          badgeIconComponent={Claude}
           title={t("DOCS.CLAUDE_CODE.TITLE")}
           subtitle={t("DOCS.CLAUDE_CODE.SUBTITLE", APP_VALUES)}
           centered

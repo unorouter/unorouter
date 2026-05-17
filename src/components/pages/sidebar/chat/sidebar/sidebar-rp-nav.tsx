@@ -1,29 +1,18 @@
 "use client";
 
 import { CharacterList } from "@/components/pages/sidebar/chat/rp/character-list";
+import { Icon } from "@/components/ui/icon";
 import { LorebookList } from "@/components/pages/sidebar/chat/rp/lorebook-list";
 import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
 import { Button } from "@/components/ui/button";
 import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-} from "@/components/ui/sidebar";
+  SidebarGroup, SidebarGroupContent, SidebarGroupLabel, } from "@/components/ui/sidebar";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
 import { atom, useAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import {
-  LuBookText,
-  LuLayers,
-  LuSlidersHorizontal,
-  LuUser,
-  LuUsers,
-} from "react-icons/lu";
+import type { IconName } from "@/lib/config/icon-map";
 
 type Tab = "characters" | "personas" | "lorebooks";
 
@@ -41,22 +30,22 @@ const items: Array<{
     | "RP.SIDEBAR_TAB_CHARACTERS"
     | "RP.SIDEBAR_TAB_PERSONAS"
     | "RP.SIDEBAR_TAB_LOREBOOKS";
-  Icon: React.ComponentType<{ className?: string }>;
+  iconName: IconName;
 }> = [
   {
     tab: "characters",
     labelKey: "RP.SIDEBAR_TAB_CHARACTERS",
-    Icon: LuUsers,
+    iconName: "users",
   },
   {
     tab: "personas",
     labelKey: "RP.SIDEBAR_TAB_PERSONAS",
-    Icon: LuUser,
+    iconName: "user",
   },
   {
     tab: "lorebooks",
     labelKey: "RP.SIDEBAR_TAB_LOREBOOKS",
-    Icon: LuBookText,
+    iconName: "book-text",
   },
 ];
 
@@ -79,7 +68,7 @@ export function SidebarRpNav() {
                 aria-label={t(it.labelKey)}
                 onClick={() => setOpenTab(it.tab)}
               >
-                <it.Icon className="size-4" />
+                <Icon name={it.iconName} className="size-4" />
               </Button>
             }
           />
@@ -98,7 +87,7 @@ export function SidebarRpNav() {
               nativeButton={false}
               render={<Link href="/chat/presets" />}
             >
-              <LuSlidersHorizontal className="size-4" />
+              <Icon name="sliders-horizontal" className="size-4" />
             </Button>
           }
         />
@@ -116,7 +105,7 @@ export function SidebarRpNav() {
               nativeButton={false}
               render={<Link href="/chat/cards" />}
             >
-              <LuLayers className="size-4" />
+              <Icon name="layers" className="size-4" />
             </Button>
           }
         />

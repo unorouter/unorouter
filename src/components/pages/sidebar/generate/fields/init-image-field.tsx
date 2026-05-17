@@ -2,11 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
-import { LuTrash, LuUpload } from "react-icons/lu";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useUploadReferenceMutation } from "@/hooks/generation-hook";
+import { Icon } from "@/components/ui/icon";
 
 type Props = {
   value: string | undefined;
@@ -42,7 +42,7 @@ export function InitImageField(props: Props) {
             onClick={() => props.onChange(undefined)}
             className="absolute top-2 right-2"
           >
-            <LuTrash className="h-3 w-3" />
+            <Icon name="trash" className="h-3 w-3" />
           </Button>
         </div>
       ) : (
@@ -52,7 +52,7 @@ export function InitImageField(props: Props) {
           disabled={upload.isPending}
           className="border-border hover:bg-accent flex h-32 w-full items-center justify-center rounded-md border border-dashed text-sm"
         >
-          <LuUpload className="mr-2 h-4 w-4" />
+          <Icon name="upload" className="mr-2 h-4 w-4" />
           {upload.isPending ? t("IMAGE.UPLOADING") : t("IMAGE.UPLOAD_IMAGE")}
         </button>
       )}
