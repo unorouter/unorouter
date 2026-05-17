@@ -61,7 +61,7 @@ function LocalDbStudioInner() {
         <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
         <Button
           variant="destructive"
-          size="sm"
+          size="icon"
           aria-label="Wipe local DB"
           title="Wipe ALL local OPFS data + reload"
           onClick={async () => {
@@ -78,10 +78,9 @@ function LocalDbStudioInner() {
             }
             location.reload();
           }}
-          className="absolute top-3 left-3 z-10 h-7 gap-1 text-xs"
+          className="absolute top-16 left-2 z-10 size-7"
         >
           <LuTrash2 className="size-3" />
-          Wipe DB
         </Button>
         <ShadowHost className="size-full">
           <Studio
