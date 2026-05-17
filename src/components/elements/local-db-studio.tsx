@@ -83,7 +83,15 @@ let cachedSheet: CSSStyleSheet | null = null;
 async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   if (cachedSheet) return cachedSheet;
   const res = await fetch(STUDIO_CSS_URL);
-  const text = await res.text();
+  // The CSS targets `:root` (Tailwind theme tokens) and `.dark` (dark-mode
+  // ancestor selector). Inside a shadow root:
+  //   - `:root` matches nothing (only matches Document.documentElement).
+  //   - `.dark` as a bare selector needs the class on a descendant; we want
+  //     it on the host so the whole subtree inherits the theme.
+  // Rewrite both to scope onto the shadow host.
+  const text = (await res.text())
+    .replace(/:root\b/g, ":host")
+    .replace(/(^|[^a-zA-Z_-])\.dark\b/g, "$1:host(.dark)");
   const sheet = new CSSStyleSheet();
   await sheet.replace(text);
   cachedSheet = sheet;
@@ -102,6 +110,11 @@ function ShadowHost(props: {
     const root =
       hostRef.current.shadowRoot ??
       hostRef.current.attachShadow({ mode: "open" });
+    // The Studio stylesheet uses `.dark` (descendant selector) for the dark
+    // theme. We want to control it via Studio's `theme="dark"` prop, which
+    // expects the class on an ancestor. Add it to the shadow host so the
+    // descendant rule matches all of Studio's tree.
+    hostRef.current.classList.add("dark");
     let cancelled = false;
     void loadStudioStylesheet().then((sheet) => {
       if (cancelled) return;
@@ -147,29 +160,14 @@ async function runOne(
   if (!local) throw new Error("SQLocal unavailable");
   const sql = typeof stmt === "string" ? stmt : stmt.sql;
   const args = typeof stmt === "string" ? [] : (stmt.args ?? []);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const rs = (await (local.db as any).run(
-    sql,
-    Array.isArray(args) ? args : Object.values(args),
-  )) as {
-    rows?: unknown[][] | Record<string, unknown>[];
-    columns?: string[];
-    rowsAffected?: number;
-    lastInsertRowid?: number | bigint;
-  };
-  const raw = rs.rows ?? [];
-  let columns = rs.columns ?? [];
-  let rows: Record<string, unknown>[] = [];
-  if (raw.length > 0 && Array.isArray(raw[0])) {
-    rows = (raw as unknown[][]).map((tuple) => {
-      const obj: Record<string, unknown> = {};
-      for (let i = 0; i < columns.length; i++) obj[columns[i]] = tuple[i];
-      return obj;
-    });
-  } else if (raw.length > 0) {
-    rows = raw as Record<string, unknown>[];
-    if (columns.length === 0) columns = Object.keys(rows[0]);
-  }
+  const params = Array.isArray(args) ? args : Object.values(args);
+  const rs = await local.exec(sql, params, "all");
+  const columns = rs.columns ?? [];
+  const rows: Record<string, unknown>[] = (rs.rows ?? []).map((tuple) => {
+    const obj: Record<string, unknown> = {};
+    for (let i = 0; i < columns.length; i++) obj[columns[i]] = tuple[i];
+    return obj;
+  });
   const headers = columns.map((name) => ({
     name,
     displayName: name,
@@ -179,10 +177,6 @@ async function runOne(
   return {
     rows,
     headers,
-    rowsAffected: rs.rowsAffected ?? 0,
-    lastInsertRowid:
-      typeof rs.lastInsertRowid === "bigint"
-        ? Number(rs.lastInsertRowid)
-        : rs.lastInsertRowid,
+    rowsAffected: rs.numAffectedRows ?? 0,
   };
 }

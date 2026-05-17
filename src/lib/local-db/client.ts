@@ -13,8 +13,25 @@ import { drizzle, type SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 
 type LocalSchema = typeof shared & typeof client;
 export type LocalDb = SqliteRemoteDatabase<LocalSchema>;
+// Raw SQLocal exec - returns rows + column names, unlike the drizzle-proxy
+// driver which only returns row tuples. Used by tooling (e.g. LocalDbStudio)
+// that needs to surface column metadata for arbitrary user-supplied SQL.
+export type LocalRawExec = (
+  sql: string,
+  params: unknown[],
+  method?: "all" | "run" | "get" | "values",
+) => Promise<{
+  rows: unknown[][];
+  columns: string[];
+  numAffectedRows?: number;
+}>;
+
 export type LocalClient = {
   db: LocalDb;
+  // Direct sqlite-proxy driver. Used by tooling (e.g. LocalDbStudio) that
+  // needs to run arbitrary user-supplied SQL without going through drizzle's
+  // schema layer.
+  exec: LocalRawExec;
   transaction: <T>(cb: () => Promise<T>) => Promise<T>;
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
@@ -64,8 +81,14 @@ async function openClient(userId: number): Promise<LocalClient> {
   const { runMigrations } = await import("./migrations");
   await runMigrations(sql);
 
+  // SQLocal's protected `exec` is not on the public API, but we want it for
+  // raw queries (LocalDbStudio). Access it directly off the instance; the
+  // contract is documented in node_modules/sqlocal/dist/client.d.ts.
+  const rawExec = (sql as unknown as { exec: LocalRawExec }).exec.bind(sql);
+
   const wrapped: LocalClient = {
     db,
+    exec: rawExec,
     transaction: <T>(cb: () => Promise<T>) => sql.transaction(cb),
     destroy: () => sql.destroy(),
     deleteDatabaseFile: () => sql.deleteDatabaseFile(),
