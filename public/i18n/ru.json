@@ -2396,6 +2396,8 @@
       "MARKDOWN_COPIED": "Markdown скопирован в буфер обмена",
       "DUPLICATE": "Дублировать чат",
       "DUPLICATE_SUCCESS": "Беседа продублирована",
+      "LOCAL_DB": "Браузер локальной БД",
+      "LOCAL_DB_DOUBLE_CLICK": "Двойной клик, чтобы открыть браузер локальной БД",
       "CLEAR": "Очистить чат",
       "CLEAR_SUCCESS": "Чат очищен",
       "CLEAR_CONFIRM_TITLE": "Удалить все сообщения?",

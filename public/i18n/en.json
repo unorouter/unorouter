@@ -2396,6 +2396,8 @@
       "MARKDOWN_COPIED": "Markdown copied to clipboard",
       "DUPLICATE": "Duplicate chat",
       "DUPLICATE_SUCCESS": "Conversation duplicated",
+      "LOCAL_DB": "Local DB browser",
+      "LOCAL_DB_DOUBLE_CLICK": "Double-click to open the local DB browser",
       "CLEAR": "Clear chat",
       "CLEAR_SUCCESS": "Chat cleared",
       "CLEAR_CONFIRM_TITLE": "Clear all messages?",

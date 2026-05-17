@@ -2396,6 +2396,8 @@
       "MARKDOWN_COPIED": "Markdown in die Zwischenablage kopiert",
       "DUPLICATE": "Chat duplizieren",
       "DUPLICATE_SUCCESS": "Unterhaltung dupliziert",
+      "LOCAL_DB": "Lokaler DB-Browser",
+      "LOCAL_DB_DOUBLE_CLICK": "Doppelklick zum Öffnen des lokalen DB-Browsers",
       "CLEAR": "Chat leeren",
       "CLEAR_SUCCESS": "Chat geleert",
       "CLEAR_CONFIRM_TITLE": "Alle Nachrichten löschen?",

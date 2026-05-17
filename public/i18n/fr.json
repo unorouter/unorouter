@@ -2396,6 +2396,8 @@
       "MARKDOWN_COPIED": "Markdown copie dans le presse-papiers",
       "DUPLICATE": "Dupliquer la conversation",
       "DUPLICATE_SUCCESS": "Conversation dupliquee",
+      "LOCAL_DB": "Navigateur BD locale",
+      "LOCAL_DB_DOUBLE_CLICK": "Double-cliquez pour ouvrir le navigateur de BD locale",
       "CLEAR": "Vider le chat",
       "CLEAR_SUCCESS": "Chat vide",
       "CLEAR_CONFIRM_TITLE": "Supprimer tous les messages ?",

@@ -1,6 +1,7 @@
 "use client";
 
 import { LoginLink } from "@/components/elements/auth/login-link";
+import { LocalDbButton } from "@/components/elements/local-db-button";
 import { DocsSearch } from "@/components/layout/docs/docs-search";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
@@ -44,6 +45,9 @@ export function SidebarHeader(props: SidebarHeaderProps) {
             <LanguageToggle />
             <ThemeToggle />
           </div>
+          {(props.navConfig === "chat" || props.navConfig === "generate") && (
+            <LocalDbButton />
+          )}
           {props.navConfig === "chat" && <ChatShareSlot />}
           {userDisplay.user ? (
             <UserDropdown side="bottom" align="end">

@@ -2396,6 +2396,8 @@
       "MARKDOWN_COPIED": "Markdownをクリップボードにコピーしました",
       "DUPLICATE": "チャットを複製",
       "DUPLICATE_SUCCESS": "会話を複製しました",
+      "LOCAL_DB": "ローカルDBブラウザ",
+      "LOCAL_DB_DOUBLE_CLICK": "ダブルクリックでローカルDBブラウザを開く",
       "CLEAR": "チャットをクリア",
       "CLEAR_SUCCESS": "チャットをクリアしました",
       "CLEAR_CONFIRM_TITLE": "すべてのメッセージを削除しますか？",
