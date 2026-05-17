@@ -190,7 +190,7 @@ export function ChatActionsMenu(props: Props) {
           <LuEllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
-          <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>
+          <DropdownMenuItem onClick={() => setSettingsOpen(true)}>
             <LuSettings2 className="size-4" />
             {t("CHAT.OVERRIDES.OPEN")}
           </DropdownMenuItem>
@@ -268,7 +268,7 @@ export function ChatActionsMenu(props: Props) {
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => setDbStudioOpen(true)}>
+          <DropdownMenuItem onClick={() => setDbStudioOpen(true)}>
             <LuDatabase className="size-4" />
             {t("CHAT.MORE.LOCAL_DB")}
           </DropdownMenuItem>

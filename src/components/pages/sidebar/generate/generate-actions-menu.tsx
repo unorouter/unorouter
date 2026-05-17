@@ -32,7 +32,7 @@ export function GenerateActionsMenu() {
           <LuEllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
-          <DropdownMenuItem onSelect={() => setDbStudioOpen(true)}>
+          <DropdownMenuItem onClick={() => setDbStudioOpen(true)}>
             <LuDatabase className="size-4" />
             {t("CHAT.MORE.LOCAL_DB")}
           </DropdownMenuItem>
