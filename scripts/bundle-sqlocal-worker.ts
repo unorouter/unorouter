@@ -7,25 +7,24 @@
 //
 // Also copies sqlite3.wasm + sqlite3-opfs-async-proxy.js + sqlite3-worker1.mjs
 // so the prebundled worker resolves them as siblings.
+import { build } from "esbuild";
 import { copyFileSync, mkdirSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = resolve(import.meta.dir, "..");
+const here = dirname(fileURLToPath(import.meta.url));
+const root = resolve(here, "..");
 const outDir = resolve(root, "public/sqlocal");
 mkdirSync(outDir, { recursive: true });
 
-const sqlocalWorker = resolve(root, "node_modules/sqlocal/dist/worker.js");
-const out = await Bun.build({
-  entrypoints: [sqlocalWorker],
-  outdir: outDir,
-  naming: "worker.mjs",
-  target: "browser",
+await build({
+  entryPoints: [resolve(root, "node_modules/sqlocal/dist/worker.js")],
+  outfile: resolve(outDir, "worker.mjs"),
+  bundle: true,
   format: "esm",
+  platform: "browser",
+  target: "es2022",
 });
-if (!out.success) {
-  console.error("[bundle-sqlocal-worker] failed:", out.logs);
-  process.exit(1);
-}
 
 const sqliteDist = resolve(root, "node_modules/@sqlite.org/sqlite-wasm/dist");
 for (const file of [
