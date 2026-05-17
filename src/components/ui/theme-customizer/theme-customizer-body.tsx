@@ -10,7 +10,7 @@ import { upsertLocalTheme } from "@/lib/local-db/writes";
 import { enqueuePending } from "@/lib/local-db/pending-sync";
 import { useSyncStateForRow } from "@/hooks/sync-hook";
 import {
-  BASE_COLORS, ICON_LIBRARIES, MENU_ACCENTS, MENUS, RADII, THEMES, } from "@/lib/config/shadcn-themes";
+  ALL_BASE_COLORS, ALL_THEMES, ICON_LIBRARIES, MENU_ACCENTS, MENUS, RADII, } from "@/lib/config/shadcn-themes";
 import { STYLES } from "@/lib/config/shadcn-styles";
 import { FONT_OPTIONS } from "@/lib/config/theme-fonts";
 import { rpc } from "@/lib/rpc";
@@ -24,16 +24,21 @@ import { toast } from "sonner";
 import { FieldGroup, FieldSeparator } from "./field";
 import { ColorSwatch, FontGlyph, Picker, RadiusGlyph } from "./picker";
 
+// Project palette fallbacks for the "default" sentinel (empty cssVars). Match
+// globals.css `--primary` and `--muted-foreground` so chips render as real swatches.
+const DEFAULT_PRIMARY = "#18181b";
+const DEFAULT_MUTED = "#71717a";
+
 function themeChipColor(name: string): string {
-  if (name === "default") return "#18181b";
-  const t = THEMES.find((x) => x.name === name);
-  return t?.cssVars.light.primary ?? t?.cssVars.dark.primary ?? "#9ca3af";
+  const t = ALL_THEMES.find((x) => x.name === name);
+  return (
+    t?.cssVars.light.primary ?? t?.cssVars.dark.primary ?? DEFAULT_PRIMARY
+  );
 }
 
 function baseColorChipColor(name: string): string {
-  if (name === "default") return "#71717a";
-  const t = BASE_COLORS.find((x) => x.name === name);
-  return t?.cssVars.light["muted-foreground"] ?? "#9ca3af";
+  const t = ALL_BASE_COLORS.find((x) => x.name === name);
+  return t?.cssVars.light["muted-foreground"] ?? DEFAULT_MUTED;
 }
 
 function StyleGlyph() {
@@ -108,9 +113,9 @@ export function ThemeCustomizerBody() {
   const shuffle = () => {
     const style = STYLES[Math.floor(Math.random() * STYLES.length)];
     const baseColor =
-      BASE_COLORS[Math.floor(Math.random() * BASE_COLORS.length)];
-    const accent = THEMES[Math.floor(Math.random() * THEMES.length)];
-    const chart = THEMES[Math.floor(Math.random() * THEMES.length)];
+      ALL_BASE_COLORS[Math.floor(Math.random() * ALL_BASE_COLORS.length)];
+    const accent = ALL_THEMES[Math.floor(Math.random() * ALL_THEMES.length)];
+    const chart = ALL_THEMES[Math.floor(Math.random() * ALL_THEMES.length)];
     const radius = RADII[Math.floor(Math.random() * RADII.length)];
     const sansFonts = FONT_OPTIONS.filter((f) => f.kinds.includes("sans"));
     const displayFonts = FONT_OPTIONS.filter((f) => f.kinds.includes("display"));
@@ -214,9 +219,9 @@ export function ThemeCustomizerBody() {
             label={t("THEME.BASE_COLOR")}
             value={cur.base}
             valueLabel={
-              BASE_COLORS.find((b) => b.name === cur.base)?.title ?? ""
+              ALL_BASE_COLORS.find((b) => b.name === cur.base)?.title ?? ""
             }
-            options={BASE_COLORS.map((b) => ({
+            options={ALL_BASE_COLORS.map((b) => ({
               value: b.name,
               label: b.title,
               swatch: baseColorChipColor(b.name),
@@ -227,38 +232,24 @@ export function ThemeCustomizerBody() {
           <Picker
             label={t("THEME.THEME")}
             value={cur.theme}
-            valueLabel={
-              cur.theme === "default"
-                ? "Default"
-                : (THEMES.find((x) => x.name === cur.theme)?.title ?? "")
-            }
-            options={[
-              { value: "default", label: "Default", swatch: themeChipColor("default") },
-              ...THEMES.map((x) => ({
-                value: x.name,
-                label: x.title,
-                swatch: themeChipColor(x.name),
-              })),
-            ]}
+            valueLabel={ALL_THEMES.find((x) => x.name === cur.theme)?.title ?? ""}
+            options={ALL_THEMES.map((x) => ({
+              value: x.name,
+              label: x.title,
+              swatch: themeChipColor(x.name),
+            }))}
             rightAdornment={<ColorSwatch value={themeChipColor(cur.theme)} />}
             onValueChange={(v) => setTheme({ ...theme, theme: v })}
           />
           <Picker
             label={t("THEME.CHART_COLOR")}
             value={cur.chart}
-            valueLabel={
-              cur.chart === "default"
-                ? "Default"
-                : (THEMES.find((x) => x.name === cur.chart)?.title ?? "")
-            }
-            options={[
-              { value: "default", label: "Default", swatch: themeChipColor("default") },
-              ...THEMES.map((x) => ({
-                value: x.name,
-                label: x.title,
-                swatch: themeChipColor(x.name),
-              })),
-            ]}
+            valueLabel={ALL_THEMES.find((x) => x.name === cur.chart)?.title ?? ""}
+            options={ALL_THEMES.map((x) => ({
+              value: x.name,
+              label: x.title,
+              swatch: themeChipColor(x.name),
+            }))}
             rightAdornment={<ColorSwatch value={themeChipColor(cur.chart)} />}
             onValueChange={(v) => setTheme({ ...theme, chartColor: v })}
           />
