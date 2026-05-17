@@ -19,7 +19,13 @@ import {
   SheetContent,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { LuDownload, LuTrash2, LuUpload } from "react-icons/lu";
@@ -35,9 +41,55 @@ const StudioInner = dynamic(() => import("./local-db-studio-inner"), {
 });
 
 export function LocalDbStudio(props: Props) {
+  const t = useTranslations();
   const auth = useAuthQuery();
   const userId = auth.data?.id ?? 0;
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleWipe = async () => {
+    if (!confirm(t("CHAT.MORE.LOCAL_DB_WIPE_CONFIRM"))) return;
+    try {
+      const root = await navigator.storage.getDirectory();
+      for await (const [name] of root.entries()) {
+        await root.removeEntry(name, { recursive: true }).catch(() => {});
+      }
+    } catch (e) {
+      console.error("OPFS wipe failed", e);
+    }
+    location.reload();
+  };
+
+  const handleDownload = async () => {
+    try {
+      const local = await getLocalDb(userId);
+      if (!local) throw new Error("SQLocal unavailable");
+      const file = await local.getDatabaseFile();
+      const url = URL.createObjectURL(file);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `unorouter-${userId}-${new Date()
+        .toISOString()
+        .replace(/[:.]/g, "-")}.sqlite3`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error("DB download failed", e);
+      toast.error(String(e));
+    }
+  };
+
+  const handleUploadFile = async (file: File) => {
+    if (!confirm(t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM"))) return;
+    try {
+      const local = await getLocalDb(userId);
+      if (!local) throw new Error("SQLocal unavailable");
+      await local.overwriteDatabaseFile(file);
+      location.reload();
+    } catch (err) {
+      console.error("DB overwrite failed", err);
+      toast.error(String(err));
+    }
+  };
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -45,92 +97,71 @@ export function LocalDbStudio(props: Props) {
         side="right"
         className="w-[min(95vw,1400px)]! max-w-none! p-0"
       >
-        <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
-        <div className="absolute top-16 left-2 z-10 flex flex-col gap-1">
-          <Button
-            variant="destructive"
-            size="icon"
-            aria-label="Wipe local DB"
-            title="Wipe ALL local OPFS data + reload"
-            onClick={async () => {
-              if (!confirm("Wipe ALL local OPFS data and reload?")) return;
-              try {
-                const root = await navigator.storage.getDirectory();
-                for await (const [name] of root.entries()) {
-                  await root
-                    .removeEntry(name, { recursive: true })
-                    .catch(() => {});
-                }
-              } catch (e) {
-                console.error("OPFS wipe failed", e);
+        <SheetTitle className="sr-only">{t("CHAT.MORE.LOCAL_DB")}</SheetTitle>
+        <div className="absolute top-20 left-2 z-10 flex flex-col gap-1.5">
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  aria-label={t("CHAT.MORE.LOCAL_DB_WIPE")}
+                  onClick={handleWipe}
+                  className="size-7"
+                >
+                  <LuTrash2 className="size-3" />
+                </Button>
               }
-              location.reload();
-            }}
-            className="size-7"
-          >
-            <LuTrash2 className="size-3" />
-          </Button>
-          <Button
-            variant="secondary"
-            size="icon"
-            aria-label="Download DB file"
-            title="Download the local SQLite file"
-            onClick={async () => {
-              try {
-                const local = await getLocalDb(userId);
-                if (!local) throw new Error("SQLocal unavailable");
-                const file = await local.getDatabaseFile();
-                const url = URL.createObjectURL(file);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = `unorouter-${userId}-${new Date()
-                  .toISOString()
-                  .replace(/[:.]/g, "-")}.sqlite3`;
-                a.click();
-                URL.revokeObjectURL(url);
-              } catch (e) {
-                console.error("DB download failed", e);
-                toast.error(String(e));
+            />
+            <TooltipContent side="right">
+              {t("CHAT.MORE.LOCAL_DB_WIPE")}
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  aria-label={t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+                  onClick={handleDownload}
+                  className="size-7"
+                >
+                  <LuDownload className="size-3" />
+                </Button>
               }
-            }}
-            className="size-7"
-          >
-            <LuDownload className="size-3" />
-          </Button>
-          <Button
-            variant="secondary"
-            size="icon"
-            aria-label="Upload DB file"
-            title="Overwrite local SQLite from a .sqlite3 file + reload"
-            onClick={() => uploadInputRef.current?.click()}
-            className="size-7"
-          >
-            <LuUpload className="size-3" />
-          </Button>
+            />
+            <TooltipContent side="right">
+              {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  aria-label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
+                  onClick={() => uploadInputRef.current?.click()}
+                  className="size-7"
+                >
+                  <LuUpload className="size-3" />
+                </Button>
+              }
+            />
+            <TooltipContent side="right">
+              {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
+            </TooltipContent>
+          </Tooltip>
           <input
             ref={uploadInputRef}
             type="file"
             accept=".sqlite,.sqlite3,.db,application/octet-stream"
             className="hidden"
-            onChange={async (e) => {
+            onChange={(e) => {
               const file = e.target.files?.[0];
               e.target.value = "";
-              if (!file) return;
-              if (
-                !confirm(
-                  `Overwrite local OPFS database from "${file.name}"? This wipes existing data.`,
-                )
-              )
-                return;
-              try {
-                const local = await getLocalDb(userId);
-                if (!local) throw new Error("SQLocal unavailable");
-                await local.overwriteDatabaseFile(file);
-                location.reload();
-              } catch (err) {
-                console.error("DB overwrite failed", err);
-                toast.error(String(err));
-              }
+              if (file) void handleUploadFile(file);
             }}
           />
         </div>
