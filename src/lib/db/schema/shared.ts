@@ -212,6 +212,7 @@ export const personas = sqliteTable(
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
+    notes: text("notes"),
     syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -502,7 +503,14 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    r2Key: text("r2_key").notNull(),
+    // r2_key / r2_url is filled once the blob has been uploaded to R2 (sync
+    // path). For local-only media these stay null and the bytes live in
+    // data_base64. On sync we upload to R2, set r2_key/r2_url, and null out
+    // data_base64 before mirroring to Turso so the server-side row stays
+    // pointer-only.
+    r2Key: text("r2_key"),
+    r2Url: text("r2_url"),
+    dataBase64: text("data_base64"),
     mimeType: text("mime_type").notNull(),
     sizeBytes: integer("size_bytes").notNull(),
     extractedText: text("extracted_text"),

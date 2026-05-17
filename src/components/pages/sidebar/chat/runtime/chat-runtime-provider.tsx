@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/refs -- refs accessed during render for sync transport/adapter state */
 
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
-import { createR2AttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
+import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
@@ -45,6 +45,7 @@ function ChatRuntimeHook() {
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
   const t = useTranslations();
+  const auth = useAuthQuery();
 
   // Sync remoteId into convId synchronously (transport body reads this immediately)
   const prevRemoteIdRef = useRef<string | null | undefined>(undefined);
@@ -171,8 +172,9 @@ function ChatRuntimeHook() {
 
   return useAISDKRuntime(wrappedChat, {
     adapters: {
-      attachments: createR2AttachmentAdapter(() => ({
+      attachments: createLocalAttachmentAdapter(() => ({
         convId: getConvId(),
+        userId: auth.data?.id ?? null,
       })),
       history: historyAdapterRef.current,
     },

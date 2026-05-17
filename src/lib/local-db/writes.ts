@@ -210,6 +210,55 @@ export async function upsertLocalTheme(
 }
 
 // ---------------------------------------------------------------------------
+// Media writer. Conversation attachments are saved as base64 inside the
+// local sqlite (`data_base64` column). When the parent conversation is
+// later synced to Turso, `sync.service.ts` uploads the bytes to R2 and
+// stamps `r2_url` on the row so cross-device pulls only carry a pointer.
+// ---------------------------------------------------------------------------
+
+export async function upsertLocalMedia(
+  userId: number,
+  row: {
+    id: string;
+    convId: string;
+    mimeType: string;
+    sizeBytes: number;
+    dataBase64?: string | null;
+    r2Key?: string | null;
+    r2Url?: string | null;
+    extractedText?: string | null;
+  },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(media)
+    .values({
+      id: row.id,
+      userId,
+      convId: row.convId,
+      mimeType: row.mimeType,
+      sizeBytes: row.sizeBytes,
+      dataBase64: row.dataBase64 ?? null,
+      r2Key: row.r2Key ?? null,
+      r2Url: row.r2Url ?? null,
+      extractedText: row.extractedText ?? null,
+    } as never)
+    .onConflictDoUpdate({
+      target: media.id,
+      set: {
+        convId: row.convId,
+        mimeType: row.mimeType,
+        sizeBytes: row.sizeBytes,
+        dataBase64: row.dataBase64 ?? null,
+        r2Key: row.r2Key ?? null,
+        r2Url: row.r2Url ?? null,
+        extractedText: row.extractedText ?? null,
+      } as never,
+    });
+}
+
+// ---------------------------------------------------------------------------
 // Bundle writers - parent + cascade children in one transaction. Used by
 // SyncStateHydrator stage 2 to apply server bundles atomically.
 // ---------------------------------------------------------------------------

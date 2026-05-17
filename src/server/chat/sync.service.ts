@@ -1,5 +1,7 @@
 import { assertFound } from "@/lib/db/assertions";
 import { getDb } from "@/lib/db/client";
+import { mediaKey, uploadToR2 } from "@/lib/config/r2";
+import { uid } from "@/lib/utils/base";
 import {
   cardCharacters,
   cardLorebooks,
@@ -1030,11 +1032,34 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
       if (body.media) {
         await tx.delete(media).where(eq(media.convId, id));
         for (const m of body.media) {
+          const incomingBase64 = m.dataBase64 as string | null | undefined;
+          let r2Key = (m.r2Key as string | null | undefined) ?? null;
+          let r2Url = (m.r2Url as string | null | undefined) ?? null;
+
+          // If the client only has the blob locally (data_base64 set, no R2
+          // key yet), upload it now. Turso never stores base64 - we want the
+          // server-side row pointer-only so the DB stays small.
+          if (!r2Key && incomingBase64) {
+            const buffer = Buffer.from(incomingBase64, "base64");
+            r2Key = mediaKey("user", id, m.id as string, uid(8));
+            const uploaded = await uploadToR2(
+              r2Key,
+              buffer,
+              m.mimeType as string,
+            );
+            r2Url = uploaded.url;
+          }
+
           await tx.insert(media).values({
             id: m.id as string,
             userId,
             convId: id,
-            r2Key: m.r2Key as string,
+            r2Key,
+            r2Url,
+            // data_base64 stays null on Turso. Local clients keep their copy
+            // and re-read it via bundle pulls if they wipe their OPFS, but
+            // the server side is always pointer-only.
+            dataBase64: null,
             mimeType: m.mimeType as string,
             sizeBytes: m.sizeBytes as number,
             extractedText: (m.extractedText as string | null) ?? null,

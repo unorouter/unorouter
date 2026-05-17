@@ -277,7 +277,13 @@ async function applyBundle(
         cardLorebooks: (bundle.cardLorebooks as never[]) ?? [],
       });
       return;
-    case "conversations":
+    case "conversations": {
+      // Server-side conversation bundles carry media as pointers only (the
+      // Turso row stores `r2_url` and never `data_base64`). Re-hydrate the
+      // bytes back into base64 so the local row is fully self-contained -
+      // chats keep working even if the R2 object is later expired/deleted.
+      const rawMedia = (bundle.media as MediaRow[] | undefined) ?? [];
+      const rehydratedMedia = await Promise.all(rawMedia.map(rehydrateMedia));
       await upsertLocalConversationBundle(userId, {
         conversation: bundle.conversation as never,
         settings: (bundle.settings as never) ?? null,
@@ -286,9 +292,10 @@ async function applyBundle(
         conversationLorebooks: (bundle.conversationLorebooks as never[]) ?? [],
         messages: (bundle.messages as never[]) ?? [],
         messageItems: (bundle.messageItems as never[]) ?? [],
-        media: (bundle.media as never[]) ?? [],
+        media: rehydratedMedia as never[],
       });
       return;
+    }
     case "generationSessions":
       await upsertLocalGenerationSessionBundle(userId, {
         session: bundle.session as never,
@@ -310,4 +317,54 @@ async function applyBundle(
       return;
     }
   }
+}
+
+type MediaRow = {
+  id: string;
+  convId: string | null;
+  userId: number;
+  mimeType: string;
+  sizeBytes: number;
+  r2Key: string | null;
+  r2Url: string | null;
+  dataBase64: string | null;
+  extractedText: string | null;
+  createdAt?: Date | string | number;
+};
+
+// If the server bundle hands us a pointer-only media row (r2_url set,
+// data_base64 null), pull the binary back from R2 and stuff it into
+// data_base64 so the local copy is independent of R2 lifetime. R2 failures
+// are tolerated: we keep the pointer and surface a broken-media placeholder
+// in the UI rather than aborting the whole bundle apply.
+async function rehydrateMedia(row: MediaRow): Promise<MediaRow> {
+  if (row.dataBase64 || !row.r2Url) return row;
+  try {
+    const res = await fetch(row.r2Url);
+    if (!res.ok) {
+      logger.warn("R2 media fetch failed", {
+        context: "local-db.hydrator",
+        id: row.id,
+        status: res.status,
+      });
+      return row;
+    }
+    const buf = await res.arrayBuffer();
+    const base64 = arrayBufferToBase64(buf);
+    return { ...row, dataBase64: base64 };
+  } catch (err) {
+    logger.warn("R2 media rehydrate failed", {
+      context: "local-db.hydrator",
+      id: row.id,
+      error: String(err),
+    });
+    return row;
+  }
+}
+
+function arrayBufferToBase64(buf: ArrayBuffer): string {
+  const bytes = new Uint8Array(buf);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
 }

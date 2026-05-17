@@ -149,6 +149,10 @@ class SqlocalDriver extends SqliteLikeBaseDriver {
     this.userId = userId;
   }
 
+  supportBigInt(): boolean {
+    return false;
+  }
+
   async query(stmt: Statement): Promise<DatabaseResultSet> {
     return runOne(this.userId, stmt);
   }
