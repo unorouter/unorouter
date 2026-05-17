@@ -222,24 +222,27 @@ export async function upsertLocalLorebookBundle(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
-  await local.transaction(async () => {
+  // No `local.transaction(...)` wrapper: SQLocal opens a real SQLite
+  // transaction and holds the worker's transactionMutex, but `local.db.<x>`
+  // queries (drizzle sqlite-proxy) don't carry the SQLocal transactionKey,
+  // so they wait on that same mutex and deadlock. Cascade order is enough
+  // here because bundle writes are idempotent upserts.
+  await local.db
+    .insert(lorebooks)
+    .values({ ...bundle.lorebook, userId } as never)
+    .onConflictDoUpdate({
+      target: lorebooks.id,
+      set: bundle.lorebook as never,
+    });
+  await local.db
+    .delete(lorebookEntries)
+    .where(eq(lorebookEntries.lorebookId, bundle.lorebook.id));
+  for (const entry of bundle.entries) {
     await local.db
-      .insert(lorebooks)
-      .values({ ...bundle.lorebook, userId } as never)
-      .onConflictDoUpdate({
-        target: lorebooks.id,
-        set: bundle.lorebook as never,
-      });
-    await local.db
-      .delete(lorebookEntries)
-      .where(eq(lorebookEntries.lorebookId, bundle.lorebook.id));
-    for (const entry of bundle.entries) {
-      await local.db
-        .insert(lorebookEntries)
-        .values(entry as never)
-        .onConflictDoUpdate({ target: lorebookEntries.id, set: entry as never });
-    }
-  });
+      .insert(lorebookEntries)
+      .values(entry as never)
+      .onConflictDoUpdate({ target: lorebookEntries.id, set: entry as never });
+  }
 }
 
 export async function upsertLocalCardBundle(
@@ -252,32 +255,31 @@ export async function upsertLocalCardBundle(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
-  await local.transaction(async () => {
-    await local.db
-      .insert(cards)
-      .values({ ...bundle.card, userId } as never)
-      .onConflictDoUpdate({ target: cards.id, set: bundle.card as never });
-    await local.db
-      .delete(cardCharacters)
-      .where(eq(cardCharacters.cardId, bundle.card.id));
-    for (const row of bundle.cardCharacters) {
-      await local.db.insert(cardCharacters).values({
-        cardId: bundle.card.id,
-        characterId: row.characterId,
-        orderIndex: row.orderIndex ?? 0,
-      });
-    }
-    await local.db
-      .delete(cardLorebooks)
-      .where(eq(cardLorebooks.cardId, bundle.card.id));
-    for (const row of bundle.cardLorebooks) {
-      await local.db.insert(cardLorebooks).values({
-        cardId: bundle.card.id,
-        lorebookId: row.lorebookId,
-        orderIndex: row.orderIndex ?? 0,
-      });
-    }
-  });
+  // No `local.transaction(...)` wrapper - see upsertLocalLorebookBundle.
+  await local.db
+    .insert(cards)
+    .values({ ...bundle.card, userId } as never)
+    .onConflictDoUpdate({ target: cards.id, set: bundle.card as never });
+  await local.db
+    .delete(cardCharacters)
+    .where(eq(cardCharacters.cardId, bundle.card.id));
+  for (const row of bundle.cardCharacters) {
+    await local.db.insert(cardCharacters).values({
+      cardId: bundle.card.id,
+      characterId: row.characterId,
+      orderIndex: row.orderIndex ?? 0,
+    });
+  }
+  await local.db
+    .delete(cardLorebooks)
+    .where(eq(cardLorebooks.cardId, bundle.card.id));
+  for (const row of bundle.cardLorebooks) {
+    await local.db.insert(cardLorebooks).values({
+      cardId: bundle.card.id,
+      lorebookId: row.lorebookId,
+      orderIndex: row.orderIndex ?? 0,
+    });
+  }
 }
 
 export async function upsertLocalConversationBundle(
@@ -294,56 +296,55 @@ export async function upsertLocalConversationBundle(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
-  await local.transaction(async () => {
+  // No `local.transaction(...)` wrapper - see upsertLocalLorebookBundle.
+  await local.db
+    .insert(conversations)
+    .values({ ...bundle.conversation, userId } as never)
+    .onConflictDoUpdate({
+      target: conversations.id,
+      set: bundle.conversation as never,
+    });
+
+  if (bundle.settings) {
     await local.db
-      .insert(conversations)
-      .values({ ...bundle.conversation, userId } as never)
-      .onConflictDoUpdate({
-        target: conversations.id,
-        set: bundle.conversation as never,
-      });
-
-    if (bundle.settings) {
-      await local.db
-        .delete(conversationSettings)
-        .where(eq(conversationSettings.convId, bundle.conversation.id));
-      await local.db
-        .insert(conversationSettings)
-        .values(bundle.settings as never);
-    }
-
+      .delete(conversationSettings)
+      .where(eq(conversationSettings.convId, bundle.conversation.id));
     await local.db
-      .delete(conversationCharacters)
-      .where(eq(conversationCharacters.convId, bundle.conversation.id));
-    for (const row of bundle.conversationCharacters) {
-      await local.db.insert(conversationCharacters).values(row as never);
-    }
+      .insert(conversationSettings)
+      .values(bundle.settings as never);
+  }
 
-    await local.db
-      .delete(conversationLorebooks)
-      .where(eq(conversationLorebooks.convId, bundle.conversation.id));
-    for (const row of bundle.conversationLorebooks) {
-      await local.db.insert(conversationLorebooks).values(row as never);
-    }
+  await local.db
+    .delete(conversationCharacters)
+    .where(eq(conversationCharacters.convId, bundle.conversation.id));
+  for (const row of bundle.conversationCharacters) {
+    await local.db.insert(conversationCharacters).values(row as never);
+  }
 
-    await local.db
-      .delete(messages)
-      .where(eq(messages.convId, bundle.conversation.id));
-    for (const m of bundle.messages) {
-      await local.db.insert(messages).values(m as never);
-    }
+  await local.db
+    .delete(conversationLorebooks)
+    .where(eq(conversationLorebooks.convId, bundle.conversation.id));
+  for (const row of bundle.conversationLorebooks) {
+    await local.db.insert(conversationLorebooks).values(row as never);
+  }
 
-    for (const it of bundle.messageItems) {
-      await local.db.insert(messageItems).values(it as never);
-    }
+  await local.db
+    .delete(messages)
+    .where(eq(messages.convId, bundle.conversation.id));
+  for (const m of bundle.messages) {
+    await local.db.insert(messages).values(m as never);
+  }
 
-    await local.db
-      .delete(media)
-      .where(eq(media.convId, bundle.conversation.id));
-    for (const m of bundle.media) {
-      await local.db.insert(media).values(m as never);
-    }
-  });
+  for (const it of bundle.messageItems) {
+    await local.db.insert(messageItems).values(it as never);
+  }
+
+  await local.db
+    .delete(media)
+    .where(eq(media.convId, bundle.conversation.id));
+  for (const m of bundle.media) {
+    await local.db.insert(media).values(m as never);
+  }
 }
 
 export async function upsertLocalGenerationSessionBundle(
@@ -357,28 +358,27 @@ export async function upsertLocalGenerationSessionBundle(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
-  await local.transaction(async () => {
-    await local.db
-      .insert(generationSessions)
-      .values({ ...bundle.session, userId } as never)
-      .onConflictDoUpdate({
-        target: generationSessions.id,
-        set: bundle.session as never,
-      });
+  // No `local.transaction(...)` wrapper - see upsertLocalLorebookBundle.
+  await local.db
+    .insert(generationSessions)
+    .values({ ...bundle.session, userId } as never)
+    .onConflictDoUpdate({
+      target: generationSessions.id,
+      set: bundle.session as never,
+    });
 
-    await local.db
-      .delete(generations)
-      .where(eq(generations.sessionId, bundle.session.id));
-    for (const g of bundle.generations) {
-      await local.db.insert(generations).values(g as never);
-    }
+  await local.db
+    .delete(generations)
+    .where(eq(generations.sessionId, bundle.session.id));
+  for (const g of bundle.generations) {
+    await local.db.insert(generations).values(g as never);
+  }
 
-    for (const img of bundle.generationImages) {
-      await local.db.insert(generationImages).values(img as never);
-    }
+  for (const img of bundle.generationImages) {
+    await local.db.insert(generationImages).values(img as never);
+  }
 
-    for (const l of bundle.generationLikes) {
-      await local.db.insert(generationLikes).values(l as never);
-    }
-  });
+  for (const l of bundle.generationLikes) {
+    await local.db.insert(generationLikes).values(l as never);
+  }
 }
