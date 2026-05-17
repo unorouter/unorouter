@@ -2,9 +2,14 @@ FROM oven/bun:1-alpine AS deps
 
 WORKDIR /app
 
-COPY package.json ./
+# bun install needs the lockfile + patch dir (referenced via
+# patchedDependencies in package.json) and the postinstall script that
+# bundles the SQLocal worker into /public/sqlocal.
+COPY package.json bun.lock ./
+COPY patches ./patches
+COPY scripts/bundle-sqlocal-worker.ts ./scripts/bundle-sqlocal-worker.ts
 
-RUN bun install
+RUN bun install --frozen-lockfile
 
 #
 FROM oven/bun:1-alpine AS builder
