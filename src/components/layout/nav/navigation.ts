@@ -67,7 +67,13 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   { name: "NAV.RANKINGS", href: "/rankings", icon: LuChartColumnBig },
   { name: "NAV.PRICING", href: "/pricing", icon: LuDollarSign },
   { name: "NAV.CHAT", href: "/chat", icon: LuMessageCircle, exact: true },
-  { name: "NAV.GENERATE", href: "/generate", icon: LuWand, exact: true },
+  {
+    name: "NAV.PLAYGROUND",
+    href: "/generate",
+    icon: LuWand,
+    exact: true,
+    hidden: true,
+  },
   {
     name: "NAV.DOCS",
     href: "/docs",
