@@ -41,57 +41,58 @@ function LocalDbStudioInner() {
   const driver = useMemo(() => new SqlocalDriver(userId), [userId]);
 
   return (
-    <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-2">
-      <Button
-        variant="outline"
-        size="icon"
-        aria-label="Wipe local DB"
-        title="Wipe local DB + reload"
-        onClick={async () => {
-          if (!confirm("Wipe ALL local OPFS data and reload?")) return;
-          try {
-            const root = await navigator.storage.getDirectory();
-            for await (const [name] of root.entries()) {
-              await root.removeEntry(name, { recursive: true }).catch(() => {});
-            }
-          } catch (e) {
-            console.error("OPFS wipe failed", e);
-          }
-          location.reload();
-        }}
-        className="size-10 rounded-full shadow-lg"
+    <Sheet open={open} onOpenChange={setOpen}>
+      <SheetTrigger
+        render={
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label="Local DB Studio"
+            className="fixed right-4 bottom-4 z-50 size-10 rounded-full shadow-lg"
+          >
+            <LuDatabase className="size-4" />
+          </Button>
+        }
+      />
+      <SheetContent
+        side="right"
+        className="w-[min(95vw,1400px)]! max-w-none! p-0"
       >
-        <LuTrash2 className="size-4" />
-      </Button>
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetTrigger
-          render={
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Local DB Studio"
-              className="size-10 rounded-full shadow-lg"
-            >
-              <LuDatabase className="size-4" />
-            </Button>
-          }
-        />
-        <SheetContent
-          side="right"
-          className="w-[min(95vw,1400px)]! max-w-none! p-0"
+        <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
+        <Button
+          variant="destructive"
+          size="sm"
+          aria-label="Wipe local DB"
+          title="Wipe ALL local OPFS data + reload"
+          onClick={async () => {
+            if (!confirm("Wipe ALL local OPFS data and reload?")) return;
+            try {
+              const root = await navigator.storage.getDirectory();
+              for await (const [name] of root.entries()) {
+                await root
+                  .removeEntry(name, { recursive: true })
+                  .catch(() => {});
+              }
+            } catch (e) {
+              console.error("OPFS wipe failed", e);
+            }
+            location.reload();
+          }}
+          className="absolute top-3 left-3 z-10 h-7 gap-1 text-xs"
         >
-          <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
-          <ShadowHost className="size-full">
-            <Studio
-              driver={driver}
-              name={`unorouter-${userId}`}
-              color="indigo"
-              theme="dark"
-            />
-          </ShadowHost>
-        </SheetContent>
-      </Sheet>
-    </div>
+          <LuTrash2 className="size-3" />
+          Wipe DB
+        </Button>
+        <ShadowHost className="size-full">
+          <Studio
+            driver={driver}
+            name={`unorouter-${userId}`}
+            color="indigo"
+            theme="dark"
+          />
+        </ShadowHost>
+      </SheetContent>
+    </Sheet>
   );
 }
 
