@@ -1,7 +1,6 @@
 "use client";
 
 import { ModelSelector } from "@/components/elements/chat/model-selector";
-import { ShareButton } from "@/components/elements/chat/share-button";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { chatModelAtom } from "@/store/chat-store";
@@ -40,13 +39,9 @@ export function ChatControls() {
 }
 
 export function ChatShareSlot() {
-  const token = useApiKey();
   const threadId = useAuiState((s) => s.threadListItem?.remoteId);
-  // Always show the overrides drawer (guests edit jotai defaults; logged-in
-  // users edit the conversation_settings row). Sharing is logged-in only.
   return (
     <div className="flex items-center gap-1">
-      {threadId && token.isLoggedIn && <ShareButton convId={threadId} />}
       <ChatActionsMenu convId={threadId ?? null} />
     </div>
   );

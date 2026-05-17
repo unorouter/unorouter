@@ -10,7 +10,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -23,9 +22,7 @@ import {
   useDeleteSnapshotMutation,
   useExportSessionMutation,
   useImportGenerationMutation,
-  useRevokeSessionShareMutation,
   useSessionQuery,
-  useShareSessionMutation,
   useSnapshotStatusQuery,
 } from "@/hooks/generation-hook";
 import { getModelDescriptor } from "@/lib/config/generation-models";
@@ -47,18 +44,13 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
-  LuCheck,
   LuChevronLeft,
   LuChevronRight,
-  LuCopy,
   LuDownload,
-  LuLink2,
-  LuLink2Off,
   LuMaximize2,
   LuPaintbrush,
   LuPencil,
   LuPencilRuler,
-  LuShare2,
   LuSparkles,
   LuTrash2,
   LuUpload,
@@ -349,8 +341,6 @@ export function GenerateResult(props: Props) {
   const statusQuery = useSnapshotStatusQuery(props.snapshotId, true);
 
   const deleteMut = useDeleteSnapshotMutation();
-  const shareMut = useShareSessionMutation();
-  const revokeMut = useRevokeSessionShareMutation();
   const exportMut = useExportSessionMutation();
   const importMut = useImportGenerationMutation();
 
@@ -360,8 +350,6 @@ export function GenerateResult(props: Props) {
   const setActiveTab = useSetAtom(activeTabAtom);
   const setActiveSubPill = useSetAtom(activeSubPillAtom);
 
-  const [shareDialogOpen, setShareDialogOpen] = useState(false);
-  const [copiedTick, setCopiedTick] = useState(false);
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [importMode, setImportMode] = useState<"restore" | "regenerate">(
     "restore",
@@ -400,7 +388,8 @@ export function GenerateResult(props: Props) {
     requestedCount?: number;
   };
   const data = (liveSnapshot ?? cachedSnapshot) as SnapshotWide | undefined;
-  const shareId = session?.shareId ?? null;
+  // session reference kept for future use; share UX removed.
+  void session;
 
   // Chevron index. Snapshots are returned newest-first; index 0 is the
   // most recent. Navigation flips the active snapshot id + URL ?snap param.
@@ -483,27 +472,6 @@ export function GenerateResult(props: Props) {
       return;
     }
     swapTo(remaining[0].id);
-  };
-
-  const onShare = async () => {
-    if (!shareId) {
-      await shareMut.mutateAsync({ sessionId: props.sessionId });
-    }
-    setShareDialogOpen(true);
-  };
-
-  const onCopyShareLink = async () => {
-    if (!shareId) return;
-    const url = `${window.location.origin}/shared/g/${shareId}`;
-    await navigator.clipboard.writeText(url);
-    setCopiedTick(true);
-    setTimeout(() => setCopiedTick(false), 1500);
-  };
-
-  const onRevokeShare = async () => {
-    if (!shareId) return;
-    await revokeMut.mutateAsync({ sessionId: props.sessionId });
-    setShareDialogOpen(false);
   };
 
   const onExport = async () => {
@@ -656,17 +624,6 @@ export function GenerateResult(props: Props) {
           <Button
             variant="outline"
             size="sm"
-            onClick={onShare}
-            disabled={shareMut.isPending}
-          >
-            <LuShare2 className="mr-2" />
-            {t("IMAGE.SHARE")}
-          </Button>
-        )}
-        {isDone && (
-          <Button
-            variant="outline"
-            size="sm"
             onClick={onExport}
             disabled={exportMut.isPending}
           >
@@ -701,52 +658,6 @@ export function GenerateResult(props: Props) {
         snapshotId={props.snapshotId}
         alt={data.prompt ?? ""}
       />
-
-      <Dialog open={shareDialogOpen} onOpenChange={setShareDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("IMAGE.SHARE_TITLE")}</DialogTitle>
-            <DialogDescription>
-              {t("IMAGE.SHARE_SESSION_HELP")}
-            </DialogDescription>
-          </DialogHeader>
-          {shareId && (
-            <div className="flex items-center gap-2">
-              <Input
-                readOnly
-                value={`${typeof window !== "undefined" ? window.location.origin : ""}/shared/g/${shareId}`}
-              />
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={onCopyShareLink}
-              >
-                {copiedTick ? (
-                  <LuCheck className="h-4 w-4" />
-                ) : (
-                  <LuCopy className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          )}
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onRevokeShare}
-              disabled={revokeMut.isPending || !shareId}
-            >
-              <LuLink2Off className="mr-2" />
-              {t("IMAGE.SHARE_REVOKE")}
-            </Button>
-            <Button type="button" onClick={() => setShareDialogOpen(false)}>
-              <LuLink2 className="mr-2" />
-              {t("IMAGE.SHARE_DONE")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={importDialogOpen} onOpenChange={setImportDialogOpen}>
         <DialogContent>

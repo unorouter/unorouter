@@ -1,5 +1,12 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth-hook";
+import {
+  readLocalCard,
+  readLocalConversationBundle,
+  readLocalGenerationSessionBundle,
+  readLocalLorebook,
+} from "@/lib/local-db/reads";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -36,15 +43,48 @@ type SyncArgs = {
 export function useSyncMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: SyncArgs) =>
-      handleElysia(
+    mutationFn: async (args: SyncArgs) => {
+      let payload = args.payload;
+      const userId = auth.data?.id;
+      // For kinds w/ cascade children, auto-build the bundle from SQLocal so
+      // Add/Resync pushes everything (settings, bindings, messages, items,
+      // media for conversations; lorebook + entries; card + junctions;
+      // session + generations + images + likes). Caller's explicit payload
+      // wins when provided.
+      if (payload == null && userId != null) {
+        if (args.kind === "conversations") {
+          payload = await readLocalConversationBundle(userId, args.id);
+        } else if (args.kind === "lorebooks") {
+          const lb = await readLocalLorebook(userId, args.id);
+          if (lb) {
+            payload = {
+              lorebook: { ...lb, entries: undefined },
+              entries: lb.entries,
+            };
+          }
+        } else if (args.kind === "cards") {
+          const card = await readLocalCard(userId, args.id);
+          if (card) {
+            payload = {
+              card: { ...card, cardCharacters: undefined, cardLorebooks: undefined },
+              cardCharacters: card.cardCharacters,
+              cardLorebooks: card.cardLorebooks,
+            };
+          }
+        } else if (args.kind === "generationSessions") {
+          payload = await readLocalGenerationSessionBundle(userId, args.id);
+        }
+      }
+      return handleElysia(
         await rpc.api.sync({ kind: args.kind })({ id: args.id }).post({
           days: args.days,
-          payload: args.payload,
+          payload,
           keepExpiry: args.keepExpiry,
         }),
-      ),
+      );
+    },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.syncState() });

@@ -13,12 +13,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -37,9 +32,7 @@ import {
 } from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
-import { chatFontAtom, type ChatFont } from "@/store/chat-store";
 import { useAui } from "@assistant-ui/react";
-import { useAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LocalDbStudio } from "@/components/elements/local-db-studio";
@@ -54,7 +47,6 @@ import {
   LuEllipsisVertical,
   LuRefreshCcw,
   LuSettings2,
-  LuType,
   LuTrash2,
   LuUpload,
 } from "react-icons/lu";
@@ -93,7 +85,6 @@ export function ChatActionsMenu(props: Props) {
   const syncMut = useSyncMutation();
   const removeSyncMut = useRemoveSyncMutation();
   const syncState = useSyncStateForRow("conversations", props.convId ?? "");
-  const [font, setFont] = useAtom(chatFontAtom);
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -298,35 +289,6 @@ export function ChatActionsMenu(props: Props) {
             <LuCopy className="size-4" />
             {t("CHAT.MORE.DUPLICATE")}
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              <LuType className="size-4" />
-              {t("CHAT.MORE.FONT")}
-            </DropdownMenuSubTrigger>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup
-                value={font}
-                onValueChange={(v) => setFont(v as ChatFont)}
-              >
-                <DropdownMenuRadioItem value="sans">
-                  {t("CHAT.MORE.FONT_SANS")}
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="display">
-                  {t("CHAT.MORE.FONT_DISPLAY")}
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="serif">
-                  {t("CHAT.MORE.FONT_SERIF")}
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="mono">
-                  {t("CHAT.MORE.FONT_MONO")}
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="system">
-                  {t("CHAT.MORE.FONT_SYSTEM")}
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => setDbStudioOpen(true)}>
             <LuDatabase className="size-4" />
