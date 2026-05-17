@@ -1,3 +1,4 @@
+import { LocalDbStudio } from "@/components/elements/local-db-studio";
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
 import { GuestConvsClaim } from "@/components/pages/sidebar/chat/runtime/guest-convs-claim";
@@ -100,6 +101,7 @@ export default async function ChatLayout(props: Props) {
           {props.children}
         </SidebarLayout>
         <RpDialogs />
+        <LocalDbStudio />
       </ChatRuntimeProvider>
     </HydrationBoundary>
   );
