@@ -26,12 +26,12 @@ export type UserTheme = {
 export const USER_THEME_KEY = "user-theme";
 
 export const INITIAL_USER_THEME: UserTheme = {
-  baseColor: "neutral",
-  theme: "neutral",
-  chartColor: "neutral",
-  fontBody: "inter",
-  fontHeading: "inherit",
-  radius: "default",
+  baseColor: "zinc",
+  theme: "zinc",
+  chartColor: "zinc",
+  fontBody: "space-grotesk",
+  fontHeading: "plus-jakarta",
+  radius: "none",
   style: "nova",
   iconLibrary: "lucide",
   menu: "default",
