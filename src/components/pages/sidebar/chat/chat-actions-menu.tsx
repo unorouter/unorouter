@@ -84,7 +84,6 @@ export function ChatActionsMenu(props: Props) {
   const [font, setFont] = useAtom(chatFontAtom);
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const dbClickRef = useRef<number>(0);
 
   const hasConv = !!props.convId;
 
@@ -269,19 +268,7 @@ export function ChatActionsMenu(props: Props) {
             </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onSelect={(e) => {
-              e.preventDefault();
-              const now = Date.now();
-              if (now - dbClickRef.current < 400) {
-                dbClickRef.current = 0;
-                setDbStudioOpen(true);
-              } else {
-                dbClickRef.current = now;
-                toast.message(t("CHAT.MORE.LOCAL_DB_DOUBLE_CLICK"));
-              }
-            }}
-          >
+          <DropdownMenuItem onSelect={() => setDbStudioOpen(true)}>
             <LuDatabase className="size-4" />
             {t("CHAT.MORE.LOCAL_DB")}
           </DropdownMenuItem>

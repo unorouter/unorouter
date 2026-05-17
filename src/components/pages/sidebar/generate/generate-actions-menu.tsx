@@ -9,14 +9,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { LuDatabase, LuEllipsisVertical } from "react-icons/lu";
-import { toast } from "sonner";
 
 export function GenerateActionsMenu() {
   const t = useTranslations();
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
-  const dbClickRef = useRef<number>(0);
 
   return (
     <>
@@ -34,19 +32,7 @@ export function GenerateActionsMenu() {
           <LuEllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-64">
-          <DropdownMenuItem
-            onSelect={(e) => {
-              e.preventDefault();
-              const now = Date.now();
-              if (now - dbClickRef.current < 400) {
-                dbClickRef.current = 0;
-                setDbStudioOpen(true);
-              } else {
-                dbClickRef.current = now;
-                toast.message(t("CHAT.MORE.LOCAL_DB_DOUBLE_CLICK"));
-              }
-            }}
-          >
+          <DropdownMenuItem onSelect={() => setDbStudioOpen(true)}>
             <LuDatabase className="size-4" />
             {t("CHAT.MORE.LOCAL_DB")}
           </DropdownMenuItem>

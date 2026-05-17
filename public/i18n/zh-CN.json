@@ -2397,7 +2397,6 @@
       "DUPLICATE": "复制对话",
       "DUPLICATE_SUCCESS": "对话已复制",
       "LOCAL_DB": "本地数据库浏览器",
-      "LOCAL_DB_DOUBLE_CLICK": "双击打开本地数据库浏览器",
       "CLEAR": "清空对话",
       "CLEAR_SUCCESS": "对话已清空",
       "CLEAR_CONFIRM_TITLE": "清空所有消息？",

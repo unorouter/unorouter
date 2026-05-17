@@ -22,8 +22,8 @@ export function ChatControls() {
   };
 
   return (
-    <div className="flex min-w-0 items-center gap-1.5 sm:gap-2">
-      <div className="w-40 min-w-0 sm:w-48 lg:w-52">
+    <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
+      <div className="min-w-0 flex-1 sm:w-48 sm:flex-none lg:w-52">
         <ModelSelector value={chatModel} onChange={setNewChatModel} />
       </div>
       <Button
