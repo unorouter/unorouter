@@ -11,10 +11,10 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeMathjax from "rehype-mathjax";
 import { type FC, useState } from "react";
-import { CheckIcon, CopyIcon, DownloadIcon, LinkIcon } from "lucide-react";
 
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
 import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -65,8 +65,8 @@ const CodeHeader: FC<CodeHeaderProps> = (props) => {
         {props.language}
       </span>
       <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")} onClick={onCopy}>
-        {!isCopied && <CopyIcon />}
-        {isCopied && <CheckIcon />}
+        {!isCopied && <Icon name="copy" />}
+        {isCopied && <Icon name="check" />}
       </TooltipIconButton>
     </div>
   );
@@ -311,7 +311,7 @@ const defaultComponents = memoizeMarkdownComponents({
               className="bg-background/80 size-7 backdrop-blur-sm"
               onClick={handleDownload}
             >
-              <DownloadIcon className="size-3.5" />
+              <Icon name="download" className="size-3.5" />
             </TooltipIconButton>
             <TooltipIconButton
               tooltip={
@@ -324,9 +324,9 @@ const defaultComponents = memoizeMarkdownComponents({
               onClick={handleCopyLink}
             >
               {isCopied ? (
-                <CheckIcon className="size-3.5" />
+                <Icon name="check" className="size-3.5" />
               ) : (
-                <LinkIcon className="size-3.5" />
+                <Icon name="link" className="size-3.5" />
               )}
             </TooltipIconButton>
           </span>

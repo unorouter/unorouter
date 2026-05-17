@@ -16,10 +16,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Icon } from "@/components/ui/icon";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Check, PlusCircle } from "lucide-react";
 
 type Option = { id: string; label: string };
 
@@ -51,7 +51,7 @@ export function MultiSelectPopover(props: Props) {
             size="sm"
             className="h-9 w-full justify-start border-dashed"
           >
-            <PlusCircle className="mr-1.5 h-4 w-4" />
+            <Icon name="plus-circle" className="mr-1.5 h-4 w-4" />
             <span className="truncate">{props.triggerLabel}</span>
             {props.value.length > 0 && (
               <>
@@ -108,7 +108,8 @@ export function MultiSelectPopover(props: Props) {
                         isSelected ? "bg-primary" : "opacity-50",
                       )}
                     >
-                      <Check
+                      <Icon
+                        name="check"
                         className={cn(
                           "text-primary-foreground! h-4 w-4",
                           !isSelected && "invisible",

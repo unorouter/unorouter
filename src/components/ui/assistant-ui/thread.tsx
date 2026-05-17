@@ -27,8 +27,6 @@ import { useMessageError } from "@assistant-ui/core/react";
 import {
   ActionBarPrimitive, AuiIf, BranchPickerPrimitive, ComposerPrimitive, MessagePrimitive, SuggestionPrimitive, ThreadPrimitive, useAuiState, } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
-import {
-  ArrowDownIcon, ArrowUpIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon, CopyIcon, PencilIcon, RefreshCwIcon, SquareIcon, Trash2Icon, } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   createContext, type FC, useContext, useEffect, useRef, useState, } from "react";
@@ -97,7 +95,7 @@ const ThreadScrollToBottom: FC = () => {
         variant="outline"
         className="aui-thread-scroll-to-bottom dark:border-border dark:bg-background dark:hover:bg-accent absolute -top-12 z-10 self-center rounded-full p-4 disabled:invisible"
       >
-        <ArrowDownIcon />
+        <Icon name="arrow-down" />
       </TooltipIconButton>
     </ThreadPrimitive.ScrollToBottom>
   );
@@ -220,7 +218,7 @@ const ComposerAction: FC = () => {
             className="aui-composer-send size-8 rounded-full"
             aria-label={t("CHAT.ACTION.SEND")}
           >
-            <ArrowUpIcon className="aui-composer-send-icon size-4" />
+            <Icon name="arrow-up" className="aui-composer-send-icon size-4" />
           </TooltipIconButton>
         </ComposerPrimitive.Send>
       </AuiIf>
@@ -233,7 +231,7 @@ const ComposerAction: FC = () => {
             className="aui-composer-cancel size-8 rounded-full"
             aria-label={t("CHAT.ACTION.STOP")}
           >
-            <SquareIcon className="aui-composer-cancel-icon size-3 fill-current" />
+            <Icon name="square" className="aui-composer-cancel-icon size-3 fill-current" />
           </Button>
         </ComposerPrimitive.Cancel>
       </AuiIf>
@@ -624,7 +622,7 @@ const DeleteMessageButton: FC = () => {
           "bg-destructive/15 text-destructive hover:bg-destructive/25 hover:text-destructive",
       )}
     >
-      <Trash2Icon />
+      <Icon name="trash-2" />
     </TooltipIconButton>
   );
 };
@@ -643,23 +641,23 @@ const AssistantActionBar: FC = () => {
       <ActionBarPrimitive.Copy asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.COPY")}>
           <AuiIf condition={(s) => s.message.isCopied}>
-            <CheckIcon />
+            <Icon name="check" />
           </AuiIf>
           <AuiIf condition={(s) => !s.message.isCopied}>
-            <CopyIcon />
+            <Icon name="copy" />
           </AuiIf>
         </TooltipIconButton>
       </ActionBarPrimitive.Copy>
       {!readOnly && (
         <ActionBarPrimitive.Reload asChild>
           <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
-            <RefreshCwIcon />
+            <Icon name="refresh-cw" />
           </TooltipIconButton>
         </ActionBarPrimitive.Reload>
       )}
       {!readOnly && beginEdit && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
-          <PencilIcon />
+          <Icon name="pencil" />
         </TooltipIconButton>
       )}
       {!readOnly && <DeleteMessageButton />}
@@ -700,7 +698,7 @@ const UserActionBar: FC = () => {
     >
       <ActionBarPrimitive.Edit asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")}>
-          <PencilIcon />
+          <Icon name="pencil" />
         </TooltipIconButton>
       </ActionBarPrimitive.Edit>
       <DeleteMessageButton />
@@ -778,7 +776,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
     >
       <BranchPickerPrimitive.Previous asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.PREVIOUS")}>
-          <ChevronLeftIcon />
+          <Icon name="chevron-left" />
         </TooltipIconButton>
       </BranchPickerPrimitive.Previous>
       <span className="aui-branch-picker-state font-medium">
@@ -786,7 +784,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
       </span>
       <BranchPickerPrimitive.Next asChild>
         <TooltipIconButton tooltip={t("CHAT.ACTION.NEXT")}>
-          <ChevronRightIcon />
+          <Icon name="chevron-right" />
         </TooltipIconButton>
       </BranchPickerPrimitive.Next>
     </BranchPickerPrimitive.Root>

@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { type ViewMode, viewModeAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
-import { LayoutGrid, List } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function ViewModeToggle() {
@@ -25,7 +25,7 @@ export function ViewModeToggle() {
         title={t("MODELS.VIEW.GRID")}
         className="h-6 w-6 md:h-7 md:w-7"
       >
-        <LayoutGrid className="h-3.5 w-3.5 md:h-4 md:w-4" />
+        <Icon name="layout-grid" className="h-3.5 w-3.5 md:h-4 md:w-4" />
       </Button>
       <Button
         variant={viewMode === "list" ? "secondary" : "ghost"}
@@ -36,7 +36,7 @@ export function ViewModeToggle() {
         title={t("MODELS.VIEW.LIST")}
         className="h-6 w-6 md:h-7 md:w-7"
       >
-        <List className="h-3.5 w-3.5 md:h-4 md:w-4" />
+        <Icon name="list" className="h-3.5 w-3.5 md:h-4 md:w-4" />
       </Button>
     </div>
   );

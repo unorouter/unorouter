@@ -2,13 +2,6 @@
 
 import { useRef, useState } from "react";
 import {
-  AlertCircleIcon,
-  CheckIcon,
-  ChevronDownIcon,
-  LoaderIcon,
-  XCircleIcon,
-} from "lucide-react";
-import {
   useScrollLock,
   type ToolCallMessagePartStatus,
   type ToolCallMessagePartComponent,
@@ -18,6 +11,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { Icon } from "@/components/ui/icon";
+import { type IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -81,11 +76,11 @@ function ToolFallbackRoot({
 
 type ToolStatus = ToolCallMessagePartStatus["type"];
 
-const statusIconMap: Record<ToolStatus, React.ElementType> = {
-  running: LoaderIcon,
-  complete: CheckIcon,
-  incomplete: XCircleIcon,
-  "requires-action": AlertCircleIcon,
+const statusIconMap: Record<ToolStatus, IconName> = {
+  running: "loader",
+  complete: "check",
+  incomplete: "x-circle",
+  "requires-action": "alert-circle",
 };
 
 function ToolFallbackTrigger({
@@ -103,7 +98,7 @@ function ToolFallbackTrigger({
   const isCancelled =
     status?.type === "incomplete" && status.reason === "cancelled";
 
-  const Icon = statusIconMap[statusType];
+  const iconName = statusIconMap[statusType];
   const label = isCancelled ? t("CHAT.TOOL.CANCELLED") : t("CHAT.TOOL.USED");
 
   return (
@@ -116,6 +111,7 @@ function ToolFallbackTrigger({
       {...props}
     >
       <Icon
+        name={iconName}
         data-slot="tool-fallback-trigger-icon"
         className={cn(
           "aui-tool-fallback-trigger-icon size-4 shrink-0",
@@ -143,7 +139,8 @@ function ToolFallbackTrigger({
           </span>
         )}
       </span>
-      <ChevronDownIcon
+      <Icon
+        name="chevron-down"
         data-slot="tool-fallback-trigger-chevron"
         className={cn(
           "aui-tool-fallback-trigger-chevron size-4 shrink-0",

@@ -7,13 +7,12 @@ import {
 } from "@/lib/config/icon-map";
 import { userThemeAtom } from "@/store/theme-store";
 import { useAtomValue } from "jotai";
-import dynamic from "next/dynamic";
-import type { ComponentType } from "react";
+import { Suspense, lazy, type ComponentType } from "react";
 import { LuLoader } from "react-icons/lu";
 
-type Cmp = ComponentType<React.SVGAttributes<SVGSVGElement> & {
-  size?: number | string;
-}>;
+type Cmp = ComponentType<
+  React.SVGAttributes<SVGSVGElement> & { size?: number | string }
+>;
 
 const cache = new Map<string, Cmp>();
 
@@ -27,14 +26,9 @@ function getIcon(name: IconName, lib: IconLibraryName): Cmp | null {
   const loader = entry[lib] ?? entry.lucide;
   if (!loader) return null;
 
-  const Icon = dynamic(loader, {
-    ssr: false,
-    loading: () => (
-      <LuLoader className="text-muted-foreground inline-block size-4 animate-spin" />
-    ),
-  }) as Cmp;
-  cache.set(key, Icon);
-  return Icon;
+  const Lazy = lazy(loader) as Cmp;
+  cache.set(key, Lazy);
+  return Lazy;
 }
 
 type Props = React.SVGAttributes<SVGSVGElement> & {
@@ -48,6 +42,18 @@ export function Icon(props: Props) {
   const { name, ...rest } = props;
   const IconComp = getIcon(name, lib);
   if (!IconComp) return null;
-  // eslint-disable-next-line react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair
-  return <IconComp {...rest} />;
+  // Spinner inherits consumer className/size so layout stays put during
+  // chunk load. animate-spin appended.
+  const spinnerProps = {
+    ...rest,
+    className: rest.className
+      ? `${rest.className} animate-spin`
+      : "animate-spin",
+  };
+  return (
+    <Suspense fallback={<LuLoader {...spinnerProps} />}>
+      {/* eslint-disable-next-line react-hooks/static-components -- cached in module-scope map, referentially stable per (name, lib) pair */}
+      <IconComp {...rest} />
+    </Suspense>
+  );
 }

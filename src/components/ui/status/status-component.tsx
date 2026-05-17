@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useStatusBlocksLabels } from "@/components/ui/status/status-i18n";
 import { StatusIcon as UnifiedStatusIcon } from "@/components/ui/status/status-icon";
@@ -16,7 +17,6 @@ import {
 import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { cn } from "@/lib/utils";
 import { dayjs } from "@/lib/utils/date";
-import { InfoIcon } from "lucide-react";
 import { useState } from "react";
 
 // ============================================================================
@@ -327,7 +327,7 @@ export function StatusComponentDescription({
           className="rounded-full"
           {...props}
         >
-          <InfoIcon className="text-muted-foreground size-4" />
+          <Icon name="info" className="text-muted-foreground size-4" />
         </TooltipTrigger>
         <TooltipContent>
           <p>{children}</p>

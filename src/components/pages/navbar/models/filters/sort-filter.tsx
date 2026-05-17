@@ -8,9 +8,9 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { type SortOrder, sortOrderAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
-import { ArrowUpDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function SortFilter() {
@@ -32,7 +32,7 @@ export function SortFilter() {
             size="sm"
             className="h-8 border-dashed md:h-9"
           >
-            <ArrowUpDown className="mr-1.5 h-4 w-4 md:mr-2" />
+            <Icon name="arrow-up-down" className="mr-1.5 h-4 w-4 md:mr-2" />
             <span>{getSortLabel()}</span>
           </Button>
         }

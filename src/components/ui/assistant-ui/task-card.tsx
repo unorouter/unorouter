@@ -2,16 +2,10 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { useFinalizeTaskMutation, useTaskStatusQuery } from "@/hooks/chat-hook";
 import { cn } from "@/lib/utils";
 import { useAuiState } from "@assistant-ui/react";
-import {
-  CheckIcon,
-  LoaderIcon,
-  RefreshCwIcon,
-  VideoIcon,
-  XCircleIcon,
-} from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -61,11 +55,11 @@ function statusVariant(
 }
 
 function StatusIcon(props: { status: TaskStatus }) {
-  if (props.status === "SUCCESS") return <CheckIcon className="size-3" />;
-  if (props.status === "FAILURE") return <XCircleIcon className="size-3" />;
+  if (props.status === "SUCCESS") return <Icon name="check" className="size-3" />;
+  if (props.status === "FAILURE") return <Icon name="x-circle" className="size-3" />;
   if (IN_PROGRESS_STATUSES.has(props.status))
-    return <LoaderIcon className="size-3 animate-spin" />;
-  return <VideoIcon className="size-3" />;
+    return <Icon name="loader" className="size-3 animate-spin" />;
+  return <Icon name="video" className="size-3" />;
 }
 
 export function TaskCard(props: Props) {
@@ -103,7 +97,7 @@ export function TaskCard(props: Props) {
 
   return (
     <div className="bg-muted/40 flex items-center gap-3 rounded-lg border px-4 py-3 text-sm">
-      <VideoIcon className="text-muted-foreground size-4 shrink-0" />
+      <Icon name="video" className="text-muted-foreground size-4 shrink-0" />
 
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <div className="flex items-center gap-2">
@@ -140,7 +134,8 @@ export function TaskCard(props: Props) {
           disabled={isRunning}
           onClick={handleRefresh}
         >
-          <RefreshCwIcon
+          <Icon
+            name="refresh-cw"
             className={cn("size-3", isRunning && "animate-spin")}
           />
           {t("CHAT.TASK.REFRESH")}

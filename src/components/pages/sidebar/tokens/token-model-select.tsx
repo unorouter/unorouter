@@ -9,6 +9,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Icon } from "@/components/ui/icon";
 import {
   Popover,
   PopoverContent,
@@ -16,7 +17,6 @@ import {
 } from "@/components/ui/popover";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { Control } from "react-hook-form";
 import type { TokenFormSchema } from "@/lib/validation/token";
@@ -93,7 +93,7 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                                 }}
                                 className="hover:text-foreground text-muted-foreground ml-0.5 cursor-pointer"
                               >
-                                <X className="h-3 w-3" />
+                                <Icon name="x" className="h-3 w-3" />
                               </span>
                             </Badge>
                           );
@@ -104,7 +104,7 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                         </span>
                       )}
                     </div>
-                    <ChevronsUpDown className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+                    <Icon name="chevrons-up-down" className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
                   </Button>
                 </FormControl>
               }
@@ -160,7 +160,7 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                                   : "opacity-50 [&_svg]:invisible",
                               )}
                             >
-                              <Check className="h-4 w-4" />
+                              <Icon name="check" className="h-4 w-4" />
                             </div>
                             <VendorIcon
                               vendor={model.vendor}

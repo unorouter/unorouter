@@ -1,11 +1,6 @@
-import { cn } from "@/lib/utils";
-import {
-  AlertCircleIcon,
-  CheckIcon,
-  TriangleAlertIcon,
-  WrenchIcon,
-} from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 import type { StatusType } from "@/components/ui/status/status.types";
+import { cn } from "@/lib/utils";
 
 interface StatusIconProps extends React.ComponentProps<"div"> {
   /**
@@ -122,12 +117,13 @@ export function StatusIcon({
       )}
       {...props}
     >
-      <CheckIcon className={cn("hidden", iconVisibilityClasses.success)} />
-      <TriangleAlertIcon
+      <Icon name="check" className={cn("hidden", iconVisibilityClasses.success)} />
+      <Icon
+        name="triangle-alert"
         className={cn("hidden", iconVisibilityClasses.degraded)}
       />
-      <AlertCircleIcon className={cn("hidden", iconVisibilityClasses.error)} />
-      <WrenchIcon className={cn("hidden", iconVisibilityClasses.info)} />
+      <Icon name="alert-circle" className={cn("hidden", iconVisibilityClasses.error)} />
+      <Icon name="wrench" className={cn("hidden", iconVisibilityClasses.info)} />
     </div>
   );
 }

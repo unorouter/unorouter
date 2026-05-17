@@ -842,6 +842,63 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("react-icons/tb").then((m) => ({ default: m.TbDots })),
   },
+  brain: {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuBrain })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbBrain })),
+  },
+  "x-circle": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuCircleX })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbCircleX })),
+  },
+  "alert-circle": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuCircleAlert })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbAlertCircle })),
+  },
+  "file-text": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuFileText })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbFileText })),
+  },
+  square: {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuSquare })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbSquare })),
+  },
+  wrench: {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuWrench })),
+    tabler: () => import("react-icons/tb").then((m) => ({ default: m.TbTool })),
+  },
+  list: {
+    lucide: () => import("react-icons/lu").then((m) => ({ default: m.LuList })),
+    tabler: () => import("react-icons/tb").then((m) => ({ default: m.TbList })),
+  },
+  "plus-circle": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuCirclePlus })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbCirclePlus })),
+  },
+  "credit-card": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuCreditCard })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbCreditCard })),
+  },
+  "shopping-cart": {
+    lucide: () =>
+      import("react-icons/lu").then((m) => ({ default: m.LuShoppingCart })),
+    tabler: () =>
+      import("react-icons/tb").then((m) => ({ default: m.TbShoppingCart })),
+  },
 };
 
 export type IconName = keyof typeof ICON_MAP;

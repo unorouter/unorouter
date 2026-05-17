@@ -2,21 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import { type IconName } from "@/lib/config/icon-map";
 import { OAUTH_SCOPE_TRANSLATION_KEYS } from "@/lib/config/oauth-scopes";
-import {
-  CreditCard,
-  Eye,
-  KeyRound,
-  Pencil,
-  ShieldCheck,
-  ShoppingCart,
-  XOctagon,
-} from "lucide-react";
 import { useTranslations } from "next-intl";
-import { type ComponentType } from "react";
 
 type ConsentFormProps = {
   callbackId: string;
@@ -27,19 +19,19 @@ type ConsentFormProps = {
 type ScopeKind = "read" | "write" | "danger";
 
 type ScopeMeta = {
-  icon: ComponentType<{ className?: string }>;
+  icon: IconName;
   kind: ScopeKind;
 };
 
 const SCOPE_META: Record<string, ScopeMeta> = {
-  openid: { icon: ShieldCheck, kind: "read" },
-  "models:read": { icon: Eye, kind: "read" },
-  "balance:read": { icon: Eye, kind: "read" },
-  "tokens:read": { icon: Eye, kind: "read" },
-  "tokens:write": { icon: KeyRound, kind: "write" },
-  "subscription:read": { icon: Eye, kind: "read" },
-  "subscription:cancel": { icon: XOctagon, kind: "danger" },
-  "checkout:create": { icon: ShoppingCart, kind: "write" },
+  openid: { icon: "shield-check", kind: "read" },
+  "models:read": { icon: "eye", kind: "read" },
+  "balance:read": { icon: "eye", kind: "read" },
+  "tokens:read": { icon: "eye", kind: "read" },
+  "tokens:write": { icon: "key-round", kind: "write" },
+  "subscription:read": { icon: "eye", kind: "read" },
+  "subscription:cancel": { icon: "octagon-x", kind: "danger" },
+  "checkout:create": { icon: "shopping-cart", kind: "write" },
 };
 
 const KIND_BADGE: Record<ScopeKind, string> = {
@@ -90,7 +82,7 @@ export function ConsentForm(props: ConsentFormProps) {
     <GlassAuthCard className="max-w-lg">
       <div className="mb-6 flex flex-col items-center gap-3 text-center">
         <div className="bg-primary/10 ring-primary/20 text-primary flex size-12 items-center justify-center rounded-2xl ring-1">
-          <ShieldCheck className="size-6" />
+          <Icon name="shield-check" className="size-6" />
         </div>
         <h1 className="text-foreground text-2xl font-semibold sm:text-3xl">
           {t("AUTH.CONSENT.TITLE")}
@@ -105,7 +97,7 @@ export function ConsentForm(props: ConsentFormProps) {
 
       <div className="bg-muted/40 ring-border/60 mb-6 flex items-center gap-3 rounded-2xl px-4 py-3 ring-1">
         <div className="bg-background ring-border flex size-10 shrink-0 items-center justify-center rounded-xl ring-1">
-          <Pencil className="text-muted-foreground size-4" />
+          <Icon name="pencil" className="text-muted-foreground size-4" />
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-muted-foreground text-xs tracking-wide uppercase">
@@ -130,10 +122,9 @@ export function ConsentForm(props: ConsentFormProps) {
               >
             )[scope];
             const meta = SCOPE_META[scope] ?? {
-              icon: ShieldCheck,
+              icon: "shield-check" as IconName,
               kind: "read" as ScopeKind,
             };
-            const Icon = meta.icon;
             return (
               <li
                 key={scope}
@@ -142,7 +133,7 @@ export function ConsentForm(props: ConsentFormProps) {
                 <span
                   className={`flex size-8 shrink-0 items-center justify-center rounded-lg ring-1 ${KIND_BADGE[meta.kind]}`}
                 >
-                  <Icon className="size-4" />
+                  <Icon name={meta.icon} className="size-4" />
                 </span>
                 <div className="min-w-0 flex-1 space-y-0.5">
                   <p className="text-foreground text-sm leading-tight">
@@ -164,7 +155,7 @@ export function ConsentForm(props: ConsentFormProps) {
 
       <div className="border-border/60 bg-muted/30 mb-6 space-y-2 rounded-2xl border px-4 py-3">
         <div className="flex items-center gap-2">
-          <CreditCard className="text-muted-foreground size-4" />
+          <Icon name="credit-card" className="text-muted-foreground size-4" />
           <p className="text-foreground text-sm font-medium">
             {t("AUTH.CONSENT.LIMITS_TITLE")}
           </p>

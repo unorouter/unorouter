@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,
@@ -21,7 +22,6 @@ import {
   useAui,
   useAuiState,
 } from "@assistant-ui/react";
-import { FileText, PlusIcon, XIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PropsWithChildren, useEffect, useState, type FC } from "react";
 import { toast } from "sonner";
@@ -122,7 +122,7 @@ const AttachmentThumb: FC = () => {
         className="aui-attachment-tile-image object-cover"
       />
       <AvatarFallback delay={isImage ? 200 : 0}>
-        <FileText className="aui-attachment-tile-fallback-icon text-muted-foreground size-8" />
+        <Icon name="file-text" className="aui-attachment-tile-fallback-icon text-muted-foreground size-8" />
       </AvatarFallback>
     </Avatar>
   );
@@ -187,7 +187,7 @@ const AttachmentRemove: FC = () => {
         className="aui-attachment-tile-remove text-muted-foreground hover:[&_svg]:text-destructive absolute top-1.5 right-1.5 size-3.5 rounded-full bg-white opacity-100 shadow-sm hover:bg-white! [&_svg]:text-black"
         side="top"
       >
-        <XIcon className="aui-attachment-remove-icon size-3 dark:stroke-[2.5px]" />
+        <Icon name="x" className="aui-attachment-remove-icon size-3 dark:stroke-[2.5px]" />
       </TooltipIconButton>
     </AttachmentPrimitive.Remove>
   );
@@ -261,7 +261,7 @@ export const ComposerAddAttachment: FC = () => {
       className="aui-composer-add-attachment hover:bg-muted-foreground/15 dark:border-muted-foreground/15 dark:hover:bg-muted-foreground/30 size-8 rounded-full p-1 text-xs font-semibold"
       aria-label={t("CHAT.ACTION.ADD_ATTACHMENT")}
     >
-      <PlusIcon className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
+      <Icon name="plus" className="aui-attachment-add-icon size-5 stroke-[1.5px]" />
     </TooltipIconButton>
   );
 };

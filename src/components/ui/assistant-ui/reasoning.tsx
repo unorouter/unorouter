@@ -6,6 +6,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import {
   useAuiState,
@@ -13,7 +14,6 @@ import {
   type ReasoningGroupComponent,
   type ReasoningMessagePartComponent,
 } from "@assistant-ui/react";
-import { BrainIcon, ChevronDownIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
@@ -87,7 +87,8 @@ function ReasoningTrigger({
       )}
       {...props}
     >
-      <BrainIcon
+      <Icon
+        name="brain"
         data-slot="reasoning-trigger-icon"
         className={cn(
           "aui-reasoning-trigger-icon size-4 shrink-0",
@@ -109,7 +110,8 @@ function ReasoningTrigger({
           </span>
         ) : null}
       </span>
-      <ChevronDownIcon
+      <Icon
+        name="chevron-down"
         data-slot="reasoning-trigger-chevron"
         className={cn(
           "aui-reasoning-trigger-chevron mt-0.5 size-4 shrink-0",

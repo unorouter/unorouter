@@ -3,6 +3,7 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import {
   Command,
   CommandEmpty,
@@ -22,7 +23,6 @@ import type { ProcessedModel } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
-import { Check, PlusCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type VendorOption = {
@@ -57,7 +57,7 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
             size="sm"
             className="h-8 border-dashed md:h-9"
           >
-            <PlusCircle className="mr-1.5 h-4 w-4 md:mr-2" />
+            <Icon name="plus-circle" className="mr-1.5 h-4 w-4 md:mr-2" />
             <span>{t("MODELS.FILTER.PROVIDER_MULTI")}</span>
             {selectedVendors.length > 0 && (
               <>
@@ -123,7 +123,8 @@ export function VendorFilter(props: { models: ProcessedModel[] }) {
                         isSelected ? "bg-primary" : "opacity-50",
                       )}
                     >
-                      <Check
+                      <Icon
+                        name="check"
                         className={cn(
                           "text-primary-foreground! h-4 w-4",
                           !isSelected && "invisible",

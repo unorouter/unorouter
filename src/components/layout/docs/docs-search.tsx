@@ -10,10 +10,10 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
+import { Icon } from "@/components/ui/icon";
 import { useSearchQuery } from "@/hooks/search-hook";
 import { Link } from "@/i18n/navigation";
 import type { LinkHref } from "@/i18n/routing";
-import { Search } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
@@ -48,7 +48,7 @@ export function DocsSearch() {
         className="text-muted-foreground relative w-full justify-start gap-2 pr-12 text-sm font-normal"
         onClick={() => setOpen(true)}
       >
-        <Search className="size-4" />
+        <Icon name="search" className="size-4" />
         <span>{t("SEARCH.PLACEHOLDER")}</span>
         <kbd className="bg-muted text-muted-foreground pointer-events-none absolute right-2 hidden h-5 items-center gap-1 rounded border px-1.5 font-mono text-xs font-medium opacity-100 select-none sm:flex">
           <span className="text-xs">⌘</span>K

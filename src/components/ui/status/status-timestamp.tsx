@@ -1,7 +1,7 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { dayjs } from "@/lib/utils/date";
-import { Check, Copy } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import type { HoverCardContentProps } from "@radix-ui/react-hover-card";
@@ -339,9 +339,9 @@ function StatusTimestampRow({
       <dd className="flex items-center gap-1 truncate font-mono">
         <span className="invisible group-hover:visible">
           {!isCopied ? (
-            <Copy className="h-3 w-3" />
+            <Icon name="copy" className="h-3 w-3" />
           ) : (
-            <Check className="h-3 w-3" />
+            <Icon name="check" className="h-3 w-3" />
           )}
         </span>
         {value}
