@@ -35,4 +35,16 @@ for (const file of [
   copyFileSync(resolve(sqliteDist, file), resolve(outDir, file));
 }
 
+// Dev-only LibSQL Studio CSS. Served from /public/sqlocal/studio.css and
+// fetched into a Shadow Root by LocalDbStudio so its Tailwind preflight
+// stays scoped. Failure here is non-fatal (the dev panel just won't style).
+try {
+  copyFileSync(
+    resolve(root, "node_modules/@libsqlstudio/gui/dist/index.css"),
+    resolve(outDir, "studio.css"),
+  );
+} catch (e) {
+  console.warn("[bundle-sqlocal-worker] libsqlstudio css copy skipped:", e);
+}
+
 console.log("[bundle-sqlocal-worker] OK");

@@ -3,9 +3,10 @@
 // ---------------------------------------------------------------------------
 // Dev-only inline browser for the on-device SQLocal database. Embeds the
 // LibSQL Studio React component (`@libsqlstudio/gui`) with a custom driver
-// that talks to our SQLocal worker. No third-party origin, no extra service:
-// data never leaves the page. Compiles to a no-op in production builds via
-// the NODE_ENV guard.
+// that talks to our SQLocal worker. Studio ships a Tailwind preflight that
+// would hose our shadcn styles, so we mount it inside a shadow root and
+// inject Studio's stylesheet only into that root. Compiles to a no-op in
+// production builds via the NODE_ENV guard.
 // ---------------------------------------------------------------------------
 
 import { useAuthQuery } from "@/hooks/auth-hook";
@@ -18,13 +19,13 @@ import {
 } from "@/components/ui/sheet";
 import { getLocalDb } from "@/lib/local-db/client";
 import { Studio } from "@libsqlstudio/gui";
-import "@libsqlstudio/gui/css";
 import {
   SqliteLikeBaseDriver,
   type DatabaseResultSet,
   type Statement,
 } from "@libsqlstudio/gui/driver";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { LuDatabase } from "react-icons/lu";
 
 export function LocalDbStudio() {
@@ -58,16 +59,64 @@ function LocalDbStudioInner() {
         className="w-[min(95vw,1400px)]! max-w-none! p-0"
       >
         <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
-        <div className="size-full">
+        <ShadowHost className="size-full">
           <Studio
             driver={driver}
             name={`unorouter-${userId}`}
             color="indigo"
             theme="dark"
           />
-        </div>
+        </ShadowHost>
       </SheetContent>
     </Sheet>
+  );
+}
+
+// Mounts children inside an open shadow root so Studio's global Tailwind
+// preflight stays scoped. Fetches the package CSS once and re-uses the
+// constructable stylesheet across all instances.
+// Stylesheet is copied to /public/sqlocal/studio.css by
+// scripts/bundle-sqlocal-worker.ts on postinstall / prebuild.
+const STUDIO_CSS_URL = "/sqlocal/studio.css";
+
+let cachedSheet: CSSStyleSheet | null = null;
+async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
+  if (cachedSheet) return cachedSheet;
+  const res = await fetch(STUDIO_CSS_URL);
+  const text = await res.text();
+  const sheet = new CSSStyleSheet();
+  await sheet.replace(text);
+  cachedSheet = sheet;
+  return sheet;
+}
+
+function ShadowHost(props: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const hostRef = useRef<HTMLDivElement | null>(null);
+  const [shadow, setShadow] = useState<ShadowRoot | null>(null);
+
+  useEffect(() => {
+    if (!hostRef.current) return;
+    const root =
+      hostRef.current.shadowRoot ??
+      hostRef.current.attachShadow({ mode: "open" });
+    let cancelled = false;
+    void loadStudioStylesheet().then((sheet) => {
+      if (cancelled) return;
+      root.adoptedStyleSheets = [sheet];
+      setShadow(root);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return (
+    <div ref={hostRef} className={props.className}>
+      {shadow && createPortal(props.children, shadow)}
+    </div>
   );
 }
 
@@ -98,11 +147,11 @@ async function runOne(
   if (!local) throw new Error("SQLocal unavailable");
   const sql = typeof stmt === "string" ? stmt : stmt.sql;
   const args = typeof stmt === "string" ? [] : (stmt.args ?? []);
-  // SQLocal exposes drizzle's sqlite-proxy via local.db.run. Use sql template
-  // directly via the underlying processor since we may receive raw SQL plus
-  // positional args from Studio.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const rs = (await (local.db as any).run(sql, Array.isArray(args) ? args : Object.values(args))) as {
+  const rs = (await (local.db as any).run(
+    sql,
+    Array.isArray(args) ? args : Object.values(args),
+  )) as {
     rows?: unknown[][] | Record<string, unknown>[];
     columns?: string[];
     rowsAffected?: number;
@@ -125,7 +174,7 @@ async function runOne(
     name,
     displayName: name,
     originalType: null,
-    type: 1, // TableColumnDataType.TEXT - studio re-infers from values
+    type: 1,
   }));
   return {
     rows,
