@@ -1,20 +1,12 @@
-import {
-  FREE_MODEL_RACE_COUNT,
-  msg,
-  TITLE_SYSTEM_PROMPT,
-} from "@/lib/config/constants";
-import { getDb } from "@/lib/db/client";
-import { conversations } from "@/lib/db/schema";
+import { FREE_MODEL_RACE_COUNT, TITLE_SYSTEM_PROMPT } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
-import { and, eq } from "drizzle-orm";
 import { getFreeTextModels } from "@/lib/api/pricing-cache";
 
 const TITLE_FALLBACK_MAX_CHARS = 60;
 
-/** Trim user text to a short, single-line title at a word boundary. */
 function truncateToTitle(text: string): string {
   const collapsed = text.replace(/\s+/g, " ").trim();
   if (collapsed.length <= TITLE_FALLBACK_MAX_CHARS) return collapsed;
@@ -24,30 +16,24 @@ function truncateToTitle(text: string): string {
   return `${trimmed.trimEnd()}...`;
 }
 
+// Stateless: takes user text + optional preferred model, returns `{ title }`.
+// Client persists to SQLocal. No DB read, no DB write.
 export async function generateChatTitle(
   apiKey: string,
-  userId: number,
-  convId: string,
   text: string,
+  preferredModel?: string,
 ) {
-  const db = getDb();
-  const conv = await db.query.conversations.findFirst({
-    where: and(eq(conversations.id, convId), eq(conversations.userId, userId)),
-  });
-  if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
-
   const provider = getProvider(apiKey ?? serverEnv.guestApiKey);
 
-  // Race up to 3 free models in parallel and take the first successful response.
-  // Free models can be flaky (rate limits, channel exhaustion); racing them keeps
-  // titles fast without burning paid quota for a 30-token request.
   let title: string;
-  const freeModels = await getFreeTextModels(FREE_MODEL_RACE_COUNT);
-  if (freeModels.length === 0) {
+  const models = preferredModel
+    ? [preferredModel]
+    : await getFreeTextModels(FREE_MODEL_RACE_COUNT);
+  if (models.length === 0) {
     title = truncateToTitle(text);
   } else {
     try {
-      const attempts = freeModels.map((modelName) =>
+      const attempts = models.map((modelName) =>
         generateText({
           model: provider.chatModel(modelName),
           system: TITLE_SYSTEM_PROMPT,
@@ -61,18 +47,12 @@ export async function generateChatTitle(
     } catch (err) {
       logger.warn("Title generation race failed, using truncated fallback", {
         context: "title.generate",
-        convId,
-        attempted: freeModels,
+        attempted: models,
         error: String(err),
       });
       title = truncateToTitle(text);
     }
   }
-
-  await db
-    .update(conversations)
-    .set({ title })
-    .where(eq(conversations.id, convId));
 
   return { title };
 }

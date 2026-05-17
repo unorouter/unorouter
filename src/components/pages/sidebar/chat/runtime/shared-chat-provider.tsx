@@ -24,7 +24,11 @@ export function SharedChatProvider(props: SharedChatProviderProps) {
   const queryClient = useQueryClient();
 
   const historyAdapterRef = useRef(
-    createChatHistoryAdapter(queryClient, () => props.convId),
+    createChatHistoryAdapter(
+      queryClient,
+      () => props.convId,
+      () => null,
+    ),
   );
 
   useLoadedMessages(props.convId, props.convId);

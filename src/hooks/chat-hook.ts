@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import { mutateMessages, patchMessages } from "@/lib/react-query/cache-helpers";
 import {
@@ -12,10 +13,25 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { getChatHelpers } from "@/store/chat-store";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, uid } from "@/lib/utils/base";
 import dayjs from "dayjs";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
+import {
+  readLocalConversation,
+  readLocalConversationBundle,
+  readLocalConversations,
+  readLocalMessageItems,
+  readLocalMessages,
+} from "@/lib/local-db/reads";
+import {
+  deleteLocalMessage,
+  deleteLocalMessagesForConv,
+  replaceLocalMessageItems,
+  upsertLocalConversation,
+  upsertLocalMessage,
+} from "@/lib/local-db/writes";
+import { enqueuePending } from "@/lib/local-db/pending-sync";
 import {
   keepPreviousData,
   useInfiniteQuery,
@@ -31,48 +47,108 @@ type ChatRouteReturn = ReturnType<ChatRoute>;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<ChatRoute, "get">;
 
+async function mirrorConversationIfSynced(
+  userId: number,
+  convId: string,
+): Promise<void> {
+  const conv = await readLocalConversation(userId, convId);
+  const syncExpiresAt = (
+    conv as { syncExpiresAt?: Date | null } | null
+  )?.syncExpiresAt;
+  if (syncExpiresAt == null) return;
+  const bundle = await readLocalConversationBundle(userId, convId);
+  if (!bundle) return;
+  try {
+    handleElysia(
+      await rpc.api
+        .sync({ kind: "conversations" })({ id: convId })
+        .post({ payload: bundle, keepExpiry: true }),
+    );
+  } catch (err) {
+    await enqueuePending(userId, "conversations", convId, "patch", err);
+  }
+}
+
 export function useConversationsInfiniteQuery(keyword?: string) {
+  const auth = useAuthQuery();
+  const isLoggedIn = !!auth.data;
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) => {
-      return handleElysia(
-        await rpc.api.chat.conversations.get({
-          query: { p: pageParam, page_size: PAGE_SIZE, keyword },
-        }),
-      );
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const local = (await readLocalConversations(userId)) ?? [];
+        const filtered = keyword
+          ? local.filter((c) =>
+              (c.title ?? "").toLowerCase().includes(keyword.toLowerCase()),
+            )
+          : local;
+        const start = (pageParam - 1) * PAGE_SIZE;
+        const slice = filtered.slice(start, start + PAGE_SIZE);
+        return {
+          items: slice as unknown as ConvItem[],
+          total: filtered.length,
+          page: pageParam,
+          pageSize: PAGE_SIZE,
+        };
+      }
+      return { items: [] as ConvItem[], total: 0, page: pageParam, pageSize: PAGE_SIZE };
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
     placeholderData: keepPreviousData,
+    enabled: isLoggedIn,
   });
 }
 
 export function useConversationQuery(id?: string) {
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => {
-      return handleElysia(await rpc.api.chat({ id: id! }).meta.get());
+      const userId = auth.data?.id;
+      if (userId != null && id) {
+        const local = await readLocalConversation(userId, id);
+        if (local) return local as unknown as ConversationData;
+      }
+      throw new Error("chat-not-found");
     },
-    enabled: !!id,
+    enabled: !!id && !!auth.data,
     retry: false,
   });
 }
 
 export function useMessagesInfiniteQuery(id?: string) {
+  const auth = useAuthQuery();
   return useInfiniteQuery({
     queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) => {
-      return handleElysia(
-        await rpc.api.chat({ id: id! }).get({
-          query: { p: pageParam, page_size: PAGE_SIZE },
-        }),
-      );
+      const userId = auth.data?.id;
+      if (userId == null || !id)
+        return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
+      const msgs = (await readLocalMessages(userId, id)) ?? [];
+      const items = (await readLocalMessageItems(userId, id)) ?? [];
+      const itemsByMsg = new Map<string, typeof items>();
+      for (const it of items) {
+        const arr = itemsByMsg.get(it.messageId) ?? [];
+        arr.push(it);
+        itemsByMsg.set(it.messageId, arr);
+      }
+      const messages = msgs.map((m) => ({
+        ...m,
+        items: itemsByMsg.get(m.id) ?? [],
+      }));
+      return {
+        messages,
+        total: messages.length,
+        page: pageParam,
+        pageSize: PAGE_SIZE,
+      };
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.messages.length < PAGE_SIZE ? undefined : allPages.length + 1,
-    enabled: !!id,
+    getNextPageParam: () => undefined,
+    enabled: !!id && !!auth.data,
     placeholderData: keepPreviousData,
     retry: false,
   });
@@ -80,11 +156,25 @@ export function useMessagesInfiniteQuery(id?: string) {
 
 export function useUpdateConversationMutation() {
   const queryClient = useQueryClient();
+  const auth = useAuthQuery();
   const t = useTranslations();
 
   return useMutation({
     mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) => {
-      return handleElysia(await rpc.api.chat({ id: args.id }).put(args.body));
+      const id = String(args.id);
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const existing = await readLocalConversation(userId, id);
+        const now = dayjs().toDate();
+        await upsertLocalConversation(userId, {
+          ...(existing ?? {}),
+          id,
+          ...args.body,
+          updatedAt: now,
+        });
+        await mirrorConversationIfSynced(userId, id);
+      }
+      return { id, ...args.body };
     },
     onMutate: async (args) => {
       const id = String(args.id);
@@ -126,9 +216,33 @@ export function useUpdateConversationMutation() {
 export function useDeleteConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: ChatParams) => {
-      return handleElysia(await rpc.api.chat(args).delete());
+      const id = String(args.id);
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const existing = await readLocalConversation(userId, id);
+        const wasSynced = (
+          existing as { syncExpiresAt?: Date | null } | null
+        )?.syncExpiresAt != null;
+        const { deleteLocalConversation } = await import(
+          "@/lib/local-db/writes"
+        );
+        await deleteLocalConversation(userId, id);
+        if (wasSynced) {
+          try {
+            handleElysia(
+              await rpc.api
+                .sync({ kind: "conversations" })({ id })
+                .delete(),
+            );
+          } catch (err) {
+            await enqueuePending(userId, "conversations", id, "delete", err);
+          }
+        }
+      }
+      return { id };
     },
     onMutate: async (args) => {
       const convsKey = queryKeys.conversations();
@@ -138,6 +252,9 @@ export function useDeleteConversationMutation() {
         removeConv(old, String(args.id)),
       );
       return { prevConvs };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
     onError: (e, _args, context) => {
       handleError(e, t);
@@ -151,16 +268,42 @@ export function useDeleteConversationMutation() {
 export function useShareConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: ChatParams) => {
+      const id = String(args.id);
+      const userId = auth.data?.id;
+      // Share requires the conv to exist server-side. Push the bundle first
+      // (uses the same sync path), then call share.
+      if (userId != null) {
+        const bundle = await readLocalConversationBundle(userId, id);
+        if (bundle) {
+          handleElysia(
+            await rpc.api
+              .sync({ kind: "conversations" })({ id })
+              .post({ payload: bundle }),
+          );
+        }
+      }
       return handleElysia(await rpc.api.chat(args).share.post({}));
     },
     onError: (e) => handleError(e, t),
-    onSuccess: (data, args) => {
+    onSuccess: async (data, args) => {
+      const id = String(args.id);
       queryClient.setQueryData<ConversationData>(
-        queryKeys.chatMeta(String(args.id)),
+        queryKeys.chatMeta(id),
         (old) => (old ? { ...old, shareId: data.shareId } : old),
       );
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const existing = await readLocalConversation(userId, id);
+        if (existing) {
+          await upsertLocalConversation(userId, {
+            ...existing,
+            shareId: data.shareId,
+          });
+        }
+      }
     },
   });
 }
@@ -168,23 +311,28 @@ export function useShareConversationMutation() {
 export function useRevokeShareMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: ChatParams) => {
       return handleElysia(await rpc.api.chat(args).share.delete());
     },
     onError: (e) => handleError(e, t),
-    onSuccess: (_, args) => {
+    onSuccess: async (_, args) => {
+      const id = String(args.id);
       queryClient.setQueryData<ConversationData>(
-        queryKeys.chatMeta(String(args.id)),
+        queryKeys.chatMeta(id),
         (old) => (old ? { ...old, shareId: null } : old),
       );
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const existing = await readLocalConversation(userId, id);
+        if (existing) {
+          await upsertLocalConversation(userId, { ...existing, shareId: null });
+        }
+      }
     },
   });
 }
-
-// `usePersistMessagesMutation` was removed: the chat-history-adapter inlines
-// the POST and replicates the same cache patches. Keeping this hook would
-// drift out of sync with the adapter without surfacing.
 
 export function useClaimConversationsMutation() {
   const t = useTranslations();
@@ -234,14 +382,10 @@ export function useFinalizeTaskMutation() {
   });
 }
 
-/**
- * Edit a message's items in place. Used for assistant-message in-place edits
- * that don't trigger a regeneration. The cache is patched so paginated lists
- * reflect the new items immediately.
- */
 export function useEditMessageMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: {
@@ -251,44 +395,64 @@ export function useEditMessageMutation() {
         ReturnType<ReturnType<ChatRoute>["messages"]>,
         "put"
       >["body"];
-    }) =>
-      handleElysia(
-        await rpc.api
-          .chat({ id: args.convId })
-          .messages({ msgId: args.msgId })
-          .put(args.body),
-      ),
-    onSuccess: (_data, args) => {
+    }) => {
+      const userId = auth.data?.id;
       const newItems = args.body.items.map((it, seq) => ({
-        id: it.id ?? `tmp-${seq}`,
+        id: it.id ?? uid(),
         sequenceIndex: seq,
         outputIndex: it.output_index ?? null,
         type: it.type,
         data: it.data,
       }));
+      if (userId != null) {
+        await replaceLocalMessageItems(userId, args.msgId, newItems);
+        const now = dayjs().toDate();
+        const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+        const existing = msgs.find((m) => m.id === args.msgId);
+        if (existing) {
+          await upsertLocalMessage(userId, {
+            ...existing,
+            isEdited: true,
+            updatedAt: now,
+          });
+        }
+        await mirrorConversationIfSynced(userId, args.convId);
+      }
+      return { items: newItems };
+    },
+    onSuccess: (data, args) => {
       patchMessages(qc, args.convId, (msg) =>
         msg.id === args.msgId
-          ? { ...msg, isEdited: true, items: newItems }
+          ? {
+              ...msg,
+              isEdited: true,
+              items: data.items.map((it) => ({
+                ...it,
+                outputIndex: it.outputIndex,
+                sequenceIndex: it.sequenceIndex,
+              })),
+            }
           : msg,
       );
     },
   });
 }
 
-/**
- * Drop all messages from a conversation, keeping settings/bindings/title.
- * Replaces the messages cache with an empty first page so the UI clears
- * immediately without a refetch. Also flushes the live `useChat` buffer via
- * `getChatHelpers()` because assistant-ui owns its in-memory message array
- * separately from the React Query cache.
- */
 export function useClearConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: ChatParams) =>
-      handleElysia(await rpc.api.chat({ id: args.id }).clear.post()),
+    mutationFn: async (args: ChatParams) => {
+      const id = String(args.id);
+      const userId = auth.data?.id;
+      if (userId != null) {
+        await deleteLocalMessagesForConv(userId, id);
+        await mirrorConversationIfSynced(userId, id);
+      }
+      return { id };
+    },
     onSuccess: (_data, args) => {
       type MessagesPage = {
         messages: Array<Record<string, unknown>>;
@@ -303,35 +467,100 @@ export function useClearConversationMutation() {
             pageParams: [1],
           },
       );
-      // Flush the live useChat buffer so the thread renders empty without a reload.
       getChatHelpers()?.setMessages(() => []);
     },
   });
 }
 
-/**
- * Clone a conversation (messages, items, settings, bindings) under a new id.
- * Prepends the new conversation to the sidebar list optimistically by
- * patching the conversations cache.
- */
 export function useDuplicateConversationMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: ChatParams) =>
-      handleElysia(await rpc.api.chat({ id: args.id }).duplicate.post()),
+    mutationFn: async (args: ChatParams) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const srcId = String(args.id);
+      const bundle = await readLocalConversationBundle(userId, srcId);
+      if (!bundle) throw new Error("not-found");
+      const now = dayjs().toDate();
+      const newId = uid();
+      const idMap = new Map<string, string>();
+      const newConv = {
+        ...bundle.conversation,
+        id: newId,
+        shareId: null,
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalConversation(userId, newConv);
+      if (bundle.settings) {
+        const { upsertLocalConversationSettings } = await import(
+          "@/lib/local-db/writes"
+        );
+        await upsertLocalConversationSettings(userId, {
+          ...bundle.settings,
+          convId: newId,
+        });
+      }
+      const { replaceLocalConversationBindings } = await import(
+        "@/lib/local-db/writes"
+      );
+      await replaceLocalConversationBindings(userId, newId, {
+        conversationCharacters: bundle.conversationCharacters.map((c) => ({
+          characterId: (c as { characterId: string }).characterId,
+          orderIndex: (c as { orderIndex?: number }).orderIndex,
+          isActive: (c as { isActive?: boolean }).isActive,
+          overrides: (c as { overrides?: unknown }).overrides,
+        })),
+        conversationLorebooks: bundle.conversationLorebooks.map((l) => ({
+          lorebookId: (l as { lorebookId: string }).lorebookId,
+          orderIndex: (l as { orderIndex?: number }).orderIndex,
+        })),
+      });
+      for (const m of bundle.messages) {
+        const oldMsgId = (m as { id: string }).id;
+        const newMsgId = uid();
+        idMap.set(oldMsgId, newMsgId);
+      }
+      for (const m of bundle.messages) {
+        const oldMsgId = (m as { id: string }).id;
+        const oldParentId = (m as { parentId?: string | null }).parentId;
+        await upsertLocalMessage(userId, {
+          ...(m as Record<string, unknown>),
+          id: idMap.get(oldMsgId)!,
+          convId: newId,
+          parentId: oldParentId ? idMap.get(oldParentId) ?? null : null,
+        });
+      }
+      for (const it of bundle.messageItems) {
+        const oldMsgId = (it as { messageId: string }).messageId;
+        const newMsgId = idMap.get(oldMsgId);
+        if (!newMsgId) continue;
+        const { upsertLocalMessageItem } = await import(
+          "@/lib/local-db/writes"
+        );
+        await upsertLocalMessageItem(userId, {
+          ...(it as Record<string, unknown>),
+          id: uid(),
+          messageId: newMsgId,
+        });
+      }
+      return newConv;
+    },
     onSuccess: (data) => {
       const now = dayjs().toDate();
       const newItem: ConvItem = {
-        id: data.id,
-        title: data.title ?? null,
+        id: (data as { id: string }).id,
+        title: (data as { title: string | null }).title ?? null,
         model: null,
         shareId: null,
         totalCost: 0,
         createdAt: now,
         updatedAt: now,
-      };
+      } as ConvItem;
       queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
         (old) => prependConv(old, newItem),
@@ -340,10 +569,6 @@ export function useDuplicateConversationMutation() {
   });
 }
 
-/**
- * Render the conversation as markdown for clipboard copy. Returns the raw
- * string; the caller decides how to surface it (toast, download, etc.).
- */
 export function useConversationMarkdown() {
   const t = useTranslations();
   return useMutation({
@@ -354,25 +579,33 @@ export function useConversationMarkdown() {
   });
 }
 
-/**
- * Splice-delete a single message: server rewires children's parentId to the
- * deleted message's parent. Cache update mirrors that rewire so the active
- * branch path stays valid without a refetch.
- */
 export function useSetActiveBranchMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: { convId: string; msgId: string }) =>
-      handleElysia(
-        await rpc.api
-          .chat({ id: args.convId })
-          ["active-branch"].post({ messageId: args.msgId }),
-      ),
+    mutationFn: async (args: { convId: string; msgId: string }) => {
+      const userId = auth.data?.id;
+      if (userId != null) {
+        const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+        const target = msgs.find((m) => m.id === args.msgId);
+        const parentId = target?.parentId ?? null;
+        const now = dayjs().toDate();
+        for (const m of msgs) {
+          if ((m.parentId ?? null) === parentId) {
+            await upsertLocalMessage(userId, {
+              ...m,
+              isActiveBranch: m.id === args.msgId,
+              updatedAt: now,
+            });
+          }
+        }
+        await mirrorConversationIfSynced(userId, args.convId);
+      }
+      return { id: args.msgId };
+    },
     onSuccess: (_data, args) => {
-      // Find target's parentId across all pages, then flip isActiveBranch on
-      // every sibling.
       mutateMessages(qc, args.convId, (messages) => {
         const target = messages.find((m) => m.id === args.msgId);
         if (!target) return messages;
@@ -390,18 +623,32 @@ export function useSetActiveBranchMutation() {
 export function useDeleteMessageMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: { convId: string; msgId: string }) =>
-      handleElysia(
-        await rpc.api
-          .chat({ id: args.convId })
-          .messages({ msgId: args.msgId })
-          .delete(),
-      ),
+    mutationFn: async (args: { convId: string; msgId: string }) => {
+      const userId = auth.data?.id;
+      if (userId != null) {
+        // Splice-delete: rewire children parentId locally, then drop the row.
+        const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+        const target = msgs.find((m) => m.id === args.msgId);
+        const newParentId = target?.parentId ?? null;
+        const now = dayjs().toDate();
+        for (const m of msgs) {
+          if (m.parentId === args.msgId) {
+            await upsertLocalMessage(userId, {
+              ...m,
+              parentId: newParentId,
+              updatedAt: now,
+            });
+          }
+        }
+        await deleteLocalMessage(userId, args.msgId);
+        await mirrorConversationIfSynced(userId, args.convId);
+      }
+      return { id: args.msgId };
+    },
     onSuccess: (_data, args) => {
-      // Splice-delete: rewire children's parentId to deleted node's parentId,
-      // then drop the row.
       mutateMessages(qc, args.convId, (messages) => {
         const target = messages.find((m) => m.id === args.msgId);
         const newParentId = target?.parentId ?? null;

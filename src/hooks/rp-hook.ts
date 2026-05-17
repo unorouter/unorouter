@@ -3,12 +3,38 @@
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { enqueuePending } from "@/lib/local-db/pending-sync";
 import {
+  readLocalCard,
+  readLocalCards,
   readLocalCharacter,
   readLocalCharacters,
+  readLocalConversation,
+  readLocalConversationBindings,
+  readLocalConversationBundle,
+  readLocalConversationSettings,
+  readLocalLorebook,
+  readLocalLorebooks,
+  readLocalPersona,
+  readLocalPersonas,
+  readLocalPreset,
+  readLocalPresets,
 } from "@/lib/local-db/reads";
 import {
+  deleteLocalCard,
   deleteLocalCharacter,
+  deleteLocalLorebook,
+  deleteLocalLorebookEntry,
+  deleteLocalPersona,
+  deleteLocalPreset,
+  replaceLocalConversationBindings,
+  upsertLocalCardBundle,
   upsertLocalCharacter,
+  upsertLocalConversation,
+  upsertLocalConversationSettings,
+  upsertLocalLorebook,
+  upsertLocalLorebookBundle,
+  upsertLocalLorebookEntry,
+  upsertLocalPersona,
+  upsertLocalPreset,
 } from "@/lib/local-db/writes";
 import {
   itemPatch,
@@ -19,54 +45,81 @@ import {
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 
-// `EdenResponse<rpc.api.rp.characters, "get">` resolves to the *single* item
-// type because the route is hybrid (parameterized `({id}).get` wins over the
-// static list `.get`). `ListResponse` peels the wrapper off the static list
-// directly.
+// Pure local-first RP hooks. Queries read SQLocal; mutations write SQLocal
+// first; synced rows mirror via POST /api/sync/:kind/:id with keepExpiry.
+// No /api/rp/* writes — those endpoints are dead for v4.
+
 type ListResponse<TFn> = TFn extends (...args: never[]) => Promise<infer R>
   ? R extends { data: { data: infer D } }
     ? D
     : never
   : never;
 
+type CharactersList = ListResponse<typeof rpc.api.rp.characters.get>;
+type Character = CharactersList extends ReadonlyArray<infer Item> ? Item : never;
+
+async function mirrorSyncedRow(
+  userId: number,
+  kind: "characters" | "personas" | "lorebooks" | "presets" | "cards" | "conversations",
+  id: string,
+  payload: unknown,
+) {
+  try {
+    handleElysia(
+      await rpc.api
+        .sync({ kind })({ id })
+        .post({ payload, keepExpiry: true }),
+    );
+  } catch (err) {
+    await enqueuePending(userId, kind, id, "patch", err);
+  }
+}
+
+async function deleteSyncedRow(
+  userId: number,
+  kind: "characters" | "personas" | "lorebooks" | "presets" | "cards" | "conversations",
+  id: string,
+) {
+  try {
+    handleElysia(
+      await rpc.api.sync({ kind })({ id }).delete(),
+    );
+  } catch (err) {
+    await enqueuePending(userId, kind, id, "delete", err);
+  }
+}
+
+async function mirrorConvIfSynced(userId: number, convId: string) {
+  const conv = await readLocalConversation(userId, convId);
+  const syncExpiresAt = (
+    conv as { syncExpiresAt?: Date | null } | null
+  )?.syncExpiresAt;
+  if (syncExpiresAt == null) return;
+  const bundle = await readLocalConversationBundle(userId, convId);
+  if (!bundle) return;
+  await mirrorSyncedRow(userId, "conversations", convId, bundle);
+}
+
 // ---------------------------------------------------------------------------
 // Characters
 // ---------------------------------------------------------------------------
 
-type CharactersList = ListResponse<typeof rpc.api.rp.characters.get>;
-type Character =
-  CharactersList extends ReadonlyArray<infer Item> ? Item : never;
-
-// IDB-first hybrid: try SQLocal first; fall back to server when local is
-// empty AND user is logged in. Server hits get written through to SQLocal
-// so subsequent reads stay local. Pattern repeats per kind (persona /
-// lorebook / preset / card / conversation) and follows the exact same
-// shape; only the entity name varies.
 export function useCharactersQuery() {
-  const isLoggedIn = !!useAuthQuery().data;
   const auth = useAuthQuery();
+  const isLoggedIn = !!auth.data;
   return useQuery({
     queryKey: queryKeys.characters(),
     queryFn: async () => {
       const userId = auth.data?.id;
-      if (userId != null) {
-        const local = await readLocalCharacters(userId);
-        if (local && local.length > 0) return local as Character[];
-      }
-      const remote = handleElysia(
-        await rpc.api.rp.characters.get(),
-      ) as Character[];
-      if (userId != null) {
-        for (const row of remote) {
-          await upsertLocalCharacter(userId, row as never);
-        }
-      }
-      return remote;
+      if (userId == null) return [] as Character[];
+      const local = await readLocalCharacters(userId);
+      return (local ?? []) as Character[];
     },
     enabled: isLoggedIn,
   });
@@ -77,16 +130,25 @@ export function useCreateCharacterMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.characters, "post">) =>
-      handleElysia(await rpc.api.rp.characters.post(args.body)),
-    onSuccess: async (data) => {
-      const character = data as Character;
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.characters, "post">) => {
       const userId = auth.data?.id;
-      if (userId != null) {
-        await upsertLocalCharacter(userId, character as never);
-      }
+      if (userId == null) throw new Error("not-logged-in");
+      const now = dayjs().toDate();
+      const row = {
+        id: uid(),
+        userId,
+        name: "Untitled",
+        ...(args.body as Record<string, unknown>),
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalCharacter(userId, row);
+      return row;
+    },
+    onSuccess: (data) => {
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        listAdd(old, character),
+        listAdd(old, data as unknown as Character),
       );
     },
     onError: (e) => handleError(e, t),
@@ -101,37 +163,31 @@ export function useUpdateCharacterMutation() {
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.characters>, "put">["body"];
-    }) =>
-      handleElysia(await rpc.api.rp.characters({ id: args.id }).put(args.body)),
-    onSuccess: async (data, args) => {
-      const patch = data as Partial<Character> & Character;
+    }) => {
       const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalCharacter(userId, args.id);
+      if (!existing) throw new Error("not-found");
+      const now = dayjs().toDate();
+      const updated = {
+        ...existing,
+        ...(args.body as Record<string, unknown>),
+        updatedAt: now,
+      };
+      await upsertLocalCharacter(userId, updated as never);
+      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+        await mirrorSyncedRow(userId, "characters", args.id, updated);
+      }
+      return updated;
+    },
+    onSuccess: (data, args) => {
+      const patch = data as Partial<Character> & Character;
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
         listUpdate(old, args.id, patch),
       );
       qc.setQueryData<Character>(queryKeys.character(args.id), (old) =>
         itemPatch(old, patch),
       );
-      if (userId == null) return;
-      // Write-through to SQLocal.
-      await upsertLocalCharacter(userId, patch as never);
-      // If the row was synced, mirror the new content to the server while
-      // preserving the existing 30-day window.
-      const localRow = await readLocalCharacter(userId, args.id);
-      const syncExpiresAt = (
-        localRow as { syncExpiresAt?: Date | null } | null
-      )?.syncExpiresAt;
-      if (syncExpiresAt != null) {
-        try {
-          handleElysia(
-            await rpc.api
-              .sync({ kind: "characters" })({ id: args.id })
-              .post({ payload: patch, keepExpiry: true }),
-          );
-        } catch (err) {
-          await enqueuePending(userId, "characters", args.id, "patch", err);
-        }
-      }
     },
     onError: (e) => handleError(e, t),
   });
@@ -142,44 +198,41 @@ export function useDeleteCharacterMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (id: string) =>
-      handleElysia(await rpc.api.rp.characters({ id }).delete()),
-    onSuccess: async (_data, id) => {
+    mutationFn: async (id: string) => {
       const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalCharacter(userId, id);
+      const wasSynced =
+        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        null;
+      await deleteLocalCharacter(userId, id);
+      if (wasSynced) await deleteSyncedRow(userId, "characters", id);
+      return { id };
+    },
+    onSuccess: (_data, id) => {
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
         listRemove(old, id),
       );
       qc.removeQueries({ queryKey: queryKeys.character(id) });
       qc.invalidateQueries({ queryKey: queryKeys.syncState() });
-      if (userId == null) return;
-      // Read sync state BEFORE wiping the local row so we know whether to
-      // also delete the server mirror.
-      const localRow = await readLocalCharacter(userId, id);
-      const wasSynced =
-        (localRow as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
-        null;
-      await deleteLocalCharacter(userId, id);
-      if (wasSynced) {
-        try {
-          handleElysia(
-            await rpc.api.sync({ kind: "characters" })({ id }).delete(),
-          );
-        } catch (err) {
-          await enqueuePending(userId, "characters", id, "delete", err);
-        }
-      }
     },
     onError: (e) => handleError(e, t),
   });
 }
 
+// Imports go through server (file parsing). Returned row is written locally.
 export function useImportCharacterCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.characters.import.post({ file })),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const userId = auth.data?.id;
+      if (userId != null) {
+        await upsertLocalCharacter(userId, data as never);
+      }
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
         listAdd(old, data as Character),
       );
@@ -196,23 +249,43 @@ type PersonasList = ListResponse<typeof rpc.api.rp.personas.get>;
 type Persona = PersonasList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function usePersonasQuery() {
-  const isLoggedIn = !!useAuthQuery().data;
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.personas(),
-    queryFn: async () => handleElysia(await rpc.api.rp.personas.get()),
-    enabled: isLoggedIn,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null) return [] as Persona[];
+      const local = await readLocalPersonas(userId);
+      return (local ?? []) as Persona[];
+    },
+    enabled: !!auth.data,
   });
 }
 
 export function useCreatePersonaMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.personas, "post">) =>
-      handleElysia(await rpc.api.rp.personas.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.personas, "post">) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const now = dayjs().toDate();
+      const row = {
+        id: uid(),
+        userId,
+        name: "Untitled",
+        ...(args.body as Record<string, unknown>),
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalPersona(userId, row);
+      return row;
+    },
     onSuccess: (data) => {
       qc.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
-        listAdd(old, data as Persona),
+        listAdd(old, data as unknown as Persona),
       );
     },
     onError: (e) => handleError(e, t),
@@ -222,12 +295,28 @@ export function useCreatePersonaMutation() {
 export function useUpdatePersonaMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.personas>, "put">["body"];
-    }) =>
-      handleElysia(await rpc.api.rp.personas({ id: args.id }).put(args.body)),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalPersona(userId, args.id);
+      if (!existing) throw new Error("not-found");
+      const now = dayjs().toDate();
+      const updated = {
+        ...existing,
+        ...(args.body as Record<string, unknown>),
+        updatedAt: now,
+      };
+      await upsertLocalPersona(userId, updated as never);
+      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+        await mirrorSyncedRow(userId, "personas", args.id, updated);
+      }
+      return updated;
+    },
     onSuccess: (data, args) => {
       const patch = data as Partial<Persona>;
       qc.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
@@ -244,14 +333,25 @@ export function useUpdatePersonaMutation() {
 export function useDeletePersonaMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (id: string) =>
-      handleElysia(await rpc.api.rp.personas({ id }).delete()),
+    mutationFn: async (id: string) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalPersona(userId, id);
+      const wasSynced =
+        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        null;
+      await deleteLocalPersona(userId, id);
+      if (wasSynced) await deleteSyncedRow(userId, "personas", id);
+      return { id };
+    },
     onSuccess: (_data, id) => {
       qc.setQueryData<Persona[]>(queryKeys.personas(), (old) =>
         listRemove(old, id),
       );
       qc.removeQueries({ queryKey: queryKeys.persona(id) });
+      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
     onError: (e) => handleError(e, t),
   });
@@ -260,15 +360,18 @@ export function useDeletePersonaMutation() {
 export function useImportPersonaMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.personas.import.post({ file })),
-    onSuccess: (data) => {
-      // Persona import returns either a single persona or an array (multi-card
-      // imports). Append all of them.
-      const list = Array.isArray(data)
-        ? (data as Persona[])
-        : [data as Persona];
+    onSuccess: async (data) => {
+      const userId = auth.data?.id;
+      const list = Array.isArray(data) ? (data as Persona[]) : [data as Persona];
+      if (userId != null) {
+        for (const row of list) {
+          await upsertLocalPersona(userId, row as never);
+        }
+      }
       qc.setQueryData<Persona[]>(queryKeys.personas(), (old) => [
         ...(old ?? []),
         ...list,
@@ -295,32 +398,58 @@ type LorebookEntry = LorebookDetail extends { entries: infer E }
   : never;
 
 export function useLorebooksQuery() {
-  const isLoggedIn = !!useAuthQuery().data;
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.lorebooks(),
-    queryFn: async () => handleElysia(await rpc.api.rp.lorebooks.get()),
-    enabled: isLoggedIn,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null) return [] as Lorebook[];
+      const local = await readLocalLorebooks(userId);
+      return (local ?? []) as Lorebook[];
+    },
+    enabled: !!auth.data,
   });
 }
 
 export function useLorebookQuery(id?: string) {
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.lorebook(id!),
-    queryFn: async () =>
-      handleElysia(await rpc.api.rp.lorebooks({ id: id! }).get()),
-    enabled: !!id,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null || !id) throw new Error("not-found");
+      const local = await readLocalLorebook(userId, id);
+      if (!local) throw new Error("not-found");
+      return local as unknown as LorebookDetail;
+    },
+    enabled: !!id && !!auth.data,
   });
 }
 
 export function useCreateLorebookMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.lorebooks, "post">) =>
-      handleElysia(await rpc.api.rp.lorebooks.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.lorebooks, "post">) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const now = dayjs().toDate();
+      const row = {
+        id: uid(),
+        userId,
+        name: "Untitled",
+        ...(args.body as Record<string, unknown>),
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalLorebook(userId, row);
+      return row;
+    },
     onSuccess: (data) => {
       qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        listAdd(old, data as Lorebook),
+        listAdd(old, data as unknown as Lorebook),
       );
     },
     onError: (e) => handleError(e, t),
@@ -330,12 +459,34 @@ export function useCreateLorebookMutation() {
 export function useUpdateLorebookMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.lorebooks>, "put">["body"];
-    }) =>
-      handleElysia(await rpc.api.rp.lorebooks({ id: args.id }).put(args.body)),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalLorebook(userId, args.id);
+      if (!existing) throw new Error("not-found");
+      const now = dayjs().toDate();
+      const updated = {
+        ...existing,
+        ...(args.body as Record<string, unknown>),
+        updatedAt: now,
+      };
+      await upsertLocalLorebook(userId, updated as never);
+      const syncExpiresAt = (existing as { syncExpiresAt?: Date | null })
+        .syncExpiresAt;
+      if (syncExpiresAt != null) {
+        const lb = await readLocalLorebook(userId, args.id);
+        await mirrorSyncedRow(userId, "lorebooks", args.id, {
+          lorebook: { ...lb, entries: undefined },
+          entries: lb?.entries ?? [],
+        });
+      }
+      return updated;
+    },
     onSuccess: (data, args) => {
       const patch = data as Partial<Lorebook>;
       qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
@@ -352,14 +503,25 @@ export function useUpdateLorebookMutation() {
 export function useDeleteLorebookMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (id: string) =>
-      handleElysia(await rpc.api.rp.lorebooks({ id }).delete()),
+    mutationFn: async (id: string) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalLorebook(userId, id);
+      const wasSynced =
+        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        null;
+      await deleteLocalLorebook(userId, id);
+      if (wasSynced) await deleteSyncedRow(userId, "lorebooks", id);
+      return { id };
+    },
     onSuccess: (_data, id) => {
       qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
         listRemove(old, id),
       );
       qc.removeQueries({ queryKey: queryKeys.lorebook(id) });
+      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
     onError: (e) => handleError(e, t),
   });
@@ -368,20 +530,27 @@ export function useDeleteLorebookMutation() {
 export function useImportLorebookMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.lorebooks.import.post({ file })),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const userId = auth.data?.id;
+      const lb = data as Lorebook & { entries?: LorebookEntry[] };
+      if (userId != null) {
+        await upsertLocalLorebookBundle(userId, {
+          lorebook: { ...(lb as Record<string, unknown>), entries: undefined } as never,
+          entries: (lb.entries ?? []) as never,
+        });
+      }
       qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        listAdd(old, data as Lorebook),
+        listAdd(old, lb as Lorebook),
       );
     },
     onError: (e) => handleError(e, t),
   });
 }
 
-// Lorebook entries: nested under a specific lorebook detail. Each mutation
-// patches the parent lorebook's `entries` array in place.
 function patchLorebookEntries(
   qc: ReturnType<typeof useQueryClient>,
   lorebookId: string,
@@ -392,23 +561,47 @@ function patchLorebookEntries(
   );
 }
 
+async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
+  const lb = await readLocalLorebook(userId, lorebookId);
+  if (!lb) return;
+  if ((lb as { syncExpiresAt?: Date | null }).syncExpiresAt == null) return;
+  await mirrorSyncedRow(userId, "lorebooks", lorebookId, {
+    lorebook: { ...lb, entries: undefined },
+    entries: lb.entries,
+  });
+}
+
 export function useCreateLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (
       body: EdenArgs<
         ReturnType<typeof rpc.api.rp.lorebooks>["entries"],
         "post"
       >["body"],
-    ) =>
-      handleElysia(
-        await rpc.api.rp.lorebooks({ id: lorebookId }).entries.post(body),
-      ),
+    ) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const now = dayjs().toDate();
+      const row = {
+        id: uid(),
+        lorebookId,
+        keys: [],
+        content: "",
+        ...(body as Record<string, unknown>),
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalLorebookEntry(userId, row);
+      await mirrorLorebookIfSynced(userId, lorebookId);
+      return row;
+    },
     onSuccess: (data) => {
       patchLorebookEntries(qc, lorebookId, (entries) => [
         ...entries,
-        data as LorebookEntry,
+        data as unknown as LorebookEntry,
       ]);
     },
     onError: (e) => handleError(e, t),
@@ -418,6 +611,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
 export function useUpdateLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       entryId: string;
@@ -425,17 +619,27 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
         ReturnType<ReturnType<typeof rpc.api.rp.lorebooks>["entries"]>,
         "put"
       >["body"];
-    }) =>
-      handleElysia(
-        await rpc.api.rp
-          .lorebooks({ id: lorebookId })
-          .entries({ entryId: args.entryId })
-          .put(args.body),
-      ),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const now = dayjs().toDate();
+      const lb = await readLocalLorebook(userId, lorebookId);
+      const existing = lb?.entries.find((e) => (e as { id: string }).id === args.entryId);
+      const updated = {
+        ...(existing ?? {}),
+        id: args.entryId,
+        lorebookId,
+        ...(args.body as Record<string, unknown>),
+        updatedAt: now,
+      };
+      await upsertLocalLorebookEntry(userId, updated);
+      await mirrorLorebookIfSynced(userId, lorebookId);
+      return updated;
+    },
     onSuccess: (data, args) => {
       const patch = data as Partial<LorebookEntry>;
       patchLorebookEntries(qc, lorebookId, (entries) =>
-        entries.map((e) => (e.id === args.entryId ? { ...e, ...patch } : e)),
+        entries.map((e) => ((e as { id: string }).id === args.entryId ? { ...e, ...patch } : e)),
       );
     },
     onError: (e) => handleError(e, t),
@@ -445,17 +649,18 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
 export function useDeleteLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (entryId: string) =>
-      handleElysia(
-        await rpc.api.rp
-          .lorebooks({ id: lorebookId })
-          .entries({ entryId })
-          .delete(),
-      ),
+    mutationFn: async (entryId: string) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      await deleteLocalLorebookEntry(userId, entryId);
+      await mirrorLorebookIfSynced(userId, lorebookId);
+      return { id: entryId };
+    },
     onSuccess: (_data, entryId) => {
       patchLorebookEntries(qc, lorebookId, (entries) =>
-        entries.filter((e) => e.id !== entryId),
+        entries.filter((e) => (e as { id: string }).id !== entryId),
       );
     },
     onError: (e) => handleError(e, t),
@@ -470,23 +675,43 @@ type PresetsList = ListResponse<typeof rpc.api.rp.presets.get>;
 type Preset = PresetsList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function usePresetsQuery() {
-  const isLoggedIn = !!useAuthQuery().data;
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.presets(),
-    queryFn: async () => handleElysia(await rpc.api.rp.presets.get()),
-    enabled: isLoggedIn,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null) return [] as Preset[];
+      const local = await readLocalPresets(userId);
+      return (local ?? []) as Preset[];
+    },
+    enabled: !!auth.data,
   });
 }
 
 export function useCreatePresetMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.presets, "post">) =>
-      handleElysia(await rpc.api.rp.presets.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.presets, "post">) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const now = dayjs().toDate();
+      const row = {
+        id: uid(),
+        userId,
+        name: "Untitled",
+        ...(args.body as Record<string, unknown>),
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalPreset(userId, row);
+      return row;
+    },
     onSuccess: (data) => {
       qc.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
-        listAdd(old, data as Preset),
+        listAdd(old, data as unknown as Preset),
       );
     },
     onError: (e) => handleError(e, t),
@@ -496,12 +721,28 @@ export function useCreatePresetMutation() {
 export function useUpdatePresetMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.presets>, "put">["body"];
-    }) =>
-      handleElysia(await rpc.api.rp.presets({ id: args.id }).put(args.body)),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalPreset(userId, args.id);
+      if (!existing) throw new Error("not-found");
+      const now = dayjs().toDate();
+      const updated = {
+        ...existing,
+        ...(args.body as Record<string, unknown>),
+        updatedAt: now,
+      };
+      await upsertLocalPreset(userId, updated as never);
+      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+        await mirrorSyncedRow(userId, "presets", args.id, updated);
+      }
+      return updated;
+    },
     onSuccess: (data, args) => {
       const patch = data as Partial<Preset>;
       qc.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
@@ -518,53 +759,106 @@ export function useUpdatePresetMutation() {
 export function useDeletePresetMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (id: string) =>
-      handleElysia(await rpc.api.rp.presets({ id }).delete()),
+    mutationFn: async (id: string) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalPreset(userId, id);
+      const wasSynced =
+        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        null;
+      await deleteLocalPreset(userId, id);
+      if (wasSynced) await deleteSyncedRow(userId, "presets", id);
+      return { id };
+    },
     onSuccess: (_data, id) => {
       qc.setQueryData<Preset[]>(queryKeys.presets(), (old) =>
         listRemove(old, id),
       );
       qc.removeQueries({ queryKey: queryKeys.preset(id) });
+      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
     onError: (e) => handleError(e, t),
   });
 }
 
 // ---------------------------------------------------------------------------
-// Cards (chars + persona + lorebooks bundle)
+// Cards (+ junctions)
 // ---------------------------------------------------------------------------
 
 type CardsList = ListResponse<typeof rpc.api.rp.cards.get>;
 type Card = CardsList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function useCardsQuery() {
-  const isLoggedIn = !!useAuthQuery().data;
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.cards(),
-    queryFn: async () => handleElysia(await rpc.api.rp.cards.get()),
-    enabled: isLoggedIn,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null) return [] as Card[];
+      const local = await readLocalCards(userId);
+      return (local ?? []) as Card[];
+    },
+    enabled: !!auth.data,
   });
 }
 
 export function useCardQuery(id: string | undefined) {
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.card(id ?? ""),
-    queryFn: async () =>
-      handleElysia(await rpc.api.rp.cards({ id: id! }).get()),
-    enabled: !!id,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null || !id) throw new Error("not-found");
+      const local = await readLocalCard(userId, id);
+      if (!local) throw new Error("not-found");
+      return local;
+    },
+    enabled: !!id && !!auth.data,
   });
 }
 
 export function useCreateCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.cards, "post">) =>
-      handleElysia(await rpc.api.rp.cards.post(args.body)),
+    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.cards, "post">) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const body = args.body as Record<string, unknown>;
+      const now = dayjs().toDate();
+      const card = {
+        id: uid(),
+        userId,
+        name: (body.name as string) ?? "Untitled",
+        description: (body.description as string | null) ?? null,
+        personaId: (body.personaId as string | null) ?? null,
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      const characterIds = (body.characterIds as string[] | undefined) ?? [];
+      const lorebookIds = (body.lorebookIds as string[] | undefined) ?? [];
+      await upsertLocalCardBundle(userId, {
+        card: card as never,
+        cardCharacters: characterIds.map((cid, i) => ({
+          cardId: card.id,
+          characterId: cid,
+          orderIndex: i,
+        })),
+        cardLorebooks: lorebookIds.map((lid, i) => ({
+          cardId: card.id,
+          lorebookId: lid,
+          orderIndex: i,
+        })),
+      });
+      return card;
+    },
     onSuccess: (data) => {
       qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
-        listAdd(old, data as Card),
+        listAdd(old, data as unknown as Card),
       );
     },
     onError: (e) => handleError(e, t),
@@ -574,11 +868,54 @@ export function useCreateCardMutation() {
 export function useUpdateCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.rp.cards>, "put">["body"];
-    }) => handleElysia(await rpc.api.rp.cards({ id: args.id }).put(args.body)),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalCard(userId, args.id);
+      if (!existing) throw new Error("not-found");
+      const body = args.body as Record<string, unknown>;
+      const now = dayjs().toDate();
+      const updatedCard = {
+        ...existing,
+        ...body,
+        cardCharacters: undefined,
+        cardLorebooks: undefined,
+        updatedAt: now,
+      };
+      const characterIds =
+        (body.characterIds as string[] | undefined) ??
+        existing.cardCharacters.map((c) => (c as { characterId: string }).characterId);
+      const lorebookIds =
+        (body.lorebookIds as string[] | undefined) ??
+        existing.cardLorebooks.map((l) => (l as { lorebookId: string }).lorebookId);
+      await upsertLocalCardBundle(userId, {
+        card: updatedCard as never,
+        cardCharacters: characterIds.map((cid, i) => ({
+          cardId: args.id,
+          characterId: cid,
+          orderIndex: i,
+        })),
+        cardLorebooks: lorebookIds.map((lid, i) => ({
+          cardId: args.id,
+          lorebookId: lid,
+          orderIndex: i,
+        })),
+      });
+      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+        const fresh = await readLocalCard(userId, args.id);
+        await mirrorSyncedRow(userId, "cards", args.id, {
+          card: { ...fresh, cardCharacters: undefined, cardLorebooks: undefined },
+          cardCharacters: fresh?.cardCharacters ?? [],
+          cardLorebooks: fresh?.cardLorebooks ?? [],
+        });
+      }
+      return updatedCard;
+    },
     onSuccess: (data, args) => {
       const patch = data as Partial<Card>;
       qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
@@ -595,14 +932,25 @@ export function useUpdateCardMutation() {
 export function useDeleteCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (id: string) =>
-      handleElysia(await rpc.api.rp.cards({ id }).delete()),
+    mutationFn: async (id: string) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalCard(userId, id);
+      const wasSynced =
+        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        null;
+      await deleteLocalCard(userId, id);
+      if (wasSynced) await deleteSyncedRow(userId, "cards", id);
+      return { id };
+    },
     onSuccess: (_data, id) => {
       qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
         listRemove(old, id),
       );
       qc.removeQueries({ queryKey: queryKeys.card(id) });
+      qc.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
     onError: (e) => handleError(e, t),
   });
@@ -611,16 +959,86 @@ export function useDeleteCardMutation() {
 export function useApplyCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       id: string;
       body: { convId: string; mode: "replace" | "merge" };
-    }) =>
-      handleElysia(
-        await rpc.api.rp.cards({ id: args.id }).apply.post(args.body),
-      ),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const card = await readLocalCard(userId, args.id);
+      if (!card) throw new Error("card-not-found");
+      const characterIds = card.cardCharacters.map(
+        (c) => (c as { characterId: string }).characterId,
+      );
+      const lorebookIds = card.cardLorebooks.map(
+        (l) => (l as { lorebookId: string }).lorebookId,
+      );
+      if (args.body.mode === "replace") {
+        await replaceLocalConversationBindings(userId, args.body.convId, {
+          conversationCharacters: characterIds.map((cid) => ({
+            characterId: cid,
+          })),
+          conversationLorebooks: lorebookIds.map((lid) => ({
+            lorebookId: lid,
+          })),
+        });
+      } else {
+        // merge: read existing, dedupe
+        const existing = await readLocalConversationBindings(
+          userId,
+          args.body.convId,
+        );
+        const existingCharIds = new Set(
+          existing?.conversationCharacters.map(
+            (c) => (c as { characterId: string }).characterId,
+          ) ?? [],
+        );
+        const existingLbIds = new Set(
+          existing?.conversationLorebooks.map(
+            (l) => (l as { lorebookId: string }).lorebookId,
+          ) ?? [],
+        );
+        const combinedChars = [
+          ...(existing?.conversationCharacters ?? []),
+          ...characterIds
+            .filter((cid) => !existingCharIds.has(cid))
+            .map((cid) => ({ characterId: cid })),
+        ];
+        const combinedLbs = [
+          ...(existing?.conversationLorebooks ?? []),
+          ...lorebookIds
+            .filter((lid) => !existingLbIds.has(lid))
+            .map((lid) => ({ lorebookId: lid })),
+        ];
+        await replaceLocalConversationBindings(userId, args.body.convId, {
+          conversationCharacters: combinedChars.map((c) => ({
+            characterId: (c as { characterId: string }).characterId,
+          })),
+          conversationLorebooks: combinedLbs.map((l) => ({
+            lorebookId: (l as { lorebookId: string }).lorebookId,
+          })),
+        });
+      }
+      // Also pin personaId in settings if card has one
+      if (card.personaId) {
+        const settings = await readLocalConversationSettings(
+          userId,
+          args.body.convId,
+        );
+        if (settings) {
+          await upsertLocalConversationSettings(userId, {
+            ...settings,
+            personaId: card.personaId,
+            updatedAt: dayjs().toDate(),
+          });
+        }
+      }
+      await mirrorConvIfSynced(userId, args.body.convId);
+      return { id: args.id };
+    },
     onSuccess: (_data, args) => {
-      // Bindings + settings changed on the target conversation; refetch both.
       qc.invalidateQueries({
         queryKey: queryKeys.chatBindings(args.body.convId),
       });
@@ -646,19 +1064,24 @@ type ChatBindings = EdenResponse<
 >;
 
 export function useChatSettingsQuery(convId?: string) {
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.chatSettings(convId!),
-    queryFn: async () =>
-      handleElysia(
-        await rpc.api.rp.conversations({ id: convId! }).settings.get(),
-      ),
-    enabled: !!convId,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null || !convId) throw new Error("not-found");
+      const local = await readLocalConversationSettings(userId, convId);
+      if (!local) throw new Error("not-found");
+      return local as unknown as ChatSettings;
+    },
+    enabled: !!convId && !!auth.data,
   });
 }
 
 export function useUpdateChatSettingsMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       convId: string;
@@ -666,19 +1089,36 @@ export function useUpdateChatSettingsMutation() {
         ReturnType<typeof rpc.api.rp.conversations>["settings"],
         "put"
       >["body"];
-    }) =>
-      handleElysia(
-        await rpc.api.rp
-          .conversations({ id: args.convId })
-          .settings.put(args.body),
-      ),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const existing = await readLocalConversationSettings(userId, args.convId);
+      const now = dayjs().toDate();
+      const updated = {
+        ...(existing ?? { convId: args.convId, defaultModel: "" }),
+        ...(args.body as Record<string, unknown>),
+        convId: args.convId,
+        updatedAt: now,
+      };
+      await upsertLocalConversationSettings(userId, updated);
+      // Also bump conv updatedAt
+      const conv = await readLocalConversation(userId, args.convId);
+      if (conv) {
+        await upsertLocalConversation(userId, {
+          ...conv,
+          updatedAt: now,
+        });
+      }
+      await mirrorConvIfSynced(userId, args.convId);
+      return updated;
+    },
     onSuccess: (data, args) => {
       qc.setQueryData<ChatSettings>(
         queryKeys.chatSettings(args.convId),
         (old) =>
           old
             ? itemPatch(old, data as Partial<ChatSettings>)
-            : (data as ChatSettings),
+            : (data as unknown as ChatSettings),
       );
     },
     onError: (e) => handleError(e, t),
@@ -686,19 +1126,29 @@ export function useUpdateChatSettingsMutation() {
 }
 
 export function useChatBindingsQuery(convId?: string) {
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.chatBindings(convId!),
-    queryFn: async () =>
-      handleElysia(
-        await rpc.api.rp.conversations({ id: convId! }).bindings.get(),
-      ),
-    enabled: !!convId,
+    queryFn: async () => {
+      const userId = auth.data?.id;
+      if (userId == null || !convId) throw new Error("not-found");
+      const local = await readLocalConversationBindings(userId, convId);
+      // Surface shape consumer expects: { characters: [...], lorebooks: [...] }
+      // bindings reads expose `conversationCharacters` etc. — match the server
+      // shape consumers already use.
+      return {
+        characters: local?.conversationCharacters ?? [],
+        lorebooks: local?.conversationLorebooks ?? [],
+      } as unknown as ChatBindings;
+    },
+    enabled: !!convId && !!auth.data,
   });
 }
 
 export function useUpdateChatBindingsMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       convId: string;
@@ -706,16 +1156,37 @@ export function useUpdateChatBindingsMutation() {
         ReturnType<typeof rpc.api.rp.conversations>["bindings"],
         "put"
       >["body"];
-    }) =>
-      handleElysia(
-        await rpc.api.rp
-          .conversations({ id: args.convId })
-          .bindings.put(args.body),
-      ),
+    }) => {
+      const userId = auth.data?.id;
+      if (userId == null) throw new Error("not-logged-in");
+      const body = args.body as {
+        characterIds?: string[];
+        lorebookIds?: string[];
+      };
+      await replaceLocalConversationBindings(userId, args.convId, {
+        conversationCharacters: (body.characterIds ?? []).map((cid) => ({
+          characterId: cid,
+        })),
+        conversationLorebooks: (body.lorebookIds ?? []).map((lid) => ({
+          lorebookId: lid,
+        })),
+      });
+      const now = dayjs().toDate();
+      const conv = await readLocalConversation(userId, args.convId);
+      if (conv) {
+        await upsertLocalConversation(userId, { ...conv, updatedAt: now });
+      }
+      await mirrorConvIfSynced(userId, args.convId);
+      const fresh = await readLocalConversationBindings(userId, args.convId);
+      return {
+        characters: fresh?.conversationCharacters ?? [],
+        lorebooks: fresh?.conversationLorebooks ?? [],
+      };
+    },
     onSuccess: (data, args) => {
       qc.setQueryData<ChatBindings>(
         queryKeys.chatBindings(args.convId),
-        () => data as ChatBindings,
+        () => data as unknown as ChatBindings,
       );
     },
     onError: (e) => handleError(e, t),
@@ -723,7 +1194,7 @@ export function useUpdateChatBindingsMutation() {
 }
 
 // ---------------------------------------------------------------------------
-// Export / Import
+// Export / Import (conversation level)
 // ---------------------------------------------------------------------------
 
 export function useImportConversationMutation() {
@@ -732,8 +1203,6 @@ export function useImportConversationMutation() {
   return useMutation({
     mutationFn: async (file: File) =>
       handleElysia(await rpc.api.rp.conversations.import.post({ file })),
-    // Server returns only the new convId; not enough to optimistically build a
-    // ConvItem. Invalidate so the sidebar list refetches.
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.conversations() });
     },

@@ -395,6 +395,7 @@ export const mediaUploadBody = t.Object({
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),
+  model: t.Optional(t.String()),
 });
 
 export const claimConversationsBody = t.Object({

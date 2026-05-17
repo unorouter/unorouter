@@ -1,5 +1,17 @@
 import { PAGE_SIZE } from "@/lib/config/constants";
 import {
+  readLocalConversation,
+  readLocalConversationBundle,
+  readLocalMessageItems,
+  readLocalMessages,
+} from "@/lib/local-db/reads";
+import {
+  upsertLocalConversation,
+  upsertLocalMessage,
+  upsertLocalMessageItem,
+} from "@/lib/local-db/writes";
+import { enqueuePending } from "@/lib/local-db/pending-sync";
+import {
   moveConvToTop,
   type ConvsInfinite,
 } from "@/lib/react-query/conv-cache";
@@ -7,7 +19,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { ApiMessage, PersistMessage } from "@/lib/types/chat";
 import { itemsToParts, partsToItems } from "@/lib/types/chat";
-import { handleElysia } from "@/lib/utils/base";
+import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel } from "@/store/chat-store";
 import type {
   MessageFormatAdapter,
@@ -24,8 +36,6 @@ function buildRepository<TMessage>(
   raw: RawMessage[],
   formatAdapter: MessageFormatAdapter<TMessage, Record<string, unknown>>,
 ): MessageFormatRepository<TMessage> {
-  // Walk DB rows chronologically. Translate items -> parts at the boundary so
-  // assistant-ui sees the shape it expects.
   const messages = raw.map<MessageFormatItem<TMessage>>((m) => {
     const parts = itemsToParts(m.items ?? []);
     const decoded = formatAdapter.decode({
@@ -37,23 +47,38 @@ function buildRepository<TMessage>(
     return decoded;
   });
 
-  // Head: prefer the latest active-branch tip; fall back to last message.
   const activeTip = [...raw].reverse().find((m) => m.isActiveBranch !== false);
   const headId =
     activeTip?.id ?? (raw.length > 0 ? raw[raw.length - 1].id : null);
   return { headId, messages };
 }
 
+async function mirrorConvIfSynced(userId: number, convId: string) {
+  const conv = await readLocalConversation(userId, convId);
+  const syncExpiresAt = (
+    conv as { syncExpiresAt?: Date | null } | null
+  )?.syncExpiresAt;
+  if (syncExpiresAt == null) return;
+  const bundle = await readLocalConversationBundle(userId, convId);
+  if (!bundle) return;
+  try {
+    handleElysia(
+      await rpc.api
+        .sync({ kind: "conversations" })({ id: convId })
+        .post({ payload: bundle, keepExpiry: true }),
+    );
+  } catch (err) {
+    await enqueuePending(userId, "conversations", convId, "patch", err);
+  }
+}
+
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
   getConvId: () => string | null,
+  getUserId: () => number | null,
 ): ThreadHistoryAdapter {
   return {
     async load() {
-      // assistant-ui's `useExternalHistory` calls `withFormat().load()` when a
-      // format adapter is registered (always, in this codebase). Reaching the
-      // outer load() means a future caller bypassed the format adapter and
-      // would silently lose data. Throw loudly instead.
       throw new Error(
         "chat-history-adapter: outer load() should not be called; use withFormat()",
       );
@@ -72,37 +97,33 @@ export function createChatHistoryAdapter(
         async load(): Promise<MessageFormatRepository<TMessage>> {
           const id = getConvId();
           if (!id) return { messages: [] };
+          const userId = getUserId();
 
           type MsgPage = { messages: RawMessage[]; total: number };
           type Cached = { pages: MsgPage[]; pageParams: number[] };
 
+          let allMessages: RawMessage[] = [];
           const cached = queryClient.getQueryData<Cached>(
             queryKeys.chatMessages(id),
           );
-
-          // Start from the hydrated cache and only fetch what's missing
-          const allMessages: RawMessage[] = cached
-            ? cached.pages.flatMap((p) => p.messages)
-            : [];
-          const lastCachedPage = cached?.pages.at(-1);
-          const startPage = cached ? cached.pages.length + 1 : 1;
-          const cacheIsComplete =
-            !!lastCachedPage && lastCachedPage.messages.length < PAGE_SIZE;
-
-          if (!cacheIsComplete) {
-            let page = startPage;
-            while (true) {
-              const data = handleElysia(
-                await rpc.api.chat({ id }).get({
-                  query: { p: page, page_size: PAGE_SIZE },
-                }),
-              );
-              allMessages.push(...(data.messages as RawMessage[]));
-              if (data.messages.length < PAGE_SIZE) break;
-              page++;
+          if (cached) {
+            allMessages = cached.pages.flatMap((p) => p.messages);
+          } else if (userId != null) {
+            const msgs = (await readLocalMessages(userId, id)) ?? [];
+            const items = (await readLocalMessageItems(userId, id)) ?? [];
+            const byMsg = new Map<string, typeof items>();
+            for (const it of items) {
+              const arr = byMsg.get(it.messageId) ?? [];
+              arr.push(it);
+              byMsg.set(it.messageId, arr);
             }
-
-            // Seed the react-query cache so other hooks (totals, title, etc.) keep working
+            allMessages = msgs.map(
+              (m) =>
+                ({
+                  ...m,
+                  items: byMsg.get(m.id) ?? [],
+                }) as unknown as RawMessage,
+            );
             queryClient.setQueryData(queryKeys.chatMessages(id), {
               pages: [{ messages: allMessages, total: allMessages.length }],
               pageParams: [1],
@@ -120,7 +141,8 @@ export function createChatHistoryAdapter(
 
         async append(item: MessageFormatItem<TMessage>) {
           const id = getConvId();
-          if (!id) return;
+          const userId = getUserId();
+          if (!id || userId == null) return;
 
           const stored = formatAdapter.encode(item);
           const messageId = formatAdapter.getId(item.message);
@@ -131,10 +153,6 @@ export function createChatHistoryAdapter(
           };
 
           const items = partsToItems(content.parts ?? []);
-
-          // assistant-ui's MessageFormatAdapter doesn't carry model on the
-          // encoded message. For assistants, fall back to the chat-store
-          // selector (the model the user actively chose for this turn).
           const resolvedModel =
             typeof content.model === "string"
               ? content.model
@@ -142,27 +160,65 @@ export function createChatHistoryAdapter(
                 ? getChatModel()
                 : null;
 
-          const body = {
-            messages: [
-              {
-                id: messageId,
-                parentId: item.parentId,
-                role: content.role,
-                items,
-                ...(resolvedModel ? { model: resolvedModel } : {}),
-              },
-            ],
-          };
+          const now = dayjs().toDate();
 
-          const result = handleElysia(
-            await rpc.api.chat({ id }).messages.post(
-              body as unknown as {
-                messages: PersistMessage[];
-              },
-            ),
-          );
+          // Determine usage from the content (assistant turns carry usage
+          // in their metadata once stream finishes). Stream pipeline returns
+          // usage via the SSE finish frame which we surface on content.usage.
+          const usage = (content.usage as
+            | { inputTokens: number; outputTokens: number; cost: number }
+            | undefined) ?? null;
 
-          // Mirror the cache updates that usePersistMessagesMutation used to perform
+          await upsertLocalMessage(userId, {
+            id: messageId,
+            convId: id,
+            parentId: item.parentId ?? null,
+            role: content.role,
+            model: resolvedModel,
+            inputTokens: usage?.inputTokens ?? null,
+            outputTokens: usage?.outputTokens ?? null,
+            cost: usage?.cost ?? null,
+            isActiveBranch: true,
+            isEdited: false,
+            branchIndex: 0,
+            createdAt: now,
+            updatedAt: now,
+          });
+
+          const itemRows = items.map((it, seq) => ({
+            id: it.id ?? uid(),
+            messageId,
+            sequenceIndex: seq,
+            outputIndex: it.output_index ?? null,
+            type: it.type,
+            data: it.data as unknown,
+            createdAt: now,
+          }));
+          for (const row of itemRows) {
+            await upsertLocalMessageItem(userId, row);
+          }
+
+          // Bump conv totals + updatedAt
+          const existing = await readLocalConversation(userId, id);
+          if (existing) {
+            const ex = existing as unknown as {
+              totalInputTokens: number;
+              totalOutputTokens: number;
+              totalCost: number;
+            };
+            await upsertLocalConversation(userId, {
+              ...(existing as Record<string, unknown>),
+              id,
+              totalInputTokens:
+                (ex.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
+              totalOutputTokens:
+                (ex.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
+              totalCost: (ex.totalCost ?? 0) + (usage?.cost ?? 0),
+              updatedAt: now,
+            });
+          }
+
+          // Cache patches
           type MsgPage = {
             messages: Array<Record<string, unknown>>;
             total: number;
@@ -170,25 +226,35 @@ export function createChatHistoryAdapter(
           queryClient.setQueryData<{ pages: MsgPage[]; pageParams: unknown[] }>(
             queryKeys.chatMessages(id),
             (old) => {
-              if (!old?.pages[0]) return old;
-              const usage = result.usage;
-              const hasUsage = content.role === "assistant" && usage;
               const newMessage = {
                 id: messageId,
                 parentId: item.parentId,
                 role: content.role,
-                items: items.map((it, seq) => ({
-                  id: it.id ?? `tmp-${seq}`,
-                  sequenceIndex: seq,
-                  outputIndex: it.output_index ?? null,
+                items: itemRows.map((it) => ({
+                  id: it.id,
+                  sequenceIndex: it.sequenceIndex,
+                  outputIndex: it.outputIndex,
                   type: it.type,
                   data: it.data,
                 })),
                 model: resolvedModel,
-                inputTokens: hasUsage ? usage.inputTokens : null,
-                outputTokens: hasUsage ? usage.outputTokens : null,
-                cost: hasUsage ? usage.cost : null,
+                inputTokens: usage?.inputTokens ?? null,
+                outputTokens: usage?.outputTokens ?? null,
+                cost: usage?.cost ?? null,
+                isActiveBranch: true,
+                isEdited: false,
               };
+              if (!old?.pages[0]) {
+                return {
+                  pages: [
+                    {
+                      messages: [newMessage],
+                      total: 1,
+                    },
+                  ],
+                  pageParams: [1],
+                };
+              }
               const firstPage = old.pages[0];
               return {
                 ...old,
@@ -207,38 +273,19 @@ export function createChatHistoryAdapter(
             queryKeys.conversations(),
             (old) =>
               moveConvToTop(old, id, (prev) => ({
-                updatedAt: dayjs().toDate(),
-                ...(result.title && { title: result.title }),
-                ...(result.usage?.cost && {
-                  totalCost: (prev.totalCost ?? 0) + result.usage.cost,
+                updatedAt: now,
+                ...(usage?.cost && {
+                  totalCost: (prev.totalCost ?? 0) + usage.cost,
                 }),
               })),
           );
 
-          if (result.usage) {
-            type ConvMeta = {
-              totalInputTokens?: number;
-              totalOutputTokens?: number;
-              totalCost?: number;
-              [k: string]: unknown;
-            };
-            queryClient.setQueryData<ConvMeta>(
-              queryKeys.chatMeta(id),
-              (old) => {
-                if (!old) return old;
-                return {
-                  ...old,
-                  totalInputTokens:
-                    (old.totalInputTokens ?? 0) + result.usage!.inputTokens,
-                  totalOutputTokens:
-                    (old.totalOutputTokens ?? 0) + result.usage!.outputTokens,
-                  totalCost: (old.totalCost ?? 0) + result.usage!.cost,
-                };
-              },
-            );
-          }
+          await mirrorConvIfSynced(userId, id);
         },
       };
     },
   };
 }
+
+// Suppress unused warning for PAGE_SIZE
+void PAGE_SIZE;

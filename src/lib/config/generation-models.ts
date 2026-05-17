@@ -375,14 +375,11 @@ export const GENERATION_MODELS: GenerationModelDescriptor[] = [
   },
 ];
 
-const BY_ID: Record<GenerationModel, GenerationModelDescriptor> =
-  Object.fromEntries(GENERATION_MODELS.map((m) => [m.id, m])) as Record<
-    GenerationModel,
-    GenerationModelDescriptor
-  >;
+export const GENERATION_MODELS_BY_ID: Record<string, GenerationModelDescriptor> =
+  Object.fromEntries(GENERATION_MODELS.map((m) => [m.id, m]));
 
 export function getModelDescriptor(
   id: GenerationModel,
 ): GenerationModelDescriptor {
-  return BY_ID[id] ?? GENERATION_MODELS[0];
+  return GENERATION_MODELS_BY_ID[id] ?? GENERATION_MODELS[0];
 }

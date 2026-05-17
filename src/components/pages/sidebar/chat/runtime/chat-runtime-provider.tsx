@@ -56,8 +56,13 @@ function ChatRuntimeHook() {
   }
 
   // History adapter handles persistence (append) and initial load (with branch tree)
+  const authForHistory = useAuthQuery();
   const historyAdapterRef = useRef(
-    createChatHistoryAdapter(queryClient, () => getConvId()),
+    createChatHistoryAdapter(
+      queryClient,
+      () => getConvId(),
+      () => authForHistory.data?.id ?? null,
+    ),
   );
 
   // Two-way model sync: server → atom on thread switch, atom → server on user change.
@@ -187,14 +192,20 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
   const isLoggedIn = !!authQuery.data;
+  const userId = authQuery.data?.id ?? null;
   const adapterRef = useRef(
-    createThreadListAdapter(queryClient, t, isLoggedIn),
+    createThreadListAdapter(queryClient, t, isLoggedIn, userId),
   );
 
   // Update the adapter's isLoggedIn state when auth changes
   useEffect(() => {
-    adapterRef.current = createThreadListAdapter(queryClient, t, isLoggedIn);
-  }, [isLoggedIn, queryClient, t]);
+    adapterRef.current = createThreadListAdapter(
+      queryClient,
+      t,
+      isLoggedIn,
+      userId,
+    );
+  }, [isLoggedIn, queryClient, t, userId]);
 
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,

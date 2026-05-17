@@ -147,16 +147,10 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .post(
-    "/:id/title",
-    async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+    "/title",
+    async ({ body, cookie }) => {
       const apiKey = getApiKeyOrGuest(cookie);
-      const data = await generateChatTitle(
-        apiKey,
-        userId,
-        params.id,
-        body.text,
-      );
+      const data = await generateChatTitle(apiKey, body.text, body.model);
       return { success: true, data };
     },
     { body: titleGenerationBody },

@@ -775,6 +775,19 @@ export async function streamChat(
   // exceeds what the upstream actually accepts. Cap to a safe budget.
   // Captured during onFinish, surfaced via messageMetadata so the client can toast.
   const droppedParamsRef: { value: string | null } = { value: null };
+  // Surface usage to the client via messageMetadata so chat-history-adapter can
+  // persist token counts + cost into SQLocal without a follow-up server call.
+  const usageRef: {
+    value:
+      | {
+          inputTokens: number;
+          outputTokens: number;
+          cost: number;
+          durationMs: number;
+          tokensPerSecond?: number;
+        }
+      | null;
+  } = { value: null };
 
   const presetMaxOut = assembled.sampling.maxOutputTokens;
   const effectiveMaxOutputTokens = modelMetadata.isFree
@@ -853,6 +866,16 @@ export async function streamChat(
         durationMs,
         tokensPerSecond,
       });
+      // Cost will be backfilled by the pending-usage drain on the upstream
+      // headers, but the client needs at minimum input/output tokens to update
+      // its local row. Cost on free models is 0 anyway.
+      usageRef.value = {
+        inputTokens,
+        outputTokens,
+        cost: 0,
+        durationMs,
+        tokensPerSecond,
+      };
       // Capture dropped-params header for the messageMetadata callback below.
       const dropped = response.headers?.["x-newapi-dropped-params"];
       if (typeof dropped === "string" && dropped.length > 0) {
@@ -904,8 +927,11 @@ export async function streamChat(
   if (!buffered && !userOptedOutOfStreaming) {
     return result.toUIMessageStreamResponse({
       messageMetadata: ({ part }) => {
-        if (part.type === "finish" && droppedParamsRef.value) {
-          return { droppedParams: droppedParamsRef.value };
+        if (part.type === "finish") {
+          const meta: Record<string, unknown> = {};
+          if (droppedParamsRef.value) meta.droppedParams = droppedParamsRef.value;
+          if (usageRef.value) meta.usage = usageRef.value;
+          return Object.keys(meta).length > 0 ? meta : undefined;
         }
         return undefined;
       },

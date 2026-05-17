@@ -7,6 +7,7 @@
 import type { ProcessedModel } from "@/lib/api/pricing";
 import {
   GENERATION_MODELS,
+  GENERATION_MODELS_BY_ID,
   type GenerationModelDescriptor,
 } from "@/lib/config/generation-models";
 
@@ -80,6 +81,19 @@ function vendorKnobs(modelName: string): {
 export function inferDescriptor(
   model: ProcessedModel,
 ): GenerationModelDescriptor | null {
+  // ComfyUI workflows are not OpenAI/Gemini-style sync image endpoints. The
+  // model name maps to a hardcoded workflow descriptor (samplers, schedulers,
+  // size, lora knobs - all workflow-specific). Surface only when pricing
+  // declares a ComfyUI endpoint, i.e. an active ComfyUI channel exists.
+  if (model.endpointTypes.includes("comfyui")) {
+    const tmpl = GENERATION_MODELS_BY_ID[model.name];
+    if (!tmpl) return null;
+    return {
+      ...tmpl,
+      pricePerCall: model.isFixedPrice ? model.fixedPrice : tmpl.pricePerCall,
+      isFree: model.isFree,
+    };
+  }
   if (model.type !== "image") return null;
   const endpoint = chooseEndpoint(model.endpointTypes);
   if (!endpoint) return null;
@@ -151,17 +165,21 @@ export function inferDescriptor(
 export function getEffectiveGenerationModels(
   pricing: ProcessedModel[] | undefined,
 ): GenerationModelDescriptor[] {
+  // No pricing payload yet (initial load / network failure): fall back to the
+  // hardcoded set so the UI has something to render. Once pricing arrives the
+  // list becomes fully pricing-driven and reflects channel state in new-api.
   if (!pricing || pricing.length === 0) return GENERATION_MODELS;
+  const comfy: GenerationModelDescriptor[] = [];
   const dynamic: GenerationModelDescriptor[] = [];
-  const seen = new Set(GENERATION_MODELS.map((m) => m.id));
+  const seen = new Set<string>();
   for (const model of pricing) {
     if (seen.has(model.name)) continue;
     const desc = inferDescriptor(model);
-    if (desc) {
-      dynamic.push(desc);
-      seen.add(model.name);
-    }
+    if (!desc) continue;
+    seen.add(model.name);
+    if (model.endpointTypes.includes("comfyui")) comfy.push(desc);
+    else dynamic.push(desc);
   }
   dynamic.sort((a, b) => a.displayName.localeCompare(b.displayName));
-  return [...GENERATION_MODELS, ...dynamic];
+  return [...comfy, ...dynamic];
 }

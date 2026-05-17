@@ -396,6 +396,256 @@ export async function upsertLocalConversationBundle(
   }
 }
 
+// ---------------------------------------------------------------------------
+// Granular writers used by chat-history-adapter, rp-hook, chat-hook, and
+// generation-hook in their write-through paths. Each is idempotent.
+// ---------------------------------------------------------------------------
+
+export async function upsertLocalMessage(
+  userId: number,
+  row: LocalRowInput & { id: string; convId: string },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(messages)
+    .values(row as never)
+    .onConflictDoUpdate({ target: messages.id, set: row as never });
+}
+
+export async function deleteLocalMessage(userId: number, msgId: string) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db.delete(messages).where(eq(messages.id, msgId));
+}
+
+export async function deleteLocalMessagesForConv(
+  userId: number,
+  convId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db.delete(messages).where(eq(messages.convId, convId));
+}
+
+export async function upsertLocalMessageItem(
+  userId: number,
+  row: LocalRowInput & { id: string; messageId: string },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(messageItems)
+    .values(row as never)
+    .onConflictDoUpdate({ target: messageItems.id, set: row as never });
+}
+
+export async function replaceLocalMessageItems(
+  userId: number,
+  messageId: string,
+  items: Array<LocalRowInput & { id: string }>,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .delete(messageItems)
+    .where(eq(messageItems.messageId, messageId));
+  for (const it of items) {
+    await local.db
+      .insert(messageItems)
+      .values({ ...it, messageId } as never);
+  }
+}
+
+export async function upsertLocalConversationSettings(
+  userId: number,
+  row: LocalRowInput & { convId: string },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(conversationSettings)
+    .values(row as never)
+    .onConflictDoUpdate({
+      target: conversationSettings.convId,
+      set: row as never,
+    });
+}
+
+export async function upsertLocalConversationCharacter(
+  userId: number,
+  row: { convId: string; characterId: string; orderIndex?: number; isActive?: boolean; overrides?: unknown },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(conversationCharacters)
+    .values({
+      convId: row.convId,
+      characterId: row.characterId,
+      orderIndex: row.orderIndex ?? 0,
+      isActive: row.isActive ?? true,
+      overrides: row.overrides ?? null,
+    } as never)
+    .onConflictDoNothing();
+}
+
+export async function deleteLocalConversationCharacter(
+  userId: number,
+  convId: string,
+  characterId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .delete(conversationCharacters)
+    .where(
+      and(
+        eq(conversationCharacters.convId, convId),
+        eq(conversationCharacters.characterId, characterId),
+      ),
+    );
+}
+
+export async function replaceLocalConversationBindings(
+  userId: number,
+  convId: string,
+  bindings: {
+    conversationCharacters?: Array<{ characterId: string; orderIndex?: number; isActive?: boolean; overrides?: unknown }>;
+    conversationLorebooks?: Array<{ lorebookId: string; orderIndex?: number }>;
+  },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  if (bindings.conversationCharacters) {
+    await local.db
+      .delete(conversationCharacters)
+      .where(eq(conversationCharacters.convId, convId));
+    for (let i = 0; i < bindings.conversationCharacters.length; i++) {
+      const row = bindings.conversationCharacters[i];
+      await local.db.insert(conversationCharacters).values({
+        convId,
+        characterId: row.characterId,
+        orderIndex: row.orderIndex ?? i,
+        isActive: row.isActive ?? true,
+        overrides: row.overrides ?? null,
+      } as never);
+    }
+  }
+  if (bindings.conversationLorebooks) {
+    await local.db
+      .delete(conversationLorebooks)
+      .where(eq(conversationLorebooks.convId, convId));
+    for (let i = 0; i < bindings.conversationLorebooks.length; i++) {
+      const row = bindings.conversationLorebooks[i];
+      await local.db.insert(conversationLorebooks).values({
+        convId,
+        lorebookId: row.lorebookId,
+        orderIndex: row.orderIndex ?? i,
+      } as never);
+    }
+  }
+}
+
+export async function upsertLocalLorebookEntry(
+  userId: number,
+  row: LocalRowInput & { id: string; lorebookId: string },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(lorebookEntries)
+    .values(row as never)
+    .onConflictDoUpdate({ target: lorebookEntries.id, set: row as never });
+}
+
+export async function deleteLocalLorebookEntry(userId: number, entryId: string) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db.delete(lorebookEntries).where(eq(lorebookEntries.id, entryId));
+}
+
+export async function deleteLocalMedia(userId: number, mediaId: string) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .delete(media)
+    .where(and(eq(media.id, mediaId), eq(media.userId, userId)));
+}
+
+export async function upsertLocalGeneration(
+  userId: number,
+  row: LocalRowInput & { id: string; sessionId: string },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(generations)
+    .values({ ...row, userId } as never)
+    .onConflictDoUpdate({ target: generations.id, set: row as never });
+}
+
+export async function deleteLocalGeneration(userId: number, id: string) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .delete(generations)
+    .where(and(eq(generations.id, id), eq(generations.userId, userId)));
+}
+
+export async function upsertLocalGenerationImage(
+  userId: number,
+  row: { generationId: string; sequenceIndex: number; r2Url: string; r2Key: string; mimeType?: string; width?: number | null; height?: number | null; sizeBytes?: number | null; upstreamResultUrl?: string | null },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(generationImages)
+    .values({
+      generationId: row.generationId,
+      sequenceIndex: row.sequenceIndex,
+      r2Url: row.r2Url,
+      r2Key: row.r2Key,
+      mimeType: row.mimeType ?? "image/png",
+      width: row.width ?? null,
+      height: row.height ?? null,
+      sizeBytes: row.sizeBytes ?? null,
+      upstreamResultUrl: row.upstreamResultUrl ?? null,
+    } as never)
+    .onConflictDoNothing();
+}
+
+export async function upsertLocalGenerationLike(
+  userId: number,
+  row: { generationId: string; userId?: number },
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .insert(generationLikes)
+    .values({
+      generationId: row.generationId,
+      userId: row.userId ?? userId,
+    } as never)
+    .onConflictDoNothing();
+}
+
+export async function deleteLocalGenerationLike(
+  userId: number,
+  generationId: string,
+) {
+  const local = await getLocalDb(userId);
+  if (!local) return;
+  await local.db
+    .delete(generationLikes)
+    .where(
+      and(
+        eq(generationLikes.generationId, generationId),
+        eq(generationLikes.userId, userId),
+      ),
+    );
+}
+
 export async function upsertLocalGenerationSessionBundle(
   userId: number,
   bundle: {

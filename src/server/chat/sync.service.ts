@@ -66,14 +66,11 @@ export async function sweepExpired(userId: number, key?: object) {
   if (key) sweptThisRequest.add(key);
   const db = getDb();
   const now = new Date();
-  // Expiry sweep null-outs `syncExpiresAt` so the row drops out of the
-  // mirror without losing content. After the IDB-first read inversion is
-  // complete this can become a hard-delete (IDB owns the canonical copy).
-  // Theme is the sole hard-delete because its presence == sync state.
+  // v4 = IDB canonical. Expired sync windows hard-delete server rows;
+  // FK cascade removes children. Local SQLocal copies untouched.
   await Promise.all([
     db
-      .update(characters)
-      .set({ syncExpiresAt: null })
+      .delete(characters)
       .where(
         and(
           eq(characters.userId, userId),
@@ -82,8 +79,7 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .update(personas)
-      .set({ syncExpiresAt: null })
+      .delete(personas)
       .where(
         and(
           eq(personas.userId, userId),
@@ -92,8 +88,7 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .update(lorebooks)
-      .set({ syncExpiresAt: null })
+      .delete(lorebooks)
       .where(
         and(
           eq(lorebooks.userId, userId),
@@ -102,8 +97,7 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .update(samplingPresets)
-      .set({ syncExpiresAt: null })
+      .delete(samplingPresets)
       .where(
         and(
           eq(samplingPresets.userId, userId),
@@ -112,8 +106,7 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .update(cards)
-      .set({ syncExpiresAt: null })
+      .delete(cards)
       .where(
         and(
           eq(cards.userId, userId),
@@ -122,8 +115,7 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .update(conversations)
-      .set({ syncExpiresAt: null })
+      .delete(conversations)
       .where(
         and(
           eq(conversations.userId, userId),
@@ -132,8 +124,7 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .update(generationSessions)
-      .set({ syncExpiresAt: null })
+      .delete(generationSessions)
       .where(
         and(
           eq(generationSessions.userId, userId),
@@ -1218,12 +1209,8 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
 };
 
 // ---------------------------------------------------------------------------
-// Remove sync. Null out `syncExpiresAt` so the row drops out of the mirror
-// without losing the entity content. After the IDB-first read inversion
-// completes, deleting the server row would be safe (IDB has the canonical
-// copy), but during the transition we keep the data side-by-side. The theme
-// table is the exception: its single-row-per-user existence is the sync
-// state itself, so we hard-delete it on remove.
+// Remove sync. v4 = IDB canonical. Hard-delete server row + FK cascade
+// children. Local SQLocal keeps its copy untouched and reverts to local-only.
 // ---------------------------------------------------------------------------
 
 export async function clearSyncExpiry(
@@ -1236,29 +1223,25 @@ export async function clearSyncExpiry(
   switch (kind) {
     case "characters":
       result = await db
-        .update(characters)
-        .set({ syncExpiresAt: null })
+        .delete(characters)
         .where(and(eq(characters.id, id), eq(characters.userId, userId)))
         .returning({ id: characters.id });
       break;
     case "personas":
       result = await db
-        .update(personas)
-        .set({ syncExpiresAt: null })
+        .delete(personas)
         .where(and(eq(personas.id, id), eq(personas.userId, userId)))
         .returning({ id: personas.id });
       break;
     case "lorebooks":
       result = await db
-        .update(lorebooks)
-        .set({ syncExpiresAt: null })
+        .delete(lorebooks)
         .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
         .returning({ id: lorebooks.id });
       break;
     case "presets":
       result = await db
-        .update(samplingPresets)
-        .set({ syncExpiresAt: null })
+        .delete(samplingPresets)
         .where(
           and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
         )
@@ -1266,15 +1249,13 @@ export async function clearSyncExpiry(
       break;
     case "cards":
       result = await db
-        .update(cards)
-        .set({ syncExpiresAt: null })
+        .delete(cards)
         .where(and(eq(cards.id, id), eq(cards.userId, userId)))
         .returning({ id: cards.id });
       break;
     case "conversations":
       result = await db
-        .update(conversations)
-        .set({ syncExpiresAt: null })
+        .delete(conversations)
         .where(
           and(eq(conversations.id, id), eq(conversations.userId, userId)),
         )
@@ -1282,8 +1263,7 @@ export async function clearSyncExpiry(
       break;
     case "generationSessions":
       result = await db
-        .update(generationSessions)
-        .set({ syncExpiresAt: null })
+        .delete(generationSessions)
         .where(
           and(
             eq(generationSessions.id, id),
@@ -1293,7 +1273,6 @@ export async function clearSyncExpiry(
         .returning({ id: generationSessions.id });
       break;
     case "theme":
-      // Theme table only exists as the sync mirror; hard-delete on remove.
       // `id` ignored — user_themes is keyed by userId.
       result = (
         await db

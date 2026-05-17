@@ -78,8 +78,12 @@ export function CardForm(props: Props) {
       name: c.name,
       description: c.description ?? "",
       personaId: c.personaId ?? NONE,
-      characterIds: c.characterIds ?? [],
-      lorebookIds: c.lorebookIds ?? [],
+      characterIds: (c.cardCharacters ?? []).map(
+        (cc: { characterId: string }) => cc.characterId,
+      ),
+      lorebookIds: (c.cardLorebooks ?? []).map(
+        (cl: { lorebookId: string }) => cl.lorebookId,
+      ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.editingId, cardQuery.data]);
