@@ -83,15 +83,23 @@ let cachedSheet: CSSStyleSheet | null = null;
 async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   if (cachedSheet) return cachedSheet;
   const res = await fetch(STUDIO_CSS_URL);
-  // The CSS targets `:root` (Tailwind theme tokens) and `.dark` (dark-mode
-  // ancestor selector). Inside a shadow root:
-  //   - `:root` matches nothing (only matches Document.documentElement).
-  //   - `.dark` as a bare selector needs the class on a descendant; we want
-  //     it on the host so the whole subtree inherits the theme.
-  // Rewrite both to scope onto the shadow host.
+  // The CSS targets `:root` (Tailwind theme tokens), `.dark` (legacy dark
+  // class), and Tailwind v3 `:is(.dark *)` (compiled dark variant). Inside
+  // a shadow root none of those match a class on the shadow host because
+  // descendant combinators don't cross the shadow boundary. Rewrite each to
+  // target the host via `:host` / `:host(.dark)`.
   const text = (await res.text())
     .replace(/:root\b/g, ":host")
-    .replace(/(^|[^a-zA-Z_-])\.dark\b/g, "$1:host(.dark)");
+    // Tailwind v3 dark variants compile to e.g. `.dark\:bg-x:is(.dark *)`.
+    // `:host-context()` would be the right thing but it's deprecated and
+    // Chromium drops the whole rule when the qualifier is mid-selector.
+    // We always mount the host with `dark`, so unconditionally enable the
+    // dark utility by stripping the `:is(.dark *)` qualifier.
+    .replace(/:is\(\.dark\s*\*\)/g, "")
+    // Rewrite a bare `.dark` selector (or `.dark <descendant>`) to scope
+    // onto the shadow host. Stop short of escaped Tailwind names like
+    // `.dark\:bg-gray-900` by requiring a non-backslash next char.
+    .replace(/(^|[^a-zA-Z_-])\.dark([^\w\\-]|$)/g, "$1:host(.dark)$2");
   const sheet = new CSSStyleSheet();
   await sheet.replace(text);
   cachedSheet = sheet;
