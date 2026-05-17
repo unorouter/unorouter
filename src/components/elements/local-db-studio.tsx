@@ -26,7 +26,7 @@ import {
 } from "@libsqlstudio/gui/driver";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { LuDatabase } from "react-icons/lu";
+import { LuDatabase, LuTrash2 } from "react-icons/lu";
 
 export function LocalDbStudio() {
   if (process.env.NODE_ENV === "production") return null;
@@ -41,34 +41,57 @@ function LocalDbStudioInner() {
   const driver = useMemo(() => new SqlocalDriver(userId), [userId]);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger
-        render={
-          <Button
-            variant="outline"
-            size="icon"
-            aria-label="Local DB Studio"
-            className="fixed right-4 bottom-4 z-50 size-10 rounded-full shadow-lg"
-          >
-            <LuDatabase className="size-4" />
-          </Button>
-        }
-      />
-      <SheetContent
-        side="right"
-        className="w-[min(95vw,1400px)]! max-w-none! p-0"
+    <div className="fixed right-4 bottom-4 z-50 flex flex-col items-end gap-2">
+      <Button
+        variant="outline"
+        size="icon"
+        aria-label="Wipe local DB"
+        title="Wipe local DB + reload"
+        onClick={async () => {
+          if (!confirm("Wipe ALL local OPFS data and reload?")) return;
+          try {
+            const root = await navigator.storage.getDirectory();
+            for await (const [name] of root.entries()) {
+              await root.removeEntry(name, { recursive: true }).catch(() => {});
+            }
+          } catch (e) {
+            console.error("OPFS wipe failed", e);
+          }
+          location.reload();
+        }}
+        className="size-10 rounded-full shadow-lg"
       >
-        <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
-        <ShadowHost className="size-full">
-          <Studio
-            driver={driver}
-            name={`unorouter-${userId}`}
-            color="indigo"
-            theme="dark"
-          />
-        </ShadowHost>
-      </SheetContent>
-    </Sheet>
+        <LuTrash2 className="size-4" />
+      </Button>
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger
+          render={
+            <Button
+              variant="outline"
+              size="icon"
+              aria-label="Local DB Studio"
+              className="size-10 rounded-full shadow-lg"
+            >
+              <LuDatabase className="size-4" />
+            </Button>
+          }
+        />
+        <SheetContent
+          side="right"
+          className="w-[min(95vw,1400px)]! max-w-none! p-0"
+        >
+          <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
+          <ShadowHost className="size-full">
+            <Studio
+              driver={driver}
+              name={`unorouter-${userId}`}
+              color="indigo"
+              theme="dark"
+            />
+          </ShadowHost>
+        </SheetContent>
+      </Sheet>
+    </div>
   );
 }
 
