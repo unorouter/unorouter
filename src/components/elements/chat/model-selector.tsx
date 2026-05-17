@@ -84,7 +84,10 @@ export function ModelSelector(props: ModelSelectorProps) {
         </div>
         <LuChevronsUpDown className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0" />
       </PopoverTrigger>
-      <PopoverContent className="w-72 p-0" align="start">
+      <PopoverContent
+        className="w-[calc(100vw-1rem)] p-0 sm:w-96"
+        align="start"
+      >
         <Command>
           <CommandInput
             placeholder={t("CHAT.MODEL.SEARCH")}

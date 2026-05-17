@@ -11,7 +11,6 @@ import { useTranslations } from "next-intl";
 import { LuKey, LuLoader, LuPlus, LuWallet } from "react-icons/lu";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
-import { ConversationOverridesDrawer } from "./conversation/conversation-overrides-drawer";
 
 export function ChatControls() {
   const t = useTranslations();
@@ -47,7 +46,6 @@ export function ChatShareSlot() {
   // users edit the conversation_settings row). Sharing is logged-in only.
   return (
     <div className="flex items-center gap-1">
-      <ConversationOverridesDrawer convId={threadId ?? null} />
       {threadId && token.isLoggedIn && <ShareButton convId={threadId} />}
       <ChatActionsMenu convId={threadId ?? null} />
     </div>

@@ -81,6 +81,10 @@ type DrawerProps = {
   /** null when no conversation exists yet (fresh thread, or guest pre-create). */
   convId: string | null;
   trigger?: React.ReactElement;
+  /** Controlled open state. When provided, the drawer hides its default
+   * trigger and is opened by the parent via `onOpenChange`. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
@@ -336,8 +340,11 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     }
   };
 
+  const controlled = props.open !== undefined;
+
   return (
-    <Sheet>
+    <Sheet open={props.open} onOpenChange={props.onOpenChange}>
+      {!controlled && (
       <SheetTrigger
         onClick={() =>
           analytics.chat.overridesDrawerOpened({
@@ -356,6 +363,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
           )
         }
       />
+      )}
       <SheetContent className="overflow-x-hidden overflow-y-auto sm:max-w-md">
         <SheetHeader>
           <SheetTitle>{t("CHAT.OVERRIDES.TITLE")}</SheetTitle>

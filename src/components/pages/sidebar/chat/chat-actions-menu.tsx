@@ -37,11 +37,15 @@ import { useAui } from "@assistant-ui/react";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { LocalDbStudio } from "@/components/elements/local-db-studio";
+import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
 import {
   LuClipboardCopy,
   LuCopy,
+  LuDatabase,
   LuDownload,
   LuEllipsisVertical,
+  LuSettings2,
   LuType,
   LuTrash2,
   LuUpload,
@@ -78,6 +82,9 @@ export function ChatActionsMenu(props: Props) {
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
   const [font, setFont] = useAtom(chatFontAtom);
+  const [dbStudioOpen, setDbStudioOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const dbClickRef = useRef<number>(0);
 
   const hasConv = !!props.convId;
 
@@ -183,7 +190,12 @@ export function ChatActionsMenu(props: Props) {
         >
           <LuEllipsisVertical className="size-4" />
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-52">
+        <DropdownMenuContent align="end" className="w-64">
+          <DropdownMenuItem onSelect={() => setSettingsOpen(true)}>
+            <LuSettings2 className="size-4" />
+            {t("CHAT.OVERRIDES.OPEN")}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             disabled={!hasConv || exportMut.isPending}
             onClick={() => handleExport("native")}
@@ -258,6 +270,22 @@ export function ChatActionsMenu(props: Props) {
           </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem
+            onSelect={(e) => {
+              e.preventDefault();
+              const now = Date.now();
+              if (now - dbClickRef.current < 400) {
+                dbClickRef.current = 0;
+                setDbStudioOpen(true);
+              } else {
+                dbClickRef.current = now;
+                toast.message(t("CHAT.MORE.LOCAL_DB_DOUBLE_CLICK"));
+              }
+            }}
+          >
+            <LuDatabase className="size-4" />
+            {t("CHAT.MORE.LOCAL_DB")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
             variant="destructive"
             disabled={!hasConv || clearMut.isPending}
             onClick={() => {
@@ -270,6 +298,12 @@ export function ChatActionsMenu(props: Props) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+      <ConversationOverridesDrawer
+        convId={props.convId}
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+      />
+      <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
 
       <Dialog open={confirmClearOpen} onOpenChange={setConfirmClearOpen}>
         <DialogContent className="sm:max-w-md">
