@@ -2960,6 +2960,7 @@
     "EXPIRED": "期限切れ",
     "ADD_SYNC": "同期を有効化（30日）",
     "RESYNC": "再同期",
+    "RESYNC_EXPIRES": "再同期（{date} に期限切れ）",
     "REMOVE_SYNC": "同期を解除",
     "CONFIRM_REMOVE": "このアイテムをサーバー同期から外しますか？ローカルのコピーは保持されます。",
     "OFFLINE_REQUIRED": "同期にはオンライン接続が必要です。",

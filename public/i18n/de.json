@@ -2960,6 +2960,7 @@
     "EXPIRED": "Abgelaufen",
     "ADD_SYNC": "Sync aktivieren (30 Tage)",
     "RESYNC": "Erneut synchronisieren",
+    "RESYNC_EXPIRES": "Erneut sync (läuft ab {date})",
     "REMOVE_SYNC": "Sync entfernen",
     "CONFIRM_REMOVE": "Dieses Element von der Server-Synchronisierung entfernen? Lokale Kopie bleibt erhalten.",
     "OFFLINE_REQUIRED": "Online-Verbindung erforderlich, um zu synchronisieren.",

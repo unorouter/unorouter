@@ -5,15 +5,30 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
+import {
+  useRemoveSyncMutation,
+  useSyncMutation,
+  useSyncStateForRow,
+} from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { LuCheck, LuEllipsis, LuPencil, LuTrash2, LuX } from "react-icons/lu";
+import {
+  LuCheck,
+  LuCloudOff,
+  LuCloudUpload,
+  LuEllipsis,
+  LuPencil,
+  LuRefreshCcw,
+  LuTrash2,
+  LuX,
+} from "react-icons/lu";
 
 type ConversationItemProps = {
   conversation: {
@@ -30,8 +45,12 @@ type ConversationItemProps = {
 
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
+  const locale = useLocale();
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
+  const syncMut = useSyncMutation();
+  const removeSyncMut = useRemoveSyncMutation();
+  const syncState = useSyncStateForRow("conversations", props.conversation.id);
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,6 +63,14 @@ export function ConversationItem(props: ConversationItemProps) {
     typeof modelData?.vendor === "string"
       ? modelData.vendor
       : (modelData?.vendor?.name ?? "");
+
+  const isSynced = syncState.syncExpiresAt != null;
+  const syncExpiresLabel = syncState.syncExpiresAt
+    ? new Date(syncState.syncExpiresAt).toLocaleDateString(locale, {
+        day: "2-digit",
+        month: "short",
+      })
+    : null;
 
   function startEditing() {
     analytics.chat.conversationRenameStarted();
@@ -72,14 +99,14 @@ export function ConversationItem(props: ConversationItemProps) {
       onKeyDown={(e) => e.key === "Enter" && props.onSelect()}
       data-active={props.isSelected || undefined}
       className={cn(
-        "group/conv flex h-9 cursor-pointer items-center gap-2 rounded-lg transition-colors",
+        "group/conv flex min-h-12 cursor-pointer items-center gap-2 rounded-lg transition-colors",
         "hover:bg-muted focus-visible:bg-muted focus-visible:outline-none",
         props.isSelected && "bg-muted",
       )}
     >
       {isEditing ? (
         <div
-          className="flex h-full min-w-0 flex-1 items-center gap-1 px-3"
+          className="flex h-full min-w-0 flex-1 items-center gap-1 px-3 py-2"
           onClick={(e) => e.stopPropagation()}
         >
           <input
@@ -115,69 +142,140 @@ export function ConversationItem(props: ConversationItemProps) {
           </button>
         </div>
       ) : (
-        <>
-          <div className="relative flex h-full min-w-0 flex-1 items-center gap-2 px-3 text-start text-sm">
+        <div className="relative flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 text-start text-sm">
+          <span
+            title={
+              vendorName
+                ? `${vendorName} · ${props.conversation.model ?? ""}`
+                : (props.conversation.model ?? "")
+            }
+            className="shrink-0"
+          >
+            <VendorIcon
+              vendor={vendorName}
+              size={14}
+              className="pointer-events-none"
+            />
+          </span>
+          <div
+            className={cn(
+              "flex min-w-0 flex-1 flex-col transition-[padding]",
+              (menuOpen || props.isSelected) && "pr-7",
+              "group-hover/conv:pr-7",
+            )}
+          >
             <span
-              title={
-                vendorName
-                  ? `${vendorName} · ${props.conversation.model ?? ""}`
-                  : (props.conversation.model ?? "")
-              }
-              className="shrink-0"
-            >
-              <VendorIcon
-                vendor={vendorName}
-                size={14}
-                className="pointer-events-none"
-              />
-            </span>
-            <span
-              className={cn(
-                "min-w-0 flex-1 truncate transition-[padding]",
-                (menuOpen || props.isSelected) && "pr-7",
-                "group-hover/conv:pr-7",
-              )}
+              className="truncate"
               title={props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             >
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
-            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-              <DropdownMenuTrigger
-                onClick={(e) => e.stopPropagation()}
-                className={cn(
-                  "absolute right-1 flex size-7 shrink-0 items-center justify-center rounded-md p-0 transition-opacity",
-                  "opacity-0 group-hover/conv:opacity-100",
-                  "data-[state=open]:bg-accent data-[state=open]:opacity-100",
-                  props.isSelected && "opacity-100",
-                )}
-              >
-                <LuEllipsis className="size-4" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="bottom"
-                align="start"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <DropdownMenuItem onClick={startEditing} className="gap-2">
-                  <LuPencil className="size-4" />
-                  {t("CHAT.ACTION.RENAME")}
-                </DropdownMenuItem>
+            <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
+              {isSynced ? (
+                <>
+                  <LuCloudUpload className="size-2.5 text-emerald-500" />
+                  {syncExpiresLabel
+                    ? t("SYNC.EXPIRES_AT", { date: syncExpiresLabel })
+                    : t("SYNC.SYNCED")}
+                </>
+              ) : (
+                <>
+                  <LuCloudOff className="size-2.5" />
+                  {t("SYNC.NOT_SYNCED")}
+                </>
+              )}
+            </span>
+          </div>
+          <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+            <DropdownMenuTrigger
+              onClick={(e) => e.stopPropagation()}
+              className={cn(
+                "absolute right-1 flex size-7 shrink-0 items-center justify-center rounded-md p-0 transition-opacity",
+                "opacity-0 group-hover/conv:opacity-100",
+                "data-[state=open]:bg-accent data-[state=open]:opacity-100",
+                props.isSelected && "opacity-100",
+              )}
+            >
+              <LuEllipsis className="size-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              side="bottom"
+              align="start"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <DropdownMenuItem onClick={startEditing} className="gap-2">
+                <LuPencil className="size-4" />
+                {t("CHAT.ACTION.RENAME")}
+              </DropdownMenuItem>
+              {!isSynced && (
                 <DropdownMenuItem
-                  variant="destructive"
+                  disabled={syncMut.isPending}
                   onClick={(e) => {
                     e.stopPropagation();
-                    props.onDelete();
+                    syncMut.mutate({
+                      kind: "conversations",
+                      id: props.conversation.id,
+                    });
                     setMenuOpen(false);
                   }}
                   className="gap-2"
                 >
-                  <LuTrash2 className="size-4" />
-                  {t("CHAT.ACTION.DELETE")}
+                  <LuCloudUpload className="size-4" />
+                  {t("SYNC.ADD_SYNC")}
                 </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </>
+              )}
+              {isSynced && (
+                <>
+                  <DropdownMenuItem
+                    disabled={syncMut.isPending}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      syncMut.mutate({
+                        kind: "conversations",
+                        id: props.conversation.id,
+                      });
+                      setMenuOpen(false);
+                    }}
+                    className="gap-2"
+                  >
+                    <LuRefreshCcw className="size-4" />
+                    {t("SYNC.RESYNC")}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    variant="destructive"
+                    disabled={removeSyncMut.isPending}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!window.confirm(t("SYNC.CONFIRM_REMOVE"))) return;
+                      removeSyncMut.mutate({
+                        kind: "conversations",
+                        id: props.conversation.id,
+                      });
+                      setMenuOpen(false);
+                    }}
+                    className="gap-2"
+                  >
+                    <LuCloudOff className="size-4" />
+                    {t("SYNC.REMOVE_SYNC")}
+                  </DropdownMenuItem>
+                </>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  props.onDelete();
+                  setMenuOpen(false);
+                }}
+                className="gap-2"
+              >
+                <LuTrash2 className="size-4" />
+                {t("CHAT.ACTION.DELETE")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       )}
     </div>
   );

@@ -2960,6 +2960,7 @@
     "EXPIRED": "Expired",
     "ADD_SYNC": "Add sync (30 days)",
     "RESYNC": "Resync",
+    "RESYNC_EXPIRES": "Resync (expires {date})",
     "REMOVE_SYNC": "Remove sync",
     "CONFIRM_REMOVE": "Remove this item from server sync? Local copy is kept.",
     "OFFLINE_REQUIRED": "Online connection required to sync.",

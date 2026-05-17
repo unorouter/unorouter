@@ -2960,6 +2960,7 @@
     "EXPIRED": "已过期",
     "ADD_SYNC": "开启同步（30 天）",
     "RESYNC": "重新同步",
+    "RESYNC_EXPIRES": "重新同步（{date} 到期）",
     "REMOVE_SYNC": "关闭同步",
     "CONFIRM_REMOVE": "将此条目从服务器同步中移除？本地副本仍会保留。",
     "OFFLINE_REQUIRED": "同步需要联网连接。",

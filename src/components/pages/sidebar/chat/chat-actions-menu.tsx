@@ -30,21 +30,29 @@ import {
   useExportConversation,
   useImportConversationMutation,
 } from "@/hooks/rp-hook";
+import {
+  useRemoveSyncMutation,
+  useSyncMutation,
+  useSyncStateForRow,
+} from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { chatFontAtom, type ChatFont } from "@/store/chat-store";
 import { useAui } from "@assistant-ui/react";
 import { useAtom } from "jotai";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LocalDbStudio } from "@/components/elements/local-db-studio";
 import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
 import {
+  LuCloudOff,
+  LuCloudUpload,
   LuClipboardCopy,
   LuCopy,
   LuDatabase,
   LuDownload,
   LuEllipsisVertical,
+  LuRefreshCcw,
   LuSettings2,
   LuType,
   LuTrash2,
@@ -72,6 +80,7 @@ function downloadJson(obj: unknown, filename: string) {
 
 export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
+  const locale = useLocale();
   const aui = useAui();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [confirmClearOpen, setConfirmClearOpen] = useState(false);
@@ -81,11 +90,32 @@ export function ChatActionsMenu(props: Props) {
   const markdownMut = useConversationMarkdown();
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
+  const syncMut = useSyncMutation();
+  const removeSyncMut = useRemoveSyncMutation();
+  const syncState = useSyncStateForRow("conversations", props.convId ?? "");
   const [font, setFont] = useAtom(chatFontAtom);
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const hasConv = !!props.convId;
+  const isSynced = syncState.syncExpiresAt != null;
+  const syncExpiresLabel = syncState.syncExpiresAt
+    ? new Date(syncState.syncExpiresAt).toLocaleDateString(locale, {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+    : null;
+
+  const handleAddSync = () => {
+    if (!props.convId) return;
+    syncMut.mutate({ kind: "conversations", id: props.convId });
+  };
+  const handleRemoveSync = () => {
+    if (!props.convId) return;
+    if (!window.confirm(t("SYNC.CONFIRM_REMOVE"))) return;
+    removeSyncMut.mutate({ kind: "conversations", id: props.convId });
+  };
 
   const handleExport = async (format: "native" | "orpg" | "sillytavern") => {
     if (!props.convId) return;
@@ -194,6 +224,36 @@ export function ChatActionsMenu(props: Props) {
             <LuSettings2 className="size-4" />
             {t("CHAT.OVERRIDES.OPEN")}
           </DropdownMenuItem>
+          {hasConv && !isSynced && (
+            <DropdownMenuItem
+              onClick={handleAddSync}
+              disabled={syncMut.isPending}
+            >
+              <LuCloudUpload className="size-4" />
+              {t("SYNC.ADD_SYNC")}
+            </DropdownMenuItem>
+          )}
+          {hasConv && isSynced && (
+            <>
+              <DropdownMenuItem
+                onClick={handleAddSync}
+                disabled={syncMut.isPending}
+              >
+                <LuRefreshCcw className="size-4" />
+                {syncExpiresLabel
+                  ? t("SYNC.RESYNC_EXPIRES", { date: syncExpiresLabel })
+                  : t("SYNC.RESYNC")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={handleRemoveSync}
+                disabled={removeSyncMut.isPending}
+              >
+                <LuCloudOff className="size-4" />
+                {t("SYNC.REMOVE_SYNC")}
+              </DropdownMenuItem>
+            </>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem
             disabled={!hasConv || exportMut.isPending}

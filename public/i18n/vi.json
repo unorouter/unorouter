@@ -2960,6 +2960,7 @@
     "EXPIRED": "Đã hết hạn",
     "ADD_SYNC": "Bật đồng bộ (30 ngày)",
     "RESYNC": "Đồng bộ lại",
+    "RESYNC_EXPIRES": "Đồng bộ lại (hết hạn {date})",
     "REMOVE_SYNC": "Tắt đồng bộ",
     "CONFIRM_REMOVE": "Gỡ mục này khỏi đồng bộ máy chủ? Bản sao trên thiết bị vẫn được giữ.",
     "OFFLINE_REQUIRED": "Cần kết nối mạng để đồng bộ.",
