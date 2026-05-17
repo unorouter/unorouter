@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -153,10 +154,24 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
   if (presets && presets.length > 0)
     qc.setQueryData(queryKeys.presets(), presets);
   if (cards && cards.length > 0) qc.setQueryData(queryKeys.cards(), cards);
-  if (convs && convs.length > 0)
-    qc.setQueryData(queryKeys.conversations(undefined), convs);
-  if (genSessions && genSessions.length > 0)
-    qc.setQueryData(queryKeys.generationSessionList(undefined), genSessions);
+  // Conversations + generation sessions are paginated server-side. Their
+  // React Query caches expect specific shapes: useInfiniteQuery for convs
+  // ({ pages, pageParams }) and useQuery returning { items: [...] } for
+  // gen sessions. Seeding raw arrays crashes consumers (see [ConversationList]
+  // crash with "Cannot read properties of undefined (reading 'length')").
+  if (convs && convs.length > 0) {
+    qc.setQueryData(queryKeys.conversations(undefined), {
+      pages: [
+        { items: convs, total: convs.length, page: 1, pageSize: PAGE_SIZE },
+      ],
+      pageParams: [1],
+    });
+  }
+  if (genSessions && genSessions.length > 0) {
+    qc.setQueryData(queryKeys.generationSessionList(undefined), {
+      items: genSessions,
+    });
+  }
 }
 
 async function stage2ServerReconcile(qc: QueryClient, userId: number) {

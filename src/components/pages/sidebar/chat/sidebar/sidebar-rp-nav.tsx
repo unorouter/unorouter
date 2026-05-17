@@ -5,6 +5,11 @@ import { LorebookList } from "@/components/pages/sidebar/chat/rp/lorebook-list";
 import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
 import { Button } from "@/components/ui/button";
 import {
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+} from "@/components/ui/sidebar";
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -61,8 +66,10 @@ export function SidebarRpNav() {
   const [, setOpenTab] = useAtom(openRpTabAtom);
 
   return (
-    <div className="flex items-center gap-1 px-2 py-1">
-      {items.map((it) => (
+    <SidebarGroup className="shrink-0 group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel>{t("RP.SIDEBAR_GROUP_LABEL")}</SidebarGroupLabel>
+      <SidebarGroupContent className="flex items-center gap-1">
+        {items.map((it) => (
         <Tooltip key={it.tab}>
           <TooltipTrigger
             render={
@@ -117,7 +124,8 @@ export function SidebarRpNav() {
           {t("RP.SIDEBAR_TAB_CARDS")}
         </TooltipContent>
       </Tooltip>
-    </div>
+      </SidebarGroupContent>
+    </SidebarGroup>
   );
 }
 
