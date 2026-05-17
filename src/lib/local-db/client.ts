@@ -35,6 +35,8 @@ export type LocalClient = {
   transaction: <T>(cb: () => Promise<T>) => Promise<T>;
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
+  getDatabaseFile: () => Promise<File>;
+  overwriteDatabaseFile: (file: File | Blob) => Promise<void>;
   // `reactiveQuery` from sqlocal/drizzle. Exposed loosely-typed because
   // SQLocal's generic surface is awkward to thread through.
   reactiveQuery: (query: unknown) => {
@@ -92,6 +94,8 @@ async function openClient(userId: number): Promise<LocalClient> {
     transaction: <T>(cb: () => Promise<T>) => sql.transaction(cb),
     destroy: () => sql.destroy(),
     deleteDatabaseFile: () => sql.deleteDatabaseFile(),
+    getDatabaseFile: () => sql.getDatabaseFile(),
+    overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
     reactiveQuery: sql.reactiveQuery.bind(sql) as LocalClient["reactiveQuery"],
   };
   // dev-only debug hook

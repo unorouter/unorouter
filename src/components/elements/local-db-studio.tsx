@@ -13,6 +13,7 @@
 
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Button } from "@/components/ui/button";
+import { getLocalDb } from "@/lib/local-db/client";
 import {
   Sheet,
   SheetContent,
@@ -21,7 +22,8 @@ import {
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { LuTrash2 } from "react-icons/lu";
+import { LuDownload, LuTrash2, LuUpload } from "react-icons/lu";
+import { toast } from "sonner";
 
 type Props = {
   open: boolean;
@@ -35,6 +37,7 @@ const StudioInner = dynamic(() => import("./local-db-studio-inner"), {
 export function LocalDbStudio(props: Props) {
   const auth = useAuthQuery();
   const userId = auth.data?.id ?? 0;
+  const uploadInputRef = useRef<HTMLInputElement | null>(null);
 
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -43,29 +46,94 @@ export function LocalDbStudio(props: Props) {
         className="w-[min(95vw,1400px)]! max-w-none! p-0"
       >
         <SheetTitle className="sr-only">Local DB Studio</SheetTitle>
-        <Button
-          variant="destructive"
-          size="icon"
-          aria-label="Wipe local DB"
-          title="Wipe ALL local OPFS data + reload"
-          onClick={async () => {
-            if (!confirm("Wipe ALL local OPFS data and reload?")) return;
-            try {
-              const root = await navigator.storage.getDirectory();
-              for await (const [name] of root.entries()) {
-                await root
-                  .removeEntry(name, { recursive: true })
-                  .catch(() => {});
+        <div className="absolute top-16 left-2 z-10 flex flex-col gap-1">
+          <Button
+            variant="destructive"
+            size="icon"
+            aria-label="Wipe local DB"
+            title="Wipe ALL local OPFS data + reload"
+            onClick={async () => {
+              if (!confirm("Wipe ALL local OPFS data and reload?")) return;
+              try {
+                const root = await navigator.storage.getDirectory();
+                for await (const [name] of root.entries()) {
+                  await root
+                    .removeEntry(name, { recursive: true })
+                    .catch(() => {});
+                }
+              } catch (e) {
+                console.error("OPFS wipe failed", e);
               }
-            } catch (e) {
-              console.error("OPFS wipe failed", e);
-            }
-            location.reload();
-          }}
-          className="absolute top-16 left-2 z-10 size-7"
-        >
-          <LuTrash2 className="size-3" />
-        </Button>
+              location.reload();
+            }}
+            className="size-7"
+          >
+            <LuTrash2 className="size-3" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            aria-label="Download DB file"
+            title="Download the local SQLite file"
+            onClick={async () => {
+              try {
+                const local = await getLocalDb(userId);
+                if (!local) throw new Error("SQLocal unavailable");
+                const file = await local.getDatabaseFile();
+                const url = URL.createObjectURL(file);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = `unorouter-${userId}-${new Date()
+                  .toISOString()
+                  .replace(/[:.]/g, "-")}.sqlite3`;
+                a.click();
+                URL.revokeObjectURL(url);
+              } catch (e) {
+                console.error("DB download failed", e);
+                toast.error(String(e));
+              }
+            }}
+            className="size-7"
+          >
+            <LuDownload className="size-3" />
+          </Button>
+          <Button
+            variant="secondary"
+            size="icon"
+            aria-label="Upload DB file"
+            title="Overwrite local SQLite from a .sqlite3 file + reload"
+            onClick={() => uploadInputRef.current?.click()}
+            className="size-7"
+          >
+            <LuUpload className="size-3" />
+          </Button>
+          <input
+            ref={uploadInputRef}
+            type="file"
+            accept=".sqlite,.sqlite3,.db,application/octet-stream"
+            className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              e.target.value = "";
+              if (!file) return;
+              if (
+                !confirm(
+                  `Overwrite local OPFS database from "${file.name}"? This wipes existing data.`,
+                )
+              )
+                return;
+              try {
+                const local = await getLocalDb(userId);
+                if (!local) throw new Error("SQLocal unavailable");
+                await local.overwriteDatabaseFile(file);
+                location.reload();
+              } catch (err) {
+                console.error("DB overwrite failed", err);
+                toast.error(String(err));
+              }
+            }}
+          />
+        </div>
         {props.open && (
           <ShadowHost className="size-full">
             <StudioInner userId={userId} />
