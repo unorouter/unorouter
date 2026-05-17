@@ -1098,7 +1098,19 @@ export const THEMES: ShadcnTheme[] = [
 
 const BASE_COLOR_NAMES = ["neutral", "stone", "zinc", "mauve", "olive", "mist", "taupe"];
 
-export const BASE_COLORS = THEMES.filter((t) => BASE_COLOR_NAMES.includes(t.name));
+// Sentinel: matches project's globals.css palette (the original look pre-customizer).
+// Empty cssVars so provider emits no override and `:root` defaults from globals.css win.
+const PROJECT_DEFAULT_THEME: ShadcnTheme = {
+  name: "default",
+  title: "Default",
+  type: "registry:theme",
+  cssVars: { light: {}, dark: {} },
+};
+
+export const BASE_COLORS = [
+  PROJECT_DEFAULT_THEME,
+  ...THEMES.filter((t) => BASE_COLOR_NAMES.includes(t.name)),
+];
 
 export type RadiusOption = { name: string; label: string; value: string };
 
@@ -1113,6 +1125,7 @@ export const RADII: RadiusOption[] = [
 
 export function findTheme(name: string | undefined): ShadcnTheme | null {
   if (!name) return null;
+  if (name === "default") return PROJECT_DEFAULT_THEME;
   return THEMES.find((t) => t.name === name) ?? null;
 }
 

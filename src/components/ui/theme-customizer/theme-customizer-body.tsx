@@ -25,11 +25,13 @@ import { FieldGroup, FieldSeparator } from "./field";
 import { ColorSwatch, FontGlyph, Picker, RadiusGlyph } from "./picker";
 
 function themeChipColor(name: string): string {
+  if (name === "default") return "#18181b";
   const t = THEMES.find((x) => x.name === name);
   return t?.cssVars.light.primary ?? t?.cssVars.dark.primary ?? "#9ca3af";
 }
 
 function baseColorChipColor(name: string): string {
+  if (name === "default") return "#71717a";
   const t = BASE_COLORS.find((x) => x.name === name);
   return t?.cssVars.light["muted-foreground"] ?? "#9ca3af";
 }
@@ -225,24 +227,38 @@ export function ThemeCustomizerBody() {
           <Picker
             label={t("THEME.THEME")}
             value={cur.theme}
-            valueLabel={THEMES.find((x) => x.name === cur.theme)?.title ?? ""}
-            options={THEMES.map((x) => ({
-              value: x.name,
-              label: x.title,
-              swatch: themeChipColor(x.name),
-            }))}
+            valueLabel={
+              cur.theme === "default"
+                ? "Default"
+                : (THEMES.find((x) => x.name === cur.theme)?.title ?? "")
+            }
+            options={[
+              { value: "default", label: "Default", swatch: themeChipColor("default") },
+              ...THEMES.map((x) => ({
+                value: x.name,
+                label: x.title,
+                swatch: themeChipColor(x.name),
+              })),
+            ]}
             rightAdornment={<ColorSwatch value={themeChipColor(cur.theme)} />}
             onValueChange={(v) => setTheme({ ...theme, theme: v })}
           />
           <Picker
             label={t("THEME.CHART_COLOR")}
             value={cur.chart}
-            valueLabel={THEMES.find((x) => x.name === cur.chart)?.title ?? ""}
-            options={THEMES.map((x) => ({
-              value: x.name,
-              label: x.title,
-              swatch: themeChipColor(x.name),
-            }))}
+            valueLabel={
+              cur.chart === "default"
+                ? "Default"
+                : (THEMES.find((x) => x.name === cur.chart)?.title ?? "")
+            }
+            options={[
+              { value: "default", label: "Default", swatch: themeChipColor("default") },
+              ...THEMES.map((x) => ({
+                value: x.name,
+                label: x.title,
+                swatch: themeChipColor(x.name),
+              })),
+            ]}
             rightAdornment={<ColorSwatch value={themeChipColor(cur.chart)} />}
             onValueChange={(v) => setTheme({ ...theme, chartColor: v })}
           />
