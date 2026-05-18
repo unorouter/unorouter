@@ -3,7 +3,6 @@
 import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import type { ApiMessage } from "@/lib/chat/messages";
 import { useAuiState } from "@assistant-ui/react";
-import { createContext, useContext } from "react";
 
 export type MessageMeta = {
   model: string | null;
@@ -29,7 +28,7 @@ function getMessageCache(pages: object[]): MessageCache {
       flat,
       byId: new Map(
         flat
-          .filter((m): m is ApiMessage & { id: string } => !!m.id)
+          .filter((m): m is ApiMessage => !!m.id)
           .map((m) => [m.id, m] as const),
       ),
     };
@@ -38,15 +37,10 @@ function getMessageCache(pages: object[]): MessageCache {
   return entry;
 }
 
-/** Provides a conversation ID override for contexts without a thread list (e.g. shared pages). */
-export const ConvIdOverrideContext = createContext<string | null>(null);
-
 export function useMessageMeta(messageIndex: number): MessageMeta | null {
   const remoteId = useAuiState((s) => s.threadListItem?.remoteId);
   const messageId = useAuiState((s) => s.message.id);
-  const convIdOverride = useContext(ConvIdOverrideContext);
-  const effectiveId = remoteId ?? convIdOverride ?? undefined;
-  const messagesQuery = useMessagesInfiniteQuery(effectiveId);
+  const messagesQuery = useMessagesInfiniteQuery(remoteId ?? undefined);
 
   if (!messagesQuery.data) return null;
 

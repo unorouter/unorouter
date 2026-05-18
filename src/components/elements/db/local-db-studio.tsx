@@ -14,7 +14,7 @@
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { getLocalDb } from "@/lib/db/client/client";
+import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
   Tooltip,
@@ -44,6 +44,19 @@ export function LocalDbStudio(props: Props) {
 
   const handleWipe = async () => {
     if (!confirm(t("CHAT.MORE.LOCAL_DB_WIPE_CONFIRM"))) return;
+    // Destroy the SQLocal worker FIRST. Its SyncAccessHandle holds an
+    // exclusive lock on the sqlite file plus hidden WAL/SAH-pool shards;
+    // removeEntry() silently no-ops on locked files, leaving phantom OPFS
+    // usage (visible as `fileSystem` bytes > 0 with an empty root listing).
+    try {
+      const local = await getLocalDb(userId);
+      if (local) {
+        await local.destroy();
+        resetLocalDbCache();
+      }
+    } catch (e) {
+      console.error("SQLocal destroy failed", e);
+    }
     try {
       const root = await navigator.storage.getDirectory();
       for await (const [name] of root.entries()) {

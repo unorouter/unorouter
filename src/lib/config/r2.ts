@@ -418,39 +418,39 @@ export async function uploadBase64ToR2(
 }
 
 // ---------------------------------------------------------------------------
-// Generation media (image-gen pipeline)
+// Playground media (image-gen pipeline)
 // ---------------------------------------------------------------------------
 //
 // These siblings of putMedia/downloadAndUpload key under a separate prefix
-// (`generations/<id>/...`) and skip the `media` table entirely. Generation
+// (`playgrounds/<id>/...`) and skip the `media` table entirely. Playground
 // rows track their own size + mime; the chat quota is intentionally not
-// charged. Reference images get their own prefix (`generations-refs/...`)
+// charged. Reference images get their own prefix (`playgrounds-refs/...`)
 // so deletion of a generation doesn't sweep its references.
 
-export function generationKey(generationId: string, filename: string): string {
-  return `generations/${generationId}/${filename}`;
+export function generationKey(playgroundId: string, filename: string): string {
+  return `playgrounds/${playgroundId}/${filename}`;
 }
 
 export function generationReferenceKey(
   userId: number,
   filename: string,
 ): string {
-  return `generations-refs/${userId}/${filename}`;
+  return `playgrounds-refs/${userId}/${filename}`;
 }
 
 export async function uploadGenerationToR2(
-  generationId: string,
+  playgroundId: string,
   body: Buffer | Uint8Array,
   declaredCt?: string,
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
-  const key = generationKey(generationId, uid(8));
+  const key = generationKey(playgroundId, uid(8));
   const { url, mime } = await uploadToR2(key, body, declaredCt);
   return { url, key, mime, sizeBytes: body.length };
 }
 
 export async function downloadAndUploadGeneration(
   url: string,
-  generationId: string,
+  playgroundId: string,
   authToken?: string,
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
   // result_url from new-api can be a remote URL (S3) or a data URI when the
@@ -459,7 +459,7 @@ export async function downloadAndUploadGeneration(
     const [header, base64] = url.split(",");
     const declaredCt = header.match(/data:([^;]+)/)?.[1];
     return uploadGenerationToR2(
-      generationId,
+      playgroundId,
       Buffer.from(base64, "base64"),
       declaredCt,
     );
@@ -475,7 +475,7 @@ export async function downloadAndUploadGeneration(
   if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
   const buffer = await readBodyWithLimit(res);
   return uploadGenerationToR2(
-    generationId,
+    playgroundId,
     buffer,
     res.headers.get("content-type") ?? undefined,
   );

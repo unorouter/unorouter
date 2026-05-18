@@ -51,7 +51,7 @@ export function useSyncMutation() {
       // For kinds w/ cascade children, auto-build the bundle from SQLocal so
       // Add/Resync pushes everything (settings, bindings, messages, items,
       // media for conversations; lorebook + entries; card + junctions;
-      // session + generations + images + likes). Caller's explicit payload
+      // session + playgrounds + images + likes). Caller's explicit payload
       // wins when provided.
       if (payload == null && userId != null) {
         if (args.kind === "conversations") {
@@ -77,7 +77,7 @@ export function useSyncMutation() {
               cardLorebooks: card.cardLorebooks,
             };
           }
-        } else if (args.kind === "generationSessions") {
+        } else if (args.kind === "playgroundSessions") {
           payload = await readLocalGenerationSessionBundle(userId, args.id);
         }
       }

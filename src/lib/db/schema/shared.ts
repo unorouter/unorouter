@@ -100,7 +100,7 @@ export const messages = sqliteTable(
     characterId: text("character_id"),
     role: text("role").notNull(),
     model: text("model"),
-    generationId: text("generation_id"),
+    playgroundId: text("playground_id"),
     inputTokens: integer("input_tokens"),
     outputTokens: integer("output_tokens"),
     cost: real("cost"),
@@ -529,8 +529,8 @@ export const media = sqliteTable(
 // Image generation (session + snapshots + images + likes)
 // ---------------------------------------------------------------------------
 
-export const generationSessions = sqliteTable(
-  "generation_sessions",
+export const playgroundSessions = sqliteTable(
+  "playground_sessions",
   {
     id: text("id")
       .primaryKey()
@@ -556,8 +556,8 @@ export const generationSessions = sqliteTable(
   ],
 );
 
-export const generations = sqliteTable(
-  "generations",
+export const playgrounds = sqliteTable(
+  "playgrounds",
   {
     id: text("id")
       .primaryKey()
@@ -565,7 +565,7 @@ export const generations = sqliteTable(
     userId: integer("user_id").notNull(),
     sessionId: text("session_id")
       .notNull()
-      .references(() => generationSessions.id, { onDelete: "cascade" }),
+      .references(() => playgroundSessions.id, { onDelete: "cascade" }),
     sessionOrder: integer("session_order").notNull(),
     requestedCount: integer("requested_count").notNull().default(1),
     taskId: text("task_id"),
@@ -606,12 +606,12 @@ export const generations = sqliteTable(
   ],
 );
 
-export const generationImages = sqliteTable(
-  "generation_images",
+export const playgroundImages = sqliteTable(
+  "playground_images",
   {
-    generationId: text("generation_id")
+    playgroundId: text("playground_id")
       .notNull()
-      .references(() => generations.id, { onDelete: "cascade" }),
+      .references(() => playgrounds.id, { onDelete: "cascade" }),
     sequenceIndex: integer("sequence_index").notNull(),
     upstreamResultUrl: text("upstream_result_url"),
     r2Url: text("r2_url").notNull(),
@@ -625,24 +625,24 @@ export const generationImages = sqliteTable(
       .default(sql`(unixepoch() * 1000)`),
   },
   (table) => [
-    primaryKey({ columns: [table.generationId, table.sequenceIndex] }),
-    index("idx_genimg_generation_id").on(table.generationId),
+    primaryKey({ columns: [table.playgroundId, table.sequenceIndex] }),
+    index("idx_genimg_generation_id").on(table.playgroundId),
   ],
 );
 
-export const generationLikes = sqliteTable(
-  "generation_likes",
+export const playgroundLikes = sqliteTable(
+  "playground_likes",
   {
-    generationId: text("generation_id")
+    playgroundId: text("playground_id")
       .notNull()
-      .references(() => generations.id, { onDelete: "cascade" }),
+      .references(() => playgrounds.id, { onDelete: "cascade" }),
     userId: integer("user_id").notNull(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
   },
   (table) => [
-    primaryKey({ columns: [table.generationId, table.userId] }),
+    primaryKey({ columns: [table.playgroundId, table.userId] }),
     index("idx_likes_user").on(table.userId),
   ],
 );
@@ -653,7 +653,7 @@ export const generationLikes = sqliteTable(
 
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
-export type GenerationSession = typeof generationSessions.$inferSelect;
-export type Generation = typeof generations.$inferSelect;
-export type GenerationImage = typeof generationImages.$inferSelect;
-export type GenerationLike = typeof generationLikes.$inferSelect;
+export type PlaygroundSession = typeof playgroundSessions.$inferSelect;
+export type Playground = typeof playgrounds.$inferSelect;
+export type PlaygroundImage = typeof playgroundImages.$inferSelect;
+export type PlaygroundLike = typeof playgroundLikes.$inferSelect;

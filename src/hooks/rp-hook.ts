@@ -106,8 +106,7 @@ async function deleteSyncedRow(
 
 async function mirrorConvIfSynced(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
-  const syncExpiresAt = (conv as { syncExpiresAt?: Date | null } | null)
-    ?.syncExpiresAt;
+  const syncExpiresAt = conv?.syncExpiresAt;
   if (syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
@@ -145,10 +144,9 @@ export function useCreateCharacterMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
       const row = {
+        ...args.body,
         id: uid(),
         userId,
-        name: "Untitled",
-        ...(args.body as Record<string, unknown>),
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
@@ -181,11 +179,11 @@ export function useUpdateCharacterMutation() {
       const now = dayjs().toDate();
       const updated = {
         ...existing,
-        ...(args.body as Record<string, unknown>),
+        ...args.body,
         updatedAt: now,
       };
       await upsertLocalCharacter(userId, updated as never);
-      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+      if (existing.syncExpiresAt != null) {
         await mirrorSyncedRow(userId, "characters", args.id, updated);
       }
       return updated;
@@ -213,7 +211,7 @@ export function useDeleteCharacterMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const existing = await readLocalCharacter(userId, id);
       const wasSynced =
-        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        existing?.syncExpiresAt !=
         null;
       await deleteLocalCharacter(userId, id);
       if (wasSynced) await deleteSyncedRow(userId, "characters", id);
@@ -282,10 +280,9 @@ export function useCreatePersonaMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
       const row = {
+        ...args.body,
         id: uid(),
         userId,
-        name: "Untitled",
-        ...(args.body as Record<string, unknown>),
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
@@ -318,11 +315,11 @@ export function useUpdatePersonaMutation() {
       const now = dayjs().toDate();
       const updated = {
         ...existing,
-        ...(args.body as Record<string, unknown>),
+        ...args.body,
         updatedAt: now,
       };
       await upsertLocalPersona(userId, updated as never);
-      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+      if (existing.syncExpiresAt != null) {
         await mirrorSyncedRow(userId, "personas", args.id, updated);
       }
       return updated;
@@ -350,7 +347,7 @@ export function useDeletePersonaMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const existing = await readLocalPersona(userId, id);
       const wasSynced =
-        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        existing?.syncExpiresAt !=
         null;
       await deleteLocalPersona(userId, id);
       if (wasSynced) await deleteSyncedRow(userId, "personas", id);
@@ -448,10 +445,9 @@ export function useCreateLorebookMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
       const row = {
+        ...args.body,
         id: uid(),
         userId,
-        name: "Untitled",
-        ...(args.body as Record<string, unknown>),
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
@@ -484,13 +480,11 @@ export function useUpdateLorebookMutation() {
       const now = dayjs().toDate();
       const updated = {
         ...existing,
-        ...(args.body as Record<string, unknown>),
+        ...args.body,
         updatedAt: now,
       };
       await upsertLocalLorebook(userId, updated as never);
-      const syncExpiresAt = (existing as { syncExpiresAt?: Date | null })
-        .syncExpiresAt;
-      if (syncExpiresAt != null) {
+      if (existing.syncExpiresAt != null) {
         const lb = await readLocalLorebook(userId, args.id);
         await mirrorSyncedRow(userId, "lorebooks", args.id, {
           lorebook: { ...lb, entries: undefined },
@@ -522,7 +516,7 @@ export function useDeleteLorebookMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const existing = await readLocalLorebook(userId, id);
       const wasSynced =
-        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        existing?.syncExpiresAt !=
         null;
       await deleteLocalLorebook(userId, id);
       if (wasSynced) await deleteSyncedRow(userId, "lorebooks", id);
@@ -551,10 +545,7 @@ export function useImportLorebookMutation() {
       const lb = data as Lorebook & { entries?: LorebookEntry[] };
       if (userId != null) {
         await upsertLocalLorebookBundle(userId, {
-          lorebook: {
-            ...(lb as Record<string, unknown>),
-            entries: undefined,
-          } as never,
+          lorebook: { ...lb, entries: undefined } as never,
           entries: (lb.entries ?? []) as never,
         });
       }
@@ -579,7 +570,7 @@ function patchLorebookEntries(
 async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
   const lb = await readLocalLorebook(userId, lorebookId);
   if (!lb) return;
-  if ((lb as { syncExpiresAt?: Date | null }).syncExpiresAt == null) return;
+  if (lb.syncExpiresAt == null) return;
   await mirrorSyncedRow(userId, "lorebooks", lorebookId, {
     lorebook: { ...lb, entries: undefined },
     entries: lb.entries,
@@ -601,11 +592,9 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
       const row = {
+        ...body,
         id: uid(),
         lorebookId,
-        keys: [],
-        content: "",
-        ...(body as Record<string, unknown>),
         createdAt: now,
         updatedAt: now,
       };
@@ -640,13 +629,13 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       const existing = lb?.entries.find(
-        (e) => (e as { id: string }).id === args.entryId,
+        (e) => e.id === args.entryId,
       );
       const updated = {
         ...(existing ?? {}),
         id: args.entryId,
         lorebookId,
-        ...(args.body as Record<string, unknown>),
+        ...args.body,
         updatedAt: now,
       };
       await upsertLocalLorebookEntry(userId, updated);
@@ -657,7 +646,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       const patch = data as Partial<LorebookEntry>;
       patchLorebookEntries(qc, lorebookId, (entries) =>
         entries.map((e) =>
-          (e as { id: string }).id === args.entryId ? { ...e, ...patch } : e,
+          e.id === args.entryId ? { ...e, ...patch } : e,
         ),
       );
     },
@@ -679,7 +668,7 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
     },
     onSuccess: (_data, entryId) => {
       patchLorebookEntries(qc, lorebookId, (entries) =>
-        entries.filter((e) => (e as { id: string }).id !== entryId),
+        entries.filter((e) => e.id !== entryId),
       );
     },
     onError: (e) => handleError(e, t),
@@ -717,10 +706,9 @@ export function useCreatePresetMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
       const row = {
+        ...args.body,
         id: uid(),
         userId,
-        name: "Untitled",
-        ...(args.body as Record<string, unknown>),
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
@@ -753,11 +741,11 @@ export function useUpdatePresetMutation() {
       const now = dayjs().toDate();
       const updated = {
         ...existing,
-        ...(args.body as Record<string, unknown>),
+        ...args.body,
         updatedAt: now,
       };
       await upsertLocalPreset(userId, updated as never);
-      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+      if (existing.syncExpiresAt != null) {
         await mirrorSyncedRow(userId, "presets", args.id, updated);
       }
       return updated;
@@ -785,7 +773,7 @@ export function useDeletePresetMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const existing = await readLocalPreset(userId, id);
       const wasSynced =
-        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        existing?.syncExpiresAt !=
         null;
       await deleteLocalPreset(userId, id);
       if (wasSynced) await deleteSyncedRow(userId, "presets", id);
@@ -846,20 +834,20 @@ export function useCreateCardMutation() {
     mutationFn: async (args: EdenArgs<typeof rpc.api.rp.cards, "post">) => {
       const userId = auth.data?.id;
       if (userId == null) throw new Error("not-logged-in");
-      const body = args.body as Record<string, unknown>;
+      const body = args.body;
       const now = dayjs().toDate();
       const card = {
         id: uid(),
         userId,
-        name: (body.name as string) ?? "Untitled",
-        description: (body.description as string | null) ?? null,
-        personaId: (body.personaId as string | null) ?? null,
+        name: body.name,
+        description: body.description ?? null,
+        personaId: body.personaId ?? null,
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
       };
-      const characterIds = (body.characterIds as string[] | undefined) ?? [];
-      const lorebookIds = (body.lorebookIds as string[] | undefined) ?? [];
+      const characterIds = body.characterIds ?? [];
+      const lorebookIds = body.lorebookIds ?? [];
       await upsertLocalCardBundle(userId, {
         card: card as never,
         cardCharacters: characterIds.map((cid, i) => ({
@@ -897,7 +885,7 @@ export function useUpdateCardMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const existing = await readLocalCard(userId, args.id);
       if (!existing) throw new Error("not-found");
-      const body = args.body as Record<string, unknown>;
+      const body = args.body;
       const now = dayjs().toDate();
       const updatedCard = {
         ...existing,
@@ -907,15 +895,11 @@ export function useUpdateCardMutation() {
         updatedAt: now,
       };
       const characterIds =
-        (body.characterIds as string[] | undefined) ??
-        existing.cardCharacters.map(
-          (c) => (c as { characterId: string }).characterId,
-        );
+        body.characterIds ??
+        existing.cardCharacters.map((c) => c.characterId);
       const lorebookIds =
-        (body.lorebookIds as string[] | undefined) ??
-        existing.cardLorebooks.map(
-          (l) => (l as { lorebookId: string }).lorebookId,
-        );
+        body.lorebookIds ??
+        existing.cardLorebooks.map((l) => l.lorebookId);
       await upsertLocalCardBundle(userId, {
         card: updatedCard as never,
         cardCharacters: characterIds.map((cid, i) => ({
@@ -929,7 +913,7 @@ export function useUpdateCardMutation() {
           orderIndex: i,
         })),
       });
-      if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
+      if (existing.syncExpiresAt != null) {
         const fresh = await readLocalCard(userId, args.id);
         await mirrorSyncedRow(userId, "cards", args.id, {
           card: {
@@ -966,7 +950,7 @@ export function useDeleteCardMutation() {
       if (userId == null) throw new Error("not-logged-in");
       const existing = await readLocalCard(userId, id);
       const wasSynced =
-        (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+        existing?.syncExpiresAt !=
         null;
       await deleteLocalCard(userId, id);
       if (wasSynced) await deleteSyncedRow(userId, "cards", id);
@@ -995,10 +979,10 @@ export function useApplyCardMutation() {
       const card = await readLocalCard(userId, args.id);
       if (!card) throw new Error("card-not-found");
       const characterIds = card.cardCharacters.map(
-        (c) => (c as { characterId: string }).characterId,
+        (c) => c.characterId,
       );
       const lorebookIds = card.cardLorebooks.map(
-        (l) => (l as { lorebookId: string }).lorebookId,
+        (l) => l.lorebookId,
       );
       if (args.body.mode === "replace") {
         await replaceLocalConversationBindings(userId, args.body.convId, {
@@ -1017,12 +1001,12 @@ export function useApplyCardMutation() {
         );
         const existingCharIds = new Set(
           existing?.conversationCharacters.map(
-            (c) => (c as { characterId: string }).characterId,
+            (c) => c.characterId,
           ) ?? [],
         );
         const existingLbIds = new Set(
           existing?.conversationLorebooks.map(
-            (l) => (l as { lorebookId: string }).lorebookId,
+            (l) => l.lorebookId,
           ) ?? [],
         );
         const combinedChars = [
@@ -1039,10 +1023,10 @@ export function useApplyCardMutation() {
         ];
         await replaceLocalConversationBindings(userId, args.body.convId, {
           conversationCharacters: combinedChars.map((c) => ({
-            characterId: (c as { characterId: string }).characterId,
+            characterId: c.characterId,
           })),
           conversationLorebooks: combinedLbs.map((l) => ({
-            lorebookId: (l as { lorebookId: string }).lorebookId,
+            lorebookId: l.lorebookId,
           })),
         });
       }
@@ -1121,7 +1105,7 @@ export function useUpdateChatSettingsMutation() {
       const now = dayjs().toDate();
       const updated = {
         ...(existing ?? { convId: args.convId, defaultModel: "" }),
-        ...(args.body as Record<string, unknown>),
+        ...args.body,
         convId: args.convId,
         updatedAt: now,
       };

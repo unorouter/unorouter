@@ -9,10 +9,10 @@ import {
   conversationLorebooks,
   conversations,
   conversationSettings,
-  generationImages,
-  generationLikes,
-  generationSessions,
-  generations,
+  playgroundImages,
+  playgroundLikes,
+  playgroundSessions,
+  playgrounds,
   lorebookEntries,
   lorebooks,
   media,
@@ -46,10 +46,10 @@ const presetStore = makeTableStore(samplingPresets, samplingPresets.id);
 const cardStore = makeTableStore(cards, cards.id);
 const conversationStore = makeTableStore(conversations, conversations.id);
 const generationSessionStore = makeTableStore(
-  generationSessions,
-  generationSessions.id,
+  playgroundSessions,
+  playgroundSessions.id,
 );
-const generationStore = makeTableStore(generations, generations.id);
+const generationStore = makeTableStore(playgrounds, playgrounds.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id);
@@ -265,7 +265,7 @@ export async function deleteLocalConversationCharacter(
 export async function upsertLocalGenerationImage(
   userId: number,
   row: {
-    generationId: string;
+    playgroundId: string;
     sequenceIndex: number;
     r2Url: string;
     r2Key: string;
@@ -279,9 +279,9 @@ export async function upsertLocalGenerationImage(
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db
-    .insert(generationImages)
+    .insert(playgroundImages)
     .values({
-      generationId: row.generationId,
+      playgroundId: row.playgroundId,
       sequenceIndex: row.sequenceIndex,
       r2Url: row.r2Url,
       r2Key: row.r2Key,
@@ -290,37 +290,37 @@ export async function upsertLocalGenerationImage(
       height: row.height ?? null,
       sizeBytes: row.sizeBytes ?? null,
       upstreamResultUrl: row.upstreamResultUrl ?? null,
-    } satisfies InferInsertModel<typeof generationImages>)
+    } satisfies InferInsertModel<typeof playgroundImages>)
     .onConflictDoNothing();
 }
 
 export async function upsertLocalGenerationLike(
   userId: number,
-  row: { generationId: string; userId?: number },
+  row: { playgroundId: string; userId?: number },
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db
-    .insert(generationLikes)
+    .insert(playgroundLikes)
     .values({
-      generationId: row.generationId,
+      playgroundId: row.playgroundId,
       userId: row.userId ?? userId,
-    } satisfies InferInsertModel<typeof generationLikes>)
+    } satisfies InferInsertModel<typeof playgroundLikes>)
     .onConflictDoNothing();
 }
 
 export async function deleteLocalGenerationLike(
   userId: number,
-  generationId: string,
+  playgroundId: string,
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db
-    .delete(generationLikes)
+    .delete(playgroundLikes)
     .where(
       and(
-        eq(generationLikes.generationId, generationId),
-        eq(generationLikes.userId, userId),
+        eq(playgroundLikes.playgroundId, playgroundId),
+        eq(playgroundLikes.userId, userId),
       ),
     );
 }
@@ -522,9 +522,9 @@ export async function upsertLocalGenerationSessionBundle(
   userId: number,
   bundle: {
     session: AnyRow;
-    generations: AnyRow[];
-    generationImages: ChildRow[];
-    generationLikes: ChildRow[];
+    playgrounds: AnyRow[];
+    playgroundImages: ChildRow[];
+    playgroundLikes: ChildRow[];
   },
 ) {
   const local = await getLocalDb(userId);
@@ -532,17 +532,17 @@ export async function upsertLocalGenerationSessionBundle(
   await generationSessionStore.upsert(userId, bundle.session);
 
   await local.db
-    .delete(generations)
-    .where(eq(generations.sessionId, bundle.session.id));
-  for (const g of bundle.generations) {
-    await local.db.insert(generations).values(g as never);
+    .delete(playgrounds)
+    .where(eq(playgrounds.sessionId, bundle.session.id));
+  for (const g of bundle.playgrounds) {
+    await local.db.insert(playgrounds).values(g as never);
   }
 
-  for (const img of bundle.generationImages) {
-    await local.db.insert(generationImages).values(img as never);
+  for (const img of bundle.playgroundImages) {
+    await local.db.insert(playgroundImages).values(img as never);
   }
 
-  for (const l of bundle.generationLikes) {
-    await local.db.insert(generationLikes).values(l as never);
+  for (const l of bundle.playgroundLikes) {
+    await local.db.insert(playgroundLikes).values(l as never);
   }
 }

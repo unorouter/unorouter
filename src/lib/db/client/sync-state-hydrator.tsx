@@ -113,7 +113,7 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
     });
   }
   if (genSessions && genSessions.length > 0) {
-    qc.setQueryData(queryKeys.generationSessionList(undefined), {
+    qc.setQueryData(queryKeys.playgroundSessionList(undefined), {
       items: genSessions,
     });
   }
@@ -131,7 +131,7 @@ async function stage2ServerReconcile(qc: QueryClient, userId: number) {
   await reconcileKind(userId, "presets", state.presets);
   await reconcileKind(userId, "cards", state.cards);
   await reconcileKind(userId, "conversations", state.conversations);
-  await reconcileKind(userId, "generationSessions", state.generationSessions);
+  await reconcileKind(userId, "playgroundSessions", state.playgroundSessions);
   await reconcileKind(userId, "theme", state.theme);
 }
 
@@ -200,7 +200,7 @@ async function readLocalById(
       return (
         (await readLocalConversations(userId))?.find((r) => r.id === id) ?? null
       );
-    case "generationSessions":
+    case "playgroundSessions":
       return (
         (await readLocalGenerationSessions(userId))?.find((r) => r.id === id) ??
         null
@@ -267,13 +267,13 @@ async function applyBundle<K extends SyncKind>(
       });
       return;
     }
-    case "generationSessions": {
-      const b = bundle as SyncBundle<"generationSessions">;
+    case "playgroundSessions": {
+      const b = bundle as SyncBundle<"playgroundSessions">;
       await upsertLocalGenerationSessionBundle(userId, {
         session: b.session,
-        generations: b.generations,
-        generationImages: b.generationImages,
-        generationLikes: b.generationLikes,
+        playgrounds: b.playgrounds,
+        playgroundImages: b.playgroundImages,
+        playgroundLikes: b.playgroundLikes,
       });
       return;
     }

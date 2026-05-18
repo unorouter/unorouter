@@ -137,7 +137,7 @@ function ChatSidebarNav(props: { authenticated: boolean }) {
 }
 
 // Generate's sidebar mirrors chat's shape: just the Navigate group. The
-// history rail (GenerationList) is rendered separately as `chatContent`
+// history rail (PlaygroundList) is rendered separately as `chatContent`
 // by the (generate) layout, so the studio stays focused.
 function GenerateSidebarNav(props: { authenticated: boolean }) {
   const t = useTranslations();

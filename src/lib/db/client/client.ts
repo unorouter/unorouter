@@ -98,8 +98,18 @@ async function openClient(userId: number): Promise<LocalClient> {
     overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
     reactiveQuery: sql.reactiveQuery.bind(sql) as LocalClient["reactiveQuery"],
   };
-  // dev-only debug hook
+  // Release the worker's SyncAccessHandle on page unload. Without this the
+  // SAH stays locked and Chromium/Brave attributes the underlying OPFS bytes
+  // to "orphan" state until the origin's storage is fully evicted. `pagehide`
+  // fires for both bfcache freeze and real navigation; `beforeunload` is a
+  // fallback for browsers that don't dispatch pagehide reliably.
   if (typeof window !== "undefined") {
+    const release = () => {
+      void sql.destroy().catch(() => {});
+    };
+    window.addEventListener("pagehide", release, { once: true });
+    window.addEventListener("beforeunload", release, { once: true });
+    // dev-only debug hook
     (window as unknown as { __local: unknown }).__local = wrapped;
     (window as unknown as { __shared: unknown }).__shared = shared;
     (window as unknown as { __sqlocal: unknown }).__sqlocal = sql;

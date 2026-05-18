@@ -301,7 +301,7 @@ export async function persistMessages(
       await tx
         .update(messages)
         .set({
-          generationId: usage.requestId,
+          playgroundId: usage.requestId,
           inputTokens: usage.inputTokens,
           outputTokens: usage.outputTokens,
           cost: usage.cost,

@@ -25,11 +25,15 @@ import {
   readLocalMessages,
 } from "@/lib/db/client/reads";
 import {
+  deleteLocalConversation,
   deleteLocalMessage,
   deleteLocalMessagesForConv,
+  replaceLocalConversationBindings,
   replaceLocalMessageItems,
   upsertLocalConversation,
+  upsertLocalConversationSettings,
   upsertLocalMessage,
+  upsertLocalMessageItem,
 } from "@/lib/db/client/writes";
 import { enqueuePending } from "@/lib/db/client/pending-sync";
 import {
@@ -52,9 +56,7 @@ async function mirrorConversationIfSynced(
   convId: string,
 ): Promise<void> {
   const conv = await readLocalConversation(userId, convId);
-  const syncExpiresAt = (conv as { syncExpiresAt?: Date | null } | null)
-    ?.syncExpiresAt;
-  if (syncExpiresAt == null) return;
+  if (conv?.syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
   try {
@@ -230,8 +232,6 @@ export function useDeleteConversationMutation() {
         const wasSynced =
           (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
           null;
-        const { deleteLocalConversation } =
-          await import("@/lib/db/client/writes");
         await deleteLocalConversation(userId, id);
         if (wasSynced) {
           try {
@@ -428,50 +428,39 @@ export function useDuplicateConversationMutation() {
       };
       await upsertLocalConversation(userId, newConv);
       if (bundle.settings) {
-        const { upsertLocalConversationSettings } =
-          await import("@/lib/db/client/writes");
         await upsertLocalConversationSettings(userId, {
           ...bundle.settings,
           convId: newId,
         });
       }
-      const { replaceLocalConversationBindings } =
-        await import("@/lib/db/client/writes");
       await replaceLocalConversationBindings(userId, newId, {
         conversationCharacters: bundle.conversationCharacters.map((c) => ({
-          characterId: (c as { characterId: string }).characterId,
-          orderIndex: (c as { orderIndex?: number }).orderIndex,
-          isActive: (c as { isActive?: boolean }).isActive,
-          overrides: (c as { overrides?: unknown }).overrides,
+          characterId: c.characterId,
+          orderIndex: c.orderIndex,
+          isActive: c.isActive,
+          overrides: c.overrides,
         })),
         conversationLorebooks: bundle.conversationLorebooks.map((l) => ({
-          lorebookId: (l as { lorebookId: string }).lorebookId,
-          orderIndex: (l as { orderIndex?: number }).orderIndex,
+          lorebookId: l.lorebookId,
+          orderIndex: l.orderIndex,
         })),
       });
       for (const m of bundle.messages) {
-        const oldMsgId = (m as { id: string }).id;
-        const newMsgId = uid();
-        idMap.set(oldMsgId, newMsgId);
+        idMap.set(m.id, uid());
       }
       for (const m of bundle.messages) {
-        const oldMsgId = (m as { id: string }).id;
-        const oldParentId = (m as { parentId?: string | null }).parentId;
         await upsertLocalMessage(userId, {
-          ...(m as Record<string, unknown>),
-          id: idMap.get(oldMsgId)!,
+          ...m,
+          id: idMap.get(m.id)!,
           convId: newId,
-          parentId: oldParentId ? (idMap.get(oldParentId) ?? null) : null,
+          parentId: m.parentId ? (idMap.get(m.parentId) ?? null) : null,
         });
       }
       for (const it of bundle.messageItems) {
-        const oldMsgId = (it as { messageId: string }).messageId;
-        const newMsgId = idMap.get(oldMsgId);
+        const newMsgId = idMap.get(it.messageId);
         if (!newMsgId) continue;
-        const { upsertLocalMessageItem } =
-          await import("@/lib/db/client/writes");
         await upsertLocalMessageItem(userId, {
-          ...(it as Record<string, unknown>),
+          ...it,
           id: uid(),
           messageId: newMsgId,
         });

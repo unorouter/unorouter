@@ -1,12 +1,12 @@
 "use client";
 
-import type { PerfModelSummary } from "@/lib/api/perf-metrics";
+import type { ModelSummary } from "@/openapi";
 import { cn } from "@/lib/utils";
 import { formatLatency, formatTps } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 
 type Props = {
-  perf: PerfModelSummary | undefined;
+  perf: ModelSummary | undefined;
   className?: string;
   /** Compact single-line layout (no stacked labels). */
   compact?: boolean;

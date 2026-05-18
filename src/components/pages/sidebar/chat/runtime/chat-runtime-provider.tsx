@@ -9,7 +9,6 @@ import {
   useConversationQuery,
   useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
-import { useLoadedMessages } from "@/hooks/ui/use-loaded-messages";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -153,8 +152,17 @@ function ChatRuntimeHook() {
     },
   });
 
-  // Keep scroll anchoring + infinite-scroll fetches alive; the history adapter now owns setMessages
-  useLoadedMessages(threadId, remoteId);
+  useEffect(() => {
+    if (!remoteId) return;
+    const scroller = document.querySelector("main");
+    if (!scroller) return;
+    let n = 0;
+    const pin = () => {
+      scroller.scrollTop = scroller.scrollHeight;
+      if (++n < 10) requestAnimationFrame(pin);
+    };
+    requestAnimationFrame(pin);
+  }, [threadId, remoteId]);
 
   // Expose setMessages / regenerate for the assistant edit-in-place button.
   // Plain ref, not reactive: the button reads it at click time.

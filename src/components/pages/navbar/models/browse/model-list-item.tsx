@@ -11,7 +11,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
-import type { PerfModelSummary } from "@/lib/api/perf-metrics";
+import type { ModelSummary } from "@/openapi";
 import type { ProcessedModel } from "@/lib/api/pricing";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -36,7 +36,7 @@ export function ModelListItem(props: {
   model: ProcessedModel;
   onClick: () => void;
   labels: ModelListItemLabels;
-  perf?: PerfModelSummary;
+  perf?: ModelSummary;
 }) {
   const t = useTranslations();
   const router = useRouter();

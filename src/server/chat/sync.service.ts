@@ -12,10 +12,10 @@ import {
   conversationLorebooks,
   conversations,
   conversationSettings,
-  generationImages,
-  generationLikes,
-  generationSessions,
-  generations,
+  playgroundImages,
+  playgroundLikes,
+  playgroundSessions,
+  playgrounds,
   lorebookEntries,
   lorebooks,
   media,
@@ -42,7 +42,7 @@ export type SyncKind =
   | "presets"
   | "cards"
   | "conversations"
-  | "generationSessions"
+  | "playgroundSessions"
   | "theme";
 
 // Per-kind bundle shapes returned by `getSyncedBundle`. Row types are
@@ -70,11 +70,11 @@ export type SyncBundleMap = {
     messageItems: (typeof messageItems.$inferSelect)[];
     media: (typeof media.$inferSelect)[];
   };
-  generationSessions: {
-    session: typeof generationSessions.$inferSelect;
-    generations: (typeof generations.$inferSelect)[];
-    generationImages: (typeof generationImages.$inferSelect)[];
-    generationLikes: (typeof generationLikes.$inferSelect)[];
+  playgroundSessions: {
+    session: typeof playgroundSessions.$inferSelect;
+    playgrounds: (typeof playgrounds.$inferSelect)[];
+    playgroundImages: (typeof playgroundImages.$inferSelect)[];
+    playgroundLikes: (typeof playgroundLikes.$inferSelect)[];
   };
   theme: { theme: typeof userThemes.$inferSelect };
 };
@@ -161,12 +161,12 @@ export async function sweepExpired(userId: number, key?: object) {
         ),
       ),
     db
-      .delete(generationSessions)
+      .delete(playgroundSessions)
       .where(
         and(
-          eq(generationSessions.userId, userId),
-          isNotNull(generationSessions.syncExpiresAt),
-          lt(generationSessions.syncExpiresAt, now),
+          eq(playgroundSessions.userId, userId),
+          isNotNull(playgroundSessions.syncExpiresAt),
+          lt(playgroundSessions.syncExpiresAt, now),
         ),
       ),
     db
@@ -204,7 +204,7 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
     presetsRows,
     cardsRows,
     conversationsRows,
-    generationSessionsRows,
+    playgroundSessionsRows,
     themeRows,
   ] = await Promise.all([
     db
@@ -273,15 +273,15 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
       ),
     db
       .select({
-        id: generationSessions.id,
-        syncExpiresAt: generationSessions.syncExpiresAt,
-        updatedAt: generationSessions.updatedAt,
+        id: playgroundSessions.id,
+        syncExpiresAt: playgroundSessions.syncExpiresAt,
+        updatedAt: playgroundSessions.updatedAt,
       })
-      .from(generationSessions)
+      .from(playgroundSessions)
       .where(
         and(
-          eq(generationSessions.userId, userId),
-          isNotNull(generationSessions.syncExpiresAt),
+          eq(playgroundSessions.userId, userId),
+          isNotNull(playgroundSessions.syncExpiresAt),
         ),
       ),
     db
@@ -303,7 +303,7 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
     presets: presetsRows,
     cards: cardsRows,
     conversations: conversationsRows,
-    generationSessions: generationSessionsRows,
+    playgroundSessions: playgroundSessionsRows,
     theme: themeRows.map((r) => ({
       id: String(r.userId),
       syncExpiresAt: r.syncExpiresAt,
@@ -420,42 +420,42 @@ export async function getSyncedBundle(
         media: mediaRows,
       };
     }
-    case "generationSessions": {
+    case "playgroundSessions": {
       const rows = await db
         .select()
-        .from(generationSessions)
+        .from(playgroundSessions)
         .where(
           and(
-            eq(generationSessions.id, id),
-            eq(generationSessions.userId, userId),
+            eq(playgroundSessions.id, id),
+            eq(playgroundSessions.userId, userId),
           ),
         )
         .limit(1);
       assertFound(rows);
       const gens = await db
         .select()
-        .from(generations)
-        .where(eq(generations.sessionId, id));
+        .from(playgrounds)
+        .where(eq(playgrounds.sessionId, id));
       const genIds = gens.map((g) => g.id);
       const [imgs, likes] = await Promise.all([
         genIds.length
           ? db
               .select()
-              .from(generationImages)
-              .where(inArray(generationImages.generationId, genIds))
+              .from(playgroundImages)
+              .where(inArray(playgroundImages.playgroundId, genIds))
           : Promise.resolve([]),
         genIds.length
           ? db
               .select()
-              .from(generationLikes)
-              .where(inArray(generationLikes.generationId, genIds))
+              .from(playgroundLikes)
+              .where(inArray(playgroundLikes.playgroundId, genIds))
           : Promise.resolve([]),
       ]);
       return {
         session: rows[0],
-        generations: gens,
-        generationImages: imgs,
-        generationLikes: likes,
+        playgrounds: gens,
+        playgroundImages: imgs,
+        playgroundLikes: likes,
       };
     }
     case "theme": {
@@ -568,14 +568,14 @@ async function readExistingSyncExpiry(
         .limit(1);
       return rows[0]?.syncExpiresAt ?? null;
     }
-    case "generationSessions": {
+    case "playgroundSessions": {
       const rows = await db
-        .select({ syncExpiresAt: generationSessions.syncExpiresAt })
-        .from(generationSessions)
+        .select({ syncExpiresAt: playgroundSessions.syncExpiresAt })
+        .from(playgroundSessions)
         .where(
           and(
-            eq(generationSessions.id, id),
-            eq(generationSessions.userId, userId),
+            eq(playgroundSessions.id, id),
+            eq(playgroundSessions.userId, userId),
           ),
         )
         .limit(1);
@@ -1016,7 +1016,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             characterId: (m.characterId as string | null) ?? null,
             role: m.role as string,
             model: (m.model as string | null) ?? null,
-            generationId: (m.generationId as string | null) ?? null,
+            playgroundId: (m.playgroundId as string | null) ?? null,
             inputTokens: (m.inputTokens as number | null) ?? null,
             outputTokens: (m.outputTokens as number | null) ?? null,
             cost: (m.cost as number | null) ?? null,
@@ -1085,28 +1085,28 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
     });
   },
 
-  generationSessions: async (db, userId, id, expiresAt, payload) => {
+  playgroundSessions: async (db, userId, id, expiresAt, payload) => {
     const body = (payload ?? {}) as {
       session?: Record<string, unknown>;
-      generations?: Array<Record<string, unknown>>;
-      generationImages?: Array<Record<string, unknown>>;
-      generationLikes?: Array<Record<string, unknown>>;
+      playgrounds?: Array<Record<string, unknown>>;
+      playgroundImages?: Array<Record<string, unknown>>;
+      playgroundLikes?: Array<Record<string, unknown>>;
     };
     const s = body.session ?? {};
     await db.transaction(async (tx) => {
       const existing = await tx
-        .select({ id: generationSessions.id })
-        .from(generationSessions)
+        .select({ id: playgroundSessions.id })
+        .from(playgroundSessions)
         .where(
           and(
-            eq(generationSessions.id, id),
-            eq(generationSessions.userId, userId),
+            eq(playgroundSessions.id, id),
+            eq(playgroundSessions.userId, userId),
           ),
         )
         .limit(1);
       const fallbackExpires = (s.expiresAt as Date | undefined) ?? expiresAt;
       if (existing.length === 0) {
-        await tx.insert(generationSessions).values({
+        await tx.insert(playgroundSessions).values({
           id,
           userId,
           title: (s.title as string | null) ?? null,
@@ -1118,7 +1118,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
         });
       } else {
         await tx
-          .update(generationSessions)
+          .update(playgroundSessions)
           .set({
             ...stripUndefined({
               title: s.title as string | null | undefined,
@@ -1132,15 +1132,15 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           })
           .where(
             and(
-              eq(generationSessions.id, id),
-              eq(generationSessions.userId, userId),
+              eq(playgroundSessions.id, id),
+              eq(playgroundSessions.userId, userId),
             ),
           );
       }
-      if (body.generations) {
-        await tx.delete(generations).where(eq(generations.sessionId, id));
-        for (const g of body.generations) {
-          await tx.insert(generations).values({
+      if (body.playgrounds) {
+        await tx.delete(playgrounds).where(eq(playgrounds.sessionId, id));
+        for (const g of body.playgrounds) {
+          await tx.insert(playgrounds).values({
             id: g.id as string,
             userId,
             sessionId: id,
@@ -1170,10 +1170,10 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           });
         }
       }
-      if (body.generationImages) {
-        for (const img of body.generationImages) {
-          await tx.insert(generationImages).values({
-            generationId: img.generationId as string,
+      if (body.playgroundImages) {
+        for (const img of body.playgroundImages) {
+          await tx.insert(playgroundImages).values({
+            playgroundId: img.playgroundId as string,
             sequenceIndex: img.sequenceIndex as number,
             upstreamResultUrl: (img.upstreamResultUrl as string | null) ?? null,
             r2Url: img.r2Url as string,
@@ -1185,10 +1185,10 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           });
         }
       }
-      if (body.generationLikes) {
-        for (const l of body.generationLikes) {
-          await tx.insert(generationLikes).values({
-            generationId: l.generationId as string,
+      if (body.playgroundLikes) {
+        for (const l of body.playgroundLikes) {
+          await tx.insert(playgroundLikes).values({
+            playgroundId: l.playgroundId as string,
             userId: (l.userId as number) ?? userId,
           });
         }
@@ -1279,16 +1279,16 @@ export async function clearSyncExpiry(
         .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .returning({ id: conversations.id });
       break;
-    case "generationSessions":
+    case "playgroundSessions":
       result = await db
-        .delete(generationSessions)
+        .delete(playgroundSessions)
         .where(
           and(
-            eq(generationSessions.id, id),
-            eq(generationSessions.userId, userId),
+            eq(playgroundSessions.id, id),
+            eq(playgroundSessions.userId, userId),
           ),
         )
-        .returning({ id: generationSessions.id });
+        .returning({ id: playgroundSessions.id });
       break;
     case "theme":
       // `id` ignored — user_themes is keyed by userId.

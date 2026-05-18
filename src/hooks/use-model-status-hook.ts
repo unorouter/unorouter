@@ -20,7 +20,6 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
           query: { bucket, hours },
         }),
       ),
-    staleTime: 30_000,
   });
 }
 
@@ -33,6 +32,5 @@ export function useStatusComponents() {
     queryKey: queryKeys.modelStatusComponents(),
     queryFn: async () =>
       handleElysia(await rpc.api["model-status"].components.get()),
-    staleTime: 30_000,
   });
 }

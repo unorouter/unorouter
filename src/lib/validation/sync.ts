@@ -15,7 +15,7 @@ export const SYNC_KINDS = [
   "presets",
   "cards",
   "conversations",
-  "generationSessions",
+  "playgroundSessions",
   "theme",
 ] as const;
 

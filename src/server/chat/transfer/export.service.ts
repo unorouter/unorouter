@@ -192,11 +192,11 @@ export async function exportConversationOrpg(userId: number, convId: string) {
       isCollapsed: false,
       type: m.role,
       isGenerating: false,
-      metadata: m.generationId
+      metadata: m.playgroundId
         ? {
             plugins: [],
             variantSlug: m.model,
-            generationId: m.generationId,
+            playgroundId: m.playgroundId,
             duration: m.durationMs ?? 0,
             tokensCount: (m.inputTokens ?? 0) + (m.outputTokens ?? 0),
             tokensPerSecond: m.tokensPerSecond ?? 0,

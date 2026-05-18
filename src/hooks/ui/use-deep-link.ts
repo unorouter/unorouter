@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 /**
  * Attempts to open a custom protocol URI and detects whether the app handled it.
@@ -36,7 +36,7 @@ export function useDeepLink() {
   const [showInstall, setShowInstall] = useState(false);
   const installRef = useRef<HTMLDivElement>(null);
 
-  const openDeepLink = useCallback((e: React.MouseEvent, uri: string) => {
+  const openDeepLink = (e: React.MouseEvent, uri: string) => {
     e.preventDefault();
     tryDeepLink(uri, () => {
       setShowInstall(true);
@@ -47,7 +47,7 @@ export function useDeepLink() {
         });
       }, 50);
     });
-  }, []);
+  };
 
   return { showInstall, installRef, openDeepLink };
 }

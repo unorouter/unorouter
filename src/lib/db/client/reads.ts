@@ -9,10 +9,10 @@ import {
   conversationLorebooks,
   conversations,
   conversationSettings,
-  generationImages,
-  generationLikes,
-  generationSessions,
-  generations,
+  playgroundImages,
+  playgroundLikes,
+  playgroundSessions,
+  playgrounds,
   lorebookEntries,
   lorebooks,
   media,
@@ -42,8 +42,8 @@ const presetStore = makeTableStore(samplingPresets, samplingPresets.id);
 const cardStore = makeTableStore(cards, cards.id);
 const conversationStore = makeTableStore(conversations, conversations.id);
 const generationSessionStore = makeTableStore(
-  generationSessions,
-  generationSessions.id,
+  playgroundSessions,
+  playgroundSessions.id,
 );
 const conversationSettingsStore = makeTableStore(
   conversationSettings,
@@ -82,7 +82,7 @@ export const readLocalConversation = (userId: number, id: string) =>
 
 export const readLocalGenerationSessions = (userId: number) =>
   generationSessionStore.list(userId, {
-    orderBy: desc(generationSessions.updatedAt),
+    orderBy: desc(playgroundSessions.updatedAt),
   });
 
 export const readLocalGenerationSession = (userId: number, id: string) =>
@@ -224,25 +224,25 @@ export async function readLocalGenerationSessionBundle(
   if (!session) return null;
   const gens = await local.db
     .select()
-    .from(generations)
-    .where(eq(generations.sessionId, sessionId));
+    .from(playgrounds)
+    .where(eq(playgrounds.sessionId, sessionId));
   const genIds = gens.map((g) => g.id);
   const [imgs, likes] = genIds.length
     ? await Promise.all([
         local.db
           .select()
-          .from(generationImages)
-          .where(inArray(generationImages.generationId, genIds)),
+          .from(playgroundImages)
+          .where(inArray(playgroundImages.playgroundId, genIds)),
         local.db
           .select()
-          .from(generationLikes)
-          .where(inArray(generationLikes.generationId, genIds)),
+          .from(playgroundLikes)
+          .where(inArray(playgroundLikes.playgroundId, genIds)),
       ])
     : [[], []];
   return {
     session,
-    generations: gens,
-    generationImages: imgs,
-    generationLikes: likes,
+    playgrounds: gens,
+    playgroundImages: imgs,
+    playgroundLikes: likes,
   };
 }

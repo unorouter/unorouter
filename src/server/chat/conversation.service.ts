@@ -536,7 +536,7 @@ export async function duplicateConversation(userId: number, convId: string) {
           characterId: m.characterId,
           role: m.role,
           model: m.model,
-          generationId: m.generationId,
+          playgroundId: m.playgroundId,
           inputTokens: m.inputTokens,
           outputTokens: m.outputTokens,
           cost: m.cost,

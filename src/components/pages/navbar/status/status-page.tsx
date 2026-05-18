@@ -35,7 +35,7 @@ import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
 import type { StatusBucket } from "@/hooks/use-model-status-hook";
-import type { PerfModelSummary } from "@/lib/api/perf-metrics";
+import type { ModelSummary } from "@/openapi";
 import { env } from "@/lib/config/env";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
@@ -67,7 +67,7 @@ export function StatusPage() {
   const pricingModels = pricing.data?.models ?? [];
   // Per-model perf summary, keyed by model_name for O(1) lookup per row.
   const perfQuery = usePerfMetricsSummaryQuery(24);
-  const perfMap = new Map<string, PerfModelSummary>(
+  const perfMap = new Map<string, ModelSummary>(
     (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
   );
 
@@ -319,7 +319,7 @@ function StatusCount(props: {
   );
 }
 
-function PerfStats(props: { perf: PerfModelSummary | undefined }) {
+function PerfStats(props: { perf: ModelSummary | undefined }) {
   const t = useTranslations();
   if (!props.perf || props.perf.request_count <= 0) return null;
   return (

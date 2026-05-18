@@ -118,10 +118,10 @@ export const pathnames = {
     "zh-CN": "/youlechang/[id]",
     "zh-TW": "/youlechang/[id]",
   },
-  "/my-generations": {
+  "/my-playgrounds": {
     de: "/meine-generierungen",
-    fr: "/mes-generations",
-    ja: "/my-generations",
+    fr: "/mes-playgrounds",
+    ja: "/my-playgrounds",
     ru: "/мои-генерации",
     vi: "/anh-cua-toi",
     "zh-CN": "/wo-de-shengcheng",
@@ -359,7 +359,7 @@ export const privateRoutes = {
     "/settings",
     "/consent",
     "/generate",
-    "/my-generations",
+    "/my-playgrounds",
   ],
   // Dynamic routes: the parent path is what we disallow so every child is covered.
   // /chat/[convId] is user-specific; /chat itself is public. /generate/[id] is per-user.

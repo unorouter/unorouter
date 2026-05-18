@@ -68,7 +68,7 @@ const chat = {
   messageDeleteConfirmed: () => {
     posthog.capture("chat_message_delete_confirmed");
   },
-  generationCancelled: () => {
+  playgroundCancelled: () => {
     posthog.capture("chat_generation_cancelled");
   },
   branchNavigated: (props: { direction: "previous" | "next" }) => {

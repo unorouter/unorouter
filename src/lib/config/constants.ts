@@ -2,7 +2,7 @@ import { CN, DE, FR, JP, RU, TW, US, VN } from "country-flag-icons/react/3x2";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 import { env } from "./env";
-export { ParamError } from "@/lib/errors";
+export { ParamError } from "@/lib/types/errors";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
 

@@ -10,7 +10,7 @@ import {
   ChatControls,
   ChatShareSlot,
 } from "@/components/pages/sidebar/chat/chat-elements";
-import { GenerateActionsMenu } from "@/components/pages/sidebar/generate/generate-actions-menu";
+import { GenerateActionsMenu } from "@/components/pages/sidebar/playground/playground-actions-menu";
 import { LanguageToggle } from "@/components/toggle/language-toggle";
 import { ThemeToggle } from "@/components/toggle/theme-toggle";
 import { Separator } from "@/components/ui/separator";

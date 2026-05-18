@@ -12,7 +12,7 @@ export async function register() {
   // edge route metadata doesn't load Drizzle on the wrong runtime.
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { startGenerationSweeper } =
-      await import("./server/generation/generation-sweeper");
+      await import("./server/playground/playground-sweeper");
     startGenerationSweeper();
   }
 }

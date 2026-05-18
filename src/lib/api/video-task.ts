@@ -2,7 +2,7 @@
 // (POST /v1/video/generations, GET /v1/video/generations/:id). Used by
 // the chat task pipeline (uppercase TaskStatus vocabulary for the UI)
 // and the image generation pipeline (lowercase vocabulary that matches
-// our generations.status DB column).
+// our playgrounds.status DB column).
 //
 // Centralized here because both consumers parse the same upstream
 // response shapes and apply the same alias normalization
@@ -21,7 +21,7 @@ export type UpstreamFetchResp = {
   // Single-output task (most video models, single-image comfyui).
   result_url?: string;
   // Multi-output task (ComfyUI batch_size>1). When set the poll handler
-  // walks every entry and writes one generation_images row per image.
+  // walks every entry and writes one playground_images row per image.
   result_urls?: string[];
   fail_reason?: string;
 };
@@ -37,13 +37,6 @@ export function normalizeTaskStatus(raw: string | undefined): string {
   if (lower === "failed" || lower === "error") return "failure";
   if (lower === "not_start") return "submitted";
   return lower;
-}
-
-/** True when the status is terminal (no further state transitions). */
-export function isTerminalTaskStatus(status: string | undefined): boolean {
-  if (!status) return false;
-  const lower = status.toLowerCase();
-  return lower === "success" || lower === "failure";
 }
 
 /** Unwrap the optional `data` envelope new-api wraps task responses in.

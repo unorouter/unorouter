@@ -87,20 +87,20 @@ export const queryKeys = {
   // Image generation: sessions (history list) + snapshots (the unit of
   // submission). Each session contains many snapshots; chevrons walk the
   // snapshot list inside a session.
-  generationSessionList: (params?: EdenQuery<typeof rpc.api.generation.me>) =>
-    ["generation-session-list", params] as const,
-  generationSession: (id: string) => ["generation-session", id] as const,
-  generationSnapshot: (id: string) => ["generation-snapshot", id] as const,
-  generationSnapshotStatus: (id: string) =>
-    ["generation-snapshot-status", id] as const,
-  loraCatalog: (params?: EdenQuery<typeof rpc.api.generation.loras>) =>
+  playgroundSessionList: (params?: EdenQuery<typeof rpc.api.playground.me>) =>
+    ["playground-session-list", params] as const,
+  playgroundSession: (id: string) => ["playground-session", id] as const,
+  playgroundSnapshot: (id: string) => ["playground-snapshot", id] as const,
+  playgroundSnapshotStatus: (id: string) =>
+    ["playground-snapshot-status", id] as const,
+  loraCatalog: (params?: EdenQuery<typeof rpc.api.playground.loras>) =>
     ["lora-catalog", params] as const,
   embeddingCatalog: (
-    params?: EdenQuery<typeof rpc.api.generation.embeddings>,
+    params?: EdenQuery<typeof rpc.api.playground.embeddings>,
   ) => ["embedding-catalog", params] as const,
-  upscalerCatalog: (params?: EdenQuery<typeof rpc.api.generation.upscalers>) =>
+  upscalerCatalog: (params?: EdenQuery<typeof rpc.api.playground.upscalers>) =>
     ["upscaler-catalog", params] as const,
   controlNetCatalog: (
-    params?: EdenQuery<typeof rpc.api.generation.controlnets>,
+    params?: EdenQuery<typeof rpc.api.playground.controlnets>,
   ) => ["controlnet-catalog", params] as const,
 };

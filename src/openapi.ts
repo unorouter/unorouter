@@ -146,17 +146,51 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
-export interface OverwriteField {
-  fields: string[] | null;
+export interface DeploymentResourceConfig {
+  cpu: string;
+  gpu: string;
+  memory: string;
+}
+
+export interface DeploymentItem {
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_name: string;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  hardware_info: string;
+  hardware_name: string;
+  hardware_quantity: number;
+  id: string;
+  instance_count: number;
   model_name: string;
+  model_version: string;
+  provider: string;
+  resource_config: DeploymentResourceConfig;
+  status: string;
+  time_remaining: string;
+  time_remaining_minutes: number;
+  type: string;
+  updated_at: number;
+}
+
+export interface DeploymentSearchResponse {
+  items: DeploymentItem[] | null;
+  page: number;
+  page_size: number;
+  total: number;
 }
 
 /**
- * SyncRequest schema
+ * Response_dto.DeploymentSearchResponse schema
  */
 export interface AnonymousSchema0 {
-  locale: string;
-  overwrite: OverwriteField[] | null;
+  data: DeploymentSearchResponse;
+  message: string;
+  success: boolean;
 }
 
 export interface ApiInfoEntry {
@@ -220,6 +254,14 @@ export interface BillingPreferenceRequest {
 export interface BoundChannel {
   name: string;
   type: number;
+}
+
+export interface BucketPoint {
+  avg_latency_ms: number;
+  avg_tps: number;
+  avg_ttft_ms: number;
+  success_rate: number;
+  ts: number;
 }
 
 export interface CardItemDTO {
@@ -599,12 +641,6 @@ export interface DeploymentLocation {
   name: string;
 }
 
-export interface DeploymentResourceConfig {
-  cpu: string;
-  gpu: string;
-  memory: string;
-}
-
 export interface DeploymentDetailResponse {
   amount_paid: number;
   brand_name: string;
@@ -627,31 +663,6 @@ export interface DeploymentDetailResponse {
   status: string;
   total_containers: number;
   total_gpus: number;
-  updated_at: number;
-}
-
-export interface DeploymentItem {
-  brand_name: string;
-  completed_percent: number;
-  compute_minutes_remaining: number;
-  compute_minutes_served: number;
-  container_name: string;
-  created_at: number;
-  deployment_name: string;
-  description: string;
-  hardware_info: string;
-  hardware_name: string;
-  hardware_quantity: number;
-  id: string;
-  instance_count: number;
-  model_name: string;
-  model_version: string;
-  provider: string;
-  resource_config: DeploymentResourceConfig;
-  status: string;
-  time_remaining: string;
-  time_remaining_minutes: number;
-  type: string;
   updated_at: number;
 }
 
@@ -684,13 +695,6 @@ export interface DeploymentRequest {
   location_ids: number[] | null;
   registry_config: RegistryConfig;
   resource_private_name: string;
-}
-
-export interface DeploymentSearchResponse {
-  items: DeploymentItem[] | null;
-  page: number;
-  page_size: number;
-  total: number;
 }
 
 export interface DeploymentSettingsResponse {
@@ -917,6 +921,15 @@ export interface GetAllChannelsData {
   page_size: number;
   total: number;
   type_counts: GetAllChannelsDataTypeCounts;
+}
+
+export interface GroupResult {
+  avg_latency_ms: number;
+  avg_tps: number;
+  avg_ttft_ms: number;
+  group: string;
+  series: BucketPoint[] | null;
+  success_rate: number;
 }
 
 export interface HardwareType {
@@ -1162,6 +1175,14 @@ export interface Model {
   vendor_id?: number;
 }
 
+export interface ModelSummary {
+  avg_latency_ms: number;
+  avg_tps: number;
+  model_name: string;
+  request_count: number;
+  success_rate: number;
+}
+
 export type ModelsMetaListDataVendorCounts = { [key: string]: number } | null;
 
 export interface ModelsMetaListData {
@@ -1279,6 +1300,11 @@ export interface Option {
 export interface OptionUpdateRequest {
   key: string;
   value: unknown;
+}
+
+export interface OverwriteField {
+  fields: string[] | null;
+  model_name: string;
 }
 
 export interface StatusBarDataDTO {
@@ -1470,6 +1496,12 @@ export interface PricingData {
   supported_endpoint: PricingDataSupportedEndpoint;
   usable_group: PricingDataUsableGroup;
   vendors: PricingVendor[] | null;
+}
+
+export interface QueryResult {
+  groups: GroupResult[] | null;
+  model_name: string;
+  series_schema: string;
 }
 
 export interface QuotaData {
@@ -2996,6 +3028,28 @@ export interface ResponseModelVendor {
 }
 
 /**
+ * Response_perf_metrics.QueryResult schema
+ */
+export interface ResponsePerfMetricsQueryResult {
+  data: QueryResult;
+  message: string;
+  success: boolean;
+}
+
+export interface SummaryAllResult {
+  models: ModelSummary[] | null;
+}
+
+/**
+ * Response_perf_metrics.SummaryAllResult schema
+ */
+export interface ResponsePerfMetricsSummaryAllResult {
+  data: SummaryAllResult;
+  message: string;
+  success: boolean;
+}
+
+/**
  * Response_ratio_setting.ExposedRatioData schema
  */
 export interface ResponseRatioSettingExposedRatioData {
@@ -3289,6 +3343,10 @@ export type GetAllChannelsParams = {
    */
   status?: string;
   type?: number;
+  /**
+   * Filter by group
+   */
+  group?: string;
   /**
    * Column to sort by
    */
@@ -3790,6 +3848,28 @@ export type ClearChannelAffinityCacheParams = {
    * Filter by rule name
    */
   rule_name?: string;
+};
+
+export type GetPerfMetricsParams = {
+  /**
+   * Model name (required)
+   */
+  model?: string;
+  /**
+   * Optional group filter
+   */
+  group?: string;
+  /**
+   * Lookback window in hours (default 24, max 720)
+   */
+  hours?: number;
+};
+
+export type GetPerfMetricsSummaryParams = {
+  /**
+   * Lookback window in hours (default 24, max 720)
+   */
+  hours?: number;
 };
 
 export type GetPrefillGroupsParams = {
@@ -8696,12 +8776,12 @@ export const resetModelRatio = async (
 };
 
 export type getPerfMetricsResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponsePerfMetricsQueryResult;
   status: 200;
 };
 
 export type getPerfMetricsResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponsePerfMetricsQueryResult;
   status: 200;
 };
 
@@ -8713,29 +8793,42 @@ export type getPerfMetricsResponseSuccess = (
 };
 export type getPerfMetricsResponse = getPerfMetricsResponseSuccess;
 
-export const getGetPerfMetricsUrl = () => {
-  return `/api/perf-metrics`;
+export const getGetPerfMetricsUrl = (params?: GetPerfMetricsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/perf-metrics?${stringifiedParams}`
+    : `/api/perf-metrics`;
 };
 
 /**
  * @summary Get Perf Metrics
  */
 export const getPerfMetrics = async (
+  params?: GetPerfMetricsParams,
   options?: RequestInit,
 ): Promise<getPerfMetricsResponse> => {
-  return customFetch<getPerfMetricsResponse>(getGetPerfMetricsUrl(), {
+  return customFetch<getPerfMetricsResponse>(getGetPerfMetricsUrl(params), {
     ...options,
     method: "GET",
   });
 };
 
 export type getPerfMetricsSummaryResponse200ApplicationJson = {
-  data: ApiResponse;
+  data: ResponsePerfMetricsSummaryAllResult;
   status: 200;
 };
 
 export type getPerfMetricsSummaryResponse200ApplicationXml = {
-  data: ApiResponse;
+  data: ResponsePerfMetricsSummaryAllResult;
   status: 200;
 };
 
@@ -8748,18 +8841,33 @@ export type getPerfMetricsSummaryResponseSuccess = (
 export type getPerfMetricsSummaryResponse =
   getPerfMetricsSummaryResponseSuccess;
 
-export const getGetPerfMetricsSummaryUrl = () => {
-  return `/api/perf-metrics/summary`;
+export const getGetPerfMetricsSummaryUrl = (
+  params?: GetPerfMetricsSummaryParams,
+) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? "null" : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/perf-metrics/summary?${stringifiedParams}`
+    : `/api/perf-metrics/summary`;
 };
 
 /**
  * @summary Get Perf Metrics Summary
  */
 export const getPerfMetricsSummary = async (
+  params?: GetPerfMetricsSummaryParams,
   options?: RequestInit,
 ): Promise<getPerfMetricsSummaryResponse> => {
   return customFetch<getPerfMetricsSummaryResponse>(
-    getGetPerfMetricsSummaryUrl(),
+    getGetPerfMetricsSummaryUrl(params),
     {
       ...options,
       method: "GET",

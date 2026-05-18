@@ -9,7 +9,7 @@ import { billingRoute } from "@/server/billing/route";
 import { chatRoute } from "@/server/chat/route";
 import { rpRoute } from "@/server/chat/rp/route";
 import { syncRoute } from "@/server/chat/sync.route";
-import { generationRoute } from "@/server/generation/route";
+import { playgroundRoute } from "@/server/playground/route";
 import { checkoutSessionsRoute } from "@/server/checkout-sessions/route";
 import { dashboardRoute } from "@/server/dashboard/route";
 import { healthRoute } from "@/server/health/route";
@@ -164,7 +164,7 @@ export const app = new Elysia({ prefix: "/api" })
   .use(chatRoute)
   .use(rpRoute)
   .use(syncRoute)
-  .use(generationRoute)
+  .use(playgroundRoute)
   .use(dashboardRoute)
   .use(tokenRoute)
   .use(affiliateRoute)

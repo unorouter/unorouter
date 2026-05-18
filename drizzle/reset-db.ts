@@ -13,7 +13,7 @@ const client = createClient({
 try {
   // Wipe every R2 prefix the app writes to so orphaned uploads don't linger
   // after a DB reset. Add new prefixes here when introducing new media types.
-  const r2Prefixes = ["chat/", "generations/", "generations-refs/"];
+  const r2Prefixes = ["chat/", "playgrounds/", "playgrounds-refs/"];
   for (const prefix of r2Prefixes) {
     try {
       await deleteR2Prefix(prefix);
