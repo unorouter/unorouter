@@ -7,153 +7,138 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getTranslations } from "next-intl/server";
 
 const REPO_URL =
   "https://github.com/unorouter/new-api-sync/blob/main/src/core/models/testing/authenticity.ts";
 
+const richMarks = {
+  s: (chunks: React.ReactNode) => <strong>{chunks}</strong>,
+  c: (chunks: React.ReactNode) => <code>{chunks}</code>,
+  em: (chunks: React.ReactNode) => <em>{chunks}</em>,
+};
+
 export async function ClaudeAuthenticityContent() {
+  const t = await getTranslations();
+
   return (
     <>
-      <p>
-        Claude is the most in-demand model on the market right now, and one of
-        the most expensive. That gap has created a thriving market of
-        third-party resellers offering &quot;the same Claude&quot; at a fraction
-        of the official price. Some are legitimate. A lot aren&apos;t.
-      </p>
+      <p>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.INTRO_P1")}</p>
 
-      <p>
-        Over 17 days of automated probing across{" "}
-        <strong>8 upstream resellers</strong>, we found{" "}
-        <strong>183 (channel, model) pairs</strong> that fail authenticity
-        checks against models marketed as <code>claude-opus-4-7</code>,{" "}
-        <code>claude-sonnet-4-6</code>, <code>claude-haiku-4-5</code>, and
-        friends. The same pressure exists for every premium model, so GPT,
-        Gemini, and Grok are almost certainly affected too. Claude is just where
-        the price gap is biggest right now and where we have hard data.
-      </p>
+      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.INTRO_P2", richMarks)}</p>
 
-      <h2 id="probes">How the probes work</h2>
-      <p>
-        Per (channel, model) we send four parallel requests to the standard
-        Anthropic Messages API (<code>POST /v1/messages</code>):
-      </p>
+      <h2 id="probes">{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_PROBES")}</h2>
+      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBES_P", richMarks)}</p>
 
       <div className="not-prose my-6">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Probe</TableHead>
-              <TableHead>Prompt</TableHead>
-              <TableHead>Pass criteria</TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_PROBE")}
+              </TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_PROMPT")}
+              </TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_PASS")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
               <TableCell className="font-mono text-xs">emotional</TableCell>
               <TableCell className="text-xs">
-                Tell me a 2-sentence sad story about a lost kitten.
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_EMOTIONAL_PROMPT")}
               </TableCell>
               <TableCell className="text-xs">
-                No coding-refusal phrases; response &ge; 40 chars
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_EMOTIONAL_PASS")}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-mono text-xs">creative</TableCell>
               <TableCell className="text-xs">
-                Write a haiku about the ocean at sunrise. Only the haiku,
-                nothing else.
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_CREATIVE_PROMPT")}
               </TableCell>
               <TableCell className="text-xs">
-                No coding-refusal phrases; response &ge; 25 chars
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_CREATIVE_PASS")}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-mono text-xs">identity</TableCell>
               <TableCell className="text-xs">
-                What company created you? Reply with only the company name, one
-                word.
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_IDENTITY_PROMPT")}
               </TableCell>
               <TableCell className="text-xs">
-                Contains <code>anthropic</code>; no foreign-vendor names
+                {t.rich(
+                  "BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_IDENTITY_PASS",
+                  richMarks,
+                )}
               </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="font-mono text-xs">model-name</TableCell>
               <TableCell className="text-xs">
-                Which model are you? Reply with only your model name, nothing
-                else.
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_MODELNAME_PROMPT")}
               </TableCell>
               <TableCell className="text-xs">
-                Contains <code>claude</code> or <code>anthropic</code>; no
-                foreign-vendor names
+                {t.rich(
+                  "BLOG.POSTS.CLAUDE_AUTHENTICITY.PROBE_MODELNAME_PASS",
+                  richMarks,
+                )}
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
 
-      <p>Three failure types:</p>
+      <p>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.FAILURE_INTRO")}</p>
       <ul>
         <li>
-          <code>coding-tool-refusal</code>: response matches a Kiro Cascade or
-          Codeium / Windsurf Droid refusal pattern (
-          <em>&quot;I&apos;m here to help with coding&quot;</em>,{" "}
-          <em>&quot;I&apos;m Droid&quot;</em>, etc.). The upstream is routing to
-          an IDE-assistant product, which refuses the prompt because it&apos;s
-          not coding.
+          {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.FAILURE_CODING", richMarks)}
         </li>
         <li>
-          <code>foreign-identity</code>: response identifies as a non-Anthropic
-          vendor (OpenAI, Meta, DeepSeek, Moonshot, etc.).
+          {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.FAILURE_FOREIGN", richMarks)}
         </li>
         <li>
-          <code>failed</code>: wrong-style output without those signals (no
-          kitten story, no haiku, generic &quot;AI assistant&quot; reply).
+          {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.FAILURE_FAILED", richMarks)}
         </li>
       </ul>
 
       <p>
-        Pattern lists and probe code:{" "}
-        <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
-          <code>src/core/models/testing/authenticity.ts</code>
-        </a>
-        .
+        {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.REPO_LINK", {
+          ...richMarks,
+          repo: (chunks) => (
+            <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
+              {chunks}
+            </a>
+          ),
+        })}
       </p>
 
       <h2 id="not-spoofing">
-        What is <em>not</em> spoofing: Bedrock, Vertex, Foundry
+        {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_NOT_SPOOFING")}
       </h2>
       <p>
-        A reseller routing through <strong>AWS Bedrock</strong>,{" "}
-        <strong>Google Vertex AI</strong>, or <strong>Azure AI Foundry</strong>{" "}
-        is not spoofing. Those platforms host real Anthropic Claude weights
-        under license. Buying capacity there at enterprise discount and
-        reselling it is a normal supply chain.
+        {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.NOT_SPOOFING_P1", richMarks)}
       </p>
       <p>
-        One known false positive: cloud-hosted Claude sometimes answers the
-        identity probe with <code>Amazon</code> / <code>Google</code> /{" "}
-        <code>Microsoft</code> instead of <code>Anthropic</code>, because of
-        host system prompts. A channel flagged <em>only</em> by{" "}
-        <code>foreign-identity</code> against cloud-host names warrants a manual
-        second look. <code>coding-tool-refusal</code> and non-cloud foreign
-        vendors are unambiguous, real Bedrock/Vertex/Foundry Claude never
-        produces those responses.
+        {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.NOT_SPOOFING_P2", richMarks)}
       </p>
 
-      <h2 id="results">What 17 days of probing turned up</h2>
-      <p>
-        8 upstream resellers (anonymized as <code>provider-1</code>..
-        <code>provider-8</code>), 183 (channel, model) entries between
-        2026-04-08 and 2026-04-24.
-      </p>
+      <h2 id="results">{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_RESULTS")}</h2>
+      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.RESULTS_INTRO", richMarks)}</p>
 
       <div className="not-prose my-6">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Failure type</TableHead>
-              <TableHead className="text-right">Count</TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_FAILURE_TYPE")}
+              </TableHead>
+              <TableHead className="text-right">
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_COUNT")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -178,15 +163,21 @@ export async function ClaudeAuthenticityContent() {
       </div>
 
       <p>
-        <strong>Probe labels that triggered failures</strong> (a channel can
-        fail multiple):
+        {t.rich(
+          "BLOG.POSTS.CLAUDE_AUTHENTICITY.RESULTS_LABELS_INTRO",
+          richMarks,
+        )}
       </p>
       <div className="not-prose my-6">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Probe</TableHead>
-              <TableHead className="text-right">Failures</TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_PROBE")}
+              </TableHead>
+              <TableHead className="text-right">
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_FAILURES")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -210,20 +201,18 @@ export async function ClaudeAuthenticityContent() {
         </Table>
       </div>
 
-      <p>
-        <strong>
-          <code>emotional</code> being the biggest catcher is the smoking gun.
-        </strong>{" "}
-        Real Claude doesn&apos;t refuse to write a 2-sentence sad story about a
-        kitten. A coding-tool backend dressed as Claude does, every time.
-      </p>
+      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.EMOTIONAL_GUN", richMarks)}</p>
 
       <div className="not-prose my-6 grid gap-4 md:grid-cols-2">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Provider</TableHead>
-              <TableHead className="text-right">Bad channels</TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_PROVIDER")}
+              </TableHead>
+              <TableHead className="text-right">
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_BAD_CHANNELS")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -247,8 +236,12 @@ export async function ClaudeAuthenticityContent() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Model</TableHead>
-              <TableHead className="text-right">Bad channels</TableHead>
+              <TableHead>
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_MODEL")}
+              </TableHead>
+              <TableHead className="text-right">
+                {t("BLOG.POSTS.CLAUDE_AUTHENTICITY.TABLE_BAD_CHANNELS")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -273,43 +266,19 @@ export async function ClaudeAuthenticityContent() {
         </Table>
       </div>
 
-      <p>
-        Older Claude variants have higher counts only because they&apos;ve been
-        on the market longer. Opus 4.7 hit 16 spoofed channels within weeks of
-        release. This isn&apos;t a static snapshot, either, resellers rotate
-        upstreams and a channel that passes today can start serving Kiro
-        tomorrow. <strong>Authenticity has to be checked continuously.</strong>
-      </p>
+      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.OLDER_VARIANTS", richMarks)}</p>
 
-      <h2 id="why">Why this happens</h2>
-      <p>
-        Real Claude is expensive whether you buy from Anthropic or from a
-        licensed cloud reseller. A reseller advertising Claude below the
-        cheapest licensed price has four options:
-      </p>
+      <h2 id="why">{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_WHY")}</h2>
+      <p>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_INTRO")}</p>
       <ol>
-        <li>Eat the loss (sustainable only with deep funding).</li>
-        <li>
-          Buy Bedrock/Vertex/Foundry capacity at enterprise discount and resell.{" "}
-          <strong>Legitimate</strong>, but bounded by what those clouds charge.
-        </li>
-        <li>
-          Run a fraction of traffic through real Claude and route the rest
-          cheaper, banking on users not noticing.
-        </li>
-        <li>
-          Route everything to a non-Anthropic backend and hope nobody checks.
-        </li>
+        <li>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_OPT1")}</li>
+        <li>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_OPT2", richMarks)}</li>
+        <li>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_OPT3")}</li>
+        <li>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_OPT4")}</li>
       </ol>
-      <p>
-        Options 3 and 4 are what the probes catch. Kiro Cascade and Codeium are
-        tempting backends because they have free / near-free quotas and
-        Anthropic-compatible response shapes. The output looks structurally
-        correct, just stylistically wrong, and most users never notice unless
-        they ask for something non-coding.
-      </p>
+      <p>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_OUTRO")}</p>
 
-      <h2 id="test">Test your own provider in 5 minutes</h2>
+      <h2 id="test">{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_TEST")}</h2>
       <div className="not-prose my-6">
         <CodeBlock
           language="bash"
@@ -327,15 +296,7 @@ export async function ClaudeAuthenticityContent() {
   }'`}
         />
       </div>
-      <p>
-        If the response refuses or redirects to coding, your &quot;Claude&quot;
-        is not Claude. For a second check, send{" "}
-        <em>
-          &quot;What company created you? Reply with only the company name, one
-          word.&quot;
-        </em>{" "}
-        — anything other than <code>Anthropic</code> is your answer.
-      </p>
+      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.TEST_OUTRO", richMarks)}</p>
     </>
   );
 }

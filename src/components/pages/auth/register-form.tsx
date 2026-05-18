@@ -12,7 +12,11 @@ import {
 import { useStatusQuery } from "@/hooks/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
-import { AFF_CODE_KEY, APP_VALUES } from "@/lib/config/constants";
+import {
+  AFF_CODE_KEY,
+  APP_VALUES,
+  RESEND_COOLDOWN_SECONDS,
+} from "@/lib/config/constants";
 import {
   registerChecker,
   registerSchema,
@@ -26,8 +30,6 @@ import { deleteCookie, getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-
-const RESEND_COOLDOWN_SECONDS = 60;
 
 export function RegisterForm() {
   const t = useTranslations();

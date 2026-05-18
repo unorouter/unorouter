@@ -1,53 +1,8 @@
-/** Discriminated message item, matching the message_items.type column. */
-export type MessageItemData =
-  | { type: "text"; data: { text: string }; output_index?: number; id?: string }
-  | {
-      type: "reasoning";
-      data: { text: string; status?: string };
-      output_index?: number;
-      id?: string;
-    }
-  | {
-      type: "tool_call";
-      data: {
-        tool_name: string;
-        tool_call_id: string;
-        args: unknown;
-        [k: string]: unknown;
-      };
-      output_index?: number;
-      id?: string;
-    }
-  | {
-      type: "tool_result";
-      data: { tool_call_id: string; result: unknown; [k: string]: unknown };
-      output_index?: number;
-      id?: string;
-    }
-  | {
-      type: "file" | "image";
-      data: {
-        url: string;
-        mime_type: string;
-        name?: string;
-        r2_key?: string;
-        [k: string]: unknown;
-      };
-      output_index?: number;
-      id?: string;
-    }
-  | {
-      type: "task";
-      data: {
-        task_id: string;
-        model: string;
-        status: string;
-        progress?: string;
-        [k: string]: unknown;
-      };
-      output_index?: number;
-      id?: string;
-    };
+import type { PersistMessageItem } from "@/lib/validation/chat";
+
+/** Discriminated message item, matching the message_items.type column. Mirrors
+ *  the TypeBox shape defined in `lib/validation/chat.ts` (single source of truth). */
+export type MessageItemData = PersistMessageItem;
 
 /** A message payload sent to the persist endpoint. */
 export type PersistMessage = {

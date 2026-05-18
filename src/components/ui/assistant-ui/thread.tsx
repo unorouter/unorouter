@@ -23,7 +23,7 @@ import {
   useEditMessageMutation,
   useSetActiveBranchMutation,
 } from "@/hooks/chat-hook";
-import { partsToItems } from "@/lib/types/chat";
+import { partsToItems } from "@/lib/chat/messages";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";

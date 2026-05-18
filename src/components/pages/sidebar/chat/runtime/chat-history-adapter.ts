@@ -17,8 +17,8 @@ import {
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { ApiMessage, PersistMessage } from "@/lib/types/chat";
-import { itemsToParts, partsToItems } from "@/lib/types/chat";
+import type { ApiMessage, PersistMessage } from "@/lib/chat/messages";
+import { itemsToParts, partsToItems } from "@/lib/chat/messages";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel } from "@/store/chat-store";
 import type {

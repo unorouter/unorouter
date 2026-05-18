@@ -10,10 +10,10 @@ export type DocSlug = keyof typeof pathnames extends infer K
     : never
   : never;
 
-export type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
+type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
 
 /** Any translation-key prefix that has every PostLeaf under it (e.g. "BLOG.POSTS.LAUNCH"). */
-export type PostI18nKey = {
+type PostI18nKey = {
   [K in TranslationKey]: K extends `${infer P}.${PostLeaf}`
     ? `${P}.TITLE` extends TranslationKey
       ? `${P}.DESCRIPTION` extends TranslationKey
@@ -27,7 +27,7 @@ export type PostI18nKey = {
 
 export type BlogCategory = "launch" | "engineering" | "product" | "update";
 
-export type BlogHeading = {
+type BlogHeading = {
   id: string;
   i18nLeaf: string;
   level: 2 | 3;
@@ -45,7 +45,7 @@ export type BlogPost<Slug extends string = string> = {
   heroImage?: string;
 };
 
-export type ChangeFrequency = NonNullable<
+type ChangeFrequency = NonNullable<
   MetadataRoute.Sitemap[number]["changeFrequency"]
 >;
 
@@ -60,7 +60,7 @@ export type SectionPriorities = Partial<
 >;
 
 /** Any translation-key prefix that has both .TITLE and .SUBTITLE under it. */
-export type DocI18nPrefix = {
+type DocI18nPrefix = {
   [K in TranslationKey]: K extends `${infer P}.TITLE`
     ? `${P}.SUBTITLE` extends TranslationKey
       ? P

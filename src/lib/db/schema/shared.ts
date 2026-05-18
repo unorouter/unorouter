@@ -28,7 +28,6 @@ export const conversations = sqliteTable(
     id: text("id").primaryKey(),
     userId: integer("user_id").notNull(),
     title: text("title"),
-    shareId: text("share_id").unique(),
     totalInputTokens: integer("total_input_tokens").notNull().default(0),
     totalOutputTokens: integer("total_output_tokens").notNull().default(0),
     totalCost: real("total_cost").notNull().default(0),
@@ -42,7 +41,6 @@ export const conversations = sqliteTable(
   },
   (table) => [
     index("idx_conv_user_updated").on(table.userId, table.updatedAt),
-    index("idx_conv_share").on(table.shareId),
     index("idx_conv_sync_expires").on(table.syncExpiresAt),
   ],
 );
