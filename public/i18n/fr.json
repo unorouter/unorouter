@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · mois",
       "RECOMMENDED": "Recommandé",
       "RESETS_IN": "Réinitialisation dans",
-      "RESETS_AT": "Réinitialisation le"
+      "RESETS_AT": "Réinitialisation le",
+      "PLAN_FALLBACK": "Plan #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "Préférence de facturation",

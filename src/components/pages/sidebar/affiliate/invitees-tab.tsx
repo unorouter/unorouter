@@ -1,6 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
+import { Icon } from "@/components/ui/icon";
 import { useAffiliateInviteesQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
@@ -9,7 +10,6 @@ import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { Icon } from "@/components/ui/icon";
 
 export function InviteesTab() {
   const t = useTranslations();

@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · tháng",
       "RECOMMENDED": "Khuyến nghị",
       "RESETS_IN": "Đặt lại sau",
-      "RESETS_AT": "Đặt lại lúc"
+      "RESETS_AT": "Đặt lại lúc",
+      "PLAN_FALLBACK": "Gói #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "Tùy chọn thanh toán",

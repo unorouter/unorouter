@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · 月",
       "RECOMMENDED": "推荐",
       "RESETS_IN": "重置剩余",
-      "RESETS_AT": "重置时间"
+      "RESETS_AT": "重置时间",
+      "PLAN_FALLBACK": "套餐 #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "计费偏好",

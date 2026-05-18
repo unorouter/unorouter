@@ -1,11 +1,11 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
-import { Icon } from "@/components/ui/icon";
 import { buildOAuthUrl } from "@/components/pages/auth/oauth-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
+import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -13,13 +13,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { analytics } from "@/lib/analytics";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useBindEmailMutation,
   useSendSettingsVerificationMutation,
 } from "@/hooks/settings-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
+import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import {
@@ -118,7 +118,7 @@ export function AccountCard() {
         await rpc.api.auth.oauth.state.get({
           query: { redirect: callbackUrl, action: "bind" },
         }),
-      ) as string;
+      );
 
       const url = buildOAuthUrl(provider, status, state);
       if (url) window.location.href = url;

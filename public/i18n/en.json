@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · month",
       "RECOMMENDED": "Recommended",
       "RESETS_IN": "Resets in",
-      "RESETS_AT": "Resets at"
+      "RESETS_AT": "Resets at",
+      "PLAN_FALLBACK": "Plan #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "Billing Preference",

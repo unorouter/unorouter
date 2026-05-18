@@ -1,22 +1,8 @@
 import type { QuotaData } from "@/openapi";
-import dayjs from "dayjs";
-
 export { quotaToDollars, renderQuota } from "@/lib/config/constants";
+export { formatLongDate as formatDate } from "@/lib/utils/format/date";
 
 export type QuotaDataItem = NonNullable<QuotaData>;
-
-export function formatDate(value: string | number | undefined): string {
-  if (!value) return "";
-  const d = typeof value === "number" ? dayjs.unix(value) : dayjs(value);
-  if (!d.isValid()) return typeof value === "string" ? value : "";
-  return d.format("MMM D, YYYY");
-}
-
-export function filterQuotaData(
-  data: (QuotaData | null | undefined)[],
-): QuotaDataItem[] {
-  return data.filter((item): item is QuotaDataItem => item != null);
-}
 
 export function aggregateByModel(
   data: QuotaDataItem[],

@@ -2,6 +2,7 @@
 
 import { DataTable } from "@/components/elements/table/data-table";
 import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
+import { Icon } from "@/components/ui/icon";
 import { useAffiliateCommissionsQuery } from "@/hooks/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
@@ -10,7 +11,6 @@ import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { Icon } from "@/components/ui/icon";
 
 export function CommissionsTab() {
   const t = useTranslations();

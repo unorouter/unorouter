@@ -1,6 +1,6 @@
 "use client";
 
-import { filterQuotaData } from "@/components/pages/sidebar/dashboard/stats";
+import type { QuotaDataItem } from "@/components/pages/sidebar/dashboard/stats";
 import {
   useDashboardQuotaQuery,
   useDashboardUptimeQuery,
@@ -24,7 +24,9 @@ export function useDashboardData() {
     query: { start_timestamp: startTs, end_timestamp: endTs },
   });
   const uptimeQuery = useDashboardUptimeQuery();
-  const rawData = filterQuotaData(quotaQuery.data ?? []);
+  const rawData = (quotaQuery.data ?? []).filter(
+    (item): item is QuotaDataItem => item != null,
+  );
 
   const dateRange = {
     from: dayjs.unix(startTs).toDate(),

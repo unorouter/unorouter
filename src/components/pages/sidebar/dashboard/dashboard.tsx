@@ -1,5 +1,7 @@
 "use client";
 
+import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
+import { Icon } from "@/components/ui/icon";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import type { DashboardStore } from "@/store/dashboard-store";
@@ -8,14 +10,12 @@ import dayjs from "dayjs";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";
-import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { AnnouncementsPanel } from "./announcements-panel";
 import { ApiInfoPanel } from "./api-info-panel";
 import { ConsumptionChart } from "./consumption-chart";
 import { FaqPanel } from "./faq-panel";
 import { StatsCards } from "./stats-cards";
 import { UptimePanel } from "./uptime-panel";
-import { Icon } from "@/components/ui/icon";
 
 type DashboardProps = {
   serverTimestamps: DashboardStore;

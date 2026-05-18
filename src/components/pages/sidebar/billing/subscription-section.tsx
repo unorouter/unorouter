@@ -1,8 +1,8 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Progress } from "@/components/ui/progress";
 import {
   Select,
@@ -11,76 +11,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   useBillingPlansQuery,
   useBillingPortalMutation,
-  useCreemSubscriptionMutation,
-  useStripeSubscriptionMutation,
   useSubscriptionSelfQuery,
   useTopUpInfoQuery,
   useUpdateBillingPreferenceMutation,
 } from "@/hooks/billing-hook";
+import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { analytics } from "@/lib/analytics";
-import type { SubscriptionPlan } from "@/lib/api/subscription";
-import { getMultiplier } from "@/lib/api/subscription";
-import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
+import {
+  BILLING_PREFERENCE_OPTIONS,
+  getMultiplier,
+  resetPeriodLabelKey,
+  resetPeriodSuffixKey,
+} from "@/lib/api/subscription";
+import { quotaToDollars } from "@/lib/config/constants";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
-const PREFERENCE_OPTIONS = [
-  { value: "wallet_first", key: msg("BILLING.PREFERENCE.WALLET_FIRST") },
-  { value: "wallet_only", key: msg("BILLING.PREFERENCE.WALLET_ONLY") },
-  {
-    value: "subscription_first",
-    key: msg("BILLING.PREFERENCE.SUBSCRIPTION_FIRST"),
-  },
-  {
-    value: "subscription_only",
-    key: msg("BILLING.PREFERENCE.SUBSCRIPTION_ONLY"),
-  },
-] as const;
-
-function formatResetPeriod(period: string): TranslationKey {
-  switch (period) {
-    case "weekly":
-      return msg("BILLING.SUBSCRIPTION.WEEKLY");
-    case "daily":
-      return msg("BILLING.SUBSCRIPTION.DAILY");
-    case "monthly":
-      return msg("BILLING.SUBSCRIPTION.MONTHLY");
-    default:
-      return period as TranslationKey;
-  }
-}
-
-function getPerPeriodSuffix(period: string): TranslationKey {
-  switch (period) {
-    case "weekly":
-      return msg("BILLING.SUBSCRIPTION.PER_WEEK");
-    case "daily":
-      return msg("BILLING.SUBSCRIPTION.PER_DAY");
-    case "monthly":
-      return msg("BILLING.SUBSCRIPTION.PER_MONTH");
-    default:
-      return "" as TranslationKey;
-  }
-}
-
 export function SubscriptionSection() {
-  const t = useTranslations() as (key: string) => string;
+  const t = useTranslations();
   const plansQuery = useBillingPlansQuery();
   const selfQuery = useSubscriptionSelfQuery();
   const topUpInfoQuery = useTopUpInfoQuery();
   const preferenceMutation = useUpdateBillingPreferenceMutation();
-  const stripeSubMutation = useStripeSubscriptionMutation();
-  const creemSubMutation = useCreemSubscriptionMutation();
   const portalMutation = useBillingPortalMutation();
+  const billing = useBillingActions();
 
   const plans = plansQuery.data ?? [];
   const selfData = selfQuery.data;
-  const topUpInfo = topUpInfoQuery.data;
 
   const billingPreference = selfData?.billing_preference ?? "wallet_first";
   const activeSubscriptions = (selfData?.subscriptions ?? []).filter(
@@ -88,10 +49,6 @@ export function SubscriptionSection() {
   );
   const allSubscriptions = selfData?.all_subscriptions ?? [];
   const hasActive = activeSubscriptions.length > 0;
-  const enableStripe = topUpInfo?.enable_stripe_topup ?? false;
-  const enableCreem = topUpInfo?.enable_creem_topup ?? false;
-
-  const isLoading = plansQuery.isLoading || selfQuery.isLoading;
 
   function handlePreferenceChange(value: string | null) {
     if (value) {
@@ -100,51 +57,9 @@ export function SubscriptionSection() {
     }
   }
 
-  function handleSubscribe(plan: SubscriptionPlan) {
-    const onlyStripe = enableStripe && !enableCreem;
-    const onlyCreem = enableCreem && !enableStripe;
-    if (enableStripe) {
-      analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
-        provider: "stripe",
-        provider_was_only_option: onlyStripe,
-      });
-      stripeSubMutation.mutate(
-        { body: { plan_id: plan.id } },
-        {
-          onSuccess: (data) => {
-            const link = data?.pay_link;
-            if (link) window.open(link, "_blank");
-          },
-          onError: () => {
-            toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
-          },
-        },
-      );
-    } else if (enableCreem) {
-      analytics.billing.subscriptionInitiated({
-        planId: String(plan.id),
-        provider: "creem",
-        provider_was_only_option: onlyCreem,
-      });
-      creemSubMutation.mutate(
-        { body: { plan_id: plan.id } },
-        {
-          onSuccess: (data) => {
-            const url = data?.checkout_url;
-            if (url) window.open(url, "_blank");
-          },
-          onError: () => {
-            toast.error(t("BILLING.ERROR.PAYMENT_FAILED"));
-          },
-        },
-      );
-    }
-  }
-
   function getPlanTitle(planId: number): string {
     const plan = plans.find((p) => p.id === planId);
-    return plan?.title ?? `Plan #${planId}`;
+    return plan?.title ?? t("BILLING.SUBSCRIPTION.PLAN_FALLBACK", { planId });
   }
 
   function handleManageBilling() {
@@ -159,19 +74,6 @@ export function SubscriptionSection() {
         toast.error(t("BILLING.PORTAL.ERROR"));
       },
     });
-  }
-
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-6 w-48" />
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          <Skeleton className="h-64" />
-          <Skeleton className="h-64" />
-          <Skeleton className="h-64" />
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -196,13 +98,13 @@ export function SubscriptionSection() {
             <SelectTrigger className="w-48">
               <SelectValue>
                 {t(
-                  PREFERENCE_OPTIONS.find((o) => o.value === billingPreference)
-                    ?.key ?? PREFERENCE_OPTIONS[0].key,
+                  BILLING_PREFERENCE_OPTIONS.find((o) => o.value === billingPreference)
+                    ?.key ?? BILLING_PREFERENCE_OPTIONS[0].key,
                 )}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {PREFERENCE_OPTIONS.map((opt) => (
+              {BILLING_PREFERENCE_OPTIONS.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {t(opt.key)}
                 </SelectItem>
@@ -312,9 +214,8 @@ export function SubscriptionSection() {
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
             const quotaUsd = plan.quotaPerResetUsd;
-            const periodSuffix = getPerPeriodSuffix(plan.quotaResetPeriod);
-            const isMutating =
-              stripeSubMutation.isPending || creemSubMutation.isPending;
+            const periodSuffix = resetPeriodSuffixKey(plan.quotaResetPeriod);
+            const isMutating = billing.isSubMutating;
 
             return (
               <div
@@ -354,7 +255,7 @@ export function SubscriptionSection() {
                   <div className="flex items-center gap-2">
                     <span className="bg-muted-foreground/20 inline-block h-1.5 w-1.5 rounded-full" />
                     {t("BILLING.SUBSCRIPTION.QUOTA_RESET")}:{" "}
-                    {t(formatResetPeriod(plan.quotaResetPeriod))}
+                    {t(resetPeriodLabelKey(plan.quotaResetPeriod))}
                   </div>
                   {quotaUsd > 0 && (
                     <div className="flex items-center gap-2">
@@ -377,8 +278,11 @@ export function SubscriptionSection() {
                   <Button
                     variant={i === 0 ? "default" : "outline"}
                     className="w-full"
-                    onClick={() => handleSubscribe(plan)}
-                    disabled={isMutating || (!enableStripe && !enableCreem)}
+                    onClick={() => billing.subscribe(plan, { isLoggedIn: true })}
+                    disabled={
+                      isMutating ||
+                      (!billing.enableStripe && !billing.enableCreem)
+                    }
                   >
                     {t("BILLING.SUBSCRIPTION.SUBSCRIBE_NOW")}
                   </Button>

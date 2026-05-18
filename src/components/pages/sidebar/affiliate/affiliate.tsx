@@ -1,22 +1,22 @@
 "use client";
 
+import { BadgeGenerator } from "@/components/elements/badge/badge-generator";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { BadgeGenerator } from "@/components/elements/badge/badge-generator";
 import { CommissionsTab } from "./commissions-tab";
 import { InviteesTab } from "./invitees-tab";
 import { TransferDialog } from "./transfer-dialog";
-import { Icon } from "@/components/ui/icon";
 
 type StatItemProps = {
   label: string;

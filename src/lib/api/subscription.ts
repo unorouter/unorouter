@@ -1,11 +1,49 @@
 import type { SubscriptionPlanDTO } from "@/openapi";
-import { QUOTA_PER_DOLLAR, TranslationKey } from "../config/constants";
+import { QUOTA_PER_DOLLAR, msg, TranslationKey } from "../config/constants";
+
+export const BILLING_PREFERENCE_OPTIONS = [
+  { value: "wallet_first", key: msg("BILLING.PREFERENCE.WALLET_FIRST") },
+  { value: "wallet_only", key: msg("BILLING.PREFERENCE.WALLET_ONLY") },
+  {
+    value: "subscription_first",
+    key: msg("BILLING.PREFERENCE.SUBSCRIPTION_FIRST"),
+  },
+  {
+    value: "subscription_only",
+    key: msg("BILLING.PREFERENCE.SUBSCRIPTION_ONLY"),
+  },
+] as const;
+
+export type BillingPreference =
+  (typeof BILLING_PREFERENCE_OPTIONS)[number]["value"];
 
 export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   daily: "BILLING.SUBSCRIPTION.PER_DAY",
   weekly: "BILLING.SUBSCRIPTION.PER_WEEK",
   monthly: "BILLING.SUBSCRIPTION.PER_MONTH",
 };
+
+/** Default Stripe top-up dollar amounts shown when upstream returns no
+ *  configured preset. Shared between /pricing and the in-app billing surface. */
+export const DEFAULT_TOPUP_AMOUNTS = [1, 5, 10, 20, 50, 100, 200, 500] as const;
+
+const RESET_PERIOD_LABEL_KEYS: Record<string, TranslationKey> = {
+  daily: "BILLING.SUBSCRIPTION.DAILY",
+  weekly: "BILLING.SUBSCRIPTION.WEEKLY",
+  monthly: "BILLING.SUBSCRIPTION.MONTHLY",
+};
+
+/** Translation key for the period label (e.g. "Monthly"). Falls back to the
+ *  raw period string when unknown so the caller can still render something. */
+export function resetPeriodLabelKey(period: string): TranslationKey {
+  return RESET_PERIOD_LABEL_KEYS[period] ?? (period as TranslationKey);
+}
+
+/** Translation key for the per-period suffix (e.g. "/month"). Empty string
+ *  when the period is unknown so the suffix can be safely concatenated. */
+export function resetPeriodSuffixKey(period: string): TranslationKey {
+  return RESET_TRANSLATION_KEYS[period] ?? ("" as TranslationKey);
+}
 
 export type SubscriptionPlan = ReturnType<typeof processPlans>[number];
 

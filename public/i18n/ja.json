@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · 月",
       "RECOMMENDED": "おすすめ",
       "RESETS_IN": "リセットまで",
-      "RESETS_AT": "リセット日時"
+      "RESETS_AT": "リセット日時",
+      "PLAN_FALLBACK": "プラン #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "請求設定",

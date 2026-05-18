@@ -1,7 +1,6 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
-import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,10 +11,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
-import { analytics } from "@/lib/analytics";
 import { useTransferAffQuotaMutation } from "@/hooks/affiliate-hook";
 import { useRouter } from "@/i18n/navigation";
+import { analytics } from "@/lib/analytics";
 import {
   dollarsToQuota,
   quotaToDollars,
@@ -29,7 +29,6 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-
 import { toast } from "sonner";
 
 type TransferDialogProps = {

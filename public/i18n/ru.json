@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · мес",
       "RECOMMENDED": "Рекомендуется",
       "RESETS_IN": "Сброс через",
-      "RESETS_AT": "Сброс в"
+      "RESETS_AT": "Сброс в",
+      "PLAN_FALLBACK": "Тариф #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "Предпочтение оплаты",

@@ -1,9 +1,9 @@
 "use client";
 
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { Icon } from "@/components/ui/icon";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { useTranslations } from "next-intl";
-import { Icon } from "@/components/ui/icon";
 
 export function ApiInfoPanel() {
   const t = useTranslations();

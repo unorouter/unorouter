@@ -1,16 +1,10 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { useStatusQuery } from "@/hooks/status-hook";
+import { intentBadgeClass } from "@/lib/config/intent-styles";
 import { useTranslations } from "next-intl";
 import { formatDate } from "./stats";
-import { Icon } from "@/components/ui/icon";
-
-const typeStyles: Record<string, string> = {
-  success: "bg-green-500/10 text-green-500",
-  warning: "bg-yellow-500/10 text-yellow-500",
-  error: "bg-red-500/10 text-red-500",
-  ongoing: "bg-blue-500/10 text-blue-500",
-};
 
 export function AnnouncementsPanel() {
   const t = useTranslations();
@@ -49,8 +43,7 @@ export function AnnouncementsPanel() {
         ) : (
           <div className="divide-border divide-y">
             {announcements.map((item, i) => {
-              const styles =
-                typeStyles[item.type ?? ""] ?? "bg-muted text-muted-foreground";
+              const styles = intentBadgeClass(item.type);
               return (
                 <div
                   key={i}

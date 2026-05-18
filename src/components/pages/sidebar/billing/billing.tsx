@@ -2,11 +2,11 @@
 
 import { SectionBoundary } from "@/components/elements/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
+import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";
 import { AccountStats } from "./account-stats";
 import { SubscriptionSection } from "./subscription-section";
 import { TopUpSection } from "./topup-section";
-import { Icon } from "@/components/ui/icon";
 
 export function Billing() {
   const t = useTranslations();

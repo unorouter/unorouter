@@ -1,17 +1,21 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardUptimeQuery } from "@/hooks/dashboard-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { analytics } from "@/lib/analytics";
+import {
+  intentDotClass,
+  type IntentType,
+} from "@/lib/config/intent-styles";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Icon } from "@/components/ui/icon";
 
-const STATUS_COLORS: Record<number, { bg: string; dot: string }> = {
-  0: { bg: "bg-red-500/10", dot: "bg-red-500" },
-  1: { bg: "bg-green-500/10", dot: "bg-green-500" },
-  2: { bg: "bg-yellow-500/10", dot: "bg-yellow-500" },
+const MONITOR_INTENT: Record<number, IntentType> = {
+  0: "error",
+  1: "success",
+  2: "warning",
 };
 
 export function UptimePanel() {
@@ -96,8 +100,9 @@ export function UptimePanel() {
           <div className="max-h-64 flex-1 overflow-y-auto">
             <div className="divide-border divide-y">
               {monitors.map((monitor, i) => {
-                const colors =
-                  STATUS_COLORS[monitor.status ?? 2] ?? STATUS_COLORS[2];
+                const colors = intentDotClass(
+                  MONITOR_INTENT[monitor.status ?? 2] ?? "warning",
+                );
                 return (
                   <div key={i} className="flex items-center gap-3 px-5 py-3">
                     <div

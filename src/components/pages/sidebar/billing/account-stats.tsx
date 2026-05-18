@@ -1,10 +1,10 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
-import { Icon } from "@/components/ui/icon";
 
 export function AccountStats() {
   const t = useTranslations();

@@ -15,6 +15,15 @@ dayjs.extend(utc);
 export type { Dayjs } from "dayjs";
 export { dayjs };
 
+/** Long date format: "Sep 21, 2024". Accepts ISO strings or unix seconds.
+ *  Empty/invalid input returns "" (or the raw string when it's a non-parseable string). */
+export function formatLongDate(value: string | number | undefined): string {
+  if (!value) return "";
+  const d = typeof value === "number" ? dayjs.unix(value) : dayjs(value);
+  if (!d.isValid()) return typeof value === "string" ? value : "";
+  return d.format("MMM D, YYYY");
+}
+
 /** "2024-09" -> "Sep 2024"; "2024" -> "2024"; invalid -> raw value; missing -> null. */
 export function formatYearMonth(value: string | undefined): string | null {
   if (!value) return null;
@@ -43,4 +52,22 @@ export function isStartOfDay(d: Date): boolean {
 
 export function isEndOfDay(d: Date): boolean {
   return d.getHours() === 23 && d.getMinutes() === 59 && d.getSeconds() === 59;
+}
+
+export type Granularity = "hour" | "day" | "week";
+
+/** Pick a time-bucket granularity based on the visible period in minutes.
+ *  <= 48h -> hour, <= 60d -> day, else week. */
+export function pickGranularity(periodMinutes: number): Granularity {
+  if (periodMinutes <= 60 * 48) return "hour";
+  if (periodMinutes <= 60 * 24 * 60) return "day";
+  return "week";
+}
+
+/** Bucket label for a unix-seconds timestamp at the given granularity. */
+export function bucketKey(tsSeconds: number, g: Granularity): string {
+  const d = dayjs.unix(tsSeconds);
+  if (g === "hour") return d.format("MM/DD HH:00");
+  if (g === "week") return d.startOf("week").format("YYYY/MM/DD");
+  return d.format("MM/DD");
 }

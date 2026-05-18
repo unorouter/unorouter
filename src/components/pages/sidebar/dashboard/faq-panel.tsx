@@ -1,11 +1,10 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-
-import { Icon } from "@/components/ui/icon";
 
 export function FaqPanel() {
   const t = useTranslations();

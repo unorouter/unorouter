@@ -2080,7 +2080,8 @@
       "PER_MONTH": " · Monat",
       "RECOMMENDED": "Empfohlen",
       "RESETS_IN": "Zurücksetzung in",
-      "RESETS_AT": "Zurücksetzung am"
+      "RESETS_AT": "Zurücksetzung am",
+      "PLAN_FALLBACK": "Plan #{planId}"
     },
     "PREFERENCE": {
       "TITLE": "Abrechnungspräferenz",
