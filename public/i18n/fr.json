@@ -15,6 +15,7 @@
     }
   },
   "NAV": {
+    "MENU": "Menu",
     "HOME": "Accueil",
     "MODELS": "Modèles",
     "RANKINGS": "Classements",

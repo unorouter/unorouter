@@ -15,6 +15,7 @@
     }
   },
   "NAV": {
+    "MENU": "Menu",
     "HOME": "Home",
     "MODELS": "Models",
     "RANKINGS": "Rankings",

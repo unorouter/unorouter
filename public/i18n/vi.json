@@ -15,6 +15,7 @@
     }
   },
   "NAV": {
+    "MENU": "Menu",
     "HOME": "Trang chủ",
     "MODELS": "Mô hình",
     "RANKINGS": "Xếp hạng",

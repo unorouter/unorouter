@@ -2,39 +2,38 @@
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { BreakoutDialog } from "@/components/ui/breakout/breakout-dialog";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
-import { breakoutOpenAtom } from "@/store/breakout-store";
 import dayjs from "dayjs";
-import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { isActiveLink } from "./navigation";
-import { Icon } from "@/components/ui/icon";
 
 const NAV_LINKS = [
-  { href: "/models", key: "FOOTER.MODELS" },
-  { href: "/pricing", key: "FOOTER.PRICING" },
-  { href: "/docs", key: "FOOTER.DOCUMENTATION" },
+  { href: "/models", key: msg("FOOTER.MODELS") },
+  { href: "/pricing", key: msg("FOOTER.PRICING") },
+  { href: "/docs", key: msg("FOOTER.DOCUMENTATION") },
 ] as const;
 
 const EXTERNAL_NAV_LINKS = [
-  { href: env.statusUrl, key: "FOOTER.STATUS" },
+  { href: env.statusUrl, key: msg("FOOTER.STATUS") },
 ] as const;
 
 const LEGAL_LINKS = [
-  { href: "/terms", key: "FOOTER.TERMS" },
-  { href: "/privacy", key: "FOOTER.PRIVACY" },
+  { href: "/terms", key: msg("FOOTER.TERMS") },
+  { href: "/privacy", key: msg("FOOTER.PRIVACY") },
 ] as const;
 
 export function Footer() {
   const t = useTranslations();
   const pathname = usePathname();
-  const [breakoutOpen, setBreakoutOpen] = useAtom(breakoutOpenAtom);
+  const [breakoutOpen, setBreakoutOpen] = useState(false);
 
   return (
     <footer className="bg-muted/30 relative overflow-hidden rounded-t-3xl border-t md:rounded-t-[4rem]">

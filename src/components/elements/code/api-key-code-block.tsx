@@ -12,15 +12,10 @@ import { CopyButton } from "./copy-button";
 import { Icon } from "@/components/ui/icon";
 
 type Props = {
-  /** Pre-highlighted HTML from highlightCode() */
   html: string;
-  /** Raw code string (with placeholder or display key) */
   code: string;
-  /** Language label for the toolbar */
   language: string;
-  /** The placeholder text used in the code string when no key exists */
   placeholder: string;
-  /** Optional label shown above the code (e.g. file path) */
   label?: string;
   className?: string;
 };
@@ -33,7 +28,6 @@ export function ApiKeyCodeBlock(props: Props) {
   const apiKey = token.apiKey;
   const obfuscated = apiKey ? obfuscateApiKey(apiKey) : null;
 
-  // Server always renders with placeholder; client swaps in the real key
   const displayKey = apiKey ? (revealed ? apiKey : obfuscated!) : null;
   const displayHtml = displayKey
     ? props.html.split(props.placeholder).join(displayKey)
@@ -67,7 +61,6 @@ export function ApiKeyCodeBlock(props: Props) {
         </div>
         <div
           className="p-8 [&_code]:bg-transparent! [&_pre]:bg-transparent! [&_pre]:font-mono [&_pre]:text-xs [&_pre]:leading-relaxed [&_pre]:break-all [&_pre]:whitespace-pre-wrap md:[&_pre]:text-sm"
-          // SAFETY: HTML produced by shiki from code strings, not user HTML
           dangerouslySetInnerHTML={{ __html: displayHtml }}
         />
         <div className="absolute top-16 right-6 flex items-center gap-1">

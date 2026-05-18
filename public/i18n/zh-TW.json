@@ -15,6 +15,7 @@
     }
   },
   "NAV": {
+    "MENU": "選單",
     "HOME": "首頁",
     "MODELS": "模型",
     "RANKINGS": "排行榜",

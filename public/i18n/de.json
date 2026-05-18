@@ -15,6 +15,7 @@
     }
   },
   "NAV": {
+    "MENU": "Menü",
     "HOME": "Startseite",
     "MODELS": "Modelle",
     "RANKINGS": "Rangliste",

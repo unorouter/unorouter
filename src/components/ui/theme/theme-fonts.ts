@@ -23,43 +23,67 @@ import {
  * Adding more fonts: import here and append to FONT_OPTIONS.
  */
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  preload: false,
+});
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist",
+  preload: false,
+});
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  preload: false,
+});
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-plus-jakarta",
+  preload: false,
 });
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  preload: false,
 });
-const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend" });
+const lexend = Lexend({
+  subsets: ["latin"],
+  variable: "--font-lexend",
+  preload: false,
+});
 const atkinson = Atkinson_Hyperlegible({
   subsets: ["latin"],
   weight: ["400", "700"],
   variable: "--font-atkinson",
+  preload: false,
 });
 const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   variable: "--font-source-serif",
+  preload: false,
 });
 const geistMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-geist-mono",
+  preload: false,
 });
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
+  preload: false,
 });
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   variable: "--font-ibm-plex-mono",
+  preload: false,
 });
 const robotoMono = Roboto_Mono({
   subsets: ["latin"],
   variable: "--font-roboto-mono",
+  preload: false,
 });
 
 export type FontKind = "sans" | "mono" | "display";

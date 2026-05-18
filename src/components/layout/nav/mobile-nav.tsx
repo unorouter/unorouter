@@ -37,7 +37,7 @@ export function MobileNav() {
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={<button className="text-foreground md:hidden" />}>
         <Icon name="menu" className="h-5 w-5" />
-        <span className="sr-only">Menu</span>
+        <span className="sr-only">{t("NAV.MENU")}</span>
       </SheetTrigger>
       <SheetContent side="left" className="flex w-80 flex-col font-mono">
         <SheetHeader>
