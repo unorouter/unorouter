@@ -2,6 +2,7 @@ import { CN, DE, FR, JP, RU, TW, US, VN } from "country-flag-icons/react/3x2";
 import type { Locale, useTranslations } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
 import { env } from "./env";
+export { ParamError } from "@/lib/errors";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
 
@@ -40,6 +41,7 @@ export const LOCALES = [
   "zh-CN",
   "zh-TW",
 ] as const;
+
 export const LANGUAGES: {
   code: "EN" | "DE" | "FR" | "JA" | "RU" | "VI" | "ZH_CN" | "ZH_TW";
   locale: Locale;
@@ -62,29 +64,18 @@ export type TranslationKey = Parameters<
 
 export const msg = <T extends TranslationKey>(key: T): T => key;
 
-export { ParamError } from "@/lib/errors";
-
 export const APP_VALUES = {
   appName: env.appName,
   appDomain: new URL(env.appUrl).hostname.replace(/^www\./, ""),
   supportEmail: env.supportEmail,
 };
 
-/** 1 USD = 500000 quota units in new-api */
-export const QUOTA_PER_DOLLAR = 500000;
-
-export function quotaToDollars(quota: number): number {
-  return quota / QUOTA_PER_DOLLAR;
-}
-
-export function dollarsToQuota(dollars: number): number {
-  return Math.round(dollars * QUOTA_PER_DOLLAR);
-}
-
-export function renderQuota(quota: number | undefined, decimals = 2): string {
-  if (quota === undefined || quota === null) return "$0.00";
-  return `$${quotaToDollars(quota).toFixed(decimals)}`;
-}
+export {
+  dollarsToQuota,
+  quotaToDollars,
+  QUOTA_PER_DOLLAR,
+  renderQuota,
+} from "@/lib/utils/format/number";
 
 // ---------------------------------------------------------------------------
 // Chat / streaming knobs

@@ -1,3 +1,19 @@
+/** 1 USD = 500000 quota units in new-api. */
+export const QUOTA_PER_DOLLAR = 500000;
+
+export function quotaToDollars(quota: number): number {
+  return quota / QUOTA_PER_DOLLAR;
+}
+
+export function dollarsToQuota(dollars: number): number {
+  return Math.round(dollars * QUOTA_PER_DOLLAR);
+}
+
+export function renderQuota(quota: number | undefined, decimals = 2): string {
+  if (quota === undefined || quota === null) return "$0.00";
+  return `$${quotaToDollars(quota).toFixed(decimals)}`;
+}
+
 export function formatPrice(price: number): string {
   if (price === 0) return "$0.00";
   if (price >= 0.01) return `$${price.toFixed(2)}`;

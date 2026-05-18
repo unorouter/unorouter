@@ -1,7 +1,8 @@
 "use client";
 
+import type { InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
-import { and, eq, type SQL } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { getLocalDb } from "./client";
 
 // ---------------------------------------------------------------------------
@@ -16,76 +17,94 @@ import { getLocalDb } from "./client";
 // must pass scopeUser: false at the call site that needs row-scoping.
 // ---------------------------------------------------------------------------
 
-type AnyTable = SQLiteTable & { userId?: SQLiteColumn };
+type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
 
 type ListOpts = { orderBy?: SQL | SQLiteColumn; scopeUser?: boolean };
 type RowOpts = { scopeUser?: boolean };
 
-export type TableStore<TRow> = {
-  list: (userId: number, opts?: ListOpts) => Promise<TRow[] | null>;
-  get: (
-    userId: number,
-    id: string | number,
-    opts?: RowOpts,
-  ) => Promise<TRow | null>;
-  upsert: (
-    userId: number,
-    row: Record<string, unknown>,
-    opts?: RowOpts,
-  ) => Promise<void>;
-  drop: (
-    userId: number,
-    id: string | number,
-    opts?: RowOpts,
-  ) => Promise<void>;
-};
-
-export function makeTableStore<TRow>(
-  table: AnyTable,
+export function makeTableStore<TTable extends ScopedTable>(
+  table: TTable,
   pk: SQLiteColumn,
-): TableStore<TRow> {
-  const scopeWhere = (userId: number, base: SQL) => {
-    if (table.userId) return and(base, eq(table.userId, userId))!;
-    return base;
+) {
+  type Row = InferSelectModel<TTable>;
+  // Inputs are intentionally loose: server bundles arrive as opaque JSON
+  // (`Record<string, unknown>` plus the primary key). The factory absorbs
+  // the cast at the Drizzle call boundary so caller files stay clean.
+  type Insert = Record<string, unknown>;
+  type PkValue = string | number;
+
+  const scopeWhere = (userId: number, base: SQL): SQL => {
+    if (!table.userId) return base;
+    const combined = and(base, eq(table.userId, userId));
+    return combined ?? base;
   };
 
   return {
-    async list(userId, opts) {
+    async list(userId: number, opts?: ListOpts): Promise<Row[] | null> {
       const local = await getLocalDb(userId);
       if (!local) return null;
       const scope = opts?.scopeUser ?? true;
-      let q = local.db.select().from(table).$dynamic();
-      if (scope && table.userId) q = q.where(eq(table.userId, userId));
-      if (opts?.orderBy) q = q.orderBy(opts.orderBy as never);
-      return (await q) as TRow[];
+      let query = local.db.select().from(table).$dynamic();
+      if (scope && table.userId) {
+        query = query.where(eq(table.userId, userId));
+      }
+      if (opts?.orderBy) {
+        query = query.orderBy(opts.orderBy);
+      }
+      const rows = await query;
+      return rows as Row[];
     },
 
-    async get(userId, id, opts) {
+    async get(
+      userId: number,
+      id: PkValue,
+      opts?: RowOpts,
+    ): Promise<Row | null> {
       const local = await getLocalDb(userId);
       if (!local) return null;
       const scope = opts?.scopeUser ?? true;
       const base = eq(pk, id);
       const where = scope ? scopeWhere(userId, base) : base;
-      const rows = (await local.db
-        .select()
-        .from(table)
-        .where(where)
-        .limit(1)) as TRow[];
-      return rows[0] ?? null;
+      const rows = await local.db.select().from(table).where(where).limit(1);
+      return (rows[0] as Row | undefined) ?? null;
     },
 
-    async upsert(userId, row, opts) {
+    async upsert(
+      userId: number,
+      row: Insert,
+      opts?: RowOpts,
+    ): Promise<void> {
       const local = await getLocalDb(userId);
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
-      const values = scope && table.userId ? { ...row, userId } : row;
+      const values: Insert =
+        scope && table.userId ? { ...row, userId } : row;
+      // Drizzle's `.values()` and `.set()` parameter types are deeply
+      // computed from `TTable['_']['columns']` and do not accept the
+      // equivalent `InferInsertModel<TTable>` shape we pass in. Cast
+      // locally so callers still receive `Insert` type-checking.
+      type DrizzleInsert = Parameters<
+        ReturnType<typeof local.db.insert<TTable>>["values"]
+      >[0];
+      type DrizzleUpdateSet = Parameters<
+        ReturnType<
+          ReturnType<typeof local.db.insert<TTable>>["values"]
+        >["onConflictDoUpdate"]
+      >[0]["set"];
       await local.db
         .insert(table)
-        .values(values as never)
-        .onConflictDoUpdate({ target: pk, set: row as never });
+        .values(values as unknown as DrizzleInsert)
+        .onConflictDoUpdate({
+          target: pk,
+          set: row as unknown as DrizzleUpdateSet,
+        });
     },
 
-    async drop(userId, id, opts) {
+    async drop(
+      userId: number,
+      id: PkValue,
+      opts?: RowOpts,
+    ): Promise<void> {
       const local = await getLocalDb(userId);
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
@@ -95,3 +114,4 @@ export function makeTableStore<TRow>(
     },
   };
 }
+

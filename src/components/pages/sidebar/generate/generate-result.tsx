@@ -26,7 +26,7 @@ import {
   useSessionQuery,
   useSnapshotStatusQuery,
 } from "@/hooks/generation-hook";
-import { getModelDescriptor } from "@/lib/config/generation-models";
+import { getModelDescriptor } from "@/lib/api/generation-models";
 import {
   downloadGenerationImage,
   downloadGenerationSnapshot,

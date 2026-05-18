@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import { useLoraCatalogQuery } from "@/hooks/generation-hook";
-import type { ModelFamily } from "@/lib/config/generation-models";
+import type { ModelFamily } from "@/lib/api/generation-models";
 import { useTranslations } from "next-intl";
 
 export type LoraEntry = {

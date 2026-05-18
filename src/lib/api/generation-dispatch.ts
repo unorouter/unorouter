@@ -13,7 +13,7 @@
 // response so generation.service.ts can hand a single value to
 // downloadAndUploadGeneration.
 
-import type { SyncImageEndpoint } from "@/lib/config/generation-models-dynamic";
+import type { SyncImageEndpoint } from "@/lib/api/generation-models-dynamic";
 
 // ---------- Reference fetching ----------
 

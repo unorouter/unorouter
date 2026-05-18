@@ -9,7 +9,7 @@ import {
   GENERATION_MODELS,
   GENERATION_MODELS_BY_ID,
   type GenerationModelDescriptor,
-} from "@/lib/config/generation-models";
+} from "@/lib/api/generation-models";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 

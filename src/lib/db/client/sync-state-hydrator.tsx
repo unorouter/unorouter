@@ -6,7 +6,8 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import type { SyncKindName } from "@/lib/validation/sync";
+import { media } from "@/lib/db/schema/shared";
+import type { SyncBundle, SyncKind } from "@/server/chat/sync.service";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { getLocalDb } from "./client";
@@ -140,23 +141,27 @@ type RemoteState = {
   updatedAt: string | Date;
 }[];
 
-async function reconcileKind(
+async function reconcileKind<K extends SyncKind>(
   userId: number,
-  kind: SyncKindName,
+  kind: K,
   remote: RemoteState,
 ) {
   for (const remoteRow of remote) {
     const localRow = await readLocalById(userId, kind, remoteRow.id);
     const remoteUpdatedAt = new Date(remoteRow.updatedAt).getTime();
     const localUpdatedAt = localRow
-      ? new Date((localRow as { updatedAt: Date }).updatedAt).getTime()
+      ? new Date(localRow.updatedAt).getTime()
       : 0;
     if (remoteUpdatedAt <= localUpdatedAt && localRow) continue;
     try {
       const res = await rpc.api
         .sync({ kind })({ id: remoteRow.id })
         .bundle.get();
-      const bundle = handleElysia(res) as Record<string, unknown>;
+      // SAFETY: Eden's inferred return is a union over all sync kinds; the
+      // runtime kind discriminator narrows it to the correct shape, but TS
+      // can't follow that through the templated route call. SyncBundle<K>
+      // (typeof <table>.$inferSelect from Drizzle) is the source of truth.
+      const bundle = handleElysia(res) as SyncBundle<K>;
       await applyBundle(userId, kind, bundle);
     } catch (err) {
       logger.warn("Sync bundle pull failed", {
@@ -171,25 +176,34 @@ async function reconcileKind(
 
 async function readLocalById(
   userId: number,
-  kind: SyncKindName,
+  kind: SyncKind,
   id: string,
-): Promise<unknown> {
+): Promise<{ updatedAt: Date } | null> {
   switch (kind) {
     case "characters":
-      return (await readLocalCharacters(userId))?.find((r) => r.id === id);
+      return (
+        (await readLocalCharacters(userId))?.find((r) => r.id === id) ?? null
+      );
     case "personas":
-      return (await readLocalPersonas(userId))?.find((r) => r.id === id);
+      return (
+        (await readLocalPersonas(userId))?.find((r) => r.id === id) ?? null
+      );
     case "lorebooks":
-      return (await readLocalLorebooks(userId))?.find((r) => r.id === id);
+      return (
+        (await readLocalLorebooks(userId))?.find((r) => r.id === id) ?? null
+      );
     case "presets":
-      return (await readLocalPresets(userId))?.find((r) => r.id === id);
+      return (await readLocalPresets(userId))?.find((r) => r.id === id) ?? null;
     case "cards":
-      return (await readLocalCards(userId))?.find((r) => r.id === id);
+      return (await readLocalCards(userId))?.find((r) => r.id === id) ?? null;
     case "conversations":
-      return (await readLocalConversations(userId))?.find((r) => r.id === id);
+      return (
+        (await readLocalConversations(userId))?.find((r) => r.id === id) ?? null
+      );
     case "generationSessions":
-      return (await readLocalGenerationSessions(userId))?.find(
-        (r) => r.id === id,
+      return (
+        (await readLocalGenerationSessions(userId))?.find((r) => r.id === id) ??
+        null
       );
     case "theme":
       // theme is single-row; we always upsert.
@@ -197,88 +211,81 @@ async function readLocalById(
   }
 }
 
-async function applyBundle(
+async function applyBundle<K extends SyncKind>(
   userId: number,
-  kind: SyncKindName,
-  bundle: Record<string, unknown>,
+  kind: K,
+  bundle: SyncBundle<K>,
 ) {
   switch (kind) {
-    case "characters":
-      await upsertLocalCharacter(userId, bundle.character as never);
+    case "characters": {
+      const b = bundle as SyncBundle<"characters">;
+      await upsertLocalCharacter(userId, b.character);
       return;
-    case "personas":
-      await upsertLocalPersona(userId, bundle.persona as never);
+    }
+    case "personas": {
+      const b = bundle as SyncBundle<"personas">;
+      await upsertLocalPersona(userId, b.persona);
       return;
-    case "lorebooks":
+    }
+    case "lorebooks": {
+      const b = bundle as SyncBundle<"lorebooks">;
       await upsertLocalLorebookBundle(userId, {
-        lorebook: bundle.lorebook as never,
-        entries: (bundle.entries as never[]) ?? [],
+        lorebook: b.lorebook,
+        entries: b.entries,
       });
       return;
-    case "presets":
-      await upsertLocalPreset(userId, bundle.preset as never);
+    }
+    case "presets": {
+      const b = bundle as SyncBundle<"presets">;
+      await upsertLocalPreset(userId, b.preset);
       return;
-    case "cards":
+    }
+    case "cards": {
+      const b = bundle as SyncBundle<"cards">;
       await upsertLocalCardBundle(userId, {
-        card: bundle.card as never,
-        cardCharacters: (bundle.cardCharacters as never[]) ?? [],
-        cardLorebooks: (bundle.cardLorebooks as never[]) ?? [],
+        card: b.card,
+        cardCharacters: b.cardCharacters,
+        cardLorebooks: b.cardLorebooks,
       });
       return;
+    }
     case "conversations": {
+      const b = bundle as SyncBundle<"conversations">;
       // Server-side conversation bundles carry media as pointers only (the
       // Turso row stores `r2_url` and never `data_base64`). Re-hydrate the
       // bytes back into base64 so the local row is fully self-contained -
       // chats keep working even if the R2 object is later expired/deleted.
-      const rawMedia = (bundle.media as MediaRow[] | undefined) ?? [];
-      const rehydratedMedia = await Promise.all(rawMedia.map(rehydrateMedia));
+      const rehydratedMedia = await Promise.all(b.media.map(rehydrateMedia));
       await upsertLocalConversationBundle(userId, {
-        conversation: bundle.conversation as never,
-        settings: (bundle.settings as never) ?? null,
-        conversationCharacters:
-          (bundle.conversationCharacters as never[]) ?? [],
-        conversationLorebooks: (bundle.conversationLorebooks as never[]) ?? [],
-        messages: (bundle.messages as never[]) ?? [],
-        messageItems: (bundle.messageItems as never[]) ?? [],
-        media: rehydratedMedia as never[],
+        conversation: b.conversation,
+        settings: b.settings,
+        conversationCharacters: b.conversationCharacters,
+        conversationLorebooks: b.conversationLorebooks,
+        messages: b.messages,
+        messageItems: b.messageItems,
+        media: rehydratedMedia,
       });
       return;
     }
-    case "generationSessions":
+    case "generationSessions": {
+      const b = bundle as SyncBundle<"generationSessions">;
       await upsertLocalGenerationSessionBundle(userId, {
-        session: bundle.session as never,
-        generations: (bundle.generations as never[]) ?? [],
-        generationImages: (bundle.generationImages as never[]) ?? [],
-        generationLikes: (bundle.generationLikes as never[]) ?? [],
+        session: b.session,
+        generations: b.generations,
+        generationImages: b.generationImages,
+        generationLikes: b.generationLikes,
       });
       return;
+    }
     case "theme": {
-      const themeRow = bundle.theme as
-        | { themeJson: unknown; syncExpiresAt: Date | null }
-        | undefined;
-      if (!themeRow) return;
-      await upsertLocalTheme(
-        userId,
-        themeRow.themeJson as never,
-        themeRow.syncExpiresAt,
-      );
+      const b = bundle as SyncBundle<"theme">;
+      await upsertLocalTheme(userId, b.theme.themeJson, b.theme.syncExpiresAt);
       return;
     }
   }
 }
 
-type MediaRow = {
-  id: string;
-  convId: string | null;
-  userId: number;
-  mimeType: string;
-  sizeBytes: number;
-  r2Key: string | null;
-  r2Url: string | null;
-  dataBase64: string | null;
-  extractedText: string | null;
-  createdAt?: Date | string | number;
-};
+type MediaRow = typeof media.$inferSelect;
 
 // If the server bundle hands us a pointer-only media row (r2_url set,
 // data_base64 null), pull the binary back from R2 and stuff it into

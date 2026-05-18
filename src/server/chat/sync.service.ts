@@ -1,3 +1,4 @@
+import type { UserTheme } from "@/store/theme-store";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";
@@ -43,6 +44,42 @@ export type SyncKind =
   | "conversations"
   | "generationSessions"
   | "theme";
+
+// Per-kind bundle shapes returned by `getSyncedBundle`. Row types are
+// inferred from the Drizzle schema (single source of truth) so hydration
+// code can narrow without manual casts.
+export type SyncBundleMap = {
+  characters: { character: typeof characters.$inferSelect };
+  personas: { persona: typeof personas.$inferSelect };
+  lorebooks: {
+    lorebook: typeof lorebooks.$inferSelect;
+    entries: (typeof lorebookEntries.$inferSelect)[];
+  };
+  presets: { preset: typeof samplingPresets.$inferSelect };
+  cards: {
+    card: typeof cards.$inferSelect;
+    cardCharacters: (typeof cardCharacters.$inferSelect)[];
+    cardLorebooks: (typeof cardLorebooks.$inferSelect)[];
+  };
+  conversations: {
+    conversation: typeof conversations.$inferSelect;
+    settings: typeof conversationSettings.$inferSelect | null;
+    conversationCharacters: (typeof conversationCharacters.$inferSelect)[];
+    conversationLorebooks: (typeof conversationLorebooks.$inferSelect)[];
+    messages: (typeof messages.$inferSelect)[];
+    messageItems: (typeof messageItems.$inferSelect)[];
+    media: (typeof media.$inferSelect)[];
+  };
+  generationSessions: {
+    session: typeof generationSessions.$inferSelect;
+    generations: (typeof generations.$inferSelect)[];
+    generationImages: (typeof generationImages.$inferSelect)[];
+    generationLikes: (typeof generationLikes.$inferSelect)[];
+  };
+  theme: { theme: typeof userThemes.$inferSelect };
+};
+
+export type SyncBundle<K extends SyncKind = SyncKind> = SyncBundleMap[K];
 
 const DEFAULT_TTL_DAYS = 30;
 
@@ -1164,7 +1201,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
   // OR the raw theme JSON itself (we accept either for client convenience).
   theme: async (db, userId, _id, expiresAt, payload) => {
     const body = (payload ?? {}) as Record<string, unknown>;
-    const themeJson = (body.themeJson as unknown) ?? (body as unknown);
+    const themeJson = (body.themeJson ?? body) as UserTheme;
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ userId: userThemes.userId })

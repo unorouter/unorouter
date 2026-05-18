@@ -49,8 +49,8 @@ import {
 import {
   getModelDescriptor,
   type GenerationModelDescriptor,
-} from "@/lib/config/generation-models";
-import { getEffectiveGenerationModels } from "@/lib/config/generation-models-dynamic";
+} from "@/lib/api/generation-models";
+import { getEffectiveGenerationModels } from "@/lib/api/generation-models-dynamic";
 import { cn } from "@/lib/utils";
 import type { RestoredFromPng } from "@/components/pages/sidebar/generate/utils/png-metadata";
 import {

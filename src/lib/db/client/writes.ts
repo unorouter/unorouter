@@ -23,7 +23,7 @@ import {
   userThemes,
 } from "@/lib/db/schema/shared";
 import type { UserTheme } from "@/store/theme-store";
-import { and, eq } from "drizzle-orm";
+import { and, eq, type InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "./client";
 import { makeTableStore } from "./table-store";
 
@@ -57,6 +57,7 @@ const conversationSettingsStore = makeTableStore(
   conversationSettings,
   conversationSettings.convId,
 );
+const mediaStore = makeTableStore(media, media.id);
 
 export const upsertLocalCharacter = (
   userId: number,
@@ -186,7 +187,7 @@ export async function upsertLocalTheme(
 // stamps `r2_url` on the row so cross-device pulls only carry a pointer.
 // ---------------------------------------------------------------------------
 
-export async function upsertLocalMedia(
+export const upsertLocalMedia = (
   userId: number,
   row: {
     id: string;
@@ -198,10 +199,9 @@ export async function upsertLocalMedia(
     r2Url?: string | null;
     extractedText?: string | null;
   },
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  const set = {
+) =>
+  mediaStore.upsert(userId, {
+    id: row.id,
     convId: row.convId,
     mimeType: row.mimeType,
     sizeBytes: row.sizeBytes,
@@ -209,20 +209,10 @@ export async function upsertLocalMedia(
     r2Key: row.r2Key ?? null,
     r2Url: row.r2Url ?? null,
     extractedText: row.extractedText ?? null,
-  };
-  await local.db
-    .insert(media)
-    .values({ id: row.id, userId, ...set } as never)
-    .onConflictDoUpdate({ target: media.id, set: set as never });
-}
+  });
 
-export async function deleteLocalMedia(userId: number, mediaId: string) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db
-    .delete(media)
-    .where(and(eq(media.id, mediaId), eq(media.userId, userId)));
-}
+export const deleteLocalMedia = (userId: number, mediaId: string) =>
+  mediaStore.drop(userId, mediaId);
 
 // ---------------------------------------------------------------------------
 // Composite-PK writers (conversation bindings, generation images / likes,
@@ -251,7 +241,7 @@ export async function upsertLocalConversationCharacter(
       orderIndex: row.orderIndex ?? 0,
       isActive: row.isActive ?? true,
       overrides: row.overrides ?? null,
-    } as never)
+    } satisfies InferInsertModel<typeof conversationCharacters>)
     .onConflictDoNothing();
 }
 
@@ -300,7 +290,7 @@ export async function upsertLocalGenerationImage(
       height: row.height ?? null,
       sizeBytes: row.sizeBytes ?? null,
       upstreamResultUrl: row.upstreamResultUrl ?? null,
-    } as never)
+    } satisfies InferInsertModel<typeof generationImages>)
     .onConflictDoNothing();
 }
 
@@ -315,7 +305,7 @@ export async function upsertLocalGenerationLike(
     .values({
       generationId: row.generationId,
       userId: row.userId ?? userId,
-    } as never)
+    } satisfies InferInsertModel<typeof generationLikes>)
     .onConflictDoNothing();
 }
 
@@ -412,6 +402,9 @@ export async function replaceLocalConversationBindings(
 // ---------------------------------------------------------------------------
 
 type AnyRow = Record<string, unknown> & { id: string };
+// Child / junction rows: no `id` PK (composite or FK). Writer just hands them
+// to Drizzle insert(); the parent's `id` is read off `bundle.<parent>.id`.
+type ChildRow = Record<string, unknown>;
 
 export async function upsertLocalLorebookBundle(
   userId: number,
@@ -473,9 +466,9 @@ export async function upsertLocalConversationBundle(
   userId: number,
   bundle: {
     conversation: AnyRow;
-    settings: AnyRow | null;
-    conversationCharacters: AnyRow[];
-    conversationLorebooks: AnyRow[];
+    settings: ChildRow | null;
+    conversationCharacters: ChildRow[];
+    conversationLorebooks: ChildRow[];
     messages: AnyRow[];
     messageItems: AnyRow[];
     media: AnyRow[];
@@ -530,8 +523,8 @@ export async function upsertLocalGenerationSessionBundle(
   bundle: {
     session: AnyRow;
     generations: AnyRow[];
-    generationImages: AnyRow[];
-    generationLikes: AnyRow[];
+    generationImages: ChildRow[];
+    generationLikes: ChildRow[];
   },
 ) {
   const local = await getLocalDb(userId);

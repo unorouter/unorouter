@@ -8,6 +8,7 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
+import type { UserTheme } from "@/store/theme-store";
 
 // ---------------------------------------------------------------------------
 // Shared schema: tables mirrored both server-side (Turso) and client-side
@@ -475,7 +476,9 @@ export const userThemes = sqliteTable(
   "user_themes",
   {
     userId: integer("user_id").primaryKey(),
-    themeJson: text("theme_json", { mode: "json" }).notNull(),
+    themeJson: text("theme_json", { mode: "json" })
+      .$type<UserTheme>()
+      .notNull(),
     syncExpiresAt: integer("sync_expires_at", { mode: "timestamp_ms" }),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()

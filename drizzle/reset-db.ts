@@ -52,7 +52,7 @@ try {
 
   // Regenerate server + client migration files. Server output goes to
   // drizzle/server/ (Turso), client to drizzle/client/ (SQLocal). The client
-  // migrations are bundled into src/lib/local-db/migrations.json at build time.
+  // migrations are bundled into src/lib/db/client/migrations.json at build time.
   log("Running db:generate (server + client)...");
   execSync("bun run db:generate", {
     cwd: resolve(import.meta.dirname, ".."),

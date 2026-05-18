@@ -35,33 +35,20 @@ import { makeTableStore } from "./table-store";
 // bespoke below.
 // ---------------------------------------------------------------------------
 
-const characterStore = makeTableStore<typeof characters.$inferSelect>(
-  characters,
-  characters.id,
+const characterStore = makeTableStore(characters, characters.id);
+const personaStore = makeTableStore(personas, personas.id);
+const lorebookStore = makeTableStore(lorebooks, lorebooks.id);
+const presetStore = makeTableStore(samplingPresets, samplingPresets.id);
+const cardStore = makeTableStore(cards, cards.id);
+const conversationStore = makeTableStore(conversations, conversations.id);
+const generationSessionStore = makeTableStore(
+  generationSessions,
+  generationSessions.id,
 );
-const personaStore = makeTableStore<typeof personas.$inferSelect>(
-  personas,
-  personas.id,
+const conversationSettingsStore = makeTableStore(
+  conversationSettings,
+  conversationSettings.convId,
 );
-const lorebookStore = makeTableStore<typeof lorebooks.$inferSelect>(
-  lorebooks,
-  lorebooks.id,
-);
-const presetStore = makeTableStore<typeof samplingPresets.$inferSelect>(
-  samplingPresets,
-  samplingPresets.id,
-);
-const cardStore = makeTableStore<typeof cards.$inferSelect>(cards, cards.id);
-const conversationStore = makeTableStore<typeof conversations.$inferSelect>(
-  conversations,
-  conversations.id,
-);
-const generationSessionStore = makeTableStore<
-  typeof generationSessions.$inferSelect
->(generationSessions, generationSessions.id);
-const conversationSettingsStore = makeTableStore<
-  typeof conversationSettings.$inferSelect
->(conversationSettings, conversationSettings.convId);
 
 export const readLocalCharacters = (userId: number) =>
   characterStore.list(userId, { orderBy: desc(characters.updatedAt) });

@@ -3,7 +3,7 @@ import { dollarsToQuota } from "@/lib/config/constants";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
-} from "@/lib/config/generation-models-dynamic";
+} from "@/lib/api/generation-models-dynamic";
 import { getModelEndpointTypes } from "@/lib/api/pricing-cache";
 import { getDb } from "@/lib/db/server/client";
 import {
