@@ -18,6 +18,23 @@ type Props = {
   className?: string;
 };
 
+function renderDefaultCell(
+  defaults: Record<string, number | null>,
+  name: string,
+  doNotSendLabel: string,
+): React.ReactNode {
+  if (!(name in defaults)) {
+    return <span className="text-muted-foreground/60">—</span>;
+  }
+  const value = defaults[name];
+  if (value === null) {
+    return (
+      <span className="text-muted-foreground/80 italic">{doNotSendLabel}</span>
+    );
+  }
+  return String(value);
+}
+
 export function SupportedParameters(props: Props) {
   const t = useTranslations();
   const meta = props.metadata;
@@ -51,44 +68,29 @@ export function SupportedParameters(props: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sorted.map((name) => {
-            const inIntersection = intersection.has(name);
-            const hasDefault = name in defaults;
-            const defaultValue = defaults[name];
-
-            let defaultCell: React.ReactNode;
-            if (!hasDefault) {
-              defaultCell = <span className="text-muted-foreground/60">—</span>;
-            } else if (defaultValue === null) {
-              defaultCell = (
-                <span className="text-muted-foreground/80 italic">
-                  {t("MODELS.DETAIL.DO_NOT_SEND")}
-                </span>
-              );
-            } else {
-              defaultCell = String(defaultValue);
-            }
-
-            return (
-              <TableRow key={name}>
-                <TableCell className="py-2 font-mono text-xs">{name}</TableCell>
-                <TableCell className="py-2">
-                  {inIntersection ? (
-                    <Icon
-                      name="check"
-                      className="h-3.5 w-3.5 text-emerald-500"
-                      aria-label={t("MODELS.DETAIL.ALWAYS_SUPPORTED")}
-                    />
-                  ) : (
-                    <span className="text-muted-foreground/40">—</span>
-                  )}
-                </TableCell>
-                <TableCell className="py-2 text-right font-mono text-xs">
-                  {defaultCell}
-                </TableCell>
-              </TableRow>
-            );
-          })}
+          {sorted.map((name) => (
+            <TableRow key={name}>
+              <TableCell className="py-2 font-mono text-xs">{name}</TableCell>
+              <TableCell className="py-2">
+                {intersection.has(name) ? (
+                  <Icon
+                    name="check"
+                    className="h-3.5 w-3.5 text-emerald-500"
+                    aria-label={t("MODELS.DETAIL.ALWAYS_SUPPORTED")}
+                  />
+                ) : (
+                  <span className="text-muted-foreground/40">—</span>
+                )}
+              </TableCell>
+              <TableCell className="py-2 text-right font-mono text-xs">
+                {renderDefaultCell(
+                  defaults,
+                  name,
+                  t("MODELS.DETAIL.DO_NOT_SEND"),
+                )}
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>

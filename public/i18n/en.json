@@ -346,8 +346,7 @@
       "GRID": "Grid pricing",
       "CUSTOM": "Custom billing",
       "ORIGINAL": "Original price",
-      "CACHE_WRITE_5M": "Cache write 5m",
-      "CACHE_WRITE_1H": "Cache write 1h",
+      "CACHE_WRITE": "Cache write",
       "CACHE_READ": "Cache read"
     },
     "SORT": {

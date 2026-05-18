@@ -200,6 +200,8 @@ function processModels(response: PricingData) {
           .filter(Boolean),
         modelRatio: model.model_ratio ?? 0,
         completionRatio: model.completion_ratio ?? 0,
+        cacheRatio: model.cache_ratio ?? null,
+        createCacheRatio: model.create_cache_ratio ?? null,
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,

@@ -346,8 +346,7 @@
       "GRID": "グリッド料金",
       "CUSTOM": "カスタム請求",
       "ORIGINAL": "元の価格",
-      "CACHE_WRITE_5M": "キャッシュ書込 5分",
-      "CACHE_WRITE_1H": "キャッシュ書込 1時間",
+      "CACHE_WRITE": "キャッシュ書込",
       "CACHE_READ": "キャッシュ読取"
     },
     "SORT": {

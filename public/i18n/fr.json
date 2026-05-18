@@ -346,8 +346,7 @@
       "GRID": "Tarification par grille",
       "CUSTOM": "Facturation personnalisée",
       "ORIGINAL": "Prix d'origine",
-      "CACHE_WRITE_5M": "Écriture cache 5m",
-      "CACHE_WRITE_1H": "Écriture cache 1h",
+      "CACHE_WRITE": "Écriture cache",
       "CACHE_READ": "Lecture du cache"
     },
     "SORT": {

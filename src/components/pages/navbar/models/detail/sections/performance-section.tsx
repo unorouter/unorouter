@@ -43,13 +43,31 @@ function formatPct(pct: number): string {
   return `${pct.toFixed(2)}%`;
 }
 
+function avg(values: number[]): number {
+  if (values.length === 0) return 0;
+  return values.reduce((s, v) => s + v, 0) / values.length;
+}
+
+function successIntentFor(pct: number): StatIntent {
+  if (pct >= 99.9) return "success";
+  if (pct >= 99) return "default";
+  return "warning";
+}
+
+type StatIntent = "default" | "warning" | "success";
+
+const STAT_INTENT_CLASS: Record<StatIntent, string> = {
+  default: "",
+  warning: "text-amber-500",
+  success: "text-emerald-500",
+};
+
 function StatCard(props: {
   label: string;
   value: string;
   hint?: string;
-  intent?: "default" | "warning" | "success";
+  intent?: StatIntent;
 }) {
-  const intent = props.intent ?? "default";
   return (
     <div className="border-border bg-background flex flex-col gap-1 rounded-md border p-3">
       <span className="text-muted-foreground font-mono text-[10px] tracking-wider uppercase">
@@ -58,8 +76,7 @@ function StatCard(props: {
       <span
         className={cn(
           "text-foreground font-mono text-base font-semibold tabular-nums",
-          intent === "warning" && "text-amber-500",
-          intent === "success" && "text-emerald-500",
+          STAT_INTENT_CLASS[props.intent ?? "default"],
         )}
       >
         {props.value}
@@ -94,31 +111,14 @@ export function PerformanceSection(props: Props) {
     );
   }
 
-  const tpsValues = groups.map((g) => g.avg_tps).filter((v) => v > 0);
-  const avgTps =
-    tpsValues.length > 0
-      ? tpsValues.reduce((s, v) => s + v, 0) / tpsValues.length
-      : 0;
-  const latencyValues = groups
-    .map((g) => g.avg_latency_ms)
-    .filter((v) => v > 0);
-  const avgLatency =
-    latencyValues.length > 0
-      ? Math.round(
-          latencyValues.reduce((s, v) => s + v, 0) / latencyValues.length,
-        )
-      : 0;
-  const successValues = groups
-    .map((g) => g.success_rate)
-    .filter((v) => Number.isFinite(v));
-  const avgSuccess =
-    successValues.length > 0
-      ? successValues.reduce((s, v) => s + v, 0) / successValues.length
-      : 0;
-
-  let successIntent: "default" | "warning" | "success" = "warning";
-  if (avgSuccess >= 99.9) successIntent = "success";
-  else if (avgSuccess >= 99) successIntent = "default";
+  const avgTps = avg(groups.map((g) => g.avg_tps).filter((v) => v > 0));
+  const avgLatency = Math.round(
+    avg(groups.map((g) => g.avg_latency_ms).filter((v) => v > 0)),
+  );
+  const avgSuccess = avg(
+    groups.map((g) => g.success_rate).filter((v) => Number.isFinite(v)),
+  );
+  const successIntent = successIntentFor(avgSuccess);
 
   // Build a unified latency series across groups by averaging per timestamp.
   const tsMap = new Map<number, number[]>();
@@ -138,7 +138,7 @@ export function PerformanceSection(props: Props) {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      ttft_ms: Math.round(values.reduce((s, v) => s + v, 0) / values.length),
+      ttft_ms: Math.round(avg(values)),
     }));
 
   return (

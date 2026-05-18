@@ -1,12 +1,11 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import type { ModelMetadata } from "@/lib/api/pricing";
-import { formatTokenCount } from "@/lib/utils/base";
-import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
-
 import { Icon } from "@/components/ui/icon";
+import type { ModelMetadata } from "@/lib/api/pricing";
+import { cn } from "@/lib/utils";
+import { formatTokenCount } from "@/lib/utils/base";
+import { useTranslations } from "next-intl";
 
 type Props = {
   metadata: ModelMetadata;
@@ -24,6 +23,8 @@ function formatYearMonth(value: string | undefined): string | null {
   return date.toLocaleString(undefined, { year: "numeric", month: "short" });
 }
 
+type Row = { label: string; value: React.ReactNode };
+
 export function QuickStats(props: Props) {
   const t = useTranslations();
   const meta = props.metadata;
@@ -32,55 +33,42 @@ export function QuickStats(props: Props) {
   const knowledgeCutoff = formatYearMonth(meta.knowledgeCutoff);
   const deprecationDate = formatYearMonth(meta.deprecationDate);
   const expirationDate = formatYearMonth(meta.expirationDate);
-  const showQuantization =
-    meta.quantization && meta.quantization.toLowerCase() !== "unknown";
+  const quantization =
+    meta.quantization && meta.quantization.toLowerCase() !== "unknown"
+      ? meta.quantization
+      : null;
 
-  const rows: { label: string; value: React.ReactNode }[] = [];
-
-  if (contextWindow !== undefined) {
-    rows.push({
+  const rows = [
+    contextWindow !== undefined && {
       label: t("MODELS.DETAIL.CONTEXT_WINDOW"),
       value: formatTokenCount(contextWindow),
-    });
-  }
-  if (meta.maxOutputTokens !== undefined) {
-    rows.push({
+    },
+    meta.maxOutputTokens !== undefined && {
       label: t("MODELS.DETAIL.MAX_OUTPUT"),
       value: formatTokenCount(meta.maxOutputTokens),
-    });
-  }
-  if (meta.mode) {
-    rows.push({ label: t("MODELS.DETAIL.MODE"), value: meta.mode });
-  }
-  if (meta.tokenizer) {
-    rows.push({ label: t("MODELS.DETAIL.TOKENIZER"), value: meta.tokenizer });
-  }
-  if (knowledgeCutoff) {
-    rows.push({
+    },
+    meta.mode && { label: t("MODELS.DETAIL.MODE"), value: meta.mode },
+    meta.tokenizer && {
+      label: t("MODELS.DETAIL.TOKENIZER"),
+      value: meta.tokenizer,
+    },
+    knowledgeCutoff && {
       label: t("MODELS.DETAIL.KNOWLEDGE_CUTOFF"),
       value: knowledgeCutoff,
-    });
-  }
-  if (deprecationDate) {
-    rows.push({
+    },
+    deprecationDate && {
       label: t("MODELS.DETAIL.DEPRECATION"),
       value: deprecationDate,
-    });
-  }
-  if (expirationDate) {
-    rows.push({
+    },
+    expirationDate && {
       label: t("MODELS.DETAIL.EXPIRATION"),
       value: expirationDate,
-    });
-  }
-  if (showQuantization) {
-    rows.push({
+    },
+    quantization && {
       label: t("MODELS.DETAIL.QUANTIZATION"),
-      value: meta.quantization,
-    });
-  }
-  if (meta.huggingFaceId) {
-    rows.push({
+      value: quantization,
+    },
+    meta.huggingFaceId && {
       label: t("MODELS.DETAIL.HUGGING_FACE"),
       value: (
         <a
@@ -93,36 +81,33 @@ export function QuickStats(props: Props) {
           <Icon name="external-link" className="h-2.5 w-2.5" />
         </a>
       ),
-    });
-  }
-  if (meta.isModerated === true) {
-    rows.push({
+    },
+    meta.isModerated === true && {
       label: t("MODELS.DETAIL.MODERATED"),
       value: (
         <Badge variant="outline" className="font-mono text-[10px]">
           {t("MODELS.DETAIL.MODERATED_YES")}
         </Badge>
       ),
-    });
-  }
-  if (meta.reasoningEfforts && meta.reasoningEfforts.length > 0) {
-    rows.push({
-      label: t("MODELS.DETAIL.REASONING_LEVELS"),
-      value: (
-        <div className="flex flex-wrap gap-1">
-          {meta.reasoningEfforts.map((effort) => (
-            <Badge
-              key={effort}
-              variant="secondary"
-              className="font-mono text-[10px]"
-            >
-              {effort}
-            </Badge>
-          ))}
-        </div>
-      ),
-    });
-  }
+    },
+    meta.reasoningEfforts &&
+      meta.reasoningEfforts.length > 0 && {
+        label: t("MODELS.DETAIL.REASONING_LEVELS"),
+        value: (
+          <div className="flex flex-wrap gap-1">
+            {meta.reasoningEfforts.map((effort) => (
+              <Badge
+                key={effort}
+                variant="secondary"
+                className="font-mono text-[10px]"
+              >
+                {effort}
+              </Badge>
+            ))}
+          </div>
+        ),
+      },
+  ].filter((r) => r !== false && r != null && r !== "") as Row[];
 
   if (rows.length === 0) return null;
 

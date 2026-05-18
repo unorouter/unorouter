@@ -346,8 +346,7 @@
       "GRID": "Rasterpreise",
       "CUSTOM": "Individuelle Abrechnung",
       "ORIGINAL": "Originalpreis",
-      "CACHE_WRITE_5M": "Cache-Schreiben 5m",
-      "CACHE_WRITE_1H": "Cache-Schreiben 1h",
+      "CACHE_WRITE": "Cache-Schreiben",
       "CACHE_READ": "Cache-Lesen"
     },
     "SORT": {

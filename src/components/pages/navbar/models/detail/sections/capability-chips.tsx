@@ -19,23 +19,23 @@ export function CapabilityChips(props: Props) {
   const chips = deriveCapabilityChips(props.metadata);
   if (chips.length === 0) return null;
 
-  const limit = props.limit ?? Number.POSITIVE_INFINITY;
+  const limit = props.limit ?? Infinity;
   const visible = chips.slice(0, limit);
   const overflow = chips.length - visible.length;
   const isCard = props.variant === "card";
 
   return (
     <div className={cn("flex flex-wrap items-center gap-1", props.className)}>
-      {visible.map((chip) => (
+      {visible.map((labelKey) => (
         <Badge
-          key={chip.labelKey}
+          key={labelKey}
           variant="secondary"
           className={cn(
             "font-mono text-[10px] tracking-wide uppercase",
             isCard && "px-1.5 py-0",
           )}
         >
-          {t(chip.labelKey)}
+          {t(labelKey)}
         </Badge>
       ))}
       {overflow > 0 && (

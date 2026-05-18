@@ -1,27 +1,32 @@
 "use client";
 
 import type { ProcessedModel } from "@/lib/api/pricing";
+import { TranslationKey } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 
 type CacheTier = {
-  labelKey: string;
+  labelKey: TranslationKey;
   multiplier: number;
 };
 
-const CACHE_TIERS_BY_VENDOR: Record<string, CacheTier[]> = {
-  anthropic: [
-    { labelKey: "MODELS.PRICE.CACHE_WRITE_5M", multiplier: 1.25 },
-    { labelKey: "MODELS.PRICE.CACHE_WRITE_1H", multiplier: 2 },
-    { labelKey: "MODELS.PRICE.CACHE_READ", multiplier: 0.1 },
-  ],
-};
-
-export function getCacheTiers(vendorName: string): CacheTier[] | null {
-  const tiers = CACHE_TIERS_BY_VENDOR[vendorName.toLowerCase()];
-  return tiers ?? null;
+function getCacheTiers(model: ProcessedModel): CacheTier[] | null {
+  const tiers: CacheTier[] = [];
+  if (model.createCacheRatio != null && model.createCacheRatio > 0) {
+    tiers.push({
+      labelKey: "MODELS.PRICE.CACHE_WRITE",
+      multiplier: model.createCacheRatio,
+    });
+  }
+  if (model.cacheRatio != null && model.cacheRatio > 0) {
+    tiers.push({
+      labelKey: "MODELS.PRICE.CACHE_READ",
+      multiplier: model.cacheRatio,
+    });
+  }
+  return tiers.length > 0 ? tiers : null;
 }
 
 export function CachePricing(props: {
@@ -29,23 +34,18 @@ export function CachePricing(props: {
   theme: ReturnType<typeof getVendorTheme>;
 }) {
   const t = useTranslations();
-  const tiers = getCacheTiers(props.model.vendor.name);
+  if (props.model.isFixedPrice) return null;
+  const tiers = getCacheTiers(props.model);
+  if (!tiers) return null;
 
-  if (!tiers || props.model.isFixedPrice) return null;
-
-  const cols =
-    tiers.length === 1
-      ? "grid-cols-1"
-      : tiers.length === 2
-        ? "grid-cols-2"
-        : "grid-cols-3";
+  const cols = tiers.length === 1 ? "grid-cols-1" : "grid-cols-2";
 
   return (
     <div className={cn("border-border/40 mt-3 grid gap-3 border-t pt-3", cols)}>
       {tiers.map((tier) => (
         <div key={tier.labelKey}>
           <span className="text-muted-foreground font-mono text-[10px] uppercase">
-            {t(tier.labelKey as Parameters<typeof t>[0])}
+            {t(tier.labelKey)}
           </span>
           <div className={cn("font-mono text-sm font-bold", props.theme.text)}>
             {formatPrice(props.model.inputPrice * tier.multiplier)}

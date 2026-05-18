@@ -346,8 +346,7 @@
       "GRID": "Giá theo lưới",
       "CUSTOM": "Tính phí tùy chỉnh",
       "ORIGINAL": "Giá gốc",
-      "CACHE_WRITE_5M": "Ghi cache 5p",
-      "CACHE_WRITE_1H": "Ghi cache 1g",
+      "CACHE_WRITE": "Ghi cache",
       "CACHE_READ": "Đọc cache"
     },
     "SORT": {
