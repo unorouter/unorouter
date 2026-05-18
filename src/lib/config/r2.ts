@@ -216,8 +216,8 @@ async function verifyMagicBytes(
     throw new Error(msg("ERRORS.DISALLOWED_CONTENT_TYPE"));
   }
   if (declaredCt && declaredCt !== detected.mime) {
-    // Media: category-level match is fine (browser may send a narrower subtype
-    // than file-type detects). Documents: exact match required.
+    // Media: category-level match (browser may send a narrower subtype than
+    // file-type detects). Documents: exact match.
     const sameCategory =
       isMedia && declaredCt.split("/")[0] === detected.mime.split("/")[0];
     if (!sameCategory) {
@@ -277,9 +277,8 @@ export async function uploadToR2(
 }
 
 export async function deleteR2Prefix(prefix: string): Promise<void> {
-  // Paginated wipe: ListObjectsV2 caps at 1000 keys per page, and the
-  // DeleteObjects API caps at 1000 keys per call. Loop until the bucket
-  // page reports no continuation token.
+  // Both ListObjectsV2 and DeleteObjects cap at 1000 keys; loop until no
+  // continuation token.
   let continuationToken: string | undefined;
   do {
     const listed = await getS3().send(
@@ -417,15 +416,10 @@ export async function uploadBase64ToR2(
   return putMedia(convId, msgId, Buffer.from(base64, "base64"), declaredCt);
 }
 
-// ---------------------------------------------------------------------------
-// Playground media (image-gen pipeline)
-// ---------------------------------------------------------------------------
-//
-// These siblings of putMedia/downloadAndUpload key under a separate prefix
-// (`playgrounds/<id>/...`) and skip the `media` table entirely. Playground
-// rows track their own size + mime; the chat quota is intentionally not
-// charged. Reference images get their own prefix (`playgrounds-refs/...`)
-// so deletion of a generation doesn't sweep its references.
+// Siblings of putMedia/downloadAndUpload but keyed under `playgrounds/<id>/...`
+// and skip the `media` table entirely. Playground rows track their own size +
+// mime; chat quota is not charged. Reference images get their own prefix
+// (`playgrounds-refs/...`) so deleting a generation doesn't sweep references.
 
 export function generationKey(playgroundId: string, filename: string): string {
   return `playgrounds/${playgroundId}/${filename}`;
@@ -453,8 +447,8 @@ export async function downloadAndUploadGeneration(
   playgroundId: string,
   authToken?: string,
 ): Promise<{ url: string; key: string; mime: string; sizeBytes: number }> {
-  // result_url from new-api can be a remote URL (S3) or a data URI when the
-  // worker returns base64 inline. Branch on prefix.
+  // result_url from new-api can be a remote URL or a data URI when the
+  // worker returns base64 inline.
   if (url.startsWith("data:")) {
     const [header, base64] = url.split(",");
     const declaredCt = header.match(/data:([^;]+)/)?.[1];
@@ -464,10 +458,9 @@ export async function downloadAndUploadGeneration(
       declaredCt,
     );
   }
-  // The proxied result_url (.../v1/videos/<task>/content) requires the user's
-  // bearer token. For S3/CDN URLs the token is ignored upstream. We thread it
-  // unconditionally because the SSRF-safe agent doesn't redirect, so there's
-  // no leak path to a third-party origin.
+  // The proxied result_url (.../v1/videos/<task>/content) needs the user's
+  // bearer token; S3/CDN URLs ignore it. Threaded unconditionally because the
+  // SSRF-safe agent doesn't redirect, so no leak path to a third-party origin.
   const headers = authToken
     ? { authorization: `Bearer ${authToken}` }
     : undefined;

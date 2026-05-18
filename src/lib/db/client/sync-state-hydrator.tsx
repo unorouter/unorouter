@@ -32,21 +32,6 @@ import {
   upsertLocalTheme,
 } from "./writes";
 
-// ---------------------------------------------------------------------------
-// Three-stage non-blocking hydrator. Fires once after auth resolves.
-//
-// Stage 0 (SSR): handled by HydrationBoundary in the (chat) and (generate)
-//   layouts - already in place.
-// Stage 1: seed React Query cache from SQLocal so list pages render
-//   immediately, including local-only rows.
-// Stage 2: fetch /api/sync/state, diff against local DB, pull stale bundles,
-//   null out local syncExpiresAt for rows the server no longer reports.
-// Stage 3: drain `local_pending_sync` retry queue.
-//
-// Order doesn't matter: all writes go through qc.setQueryData per kind so
-// React Query holds the latest version. Server-newer wins by updatedAt.
-// ---------------------------------------------------------------------------
-
 export function SyncStateHydrator() {
   const auth = useAuthQuery();
   const qc = useQueryClient();
@@ -54,10 +39,9 @@ export function SyncStateHydrator() {
 
   useEffect(() => {
     if (fired.current) return;
-    if (!auth.data) return;
     fired.current = true;
 
-    const userId = auth.data.id;
+    const userId = auth.data?.id ?? 0;
     void hydrate(qc, userId).catch((err) => {
       logger.warn("Sync hydration failed", {
         context: "local-db.hydrator",
@@ -74,15 +58,15 @@ async function hydrate(qc: QueryClient, userId: number) {
   if (!local) return;
 
   await stage1LocalSeed(qc, userId);
-  await stage2ServerReconcile(qc, userId);
-  await drainPending(userId);
+  if (userId > 0) {
+    await stage2ServerReconcile(qc, userId);
+    await drainPending(userId);
+  }
 }
 
 async function stage1LocalSeed(qc: QueryClient, userId: number) {
-  // SQLocal processor uses a single transactionMutex protected by a simple
-  // promise mutex with a known race when multiple callers race to lock(). We
-  // serialize the per-kind reads to avoid the deadlock until upstream fixes
-  // sqlocal/dist/lib/create-mutex.js (PR pending).
+  // Serialize per-kind reads: SQLocal's processor mutex deadlocks on parallel
+  // callers (sqlocal/dist/lib/create-mutex.js race, upstream PR pending).
   const chars = await readLocalCharacters(userId);
   const personas = await readLocalPersonas(userId);
   const lorebooks = await readLocalLorebooks(userId);
@@ -99,11 +83,9 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
   if (presets && presets.length > 0)
     qc.setQueryData(queryKeys.presets(), presets);
   if (cards && cards.length > 0) qc.setQueryData(queryKeys.cards(), cards);
-  // Conversations + generation sessions are paginated server-side. Their
-  // React Query caches expect specific shapes: useInfiniteQuery for convs
-  // ({ pages, pageParams }) and useQuery returning { items: [...] } for
-  // gen sessions. Seeding raw arrays crashes consumers (see [ConversationList]
-  // crash with "Cannot read properties of undefined (reading 'length')").
+  // Convs + gen sessions are paginated; React Query caches expect specific
+  // shapes (useInfiniteQuery { pages, pageParams } for convs, { items: [...] }
+  // for gen sessions). Seeding raw arrays crashes consumers.
   if (convs && convs.length > 0) {
     qc.setQueryData(queryKeys.conversations(undefined), {
       pages: [
@@ -123,8 +105,7 @@ async function stage2ServerReconcile(qc: QueryClient, userId: number) {
   const state = handleElysia(await rpc.api.sync.state.get());
   qc.setQueryData(queryKeys.syncState(), state);
 
-  // Serial per-kind reconcile - SQLocal's processor mutex deadlocks on
-  // parallel callers; see stage1 note.
+  // Serial per-kind reconcile (see stage1 mutex note).
   await reconcileKind(userId, "characters", state.characters);
   await reconcileKind(userId, "personas", state.personas);
   await reconcileKind(userId, "lorebooks", state.lorebooks);
@@ -206,7 +187,6 @@ async function readLocalById(
         null
       );
     case "theme":
-      // theme is single-row; we always upsert.
       return null;
   }
 }
@@ -251,10 +231,8 @@ async function applyBundle<K extends SyncKind>(
     }
     case "conversations": {
       const b = bundle as SyncBundle<"conversations">;
-      // Server-side conversation bundles carry media as pointers only (the
-      // Turso row stores `r2_url` and never `data_base64`). Re-hydrate the
-      // bytes back into base64 so the local row is fully self-contained -
-      // chats keep working even if the R2 object is later expired/deleted.
+      // Re-hydrate bytes into base64 so the local row stays self-contained
+      // and keeps working if the R2 object is later expired/deleted.
       const rehydratedMedia = await Promise.all(b.media.map(rehydrateMedia));
       await upsertLocalConversationBundle(userId, {
         conversation: b.conversation,
@@ -287,11 +265,9 @@ async function applyBundle<K extends SyncKind>(
 
 type MediaRow = typeof media.$inferSelect;
 
-// If the server bundle hands us a pointer-only media row (r2_url set,
-// data_base64 null), pull the binary back from R2 and stuff it into
-// data_base64 so the local copy is independent of R2 lifetime. R2 failures
-// are tolerated: we keep the pointer and surface a broken-media placeholder
-// in the UI rather than aborting the whole bundle apply.
+// Pull pointer-only media rows back from R2 into data_base64 so the local
+// copy is independent of R2 lifetime. R2 failures are tolerated: surface a
+// broken-media placeholder rather than aborting the whole bundle apply.
 async function rehydrateMedia(row: MediaRow): Promise<MediaRow> {
   if (row.dataBase64 || !row.r2Url) return row;
   try {

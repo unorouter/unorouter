@@ -96,9 +96,7 @@ export const pathnames = {
     "zh-CN": "/kongzhitai",
     "zh-TW": "/kongzhitai",
   },
-  "/generate": {
-    // Internal route is still `/generate` so existing imports keep working.
-    // The visible URL is rebranded as "playground" in every locale.
+  "/playground": {
     en: "/playground",
     de: "/playground",
     fr: "/bac-a-sable",
@@ -108,7 +106,7 @@ export const pathnames = {
     "zh-CN": "/youlechang",
     "zh-TW": "/youlechang",
   },
-  "/generate/[id]": {
+  "/playground/[id]": {
     en: "/playground/[id]",
     de: "/playground/[id]",
     fr: "/bac-a-sable/[id]",
@@ -358,12 +356,12 @@ export const privateRoutes = {
     "/affiliate",
     "/settings",
     "/consent",
-    "/generate",
+    "/playground",
     "/my-playgrounds",
   ],
   // Dynamic routes: the parent path is what we disallow so every child is covered.
-  // /chat/[convId] is user-specific; /chat itself is public. /generate/[id] is per-user.
-  dynamicParents: ["/chat/[convId]", "/generate/[id]"],
+  // /chat/[convId] is user-specific; /chat itself is public. /playground/[id] is per-user.
+  dynamicParents: ["/chat/[convId]", "/playground/[id]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];

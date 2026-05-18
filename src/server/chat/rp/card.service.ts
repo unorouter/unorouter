@@ -18,10 +18,6 @@ import type { CardApplyBody, CardBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 
-// ---------------------------------------------------------------------------
-// Cards CRUD
-// ---------------------------------------------------------------------------
-
 export async function listCards(userId: number) {
   const db = getDb();
   return db
@@ -207,17 +203,8 @@ export async function exportCard(
   };
 }
 
-// ---------------------------------------------------------------------------
-// Apply card to conversation
-// ---------------------------------------------------------------------------
-
-/**
- * Apply a card's bindings to an existing conversation.
- *  - replace: drop current chars/lorebooks and write the card's (default).
- *  - merge: union; existing entries keep their order, card entries appended
- *    at the end preserving the card's internal order.
- * Persona is overwritten in both modes (a chat has at most one persona).
- */
+// replace: drop current chars/lorebooks; merge: union, existing entries first.
+// Persona is overwritten in both modes (a chat has at most one persona).
 export async function applyCardToConversation(
   userId: number,
   cardId: string,

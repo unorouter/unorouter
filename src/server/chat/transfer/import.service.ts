@@ -23,8 +23,7 @@ import {
 export async function importConversation(userId: number, file: File) {
   const text = await file.text();
 
-  // SillyTavern JSONL: line-delimited, not a single JSON object. Detect first
-  // so we don't fail JSON.parse on multi-line input.
+  // ST JSONL is line-delimited; detect before JSON.parse.
   if (looksLikeSillyTavernChat(text)) {
     return importSillyTavernChat(userId, file);
   }
@@ -45,15 +44,7 @@ export async function importConversation(userId: number, file: File) {
   throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
 }
 
-// ---------------------------------------------------------------------------
-// Native: full-fidelity round-trip
-// ---------------------------------------------------------------------------
-
-/**
- * Build a Map from each item's old `id` to a freshly-generated new `id`. Used
- * by both native and orpg importers to remap entity ids so a re-import
- * doesn't collide with existing rows.
- */
+// Remap entity ids on import so a re-import doesn't collide with existing rows.
 function buildIdMap(
   items: ReadonlyArray<Record<string, unknown>> | undefined,
 ): Map<string, string> {
@@ -93,7 +84,6 @@ async function importNative(
   const native = data as unknown as NativeExport;
 
   const newConvId = uid();
-  // ID remap for child entities to avoid collisions with existing user data.
   const charIdMap = buildIdMap(native.characters);
   const lbIdMap = buildIdMap(native.lorebooks);
   const personaIdMap = buildIdMap(native.persona ? [native.persona] : []);
@@ -276,10 +266,7 @@ async function importNative(
   return { id: newConvId };
 }
 
-// ---------------------------------------------------------------------------
-// orpg.3.0: from openrouter; lossy on lorebooks/personas
-// ---------------------------------------------------------------------------
-
+// orpg.3.0 (openrouter): lossy on lorebooks/personas.
 async function importOrpg(
   userId: number,
   data: Record<string, unknown>,
@@ -296,12 +283,10 @@ async function importOrpg(
   const orpgItems =
     (data.items as Record<string, Record<string, unknown>>) ?? {};
 
-  // Pick a default model from the first character
   const firstChar = Object.values(orpgCharacters)[0];
   const defaultModel =
     (firstChar?.model as string | undefined) ?? "openrouter/auto";
 
-  // Map orpg character/message ids → freshly-generated unorouter ids
   const charIdMap = new Map(
     Object.keys(orpgCharacters).map((id) => [id, uid()]),
   );
@@ -355,7 +340,6 @@ async function importOrpg(
       });
     }
 
-    // Items: orpg.items[<id>] holds the OpenAI Responses item directly
     for (const [, m] of Object.entries(orpgMessages)) {
       const oldMsgId = m.id as string;
       const newMsgId = msgIdMap.get(oldMsgId)!;
@@ -377,9 +361,7 @@ async function importOrpg(
                 : orpgType;
         let data: unknown;
         if (ourType === "text") {
-          // Find a content text payload. OpenRouter writes user content as
-          // `input_text` and assistant content as `output_text`; both forms
-          // appear in the same items map keyed by id.
+          // OpenRouter: user content is input_text, assistant is output_text.
           const content = itemData.content;
           if (typeof content === "string") {
             data = { text: content };
@@ -417,7 +399,6 @@ async function importOrpg(
       }
     }
 
-    // Honor unorouter-extension if present (lorebooks etc roundtrip)
     const lbs = ext.lorebooks as Array<Record<string, unknown>> | undefined;
     const lbEntries = ext.lorebookEntries as
       | Array<Record<string, unknown>>

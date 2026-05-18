@@ -10,61 +10,35 @@ export type EndpointInfo = {
   path: string;
 };
 
-// Per-model client hints populated by new-api-sync into the models.metadata
-// column and surfaced via /api/pricing. Opaque to new-api; consumers like
-// streamText pick up whichever keys they care about. Mirrors the SourceMetadata
-// shape produced by new-api-sync (core/pricing/sources/types.ts).
+// Per-model client hints from new-api-sync's models.metadata column, surfaced
+// via /api/pricing. Mirrors SourceMetadata in new-api-sync core/pricing/sources/types.ts.
 export type ModelMetadata = {
-  /** Maximum input context tokens. */
   maxInputTokens?: number;
-  /** Cap on generated tokens. Required for thinking models (glm, kimi, qwen
-   *  reasoning variants) whose reasoning_content phase eats the default
-   *  upstream budget before emitting user-visible content. */
+  /** Required for thinking models (glm, kimi, qwen reasoning variants) whose
+   *  reasoning_content phase eats the upstream budget before emitting visible
+   *  content. */
   maxOutputTokens?: number;
-  /** Total context window (typically == maxInputTokens). */
   contextWindow?: number;
-  /** UI hint, used to render a reasoning badge / skin the Thinking block. */
   isReasoning?: boolean;
-  /** Supports tool / function calling. */
   supportsTools?: boolean;
-  /** Supports image input. */
   supportsVision?: boolean;
-  /** Supports audio input. */
   supportsAudio?: boolean;
-  /** Supports PDF / document input. */
   supportsPdf?: boolean;
-  /** Supports video input. */
   supportsVideo?: boolean;
-  /** Supports prompt caching (cache_read pricing exists). */
   supportsCache?: boolean;
-  /** Supports response_format / structured output. */
   supportsResponseFormat?: boolean;
-  /** Supports parallel tool calls. */
   supportsParallelTools?: boolean;
-  /** Supports web search tool. */
   supportsWebSearch?: boolean;
-  /** Supports computer use tool (Anthropic). */
   supportsComputerUse?: boolean;
-  /** Input modalities the model accepts (e.g. ["text","image","audio"]). */
   inputModalities?: string[];
-  /** Output modalities the model produces. */
   outputModalities?: string[];
-  /** Max reference images the model accepts in a single request. Set by
-   *  new-api-sync's per-model metadata; surfaced here so the unorouter
-   *  studio can include the model in the dynamic image-model dropdown. */
   maxImageInputs?: number;
-  /** Tokenizer family (OpenRouter only). */
   tokenizer?: string;
-  /** Knowledge cutoff date (ISO string from OpenRouter). */
   knowledgeCutoff?: string;
-  /** Deprecation date (LiteLLM only, ISO string). */
   deprecationDate?: string;
-  /** Mode of the model: "chat", "embedding", "image", "audio", etc. */
   mode?: string;
-  /** Free-form description (OpenRouter / basellm). */
   description?: string;
 
-  // Sampler / parameter awareness. Drives gray-out logic for sampler sliders.
   /** Conservative intersection across all OR endpoints serving this model. */
   supportedParameters?: string[];
   /** Permissive union (for "expert mode" toggle). */
@@ -72,16 +46,13 @@ export type ModelMetadata = {
   /** OR's recommended defaults; null = OR says "don't send". */
   defaultParameters?: Record<string, number | null>;
 
-  /** Reasoning-effort levels accepted by the model. */
   reasoningEfforts?: ("none" | "minimal" | "low" | "medium" | "high" | "max")[];
 
-  /** Lifecycle / quality. */
   expirationDate?: string;
   isModerated?: boolean;
   huggingFaceId?: string;
   quantization?: string;
 
-  /** Additional capability flags from LiteLLM. */
   supportsAssistantPrefill?: boolean;
   supportsCodeExecution?: boolean;
   supportsFileSearch?: boolean;
@@ -108,7 +79,7 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object") return parsed as ModelMetadata;
   } catch {
-    // Malformed JSON from the sync — fall through to empty metadata.
+    // Malformed JSON from the sync: fall through to empty metadata.
   }
   return {};
 }
@@ -131,7 +102,7 @@ function processModels(response: PricingData) {
         icon: raw?.icon,
       };
       const qt = model.quota_type ?? 0;
-      // Types 1 (fixed price), 3 (custom billing), 4 (grid pricing) all use model_price
+      // Types 1 (fixed), 3 (custom billing), 4 (grid) all use model_price.
       const isFixedPrice = qt === 1 || qt === 3 || qt === 4;
 
       let inputPrice = 0;
@@ -139,10 +110,9 @@ function processModels(response: PricingData) {
       let fixedPrice = 0;
       let originalInputPrice: number | null = null;
       let originalOutputPrice: number | null = null;
-      // Strict free check: a model is "truly free" only when every enabled
-      // group resolves to a zero price. Mirrors new-api-sync's guest-token
-      // allowlist so the FREE badge in the UI matches what the guest token
-      // can actually call.
+      // "Truly free" only when every enabled group resolves to zero price.
+      // Mirrors new-api-sync's guest-token allowlist so the FREE badge matches
+      // what the guest token can actually call.
       let isFreeStrict = false;
 
       if (isFixedPrice) {
@@ -169,7 +139,6 @@ function processModels(response: PricingData) {
           isFreeStrict = enabledGroups.every((g) => (groupRatio[g] ?? 1) === 0);
         }
 
-        // Original price (groupRatio=1) for strikethrough display when discounted
         if (showOriginalPrice && minRatio < 1) {
           originalInputPrice = (model.model_ratio ?? 0) * 2;
           originalOutputPrice =
@@ -209,7 +178,6 @@ function processModels(response: PricingData) {
       };
     })
     .sort((a, b) => {
-      // Free models first, then alphabetical
       if (a.isFree !== b.isFree) return a.isFree ? -1 : 1;
       return a.name.localeCompare(b.name);
     });
@@ -222,7 +190,6 @@ export function buildPricingSummary(response: PricingData) {
     EndpointInfo
   >;
 
-  // Group by vendor (for pricing page vendor cards)
   const vendorGroups = new Map<
     string,
     { vendor: ProcessedModel["vendor"]; models: ProcessedModel[] }
@@ -251,7 +218,6 @@ export function buildPricingSummary(response: PricingData) {
     })
     .sort((a, b) => b.modelCount - a.modelCount);
 
-  // Group by type tag (for chat model selector)
   const modelsByType: { tag: string; models: ProcessedModel[] }[] = [];
   const typeMap = new Map<string, ProcessedModel[]>();
   for (const model of models) {
@@ -273,7 +239,6 @@ export function buildPricingSummary(response: PricingData) {
     return diff !== 0 ? diff : a.tag.localeCompare(b.tag);
   });
 
-  // First free model (prefers text type)
   const firstFreeModel =
     models.find((m) => m.isFree && m.type === "text") ??
     models.find((m) => m.isFree) ??
@@ -283,7 +248,6 @@ export function buildPricingSummary(response: PricingData) {
     (a, b) => a.localeCompare(b),
   );
 
-  // Most expensive discounted text model per vendor (for badge/pricing use)
   const discountedByVendor = new Map<string, ProcessedModel>();
   for (const m of models) {
     if (

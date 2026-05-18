@@ -1,11 +1,3 @@
-/**
- * Character card parsing and emission via @character-foundry/character-foundry.
- *
- * Supports CCv2/CCv3 PNG/JSON, CharX (RisuAI ZIP), JPEG+ZIP hybrids, and
- * Voxta `.voxpkg` multi-character packages on read; PNG (CCv3 with backfilled
- * V2 chunk for legacy readers), CharX, and Voxta on write.
- */
-
 import { msg } from "@/lib/config/constants";
 import { parseCard } from "@character-foundry/character-foundry/loader";
 import {
@@ -35,7 +27,6 @@ export type ParsedCharacterCard = {
 
 export type CharacterCardImportResult = {
   card: ParsedCharacterCard;
-  /** First image asset (icon/avatar). Null when source was JSON or had none. */
   imageBuffer: Buffer | null;
   imageMime: string | null;
 };
@@ -43,11 +34,6 @@ export type CharacterCardImportResult = {
 const NON_EMPTY = (v: unknown): string | undefined =>
   typeof v === "string" && v.trim() ? v : undefined;
 
-/**
- * Parse a character card file (PNG/WebP/JPEG/CharX/Voxta/JSON) into our
- * flat ParsedCharacterCard shape. The library normalizes V1/V2/V3 → CCv3
- * internally; we read the (already normalized) inner `data` block.
- */
 export async function parseCharacterCardFile(
   file: File,
 ): Promise<CharacterCardImportResult> {
@@ -66,8 +52,6 @@ export async function parseCharacterCardFile(
     throw new Error(msg("ERRORS.CARD_MISSING_NAME"));
   }
 
-  // Map the library's CCv3 inner data to our flat shape. The library
-  // normalizes V1 → V2 internally and reports `spec: "v2" | "v3"`.
   const card: ParsedCharacterCard = {
     spec: parsed.spec === "v3" ? "v3" : "v2",
     name: data.name,
@@ -84,8 +68,7 @@ export async function parseCharacterCardFile(
     raw: parsed.card as unknown as Record<string, unknown>,
   };
 
-  // Pick the first icon asset for the avatar; fall back to the original file
-  // bytes for PNG containers (the original IS the avatar).
+  // PNG containers: the original file IS the avatar.
   const iconAsset =
     parsed.assets.find((a) => a.type === "icon") ?? parsed.assets[0];
   let imageBuffer: Buffer | null = null;
@@ -99,7 +82,6 @@ export async function parseCharacterCardFile(
           ? "image/jpeg"
           : "image/png";
   } else if (mime === "image/png" || mime === "image/webp") {
-    // CCv3 PNG: when no icon asset is extracted, the file itself is the avatar.
     imageBuffer = buf;
     imageMime = mime;
   }
@@ -119,7 +101,6 @@ type ExportableRow = {
   tags: unknown;
 };
 
-/** Build the canonical CCv3 envelope from a DB row via the foundry normalizer. */
 function buildCCv3Card(row: ExportableRow) {
   const normalized: NormalizedCard = {
     name: row.name,
@@ -142,12 +123,7 @@ function buildCCv3Card(row: ExportableRow) {
   return denormalizeToV3(normalized);
 }
 
-/**
- * Build a JSON-stringified CCv3 envelope. The foundry library doesn't ship a
- * JSON exporter (only PNG/CharX/Voxta containers); this returns the same
- * envelope shape its parser accepts on read so round-trip via parseCard()
- * works.
- */
+// foundry has no JSON exporter; emit the envelope shape its parser accepts.
 export function exportCharacterCardAsJson(row: ExportableRow): {
   data: Uint8Array;
   mimeType: string;
@@ -161,13 +137,6 @@ export function exportCharacterCardAsJson(row: ExportableRow): {
   };
 }
 
-/**
- * Re-emit a character row + avatar bytes as a PNG/CharX/Voxta blob.
- *
- * @param row Our DB row shape (flat fields from `characters` table).
- * @param avatar Optional avatar bytes; embedded as the icon asset on PNG.
- * @param format Target container.
- */
 export function exportCharacterCard(
   row: ExportableRow,
   avatar: { data: Buffer; mime: string } | null,
@@ -190,8 +159,7 @@ export function exportCharacterCard(
     });
   }
 
-  // The library validates that PNG export has a PNG icon asset. Fall back
-  // to a 1×1 transparent PNG when none is provided so the call never throws.
+  // PNG export requires a PNG icon asset; use 1x1 transparent PNG fallback.
   if (format === "png" && assets.length === 0) {
     assets.push({
       name: "main",
@@ -213,7 +181,6 @@ export function exportCharacterCard(
   return { data: result.buffer, mimeType, ext };
 }
 
-// 1x1 transparent PNG, base64-decoded, used as the empty-avatar fallback.
 const ONE_PIXEL_PNG = new Uint8Array([
   0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49,
   0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x08, 0x06,

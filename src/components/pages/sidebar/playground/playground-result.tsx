@@ -214,8 +214,6 @@ function ImageTile(props: {
   );
 }
 
-// Near-fullscreen modal for a single image. Click outside, Escape, or X
-// dismisses. Prev/next steps through the snapshot's images when count > 1.
 function ImageLightbox(props: {
   images: PlaygroundImage[];
   startIndex: number;
@@ -227,7 +225,7 @@ function ImageLightbox(props: {
   const t = useTranslations();
   // Derived-state pattern: when startIndex changes (parent picked a different
   // tile), reset `index` during render instead of in an effect. React supports
-  // calling setState during render in this exact shape — the second render
+  // calling setState during render in this exact shape; the second render
   // sees the updated value and no cascading effect fires.
   const [index, setIndex] = useState(props.startIndex);
   const [prevStartIndex, setPrevStartIndex] = useState(props.startIndex);
@@ -321,8 +319,6 @@ export function GenerateResult(props: Props) {
   const t = useTranslations();
   const router = useRouter();
 
-  // Pull the full session so we can render chevrons. The poll query keeps
-  // the active snapshot's status fresh (still in flight) until terminal.
   const sessionQuery = useSessionQuery(props.sessionId);
   const statusQuery = useSnapshotStatusQuery(props.snapshotId, true);
 
@@ -345,17 +341,16 @@ export function GenerateResult(props: Props) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Prefer the polling response for the active snapshot (always fresh).
-  // Fall back to the session payload (snapshots[] already in cache).
+  // Prefer the polling response for the active snapshot (always fresh);
+  // fall back to the session payload (snapshots[] already in cache).
   const sessionData = sessionQuery.data;
   const session = sessionData?.session;
   const snapshots = sessionData?.snapshots ?? [];
   const liveSnapshot = statusQuery.data;
   const cachedSnapshot = snapshots.find((s) => s.id === props.snapshotId);
   // Snapshot is a discriminated union (full vs { id, status: "failure" }).
-  // Cast to a partial wide shape so call sites can read optional fields
-  // without per-access narrowing; downstream renders gate on `status` /
-  // `images.length` already.
+  // Cast to a partial wide shape so call sites read optional fields without
+  // per-access narrowing; downstream renders gate on `status`/`images.length`.
   type SnapshotWide = {
     id: string;
     status: "pending" | "running" | "success" | "failure" | string;
@@ -374,11 +369,9 @@ export function GenerateResult(props: Props) {
     requestedCount?: number;
   };
   const data = (liveSnapshot ?? cachedSnapshot) as SnapshotWide | undefined;
-  // session reference kept for future use; share UX removed.
   void session;
 
-  // Chevron index. Snapshots are returned newest-first; index 0 is the
-  // most recent. Navigation flips the active snapshot id + URL ?snap param.
+  // Snapshots are returned newest-first; index 0 is the most recent.
   const currentIndex = snapshots.findIndex((s) => s.id === props.snapshotId);
   const total = snapshots.length;
 
@@ -403,12 +396,12 @@ export function GenerateResult(props: Props) {
 
   // When the active snapshot changes and the user isn't on the newest,
   // hand its frozen params to the form so editing-and-resubmitting is a
-  // one-click flow. Skip if we're already on the newest snapshot to avoid
+  // one-click flow. Skip if already on the newest snapshot to avoid
   // clobbering an in-progress draft.
   useEffect(() => {
     if (!data) return;
     if (currentIndex === 0) return;
-    // Failure snapshots carry only { id, status }; skip restore in that case.
+    // Failure snapshots carry only { id, status }; skip restore.
     if (data.status === "failure") return;
     const d = data as {
       model: string;
@@ -430,7 +423,7 @@ export function GenerateResult(props: Props) {
       extraParams: d.extraParams ?? null,
       nsfw: d.nsfw,
     });
-    // We only re-restore when the active snapshot id changes.
+    // Re-restore only when the active snapshot id changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.snapshotId]);
 
@@ -445,16 +438,14 @@ export function GenerateResult(props: Props) {
     if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
     const result = await deleteMut.mutateAsync({ id: props.snapshotId });
     if (result?.sessionDeleted) {
-      // Last snapshot in the session was removed; the session is gone too.
       setActiveSessionId(null);
       setActiveSnapshotId(null);
-      router.push("/generate");
+      router.push("/playground");
       return;
     }
-    // Jump to the new newest snapshot in the same session.
     const remaining = snapshots.filter((s) => s.id !== props.snapshotId);
     if (remaining.length === 0) {
-      router.push("/generate");
+      router.push("/playground");
       return;
     }
     swapTo(remaining[0].id);
@@ -474,7 +465,7 @@ export function GenerateResult(props: Props) {
       },
     });
     setImportDialogOpen(false);
-    router.push(`/generate/${result.sessionId}`);
+    router.push(`/playground/${result.sessionId}`);
   };
 
   if (!data) {
@@ -522,10 +513,6 @@ export function GenerateResult(props: Props) {
             setLightboxOpen(true);
           }}
           onQuickAction={(url, target) => {
-            // Route the studio to the picked tab + sub-pill and hand the
-            // image to the form via the restore atom. The hover toolbar
-            // is the inverse of the chevron restore: the user picks the
-            // next mode and the source image, the form re-hydrates.
             setActiveTab(target.tab);
             if (target.subPill) setActiveSubPill(target.subPill);
             const urlObj = new URL(window.location.href);
@@ -589,7 +576,7 @@ export function GenerateResult(props: Props) {
         <Button
           variant="default"
           size="sm"
-          onClick={() => router.push(`/generate?remix=${props.snapshotId}`)}
+          onClick={() => router.push(`/playground?remix=${props.snapshotId}`)}
         >
           <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.REMIX")}
@@ -599,7 +586,7 @@ export function GenerateResult(props: Props) {
             variant="outline"
             size="sm"
             onClick={() =>
-              router.push(`/generate?remix=${props.snapshotId}&hires=1`)
+              router.push(`/playground?remix=${props.snapshotId}&hires=1`)
             }
           >
             <Icon name="wand" className="mr-2" />

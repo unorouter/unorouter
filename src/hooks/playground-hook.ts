@@ -15,12 +15,6 @@ function isTerminalStatus(s: string | undefined): boolean {
   return s === "success" || s === "failure";
 }
 
-// ---------------------------------------------------------------------------
-// Sessions: history list + per-session detail
-// ---------------------------------------------------------------------------
-
-/** Recent sessions list, newest-updated first. Feeds the vertical session
- *  rail under the result column and the sidebar list. */
 export function useSessionHistoryQuery(
   params?: EdenQuery<typeof rpc.api.playground.me>,
 ) {
@@ -36,8 +30,6 @@ export function useSessionHistoryQuery(
   });
 }
 
-/** Full session: the session row + all snapshots (with their images),
- *  newest first. Powers the chevron view. */
 export function useSessionQuery(sessionId: string | null | undefined) {
   return useQuery({
     queryKey: queryKeys.playgroundSession(sessionId ?? ""),
@@ -50,10 +42,6 @@ export function useSessionQuery(sessionId: string | null | undefined) {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Snapshots: single detail + polling
-// ---------------------------------------------------------------------------
-
 export function useSnapshotQuery(id: string | null | undefined) {
   return useQuery({
     queryKey: queryKeys.playgroundSnapshot(id ?? ""),
@@ -64,7 +52,6 @@ export function useSnapshotQuery(id: string | null | undefined) {
   });
 }
 
-/** Polls /generation/snapshot/:id/status until terminal. */
 export function useSnapshotStatusQuery(
   id: string | null | undefined,
   enabled = true,
@@ -84,10 +71,6 @@ export function useSnapshotStatusQuery(
     refetchIntervalInBackground: true,
   });
 }
-
-// ---------------------------------------------------------------------------
-// Submit + delete
-// ---------------------------------------------------------------------------
 
 export function useSubmitGenerationMutation() {
   const t = useTranslations();
@@ -186,10 +169,6 @@ export function useDeleteSessionMutation() {
   });
 }
 
-// ---------------------------------------------------------------------------
-// LoRA catalog (unchanged)
-// ---------------------------------------------------------------------------
-
 export function useLoraCatalogQuery(
   params?: EdenQuery<typeof rpc.api.playground.loras>,
 ) {
@@ -214,10 +193,9 @@ export function useUploadReferenceMutation() {
   });
 }
 
-// Inpaint mask upload: same shape as reference upload (multipart -> R2)
-// but routes through /generation/masks so the server-side route can grow
-// mask-specific validation later (size, channel count, etc.) without
-// touching the existing reference pipeline.
+// Routes through /generation/masks (not /references) so the server route can
+// grow mask-specific validation later (size, channel count) without touching
+// the reference pipeline.
 export function useUploadMaskMutation() {
   const t = useTranslations();
   return useMutation({
@@ -226,11 +204,6 @@ export function useUploadMaskMutation() {
     onError: (e) => handleError(e, t),
   });
 }
-
-// ---------------------------------------------------------------------------
-// New catalogs: embeddings, upscalers, controlnets. Same shape and cache
-// strategy as the LoRA catalog.
-// ---------------------------------------------------------------------------
 
 export function useEmbeddingCatalogQuery(
   params?: EdenQuery<typeof rpc.api.playground.embeddings>,
@@ -271,12 +244,6 @@ export function useControlNetCatalogQuery(
   });
 }
 
-// ---------------------------------------------------------------------------
-// Export / import (session-level)
-// ---------------------------------------------------------------------------
-
-/** Fetches the full session export payload. The caller wraps the result
- *  in a Blob + downloadable anchor. */
 export function useExportSessionMutation() {
   const t = useTranslations();
   return useMutation({
@@ -290,8 +257,6 @@ export function useExportSessionMutation() {
   });
 }
 
-/** Uploads a payload (single-snapshot or session) and clones it into the
- *  user's account. Returns the new session id. */
 export function useImportGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();

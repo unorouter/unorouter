@@ -2,13 +2,6 @@
 
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
-// ---------------------------------------------------------------------------
-// Client-side migration replay. The build step `scripts/bundle-migrations.ts`
-// reads every `drizzle/client/*.sql` plus the journal and emits this JSON.
-// At runtime we compare it against the `local_meta.migration_version` row
-// and apply any missing migrations in order.
-// ---------------------------------------------------------------------------
-
 import manifest from "./migrations.json" with { type: "json" };
 
 type MigrationEntry = { tag: string; sql: string };
@@ -20,11 +13,8 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   const { migrations } = manifest as Manifest;
   if (migrations.length === 0) return;
 
-  // Try to read the last applied migration tag. On a fresh DB the local_meta
-  // table does not exist yet, so the SELECT throws — that's the signal to
-  // run every migration from the start. After the first run the table exists
-  // (it's created by the bundled CREATE TABLE) and subsequent boots
-  // short-circuit at the matching tag.
+  // On a fresh DB local_meta doesn't exist; the SELECT throws and signals to
+  // run every migration from the start.
   let lastTag: string | null = null;
   try {
     const versionRows = await sql.sql<{ value: string }>`
@@ -46,9 +36,8 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
 
   for (let i = startIndex; i < migrations.length; i++) {
     const m = migrations[i];
-    // Drizzle migrations use `statement-breakpoint` between separate
-    // CREATE/ALTER statements. SQLite cannot execute multiple statements in
-    // one prepared call, so split.
+    // SQLite can't run multiple statements in one prepared call; split on
+    // Drizzle's `statement-breakpoint` separator.
     const statements = m.sql
       .split("--> statement-breakpoint")
       .map((s) => s.trim())

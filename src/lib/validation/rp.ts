@@ -9,10 +9,6 @@ const MAX_TAGS = 32;
 const MAX_KEYS_PER_ENTRY = 64;
 const MAX_KEY_LEN = 200;
 
-// ---------------------------------------------------------------------------
-// Characters
-// ---------------------------------------------------------------------------
-
 export const characterBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   avatarR2Key: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
@@ -53,10 +49,6 @@ export const lorebookImportBody = t.Object({
   }),
 });
 
-// ---------------------------------------------------------------------------
-// Personas
-// ---------------------------------------------------------------------------
-
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
@@ -70,10 +62,6 @@ export const personaImportBody = t.Object({
     maxSize: "5m",
   }),
 });
-
-// ---------------------------------------------------------------------------
-// Lorebooks + entries
-// ---------------------------------------------------------------------------
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
@@ -119,10 +107,6 @@ export const lorebookEntryBody = t.Object({
 });
 export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
-// ---------------------------------------------------------------------------
-// Sampling presets
-// ---------------------------------------------------------------------------
-
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   temperature: t.Optional(
@@ -144,7 +128,6 @@ export const samplingPresetBody = t.Object({
     t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
   ),
   maxTokens: t.Optional(t.Union([t.Number({ minimum: 1 }), t.Null()])),
-  /** Free-form JSON merged into request body. See conversationSettings. */
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   mainPrompt: t.Optional(
     t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
@@ -163,10 +146,6 @@ export const samplingPresetBody = t.Object({
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;
-
-// ---------------------------------------------------------------------------
-// Cards (creative bundle)
-// ---------------------------------------------------------------------------
 
 const MAX_BUNDLE_ITEMS = 64;
 
@@ -192,10 +171,6 @@ export const cardApplyBody = t.Object({
   mode: t.Union([t.Literal("replace"), t.Literal("merge")]),
 });
 export type CardApplyBody = Static<typeof cardApplyBody>;
-
-// ---------------------------------------------------------------------------
-// Import (full conversation: native or orpg.3.0)
-// ---------------------------------------------------------------------------
 
 export const importConversationBody = t.Object({
   file: t.File({

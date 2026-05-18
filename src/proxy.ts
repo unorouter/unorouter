@@ -75,7 +75,7 @@ export default function proxy(request: NextRequest) {
 
 export const config = {
   // Match everything except infra prefixes and real static-asset extensions.
-  // Don't exclude on "any dot" — slugs like `glm-5.1` legitimately contain dots
+  // Don't exclude on "any dot": slugs like `glm-5.1` legitimately contain dots
   // and must hit next-intl middleware so localized paths (e.g. /ja/moderu/[slug])
   // get rewritten to the canonical /models/[slug] route.
   matcher: [

@@ -15,14 +15,6 @@ import type { SyncKindName } from "@/lib/validation/sync";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-// ---------------------------------------------------------------------------
-// Sync hooks. Three generic mutations cover every Group A entity:
-// `useSyncMutation` (Add + Resync, idempotent POST), `useRemoveSyncMutation`,
-// plus a `useSyncStateQuery` for hydration and per-row badge reads.
-// Each mutation is parameterized by `kind`; consumers pass the entity body
-// as `payload` so the server can upsert from a missing/stale state.
-// ---------------------------------------------------------------------------
-
 export function useSyncStateQuery() {
   return useQuery({
     queryKey: queryKeys.syncState(),
@@ -48,11 +40,10 @@ export function useSyncMutation() {
     mutationFn: async (args: SyncArgs) => {
       let payload = args.payload;
       const userId = auth.data?.id;
-      // For kinds w/ cascade children, auto-build the bundle from SQLocal so
-      // Add/Resync pushes everything (settings, bindings, messages, items,
-      // media for conversations; lorebook + entries; card + junctions;
-      // session + playgrounds + images + likes). Caller's explicit payload
-      // wins when provided.
+      // Auto-build cascade bundle from SQLocal so Add/Resync pushes children
+      // (settings, bindings, messages, items, media for conversations; entries
+      // for lorebooks; junctions for cards; playgrounds/images/likes for
+      // sessions). Explicit payload wins.
       if (payload == null && userId != null) {
         if (args.kind === "conversations") {
           payload = await readLocalConversationBundle(userId, args.id);

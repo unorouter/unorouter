@@ -1,8 +1,5 @@
 import type { StatusType } from "@/components/ui/status/status.types";
 
-/**
- * Formats a date with locale support.
- */
 export function formatDate(
   date: Date,
   options?: Intl.DateTimeFormatOptions,
@@ -16,9 +13,6 @@ export function formatDate(
   });
 }
 
-/**
- * Formats a date with abbreviated month (e.g. "Jan 15, 2024").
- */
 export function formatDateShort(date: Date, locale = "en-US") {
   return date.toLocaleDateString(locale, {
     year: "numeric",
@@ -27,9 +21,6 @@ export function formatDateShort(date: Date, locale = "en-US") {
   });
 }
 
-/**
- * Formats a date with time, with locale support.
- */
 export function formatDateTime(date: Date, locale = "en-US") {
   return date.toLocaleDateString(locale, {
     month: "long",
@@ -39,9 +30,6 @@ export function formatDateTime(date: Date, locale = "en-US") {
   });
 }
 
-/**
- * Formats a time with locale support.
- */
 export function formatTime(date: Date, locale = "en-US") {
   return date.toLocaleTimeString(locale, {
     hour: "numeric",
@@ -49,10 +37,6 @@ export function formatTime(date: Date, locale = "en-US") {
   });
 }
 
-/**
- * CSS variable mappings for status colors. Maps StatusType to corresponding
- * CSS custom properties.
- */
 export const statusColors: Record<StatusType, string> = {
   success: "var(--success)",
   degraded: "var(--warning)",

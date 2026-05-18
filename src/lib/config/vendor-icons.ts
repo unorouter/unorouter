@@ -1,17 +1,6 @@
-/**
- * Single source of truth for vendor icon assets.
- *
- * Two complementary representations live here so that adding a new vendor
- * icon is a one-place change:
- *
- * - `VENDOR_LOADERS` → dynamic `@lobehub/icons` React components, used by the
- *   client `<VendorIcon>` component.
- * - `VENDOR_SVGS` → inlined raw SVG strings from `thesvg`, used by the
- *   server-side badge templates that render through `satori`.
- *
- * Both libraries are marked `sideEffects: false`, so the unused half is
- * tree-shaken from each bundle.
- */
+// `VENDOR_LOADERS`: dynamic @lobehub/icons React components for client.
+// `VENDOR_SVGS`: inlined raw SVG strings from thesvg for satori badges.
+// Both libs are sideEffects:false so the unused half tree-shakes per bundle.
 
 import type { ComponentType } from "react";
 
@@ -56,7 +45,6 @@ function pickVariant(v: Record<string, string>): string {
     .replace(/fill:[^;"}]+(;|(?=["}]))/g, "");
 }
 
-/** Lobehub icon loaders for client-side rendering. */
 export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ALIBABA]: () => import("@lobehub/icons/es/AlibabaCloud"),
   [Vendor.ANTHROPIC]: () => import("@lobehub/icons/es/Anthropic"),
@@ -89,10 +77,8 @@ export const VENDOR_LOADERS: Partial<Record<Vendor, IconLoader>> = {
   [Vendor.ZHIPU]: () => import("@lobehub/icons/es/Zhipu"),
 };
 
-/**
- * Substring aliases for vendor strings that don't match a `Vendor` enum value
- * (e.g. when matching against a model slug). Checked after `VENDOR_LOADERS`.
- */
+/** Aliases for vendor strings that don't match a `Vendor` enum value (e.g.
+ *  when matching against a model slug). Checked after `VENDOR_LOADERS`. */
 export const ALIAS_LOADERS: Record<string, IconLoader> = {
   alibabacloud: () => import("@lobehub/icons/es/AlibabaCloud"),
   claude: () => import("@lobehub/icons/es/Claude"),
@@ -101,7 +87,6 @@ export const ALIAS_LOADERS: Record<string, IconLoader> = {
   nemotron: () => import("@lobehub/icons/es/Nvidia"),
 };
 
-/** Inlined SVG strings for server-side rendering (satori badges). */
 export const VENDOR_SVGS: Partial<Record<Vendor, string>> = {
   [Vendor.OPENAI]: pickVariant(openai.variants),
   [Vendor.ANTHROPIC]: pickVariant(anthropic.variants),

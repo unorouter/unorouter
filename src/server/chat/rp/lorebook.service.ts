@@ -11,10 +11,6 @@ import {
   serializeLorebookForExport,
 } from "./lorebook-import";
 
-// ---------------------------------------------------------------------------
-// Lorebook CRUD
-// ---------------------------------------------------------------------------
-
 export async function listLorebooks(userId: number) {
   const db = getDb();
   return db
@@ -86,10 +82,6 @@ export async function deleteLorebook(userId: number, id: string) {
   assertFound(result);
   return { id };
 }
-
-// ---------------------------------------------------------------------------
-// Entries
-// ---------------------------------------------------------------------------
 
 async function ensureLorebookOwned(userId: number, lorebookId: string) {
   const db = getDb();
@@ -205,14 +197,6 @@ export async function deleteEntry(
   return { id: entryId };
 }
 
-// ---------------------------------------------------------------------------
-// Import (SillyTavern / RisuAI world-info JSON)
-// ---------------------------------------------------------------------------
-
-/**
- * Read a JSON file in SillyTavern, RisuAI, or chara_card_v2 (`character_book`)
- * shape and create a new lorebook with all entries in one transaction.
- */
 export async function importLorebook(userId: number, file: File) {
   let raw: unknown;
   try {
@@ -261,10 +245,6 @@ export async function importLorebook(userId: number, file: File) {
   return getLorebook(userId, id);
 }
 
-/**
- * Export a lorebook + entries as a SillyTavern world_info JSON (default) or
- * any other supported format. Returns the JSON string ready for download.
- */
 export async function exportLorebook(
   userId: number,
   id: string,

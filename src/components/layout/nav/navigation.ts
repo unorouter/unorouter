@@ -52,7 +52,7 @@ export const navigation = (authenticated?: boolean): NavigationItem[] => [
   { name: "NAV.CHAT", href: "/chat", iconName: "message-circle", exact: true },
   {
     name: "NAV.PLAYGROUND",
-    href: "/generate",
+    href: "/playground",
     iconName: "wand",
     exact: true,
     hidden: true,

@@ -8,12 +8,9 @@ import type {
 } from "@/components/ui/status/status.types";
 
 /**
- * Labels and locale-aware formatters consumed by block components.
- *
- * Blocks read this via `useStatusBlocksLabels()`. A `StatusBlocksI18nProvider`
- * MUST be mounted above any block consuming this context — the hook throws
- * otherwise. Apps supply translated strings + locale-aware formatters via the
- * provider; there is no built-in fallback so untranslated copy can't slip in.
+ * A `StatusBlocksI18nProvider` MUST be mounted above any block consuming this
+ * context; the hook throws otherwise. There is no built-in fallback so
+ * untranslated copy can't slip in.
  */
 export type StatusBlocksLabels = {
   systemStatus: Record<StatusType, { long: string; short: string }>;
@@ -49,7 +46,6 @@ export type StatusBlocksLabels = {
   ariaDayStatus: (n: number) => string;
   clickAgainToUnpin: string;
 
-  /** Label for the "relative" timestamp row in the timestamp hover card. */
   timestampRelative: string;
 
   durationIn: (s: string) => string;
@@ -62,12 +58,10 @@ export type StatusBlocksLabels = {
   formatDateTime: (d: Date) => string;
   formatDateRange: (from?: Date, to?: Date) => string;
   /**
-   * Returns the start/end of a closed range as separate strings, so callers
-   * can render each side independently (e.g. wrap each in a hovercard)
-   * without re-parsing the joined output of `formatDateRange`.
-   *
-   * Closed ranges only — both `from` and `to` are required. For open-ended
-   * cases use `formatDateRange`.
+   * Returns start/end of a closed range as separate strings so callers can
+   * render each side independently without re-parsing `formatDateRange`.
+   * Closed ranges only; both `from` and `to` required. For open-ended use
+   * `formatDateRange`.
    */
   formatDateRangeParts: (from: Date, to: Date) => { from: string; to: string };
 };

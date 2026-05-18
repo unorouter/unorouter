@@ -8,15 +8,8 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
 
-// ---------------------------------------------------------------------------
-// Server-only schema: never mirrored to the browser. Payment integrity, audit
-// trail, and operator-curated catalogs. Imported via schema/index.ts barrel
-// (server build only). Client code must NEVER import this file.
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Moderation log (audit integrity)
-// ---------------------------------------------------------------------------
+// Server-only schema: never mirrored to the browser. Client code must NEVER
+// import this file.
 
 export const moderationLog = sqliteTable(
   "moderation_log",
@@ -44,10 +37,6 @@ export const moderationLog = sqliteTable(
     index("idx_modlog_decision").on(table.decision, table.createdAt),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// ACP checkout (payment idempotency, server-authoritative)
-// ---------------------------------------------------------------------------
 
 export const acpCheckoutSessions = sqliteTable(
   "acp_checkout_sessions",
@@ -92,10 +81,6 @@ export const acpIdempotencyKeys = sqliteTable(
     index("idx_acp_idem_created").on(table.createdAt),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// Operator-curated catalogs (read-only on client; never synced)
-// ---------------------------------------------------------------------------
 
 export const loraCatalog = sqliteTable(
   "lora_catalog",
@@ -199,10 +184,6 @@ export const controlNetCatalog = sqliteTable(
     index("idx_controlnet_basemodel_kind").on(table.baseModel, table.kind),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// Inferred types (re-exported via schema/index.ts barrel)
-// ---------------------------------------------------------------------------
 
 export type AcpCheckoutSession = typeof acpCheckoutSessions.$inferSelect;
 export type LoraCatalogEntry = typeof loraCatalog.$inferSelect;

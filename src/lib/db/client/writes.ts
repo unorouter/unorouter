@@ -27,15 +27,9 @@ import { and, eq, type InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "./client";
 import { makeTableStore } from "./table-store";
 
-// ---------------------------------------------------------------------------
-// Typed write helpers paired with the read layer. Mutation hooks call these
-// FIRST (IDB-primary), then mirror to server only if `syncExpiresAt != null`.
-// Each function is a no-op when local DB is unavailable (SSR path).
-//
-// Per-table single-PK upsert / delete pairs are generated from makeTableStore.
-// Composite-PK tables (conversationCharacters, cardCharacters, ...) and
-// transaction-style bundle writers stay bespoke.
-// ---------------------------------------------------------------------------
+// Mutation hooks call these FIRST (IDB-primary), then mirror to server only
+// if `syncExpiresAt != null`. Each function is a no-op when local DB is
+// unavailable (SSR path).
 
 type LocalRowInput = Record<string, unknown>;
 
@@ -180,13 +174,8 @@ export async function upsertLocalTheme(
     });
 }
 
-// ---------------------------------------------------------------------------
-// Media writer. Conversation attachments are saved as base64 inside the
-// local sqlite (`data_base64` column). When the parent conversation is
-// later synced to Turso, `sync.service.ts` uploads the bytes to R2 and
-// stamps `r2_url` on the row so cross-device pulls only carry a pointer.
-// ---------------------------------------------------------------------------
-
+// Attachments saved as base64 locally; sync.service.ts uploads bytes to R2
+// and stamps `r2_url` on Turso so cross-device pulls only carry a pointer.
 export const upsertLocalMedia = (
   userId: number,
   row: {
@@ -214,13 +203,8 @@ export const upsertLocalMedia = (
 export const deleteLocalMedia = (userId: number, mediaId: string) =>
   mediaStore.drop(userId, mediaId);
 
-// ---------------------------------------------------------------------------
-// Composite-PK writers (conversation bindings, generation images / likes,
-// card bindings). All use onConflictDoNothing because the surrogate-key
-// "do update" semantics don't apply when the conflict target is the
-// natural composite primary key.
-// ---------------------------------------------------------------------------
-
+// Composite-PK writers use onConflictDoNothing: "do update" semantics don't
+// apply when the conflict target is the natural composite primary key.
 export async function upsertLocalConversationCharacter(
   userId: number,
   row: {
@@ -325,11 +309,6 @@ export async function deleteLocalGenerationLike(
     );
 }
 
-// ---------------------------------------------------------------------------
-// Replace-style writers: delete-then-multi-insert. Distinct from a pure
-// upsert because the caller controls the full row set for a parent id.
-// ---------------------------------------------------------------------------
-
 export async function replaceLocalMessageItems(
   userId: number,
   messageId: string,
@@ -390,20 +369,13 @@ export async function replaceLocalConversationBindings(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Bundle writers - parent + cascade children. Used by SyncStateHydrator
-// stage 2 to apply server bundles atomically.
-//
-// No `local.transaction(...)` wrapper: SQLocal opens a real SQLite
-// transaction and holds the worker's transactionMutex, but `local.db.<x>`
-// queries (drizzle sqlite-proxy) don't carry the SQLocal transactionKey,
-// so they wait on that same mutex and deadlock. Cascade order is enough
-// here because bundle writes are idempotent upserts.
-// ---------------------------------------------------------------------------
+// No `local.transaction(...)` wrapper: SQLocal opens a real SQLite transaction
+// and holds the worker's transactionMutex, but `local.db.<x>` queries
+// (drizzle sqlite-proxy) don't carry the SQLocal transactionKey, so they wait
+// on that same mutex and deadlock. Cascade order is enough here because
+// bundle writes are idempotent upserts.
 
 type AnyRow = Record<string, unknown> & { id: string };
-// Child / junction rows: no `id` PK (composite or FK). Writer just hands them
-// to Drizzle insert(); the parent's `id` is read off `bundle.<parent>.id`.
 type ChildRow = Record<string, unknown>;
 
 export async function upsertLocalLorebookBundle(

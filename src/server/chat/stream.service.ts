@@ -39,10 +39,6 @@ import {
 } from "./augmentation/tavily.service";
 import { pendingUsageByConv, sweepStalePending } from "./message.service";
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
 type StreamBody = {
   model: string;
   messages: Parameters<typeof convertToModelMessages>[0];
@@ -61,10 +57,6 @@ type UsageInfo = {
   tokensPerSecond?: number;
 };
 
-// ---------------------------------------------------------------------------
-// Shared helpers
-// ---------------------------------------------------------------------------
-
 type PdfFilePart = {
   type: "file";
   mediaType: "application/pdf";
@@ -81,9 +73,8 @@ function isPdfFilePart(part: unknown): part is PdfFilePart {
   );
 }
 
-// Replace PDF `file` parts with a text part populated from the saved
-// extracted_text so the model sees the contents without the raw text bleeding
-// back into the user's bubble.
+// Replace PDF file parts with text parts using saved extracted_text so the
+// model sees content without the raw text bleeding back into the user bubble.
 async function inlinePdfText(
   messages: StreamBody["messages"],
 ): Promise<StreamBody["messages"]> {
@@ -112,7 +103,7 @@ async function inlinePdfText(
     if (row.extractedText) {
       textByUrl.set(url, row.extractedText);
     } else {
-      // Row exists but extraction yielded nothing. Surface this instead of
+      // Row exists but extraction yielded nothing; surface instead of
       // forwarding a binary PDF URL the model probably can't read.
       throw new Error(msg("ERRORS.PDF_EXTRACTION_FAILED"));
     }
@@ -153,25 +144,14 @@ function extractLastUserText(messages: StreamBody["messages"]): string | null {
   return null;
 }
 
-/**
- * Collect the last `limit` user messages' text content as an array, newest
- * first. The prompt assembler uses this to honor per-lorebook scanDepth.
- */
 type DepthInjection = {
   text: string;
   depth: number;
   role?: "system" | "user";
 };
 
-/**
- * Splice synthetic messages into a message array at depth-from-end positions.
- * SillyTavern semantics: `depth` counts back from the end (0 = after last,
- * 1 = before last, etc). When two injections collide on the same insertion
- * index, the one passed first wins (caller controls ordering). `role`
- * defaults to "system"; users opt into the user-role downgrade explicitly
- * via the per-preset `noSystemRole` flag (applied by `stripSystemRole`
- * later in the pipeline), so this function trusts the requested role.
- */
+// SillyTavern depth semantics: depth counts back from end (0 = after last,
+// 1 = before last). On collision the first-passed injection wins.
 function spliceDepthInjections(
   messages: StreamBody["messages"],
   injections: DepthInjection[],
@@ -193,12 +173,6 @@ function spliceDepthInjections(
   return out;
 }
 
-/**
- * Expand {{user}}/{{char}}/{{scenario}}/{{user_description}}/{{char_description}}
- * macros in every text part of every message before sending upstream. Applied
- * after slicing so we never expand history we don't actually send. The LLM
- * never sees the literal `{{user}}` token.
- */
 function expandMessageMacros(
   messages: StreamBody["messages"],
   vars: AssembledSystem["vars"],
@@ -216,11 +190,6 @@ function expandMessageMacros(
   });
 }
 
-/**
- * Append a prefill assistant message at the very end. Primes the LLM to
- * continue from this seed text, looking like its own prior reply. Powerful
- * jailbreak technique. Caller already expanded macros in the prefill string.
- */
 function appendPrefill(
   messages: StreamBody["messages"],
   prefill: string,
@@ -234,12 +203,8 @@ function appendPrefill(
   ];
 }
 
-/**
- * Convert every system-role message to a user-role message, prefixing the
- * text with `[System]:` so the model still distinguishes it. Required for
- * providers that reject system role mid-conversation (Gemini, some GLM
- * configurations). The top-level `system` parameter is unaffected.
- */
+// Required for providers that reject system role mid-conversation (Gemini,
+// some GLM configs). The top-level `system` parameter is unaffected.
 function stripSystemRole(
   messages: StreamBody["messages"],
 ): StreamBody["messages"] {
@@ -256,12 +221,8 @@ function stripSystemRole(
   });
 }
 
-/**
- * Merge consecutive same-role messages into one. Result strictly alternates
- * user/assistant. Required by GLM and some Anthropic configurations. Joins
- * text parts with double newlines; non-text parts (images, files) carry over
- * in order.
- */
+// Required by GLM and some Anthropic configs that need strict
+// user/assistant alternation.
 function mergeAlternateRoles(
   messages: StreamBody["messages"],
 ): StreamBody["messages"] {
@@ -286,12 +247,7 @@ function mergeAlternateRoles(
   return out;
 }
 
-/**
- * If the first message is not a user message, prepend a tiny user stub.
- * Anthropic and Gemini both reject conversations that start with assistant
- * or system role. The stub's text is intentionally minimal so it adds no
- * meaningful content to the prompt.
- */
+// Anthropic and Gemini reject convs that start with assistant or system role.
 function prependUserStub(
   messages: StreamBody["messages"],
 ): StreamBody["messages"] {
@@ -379,10 +335,6 @@ function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
   });
 }
 
-// ---------------------------------------------------------------------------
-// URL processing (mirrors cleanImageParts in message.service.ts)
-// ---------------------------------------------------------------------------
-
 const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
 async function processUrls(
@@ -423,10 +375,6 @@ async function processUrls(
   return (await Promise.all(matches.map(process))).filter(Boolean).join("\n\n");
 }
 
-// ---------------------------------------------------------------------------
-// Image generation
-// ---------------------------------------------------------------------------
-
 async function generateImage(
   apiKey: string,
   model: string,
@@ -459,7 +407,6 @@ async function generateImage(
   const json = raw;
   const requestId = res.headers.get("x-oneapi-request-id") ?? undefined;
 
-  // Prefer url, fall back to b64_json
   const urls = json.data
     .map((d) => d.url)
     .filter((u): u is string => Boolean(u));
@@ -527,10 +474,6 @@ async function handleImageStream(
   return createUIMessageStreamResponse({ stream });
 }
 
-// ---------------------------------------------------------------------------
-// Video task stream (async task submission)
-// ---------------------------------------------------------------------------
-
 async function handleVideoTaskStream(
   apiKey: string,
   body: StreamBody,
@@ -563,10 +506,9 @@ async function handleVideoTaskStream(
         upstreamHeaders,
       });
 
-      // Emit a structured `data-task` part. AI SDK forwards this to the
-      // client; assistant-ui rewrites it as `{type:"data", name:"task"}`.
-      // Persistence picks it up via partsToItems → `task` item, so reopens
-      // re-render the saved card and finalize can rewrite it to a video link.
+      // data-task part: AI SDK forwards to client; assistant-ui rewrites as
+      // {type:"data", name:"task"}. Persistence saves it via partsToItems as
+      // a `task` item so reopens re-render and finalize can rewrite to video.
       writer.write({ type: "start" });
       writer.write({ type: "start-step" });
       writer.write({
@@ -580,10 +522,6 @@ async function handleVideoTaskStream(
 
   return createUIMessageStreamResponse({ stream });
 }
-
-// ---------------------------------------------------------------------------
-// Video / buffered media stream
-// ---------------------------------------------------------------------------
 
 function handleBufferedStream(
   result: ReturnType<typeof streamText>,
@@ -602,10 +540,6 @@ function handleBufferedStream(
 
   return createUIMessageStreamResponse({ stream });
 }
-
-// ---------------------------------------------------------------------------
-// Main entry
-// ---------------------------------------------------------------------------
 
 export async function streamChat(
   apiKey: string,
@@ -636,36 +570,29 @@ export async function streamChat(
     },
   });
 
-  // Image models: call the images endpoint directly
   if (mediaType === "image") {
     return handleImageStream(apiKey, body, upstream.headers, userId);
   }
 
-  // Video models: submit async task and return task card sentinel
   if (mediaType === "video") {
     return handleVideoTaskStream(apiKey, body, upstream.headers, userId);
   }
 
-  // Load conversation context up front so per-conversation web-search
-  // overrides (engine, contextSize, enabled) can gate the Tavily call below.
-  // Prefer the client-supplied `chatContext` payload (IDB-first path) so
-  // Turso never sees RP rows for synced or local-only convs. Fall back to
-  // Turso reads only when the client didn't ship a context (guest path,
-  // legacy callers, share-page reads).
+  // Prefer client-supplied chatContext (IDB-first path) so Turso never sees
+  // RP rows for synced/local-only convs. Fall back to Turso for guests,
+  // legacy callers, and share-page reads.
   const convCtx = body.chatContext
     ? buildContextFromClient(body.chatContext)
     : body.convId
       ? await loadConvContext(body.convId)
       : null;
   const convWebSearchEnabled = convCtx?.settings.webSearchEnabled ?? false;
-  // Web search is a paid-only feature: a guest stream (no convCtx, no auth
-  // row) cannot enable it via body, even if the client somehow sends true.
+  // Web search is paid-only: a guest stream cannot enable it via body.
   const effectiveWebSearch =
     convCtx && userId !== "guest"
       ? convWebSearchEnabled
       : userId !== "guest" && !!body.webSearch;
 
-  // Web search via Tavily
   let searchSystemMessage: string | undefined;
   if (effectiveWebSearch) {
     const lastUserText = extractLastUserText(body.messages);
@@ -702,10 +629,6 @@ export async function streamChat(
   const provider = getProvider(apiKey);
   const messagesWithPdfText = await inlinePdfText(body.messages);
 
-  // Assemble the final system message + sampling params, reusing the ctx we
-  // already loaded for web-search gating. When there's no conv ctx (guest
-  // convs, or pre-create), fall back to the per-stream overrides the client
-  // sends from its jotai defaults.
   const recentUserTexts = collectRecentUserTexts(messagesWithPdfText);
   const assembled =
     body.convId && convCtx
@@ -717,17 +640,11 @@ export async function streamChat(
         )
       : assembleFromOverrides(body.overrides, searchSystemMessage);
 
-  // Slice messages by chat-memory window (only the user-typed messages count;
-  // we never trim system).
   const slicedMessages =
     assembled.chatMemory > 0
       ? messagesWithPdfText.slice(-assembled.chatMemory)
       : messagesWithPdfText;
 
-  // Splice depth-injections (author note + at_depth lorebook entries) into the
-  // sliced message array as synthetic system messages. SillyTavern semantics:
-  // depth=0 inserts after the last message; depth=1 inserts before the last;
-  // depth=N inserts N messages from the end.
   const depthInjections = [
     ...assembled.atDepthEntries,
     ...(assembled.authorNote ? [assembled.authorNote] : []),
@@ -736,20 +653,18 @@ export async function streamChat(
     depthInjections.length > 0
       ? spliceDepthInjections(slicedMessages, depthInjections)
       : slicedMessages;
-  // Expand {{user}}/{{char}} macros in every text part. The LLM never sees
-  // the literal token; persona name is swapped in before the upstream call.
   let processedMessages = expandMessageMacros(splicedMessages, assembled.vars);
 
-  // Per-preset transport flags. ORDER LOCKED — do not reshuffle:
+  // ORDER LOCKED, do not reshuffle:
   //  1. noSystemRole BEFORE merge: stripped system-as-user must be eligible
-  //     to collapse with an adjacent user during the merge step.
-  //  2. prefill BEFORE merge: prefill is assistant role; if user already
-  //     ended on assistant, mergeAlternateRoles will collapse them. Setting
-  //     `skipPrefillIfLastIsAssistant` opts out of that collapse.
-  //  3. mergeAlternateRoles AFTER prefill: merge runs once over the final
-  //     shape so output is strictly user/assistant/user/assistant.
-  //  4. prependUserStub LAST: must run after merge so the merge can't fold
-  //     the stub into a following user message and erase the stub semantics.
+  //     to collapse with an adjacent user during merge.
+  //  2. prefill BEFORE merge: prefill is assistant role; if user ended on
+  //     assistant, mergeAlternateRoles will collapse them.
+  //     skipPrefillIfLastIsAssistant opts out.
+  //  3. mergeAlternateRoles AFTER prefill: output strictly
+  //     user/assistant/user/assistant.
+  //  4. prependUserStub LAST so merge cannot fold the stub into a following
+  //     user message.
   if (assembled.flags.noSystemRole) {
     processedMessages = stripSystemRole(processedMessages);
   }
@@ -771,12 +686,8 @@ export async function streamChat(
   const messagesForUpstream = processedMessages;
 
   const modelMetadata = await getModelMetadata(body.model);
-  // Free models often have stale/inflated maxOutputTokens in metadata that
-  // exceeds what the upstream actually accepts. Cap to a safe budget.
-  // Captured during onFinish, surfaced via messageMetadata so the client can toast.
+  // Free models often advertise inflated maxOutputTokens; cap to a safe budget.
   const droppedParamsRef: { value: string | null } = { value: null };
-  // Surface usage to the client via messageMetadata so chat-history-adapter can
-  // persist token counts + cost into SQLocal without a follow-up server call.
   const usageRef: {
     value: {
       inputTokens: number;
@@ -799,8 +710,8 @@ export async function streamChat(
     model: provider.chatModel(body.model),
     messages: await convertToModelMessages(messagesForUpstream),
     system: assembled.system,
-    // new-api performs cross-group/key retries; disable SDK retry aggregation
-    // so the user sees real upstream errors verbatim.
+    // new-api performs cross-group/key retries; disable SDK aggregation so
+    // the user sees real upstream errors verbatim.
     maxRetries: 0,
     ...(effectiveMaxOutputTokens && {
       maxOutputTokens: effectiveMaxOutputTokens,
@@ -820,10 +731,8 @@ export async function streamChat(
     ...(assembled.sampling.presencePenalty !== undefined && {
       presencePenalty: assembled.sampling.presencePenalty,
     }),
-    // The AI SDK passes unknown sampling fields (min_p, top_a, repetition_penalty)
-    // through providerOptions; new-api strips what the upstream doesn't accept.
-    // extraBody is merged FIRST so explicit slider/reasoning values win on key
-    // collision (sliders are the primary surface; extraBody is the escape hatch).
+    // extraBody is merged FIRST so explicit slider/reasoning values win on
+    // key collision (sliders are primary, extraBody is the escape hatch).
     providerOptions: {
       openai: {
         ...(assembled.extraBody ?? {}),
@@ -839,9 +748,8 @@ export async function streamChat(
         ...(assembled.reasoningEffort && {
           reasoning_effort: assembled.reasoningEffort,
         }),
-        // Gemini "block off" jailbreak: send safetySettings with threshold=OFF
-        // for every harm category. Stronger than BLOCK_NONE. Only takes effect
-        // when upstream routes to Gemini; ignored elsewhere.
+        // Gemini block-off jailbreak: safetySettings threshold=OFF, stronger
+        // than BLOCK_NONE. No-op when upstream is not Gemini.
         ...(assembled.flags.geminiBlockOff && {
           safetySettings: GEMINI_SAFETY_OFF,
         }),
@@ -864,9 +772,8 @@ export async function streamChat(
         durationMs,
         tokensPerSecond,
       });
-      // Cost will be backfilled by the pending-usage drain on the upstream
-      // headers, but the client needs at minimum input/output tokens to update
-      // its local row. Cost on free models is 0 anyway.
+      // Cost is backfilled by the pending-usage drain on upstream headers;
+      // client needs input/output tokens here to update its local row.
       usageRef.value = {
         inputTokens,
         outputTokens,
@@ -874,7 +781,6 @@ export async function streamChat(
         durationMs,
         tokensPerSecond,
       };
-      // Capture dropped-params header for the messageMetadata callback below.
       const dropped = response.headers?.["x-newapi-dropped-params"];
       if (typeof dropped === "string" && dropped.length > 0) {
         droppedParamsRef.value = dropped;
@@ -916,12 +822,9 @@ export async function streamChat(
     },
   });
 
-  // User opt-in: when assembled.streamingEnabled is false, force the same
-  // buffered path that media models use. Whole reply waits, single chunk
-  // emits at end. Useful for picky models that mangle streaming output.
+  // User opt-out forces the buffered path (whole reply, single chunk at end).
   const userOptedOutOfStreaming = !assembled.streamingEnabled;
 
-  // Text models with streaming on: stream directly token-by-token.
   if (!buffered && !userOptedOutOfStreaming) {
     return result.toUIMessageStreamResponse({
       messageMetadata: ({ part }) => {
@@ -937,6 +840,5 @@ export async function streamChat(
     });
   }
 
-  // Video/buffered models OR user-opted-out: buffer, process URLs, then send.
   return handleBufferedStream(result, body, mediaType ?? "text");
 }

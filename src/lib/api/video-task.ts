@@ -1,12 +1,5 @@
 // Shared helpers for upstream new-api task endpoints
-// (POST /v1/video/generations, GET /v1/video/generations/:id). Used by
-// the chat task pipeline (uppercase TaskStatus vocabulary for the UI)
-// and the image generation pipeline (lowercase vocabulary that matches
-// our playgrounds.status DB column).
-//
-// Centralized here because both consumers parse the same upstream
-// response shapes and apply the same alias normalization
-// ("completed" -> "success", "failed" -> "failure", etc).
+// (POST /v1/video/generations, GET /v1/video/generations/:id).
 
 export type UpstreamSubmitResp = {
   id?: string;
@@ -18,18 +11,15 @@ export type UpstreamFetchResp = {
   task_id?: string;
   status?: string;
   progress?: string;
-  // Single-output task (most video models, single-image comfyui).
   result_url?: string;
-  // Multi-output task (ComfyUI batch_size>1). When set the poll handler
-  // walks every entry and writes one playground_images row per image.
+  // ComfyUI batch_size>1: poll handler writes one playground_images row per image.
   result_urls?: string[];
   fail_reason?: string;
 };
 
 /** Normalize new-api's status aliases into a canonical lowercase form.
- *  Returns one of: pending | submitted | queued | in_progress | success
- *  | failure | unknown. Callers that need uppercase (chat TaskStatus)
- *  should uppercase the result. */
+ *  Returns: pending | submitted | queued | in_progress | success | failure
+ *  | unknown. Chat TaskStatus callers must uppercase the result. */
 export function normalizeTaskStatus(raw: string | undefined): string {
   if (!raw) return "submitted";
   const lower = raw.toLowerCase();
@@ -39,9 +29,8 @@ export function normalizeTaskStatus(raw: string | undefined): string {
   return lower;
 }
 
-/** Unwrap the optional `data` envelope new-api wraps task responses in.
- *  Some routes return `{ data: {...} }`, others return the payload
- *  directly. Returns null when raw isn't a usable object. */
+/** Unwrap the optional `data` envelope: some routes return `{ data: {...} }`,
+ *  others return the payload directly. Null when raw isn't a usable object. */
 export function unwrapTaskData<T extends object>(raw: unknown): T | null {
   if (!raw || typeof raw !== "object") return null;
   if ("data" in raw && raw.data && typeof raw.data === "object") {

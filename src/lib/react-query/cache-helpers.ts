@@ -1,10 +1,3 @@
-/**
- * Pure helpers for React Query `setQueryData` callbacks on flat (non-paginated)
- * lists keyed by `id`. The four RP entities (characters, personas, lorebooks,
- * presets) all share these shapes; without these the same setQueryData closure
- * is copied verbatim ~20 times across rp-hook.ts.
- */
-
 export function listAdd<T>(old: T[] | undefined, item: T): T[] {
   return old ? [...old, item] : [item];
 }
@@ -31,10 +24,6 @@ export function itemPatch<T>(
   return old ? { ...old, ...patch } : old;
 }
 
-// ---------------------------------------------------------------------------
-// Paginated message-list helpers (shared by chat-history-adapter + mutations)
-// ---------------------------------------------------------------------------
-
 import type { InfiniteData, QueryClient } from "@tanstack/react-query";
 import { queryKeys } from "./keys";
 
@@ -45,11 +34,8 @@ type LooseMsg = { id: string; parentId?: string | null } & Record<
 type MessagesPage = { messages: LooseMsg[]; total: number };
 type MessagesInfinite = InfiniteData<MessagesPage>;
 
-/**
- * Update every page of the cached `chatMessages(convId)` infinite query by
- * mapping each message through `transform`. Use this for in-place edits where
- * the message count stays the same; for adds/removes use `mutateMessages`.
- */
+/** In-place edits where message count stays the same. For adds/removes use
+ *  `mutateMessages`. */
 export function patchMessages(
   qc: QueryClient,
   convId: string,
@@ -68,10 +54,8 @@ export function patchMessages(
   );
 }
 
-/**
- * Replace each page's `messages` array via `transform`, recomputing `total`.
- * Use for splice-deletes, parentId rewires, full-clear, etc.
- */
+/** Replace each page's `messages` array via `transform`, recomputing `total`.
+ *  For splice-deletes, parentId rewires, full-clear, etc. */
 export function mutateMessages(
   qc: QueryClient,
   convId: string,

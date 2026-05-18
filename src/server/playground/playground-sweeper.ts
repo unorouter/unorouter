@@ -1,22 +1,6 @@
-// Server-side sweep loop for generation status. Catches the case where the
-// client tab closes (or never mounts the row's polling hook) before the
-// upstream task terminates.
-//
-// Design:
-//   - Every SWEEP_INTERVAL_MS, find rows with non-terminal status whose
-//     updatedAt is older than STALE_AFTER_MS. The staleness gate prevents
-//     racing with the live client poll: if the client just polled (and
-//     bumped updatedAt), we skip this row.
-//   - Bounded concurrency. POLL_CONCURRENCY parallel polls per sweep so
-//     one stuck upstream call doesn't block the rest.
-//   - Each poll uses the row's `submittedKey` (the user's API key captured
-//     at submit time). pollSnapshotStatus enforces userId ownership.
-//
-// Singleton: started once per process via instrumentation.register().
-// Multi-instance deploys would dedupe via the staleness window: workers
-// poll the same row only if their wall-clock drift is large enough that
-// both see it as stale, which is fine since pollSnapshotStatus is
-// idempotent.
+// Catches the case where the client tab closes before the upstream task
+// terminates. Staleness gate avoids racing live client polls. Singleton via
+// instrumentation.register(); pollSnapshotStatus is idempotent.
 
 import { getDb } from "@/lib/db/server/client";
 import { playgrounds } from "@/lib/db/schema";
@@ -33,9 +17,7 @@ const STALE_AFTER_MS = 4_000;
 const POLL_CONCURRENCY = 4;
 const ROWS_PER_SWEEP = 50;
 
-// Probability the sweep tick also runs a retention pass. 0.1 amortizes
-// the scan to roughly once per 50 seconds at the 5s interval, which is
-// plenty for a 30-day window. Keep low to avoid hammering R2 deletes.
+// 0.1 amortizes to ~once per 50s at the 5s interval; plenty for a 30-day TTL.
 const RETENTION_SWEEP_CHANCE = 0.1;
 const RETENTION_DELETE_CONCURRENCY = 4;
 const RETENTION_BATCH_SIZE = 100;
@@ -56,9 +38,6 @@ export function startGenerationSweeper(): void {
 function schedule(): void {
   setTimeout(() => {
     const tasks: Array<Promise<void>> = [sweepOnce()];
-    // Amortized retention pass: ~1 in 10 ticks runs the expiry scan.
-    // The retention task is independent of the poll sweep so a slow R2
-    // delete doesn't block live polling.
     if (Math.random() < RETENTION_SWEEP_CHANCE) {
       tasks.push(sweepExpired());
     }
@@ -82,10 +61,7 @@ async function sweepOnce(): Promise<void> {
   const db = getDb();
   const cutoff = new Date(Date.now() - STALE_AFTER_MS);
 
-  // Rows worth polling: have a submittedKey (i.e. still authorisable), are
-  // not yet terminal, and haven't been touched recently. The
-  // not-success / not-failure pair is faster than a NOT IN list on SQLite
-  // for our small status alphabet.
+  // ne(success) + ne(failure) is faster than NOT IN on SQLite.
   const candidates = await db
     .select({
       id: playgrounds.id,
@@ -126,10 +102,6 @@ async function sweepOnce(): Promise<void> {
   await Promise.all(workers);
 }
 
-// Retention sweep: find sessions past expiresAt and cascade-delete them.
-// playgrounds + playground_images cascade via FK. R2 objects are deleted
-// per image inside deleteSessionAsSystem. Concurrency is bounded so we
-// don't hammer R2 if a large backlog accumulates.
 async function sweepExpired(): Promise<void> {
   const ids = await listExpiredSessionIds(RETENTION_BATCH_SIZE);
   if (ids.length === 0) return;

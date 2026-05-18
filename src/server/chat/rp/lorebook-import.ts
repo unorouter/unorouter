@@ -1,11 +1,3 @@
-/**
- * Lorebook parsing and emission via @character-foundry/character-foundry.
- *
- * Read: SillyTavern world_info, Agnai, RisuAI, Wyvern, CCv3 character_book.
- * Write: same set; we emit SillyTavern format by default since it's the
- * lingua franca for SillyTavern, Chub, and most RP clients.
- */
-
 import {
   parseLorebook,
   serializeLorebook,
@@ -51,8 +43,8 @@ const DB_TO_FOUNDRY_POSITION = {
 function mapPositionToDb(
   raw: unknown,
 ): "before_char" | "after_char" | "top" | "bottom" | "at_depth" {
-  // CCv3 numeric positions: SillyTavern convention is
-  // 0=before_char, 1=after_char, 2=top, 3=bottom, 4=at_depth.
+  // CCv3 numeric positions: 0=before_char, 1=after_char, 2=top, 3=bottom,
+  // 4=at_depth (SillyTavern convention).
   if (typeof raw === "number") {
     return raw === 0
       ? "before_char"
@@ -80,11 +72,6 @@ function mapPositionToDb(
   return "before_char";
 }
 
-/**
- * Parse a lorebook JSON file (any of the supported formats) into our flat
- * shape. Returns null when the input has no content; the caller decides how
- * to surface that.
- */
 export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
   if (!raw || typeof raw !== "object") return null;
 
@@ -114,9 +101,8 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
       selective: e.selective ?? false,
       priority: e.priority ?? 100,
       position: mapPositionToDb(e.position),
-      // CCv3 doesn't carry per-entry depth in its core schema; fall back to
-      // a sensible default. SillyTavern stores depth in extensions, which
-      // the library normalizes into the core data when present.
+      // CCv3 has no per-entry depth in core schema; ST stores it in
+      // extensions and the library normalizes it.
       depth:
         typeof (e as Record<string, unknown>).depth === "number"
           ? ((e as Record<string, unknown>).depth as number)
@@ -138,11 +124,6 @@ export function parseLorebookJson(raw: unknown): ParsedLorebook | null {
   };
 }
 
-/**
- * Serialize our DB lorebook + entries into a JSON string in the requested
- * format. Defaults to SillyTavern (`world_info`) since that's what every
- * downstream RP client accepts.
- */
 export function serializeLorebookForExport(
   book: {
     name: string;

@@ -28,13 +28,6 @@ import {
 import dayjs from "dayjs";
 import { and, eq, inArray, isNotNull, lt } from "drizzle-orm";
 
-// ---------------------------------------------------------------------------
-// Sync service: shared engine driving Add/Resync (idempotent POST /sync) and
-// Remove sync (DELETE /sync) for every Group A entity. Server holds rows
-// only while `syncExpiresAt > now()`; past that, sweepExpired hard-deletes
-// them on the next request. Local SQLocal is never touched by this module.
-// ---------------------------------------------------------------------------
-
 export type SyncKind =
   | "characters"
   | "personas"
@@ -45,9 +38,6 @@ export type SyncKind =
   | "playgroundSessions"
   | "theme";
 
-// Per-kind bundle shapes returned by `getSyncedBundle`. Row types are
-// inferred from the Drizzle schema (single source of truth) so hydration
-// code can narrow without manual casts.
 export type SyncBundleMap = {
   characters: { character: typeof characters.$inferSelect };
   personas: { persona: typeof personas.$inferSelect };
@@ -87,24 +77,17 @@ function expiryFromDays(days: number = DEFAULT_TTL_DAYS): Date {
   return dayjs().add(days, "day").toDate();
 }
 
-// Per-request memo so the route-level .derive() can call sweepExpired once
-// per request without a second pass adding cost.
+// Per-request memo so route-level .derive() can call sweepExpired once.
 const sweptThisRequest = new WeakSet<object>();
 export function sweepKey(): object {
   return {};
 }
 
-/**
- * Hard-delete every row in Group A whose sync window has elapsed. FK cascades
- * remove children. Idempotent; safe to call on every request.
- */
 export async function sweepExpired(userId: number, key?: object) {
   if (key && sweptThisRequest.has(key)) return;
   if (key) sweptThisRequest.add(key);
   const db = getDb();
   const now = new Date();
-  // v4 = IDB canonical. Expired sync windows hard-delete server rows;
-  // FK cascade removes children. Local SQLocal copies untouched.
   await Promise.all([
     db
       .delete(characters)
@@ -180,12 +163,6 @@ export async function sweepExpired(userId: number, key?: object) {
       ),
   ]);
 }
-
-// ---------------------------------------------------------------------------
-// Bulk sync-state probe used by the client hydrator on every chat-page load.
-// Returns minimal {id, syncExpiresAt, updatedAt} so the client can diff
-// against local SQLocal and decide which bundles to pull.
-// ---------------------------------------------------------------------------
 
 type SyncStateRow = {
   id: string;
@@ -311,11 +288,6 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
     })),
   };
 }
-
-// ---------------------------------------------------------------------------
-// Bundle reader. Read time is the only time children are aggregated; nothing
-// is denormalized server-side. Cascade children FK from parent.
-// ---------------------------------------------------------------------------
 
 export async function getSyncedBundle(
   userId: number,
@@ -459,8 +431,7 @@ export async function getSyncedBundle(
       };
     }
     case "theme": {
-      // Theme has userId as PK; the route-level `:id` is ignored on read
-      // because there is only one row per user. Returning the row directly.
+      // userThemes is keyed by userId; route-level :id ignored.
       const rows = await db
         .select()
         .from(userThemes)
@@ -472,23 +443,12 @@ export async function getSyncedBundle(
   }
 }
 
-// ---------------------------------------------------------------------------
-// Add sync / Resync: single idempotent entry. Sets `syncExpiresAt = now+30d`.
-// Upserts the full row payload (and known children) so a previously-expired
-// row can be re-added without a separate `create` call from the client.
-// Bundle payload shapes mirror what getSyncedBundle returns.
-// ---------------------------------------------------------------------------
-
 export type SyncRequestPayload = {
   days?: number;
-  // The Group A entity body; shape depends on kind. Required when the row
-  // does not yet exist server-side (re-add after expiry, or first-time sync
-  // of a local-only row). For Resync of an extant row, payload still wins
-  // (client is authoritative for any drift).
+  // Required for first sync or re-add after expiry. For resync of an extant
+  // row, payload still wins (client is authoritative for any drift).
   payload?: unknown;
-  // Mirror PATCH on save: keep existing expiry, refresh content only. If the
-  // row doesn't exist yet we fall back to a fresh `now+30d` window because
-  // an upsert without an expiry would be invisible to the mirror.
+  // Mirror PATCH on save: keep existing expiry, refresh content only.
   keepExpiry?: boolean;
 };
 
@@ -499,8 +459,6 @@ export async function setSyncExpiry(
   req: SyncRequestPayload,
 ) {
   const db = getDb();
-  // If caller asked to preserve the existing window, read the current
-  // `sync_expires_at` (if any) and reuse it. Otherwise compute a fresh one.
   let expiresAt = expiryFromDays(req.days);
   if (req.keepExpiry) {
     const existing = await readExistingSyncExpiry(db, userId, kind, id);
@@ -591,11 +549,6 @@ async function readExistingSyncExpiry(
     }
   }
 }
-
-// ---------------------------------------------------------------------------
-// Per-kind upsert handlers. Each accepts the (already validated) payload and
-// applies it inside one transaction together with the new syncExpiresAt.
-// ---------------------------------------------------------------------------
 
 type UpsertHandler = (
   db: ReturnType<typeof getDb>,
@@ -1030,9 +983,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
       }
 
       if (body.messageItems) {
-        // messageItems FK cascades when their parent message is deleted, so
-        // the per-message reset above already wiped them. Re-insert from
-        // the client-supplied bundle.
         for (const it of body.messageItems) {
           await tx.insert(messageItems).values({
             id: it.id as string,
@@ -1052,9 +1002,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           let r2Key = (m.r2Key as string | null | undefined) ?? null;
           let r2Url = (m.r2Url as string | null | undefined) ?? null;
 
-          // If the client only has the blob locally (data_base64 set, no R2
-          // key yet), upload it now. Turso never stores base64 - we want the
-          // server-side row pointer-only so the DB stays small.
+          // Local-only blob: upload to R2 so Turso stays pointer-only.
           if (!r2Key && incomingBase64) {
             const buffer = Buffer.from(incomingBase64, "base64");
             r2Key = mediaKey("user", id, m.id as string, uid(8));
@@ -1072,9 +1020,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             convId: id,
             r2Key,
             r2Url,
-            // data_base64 stays null on Turso. Local clients keep their copy
-            // and re-read it via bundle pulls if they wipe their OPFS, but
-            // the server side is always pointer-only.
             dataBase64: null,
             mimeType: m.mimeType as string,
             sizeBytes: m.sizeBytes as number,
@@ -1196,9 +1141,8 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
     });
   },
 
-  // Theme is single-row per user keyed by userId. The route-level `:id` is
-  // ignored because there is only one row. Payload shape: `{ themeJson: ... }`
-  // OR the raw theme JSON itself (we accept either for client convenience).
+  // Theme is single-row per user keyed by userId. Accepts either
+  // `{ themeJson: ... }` or the raw theme JSON.
   theme: async (db, userId, _id, expiresAt, payload) => {
     const body = (payload ?? {}) as Record<string, unknown>;
     const themeJson = (body.themeJson ?? body) as UserTheme;
@@ -1227,11 +1171,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
     });
   },
 };
-
-// ---------------------------------------------------------------------------
-// Remove sync. v4 = IDB canonical. Hard-delete server row + FK cascade
-// children. Local SQLocal keeps its copy untouched and reverts to local-only.
-// ---------------------------------------------------------------------------
 
 export async function clearSyncExpiry(
   userId: number,
@@ -1291,7 +1230,7 @@ export async function clearSyncExpiry(
         .returning({ id: playgroundSessions.id });
       break;
     case "theme":
-      // `id` ignored — user_themes is keyed by userId.
+      // `id` ignored; user_themes is keyed by userId.
       result = (
         await db
           .delete(userThemes)

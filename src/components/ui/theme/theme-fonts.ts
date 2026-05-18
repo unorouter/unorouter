@@ -13,15 +13,10 @@ import {
   Space_Grotesk,
 } from "next/font/google";
 
-/**
- * Curated font palette exposed in the theme picker. `next/font/google`
- * builds these at compile time so we can't add fonts at runtime; instead we
- * pre-import a sensible spread (~12 fonts incl. accessibility-friendly) and
- * the picker just toggles the active family by writing the CSS variable
- * reference into `userTheme.fonts.*`.
- *
- * Adding more fonts: import here and append to FONT_OPTIONS.
- */
+// `next/font/google` builds these at compile time, so fonts can't be added
+// at runtime; the picker just toggles the active family by writing the CSS
+// variable reference into `userTheme.fonts.*`. To add more, import here and
+// append to FONT_OPTIONS.
 
 const inter = Inter({
   subsets: ["latin"],
@@ -89,23 +84,17 @@ const robotoMono = Roboto_Mono({
 export type FontKind = "sans" | "mono" | "display";
 
 export type FontOption = {
-  /** Stable id used in `userTheme.fonts.*` lookup. */
   id: string;
-  /** Human label shown in the picker. */
   label: string;
-  /** Tailwind className from next/font (attached to body for cascade). */
+  /** className from next/font (attached to body for cascade). */
   cssVar: string;
-  /** Explicit CSS variable name passed to next/font (e.g. "--font-inter").
-   *  Use this in `var(...)` references; `cssVar` is the className. */
+  /** CSS variable name for `var(...)` references; `cssVar` is the className. */
   varName: string;
-  /** Which buckets this font is suitable for. */
   kinds: FontKind[];
-  /** Whether to mark in the picker as accessibility-tuned. */
   accessibility?: boolean;
 };
 
 export const FONT_OPTIONS: FontOption[] = [
-  // Sans / display
   {
     id: "inter",
     label: "Inter",
@@ -194,13 +183,12 @@ export const FONT_OPTIONS: FontOption[] = [
   },
 ];
 
-/** Single space-joined string of every preloaded font CSS var, attached to
- *  `<body>` so all fonts are available for live preview without re-render. */
+/** Space-joined string of every preloaded font CSS var, attached to `<body>`
+ *  so all fonts are available for live preview without re-render. */
 export const allFontVariablesClass = FONT_OPTIONS.map((f) => f.cssVar).join(
   " ",
 );
 
-/** Look up CSS family for a font id. Falls back to project default. */
 export function fontStackFromId(
   id: string | undefined,
   kind: FontKind,
@@ -208,7 +196,6 @@ export function fontStackFromId(
   if (!id) return undefined;
   const opt = FONT_OPTIONS.find((f) => f.id === id);
   if (!opt || !opt.kinds.includes(kind)) return undefined;
-  // The cssVar is just `--font-foo`; we wrap in var() and add fallback stacks.
   const fallback =
     kind === "mono" ? "ui-monospace, monospace" : "ui-sans-serif, system-ui";
   return `var(${opt.cssVar}), ${fallback}`;

@@ -20,10 +20,7 @@ type TavilySearchResponse = {
   results: TavilyResult[];
 };
 
-/**
- * Ask the cheapest available model whether the query needs live web data.
- * Returns false on error (fail closed to save Tavily quota).
- */
+// Returns false on error: fail closed to save Tavily quota.
 export async function needsWebSearch(
   apiKey: string,
   userText: string,
@@ -57,10 +54,6 @@ export async function needsWebSearch(
   }
 }
 
-/**
- * Search Tavily for web results relevant to the query.
- * Returns null if the API key is missing or the request fails.
- */
 export async function searchTavily(
   query: string,
 ): Promise<TavilySearchResponse | null> {
@@ -109,9 +102,6 @@ export async function searchTavily(
   }
 }
 
-/**
- * Format Tavily search results into a system message for LLM context injection.
- */
 export function formatSearchContext(search: TavilySearchResponse): string {
   const entries = search.results
     .map((r, i) => `[${i + 1}] ${r.title}\nURL: ${r.url}\n${r.content}`)

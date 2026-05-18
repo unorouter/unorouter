@@ -14,22 +14,12 @@ import { logger } from "@/lib/utils/logger";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
 
-/** Single synthetic message to splice into the upstream message array at
- *  `depth` turns from the end (1 = before the last message, etc).
- *  `role` defaults to "system" for author note; lorebook entries pass their
- *  own role. Stream service downgrades "system" to "user" for providers that
- *  don't accept mid-conversation system messages (e.g. Gemini). */
 export type DepthInjection = {
   text: string;
   depth: number;
   role?: "system" | "user";
 };
 
-/**
- * Source shape that can carry sampling overrides: presets, conversation
- * settings, and per-stream overrides all match this. `maxTokens` maps to the
- * SDK's `maxOutputTokens`; the rest pass through verbatim.
- */
 type SamplingSource = {
   temperature?: number | null;
   topP?: number | null;
@@ -42,10 +32,6 @@ type SamplingSource = {
   maxTokens?: number | null;
 };
 
-/**
- * Merge non-null sampling fields from `src` into `dest`. Later calls win
- * field-by-field, so callers should layer base → overrides.
- */
 function mergeSampling(
   dest: AssembledSystem["sampling"],
   src: SamplingSource | null | undefined,
@@ -65,9 +51,7 @@ function mergeSampling(
 }
 
 export type AssembledSystem = {
-  /** Composed system prompt (character + persona + before/after-char lorebook + web search). */
   system: string | undefined;
-  /** Numbers passed straight through to streamText; new-api strips unsupported. */
   sampling: {
     temperature?: number;
     topP?: number;
@@ -80,24 +64,13 @@ export type AssembledSystem = {
     maxOutputTokens?: number;
   };
   reasoningEffort?: string;
-  /** Sliding-window size to apply to messages array. */
   chatMemory: number;
-  /** When false, BFF buffers the full upstream reply before emitting. */
   streamingEnabled: boolean;
-  /** Author's note as a depth-injected synthetic system message. */
   authorNote?: DepthInjection;
-  /** Lorebook entries with `position=at_depth`, each with their own depth. */
   atDepthEntries: DepthInjection[];
-  /**
-   * Parsed extra body JSON merged into providerOptions. User escape hatch
-   * for fields the slider UI doesn't cover (reasoning_effort, service_tier,
-   * prediction). Sliders win on key conflicts. Empty/invalid JSON yields
-   * undefined and is silently ignored.
-   */
+  /** Parsed extra body merged into providerOptions. Sliders win on key clash. */
   extraBody?: Record<string, unknown>;
-  /** Assistant-role priming message appended last (jailbreak-style prefill). */
   prefill?: string;
-  /** Variable map for {{user}}/{{char}} expansion in user message text. */
   vars: {
     user: string;
     char: string;
@@ -105,7 +78,6 @@ export type AssembledSystem = {
     char_description: string;
     scenario: string;
   };
-  /** Per-preset transport flags controlling message-array rewriting. */
   flags: {
     forceAlternateRoles: boolean;
     noSystemRole: boolean;
@@ -115,11 +87,6 @@ export type AssembledSystem = {
   };
 };
 
-/**
- * Try to parse a free-form extraBody JSON string. Returns undefined when the
- * string is empty, whitespace, or doesn't parse as a plain object — same
- * behavior as the UI's invalid-state indicator.
- */
 function parseExtraBody(
   raw: string | null | undefined,
 ): Record<string, unknown> | undefined {
@@ -130,7 +97,7 @@ function parseExtraBody(
       return parsed as Record<string, unknown>;
     }
   } catch {
-    // Malformed JSON — drop silently. UI surfaces this with a red border.
+    // Malformed JSON: UI surfaces this with a red border.
   }
   return undefined;
 }
@@ -153,22 +120,12 @@ export function expandTemplateVars(
   });
 }
 
-/**
- * Accurate token count via gpt-tokenizer (cl100k_base by default, matches
- * GPT-4 / GPT-4o / GPT-3.5-turbo. Close enough for non-OpenAI models for
- * budget decisions; off by ~10-20% on Claude/Gemini, which is fine here).
- */
+// gpt-tokenizer (cl100k_base) is off by ~10-20% on Claude/Gemini, fine here.
 function estimateTokens(text: string): number {
   if (!text) return 0;
   return encode(text).length;
 }
 
-/**
- * Build an `AssembledSystem` from per-stream `body.overrides` only. Used when
- * the conversation has no `conversation_settings` row (guest convs, or the
- * very first turn before the row is created). Mirrors the shape of
- * `assembleForStream` so `streamChat` can pass either result through.
- */
 export function assembleFromOverrides(
   overrides: StreamOverrides | undefined,
   fallbackSystemMessage: string | undefined,
@@ -307,13 +264,6 @@ export async function loadConvContext(convId: string) {
   return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
 }
 
-// ---------------------------------------------------------------------------
-// Build the same LoadedConvContext shape from a client-supplied chatContext
-// payload. Used by the IDB-first stream path so the server never touches
-// Turso RP tables. Shape matches loadConvContext() exactly so downstream
-// code paths (assembleForStream, selectLorebookEntries) work unchanged.
-// ---------------------------------------------------------------------------
-
 type ClientChatContext = {
   persona?: unknown;
   characters?: Array<unknown>;
@@ -326,8 +276,6 @@ export function buildContextFromClient(
   ctx: ClientChatContext,
 ): LoadedConvContext {
   if (!ctx.settings) return null;
-  // The client ships full row bodies — same column names as the Turso rows.
-  // We trust the shape (user owns content) and skip per-field validation.
   const settings = ctx.settings as NonNullable<LoadedConvContext>["settings"];
   const charRows = (ctx.characters ?? []) as Array<
     NonNullable<LoadedConvContext>["boundCharacters"][number]["character"]
@@ -377,10 +325,6 @@ type LbRow = LoadedConvContext extends infer T
     : never
   : never;
 
-/**
- * Filter `entries` to those whose primary keys (or `constant`) match `text`.
- * Returns matched entries in priority-desc order. Caller handles budgeting.
- */
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -413,16 +357,6 @@ function matchEntries(entries: LbEntry[], text: string): LbEntry[] {
 
 const MAX_RECURSIVE_PASSES = 3;
 
-/**
- * Select lorebook entries to inject for this turn, respecting per-lorebook
- * `scanDepth`, `tokenBudget`, and `recursiveScanning`. Each book is scanned
- * independently; results are merged (dedup by entry id) and globally
- * priority-sorted.
- *
- * @param recentUserTexts user-message texts in newest-first order
- * @param entries all enabled entries from all bound books
- * @param books book metadata keyed by id (provides scanDepth/tokenBudget/recursive)
- */
 export function selectLorebookEntries(
   recentUserTexts: string[],
   entries: LbEntry[],
@@ -468,7 +402,6 @@ export function selectLorebookEntries(
         added++;
       }
       if (added === 0 || !recursive) break;
-      // Next pass scans the freshly-injected content for further keyword hits.
       scanText = accepted.map((e) => e.content).join("\n");
     }
 
@@ -482,14 +415,6 @@ export function selectLorebookEntries(
   return merged;
 }
 
-/**
- * Compose the final system prompt + sampling + depth-injections for a stream
- * call.
- *
- * @param convId conversation id
- * @param recentUserTexts user-message texts in newest-first order
- * @param fallbackSystemMessage e.g. web-search context the caller already built
- */
 export async function assembleForStream(
   convId: string,
   recentUserTexts: string[],
@@ -523,7 +448,6 @@ export async function assembleForStream(
 
   const { settings, boundCharacters, persona, preset, lbRows, lbEntries } = ctx;
 
-  // Pick the primary character (first active) for {{char}} resolution
   const primary = boundCharacters[0]?.character;
   const userName = persona?.name ?? "User";
   const charName = primary?.name ?? "Assistant";
@@ -542,15 +466,11 @@ export async function assembleForStream(
         })
       : "";
 
-  // Per-book selection (each book brings its own scanDepth, tokenBudget,
-  // recursiveScanning).
   const booksById = new Map(lbRows.map((b) => [b.id, b]));
   const selected = selectLorebookEntries(recentUserTexts, lbEntries, booksById);
 
-  // Compose static system block
   const sections: string[] = [];
 
-  // Preset main prompt: top-of-prompt instructions, first thing the LLM sees.
   if (preset?.mainPrompt) sections.push(expand(preset.mainPrompt));
 
   if (fallbackSystemMessage) sections.push(fallbackSystemMessage);
@@ -560,14 +480,9 @@ export async function assembleForStream(
   for (const e of selected.filter((x) => x.position === "before_char"))
     sections.push(expand(e.content));
 
-  // Multi-character: render every bound character block in orderIndex order.
-  // {{char}} still resolves to the primary (first) character, but each bound
-  // character gets its own block in the system prompt so the LLM can keep
-  // them distinct (matches RisuAI/SillyTavern multi-char convention).
-  // Trigger gating: when `alwaysActive` is false AND the character has
-  // triggers, scan recent user texts; skip the block if no key matches.
-  // Primary character is always rendered regardless of triggers so the
-  // conversation doesn't suddenly lose its protagonist.
+  // Multi-character: {{char}} resolves to the primary; each bound character
+  // gets its own block (matches RisuAI/SillyTavern multi-char convention).
+  // Non-primary blocks with alwaysActive=false are trigger-gated.
   const charScanText = recentUserTexts.join("\n");
   for (let i = 0; i < boundCharacters.length; i++) {
     const binding = boundCharacters[i];
@@ -615,7 +530,6 @@ export async function assembleForStream(
   if (primary?.postHistoryInstructions)
     sections.push(expand(primary.postHistoryInstructions));
 
-  // Preset post-history: tail-end injected instructions (end-of-system-prompt).
   if (preset?.postHistory) sections.push(expand(preset.postHistory));
 
   for (const e of selected.filter((x) => x.position === "bottom"))
@@ -624,8 +538,6 @@ export async function assembleForStream(
   const system =
     sections.filter(Boolean).join("\n\n").trim() || fallbackSystemMessage;
 
-  // Depth injections: author note + at_depth lorebook entries. Caller splices
-  // these as synthetic system messages into the message array.
   const atDepthEntries: DepthInjection[] = selected
     .filter((e) => e.position === "at_depth")
     .map((e) => ({
@@ -640,13 +552,10 @@ export async function assembleForStream(
       }
     : undefined;
 
-  // Sampling: layer preset (base) under settings (overrides). Field-by-field
-  // non-null wins.
   const sampling: AssembledSystem["sampling"] = {};
   mergeSampling(sampling, preset);
   mergeSampling(sampling, settings);
 
-  // Extra body: settings (per-conversation) wins over preset (per-user).
   const extraBody =
     parseExtraBody(settings.extraBody) ?? parseExtraBody(preset?.extraBody);
 

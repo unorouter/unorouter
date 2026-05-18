@@ -33,10 +33,7 @@ export const serverPathname = async (fallbackLocale: string) => {
   return reqUrl ? new URL(reqUrl).pathname : `/${fallbackLocale}`;
 };
 
-/**
- * get cookie from nextjs header for RPC calls in server components ONLY.
- * @returns An object containing the cookie header for authentication.
- */
+/** Read cookie from nextjs header for RPC calls in server components ONLY. */
 export const getCookieValue = async <T>(
   key: string,
 ): Promise<T | undefined> => {
@@ -48,7 +45,6 @@ export const getCookieValue = async <T>(
   }
 };
 
-/** Server-side utility for docs code block placeholders and model names */
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const data = handleElysia(await rpc.api.pricing.get());
   const rawModels = data.models ?? [];
@@ -62,9 +58,8 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const modelFor = (vendor: string) =>
     models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
 
-  /** Highest-output-price text model across all vendors. Used in docs Quick Config
-   *  blocks to show an aspirational default (the best model users can aim for)
-   *  rather than whatever happens to sort first upstream. */
+  /** Highest-output-price text model: aspirational default for docs Quick
+   *  Config blocks, rather than whatever sorts first upstream. */
   const topTextModel = models
     .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
     .reduce<
@@ -104,11 +99,9 @@ export async function getServerGuestConvIds(): Promise<string[]> {
   return (await getCookieValue<string[]>(GUEST_CONVS_COOKIE)) ?? [];
 }
 
-/**
- * Assert that a Drizzle query result returned at least one row, throwing the
- * canonical NOT_FOUND error otherwise. The 50+ ownership/select-and-throw
- * sites in `src/server/chat/**` all reduce to this one-liner.
- */
+/** Throw the canonical NOT_FOUND error if the Drizzle query returned zero
+ *  rows. Reduces the 50+ ownership/select-and-throw sites in
+ *  `src/server/chat/**` to one line. */
 export function assertFound<T>(
   rows: ArrayLike<T>,
 ): asserts rows is { 0: T } & ArrayLike<T> {

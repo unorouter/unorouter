@@ -23,10 +23,6 @@ import type {
 } from "@/lib/validation/chat";
 import { and, asc, desc, eq, inArray, like, sql } from "drizzle-orm";
 
-// ---------------------------------------------------------------------------
-// Pagination: messages + nested items, ordered chronologically
-// ---------------------------------------------------------------------------
-
 export async function getPaginatedMessages(
   convId: string,
   query: { p?: number; page_size?: number },
@@ -52,7 +48,6 @@ export async function getPaginatedMessages(
 
   const ordered = msgRows.reverse();
 
-  // Fetch items for the page in one query
   const ids = ordered.map((m) => m.id);
   const items =
     ids.length > 0
@@ -78,10 +73,6 @@ export async function getPaginatedMessages(
     totalMessages: countResult[0]?.count ?? 0,
   };
 }
-
-// ---------------------------------------------------------------------------
-// Listing
-// ---------------------------------------------------------------------------
 
 export async function listConversations(
   userId: number,
@@ -115,7 +106,6 @@ export async function listConversations(
         totalCost: conversations.totalCost,
         createdAt: conversations.createdAt,
         updatedAt: conversations.updatedAt,
-        // Pull default model from settings (1:1)
         model: conversationSettings.defaultModel,
       })
       .from(conversations)
@@ -136,10 +126,6 @@ export async function listConversations(
   return { items, total: countResult[0]?.count ?? 0, page, pageSize };
 }
 
-// ---------------------------------------------------------------------------
-// Create / read
-// ---------------------------------------------------------------------------
-
 export async function createConversation(
   userId: number,
   body: CreateConversationBody,
@@ -157,9 +143,6 @@ export async function createConversation(
       updatedAt: now,
     });
 
-    // Seed `conversation_settings` from the optional overrides the client
-    // sends from its jotai defaults, so the first turn already runs with the
-    // user's preferred knobs.
     const o = body.overrides;
     await tx.insert(conversationSettings).values({
       convId: id,
@@ -195,10 +178,6 @@ export async function createConversation(
 
   return { id, model: body.model, title: body.title ?? null };
 }
-
-// ---------------------------------------------------------------------------
-// Update
-// ---------------------------------------------------------------------------
 
 export async function updateConversation(
   userId: number,
@@ -259,9 +238,7 @@ export async function updateSettings(
       .limit(1);
     assertFound(ownership);
 
-    // Verify persona/preset ids belong to this user before persisting them.
-    // Guests (userId=0) cannot own personas/presets, so we silently drop any
-    // such references in the body rather than 404'ing the whole update.
+    // Guests cannot own personas/presets; silently drop refs.
     if (userId === 0) {
       body.personaId = undefined;
       body.presetId = undefined;
@@ -324,14 +301,6 @@ export async function getSettings(userId: number, convId: string) {
     .limit(1);
   return rows[0];
 }
-
-// Bindings (getBindings, updateBindings) live in `rp/binding.service.ts` —
-// they reference user-owned RP entities (characters, lorebooks) and belong on
-// the /rp router prefix.
-
-// ---------------------------------------------------------------------------
-// Delete
-// ---------------------------------------------------------------------------
 
 export async function deleteConversation(userId: number, convId: string) {
   const db = getDb();
@@ -396,10 +365,6 @@ export async function claimConversations(userId: number, convIds: string[]) {
   return { claimed: result.length };
 }
 
-// ---------------------------------------------------------------------------
-// Clear: drop all messages + items, keep settings, bindings, title, totals
-// ---------------------------------------------------------------------------
-
 export async function clearConversation(userId: number, convId: string) {
   const db = getDb();
   return db.transaction(async (tx) => {
@@ -420,10 +385,6 @@ export async function clearConversation(userId: number, convId: string) {
     return { id: convId };
   });
 }
-
-// ---------------------------------------------------------------------------
-// Duplicate: clone messages, items, settings, bindings into a new conversation
-// ---------------------------------------------------------------------------
 
 export async function duplicateConversation(userId: number, convId: string) {
   const db = getDb();
@@ -579,15 +540,6 @@ export async function duplicateConversation(userId: number, convId: string) {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Active-branch walk: chronological path from root to the latest active tip
-// ---------------------------------------------------------------------------
-
-/**
- * Load all messages + items for a conv, then walk the active-branch chain
- * from the latest active tip back to the root in chronological order. Shared
- * by `getConversationMarkdown` and `exportConversationSillyTavern`.
- */
 export async function walkActiveBranch(convId: string) {
   const db = getDb();
 
@@ -629,10 +581,6 @@ export async function walkActiveBranch(convId: string) {
 
   return { path, itemsByMsg, tipId: tip?.id };
 }
-
-// ---------------------------------------------------------------------------
-// Markdown: render the active branch as markdown for clipboard copy
-// ---------------------------------------------------------------------------
 
 export async function getConversationMarkdown(userId: number, convId: string) {
   const db = getDb();

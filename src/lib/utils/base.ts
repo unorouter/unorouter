@@ -7,8 +7,6 @@ import type {
   UnwrapApiResponse,
 } from "../types/eden";
 
-// Re-export focused helpers so existing `import ... from "@/lib/utils/base"`
-// consumers keep working without churn.
 export {
   formatLatency,
   formatPct,
@@ -27,7 +25,6 @@ export function safeJsonParse<T = Record<string, unknown>>(
 ): T {
   if (!raw) return fallback;
   try {
-    // SAFETY: caller provides typed fallback; parse failure is caught
     return JSON.parse(raw) as T;
   } catch {
     return fallback;
@@ -60,17 +57,16 @@ export function copyToClipboardAsync(
   ]);
 }
 
-/** Encode a model name for safe use as a URL slug. next-intl's pathname
- * matcher rejects raw `[`/`]` in param values because they collide w/ the
- * `[slug]` template syntax. Models like `claude-haiku-4-5-20251001[1m]`
- * need their brackets URL-encoded. */
+/** URL-encode brackets: next-intl's pathname matcher rejects raw `[`/`]` in
+ *  param values, colliding w/ `[slug]` template syntax. Models like
+ *  `claude-haiku-4-5-20251001[1m]` need their brackets encoded. */
 export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D");
 }
 
 export type LabeledRow = { label: string; value: ReactNode };
 
-/** Build a `{ label, value }` row when `condition` is truthy; otherwise null. */
+/** `{ label, value }` row when `condition` is truthy; otherwise null. */
 export function row(
   condition: unknown,
   label: string,
@@ -79,22 +75,17 @@ export function row(
   return condition ? { label, value } : null;
 }
 
-/** Safely unwrap an Orval-generated API response, throwing if data is null. */
+/** Unwrap an Orval-generated API response, throwing if data is null. */
 export function unwrap<T extends { data: unknown }>(
   res: T,
 ): ExcludeVoid<NonNullable<T["data"]>> {
   if (res.data == null) throw new Error(msg("ERRORS.UNEXPECTED_RESPONSE"));
-  // SAFETY: null-checked above; cast needed for generic return type
   return res.data as ExcludeVoid<NonNullable<T["data"]>>;
 }
 
-/**
- * Handles an Elysia/Eden treaty response:
- * - Throws on non-200 status
- * - Throws on { success: false } responses
- * - Unwraps { success: true, data: D } -> D
- * - Returns direct data as-is
- */
+/** Handle an Elysia/Eden treaty response. Throws on non-200 or
+ *  `{ success: false }`; unwraps `{ success: true, data }`; else returns
+ *  body as-is. */
 export function handleElysia<T extends { data: unknown; status: number }>(
   response: T,
 ): UnwrapApiResponse<ExtractData<T>> {
@@ -110,10 +101,8 @@ export function handleElysia<T extends { data: unknown; status: number }>(
       throw new Error(envelope.message ?? msg("ERRORS.REQUEST_FAILED"));
     }
     if ("data" in envelope) {
-      // SAFETY: generic return type cannot be inferred from runtime checks
       return envelope.data as UnwrapApiResponse<ExtractData<T>>;
     }
   }
-  // SAFETY: generic return type cannot be inferred from runtime checks
   return body as UnwrapApiResponse<ExtractData<T>>;
 }

@@ -5,17 +5,9 @@ import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 import { and, eq } from "drizzle-orm";
 import { getLocalDb } from "./client";
 
-// ---------------------------------------------------------------------------
-// Generic CRUD factory for single-PK SQLocal tables. Removes the copy-paste
-// upsert / read / delete pattern that dominates writes.ts and reads.ts. Each
-// method handles the `getLocalDb` null check (SSR / no-OPFS paths) so callers
-// stay one line.
-//
 // `scopeUser` (default true) ANDs `eq(table.userId, userId)` into per-row
-// WHERE clauses for ownership safety AND merges `userId` into upsert rows.
-// Tables without a userId column (conversationSettings, messages, etc.)
-// must pass scopeUser: false at the call site that needs row-scoping.
-// ---------------------------------------------------------------------------
+// WHERE clauses AND merges `userId` into upsert rows. Tables without a userId
+// column (conversationSettings, messages, etc.) must pass scopeUser: false.
 
 type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
 
@@ -27,9 +19,8 @@ export function makeTableStore<TTable extends ScopedTable>(
   pk: SQLiteColumn,
 ) {
   type Row = InferSelectModel<TTable>;
-  // Inputs are intentionally loose: server bundles arrive as opaque JSON
-  // (`Record<string, unknown>` plus the primary key). The factory absorbs
-  // the cast at the Drizzle call boundary so caller files stay clean.
+  // Loose input: server bundles arrive as opaque JSON. Factory absorbs the
+  // cast at the Drizzle call boundary.
   type Insert = Record<string, unknown>;
   type PkValue = string | number;
 
@@ -79,10 +70,8 @@ export function makeTableStore<TTable extends ScopedTable>(
       const scope = opts?.scopeUser ?? true;
       const values: Insert =
         scope && table.userId ? { ...row, userId } : row;
-      // Drizzle's `.values()` and `.set()` parameter types are deeply
-      // computed from `TTable['_']['columns']` and do not accept the
-      // equivalent `InferInsertModel<TTable>` shape we pass in. Cast
-      // locally so callers still receive `Insert` type-checking.
+      // Drizzle's `.values()`/`.set()` types don't accept the equivalent
+      // `InferInsertModel<TTable>` shape we pass in; cast locally.
       type DrizzleInsert = Parameters<
         ReturnType<typeof local.db.insert<TTable>>["values"]
       >[0];

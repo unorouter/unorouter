@@ -82,8 +82,7 @@ type DrawerProps = {
   /** null when no conversation exists yet (fresh thread, or guest pre-create). */
   convId: string | null;
   trigger?: React.ReactElement;
-  /** Controlled open state. When provided, the drawer hides its default
-   * trigger and is opened by the parent via `onOpenChange`. */
+  /** When controlled, hides the default trigger; parent opens via `onOpenChange`. */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
@@ -104,8 +103,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     samplerMemoryByModelAtom,
   );
   const activeModelName = useAtomValue(chatModelAtom);
-  // Look up the active model's metadata so SamplingFields can gray out
-  // unsupported sliders. Pricing data is loaded elsewhere; we just read it.
+  // SamplingFields uses model metadata to gray out unsupported sliders.
   const pricing = usePricingQuery().data;
   const activeModelMetadata = activeModelName
     ? pricing?.models.find((m) => m.name === activeModelName)?.metadata
@@ -135,10 +133,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     ) as ConversationOverridesForm,
   });
 
-  // Seed form. In defaults mode read from the jotai atom; otherwise from the
-  // server settings + bindings as soon as they're loaded. Per-model sampler
-  // memory layers on top: switching from Claude to GLM-5.1 restores GLM-5.1's
-  // last-used sliders rather than resetting to global defaults.
+  // Per-model sampler memory layers on top of defaults/server settings:
+  // switching from Claude to GLM-5.1 restores GLM-5.1's last-used sliders
+  // rather than resetting to global defaults.
   useEffect(() => {
     if (isDefaultsMode) {
       const mem: ModelSamplerMemory = activeModelName
@@ -201,10 +198,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       extraBody: settings.extraBody ?? "",
       streamingEnabled: settings.streamingEnabled ?? true,
     });
-    // Re-seed only when convId or the underlying server data changes;
-    // form.reset is stable. `chatDefaults` is included so the form picks up
-    // the value once `atomWithStorage` hydrates from the cookie on mount.
-    // `activeModelName` so swapping models restores per-model sampler memory.
+    // `chatDefaults` included so the form picks up the value once
+    // `atomWithStorage` hydrates from the cookie on mount. `activeModelName`
+    // so swapping models restores per-model sampler memory.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     props.convId,
@@ -253,9 +249,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
 
     if (isDefaultsMode) {
       // Persist to the jotai atom so it survives across new chats and seeds
-      // the next conversation_settings row at create time. Drop server-only
-      // fields (persona/preset/characters/lorebooks/system prompt/author note/
-      // web search) — guests don't have those.
+      // the next conversation_settings row at create time. Server-only fields
+      // (persona/preset/characters/lorebooks/system prompt/author note/web
+      // search) are dropped; guests don't have those.
       const next: StreamOverrides = {
         reasoningEffort:
           data.reasoningEffort === "__none__"

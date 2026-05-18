@@ -379,7 +379,7 @@ export function GenerateForm() {
     window.history.replaceState(
       null,
       "",
-      `/${locale}/generate/${submitted.session.id}?snap=${submitted.snapshot.id}`,
+      `/${locale}/playground/${submitted.session.id}?snap=${submitted.snapshot.id}`,
     );
   });
 
@@ -1205,7 +1205,7 @@ export function GenerateForm() {
           </Button>
           {activeSessionId && (
             <Link
-              href="/generate"
+              href="/playground"
               className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
             >
               {t("IMAGE.NEW_SESSION")}

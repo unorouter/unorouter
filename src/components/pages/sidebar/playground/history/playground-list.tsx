@@ -15,7 +15,7 @@ import { usePathname } from "next/navigation";
 
 // Sidebar rail: a "new session" entry at the top, then the user's recent
 // sessions as small thumbnail tiles. Selecting a tile navigates to
-// /generate/<sessionId>; the page seeds the active session/snapshot atoms
+// /playground/<sessionId>; the page seeds the active session/snapshot atoms
 // and defaults to the session's newest snapshot.
 export function PlaygroundList() {
   const t = useTranslations();
@@ -24,7 +24,7 @@ export function PlaygroundList() {
   const query = useSessionHistoryQuery({ limit: 30 });
 
   const items = query.data?.items ?? [];
-  // /en/generate/<sessionId> -> activeSessionId; /en/generate -> undefined.
+  // /en/playground/<sessionId> -> activeSessionId; /en/playground -> undefined.
   const segments = pathname.split("/").filter(Boolean);
   const generateIdx = segments.findIndex((s) => s === "generate");
   const activeSessionId =
@@ -39,7 +39,7 @@ export function PlaygroundList() {
       <SidebarGroup className="shrink-0">
         <SidebarGroupContent>
           <Link
-            href="/generate"
+            href="/playground"
             className="border-input hover:bg-accent hover:text-accent-foreground inline-flex h-8 w-full items-center justify-start rounded-md border bg-transparent px-3 text-sm font-medium"
           >
             <Icon name="plus" className="mr-2 h-3.5 w-3.5" />
@@ -71,7 +71,7 @@ export function PlaygroundList() {
                   <Link
                     key={session.id}
                     href={{
-                      pathname: "/generate/[id]",
+                      pathname: "/playground/[id]",
                       params: { id: session.id },
                     }}
                     title={latest?.prompt ?? session.title ?? ""}

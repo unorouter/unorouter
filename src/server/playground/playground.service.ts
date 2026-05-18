@@ -21,15 +21,10 @@ import { getSessionRow, getSnapshotWithImages } from "./playground-reads";
 import { submitComfyUITask } from "./playground-submit-comfyui";
 import { submitSyncImage } from "./playground-submit-sync";
 
-// Retention window: a session (and all its snapshots/images) is removed by
-// the background sweeper once it crosses this age without new activity.
-// Every fresh snapshot extends `expiresAt = now + RETENTION_MS`, so an
-// actively used session never expires.
+// Each fresh snapshot extends expiresAt; actively-used sessions never expire.
 const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
-// ComfyUI templates live behind new-api's task adapter (channel type 59);
-// they aren't in /api/pricing as image models. Treat them as "comfyui-task"
-// when resolving the submission shape.
+// ComfyUI templates live behind new-api's task adapter (channel type 59).
 const COMFYUI_TEMPLATE_IDS = new Set([
   "pony",
   "endgame",
@@ -57,10 +52,6 @@ async function resolveSubmissionEndpoint(
   return { kind: "sync", endpoint };
 }
 
-// ---------------------------------------------------------------------------
-// Submit + dispatch
-// ---------------------------------------------------------------------------
-
 export async function submitGeneration(
   userId: number,
   apiKey: string,
@@ -75,9 +66,6 @@ export async function submitGeneration(
   const now = Date.now();
   const expiresAt = new Date(now + RETENTION_MS);
 
-  // Resolve the parent session. If the client sent a sessionId, append to
-  // it (verify ownership). Otherwise create a fresh session that this
-  // snapshot opens.
   let sessionId: string;
   let sessionOrder: number;
   let createdSession: PlaygroundSession | undefined;
@@ -129,8 +117,7 @@ export async function submitGeneration(
     submittedKey: apiKey,
   });
 
-  // Bump the session counters + extend retention. Append-only counter
-  // bumps stay safe under concurrent submits (SQL increment).
+  // SQL increment is safe under concurrent submits.
   await db
     .update(playgroundSessions)
     .set({
@@ -177,8 +164,6 @@ export async function submitGeneration(
   }
 
   const snapshot = await getSnapshotWithImages(userId, id);
-  // Fetch session fresh so the response includes the latest counts after
-  // the bumps above.
   const session = createdSession
     ? (
         await db
@@ -196,10 +181,6 @@ export async function submitGeneration(
       )[0];
   return { session, snapshot };
 }
-
-// ---------------------------------------------------------------------------
-// Re-exports: all public API stays accessible from this file
-// ---------------------------------------------------------------------------
 
 export {
   getSnapshotWithImages,

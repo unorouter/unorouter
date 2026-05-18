@@ -19,10 +19,6 @@ const persistMessageRole = t.Union([
   t.Literal("tool"),
 ]);
 
-// ---------------------------------------------------------------------------
-// Message items: typed discriminated union, one row per content unit
-// ---------------------------------------------------------------------------
-
 const itemTextData = t.Object({ text: t.String({ maxLength: MAX_TEXT_LEN }) });
 const itemReasoningData = t.Object({
   text: t.String({ maxLength: MAX_TEXT_LEN }),
@@ -108,10 +104,6 @@ const persistMessageItem = t.Union([
 ]);
 export type PersistMessageItem = Static<typeof persistMessageItem>;
 
-// ---------------------------------------------------------------------------
-// Conversation creation / update
-// ---------------------------------------------------------------------------
-
 export const reasoningEffort = t.Union([
   t.Literal("xhigh"),
   t.Literal("high"),
@@ -125,8 +117,7 @@ export const reasoningEffort = t.Union([
  * Per-stream overrides usable both at conversation creation (seed
  * `conversation_settings` for logged-in users) and on every stream call
  * (fallback when there's no `conversation_settings` row, i.e. guest convs).
- *
- * Keep this in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
+ * Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
  */
 export const streamOverrides = t.Object({
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
@@ -172,9 +163,8 @@ export const streamOverrides = t.Object({
     t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
   ),
   /**
-   * Free-form JSON object merged into the upstream request body. Sliders win
-   * on key conflicts. Validated as a string here; parsed at the prompt
-   * assembler. Keep generous to avoid blocking power users; cap at 8 KiB.
+   * Free-form JSON merged into the upstream request body. Sliders win on key
+   * conflicts. Parsed at the prompt assembler. Cap at 8 KiB.
    */
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
   /** false = BFF buffers full upstream reply, then emits one chunk. */
@@ -195,10 +185,6 @@ export const updateConversationBody = t.Object({
   model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
 });
 export type UpdateConversationBody = Static<typeof updateConversationBody>;
-
-// ---------------------------------------------------------------------------
-// Conversation settings (overrides)
-// ---------------------------------------------------------------------------
 
 export const updateConversationSettingsBody = t.Object({
   defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
@@ -229,7 +215,7 @@ export const updateConversationSettingsBody = t.Object({
   webSearchContextSize: t.Optional(
     t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
   ),
-  // Inline sampling overrides (per-conversation). Null disables override.
+  // Null disables the override.
   temperature: t.Optional(
     t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
   ),
@@ -258,10 +244,6 @@ export type UpdateConversationSettingsBody = Static<
   typeof updateConversationSettingsBody
 >;
 
-// ---------------------------------------------------------------------------
-// Conversation bindings (m:n)
-// ---------------------------------------------------------------------------
-
 export const updateConversationBindingsBody = t.Object({
   characters: t.Optional(
     t.Array(
@@ -280,10 +262,6 @@ export const updateConversationBindingsBody = t.Object({
 export type UpdateConversationBindingsBody = Static<
   typeof updateConversationBindingsBody
 >;
-
-// ---------------------------------------------------------------------------
-// Persist messages (now items, not parts)
-// ---------------------------------------------------------------------------
 
 export const editMessageBody = t.Object({
   items: t.Array(persistMessageItem, { maxItems: MAX_ITEMS_PER_MESSAGE }),
@@ -312,10 +290,6 @@ export const persistMessagesBody = t.Object({
 });
 export type PersistMessagesBody = Static<typeof persistMessagesBody>;
 
-// ---------------------------------------------------------------------------
-// Pagination + search
-// ---------------------------------------------------------------------------
-
 export const paginationQuery = t.Object({
   p: t.Optional(t.Number({ minimum: 1 })),
   page_size: t.Optional(t.Number({ minimum: 1, maximum: 100 })),
@@ -327,17 +301,9 @@ export const chatSearchQuery = t.Composite([
 ]);
 export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 
-// ---------------------------------------------------------------------------
-// Stream
-// ---------------------------------------------------------------------------
-
-// Client-supplied RP context. After the IDB-first flip the server no longer
-// reads characters/personas/lorebooks/presets/settings from Turso during
-// stream assembly; the client ships exactly what the prompt assembler needs
-// every turn. Loose `Any()` for sub-shapes because each entity body is its
-// own validation surface and re-validating here would double-cost on every
-// turn; assembler trusts the shape because the user owns their own keys +
-// content anyway.
+// Loose `Any()` for sub-shapes: each entity body is its own validation surface
+// and re-validating here would double-cost on every turn. The assembler trusts
+// the shape because the user owns their own keys plus content anyway.
 export const chatContext = t.Object({
   persona: t.Optional(t.Union([t.Any(), t.Null()])),
   characters: t.Optional(t.Array(t.Any(), { maxItems: 64 })),
@@ -357,24 +323,19 @@ export type ChatContext = Static<typeof chatContext>;
 
 export const streamBody = t.Object({
   model: t.String({ maxLength: MAX_MODEL_LEN }),
-  // Messages typed by AI SDK (UIMessage); validation handled at runtime.
+  // AI SDK UIMessage; validated at runtime.
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
-  // Used as a fallback when the conversation has no settings row (guest
-  // convs). Logged-in convs always have a row seeded at creation time, so
-  // these values are ignored on subsequent turns.
+  // Fallback for guest convs (no settings row). Logged-in convs always have
+  // a row seeded at creation time, so these values are ignored on subsequent
+  // turns.
   overrides: t.Optional(streamOverrides),
-  // Client-supplied RP context — replaces server-side Turso reads after the
-  // IDB-first flip. Optional so legacy callers + guest stream paths keep
-  // working until the assembler signature is changed.
+  // Optional so legacy callers and guest stream paths keep working until the
+  // assembler signature is changed.
   chatContext: t.Optional(chatContext),
 });
 export type StreamBody = Static<typeof streamBody>;
-
-// ---------------------------------------------------------------------------
-// Media upload
-// ---------------------------------------------------------------------------
 
 export const mediaUploadBody = t.Object({
   file: t.File({
@@ -389,10 +350,6 @@ export const mediaUploadBody = t.Object({
   }),
   convId: t.String({ maxLength: MAX_ID_LEN }),
 });
-
-// ---------------------------------------------------------------------------
-// Title / claim / finalize task
-// ---------------------------------------------------------------------------
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),

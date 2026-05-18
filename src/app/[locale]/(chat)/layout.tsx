@@ -1,6 +1,7 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
 import { GuestConvsClaim } from "@/components/pages/sidebar/chat/runtime/guest-convs-claim";
+import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import {
   RpDialogs,
@@ -88,6 +89,7 @@ export default async function ChatLayout(props: Props) {
       <ChatRuntimeProvider>
         <SyncStateHydrator />
         <GuestConvsClaim />
+        <GuestLocalDbMigrate />
         <SidebarLayout
           navConfig="chat"
           chatContent={

@@ -3,54 +3,27 @@ import type { StatusType } from "@/components/ui/status/status.types";
 import { cn } from "@/lib/utils";
 
 interface StatusIconProps extends React.ComponentProps<"div"> {
-  /**
-   * The status type to display
-   */
   status?: StatusType;
   /**
-   * The variant determines the CSS selector pattern used for status-based styling
-   * - "default": Uses group-data-[variant=...] (for Status component)
-   * - "banner": Uses group-data-[status=...]/status-banner (for StatusBanner component)
-   * - "component": Uses group-data-[variant=...]/component (for StatusComponent)
+   * Selects which CSS group selector pattern is used for status-based styling.
+   * - "default": `group-data-[variant=...]` (Status)
+   * - "banner": `group-data-[status=...]/status-banner` (StatusBanner)
+   * - "component": `group-data-[variant=...]/component` (StatusComponent)
    */
   variant?: "default" | "banner" | "component";
 }
 
-/**
- * StatusIcon - A unified icon component for displaying status indicators
- *
- * This component renders the appropriate icon based on the status type:
- * - success: CheckIcon
- * - degraded: TriangleAlertIcon
- * - error: AlertCircleIcon
- * - info: WrenchIcon
- * - empty: No icon (muted background)
- *
- * @example
- * // In Status component context
- * <StatusIcon variant="default" />
- *
- * @example
- * // In StatusBanner context
- * <StatusIcon variant="banner" />
- *
- * @example
- * // In StatusComponent context
- * <StatusIcon variant="component" />
- */
 export function StatusIcon({
   className,
   variant = "default",
   status,
   ...props
 }: StatusIconProps) {
-  // Define size classes based on variant
   const sizeClasses =
     variant === "component"
       ? "size-[12.5px] [&>svg]:size-[9px]"
       : "size-7 [&>svg]:size-4";
 
-  // Define status-based classes based on variant
   const statusClasses = (() => {
     switch (variant) {
       case "banner":
@@ -78,7 +51,6 @@ export function StatusIcon({
     }
   })();
 
-  // Define icon visibility classes based on variant
   const iconVisibilityClasses = (() => {
     switch (variant) {
       case "banner":

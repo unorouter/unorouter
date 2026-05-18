@@ -51,9 +51,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 
-// Pure local-first RP hooks. Queries read SQLocal; mutations write SQLocal
-// first; synced rows mirror via POST /api/sync/:kind/:id with keepExpiry.
-// No /api/rp/* writes — those endpoints are dead for v4.
+// /api/rp/* writes are dead for v4; mutations write SQLocal then mirror via
+// POST /api/sync/:kind/:id with keepExpiry.
 
 type ListResponse<TFn> = TFn extends (...args: never[]) => Promise<infer R>
   ? R extends { data: { data: infer D } }
@@ -112,10 +111,6 @@ async function mirrorConvIfSynced(userId: number, convId: string) {
   if (!bundle) return;
   await mirrorSyncedRow(userId, "conversations", convId, bundle);
 }
-
-// ---------------------------------------------------------------------------
-// Characters
-// ---------------------------------------------------------------------------
 
 export function useCharactersQuery() {
   const auth = useAuthQuery();
@@ -228,7 +223,7 @@ export function useDeleteCharacterMutation() {
   });
 }
 
-// Imports go through server (file parsing). Returned row is written locally.
+// File parsing happens server-side; returned row is written locally.
 export function useImportCharacterCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -248,10 +243,6 @@ export function useImportCharacterCardMutation() {
     onError: (e) => handleError(e, t),
   });
 }
-
-// ---------------------------------------------------------------------------
-// Personas
-// ---------------------------------------------------------------------------
 
 type PersonasList = ListResponse<typeof rpc.api.rp.personas.get>;
 type Persona = PersonasList extends ReadonlyArray<infer Item> ? Item : never;
@@ -389,10 +380,6 @@ export function useImportPersonaMutation() {
     onError: (e) => handleError(e, t),
   });
 }
-
-// ---------------------------------------------------------------------------
-// Lorebooks (+ entries)
-// ---------------------------------------------------------------------------
 
 type LorebooksList = ListResponse<typeof rpc.api.rp.lorebooks.get>;
 type Lorebook = LorebooksList extends ReadonlyArray<infer Item> ? Item : never;
@@ -675,10 +662,6 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Sampling presets
-// ---------------------------------------------------------------------------
-
 type PresetsList = ListResponse<typeof rpc.api.rp.presets.get>;
 type Preset = PresetsList extends ReadonlyArray<infer Item> ? Item : never;
 
@@ -789,10 +772,6 @@ export function useDeletePresetMutation() {
     onError: (e) => handleError(e, t),
   });
 }
-
-// ---------------------------------------------------------------------------
-// Cards (+ junctions)
-// ---------------------------------------------------------------------------
 
 type CardsList = ListResponse<typeof rpc.api.rp.cards.get>;
 type Card = CardsList extends ReadonlyArray<infer Item> ? Item : never;
@@ -994,7 +973,6 @@ export function useApplyCardMutation() {
           })),
         });
       } else {
-        // merge: read existing, dedupe
         const existing = await readLocalConversationBindings(
           userId,
           args.body.convId,
@@ -1030,7 +1008,6 @@ export function useApplyCardMutation() {
           })),
         });
       }
-      // Also pin personaId in settings if card has one
       if (card.personaId) {
         const settings = await readLocalConversationSettings(
           userId,
@@ -1058,10 +1035,6 @@ export function useApplyCardMutation() {
     onError: (e) => handleError(e, t),
   });
 }
-
-// ---------------------------------------------------------------------------
-// Conversation settings + bindings
-// ---------------------------------------------------------------------------
 
 type ChatSettings = EdenResponse<
   ReturnType<typeof rpc.api.rp.conversations>["settings"],
@@ -1110,7 +1083,6 @@ export function useUpdateChatSettingsMutation() {
         updatedAt: now,
       };
       await upsertLocalConversationSettings(userId, updated);
-      // Also bump conv updatedAt
       const conv = await readLocalConversation(userId, args.convId);
       if (conv) {
         await upsertLocalConversation(userId, {
@@ -1142,9 +1114,8 @@ export function useChatBindingsQuery(convId?: string) {
       const userId = auth.data?.id;
       if (userId == null || !convId) throw new Error("not-found");
       const local = await readLocalConversationBindings(userId, convId);
-      // Surface shape consumer expects: { characters: [...], lorebooks: [...] }
-      // bindings reads expose `conversationCharacters` etc. — match the server
-      // shape consumers already use.
+      // Match server shape: { characters, lorebooks }, not the local
+      // `conversationCharacters` / `conversationLorebooks` column names.
       return {
         characters: local?.conversationCharacters ?? [],
         lorebooks: local?.conversationLorebooks ?? [],
@@ -1202,10 +1173,6 @@ export function useUpdateChatBindingsMutation() {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Export / Import (conversation level)
-// ---------------------------------------------------------------------------
-
 export function useImportConversationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -1219,10 +1186,6 @@ export function useImportConversationMutation() {
   });
 }
 
-/**
- * Export a single conversation as native (`unorouter.1.0`) or `orpg.3.0`
- * JSON. Returns the JSON object; the caller serializes + triggers download.
- */
 export function useExportConversation() {
   const t = useTranslations();
   return useMutation({

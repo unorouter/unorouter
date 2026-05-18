@@ -84,9 +84,8 @@ export const queryKeys = {
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,
 
-  // Image generation: sessions (history list) + snapshots (the unit of
-  // submission). Each session contains many snapshots; chevrons walk the
-  // snapshot list inside a session.
+  // Image generation: each session contains many snapshots (units of
+  // submission); chevrons walk the snapshot list inside a session.
   playgroundSessionList: (params?: EdenQuery<typeof rpc.api.playground.me>) =>
     ["playground-session-list", params] as const,
   playgroundSession: (id: string) => ["playground-session", id] as const,

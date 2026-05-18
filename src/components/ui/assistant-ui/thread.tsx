@@ -59,11 +59,6 @@ import {
 } from "react";
 const ReadOnlyContext = createContext(false);
 
-/**
- * Per-message context exposing the "begin assistant edit" callback.
- * AssistantMessage owns the edit state; AssistantActionBar reads this to
- * render the Edit button without prop-drilling.
- */
 const AssistantEditContext = createContext<(() => void) | null>(null);
 
 type ThreadProps = {
@@ -298,7 +293,6 @@ function unwrapJsonEnvelope(raw: string): string {
       }
     }
   } catch {
-    // not JSON
   }
   return raw;
 }
@@ -364,11 +358,10 @@ const StreamingIndicator: FC = () => {
     modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
 
   const seconds = elapsed / 1000;
-  // Gradient: muted → amber → red over 0–gradientWindow seconds
   const t = Math.min(seconds / gradientWindow, 1);
-  const r = Math.round(140 + t * 115); // 140 → 255
-  const g = Math.round(140 - t * 100); // 140 → 40
-  const b = Math.round(140 - t * 110); // 140 → 30
+  const r = Math.round(140 + t * 115);
+  const g = Math.round(140 - t * 100);
+  const b = Math.round(140 - t * 110);
   const timerColor = `rgb(${r}, ${g}, ${b})`;
   const display = elapsed < 1000 ? `${elapsed}ms` : `${seconds.toFixed(1)}s`;
 
@@ -413,8 +406,9 @@ const AssistantMessage: FC = () => {
                     Fallback: ToolFallback,
                   },
                   data: {
-                    // Suppress default rendering of data-task parts; TaskCardRenderer
-                    // reads them from runtime state and draws its own card below.
+                    // TaskCardRenderer reads data-task parts from runtime
+                    // state and draws its own card below; suppress default
+                    // rendering here.
                     by_name: { task: () => null },
                   },
                 }}
@@ -436,12 +430,11 @@ const AssistantMessage: FC = () => {
 };
 
 /**
- * Custom in-place editor for assistant messages. Bypasses
- * `ActionBarPrimitive.Edit` / `ComposerPrimitive.Send` because those always
- * regenerate the run. Save persists the new text via PUT and patches the
- * AI SDK message buffer in place. Reasoning and tool-call parts are
- * preserved untouched; only text parts are replaced. To re-roll, use the
- * existing Refresh action.
+ * Bypasses `ActionBarPrimitive.Edit` / `ComposerPrimitive.Send` because
+ * those always regenerate the run. Save persists the new text via PUT and
+ * patches the AI SDK message buffer in place; reasoning and tool-call
+ * parts are preserved untouched, only text parts are replaced. To re-roll,
+ * use the existing Refresh action.
  */
 const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
   const t = useTranslations();
@@ -575,7 +568,6 @@ const AssistantMessageMeta: FC = () => {
   );
 };
 
-/** Header row above the assistant bubble showing vendor + model name. */
 const AssistantMessageHeader: FC = () => {
   const messageIndex = useAuiState((s) => s.message.index);
   const meta = useMessageMeta(messageIndex);
@@ -599,10 +591,10 @@ const AssistantMessageHeader: FC = () => {
 };
 
 /**
- * Splice-delete a single message. Click-to-arm: first click reddens the
- * button and starts a 3s disarm timer; a second click while armed fires the
- * delete (optimistic remove + DELETE call). If the user moves on, the timer
- * disarms it without further interaction.
+ * Click-to-arm: first click reddens the button and starts a 3s disarm
+ * timer; a second click while armed fires the delete (optimistic remove +
+ * DELETE call). If the user moves on, the timer disarms without further
+ * interaction.
  */
 const DeleteMessageButton: FC = () => {
   const t = useTranslations();
@@ -780,7 +772,6 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
   useEffect(() => {
     if (readOnly) return;
     if (!messageId) return;
-    // First observation: just record. We never want to fire on initial mount.
     if (lastIdRef.current === null) {
       lastIdRef.current = messageId;
       return;
@@ -795,7 +786,6 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
     const convId = getConvId();
     if (!convId) return;
     setActiveBranchMut.mutate({ convId, msgId: messageId });
-    // setActiveBranchMut is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageId, branchCount, readOnly]);
   return (

@@ -1,8 +1,7 @@
-// Dynamic descriptor synthesis for non-ComfyUI image models. Reads the
-// pricing-summary output (ProcessedModel[]) and builds PlaygroundModelDescriptor
-// entries for any image model declaring metadata.maxImageInputs >= 6 and a
-// supported endpoint we know how to route. The form merges these with the
-// 5 hardcoded ComfyUI templates so the dropdown stays unified.
+// Builds PlaygroundModelDescriptor entries from pricing-summary
+// (ProcessedModel[]) for any image model with metadata.maxImageInputs >= 6 and
+// a supported endpoint. Merged with the hardcoded ComfyUI templates so the
+// dropdown stays unified.
 
 import type { ProcessedModel } from "@/lib/api/pricing";
 import {
@@ -26,10 +25,9 @@ export function chooseEndpoint(types: string[]): SyncImageEndpoint | null {
   return null;
 }
 
-// Vendor-knob heuristics derived from the new-api relay adapters
-// (relay/channel/{openai,gemini,bytedance,xai,...}/adaptor.go). Each
-// adapter cherry-picks specific fields off ImageRequest; the form should
-// only render controls whose value will actually reach the upstream API.
+// Each new-api relay adapter (relay/channel/.../adaptor.go) cherry-picks
+// specific fields off ImageRequest; render only controls whose value will
+// actually reach the upstream API.
 function vendorKnobs(modelName: string): {
   quality?: readonly string[];
   outputFormat?: readonly string[];
@@ -40,7 +38,6 @@ function vendorKnobs(modelName: string): {
 } {
   const m = modelName.toLowerCase();
 
-  // OpenAI gpt-image family — accepts quality/output_format/background.
   if (m.startsWith("gpt-image") || m === "chatgpt-image-latest") {
     return {
       quality: ["low", "medium", "high"],
@@ -48,20 +45,19 @@ function vendorKnobs(modelName: string): {
       background: true,
     };
   }
-  // OpenAI gpt-4o-image — quality only, no format/background per adapter.
   if (m.startsWith("gpt-4o-image")) {
     return { quality: ["standard", "hd"] };
   }
-  // Gemini -image-preview — adapter maps quality -> imageSize (1K/2K).
+  // Gemini adapter maps quality to imageSize (1K/2K).
   if (m.startsWith("gemini") && m.includes("image")) {
     return { quality: ["1K", "2K"] };
   }
-  // ByteDance / Doubao — full passthrough; watermark + seed are the
+  // Doubao adapter is a full passthrough; watermark + seed are the
   // semantically meaningful ones.
   if (m.startsWith("doubao-seedream") || m.startsWith("doubao-seededit")) {
     return { watermark: true, seed: true };
   }
-  // Black Forest Labs Flux — output_format is universal across BFL endpoints.
+  // output_format is universal across BFL endpoints.
   if (
     m.startsWith("flux-") ||
     m.startsWith("black-forest-labs/flux") ||
@@ -69,22 +65,18 @@ function vendorKnobs(modelName: string): {
   ) {
     return { outputFormat: ["png", "jpeg", "webp"], seed: true };
   }
-  // Alibaba wan2.5-i2i — strength + seed.
   if (m.startsWith("wan2.5") || m.startsWith("wan2.6")) {
     return { strength: true, seed: true };
   }
-  // xAI Grok image — adapter explicitly drops size/quality/style; nothing
-  // else to surface beyond prompt.
+  // xAI Grok adapter explicitly drops size/quality/style.
   return {};
 }
 
 export function inferDescriptor(
   model: ProcessedModel,
 ): PlaygroundModelDescriptor | null {
-  // ComfyUI workflows are not OpenAI/Gemini-style sync image endpoints. The
-  // model name maps to a hardcoded workflow descriptor (samplers, schedulers,
-  // size, lora knobs - all workflow-specific). Surface only when pricing
-  // declares a ComfyUI endpoint, i.e. an active ComfyUI channel exists.
+  // ComfyUI workflow descriptors are hardcoded; surface only when pricing
+  // declares a ComfyUI endpoint (an active ComfyUI channel exists).
   if (model.endpointTypes.includes("comfyui")) {
     const tmpl = PLAYGROUND_MODELS_BY_ID[model.name];
     if (!tmpl) return null;
@@ -99,21 +91,18 @@ export function inferDescriptor(
   if (!endpoint) return null;
 
   const declaredMaxRefs = model.metadata?.maxImageInputs ?? 0;
-  // Include the model when it advertises 6-ref compose (Matic's workload)
-  // OR it's a free image generator worth surfacing for casual use
-  // (e.g. NVIDIA's flux.1-schnell/flux.1-dev which don't declare refs).
+  // Include 6-ref compose models OR free generators worth surfacing for
+  // casual use (NVIDIA flux.1-schnell/dev don't declare refs).
   if (declaredMaxRefs < 6 && !model.isFree) return null;
 
-  // OAI image-generation endpoint accepts a `size` parameter; chat- and
-  // gemini-based image models size implicitly via the prompt.
+  // image-generation endpoint accepts a `size` parameter; chat/gemini image
+  // models size implicitly via the prompt.
   const supportsSize = endpoint === "image-generation";
   const knobs = vendorKnobs(model.name);
 
-  // References cap: when metadata is silent, assume the upstream image-edit
-  // endpoint supports a single ref (img2img-style). Models declaring an
-  // explicit maxImageInputs (>=1) honor that. Chat/gemini-only sync models
-  // without metadata get 0 (uploader hidden) since their adapter wouldn't
-  // know what to do with a ref bytes payload.
+  // When metadata is silent, image-generation defaults to single ref
+  // (img2img-style); chat/gemini-only sync models get 0 (uploader hidden)
+  // since their adapter wouldn't know what to do with a ref bytes payload.
   const maxReferenceImages =
     declaredMaxRefs > 0
       ? declaredMaxRefs
@@ -125,8 +114,8 @@ export function inferDescriptor(
     id: model.name,
     family: "sync-image",
     displayName: model.name,
-    // Vendor name from /api/pricing — VendorIcon does a lowercased
-    // substring match so "OpenAI", "Google", "ByteDance" all resolve.
+    // VendorIcon does a lowercased substring match so "OpenAI", "Google",
+    // "ByteDance" all resolve.
     vendor: model.vendor.name,
     pricePerCall: model.isFixedPrice ? model.fixedPrice : 0,
     isFree: model.isFree,
@@ -135,10 +124,6 @@ export function inferDescriptor(
     supportsGuidance: false,
     supportsSize,
     supportsLoraChain: false,
-    // The references uploader renders when the model can take at least
-    // one reference image. Free text-to-image models with no metadata
-    // (e.g. NVIDIA flux.1-schnell on chat/gemini-only endpoints) get
-    // maxReferenceImages=0 and the uploader hides.
     supportsReferences: maxReferenceImages >= 1,
     maxReferenceImages,
     supportsSampler: false,
@@ -165,9 +150,8 @@ export function inferDescriptor(
 export function getEffectiveGenerationModels(
   pricing: ProcessedModel[] | undefined,
 ): PlaygroundModelDescriptor[] {
-  // No pricing payload yet (initial load / network failure): fall back to the
-  // hardcoded set so the UI has something to render. Once pricing arrives the
-  // list becomes fully pricing-driven and reflects channel state in new-api.
+  // Fall back to the hardcoded set when no pricing payload is available so
+  // the UI has something to render.
   if (!pricing || pricing.length === 0) return PLAYGROUND_MODELS;
   const comfy: PlaygroundModelDescriptor[] = [];
   const dynamic: PlaygroundModelDescriptor[] = [];

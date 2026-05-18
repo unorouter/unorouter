@@ -16,10 +16,10 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-// /generate           -> placeholder right column, blank form
-// /generate/<id>      -> shows that session, defaults to newest snapshot
-// /generate/<id>?snap=<sid> -> shows that snapshot inside the session
-export function GeneratePage(props: {
+// /playground           -> placeholder right column, blank form
+// /playground/<id>      -> shows that session, defaults to newest snapshot
+// /playground/<id>?snap=<sid> -> shows that snapshot inside the session
+export function PlaygroundPage(props: {
   sessionId?: string;
   snapshotId?: string;
 }) {
@@ -66,7 +66,7 @@ export function GeneratePage(props: {
   useEffect(() => {
     if (!props.sessionId) return;
     if (sessionQuery.isError) {
-      router.replace("/generate");
+      router.replace("/playground");
     }
   }, [props.sessionId, sessionQuery.isError, router]);
 

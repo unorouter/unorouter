@@ -1,21 +1,13 @@
-// Body construction + result extraction for the three sync image-model
-// endpoints exposed by new-api: /v1/images/generations (+ /edits multipart),
-// /v1/chat/completions (multimodal), /v1beta/models/{model}:generateContent.
-//
-// Each builder turns the unorouter form's normalized shape (prompt, refs as
-// R2 URLs, optional size) into the vendor-shaped request body. References
-// are fetched once and re-encoded per endpoint:
-//   - /v1/images/edits expects multipart `image[]` bytes
-//   - /v1/chat/completions accepts data: URIs in image_url parts
-//   - :generateContent expects {inline_data: {mime_type, data: <base64>}}
-//
-// Extractors do the inverse: pull a URL or data URI out of each vendor's
-// response so playground.service.ts can hand a single value to
-// downloadAndUploadGeneration.
+// Body builders and result extractors for the three sync image-model endpoints
+// in new-api:
+//   /v1/images/generations (+ /v1/images/edits multipart): `image[]` bytes
+//   /v1/chat/completions (multimodal):                     data: URIs in image_url parts
+//   /v1beta/models/{model}:generateContent:                {inline_data: {mime_type, data: base64}}
+// References are fetched once and re-encoded per endpoint. Extractors pull a
+// URL or data URI out of each vendor's response so playground.service.ts can
+// hand a single value to downloadAndUploadGeneration.
 
 import type { SyncImageEndpoint } from "@/lib/playground/models-dynamic";
-
-// ---------- Reference fetching ----------
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
 
@@ -50,20 +42,17 @@ export async function fetchAllRefs(urls: string[]): Promise<RefBytes[]> {
   return Promise.all(urls.map(fetchRefBytes));
 }
 
-// ---------- Body builders ----------
-
 export type SubmitArgs = {
   model: string;
   prompt: string;
   size?: string;
   refs: RefBytes[];
-  /** Number of images to ask for in a single upstream call. OAI image-
-   *  generation supports n>1 natively; chat / gemini ignore this and the
-   *  caller must loop instead. Defaults to 1 if unset. */
+  /** OAI image-generation supports n>1 natively; chat/gemini ignore this and
+   *  the caller must loop. Defaults to 1. */
   n?: number;
-  // Vendor knobs - only fields the relay adapter for the chosen model
-  // actually consumes are forwarded. The form renders a control only
-  // when the descriptor flag is set, so unset values stay undefined.
+  // Only fields the relay adapter for the chosen model actually consumes are
+  // forwarded; descriptor flag gates each form control, so unset stays
+  // undefined.
   quality?: string;
   outputFormat?: string;
   watermark?: boolean;
@@ -96,7 +85,7 @@ export function buildImageGenerationsBody(args: SubmitArgs): Built {
       body: JSON.stringify(body),
     };
   }
-  // /v1/images/edits — multipart, one or more `image[]` parts.
+  // /v1/images/edits: multipart, one or more `image[]` parts.
   const form = new FormData();
   form.append("model", args.model);
   form.append("prompt", args.prompt);
@@ -133,9 +122,8 @@ export function buildChatCompletionsBody(args: SubmitArgs): Built {
     modalities: ["image", "text"],
     n: 1,
   };
-  // ByteDance / wan adapters route via openai endpoint and pass extra
-  // fields through unchanged. Surface them on the request body so the
-  // upstream provider sees them.
+  // ByteDance / wan adapters route via openai endpoint and pass extras
+  // through unchanged.
   if (args.watermark !== undefined) body.watermark = args.watermark;
   if (args.seed !== undefined) body.seed = args.seed;
   if (args.strength !== undefined) body.strength = args.strength;
@@ -154,9 +142,8 @@ export function buildGeminiGenerateBody(args: SubmitArgs): Built {
   for (const r of args.refs) {
     parts.push({ inline_data: { mime_type: r.mime, data: r.base64 } });
   }
-  // The new-api gemini relay maps `quality` to imageSize (1K/2K) and
-  // `size` (e.g. 1024x1024) to aspectRatio. Surface both at the top level
-  // so the adapter can read them off the OpenAI-shaped wrapper before
+  // gemini relay maps `quality` to imageSize (1K/2K) and `size` (e.g.
+  // 1024x1024) to aspectRatio off the OpenAI-shaped wrapper before
   // translating to Gemini's native generationConfig.
   const generationConfig: Record<string, unknown> = {
     responseModalities: ["IMAGE"],
@@ -188,11 +175,8 @@ export function buildBody(
   }
 }
 
-// ---------- Result extraction ----------
-
-// Each vendor returns image URLs or bytes in a different shape. Returns
-// an array of public URLs or data: URIs ready for downloadAndUploadGeneration.
-// Empty array means "no image found" - callers should treat as failure.
+// Returns public URLs or data: URIs ready for downloadAndUploadGeneration.
+// Empty array means "no image found"; callers treat as failure.
 export function extractResultUris(
   endpoint: SyncImageEndpoint,
   payload: unknown,
@@ -223,7 +207,7 @@ export function extractResultUris(
       unknown
     > | null;
     if (!msg) return [];
-    // Two common shapes: array of parts with image_url, or markdown/data-URI string.
+    // Two shapes: array of parts with image_url, or markdown/data-URI string.
     const content = msg.content;
     if (Array.isArray(content)) {
       for (const part of content) {
@@ -243,7 +227,6 @@ export function extractResultUris(
     return out;
   }
 
-  // gemini
   const candidates = p.candidates as Array<Record<string, unknown>> | undefined;
   const parts =
     ((candidates?.[0]?.content as Record<string, unknown> | undefined)
@@ -261,21 +244,16 @@ export function extractResultUris(
 }
 
 function extractFromMarkdownOrText(text: string): string | null {
-  // Markdown image: ![alt](url)
   const md = text.match(
     /!\[[^\]]*\]\((https?:\/\/[^\s)]+|data:image\/[^\s)]+)\)/,
   );
   if (md?.[1]) return md[1];
-  // Bare data URI
   const data = text.match(/data:image\/[^\s)]+/);
   if (data?.[0]) return data[0];
-  // Bare https URL ending in image extension
   const url = text.match(/https?:\/\/\S+\.(?:png|jpe?g|webp|gif)/i);
   if (url?.[0]) return url[0];
   return null;
 }
-
-// ---------- Helpers ----------
 
 function mimeExt(mime: string): string {
   const m = mime.toLowerCase();

@@ -4,18 +4,14 @@ import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
 import { drizzle, type SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 
-// ---------------------------------------------------------------------------
-// Browser-only SQLocal + Drizzle singleton. Per-user OPFS file (one DB per
-// account) so multi-account browsers stay isolated. Lazy-imports `sqlocal/
-// drizzle` so the WASM blob (~1.5MB) only loads in the chat/generate
-// route groups, never on marketing pages.
-// ---------------------------------------------------------------------------
+// Per-user OPFS file so multi-account browsers stay isolated. Lazy-imports
+// `sqlocal/drizzle` so the WASM blob (~1.5MB) only loads in chat/playground
+// route groups.
 
 type LocalSchema = typeof shared & typeof client;
 export type LocalDb = SqliteRemoteDatabase<LocalSchema>;
-// Raw SQLocal exec - returns rows + column names, unlike the drizzle-proxy
-// driver which only returns row tuples. Used by tooling (e.g. LocalDbStudio)
-// that needs to surface column metadata for arbitrary user-supplied SQL.
+// Returns rows + column names, unlike the drizzle-proxy driver which only
+// returns row tuples. Used by LocalDbStudio for arbitrary user-supplied SQL.
 export type LocalRawExec = (
   sql: string,
   params: unknown[],
@@ -28,17 +24,13 @@ export type LocalRawExec = (
 
 export type LocalClient = {
   db: LocalDb;
-  // Direct sqlite-proxy driver. Used by tooling (e.g. LocalDbStudio) that
-  // needs to run arbitrary user-supplied SQL without going through drizzle's
-  // schema layer.
   exec: LocalRawExec;
   transaction: <T>(cb: () => Promise<T>) => Promise<T>;
   destroy: () => Promise<void>;
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;
   overwriteDatabaseFile: (file: File | Blob) => Promise<void>;
-  // `reactiveQuery` from sqlocal/drizzle. Exposed loosely-typed because
-  // SQLocal's generic surface is awkward to thread through.
+  // Loosely-typed: SQLocal's generic surface is awkward to thread through.
   reactiveQuery: (query: unknown) => {
     subscribe: (
       onData: (data: unknown) => void,
@@ -66,7 +58,6 @@ export async function getLocalDb(userId: number): Promise<LocalClient | null> {
 }
 
 async function openClient(userId: number): Promise<LocalClient> {
-  // Lazy-load SQLocal so non-chat pages never pay the WASM cost.
   const { SQLocalDrizzle } = await import("sqlocal/drizzle");
   const sql = new SQLocalDrizzle({
     databasePath: `unorouter-${userId}.sqlite3`,
@@ -77,15 +68,11 @@ async function openClient(userId: number): Promise<LocalClient> {
     schema: { ...shared, ...client },
   });
 
-  // Replay any migrations that are newer than the version recorded in
-  // local_meta. migrations.json is generated at build time from drizzle/
-  // client/*.sql by scripts/bundle-migrations.ts.
   const { runMigrations } = await import("./migrations");
   await runMigrations(sql);
 
-  // SQLocal's protected `exec` is not on the public API, but we want it for
-  // raw queries (LocalDbStudio). Access it directly off the instance; the
-  // contract is documented in node_modules/sqlocal/dist/client.d.ts.
+  // SQLocal's protected `exec` (documented in sqlocal/dist/client.d.ts) is
+  // off the public API but needed for raw queries (LocalDbStudio).
   const rawExec = (sql as unknown as { exec: LocalRawExec }).exec.bind(sql);
 
   const wrapped: LocalClient = {
@@ -98,18 +85,15 @@ async function openClient(userId: number): Promise<LocalClient> {
     overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
     reactiveQuery: sql.reactiveQuery.bind(sql) as LocalClient["reactiveQuery"],
   };
-  // Release the worker's SyncAccessHandle on page unload. Without this the
-  // SAH stays locked and Chromium/Brave attributes the underlying OPFS bytes
-  // to "orphan" state until the origin's storage is fully evicted. `pagehide`
-  // fires for both bfcache freeze and real navigation; `beforeunload` is a
-  // fallback for browsers that don't dispatch pagehide reliably.
+  // Release SyncAccessHandle on page unload, else SAH stays locked and
+  // Chromium/Brave attributes OPFS bytes to "orphan" state until storage is
+  // evicted. `beforeunload` covers browsers that don't dispatch pagehide.
   if (typeof window !== "undefined") {
     const release = () => {
       void sql.destroy().catch(() => {});
     };
     window.addEventListener("pagehide", release, { once: true });
     window.addEventListener("beforeunload", release, { once: true });
-    // dev-only debug hook
     (window as unknown as { __local: unknown }).__local = wrapped;
     (window as unknown as { __shared: unknown }).__shared = shared;
     (window as unknown as { __sqlocal: unknown }).__sqlocal = sql;

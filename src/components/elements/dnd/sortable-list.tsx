@@ -22,13 +22,9 @@ import { CSS } from "@dnd-kit/utilities";
 import { ReactNode } from "react";
 
 /**
- * Vertical list with drag-to-reorder. Generic over an item id. The drag
- * handle is rendered separately so consumers can place it wherever fits
- * their row layout.
- *
- * Backend contract: `onReorder` receives the full ordered id array. The
- * binding services in this project all accept `string[]` and write
- * `orderIndex` from array position, so no extra mapping needed.
+ * `onReorder` receives the full ordered id array. The binding services in
+ * this project all accept `string[]` and write `orderIndex` from array
+ * position, so no extra mapping is needed.
  */
 export type SortableListProps<T extends { id: string }> = {
   items: T[];

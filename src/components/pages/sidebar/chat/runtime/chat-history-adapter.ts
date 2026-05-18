@@ -74,7 +74,7 @@ async function mirrorConvIfSynced(userId: number, convId: string) {
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
   getConvId: () => string | null,
-  getUserId: () => number | null,
+  getUserId: () => number,
 ): ThreadHistoryAdapter {
   return {
     async load() {
@@ -107,7 +107,7 @@ export function createChatHistoryAdapter(
           );
           if (cached) {
             allMessages = cached.pages.flatMap((p) => p.messages);
-          } else if (userId != null) {
+          } else {
             const msgs = (await readLocalMessages(userId, id)) ?? [];
             const items = (await readLocalMessageItems(userId, id)) ?? [];
             const byMsg = new Map<string, typeof items>();
@@ -141,7 +141,7 @@ export function createChatHistoryAdapter(
         async append(item: MessageFormatItem<TMessage>) {
           const id = getConvId();
           const userId = getUserId();
-          if (!id || userId == null) return;
+          if (!id) return;
 
           const stored = formatAdapter.encode(item);
           const messageId = formatAdapter.getId(item.message);

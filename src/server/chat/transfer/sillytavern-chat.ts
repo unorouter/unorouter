@@ -1,33 +1,8 @@
-/**
- * SillyTavern chat JSONL import + export.
- *
- * Format (per https://docs.sillytavern.app/usage/core-concepts/chatfilemanagement/
- * and the actively-used SillyTavern source `src/endpoints/chats.js`):
- *
- *   line 0: metadata
- *     {
- *       user_name: string,
- *       character_name: string,
- *       create_date: string (humanized),
- *       chat_metadata: { integrity, chatIdHash, ... }
- *     }
- *
- *   line N: message
- *     {
- *       name: string,
- *       is_user: boolean,
- *       is_system: boolean,
- *       send_date: string,
- *       mes: string,
- *       extra?: { reasoning?: string, token_count?: number, model?: string },
- *       swipe_id?: number,
- *       swipes?: string[],
- *       swipe_info?: Array<{ extra: {...} }>,
- *     }
- *
- * Used as the lingua franca by SillyTavern, Chub/Venus, Janitor.AI exporter
- * userscripts/extensions, and most other RP frontends.
- */
+// SillyTavern chat JSONL import + export. Format reference:
+// https://docs.sillytavern.app/usage/core-concepts/chatfilemanagement/
+//   line 0: metadata { user_name, character_name, create_date, chat_metadata }
+//   line N: message { name, is_user, is_system, send_date, mes, extra?,
+//                     swipe_id?, swipes?, swipe_info? }
 
 import { msg } from "@/lib/config/constants";
 import { assertFound } from "@/lib/utils/server";
@@ -70,16 +45,6 @@ type STMessage = {
   swipes?: string[];
 };
 
-// ---------------------------------------------------------------------------
-// Export
-// ---------------------------------------------------------------------------
-
-/**
- * Render the active branch of a conversation as SillyTavern JSONL. Walks the
- * tree from the latest active tip back to the root and emits chronological
- * message lines, stripping only items that have no equivalent in the ST
- * format (file/image/task items become inline markdown links in the text).
- */
 export async function exportConversationSillyTavern(
   userId: number,
   convId: string,
@@ -96,7 +61,6 @@ export async function exportConversationSillyTavern(
   if (conv.userId !== userId && conv.userId !== 0)
     throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  // Bound character (the first active one) supplies `character_name`.
   const charBindings = await db
     .select({ characterId: conversationCharacters.characterId })
     .from(conversationCharacters)
@@ -130,7 +94,7 @@ export async function exportConversationSillyTavern(
   for (const m of path) {
     const items = (itemsByMsg.get(m.id) ?? []) as MessageItem[];
     const text = renderItemsAsText(items);
-    if (m.role === "system") continue; // ST treats system rows separately
+    if (m.role === "system") continue;
     const reasoning = items.find((it) => it.type === "reasoning")?.data as
       | { text?: string }
       | undefined;
@@ -176,29 +140,18 @@ function renderItemsAsText(items: MessageItem[]): string {
     } else if (it.type === "task") {
       const tid = typeof data.task_id === "string" ? data.task_id : "";
       parts.push(`*[task ${tid}]*`);
-    }
-    // tool_call / tool_result / reasoning are intentionally not inlined into
-    // `mes`; reasoning rides through `extra.reasoning`, tool calls have no
-    // ST equivalent.
+    // tool_call/tool_result/reasoning are not inlined into `mes`; reasoning
+    // rides through extra.reasoning, tool calls have no ST equivalent.
   }
   return parts.join("\n\n").trim();
 }
 
 function humanizedDate(d: Date): string {
-  // ST's reader is permissive; ISO is round-trippable and consistent.
   return d.toISOString();
 }
 
-// ---------------------------------------------------------------------------
-// Import
-// ---------------------------------------------------------------------------
-
-/**
- * Read a SillyTavern JSONL chat file and create a new conversation in the
- * caller's account. Each ST line becomes one message in our schema; user
- * messages are linked as parents of the next assistant message to form a
- * linear active branch (no swipes — we collapse to the active swipe only).
- */
+// Each ST line becomes one message; user messages parent the next assistant
+// message for a linear active branch (swipes collapsed to the active one).
 export async function importSillyTavernChat(
   userId: number,
   file: File,
@@ -218,8 +171,7 @@ export async function importSillyTavernChat(
     metadata = null;
   }
 
-  // First line might be a message instead of metadata (some exporters skip
-  // the metadata line). Detect by checking for `mes`/`is_user` shape.
+  // Some exporters skip the metadata line; detect by `mes`/`is_user` shape.
   const messageLines: string[] = metadata?.user_name ? lines.slice(1) : lines;
 
   const stMessages: STMessage[] = [];
@@ -228,7 +180,7 @@ export async function importSillyTavernChat(
       const parsed = JSON.parse(ln) as STMessage;
       if (typeof parsed.mes === "string") stMessages.push(parsed);
     } catch {
-      // skip malformed lines
+      // skip
     }
   }
 
@@ -321,17 +273,11 @@ function parseStDate(raw: string | undefined): Date | null {
   if (!raw) return null;
   const d = new Date(raw);
   if (!isNaN(d.getTime())) return d;
-  // Some ST exports use Unix epoch ms as a number-in-string.
   const n = Number(raw);
   if (!isNaN(n) && n > 0) return new Date(n);
   return null;
 }
 
-/**
- * Detect whether a JSON file looks like a SillyTavern chat export. Used by
- * the unified import endpoint to dispatch to this importer instead of the
- * native/orpg flow.
- */
 export function looksLikeSillyTavernChat(text: string): boolean {
   const firstLine = text.split("\n").find((l) => l.trim().length > 0);
   if (!firstLine) return false;

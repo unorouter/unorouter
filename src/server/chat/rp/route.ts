@@ -76,7 +76,6 @@ import {
 } from "./card.service";
 
 export const rpRoute = new Elysia({ prefix: "/rp" })
-  // ----- Characters --------------------------------------------------------
   .get("/characters", async ({ cookie }) => {
     const userId = getUserId(cookie);
     return { success: true, data: await listCharacters(userId) };
@@ -128,8 +127,7 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
       set.headers["content-type"] = result.mimeType;
       set.headers["content-disposition"] =
         `attachment; filename="character-${params.id}.${result.ext}"`;
-      // Copy bytes onto a fresh ArrayBuffer so the Web `BodyInit` typing
-      // accepts it (Uint8Array<ArrayBufferLike> doesn't match BlobPart).
+      // Web `BodyInit` doesn't accept Uint8Array<ArrayBufferLike>; copy.
       const ab = new ArrayBuffer(result.data.byteLength);
       new Uint8Array(ab).set(result.data);
       return new Response(new Blob([ab], { type: result.mimeType }), {
@@ -139,7 +137,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { query: characterExportQuery },
   )
 
-  // ----- Personas ----------------------------------------------------------
   .get("/personas", async ({ cookie }) => {
     const userId = getUserId(cookie);
     return { success: true, data: await listPersonas(userId) };
@@ -183,7 +180,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { body: personaImportBody },
   )
 
-  // ----- Lorebooks ---------------------------------------------------------
   .get("/lorebooks", async ({ cookie }) => {
     const userId = getUserId(cookie);
     return { success: true, data: await listLorebooks(userId) };
@@ -242,7 +238,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { query: lorebookExportQuery },
   )
 
-  // Lorebook entries
   .post(
     "/lorebooks/:id/entries",
     async ({ params, body, cookie }) => {
@@ -273,7 +268,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     };
   })
 
-  // ----- Presets -----------------------------------------------------------
   .get("/presets", async ({ cookie }) => {
     const userId = getUserId(cookie);
     return { success: true, data: await listPresets(userId) };
@@ -316,7 +310,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     });
   })
 
-  // ----- Cards (chars + persona + lorebooks bundle) -----------------------
   .get("/cards", async ({ cookie }) => {
     const userId = getUserId(cookie);
     return { success: true, data: await listCards(userId) };
@@ -370,13 +363,9 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { body: cardApplyBody },
   )
 
-  // ----- Conversation settings + bindings ----------------------------------
-  // Guests own conversation_settings rows under userId=0 (created by
-  // POST /api/chat for anonymous users). Reads + sampling-knob writes use
-  // `getUserId(cookie, true) ?? 0` so guests can edit per-conversation
-  // overrides for their own convs. Bindings remain logged-in only on the
-  // write path because they reference user-owned characters/lorebooks; reads
-  // return whatever rows exist (guest convs have none).
+  // Guests own conversation_settings rows under userId=0. Bindings remain
+  // logged-in only on the write path (reference user-owned entities); reads
+  // return whatever rows exist.
   .get("/conversations/:id/settings", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     return { success: true, data: await getSettings(userId, params.id) };
@@ -408,17 +397,11 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { body: updateConversationBindingsBody },
   )
 
-  // ----- Export / Import ---------------------------------------------------
-  // Conversation export is guest-tolerant: guests own their own conversation
-  // rows under userId=0 and should be able to back them up. The export
-  // services already gate access by `(userId, convId)` so a guest's cookie
-  // can only ever pull their own convs.
+  // Export is guest-tolerant: services gate by (userId, convId).
   .get(
     "/conversations/:id/export",
     async ({ params, query, cookie, set }) => {
       const userId = getUserId(cookie, true) ?? 0;
-      // SillyTavern JSONL is a download; native and orpg flow through the
-      // standard JSON envelope so the client can copy/inspect them.
       if (query.format === "sillytavern") {
         const result = await exportConversationSillyTavern(userId, params.id);
         set.headers["content-type"] = "application/jsonl";

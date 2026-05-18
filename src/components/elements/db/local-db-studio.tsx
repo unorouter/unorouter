@@ -1,26 +1,15 @@
 "use client";
 
-// ---------------------------------------------------------------------------
-// Inline browser for the on-device SQLocal database (LibSQL Studio + a
-// custom SqliteLikeBaseDriver wired to our SQLocal worker). Mounted on the
-// chat + generate page actions menus. Studio's bundle (`@libsqlstudio/gui`,
-// ~107 KB JS + 40 KB CSS) is loaded lazily via `next/dynamic` only when the
-// sheet first opens, so production users that never open the panel don't
-// pay the cost. Studio's Tailwind preflight would clobber our shadcn styles
-// at the document level, so the component is mounted inside an open Shadow
-// Root with the package CSS adopted into that root only.
-// ---------------------------------------------------------------------------
-
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
+import { Icon } from "@/components/ui/icon";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -42,12 +31,11 @@ export function LocalDbStudio(props: Props) {
   const userId = auth.data?.id ?? 0;
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleWipe = async () => {
+  const wipe = async () => {
     if (!confirm(t("CHAT.MORE.LOCAL_DB_WIPE_CONFIRM"))) return;
-    // Destroy the SQLocal worker FIRST. Its SyncAccessHandle holds an
-    // exclusive lock on the sqlite file plus hidden WAL/SAH-pool shards;
-    // removeEntry() silently no-ops on locked files, leaving phantom OPFS
-    // usage (visible as `fileSystem` bytes > 0 with an empty root listing).
+    // Destroy SQLocal worker first; its SyncAccessHandle holds an exclusive
+    // lock on the sqlite file + hidden WAL/SAH-pool shards. removeEntry()
+    // silently no-ops on locked files, leaving phantom OPFS usage.
     try {
       const local = await getLocalDb(userId);
       if (local) {
@@ -68,7 +56,7 @@ export function LocalDbStudio(props: Props) {
     location.reload();
   };
 
-  const handleDownload = async () => {
+  const download = async () => {
     try {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
@@ -87,7 +75,7 @@ export function LocalDbStudio(props: Props) {
     }
   };
 
-  const handleUploadFile = async (file: File) => {
+  const upload = async (file: File) => {
     if (!confirm(t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM"))) return;
     try {
       const local = await getLocalDb(userId);
@@ -108,60 +96,24 @@ export function LocalDbStudio(props: Props) {
       >
         <SheetTitle className="sr-only">{t("CHAT.MORE.LOCAL_DB")}</SheetTitle>
         <div className="absolute top-20 left-2 z-10 flex flex-col gap-1.5">
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  aria-label={t("CHAT.MORE.LOCAL_DB_WIPE")}
-                  onClick={handleWipe}
-                  className="size-7"
-                >
-                  <Icon name="trash-2" className="size-3" />
-                </Button>
-              }
-            />
-            <TooltipContent side="right">
-              {t("CHAT.MORE.LOCAL_DB_WIPE")}
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  aria-label={t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
-                  onClick={handleDownload}
-                  className="size-7"
-                >
-                  <Icon name="download" className="size-3" />
-                </Button>
-              }
-            />
-            <TooltipContent side="right">
-              {t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger
-              render={
-                <Button
-                  variant="secondary"
-                  size="icon"
-                  aria-label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
-                  onClick={() => uploadInputRef.current?.click()}
-                  className="size-7"
-                >
-                  <Icon name="upload" className="size-3" />
-                </Button>
-              }
-            />
-            <TooltipContent side="right">
-              {t("CHAT.MORE.LOCAL_DB_UPLOAD")}
-            </TooltipContent>
-          </Tooltip>
+          <ActionButton
+            icon="trash-2"
+            label={t("CHAT.MORE.LOCAL_DB_WIPE")}
+            variant="destructive"
+            onClick={wipe}
+          />
+          <ActionButton
+            icon="download"
+            label={t("CHAT.MORE.LOCAL_DB_DOWNLOAD")}
+            variant="secondary"
+            onClick={download}
+          />
+          <ActionButton
+            icon="upload"
+            label={t("CHAT.MORE.LOCAL_DB_UPLOAD")}
+            variant="secondary"
+            onClick={() => uploadInputRef.current?.click()}
+          />
           <input
             ref={uploadInputRef}
             type="file"
@@ -170,7 +122,7 @@ export function LocalDbStudio(props: Props) {
             onChange={(e) => {
               const file = e.target.files?.[0];
               e.target.value = "";
-              if (file) void handleUploadFile(file);
+              if (file) void upload(file);
             }}
           />
         </div>
@@ -184,23 +136,41 @@ export function LocalDbStudio(props: Props) {
   );
 }
 
-// Mounts children inside an open shadow root so Studio's global Tailwind
-// preflight stays scoped. Fetches the package CSS once and re-uses the
-// constructable stylesheet across all instances. Stylesheet is copied to
-// /public/sqlocal/studio.css by scripts/bundle-sqlocal-worker.ts on
-// postinstall / prebuild.
-const STUDIO_CSS_URL = "/sqlocal/studio.css";
+function ActionButton(props: {
+  icon: string;
+  label: string;
+  variant: "destructive" | "secondary";
+  onClick: () => void;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            variant={props.variant}
+            size="icon"
+            aria-label={props.label}
+            onClick={props.onClick}
+            className="size-7"
+          >
+            <Icon name={props.icon} className="size-3" />
+          </Button>
+        }
+      />
+      <TooltipContent side="right">{props.label}</TooltipContent>
+    </Tooltip>
+  );
+}
+
+const STUDIO_CSS_URL = "/sqlocal/studio-css";
 
 let cachedSheet: CSSStyleSheet | null = null;
 async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   if (cachedSheet) return cachedSheet;
   const res = await fetch(STUDIO_CSS_URL);
-  // The CSS targets `:root` (Tailwind theme tokens), `.dark` (legacy dark
-  // class), and Tailwind v3 `:is(.dark *)` (compiled dark variant). Inside
-  // a shadow root none of those match a class on the shadow host because
-  // descendant combinators don't cross the shadow boundary. Rewrite each to
-  // target the host. See PR https://github.com/outerbase/studio/pull/506
-  // for the proposed upstream fix.
+  // CSS targets :root, .dark, and :is(.dark *). None match across the shadow
+  // boundary, so rewrite to :host / :host(.dark). Upstream fix:
+  // https://github.com/outerbase/studio/pull/506
   const text = (await res.text())
     .replace(/:root\b/g, ":host")
     .replace(/:is\(\.dark\s*\*\)/g, "")

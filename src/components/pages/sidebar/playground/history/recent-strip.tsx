@@ -8,13 +8,6 @@ import {
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-// Vertical list of snapshots inside the active session. Mirrors the chevron
-// nav but as a scrollable list with thumbnail + prompt + params, so the
-// user can scan a long iteration trail at a glance. Newest snapshot is at
-// the top (matches the chevron ordering).
-//
-// Hides when there's no active session (the placeholder column already
-// tells the user to pick or generate something).
 export function RecentStrip() {
   const t = useTranslations();
   const [activeSessionId] = useAtom(activeSessionIdAtom);
@@ -24,9 +17,6 @@ export function RecentStrip() {
 
   if (!activeSessionId || snapshots.length === 0) return null;
 
-  // Absolute datetime for the snapshot row. Same-day entries skip the date
-  // ("14:32"); older entries show date + time ("Mar 5 14:32"); cross-year
-  // entries include the year. Locale-aware via toLocale* formatters.
   const fmtDateTime = (when: Date | string | number | null | undefined) => {
     if (!when) return "";
     const d = new Date(when);

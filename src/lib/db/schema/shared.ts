@@ -10,18 +10,9 @@ import {
 import { uid } from "@/lib/utils/base";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
 
-// ---------------------------------------------------------------------------
-// Shared schema: tables mirrored both server-side (Turso) and client-side
-// (SQLocal/OPFS). Top-level user-owned entities + their cascade children.
-//
-// `syncExpiresAt` is the only sync-state column. Null = not synced (server has
-// no copy on Turso; row exists only locally). Non-null = currently synced and
-// will be purged server-side after the timestamp.
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// Conversations
-// ---------------------------------------------------------------------------
+// `syncExpiresAt`: null = not synced (server has no copy on Turso; row exists
+// only locally). Non-null = currently synced and will be purged server-side
+// after the timestamp.
 
 export const conversations = sqliteTable(
   "conversations",
@@ -82,10 +73,6 @@ export const conversationSettings = sqliteTable("conversation_settings", {
     .notNull()
     .default(sql`(unixepoch() * 1000)`),
 });
-
-// ---------------------------------------------------------------------------
-// Messages + items
-// ---------------------------------------------------------------------------
 
 export const messages = sqliteTable(
   "messages",
@@ -149,10 +136,7 @@ export const messageItems = sqliteTable(
   ],
 );
 
-// ---------------------------------------------------------------------------
-// Characters (SillyTavern-compatible)
-// ---------------------------------------------------------------------------
-
+// SillyTavern-compatible.
 export const characters = sqliteTable(
   "characters",
   {
@@ -194,10 +178,6 @@ export const characters = sqliteTable(
   ],
 );
 
-// ---------------------------------------------------------------------------
-// Personas
-// ---------------------------------------------------------------------------
-
 export const personas = sqliteTable(
   "personas",
   {
@@ -226,10 +206,6 @@ export const personas = sqliteTable(
     index("idx_persona_sync_expires").on(table.syncExpiresAt),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// Lorebooks + entries
-// ---------------------------------------------------------------------------
 
 export const lorebooks = sqliteTable(
   "lorebooks",
@@ -296,10 +272,6 @@ export const lorebookEntries = sqliteTable(
   ],
 );
 
-// ---------------------------------------------------------------------------
-// Sampling presets
-// ---------------------------------------------------------------------------
-
 export const samplingPresets = sqliteTable(
   "sampling_presets",
   {
@@ -357,10 +329,6 @@ export const samplingPresets = sqliteTable(
   ],
 );
 
-// ---------------------------------------------------------------------------
-// Conversation bindings (m:n)
-// ---------------------------------------------------------------------------
-
 export const conversationCharacters = sqliteTable(
   "conversation_characters",
   {
@@ -402,10 +370,6 @@ export const conversationLorebooks = sqliteTable(
     index("idx_convlb_conv_order").on(table.convId, table.orderIndex),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// Cards
-// ---------------------------------------------------------------------------
 
 export const cards = sqliteTable(
   "cards",
@@ -465,13 +429,7 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
-// ---------------------------------------------------------------------------
-// User theme (one row per user). Mirrors the runtime UserTheme JSON blob
-// the Jotai/cookie store holds locally. Cross-device sync re-uses the same
-// Add/Resync/Remove model as every other Group A entity. PK is userId so a
-// user can only have one synced theme row at a time.
-// ---------------------------------------------------------------------------
-
+// One row per user. PK is userId so a user can only have one synced theme row.
 export const userThemes = sqliteTable(
   "user_themes",
   {
@@ -490,10 +448,6 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-// ---------------------------------------------------------------------------
-// Media (character avatars + chat attachments)
-// ---------------------------------------------------------------------------
-
 export const media = sqliteTable(
   "media",
   {
@@ -504,11 +458,9 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // r2_key / r2_url is filled once the blob has been uploaded to R2 (sync
-    // path). For local-only media these stay null and the bytes live in
-    // data_base64. On sync we upload to R2, set r2_key/r2_url, and null out
-    // data_base64 before mirroring to Turso so the server-side row stays
-    // pointer-only.
+    // For local-only media these stay null and bytes live in data_base64. On
+    // sync we upload to R2, set r2_key/r2_url, and null out data_base64 before
+    // mirroring to Turso so the server-side row stays pointer-only.
     r2Key: text("r2_key"),
     r2Url: text("r2_url"),
     dataBase64: text("data_base64"),
@@ -524,10 +476,6 @@ export const media = sqliteTable(
     index("idx_media_conv").on(table.convId),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// Image generation (session + snapshots + images + likes)
-// ---------------------------------------------------------------------------
 
 export const playgroundSessions = sqliteTable(
   "playground_sessions",
@@ -646,10 +594,6 @@ export const playgroundLikes = sqliteTable(
     index("idx_likes_user").on(table.userId),
   ],
 );
-
-// ---------------------------------------------------------------------------
-// Inferred types (re-exported via schema/index.ts barrel)
-// ---------------------------------------------------------------------------
 
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;

@@ -21,10 +21,8 @@ import { useDeferredValue, useState } from "react";
 
 export const UNGROUPED_VENDOR = "Other";
 
-// Each bucket pairs with a window where the bar count stays in the readable
-// 30 to 200 range. 1m * 24h = 1440 bars compresses to sub-pixel garbage; pick
-// 1m for the last hour, 1h for the last week, and so on. This keeps every
-// zoom level meaningful without needing a separate range picker.
+// Bucket+window pairs keep bar count in the readable 30-200 range. Anything
+// like 1m * 24h = 1440 bars compresses to sub-pixel garbage.
 export const BUCKET_OPTIONS: { value: StatusBucket; hours: number }[] = [
   { value: "1m", hours: 1 },
   { value: "5m", hours: 6 },

@@ -38,9 +38,6 @@ export type TaskFetchResult = {
   resultUrl?: string;
 };
 
-// Map the canonical lowercase status from normalizeTaskStatus into this
-// service's uppercase TaskStatus vocabulary used by the chat TaskCard
-// UI. Anything we don't explicitly recognise becomes UNKNOWN.
 function toUiStatus(raw: string | undefined): TaskStatus {
   const canonical = normalizeTaskStatus(raw);
   switch (canonical) {
@@ -62,7 +59,6 @@ function toUiStatus(raw: string | undefined): TaskStatus {
   }
 }
 
-/** Submit a video generation task to new-api. */
 export async function submitVideoTask(
   apiKey: string,
   model: string,
@@ -91,12 +87,8 @@ export async function submitVideoTask(
   };
 }
 
-/**
- * Finalize a completed video task: rehost the upstream URL to R2 and rewrite
- * the persisted `task` item to a `text` item containing the markdown video
- * tag. Guest cookies (userId=0) are validated via the guest-conv list since
- * the conv row carries no real userId for them.
- */
+// Rehosts upstream URL to R2 and rewrites the persisted `task` item to a
+// `text` item containing markdown video tag.
 export async function finalizeVideoTask(
   userId: number,
   cookie: Record<string, Cookie<unknown>>,
@@ -167,7 +159,6 @@ export async function finalizeVideoTask(
   return { items: updatedItems };
 }
 
-/** Poll the status of a video generation task from new-api. */
 export async function fetchVideoTaskStatus(
   apiKey: string,
   taskId: string,

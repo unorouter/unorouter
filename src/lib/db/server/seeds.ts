@@ -1,11 +1,6 @@
-// Seed catalogs that get inserted after migrations on every startup. Each
-// row uses ON CONFLICT DO NOTHING on its primary key so re-runs are
-// idempotent and operator edits via SQL never get clobbered.
-//
-// To add a new seed: append to the relevant catalog array. To remove a
-// row from production, delete the seed AND issue a one-off DELETE in the
-// DB; this file's removal alone won't clean up rows that were already
-// inserted.
+// ON CONFLICT DO NOTHING on PK keeps re-runs idempotent and preserves
+// operator SQL edits. Removing a seed here will NOT clean up rows already
+// inserted; pair with a manual DELETE.
 
 import { error, log } from "console";
 import { sql } from "drizzle-orm";
@@ -23,9 +18,8 @@ type EmbeddingSeed = typeof embeddingCatalog.$inferInsert;
 type UpscalerSeed = typeof upscalerCatalog.$inferInsert;
 type ControlNetSeed = typeof controlNetCatalog.$inferInsert;
 
-// LoRAs we staged on the RunPod network volume at /workspace/models/loras/.
-// Filename must match the on-disk filename exactly — LoraLoader.lora_name is
-// patched verbatim into the ComfyUI workflow by the new-api adapter.
+// Filename must match the on-disk filename in /workspace/models/loras/ exactly:
+// LoraLoader.lora_name is patched verbatim into the ComfyUI workflow.
 const LORA_SEEDS: LoraSeed[] = [
   {
     id: "sinfully-stylish-bold-lighting",
@@ -94,11 +88,8 @@ const LORA_SEEDS: LoraSeed[] = [
   },
 ];
 
-// Built-in latent upscalers — these ship with ComfyUI itself (no file
-// on the RunPod volume required). The 5 below are the only upscalers
-// safely available right now. ESRGAN/SwinIR/DAT variants require
-// `upscale_models/` files on the volume; operator adds those rows by
-// hand (or extends this seed list) after staging the model files.
+// Built-in latent upscalers ship with ComfyUI (no volume file required).
+// ESRGAN/SwinIR/DAT variants need `upscale_models/` files staged on the volume.
 const UPSCALER_SEEDS: UpscalerSeed[] = [
   {
     id: "latent-bicubic-antialiased",
@@ -146,9 +137,8 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
     description: "Pixel nearest-neighbor on the decoded image.",
     sortOrder: 50,
   },
-  // ESRGAN entries staged on the volume at /workspace/models/upscale_models/.
-  // Filename must match the on-disk filename exactly (case-sensitive, with
-  // extension), the ComfyUI UpscaleModelLoader reads from that directory.
+  // Filename must match on-disk in /workspace/models/upscale_models/ exactly
+  // (case-sensitive, with extension); UpscaleModelLoader reads that directory.
   {
     id: "realesrgan-4xplus",
     name: "R-ESRGAN 4x+",
@@ -190,10 +180,9 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
   },
 ];
 
-// Textual inversion embeddings staged on the volume at
-// /workspace/models/embeddings/. The worker rewrites prompts to inject
-// `(embedding:<filename>:<weight>) ` tokens (filename with extension —
-// ComfyUI tokenizer errors on bare names when weighted).
+// Staged at /workspace/models/embeddings/. The worker injects
+// `(embedding:<filename>:<weight>) ` tokens; filename must include extension,
+// the ComfyUI tokenizer errors on bare names when weighted.
 const EMBEDDING_SEEDS: EmbeddingSeed[] = [
   {
     id: "easynegative",
@@ -210,9 +199,8 @@ const EMBEDDING_SEEDS: EmbeddingSeed[] = [
   },
 ];
 
-// SDXL ControlNets staged on the volume at /workspace/models/controlnet/.
-// xinsir variants chosen over the diffusers official ones (better quality
-// at the same size, ~2.4 GB each).
+// Staged at /workspace/models/controlnet/. xinsir variants chosen over
+// diffusers official (better quality at same size, ~2.4 GB each).
 const CONTROLNET_SEEDS: ControlNetSeed[] = [
   {
     id: "xinsir-depth-sdxl",
@@ -248,10 +236,8 @@ const CONTROLNET_SEEDS: ControlNetSeed[] = [
 export async function runSeeds(
   db: LibSQLDatabase<typeof schema>,
 ): Promise<void> {
-  // Seed each catalog independently. The size-check fast-path avoids
-  // N-row INSERTs on every cold start once the seed list has been
-  // applied at least once. ON CONFLICT DO NOTHING handles the rare
-  // race where two concurrent processes both try to seed.
+  // Size-check fast-path avoids N-row INSERTs on every cold start once seeds
+  // are applied. ON CONFLICT DO NOTHING handles the concurrent-seed race.
   await seedCatalog(
     db,
     "lora_catalog",
@@ -290,9 +276,6 @@ export async function runSeeds(
         .then((r) => Number(r[0]?.n ?? 0)),
   );
 
-  // Embeddings + ControlNets are intentionally empty seeds today. The
-  // helper is still called so future seed-row additions work without
-  // changing this function.
   await seedCatalog(
     db,
     "embedding_catalog",
@@ -343,7 +326,7 @@ async function seedCatalog<T>(
   try {
     if ((await count()) >= seeds.length) return;
   } catch {
-    // Table missing or unreadable — let the inserts surface the error.
+    // Table missing or unreadable: let the inserts surface the error.
   }
   let inserted = 0;
   for (const row of seeds) {

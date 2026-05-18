@@ -1,9 +1,6 @@
 /**
- * Client-side TypeBox form schemas for the RP suite.
- *
- * The server validation lives in `./rp.ts` and `./chat.ts` (Elysia's `t`).
- * These mirror those shapes but add `default:` values so RHF's
- * `Value.Default(schema, {})` produces a fully-shaped initial form.
+ * Mirrors server schemas in `./rp.ts` and `./chat.ts` but adds `default:` so
+ * RHF's `Value.Default(schema, {})` produces a fully-shaped initial form.
  */
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
@@ -45,10 +42,6 @@ const nullableNumber = (min: number, max: number) =>
     default: null,
   });
 
-// ---------------------------------------------------------------------------
-// Conversation overrides (drawer)
-// ---------------------------------------------------------------------------
-
 export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: "__none__" }),
   presetId: t.String({ default: "__none__" }),
@@ -71,7 +64,7 @@ export const conversationOverridesFormSchema = t.Object({
   }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
-  // Inline sampling overrides (null = use preset/model default).
+  // null = use preset/model default.
   temperature: nullableNumber(0, 2),
   topP: nullableNumber(0, 1),
   topK: nullableNumber(0, 1000),
@@ -89,10 +82,6 @@ export const conversationOverridesFormSchema = t.Object({
 export type ConversationOverridesForm = Static<
   typeof conversationOverridesFormSchema
 >;
-
-// ---------------------------------------------------------------------------
-// Sampling preset (presets page)
-// ---------------------------------------------------------------------------
 
 export const samplingPresetFormSchema = t.Object({
   name: t.String({
@@ -122,10 +111,6 @@ export const samplingPresetFormSchema = t.Object({
 });
 export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
 
-// ---------------------------------------------------------------------------
-// Persona
-// ---------------------------------------------------------------------------
-
 export const personaFormSchema = t.Object({
   name: t.String({
     minLength: 1,
@@ -137,10 +122,6 @@ export const personaFormSchema = t.Object({
   isDefault: t.Boolean({ default: false }),
 });
 export type PersonaForm = Static<typeof personaFormSchema>;
-
-// ---------------------------------------------------------------------------
-// Lorebook header
-// ---------------------------------------------------------------------------
 
 export const lorebookFormSchema = t.Object({
   name: t.String({
@@ -155,11 +136,8 @@ export const lorebookFormSchema = t.Object({
 });
 export type LorebookForm = Static<typeof lorebookFormSchema>;
 
-// ---------------------------------------------------------------------------
-// Lorebook entry (entries are stored with array key fields, but the form
-// edits them as comma-separated strings for ergonomics).
-// ---------------------------------------------------------------------------
-
+// Entries are stored with array key fields but the form edits them as
+// comma-separated strings for ergonomics.
 export const lorebookEntryFormSchema = t.Object({
   keys: t.String({ default: "" }),
   secondaryKeys: t.String({ default: "" }),
@@ -185,10 +163,6 @@ export const lorebookEntryFormSchema = t.Object({
   }),
 });
 export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
-
-// ---------------------------------------------------------------------------
-// Character
-// ---------------------------------------------------------------------------
 
 export const characterFormSchema = t.Object({
   name: t.String({

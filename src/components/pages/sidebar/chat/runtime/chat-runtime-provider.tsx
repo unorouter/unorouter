@@ -46,7 +46,7 @@ function ChatRuntimeHook() {
   const t = useTranslations();
   const auth = useAuthQuery();
 
-  // Sync remoteId into convId synchronously (transport body reads this immediately)
+  // Sync remoteId into convId synchronously; transport body reads this immediately.
   const prevRemoteIdRef = useRef<string | null | undefined>(undefined);
   const nextConvId = remoteId ?? null;
   if (prevRemoteIdRef.current !== nextConvId) {
@@ -54,18 +54,17 @@ function ChatRuntimeHook() {
     setConvId(nextConvId);
   }
 
-  // History adapter handles persistence (append) and initial load (with branch tree)
   const authForHistory = useAuthQuery();
   const historyAdapterRef = useRef(
     createChatHistoryAdapter(
       queryClient,
       () => getConvId(),
-      () => authForHistory.data?.id ?? null,
+      () => authForHistory.data?.id ?? 0,
     ),
   );
 
-  // Two-way model sync: server → atom on thread switch, atom → server on user change.
-  // Single effect with a jotai subscription replaces two effects + multiple refs.
+  // Two-way model sync: server to atom on thread switch, atom to server on
+  // user change. Single effect with a jotai subscription.
   const conversationQuery = useConversationQuery(remoteId);
   const updateConversation = useUpdateConversationMutation();
   const modelSyncRef = useRef({
@@ -78,7 +77,6 @@ function ChatRuntimeHook() {
   modelSyncRef.current.queryClient = queryClient;
   modelSyncRef.current.setChatModel = setChatModel;
 
-  // Server → atom: when conversation data arrives for a new thread, push its model into the selector
   const serverModel = conversationQuery.data?.model;
   useEffect(() => {
     if (
@@ -91,7 +89,7 @@ function ChatRuntimeHook() {
     setChatModel(serverModel);
   }, [remoteId, serverModel, setChatModel]);
 
-  // Atom → server: persist user-initiated model changes
+  // Persist user-initiated model changes to the server.
   useEffect(() => {
     return chatStore.sub(chatModelAtom, () => {
       const id = getConvId();
@@ -164,8 +162,8 @@ function ChatRuntimeHook() {
     requestAnimationFrame(pin);
   }, [threadId, remoteId]);
 
-  // Expose setMessages / regenerate for the assistant edit-in-place button.
-  // Plain ref, not reactive: the button reads it at click time.
+  // Plain ref, not reactive: the assistant edit-in-place button reads
+  // setMessages/regenerate at click time.
   setChatHelpers({
     setMessages: chat.setMessages as ChatHelpersRef["setMessages"],
     messages: chat.messages as ChatHelpersRef["messages"],
@@ -205,7 +203,6 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
     createThreadListAdapter(queryClient, t, isLoggedIn, userId),
   );
 
-  // Update the adapter's isLoggedIn state when auth changes
   useEffect(() => {
     adapterRef.current = createThreadListAdapter(
       queryClient,
@@ -228,13 +225,10 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Synchronous chatContext builder. Reads from React Query cache only - the
-// transport `body` callback runs sync. The cache is populated by IDB-first
-// hooks + the SyncStateHydrator stage 1+2 pass, so everything we need is
-// already there for synced + local-only conversations. Returns null fields
-// when data is missing; server falls back to Turso reads in that case.
-// ---------------------------------------------------------------------------
+// Reads from React Query cache only since the transport `body` callback
+// runs sync. Cache is populated by IDB-first hooks + the SyncStateHydrator
+// stage 1+2 pass. Returns null fields when data is missing; server falls
+// back to Turso reads in that case.
 function buildChatContextFromCache(
   qc: ReturnType<typeof useQueryClient>,
   convId: string,

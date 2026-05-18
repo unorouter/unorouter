@@ -31,7 +31,6 @@ export type PendingUsage = {
 
 export const pendingUsageByConv = new Map<string, PendingUsage>();
 
-/** Remove stale entries that were never consumed (e.g. client disconnected). */
 export function sweepStalePending() {
   const now = Date.now();
   for (const [key, value] of pendingUsageByConv) {
@@ -41,13 +40,8 @@ export function sweepStalePending() {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Image rehosting: re-upload assistant-generated image markdown to R2
-// ---------------------------------------------------------------------------
-
 const IMAGE_MD_RE = /!\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
-/** Re-upload data: or external image URLs found in text-item content to R2. */
 async function rehostTextItemImages(
   items: PersistMessageItem[],
   convId: string,
@@ -104,10 +98,6 @@ async function rehostTextItemImages(
   return out;
 }
 
-// ---------------------------------------------------------------------------
-// Persist messages
-// ---------------------------------------------------------------------------
-
 export async function persistMessages(
   userId: number,
   convId: string,
@@ -120,7 +110,6 @@ export async function persistMessages(
   });
   if (!conv) throw new Error(msg("ERRORS.NOT_FOUND"));
 
-  // Clean assistant-image data: URLs / external URLs into R2
   const groupKey = uid(8);
   const processedMsgs = await Promise.all(
     msgs.map(async (m) => {
@@ -144,7 +133,6 @@ export async function persistMessages(
     updatedAt: now.add(i, "millisecond").toDate(),
   }));
 
-  // Claim pending usage and resolve cost BEFORE the transaction
   const assistantIdx = messageRows.findLastIndex((m) => m.role === "assistant");
   let usage: PendingUsage | undefined;
   if (assistantIdx !== -1) {
@@ -190,10 +178,6 @@ export async function persistMessages(
   const insertedIds = await db.transaction(async (tx) => {
     if (messageRows.length === 0) return [] as { id: string }[];
 
-    // For each unique parentId in this batch, look up the highest existing
-    // branchIndex among current siblings and remember which sibling ids are
-    // currently active. We'll bump prior siblings to inactive and assign
-    // monotonic branchIndex values to the new rows below.
     const parentIds = Array.from(
       new Set(
         messageRows.map((r) => r.parentId).filter((x): x is string => !!x),
@@ -225,8 +209,6 @@ export async function persistMessages(
       }
     }
 
-    // Assign branchIndex per row: existing-max + 1 for the first new sibling,
-    // then increments for any further siblings in the same batch.
     const rowsWithBranch = messageRows.map((row) => {
       if (!row.parentId) {
         return { ...row, branchIndex: 0, isActiveBranch: true };
@@ -237,8 +219,7 @@ export async function persistMessages(
       return { ...row, branchIndex: next, isActiveBranch: true };
     });
 
-    // Flip prior active siblings off so the newly inserted row(s) become the
-    // active branch tip. Per parent, only the last new sibling stays active.
+    // Per parent, only the last new sibling stays active.
     if (parentsToDeactivate.size > 0) {
       await tx
         .update(messages)
@@ -251,8 +232,6 @@ export async function persistMessages(
           ),
         );
     }
-    // If the batch contains multiple siblings under the same parentId, only
-    // the highest-branchIndex one should remain active.
     const finalActiveIdByParent = new Map<string, string>();
     for (const row of rowsWithBranch) {
       if (!row.parentId) continue;
@@ -264,7 +243,6 @@ export async function persistMessages(
       .values(rowsWithBranch)
       .returning({ id: messages.id });
 
-    // Deactivate any in-batch sibling that isn't the final active per parent.
     const toDeactivateIds = rowsWithBranch
       .filter(
         (r) => r.parentId && finalActiveIdByParent.get(r.parentId) !== r.id,
@@ -277,7 +255,6 @@ export async function persistMessages(
         .where(inArray(messages.id, toDeactivateIds));
     }
 
-    // Insert items for each message
     const itemRows: (typeof messageItems.$inferInsert)[] = [];
     for (let i = 0; i < processedMsgs.length; i++) {
       const m = processedMsgs[i];
@@ -341,14 +318,6 @@ export async function persistMessages(
   };
 }
 
-// ---------------------------------------------------------------------------
-// Branch helpers
-// ---------------------------------------------------------------------------
-
-/**
- * Mark a single sibling as the active branch for its parent. Used when the
- * user picks a different sibling via the BranchPicker arrows.
- */
 export async function setActiveBranch(
   userId: number,
   convId: string,
@@ -394,10 +363,6 @@ export async function setActiveBranch(
   });
 }
 
-/**
- * Edit a message's items in place. If `regenerate` is true, the caller is
- * expected to follow up with a new stream call; here we only update content.
- */
 export async function editMessageItems(
   userId: number,
   convId: string,
@@ -447,16 +412,8 @@ export async function editMessageItems(
   });
 }
 
-/**
- * Splice-delete a message: rewire its children's parentId to the deleted
- * message's parent, then drop the message + its items. Sibling messages on
- * the deleted message's parent are NOT touched (preserves retry-branches).
- *
- * The branch tree stays connected: every child of the deleted node now
- * points at the deleted node's parent and keeps its own branchIndex /
- * isActiveBranch as-is. The history adapter recomputes the active path
- * from there.
- */
+// Splice-delete: rewire children's parentId to the deleted message's parent.
+// Siblings on the deleted message's parent are preserved (retry-branches).
 export async function deleteMessage(
   userId: number,
   convId: string,
@@ -483,7 +440,6 @@ export async function deleteMessage(
 
     const newParentId = target[0].parentId;
 
-    // Rewire children to skip over the deleted node.
     await tx
       .update(messages)
       .set({ parentId: newParentId, updatedAt: dayjs().toDate() })

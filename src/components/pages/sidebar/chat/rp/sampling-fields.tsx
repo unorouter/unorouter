@@ -13,7 +13,6 @@ type FieldKey = string;
 
 type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
   control: Control<TForm>;
-  /** Map of form field names by sampling knob. */
   names: {
     temperature: Path<TForm>;
     topP: Path<TForm>;
@@ -26,12 +25,12 @@ type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
     maxTokens: Path<TForm>;
   };
   /**
-   * Optional model metadata. When `supportedParameters` is present, knobs
-   * for params NOT in that list are grayed out with a tooltip. When the
-   * metadata is absent (older sync, non-OR model), all knobs stay enabled.
+   * When `supportedParameters` is present, knobs for params NOT in that
+   * list are grayed out with a tooltip. Absent metadata (older sync,
+   * non-OR model) leaves all knobs enabled.
    */
   metadata?: ModelMetadata;
-  /** Optional: render a Reset button that nulls all knobs. */
+  /** When provided, renders a Reset button that nulls all knobs. */
   onReset?: () => void;
 };
 
@@ -65,12 +64,8 @@ type KnobSpec<TForm extends Record<string, unknown>> = {
 };
 
 /**
- * Openrouter-style sampling block. Sliders are always visible. Each knob
- * stores `null` when "off" but the slider still has a visible position from
- * `fallback`. Edits set the field to a real number.
- *
- * Reuse this for both the per-conversation overrides drawer and the named
- * preset editor.
+ * Each knob stores `null` when "off" but the slider still has a visible
+ * position from `fallback`. Edits set the field to a real number.
  */
 export function SamplingFields<TForm extends Record<string, unknown>>(
   props: SamplingFieldsProps<TForm>,
@@ -155,12 +150,11 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
   ];
 
   const supported = props.metadata?.supportedParameters;
-  // We only gate when we *know* the supported set. Absent metadata = enable
+  // Only gate when we *know* the supported set; absent metadata enables
   // everything (graceful fallback for non-OR models / pre-sync data).
   const isUnsupported = (paramKey: string): boolean => {
     if (!supported || supported.length === 0) return false;
-    // max_tokens has an OAI variant `max_completion_tokens`; treat either as
-    // satisfying the max_tokens slider.
+    // OAI variant `max_completion_tokens` also satisfies the max_tokens slider.
     if (paramKey === "max_tokens") {
       return (
         !supported.includes("max_tokens") &&

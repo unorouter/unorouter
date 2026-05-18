@@ -24,10 +24,7 @@ import { getApiKeyOrGuest, getUserId } from "@/server/constants";
 import { and, asc, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
 
-// ComfyUI templates are gated to logged-in users: they hit our self-hosted
-// RunPod cluster and run on our quota, not the upstream's free models pool.
-// Guests can submit only image models flagged `isFree` in /api/pricing
-// (e.g. flux.1-schnell), which the upstream serves for free.
+// ComfyUI templates hit our RunPod cluster on our quota; logged-in only.
 const COMFYUI_TEMPLATE_IDS = new Set([
   "pony",
   "endgame",
@@ -59,15 +56,9 @@ import {
 } from "./playground.service";
 
 export const playgroundRoute = new Elysia({ prefix: "/playground" })
-  // Submit one snapshot. If body.sessionId is set the snapshot is
-  // appended to that session; otherwise a fresh session is created and
-  // returned. Response: { session, snapshot }.
   .post(
     "/submit",
     async ({ body, cookie }) => {
-      // Guests get a synthetic userId=0 and the shared GUEST_API_KEY. They
-      // can only submit free models (assertGuestAllowedModel rejects paid
-      // models + every ComfyUI template, which run on our quota).
       const userId = getUserId(cookie, true) ?? 0;
       if (userId === 0) {
         await assertGuestAllowedModel(body.model);
@@ -80,9 +71,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { body: playgroundSubmitBody },
   )
-  // List the current user's sessions. Cursor-paginated by updatedAt
-  // desc. Each item carries the latest snapshot + that snapshot's first
-  // image so the recent-list cards render without a second roundtrip.
   .get(
     "/me",
     async ({ query, cookie }) => {
@@ -94,7 +82,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { query: playgroundHistoryQuery },
   )
-  // Full session payload for the chevron view.
   .get("/session/:sessionId", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     return {
@@ -102,7 +89,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       data: await getSession(userId, params.sessionId),
     };
   })
-  // Delete a whole session and every snapshot it contains.
   .delete("/session/:sessionId", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     return {
@@ -110,7 +96,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       data: await deleteSession(userId, params.sessionId),
     };
   })
-  // Download a snapshot of a session the user owns (full history).
   .get("/session/:sessionId/export", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     return {
@@ -118,7 +103,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       data: await exportSession(userId, params.sessionId),
     };
   })
-  // Single snapshot detail (polling read and form-restore source).
   .get("/snapshot/:id", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     return {
@@ -126,7 +110,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       data: await getSnapshotWithImages(userId, params.id),
     };
   })
-  // Poll upstream + reflect status into the snapshot row.
   .get("/snapshot/:id/status", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     const apiKey = getApiKeyOrGuest(cookie);
@@ -145,7 +128,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       throw e;
     }
   })
-  // Owner-only visibility toggle on a single snapshot.
   .post(
     "/snapshot/:id/visibility",
     async ({ params, body, cookie }) => {
@@ -157,8 +139,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { body: generationVisibilityBody },
   )
-  // Delete a single snapshot. If it was the last in its session, the
-  // session is dropped too.
   .delete("/snapshot/:id", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     return {
@@ -166,8 +146,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
       data: await deleteSnapshot(userId, params.id),
     };
   })
-  // Clone an uploaded payload (single-snapshot or full-session) into the
-  // current user's account. Returns { sessionId }.
   .post(
     "/import",
     async ({ body, cookie }) => {
@@ -185,7 +163,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { body: playgroundImportBody },
   )
-  // Reference image upload. Same as before: multipart -> R2 -> URL.
   .post(
     "/references",
     async ({ body, cookie }) => {
@@ -202,9 +179,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { body: playgroundReferenceUploadBody },
   )
-  // Mask upload for Inpaint mode. Same pipeline as /references — the
-  // mask is a small PNG (one channel) and stores cheaply in R2 under
-  // the generation-references prefix.
   .post(
     "/masks",
     async ({ body, cookie }) => {
@@ -221,7 +195,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { body: playgroundMaskUploadBody },
   )
-  // LoRA catalog (unchanged).
   .get(
     "/loras",
     async ({ query }) => {
@@ -239,7 +212,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { query: loraCatalogQuery },
   )
-  // Embedding catalog. Same shape as /loras (operators curate rows).
   .get(
     "/embeddings",
     async ({ query }) => {
@@ -258,7 +230,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { query: embeddingCatalogQuery },
   )
-  // Upscaler catalog. Family-agnostic; only `category` filter.
   .get(
     "/upscalers",
     async ({ query }) => {
@@ -275,7 +246,6 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     },
     { query: upscalerCatalogQuery },
   )
-  // ControlNet catalog. Filter by base-model + kind.
   .get(
     "/controlnets",
     async ({ query }) => {

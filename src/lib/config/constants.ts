@@ -13,7 +13,6 @@ export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
 export const AUTH_REDIRECT_QUERY = "redirect" as const;
 
-/** Seconds to disable the "resend verification code" button after a request. */
 export const RESEND_COOLDOWN_SECONDS = 60;
 export const AFF_CODE_KEY = "aff" as const;
 export function affLink(code?: string) {
@@ -23,8 +22,8 @@ export const GUEST_CONVS_COOKIE = "guest-convs" as const;
 
 export const SERVER_URL_KEY = "x-url" as const;
 
-export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days in seconds
-export const GUEST_CONVS_MAX_AGE = 60 * 60 * 24 * 7; // 7 days, matches R2 TTL
+export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30d
+export const GUEST_CONVS_MAX_AGE = 60 * 60 * 24 * 7; // 7d, matches R2 TTL
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
 
@@ -77,37 +76,26 @@ export {
   renderQuota,
 } from "@/lib/utils/format/number";
 
-// ---------------------------------------------------------------------------
-// Chat / streaming knobs
-// ---------------------------------------------------------------------------
-
-/** Hard cap on output tokens for free-tier models. Their declared
- *  maxOutputTokens metadata is often inflated past what the upstream actually
- *  serves (e.g. gemma claims 131072 but the channel only allows 32768 total
- *  context), so we clamp to a safe budget to avoid context-length 400s. */
+/** Free-tier maxOutputTokens metadata is often inflated past what upstream
+ *  actually serves (e.g. gemma claims 131072 but channel allows 32768 total
+ *  context); clamp to avoid context-length 400s. */
 export const FREE_MODEL_OUTPUT_CAP = 8192;
 
-/** Number of free models to race in parallel for short auxiliary calls
- *  (title generation, web-search classifier). Free models are flaky so we
- *  fan out and take whichever responds first. */
+/** Free models are flaky; fan out N parallel calls for short auxiliary
+ *  requests (title gen, web-search classifier) and take the first response. */
 export const FREE_MODEL_RACE_COUNT = 5;
 
-/** Timeout for the Tavily web-search request and its yes/no classifier. */
 export const TAVILY_TIMEOUT_MS = 5_000;
 
-/** Timeout for the moderation pre-check on user prompts. */
 export const MODERATION_TIMEOUT_MS = 5_000;
 
-/** Sentinel user id used in moderation logs when the caller is unauthenticated. */
+/** Sentinel user id used in moderation logs for unauthenticated callers. */
 export const GUEST_USER_ID = -1;
 
-/** Pending-usage entries are dropped after this many ms without a write. */
 export const PENDING_USAGE_TTL_MS = 5 * 60 * 1000;
 
-/** System prompt for the conversation-title generator. */
 export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for this conversation based on the user's message.
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
-/** System prompt for the web-search yes/no classifier. */
 export const WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT = `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`;

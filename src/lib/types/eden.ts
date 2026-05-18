@@ -1,19 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 
-/**
- * Extracts params from an Eden Treaty route function.
- */
 type ExtractParams<TRoute> = TRoute extends (...args: any[]) => any
   ? Parameters<TRoute>[0]
   : {};
 
-/**
- * Resolves the method function from a route (handles static, parameterized, and hybrid).
- *
- * Hybrid routes are both callable (parameterized) and have static methods.
- * For these, check the return type first, then fall back to own properties.
- */
+// Hybrid routes are both callable (parameterized) and have static methods.
+// Check the return type first, then fall back to own properties.
 type ResolveMethod<TRoute, TMethod extends string> = TRoute extends (
   ...args: any[]
 ) => any
@@ -26,10 +19,7 @@ type ResolveMethod<TRoute, TMethod extends string> = TRoute extends (
     ? TRoute[TMethod]
     : never;
 
-/**
- * Checks if a type looks like Eden Treaty options (has query/headers/fetch/throwHttpError keys).
- * Uses `keyof` to detect optional properties that `extends { key: any }` would miss.
- */
+// Uses `keyof` to detect optional properties that `extends { key: any }` would miss.
 type IsOptions<T> = [T] extends [never]
   ? false
   : "query" extends keyof NonNullable<T>
@@ -42,11 +32,7 @@ type IsOptions<T> = [T] extends [never]
           ? true
           : false;
 
-/**
- * Extracts query from an options-like type.
- * Preserves optionality: if the options param itself is optional (T includes undefined),
- * the query field is also optional.
- */
+// Preserves optionality: if options is optional (T includes undefined), so is query.
 type ExtractQuery<T> = "query" extends keyof NonNullable<T>
   ? undefined extends T
     ? { query?: NonNullable<T>["query"] }
@@ -54,25 +40,19 @@ type ExtractQuery<T> = "query" extends keyof NonNullable<T>
   : {};
 
 /**
- * Extracts body + query from an Eden Treaty method function.
- *
  * Treaty 2 method signatures:
- * - GET (no query):    (options?) where options is optional, idx0 is options-like
- * - GET (with query):  (options) where options is required, idx0 is options-like
- * - POST (body only):  (body, options?) idx0 is body (not options-like)
- * - POST (body+query): (body, options) idx0 is body, idx1 is options with query
- *
- * Key insight: always check if idx0 is options-like first.
- * If yes -> it's a GET-style call, extract query from idx0.
- * If no  -> idx0 is body, extract query from idx1.
+ *   GET (no query):    (options?)        idx0 options-like, optional
+ *   GET (with query):  (options)         idx0 options-like, required
+ *   POST (body only):  (body, options?)  idx0 body
+ *   POST (body+query): (body, options)   idx0 body, idx1 options with query
+ * Always check if idx0 is options-like first; if yes it's GET-style and query
+ * comes from idx0, otherwise idx0 is body and query comes from idx1.
  */
 type ExtractBodyAndQuery<TFn> = TFn extends (...args: any[]) => any
   ? 0 extends keyof Parameters<TFn>
     ? IsOptions<Parameters<TFn>[0]> extends true
-      ? // First param is options (GET/HEAD style)
-        ExtractQuery<Parameters<TFn>[0]>
-      : // First param is body (POST/PUT/PATCH/DELETE style)
-        [unknown] extends [Parameters<TFn>[0]]
+      ? ExtractQuery<Parameters<TFn>[0]>
+      : [unknown] extends [Parameters<TFn>[0]]
         ? {}
         : { body: NonNullable<Parameters<TFn>[0]> } & ExtractQuery<
             Parameters<TFn>[1]
@@ -80,13 +60,9 @@ type ExtractBodyAndQuery<TFn> = TFn extends (...args: any[]) => any
     : {}
   : {};
 
-/**
- * Determines whether params should be included.
- *
- * For hybrid routes (callable + static methods), params are only included
- * when the method lives on the return type (parameterized call), not when
- * it's a static property on the function object itself.
- */
+// For hybrid routes, params are only included when the method lives on the
+// return type (parameterized call), not when it's a static property on the
+// function object itself.
 type ShouldIncludeParams<TRoute, TMethod extends string> = TRoute extends (
   ...args: any[]
 ) => any
@@ -127,10 +103,6 @@ export type EdenArgs<TRoute, TMethod extends string> = (ShouldIncludeParams<
   : {}) &
   ExtractBodyAndQuery<ResolveMethod<TRoute, TMethod>>;
 
-/**
- * Extracts the query type from an Eden Treaty route for a given HTTP method.
- * Convenience alias for use in query key definitions.
- */
 export type EdenQuery<TRoute, TMethod extends string = "get"> =
   EdenArgs<TRoute, TMethod> extends { query?: infer Q } ? Q : never;
 
@@ -138,7 +110,7 @@ export type EdenQuery<TRoute, TMethod extends string = "get"> =
  * Infers the unwrapped response type from an Eden Treaty route.
  *
  * Follows the same resolution chain as a real call:
- *   route → method → Awaited<ReturnType> → extract .data → unwrap { success, data }
+ *   route to method to Awaited<ReturnType> to extract .data to unwrap { success, data }
  *
  * @example
  * type Convos = EdenResponse<typeof rpc.api.chat>;
@@ -161,27 +133,21 @@ export type EdenResponse<TRoute, TMethod extends string = "get"> =
       : never
     : never;
 
-/**
- * Extract the data field from an Eden treaty response, distributing over unions.
- * Eden returns { data: T; status: number } where T can be a union
- * (e.g. ResponseDto | void for error branches).
- */
+// Eden returns { data: T; status: number } where T can be a union
+// (e.g. ResponseDto | void for error branches).
 export type ExtractData<T> = T extends { data: infer D }
   ? NonNullable<D>
   : never;
 
-/**
- * Strips void from unions. TS's NonNullable only removes null | undefined;
- * void survives as `void & {}` in strict mode.
- */
+// TS's NonNullable only removes null | undefined; void survives as `void & {}`
+// in strict mode.
 export type ExcludeVoid<T> = T extends void ? never : T;
 
 /**
  * Unwraps API response types that may be:
- * 1. Wrapped: { success: boolean; message: string; data: D } → D
- * 2. Direct: T (no wrapper) → T
- *
- * Distributes over unions so { success, data: D } | void → D
+ *   wrapped: { success: boolean; message: string; data: D } becomes D
+ *   direct:  T (no wrapper) stays T
+ * Distributes over unions so { success, data: D } | void becomes D.
  */
 export type UnwrapApiResponse<T> = ExcludeVoid<
   NonNullable<T extends { success: boolean; data: infer D } ? D : T>

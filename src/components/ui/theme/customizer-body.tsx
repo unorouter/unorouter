@@ -116,8 +116,7 @@ export function ThemeCustomizerBody() {
 
   const setTheme = (next: UserTheme) => {
     setThemeRaw(next);
-    const userId = auth.data?.id;
-    if (userId == null) return;
+    const userId = auth.data?.id ?? 0;
     const syncExpiresAt = themeSyncState.syncExpiresAt;
     void upsertLocalTheme(
       userId,

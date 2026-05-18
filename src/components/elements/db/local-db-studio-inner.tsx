@@ -1,11 +1,5 @@
 "use client";
 
-// ---------------------------------------------------------------------------
-// LibSQL Studio + SQLocal driver glue. Imported lazily by local-db-studio.tsx
-// via `next/dynamic` so the ~107 KB Studio bundle only ships when the user
-// actually opens the panel.
-// ---------------------------------------------------------------------------
-
 import { getLocalDb } from "@/lib/db/client/client";
 import { Studio } from "@libsqlstudio/gui";
 import {
@@ -13,10 +7,9 @@ import {
   type DatabaseResultSet,
   type Statement,
 } from "@libsqlstudio/gui/driver";
-import { useMemo } from "react";
 
 export default function LocalDbStudioInner(props: { userId: number }) {
-  const driver = useMemo(() => new SqlocalDriver(props.userId), [props.userId]);
+  const driver = new SqlocalDriver(props.userId);
   return (
     <Studio
       driver={driver}
@@ -28,22 +21,19 @@ export default function LocalDbStudioInner(props: { userId: number }) {
 }
 
 class SqlocalDriver extends SqliteLikeBaseDriver {
-  private userId: number;
-
-  constructor(userId: number) {
+  constructor(private userId: number) {
     super();
-    this.userId = userId;
   }
 
-  supportBigInt(): boolean {
+  supportBigInt() {
     return false;
   }
 
-  async query(stmt: Statement): Promise<DatabaseResultSet> {
+  async query(stmt: Statement) {
     return runOne(this.userId, stmt);
   }
 
-  async transaction(stmts: Statement[]): Promise<DatabaseResultSet[]> {
+  async transaction(stmts: Statement[]) {
     const out: DatabaseResultSet[] = [];
     for (const s of stmts) out.push(await runOne(this.userId, s));
     return out;
@@ -57,24 +47,20 @@ async function runOne(
   const local = await getLocalDb(userId);
   if (!local) throw new Error("SQLocal unavailable");
   const sql = typeof stmt === "string" ? stmt : stmt.sql;
-  const args = typeof stmt === "string" ? [] : (stmt.args ?? []);
-  const params = Array.isArray(args) ? args : Object.values(args);
+  const rawArgs = typeof stmt === "string" ? [] : (stmt.args ?? []);
+  const params = Array.isArray(rawArgs) ? rawArgs : Object.values(rawArgs);
   const rs = await local.exec(sql, params, "all");
   const columns = rs.columns ?? [];
-  const rows: Record<string, unknown>[] = (rs.rows ?? []).map((tuple) => {
-    const obj: Record<string, unknown> = {};
-    for (let i = 0; i < columns.length; i++) obj[columns[i]] = tuple[i];
-    return obj;
-  });
-  const headers = columns.map((name) => ({
-    name,
-    displayName: name,
-    originalType: null,
-    type: 1 as 1 | 2 | 3 | 4,
-  }));
   return {
-    rows,
-    headers,
+    rows: (rs.rows ?? []).map((tuple) =>
+      Object.fromEntries(columns.map((c, i) => [c, tuple[i]])),
+    ),
+    headers: columns.map((name) => ({
+      name,
+      displayName: name,
+      originalType: null,
+      type: 1 as const,
+    })),
     rowsAffected: rs.numAffectedRows ?? 0,
   };
 }

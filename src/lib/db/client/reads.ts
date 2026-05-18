@@ -25,15 +25,8 @@ import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "./client";
 import { makeTableStore } from "./table-store";
 
-// ---------------------------------------------------------------------------
-// Typed read helpers against the SQLocal mirror. Each function returns null
-// when the browser cannot mount the local DB (SSR, OPFS unavailable). Hooks
-// fall back to the server path in that case.
-//
-// Trivial list/get pairs are generated from the same makeTableStore factory
-// used in writes.ts. Composite reads (bundles, multi-table joins) stay
-// bespoke below.
-// ---------------------------------------------------------------------------
+// Returns null when the browser cannot mount the local DB (SSR, OPFS
+// unavailable); hooks fall back to the server path in that case.
 
 const characterStore = makeTableStore(characters, characters.id);
 const personaStore = makeTableStore(personas, personas.id);
@@ -92,10 +85,6 @@ export const readLocalConversationSettings = (
   userId: number,
   convId: string,
 ) => conversationSettingsStore.get(userId, convId, { scopeUser: false });
-
-// ---------------------------------------------------------------------------
-// Composite reads: multi-table joins / paged sub-queries.
-// ---------------------------------------------------------------------------
 
 export async function readLocalLorebook(userId: number, id: string) {
   const local = await getLocalDb(userId);
