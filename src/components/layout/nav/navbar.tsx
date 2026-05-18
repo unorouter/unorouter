@@ -1,7 +1,7 @@
 "use client";
 
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
-import { LoginLink } from "@/components/elements/auth/login-link";
+import { LoginLink } from "@/components/elements/brand/login-link";
 import { Icon } from "@/components/ui/icon";
 import { UserAvatar } from "@/components/layout/user/user-avatar";
 import { UserDropdown } from "@/components/layout/user/user-dropdown";

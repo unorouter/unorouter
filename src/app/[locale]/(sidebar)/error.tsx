@@ -1,6 +1,6 @@
 "use client";
 
-import { ErrorFallback } from "@/components/elements/error-fallback";
+import { ErrorFallback } from "@/components/elements/feedback/error-fallback";
 
 type Props = {
   error: Error & { digest?: string };

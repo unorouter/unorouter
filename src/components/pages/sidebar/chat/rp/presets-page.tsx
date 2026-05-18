@@ -2,7 +2,7 @@
 
 import { RpLoginGate } from "@/components/pages/sidebar/chat/rp/rp-login-gate";
 import { Icon } from "@/components/ui/icon";
-import { SyncBadge } from "@/components/elements/sync-badge";
+import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuthQuery } from "@/hooks/auth-hook";

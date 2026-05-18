@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginLink } from "@/components/elements/auth/login-link";
+import { LoginLink } from "@/components/elements/brand/login-link";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Link } from "@/i18n/navigation";

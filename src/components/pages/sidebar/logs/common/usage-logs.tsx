@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
-import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/filters";
+import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/log-helpers";
 import { Badge } from "@/components/ui/badge";
 import { useUsageLogsQuery, useUsageLogsStatQuery } from "@/hooks/logs-hook";
 import { analytics } from "@/lib/analytics";
@@ -11,7 +11,6 @@ import { createTableAtoms } from "@/store/data-table-store";
 import type { ColumnDef, ColumnFiltersState } from "@tanstack/react-table";
 import { useAtomValue, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
-import type { LogRow } from "./log-helpers";
 import { useState } from "react";
 import {
   LogChannelCell,
@@ -27,8 +26,9 @@ import {
   LogUserCell,
 } from "./log-cells";
 import { LogDetailsDialog } from "./log-details-dialog";
-import { canLogRowExpand, LogExpandedRow } from "./log-expanded-row";
+import { LogExpandedRow } from "./log-expanded-row";
 import { LogEmptyState, LogFilters } from "./log-filters";
+import { isConsumeLike, type LogRow } from "./log-helpers";
 
 export function UsageLogs() {
   const t = useTranslations();
@@ -187,7 +187,7 @@ export function UsageLogs() {
         total={logsQuery.data?.total ?? 0}
         isLoading={logsQuery.isLoading}
         columnVisibility
-        getRowCanExpand={canLogRowExpand}
+        getRowCanExpand={(row) => isConsumeLike(row.original.type)}
         renderExpandedRow={(row) => <LogExpandedRow row={row} />}
         filter={() => (
           <LogFilters

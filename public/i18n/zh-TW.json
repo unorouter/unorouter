@@ -1865,19 +1865,36 @@
       "COPY_URL": "複製連結",
       "OPEN": "開啟",
       "IMAGE_PREVIEW": "圖片預覽",
-      "FILTER_MJ_ID": "MJ 任務 ID..."
+      "FILTER_MJ_ID": "MJ 任務 ID...",
+      "STATUS": {
+        "NOT_START": "未開始",
+        "SUBMITTED": "已提交",
+        "IN_PROGRESS": "進行中",
+        "SUCCESS": "成功",
+        "FAILURE": "失敗",
+        "MODAL": "彈窗"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "提交時間",
       "TASK_ID": "任務 ID",
       "DURATION": "耗時",
-      "STATUS": "狀態",
       "PROGRESS": "進度",
       "DETAILS": "詳情",
       "PLAY_AUDIO": "播放音訊",
       "OPEN_VIDEO": "開啟影片",
       "AUDIO_NOT_READY": "音訊尚未準備好。",
-      "FILTER_TASK_ID": "任務 ID..."
+      "FILTER_TASK_ID": "任務 ID...",
+      "STATUS": "狀態",
+      "STATUS_VALUES": {
+        "NOT_START": "未開始",
+        "SUBMITTED": "已提交",
+        "IN_PROGRESS": "進行中",
+        "SUCCESS": "成功",
+        "FAILURE": "失敗",
+        "QUEUED": "排隊中",
+        "UNKNOWN": "未知"
+      }
     },
     "ENUM": {
       "ALL": "所有類型",

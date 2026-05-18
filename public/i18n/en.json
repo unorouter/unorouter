@@ -1865,19 +1865,36 @@
       "COPY_URL": "Copy URL",
       "OPEN": "Open",
       "IMAGE_PREVIEW": "Image Preview",
-      "FILTER_MJ_ID": "MJ Task ID..."
+      "FILTER_MJ_ID": "MJ Task ID...",
+      "STATUS": {
+        "NOT_START": "Not Started",
+        "SUBMITTED": "Submitted",
+        "IN_PROGRESS": "In Progress",
+        "SUCCESS": "Success",
+        "FAILURE": "Failure",
+        "MODAL": "Modal"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "Submit Time",
       "TASK_ID": "Task ID",
       "DURATION": "Duration",
-      "STATUS": "Status",
       "PROGRESS": "Progress",
       "DETAILS": "Details",
       "PLAY_AUDIO": "Play Audio",
       "OPEN_VIDEO": "Open Video",
       "AUDIO_NOT_READY": "Audio is not yet available.",
-      "FILTER_TASK_ID": "Task ID..."
+      "FILTER_TASK_ID": "Task ID...",
+      "STATUS": "Status",
+      "STATUS_VALUES": {
+        "NOT_START": "Not Started",
+        "SUBMITTED": "Submitted",
+        "IN_PROGRESS": "In Progress",
+        "SUCCESS": "Success",
+        "FAILURE": "Failure",
+        "QUEUED": "Queued",
+        "UNKNOWN": "Unknown"
+      }
     },
     "ENUM": {
       "ALL": "All Types",

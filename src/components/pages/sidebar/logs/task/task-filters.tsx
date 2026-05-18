@@ -2,14 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import type { TaskFilterValues } from "./task-query";
-import { Icon } from "@/components/ui/icon";
-
-export type { TaskFilterValues } from "./task-query";
-export { buildTaskFilters } from "./task-query";
+import type { TaskFilterValues } from "./task-helpers";
+export { buildTaskFilters } from "./task-helpers";
+export type { TaskFilterValues } from "./task-helpers";
 
 export function TaskEmptyState() {
   const t = useTranslations();

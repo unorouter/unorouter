@@ -1,4 +1,8 @@
+import { msg, type TranslationKey } from "@/lib/config/constants";
+import { dayjs } from "@/lib/utils/format/date";
 import type { TaskDto } from "@/openapi";
+
+export { formatSecTimestamp as formatTaskTimestamp } from "@/lib/utils/format/date";
 
 export type TaskRow = NonNullable<TaskDto>;
 
@@ -30,20 +34,22 @@ export function getTaskStatusColor(status: string): string {
   }
 }
 
-export function getTaskStatusLabel(status: string): string {
-  const normalized = status?.toUpperCase();
-  if (!normalized) return "—";
-  return (
-    {
-      NOT_START: "Not Started",
-      SUBMITTED: "Submitted",
-      IN_PROGRESS: "In Progress",
-      SUCCESS: "Success",
-      FAILURE: "Failure",
-      QUEUED: "Queued",
-      UNKNOWN: "Unknown",
-    }[normalized] ?? status
-  );
+const TASK_STATUS_KEYS: Record<string, TranslationKey> = {
+  NOT_START: msg("LOGS.TASK.STATUS_VALUES.NOT_START"),
+  SUBMITTED: msg("LOGS.TASK.STATUS_VALUES.SUBMITTED"),
+  IN_PROGRESS: msg("LOGS.TASK.STATUS_VALUES.IN_PROGRESS"),
+  SUCCESS: msg("LOGS.TASK.STATUS_VALUES.SUCCESS"),
+  FAILURE: msg("LOGS.TASK.STATUS_VALUES.FAILURE"),
+  QUEUED: msg("LOGS.TASK.STATUS_VALUES.QUEUED"),
+  UNKNOWN: msg("LOGS.TASK.STATUS_VALUES.UNKNOWN"),
+};
+
+/** Translation key for a task status. Returns null for empty/unknown values. */
+export function getTaskStatusKey(
+  status: string | undefined,
+): TranslationKey | null {
+  if (!status) return null;
+  return TASK_STATUS_KEYS[status.toUpperCase()] ?? null;
 }
 
 export function formatTaskDuration(
@@ -56,13 +62,6 @@ export function formatTaskDuration(
   if (!submitSec || !finishSec || finishSec < submitSec) return null;
   const durationSec = finishSec - submitSec;
   return { durationSec, isWarning: durationSec > 300 };
-}
-
-export function formatTaskTimestamp(sec: number): string {
-  if (!sec) return "—";
-  const d = new Date(sec * 1000);
-  if (Number.isNaN(d.getTime())) return "—";
-  return d.toISOString().replace("T", " ").slice(0, 19);
 }
 
 export function isUrlLike(value: string | undefined): boolean {
@@ -83,4 +82,49 @@ export function isVideoTaskAction(action: string): boolean {
 
 export function isAudioTask(platform: string): boolean {
   return platform?.toLowerCase() === "suno";
+}
+
+export interface TaskFilterValues {
+  task_id?: string;
+  start_date?: string;
+  end_date?: string;
+}
+
+export function buildTaskFilters(
+  columnFilters: Array<{ id: string; value: unknown }>,
+  pagination: { pageIndex: number; pageSize: number },
+): {
+  filterValues: TaskFilterValues;
+  queryFilters: {
+    p?: number;
+    page_size?: number;
+    task_id?: string;
+    start_timestamp?: number;
+    end_timestamp?: number;
+  };
+} {
+  const filterValues: TaskFilterValues = {};
+  for (const f of columnFilters) {
+    if (typeof f.value === "string" && f.value) {
+      (filterValues as Record<string, string>)[f.id] = f.value;
+    }
+  }
+
+  const startSec = filterValues.start_date
+    ? Math.floor(dayjs(filterValues.start_date).valueOf() / 1000)
+    : Math.floor(dayjs().startOf("day").valueOf() / 1000);
+  const endSec = filterValues.end_date
+    ? Math.floor(dayjs(filterValues.end_date).valueOf() / 1000)
+    : Math.floor(dayjs().endOf("day").valueOf() / 1000);
+
+  return {
+    filterValues,
+    queryFilters: {
+      p: pagination.pageIndex + 1,
+      page_size: pagination.pageSize,
+      task_id: filterValues.task_id || undefined,
+      start_timestamp: startSec,
+      end_timestamp: endSec,
+    },
+  };
 }

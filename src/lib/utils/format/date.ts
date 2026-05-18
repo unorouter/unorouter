@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 import "dayjs/locale/de";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
@@ -62,6 +62,30 @@ export function pickGranularity(periodMinutes: number): Granularity {
   if (periodMinutes <= 60 * 48) return "hour";
   if (periodMinutes <= 60 * 24 * 60) return "day";
   return "week";
+}
+
+/** "Sep 21, 14:32:05" from unix seconds. Empty for zero/missing. */
+export function formatTimestamp(ts: number | undefined): string {
+  if (!ts || ts <= 0) return "";
+  return dayjs.unix(ts).format("MMM D, HH:mm:ss");
+}
+
+/** Format a Dayjs as the value attribute for `<input type="datetime-local">`. */
+export function formatDateForInput(d: Dayjs): string {
+  return d.format("YYYY-MM-DDTHH:mm");
+}
+
+/** "2024-09-21 14:32:05" from a unix-ms timestamp. Empty/invalid -> "—". */
+export function formatMsTimestamp(ms: number | undefined): string {
+  if (!ms) return "—";
+  const d = new Date(ms);
+  if (Number.isNaN(d.getTime())) return "—";
+  return d.toISOString().replace("T", " ").slice(0, 19);
+}
+
+/** Same as `formatMsTimestamp` but accepts unix seconds. */
+export function formatSecTimestamp(sec: number | undefined): string {
+  return formatMsTimestamp(sec ? sec * 1000 : sec);
 }
 
 /** Bucket label for a unix-seconds timestamp at the given granularity. */

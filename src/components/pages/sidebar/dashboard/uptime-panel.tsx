@@ -5,10 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useDashboardUptimeQuery } from "@/hooks/dashboard-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { analytics } from "@/lib/analytics";
-import {
-  intentDotClass,
-  type IntentType,
-} from "@/lib/config/intent-styles";
+import { intentDotClass, type IntentType } from "@/lib/config/intent-styles";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -23,9 +20,7 @@ export function UptimePanel() {
   const statusQuery = useStatusQuery();
   const uptimeQuery = useDashboardUptimeQuery();
 
-  const status = statusQuery.data as
-    | { uptime_kuma_enabled?: boolean }
-    | undefined;
+  const status = statusQuery.data;
 
   const [activeCategory, setActiveCategory] = useState<string>("");
 

@@ -22,7 +22,7 @@ import {
   formatTaskDuration,
   formatTaskTimestamp,
   getTaskStatusColor,
-  getTaskStatusLabel,
+  getTaskStatusKey,
   isAudioTask,
   isUrlLike,
   isVideoTaskAction,
@@ -137,13 +137,15 @@ export function TaskDurationCell({ row }: CellContext<TaskRow, unknown>) {
 }
 
 export function TaskStatusCell({ row }: CellContext<TaskRow, unknown>) {
+  const t = useTranslations();
   const log = row.original;
   if (!log.status) return EMPTY;
+  const statusKey = getTaskStatusKey(log.status);
   return (
     <span
       className={`inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[10px] ${getTaskStatusColor(log.status)}`}
     >
-      {getTaskStatusLabel(log.status)}
+      {statusKey ? t(statusKey) : log.status}
     </span>
   );
 }

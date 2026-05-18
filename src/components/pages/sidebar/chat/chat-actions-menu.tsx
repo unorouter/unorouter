@@ -36,7 +36,7 @@ import { copyToClipboard } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { LocalDbStudio } from "@/components/elements/local-db-studio";
+import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
 import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
 import { toast } from "sonner";
 

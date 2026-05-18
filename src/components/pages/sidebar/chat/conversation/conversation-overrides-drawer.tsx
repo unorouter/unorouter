@@ -1,7 +1,7 @@
 "use client";
 
 import { SortableList } from "@/components/elements/dnd/sortable-list";
-import { SyncBadge } from "@/components/elements/sync-badge";
+import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import {
   Form,

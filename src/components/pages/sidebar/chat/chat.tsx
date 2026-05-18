@@ -1,7 +1,7 @@
 "use client";
 
 import { Thread } from "@/components/ui/assistant-ui/thread";
-import { SectionBoundary } from "@/components/elements/section-boundary";
+import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";

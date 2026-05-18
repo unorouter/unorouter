@@ -7,6 +7,23 @@ export function formatPrice(price: number): string {
   return `$${price.toFixed(decimals)}`;
 }
 
+/** Parse a "37%" / "100%" string into a 0..100 integer, clamped. */
+export function parsePercent(progress: string | undefined | null): number {
+  if (!progress) return 0;
+  const m = progress.match(/(\d+)%/);
+  if (!m) return 0;
+  return Math.min(100, Math.max(0, parseInt(m[1], 10)));
+}
+
+/** Compact price: tighter precision per magnitude. Zero/invalid -> "$0". */
+export function formatPriceCompact(price: number): string {
+  if (!Number.isFinite(price) || price <= 0) return "$0";
+  if (price < 0.01) return `$${price.toFixed(4)}`;
+  if (price < 1) return `$${price.toFixed(3)}`;
+  if (price < 10) return `$${price.toFixed(2)}`;
+  return `$${Math.round(price)}`;
+}
+
 /** Compact token-count formatter: 200000 -> "200K", 1000000 -> "1M". */
 export function formatTokenCount(tokens: number | undefined): string {
   if (tokens === undefined || !Number.isFinite(tokens) || tokens <= 0) {

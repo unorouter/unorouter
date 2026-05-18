@@ -1,9 +1,9 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Icon } from "@/components/ui/icon";
-import { Badge } from "@/components/ui/badge";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,

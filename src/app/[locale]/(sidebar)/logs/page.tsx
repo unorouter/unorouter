@@ -1,7 +1,7 @@
-import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/filters";
-import { buildDrawingFilters } from "@/components/pages/sidebar/logs/drawing/drawing-query";
+import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/log-helpers";
+import { buildDrawingFilters } from "@/components/pages/sidebar/logs/drawing/drawing-helpers";
 import { LogsShell } from "@/components/pages/sidebar/logs/logs-shell";
-import { buildTaskFilters } from "@/components/pages/sidebar/logs/task/task-query";
+import { buildTaskFilters } from "@/components/pages/sidebar/logs/task/task-helpers";
 import { DataTableProvider } from "@/components/provider/state/data-table-provider";
 import {
   initialTableStore,

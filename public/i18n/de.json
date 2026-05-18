@@ -1865,19 +1865,36 @@
       "COPY_URL": "URL kopieren",
       "OPEN": "Öffnen",
       "IMAGE_PREVIEW": "Bildvorschau",
-      "FILTER_MJ_ID": "MJ Aufgaben-ID..."
+      "FILTER_MJ_ID": "MJ Aufgaben-ID...",
+      "STATUS": {
+        "NOT_START": "Nicht gestartet",
+        "SUBMITTED": "Eingereicht",
+        "IN_PROGRESS": "In Bearbeitung",
+        "SUCCESS": "Erfolgreich",
+        "FAILURE": "Fehlgeschlagen",
+        "MODAL": "Modal"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "Einreichungszeit",
       "TASK_ID": "Aufgaben-ID",
       "DURATION": "Dauer",
-      "STATUS": "Status",
       "PROGRESS": "Fortschritt",
       "DETAILS": "Details",
       "PLAY_AUDIO": "Audio abspielen",
       "OPEN_VIDEO": "Video öffnen",
       "AUDIO_NOT_READY": "Audio ist noch nicht verfügbar.",
-      "FILTER_TASK_ID": "Aufgaben-ID..."
+      "FILTER_TASK_ID": "Aufgaben-ID...",
+      "STATUS": "Status",
+      "STATUS_VALUES": {
+        "NOT_START": "Nicht gestartet",
+        "SUBMITTED": "Eingereicht",
+        "IN_PROGRESS": "In Bearbeitung",
+        "SUCCESS": "Erfolgreich",
+        "FAILURE": "Fehlgeschlagen",
+        "QUEUED": "In Warteschlange",
+        "UNKNOWN": "Unbekannt"
+      }
     },
     "ENUM": {
       "ALL": "Alle Typen",

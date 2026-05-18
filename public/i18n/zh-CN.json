@@ -1865,19 +1865,36 @@
       "COPY_URL": "复制链接",
       "OPEN": "打开",
       "IMAGE_PREVIEW": "图片预览",
-      "FILTER_MJ_ID": "MJ 任务 ID..."
+      "FILTER_MJ_ID": "MJ 任务 ID...",
+      "STATUS": {
+        "NOT_START": "未开始",
+        "SUBMITTED": "已提交",
+        "IN_PROGRESS": "进行中",
+        "SUCCESS": "成功",
+        "FAILURE": "失败",
+        "MODAL": "弹窗"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "提交时间",
       "TASK_ID": "任务 ID",
       "DURATION": "用时",
-      "STATUS": "状态",
       "PROGRESS": "进度",
       "DETAILS": "详情",
       "PLAY_AUDIO": "播放音频",
       "OPEN_VIDEO": "打开视频",
       "AUDIO_NOT_READY": "音频暂未就绪。",
-      "FILTER_TASK_ID": "任务 ID..."
+      "FILTER_TASK_ID": "任务 ID...",
+      "STATUS": "状态",
+      "STATUS_VALUES": {
+        "NOT_START": "未开始",
+        "SUBMITTED": "已提交",
+        "IN_PROGRESS": "进行中",
+        "SUCCESS": "成功",
+        "FAILURE": "失败",
+        "QUEUED": "排队中",
+        "UNKNOWN": "未知"
+      }
     },
     "ENUM": {
       "ALL": "全部类型",

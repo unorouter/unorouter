@@ -1865,19 +1865,36 @@
       "COPY_URL": "Sao chép URL",
       "OPEN": "Mở",
       "IMAGE_PREVIEW": "Xem trước ảnh",
-      "FILTER_MJ_ID": "ID tác vụ MJ..."
+      "FILTER_MJ_ID": "ID tác vụ MJ...",
+      "STATUS": {
+        "NOT_START": "Chưa bắt đầu",
+        "SUBMITTED": "Đã gửi",
+        "IN_PROGRESS": "Đang xử lý",
+        "SUCCESS": "Thành công",
+        "FAILURE": "Thất bại",
+        "MODAL": "Modal"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "Thời gian gửi",
       "TASK_ID": "ID tác vụ",
       "DURATION": "Thời lượng",
-      "STATUS": "Trạng thái",
       "PROGRESS": "Tiến độ",
       "DETAILS": "Chi tiết",
       "PLAY_AUDIO": "Phát âm thanh",
       "OPEN_VIDEO": "Mở video",
       "AUDIO_NOT_READY": "Âm thanh chưa sẵn sàng.",
-      "FILTER_TASK_ID": "ID tác vụ..."
+      "FILTER_TASK_ID": "ID tác vụ...",
+      "STATUS": "Trạng thái",
+      "STATUS_VALUES": {
+        "NOT_START": "Chưa bắt đầu",
+        "SUBMITTED": "Đã gửi",
+        "IN_PROGRESS": "Đang xử lý",
+        "SUCCESS": "Thành công",
+        "FAILURE": "Thất bại",
+        "QUEUED": "Trong hàng đợi",
+        "UNKNOWN": "Không xác định"
+      }
     },
     "ENUM": {
       "ALL": "Mọi loại",

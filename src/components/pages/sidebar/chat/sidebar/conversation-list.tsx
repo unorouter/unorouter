@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SectionBoundary } from "@/components/elements/section-boundary";
+import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import {
   SidebarGroup,
   SidebarGroupContent,

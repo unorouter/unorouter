@@ -1,6 +1,6 @@
 "use client";
 
-import { LocalDbStudio } from "@/components/elements/local-db-studio";
+import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {

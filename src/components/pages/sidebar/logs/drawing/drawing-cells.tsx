@@ -18,7 +18,7 @@ import {
   formatMjTimestamp,
   getMjActionColor,
   getMjStatusColor,
-  getMjStatusLabel,
+  getMjStatusKey,
   parseProgress,
   type DrawingRow,
 } from "./drawing-helpers";
@@ -48,9 +48,11 @@ function StackedCell(props: {
 }
 
 export function DrawingTimeCell({ row }: CellContext<DrawingRow, unknown>) {
+  const t = useTranslations();
   const log = row.original;
   const statusColor = getMjStatusColor(log.status);
-  const statusLabel = getMjStatusLabel(log.status);
+  const statusKey = getMjStatusKey(log.status);
+  const statusLabel = statusKey ? t(statusKey) : (log.status ?? "—");
   return (
     <StackedCell
       primary={

@@ -3,7 +3,7 @@
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { Icon } from "@/components/ui/icon";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
-import { SyncBadge } from "@/components/elements/sync-badge";
+import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {

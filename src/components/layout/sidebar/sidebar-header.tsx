@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginLink } from "@/components/elements/auth/login-link";
+import { LoginLink } from "@/components/elements/brand/login-link";
 import { Icon } from "@/components/ui/icon";
 import { DocsSearch } from "@/components/layout/docs/docs-search";
 import type { SidebarNavConfig } from "@/components/layout/sidebar/app-sidebar";

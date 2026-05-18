@@ -1,5 +1,17 @@
-import type { Log } from "@/openapi";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
+import type {
+  GetLogsStatParams,
+  GetUserLogsParams,
+  Log,
+} from "@/openapi";
+import { columnFilters as getColumnFilterValues } from "@/store/data-table-store";
+import type { ColumnFiltersState } from "@tanstack/react-table";
+
+export {
+  formatDateForInput,
+  formatTimestamp,
+} from "@/lib/utils/format/date";
+export { formatPriceCompact } from "@/lib/utils/format/number";
 
 export type LogRow = NonNullable<Log>;
 
@@ -9,15 +21,6 @@ export const LOG_TYPE_MANAGE = 3;
 export const LOG_TYPE_SYSTEM = 4;
 export const LOG_TYPE_ERROR = 5;
 export const LOG_TYPE_REFUND = 6;
-
-export function formatTimestamp(ts: number): string {
-  if (!ts || ts <= 0) return "";
-  return dayjs.unix(ts).format("MMM D, HH:mm:ss");
-}
-
-export function formatDateForInput(d: dayjs.Dayjs): string {
-  return d.format("YYYY-MM-DDTHH:mm");
-}
 
 export function getLogTypeColor(type: number): string {
   switch (type) {
@@ -124,14 +127,6 @@ export function getFrtTimingPill(ms: number): {
   };
 }
 
-export function formatPriceCompact(price: number): string {
-  if (!Number.isFinite(price) || price <= 0) return "$0";
-  if (price < 0.01) return `$${price.toFixed(4)}`;
-  if (price < 1) return `$${price.toFixed(3)}`;
-  if (price < 10) return `$${price.toFixed(2)}`;
-  return `$${Math.round(price)}`;
-}
-
 export function isConsumeLike(type: number): boolean {
   return (
     type === LOG_TYPE_CONSUME ||
@@ -175,4 +170,52 @@ export function parseOther(
   } catch {
     return null;
   }
+}
+
+export type LogFilterValues = {
+  start_date?: string;
+  end_date?: string;
+  log_type?: number;
+  token_name?: string;
+  model_name?: string;
+  request_id?: string;
+  subscription_plan?: string;
+};
+
+export function buildLogQueryFilters(
+  columnFilters: ColumnFiltersState,
+  pagination: { pageIndex: number; pageSize: number },
+) {
+  const filterValues =
+    getColumnFilterValues<LogFilterValues>(columnFilters) ?? {};
+
+  const startDate =
+    filterValues.start_date ??
+    dayjs().startOf("day").format("YYYY-MM-DDTHH:mm");
+  const endDate =
+    filterValues.end_date ?? dayjs().endOf("day").format("YYYY-MM-DDTHH:mm");
+
+  const queryFilters: GetUserLogsParams = {
+    p: pagination.pageIndex + 1,
+    page_size: pagination.pageSize,
+    ...(filterValues.log_type != null ? { type: filterValues.log_type } : {}),
+    ...(startDate ? { start_timestamp: dayjs(startDate).unix() } : {}),
+    ...(endDate ? { end_timestamp: dayjs(endDate).unix() } : {}),
+    ...(filterValues.token_name ? { token_name: filterValues.token_name } : {}),
+    ...(filterValues.model_name ? { model_name: filterValues.model_name } : {}),
+    ...(filterValues.request_id ? { request_id: filterValues.request_id } : {}),
+    ...(filterValues.subscription_plan
+      ? { subscription_plan: filterValues.subscription_plan }
+      : {}),
+  };
+
+  const statFilters: GetLogsStatParams = {
+    ...(filterValues.log_type != null ? { type: filterValues.log_type } : {}),
+    ...(startDate ? { start_timestamp: dayjs(startDate).unix() } : {}),
+    ...(endDate ? { end_timestamp: dayjs(endDate).unix() } : {}),
+    ...(filterValues.token_name ? { token_name: filterValues.token_name } : {}),
+    ...(filterValues.model_name ? { model_name: filterValues.model_name } : {}),
+  };
+
+  return { filterValues, queryFilters, statFilters };
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { Icon } from "@/components/ui/icon";
 import {
   Dialog,
   DialogContent,
@@ -9,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";

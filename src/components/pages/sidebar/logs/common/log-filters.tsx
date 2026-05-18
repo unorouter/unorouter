@@ -1,9 +1,9 @@
 "use client";
 
-import type { LogFilterValues } from "@/components/pages/sidebar/logs/common/filters";
-import { Icon } from "@/components/ui/icon";
+import type { LogFilterValues } from "@/components/pages/sidebar/logs/common/log-helpers";
 import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import {
   Select,

@@ -1865,19 +1865,36 @@
       "COPY_URL": "URLをコピー",
       "OPEN": "開く",
       "IMAGE_PREVIEW": "画像プレビュー",
-      "FILTER_MJ_ID": "MJ タスクID..."
+      "FILTER_MJ_ID": "MJ タスクID...",
+      "STATUS": {
+        "NOT_START": "未開始",
+        "SUBMITTED": "送信済み",
+        "IN_PROGRESS": "進行中",
+        "SUCCESS": "成功",
+        "FAILURE": "失敗",
+        "MODAL": "モーダル"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "送信時刻",
       "TASK_ID": "タスクID",
       "DURATION": "所要時間",
-      "STATUS": "ステータス",
       "PROGRESS": "進捗",
       "DETAILS": "詳細",
       "PLAY_AUDIO": "音声を再生",
       "OPEN_VIDEO": "動画を開く",
       "AUDIO_NOT_READY": "音声はまだ利用できません。",
-      "FILTER_TASK_ID": "タスクID..."
+      "FILTER_TASK_ID": "タスクID...",
+      "STATUS": "ステータス",
+      "STATUS_VALUES": {
+        "NOT_START": "未開始",
+        "SUBMITTED": "送信済み",
+        "IN_PROGRESS": "進行中",
+        "SUCCESS": "成功",
+        "FAILURE": "失敗",
+        "QUEUED": "キュー内",
+        "UNKNOWN": "不明"
+      }
     },
     "ENUM": {
       "ALL": "すべての種類",

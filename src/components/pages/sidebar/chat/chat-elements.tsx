@@ -1,6 +1,6 @@
 "use client";
 
-import { ModelSelector } from "@/components/elements/chat/model-selector";
+import { ModelSelector } from "@/components/elements/model/model-selector";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { chatModelAtom } from "@/store/chat-store";

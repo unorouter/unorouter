@@ -1,4 +1,25 @@
+import { msg, type TranslationKey } from "@/lib/config/constants";
 import type { Midjourney } from "@/openapi";
+import { dayjs } from "@/lib/utils/format/date";
+
+export { formatMsTimestamp as formatMjTimestamp } from "@/lib/utils/format/date";
+export { parsePercent as parseProgress } from "@/lib/utils/format/number";
+
+const MJ_STATUS_KEYS: Record<string, TranslationKey> = {
+  NOT_START: msg("LOGS.DRAWING.STATUS.NOT_START"),
+  SUBMITTED: msg("LOGS.DRAWING.STATUS.SUBMITTED"),
+  IN_PROGRESS: msg("LOGS.DRAWING.STATUS.IN_PROGRESS"),
+  SUCCESS: msg("LOGS.DRAWING.STATUS.SUCCESS"),
+  FAILURE: msg("LOGS.DRAWING.STATUS.FAILURE"),
+  MODAL: msg("LOGS.DRAWING.STATUS.MODAL"),
+};
+
+/** Translation key for a Midjourney status. Returns null for empty/unknown
+ *  values so the caller can render the raw upstream string verbatim. */
+export function getMjStatusKey(status: string | undefined): TranslationKey | null {
+  if (!status) return null;
+  return MJ_STATUS_KEYS[status.toUpperCase()] ?? null;
+}
 
 export type DrawingRow = NonNullable<Midjourney>;
 
@@ -32,20 +53,6 @@ export function getMjStatusColor(status: string): string {
   }
 }
 
-export function getMjStatusLabel(status: string): string {
-  const normalized = status?.toUpperCase();
-  if (!normalized) return "—";
-  return (
-    {
-      NOT_START: "Not Started",
-      SUBMITTED: "Submitted",
-      IN_PROGRESS: "In Progress",
-      SUCCESS: "Success",
-      FAILURE: "Failure",
-      MODAL: "Modal",
-    }[normalized] ?? status
-  );
-}
 
 export const MJ_ACTION = {
   IMAGINE: "IMAGINE",
@@ -102,16 +109,47 @@ export function formatMjDuration(
   return { durationSec, isWarning: durationSec > 60 };
 }
 
-export function formatMjTimestamp(ms: number): string {
-  if (!ms) return "—";
-  const d = new Date(ms);
-  if (Number.isNaN(d.getTime())) return "—";
-  return d.toISOString().replace("T", " ").slice(0, 19);
+export interface DrawingFilterValues {
+  mj_id?: string;
+  start_date?: string;
+  end_date?: string;
 }
 
-export function parseProgress(progress: string): number {
-  if (!progress) return 0;
-  const m = progress.match(/(\d+)%/);
-  if (!m) return 0;
-  return Math.min(100, Math.max(0, parseInt(m[1], 10)));
+export function buildDrawingFilters(
+  columnFilters: Array<{ id: string; value: unknown }>,
+  pagination: { pageIndex: number; pageSize: number },
+): {
+  filterValues: DrawingFilterValues;
+  queryFilters: {
+    p?: number;
+    page_size?: number;
+    mj_id?: string;
+    start_timestamp?: string;
+    end_timestamp?: string;
+  };
+} {
+  const filterValues: DrawingFilterValues = {};
+  for (const f of columnFilters) {
+    if (typeof f.value === "string" && f.value) {
+      (filterValues as Record<string, string>)[f.id] = f.value;
+    }
+  }
+
+  const startMs = filterValues.start_date
+    ? dayjs(filterValues.start_date).valueOf()
+    : dayjs().startOf("day").valueOf();
+  const endMs = filterValues.end_date
+    ? dayjs(filterValues.end_date).valueOf()
+    : dayjs().endOf("day").valueOf();
+
+  return {
+    filterValues,
+    queryFilters: {
+      p: pagination.pageIndex + 1,
+      page_size: pagination.pageSize,
+      mj_id: filterValues.mj_id || undefined,
+      start_timestamp: String(startMs),
+      end_timestamp: String(endMs),
+    },
+  };
 }

@@ -1865,19 +1865,36 @@
       "COPY_URL": "Копировать URL",
       "OPEN": "Открыть",
       "IMAGE_PREVIEW": "Предпросмотр изображения",
-      "FILTER_MJ_ID": "ID задачи MJ..."
+      "FILTER_MJ_ID": "ID задачи MJ...",
+      "STATUS": {
+        "NOT_START": "Не запущено",
+        "SUBMITTED": "Отправлено",
+        "IN_PROGRESS": "В процессе",
+        "SUCCESS": "Успех",
+        "FAILURE": "Сбой",
+        "MODAL": "Модальное"
+      }
     },
     "TASK": {
       "SUBMIT_TIME": "Время отправки",
       "TASK_ID": "ID задачи",
       "DURATION": "Длительность",
-      "STATUS": "Статус",
       "PROGRESS": "Прогресс",
       "DETAILS": "Детали",
       "PLAY_AUDIO": "Воспроизвести аудио",
       "OPEN_VIDEO": "Открыть видео",
       "AUDIO_NOT_READY": "Аудио ещё не готово.",
-      "FILTER_TASK_ID": "ID задачи..."
+      "FILTER_TASK_ID": "ID задачи...",
+      "STATUS": "Статус",
+      "STATUS_VALUES": {
+        "NOT_START": "Не запущено",
+        "SUBMITTED": "Отправлено",
+        "IN_PROGRESS": "В процессе",
+        "SUCCESS": "Успех",
+        "FAILURE": "Сбой",
+        "QUEUED": "В очереди",
+        "UNKNOWN": "Неизвестно"
+      }
     },
     "ENUM": {
       "ALL": "Все типы",

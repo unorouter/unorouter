@@ -1,6 +1,6 @@
 "use client";
 
-import { SectionBoundary } from "@/components/elements/section-boundary";
+import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Icon } from "@/components/ui/icon";
 import { useTranslations } from "next-intl";

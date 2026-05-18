@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SyncBadge } from "@/components/elements/sync-badge";
+import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { upsertLocalTheme } from "@/lib/local-db/writes";
 import { enqueuePending } from "@/lib/local-db/pending-sync";

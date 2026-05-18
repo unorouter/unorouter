@@ -5,11 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Row } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import type React from "react";
-import { isConsumeLike, parseOther, type LogRow } from "./log-helpers";
-
-export function canLogRowExpand(row: Row<LogRow>): boolean {
-  return isConsumeLike(row.original.type);
-}
+import { parseOther, type LogRow } from "./log-helpers";
 
 function DetailItem(props: { label: string; value: React.ReactNode }) {
   return (
