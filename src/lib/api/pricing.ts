@@ -10,13 +10,11 @@ export type EndpointInfo = {
   path: string;
 };
 
-// Per-model client hints from new-api-sync's models.metadata column, surfaced
-// via /api/pricing. Mirrors SourceMetadata in new-api-sync core/pricing/sources/types.ts.
+// Mirrors SourceMetadata in new-api-sync core/pricing/sources/types.ts.
 export type ModelMetadata = {
   maxInputTokens?: number;
-  /** Required for thinking models (glm, kimi, qwen reasoning variants) whose
-   *  reasoning_content phase eats the upstream budget before emitting visible
-   *  content. */
+  // Required for thinking models (glm/kimi/qwen reasoning variants):
+  // reasoning_content phase eats budget before emitting visible content.
   maxOutputTokens?: number;
   contextWindow?: number;
   isReasoning?: boolean;
@@ -39,11 +37,11 @@ export type ModelMetadata = {
   mode?: string;
   description?: string;
 
-  /** Conservative intersection across all OR endpoints serving this model. */
+  // Intersection across all OR endpoints.
   supportedParameters?: string[];
-  /** Permissive union (for "expert mode" toggle). */
+  // Union across all OR endpoints ("expert mode").
   supportedParametersAll?: string[];
-  /** OR's recommended defaults; null = OR says "don't send". */
+  // null = OR says "don't send".
   defaultParameters?: Record<string, number | null>;
 
   reasoningEfforts?: ("none" | "minimal" | "low" | "medium" | "high" | "max")[];
@@ -79,7 +77,7 @@ function parseModelMetadata(raw: string | undefined): ModelMetadata {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object") return parsed as ModelMetadata;
   } catch {
-    // Malformed JSON from the sync: fall through to empty metadata.
+    // Malformed: fall through.
   }
   return {};
 }
@@ -102,7 +100,7 @@ function processModels(response: PricingData) {
         icon: raw?.icon,
       };
       const qt = model.quota_type ?? 0;
-      // Types 1 (fixed), 3 (custom billing), 4 (grid) all use model_price.
+      // Types 1 (fixed), 3 (custom), 4 (grid) all use model_price.
       const isFixedPrice = qt === 1 || qt === 3 || qt === 4;
 
       let inputPrice = 0;
@@ -110,8 +108,7 @@ function processModels(response: PricingData) {
       let fixedPrice = 0;
       let originalInputPrice: number | null = null;
       let originalOutputPrice: number | null = null;
-      // "Truly free" only when every enabled group resolves to zero price.
-      // Mirrors new-api-sync's guest-token allowlist so the FREE badge matches
+      // Mirrors new-api-sync's guest-token allowlist so FREE badge matches
       // what the guest token can actually call.
       let isFreeStrict = false;
 

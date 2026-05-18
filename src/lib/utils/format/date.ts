@@ -3,16 +3,14 @@ import "dayjs/locale/de";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
 
-// Side-effect: extend the shared dayjs singleton with plugins. Import once at
-// server entry (instrumentation.ts) and once at client entry (root layout).
+// Side-effect: extend shared dayjs singleton. Import once at server entry
+// (instrumentation.ts) and once at client entry (root layout).
 dayjs.extend(relativeTime);
 dayjs.extend(utc);
 
 export type { Dayjs } from "dayjs";
 export { dayjs };
 
-/** "Sep 21, 2024". Accepts ISO strings or unix seconds. Empty/invalid returns
- *  "" (or the raw string when it's a non-parseable string). */
 export function formatLongDate(value: string | number | undefined): string {
   if (!value) return "";
   const d = typeof value === "number" ? dayjs.unix(value) : dayjs(value);
@@ -20,8 +18,6 @@ export function formatLongDate(value: string | number | undefined): string {
   return d.format("MMM D, YYYY");
 }
 
-/** "2024-09" becomes "Sep 2024"; "2024" becomes "2024"; invalid becomes raw
- *  value; missing becomes null. */
 export function formatYearMonth(value: string | undefined): string | null {
   if (!value) return null;
   const d = dayjs(value);
@@ -29,7 +25,6 @@ export function formatYearMonth(value: string | undefined): string | null {
   return d.format(value.includes("-") ? "MMM YYYY" : "YYYY");
 }
 
-/** Compact hours, "Nh" or "Nd" when a whole-day multiple. */
 export function formatHoursLabel(hours: number): string {
   if (hours >= 24 && hours % 24 === 0) return `${hours / 24}d`;
   return `${hours}h`;
@@ -53,26 +48,21 @@ export function isEndOfDay(d: Date): boolean {
 
 export type Granularity = "hour" | "day" | "week";
 
-/** Time-bucket granularity by visible period in minutes:
- *  <=48h hour, <=60d day, else week. */
 export function pickGranularity(periodMinutes: number): Granularity {
   if (periodMinutes <= 60 * 48) return "hour";
   if (periodMinutes <= 60 * 24 * 60) return "day";
   return "week";
 }
 
-/** "Sep 21, 14:32:05" from unix seconds. Empty when zero/missing. */
 export function formatTimestamp(ts: number | undefined): string {
   if (!ts || ts <= 0) return "";
   return dayjs.unix(ts).format("MMM D, HH:mm:ss");
 }
 
-/** Format a Dayjs for `<input type="datetime-local">`. */
 export function formatDateForInput(d: Dayjs): string {
   return d.format("YYYY-MM-DDTHH:mm");
 }
 
-/** "2024-09-21 14:32:05" from a unix-ms timestamp. Empty/invalid yields "—". */
 export function formatMsTimestamp(ms: number | undefined): string {
   if (!ms) return "—";
   const d = new Date(ms);

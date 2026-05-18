@@ -1,9 +1,3 @@
-// Verbatim copy of shadcn-create's THEMES registry data. Each theme contains
-// full `cssVars.light` + `cssVars.dark` blocks. Base color themes (neutral,
-// stone, zinc, mauve, olive, mist, taupe) include full var sets w/ surface
-// colors. Accent themes (red, blue, green, etc.) include only primary +
-// chart vars; they override on top of the chosen base.
-
 export type ThemeCssVars = Record<string, string>;
 
 export type ShadcnTheme = {
@@ -1106,8 +1100,7 @@ const BASE_COLOR_NAMES = [
   "taupe",
 ];
 
-// Sentinel matching project's globals.css palette. Empty cssVars so provider
-// emits no override and `:root` defaults from globals.css win.
+// Sentinel: empty cssVars so :root defaults from globals.css win.
 export const DEFAULT_THEME: ShadcnTheme = {
   name: "default",
   title: "Default",
@@ -1123,7 +1116,6 @@ export const ALL_BASE_COLORS = [
 
 export type RadiusOption = { name: string; label: string; value: string };
 
-// Verbatim from shadcn-create config.ts.
 export const RADII: RadiusOption[] = [
   { name: "default", label: "Default", value: "" },
   { name: "none", label: "None", value: "0" },

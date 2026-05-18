@@ -808,7 +808,6 @@ export async function streamChat(
     },
   });
 
-  // User opt-out forces the buffered path (whole reply, single chunk at end).
   const userOptedOutOfStreaming = !assembled.streamingEnabled;
 
   if (!buffered && !userOptedOutOfStreaming) {

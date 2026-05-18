@@ -4,14 +4,13 @@ import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
 import { drizzle, type SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 
-// Per-user OPFS file so multi-account browsers stay isolated. Lazy-imports
-// `sqlocal/drizzle` so the WASM blob (~1.5MB) only loads in chat/playground
-// route groups.
+// Per-user OPFS file isolates multi-account browsers. Lazy `sqlocal/drizzle`
+// import keeps the ~1.5MB WASM out of non-chat/playground chunks.
 
 type LocalSchema = typeof shared & typeof client;
 export type LocalDb = SqliteRemoteDatabase<LocalSchema>;
-// Returns rows + column names, unlike the drizzle-proxy driver which only
-// returns row tuples. Used by LocalDbStudio for arbitrary user-supplied SQL.
+// Returns rows + column names (drizzle-proxy returns tuples only). Used by
+// LocalDbStudio for arbitrary user-supplied SQL.
 export type LocalRawExec = (
   sql: string,
   params: unknown[],
@@ -30,7 +29,6 @@ export type LocalClient = {
   deleteDatabaseFile: () => Promise<void>;
   getDatabaseFile: () => Promise<File>;
   overwriteDatabaseFile: (file: File | Blob) => Promise<void>;
-  // Loosely-typed: SQLocal's generic surface is awkward to thread through.
   reactiveQuery: (query: unknown) => {
     subscribe: (
       onData: (data: unknown) => void,
@@ -71,8 +69,8 @@ async function openClient(userId: number): Promise<LocalClient> {
   const { runMigrations } = await import("./migrations");
   await runMigrations(sql);
 
-  // SQLocal's protected `exec` (documented in sqlocal/dist/client.d.ts) is
-  // off the public API but needed for raw queries (LocalDbStudio).
+  // SQLocal's protected `exec` (sqlocal/dist/client.d.ts) is off the public
+  // API but needed for raw queries (LocalDbStudio).
   const rawExec = (sql as unknown as { exec: LocalRawExec }).exec.bind(sql);
 
   const wrapped: LocalClient = {
@@ -85,9 +83,8 @@ async function openClient(userId: number): Promise<LocalClient> {
     overwriteDatabaseFile: (file) => sql.overwriteDatabaseFile(file),
     reactiveQuery: sql.reactiveQuery.bind(sql) as LocalClient["reactiveQuery"],
   };
-  // Release SyncAccessHandle on page unload, else SAH stays locked and
-  // Chromium/Brave attributes OPFS bytes to "orphan" state until storage is
-  // evicted. `beforeunload` covers browsers that don't dispatch pagehide.
+  // Release SAH on unload, else Chromium/Brave keeps OPFS bytes in "orphan"
+  // state until eviction. `beforeunload` covers browsers without pagehide.
   if (typeof window !== "undefined") {
     const release = () => {
       void sql.destroy().catch(() => {});

@@ -16,9 +16,6 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-// /playground           -> placeholder right column, blank form
-// /playground/<id>      -> shows that session, defaults to newest snapshot
-// /playground/<id>?snap=<sid> -> shows that snapshot inside the session
 export function PlaygroundPage(props: {
   sessionId?: string;
   snapshotId?: string;
@@ -28,7 +25,6 @@ export function PlaygroundPage(props: {
   const [activeSessionId, setActiveSessionId] = useAtom(activeSessionIdAtom);
   const [activeSnapshotId, setActiveSnapshotId] = useAtom(activeSnapshotIdAtom);
 
-  // Seed atoms from the route on mount + whenever the URL props change.
   useEffect(() => {
     setActiveSessionId(props.sessionId ?? null);
     setActiveSnapshotId(props.snapshotId ?? null);
@@ -39,13 +35,8 @@ export function PlaygroundPage(props: {
     setActiveSnapshotId,
   ]);
 
-  // Load the session for the chevron view + to pick the newest snapshot
-  // when the route didn't carry a ?snap=. The hook auto-skips when
-  // sessionId is null.
   const sessionQuery = useSessionQuery(props.sessionId);
 
-  // If the URL only specified a session, default to the newest snapshot
-  // once the session loads (otherwise the result column can't render).
   useEffect(() => {
     if (!props.sessionId) return;
     if (activeSnapshotId) return;
@@ -62,7 +53,6 @@ export function PlaygroundPage(props: {
     setActiveSnapshotId,
   ]);
 
-  // Route bounce: session not found / deleted / expired.
   useEffect(() => {
     if (!props.sessionId) return;
     if (sessionQuery.isError) {

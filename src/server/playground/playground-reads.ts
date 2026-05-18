@@ -74,8 +74,6 @@ export async function getSessionRow(
   return rows[0];
 }
 
-/** Full session payload for the chevron view: the session row + every
- *  snapshot it contains, newest first, each with its images bulk-loaded. */
 export async function getSession(userId: number, sessionId: string) {
   const session = await getSessionRow(userId, sessionId);
   const snapshots = await listSnapshotsWithImages(sessionId);
@@ -105,9 +103,8 @@ export async function listSnapshotsWithImages(sessionId: string) {
   return snaps.map((s) => ({ ...s, images: byGen.get(s.id) ?? [] }));
 }
 
-/** Session list for the recent panel / sidebar rail. Each row carries the
- *  latest snapshot + that snapshot's first image so the card can render
- *  without a second roundtrip. */
+// Each row carries the latest snapshot + its first image so the card renders
+// without a second roundtrip.
 export async function listUserSessions(
   userId: number,
   q: PlaygroundHistoryQuery,
@@ -135,8 +132,6 @@ export async function listUserSessions(
 
   if (items.length === 0) return { items: [], nextCursor };
 
-  // Pull the latest snapshot per session in one query: filter by session
-  // ids, sort by sessionOrder DESC, take the first one we see for each id.
   const sessionIds = items.map((s) => s.id);
   let modelFilteredSessionIds = sessionIds;
   if (q.model) {
@@ -192,9 +187,8 @@ export async function listUserSessions(
   };
 }
 
-// Poll one snapshot's status from upstream. Same flow as before but it
-// passes the snapshot's sessionId to finalizeRowSuccess so the parent
-// session's image count is bumped when terminal.
+// Passes sessionId to finalizeRowSuccess so the parent session's image count
+// bumps when terminal.
 export async function pollSnapshotStatus(
   userId: number,
   apiKey: string,

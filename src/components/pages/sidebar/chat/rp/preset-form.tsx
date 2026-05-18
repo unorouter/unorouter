@@ -16,7 +16,7 @@ import {
   useCreatePresetMutation,
   usePresetsQuery,
   useUpdatePresetMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/presets";
 import {
   samplingPresetFormSchema,
   type SamplingPresetForm,
@@ -33,11 +33,6 @@ type Props = {
   onDone: () => void;
 };
 
-/**
- * Editor for a single preset. Basic tab = name + sampling sliders.
- * Advanced tab = prompt fields (main / post-history / prefill) + custom
- * flags + isDefault. Same form, two visual sections, no schema split.
- */
 export function PresetForm(props: Props) {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();
@@ -82,7 +77,6 @@ export function PresetForm(props: Props) {
       geminiBlockOff: p.geminiBlockOff ?? false,
       isDefault: p.isDefault ?? false,
     });
-    // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.editingId, presetsQuery.data]);
 

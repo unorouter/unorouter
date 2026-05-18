@@ -27,7 +27,7 @@ import {
   useImportPersonaMutation,
   usePersonasQuery,
   useUpdatePersonaMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/personas";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";

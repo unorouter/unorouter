@@ -6,13 +6,9 @@ export const dynamic = "force-dynamic";
 const siteOrigin = new URL(env.appUrl).origin;
 const ns = `ai.${env.appName.toLowerCase()}`;
 
-// UCP (Universal Commerce Protocol) profile per ucp.dev 2026-04-08 spec.
-// Served at /.well-known/ucp (no extension) on the public site origin.
-//
-// signing_keys reuses the Web Bot Auth Ed25519 JWKS (same keys published at
-// /.well-known/http-message-signatures-directory). Agents can verify any
-// signed UCP negotiation response (and any signed outbound request from our
-// origin) against these public keys without an extra fetch.
+// UCP profile per ucp.dev 2026-04-08. signing_keys reuses the Web Bot Auth
+// Ed25519 JWKS so agents can verify signed UCP responses + outbound requests
+// without an extra fetch.
 export function GET() {
   const version = "2026-04-08";
   const signingKeys = parseJwks(process.env.WEB_BOT_AUTH_PUBLIC_JWKS).map(

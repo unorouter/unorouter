@@ -16,19 +16,11 @@ type Props = {
   min: number;
   max: number;
   step?: number;
-  /** Default value when value is null (slider sits at this position visually). */
   fallback?: number;
-  /** Disable the slider with a tooltip explaining why (e.g. unsupported by provider). */
   disabled?: boolean;
-  /** Tooltip text shown when disabled. */
   disabledReason?: string;
 };
 
-/**
- * Openrouter-style sampling slider: label on the left, value pill on the right,
- * full-width slider underneath. When `disabled` is set, the slider is muted
- * and a tooltip surfaces `disabledReason` on hover.
- */
 export function NumberKnob(props: Props) {
   const step = props.step ?? 0.01;
   const decimals = step >= 1 ? 0 : step >= 0.1 ? 1 : 3;

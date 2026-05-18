@@ -7,7 +7,6 @@ export type LinkHref = ComponentProps<typeof Link>["href"];
 export type RouterPush = Parameters<ReturnType<typeof useRouter>["push"]>[0];
 export type Redirect = Parameters<typeof redirect>[0];
 export type Pathname = Parameters<typeof getPathname>[0]["href"];
-/** Keys of pathnames that don't contain a [param] segment. */
 export type StaticRoute = Exclude<
   keyof typeof pathnames,
   `${string}[${string}`
@@ -342,11 +341,7 @@ export const routing = defineRouting({
   pathnames,
 });
 
-/**
- * Routes that must not be indexed by search engines.
- * Used by robots.ts (disallow rules) and sitemap.ts (exclusion).
- * Source of truth for private-area routing in one place.
- */
+// Source of truth for robots.ts disallow + sitemap.ts exclusion.
 export const privateRoutes = {
   static: [
     "/dashboard",
@@ -359,8 +354,8 @@ export const privateRoutes = {
     "/playground",
     "/my-playgrounds",
   ],
-  // Dynamic routes: the parent path is what we disallow so every child is covered.
-  // /chat/[convId] is user-specific; /chat itself is public. /playground/[id] is per-user.
+  // Parent path covers every child. /chat itself is public; /chat/[convId]
+  // and /playground/[id] are per-user.
   dynamicParents: ["/chat/[convId]", "/playground/[id]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];

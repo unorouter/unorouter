@@ -113,12 +113,7 @@ export const reasoningEffort = t.Union([
   t.Literal("none"),
 ]);
 
-/**
- * Per-stream overrides usable both at conversation creation (seed
- * `conversation_settings` for logged-in users) and on every stream call
- * (fallback when there's no `conversation_settings` row, i.e. guest convs).
- * Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
- */
+// Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
 export const streamOverrides = t.Object({
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
@@ -162,12 +157,9 @@ export const streamOverrides = t.Object({
   maxTokens: t.Optional(
     t.Union([t.Number({ minimum: 1, maximum: 1_000_000 }), t.Null()]),
   ),
-  /**
-   * Free-form JSON merged into the upstream request body. Sliders win on key
-   * conflicts. Parsed at the prompt assembler. Cap at 8 KiB.
-   */
+  // Sliders win on key conflicts. Parsed at the prompt assembler.
   extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  /** false = BFF buffers full upstream reply, then emits one chunk. */
+  // false = BFF buffers full upstream reply, then emits one chunk.
   streamingEnabled: t.Optional(t.Boolean()),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
@@ -215,7 +207,6 @@ export const updateConversationSettingsBody = t.Object({
   webSearchContextSize: t.Optional(
     t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
   ),
-  // Null disables the override.
   temperature: t.Optional(
     t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
   ),
@@ -301,9 +292,8 @@ export const chatSearchQuery = t.Composite([
 ]);
 export type ChatSearchQuery = Static<typeof chatSearchQuery>;
 
-// Loose `Any()` for sub-shapes: each entity body is its own validation surface
-// and re-validating here would double-cost on every turn. The assembler trusts
-// the shape because the user owns their own keys plus content anyway.
+// Loose `Any()`: each entity body has its own validation surface; re-checking
+// here would double-cost on every turn.
 export const chatContext = t.Object({
   persona: t.Optional(t.Union([t.Any(), t.Null()])),
   characters: t.Optional(t.Array(t.Any(), { maxItems: 64 })),
@@ -323,16 +313,12 @@ export type ChatContext = Static<typeof chatContext>;
 
 export const streamBody = t.Object({
   model: t.String({ maxLength: MAX_MODEL_LEN }),
-  // AI SDK UIMessage; validated at runtime.
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
-  // Fallback for guest convs (no settings row). Logged-in convs always have
-  // a row seeded at creation time, so these values are ignored on subsequent
-  // turns.
+  // Fallback for guest convs (no settings row). Logged-in convs have a row
+  // seeded at creation, so these are ignored on subsequent turns.
   overrides: t.Optional(streamOverrides),
-  // Optional so legacy callers and guest stream paths keep working until the
-  // assembler signature is changed.
   chatContext: t.Optional(chatContext),
 });
 export type StreamBody = Static<typeof streamBody>;

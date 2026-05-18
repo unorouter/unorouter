@@ -1,14 +1,8 @@
 import { useRef, useState } from "react";
 
-/**
- * Attempts to open a custom protocol URI and detects whether the app handled it.
- * Uses the blur/visibility heuristic: if the page is still visible after a short
- * timeout, the protocol handler is likely not installed.
- *
- * There is no reliable cross-browser API for this. This approach works in most
- * cases but can false-positive when Chrome's "always allow" checkbox is checked
- * (the app opens without stealing focus).
- */
+// Blur/visibility heuristic: no reliable cross-browser API for protocol
+// detection. False-positives possible when Chrome "always allow" is on (app
+// opens without stealing focus).
 function tryDeepLink(uri: string, onFail: () => void) {
   const start = Date.now();
 

@@ -1,13 +1,8 @@
 import { type TranslationKey } from "@/lib/config/constants";
 import { type IconName } from "@/lib/config/icon-map";
 
-// OAuth scope list shown on the consent screen and advertised in the
-// .well-known discovery documents. Must mirror new-api/setting/oauth_scopes.go
-// exactly. The Go side is the enforcement authority; this list is the face
-// we present to agents and users.
-//
-// openid is goidc's internal seed scope and deliberately not in this list —
-// an agent has no reason to request it explicitly.
+// Must mirror new-api/setting/oauth_scopes.go (Go side enforces). `openid` is
+// goidc's internal seed scope; intentionally omitted here.
 export const OAUTH_SCOPES = [
   "models:read",
   "balance:read",
@@ -20,9 +15,8 @@ export const OAUTH_SCOPES = [
 
 export type OAuthScope = (typeof OAUTH_SCOPES)[number];
 
-// Translation keys used by the consent form to label each scope. `openid` is
-// tolerated even though we don't advertise it, because the upstream
-// authorization request may include it for OIDC compliance.
+// `openid` tolerated even though not advertised: upstream auth request may
+// include it for OIDC compliance.
 export const OAUTH_SCOPE_TRANSLATION_KEYS: Record<
   OAuthScope | "openid",
   TranslationKey

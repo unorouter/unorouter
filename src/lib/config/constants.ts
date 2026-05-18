@@ -76,20 +76,18 @@ export {
   renderQuota,
 } from "@/lib/utils/format/number";
 
-/** Free-tier maxOutputTokens metadata is often inflated past what upstream
- *  actually serves (e.g. gemma claims 131072 but channel allows 32768 total
- *  context); clamp to avoid context-length 400s. */
+// Free-tier maxOutputTokens metadata is often inflated past what upstream
+// serves (gemma claims 131072 but channel allows 32768). Clamp to avoid 400s.
 export const FREE_MODEL_OUTPUT_CAP = 8192;
 
-/** Free models are flaky; fan out N parallel calls for short auxiliary
- *  requests (title gen, web-search classifier) and take the first response. */
+// Free models are flaky; race N parallel calls for short aux requests.
 export const FREE_MODEL_RACE_COUNT = 5;
 
 export const TAVILY_TIMEOUT_MS = 5_000;
 
 export const MODERATION_TIMEOUT_MS = 5_000;
 
-/** Sentinel user id used in moderation logs for unauthenticated callers. */
+// Sentinel for moderation logs from unauthenticated callers.
 export const GUEST_USER_ID = -1;
 
 export const PENDING_USAGE_TTL_MS = 5 * 60 * 1000;

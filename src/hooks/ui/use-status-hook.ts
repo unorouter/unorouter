@@ -55,7 +55,7 @@ type StatusComponent = NonNullable<
   NonNullable<ReturnType<typeof useStatusPageQuery>["data"]>["components"]
 >[number];
 
-export type StatusListItem =
+type StatusListItem =
   | {
       kind: "header";
       vendor: string;

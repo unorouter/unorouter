@@ -7,14 +7,10 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 
-// ---------------------------------------------------------------------------
-// Client-only schema: lives in the browser SQLocal database. Never created
-// on the Turso server. Server code must NEVER import this file.
-// ---------------------------------------------------------------------------
+// Client-only schema (browser SQLocal). Server code must NEVER import this.
 
-// Retry queue for mirror writes that failed while offline or due to a
-// transient server error. Each row is one pending op against a specific
-// synced entity. A background task drains this when the network returns.
+// Retry queue for mirror writes that failed offline/transiently. Drained by
+// a background task when network returns.
 export const localPendingSync = sqliteTable(
   "local_pending_sync",
   {
@@ -33,8 +29,6 @@ export const localPendingSync = sqliteTable(
   ],
 );
 
-// Singleton key-value config for the local DB: last applied migration
-// version, last hydration timestamp, schema version, etc.
 export const localMeta = sqliteTable("local_meta", {
   key: text("key").primaryKey(),
   value: text("value", { mode: "json" }).notNull(),

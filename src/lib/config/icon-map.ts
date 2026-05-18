@@ -1,7 +1,4 @@
-// Icon registry. Per-icon dynamic loaders so each library only enters the
-// chunk graph when first rendered. Same pattern as `vendor-icons.ts`.
-// Adding a new library = add a column to each entry. Adding a new icon =
-// add a new entry. No call-site changes either way.
+// Per-icon dynamic loaders; library enters chunk graph only on first render.
 
 import type { IconType } from "react-icons";
 
@@ -11,9 +8,6 @@ export type IconLoader = () => Promise<{ default: IconType }>;
 
 export type IconEntry = Partial<Record<IconLibraryName, IconLoader>>;
 
-// Each loader resolves `{ default }` so it's compatible w/ `next/dynamic`.
-// Bundler treats every `import("react-icons/lu")` as one chunk; first Lucide
-// icon to render fetches the whole library, subsequent icons reuse it.
 export const ICON_MAP: Record<string, IconEntry> = {
   "arrow-down": {
     lucide: () =>
@@ -767,9 +761,7 @@ export const ICON_MAP: Record<string, IconEntry> = {
     tabler: () =>
       import("react-icons/tb").then((m) => ({ default: m.TbTrash })),
   },
-  // Brand icons (Font Awesome / Simple Icons). No clean Tabler equivalents
-  // for some; reuse Lucide brand icon (LuGithub) where available, fall back
-  // to first library.
+  // Brand icons (Font Awesome). Some have no Tabler equivalent.
   "brand-apple": {
     lucide: () =>
       import("react-icons/fa").then((m) => ({ default: m.FaApple })),

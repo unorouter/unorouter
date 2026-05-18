@@ -1,12 +1,5 @@
 "use client";
 
-// Top-level mode tabs for the generate studio: Text2Img / Img2Img / Edit.
-// Each tab maps to a separate Jotai draft atom (per-tab state survives
-// switching), and the active tab is reflected in the URL (?tab=...) so
-// deep links work. The tab strip lives at the top of playground-page; the
-// sub-pill row under it is rendered conditionally when activeTab is
-// "img2img".
-
 import { useTranslations } from "next-intl";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -34,8 +27,7 @@ export function ModeTabs() {
   const searchParams = useSearchParams();
   const urlTab = searchParams.get("tab") as GenerateTab | null;
 
-  // URL is the source of truth on mount. On subsequent tab clicks the
-  // setter below also rewrites the URL so reloads land on the same tab.
+  // URL is source of truth on mount; click handler rewrites URL after.
   useEffect(() => {
     if (
       urlTab &&
@@ -50,8 +42,7 @@ export function ModeTabs() {
     setActiveTab(tab);
     const url = new URL(window.location.href);
     url.searchParams.set("tab", tab);
-    // The sub-pill is Img2Img-only; clear it when leaving the tab so
-    // the URL doesn't carry stale state.
+    // Sub-pill is img2img-only; drop stale state when leaving the tab.
     if (tab !== "img2img") url.searchParams.delete("mode");
     window.history.replaceState(null, "", url.toString());
   };

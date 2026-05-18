@@ -13,16 +13,11 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 type SubscribeOptions = {
-  /** Called when the user isn't logged in (or no provider is enabled). The
-   *  caller decides whether to redirect to /login, push to /billing, etc. */
   onUnauthorized?: () => void;
-  /** Caller is logged-in. Skip the onUnauthorized branch entirely. */
   isLoggedIn?: boolean;
 };
 
-/** Shared billing actions: subscription + topup, used by /pricing and the
- *  in-app billing page. Provider routing (Stripe vs Creem) follows the same
- *  logic in both surfaces: Stripe wins when both are enabled. */
+// Stripe wins when both Stripe and Creem are enabled.
 export function useBillingActions() {
   const t = useTranslations();
   const topUpInfoQuery = useTopUpInfoQuery();

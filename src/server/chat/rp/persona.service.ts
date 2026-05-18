@@ -89,16 +89,8 @@ export async function deletePersona(userId: number, id: string) {
   return { id };
 }
 
-// ---------------------------------------------------------------------------
-// Import (SillyTavern / RisuAI persona JSON)
-// ---------------------------------------------------------------------------
-
-/**
- * Read a JSON file in SillyTavern, RisuAI, or persona-settings-backup shape
- * and create one or more personas. Returns the list of inserted personas
- * (sorted by insert order). Skips entries without a name. Never marks any
- * imported persona as default to avoid surprising the user.
- */
+// Accepts SillyTavern, RisuAI, or persona-settings-backup shape. Skips entries
+// without a name. Never marks imported personas as default.
 export async function importPersona(userId: number, file: File) {
   let raw: unknown;
   try {

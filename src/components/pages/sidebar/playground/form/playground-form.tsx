@@ -198,8 +198,6 @@ export function GenerateForm() {
       : 1;
   const totalQuota = dollarsToQuota(descriptor.pricePerCall * variants);
 
-  // Mirror tab + sub-pill into the form's `mode` so the resolver and any
-  // mode-aware children see the canonical value, not just the atoms.
   useEffect(() => {
     form.setValue("mode", deriveMode(activeTab, activeSubPill));
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -3,7 +3,6 @@ import { uid } from "@/lib/utils/base";
 import { setConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 
-/** Extracts text from the first user message in a list of content-bearing messages. */
 export function extractFirstUserText(
   messages: readonly {
     role: string;
@@ -24,11 +23,9 @@ export function extractFirstUserText(
   );
 }
 
-// Local-first attachment adapter. Reads the file into base64, writes it to the
-// per-user OPFS `media` table, and returns a `data:` URL for the stream to
-// consume. The blob never touches the network until/unless the user opts
-// the parent conversation into sync, at which point `sync.service.ts` uploads
-// the base64 to R2 and stamps `r2_url` on the Turso mirror row.
+// Local-first: base64 -> per-user OPFS media table -> data: URL for stream.
+// Blob stays local until user opts conv into sync (sync.service.ts uploads
+// to R2 and stamps r2_url on the Turso mirror row).
 export function createLocalAttachmentAdapter(
   getContext: () => { convId: string | null; userId: number | null },
 ): AttachmentAdapter {
@@ -50,8 +47,8 @@ export function createLocalAttachmentAdapter(
     async send(attachment) {
       const ctx = getContext();
 
-      // Ensure a convId exists - new thread gets one pre-generated so the
-      // media row has a stable cascade parent.
+      // New thread needs a pre-generated convId so the media row has a stable
+      // cascade parent.
       if (!ctx.convId) {
         ctx.convId = uid();
         setConvId(ctx.convId);
@@ -61,8 +58,7 @@ export function createLocalAttachmentAdapter(
       const base64 = await fileToBase64(file);
       const dataUrl = `data:${file.type};base64,${base64}`;
 
-      // Persist locally if logged in; guests just get the data URL in memory
-      // (no OPFS write because we can't open a user-scoped DB without an id).
+      // Guests skip OPFS (need a user id to open the per-user DB).
       if (ctx.userId != null) {
         await upsertLocalMedia(ctx.userId, {
           id: attachment.id,
@@ -98,7 +94,7 @@ async function fileToBase64(file: File): Promise<string> {
     const reader = new FileReader();
     reader.onload = () => {
       const result = reader.result as string;
-      // result = `data:<mime>;base64,<payload>`. Strip the prefix.
+      // Strip `data:<mime>;base64,` prefix.
       const comma = result.indexOf(",");
       resolve(comma >= 0 ? result.slice(comma + 1) : result);
     };

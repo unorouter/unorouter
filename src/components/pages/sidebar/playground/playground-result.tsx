@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -72,9 +71,7 @@ function ParamsBadge(props: { model: string; params: unknown }) {
 
 function RetentionBadge(props: { expiresAt: Date | string | number }) {
   const t = useTranslations();
-  // Stable "now" captured at mount so the render is pure. The badge is
-  // re-rendered when the parent's data changes (React Query polling cadence);
-  // a per-second-accurate countdown isn't required for a "days left" badge.
+  // Stable "now" at mount keeps render pure; "days left" doesn't need sub-second accuracy.
   const [now] = useState(() => Date.now());
   const expiresMs = new Date(props.expiresAt).getTime();
   const daysLeft = Math.ceil((expiresMs - now) / (24 * 60 * 60 * 1000));
@@ -223,10 +220,7 @@ function ImageLightbox(props: {
   alt: string;
 }) {
   const t = useTranslations();
-  // Derived-state pattern: when startIndex changes (parent picked a different
-  // tile), reset `index` during render instead of in an effect. React supports
-  // calling setState during render in this exact shape; the second render
-  // sees the updated value and no cascading effect fires.
+  // Derived state: reset during render when startIndex changes (React-supported, no cascading effect).
   const [index, setIndex] = useState(props.startIndex);
   const [prevStartIndex, setPrevStartIndex] = useState(props.startIndex);
   if (prevStartIndex !== props.startIndex) {
@@ -341,16 +335,13 @@ export function GenerateResult(props: Props) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Prefer the polling response for the active snapshot (always fresh);
-  // fall back to the session payload (snapshots[] already in cache).
+  // Prefer fresh polling response over cached session payload.
   const sessionData = sessionQuery.data;
   const session = sessionData?.session;
   const snapshots = sessionData?.snapshots ?? [];
   const liveSnapshot = statusQuery.data;
   const cachedSnapshot = snapshots.find((s) => s.id === props.snapshotId);
-  // Snapshot is a discriminated union (full vs { id, status: "failure" }).
-  // Cast to a partial wide shape so call sites read optional fields without
-  // per-access narrowing; downstream renders gate on `status`/`images.length`.
+  // Wide cast over the {full | failure} union; renders gate on status/images.length.
   type SnapshotWide = {
     id: string;
     status: "pending" | "running" | "success" | "failure" | string;
@@ -394,10 +385,7 @@ export function GenerateResult(props: Props) {
     swapTo(next.id);
   };
 
-  // When the active snapshot changes and the user isn't on the newest,
-  // hand its frozen params to the form so editing-and-resubmitting is a
-  // one-click flow. Skip if already on the newest snapshot to avoid
-  // clobbering an in-progress draft.
+  // On non-newest snapshot: hand frozen params to form for one-click resubmit. Skip newest to avoid clobbering draft.
   useEffect(() => {
     if (!data) return;
     if (currentIndex === 0) return;
@@ -423,7 +411,6 @@ export function GenerateResult(props: Props) {
       extraParams: d.extraParams ?? null,
       nsfw: d.nsfw,
     });
-    // Re-restore only when the active snapshot id changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.snapshotId]);
 

@@ -9,15 +9,8 @@ import {
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
-// Drop a PNG that came from ComfyUI (or any tool that writes the same
-// tEXt chunks) and the form's prompt + params get pre-filled. The
-// component is intentionally above the model picker because the
-// imported metadata may include a model hint we want to apply BEFORE
+// Positioned above the model picker: imported model hint must apply BEFORE
 // the form re-renders with model-specific controls.
-//
-// Best-effort: anything we can't recover stays at defaults. Doesn't
-// validate that the PNG came from our gateway - works on any
-// ComfyUI-exported image.
 type Props = {
   onImport: (data: RestoredFromPng) => void;
 };

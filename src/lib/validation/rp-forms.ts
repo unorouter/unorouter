@@ -1,7 +1,4 @@
-/**
- * Mirrors server schemas in `./rp.ts` and `./chat.ts` but adds `default:` so
- * RHF's `Value.Default(schema, {})` produces a fully-shaped initial form.
- */
+// Mirrors `./rp.ts` and `./chat.ts` with `default:` for RHF's `Value.Default`.
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg } from "../config/constants";
@@ -64,7 +61,6 @@ export const conversationOverridesFormSchema = t.Object({
   }),
   characterIds: t.Array(t.String(), { default: [] }),
   lorebookIds: t.Array(t.String(), { default: [] }),
-  // null = use preset/model default.
   temperature: nullableNumber(0, 2),
   topP: nullableNumber(0, 1),
   topK: nullableNumber(0, 1000),
@@ -74,9 +70,8 @@ export const conversationOverridesFormSchema = t.Object({
   presencePenalty: nullableNumber(-2, 2),
   repetitionPenalty: nullableNumber(0, 2),
   maxTokens: nullableNumber(1, 1_000_000),
-  /** Free-form JSON merged into the upstream request body (escape hatch). */
   extraBody: t.String({ default: "", maxLength: 8_192 }),
-  /** false = BFF buffers the full reply, then streams it as one chunk. */
+  // false = BFF buffers full reply, then streams as one chunk.
   streamingEnabled: t.Boolean({ default: true }),
 });
 export type ConversationOverridesForm = Static<
@@ -136,8 +131,7 @@ export const lorebookFormSchema = t.Object({
 });
 export type LorebookForm = Static<typeof lorebookFormSchema>;
 
-// Entries are stored with array key fields but the form edits them as
-// comma-separated strings for ergonomics.
+// Keys stored as arrays; form edits as comma-separated strings.
 export const lorebookEntryFormSchema = t.Object({
   keys: t.String({ default: "" }),
   secondaryKeys: t.String({ default: "" }),
@@ -180,7 +174,7 @@ export const characterFormSchema = t.Object({
   postHistoryInstructions: t.String({ maxLength: 50_000, default: "" }),
   tags: t.String({ default: "" }),
   nsfw: t.Boolean({ default: false }),
-  /** Comma-separated keywords; assembler matches against recent user texts. */
+  // Comma-separated keywords; assembler matches against recent user texts.
   triggers: t.String({ default: "" }),
   alwaysActive: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),

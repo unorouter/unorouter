@@ -32,12 +32,6 @@ type Props = {
   emptyText: string;
 };
 
-/**
- * Generic multi-select popover modeled on the models-page vendor filter.
- * Trigger button shows up to two selected labels as badges, then collapses
- * to a count. The popover renders a searchable checkbox list plus a Clear
- * action.
- */
 export function MultiSelectPopover(props: Props) {
   const t = useTranslations();
   const selectedSet = new Set(props.value);

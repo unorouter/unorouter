@@ -18,20 +18,16 @@ function getHeader(
   return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
-/**
- * Orval mutator: T is the full Orval response envelope (e.g. { data: D; status: 200; headers: Headers }).
- * Orval-generated callers always pass `options.headers` as a plain object; never `Headers` or tuple array.
- */
+// Orval mutator. Callers always pass `options.headers` as a plain object.
 export const customFetch = async <T>(
   url: string,
   options: RequestInit,
 ): Promise<T> => {
   const headers = options.headers as Record<string, string> | undefined;
 
-  // Admin calls (ADMIN_HEADERS) pass explicit Authorization. Upstream auth
-  // checks the session cookie before Authorization, so forwarding the
-  // end-user's cookie would skip the access-token path and mismatch
-  // New-Api-User. Skip auto-attach in that case.
+  // Admin (ADMIN_HEADERS) sends explicit Authorization. Upstream checks
+  // session cookie first, so forwarding end-user cookie would skip the
+  // access-token path and mismatch New-Api-User. Skip auto-attach.
   const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
   const hasCookie = !!getHeader(headers, "cookie");

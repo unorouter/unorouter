@@ -6,10 +6,6 @@ import type { StatusBucket } from "@/lib/types/status";
 import { handleElysia } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";
 
-/**
- * Single round-trip hook used by the standalone /status page. Returns
- * components + buckets + open incidents in one shot.
- */
 export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
   return useQuery({
     queryKey: queryKeys.modelStatusPage(bucket, hours),
@@ -22,10 +18,6 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
   });
 }
 
-/**
- * Lightweight hook used by the per-card <StatusPill> on /models — only the
- * component list, no bucket data.
- */
 export function useStatusComponents() {
   return useQuery({
     queryKey: queryKeys.modelStatusComponents(),

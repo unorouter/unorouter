@@ -14,19 +14,9 @@ import { useLocale, useTranslations } from "next-intl";
 type Props = {
   kind: SyncKindName;
   id: string;
-  /** Body payload for Add/Resync. Omit if the row is already synced and the
-   *  client knows the server has the latest version. */
   payload?: unknown;
-  /** Optional compact rendering for tight rows. */
   compact?: boolean;
 };
-
-// ---------------------------------------------------------------------------
-// SyncBadge: per-row sync state + actions. Reads `syncExpiresAt` from the
-// bulk sync-state cache (one fetch covers every row on the page). Both
-// "Add sync" and "Resync" call the same idempotent POST endpoint; only the
-// button label changes by current state.
-// ---------------------------------------------------------------------------
 
 export function SyncBadge(props: Props) {
   const t = useTranslations();

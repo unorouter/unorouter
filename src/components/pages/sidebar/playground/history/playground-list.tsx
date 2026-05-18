@@ -13,10 +13,6 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 
-// Sidebar rail: a "new session" entry at the top, then the user's recent
-// sessions as small thumbnail tiles. Selecting a tile navigates to
-// /playground/<sessionId>; the page seeds the active session/snapshot atoms
-// and defaults to the session's newest snapshot.
 export function PlaygroundList() {
   const t = useTranslations();
   const sidebar = useSidebar();
@@ -24,7 +20,6 @@ export function PlaygroundList() {
   const query = useSessionHistoryQuery({ limit: 30 });
 
   const items = query.data?.items ?? [];
-  // /en/playground/<sessionId> -> activeSessionId; /en/playground -> undefined.
   const segments = pathname.split("/").filter(Boolean);
   const generateIdx = segments.findIndex((s) => s === "generate");
   const activeSessionId =

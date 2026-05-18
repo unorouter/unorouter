@@ -28,9 +28,7 @@ import { eq, inArray } from "drizzle-orm";
 import type { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { getLocalDb, resetLocalDbCache } from "./client";
 
-// One-shot guard key written to the target DB's `local_meta` table on
-// successful migration. Bumping the suffix forces a re-run for an already-
-// migrated DB if the migration logic itself changes.
+// One-shot guard in `local_meta`. Bump suffix to force re-run.
 const MIGRATION_KEY = "guest_migrated_v1";
 
 const GUEST_USER_ID = 0;
@@ -50,8 +48,7 @@ export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
     .limit(1);
   if (existing[0]) return;
 
-  // Pull every user-scoped row from the guest DB up-front. SQLocal's
-  // transactionMutex deadlocks on parallel calls, so this is serial.
+  // Serial: SQLocal's transactionMutex deadlocks on parallel calls.
   const [
     guestConvs,
     guestChars,
@@ -203,17 +200,13 @@ export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
         .where(inArray(messageItems.messageId, messageIds))
     : [];
 
-  // Rewrite userId on parents, leave child rows untouched (they reference
-  // parents via FK, parent IDs are preserved).
+  // Rewrite userId on parents; child rows reference parents via FK so PKs
+  // are preserved.
   const rewrite = <T extends { userId: number }>(rows: T[]): T[] =>
     rows.map((r) => ({ ...r, userId: targetUserId }));
 
-  // No `target.transaction(...)` wrapper: SQLocal opens a real SQLite
-  // transaction and holds the worker's transactionMutex, but `target.db.<x>`
-  // queries (drizzle sqlite-proxy) don't carry the SQLocal transactionKey,
-  // so they wait on the same mutex and deadlock. Inserts are idempotent
-  // upserts with `onConflictDoNothing`, so partial failure leaves the target
-  // in a forward-progress state and the next login retries.
+  // No `target.transaction(...)`: see writes.ts mutex note. Idempotent
+  // upserts make partial failure safe; next login retries.
   await insertMany(target.db, characters, rewrite(guestChars));
   await insertMany(target.db, personas, rewrite(guestPersonas));
   await insertMany(target.db, lorebooks, rewrite(guestLorebooks));
@@ -267,8 +260,7 @@ async function insertMany(
   rows: Record<string, unknown>[],
 ): Promise<void> {
   if (rows.length === 0) return;
-  // Insert one-by-one so a single bad row does not abort the batch; sqlite
-  // is fast enough for guest-sized payloads.
+  // One-by-one so a single bad row doesn't abort the batch.
   for (const row of rows) {
     await db
       .insert(table)

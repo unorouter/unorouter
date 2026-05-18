@@ -25,7 +25,7 @@ import {
 import {
   useExportConversation,
   useImportConversationMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/conversations";
 import {
   useRemoveSyncMutation,
   useSyncMutation,

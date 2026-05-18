@@ -13,10 +13,8 @@ import {
   Space_Grotesk,
 } from "next/font/google";
 
-// `next/font/google` builds these at compile time, so fonts can't be added
-// at runtime; the picker just toggles the active family by writing the CSS
-// variable reference into `userTheme.fonts.*`. To add more, import here and
-// append to FONT_OPTIONS.
+// next/font/google builds these at compile time; runtime picker only flips
+// the active family. To add more, import here and append to FONT_OPTIONS.
 
 const inter = Inter({
   subsets: ["latin"],
@@ -88,7 +86,7 @@ export type FontOption = {
   label: string;
   /** className from next/font (attached to body for cascade). */
   cssVar: string;
-  /** CSS variable name for `var(...)` references; `cssVar` is the className. */
+  /** CSS variable name for `var(...)` references; cssVar is the className. */
   varName: string;
   kinds: FontKind[];
   accessibility?: boolean;
@@ -183,8 +181,6 @@ export const FONT_OPTIONS: FontOption[] = [
   },
 ];
 
-/** Space-joined string of every preloaded font CSS var, attached to `<body>`
- *  so all fonts are available for live preview without re-render. */
 export const allFontVariablesClass = FONT_OPTIONS.map((f) => f.cssVar).join(
   " ",
 );

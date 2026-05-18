@@ -127,10 +127,6 @@ export async function deleteCharacter(userId: number, id: string) {
   return { id };
 }
 
-/**
- * Import a SillyTavern v1/v2 character card (PNG, WebP, or JSON). The image
- * payload (if any) becomes the avatar in R2 under `chat/characters/<charId>/`.
- */
 export async function importCharacterCard(userId: number, file: File) {
   const { card, imageBuffer, imageMime } = await parseCharacterCardFile(file);
 
@@ -167,11 +163,7 @@ export async function importCharacterCard(userId: number, file: File) {
   return getCharacter(userId, id);
 }
 
-/**
- * Export a character as a Tavern PNG card, RisuAI CharX, Voxta package, or
- * raw CCv3 JSON. PNG re-embeds the avatar as the icon asset; JSON is a
- * pure metadata blob without the avatar.
- */
+// PNG re-embeds avatar as icon asset; JSON is metadata-only (no avatar).
 export async function exportCharacter(
   userId: number,
   id: string,

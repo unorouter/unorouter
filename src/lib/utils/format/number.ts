@@ -1,4 +1,4 @@
-/** 1 USD = 500000 quota units in new-api. */
+// 1 USD = 500000 quota units in new-api.
 export const QUOTA_PER_DOLLAR = 500000;
 
 export function quotaToDollars(quota: number): number {
@@ -23,7 +23,6 @@ export function formatPrice(price: number): string {
   return `$${price.toFixed(decimals)}`;
 }
 
-/** Parse a "37%" / "100%" string into a 0..100 integer, clamped. */
 export function parsePercent(progress: string | undefined | null): number {
   if (!progress) return 0;
   const m = progress.match(/(\d+)%/);
@@ -31,7 +30,6 @@ export function parsePercent(progress: string | undefined | null): number {
   return Math.min(100, Math.max(0, parseInt(m[1], 10)));
 }
 
-/** Compact price: tighter precision per magnitude. Zero/invalid -> "$0". */
 export function formatPriceCompact(price: number): string {
   if (!Number.isFinite(price) || price <= 0) return "$0";
   if (price < 0.01) return `$${price.toFixed(4)}`;
@@ -40,7 +38,6 @@ export function formatPriceCompact(price: number): string {
   return `$${Math.round(price)}`;
 }
 
-/** Compact token-count formatter: 200000 -> "200K", 1000000 -> "1M". */
 export function formatTokenCount(tokens: number | undefined): string {
   if (tokens === undefined || !Number.isFinite(tokens) || tokens <= 0) {
     return "—";
@@ -56,7 +53,6 @@ export function formatTokenCount(tokens: number | undefined): string {
   return String(tokens);
 }
 
-/** Compact token-count formatter with K/M/B/T tiers. Zero/invalid -> "0". */
 export function formatTokens(value: number): string {
   if (!Number.isFinite(value) || value <= 0) return "0";
   if (value >= 1_000_000_000_000)
@@ -70,21 +66,18 @@ export function formatTokens(value: number): string {
   return value.toLocaleString();
 }
 
-/** Format a 0..1 fraction as percentage with adaptive precision. */
 export function formatShare(share: number): string {
   if (!Number.isFinite(share) || share <= 0) return "0%";
   if (share < 0.001) return "<0.1%";
   return `${(share * 100).toFixed(share < 0.01 ? 2 : 1)}%`;
 }
 
-/** Latency in ms; switches to seconds at 1s. `decimals` controls seconds precision. */
 export function formatLatency(ms: number, decimals = 2): string {
   if (!ms) return "—";
   if (ms >= 1000) return `${(ms / 1000).toFixed(decimals)}s`;
   return `${Math.round(ms)}ms`;
 }
 
-/** Tokens per second. `suffix` appended verbatim (e.g. "t/s"). */
 export function formatTps(tps: number, suffix = ""): string {
   if (!tps) return "—";
   if (tps >= 100) return `${tps.toFixed(0)}${suffix}`;

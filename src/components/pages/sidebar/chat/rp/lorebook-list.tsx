@@ -44,7 +44,7 @@ import {
   useLorebooksQuery,
   useUpdateLorebookEntryMutation,
   useUpdateLorebookMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/lorebooks";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import {

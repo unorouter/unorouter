@@ -62,8 +62,7 @@ export async function updateBindings(
     assertFound(ownership);
 
     if (body.characters !== undefined) {
-      // Verify every character id belongs to this user before binding;
-      // prevents attaching another user's character to a conversation.
+      // Ownership gate: prevent attaching another user's character.
       if (body.characters.length > 0) {
         const ids = body.characters.map((c) => c.characterId);
         const owned = await tx
@@ -93,7 +92,7 @@ export async function updateBindings(
     }
 
     if (body.lorebookIds !== undefined) {
-      // Same ownership gate for lorebook ids.
+      // Ownership gate.
       if (body.lorebookIds.length > 0) {
         const owned = await tx
           .select({ id: lorebooks.id })
@@ -122,9 +121,8 @@ export async function updateBindings(
       }
     }
 
-    // Seed the bound character's first message as the opening assistant turn,
-    // but only when the conversation has no messages yet (avoid double-seeding
-    // on rebinding). Mirrors SillyTavern's "first_mes" behavior.
+    // first_mes seed (SillyTavern semantics): only when conv is empty, so
+    // rebinding doesn't double-seed.
     if (body.characters && body.characters.length > 0) {
       const existing = await tx
         .select({ id: messages.id })

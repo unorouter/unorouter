@@ -1,5 +1,4 @@
 import { msg } from "@/lib/config/constants";
-import { env } from "@/lib/config/env";
 import type { ReactNode } from "react";
 import type {
   ExcludeVoid,
@@ -57,16 +56,14 @@ export function copyToClipboardAsync(
   ]);
 }
 
-/** URL-encode brackets: next-intl's pathname matcher rejects raw `[`/`]` in
- *  param values, colliding w/ `[slug]` template syntax. Models like
- *  `claude-haiku-4-5-20251001[1m]` need their brackets encoded. */
+// next-intl's pathname matcher rejects raw `[`/`]` (collides with `[slug]`).
+// Models like `claude-haiku-4-5-20251001[1m]` need brackets encoded.
 export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D");
 }
 
 export type LabeledRow = { label: string; value: ReactNode };
 
-/** `{ label, value }` row when `condition` is truthy; otherwise null. */
 export function row(
   condition: unknown,
   label: string,
@@ -75,7 +72,6 @@ export function row(
   return condition ? { label, value } : null;
 }
 
-/** Unwrap an Orval-generated API response, throwing if data is null. */
 export function unwrap<T extends { data: unknown }>(
   res: T,
 ): ExcludeVoid<NonNullable<T["data"]>> {
@@ -83,9 +79,8 @@ export function unwrap<T extends { data: unknown }>(
   return res.data as ExcludeVoid<NonNullable<T["data"]>>;
 }
 
-/** Handle an Elysia/Eden treaty response. Throws on non-200 or
- *  `{ success: false }`; unwraps `{ success: true, data }`; else returns
- *  body as-is. */
+// Throws on non-200 or {success:false}; unwraps {success:true, data}; else
+// returns body.
 export function handleElysia<T extends { data: unknown; status: number }>(
   response: T,
 ): UnwrapApiResponse<ExtractData<T>> {

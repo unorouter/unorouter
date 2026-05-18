@@ -33,7 +33,7 @@ export const serverPathname = async (fallbackLocale: string) => {
   return reqUrl ? new URL(reqUrl).pathname : `/${fallbackLocale}`;
 };
 
-/** Read cookie from nextjs header for RPC calls in server components ONLY. */
+// Server components ONLY.
 export const getCookieValue = async <T>(
   key: string,
 ): Promise<T | undefined> => {
@@ -58,8 +58,7 @@ export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
   const modelFor = (vendor: string) =>
     models.find((m) => m.vendor.toLowerCase() === vendor.toLowerCase())!.name;
 
-  /** Highest-output-price text model: aspirational default for docs Quick
-   *  Config blocks, rather than whatever sorts first upstream. */
+  // Aspirational default for docs Quick Config: highest-output-price text.
   const topTextModel = models
     .filter((m) => m.type === "text" && typeof m.outputPrice === "number")
     .reduce<
@@ -99,9 +98,6 @@ export async function getServerGuestConvIds(): Promise<string[]> {
   return (await getCookieValue<string[]>(GUEST_CONVS_COOKIE)) ?? [];
 }
 
-/** Throw the canonical NOT_FOUND error if the Drizzle query returned zero
- *  rows. Reduces the 50+ ownership/select-and-throw sites in
- *  `src/server/chat/**` to one line. */
 export function assertFound<T>(
   rows: ArrayLike<T>,
 ): asserts rows is { 0: T } & ArrayLike<T> {

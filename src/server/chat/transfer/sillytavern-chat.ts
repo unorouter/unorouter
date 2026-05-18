@@ -141,8 +141,7 @@ function renderItemsAsText(items: MessageItem[]): string {
       const tid = typeof data.task_id === "string" ? data.task_id : "";
       parts.push(`*[task ${tid}]*`);
     }
-    // tool_call/tool_result/reasoning are not inlined into `mes`; reasoning
-    // rides through extra.reasoning, tool calls have no ST equivalent.
+    // reasoning rides through extra.reasoning; tool calls have no ST equivalent.
   }
   return parts.join("\n\n").trim();
 }
@@ -151,8 +150,7 @@ function humanizedDate(d: Date): string {
   return d.toISOString();
 }
 
-// Each ST line becomes one message; user messages parent the next assistant
-// message for a linear active branch (swipes collapsed to the active one).
+// Linear active branch; swipes collapsed to the active one.
 export async function importSillyTavernChat(
   userId: number,
   file: File,
@@ -180,9 +178,7 @@ export async function importSillyTavernChat(
     try {
       const parsed = JSON.parse(ln) as STMessage;
       if (typeof parsed.mes === "string") stMessages.push(parsed);
-    } catch {
-      // skip
-    }
+    } catch {}
   }
 
   if (stMessages.length === 0) throw new Error(msg("ERRORS.REQUEST_FAILED"));

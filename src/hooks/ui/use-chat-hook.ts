@@ -4,7 +4,7 @@ import { useMessagesInfiniteQuery } from "@/hooks/chat-hook";
 import type { ApiMessage } from "@/lib/playground/chat/messages";
 import { useAuiState } from "@assistant-ui/react";
 
-export type MessageMeta = {
+type MessageMeta = {
   model: string | null;
   inputTokens: number | null;
   outputTokens: number | null;

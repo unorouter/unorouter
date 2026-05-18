@@ -1,23 +1,12 @@
 "use client";
 
-import type { BlogCategory } from "@/lib/types/seo";
+import type { BlogListPost } from "@/lib/types/seo";
 import {
   blogCategoryAtom,
   blogClearFiltersAtom,
   blogSearchAtom,
 } from "@/store/blog-store";
 import { useAtom, useSetAtom } from "jotai";
-
-export type BlogListPost = {
-  slug: string;
-  date: string;
-  tags: readonly string[];
-  category: BlogCategory;
-  wordCount: number;
-  heroImage?: string;
-  title: string;
-  description: string;
-};
 
 export function useBlogFilter(posts: BlogListPost[]) {
   const [search, setSearch] = useAtom(blogSearchAtom);

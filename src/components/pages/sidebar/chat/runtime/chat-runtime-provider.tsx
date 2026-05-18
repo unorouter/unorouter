@@ -46,7 +46,7 @@ function ChatRuntimeHook() {
   const t = useTranslations();
   const auth = useAuthQuery();
 
-  // Sync remoteId into convId synchronously; transport body reads this immediately.
+  // Sync: transport body reads convId immediately.
   const prevRemoteIdRef = useRef<string | null | undefined>(undefined);
   const nextConvId = remoteId ?? null;
   if (prevRemoteIdRef.current !== nextConvId) {
@@ -63,8 +63,6 @@ function ChatRuntimeHook() {
     ),
   );
 
-  // Two-way model sync: server to atom on thread switch, atom to server on
-  // user change. Single effect with a jotai subscription.
   const conversationQuery = useConversationQuery(remoteId);
   const updateConversation = useUpdateConversationMutation();
   const modelSyncRef = useRef({
@@ -89,7 +87,6 @@ function ChatRuntimeHook() {
     setChatModel(serverModel);
   }, [remoteId, serverModel, setChatModel]);
 
-  // Persist user-initiated model changes to the server.
   useEffect(() => {
     return chatStore.sub(chatModelAtom, () => {
       const id = getConvId();
@@ -119,13 +116,9 @@ function ChatRuntimeHook() {
           model: getChatModel(),
           convId,
           webSearch: getChatWebSearch(),
-          // Used as fallback when the conversation has no settings row (guest
-          // convs). Logged-in convs always have a row seeded at creation time
-          // from this same value.
+          // Fallback for guest convs without a settings row.
           overrides: getChatDefaults(),
-          // IDB-first chat context: read whatever the hydrator + per-row
-          // queries have populated into React Query. Server falls back to
-          // Turso when this is missing (guest path).
+          // IDB-first: server falls back to Turso when this is missing (guest path).
           chatContext: convId
             ? buildChatContextFromCache(qcRef.current, convId)
             : undefined,
@@ -162,8 +155,7 @@ function ChatRuntimeHook() {
     requestAnimationFrame(pin);
   }, [threadId, remoteId]);
 
-  // Plain ref, not reactive: the assistant edit-in-place button reads
-  // setMessages/regenerate at click time.
+  // Plain ref: edit-in-place reads setMessages/regenerate at click time.
   setChatHelpers({
     setMessages: chat.setMessages as ChatHelpersRef["setMessages"],
     messages: chat.messages as ChatHelpersRef["messages"],
@@ -225,10 +217,6 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   );
 }
 
-// Reads from React Query cache only since the transport `body` callback
-// runs sync. Cache is populated by IDB-first hooks + the SyncStateHydrator
-// stage 1+2 pass. Returns null fields when data is missing; server falls
-// back to Turso reads in that case.
 function buildChatContextFromCache(
   qc: ReturnType<typeof useQueryClient>,
   convId: string,
@@ -266,9 +254,7 @@ function buildChatContextFromCache(
     .map((b) => {
       const lb = allLorebooks.find((l) => l.id === b.lorebookId);
       if (!lb) return null;
-      // entries live in their own per-lorebook cache slot; the hydrator
-      // does not pre-populate them yet. Server-side fallback handles
-      // missing entries gracefully.
+      // entries cache slot not pre-populated by hydrator; server fallback handles missing.
       const detail = qc.getQueryData(queryKeys.lorebook(b.lorebookId)) as
         | { entries?: unknown[] }
         | undefined;

@@ -33,7 +33,7 @@ import {
   useDeleteCharacterMutation,
   useImportCharacterCardMutation,
   useUpdateCharacterMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/characters";
 import { RpLoginGate } from "./rp-login-gate";
 import {
   characterFormSchema,

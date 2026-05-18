@@ -21,11 +21,6 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { ReactNode } from "react";
 
-/**
- * `onReorder` receives the full ordered id array. The binding services in
- * this project all accept `string[]` and write `orderIndex` from array
- * position, so no extra mapping is needed.
- */
 export type SortableListProps<T extends { id: string }> = {
   items: T[];
   onReorder: (orderedIds: string[]) => void;
@@ -84,10 +79,8 @@ function SortableRow(props: {
   id: string;
   renderItem: (handle: ReactNode) => ReactNode;
 }) {
-  // setActivatorNodeRef / setNodeRef / listeners / attributes are dnd-kit
-  // callback setters that look like refs to the React Compiler ref-access
-  // lint rule. They're the documented public API for sortable items, so
-  // the rule is suppressed at usage sites below.
+  // dnd-kit setters look like refs to React Compiler's ref-access lint rule;
+  // they're the documented public API, so the rule is suppressed at usage.
   const sortable = useSortable({ id: props.id });
   const style = {
     transform: CSS.Transform.toString(sortable.transform),

@@ -1,18 +1,9 @@
-// Style presets. Each style only tweaks a few CSS vars (radius scale,
-// shadow density, border opacity). Real visual difference at the cost
-// of not being a full per-component package swap. Applied via
-// `data-style` attribute on <html> by UserThemeProvider.
-
 export type ShadcnStyle = {
   name: string;
   label: string;
-  /** Multiplier applied to base --radius. */
   radiusScale: number;
-  /** Shadow shorthand for box-shadow on Cards/Popovers. */
   shadow: string;
-  /** Border opacity on inputs/cards. */
   borderOpacity: number;
-  /** translateY on button :hover/:active. */
   hoverLift: number;
 };
 

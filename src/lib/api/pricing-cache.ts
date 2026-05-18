@@ -35,7 +35,6 @@ export async function isMediaModel(model: string) {
   const { models, endpointMap } = await getSummary();
   const found = models.find((m) => m.name === model);
 
-  // Resolve the endpoint path from the model's supported endpoint types
   let endpointPath: string | undefined;
   if (found) {
     for (const epType of found.endpointTypes) {
@@ -54,9 +53,6 @@ export async function isMediaModel(model: string) {
   };
 }
 
-/** Look up the per-model metadata blob that the sync wrote into the
- *  models.metadata column on new-api. Empty object when the model is
- *  unknown or has no sync-provided hints. */
 export async function getModelMetadata(
   model: string,
 ): Promise<ModelMetadata & { isFree?: boolean }> {
@@ -66,9 +62,7 @@ export async function getModelMetadata(
   return { ...found.metadata, isFree: found.isFree };
 }
 
-/** Per-call USD price for fixed-price models (quota_type 1/3/4). Returns
- *  0 when the model is unknown or uses ratio-based pricing - callers
- *  should treat 0 as "skip pre-charge" rather than "free". */
+// 0 = unknown or ratio-priced (caller: "skip pre-charge", not "free").
 export async function getModelFixedPrice(model: string): Promise<number> {
   const { models } = await getSummary();
   const found = models.find((m) => m.name === model);
@@ -76,9 +70,6 @@ export async function getModelFixedPrice(model: string): Promise<number> {
   return found.fixedPrice ?? 0;
 }
 
-/** Returns the model's declared `supported_endpoint_types` from /api/pricing,
- *  or null when the model is not in the catalog. Used by the generation
- *  service to dispatch sync image submissions to the right upstream path. */
 export async function getModelEndpointTypes(
   model: string,
 ): Promise<string[] | null> {

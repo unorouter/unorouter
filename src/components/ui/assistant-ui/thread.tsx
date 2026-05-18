@@ -352,8 +352,7 @@ const StreamingIndicator: FC = () => {
   const modelType = pricing.data?.models.find(
     (m) => m.name === activeModel,
   )?.type;
-  // Image/video generation is expected to take much longer than a text turn,
-  // so stretch the color gradient so the timer does not hit "red" prematurely.
+  // Image/video are slower than text; widen gradient so timer doesn't prematurely hit red.
   const gradientWindow =
     modelType === "image" ? 120 : modelType === "video" ? 300 : 60;
 
@@ -406,9 +405,7 @@ const AssistantMessage: FC = () => {
                     Fallback: ToolFallback,
                   },
                   data: {
-                    // TaskCardRenderer reads data-task parts from runtime
-                    // state and draws its own card below; suppress default
-                    // rendering here.
+                    // TaskCardRenderer draws the card below; suppress default render here.
                     by_name: { task: () => null },
                   },
                 }}
@@ -429,13 +426,6 @@ const AssistantMessage: FC = () => {
   );
 };
 
-/**
- * Bypasses `ActionBarPrimitive.Edit` / `ComposerPrimitive.Send` because
- * those always regenerate the run. Save persists the new text via PUT and
- * patches the AI SDK message buffer in place; reasoning and tool-call
- * parts are preserved untouched, only text parts are replaced. To re-roll,
- * use the existing Refresh action.
- */
 const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
   const t = useTranslations();
   const messageId = useAuiState((s) => s.message.id);
@@ -457,8 +447,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     if (!convId) return;
 
     const helpers = getChatHelpers();
-    // Read the live AI SDK message so we preserve reasoning, tool calls,
-    // sources, etc. We only swap text parts; everything else is kept.
+    // Only swap text parts; preserve reasoning/tool/source parts.
     const liveMsg = (
       helpers as unknown as {
         messages?: Array<{
@@ -491,10 +480,7 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
       body: { items },
     });
 
-    // Patch the AI SDK message in place: spread the original message so we
-    // keep id, role, metadata, etc.; only replace `parts`. Without the
-    // spread, the message becomes malformed and the runtime treats the
-    // turn as incomplete (which kicked off a phantom regenerate before).
+    // Spread original message: dropping fields makes runtime treat turn as incomplete (phantom regenerate).
     helpers?.setMessages((msgs) => {
       const list = msgs as Array<{
         id: string;
@@ -590,12 +576,6 @@ const AssistantMessageHeader: FC = () => {
   );
 };
 
-/**
- * Click-to-arm: first click reddens the button and starts a 3s disarm
- * timer; a second click while armed fires the delete (optimistic remove +
- * DELETE call). If the user moves on, the timer disarms without further
- * interaction.
- */
 const DeleteMessageButton: FC = () => {
   const t = useTranslations();
   const messageId = useAuiState((s) => s.message.id);
@@ -759,11 +739,7 @@ const EditComposer: FC = () => {
 
 const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
   const t = useTranslations();
-  // Persist the active-branch flip server-side so refreshes preserve the
-  // user's pick. assistant-ui's primitive flips the in-memory message id;
-  // we watch it for changes and POST. Gating on `branchCount > 1` avoids
-  // firing on the very first send (a freshly-created assistant message has
-  // no server row yet, and its id is the AI SDK's temporary client id).
+  // Persist active-branch flip server-side; gate on branchCount>1 to skip pre-persist temp ids.
   const messageId = useAuiState((s) => s.message.id);
   const branchCount = useAuiState((s) => s.message.branchCount);
   const readOnly = useContext(ReadOnlyContext);
@@ -778,10 +754,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
     }
     if (lastIdRef.current === messageId) return;
     lastIdRef.current = messageId;
-    // Only persist when this slot actually has multiple branches. Without
-    // this gate, a fresh send/regenerate flips messageId (old assistant id ->
-    // newly-streaming temp id) and we'd POST a not-yet-persisted id, getting
-    // a 404 toast.
+    // Skip single-branch flips: fresh send/regenerate would POST a not-yet-persisted temp id (404).
     if (branchCount < 2) return;
     const convId = getConvId();
     if (!convId) return;

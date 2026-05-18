@@ -48,13 +48,11 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     return unwrap(res);
   })
 
-  // Access token
   .get("/token", async ({ upstream }) => {
     const res = await generateAccessToken({ headers: upstream.headers });
     return unwrap(res);
   })
 
-  // User settings (notifications)
   .post(
     "/setting",
     async ({ body, upstream }) => {
@@ -66,7 +64,6 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     { body: updateSettingBody },
   )
 
-  // Email verification
   .get(
     "/verification",
     async ({ query, upstream }) => {
@@ -79,7 +76,6 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     { query: verificationQuery },
   )
 
-  // Email bind
   .get(
     "/email/bind",
     async ({ query, upstream }) => {
@@ -92,7 +88,6 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     { query: emailBindQuery },
   )
 
-  // 2FA
   .get("/2fa/status", async ({ upstream }) => {
     const res = await get2FAStatus({ headers: upstream.headers });
     return unwrap(res);
@@ -121,7 +116,6 @@ export const settingsRoute = new Elysia({ prefix: "/settings" })
     { body: twoFACodeBody },
   )
 
-  // Passkey
   .get("/passkey", async ({ upstream }) => {
     const res = await passkeyStatus({ headers: upstream.headers });
     return unwrap(res);

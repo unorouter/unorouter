@@ -14,10 +14,9 @@ import {
 import { Link } from "@/i18n/navigation";
 import { motion } from "motion/react";
 
-// Two-layer chip: the outer motion.div owns the spring drift (x/y/rotate/scale),
-// the inner Link owns hover styling. This split prevents the previous bug
-// where `whileHover` would yank the chip back to its anchor — the spring loop
-// keeps running independently and only the inner element responds to hover.
+// Two-layer split: outer motion.div owns spring drift, inner Link owns hover.
+// Prevents whileHover yanking chip back to anchor by keeping spring loop
+// running independently.
 
 type Anchor = {
   top?: string;
@@ -43,10 +42,6 @@ type FloatItem = {
   spring: Spring;
 };
 
-// Eight chips spread around an oversized box (~96px around the StatsPanel).
-// Drift is rightward (matching the hero's speed-streak motion) with subtle
-// vertical bob. Springs are heavily damped (no overshoot) and slow (mass 2-3)
-// so chips glide smoothly between origin and drift target.
 const FLOATERS: readonly FloatItem[] = [
   {
     key: "claude-code",

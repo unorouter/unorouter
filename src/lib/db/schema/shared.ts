@@ -10,9 +10,8 @@ import {
 import { uid } from "@/lib/utils/base";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
 
-// `syncExpiresAt`: null = not synced (server has no copy on Turso; row exists
-// only locally). Non-null = currently synced and will be purged server-side
-// after the timestamp.
+// `syncExpiresAt`: null = local-only (no Turso copy); non-null = synced,
+// server-purged after the timestamp.
 
 export const conversations = sqliteTable(
   "conversations",
@@ -429,7 +428,7 @@ export const cardLorebooks = sqliteTable(
   ],
 );
 
-// One row per user. PK is userId so a user can only have one synced theme row.
+// One row per user (PK on userId).
 export const userThemes = sqliteTable(
   "user_themes",
   {
@@ -458,9 +457,8 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // For local-only media these stay null and bytes live in data_base64. On
-    // sync we upload to R2, set r2_key/r2_url, and null out data_base64 before
-    // mirroring to Turso so the server-side row stays pointer-only.
+    // Local-only: bytes in data_base64. After sync, R2 fields filled,
+    // data_base64 nulled before mirroring to Turso (pointer-only).
     r2Key: text("r2_key"),
     r2Url: text("r2_url"),
     dataBase64: text("data_base64"),

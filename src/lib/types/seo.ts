@@ -3,7 +3,6 @@ import type { TranslationKey } from "@/lib/config/constants";
 import type { MetadataRoute } from "next";
 import type { ComponentType } from "react";
 
-/** Docs slugs extracted from the pathnames registry (e.g. "docs/claude-code"). */
 export type DocSlug = keyof typeof pathnames extends infer K
   ? K extends `/${infer R extends `docs/${string}`}`
     ? R
@@ -12,7 +11,7 @@ export type DocSlug = keyof typeof pathnames extends infer K
 
 type PostLeaf = "TITLE" | "DESCRIPTION" | "AUTHOR";
 
-/** Any translation-key prefix that has every PostLeaf under it (e.g. "BLOG.POSTS.LAUNCH"). */
+// Translation-key prefixes with every PostLeaf under them.
 type PostI18nKey = {
   [K in TranslationKey]: K extends `${infer P}.${PostLeaf}`
     ? `${P}.TITLE` extends TranslationKey
@@ -45,6 +44,17 @@ export type BlogPost<Slug extends string = string> = {
   heroImage?: string;
 };
 
+export type BlogListPost = {
+  slug: string;
+  date: string;
+  tags: readonly string[];
+  category: BlogCategory;
+  wordCount: number;
+  heroImage?: string;
+  title: string;
+  description: string;
+};
+
 type ChangeFrequency = NonNullable<
   MetadataRoute.Sitemap[number]["changeFrequency"]
 >;
@@ -54,12 +64,10 @@ export type PriorityEntry = {
   changeFrequency: ChangeFrequency;
 };
 
-/** Constraint for per-route priority maps: keys must be valid pathnames. */
 export type SectionPriorities = Partial<
   Record<Pathname extends string ? Pathname : never, PriorityEntry>
 >;
 
-/** Any translation-key prefix that has both .TITLE and .SUBTITLE under it. */
 type DocI18nPrefix = {
   [K in TranslationKey]: K extends `${infer P}.TITLE`
     ? `${P}.SUBTITLE` extends TranslationKey
@@ -69,12 +77,11 @@ type DocI18nPrefix = {
 }[TranslationKey];
 
 export type DocEntry = {
-  /** Timestamp-JSON key, e.g. "docs/claude-code". Must equal path.slice(1). */
+  // Must equal path.slice(1).
   slug: string;
   path: StaticRoute;
-  /** Root i18n key for the doc's content tree, e.g. "DOCS.CLAUDE_CODE". */
   i18nPrefix: DocI18nPrefix;
-  /** Files whose git history drives published/modified timestamps. */
+  // Drive published/modified timestamps via git history.
   contentFiles: readonly string[];
   priority: number;
   changeFrequency: ChangeFrequency;

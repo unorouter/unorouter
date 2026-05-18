@@ -23,8 +23,7 @@ export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   monthly: "BILLING.SUBSCRIPTION.PER_MONTH",
 };
 
-/** Default Stripe top-up dollar amounts shown when upstream returns no
- *  configured preset. Shared between /pricing and the in-app billing surface. */
+// Fallback when upstream returns no configured preset.
 export const DEFAULT_TOPUP_AMOUNTS = [1, 5, 10, 20, 50, 100, 200, 500] as const;
 
 const RESET_PERIOD_LABEL_KEYS: Record<string, TranslationKey> = {
@@ -33,14 +32,10 @@ const RESET_PERIOD_LABEL_KEYS: Record<string, TranslationKey> = {
   monthly: "BILLING.SUBSCRIPTION.MONTHLY",
 };
 
-/** Translation key for the period label (e.g. "Monthly"). Falls back to the
- *  raw period string when unknown so the caller can still render something. */
 export function resetPeriodLabelKey(period: string): TranslationKey {
   return RESET_PERIOD_LABEL_KEYS[period] ?? (period as TranslationKey);
 }
 
-/** Translation key for the per-period suffix (e.g. "/month"). Empty string
- *  when the period is unknown so the suffix can be safely concatenated. */
 export function resetPeriodSuffixKey(period: string): TranslationKey {
   return RESET_TRANSLATION_KEYS[period] ?? ("" as TranslationKey);
 }

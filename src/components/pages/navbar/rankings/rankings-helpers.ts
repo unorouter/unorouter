@@ -42,7 +42,6 @@ export function periodDescriptionKey(
     : VENDOR_PERIOD_KEYS[period];
 }
 
-/** Split an array into two halves, preserving order. Used for two-column lists. */
 export function splitHalf<T>(items: readonly T[]): [T[], T[]] {
   const half = Math.ceil(items.length / 2);
   return [items.slice(0, half), items.slice(half)];
@@ -55,8 +54,7 @@ type PivotPoint = {
   value: number;
 };
 
-/** Parse `ts` to a sortable numeric value. Handles unix seconds, ISO strings,
- *  and falls back to string compare. */
+// Handles unix seconds, ISO strings, falls back to 0.
 function tsToSortable(ts: string): number {
   const asNumber = Number(ts);
   if (Number.isFinite(asNumber)) return asNumber;
@@ -65,13 +63,8 @@ function tsToSortable(ts: string): number {
   return 0;
 }
 
-/**
- * Pivot a flat series of points into row-per-label data for a stacked chart.
- * Each label becomes a row; each `key` (model or vendor) becomes a column.
- * Missing combinations are filled with 0. Rows are sorted by the minimum
- * `ts` seen for each label so the time axis stays monotonic regardless of
- * upstream ordering.
- */
+// Rows sorted by min `ts` per label so time axis stays monotonic regardless
+// of upstream ordering.
 export function pivotSeries(
   points: readonly PivotPoint[],
   keys: readonly string[],

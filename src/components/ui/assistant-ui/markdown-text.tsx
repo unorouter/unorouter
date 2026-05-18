@@ -18,14 +18,13 @@ import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-// Some models (e.g. MiniMax) emit raw <think>/<thinking> blocks in the text body
-// instead of a proper reasoning part. Strip complete blocks and any unclosed
-// opening tag plus everything after it (handles mid-stream partial blocks).
+// MiniMax etc. emit raw <think>/<thinking> blocks in text body instead of
+// reasoning parts. Strip complete blocks plus any unclosed opening tag and
+// everything after (handles mid-stream partials).
 const THINKING_BLOCK_RE = /<think(?:ing)?>([\s\S]*?)<\/think(?:ing)?>/gi;
 const THINKING_OPEN_RE = /<think(?:ing)?>/i;
 
 // Some models emit \[...\] and \(...\) instead of $$...$$ and $...$.
-// Normalize to the dollar-sign syntax that remark-math expects.
 function normalizeMathDelimiters(text: string): string {
   return text
     .replace(/\\\[(.+?)\\\]/gs, (_m, inner) => `$$${inner}$$`)

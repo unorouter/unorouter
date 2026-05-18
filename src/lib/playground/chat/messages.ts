@@ -1,6 +1,5 @@
 import type { PersistMessageItem } from "@/lib/validation/chat";
 
-/** Source of truth is the TypeBox shape in `lib/validation/chat.ts`. */
 export type MessageItemData = PersistMessageItem;
 
 export type PersistMessage = {
@@ -12,7 +11,6 @@ export type PersistMessage = {
   items: MessageItemData[];
 };
 
-/** Loose part shape used by the AI SDK / assistant-ui side. */
 export type MessagePart = { type: string; [key: string]: unknown };
 
 export type ApiMessage = {
@@ -46,9 +44,8 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
       out.push({ type: "reasoning", data: { text: part.text } });
     } else if (part.type === "tool-invocation") {
       const toolCallId = String(part.toolInvocationId ?? part.toolCallId ?? "");
-      // assistant-ui round-trips both call and result through this part type,
-      // distinguished by `state`. Keep them separate so the DB stores typed
-      // rows and a later edit can re-emit with the result intact.
+      // assistant-ui round-trips call and result through this part, distinguished
+      // by `state`; keep them separate so the DB stores typed rows.
       if (part.state === "result" || part.result !== undefined) {
         out.push({
           type: "tool_result",
@@ -93,9 +90,7 @@ export function partsToItems(parts: MessagePart[]): MessageItemData[] {
         },
       });
     }
-    // Unknown part types (AI SDK stream markers like "step-start", future
-    // shapes) are dropped; storing them would leak raw JSON into the rendered
-    // message body.
+    // Unknown part types (AI SDK "step-start", future shapes) are dropped.
   }
   return out;
 }
@@ -137,8 +132,7 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
         });
         break;
       case "task":
-        // Runtime rewrites this to `{ type: "data", name: "task", data: {...} }`
-        // for the client.
+        // Runtime rewrites to `{ type: "data", name: "task", data: {...} }`.
         parts.push({
           type: "data-task",
           data: {
@@ -151,7 +145,6 @@ export function itemsToParts(items: ApiMessage["items"]): MessagePart[] {
           },
         });
         break;
-      // Unknown stored types are skipped to avoid rendering raw JSON.
     }
   }
   return parts;

@@ -1,6 +1,4 @@
-// ON CONFLICT DO NOTHING on PK keeps re-runs idempotent and preserves
-// operator SQL edits. Removing a seed here will NOT clean up rows already
-// inserted; pair with a manual DELETE.
+// Idempotent re-runs via ON CONFLICT DO NOTHING; removing a seed here won't DELETE existing rows.
 
 import { error, log } from "console";
 import { sql } from "drizzle-orm";
@@ -18,8 +16,7 @@ type EmbeddingSeed = typeof embeddingCatalog.$inferInsert;
 type UpscalerSeed = typeof upscalerCatalog.$inferInsert;
 type ControlNetSeed = typeof controlNetCatalog.$inferInsert;
 
-// Filename must match the on-disk filename in /workspace/models/loras/ exactly:
-// LoraLoader.lora_name is patched verbatim into the ComfyUI workflow.
+// Filename must match /workspace/models/loras/ exactly (LoraLoader.lora_name patched verbatim).
 const LORA_SEEDS: LoraSeed[] = [
   {
     id: "sinfully-stylish-bold-lighting",
@@ -88,8 +85,7 @@ const LORA_SEEDS: LoraSeed[] = [
   },
 ];
 
-// Built-in latent upscalers ship with ComfyUI (no volume file required).
-// ESRGAN/SwinIR/DAT variants need `upscale_models/` files staged on the volume.
+// Latent variants ship with ComfyUI; ESRGAN/SwinIR/DAT need staged files in `upscale_models/`.
 const UPSCALER_SEEDS: UpscalerSeed[] = [
   {
     id: "latent-bicubic-antialiased",
@@ -137,8 +133,7 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
     description: "Pixel nearest-neighbor on the decoded image.",
     sortOrder: 50,
   },
-  // Filename must match on-disk in /workspace/models/upscale_models/ exactly
-  // (case-sensitive, with extension); UpscaleModelLoader reads that directory.
+  // Filename must match /workspace/models/upscale_models/ exactly (case-sensitive, with extension).
   {
     id: "realesrgan-4xplus",
     name: "R-ESRGAN 4x+",
@@ -180,9 +175,7 @@ const UPSCALER_SEEDS: UpscalerSeed[] = [
   },
 ];
 
-// Staged at /workspace/models/embeddings/. The worker injects
-// `(embedding:<filename>:<weight>) ` tokens; filename must include extension,
-// the ComfyUI tokenizer errors on bare names when weighted.
+// Staged at /workspace/models/embeddings/. Filename needs extension or ComfyUI tokenizer errors when weighted.
 const EMBEDDING_SEEDS: EmbeddingSeed[] = [
   {
     id: "easynegative",
@@ -199,8 +192,7 @@ const EMBEDDING_SEEDS: EmbeddingSeed[] = [
   },
 ];
 
-// Staged at /workspace/models/controlnet/. xinsir variants chosen over
-// diffusers official (better quality at same size, ~2.4 GB each).
+// Staged at /workspace/models/controlnet/. xinsir chosen over diffusers (better quality, ~2.4 GB each).
 const CONTROLNET_SEEDS: ControlNetSeed[] = [
   {
     id: "xinsir-depth-sdxl",
@@ -236,8 +228,7 @@ const CONTROLNET_SEEDS: ControlNetSeed[] = [
 export async function runSeeds(
   db: LibSQLDatabase<typeof schema>,
 ): Promise<void> {
-  // Size-check fast-path avoids N-row INSERTs on every cold start once seeds
-  // are applied. ON CONFLICT DO NOTHING handles the concurrent-seed race.
+  // Size-check fast-path skips N-row INSERTs on cold start; ON CONFLICT handles race.
   await seedCatalog(
     db,
     "lora_catalog",
@@ -326,7 +317,7 @@ async function seedCatalog<T>(
   try {
     if ((await count()) >= seeds.length) return;
   } catch {
-    // Table missing or unreadable: let the inserts surface the error.
+    // Let inserts surface the error.
   }
   let inserted = 0;
   for (const row of seeds) {

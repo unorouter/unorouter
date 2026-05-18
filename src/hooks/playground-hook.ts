@@ -265,14 +265,3 @@ export function useImportGenerationMutation() {
   });
 }
 
-type SessionListData = NonNullable<
-  NonNullable<Awaited<ReturnType<typeof rpc.api.playground.me.get>>["data"]>
->["data"];
-type SubmitData = NonNullable<
-  NonNullable<
-    Awaited<ReturnType<typeof rpc.api.playground.submit.post>>["data"]
-  >
->["data"];
-
-export type GenerationSnapshotDetail = SubmitData["snapshot"];
-export type GenerationSessionItem = SessionListData["items"][number];

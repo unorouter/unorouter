@@ -32,16 +32,16 @@ import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { useCharactersQuery } from "@/hooks/rp/characters";
 import {
   useChatBindingsQuery,
   useChatSettingsQuery,
-  useCharactersQuery,
-  useLorebooksQuery,
-  usePersonasQuery,
-  usePresetsQuery,
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/conversations";
+import { useLorebooksQuery } from "@/hooks/rp/lorebooks";
+import { usePersonasQuery } from "@/hooks/rp/personas";
+import { usePresetsQuery } from "@/hooks/rp/presets";
 import { analytics } from "@/lib/analytics";
 import { handleError } from "@/lib/utils/client";
 import type { StreamOverrides } from "@/lib/validation/chat";
@@ -79,10 +79,8 @@ import {
 import { Icon } from "@/components/ui/icon";
 
 type DrawerProps = {
-  /** null when no conversation exists yet (fresh thread, or guest pre-create). */
   convId: string | null;
   trigger?: React.ReactElement;
-  /** When controlled, hides the default trigger; parent opens via `onOpenChange`. */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
@@ -90,12 +88,7 @@ type DrawerProps = {
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
   const isLoggedIn = !!useAuthQuery().data;
-  // Defaults mode: edits the jotai atom (next-chat seeding). Server mode:
-  // edits the `conversation_settings` row for the active convId. Guests own
-  // their own row under userId=0, so once a guest has a convId they're in
-  // server mode just like logged-in users. The persona/preset/characters/
-  // lorebooks fields stay hidden for guests because those reference
-  // user-owned rows that guests can't create.
+  // Defaults mode edits jotai atom; server mode edits conversation_settings row (guests use userId=0).
   const isDefaultsMode = !props.convId;
   const showServerOnlyFields = isLoggedIn && !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
@@ -103,7 +96,6 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     samplerMemoryByModelAtom,
   );
   const activeModelName = useAtomValue(chatModelAtom);
-  // SamplingFields uses model metadata to gray out unsupported sliders.
   const pricing = usePricingQuery().data;
   const activeModelMetadata = activeModelName
     ? pricing?.models.find((m) => m.name === activeModelName)?.metadata
@@ -133,9 +125,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     ) as ConversationOverridesForm,
   });
 
-  // Per-model sampler memory layers on top of defaults/server settings:
-  // switching from Claude to GLM-5.1 restores GLM-5.1's last-used sliders
-  // rather than resetting to global defaults.
+  // Per-model sampler memory layers over defaults: model switch restores that model's last sliders.
   useEffect(() => {
     if (isDefaultsMode) {
       const mem: ModelSamplerMemory = activeModelName
@@ -198,9 +188,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       extraBody: settings.extraBody ?? "",
       streamingEnabled: settings.streamingEnabled ?? true,
     });
-    // `chatDefaults` included so the form picks up the value once
-    // `atomWithStorage` hydrates from the cookie on mount. `activeModelName`
-    // so swapping models restores per-model sampler memory.
+    // chatDefaults: pick up post-hydration value. activeModelName: restore per-model memory.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     props.convId,
@@ -248,10 +236,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     });
 
     if (isDefaultsMode) {
-      // Persist to the jotai atom so it survives across new chats and seeds
-      // the next conversation_settings row at create time. Server-only fields
-      // (persona/preset/characters/lorebooks/system prompt/author note/web
-      // search) are dropped; guests don't have those.
+      // Persist to atom: seeds next conversation_settings row; server-only fields dropped for guests.
       const next: StreamOverrides = {
         reasoningEffort:
           data.reasoningEffort === "__none__"

@@ -1,5 +1,4 @@
 import { downloadAndUploadGeneration } from "@/lib/config/r2";
-import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import {
   playgroundSessions,

@@ -20,10 +20,6 @@ export { exportConversationSillyTavern } from "./sillytavern-chat";
 const NATIVE_VERSION = "unorouter.1.0";
 const ORPG_VERSION = "orpg.3.0";
 
-// ---------------------------------------------------------------------------
-// Native: full-fidelity export of one conversation + everything bound to it
-// ---------------------------------------------------------------------------
-
 export async function exportConversationNative(userId: number, convId: string) {
   const db = getDb();
 
@@ -141,14 +137,11 @@ export async function exportConversationNative(userId: number, convId: string) {
   };
 }
 
-// ---------------------------------------------------------------------------
-// orpg.3.0: subset compatible with openrouter; lossless extras under _unorouter_extension
-// ---------------------------------------------------------------------------
-
+// orpg.3.0: openrouter-compatible subset; lossless extras live under
+// _unorouter_extension.
 export async function exportConversationOrpg(userId: number, convId: string) {
   const native = await exportConversationNative(userId, convId);
 
-  // Group items per message
   const itemsByMsg = new Map<string, typeof native.items>();
   for (const it of native.items) {
     const arr = itemsByMsg.get(it.messageId) ?? [];
@@ -156,7 +149,6 @@ export async function exportConversationOrpg(userId: number, convId: string) {
     itemsByMsg.set(it.messageId, arr);
   }
 
-  // characters[] keyed by id
   const orpgCharacters: Record<string, unknown> = {};
   for (const c of native.characters) {
     orpgCharacters[c.id] = {
@@ -175,7 +167,6 @@ export async function exportConversationOrpg(userId: number, convId: string) {
     };
   }
 
-  // messages[] keyed by id; items[] separate
   const orpgMessages: Record<string, unknown> = {};
   const orpgItems: Record<string, unknown> = {};
   for (const m of native.messages) {

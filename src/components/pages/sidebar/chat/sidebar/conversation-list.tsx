@@ -36,7 +36,6 @@ export function ConversationList() {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
 
-  // Debounce search
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search.trim()), 300);
     return () => clearTimeout(timer);
@@ -50,8 +49,6 @@ export function ConversationList() {
   const conversations =
     conversationsQuery.data?.pages.flatMap((p) => p.items) ?? [];
 
-  // Track search submissions: fire once per debounced query, with whether it
-  // returned results.
   useEffect(() => {
     if (!debouncedSearch) return;
     if (conversationsQuery.isLoading || conversationsQuery.isFetching) return;
@@ -59,11 +56,9 @@ export function ConversationList() {
       query_length: debouncedSearch.length,
       has_results: conversations.length > 0,
     });
-    // Only react when the debounced query settles, not on every fetch state.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearch, conversationsQuery.isLoading]);
 
-  // Infinite scroll via IntersectionObserver
   useEffect(() => {
     const el = sentinelRef.current;
     if (!el) return;
@@ -82,7 +77,7 @@ export function ConversationList() {
     );
     observer.observe(el);
     return () => observer.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only react to pagination state changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     conversationsQuery.hasNextPage,
     conversationsQuery.isFetchingNextPage,

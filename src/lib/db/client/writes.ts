@@ -28,8 +28,7 @@ import { getLocalDb } from "./client";
 import { makeTableStore } from "./table-store";
 
 // Mutation hooks call these FIRST (IDB-primary), then mirror to server only
-// if `syncExpiresAt != null`. Each function is a no-op when local DB is
-// unavailable (SSR path).
+// if `syncExpiresAt != null`. No-op when local DB unavailable (SSR).
 
 type LocalRowInput = Record<string, unknown>;
 
@@ -174,8 +173,8 @@ export async function upsertLocalTheme(
     });
 }
 
-// Attachments saved as base64 locally; sync.service.ts uploads bytes to R2
-// and stamps `r2_url` on Turso so cross-device pulls only carry a pointer.
+// sync.service.ts uploads base64 bytes to R2 and stamps `r2_url` on Turso so
+// cross-device pulls only carry a pointer.
 export const upsertLocalMedia = (
   userId: number,
   row: {
@@ -203,8 +202,7 @@ export const upsertLocalMedia = (
 export const deleteLocalMedia = (userId: number, mediaId: string) =>
   mediaStore.drop(userId, mediaId);
 
-// Composite-PK writers use onConflictDoNothing: "do update" semantics don't
-// apply when the conflict target is the natural composite primary key.
+// Composite-PK: onConflictDoNothing (do-update doesn't apply on natural PK).
 export async function upsertLocalConversationCharacter(
   userId: number,
   row: {
@@ -369,11 +367,9 @@ export async function replaceLocalConversationBindings(
   }
 }
 
-// No `local.transaction(...)` wrapper: SQLocal opens a real SQLite transaction
-// and holds the worker's transactionMutex, but `local.db.<x>` queries
-// (drizzle sqlite-proxy) don't carry the SQLocal transactionKey, so they wait
-// on that same mutex and deadlock. Cascade order is enough here because
-// bundle writes are idempotent upserts.
+// No `local.transaction(...)` wrapper: SQLocal's transactionMutex deadlocks
+// drizzle sqlite-proxy queries that lack the transactionKey. Cascade order is
+// enough since bundle writes are idempotent upserts.
 
 type AnyRow = Record<string, unknown> & { id: string };
 type ChildRow = Record<string, unknown>;

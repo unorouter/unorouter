@@ -12,13 +12,9 @@ export const dynamic = "force-dynamic";
 const siteOrigin = new URL(env.appUrl).origin;
 const apiOrigin = new URL(env.apiUrl).origin;
 
-// A2A AgentCard per https://github.com/a2aproject/A2A specification on main.
-// Required fields: protocolVersion, name, description, url, version,
-// capabilities, defaultInputModes, defaultOutputModes, skills,
-// supportedInterfaces. Auth uses OpenAPI-style `securitySchemes` + `security`.
-// supportedInterfaces.protocolBinding accepts "JSONRPC", "GRPC", "HTTP+JSON",
-// or a URI; the scanner treats supportedInterfaces as required (the field name
-// has been stable across v0.3.x and v1.x; only the entry shape evolved).
+// A2A AgentCard per https://github.com/a2aproject/A2A (main).
+// supportedInterfaces is required by the scanner; the field name is stable
+// across v0.3.x and v1.x, only the entry shape evolved.
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });

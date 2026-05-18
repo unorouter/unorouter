@@ -18,7 +18,6 @@ type TaskPart = {
 
 type AnyPart = { type: string; [k: string]: unknown };
 
-/** Validate and normalize an untrusted object into a TaskPart. */
 function buildTaskPart(source: Partial<TaskPart> | undefined): TaskPart | null {
   if (!source?.taskId || !source.model) return null;
   return {
@@ -147,13 +146,9 @@ export function TaskCard(props: Props) {
   );
 }
 
-/**
- * Reads task parts from the assistant-ui runtime and renders a TaskCard for
- * each. AI SDK delivers stream-side `data-task` parts as
- * `{ type: "data", name: "task", data: {...} }` in the message parts array;
- * the persisted `task` items are converted back to the same shape via
- * `itemsToParts`. Single render path covers both live streaming and reopens.
- */
+// AI SDK delivers stream-side data-task parts as
+// { type: "data", name: "task", data: {...} }; persisted task items are
+// converted back to the same shape via itemsToParts.
 export function TaskCardRenderer() {
   const convId = useAuiState((s) => s.threadListItem?.remoteId ?? "");
   const parts = useAuiState((s) => s.message.parts) as unknown as AnyPart[];

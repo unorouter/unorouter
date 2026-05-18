@@ -21,11 +21,9 @@ import { Elysia } from "elysia";
 import { ADMIN_HEADERS, deriveUpstream } from "../constants";
 
 // MPP x-payment-info per paymentauth.org draft-payment-discovery-00.
-// intent: "session" because these endpoints return a checkout URL (agent
-// hands it to the user who completes payment), not a fixed per-call charge.
-// amount: null because the user selects the amount at checkout (top-up)
-// or the amount is plan-dependent (subscription). TypeScript casts through
-// Record because OperationObject in openapi-types has no x-* index.
+// intent "session": endpoints return checkout URLs, not fixed charges.
+// amount null: user picks at checkout (top-up) or plan-dependent (sub).
+// Record cast: openapi-types OperationObject has no x-* index.
 const xPaymentInfo = (method: "stripe" | "creem", description: string) =>
   ({
     "x-payment-info": {

@@ -144,7 +144,7 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsEmbedding: true,
     supportsControlNet: true,
     supportsVae: true,
-    // SDXL finetune: same constraint as Pony, no LayerDiffuse.
+    // SDXL finetune: same LayerDiffuse constraint as Pony.
     supportsClipSkip: true,
     tabs: ["text2img", "img2img"],
   },
@@ -210,7 +210,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     estimatedSeconds: 45,
     recommendedPromptStyle: "natural-language",
     nsfwDefault: false,
-    // No SDXL-specific knobs. Worker doesn't expose Img2Img/Inpaint here either.
     tabs: ["text2img"],
   },
   {
@@ -238,14 +237,12 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     estimatedSeconds: 60,
     recommendedPromptStyle: "natural-language",
     // Character-driven scenes: keep on by default so publish toggle hides
-    // until the user opts out per submission.
+    // until user opts out per submission.
     nsfwDefault: true,
-    // Multi-reference image-edit-style; surface under Text2Img and Edit.
     tabs: ["text2img", "edit"],
   },
-  // Edit-family static fallbacks visible even before pricing loads. IDs match
-  // upstream new-api canonical names; static prices are fallback only and the
-  // dynamic descriptor wins when pricing is present.
+  // Edit-family static fallbacks shown before pricing loads. IDs match upstream
+  // new-api canonical names; dynamic descriptor wins when pricing is present.
   {
     id: "flux-kontext-max",
     family: "edit",

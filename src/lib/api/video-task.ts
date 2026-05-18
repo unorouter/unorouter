@@ -1,5 +1,4 @@
-// Shared helpers for upstream new-api task endpoints
-// (POST /v1/video/generations, GET /v1/video/generations/:id).
+// Shared helpers for new-api task endpoints.
 
 export type UpstreamSubmitResp = {
   id?: string;
@@ -17,9 +16,8 @@ export type UpstreamFetchResp = {
   fail_reason?: string;
 };
 
-/** Normalize new-api's status aliases into a canonical lowercase form.
- *  Returns: pending | submitted | queued | in_progress | success | failure
- *  | unknown. Chat TaskStatus callers must uppercase the result. */
+// Canonical: pending | submitted | queued | in_progress | success | failure
+// | unknown. Chat TaskStatus callers must uppercase.
 export function normalizeTaskStatus(raw: string | undefined): string {
   if (!raw) return "submitted";
   const lower = raw.toLowerCase();
@@ -29,8 +27,7 @@ export function normalizeTaskStatus(raw: string | undefined): string {
   return lower;
 }
 
-/** Unwrap the optional `data` envelope: some routes return `{ data: {...} }`,
- *  others return the payload directly. Null when raw isn't a usable object. */
+// Some routes return `{ data: ... }`, others return payload directly.
 export function unwrapTaskData<T extends object>(raw: unknown): T | null {
   if (!raw || typeof raw !== "object") return null;
   if ("data" in raw && raw.data && typeof raw.data === "object") {

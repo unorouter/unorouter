@@ -1,7 +1,4 @@
-// ComfyUI stores the API workflow JSON under the `prompt` keyword and the
-// editor graph under `workflow`; AUTOMATIC1111 / Forge / SwarmUI store
-// theirs under `parameters`. Compressed `zTXt` and international `iTXt`
-// chunks are not handled; ComfyUI uses plain `tEXt`.
+// ComfyUI: `prompt`=API graph, `workflow`=editor; A1111/Forge/SwarmUI: `parameters`. Only plain tEXt handled.
 
 const PNG_SIGNATURE = [137, 80, 78, 71, 13, 10, 26, 10] as const;
 
@@ -26,7 +23,7 @@ export function readPngTextChunks(
   const decoder = new TextDecoder("latin1");
   const out: Record<string, string> = {};
 
-  // chunks: length(4) | type(4) | data | crc(4), after 8-byte signature
+  // chunk: length(4) | type(4) | data | crc(4)
   let cursor = 8;
   while (cursor + 8 <= bytes.length) {
     const dataLength = readUint32BE(view, cursor);
@@ -38,8 +35,7 @@ export function readPngTextChunks(
 
     if (type === "tEXt") {
       const data = bytes.slice(dataStart, dataEnd);
-      // tEXt format: keyword (Latin-1, null-terminated, 1-79 chars) +
-      // text (Latin-1). Search for the null separator.
+      // tEXt: keyword(Latin-1)\0 text(Latin-1)
       const nullIdx = data.indexOf(0);
       if (nullIdx > 0) {
         const keyword = decoder.decode(data.slice(0, nullIdx));
@@ -56,8 +52,6 @@ export function readPngTextChunks(
   return out;
 }
 
-// Best-effort: any field we can't pin down stays undefined and the form
-// keeps its default.
 export type RestoredFromPng = {
   prompt?: string;
   negativePrompt?: string;
@@ -86,8 +80,7 @@ function asString(v: unknown): string | undefined {
   return typeof v === "string" && v.length > 0 ? v : undefined;
 }
 
-// First CLIPTextEncode in source order is treated as positive, second as
-// negative; the graph doesn't tag them.
+// First CLIPTextEncode = positive, second = negative (graph doesn't tag).
 export function extractFromComfyGraph(graph: unknown): RestoredFromPng {
   if (!graph || typeof graph !== "object") return {};
   const g = graph as ComfyGraph;
@@ -138,8 +131,7 @@ export async function extractMetadataFromPngFile(
   const chunks = readPngTextChunks(buffer);
   if (!chunks) return null;
 
-  // Prefer the API graph (`prompt`) over the editor graph (`workflow`);
-  // the editor graph uses different field names that we don't target.
+  // Prefer API graph (`prompt`); editor graph (`workflow`) uses untargeted field names.
   const promptChunk = chunks.prompt ?? chunks.workflow;
   if (!promptChunk) return null;
 

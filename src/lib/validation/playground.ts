@@ -1,8 +1,7 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
 
-// Catalog is upstream-driven via /api/pricing; server-side
-// assertGenerationModelAllowed checks the pricing cache before submit.
+// Server `assertGenerationModelAllowed` checks pricing cache before submit.
 export const playgroundModel = t.String({ minLength: 1, maxLength: 128 });
 export type PlaygroundModel = Static<typeof playgroundModel>;
 
@@ -23,7 +22,7 @@ export const generationStatus = t.Union([
 ]);
 export type GenerationStatus = Static<typeof generationStatus>;
 
-// SDXL family samplers; Flux 2 uses KSamplerSelect with different naming.
+// SDXL family; Flux 2 uses KSamplerSelect with different naming.
 export const generationSampler = t.Union([
   t.Literal("euler"),
   t.Literal("euler_ancestral"),
@@ -42,7 +41,7 @@ export const generationScheduler = t.Union([
   t.Literal("simple"),
 ]);
 
-// Flux 2 is locked to 1024x1024 by the template; form hides size picker for it.
+// Flux 2 locked to 1024x1024 by template; form hides size picker for it.
 export const generationSize = t.Union([
   t.Literal("1024x1024"),
   t.Literal("832x1216"),
@@ -51,13 +50,6 @@ export const generationSize = t.Union([
   t.Literal("1536x1024"),
 ]);
 
-// Mode selects sub-graph and required fields:
-//   txt2img    no init image
-//   img2img    initImageUrl required, denoise drives strength
-//   upscale    initImageUrl required, no diffusion (or low denoise)
-//   adetailer  initImageUrl required, YOLO + inpaint on detections
-//   inpaint    initImageUrl + maskUrl required
-//   edit       single or multi reference, model-family specific
 export const generationMode = t.Union([
   t.Literal("txt2img"),
   t.Literal("img2img"),
@@ -68,8 +60,8 @@ export const generationMode = t.Union([
 ]);
 export type GenerationMode = Static<typeof generationMode>;
 
-// LoRA chain is independent of the main list because face-fixer models often
-// want a face-specific LoRA the main pass shouldn't.
+// LoRA chain independent of main list: face-fixers often want a face-specific
+// LoRA the main pass shouldn't.
 export const playgroundAdetailer = t.Object({
   yoloModel: t.String({ maxLength: 128 }),
   prompt: t.Optional(t.String({ maxLength: 2000 })),
@@ -91,8 +83,6 @@ export const playgroundAdetailer = t.Object({
 });
 export type PlaygroundAdetailer = Static<typeof playgroundAdetailer>;
 
-// Preprocessor selection is implicit by `kind`; each is wired into its own
-// ComfyUI template node.
 export const generationControlNetKind = t.Union([
   t.Literal("depth"),
   t.Literal("canny"),
@@ -106,16 +96,12 @@ export const playgroundControlNet = t.Object({
 });
 export type PlaygroundControlNet = Static<typeof playgroundControlNet>;
 
-// Weight drives the alpha-leak slider; template branches the VAE decode +
-// saves a PNG with alpha when enabled.
 export const generationLayerDiffusion = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
 });
 
-// Optional fields mean "use the template default for the chosen model".
-// Server merges these against MODEL_CAPABILITIES defaults before the upstream
-// call. Width/height bounds are broad; descriptor + adapter narrow per model
-// (Flux 2 locked to 1024x1024; SDXL aborts >2048 in the ComfyUI worker).
+// Width/height bounds are broad; adapter narrows per model (Flux 2 locked to
+// 1024x1024; SDXL aborts >2048 in the ComfyUI worker).
 export const generationParams = t.Object({
   width: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
   height: t.Optional(t.Integer({ minimum: 64, maximum: 5060 })),
@@ -124,13 +110,12 @@ export const generationParams = t.Object({
   guidance: t.Optional(t.Number({ minimum: 0, maximum: 20 })),
   sampler: t.Optional(generationSampler),
   scheduler: t.Optional(generationScheduler),
-  // Empty seed: template default's auto_random fires at adapter side.
   seed: t.Optional(t.Integer({ minimum: 0, maximum: 4_294_967_295 })),
   denoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   // Skipped on Flux 2 (template doesn't expose; form hides toggle).
   hiresDenoise: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   hiresUpscale: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
-  // Worker-comfyui caps batch_size at 4 inside the adapter.
+  // worker-comfyui caps batch_size at 4 inside the adapter.
   n: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
   // Sync-image vendor knobs; ComfyUI ignores them.
   quality: t.Optional(t.String({ maxLength: 32 })),
@@ -140,15 +125,10 @@ export const generationParams = t.Object({
   strength: t.Optional(t.Number({ minimum: 0, maximum: 1 })),
   initImageUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
   maskUrl: t.Optional(t.String({ format: "uri", maxLength: 2048 })),
-  // "Automatic" / "None" skip the override.
   vae: t.Optional(t.String({ maxLength: 128 })),
-  // When present worker uses it instead of template default and skips its
-  // built-in latent-upscale path.
   upscaler: t.Optional(t.String({ maxLength: 128 })),
   upscalerMultiplier: t.Optional(t.Number({ minimum: 1, maximum: 4 })),
   hiresSteps: t.Optional(t.Integer({ minimum: 1, maximum: 80 })),
-  // Worker rewrites `embedding:<name>:weight` tokens into ComfyUI
-  // CLIPTextEncode syntax.
   embeddings: t.Optional(
     t.Array(
       t.Object({
@@ -158,7 +138,6 @@ export const generationParams = t.Object({
       { maxItems: 6 },
     ),
   ),
-  // Image rehosted through R2 first.
   controlNet: t.Optional(playgroundControlNet),
   adetailer: t.Optional(playgroundAdetailer),
   layerDiffusion: t.Optional(generationLayerDiffusion),
@@ -168,30 +147,23 @@ export const generationParams = t.Object({
 });
 export type GenerationParams = Static<typeof generationParams>;
 
-// `source` is informational; picker resolves to a catalog row server-side.
-// v1 forwards only `name` and `weight` to the upstream adapter.
 export const generationLoraEntry = t.Object({
   name: t.String({ maxLength: 256 }),
   weight: t.Number({ minimum: 0, maximum: 2 }),
   source: t.Optional(t.String({ maxLength: 64 })),
 });
 
-// R2-hosted preferred; arbitrary public URLs work unless they reject
-// server-IP fetches (Wikimedia). Weight is advisory and not currently wired
-// to the stock ReferenceLatent node (template's WeightInput is empty).
+// Weight currently advisory: stock ReferenceLatent node's WeightInput is empty.
 export const generationReferenceEntry = t.Object({
   url: t.String({ format: "uri", maxLength: 2048 }),
   name: t.Optional(t.String({ maxLength: 200 })),
   weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
 });
 
-// UI-only state held on the form but stripped before submit by `toSubmitBody`
-// in components/pages/sidebar/playground/form/submit-transform.ts. Lives next
-// to the wire schema so RHF validates both shapes against one resolver.
+// UI-only state stripped before submit by `toSubmitBody`
+// (components/pages/sidebar/playground/form/submit-transform.ts).
 export const generationFormUi = t.Object({
-  // Translated into `params.n` by the submit transform.
   variants: t.Optional(t.Integer({ minimum: 1, maximum: 4 })),
-  // Submit uploads to R2 and threads the URL into params.maskUrl.
   inpaintMaskDataUrl: t.Optional(t.String()),
   inpaintBrushSize: t.Optional(t.Integer({ minimum: 4, maximum: 128 })),
   inpaintBrushOpacity: t.Optional(t.Number({ minimum: 0.05, maximum: 1 })),
@@ -207,25 +179,19 @@ export const playgroundSubmitBody = t.Object({
   params: t.Optional(generationParams),
   loras: t.Optional(t.Array(generationLoraEntry, { maxItems: 12 })),
   references: t.Optional(t.Array(generationReferenceEntry, { maxItems: 6 })),
-  // Free-form spillover for per-model knobs.
   extraParams: t.Optional(t.Record(t.String(), t.Any())),
   visibility: t.Optional(generationVisibility),
   nsfw: t.Optional(t.Boolean()),
-  // Absent means "start a new session"; server creates one and uses its id.
   sessionId: t.Optional(t.String({ maxLength: 64 })),
 });
 export type PlaygroundSubmitBody = Static<typeof playgroundSubmitBody>;
 
-// Submit transform strips `ui` and applies its effects: variants becomes
-// params.n; inpaintMaskDataUrl becomes uploaded params.maskUrl.
 export const generationFormValues = t.Composite([
   playgroundSubmitBody,
   t.Object({ ui: t.Optional(generationFormUi) }),
 ]);
 export type GenerationFormValues = Static<typeof generationFormValues>;
 
-// Cursor-style pagination keyed by createdAt (descending) so pages stay stable
-// as new rows arrive.
 export const playgroundHistoryQuery = t.Object({
   limit: t.Optional(t.Integer({ minimum: 1, maximum: 100 })),
   cursor: t.Optional(t.String({ maxLength: 64 })),
@@ -233,17 +199,13 @@ export const playgroundHistoryQuery = t.Object({
 });
 export type PlaygroundHistoryQuery = Static<typeof playgroundHistoryQuery>;
 
-// Clone-mode:
-//   restore    recreate the row with the original images re-hosted (no upstream call)
-//   regenerate fire a fresh upstream submission using the same prompt+params
 export const generationCloneMode = t.Union([
   t.Literal("restore"),
   t.Literal("regenerate"),
 ]);
 export type GenerationCloneMode = Static<typeof generationCloneMode>;
 
-// Loose typing on nested fields (params, loras, refs, extraParams) so
-// slightly-older exports with extra keys still parse.
+// Loose typing on nested fields so older exports with extra keys still parse.
 export const playgroundSnapshot = t.Object({
   version: t.Literal("unorouter-generation-1"),
   model: t.String({ minLength: 1, maxLength: 128 }),
@@ -267,7 +229,7 @@ export const playgroundSnapshot = t.Object({
 });
 export type PlaygroundSnapshot = Static<typeof playgroundSnapshot>;
 
-// Snapshots stored oldest-first so restore preserves sessionOrder layout.
+// Stored oldest-first so restore preserves sessionOrder layout.
 export const sessionSnapshot = t.Object({
   version: t.Literal("unorouter-session-1"),
   session: t.Object({
@@ -278,7 +240,6 @@ export const sessionSnapshot = t.Object({
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
-// Union dispatches on the `version` literal.
 export const playgroundImportBody = t.Object({
   payload: t.Union([playgroundSnapshot, sessionSnapshot]),
   mode: generationCloneMode,
@@ -315,8 +276,7 @@ export const loraCatalogQuery = t.Object({
 });
 export type LoraCatalogQuery = Static<typeof loraCatalogQuery>;
 
-// Category enums differ per catalog; validator stays forgiving so the worker
-// can add new categories without a schema bump.
+// Forgiving so the worker can add categories without a schema bump.
 export const embeddingCatalogQuery = t.Object({
   baseModel: t.Optional(
     t.Union([

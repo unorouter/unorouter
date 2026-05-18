@@ -65,8 +65,8 @@ async function hydrate(qc: QueryClient, userId: number) {
 }
 
 async function stage1LocalSeed(qc: QueryClient, userId: number) {
-  // Serialize per-kind reads: SQLocal's processor mutex deadlocks on parallel
-  // callers (sqlocal/dist/lib/create-mutex.js race, upstream PR pending).
+  // Serial: SQLocal's processor mutex deadlocks on parallel callers
+  // (sqlocal/dist/lib/create-mutex.js race, upstream PR pending).
   const chars = await readLocalCharacters(userId);
   const personas = await readLocalPersonas(userId);
   const lorebooks = await readLocalLorebooks(userId);
@@ -83,9 +83,8 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
   if (presets && presets.length > 0)
     qc.setQueryData(queryKeys.presets(), presets);
   if (cards && cards.length > 0) qc.setQueryData(queryKeys.cards(), cards);
-  // Convs + gen sessions are paginated; React Query caches expect specific
-  // shapes (useInfiniteQuery { pages, pageParams } for convs, { items: [...] }
-  // for gen sessions). Seeding raw arrays crashes consumers.
+  // Cache shapes: convs use useInfiniteQuery {pages, pageParams}; gen sessions
+  // use {items}. Seeding raw arrays crashes consumers.
   if (convs && convs.length > 0) {
     qc.setQueryData(queryKeys.conversations(undefined), {
       pages: [
@@ -105,7 +104,7 @@ async function stage2ServerReconcile(qc: QueryClient, userId: number) {
   const state = handleElysia(await rpc.api.sync.state.get());
   qc.setQueryData(queryKeys.syncState(), state);
 
-  // Serial per-kind reconcile (see stage1 mutex note).
+  // Serial (see stage1 mutex note).
   await reconcileKind(userId, "characters", state.characters);
   await reconcileKind(userId, "personas", state.personas);
   await reconcileKind(userId, "lorebooks", state.lorebooks);
@@ -138,10 +137,8 @@ async function reconcileKind<K extends SyncKind>(
       const res = await rpc.api
         .sync({ kind })({ id: remoteRow.id })
         .bundle.get();
-      // SAFETY: Eden's inferred return is a union over all sync kinds; the
-      // runtime kind discriminator narrows it to the correct shape, but TS
-      // can't follow that through the templated route call. SyncBundle<K>
-      // (typeof <table>.$inferSelect from Drizzle) is the source of truth.
+      // Eden's inferred return is a union over all sync kinds; runtime
+      // discriminator narrows but TS can't follow through templated routes.
       const bundle = handleElysia(res) as SyncBundle<K>;
       await applyBundle(userId, kind, bundle);
     } catch (err) {
@@ -231,8 +228,7 @@ async function applyBundle<K extends SyncKind>(
     }
     case "conversations": {
       const b = bundle as SyncBundle<"conversations">;
-      // Re-hydrate bytes into base64 so the local row stays self-contained
-      // and keeps working if the R2 object is later expired/deleted.
+      // Rehydrate bytes into base64 so local row survives R2 expiry/deletion.
       const rehydratedMedia = await Promise.all(b.media.map(rehydrateMedia));
       await upsertLocalConversationBundle(userId, {
         conversation: b.conversation,
@@ -265,9 +261,7 @@ async function applyBundle<K extends SyncKind>(
 
 type MediaRow = typeof media.$inferSelect;
 
-// Pull pointer-only media rows back from R2 into data_base64 so the local
-// copy is independent of R2 lifetime. R2 failures are tolerated: surface a
-// broken-media placeholder rather than aborting the whole bundle apply.
+// R2 failures tolerated: surface broken-media placeholder, don't abort apply.
 async function rehydrateMedia(row: MediaRow): Promise<MediaRow> {
   if (row.dataBase64 || !row.r2Url) return row;
   try {

@@ -24,19 +24,12 @@ type SamplingFieldsProps<TForm extends Record<string, unknown>> = {
     repetitionPenalty: Path<TForm>;
     maxTokens: Path<TForm>;
   };
-  /**
-   * When `supportedParameters` is present, knobs for params NOT in that
-   * list are grayed out with a tooltip. Absent metadata (older sync,
-   * non-OR model) leaves all knobs enabled.
-   */
   metadata?: ModelMetadata;
-  /** When provided, renders a Reset button that nulls all knobs. */
   onReset?: () => void;
 };
 
 type KnobSpec<TForm extends Record<string, unknown>> = {
   name: Path<TForm>;
-  /** OR-style sampler name; matched against metadata.supportedParameters. */
   paramKey:
     | "temperature"
     | "top_p"
@@ -63,10 +56,6 @@ type KnobSpec<TForm extends Record<string, unknown>> = {
   fallback: number;
 };
 
-/**
- * Each knob stores `null` when "off" but the slider still has a visible
- * position from `fallback`. Edits set the field to a real number.
- */
 export function SamplingFields<TForm extends Record<string, unknown>>(
   props: SamplingFieldsProps<TForm>,
 ) {
@@ -150,8 +139,7 @@ export function SamplingFields<TForm extends Record<string, unknown>>(
   ];
 
   const supported = props.metadata?.supportedParameters;
-  // Only gate when we *know* the supported set; absent metadata enables
-  // everything (graceful fallback for non-OR models / pre-sync data).
+  // Gate only when supported set is known; absent metadata enables all (non-OR/pre-sync fallback).
   const isUnsupported = (paramKey: string): boolean => {
     if (!supported || supported.length === 0) return false;
     // OAI variant `max_completion_tokens` also satisfies the max_tokens slider.

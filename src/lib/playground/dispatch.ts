@@ -1,11 +1,8 @@
-// Body builders and result extractors for the three sync image-model endpoints
-// in new-api:
+// Body builders + result extractors for new-api sync image endpoints:
 //   /v1/images/generations (+ /v1/images/edits multipart): `image[]` bytes
-//   /v1/chat/completions (multimodal):                     data: URIs in image_url parts
-//   /v1beta/models/{model}:generateContent:                {inline_data: {mime_type, data: base64}}
-// References are fetched once and re-encoded per endpoint. Extractors pull a
-// URL or data URI out of each vendor's response so playground.service.ts can
-// hand a single value to downloadAndUploadGeneration.
+//   /v1/chat/completions (multimodal): data: URIs in image_url parts
+//   /v1beta/models/{model}:generateContent: {inline_data: {mime_type, data}}
+// References are fetched once and re-encoded per endpoint.
 
 import type { SyncImageEndpoint } from "@/lib/playground/models-dynamic";
 
@@ -47,12 +44,9 @@ export type SubmitArgs = {
   prompt: string;
   size?: string;
   refs: RefBytes[];
-  /** OAI image-generation supports n>1 natively; chat/gemini ignore this and
+  /** OAI image-generation supports n>1 natively; chat/gemini ignore this so
    *  the caller must loop. Defaults to 1. */
   n?: number;
-  // Only fields the relay adapter for the chosen model actually consumes are
-  // forwarded; descriptor flag gates each form control, so unset stays
-  // undefined.
   quality?: string;
   outputFormat?: string;
   watermark?: boolean;
@@ -85,7 +79,6 @@ export function buildImageGenerationsBody(args: SubmitArgs): Built {
       body: JSON.stringify(body),
     };
   }
-  // /v1/images/edits: multipart, one or more `image[]` parts.
   const form = new FormData();
   form.append("model", args.model);
   form.append("prompt", args.prompt);
@@ -122,8 +115,7 @@ export function buildChatCompletionsBody(args: SubmitArgs): Built {
     modalities: ["image", "text"],
     n: 1,
   };
-  // ByteDance / wan adapters route via openai endpoint and pass extras
-  // through unchanged.
+  // ByteDance / wan adapters route via openai endpoint and pass extras through.
   if (args.watermark !== undefined) body.watermark = args.watermark;
   if (args.seed !== undefined) body.seed = args.seed;
   if (args.strength !== undefined) body.strength = args.strength;
@@ -142,9 +134,7 @@ export function buildGeminiGenerateBody(args: SubmitArgs): Built {
   for (const r of args.refs) {
     parts.push({ inline_data: { mime_type: r.mime, data: r.base64 } });
   }
-  // gemini relay maps `quality` to imageSize (1K/2K) and `size` (e.g.
-  // 1024x1024) to aspectRatio off the OpenAI-shaped wrapper before
-  // translating to Gemini's native generationConfig.
+  // gemini relay maps `quality` to imageSize (1K/2K) and `size` to aspectRatio.
   const generationConfig: Record<string, unknown> = {
     responseModalities: ["IMAGE"],
   };
@@ -175,7 +165,6 @@ export function buildBody(
   }
 }
 
-// Returns public URLs or data: URIs ready for downloadAndUploadGeneration.
 // Empty array means "no image found"; callers treat as failure.
 export function extractResultUris(
   endpoint: SyncImageEndpoint,

@@ -19,12 +19,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import {
   useCardQuery,
-  useCharactersQuery,
   useCreateCardMutation,
-  useLorebooksQuery,
-  usePersonasQuery,
   useUpdateCardMutation,
-} from "@/hooks/rp-hook";
+} from "@/hooks/rp/cards";
+import { useCharactersQuery } from "@/hooks/rp/characters";
+import { useLorebooksQuery } from "@/hooks/rp/lorebooks";
+import { usePersonasQuery } from "@/hooks/rp/personas";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { t as tt } from "elysia";

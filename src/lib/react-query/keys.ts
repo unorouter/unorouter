@@ -2,36 +2,30 @@ import type { rpc } from "@/lib/rpc";
 import type { EdenQuery } from "@/lib/types/eden";
 
 export const queryKeys = {
-  // Auth & Status
   auth: () => ["auth"] as const,
   status: () => ["status"] as const,
   twoFAStatus: () => ["2fa-status"] as const,
   passkeyStatus: () => ["passkey-status"] as const,
 
-  // Dashboard
   dashboardQuota: (params?: EdenQuery<typeof rpc.api.dashboard.quota>) =>
     ["dashboard-quota", params] as const,
   dashboardUptime: () => ["dashboard-uptime"] as const,
 
-  // Tokens
   tokens: (params?: EdenQuery<typeof rpc.api.token.search>) =>
     ["tokens", params] as const,
   bestKey: () => ["best-key"] as const,
 
-  // Billing & Subscriptions
   topUpInfo: () => ["topup-info"] as const,
   subscriptionSelf: () => ["subscription-self"] as const,
   billingPlans: () => ["billing-plans"] as const,
   subscriptionPlans: () => ["subscription-plans"] as const,
 
-  // Affiliate
   affiliateCommissions: (
     params?: EdenQuery<typeof rpc.api.affiliate.commissions>,
   ) => ["affiliate-commissions", params] as const,
   affiliateInvitees: (params?: EdenQuery<typeof rpc.api.affiliate.invitees>) =>
     ["affiliate-invitees", params] as const,
 
-  // Logs
   usageLogs: (params?: EdenQuery<typeof rpc.api.logs>) =>
     ["usage-logs", params] as const,
   usageLogsStat: (params?: EdenQuery<typeof rpc.api.logs.stat>) =>
@@ -41,7 +35,6 @@ export const queryKeys = {
   taskLogs: (params?: EdenQuery<typeof rpc.api.logs.task>) =>
     ["task-logs", params] as const,
 
-  // Chat
   conversations: (keyword?: string) => ["conversations", keyword] as const,
   chatMeta: (id: string) => ["chat-meta", id] as const,
   chatMessages: (id: string) => ["chat-messages", id] as const,
@@ -49,7 +42,6 @@ export const queryKeys = {
   chatBindings: (id: string) => ["chat-bindings", id] as const,
   taskStatus: (taskId: string) => ["task-status", taskId] as const,
 
-  // RP entities
   characters: () => ["characters"] as const,
   character: (id: string) => ["character", id] as const,
   personas: () => ["personas"] as const,
@@ -61,31 +53,24 @@ export const queryKeys = {
   cards: () => ["rp-cards"] as const,
   card: (id: string) => ["rp-card", id] as const,
 
-  // Sync (server-mirror state for synced rows)
   syncState: () => ["sync-state"] as const,
   syncBundle: (kind: string, id: string) => ["sync-bundle", kind, id] as const,
 
-  // Pricing & Search
   pricing: () => ["pricing"] as const,
   searchIndex: () => ["search-index"] as const,
   statsHistory: () => ["stats-history"] as const,
 
-  // Rankings
   rankings: (period?: string) => ["rankings", period] as const,
 
-  // Performance Metrics
   perfMetricsSummary: (hours: number) =>
     ["perf-metrics", "summary", hours] as const,
   perfMetrics: (modelName: string, hours: number) =>
     ["perf-metrics", modelName, hours] as const,
 
-  // Model Status
   modelStatusPage: (bucket: string, hours: number) =>
     ["model-status", "page", bucket, hours] as const,
   modelStatusComponents: () => ["model-status", "components"] as const,
 
-  // Image generation: each session contains many snapshots (units of
-  // submission); chevrons walk the snapshot list inside a session.
   playgroundSessionLists: () => ["playground-session-list"] as const,
   playgroundSessionList: (params?: EdenQuery<typeof rpc.api.playground.me>) =>
     ["playground-session-list", params] as const,

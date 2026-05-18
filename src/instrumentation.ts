@@ -2,14 +2,11 @@ import { type Instrumentation } from "next";
 import { IS_DEV } from "./lib/config/constants";
 
 export async function register() {
-  // Load dayjs plugins onto the singleton so bare `import dayjs from "dayjs"`
-  // calls throughout the app pick them up without each file re-extending.
+  // dayjs plugins onto the singleton so bare imports pick them up.
   await import("./lib/utils/format/date");
 
-  // Server-side generation status sweeper. Only on the Node runtime - the
-  // edge runtime has no DB client and the loop has no business there. The
-  // sweeper is lazily started so a build that imports instrumentation for
-  // edge route metadata doesn't load Drizzle on the wrong runtime.
+  // Sweeper is nodejs-only (edge has no DB client) and lazy so edge metadata
+  // builds don't load Drizzle.
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { startGenerationSweeper } =
       await import("./server/playground/playground-sweeper");
@@ -40,9 +37,7 @@ export const onRequestError: Instrumentation.onRequestError = async (
           const decoded = decodeURIComponent(postHogCookieMatch[1]);
           const data = JSON.parse(decoded);
           distinctId = data.distinct_id;
-        } catch {
-          // Ignore malformed cookie
-        }
+        } catch {}
       }
 
       if (!distinctId) {

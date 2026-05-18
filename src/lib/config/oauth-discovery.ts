@@ -3,16 +3,13 @@ import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
 const apiOrigin = new URL(env.apiUrl).origin;
 
-// Builds /.well-known/oauth-authorization-server (RFC 8414) and
-// /.well-known/openid-configuration (OIDC Discovery 1.0). RFC 8414 sec.3
-// allows OIDC to satisfy both contracts; delta is userinfo_endpoint,
-// claims_supported.
+// Builds /.well-known/oauth-authorization-server (RFC 8414) +
+// /.well-known/openid-configuration (OIDC 1.0). Delta is userinfo_endpoint
+// and claims_supported.
 //
-// issuer is the API origin (not site origin): that's where go-oidc signs
-// tokens, JWKS lives, and /oauth/v1/token accepts requests.
-//
-// registration_endpoint omitted: upstream new-api lacks RFC 7591 dynamic
-// client registration; advertising it 404s well-behaved auto-register agents.
+// issuer = API origin (not site): where go-oidc signs tokens, JWKS lives.
+// registration_endpoint omitted: new-api lacks RFC 7591, advertising would
+// 404 auto-register agents.
 export function buildOAuthDiscoveryDoc(opts: { includeOidc: boolean }) {
   const base = {
     issuer: apiOrigin,

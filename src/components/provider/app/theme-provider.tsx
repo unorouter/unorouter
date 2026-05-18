@@ -3,11 +3,7 @@
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ComponentProps } from "react";
 
-// TODO: remove when next-themes fixes React 19 script tag warning
-// next-themes renders an inline <script> to prevent theme flicker.
-// React 19 warns about script tags inside components, but the script
-// runs correctly during SSR. Suppress the false-positive console error
-// only during the initial hydration tick, then restore immediately.
+// TODO: remove when next-themes fixes React 19 script tag warning.
 // See: https://github.com/shadcn-ui/ui/issues/10104
 if (typeof window !== "undefined") {
   const original = console.error;

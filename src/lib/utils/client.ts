@@ -14,9 +14,6 @@ SetErrorFunction((error) => {
 
 type Extracted = { message: string; params?: Record<string, string | number> };
 
-// Pull out a usable message + optional params from the serialized server
-// error (Elysia .onError): `{ message, params }`, array of field errors,
-// or array of primitives.
 function extractMessageFromJson(raw: string): Extracted | null {
   try {
     const parsed = JSON.parse(raw);
@@ -61,8 +58,7 @@ export async function handleError(
 
   if (e instanceof Error) {
     message = e.message;
-    // The `ai` SDK surfaces failed stream responses as Error(bodyText);
-    // unwrap the JSON envelope into a key + params pair.
+    // `ai` SDK surfaces failed stream responses as Error(bodyText).
     if (message.startsWith("{") || message.startsWith("[")) {
       const extracted = extractMessageFromJson(message);
       if (extracted) {
@@ -109,8 +105,7 @@ export async function handleError(
   toast.error(title, { duration: 5000, id: toastId });
 }
 
-/** Factory for mutation hooks that only need mutationFn + onError toast.
- *  For mutations with onSuccess cache logic, use useMutation directly. */
+// For mutations with onSuccess cache logic, use useMutation directly.
 export function useSimpleMutation<TArgs, TResult>(
   mutationFn: (args: TArgs) => Promise<TResult>,
 ) {

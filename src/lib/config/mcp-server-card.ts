@@ -4,20 +4,15 @@ import { WEBMCP_TOOLS } from "./webmcp-tools";
 
 const siteOrigin = new URL(env.appUrl).origin;
 
-// Loose translator shape that both useTranslations() and getTranslations()
-// satisfy. Avoid next-intl's own type: Awaited<ReturnType<typeof
-// getTranslations>> expands into a recursive generic that triggers TS2589.
+// Loose translator shape (avoid next-intl's own type: triggers TS2589).
 type Translator = (
   key: TranslationKey,
   values?: Record<string, string | number | Date>,
 ) => string;
 
-// MCP Server Card per SEP-2127 (draft).
-// https://github.com/modelcontextprotocol/modelcontextprotocol/pull/2127
-//
-// Published at TWO paths because scanners disagree on the canonical URL:
-//   /.well-known/mcp/server-card.json (SEP-2127, Cloudflare's scanner)
-//   /.well-known/mcp.json             (older convention some agents probe)
+// MCP Server Card per SEP-2127 (draft). Published at both
+// /.well-known/mcp/server-card.json and /.well-known/mcp.json because
+// scanners disagree on canonical URL.
 export function buildMcpServerCard(t: Translator) {
   const tools = WEBMCP_TOOLS.map((descriptor) => ({
     name: descriptor.name,
