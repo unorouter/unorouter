@@ -121,11 +121,6 @@ export function ModelCard(props: {
       </div>
 
       <div className="mt-auto pt-3">
-        {props.perf && (
-          <div className="border-border/40 mb-2 flex justify-end border-b pb-2">
-            <PerfBadge perf={props.perf} />
-          </div>
-        )}
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           {model.isFixedPrice ? (
             <>
@@ -184,6 +179,9 @@ export function ModelCard(props: {
             <span className="ml-auto shrink-0 rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
               {props.labels.customBilling}
             </span>
+          )}
+          {props.perf && (
+            <PerfBadge perf={props.perf} compact className="ml-auto" />
           )}
         </div>
         <CapabilityChips
