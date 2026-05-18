@@ -95,24 +95,6 @@ export async function exportSession(
   };
 }
 
-export async function exportSharedSession(
-  shareId: string,
-): Promise<SessionSnapshot> {
-  const db = getDb();
-  const rows = await db
-    .select()
-    .from(generationSessions)
-    .where(eq(generationSessions.shareId, shareId))
-    .limit(1);
-  assertFound(rows);
-  const snapshots = await listSnapshotsWithImages(rows[0].id);
-  return {
-    version: "unorouter-session-1",
-    session: { title: rows[0].title, firstModel: rows[0].firstModel },
-    snapshots: snapshots.map((s) => rowToSnapshot(s, s.images)),
-  };
-}
-
 /** Clone a single-snapshot payload into a new single-snapshot session. */
 async function cloneSnapshotIntoNewSession(args: {
   userId: number;

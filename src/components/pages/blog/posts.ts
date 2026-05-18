@@ -1,6 +1,7 @@
 import { LaunchContent } from "@/components/pages/blog/posts/2026-04-17-launch-content";
 import { AgentReadyContent } from "@/components/pages/blog/posts/2026-04-25-agent-ready-content";
 import { ClaudeAuthenticityContent } from "@/components/pages/blog/posts/2026-04-26-claude-authenticity-content";
+import { SixInputImageModelsContent } from "@/components/pages/blog/posts/2026-05-18-six-input-image-models-content";
 import { BLOG_REGISTRY, type BlogSlug } from "@/i18n/registry";
 import { APP_VALUES } from "@/lib/config/constants";
 import type { BlogPost } from "@/lib/types/seo";
@@ -11,6 +12,7 @@ const COMPONENTS: Record<BlogSlug, ComponentType> = {
   launch: LaunchContent,
   "agent-ready": AgentReadyContent,
   "claude-authenticity": ClaudeAuthenticityContent,
+  "six-input-image-models": SixInputImageModelsContent,
 };
 
 export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({

@@ -103,14 +103,3 @@ export async function getServerGuestConvIds(): Promise<string[]> {
   return (await getCookieValue<string[]>(GUEST_CONVS_COOKIE)) ?? [];
 }
 
-/** Resolve a shareId to the real conversation ID and title. Returns null if not found. */
-export async function resolveSharedConv(
-  shareId: string,
-): Promise<{ convId: string; title: string | null } | null> {
-  try {
-    const data = handleElysia(await rpc.api.chat.shared({ shareId }).get());
-    return { convId: data.id, title: data.title ?? null };
-  } catch {
-    return null;
-  }
-}

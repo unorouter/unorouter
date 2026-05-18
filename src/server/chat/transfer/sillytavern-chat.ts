@@ -93,7 +93,7 @@ export async function exportConversationSillyTavern(
     .limit(1);
   assertFound(convRows);
   const conv = convRows[0];
-  if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)
+  if (conv.userId !== userId && conv.userId !== 0)
     throw new Error(msg("ERRORS.NOT_FOUND"));
 
   // Bound character (the first active one) supplies `character_name`.

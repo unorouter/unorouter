@@ -191,6 +191,27 @@ export const BLOG_REGISTRY = [
       { id: "test", i18nLeaf: "H_TEST", level: 2 },
     ],
   },
+  {
+    slug: "six-input-image-models",
+    date: "2026-05-18",
+    tags: ["engineering", "announcement"],
+    i18nKey: "BLOG.POSTS.SIX_INPUT_IMAGE_MODELS",
+    contentFiles: [
+      "src/components/pages/blog/posts/2026-05-18-six-input-image-models-content.tsx",
+    ],
+    priority: 0.7,
+    changeFrequency: "monthly",
+    category: "engineering",
+    wordCount: 650,
+    headings: [
+      { id: "fixtures", i18nLeaf: "H_FIXTURES", level: 2 },
+      { id: "method", i18nLeaf: "H_METHOD", level: 2 },
+      { id: "results", i18nLeaf: "H_RESULTS", level: 2 },
+      { id: "gotchas", i18nLeaf: "H_GOTCHAS", level: 2 },
+      { id: "metadata", i18nLeaf: "H_METADATA", level: 2 },
+      { id: "try", i18nLeaf: "H_TRY", level: 2 },
+    ],
+  },
 ] as const satisfies readonly BlogEntry[];
 
 export type BlogSlug = (typeof BLOG_REGISTRY)[number]["slug"];

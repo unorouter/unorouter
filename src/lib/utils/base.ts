@@ -60,10 +60,6 @@ export function copyToClipboardAsync(
   ]);
 }
 
-export function shareUrl(shareId: string): string {
-  return `${env.appUrl}/shared/${shareId}`;
-}
-
 /** Encode a model name for safe use as a URL slug. next-intl's pathname
  * matcher rejects raw `[`/`]` in param values because they collide w/ the
  * `[slug]` template syntax. Models like `claude-haiku-4-5-20251001[1m]`

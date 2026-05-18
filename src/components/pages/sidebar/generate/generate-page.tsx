@@ -4,7 +4,7 @@ import { GenerateForm } from "@/components/pages/sidebar/generate/form/generate-
 import { GenerateResult } from "@/components/pages/sidebar/generate/generate-result";
 import { Img2ImgSubPills } from "@/components/pages/sidebar/generate/form/img2img-sub-pills";
 import { ModeTabs } from "@/components/pages/sidebar/generate/form/mode-tabs";
-import { RecentStrip } from "@/components/pages/sidebar/generate/shared/recent-strip";
+import { RecentStrip } from "@/components/pages/sidebar/generate/history/recent-strip";
 import { useSessionQuery } from "@/hooks/generation-hook";
 import {
   activeSessionIdAtom,

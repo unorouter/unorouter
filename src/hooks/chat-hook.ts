@@ -266,75 +266,6 @@ export function useDeleteConversationMutation() {
   });
 }
 
-export function useShareConversationMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: ChatParams) => {
-      const id = String(args.id);
-      const userId = auth.data?.id;
-      // Share requires the conv to exist server-side. Push the bundle first
-      // (uses the same sync path), then call share.
-      if (userId != null) {
-        const bundle = await readLocalConversationBundle(userId, id);
-        if (bundle) {
-          handleElysia(
-            await rpc.api
-              .sync({ kind: "conversations" })({ id })
-              .post({ payload: bundle }),
-          );
-        }
-      }
-      return handleElysia(await rpc.api.chat(args).share.post({}));
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: async (data, args) => {
-      const id = String(args.id);
-      queryClient.setQueryData<ConversationData>(
-        queryKeys.chatMeta(id),
-        (old) => (old ? { ...old, shareId: data.shareId } : old),
-      );
-      const userId = auth.data?.id;
-      if (userId != null) {
-        const existing = await readLocalConversation(userId, id);
-        if (existing) {
-          await upsertLocalConversation(userId, {
-            ...existing,
-            shareId: data.shareId,
-          });
-        }
-      }
-    },
-  });
-}
-
-export function useRevokeShareMutation() {
-  const t = useTranslations();
-  const queryClient = useQueryClient();
-  const auth = useAuthQuery();
-  return useMutation({
-    mutationFn: async (args: ChatParams) => {
-      return handleElysia(await rpc.api.chat(args).share.delete());
-    },
-    onError: (e) => handleError(e, t),
-    onSuccess: async (_, args) => {
-      const id = String(args.id);
-      queryClient.setQueryData<ConversationData>(
-        queryKeys.chatMeta(id),
-        (old) => (old ? { ...old, shareId: null } : old),
-      );
-      const userId = auth.data?.id;
-      if (userId != null) {
-        const existing = await readLocalConversation(userId, id);
-        if (existing) {
-          await upsertLocalConversation(userId, { ...existing, shareId: null });
-        }
-      }
-    },
-  });
-}
-
 export function useClaimConversationsMutation() {
   const t = useTranslations();
   return useMutation({
@@ -491,7 +422,6 @@ export function useDuplicateConversationMutation() {
       const newConv = {
         ...bundle.conversation,
         id: newId,
-        shareId: null,
         syncExpiresAt: null,
         createdAt: now,
         updatedAt: now,
@@ -554,7 +484,6 @@ export function useDuplicateConversationMutation() {
         id: (data as { id: string }).id,
         title: (data as { title: string | null }).title ?? null,
         model: null,
-        shareId: null,
         totalCost: 0,
         createdAt: now,
         updatedAt: now,

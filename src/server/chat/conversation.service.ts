@@ -112,7 +112,6 @@ export async function listConversations(
       .select({
         id: conversations.id,
         title: conversations.title,
-        shareId: conversations.shareId,
         totalCost: conversations.totalCost,
         createdAt: conversations.createdAt,
         updatedAt: conversations.updatedAt,
@@ -358,79 +357,13 @@ export async function deleteConversation(userId: number, convId: string) {
   return { id: convId };
 }
 
-// ---------------------------------------------------------------------------
-// Sharing
-// ---------------------------------------------------------------------------
-
-export async function createShareLink(userId: number, convId: string) {
-  const db = getDb();
-  const shareId = uid(12);
-
-  // Sharing is sync in disguise. Mint the shareId AND extend the sync window
-  // 30 days from now so the recipient (and any other device of the owner)
-  // can pull the conv. `updatedAt` bump signals hydrators that the bundle
-  // (including new shareId) is stale.
-  const syncExpiresAt = dayjs().add(30, "day").toDate();
-  const result = await db
-    .update(conversations)
-    .set({ shareId, syncExpiresAt, updatedAt: dayjs().toDate() })
-    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
-    .returning({ id: conversations.id });
-
-  assertFound(result);
-  return { shareId };
-}
-
-export async function revokeShareLink(userId: number, convId: string) {
-  const db = getDb();
-  const result = await db
-    .update(conversations)
-    .set({ shareId: null })
-    .where(and(eq(conversations.id, convId), eq(conversations.userId, userId)))
-    .returning({ id: conversations.id });
-
-  assertFound(result);
-  return { id: convId };
-}
-
-export async function getSharedConversation(
-  shareId: string,
-  query: { p?: number; page_size?: number },
-) {
-  const db = getDb();
-  const rows = await db
-    .select({
-      id: conversations.id,
-      title: conversations.title,
-      createdAt: conversations.createdAt,
-      totalInputTokens: conversations.totalInputTokens,
-      totalOutputTokens: conversations.totalOutputTokens,
-      totalCost: conversations.totalCost,
-      model: conversationSettings.defaultModel,
-    })
-    .from(conversations)
-    .leftJoin(
-      conversationSettings,
-      eq(conversationSettings.convId, conversations.id),
-    )
-    .where(eq(conversations.shareId, shareId))
-    .limit(1);
-
-  assertFound(rows);
-  const conv = rows[0];
-
-  const paginated = await getPaginatedMessages(conv.id, query);
-  return { ...conv, ...paginated };
-}
-
-export async function getConversationOrShared(userId: number, convId: string) {
+export async function getConversation(userId: number, convId: string) {
   const db = getDb();
   const rows = await db
     .select({
       id: conversations.id,
       userId: conversations.userId,
       title: conversations.title,
-      shareId: conversations.shareId,
       totalInputTokens: conversations.totalInputTokens,
       totalOutputTokens: conversations.totalOutputTokens,
       totalCost: conversations.totalCost,
@@ -447,7 +380,7 @@ export async function getConversationOrShared(userId: number, convId: string) {
     .limit(1);
   assertFound(rows);
   const conv = rows[0];
-  if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)
+  if (conv.userId !== userId && conv.userId !== 0)
     throw new Error(msg("ERRORS.NOT_FOUND"));
   return conv;
 }
@@ -711,8 +644,7 @@ export async function getConversationMarkdown(userId: number, convId: string) {
     .limit(1);
   assertFound(convRows);
   const conv = convRows[0];
-  // Match getConversationOrShared: allow guest convs (userId=0) and shared.
-  if (conv.userId !== userId && conv.userId !== 0 && !conv.shareId)
+  if (conv.userId !== userId && conv.userId !== 0)
     throw new Error(msg("ERRORS.NOT_FOUND"));
 
   const { path, itemsByMsg } = await walkActiveBranch(convId);

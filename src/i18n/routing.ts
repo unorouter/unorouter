@@ -316,15 +316,6 @@ export const pathnames = {
     "zh-CN": "/duihua/kapian",
     "zh-TW": "/duihua/kapian",
   },
-  "/shared/[shareId]": {
-    de: "/geteilt/[shareId]",
-    fr: "/partage/[shareId]",
-    ja: "/kyoyuu/[shareId]",
-    ru: "/общий/[shareId]",
-    vi: "/chia-se/[shareId]",
-    "zh-CN": "/fenxiang/[shareId]",
-    "zh-TW": "/fenxiang/[shareId]",
-  },
   "/privacy": {
     de: "/datenschutz",
     fr: "/confidentialite",
@@ -371,9 +362,8 @@ export const privateRoutes = {
     "/my-generations",
   ],
   // Dynamic routes: the parent path is what we disallow so every child is covered.
-  // /chat/[convId] and /shared/[shareId] are user-specific; /chat itself is public.
-  // /generate/[id] is per-user submission state.
-  dynamicParents: ["/chat/[convId]", "/shared/[shareId]", "/generate/[id]"],
+  // /chat/[convId] is user-specific; /chat itself is public. /generate/[id] is per-user.
+  dynamicParents: ["/chat/[convId]", "/generate/[id]"],
 } as const satisfies {
   static: readonly (keyof typeof pathnames)[];
   dynamicParents: readonly (keyof typeof pathnames)[];

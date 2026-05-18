@@ -93,8 +93,6 @@ export const queryKeys = {
   generationSnapshot: (id: string) => ["generation-snapshot", id] as const,
   generationSnapshotStatus: (id: string) =>
     ["generation-snapshot-status", id] as const,
-  sharedGenerationSession: (shareId: string) =>
-    ["shared-generation-session", shareId] as const,
   loraCatalog: (params?: EdenQuery<typeof rpc.api.generation.loras>) =>
     ["lora-catalog", params] as const,
   embeddingCatalog: (

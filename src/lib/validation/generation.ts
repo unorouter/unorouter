@@ -335,10 +335,6 @@ export const generationImportBody = t.Object({
   mode: generationCloneMode,
 });
 
-export const generationCloneFromShareBody = t.Object({
-  mode: generationCloneMode,
-});
-
 export const generationVisibilityBody = t.Object({
   visibility: generationVisibility,
 });

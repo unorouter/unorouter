@@ -272,59 +272,8 @@ export function useControlNetCatalogQuery(
 }
 
 // ---------------------------------------------------------------------------
-// Sharing / export / import / fork (now session-level)
+// Export / import (session-level)
 // ---------------------------------------------------------------------------
-
-/** Mint a public share token for a session. Idempotent. */
-export function useShareSessionMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: { sessionId: string }) =>
-      handleElysia(
-        await rpc.api.generation
-          .session({ sessionId: args.sessionId })
-          .share.post(),
-      ),
-    onError: (e) => handleError(e, t),
-    onSuccess: (data, args) => {
-      const prev = qc.getQueryData<{ session: { shareId: string | null } }>(
-        queryKeys.generationSession(args.sessionId),
-      );
-      if (prev?.session) {
-        qc.setQueryData(queryKeys.generationSession(args.sessionId), {
-          ...prev,
-          session: { ...prev.session, shareId: data.shareId },
-        });
-      }
-    },
-  });
-}
-
-export function useRevokeSessionShareMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: { sessionId: string }) =>
-      handleElysia(
-        await rpc.api.generation
-          .session({ sessionId: args.sessionId })
-          .share.delete(),
-      ),
-    onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
-      const prev = qc.getQueryData<{ session: { shareId: string | null } }>(
-        queryKeys.generationSession(args.sessionId),
-      );
-      if (prev?.session) {
-        qc.setQueryData(queryKeys.generationSession(args.sessionId), {
-          ...prev,
-          session: { ...prev.session, shareId: null },
-        });
-      }
-    },
-  });
-}
 
 /** Fetches the full session export payload. The caller wraps the result
  *  in a Blob + downloadable anchor. */
@@ -354,40 +303,6 @@ export function useImportGenerationMutation() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["generation-session-list"] });
     },
-  });
-}
-
-/** Forks a shared session into the visitor's account. */
-export function useForkSharedSessionMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: {
-      shareId: string;
-      body: { mode: "restore" | "regenerate" };
-    }) =>
-      handleElysia(
-        await rpc.api.generation
-          .shared({ shareId: args.shareId })
-          .fork.post(args.body),
-      ),
-    onError: (e) => handleError(e, t),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["generation-session-list"] });
-    },
-  });
-}
-
-/** Public read of a shared session by its share token. */
-export function useSharedSessionQuery(shareId: string | null | undefined) {
-  return useQuery({
-    queryKey: queryKeys.sharedGenerationSession(shareId ?? ""),
-    queryFn: async () =>
-      handleElysia(
-        await rpc.api.generation.shared({ shareId: shareId! }).get(),
-      ),
-    enabled: !!shareId,
-    retry: false,
   });
 }
 

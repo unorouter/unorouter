@@ -11,7 +11,6 @@ import {
 import {
   controlNetCatalogQuery,
   embeddingCatalogQuery,
-  generationCloneFromShareBody,
   generationHistoryQuery,
   generationImportBody,
   generationMaskUploadBody,
@@ -48,17 +47,13 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
 }
 import {
   cloneFromPayload,
-  createShareLink,
   deleteSession,
   deleteSnapshot,
   exportSession,
-  exportSharedSession,
   getSession,
-  getSharedSession,
   getSnapshotWithImages,
   listUserSessions,
   pollSnapshotStatus,
-  revokeShareLink,
   setVisibility,
   submitGeneration,
 } from "./generation.service";
@@ -113,21 +108,6 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
     return {
       success: true,
       data: await deleteSession(userId, params.sessionId),
-    };
-  })
-  // Mint a public share token for a session. Idempotent.
-  .post("/session/:sessionId/share", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
-    return {
-      success: true,
-      data: await createShareLink(userId, params.sessionId),
-    };
-  })
-  .delete("/session/:sessionId/share", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
-    return {
-      success: true,
-      data: await revokeShareLink(userId, params.sessionId),
     };
   })
   // Download a snapshot of a session the user owns (full history).
@@ -186,20 +166,6 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
       data: await deleteSnapshot(userId, params.id),
     };
   })
-  // Public read of a shared session. Returns the full snapshot history.
-  .get("/shared/:shareId", async ({ params }) => {
-    return {
-      success: true,
-      data: await getSharedSession(params.shareId),
-    };
-  })
-  // Download a session snapshot from a public share token.
-  .get("/shared/:shareId/export", async ({ params }) => {
-    return {
-      success: true,
-      data: await exportSharedSession(params.shareId),
-    };
-  })
   // Clone an uploaded payload (single-snapshot or full-session) into the
   // current user's account. Returns { sessionId }.
   .post(
@@ -218,25 +184,6 @@ export const generationRoute = new Elysia({ prefix: "/generation" })
       };
     },
     { body: generationImportBody },
-  )
-  // Fork a shared session into the current user's account.
-  .post(
-    "/shared/:shareId/fork",
-    async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
-      const apiKey = getApiKeyOrGuest(cookie);
-      const payload = await exportSharedSession(params.shareId);
-      return {
-        success: true,
-        data: await cloneFromPayload({
-          userId,
-          apiKey,
-          payload,
-          mode: body.mode,
-        }),
-      };
-    },
-    { body: generationCloneFromShareBody },
   )
   // Reference image upload. Same as before: multipart -> R2 -> URL.
   .post(

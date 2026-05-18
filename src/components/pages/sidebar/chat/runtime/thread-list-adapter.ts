@@ -100,7 +100,6 @@ export function createThreadListAdapter(
         id,
         title: null,
         model,
-        shareId: null,
         totalCost: 0,
         totalInputTokens: 0,
         totalOutputTokens: 0,
@@ -112,7 +111,6 @@ export function createThreadListAdapter(
         await upsertLocalConversation(userId, {
           id,
           title: null,
-          shareId: null,
           totalInputTokens: 0,
           totalOutputTokens: 0,
           totalCost: 0,

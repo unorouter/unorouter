@@ -535,7 +535,6 @@ export const generationSessions = sqliteTable(
     userId: integer("user_id").notNull(),
     title: text("title"),
     firstModel: text("first_model"),
-    shareId: text("share_id").unique(),
     snapshotCount: integer("snapshot_count").notNull().default(0),
     imageCount: integer("image_count").notNull().default(0),
     expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
@@ -549,7 +548,6 @@ export const generationSessions = sqliteTable(
   },
   (table) => [
     index("idx_session_user_updated").on(table.userId, table.updatedAt),
-    index("idx_session_share").on(table.shareId),
     index("idx_session_expires").on(table.expiresAt),
     index("idx_session_sync_expires").on(table.syncExpiresAt),
   ],

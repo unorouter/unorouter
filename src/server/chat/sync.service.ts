@@ -879,7 +879,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           id,
           userId,
           title: (c.title as string | null) ?? null,
-          shareId: (c.shareId as string | null) ?? null,
           totalInputTokens: (c.totalInputTokens as number | undefined) ?? 0,
           totalOutputTokens: (c.totalOutputTokens as number | undefined) ?? 0,
           totalCost: (c.totalCost as number | undefined) ?? 0,
@@ -891,7 +890,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           .set({
             ...stripUndefined({
               title: c.title as string | null | undefined,
-              shareId: c.shareId as string | null | undefined,
               totalInputTokens: c.totalInputTokens as number | undefined,
               totalOutputTokens: c.totalOutputTokens as number | undefined,
               totalCost: c.totalCost as number | undefined,
@@ -1076,7 +1074,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           userId,
           title: (s.title as string | null) ?? null,
           firstModel: (s.firstModel as string | null) ?? null,
-          shareId: (s.shareId as string | null) ?? null,
           snapshotCount: (s.snapshotCount as number | undefined) ?? 0,
           imageCount: (s.imageCount as number | undefined) ?? 0,
           expiresAt: fallbackExpires,
@@ -1089,7 +1086,6 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             ...stripUndefined({
               title: s.title as string | null | undefined,
               firstModel: s.firstModel as string | null | undefined,
-              shareId: s.shareId as string | null | undefined,
               snapshotCount: s.snapshotCount as number | undefined,
               imageCount: s.imageCount as number | undefined,
               expiresAt: s.expiresAt as Date | undefined,

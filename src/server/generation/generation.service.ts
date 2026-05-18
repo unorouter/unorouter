@@ -215,13 +215,7 @@ export {
   listExpiredSessionIds,
 } from "./generation-deletes";
 export {
-  createShareLink,
-  revokeShareLink,
-  getSharedSession,
-} from "./generation-sharing";
-export {
   exportSession,
-  exportSharedSession,
   cloneFromPayload,
   type GenerationSnapshot,
   type SessionSnapshot,

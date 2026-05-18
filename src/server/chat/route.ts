@@ -23,15 +23,12 @@ import {
   claimConversations,
   clearConversation,
   createConversation,
-  createShareLink,
   deleteConversation,
   duplicateConversation,
+  getConversation,
   getConversationMarkdown,
-  getConversationOrShared,
   getPaginatedMessages,
-  getSharedConversation,
   listConversations,
-  revokeShareLink,
   updateConversation,
 } from "./conversation.service";
 import { uploadMedia } from "./augmentation/media.service";
@@ -78,7 +75,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/:id",
     async ({ params, query, cookie }) => {
       const userId = getUserId(cookie, true) ?? 0;
-      const conv = await getConversationOrShared(userId, params.id);
+      const conv = await getConversation(userId, params.id);
       const paginated = await getPaginatedMessages(params.id, query);
       return { success: true, data: { ...conv, ...paginated } };
     },
@@ -87,7 +84,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
 
   .get("/:id/meta", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
-    const data = await getConversationOrShared(userId, params.id);
+    const data = await getConversation(userId, params.id);
     return { success: true, data };
   })
 
@@ -104,18 +101,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .delete("/:id", async ({ params, cookie }) => {
     const userId = getUserId(cookie, true) ?? 0;
     const data = await deleteConversation(userId, params.id);
-    return { success: true, data };
-  })
-
-  .post("/:id/share", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
-    const data = await createShareLink(userId, params.id);
-    return { success: true, data };
-  })
-
-  .delete("/:id/share", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
-    const data = await revokeShareLink(userId, params.id);
     return { success: true, data };
   })
 
@@ -136,15 +121,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     const data = await getConversationMarkdown(userId, params.id);
     return { success: true, data };
   })
-
-  .get(
-    "/shared/:shareId",
-    async ({ params, query }) => {
-      const data = await getSharedConversation(params.shareId, query);
-      return { success: true, data };
-    },
-    { query: paginationQuery },
-  )
 
   .post(
     "/title",
