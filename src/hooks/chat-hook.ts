@@ -229,9 +229,7 @@ export function useDeleteConversationMutation() {
       const userId = auth.data?.id;
       if (userId != null) {
         const existing = await readLocalConversation(userId, id);
-        const wasSynced =
-          (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
-          null;
+        const wasSynced = existing?.syncExpiresAt != null;
         await deleteLocalConversation(userId, id);
         if (wasSynced) {
           try {
