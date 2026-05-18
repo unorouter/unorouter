@@ -36,7 +36,7 @@ export function GET() {
   const disallow = buildDisallowList();
   const lines: string[] = [
     "User-Agent: *",
-    "Content-Signal: search=yes, ai-train=no, ai-input=yes",
+    "Content-Signal: search=yes, ai-train=yes, ai-input=yes",
     "Allow: /",
     ...disallow.map((path) => `Disallow: ${path}`),
     "",
