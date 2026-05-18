@@ -6,6 +6,7 @@ import {
   NAVIGATION_STORE_KEY,
   type NavigationState,
 } from "@/store/navigation-store";
+import { USER_THEME_KEY, type UserTheme } from "@/store/theme-store";
 import { ReactNode, use } from "react";
 import { LanguageProvider } from "./app/language-provider";
 import { PostHogProvider } from "./app/posthog-provider";
@@ -19,6 +20,7 @@ import { JotaiProvider } from "./state/jotai-provider";
 import { ModelsStoreProvider } from "./state/models-store-provider";
 import { NavigationStoreProvider } from "./state/navigation-store-provider";
 import { QueryProvider } from "./state/query-provider";
+import { UserThemeStoreProvider } from "./state/user-theme-store-provider";
 
 export function Providers(props: { children: ReactNode }) {
   const navigationStore = use(
@@ -26,6 +28,7 @@ export function Providers(props: { children: ReactNode }) {
   );
   const modelsStore = use(getCookieValue<ModelsStoreState>(MODELS_STORE_KEY));
   const clientStore = use(getCookieValue<ClientState>(CLIENT_STORE_KEY));
+  const userTheme = use(getCookieValue<UserTheme>(USER_THEME_KEY));
 
   return (
     <QueryProvider>
@@ -33,22 +36,24 @@ export function Providers(props: { children: ReactNode }) {
         <NavigationStoreProvider data={navigationStore}>
           <ModelsStoreProvider data={modelsStore}>
             <ClientProvider data={clientStore}>
-              <UserProvider>
-                <LanguageProvider>
-                  <ThemeProvider>
-                    <UserThemeProvider>
-                      <PostHogProvider>
-                        <WebMcpProvider />
-                        <TooltipProvider>
-                          <AppPrefetchProvider>
-                            {props.children}
-                          </AppPrefetchProvider>
-                        </TooltipProvider>
-                      </PostHogProvider>
-                    </UserThemeProvider>
-                  </ThemeProvider>
-                </LanguageProvider>
-              </UserProvider>
+              <UserThemeStoreProvider data={userTheme}>
+                <UserProvider>
+                  <LanguageProvider>
+                    <ThemeProvider>
+                      <UserThemeProvider>
+                        <PostHogProvider>
+                          <WebMcpProvider />
+                          <TooltipProvider>
+                            <AppPrefetchProvider>
+                              {props.children}
+                            </AppPrefetchProvider>
+                          </TooltipProvider>
+                        </PostHogProvider>
+                      </UserThemeProvider>
+                    </ThemeProvider>
+                  </LanguageProvider>
+                </UserProvider>
+              </UserThemeStoreProvider>
             </ClientProvider>
           </ModelsStoreProvider>
         </NavigationStoreProvider>

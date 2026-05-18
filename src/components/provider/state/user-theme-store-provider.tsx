@@ -1,0 +1,20 @@
+"use client";
+
+import {
+  INITIAL_USER_THEME,
+  type UserTheme,
+  userThemeAtom,
+} from "@/store/theme-store";
+import { useHydrateAtoms } from "jotai/utils";
+import type { ReactNode } from "react";
+
+export function UserThemeStoreProvider(props: {
+  children: ReactNode;
+  data?: UserTheme;
+}) {
+  useHydrateAtoms([[userThemeAtom, props.data ?? INITIAL_USER_THEME]], {
+    dangerouslyForceHydrate: true,
+  });
+
+  return <>{props.children}</>;
+}
