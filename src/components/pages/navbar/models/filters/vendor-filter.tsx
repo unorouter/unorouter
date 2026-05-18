@@ -25,27 +25,22 @@ import { selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-type VendorOption = {
-  name: string;
-  count: number;
-};
+type VendorOption = { name: string; count: number };
+
+function buildVendorOptions(models: ProcessedModel[]): VendorOption[] {
+  const counts = new Map<string, number>();
+  for (const m of models) {
+    counts.set(m.vendor.name, (counts.get(m.vendor.name) ?? 0) + 1);
+  }
+  return Array.from(counts, ([name, count]) => ({ name, count })).sort(
+    (a, b) => b.count - a.count,
+  );
+}
 
 export function VendorFilter(props: { models: ProcessedModel[] }) {
   const [selectedVendors, setSelectedVendors] = useAtom(selectedVendorsAtom);
   const t = useTranslations();
-
-  const vendorOptions: VendorOption[] = props.models.reduce((acc, model) => {
-    const existing = acc.find((v) => v.name === model.vendor.name);
-    if (existing) {
-      existing.count++;
-    } else {
-      acc.push({ name: model.vendor.name, count: 1 });
-    }
-    return acc;
-  }, [] as VendorOption[]);
-
-  vendorOptions.sort((a, b) => b.count - a.count);
-
+  const vendorOptions = buildVendorOptions(props.models);
   const selectedSet = new Set(selectedVendors);
 
   return (

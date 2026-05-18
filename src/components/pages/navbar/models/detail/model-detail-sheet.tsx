@@ -454,6 +454,21 @@ function GridPricingSection(props: {
   );
 }
 
+type GroupEntry = { group: string; ratio: number };
+
+function buildGroupEntries(
+  enableGroups: readonly string[],
+  groupRatioMap: Record<string, number>,
+): GroupEntry[] {
+  const entries: GroupEntry[] = [];
+  for (const group of enableGroups) {
+    const ratio = groupRatioMap[group];
+    if (ratio === undefined) continue;
+    entries.push({ group, ratio });
+  }
+  return entries.sort((a, b) => a.ratio - b.ratio);
+}
+
 function GroupPricingSection(props: {
   model: ProcessedModel;
   groupRatioMap: Record<string, number>;
@@ -465,18 +480,10 @@ function GroupPricingSection(props: {
   const model = props.model;
   const theme = props.theme;
   const hasGrid = model.gridPricing !== null;
-
-  const groupEntries = model.enableGroups
-    .map((group) => {
-      const ratio = props.groupRatioMap[group];
-      if (ratio === undefined) return null;
-      return { group, ratio };
-    })
-    .filter(Boolean)
-    .sort((a, b) => a!.ratio - b!.ratio) as {
-    group: string;
-    ratio: number;
-  }[];
+  const groupEntries = buildGroupEntries(
+    model.enableGroups,
+    props.groupRatioMap,
+  );
 
   if (groupEntries.length === 0) return null;
 
@@ -507,139 +514,177 @@ function GroupPricingSection(props: {
       </button>
       {open && (
         <div className="space-y-4">
-          {hasGrid
-            ? groupEntries.map((ge) => (
-                <div key={ge.group}>
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
-                      {ge.group}
-                    </span>
-                    <span className="text-muted-foreground font-mono text-[10px]">
-                      {ge.ratio}x
-                    </span>
-                  </div>
-                  <div
-                    className={cn(
-                      "rounded-lg border p-3",
-                      theme.bg,
-                      theme.border,
-                    )}
-                  >
-                    <GridPricingTable
-                      rows={model.gridPricing!}
-                      priceMultiplier={ge.ratio}
-                      theme={theme}
-                      pricingLabel={t("MODELS.DETAIL.PRICING")}
-                    />
-                  </div>
-                </div>
-              ))
-            : model.isFixedPrice
-              ? (() => {
-                  const groupPrices = groupEntries.map((ge) => ({
-                    ...ge,
-                    price: model.fixedPrice * ge.ratio,
-                  }));
-                  return (
-                    <div
-                      className={cn(
-                        "rounded-lg border p-3",
-                        theme.bg,
-                        theme.border,
-                      )}
-                    >
-                      <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto] gap-x-4 gap-y-0 border-b pb-2">
-                        <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
-                        </span>
-                        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL.PRICING")}
-                        </span>
-                      </div>
-                      <div className="space-y-1.5">
-                        {groupPrices.map((gp) => (
-                          <div
-                            key={gp.group}
-                            className="grid grid-cols-[1fr_auto] items-baseline gap-x-4"
-                          >
-                            <span className="text-muted-foreground truncate font-mono text-[10px]">
-                              {gp.group}
-                            </span>
-                            <span
-                              className={cn(
-                                "text-right font-mono text-xs font-medium",
-                                theme.text,
-                              )}
-                            >
-                              {formatPrice(gp.price)}
-                              <span className="text-muted-foreground ml-1 text-[10px] font-normal">
-                                {t("MODELS.PRICE.PER_REQUEST")}
-                              </span>
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })()
-              : (() => {
-                  const groupPrices = groupEntries.map((ge) => {
-                    const inputPrice = model.modelRatio * 2 * ge.ratio;
-                    const outputPrice = inputPrice * model.completionRatio;
-                    return { ...ge, inputPrice, outputPrice };
-                  });
-                  return (
-                    <div
-                      className={cn(
-                        "rounded-lg border p-3",
-                        theme.bg,
-                        theme.border,
-                      )}
-                    >
-                      <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
-                        <span className="text-muted-foreground font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
-                        </span>
-                        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL.GROUP_HEADER_INPUT")}
-                        </span>
-                        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
-                          {t("MODELS.DETAIL.GROUP_HEADER_OUTPUT")}
-                        </span>
-                      </div>
-                      <div className="space-y-1.5">
-                        {groupPrices.map((gp) => (
-                          <div
-                            key={gp.group}
-                            className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
-                          >
-                            <span className="text-muted-foreground truncate font-mono text-[10px]">
-                              {gp.group}
-                            </span>
-                            <span
-                              className={cn(
-                                "text-right font-mono text-xs font-medium",
-                                theme.text,
-                              )}
-                            >
-                              {formatPrice(gp.inputPrice)}
-                            </span>
-                            <span
-                              className={cn(
-                                "text-right font-mono text-xs font-medium",
-                                theme.text,
-                              )}
-                            >
-                              {formatPrice(gp.outputPrice)}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  );
-                })()}
+          {hasGrid ? (
+            <GroupPricingGrid
+              entries={groupEntries}
+              gridPricing={model.gridPricing!}
+              theme={theme}
+            />
+          ) : model.isFixedPrice ? (
+            <GroupPricingFixed
+              entries={groupEntries}
+              fixedPrice={model.fixedPrice}
+              theme={theme}
+            />
+          ) : (
+            <GroupPricingTokens
+              entries={groupEntries}
+              modelRatio={model.modelRatio}
+              completionRatio={model.completionRatio}
+              theme={theme}
+            />
+          )}
         </div>
       )}
     </section>
+  );
+}
+
+function GroupPricingGrid(props: {
+  entries: GroupEntry[];
+  gridPricing: GridPricingRow[];
+  theme: ReturnType<typeof getVendorTheme>;
+}) {
+  const t = useTranslations();
+  return (
+    <>
+      {props.entries.map((ge) => (
+        <div key={ge.group}>
+          <div className="mb-2 flex items-center gap-2">
+            <span className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[10px] text-cyan-400">
+              {ge.group}
+            </span>
+            <span className="text-muted-foreground font-mono text-[10px]">
+              {ge.ratio}x
+            </span>
+          </div>
+          <div
+            className={cn(
+              "rounded-lg border p-3",
+              props.theme.bg,
+              props.theme.border,
+            )}
+          >
+            <GridPricingTable
+              rows={props.gridPricing}
+              priceMultiplier={ge.ratio}
+              theme={props.theme}
+              pricingLabel={t("MODELS.DETAIL.PRICING")}
+            />
+          </div>
+        </div>
+      ))}
+    </>
+  );
+}
+
+function GroupPricingFixed(props: {
+  entries: GroupEntry[];
+  fixedPrice: number;
+  theme: ReturnType<typeof getVendorTheme>;
+}) {
+  const t = useTranslations();
+  return (
+    <div
+      className={cn(
+        "rounded-lg border p-3",
+        props.theme.bg,
+        props.theme.border,
+      )}
+    >
+      <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto] gap-x-4 gap-y-0 border-b pb-2">
+        <span className="text-muted-foreground font-mono text-[10px] uppercase">
+          {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
+        </span>
+        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+          {t("MODELS.DETAIL.PRICING")}
+        </span>
+      </div>
+      <div className="space-y-1.5">
+        {props.entries.map((ge) => (
+          <div
+            key={ge.group}
+            className="grid grid-cols-[1fr_auto] items-baseline gap-x-4"
+          >
+            <span className="text-muted-foreground truncate font-mono text-[10px]">
+              {ge.group}
+            </span>
+            <span
+              className={cn(
+                "text-right font-mono text-xs font-medium",
+                props.theme.text,
+              )}
+            >
+              {formatPrice(props.fixedPrice * ge.ratio)}
+              <span className="text-muted-foreground ml-1 text-[10px] font-normal">
+                {t("MODELS.PRICE.PER_REQUEST")}
+              </span>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function GroupPricingTokens(props: {
+  entries: GroupEntry[];
+  modelRatio: number;
+  completionRatio: number;
+  theme: ReturnType<typeof getVendorTheme>;
+}) {
+  const t = useTranslations();
+  return (
+    <div
+      className={cn(
+        "rounded-lg border p-3",
+        props.theme.bg,
+        props.theme.border,
+      )}
+    >
+      <div className="border-border/40 mb-2 grid grid-cols-[1fr_auto_auto] gap-x-4 gap-y-0 border-b pb-2">
+        <span className="text-muted-foreground font-mono text-[10px] uppercase">
+          {t("MODELS.DETAIL.GROUP_HEADER_GROUP")}
+        </span>
+        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+          {t("MODELS.DETAIL.GROUP_HEADER_INPUT")}
+        </span>
+        <span className="text-muted-foreground text-right font-mono text-[10px] uppercase">
+          {t("MODELS.DETAIL.GROUP_HEADER_OUTPUT")}
+        </span>
+      </div>
+      <div className="space-y-1.5">
+        {props.entries.map((ge) => {
+          const inputPrice = props.modelRatio * 2 * ge.ratio;
+          const outputPrice = inputPrice * props.completionRatio;
+          return (
+            <div
+              key={ge.group}
+              className="grid grid-cols-[1fr_auto_auto] items-baseline gap-x-4"
+            >
+              <span className="text-muted-foreground truncate font-mono text-[10px]">
+                {ge.group}
+              </span>
+              <span
+                className={cn(
+                  "text-right font-mono text-xs font-medium",
+                  props.theme.text,
+                )}
+              >
+                {formatPrice(inputPrice)}
+              </span>
+              <span
+                className={cn(
+                  "text-right font-mono text-xs font-medium",
+                  props.theme.text,
+                )}
+              >
+                {formatPrice(outputPrice)}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

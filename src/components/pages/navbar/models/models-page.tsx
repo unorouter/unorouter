@@ -60,7 +60,6 @@ export function ModelsPage() {
         className="mb-12"
       />
 
-      {/* Filter Bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2 md:gap-4">
         <p className="text-muted-foreground font-mono text-sm">
           {m.filtered.length} {t("MODELS.MODEL_COUNT")}
@@ -82,7 +81,6 @@ export function ModelsPage() {
         </div>
       </div>
 
-      {/* Search + Type Filter */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Icon
@@ -111,7 +109,6 @@ export function ModelsPage() {
         </div>
       </div>
 
-      {/* Content */}
       {m.filtered.length === 0 ? (
         <div className="text-muted-foreground py-24 text-center">
           {t("MODELS.EMPTY")}
@@ -152,7 +149,6 @@ export function ModelsPage() {
           if (!open) m.setSelectedModelName(null);
         }}
       />
-    </div> // Only seed once on mount; ignore subsequent searchParams changes so the
-    // user can clear the filter without it snapping back from the URL.
+    </div>
   );
 }

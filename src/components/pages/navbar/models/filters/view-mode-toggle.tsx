@@ -10,9 +10,7 @@ export function ViewModeToggle() {
   const [viewMode, setViewMode] = useAtom(viewModeAtom);
   const t = useTranslations();
 
-  const handleChange = (mode: ViewMode) => {
-    setViewMode(mode);
-  };
+  const handleChange = (mode: ViewMode) => setViewMode(mode);
 
   return (
     <div className="border-border flex items-center gap-0.5 rounded-md border p-0.5 md:gap-1 md:p-1">
