@@ -30,8 +30,8 @@
  */
 
 import { msg } from "@/lib/config/constants";
-import { assertFound } from "@/lib/db/assertions";
-import { getDb } from "@/lib/db/client";
+import { assertFound } from "@/lib/utils/server";
+import { getDb } from "@/lib/db/server/client";
 import {
   characters,
   conversationCharacters,

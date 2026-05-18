@@ -23,53 +23,92 @@ import {
 } from "@/lib/db/schema/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "./client";
+import { makeTableStore } from "./table-store";
 
 // ---------------------------------------------------------------------------
 // Typed read helpers against the SQLocal mirror. Each function returns null
 // when the browser cannot mount the local DB (SSR, OPFS unavailable). Hooks
 // fall back to the server path in that case.
+//
+// Trivial list/get pairs are generated from the same makeTableStore factory
+// used in writes.ts. Composite reads (bundles, multi-table joins) stay
+// bespoke below.
 // ---------------------------------------------------------------------------
 
-export async function readLocalCharacters(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(characters)
-    .where(eq(characters.userId, userId))
-    .orderBy(desc(characters.updatedAt));
-}
+const characterStore = makeTableStore<typeof characters.$inferSelect>(
+  characters,
+  characters.id,
+);
+const personaStore = makeTableStore<typeof personas.$inferSelect>(
+  personas,
+  personas.id,
+);
+const lorebookStore = makeTableStore<typeof lorebooks.$inferSelect>(
+  lorebooks,
+  lorebooks.id,
+);
+const presetStore = makeTableStore<typeof samplingPresets.$inferSelect>(
+  samplingPresets,
+  samplingPresets.id,
+);
+const cardStore = makeTableStore<typeof cards.$inferSelect>(cards, cards.id);
+const conversationStore = makeTableStore<typeof conversations.$inferSelect>(
+  conversations,
+  conversations.id,
+);
+const generationSessionStore = makeTableStore<
+  typeof generationSessions.$inferSelect
+>(generationSessions, generationSessions.id);
+const conversationSettingsStore = makeTableStore<
+  typeof conversationSettings.$inferSelect
+>(conversationSettings, conversationSettings.convId);
 
-export async function readLocalCharacter(userId: number, id: string) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  const rows = await local.db
-    .select()
-    .from(characters)
-    .where(and(eq(characters.id, id), eq(characters.userId, userId)))
-    .limit(1);
-  return rows[0] ?? null;
-}
+export const readLocalCharacters = (userId: number) =>
+  characterStore.list(userId, { orderBy: desc(characters.updatedAt) });
 
-export async function readLocalPersonas(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(personas)
-    .where(eq(personas.userId, userId))
-    .orderBy(desc(personas.updatedAt));
-}
+export const readLocalCharacter = (userId: number, id: string) =>
+  characterStore.get(userId, id);
 
-export async function readLocalLorebooks(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(lorebooks)
-    .where(eq(lorebooks.userId, userId))
-    .orderBy(desc(lorebooks.updatedAt));
-}
+export const readLocalPersonas = (userId: number) =>
+  personaStore.list(userId, { orderBy: desc(personas.updatedAt) });
+
+export const readLocalPersona = (userId: number, id: string) =>
+  personaStore.get(userId, id);
+
+export const readLocalLorebooks = (userId: number) =>
+  lorebookStore.list(userId, { orderBy: desc(lorebooks.updatedAt) });
+
+export const readLocalPresets = (userId: number) =>
+  presetStore.list(userId, { orderBy: desc(samplingPresets.updatedAt) });
+
+export const readLocalPreset = (userId: number, id: string) =>
+  presetStore.get(userId, id);
+
+export const readLocalCards = (userId: number) =>
+  cardStore.list(userId, { orderBy: desc(cards.updatedAt) });
+
+export const readLocalConversations = (userId: number) =>
+  conversationStore.list(userId, { orderBy: desc(conversations.updatedAt) });
+
+export const readLocalConversation = (userId: number, id: string) =>
+  conversationStore.get(userId, id);
+
+export const readLocalGenerationSessions = (userId: number) =>
+  generationSessionStore.list(userId, {
+    orderBy: desc(generationSessions.updatedAt),
+  });
+
+export const readLocalGenerationSession = (userId: number, id: string) =>
+  generationSessionStore.get(userId, id);
+
+export const readLocalConversationSettings = (
+  userId: number,
+  convId: string,
+) => conversationSettingsStore.get(userId, convId, { scopeUser: false });
+
+// ---------------------------------------------------------------------------
+// Composite reads: multi-table joins / paged sub-queries.
+// ---------------------------------------------------------------------------
 
 export async function readLocalLorebook(userId: number, id: string) {
   const local = await getLocalDb(userId);
@@ -89,103 +128,6 @@ export async function readLocalLorebook(userId: number, id: string) {
   return { ...lbRows[0], entries };
 }
 
-export async function readLocalPresets(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(samplingPresets)
-    .where(eq(samplingPresets.userId, userId))
-    .orderBy(desc(samplingPresets.updatedAt));
-}
-
-export async function readLocalCards(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(cards)
-    .where(eq(cards.userId, userId))
-    .orderBy(desc(cards.updatedAt));
-}
-
-export async function readLocalConversations(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(conversations)
-    .where(eq(conversations.userId, userId))
-    .orderBy(desc(conversations.updatedAt));
-}
-
-export async function readLocalConversationSettings(
-  userId: number,
-  convId: string,
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  const rows = await local.db
-    .select()
-    .from(conversationSettings)
-    .where(eq(conversationSettings.convId, convId))
-    .limit(1);
-  return rows[0] ?? null;
-}
-
-export async function readLocalMessages(userId: number, convId: string) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(messages)
-    .where(eq(messages.convId, convId))
-    .orderBy(messages.createdAt);
-}
-
-export async function readLocalGenerationSessions(userId: number) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  return local.db
-    .select()
-    .from(generationSessions)
-    .where(eq(generationSessions.userId, userId))
-    .orderBy(desc(generationSessions.updatedAt));
-}
-
-export async function readLocalConversation(userId: number, id: string) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  const rows = await local.db
-    .select()
-    .from(conversations)
-    .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
-    .limit(1);
-  return rows[0] ?? null;
-}
-
-export async function readLocalPersona(userId: number, id: string) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  const rows = await local.db
-    .select()
-    .from(personas)
-    .where(and(eq(personas.id, id), eq(personas.userId, userId)))
-    .limit(1);
-  return rows[0] ?? null;
-}
-
-export async function readLocalPreset(userId: number, id: string) {
-  const local = await getLocalDb(userId);
-  if (!local) return null;
-  const rows = await local.db
-    .select()
-    .from(samplingPresets)
-    .where(and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)))
-    .limit(1);
-  return rows[0] ?? null;
-}
-
 export async function readLocalCard(userId: number, id: string) {
   const local = await getLocalDb(userId);
   if (!local) return null;
@@ -202,17 +144,14 @@ export async function readLocalCard(userId: number, id: string) {
   return { ...rows[0], cardCharacters: chars, cardLorebooks: lbs };
 }
 
-export async function readLocalGenerationSession(userId: number, id: string) {
+export async function readLocalMessages(userId: number, convId: string) {
   const local = await getLocalDb(userId);
   if (!local) return null;
-  const rows = await local.db
+  return local.db
     .select()
-    .from(generationSessions)
-    .where(
-      and(eq(generationSessions.id, id), eq(generationSessions.userId, userId)),
-    )
-    .limit(1);
-  return rows[0] ?? null;
+    .from(messages)
+    .where(eq(messages.convId, convId))
+    .orderBy(messages.createdAt);
 }
 
 export async function readLocalConversationBindings(

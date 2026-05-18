@@ -6,7 +6,7 @@ import {
 import { getModelMetadata } from "@/lib/api/pricing-cache";
 import { downloadAndUploadGeneration } from "@/lib/config/r2";
 import { type SyncImageEndpoint } from "@/lib/config/generation-models-dynamic";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { generations } from "@/lib/db/schema";
 import type { GenerationSubmitBody } from "@/lib/validation/generation";
 import { upstreamApiUrl } from "@/server/constants";

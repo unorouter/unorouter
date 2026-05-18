@@ -6,7 +6,7 @@
 // actually opens the panel.
 // ---------------------------------------------------------------------------
 
-import { getLocalDb } from "@/lib/local-db/client";
+import { getLocalDb } from "@/lib/db/client/client";
 import { Studio } from "@libsqlstudio/gui";
 import {
   SqliteLikeBaseDriver,

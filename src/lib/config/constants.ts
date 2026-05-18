@@ -62,6 +62,8 @@ export type TranslationKey = Parameters<
 
 export const msg = <T extends TranslationKey>(key: T): T => key;
 
+export { ParamError } from "@/lib/errors";
+
 export const APP_VALUES = {
   appName: env.appName,
   appDomain: new URL(env.appUrl).hostname.replace(/^www\./, ""),

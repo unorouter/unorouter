@@ -6,7 +6,7 @@ import {
   readLocalConversationBundle,
   readLocalGenerationSessionBundle,
   readLocalLorebook,
-} from "@/lib/local-db/reads";
+} from "@/lib/db/client/reads";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";

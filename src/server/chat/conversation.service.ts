@@ -1,7 +1,7 @@
 import { msg } from "@/lib/config/constants";
 import { deleteR2Prefix } from "@/lib/config/r2";
-import { assertFound } from "@/lib/db/assertions";
-import { getDb } from "@/lib/db/client";
+import { assertFound } from "@/lib/utils/server";
+import { getDb } from "@/lib/db/server/client";
 import {
   conversationCharacters,
   conversationLorebooks,

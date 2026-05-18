@@ -7,8 +7,8 @@ import {
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
 import { downloadAndUpload } from "@/lib/config/r2";
-import { assertFound } from "@/lib/db/assertions";
-import { getDb } from "@/lib/db/client";
+import { assertFound } from "@/lib/utils/server";
+import { getDb } from "@/lib/db/server/client";
 import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";

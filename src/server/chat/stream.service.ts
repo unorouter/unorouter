@@ -2,7 +2,7 @@ import { ModelType } from "@/lib/api/pricing";
 import { getModelMetadata, isMediaModel } from "@/lib/api/pricing-cache";
 import { FREE_MODEL_OUTPUT_CAP, msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { media } from "@/lib/db/schema";
 import { captureServerEvent } from "@/lib/posthog-server";
 import { uid } from "@/lib/utils/base";

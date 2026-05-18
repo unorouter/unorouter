@@ -4,13 +4,13 @@ import {
   readLocalConversationBundle,
   readLocalMessageItems,
   readLocalMessages,
-} from "@/lib/local-db/reads";
+} from "@/lib/db/client/reads";
 import {
   upsertLocalConversation,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/local-db/writes";
-import { enqueuePending } from "@/lib/local-db/pending-sync";
+} from "@/lib/db/client/writes";
+import { enqueuePending } from "@/lib/db/client/pending-sync";
 import {
   moveConvToTop,
   type ConvsInfinite,

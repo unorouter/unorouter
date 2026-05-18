@@ -1,10 +1,11 @@
+import { ParamError } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
 import { createClient, type Client } from "@libsql/client";
 import { error } from "console";
 import { drizzle, type LibSQLDatabase } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { resolve } from "path";
-import * as schema from "./schema";
+import * as schema from "../schema";
 import { runSeeds } from "./seeds";
 
 let _db: LibSQLDatabase<typeof schema> | null = null;
@@ -14,7 +15,7 @@ export function getDb(): LibSQLDatabase<typeof schema> {
   if (_db) return _db;
 
   if (!serverEnv.tursoUrl)
-    throw new Error("Missing required env: TURSO_DATABASE_URL");
+    throw new ParamError("ERRORS.MISSING_ENV", { var: "TURSO_DATABASE_URL" });
 
   _client = createClient({
     url: serverEnv.tursoUrl,

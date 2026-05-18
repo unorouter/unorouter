@@ -2663,6 +2663,7 @@
     "PERSONAS_IMPORT": "インポート"
   },
   "ERRORS": {
+    "MISSING_ENV": "必要な環境変数が不足しています: {var}",
     "UNAUTHORIZED": "認証されていません",
     "NO_API_KEY": "APIキーが設定されていません",
     "NOT_FOUND": "リソースが見つかりません",

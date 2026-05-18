@@ -1,4 +1,4 @@
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import {
   characters,
   conversationCharacters,

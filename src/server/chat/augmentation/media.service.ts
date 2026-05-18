@@ -1,5 +1,5 @@
 import { msg } from "@/lib/config/constants";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { conversationSettings, conversations, media } from "@/lib/db/schema";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";

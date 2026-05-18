@@ -14,7 +14,7 @@
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { getLocalDb } from "@/lib/local-db/client";
+import { getLocalDb } from "@/lib/db/client/client";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
   Tooltip,

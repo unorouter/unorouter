@@ -1,7 +1,7 @@
 import { processPlans } from "@/lib/api/subscription";
 import { QUOTA_PER_DOLLAR } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { acpCheckoutSessions, type AcpCheckoutSession } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import {

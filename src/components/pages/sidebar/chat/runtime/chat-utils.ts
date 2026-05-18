@@ -1,4 +1,4 @@
-import { upsertLocalMedia } from "@/lib/local-db/writes";
+import { upsertLocalMedia } from "@/lib/db/client/writes";
 import { uid } from "@/lib/utils/base";
 import { setConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";

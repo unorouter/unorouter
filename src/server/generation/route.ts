@@ -1,7 +1,7 @@
 import { getModelMetadata } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { uploadReferenceToR2 } from "@/lib/config/r2";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import {
   controlNetCatalog,
   embeddingCatalog,

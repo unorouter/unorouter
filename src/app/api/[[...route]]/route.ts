@@ -1,4 +1,4 @@
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, ParamError } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
@@ -112,6 +112,21 @@ export const app = new Elysia({ prefix: "/api" })
       set.status = err.status;
       const data = err.data;
       return typeof data === "string" ? data : JSON.stringify(data);
+    }
+
+    if (error instanceof ParamError) {
+      logger.warn("Param error", {
+        context: "elysia",
+        requestId,
+        message: error.message,
+        params: error.params,
+        path,
+      });
+      set.status = 400;
+      return JSON.stringify({
+        message: error.message,
+        params: error.params,
+      });
     }
 
     if (error instanceof Error) {

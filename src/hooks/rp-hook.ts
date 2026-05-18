@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { enqueuePending } from "@/lib/local-db/pending-sync";
+import { enqueuePending } from "@/lib/db/client/pending-sync";
 import {
   readLocalCard,
   readLocalCards,
@@ -17,7 +17,7 @@ import {
   readLocalPersonas,
   readLocalPreset,
   readLocalPresets,
-} from "@/lib/local-db/reads";
+} from "@/lib/db/client/reads";
 import {
   deleteLocalCard,
   deleteLocalCharacter,
@@ -35,7 +35,7 @@ import {
   upsertLocalLorebookEntry,
   upsertLocalPersona,
   upsertLocalPreset,
-} from "@/lib/local-db/writes";
+} from "@/lib/db/client/writes";
 import {
   itemPatch,
   listAdd,

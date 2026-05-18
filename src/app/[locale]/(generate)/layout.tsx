@@ -1,7 +1,7 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
 import { GenerationList } from "@/components/pages/sidebar/generate/history/generation-list";
-import { SyncStateHydrator } from "@/lib/local-db/sync-state-hydrator";
+import { SyncStateHydrator } from "@/lib/db/client/sync-state-hydrator";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

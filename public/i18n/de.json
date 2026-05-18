@@ -2663,6 +2663,7 @@
     "PERSONAS_IMPORT": "Importieren"
   },
   "ERRORS": {
+    "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",
     "UNAUTHORIZED": "Nicht autorisiert",
     "NO_API_KEY": "Kein API-Schlüssel konfiguriert",
     "NOT_FOUND": "Ressource nicht gefunden",

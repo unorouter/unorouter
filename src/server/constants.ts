@@ -3,6 +3,7 @@ import {
   GUEST_CONVS_COOKIE,
   msg,
   NEW_API_USER,
+  ParamError,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -14,7 +15,7 @@ import { parseCookie } from "cookie";
 import type { Cookie } from "elysia";
 
 if (typeof window === "undefined" && !serverEnv.systemAccessToken)
-  throw new Error("Missing required env: SYSTEM_ACCESS_TOKEN");
+  throw new ParamError("ERRORS.MISSING_ENV", { var: "SYSTEM_ACCESS_TOKEN" });
 
 export const ADMIN_HEADERS = {
   Authorization: serverEnv.systemAccessToken,

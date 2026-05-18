@@ -12,25 +12,36 @@ SetErrorFunction((error) => {
   return DefaultErrorFunction(error);
 });
 
+type Extracted = { message: string; params?: Record<string, string | number> };
+
 // Server errors are serialized as strings (see Elysia .onError). Pull out a
-// usable message whether the body is `{ message }`, an array of field errors,
-// or an array of primitives.
-function extractMessageFromJson(raw: string): string | null {
+// usable message + optional params whether the body is `{ message, params }`,
+// an array of field errors, or an array of primitives.
+function extractMessageFromJson(raw: string): Extracted | null {
   try {
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
       const m = (parsed as { message?: unknown }).message;
-      if (typeof m === "string") return m;
+      if (typeof m === "string") {
+        const p = (parsed as { params?: unknown }).params;
+        return {
+          message: m,
+          params:
+            p && typeof p === "object"
+              ? (p as Record<string, string | number>)
+              : undefined,
+        };
+      }
     }
     if (Array.isArray(parsed)) {
       for (const item of parsed) {
-        if (typeof item === "string") return item;
+        if (typeof item === "string") return { message: item };
         if (
           item &&
           typeof item === "object" &&
           typeof (item as { message?: unknown }).message === "string"
         ) {
-          return (item as { message: string }).message;
+          return { message: (item as { message: string }).message };
         }
       }
     }
@@ -46,14 +57,19 @@ export async function handleError(
   toastId?: string,
 ) {
   let message = "";
+  let params: Record<string, string | number> | undefined;
 
   if (e instanceof Error) {
     message = e.message;
     // The `ai` SDK surfaces failed stream responses as Error(bodyText); unwrap
-    // the JSON envelope so `{ "message": "ERRORS.X" }` becomes "ERRORS.X".
+    // the JSON envelope so `{ "message": "ERRORS.X", "params": {...} }` becomes
+    // a key + params pair.
     if (message.startsWith("{") || message.startsWith("[")) {
       const extracted = extractMessageFromJson(message);
-      if (extracted) message = extracted;
+      if (extracted) {
+        message = extracted.message;
+        params = extracted.params;
+      }
     }
   } else if (e !== null && typeof e === "object") {
     if (
@@ -62,7 +78,11 @@ export async function handleError(
       typeof e.data === "object" &&
       "message" in e.data
     ) {
-      message = String((e.data as Record<string, unknown>).message);
+      const d = e.data as Record<string, unknown>;
+      message = String(d.message);
+      if (d.params && typeof d.params === "object") {
+        params = d.params as Record<string, string | number>;
+      }
     } else if ("data" in e && typeof e.data === "string") {
       message = e.data;
     } else if ("response" in e && e.response instanceof Response) {
@@ -72,6 +92,10 @@ export async function handleError(
         .catch(() => null);
       if (body && typeof body === "object" && "message" in body) {
         message = String(body.message);
+        const p = (body as { params?: unknown }).params;
+        if (p && typeof p === "object") {
+          params = p as Record<string, string | number>;
+        }
       }
     }
   }
@@ -80,7 +104,7 @@ export async function handleError(
 
   const title =
     t && t.has(message as TranslationKey)
-      ? t(message as TranslationKey)
+      ? t(message as TranslationKey, params)
       : message;
 
   toast.error(title, { duration: 5000, id: toastId });

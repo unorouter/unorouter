@@ -1,5 +1,5 @@
 import { pingR2 } from "@/lib/config/r2";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { upstreamApiUrl } from "@/server/constants";
 import { sql } from "drizzle-orm";
 import { Elysia } from "elysia";

@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/card";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { upsertLocalTheme } from "@/lib/local-db/writes";
-import { enqueuePending } from "@/lib/local-db/pending-sync";
+import { upsertLocalTheme } from "@/lib/db/client/writes";
+import { enqueuePending } from "@/lib/db/client/pending-sync";
 import { useSyncStateForRow } from "@/hooks/sync-hook";
 import {
   ALL_BASE_COLORS,

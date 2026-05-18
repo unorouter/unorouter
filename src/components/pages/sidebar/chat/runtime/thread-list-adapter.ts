@@ -2,13 +2,13 @@ import { PAGE_SIZE } from "@/lib/config/constants";
 import {
   readLocalConversation,
   readLocalConversations,
-} from "@/lib/local-db/reads";
+} from "@/lib/db/client/reads";
 import {
   deleteLocalConversation,
   upsertLocalConversation,
   upsertLocalConversationSettings,
-} from "@/lib/local-db/writes";
-import { enqueuePending } from "@/lib/local-db/pending-sync";
+} from "@/lib/db/client/writes";
+import { enqueuePending } from "@/lib/db/client/pending-sync";
 import {
   patchConv,
   prependConv,

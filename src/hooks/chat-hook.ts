@@ -23,15 +23,15 @@ import {
   readLocalConversations,
   readLocalMessageItems,
   readLocalMessages,
-} from "@/lib/local-db/reads";
+} from "@/lib/db/client/reads";
 import {
   deleteLocalMessage,
   deleteLocalMessagesForConv,
   replaceLocalMessageItems,
   upsertLocalConversation,
   upsertLocalMessage,
-} from "@/lib/local-db/writes";
-import { enqueuePending } from "@/lib/local-db/pending-sync";
+} from "@/lib/db/client/writes";
+import { enqueuePending } from "@/lib/db/client/pending-sync";
 import {
   keepPreviousData,
   useInfiniteQuery,
@@ -231,7 +231,7 @@ export function useDeleteConversationMutation() {
           (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
           null;
         const { deleteLocalConversation } =
-          await import("@/lib/local-db/writes");
+          await import("@/lib/db/client/writes");
         await deleteLocalConversation(userId, id);
         if (wasSynced) {
           try {
@@ -429,14 +429,14 @@ export function useDuplicateConversationMutation() {
       await upsertLocalConversation(userId, newConv);
       if (bundle.settings) {
         const { upsertLocalConversationSettings } =
-          await import("@/lib/local-db/writes");
+          await import("@/lib/db/client/writes");
         await upsertLocalConversationSettings(userId, {
           ...bundle.settings,
           convId: newId,
         });
       }
       const { replaceLocalConversationBindings } =
-        await import("@/lib/local-db/writes");
+        await import("@/lib/db/client/writes");
       await replaceLocalConversationBindings(userId, newId, {
         conversationCharacters: bundle.conversationCharacters.map((c) => ({
           characterId: (c as { characterId: string }).characterId,
@@ -469,7 +469,7 @@ export function useDuplicateConversationMutation() {
         const newMsgId = idMap.get(oldMsgId);
         if (!newMsgId) continue;
         const { upsertLocalMessageItem } =
-          await import("@/lib/local-db/writes");
+          await import("@/lib/db/client/writes");
         await upsertLocalMessageItem(userId, {
           ...(it as Record<string, unknown>),
           id: uid(),

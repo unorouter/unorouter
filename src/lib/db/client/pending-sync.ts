@@ -54,7 +54,7 @@ export async function drainPending(
     if (row.attempts >= MAX_ATTEMPTS) continue;
     try {
       if (row.op === "delete") {
-        await handleElysia(
+        handleElysia(
           await rpc.api
             .sync({ kind: row.kind as SyncKindName })({ id: row.id })
             .delete(),
@@ -63,7 +63,7 @@ export async function drainPending(
         const payload = payloadFor
           ? payloadFor(row.kind as SyncKindName, row.id)
           : undefined;
-        await handleElysia(
+        handleElysia(
           await rpc.api
             .sync({ kind: row.kind as SyncKindName })({ id: row.id })
             .post({ days: undefined, payload }),

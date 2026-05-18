@@ -1,6 +1,6 @@
 import { msg } from "@/lib/config/constants";
-import { assertFound } from "@/lib/db/assertions";
-import { getDb } from "@/lib/db/client";
+import { assertFound } from "@/lib/utils/server";
+import { getDb } from "@/lib/db/server/client";
 import { lorebookEntries, lorebooks } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";

@@ -15,8 +15,8 @@ import {
   embeddingCatalog,
   loraCatalog,
   upscalerCatalog,
-} from "./schema";
-import * as schema from "./schema";
+} from "../schema";
+import * as schema from "../schema";
 
 type LoraSeed = typeof loraCatalog.$inferInsert;
 type EmbeddingSeed = typeof embeddingCatalog.$inferInsert;

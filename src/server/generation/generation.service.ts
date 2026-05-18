@@ -5,7 +5,7 @@ import {
   type SyncImageEndpoint,
 } from "@/lib/config/generation-models-dynamic";
 import { getModelEndpointTypes } from "@/lib/api/pricing-cache";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import {
   generationSessions,
   generations,

@@ -5,7 +5,7 @@ import {
   type UpstreamSubmitResp,
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { generations, upscalerCatalog } from "@/lib/db/schema";
 import type { GenerationSubmitBody } from "@/lib/validation/generation";
 import dayjs from "dayjs";

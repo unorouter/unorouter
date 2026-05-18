@@ -1,5 +1,5 @@
-import { msg } from "@/lib/config/constants";
-import { getDb } from "@/lib/db/client";
+import { msg, ParamError } from "@/lib/config/constants";
+import { getDb } from "@/lib/db/server/client";
 import { conversations, media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { serverEnv } from "@/server/env";
@@ -234,7 +234,9 @@ function getS3() {
     !serverEnv.r2AccessKeyId ||
     !serverEnv.r2SecretAccessKey
   )
-    throw new Error("Missing required env: R2_ACCOUNT_ID/ACCESS_KEY/SECRET");
+    throw new ParamError("ERRORS.MISSING_ENV", {
+      var: "R2_ACCOUNT_ID/ACCESS_KEY/SECRET",
+    });
 
   _s3 = new S3Client({
     region: "auto",

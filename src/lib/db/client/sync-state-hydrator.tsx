@@ -57,70 +57,15 @@ export function SyncStateHydrator() {
     fired.current = true;
 
     const userId = auth.data.id;
-    console.log("[hydrator] firing for userId", userId);
     void hydrate(qc, userId).catch((err) => {
-      console.error("[hydrator] failed", err);
       logger.warn("Sync hydration failed", {
         context: "local-db.hydrator",
         error: String(err),
       });
     });
-
-    // Wire cross-tab reactive subscriptions. Each table mutation in any
-    // tab fans into React Query via setQueryData so other tabs see the
-    // change without a refetch.
-    let unsubs: Array<() => void> = [];
-    void wireReactive(qc, userId).then((fns) => {
-      unsubs = fns;
-    });
-    return () => {
-      for (const u of unsubs) u();
-    };
   }, [auth.data, qc]);
 
   return null;
-}
-
-async function wireReactive(qc: QueryClient, userId: number) {
-  const { subscribeReactive } = await import("./reactive");
-  const unsubs: Array<() => void> = [];
-
-  unsubs.push(
-    await subscribeReactive("characters", userId, (rows) =>
-      qc.setQueryData(queryKeys.characters(), rows),
-    ),
-  );
-  unsubs.push(
-    await subscribeReactive("personas", userId, (rows) =>
-      qc.setQueryData(queryKeys.personas(), rows),
-    ),
-  );
-  unsubs.push(
-    await subscribeReactive("lorebooks", userId, (rows) =>
-      qc.setQueryData(queryKeys.lorebooks(), rows),
-    ),
-  );
-  unsubs.push(
-    await subscribeReactive("presets", userId, (rows) =>
-      qc.setQueryData(queryKeys.presets(), rows),
-    ),
-  );
-  unsubs.push(
-    await subscribeReactive("cards", userId, (rows) =>
-      qc.setQueryData(queryKeys.cards(), rows),
-    ),
-  );
-  unsubs.push(
-    await subscribeReactive("conversations", userId, (rows) =>
-      qc.setQueryData(queryKeys.conversations(undefined), rows),
-    ),
-  );
-  unsubs.push(
-    await subscribeReactive("generationSessions", userId, (rows) =>
-      qc.setQueryData(queryKeys.generationSessionList(undefined), rows),
-    ),
-  );
-  return unsubs;
 }
 
 async function hydrate(qc: QueryClient, userId: number) {

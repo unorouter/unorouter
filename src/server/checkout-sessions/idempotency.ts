@@ -1,4 +1,4 @@
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { acpIdempotencyKeys } from "@/lib/db/schema";
 import type { Cookie } from "elysia";
 import { and, eq, lt } from "drizzle-orm";

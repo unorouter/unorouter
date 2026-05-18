@@ -18,7 +18,7 @@
 // both see it as stale, which is fine since pollSnapshotStatus is
 // idempotent.
 
-import { getDb } from "@/lib/db/client";
+import { getDb } from "@/lib/db/server/client";
 import { generations } from "@/lib/db/schema";
 import { logger } from "@/lib/utils/logger";
 import { and, isNotNull, lt, ne } from "drizzle-orm";
