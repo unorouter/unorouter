@@ -1,6 +1,6 @@
 import type { PerformanceGroup } from "@/lib/api/perf-metrics";
 import { avg } from "@/lib/utils/base";
-import { dayjs } from "@/lib/utils/date";
+import { dayjs } from "@/lib/utils/format/date";
 
 export type AggregatedSeriesPoint = {
   ts: number;

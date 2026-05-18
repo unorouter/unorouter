@@ -1,49 +1,54 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { useStatusComponents } from "@/hooks/use-model-status-hook";
+import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Icon } from "@/components/ui/icon";
-import type { IconName } from "@/lib/config/icon-map";
+
+type Card = {
+  label: string;
+  value: number;
+  accent: string;
+  icon: IconName;
+};
 
 export function SummaryCards() {
   const t = useTranslations();
   const q = useStatusComponents();
   const rows = q.data ?? [];
 
-  const total = rows.length;
-  const operational = rows.filter((r) => r.status === "success").length;
-  const degraded = rows.filter((r) => r.status === "degraded").length;
-  const down = rows.filter((r) => r.status === "error").length;
+  const counts = { operational: 0, degraded: 0, down: 0 };
+  for (const r of rows) {
+    if (r.status === "success") counts.operational += 1;
+    else if (r.status === "degraded") counts.degraded += 1;
+    else if (r.status === "error") counts.down += 1;
+  }
 
-  const cards: {
-    label: string;
-    value: number;
-    accent: string;
-    icon: IconName;
-  }[] = [
+  const cards: Card[] = [
     {
       label: t("STATUS.KPI.TOTAL"),
-      value: total,
+      value: rows.length,
       accent: "text-foreground",
       icon: "layers",
     },
     {
       label: t("STATUS.KPI.OPERATIONAL"),
-      value: operational,
+      value: counts.operational,
       accent: "text-emerald-500",
       icon: "circle-check",
     },
     {
       label: t("STATUS.STATE.DEGRADED"),
-      value: degraded,
-      accent: degraded > 0 ? "text-amber-500" : "text-muted-foreground",
+      value: counts.degraded,
+      accent:
+        counts.degraded > 0 ? "text-amber-500" : "text-muted-foreground",
       icon: "circle-alert",
     },
     {
       label: t("STATUS.KPI.DOWN"),
-      value: down,
-      accent: down > 0 ? "text-red-500" : "text-muted-foreground",
+      value: counts.down,
+      accent: counts.down > 0 ? "text-red-500" : "text-muted-foreground",
       icon: "circle-x",
     },
   ];

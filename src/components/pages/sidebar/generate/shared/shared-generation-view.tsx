@@ -14,7 +14,7 @@ import {
   useSharedSessionQuery,
 } from "@/hooks/generation-hook";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { downloadGenerationImage } from "@/lib/utils/generation-export";
+import { downloadGenerationImage } from "@/components/pages/sidebar/generate/utils/generation-export";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

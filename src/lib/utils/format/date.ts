@@ -22,3 +22,25 @@ export function formatYearMonth(value: string | undefined): string | null {
   if (!d.isValid()) return value;
   return d.format(value.includes("-") ? "MMM YYYY" : "YYYY");
 }
+
+/** Compact hours -> "24h" or "Nd" when a whole-day multiple. */
+export function formatHoursLabel(hours: number): string {
+  if (hours >= 24 && hours % 24 === 0) return `${hours / 24}d`;
+  return `${hours}h`;
+}
+
+export function isSameDay(a: Date, b: Date): boolean {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+export function isStartOfDay(d: Date): boolean {
+  return d.getHours() === 0 && d.getMinutes() === 0 && d.getSeconds() === 0;
+}
+
+export function isEndOfDay(d: Date): boolean {
+  return d.getHours() === 23 && d.getMinutes() === 59 && d.getSeconds() === 59;
+}

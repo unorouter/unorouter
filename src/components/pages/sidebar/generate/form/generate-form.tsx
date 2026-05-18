@@ -52,7 +52,7 @@ import {
 } from "@/lib/config/generation-models";
 import { getEffectiveGenerationModels } from "@/lib/config/generation-models-dynamic";
 import { cn } from "@/lib/utils";
-import type { RestoredFromPng } from "@/lib/utils/png-metadata";
+import type { RestoredFromPng } from "@/components/pages/sidebar/generate/utils/png-metadata";
 import {
   generationFormValues,
   type GenerationFormValues,

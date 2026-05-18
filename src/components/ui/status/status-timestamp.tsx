@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { dayjs } from "@/lib/utils/date";
+import { dayjs } from "@/lib/utils/format/date";
 import { useEffect, useState } from "react";
 
 import type { HoverCardContentProps } from "@radix-ui/react-hover-card";

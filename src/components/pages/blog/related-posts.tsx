@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { getBlogTheme } from "@/lib/config/blog-categories";
 import type { BlogPost } from "@/lib/types/seo";
 import { cn } from "@/lib/utils";
-import { estimateReadingMinutes } from "@/lib/utils/reading-time";
+import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import dayjs from "dayjs";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";

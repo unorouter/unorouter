@@ -1,4 +1,4 @@
-import "./lib/utils/date";
+import "./lib/utils/format/date";
 import { IS_DEV } from "./lib/config/constants";
 import { env } from "./lib/config/env";
 import posthog from "posthog-js";

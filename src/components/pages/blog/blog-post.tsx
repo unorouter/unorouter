@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { getBlogTheme } from "@/lib/config/blog-categories";
 import { cn } from "@/lib/utils";
-import { estimateReadingMinutes } from "@/lib/utils/reading-time";
+import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { serverLocale } from "@/lib/utils/server";
 import dayjs from "dayjs";
 import type { TOCItemType } from "fumadocs-core/toc";

@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { cn } from "@/lib/utils";
-import { dayjs } from "@/lib/utils/date";
+import { dayjs } from "@/lib/utils/format/date";
 import { useState } from "react";
 
 // ============================================================================

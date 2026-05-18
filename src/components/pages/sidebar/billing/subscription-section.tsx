@@ -25,7 +25,7 @@ import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { getMultiplier } from "@/lib/api/subscription";
 import { msg, quotaToDollars, TranslationKey } from "@/lib/config/constants";
-import { dayjs } from "@/lib/utils/date";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 

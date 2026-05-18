@@ -1,8 +1,18 @@
 "use client";
 
 import { LogoImage } from "@/components/elements/brand/brand";
-import { Icon } from "@/components/ui/icon";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { StatusBanner } from "@/components/ui/status/status-banner";
 import { StatusBar } from "@/components/ui/status/status-bar";
 import {
@@ -21,40 +31,31 @@ import type {
   StatusBarData,
   StatusType,
 } from "@/components/ui/status/status.types";
-import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
-import type { StatusBucket } from "@/hooks/use-model-status-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
+import type { StatusBucket } from "@/hooks/use-model-status-hook";
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { env } from "@/lib/config/env";
+import type { IconName } from "@/lib/config/icon-map";
+import { cn } from "@/lib/utils";
 import { formatLatency, formatTps } from "@/lib/utils/base";
+import { formatHoursLabel } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { WindowVirtualizer } from "virtua";
 import { StatusBlocksI18n } from "./status-blocks-i18n";
 import { SummaryCards } from "./summary-cards";
 
-const VARIANT_FALLBACK: Exclude<StatusType, "empty"> = "success";
+type ComponentVariant = Exclude<StatusType, "empty">;
 
-function asVariant(status: string): Exclude<StatusType, "empty"> {
-  switch (status) {
-    case "success":
-    case "degraded":
-    case "error":
-      return status;
-    default:
-      // OpenStatus's variant prop disallows "empty"; surface as success-ish.
-      return VARIANT_FALLBACK;
-  }
+const COMPONENT_VARIANTS = new Set<string>(["success", "degraded", "error"]);
+
+// OpenStatus's variant prop disallows "empty"; fall back to "success" for any
+// unknown status so the component still renders.
+function asVariant(status: string): ComponentVariant {
+  return COMPONENT_VARIANTS.has(status)
+    ? (status as ComponentVariant)
+    : "success";
 }
 
 export function StatusPage() {
@@ -139,49 +140,27 @@ export function StatusPage() {
               </SelectContent>
             </Select>
             <div className="flex flex-wrap gap-1">
-              <FilterPill
-                active={s.statusFilter === "all"}
-                onClick={() => s.setStatusFilter("all")}
-                label={t("STATUS.FILTER.STATUS_ALL")}
-              />
-              <FilterPill
-                active={s.statusFilter === "success"}
-                onClick={() => s.setStatusFilter("success")}
-                label={t("STATUS.STATE.OPERATIONAL")}
-              />
-              <FilterPill
-                active={s.statusFilter === "degraded"}
-                onClick={() => s.setStatusFilter("degraded")}
-                label={t("STATUS.STATE.DEGRADED")}
-              />
-              <FilterPill
-                active={s.statusFilter === "error"}
-                onClick={() => s.setStatusFilter("error")}
-                label={t("STATUS.STATE.DOWN")}
-              />
+              {(
+                [
+                  { value: "all", label: t("STATUS.FILTER.STATUS_ALL") },
+                  { value: "success", label: t("STATUS.STATE.OPERATIONAL") },
+                  { value: "degraded", label: t("STATUS.STATE.DEGRADED") },
+                  { value: "error", label: t("STATUS.STATE.DOWN") },
+                ] as const
+              ).map((p) => (
+                <FilterPill
+                  key={p.value}
+                  active={s.statusFilter === p.value}
+                  onClick={() => s.setStatusFilter(p.value)}
+                  label={p.label}
+                />
+              ))}
             </div>
             {s.visibleVendors.length > 0 && (
-              <Button
-                variant="ghost"
-                size="icon"
+              <CollapseAllButton
+                collapsed={s.allCollapsed}
                 onClick={s.toggleAllGroups}
-                aria-label={
-                  s.allCollapsed
-                    ? t("STATUS.FILTER.EXPAND_ALL")
-                    : t("STATUS.FILTER.COLLAPSE_ALL")
-                }
-                title={
-                  s.allCollapsed
-                    ? t("STATUS.FILTER.EXPAND_ALL")
-                    : t("STATUS.FILTER.COLLAPSE_ALL")
-                }
-              >
-                {s.allCollapsed ? (
-                  <Icon name="chevrons-up-down" className="h-4 w-4" />
-                ) : (
-                  <Icon name="chevrons-down-up" className="h-4 w-4" />
-                )}
-              </Button>
+              />
             )}
             {s.hasActiveFilters && (
               <Button
@@ -210,17 +189,14 @@ export function StatusPage() {
                     onClick={() => s.toggleVendorCollapsed(item.vendor)}
                     className="hover:bg-accent/40 flex w-full items-center gap-2 rounded-md px-2 pt-6 pb-3 text-left first:pt-0"
                   >
-                    {s.collapsedSet.has(item.vendor) ? (
-                      <Icon
-                        name="chevron-right"
-                        className="text-muted-foreground h-4 w-4 shrink-0"
-                      />
-                    ) : (
-                      <Icon
-                        name="chevron-down"
-                        className="text-muted-foreground h-4 w-4 shrink-0"
-                      />
-                    )}
+                    <Icon
+                      name={
+                        s.collapsedSet.has(item.vendor)
+                          ? "chevron-right"
+                          : "chevron-down"
+                      }
+                      className="text-muted-foreground h-4 w-4 shrink-0"
+                    />
                     <VendorIcon vendor={item.vendor} size={16} />
                     <h2 className="font-mono text-sm font-semibold tracking-wide">
                       {item.vendor}
@@ -229,33 +205,23 @@ export function StatusPage() {
                       {item.count}
                     </span>
                     <div className="text-muted-foreground ml-auto flex items-center gap-3 font-mono text-xs">
-                      <span className="flex items-center gap-1">
-                        <Icon
-                          name="circle-check"
-                          className="h-3.5 w-3.5 text-emerald-500"
-                        />
-                        {item.operational}
-                      </span>
-                      <span
-                        className={
-                          item.degraded > 0
-                            ? "flex items-center gap-1 text-amber-500"
-                            : "flex items-center gap-1"
+                      <StatusCount
+                        icon="circle-check"
+                        count={item.operational}
+                        iconClass="text-emerald-500"
+                      />
+                      <StatusCount
+                        icon="circle-alert"
+                        count={item.degraded}
+                        textClass={
+                          item.degraded > 0 ? "text-amber-500" : undefined
                         }
-                      >
-                        <Icon name="circle-alert" className="h-3.5 w-3.5" />
-                        {item.degraded}
-                      </span>
-                      <span
-                        className={
-                          item.down > 0
-                            ? "flex items-center gap-1 text-red-500"
-                            : "flex items-center gap-1"
-                        }
-                      >
-                        <Icon name="circle-x" className="h-3.5 w-3.5" />
-                        {item.down}
-                      </span>
+                      />
+                      <StatusCount
+                        icon="circle-x"
+                        count={item.down}
+                        textClass={item.down > 0 ? "text-red-500" : undefined}
+                      />
                     </div>
                   </button>
                 ) : (
@@ -301,14 +267,6 @@ export function StatusPage() {
   );
 }
 
-// Compact human label for the time-window the bucket spans (24h -> "24h",
-// 720h -> "30d"). Shown next to each bucket option so the user can see what
-// range it covers without having to do the math.
-function formatHoursLabel(hours: number): string {
-  if (hours >= 24 && hours % 24 === 0) return `${hours / 24}d`;
-  return `${hours}h`;
-}
-
 function FilterPill(props: {
   active: boolean;
   onClick: () => void;
@@ -323,6 +281,41 @@ function FilterPill(props: {
     >
       {props.label}
     </Button>
+  );
+}
+
+function CollapseAllButton(props: { collapsed: boolean; onClick: () => void }) {
+  const t = useTranslations();
+  const label = props.collapsed
+    ? t("STATUS.FILTER.EXPAND_ALL")
+    : t("STATUS.FILTER.COLLAPSE_ALL");
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={props.onClick}
+      aria-label={label}
+      title={label}
+    >
+      <Icon
+        name={props.collapsed ? "chevrons-up-down" : "chevrons-down-up"}
+        className="h-4 w-4"
+      />
+    </Button>
+  );
+}
+
+function StatusCount(props: {
+  icon: IconName;
+  count: number;
+  iconClass?: string;
+  textClass?: string;
+}) {
+  return (
+    <span className={cn("flex items-center gap-1", props.textClass)}>
+      <Icon name={props.icon} className={cn("h-3.5 w-3.5", props.iconClass)} />
+      {props.count}
+    </span>
   );
 }
 

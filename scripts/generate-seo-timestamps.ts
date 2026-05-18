@@ -5,7 +5,7 @@ import {
   LEGAL_REGISTRY,
   type SeoTimestampSlug,
 } from "@/i18n/registry";
-import { dayjs } from "@/lib/utils/date";
+import { dayjs } from "@/lib/utils/format/date";
 import { spawnSync } from "node:child_process";
 import { log } from "node:console";
 import { existsSync, writeFileSync } from "node:fs";

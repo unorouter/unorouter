@@ -8,6 +8,7 @@ import {
   formatDateTime,
   formatTime,
 } from "@/components/ui/status/status.utils";
+import { isEndOfDay, isSameDay, isStartOfDay } from "@/lib/utils/format/date";
 import { useLocale, useTranslations } from "next-intl";
 
 // Wraps OpenStatus blocks with the app's localized labels and locale-aware
@@ -16,15 +17,6 @@ import { useLocale, useTranslations } from "next-intl";
 export function StatusBlocksI18n(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const locale = useLocale();
-
-  const isSameDay = (a: Date, b: Date) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
-  const isStartOfDay = (d: Date) =>
-    d.getHours() === 0 && d.getMinutes() === 0 && d.getSeconds() === 0;
-  const isEndOfDay = (d: Date) =>
-    d.getHours() === 23 && d.getMinutes() === 59 && d.getSeconds() === 59;
 
   const value: StatusBlocksLabels = {
     systemStatus: {

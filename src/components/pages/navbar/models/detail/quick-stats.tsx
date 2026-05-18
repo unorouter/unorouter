@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
 import { formatTokenCount, row, type LabeledRow } from "@/lib/utils/base";
-import { formatYearMonth } from "@/lib/utils/date";
+import { formatYearMonth } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 
 type Props = {

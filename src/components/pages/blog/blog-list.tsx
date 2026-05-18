@@ -10,7 +10,7 @@ import {
 } from "@/hooks/ui/use-blog-filter-hook";
 import { Link } from "@/i18n/navigation";
 import { BLOG_CATEGORIES, getBlogTheme } from "@/lib/config/blog-categories";
-import { estimateReadingMinutes } from "@/lib/utils/reading-time";
+import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";

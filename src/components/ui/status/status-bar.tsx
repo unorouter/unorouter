@@ -12,7 +12,7 @@ import type {
 import { statusColors } from "@/components/ui/status/status.utils";
 import { useMediaQuery } from "@/hooks/ui/use-media-query";
 import { cn } from "@/lib/utils";
-import { dayjs } from "@/lib/utils/date";
+import { dayjs } from "@/lib/utils/format/date";
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
 import { useEffect, useRef, useState } from "react";
 

@@ -31,7 +31,7 @@ import {
   downloadGenerationImage,
   downloadGenerationSnapshot,
   readGenerationSnapshotFile,
-} from "@/lib/utils/generation-export";
+} from "@/components/pages/sidebar/generate/utils/generation-export";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,

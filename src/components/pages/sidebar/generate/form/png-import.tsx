@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import {
   extractMetadataFromPngFile,
   type RestoredFromPng,
-} from "@/lib/utils/png-metadata";
+} from "@/components/pages/sidebar/generate/utils/png-metadata";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 

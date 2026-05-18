@@ -4,7 +4,7 @@ import { IS_DEV } from "./lib/config/constants";
 export async function register() {
   // Load dayjs plugins onto the singleton so bare `import dayjs from "dayjs"`
   // calls throughout the app pick them up without each file re-extending.
-  await import("./lib/utils/date");
+  await import("./lib/utils/format/date");
 
   // Server-side generation status sweeper. Only on the Node runtime - the
   // edge runtime has no DB client and the loop has no business there. The
