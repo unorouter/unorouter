@@ -50,17 +50,11 @@ try {
     "Note: client SQLocal/OPFS data is NOT reset by this script. Clear browser site data manually if needed.",
   );
 
-  // Regenerate server migration files (Turso). Output: drizzle/server/.
-  log("Running db:generate (server)...");
+  // Regenerate server + client migration files. Server output goes to
+  // drizzle/server/ (Turso), client to drizzle/client/ (SQLocal). The client
+  // migrations are bundled into src/lib/local-db/migrations.json at build time.
+  log("Running db:generate (server + client)...");
   execSync("bun run db:generate", {
-    cwd: resolve(import.meta.dirname, ".."),
-    stdio: "inherit",
-  });
-
-  // Regenerate client migration files (SQLocal). Output: drizzle/client/.
-  // These get bundled into src/lib/local-db/migrations.json at build time.
-  log("Running db:generate:client...");
-  execSync("bun run db:generate:client", {
     cwd: resolve(import.meta.dirname, ".."),
     stdio: "inherit",
   });
