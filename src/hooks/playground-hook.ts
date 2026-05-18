@@ -26,7 +26,6 @@ export function useSessionHistoryQuery(
           query: params ?? {},
         }),
       ),
-    staleTime: 5_000,
   });
 }
 
@@ -62,7 +61,6 @@ export function useSnapshotStatusQuery(
       handleElysia(await rpc.api.playground.snapshot({ id: id! }).status.get()),
     enabled: enabled && !!id,
     retry: false,
-    staleTime: 0,
     refetchInterval: (query) => {
       const status = (query.state.data as { status?: string } | undefined)
         ?.status;
@@ -93,7 +91,7 @@ export function useSubmitGenerationMutation() {
       );
       // Invalidate the session list (new session created or existing one
       // moved to the top) and the session detail (new snapshot appended).
-      qc.invalidateQueries({ queryKey: ["playground-session-list"] });
+      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
       qc.invalidateQueries({
         queryKey: queryKeys.playgroundSession(data.session.id),
       });
@@ -120,7 +118,7 @@ export function useSetSnapshotVisibilityMutation() {
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       qc.setQueryData(queryKeys.playgroundSnapshot(data.id), data);
-      qc.invalidateQueries({ queryKey: ["playground-session-list"] });
+      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
     },
   });
 }
@@ -139,7 +137,7 @@ export function useDeleteSnapshotMutation() {
       qc.removeQueries({
         queryKey: queryKeys.playgroundSnapshotStatus(args.id),
       });
-      qc.invalidateQueries({ queryKey: ["playground-session-list"] });
+      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
       if (data?.sessionId) {
         qc.invalidateQueries({
           queryKey: queryKeys.playgroundSession(data.sessionId),
@@ -164,7 +162,7 @@ export function useDeleteSessionMutation() {
       qc.removeQueries({
         queryKey: queryKeys.playgroundSession(args.sessionId),
       });
-      qc.invalidateQueries({ queryKey: ["playground-session-list"] });
+      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
     },
   });
 }
@@ -180,7 +178,6 @@ export function useLoraCatalogQuery(
           query: params ?? {},
         }),
       ),
-    staleTime: 5 * 60_000,
   });
 }
 
@@ -214,7 +211,6 @@ export function useEmbeddingCatalogQuery(
       handleElysia(
         await rpc.api.playground.embeddings.get({ query: params ?? {} }),
       ),
-    staleTime: 5 * 60_000,
   });
 }
 
@@ -227,7 +223,6 @@ export function useUpscalerCatalogQuery(
       handleElysia(
         await rpc.api.playground.upscalers.get({ query: params ?? {} }),
       ),
-    staleTime: 5 * 60_000,
   });
 }
 
@@ -240,7 +235,6 @@ export function useControlNetCatalogQuery(
       handleElysia(
         await rpc.api.playground.controlnets.get({ query: params ?? {} }),
       ),
-    staleTime: 5 * 60_000,
   });
 }
 
@@ -266,7 +260,7 @@ export function useImportGenerationMutation() {
     ) => handleElysia(await rpc.api.playground.import.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["playground-session-list"] });
+      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
     },
   });
 }

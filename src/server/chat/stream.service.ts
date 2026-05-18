@@ -73,8 +73,6 @@ function isPdfFilePart(part: unknown): part is PdfFilePart {
   );
 }
 
-// Replace PDF file parts with text parts using saved extracted_text so the
-// model sees content without the raw text bleeding back into the user bubble.
 async function inlinePdfText(
   messages: StreamBody["messages"],
 ): Promise<StreamBody["messages"]> {
@@ -103,8 +101,6 @@ async function inlinePdfText(
     if (row.extractedText) {
       textByUrl.set(url, row.extractedText);
     } else {
-      // Row exists but extraction yielded nothing; surface instead of
-      // forwarding a binary PDF URL the model probably can't read.
       throw new Error(msg("ERRORS.PDF_EXTRACTION_FAILED"));
     }
   }
@@ -150,8 +146,7 @@ type DepthInjection = {
   role?: "system" | "user";
 };
 
-// SillyTavern depth semantics: depth counts back from end (0 = after last,
-// 1 = before last). On collision the first-passed injection wins.
+// SillyTavern depth: counts back from end (0=after last, 1=before last). First-passed wins ties.
 function spliceDepthInjections(
   messages: StreamBody["messages"],
   injections: DepthInjection[],
@@ -203,8 +198,7 @@ function appendPrefill(
   ];
 }
 
-// Required for providers that reject system role mid-conversation (Gemini,
-// some GLM configs). The top-level `system` parameter is unaffected.
+// Gemini/some GLM reject mid-conv system role; top-level `system` is unaffected.
 function stripSystemRole(
   messages: StreamBody["messages"],
 ): StreamBody["messages"] {
@@ -221,8 +215,7 @@ function stripSystemRole(
   });
 }
 
-// Required by GLM and some Anthropic configs that need strict
-// user/assistant alternation.
+// GLM/some Anthropic require strict user/assistant alternation.
 function mergeAlternateRoles(
   messages: StreamBody["messages"],
 ): StreamBody["messages"] {
@@ -506,9 +499,7 @@ async function handleVideoTaskStream(
         upstreamHeaders,
       });
 
-      // data-task part: AI SDK forwards to client; assistant-ui rewrites as
-      // {type:"data", name:"task"}. Persistence saves it via partsToItems as
-      // a `task` item so reopens re-render and finalize can rewrite to video.
+      // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
       writer.write({ type: "start" });
       writer.write({ type: "start-step" });
       writer.write({
@@ -578,9 +569,7 @@ export async function streamChat(
     return handleVideoTaskStream(apiKey, body, upstream.headers, userId);
   }
 
-  // Prefer client-supplied chatContext (IDB-first path) so Turso never sees
-  // RP rows for synced/local-only convs. Fall back to Turso for guests,
-  // legacy callers, and share-page reads.
+  // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy/share-page.
   const convCtx = body.chatContext
     ? buildContextFromClient(body.chatContext)
     : body.convId
@@ -731,8 +720,7 @@ export async function streamChat(
     ...(assembled.sampling.presencePenalty !== undefined && {
       presencePenalty: assembled.sampling.presencePenalty,
     }),
-    // extraBody is merged FIRST so explicit slider/reasoning values win on
-    // key collision (sliders are primary, extraBody is the escape hatch).
+    // extraBody first: sliders/reasoning win on key collision.
     providerOptions: {
       openai: {
         ...(assembled.extraBody ?? {}),
@@ -748,8 +736,7 @@ export async function streamChat(
         ...(assembled.reasoningEffort && {
           reasoning_effort: assembled.reasoningEffort,
         }),
-        // Gemini block-off jailbreak: safetySettings threshold=OFF, stronger
-        // than BLOCK_NONE. No-op when upstream is not Gemini.
+        // Gemini-only: threshold=OFF (stronger than BLOCK_NONE); no-op elsewhere.
         ...(assembled.flags.geminiBlockOff && {
           safetySettings: GEMINI_SAFETY_OFF,
         }),
@@ -772,8 +759,7 @@ export async function streamChat(
         durationMs,
         tokensPerSecond,
       });
-      // Cost is backfilled by the pending-usage drain on upstream headers;
-      // client needs input/output tokens here to update its local row.
+      // Cost backfilled later from upstream headers; client needs tokens now for its local row.
       usageRef.value = {
         inputTokens,
         outputTokens,

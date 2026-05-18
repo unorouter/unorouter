@@ -12,6 +12,5 @@ export function useRankingsQuery(period: RankingPeriod) {
     queryFn: async () => {
       return handleElysia(await rpc.api.rankings.get({ query: { period } }));
     },
-    staleTime: 5 * 60 * 1000,
   });
 }

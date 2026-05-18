@@ -24,13 +24,6 @@ export const INITIAL_CHAT_STATE: ChatState = {
   font: "sans",
 };
 
-/**
- * Subset of StreamOverrides worth remembering per-model: switching from
- * Claude (no min_p) to GLM-5.1 (has min_p) restores the user's prior
- * GLM-5.1 sampler values rather than resetting to global defaults. Only
- * sampler/output knobs; system prompt, persona, characters, lorebooks etc.
- * are conversation-scoped, not model-scoped.
- */
 export type ModelSamplerMemory = Pick<
   StreamOverrides,
   | "temperature"
@@ -52,12 +45,6 @@ export const chatStoreAtom = atomWithStorage<ChatState>(
   jotaiCookieStorage,
 );
 
-/**
- * Fallback per-stream knobs when a conversation has no
- * `conversation_settings` row (guest convs). For logged-in users the row
- * is seeded from this value at conversation creation time. Cookie-backed
- * so SSR prefetch already sees the user's preferences.
- */
 export const INITIAL_CHAT_DEFAULTS: StreamOverrides = {};
 
 export const chatDefaultsAtom = atomWithStorage<StreamOverrides>(
@@ -87,11 +74,6 @@ export const chatFontAtom = atom(
   },
 );
 
-/**
- * Keyed by model name (same string used in `model` for /v1/chat/completions).
- * Cookie-backed so SSR sees the same values; payload stays small because
- * only models the user has touched get an entry.
- */
 export const samplerMemoryByModelAtom = atomWithStorage<
   Record<string, ModelSamplerMemory>
 >(SAMPLER_MEMORY_KEY, {}, jotaiCookieStorage);
@@ -123,21 +105,11 @@ export const getChatDefaults = (): StreamOverrides =>
   chatStore.get(chatDefaultsAtom) ??
   safeJsonParse<StreamOverrides>(getCookie(CHAT_DEFAULTS_KEY), {});
 
-/**
- * Plain variable, not an atom, because it needs synchronous access from
- * non-React code (stream service callbacks).
- */
+// Plain variable, not an atom: needs sync access from non-React stream callbacks.
 let _convId: string | null = null;
 export const getConvId = () => _convId;
 export const setConvId = (id: string | null) => (_convId = id);
 
-/**
- * Set by `ChatRuntimeHook` on every render so the assistant action bar
- * can mutate the message buffer without going through `composer.send()`
- * (which always regenerates) or the history adapter (append-only).
- * `messages` is read-only for introspecting existing parts (reasoning,
- * tool calls) to preserve them when saving.
- */
 export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
   messages: ReadonlyArray<unknown>;

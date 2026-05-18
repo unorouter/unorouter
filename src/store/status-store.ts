@@ -1,5 +1,5 @@
+import type { StatusBucket } from "@/lib/types/status";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
-import type { StatusBucket } from "@/hooks/use-model-status-hook";
 import { atom } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 

@@ -2,10 +2,9 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { StatusBucket } from "@/lib/types/status";
 import { handleElysia } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";
-
-export type StatusBucket = "1m" | "5m" | "15m" | "1h" | "1d";
 
 /**
  * Single round-trip hook used by the standalone /status page. Returns

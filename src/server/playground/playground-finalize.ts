@@ -8,16 +8,11 @@ import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import dayjs from "dayjs";
 import { eq, sql } from "drizzle-orm";
 
-// Cap on per-snapshot images. Must stay aligned with the form's
-// variants buttons (1/2/4) and validator's generationParams.n bounds.
+// Must stay aligned with form variants buttons (1/2/4) and validator bounds.
 const MAX_IMAGES_PER_GEN = 4;
 
-// ---------- Row-finalize helpers. All terminal writes share the same
-// invariants: clear submittedKey (so the sweeper stops polling), bump
-// updatedAt, set the row to a terminal status. The success path also
-// inserts one playground_images row per produced image in the same
-// transaction so consumers don't see a half-populated row, and bumps the
-// parent session's denormalized imageCount. ----------
+// All terminal writes clear submittedKey, bump updatedAt, set terminal status.
+// Success path inserts images + bumps the session imageCount in one tx.
 
 export type R2Uploaded = {
   url: string;
@@ -27,7 +22,6 @@ export type R2Uploaded = {
 };
 
 export type ImagePayload = {
-  /** The upstream-returned URI or data: blob we downloaded from. */
   resultUri: string;
   uploaded: R2Uploaded;
 };
@@ -56,8 +50,7 @@ export async function finalizeRowSuccess(
     throw new Error("finalizeRowSuccess called with no images");
   }
   await db.transaction(async (tx) => {
-    // Clear any prior partial inserts from a retry. The (playgroundId,
-    // sequenceIndex) PK would otherwise reject the re-insert.
+    // Clear partial inserts from a retry; PK (playgroundId, sequenceIndex).
     await tx
       .delete(playgroundImages)
       .where(eq(playgroundImages.playgroundId, id));
@@ -83,8 +76,6 @@ export async function finalizeRowSuccess(
         updatedAt: dayjs().toDate(),
       })
       .where(eq(playgrounds.id, id));
-    // Bump the parent session's denormalized image count + bump updatedAt
-    // so the session list re-sorts.
     await tx
       .update(playgroundSessions)
       .set({

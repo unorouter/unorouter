@@ -7,40 +7,40 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { StatusBanner } from "@/components/ui/status/status-banner";
 import { StatusBar } from "@/components/ui/status/status-bar";
 import {
-  StatusComponent,
-  StatusComponentBody,
-  StatusComponentDescription,
-  StatusComponentHeader,
-  StatusComponentHeaderLeft,
-  StatusComponentHeaderRight,
-  StatusComponentIcon,
-  StatusComponentStatus,
-  StatusComponentTitle,
-  StatusComponentUptime,
+    StatusComponent,
+    StatusComponentBody,
+    StatusComponentDescription,
+    StatusComponentHeader,
+    StatusComponentHeaderLeft,
+    StatusComponentHeaderRight,
+    StatusComponentIcon,
+    StatusComponentStatus,
+    StatusComponentTitle,
+    StatusComponentUptime,
 } from "@/components/ui/status/status-component";
 import type {
-  StatusBarData,
-  StatusType,
+    StatusBarData,
+    StatusType,
 } from "@/components/ui/status/status.types";
+import type { StatusBucket } from "@/lib/types/status";
 import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
-import type { StatusBucket } from "@/hooks/use-model-status-hook";
-import type { ModelSummary } from "@/openapi";
 import { env } from "@/lib/config/env";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { formatLatency, formatTps } from "@/lib/utils/base";
 import { formatHoursLabel } from "@/lib/utils/format/date";
+import type { ModelSummary } from "@/openapi";
 import { useTranslations } from "next-intl";
 import { WindowVirtualizer } from "virtua";
 import { StatusBlocksI18n } from "./status-blocks-i18n";

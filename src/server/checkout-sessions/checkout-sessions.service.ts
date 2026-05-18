@@ -37,7 +37,6 @@ export type ParsedItemId =
       raw: string;
     };
 
-// Item IDs collapse the four upstream pay endpoints into one ACP catalog.
 // Format: `topup_<usd>_<method>` or `plan_<planId>_<method>`.
 export function parseItemId(id: string): ParsedItemId | null {
   const topup = id.match(/^topup_(\d+(?:\.\d+)?)_(stripe|creem)$/);
@@ -68,9 +67,7 @@ export function parseItemId(id: string): ParsedItemId | null {
 
 type Catalog = {
   topupAmounts: Set<number>;
-  // For Creem top-ups the upstream wants a real productId, not a USD string.
-  // creem_products is a JSON-stringified array of {price, productId} that we
-  // index by USD price.
+  // Creem top-ups want a real productId, not a USD string.
   creemProductIdByAmount: Map<number, string>;
   enableStripeTopup: boolean;
   enableCreemTopup: boolean;
@@ -196,17 +193,11 @@ async function resolveItem(
   return { parsed, amountCents: cents };
 }
 
-// SessionBody is the JSON-serializable payload we persist in the body
-// column. Elysia has already validated the shape via TypeBox at the route
-// boundary, so we accept it as a typed bag.
 export type SessionBody = Record<string, unknown>;
 
 export type CheckoutItem = { id: string; quantity: number };
 
-// validateAndResolveItem applies the ACP-spec single-item invariant to the
-// input array, parses the item id, and resolves it against the catalog. All
-// three validation calls share the same error template so we don't duplicate
-// the acpError(400, ...) shape across createSession and updateSession.
+// ACP-spec single-item invariant; shared by createSession and updateSession.
 async function validateAndResolveItem(
   items: CheckoutItem[],
   upstreamHeaders: Record<string, string>,
@@ -397,10 +388,7 @@ export async function completeSession(input: CompleteSessionInput) {
       );
       payLink = res.data.data.pay_link;
     } else {
-      // Creem expects its own product id (e.g. prod_xxx), not a USD amount, and
-      // payment_method must be "creem" for the channel to resolve. We re-load
-      // the catalog here so the productId reflects whatever the upstream
-      // currently advertises.
+      // Creem wants its product id (prod_xxx) and payment_method=creem.
       const catalog = await loadCatalog(headers);
       const productId = catalog.creemProductIdByAmount.get(parsed.amountUsd);
       if (!productId) {
@@ -438,18 +426,11 @@ export async function completeSession(input: CompleteSessionInput) {
     });
   }
 
-  // Snapshot the user's current upstream quota so subsequent GETs can detect
-  // that payment landed (the upstream Creem/Stripe webhook credits balance
-  // asynchronously). For top-ups the delta should be roughly amountUsd worth
-  // of quota points; for subscriptions the same signal works because plan
-  // purchases also bump quota. If snapshot fails we proceed without it; the
-  // session will simply stay in_progress until the user re-checks.
+  // Quota snapshot lets later GETs detect that payment landed (webhook
+  // credits balance async). Subsequent GETs lazily advance to completed.
   const quotaAtComplete = await fetchUserQuota(input.upstreamHeaders);
 
   const db = getDb();
-  // Status stays in_progress because the user still has to complete payment
-  // in the hosted checkout UI. GET will lazily advance to "completed" once
-  // the upstream quota reflects the deposit.
   await db
     .update(acpCheckoutSessions)
     .set({
@@ -478,12 +459,9 @@ async function fetchUserQuota(
   }
 }
 
-// Heuristic to detect that an in_progress session has been paid: compare the
-// user's current upstream quota against the snapshot we took at /complete. If
-// the delta covers the session amount in quota points, advance to "completed".
-// This is a best-effort signal — any unrelated balance increase between the
-// snapshot and the GET would also trigger advancement. We accept that because
-// the alternative (sessions stuck in_progress forever) is worse for agents.
+// Heuristic: if quota delta since /complete covers the session amount,
+// advance to completed. Best-effort; unrelated balance increases also trip
+// it. Better than sessions stuck in_progress forever.
 async function maybeAdvanceCompleted(
   row: AcpCheckoutSession,
   upstreamHeaders: Record<string, string>,

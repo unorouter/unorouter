@@ -22,12 +22,8 @@ import type { IconName } from "@/lib/config/icon-map";
 
 type Tab = "characters" | "personas" | "lorebooks";
 
-/**
- * Open RP dialog tab. Lifted to a jotai atom so the dialogs (rendered at the
- * layout root via <RpDialogs />) survive the mobile sidebar Sheet unmount
- * when the user taps a tab. Without this, opening a Sheet-nested dialog
- * while closing the Sheet would unmount the dialog before it ever paints.
- */
+// Atom lifted out so dialogs (rendered at layout root via <RpDialogs />)
+// survive mobile sidebar Sheet unmount on tab tap.
 const openRpTabAtom = atom<Tab | null>(null);
 
 const items: Array<{
@@ -55,7 +51,6 @@ const items: Array<{
   },
 ];
 
-/** Trigger row rendered inside the sidebar. */
 export function SidebarRpNav() {
   const t = useTranslations();
   const [, setOpenTab] = useAtom(openRpTabAtom);
@@ -81,8 +76,6 @@ export function SidebarRpNav() {
             <TooltipContent side="bottom">{t(it.labelKey)}</TooltipContent>
           </Tooltip>
         ))}
-        {/* Presets + cards have their own pages now (more room for prompt + flag
-          editing). Sidebar icons navigate instead of opening a dialog. */}
         <Tooltip>
           <TooltipTrigger
             render={
@@ -124,10 +117,8 @@ export function SidebarRpNav() {
   );
 }
 
-/**
- * Dialog host. Rendered at the layout root so the dialogs are not nested
- * inside the mobile sidebar Sheet (which would unmount them on close).
- */
+// Rendered at layout root so dialogs aren't nested inside the mobile sidebar
+// Sheet (which would unmount them on close).
 export function RpDialogs() {
   const [openTab, setOpenTab] = useAtom(openRpTabAtom);
   return (

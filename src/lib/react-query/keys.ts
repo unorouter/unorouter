@@ -86,6 +86,7 @@ export const queryKeys = {
 
   // Image generation: each session contains many snapshots (units of
   // submission); chevrons walk the snapshot list inside a session.
+  playgroundSessionLists: () => ["playground-session-list"] as const,
   playgroundSessionList: (params?: EdenQuery<typeof rpc.api.playground.me>) =>
     ["playground-session-list", params] as const,
   playgroundSession: (id: string) => ["playground-session", id] as const,

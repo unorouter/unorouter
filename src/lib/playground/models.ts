@@ -1,5 +1,4 @@
-// Source of truth for per-model UI behavior. Keep in sync with
-// new-api-sync/config.yml templates and src/lib/validation/generation.ts.
+// Keep in sync with new-api-sync/config.yml and src/lib/validation/generation.ts.
 
 import type { PlaygroundModel } from "@/lib/validation/playground";
 
@@ -9,7 +8,6 @@ export type PlaygroundModelDescriptor = {
   id: PlaygroundModel;
   family: ModelFamily;
   displayName: string;
-  // USD per call. Server enforces the actual debit via dollarsToQuota.
   pricePerCall: number;
   supportsNegativePrompt: boolean;
   supportsCfg: boolean;
@@ -18,12 +16,7 @@ export type PlaygroundModelDescriptor = {
   supportsLoraChain: boolean;
   supportsReferences: boolean;
   supportsSampler: boolean;
-  // SDXL: LatentUpscaleBy + 2nd KSampler pass (config.yml nodes 11/12).
-  // Passthrough default (denoise=0, scale=1) keeps the 2nd pass a no-op when
-  // the toggle is off. Flux 2 has no equivalent and stays false.
   supportsHiresFix: boolean;
-  // Sync-image-only knobs surfaced from each vendor's relay adapter; dispatch
-  // layer inserts the value into the upstream body shape per endpoint kind.
   supportsQuality?: boolean;
   qualityChoices?: readonly string[];
   supportsOutputFormat?: boolean;
@@ -32,14 +25,8 @@ export type PlaygroundModelDescriptor = {
   supportsSeed?: boolean;
   supportsStrength?: boolean;
   supportsBackground?: boolean;
-  // Lowercased substring lookup against @lobehub/icons; falls back to an
-  // alphabet badge when missing.
   vendor?: string;
-  // When undefined the form treats it as 6 for ComfyUI compose templates and
-  // 1 otherwise.
   maxReferenceImages?: number;
-  // Dynamic helper sets this from ProcessedModel.isFree; ComfyUI templates
-  // always carry a price.
   isFree?: boolean;
   defaultParams: {
     width: number;
@@ -51,17 +38,13 @@ export type PlaygroundModelDescriptor = {
     scheduler?: string;
   };
   fixedSize?: { width: number; height: number };
-  // flux2 ignores this and uses KSamplerSelect.
   samplers?: string[];
   schedulers?: string[];
   estimatedSeconds: number;
   recommendedPromptStyle: "natural-language" | "danbooru-tags";
-  // NSFW gens are owner-only by policy: gallery filters them out and
-  // setVisibility() rejects "public" for any nsfw=true row.
+  // NSFW: owner-only by policy; gallery filters them out and setVisibility()
+  // rejects "public" for nsfw=true rows.
   nsfwDefault: boolean;
-  // Studio capability flags. Defaults are conservative (undefined = false);
-  // descriptors opt in explicitly. Edit-family descriptors opt into multi-
-  // image references but not SDXL-only knobs.
   supportsImg2Img?: boolean;
   supportsUpscale?: boolean;
   supportsInpaint?: boolean;
@@ -71,7 +54,7 @@ export type PlaygroundModelDescriptor = {
   supportsVae?: boolean;
   supportsLayerDiffusion?: boolean;
   supportsClipSkip?: boolean;
-  // Picker filters by the active tab. Missing `tabs` defaults to Text2Img-only.
+  // Missing `tabs` defaults to Text2Img-only in the picker.
   tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
 
@@ -122,9 +105,8 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     supportsEmbedding: true,
     supportsControlNet: true,
     supportsVae: true,
-    // Layer Diffusion weights are only compatible with SDXL base + SD1.5;
-    // Pony is an SDXL finetune so LayerDiffuse can't patch cleanly. Only the
-    // `comfyui-sdxl-txt2img-lora` descriptor opts in.
+    // LayerDiffuse only patches SDXL base + SD1.5; Pony is an SDXL finetune so
+    // it can't patch cleanly. Only `comfyui-sdxl-txt2img-lora` opts in.
     supportsClipSkip: true,
     tabs: ["text2img", "img2img"],
   },

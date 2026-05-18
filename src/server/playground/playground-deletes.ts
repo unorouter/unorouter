@@ -39,13 +39,7 @@ export async function setVisibility(
   return getSnapshotWithImages(userId, id);
 }
 
-// ---------------------------------------------------------------------------
-// Deletes: snapshot vs whole session
-// ---------------------------------------------------------------------------
-
-/** Delete one snapshot. R2 objects are unlinked first, then the row drops.
- *  If the deletion empties the parent session, cascade-delete the session
- *  too so we don't leak empty rows. */
+// If deletion empties the parent session, cascade-delete the session.
 export async function deleteSnapshot(userId: number, id: string) {
   const db = getDb();
   const snapshot = await getSnapshotRow(userId, id);
@@ -66,8 +60,6 @@ export async function deleteSnapshot(userId: number, id: string) {
     .delete(playgrounds)
     .where(and(eq(playgrounds.id, id), eq(playgrounds.userId, userId)));
 
-  // Decrement parent counts. If the session is now empty, drop it; else
-  // refresh updatedAt so the list re-sorts away from the dead snapshot.
   const remaining = await db
     .select({ count: sql<number>`count(*)` })
     .from(playgrounds)
@@ -94,8 +86,6 @@ export async function deleteSnapshot(userId: number, id: string) {
   };
 }
 
-/** Delete an entire session: every snapshot's R2 objects, then the session
- *  row (snapshots + images cascade via FK). */
 export async function deleteSession(userId: number, sessionId: string) {
   const db = getDb();
   await getSessionRow(userId, sessionId);
@@ -132,7 +122,7 @@ export async function deleteSession(userId: number, sessionId: string) {
   return { id: sessionId };
 }
 
-/** Sweeper-friendly delete: skip ownership check. */
+// Sweeper-friendly: skips ownership check.
 export async function deleteSessionAsSystem(sessionId: string) {
   const db = getDb();
   const snapshots = await db

@@ -282,7 +282,6 @@ export function useTaskStatusQuery(taskId: string, enabled = false) {
     },
     enabled: enabled && !!taskId,
     retry: false,
-    staleTime: 0,
   });
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useStatusComponents } from "@/hooks/use-model-status-hook";
+import { useStatusComponents } from "@/hooks/model-status-hook";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
@@ -41,8 +41,7 @@ export function SummaryCards() {
     {
       label: t("STATUS.STATE.DEGRADED"),
       value: counts.degraded,
-      accent:
-        counts.degraded > 0 ? "text-amber-500" : "text-muted-foreground",
+      accent: counts.degraded > 0 ? "text-amber-500" : "text-muted-foreground",
       icon: "circle-alert",
     },
     {

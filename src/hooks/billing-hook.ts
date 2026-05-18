@@ -33,9 +33,6 @@ export function useBillingPlansQuery() {
     queryFn: async () => {
       return handleElysia(await rpc.api.billing["subscription-plans"].get());
     },
-    // Plans rarely change; keep the hydrated value fresh across navigations
-    // so we don't fire a new request on every page load.
-    staleTime: 5 * 60_000,
   });
 }
 
@@ -46,8 +43,6 @@ export function useSubscriptionSelfQuery() {
     queryFn: async () => {
       return handleElysia(await rpc.api.billing["subscription-self"].get());
     },
-    // Subscription state changes rarely; mutations explicitly invalidate.
-    staleTime: 5 * 60_000,
     enabled: isLoggedIn,
   });
 }

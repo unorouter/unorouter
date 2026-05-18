@@ -19,7 +19,6 @@ export function useSyncStateQuery() {
   return useQuery({
     queryKey: queryKeys.syncState(),
     queryFn: async () => handleElysia(await rpc.api.sync.state.get()),
-    staleTime: 60_000,
   });
 }
 
