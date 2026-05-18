@@ -127,16 +127,44 @@
   --sidebar-ring: rgba(255, 255, 255, 0.2);
 }
 
-/* Keyframe Animations */
-@keyframes ticker {
-  0% {
-    transform: translateX(0);
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-  100% {
-    transform: translateX(-50%);
+
+  body {
+    @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden font-sans;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+
+  [data-chat-font="sans"] {
+    font-family: var(--font-sans);
+  }
+  [data-chat-font="mono"] {
+    font-family: var(--font-mono);
+  }
+  [data-chat-font="display"] {
+    font-family: var(--font-display);
+  }
+  [data-chat-font="serif"] {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+  [data-chat-font="system"] {
+    font-family:
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
   }
 }
 
+/* Keyframe Animations */
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -168,57 +196,7 @@
   }
 }
 
-@keyframes scaleIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes gradientX {
-  0%,
-  100% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes customBlink {
-  0%,
-  90% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  95% {
-    opacity: 0.7;
-    transform: scale(0.98);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes widthExpand {
-  0% {
-    width: 65%;
-  }
-  100% {
-    width: 85%;
-  }
-}
-
 /* Utility animations */
-@utility animate-ticker {
-  animation: ticker 30s linear infinite;
-}
-
 @utility animate-marquee {
   animation: marquee 50s linear infinite;
 }
@@ -229,14 +207,6 @@
 
 @utility animate-slide-up {
   animation: slideUp 0.6s ease-out forwards;
-}
-
-@utility animate-scale-in {
-  animation: scaleIn 0.4s ease-out forwards;
-}
-
-@utility animate-width-expand {
-  animation: widthExpand 3s ease-in-out infinite alternate;
 }
 
 /* Shimmer animation for streaming indicators */
@@ -335,41 +305,4 @@ mjx-container[display="true"] {
   display: block !important;
   text-align: center;
   margin: 0.75rem 0;
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground overflow-x-hidden font-sans;
-  }
-
-  button {
-    @apply cursor-pointer;
-  }
-
-  [data-chat-font="sans"] {
-    font-family: var(--font-sans);
-  }
-  [data-chat-font="mono"] {
-    font-family: var(--font-mono);
-  }
-  [data-chat-font="display"] {
-    font-family: var(--font-display);
-  }
-  [data-chat-font="serif"] {
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  }
-  [data-chat-font="system"] {
-    font-family:
-      system-ui,
-      -apple-system,
-      "Segoe UI",
-      Roboto,
-      "Helvetica Neue",
-      Arial,
-      sans-serif;
-  }
 }
