@@ -1,4 +1,5 @@
 import { type TranslationKey } from "@/lib/config/constants";
+import { type IconName } from "@/lib/config/icon-map";
 
 // OAuth scope list shown on the consent screen and advertised in the
 // .well-known discovery documents. Must mirror new-api/setting/oauth_scopes.go
@@ -35,3 +36,42 @@ export const OAUTH_SCOPE_TRANSLATION_KEYS: Record<
   "checkout:create": "AUTH.CONSENT.SCOPE.CHECKOUT_CREATE",
   openid: "AUTH.CONSENT.SCOPE.OPENID",
 };
+
+export function getScopeTranslationKey(
+  scope: string,
+): TranslationKey | undefined {
+  return Object.hasOwn(OAUTH_SCOPE_TRANSLATION_KEYS, scope)
+    ? OAUTH_SCOPE_TRANSLATION_KEYS[
+        scope as keyof typeof OAUTH_SCOPE_TRANSLATION_KEYS
+      ]
+    : undefined;
+}
+
+export type ScopeKind = "read" | "write" | "danger";
+
+export type ScopeMeta = {
+  icon: IconName;
+  kind: ScopeKind;
+};
+
+const SCOPE_META: Record<OAuthScope | "openid", ScopeMeta> = {
+  openid: { icon: "shield-check", kind: "read" },
+  "models:read": { icon: "eye", kind: "read" },
+  "balance:read": { icon: "eye", kind: "read" },
+  "tokens:read": { icon: "eye", kind: "read" },
+  "tokens:write": { icon: "key-round", kind: "write" },
+  "subscription:read": { icon: "eye", kind: "read" },
+  "subscription:cancel": { icon: "octagon-x", kind: "danger" },
+  "checkout:create": { icon: "shopping-cart", kind: "write" },
+};
+
+const DEFAULT_SCOPE_META: ScopeMeta = {
+  icon: "shield-check",
+  kind: "read",
+};
+
+export function getScopeMeta(scope: string): ScopeMeta {
+  return Object.hasOwn(SCOPE_META, scope)
+    ? SCOPE_META[scope as keyof typeof SCOPE_META]
+    : DEFAULT_SCOPE_META;
+}

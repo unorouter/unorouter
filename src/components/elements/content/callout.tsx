@@ -53,7 +53,10 @@ export function Callout(props: CalloutProps) {
       )}
     >
       <div className="flex items-center gap-2">
-        <Icon name={style.iconName} className={cn("size-4 shrink-0", style.icon)} />
+        <Icon
+          name={style.iconName}
+          className={cn("size-4 shrink-0", style.icon)}
+        />
         <span className="text-sm font-semibold">{props.title}</span>
       </div>
       <div className="text-muted-foreground mt-2 text-sm [&_code]:text-xs [&_pre]:my-2">

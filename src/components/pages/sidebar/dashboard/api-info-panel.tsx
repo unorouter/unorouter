@@ -26,7 +26,10 @@ export function ApiInfoPanel() {
       <div className="flex-1">
         {apiInfo.length === 0 ? (
           <div className="flex h-32 flex-col items-center justify-center gap-2">
-            <Icon name="code" className="text-muted-foreground h-8 w-8 opacity-20" />
+            <Icon
+              name="code"
+              className="text-muted-foreground h-8 w-8 opacity-20"
+            />
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
               {t("DASHBOARD.PANEL.NO_API_INFO")}
             </span>

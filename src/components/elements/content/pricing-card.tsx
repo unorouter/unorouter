@@ -95,7 +95,10 @@ export function PricingCard(props: Props) {
               key={feature}
               className="flex items-center gap-2.5 font-mono text-xs"
             >
-              <Icon name="check" className="h-3.5 w-3.5 shrink-0 text-emerald-500/70" />
+              <Icon
+                name="check"
+                className="h-3.5 w-3.5 shrink-0 text-emerald-500/70"
+              />
               <span className="text-foreground">{feature}</span>
             </li>
           ))}

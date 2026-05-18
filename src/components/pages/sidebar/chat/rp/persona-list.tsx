@@ -7,13 +7,27 @@ import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useCreatePersonaMutation, useDeletePersonaMutation, useImportPersonaMutation, usePersonasQuery, useUpdatePersonaMutation, } from "@/hooks/rp-hook";
+  useCreatePersonaMutation,
+  useDeletePersonaMutation,
+  useImportPersonaMutation,
+  usePersonasQuery,
+  useUpdatePersonaMutation,
+} from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
@@ -233,7 +247,12 @@ export function PersonaList(props: Props) {
                       )}
                     </div>
                     <div onClick={(e) => e.stopPropagation()}>
-                      <SyncBadge kind="personas" id={p.id} payload={p} compact />
+                      <SyncBadge
+                        kind="personas"
+                        id={p.id}
+                        payload={p}
+                        compact
+                      />
                     </div>
                     <Button
                       variant="ghost"

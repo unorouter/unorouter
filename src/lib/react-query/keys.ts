@@ -63,8 +63,7 @@ export const queryKeys = {
 
   // Sync (server-mirror state for synced rows)
   syncState: () => ["sync-state"] as const,
-  syncBundle: (kind: string, id: string) =>
-    ["sync-bundle", kind, id] as const,
+  syncBundle: (kind: string, id: string) => ["sync-bundle", kind, id] as const,
 
   // Pricing & Search
   pricing: () => ["pricing"] as const,

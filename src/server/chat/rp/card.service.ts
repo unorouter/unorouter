@@ -41,12 +41,18 @@ export async function getCard(userId: number, id: string) {
   assertFound(rows);
   const card = rows[0];
   const charRows = await db
-    .select({ characterId: cardCharacters.characterId, orderIndex: cardCharacters.orderIndex })
+    .select({
+      characterId: cardCharacters.characterId,
+      orderIndex: cardCharacters.orderIndex,
+    })
     .from(cardCharacters)
     .where(eq(cardCharacters.cardId, id))
     .orderBy(asc(cardCharacters.orderIndex));
   const lbRows = await db
-    .select({ lorebookId: cardLorebooks.lorebookId, orderIndex: cardLorebooks.orderIndex })
+    .select({
+      lorebookId: cardLorebooks.lorebookId,
+      orderIndex: cardLorebooks.orderIndex,
+    })
     .from(cardLorebooks)
     .where(eq(cardLorebooks.cardId, id))
     .orderBy(asc(cardLorebooks.orderIndex));
@@ -132,11 +138,7 @@ export async function createCard(userId: number, body: CardBody) {
   return getCard(userId, id);
 }
 
-export async function updateCard(
-  userId: number,
-  id: string,
-  body: CardBody,
-) {
+export async function updateCard(userId: number, id: string, body: CardBody) {
   const db = getDb();
   await db.transaction(async (tx) => {
     await assertOwnership(tx, userId, body);

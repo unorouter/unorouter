@@ -6,7 +6,12 @@ import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Input } from "@/components/ui/input";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -38,7 +43,8 @@ function SearchFilterInput(props: {
 }) {
   return (
     <div className="relative">
-      <Icon name="search"
+      <Icon
+        name="search"
         className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2"
         aria-hidden="true"
       />
@@ -133,7 +139,11 @@ export function LogFilters(props: {
           size="sm"
           onClick={() => setFiltersExpanded(!filtersExpanded)}
         >
-          <Icon name="filter" data-icon="inline-start" className="h-3.5 w-3.5" />
+          <Icon
+            name="filter"
+            data-icon="inline-start"
+            className="h-3.5 w-3.5"
+          />
           {t("LOGS.FILTERS")}
         </Button>
       </div>

@@ -8,7 +8,10 @@ interface PageHeaderProps {
   /** Icon name from the central registry. */
   badgeIcon?: IconName;
   /** Legacy escape hatch for vendor brand components (e.g. <Gemini.Color/>). */
-  badgeIconComponent?: ComponentType<{ className?: string; style?: CSSProperties }>;
+  badgeIconComponent?: ComponentType<{
+    className?: string;
+    style?: CSSProperties;
+  }>;
   title: string;
   subtitle: string;
   centered?: boolean;

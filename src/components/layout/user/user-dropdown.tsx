@@ -87,7 +87,10 @@ export function UserDropdown(props: UserDropdownProps) {
             <DropdownMenuSeparator />
             <div className="flex flex-col gap-2 px-2 py-1.5">
               <div className="flex items-center gap-2 text-xs">
-                <Icon name="sparkles" className="text-muted-foreground h-3.5 w-3.5" />
+                <Icon
+                  name="sparkles"
+                  className="text-muted-foreground h-3.5 w-3.5"
+                />
                 <span className="text-muted-foreground">
                   {t("AUTH.SUBSCRIPTION")}
                 </span>

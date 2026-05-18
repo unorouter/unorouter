@@ -3,15 +3,34 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
-  useClearConversationMutation, useConversationMarkdown, useDuplicateConversationMutation, } from "@/hooks/chat-hook";
+  useClearConversationMutation,
+  useConversationMarkdown,
+  useDuplicateConversationMutation,
+} from "@/hooks/chat-hook";
 import {
-  useExportConversation, useImportConversationMutation, } from "@/hooks/rp-hook";
+  useExportConversation,
+  useImportConversationMutation,
+} from "@/hooks/rp-hook";
 import {
-  useRemoveSyncMutation, useSyncMutation, useSyncStateForRow, } from "@/hooks/sync-hook";
+  useRemoveSyncMutation,
+  useSyncMutation,
+  useSyncStateForRow,
+} from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useAui } from "@assistant-ui/react";

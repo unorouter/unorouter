@@ -6,9 +6,15 @@ import { LorebookList } from "@/components/pages/sidebar/chat/rp/lorebook-list";
 import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
 import { Button } from "@/components/ui/button";
 import {
-  SidebarGroup, SidebarGroupContent, SidebarGroupLabel, } from "@/components/ui/sidebar";
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+} from "@/components/ui/sidebar";
 import {
-  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Link } from "@/i18n/navigation";
 import { atom, useAtom } from "jotai";
 import { useTranslations } from "next-intl";
@@ -59,60 +65,60 @@ export function SidebarRpNav() {
       <SidebarGroupLabel>{t("RP.SIDEBAR_GROUP_LABEL")}</SidebarGroupLabel>
       <SidebarGroupContent className="flex items-center gap-1">
         {items.map((it) => (
-        <Tooltip key={it.tab}>
+          <Tooltip key={it.tab}>
+            <TooltipTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label={t(it.labelKey)}
+                  onClick={() => setOpenTab(it.tab)}
+                >
+                  <Icon name={it.iconName} className="size-4" />
+                </Button>
+              }
+            />
+            <TooltipContent side="bottom">{t(it.labelKey)}</TooltipContent>
+          </Tooltip>
+        ))}
+        {/* Presets + cards have their own pages now (more room for prompt + flag
+          editing). Sidebar icons navigate instead of opening a dialog. */}
+        <Tooltip>
           <TooltipTrigger
             render={
               <Button
                 variant="ghost"
                 size="icon-sm"
-                aria-label={t(it.labelKey)}
-                onClick={() => setOpenTab(it.tab)}
+                aria-label={t("RP.SIDEBAR_TAB_PRESETS")}
+                nativeButton={false}
+                render={<Link href="/chat/presets" />}
               >
-                <Icon name={it.iconName} className="size-4" />
+                <Icon name="sliders-horizontal" className="size-4" />
               </Button>
             }
           />
-          <TooltipContent side="bottom">{t(it.labelKey)}</TooltipContent>
+          <TooltipContent side="bottom">
+            {t("RP.SIDEBAR_TAB_PRESETS")}
+          </TooltipContent>
         </Tooltip>
-      ))}
-      {/* Presets + cards have their own pages now (more room for prompt + flag
-          editing). Sidebar icons navigate instead of opening a dialog. */}
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              aria-label={t("RP.SIDEBAR_TAB_PRESETS")}
-              nativeButton={false}
-              render={<Link href="/chat/presets" />}
-            >
-              <Icon name="sliders-horizontal" className="size-4" />
-            </Button>
-          }
-        />
-        <TooltipContent side="bottom">
-          {t("RP.SIDEBAR_TAB_PRESETS")}
-        </TooltipContent>
-      </Tooltip>
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              aria-label={t("RP.SIDEBAR_TAB_CARDS")}
-              nativeButton={false}
-              render={<Link href="/chat/cards" />}
-            >
-              <Icon name="layers" className="size-4" />
-            </Button>
-          }
-        />
-        <TooltipContent side="bottom">
-          {t("RP.SIDEBAR_TAB_CARDS")}
-        </TooltipContent>
-      </Tooltip>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label={t("RP.SIDEBAR_TAB_CARDS")}
+                nativeButton={false}
+                render={<Link href="/chat/cards" />}
+              >
+                <Icon name="layers" className="size-4" />
+              </Button>
+            }
+          />
+          <TooltipContent side="bottom">
+            {t("RP.SIDEBAR_TAB_CARDS")}
+          </TooltipContent>
+        </Tooltip>
       </SidebarGroupContent>
     </SidebarGroup>
   );

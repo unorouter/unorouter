@@ -35,7 +35,10 @@ export function DataTableGlobalFilter<TData>(
 
   return (
     <div className="relative">
-      <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+      <Icon
+        name="search"
+        className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+      />
       <Input
         placeholder={props.placeholder || t("COMMON.SEARCH")}
         value={value}

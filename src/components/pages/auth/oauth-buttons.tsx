@@ -1,19 +1,44 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
+import { analytics } from "@/lib/analytics";
 import { AFF_CODE_KEY } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { StatusData } from "@/openapi";
-import { analytics } from "@/lib/analytics";
 import { getCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
-import { Icon } from "@/components/ui/icon";
-
-interface OAuthButtonsProps {
+type OAuthButtonsProps = {
   status: StatusData;
+};
+
+type OAuthProvider = {
+  key: string;
+  label: string;
+  icon: React.ReactNode;
+  buildUrl: (state: string, redirectUri: string) => string;
+};
+
+function buildBuiltinUrl(
+  provider: "github" | "discord" | "oidc" | "linuxdo",
+  status: StatusData,
+  state: string,
+  redirectUri: string,
+): string {
+  const encodedRedirect = encodeURIComponent(redirectUri);
+  switch (provider) {
+    case "github":
+      return `https://github.com/login/oauth/authorize?client_id=${status.github_client_id}&state=${state}&scope=user:email&redirect_uri=${encodedRedirect}`;
+    case "discord":
+      return `https://discord.com/api/oauth2/authorize?client_id=${status.discord_client_id}&state=${state}&response_type=code&scope=identify+email&redirect_uri=${encodedRedirect}`;
+    case "oidc":
+      return `${status.oidc_authorization_endpoint}?client_id=${status.oidc_client_id}&state=${state}&response_type=code&scope=openid+profile+email&redirect_uri=${encodedRedirect}`;
+    case "linuxdo":
+      return `https://connect.linux.do/oauth2/authorize?client_id=${status.linuxdo_client_id}&state=${state}&response_type=code&redirect_uri=${encodedRedirect}`;
+  }
 }
 
 export function buildOAuthUrl(
@@ -23,98 +48,97 @@ export function buildOAuthUrl(
 ): string | null {
   const serverAddress = status.server_address || env.apiUrl;
   const redirectUri = `${serverAddress}/oauth/${provider}`;
-
-  switch (provider) {
-    case "github":
-      return `https://github.com/login/oauth/authorize?client_id=${status.github_client_id}&state=${state}&scope=user:email&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    case "discord":
-      return `https://discord.com/api/oauth2/authorize?client_id=${status.discord_client_id}&state=${state}&response_type=code&scope=identify+email&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    case "oidc":
-      return `${status.oidc_authorization_endpoint}?client_id=${status.oidc_client_id}&state=${state}&response_type=code&scope=openid+profile+email&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    case "linuxdo":
-      return `https://connect.linux.do/oauth2/authorize?client_id=${status.linuxdo_client_id}&state=${state}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`;
-    default:
-      return null;
+  if (
+    provider === "github" ||
+    provider === "discord" ||
+    provider === "oidc" ||
+    provider === "linuxdo"
+  ) {
+    return buildBuiltinUrl(provider, status, state, redirectUri);
   }
+  return null;
 }
 
 export function OAuthButtons(props: OAuthButtonsProps) {
   const t = useTranslations();
   const [loading, setLoading] = useState<string | null>(null);
 
-  const providers: Array<{
-    key: string;
-    enabled: boolean;
-    label: string;
-    icon: React.ReactNode;
-  }> = [
-    {
+  const serverAddress = props.status.server_address || env.apiUrl;
+  const providers: OAuthProvider[] = [];
+
+  if (props.status.github_oauth) {
+    providers.push({
       key: "github",
-      enabled: props.status.github_oauth,
       label: t("AUTH.OAUTH.GITHUB"),
       icon: <Icon name="brand-github" className="h-4 w-4" />,
-    },
-    {
+      buildUrl: (state, redirectUri) =>
+        buildBuiltinUrl("github", props.status, state, redirectUri),
+    });
+  }
+  if (props.status.discord_oauth) {
+    providers.push({
       key: "discord",
-      enabled: props.status.discord_oauth,
       label: t("AUTH.OAUTH.DISCORD"),
       icon: <Icon name="brand-discord" className="h-4 w-4" />,
-    },
-    {
+      buildUrl: (state, redirectUri) =>
+        buildBuiltinUrl("discord", props.status, state, redirectUri),
+    });
+  }
+  if (props.status.oidc_enabled) {
+    providers.push({
       key: "oidc",
-      enabled: props.status.oidc_enabled,
       label: t("AUTH.OAUTH.OIDC"),
       icon: <Icon name="log-in" className="h-4 w-4" />,
-    },
-    {
+      buildUrl: (state, redirectUri) =>
+        buildBuiltinUrl("oidc", props.status, state, redirectUri),
+    });
+  }
+  if (props.status.linuxdo_oauth) {
+    providers.push({
       key: "linuxdo",
-      enabled: props.status.linuxdo_oauth,
       label: t("AUTH.OAUTH.LINUXDO"),
       icon: <Icon name="log-in" className="h-4 w-4" />,
-    },
-  ];
+      buildUrl: (state, redirectUri) =>
+        buildBuiltinUrl("linuxdo", props.status, state, redirectUri),
+    });
+  }
 
-  const customProviders = (props.status.custom_oauth_providers || []) as Array<{
-    id: number;
-    name: string;
-    slug: string;
-    icon: string;
-    client_id: string;
-    authorization_endpoint: string;
-    scopes: string;
-  }>;
-  const enabledProviders = providers.filter((p) => p.enabled);
-  const hasAnyOAuth = enabledProviders.length > 0 || customProviders.length > 0;
+  for (const custom of props.status.custom_oauth_providers ?? []) {
+    providers.push({
+      key: custom.slug,
+      label: custom.name,
+      icon: <Icon name="log-in" className="h-4 w-4" />,
+      buildUrl: (state, redirectUri) => {
+        const params = new URLSearchParams({
+          client_id: custom.client_id,
+          state,
+          response_type: "code",
+          scope: custom.scopes || "openid profile email",
+          redirect_uri: redirectUri,
+        });
+        return `${custom.authorization_endpoint}?${params.toString()}`;
+      },
+    });
+  }
 
-  if (!hasAnyOAuth) return null;
+  if (providers.length === 0) return null;
 
-  async function handleOAuth(
-    provider: string,
-    customAuthEndpoint?: string,
-    customClientId?: string,
-    customScopes?: string,
-  ) {
-    setLoading(provider);
-    analytics.auth.oauthInitiated(provider);
+  async function handleOAuth(provider: OAuthProvider) {
+    setLoading(provider.key);
+    analytics.auth.oauthInitiated(provider.key);
     try {
       const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
-      const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;
+      const affCode = getCookie(AFF_CODE_KEY);
       const state = handleElysia(
         await rpc.api.auth.oauth.state.get({
-          query: { redirect: callbackUrl, aff: affCode },
+          query: {
+            redirect: callbackUrl,
+            aff: typeof affCode === "string" ? affCode : undefined,
+          },
         }),
-      ) as string;
-
-      let url: string | null;
-      if (customAuthEndpoint) {
-        const serverAddress = props.status.server_address || env.apiUrl;
-        const redirectUri = `${serverAddress}/oauth/${provider}`;
-        url = `${customAuthEndpoint}?client_id=${customClientId}&state=${state}&response_type=code&scope=${encodeURIComponent(customScopes || "openid profile email")}&redirect_uri=${encodeURIComponent(redirectUri)}`;
-      } else {
-        url = buildOAuthUrl(provider, props.status, state);
-      }
-
-      if (url) window.location.href = url;
+      );
+      const redirectUri = `${serverAddress}/oauth/${provider.key}`;
+      window.location.href = provider.buildUrl(state, redirectUri);
     } finally {
       setLoading(null);
     }
@@ -131,10 +155,10 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       </div>
 
       <div className="flex flex-col gap-2">
-        {enabledProviders.map((provider) => (
+        {providers.map((provider) => (
           <button
             key={provider.key}
-            onClick={() => handleOAuth(provider.key)}
+            onClick={() => handleOAuth(provider)}
             disabled={loading !== null}
             className="border-border/60 bg-background/60 hover:bg-accent text-foreground flex h-11 w-full items-center justify-center gap-2 rounded-2xl border text-sm font-medium transition-colors disabled:opacity-50"
           >
@@ -144,31 +168,6 @@ export function OAuthButtons(props: OAuthButtonsProps) {
               <>
                 {provider.icon}
                 {provider.label}
-              </>
-            )}
-          </button>
-        ))}
-
-        {customProviders.map((provider) => (
-          <button
-            key={provider.slug}
-            onClick={() =>
-              handleOAuth(
-                provider.slug,
-                provider.authorization_endpoint,
-                provider.client_id,
-                provider.scopes,
-              )
-            }
-            disabled={loading !== null}
-            className="border-border/60 bg-background/60 hover:bg-accent text-foreground flex h-11 w-full items-center justify-center gap-2 rounded-2xl border text-sm font-medium transition-colors disabled:opacity-50"
-          >
-            {loading === provider.slug ? (
-              <span className="text-muted-foreground text-xs">...</span>
-            ) : (
-              <>
-                <Icon name="log-in" className="h-4 w-4" />
-                {provider.name}
               </>
             )}
           </button>

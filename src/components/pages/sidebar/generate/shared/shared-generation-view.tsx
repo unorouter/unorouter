@@ -3,9 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
-  useForkSharedSessionMutation, useSharedSessionQuery, } from "@/hooks/generation-hook";
+  useForkSharedSessionMutation,
+  useSharedSessionQuery,
+} from "@/hooks/generation-hook";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { downloadGenerationImage } from "@/lib/utils/generation-export";
 import { useTranslations } from "next-intl";

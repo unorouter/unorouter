@@ -4,7 +4,13 @@ import { analytics } from "@/lib/analytics";
 import { Icon } from "@/components/ui/icon";
 import { copyToClipboard } from "@/lib/utils/base";
 import {
-  use2FAStatusQuery, useGenerateAccessTokenMutation, usePasskeyDeleteMutation, usePasskeyRegisterBeginMutation, usePasskeyRegisterFinishMutation, usePasskeyStatusQuery, } from "@/hooks/settings-hook";
+  use2FAStatusQuery,
+  useGenerateAccessTokenMutation,
+  usePasskeyDeleteMutation,
+  usePasskeyRegisterBeginMutation,
+  usePasskeyRegisterFinishMutation,
+  usePasskeyStatusQuery,
+} from "@/hooks/settings-hook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -177,7 +183,10 @@ export function SecurityCard() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Icon name="fingerprint" className="text-muted-foreground h-4 w-4" />
+                <Icon
+                  name="fingerprint"
+                  className="text-muted-foreground h-4 w-4"
+                />
                 <span className="font-medium">
                   {t("SETTINGS.SECURITY.PASSKEY")}
                 </span>
@@ -225,7 +234,10 @@ export function SecurityCard() {
           <div className="space-y-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <Icon name="shield-check" className="text-muted-foreground h-4 w-4" />
+                <Icon
+                  name="shield-check"
+                  className="text-muted-foreground h-4 w-4"
+                />
                 <span className="font-medium">
                   {t("SETTINGS.SECURITY.TWO_FACTOR")}
                 </span>

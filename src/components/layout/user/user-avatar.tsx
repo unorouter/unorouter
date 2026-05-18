@@ -30,5 +30,7 @@ export function UserAvatar(props: UserAvatarProps) {
     );
   }
 
-  return <Icon name="user" className={cn("size-4 shrink-0", props.className)} />;
+  return (
+    <Icon name="user" className={cn("size-4 shrink-0", props.className)} />
+  );
 }

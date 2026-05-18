@@ -1,5 +1,8 @@
 import { PAGE_SIZE } from "@/lib/config/constants";
-import { readLocalConversation, readLocalConversations } from "@/lib/local-db/reads";
+import {
+  readLocalConversation,
+  readLocalConversations,
+} from "@/lib/local-db/reads";
 import {
   deleteLocalConversation,
   upsertLocalConversation,
@@ -143,7 +146,8 @@ export function createThreadListAdapter(
           topK: (defaults.topK as number | null) ?? null,
           minP: (defaults.minP as number | null) ?? null,
           topA: (defaults.topA as number | null) ?? null,
-          frequencyPenalty: (defaults.frequencyPenalty as number | null) ?? null,
+          frequencyPenalty:
+            (defaults.frequencyPenalty as number | null) ?? null,
           presencePenalty: (defaults.presencePenalty as number | null) ?? null,
           repetitionPenalty:
             (defaults.repetitionPenalty as number | null) ?? null,
@@ -183,7 +187,9 @@ export function createThreadListAdapter(
               await rpc.api
                 .sync({ kind: "conversations" })({ id })
                 .post({
-                  payload: { conversation: { ...existing, title, updatedAt: now } },
+                  payload: {
+                    conversation: { ...existing, title, updatedAt: now },
+                  },
                   keepExpiry: true,
                 }),
             );
@@ -204,9 +210,9 @@ export function createThreadListAdapter(
     async delete(id) {
       if (userId != null) {
         const existing = await readLocalConversation(userId, id);
-        const wasSynced = (
-          existing as { syncExpiresAt?: Date | null } | null
-        )?.syncExpiresAt != null;
+        const wasSynced =
+          (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+          null;
         await deleteLocalConversation(userId, id);
         if (wasSynced) {
           try {
@@ -291,7 +297,11 @@ export function createThreadListAdapter(
                   .sync({ kind: "conversations" })({ id })
                   .post({
                     payload: {
-                      conversation: { ...existing, title: data.title, updatedAt: now },
+                      conversation: {
+                        ...existing,
+                        title: data.title,
+                        updatedAt: now,
+                      },
                     },
                     keepExpiry: true,
                   }),

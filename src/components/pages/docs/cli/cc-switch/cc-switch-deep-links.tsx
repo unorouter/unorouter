@@ -97,7 +97,10 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
       {/* Login or generate key prompts */}
       {!token.isLoggedIn && (
         <div className="border-border bg-card flex items-center gap-2 rounded-lg border px-4 py-3">
-          <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
+          <Icon
+            name="key"
+            className="text-muted-foreground size-3.5 shrink-0"
+          />
           <Link href="/login" className="text-primary text-sm underline">
             {t("DOCS.SETUP.LOGIN_REQUIRED")}
           </Link>
@@ -106,7 +109,10 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
 
       {token.isLoggedIn && token.needsToken && (
         <div className="border-border bg-card flex items-center gap-2 rounded-lg border px-4 py-3">
-          <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
+          <Icon
+            name="key"
+            className="text-muted-foreground size-3.5 shrink-0"
+          />
           <span className="text-muted-foreground text-xs">
             {t("DOCS.GENERATE_API_KEY_DESC")}
           </span>
@@ -158,7 +164,10 @@ export function CCSwitchDeepLinks(props: CCSwitchDeepLinksProps) {
           ref={installRef}
           className="border-border bg-card animate-in fade-in slide-in-from-top-2 flex items-center gap-3 rounded-lg border px-4 py-3"
         >
-          <Icon name="circle-alert" className="text-muted-foreground size-4 shrink-0" />
+          <Icon
+            name="circle-alert"
+            className="text-muted-foreground size-4 shrink-0"
+          />
           <span className="text-muted-foreground text-sm">
             {t("DOCS.SETUP.NO_APP")}
           </span>

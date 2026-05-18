@@ -7,18 +7,38 @@ import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
-  useCharactersQuery, useCreateCharacterMutation, useDeleteCharacterMutation, useImportCharacterCardMutation, useUpdateCharacterMutation, } from "@/hooks/rp-hook";
+  useCharactersQuery,
+  useCreateCharacterMutation,
+  useDeleteCharacterMutation,
+  useImportCharacterCardMutation,
+  useUpdateCharacterMutation,
+} from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
 import {
-  characterFormSchema, type CharacterForm, } from "@/lib/validation/rp-forms";
+  characterFormSchema,
+  type CharacterForm,
+} from "@/lib/validation/rp-forms";
 import { analytics } from "@/lib/analytics";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
@@ -198,7 +218,12 @@ export function CharacterList(props: Props) {
                     )}
                   </div>
                   <div onClick={(e) => e.stopPropagation()}>
-                    <SyncBadge kind="characters" id={c.id} payload={c} compact />
+                    <SyncBadge
+                      kind="characters"
+                      id={c.id}
+                      payload={c}
+                      compact
+                    />
                   </div>
                   <DropdownMenu>
                     <DropdownMenuTrigger

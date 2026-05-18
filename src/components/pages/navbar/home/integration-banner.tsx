@@ -164,7 +164,8 @@ async function IntegrationRow(props: {
                   <div
                     className={`h-8 w-8 rounded-full border ${colors.ring} flex items-center justify-center transition-all`}
                   >
-                    <Icon name="arrow-right"
+                    <Icon
+                      name="arrow-right"
                       className={`h-3.5 w-3.5 ${colors.arrow} transition-colors group-hover:text-white`}
                     />
                   </div>

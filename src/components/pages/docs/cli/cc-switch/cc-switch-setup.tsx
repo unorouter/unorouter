@@ -74,7 +74,10 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
 
         {token.isLoggedIn && token.needsToken && (
           <div className="mt-3 flex items-center gap-2">
-            <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
+            <Icon
+              name="key"
+              className="text-muted-foreground size-3.5 shrink-0"
+            />
             <span className="text-muted-foreground text-xs">
               {t("DOCS.GENERATE_API_KEY_DESC")}
             </span>
@@ -100,7 +103,10 @@ export function CCSwitchSetup(props: CCSwitchSetupProps) {
             ref={installRef}
             className="animate-in fade-in slide-in-from-top-2 mt-3 flex items-center gap-2"
           >
-            <Icon name="circle-alert" className="text-muted-foreground size-3.5 shrink-0" />
+            <Icon
+              name="circle-alert"
+              className="text-muted-foreground size-3.5 shrink-0"
+            />
             <span className="text-muted-foreground text-xs">
               {t("DOCS.SETUP.NO_APP")}
             </span>

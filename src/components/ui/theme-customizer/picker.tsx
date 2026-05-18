@@ -35,9 +35,9 @@ export function Picker(props: Props) {
       <DropdownMenuTrigger
         disabled={props.disabled}
         className={cn(
-          "relative w-full shrink-0 touch-manipulation rounded-lg px-3 py-2 text-left ring-1 ring-foreground/10 select-none",
+          "ring-foreground/10 relative w-full shrink-0 touch-manipulation rounded-lg px-3 py-2 text-left ring-1 select-none",
           "hover:bg-muted focus-visible:ring-foreground/50 focus-visible:outline-none",
-          "data-[state=open]:bg-muted disabled:opacity-50 disabled:pointer-events-none",
+          "data-[state=open]:bg-muted disabled:pointer-events-none disabled:opacity-50",
         )}
       >
         <div className="flex flex-col justify-start">
@@ -66,7 +66,7 @@ export function Picker(props: Props) {
             <DropdownMenuRadioItem key={opt.value} value={opt.value}>
               {opt.swatch && (
                 <span
-                  className="size-3.5 shrink-0 rounded-full ring-1 ring-foreground/10"
+                  className="ring-foreground/10 size-3.5 shrink-0 rounded-full ring-1"
                   style={{ backgroundColor: opt.swatch }}
                 />
               )}
@@ -82,7 +82,7 @@ export function Picker(props: Props) {
 export function ColorSwatch(props: { value: string }) {
   return (
     <span
-      className="size-4 rounded-full ring-1 ring-foreground/15"
+      className="ring-foreground/15 size-4 rounded-full ring-1"
       style={{ backgroundColor: props.value }}
     />
   );
@@ -116,7 +116,7 @@ export function RadiusGlyph(props: { radius: number }) {
 
 export function FontGlyph() {
   return (
-    <span className="text-foreground text-base font-semibold leading-none">
+    <span className="text-foreground text-base leading-none font-semibold">
       Aa
     </span>
   );

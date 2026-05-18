@@ -68,7 +68,11 @@ export function useSyncMutation() {
           const card = await readLocalCard(userId, args.id);
           if (card) {
             payload = {
-              card: { ...card, cardCharacters: undefined, cardLorebooks: undefined },
+              card: {
+                ...card,
+                cardCharacters: undefined,
+                cardLorebooks: undefined,
+              },
               cardCharacters: card.cardCharacters,
               cardLorebooks: card.cardLorebooks,
             };

@@ -6,10 +6,19 @@ import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useApplyCardMutation, useCardsQuery, useDeleteCardMutation, } from "@/hooks/rp-hook";
+  useApplyCardMutation,
+  useCardsQuery,
+  useDeleteCardMutation,
+} from "@/hooks/rp-hook";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -103,10 +112,7 @@ export function CardsPage() {
 
       {editingId ? (
         <Card className="p-4">
-          <CardForm
-            editingId={editingId}
-            onDone={() => setEditingId(null)}
-          />
+          <CardForm editingId={editingId} onDone={() => setEditingId(null)} />
         </Card>
       ) : (
         <div className="flex flex-col gap-2">

@@ -12,7 +12,10 @@ export async function ReliabilitySection() {
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 rounded-sm border border-cyan-500/30 bg-cyan-500/10 px-3 py-1.5">
-              <Icon name="refresh-cw" className="h-3 w-3 text-cyan-700 dark:text-cyan-400" />
+              <Icon
+                name="refresh-cw"
+                className="h-3 w-3 text-cyan-700 dark:text-cyan-400"
+              />
               <span className="font-mono text-[10px] tracking-[0.2em] text-cyan-700 uppercase dark:text-cyan-400">
                 {t("HOME.RELIABILITY.BADGE")}
               </span>
@@ -31,7 +34,10 @@ export async function ReliabilitySection() {
             <div className="grid gap-4 sm:grid-cols-2">
               <InfoCard
                 icon={
-                  <Icon name="layers" className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400" />
+                  <Icon
+                    name="layers"
+                    className="h-3.5 w-3.5 text-cyan-700 dark:text-cyan-400"
+                  />
                 }
                 title={t("HOME.RELIABILITY.CARD1.TITLE")}
                 description={t("HOME.RELIABILITY.CARD1.DESC")}
@@ -39,7 +45,10 @@ export async function ReliabilitySection() {
               />
               <InfoCard
                 icon={
-                  <Icon name="server" className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400" />
+                  <Icon
+                    name="server"
+                    className="h-3.5 w-3.5 text-purple-700 dark:text-purple-400"
+                  />
                 }
                 title={t("HOME.RELIABILITY.CARD2.TITLE")}
                 description={t("HOME.RELIABILITY.CARD2.DESC")}
@@ -101,7 +110,10 @@ export async function ReliabilitySection() {
               <div className="px-6 pb-6">
                 <div className="bg-muted border-border/50 rounded-md border p-3">
                   <div className="mb-2 flex items-center gap-2">
-                    <Icon name="cpu" className="text-muted-foreground h-2.5 w-2.5" />
+                    <Icon
+                      name="cpu"
+                      className="text-muted-foreground h-2.5 w-2.5"
+                    />
                     <span className="text-muted-foreground text-[9px] tracking-wider uppercase">
                       {t("HOME.RELIABILITY.FORMATS.TITLE")}
                     </span>

@@ -5,10 +5,22 @@ import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  useBillingPlansQuery, useBillingPortalMutation, useCreemSubscriptionMutation, useStripeSubscriptionMutation, useSubscriptionSelfQuery, useTopUpInfoQuery, useUpdateBillingPreferenceMutation, } from "@/hooks/billing-hook";
+  useBillingPlansQuery,
+  useBillingPortalMutation,
+  useCreemSubscriptionMutation,
+  useStripeSubscriptionMutation,
+  useSubscriptionSelfQuery,
+  useTopUpInfoQuery,
+  useUpdateBillingPreferenceMutation,
+} from "@/hooks/billing-hook";
 import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { getMultiplier } from "@/lib/api/subscription";
@@ -221,7 +233,8 @@ export function SubscriptionSection() {
               topUpInfoQuery.isFetching
             }
           >
-            <Icon name="refresh-cw"
+            <Icon
+              name="refresh-cw"
               className={`h-4 w-4 ${selfQuery.isFetching || plansQuery.isFetching || topUpInfoQuery.isFetching ? "animate-spin" : ""}`}
             />
           </Button>

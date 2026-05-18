@@ -4,34 +4,19 @@ import { Button } from "@/components/ui/button";
 import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
-import { APP_VALUES, type TranslationKey } from "@/lib/config/constants";
+import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { type IconName } from "@/lib/config/icon-map";
-import { OAUTH_SCOPE_TRANSLATION_KEYS } from "@/lib/config/oauth-scopes";
+import {
+  getScopeMeta,
+  getScopeTranslationKey,
+  type ScopeKind,
+} from "@/lib/config/oauth-scopes";
 import { useTranslations } from "next-intl";
 
 type ConsentFormProps = {
   callbackId: string;
   clientId: string;
   scope: string;
-};
-
-type ScopeKind = "read" | "write" | "danger";
-
-type ScopeMeta = {
-  icon: IconName;
-  kind: ScopeKind;
-};
-
-const SCOPE_META: Record<string, ScopeMeta> = {
-  openid: { icon: "shield-check", kind: "read" },
-  "models:read": { icon: "eye", kind: "read" },
-  "balance:read": { icon: "eye", kind: "read" },
-  "tokens:read": { icon: "eye", kind: "read" },
-  "tokens:write": { icon: "key-round", kind: "write" },
-  "subscription:read": { icon: "eye", kind: "read" },
-  "subscription:cancel": { icon: "octagon-x", kind: "danger" },
-  "checkout:create": { icon: "shopping-cart", kind: "write" },
 };
 
 const KIND_BADGE: Record<ScopeKind, string> = {
@@ -115,16 +100,8 @@ export function ConsentForm(props: ConsentFormProps) {
         </p>
         <ul className="space-y-2">
           {scopes.map((scope) => {
-            const key = (
-              OAUTH_SCOPE_TRANSLATION_KEYS as Record<
-                string,
-                TranslationKey | undefined
-              >
-            )[scope];
-            const meta = SCOPE_META[scope] ?? {
-              icon: "shield-check" as IconName,
-              kind: "read" as ScopeKind,
-            };
+            const key = getScopeTranslationKey(scope);
+            const meta = getScopeMeta(scope);
             return (
               <li
                 key={scope}

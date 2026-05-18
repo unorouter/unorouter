@@ -4,7 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  useRemoveSyncMutation, useSyncMutation, useSyncStateForRow, } from "@/hooks/sync-hook";
+  useRemoveSyncMutation,
+  useSyncMutation,
+  useSyncStateForRow,
+} from "@/hooks/sync-hook";
 import type { SyncKindName } from "@/lib/validation/sync";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -77,7 +80,7 @@ export function SyncBadge(props: Props) {
 
   return (
     <div className="flex items-center gap-2">
-      <Badge variant="default" className="gap-1 bg-success/15 text-success">
+      <Badge variant="default" className="bg-success/15 text-success gap-1">
         <Icon name="cloud-upload" className="size-3" />
         {expiresAt
           ? t("SYNC.EXPIRES_AT", { date: expiresAt })

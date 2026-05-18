@@ -62,19 +62,24 @@ type ListResponse<TFn> = TFn extends (...args: never[]) => Promise<infer R>
   : never;
 
 type CharactersList = ListResponse<typeof rpc.api.rp.characters.get>;
-type Character = CharactersList extends ReadonlyArray<infer Item> ? Item : never;
+type Character =
+  CharactersList extends ReadonlyArray<infer Item> ? Item : never;
 
 async function mirrorSyncedRow(
   userId: number,
-  kind: "characters" | "personas" | "lorebooks" | "presets" | "cards" | "conversations",
+  kind:
+    | "characters"
+    | "personas"
+    | "lorebooks"
+    | "presets"
+    | "cards"
+    | "conversations",
   id: string,
   payload: unknown,
 ) {
   try {
     handleElysia(
-      await rpc.api
-        .sync({ kind })({ id })
-        .post({ payload, keepExpiry: true }),
+      await rpc.api.sync({ kind })({ id }).post({ payload, keepExpiry: true }),
     );
   } catch (err) {
     await enqueuePending(userId, kind, id, "patch", err);
@@ -83,13 +88,17 @@ async function mirrorSyncedRow(
 
 async function deleteSyncedRow(
   userId: number,
-  kind: "characters" | "personas" | "lorebooks" | "presets" | "cards" | "conversations",
+  kind:
+    | "characters"
+    | "personas"
+    | "lorebooks"
+    | "presets"
+    | "cards"
+    | "conversations",
   id: string,
 ) {
   try {
-    handleElysia(
-      await rpc.api.sync({ kind })({ id }).delete(),
-    );
+    handleElysia(await rpc.api.sync({ kind })({ id }).delete());
   } catch (err) {
     await enqueuePending(userId, kind, id, "delete", err);
   }
@@ -97,9 +106,8 @@ async function deleteSyncedRow(
 
 async function mirrorConvIfSynced(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
-  const syncExpiresAt = (
-    conv as { syncExpiresAt?: Date | null } | null
-  )?.syncExpiresAt;
+  const syncExpiresAt = (conv as { syncExpiresAt?: Date | null } | null)
+    ?.syncExpiresAt;
   if (syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
@@ -130,7 +138,9 @@ export function useCreateCharacterMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.characters, "post">) => {
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.rp.characters, "post">,
+    ) => {
       const userId = auth.data?.id;
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
@@ -366,7 +376,9 @@ export function useImportPersonaMutation() {
       handleElysia(await rpc.api.rp.personas.import.post({ file })),
     onSuccess: async (data) => {
       const userId = auth.data?.id;
-      const list = Array.isArray(data) ? (data as Persona[]) : [data as Persona];
+      const list = Array.isArray(data)
+        ? (data as Persona[])
+        : [data as Persona];
       if (userId != null) {
         for (const row of list) {
           await upsertLocalPersona(userId, row as never);
@@ -539,7 +551,10 @@ export function useImportLorebookMutation() {
       const lb = data as Lorebook & { entries?: LorebookEntry[] };
       if (userId != null) {
         await upsertLocalLorebookBundle(userId, {
-          lorebook: { ...(lb as Record<string, unknown>), entries: undefined } as never,
+          lorebook: {
+            ...(lb as Record<string, unknown>),
+            entries: undefined,
+          } as never,
           entries: (lb.entries ?? []) as never,
         });
       }
@@ -624,7 +639,9 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       if (userId == null) throw new Error("not-logged-in");
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
-      const existing = lb?.entries.find((e) => (e as { id: string }).id === args.entryId);
+      const existing = lb?.entries.find(
+        (e) => (e as { id: string }).id === args.entryId,
+      );
       const updated = {
         ...(existing ?? {}),
         id: args.entryId,
@@ -639,7 +656,9 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
     onSuccess: (data, args) => {
       const patch = data as Partial<LorebookEntry>;
       patchLorebookEntries(qc, lorebookId, (entries) =>
-        entries.map((e) => ((e as { id: string }).id === args.entryId ? { ...e, ...patch } : e)),
+        entries.map((e) =>
+          (e as { id: string }).id === args.entryId ? { ...e, ...patch } : e,
+        ),
       );
     },
     onError: (e) => handleError(e, t),
@@ -889,10 +908,14 @@ export function useUpdateCardMutation() {
       };
       const characterIds =
         (body.characterIds as string[] | undefined) ??
-        existing.cardCharacters.map((c) => (c as { characterId: string }).characterId);
+        existing.cardCharacters.map(
+          (c) => (c as { characterId: string }).characterId,
+        );
       const lorebookIds =
         (body.lorebookIds as string[] | undefined) ??
-        existing.cardLorebooks.map((l) => (l as { lorebookId: string }).lorebookId);
+        existing.cardLorebooks.map(
+          (l) => (l as { lorebookId: string }).lorebookId,
+        );
       await upsertLocalCardBundle(userId, {
         card: updatedCard as never,
         cardCharacters: characterIds.map((cid, i) => ({
@@ -909,7 +932,11 @@ export function useUpdateCardMutation() {
       if ((existing as { syncExpiresAt?: Date | null }).syncExpiresAt != null) {
         const fresh = await readLocalCard(userId, args.id);
         await mirrorSyncedRow(userId, "cards", args.id, {
-          card: { ...fresh, cardCharacters: undefined, cardLorebooks: undefined },
+          card: {
+            ...fresh,
+            cardCharacters: undefined,
+            cardLorebooks: undefined,
+          },
           cardCharacters: fresh?.cardCharacters ?? [],
           cardLorebooks: fresh?.cardLorebooks ?? [],
         });
@@ -946,9 +973,7 @@ export function useDeleteCardMutation() {
       return { id };
     },
     onSuccess: (_data, id) => {
-      qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
-        listRemove(old, id),
-      );
+      qc.setQueryData<Card[]>(queryKeys.cards(), (old) => listRemove(old, id));
       qc.removeQueries({ queryKey: queryKeys.card(id) });
       qc.invalidateQueries({ queryKey: queryKeys.syncState() });
     },

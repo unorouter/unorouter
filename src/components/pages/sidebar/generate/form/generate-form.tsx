@@ -186,12 +186,10 @@ export function GenerateForm() {
     ) as GenerationFormValues,
   });
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const selectedModel =
     (form.watch("model") as GenerationModel | undefined) ?? INITIAL_MODEL;
   const descriptor = findDescriptor(selectedModel);
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const ui = (form.watch("ui") as Record<string, unknown> | undefined) ?? {};
   const variantsRaw = ui.variants as number | undefined;
   const variants =
@@ -255,7 +253,6 @@ export function GenerateForm() {
 
   useEffect(() => {
     if (effectiveModels.length === 0) return;
-    // eslint-disable-next-line react-hooks/incompatible-library
     const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
     if (desc && (isLoggedIn || desc.isFree)) return;
@@ -267,7 +264,6 @@ export function GenerateForm() {
 
   useEffect(() => {
     if (effectiveModels.length === 0) return;
-    // eslint-disable-next-line react-hooks/incompatible-library
     const current = form.watch("model") ?? "";
     const desc = effectiveModels.find((m) => m.id === current);
     if (desc && isModelInTab(desc, activeTab)) return;
@@ -312,7 +308,6 @@ export function GenerateForm() {
     setDraftRef.current = setDraft;
   }, [setDraft]);
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/incompatible-library
     const subscription = form.watch((values) => {
       const timer = setTimeout(() => {
         const next: GenerateDraft = {
@@ -344,7 +339,6 @@ export function GenerateForm() {
         shouldDirty: true,
       });
     }
-    // eslint-disable-next-line react-hooks/incompatible-library
     const cur =
       (form.watch("params") as Record<string, unknown> | undefined) ?? {};
     const next: Record<string, unknown> = { ...cur };
@@ -424,7 +418,6 @@ export function GenerateForm() {
     key: "steps" | "cfg" | "guidance" | "seed",
     fallback?: number,
   ): number | undefined => {
-    // eslint-disable-next-line react-hooks/incompatible-library
     const params = form.watch("params") as
       | Record<string, number | undefined>
       | undefined;
@@ -461,7 +454,10 @@ export function GenerateForm() {
                           {descriptor.displayName}
                         </span>
                       </span>
-                      <Icon name="chevrons-up-down" className="text-muted-foreground ml-2 h-4 w-4 shrink-0" />
+                      <Icon
+                        name="chevrons-up-down"
+                        className="text-muted-foreground ml-2 h-4 w-4 shrink-0"
+                      />
                     </PopoverTrigger>
                     <PopoverContent
                       className="w-[--radix-popover-trigger-width] p-0"
@@ -521,7 +517,10 @@ export function GenerateForm() {
                                       </span>
                                     )}
                                     {disabled && (
-                                      <Icon name="lock" className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
+                                      <Icon
+                                        name="lock"
+                                        className="text-muted-foreground ml-1 h-3 w-3 shrink-0"
+                                      />
                                     )}
                                   </CommandItem>
                                 );
@@ -583,7 +582,10 @@ export function GenerateForm() {
                                         </span>
                                       )}
                                       {disabled && (
-                                        <Icon name="lock" className="text-muted-foreground ml-1 h-3 w-3 shrink-0" />
+                                        <Icon
+                                          name="lock"
+                                          className="text-muted-foreground ml-1 h-3 w-3 shrink-0"
+                                        />
                                       )}
                                     </CommandItem>
                                   );
@@ -603,7 +605,6 @@ export function GenerateForm() {
 
         {descriptor.supportsSize &&
           (() => {
-            // eslint-disable-next-line react-hooks/incompatible-library
             const p =
               (form.watch("params") as
                 | { width?: number; height?: number }
@@ -613,7 +614,6 @@ export function GenerateForm() {
                 width={p.width ?? 1024}
                 height={p.height ?? 1024}
                 onChange={(next) => {
-                  // eslint-disable-next-line react-hooks/incompatible-library
                   const cur =
                     (form.watch("params") as
                       | Record<string, unknown>
@@ -841,10 +841,7 @@ export function GenerateForm() {
         {descriptor.supportsLoraChain && (
           <LoraPicker
             family={descriptor.family}
-            value={
-              // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("loras") as LoraEntry[] | undefined) ?? []
-            }
+            value={(form.watch("loras") as LoraEntry[] | undefined) ?? []}
             onChange={(loras) =>
               form.setValue(
                 "loras",
@@ -859,7 +856,6 @@ export function GenerateForm() {
           <ReferenceUploader
             maxFiles={descriptor.maxReferenceImages}
             value={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("references") as ReferenceEntry[] | undefined) ?? []
             }
             onChange={(refs) =>
@@ -1003,7 +999,6 @@ export function GenerateForm() {
 
         {activeTab === "img2img" &&
           (() => {
-            // eslint-disable-next-line react-hooks/incompatible-library
             const params = form.watch("params") as
               | { initImageUrl?: string }
               | undefined;
@@ -1011,7 +1006,6 @@ export function GenerateForm() {
               <InitImageField
                 value={params?.initImageUrl}
                 onChange={(initImageUrl) => {
-                  // eslint-disable-next-line react-hooks/incompatible-library
                   const cur =
                     (form.watch("params") as
                       | Record<string, unknown>
@@ -1027,7 +1021,6 @@ export function GenerateForm() {
         {activeTab === "img2img" &&
           activeSubPill === "inpaint" &&
           (() => {
-            // eslint-disable-next-line react-hooks/incompatible-library
             const params = form.watch("params") as
               | { initImageUrl?: string }
               | undefined;
@@ -1040,7 +1033,6 @@ export function GenerateForm() {
           <EmbeddingPicker
             family={descriptor.family}
             value={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (
                 form.watch("params") as
                   | { embeddings?: EmbeddingEntry[] }
@@ -1048,7 +1040,6 @@ export function GenerateForm() {
               )?.embeddings ?? []
             }
             onChange={(embeddings) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1066,12 +1057,8 @@ export function GenerateForm() {
 
         {descriptor.supportsVae && (
           <VaePicker
-            value={
-              // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { vae?: string } | undefined)?.vae
-            }
+            value={(form.watch("params") as { vae?: string } | undefined)?.vae}
             onChange={(vae) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1085,7 +1072,6 @@ export function GenerateForm() {
         {descriptor.supportsControlNet && (
           <ControlNetModal
             value={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (
                 form.watch("params") as
                   | { controlNet?: ControlNetValue }
@@ -1093,7 +1079,6 @@ export function GenerateForm() {
               )?.controlNet
             }
             onChange={(controlNet) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1108,7 +1093,6 @@ export function GenerateForm() {
           <AdetailerSection
             family={descriptor.family}
             value={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (
                 form.watch("params") as
                   | { adetailer?: AdetailerValue }
@@ -1116,7 +1100,6 @@ export function GenerateForm() {
               )?.adetailer
             }
             onChange={(adetailer) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1130,7 +1113,6 @@ export function GenerateForm() {
         {descriptor.supportsLayerDiffusion && (
           <LayerDiffusionField
             value={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (
                 form.watch("params") as
                   | { layerDiffusion?: { weight: number } }
@@ -1138,7 +1120,6 @@ export function GenerateForm() {
               )?.layerDiffusion
             }
             onChange={(layerDiffusion) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1152,33 +1133,27 @@ export function GenerateForm() {
         {descriptor.supportsHiresFix && (
           <UpscalerField
             upscaler={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("params") as { upscaler?: string } | undefined)
                 ?.upscaler
             }
             multiplier={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (
                 form.watch("params") as
                   | { upscalerMultiplier?: number; hiresUpscale?: number }
                   | undefined
               )?.upscalerMultiplier ??
-              // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("params") as { hiresUpscale?: number } | undefined)
                 ?.hiresUpscale
             }
             hiresSteps={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("params") as { hiresSteps?: number } | undefined)
                 ?.hiresSteps
             }
             denoise={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("params") as { hiresDenoise?: number } | undefined)
                 ?.hiresDenoise
             }
             onChange={(patch) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1209,16 +1184,11 @@ export function GenerateForm() {
         {descriptor.supportsClipSkip && (
           <AdvancedSettingsAccordion
             clipSkip={
-              // eslint-disable-next-line react-hooks/incompatible-library
               (form.watch("params") as { clipSkip?: number } | undefined)
                 ?.clipSkip
             }
-            ensd={
-              // eslint-disable-next-line react-hooks/incompatible-library
-              (form.watch("params") as { ensd?: number } | undefined)?.ensd
-            }
+            ensd={(form.watch("params") as { ensd?: number } | undefined)?.ensd}
             onChange={(patch) => {
-              // eslint-disable-next-line react-hooks/incompatible-library
               const cur =
                 (form.watch("params") as Record<string, unknown> | undefined) ??
                 {};
@@ -1230,7 +1200,6 @@ export function GenerateForm() {
         )}
 
         <div className="flex flex-col gap-2">
-          {/* eslint-disable-next-line react-hooks/incompatible-library */}
           <Button
             type="submit"
             disabled={submitMut.isPending || !(form.watch("prompt") ?? "")}

@@ -55,9 +55,8 @@ function buildRepository<TMessage>(
 
 async function mirrorConvIfSynced(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
-  const syncExpiresAt = (
-    conv as { syncExpiresAt?: Date | null } | null
-  )?.syncExpiresAt;
+  const syncExpiresAt = (conv as { syncExpiresAt?: Date | null } | null)
+    ?.syncExpiresAt;
   if (syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
@@ -165,9 +164,10 @@ export function createChatHistoryAdapter(
           // Determine usage from the content (assistant turns carry usage
           // in their metadata once stream finishes). Stream pipeline returns
           // usage via the SSE finish frame which we surface on content.usage.
-          const usage = (content.usage as
-            | { inputTokens: number; outputTokens: number; cost: number }
-            | undefined) ?? null;
+          const usage =
+            (content.usage as
+              | { inputTokens: number; outputTokens: number; cost: number }
+              | undefined) ?? null;
 
           await upsertLocalMessage(userId, {
             id: messageId,

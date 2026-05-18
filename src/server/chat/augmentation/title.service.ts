@@ -1,4 +1,7 @@
-import { FREE_MODEL_RACE_COUNT, TITLE_SYSTEM_PROMPT } from "@/lib/config/constants";
+import {
+  FREE_MODEL_RACE_COUNT,
+  TITLE_SYSTEM_PROMPT,
+} from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
 import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";

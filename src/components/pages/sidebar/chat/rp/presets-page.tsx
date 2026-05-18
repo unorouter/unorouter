@@ -6,8 +6,7 @@ import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import {
-  useDeletePresetMutation, usePresetsQuery, } from "@/hooks/rp-hook";
+import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/rp-hook";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -94,10 +93,7 @@ export function PresetsPage() {
 
       {editingId ? (
         <Card className="p-4">
-          <PresetForm
-            editingId={editingId}
-            onDone={() => setEditingId(null)}
-          />
+          <PresetForm editingId={editingId} onDone={() => setEditingId(null)} />
         </Card>
       ) : (
         <div className="flex flex-col gap-2">

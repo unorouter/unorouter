@@ -104,7 +104,10 @@ export function ApiKeyCodeBlock(props: Props) {
 
       {token.isLoggedIn && token.needsToken && (
         <div className="border-border bg-card mt-2 flex items-center gap-2 rounded-lg border px-4 py-2">
-          <Icon name="key" className="text-muted-foreground size-3.5 shrink-0" />
+          <Icon
+            name="key"
+            className="text-muted-foreground size-3.5 shrink-0"
+          />
           <span className="text-muted-foreground text-xs">
             {t("DOCS.GENERATE_API_KEY_DESC")}
           </span>

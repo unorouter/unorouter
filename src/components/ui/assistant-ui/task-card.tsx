@@ -55,8 +55,10 @@ function statusVariant(
 }
 
 function StatusIcon(props: { status: TaskStatus }) {
-  if (props.status === "SUCCESS") return <Icon name="check" className="size-3" />;
-  if (props.status === "FAILURE") return <Icon name="x-circle" className="size-3" />;
+  if (props.status === "SUCCESS")
+    return <Icon name="check" className="size-3" />;
+  if (props.status === "FAILURE")
+    return <Icon name="x-circle" className="size-3" />;
   if (IN_PROGRESS_STATUSES.has(props.status))
     return <Icon name="loader" className="size-3 animate-spin" />;
   return <Icon name="video" className="size-3" />;

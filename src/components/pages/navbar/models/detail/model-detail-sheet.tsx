@@ -5,9 +5,17 @@ import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, } from "@/components/ui/sheet";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import type {
-  EndpointInfo, GridPricingRow, ProcessedModel, } from "@/lib/api/pricing";
+  EndpointInfo,
+  GridPricingRow,
+  ProcessedModel,
+} from "@/lib/api/pricing";
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
@@ -67,7 +75,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {model.description && (
             <section>
               <SectionHeader
-                icon={<Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />}
+                icon={
+                  <Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />
+                }
                 title={t("MODELS.DETAIL.DESCRIPTION")}
               />
               <p className="text-muted-foreground text-sm leading-relaxed">
@@ -80,7 +90,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {model.tags.length > 0 && (
             <section>
               <SectionHeader
-                icon={<Icon name="tag" className="h-3.5 w-3.5 text-purple-400" />}
+                icon={
+                  <Icon name="tag" className="h-3.5 w-3.5 text-purple-400" />
+                }
                 title={t("MODELS.DETAIL.TAGS")}
               />
               <div className="flex flex-wrap gap-1.5">
@@ -106,7 +118,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {hasAnyCapability(model.metadata) && (
             <section>
               <SectionHeader
-                icon={<Icon name="sparkles" className="h-3.5 w-3.5 text-emerald-400" />}
+                icon={
+                  <Icon
+                    name="sparkles"
+                    className="h-3.5 w-3.5 text-emerald-400"
+                  />
+                }
                 title={t("MODELS.DETAIL.CAPABILITIES")}
               />
               <CapabilityChips metadata={model.metadata} variant="drawer" />
@@ -118,7 +135,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             (model.metadata.outputModalities ?? []).length > 0) && (
             <section>
               <SectionHeader
-                icon={<Icon name="layers" className="h-3.5 w-3.5 text-emerald-400" />}
+                icon={
+                  <Icon
+                    name="layers"
+                    className="h-3.5 w-3.5 text-emerald-400"
+                  />
+                }
                 title={t("MODELS.DETAIL.MODALITIES")}
               />
               <ModalitiesRow metadata={model.metadata} />
@@ -129,7 +151,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {hasAnyQuickStat(model.metadata) && (
             <section>
               <SectionHeader
-                icon={<Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />}
+                icon={
+                  <Icon name="info" className="h-3.5 w-3.5 text-cyan-400" />
+                }
                 title={t("MODELS.DETAIL.QUICK_STATS")}
               />
               <QuickStats metadata={model.metadata} />
@@ -230,7 +254,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {hasAnyParameter(model.metadata) && (
             <section>
               <SectionHeader
-                icon={<Icon name="settings" className="h-3.5 w-3.5 text-purple-400" />}
+                icon={
+                  <Icon
+                    name="settings"
+                    className="h-3.5 w-3.5 text-purple-400"
+                  />
+                }
                 title={t("MODELS.DETAIL.SUPPORTED_PARAMETERS")}
               />
               <SupportedParameters metadata={model.metadata} />
@@ -240,7 +269,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {/* Performance */}
           <section>
             <SectionHeader
-              icon={<Icon name="heart-pulse" className="h-3.5 w-3.5 text-rose-400" />}
+              icon={
+                <Icon
+                  name="heart-pulse"
+                  className="h-3.5 w-3.5 text-rose-400"
+                />
+              }
               title={t("MODELS.DETAIL.PERFORMANCE")}
             />
             <PerformanceSection modelName={model.name} />
@@ -250,7 +284,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
           {model.endpointTypes.length > 0 && (
             <section>
               <SectionHeader
-                icon={<Icon name="link" className="h-3.5 w-3.5 text-green-400" />}
+                icon={
+                  <Icon name="link" className="h-3.5 w-3.5 text-green-400" />
+                }
                 title={t("MODELS.DETAIL.ENDPOINTS")}
               />
               <div className="space-y-2">
@@ -461,7 +497,8 @@ function GroupPricingSection(props: {
             ? t("MODELS.DETAIL.GRID_PRICING_GROUP")
             : t("MODELS.DETAIL.GROUP_PRICING")}
         </span>
-        <Icon name="chevron-down"
+        <Icon
+          name="chevron-down"
           className={cn(
             "text-muted-foreground ml-auto h-3.5 w-3.5 transition-transform",
             open && "rotate-180",

@@ -69,7 +69,8 @@ export function RegisterForm() {
 
   async function onSubmit(data: RegisterSchema) {
     try {
-      const affCode = (getCookie(AFF_CODE_KEY) as string) || undefined;
+      const affCodeRaw = getCookie(AFF_CODE_KEY);
+      const affCode = typeof affCodeRaw === "string" ? affCodeRaw : undefined;
       const email = data.email?.trim() || undefined;
       const username = status?.email_verification
         ? (email ?? "")
@@ -95,15 +96,29 @@ export function RegisterForm() {
 
   const showPasswordForm = status?.password_register_enabled !== false;
   const emailAsUsername = status?.email_verification === true;
+  const turnstileRequired = status?.turnstile_check === true;
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = form.watch();
+  const trimmedEmail = formValues.email?.trim() || "";
+  const trimmedCode = formValues.verification_code?.trim() || "";
   const isValid = safeParse(registerChecker, {
-    username: emailAsUsername
-      ? formValues.email?.trim() || ""
-      : formValues.username,
+    username: emailAsUsername ? trimmedEmail : formValues.username,
     password: formValues.password,
   }).success;
+
+  function verificationButtonLabel() {
+    if (verificationMutation.isPending) return t("AUTH.VERIFICATION.SENDING");
+    if (resendSeconds > 0)
+      return t("AUTH.VERIFICATION.RESEND_IN", { seconds: resendSeconds });
+    if (verificationMutation.isSuccess) return t("AUTH.VERIFICATION.RESEND");
+    return t("AUTH.VERIFICATION.SEND_CODE");
+  }
+
+  const submitDisabled =
+    !isValid ||
+    registerMutation.isPending ||
+    (turnstileRequired && !turnstileToken) ||
+    (emailAsUsername && !trimmedCode);
 
   return (
     <GlassAuthCard
@@ -183,28 +198,20 @@ export function RegisterForm() {
                         variant="outline"
                         onClick={handleSendCode}
                         disabled={
-                          !formValues.email?.trim() ||
+                          !trimmedEmail ||
                           verificationMutation.isPending ||
                           resendSeconds > 0
                         }
                         className="h-11 shrink-0 rounded-2xl px-4 text-xs"
                       >
-                        {verificationMutation.isPending
-                          ? t("AUTH.VERIFICATION.SENDING")
-                          : resendSeconds > 0
-                            ? t("AUTH.VERIFICATION.RESEND_IN", {
-                                seconds: resendSeconds,
-                              })
-                            : verificationMutation.isSuccess
-                              ? t("AUTH.VERIFICATION.RESEND")
-                              : t("AUTH.VERIFICATION.SEND_CODE")}
+                        {verificationButtonLabel()}
                       </Button>
                     </div>
                   </div>
                 )}
               </div>
 
-              {status?.turnstile_check && status.turnstile_site_key && (
+              {turnstileRequired && status?.turnstile_site_key && (
                 <div className="flex justify-center">
                   <Turnstile
                     ref={turnstileRef}
@@ -222,13 +229,7 @@ export function RegisterForm() {
 
               <Button
                 type="submit"
-                disabled={
-                  !isValid ||
-                  registerMutation.isPending ||
-                  (status?.turnstile_check && !turnstileToken) ||
-                  (status?.email_verification &&
-                    !formValues.verification_code?.trim())
-                }
+                disabled={submitDisabled}
                 className="h-11 w-full font-mono text-xs font-bold tracking-widest uppercase"
               >
                 {registerMutation.isPending

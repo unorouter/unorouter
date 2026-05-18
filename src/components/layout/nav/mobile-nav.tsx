@@ -79,8 +79,12 @@ export function MobileNav() {
                       : "text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  {item.iconName && <Icon name={item.iconName} className="h-4 w-4" />}
-                  {item.iconComponent && <item.iconComponent className="h-4 w-4" />}
+                  {item.iconName && (
+                    <Icon name={item.iconName} className="h-4 w-4" />
+                  )}
+                  {item.iconComponent && (
+                    <item.iconComponent className="h-4 w-4" />
+                  )}
                   {t(item.name)}
                 </Link>
               );
@@ -122,8 +126,12 @@ function CollapsibleNavItem(props: {
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          {props.item.iconName && <Icon name={props.item.iconName} className="h-4 w-4" />}
-          {props.item.iconComponent && <props.item.iconComponent className="h-4 w-4" />}
+          {props.item.iconName && (
+            <Icon name={props.item.iconName} className="h-4 w-4" />
+          )}
+          {props.item.iconComponent && (
+            <props.item.iconComponent className="h-4 w-4" />
+          )}
           {t(props.item.name)}
         </Link>
         <button
@@ -131,7 +139,8 @@ function CollapsibleNavItem(props: {
           onClick={() => toggleNavigation(props.item.name)}
           className="hover:bg-foreground/5 flex size-8 items-center justify-center rounded-md transition-colors"
         >
-          <Icon name="chevron-right"
+          <Icon
+            name="chevron-right"
             className={cn(
               "size-4 transition-transform duration-200",
               isExpanded && "rotate-90",
@@ -174,8 +183,12 @@ function CollapsibleNavItem(props: {
                         : "text-muted-foreground hover:text-foreground",
                     )}
                   >
-                    {subItem.iconName && <Icon name={subItem.iconName} className="h-3 w-3" />}
-                    {subItem.iconComponent && <subItem.iconComponent className="h-3 w-3" />}
+                    {subItem.iconName && (
+                      <Icon name={subItem.iconName} className="h-3 w-3" />
+                    )}
+                    {subItem.iconComponent && (
+                      <subItem.iconComponent className="h-3 w-3" />
+                    )}
                     {t(subItem.name)}
                   </Link>
                 </li>

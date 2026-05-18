@@ -82,7 +82,10 @@ export function ModelSelector(props: ModelSelectorProps) {
             </span>
           )}
         </div>
-        <Icon name="chevrons-up-down" className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0" />
+        <Icon
+          name="chevrons-up-down"
+          className="text-muted-foreground ml-2 h-3.5 w-3.5 shrink-0"
+        />
       </PopoverTrigger>
       <PopoverContent
         className="w-[calc(100vw-1rem)] p-0 sm:w-96"

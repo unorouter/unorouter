@@ -60,6 +60,7 @@ const eslintConfig = defineConfig([
         },
       ],
       "react-hooks/exhaustive-deps": "warn",
+      "react-hooks/incompatible-library": "off",
     },
   },
 ]);

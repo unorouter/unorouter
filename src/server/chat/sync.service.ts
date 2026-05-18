@@ -337,14 +337,8 @@ export async function getSyncedBundle(
         .limit(1);
       assertFound(rows);
       const [chars, lbs] = await Promise.all([
-        db
-          .select()
-          .from(cardCharacters)
-          .where(eq(cardCharacters.cardId, id)),
-        db
-          .select()
-          .from(cardLorebooks)
-          .where(eq(cardLorebooks.cardId, id)),
+        db.select().from(cardCharacters).where(eq(cardCharacters.cardId, id)),
+        db.select().from(cardLorebooks).where(eq(cardLorebooks.cardId, id)),
       ]);
       return { card: rows[0], cardCharacters: chars, cardLorebooks: lbs };
     }
@@ -618,13 +612,19 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
               personality: body.personality as string | null | undefined,
               scenario: body.scenario as string | null | undefined,
               firstMessage: body.firstMessage as string | null | undefined,
-              exampleMessages:
-                body.exampleMessages as string | null | undefined,
+              exampleMessages: body.exampleMessages as
+                | string
+                | null
+                | undefined,
               systemPrompt: body.systemPrompt as string | null | undefined,
-              postHistoryInstructions:
-                body.postHistoryInstructions as string | null | undefined,
-              defaultReasoningEffort:
-                body.defaultReasoningEffort as string | null | undefined,
+              postHistoryInstructions: body.postHistoryInstructions as
+                | string
+                | null
+                | undefined,
+              defaultReasoningEffort: body.defaultReasoningEffort as
+                | string
+                | null
+                | undefined,
               tags: body.tags as unknown,
               nsfw: body.nsfw as boolean | undefined,
               triggers: body.triggers as unknown,
@@ -735,8 +735,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             orderIndex: (e.orderIndex as number | undefined) ?? 0,
             matchWholeWords:
               (e.matchWholeWords as boolean | undefined) ?? false,
-            injectionRole:
-              (e.injectionRole as string | undefined) ?? "user",
+            injectionRole: (e.injectionRole as string | undefined) ?? "user",
           });
         }
       }
@@ -765,8 +764,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           topA: (body.topA as number | null) ?? null,
           frequencyPenalty: (body.frequencyPenalty as number | null) ?? null,
           presencePenalty: (body.presencePenalty as number | null) ?? null,
-          repetitionPenalty:
-            (body.repetitionPenalty as number | null) ?? null,
+          repetitionPenalty: (body.repetitionPenalty as number | null) ?? null,
           maxTokens: (body.maxTokens as number | null) ?? null,
           extraBody: (body.extraBody as string | null) ?? null,
           mainPrompt: (body.mainPrompt as string | null) ?? null,
@@ -774,15 +772,12 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           prefill: (body.prefill as string | null) ?? null,
           forceAlternateRoles:
             (body.forceAlternateRoles as boolean | undefined) ?? false,
-          noSystemRole:
-            (body.noSystemRole as boolean | undefined) ?? false,
+          noSystemRole: (body.noSystemRole as boolean | undefined) ?? false,
           mustStartWithUserInput:
             (body.mustStartWithUserInput as boolean | undefined) ?? false,
           skipPrefillIfLastIsAssistant:
-            (body.skipPrefillIfLastIsAssistant as boolean | undefined) ??
-            false,
-          geminiBlockOff:
-            (body.geminiBlockOff as boolean | undefined) ?? false,
+            (body.skipPrefillIfLastIsAssistant as boolean | undefined) ?? false,
+          geminiBlockOff: (body.geminiBlockOff as boolean | undefined) ?? false,
           isDefault: (body.isDefault as boolean | undefined) ?? false,
           syncExpiresAt: expiresAt,
         });
@@ -877,9 +872,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
       const existing = await tx
         .select({ id: conversations.id })
         .from(conversations)
-        .where(
-          and(eq(conversations.id, id), eq(conversations.userId, userId)),
-        )
+        .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .limit(1);
       if (existing.length === 0) {
         await tx.insert(conversations).values({
@@ -888,8 +881,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           title: (c.title as string | null) ?? null,
           shareId: (c.shareId as string | null) ?? null,
           totalInputTokens: (c.totalInputTokens as number | undefined) ?? 0,
-          totalOutputTokens:
-            (c.totalOutputTokens as number | undefined) ?? 0,
+          totalOutputTokens: (c.totalOutputTokens as number | undefined) ?? 0,
           totalCost: (c.totalCost as number | undefined) ?? 0,
           syncExpiresAt: expiresAt,
         });
@@ -942,8 +934,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             topA: (s.topA as number | null) ?? null,
             frequencyPenalty: (s.frequencyPenalty as number | null) ?? null,
             presencePenalty: (s.presencePenalty as number | null) ?? null,
-            repetitionPenalty:
-              (s.repetitionPenalty as number | null) ?? null,
+            repetitionPenalty: (s.repetitionPenalty as number | null) ?? null,
             maxTokens: (s.maxTokens as number | null) ?? null,
             extraBody: (s.extraBody as string | null) ?? null,
             streamingEnabled:
@@ -997,8 +988,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             durationMs: (m.durationMs as number | null) ?? null,
             tokensPerSecond: (m.tokensPerSecond as number | null) ?? null,
             branchIndex: (m.branchIndex as number | undefined) ?? 0,
-            isActiveBranch:
-              (m.isActiveBranch as boolean | undefined) ?? true,
+            isActiveBranch: (m.isActiveBranch as boolean | undefined) ?? true,
             isEdited: (m.isEdited as boolean | undefined) ?? false,
           });
         }
@@ -1122,8 +1112,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             userId,
             sessionId: id,
             sessionOrder: g.sessionOrder as number,
-            requestedCount:
-              (g.requestedCount as number | undefined) ?? 1,
+            requestedCount: (g.requestedCount as number | undefined) ?? 1,
             taskId: (g.taskId as string | null) ?? null,
             model: g.model as string,
             prompt: g.prompt as string,
@@ -1153,8 +1142,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           await tx.insert(generationImages).values({
             generationId: img.generationId as string,
             sequenceIndex: img.sequenceIndex as number,
-            upstreamResultUrl:
-              (img.upstreamResultUrl as string | null) ?? null,
+            upstreamResultUrl: (img.upstreamResultUrl as string | null) ?? null,
             r2Url: img.r2Url as string,
             r2Key: img.r2Key as string,
             mimeType: (img.mimeType as string | undefined) ?? "image/png",
@@ -1180,8 +1168,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
   // OR the raw theme JSON itself (we accept either for client convenience).
   theme: async (db, userId, _id, expiresAt, payload) => {
     const body = (payload ?? {}) as Record<string, unknown>;
-    const themeJson =
-      (body.themeJson as unknown) ?? (body as unknown);
+    const themeJson = (body.themeJson as unknown) ?? (body as unknown);
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ userId: userThemes.userId })
@@ -1256,9 +1243,7 @@ export async function clearSyncExpiry(
     case "conversations":
       result = await db
         .delete(conversations)
-        .where(
-          and(eq(conversations.id, id), eq(conversations.userId, userId)),
-        )
+        .where(and(eq(conversations.id, id), eq(conversations.userId, userId)))
         .returning({ id: conversations.id });
       break;
     case "generationSessions":

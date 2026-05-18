@@ -1096,7 +1096,15 @@ export const THEMES: ShadcnTheme[] = [
   },
 ];
 
-const BASE_COLOR_NAMES = ["neutral", "stone", "zinc", "mauve", "olive", "mist", "taupe"];
+const BASE_COLOR_NAMES = [
+  "neutral",
+  "stone",
+  "zinc",
+  "mauve",
+  "olive",
+  "mist",
+  "taupe",
+];
 
 // Sentinel matching project's globals.css palette. Empty cssVars so provider
 // emits no override and `:root` defaults from globals.css win.

@@ -831,16 +831,13 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("react-icons/gi").then((m) => ({ default: m.GiCrabClaw })),
   },
   fox: {
-    lucide: () =>
-      import("react-icons/gi").then((m) => ({ default: m.GiFox })),
-    tabler: () =>
-      import("react-icons/gi").then((m) => ({ default: m.GiFox })),
+    lucide: () => import("react-icons/gi").then((m) => ({ default: m.GiFox })),
+    tabler: () => import("react-icons/gi").then((m) => ({ default: m.GiFox })),
   },
   "dots-horizontal": {
     lucide: () =>
       import("react-icons/rx").then((m) => ({ default: m.RxDotsHorizontal })),
-    tabler: () =>
-      import("react-icons/tb").then((m) => ({ default: m.TbDots })),
+    tabler: () => import("react-icons/tb").then((m) => ({ default: m.TbDots })),
   },
   brain: {
     lucide: () =>

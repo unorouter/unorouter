@@ -52,9 +52,8 @@ async function mirrorConversationIfSynced(
   convId: string,
 ): Promise<void> {
   const conv = await readLocalConversation(userId, convId);
-  const syncExpiresAt = (
-    conv as { syncExpiresAt?: Date | null } | null
-  )?.syncExpiresAt;
+  const syncExpiresAt = (conv as { syncExpiresAt?: Date | null } | null)
+    ?.syncExpiresAt;
   if (syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
@@ -92,7 +91,12 @@ export function useConversationsInfiniteQuery(keyword?: string) {
           pageSize: PAGE_SIZE,
         };
       }
-      return { items: [] as ConvItem[], total: 0, page: pageParam, pageSize: PAGE_SIZE };
+      return {
+        items: [] as ConvItem[],
+        total: 0,
+        page: pageParam,
+        pageSize: PAGE_SIZE,
+      };
     },
     initialPageParam: 1,
     getNextPageParam: (lastPage, allPages) =>
@@ -223,19 +227,16 @@ export function useDeleteConversationMutation() {
       const userId = auth.data?.id;
       if (userId != null) {
         const existing = await readLocalConversation(userId, id);
-        const wasSynced = (
-          existing as { syncExpiresAt?: Date | null } | null
-        )?.syncExpiresAt != null;
-        const { deleteLocalConversation } = await import(
-          "@/lib/local-db/writes"
-        );
+        const wasSynced =
+          (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+          null;
+        const { deleteLocalConversation } =
+          await import("@/lib/local-db/writes");
         await deleteLocalConversation(userId, id);
         if (wasSynced) {
           try {
             handleElysia(
-              await rpc.api
-                .sync({ kind: "conversations" })({ id })
-                .delete(),
+              await rpc.api.sync({ kind: "conversations" })({ id }).delete(),
             );
           } catch (err) {
             await enqueuePending(userId, "conversations", id, "delete", err);
@@ -497,17 +498,15 @@ export function useDuplicateConversationMutation() {
       };
       await upsertLocalConversation(userId, newConv);
       if (bundle.settings) {
-        const { upsertLocalConversationSettings } = await import(
-          "@/lib/local-db/writes"
-        );
+        const { upsertLocalConversationSettings } =
+          await import("@/lib/local-db/writes");
         await upsertLocalConversationSettings(userId, {
           ...bundle.settings,
           convId: newId,
         });
       }
-      const { replaceLocalConversationBindings } = await import(
-        "@/lib/local-db/writes"
-      );
+      const { replaceLocalConversationBindings } =
+        await import("@/lib/local-db/writes");
       await replaceLocalConversationBindings(userId, newId, {
         conversationCharacters: bundle.conversationCharacters.map((c) => ({
           characterId: (c as { characterId: string }).characterId,
@@ -532,16 +531,15 @@ export function useDuplicateConversationMutation() {
           ...(m as Record<string, unknown>),
           id: idMap.get(oldMsgId)!,
           convId: newId,
-          parentId: oldParentId ? idMap.get(oldParentId) ?? null : null,
+          parentId: oldParentId ? (idMap.get(oldParentId) ?? null) : null,
         });
       }
       for (const it of bundle.messageItems) {
         const oldMsgId = (it as { messageId: string }).messageId;
         const newMsgId = idMap.get(oldMsgId);
         if (!newMsgId) continue;
-        const { upsertLocalMessageItem } = await import(
-          "@/lib/local-db/writes"
-        );
+        const { upsertLocalMessageItem } =
+          await import("@/lib/local-db/writes");
         await upsertLocalMessageItem(userId, {
           ...(it as Record<string, unknown>),
           id: uid(),

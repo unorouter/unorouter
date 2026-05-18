@@ -175,9 +175,7 @@ export const cardBody = t.Object({
   description: t.Optional(
     t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
   ),
-  personaId: t.Optional(
-    t.Union([t.String({ maxLength: 64 }), t.Null()]),
-  ),
+  personaId: t.Optional(t.Union([t.String({ maxLength: 64 }), t.Null()])),
   characterIds: t.Array(t.String({ maxLength: 64 }), {
     maxItems: MAX_BUNDLE_ITEMS,
     default: [],

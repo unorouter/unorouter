@@ -17,9 +17,11 @@ export async function probeOpfs(): Promise<OpfsStatus> {
   try {
     const root = await navigator.storage.getDirectory();
     const handle = await root.getFileHandle("__opfs_probe__", { create: true });
-    const sync = (handle as unknown as {
-      createSyncAccessHandle?: () => Promise<unknown>;
-    }).createSyncAccessHandle;
+    const sync = (
+      handle as unknown as {
+        createSyncAccessHandle?: () => Promise<unknown>;
+      }
+    ).createSyncAccessHandle;
     if (typeof sync !== "function") return "no-sync-handle";
     await root.removeEntry("__opfs_probe__").catch(() => {});
     return "ok";

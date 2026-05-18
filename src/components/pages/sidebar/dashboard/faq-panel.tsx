@@ -29,7 +29,10 @@ export function FaqPanel() {
       <div className="max-h-64 flex-1 overflow-y-auto">
         {faqItems.length === 0 ? (
           <div className="flex h-32 flex-col items-center justify-center gap-2">
-            <Icon name="circle-help" className="text-muted-foreground h-8 w-8 opacity-20" />
+            <Icon
+              name="circle-help"
+              className="text-muted-foreground h-8 w-8 opacity-20"
+            />
             <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
               {t("DASHBOARD.PANEL.NO_FAQ")}
             </span>
@@ -51,7 +54,8 @@ export function FaqPanel() {
                   <span className="text-foreground flex-1 font-mono text-xs font-medium">
                     {item.question}
                   </span>
-                  <Icon name="chevron-down"
+                  <Icon
+                    name="chevron-down"
                     className="text-muted-foreground h-3.5 w-3.5 shrink-0 transition-transform duration-200"
                     style={{
                       transform:

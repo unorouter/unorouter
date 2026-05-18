@@ -74,7 +74,6 @@ export function TransferDialog(props: TransferDialogProps) {
     );
   }
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const amount = form.watch("amount");
 
   return (
@@ -149,7 +148,8 @@ export function TransferDialog(props: TransferDialogProps) {
                 type="submit"
                 disabled={transferMutation.isPending || !amount}
               >
-                <Icon name="arrow-right-left"
+                <Icon
+                  name="arrow-right-left"
                   data-icon="inline-start"
                   className="h-4 w-4"
                 />

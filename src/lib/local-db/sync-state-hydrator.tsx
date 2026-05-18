@@ -145,8 +145,7 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
   const convs = await readLocalConversations(userId);
   const genSessions = await readLocalGenerationSessions(userId);
 
-  if (chars && chars.length > 0)
-    qc.setQueryData(queryKeys.characters(), chars);
+  if (chars && chars.length > 0) qc.setQueryData(queryKeys.characters(), chars);
   if (personas && personas.length > 0)
     qc.setQueryData(queryKeys.personas(), personas);
   if (lorebooks && lorebooks.length > 0)
@@ -190,7 +189,11 @@ async function stage2ServerReconcile(qc: QueryClient, userId: number) {
   await reconcileKind(userId, "theme", state.theme);
 }
 
-type RemoteState = { id: string; syncExpiresAt: string | Date | null; updatedAt: string | Date }[];
+type RemoteState = {
+  id: string;
+  syncExpiresAt: string | Date | null;
+  updatedAt: string | Date;
+}[];
 
 async function reconcileKind(
   userId: number,
@@ -365,6 +368,7 @@ async function rehydrateMedia(row: MediaRow): Promise<MediaRow> {
 function arrayBufferToBase64(buf: ArrayBuffer): string {
   const bytes = new Uint8Array(buf);
   let binary = "";
-  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+  for (let i = 0; i < bytes.length; i++)
+    binary += String.fromCharCode(bytes[i]);
   return btoa(binary);
 }

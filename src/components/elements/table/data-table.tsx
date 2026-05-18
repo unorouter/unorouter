@@ -59,7 +59,6 @@ export function DataTable<TData, TValue>(props: DataTableProps<TData, TValue>) {
   const setPagination = useSetAtom(tableAtoms.paginationAtom);
   const [expanded, setExpanded] = useState({});
 
-  // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Table known React Compiler limitation
   const table = useReactTable({
     data: props.data,
     columns: props.columns,

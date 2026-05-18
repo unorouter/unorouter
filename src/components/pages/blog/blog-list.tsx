@@ -53,7 +53,10 @@ export function BlogList(props: BlogListProps) {
 
       <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+          <Icon
+            name="search"
+            className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+          />
           <Input
             placeholder={t("BLOG.SEARCH_PLACEHOLDER")}
             value={filter.search}

@@ -3,14 +3,25 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
-  Card, CardContent, CardFooter, CardHeader, CardTitle, } from "@/components/ui/card";
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { SyncBadge } from "@/components/elements/sync-badge";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { upsertLocalTheme } from "@/lib/local-db/writes";
 import { enqueuePending } from "@/lib/local-db/pending-sync";
 import { useSyncStateForRow } from "@/hooks/sync-hook";
 import {
-  ALL_BASE_COLORS, ALL_THEMES, ICON_LIBRARIES, MENU_ACCENTS, MENUS, RADII, } from "@/lib/config/shadcn-themes";
+  ALL_BASE_COLORS,
+  ALL_THEMES,
+  ICON_LIBRARIES,
+  MENU_ACCENTS,
+  MENUS,
+  RADII,
+} from "@/lib/config/shadcn-themes";
 import { STYLES } from "@/lib/config/shadcn-styles";
 import { FONT_OPTIONS } from "@/lib/config/theme-fonts";
 import { rpc } from "@/lib/rpc";
@@ -31,9 +42,7 @@ const DEFAULT_MUTED = "#71717a";
 
 function themeChipColor(name: string): string {
   const t = ALL_THEMES.find((x) => x.name === name);
-  return (
-    t?.cssVars.light.primary ?? t?.cssVars.dark.primary ?? DEFAULT_PRIMARY
-  );
+  return t?.cssVars.light.primary ?? t?.cssVars.dark.primary ?? DEFAULT_PRIMARY;
 }
 
 function baseColorChipColor(name: string): string {
@@ -43,7 +52,17 @@ function baseColorChipColor(name: string): string {
 
 function StyleGlyph() {
   return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
       <rect x="3" y="3" width="7" height="7" rx="1" />
       <rect x="14" y="3" width="7" height="7" rx="2" />
       <rect x="3" y="14" width="7" height="7" rx="3" />
@@ -54,7 +73,16 @@ function StyleGlyph() {
 
 function MenuGlyph() {
   return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      aria-hidden
+    >
       <line x1="3" y1="6" x2="21" y2="6" />
       <line x1="3" y1="12" x2="21" y2="12" />
       <line x1="3" y1="18" x2="21" y2="18" />
@@ -64,7 +92,13 @@ function MenuGlyph() {
 
 function AccentGlyph() {
   return (
-    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden>
+    <svg
+      viewBox="0 0 24 24"
+      width="14"
+      height="14"
+      fill="currentColor"
+      aria-hidden
+    >
       <circle cx="12" cy="12" r="6" />
     </svg>
   );
@@ -118,7 +152,9 @@ export function ThemeCustomizerBody() {
     const chart = ALL_THEMES[Math.floor(Math.random() * ALL_THEMES.length)];
     const radius = RADII[Math.floor(Math.random() * RADII.length)];
     const sansFonts = FONT_OPTIONS.filter((f) => f.kinds.includes("sans"));
-    const displayFonts = FONT_OPTIONS.filter((f) => f.kinds.includes("display"));
+    const displayFonts = FONT_OPTIONS.filter((f) =>
+      f.kinds.includes("display"),
+    );
     const body = sansFonts[Math.floor(Math.random() * sansFonts.length)];
     const heading =
       Math.random() < 0.5
@@ -226,13 +262,17 @@ export function ThemeCustomizerBody() {
               label: b.title,
               swatch: baseColorChipColor(b.name),
             }))}
-            rightAdornment={<ColorSwatch value={baseColorChipColor(cur.base)} />}
+            rightAdornment={
+              <ColorSwatch value={baseColorChipColor(cur.base)} />
+            }
             onValueChange={(v) => setTheme({ ...theme, baseColor: v })}
           />
           <Picker
             label={t("THEME.THEME")}
             value={cur.theme}
-            valueLabel={ALL_THEMES.find((x) => x.name === cur.theme)?.title ?? ""}
+            valueLabel={
+              ALL_THEMES.find((x) => x.name === cur.theme)?.title ?? ""
+            }
             options={ALL_THEMES.map((x) => ({
               value: x.name,
               label: x.title,
@@ -244,7 +284,9 @@ export function ThemeCustomizerBody() {
           <Picker
             label={t("THEME.CHART_COLOR")}
             value={cur.chart}
-            valueLabel={ALL_THEMES.find((x) => x.name === cur.chart)?.title ?? ""}
+            valueLabel={
+              ALL_THEMES.find((x) => x.name === cur.chart)?.title ?? ""
+            }
             options={ALL_THEMES.map((x) => ({
               value: x.name,
               label: x.title,
@@ -305,8 +347,7 @@ export function ThemeCustomizerBody() {
               <RadiusGlyph
                 radius={
                   parseFloat(
-                    RADII.find((r) => r.name === cur.radius)?.value ||
-                      "0.625",
+                    RADII.find((r) => r.name === cur.radius)?.value || "0.625",
                   ) || 0.625
                 }
               />

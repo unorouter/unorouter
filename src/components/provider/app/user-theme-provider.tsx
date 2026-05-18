@@ -158,7 +158,6 @@ export function UserThemeProvider(props: { children: ReactNode }) {
     el.dataset.iconLibrary = theme.iconLibrary ?? "lucide";
   }, [theme.style, theme.menu, theme.menuAccent, theme.iconLibrary]);
 
-
   return (
     <>
       {css ? (

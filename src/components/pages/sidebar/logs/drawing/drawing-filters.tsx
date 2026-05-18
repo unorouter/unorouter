@@ -52,7 +52,10 @@ export function DrawingFilters(props: {
         }}
       />
       <div className="relative">
-        <Icon name="search" className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2" />
+        <Icon
+          name="search"
+          className="text-muted-foreground absolute top-1/2 left-2 h-3.5 w-3.5 -translate-y-1/2"
+        />
         <Input
           value={mjId}
           onChange={(e) =>

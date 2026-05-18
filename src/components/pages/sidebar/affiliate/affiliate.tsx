@@ -228,7 +228,11 @@ export function Affiliate() {
                   onClick={handleCopyLink}
                   disabled={!inviteLink}
                 >
-                  <Icon name="copy" data-icon="inline-start" className="h-3.5 w-3.5" />
+                  <Icon
+                    name="copy"
+                    data-icon="inline-start"
+                    className="h-3.5 w-3.5"
+                  />
                   {t("AFFILIATE.COPY_LINK")}
                 </Button>
               </div>
@@ -273,7 +277,8 @@ export function Affiliate() {
                 }}
                 disabled={pendingQuota <= 0}
               >
-                <Icon name="arrow-right-left"
+                <Icon
+                  name="arrow-right-left"
                   data-icon="inline-start"
                   className="h-3.5 w-3.5"
                 />

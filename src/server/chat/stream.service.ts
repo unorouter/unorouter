@@ -778,15 +778,13 @@ export async function streamChat(
   // Surface usage to the client via messageMetadata so chat-history-adapter can
   // persist token counts + cost into SQLocal without a follow-up server call.
   const usageRef: {
-    value:
-      | {
-          inputTokens: number;
-          outputTokens: number;
-          cost: number;
-          durationMs: number;
-          tokensPerSecond?: number;
-        }
-      | null;
+    value: {
+      inputTokens: number;
+      outputTokens: number;
+      cost: number;
+      durationMs: number;
+      tokensPerSecond?: number;
+    } | null;
   } = { value: null };
 
   const presetMaxOut = assembled.sampling.maxOutputTokens;
@@ -929,7 +927,8 @@ export async function streamChat(
       messageMetadata: ({ part }) => {
         if (part.type === "finish") {
           const meta: Record<string, unknown> = {};
-          if (droppedParamsRef.value) meta.droppedParams = droppedParamsRef.value;
+          if (droppedParamsRef.value)
+            meta.droppedParams = droppedParamsRef.value;
           if (usageRef.value) meta.usage = usageRef.value;
           return Object.keys(meta).length > 0 ? meta : undefined;
         }

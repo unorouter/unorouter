@@ -14,7 +14,10 @@ export default function NotFoundPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <div className="bg-muted mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full">
-            <Icon name="file-question" className="text-muted-foreground h-6 w-6" />
+            <Icon
+              name="file-question"
+              className="text-muted-foreground h-6 w-6"
+            />
           </div>
           <CardTitle className="text-xl font-semibold">
             {t("MAIN.NOT_FOUND.TITLE")}

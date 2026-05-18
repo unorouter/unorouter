@@ -42,7 +42,10 @@ export async function enqueuePending(
     });
 }
 
-export async function drainPending(userId: number, payloadFor?: (kind: SyncKindName, id: string) => unknown | undefined): Promise<void> {
+export async function drainPending(
+  userId: number,
+  payloadFor?: (kind: SyncKindName, id: string) => unknown | undefined,
+): Promise<void> {
   const local = await getLocalDb(userId);
   if (!local) return;
 
@@ -57,7 +60,9 @@ export async function drainPending(userId: number, payloadFor?: (kind: SyncKindN
             .delete(),
         );
       } else {
-        const payload = payloadFor ? payloadFor(row.kind as SyncKindName, row.id) : undefined;
+        const payload = payloadFor
+          ? payloadFor(row.kind as SyncKindName, row.id)
+          : undefined;
         await handleElysia(
           await rpc.api
             .sync({ kind: row.kind as SyncKindName })({ id: row.id })

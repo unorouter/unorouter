@@ -6,14 +6,31 @@ import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { StatusBanner } from "@/components/ui/status/status-banner";
 import { StatusBar } from "@/components/ui/status/status-bar";
 import {
-  StatusComponent, StatusComponentBody, StatusComponentDescription, StatusComponentHeader, StatusComponentHeaderLeft, StatusComponentHeaderRight, StatusComponentIcon, StatusComponentStatus, StatusComponentTitle, StatusComponentUptime, } from "@/components/ui/status/status-component";
+  StatusComponent,
+  StatusComponentBody,
+  StatusComponentDescription,
+  StatusComponentHeader,
+  StatusComponentHeaderLeft,
+  StatusComponentHeaderRight,
+  StatusComponentIcon,
+  StatusComponentStatus,
+  StatusComponentTitle,
+  StatusComponentUptime,
+} from "@/components/ui/status/status-component";
 import type {
-  StatusBarData, StatusType, } from "@/components/ui/status/status.types";
+  StatusBarData,
+  StatusType,
+} from "@/components/ui/status/status.types";
 import { VendorFilter } from "@/components/pages/navbar/models/filters/vendor-filter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import type { StatusBucket } from "@/hooks/use-model-status-hook";
@@ -84,7 +101,10 @@ export function StatusPage() {
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="relative flex-1">
-              <Icon name="search" className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+              <Icon
+                name="search"
+                className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
+              />
               <Input
                 placeholder={t("STATUS.FILTER.SEARCH_PLACEHOLDER")}
                 value={s.search}
@@ -190,9 +210,15 @@ export function StatusPage() {
                     className="hover:bg-accent/40 flex w-full items-center gap-2 rounded-md px-2 pt-6 pb-3 text-left first:pt-0"
                   >
                     {s.collapsedSet.has(item.vendor) ? (
-                      <Icon name="chevron-right" className="text-muted-foreground h-4 w-4 shrink-0" />
+                      <Icon
+                        name="chevron-right"
+                        className="text-muted-foreground h-4 w-4 shrink-0"
+                      />
                     ) : (
-                      <Icon name="chevron-down" className="text-muted-foreground h-4 w-4 shrink-0" />
+                      <Icon
+                        name="chevron-down"
+                        className="text-muted-foreground h-4 w-4 shrink-0"
+                      />
                     )}
                     <VendorIcon vendor={item.vendor} size={16} />
                     <h2 className="font-mono text-sm font-semibold tracking-wide">
@@ -203,7 +229,10 @@ export function StatusPage() {
                     </span>
                     <div className="text-muted-foreground ml-auto flex items-center gap-3 font-mono text-xs">
                       <span className="flex items-center gap-1">
-                        <Icon name="circle-check" className="h-3.5 w-3.5 text-emerald-500" />
+                        <Icon
+                          name="circle-check"
+                          className="h-3.5 w-3.5 text-emerald-500"
+                        />
                         {item.operational}
                       </span>
                       <span

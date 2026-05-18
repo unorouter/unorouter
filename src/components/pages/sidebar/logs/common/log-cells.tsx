@@ -5,7 +5,11 @@ import { Icon } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import {
-  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
@@ -568,7 +572,8 @@ export function LogDetailsCell({ row }: CellContext<LogRow, unknown>) {
 export function LogExpandToggleCell({ row }: CellContext<LogRow, unknown>) {
   if (!row.getCanExpand()) return null;
   return (
-    <Icon name="chevron-right"
+    <Icon
+      name="chevron-right"
       className={`text-muted-foreground h-4 w-4 transition-transform ${row.getIsExpanded() ? "rotate-90" : ""}`}
     />
   );

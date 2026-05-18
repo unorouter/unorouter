@@ -4,7 +4,11 @@ import { LocalDbStudio } from "@/components/elements/local-db-studio";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 export function GenerateActionsMenu() {

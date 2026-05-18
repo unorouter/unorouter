@@ -120,7 +120,10 @@ export function Navbar() {
                                     }
                                   >
                                     {link.iconName && (
-                                      <Icon name={link.iconName} className="h-3 w-3" />
+                                      <Icon
+                                        name={link.iconName}
+                                        className="h-3 w-3"
+                                      />
                                     )}
                                     {link.iconComponent && (
                                       <link.iconComponent className="h-3 w-3" />

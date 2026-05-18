@@ -7,21 +7,52 @@ import { SyncBadge } from "@/components/elements/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useCreateLorebookEntryMutation, useCreateLorebookMutation, useDeleteLorebookEntryMutation, useDeleteLorebookMutation, useImportLorebookMutation, useLorebookQuery, useLorebooksQuery, useUpdateLorebookEntryMutation, useUpdateLorebookMutation, } from "@/hooks/rp-hook";
+  useCreateLorebookEntryMutation,
+  useCreateLorebookMutation,
+  useDeleteLorebookEntryMutation,
+  useDeleteLorebookMutation,
+  useImportLorebookMutation,
+  useLorebookQuery,
+  useLorebooksQuery,
+  useUpdateLorebookEntryMutation,
+  useUpdateLorebookMutation,
+} from "@/hooks/rp-hook";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import {
-  lorebookEntryFormSchema, lorebookFormSchema, type LorebookEntryForm, type LorebookForm, } from "@/lib/validation/rp-forms";
+  lorebookEntryFormSchema,
+  lorebookFormSchema,
+  type LorebookEntryForm,
+  type LorebookForm,
+} from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";

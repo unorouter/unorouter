@@ -48,7 +48,7 @@ export function LoginForm() {
   function getRedirectPath() {
     const redirect = getCookie(AUTH_REDIRECT_COOKIE);
     if (redirect) deleteCookie(AUTH_REDIRECT_COOKIE);
-    return (redirect as string) || "/dashboard";
+    return (redirect as RouterPush) || "/dashboard";
   }
 
   async function onSubmit(data: LoginSchema) {
@@ -66,7 +66,7 @@ export function LoginForm() {
       }
 
       analytics.auth.loginCompleted("email");
-      router.push(getRedirectPath() as RouterPush);
+      router.push(getRedirectPath());
       router.refresh();
     } catch {
       turnstileRef.current?.reset();
@@ -78,7 +78,7 @@ export function LoginForm() {
     return (
       <TwoFAForm
         onSuccess={() => {
-          router.push(getRedirectPath() as RouterPush);
+          router.push(getRedirectPath());
           router.refresh();
         }}
       />

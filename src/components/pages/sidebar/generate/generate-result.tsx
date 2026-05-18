@@ -4,17 +4,41 @@ import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
-  useDeleteSnapshotMutation, useExportSessionMutation, useImportGenerationMutation, useSessionQuery, useSnapshotStatusQuery, } from "@/hooks/generation-hook";
+  useDeleteSnapshotMutation,
+  useExportSessionMutation,
+  useImportGenerationMutation,
+  useSessionQuery,
+  useSnapshotStatusQuery,
+} from "@/hooks/generation-hook";
 import { getModelDescriptor } from "@/lib/config/generation-models";
 import {
-  downloadGenerationImage, downloadGenerationSnapshot, readGenerationSnapshotFile, } from "@/lib/utils/generation-export";
+  downloadGenerationImage,
+  downloadGenerationSnapshot,
+  readGenerationSnapshotFile,
+} from "@/lib/utils/generation-export";
 import {
-  activeSessionIdAtom, activeSnapshotIdAtom, activeSubPillAtom, activeTabAtom, restoreSnapshotIntoFormAtom, } from "@/store/generation-store";
+  activeSessionIdAtom,
+  activeSnapshotIdAtom,
+  activeSubPillAtom,
+  activeTabAtom,
+  restoreSnapshotIntoFormAtom,
+} from "@/store/generation-store";
 import type { GenerateTab, Img2ImgSubPill } from "@/store/generation-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";

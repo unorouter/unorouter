@@ -1,6 +1,8 @@
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
 import {
-  CodeBlock, highlightCode, } from "@/components/elements/code/code-block";
+  CodeBlock,
+  highlightCode,
+} from "@/components/elements/code/code-block";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
 import { Link } from "@/i18n/navigation";
@@ -18,7 +20,10 @@ import { OSQuickStart } from "./os-quick-start";
 
 type IconEntry =
   | { kind: "name"; value: IconName }
-  | { kind: "component"; value: ComponentType<{ className?: string; size?: number }> };
+  | {
+      kind: "component";
+      value: ComponentType<{ className?: string; size?: number }>;
+    };
 
 const iconMap: Record<IntegrationIconKey, IconEntry> = {
   "cc-switch": { kind: "name", value: "arrow-left-right" },
@@ -125,7 +130,8 @@ export async function IntegrationRow(props: {
             <div
               className={`h-10 w-10 rounded-full border ${integration.color.ring} flex items-center justify-center transition-all`}
             >
-              <Icon name="arrow-right"
+              <Icon
+                name="arrow-right"
                 className={`h-4 w-4 ${integration.color.arrow} transition-colors`}
               />
             </div>

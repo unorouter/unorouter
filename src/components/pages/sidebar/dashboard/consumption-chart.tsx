@@ -3,7 +3,13 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
-  ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent, type ChartConfig, } from "@/components/ui/chart";
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -163,7 +169,8 @@ export function ConsumptionChart() {
             }}
             disabled={dashboard.isFetching}
           >
-            <Icon name="refresh-cw"
+            <Icon
+              name="refresh-cw"
               className={`h-4 w-4 ${dashboard.isFetching ? "animate-spin" : ""}`}
             />
           </Button>
@@ -189,7 +196,10 @@ export function ConsumptionChart() {
         </div>
       ) : dashboard.rawData.length === 0 ? (
         <div className="flex h-80 flex-col items-center justify-center gap-2 p-5">
-          <Icon name="chart-bar" className="text-muted-foreground h-10 w-10 opacity-30" />
+          <Icon
+            name="chart-bar"
+            className="text-muted-foreground h-10 w-10 opacity-30"
+          />
           <span className="text-muted-foreground font-mono text-xs">
             {t("DASHBOARD.NO_DATA")}
           </span>

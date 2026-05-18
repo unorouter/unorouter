@@ -46,7 +46,7 @@ export async function upsertLocalCharacter(
   try {
     await local.db
       .insert(characters)
-      .values(({ ...row, userId } as never))
+      .values({ ...row, userId } as never)
       .onConflictDoUpdate({ target: characters.id, set: row as never });
     console.log("[writes] upsertLocalCharacter OK", { id: row.id });
   } catch (e) {
@@ -70,7 +70,7 @@ export async function upsertLocalPersona(
   if (!local) return;
   await local.db
     .insert(personas)
-    .values(({ ...row, userId } as never))
+    .values({ ...row, userId } as never)
     .onConflictDoUpdate({ target: personas.id, set: row as never });
 }
 
@@ -90,7 +90,7 @@ export async function upsertLocalLorebook(
   if (!local) return;
   await local.db
     .insert(lorebooks)
-    .values(({ ...row, userId } as never))
+    .values({ ...row, userId } as never)
     .onConflictDoUpdate({ target: lorebooks.id, set: row as never });
 }
 
@@ -110,7 +110,7 @@ export async function upsertLocalPreset(
   if (!local) return;
   await local.db
     .insert(samplingPresets)
-    .values(({ ...row, userId } as never))
+    .values({ ...row, userId } as never)
     .onConflictDoUpdate({ target: samplingPresets.id, set: row as never });
 }
 
@@ -130,7 +130,7 @@ export async function upsertLocalCard(
   if (!local) return;
   await local.db
     .insert(cards)
-    .values(({ ...row, userId } as never))
+    .values({ ...row, userId } as never)
     .onConflictDoUpdate({ target: cards.id, set: row as never });
 }
 
@@ -150,7 +150,7 @@ export async function upsertLocalConversation(
   if (!local) return;
   await local.db
     .insert(conversations)
-    .values(({ ...row, userId } as never))
+    .values({ ...row, userId } as never)
     .onConflictDoUpdate({ target: conversations.id, set: row as never });
 }
 
@@ -170,14 +170,11 @@ export async function upsertLocalGenerationSession(
   if (!local) return;
   await local.db
     .insert(generationSessions)
-    .values(({ ...row, userId } as never))
+    .values({ ...row, userId } as never)
     .onConflictDoUpdate({ target: generationSessions.id, set: row as never });
 }
 
-export async function deleteLocalGenerationSession(
-  userId: number,
-  id: string,
-) {
+export async function deleteLocalGenerationSession(userId: number, id: string) {
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db
@@ -298,8 +295,16 @@ export async function upsertLocalCardBundle(
   userId: number,
   bundle: {
     card: AnyRow;
-    cardCharacters: Array<{ cardId: string; characterId: string; orderIndex?: number }>;
-    cardLorebooks: Array<{ cardId: string; lorebookId: string; orderIndex?: number }>;
+    cardCharacters: Array<{
+      cardId: string;
+      characterId: string;
+      orderIndex?: number;
+    }>;
+    cardLorebooks: Array<{
+      cardId: string;
+      lorebookId: string;
+      orderIndex?: number;
+    }>;
   },
 ) {
   const local = await getLocalDb(userId);
@@ -388,9 +393,7 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-  await local.db
-    .delete(media)
-    .where(eq(media.convId, bundle.conversation.id));
+  await local.db.delete(media).where(eq(media.convId, bundle.conversation.id));
   for (const m of bundle.media) {
     await local.db.insert(media).values(m as never);
   }
@@ -451,9 +454,7 @@ export async function replaceLocalMessageItems(
     .delete(messageItems)
     .where(eq(messageItems.messageId, messageId));
   for (const it of items) {
-    await local.db
-      .insert(messageItems)
-      .values({ ...it, messageId } as never);
+    await local.db.insert(messageItems).values({ ...it, messageId } as never);
   }
 }
 
@@ -474,7 +475,13 @@ export async function upsertLocalConversationSettings(
 
 export async function upsertLocalConversationCharacter(
   userId: number,
-  row: { convId: string; characterId: string; orderIndex?: number; isActive?: boolean; overrides?: unknown },
+  row: {
+    convId: string;
+    characterId: string;
+    orderIndex?: number;
+    isActive?: boolean;
+    overrides?: unknown;
+  },
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
@@ -511,7 +518,12 @@ export async function replaceLocalConversationBindings(
   userId: number,
   convId: string,
   bindings: {
-    conversationCharacters?: Array<{ characterId: string; orderIndex?: number; isActive?: boolean; overrides?: unknown }>;
+    conversationCharacters?: Array<{
+      characterId: string;
+      orderIndex?: number;
+      isActive?: boolean;
+      overrides?: unknown;
+    }>;
     conversationLorebooks?: Array<{ lorebookId: string; orderIndex?: number }>;
   },
 ) {
@@ -559,7 +571,10 @@ export async function upsertLocalLorebookEntry(
     .onConflictDoUpdate({ target: lorebookEntries.id, set: row as never });
 }
 
-export async function deleteLocalLorebookEntry(userId: number, entryId: string) {
+export async function deleteLocalLorebookEntry(
+  userId: number,
+  entryId: string,
+) {
   const local = await getLocalDb(userId);
   if (!local) return;
   await local.db.delete(lorebookEntries).where(eq(lorebookEntries.id, entryId));
@@ -595,7 +610,17 @@ export async function deleteLocalGeneration(userId: number, id: string) {
 
 export async function upsertLocalGenerationImage(
   userId: number,
-  row: { generationId: string; sequenceIndex: number; r2Url: string; r2Key: string; mimeType?: string; width?: number | null; height?: number | null; sizeBytes?: number | null; upstreamResultUrl?: string | null },
+  row: {
+    generationId: string;
+    sequenceIndex: number;
+    r2Url: string;
+    r2Key: string;
+    mimeType?: string;
+    width?: number | null;
+    height?: number | null;
+    sizeBytes?: number | null;
+    upstreamResultUrl?: string | null;
+  },
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;

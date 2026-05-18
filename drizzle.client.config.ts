@@ -5,10 +5,7 @@ import { defineConfig } from "drizzle-kit";
 // moderation, catalogs). drizzle-kit emits plain SQLite DDL that SQLocal
 // replays on first open in the browser.
 export default defineConfig({
-  schema: [
-    "./src/lib/db/schema/shared.ts",
-    "./src/lib/db/schema/client.ts",
-  ],
+  schema: ["./src/lib/db/schema/shared.ts", "./src/lib/db/schema/client.ts"],
   out: "./drizzle/client",
   dialect: "sqlite",
 });

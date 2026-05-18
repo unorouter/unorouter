@@ -104,7 +104,10 @@ export function TokenModelSelect(props: TokenModelSelectProps) {
                         </span>
                       )}
                     </div>
-                    <Icon name="chevrons-up-down" className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+                    <Icon
+                      name="chevrons-up-down"
+                      className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+                    />
                   </Button>
                 </FormControl>
               }

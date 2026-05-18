@@ -1,13 +1,23 @@
 "use client";
 
-import { DataTableRowActions, type RowAction, } from "@/components/elements/table/data-table-row-actions";
+import {
+  DataTableRowActions,
+  type RowAction,
+} from "@/components/elements/table/data-table-row-actions";
 import { Icon } from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
-  useDeleteTokenMutation, useFetchTokenKeyMutation, useToggleTokenStatusMutation, } from "@/hooks/token-hook";
+  useDeleteTokenMutation,
+  useFetchTokenKeyMutation,
+  useToggleTokenStatusMutation,
+} from "@/hooks/token-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
@@ -210,16 +220,27 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
     {
       value: "edit",
       label: "TOKEN.EDIT",
-      icon: <Icon name="pencil" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />,
+      icon: (
+        <Icon
+          name="pencil"
+          className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+        />
+      ),
       onClick: () => setEditingToken(token),
     },
     {
       value: "toggle",
       label: isEnabled ? "TOKEN.DISABLE" : "TOKEN.ENABLE",
       icon: isEnabled ? (
-        <Icon name="power-off" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+        <Icon
+          name="power-off"
+          className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+        />
       ) : (
-        <Icon name="power" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+        <Icon
+          name="power"
+          className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+        />
       ),
       disabled: toggleMutation.isPending,
       onClick: () =>

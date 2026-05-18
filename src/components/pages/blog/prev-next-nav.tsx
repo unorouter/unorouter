@@ -3,9 +3,8 @@ import { getBlogTheme } from "@/lib/config/blog-categories";
 import type { BlogPost } from "@/lib/types/seo";
 import { cn } from "@/lib/utils";
 import { getTranslations } from "next-intl/server";
-
-import { translated } from "./posts";
 import { Icon } from "@/components/ui/icon";
+import { translated } from "./posts";
 
 interface PrevNextNavProps {
   prev: BlogPost | null;

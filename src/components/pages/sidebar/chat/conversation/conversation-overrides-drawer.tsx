@@ -346,32 +346,30 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
   return (
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
       {!controlled && (
-      <SheetTrigger
-        onClick={() =>
-          analytics.chat.overridesDrawerOpened({
-            mode: isDefaultsMode ? "defaults" : "conversation",
-          })
-        }
-        render={
-          props.trigger ?? (
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label={t("CHAT.OVERRIDES.OPEN")}
-            >
-              <Icon name="settings-2" className="size-4" />
-            </Button>
-          )
-        }
-      />
+        <SheetTrigger
+          onClick={() =>
+            analytics.chat.overridesDrawerOpened({
+              mode: isDefaultsMode ? "defaults" : "conversation",
+            })
+          }
+          render={
+            props.trigger ?? (
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label={t("CHAT.OVERRIDES.OPEN")}
+              >
+                <Icon name="settings-2" className="size-4" />
+              </Button>
+            )
+          }
+        />
       )}
       <SheetContent className="overflow-x-hidden overflow-y-auto sm:max-w-md">
         <SheetHeader>
           <SheetTitle>{t("CHAT.OVERRIDES.TITLE")}</SheetTitle>
           <SheetDescription>{t("CHAT.OVERRIDES.DESCRIPTION")}</SheetDescription>
-          {props.convId && (
-            <SyncBadge kind="conversations" id={props.convId} />
-          )}
+          {props.convId && <SyncBadge kind="conversations" id={props.convId} />}
         </SheetHeader>
 
         <Form {...form}>

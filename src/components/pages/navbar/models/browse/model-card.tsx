@@ -6,7 +6,10 @@ import { CopyButton } from "@/components/elements/code/copy-button";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
 import { Badge } from "@/components/ui/badge";
 import {
-  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Link, useRouter } from "@/i18n/navigation";
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import type { ProcessedModel } from "@/lib/api/pricing";

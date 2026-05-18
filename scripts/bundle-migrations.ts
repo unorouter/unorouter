@@ -43,10 +43,7 @@ const entries = journal.entries
     return { tag: entry.tag, sql };
   });
 
-writeFileSync(
-  outFile,
-  JSON.stringify({ migrations: entries }, null, 2),
-);
+writeFileSync(outFile, JSON.stringify({ migrations: entries }, null, 2));
 
 console.log(
   `bundle-migrations: emitted ${entries.length} migration(s) to ${outFile}`,

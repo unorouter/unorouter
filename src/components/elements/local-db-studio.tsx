@@ -15,10 +15,12 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { getLocalDb } from "@/lib/local-db/client";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
-  Sheet, SheetContent, SheetTitle, } from "@/components/ui/sheet";
-import {
-  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -196,10 +198,7 @@ async function loadStudioStylesheet(): Promise<CSSStyleSheet> {
   return sheet;
 }
 
-function ShadowHost(props: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+function ShadowHost(props: { children: React.ReactNode; className?: string }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const [shadow, setShadow] = useState<ShadowRoot | null>(null);
 
@@ -226,4 +225,3 @@ function ShadowHost(props: {
     </div>
   );
 }
-

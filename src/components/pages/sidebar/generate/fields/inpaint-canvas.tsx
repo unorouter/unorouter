@@ -5,7 +5,10 @@ import { Icon } from "@/components/ui/icon";
 import { useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
-  MaskEditor, toMask, type MaskEditorCanvasRef, } from "react-canvas-masker";
+  MaskEditor,
+  toMask,
+  type MaskEditorCanvasRef,
+} from "react-canvas-masker";
 import "react-canvas-masker/dist/style.css";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -25,7 +28,6 @@ export function InpaintCanvas(props: Props) {
     null as unknown as MaskEditorCanvasRef,
   );
 
-  // eslint-disable-next-line react-hooks/incompatible-library
   const ui = (form.watch("ui") as Record<string, unknown> | undefined) ?? {};
   const brushSize =
     (ui.inpaintBrushSize as number | undefined) ?? DEFAULT_BRUSH;

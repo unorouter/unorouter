@@ -3,11 +3,19 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Icon } from "@/components/ui/icon";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  useRemoveSyncMutation, useSyncMutation, useSyncStateForRow, } from "@/hooks/sync-hook";
+  useRemoveSyncMutation,
+  useSyncMutation,
+  useSyncStateForRow,
+} from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
@@ -155,7 +163,10 @@ export function ConversationItem(props: ConversationItemProps) {
             <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
               {isSynced ? (
                 <>
-                  <Icon name="cloud-upload" className="size-2.5 text-emerald-500" />
+                  <Icon
+                    name="cloud-upload"
+                    className="size-2.5 text-emerald-500"
+                  />
                   {syncExpiresLabel
                     ? t("SYNC.EXPIRES_AT", { date: syncExpiresLabel })
                     : t("SYNC.SYNCED")}

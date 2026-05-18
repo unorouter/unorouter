@@ -6,17 +6,37 @@ import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
-  Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  useCreateTokenMutation, useDeleteTokenMutation, useFetchTokenKeyMutation, useToggleTokenStatusMutation, useUpdateTokenMutation, } from "@/hooks/token-hook";
+  useCreateTokenMutation,
+  useDeleteTokenMutation,
+  useFetchTokenKeyMutation,
+  useToggleTokenStatusMutation,
+  useUpdateTokenMutation,
+} from "@/hooks/token-hook";
 import { analytics } from "@/lib/analytics";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
@@ -313,7 +333,10 @@ export function TokenDialog(props: TokenDialogProps) {
 
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <Icon name="wallet" className="text-muted-foreground h-4 w-4" />
+                  <Icon
+                    name="wallet"
+                    className="text-muted-foreground h-4 w-4"
+                  />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                     {t("TOKEN.FORM.QUOTA")}
                   </span>
@@ -423,7 +446,10 @@ export function TokenDialog(props: TokenDialogProps) {
 
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <Icon name="shield" className="text-muted-foreground h-4 w-4" />
+                  <Icon
+                    name="shield"
+                    className="text-muted-foreground h-4 w-4"
+                  />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                     {t("TOKEN.FORM.MODEL_LIMITS")}
                   </span>
@@ -452,7 +478,10 @@ export function TokenDialog(props: TokenDialogProps) {
 
               <div>
                 <div className="mb-3 flex items-center gap-2">
-                  <Icon name="globe" className="text-muted-foreground h-4 w-4" />
+                  <Icon
+                    name="globe"
+                    className="text-muted-foreground h-4 w-4"
+                  />
                   <span className="text-muted-foreground font-mono text-[10px] tracking-widest uppercase">
                     {t("TOKEN.FORM.IP_WHITELIST")}
                   </span>
@@ -546,9 +575,17 @@ export function TokenDialog(props: TokenDialogProps) {
                 </Button>
                 <Button type="submit" disabled={isPending}>
                   {isEdit ? (
-                    <Icon name="check" data-icon="inline-start" className="h-4 w-4" />
+                    <Icon
+                      name="check"
+                      data-icon="inline-start"
+                      className="h-4 w-4"
+                    />
                   ) : (
-                    <Icon name="plus" data-icon="inline-start" className="h-4 w-4" />
+                    <Icon
+                      name="plus"
+                      data-icon="inline-start"
+                      className="h-4 w-4"
+                    />
                   )}
                   {isEdit ? t("TOKEN.FORM.SAVE") : t("TOKEN.FORM.SUBMIT")}
                 </Button>

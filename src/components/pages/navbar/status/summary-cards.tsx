@@ -58,9 +58,7 @@ export function SummaryCards() {
             </p>
             <Icon name={c.icon} className={cn("h-4 w-4", c.accent)} />
           </div>
-          <p
-            className={cn("mt-1 font-mono text-3xl font-semibold", c.accent)}
-          >
+          <p className={cn("mt-1 font-mono text-3xl font-semibold", c.accent)}>
             {c.value}
           </p>
         </div>

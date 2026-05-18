@@ -3,7 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import type { TranslationKey } from "@/lib/config/constants";
 import { cn } from "@/lib/utils";
 import type { Column } from "@tanstack/react-table";
@@ -53,11 +58,17 @@ export function DataTableColumnHeader<TData, TValue>(
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => props.column.toggleSorting(false)}>
-            <Icon name="arrow-up" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+            <Icon
+              name="arrow-up"
+              className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+            />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => props.column.toggleSorting(true)}>
-            <Icon name="arrow-down" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+            <Icon
+              name="arrow-down"
+              className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+            />
             Desc
           </DropdownMenuItem>
           {props.column.getCanHide() && (
@@ -66,7 +77,10 @@ export function DataTableColumnHeader<TData, TValue>(
               <DropdownMenuItem
                 onClick={() => props.column.toggleVisibility(false)}
               >
-                <Icon name="eye-off" className="text-muted-foreground/70 mr-2 h-3.5 w-3.5" />
+                <Icon
+                  name="eye-off"
+                  className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+                />
                 Hide
               </DropdownMenuItem>
             </>

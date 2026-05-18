@@ -9,16 +9,23 @@ import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
-  Tooltip, TooltipContent, TooltipTrigger, } from "@/components/ui/tooltip";
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { analytics } from "@/lib/analytics";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
-  useBindEmailMutation, useSendSettingsVerificationMutation, } from "@/hooks/settings-hook";
+  useBindEmailMutation,
+  useSendSettingsVerificationMutation,
+} from "@/hooks/settings-hook";
 import { useStatusQuery } from "@/hooks/status-hook";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import {
-  emailBindSchema, type EmailBindSchema, } from "@/lib/validation/settings";
+  emailBindSchema,
+  type EmailBindSchema,
+} from "@/lib/validation/settings";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Value } from "@sinclair/typebox/value";
@@ -58,7 +65,6 @@ export function AccountCard() {
   if (!user) return null;
 
   const emailBound = !!user.email;
-  // eslint-disable-next-line react-hooks/incompatible-library
   const emailValue = form.watch("email");
 
   function handleSendCode() {

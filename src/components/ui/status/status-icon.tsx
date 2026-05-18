@@ -117,13 +117,22 @@ export function StatusIcon({
       )}
       {...props}
     >
-      <Icon name="check" className={cn("hidden", iconVisibilityClasses.success)} />
+      <Icon
+        name="check"
+        className={cn("hidden", iconVisibilityClasses.success)}
+      />
       <Icon
         name="triangle-alert"
         className={cn("hidden", iconVisibilityClasses.degraded)}
       />
-      <Icon name="alert-circle" className={cn("hidden", iconVisibilityClasses.error)} />
-      <Icon name="wrench" className={cn("hidden", iconVisibilityClasses.info)} />
+      <Icon
+        name="alert-circle"
+        className={cn("hidden", iconVisibilityClasses.error)}
+      />
+      <Icon
+        name="wrench"
+        className={cn("hidden", iconVisibilityClasses.info)}
+      />
     </div>
   );
 }

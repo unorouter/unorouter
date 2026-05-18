@@ -80,7 +80,10 @@ export async function readLocalLorebook(userId: number, id: string) {
       .from(lorebooks)
       .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
       .limit(1),
-    local.db.select().from(lorebookEntries).where(eq(lorebookEntries.lorebookId, id)),
+    local.db
+      .select()
+      .from(lorebookEntries)
+      .where(eq(lorebookEntries.lorebookId, id)),
   ]);
   if (!lbRows[0]) return null;
   return { ...lbRows[0], entries };
@@ -231,10 +234,7 @@ export async function readLocalConversationBindings(
   return { conversationCharacters: chars, conversationLorebooks: lbs };
 }
 
-export async function readLocalMessageItems(
-  userId: number,
-  convId: string,
-) {
+export async function readLocalMessageItems(userId: number, convId: string) {
   const local = await getLocalDb(userId);
   if (!local) return null;
   const msgs = await local.db

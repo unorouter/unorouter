@@ -74,7 +74,8 @@ export function SupportedParameters(props: Props) {
                 <TableCell className="py-2 font-mono text-xs">{name}</TableCell>
                 <TableCell className="py-2">
                   {inIntersection ? (
-                    <Icon name="check"
+                    <Icon
+                      name="check"
                       className="h-3.5 w-3.5 text-emerald-500"
                       aria-label={t("MODELS.DETAIL.ALWAYS_SUPPORTED")}
                     />

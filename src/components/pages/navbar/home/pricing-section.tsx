@@ -11,7 +11,10 @@ export async function PricingSection() {
       <div className="mx-auto max-w-360 px-6">
         <div className="mb-8 text-center">
           <div className="mb-3 inline-flex items-center gap-2 rounded-sm border border-purple-500/30 bg-purple-500/10 px-3 py-1.5">
-            <Icon name="zap" className="h-3 w-3 text-purple-700 dark:text-purple-400" />
+            <Icon
+              name="zap"
+              className="h-3 w-3 text-purple-700 dark:text-purple-400"
+            />
             <span className="font-mono text-[10px] tracking-[0.2em] text-purple-700 uppercase dark:text-purple-400">
               {t("HOME.HOW_IT_WORKS.LABEL")}
             </span>
@@ -29,7 +32,12 @@ export async function PricingSection() {
             num={t("HOME.HOW_IT_WORKS.STEP1_NUM")}
             title={t("HOME.HOW_IT_WORKS.STEP1_TITLE")}
             desc={t("HOME.HOW_IT_WORKS.STEP1_DESC")}
-            icon={<Icon name="user-plus" className="text-muted-foreground h-4 w-4" />}
+            icon={
+              <Icon
+                name="user-plus"
+                className="text-muted-foreground h-4 w-4"
+              />
+            }
           >
             <SignupDemo />
           </StepCard>
@@ -38,7 +46,9 @@ export async function PricingSection() {
             num={t("HOME.HOW_IT_WORKS.STEP2_NUM")}
             title={t("HOME.HOW_IT_WORKS.STEP2_TITLE")}
             desc={t("HOME.HOW_IT_WORKS.STEP2_DESC")}
-            icon={<Icon name="wallet" className="text-muted-foreground h-4 w-4" />}
+            icon={
+              <Icon name="wallet" className="text-muted-foreground h-4 w-4" />
+            }
           >
             <TopUpDemo />
           </StepCard>
@@ -163,7 +173,10 @@ function ApiKeyDemo() {
         <code className="text-foreground/90 truncate font-mono text-[11px] tracking-tight">
           sk-uno-{"•".repeat(24)}
         </code>
-        <Icon name="copy" className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
+        <Icon
+          name="copy"
+          className="text-muted-foreground h-3.5 w-3.5 shrink-0"
+        />
       </div>
       <div className="text-muted-foreground font-mono text-[10px]">
         Fully OpenAI compatible
