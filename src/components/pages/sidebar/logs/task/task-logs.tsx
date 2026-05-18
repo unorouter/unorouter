@@ -40,7 +40,7 @@ export function TaskLogs() {
     store.columnFilters,
     store.pagination,
   );
-  const logsQuery = useTaskLogsQuery({ query: queryFilters });
+  const logsQuery = useTaskLogsQuery(queryFilters);
 
   const [failOpen, setFailOpen] = useState(false);
   const [audioOpen, setAudioOpen] = useState(false);

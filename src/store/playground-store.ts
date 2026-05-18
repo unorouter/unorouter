@@ -38,17 +38,6 @@ export type GenerateDraft = {
 
 export type GenerateTab = "text2img" | "img2img" | "edit";
 
-export const INITIAL_GENERATE_DRAFT: GenerateDraft = {
-  model: "pony",
-  prompt: "",
-  negativePrompt: "",
-  params: {},
-  loras: undefined,
-  references: undefined,
-  nsfw: true,
-  extraParams: { variants: 1 },
-};
-
 export const text2imgDraftAtom = atomWithStorage<GenerateDraft | null>(
   "generate-draft-text2img-v1",
   null,
@@ -64,9 +53,6 @@ export const editDraftAtom = atomWithStorage<GenerateDraft | null>(
   null,
 );
 
-// TODO: legacy alias; remove once all callers switch to per-tab atoms above.
-export const generateDraftAtom = text2imgDraftAtom;
-
 export type ModelParamsMemory = Record<string, Record<string, unknown>>;
 
 export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
@@ -78,6 +64,3 @@ export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
 export const activeTabAtom = atom<GenerateTab>("text2img");
 export const activeSubPillAtom = atom<Img2ImgSubPill>("img2img");
 
-// Data URL (PNG with white = mask, transparent = keep); submit handler
-// uploads decoded blob to R2 and sets params.maskUrl.
-export const inpaintMaskAtom = atom<string | null>(null);

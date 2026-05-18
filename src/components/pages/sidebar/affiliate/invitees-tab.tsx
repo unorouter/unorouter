@@ -17,10 +17,8 @@ export function InviteesTab() {
   const store = useAtomValue(tableAtoms.baseAtom);
 
   const inviteesQuery = useAffiliateInviteesQuery({
-    query: {
-      p: store.pagination.pageIndex + 1,
-      page_size: store.pagination.pageSize,
-    },
+    p: store.pagination.pageIndex + 1,
+    page_size: store.pagination.pageSize,
   });
 
   const responseData = inviteesQuery.data;

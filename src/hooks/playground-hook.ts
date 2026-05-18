@@ -16,16 +16,12 @@ function isTerminalStatus(s: string | undefined): boolean {
 }
 
 export function useSessionHistoryQuery(
-  params?: EdenQuery<typeof rpc.api.playground.me>,
+  query?: EdenQuery<typeof rpc.api.playground.me>,
 ) {
   return useQuery({
-    queryKey: queryKeys.playgroundSessionList(params),
+    queryKey: queryKeys.playgroundSessionList(query),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.playground.me.get({
-          query: params ?? {},
-        }),
-      ),
+      handleElysia(await rpc.api.playground.me.get({ query })),
   });
 }
 
@@ -99,30 +95,6 @@ export function useSubmitGenerationMutation() {
   });
 }
 
-export function useSetSnapshotVisibilityMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: {
-      id: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.playground.snapshot>["visibility"],
-        "post"
-      >["body"];
-    }) =>
-      handleElysia(
-        await rpc.api.playground
-          .snapshot({ id: args.id })
-          .visibility.post(args.body),
-      ),
-    onError: (e) => handleError(e, t),
-    onSuccess: (data) => {
-      qc.setQueryData(queryKeys.playgroundSnapshot(data.id), data);
-      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
-    },
-  });
-}
-
 export function useDeleteSnapshotMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
@@ -143,26 +115,6 @@ export function useDeleteSnapshotMutation() {
           queryKey: queryKeys.playgroundSession(data.sessionId),
         });
       }
-    },
-  });
-}
-
-export function useDeleteSessionMutation() {
-  const t = useTranslations();
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: async (args: { sessionId: string }) =>
-      handleElysia(
-        await rpc.api.playground
-          .session({ sessionId: args.sessionId })
-          .delete(),
-      ),
-    onError: (e) => handleError(e, t),
-    onSuccess: (_data, args) => {
-      qc.removeQueries({
-        queryKey: queryKeys.playgroundSession(args.sessionId),
-      });
-      qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });
     },
   });
 }
@@ -226,17 +178,6 @@ export function useUpscalerCatalogQuery(
   });
 }
 
-export function useControlNetCatalogQuery(
-  params?: EdenQuery<typeof rpc.api.playground.controlnets>,
-) {
-  return useQuery({
-    queryKey: queryKeys.controlNetCatalog(params),
-    queryFn: async () =>
-      handleElysia(
-        await rpc.api.playground.controlnets.get({ query: params ?? {} }),
-      ),
-  });
-}
 
 export function useExportSessionMutation() {
   const t = useTranslations();

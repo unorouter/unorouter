@@ -2,52 +2,39 @@
 
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { EdenQuery } from "@/lib/types/eden";
 import { handleElysia } from "@/lib/utils/base";
-import type { EdenArgs } from "@/lib/types/eden";
 import { useQuery } from "@tanstack/react-query";
 
-export function useUsageLogsQuery(
-  args: EdenArgs<typeof rpc.api.logs, "get"> = {},
-) {
+export function useUsageLogsQuery(query?: EdenQuery<typeof rpc.api.logs>) {
   return useQuery({
-    queryKey: queryKeys.usageLogs(args.query),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.logs.get({ query: args.query }));
-    },
+    queryKey: queryKeys.usageLogs(query),
+    queryFn: async () => handleElysia(await rpc.api.logs.get({ query })),
   });
 }
 
 export function useUsageLogsStatQuery(
-  args: EdenArgs<typeof rpc.api.logs.stat, "get"> = {},
+  query?: EdenQuery<typeof rpc.api.logs.stat>,
 ) {
   return useQuery({
-    queryKey: queryKeys.usageLogsStat(args.query),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.logs.stat.get({ query: args.query }));
-    },
+    queryKey: queryKeys.usageLogsStat(query),
+    queryFn: async () => handleElysia(await rpc.api.logs.stat.get({ query })),
   });
 }
 
 export function useMidjourneyLogsQuery(
-  args: EdenArgs<typeof rpc.api.logs.midjourney, "get"> = {},
+  query?: EdenQuery<typeof rpc.api.logs.midjourney>,
 ) {
   return useQuery({
-    queryKey: queryKeys.midjourneyLogs(args.query),
-    queryFn: async () => {
-      return handleElysia(
-        await rpc.api.logs.midjourney.get({ query: args.query }),
-      );
-    },
+    queryKey: queryKeys.midjourneyLogs(query),
+    queryFn: async () =>
+      handleElysia(await rpc.api.logs.midjourney.get({ query })),
   });
 }
 
-export function useTaskLogsQuery(
-  args: EdenArgs<typeof rpc.api.logs.task, "get"> = {},
-) {
+export function useTaskLogsQuery(query?: EdenQuery<typeof rpc.api.logs.task>) {
   return useQuery({
-    queryKey: queryKeys.taskLogs(args.query),
-    queryFn: async () => {
-      return handleElysia(await rpc.api.logs.task.get({ query: args.query }));
-    },
+    queryKey: queryKeys.taskLogs(query),
+    queryFn: async () => handleElysia(await rpc.api.logs.task.get({ query })),
   });
 }

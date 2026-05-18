@@ -21,7 +21,8 @@ export function useDashboardData() {
 
   const statusQuery = useStatusQuery();
   const quotaQuery = useDashboardQuotaQuery({
-    query: { start_timestamp: startTs, end_timestamp: endTs },
+    start_timestamp: startTs,
+    end_timestamp: endTs,
   });
   const uptimeQuery = useDashboardUptimeQuery();
   const rawData = (quotaQuery.data ?? []).filter(

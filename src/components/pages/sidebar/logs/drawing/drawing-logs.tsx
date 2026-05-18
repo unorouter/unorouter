@@ -45,7 +45,7 @@ export function DrawingLogs() {
     store.columnFilters,
     store.pagination,
   );
-  const logsQuery = useMidjourneyLogsQuery({ query: queryFilters });
+  const logsQuery = useMidjourneyLogsQuery(queryFilters);
 
   const [imageOpen, setImageOpen] = useState(false);
   const [promptOpen, setPromptOpen] = useState(false);

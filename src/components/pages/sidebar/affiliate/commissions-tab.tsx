@@ -18,10 +18,8 @@ export function CommissionsTab() {
   const store = useAtomValue(tableAtoms.baseAtom);
 
   const commissionsQuery = useAffiliateCommissionsQuery({
-    query: {
-      p: store.pagination.pageIndex + 1,
-      page_size: store.pagination.pageSize,
-    },
+    p: store.pagination.pageIndex + 1,
+    page_size: store.pagination.pageSize,
   });
 
   const responseData = commissionsQuery.data;

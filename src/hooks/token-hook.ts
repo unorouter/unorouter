@@ -3,7 +3,7 @@
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import type { EdenArgs } from "@/lib/types/eden";
+import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
 import { handleError, useSimpleMutation } from "@/lib/utils/client";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
@@ -36,17 +36,12 @@ export function useBestKeyQuery() {
   });
 }
 
-export function useTokensQuery(
-  args: EdenArgs<TokenRoute["search"], "get"> = {},
-) {
+export function useTokensQuery(query?: EdenQuery<TokenRoute["search"]>) {
   const authQuery = useAuthQuery();
   return useQuery({
-    queryKey: queryKeys.tokens(args.query),
-    queryFn: async () => {
-      return handleElysia(
-        await rpc.api.token.search.get({ query: args.query }),
-      );
-    },
+    queryKey: queryKeys.tokens(query),
+    queryFn: async () =>
+      handleElysia(await rpc.api.token.search.get({ query })),
     enabled: !!authQuery.data,
   });
 }

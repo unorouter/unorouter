@@ -39,7 +39,7 @@ export function TokenList() {
 
   const p = store.pagination.pageIndex + 1;
   const keyword = store.globalFilter || undefined;
-  const tokensQuery = useTokensQuery({ query: { p, keyword } });
+  const tokensQuery = useTokensQuery({ p, keyword });
 
   const columns: ColumnDef<TokenRow>[] = [
     {

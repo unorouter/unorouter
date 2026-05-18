@@ -84,11 +84,6 @@ export const upsertLocalPreset = (
 export const deleteLocalPreset = (userId: number, id: string) =>
   presetStore.drop(userId, id);
 
-export const upsertLocalCard = (
-  userId: number,
-  row: LocalRowInput & { id: string },
-) => cardStore.upsert(userId, row);
-
 export const deleteLocalCard = (userId: number, id: string) =>
   cardStore.drop(userId, id);
 
@@ -99,22 +94,6 @@ export const upsertLocalConversation = (
 
 export const deleteLocalConversation = (userId: number, id: string) =>
   conversationStore.drop(userId, id);
-
-export const upsertLocalGenerationSession = (
-  userId: number,
-  row: LocalRowInput & { id: string },
-) => generationSessionStore.upsert(userId, row);
-
-export const deleteLocalGenerationSession = (userId: number, id: string) =>
-  generationSessionStore.drop(userId, id);
-
-export const upsertLocalGeneration = (
-  userId: number,
-  row: LocalRowInput & { id: string; sessionId: string },
-) => generationStore.upsert(userId, row);
-
-export const deleteLocalGeneration = (userId: number, id: string) =>
-  generationStore.drop(userId, id);
 
 export const upsertLocalMessage = (
   userId: number,
@@ -198,9 +177,6 @@ export const upsertLocalMedia = (
     r2Url: row.r2Url ?? null,
     extractedText: row.extractedText ?? null,
   });
-
-export const deleteLocalMedia = (userId: number, mediaId: string) =>
-  mediaStore.drop(userId, mediaId);
 
 // Composite-PK: onConflictDoNothing (do-update doesn't apply on natural PK).
 export async function upsertLocalConversationCharacter(

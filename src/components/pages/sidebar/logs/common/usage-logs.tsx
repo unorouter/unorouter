@@ -45,8 +45,8 @@ export function UsageLogs() {
     store.pagination,
   );
 
-  const logsQuery = useUsageLogsQuery({ query: queryFilters });
-  const statQuery = useUsageLogsStatQuery({ query: statFilters });
+  const logsQuery = useUsageLogsQuery(queryFilters);
+  const statQuery = useUsageLogsStatQuery(statFilters);
   const stat = statQuery.data;
 
   function handleFilterChange(id: string, value: unknown) {

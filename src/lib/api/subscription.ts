@@ -14,9 +14,6 @@ export const BILLING_PREFERENCE_OPTIONS = [
   },
 ] as const;
 
-export type BillingPreference =
-  (typeof BILLING_PREFERENCE_OPTIONS)[number]["value"];
-
 export const RESET_TRANSLATION_KEYS: Record<string, TranslationKey> = {
   daily: "BILLING.SUBSCRIPTION.PER_DAY",
   weekly: "BILLING.SUBSCRIPTION.PER_WEEK",

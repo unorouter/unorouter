@@ -78,14 +78,6 @@ export const samplerMemoryByModelAtom = atomWithStorage<
   Record<string, ModelSamplerMemory>
 >(SAMPLER_MEMORY_KEY, {}, jotaiCookieStorage);
 
-export function getModelSamplerMemory(
-  byModel: Record<string, ModelSamplerMemory>,
-  model: string | null | undefined,
-): ModelSamplerMemory {
-  if (!model) return {};
-  return byModel[model] ?? {};
-}
-
 export const chatStore = createStore();
 
 function chatStateCookie(): ChatState {
