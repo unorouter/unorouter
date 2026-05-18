@@ -37,7 +37,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
   });
 }
 
-export function useSnapshotQuery(id: string | null | undefined) {
+export function useSnapshotQuery(id: string | null ) {
   return useQuery({
     queryKey: queryKeys.playgroundSnapshot(id ?? ""),
     queryFn: async () =>
@@ -120,16 +120,12 @@ export function useDeleteSnapshotMutation() {
 }
 
 export function useLoraCatalogQuery(
-  params?: EdenQuery<typeof rpc.api.playground.loras>,
+  query?: EdenQuery<typeof rpc.api.playground.loras>,
 ) {
   return useQuery({
-    queryKey: queryKeys.loraCatalog(params),
+    queryKey: queryKeys.loraCatalog(query),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.playground.loras.get({
-          query: params ?? {},
-        }),
-      ),
+      handleElysia(await rpc.api.playground.loras.get({ query })),
   });
 }
 
@@ -155,26 +151,22 @@ export function useUploadMaskMutation() {
 }
 
 export function useEmbeddingCatalogQuery(
-  params?: EdenQuery<typeof rpc.api.playground.embeddings>,
+  query?: EdenQuery<typeof rpc.api.playground.embeddings>,
 ) {
   return useQuery({
-    queryKey: queryKeys.embeddingCatalog(params),
+    queryKey: queryKeys.embeddingCatalog(query),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.playground.embeddings.get({ query: params ?? {} }),
-      ),
+      handleElysia(await rpc.api.playground.embeddings.get({ query })),
   });
 }
 
 export function useUpscalerCatalogQuery(
-  params?: EdenQuery<typeof rpc.api.playground.upscalers>,
+  query?: EdenQuery<typeof rpc.api.playground.upscalers>,
 ) {
   return useQuery({
-    queryKey: queryKeys.upscalerCatalog(params),
+    queryKey: queryKeys.upscalerCatalog(query),
     queryFn: async () =>
-      handleElysia(
-        await rpc.api.playground.upscalers.get({ query: params ?? {} }),
-      ),
+      handleElysia(await rpc.api.playground.upscalers.get({ query })),
   });
 }
 
