@@ -14,6 +14,7 @@ type Props = {
   popular?: boolean;
   cta: string;
   onSubscribe?: () => void;
+  disabled?: boolean;
 };
 
 export function PricingCard(props: Props) {
@@ -110,8 +111,9 @@ export function PricingCard(props: Props) {
         <button
           type="button"
           onClick={props.onSubscribe}
+          disabled={props.disabled}
           className={cn(
-            "flex h-11 w-full cursor-pointer items-center justify-center gap-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors",
+            "flex h-11 w-full cursor-pointer items-center justify-center gap-2 font-mono text-xs font-bold tracking-widest uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50",
             props.popular
               ? "bg-primary text-primary-foreground hover:bg-primary/80"
               : "border-border text-foreground hover:border-foreground border bg-transparent",

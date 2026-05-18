@@ -4,13 +4,19 @@ import { PageHeader } from "@/components/elements/content/page-header";
 import { PricingCard } from "@/components/elements/content/pricing-card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
+  useCreemSubscriptionMutation,
   useCreemTopUpMutation,
+  useStripeSubscriptionMutation,
   useStripeTopUpMutation,
   useTopUpInfoQuery,
 } from "@/hooks/billing-hook";
 import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
 import { useRouter } from "@/i18n/navigation";
-import { RESET_TRANSLATION_KEYS, getMultiplier } from "@/lib/api/subscription";
+import {
+  RESET_TRANSLATION_KEYS,
+  getMultiplier,
+  type SubscriptionPlan,
+} from "@/lib/api/subscription";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { setCookie } from "cookies-next/client";
 import { useTranslations } from "next-intl";
@@ -30,23 +36,54 @@ export function Pricing() {
   const topUpInfoQuery = useTopUpInfoQuery();
   const stripeTopUpMutation = useStripeTopUpMutation();
   const creemTopUpMutation = useCreemTopUpMutation();
+  const stripeSubMutation = useStripeSubscriptionMutation();
+  const creemSubMutation = useCreemSubscriptionMutation();
   const plans = data ?? [];
   const isLoggedIn = !!authQuery.data;
   const topUpInfo = topUpInfoQuery.data;
+  const enableStripe = topUpInfo?.enable_stripe_topup ?? false;
+  const enableCreem = topUpInfo?.enable_creem_topup ?? false;
   const isTopUpMutating =
     stripeTopUpMutation.isPending || creemTopUpMutation.isPending;
+  const isSubMutating =
+    stripeSubMutation.isPending || creemSubMutation.isPending;
 
-  function handleSubscribe() {
-    if (isLoggedIn) {
-      router.push("/billing");
-    } else {
-      setCookie(AUTH_REDIRECT_COOKIE, "/billing", { maxAge: 300 });
+  function handleSubscribe(plan: SubscriptionPlan) {
+    if (!isLoggedIn) {
+      setCookie(AUTH_REDIRECT_COOKIE, "/pricing", { maxAge: 300 });
       router.push("/login");
+      return;
     }
+    if (enableStripe) {
+      stripeSubMutation.mutate(
+        { body: { plan_id: plan.id } },
+        {
+          onSuccess: (response) => {
+            if (response?.pay_link) window.open(response.pay_link, "_blank");
+          },
+          onError: () => toast.error(t("BILLING.ERROR.PAYMENT_FAILED")),
+        },
+      );
+      return;
+    }
+    if (enableCreem) {
+      creemSubMutation.mutate(
+        { body: { plan_id: plan.id } },
+        {
+          onSuccess: (response) => {
+            if (response?.checkout_url)
+              window.open(response.checkout_url, "_blank");
+          },
+          onError: () => toast.error(t("BILLING.ERROR.PAYMENT_FAILED")),
+        },
+      );
+      return;
+    }
+    router.push("/billing");
   }
 
   function redirectToLogin() {
-    setCookie(AUTH_REDIRECT_COOKIE, "/billing", { maxAge: 300 });
+    setCookie(AUTH_REDIRECT_COOKIE, "/pricing", { maxAge: 300 });
     router.push("/login");
   }
 
@@ -77,9 +114,6 @@ export function Pricing() {
 
   function buildTopUpOptions(): TopUpOption[] {
     if (!topUpInfo) return [];
-
-    const enableStripe = topUpInfo.enable_stripe_topup ?? false;
-    const enableCreem = topUpInfo.enable_creem_topup ?? false;
 
     if (enableCreem && topUpInfo.creemProducts.length > 0) {
       return topUpInfo.creemProducts.map((product) => ({
@@ -139,7 +173,6 @@ export function Pricing() {
           className="mb-16"
         />
 
-        {/* Pricing Cards */}
         <div className="mb-16 grid gap-6 md:grid-cols-3">
           {plans.map((plan, i) => {
             const multiplier = getMultiplier(plan);
@@ -163,7 +196,8 @@ export function Pricing() {
                 popular={i === 1}
                 features={buildFeatures(i)}
                 cta={t("PRICING.CTA")}
-                onSubscribe={handleSubscribe}
+                onSubscribe={() => handleSubscribe(plan)}
+                disabled={isSubMutating}
               />
             );
           })}
