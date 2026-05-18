@@ -1,7 +1,8 @@
 import { GetStartedLink } from "@/components/elements/brand/get-started-link";
-import { Link } from "@/i18n/navigation";
-import { getTranslations } from "next-intl/server";
 import { Icon } from "@/components/ui/icon";
+import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
+import { getTranslations } from "next-intl/server";
 
 export async function PricingSection() {
   const t = await getTranslations();
@@ -110,27 +111,26 @@ function StepCard(props: {
   );
 }
 
-function SignupDemo() {
+async function SignupDemo() {
+  const t = await getTranslations();
+  const rows: { icon: "github" | "brand-discord" | "mail"; label: string }[] = [
+    { icon: "github", label: t("HOME.HOW_IT_WORKS.SIGNUP_GITHUB") },
+    { icon: "brand-discord", label: t("HOME.HOW_IT_WORKS.SIGNUP_DISCORD") },
+    { icon: "mail", label: t("HOME.HOW_IT_WORKS.SIGNUP_EMAIL") },
+  ];
   return (
     <div className="space-y-1.5">
-      <div className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5">
-        <Icon name="github" className="text-foreground/80 h-3.5 w-3.5" />
-        <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
-          Continue with GitHub
-        </span>
-      </div>
-      <div className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5">
-        <Icon name="brand-discord" className="text-foreground/80 h-3.5 w-3.5" />
-        <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
-          Continue with Discord
-        </span>
-      </div>
-      <div className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5">
-        <Icon name="mail" className="text-foreground/80 h-3.5 w-3.5" />
-        <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
-          Continue with Email
-        </span>
-      </div>
+      {rows.map((row) => (
+        <div
+          key={row.icon}
+          className="bg-secondary/60 border-border/40 flex items-center gap-3 rounded border px-3 py-1.5"
+        >
+          <Icon name={row.icon} className="text-foreground/80 h-3.5 w-3.5" />
+          <span className="text-foreground/80 font-mono text-[11px] tracking-wide">
+            {row.label}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -163,15 +163,17 @@ function TopUpDemo() {
   );
 }
 
-function ApiKeyDemo() {
+async function ApiKeyDemo() {
+  const t = await getTranslations();
+  const envVarLabel = `${APP_VALUES.appName.toUpperCase()}_API_KEY`;
   return (
     <div className="space-y-2">
       <div className="text-muted-foreground font-mono text-[10px] tracking-[0.2em] uppercase">
-        UNOROUTER_API_KEY
+        {envVarLabel}
       </div>
       <div className="bg-secondary/60 border-border/40 flex items-center justify-between gap-3 rounded border px-3 py-2.5">
         <code className="text-foreground/90 truncate font-mono text-[11px] tracking-tight">
-          sk-uno-{"•".repeat(24)}
+          sk-{"•".repeat(24)}
         </code>
         <Icon
           name="copy"
@@ -179,7 +181,7 @@ function ApiKeyDemo() {
         />
       </div>
       <div className="text-muted-foreground font-mono text-[10px]">
-        Fully OpenAI compatible
+        {t("HOME.HOW_IT_WORKS.API_KEY_COMPATIBLE")}
       </div>
     </div>
   );

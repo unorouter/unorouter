@@ -35,7 +35,7 @@ export function CapabilityChips(props: Props) {
             isCard && "px-1.5 py-0",
           )}
         >
-          {t(chip.labelKey as Parameters<typeof t>[0])}
+          {t(chip.labelKey)}
         </Badge>
       ))}
       {overflow > 0 && (

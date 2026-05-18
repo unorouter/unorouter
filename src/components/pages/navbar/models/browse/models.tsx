@@ -2,28 +2,27 @@
 
 import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
-import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { FILTER_OPTIONS, selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { ModelDetailSheet } from "../detail/model-detail-sheet";
 import { SortFilter } from "../filters/sort-filter";
 import { VendorFilter } from "../filters/vendor-filter";
 import { ViewModeToggle } from "../filters/view-mode-toggle";
-import { ModelDetailSheet } from "../detail/model-detail-sheet";
 import { ModelCard } from "./model-card";
 import { ModelListItem } from "./model-list-item";
-import { Icon } from "@/components/ui/icon";
 
 export function Models() {
   const t = useTranslations();
   const m = useModelsFilter();
   const perfQuery = usePerfMetricsSummaryQuery(24);
-  const perfMap = new Map<string, PerfModelSummary>(
+  const perfMap = new Map(
     (perfQuery.data?.models ?? []).map((row) => [row.model_name, row]),
   );
 
@@ -153,6 +152,7 @@ export function Models() {
           if (!open) m.setSelectedModelName(null);
         }}
       />
-    </div>
+    </div>    // Only seed once on mount; ignore subsequent searchParams changes so the
+    // user can clear the filter without it snapping back from the URL.
   );
 }

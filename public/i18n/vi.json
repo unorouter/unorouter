@@ -264,7 +264,11 @@
       "STEP3_TITLE": "Lấy API key",
       "STEP3_DESC": "Dùng trong code, trong Claude Code, hay dán vào SillyTavern, Janitor.AI, RisuAI hoặc Chub.",
       "CTA_PRIMARY": "Bắt đầu",
-      "CTA_SECONDARY": "Xem giá"
+      "CTA_SECONDARY": "Xem giá",
+      "SIGNUP_GITHUB": "Tiếp tục với GitHub",
+      "SIGNUP_DISCORD": "Tiếp tục với Discord",
+      "SIGNUP_EMAIL": "Tiếp tục với email",
+      "API_KEY_COMPATIBLE": "Tương thích hoàn toàn với OpenAI"
     }
   },
   "MODELS": {

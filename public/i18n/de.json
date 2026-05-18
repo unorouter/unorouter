@@ -264,7 +264,11 @@
       "STEP3_TITLE": "API-Schlüssel holen",
       "STEP3_DESC": "Nutze ihn im Code, in Claude Code oder füge ihn in SillyTavern, Janitor.AI, RisuAI oder Chub ein.",
       "CTA_PRIMARY": "Jetzt starten",
-      "CTA_SECONDARY": "Preise ansehen"
+      "CTA_SECONDARY": "Preise ansehen",
+      "SIGNUP_GITHUB": "Mit GitHub fortfahren",
+      "SIGNUP_DISCORD": "Mit Discord fortfahren",
+      "SIGNUP_EMAIL": "Mit E-Mail fortfahren",
+      "API_KEY_COMPATIBLE": "Vollständig OpenAI-kompatibel"
     }
   },
   "MODELS": {

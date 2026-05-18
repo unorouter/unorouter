@@ -1,10 +1,10 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { ModelTypeBadge } from "@/components/elements/model/model-type-badge";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
-import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,
@@ -104,24 +104,11 @@ export function ModelListItem(props: {
           </Tooltip>
         </div>
 
-        <Badge
-          variant="secondary"
-          className={cn(
-            "shrink-0 font-mono text-[10px] uppercase sm:hidden",
-            model.type === "text" &&
-              `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
-            model.type === "image" &&
-              "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
-            model.type === "video" &&
-              "border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-400",
-            model.type === "audio" &&
-              "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
-            model.type === "embedding" &&
-              "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-400",
-          )}
-        >
-          {model.type}
-        </Badge>
+        <ModelTypeBadge
+          type={model.type}
+          theme={theme}
+          className="shrink-0 sm:hidden"
+        />
       </div>
 
       {/* Desktop only: vendor + badge */}
@@ -129,24 +116,11 @@ export function ModelListItem(props: {
         {model.vendor.name}
       </span>
 
-      <Badge
-        variant="secondary"
-        className={cn(
-          "hidden font-mono text-[10px] uppercase sm:inline-flex",
-          model.type === "text" &&
-            `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
-          model.type === "image" &&
-            "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
-          model.type === "video" &&
-            "border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-400",
-          model.type === "audio" &&
-            "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
-          model.type === "embedding" &&
-            "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-400",
-        )}
-      >
-        {model.type}
-      </Badge>
+      <ModelTypeBadge
+        type={model.type}
+        theme={theme}
+        className="hidden sm:inline-flex"
+      />
 
       <CapabilityChips
         metadata={model.metadata}

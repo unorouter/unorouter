@@ -1,11 +1,12 @@
 import type { ModelMetadata } from "@/lib/api/pricing";
+import { TranslationKey } from "@/lib/config/constants";
 
 // Display order for capability chips. Each entry maps a metadata.supports* /
 // isReasoning flag to a translation key under MODELS.CAPABILITY.*. Only flags
 // strictly equal to true are rendered; missing/false flags are hidden.
 export const CAPABILITY_ORDER: {
   field: keyof ModelMetadata;
-  labelKey: string;
+  labelKey: TranslationKey;
 }[] = [
   { field: "isReasoning", labelKey: "MODELS.CAPABILITY.REASONING" },
   { field: "supportsTools", labelKey: "MODELS.CAPABILITY.TOOLS" },
@@ -38,10 +39,8 @@ export const CAPABILITY_ORDER: {
   { field: "supportsSystemMessages", labelKey: "MODELS.CAPABILITY.SYSTEM_MSG" },
 ];
 
-export function deriveCapabilityChips(
-  metadata: ModelMetadata,
-): { labelKey: string }[] {
-  const chips: { labelKey: string }[] = [];
+export function deriveCapabilityChips(metadata: ModelMetadata) {
+  const chips: { labelKey: TranslationKey }[] = [];
   for (const item of CAPABILITY_ORDER) {
     if (metadata[item.field] === true) {
       chips.push({ labelKey: item.labelKey });

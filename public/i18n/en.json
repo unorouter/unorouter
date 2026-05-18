@@ -133,7 +133,11 @@
       "STEP3_TITLE": "Get your API key",
       "STEP3_DESC": "Use it in your code, in Claude Code, or paste it into SillyTavern, Janitor.AI, RisuAI, or Chub.",
       "CTA_PRIMARY": "Get Started",
-      "CTA_SECONDARY": "View Pricing"
+      "CTA_SECONDARY": "View Pricing",
+      "SIGNUP_GITHUB": "Continue with GitHub",
+      "SIGNUP_DISCORD": "Continue with Discord",
+      "SIGNUP_EMAIL": "Continue with Email",
+      "API_KEY_COMPATIBLE": "Fully OpenAI compatible"
     },
     "PRICING": {
       "LABEL": "Pricing",

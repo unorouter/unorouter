@@ -264,7 +264,11 @@
       "STEP3_TITLE": "Récupérez votre clé API",
       "STEP3_DESC": "Utilisez-la dans votre code, dans Claude Code, ou collez-la dans SillyTavern, Janitor.AI, RisuAI ou Chub.",
       "CTA_PRIMARY": "Commencer",
-      "CTA_SECONDARY": "Voir les tarifs"
+      "CTA_SECONDARY": "Voir les tarifs",
+      "SIGNUP_GITHUB": "Continuer avec GitHub",
+      "SIGNUP_DISCORD": "Continuer avec Discord",
+      "SIGNUP_EMAIL": "Continuer avec e-mail",
+      "API_KEY_COMPATIBLE": "Entièrement compatible OpenAI"
     }
   },
   "MODELS": {

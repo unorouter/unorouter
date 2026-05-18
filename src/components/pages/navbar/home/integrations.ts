@@ -77,7 +77,6 @@ export const CLI_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "openclaw",
     href: "/docs/openclaw",
-    // icon omitted - logoSrc is used
     logoSrc: "/icons/openclaw.svg",
     badge: "OpenClaw",
     titleKey: msg("HOME.INTEGRATION.OPENCLAW.TITLE"),
@@ -91,7 +90,6 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "sillytavern",
     href: "/docs/sillytavern",
-    // icon omitted - logoSrc is used
     logoSrc: "/icons/sillytavern.png",
     badge: "SillyTavern",
     titleKey: msg("HOME.INTEGRATION.SILLYTAVERN.TITLE"),
@@ -102,7 +100,6 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "janitor-ai",
     href: "/docs/janitor-ai",
-    // icon omitted - logoSrc is used
     logoSrc: "/icons/janitor-ai.png",
     badge: "Janitor.AI",
     titleKey: msg("HOME.INTEGRATION.JANITOR_AI.TITLE"),
@@ -113,7 +110,6 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "risuai",
     href: "/docs/risuai",
-    // icon omitted - logoSrc is used
     logoSrc: "/icons/risuai.png",
     badge: "RisuAI",
     titleKey: msg("HOME.INTEGRATION.RISUAI.TITLE"),
@@ -124,7 +120,6 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   {
     key: "chub",
     href: "/docs/chub",
-    // icon omitted - logoSrc is used
     logoSrc: "/icons/chub-ai.png",
     logoBg: true,
     badge: "Chub / Venus",
@@ -140,12 +135,10 @@ export const ALL_INTEGRATIONS: readonly IntegrationEntry[] = [
   ...RP_INTEGRATIONS,
 ];
 
-const INTEGRATION_BY_KEY: Record<IntegrationKey, IntegrationEntry> =
-  Object.fromEntries(ALL_INTEGRATIONS.map((i) => [i.key, i])) as Record<
-    IntegrationKey,
-    IntegrationEntry
-  >;
+const INTEGRATION_BY_KEY = new Map(ALL_INTEGRATIONS.map((i) => [i.key, i]));
 
 export function getIntegration(key: IntegrationKey): IntegrationEntry {
-  return INTEGRATION_BY_KEY[key];
+  const entry = INTEGRATION_BY_KEY.get(key);
+  if (!entry) throw new Error(`Unknown integration key: ${key}`);
+  return entry;
 }

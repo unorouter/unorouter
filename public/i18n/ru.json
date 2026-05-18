@@ -264,7 +264,11 @@
       "STEP3_TITLE": "Получите API-ключ",
       "STEP3_DESC": "Используйте в коде, в Claude Code или вставьте в SillyTavern, Janitor.AI, RisuAI или Chub.",
       "CTA_PRIMARY": "Начать",
-      "CTA_SECONDARY": "Тарифы"
+      "CTA_SECONDARY": "Тарифы",
+      "SIGNUP_GITHUB": "Продолжить через GitHub",
+      "SIGNUP_DISCORD": "Продолжить через Discord",
+      "SIGNUP_EMAIL": "Продолжить с email",
+      "API_KEY_COMPATIBLE": "Полностью совместимо с OpenAI"
     }
   },
   "MODELS": {

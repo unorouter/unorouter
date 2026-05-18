@@ -264,7 +264,11 @@
       "STEP3_TITLE": "获取 API Key",
       "STEP3_DESC": "在代码里、在 Claude Code 里使用，或贴到 SillyTavern、Janitor.AI、RisuAI、Chub 里。",
       "CTA_PRIMARY": "开始使用",
-      "CTA_SECONDARY": "查看价格"
+      "CTA_SECONDARY": "查看价格",
+      "SIGNUP_GITHUB": "使用 GitHub 继续",
+      "SIGNUP_DISCORD": "使用 Discord 继续",
+      "SIGNUP_EMAIL": "使用邮箱继续",
+      "API_KEY_COMPATIBLE": "完全兼容 OpenAI"
     }
   },
   "MODELS": {

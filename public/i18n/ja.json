@@ -264,7 +264,11 @@
       "STEP3_TITLE": "API キーを取得",
       "STEP3_DESC": "コード、Claude Code、または SillyTavern、Janitor.AI、RisuAI、Chub に貼り付けて使えます。",
       "CTA_PRIMARY": "はじめる",
-      "CTA_SECONDARY": "料金を見る"
+      "CTA_SECONDARY": "料金を見る",
+      "SIGNUP_GITHUB": "GitHub で続行",
+      "SIGNUP_DISCORD": "Discord で続行",
+      "SIGNUP_EMAIL": "メールで続行",
+      "API_KEY_COMPATIBLE": "OpenAI と完全互換"
     }
   },
   "MODELS": {

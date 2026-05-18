@@ -1,5 +1,6 @@
-import { Link } from "@/i18n/navigation";
 import { Icon } from "@/components/ui/icon";
+import { Link } from "@/i18n/navigation";
+import { IntegrationLogo } from "@/components/pages/navbar/home/integration-logo";
 import {
   CLI_INTEGRATIONS,
   RP_INTEGRATIONS,
@@ -115,31 +116,11 @@ async function IntegrationRow(props: {
                     <div
                       className={`absolute inset-0 ${colors.glow} rounded-full blur-xl`}
                     />
-                    {integration.logoSrc ? (
-                      integration.logoBg ? (
-                        <div className="relative flex h-10 w-10 items-center justify-center rounded-md bg-white p-1">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={integration.logoSrc}
-                            alt={integration.badge}
-                            width={32}
-                            height={32}
-                            className="h-full w-full object-contain"
-                          />
-                        </div>
-                      ) : (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={integration.logoSrc}
-                          alt={integration.badge}
-                          width={40}
-                          height={40}
-                          className="relative h-10 w-10 object-contain"
-                        />
-                      )
-                    ) : integration.icon ? (
-                      <integration.icon size={40} className="relative" />
-                    ) : null}
+                    <IntegrationLogo
+                      integration={integration}
+                      size={40}
+                      className="relative"
+                    />
                   </div>
                   <div className="min-w-0 text-left">
                     <div className="mb-1 flex items-center gap-2">

@@ -1,5 +1,6 @@
 "use client";
 
+import { IntegrationLogo } from "@/components/pages/navbar/home/integration-logo";
 import {
   getIntegration,
   type IntegrationKey,
@@ -18,22 +19,16 @@ import { motion } from "motion/react";
 // where `whileHover` would yank the chip back to its anchor — the spring loop
 // keeps running independently and only the inner element responds to hover.
 
-type FloatItem = {
-  key: IntegrationKey;
+type Anchor = {
   top?: string;
   bottom?: string;
   left?: string;
   right?: string;
-  // Drift target the spring animates toward each cycle. The tween reverses
-  // (yoyo via `repeatType: "reverse"`) so the chip springs back to origin
-  // with the same physics that pushed it out.
-  driftY: number; // px
-  driftX: number; // px (positive = rightward gust)
-  driftRot: number; // deg
-  /** Scale at the drift apex. 1 = no scale change. Slightly > or < 1 simulates
-   * depth as the chip tilts through 3D space — subtle "near/far" cue. */
-  driftScale: number;
-  // Spring parameters per chip — varied so chips don't sync.
+};
+
+type Drift = { x: number; y: number; rot: number; scale: number };
+
+type Spring = {
   stiffness: number;
   damping: number;
   mass: number;
@@ -41,124 +36,65 @@ type FloatItem = {
   delay: number;
 };
 
+type FloatItem = {
+  key: IntegrationKey;
+  anchor: Anchor;
+  drift: Drift;
+  spring: Spring;
+};
+
 // Eight chips spread around an oversized box (~96px around the StatsPanel).
 // Drift is rightward (matching the hero's speed-streak motion) with subtle
 // vertical bob. Springs are heavily damped (no overshoot) and slow (mass 2-3)
-// so chips glide smoothly between origin and drift target — the spring still
-// gives a soft, decelerating settle, but no oscillation. Drift magnitudes
-// are also smaller now so the overall motion is calm.
+// so chips glide smoothly between origin and drift target.
 const FLOATERS: readonly FloatItem[] = [
-  // NW
   {
     key: "claude-code",
-    top: "0",
-    left: "0",
-    driftX: 30,
-    driftY: -16,
-    driftRot: 2,
-    driftScale: 1.06,
-    stiffness: 7,
-    damping: 14,
-    mass: 3.6,
-    delay: -2.4,
+    anchor: { top: "0", left: "0" },
+    drift: { x: 30, y: -16, rot: 2, scale: 1.06 },
+    spring: { stiffness: 7, damping: 14, mass: 3.6, delay: -2.4 },
   },
-  // N
   {
     key: "codex",
-    top: "0",
-    left: "48%",
-    driftX: 38,
-    driftY: -20,
-    driftRot: 2.5,
-    driftScale: 0.94,
-    stiffness: 6,
-    damping: 14,
-    mass: 4.0,
-    delay: -3.7,
+    anchor: { top: "0", left: "48%" },
+    drift: { x: 38, y: -20, rot: 2.5, scale: 0.94 },
+    spring: { stiffness: 6, damping: 14, mass: 4.0, delay: -3.7 },
   },
-  // NE
   {
     key: "risuai",
-    top: "0",
-    right: "0",
-    driftX: 28,
-    driftY: 14,
-    driftRot: 1.8,
-    driftScale: 1.05,
-    stiffness: 8,
-    damping: 16,
-    mass: 3.4,
-    delay: -0.6,
+    anchor: { top: "0", right: "0" },
+    drift: { x: 28, y: 14, rot: 1.8, scale: 1.05 },
+    spring: { stiffness: 8, damping: 16, mass: 3.4, delay: -0.6 },
   },
-  // E
   {
     key: "janitor-ai",
-    top: "42%",
-    right: "0",
-    driftX: 26,
-    driftY: -16,
-    driftRot: -1.6,
-    driftScale: 0.95,
-    stiffness: 9,
-    damping: 16,
-    mass: 3.2,
-    delay: -4.5,
+    anchor: { top: "42%", right: "0" },
+    drift: { x: 26, y: -16, rot: -1.6, scale: 0.95 },
+    spring: { stiffness: 9, damping: 16, mass: 3.2, delay: -4.5 },
   },
-  // SE
   {
     key: "chub",
-    bottom: "0",
-    right: "0",
-    driftX: 32,
-    driftY: -18,
-    driftRot: -2,
-    driftScale: 1.07,
-    stiffness: 6,
-    damping: 14,
-    mass: 4.0,
-    delay: -1.8,
+    anchor: { bottom: "0", right: "0" },
+    drift: { x: 32, y: -18, rot: -2, scale: 1.07 },
+    spring: { stiffness: 6, damping: 14, mass: 4.0, delay: -1.8 },
   },
-  // S
   {
     key: "gemini-cli",
-    bottom: "0",
-    left: "52%",
-    driftX: 40,
-    driftY: 18,
-    driftRot: 2.2,
-    driftScale: 0.93,
-    stiffness: 7,
-    damping: 14,
-    mass: 3.8,
-    delay: -3.1,
+    anchor: { bottom: "0", left: "52%" },
+    drift: { x: 40, y: 18, rot: 2.2, scale: 0.93 },
+    spring: { stiffness: 7, damping: 14, mass: 3.8, delay: -3.1 },
   },
-  // SW
   {
     key: "openclaw",
-    bottom: "0",
-    left: "0",
-    driftX: 34,
-    driftY: -14,
-    driftRot: 1.6,
-    driftScale: 1.05,
-    stiffness: 8,
-    damping: 15,
-    mass: 3.5,
-    delay: -2.9,
+    anchor: { bottom: "0", left: "0" },
+    drift: { x: 34, y: -14, rot: 1.6, scale: 1.05 },
+    spring: { stiffness: 8, damping: 15, mass: 3.5, delay: -2.9 },
   },
-  // W
   {
     key: "sillytavern",
-    top: "48%",
-    left: "0",
-    driftX: 28,
-    driftY: 16,
-    driftRot: -2,
-    driftScale: 0.96,
-    stiffness: 9,
-    damping: 16,
-    mass: 3.3,
-    delay: -1.2,
+    anchor: { top: "48%", left: "0" },
+    drift: { x: 28, y: 16, rot: -2, scale: 0.96 },
+    spring: { stiffness: 9, damping: 16, mass: 3.3, delay: -1.2 },
   },
 ];
 
@@ -168,32 +104,23 @@ export function FloatingIntegrationsMotion() {
       <div className="pointer-events-none absolute -inset-x-32 -inset-y-24 z-20 hidden motion-reduce:hidden lg:block">
         {FLOATERS.map((item) => {
           const integration = getIntegration(item.key);
-          const IconCmp = integration.icon;
           return (
             <motion.div
               key={item.key}
               className="pointer-events-none absolute"
-              style={{
-                top: item.top,
-                bottom: item.bottom,
-                left: item.left,
-                right: item.right,
-              }}
+              style={item.anchor}
               initial={{ x: 0, y: 0, rotate: 0, scale: 1 }}
               animate={{
-                x: item.driftX,
-                y: item.driftY,
-                rotate: item.driftRot,
-                scale: item.driftScale,
+                x: item.drift.x,
+                y: item.drift.y,
+                rotate: item.drift.rot,
+                scale: item.drift.scale,
               }}
               transition={{
                 type: "spring",
-                stiffness: item.stiffness,
-                damping: item.damping,
-                mass: item.mass,
+                ...item.spring,
                 repeat: Infinity,
                 repeatType: "reverse",
-                delay: item.delay,
               }}
             >
               <Tooltip>
@@ -206,31 +133,11 @@ export function FloatingIntegrationsMotion() {
                     />
                   }
                 >
-                  {integration.logoSrc ? (
-                    integration.logoBg ? (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white p-1">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={integration.logoSrc}
-                          alt={integration.badge}
-                          width={24}
-                          height={24}
-                          className="h-full w-full object-contain"
-                        />
-                      </div>
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={integration.logoSrc}
-                        alt={integration.badge}
-                        width={28}
-                        height={28}
-                        className="h-7 w-7 object-contain"
-                      />
-                    )
-                  ) : IconCmp ? (
-                    <IconCmp size={28} />
-                  ) : null}
+                  <IntegrationLogo
+                    integration={integration}
+                    size={28}
+                    bgShape="circle"
+                  />
                 </TooltipTrigger>
                 <TooltipContent>{integration.badge}</TooltipContent>
               </Tooltip>

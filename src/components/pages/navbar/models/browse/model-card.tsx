@@ -1,10 +1,10 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { Icon } from "@/components/ui/icon";
 import { CopyButton } from "@/components/elements/code/copy-button";
+import { ModelTypeBadge } from "@/components/elements/model/model-type-badge";
 import { PerfBadge } from "@/components/elements/model/perf-badge";
-import { Badge } from "@/components/ui/badge";
+import { Icon } from "@/components/ui/icon";
 import {
   Tooltip,
   TooltipContent,
@@ -117,24 +117,7 @@ export function ModelCard(props: {
             </div>
           </div>
         </div>
-        <Badge
-          variant="secondary"
-          className={cn(
-            "font-mono text-[10px] uppercase",
-            model.type === "text" &&
-              `${theme.tagBg} ${theme.tagBorder} ${theme.text}`,
-            model.type === "image" &&
-              "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400",
-            model.type === "video" &&
-              "border-purple-500/30 bg-purple-500/10 text-purple-700 dark:text-purple-400",
-            model.type === "audio" &&
-              "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-400",
-            model.type === "embedding" &&
-              "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-400",
-          )}
-        >
-          {model.type}
-        </Badge>
+        <ModelTypeBadge type={model.type} theme={theme} />
       </div>
 
       <div className="mt-auto pt-3">
