@@ -11,6 +11,17 @@ function isHomepage(pathname: string): boolean {
 }
 
 export default function proxy(request: NextRequest) {
+  // Agent / well-known discovery routes are locale-agnostic. Skip next-intl
+  // so paths like `/.well-known/openid-configuration` and `/openapi.json`
+  // resolve to their non-localized route handlers instead of being rewritten
+  // to `/<locale>/.well-known/...`.
+  if (
+    request.nextUrl.pathname.startsWith("/.well-known/") ||
+    request.nextUrl.pathname === "/openapi.json"
+  ) {
+    return NextResponse.next();
+  }
+
   // Cross-Origin-Resource-Policy for static chunks + API. The (chat) +
   // (generate) layouts set COEP: require-corp, which blocks any sub-resource
   // load that lacks CORP. Next dev/turbopack serves `_next/static/*` outside
@@ -68,6 +79,6 @@ export const config = {
   // and must hit next-intl middleware so localized paths (e.g. /ja/moderu/[slug])
   // get rewritten to the canonical /models/[slug] route.
   matcher: [
-    "/((?!trpc|_vercel|ingest|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|map|txt|xml|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
+    "/((?!trpc|_vercel|ingest|\\.well-known|openapi\\.json|.*\\.(?:ico|png|jpg|jpeg|svg|webp|avif|gif|css|map|txt|xml|woff|woff2|ttf|otf|eot|mp4|webm|pdf)).*)",
   ],
 };
