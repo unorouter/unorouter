@@ -1,3 +1,5 @@
+import { TranslationKey } from "../config/constants";
+
 /** Error subclass that pairs a translation key with interpolation params.
  *  Server throws -> Elysia onError serializes `{ message, params }` ->
  *  client `handleError` reconstructs and calls `t(message, params)`.
@@ -6,7 +8,7 @@
  *  `config/env.ts`, which needs to throw ParamErrors at module-load time. */
 export class ParamError extends Error {
   public readonly params: Record<string, string | number>;
-  constructor(key: string, params: Record<string, string | number>) {
+  constructor(key: TranslationKey, params: Record<string, string | number>) {
     super(key);
     this.name = "ParamError";
     this.params = params;

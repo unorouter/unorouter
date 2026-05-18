@@ -12,7 +12,7 @@ import {
   createAnimation,
   getRandomAnimation,
 } from "@/components/ui/theme-animations";
-import { ThemeCustomizerSheet } from "@/components/ui/theme-customizer/theme-customizer-sheet";
+import { ThemeCustomizerSheet } from "@/components/ui/theme/customizer-sheet";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";

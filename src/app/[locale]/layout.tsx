@@ -11,12 +11,14 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
+import { buildThemeCss, themeDataAttrs } from "@/components/ui/theme/theme-build-css";
+import { getServerTheme } from "@/components/ui/theme/theme-server";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { allFontVariablesClass } from "@/lib/config/theme-fonts";
+import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,
@@ -84,13 +86,25 @@ export default async function LocaleLayout(props: Props) {
 
   if (!hasLocale(routing.locales, params.locale)) notFound();
 
+  const theme = await getServerTheme();
+  const themeCss = buildThemeCss(theme);
+
   return (
     <html
       lang={params.locale}
+      {...themeDataAttrs(theme)}
       /* suppressHydrationWarning required: next-themes injects a class
          attribute via inline script before hydration to prevent theme flicker */
       suppressHydrationWarning
     >
+      <head>
+        {themeCss ? (
+          <style
+            id="user-theme"
+            dangerouslySetInnerHTML={{ __html: themeCss }}
+          />
+        ) : null}
+      </head>
       <body
         className={`${plusJakartaSans.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable} ${allFontVariablesClass} flex min-h-screen flex-col font-sans antialiased`}
       >

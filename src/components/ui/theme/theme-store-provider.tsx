@@ -4,7 +4,7 @@ import {
   INITIAL_USER_THEME,
   type UserTheme,
   userThemeAtom,
-} from "@/store/theme-store";
+} from "@/components/ui/theme/theme-store";
 import { useHydrateAtoms } from "jotai/utils";
 import type { ReactNode } from "react";
 

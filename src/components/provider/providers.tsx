@@ -6,13 +6,13 @@ import {
   NAVIGATION_STORE_KEY,
   type NavigationState,
 } from "@/store/navigation-store";
-import { USER_THEME_KEY, type UserTheme } from "@/store/theme-store";
+import { USER_THEME_KEY, type UserTheme } from "@/components/ui/theme/theme-store";
 import { ReactNode, use } from "react";
 import { LanguageProvider } from "./app/language-provider";
 import { PostHogProvider } from "./app/posthog-provider";
 import { ThemeProvider } from "./app/theme-provider";
 import { UserProvider } from "./app/user-provider";
-import { UserThemeProvider } from "./app/user-theme-provider";
+import { UserThemeProvider } from "@/components/ui/theme/theme-provider";
 import { WebMcpProvider } from "./app/webmcp-provider";
 import { AppPrefetchProvider } from "./state/app-prefetch-provider";
 import { ClientProvider } from "./state/client-provider";
@@ -20,7 +20,7 @@ import { JotaiProvider } from "./state/jotai-provider";
 import { ModelsStoreProvider } from "./state/models-store-provider";
 import { NavigationStoreProvider } from "./state/navigation-store-provider";
 import { QueryProvider } from "./state/query-provider";
-import { UserThemeStoreProvider } from "./state/user-theme-store-provider";
+import { UserThemeStoreProvider } from "@/components/ui/theme/theme-store-provider";
 
 export function Providers(props: { children: ReactNode }) {
   const navigationStore = use(

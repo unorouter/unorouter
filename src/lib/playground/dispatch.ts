@@ -162,12 +162,11 @@ export function buildGeminiGenerateBody(args: SubmitArgs): Built {
     responseModalities: ["IMAGE"],
   };
   if (args.quality) generationConfig.imageSize = args.quality;
+  if (args.seed !== undefined) generationConfig.seed = args.seed;
   const body: Record<string, unknown> = {
     contents: [{ parts }],
     generationConfig,
   };
-  if (args.seed !== undefined)
-    (body.generationConfig as Record<string, unknown>).seed = args.seed;
   return {
     kind: "json",
     path: `/v1beta/models/${encodeURIComponent(args.model)}:generateContent`,

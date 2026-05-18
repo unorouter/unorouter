@@ -21,13 +21,13 @@ import {
   MENU_ACCENTS,
   MENUS,
   RADII,
-} from "@/lib/config/shadcn-themes";
-import { STYLES } from "@/lib/config/shadcn-styles";
-import { FONT_OPTIONS } from "@/lib/config/theme-fonts";
+} from "@/components/ui/theme/shadcn-themes";
+import { STYLES } from "@/components/ui/theme/shadcn-styles";
+import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
-import { INITIAL_USER_THEME, userThemeAtom } from "@/store/theme-store";
-import type { UserTheme } from "@/store/theme-store";
+import { INITIAL_USER_THEME, userThemeAtom } from "@/components/ui/theme/theme-store";
+import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";

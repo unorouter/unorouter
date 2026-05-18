@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "@/lib/config/constants";
+import { enqueuePending } from "@/lib/db/client/pending-sync";
 import {
   readLocalConversation,
   readLocalConversationBundle,
@@ -10,15 +10,17 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/writes";
-import { enqueuePending } from "@/lib/db/client/pending-sync";
+import type {
+  ApiMessage,
+  PersistMessage,
+} from "@/lib/playground/chat/messages";
+import { itemsToParts, partsToItems } from "@/lib/playground/chat/messages";
 import {
   moveConvToTop,
   type ConvsInfinite,
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { ApiMessage, PersistMessage } from "@/lib/chat/messages";
-import { itemsToParts, partsToItems } from "@/lib/chat/messages";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel } from "@/store/chat-store";
 import type {
@@ -55,9 +57,7 @@ function buildRepository<TMessage>(
 
 async function mirrorConvIfSynced(userId: number, convId: string) {
   const conv = await readLocalConversation(userId, convId);
-  const syncExpiresAt = (conv as { syncExpiresAt?: Date | null } | null)
-    ?.syncExpiresAt;
-  if (syncExpiresAt == null) return;
+  if (conv?.syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
   try {
@@ -201,19 +201,14 @@ export function createChatHistoryAdapter(
           // Bump conv totals + updatedAt
           const existing = await readLocalConversation(userId, id);
           if (existing) {
-            const ex = existing as unknown as {
-              totalInputTokens: number;
-              totalOutputTokens: number;
-              totalCost: number;
-            };
             await upsertLocalConversation(userId, {
-              ...(existing as Record<string, unknown>),
+              ...existing,
               id,
               totalInputTokens:
-                (ex.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
+                (existing.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
               totalOutputTokens:
-                (ex.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
-              totalCost: (ex.totalCost ?? 0) + (usage?.cost ?? 0),
+                (existing.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
+              totalCost: (existing.totalCost ?? 0) + (usage?.cost ?? 0),
               updatedAt: now,
             });
           }
@@ -286,6 +281,3 @@ export function createChatHistoryAdapter(
     },
   };
 }
-
-// Suppress unused warning for PAGE_SIZE
-void PAGE_SIZE;

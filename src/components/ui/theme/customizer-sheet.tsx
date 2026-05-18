@@ -4,7 +4,7 @@ import { Sheet, SheetContent } from "@/components/ui/sheet";
 import dynamic from "next/dynamic";
 
 const ThemeCustomizerBody = dynamic(
-  () => import("./theme-customizer-body").then((m) => m.ThemeCustomizerBody),
+  () => import("./customizer-body").then((m) => m.ThemeCustomizerBody),
   { ssr: false },
 );
 

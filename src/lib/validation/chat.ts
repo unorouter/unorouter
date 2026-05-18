@@ -138,6 +138,7 @@ export const streamOverrides = t.Object({
     t.Union([t.String({ maxLength: MAX_TEXT_LEN }), t.Null()]),
   ),
   authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
+  webSearchEnabled: t.Optional(t.Boolean()),
   webSearchEngine: t.Optional(
     t.Union([
       t.Literal("auto"),

@@ -468,8 +468,8 @@ export function useDuplicateConversationMutation() {
     onSuccess: (data) => {
       const now = dayjs().toDate();
       const newItem: ConvItem = {
-        id: (data as { id: string }).id,
-        title: (data as { title: string | null }).title ?? null,
+        id: data.id,
+        title: data.title ?? null,
         model: null,
         totalCost: 0,
         createdAt: now,

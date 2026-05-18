@@ -11,43 +11,30 @@ const MAX_RETRIES = 2;
 const RETRY_BACKOFF = [500, 1000];
 const RETRYABLE = new Set([502, 503, 504]);
 
-function getHeaderValue(
-  headers: HeadersInit | undefined,
+function getHeader(
+  headers: Record<string, string> | undefined,
   key: string,
 ): string | undefined {
-  if (!headers) return undefined;
-  if (headers instanceof Headers) return headers.get(key) ?? undefined;
-  if (Array.isArray(headers))
-    return headers.find(([k]) => k.toLowerCase() === key.toLowerCase())?.[1];
-  return (headers as Record<string, string>)[key];
+  return headers?.[key] ?? headers?.[key.toLowerCase()];
 }
 
 /**
  * Orval mutator: T is the full Orval response envelope (e.g. { data: D; status: 200; headers: Headers }).
- * The function constructs this envelope from the fetch response.
+ * Orval-generated callers always pass `options.headers` as a plain object; never `Headers` or tuple array.
  */
 export const customFetch = async <T>(
   url: string,
   options: RequestInit,
 ): Promise<T> => {
-  let isJsonBody = false;
-  if (typeof options.body === "string") {
-    try {
-      JSON.parse(options.body);
-      isJsonBody = true;
-    } catch {}
-  }
+  const headers = options.headers as Record<string, string> | undefined;
 
-  // If the caller passes an explicit Authorization header (server-to-server
-  // admin call via ADMIN_HEADERS), do NOT auto-attach the browser session
-  // cookie. Upstream auth checks the session before the Authorization header,
-  // so forwarding the end-user's cookie causes the access-token path to be
-  // skipped and the New-Api-User header to mismatch the session user.
-  const hasExplicitAuth = !!getHeaderValue(options.headers, "Authorization");
+  // Admin calls (ADMIN_HEADERS) pass explicit Authorization. Upstream auth
+  // checks the session cookie before Authorization, so forwarding the
+  // end-user's cookie would skip the access-token path and mismatch
+  // New-Api-User. Skip auto-attach in that case.
+  const hasExplicitAuth = !!getHeader(headers, "Authorization");
   const cookieHeader = hasExplicitAuth ? "" : await getServerCookieHeader();
-  const hasCookie =
-    getHeaderValue(options.headers, "cookie") ||
-    getHeaderValue(options.headers, "Cookie");
+  const hasCookie = !!getHeader(headers, "cookie");
 
   const method = (options.method ?? "GET").toUpperCase();
 
@@ -57,9 +44,8 @@ export const customFetch = async <T>(
       credentials: "include",
       signal: AbortSignal.timeout(REQUEST_TIMEOUT),
       headers: {
-        ...(isJsonBody && { "Content-Type": "application/json" }),
         ...(cookieHeader && !hasCookie && { cookie: cookieHeader }),
-        ...options.headers,
+        ...headers,
       },
     });
 
@@ -119,6 +105,5 @@ export const customFetch = async <T>(
     data = await response.text();
   }
 
-  // SAFETY: T is the Orval-generated envelope type { data, status, headers }
   return { status: response.status, data, headers: response.headers } as T;
 };

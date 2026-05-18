@@ -22,7 +22,7 @@ import {
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
-import type { UserTheme } from "@/store/theme-store";
+import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { and, eq, type InferInsertModel } from "drizzle-orm";
 import { getLocalDb } from "./client";
 import { makeTableStore } from "./table-store";

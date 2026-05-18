@@ -1,4 +1,4 @@
-import type { UserTheme } from "@/store/theme-store";
+import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";

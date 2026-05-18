@@ -1,5 +1,5 @@
 import { env } from "@/lib/config/env";
-import { parseJwks, stripPrivateFields } from "@/lib/web-bot-auth/keys";
+import { parseJwks, stripPrivateFields } from "@/lib/seo/web-bot-auth/keys";
 
 export const dynamic = "force-dynamic";
 

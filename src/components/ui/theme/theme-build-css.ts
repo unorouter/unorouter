@@ -1,17 +1,12 @@
-"use client";
-
 import {
   findBaseColor,
   findRadius,
   findTheme,
   type ThemeCssVars,
-} from "@/lib/config/shadcn-themes";
-import { findStyle } from "@/lib/config/shadcn-styles";
-import { FONT_OPTIONS } from "@/lib/config/theme-fonts";
-import type { UserTheme } from "@/store/theme-store";
-import { userThemeAtom } from "@/store/theme-store";
-import { useAtomValue } from "jotai";
-import { ReactNode, useEffect, useMemo } from "react";
+} from "@/components/ui/theme/shadcn-themes";
+import { findStyle } from "@/components/ui/theme/shadcn-styles";
+import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
+import type { UserTheme } from "@/components/ui/theme/theme-store";
 
 function fontFamilyFor(
   fontId: string | undefined,
@@ -121,9 +116,6 @@ export function buildThemeCss(theme: UserTheme): string {
     light.radius = radius.value;
   }
 
-  // Font overrides written w/ body selector to outrank Next/font className
-  // declarations. Both family vars resolve at body level so Tailwind
-  // `font-sans` utility on body picks them up.
   const bodyFamily = fontFamilyFor(theme.fontBody, "sans");
   const headingBody =
     theme.fontHeading === "inherit" ? theme.fontBody : theme.fontHeading;
@@ -145,25 +137,11 @@ export function buildThemeCss(theme: UserTheme): string {
     .join("\n");
 }
 
-export function UserThemeProvider(props: { children: ReactNode }) {
-  const theme = useAtomValue(userThemeAtom);
-  const css = useMemo(() => buildThemeCss(theme), [theme]);
-
-  // Mirror named refs onto <html> so CSS can target via data-attr selectors.
-  useEffect(() => {
-    const el = document.documentElement;
-    el.dataset.style = theme.style ?? "nova";
-    el.dataset.menu = theme.menu ?? "default";
-    el.dataset.menuAccent = theme.menuAccent ?? "subtle";
-    el.dataset.iconLibrary = theme.iconLibrary ?? "lucide";
-  }, [theme.style, theme.menu, theme.menuAccent, theme.iconLibrary]);
-
-  return (
-    <>
-      {css ? (
-        <style id="user-theme" dangerouslySetInnerHTML={{ __html: css }} />
-      ) : null}
-      {props.children}
-    </>
-  );
+export function themeDataAttrs(theme: UserTheme) {
+  return {
+    "data-style": theme.style ?? "nova",
+    "data-menu": theme.menu ?? "default",
+    "data-menu-accent": theme.menuAccent ?? "subtle",
+    "data-icon-library": theme.iconLibrary ?? "lucide",
+  } as const;
 }

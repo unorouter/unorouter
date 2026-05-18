@@ -1,61 +1,61 @@
 "use client";
 
+import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import {
-  ComposerAddAttachment,
-  ComposerAttachments,
-  UserMessageAttachments,
+    ComposerAddAttachment,
+    ComposerAttachments,
+    UserMessageAttachments,
 } from "@/components/ui/assistant-ui/attachment";
-import { Icon } from "@/components/ui/icon";
 import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
 import {
-  Reasoning,
-  ReasoningGroup,
+    Reasoning,
+    ReasoningGroup,
 } from "@/components/ui/assistant-ui/reasoning";
 import { TaskCardRenderer } from "@/components/ui/assistant-ui/task-card";
 import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
 import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
-import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
+import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
-  useDeleteMessageMutation,
-  useEditMessageMutation,
-  useSetActiveBranchMutation,
+    useDeleteMessageMutation,
+    useEditMessageMutation,
+    useSetActiveBranchMutation,
 } from "@/hooks/chat-hook";
-import { partsToItems } from "@/lib/chat/messages";
+import { usePricingQuery } from "@/hooks/pricing-hook";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
+import { partsToItems } from "@/lib/playground/chat/messages";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/base";
 import {
-  chatModelAtom,
-  chatWebSearchAtom,
-  getChatHelpers,
-  getConvId,
+    chatModelAtom,
+    chatWebSearchAtom,
+    getChatHelpers,
+    getConvId,
 } from "@/store/chat-store";
-import { Textarea } from "@/components/ui/textarea";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
-  ActionBarPrimitive,
-  AuiIf,
-  BranchPickerPrimitive,
-  ComposerPrimitive,
-  MessagePrimitive,
-  SuggestionPrimitive,
-  ThreadPrimitive,
-  useAuiState,
+    ActionBarPrimitive,
+    AuiIf,
+    BranchPickerPrimitive,
+    ComposerPrimitive,
+    MessagePrimitive,
+    SuggestionPrimitive,
+    ThreadPrimitive,
+    useAuiState,
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import {
-  createContext,
-  type FC,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
+    createContext,
+    type FC,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
 } from "react";
 const ReadOnlyContext = createContext(false);
 

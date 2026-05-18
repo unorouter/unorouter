@@ -5,7 +5,7 @@ import {
   type IconLibraryName,
   type IconName,
 } from "@/lib/config/icon-map";
-import { userThemeAtom } from "@/store/theme-store";
+import { userThemeAtom } from "@/components/ui/theme/theme-store";
 import { useAtomValue } from "jotai";
 import { Suspense, lazy, type ComponentType } from "react";
 import { LuLoader } from "react-icons/lu";

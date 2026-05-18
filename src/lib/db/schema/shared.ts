@@ -8,7 +8,7 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
-import type { UserTheme } from "@/store/theme-store";
+import type { UserTheme } from "@/components/ui/theme/theme-store";
 
 // ---------------------------------------------------------------------------
 // Shared schema: tables mirrored both server-side (Turso) and client-side

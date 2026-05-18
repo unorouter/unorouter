@@ -122,7 +122,7 @@ export function createThreadListAdapter(
         // Seed conversation_settings from current jotai defaults so the first
         // turn already runs with the user's preferred sampling/effort/web
         // search knobs. Drawer mutates the row directly afterward.
-        const defaults = getChatDefaults() as Record<string, unknown>;
+        const defaults = getChatDefaults();
         await upsertLocalConversationSettings(userId, {
           convId: id,
           defaultModel: model,
@@ -132,27 +132,21 @@ export function createThreadListAdapter(
           authorNote: null,
           authorNoteDepth: 4,
           chatMemory: 8,
-          reasoningEffort: (defaults.reasoningEffort as string | null) ?? null,
-          webSearchEnabled:
-            (defaults.webSearchEnabled as boolean | undefined) ?? false,
-          webSearchEngine:
-            (defaults.webSearchEngine as string | undefined) ?? "auto",
-          webSearchContextSize:
-            (defaults.webSearchContextSize as string | undefined) ?? "medium",
-          temperature: (defaults.temperature as number | null) ?? null,
-          topP: (defaults.topP as number | null) ?? null,
-          topK: (defaults.topK as number | null) ?? null,
-          minP: (defaults.minP as number | null) ?? null,
-          topA: (defaults.topA as number | null) ?? null,
-          frequencyPenalty:
-            (defaults.frequencyPenalty as number | null) ?? null,
-          presencePenalty: (defaults.presencePenalty as number | null) ?? null,
-          repetitionPenalty:
-            (defaults.repetitionPenalty as number | null) ?? null,
-          maxTokens: (defaults.maxTokens as number | null) ?? null,
-          extraBody: (defaults.extraBody as string | null) ?? null,
-          streamingEnabled:
-            (defaults.streamingEnabled as boolean | undefined) ?? true,
+          reasoningEffort: defaults.reasoningEffort ?? null,
+          webSearchEnabled: defaults.webSearchEnabled ?? false,
+          webSearchEngine: defaults.webSearchEngine ?? "auto",
+          webSearchContextSize: defaults.webSearchContextSize ?? "medium",
+          temperature: defaults.temperature ?? null,
+          topP: defaults.topP ?? null,
+          topK: defaults.topK ?? null,
+          minP: defaults.minP ?? null,
+          topA: defaults.topA ?? null,
+          frequencyPenalty: defaults.frequencyPenalty ?? null,
+          presencePenalty: defaults.presencePenalty ?? null,
+          repetitionPenalty: defaults.repetitionPenalty ?? null,
+          maxTokens: defaults.maxTokens ?? null,
+          extraBody: defaults.extraBody ?? null,
+          streamingEnabled: defaults.streamingEnabled ?? true,
           updatedAt: now,
         });
       }
@@ -176,10 +170,7 @@ export function createThreadListAdapter(
           title,
           updatedAt: now,
         });
-        const syncExpiresAt = (
-          existing as { syncExpiresAt?: Date | null } | null
-        )?.syncExpiresAt;
-        if (syncExpiresAt != null) {
+        if (existing?.syncExpiresAt != null) {
           try {
             handleElysia(
               await rpc.api
@@ -209,7 +200,7 @@ export function createThreadListAdapter(
       if (userId != null) {
         const existing = await readLocalConversation(userId, id);
         const wasSynced =
-          (existing as { syncExpiresAt?: Date | null } | null)?.syncExpiresAt !=
+          existing?.syncExpiresAt !=
           null;
         await deleteLocalConversation(userId, id);
         if (wasSynced) {
@@ -285,10 +276,7 @@ export function createThreadListAdapter(
             title: data.title,
             updatedAt: now,
           });
-          const syncExpiresAt = (
-            existing as { syncExpiresAt?: Date | null } | null
-          )?.syncExpiresAt;
-          if (syncExpiresAt != null) {
+          if (existing?.syncExpiresAt != null) {
             try {
               handleElysia(
                 await rpc.api
