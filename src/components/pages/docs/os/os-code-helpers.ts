@@ -8,9 +8,6 @@ type VariantInput = {
   label?: string;
 };
 
-/**
- * Pre-highlights code for all OS variants (call from server components).
- */
 export async function buildOSVariants(
   variants: Record<OS, VariantInput>,
 ): Promise<Record<OS, OSCodeVariant>> {
@@ -27,7 +24,6 @@ export async function buildOSVariants(
   };
 }
 
-/** Helper to build env var export syntax per OS. */
 export function envVarCode(vars: Record<string, string>, os: OS): string {
   if (os === OS.WINDOWS) {
     return Object.entries(vars)

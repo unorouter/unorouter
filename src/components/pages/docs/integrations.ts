@@ -54,7 +54,7 @@ type RpIntegrationDef = {
   quickConfig: string;
 };
 
-type IntegrationDef = CliIntegrationDef | RpIntegrationDef;
+export type Integration = CliIntegrationDef | RpIntegrationDef;
 
 export const cliIntegrations = [
   {
@@ -307,5 +307,3 @@ Key: YOUR_API_KEY`,
 
 /** Backwards-compat flat list. */
 export const integrations = [...cliIntegrations, ...rpIntegrations];
-
-export type Integration = IntegrationDef;

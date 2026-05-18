@@ -22,10 +22,7 @@ export const POSTS: BlogPost<BlogSlug>[] = BLOG_REGISTRY.map((entry) => ({
   category: entry.category,
   wordCount: entry.wordCount,
   headings: entry.headings,
-  heroImage:
-    "heroImage" in entry
-      ? (entry as { heroImage?: string }).heroImage
-      : undefined,
+  heroImage: "heroImage" in entry ? entry.heroImage : undefined,
 }));
 
 export function getAllPostsSorted(): BlogPost<BlogSlug>[] {

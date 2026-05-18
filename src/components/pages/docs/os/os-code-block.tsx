@@ -1,11 +1,12 @@
 "use client";
 
 import { ApiKeyCodeBlock } from "@/components/elements/code/api-key-code-block";
+import { Icon } from "@/components/ui/icon";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { OS } from "@/lib/types/enums";
-import { Icon } from "@/components/ui/icon";
 import type { IconName } from "@/lib/config/icon-map";
+import { OS } from "@/lib/types/enums";
+
 export type OSCodeVariant = {
   code: string;
   html: string;

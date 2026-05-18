@@ -5,36 +5,34 @@ import {
 } from "@/components/elements/code/code-block";
 import { OSCodeBlock } from "@/components/pages/docs/os/os-code-block";
 import { buildOSVariants } from "@/components/pages/docs/os/os-code-helpers";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
 import { APP_VALUES } from "@/lib/config/constants";
+import type { IconName } from "@/lib/config/icon-map";
 import { OS, OS_VALUES } from "@/lib/types/enums";
 import Claude from "@lobehub/icons/es/Claude";
 import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import { getTranslations } from "next-intl/server";
 import type { ComponentType } from "react";
-import { Icon } from "@/components/ui/icon";
-import type { IconName } from "@/lib/config/icon-map";
 import { type Integration, type IntegrationIconKey } from "./integrations";
 import { OSQuickStart } from "./os-quick-start";
 
-type IconEntry =
-  | { kind: "name"; value: IconName }
-  | {
-      kind: "component";
-      value: ComponentType<{ className?: string; size?: number }>;
-    };
+type LobeIcon = ComponentType<{ className?: string; size?: number }>;
 
-const iconMap: Record<IntegrationIconKey, IconEntry> = {
-  "cc-switch": { kind: "name", value: "arrow-left-right" },
-  "claude-code": { kind: "component", value: Claude.Color },
-  codex: { kind: "component", value: Codex.Color },
-  gemini: { kind: "component", value: Gemini.Color },
-  openclaw: { kind: "name", value: "crab-claw" },
-  sillytavern: { kind: "name", value: "drama" },
-  "janitor-ai": { kind: "name", value: "broom" },
-  risuai: { kind: "name", value: "fox" },
-  chub: { kind: "name", value: "heart" },
+const ICON_NAMES: Partial<Record<IntegrationIconKey, IconName>> = {
+  "cc-switch": "arrow-left-right",
+  openclaw: "crab-claw",
+  sillytavern: "drama",
+  "janitor-ai": "broom",
+  risuai: "fox",
+  chub: "heart",
+};
+
+const ICON_COMPONENTS: Partial<Record<IntegrationIconKey, LobeIcon>> = {
+  "claude-code": Claude.Color,
+  codex: Codex.Color,
+  gemini: Gemini.Color,
 };
 
 export async function IntegrationRow(props: {
@@ -44,7 +42,8 @@ export async function IntegrationRow(props: {
   const t = await getTranslations();
 
   const integration = props.integration;
-  const iconEntry = iconMap[integration.iconKey];
+  const iconName = ICON_NAMES[integration.iconKey];
+  const IconComponent = ICON_COMPONENTS[integration.iconKey];
   const hasApiKey =
     integration.kind === "cli"
       ? Object.values(integration.quickStart).some((code) =>
@@ -87,18 +86,18 @@ export async function IntegrationRow(props: {
                     className="relative h-12 w-12 object-contain"
                   />
                 )
-              ) : iconEntry.kind === "name" ? (
+              ) : iconName ? (
                 <Icon
-                  name={iconEntry.value}
+                  name={iconName}
                   size={48}
                   className={`relative ${integration.color.accent}`}
                 />
-              ) : (
-                <iconEntry.value
+              ) : IconComponent ? (
+                <IconComponent
                   size={48}
                   className={`relative ${integration.color.accent}`}
                 />
-              )}
+              ) : null}
             </div>
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">

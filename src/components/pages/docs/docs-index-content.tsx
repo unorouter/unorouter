@@ -1,15 +1,15 @@
-import { APP_VALUES } from "@/lib/config/constants";
-import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { PageHeader } from "@/components/elements/content/page-header";
 import { GetStartedButton } from "@/components/elements/brand/get-started-link";
-import { IntegrationRow } from "@/components/pages/navbar/docs/integration-row";
+import { PageHeader } from "@/components/elements/content/page-header";
+import { TOCLayout } from "@/components/layout/docs/toc";
+import { createTOC } from "@/components/layout/docs/toc-utils";
+import { IntegrationRow } from "@/components/pages/docs/integration-row";
 import {
   cliIntegrations,
   rpIntegrations,
-} from "@/components/pages/navbar/docs/integrations";
-import { TOCLayout } from "@/components/layout/docs/toc";
-import { createTOC } from "@/components/layout/docs/toc-utils";
+} from "@/components/pages/docs/integrations";
+import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/navigation";
+import { APP_VALUES } from "@/lib/config/constants";
 import { getTranslations } from "next-intl/server";
 
 export async function DocsIndexContent() {
@@ -25,7 +25,7 @@ export async function DocsIndexContent() {
       ...cliIntegrations.map((integration) => ({
         title: t(integration.titleKey),
         url: `#${integration.href.replace("/docs/", "")}`,
-        depth: 3 as const,
+        depth: 3,
       })),
       {
         title: t("DOCS_SIDEBAR.GROUP_ROLEPLAY"),
@@ -35,7 +35,7 @@ export async function DocsIndexContent() {
       ...rpIntegrations.map((integration) => ({
         title: t(integration.titleKey),
         url: `#${integration.href.replace("/docs/", "")}`,
-        depth: 3 as const,
+        depth: 3,
       })),
       {
         title: t("DOCS_INDEX.CTA_TITLE"),
