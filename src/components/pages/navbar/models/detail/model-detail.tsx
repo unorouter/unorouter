@@ -19,16 +19,16 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { CodeExamplesTabs } from "./code-examples-tabs";
 import { GridPricingTable } from "./grid-pricing-table";
-import { CapabilityChips } from "./sections/capability-chips";
+import { CapabilityChips } from "./capability-chips";
 import {
   hasAnyCapability,
   hasAnyParameter,
   hasAnyQuickStat,
-} from "./sections/capability-helpers";
-import { ModalitiesRow } from "./sections/modalities-row";
-import { PerformanceSection } from "./sections/performance-section";
-import { QuickStats } from "./sections/quick-stats";
-import { SupportedParameters } from "./sections/supported-parameters";
+} from "./capability-helpers";
+import { ModalitiesRow } from "./modalities-row";
+import { PerformanceSection } from "./performance-section";
+import { QuickStats } from "./quick-stats";
+import { SupportedParameters } from "./supported-parameters";
 import { TryInChatButton } from "./try-in-chat-button";
 
 interface ModelDetailProps {

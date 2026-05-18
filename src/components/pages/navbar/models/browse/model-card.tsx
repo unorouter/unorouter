@@ -20,7 +20,7 @@ import { chatModelAtom } from "@/store/chat-store";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 
-import { CapabilityChips } from "../detail/sections/capability-chips";
+import { CapabilityChips } from "../detail/capability-chips";
 
 export type ModelCardLabels = {
   from: string;

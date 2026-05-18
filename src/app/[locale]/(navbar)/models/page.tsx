@@ -1,4 +1,4 @@
-import { Models } from "@/components/pages/navbar/models/browse/models";
+import { ModelsPage } from "@/components/pages/navbar/models/models-page";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -30,7 +30,7 @@ export async function generateMetadata(props: {
   });
 }
 
-export default async function ModelsPage(props: {
+export default async function Page(props: {
   params: Promise<{ locale: string }>;
 }) {
   const locale = await serverLocale(props);
@@ -80,7 +80,7 @@ export default async function ModelsPage(props: {
         })}
       />
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <Models />
+        <ModelsPage />
       </HydrationBoundary>
     </>
   );

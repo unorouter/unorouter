@@ -11,14 +11,14 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { ModelDetailSheet } from "../detail/model-detail-sheet";
-import { SortFilter } from "../filters/sort-filter";
-import { VendorFilter } from "../filters/vendor-filter";
-import { ViewModeToggle } from "../filters/view-mode-toggle";
-import { ModelCard } from "./model-card";
-import { ModelListItem } from "./model-list-item";
+import { ModelCard } from "./browse/model-card";
+import { ModelListItem } from "./browse/model-list-item";
+import { ModelDetailSheet } from "./detail/model-detail-sheet";
+import { SortFilter } from "./filters/sort-filter";
+import { VendorFilter } from "./filters/vendor-filter";
+import { ViewModeToggle } from "./filters/view-mode-toggle";
 
-export function Models() {
+export function ModelsPage() {
   const t = useTranslations();
   const m = useModelsFilter();
   const perfQuery = usePerfMetricsSummaryQuery(24);

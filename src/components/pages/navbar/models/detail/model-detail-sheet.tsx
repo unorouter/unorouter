@@ -23,17 +23,17 @@ import { formatPrice } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CachePricing } from "./cache-pricing";
-import { AutoGroupChain } from "./sections/auto-group-chain";
-import { CapabilityChips } from "./sections/capability-chips";
+import { AutoGroupChain } from "./auto-group-chain";
+import { CapabilityChips } from "./capability-chips";
 import {
   hasAnyCapability,
   hasAnyParameter,
   hasAnyQuickStat,
-} from "./sections/capability-helpers";
-import { ModalitiesRow } from "./sections/modalities-row";
-import { PerformanceSection } from "./sections/performance-section";
-import { QuickStats } from "./sections/quick-stats";
-import { SupportedParameters } from "./sections/supported-parameters";
+} from "./capability-helpers";
+import { ModalitiesRow } from "./modalities-row";
+import { PerformanceSection } from "./performance-section";
+import { QuickStats } from "./quick-stats";
+import { SupportedParameters } from "./supported-parameters";
 
 type ModelDetailSheetProps = {
   model: ProcessedModel | null;
