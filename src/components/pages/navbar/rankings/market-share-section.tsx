@@ -12,30 +12,17 @@ import type {
   RankingPeriod,
   VendorShareSeries,
 } from "@/lib/api/typebox/rankings";
+import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-themes";
+import { formatShare, formatTokens } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
-
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { VendorLink } from "./entity-links";
-import { formatShare, formatTokens } from "./format";
+import {
+  periodDescriptionKey,
+  pivotSeries,
+  splitHalf,
+} from "./rankings-helpers";
 
-const VENDOR_COLOURS: Record<string, string> = {
-  OpenAI: "#10a37f",
-  Anthropic: "#d97757",
-  Google: "#4285f4",
-  DeepSeek: "#7c5cff",
-  Alibaba: "#ff9900",
-  xAI: "#1f2937",
-  Meta: "#1877f2",
-  Moonshot: "#ec4899",
-  Zhipu: "#06b6d4",
-  Mistral: "#ff7000",
-  ByteDance: "#3b82f6",
-  Tencent: "#22c55e",
-  MiniMax: "#a855f7",
-  Cohere: "#fb923c",
-  Baidu: "#ef4444",
-  Others: "#94a3b8",
-};
 
 const FALLBACK_PALETTE = [
   "#0ea5e9",
@@ -57,8 +44,9 @@ function buildVendorColourMap(names: string[]): Record<string, string> {
   const result: Record<string, string> = {};
   let fallbackIdx = 0;
   for (const name of names) {
-    if (VENDOR_COLOURS[name]) {
-      result[name] = VENDOR_COLOURS[name];
+    const theme = getVendorTheme(name);
+    if (theme !== DEFAULT_THEME && theme.primary) {
+      result[name] = theme.primary;
     } else {
       result[name] = FALLBACK_PALETTE[fallbackIdx % FALLBACK_PALETTE.length];
       fallbackIdx += 1;
@@ -68,14 +56,6 @@ function buildVendorColourMap(names: string[]): Record<string, string> {
 }
 
 const MAX_VENDORS_IN_LIST = 12;
-
-const PERIOD_KEY: Record<RankingPeriod, string> = {
-  today: "RANKINGS.VENDORS.PERIOD_DESCRIPTIONS.TODAY",
-  week: "RANKINGS.VENDORS.PERIOD_DESCRIPTIONS.WEEK",
-  month: "RANKINGS.VENDORS.PERIOD_DESCRIPTIONS.MONTH",
-  year: "RANKINGS.VENDORS.PERIOD_DESCRIPTIONS.YEAR",
-  all: "RANKINGS.VENDORS.PERIOD_DESCRIPTIONS.ALL",
-};
 
 type MarketShareSectionProps = {
   history: VendorShareSeries;
@@ -97,12 +77,18 @@ export function MarketShareSection(props: MarketShareSectionProps) {
     };
   }
 
-  const chartData = buildChartData(props.history.points, vendorNames);
+  const chartData = pivotSeries(
+    props.history.points.map((p) => ({
+      label: p.label,
+      ts: p.ts,
+      key: p.vendor,
+      value: p.share,
+    })),
+    vendorNames,
+  );
 
   const visible = props.rows.slice(0, MAX_VENDORS_IN_LIST);
-  const half = Math.ceil(visible.length / 2);
-  const left = visible.slice(0, half);
-  const right = visible.slice(half);
+  const [left, right] = splitHalf(visible);
 
   return (
     <section className="bg-card overflow-hidden rounded-lg border">
@@ -112,8 +98,7 @@ export function MarketShareSection(props: MarketShareSectionProps) {
           {t("RANKINGS.VENDORS.TITLE")}
         </h2>
         <p className="text-muted-foreground mt-1 text-sm">
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- PERIOD_KEY values are valid translation keys but inferred as `string` from the record type */}
-          {t(PERIOD_KEY[props.period] as any)}
+          {t(periodDescriptionKey("vendors", props.period))}
         </p>
       </header>
 
@@ -233,34 +218,3 @@ function VendorList(props: {
   );
 }
 
-function buildChartData(
-  points: VendorShareSeries["points"],
-  vendorNames: string[],
-): Array<Record<string, number | string>> {
-  const byLabel = new Map<string, Record<string, number>>();
-  const orderByLabel = new Map<string, string>();
-
-  for (const p of points) {
-    const bucket = byLabel.get(p.label) ?? {};
-    bucket[p.vendor] = (bucket[p.vendor] ?? 0) + p.share;
-    byLabel.set(p.label, bucket);
-    if (!orderByLabel.has(p.label)) orderByLabel.set(p.label, p.ts);
-  }
-
-  const labelsSorted = [...byLabel.keys()].sort((a, b) => {
-    const ta = String(orderByLabel.get(a) ?? a);
-    const tb = String(orderByLabel.get(b) ?? b);
-    if (ta < tb) return -1;
-    if (ta > tb) return 1;
-    return 0;
-  });
-
-  return labelsSorted.map((label) => {
-    const row: Record<string, number | string> = { label };
-    const bucket = byLabel.get(label) ?? {};
-    for (const name of vendorNames) {
-      row[name] = bucket[name] ?? 0;
-    }
-    return row;
-  });
-}

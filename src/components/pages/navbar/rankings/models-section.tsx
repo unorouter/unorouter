@@ -12,24 +12,16 @@ import type {
   RankedModel,
   RankingPeriod,
 } from "@/lib/api/typebox/rankings";
-import { modelColor } from "@/lib/utils/base";
+import { formatTokens, modelColor } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { formatTokens } from "./format";
 import { ModelLeaderboard } from "./model-leaderboard";
+import { periodDescriptionKey, pivotSeries } from "./rankings-helpers";
 
 type ModelsSectionProps = {
   history: ModelHistorySeries;
   rows: RankedModel[];
   period: RankingPeriod;
-};
-
-const PERIOD_KEY: Record<RankingPeriod, string> = {
-  today: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.TODAY",
-  week: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.WEEK",
-  month: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.MONTH",
-  year: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.YEAR",
-  all: "RANKINGS.MODELS.PERIOD_DESCRIPTIONS.ALL",
 };
 
 export function ModelsSection(props: ModelsSectionProps) {
@@ -48,7 +40,15 @@ export function ModelsSection(props: ModelsSectionProps) {
     };
   }
 
-  const chartData = buildChartData(props.history.points, modelNames);
+  const chartData = pivotSeries(
+    props.history.points.map((p) => ({
+      label: p.label,
+      ts: p.ts,
+      key: p.model,
+      value: p.tokens,
+    })),
+    modelNames,
+  );
 
   return (
     <section className="bg-card overflow-hidden rounded-lg border">
@@ -59,8 +59,7 @@ export function ModelsSection(props: ModelsSectionProps) {
             {t("RANKINGS.MODELS.TITLE")}
           </h2>
           <p className="text-muted-foreground mt-1 text-sm">
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any -- PERIOD_KEY values are valid translation keys but inferred as `string` from the record type */}
-            {t(PERIOD_KEY[props.period] as any)}
+            {t(periodDescriptionKey("models", props.period))}
           </p>
         </div>
         <div className="shrink-0 text-right">
@@ -150,34 +149,3 @@ export function ModelsSection(props: ModelsSectionProps) {
   );
 }
 
-function buildChartData(
-  points: ModelHistorySeries["points"],
-  modelNames: string[],
-): Array<Record<string, number | string>> {
-  const byLabel = new Map<string, Record<string, number>>();
-  const orderByLabel = new Map<string, string>();
-
-  for (const p of points) {
-    const bucket = byLabel.get(p.label) ?? {};
-    bucket[p.model] = (bucket[p.model] ?? 0) + p.tokens;
-    byLabel.set(p.label, bucket);
-    if (!orderByLabel.has(p.label)) orderByLabel.set(p.label, p.ts);
-  }
-
-  const labelsSorted = [...byLabel.keys()].sort((a, b) => {
-    const ta = String(orderByLabel.get(a) ?? a);
-    const tb = String(orderByLabel.get(b) ?? b);
-    if (ta < tb) return -1;
-    if (ta > tb) return 1;
-    return 0;
-  });
-
-  return labelsSorted.map((label) => {
-    const row: Record<string, number | string> = { label };
-    const bucket = byLabel.get(label) ?? {};
-    for (const name of modelNames) {
-      row[name] = bucket[name] ?? 0;
-    }
-    return row;
-  });
-}

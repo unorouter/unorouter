@@ -9,20 +9,7 @@ import { MarketShareSection } from "./market-share-section";
 import { ModelsSection } from "./models-section";
 import { PulseSection } from "./pulse-section";
 import { RankingsHero } from "./rankings-hero";
-
-const VALID_PERIODS: RankingPeriod[] = [
-  "today",
-  "week",
-  "month",
-  "year",
-  "all",
-];
-
-function isValidPeriod(
-  value: string | null | undefined,
-): value is RankingPeriod {
-  return !!value && (VALID_PERIODS as string[]).includes(value);
-}
+import { isValidPeriod } from "./rankings-helpers";
 
 type RankingsProps = {
   initialPeriod: RankingPeriod;

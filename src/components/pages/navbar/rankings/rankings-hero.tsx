@@ -3,14 +3,7 @@
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-
-const PERIODS = [
-  { id: "today", key: "RANKINGS.PERIODS.TODAY" },
-  { id: "week", key: "RANKINGS.PERIODS.WEEK" },
-  { id: "month", key: "RANKINGS.PERIODS.MONTH" },
-  { id: "year", key: "RANKINGS.PERIODS.YEAR" },
-  { id: "all", key: "RANKINGS.PERIODS.ALL" },
-] as const satisfies ReadonlyArray<{ id: RankingPeriod; key: string }>;
+import { RANKING_PERIODS } from "./rankings-helpers";
 
 type RankingsHeroProps = {
   period: RankingPeriod;
@@ -39,7 +32,7 @@ export function RankingsHero(props: RankingsHeroProps) {
         aria-label={t("RANKINGS.HERO.EYEBROW")}
         className="border-border/60 flex items-center border-b"
       >
-        {PERIODS.map((p) => {
+        {RANKING_PERIODS.map((p) => {
           const isActive = props.period === p.id;
           return (
             <button
@@ -55,7 +48,7 @@ export function RankingsHero(props: RankingsHeroProps) {
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              {t(p.key)}
+              {t(p.labelKey)}
               <span
                 aria-hidden
                 className={cn(
