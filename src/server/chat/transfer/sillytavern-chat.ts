@@ -140,6 +140,7 @@ function renderItemsAsText(items: MessageItem[]): string {
     } else if (it.type === "task") {
       const tid = typeof data.task_id === "string" ? data.task_id : "";
       parts.push(`*[task ${tid}]*`);
+    }
     // tool_call/tool_result/reasoning are not inlined into `mes`; reasoning
     // rides through extra.reasoning, tool calls have no ST equivalent.
   }
@@ -171,7 +172,8 @@ export async function importSillyTavernChat(
     metadata = null;
   }
 
-  // Some exporters skip the metadata line; detect by `mes`/`is_user` shape.
+  // First line might be a message instead of metadata (some exporters skip
+  // the metadata line). Detect by checking for `mes`/`is_user` shape.
   const messageLines: string[] = metadata?.user_name ? lines.slice(1) : lines;
 
   const stMessages: STMessage[] = [];
@@ -180,7 +182,7 @@ export async function importSillyTavernChat(
       const parsed = JSON.parse(ln) as STMessage;
       if (typeof parsed.mes === "string") stMessages.push(parsed);
     } catch {
-      // skip
+      // skip malformed lines
     }
   }
 
@@ -273,11 +275,17 @@ function parseStDate(raw: string | undefined): Date | null {
   if (!raw) return null;
   const d = new Date(raw);
   if (!isNaN(d.getTime())) return d;
+  // Some ST exports use Unix epoch ms as a number-in-string.
   const n = Number(raw);
   if (!isNaN(n) && n > 0) return new Date(n);
   return null;
 }
 
+/**
+ * Detect whether a JSON file looks like a SillyTavern chat export. Used by
+ * the unified import endpoint to dispatch to this importer instead of the
+ * native/orpg flow.
+ */
 export function looksLikeSillyTavernChat(text: string): boolean {
   const firstLine = text.split("\n").find((l) => l.trim().length > 0);
   if (!firstLine) return false;

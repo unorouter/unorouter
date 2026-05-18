@@ -20,15 +20,8 @@ import {
 import { getSessionRow, listSnapshotsWithImages } from "./playground-reads";
 import { submitGeneration } from "./playground.service";
 
-// Retention window: a session (and all its snapshots/images) is removed by
-// the background sweeper once it crosses this age without new activity.
-// Every fresh snapshot extends `expiresAt = now + RETENTION_MS`, so an
-// actively used session never expires.
+// Each fresh snapshot extends expiresAt; actively-used sessions never expire.
 const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
-
-// ---------------------------------------------------------------------------
-// Export / Import / Clone
-// ---------------------------------------------------------------------------
 
 export type PlaygroundSnapshot = {
   version: "unorouter-generation-1";
@@ -81,7 +74,6 @@ function rowToSnapshot(
   };
 }
 
-/** Export a whole session. */
 export async function exportSession(
   userId: number,
   sessionId: string,
@@ -95,7 +87,6 @@ export async function exportSession(
   };
 }
 
-/** Clone a single-snapshot payload into a new single-snapshot session. */
 async function cloneSnapshotIntoNewSession(args: {
   userId: number;
   apiKey: string;
@@ -123,7 +114,6 @@ async function cloneSnapshotIntoNewSession(args: {
     return { sessionId: session.id };
   }
 
-  // restore: build the session + a single success snapshot inline.
   const sessionId = uid();
   const snapshotId = uid();
   const title = snapshot.prompt.slice(0, 60).trim() || null;
@@ -185,8 +175,7 @@ async function cloneSnapshotIntoNewSession(args: {
   return { sessionId };
 }
 
-/** Clone a whole session: restore re-hosts every snapshot's images;
- *  regenerate fires N upstream submits inside one new session. */
+// restore re-hosts every snapshot's images; regenerate fires N upstream submits.
 async function cloneSessionPayload(args: {
   userId: number;
   apiKey: string;
