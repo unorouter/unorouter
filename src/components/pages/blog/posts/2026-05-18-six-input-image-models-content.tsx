@@ -157,7 +157,11 @@ export async function SixInputImageModelsContent() {
         {t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.CTA", {
           ...richMarks,
           register: (chunks) => <Link href="/register">{chunks}</Link>,
-          models: (chunks) => <Link href="/models?type=image">{chunks}</Link>,
+          models: (chunks) => (
+            <Link href={{ pathname: "/models", query: { type: "image" } }}>
+              {chunks}
+            </Link>
+          ),
         })}
       </p>
     </>
