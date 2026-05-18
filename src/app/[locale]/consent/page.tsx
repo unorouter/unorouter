@@ -1,7 +1,7 @@
 import { ConsentForm } from "@/components/pages/auth/consent-form";
 import { CompanyName, LogoImage } from "@/components/elements/brand/brand";
 import { Link, redirect } from "@/i18n/navigation";
-import { APP_VALUES } from "@/lib/config/constants";
+import { APP_VALUES, AUTH_REDIRECT_QUERY } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getPageMetadata } from "@/lib/seo/metadata";
@@ -64,7 +64,7 @@ export default async function ConsentPage(props: {
       href: {
         pathname: "/login",
         query: {
-          redirect: `/consent${authRequestID ? `?authRequestID=${authRequestID}` : ""}`,
+          [AUTH_REDIRECT_QUERY]: `/consent${authRequestID ? `?authRequestID=${authRequestID}` : ""}`,
         },
       },
       locale,

@@ -10,6 +10,10 @@ export const ACCESS_TOKEN_COOKIE = "access_token" as const;
 export const USER_ID_COOKIE = "user-id" as const;
 export const LOCALE_COOKIE = "NEXT_LOCALE" as const;
 export const AUTH_REDIRECT_COOKIE = "auth_redirect" as const;
+export const AUTH_REDIRECT_QUERY = "redirect" as const;
+
+/** Seconds to disable the "resend verification code" button after a request. */
+export const RESEND_COOLDOWN_SECONDS = 60;
 export const AFF_CODE_KEY = "aff" as const;
 export function affLink(code?: string) {
   return code ? `${env.appUrl}/?${AFF_CODE_KEY}=${code}` : env.appUrl;
