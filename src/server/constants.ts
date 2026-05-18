@@ -13,7 +13,7 @@ import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
 import type { Cookie } from "elysia";
 
-if (!serverEnv.systemAccessToken)
+if (typeof window === "undefined" && !serverEnv.systemAccessToken)
   throw new Error("Missing required env: SYSTEM_ACCESS_TOKEN");
 
 export const ADMIN_HEADERS = {

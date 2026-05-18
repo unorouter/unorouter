@@ -9,7 +9,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { usePerfMetricsQuery } from "@/hooks/perf-metrics-hook";
+import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
+import {
+  formatLatency,
+  formatPct,
+  formatTps,
+  type StatIntent,
+  successIntent,
+} from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import {
   CartesianGrid,
@@ -25,36 +33,6 @@ type Props = {
   modelName: string;
   className?: string;
 };
-
-function formatLatency(ms: number): string {
-  if (!ms) return "—";
-  if (ms >= 1000) return `${(ms / 1000).toFixed(2)}s`;
-  return `${Math.round(ms)}ms`;
-}
-
-function formatTps(tps: number): string {
-  if (!tps) return "—";
-  if (tps >= 100) return `${tps.toFixed(0)}`;
-  return tps.toFixed(1);
-}
-
-function formatPct(pct: number): string {
-  if (!Number.isFinite(pct)) return "—";
-  return `${pct.toFixed(2)}%`;
-}
-
-function avg(values: number[]): number {
-  if (values.length === 0) return 0;
-  return values.reduce((s, v) => s + v, 0) / values.length;
-}
-
-function successIntentFor(pct: number): StatIntent {
-  if (pct >= 99.9) return "success";
-  if (pct >= 99) return "default";
-  return "warning";
-}
-
-type StatIntent = "default" | "warning" | "success";
 
 const STAT_INTENT_CLASS: Record<StatIntent, string> = {
   default: "",
@@ -111,52 +89,25 @@ export function PerformanceSection(props: Props) {
     );
   }
 
-  const avgTps = avg(groups.map((g) => g.avg_tps).filter((v) => v > 0));
-  const avgLatency = Math.round(
-    avg(groups.map((g) => g.avg_latency_ms).filter((v) => v > 0)),
-  );
-  const avgSuccess = avg(
-    groups.map((g) => g.success_rate).filter((v) => Number.isFinite(v)),
-  );
-  const successIntent = successIntentFor(avgSuccess);
-
-  // Build a unified latency series across groups by averaging per timestamp.
-  const tsMap = new Map<number, number[]>();
-  for (const group of groups) {
-    for (const point of group.series) {
-      if (!point.avg_ttft_ms || point.avg_ttft_ms <= 0) continue;
-      const list = tsMap.get(point.ts) ?? [];
-      list.push(point.avg_ttft_ms);
-      tsMap.set(point.ts, list);
-    }
-  }
-  const series = Array.from(tsMap.entries())
-    .sort(([a], [b]) => a - b)
-    .map(([ts, values]) => ({
-      ts,
-      label: new Date(ts * 1000).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-      ttft_ms: Math.round(avg(values)),
-    }));
+  const perf = aggregatePerfGroups(groups);
+  const intent = successIntent(perf.avgSuccess);
 
   return (
     <div className={cn("flex flex-col gap-4", props.className)}>
       <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
         <StatCard
           label={t("MODELS.DETAIL.STAT_TPS")}
-          value={formatTps(avgTps)}
+          value={formatTps(perf.avgTps)}
           hint={t("MODELS.DETAIL.STAT_TPS_HINT")}
         />
         <StatCard
           label={t("MODELS.DETAIL.STAT_LATENCY")}
-          value={formatLatency(avgLatency)}
+          value={formatLatency(perf.avgLatency)}
         />
         <StatCard
           label={t("MODELS.DETAIL.STAT_SUCCESS")}
-          value={formatPct(avgSuccess)}
-          intent={successIntent}
+          value={formatPct(perf.avgSuccess)}
+          intent={intent}
         />
       </div>
 
@@ -205,7 +156,7 @@ export function PerformanceSection(props: Props) {
         </Table>
       </div>
 
-      {series.length > 1 && (
+      {perf.series.length > 1 && (
         <div className="border-border rounded-md border p-3">
           <div className="text-foreground mb-2 text-xs font-semibold">
             {t("MODELS.DETAIL.PERF_LATENCY_TREND")}
@@ -213,7 +164,7 @@ export function PerformanceSection(props: Props) {
           <div className="h-40 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={series}
+                data={perf.series}
                 margin={{ top: 5, right: 8, bottom: 0, left: -8 }}
               >
                 <CartesianGrid

@@ -2,24 +2,13 @@
 
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { cn } from "@/lib/utils";
+import { formatLatency, formatTps } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 
 type Props = {
   perf: PerfModelSummary | undefined;
   className?: string;
 };
-
-function formatLatency(ms: number): string {
-  if (!ms) return "—";
-  if (ms >= 1000) return `${(ms / 1000).toFixed(1)}s`;
-  return `${Math.round(ms)}ms`;
-}
-
-function formatTps(tps: number): string {
-  if (!tps) return "—";
-  if (tps >= 100) return `${tps.toFixed(0)}t/s`;
-  return `${tps.toFixed(1)}t/s`;
-}
 
 function statusClass(success: number): string {
   if (!Number.isFinite(success)) return "bg-muted-foreground/40";
@@ -50,14 +39,16 @@ export function PerfBadge(props: Props) {
           {t("MODELS.PERF.LATENCY")}
         </span>
         <span className="text-foreground">
-          {formatLatency(props.perf.avg_latency_ms)}
+          {formatLatency(props.perf.avg_latency_ms, 1)}
         </span>
       </div>
       <div className="flex flex-col items-end gap-0.5">
         <span className="text-muted-foreground/60 tracking-wider uppercase">
           {t("MODELS.PERF.TPS")}
         </span>
-        <span className="text-foreground">{formatTps(props.perf.avg_tps)}</span>
+        <span className="text-foreground">
+          {formatTps(props.perf.avg_tps, "t/s")}
+        </span>
       </div>
       <div className="flex flex-col items-center gap-0.5">
         <span className="text-muted-foreground/60 tracking-wider uppercase">

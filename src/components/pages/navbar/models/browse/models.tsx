@@ -152,7 +152,7 @@ export function Models() {
           if (!open) m.setSelectedModelName(null);
         }}
       />
-    </div>    // Only seed once on mount; ignore subsequent searchParams changes so the
+    </div> // Only seed once on mount; ignore subsequent searchParams changes so the
     // user can clear the filter without it snapping back from the URL.
   );
 }

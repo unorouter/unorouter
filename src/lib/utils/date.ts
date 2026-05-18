@@ -14,3 +14,11 @@ dayjs.extend(utc);
 
 export type { Dayjs } from "dayjs";
 export { dayjs };
+
+/** "2024-09" -> "Sep 2024"; "2024" -> "2024"; invalid -> raw value; missing -> null. */
+export function formatYearMonth(value: string | undefined): string | null {
+  if (!value) return null;
+  const d = dayjs(value);
+  if (!d.isValid()) return value;
+  return d.format(value.includes("-") ? "MMM YYYY" : "YYYY");
+}

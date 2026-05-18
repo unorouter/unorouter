@@ -1,6 +1,6 @@
 import { ModelDetail } from "@/components/pages/navbar/models/detail/model-detail";
+import { localeUrl } from "@/i18n/navigation";
 import { findContextTag } from "@/lib/api/pricing";
-import { formatPrice, modelSlug } from "@/lib/utils/base";
 import { APP_VALUES } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -8,12 +8,11 @@ import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
-  buildBreadcrumbListSchema,
-  buildFAQPageSchema,
-  buildSoftwareApplicationSchema,
+    buildBreadcrumbListSchema,
+    buildFAQPageSchema,
+    buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
-import { localeUrl } from "@/i18n/navigation";
-import { handleElysia } from "@/lib/utils/base";
+import { formatPrice, handleElysia, modelSlug } from "@/lib/utils/base";
 import { serverLocale, serverPathname, setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";

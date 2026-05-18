@@ -37,6 +37,7 @@ import type { StatusBucket } from "@/hooks/use-model-status-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
 import type { PerfModelSummary } from "@/lib/api/perf-metrics";
 import { env } from "@/lib/config/env";
+import { formatLatency, formatTps } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { WindowVirtualizer } from "virtua";
 import { StatusBlocksI18n } from "./status-blocks-i18n";
@@ -325,28 +326,16 @@ function FilterPill(props: {
   );
 }
 
-function formatLatency(ms: number): string {
-  if (!ms) return "—";
-  if (ms >= 1000) return `${(ms / 1000).toFixed(1)}s`;
-  return `${Math.round(ms)}ms`;
-}
-
-function formatTps(tps: number): string {
-  if (!tps) return "—";
-  if (tps >= 100) return `${tps.toFixed(0)}t/s`;
-  return `${tps.toFixed(1)}t/s`;
-}
-
 function PerfStats(props: { perf: PerfModelSummary | undefined }) {
   const t = useTranslations();
   if (!props.perf || props.perf.request_count <= 0) return null;
   return (
     <div className="text-muted-foreground hidden items-center gap-3 font-mono text-[10px] tabular-nums sm:flex">
       <span title={t("STATUS.PERF.LATENCY_TOOLTIP")}>
-        {formatLatency(props.perf.avg_latency_ms)}
+        {formatLatency(props.perf.avg_latency_ms, 1)}
       </span>
       <span title={t("STATUS.PERF.TPS_TOOLTIP")}>
-        {formatTps(props.perf.avg_tps)}
+        {formatTps(props.perf.avg_tps, "t/s")}
       </span>
     </div>
   );

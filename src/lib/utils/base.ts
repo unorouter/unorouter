@@ -1,5 +1,6 @@
 import { msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
+import type { ReactNode } from "react";
 import type {
   ExcludeVoid,
   ExtractData,
@@ -112,6 +113,50 @@ export function formatTokenCount(tokens: number | undefined): string {
     return k === Math.floor(k) ? `${k}K` : `${k.toFixed(1)}K`;
   }
   return String(tokens);
+}
+
+/** Latency in ms; switches to seconds at 1s. `decimals` controls seconds precision. */
+export function formatLatency(ms: number, decimals = 2): string {
+  if (!ms) return "—";
+  if (ms >= 1000) return `${(ms / 1000).toFixed(decimals)}s`;
+  return `${Math.round(ms)}ms`;
+}
+
+/** Tokens per second. `suffix` appended verbatim (e.g. "t/s"). */
+export function formatTps(tps: number, suffix = ""): string {
+  if (!tps) return "—";
+  if (tps >= 100) return `${tps.toFixed(0)}${suffix}`;
+  return `${tps.toFixed(1)}${suffix}`;
+}
+
+export function formatPct(pct: number, decimals = 2): string {
+  if (!Number.isFinite(pct)) return "—";
+  return `${pct.toFixed(decimals)}%`;
+}
+
+export function avg(values: number[]): number {
+  if (values.length === 0) return 0;
+  return values.reduce((s, v) => s + v, 0) / values.length;
+}
+
+export type StatIntent = "default" | "warning" | "success";
+
+/** Map a success-rate percentage to a stat intent (success >= 99.9, default >= 99, else warning). */
+export function successIntent(pct: number): StatIntent {
+  if (pct >= 99.9) return "success";
+  if (pct >= 99) return "default";
+  return "warning";
+}
+
+export type LabeledRow = { label: string; value: ReactNode };
+
+/** Build a `{ label, value }` row when `condition` is truthy; otherwise null. */
+export function row(
+  condition: unknown,
+  label: string,
+  value: ReactNode,
+): LabeledRow | null {
+  return condition ? { label, value } : null;
 }
 
 /** Safely unwrap an Orval-generated API response, throwing if data is null. */
