@@ -1,4 +1,7 @@
+import type * as client from "@/lib/db/schema/client";
+import type * as shared from "@/lib/db/schema/shared";
 import type { UIMessage } from "ai";
+import type { SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 import type { useTranslations } from "next-intl";
 
 export type TranslationKey = Parameters<
@@ -35,6 +38,39 @@ export type ChatMessageMetadata = {
 export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
+
+export type MigrationEntry = { tag: string; sql: string };
+export type MigrationManifest = { migrations: MigrationEntry[] };
+
+export type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;
+
+// Returns rows + column names (drizzle-proxy returns tuples only). Used by
+// LocalDbStudio for arbitrary user-supplied SQL.
+export type LocalRawExec = (
+  sql: string,
+  params: unknown[],
+  method?: "all" | "run" | "get" | "values",
+) => Promise<{
+  rows: unknown[][];
+  columns: string[];
+  numAffectedRows?: number;
+}>;
+
+export type LocalClient = {
+  db: LocalDb;
+  exec: LocalRawExec;
+  transaction: <T>(cb: () => Promise<T>) => Promise<T>;
+  destroy: () => Promise<void>;
+  deleteDatabaseFile: () => Promise<void>;
+  getDatabaseFile: () => Promise<File>;
+  overwriteDatabaseFile: (file: File | Blob) => Promise<void>;
+  reactiveQuery: (query: unknown) => {
+    subscribe: (
+      onData: (data: unknown) => void,
+      onError?: (err: unknown) => void,
+    ) => { unsubscribe: () => void };
+  };
+};
 
 export type SearchResult = {
   title: string;

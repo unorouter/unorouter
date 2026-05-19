@@ -1,270 +1,156 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { localMeta } from "@/lib/db/schema/client";
-import {
-  cardCharacters,
-  cardLorebooks,
-  cards,
-  characters,
-  conversationCharacters,
-  conversationLorebooks,
-  conversations,
-  conversationSettings,
-  lorebookEntries,
-  lorebooks,
-  media,
-  messageItems,
-  messages,
-  personas,
-  playgroundImages,
-  playgroundLikes,
-  playgrounds,
-  playgroundSessions,
-  samplingPresets,
-  userThemes,
-} from "@/lib/db/schema/shared";
+import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
+import type { LocalClient, LocalRawExec } from "@/lib/types";
 import { logger } from "@/lib/utils/logger";
-import { eq, inArray } from "drizzle-orm";
-import type { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { getLocalDb, resetLocalDbCache } from "./client";
 
-// One-shot guard in `local_meta`. Bump suffix to force re-run.
-const MIGRATION_KEY = "guest_migrated_v1";
+export type CopyOptions = {
+  rewrite?: Record<string, unknown>;
+  skipTables?: readonly string[];
+  onRowError?: (e: RowFailure) => void;
+};
+
+export type RowFailure = {
+  table: string;
+  row: Record<string, unknown>;
+  error: unknown;
+};
+
+export type CopyResult = {
+  copied: number;
+  failures: RowFailure[];
+  tables: string[];
+};
 
 export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
   if (targetUserId <= GUEST_USER_ID) return;
-
   const guest = await getLocalDb(GUEST_USER_ID);
   if (!guest) return;
   const target = await getLocalDb(targetUserId);
   if (!target) return;
 
-  const existing = await target.db
-    .select()
-    .from(localMeta)
-    .where(eq(localMeta.key, MIGRATION_KEY))
-    .limit(1);
-  if (existing[0]) return;
-
-  // Serial: SQLocal's transactionMutex deadlocks on parallel calls.
-  const [
-    guestConvs,
-    guestChars,
-    guestPersonas,
-    guestLorebooks,
-    guestPresets,
-    guestCards,
-    guestThemes,
-    guestMedia,
-    guestSessions,
-    guestPlaygrounds,
-    guestLikes,
-  ] = [
-    await guest.db
-      .select()
-      .from(conversations)
-      .where(eq(conversations.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(characters)
-      .where(eq(characters.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(personas)
-      .where(eq(personas.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(lorebooks)
-      .where(eq(lorebooks.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(samplingPresets)
-      .where(eq(samplingPresets.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(cards)
-      .where(eq(cards.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(userThemes)
-      .where(eq(userThemes.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(media)
-      .where(eq(media.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(playgroundSessions)
-      .where(eq(playgroundSessions.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(playgrounds)
-      .where(eq(playgrounds.userId, GUEST_USER_ID)),
-    await guest.db
-      .select()
-      .from(playgroundLikes)
-      .where(eq(playgroundLikes.userId, GUEST_USER_ID)),
-  ];
-
-  const totalRows =
-    guestConvs.length +
-    guestChars.length +
-    guestPersonas.length +
-    guestLorebooks.length +
-    guestPresets.length +
-    guestCards.length +
-    guestThemes.length +
-    guestMedia.length +
-    guestSessions.length +
-    guestPlaygrounds.length +
-    guestLikes.length;
-  if (totalRows === 0) {
-    await markMigrated(target.db);
-    await guest.deleteDatabaseFile();
-    resetLocalDbCache();
-    return;
-  }
-
-  const convIds = guestConvs.map((c) => c.id);
-  const cardIds = guestCards.map((c) => c.id);
-  const lorebookIds = guestLorebooks.map((l) => l.id);
-  const playgroundIds = guestPlaygrounds.map((p) => p.id);
-
-  const [
-    guestSettings,
-    guestConvChars,
-    guestConvLBs,
-    guestMessages,
-    guestCardChars,
-    guestCardLBs,
-    guestLBEntries,
-    guestPlayImages,
-  ] = [
-    convIds.length
-      ? await guest.db
-          .select()
-          .from(conversationSettings)
-          .where(inArray(conversationSettings.convId, convIds))
-      : [],
-    convIds.length
-      ? await guest.db
-          .select()
-          .from(conversationCharacters)
-          .where(inArray(conversationCharacters.convId, convIds))
-      : [],
-    convIds.length
-      ? await guest.db
-          .select()
-          .from(conversationLorebooks)
-          .where(inArray(conversationLorebooks.convId, convIds))
-      : [],
-    convIds.length
-      ? await guest.db
-          .select()
-          .from(messages)
-          .where(inArray(messages.convId, convIds))
-      : [],
-    cardIds.length
-      ? await guest.db
-          .select()
-          .from(cardCharacters)
-          .where(inArray(cardCharacters.cardId, cardIds))
-      : [],
-    cardIds.length
-      ? await guest.db
-          .select()
-          .from(cardLorebooks)
-          .where(inArray(cardLorebooks.cardId, cardIds))
-      : [],
-    lorebookIds.length
-      ? await guest.db
-          .select()
-          .from(lorebookEntries)
-          .where(inArray(lorebookEntries.lorebookId, lorebookIds))
-      : [],
-    playgroundIds.length
-      ? await guest.db
-          .select()
-          .from(playgroundImages)
-          .where(inArray(playgroundImages.playgroundId, playgroundIds))
-      : [],
-  ];
-
-  const messageIds = guestMessages.map((m) => m.id);
-  const guestMessageItems = messageIds.length
-    ? await guest.db
-        .select()
-        .from(messageItems)
-        .where(inArray(messageItems.messageId, messageIds))
-    : [];
-
-  // Rewrite userId on parents; child rows reference parents via FK so PKs
-  // are preserved.
-  const rewrite = <T extends { userId: number }>(rows: T[]): T[] =>
-    rows.map((r) => ({ ...r, userId: targetUserId }));
-
-  // No `target.transaction(...)`: see writes.ts mutex note. Idempotent
-  // upserts make partial failure safe; next login retries.
-  await insertMany(target.db, characters, rewrite(guestChars));
-  await insertMany(target.db, personas, rewrite(guestPersonas));
-  await insertMany(target.db, lorebooks, rewrite(guestLorebooks));
-  await insertMany(target.db, lorebookEntries, guestLBEntries);
-  await insertMany(target.db, samplingPresets, rewrite(guestPresets));
-  await insertMany(target.db, cards, rewrite(guestCards));
-  await insertMany(target.db, cardCharacters, guestCardChars);
-  await insertMany(target.db, cardLorebooks, guestCardLBs);
-  await insertMany(target.db, userThemes, rewrite(guestThemes));
-  await insertMany(target.db, conversations, rewrite(guestConvs));
-  await insertMany(target.db, conversationSettings, guestSettings);
-  await insertMany(target.db, conversationCharacters, guestConvChars);
-  await insertMany(target.db, conversationLorebooks, guestConvLBs);
-  await insertMany(target.db, messages, guestMessages);
-  await insertMany(target.db, messageItems, guestMessageItems);
-  await insertMany(target.db, media, rewrite(guestMedia));
-  await insertMany(target.db, playgroundSessions, rewrite(guestSessions));
-  await insertMany(target.db, playgrounds, rewrite(guestPlaygrounds));
-  await insertMany(target.db, playgroundImages, guestPlayImages);
-  await insertMany(target.db, playgroundLikes, rewrite(guestLikes));
-  await target.db
-    .insert(localMeta)
-    .values({
-      key: MIGRATION_KEY,
-      value: { migratedAt: Date.now(), rows: totalRows } as never,
-    })
-    .onConflictDoNothing();
+  const result = await copyAllTables(guest, target, {
+    rewrite: { user_id: targetUserId },
+    skipTables: LOCAL_ONLY_TABLES,
+  });
 
   await guest.deleteDatabaseFile();
   resetLocalDbCache();
   logger.info("Migrated guest local DB rows", {
     context: "local-db.guest-migrate",
     targetUserId,
-    rows: totalRows,
+    rows: result.copied,
+    failures: result.failures.length,
   });
 }
 
-async function markMigrated(db: NonNullable<Awaited<ReturnType<typeof getLocalDb>>>["db"]) {
-  await db
-    .insert(localMeta)
-    .values({
-      key: MIGRATION_KEY,
-      value: { migratedAt: Date.now(), rows: 0 } as never,
-    })
-    .onConflictDoNothing();
-}
+// FKs disabled during copy so insert order doesn't matter. Column intersect
+// kept so source/target schema drift drops extras silently.
+export async function copyAllTables(
+  source: LocalClient,
+  target: LocalClient,
+  opts: CopyOptions = {},
+): Promise<CopyResult> {
+  const skip = new Set(opts.skipTables ?? []);
+  const rewrite = opts.rewrite ?? {};
+  const onRowError =
+    opts.onRowError ??
+    ((f) =>
+      logger.warn("copyAllTables row failed", {
+        context: "local-db.copy",
+        table: f.table,
+        error: String(f.error),
+      }));
 
-async function insertMany(
-  db: NonNullable<Awaited<ReturnType<typeof getLocalDb>>>["db"],
-  table: SQLiteTable,
-  rows: Record<string, unknown>[],
-): Promise<void> {
-  if (rows.length === 0) return;
-  // One-by-one so a single bad row doesn't abort the batch.
-  for (const row of rows) {
-    await db
-      .insert(table)
-      .values(row as never)
-      .onConflictDoNothing();
+  const tables = (await listTables(source.exec)).filter((t) => !skip.has(t));
+  if (tables.length === 0) {
+    return { copied: 0, failures: [], tables: [] };
   }
+
+  await target.exec("PRAGMA foreign_keys = OFF", [], "run");
+  const failures: RowFailure[] = [];
+  let copied = 0;
+
+  try {
+    for (const table of tables) {
+      const tgtCols = await listColumns(target.exec, table);
+      if (tgtCols.length === 0) continue;
+      const tgtSet = new Set(tgtCols);
+
+      const { rows, columns: srcCols } = await source.exec(
+        `SELECT * FROM ${quoteIdent(table)}`,
+        [],
+        "all",
+      );
+      if (rows.length === 0) continue;
+
+      const useCols = srcCols.filter((c) => tgtSet.has(c));
+      if (useCols.length === 0) continue;
+      const srcIdx = useCols.map((c) => srcCols.indexOf(c));
+
+      const insertSql =
+        `INSERT INTO ${quoteIdent(table)} (${useCols.map(quoteIdent).join(",")}) ` +
+        `VALUES (${useCols.map(() => "?").join(",")}) ON CONFLICT DO NOTHING`;
+
+      for (const tuple of rows as unknown[][]) {
+        const params = useCols.map((col, i) =>
+          col in rewrite ? rewrite[col] : tuple[srcIdx[i]],
+        );
+        try {
+          await target.transaction(async () => {
+            await target.exec(insertSql, params, "run");
+          });
+          copied++;
+        } catch (error) {
+          const rowObj = Object.fromEntries(
+            useCols.map((c, i) => [c, params[i]]),
+          );
+          const failure: RowFailure = { table, row: rowObj, error };
+          failures.push(failure);
+          onRowError(failure);
+        }
+      }
+    }
+  } finally {
+    await target.exec("PRAGMA foreign_keys = ON", [], "run").catch(() => {});
+  }
+
+  logger.info("copyAllTables summary", {
+    context: "local-db.copy",
+    tables: tables.length,
+    copied,
+    failures: failures.length,
+  });
+
+  return { copied, failures, tables };
 }
 
+function quoteIdent(s: string): string {
+  return `"${s.replace(/"/g, '""')}"`;
+}
+
+async function listTables(exec: LocalRawExec): Promise<string[]> {
+  const { rows } = await exec(
+    `SELECT name FROM sqlite_master WHERE type='table'
+       AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '__drizzle%'
+     ORDER BY name`,
+    [],
+    "all",
+  );
+  return (rows as unknown[][]).map((r) => r[0] as string);
+}
+
+async function listColumns(
+  exec: LocalRawExec,
+  table: string,
+): Promise<string[]> {
+  const { rows, columns } = await exec(
+    `PRAGMA table_info(${quoteIdent(table)})`,
+    [],
+    "all",
+  );
+  const nameIdx = columns.indexOf("name");
+  return (rows as unknown[][]).map((r) => r[nameIdx] as string);
+}
