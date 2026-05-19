@@ -3,7 +3,7 @@ import {
   extractResultUris,
   fetchAllRefs,
 } from "@/lib/playground/dispatch";
-import { getModelMetadata } from "@/lib/api/pricing-cache";
+import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { downloadAndUploadGeneration } from "@/lib/config/r2";
 import { type SyncImageEndpoint } from "@/lib/playground/models-dynamic";
 import { getDb } from "@/lib/db/server/client";
@@ -31,8 +31,10 @@ export async function submitSyncImage(args: {
   const params = body.params ?? {};
   const size = paramsToSize(body.params);
 
-  const meta = await getModelMetadata(body.model);
-  const cap = meta.maxImageInputs ?? 6;
+  const meta = (await getPricingSummary()).models.find(
+    (m) => m.name === body.model,
+  );
+  const cap = meta?.metadata.maxImageInputs ?? 6;
   const refUrls = (body.references ?? []).slice(0, cap).map((r) => r.url);
   const refs = refUrls.length > 0 ? await fetchAllRefs(refUrls) : [];
 

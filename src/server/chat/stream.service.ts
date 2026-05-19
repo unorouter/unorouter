@@ -1,5 +1,5 @@
 import { ModelType } from "@/lib/api/pricing";
-import { getModelMetadata, isMediaModel } from "@/lib/api/pricing-cache";
+import { getPricingSummary, isMediaModel } from "@/lib/api/pricing-cache";
 import { FREE_MODEL_OUTPUT_CAP, msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
@@ -674,7 +674,9 @@ export async function streamChat(
   }
   const messagesForUpstream = processedMessages;
 
-  const modelMetadata = await getModelMetadata(body.model);
+  const modelInfo = (await getPricingSummary()).models.find(
+    (m) => m.name === body.model,
+  );
   // Free models often advertise inflated maxOutputTokens; cap to a safe budget.
   const droppedParamsRef: { value: string | null } = { value: null };
   const usageRef: {
@@ -688,12 +690,13 @@ export async function streamChat(
   } = { value: null };
 
   const presetMaxOut = assembled.sampling.maxOutputTokens;
-  const effectiveMaxOutputTokens = modelMetadata.isFree
+  const modelMaxOut = modelInfo?.metadata.maxOutputTokens;
+  const effectiveMaxOutputTokens = modelInfo?.isFree
     ? Math.min(
-        presetMaxOut ?? modelMetadata.maxOutputTokens ?? FREE_MODEL_OUTPUT_CAP,
+        presetMaxOut ?? modelMaxOut ?? FREE_MODEL_OUTPUT_CAP,
         FREE_MODEL_OUTPUT_CAP,
       )
-    : (presetMaxOut ?? modelMetadata.maxOutputTokens);
+    : (presetMaxOut ?? modelMaxOut);
   const streamStartedAt = Date.now();
   const result = streamText({
     model: provider.chatModel(body.model),

@@ -1,10 +1,9 @@
-import { getModelFixedPrice } from "@/lib/api/pricing-cache";
+import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { dollarsToQuota } from "@/lib/config/constants";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
 } from "@/lib/playground/models-dynamic";
-import { getModelEndpointTypes } from "@/lib/api/pricing-cache";
 import { getDb } from "@/lib/db/server/client";
 import {
   playgroundSessions,
@@ -41,11 +40,11 @@ async function resolveSubmissionEndpoint(
   model: string,
 ): Promise<ResolvedEndpoint> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) return { kind: "comfyui-task" };
-  const types = await getModelEndpointTypes(model);
-  if (!types) {
+  const info = (await getPricingSummary()).models.find((m) => m.name === model);
+  if (!info) {
     throw new Error(`model ${model} not in catalog`);
   }
-  const endpoint = chooseEndpoint(types);
+  const endpoint = chooseEndpoint(info.endpointTypes ?? []);
   if (!endpoint) {
     throw new Error(`model ${model} declares no supported endpoint`);
   }
@@ -61,8 +60,11 @@ export async function submitGeneration(
   const visibility = body.visibility ?? "private";
   const nsfw = body.nsfw ?? true;
   const requestedCount = imageCountFor(body);
-  const costQuota =
-    dollarsToQuota(await getModelFixedPrice(body.model)) * requestedCount;
+  const modelInfo = (await getPricingSummary()).models.find(
+    (m) => m.name === body.model,
+  );
+  const fixedPrice = modelInfo?.isFixedPrice ? (modelInfo.fixedPrice ?? 0) : 0;
+  const costQuota = dollarsToQuota(fixedPrice) * requestedCount;
   const now = Date.now();
   const expiresAt = new Date(now + RETENTION_MS);
 

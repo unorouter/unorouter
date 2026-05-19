@@ -1,8 +1,17 @@
 import { CN, DE, FR, JP, RU, TW, US, VN } from "country-flag-icons/react/3x2";
-import type { Locale, useTranslations } from "next-intl";
+import type { Locale } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
+import type { TranslationKey } from "../types/i18n";
+import type { DashToUnderscore } from "../types/string";
 import { env } from "./env";
-export { ParamError } from "@/lib/types/errors";
+export { ParamError } from "../types/errors";
+export type { TranslationKey } from "../types/i18n";
+export {
+  dollarsToQuota,
+  QUOTA_PER_DOLLAR,
+  quotaToDollars,
+  renderQuota,
+} from "../utils/format/number";
 
 export const IS_DEV = process.env.NODE_ENV === "development";
 
@@ -41,8 +50,10 @@ export const LOCALES = [
   "zh-TW",
 ] as const;
 
+type LocaleCode = Uppercase<DashToUnderscore<(typeof LOCALES)[number]>>;
+
 export const LANGUAGES: {
-  code: "EN" | "DE" | "FR" | "JA" | "RU" | "VI" | "ZH_CN" | "ZH_TW";
+  code: LocaleCode;
   locale: Locale;
   Flag: FunctionComponent<SVGAttributes<SVGElement>>;
   ogLocale: string;
@@ -57,10 +68,6 @@ export const LANGUAGES: {
   { code: "ZH_TW", locale: "zh-TW", Flag: TW, ogLocale: "zh-TW" },
 ];
 
-export type TranslationKey = Parameters<
-  ReturnType<typeof useTranslations<never>>
->[0];
-
 export const msg = <T extends TranslationKey>(key: T): T => key;
 
 export const APP_VALUES = {
@@ -68,13 +75,6 @@ export const APP_VALUES = {
   appDomain: new URL(env.appUrl).hostname.replace(/^www\./, ""),
   supportEmail: env.supportEmail,
 };
-
-export {
-  dollarsToQuota,
-  quotaToDollars,
-  QUOTA_PER_DOLLAR,
-  renderQuota,
-} from "@/lib/utils/format/number";
 
 // Free-tier maxOutputTokens metadata is often inflated past what upstream
 // serves (gemma claims 131072 but channel allows 32768). Clamp to avoid 400s.

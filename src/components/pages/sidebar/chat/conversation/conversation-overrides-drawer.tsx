@@ -67,16 +67,32 @@ import { useForm, useWatch } from "react-hook-form";
 import { MultiSelectPopover } from "../rp/multi-select-popover";
 import { SamplingFields } from "../rp/sampling-fields";
 import {
-  REASONING_EFFORT_KEY,
-  WEB_SEARCH_CONTEXT_KEY,
-  WEB_SEARCH_ENGINE_KEY,
-} from "./conversation-overrides-i18n-keys";
-import {
   resetSampling as resetSamplingHelper,
   SAMPLING_FIELDS,
   writeSamplerMemory,
 } from "./conversation-overrides-form-handler";
 import { Icon } from "@/components/ui/icon";
+
+const REASONING_EFFORT_KEY = {
+  minimal: "CHAT.OVERRIDES.EFFORT_MINIMAL",
+  low: "CHAT.OVERRIDES.EFFORT_LOW",
+  medium: "CHAT.OVERRIDES.EFFORT_MEDIUM",
+  high: "CHAT.OVERRIDES.EFFORT_HIGH",
+  xhigh: "CHAT.OVERRIDES.EFFORT_XHIGH",
+} as const;
+
+const WEB_SEARCH_ENGINE_KEY = {
+  auto: "CHAT.OVERRIDES.ENGINE_AUTO",
+  native: "CHAT.OVERRIDES.ENGINE_NATIVE",
+  tavily: "CHAT.OVERRIDES.ENGINE_TAVILY",
+  exa: "CHAT.OVERRIDES.ENGINE_EXA",
+} as const;
+
+const WEB_SEARCH_CONTEXT_KEY = {
+  low: "CHAT.OVERRIDES.CONTEXT_LOW",
+  medium: "CHAT.OVERRIDES.CONTEXT_MEDIUM",
+  high: "CHAT.OVERRIDES.CONTEXT_HIGH",
+} as const;
 
 type DrawerProps = {
   convId: string | null;

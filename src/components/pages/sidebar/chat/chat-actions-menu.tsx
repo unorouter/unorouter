@@ -40,7 +40,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
 import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
-import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/sidebar-rp-nav";
+import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
 import { toast } from "sonner";
 
 type Props = {

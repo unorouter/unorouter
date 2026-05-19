@@ -1,6 +1,7 @@
 import { withPostHogConfig } from "@posthog/nextjs-config";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { LOCALES } from "./src/lib/config/constants";
 
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
@@ -12,6 +13,36 @@ const nextConfig: NextConfig = {
     formats: ["image/webp"],
     qualities: [10, 25, 50, 75, 90, 100],
     minimumCacheTTL: 60 * 60 * 24,
+  },
+  async rewrites() {
+    return [
+      // Agents that GET the homepage with Accept: text/markdown get llms.txt.
+      // Keeps the visible URL untouched.
+      {
+        source: "/",
+        has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
+        destination: "/llms.txt",
+      },
+      {
+        source: `/:locale(${LOCALES.join("|")})`,
+        has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
+        destination: "/llms.txt",
+      },
+      // status.* subdomain serves the localized status page. Visible URL
+      // stays https://status.unorouter.ai/.
+      // next-intl middleware redirects bare `/` to `/<locale>` first, so we
+      // also catch the post-redirect path.
+      {
+        source: "/",
+        has: [{ type: "host", value: "status\\..*" }],
+        destination: `/${LOCALES[0]}/status`,
+      },
+      {
+        source: `/:locale(${LOCALES.join("|")})`,
+        has: [{ type: "host", value: "status\\..*" }],
+        destination: "/:locale/status",
+      },
+    ];
   },
   // Cross-origin isolation for OPFS sync access handles used by SQLocal
   // on the chat + generate route groups. Required for SQLite WASM to

@@ -1,4 +1,4 @@
-import { getModelMetadata } from "@/lib/api/pricing-cache";
+import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { uploadReferenceToR2 } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
@@ -37,8 +37,8 @@ async function assertGuestAllowedModel(model: string): Promise<void> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
-  const meta = await getModelMetadata(model);
-  if (!meta.isFree) {
+  const meta = (await getPricingSummary()).models.find((m) => m.name === model);
+  if (!meta?.isFree) {
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
   }
 }

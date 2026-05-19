@@ -352,7 +352,6 @@ export const privateRoutes = {
     "/settings",
     "/consent",
     "/playground",
-    "/my-playgrounds",
   ],
   // Parent path covers every child. /chat itself is public; /chat/[convId]
   // and /playground/[id] are per-user.
