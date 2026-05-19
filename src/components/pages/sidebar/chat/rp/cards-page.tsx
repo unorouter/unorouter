@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { downloadBlob } from "@/lib/utils/client";
 import {
   useApplyCardMutation,
   useCardsQuery,
@@ -52,16 +53,11 @@ export function CardsPage() {
     });
     if (!res.ok) return;
     const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
     const fname =
       res.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `card-${id}.json`;
-    link.href = url;
-    link.download = fname;
-    link.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, fname);
   };
 
   const handleDelete = async (id: string) => {

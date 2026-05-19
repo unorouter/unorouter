@@ -40,6 +40,7 @@ import {
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
 import { analytics } from "@/lib/analytics";
+import { downloadBlob } from "@/lib/utils/client";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
@@ -94,16 +95,11 @@ export function CharacterList(props: Props) {
     );
     if (!res.ok) return;
     const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
     const fname =
       res.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `character-${id}.${format}`;
-    link.href = url;
-    link.download = fname;
-    link.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, fname);
     analytics.rp.entityAction({
       entity: "character",
       action: "exported",

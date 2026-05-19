@@ -1,8 +1,9 @@
 "use client";
 
 import { ModelSelector } from "@/components/elements/model/model-selector";
-import { useApiKey } from "@/hooks/ui/use-api-key";
+import { Icon } from "@/components/ui/icon";
 import { useConversationQuery } from "@/hooks/chat-hook";
+import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/utils/format/number";
 import { chatModelAtom } from "@/store/chat-store";
@@ -11,7 +12,6 @@ import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { Button } from "../../../ui/button";
 import { ChatActionsMenu } from "./chat-actions-menu";
-import { Icon } from "@/components/ui/icon";
 
 export function ChatControls() {
   const t = useTranslations();

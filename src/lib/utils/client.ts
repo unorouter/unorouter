@@ -103,3 +103,19 @@ export async function handleError(
   toast.error(title, { duration: 5000, id: toastId });
 }
 
+export function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+export function downloadJson(obj: unknown, filename: string) {
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {
+    type: "application/json",
+  });
+  downloadBlob(blob, filename);
+}
+

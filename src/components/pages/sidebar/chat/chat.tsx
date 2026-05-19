@@ -1,7 +1,7 @@
 "use client";
 
-import { Thread } from "@/components/ui/assistant-ui/thread";
 import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
+import { Thread } from "@/components/ui/assistant-ui/thread";
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";
@@ -15,7 +15,6 @@ import {
 } from "./chat-elements";
 
 type ChatProps = {
-  readOnly?: boolean;
   convId?: string;
 };
 
@@ -29,32 +28,30 @@ export function Chat(props: ChatProps) {
   const skipFirstSync = useRef(true);
 
   useEffect(() => {
-    if (props.readOnly) return;
     if (skipFirstSync.current) {
       skipFirstSync.current = false;
       return;
     }
     const url = threadId ? `/${locale}/chat/${threadId}` : `/${locale}/chat`;
     window.history.replaceState(null, "", url);
-  }, [props.readOnly, threadId, locale]);
+  }, [threadId, locale]);
 
   // Update document title since shallow history update skips generateMetadata
   useEffect(() => {
-    if (props.readOnly) return;
     const convTitle = convQuery.data?.title;
     document.title = convTitle
       ? t("CHAT.META.TITLE_WITH_NAME", { ...APP_VALUES, title: convTitle })
       : t("CHAT.META.TITLE", APP_VALUES);
-  }, [props.readOnly, convQuery.data?.title, t]);
+  }, [convQuery.data?.title, t]);
 
-  if (!props.readOnly && gate.needsToken) return <NeedsTokenGate />;
-  if (!props.readOnly && gate.hasZeroBalance) return <ZeroBalanceGate />;
+  if (gate.needsToken) return <NeedsTokenGate />;
+  if (gate.hasZeroBalance) return <ZeroBalanceGate />;
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
       <ConversationStats convId={effectiveId} />
       <SectionBoundary>
-        <Thread readOnly={props.readOnly} />
+        <Thread />
       </SectionBoundary>
     </div>
   );

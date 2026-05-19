@@ -57,46 +57,37 @@ import {
     useRef,
     useState,
 } from "react";
-const ReadOnlyContext = createContext(false);
 
 const AssistantEditContext = createContext<(() => void) | null>(null);
 
-type ThreadProps = {
-  readOnly?: boolean;
-};
-
-export const Thread: FC<ThreadProps> = (props) => {
+export const Thread: FC = () => {
   return (
-    <ReadOnlyContext.Provider value={!!props.readOnly}>
-      <ThreadPrimitive.Root
-        className="aui-root aui-thread-root bg-background @container flex h-full flex-col"
-        style={{
-          ["--thread-max-width" as string]: "44rem",
-          ["--composer-radius" as string]: "24px",
-          ["--composer-padding" as string]: "10px",
-        }}
+    <ThreadPrimitive.Root
+      className="aui-root aui-thread-root bg-background @container flex h-full flex-col"
+      style={{
+        ["--thread-max-width" as string]: "44rem",
+        ["--composer-radius" as string]: "24px",
+        ["--composer-padding" as string]: "10px",
+      }}
+    >
+      <ThreadPrimitive.Viewport
+        autoScroll
+        className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
       >
-        <ThreadPrimitive.Viewport
-          autoScroll
-          className="aui-thread-viewport relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto scroll-smooth px-4"
-        >
-          <AuiIf condition={(s) => s.thread.isEmpty}>
-            <ThreadWelcome />
-          </AuiIf>
+        <AuiIf condition={(s) => s.thread.isEmpty}>
+          <ThreadWelcome />
+        </AuiIf>
 
-          <ThreadPrimitive.Messages>
-            {() => <ThreadMessage />}
-          </ThreadPrimitive.Messages>
+        <ThreadPrimitive.Messages>
+          {() => <ThreadMessage />}
+        </ThreadPrimitive.Messages>
 
-          {!props.readOnly && (
-            <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
-              <ThreadScrollToBottom />
-              <Composer />
-            </ThreadPrimitive.ViewportFooter>
-          )}
-        </ThreadPrimitive.Viewport>
-      </ThreadPrimitive.Root>
-    </ReadOnlyContext.Provider>
+        <ThreadPrimitive.ViewportFooter className="aui-thread-viewport-footer before:from-background pointer-events-none sticky bottom-0 mx-auto mt-auto flex w-full max-w-(--thread-max-width) flex-col gap-4 overflow-visible rounded-t-(--composer-radius) pb-[max(--spacing(1),env(safe-area-inset-bottom))] *:pointer-events-auto before:pointer-events-none before:absolute before:inset-x-0 before:-top-6 before:h-6 before:bg-linear-to-t before:to-transparent md:pb-[max(--spacing(2.5),env(safe-area-inset-bottom))]">
+          <ThreadScrollToBottom />
+          <Composer />
+        </ThreadPrimitive.ViewportFooter>
+      </ThreadPrimitive.Viewport>
+    </ThreadPrimitive.Root>
   );
 };
 
@@ -634,7 +625,6 @@ const DeleteMessageButton: FC = () => {
 
 const AssistantActionBar: FC = () => {
   const t = useTranslations();
-  const readOnly = useContext(ReadOnlyContext);
   const beginEdit = useContext(AssistantEditContext);
   const isMobile = useIsMobile();
   return (
@@ -653,19 +643,17 @@ const AssistantActionBar: FC = () => {
           </AuiIf>
         </TooltipIconButton>
       </ActionBarPrimitive.Copy>
-      {!readOnly && (
-        <ActionBarPrimitive.Reload asChild>
-          <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
-            <Icon name="refresh-cw" />
-          </TooltipIconButton>
-        </ActionBarPrimitive.Reload>
-      )}
-      {!readOnly && beginEdit && (
+      <ActionBarPrimitive.Reload asChild>
+        <TooltipIconButton tooltip={t("CHAT.ACTION.REFRESH")}>
+          <Icon name="refresh-cw" />
+        </TooltipIconButton>
+      </ActionBarPrimitive.Reload>
+      {beginEdit && (
         <TooltipIconButton tooltip={t("CHAT.ACTION.EDIT")} onClick={beginEdit}>
           <Icon name="pencil" />
         </TooltipIconButton>
       )}
-      {!readOnly && <DeleteMessageButton />}
+      <DeleteMessageButton />
     </ActionBarPrimitive.Root>
   );
 };
@@ -692,9 +680,7 @@ const UserMessage: FC = () => {
 
 const UserActionBar: FC = () => {
   const t = useTranslations();
-  const readOnly = useContext(ReadOnlyContext);
   const isMobile = useIsMobile();
-  if (readOnly) return null;
   return (
     <ActionBarPrimitive.Root
       hideWhenRunning
@@ -742,11 +728,9 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
   // Persist active-branch flip server-side; gate on branchCount>1 to skip pre-persist temp ids.
   const messageId = useAuiState((s) => s.message.id);
   const branchCount = useAuiState((s) => s.message.branchCount);
-  const readOnly = useContext(ReadOnlyContext);
   const setActiveBranchMut = useSetActiveBranchMutation();
   const lastIdRef = useRef<string | null>(null);
   useEffect(() => {
-    if (readOnly) return;
     if (!messageId) return;
     if (lastIdRef.current === null) {
       lastIdRef.current = messageId;
@@ -760,7 +744,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
     if (!convId) return;
     setActiveBranchMut.mutate({ convId, msgId: messageId });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [messageId, branchCount, readOnly]);
+  }, [messageId, branchCount]);
   return (
     <BranchPickerPrimitive.Root
       hideWhenSingleBranch

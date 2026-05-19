@@ -826,7 +826,25 @@ export async function streamChat(
           const meta: Record<string, unknown> = {};
           if (droppedParamsRef.value)
             meta.droppedParams = droppedParamsRef.value;
-          if (usageRef.value) meta.usage = usageRef.value;
+          // streamText.onFinish races with UI stream finish; read usage off
+          // the part directly so the message-metadata frame ships tokens.
+          const total = part.totalUsage;
+          const durationMs = Date.now() - streamStartedAt;
+          const inputTokens = total?.inputTokens ?? 0;
+          const outputTokens = total?.outputTokens ?? 0;
+          const tokensPerSecond =
+            outputTokens > 0 && durationMs > 0
+              ? outputTokens / (durationMs / 1000)
+              : undefined;
+          if (inputTokens > 0 || outputTokens > 0) {
+            meta.usage = {
+              inputTokens,
+              outputTokens,
+              cost: 0,
+              durationMs,
+              tokensPerSecond,
+            };
+          }
           return Object.keys(meta).length > 0 ? meta : undefined;
         }
         return undefined;

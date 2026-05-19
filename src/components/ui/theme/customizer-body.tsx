@@ -26,6 +26,7 @@ import { STYLES } from "@/components/ui/theme/shadcn-styles";
 import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
+import { downloadJson } from "@/lib/utils/client";
 import { INITIAL_USER_THEME, userThemeAtom } from "@/components/ui/theme/theme-store";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { useAtom } from "jotai";
@@ -180,15 +181,7 @@ export function ThemeCustomizerBody() {
   };
 
   const exportTheme = () => {
-    const blob = new Blob([JSON.stringify(theme, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "unorouter-theme.json";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadJson(theme, "unorouter-theme.json");
   };
 
   const importTheme = async (file: File) => {

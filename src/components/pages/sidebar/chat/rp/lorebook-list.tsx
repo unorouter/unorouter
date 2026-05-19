@@ -47,6 +47,7 @@ import {
 } from "@/hooks/rp/lorebooks";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
+import { downloadBlob } from "@/lib/utils/client";
 import {
   lorebookEntryFormSchema,
   lorebookFormSchema,
@@ -117,16 +118,11 @@ export function LorebookList(props: Props) {
     });
     if (!res.ok) return;
     const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
     const fname =
       res.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `lorebook-${id}.${format}.json`;
-    link.href = url;
-    link.download = fname;
-    link.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, fname);
     analytics.rp.entityAction({
       entity: "lorebook",
       action: "exported",

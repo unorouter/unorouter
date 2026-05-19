@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getLocalDb, resetLocalDbCache } from "@/lib/db/client/client";
+import { downloadBlob } from "@/lib/utils/client";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
@@ -61,14 +62,10 @@ export function LocalDbStudio(props: Props) {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
       const file = await local.getDatabaseFile();
-      const url = URL.createObjectURL(file);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `unorouter-${userId}-${new Date()
+      const filename = `unorouter-${userId}-${new Date()
         .toISOString()
         .replace(/[:.]/g, "-")}.sqlite3`;
-      a.click();
-      URL.revokeObjectURL(url);
+      downloadBlob(file, filename);
     } catch (e) {
       console.error("DB download failed", e);
       toast.error(String(e));

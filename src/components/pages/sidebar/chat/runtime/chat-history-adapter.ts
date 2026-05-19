@@ -149,7 +149,6 @@ export function createChatHistoryAdapter(
           const content = stored as unknown as {
             role: PersistMessage["role"];
             parts: { type: string; [k: string]: unknown }[];
-            metadata?: ChatMessageMetadata;
             model?: string;
           };
 
@@ -165,7 +164,9 @@ export function createChatHistoryAdapter(
 
           // Assistant turns carry usage in `message.metadata.usage` once the
           // stream's finish frame writes via `messageMetadata` (stream.service).
-          const usage = content.metadata?.usage ?? null;
+          const usage =
+            (item.message as { metadata?: ChatMessageMetadata }).metadata
+              ?.usage ?? null;
 
           await upsertLocalMessage(userId, {
             id: messageId,
@@ -196,20 +197,22 @@ export function createChatHistoryAdapter(
             await upsertLocalMessageItem(userId, row);
           }
 
-          // Bump conv totals + updatedAt
+          // Bump conv totals + updatedAt. Row may not exist yet for a brand
+          // new guest conv (initialize runs in parallel); upsert seeds it.
           const existing = await readLocalConversation(userId, id);
-          if (existing) {
-            await upsertLocalConversation(userId, {
-              ...existing,
-              id,
-              totalInputTokens:
-                (existing.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
-              totalOutputTokens:
-                (existing.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
-              totalCost: (existing.totalCost ?? 0) + (usage?.cost ?? 0),
-              updatedAt: now,
-            });
-          }
+          await upsertLocalConversation(userId, {
+            ...(existing ?? {}),
+            id,
+            totalInputTokens:
+              (existing?.totalInputTokens ?? 0) + (usage?.inputTokens ?? 0),
+            totalOutputTokens:
+              (existing?.totalOutputTokens ?? 0) + (usage?.outputTokens ?? 0),
+            totalCost: (existing?.totalCost ?? 0) + (usage?.cost ?? 0),
+            updatedAt: now,
+          });
+          queryClient.invalidateQueries({
+            queryKey: queryKeys.chatMeta(id),
+          });
 
           // Cache patches
           type MsgPage = {

@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/rp/presets";
 import { analytics } from "@/lib/analytics";
+import { downloadBlob } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { PresetForm } from "./preset-form";
@@ -38,16 +39,11 @@ export function PresetsPage() {
     });
     if (!res.ok) return;
     const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
     const fname =
       res.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `preset-${id}.json`;
-    link.href = url;
-    link.download = fname;
-    link.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, fname);
     analytics.rp.entityAction({ entity: "preset", action: "exported" });
   };
 

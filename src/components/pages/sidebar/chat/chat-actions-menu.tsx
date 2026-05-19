@@ -1,7 +1,9 @@
 "use client";
 
+import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
+import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
+import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
 import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
 import {
   Dialog,
   DialogContent,
@@ -17,6 +19,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Icon } from "@/components/ui/icon";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useClearConversationMutation,
@@ -32,35 +35,19 @@ import {
   useSyncMutation,
   useSyncStateForRow,
 } from "@/hooks/sync-hook";
+import { Link } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
-import { Link } from "@/i18n/navigation";
+import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import { useAui } from "@assistant-ui/react";
 import { useSetAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
-import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
-import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
-import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
 import { toast } from "sonner";
 
 type Props = {
-  /** null when no conversation is selected (fresh thread). Buttons that need
-   * a conv id are hidden in that case. */
   convId: string | null;
 };
-
-function downloadJson(obj: unknown, filename: string) {
-  const blob = new Blob([JSON.stringify(obj, null, 2)], {
-    type: "application/json",
-  });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
 
 export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
@@ -119,16 +106,11 @@ export function ChatActionsMenu(props: Props) {
         return;
       }
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
       const fname =
         res.headers
           .get("content-disposition")
           ?.match(/filename="([^"]+)"/)?.[1] ?? `chat-${props.convId}.jsonl`;
-      link.href = url;
-      link.download = fname;
-      link.click();
-      URL.revokeObjectURL(url);
+      downloadBlob(blob, fname);
       analytics.chat.conversationExported({ format });
       return;
     }
@@ -223,15 +205,11 @@ export function ChatActionsMenu(props: Props) {
             <Icon name="book-text" className="size-4" />
             {t("RP.SIDEBAR_TAB_LOREBOOKS")}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            render={<Link href="/chat/presets" />}
-          >
+          <DropdownMenuItem render={<Link href="/chat/presets" />}>
             <Icon name="sliders-horizontal" className="size-4" />
             {t("RP.SIDEBAR_TAB_PRESETS")}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            render={<Link href="/chat/cards" />}
-          >
+          <DropdownMenuItem render={<Link href="/chat/cards" />}>
             <Icon name="layers" className="size-4" />
             {t("RP.SIDEBAR_TAB_CARDS")}
           </DropdownMenuItem>

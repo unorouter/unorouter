@@ -19,7 +19,7 @@ services:
           "-q",
           "-O",
           "/dev/null",
-          "http://127.0.0.1:3000/api/health",
+          "http://127.0.0.1:3000/api/ops/health",
         ]
       interval: 30s
       timeout: 10s

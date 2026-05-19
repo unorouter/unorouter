@@ -16,6 +16,7 @@ import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-but
 import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
+import { downloadBlob } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 
 // MiniMax etc. emit raw <think>/<thinking> blocks in text body instead of
@@ -276,12 +277,7 @@ const defaultComponents = memoizeMarkdownComponents({
       if (!imgSrc) return;
       const res = await fetch(imgSrc, { cache: "no-cache" });
       const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = alt || "download";
-      link.click();
-      URL.revokeObjectURL(url);
+      downloadBlob(blob, alt || "download");
     };
 
     const handleCopyLink = () => {
