@@ -2,7 +2,9 @@
 
 import { ModelSelector } from "@/components/elements/model/model-selector";
 import { useApiKey } from "@/hooks/ui/use-api-key";
+import { useConversationQuery } from "@/hooks/chat-hook";
 import { Link } from "@/i18n/navigation";
+import { formatPrice } from "@/lib/utils/format/number";
 import { chatModelAtom } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useAtom } from "jotai";
@@ -34,6 +36,29 @@ export function ChatControls() {
         <Icon name="plus" className="h-3.5 w-3.5 lg:mr-1.5" />
         <span className="hidden lg:inline">{t("CHAT.NEW_CONVERSATION")}</span>
       </Button>
+    </div>
+  );
+}
+
+export function ConversationStats(props: { convId?: string }) {
+  const t = useTranslations();
+  const convQuery = useConversationQuery(props.convId);
+  const data = convQuery.data;
+  if (!props.convId || !data) return null;
+  if (data.totalInputTokens <= 0 && data.totalOutputTokens <= 0) return null;
+  return (
+    <div className="text-muted-foreground pointer-events-none sticky top-12 z-10 hidden items-center justify-end gap-2 px-4 py-1 pr-6 text-[11px] tabular-nums md:flex">
+      <span>
+        {data.totalInputTokens.toLocaleString()} {t("CHAT.TOKENS_IN")}
+      </span>
+      <span>
+        {data.totalOutputTokens.toLocaleString()} {t("CHAT.TOKENS_OUT")}
+      </span>
+      {data.totalCost > 0 && (
+        <span className="text-foreground/70 font-medium">
+          {formatPrice(data.totalCost)}
+        </span>
+      )}
     </div>
   );
 }

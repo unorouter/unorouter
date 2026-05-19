@@ -5,11 +5,14 @@ import { SectionBoundary } from "@/components/elements/feedback/section-boundary
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";
-import { formatPrice } from "@/lib/utils/format/number";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { NeedsTokenGate, ZeroBalanceGate } from "./chat-elements";
+import {
+  ConversationStats,
+  NeedsTokenGate,
+  ZeroBalanceGate,
+} from "./chat-elements";
 
 type ChatProps = {
   readOnly?: boolean;
@@ -49,26 +52,7 @@ export function Chat(props: ChatProps) {
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
-      {effectiveId &&
-        convQuery.data &&
-        (convQuery.data.totalInputTokens > 0 ||
-          convQuery.data.totalOutputTokens > 0) && (
-          <div className="text-muted-foreground pointer-events-none sticky top-12 z-10 hidden items-center justify-end gap-2 px-4 py-1 pr-6 text-[11px] tabular-nums md:flex">
-            <span>
-              {convQuery.data.totalInputTokens.toLocaleString()}{" "}
-              {t("CHAT.TOKENS_IN")}
-            </span>
-            <span>
-              {convQuery.data.totalOutputTokens.toLocaleString()}{" "}
-              {t("CHAT.TOKENS_OUT")}
-            </span>
-            {convQuery.data.totalCost > 0 && (
-              <span className="text-foreground/70 font-medium">
-                {formatPrice(convQuery.data.totalCost)}
-              </span>
-            )}
-          </div>
-        )}
+      <ConversationStats convId={effectiveId} />
       <SectionBoundary>
         <Thread readOnly={props.readOnly} />
       </SectionBoundary>

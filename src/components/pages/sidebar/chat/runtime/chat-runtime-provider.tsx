@@ -109,7 +109,7 @@ function ChatRuntimeHook() {
 
   const transportRef = useRef(
     new DefaultChatTransport({
-      api: "/api/chat/stream",
+      api: "/api/ai/chat/stream",
       body: () => {
         const convId = getConvId();
         return {

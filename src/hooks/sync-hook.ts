@@ -19,6 +19,7 @@ function useSyncStateQuery() {
   return useQuery({
     queryKey: queryKeys.syncState(),
     queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
+    enabled: false,
   });
 }
 
