@@ -22,21 +22,32 @@ import {
   samplingPresets,
 } from "@/lib/db/schema/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
-import { getLocalDb } from "./client";
-import { makeTableStore } from "./table-store";
+import { getLocalDb } from "../client";
+import { makeTableStore } from "../table-store";
 
 // Returns null when the browser cannot mount the local DB (SSR, OPFS
 // unavailable); hooks fall back to the server path in that case.
 
-const characterStore = makeTableStore(characters, characters.id);
-const personaStore = makeTableStore(personas, personas.id);
-const lorebookStore = makeTableStore(lorebooks, lorebooks.id);
-const presetStore = makeTableStore(samplingPresets, samplingPresets.id);
-const cardStore = makeTableStore(cards, cards.id);
+const characterStore = makeTableStore(characters, characters.id, {
+  defaultOrderBy: desc(characters.updatedAt),
+});
+const personaStore = makeTableStore(personas, personas.id, {
+  defaultOrderBy: desc(personas.updatedAt),
+});
+const lorebookStore = makeTableStore(lorebooks, lorebooks.id, {
+  defaultOrderBy: desc(lorebooks.updatedAt),
+});
+const presetStore = makeTableStore(samplingPresets, samplingPresets.id, {
+  defaultOrderBy: desc(samplingPresets.updatedAt),
+});
+const cardStore = makeTableStore(cards, cards.id, {
+  defaultOrderBy: desc(cards.updatedAt),
+});
 const conversationStore = makeTableStore(conversations, conversations.id);
 const generationSessionStore = makeTableStore(
   playgroundSessions,
   playgroundSessions.id,
+  { defaultOrderBy: desc(playgroundSessions.updatedAt) },
 );
 const conversationSettingsStore = makeTableStore(
   conversationSettings,
@@ -48,28 +59,26 @@ export const readLocalMedia = (userId: number, id: string) =>
   mediaStore.get(userId, id);
 
 export const readLocalCharacters = (userId: number) =>
-  characterStore.list(userId, { orderBy: desc(characters.updatedAt) });
+  characterStore.list(userId);
 
 export const readLocalCharacter = (userId: number, id: string) =>
   characterStore.get(userId, id);
 
 export const readLocalPersonas = (userId: number) =>
-  personaStore.list(userId, { orderBy: desc(personas.updatedAt) });
+  personaStore.list(userId);
 
 export const readLocalPersona = (userId: number, id: string) =>
   personaStore.get(userId, id);
 
 export const readLocalLorebooks = (userId: number) =>
-  lorebookStore.list(userId, { orderBy: desc(lorebooks.updatedAt) });
+  lorebookStore.list(userId);
 
-export const readLocalPresets = (userId: number) =>
-  presetStore.list(userId, { orderBy: desc(samplingPresets.updatedAt) });
+export const readLocalPresets = (userId: number) => presetStore.list(userId);
 
 export const readLocalPreset = (userId: number, id: string) =>
   presetStore.get(userId, id);
 
-export const readLocalCards = (userId: number) =>
-  cardStore.list(userId, { orderBy: desc(cards.updatedAt) });
+export const readLocalCards = (userId: number) => cardStore.list(userId);
 
 export const readLocalConversations = async (userId: number) => {
   const local = await getLocalDb(userId);
@@ -99,9 +108,7 @@ export const readLocalConversation = async (userId: number, id: string) => {
 };
 
 export const readLocalGenerationSessions = (userId: number) =>
-  generationSessionStore.list(userId, {
-    orderBy: desc(playgroundSessions.updatedAt),
-  });
+  generationSessionStore.list(userId);
 
 const readLocalGenerationSession = (userId: number, id: string) =>
   generationSessionStore.get(userId, id);

@@ -1,15 +1,15 @@
-import { enqueuePending } from "@/lib/db/client/pending-sync";
+import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import {
   readLocalConversation,
   readLocalConversationBundle,
   readLocalMessageItems,
   readLocalMessages,
-} from "@/lib/db/client/reads";
+} from "@/lib/db/client/data/reads";
 import {
   upsertLocalConversation,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/writes";
+} from "@/lib/db/client/data/writes";
 import type {
   ApiMessage,
   PersistMessage,

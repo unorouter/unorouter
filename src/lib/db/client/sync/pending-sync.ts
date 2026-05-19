@@ -6,7 +6,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { SyncKindName } from "@/lib/validation/sync";
 import { and, eq } from "drizzle-orm";
-import { getLocalDb } from "./client";
+import { getLocalDb } from "../client";
 
 // ---------------------------------------------------------------------------
 // `local_pending_sync` table writers + drainer. Mirror PATCH/DELETE failures

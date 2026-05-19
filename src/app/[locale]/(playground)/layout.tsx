@@ -2,7 +2,7 @@ import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { PlaygroundList } from "@/components/pages/sidebar/playground/history/playground-list";
 import { AuthRedirectCleanup } from "@/components/provider/app/auth-redirect-cleanup";
-import { SyncStateHydrator } from "@/lib/db/client/sync-state-hydrator";
+import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

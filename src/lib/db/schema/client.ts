@@ -44,3 +44,8 @@ export const LOCAL_ONLY_TABLES = [
   localMeta._.name,
   localPendingSync._.name,
 ] as const;
+
+// Keys stored in local_meta. Migration cursor tracks the last applied tag.
+export const LOCAL_META_KEYS = {
+  migrationVersion: "migration_version",
+} as const;

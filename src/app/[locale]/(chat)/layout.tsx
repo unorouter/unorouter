@@ -3,7 +3,7 @@ import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/cha
 import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { RpDialogs } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
-import { SyncStateHydrator } from "@/lib/db/client/sync-state-hydrator";
+import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";

@@ -1,8 +1,8 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { readLocalMedia } from "@/lib/db/client/reads";
-import { upsertLocalMedia } from "@/lib/db/client/writes";
+import { readLocalMedia } from "@/lib/db/client/data/reads";
+import { upsertLocalMedia } from "@/lib/db/client/data/writes";
 import { queryKeys } from "@/lib/react-query/keys";
 import { arrayBufferToBase64 } from "@/lib/utils/base";
 import { useQuery } from "@tanstack/react-query";

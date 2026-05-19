@@ -24,8 +24,8 @@ import {
 } from "@/lib/db/schema/shared";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { eq } from "drizzle-orm";
-import { getLocalDb } from "./client";
-import { makeTableStore } from "./table-store";
+import { getLocalDb } from "../client";
+import { makeTableStore } from "../table-store";
 
 // Mutation hooks call these FIRST (IDB-primary), then mirror to server only
 // if `syncExpiresAt != null`. No-op when local DB unavailable (SSR).

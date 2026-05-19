@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { migrateGuestLocalDb } from "@/lib/db/client/guest-migrate";
+import { migrateGuestLocalDb } from "@/lib/db/client/migrate/guest-migrate";
 import { logger } from "@/lib/utils/logger";
 import { useEffect, useRef } from "react";
 

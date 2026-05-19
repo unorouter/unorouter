@@ -23,7 +23,7 @@ import {
   readLocalConversations,
   readLocalMessageItems,
   readLocalMessages,
-} from "@/lib/db/client/reads";
+} from "@/lib/db/client/data/reads";
 import {
   deleteLocalConversation,
   deleteLocalMessage,
@@ -34,8 +34,8 @@ import {
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/writes";
-import { enqueuePending } from "@/lib/db/client/pending-sync";
+} from "@/lib/db/client/data/writes";
+import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import {
   keepPreviousData,
   useInfiniteQuery,

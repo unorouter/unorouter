@@ -1,7 +1,7 @@
 "use client";
 
-import { enqueuePending } from "@/lib/db/client/pending-sync";
-import { readLocalConversation, readLocalConversationBundle } from "@/lib/db/client/reads";
+import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
+import { readLocalConversation, readLocalConversationBundle } from "@/lib/db/client/data/reads";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 

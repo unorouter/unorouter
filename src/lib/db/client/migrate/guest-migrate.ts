@@ -2,27 +2,16 @@
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
-import type { LocalClient, LocalRawExec } from "@/lib/types";
+import type {
+  CopyOptions,
+  CopyResult,
+  CopyRowFailure,
+  LocalClient,
+  LocalRawExec,
+} from "@/lib/types";
+import { quoteIdent } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { getLocalDb, resetLocalDbCache } from "./client";
-
-export type CopyOptions = {
-  rewrite?: Record<string, unknown>;
-  skipTables?: readonly string[];
-  onRowError?: (e: RowFailure) => void;
-};
-
-export type RowFailure = {
-  table: string;
-  row: Record<string, unknown>;
-  error: unknown;
-};
-
-export type CopyResult = {
-  copied: number;
-  failures: RowFailure[];
-  tables: string[];
-};
+import { getLocalDb, resetLocalDbCache } from "../client";
 
 export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
   if (targetUserId <= GUEST_USER_ID) return;
@@ -70,7 +59,7 @@ export async function copyAllTables(
   }
 
   await target.exec("PRAGMA foreign_keys = OFF", [], "run");
-  const failures: RowFailure[] = [];
+  const failures: CopyRowFailure[] = [];
   let copied = 0;
 
   try {
@@ -107,7 +96,7 @@ export async function copyAllTables(
           const rowObj = Object.fromEntries(
             useCols.map((c, i) => [c, params[i]]),
           );
-          const failure: RowFailure = { table, row: rowObj, error };
+          const failure: CopyRowFailure = { table, row: rowObj, error };
           failures.push(failure);
           onRowError(failure);
         }
@@ -125,10 +114,6 @@ export async function copyAllTables(
   });
 
   return { copied, failures, tables };
-}
-
-function quoteIdent(s: string): string {
-  return `"${s.replace(/"/g, '""')}"`;
 }
 
 async function listTables(exec: LocalRawExec): Promise<string[]> {

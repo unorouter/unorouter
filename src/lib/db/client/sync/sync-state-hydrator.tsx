@@ -10,7 +10,7 @@ import { media } from "@/lib/db/schema/shared";
 import type { SyncBundle, SyncKind } from "@/server/ai/sync/sync.service";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import { getLocalDb } from "./client";
+import { getLocalDb } from "../client";
 import { drainPending } from "./pending-sync";
 import {
   readLocalCards,
@@ -21,7 +21,7 @@ import {
   readLocalMedia,
   readLocalPersonas,
   readLocalPresets,
-} from "./reads";
+} from "../data/reads";
 import {
   upsertLocalCardBundle,
   upsertLocalCharacter,
@@ -31,7 +31,7 @@ import {
   upsertLocalPersona,
   upsertLocalPreset,
   upsertLocalTheme,
-} from "./writes";
+} from "../data/writes";
 
 export function SyncStateHydrator() {
   const auth = useAuthQuery();

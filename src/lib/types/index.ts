@@ -72,6 +72,24 @@ export type LocalClient = {
   };
 };
 
+export type CopyRowFailure = {
+  table: string;
+  row: Record<string, unknown>;
+  error: unknown;
+};
+
+export type CopyOptions = {
+  rewrite?: Record<string, unknown>;
+  skipTables?: readonly string[];
+  onRowError?: (e: CopyRowFailure) => void;
+};
+
+export type CopyResult = {
+  copied: number;
+  failures: CopyRowFailure[];
+  tables: string[];
+};
+
 export type SearchResult = {
   title: string;
   description: string;

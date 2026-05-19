@@ -1,11 +1,10 @@
 "use client";
 
+import { LOCAL_META_KEYS } from "@/lib/db/schema/client";
 import type { MigrationManifest } from "@/lib/types";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 
 import manifest from "./migrations.json" with { type: "json" };
-
-const META_KEY = "migration_version";
 
 export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   const { migrations } = manifest as MigrationManifest;
@@ -16,7 +15,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   let lastTag: string | null = null;
   try {
     const versionRows = await sql.sql<{ value: string }>`
-      SELECT value FROM local_meta WHERE key = ${META_KEY} LIMIT 1
+      SELECT value FROM local_meta WHERE key = ${LOCAL_META_KEYS.migrationVersion} LIMIT 1
     `;
     lastTag = versionRows[0]?.value ?? null;
   } catch {
@@ -45,7 +44,7 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
       }
       await sql.sql`
         INSERT INTO local_meta (key, value, updated_at)
-        VALUES (${META_KEY}, ${m.tag}, unixepoch() * 1000)
+        VALUES (${LOCAL_META_KEYS.migrationVersion}, ${m.tag}, unixepoch() * 1000)
         ON CONFLICT(key) DO UPDATE SET
           value = excluded.value,
           updated_at = excluded.updated_at

@@ -1,7 +1,7 @@
 "use client";
 
-import { readLocalPreset, readLocalPresets } from "@/lib/db/client/reads";
-import { deleteLocalPreset, upsertLocalPreset } from "@/lib/db/client/writes";
+import { readLocalPreset, readLocalPresets } from "@/lib/db/client/data/reads";
+import { deleteLocalPreset, upsertLocalPreset } from "@/lib/db/client/data/writes";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { makeRpEntity } from "./factory";

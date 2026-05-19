@@ -93,3 +93,8 @@ export function uint8ToBase64(bytes: Uint8Array): string {
     binary += String.fromCharCode(bytes[i]);
   return btoa(binary);
 }
+
+// SQL identifier quoting (table/column names). Escapes embedded `"`.
+export function quoteIdent(s: string): string {
+  return `"${s.replace(/"/g, '""')}"`;
+}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { readLocalPersona, readLocalPersonas } from "@/lib/db/client/reads";
-import { deleteLocalPersona, upsertLocalPersona } from "@/lib/db/client/writes";
+import { readLocalPersona, readLocalPersonas } from "@/lib/db/client/data/reads";
+import { deleteLocalPersona, upsertLocalPersona } from "@/lib/db/client/data/writes";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { parsePersonaJson } from "@/lib/rp/persona-import";

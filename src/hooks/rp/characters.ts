@@ -1,12 +1,12 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { readLocalCharacter, readLocalCharacters } from "@/lib/db/client/reads";
+import { readLocalCharacter, readLocalCharacters } from "@/lib/db/client/data/reads";
 import {
   deleteLocalCharacter,
   upsertLocalCharacter,
   upsertLocalMedia,
-} from "@/lib/db/client/writes";
+} from "@/lib/db/client/data/writes";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

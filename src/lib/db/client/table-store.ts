@@ -14,9 +14,12 @@ type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
 type ListOpts = { orderBy?: SQL | SQLiteColumn; scopeUser?: boolean };
 type RowOpts = { scopeUser?: boolean };
 
+type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
+
 export function makeTableStore<TTable extends ScopedTable>(
   table: TTable,
   pk: SQLiteColumn,
+  config: StoreConfig = {},
 ) {
   type Row = InferSelectModel<TTable>;
   // Loose input: server bundles arrive as opaque JSON. Factory absorbs the
@@ -26,8 +29,7 @@ export function makeTableStore<TTable extends ScopedTable>(
 
   const scopeWhere = (userId: number, base: SQL): SQL => {
     if (!table.userId) return base;
-    const combined = and(base, eq(table.userId, userId));
-    return combined ?? base;
+    return and(base, eq(table.userId, userId)) as SQL;
   };
 
   return {
@@ -39,8 +41,9 @@ export function makeTableStore<TTable extends ScopedTable>(
       if (scope && table.userId) {
         query = query.where(eq(table.userId, userId));
       }
-      if (opts?.orderBy) {
-        query = query.orderBy(opts.orderBy);
+      const orderBy = opts?.orderBy ?? config.defaultOrderBy;
+      if (orderBy) {
+        query = query.orderBy(orderBy);
       }
       const rows = await query;
       return rows as Row[];
@@ -68,25 +71,13 @@ export function makeTableStore<TTable extends ScopedTable>(
       const local = await getLocalDb(userId);
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
-      const values: Insert =
-        scope && table.userId ? { ...row, userId } : row;
-      // Drizzle's `.values()`/`.set()` types don't accept the equivalent
-      // `InferInsertModel<TTable>` shape we pass in; cast locally.
-      type DrizzleInsert = Parameters<
-        ReturnType<typeof local.db.insert<TTable>>["values"]
-      >[0];
-      type DrizzleUpdateSet = Parameters<
-        ReturnType<
-          ReturnType<typeof local.db.insert<TTable>>["values"]
-        >["onConflictDoUpdate"]
-      >[0]["set"];
+      const values = scope && table.userId ? { ...row, userId } : row;
+      // Generic factory is intentionally loose on row shape (server bundles
+      // arrive opaque). Drizzle insert/set types want per-table columns.
       await local.db
         .insert(table)
-        .values(values as unknown as DrizzleInsert)
-        .onConflictDoUpdate({
-          target: pk,
-          set: row as unknown as DrizzleUpdateSet,
-        });
+        .values(values as never)
+        .onConflictDoUpdate({ target: pk, set: row as never });
     },
 
     async drop(
