@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { getTableName, sql } from "drizzle-orm";
 import {
   index,
   integer,
@@ -41,8 +41,8 @@ export const localMeta = sqliteTable("local_meta", {
 // the target DB's own migration_version cursor; local_pending_sync holds the
 // per-DB mirror-write queue with userId references baked in.
 export const LOCAL_ONLY_TABLES = [
-  localMeta._.name,
-  localPendingSync._.name,
+  getTableName(localMeta),
+  getTableName(localPendingSync),
 ] as const;
 
 // Keys stored in local_meta. Migration cursor tracks the last applied tag.

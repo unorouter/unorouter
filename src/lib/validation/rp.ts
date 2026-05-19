@@ -11,46 +11,78 @@ const MAX_KEY_LEN = 200;
 
 export const characterBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  avatarMediaId: t.Optional(t.Union([t.String({ maxLength: 64 }), t.Null()])),
-  description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  personality: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  scenario: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  firstMessage: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  exampleMessages: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  systemPrompt: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  postHistoryInstructions: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  defaultReasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
-  tags: t.Optional(
-    t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
+  avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
+    default: null,
+  }),
+  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  personality: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  scenario: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  firstMessage: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  exampleMessages: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  systemPrompt: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  postHistoryInstructions: t.Union(
+    [t.String({ maxLength: MAX_DESC_LEN }), t.Null()],
+    { default: null },
   ),
-  nsfw: t.Optional(t.Boolean()),
-  triggers: t.Optional(
-    t.Union([
+  defaultReasoningEffort: t.Union([reasoningEffort, t.Null()], {
+    default: null,
+  }),
+  tags: t.Union(
+    [
+      t.Array(t.String({ maxLength: MAX_TAG_LEN }), { maxItems: MAX_TAGS }),
+      t.Null(),
+    ],
+    { default: null },
+  ),
+  nsfw: t.Boolean({ default: false }),
+  triggers: t.Union(
+    [
       t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
         maxItems: MAX_KEYS_PER_ENTRY,
       }),
       t.Null(),
-    ]),
+    ],
+    { default: null },
   ),
-  alwaysActive: t.Optional(t.Boolean()),
-  matchWholeWords: t.Optional(t.Boolean()),
+  alwaysActive: t.Boolean({ default: true }),
+  matchWholeWords: t.Boolean({ default: false }),
 });
 export type CharacterBody = Static<typeof characterBody>;
 
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  avatarMediaId: t.Optional(t.Union([t.String({ maxLength: 64 }), t.Null()])),
+  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
+    default: null,
+  }),
+  // isDefault stays optional+undefined — sibling-row reset transaction
+  // ([persona.service.ts]) reads undefined-vs-false to gate the reset.
   isDefault: t.Optional(t.Boolean()),
 });
 export type PersonaBody = Static<typeof personaBody>;
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  scanDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
-  tokenBudget: t.Optional(t.Number({ minimum: 100, maximum: 32_000 })),
-  recursiveScanning: t.Optional(t.Boolean()),
+  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  scanDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
+  tokenBudget: t.Number({ minimum: 100, maximum: 32_000, default: 1500 }),
+  recursiveScanning: t.Boolean({ default: false }),
 });
 export type LorebookBody = Static<typeof lorebookBody>;
 
@@ -71,60 +103,85 @@ export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
     maxItems: MAX_KEYS_PER_ENTRY,
   }),
-  secondaryKeys: t.Optional(
-    t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
-      maxItems: MAX_KEYS_PER_ENTRY,
-    }),
+  secondaryKeys: t.Union(
+    [
+      t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
+        maxItems: MAX_KEYS_PER_ENTRY,
+      }),
+      t.Null(),
+    ],
+    { default: null },
   ),
   content: t.String({ minLength: 1, maxLength: MAX_DESC_LEN }),
-  constant: t.Optional(t.Boolean()),
-  selective: t.Optional(t.Boolean()),
-  priority: t.Optional(t.Number({ minimum: 0, maximum: 1000 })),
-  position: t.Optional(lorebookEntryPosition),
-  depth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
-  enabled: t.Optional(t.Boolean()),
-  orderIndex: t.Optional(t.Number()),
-  matchWholeWords: t.Optional(t.Boolean()),
-  injectionRole: t.Optional(lorebookInjectionRole),
+  constant: t.Boolean({ default: false }),
+  selective: t.Boolean({ default: false }),
+  priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
+  position: t.Union(
+    [
+      t.Literal("before_char"),
+      t.Literal("after_char"),
+      t.Literal("top"),
+      t.Literal("bottom"),
+      t.Literal("at_depth"),
+    ],
+    { default: "before_char" },
+  ),
+  depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
+  enabled: t.Boolean({ default: true }),
+  orderIndex: t.Number({ default: 0 }),
+  matchWholeWords: t.Boolean({ default: false }),
+  injectionRole: t.Union([t.Literal("system"), t.Literal("user")], {
+    default: "user",
+  }),
 });
 export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
 export const samplingPresetBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  temperature: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 4 }), t.Null()]),
-  ),
-  topP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topK: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()]),
-  ),
-  minP: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  topA: t.Optional(t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()])),
-  frequencyPenalty: t.Optional(
-    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
-  ),
-  presencePenalty: t.Optional(
-    t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()]),
-  ),
-  repetitionPenalty: t.Optional(
-    t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
-  ),
-  maxTokens: t.Optional(t.Union([t.Number({ minimum: 1 }), t.Null()])),
-  extraBody: t.Optional(t.Union([t.String({ maxLength: 8_192 }), t.Null()])),
-  mainPrompt: t.Optional(
-    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
-  ),
-  postHistory: t.Optional(
-    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
-  ),
-  prefill: t.Optional(
-    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
-  ),
-  forceAlternateRoles: t.Optional(t.Boolean()),
-  noSystemRole: t.Optional(t.Boolean()),
-  mustStartWithUserInput: t.Optional(t.Boolean()),
-  skipPrefillIfLastIsAssistant: t.Optional(t.Boolean()),
-  geminiBlockOff: t.Optional(t.Boolean()),
+  temperature: t.Union([t.Number({ minimum: 0, maximum: 4 }), t.Null()], {
+    default: null,
+  }),
+  topP: t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()], {
+    default: null,
+  }),
+  topK: t.Union([t.Number({ minimum: 0, maximum: 1000 }), t.Null()], {
+    default: null,
+  }),
+  minP: t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()], {
+    default: null,
+  }),
+  topA: t.Union([t.Number({ minimum: 0, maximum: 1 }), t.Null()], {
+    default: null,
+  }),
+  frequencyPenalty: t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()], {
+    default: null,
+  }),
+  presencePenalty: t.Union([t.Number({ minimum: -2, maximum: 2 }), t.Null()], {
+    default: null,
+  }),
+  repetitionPenalty: t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()], {
+    default: null,
+  }),
+  maxTokens: t.Union([t.Number({ minimum: 1 }), t.Null()], { default: null }),
+  extraBody: t.Union([t.String({ maxLength: 8_192 }), t.Null()], {
+    default: null,
+  }),
+  mainPrompt: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  postHistory: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  prefill: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  forceAlternateRoles: t.Boolean({ default: false }),
+  noSystemRole: t.Boolean({ default: false }),
+  mustStartWithUserInput: t.Boolean({ default: false }),
+  skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
+  geminiBlockOff: t.Boolean({ default: false }),
+  // isDefault stays optional+undefined — sibling-row reset transaction
+  // ([preset.service.ts]) reads undefined-vs-false to gate the reset.
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;
@@ -133,10 +190,12 @@ const MAX_BUNDLE_ITEMS = 64;
 
 export const cardBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  description: t.Optional(
-    t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()]),
-  ),
-  personaId: t.Optional(t.Union([t.String({ maxLength: 64 }), t.Null()])),
+  description: t.Union([t.String({ maxLength: MAX_DESC_LEN }), t.Null()], {
+    default: null,
+  }),
+  personaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
+    default: null,
+  }),
   characterIds: t.Array(t.String({ maxLength: 64 }), {
     maxItems: MAX_BUNDLE_ITEMS,
     default: [],

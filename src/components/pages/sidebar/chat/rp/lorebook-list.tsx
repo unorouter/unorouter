@@ -439,7 +439,7 @@ function Entries(props: { lorebookId: string }) {
             .split(",")
             .map((s) => s.trim())
             .filter(Boolean)
-        : undefined,
+        : null,
       content: data.content,
       position: data.position as
         | "before_char"
@@ -452,6 +452,7 @@ function Entries(props: { lorebookId: string }) {
       constant: data.constant,
       selective: data.selective,
       enabled: data.enabled,
+      orderIndex: 0,
       matchWholeWords: data.matchWholeWords,
       injectionRole: data.injectionRole as "system" | "user",
     };

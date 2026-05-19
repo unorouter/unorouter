@@ -35,15 +35,7 @@ export async function getLorebook(userId: number, id: string) {
 export async function createLorebook(userId: number, body: LorebookBody) {
   const db = getDb();
   const id = uid();
-  await db.insert(lorebooks).values({
-    id,
-    userId,
-    name: body.name,
-    description: body.description ?? null,
-    scanDepth: body.scanDepth ?? 4,
-    tokenBudget: body.tokenBudget ?? 1500,
-    recursiveScanning: body.recursiveScanning ?? false,
-  });
+  await db.insert(lorebooks).values({ id, userId, ...body });
   return getLorebook(userId, id);
 }
 
@@ -55,14 +47,7 @@ export async function updateLorebook(
   const db = getDb();
   const result = await db
     .update(lorebooks)
-    .set({
-      name: body.name,
-      description: body.description ?? null,
-      scanDepth: body.scanDepth ?? 4,
-      tokenBudget: body.tokenBudget ?? 1500,
-      recursiveScanning: body.recursiveScanning ?? false,
-      updatedAt: dayjs().toDate(),
-    })
+    .set({ ...body, updatedAt: dayjs().toDate() })
     .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
     .returning({ id: lorebooks.id });
   assertFound(result);
@@ -97,22 +82,7 @@ export async function createEntry(
   await ensureLorebookOwned(userId, lorebookId);
   const db = getDb();
   const id = uid();
-  await db.insert(lorebookEntries).values({
-    id,
-    lorebookId,
-    keys: body.keys,
-    secondaryKeys: body.secondaryKeys ?? null,
-    content: body.content,
-    constant: body.constant ?? false,
-    selective: body.selective ?? false,
-    priority: body.priority ?? 100,
-    position: body.position ?? "before_char",
-    depth: body.depth ?? 4,
-    enabled: body.enabled ?? true,
-    orderIndex: body.orderIndex ?? 0,
-    matchWholeWords: body.matchWholeWords ?? false,
-    injectionRole: body.injectionRole ?? "user",
-  });
+  await db.insert(lorebookEntries).values({ id, lorebookId, ...body });
   return getEntry(userId, lorebookId, id);
 }
 
@@ -147,21 +117,7 @@ export async function updateEntry(
   const db = getDb();
   const result = await db
     .update(lorebookEntries)
-    .set({
-      keys: body.keys,
-      secondaryKeys: body.secondaryKeys ?? null,
-      content: body.content,
-      constant: body.constant ?? false,
-      selective: body.selective ?? false,
-      priority: body.priority ?? 100,
-      position: body.position ?? "before_char",
-      depth: body.depth ?? 4,
-      enabled: body.enabled ?? true,
-      orderIndex: body.orderIndex ?? 0,
-      matchWholeWords: body.matchWholeWords ?? false,
-      injectionRole: body.injectionRole ?? "user",
-      updatedAt: dayjs().toDate(),
-    })
+    .set({ ...body, updatedAt: dayjs().toDate() })
     .where(
       and(
         eq(lorebookEntries.id, entryId),

@@ -36,14 +36,7 @@ export async function createPersona(userId: number, body: PersonaBody) {
         .set({ isDefault: false })
         .where(eq(personas.userId, userId));
     }
-    await tx.insert(personas).values({
-      id,
-      userId,
-      name: body.name,
-      description: body.description ?? null,
-      avatarMediaId: body.avatarMediaId ?? null,
-      isDefault: body.isDefault ?? false,
-    });
+    await tx.insert(personas).values({ id, userId, ...body });
   });
   return getPersona(userId, id);
 }
@@ -63,13 +56,7 @@ export async function updatePersona(
     }
     const result = await tx
       .update(personas)
-      .set({
-        name: body.name,
-        description: body.description ?? null,
-        avatarMediaId: body.avatarMediaId ?? null,
-        isDefault: body.isDefault ?? false,
-        updatedAt: dayjs().toDate(),
-      })
+      .set({ ...body, updatedAt: dayjs().toDate() })
       .where(and(eq(personas.id, id), eq(personas.userId, userId)))
       .returning({ id: personas.id });
     assertFound(result);

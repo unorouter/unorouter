@@ -36,30 +36,7 @@ export async function createPreset(userId: number, body: SamplingPresetBody) {
         .set({ isDefault: false })
         .where(eq(samplingPresets.userId, userId));
     }
-    await tx.insert(samplingPresets).values({
-      id,
-      userId,
-      name: body.name,
-      temperature: body.temperature ?? null,
-      topP: body.topP ?? null,
-      topK: body.topK ?? null,
-      minP: body.minP ?? null,
-      topA: body.topA ?? null,
-      frequencyPenalty: body.frequencyPenalty ?? null,
-      presencePenalty: body.presencePenalty ?? null,
-      repetitionPenalty: body.repetitionPenalty ?? null,
-      maxTokens: body.maxTokens ?? null,
-      extraBody: body.extraBody ?? null,
-      mainPrompt: body.mainPrompt ?? null,
-      postHistory: body.postHistory ?? null,
-      prefill: body.prefill ?? null,
-      forceAlternateRoles: body.forceAlternateRoles ?? false,
-      noSystemRole: body.noSystemRole ?? false,
-      mustStartWithUserInput: body.mustStartWithUserInput ?? false,
-      skipPrefillIfLastIsAssistant: body.skipPrefillIfLastIsAssistant ?? false,
-      geminiBlockOff: body.geminiBlockOff ?? false,
-      isDefault: body.isDefault ?? false,
-    });
+    await tx.insert(samplingPresets).values({ id, userId, ...body });
   });
   return getPreset(userId, id);
 }
@@ -79,30 +56,7 @@ export async function updatePreset(
     }
     const result = await tx
       .update(samplingPresets)
-      .set({
-        name: body.name,
-        temperature: body.temperature ?? null,
-        topP: body.topP ?? null,
-        topK: body.topK ?? null,
-        minP: body.minP ?? null,
-        topA: body.topA ?? null,
-        frequencyPenalty: body.frequencyPenalty ?? null,
-        presencePenalty: body.presencePenalty ?? null,
-        repetitionPenalty: body.repetitionPenalty ?? null,
-        maxTokens: body.maxTokens ?? null,
-        extraBody: body.extraBody ?? null,
-        mainPrompt: body.mainPrompt ?? null,
-        postHistory: body.postHistory ?? null,
-        prefill: body.prefill ?? null,
-        forceAlternateRoles: body.forceAlternateRoles ?? false,
-        noSystemRole: body.noSystemRole ?? false,
-        mustStartWithUserInput: body.mustStartWithUserInput ?? false,
-        skipPrefillIfLastIsAssistant:
-          body.skipPrefillIfLastIsAssistant ?? false,
-        geminiBlockOff: body.geminiBlockOff ?? false,
-        isDefault: body.isDefault ?? false,
-        updatedAt: dayjs().toDate(),
-      })
+      .set({ ...body, updatedAt: dayjs().toDate() })
       .where(
         and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
       )

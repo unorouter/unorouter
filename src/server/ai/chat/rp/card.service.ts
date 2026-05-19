@@ -103,27 +103,22 @@ async function assertOwnership(tx: Tx, userId: number, body: CardBody) {
 export async function createCard(userId: number, body: CardBody) {
   const db = getDb();
   const id = uid();
+  const { characterIds, lorebookIds, ...cardFields } = body;
   await db.transaction(async (tx) => {
     await assertOwnership(tx, userId, body);
-    await tx.insert(cards).values({
-      id,
-      userId,
-      name: body.name,
-      description: body.description ?? null,
-      personaId: body.personaId ?? null,
-    });
-    if (body.characterIds.length > 0) {
+    await tx.insert(cards).values({ id, userId, ...cardFields });
+    if (characterIds.length > 0) {
       await tx.insert(cardCharacters).values(
-        body.characterIds.map((characterId, i) => ({
+        characterIds.map((characterId, i) => ({
           cardId: id,
           characterId,
           orderIndex: i,
         })),
       );
     }
-    if (body.lorebookIds.length > 0) {
+    if (lorebookIds.length > 0) {
       await tx.insert(cardLorebooks).values(
-        body.lorebookIds.map((lorebookId, i) => ({
+        lorebookIds.map((lorebookId, i) => ({
           cardId: id,
           lorebookId,
           orderIndex: i,
@@ -136,23 +131,19 @@ export async function createCard(userId: number, body: CardBody) {
 
 export async function updateCard(userId: number, id: string, body: CardBody) {
   const db = getDb();
+  const { characterIds, lorebookIds, ...cardFields } = body;
   await db.transaction(async (tx) => {
     await assertOwnership(tx, userId, body);
     const result = await tx
       .update(cards)
-      .set({
-        name: body.name,
-        description: body.description ?? null,
-        personaId: body.personaId ?? null,
-        updatedAt: dayjs().toDate(),
-      })
+      .set({ ...cardFields, updatedAt: dayjs().toDate() })
       .where(and(eq(cards.id, id), eq(cards.userId, userId)))
       .returning({ id: cards.id });
     assertFound(result);
     await tx.delete(cardCharacters).where(eq(cardCharacters.cardId, id));
-    if (body.characterIds.length > 0) {
+    if (characterIds.length > 0) {
       await tx.insert(cardCharacters).values(
-        body.characterIds.map((characterId, i) => ({
+        characterIds.map((characterId, i) => ({
           cardId: id,
           characterId,
           orderIndex: i,
@@ -160,9 +151,9 @@ export async function updateCard(userId: number, id: string, body: CardBody) {
       );
     }
     await tx.delete(cardLorebooks).where(eq(cardLorebooks.cardId, id));
-    if (body.lorebookIds.length > 0) {
+    if (lorebookIds.length > 0) {
       await tx.insert(cardLorebooks).values(
-        body.lorebookIds.map((lorebookId, i) => ({
+        lorebookIds.map((lorebookId, i) => ({
           cardId: id,
           lorebookId,
           orderIndex: i,

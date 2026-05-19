@@ -57,25 +57,7 @@ export async function getCharacter(userId: number, id: string) {
 export async function createCharacter(userId: number, body: CharacterBody) {
   const db = getDb();
   const id = uid();
-  await db.insert(characters).values({
-    id,
-    userId,
-    name: body.name,
-    avatarMediaId: body.avatarMediaId ?? null,
-    description: body.description ?? null,
-    personality: body.personality ?? null,
-    scenario: body.scenario ?? null,
-    firstMessage: body.firstMessage ?? null,
-    exampleMessages: body.exampleMessages ?? null,
-    systemPrompt: body.systemPrompt ?? null,
-    postHistoryInstructions: body.postHistoryInstructions ?? null,
-    defaultReasoningEffort: body.defaultReasoningEffort ?? null,
-    tags: body.tags ?? null,
-    nsfw: body.nsfw ?? false,
-    triggers: body.triggers ?? null,
-    alwaysActive: body.alwaysActive ?? true,
-    matchWholeWords: body.matchWholeWords ?? false,
-  });
+  await db.insert(characters).values({ id, userId, ...body });
   return getCharacter(userId, id);
 }
 
@@ -87,24 +69,7 @@ export async function updateCharacter(
   const db = getDb();
   const result = await db
     .update(characters)
-    .set({
-      name: body.name,
-      avatarMediaId: body.avatarMediaId ?? null,
-      description: body.description ?? null,
-      personality: body.personality ?? null,
-      scenario: body.scenario ?? null,
-      firstMessage: body.firstMessage ?? null,
-      exampleMessages: body.exampleMessages ?? null,
-      systemPrompt: body.systemPrompt ?? null,
-      postHistoryInstructions: body.postHistoryInstructions ?? null,
-      defaultReasoningEffort: body.defaultReasoningEffort ?? null,
-      tags: body.tags ?? null,
-      nsfw: body.nsfw ?? false,
-      triggers: body.triggers ?? null,
-      alwaysActive: body.alwaysActive ?? true,
-      matchWholeWords: body.matchWholeWords ?? false,
-      updatedAt: dayjs().toDate(),
-    })
+    .set({ ...body, updatedAt: dayjs().toDate() })
     .where(and(eq(characters.id, id), eq(characters.userId, userId)))
     .returning({ id: characters.id });
   assertFound(result);
