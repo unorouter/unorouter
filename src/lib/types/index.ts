@@ -1,6 +1,8 @@
 import type * as client from "@/lib/db/schema/client";
 import type * as shared from "@/lib/db/schema/shared";
 import type { UIMessage } from "ai";
+import type { SQL } from "drizzle-orm";
+import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 import type { SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 import type { useTranslations } from "next-intl";
 
@@ -89,6 +91,17 @@ export type CopyResult = {
   failures: CopyRowFailure[];
   tables: string[];
 };
+
+// makeTableStore (src/lib/db/client/table-store.ts).
+export type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
+export type StoreListOpts = {
+  orderBy?: SQL | SQLiteColumn;
+  scopeUser?: boolean;
+};
+export type StoreRowOpts = { scopeUser?: boolean };
+export type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
+export type StoreRow = Record<string, unknown>;
+export type StorePkValue = string | number;
 
 export type SearchResult = {
   title: string;

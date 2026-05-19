@@ -1,7 +1,15 @@
 "use client";
 
+import type {
+  ScopedTable,
+  StoreConfig,
+  StoreListOpts,
+  StorePkValue,
+  StoreRow,
+  StoreRowOpts,
+} from "@/lib/types";
 import type { InferSelectModel, SQL } from "drizzle-orm";
-import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
+import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { and, eq } from "drizzle-orm";
 import { getLocalDb } from "./client";
 
@@ -9,31 +17,21 @@ import { getLocalDb } from "./client";
 // WHERE clauses AND merges `userId` into upsert rows. Tables without a userId
 // column (conversationSettings, messages, etc.) must pass scopeUser: false.
 
-type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
-
-type ListOpts = { orderBy?: SQL | SQLiteColumn; scopeUser?: boolean };
-type RowOpts = { scopeUser?: boolean };
-
-type StoreConfig = { defaultOrderBy?: SQL | SQLiteColumn };
-
 export function makeTableStore<TTable extends ScopedTable>(
   table: TTable,
   pk: SQLiteColumn,
   config: StoreConfig = {},
 ) {
   type Row = InferSelectModel<TTable>;
-  // Loose input: server bundles arrive as opaque JSON. Factory absorbs the
-  // cast at the Drizzle call boundary.
-  type Insert = Record<string, unknown>;
-  type PkValue = string | number;
 
   const scopeWhere = (userId: number, base: SQL): SQL => {
     if (!table.userId) return base;
-    return and(base, eq(table.userId, userId)) as SQL;
+    // and(...) with 2 defined SQL args never returns undefined.
+    return and(base, eq(table.userId, userId))!;
   };
 
   return {
-    async list(userId: number, opts?: ListOpts): Promise<Row[] | null> {
+    async list(userId: number, opts?: StoreListOpts): Promise<Row[] | null> {
       const local = await getLocalDb(userId);
       if (!local) return null;
       const scope = opts?.scopeUser ?? true;
@@ -45,14 +43,13 @@ export function makeTableStore<TTable extends ScopedTable>(
       if (orderBy) {
         query = query.orderBy(orderBy);
       }
-      const rows = await query;
-      return rows as Row[];
+      return (await query) as Row[];
     },
 
     async get(
       userId: number,
-      id: PkValue,
-      opts?: RowOpts,
+      id: StorePkValue,
+      opts?: StoreRowOpts,
     ): Promise<Row | null> {
       const local = await getLocalDb(userId);
       if (!local) return null;
@@ -65,15 +62,16 @@ export function makeTableStore<TTable extends ScopedTable>(
 
     async upsert(
       userId: number,
-      row: Insert,
-      opts?: RowOpts,
+      row: StoreRow,
+      opts?: StoreRowOpts,
     ): Promise<void> {
       const local = await getLocalDb(userId);
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
       const values = scope && table.userId ? { ...row, userId } : row;
-      // Generic factory is intentionally loose on row shape (server bundles
-      // arrive opaque). Drizzle insert/set types want per-table columns.
+      // Loose row type: server bundles arrive as opaque Record<string, unknown>.
+      // Drizzle's per-table insert/set types reject the generic shape; cast at
+      // the boundary, accept the trade.
       await local.db
         .insert(table)
         .values(values as never)
@@ -82,8 +80,8 @@ export function makeTableStore<TTable extends ScopedTable>(
 
     async drop(
       userId: number,
-      id: PkValue,
-      opts?: RowOpts,
+      id: StorePkValue,
+      opts?: StoreRowOpts,
     ): Promise<void> {
       const local = await getLocalDb(userId);
       if (!local) return;
@@ -94,4 +92,3 @@ export function makeTableStore<TTable extends ScopedTable>(
     },
   };
 }
-
