@@ -2,7 +2,7 @@
 
 import type { StatusType } from "@/components/ui/status/status.types";
 import { useStatusPage as useStatusPageQuery } from "@/hooks/model-status-hook";
-import type { StatusBucket } from "@/lib/types/status";
+import type { StatusBucket } from "@/lib/types";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
   collapsedVendorsAtom,

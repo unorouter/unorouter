@@ -2,15 +2,12 @@ FROM oven/bun:1-alpine AS deps
 
 WORKDIR /app
 
-COPY package.json bun.lock ./
-
-RUN bun install --frozen-lockfile
+RUN bun install
 
 #
 FROM oven/bun:1-alpine AS builder
 WORKDIR /app
 
-COPY --from=deps /usr/local/bin/bun /usr/local/bin/bun
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
 ENV STANDALONE=1

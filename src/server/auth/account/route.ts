@@ -13,7 +13,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { unwrap } from "@/lib/utils/base";
-import { signUserId } from "@/lib/utils/signed-cookie";
+import { signUserId } from "@/lib/utils/server";
 import {
   exchangeOAuthCode,
   generateOAuthCode,

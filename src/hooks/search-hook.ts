@@ -1,7 +1,7 @@
 "use client";
 
 import { queryKeys } from "@/lib/react-query/keys";
-import { isSearchDoc, type SearchResult } from "@/lib/types/search";
+import { isSearchDoc, type SearchResult } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 

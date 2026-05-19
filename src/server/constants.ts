@@ -7,7 +7,7 @@ import {
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { verifyUserId } from "@/lib/utils/signed-cookie";
+import { verifyUserId } from "@/lib/utils/server";
 import { serverEnv } from "@/server/env";
 import { CLIENT_STORE_KEY } from "@/store/client-store";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";

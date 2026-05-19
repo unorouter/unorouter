@@ -1,7 +1,9 @@
 import { env } from "@/lib/config/env";
+import { serverEnv } from "@/server/env";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import {
   GUEST_CONVS_COOKIE,
   LOCALE_COOKIE,
@@ -11,6 +13,37 @@ import {
 } from "../config/constants";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
+
+function hmac(payload: string): string {
+  if (!serverEnv.sessionSecret) throw new Error("SESSION_SECRET is not set");
+  return createHmac("sha256", serverEnv.sessionSecret)
+    .update(payload)
+    .digest("base64url");
+}
+
+export function signUserId(userId: number | string): string {
+  const id = String(userId);
+  return `${id}.${hmac(id)}`;
+}
+
+export function verifyUserId(signed: string | undefined): number | null {
+  if (!signed) return null;
+  const dot = signed.lastIndexOf(".");
+  if (dot <= 0) return null;
+  const id = signed.slice(0, dot);
+  const sig = signed.slice(dot + 1);
+  let expected: string;
+  try {
+    expected = hmac(id);
+  } catch {
+    return null;
+  }
+  const a = Buffer.from(sig);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+  const n = Number(id);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
 
 const safe = async <T>(fn: () => Promise<T>): Promise<T | undefined> => {
   try {

@@ -1,6 +1,6 @@
+import { IS_DEV } from "@/lib/config/constants";
+import type { LogContext } from "@/lib/types";
 import pino from "pino";
-
-const IS_DEV = process.env.NODE_ENV === "development";
 
 const base = pino({
   level: IS_DEV ? "debug" : "info",
@@ -8,8 +8,6 @@ const base = pino({
     level: (label) => ({ level: label }),
   },
 });
-
-type LogContext = { context?: string; [key: string]: unknown };
 
 /**
  * Wraps pino to match the existing call convention: logger.info("message", { context, ... })

@@ -1,5 +1,5 @@
 import type { TranslationKey } from "@/lib/config/constants";
-import type { Extracted } from "@/lib/types/errors";
+import type { Extracted } from "@/lib/types";
 import {
   DefaultErrorFunction,
   SetErrorFunction,

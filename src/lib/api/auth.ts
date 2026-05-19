@@ -1,7 +1,7 @@
 import { parseSetCookie, serialize } from "cookie";
 import { Context } from "elysia";
 import { COOKIE_MAX_AGE, USER_ID_COOKIE } from "../config/constants";
-import { signUserId } from "../utils/signed-cookie";
+import { signUserId } from "../utils/server";
 
 type AuthResponseData = {
   success?: boolean;
