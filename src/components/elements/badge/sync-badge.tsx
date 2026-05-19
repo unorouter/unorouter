@@ -16,6 +16,7 @@ type Props = {
   id: string;
   payload?: unknown;
   compact?: boolean;
+  variant?: "full" | "status" | "actions";
 };
 
 export function SyncBadge(props: Props) {
@@ -25,6 +26,7 @@ export function SyncBadge(props: Props) {
   const syncMut = useSyncMutation();
   const removeMut = useRemoveSyncMutation();
 
+  const variant = props.variant ?? "full";
   const isSynced = state.syncExpiresAt != null;
   const expiresAt =
     state.syncExpiresAt != null
@@ -46,36 +48,24 @@ export function SyncBadge(props: Props) {
     removeMut.mutate({ kind: props.kind, id: props.id });
   };
 
-  if (!isSynced) {
-    return (
-      <div className="flex items-center gap-2">
-        {props.compact ? null : (
-          <Badge variant="outline" className="gap-1">
-            <Icon name="cloud-off" className="size-3" />
-            {t("SYNC.NOT_SYNCED")}
-          </Badge>
-        )}
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onSync}
-          disabled={syncMut.isPending}
-        >
-          <Icon name="cloud-upload" className="size-3.5" />
-          {props.compact ? null : t("SYNC.ADD_SYNC")}
-        </Button>
-      </div>
-    );
+  const statusPill = isSynced ? (
+    <Badge variant="default" className="bg-success/15 text-success gap-1">
+      <Icon name="cloud-upload" className="size-3" />
+      {expiresAt ? t("SYNC.EXPIRES_AT", { date: expiresAt }) : t("SYNC.SYNCED")}
+    </Badge>
+  ) : (
+    <Badge variant="outline" className="gap-1">
+      <Icon name="cloud-off" className="size-3" />
+      {t("SYNC.NOT_SYNCED")}
+    </Badge>
+  );
+
+  if (variant === "status") {
+    return props.compact ? null : statusPill;
   }
 
-  return (
-    <div className="flex items-center gap-2">
-      <Badge variant="default" className="bg-success/15 text-success gap-1">
-        <Icon name="cloud-upload" className="size-3" />
-        {expiresAt
-          ? t("SYNC.EXPIRES_AT", { date: expiresAt })
-          : t("SYNC.SYNCED")}
-      </Badge>
+  const actions = isSynced ? (
+    <>
       <Button
         variant="ghost"
         size="sm"
@@ -97,6 +87,27 @@ export function SyncBadge(props: Props) {
         <Icon name="cloud-off" className="size-3.5" />
         {props.compact ? null : t("SYNC.REMOVE_SYNC")}
       </Button>
+    </>
+  ) : (
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={onSync}
+      disabled={syncMut.isPending}
+    >
+      <Icon name="cloud-upload" className="size-3.5" />
+      {props.compact ? null : t("SYNC.ADD_SYNC")}
+    </Button>
+  );
+
+  if (variant === "actions") {
+    return <div className="flex flex-wrap items-center gap-2">{actions}</div>;
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      {!props.compact && statusPill}
+      {actions}
     </div>
   );
 }

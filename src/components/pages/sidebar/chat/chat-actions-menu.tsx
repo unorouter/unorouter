@@ -33,11 +33,14 @@ import {
 } from "@/hooks/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
+import { Link } from "@/i18n/navigation";
 import { useAui } from "@assistant-ui/react";
+import { useSetAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
 import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
+import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/sidebar-rp-nav";
 import { toast } from "sonner";
 
 type Props = {
@@ -65,6 +68,7 @@ export function ChatActionsMenu(props: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [confirmClearOpen, setConfirmClearOpen] = useState(false);
 
+  const setOpenRpTab = useSetAtom(openRpTabAtom);
   const clearMut = useClearConversationMutation();
   const duplicateMut = useDuplicateConversationMutation();
   const markdownMut = useConversationMarkdown();
@@ -203,6 +207,32 @@ export function ChatActionsMenu(props: Props) {
             <Icon name="settings-2" className="size-4" />
             {t("CHAT.OVERRIDES.OPEN")}
           </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => setOpenRpTab("characters")}>
+            <Icon name="users" className="size-4" />
+            {t("RP.SIDEBAR_TAB_CHARACTERS")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenRpTab("personas")}>
+            <Icon name="user" className="size-4" />
+            {t("RP.SIDEBAR_TAB_PERSONAS")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setOpenRpTab("lorebooks")}>
+            <Icon name="book-text" className="size-4" />
+            {t("RP.SIDEBAR_TAB_LOREBOOKS")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            render={<Link href="/chat/presets" />}
+          >
+            <Icon name="sliders-horizontal" className="size-4" />
+            {t("RP.SIDEBAR_TAB_PRESETS")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            render={<Link href="/chat/cards" />}
+          >
+            <Icon name="layers" className="size-4" />
+            {t("RP.SIDEBAR_TAB_CARDS")}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
           {hasConv && !isSynced && (
             <DropdownMenuItem
               onClick={handleAddSync}

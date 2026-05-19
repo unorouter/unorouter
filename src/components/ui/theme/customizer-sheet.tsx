@@ -18,6 +18,7 @@ export function ThemeCustomizerSheet(props: Props) {
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
       <SheetContent
         side="right"
+        showOverlay={false}
         className="flex w-full flex-col gap-0 border-none bg-transparent p-3 shadow-none sm:max-w-xs"
       >
         {props.open && <ThemeCustomizerBody />}

@@ -233,8 +233,8 @@ export function ThemeCustomizerBody() {
 
   return (
     <Card className="bg-card/95 dark relative isolate flex h-full max-h-full min-h-0 flex-col gap-0 rounded-2xl shadow-xl backdrop-blur-xl">
-      <CardHeader className="flex flex-row items-center justify-between border-b py-4">
-        <CardTitle>{t("THEME.TITLE")}</CardTitle>
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 border-b py-4">
+        <CardTitle className="shrink-0">{t("THEME.TITLE")}</CardTitle>
         {auth.data && (
           <SyncBadge kind="theme" id={String(auth.data.id)} payload={theme} />
         )}
