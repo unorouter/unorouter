@@ -20,7 +20,6 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-
 import { mirrorConvIfSynced } from "./shared";
 
 export type ChatSettings = EdenResponse<
@@ -79,10 +78,12 @@ export function useUpdateChatSettingsMutation() {
       return updated;
     },
     onSuccess: (data, args) => {
-      qc.setQueryData<ChatSettings>(queryKeys.chatSettings(args.convId), (old) =>
-        old
-          ? itemPatch(old, data as Partial<ChatSettings>)
-          : (data as unknown as ChatSettings),
+      qc.setQueryData<ChatSettings>(
+        queryKeys.chatSettings(args.convId),
+        (old) =>
+          old
+            ? itemPatch(old, data as Partial<ChatSettings>)
+            : (data as unknown as ChatSettings),
       );
     },
     onError: (e) => handleError(e, t),

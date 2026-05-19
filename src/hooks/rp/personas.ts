@@ -9,7 +9,6 @@ import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
 
@@ -17,7 +16,11 @@ type PersonasList = EntityListResponse<typeof rpc.api.rp.personas.get>;
 export type Persona =
   PersonasList extends ReadonlyArray<infer Item> ? Item : never;
 
-const personas = makeRpEntity<Persona, Record<string, unknown>, Record<string, unknown>>({
+const personas = makeRpEntity<
+  Persona,
+  Record<string, unknown>,
+  Record<string, unknown>
+>({
   syncKind: "personas",
   listKey: queryKeys.personas,
   itemKey: queryKeys.persona,
@@ -44,7 +47,9 @@ export function useImportPersonaMutation() {
       handleElysia(await rpc.api.rp.personas.import.post({ file })),
     onSuccess: async (data) => {
       const userId = auth.data?.id ?? 0;
-      const list = Array.isArray(data) ? (data as Persona[]) : [data as Persona];
+      const list = Array.isArray(data)
+        ? (data as Persona[])
+        : [data as Persona];
       for (const row of list) {
         await upsertLocalPersona(userId, row as never);
       }

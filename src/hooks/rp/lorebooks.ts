@@ -1,10 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import {
-  readLocalLorebook,
-  readLocalLorebooks,
-} from "@/lib/db/client/reads";
+import { readLocalLorebook, readLocalLorebooks } from "@/lib/db/client/reads";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
@@ -21,7 +18,6 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-
 import { makeRpEntity } from "./factory";
 import { mirrorSyncedRow, type EntityListResponse } from "./shared";
 
@@ -53,7 +49,11 @@ async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
 
 // The lorebook update flow needs a custom mirror payload (bundle with
 // entries), so we replace the factory's `useUpdate` to keep the contract.
-const lorebooks = makeRpEntity<Lorebook, Record<string, unknown>, Record<string, unknown>>({
+const lorebooks = makeRpEntity<
+  Lorebook,
+  Record<string, unknown>,
+  Record<string, unknown>
+>({
   syncKind: "lorebooks",
   listKey: queryKeys.lorebooks,
   itemKey: queryKeys.lorebook,

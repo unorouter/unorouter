@@ -4,7 +4,6 @@ import { readLocalPreset, readLocalPresets } from "@/lib/db/client/reads";
 import { deleteLocalPreset, upsertLocalPreset } from "@/lib/db/client/writes";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
 
@@ -12,7 +11,11 @@ type PresetsList = EntityListResponse<typeof rpc.api.rp.presets.get>;
 export type Preset =
   PresetsList extends ReadonlyArray<infer Item> ? Item : never;
 
-const presets = makeRpEntity<Preset, Record<string, unknown>, Record<string, unknown>>({
+const presets = makeRpEntity<
+  Preset,
+  Record<string, unknown>,
+  Record<string, unknown>
+>({
   syncKind: "presets",
   listKey: queryKeys.presets,
   itemKey: queryKeys.preset,

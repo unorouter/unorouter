@@ -1,19 +1,18 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { queryKeys } from "@/lib/react-query/keys";
 import {
   itemPatch,
   listAdd,
   listRemove,
   listUpdate,
 } from "@/lib/react-query/cache-helpers";
-import { handleError } from "@/lib/utils/client";
+import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
+import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-
 import { deleteSyncedRow, mirrorSyncedRow, type RpSyncKind } from "./shared";
 
 type WithId = { id: string; syncExpiresAt?: Date | null };
@@ -24,10 +23,16 @@ export type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
   useUpdate: () => ReturnType<
     typeof useMutation<TItem, Error, { id: string; body: TUpdateBody }>
   >;
-  useDelete: () => ReturnType<typeof useMutation<{ id: string }, Error, string>>;
+  useDelete: () => ReturnType<
+    typeof useMutation<{ id: string }, Error, string>
+  >;
 };
 
-export function makeRpEntity<TItem extends WithId, TCreateBody, TUpdateBody>(opts: {
+export function makeRpEntity<
+  TItem extends WithId,
+  TCreateBody,
+  TUpdateBody,
+>(opts: {
   syncKind: RpSyncKind;
   listKey: () => readonly unknown[];
   itemKey: (id: string) => readonly unknown[];

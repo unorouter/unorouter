@@ -1,22 +1,18 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import {
-  readLocalCharacter,
-  readLocalCharacters,
-} from "@/lib/db/client/reads";
+import { readLocalCharacter, readLocalCharacters } from "@/lib/db/client/reads";
 import {
   deleteLocalCharacter,
   upsertLocalCharacter,
 } from "@/lib/db/client/writes";
-import { queryKeys } from "@/lib/react-query/keys";
 import { listAdd } from "@/lib/react-query/cache-helpers";
+import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
-
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
 
@@ -24,7 +20,11 @@ type CharactersList = EntityListResponse<typeof rpc.api.rp.characters.get>;
 export type Character =
   CharactersList extends ReadonlyArray<infer Item> ? Item : never;
 
-const characters = makeRpEntity<Character, Record<string, unknown>, Record<string, unknown>>({
+const characters = makeRpEntity<
+  Character,
+  Record<string, unknown>,
+  Record<string, unknown>
+>({
   syncKind: "characters",
   listKey: queryKeys.characters,
   itemKey: queryKeys.character,

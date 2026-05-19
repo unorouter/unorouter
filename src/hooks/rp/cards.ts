@@ -27,7 +27,6 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-
 import {
   deleteSyncedRow,
   mirrorConvIfSynced,
@@ -217,11 +216,18 @@ export function useApplyCardMutation() {
 
       if (args.body.mode === "replace") {
         await replaceLocalConversationBindings(userId, args.body.convId, {
-          conversationCharacters: characterIds.map((cid) => ({ characterId: cid })),
-          conversationLorebooks: lorebookIds.map((lid) => ({ lorebookId: lid })),
+          conversationCharacters: characterIds.map((cid) => ({
+            characterId: cid,
+          })),
+          conversationLorebooks: lorebookIds.map((lid) => ({
+            lorebookId: lid,
+          })),
         });
       } else {
-        const existing = await readLocalConversationBindings(userId, args.body.convId);
+        const existing = await readLocalConversationBindings(
+          userId,
+          args.body.convId,
+        );
         const existingCharIds = new Set(
           existing?.conversationCharacters.map((c) => c.characterId) ?? [],
         );
@@ -262,8 +268,12 @@ export function useApplyCardMutation() {
       return { id: args.id };
     },
     onSuccess: (_data, args) => {
-      qc.invalidateQueries({ queryKey: queryKeys.chatBindings(args.body.convId) });
-      qc.invalidateQueries({ queryKey: queryKeys.chatSettings(args.body.convId) });
+      qc.invalidateQueries({
+        queryKey: queryKeys.chatBindings(args.body.convId),
+      });
+      qc.invalidateQueries({
+        queryKey: queryKeys.chatSettings(args.body.convId),
+      });
     },
     onError: (e) => handleError(e, t),
   });
