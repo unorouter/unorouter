@@ -3,7 +3,7 @@ import type { EdenResponse } from "@/lib/types/eden";
 import type { InfiniteData } from "@tanstack/react-query";
 
 export type ConvsData = Extract<
-  EdenResponse<{ get: typeof rpc.api.chat.conversations.get }, "get">,
+  EdenResponse<{ get: typeof rpc.api.ai.chat.conversations.get }, "get">,
   { page: number }
 >;
 export type ConvItem = ConvsData["items"][number];

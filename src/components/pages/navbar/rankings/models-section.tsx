@@ -12,7 +12,8 @@ import type {
   RankedModel,
   RankingPeriod,
 } from "@/lib/api/typebox/rankings";
-import { formatTokens, modelColor } from "@/lib/utils/base";
+import { formatTokens } from "@/lib/utils/format/number";
+import { modelColor } from "@/lib/utils/format/color";
 import { useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { ModelLeaderboard } from "./model-leaderboard";

@@ -16,12 +16,12 @@ function isTerminalStatus(s: string | undefined): boolean {
 }
 
 export function useSessionHistoryQuery(
-  query?: EdenQuery<typeof rpc.api.playground.me>,
+  query?: EdenQuery<typeof rpc.api.ai.playground.me>,
 ) {
   return useQuery({
     queryKey: queryKeys.playgroundSessionList(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.playground.me.get({ query })),
+      handleElysia(await rpc.api.ai.playground.me.get({ query })),
   });
 }
 
@@ -30,7 +30,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
     queryKey: queryKeys.playgroundSession(sessionId ?? ""),
     queryFn: async () =>
       handleElysia(
-        await rpc.api.playground.session({ sessionId: sessionId! }).get(),
+        await rpc.api.ai.playground.session({ sessionId: sessionId! }).get(),
       ),
     enabled: !!sessionId,
     retry: false,
@@ -41,7 +41,7 @@ export function useSnapshotQuery(id: string | null ) {
   return useQuery({
     queryKey: queryKeys.playgroundSnapshot(id ?? ""),
     queryFn: async () =>
-      handleElysia(await rpc.api.playground.snapshot({ id: id! }).get()),
+      handleElysia(await rpc.api.ai.playground.snapshot({ id: id! }).get()),
     enabled: !!id,
     retry: false,
   });
@@ -54,7 +54,7 @@ export function useSnapshotStatusQuery(
   return useQuery({
     queryKey: queryKeys.playgroundSnapshotStatus(id ?? ""),
     queryFn: async () =>
-      handleElysia(await rpc.api.playground.snapshot({ id: id! }).status.get()),
+      handleElysia(await rpc.api.ai.playground.snapshot({ id: id! }).status.get()),
     enabled: enabled && !!id,
     retry: false,
     refetchInterval: (query) => {
@@ -71,8 +71,8 @@ export function useSubmitGenerationMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<typeof rpc.api.playground.submit, "post">,
-    ) => handleElysia(await rpc.api.playground.submit.post(args.body)),
+      args: EdenArgs<typeof rpc.api.ai.playground.submit, "post">,
+    ) => handleElysia(await rpc.api.ai.playground.submit.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: (data) => {
       // Seed the snapshot's status cache so the polling hook starts from
@@ -100,7 +100,7 @@ export function useDeleteSnapshotMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: { id: string }) =>
-      handleElysia(await rpc.api.playground.snapshot({ id: args.id }).delete()),
+      handleElysia(await rpc.api.ai.playground.snapshot({ id: args.id }).delete()),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       qc.removeQueries({
@@ -120,12 +120,12 @@ export function useDeleteSnapshotMutation() {
 }
 
 export function useLoraCatalogQuery(
-  query?: EdenQuery<typeof rpc.api.playground.loras>,
+  query?: EdenQuery<typeof rpc.api.ai.playground.loras>,
 ) {
   return useQuery({
     queryKey: queryKeys.loraCatalog(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.playground.loras.get({ query })),
+      handleElysia(await rpc.api.ai.playground.loras.get({ query })),
   });
 }
 
@@ -133,7 +133,7 @@ export function useUploadReferenceMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.playground.references.post({ file })),
+      handleElysia(await rpc.api.ai.playground.references.post({ file })),
     onError: (e) => handleError(e, t),
   });
 }
@@ -145,28 +145,28 @@ export function useUploadMaskMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.playground.masks.post({ file })),
+      handleElysia(await rpc.api.ai.playground.masks.post({ file })),
     onError: (e) => handleError(e, t),
   });
 }
 
 export function useEmbeddingCatalogQuery(
-  query?: EdenQuery<typeof rpc.api.playground.embeddings>,
+  query?: EdenQuery<typeof rpc.api.ai.playground.embeddings>,
 ) {
   return useQuery({
     queryKey: queryKeys.embeddingCatalog(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.playground.embeddings.get({ query })),
+      handleElysia(await rpc.api.ai.playground.embeddings.get({ query })),
   });
 }
 
 export function useUpscalerCatalogQuery(
-  query?: EdenQuery<typeof rpc.api.playground.upscalers>,
+  query?: EdenQuery<typeof rpc.api.ai.playground.upscalers>,
 ) {
   return useQuery({
     queryKey: queryKeys.upscalerCatalog(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.playground.upscalers.get({ query })),
+      handleElysia(await rpc.api.ai.playground.upscalers.get({ query })),
   });
 }
 
@@ -176,7 +176,7 @@ export function useExportSessionMutation() {
   return useMutation({
     mutationFn: async (args: { sessionId: string }) =>
       handleElysia(
-        await rpc.api.playground
+        await rpc.api.ai.playground
           .session({ sessionId: args.sessionId })
           .export.get(),
       ),
@@ -189,8 +189,8 @@ export function useImportGenerationMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<typeof rpc.api.playground.import, "post">,
-    ) => handleElysia(await rpc.api.playground.import.post(args.body)),
+      args: EdenArgs<typeof rpc.api.ai.playground.import, "post">,
+    ) => handleElysia(await rpc.api.ai.playground.import.post(args.body)),
     onError: (e) => handleError(e, t),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.playgroundSessionLists() });

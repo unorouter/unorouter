@@ -43,7 +43,7 @@ export default async function AffiliatePage() {
       queryKey: queryKeys.affiliateInvitees(inviteesParams),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.affiliate.invitees.get({
+          await rpc.api.billing.affiliate.invitees.get({
             ...cookieHeaders,
             query: inviteesParams,
           }),
@@ -53,7 +53,7 @@ export default async function AffiliatePage() {
       queryKey: queryKeys.affiliateCommissions(commissionsParams),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.affiliate.commissions.get({
+          await rpc.api.billing.affiliate.commissions.get({
             ...cookieHeaders,
             query: commissionsParams,
           }),

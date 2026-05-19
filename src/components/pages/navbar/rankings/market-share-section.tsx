@@ -13,7 +13,7 @@ import type {
   VendorShareSeries,
 } from "@/lib/api/typebox/rankings";
 import { DEFAULT_THEME, getVendorTheme } from "@/lib/config/vendor-themes";
-import { formatShare, formatTokens } from "@/lib/utils/base";
+import { formatShare, formatTokens } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { VendorLink } from "./entity-links";

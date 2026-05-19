@@ -58,7 +58,7 @@ export default async function ConsentPage(props: {
   // to /login?redirect=/consent?... — the global AuthRedirectCapture
   // listener stashes the return URL as a cookie, and the login form reads
   // it on success to bring them back here.
-  const response = await rpc.api.auth.self.get(await setCookies());
+  const response = await rpc.api.auth.account.self.get(await setCookies());
   if (response.status !== 200) {
     redirect({
       href: {

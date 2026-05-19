@@ -75,7 +75,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       !route.includes("[") && !privateSet.has(route) && !docPathSet.has(route),
   );
 
-  const pricing = await rpc.api.pricing
+  const pricing = await rpc.api.models.pricing
     .get()
     .then(handleElysia)
     .catch(() => null);

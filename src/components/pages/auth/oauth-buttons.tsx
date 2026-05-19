@@ -130,7 +130,7 @@ export function OAuthButtons(props: OAuthButtonsProps) {
       const callbackUrl = `${window.location.origin}/api/auth/oauth/callback`;
       const affCode = getCookie(AFF_CODE_KEY);
       const state = handleElysia(
-        await rpc.api.auth.oauth.state.get({
+        await rpc.api.auth.account.oauth.state.get({
           query: {
             redirect: callbackUrl,
             aff: typeof affCode === "string" ? affCode : undefined,

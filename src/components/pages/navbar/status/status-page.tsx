@@ -38,7 +38,7 @@ import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
 import { env } from "@/lib/config/env";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
-import { formatLatency, formatTps } from "@/lib/utils/base";
+import { formatLatency, formatTps } from "@/lib/utils/format/number";
 import { formatHoursLabel } from "@/lib/utils/format/date";
 import type { ModelSummary } from "@/openapi";
 import { useTranslations } from "next-intl";

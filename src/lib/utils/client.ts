@@ -1,9 +1,9 @@
 import type { TranslationKey } from "@/lib/config/constants";
+import type { Extracted } from "@/lib/types/errors";
 import {
   DefaultErrorFunction,
   SetErrorFunction,
 } from "@sinclair/typebox/errors";
-import { useMutation } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
@@ -11,8 +11,6 @@ SetErrorFunction((error) => {
   if (typeof error.schema.error === "string") return error.schema.error;
   return DefaultErrorFunction(error);
 });
-
-type Extracted = { message: string; params?: Record<string, string | number> };
 
 function extractMessageFromJson(raw: string): Extracted | null {
   try {
@@ -105,13 +103,3 @@ export async function handleError(
   toast.error(title, { duration: 5000, id: toastId });
 }
 
-// For mutations with onSuccess cache logic, use useMutation directly.
-export function useSimpleMutation<TArgs, TResult>(
-  mutationFn: (args: TArgs) => Promise<TResult>,
-) {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn,
-    onError: (e) => handleError(e, t),
-  });
-}

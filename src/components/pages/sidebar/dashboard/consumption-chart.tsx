@@ -15,7 +15,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { analytics } from "@/lib/analytics";
-import { formatPrice, modelColor } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
+import { modelColor } from "@/lib/utils/format/color";
 import { bucketKey, pickGranularity, type Granularity } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import {

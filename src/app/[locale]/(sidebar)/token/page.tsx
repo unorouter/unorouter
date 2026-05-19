@@ -34,7 +34,7 @@ export default async function TokensPage() {
       queryKey: queryKeys.tokens({ p, keyword }),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.token.search.get({
+          await rpc.api.billing.token.search.get({
             query: { p, keyword },
             ...cookieHeaders,
           }),
@@ -42,7 +42,7 @@ export default async function TokensPage() {
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
   ]);
 

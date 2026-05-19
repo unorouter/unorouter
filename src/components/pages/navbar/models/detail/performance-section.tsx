@@ -11,13 +11,8 @@ import {
 import { usePerfMetricsQuery } from "@/hooks/perf-metrics-hook";
 import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
-import {
-  formatLatency,
-  formatPct,
-  formatTps,
-  type StatIntent,
-  successIntent,
-} from "@/lib/utils/base";
+import { formatLatency, formatPct, formatTps } from "@/lib/utils/format/number";
+import { type StatIntent, successIntent } from "@/lib/utils/format/math";
 import { useTranslations } from "next-intl";
 import {
   CartesianGrid,

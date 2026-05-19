@@ -46,7 +46,7 @@ export const getCookieValue = async <T>(
 };
 
 export const getDocsApiKey = async (placeholder = "YOUR_API_KEY") => {
-  const data = handleElysia(await rpc.api.pricing.get());
+  const data = handleElysia(await rpc.api.models.pricing.get());
   const rawModels = data.models ?? [];
   const models = rawModels.map((m) => ({
     name: m.name,
@@ -86,7 +86,7 @@ export async function fetchConvTitle(convId: string): Promise<string | null> {
   try {
     const cookieHeaders = await setCookies();
     const meta = handleElysia(
-      await rpc.api.chat({ id: convId }).meta.get(cookieHeaders),
+      await rpc.api.ai.chat({ id: convId }).meta.get(cookieHeaders),
     );
     return meta.title ?? null;
   } catch {

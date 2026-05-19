@@ -2,7 +2,7 @@
 
 import type { ModelSummary } from "@/openapi";
 import { cn } from "@/lib/utils";
-import { formatLatency, formatTps } from "@/lib/utils/base";
+import { formatLatency, formatTps } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 
 type Props = {

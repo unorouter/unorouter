@@ -4,7 +4,7 @@ import type { ProcessedModel } from "@/lib/api/pricing";
 import { TranslationKey } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 
 type CacheTier = {

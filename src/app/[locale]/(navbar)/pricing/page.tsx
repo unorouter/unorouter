@@ -44,12 +44,12 @@ export default async function PricingPage(props: {
     queryClient.prefetchQuery({
       queryKey: queryKeys.subscriptionPlans(),
       queryFn: async () =>
-        handleElysia(await rpc.api.pricing.subscriptions.get()),
+        handleElysia(await rpc.api.models.pricing.subscriptions.get()),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.topUpInfo(),
       queryFn: async () =>
-        handleElysia(await rpc.api.billing["topup-info"].get()),
+        handleElysia(await rpc.api.billing.core["topup-info"].get()),
     }),
   ]);
 

@@ -17,7 +17,7 @@ export default async function DocsLayout(props: DocsLayoutProps) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () =>
-      handleElysia(await rpc.api.auth.self.get(cookieHeaders!)),
+      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders!)),
   });
 
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
@@ -27,7 +27,7 @@ export default async function DocsLayout(props: DocsLayoutProps) {
       queryKey: queryKeys.bestKey(),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.token["best-key"].get({
+          await rpc.api.billing.token["best-key"].get({
             ...cookieHeaders,
           }),
         ),

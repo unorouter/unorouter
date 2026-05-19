@@ -2,26 +2,12 @@ import { APP_VALUES, ParamError } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { affiliateRoute } from "@/server/affiliate/route";
-import { authRoute } from "@/server/auth/route";
-import { badgeRoute } from "@/server/badge/route";
-import { billingRoute } from "@/server/billing/route";
-import { chatRoute } from "@/server/chat/route";
-import { rpRoute } from "@/server/chat/rp/route";
-import { syncRoute } from "@/server/chat/sync.route";
-import { playgroundRoute } from "@/server/playground/route";
-import { checkoutSessionsRoute } from "@/server/checkout-sessions/route";
-import { dashboardRoute } from "@/server/dashboard/route";
-import { healthRoute } from "@/server/health/route";
-import { logsRoute } from "@/server/logs/route";
-import { modelStatusRoute } from "@/server/model-status/route";
-import { perfMetricsRoute } from "@/server/perf-metrics/route";
-import { pricingRoute } from "@/server/pricing/route";
-import { rankingsRoute } from "@/server/rankings/route";
-import { settingsRoute } from "@/server/settings/route";
-import { statsRoute } from "@/server/stats/route";
-import { tokenRoute } from "@/server/token/route";
-import { webBotAuthPlugin } from "@/server/web-bot-auth/middleware";
+import { aiDomainRoute } from "@/server/ai/route";
+import { authDomainRoute } from "@/server/auth/route";
+import { billingDomainRoute } from "@/server/billing/route";
+import { modelsDomainRoute } from "@/server/models/route";
+import { opsDomainRoute } from "@/server/ops/route";
+import { webBotAuthPlugin } from "@/server/auth/web-bot-auth/middleware";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { AdditionalReferences } from "@elysiajs/openapi/types";
 import { Elysia } from "elysia";
@@ -151,25 +137,11 @@ export const app = new Elysia({ prefix: "/api" })
     return JSON.stringify({ message: "Internal server error" });
   })
   .use(webBotAuthPlugin)
-  .use(badgeRoute)
-  .use(healthRoute)
-  .use(pricingRoute)
-  .use(perfMetricsRoute)
-  .use(modelStatusRoute)
-  .use(statsRoute)
-  .use(rankingsRoute)
-  .use(authRoute)
-  .use(billingRoute)
-  .use(checkoutSessionsRoute)
-  .use(chatRoute)
-  .use(rpRoute)
-  .use(syncRoute)
-  .use(playgroundRoute)
-  .use(dashboardRoute)
-  .use(tokenRoute)
-  .use(affiliateRoute)
-  .use(logsRoute)
-  .use(settingsRoute);
+  .use(aiDomainRoute)
+  .use(authDomainRoute)
+  .use(billingDomainRoute)
+  .use(modelsDomainRoute)
+  .use(opsDomainRoute);
 
 export type App = typeof app;
 

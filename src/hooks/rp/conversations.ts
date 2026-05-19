@@ -23,12 +23,12 @@ import { useTranslations } from "next-intl";
 import { mirrorConvIfSynced } from "./shared";
 
 export type ChatSettings = EdenResponse<
-  ReturnType<typeof rpc.api.rp.conversations>["settings"],
+  ReturnType<typeof rpc.api.ai.rp.conversations>["settings"],
   "get"
 >;
 
 export type ChatBindings = EdenResponse<
-  ReturnType<typeof rpc.api.rp.conversations>["bindings"],
+  ReturnType<typeof rpc.api.ai.rp.conversations>["bindings"],
   "get"
 >;
 
@@ -55,7 +55,7 @@ export function useUpdateChatSettingsMutation() {
     mutationFn: async (args: {
       convId: string;
       body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.conversations>["settings"],
+        ReturnType<typeof rpc.api.ai.rp.conversations>["settings"],
         "put"
       >["body"];
     }) => {
@@ -117,7 +117,7 @@ export function useUpdateChatBindingsMutation() {
     mutationFn: async (args: {
       convId: string;
       body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.conversations>["bindings"],
+        ReturnType<typeof rpc.api.ai.rp.conversations>["bindings"],
         "put"
       >["body"];
     }) => {
@@ -161,7 +161,7 @@ export function useImportConversationMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.rp.conversations.import.post({ file })),
+      handleElysia(await rpc.api.ai.rp.conversations.import.post({ file })),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.conversations() });
     },
@@ -175,7 +175,7 @@ export function useExportConversation() {
     onError: (e) => handleError(e, t),
     mutationFn: async (args: { convId: string; format: "native" | "orpg" }) =>
       handleElysia(
-        await rpc.api.rp
+        await rpc.api.ai.rp
           .conversations({ id: args.convId })
           .export.get({ query: { format: args.format } }),
       ),

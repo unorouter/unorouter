@@ -5,7 +5,7 @@ import {
   updateSessionBody,
 } from "@/lib/api/typebox/checkout-sessions";
 import { Elysia } from "elysia";
-import { deriveUpstream, getUserId } from "../constants";
+import { deriveUpstream, getUserId } from "@/server/constants";
 import {
   cancelSession,
   completeSession,

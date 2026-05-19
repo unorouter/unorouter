@@ -12,7 +12,8 @@ import {
     buildFAQPageSchema,
     buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
-import { formatPrice, handleElysia, modelSlug } from "@/lib/utils/base";
+import { handleElysia, modelSlug } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import { serverLocale, serverPathname, setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
@@ -27,7 +28,7 @@ interface PageProps {
 export async function generateMetadata(props: PageProps) {
   const locale = await serverLocale(props);
   const params = await props.params;
-  const data = await rpc.api.pricing
+  const data = await rpc.api.models.pricing
     .get()
     .then(handleElysia)
     .catch(() => null);
@@ -63,7 +64,7 @@ export async function generateMetadata(props: PageProps) {
 export default async function ModelDetailPage(props: PageProps) {
   const params = await props.params;
   const locale = await serverLocale(props);
-  const data = await rpc.api.pricing
+  const data = await rpc.api.models.pricing
     .get()
     .then(handleElysia)
     .catch(() => null);
@@ -78,14 +79,14 @@ export default async function ModelDetailPage(props: PageProps) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () =>
-      handleElysia(await rpc.api.auth.self.get(cookieHeaders!)),
+      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders!)),
   });
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
   if (isLoggedIn) {
     await queryClient.prefetchQuery({
       queryKey: queryKeys.bestKey(),
       queryFn: async () =>
-        handleElysia(await rpc.api.token["best-key"].get({ ...cookieHeaders })),
+        handleElysia(await rpc.api.billing.token["best-key"].get({ ...cookieHeaders })),
     });
   }
 

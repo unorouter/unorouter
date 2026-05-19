@@ -29,7 +29,7 @@ import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
 import { partsToItems } from "@/lib/playground/chat/messages";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import {
     chatModelAtom,
     chatWebSearchAtom,

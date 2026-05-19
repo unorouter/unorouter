@@ -18,7 +18,7 @@ import { useTranslations } from "next-intl";
 function useSyncStateQuery() {
   return useQuery({
     queryKey: queryKeys.syncState(),
-    queryFn: async () => handleElysia(await rpc.api.sync.state.get()),
+    queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
   });
 }
 
@@ -72,7 +72,7 @@ export function useSyncMutation() {
         }
       }
       return handleElysia(
-        await rpc.api.sync({ kind: args.kind })({ id: args.id }).post({
+        await rpc.api.ai.sync({ kind: args.kind })({ id: args.id }).post({
           days: args.days,
           payload,
           keepExpiry: args.keepExpiry,
@@ -94,7 +94,7 @@ export function useRemoveSyncMutation() {
   return useMutation({
     mutationFn: async (args: RemoveArgs) =>
       handleElysia(
-        await rpc.api.sync({ kind: args.kind })({ id: args.id }).delete(),
+        await rpc.api.ai.sync({ kind: args.kind })({ id: args.id }).delete(),
       ),
     onError: (e) => handleError(e, t),
     onSuccess: () => {

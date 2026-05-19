@@ -62,7 +62,7 @@ async function mirrorConvIfSynced(userId: number, convId: string) {
   if (!bundle) return;
   try {
     handleElysia(
-      await rpc.api
+      await rpc.api.ai
         .sync({ kind: "conversations" })({ id: convId })
         .post({ payload: bundle, keepExpiry: true }),
     );

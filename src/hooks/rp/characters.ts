@@ -16,7 +16,7 @@ import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
 
-type CharactersList = EntityListResponse<typeof rpc.api.rp.characters.get>;
+type CharactersList = EntityListResponse<typeof rpc.api.ai.rp.characters.get>;
 export type Character =
   CharactersList extends ReadonlyArray<infer Item> ? Item : never;
 
@@ -49,7 +49,7 @@ export function useImportCharacterCardMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.rp.characters.import.post({ file })),
+      handleElysia(await rpc.api.ai.rp.characters.import.post({ file })),
     onSuccess: async (data) => {
       const userId = auth.data?.id ?? 0;
       await upsertLocalCharacter(userId, data as never);

@@ -16,7 +16,7 @@ export async function AppPrefetchProvider(props: Props) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () =>
-      handleElysia(await rpc.api.auth.self.get(cookieHeaders!)),
+      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders!)),
   });
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
@@ -26,7 +26,7 @@ export async function AppPrefetchProvider(props: Props) {
         queryKey: queryKeys.subscriptionSelf(),
         queryFn: async () =>
           handleElysia(
-            await rpc.api.billing["subscription-self"].get(cookieHeaders!),
+            await rpc.api.billing.core["subscription-self"].get(cookieHeaders!),
           ),
       }),
   ]);

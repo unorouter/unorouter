@@ -5,7 +5,7 @@ import { SectionBoundary } from "@/components/elements/feedback/section-boundary
 import { useConversationQuery } from "@/hooks/chat-hook";
 import { useChatGate } from "@/hooks/ui/use-chat-gate";
 import { APP_VALUES } from "@/lib/config/constants";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";

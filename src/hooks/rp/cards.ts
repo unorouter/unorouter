@@ -34,7 +34,7 @@ import {
   type EntityListResponse,
 } from "./shared";
 
-type CardsList = EntityListResponse<typeof rpc.api.rp.cards.get>;
+type CardsList = EntityListResponse<typeof rpc.api.ai.rp.cards.get>;
 export type Card = CardsList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function useCardsQuery() {
@@ -71,7 +71,7 @@ export function useCreateCardMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.rp.cards, "post">) => {
+    mutationFn: async (args: EdenArgs<typeof rpc.api.ai.rp.cards, "post">) => {
       const userId = auth.data?.id ?? 0;
       const body = args.body;
       const now = dayjs().toDate();
@@ -116,7 +116,7 @@ export function useUpdateCardMutation() {
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<ReturnType<typeof rpc.api.rp.cards>, "put">["body"];
+      body: EdenArgs<ReturnType<typeof rpc.api.ai.rp.cards>, "put">["body"];
     }) => {
       const userId = auth.data?.id ?? 0;
       const existing = await readLocalCard(userId, args.id);

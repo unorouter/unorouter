@@ -11,7 +11,7 @@ import {
   getModelStatusPage,
 } from "@/openapi";
 import { Elysia } from "elysia";
-import { ADMIN_HEADERS } from "../constants";
+import { ADMIN_HEADERS } from "@/server/constants";
 
 export const modelStatusRoute = new Elysia({ prefix: "/model-status" })
   .get(

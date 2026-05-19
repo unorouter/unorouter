@@ -15,7 +15,7 @@ const siteOrigin = new URL(env.appUrl).origin;
 export async function GET() {
   const locale = await serverLocale();
   const t = await getTranslations({ locale });
-  const pricing = await rpc.api.pricing
+  const pricing = await rpc.api.models.pricing
     .get()
     .then(handleElysia)
     .catch(() => null);

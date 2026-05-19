@@ -7,7 +7,7 @@ import {
   transferAffQuota,
 } from "@/openapi";
 import { Elysia } from "elysia";
-import { deriveUpstream } from "../constants";
+import { deriveUpstream } from "@/server/constants";
 
 export const affiliateRoute = new Elysia({ prefix: "/affiliate" })
   .derive(deriveUpstream)

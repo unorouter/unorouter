@@ -1,22 +1,9 @@
 import { msg } from "@/lib/config/constants";
-import type { ReactNode } from "react";
 import type {
   ExcludeVoid,
   ExtractData,
   UnwrapApiResponse,
 } from "../types/eden";
-
-export {
-  formatLatency,
-  formatPct,
-  formatPrice,
-  formatShare,
-  formatTokenCount,
-  formatTokens,
-  formatTps,
-} from "./format/number";
-export { modelColor, modelColorStyle } from "./format/color";
-export { avg, successIntent, type StatIntent } from "./format/math";
 
 export function safeJsonParse<T = Record<string, unknown>>(
   raw: string | undefined | null,
@@ -60,16 +47,6 @@ export function copyToClipboardAsync(
 // Models like `claude-haiku-4-5-20251001[1m]` need brackets encoded.
 export function modelSlug(name: string): string {
   return name.replace(/\[/g, "%5B").replace(/\]/g, "%5D");
-}
-
-export type LabeledRow = { label: string; value: ReactNode };
-
-export function row(
-  condition: unknown,
-  label: string,
-  value: ReactNode,
-): LabeledRow | null {
-  return condition ? { label, value } : null;
 }
 
 export function unwrap<T extends { data: unknown }>(

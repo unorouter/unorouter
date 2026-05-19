@@ -23,7 +23,7 @@ import {
   updateUserSetting,
 } from "@/openapi";
 import { Elysia } from "elysia";
-import { deriveUpstream } from "../constants";
+import { deriveUpstream } from "@/server/constants";
 
 export const settingsRoute = new Elysia({ prefix: "/settings" })
   .derive(deriveUpstream)

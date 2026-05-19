@@ -61,7 +61,7 @@ export async function generateMetadata(props: {
   const locale = await serverLocale(props);
   const [t, pricing] = await Promise.all([
     getTranslations({ locale }),
-    rpc.api.pricing
+    rpc.api.models.pricing
       .get()
       .then((r) => handleElysia(r))
       .catch(() => null),

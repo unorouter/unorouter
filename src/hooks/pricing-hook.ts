@@ -9,7 +9,7 @@ export function usePricingQuery() {
   return useQuery({
     queryKey: queryKeys.pricing(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.pricing.get());
+      return handleElysia(await rpc.api.models.pricing.get());
     },
     enabled: false,
   });

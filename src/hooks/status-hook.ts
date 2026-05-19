@@ -9,7 +9,7 @@ export function useStatusQuery() {
   return useQuery({
     queryKey: queryKeys.status(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.auth.status.get());
+      return handleElysia(await rpc.api.auth.account.status.get());
     },
   });
 }

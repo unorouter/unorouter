@@ -9,7 +9,7 @@ export function useSubscriptionPlansQuery() {
   return useQuery({
     queryKey: queryKeys.subscriptionPlans(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.pricing.subscriptions.get());
+      return handleElysia(await rpc.api.models.pricing.subscriptions.get());
     },
     enabled: false,
   });

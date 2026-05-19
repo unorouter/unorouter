@@ -17,7 +17,7 @@ import {
   updateToken,
 } from "@/openapi";
 import { Elysia } from "elysia";
-import { deriveUpstream } from "../constants";
+import { deriveUpstream } from "@/server/constants";
 
 export const tokenRoute = new Elysia({ prefix: "/token" })
   .derive(deriveUpstream)

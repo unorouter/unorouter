@@ -55,7 +55,7 @@ export async function drainPending(
     try {
       if (row.op === "delete") {
         handleElysia(
-          await rpc.api
+          await rpc.api.ai
             .sync({ kind: row.kind as SyncKindName })({ id: row.id })
             .delete(),
         );
@@ -64,7 +64,7 @@ export async function drainPending(
           ? payloadFor(row.kind as SyncKindName, row.id)
           : undefined;
         handleElysia(
-          await rpc.api
+          await rpc.api.ai
             .sync({ kind: row.kind as SyncKindName })({ id: row.id })
             .post({ days: undefined, payload }),
         );

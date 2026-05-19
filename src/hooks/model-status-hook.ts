@@ -11,7 +11,7 @@ export function useStatusPage(bucket: StatusBucket = "1m", hours: number = 24) {
     queryKey: queryKeys.modelStatusPage(bucket, hours),
     queryFn: async () =>
       handleElysia(
-        await rpc.api["model-status"].page.get({
+        await rpc.api.models["model-status"].page.get({
           query: { bucket, hours },
         }),
       ),
@@ -22,6 +22,6 @@ export function useStatusComponents() {
   return useQuery({
     queryKey: queryKeys.modelStatusComponents(),
     queryFn: async () =>
-      handleElysia(await rpc.api["model-status"].components.get()),
+      handleElysia(await rpc.api.models["model-status"].components.get()),
   });
 }

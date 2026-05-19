@@ -39,7 +39,7 @@ export default async function StatusRoute(props: {
       queryKey: queryKeys.modelStatusPage("1m", 24),
       queryFn: async () =>
         handleElysia(
-          await rpc.api["model-status"].page.get({
+          await rpc.api.models["model-status"].page.get({
             query: { bucket: "1m", hours: 24 },
           }),
         ),
@@ -47,17 +47,17 @@ export default async function StatusRoute(props: {
     queryClient.prefetchQuery({
       queryKey: queryKeys.modelStatusComponents(),
       queryFn: async () =>
-        handleElysia(await rpc.api["model-status"].components.get()),
+        handleElysia(await rpc.api.models["model-status"].components.get()),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.perfMetricsSummary(24),
       queryFn: async () =>
         handleElysia(
-          await rpc.api["perf-metrics"].summary.get({ query: { hours: 24 } }),
+          await rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
         ),
     }),
   ]);

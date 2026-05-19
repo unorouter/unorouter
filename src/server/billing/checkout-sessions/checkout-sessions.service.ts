@@ -14,7 +14,7 @@ import {
   subscriptionRequestStripePay,
 } from "@/openapi";
 import { and, eq } from "drizzle-orm";
-import { ADMIN_HEADERS } from "../constants";
+import { ADMIN_HEADERS } from "@/server/constants";
 import { acpError } from "./errors";
 
 const SITE_ORIGIN = new URL(env.appUrl).origin;

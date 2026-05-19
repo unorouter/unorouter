@@ -21,12 +21,12 @@ import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import { mirrorSyncedRow, type EntityListResponse } from "./shared";
 
-type LorebooksList = EntityListResponse<typeof rpc.api.rp.lorebooks.get>;
+type LorebooksList = EntityListResponse<typeof rpc.api.ai.rp.lorebooks.get>;
 export type Lorebook =
   LorebooksList extends ReadonlyArray<infer Item> ? Item : never;
 
 export type LorebookDetail = EdenResponse<
-  ReturnType<typeof rpc.api.rp.lorebooks>,
+  ReturnType<typeof rpc.api.ai.rp.lorebooks>,
   "get"
 >;
 
@@ -93,7 +93,7 @@ export function useUpdateLorebookMutation() {
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<ReturnType<typeof rpc.api.rp.lorebooks>, "put">["body"];
+      body: EdenArgs<ReturnType<typeof rpc.api.ai.rp.lorebooks>, "put">["body"];
     }) => {
       const userId = auth.data?.id ?? 0;
       const existing = await readLocalLorebook(userId, args.id);
@@ -124,7 +124,7 @@ export function useImportLorebookMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.rp.lorebooks.import.post({ file })),
+      handleElysia(await rpc.api.ai.rp.lorebooks.import.post({ file })),
     onSuccess: async (data) => {
       const userId = auth.data?.id ?? 0;
       const lb = data as Lorebook & { entries?: LorebookEntry[] };
@@ -159,7 +159,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
   return useMutation({
     mutationFn: async (
       body: EdenArgs<
-        ReturnType<typeof rpc.api.rp.lorebooks>["entries"],
+        ReturnType<typeof rpc.api.ai.rp.lorebooks>["entries"],
         "post"
       >["body"],
     ) => {
@@ -194,7 +194,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
     mutationFn: async (args: {
       entryId: string;
       body: EdenArgs<
-        ReturnType<ReturnType<typeof rpc.api.rp.lorebooks>["entries"]>,
+        ReturnType<ReturnType<typeof rpc.api.ai.rp.lorebooks>["entries"]>,
         "put"
       >["body"];
     }) => {

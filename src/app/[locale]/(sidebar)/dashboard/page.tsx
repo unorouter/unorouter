@@ -17,7 +17,7 @@ export default async function DashboardPage() {
     queryClient.prefetchQuery({
       queryKey: queryKeys.status(),
       queryFn: async () =>
-        handleElysia(await rpc.api.auth.status.get(cookieHeaders)),
+        handleElysia(await rpc.api.auth.account.status.get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.dashboardQuota({
@@ -26,7 +26,7 @@ export default async function DashboardPage() {
       }),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.dashboard.quota.get({
+          await rpc.api.billing.dashboard.quota.get({
             ...cookieHeaders,
             query: { start_timestamp: startTs, end_timestamp: endTs },
           }),
@@ -35,7 +35,7 @@ export default async function DashboardPage() {
     queryClient.prefetchQuery({
       queryKey: queryKeys.dashboardUptime(),
       queryFn: async () =>
-        handleElysia(await rpc.api.dashboard.uptime.get(cookieHeaders)),
+        handleElysia(await rpc.api.billing.dashboard.uptime.get(cookieHeaders)),
     }),
   ]);
 

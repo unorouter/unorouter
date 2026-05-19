@@ -13,7 +13,8 @@ import {
 } from "@/lib/api/pricing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
-import { formatPrice, modelSlug } from "@/lib/utils/base";
+import { modelSlug } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import { cn } from "@/lib/utils";
 import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";

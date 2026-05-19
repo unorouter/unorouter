@@ -1,4 +1,9 @@
-import { TranslationKey } from "../config/constants";
+import type { TranslationKey } from "../config/constants";
+
+export type Extracted = {
+  message: string;
+  params?: Record<string, string | number>;
+};
 
 // Lives outside `config/constants.ts` to avoid an import cycle with
 // `config/env.ts`, which throws ParamErrors at module-load time.

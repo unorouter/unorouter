@@ -4,14 +4,25 @@ import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { cn } from "@/lib/utils";
-import { formatTokenCount, row, type LabeledRow } from "@/lib/utils/base";
+import { formatTokenCount } from "@/lib/utils/format/number";
 import { formatYearMonth } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 
 type Props = {
   metadata: ModelMetadata;
   className?: string;
 };
+
+type LabeledRow = { label: string; value: ReactNode };
+
+function row(
+  condition: unknown,
+  label: string,
+  value: ReactNode,
+): LabeledRow | null {
+  return condition ? { label, value } : null;
+}
 
 export function QuickStats(props: Props) {
   const t = useTranslations();

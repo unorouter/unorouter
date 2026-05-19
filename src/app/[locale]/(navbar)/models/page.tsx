@@ -40,13 +40,13 @@ export default async function Page(props: {
   const [summary] = await Promise.all([
     queryClient.fetchQuery({
       queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.perfMetricsSummary(24),
       queryFn: async () =>
         handleElysia(
-          await rpc.api["perf-metrics"].summary.get({ query: { hours: 24 } }),
+          await rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
         ),
     }),
   ]);

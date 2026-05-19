@@ -10,7 +10,7 @@ export function usePerfMetricsSummaryQuery(hours: number = 24) {
     queryKey: queryKeys.perfMetricsSummary(hours),
     queryFn: async () =>
       handleElysia(
-        await rpc.api["perf-metrics"].summary.get({ query: { hours } }),
+        await rpc.api.models["perf-metrics"].summary.get({ query: { hours } }),
       ),
     enabled: false,
   });
@@ -24,7 +24,7 @@ export function usePerfMetricsQuery(
     queryKey: queryKeys.perfMetrics(modelName ?? "", hours),
     queryFn: async () =>
       handleElysia(
-        await rpc.api["perf-metrics"].get({
+        await rpc.api.models["perf-metrics"].get({
           query: { model: modelName!, hours },
         }),
       ),

@@ -10,22 +10,22 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 export function useAffiliateCommissionsQuery(
-  query?: EdenQuery<typeof rpc.api.affiliate.commissions>,
+  query?: EdenQuery<typeof rpc.api.billing.affiliate.commissions>,
 ) {
   return useQuery({
     queryKey: queryKeys.affiliateCommissions(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.affiliate.commissions.get({ query })),
+      handleElysia(await rpc.api.billing.affiliate.commissions.get({ query })),
   });
 }
 
 export function useAffiliateInviteesQuery(
-  query?: EdenQuery<typeof rpc.api.affiliate.invitees>,
+  query?: EdenQuery<typeof rpc.api.billing.affiliate.invitees>,
 ) {
   return useQuery({
     queryKey: queryKeys.affiliateInvitees(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.affiliate.invitees.get({ query })),
+      handleElysia(await rpc.api.billing.affiliate.invitees.get({ query })),
   });
 }
 
@@ -34,9 +34,9 @@ export function useTransferAffQuotaMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<typeof rpc.api.affiliate.transfer, "post">,
+      args: EdenArgs<typeof rpc.api.billing.affiliate.transfer, "post">,
     ) => {
-      return handleElysia(await rpc.api.affiliate.transfer.post(args.body));
+      return handleElysia(await rpc.api.billing.affiliate.transfer.post(args.body));
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {

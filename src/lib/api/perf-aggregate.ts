@@ -1,5 +1,5 @@
 import type { GroupResult } from "@/openapi";
-import { avg } from "@/lib/utils/base";
+import { avg } from "@/lib/utils/format/math";
 import { dayjs } from "@/lib/utils/format/date";
 
 export type AggregatedSeriesPoint = {

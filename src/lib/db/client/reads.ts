@@ -67,11 +67,32 @@ export const readLocalPreset = (userId: number, id: string) =>
 export const readLocalCards = (userId: number) =>
   cardStore.list(userId, { orderBy: desc(cards.updatedAt) });
 
-export const readLocalConversations = (userId: number) =>
-  conversationStore.list(userId, { orderBy: desc(conversations.updatedAt) });
+export const readLocalConversations = async (userId: number) => {
+  const local = await getLocalDb(userId);
+  if (!local) return [];
+  const rows = await local.db
+    .select()
+    .from(conversations)
+    .leftJoin(
+      conversationSettings,
+      eq(conversationSettings.convId, conversations.id),
+    )
+    .where(eq(conversations.userId, userId))
+    .orderBy(desc(conversations.updatedAt));
+  return rows.map((r) => ({
+    ...r.conversations,
+    model: r.conversation_settings?.defaultModel ?? null,
+  }));
+};
 
-export const readLocalConversation = (userId: number, id: string) =>
-  conversationStore.get(userId, id);
+export const readLocalConversation = async (userId: number, id: string) => {
+  const [conv, settings] = await Promise.all([
+    conversationStore.get(userId, id),
+    conversationSettingsStore.get(userId, id, { scopeUser: false }),
+  ]);
+  if (!conv) return conv;
+  return { ...conv, model: settings?.defaultModel ?? null };
+};
 
 export const readLocalGenerationSessions = (userId: number) =>
   generationSessionStore.list(userId, {

@@ -24,7 +24,7 @@ export default async function ChatLayout(props: Props) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () =>
-      handleElysia(await rpc.api.auth.self.get(cookieHeaders!)),
+      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders!)),
   });
 
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
@@ -32,13 +32,13 @@ export default async function ChatLayout(props: Props) {
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: queryKeys.pricing(),
-      queryFn: async () => handleElysia(await rpc.api.pricing.get()),
+      queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
     queryClient.prefetchInfiniteQuery({
       queryKey: queryKeys.conversations(undefined),
       queryFn: async ({ pageParam }) =>
         handleElysia(
-          await rpc.api.chat.conversations.get({
+          await rpc.api.ai.chat.conversations.get({
             query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
             ...cookieHeaders!,
           }),
@@ -50,7 +50,7 @@ export default async function ChatLayout(props: Props) {
         queryKey: queryKeys.bestKey(),
         queryFn: async () =>
           handleElysia(
-            await rpc.api.token["best-key"].get({
+            await rpc.api.billing.token["best-key"].get({
               ...cookieHeaders!,
             }),
           ),
@@ -59,25 +59,31 @@ export default async function ChatLayout(props: Props) {
       queryClient.prefetchQuery({
         queryKey: queryKeys.characters(),
         queryFn: async () =>
-          handleElysia(await rpc.api.rp.characters.get(cookieHeaders!)),
+          handleElysia(await rpc.api.ai.rp.characters.get(cookieHeaders!)),
       }),
     isLoggedIn &&
       queryClient.prefetchQuery({
         queryKey: queryKeys.personas(),
         queryFn: async () =>
-          handleElysia(await rpc.api.rp.personas.get(cookieHeaders!)),
+          handleElysia(await rpc.api.ai.rp.personas.get(cookieHeaders!)),
       }),
     isLoggedIn &&
       queryClient.prefetchQuery({
         queryKey: queryKeys.lorebooks(),
         queryFn: async () =>
-          handleElysia(await rpc.api.rp.lorebooks.get(cookieHeaders!)),
+          handleElysia(await rpc.api.ai.rp.lorebooks.get(cookieHeaders!)),
       }),
     isLoggedIn &&
       queryClient.prefetchQuery({
         queryKey: queryKeys.presets(),
         queryFn: async () =>
-          handleElysia(await rpc.api.rp.presets.get(cookieHeaders!)),
+          handleElysia(await rpc.api.ai.rp.presets.get(cookieHeaders!)),
+      }),
+    isLoggedIn &&
+      queryClient.prefetchQuery({
+        queryKey: queryKeys.syncState(),
+        queryFn: async () =>
+          handleElysia(await rpc.api.ai.sync.state.get(cookieHeaders!)),
       }),
   ]);
 

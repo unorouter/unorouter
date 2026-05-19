@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element, jsx-a11y/alt-text */
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import type { BadgeSize } from "@/lib/validation/badge";
 import { cipherMarker } from "../elements/cipher";
 import { Brand, Card, Row } from "../elements/primitives";

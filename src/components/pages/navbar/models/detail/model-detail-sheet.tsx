@@ -19,7 +19,7 @@ import type {
 import { env } from "@/lib/config/env";
 import { getVendorTheme } from "@/lib/config/vendor-themes";
 import { cn } from "@/lib/utils";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CachePricing } from "./cache-pricing";

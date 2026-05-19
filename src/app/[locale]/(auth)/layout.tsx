@@ -18,7 +18,7 @@ export default async function AuthLayout(props: { children: ReactNode }) {
   const queryClient = getQueryClient();
 
   const locale = await serverLocale();
-  const self = await rpc.api.auth.self.get(await setCookies());
+  const self = await rpc.api.auth.account.self.get(await setCookies());
 
   if (self?.data?.data?.id) {
     const redirectTo = await getCookie(AUTH_REDIRECT_COOKIE, { cookies });
@@ -30,7 +30,7 @@ export default async function AuthLayout(props: { children: ReactNode }) {
 
   await queryClient.prefetchQuery({
     queryKey: queryKeys.status(),
-    queryFn: async () => handleElysia(await rpc.api.auth.status.get()),
+    queryFn: async () => handleElysia(await rpc.api.auth.account.status.get()),
   });
 
   return (

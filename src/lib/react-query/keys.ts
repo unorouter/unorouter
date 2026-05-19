@@ -7,11 +7,11 @@ export const queryKeys = {
   twoFAStatus: () => ["2fa-status"] as const,
   passkeyStatus: () => ["passkey-status"] as const,
 
-  dashboardQuota: (params?: EdenQuery<typeof rpc.api.dashboard.quota>) =>
+  dashboardQuota: (params?: EdenQuery<typeof rpc.api.billing.dashboard.quota>) =>
     ["dashboard-quota", params] as const,
   dashboardUptime: () => ["dashboard-uptime"] as const,
 
-  tokens: (params?: EdenQuery<typeof rpc.api.token.search>) =>
+  tokens: (params?: EdenQuery<typeof rpc.api.billing.token.search>) =>
     ["tokens", params] as const,
   bestKey: () => ["best-key"] as const,
 
@@ -21,18 +21,18 @@ export const queryKeys = {
   subscriptionPlans: () => ["subscription-plans"] as const,
 
   affiliateCommissions: (
-    params?: EdenQuery<typeof rpc.api.affiliate.commissions>,
+    params?: EdenQuery<typeof rpc.api.billing.affiliate.commissions>,
   ) => ["affiliate-commissions", params] as const,
-  affiliateInvitees: (params?: EdenQuery<typeof rpc.api.affiliate.invitees>) =>
+  affiliateInvitees: (params?: EdenQuery<typeof rpc.api.billing.affiliate.invitees>) =>
     ["affiliate-invitees", params] as const,
 
-  usageLogs: (params?: EdenQuery<typeof rpc.api.logs>) =>
+  usageLogs: (params?: EdenQuery<typeof rpc.api.ops.logs>) =>
     ["usage-logs", params] as const,
-  usageLogsStat: (params?: EdenQuery<typeof rpc.api.logs.stat>) =>
+  usageLogsStat: (params?: EdenQuery<typeof rpc.api.ops.logs.stat>) =>
     ["usage-logs-stat", params] as const,
-  midjourneyLogs: (params?: EdenQuery<typeof rpc.api.logs.midjourney>) =>
+  midjourneyLogs: (params?: EdenQuery<typeof rpc.api.ops.logs.midjourney>) =>
     ["midjourney-logs", params] as const,
-  taskLogs: (params?: EdenQuery<typeof rpc.api.logs.task>) =>
+  taskLogs: (params?: EdenQuery<typeof rpc.api.ops.logs.task>) =>
     ["task-logs", params] as const,
 
   conversations: (keyword?: string) => ["conversations", keyword] as const,
@@ -72,20 +72,20 @@ export const queryKeys = {
   modelStatusComponents: () => ["model-status", "components"] as const,
 
   playgroundSessionLists: () => ["playground-session-list"] as const,
-  playgroundSessionList: (params?: EdenQuery<typeof rpc.api.playground.me>) =>
+  playgroundSessionList: (params?: EdenQuery<typeof rpc.api.ai.playground.me>) =>
     ["playground-session-list", params] as const,
   playgroundSession: (id: string) => ["playground-session", id] as const,
   playgroundSnapshot: (id: string) => ["playground-snapshot", id] as const,
   playgroundSnapshotStatus: (id: string) =>
     ["playground-snapshot-status", id] as const,
-  loraCatalog: (params?: EdenQuery<typeof rpc.api.playground.loras>) =>
+  loraCatalog: (params?: EdenQuery<typeof rpc.api.ai.playground.loras>) =>
     ["lora-catalog", params] as const,
   embeddingCatalog: (
-    params?: EdenQuery<typeof rpc.api.playground.embeddings>,
+    params?: EdenQuery<typeof rpc.api.ai.playground.embeddings>,
   ) => ["embedding-catalog", params] as const,
-  upscalerCatalog: (params?: EdenQuery<typeof rpc.api.playground.upscalers>) =>
+  upscalerCatalog: (params?: EdenQuery<typeof rpc.api.ai.playground.upscalers>) =>
     ["upscaler-catalog", params] as const,
   controlNetCatalog: (
-    params?: EdenQuery<typeof rpc.api.playground.controlnets>,
+    params?: EdenQuery<typeof rpc.api.ai.playground.controlnets>,
   ) => ["controlnet-catalog", params] as const,
 };

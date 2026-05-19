@@ -7,7 +7,7 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { media } from "@/lib/db/schema/shared";
-import type { SyncBundle, SyncKind } from "@/server/chat/sync.service";
+import type { SyncBundle, SyncKind } from "@/server/ai/sync/sync.service";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { getLocalDb } from "./client";
@@ -101,8 +101,10 @@ async function stage1LocalSeed(qc: QueryClient, userId: number) {
 }
 
 async function stage2ServerReconcile(qc: QueryClient, userId: number) {
-  const state = handleElysia(await rpc.api.sync.state.get());
-  qc.setQueryData(queryKeys.syncState(), state);
+  const state = await qc.ensureQueryData({
+    queryKey: queryKeys.syncState(),
+    queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
+  });
 
   // Serial (see stage1 mutex note).
   await reconcileKind(userId, "characters", state.characters);
@@ -134,7 +136,7 @@ async function reconcileKind<K extends SyncKind>(
       : 0;
     if (remoteUpdatedAt <= localUpdatedAt && localRow) continue;
     try {
-      const res = await rpc.api
+      const res = await rpc.api.ai
         .sync({ kind })({ id: remoteRow.id })
         .bundle.get();
       // Eden's inferred return is a union over all sync kinds; runtime
@@ -186,6 +188,7 @@ async function readLocalById(
     case "theme":
       return null;
   }
+  return null;
 }
 
 async function applyBundle<K extends SyncKind>(

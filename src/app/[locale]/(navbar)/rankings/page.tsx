@@ -59,7 +59,7 @@ export default async function RankingsPage(props: {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.rankings(period),
     queryFn: async () =>
-      handleElysia(await rpc.api.rankings.get({ query: { period } })),
+      handleElysia(await rpc.api.models.rankings.get({ query: { period } })),
   });
 
   const snapshot = queryClient.getQueryData(queryKeys.rankings(period)) as

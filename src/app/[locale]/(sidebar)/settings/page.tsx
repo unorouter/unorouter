@@ -14,12 +14,12 @@ export default async function SettingsPageRoute() {
     queryClient.prefetchQuery({
       queryKey: queryKeys.twoFAStatus(),
       queryFn: async () =>
-        handleElysia(await rpc.api.settings["2fa"].status.get(cookieHeaders)),
+        handleElysia(await rpc.api.auth.settings["2fa"].status.get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.passkeyStatus(),
       queryFn: async () =>
-        handleElysia(await rpc.api.settings.passkey.get(cookieHeaders)),
+        handleElysia(await rpc.api.auth.settings.passkey.get(cookieHeaders)),
     }),
   ]);
 

@@ -51,7 +51,7 @@ export default async function LogsPage() {
       queryKey: queryKeys.usageLogs(queryFilters),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.logs.get({
+          await rpc.api.ops.logs.get({
             query: queryFilters,
             ...serverCookies,
           }),
@@ -61,7 +61,7 @@ export default async function LogsPage() {
       queryKey: queryKeys.usageLogsStat(statFilters),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.logs.stat.get({
+          await rpc.api.ops.logs.stat.get({
             query: statFilters,
             ...serverCookies,
           }),
@@ -71,7 +71,7 @@ export default async function LogsPage() {
       queryKey: queryKeys.midjourneyLogs(drawingQueryFilters),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.logs.midjourney.get({
+          await rpc.api.ops.logs.midjourney.get({
             query: drawingQueryFilters,
             ...serverCookies,
           }),
@@ -81,7 +81,7 @@ export default async function LogsPage() {
       queryKey: queryKeys.taskLogs(taskQueryFilters),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.logs.task.get({
+          await rpc.api.ops.logs.task.get({
             query: taskQueryFilters,
             ...serverCookies,
           }),

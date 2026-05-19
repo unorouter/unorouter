@@ -14,20 +14,20 @@ export default async function BillingPage() {
     queryClient.prefetchQuery({
       queryKey: queryKeys.topUpInfo(),
       queryFn: async () =>
-        handleElysia(await rpc.api.billing["topup-info"].get(cookieHeaders)),
+        handleElysia(await rpc.api.billing.core["topup-info"].get(cookieHeaders)),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.billingPlans(),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.billing["subscription-plans"].get(cookieHeaders),
+          await rpc.api.billing.core["subscription-plans"].get(cookieHeaders),
         ),
     }),
     queryClient.prefetchQuery({
       queryKey: queryKeys.subscriptionSelf(),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.billing["subscription-self"].get(cookieHeaders),
+          await rpc.api.billing.core["subscription-self"].get(cookieHeaders),
         ),
     }),
   ]);

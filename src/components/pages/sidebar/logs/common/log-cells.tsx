@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/tooltip";
 import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
-import { copyToClipboard, modelColorStyle } from "@/lib/utils/base";
+import { copyToClipboard } from "@/lib/utils/base";
+import { modelColorStyle } from "@/lib/utils/format/color";
 import type { CellContext } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { createContext, useContext, type ReactNode } from "react";

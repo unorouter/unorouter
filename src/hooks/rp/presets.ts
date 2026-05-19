@@ -7,7 +7,7 @@ import { rpc } from "@/lib/rpc";
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
 
-type PresetsList = EntityListResponse<typeof rpc.api.rp.presets.get>;
+type PresetsList = EntityListResponse<typeof rpc.api.ai.rp.presets.get>;
 export type Preset =
   PresetsList extends ReadonlyArray<infer Item> ? Item : never;
 

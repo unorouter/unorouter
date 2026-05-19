@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
 
-type PersonasList = EntityListResponse<typeof rpc.api.rp.personas.get>;
+type PersonasList = EntityListResponse<typeof rpc.api.ai.rp.personas.get>;
 export type Persona =
   PersonasList extends ReadonlyArray<infer Item> ? Item : never;
 
@@ -44,7 +44,7 @@ export function useImportPersonaMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.rp.personas.import.post({ file })),
+      handleElysia(await rpc.api.ai.rp.personas.import.post({ file })),
     onSuccess: async (data) => {
       const userId = auth.data?.id ?? 0;
       const list = Array.isArray(data)

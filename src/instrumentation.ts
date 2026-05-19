@@ -9,7 +9,7 @@ export async function register() {
   // builds don't load Drizzle.
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { startGenerationSweeper } =
-      await import("./server/playground/playground-sweeper");
+      await import("./server/ai/playground/playground-sweeper");
     startGenerationSweeper();
   }
 }

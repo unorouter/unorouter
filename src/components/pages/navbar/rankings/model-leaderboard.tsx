@@ -3,7 +3,7 @@
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import type { RankedModel } from "@/lib/api/typebox/rankings";
 import { cn } from "@/lib/utils";
-import { formatTokens } from "@/lib/utils/base";
+import { formatTokens } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { ModelLink, VendorLink } from "./entity-links";
 import { GrowthText } from "./growth-text";

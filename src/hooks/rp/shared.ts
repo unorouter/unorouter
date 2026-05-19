@@ -21,7 +21,7 @@ export async function mirrorSyncedRow(
 ) {
   try {
     handleElysia(
-      await rpc.api.sync({ kind })({ id }).post({ payload, keepExpiry: true }),
+      await rpc.api.ai.sync({ kind })({ id }).post({ payload, keepExpiry: true }),
     );
   } catch (err) {
     await enqueuePending(userId, kind, id, "patch", err);
@@ -34,7 +34,7 @@ export async function deleteSyncedRow(
   id: string,
 ) {
   try {
-    handleElysia(await rpc.api.sync({ kind })({ id }).delete());
+    handleElysia(await rpc.api.ai.sync({ kind })({ id }).delete());
   } catch (err) {
     await enqueuePending(userId, kind, id, "delete", err);
   }

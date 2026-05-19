@@ -3,7 +3,7 @@ import { processPlans } from "@/lib/api/subscription";
 import { unwrap } from "@/lib/utils/base";
 import { getPricing, getSubscriptionPlans } from "@/openapi";
 import { Elysia } from "elysia";
-import { ADMIN_HEADERS } from "../constants";
+import { ADMIN_HEADERS } from "@/server/constants";
 
 export const pricingRoute = new Elysia({ prefix: "/pricing" })
   .get("/", async () => {

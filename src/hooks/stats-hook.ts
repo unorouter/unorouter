@@ -9,7 +9,7 @@ export function useHistoryStatsQuery() {
   return useQuery({
     queryKey: queryKeys.statsHistory(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.stats.history.get());
+      return handleElysia(await rpc.api.ops.stats.history.get());
     },
     enabled: false,
   });

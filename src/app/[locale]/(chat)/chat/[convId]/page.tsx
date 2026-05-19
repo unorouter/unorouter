@@ -45,7 +45,7 @@ export default async function ChatConvPage(props: Props) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () =>
-      handleElysia(await rpc.api.auth.self.get(cookieHeaders)),
+      handleElysia(await rpc.api.auth.account.self.get(cookieHeaders)),
   });
   const isLoggedIn = !!queryClient.getQueryData(queryKeys.auth());
 
@@ -59,14 +59,14 @@ export default async function ChatConvPage(props: Props) {
       queryKey: queryKeys.chatMeta(convId),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.chat({ id: convId }).meta.get(cookieHeaders),
+          await rpc.api.ai.chat({ id: convId }).meta.get(cookieHeaders),
         ),
     }),
     queryClient.prefetchInfiniteQuery({
       queryKey: queryKeys.chatMessages(convId),
       queryFn: async ({ pageParam }) =>
         handleElysia(
-          await rpc.api.chat({ id: convId }).get({
+          await rpc.api.ai.chat({ id: convId }).get({
             query: { p: pageParam, page_size: PAGE_SIZE },
             ...cookieHeaders,
           }),
@@ -77,7 +77,7 @@ export default async function ChatConvPage(props: Props) {
       queryKey: queryKeys.chatSettings(convId),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.rp
+          await rpc.api.ai.rp
             .conversations({ id: convId })
             .settings.get(cookieHeaders),
         ),
@@ -86,7 +86,7 @@ export default async function ChatConvPage(props: Props) {
       queryKey: queryKeys.chatBindings(convId),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.rp
+          await rpc.api.ai.rp
             .conversations({ id: convId })
             .bindings.get(cookieHeaders),
         ),

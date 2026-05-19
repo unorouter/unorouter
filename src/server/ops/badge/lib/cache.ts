@@ -8,7 +8,7 @@ import type { Locale } from "next-intl";
 import { join } from "path";
 import type { SatoriOptions } from "satori";
 import { createTranslator } from "use-intl/core";
-import { ADMIN_HEADERS } from "../../constants";
+import { ADMIN_HEADERS } from "@/server/constants";
 import type { BadgePricing, BadgeStats } from "./types";
 
 /* ── logo ── */
@@ -25,7 +25,7 @@ export const logoInnerSvg =
 
 /* ── fonts ── */
 
-const fontsDir = join(process.cwd(), "src", "server", "badge", "fonts");
+const fontsDir = join(process.cwd(), "src", "server", "ops", "badge", "fonts");
 
 export const fonts: SatoriOptions["fonts"] = [
   {

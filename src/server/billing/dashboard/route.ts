@@ -2,7 +2,7 @@ import { quotaQuery } from "@/lib/api/typebox/dashboard";
 import { unwrap } from "@/lib/utils/base";
 import { getUptimeKumaStatus, getUserQuotaDates } from "@/openapi";
 import { Elysia } from "elysia";
-import { deriveUpstream } from "../constants";
+import { deriveUpstream } from "@/server/constants";
 
 export const dashboardRoute = new Elysia({ prefix: "/dashboard" })
   .derive(deriveUpstream)

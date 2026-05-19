@@ -27,7 +27,7 @@ export async function generateMetadata(props: {
 }
 
 export default async function DashboardLayout(props: DashboardLayoutProps) {
-  const response = await rpc.api.auth.self.get(await setCookies());
+  const response = await rpc.api.auth.account.self.get(await setCookies());
   if (response.status !== 200) redirect("/login");
 
   return (

@@ -173,7 +173,7 @@ export function createThreadListAdapter(
         if (existing?.syncExpiresAt != null) {
           try {
             handleElysia(
-              await rpc.api
+              await rpc.api.ai
                 .sync({ kind: "conversations" })({ id })
                 .post({
                   payload: {
@@ -206,7 +206,7 @@ export function createThreadListAdapter(
         if (wasSynced) {
           try {
             handleElysia(
-              await rpc.api.sync({ kind: "conversations" })({ id }).delete(),
+              await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
             );
           } catch (err) {
             await enqueuePending(userId, "conversations", id, "delete", err);
@@ -263,7 +263,7 @@ export function createThreadListAdapter(
         }
 
         const model = getChatModel() ?? undefined;
-        const res = await rpc.api.chat.title.post({ text, model });
+        const res = await rpc.api.ai.chat.title.post({ text, model });
         const data = handleElysia(res);
         controller.appendText(data.title);
 
@@ -279,7 +279,7 @@ export function createThreadListAdapter(
           if (existing?.syncExpiresAt != null) {
             try {
               handleElysia(
-                await rpc.api
+                await rpc.api.ai
                   .sync({ kind: "conversations" })({ id })
                   .post({
                     payload: {

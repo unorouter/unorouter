@@ -5,7 +5,7 @@ import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import type { EdenArgs, EdenQuery } from "@/lib/types/eden";
 import { DataTableId } from "@/lib/types/enums";
-import { handleError, useSimpleMutation } from "@/lib/utils/client";
+import { handleError } from "@/lib/utils/client";
 import type { ResponseDtoPageDataModelTokenData } from "@/openapi";
 import { createTableAtoms } from "@/store/data-table-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { useAuthQuery } from "./auth-hook";
 
-type TokenRoute = typeof rpc.api.token;
+type TokenRoute = typeof rpc.api.billing.token;
 
 const tokenTableAtoms = createTableAtoms(DataTableId.TOKENS);
 
@@ -29,7 +29,7 @@ export function useBestKeyQuery() {
   return useQuery({
     queryKey: queryKeys.bestKey(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.token["best-key"].get());
+      return handleElysia(await rpc.api.billing.token["best-key"].get());
     },
     enabled: false,
     select: (data) => (data?.key ? `sk-${data.key}` : null),
@@ -41,7 +41,7 @@ export function useTokensQuery(query?: EdenQuery<TokenRoute["search"]>) {
   return useQuery({
     queryKey: queryKeys.tokens(query),
     queryFn: async () =>
-      handleElysia(await rpc.api.token.search.get({ query })),
+      handleElysia(await rpc.api.billing.token.search.get({ query })),
     enabled: !!authQuery.data,
   });
 }
@@ -52,7 +52,7 @@ export function useCreateTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute, "post">) => {
-      return handleElysia(await rpc.api.token.post(args.body));
+      return handleElysia(await rpc.api.billing.token.post(args.body));
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
@@ -67,7 +67,7 @@ export function useUpdateTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute, "put">) => {
-      return handleElysia(await rpc.api.token.put(args.body));
+      return handleElysia(await rpc.api.billing.token.put(args.body));
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
@@ -93,7 +93,7 @@ export function useToggleTokenStatusMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute["status"], "put">) => {
-      return handleElysia(await rpc.api.token.status.put(args.body));
+      return handleElysia(await rpc.api.billing.token.status.put(args.body));
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {
@@ -116,8 +116,12 @@ export function useToggleTokenStatusMutation() {
 }
 
 export function useFetchTokenKeyMutation() {
-  return useSimpleMutation(async (args: EdenArgs<TokenRoute, "get">) => {
-    return handleElysia(await rpc.api.token(args).key.post());
+  const t = useTranslations();
+  return useMutation({
+    mutationFn: async (args: EdenArgs<TokenRoute, "get">) => {
+      return handleElysia(await rpc.api.billing.token(args).key.post());
+    },
+    onError: (e) => handleError(e, t),
   });
 }
 
@@ -127,7 +131,7 @@ export function useDeleteTokenMutation() {
   const queryKey = useTokenTableQueryKey();
   return useMutation({
     mutationFn: async (args: EdenArgs<TokenRoute, "delete">) => {
-      return handleElysia(await rpc.api.token(args).delete());
+      return handleElysia(await rpc.api.billing.token(args).delete());
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {

@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { GridPricingRow } from "@/lib/api/pricing";
-import { formatPrice } from "@/lib/utils/base";
+import { formatPrice } from "@/lib/utils/format/number";
 
 type GridPricingTableProps = {
   rows: GridPricingRow[];

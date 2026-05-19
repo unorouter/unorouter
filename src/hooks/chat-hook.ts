@@ -46,7 +46,7 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-type ChatRoute = typeof rpc.api.chat;
+type ChatRoute = typeof rpc.api.ai.chat;
 type ChatRouteReturn = ReturnType<ChatRoute>;
 type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<ChatRoute, "get">;
@@ -61,7 +61,7 @@ async function mirrorConversationIfSynced(
   if (!bundle) return;
   try {
     handleElysia(
-      await rpc.api
+      await rpc.api.ai
         .sync({ kind: "conversations" })({ id: convId })
         .post({ payload: bundle, keepExpiry: true }),
     );
@@ -234,7 +234,7 @@ export function useDeleteConversationMutation() {
         if (wasSynced) {
           try {
             handleElysia(
-              await rpc.api.sync({ kind: "conversations" })({ id }).delete(),
+              await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
             );
           } catch (err) {
             await enqueuePending(userId, "conversations", id, "delete", err);
@@ -268,7 +268,7 @@ export function useClaimConversationsMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (convIds: string[]) => {
-      return handleElysia(await rpc.api.chat.claim.post({ convIds }));
+      return handleElysia(await rpc.api.ai.chat.claim.post({ convIds }));
     },
     onError: (e) => handleError(e, t),
   });
@@ -278,7 +278,7 @@ export function useTaskStatusQuery(taskId: string, enabled = false) {
   return useQuery({
     queryKey: queryKeys.taskStatus(taskId),
     queryFn: async () => {
-      return handleElysia(await rpc.api.chat.task({ taskId }).get());
+      return handleElysia(await rpc.api.ai.chat.task({ taskId }).get());
     },
     enabled: enabled && !!taskId,
     retry: false,
@@ -296,7 +296,7 @@ export function useFinalizeTaskMutation() {
       resultUrl: string;
     }) =>
       handleElysia(
-        await rpc.api.chat({ id: args.convId }).task.finalize.post({
+        await rpc.api.ai.chat({ id: args.convId }).task.finalize.post({
           msgId: args.msgId,
           taskId: args.taskId,
           resultUrl: args.resultUrl,
@@ -487,7 +487,7 @@ export function useConversationMarkdown() {
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: ChatParams) => {
-      return handleElysia(await rpc.api.chat({ id: args.id }).markdown.get());
+      return handleElysia(await rpc.api.ai.chat({ id: args.id }).markdown.get());
     },
   });
 }

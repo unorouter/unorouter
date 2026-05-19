@@ -127,7 +127,7 @@ export function ThemeCustomizerBody() {
       void (async () => {
         try {
           handleElysia(
-            await rpc.api
+            await rpc.api.ai
               .sync({ kind: "theme" })({ id: String(userId) })
               .post({ payload: { themeJson: next }, keepExpiry: true }),
           );

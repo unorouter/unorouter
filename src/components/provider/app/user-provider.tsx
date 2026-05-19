@@ -12,7 +12,7 @@ export async function UserProvider(props: { children: ReactNode }) {
   await queryClient.prefetchQuery({
     queryKey: queryKeys.auth(),
     queryFn: async () =>
-      handleElysia(await rpc.api.auth.self.get(await setCookies())),
+      handleElysia(await rpc.api.auth.account.self.get(await setCookies())),
   });
 
   return (
