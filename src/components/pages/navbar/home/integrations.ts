@@ -5,7 +5,7 @@ import Codex from "@lobehub/icons/es/Codex";
 import Gemini from "@lobehub/icons/es/Gemini";
 import type { ComponentType } from "react";
 
-export type IntegrationIcon = ComponentType<{
+type IntegrationIcon = ComponentType<{
   className?: string;
   size?: number;
 }>;
@@ -20,7 +20,7 @@ export type IntegrationKey =
   | "risuai"
   | "chub";
 
-export type IntegrationColor =
+type IntegrationColor =
   | "orange"
   | "emerald"
   | "blue"
@@ -130,7 +130,7 @@ export const RP_INTEGRATIONS: readonly IntegrationEntry[] = [
   },
 ];
 
-export const ALL_INTEGRATIONS: readonly IntegrationEntry[] = [
+const ALL_INTEGRATIONS: readonly IntegrationEntry[] = [
   ...CLI_INTEGRATIONS,
   ...RP_INTEGRATIONS,
 ];

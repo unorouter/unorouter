@@ -1,7 +1,7 @@
 import type { ModelMetadata } from "@/lib/api/pricing";
 import { TranslationKey } from "@/lib/config/constants";
 
-export const CAPABILITY_ORDER: {
+const CAPABILITY_ORDER: {
   field: keyof ModelMetadata;
   labelKey: TranslationKey;
 }[] = [
@@ -75,9 +75,3 @@ export function hasAnyParameter(metadata: ModelMetadata): boolean {
   );
 }
 
-export function hasAnyModality(metadata: ModelMetadata): boolean {
-  return (
-    (metadata.inputModalities ?? []).length > 0 ||
-    (metadata.outputModalities ?? []).length > 0
-  );
-}

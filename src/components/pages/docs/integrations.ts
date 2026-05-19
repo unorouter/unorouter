@@ -305,5 +305,3 @@ Key: YOUR_API_KEY`,
   },
 ] as const satisfies readonly RpIntegrationDef[];
 
-/** Backwards-compat flat list. */
-export const integrations = [...cliIntegrations, ...rpIntegrations];

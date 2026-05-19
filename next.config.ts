@@ -3,6 +3,24 @@ import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { LOCALES } from "./src/lib/config/constants";
 
+const localePattern = `/:locale(${LOCALES.join("|")})`;
+const acceptMarkdown = [
+  { type: "header", key: "accept", value: ".*text/markdown.*" },
+] as const;
+const statusHost = [{ type: "host", value: "status\\..*" }] as const;
+
+// COEP isolation for routes that mount SQLocal (OPFS-backed SQLite WASM).
+// Browsers require a cross-origin-isolated context to use sync access handles.
+const coepHeaders = [
+  { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+];
+// COEP-isolated pages block sub-resources without CORP. Stamp `same-origin`
+// on every chunk + API route the worker pulls in.
+const corpHeaders = [
+  { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
+];
+
 const nextConfig: NextConfig = {
   output: process.env.STANDALONE ? "standalone" : undefined,
   // productionBrowserSourceMaps: true,
@@ -17,70 +35,33 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       // Agents that GET the homepage with Accept: text/markdown get llms.txt.
-      // Keeps the visible URL untouched.
+      // Visible URL stays unchanged.
+      { source: "/", has: [...acceptMarkdown], destination: "/llms.txt" },
       {
-        source: "/",
-        has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
+        source: localePattern,
+        has: [...acceptMarkdown],
         destination: "/llms.txt",
       },
-      {
-        source: `/:locale(${LOCALES.join("|")})`,
-        has: [{ type: "header", key: "accept", value: ".*text/markdown.*" }],
-        destination: "/llms.txt",
-      },
-      // status.* subdomain serves the localized status page. Visible URL
-      // stays https://status.unorouter.ai/.
-      // next-intl middleware redirects bare `/` to `/<locale>` first, so we
-      // also catch the post-redirect path.
+      // status.* subdomain serves the localized status page. next-intl
+      // middleware redirects bare `/` to `/<locale>` first, so we catch both.
       {
         source: "/",
-        has: [{ type: "host", value: "status\\..*" }],
+        has: [...statusHost],
         destination: `/${LOCALES[0]}/status`,
       },
       {
-        source: `/:locale(${LOCALES.join("|")})`,
-        has: [{ type: "host", value: "status\\..*" }],
+        source: localePattern,
+        has: [...statusHost],
         destination: "/:locale/status",
       },
     ];
   },
-  // Cross-origin isolation for OPFS sync access handles used by SQLocal
-  // on the chat + generate route groups. Required for SQLite WASM to
-  // persist its DB file across reloads. Marketing pages are untouched.
   async headers() {
     return [
-      {
-        source: "/:locale/chat/:path*",
-        headers: [
-          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-        ],
-      },
-      {
-        source: "/:locale/playground/:path*",
-        headers: [
-          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-        ],
-      },
-      // The SQLocal worker dynamically imports turbopack chunks from
-      // /_next/static/. COEP `require-corp` on the page blocks any
-      // sub-resource without `Cross-Origin-Resource-Policy: same-origin`.
-      // Stamp CORP on every static chunk so the worker can load them.
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-        ],
-      },
-      // Same fix for /api/ - the OPFS-isolated page reads its own BFF
-      // routes via fetch; without CORP those responses get COEP-blocked.
-      {
-        source: "/api/:path*",
-        headers: [
-          { key: "Cross-Origin-Resource-Policy", value: "same-origin" },
-        ],
-      },
+      { source: "/:locale/chat/:path*", headers: coepHeaders },
+      { source: "/:locale/playground/:path*", headers: coepHeaders },
+      { source: "/_next/static/:path*", headers: corpHeaders },
+      { source: "/api/:path*", headers: corpHeaders },
     ];
   },
 };

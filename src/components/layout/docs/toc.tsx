@@ -12,8 +12,6 @@ import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 import type { TOCState } from "./toc-utils";
 
-export { createTOC, type TOCState } from "./toc-utils";
-
 // Clerk-style offset helpers
 function getItemOffset(depth: number): number {
   if (depth <= 2) return 14;

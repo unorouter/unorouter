@@ -74,8 +74,3 @@ export const docsNavItemsRoleplay: DocsNavItem[] = [
   },
 ];
 
-export const docsNavItems: DocsNavItem[] = [
-  ...docsNavItemsOverview,
-  ...docsNavItemsCli,
-  ...docsNavItemsRoleplay,
-];
