@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAuthQuery } from "@/hooks/auth-hook";
+import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
 import {
   useApplyCardMutation,
@@ -48,13 +49,13 @@ export function CardsPage() {
   }
 
   const handleExport = async (id: string) => {
-    const res = await fetch(`/api/rp/cards/${id}/export`, {
-      credentials: "include",
-    });
-    if (!res.ok) return;
-    const blob = await res.blob();
+    const { response, error } = await rpc.api.ai.rp
+      .cards({ id })
+      .export.get();
+    if (error || !response.ok) return;
+    const blob = await response.blob();
     const fname =
-      res.headers
+      response.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `card-${id}.json`;
     downloadBlob(blob, fname);

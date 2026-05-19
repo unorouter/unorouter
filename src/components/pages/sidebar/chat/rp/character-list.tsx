@@ -40,6 +40,7 @@ import {
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
 import { analytics } from "@/lib/analytics";
+import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
@@ -87,16 +88,13 @@ export function CharacterList(props: Props) {
   };
 
   const handleExport = async (id: string, format: "png" | "json" | "charx") => {
-    const res = await fetch(
-      `/api/rp/characters/${id}/export?format=${format}`,
-      {
-        credentials: "include",
-      },
-    );
-    if (!res.ok) return;
-    const blob = await res.blob();
+    const { response, error } = await rpc.api.ai.rp
+      .characters({ id })
+      .export.get({ query: { format } });
+    if (error || !response.ok) return;
+    const blob = await response.blob();
     const fname =
-      res.headers
+      response.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `character-${id}.${format}`;
     downloadBlob(blob, fname);

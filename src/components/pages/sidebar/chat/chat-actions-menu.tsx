@@ -38,6 +38,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
+import { rpc } from "@/lib/rpc";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import { useAui } from "@assistant-ui/react";
 import { useSetAtom } from "jotai";
@@ -94,20 +95,18 @@ export function ChatActionsMenu(props: Props) {
     if (!props.convId) return;
     if (format === "sillytavern") {
       // SillyTavern returns a JSONL download (not a JSON envelope), so we
-      // fetch the URL directly and trigger a save without going through the
-      // Eden Treaty client.
-      const res = await fetch(
-        `/api/rp/conversations/${props.convId}/export?format=sillytavern`,
-        { credentials: "include" },
-      );
-      if (!res.ok) {
+      // pull the raw Response from Eden Treaty and trigger a save.
+      const { response, error } = await rpc.api.ai.rp
+        .conversations({ id: props.convId })
+        .export.get({ query: { format: "sillytavern" } });
+      if (error || !response.ok) {
         analytics.chat.conversationExportFailed({ format });
         toast.error(t("CHAT.MORE.EXPORT_FAILED"));
         return;
       }
-      const blob = await res.blob();
+      const blob = await response.blob();
       const fname =
-        res.headers
+        response.headers
           .get("content-disposition")
           ?.match(/filename="([^"]+)"/)?.[1] ?? `chat-${props.convId}.jsonl`;
       downloadBlob(blob, fname);

@@ -43,6 +43,7 @@ import { useLorebooksQuery } from "@/hooks/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/rp/personas";
 import { usePresetsQuery } from "@/hooks/rp/presets";
 import { analytics } from "@/lib/analytics";
+import { msg } from "@/lib/config/constants";
 import { handleError } from "@/lib/utils/client";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import { toast } from "sonner";
@@ -74,24 +75,24 @@ import {
 import { Icon } from "@/components/ui/icon";
 
 const REASONING_EFFORT_KEY = {
-  minimal: "CHAT.OVERRIDES.EFFORT_MINIMAL",
-  low: "CHAT.OVERRIDES.EFFORT_LOW",
-  medium: "CHAT.OVERRIDES.EFFORT_MEDIUM",
-  high: "CHAT.OVERRIDES.EFFORT_HIGH",
-  xhigh: "CHAT.OVERRIDES.EFFORT_XHIGH",
+  minimal: msg("CHAT.OVERRIDES.EFFORT_MINIMAL"),
+  low: msg("CHAT.OVERRIDES.EFFORT_LOW"),
+  medium: msg("CHAT.OVERRIDES.EFFORT_MEDIUM"),
+  high: msg("CHAT.OVERRIDES.EFFORT_HIGH"),
+  xhigh: msg("CHAT.OVERRIDES.EFFORT_XHIGH"),
 } as const;
 
 const WEB_SEARCH_ENGINE_KEY = {
-  auto: "CHAT.OVERRIDES.ENGINE_AUTO",
-  native: "CHAT.OVERRIDES.ENGINE_NATIVE",
-  tavily: "CHAT.OVERRIDES.ENGINE_TAVILY",
-  exa: "CHAT.OVERRIDES.ENGINE_EXA",
+  auto: msg("CHAT.OVERRIDES.ENGINE_AUTO"),
+  native: msg("CHAT.OVERRIDES.ENGINE_NATIVE"),
+  tavily: msg("CHAT.OVERRIDES.ENGINE_TAVILY"),
+  exa: msg("CHAT.OVERRIDES.ENGINE_EXA"),
 } as const;
 
 const WEB_SEARCH_CONTEXT_KEY = {
-  low: "CHAT.OVERRIDES.CONTEXT_LOW",
-  medium: "CHAT.OVERRIDES.CONTEXT_MEDIUM",
-  high: "CHAT.OVERRIDES.CONTEXT_HIGH",
+  low: msg("CHAT.OVERRIDES.CONTEXT_LOW"),
+  medium: msg("CHAT.OVERRIDES.CONTEXT_MEDIUM"),
+  high: msg("CHAT.OVERRIDES.CONTEXT_HIGH"),
 } as const;
 
 type DrawerProps = {

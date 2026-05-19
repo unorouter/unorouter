@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/card";
 import { useAuthQuery } from "@/hooks/auth-hook";
 import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/rp/presets";
 import { analytics } from "@/lib/analytics";
+import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -34,13 +35,13 @@ export function PresetsPage() {
   }
 
   const handleExport = async (id: string) => {
-    const res = await fetch(`/api/rp/presets/${id}/export`, {
-      credentials: "include",
-    });
-    if (!res.ok) return;
-    const blob = await res.blob();
+    const { response, error } = await rpc.api.ai.rp
+      .presets({ id })
+      .export.get();
+    if (error || !response.ok) return;
+    const blob = await response.blob();
     const fname =
-      res.headers
+      response.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `preset-${id}.json`;
     downloadBlob(blob, fname);

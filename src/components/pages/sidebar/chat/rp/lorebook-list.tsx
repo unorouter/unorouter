@@ -47,6 +47,7 @@ import {
 } from "@/hooks/rp/lorebooks";
 import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
+import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
 import {
   lorebookEntryFormSchema,
@@ -113,13 +114,13 @@ export function LorebookList(props: Props) {
     id: string,
     format: "sillytavern" | "agnai" | "risu" | "ccv3",
   ) => {
-    const res = await fetch(`/api/rp/lorebooks/${id}/export?format=${format}`, {
-      credentials: "include",
-    });
-    if (!res.ok) return;
-    const blob = await res.blob();
+    const { response, error } = await rpc.api.ai.rp
+      .lorebooks({ id })
+      .export.get({ query: { format } });
+    if (error || !response.ok) return;
+    const blob = await response.blob();
     const fname =
-      res.headers
+      response.headers
         .get("content-disposition")
         ?.match(/filename="([^"]+)"/)?.[1] ?? `lorebook-${id}.${format}.json`;
     downloadBlob(blob, fname);
