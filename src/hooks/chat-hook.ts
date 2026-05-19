@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth-hook";
-import { PAGE_SIZE } from "@/lib/config/constants";
+import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
 import { mutateMessages, patchMessages } from "@/lib/react-query/cache-helpers";
 import {
   patchConv,
@@ -72,30 +72,21 @@ async function mirrorConversationIfSynced(
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   const auth = useAuthQuery();
-  const isLoggedIn = !!auth.data;
   return useInfiniteQuery({
     queryKey: queryKeys.conversations(keyword),
     queryFn: async ({ pageParam }) => {
-      const userId = auth.data?.id;
-      if (userId != null) {
-        const local = (await readLocalConversations(userId)) ?? [];
-        const filtered = keyword
-          ? local.filter((c) =>
-              (c.title ?? "").toLowerCase().includes(keyword.toLowerCase()),
-            )
-          : local;
-        const start = (pageParam - 1) * PAGE_SIZE;
-        const slice = filtered.slice(start, start + PAGE_SIZE);
-        return {
-          items: slice as unknown as ConvItem[],
-          total: filtered.length,
-          page: pageParam,
-          pageSize: PAGE_SIZE,
-        };
-      }
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      const local = (await readLocalConversations(userId)) ?? [];
+      const filtered = keyword
+        ? local.filter((c) =>
+            (c.title ?? "").toLowerCase().includes(keyword.toLowerCase()),
+          )
+        : local;
+      const start = (pageParam - 1) * PAGE_SIZE;
+      const slice = filtered.slice(start, start + PAGE_SIZE);
       return {
-        items: [] as ConvItem[],
-        total: 0,
+        items: slice as unknown as ConvItem[],
+        total: filtered.length,
         page: pageParam,
         pageSize: PAGE_SIZE,
       };
@@ -104,7 +95,6 @@ export function useConversationsInfiniteQuery(keyword?: string) {
     getNextPageParam: (lastPage, allPages) =>
       lastPage.items.length < PAGE_SIZE ? undefined : allPages.length + 1,
     placeholderData: keepPreviousData,
-    enabled: isLoggedIn,
   });
 }
 
@@ -113,14 +103,14 @@ export function useConversationQuery(id?: string) {
   return useQuery({
     queryKey: queryKeys.chatMeta(id!),
     queryFn: async () => {
-      const userId = auth.data?.id;
-      if (userId != null && id) {
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      if (id) {
         const local = await readLocalConversation(userId, id);
         if (local) return local as unknown as ConversationData;
       }
       throw new Error("chat-not-found");
     },
-    enabled: !!id && !!auth.data,
+    enabled: !!id,
     retry: false,
   });
 }
@@ -130,8 +120,8 @@ export function useMessagesInfiniteQuery(id?: string) {
   return useInfiniteQuery({
     queryKey: queryKeys.chatMessages(id!),
     queryFn: async ({ pageParam }) => {
-      const userId = auth.data?.id;
-      if (userId == null || !id)
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      if (!id)
         return { messages: [], total: 0, page: pageParam, pageSize: PAGE_SIZE };
       const msgs = (await readLocalMessages(userId, id)) ?? [];
       const items = (await readLocalMessageItems(userId, id)) ?? [];
@@ -154,7 +144,7 @@ export function useMessagesInfiniteQuery(id?: string) {
     },
     initialPageParam: 1,
     getNextPageParam: () => undefined,
-    enabled: !!id && !!auth.data,
+    enabled: !!id,
     placeholderData: keepPreviousData,
     retry: false,
   });
@@ -168,18 +158,16 @@ export function useUpdateConversationMutation() {
   return useMutation({
     mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) => {
       const id = String(args.id);
-      const userId = auth.data?.id;
-      if (userId != null) {
-        const existing = await readLocalConversation(userId, id);
-        const now = dayjs().toDate();
-        await upsertLocalConversation(userId, {
-          ...(existing ?? {}),
-          id,
-          ...args.body,
-          updatedAt: now,
-        });
-        await mirrorConversationIfSynced(userId, id);
-      }
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      const existing = await readLocalConversation(userId, id);
+      const now = dayjs().toDate();
+      await upsertLocalConversation(userId, {
+        ...(existing ?? {}),
+        id,
+        ...args.body,
+        updatedAt: now,
+      });
+      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, id);
       return { id, ...args.body };
     },
     onMutate: async (args) => {
@@ -226,19 +214,17 @@ export function useDeleteConversationMutation() {
   return useMutation({
     mutationFn: async (args: ChatParams) => {
       const id = String(args.id);
-      const userId = auth.data?.id;
-      if (userId != null) {
-        const existing = await readLocalConversation(userId, id);
-        const wasSynced = existing?.syncExpiresAt != null;
-        await deleteLocalConversation(userId, id);
-        if (wasSynced) {
-          try {
-            handleElysia(
-              await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
-            );
-          } catch (err) {
-            await enqueuePending(userId, "conversations", id, "delete", err);
-          }
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      const existing = await readLocalConversation(userId, id);
+      const wasSynced = existing?.syncExpiresAt != null;
+      await deleteLocalConversation(userId, id);
+      if (userId > GUEST_USER_ID && wasSynced) {
+        try {
+          handleElysia(
+            await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
+          );
+        } catch (err) {
+          await enqueuePending(userId, "conversations", id, "delete", err);
         }
       }
       return { id };
@@ -315,7 +301,7 @@ export function useEditMessageMutation() {
         "put"
       >["body"];
     }) => {
-      const userId = auth.data?.id;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const newItems = args.body.items.map((it, seq) => ({
         id: it.id ?? uid(),
         sequenceIndex: seq,
@@ -323,20 +309,18 @@ export function useEditMessageMutation() {
         type: it.type,
         data: it.data,
       }));
-      if (userId != null) {
-        await replaceLocalMessageItems(userId, args.msgId, newItems);
-        const now = dayjs().toDate();
-        const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
-        const existing = msgs.find((m) => m.id === args.msgId);
-        if (existing) {
-          await upsertLocalMessage(userId, {
-            ...existing,
-            isEdited: true,
-            updatedAt: now,
-          });
-        }
-        await mirrorConversationIfSynced(userId, args.convId);
+      await replaceLocalMessageItems(userId, args.msgId, newItems);
+      const now = dayjs().toDate();
+      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+      const existing = msgs.find((m) => m.id === args.msgId);
+      if (existing) {
+        await upsertLocalMessage(userId, {
+          ...existing,
+          isEdited: true,
+          updatedAt: now,
+        });
       }
+      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
       return { items: newItems };
     },
     onSuccess: (data, args) => {
@@ -365,11 +349,9 @@ export function useClearConversationMutation() {
     onError: (e) => handleError(e, t),
     mutationFn: async (args: ChatParams) => {
       const id = String(args.id);
-      const userId = auth.data?.id;
-      if (userId != null) {
-        await deleteLocalMessagesForConv(userId, id);
-        await mirrorConversationIfSynced(userId, id);
-      }
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      await deleteLocalMessagesForConv(userId, id);
+      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, id);
       return { id };
     },
     onSuccess: (_data, args) => {
@@ -398,8 +380,7 @@ export function useDuplicateConversationMutation() {
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: ChatParams) => {
-      const userId = auth.data?.id;
-      if (userId == null) throw new Error("not-logged-in");
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const srcId = String(args.id);
       const bundle = await readLocalConversationBundle(userId, srcId);
       if (!bundle) throw new Error("not-found");
@@ -489,23 +470,21 @@ export function useSetActiveBranchMutation() {
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: { convId: string; msgId: string }) => {
-      const userId = auth.data?.id;
-      if (userId != null) {
-        const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
-        const target = msgs.find((m) => m.id === args.msgId);
-        const parentId = target?.parentId ?? null;
-        const now = dayjs().toDate();
-        for (const m of msgs) {
-          if ((m.parentId ?? null) === parentId) {
-            await upsertLocalMessage(userId, {
-              ...m,
-              isActiveBranch: m.id === args.msgId,
-              updatedAt: now,
-            });
-          }
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+      const target = msgs.find((m) => m.id === args.msgId);
+      const parentId = target?.parentId ?? null;
+      const now = dayjs().toDate();
+      for (const m of msgs) {
+        if ((m.parentId ?? null) === parentId) {
+          await upsertLocalMessage(userId, {
+            ...m,
+            isActiveBranch: m.id === args.msgId,
+            updatedAt: now,
+          });
         }
-        await mirrorConversationIfSynced(userId, args.convId);
       }
+      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
@@ -530,25 +509,23 @@ export function useDeleteMessageMutation() {
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: { convId: string; msgId: string }) => {
-      const userId = auth.data?.id;
-      if (userId != null) {
-        // Splice-delete: rewire children parentId locally, then drop the row.
-        const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
-        const target = msgs.find((m) => m.id === args.msgId);
-        const newParentId = target?.parentId ?? null;
-        const now = dayjs().toDate();
-        for (const m of msgs) {
-          if (m.parentId === args.msgId) {
-            await upsertLocalMessage(userId, {
-              ...m,
-              parentId: newParentId,
-              updatedAt: now,
-            });
-          }
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      // Splice-delete: rewire children parentId locally, then drop the row.
+      const msgs = (await readLocalMessages(userId, args.convId)) ?? [];
+      const target = msgs.find((m) => m.id === args.msgId);
+      const newParentId = target?.parentId ?? null;
+      const now = dayjs().toDate();
+      for (const m of msgs) {
+        if (m.parentId === args.msgId) {
+          await upsertLocalMessage(userId, {
+            ...m,
+            parentId: newParentId,
+            updatedAt: now,
+          });
         }
-        await deleteLocalMessage(userId, args.msgId);
-        await mirrorConversationIfSynced(userId, args.convId);
       }
+      await deleteLocalMessage(userId, args.msgId);
+      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {

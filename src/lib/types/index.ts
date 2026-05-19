@@ -1,3 +1,4 @@
+import type { UIMessage } from "ai";
 import type { useTranslations } from "next-intl";
 
 export type TranslationKey = Parameters<
@@ -31,9 +32,7 @@ export type ChatMessageMetadata = {
   droppedParams?: string;
 };
 
-export type ChatMessageWithMetadata = {
-  metadata?: ChatMessageMetadata;
-};
+export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type SearchResult = {
   title: string;

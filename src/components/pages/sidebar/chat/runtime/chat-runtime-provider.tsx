@@ -9,8 +9,9 @@ import {
   useConversationQuery,
   useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
-import type { ChatMessageWithMetadata } from "@/lib/types";
+import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
@@ -60,7 +61,7 @@ function ChatRuntimeHook() {
     createChatHistoryAdapter(
       queryClient,
       () => getConvId(),
-      () => authForHistory.data?.id ?? 0,
+      () => authForHistory.data?.id ?? GUEST_USER_ID,
     ),
   );
 
@@ -128,15 +129,14 @@ function ChatRuntimeHook() {
     }),
   );
 
-  const chat = useChat({
+  const chat = useChat<ChatUIMessage>({
     id: threadId,
     transport: transportRef.current,
     onError: (e) => handleError(e, t),
     onFinish: ({ message }) => {
-      const metadata = (message as ChatMessageWithMetadata).metadata;
-      if (metadata?.droppedParams) {
+      if (message.metadata?.droppedParams) {
         toast.warning(
-          t("RP.DROPPED_PARAMS", { params: metadata.droppedParams }),
+          t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
         );
       }
     },
@@ -176,7 +176,7 @@ function ChatRuntimeHook() {
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
         convId: getConvId(),
-        userId: auth.data?.id ?? null,
+        userId: auth.data?.id ?? GUEST_USER_ID,
       })),
       history: historyAdapterRef.current,
     },
@@ -188,7 +188,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const userId = authQuery.data?.id ?? null;
+  const userId = authQuery.data?.id ?? GUEST_USER_ID;
   const adapterRef = useRef(
     createThreadListAdapter(queryClient, t, userId),
   );

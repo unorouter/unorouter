@@ -1,4 +1,4 @@
-import { PAGE_SIZE } from "@/lib/config/constants";
+import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
 import {
   readLocalConversation,
   readLocalConversations,
@@ -41,7 +41,7 @@ import { extractFirstUserText } from "./chat-utils";
 export function createThreadListAdapter(
   queryClient: QueryClient,
   t: ReturnType<typeof useTranslations<never>>,
-  userId: number | null,
+  userId: number,
 ): RemoteThreadListAdapter {
   return {
     async list() {
@@ -50,7 +50,7 @@ export function createThreadListAdapter(
       );
       let items = cached?.pages.flatMap((p) => p.items) ?? [];
 
-      if (items.length === 0 && userId != null) {
+      if (items.length === 0) {
         const local = (await readLocalConversations(userId)) ?? [];
         items = local as unknown as ConvItem[];
         if (items.length > 0) {
@@ -104,49 +104,47 @@ export function createThreadListAdapter(
         updatedAt: now,
       } as ConvItem;
 
-      if (userId != null) {
-        await upsertLocalConversation(userId, {
-          id,
-          title: null,
-          totalInputTokens: 0,
-          totalOutputTokens: 0,
-          totalCost: 0,
-          syncExpiresAt: null,
-          createdAt: now,
-          updatedAt: now,
-        });
+      await upsertLocalConversation(userId, {
+        id,
+        title: null,
+        totalInputTokens: 0,
+        totalOutputTokens: 0,
+        totalCost: 0,
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      });
 
-        // Seed conversation_settings from current jotai defaults so the first
-        // turn already runs with the user's preferred sampling/effort/web
-        // search knobs. Drawer mutates the row directly afterward.
-        const defaults = getChatDefaults();
-        await upsertLocalConversationSettings(userId, {
-          convId: id,
-          defaultModel: model,
-          personaId: null,
-          presetId: null,
-          systemPromptOverride: null,
-          authorNote: null,
-          authorNoteDepth: 4,
-          chatMemory: 8,
-          reasoningEffort: defaults.reasoningEffort ?? null,
-          webSearchEnabled: defaults.webSearchEnabled ?? false,
-          webSearchEngine: defaults.webSearchEngine ?? "auto",
-          webSearchContextSize: defaults.webSearchContextSize ?? "medium",
-          temperature: defaults.temperature ?? null,
-          topP: defaults.topP ?? null,
-          topK: defaults.topK ?? null,
-          minP: defaults.minP ?? null,
-          topA: defaults.topA ?? null,
-          frequencyPenalty: defaults.frequencyPenalty ?? null,
-          presencePenalty: defaults.presencePenalty ?? null,
-          repetitionPenalty: defaults.repetitionPenalty ?? null,
-          maxTokens: defaults.maxTokens ?? null,
-          extraBody: defaults.extraBody ?? null,
-          streamingEnabled: defaults.streamingEnabled ?? true,
-          updatedAt: now,
-        });
-      }
+      // Seed conversation_settings from current jotai defaults so the first
+      // turn already runs with the user's preferred sampling/effort/web
+      // search knobs. Drawer mutates the row directly afterward.
+      const defaults = getChatDefaults();
+      await upsertLocalConversationSettings(userId, {
+        convId: id,
+        defaultModel: model,
+        personaId: null,
+        presetId: null,
+        systemPromptOverride: null,
+        authorNote: null,
+        authorNoteDepth: 4,
+        chatMemory: 8,
+        reasoningEffort: defaults.reasoningEffort ?? null,
+        webSearchEnabled: defaults.webSearchEnabled ?? false,
+        webSearchEngine: defaults.webSearchEngine ?? "auto",
+        webSearchContextSize: defaults.webSearchContextSize ?? "medium",
+        temperature: defaults.temperature ?? null,
+        topP: defaults.topP ?? null,
+        topK: defaults.topK ?? null,
+        minP: defaults.minP ?? null,
+        topA: defaults.topA ?? null,
+        frequencyPenalty: defaults.frequencyPenalty ?? null,
+        presencePenalty: defaults.presencePenalty ?? null,
+        repetitionPenalty: defaults.repetitionPenalty ?? null,
+        maxTokens: defaults.maxTokens ?? null,
+        extraBody: defaults.extraBody ?? null,
+        streamingEnabled: defaults.streamingEnabled ?? true,
+        updatedAt: now,
+      });
 
       queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
@@ -156,30 +154,28 @@ export function createThreadListAdapter(
     },
 
     async rename(id, title) {
-      if (userId != null) {
-        const existing = await readLocalConversation(userId, id);
-        const now = dayjs().toDate();
-        await upsertLocalConversation(userId, {
-          ...(existing ?? {}),
-          id,
-          title,
-          updatedAt: now,
-        });
-        if (userId > 0 && existing?.syncExpiresAt != null) {
-          try {
-            handleElysia(
-              await rpc.api.ai
-                .sync({ kind: "conversations" })({ id })
-                .post({
-                  payload: {
-                    conversation: { ...existing, title, updatedAt: now },
-                  },
-                  keepExpiry: true,
-                }),
-            );
-          } catch (err) {
-            await enqueuePending(userId, "conversations", id, "patch", err);
-          }
+      const existing = await readLocalConversation(userId, id);
+      const now = dayjs().toDate();
+      await upsertLocalConversation(userId, {
+        ...(existing ?? {}),
+        id,
+        title,
+        updatedAt: now,
+      });
+      if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
+        try {
+          handleElysia(
+            await rpc.api.ai
+              .sync({ kind: "conversations" })({ id })
+              .post({
+                payload: {
+                  conversation: { ...existing, title, updatedAt: now },
+                },
+                keepExpiry: true,
+              }),
+          );
+        } catch (err) {
+          await enqueuePending(userId, "conversations", id, "patch", err);
         }
       }
       queryClient.setQueryData<ConvsInfinite>(
@@ -192,20 +188,16 @@ export function createThreadListAdapter(
     async unarchive(_id) {},
 
     async delete(id) {
-      if (userId != null) {
-        const existing = await readLocalConversation(userId, id);
-        const wasSynced =
-          existing?.syncExpiresAt !=
-          null;
-        await deleteLocalConversation(userId, id);
-        if (userId > 0 && wasSynced) {
-          try {
-            handleElysia(
-              await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
-            );
-          } catch (err) {
-            await enqueuePending(userId, "conversations", id, "delete", err);
-          }
+      const existing = await readLocalConversation(userId, id);
+      const wasSynced = existing?.syncExpiresAt != null;
+      await deleteLocalConversation(userId, id);
+      if (userId > GUEST_USER_ID && wasSynced) {
+        try {
+          handleElysia(
+            await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
+          );
+        } catch (err) {
+          await enqueuePending(userId, "conversations", id, "delete", err);
         }
       }
       queryClient.setQueryData<ConvsInfinite>(
@@ -229,15 +221,13 @@ export function createThreadListAdapter(
         };
       }
 
-      if (userId != null) {
-        const local = await readLocalConversation(userId, id);
-        if (local) {
-          return {
-            remoteId: local.id,
-            status: "regular" as const,
-            title: local.title ?? undefined,
-          };
-        }
+      const local = await readLocalConversation(userId, id);
+      if (local) {
+        return {
+          remoteId: local.id,
+          status: "regular" as const,
+          title: local.title ?? undefined,
+        };
       }
 
       handleError(new Error("chat-not-found"), t, "chat-not-found");
@@ -262,33 +252,31 @@ export function createThreadListAdapter(
         controller.appendText(data.title);
 
         const now = dayjs().toDate();
-        if (userId != null) {
-          const existing = await readLocalConversation(userId, id);
-          await upsertLocalConversation(userId, {
-            ...(existing ?? {}),
-            id,
-            title: data.title,
-            updatedAt: now,
-          });
-          if (userId > 0 && existing?.syncExpiresAt != null) {
-            try {
-              handleElysia(
-                await rpc.api.ai
-                  .sync({ kind: "conversations" })({ id })
-                  .post({
-                    payload: {
-                      conversation: {
-                        ...existing,
-                        title: data.title,
-                        updatedAt: now,
-                      },
+        const existing = await readLocalConversation(userId, id);
+        await upsertLocalConversation(userId, {
+          ...(existing ?? {}),
+          id,
+          title: data.title,
+          updatedAt: now,
+        });
+        if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
+          try {
+            handleElysia(
+              await rpc.api.ai
+                .sync({ kind: "conversations" })({ id })
+                .post({
+                  payload: {
+                    conversation: {
+                      ...existing,
+                      title: data.title,
+                      updatedAt: now,
                     },
-                    keepExpiry: true,
-                  }),
-              );
-            } catch (err) {
-              await enqueuePending(userId, "conversations", id, "patch", err);
-            }
+                  },
+                  keepExpiry: true,
+                }),
+            );
+          } catch (err) {
+            await enqueuePending(userId, "conversations", id, "patch", err);
           }
         }
 

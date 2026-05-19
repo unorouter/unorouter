@@ -1,3 +1,4 @@
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { upsertLocalMedia } from "@/lib/db/client/writes";
 import { uid } from "@/lib/utils/base";
 import { setConvId } from "@/store/chat-store";
@@ -27,7 +28,7 @@ export function extractFirstUserText(
 // Blob stays local until user opts conv into sync (sync.service.ts uploads
 // to R2 and stamps r2_url on the Turso mirror row).
 export function createLocalAttachmentAdapter(
-  getContext: () => { convId: string | null; userId: number | null },
+  getContext: () => { convId: string | null; userId: number },
 ): AttachmentAdapter {
   return {
     accept: "image/png,image/jpeg,image/webp,image/gif,application/pdf",
@@ -58,18 +59,15 @@ export function createLocalAttachmentAdapter(
       const base64 = await fileToBase64(file);
       const dataUrl = `data:${file.type};base64,${base64}`;
 
-      // Guests skip OPFS (need a user id to open the per-user DB).
-      if (ctx.userId != null) {
-        await upsertLocalMedia(ctx.userId, {
-          id: attachment.id,
-          convId: ctx.convId,
-          mimeType: file.type,
-          sizeBytes: file.size,
-          dataBase64: base64,
-          r2Key: null,
-          r2Url: null,
-        });
-      }
+      await upsertLocalMedia(ctx.userId ?? GUEST_USER_ID, {
+        id: attachment.id,
+        convId: ctx.convId,
+        mimeType: file.type,
+        sizeBytes: file.size,
+        dataBase64: base64,
+        r2Key: null,
+        r2Url: null,
+      });
 
       return {
         ...attachment,

@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { localMeta } from "@/lib/db/schema/client";
 import {
   cardCharacters,
@@ -31,10 +32,8 @@ import { getLocalDb, resetLocalDbCache } from "./client";
 // One-shot guard in `local_meta`. Bump suffix to force re-run.
 const MIGRATION_KEY = "guest_migrated_v1";
 
-const GUEST_USER_ID = 0;
-
 export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
-  if (targetUserId <= 0) return;
+  if (targetUserId <= GUEST_USER_ID) return;
 
   const guest = await getLocalDb(GUEST_USER_ID);
   if (!guest) return;

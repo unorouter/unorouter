@@ -21,7 +21,7 @@ import {
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { ChatMessageWithMetadata } from "@/lib/types";
+import type { ChatMessageMetadata } from "@/lib/types";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel } from "@/store/chat-store";
 import type {
@@ -149,7 +149,8 @@ export function createChatHistoryAdapter(
           const content = stored as unknown as {
             role: PersistMessage["role"];
             parts: { type: string; [k: string]: unknown }[];
-            [k: string]: unknown;
+            metadata?: ChatMessageMetadata;
+            model?: string;
           };
 
           const items = partsToItems(content.parts ?? []);
@@ -164,8 +165,7 @@ export function createChatHistoryAdapter(
 
           // Assistant turns carry usage in `message.metadata.usage` once the
           // stream's finish frame writes via `messageMetadata` (stream.service).
-          const usage =
-            (item.message as ChatMessageWithMetadata).metadata?.usage ?? null;
+          const usage = content.metadata?.usage ?? null;
 
           await upsertLocalMessage(userId, {
             id: messageId,
