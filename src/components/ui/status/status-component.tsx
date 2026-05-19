@@ -50,7 +50,7 @@ export function StatusComponentHeader({
   return (
     <div
       data-slot="status-component-header"
-      className={cn("flex items-center justify-between", className)}
+      className={cn("flex items-center justify-between gap-2", className)}
       {...props}
     >
       {children}
@@ -67,7 +67,7 @@ export function StatusComponentHeaderLeft({
   return (
     <div
       data-slot="status-component-header-left"
-      className={cn("flex items-center gap-2", className)}
+      className={cn("flex min-w-0 flex-1 items-center gap-2", className)}
       {...props}
     >
       {children}
@@ -84,7 +84,7 @@ export function StatusComponentHeaderRight({
   return (
     <div
       data-slot="status-component-header-right"
-      className={cn("flex items-center gap-3", className)}
+      className={cn("flex shrink-0 items-center gap-3", className)}
       {...props}
     >
       {children}

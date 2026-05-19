@@ -101,8 +101,8 @@ export function StatusPage() {
           <StatusBanner status={s.overallStatus} />
           <SummaryCards />
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="relative flex-1">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative w-full">
               <Icon
                 name="search"
                 className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2"
@@ -139,7 +139,7 @@ export function StatusPage() {
                 ))}
               </SelectContent>
             </Select>
-            <div className="flex flex-wrap gap-1">
+            <div className="flex flex-wrap items-center gap-1">
               {(
                 [
                   { value: "all", label: t("STATUS.FILTER.STATUS_ALL") },
@@ -155,24 +155,24 @@ export function StatusPage() {
                   label={p.label}
                 />
               ))}
+              {s.visibleVendors.length > 0 && (
+                <CollapseAllButton
+                  collapsed={s.allCollapsed}
+                  onClick={s.toggleAllGroups}
+                />
+              )}
+              {s.hasActiveFilters && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={s.resetFilters}
+                  className="font-mono text-xs"
+                >
+                  {t("MODELS.FILTER.RESET")}
+                  <Icon name="x" className="ml-1 h-4 w-4" />
+                </Button>
+              )}
             </div>
-            {s.visibleVendors.length > 0 && (
-              <CollapseAllButton
-                collapsed={s.allCollapsed}
-                onClick={s.toggleAllGroups}
-              />
-            )}
-            {s.hasActiveFilters && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={s.resetFilters}
-                className="font-mono text-xs"
-              >
-                {t("MODELS.FILTER.RESET")}
-                <Icon name="x" className="ml-1 h-4 w-4" />
-              </Button>
-            )}
           </div>
 
           {s.filtered.length === 0 ? (
@@ -198,13 +198,13 @@ export function StatusPage() {
                       className="text-muted-foreground h-4 w-4 shrink-0"
                     />
                     <VendorIcon vendor={item.vendor} size={16} />
-                    <h2 className="font-mono text-sm font-semibold tracking-wide">
+                    <h2 className="min-w-0 truncate font-mono text-sm font-semibold tracking-wide">
                       {item.vendor}
                     </h2>
-                    <span className="text-muted-foreground font-mono text-xs">
+                    <span className="text-muted-foreground shrink-0 font-mono text-xs">
                       {item.count}
                     </span>
-                    <div className="text-muted-foreground ml-auto flex items-center gap-3 font-mono text-xs">
+                    <div className="text-muted-foreground ml-auto flex shrink-0 items-center gap-3 font-mono text-xs">
                       <StatusCount
                         icon="circle-check"
                         count={item.operational}
@@ -230,17 +230,21 @@ export function StatusPage() {
                       <StatusComponentHeader>
                         <StatusComponentHeaderLeft>
                           <StatusComponentIcon />
-                          <StatusComponentTitle>
-                            {item.component.name}
-                          </StatusComponentTitle>
-                          {item.component.description && (
-                            <StatusComponentDescription>
-                              {item.component.description}
-                            </StatusComponentDescription>
-                          )}
+                          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                            <div className="flex min-w-0 items-center gap-2">
+                              <StatusComponentTitle>
+                                {item.component.name}
+                              </StatusComponentTitle>
+                              {item.component.description && (
+                                <StatusComponentDescription>
+                                  {item.component.description}
+                                </StatusComponentDescription>
+                              )}
+                            </div>
+                            <PerfStats perf={perfMap.get(item.component.name)} />
+                          </div>
                         </StatusComponentHeaderLeft>
                         <StatusComponentHeaderRight>
-                          <PerfStats perf={perfMap.get(item.component.name)} />
                           <StatusComponentUptime>
                             {item.component.uptime_24h.toFixed(2)}%
                           </StatusComponentUptime>
@@ -323,7 +327,7 @@ function PerfStats(props: { perf: ModelSummary | undefined }) {
   const t = useTranslations();
   if (!props.perf || props.perf.request_count <= 0) return null;
   return (
-    <div className="text-muted-foreground hidden items-center gap-3 font-mono text-[10px] tabular-nums sm:flex">
+    <div className="text-muted-foreground flex items-center gap-3 font-mono text-[10px] tabular-nums">
       <span title={t("STATUS.PERF.LATENCY_TOOLTIP")}>
         {formatLatency(props.perf.avg_latency_ms, 1)}
       </span>
