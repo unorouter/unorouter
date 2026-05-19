@@ -1,6 +1,6 @@
 import { localeUrl } from "@/i18n/navigation";
 import { BLOG_REGISTRY, DOCS_REGISTRY } from "@/i18n/registry";
-import { APP_VALUES, msg } from "@/lib/config/constants";
+import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, modelSlug } from "@/lib/utils/base";
@@ -27,7 +27,7 @@ export async function GET() {
   lines.push(`> ${t("HOME.META.DESCRIPTION", APP_VALUES)}`);
   lines.push("");
 
-  lines.push(`## ${t(msg("NAV.DOCS"))}`);
+  lines.push(`## ${t("NAV.DOCS")}`);
   for (const doc of DOCS_REGISTRY) {
     const title = t(`${doc.i18nPrefix}.TITLE`, APP_VALUES);
     const note = t(`${doc.i18nPrefix}.SUBTITLE`, APP_VALUES);
@@ -37,7 +37,7 @@ export async function GET() {
   }
   lines.push("");
 
-  lines.push(`## ${t(msg("NAV.BLOG"))}`);
+  lines.push(`## ${t("NAV.BLOG")}`);
   for (const post of BLOG_REGISTRY) {
     const title = t(`${post.i18nKey}.TITLE`, APP_VALUES);
     const note = t(`${post.i18nKey}.DESCRIPTION`, APP_VALUES);
@@ -46,21 +46,21 @@ export async function GET() {
   }
   lines.push("");
 
-  lines.push(`## ${t(msg("FOOTER.PRODUCT"))}`);
+  lines.push(`## ${t("FOOTER.PRODUCT")}`);
   lines.push(
-    `- [${t(msg("NAV.PRICING"))}](${siteOrigin}${localeUrl(locale, "/pricing")}): ${t(msg("PRICING.META.DESCRIPTION"), APP_VALUES)}`,
+    `- [${t("NAV.PRICING")}](${siteOrigin}${localeUrl(locale, "/pricing")}): ${t("PRICING.META.DESCRIPTION", APP_VALUES)}`,
   );
   lines.push(
-    `- [${t(msg("NAV.MODELS"))}](${siteOrigin}${localeUrl(locale, "/models")}): ${t(msg("MODELS.META.DESCRIPTION"), APP_VALUES)}`,
+    `- [${t("NAV.MODELS")}](${siteOrigin}${localeUrl(locale, "/models")}): ${t("MODELS.META.DESCRIPTION", APP_VALUES)}`,
   );
   lines.push(
-    `- [${t(msg("NAV.CHAT"))}](${siteOrigin}${localeUrl(locale, "/chat")}): ${t(msg("CHAT.META.DESCRIPTION"), APP_VALUES)}`,
+    `- [${t("NAV.CHAT")}](${siteOrigin}${localeUrl(locale, "/chat")}): ${t("CHAT.META.DESCRIPTION", APP_VALUES)}`,
   );
   lines.push("");
 
   const models = pricing?.models ?? [];
   if (models.length > 0) {
-    lines.push(`## ${t(msg("FOOTER.MODELS"))}`);
+    lines.push(`## ${t("FOOTER.MODELS")}`);
     for (const model of models.slice(0, 50)) {
       const url = `${siteOrigin}${localeUrl(locale, { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } })}`;
       lines.push(`- [${model.name}](${url})`);
@@ -68,12 +68,12 @@ export async function GET() {
     lines.push("");
   }
 
-  lines.push(`## ${t(msg("FOOTER.LEGAL"))}`);
+  lines.push(`## ${t("FOOTER.LEGAL")}`);
   lines.push(
-    `- [${t(msg("PRIVACY.TITLE"))}](${siteOrigin}${localeUrl(locale, "/privacy")})`,
+    `- [${t("PRIVACY.TITLE")}](${siteOrigin}${localeUrl(locale, "/privacy")})`,
   );
   lines.push(
-    `- [${t(msg("TERMS.TITLE"))}](${siteOrigin}${localeUrl(locale, "/terms")})`,
+    `- [${t("TERMS.TITLE")}](${siteOrigin}${localeUrl(locale, "/terms")})`,
   );
   lines.push("");
 
