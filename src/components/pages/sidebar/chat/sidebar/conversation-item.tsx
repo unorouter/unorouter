@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import { useUpdateConversationMutation } from "@/hooks/chat-hook";
 import { usePricingQuery } from "@/hooks/pricing-hook";
 import {
@@ -36,6 +37,8 @@ type ConversationItemProps = {
 export function ConversationItem(props: ConversationItemProps) {
   const t = useTranslations();
   const locale = useLocale();
+  const auth = useAuthQuery();
+  const isLoggedIn = !!auth.data;
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
   const syncMut = useSyncMutation();
@@ -160,24 +163,26 @@ export function ConversationItem(props: ConversationItemProps) {
             >
               {props.conversation.title || t("CHAT.NEW_CONVERSATION")}
             </span>
-            <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
-              {isSynced ? (
-                <>
-                  <Icon
-                    name="cloud-upload"
-                    className="size-2.5 text-emerald-500"
-                  />
-                  {syncExpiresLabel
-                    ? t("SYNC.EXPIRES_AT", { date: syncExpiresLabel })
-                    : t("SYNC.SYNCED")}
-                </>
-              ) : (
-                <>
-                  <Icon name="cloud-off" className="size-2.5" />
-                  {t("SYNC.NOT_SYNCED")}
-                </>
-              )}
-            </span>
+            {isLoggedIn && (
+              <span className="text-muted-foreground flex items-center gap-1 text-[10px] leading-none">
+                {isSynced ? (
+                  <>
+                    <Icon
+                      name="cloud-upload"
+                      className="size-2.5 text-emerald-500"
+                    />
+                    {syncExpiresLabel
+                      ? t("SYNC.EXPIRES_AT", { date: syncExpiresLabel })
+                      : t("SYNC.SYNCED")}
+                  </>
+                ) : (
+                  <>
+                    <Icon name="cloud-off" className="size-2.5" />
+                    {t("SYNC.NOT_SYNCED")}
+                  </>
+                )}
+              </span>
+            )}
           </div>
           <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
             <DropdownMenuTrigger
@@ -200,7 +205,7 @@ export function ConversationItem(props: ConversationItemProps) {
                 <Icon name="pencil" className="size-4" />
                 {t("CHAT.ACTION.RENAME")}
               </DropdownMenuItem>
-              {!isSynced && (
+              {isLoggedIn && !isSynced && (
                 <DropdownMenuItem
                   disabled={syncMut.isPending}
                   onClick={(e) => {
@@ -217,7 +222,7 @@ export function ConversationItem(props: ConversationItemProps) {
                   {t("SYNC.ADD_SYNC")}
                 </DropdownMenuItem>
               )}
-              {isSynced && (
+              {isLoggedIn && isSynced && (
                 <>
                   <DropdownMenuItem
                     disabled={syncMut.isPending}

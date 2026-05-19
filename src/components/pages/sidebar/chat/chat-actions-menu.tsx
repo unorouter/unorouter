@@ -17,6 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useClearConversationMutation,
   useConversationMarkdown,
@@ -65,6 +66,7 @@ export function ChatActionsMenu(props: Props) {
   const t = useTranslations();
   const locale = useLocale();
   const aui = useAui();
+  const auth = useAuthQuery();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [confirmClearOpen, setConfirmClearOpen] = useState(false);
 
@@ -80,6 +82,7 @@ export function ChatActionsMenu(props: Props) {
   const [dbStudioOpen, setDbStudioOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  const isLoggedIn = !!auth.data;
   const hasConv = !!props.convId;
   const isSynced = syncState.syncExpiresAt != null;
   const syncExpiresLabel = syncState.syncExpiresAt
@@ -233,7 +236,7 @@ export function ChatActionsMenu(props: Props) {
             {t("RP.SIDEBAR_TAB_CARDS")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          {hasConv && !isSynced && (
+          {isLoggedIn && hasConv && !isSynced && (
             <DropdownMenuItem
               onClick={handleAddSync}
               disabled={syncMut.isPending}
@@ -242,7 +245,7 @@ export function ChatActionsMenu(props: Props) {
               {t("SYNC.ADD_SYNC")}
             </DropdownMenuItem>
           )}
-          {hasConv && isSynced && (
+          {isLoggedIn && hasConv && isSynced && (
             <>
               <DropdownMenuItem
                 onClick={handleAddSync}

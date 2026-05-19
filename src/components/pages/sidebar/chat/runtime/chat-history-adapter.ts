@@ -21,6 +21,7 @@ import {
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import type { ChatMessageWithMetadata } from "@/lib/types";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { getChatModel } from "@/store/chat-store";
 import type {
@@ -161,13 +162,10 @@ export function createChatHistoryAdapter(
 
           const now = dayjs().toDate();
 
-          // Determine usage from the content (assistant turns carry usage
-          // in their metadata once stream finishes). Stream pipeline returns
-          // usage via the SSE finish frame which we surface on content.usage.
+          // Assistant turns carry usage in `message.metadata.usage` once the
+          // stream's finish frame writes via `messageMetadata` (stream.service).
           const usage =
-            (content.usage as
-              | { inputTokens: number; outputTokens: number; cost: number }
-              | undefined) ?? null;
+            (item.message as ChatMessageWithMetadata).metadata?.usage ?? null;
 
           await upsertLocalMessage(userId, {
             id: messageId,

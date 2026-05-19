@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
+import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useRemoveSyncMutation,
   useSyncMutation,
@@ -22,9 +23,12 @@ type Props = {
 export function SyncBadge(props: Props) {
   const t = useTranslations();
   const locale = useLocale();
+  const auth = useAuthQuery();
   const state = useSyncStateForRow(props.kind, props.id);
   const syncMut = useSyncMutation();
   const removeMut = useRemoveSyncMutation();
+
+  if (!auth.data) return null;
 
   const variant = props.variant ?? "full";
   const isSynced = state.syncExpiresAt != null;

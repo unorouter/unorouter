@@ -165,7 +165,7 @@ export function createThreadListAdapter(
           title,
           updatedAt: now,
         });
-        if (existing?.syncExpiresAt != null) {
+        if (userId > 0 && existing?.syncExpiresAt != null) {
           try {
             handleElysia(
               await rpc.api.ai
@@ -198,7 +198,7 @@ export function createThreadListAdapter(
           existing?.syncExpiresAt !=
           null;
         await deleteLocalConversation(userId, id);
-        if (wasSynced) {
+        if (userId > 0 && wasSynced) {
           try {
             handleElysia(
               await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
@@ -270,7 +270,7 @@ export function createThreadListAdapter(
             title: data.title,
             updatedAt: now,
           });
-          if (existing?.syncExpiresAt != null) {
+          if (userId > 0 && existing?.syncExpiresAt != null) {
             try {
               handleElysia(
                 await rpc.api.ai

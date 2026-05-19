@@ -123,7 +123,7 @@ export function ThemeCustomizerBody() {
       next,
       syncExpiresAt as Date | null | undefined,
     ).catch(() => {});
-    if (syncExpiresAt != null) {
+    if (userId > 0 && syncExpiresAt != null) {
       void (async () => {
         try {
           handleElysia(

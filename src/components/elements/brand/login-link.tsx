@@ -7,6 +7,8 @@ import type { ComponentProps } from "react";
 
 type LoginLinkProps = Omit<ComponentProps<typeof Link>, "href">;
 
+const SIDEBAR_REDIRECT_PREFIXES = ["/chat", "/playground", "/docs"];
+
 export function LoginLink(props: LoginLinkProps) {
   const pathname = usePathname();
 
@@ -15,7 +17,7 @@ export function LoginLink(props: LoginLinkProps) {
       {...props}
       href="/login"
       onClick={(e) => {
-        if (pathname.startsWith("/chat") || pathname.startsWith("/docs")) {
+        if (SIDEBAR_REDIRECT_PREFIXES.some((p) => pathname.startsWith(p))) {
           setCookie(AUTH_REDIRECT_COOKIE, pathname, { maxAge: 300 });
         }
         props.onClick?.(e);

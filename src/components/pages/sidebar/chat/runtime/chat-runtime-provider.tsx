@@ -10,6 +10,7 @@ import {
   useUpdateConversationMutation,
 } from "@/hooks/chat-hook";
 import { queryKeys } from "@/lib/react-query/keys";
+import type { ChatMessageWithMetadata } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
@@ -132,9 +133,7 @@ function ChatRuntimeHook() {
     transport: transportRef.current,
     onError: (e) => handleError(e, t),
     onFinish: ({ message }) => {
-      const metadata = message.metadata as
-        | { droppedParams?: string }
-        | undefined;
+      const metadata = (message as ChatMessageWithMetadata).metadata;
       if (metadata?.droppedParams) {
         toast.warning(
           t("RP.DROPPED_PARAMS", { params: metadata.droppedParams }),

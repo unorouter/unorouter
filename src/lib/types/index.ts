@@ -17,6 +17,24 @@ export type Extracted = {
 
 export type StatusBucket = "1m" | "5m" | "15m" | "1h" | "1d";
 
+export type MessageUsage = {
+  inputTokens: number;
+  outputTokens: number;
+  cost: number;
+  durationMs?: number;
+  tokensPerSecond?: number;
+};
+
+// Mirror of the `messageMetadata` shape emitted by stream.service finish frame.
+export type ChatMessageMetadata = {
+  usage?: MessageUsage;
+  droppedParams?: string;
+};
+
+export type ChatMessageWithMetadata = {
+  metadata?: ChatMessageMetadata;
+};
+
 export type SearchResult = {
   title: string;
   description: string;
