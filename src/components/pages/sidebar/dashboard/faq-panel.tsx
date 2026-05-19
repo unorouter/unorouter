@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useStatusQuery } from "@/hooks/status-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

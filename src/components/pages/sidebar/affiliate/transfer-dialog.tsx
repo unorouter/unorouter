@@ -13,7 +13,7 @@ import {
 import { Form } from "@/components/ui/form";
 import { Icon } from "@/components/ui/icon";
 import { Label } from "@/components/ui/label";
-import { useTransferAffQuotaMutation } from "@/hooks/affiliate-hook";
+import { useTransferAffQuotaMutation } from "@/hooks/billing/affiliate-hook";
 import { useRouter } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import {

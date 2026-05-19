@@ -10,10 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { upsertLocalTheme } from "@/lib/db/client/data/writes";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { upsertLocalTheme } from "@/lib/db/client/data/theme";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
-import { useSyncStateForRow } from "@/hooks/sync-hook";
+import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
 import {
   ALL_BASE_COLORS,
   ALL_THEMES,

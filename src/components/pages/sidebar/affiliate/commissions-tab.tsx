@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/elements/table/data-table";
 import { formatDate } from "@/components/pages/sidebar/dashboard/stats";
 import { Icon } from "@/components/ui/icon";
-import { useAffiliateCommissionsQuery } from "@/hooks/affiliate-hook";
+import { useAffiliateCommissionsQuery } from "@/hooks/billing/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { ReferralCommissionWithUser } from "@/openapi";

@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/elements/table/data-table";
-import { useTaskLogsQuery } from "@/hooks/logs-hook";
+import { useTaskLogsQuery } from "@/hooks/ops/logs-hook";
 import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";

@@ -1,7 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useLiveStats } from "@/hooks/ui/use-live-stats";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

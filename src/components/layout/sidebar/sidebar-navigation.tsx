@@ -20,7 +20,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Icon } from "@/components/ui/icon";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useAui } from "@assistant-ui/react";

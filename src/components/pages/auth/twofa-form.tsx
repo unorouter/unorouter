@@ -8,7 +8,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-import { useVerify2FAMutation } from "@/hooks/auth-hook";
+import { useVerify2FAMutation } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useTranslations } from "next-intl";

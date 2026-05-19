@@ -13,12 +13,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useBindEmailMutation,
   useSendSettingsVerificationMutation,
-} from "@/hooks/settings-hook";
-import { useStatusQuery } from "@/hooks/status-hook";
+} from "@/hooks/auth/settings-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";

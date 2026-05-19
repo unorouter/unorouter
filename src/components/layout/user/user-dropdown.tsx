@@ -13,8 +13,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
-import { useLogoutMutation } from "@/hooks/auth-hook";
-import { useSubscriptionSelfQuery } from "@/hooks/billing-hook";
+import { useLogoutMutation } from "@/hooks/auth/auth-hook";
+import { useSubscriptionSelfQuery } from "@/hooks/billing/billing-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";

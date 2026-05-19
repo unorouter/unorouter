@@ -2,7 +2,7 @@
 
 import { LoginLink } from "@/components/elements/brand/login-link";
 import { Button } from "@/components/ui/button";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Link } from "@/i18n/navigation";
 import { TranslationKey } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";

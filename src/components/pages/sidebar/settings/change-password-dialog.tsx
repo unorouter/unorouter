@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { analytics } from "@/lib/analytics";
-import { useUpdateSelfMutation } from "@/hooks/settings-hook";
+import { useUpdateSelfMutation } from "@/hooks/auth/settings-hook";
 import {
   changePasswordSchema,
   type ChangePasswordSchema,

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
 import { renderQuota } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";

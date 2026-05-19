@@ -4,7 +4,7 @@ import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/rp/presets";
+import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";

@@ -17,8 +17,8 @@ import {
   useDeleteTokenMutation,
   useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
-} from "@/hooks/token-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+} from "@/hooks/billing/token-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useRouter } from "@/i18n/navigation";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";
 import { chatModelAtom } from "@/store/chat-store";

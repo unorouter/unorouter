@@ -1,7 +1,5 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
-import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
 import type {
   CopyOptions,
   CopyResult,
@@ -11,32 +9,11 @@ import type {
 } from "@/lib/types";
 import { quoteIdent } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { getLocalDb, resetLocalDbCache } from "../client";
-
-export async function migrateGuestLocalDb(targetUserId: number): Promise<void> {
-  if (targetUserId <= GUEST_USER_ID) return;
-  const guest = await getLocalDb(GUEST_USER_ID);
-  if (!guest) return;
-  const target = await getLocalDb(targetUserId);
-  if (!target) return;
-
-  const result = await copyAllTables(guest, target, {
-    rewrite: { user_id: targetUserId },
-    skipTables: LOCAL_ONLY_TABLES,
-  });
-
-  await guest.deleteDatabaseFile();
-  resetLocalDbCache();
-  logger.info("Migrated guest local DB rows", {
-    context: "local-db.guest-migrate",
-    targetUserId,
-    rows: result.copied,
-    failures: result.failures.length,
-  });
-}
 
 // FKs disabled during copy so insert order doesn't matter. Column intersect
-// kept so source/target schema drift drops extras silently.
+// kept so source/target schema drift drops extras silently. Pure on
+// LocalClient — no dependency on `client.ts` so it can be reused from the
+// salvage path inside openClient() without a module cycle.
 export async function copyAllTables(
   source: LocalClient,
   target: LocalClient,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useHistoryStatsQuery } from "@/hooks/stats-hook";
+import { useHistoryStatsQuery } from "@/hooks/ops/stats-hook";
 import { useEffect, useRef, useState } from "react";
 
 export function useLiveStats() {

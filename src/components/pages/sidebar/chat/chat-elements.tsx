@@ -2,7 +2,7 @@
 
 import { ModelSelector } from "@/components/elements/model/model-selector";
 import { Icon } from "@/components/ui/icon";
-import { useConversationQuery } from "@/hooks/chat-hook";
+import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/utils/format/number";

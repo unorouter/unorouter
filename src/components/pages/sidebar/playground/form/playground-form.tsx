@@ -33,13 +33,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useSnapshotQuery,
   useSubmitGenerationMutation,
   useUploadMaskMutation,
-} from "@/hooks/playground-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+} from "@/hooks/ai/playground-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import {
   AUTH_REDIRECT_COOKIE,

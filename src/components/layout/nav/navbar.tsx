@@ -15,7 +15,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Link, usePathname } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";

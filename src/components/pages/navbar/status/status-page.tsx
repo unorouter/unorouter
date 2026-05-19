@@ -32,8 +32,8 @@ import type {
     StatusType,
 } from "@/components/ui/status/status.types";
 import type { StatusBucket } from "@/lib/types";
-import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { BUCKET_OPTIONS, useStatusFilter } from "@/hooks/ui/use-status-hook";
 import { env } from "@/lib/config/env";
 import type { IconName } from "@/lib/config/icon-map";

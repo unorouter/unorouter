@@ -11,9 +11,9 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
-import { useDeleteSelfMutation } from "@/hooks/settings-hook";
+import { useDeleteSelfMutation } from "@/hooks/auth/settings-hook";
 import {
   deleteAccountSchema,
   type DeleteAccountSchema,

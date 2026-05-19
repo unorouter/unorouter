@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/elements/content/page-header";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
-import { usePerfMetricsSummaryQuery } from "@/hooks/perf-metrics-hook";
+import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
 import { useModelsFilter } from "@/hooks/ui/use-models-hook";
 import { FILTER_OPTIONS, selectedVendorsAtom } from "@/store/models-store";
 import { useAtom } from "jotai";

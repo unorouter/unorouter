@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePerfMetricsQuery } from "@/hooks/perf-metrics-hook";
+import { usePerfMetricsQuery } from "@/hooks/models/perf-metrics-hook";
 import { aggregatePerfGroups } from "@/lib/api/perf-aggregate";
 import { cn } from "@/lib/utils";
 import { formatLatency, formatPct, formatTps } from "@/lib/utils/format/number";

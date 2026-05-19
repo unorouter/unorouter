@@ -1,6 +1,6 @@
 "use client";
 
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { ModelTypeFilter } from "@/lib/types/enums";
 import {
   clearFiltersAtom,

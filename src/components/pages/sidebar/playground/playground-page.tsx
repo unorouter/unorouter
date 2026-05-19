@@ -5,7 +5,7 @@ import { GenerateResult } from "@/components/pages/sidebar/playground/playground
 import { Img2ImgSubPills } from "@/components/pages/sidebar/playground/form/img2img-sub-pills";
 import { ModeTabs } from "@/components/pages/sidebar/playground/form/mode-tabs";
 import { RecentStrip } from "@/components/pages/sidebar/playground/history/recent-strip";
-import { useSessionQuery } from "@/hooks/playground-hook";
+import { useSessionQuery } from "@/hooks/ai/playground-hook";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,

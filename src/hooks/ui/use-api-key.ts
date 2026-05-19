@@ -1,7 +1,7 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useBestKeyQuery, useCreateTokenMutation } from "@/hooks/token-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useBestKeyQuery, useCreateTokenMutation } from "@/hooks/billing/token-hook";
 import { OS } from "@/lib/types/enums";
 import { apiKeyAtom, osAtom } from "@/store/client-store";
 import { useAtom, useSetAtom } from "jotai";

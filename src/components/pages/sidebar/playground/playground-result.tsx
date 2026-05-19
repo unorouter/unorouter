@@ -24,7 +24,7 @@ import {
   useImportGenerationMutation,
   useSessionQuery,
   useSnapshotStatusQuery,
-} from "@/hooks/playground-hook";
+} from "@/hooks/ai/playground-hook";
 import { getModelDescriptor } from "@/lib/playground/models";
 import {
   downloadGenerationImage,

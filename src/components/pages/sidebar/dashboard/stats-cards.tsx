@@ -1,7 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { useTranslations } from "next-intl";
 import { Line, LineChart, ResponsiveContainer } from "recharts";

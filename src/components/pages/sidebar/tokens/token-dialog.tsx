@@ -29,14 +29,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import {
   useCreateTokenMutation,
   useDeleteTokenMutation,
   useFetchTokenKeyMutation,
   useToggleTokenStatusMutation,
   useUpdateTokenMutation,
-} from "@/hooks/token-hook";
+} from "@/hooks/billing/token-hook";
 import { analytics } from "@/lib/analytics";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";

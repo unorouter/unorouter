@@ -1,6 +1,6 @@
 "use client";
 
-import { useSessionQuery } from "@/hooks/playground-hook";
+import { useSessionQuery } from "@/hooks/ai/playground-hook";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,

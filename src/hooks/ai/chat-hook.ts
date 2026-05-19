@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
 import { mutateMessages, patchMessages } from "@/lib/react-query/cache-helpers";
 import {
@@ -18,23 +18,21 @@ import dayjs from "dayjs";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
 import {
+  deleteLocalConversation,
+  deleteLocalMessage,
+  deleteLocalMessagesForConv,
   readLocalConversation,
   readLocalConversationBundle,
   readLocalConversations,
   readLocalMessageItems,
   readLocalMessages,
-} from "@/lib/db/client/data/reads";
-import {
-  deleteLocalConversation,
-  deleteLocalMessage,
-  deleteLocalMessagesForConv,
   replaceLocalConversationBindings,
   replaceLocalMessageItems,
   upsertLocalConversation,
   upsertLocalConversationSettings,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/data/writes";
+} from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import {
   keepPreviousData,

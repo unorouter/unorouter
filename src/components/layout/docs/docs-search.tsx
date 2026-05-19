@@ -11,7 +11,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Icon } from "@/components/ui/icon";
-import { useSearchQuery } from "@/hooks/search-hook";
+import { useSearchQuery } from "@/hooks/ops/search-hook";
 import { Link } from "@/i18n/navigation";
 import type { LinkHref } from "@/i18n/routing";
 import { useTranslations } from "next-intl";

@@ -1,7 +1,7 @@
 "use client";
 
 import { renderQuota, TranslationKey } from "@/lib/config/constants";
-import { useAuthQuery } from "../auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 
 const ROLE_LABELS: Record<number, TranslationKey> = {
   100: "AUTH.ENUM.ROOT",

@@ -11,7 +11,7 @@ import { createTableAtoms } from "@/store/data-table-store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
-import { useAuthQuery } from "./auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 
 type TokenRoute = typeof rpc.api.billing.token;
 

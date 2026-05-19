@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -15,23 +15,25 @@ import { drainPending } from "./pending-sync";
 import {
   readLocalCards,
   readLocalCharacters,
-  readLocalConversations,
-  readLocalGenerationSessions,
   readLocalLorebooks,
-  readLocalMedia,
   readLocalPersonas,
   readLocalPresets,
-} from "../data/reads";
-import {
   upsertLocalCardBundle,
   upsertLocalCharacter,
-  upsertLocalConversationBundle,
-  upsertLocalGenerationSessionBundle,
   upsertLocalLorebookBundle,
   upsertLocalPersona,
   upsertLocalPreset,
-  upsertLocalTheme,
-} from "../data/writes";
+} from "../data/rp";
+import {
+  readLocalConversations,
+  upsertLocalConversationBundle,
+} from "../data/chat";
+import { readLocalMedia } from "../data/media";
+import {
+  readLocalGenerationSessions,
+  upsertLocalGenerationSessionBundle,
+} from "../data/playground";
+import { upsertLocalTheme } from "../data/theme";
 
 export function SyncStateHydrator() {
   const auth = useAuthQuery();

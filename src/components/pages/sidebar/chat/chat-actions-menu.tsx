@@ -15,21 +15,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useClearConversationMutation,
   useConversationMarkdown,
   useDuplicateConversationMutation,
-} from "@/hooks/chat-hook";
+} from "@/hooks/ai/chat-hook";
 import {
   useExportConversation,
   useImportConversationMutation,
-} from "@/hooks/rp/conversations";
+} from "@/hooks/ai/rp/conversations";
 import {
   useRemoveSyncMutation,
   useSyncMutation,
   useSyncStateForRow,
-} from "@/hooks/sync-hook";
+} from "@/hooks/ai/sync-hook";
 import { Link } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";

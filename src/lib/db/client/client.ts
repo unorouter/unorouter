@@ -9,7 +9,7 @@ import { logger } from "@/lib/utils/logger";
 import { drizzle } from "drizzle-orm/sqlite-proxy";
 import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
-import { copyAllTables } from "./migrate/guest-migrate";
+import { copyAllTables } from "./data-migrate/copy";
 
 // Per-user OPFS file isolates multi-account browsers. Lazy `sqlocal/drizzle`
 // import keeps the ~1.5MB WASM out of non-chat/playground chunks.
@@ -54,7 +54,7 @@ async function openClient(userId: number): Promise<LocalClient> {
   const dbPath = `${env.appName.toLowerCase()}-${userId}.sqlite3`;
   let sql = new SQLocalDrizzle({ databasePath: dbPath, reactive: false });
 
-  const { runMigrations } = await import("./migrate/migrations");
+  const { runMigrations } = await import("./schema-migrate/migrations");
   try {
     await runMigrations(sql);
   } catch (err) {

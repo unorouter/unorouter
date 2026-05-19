@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { IS_DEV } from "@/lib/config/constants";
 import { usePathname, useSearchParams } from "next/navigation";
 import posthog from "posthog-js";

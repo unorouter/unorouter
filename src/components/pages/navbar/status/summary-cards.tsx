@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useStatusComponents } from "@/hooks/model-status-hook";
+import { useStatusComponents } from "@/hooks/models/model-status-hook";
 import type { IconName } from "@/lib/config/icon-map";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

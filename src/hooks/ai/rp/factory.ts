@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   itemPatch,
   listAdd,

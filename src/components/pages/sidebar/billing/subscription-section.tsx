@@ -17,7 +17,7 @@ import {
   useSubscriptionSelfQuery,
   useTopUpInfoQuery,
   useUpdateBillingPreferenceMutation,
-} from "@/hooks/billing-hook";
+} from "@/hooks/billing/billing-hook";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { analytics } from "@/lib/analytics";
 import {

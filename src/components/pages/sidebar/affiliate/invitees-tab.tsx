@@ -2,7 +2,7 @@
 
 import { DataTable } from "@/components/elements/table/data-table";
 import { Icon } from "@/components/ui/icon";
-import { useAffiliateInviteesQuery } from "@/hooks/affiliate-hook";
+import { useAffiliateInviteesQuery } from "@/hooks/billing/affiliate-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import type { InvitedUser } from "@/openapi";

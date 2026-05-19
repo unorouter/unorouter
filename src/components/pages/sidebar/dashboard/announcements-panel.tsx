@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useStatusQuery } from "@/hooks/status-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { intentBadgeClass } from "@/lib/config/intent-styles";
 import { useTranslations } from "next-intl";
 import { formatDate } from "./stats";

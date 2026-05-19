@@ -1,14 +1,15 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { readLocalLorebook, readLocalLorebooks } from "@/lib/db/client/data/reads";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   deleteLocalLorebook,
   deleteLocalLorebookEntry,
+  readLocalLorebook,
+  readLocalLorebooks,
   upsertLocalLorebook,
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
-} from "@/lib/db/client/data/writes";
+} from "@/lib/db/client/data/rp";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

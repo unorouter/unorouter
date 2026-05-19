@@ -31,17 +31,17 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useCharactersQuery } from "@/hooks/rp/characters";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import {
   useChatBindingsQuery,
   useChatSettingsQuery,
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
-} from "@/hooks/rp/conversations";
-import { useLorebooksQuery } from "@/hooks/rp/lorebooks";
-import { usePersonasQuery } from "@/hooks/rp/personas";
-import { usePresetsQuery } from "@/hooks/rp/presets";
+} from "@/hooks/ai/rp/conversations";
+import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
+import { usePersonasQuery } from "@/hooks/ai/rp/personas";
+import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
 import { msg } from "@/lib/config/constants";
 import { handleError } from "@/lib/utils/client";
@@ -53,7 +53,7 @@ import {
   samplerMemoryByModelAtom,
   type ModelSamplerMemory,
 } from "@/store/chat-store";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useAtom, useAtomValue } from "jotai";
 import {
   conversationOverridesFormSchema,

@@ -17,8 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useUpdateSettingMutation } from "@/hooks/settings-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useUpdateSettingMutation } from "@/hooks/auth/settings-hook";
 import { analytics } from "@/lib/analytics";
 import { dollarsToQuota, quotaToDollars } from "@/lib/config/constants";
 import { safeJsonParse } from "@/lib/utils/base";

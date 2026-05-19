@@ -2,8 +2,8 @@
 
 import { PageHeader } from "@/components/elements/content/page-header";
 import { PricingCard } from "@/components/elements/content/pricing-card";
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useSubscriptionPlansQuery } from "@/hooks/subscription-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useSubscriptionPlansQuery } from "@/hooks/billing/subscription-hook";
 import { useBillingActions } from "@/hooks/ui/use-billing-actions";
 import { useRouter } from "@/i18n/navigation";
 import {

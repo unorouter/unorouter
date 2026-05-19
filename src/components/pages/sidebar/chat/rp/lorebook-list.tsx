@@ -43,7 +43,7 @@ import {
   useLorebooksQuery,
   useUpdateLorebookEntryMutation,
   useUpdateLorebookMutation,
-} from "@/hooks/rp/lorebooks";
+} from "@/hooks/ai/rp/lorebooks";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";

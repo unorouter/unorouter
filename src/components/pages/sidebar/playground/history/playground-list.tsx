@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useSessionHistoryQuery } from "@/hooks/playground-hook";
+import { useSessionHistoryQuery } from "@/hooks/ai/playground-hook";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

@@ -2,7 +2,7 @@
 
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { renderQuota } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 

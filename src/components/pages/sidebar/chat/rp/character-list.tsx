@@ -32,7 +32,7 @@ import {
   useDeleteCharacterMutation,
   useImportCharacterCardMutation,
   useUpdateCharacterMutation,
-} from "@/hooks/rp/characters";
+} from "@/hooks/ai/rp/characters";
 import {
   characterFormSchema,
   type CharacterForm,
@@ -47,7 +47,7 @@ import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMediaSrc } from "@/hooks/use-media-src";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
 
 type Props = {
   open: boolean;

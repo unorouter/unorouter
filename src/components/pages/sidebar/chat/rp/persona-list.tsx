@@ -26,7 +26,7 @@ import {
   useImportPersonaMutation,
   usePersonasQuery,
   useUpdatePersonaMutation,
-} from "@/hooks/rp/personas";
+} from "@/hooks/ai/rp/personas";
 import { analytics } from "@/lib/analytics";
 import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";

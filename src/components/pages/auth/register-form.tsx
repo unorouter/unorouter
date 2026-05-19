@@ -8,8 +8,8 @@ import { GlassAuthCard } from "@/components/ui/glass-auth-card";
 import {
   useRegisterMutation,
   useSendVerificationMutation,
-} from "@/hooks/auth-hook";
-import { useStatusQuery } from "@/hooks/status-hook";
+} from "@/hooks/auth/auth-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { Link, useRouter } from "@/i18n/navigation";
 import { analytics } from "@/lib/analytics";
 import {

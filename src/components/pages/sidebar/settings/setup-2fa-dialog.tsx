@@ -20,7 +20,7 @@ import {
   useDisable2FAMutation,
   useEnable2FAMutation,
   useSetup2FAMutation,
-} from "@/hooks/settings-hook";
+} from "@/hooks/auth/settings-hook";
 import {
   twoFACodeSchema,
   type TwoFACodeSchema,

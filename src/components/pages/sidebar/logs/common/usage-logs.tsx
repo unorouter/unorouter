@@ -3,7 +3,7 @@
 import { DataTable } from "@/components/elements/table/data-table";
 import { buildLogQueryFilters } from "@/components/pages/sidebar/logs/common/log-helpers";
 import { Badge } from "@/components/ui/badge";
-import { useUsageLogsQuery, useUsageLogsStatQuery } from "@/hooks/logs-hook";
+import { useUsageLogsQuery, useUsageLogsStatQuery } from "@/hooks/ops/logs-hook";
 import { analytics } from "@/lib/analytics";
 import { msg, renderQuota } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";

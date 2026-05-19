@@ -1,8 +1,8 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useSubscriptionSelfQuery } from "@/hooks/billing-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useSubscriptionSelfQuery } from "@/hooks/billing/billing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
 import { chatModelAtom } from "@/store/chat-store";
 import { useAtomValue } from "jotai";

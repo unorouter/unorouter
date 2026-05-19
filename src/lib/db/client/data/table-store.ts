@@ -11,7 +11,7 @@ import type {
 import type { InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { and, eq } from "drizzle-orm";
-import { getLocalDb } from "./client";
+import { getLocalDb } from "../client";
 
 // `scopeUser` (default true) ANDs `eq(table.userId, userId)` into per-row
 // WHERE clauses AND merges `userId` into upsert rows. Tables without a userId

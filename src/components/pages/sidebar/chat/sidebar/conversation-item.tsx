@@ -9,14 +9,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuthQuery } from "@/hooks/auth-hook";
-import { useUpdateConversationMutation } from "@/hooks/chat-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import {
   useRemoveSyncMutation,
   useSyncMutation,
   useSyncStateForRow,
-} from "@/hooks/sync-hook";
+} from "@/hooks/ai/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";

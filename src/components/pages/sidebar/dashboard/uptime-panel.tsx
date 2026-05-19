@@ -2,8 +2,8 @@
 
 import { Icon } from "@/components/ui/icon";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useDashboardUptimeQuery } from "@/hooks/dashboard-hook";
-import { useStatusQuery } from "@/hooks/status-hook";
+import { useDashboardUptimeQuery } from "@/hooks/billing/dashboard-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { analytics } from "@/lib/analytics";
 import { intentDotClass, type IntentType } from "@/lib/config/intent-styles";
 import { useTranslations } from "next-intl";

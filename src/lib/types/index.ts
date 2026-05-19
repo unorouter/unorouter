@@ -92,7 +92,7 @@ export type CopyResult = {
   tables: string[];
 };
 
-// makeTableStore (src/lib/db/client/table-store.ts).
+// makeTableStore (src/lib/db/client/data/table-store.ts).
 export type ScopedTable = SQLiteTable & { userId?: SQLiteColumn };
 export type StoreListOpts = {
   orderBy?: SQL | SQLiteColumn;

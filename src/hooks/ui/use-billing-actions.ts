@@ -6,7 +6,7 @@ import {
   useStripeSubscriptionMutation,
   useStripeTopUpMutation,
   useTopUpInfoQuery,
-} from "@/hooks/billing-hook";
+} from "@/hooks/billing/billing-hook";
 import { analytics } from "@/lib/analytics";
 import type { SubscriptionPlan } from "@/lib/api/subscription";
 import { useTranslations } from "next-intl";

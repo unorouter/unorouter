@@ -4,11 +4,11 @@
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useConversationQuery,
   useUpdateConversationMutation,
-} from "@/hooks/chat-hook";
+} from "@/hooks/ai/chat-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import type { ChatUIMessage } from "@/lib/types";

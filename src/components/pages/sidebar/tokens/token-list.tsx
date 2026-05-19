@@ -5,7 +5,7 @@ import { Icon } from "@/components/ui/icon";
 import { DataTable } from "@/components/elements/table/data-table";
 import { DataTableGlobalFilter } from "@/components/elements/table/data-table-global-filter";
 import { Button } from "@/components/ui/button";
-import { useTokensQuery } from "@/hooks/token-hook";
+import { useTokensQuery } from "@/hooks/billing/token-hook";
 import { msg } from "@/lib/config/constants";
 import { DataTableId } from "@/lib/types/enums";
 import { createTableAtoms } from "@/store/data-table-store";

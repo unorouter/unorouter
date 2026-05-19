@@ -2,7 +2,7 @@
 
 import { PageContent } from "@/components/layout/sidebar/sidebar-layout";
 import { Icon } from "@/components/ui/icon";
-import { useStatusQuery } from "@/hooks/status-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import type { DashboardStore } from "@/store/dashboard-store";
 import { dashboardStoreAtom } from "@/store/dashboard-store";

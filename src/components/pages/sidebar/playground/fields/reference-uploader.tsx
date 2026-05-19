@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useUploadReferenceMutation } from "@/hooks/playground-hook";
+import { useUploadReferenceMutation } from "@/hooks/ai/playground-hook";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 import { Icon } from "@/components/ui/icon";

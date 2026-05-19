@@ -16,7 +16,7 @@ import {
   useCreatePresetMutation,
   usePresetsQuery,
   useUpdatePresetMutation,
-} from "@/hooks/rp/presets";
+} from "@/hooks/ai/rp/presets";
 import {
   samplingPresetFormSchema,
   type SamplingPresetForm,

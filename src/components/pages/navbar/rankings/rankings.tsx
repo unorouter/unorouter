@@ -1,7 +1,7 @@
 "use client";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { useRankingsQuery } from "@/hooks/rankings-hook";
+import { useRankingsQuery } from "@/hooks/models/rankings-hook";
 import type { RankingPeriod } from "@/lib/api/typebox/rankings";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

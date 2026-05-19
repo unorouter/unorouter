@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useUploadReferenceMutation } from "@/hooks/playground-hook";
+import { useUploadReferenceMutation } from "@/hooks/ai/playground-hook";
 import { Icon } from "@/components/ui/icon";
 
 type Props = {

@@ -10,7 +10,10 @@ import { resolve } from "path";
 
 const root = resolve(import.meta.dirname, "..");
 const clientDir = resolve(root, "drizzle/client");
-const outFile = resolve(root, "src/lib/db/client/migrate/migrations.json");
+const outFile = resolve(
+  root,
+  "src/lib/db/client/schema-migrate/migrations.json",
+);
 
 const journalPath = resolve(clientDir, "meta/_journal.json");
 let journal: { entries: Array<{ idx: number; tag: string }> } = {

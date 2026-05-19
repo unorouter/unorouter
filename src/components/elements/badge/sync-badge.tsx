@@ -3,12 +3,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useRemoveSyncMutation,
   useSyncMutation,
   useSyncStateForRow,
-} from "@/hooks/sync-hook";
+} from "@/hooks/ai/sync-hook";
 import type { SyncKindName } from "@/lib/validation/sync";
 import { useLocale, useTranslations } from "next-intl";
 

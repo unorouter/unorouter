@@ -4,12 +4,10 @@ import {
   readLocalConversationBundle,
   readLocalMessageItems,
   readLocalMessages,
-} from "@/lib/db/client/data/reads";
-import {
   upsertLocalConversation,
   upsertLocalMessage,
   upsertLocalMessageItem,
-} from "@/lib/db/client/data/writes";
+} from "@/lib/db/client/data/chat";
 import type {
   ApiMessage,
   PersistMessage,

@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { useUpscalerCatalogQuery } from "@/hooks/playground-hook";
+import { useUpscalerCatalogQuery } from "@/hooks/ai/playground-hook";
 import { cn } from "@/lib/utils";
 import { UPSCALER_MULTIPLIERS as MULTIPLIERS } from "../playground-constants";
 

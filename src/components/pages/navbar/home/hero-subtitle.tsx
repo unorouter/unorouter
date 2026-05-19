@@ -1,6 +1,6 @@
 "use client";
 
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { APP_VALUES } from "@/lib/config/constants";
 import { useTranslations } from "next-intl";
 

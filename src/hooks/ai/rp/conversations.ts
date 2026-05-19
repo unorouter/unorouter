@@ -1,16 +1,14 @@
 "use client";
 
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   readLocalConversation,
   readLocalConversationBindings,
   readLocalConversationSettings,
-} from "@/lib/db/client/data/reads";
-import {
   replaceLocalConversationBindings,
   upsertLocalConversation,
   upsertLocalConversationSettings,
-} from "@/lib/db/client/data/writes";
+} from "@/lib/db/client/data/chat";
 import { itemPatch } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

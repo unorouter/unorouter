@@ -19,7 +19,7 @@ import {
 import {
   useConversationsInfiniteQuery,
   useDeleteConversationMutation,
-} from "@/hooks/chat-hook";
+} from "@/hooks/ai/chat-hook";
 import { analytics } from "@/lib/analytics";
 import { useAui, useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";

@@ -1,6 +1,6 @@
 "use client";
 
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useTranslations } from "next-intl";
 
 export function HeroStatsGrid() {

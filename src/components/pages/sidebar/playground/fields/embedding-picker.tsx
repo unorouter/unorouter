@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
-import { useEmbeddingCatalogQuery } from "@/hooks/playground-hook";
+import { useEmbeddingCatalogQuery } from "@/hooks/ai/playground-hook";
 import type { ModelFamily } from "@/lib/playground/models";
 import { useTranslations } from "next-intl";
 

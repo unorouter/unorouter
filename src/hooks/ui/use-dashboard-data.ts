@@ -4,8 +4,8 @@ import type { QuotaDataItem } from "@/components/pages/sidebar/dashboard/stats";
 import {
   useDashboardQuotaQuery,
   useDashboardUptimeQuery,
-} from "@/hooks/dashboard-hook";
-import { useStatusQuery } from "@/hooks/status-hook";
+} from "@/hooks/billing/dashboard-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import {
   DEFAULT_RANGE_HOURS,
   dashboardStoreAtom,

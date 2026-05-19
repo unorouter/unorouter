@@ -1,13 +1,11 @@
 import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
 import {
+  deleteLocalConversation,
   readLocalConversation,
   readLocalConversations,
-} from "@/lib/db/client/data/reads";
-import {
-  deleteLocalConversation,
   upsertLocalConversation,
   upsertLocalConversationSettings,
-} from "@/lib/db/client/data/writes";
+} from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import {
   patchConv,

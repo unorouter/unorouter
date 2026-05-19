@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
-import { useLoraCatalogQuery } from "@/hooks/playground-hook";
+import { useLoraCatalogQuery } from "@/hooks/ai/playground-hook";
 import type { ModelFamily } from "@/lib/playground/models";
 import { useTranslations } from "next-intl";
 

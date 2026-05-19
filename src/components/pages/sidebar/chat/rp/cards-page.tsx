@@ -18,7 +18,7 @@ import {
   useApplyCardMutation,
   useCardsQuery,
   useDeleteCardMutation,
-} from "@/hooks/rp/cards";
+} from "@/hooks/ai/rp/cards";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

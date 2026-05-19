@@ -15,9 +15,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { AUTH_REDIRECT_COOKIE } from "@/lib/config/constants";

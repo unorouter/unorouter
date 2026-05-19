@@ -21,10 +21,10 @@ import {
   useCardQuery,
   useCreateCardMutation,
   useUpdateCardMutation,
-} from "@/hooks/rp/cards";
-import { useCharactersQuery } from "@/hooks/rp/characters";
-import { useLorebooksQuery } from "@/hooks/rp/lorebooks";
-import { usePersonasQuery } from "@/hooks/rp/personas";
+} from "@/hooks/ai/rp/cards";
+import { useCharactersQuery } from "@/hooks/ai/rp/characters";
+import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
+import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { t as tt } from "elysia";

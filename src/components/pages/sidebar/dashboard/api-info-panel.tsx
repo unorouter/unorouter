@@ -2,7 +2,7 @@
 
 import { CopyButton } from "@/components/elements/code/copy-button";
 import { Icon } from "@/components/ui/icon";
-import { useStatusQuery } from "@/hooks/status-hook";
+import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { useTranslations } from "next-intl";
 
 export function ApiInfoPanel() {

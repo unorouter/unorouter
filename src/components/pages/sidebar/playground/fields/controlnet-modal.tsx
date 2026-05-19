@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { useUploadReferenceMutation } from "@/hooks/playground-hook";
+import { useUploadReferenceMutation } from "@/hooks/ai/playground-hook";
 import { cn } from "@/lib/utils";
 import { CONTROLNET_KINDS as KINDS } from "../playground-constants";
 

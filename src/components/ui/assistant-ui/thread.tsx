@@ -17,13 +17,13 @@ import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-but
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
     useDeleteMessageMutation,
     useEditMessageMutation,
     useSetActiveBranchMutation,
-} from "@/hooks/chat-hook";
-import { usePricingQuery } from "@/hooks/pricing-hook";
+} from "@/hooks/ai/chat-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
