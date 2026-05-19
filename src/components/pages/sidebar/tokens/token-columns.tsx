@@ -24,7 +24,7 @@ import { renderQuota } from "@/lib/config/constants";
 import { copyToClipboard, copyToClipboardAsync } from "@/lib/utils/base";
 import type { Token } from "@/openapi";
 import type { CellContext } from "@tanstack/react-table";
-import dayjs from "dayjs";
+import { formatLongDate } from "@/lib/utils/format/date";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -32,11 +32,6 @@ import { toast } from "sonner";
 import { editingTokenAtom } from "./token-list";
 
 export type TokenRow = NonNullable<Token>;
-
-function formatDate(timestamp: number): string {
-  if (timestamp <= 0) return "";
-  return dayjs.unix(timestamp).format("MMM D, YYYY");
-}
 
 export function TokenStatusCell({ row }: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
@@ -278,7 +273,7 @@ export function TokenDateCell({ row, column }: CellContext<TokenRow, unknown>) {
   const value = row.original[column.id as "created_time" | "expired_time"];
   return (
     <span className="text-muted-foreground font-mono text-xs">
-      {value === -1 ? t("TOKEN.FORM.NEVER_EXPIRES") : formatDate(value)}
+      {value === -1 ? t("TOKEN.FORM.NEVER_EXPIRES") : formatLongDate(value)}
     </span>
   );
 }

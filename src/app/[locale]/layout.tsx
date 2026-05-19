@@ -2,6 +2,12 @@ import { AffiliateCapture } from "@/components/pages/auth/affiliate-capture";
 import { AuthRedirectCapture } from "@/components/pages/auth/auth-redirect-capture";
 import { Providers } from "@/components/provider/providers";
 import { Toaster } from "@/components/ui/sonner";
+import {
+  buildThemeCss,
+  themeDataAttrs,
+} from "@/components/ui/theme/theme-build-css";
+import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
+import { getServerTheme } from "@/components/ui/theme/theme-server";
 import { routing } from "@/i18n/routing";
 import { APP_VALUES } from "@/lib/config/constants";
 import { rpc } from "@/lib/rpc";
@@ -11,14 +17,11 @@ import {
   buildOrganizationSchema,
   buildWebSiteSchema,
 } from "@/lib/seo/structured-data";
-import { buildThemeCss, themeDataAttrs } from "@/components/ui/theme/theme-build-css";
-import { getServerTheme } from "@/components/ui/theme/theme-server";
 import { handleElysia } from "@/lib/utils/base";
 import { serverLocale } from "@/lib/utils/server";
 import { Viewport } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { allFontVariablesClass } from "@/components/ui/theme/theme-fonts";
 import {
   JetBrains_Mono,
   Plus_Jakarta_Sans,

@@ -14,10 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Progress } from "@/components/ui/progress";
 import { useLogoutMutation } from "@/hooks/auth-hook";
-import {
-  useBillingPlansQuery,
-  useSubscriptionSelfQuery,
-} from "@/hooks/billing-hook";
+import { useSubscriptionSelfQuery } from "@/hooks/billing-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -38,18 +35,12 @@ export function UserDropdown(props: UserDropdownProps) {
   const userDisplay = useUserDisplay();
   const logoutMutation = useLogoutMutation();
   const subQuery = useSubscriptionSelfQuery();
-  const plansQuery = useBillingPlansQuery();
 
   const activeSubs = (subQuery.data?.subscriptions ?? [])
-    .map((s) => s.subscription)
     .filter(
-      (sub): sub is NonNullable<typeof sub> => !!sub && sub.status === "active",
+      (s): s is typeof s & { subscription: NonNullable<typeof s.subscription> } =>
+        !!s.subscription && s.subscription.status === "active",
     );
-
-  function getPlanTitle(planId: number): string {
-    const plan = (plansQuery.data ?? []).find((p) => p.id === planId);
-    return plan?.title ?? `#${planId}`;
-  }
 
   if (!userDisplay.user) return null;
 
@@ -101,17 +92,17 @@ export function UserDropdown(props: UserDropdownProps) {
                   {activeSubs.length}
                 </span>
               </div>
-              {activeSubs.map((sub) => {
+              {activeSubs.map((summary) => {
+                const sub = summary.subscription;
                 const total = quotaToDollars(sub.amount_total);
                 const used = quotaToDollars(sub.amount_used);
                 const percentage =
                   total > 0 ? Math.min((used / total) * 100, 100) : 0;
+                const title = summary.plan_title || `#${sub.plan_id}`;
                 return (
                   <div key={sub.id} className="flex flex-col gap-1">
                     <div className="flex items-center gap-2 text-[11px]">
-                      <span className="text-foreground truncate">
-                        {getPlanTitle(sub.plan_id)}
-                      </span>
+                      <span className="text-foreground truncate">{title}</span>
                       {total > 0 && (
                         <span className="text-muted-foreground ml-auto font-mono tabular-nums">
                           ${used.toFixed(2)} / ${total.toFixed(2)}

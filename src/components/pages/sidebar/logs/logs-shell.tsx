@@ -8,27 +8,25 @@ import { UsageLogs } from "./common/usage-logs";
 import { DrawingLogs } from "./drawing/drawing-logs";
 import { TaskLogs } from "./task/task-logs";
 
-const TABS = ["common", "drawing", "task"] as const;
-type LogsTab = (typeof TABS)[number];
-
-function isLogsTab(value: string | null): value is LogsTab {
-  return value != null && (TABS as readonly string[]).includes(value);
-}
+const TABS = [
+  { value: "common", Component: UsageLogs },
+  { value: "drawing", Component: DrawingLogs },
+  { value: "task", Component: TaskLogs },
+] as const;
+type LogsTab = (typeof TABS)[number]["value"];
 
 export function LogsShell() {
   const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab");
-  const activeTab: LogsTab = isLogsTab(tabParam) ? tabParam : "common";
+  const activeTab: LogsTab =
+    (TABS.find((tab) => tab.value === tabParam)?.value as LogsTab) ?? "common";
 
   function setTab(next: string) {
     const params = new URLSearchParams(searchParams.toString());
-    if (next === "common") {
-      params.delete("tab");
-    } else {
-      params.set("tab", next);
-    }
+    if (next === "common") params.delete("tab");
+    else params.set("tab", next);
     const qs = params.toString();
     router.replace(qs ? `?${qs}` : "?", { scroll: false });
   }
@@ -52,20 +50,18 @@ export function LogsShell() {
 
       <Tabs value={activeTab} onValueChange={setTab} className="gap-4">
         <TabsList variant="line">
-          <TabsTrigger value="common">{t("LOGS.TABS.COMMON")}</TabsTrigger>
-          <TabsTrigger value="drawing">{t("LOGS.TABS.DRAWING")}</TabsTrigger>
-          <TabsTrigger value="task">{t("LOGS.TABS.TASK")}</TabsTrigger>
+          {TABS.map((tab) => (
+            <TabsTrigger key={tab.value} value={tab.value}>
+              {t(`LOGS.TABS.${tab.value.toUpperCase() as Uppercase<LogsTab>}`)}
+            </TabsTrigger>
+          ))}
         </TabsList>
 
-        <TabsContent value="common">
-          <UsageLogs />
-        </TabsContent>
-        <TabsContent value="drawing">
-          <DrawingLogs />
-        </TabsContent>
-        <TabsContent value="task">
-          <TaskLogs />
-        </TabsContent>
+        {TABS.map((tab) => (
+          <TabsContent key={tab.value} value={tab.value}>
+            <tab.Component />
+          </TabsContent>
+        ))}
       </Tabs>
     </PageContent>
   );

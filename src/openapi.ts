@@ -146,51 +146,13 @@ export interface AnnouncementEntry {
   type?: string;
 }
 
-export interface DeploymentResourceConfig {
-  cpu: string;
-  gpu: string;
-  memory: string;
-}
-
-export interface DeploymentItem {
-  brand_name: string;
-  completed_percent: number;
-  compute_minutes_remaining: number;
-  compute_minutes_served: number;
-  container_name: string;
-  created_at: number;
-  deployment_name: string;
-  description: string;
-  hardware_info: string;
-  hardware_name: string;
-  hardware_quantity: number;
-  id: string;
-  instance_count: number;
-  model_name: string;
-  model_version: string;
-  provider: string;
-  resource_config: DeploymentResourceConfig;
-  status: string;
-  time_remaining: string;
-  time_remaining_minutes: number;
-  type: string;
-  updated_at: number;
-}
-
-export interface DeploymentSearchResponse {
-  items: DeploymentItem[] | null;
-  page: number;
-  page_size: number;
-  total: number;
-}
-
 /**
- * Response_dto.DeploymentSearchResponse schema
+ * ModerationResponse schema
  */
 export interface AnonymousSchema0 {
-  data: DeploymentSearchResponse;
-  message: string;
-  success: boolean;
+  id: string;
+  model: string;
+  results: unknown[] | null;
 }
 
 export interface ApiInfoEntry {
@@ -641,6 +603,12 @@ export interface DeploymentLocation {
   name: string;
 }
 
+export interface DeploymentResourceConfig {
+  cpu: string;
+  gpu: string;
+  memory: string;
+}
+
 export interface DeploymentDetailResponse {
   amount_paid: number;
   brand_name: string;
@@ -663,6 +631,31 @@ export interface DeploymentDetailResponse {
   status: string;
   total_containers: number;
   total_gpus: number;
+  updated_at: number;
+}
+
+export interface DeploymentItem {
+  brand_name: string;
+  completed_percent: number;
+  compute_minutes_remaining: number;
+  compute_minutes_served: number;
+  container_name: string;
+  created_at: number;
+  deployment_name: string;
+  description: string;
+  hardware_info: string;
+  hardware_name: string;
+  hardware_quantity: number;
+  id: string;
+  instance_count: number;
+  model_name: string;
+  model_version: string;
+  provider: string;
+  resource_config: DeploymentResourceConfig;
+  status: string;
+  time_remaining: string;
+  time_remaining_minutes: number;
+  type: string;
   updated_at: number;
 }
 
@@ -695,6 +688,13 @@ export interface DeploymentRequest {
   location_ids: number[] | null;
   registry_config: RegistryConfig;
   resource_private_name: string;
+}
+
+export interface DeploymentSearchResponse {
+  items: DeploymentItem[] | null;
+  page: number;
+  page_size: number;
+  total: number;
 }
 
 export interface DeploymentSettingsResponse {
@@ -1751,6 +1751,7 @@ export interface UserSubscription {
 }
 
 export interface SubscriptionSummary {
+  plan_title: string;
   subscription: UserSubscription;
 }
 
@@ -2394,7 +2395,6 @@ export interface ResponseDtoPageDataModelTopUp {
 }
 
 export interface User {
-  access_token: string | null;
   aff_code: string;
   aff_count: number;
   aff_history_quota: number;
@@ -2600,6 +2600,7 @@ export interface StatusData {
   privacy_policy_url?: string;
   quota_display_type: string;
   quota_per_unit: number;
+  register_enabled: boolean;
   self_use_mode_enabled: boolean;
   server_address: string;
   setup: boolean;

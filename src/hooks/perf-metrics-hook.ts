@@ -25,7 +25,7 @@ export function usePerfMetricsQuery(
     queryFn: async () =>
       handleElysia(
         await rpc.api["perf-metrics"].get({
-          query: { model: modelName as string, hours },
+          query: { model: modelName!, hours },
         }),
       ),
     enabled: Boolean(modelName),
