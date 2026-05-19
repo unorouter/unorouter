@@ -1,8 +1,4 @@
-import {
-  GUEST_USER_ID,
-  MODERATION_TIMEOUT_MS,
-  msg,
-} from "@/lib/config/constants";
+import { MODERATION_TIMEOUT_MS, msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/server/client";
 import { moderationLog } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
@@ -22,7 +18,7 @@ export type ModerationResult =
 
 export type ModerationContext = {
   prompt: string;
-  userId: number | "guest";
+  userId: number;
   convId: string | null | undefined;
   model: string;
   mediaType: "image" | "video";
@@ -38,7 +34,7 @@ type CreemResponse = {
 };
 
 function buildExternalId(
-  userId: number | "guest",
+  userId: number,
   convId: string | null | undefined,
 ): string {
   return `${userId}:${convId ?? "tmp"}:${uid(12)}`;
@@ -57,7 +53,7 @@ async function persistDecision(
     await getDb()
       .insert(moderationLog)
       .values({
-        userId: ctx.userId === "guest" ? GUEST_USER_ID : ctx.userId,
+        userId: ctx.userId,
         convId: ctx.convId ?? null,
         model: ctx.model,
         mediaType: ctx.mediaType,

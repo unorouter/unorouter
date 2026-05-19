@@ -1,3 +1,13 @@
+import type { useTranslations } from "next-intl";
+
+export type TranslationKey = Parameters<
+  ReturnType<typeof useTranslations<never>>
+>[0];
+
+export type DashToUnderscore<S extends string> = S extends `${infer A}-${infer B}`
+  ? `${A}_${B}`
+  : S;
+
 export type LogContext = { context?: string; [key: string]: unknown };
 
 export type Extracted = {
@@ -18,4 +28,15 @@ export function isSearchDoc(doc: unknown): doc is SearchResult {
   if (typeof doc !== "object" || doc === null) return false;
   const d = doc as Record<string, unknown>;
   return typeof d.title === "string" && typeof d.url === "string";
+}
+
+// Lives outside `config/constants.ts` to avoid an import cycle with
+// `config/env.ts`, which throws ParamErrors at module-load time.
+export class ParamError extends Error {
+  public readonly params: Record<string, string | number>;
+  constructor(key: TranslationKey, params: Record<string, string | number>) {
+    super(key);
+    this.name = "ParamError";
+    this.params = params;
+  }
 }

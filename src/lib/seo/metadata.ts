@@ -1,9 +1,12 @@
 import { getPathname } from "@/i18n/navigation";
 import { type Pathname, routing } from "@/i18n/routing";
+import type { SeoTimestampSlug } from "@/i18n/registry";
+import { dayjs } from "@/lib/utils/format/date";
 import type { Metadata } from "next";
 import type { Locale } from "next-intl";
 import { LANGUAGES, LOCALES } from "../config/constants";
 import { env } from "../config/env";
+import rawTimestamps from "../../../public/seo-timestamps.json" with { type: "json" };
 import {
   buildBadgeUrl,
   type BadgeFormat,
@@ -20,14 +23,6 @@ function buildAlternateLanguages(href: Pathname): Record<string, string> {
   return languages;
 }
 
-function ogCacheVersion(): number {
-  const now = new Date();
-  const y = now.getUTCFullYear();
-  const m = String(now.getUTCMonth() + 1).padStart(2, "0");
-  const d = String(now.getUTCDate()).padStart(2, "0");
-  return Number(`${y}${m}${d}`);
-}
-
 export function ogBadge(
   variant: BadgeType,
   locale: string,
@@ -38,7 +33,7 @@ export function ogBadge(
     theme: opts.theme ?? "dark",
     format: opts.format ?? "png",
     size: "og",
-    v: ogCacheVersion(),
+    v: Number(dayjs.utc().format("YYYYMMDD")),
   });
 }
 
@@ -136,4 +131,17 @@ export function getPageMetadata(params: MetadataParams): Metadata {
       },
     },
   };
+}
+
+export type SeoTimestamp = {
+  published: string;
+  modified: string;
+};
+
+const seoTimestamps = rawTimestamps as Record<string, SeoTimestamp>;
+
+export function getSeoTimestamps(
+  slug: SeoTimestampSlug,
+): SeoTimestamp | undefined {
+  return seoTimestamps[slug];
 }

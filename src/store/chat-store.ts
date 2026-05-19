@@ -1,4 +1,3 @@
-import { GUEST_CONVS_COOKIE } from "@/lib/config/constants";
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import { safeJsonParse } from "@/lib/utils/base";
 import type { StreamOverrides } from "@/lib/validation/chat";
@@ -102,31 +101,3 @@ export const setChatHelpers = (helpers: ChatHelpersRef | null) => {
   _chatHelpers = helpers;
 };
 
-const guestConvsAtom = atomWithStorage<string[]>(
-  GUEST_CONVS_COOKIE,
-  [],
-  jotaiCookieStorage,
-);
-
-export function getGuestConvIds(): string[] {
-  return safeJsonParse<string[]>(getCookie(GUEST_CONVS_COOKIE), []);
-}
-
-export function addGuestConvId(id: string) {
-  const ids = getGuestConvIds();
-  if (!ids.includes(id)) {
-    chatStore.set(guestConvsAtom, [...ids, id]);
-  }
-}
-
-export function removeGuestConvId(id: string) {
-  const ids = getGuestConvIds();
-  chatStore.set(
-    guestConvsAtom,
-    ids.filter((i) => i !== id),
-  );
-}
-
-export function clearGuestConvIds() {
-  chatStore.set(guestConvsAtom, []);
-}

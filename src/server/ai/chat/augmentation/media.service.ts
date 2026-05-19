@@ -34,7 +34,7 @@ async function extractPdfText(buffer: Buffer): Promise<string | null> {
 export async function uploadMedia(
   file: File,
   convId: string,
-  requestUserId: number = 0,
+  userId: number,
 ) {
   const db = getDb();
   const convRows = await db
@@ -42,9 +42,6 @@ export async function uploadMedia(
     .from(conversations)
     .where(eq(conversations.id, convId))
     .limit(1);
-
-  const userId = convRows[0]?.userId ?? requestUserId;
-  const isGuest = userId === 0;
 
   if (convRows.length === 0) {
     await db.transaction(async (tx) => {
@@ -61,18 +58,16 @@ export async function uploadMedia(
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  if (!isGuest) {
-    const rows = await db
-      .select({ total: sql<number>`COALESCE(SUM(${media.sizeBytes}), 0)` })
-      .from(media)
-      .where(eq(media.userId, userId));
-    const current = Number(rows[0]?.total ?? 0);
-    if (current + buffer.length > MAX_USER_UPLOAD_BYTES) {
-      throw new Error(msg("ERRORS.STORAGE_QUOTA_EXCEEDED"));
-    }
+  const rows = await db
+    .select({ total: sql<number>`COALESCE(SUM(${media.sizeBytes}), 0)` })
+    .from(media)
+    .where(eq(media.userId, userId));
+  const current = Number(rows[0]?.total ?? 0);
+  if (current + buffer.length > MAX_USER_UPLOAD_BYTES) {
+    throw new Error(msg("ERRORS.STORAGE_QUOTA_EXCEEDED"));
   }
 
-  const key = mediaKey(isGuest ? "guest" : "user", convId, uid(8), uid(8));
+  const key = mediaKey("user", convId, uid(8), uid(8));
   const { url, mime } = await uploadToR2(key, buffer, file.type);
 
   const extractedText =

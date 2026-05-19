@@ -1,4 +1,4 @@
-import { ParamError } from "../types/errors";
+import { ParamError } from "../types";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 const appUrl = process.env.NEXT_PUBLIC_URL;

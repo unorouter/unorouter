@@ -189,20 +189,14 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const isLoggedIn = !!authQuery.data;
   const userId = authQuery.data?.id ?? null;
   const adapterRef = useRef(
-    createThreadListAdapter(queryClient, t, isLoggedIn, userId),
+    createThreadListAdapter(queryClient, t, userId),
   );
 
   useEffect(() => {
-    adapterRef.current = createThreadListAdapter(
-      queryClient,
-      t,
-      isLoggedIn,
-      userId,
-    );
-  }, [isLoggedIn, queryClient, t, userId]);
+    adapterRef.current = createThreadListAdapter(queryClient, t, userId);
+  }, [queryClient, t, userId]);
 
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,

@@ -415,7 +415,7 @@ async function handleImageStream(
   apiKey: string,
   body: StreamBody,
   upstreamHeaders: Record<string, string>,
-  userId: number | "guest",
+  userId: number,
 ) {
   const prompt = extractLastUserText(body.messages);
   if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
@@ -453,12 +453,14 @@ async function handleImageStream(
         .map((url: string | null) => `![image](${url})`)
         .join("\n\n");
 
-      trackUsage(body.convId, {
-        requestId,
-        inputTokens: 0,
-        outputTokens: 0,
-        upstreamHeaders,
-      });
+      if (userId !== 0) {
+        trackUsage(body.convId, {
+          requestId,
+          inputTokens: 0,
+          outputTokens: 0,
+          upstreamHeaders,
+        });
+      }
 
       writeBufferedMessage(writer, markdown);
     },
@@ -471,7 +473,7 @@ async function handleVideoTaskStream(
   apiKey: string,
   body: StreamBody,
   upstreamHeaders: Record<string, string>,
-  userId: number | "guest",
+  userId: number,
 ) {
   const prompt = extractLastUserText(body.messages);
   if (!prompt) throw new Error(msg("ERRORS.NO_IMAGE_PROMPT"));
@@ -492,12 +494,14 @@ async function handleVideoTaskStream(
         prompt,
       );
 
-      trackUsage(body.convId, {
-        requestId: undefined,
-        inputTokens: 0,
-        outputTokens: 0,
-        upstreamHeaders,
-      });
+      if (userId !== 0) {
+        trackUsage(body.convId, {
+          requestId: undefined,
+          inputTokens: 0,
+          outputTokens: 0,
+          upstreamHeaders,
+        });
+      }
 
       // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
       writer.write({ type: "start" });
@@ -536,7 +540,7 @@ export async function streamChat(
   apiKey: string,
   body: StreamBody,
   request: Request,
-  userId: number | "guest",
+  userId: number,
 ) {
   const { upstream } = deriveUpstream({ request });
   const { buffered, mediaType } = await isMediaModel(body.model);
@@ -557,7 +561,7 @@ export async function streamChat(
       media_type: mediaType,
       conv_id: body.convId,
       web_search: !!body.webSearch,
-      is_guest: userId === "guest",
+      is_guest: userId === 0,
     },
   });
 
@@ -578,9 +582,9 @@ export async function streamChat(
   const convWebSearchEnabled = convCtx?.settings.webSearchEnabled ?? false;
   // Web search is paid-only: a guest stream cannot enable it via body.
   const effectiveWebSearch =
-    convCtx && userId !== "guest"
+    convCtx && userId !== 0
       ? convWebSearchEnabled
-      : userId !== "guest" && !!body.webSearch;
+      : userId !== 0 && !!body.webSearch;
 
   let searchSystemMessage: string | undefined;
   if (effectiveWebSearch) {
@@ -754,14 +758,16 @@ export async function streamChat(
           ? outputTokens / (durationMs / 1000)
           : undefined;
       const requestId = response.headers?.["x-oneapi-request-id"] ?? undefined;
-      trackUsage(body.convId, {
-        requestId,
-        inputTokens,
-        outputTokens,
-        upstreamHeaders: upstream.headers,
-        durationMs,
-        tokensPerSecond,
-      });
+      if (userId !== 0) {
+        trackUsage(body.convId, {
+          requestId,
+          inputTokens,
+          outputTokens,
+          upstreamHeaders: upstream.headers,
+          durationMs,
+          tokensPerSecond,
+        });
+      }
       // Cost backfilled later from upstream headers; client needs tokens now for its local row.
       usageRef.value = {
         inputTokens,
@@ -786,7 +792,7 @@ export async function streamChat(
           tokens_per_second: tokensPerSecond,
           web_search: effectiveWebSearch,
           has_dropped_params: !!droppedParamsRef.value,
-          is_guest: userId === "guest",
+          is_guest: userId === 0,
           request_id: requestId,
         },
       });
@@ -805,7 +811,7 @@ export async function streamChat(
             error instanceof Error
               ? error.message.slice(0, 200)
               : String(error).slice(0, 200),
-          is_guest: userId === "guest",
+          is_guest: userId === 0,
         },
       });
     },

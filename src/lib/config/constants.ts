@@ -1,11 +1,10 @@
 import { CN, DE, FR, JP, RU, TW, US, VN } from "country-flag-icons/react/3x2";
 import type { Locale } from "next-intl";
 import type { FunctionComponent, SVGAttributes } from "react";
-import type { TranslationKey } from "../types/i18n";
-import type { DashToUnderscore } from "../types/string";
+import type { DashToUnderscore, TranslationKey } from "../types";
 import { env } from "./env";
-export { ParamError } from "../types/errors";
-export type { TranslationKey } from "../types/i18n";
+export { ParamError } from "../types";
+export type { TranslationKey } from "../types";
 export {
   dollarsToQuota,
   QUOTA_PER_DOLLAR,
@@ -27,12 +26,10 @@ export const AFF_CODE_KEY = "aff" as const;
 export function affLink(code?: string) {
   return code ? `${env.appUrl}/?${AFF_CODE_KEY}=${code}` : env.appUrl;
 }
-export const GUEST_CONVS_COOKIE = "guest-convs" as const;
 
 export const SERVER_URL_KEY = "x-url" as const;
 
 export const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30d
-export const GUEST_CONVS_MAX_AGE = 60 * 60 * 24 * 7; // 7d, matches R2 TTL
 
 export const FAR_FUTURE = 4102444800; // 2100-01-01
 
@@ -86,9 +83,6 @@ export const FREE_MODEL_RACE_COUNT = 5;
 export const TAVILY_TIMEOUT_MS = 5_000;
 
 export const MODERATION_TIMEOUT_MS = 5_000;
-
-// Sentinel for moderation logs from unauthenticated callers.
-export const GUEST_USER_ID = -1;
 
 export const PENDING_USAGE_TTL_MS = 5 * 60 * 1000;
 

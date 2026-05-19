@@ -10,7 +10,6 @@ const MAX_TITLE_SEED_LEN = 10_000;
 const MAX_MESSAGES_PER_PERSIST = 500;
 const MAX_MESSAGES_PER_STREAM = 200;
 const MAX_ITEMS_PER_MESSAGE = 200;
-const MAX_CLAIM_CONV_IDS = 500;
 
 const persistMessageRole = t.Union([
   t.Literal("system"),
@@ -340,12 +339,6 @@ export const mediaUploadBody = t.Object({
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),
   model: t.Optional(t.String()),
-});
-
-export const claimConversationsBody = t.Object({
-  convIds: t.Array(t.String({ maxLength: MAX_ID_LEN }), {
-    maxItems: MAX_CLAIM_CONV_IDS,
-  }),
 });
 
 export const finalizeTaskBody = t.Object({

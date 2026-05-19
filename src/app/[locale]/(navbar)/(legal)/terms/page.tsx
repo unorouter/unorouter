@@ -6,7 +6,7 @@ import {
   buildArticleSchema,
   buildBreadcrumbListSchema,
 } from "@/lib/seo/structured-data";
-import { getSeoTimestamps } from "@/lib/seo/timestamps";
+import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { localeUrl } from "@/i18n/navigation";
 import { serverLocale } from "@/lib/utils/server";
 import { getLocale, getTranslations } from "next-intl/server";

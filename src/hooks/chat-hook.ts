@@ -264,16 +264,6 @@ export function useDeleteConversationMutation() {
   });
 }
 
-export function useClaimConversationsMutation() {
-  const t = useTranslations();
-  return useMutation({
-    mutationFn: async (convIds: string[]) => {
-      return handleElysia(await rpc.api.ai.chat.claim.post({ convIds }));
-    },
-    onError: (e) => handleError(e, t),
-  });
-}
-
 export function useTaskStatusQuery(taskId: string, enabled = false) {
   return useQuery({
     queryKey: queryKeys.taskStatus(taskId),

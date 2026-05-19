@@ -14,7 +14,7 @@ import {
 } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
-import { getSeoTimestamps } from "@/lib/seo/timestamps";
+import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { handleElysia, modelSlug } from "@/lib/utils/base";
 import dayjs from "dayjs";
 import type { MetadataRoute } from "next";

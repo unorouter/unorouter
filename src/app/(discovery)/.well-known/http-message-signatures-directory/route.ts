@@ -1,4 +1,4 @@
-import { parseJwks, stripPrivateFields } from "@/lib/seo/web-bot-auth/keys";
+import { parseJwks, stripPrivateFields } from "@/server/auth/web-bot-auth/keys";
 import { MediaType } from "http-message-sig";
 
 export const dynamic = "force-dynamic";

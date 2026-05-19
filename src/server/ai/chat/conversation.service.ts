@@ -77,7 +77,6 @@ export async function getPaginatedMessages(
 export async function listConversations(
   userId: number,
   query: ChatSearchQuery,
-  guestConvIds: string[],
 ) {
   const db = getDb();
   const page = query.p ?? 1;
@@ -85,14 +84,7 @@ export async function listConversations(
   const offset = (page - 1) * pageSize;
   const keyword = query.keyword?.trim();
 
-  const isGuest = userId === 0 && guestConvIds.length > 0;
-
-  if (userId === 0 && !isGuest) return { items: [], total: 0, page, pageSize };
-
-  const conditions = isGuest
-    ? [inArray(conversations.id, guestConvIds), eq(conversations.userId, 0)]
-    : [eq(conversations.userId, userId)];
-
+  const conditions = [eq(conversations.userId, userId)];
   if (keyword) {
     conditions.push(like(conversations.title, `%${keyword}%`));
   }
@@ -238,11 +230,6 @@ export async function updateSettings(
       .limit(1);
     assertFound(ownership);
 
-    // Guests cannot own personas/presets; silently drop refs.
-    if (userId === 0) {
-      body.personaId = undefined;
-      body.presetId = undefined;
-    }
     if (body.personaId) {
       const owned = await tx
         .select({ id: personas.id })
@@ -311,9 +298,8 @@ export async function deleteConversation(userId: number, convId: string) {
     .limit(1);
   assertFound(conv);
 
-  const scope = conv[0].userId === 0 ? "guest" : "user";
   try {
-    await deleteR2Prefix(`chat/${scope}/${convId}/`);
+    await deleteR2Prefix(`chat/user/${convId}/`);
   } catch (err) {
     logger.error("R2 cleanup failed for conversation, proceeding with delete", {
       context: "conversation.delete",
@@ -349,20 +335,8 @@ export async function getConversation(userId: number, convId: string) {
     .limit(1);
   assertFound(rows);
   const conv = rows[0];
-  if (conv.userId !== userId && conv.userId !== 0)
-    throw new Error(msg("ERRORS.NOT_FOUND"));
+  if (conv.userId !== userId) throw new Error(msg("ERRORS.NOT_FOUND"));
   return conv;
-}
-
-export async function claimConversations(userId: number, convIds: string[]) {
-  if (convIds.length === 0) return { claimed: 0 };
-  const db = getDb();
-  const result = await db
-    .update(conversations)
-    .set({ userId, updatedAt: dayjs().toDate() })
-    .where(and(eq(conversations.userId, 0), inArray(conversations.id, convIds)))
-    .returning({ id: conversations.id });
-  return { claimed: result.length };
 }
 
 export async function clearConversation(userId: number, convId: string) {

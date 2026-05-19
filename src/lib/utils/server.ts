@@ -5,7 +5,6 @@ import { getLocale } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import {
-  GUEST_CONVS_COOKIE,
   LOCALE_COOKIE,
   LOCALES,
   msg,
@@ -125,10 +124,6 @@ export async function fetchConvTitle(convId: string): Promise<string | null> {
   } catch {
     return null;
   }
-}
-
-export async function getServerGuestConvIds(): Promise<string[]> {
-  return (await getCookieValue<string[]>(GUEST_CONVS_COOKIE)) ?? [];
 }
 
 export function assertFound<T>(

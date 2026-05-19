@@ -1,8 +1,8 @@
+import { logger } from "@/lib/utils/logger";
 import {
   verifyInboundRequest,
   type VerifiedAgent,
-} from "@/lib/seo/web-bot-auth/verify-inbound";
-import { logger } from "@/lib/utils/logger";
+} from "@/server/auth/web-bot-auth/verify-inbound";
 import { Elysia } from "elysia";
 
 export const webBotAuthPlugin = new Elysia({ name: "web-bot-auth" }).derive(

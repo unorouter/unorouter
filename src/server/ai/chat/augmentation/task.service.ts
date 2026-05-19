@@ -12,9 +12,7 @@ import { getDb } from "@/lib/db/server/client";
 import { conversations, messageItems, messages } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { getGuestConvIds } from "@/server/constants";
 import type { FinalizeTaskBody } from "@/lib/validation/chat";
-import type { Cookie } from "elysia";
 import { and, asc, eq } from "drizzle-orm";
 
 export type TaskStatus =
@@ -91,17 +89,9 @@ export async function submitVideoTask(
 // `text` item containing markdown video tag.
 export async function finalizeVideoTask(
   userId: number,
-  cookie: Record<string, Cookie<unknown>>,
   convId: string,
   body: FinalizeTaskBody,
 ) {
-  const isGuest = userId === 0;
-  if (isGuest) {
-    const guestConvIds = getGuestConvIds(cookie);
-    if (!guestConvIds.includes(convId))
-      throw new Error(msg("ERRORS.NOT_FOUND"));
-  }
-
   const db = getDb();
   const convRows = await db
     .select({ id: conversations.id })

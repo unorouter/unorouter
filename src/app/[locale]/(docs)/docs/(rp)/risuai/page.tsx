@@ -1,6 +1,6 @@
 import { RisuAIContent } from "@/components/pages/docs/rp/risuai/risuai-content";
 import { APP_VALUES } from "@/lib/config/constants";
-import { DocPageSchema } from "@/lib/seo/docs-schema";
+import { DocPageSchema } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";

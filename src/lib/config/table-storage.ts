@@ -3,15 +3,7 @@ import { isServer } from "@tanstack/react-query";
 import type { TableState } from "@tanstack/react-table";
 import { deleteCookie, getCookie, setCookie } from "cookies-next/client";
 import type { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import {
-  COOKIE_MAX_AGE,
-  GUEST_CONVS_COOKIE,
-  GUEST_CONVS_MAX_AGE,
-} from "./constants";
-
-const COOKIE_MAX_AGE_BY_KEY: Record<string, number> = {
-  [GUEST_CONVS_COOKIE]: GUEST_CONVS_MAX_AGE,
-};
+import { COOKIE_MAX_AGE } from "./constants";
 
 export const jotaiCookieStorage = {
   getItem(key: string, initialValue: unknown) {
@@ -24,8 +16,7 @@ export const jotaiCookieStorage = {
     }
   },
   setItem(key: string, value: unknown) {
-    const maxAge = COOKIE_MAX_AGE_BY_KEY[key] ?? COOKIE_MAX_AGE;
-    setCookie(key, JSON.stringify(value), { maxAge });
+    setCookie(key, JSON.stringify(value), { maxAge: COOKIE_MAX_AGE });
   },
   removeItem(key: string) {
     deleteCookie(key);

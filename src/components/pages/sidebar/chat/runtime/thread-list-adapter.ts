@@ -22,11 +22,9 @@ import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import dayjs from "dayjs";
 import {
-  addGuestConvId,
   getChatDefaults,
   getChatModel,
   getConvId,
-  removeGuestConvId,
   setConvId,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
@@ -43,7 +41,6 @@ import { extractFirstUserText } from "./chat-utils";
 export function createThreadListAdapter(
   queryClient: QueryClient,
   t: ReturnType<typeof useTranslations<never>>,
-  isLoggedIn: boolean,
   userId: number | null,
 ): RemoteThreadListAdapter {
   return {
@@ -151,8 +148,6 @@ export function createThreadListAdapter(
         });
       }
 
-      if (!isLoggedIn) addGuestConvId(id);
-
       queryClient.setQueryData<ConvsInfinite>(
         queryKeys.conversations(),
         (old) => prependConv(old, newItem),
@@ -218,7 +213,6 @@ export function createThreadListAdapter(
         (old) => removeConv(old, id),
       );
       queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
-      if (!isLoggedIn) removeGuestConvId(id);
     },
 
     async fetch(id) {

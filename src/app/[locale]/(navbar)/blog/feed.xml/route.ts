@@ -1,7 +1,7 @@
 import { getAllPostsSorted, translated } from "@/components/pages/blog/posts";
 import { APP_VALUES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { getSeoTimestamps } from "@/lib/seo/timestamps";
+import { getSeoTimestamps } from "@/lib/seo/metadata";
 import dayjs from "dayjs";
 import { serverLocale } from "@/lib/utils/server";
 import { Feed } from "feed";

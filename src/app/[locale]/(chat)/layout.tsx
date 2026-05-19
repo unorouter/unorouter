@@ -1,6 +1,5 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
-import { GuestConvsClaim } from "@/components/pages/sidebar/chat/runtime/guest-convs-claim";
 import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
 import { RpDialogs } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
@@ -34,17 +33,18 @@ export default async function ChatLayout(props: Props) {
       queryKey: queryKeys.pricing(),
       queryFn: async () => handleElysia(await rpc.api.models.pricing.get()),
     }),
-    queryClient.prefetchInfiniteQuery({
-      queryKey: queryKeys.conversations(undefined),
-      queryFn: async ({ pageParam }) =>
-        handleElysia(
-          await rpc.api.ai.chat.conversations.get({
-            query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
-            ...cookieHeaders!,
-          }),
-        ),
-      initialPageParam: 1,
-    }),
+    isLoggedIn &&
+      queryClient.prefetchInfiniteQuery({
+        queryKey: queryKeys.conversations(undefined),
+        queryFn: async ({ pageParam }) =>
+          handleElysia(
+            await rpc.api.ai.chat.conversations.get({
+              query: { p: pageParam, page_size: PAGE_SIZE, keyword: undefined },
+              ...cookieHeaders!,
+            }),
+          ),
+        initialPageParam: 1,
+      }),
     isLoggedIn &&
       queryClient.prefetchQuery({
         queryKey: queryKeys.bestKey(),
@@ -91,7 +91,6 @@ export default async function ChatLayout(props: Props) {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <ChatRuntimeProvider>
         <SyncStateHydrator />
-        <GuestConvsClaim />
         <GuestLocalDbMigrate />
         <SidebarLayout
           navConfig="chat"

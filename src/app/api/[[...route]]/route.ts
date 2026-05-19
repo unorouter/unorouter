@@ -7,7 +7,7 @@ import { authDomainRoute } from "@/server/auth/route";
 import { billingDomainRoute } from "@/server/billing/route";
 import { modelsDomainRoute } from "@/server/models/route";
 import { opsDomainRoute } from "@/server/ops/route";
-import { webBotAuthPlugin } from "@/server/auth/web-bot-auth/middleware";
+import { webBotAuthPlugin } from "@/server/auth/web-bot-auth/route";
 import { fromTypes, openapi } from "@elysiajs/openapi";
 import { AdditionalReferences } from "@elysiajs/openapi/types";
 import { Elysia } from "elysia";
