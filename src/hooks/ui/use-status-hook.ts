@@ -17,7 +17,7 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useDeferredValue, useState } from "react";
 
-export const UNGROUPED_VENDOR = "Other";
+const UNGROUPED_VENDOR = "Other";
 
 // Bucket+window pairs keep bar count in the readable 30-200 range. Anything
 // like 1m * 24h = 1440 bars compresses to sub-pixel garbage.

@@ -92,7 +92,7 @@ export function LocalDbStudio(props: Props) {
     <Sheet open={props.open} onOpenChange={props.onOpenChange}>
       <SheetContent
         side="right"
-        className="w-[min(95vw,1400px)]! max-w-none! p-0"
+        className="flex w-[min(95vw,1400px)]! max-w-none! flex-col overflow-hidden p-0"
       >
         <SheetTitle className="sr-only">{t("CHAT.MORE.LOCAL_DB")}</SheetTitle>
         <div className="absolute top-20 left-2 z-10 flex flex-col gap-1.5">
@@ -127,7 +127,7 @@ export function LocalDbStudio(props: Props) {
           />
         </div>
         {props.open && (
-          <ShadowHost className="size-full">
+          <ShadowHost className="min-h-0 flex-1 overflow-hidden">
             <StudioInner userId={userId} />
           </ShadowHost>
         )}
@@ -203,7 +203,11 @@ function ShadowHost(props: { children: React.ReactNode; className?: string }) {
   }, []);
 
   return (
-    <div ref={hostRef} className={props.className}>
+    <div
+      ref={hostRef}
+      className={props.className}
+      style={{ display: "block", height: "100%", width: "100%", overflow: "auto" }}
+    >
       {shadow && createPortal(props.children, shadow)}
     </div>
   );

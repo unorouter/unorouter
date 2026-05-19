@@ -415,18 +415,18 @@ export async function uploadBase64ToR2(
 // and chat quota isn't charged. References under `playgrounds-refs/<userId>`
 // so deleting a generation doesn't sweep them.
 
-export function generationKey(playgroundId: string, filename: string): string {
+function generationKey(playgroundId: string, filename: string): string {
   return `playgrounds/${playgroundId}/${filename}`;
 }
 
-export function generationReferenceKey(
+function generationReferenceKey(
   userId: number,
   filename: string,
 ): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 
-export async function uploadGenerationToR2(
+async function uploadGenerationToR2(
   playgroundId: string,
   body: Buffer | Uint8Array,
   declaredCt?: string,

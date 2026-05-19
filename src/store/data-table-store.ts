@@ -32,7 +32,7 @@ export const dataTableStorageAtom = atomWithStorage<Partial<DataTableStores>>(
   jotaiCookieStorage,
 );
 
-export const dataTableAtomFamily = atomFamily((id: DataTableId) =>
+const dataTableAtomFamily = atomFamily((id: DataTableId) =>
   atom<
     DataTableStore,
     [Partial<DataTableStore> | ((prev: DataTableStore) => DataTableStore)],
@@ -122,10 +122,6 @@ export const createTableAtoms = (
   initialValues?: Partial<DataTableStore>,
 ) => buildFieldAtoms(dataTableAtomFamily(id), initialValues);
 
-export const sort = (sorting?: SortingState) =>
-  sorting?.length
-    ? sorting.map((s) => `${s.id},${s.desc ? "desc" : "asc"}`)
-    : undefined;
 
 export const columnFilters = <T extends Record<string, unknown>>(
   columnFilters?: ColumnFiltersState,

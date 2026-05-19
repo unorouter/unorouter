@@ -23,7 +23,7 @@ export function getMjStatusKey(status: string | undefined): TranslationKey | nul
 
 export type DrawingRow = NonNullable<Midjourney>;
 
-export const MJ_STATUS = {
+const MJ_STATUS = {
   NOT_START: "NOT_START",
   SUBMITTED: "SUBMITTED",
   IN_PROGRESS: "IN_PROGRESS",
@@ -54,7 +54,7 @@ export function getMjStatusColor(status: string): string {
 }
 
 
-export const MJ_ACTION = {
+const MJ_ACTION = {
   IMAGINE: "IMAGINE",
   UPSCALE: "UPSCALE",
   VARIATION: "VARIATION",

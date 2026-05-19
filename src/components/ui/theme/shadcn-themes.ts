@@ -7,7 +7,7 @@ export type ShadcnTheme = {
   cssVars: { light: ThemeCssVars; dark: ThemeCssVars };
 };
 
-export const THEMES: ShadcnTheme[] = [
+const THEMES: ShadcnTheme[] = [
   {
     name: "neutral",
     title: "Neutral",
@@ -1101,7 +1101,7 @@ const BASE_COLOR_NAMES = [
 ];
 
 // Sentinel: empty cssVars so :root defaults from globals.css win.
-export const DEFAULT_THEME: ShadcnTheme = {
+const DEFAULT_THEME: ShadcnTheme = {
   name: "default",
   title: "Default",
   type: "registry:theme",

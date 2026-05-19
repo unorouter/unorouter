@@ -10,7 +10,7 @@ export type VendorTheme = {
   primary?: string;
 };
 
-export const VENDOR_THEMES: Record<string, VendorTheme> = {
+const VENDOR_THEMES: Record<string, VendorTheme> = {
   [Vendor.OPENAI]: {
     bg: "bg-green-500/5",
     border: "border-green-500/20",

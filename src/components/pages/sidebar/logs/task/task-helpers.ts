@@ -6,7 +6,7 @@ export { formatSecTimestamp as formatTaskTimestamp } from "@/lib/utils/format/da
 
 export type TaskRow = NonNullable<TaskDto>;
 
-export const TASK_STATUS = {
+const TASK_STATUS = {
   NOT_START: "NOT_START",
   SUBMITTED: "SUBMITTED",
   IN_PROGRESS: "IN_PROGRESS",

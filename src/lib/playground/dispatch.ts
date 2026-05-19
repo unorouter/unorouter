@@ -15,7 +15,7 @@ export type RefBytes = {
   dataUri: string;
 };
 
-export async function fetchRefBytes(url: string): Promise<RefBytes> {
+async function fetchRefBytes(url: string): Promise<RefBytes> {
   const res = await fetch(url, { method: "GET" });
   if (!res.ok) {
     throw new Error(`reference fetch failed: ${res.status} ${url}`);
@@ -59,7 +59,7 @@ export type Built =
   | { kind: "json"; path: string; body: string }
   | { kind: "multipart"; path: string; form: FormData };
 
-export function buildImageGenerationsBody(args: SubmitArgs): Built {
+function buildImageGenerationsBody(args: SubmitArgs): Built {
   const n = args.n ?? 1;
   if (args.refs.length === 0) {
     const body: Record<string, unknown> = {
@@ -101,7 +101,7 @@ export function buildImageGenerationsBody(args: SubmitArgs): Built {
   return { kind: "multipart", path: "/v1/images/edits", form };
 }
 
-export function buildChatCompletionsBody(args: SubmitArgs): Built {
+function buildChatCompletionsBody(args: SubmitArgs): Built {
   type Part =
     | { type: "text"; text: string }
     | { type: "image_url"; image_url: { url: string } };
@@ -126,7 +126,7 @@ export function buildChatCompletionsBody(args: SubmitArgs): Built {
   };
 }
 
-export function buildGeminiGenerateBody(args: SubmitArgs): Built {
+function buildGeminiGenerateBody(args: SubmitArgs): Built {
   type Part =
     | { text: string }
     | { inline_data: { mime_type: string; data: string } };

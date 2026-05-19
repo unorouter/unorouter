@@ -357,7 +357,7 @@ function matchEntries(entries: LbEntry[], text: string): LbEntry[] {
 
 const MAX_RECURSIVE_PASSES = 3;
 
-export function selectLorebookEntries(
+function selectLorebookEntries(
   recentUserTexts: string[],
   entries: LbEntry[],
   books: Map<string, LbRow>,

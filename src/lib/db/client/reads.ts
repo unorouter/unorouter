@@ -78,7 +78,7 @@ export const readLocalGenerationSessions = (userId: number) =>
     orderBy: desc(playgroundSessions.updatedAt),
   });
 
-export const readLocalGenerationSession = (userId: number, id: string) =>
+const readLocalGenerationSession = (userId: number, id: string) =>
   generationSessionStore.get(userId, id);
 
 export const readLocalConversationSettings = (
@@ -165,7 +165,7 @@ export async function readLocalMessageItems(userId: number, convId: string) {
     .orderBy(asc(messageItems.sequenceIndex));
 }
 
-export async function readLocalConversationMedia(
+async function readLocalConversationMedia(
   userId: number,
   convId: string,
 ) {

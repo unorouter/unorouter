@@ -25,12 +25,3 @@ export function FieldSeparator(props: React.ComponentProps<"div">) {
   );
 }
 
-export function Field(props: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="field"
-      {...props}
-      className={cn("flex w-full flex-col gap-1", props.className)}
-    />
-  );
-}

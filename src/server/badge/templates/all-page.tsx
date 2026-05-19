@@ -18,7 +18,7 @@ function pageUrl(
   return buildBadgeUrl(type, { ...shared, size, format });
 }
 
-export function copyScript(
+function copyScript(
   type: BadgeType,
   size: BadgeSize,
   label: string,

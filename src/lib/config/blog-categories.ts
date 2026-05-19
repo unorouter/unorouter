@@ -8,7 +8,7 @@ export const BLOG_CATEGORIES: readonly BlogCategory[] = [
   "update",
 ] as const;
 
-export const BLOG_CATEGORY_THEMES: Record<BlogCategory, VendorTheme> = {
+const BLOG_CATEGORY_THEMES: Record<BlogCategory, VendorTheme> = {
   launch: {
     bg: "bg-emerald-500/5",
     border: "border-emerald-500/20",

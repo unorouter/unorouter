@@ -10,14 +10,14 @@ export type StatusStoreState = {
   statusFilter: StatusFilter;
 };
 
-export const STATUS_STORE_KEY = "status-store";
+const STATUS_STORE_KEY = "status-store";
 
-export const INITIAL_STATUS_STATE: StatusStoreState = {
+const INITIAL_STATUS_STATE: StatusStoreState = {
   bucket: "1m",
   statusFilter: "all",
 };
 
-export const statusStoreAtom = atomWithStorage<StatusStoreState>(
+const statusStoreAtom = atomWithStorage<StatusStoreState>(
   STATUS_STORE_KEY,
   INITIAL_STATUS_STATE,
   jotaiCookieStorage,

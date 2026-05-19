@@ -13,7 +13,7 @@ function readUint32BE(view: DataView, offset: number): number {
   return view.getUint32(offset, false);
 }
 
-export function readPngTextChunks(
+function readPngTextChunks(
   buffer: ArrayBuffer,
 ): Record<string, string> | null {
   const bytes = new Uint8Array(buffer);
@@ -81,7 +81,7 @@ function asString(v: unknown): string | undefined {
 }
 
 // First CLIPTextEncode = positive, second = negative (graph doesn't tag).
-export function extractFromComfyGraph(graph: unknown): RestoredFromPng {
+function extractFromComfyGraph(graph: unknown): RestoredFromPng {
   if (!graph || typeof graph !== "object") return {};
   const g = graph as ComfyGraph;
   const out: RestoredFromPng = {};

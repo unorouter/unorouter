@@ -97,24 +97,6 @@ export function LogTimeCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogTypeCell({ row }: CellContext<LogRow, unknown>) {
-  const t = useTranslations();
-  const type = row.original.type;
-  const labels: Record<number, string> = {
-    [LOG_TYPE_TOPUP]: t("LOGS.ENUM.TOPUP"),
-    [LOG_TYPE_CONSUME]: t("LOGS.ENUM.CONSUME"),
-    [LOG_TYPE_MANAGE]: t("LOGS.ENUM.MANAGE"),
-    [LOG_TYPE_SYSTEM]: t("LOGS.ENUM.SYSTEM"),
-    [LOG_TYPE_ERROR]: t("LOGS.ENUM.ERROR"),
-    [LOG_TYPE_REFUND]: t("LOGS.ENUM.REFUND"),
-  };
-  return (
-    <Badge variant="secondary" className={getLogTypeColor(type)}>
-      {labels[type] ?? t("LOGS.ENUM.UNKNOWN")}
-    </Badge>
-  );
-}
-
 export function LogChannelCell({ row }: CellContext<LogRow, unknown>) {
   const log = row.original;
   if (!log.channel) {
@@ -242,47 +224,6 @@ export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
     </TooltipProvider>
   );
   return <StackedCell primary={primary} secondary={log.group || null} />;
-}
-
-export function LogInputTokensCell({ row }: CellContext<LogRow, unknown>) {
-  const t = useTranslations();
-  const log = row.original;
-  if (!isConsumeLike(log.type)) {
-    return LOG_EMPTY;
-  }
-  const other = parseOther(log.other);
-  const cacheRead = other?.cache_tokens ? Number(other.cache_tokens) : 0;
-  const cacheWrite = other?.cache_creation_tokens
-    ? Number(other.cache_creation_tokens)
-    : 0;
-  return (
-    <div className="flex flex-col items-end">
-      <span className="font-mono text-xs tabular-nums">
-        {log.prompt_tokens?.toLocaleString() ?? 0}
-      </span>
-      {(cacheRead > 0 || cacheWrite > 0) && (
-        <span className="text-muted-foreground mt-0.5 text-[10px] whitespace-nowrap">
-          {cacheRead > 0 &&
-            `${t("LOGS.CACHE_READ")} ${cacheRead.toLocaleString()}`}
-          {cacheRead > 0 && cacheWrite > 0 && " \u00b7 "}
-          {cacheWrite > 0 &&
-            `${t("LOGS.CACHE_WRITE")} ${cacheWrite.toLocaleString()}`}
-        </span>
-      )}
-    </div>
-  );
-}
-
-export function LogOutputTokensCell({ row }: CellContext<LogRow, unknown>) {
-  const log = row.original;
-  if (!isConsumeLike(log.type) || log.completion_tokens <= 0) {
-    return LOG_EMPTY;
-  }
-  return (
-    <span className="font-mono text-xs tabular-nums">
-      {log.completion_tokens.toLocaleString()}
-    </span>
-  );
 }
 
 export function LogTokensCell({ row }: CellContext<LogRow, unknown>) {
@@ -543,29 +484,6 @@ export function LogPricingDetailsCell({ row }: CellContext<LogRow, unknown>) {
     >
       {inner}
     </button>
-  );
-}
-
-export function LogDetailsCell({ row }: CellContext<LogRow, unknown>) {
-  const log = row.original;
-  if (!log.content) {
-    return LOG_EMPTY;
-  }
-  return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <span className="text-muted-foreground block max-w-50 cursor-default truncate text-xs" />
-          }
-        >
-          {log.content}
-        </TooltipTrigger>
-        <TooltipContent className="max-w-sm whitespace-pre-wrap">
-          {log.content}
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
   );
 }
 

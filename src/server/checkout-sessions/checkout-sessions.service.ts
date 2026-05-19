@@ -38,7 +38,7 @@ export type ParsedItemId =
     };
 
 // Format: `topup_<usd>_<method>` or `plan_<planId>_<method>`.
-export function parseItemId(id: string): ParsedItemId | null {
+function parseItemId(id: string): ParsedItemId | null {
   const topup = id.match(/^topup_(\d+(?:\.\d+)?)_(stripe|creem)$/);
   if (topup) {
     const amountUsd = Number(topup[1]);
@@ -518,7 +518,7 @@ type AcpMessage = {
   code?: string;
 };
 
-export function toCartResponse(
+function toCartResponse(
   row: AcpCheckoutSession,
   extraMessages: AcpMessage[] = [],
 ) {

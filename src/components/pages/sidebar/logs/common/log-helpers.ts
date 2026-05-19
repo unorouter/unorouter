@@ -33,33 +33,6 @@ export function getLogTypeColor(type: number): string {
   }
 }
 
-export function getUseTimeColor(seconds: number): string {
-  if (seconds < 10) return "text-green-500";
-  if (seconds < 30) return "text-orange-500";
-  return "text-red-500";
-}
-
-export function getFirstResponseTimeColor(ms: number): string {
-  const seconds = ms / 1000;
-  if (seconds < 3) return "text-green-500";
-  if (seconds < 10) return "text-orange-500";
-  return "text-red-500";
-}
-
-export function getThroughputColor(tokensPerSecond: number): string {
-  if (tokensPerSecond >= 30) return "text-green-500";
-  if (tokensPerSecond >= 15) return "text-orange-500";
-  return "text-red-500";
-}
-
-export function getResponseTimeColor(
-  seconds: number,
-  completionTokens: number,
-): string {
-  if (completionTokens < 100 || seconds <= 0) return getUseTimeColor(seconds);
-  return getThroughputColor(completionTokens / seconds);
-}
-
 type TimingVariant = "success" | "warning" | "danger";
 
 function timingVariantFromSeconds(seconds: number): TimingVariant {

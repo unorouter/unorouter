@@ -5,7 +5,7 @@ import { isSearchDoc, type SearchResult } from "@/lib/types/search";
 import { useQuery } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
 
-export function useSearchQueryIndex() {
+function useSearchQueryIndex() {
   return useQuery({
     queryKey: queryKeys.searchIndex(),
     queryFn: async () => {

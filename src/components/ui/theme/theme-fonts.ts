@@ -79,7 +79,7 @@ const robotoMono = Roboto_Mono({
   preload: false,
 });
 
-export type FontKind = "sans" | "mono" | "display";
+type FontKind = "sans" | "mono" | "display";
 
 export type FontOption = {
   id: string;
@@ -185,14 +185,3 @@ export const allFontVariablesClass = FONT_OPTIONS.map((f) => f.cssVar).join(
   " ",
 );
 
-export function fontStackFromId(
-  id: string | undefined,
-  kind: FontKind,
-): string | undefined {
-  if (!id) return undefined;
-  const opt = FONT_OPTIONS.find((f) => f.id === id);
-  if (!opt || !opt.kinds.includes(kind)) return undefined;
-  const fallback =
-    kind === "mono" ? "ui-monospace, monospace" : "ui-sans-serif, system-ui";
-  return `var(${opt.cssVar}), ${fallback}`;
-}

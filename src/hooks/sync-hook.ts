@@ -15,7 +15,7 @@ import type { SyncKindName } from "@/lib/validation/sync";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-export function useSyncStateQuery() {
+function useSyncStateQuery() {
   return useQuery({
     queryKey: queryKeys.syncState(),
     queryFn: async () => handleElysia(await rpc.api.sync.state.get()),

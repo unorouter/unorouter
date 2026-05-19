@@ -79,7 +79,7 @@ async function persistDecision(
   }
 }
 
-export async function checkPromptModeration(
+async function checkPromptModeration(
   ctx: ModerationContext,
 ): Promise<ModerationResult> {
   if (!serverEnv.creemModerationEnabled) {

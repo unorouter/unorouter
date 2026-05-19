@@ -149,7 +149,7 @@ export function pulseDot(
   ) as string;
 }
 
-export function stripCipherMarkers(
+function stripCipherMarkers(
   svg: string,
   targets: CipherTarget[],
 ): string {

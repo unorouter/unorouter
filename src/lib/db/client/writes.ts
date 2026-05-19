@@ -23,7 +23,7 @@ import {
   userThemes,
 } from "@/lib/db/schema/shared";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
-import { and, eq, type InferInsertModel } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { getLocalDb } from "./client";
 import { makeTableStore } from "./table-store";
 
@@ -42,7 +42,6 @@ const generationSessionStore = makeTableStore(
   playgroundSessions,
   playgroundSessions.id,
 );
-const generationStore = makeTableStore(playgrounds, playgrounds.id);
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
 const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id);
@@ -177,111 +176,6 @@ export const upsertLocalMedia = (
     r2Url: row.r2Url ?? null,
     extractedText: row.extractedText ?? null,
   });
-
-// Composite-PK: onConflictDoNothing (do-update doesn't apply on natural PK).
-export async function upsertLocalConversationCharacter(
-  userId: number,
-  row: {
-    convId: string;
-    characterId: string;
-    orderIndex?: number;
-    isActive?: boolean;
-    overrides?: unknown;
-  },
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db
-    .insert(conversationCharacters)
-    .values({
-      convId: row.convId,
-      characterId: row.characterId,
-      orderIndex: row.orderIndex ?? 0,
-      isActive: row.isActive ?? true,
-      overrides: row.overrides ?? null,
-    } satisfies InferInsertModel<typeof conversationCharacters>)
-    .onConflictDoNothing();
-}
-
-export async function deleteLocalConversationCharacter(
-  userId: number,
-  convId: string,
-  characterId: string,
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db
-    .delete(conversationCharacters)
-    .where(
-      and(
-        eq(conversationCharacters.convId, convId),
-        eq(conversationCharacters.characterId, characterId),
-      ),
-    );
-}
-
-export async function upsertLocalGenerationImage(
-  userId: number,
-  row: {
-    playgroundId: string;
-    sequenceIndex: number;
-    r2Url: string;
-    r2Key: string;
-    mimeType?: string;
-    width?: number | null;
-    height?: number | null;
-    sizeBytes?: number | null;
-    upstreamResultUrl?: string | null;
-  },
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db
-    .insert(playgroundImages)
-    .values({
-      playgroundId: row.playgroundId,
-      sequenceIndex: row.sequenceIndex,
-      r2Url: row.r2Url,
-      r2Key: row.r2Key,
-      mimeType: row.mimeType ?? "image/png",
-      width: row.width ?? null,
-      height: row.height ?? null,
-      sizeBytes: row.sizeBytes ?? null,
-      upstreamResultUrl: row.upstreamResultUrl ?? null,
-    } satisfies InferInsertModel<typeof playgroundImages>)
-    .onConflictDoNothing();
-}
-
-export async function upsertLocalGenerationLike(
-  userId: number,
-  row: { playgroundId: string; userId?: number },
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db
-    .insert(playgroundLikes)
-    .values({
-      playgroundId: row.playgroundId,
-      userId: row.userId ?? userId,
-    } satisfies InferInsertModel<typeof playgroundLikes>)
-    .onConflictDoNothing();
-}
-
-export async function deleteLocalGenerationLike(
-  userId: number,
-  playgroundId: string,
-) {
-  const local = await getLocalDb(userId);
-  if (!local) return;
-  await local.db
-    .delete(playgroundLikes)
-    .where(
-      and(
-        eq(playgroundLikes.playgroundId, playgroundId),
-        eq(playgroundLikes.userId, userId),
-      ),
-    );
-}
 
 export async function replaceLocalMessageItems(
   userId: number,

@@ -15,7 +15,7 @@ function sortKeys(value: unknown): unknown {
   return sorted;
 }
 
-export function canonicalize(body: unknown): string {
+function canonicalize(body: unknown): string {
   return JSON.stringify(sortKeys(body ?? {}));
 }
 

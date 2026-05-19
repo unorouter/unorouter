@@ -1,5 +1,5 @@
 // djb2 so similar names (gpt-5.4 / gpt-5.4-mini) get distinct hues.
-export function nameToHue(name: string): number {
+function nameToHue(name: string): number {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = (hash << 5) - hash + name.charCodeAt(i);

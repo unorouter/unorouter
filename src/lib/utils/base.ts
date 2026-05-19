@@ -15,7 +15,7 @@ export {
   formatTokens,
   formatTps,
 } from "./format/number";
-export { modelColor, modelColorStyle, nameToHue } from "./format/color";
+export { modelColor, modelColorStyle } from "./format/color";
 export { avg, successIntent, type StatIntent } from "./format/math";
 
 export function safeJsonParse<T = Record<string, unknown>>(

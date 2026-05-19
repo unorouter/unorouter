@@ -120,7 +120,7 @@ export async function createEntry(
   return getEntry(userId, lorebookId, id);
 }
 
-export async function getEntry(
+async function getEntry(
   userId: number,
   lorebookId: string,
   entryId: string,

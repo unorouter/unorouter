@@ -61,7 +61,7 @@ function vendorKnobs(modelName: string): {
   return {};
 }
 
-export function inferDescriptor(
+function inferDescriptor(
   model: ProcessedModel,
 ): PlaygroundModelDescriptor | null {
   // ComfyUI workflow descriptors are hardcoded; only surface when pricing
