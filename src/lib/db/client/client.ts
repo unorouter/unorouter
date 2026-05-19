@@ -8,9 +8,8 @@ import { drizzle, type SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 
 // Per-user OPFS file isolates multi-account browsers. Lazy `sqlocal/drizzle`
 // import keeps the ~1.5MB WASM out of non-chat/playground chunks.
+type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;
 
-type LocalSchema = typeof shared & typeof client;
-export type LocalDb = SqliteRemoteDatabase<LocalSchema>;
 // Returns rows + column names (drizzle-proxy returns tuples only). Used by
 // LocalDbStudio for arbitrary user-supplied SQL.
 export type LocalRawExec = (

@@ -210,13 +210,16 @@ export function ChatActionsMenu(props: Props) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {isLoggedIn && hasConv && !isSynced && (
-            <DropdownMenuItem
-              onClick={handleAddSync}
-              disabled={syncMut.isPending}
-            >
-              <Icon name="cloud-upload" className="size-4" />
-              {t("SYNC.ADD_SYNC")}
-            </DropdownMenuItem>
+            <>
+              <DropdownMenuItem
+                onClick={handleAddSync}
+                disabled={syncMut.isPending}
+              >
+                <Icon name="cloud-upload" className="size-4" />
+                {t("SYNC.ADD_SYNC")}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
           )}
           {isLoggedIn && hasConv && isSynced && (
             <>
@@ -237,9 +240,9 @@ export function ChatActionsMenu(props: Props) {
                 <Icon name="cloud-off" className="size-4" />
                 {t("SYNC.REMOVE_SYNC")}
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
             </>
           )}
-          <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
               <Icon name="arrow-down-up" className="size-4" />
