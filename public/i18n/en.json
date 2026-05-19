@@ -2491,6 +2491,7 @@
     },
     "MORE": {
       "OPEN": "More actions",
+      "IMPORT_EXPORT": "Import / Export",
       "EXPORT_NATIVE": "Export (native)",
       "EXPORT_ORPG": "Export (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Export (SillyTavern JSONL)",
@@ -2509,7 +2510,6 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Overwrite local OPFS database from this file? Existing data is wiped.",
       "CLEAR": "Clear chat",
       "CLEAR_SUCCESS": "Chat cleared",
-      "CLEAR_CONFIRM_TITLE": "Clear all messages?",
       "CLEAR_CONFIRM_DESC": "This deletes every message in the conversation but keeps the settings, character bindings, and title. This cannot be undone.",
       "FONT": "Font",
       "FONT_SANS": "Sans",
@@ -2520,8 +2520,6 @@
     }
   },
   "RP": {
-    "LOGIN_REQUIRED": "Sign in to manage your roleplay setup.",
-    "LOGIN_CTA": "Sign in",
     "CHARACTERS_TITLE": "Characters",
     "CHARACTERS_NEW": "New character",
     "CHARACTERS_IMPORT": "Import card",

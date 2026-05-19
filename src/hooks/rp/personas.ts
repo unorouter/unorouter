@@ -5,9 +5,11 @@ import { readLocalPersona, readLocalPersonas } from "@/lib/db/client/reads";
 import { deleteLocalPersona, upsertLocalPersona } from "@/lib/db/client/writes";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
+import { parsePersonaJson } from "@/lib/rp/persona-import";
+import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
@@ -36,23 +38,41 @@ export const useCreatePersonaMutation = personas.useCreate;
 export const useUpdatePersonaMutation = personas.useUpdate;
 export const useDeletePersonaMutation = personas.useDelete;
 
-// File import returns either a single persona or an array of them. Append all
-// returned rows to local + cache.
+// Client-side persona JSON parser: writes parsed rows to SQLocal.
 export function useImportPersonaMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.ai.rp.personas.import.post({ file })),
-    onSuccess: async (data) => {
+    mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? 0;
-      const list = Array.isArray(data)
-        ? (data as Persona[])
-        : [data as Persona];
-      for (const row of list) {
+      let raw: unknown;
+      try {
+        raw = JSON.parse(await file.text());
+      } catch {
+        throw new Error("ERRORS.REQUEST_FAILED");
+      }
+      const parsed = parsePersonaJson(raw);
+      if (parsed.length === 0) throw new Error("ERRORS.REQUEST_FAILED");
+      const now = dayjs().toDate();
+      const rows = parsed.map((p) => ({
+        id: uid(),
+        userId,
+        name: p.name,
+        description: p.description ?? null,
+        avatarMediaId: null,
+        isDefault: false,
+        notes: null,
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      }));
+      for (const row of rows) {
         await upsertLocalPersona(userId, row as never);
       }
+      return rows as unknown as Persona[];
+    },
+    onSuccess: (list) => {
       qc.setQueryData<Persona[]>(queryKeys.personas(), (old) => [
         ...(old ?? []),
         ...list,

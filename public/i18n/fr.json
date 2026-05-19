@@ -2491,6 +2491,7 @@
     },
     "MORE": {
       "OPEN": "Plus d'actions",
+      "IMPORT_EXPORT": "Import / Export",
       "EXPORT_NATIVE": "Exporter (natif)",
       "EXPORT_ORPG": "Exporter (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Exporter (SillyTavern JSONL)",
@@ -2509,7 +2510,6 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Écraser la base OPFS locale à partir de ce fichier ? Les données existantes seront supprimées.",
       "CLEAR": "Vider le chat",
       "CLEAR_SUCCESS": "Chat vide",
-      "CLEAR_CONFIRM_TITLE": "Supprimer tous les messages ?",
       "CLEAR_CONFIRM_DESC": "Cela supprime tous les messages de la conversation, mais conserve les parametres, les liaisons de personnages et le titre. Cette action est irreversible.",
       "FONT": "Police",
       "FONT_SANS": "Sans",
@@ -2520,8 +2520,6 @@
     }
   },
   "RP": {
-    "LOGIN_REQUIRED": "Connectez-vous pour gerer votre jeu de role.",
-    "LOGIN_CTA": "Se connecter",
     "CHARACTERS_TITLE": "Personnages",
     "CHARACTERS_NEW": "Nouveau personnage",
     "CHARACTERS_IMPORT": "Importer une carte",

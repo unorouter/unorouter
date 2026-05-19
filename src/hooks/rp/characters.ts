@@ -5,13 +5,16 @@ import { readLocalCharacter, readLocalCharacters } from "@/lib/db/client/reads";
 import {
   deleteLocalCharacter,
   upsertLocalCharacter,
+  upsertLocalMedia,
 } from "@/lib/db/client/writes";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
+import { parseCharacterCardFile } from "@/lib/rp/character-card";
+import { uid, uint8ToBase64 } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import type { EntityListResponse } from "./shared";
@@ -41,20 +44,57 @@ export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;
 
-// Server-parsed character card import: BFF returns a parsed row; we write
-// it through the same local store the factory uses, then prepend to cache.
+// Client-side card parser: bytes -> media row + character row referencing it.
+// Sync flow: media base64 -> server uploads to R2 -> Turso pointer-only.
 export function useImportCharacterCardMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.ai.rp.characters.import.post({ file })),
-    onSuccess: async (data) => {
+    mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? 0;
-      await upsertLocalCharacter(userId, data as never);
+      const { card, imageBytes, imageMime } = await parseCharacterCardFile(file);
+      const id = uid();
+      let avatarMediaId: string | null = null;
+      if (imageBytes && imageMime) {
+        avatarMediaId = uid();
+        await upsertLocalMedia(userId, {
+          id: avatarMediaId,
+          convId: null,
+          mimeType: imageMime,
+          sizeBytes: imageBytes.byteLength,
+          dataBase64: uint8ToBase64(imageBytes),
+        });
+      }
+      const now = dayjs().toDate();
+      const row = {
+        id,
+        userId,
+        name: card.name,
+        avatarMediaId,
+        description: card.description ?? null,
+        personality: card.personality ?? null,
+        scenario: card.scenario ?? null,
+        firstMessage: card.firstMessage ?? null,
+        exampleMessages: card.exampleMessages ?? null,
+        systemPrompt: card.systemPrompt ?? null,
+        postHistoryInstructions: card.postHistoryInstructions ?? null,
+        defaultReasoningEffort: null,
+        tags: card.tags ?? null,
+        nsfw: false,
+        triggers: null,
+        alwaysActive: true,
+        matchWholeWords: false,
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      await upsertLocalCharacter(userId, row as never);
+      return row as unknown as Character;
+    },
+    onSuccess: (row) => {
       qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        listAdd(old, data as Character),
+        listAdd(old, row),
       );
     },
     onError: (e) => handleError(e, t),

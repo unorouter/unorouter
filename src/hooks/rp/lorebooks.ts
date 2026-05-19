@@ -12,8 +12,9 @@ import {
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
+import { parseLorebookJson } from "@/lib/rp/lorebook-import";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
-import { handleElysia, uid } from "@/lib/utils/base";
+import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -123,15 +124,57 @@ export function useImportLorebookMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.ai.rp.lorebooks.import.post({ file })),
-    onSuccess: async (data) => {
+    mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? 0;
-      const lb = data as Lorebook & { entries?: LorebookEntry[] };
+      let raw: unknown;
+      try {
+        raw = JSON.parse(await file.text());
+      } catch {
+        throw new Error("ERRORS.REQUEST_FAILED");
+      }
+      const parsed = parseLorebookJson(raw);
+      if (!parsed) throw new Error("ERRORS.REQUEST_FAILED");
+      const id = uid();
+      const now = dayjs().toDate();
+      const lorebook = {
+        id,
+        userId,
+        name: parsed.name,
+        description: parsed.description ?? null,
+        scanDepth: parsed.scanDepth ?? 4,
+        tokenBudget: parsed.tokenBudget ?? 1500,
+        recursiveScanning: parsed.recursiveScanning ?? false,
+        syncExpiresAt: null,
+        createdAt: now,
+        updatedAt: now,
+      };
+      const entries = parsed.entries.map((e, i) => ({
+        id: uid(),
+        lorebookId: id,
+        keys: e.keys,
+        secondaryKeys: e.secondaryKeys ?? null,
+        content: e.content,
+        constant: e.constant,
+        selective: e.selective,
+        priority: e.priority,
+        position: e.position,
+        depth: e.depth,
+        enabled: e.enabled,
+        orderIndex: e.orderIndex ?? i,
+        matchWholeWords: false,
+        injectionRole: "user" as const,
+        createdAt: now,
+        updatedAt: now,
+      }));
       await upsertLocalLorebookBundle(userId, {
-        lorebook: { ...lb, entries: undefined } as never,
-        entries: (lb.entries ?? []) as never,
+        lorebook: lorebook as never,
+        entries: entries as never,
       });
+      return { ...lorebook, entries } as unknown as Lorebook & {
+        entries: LorebookEntry[];
+      };
+    },
+    onSuccess: (lb) => {
       qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
         listAdd(old, lb as Lorebook),
       );

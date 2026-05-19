@@ -3,6 +3,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_APP_NAME: string;
     NEXT_PUBLIC_URL: string;
     NEXT_PUBLIC_API_URL: string;
+    NEXT_PUBLIC_R2_PUBLIC_URL: string;
     NEXT_PUBLIC_SUPPORT_EMAIL: string;
     NEXT_PUBLIC_GITHUB_URL: string;
     NEXT_PUBLIC_DISCORD_URL?: string;

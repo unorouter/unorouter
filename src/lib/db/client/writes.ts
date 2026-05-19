@@ -157,7 +157,7 @@ export const upsertLocalMedia = (
   userId: number,
   row: {
     id: string;
-    convId: string;
+    convId?: string | null;
     mimeType: string;
     sizeBytes: number;
     dataBase64?: string | null;
@@ -168,7 +168,7 @@ export const upsertLocalMedia = (
 ) =>
   mediaStore.upsert(userId, {
     id: row.id,
-    convId: row.convId,
+    convId: row.convId ?? null,
     mimeType: row.mimeType,
     sizeBytes: row.sizeBytes,
     dataBase64: row.dataBase64 ?? null,

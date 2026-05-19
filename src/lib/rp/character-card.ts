@@ -27,7 +27,7 @@ export type ParsedCharacterCard = {
 
 export type CharacterCardImportResult = {
   card: ParsedCharacterCard;
-  imageBuffer: Buffer | null;
+  imageBytes: Uint8Array | null;
   imageMime: string | null;
 };
 
@@ -38,11 +38,11 @@ export async function parseCharacterCardFile(
   file: File,
 ): Promise<CharacterCardImportResult> {
   const mime = file.type;
-  const buf = Buffer.from(await file.arrayBuffer());
+  const bytes = new Uint8Array(await file.arrayBuffer());
 
   let parsed;
   try {
-    parsed = parseCard(new Uint8Array(buf));
+    parsed = parseCard(bytes);
   } catch {
     throw new Error(msg("ERRORS.CARD_PARSE_FAILED"));
   }
@@ -71,10 +71,10 @@ export async function parseCharacterCardFile(
   // PNG containers: the original file IS the avatar.
   const iconAsset =
     parsed.assets.find((a) => a.type === "icon") ?? parsed.assets[0];
-  let imageBuffer: Buffer | null = null;
+  let imageBytes: Uint8Array | null = null;
   let imageMime: string | null = null;
   if (iconAsset?.data) {
-    imageBuffer = Buffer.from(iconAsset.data);
+    imageBytes = new Uint8Array(iconAsset.data);
     imageMime =
       iconAsset.ext === "webp"
         ? "image/webp"
@@ -82,11 +82,11 @@ export async function parseCharacterCardFile(
           ? "image/jpeg"
           : "image/png";
   } else if (mime === "image/png" || mime === "image/webp") {
-    imageBuffer = buf;
+    imageBytes = bytes;
     imageMime = mime;
   }
 
-  return { card, imageBuffer, imageMime };
+  return { card, imageBytes, imageMime };
 }
 
 type ExportableRow = {
@@ -139,7 +139,7 @@ export function exportCharacterCardAsJson(row: ExportableRow): {
 
 export function exportCharacterCard(
   row: ExportableRow,
-  avatar: { data: Buffer; mime: string } | null,
+  avatar: { data: Uint8Array; mime: string } | null,
   format: ExportFormat,
 ): { data: Uint8Array; mimeType: string; ext: string } {
   const card = buildCCv3Card(row);
@@ -155,7 +155,7 @@ export function exportCharacterCard(
           : avatar.mime === "image/jpeg"
             ? "jpeg"
             : "png",
-      data: new Uint8Array(avatar.data),
+      data: avatar.data,
     });
   }
 

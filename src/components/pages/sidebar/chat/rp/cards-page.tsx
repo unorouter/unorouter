@@ -1,6 +1,5 @@
 "use client";
 
-import { RpLoginGate } from "@/components/pages/sidebar/chat/rp/rp-login-gate";
 import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useAuthQuery } from "@/hooks/auth-hook";
 import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
 import {
@@ -29,7 +27,6 @@ import { CardForm } from "./card-form";
 
 export function CardsPage() {
   const t = useTranslations();
-  const isLoggedIn = !!useAuthQuery().data;
   const cardsQuery = useCardsQuery();
   const deleteMut = useDeleteCardMutation();
   const applyMut = useApplyCardMutation();
@@ -39,14 +36,6 @@ export function CardsPage() {
     cardId: string;
     cardName: string;
   } | null>(null);
-
-  if (!isLoggedIn) {
-    return (
-      <div className="mx-auto w-full max-w-3xl p-6">
-        <RpLoginGate />
-      </div>
-    );
-  }
 
   const handleExport = async (id: string) => {
     const { response, error } = await rpc.api.ai.rp

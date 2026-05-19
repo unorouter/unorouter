@@ -78,3 +78,18 @@ export function handleElysia<T extends { data: unknown; status: number }>(
   }
   return body as UnwrapApiResponse<ExtractData<T>>;
 }
+
+export function arrayBufferToBase64(buf: ArrayBuffer): string {
+  const bytes = new Uint8Array(buf);
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++)
+    binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+
+export function uint8ToBase64(bytes: Uint8Array): string {
+  let binary = "";
+  for (let i = 0; i < bytes.length; i++)
+    binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}

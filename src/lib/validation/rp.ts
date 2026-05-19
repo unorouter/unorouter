@@ -11,7 +11,7 @@ const MAX_KEY_LEN = 200;
 
 export const characterBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
-  avatarR2Key: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
+  avatarMediaId: t.Optional(t.Union([t.String({ maxLength: 64 }), t.Null()])),
   description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
   personality: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
   scenario: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
@@ -37,31 +37,13 @@ export const characterBody = t.Object({
 });
 export type CharacterBody = Static<typeof characterBody>;
 
-export const characterCardImportBody = t.Object({
-  file: t.File({
-    maxSize: "10m",
-  }),
-});
-
-export const lorebookImportBody = t.Object({
-  file: t.File({
-    maxSize: "10m",
-  }),
-});
-
 export const personaBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
   description: t.Optional(t.String({ maxLength: MAX_DESC_LEN })),
-  avatarR2Key: t.Optional(t.Union([t.String({ maxLength: 512 }), t.Null()])),
+  avatarMediaId: t.Optional(t.Union([t.String({ maxLength: 64 }), t.Null()])),
   isDefault: t.Optional(t.Boolean()),
 });
 export type PersonaBody = Static<typeof personaBody>;
-
-export const personaImportBody = t.Object({
-  file: t.File({
-    maxSize: "5m",
-  }),
-});
 
 export const lorebookBody = t.Object({
   name: t.String({ minLength: 1, maxLength: MAX_NAME_LEN }),
@@ -178,34 +160,40 @@ export const importConversationBody = t.Object({
   }),
 });
 
-const exportFormat = t.Union([
+export const exportFormat = t.Union([
   t.Literal("native"),
   t.Literal("orpg"),
   t.Literal("sillytavern"),
 ]);
 
+export type ExportFormat = Static<typeof exportFormat>;
+
 export const exportQuery = t.Object({
   format: t.Optional(exportFormat),
 });
 
+export const characterExportFormat = t.Union([
+  t.Literal("png"),
+  t.Literal("charx"),
+  t.Literal("voxta"),
+  t.Literal("json"),
+]);
+
+export type CharacterExportFormat = Static<typeof characterExportFormat>;
+
 export const characterExportQuery = t.Object({
-  format: t.Optional(
-    t.Union([
-      t.Literal("png"),
-      t.Literal("charx"),
-      t.Literal("voxta"),
-      t.Literal("json"),
-    ]),
-  ),
+  format: t.Optional(characterExportFormat),
 });
 
+export const lorebookExportFormat = t.Union([
+  t.Literal("sillytavern"),
+  t.Literal("agnai"),
+  t.Literal("risu"),
+  t.Literal("ccv3"),
+]);
+
+export type LorebookExportFormat = Static<typeof lorebookExportFormat>;
+
 export const lorebookExportQuery = t.Object({
-  format: t.Optional(
-    t.Union([
-      t.Literal("sillytavern"),
-      t.Literal("agnai"),
-      t.Literal("risu"),
-      t.Literal("ccv3"),
-    ]),
-  ),
+  format: t.Optional(lorebookExportFormat),
 });

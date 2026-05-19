@@ -5,18 +5,13 @@ import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/con
 import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
@@ -40,6 +35,7 @@ import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { rpc } from "@/lib/rpc";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
+import type { ExportFormat } from "@/lib/validation/rp";
 import { useAui } from "@assistant-ui/react";
 import { useSetAtom } from "jotai";
 import { useLocale, useTranslations } from "next-intl";
@@ -56,7 +52,6 @@ export function ChatActionsMenu(props: Props) {
   const aui = useAui();
   const auth = useAuthQuery();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [confirmClearOpen, setConfirmClearOpen] = useState(false);
 
   const setOpenRpTab = useSetAtom(openRpTabAtom);
   const clearMut = useClearConversationMutation();
@@ -91,7 +86,7 @@ export function ChatActionsMenu(props: Props) {
     removeSyncMut.mutate({ kind: "conversations", id: props.convId });
   };
 
-  const handleExport = async (format: "native" | "orpg" | "sillytavern") => {
+  const handleExport = async (format: ExportFormat) => {
     if (!props.convId) return;
     if (format === "sillytavern") {
       // SillyTavern returns a JSONL download (not a JSON envelope), so we
@@ -158,7 +153,8 @@ export function ChatActionsMenu(props: Props) {
 
   const handleClear = async () => {
     if (!props.convId) return;
-    setConfirmClearOpen(false);
+    analytics.chat.clearConfirmOpened();
+    if (!window.confirm(t("CHAT.MORE.CLEAR_CONFIRM_DESC"))) return;
     await clearMut.mutateAsync({ id: props.convId });
     analytics.chat.conversationCleared();
     toast.success(t("CHAT.MORE.CLEAR_SUCCESS"));
@@ -244,34 +240,43 @@ export function ChatActionsMenu(props: Props) {
             </>
           )}
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            disabled={!hasConv || exportMut.isPending}
-            onClick={() => handleExport("native")}
-          >
-            <Icon name="download" className="size-4" />
-            {t("CHAT.MORE.EXPORT_NATIVE")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            disabled={!hasConv || exportMut.isPending}
-            onClick={() => handleExport("orpg")}
-          >
-            <Icon name="download" className="size-4" />
-            {t("CHAT.MORE.EXPORT_ORPG")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            disabled={!hasConv}
-            onClick={() => handleExport("sillytavern")}
-          >
-            <Icon name="download" className="size-4" />
-            {t("CHAT.MORE.EXPORT_SILLYTAVERN")}
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            disabled={importMut.isPending}
-            onClick={handleImportClick}
-          >
-            <Icon name="upload" className="size-4" />
-            {t("CHAT.MORE.IMPORT")}
-          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Icon name="arrow-down-up" className="size-4" />
+              {t("CHAT.MORE.IMPORT_EXPORT")}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem
+                disabled={!hasConv || exportMut.isPending}
+                onClick={() => handleExport("native")}
+              >
+                <Icon name="download" className="size-4" />
+                {t("CHAT.MORE.EXPORT_NATIVE")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={!hasConv || exportMut.isPending}
+                onClick={() => handleExport("orpg")}
+              >
+                <Icon name="download" className="size-4" />
+                {t("CHAT.MORE.EXPORT_ORPG")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                disabled={!hasConv}
+                onClick={() => handleExport("sillytavern")}
+              >
+                <Icon name="download" className="size-4" />
+                {t("CHAT.MORE.EXPORT_SILLYTAVERN")}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                disabled={importMut.isPending}
+                onClick={handleImportClick}
+              >
+                <Icon name="upload" className="size-4" />
+                {t("CHAT.MORE.IMPORT")}
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             disabled={!hasConv || markdownMut.isPending}
@@ -295,10 +300,7 @@ export function ChatActionsMenu(props: Props) {
           <DropdownMenuItem
             variant="destructive"
             disabled={!hasConv || clearMut.isPending}
-            onClick={() => {
-              analytics.chat.clearConfirmOpened();
-              setConfirmClearOpen(true);
-            }}
+            onClick={handleClear}
           >
             <Icon name="trash-2" className="size-4" />
             {t("CHAT.MORE.CLEAR")}
@@ -311,29 +313,6 @@ export function ChatActionsMenu(props: Props) {
         onOpenChange={setSettingsOpen}
       />
       <LocalDbStudio open={dbStudioOpen} onOpenChange={setDbStudioOpen} />
-
-      <Dialog open={confirmClearOpen} onOpenChange={setConfirmClearOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>{t("CHAT.MORE.CLEAR_CONFIRM_TITLE")}</DialogTitle>
-            <DialogDescription>
-              {t("CHAT.MORE.CLEAR_CONFIRM_DESC")}
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button variant="ghost" onClick={() => setConfirmClearOpen(false)}>
-              {t("COMMON.CANCEL")}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={handleClear}
-              disabled={clearMut.isPending}
-            >
-              {t("CHAT.MORE.CLEAR")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }

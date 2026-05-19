@@ -1,7 +1,9 @@
 "use client";
 
+import { IS_DEV } from "@/lib/config/constants";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
+import { logger } from "@/lib/utils/logger";
 import { drizzle, type SqliteRemoteDatabase } from "drizzle-orm/sqlite-proxy";
 
 // Per-user OPFS file isolates multi-account browsers. Lazy `sqlocal/drizzle`
@@ -57,17 +59,32 @@ export async function getLocalDb(userId: number): Promise<LocalClient | null> {
 
 async function openClient(userId: number): Promise<LocalClient> {
   const { SQLocalDrizzle } = await import("sqlocal/drizzle");
-  const sql = new SQLocalDrizzle({
-    databasePath: `unorouter-${userId}.sqlite3`,
-    reactive: false,
-  });
+  const dbPath = `unorouter-${userId}.sqlite3`;
+  let sql = new SQLocalDrizzle({ databasePath: dbPath, reactive: false });
+
+  const { runMigrations } = await import("./migrations");
+  try {
+    await runMigrations(sql);
+  } catch (err) {
+    // Dev: schema reset after `bun db:reset` leaves stale OPFS tables that
+    // collide on fresh migration tags. Wipe + reopen. Production never wipes
+    // (user data is precious; export instead).
+    if (!IS_DEV) throw err;
+    logger.warn("Local DB migration failed in dev; wiping OPFS file", {
+      context: "local-db.client",
+      userId,
+      error: String(err),
+    });
+    await sql.deleteDatabaseFile().catch(() => {});
+    await sql.destroy().catch(() => {});
+    sql = new SQLocalDrizzle({ databasePath: dbPath, reactive: false });
+    await runMigrations(sql);
+  }
+
   const { driver, batchDriver } = sql;
   const db = drizzle(driver, batchDriver, {
     schema: { ...shared, ...client },
   });
-
-  const { runMigrations } = await import("./migrations");
-  await runMigrations(sql);
 
   // SQLocal's protected `exec` (sqlocal/dist/client.d.ts) is off the public
   // API but needed for raw queries (LocalDbStudio).

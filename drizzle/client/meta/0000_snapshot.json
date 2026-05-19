@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2c8ffb6d-920a-47f1-b594-56ace0d5ba6b",
+  "id": "aadaee37-0124-43c4-8fe6-82507b0c0356",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "card_characters": {
@@ -264,8 +264,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "avatar_r2_key": {
-          "name": "avatar_r2_key",
+        "avatar_media_id": {
+          "name": "avatar_media_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -1548,8 +1548,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "avatar_r2_key": {
-          "name": "avatar_r2_key",
+        "avatar_media_id": {
+          "name": "avatar_media_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false,

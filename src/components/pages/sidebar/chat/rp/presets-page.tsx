@@ -1,11 +1,9 @@
 "use client";
 
-import { RpLoginGate } from "@/components/pages/sidebar/chat/rp/rp-login-gate";
 import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useAuthQuery } from "@/hooks/auth-hook";
 import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/rp/presets";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
@@ -21,18 +19,9 @@ import { PresetForm } from "./preset-form";
  */
 export function PresetsPage() {
   const t = useTranslations();
-  const isLoggedIn = !!useAuthQuery().data;
   const presetsQuery = usePresetsQuery();
   const deleteMut = useDeletePresetMutation();
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
-
-  if (!isLoggedIn) {
-    return (
-      <div className="mx-auto w-full max-w-3xl p-6">
-        <RpLoginGate />
-      </div>
-    );
-  }
 
   const handleExport = async (id: string) => {
     const { response, error } = await rpc.api.ai.rp

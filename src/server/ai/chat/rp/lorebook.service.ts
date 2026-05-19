@@ -1,4 +1,3 @@
-import { msg } from "@/lib/config/constants";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { lorebookEntries, lorebooks } from "@/lib/db/schema";
@@ -6,10 +5,7 @@ import { uid } from "@/lib/utils/base";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, asc, desc, eq } from "drizzle-orm";
-import {
-  parseLorebookJson,
-  serializeLorebookForExport,
-} from "./lorebook-import";
+import { serializeLorebookForExport } from "@/lib/rp/lorebook-import";
 
 export async function listLorebooks(userId: number) {
   const db = getDb();
@@ -195,54 +191,6 @@ export async function deleteEntry(
     .returning({ id: lorebookEntries.id });
   assertFound(result);
   return { id: entryId };
-}
-
-export async function importLorebook(userId: number, file: File) {
-  let raw: unknown;
-  try {
-    raw = JSON.parse(await file.text());
-  } catch {
-    throw new Error(msg("ERRORS.REQUEST_FAILED"));
-  }
-
-  const parsed = parseLorebookJson(raw);
-  if (!parsed) throw new Error(msg("ERRORS.REQUEST_FAILED"));
-
-  const db = getDb();
-  const id = uid();
-
-  await db.transaction(async (tx) => {
-    await tx.insert(lorebooks).values({
-      id,
-      userId,
-      name: parsed.name,
-      description: parsed.description ?? null,
-      scanDepth: parsed.scanDepth ?? 4,
-      tokenBudget: parsed.tokenBudget ?? 1500,
-      recursiveScanning: parsed.recursiveScanning ?? false,
-    });
-
-    if (parsed.entries.length > 0) {
-      await tx.insert(lorebookEntries).values(
-        parsed.entries.map((e, i) => ({
-          id: uid(),
-          lorebookId: id,
-          keys: e.keys,
-          secondaryKeys: e.secondaryKeys ?? null,
-          content: e.content,
-          constant: e.constant,
-          selective: e.selective,
-          priority: e.priority,
-          position: e.position,
-          depth: e.depth,
-          enabled: e.enabled,
-          orderIndex: e.orderIndex ?? i,
-        })),
-      );
-    }
-  });
-
-  return getLorebook(userId, id);
 }
 
 export async function exportLorebook(

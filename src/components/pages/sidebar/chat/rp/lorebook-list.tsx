@@ -33,7 +33,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   useCreateLorebookEntryMutation,
   useCreateLorebookMutation,
@@ -45,10 +44,10 @@ import {
   useUpdateLorebookEntryMutation,
   useUpdateLorebookMutation,
 } from "@/hooks/rp/lorebooks";
-import { RpLoginGate } from "./rp-login-gate";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
+import type { LorebookExportFormat } from "@/lib/validation/rp";
 import {
   lorebookEntryFormSchema,
   lorebookFormSchema,
@@ -67,7 +66,6 @@ type Props = {
 
 export function LorebookList(props: Props) {
   const t = useTranslations();
-  const isLoggedIn = !!useAuthQuery().data;
   const lorebooksQuery = useLorebooksQuery();
   const createMut = useCreateLorebookMutation();
   const deleteMut = useDeleteLorebookMutation();
@@ -110,10 +108,7 @@ export function LorebookList(props: Props) {
     }
   };
 
-  const handleExport = async (
-    id: string,
-    format: "sillytavern" | "agnai" | "risu" | "ccv3",
-  ) => {
+  const handleExport = async (id: string, format: LorebookExportFormat) => {
     const { response, error } = await rpc.api.ai.rp
       .lorebooks({ id })
       .export.get({ query: { format } });
@@ -152,9 +147,7 @@ export function LorebookList(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        {!isLoggedIn ? (
-          <RpLoginGate />
-        ) : openLbId ? (
+        {openLbId ? (
           <LorebookEditorInline
             lorebookId={openLbId}
             onDeleted={() => setOpenLbId(null)}

@@ -144,7 +144,9 @@ export const characters = sqliteTable(
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
-    avatarR2Key: text("avatar_r2_key"),
+    // FK to `media` row holding the avatar bytes/pointer. See media table
+    // for the asymmetric local-base64 / R2 sync rule.
+    avatarMediaId: text("avatar_media_id"),
     description: text("description"),
     personality: text("personality"),
     scenario: text("scenario"),
@@ -186,7 +188,9 @@ export const personas = sqliteTable(
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     description: text("description"),
-    avatarR2Key: text("avatar_r2_key"),
+    // FK to `media` row holding the avatar bytes/pointer. See media table
+    // for the asymmetric local-base64 / R2 sync rule.
+    avatarMediaId: text("avatar_media_id"),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
       .default(false),
@@ -447,6 +451,10 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
+// Generic blob store. Referenced by conversation messages, RP avatars, etc.
+// Asymmetric sync rule: client writes data_base64 -> server uploads to R2 +
+// fills r2_key/r2_url -> Turso never stores bytes. Rehydrator fetches R2 ->
+// data_base64 on first read, never overwrites an existing local cache.
 export const media = sqliteTable(
   "media",
   {
@@ -454,11 +462,11 @@ export const media = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
+    // Optional back-reference. Conversation messages set convId so deletes
+    // cascade. Avatars + other top-level media leave it null.
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // Local-only: bytes in data_base64. After sync, R2 fields filled,
-    // data_base64 nulled before mirroring to Turso (pointer-only).
     r2Key: text("r2_key"),
     r2Url: text("r2_url"),
     dataBase64: text("data_base64"),

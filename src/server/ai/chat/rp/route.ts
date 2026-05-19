@@ -3,16 +3,13 @@ import {
   cardApplyBody,
   cardBody,
   characterBody,
-  characterCardImportBody,
   characterExportQuery,
   exportQuery,
   importConversationBody,
   lorebookBody,
   lorebookEntryBody,
   lorebookExportQuery,
-  lorebookImportBody,
   personaBody,
-  personaImportBody,
   samplingPresetBody,
 } from "@/lib/validation/rp";
 import {
@@ -25,7 +22,6 @@ import {
   deleteCharacter,
   exportCharacter,
   getCharacter,
-  importCharacterCard,
   listCharacters,
   updateCharacter,
 } from "./character.service";
@@ -44,7 +40,6 @@ import {
   deleteLorebook,
   exportLorebook,
   getLorebook,
-  importLorebook,
   listLorebooks,
   updateEntry,
   updateLorebook,
@@ -53,7 +48,6 @@ import {
   createPersona,
   deletePersona,
   getPersona,
-  importPersona,
   listPersonas,
   updatePersona,
 } from "./persona.service";
@@ -107,17 +101,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = getUserId(cookie);
     return { success: true, data: await deleteCharacter(userId, params.id) };
   })
-  .post(
-    "/characters/import",
-    async ({ body, cookie }) => {
-      const userId = getUserId(cookie);
-      return {
-        success: true,
-        data: await importCharacterCard(userId, body.file),
-      };
-    },
-    { body: characterCardImportBody },
-  )
   .get(
     "/characters/:id/export",
     async ({ params, query, cookie, set }) => {
@@ -168,18 +151,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = getUserId(cookie);
     return { success: true, data: await deletePersona(userId, params.id) };
   })
-  .post(
-    "/personas/import",
-    async ({ body, cookie }) => {
-      const userId = getUserId(cookie);
-      return {
-        success: true,
-        data: await importPersona(userId, body.file),
-      };
-    },
-    { body: personaImportBody },
-  )
-
   .get("/lorebooks", async ({ cookie }) => {
     const userId = getUserId(cookie);
     return { success: true, data: await listLorebooks(userId) };
@@ -211,17 +182,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = getUserId(cookie);
     return { success: true, data: await deleteLorebook(userId, params.id) };
   })
-  .post(
-    "/lorebooks/import",
-    async ({ body, cookie }) => {
-      const userId = getUserId(cookie);
-      return {
-        success: true,
-        data: await importLorebook(userId, body.file),
-      };
-    },
-    { body: lorebookImportBody },
-  )
   .get(
     "/lorebooks/:id/export",
     async ({ params, query, cookie, set }) => {

@@ -20,7 +20,6 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuthQuery } from "@/hooks/auth-hook";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +33,6 @@ import {
   useImportCharacterCardMutation,
   useUpdateCharacterMutation,
 } from "@/hooks/rp/characters";
-import { RpLoginGate } from "./rp-login-gate";
 import {
   characterFormSchema,
   type CharacterForm,
@@ -42,22 +40,22 @@ import {
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { downloadBlob } from "@/lib/utils/client";
+import type { EditorState } from "@/lib/types";
+import type { CharacterExportFormat } from "@/lib/validation/rp";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMediaSrc } from "@/hooks/use-media-src";
+
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
-
 export function CharacterList(props: Props) {
   const t = useTranslations();
-  const isLoggedIn = !!useAuthQuery().data;
   const charsQuery = useCharactersQuery();
   const createMut = useCreateCharacterMutation();
   const updateMut = useUpdateCharacterMutation();
@@ -87,7 +85,7 @@ export function CharacterList(props: Props) {
     }
   };
 
-  const handleExport = async (id: string, format: "png" | "json" | "charx") => {
+  const handleExport = async (id: string, format: CharacterExportFormat) => {
     const { response, error } = await rpc.api.ai.rp
       .characters({ id })
       .export.get({ query: { format } });
@@ -127,9 +125,7 @@ export function CharacterList(props: Props) {
           </DialogTitle>
         </DialogHeader>
 
-        {!isLoggedIn ? (
-          <RpLoginGate />
-        ) : view.mode === "list" ? (
+        {view.mode === "list" ? (
           <div className="flex flex-col gap-3">
             <div className="flex flex-wrap items-center justify-end gap-2">
               <input
@@ -188,19 +184,11 @@ export function CharacterList(props: Props) {
                     setView({ mode: "edit", id: c.id });
                   }}
                 >
-                  {c.avatarR2Key ? (
-                    <Image
-                      src={`/r2/${c.avatarR2Key}`}
-                      alt={c.name}
-                      width={40}
-                      height={40}
-                      className="size-10 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
-                      {c.name?.[0]?.toUpperCase() ?? "?"}
-                    </div>
-                  )}
+                  <CharacterAvatar
+                    mediaId={c.avatarMediaId}
+                    name={c.name}
+                  />
+
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="truncate text-sm font-medium">
                       {c.name}
@@ -525,5 +513,26 @@ function CharacterEditorInline(props: EditorInlineProps) {
         </div>
       </form>
     </Form>
+  );
+}
+
+function CharacterAvatar(props: { mediaId: string | null; name: string }) {
+  const src = useMediaSrc(props.mediaId);
+  if (src) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={props.name}
+        width={40}
+        height={40}
+        className="size-10 rounded-full object-cover"
+      />
+    );
+  }
+  return (
+    <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
+      {props.name?.[0]?.toUpperCase() ?? "?"}
+    </div>
   );
 }

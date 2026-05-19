@@ -129,7 +129,7 @@ async function importNative(
         userId,
         name: native.persona.name as string,
         description: (native.persona.description as string | null) ?? null,
-        avatarR2Key: null,
+        avatarMediaId: null,
         isDefault: false,
       });
     }

@@ -34,6 +34,8 @@ export type ChatMessageMetadata = {
 
 export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
+export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
+
 export type SearchResult = {
   title: string;
   description: string;

@@ -2491,6 +2491,7 @@
     },
     "MORE": {
       "OPEN": "更多操作",
+      "IMPORT_EXPORT": "匯入 / 匯出",
       "EXPORT_NATIVE": "匯出（原生）",
       "EXPORT_ORPG": "匯出（OpenRouter）",
       "EXPORT_SILLYTAVERN": "匯出（SillyTavern JSONL）",
@@ -2509,7 +2510,6 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "從此檔案覆蓋本地 OPFS 資料庫？現有資料將被清空。",
       "CLEAR": "清空對話",
       "CLEAR_SUCCESS": "對話已清空",
-      "CLEAR_CONFIRM_TITLE": "清空所有訊息？",
       "CLEAR_CONFIRM_DESC": "此操作會刪除該對話中的所有訊息，但保留設定、角色綁定與標題。此操作無法復原。",
       "FONT": "字型",
       "FONT_SANS": "無襯線",
@@ -2520,8 +2520,6 @@
     }
   },
   "RP": {
-    "LOGIN_REQUIRED": "請登入以管理你的角色扮演設定。",
-    "LOGIN_CTA": "登入",
     "CHARACTERS_TITLE": "角色",
     "CHARACTERS_NEW": "新增角色",
     "CHARACTERS_IMPORT": "匯入角色卡",

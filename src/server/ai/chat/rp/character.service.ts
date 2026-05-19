@@ -1,7 +1,6 @@
-import { uploadToR2 } from "@/lib/config/r2";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
-import { characters } from "@/lib/db/schema";
+import { characters, media } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { CharacterBody } from "@/lib/validation/rp";
@@ -11,25 +10,20 @@ import { and, desc, eq } from "drizzle-orm";
 import {
   exportCharacterCard,
   exportCharacterCardAsJson,
-  parseCharacterCardFile,
-} from "./character-card";
+} from "@/lib/rp/character-card";
 
 async function fetchAvatarBuffer(
   r2Key: string,
-): Promise<{ data: Buffer; mime: string } | null> {
+  declaredMime: string | null,
+): Promise<{ data: Uint8Array; mime: string } | null> {
   if (!serverEnv.r2PublicUrl) return null;
   try {
     const res = await fetch(`${serverEnv.r2PublicUrl}/${r2Key}`);
     if (!res.ok) return null;
-    const buf = Buffer.from(await res.arrayBuffer());
+    const data = new Uint8Array(await res.arrayBuffer());
     const mime =
-      res.headers.get("content-type") ||
-      (r2Key.endsWith(".webp")
-        ? "image/webp"
-        : r2Key.endsWith(".jpg") || r2Key.endsWith(".jpeg")
-          ? "image/jpeg"
-          : "image/png");
-    return { data: buf, mime };
+      res.headers.get("content-type") || declaredMime || "image/png";
+    return { data, mime };
   } catch (err) {
     logger.warn("Avatar fetch failed", {
       context: "character.export",
@@ -67,7 +61,7 @@ export async function createCharacter(userId: number, body: CharacterBody) {
     id,
     userId,
     name: body.name,
-    avatarR2Key: body.avatarR2Key ?? null,
+    avatarMediaId: body.avatarMediaId ?? null,
     description: body.description ?? null,
     personality: body.personality ?? null,
     scenario: body.scenario ?? null,
@@ -95,7 +89,7 @@ export async function updateCharacter(
     .update(characters)
     .set({
       name: body.name,
-      avatarR2Key: body.avatarR2Key ?? null,
+      avatarMediaId: body.avatarMediaId ?? null,
       description: body.description ?? null,
       personality: body.personality ?? null,
       scenario: body.scenario ?? null,
@@ -127,42 +121,6 @@ export async function deleteCharacter(userId: number, id: string) {
   return { id };
 }
 
-export async function importCharacterCard(userId: number, file: File) {
-  const { card, imageBuffer, imageMime } = await parseCharacterCardFile(file);
-
-  const id = uid();
-  let avatarR2Key: string | null = null;
-
-  if (imageBuffer && imageMime) {
-    const ext = imageMime === "image/webp" ? "webp" : "png";
-    const key = `chat/characters/${userId}/${id}/avatar.${ext}`;
-    try {
-      await uploadToR2(key, imageBuffer, imageMime);
-      avatarR2Key = key;
-    } catch {
-      avatarR2Key = null;
-    }
-  }
-
-  const db = getDb();
-  await db.insert(characters).values({
-    id,
-    userId,
-    name: card.name,
-    avatarR2Key,
-    description: card.description ?? null,
-    personality: card.personality ?? null,
-    scenario: card.scenario ?? null,
-    firstMessage: card.firstMessage ?? null,
-    exampleMessages: card.exampleMessages ?? null,
-    systemPrompt: card.systemPrompt ?? null,
-    postHistoryInstructions: card.postHistoryInstructions ?? null,
-    tags: card.tags ?? null,
-  });
-
-  return getCharacter(userId, id);
-}
-
 // PNG re-embeds avatar as icon asset; JSON is metadata-only (no avatar).
 export async function exportCharacter(
   userId: number,
@@ -175,8 +133,17 @@ export async function exportCharacter(
     return exportCharacterCardAsJson(row);
   }
 
-  const avatar = row.avatarR2Key
-    ? await fetchAvatarBuffer(row.avatarR2Key)
-    : null;
+  let avatar: { data: Uint8Array; mime: string } | null = null;
+  if (row.avatarMediaId) {
+    const mediaRows = await getDb()
+      .select({ r2Key: media.r2Key, mimeType: media.mimeType })
+      .from(media)
+      .where(and(eq(media.id, row.avatarMediaId), eq(media.userId, userId)))
+      .limit(1);
+    const m = mediaRows[0];
+    if (m?.r2Key) {
+      avatar = await fetchAvatarBuffer(m.r2Key, m.mimeType);
+    }
+  }
   return exportCharacterCard(row, avatar, format);
 }

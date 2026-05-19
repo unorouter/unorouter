@@ -4,7 +4,7 @@ import { useAuthQuery } from "@/hooks/auth-hook";
 import { PAGE_SIZE } from "@/lib/config/constants";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia } from "@/lib/utils/base";
+import { arrayBufferToBase64, handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { media } from "@/lib/db/schema/shared";
 import type { SyncBundle, SyncKind } from "@/server/ai/sync/sync.service";
@@ -18,6 +18,7 @@ import {
   readLocalConversations,
   readLocalGenerationSessions,
   readLocalLorebooks,
+  readLocalMedia,
   readLocalPersonas,
   readLocalPresets,
 } from "./reads";
@@ -232,7 +233,9 @@ async function applyBundle<K extends SyncKind>(
     case "conversations": {
       const b = bundle as SyncBundle<"conversations">;
       // Rehydrate bytes into base64 so local row survives R2 expiry/deletion.
-      const rehydratedMedia = await Promise.all(b.media.map(rehydrateMedia));
+      const rehydratedMedia = await Promise.all(
+        b.media.map((m) => rehydrateMedia(userId, m)),
+      );
       await upsertLocalConversationBundle(userId, {
         conversation: b.conversation,
         settings: b.settings,
@@ -264,36 +267,41 @@ async function applyBundle<K extends SyncKind>(
 
 type MediaRow = typeof media.$inferSelect;
 
-// R2 failures tolerated: surface broken-media placeholder, don't abort apply.
-async function rehydrateMedia(row: MediaRow): Promise<MediaRow> {
-  if (row.dataBase64 || !row.r2Url) return row;
-  try {
-    const res = await fetch(row.r2Url);
-    if (!res.ok) {
-      logger.warn("R2 media fetch failed", {
+// Asymmetric base64 rule (see media schema comment): never re-download bytes
+// that are already cached locally. Server pulls always carry dataBase64=null;
+// we preserve the local cache when present, fetch from R2 only on first sight.
+async function rehydrateMedia(
+  userId: number,
+  row: MediaRow,
+): Promise<MediaRow> {
+  if (row.dataBase64) return row;
+  if (row.r2Url) {
+    const existing = await readLocalMedia(userId, row.id);
+    if (existing?.dataBase64) {
+      return { ...row, dataBase64: existing.dataBase64 };
+    }
+    try {
+      const res = await fetch(row.r2Url);
+      if (!res.ok) {
+        logger.warn("R2 media fetch failed", {
+          context: "local-db.hydrator",
+          id: row.id,
+          status: res.status,
+        });
+        return row;
+      }
+      const buf = await res.arrayBuffer();
+      return { ...row, dataBase64: arrayBufferToBase64(buf) };
+    } catch (err) {
+      logger.warn("R2 media rehydrate failed", {
         context: "local-db.hydrator",
         id: row.id,
-        status: res.status,
+        error: String(err),
       });
       return row;
     }
-    const buf = await res.arrayBuffer();
-    const base64 = arrayBufferToBase64(buf);
-    return { ...row, dataBase64: base64 };
-  } catch (err) {
-    logger.warn("R2 media rehydrate failed", {
-      context: "local-db.hydrator",
-      id: row.id,
-      error: String(err),
-    });
-    return row;
   }
+  return row;
 }
 
-function arrayBufferToBase64(buf: ArrayBuffer): string {
-  const bytes = new Uint8Array(buf);
-  let binary = "";
-  for (let i = 0; i < bytes.length; i++)
-    binary += String.fromCharCode(bytes[i]);
-  return btoa(binary);
-}
+

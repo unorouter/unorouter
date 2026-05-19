@@ -2491,6 +2491,7 @@
     },
     "MORE": {
       "OPEN": "Thao tác khác",
+      "IMPORT_EXPORT": "Nhập / Xuất",
       "EXPORT_NATIVE": "Xuất (gốc)",
       "EXPORT_ORPG": "Xuất (OpenRouter)",
       "EXPORT_SILLYTAVERN": "Xuất (SillyTavern JSONL)",
@@ -2509,7 +2510,6 @@
       "LOCAL_DB_UPLOAD_CONFIRM": "Ghi đè CSDL OPFS cục bộ từ tệp này? Dữ liệu hiện tại sẽ bị xóa.",
       "CLEAR": "Xóa cuộc trò chuyện",
       "CLEAR_SUCCESS": "Đã xóa cuộc trò chuyện",
-      "CLEAR_CONFIRM_TITLE": "Xóa tất cả tin nhắn?",
       "CLEAR_CONFIRM_DESC": "Hành động này sẽ xóa mọi tin nhắn trong cuộc trò chuyện nhưng giữ lại cài đặt, ràng buộc nhân vật và tiêu đề. Không thể hoàn tác.",
       "FONT": "Phông chữ",
       "FONT_SANS": "Sans",
@@ -2520,8 +2520,6 @@
     }
   },
   "RP": {
-    "LOGIN_REQUIRED": "Đăng nhập để quản lý thiết lập nhập vai của bạn.",
-    "LOGIN_CTA": "Đăng nhập",
     "CHARACTERS_TITLE": "Nhân vật",
     "CHARACTERS_NEW": "Nhân vật mới",
     "CHARACTERS_IMPORT": "Nhập thẻ",

@@ -77,6 +77,7 @@ function expiryFromDays(days: number = DEFAULT_TTL_DAYS): Date {
   return dayjs().add(days, "day").toDate();
 }
 
+
 // Per-request memo so route-level .derive() can call sweepExpired once.
 const sweptThisRequest = new WeakSet<object>();
 export function sweepKey(): object {
@@ -572,7 +573,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           id,
           userId,
           name: (body.name as string) ?? "Untitled",
-          avatarR2Key: (body.avatarR2Key as string | null) ?? null,
+          avatarMediaId: (body.avatarMediaId as string | null) ?? null,
           description: (body.description as string | null) ?? null,
           personality: (body.personality as string | null) ?? null,
           scenario: (body.scenario as string | null) ?? null,
@@ -597,7 +598,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           .set({
             ...stripUndefined({
               name: body.name as string | undefined,
-              avatarR2Key: body.avatarR2Key as string | null | undefined,
+              avatarMediaId: body.avatarMediaId as string | null | undefined,
               description: body.description as string | null | undefined,
               personality: body.personality as string | null | undefined,
               scenario: body.scenario as string | null | undefined,
@@ -643,7 +644,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           userId,
           name: (body.name as string) ?? "Untitled",
           description: (body.description as string | null) ?? null,
-          avatarR2Key: (body.avatarR2Key as string | null) ?? null,
+          avatarMediaId: (body.avatarMediaId as string | null) ?? null,
           isDefault: (body.isDefault as boolean | undefined) ?? false,
           syncExpiresAt: expiresAt,
         });
@@ -654,7 +655,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
             ...stripUndefined({
               name: body.name as string | undefined,
               description: body.description as string | null | undefined,
-              avatarR2Key: body.avatarR2Key as string | null | undefined,
+              avatarMediaId: body.avatarMediaId as string | null | undefined,
               isDefault: body.isDefault as boolean | undefined,
             }),
             syncExpiresAt: expiresAt,

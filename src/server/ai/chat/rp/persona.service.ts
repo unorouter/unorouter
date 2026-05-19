@@ -1,4 +1,3 @@
-import { msg } from "@/lib/config/constants";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { personas } from "@/lib/db/schema";
@@ -6,7 +5,6 @@ import { uid } from "@/lib/utils/base";
 import type { PersonaBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, desc, eq } from "drizzle-orm";
-import { parsePersonaJson } from "./persona-import";
 
 export async function listPersonas(userId: number) {
   const db = getDb();
@@ -43,7 +41,7 @@ export async function createPersona(userId: number, body: PersonaBody) {
       userId,
       name: body.name,
       description: body.description ?? null,
-      avatarR2Key: body.avatarR2Key ?? null,
+      avatarMediaId: body.avatarMediaId ?? null,
       isDefault: body.isDefault ?? false,
     });
   });
@@ -68,7 +66,7 @@ export async function updatePersona(
       .set({
         name: body.name,
         description: body.description ?? null,
-        avatarR2Key: body.avatarR2Key ?? null,
+        avatarMediaId: body.avatarMediaId ?? null,
         isDefault: body.isDefault ?? false,
         updatedAt: dayjs().toDate(),
       })
@@ -89,32 +87,3 @@ export async function deletePersona(userId: number, id: string) {
   return { id };
 }
 
-// Accepts SillyTavern, RisuAI, or persona-settings-backup shape. Skips entries
-// without a name. Never marks imported personas as default.
-export async function importPersona(userId: number, file: File) {
-  let raw: unknown;
-  try {
-    raw = JSON.parse(await file.text());
-  } catch {
-    throw new Error(msg("ERRORS.REQUEST_FAILED"));
-  }
-
-  const parsed = parsePersonaJson(raw);
-  if (parsed.length === 0) throw new Error(msg("ERRORS.REQUEST_FAILED"));
-
-  const db = getDb();
-  const inserted: Array<typeof personas.$inferSelect> = [];
-  for (const p of parsed) {
-    const id = uid();
-    await db.insert(personas).values({
-      id,
-      userId,
-      name: p.name,
-      description: p.description ?? null,
-      isDefault: false,
-    });
-    const row = await getPersona(userId, id);
-    inserted.push(row);
-  }
-  return inserted;
-}

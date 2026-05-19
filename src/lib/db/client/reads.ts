@@ -42,6 +42,10 @@ const conversationSettingsStore = makeTableStore(
   conversationSettings,
   conversationSettings.convId,
 );
+const mediaStore = makeTableStore(media, media.id);
+
+export const readLocalMedia = (userId: number, id: string) =>
+  mediaStore.get(userId, id);
 
 export const readLocalCharacters = (userId: number) =>
   characterStore.list(userId, { orderBy: desc(characters.updatedAt) });
