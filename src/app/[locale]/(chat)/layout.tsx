@@ -1,10 +1,10 @@
 import { SidebarLayout } from "@/components/layout/sidebar/sidebar-layout";
+import { RpDialogs } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { ChatRuntimeProvider } from "@/components/pages/sidebar/chat/runtime/chat-runtime-provider";
 import { GuestLocalDbMigrate } from "@/components/pages/sidebar/chat/runtime/guest-local-db-migrate";
 import { ConversationList } from "@/components/pages/sidebar/chat/sidebar/conversation-list";
-import { RpDialogs } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
-import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
 import { PAGE_SIZE } from "@/lib/config/constants";
+import { SyncStateHydrator } from "@/lib/db/client/sync/sync-state-hydrator";
 import getQueryClient from "@/lib/react-query/client";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -92,10 +92,7 @@ export default async function ChatLayout(props: Props) {
       <ChatRuntimeProvider>
         <SyncStateHydrator />
         <GuestLocalDbMigrate />
-        <SidebarLayout
-          navConfig="chat"
-          chatContent={<ConversationList />}
-        >
+        <SidebarLayout navConfig="chat" chatContent={<ConversationList />}>
           {props.children}
         </SidebarLayout>
         <RpDialogs />

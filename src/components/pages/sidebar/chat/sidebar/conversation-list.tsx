@@ -1,13 +1,12 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
+import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import { Icon } from "@/components/ui/icon";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SectionBoundary } from "@/components/elements/feedback/section-boundary";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -22,6 +21,7 @@ import {
 } from "@/hooks/ai/chat-hook";
 import { analytics } from "@/lib/analytics";
 import { useAui, useAuiState } from "@assistant-ui/react";
+import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { ConversationItem } from "./conversation-item";

@@ -3,9 +3,8 @@
 import { CharacterList } from "@/components/pages/sidebar/chat/rp/character-list";
 import { LorebookList } from "@/components/pages/sidebar/chat/rp/lorebook-list";
 import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
+import type { RpTab } from "@/lib/validation/rp-forms";
 import { atom, useAtom } from "jotai";
-
-export type RpTab = "characters" | "personas" | "lorebooks";
 
 // Dialogs render at layout root so they aren't nested inside the mobile
 // sidebar Sheet (which would unmount them on close).

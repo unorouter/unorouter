@@ -16,6 +16,11 @@ export const SAMPLING_FIELDS = [
   "maxTokens",
 ] as const;
 
+// RP entity tabs shown in the sidebar dialog + nav.
+export const RP_TABS = ["characters", "personas", "lorebooks"] as const;
+export const rpTab = t.Union(RP_TABS.map((k) => t.Literal(k)));
+export type RpTab = Static<typeof rpTab>;
+
 const reasoningEffortLiterals = t.Union([
   t.Literal(NONE_VALUE),
   t.Literal("xhigh"),

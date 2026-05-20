@@ -1,27 +1,19 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
-import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { useUpdateConversationMutation } from "@/hooks/ai/chat-hook";
+import { useSyncStateForRow } from "@/hooks/ai/sync-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
-import {
-  useRemoveSyncMutation,
-  useSyncMutation,
-  useSyncStateForRow,
-} from "@/hooks/ai/sync-hook";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { dayjs } from "@/lib/utils/format/date";
 import { useLocale, useTranslations } from "next-intl";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import { ConversationItemEditor } from "./conversation-item-editor";
+import { ConversationItemMenu } from "./conversation-item-menu";
+
 type ConversationItemProps = {
   conversation: {
     id: string;
@@ -42,13 +34,9 @@ export function ConversationItem(props: ConversationItemProps) {
   const isLoggedIn = !!auth.data;
   const pricingQuery = usePricingQuery();
   const updateMutation = useUpdateConversationMutation();
-  const syncMut = useSyncMutation();
-  const removeSyncMut = useRemoveSyncMutation();
   const syncState = useSyncStateForRow("conversations", props.conversation.id);
   const [isEditing, setIsEditing] = useState(false);
-  const [editValue, setEditValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const modelData = pricingQuery.data?.models?.find(
     (m) => m.name === props.conversation.model,
@@ -60,26 +48,20 @@ export function ConversationItem(props: ConversationItemProps) {
 
   const isSynced = syncState.syncExpiresAt != null;
   const syncExpiresLabel = syncState.syncExpiresAt
-    ? new Date(syncState.syncExpiresAt).toLocaleDateString(locale, {
-        day: "2-digit",
-        month: "short",
-      })
+    ? dayjs(syncState.syncExpiresAt).locale(locale).format("DD MMM")
     : null;
 
   function startEditing() {
     analytics.chat.conversationRenameStarted();
-    setEditValue(props.conversation.title || "");
     setIsEditing(true);
     setMenuOpen(false);
-    setTimeout(() => inputRef.current?.focus(), 0);
   }
 
-  function saveEdit() {
-    const trimmed = editValue.trim();
-    if (trimmed && trimmed !== props.conversation.title) {
+  function saveEdit(title: string) {
+    if (title && title !== props.conversation.title) {
       updateMutation.mutate({
         id: props.conversation.id,
-        body: { title: trimmed },
+        body: { title },
       });
     }
     setIsEditing(false);
@@ -99,42 +81,11 @@ export function ConversationItem(props: ConversationItemProps) {
       )}
     >
       {isEditing ? (
-        <div
-          className="flex h-full min-w-0 flex-1 items-center gap-1 px-3 py-2"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <input
-            ref={inputRef}
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            onKeyDown={(e) => {
-              e.stopPropagation();
-              if (e.key === "Enter") saveEdit();
-              if (e.key === "Escape") {
-                analytics.chat.conversationRenameCancelled();
-                setIsEditing(false);
-              }
-            }}
-            className="bg-background border-border ring-ring min-w-0 flex-1 rounded border px-1.5 py-0.5 text-sm outline-none focus:ring-1"
-          />
-          <button
-            type="button"
-            className="text-muted-foreground hover:text-foreground flex size-6 items-center justify-center rounded-md"
-            onClick={saveEdit}
-          >
-            <Icon name="check" className="size-3.5" />
-          </button>
-          <button
-            type="button"
-            className="text-muted-foreground hover:text-foreground flex size-6 items-center justify-center rounded-md"
-            onClick={() => {
-              analytics.chat.conversationRenameCancelled();
-              setIsEditing(false);
-            }}
-          >
-            <Icon name="x" className="size-3.5" />
-          </button>
-        </div>
+        <ConversationItemEditor
+          initialTitle={props.conversation.title || ""}
+          onSave={saveEdit}
+          onCancel={() => setIsEditing(false)}
+        />
       ) : (
         <div className="relative flex min-w-0 flex-1 items-center gap-2 px-3 py-1.5 text-start text-sm">
           <span
@@ -185,102 +136,16 @@ export function ConversationItem(props: ConversationItemProps) {
               </span>
             )}
           </div>
-          <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-            <DropdownMenuTrigger
-              onClick={(e) => e.stopPropagation()}
-              className={cn(
-                "absolute right-1 flex size-7 shrink-0 items-center justify-center rounded-md p-0 transition-opacity",
-                "opacity-0 group-hover/conv:opacity-100",
-                "data-[state=open]:bg-accent data-[state=open]:opacity-100",
-                props.isSelected && "opacity-100",
-              )}
-            >
-              <Icon name="ellipsis" className="size-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              side="bottom"
-              align="start"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <DropdownMenuItem onClick={startEditing} className="gap-2">
-                <Icon name="pencil" className="size-4" />
-                {t("CHAT.ACTION.RENAME")}
-              </DropdownMenuItem>
-              {isLoggedIn && !isSynced && (
-                <DropdownMenuItem
-                  disabled={syncMut.isPending}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    syncMut.mutate({
-                      kind: "conversations",
-                      id: props.conversation.id,
-                    });
-                    setMenuOpen(false);
-                  }}
-                  className="gap-2"
-                >
-                  <Icon name="cloud-upload" className="size-4" />
-                  {t("SYNC.ADD_SYNC")}
-                </DropdownMenuItem>
-              )}
-              {isLoggedIn && isSynced && (
-                <>
-                  <DropdownMenuItem
-                    disabled={syncMut.isPending}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      syncMut.mutate({
-                        kind: "conversations",
-                        id: props.conversation.id,
-                      });
-                      setMenuOpen(false);
-                    }}
-                    className="gap-2"
-                  >
-                    <Icon name="refresh-ccw" className="size-4" />
-                    {t("SYNC.RESYNC")}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    variant="destructive"
-                    disabled={removeSyncMut.isPending}
-                    onClick={async (e) => {
-                      e.stopPropagation();
-                      const ok = await confirm({
-                        title: t("COMMON.CONFIRM.REMOVE_SYNC_TITLE"),
-                        description: t("SYNC.CONFIRM_REMOVE"),
-                        confirmLabel: t("SYNC.REMOVE_SYNC"),
-                        cancelLabel: t("COMMON.CANCEL"),
-                        destructive: true,
-                      });
-                      if (!ok) return;
-                      removeSyncMut.mutate({
-                        kind: "conversations",
-                        id: props.conversation.id,
-                      });
-                      setMenuOpen(false);
-                    }}
-                    className="gap-2"
-                  >
-                    <Icon name="cloud-off" className="size-4" />
-                    {t("SYNC.REMOVE_SYNC")}
-                  </DropdownMenuItem>
-                </>
-              )}
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  props.onDelete();
-                  setMenuOpen(false);
-                }}
-                className="gap-2"
-              >
-                <Icon name="trash-2" className="size-4" />
-                {t("CHAT.ACTION.DELETE")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <ConversationItemMenu
+            conversationId={props.conversation.id}
+            isSelected={props.isSelected}
+            isLoggedIn={isLoggedIn}
+            isSynced={isSynced}
+            open={menuOpen}
+            onOpenChange={setMenuOpen}
+            onRename={startEditing}
+            onDelete={props.onDelete}
+          />
         </div>
       )}
     </div>

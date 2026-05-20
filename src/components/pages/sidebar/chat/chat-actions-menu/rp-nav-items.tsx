@@ -1,4 +1,4 @@
-import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
+import { openRpTabAtom } from "@/components/pages/sidebar/chat/rp/rp-dialogs";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/i18n/navigation";
