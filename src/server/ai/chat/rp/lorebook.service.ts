@@ -1,6 +1,6 @@
 import { lorebookEntries, lorebooks } from "@/lib/db/schema";
 import { getDb } from "@/lib/db/server/client";
-import { serializeLorebookForExport } from "@/lib/playground/rp/lorebook-import";
+import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
 import { uid } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";

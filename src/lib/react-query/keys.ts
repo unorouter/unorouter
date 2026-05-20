@@ -43,6 +43,7 @@ export const queryKeys = {
   taskStatus: (taskId: string) => ["task-status", taskId] as const,
 
   media: (id: string) => ["media", id] as const,
+  mediaNone: () => ["media", "none"] as const,
 
   characters: () => ["characters"] as const,
   character: (id: string) => ["character", id] as const,

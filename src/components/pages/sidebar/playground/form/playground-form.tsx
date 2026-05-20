@@ -49,8 +49,8 @@ import {
 import {
   getModelDescriptor,
   type PlaygroundModelDescriptor,
-} from "@/lib/playground/models";
-import { getEffectiveGenerationModels } from "@/lib/playground/models-dynamic";
+} from "@/lib/ai/playground/models";
+import { getEffectiveGenerationModels } from "@/lib/ai/playground/models-dynamic";
 import { cn } from "@/lib/utils";
 import type { RestoredFromPng } from "@/components/pages/sidebar/playground/utils/png-metadata";
 import {

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import { useEmbeddingCatalogQuery } from "@/hooks/ai/playground-hook";
-import type { ModelFamily } from "@/lib/playground/models";
+import type { ModelFamily } from "@/lib/ai/playground/models";
 import { useTranslations } from "next-intl";
 
 export type EmbeddingEntry = {

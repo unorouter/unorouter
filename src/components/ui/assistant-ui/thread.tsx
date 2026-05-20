@@ -28,7 +28,7 @@ import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
 import { useIsMobile } from "@/hooks/ui/use-mobile";
 import { analytics } from "@/lib/analytics";
-import { partsToItems } from "@/lib/playground/chat/messages";
+import { partsToItems } from "@/lib/ai/chat/messages";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import {

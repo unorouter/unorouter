@@ -10,7 +10,7 @@ import {
   readLocalCharacters,
   upsertLocalCharacter,
 } from "@/lib/db/client/data/rp";
-import { parseCharacterCardFile } from "@/lib/playground/rp/character-card";
+import { parseCharacterCardFile } from "@/lib/ai/rp/character-card";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";

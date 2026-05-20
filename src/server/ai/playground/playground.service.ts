@@ -3,7 +3,7 @@ import { dollarsToQuota } from "@/lib/config/constants";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
-} from "@/lib/playground/models-dynamic";
+} from "@/lib/ai/playground/models-dynamic";
 import { getDb } from "@/lib/db/server/client";
 import {
   playgroundSessions,

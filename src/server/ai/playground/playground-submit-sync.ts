@@ -2,10 +2,10 @@ import {
   buildBody,
   extractResultUris,
   fetchAllRefs,
-} from "@/lib/playground/dispatch";
+} from "@/lib/ai/playground/dispatch";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { downloadAndUploadGeneration } from "@/lib/config/r2";
-import { type SyncImageEndpoint } from "@/lib/playground/models-dynamic";
+import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 import { getDb } from "@/lib/db/server/client";
 import { playgrounds } from "@/lib/db/schema";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";

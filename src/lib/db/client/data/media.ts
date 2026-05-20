@@ -5,13 +5,13 @@ import { makeTableStore } from "./table-store";
 
 const mediaStore = makeTableStore(media, media.id);
 
-export const readLocalMedia = (userId: number, id: string) =>
+export const readLocalMedia = (userId: number | undefined, id: string) =>
   mediaStore.get(userId, id);
 
 // sync.service.ts uploads base64 bytes to R2 and stamps `r2_url` on Turso so
 // cross-device pulls only carry a pointer.
 export const upsertLocalMedia = (
-  userId: number,
+  userId: number | undefined,
   row: {
     id: string;
     convId?: string | null;

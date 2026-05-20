@@ -4,7 +4,7 @@
 //   /v1beta/models/{model}:generateContent: {inline_data: {mime_type, data}}
 // References are fetched once and re-encoded per endpoint.
 
-import type { SyncImageEndpoint } from "@/lib/playground/models-dynamic";
+import type { SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
 
 const MAX_REF_BYTES = 10 * 1024 * 1024;
 

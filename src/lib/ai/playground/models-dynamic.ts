@@ -3,7 +3,7 @@ import {
   PLAYGROUND_MODELS,
   PLAYGROUND_MODELS_BY_ID,
   type PlaygroundModelDescriptor,
-} from "@/lib/playground/models";
+} from "@/lib/ai/playground/models";
 
 export type SyncImageEndpoint = "image-generation" | "openai" | "gemini";
 

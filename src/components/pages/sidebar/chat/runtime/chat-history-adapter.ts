@@ -11,8 +11,8 @@ import {
 import type {
   ApiMessage,
   PersistMessage,
-} from "@/lib/playground/chat/messages";
-import { itemsToParts, partsToItems } from "@/lib/playground/chat/messages";
+} from "@/lib/ai/chat/messages";
+import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
 import {
   moveConvToTop,
   type ConvsInfinite,

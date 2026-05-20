@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db/server/client";
 import {
   exportCharacterCard,
   exportCharacterCardAsJson,
-} from "@/lib/playground/rp/character-card";
+} from "@/lib/ai/rp/character-card";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { assertFound } from "@/lib/utils/server";

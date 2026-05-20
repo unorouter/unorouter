@@ -1,7 +1,7 @@
 "use client";
 
 import { useMessagesInfiniteQuery } from "@/hooks/ai/chat-hook";
-import type { ApiMessage } from "@/lib/playground/chat/messages";
+import type { ApiMessage } from "@/lib/ai/chat/messages";
 import { useAuiState } from "@assistant-ui/react";
 
 type MessageMeta = {

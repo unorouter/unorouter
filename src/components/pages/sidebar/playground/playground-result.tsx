@@ -26,7 +26,7 @@ import {
   useSessionQuery,
   useSnapshotStatusQuery,
 } from "@/hooks/ai/playground-hook";
-import { getModelDescriptor } from "@/lib/playground/models";
+import { getModelDescriptor } from "@/lib/ai/playground/models";
 import {
   downloadGenerationImage,
   downloadGenerationSnapshot,

@@ -16,7 +16,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import type { ModelFamily } from "@/lib/playground/models";
+import type { ModelFamily } from "@/lib/ai/playground/models";
 import { LoraPicker, type LoraEntry } from "./lora-picker";
 import { YOLO_MODELS } from "../playground-constants";
 
