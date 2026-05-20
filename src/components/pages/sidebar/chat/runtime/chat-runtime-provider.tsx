@@ -224,7 +224,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
 // and cache-independent. The server has no DB rows for a guest, so a partial
 // context would silently drop persona/characters/lorebooks from the prompt.
 async function buildChatContextFromLocalDb(
-  userId: number,
+  userId: number | undefined,
   convId: string,
 ): Promise<ChatContext | undefined> {
   const [settings, bindings] = await Promise.all([

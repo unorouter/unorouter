@@ -58,12 +58,7 @@ export function ImportExportSubmenu(props: Props) {
       return;
     }
     const data = await exportMut.mutateAsync({ convId: props.convId, format });
-    const date = new Date().toISOString().slice(0, 10);
-
-    downloadJson(
-      data,
-      `${env.appName.toLowerCase()}-chat-${format}-${date}.json`,
-    );
+    downloadJson(data, `${env.appName.toLowerCase()}-chat-${format}.json`);
     analytics.chat.conversationExported({ format });
   };
 

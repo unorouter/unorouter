@@ -73,6 +73,9 @@ Two TypeBox folders, by route type:
 - No dashes as punctuation (em, en, `--`). Rephrase.
 - Named exports for components. `"use client"` at the top of client components.
 - Kebab-case file names. Suffixes: `*.service.ts`, `route.ts`, `*-hook.ts`, `*-store.ts`.
+- Client local-DB functions accept `userId?: number` (or `number | undefined` when a required param follows), defaulting to `GUEST_USER_ID`. Hooks resolve `auth.data?.id ?? GUEST_USER_ID` because guest-vs-synced branching (`userId > GUEST_USER_ID`, `mirrorConvIfSynced`) needs a concrete id. Never the magic literal `0`.
+- Dates via `dayjs` (shared singleton, `src/lib/utils/format/date.ts`), not raw `Date` or `toLocaleDateString`.
+- Enum-like types use a TypeBox union or an `as const` array plus a derived type. No TS `enum` keyword.
 
 ## Key patterns
 

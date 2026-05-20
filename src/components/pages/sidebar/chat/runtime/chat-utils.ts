@@ -28,7 +28,7 @@ export function extractFirstUserText(
 // Blob stays local until user opts conv into sync (sync.service.ts uploads
 // to R2 and stamps r2_url on the Turso mirror row).
 export function createLocalAttachmentAdapter(
-  getContext: () => { convId: string | null; userId: number },
+  getContext: () => { convId: string | null; userId: number | undefined },
 ): AttachmentAdapter {
   return {
     accept: "image/png,image/jpeg,image/webp,image/gif,application/pdf",
