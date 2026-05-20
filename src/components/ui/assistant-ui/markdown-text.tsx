@@ -1,23 +1,22 @@
 "use client";
 
-import "@assistant-ui/react-markdown/styles/dot.css";
+import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
+import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
+import { Icon } from "@/components/ui/icon";
+import { cn } from "@/lib/utils";
+import { downloadBlob } from "@/lib/utils/client";
 import {
   type CodeHeaderProps,
   MarkdownTextPrimitive,
   unstable_memoizeMarkdownComponents as memoizeMarkdownComponents,
   useIsMarkdownCodeBlock,
 } from "@assistant-ui/react-markdown";
+import "@assistant-ui/react-markdown/styles/dot.css";
+import { useTranslations } from "next-intl";
+import { type FC, useState } from "react";
+import rehypeMathjax from "rehype-mathjax";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
-import rehypeMathjax from "rehype-mathjax";
-import { type FC, useState } from "react";
-
-import { TooltipIconButton } from "@/components/ui/assistant-ui/tooltip-icon-button";
-import { ShikiSyntaxHighlighter } from "@/components/ui/assistant-ui/syntax-highlighter";
-import { Icon } from "@/components/ui/icon";
-import { cn } from "@/lib/utils";
-import { downloadBlob } from "@/lib/utils/client";
-import { useTranslations } from "next-intl";
 
 // MiniMax etc. emit raw <think>/<thinking> blocks in text body instead of
 // reasoning parts. Strip complete blocks plus any unclosed opening tag and

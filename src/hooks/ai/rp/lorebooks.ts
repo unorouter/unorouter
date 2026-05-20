@@ -12,10 +12,10 @@ import {
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
 } from "@/lib/db/client/data/rp";
+import { parseLorebookJson } from "@/lib/playground/rp/lorebook-import";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { parseLorebookJson } from "@/lib/rp/lorebook-import";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";

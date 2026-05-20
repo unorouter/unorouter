@@ -1,10 +1,23 @@
 // Mirrors `./rp.ts` and `./chat.ts` with `default:` for RHF's `Value.Default`.
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
-import { msg } from "../config/constants";
+import { msg, NONE_VALUE } from "../config/constants";
+
+// Sampling slider field names, shared by the override form + its reset helper.
+export const SAMPLING_FIELDS = [
+  "temperature",
+  "topP",
+  "topK",
+  "minP",
+  "topA",
+  "frequencyPenalty",
+  "presencePenalty",
+  "repetitionPenalty",
+  "maxTokens",
+] as const;
 
 const reasoningEffortLiterals = t.Union([
-  t.Literal("__none__"),
+  t.Literal(NONE_VALUE),
   t.Literal("xhigh"),
   t.Literal("high"),
   t.Literal("medium"),
@@ -40,11 +53,11 @@ const nullableNumber = (min: number, max: number) =>
   });
 
 export const conversationOverridesFormSchema = t.Object({
-  personaId: t.String({ default: "__none__" }),
-  presetId: t.String({ default: "__none__" }),
+  personaId: t.String({ default: NONE_VALUE }),
+  presetId: t.String({ default: NONE_VALUE }),
   reasoningEffort: t.String({
     ...reasoningEffortLiterals,
-    default: "__none__",
+    default: NONE_VALUE,
   }),
   chatMemory: t.Number({ minimum: 1, maximum: 1000, default: 8 }),
   authorNoteDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),

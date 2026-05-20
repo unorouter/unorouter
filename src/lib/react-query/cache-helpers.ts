@@ -1,3 +1,6 @@
+import type { InfiniteData, QueryClient } from "@tanstack/react-query";
+import { queryKeys } from "./keys";
+
 export function listAdd<T>(old: T[] | undefined, item: T): T[] {
   return old ? [...old, item] : [item];
 }
@@ -23,9 +26,6 @@ export function itemPatch<T>(
 ): T | undefined {
   return old ? { ...old, ...patch } : old;
 }
-
-import type { InfiniteData, QueryClient } from "@tanstack/react-query";
-import { queryKeys } from "./keys";
 
 type LooseMsg = { id: string; parentId?: string | null } & Record<
   string,

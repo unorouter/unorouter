@@ -34,8 +34,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { MultiSelectPopover } from "./multi-select-popover";
 import { SortableList } from "@/components/elements/dnd/sortable-list";
-
-const NONE = "__none__";
+import { NONE_VALUE as NONE } from "@/lib/config/constants";
 
 const cardFormSchema = tt.Object({
   name: tt.String({ minLength: 1, maxLength: 200, default: "" }),

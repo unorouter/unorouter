@@ -1,6 +1,5 @@
 "use client";
 
-import { SortableList } from "@/components/elements/dnd/sortable-list";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,15 +9,14 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -28,11 +26,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -46,37 +39,43 @@ import {
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
-import { msg } from "@/lib/config/constants";
+import { msg, NONE_VALUE } from "@/lib/config/constants";
 import { handleError } from "@/lib/utils/client";
-import type { StreamOverrides } from "@/lib/validation/chat";
-import { toast } from "sonner";
+import {
+  conversationOverridesFormSchema,
+  SAMPLING_FIELDS,
+  type ConversationOverridesForm,
+} from "@/lib/validation/rp-forms";
 import {
   chatDefaultsAtom,
   chatModelAtom,
   samplerMemoryByModelAtom,
-  type ModelSamplerMemory,
 } from "@/store/chat-store";
-import { usePricingQuery } from "@/hooks/models/pricing-hook";
-import { useAtom, useAtomValue } from "jotai";
-import {
-  conversationOverridesFormSchema,
-  type ConversationOverridesForm,
-} from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
+import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 
-import { MultiSelectPopover } from "../rp/multi-select-popover";
 import { SamplingFields } from "../rp/sampling-fields";
 import {
+  BindingMultiSelect,
+  EntitySelect,
+  KeyedSelect,
+} from "./conversation-overrides-fields";
+import {
+  buildBindingsBody,
+  buildDefaultsForm,
+  buildDefaultsOverrides,
+  buildSettingsBody,
+  buildSettingsForm,
   resetSampling as resetSamplingHelper,
-  SAMPLING_FIELDS,
   writeSamplerMemory,
 } from "./conversation-overrides-form-handler";
-import { Icon } from "@/components/ui/icon";
 
 const REASONING_EFFORT_KEY = {
   minimal: msg("CHAT.OVERRIDES.EFFORT_MINIMAL"),
@@ -129,9 +128,9 @@ function InfoPopover(props: { text: string }) {
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
-  // Defaults mode edits jotai atom; conversation mode edits the conversation_settings
-  // row. Both work offline for guests (userId=0) via SQLocal. Per-conversation
-  // fields (binding, web search) show in conversation mode only.
+  // Defaults mode edits the jotai atom; conversation mode edits the
+  // conversation_settings row. Both work offline for guests via SQLocal.
+  // Per-conversation fields (binding, web search) show in conversation mode.
   const isDefaultsMode = !props.convId;
   const showConversationFields = !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
@@ -168,70 +167,20 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     ) as ConversationOverridesForm,
   });
 
-  // Per-model sampler memory layers over defaults: model switch restores that model's last sliders.
+  // Per-model sampler memory layers over defaults: model switch restores that
+  // model's last sliders.
   useEffect(() => {
     if (isDefaultsMode) {
-      const mem: ModelSamplerMemory = activeModelName
+      const memory = activeModelName
         ? (samplerMemoryByModel[activeModelName] ?? {})
         : {};
-      form.reset({
-        personaId: "__none__",
-        presetId: "__none__",
-        reasoningEffort:
-          mem.reasoningEffort ?? chatDefaults.reasoningEffort ?? "__none__",
-        chatMemory: chatDefaults.chatMemory ?? 8,
-        authorNoteDepth: chatDefaults.authorNoteDepth ?? 4,
-        systemPromptOverride: chatDefaults.systemPromptOverride ?? "",
-        authorNote: chatDefaults.authorNote ?? "",
-        webSearchEnabled: false,
-        webSearchEngine: chatDefaults.webSearchEngine ?? "auto",
-        webSearchContextSize: chatDefaults.webSearchContextSize ?? "medium",
-        characterIds: [],
-        lorebookIds: [],
-        temperature: mem.temperature ?? chatDefaults.temperature ?? null,
-        topP: mem.topP ?? chatDefaults.topP ?? null,
-        topK: mem.topK ?? chatDefaults.topK ?? null,
-        minP: mem.minP ?? chatDefaults.minP ?? null,
-        topA: mem.topA ?? chatDefaults.topA ?? null,
-        frequencyPenalty:
-          mem.frequencyPenalty ?? chatDefaults.frequencyPenalty ?? null,
-        presencePenalty:
-          mem.presencePenalty ?? chatDefaults.presencePenalty ?? null,
-        repetitionPenalty:
-          mem.repetitionPenalty ?? chatDefaults.repetitionPenalty ?? null,
-        maxTokens: mem.maxTokens ?? chatDefaults.maxTokens ?? null,
-        extraBody: mem.extraBody ?? chatDefaults.extraBody ?? "",
-        streamingEnabled: chatDefaults.streamingEnabled ?? true,
-      });
+      form.reset(buildDefaultsForm(chatDefaults, memory));
       return;
     }
     if (!settings || !bindings) return;
-    form.reset({
-      personaId: settings.personaId ?? "__none__",
-      presetId: settings.presetId ?? "__none__",
-      reasoningEffort: settings.reasoningEffort ?? "__none__",
-      chatMemory: settings.chatMemory ?? 8,
-      authorNoteDepth: settings.authorNoteDepth ?? 4,
-      systemPromptOverride: settings.systemPromptOverride ?? "",
-      authorNote: settings.authorNote ?? "",
-      webSearchEnabled: settings.webSearchEnabled ?? false,
-      webSearchEngine: settings.webSearchEngine ?? "auto",
-      webSearchContextSize: settings.webSearchContextSize ?? "medium",
-      characterIds: bindings.characters.map((c) => c.characterId),
-      lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
-      temperature: settings.temperature ?? null,
-      topP: settings.topP ?? null,
-      topK: settings.topK ?? null,
-      minP: settings.minP ?? null,
-      topA: settings.topA ?? null,
-      frequencyPenalty: settings.frequencyPenalty ?? null,
-      presencePenalty: settings.presencePenalty ?? null,
-      repetitionPenalty: settings.repetitionPenalty ?? null,
-      maxTokens: settings.maxTokens ?? null,
-      extraBody: settings.extraBody ?? "",
-      streamingEnabled: settings.streamingEnabled ?? true,
-    });
-    // chatDefaults: pick up post-hydration value. activeModelName: restore per-model memory.
+    form.reset(buildSettingsForm(settings, bindings));
+    // chatDefaults: pick up post-hydration value. activeModelName: restore
+    // per-model memory.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     props.convId,
@@ -248,14 +197,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     name: "webSearchEnabled",
   });
 
-  const resetSampling = () => resetSamplingHelper(form);
-
   const onSubmit = async (data: ConversationOverridesForm) => {
-    const dirtyFields = Object.keys(form.formState.dirtyFields);
-    const samplingCustomized = SAMPLING_FIELDS.filter(
-      (f) => data[f] !== null && data[f] !== undefined,
-    );
-
     writeSamplerMemory(
       data,
       activeModelName,
@@ -264,100 +206,36 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
     );
     analytics.chat.overridesSaved({
       mode: isDefaultsMode ? "defaults" : "conversation",
-      changed_fields: dirtyFields,
-      has_persona: data.personaId !== "__none__",
-      has_preset: data.presetId !== "__none__",
+      changed_fields: Object.keys(form.formState.dirtyFields),
+      has_persona: data.personaId !== NONE_VALUE,
+      has_preset: data.presetId !== NONE_VALUE,
       character_count: data.characterIds.length,
       lorebook_count: data.lorebookIds.length,
       has_system_prompt: !!data.systemPromptOverride,
       has_author_note: !!data.authorNote,
       reasoning_effort:
-        data.reasoningEffort === "__none__" ? null : data.reasoningEffort,
+        data.reasoningEffort === NONE_VALUE ? null : data.reasoningEffort,
       web_search_enabled: data.webSearchEnabled,
       web_search_engine: data.webSearchEnabled ? data.webSearchEngine : null,
-      sampling_customized_fields: samplingCustomized,
+      sampling_customized_fields: SAMPLING_FIELDS.filter(
+        (f) => data[f] !== null && data[f] !== undefined,
+      ),
     });
 
     if (isDefaultsMode) {
-      // Persist to atom: seeds next conversation_settings row; server-only fields dropped for guests.
-      const next: StreamOverrides = {
-        reasoningEffort:
-          data.reasoningEffort === "__none__"
-            ? null
-            : (data.reasoningEffort as StreamOverrides["reasoningEffort"]),
-        chatMemory: data.chatMemory,
-        systemPromptOverride: data.systemPromptOverride || null,
-        authorNote: data.authorNote || null,
-        authorNoteDepth: data.authorNoteDepth,
-        temperature: data.temperature,
-        topP: data.topP,
-        topK: data.topK,
-        minP: data.minP,
-        topA: data.topA,
-        frequencyPenalty: data.frequencyPenalty,
-        presencePenalty: data.presencePenalty,
-        repetitionPenalty: data.repetitionPenalty,
-        maxTokens: data.maxTokens,
-        extraBody: data.extraBody || null,
-        streamingEnabled: data.streamingEnabled,
-      };
-      setChatDefaults(next);
+      // Persist to the atom: seeds the next conversation_settings row.
+      setChatDefaults(buildDefaultsOverrides(data));
       toast.success(t("COMMON.SAVED"));
       return;
     }
     try {
       await updateSettings.mutateAsync({
         convId: props.convId!,
-        body: {
-          chatMemory: data.chatMemory,
-          authorNoteDepth: data.authorNoteDepth,
-          systemPromptOverride: data.systemPromptOverride || null,
-          authorNote: data.authorNote || null,
-          personaId: data.personaId === "__none__" ? null : data.personaId,
-          presetId: data.presetId === "__none__" ? null : data.presetId,
-          reasoningEffort:
-            data.reasoningEffort === "__none__"
-              ? null
-              : (data.reasoningEffort as
-                  | "xhigh"
-                  | "high"
-                  | "medium"
-                  | "low"
-                  | "minimal"
-                  | "none"),
-          webSearchEnabled: data.webSearchEnabled,
-          webSearchEngine: data.webSearchEngine as
-            | "auto"
-            | "native"
-            | "exa"
-            | "tavily",
-          webSearchContextSize: data.webSearchContextSize as
-            | "low"
-            | "medium"
-            | "high",
-          temperature: data.temperature,
-          topP: data.topP,
-          topK: data.topK,
-          minP: data.minP,
-          topA: data.topA,
-          frequencyPenalty: data.frequencyPenalty,
-          presencePenalty: data.presencePenalty,
-          repetitionPenalty: data.repetitionPenalty,
-          maxTokens: data.maxTokens,
-          extraBody: data.extraBody || null,
-          streamingEnabled: data.streamingEnabled,
-        },
+        body: buildSettingsBody(data),
       });
       await updateBindings.mutateAsync({
         convId: props.convId!,
-        body: {
-          characters: data.characterIds.map((id, i) => ({
-            characterId: id,
-            orderIndex: i,
-            isActive: true,
-          })),
-          lorebookIds: data.lorebookIds,
-        },
+        body: buildBindingsBody(data),
       });
       toast.success(t("COMMON.SAVED"));
     } catch (e) {
@@ -404,249 +282,57 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             <div className="flex flex-col gap-5 px-4">
               {showConversationFields && (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <FormField
+                  <EntitySelect
                     control={form.control}
                     name="personaId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.PERSONA")}</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={(v) =>
-                              field.onChange(v ?? "__none__")
-                            }
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue>
-                                {field.value === "__none__"
-                                  ? t("CHAT.OVERRIDES.NONE")
-                                  : (personasQuery.data?.find(
-                                      (p) => p.id === field.value,
-                                    )?.name ?? t("CHAT.OVERRIDES.NONE"))}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="__none__">
-                                {t("CHAT.OVERRIDES.NONE")}
-                              </SelectItem>
-                              {personasQuery.data?.map((p) => (
-                                <SelectItem key={p.id} value={p.id}>
-                                  {p.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
+                    label={t("CHAT.OVERRIDES.PERSONA")}
+                    options={personasQuery.data}
                   />
-                  <FormField
+                  <EntitySelect
                     control={form.control}
                     name="presetId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.PRESET")}</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={(v) =>
-                              field.onChange(v ?? "__none__")
-                            }
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue>
-                                {field.value === "__none__"
-                                  ? t("CHAT.OVERRIDES.NONE")
-                                  : (presetsQuery.data?.find(
-                                      (p) => p.id === field.value,
-                                    )?.name ?? t("CHAT.OVERRIDES.NONE"))}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="__none__">
-                                {t("CHAT.OVERRIDES.NONE")}
-                              </SelectItem>
-                              {presetsQuery.data?.map((p) => (
-                                <SelectItem key={p.id} value={p.id}>
-                                  {p.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
+                    label={t("CHAT.OVERRIDES.PRESET")}
+                    options={presetsQuery.data}
                   />
                 </div>
               )}
 
               {showConversationFields && (
-                <FormField
+                <BindingMultiSelect
                   control={form.control}
                   name="characterIds"
-                  render={({ field }) => {
-                    const ids = field.value as string[];
-                    const lookup = new Map(
-                      (charactersQuery.data ?? []).map((c) => [c.id, c.name]),
-                    );
-                    const orderedItems = ids
-                      .map((id) => ({ id, name: lookup.get(id) ?? id }))
-                      .filter((it) => lookup.has(it.id));
-                    return (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
-                        <FormControl>
-                          <MultiSelectPopover
-                            options={
-                              charactersQuery.data?.map((c) => ({
-                                id: c.id,
-                                label: c.name,
-                              })) ?? []
-                            }
-                            value={field.value}
-                            onChange={field.onChange}
-                            triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
-                            searchPlaceholder={t(
-                              "CHAT.OVERRIDES.SEARCH_CHARACTERS",
-                            )}
-                            emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                          />
-                        </FormControl>
-                        {orderedItems.length > 1 && (
-                          <div className="mt-2">
-                            <p className="text-muted-foreground mb-1 text-xs">
-                              {t("CHAT.OVERRIDES.REORDER_HINT")}
-                            </p>
-                            <SortableList
-                              items={orderedItems}
-                              onReorder={(orderedIds) =>
-                                field.onChange(orderedIds)
-                              }
-                              renderItem={(item, handle) => (
-                                <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
-                                  {handle}
-                                  <span className="truncate text-sm">
-                                    {item.name}
-                                  </span>
-                                </div>
-                              )}
-                            />
-                          </div>
-                        )}
-                      </FormItem>
-                    );
-                  }}
+                  label={t("CHAT.OVERRIDES.CHARACTERS")}
+                  searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_CHARACTERS")}
+                  emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                  options={charactersQuery.data}
                 />
               )}
 
               {showConversationFields && (
-                <FormField
+                <BindingMultiSelect
                   control={form.control}
                   name="lorebookIds"
-                  render={({ field }) => {
-                    const ids = field.value as string[];
-                    const lookup = new Map(
-                      (lorebooksQuery.data ?? []).map((l) => [l.id, l.name]),
-                    );
-                    const orderedItems = ids
-                      .map((id) => ({ id, name: lookup.get(id) ?? id }))
-                      .filter((it) => lookup.has(it.id));
-                    return (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
-                        <FormControl>
-                          <MultiSelectPopover
-                            options={
-                              lorebooksQuery.data?.map((l) => ({
-                                id: l.id,
-                                label: l.name,
-                              })) ?? []
-                            }
-                            value={field.value}
-                            onChange={field.onChange}
-                            triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
-                            searchPlaceholder={t(
-                              "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
-                            )}
-                            emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                          />
-                        </FormControl>
-                        {orderedItems.length > 1 && (
-                          <div className="mt-2">
-                            <p className="text-muted-foreground mb-1 text-xs">
-                              {t("CHAT.OVERRIDES.REORDER_HINT")}
-                            </p>
-                            <SortableList
-                              items={orderedItems}
-                              onReorder={(orderedIds) =>
-                                field.onChange(orderedIds)
-                              }
-                              renderItem={(item, handle) => (
-                                <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
-                                  {handle}
-                                  <span className="truncate text-sm">
-                                    {item.name}
-                                  </span>
-                                </div>
-                              )}
-                            />
-                          </div>
-                        )}
-                      </FormItem>
-                    );
-                  }}
+                  label={t("CHAT.OVERRIDES.LOREBOOKS")}
+                  searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_LOREBOOKS")}
+                  emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                  options={lorebooksQuery.data}
                 />
               )}
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <FormField
+                <KeyedSelect
                   control={form.control}
                   name="reasoningEffort"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {t("CHAT.OVERRIDES.REASONING_EFFORT")}
-                      </FormLabel>
-                      <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={(v) => field.onChange(v ?? "__none__")}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue>
-                              {field.value === "__none__"
-                                ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
-                                : field.value === "none"
-                                  ? t("CHAT.OVERRIDES.OFF")
-                                  : t(
-                                      REASONING_EFFORT_KEY[
-                                        field.value as keyof typeof REASONING_EFFORT_KEY
-                                      ],
-                                    )}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="__none__">
-                              {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
-                            </SelectItem>
-                            <SelectItem value="none">
-                              {t("CHAT.OVERRIDES.OFF")}
-                            </SelectItem>
-                            {(
-                              Object.keys(REASONING_EFFORT_KEY) as Array<
-                                keyof typeof REASONING_EFFORT_KEY
-                              >
-                            ).map((k) => (
-                              <SelectItem key={k} value={k}>
-                                {t(REASONING_EFFORT_KEY[k])}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  label={t("CHAT.OVERRIDES.REASONING_EFFORT")}
+                  fallback={NONE_VALUE}
+                  optionKeys={REASONING_EFFORT_KEY}
+                  leadingOptions={[
+                    {
+                      value: NONE_VALUE,
+                      labelKey: msg("CHAT.OVERRIDES.MODEL_DEFAULT"),
+                    },
+                    { value: "none", labelKey: msg("CHAT.OVERRIDES.OFF") },
+                  ]}
                 />
                 <FormField
                   control={form.control}
@@ -720,81 +406,21 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
 
               {showConversationFields && webSearchEnabled && (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <FormField
+                  <KeyedSelect
                     control={form.control}
                     name="webSearchEngine"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Label className="text-muted-foreground text-xs">
-                          {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
-                        </Label>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={(v) => field.onChange(v ?? "auto")}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue>
-                                {t(
-                                  WEB_SEARCH_ENGINE_KEY[
-                                    field.value as keyof typeof WEB_SEARCH_ENGINE_KEY
-                                  ],
-                                )}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              {(
-                                Object.keys(WEB_SEARCH_ENGINE_KEY) as Array<
-                                  keyof typeof WEB_SEARCH_ENGINE_KEY
-                                >
-                              ).map((k) => (
-                                <SelectItem key={k} value={k}>
-                                  {t(WEB_SEARCH_ENGINE_KEY[k])}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
+                    label={t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
+                    fallback="auto"
+                    optionKeys={WEB_SEARCH_ENGINE_KEY}
+                    labelClassName="text-muted-foreground text-xs"
                   />
-                  <FormField
+                  <KeyedSelect
                     control={form.control}
                     name="webSearchContextSize"
-                    render={({ field }) => (
-                      <FormItem>
-                        <Label className="text-muted-foreground text-xs">
-                          {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
-                        </Label>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={(v) => field.onChange(v ?? "medium")}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue>
-                                {t(
-                                  WEB_SEARCH_CONTEXT_KEY[
-                                    field.value as keyof typeof WEB_SEARCH_CONTEXT_KEY
-                                  ],
-                                )}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              {(
-                                Object.keys(WEB_SEARCH_CONTEXT_KEY) as Array<
-                                  keyof typeof WEB_SEARCH_CONTEXT_KEY
-                                >
-                              ).map((k) => (
-                                <SelectItem key={k} value={k}>
-                                  {t(WEB_SEARCH_CONTEXT_KEY[k])}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
+                    label={t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
+                    fallback="medium"
+                    optionKeys={WEB_SEARCH_CONTEXT_KEY}
+                    labelClassName="text-muted-foreground text-xs"
                   />
                 </div>
               )}
@@ -817,7 +443,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   maxTokens: "maxTokens",
                 }}
                 metadata={activeModelMetadata}
-                onReset={resetSampling}
+                onReset={() => resetSamplingHelper(form)}
               />
 
               <FormField
@@ -840,9 +466,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder={t(
-                            "CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER",
-                          )}
+                          placeholder={t("CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER")}
                           rows={4}
                           className={
                             invalid
@@ -870,9 +494,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     <FormControl>
                       <Textarea
                         {...field}
-                        placeholder={t(
-                          "CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER",
-                        )}
+                        placeholder={t("CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER")}
                         rows={4}
                       />
                     </FormControl>
@@ -890,9 +512,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder={t(
-                            "CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER",
-                          )}
+                          placeholder={t("CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER")}
                           rows={3}
                         />
                       </FormControl>

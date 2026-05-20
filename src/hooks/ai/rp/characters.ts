@@ -3,17 +3,17 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   deleteLocalCharacter,
   readLocalCharacter,
   readLocalCharacters,
   upsertLocalCharacter,
 } from "@/lib/db/client/data/rp";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
+import { parseCharacterCardFile } from "@/lib/playground/rp/character-card";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { parseCharacterCardFile } from "@/lib/rp/character-card";
 import { uid, uint8ToBase64 } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -56,7 +56,8 @@ export function useImportCharacterCardMutation() {
   return useMutation({
     mutationFn: async (file: File) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      const { card, imageBytes, imageMime } = await parseCharacterCardFile(file);
+      const { card, imageBytes, imageMime } =
+        await parseCharacterCardFile(file);
       const id = uid();
       let avatarMediaId: string | null = null;
       if (imageBytes && imageMime) {

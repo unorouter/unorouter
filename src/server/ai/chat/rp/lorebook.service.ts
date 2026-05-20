@@ -1,11 +1,11 @@
-import { assertFound } from "@/lib/utils/server";
-import { getDb } from "@/lib/db/server/client";
 import { lorebookEntries, lorebooks } from "@/lib/db/schema";
+import { getDb } from "@/lib/db/server/client";
+import { serializeLorebookForExport } from "@/lib/playground/rp/lorebook-import";
 import { uid } from "@/lib/utils/base";
+import { assertFound } from "@/lib/utils/server";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import dayjs from "dayjs";
 import { and, asc, desc, eq } from "drizzle-orm";
-import { serializeLorebookForExport } from "@/lib/rp/lorebook-import";
 
 export async function listLorebooks(userId: number) {
   const db = getDb();
@@ -86,11 +86,7 @@ export async function createEntry(
   return getEntry(userId, lorebookId, id);
 }
 
-async function getEntry(
-  userId: number,
-  lorebookId: string,
-  entryId: string,
-) {
+async function getEntry(userId: number, lorebookId: string, entryId: string) {
   await ensureLorebookOwned(userId, lorebookId);
   const db = getDb();
   const rows = await db

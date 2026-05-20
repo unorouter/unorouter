@@ -1,16 +1,16 @@
-import { assertFound } from "@/lib/utils/server";
-import { getDb } from "@/lib/db/server/client";
 import { characters, media } from "@/lib/db/schema";
+import { getDb } from "@/lib/db/server/client";
+import {
+  exportCharacterCard,
+  exportCharacterCardAsJson,
+} from "@/lib/playground/rp/character-card";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
+import { assertFound } from "@/lib/utils/server";
 import type { CharacterBody } from "@/lib/validation/rp";
 import { serverEnv } from "@/server/env";
 import dayjs from "dayjs";
 import { and, desc, eq } from "drizzle-orm";
-import {
-  exportCharacterCard,
-  exportCharacterCardAsJson,
-} from "@/lib/rp/character-card";
 
 async function fetchAvatarBuffer(
   r2Key: string,
@@ -21,8 +21,7 @@ async function fetchAvatarBuffer(
     const res = await fetch(`${serverEnv.r2PublicUrl}/${r2Key}`);
     if (!res.ok) return null;
     const data = new Uint8Array(await res.arrayBuffer());
-    const mime =
-      res.headers.get("content-type") || declaredMime || "image/png";
+    const mime = res.headers.get("content-type") || declaredMime || "image/png";
     return { data, mime };
   } catch (err) {
     logger.warn("Avatar fetch failed", {

@@ -75,6 +75,10 @@ export const APP_VALUES = {
   supportEmail: env.supportEmail,
 };
 
+// Sentinel select-option value for "no selection" in RP override forms.
+// Select widgets need a non-empty string; null/"" is reserved by the control.
+export const NONE_VALUE = "__none__";
+
 // Free-tier maxOutputTokens metadata is often inflated past what upstream
 // serves (gemma claims 131072 but channel allows 32768). Clamp to avoid 400s.
 export const FREE_MODEL_OUTPUT_CAP = 8192;

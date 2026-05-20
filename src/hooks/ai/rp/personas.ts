@@ -9,9 +9,9 @@ import {
   readLocalPersonas,
   upsertLocalPersona,
 } from "@/lib/db/client/data/rp";
+import { parsePersonaJson } from "@/lib/playground/rp/persona-import";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { parsePersonaJson } from "@/lib/rp/persona-import";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
