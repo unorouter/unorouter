@@ -1,7 +1,7 @@
 import { ParamError } from "@/lib/config/constants";
 import { serverEnv } from "@/server/env";
+import { logger } from "@/lib/utils/logger";
 import { createClient, type Client } from "@libsql/client";
-import { error } from "console";
 import { drizzle, type LibSQLDatabase } from "drizzle-orm/libsql";
 import { migrate } from "drizzle-orm/libsql/migrator";
 import { resolve } from "path";
@@ -32,7 +32,12 @@ export function getDb(): LibSQLDatabase<typeof schema> {
     const db = _db;
     migrate(db, { migrationsFolder: resolve("drizzle/server") })
       .then(() => runSeeds(db))
-      .catch((e) => error("Database migration / seed failed", e));
+      .catch((e) =>
+        logger.error("Database migration / seed failed", {
+          context: "db",
+          err: e,
+        }),
+      );
   }
 
   return _db;

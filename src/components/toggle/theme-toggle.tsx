@@ -16,7 +16,7 @@ import { ThemeCustomizerSheet } from "@/components/ui/theme/customizer-sheet";
 import { analytics } from "@/lib/analytics";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Icon } from "@/components/ui/icon";
 
 export function ThemeToggle() {
@@ -25,7 +25,7 @@ export function ThemeToggle() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const styleId = "theme-transition-styles";
 
-  const updateStyles = useCallback((css: string) => {
+  const updateStyles = (css: string) => {
     if (typeof window === "undefined") return;
 
     let styleElement = document.getElementById(styleId) as HTMLStyleElement;
@@ -37,31 +37,27 @@ export function ThemeToggle() {
     }
 
     styleElement.textContent = css;
-  }, []);
+  };
 
-  const handleThemeChange = useCallback(
-    (theme: string) => {
-      analytics.settings.themeChanged(theme);
-      const { variant: randomVariant, start: randomStart } =
-        getRandomAnimation();
-      const animation = createAnimation(randomVariant, randomStart);
-      updateStyles(animation.css);
+  const handleThemeChange = (theme: string) => {
+    analytics.settings.themeChanged(theme);
+    const { variant: randomVariant, start: randomStart } = getRandomAnimation();
+    const animation = createAnimation(randomVariant, randomStart);
+    updateStyles(animation.css);
 
-      if (typeof window === "undefined") return;
+    if (typeof window === "undefined") return;
 
-      const switchTheme = () => {
-        setTheme(theme);
-      };
+    const switchTheme = () => {
+      setTheme(theme);
+    };
 
-      if (!document.startViewTransition) {
-        switchTheme();
-        return;
-      }
+    if (!document.startViewTransition) {
+      switchTheme();
+      return;
+    }
 
-      document.startViewTransition(switchTheme);
-    },
-    [setTheme, updateStyles],
-  );
+    document.startViewTransition(switchTheme);
+  };
 
   return (
     <>

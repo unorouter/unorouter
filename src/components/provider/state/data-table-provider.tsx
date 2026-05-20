@@ -5,7 +5,7 @@ import {
   dataTableStorageAtom,
 } from "@/store/data-table-store";
 import { useStore } from "jotai";
-import { type ReactNode, useMemo, useSyncExternalStore } from "react";
+import { type ReactNode, useEffect, useSyncExternalStore } from "react";
 
 const EMPTY_STORES = {} as DataTableStores;
 
@@ -17,7 +17,7 @@ export function DataTableProvider(props: {
 
   const dataToHydrate = props.data ?? EMPTY_STORES;
 
-  useMemo(() => {
+  useEffect(() => {
     try {
       const existing = store.get(dataTableStorageAtom);
       if (
