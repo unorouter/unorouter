@@ -13,13 +13,10 @@ import {
 } from "@/lib/db/schema/shared";
 import { and, desc, eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
-import { makeTableStore } from "./table-store";
+import { makeTableStore, replaceChildRows } from "./table-store";
 
 type AnyRow = Record<string, unknown> & { id: string };
 type LocalRowInput = Record<string, unknown>;
-
-// --- Stores -------------------------------------------------------------
-
 const characterStore = makeTableStore(characters, characters.id, {
   defaultOrderBy: desc(characters.updatedAt),
 });
@@ -36,9 +33,6 @@ const cardStore = makeTableStore(cards, cards.id, {
   defaultOrderBy: desc(cards.updatedAt),
 });
 const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id);
-
-// --- Reads --------------------------------------------------------------
-
 export const readLocalCharacters = (userId: number | undefined) =>
   characterStore.list(userId);
 export const readLocalCharacter = (userId: number | undefined, id: string) =>
@@ -105,9 +99,6 @@ export async function readLocalCard(userId: number | undefined, id: string) {
   if (!rows[0]) return null;
   return { ...rows[0], cardCharacters: chars, cardLorebooks: lbs };
 }
-
-// --- Writes -------------------------------------------------------------
-
 export const upsertLocalCharacter = (
   userId: number | undefined,
   row: LocalRowInput & { id: string },
@@ -145,9 +136,6 @@ export const upsertLocalLorebookEntry = (
 ) => lorebookEntryStore.upsert(userId, row, { scopeUser: false });
 export const deleteLocalLorebookEntry = (userId: number | undefined, entryId: string) =>
   lorebookEntryStore.drop(userId, entryId, { scopeUser: false });
-
-// --- Bundles ------------------------------------------------------------
-
 export async function upsertLocalLorebookBundle(
   userId: number | undefined,
   bundle: { lorebook: AnyRow; entries: AnyRow[] },
@@ -182,24 +170,28 @@ export async function upsertLocalCardBundle(
   const local = await getLocalDb(userId);
   if (!local) return;
   await cardStore.upsert(userId, bundle.card);
-  await local.db
-    .delete(cardCharacters)
-    .where(eq(cardCharacters.cardId, bundle.card.id));
-  for (const row of bundle.cardCharacters) {
-    await local.db.insert(cardCharacters).values({
+  await replaceChildRows(
+    local.db,
+    cardCharacters,
+    cardCharacters.cardId,
+    bundle.card.id,
+    bundle.cardCharacters,
+    (row) => ({
       cardId: bundle.card.id,
       characterId: row.characterId,
       orderIndex: row.orderIndex ?? 0,
-    });
-  }
-  await local.db
-    .delete(cardLorebooks)
-    .where(eq(cardLorebooks.cardId, bundle.card.id));
-  for (const row of bundle.cardLorebooks) {
-    await local.db.insert(cardLorebooks).values({
+    }),
+  );
+  await replaceChildRows(
+    local.db,
+    cardLorebooks,
+    cardLorebooks.cardId,
+    bundle.card.id,
+    bundle.cardLorebooks,
+    (row) => ({
       cardId: bundle.card.id,
       lorebookId: row.lorebookId,
       orderIndex: row.orderIndex ?? 0,
-    });
-  }
+    }),
+  );
 }

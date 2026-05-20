@@ -12,7 +12,7 @@ import {
 } from "@/lib/db/schema/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
-import { makeTableStore } from "./table-store";
+import { makeTableStore, replaceChildRows } from "./table-store";
 import {
   readLocalCharacter,
   readLocalLorebookBundle,
@@ -23,9 +23,6 @@ import {
 type AnyRow = Record<string, unknown> & { id: string };
 type ChildRow = Record<string, unknown>;
 type LocalRowInput = Record<string, unknown>;
-
-// --- Stores -------------------------------------------------------------
-
 const conversationStore = makeTableStore(conversations, conversations.id);
 const conversationSettingsStore = makeTableStore(
   conversationSettings,
@@ -33,9 +30,6 @@ const conversationSettingsStore = makeTableStore(
 );
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
-
-// --- Reads --------------------------------------------------------------
-
 export const readLocalConversations = async (userId: number | undefined) => {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
@@ -180,9 +174,6 @@ export async function readLocalConversationBundle(
     presets: preset ? [preset] : [],
   };
 }
-
-// --- Writes -------------------------------------------------------------
-
 export const upsertLocalConversation = (
   userId: number | undefined,
   row: LocalRowInput & { id: string },
@@ -223,12 +214,14 @@ export async function replaceLocalMessageItems(
 ) {
   const local = await getLocalDb(userId);
   if (!local) return;
-  await local.db
-    .delete(messageItems)
-    .where(eq(messageItems.messageId, messageId));
-  for (const it of items) {
-    await local.db.insert(messageItems).values({ ...it, messageId } as never);
-  }
+  await replaceChildRows(
+    local.db,
+    messageItems,
+    messageItems.messageId,
+    messageId,
+    items,
+    (it) => ({ ...it, messageId }),
+  );
 }
 
 export async function replaceLocalConversationBindings(
@@ -247,32 +240,34 @@ export async function replaceLocalConversationBindings(
   const local = await getLocalDb(userId);
   if (!local) return;
   if (bindings.conversationCharacters) {
-    await local.db
-      .delete(conversationCharacters)
-      .where(eq(conversationCharacters.convId, convId));
-    for (let i = 0; i < bindings.conversationCharacters.length; i++) {
-      const row = bindings.conversationCharacters[i];
-      await local.db.insert(conversationCharacters).values({
+    await replaceChildRows(
+      local.db,
+      conversationCharacters,
+      conversationCharacters.convId,
+      convId,
+      bindings.conversationCharacters,
+      (row, i) => ({
         convId,
         characterId: row.characterId,
         orderIndex: row.orderIndex ?? i,
         isActive: row.isActive ?? true,
         overrides: row.overrides ?? null,
-      } as never);
-    }
+      }),
+    );
   }
   if (bindings.conversationLorebooks) {
-    await local.db
-      .delete(conversationLorebooks)
-      .where(eq(conversationLorebooks.convId, convId));
-    for (let i = 0; i < bindings.conversationLorebooks.length; i++) {
-      const row = bindings.conversationLorebooks[i];
-      await local.db.insert(conversationLorebooks).values({
+    await replaceChildRows(
+      local.db,
+      conversationLorebooks,
+      conversationLorebooks.convId,
+      convId,
+      bindings.conversationLorebooks,
+      (row, i) => ({
         convId,
         lorebookId: row.lorebookId,
         orderIndex: row.orderIndex ?? i,
-      } as never);
-    }
+      }),
+    );
   }
 }
 
@@ -304,33 +299,32 @@ export async function upsertLocalConversationBundle(
       .values(bundle.settings as never);
   }
 
-  await local.db
-    .delete(conversationCharacters)
-    .where(eq(conversationCharacters.convId, bundle.conversation.id));
-  for (const row of bundle.conversationCharacters) {
-    await local.db.insert(conversationCharacters).values(row as never);
-  }
-
-  await local.db
-    .delete(conversationLorebooks)
-    .where(eq(conversationLorebooks.convId, bundle.conversation.id));
-  for (const row of bundle.conversationLorebooks) {
-    await local.db.insert(conversationLorebooks).values(row as never);
-  }
-
-  await local.db
-    .delete(messages)
-    .where(eq(messages.convId, bundle.conversation.id));
-  for (const m of bundle.messages) {
-    await local.db.insert(messages).values(m as never);
-  }
+  const convId = bundle.conversation.id;
+  await replaceChildRows(
+    local.db,
+    conversationCharacters,
+    conversationCharacters.convId,
+    convId,
+    bundle.conversationCharacters,
+  );
+  await replaceChildRows(
+    local.db,
+    conversationLorebooks,
+    conversationLorebooks.convId,
+    convId,
+    bundle.conversationLorebooks,
+  );
+  await replaceChildRows(
+    local.db,
+    messages,
+    messages.convId,
+    convId,
+    bundle.messages,
+  );
 
   for (const it of bundle.messageItems) {
     await local.db.insert(messageItems).values(it as never);
   }
 
-  await local.db.delete(media).where(eq(media.convId, bundle.conversation.id));
-  for (const m of bundle.media) {
-    await local.db.insert(media).values(m as never);
-  }
+  await replaceChildRows(local.db, media, media.convId, convId, bundle.media);
 }

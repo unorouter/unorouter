@@ -8,7 +8,7 @@ import {
 } from "@/lib/db/schema/shared";
 import { desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
-import { makeTableStore } from "./table-store";
+import { makeTableStore, replaceChildRows } from "./table-store";
 
 type AnyRow = Record<string, unknown> & { id: string };
 type ChildRow = Record<string, unknown>;
@@ -71,12 +71,13 @@ export async function upsertLocalGenerationSessionBundle(
   if (!local) return;
   await generationSessionStore.upsert(userId, bundle.session);
 
-  await local.db
-    .delete(playgrounds)
-    .where(eq(playgrounds.sessionId, bundle.session.id));
-  for (const g of bundle.playgrounds) {
-    await local.db.insert(playgrounds).values(g as never);
-  }
+  await replaceChildRows(
+    local.db,
+    playgrounds,
+    playgrounds.sessionId,
+    bundle.session.id,
+    bundle.playgrounds,
+  );
 
   for (const img of bundle.playgroundImages) {
     await local.db.insert(playgroundImages).values(img as never);

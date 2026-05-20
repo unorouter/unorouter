@@ -4,24 +4,14 @@
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
 import { createThreadListAdapter } from "@/components/pages/sidebar/chat/runtime/thread-list-adapter";
-import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   useConversationQuery,
   useUpdateConversationMutation,
 } from "@/hooks/ai/chat-hook";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import {
-  readLocalConversationBindings,
-  readLocalConversationSettings,
-} from "@/lib/db/client/data/chat";
-import {
-  readLocalCharacter,
-  readLocalLorebookBundle,
-  readLocalPersona,
-  readLocalPreset,
-} from "@/lib/db/client/data/rp";
+import { buildChatContextFromLocalDb } from "@/lib/db/client/data/chat-context";
 import { queryKeys } from "@/lib/react-query/keys";
-import type { ChatContext } from "@/lib/validation/chat";
 import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -199,9 +189,7 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const t = useTranslations();
   const authQuery = useAuthQuery();
   const userId = authQuery.data?.id ?? GUEST_USER_ID;
-  const adapterRef = useRef(
-    createThreadListAdapter(queryClient, t, userId),
-  );
+  const adapterRef = useRef(createThreadListAdapter(queryClient, t, userId));
 
   useEffect(() => {
     adapterRef.current = createThreadListAdapter(queryClient, t, userId);
@@ -218,40 +206,4 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
       {props.children}
     </AssistantRuntimeProvider>
   );
-}
-
-// Builds the streamed RP context straight from SQLocal so it is always complete
-// and cache-independent. The server has no DB rows for a guest, so a partial
-// context would silently drop persona/characters/lorebooks from the prompt.
-async function buildChatContextFromLocalDb(
-  userId: number | undefined,
-  convId: string,
-): Promise<ChatContext | undefined> {
-  const [settings, bindings] = await Promise.all([
-    readLocalConversationSettings(userId, convId),
-    readLocalConversationBindings(userId, convId),
-  ]);
-  if (!settings) return undefined;
-
-  const characterIds = (bindings?.conversationCharacters ?? []).map(
-    (b) => b.characterId,
-  );
-  const lorebookIds = (bindings?.conversationLorebooks ?? []).map(
-    (b) => b.lorebookId,
-  );
-
-  const [characterRows, lorebookRows, persona, preset] = await Promise.all([
-    Promise.all(characterIds.map((id) => readLocalCharacter(userId, id))),
-    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(userId, id))),
-    settings.personaId
-      ? readLocalPersona(userId, settings.personaId)
-      : Promise.resolve(null),
-    settings.presetId
-      ? readLocalPreset(userId, settings.presetId)
-      : Promise.resolve(null),
-  ]);
-  const characters = characterRows.filter((c) => c != null);
-  const lorebooks = lorebookRows.filter((l) => l != null);
-
-  return { persona, characters, lorebooks, preset, settings };
 }

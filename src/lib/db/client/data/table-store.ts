@@ -12,7 +12,35 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { and, eq } from "drizzle-orm";
+import type { SQLiteTable } from "drizzle-orm/sqlite-core";
 import { getLocalDb } from "../client";
+
+type LocalDb = {
+  delete: (table: SQLiteTable) => { where: (cond: SQL) => Promise<unknown> };
+  insert: (table: SQLiteTable) => {
+    values: (row: never) => Promise<unknown>;
+  };
+};
+
+// Replaces every child row whose FK column equals `parentId`: delete the old
+// set, then insert each given row. `mapRow` reshapes inputs into full rows
+// (e.g. stamping the parent id or an order index); omit it for raw rows.
+// No transaction wrapper: SQLocal's transactionMutex deadlocks drizzle
+// sqlite-proxy queries (see upsertLocalConversationBundle).
+export async function replaceChildRows<T>(
+  db: LocalDb,
+  table: SQLiteTable,
+  fkColumn: SQLiteColumn,
+  parentId: string,
+  rows: T[],
+  mapRow?: (row: T, index: number) => Record<string, unknown>,
+): Promise<void> {
+  await db.delete(table).where(eq(fkColumn, parentId));
+  for (let i = 0; i < rows.length; i++) {
+    const values = mapRow ? mapRow(rows[i], i) : rows[i];
+    await db.insert(table).values(values as never);
+  }
+}
 
 // `scopeUser` (default true) ANDs `eq(table.userId, userId)` into per-row
 // WHERE clauses AND merges `userId` into upsert rows. Tables without a userId

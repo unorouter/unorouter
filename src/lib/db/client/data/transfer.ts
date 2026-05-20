@@ -19,9 +19,6 @@ const NATIVE_VERSION = "unorouter.1.0";
 const ORPG_VERSION = "orpg.3.0";
 
 type AnyRow = Record<string, unknown> & { id: string };
-
-// --- Export -------------------------------------------------------------
-
 export async function exportLocalConversation(
   userId: number | undefined,
   convId: string,
@@ -156,9 +153,6 @@ function toOrpg(native: NativeExport) {
     },
   };
 }
-
-// --- SillyTavern export -------------------------------------------------
-
 type STMetadata = {
   user_name: string;
   character_name: string;
@@ -303,9 +297,6 @@ export async function exportLocalConversationSillyTavern(
     filename: `${slug}.sillytavern.jsonl`,
   };
 }
-
-// --- Import -------------------------------------------------------------
-
 export async function importLocalConversation(
   userId: number | undefined,
   file: File,
@@ -710,9 +701,6 @@ async function importOrpg(
 
   return { id: newConvId };
 }
-
-// --- SillyTavern import -------------------------------------------------
-
 function parseStDate(raw: string | undefined): Date | null {
   if (!raw) return null;
   // SillyTavern send_date is ISO in some exporters, epoch ms in others.
