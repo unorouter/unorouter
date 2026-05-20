@@ -49,6 +49,10 @@ export const LOCALES = [
   "zh-TW",
 ] as const;
 
+// Conversation export envelope format versions.
+export const NATIVE_VERSION = "unorouter.1.0";
+export const ORPG_VERSION = "orpg.3.0";
+
 type LocaleCode = Uppercase<DashToUnderscore<(typeof LOCALES)[number]>>;
 
 export const LANGUAGES: {

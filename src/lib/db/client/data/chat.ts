@@ -12,17 +12,18 @@ import {
 } from "@/lib/db/schema/shared";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
-import { makeTableStore, replaceChildRows } from "./table-store";
 import {
   readLocalCharacter,
   readLocalLorebookBundle,
   readLocalPersona,
   readLocalPreset,
 } from "./rp";
+import { makeTableStore, replaceChildRows } from "./table-store";
 
 type AnyRow = Record<string, unknown> & { id: string };
 type ChildRow = Record<string, unknown>;
 type LocalRowInput = Record<string, unknown>;
+
 const conversationStore = makeTableStore(conversations, conversations.id);
 const conversationSettingsStore = makeTableStore(
   conversationSettings,
@@ -30,6 +31,7 @@ const conversationSettingsStore = makeTableStore(
 );
 const messageStore = makeTableStore(messages, messages.id);
 const messageItemStore = makeTableStore(messageItems, messageItems.id);
+
 export const readLocalConversations = async (userId: number | undefined) => {
   const uid = userId ?? GUEST_USER_ID;
   const local = await getLocalDb(uid);
@@ -49,7 +51,10 @@ export const readLocalConversations = async (userId: number | undefined) => {
   }));
 };
 
-export const readLocalConversation = async (userId: number | undefined, id: string) => {
+export const readLocalConversation = async (
+  userId: number | undefined,
+  id: string,
+) => {
   const [conv, settings] = await Promise.all([
     conversationStore.get(userId, id),
     conversationSettingsStore.get(userId, id, { scopeUser: false }),
@@ -63,7 +68,10 @@ export const readLocalConversationSettings = (
   convId: string,
 ) => conversationSettingsStore.get(userId, convId, { scopeUser: false });
 
-export async function readLocalMessages(userId: number | undefined, convId: string) {
+export async function readLocalMessages(
+  userId: number | undefined,
+  convId: string,
+) {
   const local = await getLocalDb(userId);
   if (!local) return null;
   return local.db
@@ -92,7 +100,10 @@ export async function readLocalConversationBindings(
   return { conversationCharacters: chars, conversationLorebooks: lbs };
 }
 
-export async function readLocalMessageItems(userId: number | undefined, convId: string) {
+export async function readLocalMessageItems(
+  userId: number | undefined,
+  convId: string,
+) {
   const local = await getLocalDb(userId);
   if (!local) return null;
   const msgs = await local.db
@@ -174,17 +185,22 @@ export async function readLocalConversationBundle(
     presets: preset ? [preset] : [],
   };
 }
+
 export const upsertLocalConversation = (
   userId: number | undefined,
   row: LocalRowInput & { id: string },
 ) => conversationStore.upsert(userId, row);
-export const deleteLocalConversation = (userId: number | undefined, id: string) =>
-  conversationStore.drop(userId, id);
+
+export const deleteLocalConversation = (
+  userId: number | undefined,
+  id: string,
+) => conversationStore.drop(userId, id);
 
 export const upsertLocalMessage = (
   userId: number | undefined,
   row: LocalRowInput & { id: string; convId: string },
 ) => messageStore.upsert(userId, row, { scopeUser: false });
+
 export const deleteLocalMessage = (userId: number | undefined, msgId: string) =>
   messageStore.drop(userId, msgId, { scopeUser: false });
 

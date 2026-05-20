@@ -1,4 +1,5 @@
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
+import type { ApiMessage, PersistMessage } from "@/lib/ai/chat/messages";
+import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
 import {
   readLocalConversation,
   readLocalConversationBundle,
@@ -8,11 +9,7 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
-import type {
-  ApiMessage,
-  PersistMessage,
-} from "@/lib/ai/chat/messages";
-import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
+import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import {
   moveConvToTop,
   type ConvsInfinite,
@@ -120,7 +117,7 @@ export function createChatHistoryAdapter(
                 ({
                   ...m,
                   items: byMsg.get(m.id) ?? [],
-                }) as unknown as RawMessage,
+                }) as RawMessage,
             );
             queryClient.setQueryData(queryKeys.chatMessages(id), {
               pages: [{ messages: allMessages, total: allMessages.length }],
@@ -130,7 +127,7 @@ export function createChatHistoryAdapter(
 
           return buildRepository(
             allMessages,
-            formatAdapter as unknown as MessageFormatAdapter<
+            formatAdapter as MessageFormatAdapter<
               TMessage,
               Record<string, unknown>
             >,
@@ -188,7 +185,7 @@ export function createChatHistoryAdapter(
             sequenceIndex: seq,
             outputIndex: it.output_index ?? null,
             type: it.type,
-            data: it.data as unknown,
+            data: it.data,
             createdAt: now,
           }));
           for (const row of itemRows) {

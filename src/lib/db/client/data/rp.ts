@@ -17,6 +17,7 @@ import { makeTableStore, replaceChildRows } from "./table-store";
 
 type AnyRow = Record<string, unknown> & { id: string };
 type LocalRowInput = Record<string, unknown>;
+
 const characterStore = makeTableStore(characters, characters.id, {
   defaultOrderBy: desc(characters.updatedAt),
 });
@@ -32,6 +33,7 @@ const presetStore = makeTableStore(samplingPresets, samplingPresets.id, {
 const cardStore = makeTableStore(cards, cards.id, {
   defaultOrderBy: desc(cards.updatedAt),
 });
+
 const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id);
 export const readLocalCharacters = (userId: number | undefined) =>
   characterStore.list(userId);
