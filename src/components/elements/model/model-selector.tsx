@@ -130,6 +130,10 @@ export function ModelSelector(props: ModelSelectorProps) {
                     <CommandItem
                       key={model.name}
                       value={model.name}
+                      keywords={[
+                        model.vendor.name,
+                        ...(model.isFree ? ["free"] : []),
+                      ]}
                       data-checked={model.name === props.value || undefined}
                       onSelect={() => {
                         if (disabled) {

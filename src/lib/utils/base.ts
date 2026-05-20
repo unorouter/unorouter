@@ -18,12 +18,20 @@ export function safeJsonParse<T = Record<string, unknown>>(
 }
 
 const ALPHABET =
-  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_";
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 export function uid(length = 21): string {
-  const bytes = crypto.getRandomValues(new Uint8Array(length));
   let id = "";
-  for (let i = 0; i < length; i++) id += ALPHABET[bytes[i] & 63];
+  // Rejection sampling: a 6-bit value maps to 64 slots but the alphabet has
+  // 62, so bytes >= 62 are discarded to keep the distribution uniform and the
+  // output strictly alphanumeric (no leading `-` in URL slugs).
+  while (id.length < length) {
+    const bytes = crypto.getRandomValues(new Uint8Array(length));
+    for (let i = 0; i < length && id.length < length; i++) {
+      const slot = bytes[i] & 63;
+      if (slot < 62) id += ALPHABET[slot];
+    }
+  }
   return id;
 }
 

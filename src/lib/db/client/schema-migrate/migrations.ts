@@ -14,41 +14,37 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   // run every migration from the start.
   let lastTag: string | null = null;
   try {
-    const versionRows = await sql.sql<{ value: string }>`
+    const rows = await sql.sql<{ value: string }>`
       SELECT value FROM local_meta WHERE key = ${LOCAL_META_KEYS.migrationVersion} LIMIT 1
     `;
-    lastTag = versionRows[0]?.value ?? null;
+    lastTag = rows[0]?.value ?? null;
   } catch {
     lastTag = null;
   }
 
-  let startIndex = 0;
-  if (lastTag) {
-    const matched = migrations.findIndex((m) => m.tag === lastTag);
-    startIndex = matched >= 0 ? matched + 1 : 0;
-  }
+  const startIndex = lastTag
+    ? migrations.findIndex((m) => m.tag === lastTag) + 1
+    : 0;
 
   for (let i = startIndex; i < migrations.length; i++) {
     const m = migrations[i];
     // SQLite can't run multiple statements in one prepared call; split on
-    // Drizzle's `statement-breakpoint` separator.
+    // Drizzle's `statement-breakpoint` separator. No `sql.transaction(...)`
+    // wrapper: a throwing statement inside a SQLocal transaction never
+    // releases the transactionMutex, deadlocking every later getLocalDb().
     const statements = m.sql
       .split("--> statement-breakpoint")
       .map((s) => s.trim())
       .filter(Boolean);
-    // Wrap each migration + cursor write in one transaction so partial failure
-    // rolls back; next run replays cleanly.
-    await sql.transaction(async () => {
-      for (const statement of statements) {
-        await sql.sql(statement);
-      }
-      await sql.sql`
-        INSERT INTO local_meta (key, value, updated_at)
-        VALUES (${LOCAL_META_KEYS.migrationVersion}, ${m.tag}, unixepoch() * 1000)
-        ON CONFLICT(key) DO UPDATE SET
-          value = excluded.value,
-          updated_at = excluded.updated_at
-      `;
-    });
+    for (const statement of statements) {
+      await sql.sql(statement);
+    }
+    await sql.sql`
+      INSERT INTO local_meta (key, value, updated_at)
+      VALUES (${LOCAL_META_KEYS.migrationVersion}, ${m.tag}, unixepoch() * 1000)
+      ON CONFLICT(key) DO UPDATE SET
+        value = excluded.value,
+        updated_at = excluded.updated_at
+    `;
   }
 }
