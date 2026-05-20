@@ -1,7 +1,7 @@
 "use client";
 
 import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
-import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
+import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/overrides";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

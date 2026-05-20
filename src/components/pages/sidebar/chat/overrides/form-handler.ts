@@ -1,4 +1,4 @@
-import { NONE_VALUE } from "@/lib/config/constants";
+import { msg, NONE_VALUE } from "@/lib/config/constants";
 import type { StreamOverrides } from "@/lib/validation/chat";
 import {
   SAMPLING_FIELDS,
@@ -6,6 +6,27 @@ import {
 } from "@/lib/validation/rp-forms";
 import type { ModelSamplerMemory } from "@/store/chat-store";
 import type { UseFormReturn } from "react-hook-form";
+
+export const REASONING_EFFORT_KEY = {
+  minimal: msg("CHAT.OVERRIDES.EFFORT_MINIMAL"),
+  low: msg("CHAT.OVERRIDES.EFFORT_LOW"),
+  medium: msg("CHAT.OVERRIDES.EFFORT_MEDIUM"),
+  high: msg("CHAT.OVERRIDES.EFFORT_HIGH"),
+  xhigh: msg("CHAT.OVERRIDES.EFFORT_XHIGH"),
+} as const;
+
+export const WEB_SEARCH_ENGINE_KEY = {
+  auto: msg("CHAT.OVERRIDES.ENGINE_AUTO"),
+  native: msg("CHAT.OVERRIDES.ENGINE_NATIVE"),
+  tavily: msg("CHAT.OVERRIDES.ENGINE_TAVILY"),
+  exa: msg("CHAT.OVERRIDES.ENGINE_EXA"),
+} as const;
+
+export const WEB_SEARCH_CONTEXT_KEY = {
+  low: msg("CHAT.OVERRIDES.CONTEXT_LOW"),
+  medium: msg("CHAT.OVERRIDES.CONTEXT_MEDIUM"),
+  high: msg("CHAT.OVERRIDES.CONTEXT_HIGH"),
+} as const;
 
 export function resetSampling(form: UseFormReturn<ConversationOverridesForm>) {
   for (const field of SAMPLING_FIELDS) {
@@ -61,7 +82,7 @@ export function writeSamplerMemory(
 
 // Defaults mode: seed the form from the chat-defaults atom, layered with the
 // active model's remembered sampler values.
-export function buildDefaultsForm(
+function buildDefaultsForm(
   chatDefaults: StreamOverrides,
   modelMemory: ModelSamplerMemory,
 ): ConversationOverridesForm {
@@ -134,7 +155,7 @@ type ConvBindings = {
 };
 
 // Conversation mode: seed the form from the persisted settings + bindings rows.
-export function buildSettingsForm(
+function buildSettingsForm(
   settings: ConvSettings,
   bindings: ConvBindings,
 ): ConversationOverridesForm {
@@ -156,6 +177,27 @@ export function buildSettingsForm(
     extraBody: settings.extraBody ?? "",
     streamingEnabled: settings.streamingEnabled ?? true,
   };
+}
+
+// Picks the form seed by mode: defaults atom (layered with per-model sampler
+// memory) or the persisted conversation rows. Undefined while rows load,
+// which RHF's `values` treats as "keep current".
+export function computeFormValues(args: {
+  isDefaultsMode: boolean;
+  chatDefaults: StreamOverrides;
+  activeModelName: string | null | undefined;
+  samplerMemoryByModel: Record<string, ModelSamplerMemory>;
+  settings: ConvSettings | undefined;
+  bindings: ConvBindings | undefined;
+}): ConversationOverridesForm | undefined {
+  if (args.isDefaultsMode) {
+    const memory = args.activeModelName
+      ? (args.samplerMemoryByModel[args.activeModelName] ?? {})
+      : {};
+    return buildDefaultsForm(args.chatDefaults, memory);
+  }
+  if (!args.settings || !args.bindings) return undefined;
+  return buildSettingsForm(args.settings, args.bindings);
 }
 
 // Defaults mode submit payload: the StreamOverrides written to the atom.
