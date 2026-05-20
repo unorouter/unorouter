@@ -121,13 +121,16 @@ export function useUpdateChatBindingsMutation() {
     }) => {
       const userId = auth.data?.id ?? 0;
       const body = args.body as {
-        characterIds?: string[];
+        characters?: Array<{
+          characterId: string;
+          orderIndex?: number;
+          isActive?: boolean;
+          overrides?: unknown;
+        }>;
         lorebookIds?: string[];
       };
       await replaceLocalConversationBindings(userId, args.convId, {
-        conversationCharacters: (body.characterIds ?? []).map((cid) => ({
-          characterId: cid,
-        })),
+        conversationCharacters: body.characters ?? [],
         conversationLorebooks: (body.lorebookIds ?? []).map((lid) => ({
           lorebookId: lid,
         })),

@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
@@ -47,8 +48,15 @@ export function SyncBadge(props: Props) {
       id: props.id,
       payload: props.payload,
     });
-  const onRemove = () => {
-    if (!window.confirm(t("SYNC.CONFIRM_REMOVE"))) return;
+  const onRemove = async () => {
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.REMOVE_SYNC_TITLE"),
+      description: t("SYNC.CONFIRM_REMOVE"),
+      confirmLabel: t("SYNC.REMOVE_SYNC"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     removeMut.mutate({ kind: props.kind, id: props.id });
   };
 

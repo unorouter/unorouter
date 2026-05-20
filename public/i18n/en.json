@@ -1614,7 +1614,28 @@
     "NAME": "Name",
     "DESCRIPTION": "Description",
     "CONFIRM_DELETE": "Are you sure you want to delete this?",
-    "RESET": "Reset"
+    "RESET": "Reset",
+    "CONFIRM": {
+      "CONTINUE": "Continue",
+      "DELETE_CHARACTER_TITLE": "Delete character?",
+      "DELETE_CHARACTER_DESC": "This permanently deletes the character. Conversations that used it keep their messages.",
+      "DELETE_PERSONA_TITLE": "Delete persona?",
+      "DELETE_PERSONA_DESC": "This permanently deletes the persona.",
+      "DELETE_LOREBOOK_TITLE": "Delete lorebook?",
+      "DELETE_LOREBOOK_DESC": "This permanently deletes the lorebook and all of its entries.",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "Delete entry?",
+      "DELETE_LOREBOOK_ENTRY_DESC": "This permanently deletes this lorebook entry.",
+      "DELETE_PRESET_TITLE": "Delete preset?",
+      "DELETE_PRESET_DESC": "This permanently deletes the sampling preset.",
+      "DELETE_CARD_TITLE": "Delete card?",
+      "DELETE_CARD_DESC": "This permanently deletes the card.",
+      "DELETE_GENERATION_TITLE": "Delete generation?",
+      "DELETE_GENERATION_DESC": "This permanently deletes this generation and its images.",
+      "CLEAR_CHAT_TITLE": "Clear chat?",
+      "REMOVE_SYNC_TITLE": "Remove from sync?",
+      "WIPE_DB_TITLE": "Wipe local database?",
+      "UPLOAD_DB_TITLE": "Overwrite local database?"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

@@ -1614,7 +1614,28 @@
     "NAME": "名稱",
     "DESCRIPTION": "描述",
     "CONFIRM_DELETE": "確定要刪除嗎？",
-    "RESET": "重設"
+    "RESET": "重設",
+    "CONFIRM": {
+      "CONTINUE": "繼續",
+      "DELETE_CHARACTER_TITLE": "刪除角色？",
+      "DELETE_CHARACTER_DESC": "此操作將永久刪除該角色。使用過該角色的對話仍會保留其訊息。",
+      "DELETE_PERSONA_TITLE": "刪除人物？",
+      "DELETE_PERSONA_DESC": "此操作將永久刪除該人物。",
+      "DELETE_LOREBOOK_TITLE": "刪除知識庫？",
+      "DELETE_LOREBOOK_DESC": "此操作將永久刪除該知識庫及其所有條目。",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "刪除條目？",
+      "DELETE_LOREBOOK_ENTRY_DESC": "此操作將永久刪除該知識庫條目。",
+      "DELETE_PRESET_TITLE": "刪除預設？",
+      "DELETE_PRESET_DESC": "此操作將永久刪除該取樣預設。",
+      "DELETE_CARD_TITLE": "刪除角色卡？",
+      "DELETE_CARD_DESC": "此操作將永久刪除該角色卡。",
+      "DELETE_GENERATION_TITLE": "刪除生成紀錄？",
+      "DELETE_GENERATION_DESC": "此操作將永久刪除該生成紀錄及其圖片。",
+      "CLEAR_CHAT_TITLE": "清空對話？",
+      "REMOVE_SYNC_TITLE": "從同步中移除？",
+      "WIPE_DB_TITLE": "清空本機資料庫？",
+      "UPLOAD_DB_TITLE": "覆寫本機資料庫？"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

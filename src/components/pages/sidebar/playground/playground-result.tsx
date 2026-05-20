@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import {
@@ -422,7 +423,14 @@ export function GenerateResult(props: Props) {
     (data as { requestedCount?: number } | undefined)?.requestedCount ?? 1;
 
   const onDeleteSnapshot = async () => {
-    if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.DELETE_GENERATION_TITLE"),
+      description: t("COMMON.CONFIRM.DELETE_GENERATION_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     const result = await deleteMut.mutateAsync({ id: props.snapshotId });
     if (result?.sessionDeleted) {
       setActiveSessionId(null);

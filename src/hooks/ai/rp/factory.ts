@@ -19,7 +19,9 @@ type WithId = { id: string; syncExpiresAt?: Date | null };
 
 export type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
   useList: () => ReturnType<typeof useQuery<TItem[]>>;
-  useCreate: () => ReturnType<typeof useMutation<TItem, Error, TCreateBody>>;
+  useCreate: () => ReturnType<
+    typeof useMutation<TItem, Error, { body: TCreateBody }>
+  >;
   useUpdate: () => ReturnType<
     typeof useMutation<TItem, Error, { id: string; body: TUpdateBody }>
   >;
@@ -58,11 +60,11 @@ export function makeRpEntity<
       const qc = useQueryClient();
       const auth = useAuthQuery();
       return useMutation({
-        mutationFn: async (body: TCreateBody) => {
+        mutationFn: async (args: { body: TCreateBody }) => {
           const userId = auth.data?.id ?? 0;
           const now = dayjs().toDate();
           const row = {
-            ...(body as object),
+            ...(args.body as object),
             id: uid(),
             userId,
             syncExpiresAt: null,

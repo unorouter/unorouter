@@ -8,7 +8,6 @@ import {
   setSyncExpiry,
   sweepExpired,
   sweepKey,
-  type SyncKind,
 } from "./sync.service";
 
 export const syncRoute = new Elysia({ prefix: "/sync" })
@@ -30,7 +29,7 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
       const userId = getUserId(cookie);
       const data = await getSyncedBundle(
         userId,
-        params.kind as SyncKind,
+        params.kind,
         params.id,
       );
       return { success: true, data };
@@ -44,7 +43,7 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
       const userId = getUserId(cookie);
       const data = await setSyncExpiry(
         userId,
-        params.kind as SyncKind,
+        params.kind,
         params.id,
         body,
       );
@@ -59,7 +58,7 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
       const userId = getUserId(cookie);
       const data = await clearSyncExpiry(
         userId,
-        params.kind as SyncKind,
+        params.kind,
         params.id,
       );
       return { success: true, data };

@@ -12,6 +12,12 @@ import {
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { makeTableStore } from "./table-store";
+import {
+  readLocalCharacter,
+  readLocalLorebookBundle,
+  readLocalPersona,
+  readLocalPreset,
+} from "./rp";
 
 type AnyRow = Record<string, unknown> & { id: string };
 type ChildRow = Record<string, unknown>;
@@ -130,6 +136,30 @@ export async function readLocalConversationBundle(
     readLocalMessageItems(userId, convId),
     readLocalConversationMedia(userId, convId),
   ]);
+
+  // Resolve the full bodies of every RP entity this conversation references so
+  // a sync push is self-contained: the server upserts these before the
+  // conversation_* rows, satisfying their foreign keys even when the entity
+  // was never synced on its own.
+  const characterIds = (bindings?.conversationCharacters ?? []).map(
+    (b) => b.characterId,
+  );
+  const lorebookIds = (bindings?.conversationLorebooks ?? []).map(
+    (b) => b.lorebookId,
+  );
+  const [characterRows, lorebookRows, persona, preset] = await Promise.all([
+    Promise.all(characterIds.map((id) => readLocalCharacter(userId, id))),
+    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(userId, id))),
+    settings?.personaId
+      ? readLocalPersona(userId, settings.personaId)
+      : Promise.resolve(null),
+    settings?.presetId
+      ? readLocalPreset(userId, settings.presetId)
+      : Promise.resolve(null),
+  ]);
+  const characters = characterRows.filter((c) => c != null);
+  const lorebooks = lorebookRows.filter((l) => l != null);
+
   return {
     conversation: conv,
     settings: settings ?? null,
@@ -138,6 +168,10 @@ export async function readLocalConversationBundle(
     messages: msgs ?? [],
     messageItems: items ?? [],
     media: mediaRows ?? [],
+    characters,
+    personas: persona ? [persona] : [],
+    lorebooks,
+    presets: preset ? [preset] : [],
   };
 }
 

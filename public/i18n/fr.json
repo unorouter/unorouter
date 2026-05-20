@@ -1614,7 +1614,28 @@
     "NAME": "Nom",
     "DESCRIPTION": "Description",
     "CONFIRM_DELETE": "Voulez-vous vraiment supprimer ceci ?",
-    "RESET": "Réinitialiser"
+    "RESET": "Réinitialiser",
+    "CONFIRM": {
+      "CONTINUE": "Continuer",
+      "DELETE_CHARACTER_TITLE": "Supprimer le personnage ?",
+      "DELETE_CHARACTER_DESC": "Cela supprime définitivement le personnage. Les conversations qui l'ont utilisé conservent leurs messages.",
+      "DELETE_PERSONA_TITLE": "Supprimer la persona ?",
+      "DELETE_PERSONA_DESC": "Cela supprime définitivement la persona.",
+      "DELETE_LOREBOOK_TITLE": "Supprimer le lorebook ?",
+      "DELETE_LOREBOOK_DESC": "Cela supprime définitivement le lorebook et toutes ses entrées.",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "Supprimer l'entrée ?",
+      "DELETE_LOREBOOK_ENTRY_DESC": "Cela supprime définitivement cette entrée de lorebook.",
+      "DELETE_PRESET_TITLE": "Supprimer le préréglage ?",
+      "DELETE_PRESET_DESC": "Cela supprime définitivement le préréglage d'échantillonnage.",
+      "DELETE_CARD_TITLE": "Supprimer la carte ?",
+      "DELETE_CARD_DESC": "Cela supprime définitivement la carte.",
+      "DELETE_GENERATION_TITLE": "Supprimer la génération ?",
+      "DELETE_GENERATION_DESC": "Cela supprime définitivement cette génération et ses images.",
+      "CLEAR_CHAT_TITLE": "Vider le chat ?",
+      "REMOVE_SYNC_TITLE": "Retirer de la synchronisation ?",
+      "WIPE_DB_TITLE": "Effacer la base de données locale ?",
+      "UPLOAD_DB_TITLE": "Écraser la base de données locale ?"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

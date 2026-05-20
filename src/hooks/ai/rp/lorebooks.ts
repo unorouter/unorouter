@@ -101,7 +101,10 @@ export function useUpdateLorebookMutation() {
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
-      const updated = { ...existing, ...args.body, updatedAt: now };
+      // readLocalLorebook returns the lorebook merged with an `entries` array;
+      // strip it before the upsert since `lorebooks` has no entries column.
+      const { entries: _entries, ...existingRow } = existing;
+      const updated = { ...existingRow, ...args.body, updatedAt: now };
       await upsertLocalLorebook(userId, updated as never);
       if (existing.syncExpiresAt != null) {
         await mirrorLorebookIfSynced(userId, args.id);

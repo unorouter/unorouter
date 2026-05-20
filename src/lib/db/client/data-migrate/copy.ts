@@ -65,9 +65,11 @@ export async function copyAllTables(
           col in rewrite ? rewrite[col] : tuple[srcIdx[i]],
         );
         try {
-          await target.transaction(async () => {
-            await target.exec(insertSql, params, "run");
-          });
+          // No `target.transaction(...)` wrapper: a throwing exec inside a
+          // SQLocal transaction never releases the transactionMutex and
+          // deadlocks every later DB call. FKs are already off and the insert
+          // is ON CONFLICT DO NOTHING, so a bare exec is safe and idempotent.
+          await target.exec(insertSql, params, "run");
           copied++;
         } catch (error) {
           const rowObj = Object.fromEntries(

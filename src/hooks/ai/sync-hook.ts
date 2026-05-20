@@ -2,7 +2,11 @@
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { readLocalCard, readLocalLorebook } from "@/lib/db/client/data/rp";
-import { readLocalConversationBundle } from "@/lib/db/client/data/chat";
+import {
+  readLocalConversation,
+  readLocalConversationBundle,
+  upsertLocalConversation,
+} from "@/lib/db/client/data/chat";
 import { readLocalGenerationSessionBundle } from "@/lib/db/client/data/playground";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -69,13 +73,34 @@ export function useSyncMutation() {
           payload = await readLocalGenerationSessionBundle(userId, args.id);
         }
       }
-      return handleElysia(
+      const result = handleElysia(
         await rpc.api.ai.sync({ kind: args.kind })({ id: args.id }).post({
           days: args.days,
           payload,
           keepExpiry: args.keepExpiry,
         }),
       );
+
+      // Mirror the server-assigned expiry onto the local conversation row so
+      // local-first checks (resync, auto-mirror on edit) see it as synced.
+      // The sync POST returns the synced bundle; for conversations it carries
+      // the conversation row with the new syncExpiresAt.
+      if (args.kind === "conversations" && userId != null) {
+        const bundle = result as {
+          conversation?: { syncExpiresAt?: string | number | null };
+        };
+        const expiry = bundle.conversation?.syncExpiresAt;
+        if (expiry != null) {
+          const existing = await readLocalConversation(userId, args.id);
+          if (existing) {
+            await upsertLocalConversation(userId, {
+              ...existing,
+              syncExpiresAt: new Date(expiry),
+            });
+          }
+        }
+      }
+      return result;
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
@@ -89,11 +114,25 @@ type RemoveArgs = { kind: SyncKindName; id: string };
 export function useRemoveSyncMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: RemoveArgs) =>
-      handleElysia(
+    mutationFn: async (args: RemoveArgs) => {
+      const result = handleElysia(
         await rpc.api.ai.sync({ kind: args.kind })({ id: args.id }).delete(),
-      ),
+      );
+      // Clear the local syncExpiresAt so the conversation reads as not-synced.
+      const userId = auth.data?.id;
+      if (args.kind === "conversations" && userId != null) {
+        const existing = await readLocalConversation(userId, args.id);
+        if (existing) {
+          await upsertLocalConversation(userId, {
+            ...existing,
+            syncExpiresAt: null,
+          });
+        }
+      }
+      return result;
+    },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.syncState() });

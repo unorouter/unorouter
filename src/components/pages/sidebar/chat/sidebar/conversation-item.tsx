@@ -1,6 +1,7 @@
 "use client";
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import {
   DropdownMenu,
@@ -242,9 +243,16 @@ export function ConversationItem(props: ConversationItemProps) {
                   <DropdownMenuItem
                     variant="destructive"
                     disabled={removeSyncMut.isPending}
-                    onClick={(e) => {
+                    onClick={async (e) => {
                       e.stopPropagation();
-                      if (!window.confirm(t("SYNC.CONFIRM_REMOVE"))) return;
+                      const ok = await confirm({
+                        title: t("COMMON.CONFIRM.REMOVE_SYNC_TITLE"),
+                        description: t("SYNC.CONFIRM_REMOVE"),
+                        confirmLabel: t("SYNC.REMOVE_SYNC"),
+                        cancelLabel: t("COMMON.CANCEL"),
+                        destructive: true,
+                      });
+                      if (!ok) return;
                       removeSyncMut.mutate({
                         kind: "conversations",
                         id: props.conversation.id,

@@ -1614,7 +1614,28 @@
     "NAME": "Название",
     "DESCRIPTION": "Описание",
     "CONFIRM_DELETE": "Вы уверены, что хотите удалить?",
-    "RESET": "Сброс"
+    "RESET": "Сброс",
+    "CONFIRM": {
+      "CONTINUE": "Продолжить",
+      "DELETE_CHARACTER_TITLE": "Удалить персонажа?",
+      "DELETE_CHARACTER_DESC": "Персонаж будет удалён безвозвратно. Сообщения в чатах, где он использовался, сохранятся.",
+      "DELETE_PERSONA_TITLE": "Удалить персону?",
+      "DELETE_PERSONA_DESC": "Персона будет удалена безвозвратно.",
+      "DELETE_LOREBOOK_TITLE": "Удалить лорбук?",
+      "DELETE_LOREBOOK_DESC": "Лорбук и все его записи будут удалены безвозвратно.",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "Удалить запись?",
+      "DELETE_LOREBOOK_ENTRY_DESC": "Эта запись лорбука будет удалена безвозвратно.",
+      "DELETE_PRESET_TITLE": "Удалить пресет?",
+      "DELETE_PRESET_DESC": "Пресет сэмплинга будет удалён безвозвратно.",
+      "DELETE_CARD_TITLE": "Удалить карточку?",
+      "DELETE_CARD_DESC": "Карточка будет удалена безвозвратно.",
+      "DELETE_GENERATION_TITLE": "Удалить генерацию?",
+      "DELETE_GENERATION_DESC": "Эта генерация и её изображения будут удалены безвозвратно.",
+      "CLEAR_CHAT_TITLE": "Очистить чат?",
+      "REMOVE_SYNC_TITLE": "Убрать из синхронизации?",
+      "WIPE_DB_TITLE": "Очистить локальную базу данных?",
+      "UPLOAD_DB_TITLE": "Перезаписать локальную базу данных?"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

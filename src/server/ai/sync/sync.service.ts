@@ -4,6 +4,19 @@ import { getDb } from "@/lib/db/server/client";
 import { mediaKey, uploadToR2 } from "@/lib/config/r2";
 import { uid } from "@/lib/utils/base";
 import {
+  characterBody,
+  lorebookBody,
+  lorebookEntryBody,
+  personaBody,
+  samplingPresetBody,
+  type CharacterBody,
+  type LorebookBody,
+  type PersonaBody,
+  type SamplingPresetBody,
+} from "@/lib/validation/rp";
+import { Value } from "@sinclair/typebox/value";
+import type { SyncKindName } from "@/lib/validation/sync";
+import {
   cardCharacters,
   cardLorebooks,
   cards,
@@ -25,18 +38,8 @@ import {
   samplingPresets,
   userThemes,
 } from "@/lib/db/schema/shared";
-import dayjs from "dayjs";
+import { addDays } from "@/lib/utils/format/date";
 import { and, eq, inArray, isNotNull, lt } from "drizzle-orm";
-
-export type SyncKind =
-  | "characters"
-  | "personas"
-  | "lorebooks"
-  | "presets"
-  | "cards"
-  | "conversations"
-  | "playgroundSessions"
-  | "theme";
 
 export type SyncBundleMap = {
   characters: { character: typeof characters.$inferSelect };
@@ -69,14 +72,10 @@ export type SyncBundleMap = {
   theme: { theme: typeof userThemes.$inferSelect };
 };
 
-export type SyncBundle<K extends SyncKind = SyncKind> = SyncBundleMap[K];
+export type SyncBundle<K extends SyncKindName = SyncKindName> = SyncBundleMap[K];
 
+// Default sync window when a request omits `days`.
 const DEFAULT_TTL_DAYS = 30;
-
-function expiryFromDays(days: number = DEFAULT_TTL_DAYS): Date {
-  return dayjs().add(days, "day").toDate();
-}
-
 
 // Per-request memo so route-level .derive() can call sweepExpired once.
 const sweptThisRequest = new WeakSet<object>();
@@ -171,7 +170,7 @@ type SyncStateRow = {
   updatedAt: Date;
 };
 
-export type SyncStateBulk = Record<SyncKind, SyncStateRow[]>;
+export type SyncStateBulk = Record<SyncKindName, SyncStateRow[]>;
 
 export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
   const db = getDb();
@@ -292,7 +291,7 @@ export async function getSyncStateBulk(userId: number): Promise<SyncStateBulk> {
 
 export async function getSyncedBundle(
   userId: number,
-  kind: SyncKind,
+  kind: SyncKindName,
   id: string,
 ) {
   const db = getDb();
@@ -455,12 +454,12 @@ export type SyncRequestPayload = {
 
 export async function setSyncExpiry(
   userId: number,
-  kind: SyncKind,
+  kind: SyncKindName,
   id: string,
   req: SyncRequestPayload,
 ) {
   const db = getDb();
-  let expiresAt = expiryFromDays(req.days);
+  let expiresAt = addDays(req.days ?? DEFAULT_TTL_DAYS);
   if (req.keepExpiry) {
     const existing = await readExistingSyncExpiry(db, userId, kind, id);
     if (existing) expiresAt = existing;
@@ -473,7 +472,7 @@ export async function setSyncExpiry(
 async function readExistingSyncExpiry(
   db: ReturnType<typeof getDb>,
   userId: number,
-  kind: SyncKind,
+  kind: SyncKindName,
   id: string,
 ): Promise<Date | null> {
   switch (kind) {
@@ -559,9 +558,160 @@ type UpsertHandler = (
   payload: unknown,
 ) => Promise<void>;
 
-const upsertHandlers: Record<SyncKind, UpsertHandler> = {
+// Transaction handle passed to the per-entity upsert helpers below.
+type SyncTx = Parameters<
+  Parameters<ReturnType<typeof getDb>["transaction"]>[0]
+>[0];
+
+// --- Insert-value builders -------------------------------------------------
+// Map a loose sync payload (unknown at the boundary) to a typed insert row.
+// `Value.Cast` validates against the shared RP schema, coerces, fills defaults
+// and drops extras (id/userId/timestamps) in one step, so the builders touch
+// typed fields with no per-property casts. Shared by the standalone entity
+// handlers and the conversation-bundle helpers below.
+
+function characterInsertValues(
+  body: unknown,
+  userId: number,
+  id: string,
+  expiresAt: Date,
+): typeof characters.$inferInsert {
+  const v = Value.Cast(characterBody, body);
+  return { ...v, id, userId, syncExpiresAt: expiresAt };
+}
+
+function personaInsertValues(
+  body: unknown,
+  userId: number,
+  id: string,
+  expiresAt: Date,
+): typeof personas.$inferInsert {
+  const v = Value.Cast(personaBody, body);
+  return { ...v, id, userId, isDefault: v.isDefault ?? false, syncExpiresAt: expiresAt };
+}
+
+function presetInsertValues(
+  body: unknown,
+  userId: number,
+  id: string,
+  expiresAt: Date,
+): typeof samplingPresets.$inferInsert {
+  const v = Value.Cast(samplingPresetBody, body);
+  return { ...v, id, userId, isDefault: v.isDefault ?? false, syncExpiresAt: expiresAt };
+}
+
+function lorebookInsertValues(
+  lb: unknown,
+  userId: number,
+  id: string,
+  expiresAt: Date,
+): typeof lorebooks.$inferInsert {
+  const v = Value.Cast(lorebookBody, lb);
+  return { ...v, id, userId, syncExpiresAt: expiresAt };
+}
+
+function lorebookEntryInsertValues(
+  e: unknown,
+  lorebookId: string,
+): typeof lorebookEntries.$inferInsert {
+  const v = Value.Cast(lorebookEntryBody, e);
+  const id = (e as { id?: unknown }).id;
+  return {
+    ...v,
+    id: typeof id === "string" ? id : crypto.randomUUID(),
+    lorebookId,
+  };
+}
+
+// --- Referenced-entity upserts (used by the conversations bundle) ----------
+// A conversation sync push carries the full bodies of every RP entity it
+// binds. These insert each one (if absent) inside the conversation's
+// transaction, before the conversation_* rows, so their foreign keys resolve
+// even when the entity was never synced on its own. Bound entities inherit the
+// conversation's `expiresAt`. Insert-only: an already-synced entity keeps its
+// own row untouched.
+
+async function rowExists(
+  tx: SyncTx,
+  table: typeof characters | typeof personas | typeof samplingPresets,
+  id: string,
+  userId: number,
+): Promise<boolean> {
+  const rows = await tx
+    .select({ id: table.id })
+    .from(table)
+    .where(and(eq(table.id, id), eq(table.userId, userId)))
+    .limit(1);
+  return rows.length > 0;
+}
+
+async function insertReferencedCharacter(
+  tx: SyncTx,
+  userId: number,
+  expiresAt: Date,
+  body: Record<string, unknown>,
+): Promise<void> {
+  const id = body.id as string;
+  if (!id || (await rowExists(tx, characters, id, userId))) return;
+  await tx.insert(characters).values(
+    characterInsertValues(body, userId, id, expiresAt),
+  );
+}
+
+async function insertReferencedPersona(
+  tx: SyncTx,
+  userId: number,
+  expiresAt: Date,
+  body: Record<string, unknown>,
+): Promise<void> {
+  const id = body.id as string;
+  if (!id || (await rowExists(tx, personas, id, userId))) return;
+  await tx.insert(personas).values(
+    personaInsertValues(body, userId, id, expiresAt),
+  );
+}
+
+async function insertReferencedPreset(
+  tx: SyncTx,
+  userId: number,
+  expiresAt: Date,
+  body: Record<string, unknown>,
+): Promise<void> {
+  const id = body.id as string;
+  if (!id || (await rowExists(tx, samplingPresets, id, userId))) return;
+  await tx.insert(samplingPresets).values(
+    presetInsertValues(body, userId, id, expiresAt),
+  );
+}
+
+async function insertReferencedLorebook(
+  tx: SyncTx,
+  userId: number,
+  expiresAt: Date,
+  entry: { lorebook?: Record<string, unknown>; entries?: unknown[] },
+): Promise<void> {
+  const lb = entry.lorebook ?? {};
+  const id = lb.id as string;
+  if (!id) return;
+  const rows = await tx
+    .select({ id: lorebooks.id })
+    .from(lorebooks)
+    .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
+    .limit(1);
+  if (rows.length > 0) return;
+  await tx.insert(lorebooks).values(
+    lorebookInsertValues(lb, userId, id, expiresAt),
+  );
+  for (const e of (entry.entries ?? []) as Array<Record<string, unknown>>) {
+    await tx
+      .insert(lorebookEntries)
+      .values(lorebookEntryInsertValues(e, id));
+  }
+}
+
+const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
   characters: async (db, userId, id, expiresAt, payload) => {
-    const body = (payload ?? {}) as Record<string, unknown>;
+    const body = (payload ?? {}) as Partial<CharacterBody>;
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ id: characters.id })
@@ -569,58 +719,29 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
         .where(and(eq(characters.id, id), eq(characters.userId, userId)))
         .limit(1);
       if (existing.length === 0) {
-        await tx.insert(characters).values({
-          id,
-          userId,
-          name: (body.name as string) ?? "Untitled",
-          avatarMediaId: (body.avatarMediaId as string | null) ?? null,
-          description: (body.description as string | null) ?? null,
-          personality: (body.personality as string | null) ?? null,
-          scenario: (body.scenario as string | null) ?? null,
-          firstMessage: (body.firstMessage as string | null) ?? null,
-          exampleMessages: (body.exampleMessages as string | null) ?? null,
-          systemPrompt: (body.systemPrompt as string | null) ?? null,
-          postHistoryInstructions:
-            (body.postHistoryInstructions as string | null) ?? null,
-          defaultReasoningEffort:
-            (body.defaultReasoningEffort as string | null) ?? null,
-          tags: (body.tags as unknown) ?? null,
-          nsfw: (body.nsfw as boolean | undefined) ?? false,
-          triggers: (body.triggers as unknown) ?? null,
-          alwaysActive: (body.alwaysActive as boolean | undefined) ?? true,
-          matchWholeWords:
-            (body.matchWholeWords as boolean | undefined) ?? false,
-          syncExpiresAt: expiresAt,
-        });
+        await tx
+          .insert(characters)
+          .values(characterInsertValues(body, userId, id, expiresAt));
       } else {
         await tx
           .update(characters)
           .set({
             ...stripUndefined({
-              name: body.name as string | undefined,
-              avatarMediaId: body.avatarMediaId as string | null | undefined,
-              description: body.description as string | null | undefined,
-              personality: body.personality as string | null | undefined,
-              scenario: body.scenario as string | null | undefined,
-              firstMessage: body.firstMessage as string | null | undefined,
-              exampleMessages: body.exampleMessages as
-                | string
-                | null
-                | undefined,
-              systemPrompt: body.systemPrompt as string | null | undefined,
-              postHistoryInstructions: body.postHistoryInstructions as
-                | string
-                | null
-                | undefined,
-              defaultReasoningEffort: body.defaultReasoningEffort as
-                | string
-                | null
-                | undefined,
-              tags: body.tags as unknown,
-              nsfw: body.nsfw as boolean | undefined,
-              triggers: body.triggers as unknown,
-              alwaysActive: body.alwaysActive as boolean | undefined,
-              matchWholeWords: body.matchWholeWords as boolean | undefined,
+              name: body.name,
+              avatarMediaId: body.avatarMediaId,
+              description: body.description,
+              personality: body.personality,
+              scenario: body.scenario,
+              firstMessage: body.firstMessage,
+              exampleMessages: body.exampleMessages,
+              systemPrompt: body.systemPrompt,
+              postHistoryInstructions: body.postHistoryInstructions,
+              defaultReasoningEffort: body.defaultReasoningEffort,
+              tags: body.tags,
+              nsfw: body.nsfw,
+              triggers: body.triggers,
+              alwaysActive: body.alwaysActive,
+              matchWholeWords: body.matchWholeWords,
             }),
             syncExpiresAt: expiresAt,
             updatedAt: new Date(),
@@ -631,7 +752,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
   },
 
   personas: async (db, userId, id, expiresAt, payload) => {
-    const body = (payload ?? {}) as Record<string, unknown>;
+    const body = (payload ?? {}) as Partial<PersonaBody>;
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ id: personas.id })
@@ -639,24 +760,18 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
         .where(and(eq(personas.id, id), eq(personas.userId, userId)))
         .limit(1);
       if (existing.length === 0) {
-        await tx.insert(personas).values({
-          id,
-          userId,
-          name: (body.name as string) ?? "Untitled",
-          description: (body.description as string | null) ?? null,
-          avatarMediaId: (body.avatarMediaId as string | null) ?? null,
-          isDefault: (body.isDefault as boolean | undefined) ?? false,
-          syncExpiresAt: expiresAt,
-        });
+        await tx
+          .insert(personas)
+          .values(personaInsertValues(body, userId, id, expiresAt));
       } else {
         await tx
           .update(personas)
           .set({
             ...stripUndefined({
-              name: body.name as string | undefined,
-              description: body.description as string | null | undefined,
-              avatarMediaId: body.avatarMediaId as string | null | undefined,
-              isDefault: body.isDefault as boolean | undefined,
+              name: body.name,
+              description: body.description,
+              avatarMediaId: body.avatarMediaId,
+              isDefault: body.isDefault,
             }),
             syncExpiresAt: expiresAt,
             updatedAt: new Date(),
@@ -668,8 +783,8 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
 
   lorebooks: async (db, userId, id, expiresAt, payload) => {
     const body = (payload ?? {}) as {
-      lorebook?: Record<string, unknown>;
-      entries?: Array<Record<string, unknown>>;
+      lorebook?: Partial<LorebookBody>;
+      entries?: unknown[];
     };
     const lb = body.lorebook ?? {};
     await db.transaction(async (tx) => {
@@ -679,27 +794,19 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
         .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
         .limit(1);
       if (existing.length === 0) {
-        await tx.insert(lorebooks).values({
-          id,
-          userId,
-          name: (lb.name as string) ?? "Untitled",
-          description: (lb.description as string | null) ?? null,
-          scanDepth: (lb.scanDepth as number | undefined) ?? 4,
-          tokenBudget: (lb.tokenBudget as number | undefined) ?? 1500,
-          recursiveScanning:
-            (lb.recursiveScanning as boolean | undefined) ?? false,
-          syncExpiresAt: expiresAt,
-        });
+        await tx
+          .insert(lorebooks)
+          .values(lorebookInsertValues(lb, userId, id, expiresAt));
       } else {
         await tx
           .update(lorebooks)
           .set({
             ...stripUndefined({
-              name: lb.name as string | undefined,
-              description: lb.description as string | null | undefined,
-              scanDepth: lb.scanDepth as number | undefined,
-              tokenBudget: lb.tokenBudget as number | undefined,
-              recursiveScanning: lb.recursiveScanning as boolean | undefined,
+              name: lb.name,
+              description: lb.description,
+              scanDepth: lb.scanDepth,
+              tokenBudget: lb.tokenBudget,
+              recursiveScanning: lb.recursiveScanning,
             }),
             syncExpiresAt: expiresAt,
             updatedAt: new Date(),
@@ -711,30 +818,16 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           .delete(lorebookEntries)
           .where(eq(lorebookEntries.lorebookId, id));
         for (const e of body.entries) {
-          await tx.insert(lorebookEntries).values({
-            id: (e.id as string | undefined) ?? crypto.randomUUID(),
-            lorebookId: id,
-            keys: (e.keys as unknown) ?? [],
-            secondaryKeys: (e.secondaryKeys as unknown) ?? null,
-            content: (e.content as string) ?? "",
-            constant: (e.constant as boolean | undefined) ?? false,
-            selective: (e.selective as boolean | undefined) ?? false,
-            priority: (e.priority as number | undefined) ?? 100,
-            position: (e.position as string | undefined) ?? "before_char",
-            depth: (e.depth as number | undefined) ?? 4,
-            enabled: (e.enabled as boolean | undefined) ?? true,
-            orderIndex: (e.orderIndex as number | undefined) ?? 0,
-            matchWholeWords:
-              (e.matchWholeWords as boolean | undefined) ?? false,
-            injectionRole: (e.injectionRole as string | undefined) ?? "user",
-          });
+          await tx
+            .insert(lorebookEntries)
+            .values(lorebookEntryInsertValues(e, id));
         }
       }
     });
   },
 
   presets: async (db, userId, id, expiresAt, payload) => {
-    const body = (payload ?? {}) as Record<string, unknown>;
+    const body = (payload ?? {}) as Partial<SamplingPresetBody>;
     await db.transaction(async (tx) => {
       const existing = await tx
         .select({ id: samplingPresets.id })
@@ -744,39 +837,35 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
         )
         .limit(1);
       if (existing.length === 0) {
-        await tx.insert(samplingPresets).values({
-          id,
-          userId,
-          name: (body.name as string) ?? "Untitled",
-          temperature: (body.temperature as number | null) ?? null,
-          topP: (body.topP as number | null) ?? null,
-          topK: (body.topK as number | null) ?? null,
-          minP: (body.minP as number | null) ?? null,
-          topA: (body.topA as number | null) ?? null,
-          frequencyPenalty: (body.frequencyPenalty as number | null) ?? null,
-          presencePenalty: (body.presencePenalty as number | null) ?? null,
-          repetitionPenalty: (body.repetitionPenalty as number | null) ?? null,
-          maxTokens: (body.maxTokens as number | null) ?? null,
-          extraBody: (body.extraBody as string | null) ?? null,
-          mainPrompt: (body.mainPrompt as string | null) ?? null,
-          postHistory: (body.postHistory as string | null) ?? null,
-          prefill: (body.prefill as string | null) ?? null,
-          forceAlternateRoles:
-            (body.forceAlternateRoles as boolean | undefined) ?? false,
-          noSystemRole: (body.noSystemRole as boolean | undefined) ?? false,
-          mustStartWithUserInput:
-            (body.mustStartWithUserInput as boolean | undefined) ?? false,
-          skipPrefillIfLastIsAssistant:
-            (body.skipPrefillIfLastIsAssistant as boolean | undefined) ?? false,
-          geminiBlockOff: (body.geminiBlockOff as boolean | undefined) ?? false,
-          isDefault: (body.isDefault as boolean | undefined) ?? false,
-          syncExpiresAt: expiresAt,
-        });
+        await tx
+          .insert(samplingPresets)
+          .values(presetInsertValues(body, userId, id, expiresAt));
       } else {
         await tx
           .update(samplingPresets)
           .set({
-            ...body,
+            ...stripUndefined({
+              name: body.name,
+              temperature: body.temperature,
+              topP: body.topP,
+              topK: body.topK,
+              minP: body.minP,
+              topA: body.topA,
+              frequencyPenalty: body.frequencyPenalty,
+              presencePenalty: body.presencePenalty,
+              repetitionPenalty: body.repetitionPenalty,
+              maxTokens: body.maxTokens,
+              extraBody: body.extraBody,
+              mainPrompt: body.mainPrompt,
+              postHistory: body.postHistory,
+              prefill: body.prefill,
+              forceAlternateRoles: body.forceAlternateRoles,
+              noSystemRole: body.noSystemRole,
+              mustStartWithUserInput: body.mustStartWithUserInput,
+              skipPrefillIfLastIsAssistant: body.skipPrefillIfLastIsAssistant,
+              geminiBlockOff: body.geminiBlockOff,
+              isDefault: body.isDefault,
+            }),
             syncExpiresAt: expiresAt,
             updatedAt: new Date(),
           })
@@ -857,6 +946,15 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
       messages?: Array<Record<string, unknown>>;
       messageItems?: Array<Record<string, unknown>>;
       media?: Array<Record<string, unknown>>;
+      // Full bodies of every RP entity this conversation binds. Upserted first
+      // so the conversation_* foreign keys resolve (self-contained sync).
+      characters?: Array<Record<string, unknown>>;
+      personas?: Array<Record<string, unknown>>;
+      lorebooks?: Array<{
+        lorebook?: Record<string, unknown>;
+        entries?: unknown[];
+      }>;
+      presets?: Array<Record<string, unknown>>;
     };
     const c = body.conversation ?? {};
     await db.transaction(async (tx) => {
@@ -891,6 +989,21 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           .where(
             and(eq(conversations.id, id), eq(conversations.userId, userId)),
           );
+      }
+
+      // Upsert referenced RP entities before any conversation_* rows so their
+      // foreign keys (conversation_characters.character_id, etc.) resolve.
+      for (const ch of body.characters ?? []) {
+        await insertReferencedCharacter(tx, userId, expiresAt, ch);
+      }
+      for (const p of body.personas ?? []) {
+        await insertReferencedPersona(tx, userId, expiresAt, p);
+      }
+      for (const lb of body.lorebooks ?? []) {
+        await insertReferencedLorebook(tx, userId, expiresAt, lb);
+      }
+      for (const pr of body.presets ?? []) {
+        await insertReferencedPreset(tx, userId, expiresAt, pr);
       }
 
       if (body.settings !== undefined) {
@@ -937,12 +1050,15 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
           .delete(conversationCharacters)
           .where(eq(conversationCharacters.convId, id));
         for (const row of body.conversationCharacters) {
+          // `overrides` is a nullable json column. Passing an explicit `null`
+          // makes the libSQL driver miscount bind params; `undefined` lets
+          // Drizzle omit the column so it falls back to SQL NULL.
           await tx.insert(conversationCharacters).values({
             convId: id,
             characterId: row.characterId as string,
             orderIndex: (row.orderIndex as number | undefined) ?? 0,
             isActive: (row.isActive as boolean | undefined) ?? true,
-            overrides: (row.overrides as unknown) ?? null,
+            overrides: (row.overrides as unknown) ?? undefined,
           });
         }
       }
@@ -1175,7 +1291,7 @@ const upsertHandlers: Record<SyncKind, UpsertHandler> = {
 
 export async function clearSyncExpiry(
   userId: number,
-  kind: SyncKind,
+  kind: SyncKindName,
   id: string,
 ) {
   const db = getDb();

@@ -1614,7 +1614,28 @@
     "NAME": "Tên",
     "DESCRIPTION": "Mô tả",
     "CONFIRM_DELETE": "Bạn có chắc muốn xoá không?",
-    "RESET": "Đặt lại"
+    "RESET": "Đặt lại",
+    "CONFIRM": {
+      "CONTINUE": "Tiếp tục",
+      "DELETE_CHARACTER_TITLE": "Xoá nhân vật?",
+      "DELETE_CHARACTER_DESC": "Thao tác này xoá vĩnh viễn nhân vật. Các cuộc trò chuyện đã dùng nhân vật vẫn giữ tin nhắn.",
+      "DELETE_PERSONA_TITLE": "Xoá persona?",
+      "DELETE_PERSONA_DESC": "Thao tác này xoá vĩnh viễn persona.",
+      "DELETE_LOREBOOK_TITLE": "Xoá lorebook?",
+      "DELETE_LOREBOOK_DESC": "Thao tác này xoá vĩnh viễn lorebook và toàn bộ mục của nó.",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "Xoá mục?",
+      "DELETE_LOREBOOK_ENTRY_DESC": "Thao tác này xoá vĩnh viễn mục lorebook này.",
+      "DELETE_PRESET_TITLE": "Xoá preset?",
+      "DELETE_PRESET_DESC": "Thao tác này xoá vĩnh viễn preset sampling.",
+      "DELETE_CARD_TITLE": "Xoá thẻ?",
+      "DELETE_CARD_DESC": "Thao tác này xoá vĩnh viễn thẻ.",
+      "DELETE_GENERATION_TITLE": "Xoá lần tạo?",
+      "DELETE_GENERATION_DESC": "Thao tác này xoá vĩnh viễn lần tạo này và các ảnh của nó.",
+      "CLEAR_CHAT_TITLE": "Xoá nội dung trò chuyện?",
+      "REMOVE_SYNC_TITLE": "Gỡ khỏi đồng bộ?",
+      "WIPE_DB_TITLE": "Xoá sạch cơ sở dữ liệu cục bộ?",
+      "UPLOAD_DB_TITLE": "Ghi đè cơ sở dữ liệu cục bộ?"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

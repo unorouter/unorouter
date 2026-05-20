@@ -74,6 +74,11 @@ export function formatSecTimestamp(sec: number | undefined): string {
   return formatMsTimestamp(sec ? sec * 1000 : sec);
 }
 
+// A Date `days` days from now. Used for sync expiry windows.
+export function addDays(days: number): Date {
+  return dayjs().add(days, "day").toDate();
+}
+
 export function bucketKey(tsSeconds: number, g: Granularity): string {
   const d = dayjs.unix(tsSeconds);
   if (g === "hour") return d.format("MM/DD HH:00");

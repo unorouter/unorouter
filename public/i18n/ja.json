@@ -1614,7 +1614,28 @@
     "NAME": "名前",
     "DESCRIPTION": "説明",
     "CONFIRM_DELETE": "本当に削除しますか？",
-    "RESET": "リセット"
+    "RESET": "リセット",
+    "CONFIRM": {
+      "CONTINUE": "続ける",
+      "DELETE_CHARACTER_TITLE": "キャラクターを削除しますか？",
+      "DELETE_CHARACTER_DESC": "キャラクターを完全に削除します。使用していた会話のメッセージは残ります。",
+      "DELETE_PERSONA_TITLE": "ペルソナを削除しますか？",
+      "DELETE_PERSONA_DESC": "ペルソナを完全に削除します。",
+      "DELETE_LOREBOOK_TITLE": "ロアブックを削除しますか？",
+      "DELETE_LOREBOOK_DESC": "ロアブックとそのすべてのエントリを完全に削除します。",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "エントリを削除しますか？",
+      "DELETE_LOREBOOK_ENTRY_DESC": "このロアブックのエントリを完全に削除します。",
+      "DELETE_PRESET_TITLE": "プリセットを削除しますか？",
+      "DELETE_PRESET_DESC": "サンプリングプリセットを完全に削除します。",
+      "DELETE_CARD_TITLE": "カードを削除しますか？",
+      "DELETE_CARD_DESC": "カードを完全に削除します。",
+      "DELETE_GENERATION_TITLE": "生成を削除しますか？",
+      "DELETE_GENERATION_DESC": "この生成とその画像を完全に削除します。",
+      "CLEAR_CHAT_TITLE": "チャットを消去しますか？",
+      "REMOVE_SYNC_TITLE": "同期から削除しますか？",
+      "WIPE_DB_TITLE": "ローカルデータベースを消去しますか？",
+      "UPLOAD_DB_TITLE": "ローカルデータベースを上書きしますか？"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

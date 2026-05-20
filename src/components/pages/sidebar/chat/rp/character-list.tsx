@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
@@ -246,7 +247,14 @@ export function CharacterList(props: Props) {
                     size="icon-sm"
                     onClick={async (e) => {
                       e.stopPropagation();
-                      if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+                      const ok = await confirm({
+                        title: t("COMMON.CONFIRM.DELETE_CHARACTER_TITLE"),
+                        description: t("COMMON.CONFIRM.DELETE_CHARACTER_DESC"),
+                        confirmLabel: t("COMMON.DELETE"),
+                        cancelLabel: t("COMMON.CANCEL"),
+                        destructive: true,
+                      });
+                      if (!ok) return;
                       await deleteMut.mutateAsync(c.id);
                       analytics.rp.entityAction({
                         entity: "character",

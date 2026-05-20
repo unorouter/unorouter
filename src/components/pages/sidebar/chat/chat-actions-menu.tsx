@@ -4,6 +4,7 @@ import { LocalDbStudio } from "@/components/elements/db/local-db-studio";
 import { ConversationOverridesDrawer } from "@/components/pages/sidebar/chat/conversation/conversation-overrides-drawer";
 import { openRpTabAtom } from "@/components/pages/sidebar/chat/sidebar/rp-dialogs";
 import { Button } from "@/components/ui/button";
+import { confirm } from "@/components/ui/confirm";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -80,9 +81,16 @@ export function ChatActionsMenu(props: Props) {
     if (!props.convId) return;
     syncMut.mutate({ kind: "conversations", id: props.convId });
   };
-  const handleRemoveSync = () => {
+  const handleRemoveSync = async () => {
     if (!props.convId) return;
-    if (!window.confirm(t("SYNC.CONFIRM_REMOVE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.REMOVE_SYNC_TITLE"),
+      description: t("SYNC.CONFIRM_REMOVE"),
+      confirmLabel: t("SYNC.REMOVE_SYNC"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     removeSyncMut.mutate({ kind: "conversations", id: props.convId });
   };
 
@@ -154,7 +162,14 @@ export function ChatActionsMenu(props: Props) {
   const handleClear = async () => {
     if (!props.convId) return;
     analytics.chat.clearConfirmOpened();
-    if (!window.confirm(t("CHAT.MORE.CLEAR_CONFIRM_DESC"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.CLEAR_CHAT_TITLE"),
+      description: t("CHAT.MORE.CLEAR_CONFIRM_DESC"),
+      confirmLabel: t("CHAT.MORE.CLEAR"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await clearMut.mutateAsync({ id: props.convId });
     analytics.chat.conversationCleared();
     toast.success(t("CHAT.MORE.CLEAR_SUCCESS"));

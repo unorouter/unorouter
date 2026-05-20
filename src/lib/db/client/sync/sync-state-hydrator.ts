@@ -7,7 +7,8 @@ import { rpc } from "@/lib/rpc";
 import { arrayBufferToBase64, handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { media } from "@/lib/db/schema/shared";
-import type { SyncBundle, SyncKind } from "@/server/ai/sync/sync.service";
+import type { SyncBundle } from "@/server/ai/sync/sync.service";
+import type { SyncKindName } from "@/lib/validation/sync";
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { getLocalDb } from "../client";
@@ -126,7 +127,7 @@ type RemoteState = {
   updatedAt: string | Date;
 }[];
 
-async function reconcileKind<K extends SyncKind>(
+async function reconcileKind<K extends SyncKindName>(
   userId: number,
   kind: K,
   remote: RemoteState,
@@ -159,7 +160,7 @@ async function reconcileKind<K extends SyncKind>(
 
 async function readLocalById(
   userId: number,
-  kind: SyncKind,
+  kind: SyncKindName,
   id: string,
 ): Promise<{ updatedAt: Date } | null> {
   switch (kind) {
@@ -194,7 +195,7 @@ async function readLocalById(
   return null;
 }
 
-async function applyBundle<K extends SyncKind>(
+async function applyBundle<K extends SyncKindName>(
   userId: number,
   kind: K,
   bundle: SyncBundle<K>,

@@ -74,6 +74,16 @@ export async function readLocalLorebook(userId: number, id: string) {
   return { ...lbRows[0], entries };
 }
 
+// Reads a lorebook in the bundle shape ({ lorebook, entries }) used by sync
+// payloads and the stream chat context. Returns null when the lorebook is
+// missing so callers can filter it out.
+export async function readLocalLorebookBundle(userId: number, id: string) {
+  const lb = await readLocalLorebook(userId, id);
+  if (!lb) return null;
+  const { entries, ...lorebook } = lb;
+  return { lorebook, entries };
+}
+
 export async function readLocalCard(userId: number, id: string) {
   const local = await getLocalDb(userId);
   if (!local) return null;

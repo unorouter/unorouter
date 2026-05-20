@@ -1614,7 +1614,28 @@
     "NAME": "Name",
     "DESCRIPTION": "Beschreibung",
     "CONFIRM_DELETE": "Möchtest du das wirklich löschen?",
-    "RESET": "Zurücksetzen"
+    "RESET": "Zurücksetzen",
+    "CONFIRM": {
+      "CONTINUE": "Weiter",
+      "DELETE_CHARACTER_TITLE": "Charakter löschen?",
+      "DELETE_CHARACTER_DESC": "Dadurch wird der Charakter endgültig gelöscht. Unterhaltungen, die ihn verwendet haben, behalten ihre Nachrichten.",
+      "DELETE_PERSONA_TITLE": "Persona löschen?",
+      "DELETE_PERSONA_DESC": "Dadurch wird die Persona endgültig gelöscht.",
+      "DELETE_LOREBOOK_TITLE": "Lorebook löschen?",
+      "DELETE_LOREBOOK_DESC": "Dadurch werden das Lorebook und alle seine Einträge endgültig gelöscht.",
+      "DELETE_LOREBOOK_ENTRY_TITLE": "Eintrag löschen?",
+      "DELETE_LOREBOOK_ENTRY_DESC": "Dadurch wird dieser Lorebook-Eintrag endgültig gelöscht.",
+      "DELETE_PRESET_TITLE": "Voreinstellung löschen?",
+      "DELETE_PRESET_DESC": "Dadurch wird die Sampling-Voreinstellung endgültig gelöscht.",
+      "DELETE_CARD_TITLE": "Karte löschen?",
+      "DELETE_CARD_DESC": "Dadurch wird die Karte endgültig gelöscht.",
+      "DELETE_GENERATION_TITLE": "Generierung löschen?",
+      "DELETE_GENERATION_DESC": "Dadurch werden diese Generierung und ihre Bilder endgültig gelöscht.",
+      "CLEAR_CHAT_TITLE": "Chat leeren?",
+      "REMOVE_SYNC_TITLE": "Aus der Synchronisierung entfernen?",
+      "WIPE_DB_TITLE": "Lokale Datenbank löschen?",
+      "UPLOAD_DB_TITLE": "Lokale Datenbank überschreiben?"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

@@ -1,5 +1,6 @@
 "use client";
 
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
@@ -51,7 +52,14 @@ export function CardsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.DELETE_CARD_TITLE"),
+      description: t("COMMON.CONFIRM.DELETE_CARD_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await deleteMut.mutateAsync(id);
     if (editingId === id) setEditingId(null);
   };

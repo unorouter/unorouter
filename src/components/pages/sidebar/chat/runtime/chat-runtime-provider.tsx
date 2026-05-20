@@ -10,7 +10,18 @@ import {
   useUpdateConversationMutation,
 } from "@/hooks/ai/chat-hook";
 import { GUEST_USER_ID } from "@/lib/config/constants";
+import {
+  readLocalConversationBindings,
+  readLocalConversationSettings,
+} from "@/lib/db/client/data/chat";
+import {
+  readLocalCharacter,
+  readLocalLorebookBundle,
+  readLocalPersona,
+  readLocalPreset,
+} from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
+import type { ChatContext } from "@/lib/validation/chat";
 import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
@@ -106,13 +117,13 @@ function ChatRuntimeHook() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- subscribe once on mount, refs hold latest values
   }, []);
 
-  const qcRef = useRef(queryClient);
-  qcRef.current = queryClient;
+  const userIdRef = useRef(auth.data?.id ?? GUEST_USER_ID);
+  userIdRef.current = auth.data?.id ?? GUEST_USER_ID;
 
   const transportRef = useRef(
     new DefaultChatTransport({
       api: "/api/ai/chat/stream",
-      body: () => {
+      body: async () => {
         const convId = getConvId();
         return {
           model: getChatModel(),
@@ -120,9 +131,10 @@ function ChatRuntimeHook() {
           webSearch: getChatWebSearch(),
           // Fallback for guest convs without a settings row.
           overrides: getChatDefaults(),
-          // IDB-first: server falls back to Turso when this is missing (guest path).
+          // SQLocal-backed: always a complete context so the server prompt
+          // assembler never silently drops RP data (guest path has no DB rows).
           chatContext: convId
-            ? buildChatContextFromCache(qcRef.current, convId)
+            ? await buildChatContextFromLocalDb(userIdRef.current, convId)
             : undefined,
         };
       },
@@ -210,59 +222,38 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   );
 }
 
-function buildChatContextFromCache(
-  qc: ReturnType<typeof useQueryClient>,
+// Builds the streamed RP context straight from SQLocal so it is always complete
+// and cache-independent. The server has no DB rows for a guest, so a partial
+// context would silently drop persona/characters/lorebooks from the prompt.
+async function buildChatContextFromLocalDb(
+  userId: number,
   convId: string,
-) {
-  const settings = qc.getQueryData(queryKeys.chatSettings(convId)) as
-    | Record<string, unknown>
-    | undefined;
+): Promise<ChatContext | undefined> {
+  const [settings, bindings] = await Promise.all([
+    readLocalConversationSettings(userId, convId),
+    readLocalConversationBindings(userId, convId),
+  ]);
   if (!settings) return undefined;
 
-  const bindings = qc.getQueryData(queryKeys.chatBindings(convId)) as
-    | {
-        characters?: Array<{ characterId: string }>;
-        lorebooks?: Array<{ lorebookId: string }>;
-      }
-    | undefined;
+  const characterIds = (bindings?.conversationCharacters ?? []).map(
+    (b) => b.characterId,
+  );
+  const lorebookIds = (bindings?.conversationLorebooks ?? []).map(
+    (b) => b.lorebookId,
+  );
 
-  const allChars = (qc.getQueryData(queryKeys.characters()) ?? []) as Array<{
-    id: string;
-  }>;
-  const allLorebooks = (qc.getQueryData(queryKeys.lorebooks()) ?? []) as Array<{
-    id: string;
-  }>;
-  const allPersonas = (qc.getQueryData(queryKeys.personas()) ?? []) as Array<{
-    id: string;
-  }>;
-  const allPresets = (qc.getQueryData(queryKeys.presets()) ?? []) as Array<{
-    id: string;
-  }>;
-
-  const characters = (bindings?.characters ?? [])
-    .map((b) => allChars.find((c) => c.id === b.characterId))
-    .filter((c): c is NonNullable<typeof c> => !!c);
-
-  const lorebooks = (bindings?.lorebooks ?? [])
-    .map((b) => {
-      const lb = allLorebooks.find((l) => l.id === b.lorebookId);
-      if (!lb) return null;
-      // entries cache slot not pre-populated by hydrator; server fallback handles missing.
-      const detail = qc.getQueryData(queryKeys.lorebook(b.lorebookId)) as
-        | { entries?: unknown[] }
-        | undefined;
-      return { lorebook: lb, entries: detail?.entries ?? [] };
-    })
-    .filter((l): l is NonNullable<typeof l> => !!l);
-
-  const personaId = settings.personaId as string | null | undefined;
-  const presetId = settings.presetId as string | null | undefined;
-  const persona = personaId
-    ? (allPersonas.find((p) => p.id === personaId) ?? null)
-    : null;
-  const preset = presetId
-    ? (allPresets.find((p) => p.id === presetId) ?? null)
-    : null;
+  const [characterRows, lorebookRows, persona, preset] = await Promise.all([
+    Promise.all(characterIds.map((id) => readLocalCharacter(userId, id))),
+    Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(userId, id))),
+    settings.personaId
+      ? readLocalPersona(userId, settings.personaId)
+      : Promise.resolve(null),
+    settings.presetId
+      ? readLocalPreset(userId, settings.presetId)
+      : Promise.resolve(null),
+  ]);
+  const characters = characterRows.filter((c) => c != null);
+  const lorebooks = lorebookRows.filter((l) => l != null);
 
   return { persona, characters, lorebooks, preset, settings };
 }

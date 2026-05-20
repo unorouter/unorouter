@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
@@ -88,7 +89,14 @@ export function LorebookList(props: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.DELETE_LOREBOOK_TITLE"),
+      description: t("COMMON.CONFIRM.DELETE_LOREBOOK_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({ entity: "lorebook", action: "deleted" });
   };
@@ -298,6 +306,7 @@ function LorebookEditorInline(props: {
       description: l.description ?? "",
       scanDepth: l.scanDepth ?? 4,
       tokenBudget: l.tokenBudget ?? 1500,
+      recursiveScanning: l.recursiveScanning ?? false,
     });
     // form.reset is stable; we want to re-seed when the lorebook changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -308,7 +317,14 @@ function LorebookEditorInline(props: {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.DELETE_LOREBOOK_TITLE"),
+      description: t("COMMON.CONFIRM.DELETE_LOREBOOK_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await deleteLb.mutateAsync(props.lorebookId);
     analytics.rp.entityAction({ entity: "lorebook", action: "deleted" });
     props.onDeleted();
@@ -465,7 +481,14 @@ function Entries(props: { lorebookId: string }) {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_TITLE"),
+      description: t("COMMON.CONFIRM.DELETE_LOREBOOK_ENTRY_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({
       entity: "lorebook_entry",

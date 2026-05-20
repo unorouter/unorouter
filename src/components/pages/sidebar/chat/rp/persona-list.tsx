@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
@@ -102,7 +103,14 @@ export function PersonaList(props: Props) {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm(t("COMMON.CONFIRM_DELETE"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.DELETE_PERSONA_TITLE"),
+      description: t("COMMON.CONFIRM.DELETE_PERSONA_DESC"),
+      confirmLabel: t("COMMON.DELETE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({ entity: "persona", action: "deleted" });
     if (editingId === id) setEditingId(null);

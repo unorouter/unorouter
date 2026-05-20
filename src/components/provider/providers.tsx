@@ -1,3 +1,4 @@
+import { ConfirmProvider } from "@/components/ui/confirm";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { getCookieValue } from "@/lib/utils/server";
 import { CLIENT_STORE_KEY, type ClientState } from "@/store/client-store";
@@ -43,6 +44,7 @@ export function Providers(props: { children: ReactNode }) {
                       <UserThemeProvider>
                         <PostHogProvider>
                           <WebMcpProvider />
+                          <ConfirmProvider />
                           <TooltipProvider>
                             <AppPrefetchProvider>
                               {props.children}

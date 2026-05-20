@@ -2,6 +2,7 @@
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Button } from "@/components/ui/button";
+import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import {
@@ -33,7 +34,14 @@ export function LocalDbStudio(props: Props) {
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
 
   const wipe = async () => {
-    if (!confirm(t("CHAT.MORE.LOCAL_DB_WIPE_CONFIRM"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.WIPE_DB_TITLE"),
+      description: t("CHAT.MORE.LOCAL_DB_WIPE_CONFIRM"),
+      confirmLabel: t("CHAT.MORE.LOCAL_DB_WIPE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     // Destroy SQLocal worker first; its SyncAccessHandle holds an exclusive
     // lock on the sqlite file + hidden WAL/SAH-pool shards. removeEntry()
     // silently no-ops on locked files, leaving phantom OPFS usage.
@@ -73,7 +81,14 @@ export function LocalDbStudio(props: Props) {
   };
 
   const upload = async (file: File) => {
-    if (!confirm(t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM"))) return;
+    const ok = await confirm({
+      title: t("COMMON.CONFIRM.UPLOAD_DB_TITLE"),
+      description: t("CHAT.MORE.LOCAL_DB_UPLOAD_CONFIRM"),
+      confirmLabel: t("COMMON.CONFIRM.CONTINUE"),
+      cancelLabel: t("COMMON.CANCEL"),
+      destructive: true,
+    });
+    if (!ok) return;
     try {
       const local = await getLocalDb(userId);
       if (!local) throw new Error("SQLocal unavailable");
