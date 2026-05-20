@@ -47,7 +47,7 @@ export function ConversationStats(props: { convId?: string }) {
   if (!props.convId || !data) return null;
   if (data.totalInputTokens <= 0 && data.totalOutputTokens <= 0) return null;
   return (
-    <div className="text-muted-foreground pointer-events-none sticky top-12 z-10 hidden items-center justify-end gap-2 px-4 py-1 pr-6 text-[11px] tabular-nums md:flex">
+    <div className="text-muted-foreground pointer-events-none flex items-center justify-start gap-2 px-1 pb-1 text-[11px] tabular-nums">
       <span>
         {data.totalInputTokens.toLocaleString()} {t("CHAT.TOKENS_IN")}
       </span>

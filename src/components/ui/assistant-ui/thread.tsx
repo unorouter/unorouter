@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
 import {
     useDeleteMessageMutation,
     useEditMessageMutation,
@@ -171,8 +172,10 @@ const ThreadSuggestionItem: FC = () => {
 const Composer: FC = () => {
   const t = useTranslations();
   const isMobile = useIsMobile();
+  const convId = useAuiState((s) => s.threadListItem?.remoteId);
   return (
     <ComposerPrimitive.Root className="aui-composer-root relative flex w-full flex-col">
+      <ConversationStats convId={convId ?? undefined} />
       <ComposerPrimitive.AttachmentDropzone asChild>
         <div
           data-slot="composer-shell"

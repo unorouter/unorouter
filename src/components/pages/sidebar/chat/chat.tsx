@@ -8,11 +8,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import {
-  ConversationStats,
-  NeedsTokenGate,
-  ZeroBalanceGate,
-} from "./chat-elements";
+import { NeedsTokenGate, ZeroBalanceGate } from "./chat-elements";
 
 type ChatProps = {
   convId?: string;
@@ -49,7 +45,6 @@ export function Chat(props: ChatProps) {
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">
-      <ConversationStats convId={effectiveId} />
       <SectionBoundary>
         <Thread />
       </SectionBoundary>
