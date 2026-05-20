@@ -2469,7 +2469,7 @@
       "REASONING_EFFORT": "Mức độ suy luận",
       "MODEL_DEFAULT": "Mặc định của mô hình",
       "OFF": "Tắt",
-      "CHAT_MEMORY": "Bộ nhớ chat (số tin nhắn đã gửi)",
+      "CHAT_MEMORY": "Bộ nhớ chat",
       "CHAT_MEMORY_HINT": "Số tin nhắn gần đây gửi kèm mỗi yêu cầu.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Tắt = chờ phản hồi đầy đủ rồi hiển thị. Một số mô hình chỉ xuất sạch khi đệm. Chủ yếu là sở thích người dùng.",
@@ -2505,12 +2505,7 @@
       "EXTRA_BODY": "Body yêu cầu bổ sung (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Được hợp nhất vào yêu cầu trước khi gửi. Dành cho các trường mà thanh trượt không bao quát. Khi trùng khóa, thanh trượt thắng.",
-      "EXTRA_BODY_INVALID": "JSON không hợp lệ. Hãy bao bằng '{}' và escape các chuỗi.",
-      "SECTION_ROLEPLAY": "Nhập vai",
-      "SECTION_GENERATION": "Tạo sinh",
-      "SECTION_SAMPLING": "Lấy mẫu",
-      "SECTION_PROMPT": "Prompt",
-      "SECTION_TOOLS": "Công cụ"
+      "EXTRA_BODY_INVALID": "JSON không hợp lệ. Hãy bao bằng '{}' và escape các chuỗi."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng."

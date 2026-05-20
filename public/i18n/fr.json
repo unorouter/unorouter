@@ -2469,7 +2469,7 @@
       "REASONING_EFFORT": "Effort de raisonnement",
       "MODEL_DEFAULT": "Défaut du modèle",
       "OFF": "Désactivé",
-      "CHAT_MEMORY": "Mémoire de chat (nombre de messages envoyés)",
+      "CHAT_MEMORY": "Mémoire de chat",
       "CHAT_MEMORY_HINT": "Nombre de messages récents envoyés à chaque requête.",
       "STREAMING_ENABLED": "Streaming",
       "STREAMING_ENABLED_HINT": "Désactivé = attendre la réponse complète, puis l'afficher. Certains modèles ne sortent proprement qu'en mode tampon. Surtout une préférence utilisateur.",
@@ -2505,12 +2505,7 @@
       "EXTRA_BODY": "Corps de requête supplémentaire (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Fusionné dans la requête avant envoi. Pour les champs non couverts par les curseurs. Les curseurs l'emportent sur les conflits de cles.",
-      "EXTRA_BODY_INVALID": "JSON invalide. Encadrer avec '{}' et echapper les chaines.",
-      "SECTION_ROLEPLAY": "Jeu de rôle",
-      "SECTION_GENERATION": "Génération",
-      "SECTION_SAMPLING": "Échantillonnage",
-      "SECTION_PROMPT": "Prompt",
-      "SECTION_TOOLS": "Outils"
+      "EXTRA_BODY_INVALID": "JSON invalide. Encadrer avec '{}' et echapper les chaines."
     },
     "SAMPLING": {
       "UNSUPPORTED": "Non pris en charge par tous les fournisseurs de ce modele. Le definir n'a aucun effet."

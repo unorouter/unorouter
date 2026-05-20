@@ -2469,7 +2469,7 @@
       "REASONING_EFFORT": "推論の深さ",
       "MODEL_DEFAULT": "モデル既定",
       "OFF": "オフ",
-      "CHAT_MEMORY": "チャット記憶（送信メッセージ数）",
+      "CHAT_MEMORY": "チャット記憶",
       "CHAT_MEMORY_HINT": "リクエストごとに送信される直近のメッセージ数。",
       "STREAMING_ENABLED": "ストリーミング",
       "STREAMING_ENABLED_HINT": "オフ = 全文の応答を待ってから表示します。バッファ時のみ綺麗に出力するモデルがあります。基本はユーザーの好みです。",
@@ -2505,12 +2505,7 @@
       "EXTRA_BODY": "追加リクエストボディ (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "送信前にリクエストへ統合されます。スライダーで対応していないフィールド向けです。キーが衝突した場合はスライダーが優先されます。",
-      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。",
-      "SECTION_ROLEPLAY": "ロールプレイ",
-      "SECTION_GENERATION": "生成",
-      "SECTION_SAMPLING": "サンプリング",
-      "SECTION_PROMPT": "プロンプト",
-      "SECTION_TOOLS": "ツール"
+      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。"
     },
     "SAMPLING": {
       "UNSUPPORTED": "このモデルを提供するすべてのプロバイダーで対応していません。設定しても効果はありません。"

@@ -2469,7 +2469,7 @@
       "REASONING_EFFORT": "推理强度",
       "MODEL_DEFAULT": "模型默认",
       "OFF": "关闭",
-      "CHAT_MEMORY": "聊天记忆（发送消息条数）",
+      "CHAT_MEMORY": "聊天记忆",
       "CHAT_MEMORY_HINT": "每次请求随附的最近消息条数。",
       "STREAMING_ENABLED": "流式输出",
       "STREAMING_ENABLED_HINT": "关闭 = 等待完整回复后再显示。部分模型仅在缓冲后输出干净。主要是用户偏好。",
@@ -2505,12 +2505,7 @@
       "EXTRA_BODY": "附加请求体（JSON）",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "发送前合并到请求中，用于滑块未覆盖的字段。键冲突时滑块优先。",
-      "EXTRA_BODY_INVALID": "JSON 无效。请使用 '{}' 包裹并转义字符串。",
-      "SECTION_ROLEPLAY": "角色扮演",
-      "SECTION_GENERATION": "生成",
-      "SECTION_SAMPLING": "采样",
-      "SECTION_PROMPT": "提示词",
-      "SECTION_TOOLS": "工具"
+      "EXTRA_BODY_INVALID": "JSON 无效。请使用 '{}' 包裹并转义字符串。"
     },
     "SAMPLING": {
       "UNSUPPORTED": "并非该模型的所有提供方都支持。设置后不会生效。"
