@@ -34,6 +34,20 @@ export type CharacterCardImportResult = {
 const NON_EMPTY = (v: unknown): string | undefined =>
   typeof v === "string" && v.trim() ? v : undefined;
 
+// Asset file extension to image MIME, and the inverse for export.
+const EXT_TO_MIME: Record<string, string> = {
+  webp: "image/webp",
+  jpeg: "image/jpeg",
+  jpg: "image/jpeg",
+  png: "image/png",
+};
+
+const MIME_TO_EXT: Record<string, string> = {
+  "image/webp": "webp",
+  "image/jpeg": "jpeg",
+  "image/png": "png",
+};
+
 export async function parseCharacterCardFile(
   file: File,
 ): Promise<CharacterCardImportResult> {
@@ -75,12 +89,7 @@ export async function parseCharacterCardFile(
   let imageMime: string | null = null;
   if (iconAsset?.data) {
     imageBytes = new Uint8Array(iconAsset.data);
-    imageMime =
-      iconAsset.ext === "webp"
-        ? "image/webp"
-        : iconAsset.ext === "jpeg" || iconAsset.ext === "jpg"
-          ? "image/jpeg"
-          : "image/png";
+    imageMime = EXT_TO_MIME[iconAsset.ext ?? ""] ?? "image/png";
   } else if (mime === "image/png" || mime === "image/webp") {
     imageBytes = bytes;
     imageMime = mime;
@@ -149,12 +158,7 @@ export function exportCharacterCard(
     assets.push({
       name: "main",
       type: "icon",
-      ext:
-        avatar.mime === "image/webp"
-          ? "webp"
-          : avatar.mime === "image/jpeg"
-            ? "jpeg"
-            : "png",
+      ext: MIME_TO_EXT[avatar.mime] ?? "png",
       data: avatar.data,
     });
   }
@@ -171,14 +175,15 @@ export function exportCharacterCard(
 
   const result = exportCard(card, assets, { format });
 
-  const ext = format === "voxta" ? "voxpkg" : format;
-  const mimeType =
-    format === "png"
-      ? "image/png"
-      : format === "voxta"
-        ? "application/octet-stream"
-        : "application/zip";
-  return { data: result.buffer, mimeType, ext };
+  // Most formats are zip envelopes; png and voxta are the exceptions.
+  const OVERRIDES: Partial<
+    Record<ExportFormat, { ext: string; mimeType: string }>
+  > = {
+    png: { ext: "png", mimeType: "image/png" },
+    voxta: { ext: "voxpkg", mimeType: "application/octet-stream" },
+  };
+  const meta = OVERRIDES[format] ?? { ext: format, mimeType: "application/zip" };
+  return { data: result.buffer, mimeType: meta.mimeType, ext: meta.ext };
 }
 
 const ONE_PIXEL_PNG = new Uint8Array([

@@ -26,11 +26,26 @@ export type ParsedLorebook = {
   }>;
 };
 
-const FOUNDRY_TO_DB_POSITION = {
+type DbPosition = "before_char" | "after_char" | "top" | "bottom" | "at_depth";
+
+// CCv3 numeric positions, SillyTavern convention.
+const NUMERIC_POSITION: DbPosition[] = [
+  "before_char",
+  "after_char",
+  "top",
+  "bottom",
+  "at_depth",
+];
+
+// String positions: foundry's `in_chat` plus pass-through for DB-native names.
+const STRING_POSITION: Record<string, DbPosition> = {
+  in_chat: "at_depth",
   before_char: "before_char",
   after_char: "after_char",
-  in_chat: "at_depth",
-} as const;
+  top: "top",
+  bottom: "bottom",
+  at_depth: "at_depth",
+};
 
 const DB_TO_FOUNDRY_POSITION = {
   before_char: "before_char",
@@ -40,34 +55,12 @@ const DB_TO_FOUNDRY_POSITION = {
   at_depth: "in_chat",
 } as const;
 
-function mapPositionToDb(
-  raw: unknown,
-): "before_char" | "after_char" | "top" | "bottom" | "at_depth" {
-  // CCv3 numeric positions: 0=before_char, 1=after_char, 2=top, 3=bottom,
-  // 4=at_depth (SillyTavern convention).
+function mapPositionToDb(raw: unknown): DbPosition {
   if (typeof raw === "number") {
-    return raw === 0
-      ? "before_char"
-      : raw === 1
-        ? "after_char"
-        : raw === 2
-          ? "top"
-          : raw === 3
-            ? "bottom"
-            : "at_depth";
+    return NUMERIC_POSITION[raw] ?? "before_char";
   }
   if (typeof raw === "string") {
-    const key = raw as keyof typeof FOUNDRY_TO_DB_POSITION;
-    if (key in FOUNDRY_TO_DB_POSITION) return FOUNDRY_TO_DB_POSITION[key];
-    if (
-      raw === "top" ||
-      raw === "bottom" ||
-      raw === "at_depth" ||
-      raw === "before_char" ||
-      raw === "after_char"
-    ) {
-      return raw;
-    }
+    return STRING_POSITION[raw] ?? "before_char";
   }
   return "before_char";
 }
