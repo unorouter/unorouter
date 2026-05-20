@@ -101,6 +101,17 @@ type DrawerProps = {
   onOpenChange?: (open: boolean) => void;
 };
 
+function Section(props: { title: string; children: React.ReactNode }) {
+  return (
+    <section className="flex flex-col gap-3">
+      <h3 className="text-muted-foreground border-b pb-1 text-xs font-semibold tracking-wide uppercase">
+        {props.title}
+      </h3>
+      {props.children}
+    </section>
+  );
+}
+
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
   // Defaults mode edits jotai atom; conversation mode edits the conversation_settings
@@ -375,526 +386,542 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex min-h-0 flex-1 flex-col"
           >
-            <div className="flex flex-col gap-5 px-4">
+            <div className="flex flex-col gap-6 px-4">
               {showConversationFields && (
+                <Section title={t("CHAT.OVERRIDES.SECTION_ROLEPLAY")}>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name="personaId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("CHAT.OVERRIDES.PERSONA")}</FormLabel>
+                          <FormControl>
+                            <Select
+                              value={field.value}
+                              onValueChange={(v) =>
+                                field.onChange(v ?? "__none__")
+                              }
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue>
+                                  {field.value === "__none__"
+                                    ? t("CHAT.OVERRIDES.NONE")
+                                    : (personasQuery.data?.find(
+                                        (p) => p.id === field.value,
+                                      )?.name ?? t("CHAT.OVERRIDES.NONE"))}
+                                </SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="__none__">
+                                  {t("CHAT.OVERRIDES.NONE")}
+                                </SelectItem>
+                                {personasQuery.data?.map((p) => (
+                                  <SelectItem key={p.id} value={p.id}>
+                                    {p.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="presetId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>{t("CHAT.OVERRIDES.PRESET")}</FormLabel>
+                          <FormControl>
+                            <Select
+                              value={field.value}
+                              onValueChange={(v) =>
+                                field.onChange(v ?? "__none__")
+                              }
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue>
+                                  {field.value === "__none__"
+                                    ? t("CHAT.OVERRIDES.NONE")
+                                    : (presetsQuery.data?.find(
+                                        (p) => p.id === field.value,
+                                      )?.name ?? t("CHAT.OVERRIDES.NONE"))}
+                                </SelectValue>
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="__none__">
+                                  {t("CHAT.OVERRIDES.NONE")}
+                                </SelectItem>
+                                {presetsQuery.data?.map((p) => (
+                                  <SelectItem key={p.id} value={p.id}>
+                                    {p.name}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="characterIds"
+                    render={({ field }) => {
+                      const ids = field.value as string[];
+                      const lookup = new Map(
+                        (charactersQuery.data ?? []).map((c) => [c.id, c.name]),
+                      );
+                      const orderedItems = ids
+                        .map((id) => ({ id, name: lookup.get(id) ?? id }))
+                        .filter((it) => lookup.has(it.id));
+                      return (
+                        <FormItem>
+                          <FormLabel>
+                            {t("CHAT.OVERRIDES.CHARACTERS")}
+                          </FormLabel>
+                          <FormControl>
+                            <MultiSelectPopover
+                              options={
+                                charactersQuery.data?.map((c) => ({
+                                  id: c.id,
+                                  label: c.name,
+                                })) ?? []
+                              }
+                              value={field.value}
+                              onChange={field.onChange}
+                              triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
+                              searchPlaceholder={t(
+                                "CHAT.OVERRIDES.SEARCH_CHARACTERS",
+                              )}
+                              emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                            />
+                          </FormControl>
+                          {orderedItems.length > 1 && (
+                            <div className="mt-2">
+                              <p className="text-muted-foreground mb-1 text-xs">
+                                {t("CHAT.OVERRIDES.REORDER_HINT")}
+                              </p>
+                              <SortableList
+                                items={orderedItems}
+                                onReorder={(orderedIds) =>
+                                  field.onChange(orderedIds)
+                                }
+                                renderItem={(item, handle) => (
+                                  <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
+                                    {handle}
+                                    <span className="truncate text-sm">
+                                      {item.name}
+                                    </span>
+                                  </div>
+                                )}
+                              />
+                            </div>
+                          )}
+                        </FormItem>
+                      );
+                    }}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="lorebookIds"
+                    render={({ field }) => {
+                      const ids = field.value as string[];
+                      const lookup = new Map(
+                        (lorebooksQuery.data ?? []).map((l) => [l.id, l.name]),
+                      );
+                      const orderedItems = ids
+                        .map((id) => ({ id, name: lookup.get(id) ?? id }))
+                        .filter((it) => lookup.has(it.id));
+                      return (
+                        <FormItem>
+                          <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
+                          <FormControl>
+                            <MultiSelectPopover
+                              options={
+                                lorebooksQuery.data?.map((l) => ({
+                                  id: l.id,
+                                  label: l.name,
+                                })) ?? []
+                              }
+                              value={field.value}
+                              onChange={field.onChange}
+                              triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
+                              searchPlaceholder={t(
+                                "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
+                              )}
+                              emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                            />
+                          </FormControl>
+                          {orderedItems.length > 1 && (
+                            <div className="mt-2">
+                              <p className="text-muted-foreground mb-1 text-xs">
+                                {t("CHAT.OVERRIDES.REORDER_HINT")}
+                              </p>
+                              <SortableList
+                                items={orderedItems}
+                                onReorder={(orderedIds) =>
+                                  field.onChange(orderedIds)
+                                }
+                                renderItem={(item, handle) => (
+                                  <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
+                                    {handle}
+                                    <span className="truncate text-sm">
+                                      {item.name}
+                                    </span>
+                                  </div>
+                                )}
+                              />
+                            </div>
+                          )}
+                        </FormItem>
+                      );
+                    }}
+                  />
+                </Section>
+              )}
+
+              <Section title={t("CHAT.OVERRIDES.SECTION_GENERATION")}>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <FormField
                     control={form.control}
-                    name="personaId"
+                    name="reasoningEffort"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.PERSONA")}</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={(v) =>
-                              field.onChange(v ?? "__none__")
-                            }
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue>
-                                {field.value === "__none__"
-                                  ? t("CHAT.OVERRIDES.NONE")
-                                  : (personasQuery.data?.find(
-                                      (p) => p.id === field.value,
-                                    )?.name ?? t("CHAT.OVERRIDES.NONE"))}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="__none__">
-                                {t("CHAT.OVERRIDES.NONE")}
-                              </SelectItem>
-                              {personasQuery.data?.map((p) => (
-                                <SelectItem key={p.id} value={p.id}>
-                                  {p.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="presetId"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.PRESET")}</FormLabel>
-                        <FormControl>
-                          <Select
-                            value={field.value}
-                            onValueChange={(v) =>
-                              field.onChange(v ?? "__none__")
-                            }
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue>
-                                {field.value === "__none__"
-                                  ? t("CHAT.OVERRIDES.NONE")
-                                  : (presetsQuery.data?.find(
-                                      (p) => p.id === field.value,
-                                    )?.name ?? t("CHAT.OVERRIDES.NONE"))}
-                              </SelectValue>
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="__none__">
-                                {t("CHAT.OVERRIDES.NONE")}
-                              </SelectItem>
-                              {presetsQuery.data?.map((p) => (
-                                <SelectItem key={p.id} value={p.id}>
-                                  {p.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              )}
-
-              {showConversationFields && (
-                <FormField
-                  control={form.control}
-                  name="characterIds"
-                  render={({ field }) => {
-                    const ids = field.value as string[];
-                    const lookup = new Map(
-                      (charactersQuery.data ?? []).map((c) => [c.id, c.name]),
-                    );
-                    const orderedItems = ids
-                      .map((id) => ({ id, name: lookup.get(id) ?? id }))
-                      .filter((it) => lookup.has(it.id));
-                    return (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.CHARACTERS")}</FormLabel>
-                        <FormControl>
-                          <MultiSelectPopover
-                            options={
-                              charactersQuery.data?.map((c) => ({
-                                id: c.id,
-                                label: c.name,
-                              })) ?? []
-                            }
-                            value={field.value}
-                            onChange={field.onChange}
-                            triggerLabel={t("CHAT.OVERRIDES.CHARACTERS")}
-                            searchPlaceholder={t(
-                              "CHAT.OVERRIDES.SEARCH_CHARACTERS",
-                            )}
-                            emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                          />
-                        </FormControl>
-                        {orderedItems.length > 1 && (
-                          <div className="mt-2">
-                            <p className="text-muted-foreground mb-1 text-xs">
-                              {t("CHAT.OVERRIDES.REORDER_HINT")}
-                            </p>
-                            <SortableList
-                              items={orderedItems}
-                              onReorder={(orderedIds) =>
-                                field.onChange(orderedIds)
-                              }
-                              renderItem={(item, handle) => (
-                                <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
-                                  {handle}
-                                  <span className="truncate text-sm">
-                                    {item.name}
-                                  </span>
-                                </div>
-                              )}
-                            />
-                          </div>
-                        )}
-                      </FormItem>
-                    );
-                  }}
-                />
-              )}
-
-              {showConversationFields && (
-                <FormField
-                  control={form.control}
-                  name="lorebookIds"
-                  render={({ field }) => {
-                    const ids = field.value as string[];
-                    const lookup = new Map(
-                      (lorebooksQuery.data ?? []).map((l) => [l.id, l.name]),
-                    );
-                    const orderedItems = ids
-                      .map((id) => ({ id, name: lookup.get(id) ?? id }))
-                      .filter((it) => lookup.has(it.id));
-                    return (
-                      <FormItem>
-                        <FormLabel>{t("CHAT.OVERRIDES.LOREBOOKS")}</FormLabel>
-                        <FormControl>
-                          <MultiSelectPopover
-                            options={
-                              lorebooksQuery.data?.map((l) => ({
-                                id: l.id,
-                                label: l.name,
-                              })) ?? []
-                            }
-                            value={field.value}
-                            onChange={field.onChange}
-                            triggerLabel={t("CHAT.OVERRIDES.LOREBOOKS")}
-                            searchPlaceholder={t(
-                              "CHAT.OVERRIDES.SEARCH_LOREBOOKS",
-                            )}
-                            emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                          />
-                        </FormControl>
-                        {orderedItems.length > 1 && (
-                          <div className="mt-2">
-                            <p className="text-muted-foreground mb-1 text-xs">
-                              {t("CHAT.OVERRIDES.REORDER_HINT")}
-                            </p>
-                            <SortableList
-                              items={orderedItems}
-                              onReorder={(orderedIds) =>
-                                field.onChange(orderedIds)
-                              }
-                              renderItem={(item, handle) => (
-                                <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
-                                  {handle}
-                                  <span className="truncate text-sm">
-                                    {item.name}
-                                  </span>
-                                </div>
-                              )}
-                            />
-                          </div>
-                        )}
-                      </FormItem>
-                    );
-                  }}
-                />
-              )}
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="reasoningEffort"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        {t("CHAT.OVERRIDES.REASONING_EFFORT")}
-                      </FormLabel>
-                      <FormControl>
-                        <Select
-                          value={field.value}
-                          onValueChange={(v) => field.onChange(v ?? "__none__")}
-                        >
-                          <SelectTrigger className="w-full">
-                            <SelectValue>
-                              {field.value === "__none__"
-                                ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
-                                : field.value === "none"
-                                  ? t("CHAT.OVERRIDES.OFF")
-                                  : t(
-                                      REASONING_EFFORT_KEY[
-                                        field.value as keyof typeof REASONING_EFFORT_KEY
-                                      ],
-                                    )}
-                            </SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="__none__">
-                              {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
-                            </SelectItem>
-                            <SelectItem value="none">
-                              {t("CHAT.OVERRIDES.OFF")}
-                            </SelectItem>
-                            {(
-                              Object.keys(REASONING_EFFORT_KEY) as Array<
-                                keyof typeof REASONING_EFFORT_KEY
-                              >
-                            ).map((k) => (
-                              <SelectItem key={k} value={k}>
-                                {t(REASONING_EFFORT_KEY[k])}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="chatMemory"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center justify-between">
-                        <FormLabel>{t("CHAT.OVERRIDES.CHAT_MEMORY")}</FormLabel>
-                        <span className="text-muted-foreground text-xs tabular-nums">
-                          {field.value}
-                        </span>
-                      </div>
-                      <FormControl>
-                        <Slider
-                          min={1}
-                          max={200}
-                          value={[field.value]}
-                          onValueChange={(v) =>
-                            field.onChange(Array.isArray(v) ? v[0] : v)
-                          }
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="streamingEnabled"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center justify-between">
                         <FormLabel>
-                          {t("CHAT.OVERRIDES.STREAMING_ENABLED")}
+                          {t("CHAT.OVERRIDES.REASONING_EFFORT")}
                         </FormLabel>
                         <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
+                          <Select
+                            value={field.value}
+                            onValueChange={(v) =>
+                              field.onChange(v ?? "__none__")
+                            }
+                          >
+                            <SelectTrigger className="w-full">
+                              <SelectValue>
+                                {field.value === "__none__"
+                                  ? t("CHAT.OVERRIDES.MODEL_DEFAULT")
+                                  : field.value === "none"
+                                    ? t("CHAT.OVERRIDES.OFF")
+                                    : t(
+                                        REASONING_EFFORT_KEY[
+                                          field.value as keyof typeof REASONING_EFFORT_KEY
+                                        ],
+                                      )}
+                              </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="__none__">
+                                {t("CHAT.OVERRIDES.MODEL_DEFAULT")}
+                              </SelectItem>
+                              <SelectItem value="none">
+                                {t("CHAT.OVERRIDES.OFF")}
+                              </SelectItem>
+                              {(
+                                Object.keys(REASONING_EFFORT_KEY) as Array<
+                                  keyof typeof REASONING_EFFORT_KEY
+                                >
+                              ).map((k) => (
+                                <SelectItem key={k} value={k}>
+                                  {t(REASONING_EFFORT_KEY[k])}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </FormControl>
-                      </div>
-                      <span className="text-muted-foreground text-xs">
-                        {t("CHAT.OVERRIDES.STREAMING_ENABLED_HINT")}
-                      </span>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <SamplingFields
-                control={form.control}
-                names={{
-                  temperature: "temperature",
-                  topP: "topP",
-                  topK: "topK",
-                  minP: "minP",
-                  topA: "topA",
-                  frequencyPenalty: "frequencyPenalty",
-                  presencePenalty: "presencePenalty",
-                  repetitionPenalty: "repetitionPenalty",
-                  maxTokens: "maxTokens",
-                }}
-                metadata={activeModelMetadata}
-                onReset={resetSampling}
-              />
-
-              <FormField
-                control={form.control}
-                name="extraBody"
-                render={({ field }) => {
-                  const value = field.value as string;
-                  let invalid = false;
-                  if (value && value.trim().length > 0) {
-                    try {
-                      const parsed = JSON.parse(value);
-                      invalid = !parsed || typeof parsed !== "object";
-                    } catch {
-                      invalid = true;
-                    }
-                  }
-                  return (
-                    <FormItem>
-                      <FormLabel>{t("CHAT.OVERRIDES.EXTRA_BODY")}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder={t(
-                            "CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER",
-                          )}
-                          rows={4}
-                          className={
-                            invalid
-                              ? "border-destructive focus-visible:ring-destructive font-mono text-xs"
-                              : "font-mono text-xs"
-                          }
-                        />
-                      </FormControl>
-                      <p className="text-muted-foreground text-xs">
-                        {invalid
-                          ? t("CHAT.OVERRIDES.EXTRA_BODY_INVALID")
-                          : t("CHAT.OVERRIDES.EXTRA_BODY_HINT")}
-                      </p>
-                    </FormItem>
-                  );
-                }}
-              />
-
-              <FormField
-                control={form.control}
-                name="systemPromptOverride"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("CHAT.OVERRIDES.SYSTEM_PROMPT")}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        placeholder={t(
-                          "CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER",
-                        )}
-                        rows={4}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex flex-col gap-2">
-                <FormField
-                  control={form.control}
-                  name="authorNote"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{t("CHAT.OVERRIDES.AUTHOR_NOTE")}</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          {...field}
-                          placeholder={t(
-                            "CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER",
-                          )}
-                          rows={3}
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="authorNoteDepth"
-                  render={({ field }) => (
-                    <FormItem className="flex-row items-center justify-between">
-                      <Label className="text-muted-foreground text-xs">
-                        {t("CHAT.OVERRIDES.AUTHOR_NOTE_DEPTH")}
-                      </Label>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          min={0}
-                          max={50}
-                          value={field.value}
-                          onChange={(e) =>
-                            field.onChange(Number(e.target.value) || 0)
-                          }
-                          className="w-20"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              {showConversationFields && (
-                <div className="flex flex-col gap-2 rounded-md border p-3">
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
-                    name="webSearchEnabled"
+                    name="chatMemory"
                     render={({ field }) => (
-                      <FormItem className="flex-row items-center justify-between">
-                        <FormLabel>{t("CHAT.OVERRIDES.WEB_SEARCH")}</FormLabel>
+                      <FormItem>
+                        <div className="flex items-center justify-between">
+                          <FormLabel>
+                            {t("CHAT.OVERRIDES.CHAT_MEMORY")}
+                          </FormLabel>
+                          <span className="text-muted-foreground text-xs tabular-nums">
+                            {field.value}
+                          </span>
+                        </div>
                         <FormControl>
-                          <Switch
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
+                          <Slider
+                            min={1}
+                            max={200}
+                            value={[field.value]}
+                            onValueChange={(v) =>
+                              field.onChange(Array.isArray(v) ? v[0] : v)
+                            }
                           />
                         </FormControl>
                       </FormItem>
                     )}
                   />
-                  {webSearchEnabled && (
-                    <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
-                      <FormField
-                        control={form.control}
-                        name="webSearchEngine"
-                        render={({ field }) => (
-                          <FormItem>
-                            <Label className="text-muted-foreground text-xs">
-                              {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
-                            </Label>
-                            <FormControl>
-                              <Select
-                                value={field.value}
-                                onValueChange={(v) =>
-                                  field.onChange(v ?? "auto")
-                                }
-                              >
-                                <SelectTrigger className="w-full">
-                                  <SelectValue>
-                                    {t(
-                                      WEB_SEARCH_ENGINE_KEY[
-                                        field.value as keyof typeof WEB_SEARCH_ENGINE_KEY
-                                      ],
-                                    )}
-                                  </SelectValue>
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {(
-                                    Object.keys(WEB_SEARCH_ENGINE_KEY) as Array<
-                                      keyof typeof WEB_SEARCH_ENGINE_KEY
-                                    >
-                                  ).map((k) => (
-                                    <SelectItem key={k} value={k}>
-                                      {t(WEB_SEARCH_ENGINE_KEY[k])}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="webSearchContextSize"
-                        render={({ field }) => (
-                          <FormItem>
-                            <Label className="text-muted-foreground text-xs">
-                              {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
-                            </Label>
-                            <FormControl>
-                              <Select
-                                value={field.value}
-                                onValueChange={(v) =>
-                                  field.onChange(v ?? "medium")
-                                }
-                              >
-                                <SelectTrigger className="w-full">
-                                  <SelectValue>
-                                    {t(
-                                      WEB_SEARCH_CONTEXT_KEY[
-                                        field.value as keyof typeof WEB_SEARCH_CONTEXT_KEY
-                                      ],
-                                    )}
-                                  </SelectValue>
-                                </SelectTrigger>
-                                <SelectContent>
-                                  {(
-                                    Object.keys(
-                                      WEB_SEARCH_CONTEXT_KEY,
-                                    ) as Array<
-                                      keyof typeof WEB_SEARCH_CONTEXT_KEY
-                                    >
-                                  ).map((k) => (
-                                    <SelectItem key={k} value={k}>
-                                      {t(WEB_SEARCH_CONTEXT_KEY[k])}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  )}
+                  <FormField
+                    control={form.control}
+                    name="streamingEnabled"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex items-center justify-between">
+                          <FormLabel>
+                            {t("CHAT.OVERRIDES.STREAMING_ENABLED")}
+                          </FormLabel>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </div>
+                        <span className="text-muted-foreground text-xs">
+                          {t("CHAT.OVERRIDES.STREAMING_ENABLED_HINT")}
+                        </span>
+                      </FormItem>
+                    )}
+                  />
                 </div>
+              </Section>
+
+              <Section title={t("CHAT.OVERRIDES.SECTION_SAMPLING")}>
+                <SamplingFields
+                  control={form.control}
+                  names={{
+                    temperature: "temperature",
+                    topP: "topP",
+                    topK: "topK",
+                    minP: "minP",
+                    topA: "topA",
+                    frequencyPenalty: "frequencyPenalty",
+                    presencePenalty: "presencePenalty",
+                    repetitionPenalty: "repetitionPenalty",
+                    maxTokens: "maxTokens",
+                  }}
+                  metadata={activeModelMetadata}
+                  onReset={resetSampling}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="extraBody"
+                  render={({ field }) => {
+                    const value = field.value as string;
+                    let invalid = false;
+                    if (value && value.trim().length > 0) {
+                      try {
+                        const parsed = JSON.parse(value);
+                        invalid = !parsed || typeof parsed !== "object";
+                      } catch {
+                        invalid = true;
+                      }
+                    }
+                    return (
+                      <FormItem>
+                        <FormLabel>{t("CHAT.OVERRIDES.EXTRA_BODY")}</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            placeholder={t(
+                              "CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER",
+                            )}
+                            rows={4}
+                            className={
+                              invalid
+                                ? "border-destructive focus-visible:ring-destructive font-mono text-xs"
+                                : "font-mono text-xs"
+                            }
+                          />
+                        </FormControl>
+                        <p className="text-muted-foreground text-xs">
+                          {invalid
+                            ? t("CHAT.OVERRIDES.EXTRA_BODY_INVALID")
+                            : t("CHAT.OVERRIDES.EXTRA_BODY_HINT")}
+                        </p>
+                      </FormItem>
+                    );
+                  }}
+                />
+              </Section>
+
+              <Section title={t("CHAT.OVERRIDES.SECTION_PROMPT")}>
+                <FormField
+                  control={form.control}
+                  name="systemPromptOverride"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("CHAT.OVERRIDES.SYSTEM_PROMPT")}</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          placeholder={t(
+                            "CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER",
+                          )}
+                          rows={4}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <div className="flex flex-col gap-2">
+                  <FormField
+                    control={form.control}
+                    name="authorNote"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>{t("CHAT.OVERRIDES.AUTHOR_NOTE")}</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            placeholder={t(
+                              "CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER",
+                            )}
+                            rows={3}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="authorNoteDepth"
+                    render={({ field }) => (
+                      <FormItem className="flex-row items-center justify-between">
+                        <Label className="text-muted-foreground text-xs">
+                          {t("CHAT.OVERRIDES.AUTHOR_NOTE_DEPTH")}
+                        </Label>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            min={0}
+                            max={50}
+                            value={field.value}
+                            onChange={(e) =>
+                              field.onChange(Number(e.target.value) || 0)
+                            }
+                            className="w-20"
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </Section>
+
+              {showConversationFields && (
+                <Section title={t("CHAT.OVERRIDES.SECTION_TOOLS")}>
+                  <div className="flex flex-col gap-2 rounded-md border p-3">
+                    <FormField
+                      control={form.control}
+                      name="webSearchEnabled"
+                      render={({ field }) => (
+                        <FormItem className="flex-row items-center justify-between">
+                          <FormLabel>
+                            {t("CHAT.OVERRIDES.WEB_SEARCH")}
+                          </FormLabel>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    {webSearchEnabled && (
+                      <div className="grid grid-cols-1 gap-3 pt-2 sm:grid-cols-2">
+                        <FormField
+                          control={form.control}
+                          name="webSearchEngine"
+                          render={({ field }) => (
+                            <FormItem>
+                              <Label className="text-muted-foreground text-xs">
+                                {t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
+                              </Label>
+                              <FormControl>
+                                <Select
+                                  value={field.value}
+                                  onValueChange={(v) =>
+                                    field.onChange(v ?? "auto")
+                                  }
+                                >
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue>
+                                      {t(
+                                        WEB_SEARCH_ENGINE_KEY[
+                                          field.value as keyof typeof WEB_SEARCH_ENGINE_KEY
+                                        ],
+                                      )}
+                                    </SelectValue>
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {(
+                                      Object.keys(
+                                        WEB_SEARCH_ENGINE_KEY,
+                                      ) as Array<
+                                        keyof typeof WEB_SEARCH_ENGINE_KEY
+                                      >
+                                    ).map((k) => (
+                                      <SelectItem key={k} value={k}>
+                                        {t(WEB_SEARCH_ENGINE_KEY[k])}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="webSearchContextSize"
+                          render={({ field }) => (
+                            <FormItem>
+                              <Label className="text-muted-foreground text-xs">
+                                {t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
+                              </Label>
+                              <FormControl>
+                                <Select
+                                  value={field.value}
+                                  onValueChange={(v) =>
+                                    field.onChange(v ?? "medium")
+                                  }
+                                >
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue>
+                                      {t(
+                                        WEB_SEARCH_CONTEXT_KEY[
+                                          field.value as keyof typeof WEB_SEARCH_CONTEXT_KEY
+                                        ],
+                                      )}
+                                    </SelectValue>
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {(
+                                      Object.keys(
+                                        WEB_SEARCH_CONTEXT_KEY,
+                                      ) as Array<
+                                        keyof typeof WEB_SEARCH_CONTEXT_KEY
+                                      >
+                                    ).map((k) => (
+                                      <SelectItem key={k} value={k}>
+                                        {t(WEB_SEARCH_CONTEXT_KEY[k])}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+                </Section>
               )}
             </div>
 

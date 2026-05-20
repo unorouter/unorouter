@@ -2505,7 +2505,12 @@
       "EXTRA_BODY": "Body yêu cầu bổ sung (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Được hợp nhất vào yêu cầu trước khi gửi. Dành cho các trường mà thanh trượt không bao quát. Khi trùng khóa, thanh trượt thắng.",
-      "EXTRA_BODY_INVALID": "JSON không hợp lệ. Hãy bao bằng '{}' và escape các chuỗi."
+      "EXTRA_BODY_INVALID": "JSON không hợp lệ. Hãy bao bằng '{}' và escape các chuỗi.",
+      "SECTION_ROLEPLAY": "Nhập vai",
+      "SECTION_GENERATION": "Tạo sinh",
+      "SECTION_SAMPLING": "Lấy mẫu",
+      "SECTION_PROMPT": "Prompt",
+      "SECTION_TOOLS": "Công cụ"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Không phải tất cả nhà cung cấp của mô hình này đều hỗ trợ. Đặt giá trị sẽ không có tác dụng."

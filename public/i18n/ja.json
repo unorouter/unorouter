@@ -2505,7 +2505,12 @@
       "EXTRA_BODY": "追加リクエストボディ (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "送信前にリクエストへ統合されます。スライダーで対応していないフィールド向けです。キーが衝突した場合はスライダーが優先されます。",
-      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。"
+      "EXTRA_BODY_INVALID": "無効なJSONです。'{}' で囲み、文字列をエスケープしてください。",
+      "SECTION_ROLEPLAY": "ロールプレイ",
+      "SECTION_GENERATION": "生成",
+      "SECTION_SAMPLING": "サンプリング",
+      "SECTION_PROMPT": "プロンプト",
+      "SECTION_TOOLS": "ツール"
     },
     "SAMPLING": {
       "UNSUPPORTED": "このモデルを提供するすべてのプロバイダーで対応していません。設定しても効果はありません。"

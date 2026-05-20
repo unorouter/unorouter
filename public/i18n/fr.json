@@ -2505,7 +2505,12 @@
       "EXTRA_BODY": "Corps de requête supplémentaire (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Fusionné dans la requête avant envoi. Pour les champs non couverts par les curseurs. Les curseurs l'emportent sur les conflits de cles.",
-      "EXTRA_BODY_INVALID": "JSON invalide. Encadrer avec '{}' et echapper les chaines."
+      "EXTRA_BODY_INVALID": "JSON invalide. Encadrer avec '{}' et echapper les chaines.",
+      "SECTION_ROLEPLAY": "Jeu de rôle",
+      "SECTION_GENERATION": "Génération",
+      "SECTION_SAMPLING": "Échantillonnage",
+      "SECTION_PROMPT": "Prompt",
+      "SECTION_TOOLS": "Outils"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Non pris en charge par tous les fournisseurs de ce modele. Le definir n'a aucun effet."

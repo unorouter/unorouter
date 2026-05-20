@@ -2505,7 +2505,12 @@
       "EXTRA_BODY": "Дополнительное тело запроса (JSON)",
       "EXTRA_BODY_PLACEHOLDER": "'{'\n  \"reasoning_effort\": \"high\",\n  \"service_tier\": \"priority\"\n'}'",
       "EXTRA_BODY_HINT": "Объединяется с запросом перед отправкой. Для полей, которые не охвачены ползунками. При конфликте ключей побеждают ползунки.",
-      "EXTRA_BODY_INVALID": "Некорректный JSON. Оберните в '{}' и экранируйте строки."
+      "EXTRA_BODY_INVALID": "Некорректный JSON. Оберните в '{}' и экранируйте строки.",
+      "SECTION_ROLEPLAY": "Ролевая игра",
+      "SECTION_GENERATION": "Генерация",
+      "SECTION_SAMPLING": "Сэмплинг",
+      "SECTION_PROMPT": "Промпт",
+      "SECTION_TOOLS": "Инструменты"
     },
     "SAMPLING": {
       "UNSUPPORTED": "Поддерживается не всеми провайдерами этой модели. Установка значения не даст эффекта."
