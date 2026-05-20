@@ -213,12 +213,6 @@ export const cardApplyBody = t.Object({
 });
 export type CardApplyBody = Static<typeof cardApplyBody>;
 
-export const importConversationBody = t.Object({
-  file: t.File({
-    maxSize: "20m",
-  }),
-});
-
 export const exportFormat = t.Union([
   t.Literal("native"),
   t.Literal("orpg"),
@@ -227,9 +221,13 @@ export const exportFormat = t.Union([
 
 export type ExportFormat = Static<typeof exportFormat>;
 
-export const exportQuery = t.Object({
-  format: t.Optional(exportFormat),
-});
+// JSON-envelope formats only; sillytavern is JSONL via a separate path.
+export const conversationExportFormat = t.Union([
+  t.Literal("native"),
+  t.Literal("orpg"),
+]);
+
+export type ConversationExportFormat = Static<typeof conversationExportFormat>;
 
 export const characterExportFormat = t.Union([
   t.Literal("png"),

@@ -19,14 +19,14 @@ const generationSessionStore = makeTableStore(
   { defaultOrderBy: desc(playgroundSessions.updatedAt) },
 );
 
-export const readLocalGenerationSessions = (userId: number) =>
+export const readLocalGenerationSessions = (userId: number | undefined) =>
   generationSessionStore.list(userId);
 
-const readLocalGenerationSession = (userId: number, id: string) =>
+const readLocalGenerationSession = (userId: number | undefined, id: string) =>
   generationSessionStore.get(userId, id);
 
 export async function readLocalGenerationSessionBundle(
-  userId: number,
+  userId: number | undefined,
   sessionId: string,
 ) {
   const local = await getLocalDb(userId);
@@ -59,7 +59,7 @@ export async function readLocalGenerationSessionBundle(
 }
 
 export async function upsertLocalGenerationSessionBundle(
-  userId: number,
+  userId: number | undefined,
   bundle: {
     session: AnyRow;
     playgrounds: AnyRow[];

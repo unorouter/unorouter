@@ -1,5 +1,7 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   deleteLocalPersona,
@@ -49,7 +51,7 @@ export function useImportPersonaMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());

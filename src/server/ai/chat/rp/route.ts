@@ -4,8 +4,6 @@ import {
   cardBody,
   characterBody,
   characterExportQuery,
-  exportQuery,
-  importConversationBody,
   lorebookBody,
   lorebookEntryBody,
   lorebookExportQuery,
@@ -27,12 +25,6 @@ import {
 } from "./character.service";
 import { getSettings, updateSettings } from "../conversation.service";
 import { getBindings, updateBindings } from "./binding.service";
-import {
-  exportConversationNative,
-  exportConversationOrpg,
-  exportConversationSillyTavern,
-} from "../transfer/export.service";
-import { importConversation } from "../transfer/import.service";
 import {
   createEntry,
   createLorebook,
@@ -355,38 +347,4 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
       };
     },
     { body: updateConversationBindingsBody },
-  )
-
-  // Export is guest-tolerant: services gate by (userId, convId).
-  .get(
-    "/conversations/:id/export",
-    async ({ params, query, cookie, set }) => {
-      const userId = await getUserId(cookie, true) ?? 0;
-      if (query.format === "sillytavern") {
-        const result = await exportConversationSillyTavern(userId, params.id);
-        set.headers["content-type"] = "application/jsonl";
-        set.headers["content-disposition"] =
-          `attachment; filename="${result.filename}"`;
-        return new Response(result.data, {
-          headers: { "content-type": "application/jsonl" },
-        });
-      }
-      const data =
-        query.format === "orpg"
-          ? await exportConversationOrpg(userId, params.id)
-          : await exportConversationNative(userId, params.id);
-      return { success: true, data };
-    },
-    { query: exportQuery },
-  )
-  .post(
-    "/conversations/import",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await importConversation(userId, body.file),
-      };
-    },
-    { body: importConversationBody },
   );

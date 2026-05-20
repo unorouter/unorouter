@@ -1,6 +1,6 @@
 "use client";
 
-import { IS_DEV } from "@/lib/config/constants";
+import { GUEST_USER_ID, IS_DEV } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import * as client from "@/lib/db/schema/client";
 import * as shared from "@/lib/db/schema/shared";
@@ -17,7 +17,9 @@ import { copyAllTables } from "./data-migrate/copy";
 
 let cached = new Map<number, Promise<LocalClient>>();
 
-export async function getLocalDb(userId: number): Promise<LocalClient | null> {
+export async function getLocalDb(
+  userId: number | undefined = GUEST_USER_ID,
+): Promise<LocalClient | null> {
   if (typeof window === "undefined") return null;
   if (typeof indexedDB === "undefined") return null;
   const existing = cached.get(userId);

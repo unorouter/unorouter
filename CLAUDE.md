@@ -130,10 +130,7 @@ RP (`src/server/ai/chat/rp/`): roleplay entity services.
 - `binding.service.ts`: links characters/personas/presets/lorebooks to a conversation
 - Import/serialization helpers live in `src/lib/rp/`: `character-card.ts` (SillyTavern card v2/v3), `persona-import.ts`, `lorebook-import.ts`.
 
-Transfer (`src/server/ai/chat/transfer/`):
-
-- `export.service.ts`, `import.service.ts`: conversation import/export (read/write the server Turso mirror; a guest conversation that was never synced has no server row, so export 404s)
-- `sillytavern-chat.ts`: SillyTavern chat format adapter
+Conversation export/import is local-first, not a server route. The logic lives in `src/lib/db/client/data/transfer.ts` (`exportLocalConversation`, `exportLocalConversationSillyTavern`, `importLocalConversation`) and reads/writes the client SQLocal DB directly via `readLocalConversationBundle` / `upsertLocalConversationBundle`. Formats: `unorouter.1.0` native, `orpg.3.0`, SillyTavern JSONL. Works for guests since it never touches Turso.
 
 The server `ai/chat` services are the only place with server (Turso) DB writes. The browser-side local-first chat state lives in the client SQLocal DB (`src/lib/db/client/`).
 

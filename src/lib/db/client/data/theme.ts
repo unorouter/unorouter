@@ -5,7 +5,7 @@ import { userThemes } from "@/lib/db/schema/shared";
 import { getLocalDb } from "../client";
 
 export async function upsertLocalTheme(
-  userId: number,
+  userId: number | undefined,
   themeJson: UserTheme,
   syncExpiresAt?: Date | null,
 ) {

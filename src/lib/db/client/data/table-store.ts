@@ -8,6 +8,7 @@ import type {
   StoreRow,
   StoreRowOpts,
 } from "@/lib/types";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import type { InferSelectModel, SQL } from "drizzle-orm";
 import type { SQLiteColumn } from "drizzle-orm/sqlite-core";
 import { and, eq } from "drizzle-orm";
@@ -31,13 +32,14 @@ export function makeTableStore<TTable extends ScopedTable>(
   };
 
   return {
-    async list(userId: number, opts?: StoreListOpts): Promise<Row[] | null> {
-      const local = await getLocalDb(userId);
+    async list(userId?: number, opts?: StoreListOpts): Promise<Row[] | null> {
+      const uid = userId ?? GUEST_USER_ID;
+      const local = await getLocalDb(uid);
       if (!local) return null;
       const scope = opts?.scopeUser ?? true;
       let query = local.db.select().from(table).$dynamic();
       if (scope && table.userId) {
-        query = query.where(eq(table.userId, userId));
+        query = query.where(eq(table.userId, uid));
       }
       const orderBy = opts?.orderBy ?? config.defaultOrderBy;
       if (orderBy) {
@@ -47,28 +49,30 @@ export function makeTableStore<TTable extends ScopedTable>(
     },
 
     async get(
-      userId: number,
+      userId: number | undefined,
       id: StorePkValue,
       opts?: StoreRowOpts,
     ): Promise<Row | null> {
-      const local = await getLocalDb(userId);
+      const uid = userId ?? GUEST_USER_ID;
+      const local = await getLocalDb(uid);
       if (!local) return null;
       const scope = opts?.scopeUser ?? true;
       const base = eq(pk, id);
-      const where = scope ? scopeWhere(userId, base) : base;
+      const where = scope ? scopeWhere(uid, base) : base;
       const rows = await local.db.select().from(table).where(where).limit(1);
       return (rows[0] as Row | undefined) ?? null;
     },
 
     async upsert(
-      userId: number,
+      userId: number | undefined,
       row: StoreRow,
       opts?: StoreRowOpts,
     ): Promise<void> {
-      const local = await getLocalDb(userId);
+      const uid = userId ?? GUEST_USER_ID;
+      const local = await getLocalDb(uid);
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
-      const values = scope && table.userId ? { ...row, userId } : row;
+      const values = scope && table.userId ? { ...row, userId: uid } : row;
       // Loose row type: server bundles arrive as opaque Record<string, unknown>.
       // Drizzle's per-table insert/set types reject the generic shape; cast at
       // the boundary, accept the trade.
@@ -79,15 +83,16 @@ export function makeTableStore<TTable extends ScopedTable>(
     },
 
     async drop(
-      userId: number,
+      userId: number | undefined,
       id: StorePkValue,
       opts?: StoreRowOpts,
     ): Promise<void> {
-      const local = await getLocalDb(userId);
+      const uid = userId ?? GUEST_USER_ID;
+      const local = await getLocalDb(uid);
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
       const base = eq(pk, id);
-      const where = scope ? scopeWhere(userId, base) : base;
+      const where = scope ? scopeWhere(uid, base) : base;
       await local.db.delete(table).where(where);
     },
   };

@@ -10,9 +10,11 @@ import {
   useExportConversation,
   useImportConversationMutation,
 } from "@/hooks/ai/rp/conversations";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { rpc } from "@/lib/rpc";
+import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import type { ExportFormat } from "@/lib/validation/rp";
 import { useAui } from "@assistant-ui/react";
@@ -27,6 +29,7 @@ type Props = {
 export function ImportExportSubmenu(props: Props) {
   const t = useTranslations();
   const aui = useAui();
+  const auth = useAuthQuery();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const exportMut = useExportConversation();
   const importMut = useImportConversationMutation();
@@ -37,30 +40,30 @@ export function ImportExportSubmenu(props: Props) {
     if (!props.convId) return;
 
     if (format === "sillytavern") {
-      // SillyTavern returns a JSONL download (not a JSON envelope), so we
-      // pull the raw Response from Eden Treaty and trigger a save.
-      const { response, error } = await rpc.api.ai.rp
-        .conversations({ id: props.convId })
-        .export.get({ query: { format: "sillytavern" } });
-      if (error || !response.ok) {
+      // SillyTavern is a JSONL download (not a JSON envelope), built from the
+      // local DB; download the raw string as a blob.
+      try {
+        const userId = auth.data?.id ?? GUEST_USER_ID;
+        const result = await exportLocalConversationSillyTavern(
+          userId,
+          props.convId,
+        );
+        const blob = new Blob([result.data], { type: "application/jsonl" });
+        downloadBlob(blob, result.filename);
+        analytics.chat.conversationExported({ format });
+      } catch {
         analytics.chat.conversationExportFailed({ format });
         toast.error(t("CHAT.MORE.EXPORT_FAILED"));
-        return;
       }
-      const blob = await response.blob();
-      const fname =
-        response.headers
-          .get("content-disposition")
-          ?.match(/filename="([^"]+)"/)?.[1] ?? `${env.appName.toLowerCase()}-chat-${props.convId}.jsonl`;
-      downloadBlob(blob, fname);
-      analytics.chat.conversationExported({ format });
       return;
     }
     const data = await exportMut.mutateAsync({ convId: props.convId, format });
     const date = new Date().toISOString().slice(0, 10);
-    const suffix = format === "orpg" ? "orpg" : "native";
 
-    downloadJson(data, `${env.appName.toLowerCase()}-chat-${suffix}-${date}.json`);
+    downloadJson(
+      data,
+      `${env.appName.toLowerCase()}-chat-${format}-${date}.json`,
+    );
     analytics.chat.conversationExported({ format });
   };
 

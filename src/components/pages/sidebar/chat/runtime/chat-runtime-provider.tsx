@@ -115,8 +115,8 @@ function ChatRuntimeHook() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- subscribe once on mount, refs hold latest values
   }, []);
 
-  const userIdRef = useRef(auth.data?.id ?? GUEST_USER_ID);
-  userIdRef.current = auth.data?.id ?? GUEST_USER_ID;
+  const userIdRef = useRef(auth.data?.id);
+  userIdRef.current = auth.data?.id;
 
   const transportRef = useRef(
     new DefaultChatTransport({
@@ -186,7 +186,7 @@ function ChatRuntimeHook() {
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
         convId: chatStore.get(convIdAtom),
-        userId: auth.data?.id ?? GUEST_USER_ID,
+        userId: auth.data?.id,
       })),
       history: historyAdapterRef.current,
     },

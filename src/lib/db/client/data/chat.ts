@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   conversationCharacters,
   conversationLorebooks,
@@ -35,8 +36,9 @@ const messageItemStore = makeTableStore(messageItems, messageItems.id);
 
 // --- Reads --------------------------------------------------------------
 
-export const readLocalConversations = async (userId: number) => {
-  const local = await getLocalDb(userId);
+export const readLocalConversations = async (userId: number | undefined) => {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
   if (!local) return [];
   const rows = await local.db
     .select()
@@ -45,7 +47,7 @@ export const readLocalConversations = async (userId: number) => {
       conversationSettings,
       eq(conversationSettings.convId, conversations.id),
     )
-    .where(eq(conversations.userId, userId))
+    .where(eq(conversations.userId, uid))
     .orderBy(desc(conversations.updatedAt));
   return rows.map((r) => ({
     ...r.conversations,
@@ -53,7 +55,7 @@ export const readLocalConversations = async (userId: number) => {
   }));
 };
 
-export const readLocalConversation = async (userId: number, id: string) => {
+export const readLocalConversation = async (userId: number | undefined, id: string) => {
   const [conv, settings] = await Promise.all([
     conversationStore.get(userId, id),
     conversationSettingsStore.get(userId, id, { scopeUser: false }),
@@ -63,11 +65,11 @@ export const readLocalConversation = async (userId: number, id: string) => {
 };
 
 export const readLocalConversationSettings = (
-  userId: number,
+  userId: number | undefined,
   convId: string,
 ) => conversationSettingsStore.get(userId, convId, { scopeUser: false });
 
-export async function readLocalMessages(userId: number, convId: string) {
+export async function readLocalMessages(userId: number | undefined, convId: string) {
   const local = await getLocalDb(userId);
   if (!local) return null;
   return local.db
@@ -78,7 +80,7 @@ export async function readLocalMessages(userId: number, convId: string) {
 }
 
 export async function readLocalConversationBindings(
-  userId: number,
+  userId: number | undefined,
   convId: string,
 ) {
   const local = await getLocalDb(userId);
@@ -96,7 +98,7 @@ export async function readLocalConversationBindings(
   return { conversationCharacters: chars, conversationLorebooks: lbs };
 }
 
-export async function readLocalMessageItems(userId: number, convId: string) {
+export async function readLocalMessageItems(userId: number | undefined, convId: string) {
   const local = await getLocalDb(userId);
   if (!local) return null;
   const msgs = await local.db
@@ -112,17 +114,21 @@ export async function readLocalMessageItems(userId: number, convId: string) {
     .orderBy(asc(messageItems.sequenceIndex));
 }
 
-async function readLocalConversationMedia(userId: number, convId: string) {
-  const local = await getLocalDb(userId);
+async function readLocalConversationMedia(
+  userId: number | undefined,
+  convId: string,
+) {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
   if (!local) return null;
   return local.db
     .select()
     .from(media)
-    .where(and(eq(media.userId, userId), eq(media.convId, convId)));
+    .where(and(eq(media.userId, uid), eq(media.convId, convId)));
 }
 
 export async function readLocalConversationBundle(
-  userId: number,
+  userId: number | undefined,
   convId: string,
 ) {
   const local = await getLocalDb(userId);
@@ -178,31 +184,31 @@ export async function readLocalConversationBundle(
 // --- Writes -------------------------------------------------------------
 
 export const upsertLocalConversation = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string },
 ) => conversationStore.upsert(userId, row);
-export const deleteLocalConversation = (userId: number, id: string) =>
+export const deleteLocalConversation = (userId: number | undefined, id: string) =>
   conversationStore.drop(userId, id);
 
 export const upsertLocalMessage = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string; convId: string },
 ) => messageStore.upsert(userId, row, { scopeUser: false });
-export const deleteLocalMessage = (userId: number, msgId: string) =>
+export const deleteLocalMessage = (userId: number | undefined, msgId: string) =>
   messageStore.drop(userId, msgId, { scopeUser: false });
 
 export const upsertLocalMessageItem = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string; messageId: string },
 ) => messageItemStore.upsert(userId, row, { scopeUser: false });
 
 export const upsertLocalConversationSettings = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { convId: string },
 ) => conversationSettingsStore.upsert(userId, row, { scopeUser: false });
 
 export async function deleteLocalMessagesForConv(
-  userId: number,
+  userId: number | undefined,
   convId: string,
 ) {
   const local = await getLocalDb(userId);
@@ -211,7 +217,7 @@ export async function deleteLocalMessagesForConv(
 }
 
 export async function replaceLocalMessageItems(
-  userId: number,
+  userId: number | undefined,
   messageId: string,
   items: Array<LocalRowInput & { id: string }>,
 ) {
@@ -226,7 +232,7 @@ export async function replaceLocalMessageItems(
 }
 
 export async function replaceLocalConversationBindings(
-  userId: number,
+  userId: number | undefined,
   convId: string,
   bindings: {
     conversationCharacters?: Array<{
@@ -274,7 +280,7 @@ export async function replaceLocalConversationBindings(
 // drizzle sqlite-proxy queries that lack the transactionKey. Cascade order is
 // enough since bundle writes are idempotent upserts.
 export async function upsertLocalConversationBundle(
-  userId: number,
+  userId: number | undefined,
   bundle: {
     conversation: AnyRow;
     settings: ChildRow | null;

@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   cardCharacters,
   cardLorebooks,
@@ -38,32 +39,36 @@ const lorebookEntryStore = makeTableStore(lorebookEntries, lorebookEntries.id);
 
 // --- Reads --------------------------------------------------------------
 
-export const readLocalCharacters = (userId: number) =>
+export const readLocalCharacters = (userId: number | undefined) =>
   characterStore.list(userId);
-export const readLocalCharacter = (userId: number, id: string) =>
+export const readLocalCharacter = (userId: number | undefined, id: string) =>
   characterStore.get(userId, id);
 
-export const readLocalPersonas = (userId: number) => personaStore.list(userId);
-export const readLocalPersona = (userId: number, id: string) =>
+export const readLocalPersonas = (userId: number | undefined) => personaStore.list(userId);
+export const readLocalPersona = (userId: number | undefined, id: string) =>
   personaStore.get(userId, id);
 
-export const readLocalLorebooks = (userId: number) =>
+export const readLocalLorebooks = (userId: number | undefined) =>
   lorebookStore.list(userId);
 
-export const readLocalPresets = (userId: number) => presetStore.list(userId);
-export const readLocalPreset = (userId: number, id: string) =>
+export const readLocalPresets = (userId: number | undefined) => presetStore.list(userId);
+export const readLocalPreset = (userId: number | undefined, id: string) =>
   presetStore.get(userId, id);
 
-export const readLocalCards = (userId: number) => cardStore.list(userId);
+export const readLocalCards = (userId: number | undefined) => cardStore.list(userId);
 
-export async function readLocalLorebook(userId: number, id: string) {
-  const local = await getLocalDb(userId);
+export async function readLocalLorebook(
+  userId: number | undefined,
+  id: string,
+) {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
   if (!local) return null;
   const [lbRows, entries] = await Promise.all([
     local.db
       .select()
       .from(lorebooks)
-      .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
+      .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, uid)))
       .limit(1),
     local.db
       .select()
@@ -77,21 +82,22 @@ export async function readLocalLorebook(userId: number, id: string) {
 // Reads a lorebook in the bundle shape ({ lorebook, entries }) used by sync
 // payloads and the stream chat context. Returns null when the lorebook is
 // missing so callers can filter it out.
-export async function readLocalLorebookBundle(userId: number, id: string) {
+export async function readLocalLorebookBundle(userId: number | undefined, id: string) {
   const lb = await readLocalLorebook(userId, id);
   if (!lb) return null;
   const { entries, ...lorebook } = lb;
   return { lorebook, entries };
 }
 
-export async function readLocalCard(userId: number, id: string) {
-  const local = await getLocalDb(userId);
+export async function readLocalCard(userId: number | undefined, id: string) {
+  const uid = userId ?? GUEST_USER_ID;
+  const local = await getLocalDb(uid);
   if (!local) return null;
   const [rows, chars, lbs] = await Promise.all([
     local.db
       .select()
       .from(cards)
-      .where(and(eq(cards.id, id), eq(cards.userId, userId)))
+      .where(and(eq(cards.id, id), eq(cards.userId, uid)))
       .limit(1),
     local.db.select().from(cardCharacters).where(eq(cardCharacters.cardId, id)),
     local.db.select().from(cardLorebooks).where(eq(cardLorebooks.cardId, id)),
@@ -103,47 +109,47 @@ export async function readLocalCard(userId: number, id: string) {
 // --- Writes -------------------------------------------------------------
 
 export const upsertLocalCharacter = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string },
 ) => characterStore.upsert(userId, row);
-export const deleteLocalCharacter = (userId: number, id: string) =>
+export const deleteLocalCharacter = (userId: number | undefined, id: string) =>
   characterStore.drop(userId, id);
 
 export const upsertLocalPersona = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string },
 ) => personaStore.upsert(userId, row);
-export const deleteLocalPersona = (userId: number, id: string) =>
+export const deleteLocalPersona = (userId: number | undefined, id: string) =>
   personaStore.drop(userId, id);
 
 export const upsertLocalLorebook = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string },
 ) => lorebookStore.upsert(userId, row);
-export const deleteLocalLorebook = (userId: number, id: string) =>
+export const deleteLocalLorebook = (userId: number | undefined, id: string) =>
   lorebookStore.drop(userId, id);
 
 export const upsertLocalPreset = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string },
 ) => presetStore.upsert(userId, row);
-export const deleteLocalPreset = (userId: number, id: string) =>
+export const deleteLocalPreset = (userId: number | undefined, id: string) =>
   presetStore.drop(userId, id);
 
-export const deleteLocalCard = (userId: number, id: string) =>
+export const deleteLocalCard = (userId: number | undefined, id: string) =>
   cardStore.drop(userId, id);
 
 export const upsertLocalLorebookEntry = (
-  userId: number,
+  userId: number | undefined,
   row: LocalRowInput & { id: string; lorebookId: string },
 ) => lorebookEntryStore.upsert(userId, row, { scopeUser: false });
-export const deleteLocalLorebookEntry = (userId: number, entryId: string) =>
+export const deleteLocalLorebookEntry = (userId: number | undefined, entryId: string) =>
   lorebookEntryStore.drop(userId, entryId, { scopeUser: false });
 
 // --- Bundles ------------------------------------------------------------
 
 export async function upsertLocalLorebookBundle(
-  userId: number,
+  userId: number | undefined,
   bundle: { lorebook: AnyRow; entries: AnyRow[] },
 ) {
   const local = await getLocalDb(userId);
@@ -158,7 +164,7 @@ export async function upsertLocalLorebookBundle(
 }
 
 export async function upsertLocalCardBundle(
-  userId: number,
+  userId: number | undefined,
   bundle: {
     card: AnyRow;
     cardCharacters: Array<{

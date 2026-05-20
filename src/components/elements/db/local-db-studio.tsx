@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { Button } from "@/components/ui/button";
 import { confirm } from "@/components/ui/confirm";
@@ -30,7 +31,7 @@ const StudioInner = dynamic(() => import("./local-db-studio-inner"), {
 export function LocalDbStudio(props: Props) {
   const t = useTranslations();
   const auth = useAuthQuery();
-  const userId = auth.data?.id ?? 0;
+  const userId = auth.data?.id ?? GUEST_USER_ID;
   const uploadInputRef = useRef<HTMLInputElement | null>(null);
 
   const wipe = async () => {

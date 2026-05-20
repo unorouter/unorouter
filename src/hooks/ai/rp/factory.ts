@@ -1,5 +1,7 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   itemPatch,
@@ -49,7 +51,7 @@ export function makeRpEntity<
       return useQuery({
         queryKey: opts.listKey() as readonly unknown[] as string[],
         queryFn: async () => {
-          const userId = auth.data?.id ?? 0;
+          const userId = auth.data?.id ?? GUEST_USER_ID;
           return ((await opts.readList(userId)) ?? []) as TItem[];
         },
       });
@@ -61,7 +63,7 @@ export function makeRpEntity<
       const auth = useAuthQuery();
       return useMutation({
         mutationFn: async (args: { body: TCreateBody }) => {
-          const userId = auth.data?.id ?? 0;
+          const userId = auth.data?.id ?? GUEST_USER_ID;
           const now = dayjs().toDate();
           const row = {
             ...(args.body as object),
@@ -89,7 +91,7 @@ export function makeRpEntity<
       const auth = useAuthQuery();
       return useMutation({
         mutationFn: async (args: { id: string; body: TUpdateBody }) => {
-          const userId = auth.data?.id ?? 0;
+          const userId = auth.data?.id ?? GUEST_USER_ID;
           const existing = await opts.readItem(userId, args.id);
           if (!existing) throw new Error("not-found");
           const now = dayjs().toDate();
@@ -122,7 +124,7 @@ export function makeRpEntity<
       const auth = useAuthQuery();
       return useMutation({
         mutationFn: async (id: string) => {
-          const userId = auth.data?.id ?? 0;
+          const userId = auth.data?.id ?? GUEST_USER_ID;
           const existing = await opts.readItem(userId, id);
           const wasSynced = existing?.syncExpiresAt != null;
           await opts.deleteLocal(userId, id);

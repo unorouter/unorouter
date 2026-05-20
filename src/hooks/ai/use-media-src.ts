@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { readLocalMedia, upsertLocalMedia } from "@/lib/db/client/data/media";
 import { queryKeys } from "@/lib/react-query/keys";
@@ -12,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 // Returns null while loading or if no media exists.
 export function useMediaSrc(mediaId: string | null | undefined): string | null {
   const auth = useAuthQuery();
-  const userId = auth.data?.id ?? 0;
+  const userId = auth.data?.id ?? GUEST_USER_ID;
   const query = useQuery({
     queryKey: mediaId ? queryKeys.media(mediaId) : ["media", "none"],
     enabled: !!mediaId,

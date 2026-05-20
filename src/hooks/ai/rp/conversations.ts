@@ -1,5 +1,7 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   readLocalConversation,
@@ -9,11 +11,15 @@ import {
   upsertLocalConversation,
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
+import {
+  exportLocalConversation,
+  importLocalConversation,
+} from "@/lib/db/client/data/transfer";
 import { itemPatch } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
-import { handleElysia } from "@/lib/utils/base";
+import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
@@ -35,7 +41,7 @@ export function useChatSettingsQuery(convId?: string) {
   return useQuery({
     queryKey: queryKeys.chatSettings(convId!),
     queryFn: async () => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationSettings(userId, convId);
       if (!local) throw new Error("not-found");
@@ -57,7 +63,7 @@ export function useUpdateChatSettingsMutation() {
         "put"
       >["body"];
     }) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalConversationSettings(userId, args.convId);
       const now = dayjs().toDate();
       const updated = {
@@ -93,7 +99,7 @@ export function useChatBindingsQuery(convId?: string) {
   return useQuery({
     queryKey: queryKeys.chatBindings(convId!),
     queryFn: async () => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationBindings(userId, convId);
       // Surface server shape ({ characters, lorebooks }), not the local
@@ -119,7 +125,7 @@ export function useUpdateChatBindingsMutation() {
         "put"
       >["body"];
     }) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const body = args.body as {
         characters?: Array<{
           characterId: string;
@@ -160,9 +166,12 @@ export function useUpdateChatBindingsMutation() {
 export function useImportConversationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (file: File) =>
-      handleElysia(await rpc.api.ai.rp.conversations.import.post({ file })),
+    mutationFn: async (file: File) => {
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      return importLocalConversation(userId, file);
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.conversations() });
     },
@@ -172,13 +181,15 @@ export function useImportConversationMutation() {
 
 export function useExportConversation() {
   const t = useTranslations();
+  const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: { convId: string; format: "native" | "orpg" }) =>
-      handleElysia(
-        await rpc.api.ai.rp
-          .conversations({ id: args.convId })
-          .export.get({ query: { format: args.format } }),
-      ),
+    mutationFn: async (args: {
+      convId: string;
+      format: ConversationExportFormat;
+    }) => {
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      return exportLocalConversation(userId, args.convId, args.format);
+    },
   });
 }

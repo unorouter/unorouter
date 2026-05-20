@@ -1,5 +1,7 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   deleteLocalLorebook,
@@ -76,7 +78,7 @@ export function useLorebookQuery(id?: string) {
   return useQuery({
     queryKey: queryKeys.lorebook(id!),
     queryFn: async () => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!id) throw new Error("not-found");
       const local = await readLocalLorebook(userId, id);
       if (!local) throw new Error("not-found");
@@ -97,7 +99,7 @@ export function useUpdateLorebookMutation() {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.ai.rp.lorebooks>, "put">["body"];
     }) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalLorebook(userId, args.id);
       if (!existing) throw new Error("not-found");
       const now = dayjs().toDate();
@@ -129,7 +131,7 @@ export function useImportLorebookMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       let raw: unknown;
       try {
         raw = JSON.parse(await file.text());
@@ -210,7 +212,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
         "post"
       >["body"],
     ) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       const row = {
         ...body,
@@ -245,7 +247,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
         "put"
       >["body"];
     }) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
       const lb = await readLocalLorebook(userId, lorebookId);
       const existing = lb?.entries.find((e) => e.id === args.entryId);
@@ -279,7 +281,7 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (entryId: string) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       await deleteLocalLorebookEntry(userId, entryId);
       await mirrorLorebookIfSynced(userId, lorebookId);
       return { id: entryId };

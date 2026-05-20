@@ -1,5 +1,7 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
+
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   deleteLocalCard,
@@ -42,7 +44,7 @@ export function useCardsQuery() {
   return useQuery({
     queryKey: queryKeys.cards(),
     queryFn: async () => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       return ((await readLocalCards(userId)) ?? []) as Card[];
     },
   });
@@ -53,7 +55,7 @@ export function useCardQuery(id: string | undefined) {
   return useQuery({
     queryKey: queryKeys.card(id ?? ""),
     queryFn: async () => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       if (!id) throw new Error("not-found");
       const local = await readLocalCard(userId, id);
       if (!local) throw new Error("not-found");
@@ -72,7 +74,7 @@ export function useCreateCardMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: EdenArgs<typeof rpc.api.ai.rp.cards, "post">) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const body = args.body;
       const now = dayjs().toDate();
       const card = {
@@ -118,7 +120,7 @@ export function useUpdateCardMutation() {
       id: string;
       body: EdenArgs<ReturnType<typeof rpc.api.ai.rp.cards>, "put">["body"];
     }) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, args.id);
       if (!existing) throw new Error("not-found");
       const body = args.body;
@@ -180,7 +182,7 @@ export function useDeleteCardMutation() {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (id: string) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, id);
       const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalCard(userId, id);
@@ -207,7 +209,7 @@ export function useApplyCardMutation() {
       id: string;
       body: { convId: string; mode: "replace" | "merge" };
     }) => {
-      const userId = auth.data?.id ?? 0;
+      const userId = auth.data?.id ?? GUEST_USER_ID;
       const card = await readLocalCard(userId, args.id);
       if (!card) throw new Error("card-not-found");
 

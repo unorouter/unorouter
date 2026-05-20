@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import {
@@ -117,7 +118,7 @@ export function ThemeCustomizerBody() {
 
   const setTheme = (next: UserTheme) => {
     setThemeRaw(next);
-    const userId = auth.data?.id ?? 0;
+    const userId = auth.data?.id ?? GUEST_USER_ID;
     const syncExpiresAt = themeSyncState.syncExpiresAt;
     void upsertLocalTheme(
       userId,
