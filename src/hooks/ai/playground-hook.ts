@@ -11,10 +11,6 @@ import { useTranslations } from "next-intl";
 // 2s polling cadence matches the chat task hook. Stops on terminal.
 const POLL_INTERVAL_MS = 2000;
 
-function isTerminalStatus(s: string | undefined): boolean {
-  return s === "success" || s === "failure";
-}
-
 export function useSessionHistoryQuery(
   query?: EdenQuery<typeof rpc.api.ai.playground.me>,
 ) {
@@ -60,7 +56,9 @@ export function useSnapshotStatusQuery(
     refetchInterval: (query) => {
       const status = (query.state.data as { status?: string } | undefined)
         ?.status;
-      return isTerminalStatus(status) ? false : POLL_INTERVAL_MS;
+      return status === "success" || status === "failure"
+        ? false
+        : POLL_INTERVAL_MS;
     },
     refetchIntervalInBackground: true,
   });
