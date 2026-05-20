@@ -1,7 +1,7 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import { uid } from "@/lib/utils/base";
-import { setConvId } from "@/store/chat-store";
+import { chatStore, convIdAtom } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 
 export function extractFirstUserText(
@@ -52,7 +52,7 @@ export function createLocalAttachmentAdapter(
       // cascade parent.
       if (!ctx.convId) {
         ctx.convId = uid();
-        setConvId(ctx.convId);
+        chatStore.set(convIdAtom, ctx.convId);
       }
 
       const file = attachment.file!;

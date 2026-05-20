@@ -31,10 +31,11 @@ import { partsToItems } from "@/lib/playground/chat/messages";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
+    chatHelpersAtom,
     chatModelAtom,
+    chatStore,
     chatWebSearchAtom,
-    getChatHelpers,
-    getConvId,
+    convIdAtom,
 } from "@/store/chat-store";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
@@ -434,10 +435,10 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
   const editMut = useEditMessageMutation();
 
   const handleSave = async () => {
-    const convId = getConvId();
+    const convId = chatStore.get(convIdAtom);
     if (!convId) return;
 
-    const helpers = getChatHelpers();
+    const helpers = chatStore.get(chatHelpersAtom);
     // Only swap text parts; preserve reasoning/tool/source parts.
     const liveMsg = (
       helpers as unknown as {
@@ -592,10 +593,10 @@ const DeleteMessageButton: FC = () => {
     clearTimer();
     setArmed(false);
 
-    const convId = getConvId();
+    const convId = chatStore.get(convIdAtom);
     if (!convId) return;
 
-    const helpers = getChatHelpers();
+    const helpers = chatStore.get(chatHelpersAtom);
     type Msg = { id: string; [k: string]: unknown };
     helpers?.setMessages((msgs) => {
       const list = msgs as Msg[];
@@ -740,7 +741,7 @@ const BranchPicker: FC<BranchPickerPrimitive.Root.Props> = (props) => {
     lastIdRef.current = messageId;
     // Skip single-branch flips: fresh send/regenerate would POST a not-yet-persisted temp id (404).
     if (branchCount < 2) return;
-    const convId = getConvId();
+    const convId = chatStore.get(convIdAtom);
     if (!convId) return;
     setActiveBranchMut.mutate({ convId, msgId: messageId });
     // eslint-disable-next-line react-hooks/exhaustive-deps

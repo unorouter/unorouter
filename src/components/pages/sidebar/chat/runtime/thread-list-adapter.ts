@@ -20,10 +20,10 @@ import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import dayjs from "dayjs";
 import {
-  getChatDefaults,
-  getChatModel,
-  getConvId,
-  setConvId,
+  chatDefaultsAtom,
+  chatModelAtom,
+  chatStore,
+  convIdAtom,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -76,7 +76,7 @@ export function createThreadListAdapter(
     },
 
     async initialize(_id) {
-      let model = getChatModel();
+      let model = chatStore.get(chatModelAtom);
       if (!model) {
         const pricing = queryClient.getQueryData<{
           firstFreeModel?: { name: string } | null;
@@ -84,10 +84,10 @@ export function createThreadListAdapter(
         model = pricing?.firstFreeModel?.name ?? null;
       }
       if (!model) throw new Error(t("ERRORS.NO_TEXT_MODELS"));
-      let id = getConvId();
+      let id = chatStore.get(convIdAtom);
       if (!id) {
         id = uid();
-        setConvId(id);
+        chatStore.set(convIdAtom, id);
       }
 
       const now = dayjs().toDate();
@@ -116,7 +116,7 @@ export function createThreadListAdapter(
       // Seed conversation_settings from current jotai defaults so the first
       // turn already runs with the user's preferred sampling/effort/web
       // search knobs. Drawer mutates the row directly afterward.
-      const defaults = getChatDefaults();
+      const defaults = chatStore.get(chatDefaultsAtom);
       await upsertLocalConversationSettings(userId, {
         convId: id,
         defaultModel: model,
@@ -244,7 +244,7 @@ export function createThreadListAdapter(
           return;
         }
 
-        const model = getChatModel() ?? undefined;
+        const model = chatStore.get(chatModelAtom) ?? undefined;
         const res = await rpc.api.ai.chat.title.post({ text, model });
         const data = handleElysia(res);
         controller.appendText(data.title);

@@ -21,7 +21,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { ChatMessageMetadata } from "@/lib/types";
 import { handleElysia, uid } from "@/lib/utils/base";
-import { getChatModel } from "@/store/chat-store";
+import { chatModelAtom, chatStore } from "@/store/chat-store";
 import type {
   MessageFormatAdapter,
   MessageFormatItem,
@@ -155,7 +155,7 @@ export function createChatHistoryAdapter(
             typeof content.model === "string"
               ? content.model
               : content.role === "assistant"
-                ? getChatModel()
+                ? chatStore.get(chatModelAtom)
                 : null;
 
           const now = dayjs().toDate();

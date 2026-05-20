@@ -26,14 +26,12 @@ import type { ChatUIMessage } from "@/lib/types";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
+  chatDefaultsAtom,
+  chatHelpersAtom,
   chatModelAtom,
   chatStore,
-  getChatDefaults,
-  getChatModel,
-  getChatWebSearch,
-  getConvId,
-  setChatHelpers,
-  setConvId,
+  chatWebSearchAtom,
+  convIdAtom,
   type ChatHelpersRef,
 } from "@/store/chat-store";
 import { useChat } from "@ai-sdk/react";
@@ -64,14 +62,14 @@ function ChatRuntimeHook() {
   const nextConvId = remoteId ?? null;
   if (prevRemoteIdRef.current !== nextConvId) {
     prevRemoteIdRef.current = nextConvId;
-    setConvId(nextConvId);
+    chatStore.set(convIdAtom, nextConvId);
   }
 
   const authForHistory = useAuthQuery();
   const historyAdapterRef = useRef(
     createChatHistoryAdapter(
       queryClient,
-      () => getConvId(),
+      () => chatStore.get(convIdAtom),
       () => authForHistory.data?.id ?? GUEST_USER_ID,
     ),
   );
@@ -102,8 +100,8 @@ function ChatRuntimeHook() {
 
   useEffect(() => {
     return chatStore.sub(chatModelAtom, () => {
-      const id = getConvId();
-      const newModel = getChatModel();
+      const id = chatStore.get(convIdAtom);
+      const newModel = chatStore.get(chatModelAtom);
       if (!id || !newModel) return;
       const cached = modelSyncRef.current.queryClient.getQueryData<{
         model?: string;
@@ -124,13 +122,13 @@ function ChatRuntimeHook() {
     new DefaultChatTransport({
       api: "/api/ai/chat/stream",
       body: async () => {
-        const convId = getConvId();
+        const convId = chatStore.get(convIdAtom);
         return {
-          model: getChatModel(),
+          model: chatStore.get(chatModelAtom),
           convId,
-          webSearch: getChatWebSearch(),
+          webSearch: chatStore.get(chatWebSearchAtom),
           // Fallback for guest convs without a settings row.
-          overrides: getChatDefaults(),
+          overrides: chatStore.get(chatDefaultsAtom),
           // SQLocal-backed: always a complete context so the server prompt
           // assembler never silently drops RP data (guest path has no DB rows).
           chatContext: convId
@@ -167,7 +165,7 @@ function ChatRuntimeHook() {
   }, [threadId, remoteId]);
 
   // Plain ref: edit-in-place reads setMessages/regenerate at click time.
-  setChatHelpers({
+  chatStore.set(chatHelpersAtom, {
     setMessages: chat.setMessages as ChatHelpersRef["setMessages"],
     messages: chat.messages as ChatHelpersRef["messages"],
   });
@@ -178,7 +176,7 @@ function ChatRuntimeHook() {
       const hasText = args[0] != null;
       if (hasText && !remoteId) {
         // Pre-generate convId so the transport body and adapter.initialize use the same id
-        setConvId(uid());
+        chatStore.set(convIdAtom, uid());
       }
       return chat.sendMessage(...args);
     },
@@ -187,7 +185,7 @@ function ChatRuntimeHook() {
   return useAISDKRuntime(wrappedChat, {
     adapters: {
       attachments: createLocalAttachmentAdapter(() => ({
-        convId: getConvId(),
+        convId: chatStore.get(convIdAtom),
         userId: auth.data?.id ?? GUEST_USER_ID,
       })),
       history: historyAdapterRef.current,

@@ -12,7 +12,7 @@ import {
 } from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { getChatHelpers } from "@/store/chat-store";
+import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import dayjs from "dayjs";
 import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
@@ -366,7 +366,7 @@ export function useClearConversationMutation() {
             pageParams: [1],
           },
       );
-      getChatHelpers()?.setMessages(() => []);
+      chatStore.get(chatHelpersAtom)?.setMessages(() => []);
     },
   });
 }
