@@ -32,8 +32,7 @@ import type { Static } from "elysia";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { MultiSelectPopover } from "./multi-select-popover";
-import { SortableList } from "@/components/elements/dnd/sortable-list";
+import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { NONE_VALUE as NONE } from "@/lib/config/constants";
 
 const cardFormSchema = tt.Object({
@@ -103,13 +102,6 @@ export function CardForm(props: Props) {
     props.onDone();
   };
 
-  const charLookup = new Map(
-    (charactersQuery.data ?? []).map((c) => [c.id, c.name]),
-  );
-  const lbLookup = new Map(
-    (lorebooksQuery.data ?? []).map((l) => [l.id, l.name]),
-  );
-
   return (
     <Form {...form}>
       <form
@@ -169,100 +161,24 @@ export function CardForm(props: Props) {
           )}
         />
 
-        <FormField
+        <MyFormCombobox
           control={form.control}
           name="characterIds"
-          render={({ field }) => {
-            const ids = field.value as string[];
-            const orderedItems = ids
-              .map((id) => ({ id, name: charLookup.get(id) ?? id }))
-              .filter((it) => charLookup.has(it.id));
-            return (
-              <FormItem>
-                <FormLabel>{t("RP.CARD_CHARACTERS")}</FormLabel>
-                <FormControl>
-                  <MultiSelectPopover
-                    options={
-                      charactersQuery.data?.map((c) => ({
-                        id: c.id,
-                        label: c.name,
-                      })) ?? []
-                    }
-                    value={field.value}
-                    onChange={field.onChange}
-                    triggerLabel={t("RP.CARD_CHARACTERS")}
-                    searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_CHARACTERS")}
-                    emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
-                  />
-                </FormControl>
-                {orderedItems.length > 1 && (
-                  <div className="mt-2">
-                    <p className="text-muted-foreground mb-1 text-xs">
-                      {t("CHAT.OVERRIDES.REORDER_HINT")}
-                    </p>
-                    <SortableList
-                      items={orderedItems}
-                      onReorder={(orderedIds) => field.onChange(orderedIds)}
-                      renderItem={(item, handle) => (
-                        <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
-                          {handle}
-                          <span className="truncate text-sm">{item.name}</span>
-                        </div>
-                      )}
-                    />
-                  </div>
-                )}
-              </FormItem>
-            );
-          }}
+          label={t("RP.CARD_CHARACTERS")}
+          searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_CHARACTERS")}
+          emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+          reorderHint={t("CHAT.OVERRIDES.REORDER_HINT")}
+          options={charactersQuery.data}
         />
 
-        <FormField
+        <MyFormCombobox
           control={form.control}
           name="lorebookIds"
-          render={({ field }) => {
-            const ids = field.value as string[];
-            const orderedItems = ids
-              .map((id) => ({ id, name: lbLookup.get(id) ?? id }))
-              .filter((it) => lbLookup.has(it.id));
-            return (
-              <FormItem>
-                <FormLabel>{t("RP.CARD_LOREBOOKS")}</FormLabel>
-                <FormControl>
-                  <MultiSelectPopover
-                    options={
-                      lorebooksQuery.data?.map((l) => ({
-                        id: l.id,
-                        label: l.name,
-                      })) ?? []
-                    }
-                    value={field.value}
-                    onChange={field.onChange}
-                    triggerLabel={t("RP.CARD_LOREBOOKS")}
-                    searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_LOREBOOKS")}
-                    emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
-                  />
-                </FormControl>
-                {orderedItems.length > 1 && (
-                  <div className="mt-2">
-                    <p className="text-muted-foreground mb-1 text-xs">
-                      {t("CHAT.OVERRIDES.REORDER_HINT")}
-                    </p>
-                    <SortableList
-                      items={orderedItems}
-                      onReorder={(orderedIds) => field.onChange(orderedIds)}
-                      renderItem={(item, handle) => (
-                        <div className="border-border/40 bg-card flex items-center gap-2 rounded-md border px-2 py-1.5">
-                          {handle}
-                          <span className="truncate text-sm">{item.name}</span>
-                        </div>
-                      )}
-                    />
-                  </div>
-                )}
-              </FormItem>
-            );
-          }}
+          label={t("RP.CARD_LOREBOOKS")}
+          searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_LOREBOOKS")}
+          emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+          reorderHint={t("CHAT.OVERRIDES.REORDER_HINT")}
+          options={lorebooksQuery.data}
         />
 
         <div className="flex justify-end gap-2">

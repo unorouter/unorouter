@@ -1,8 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
+import * as React from "react";
 
+import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
 
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
@@ -80,11 +81,34 @@ function PopoverDescription({
   );
 }
 
+function InfoPopover(props: { text: string }) {
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <button
+            type="button"
+            className="text-muted-foreground hover:text-foreground"
+            aria-label={props.text}
+          >
+            <Icon name="info" className="size-3.5" />
+          </button>
+        }
+      />
+      <PopoverContent className="text-muted-foreground max-w-xs text-xs">
+        {props.text}
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export {
+  InfoPopover,
   Popover,
   PopoverContent,
   PopoverDescription,
   PopoverHeader,
   PopoverTitle,
-  PopoverTrigger,
+  PopoverTrigger
 };
+

@@ -12,11 +12,7 @@ import {
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { InfoPopover } from "@/components/ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -60,20 +56,17 @@ import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-
 import { SamplingFields } from "../rp/sampling-fields";
-import {
-  BindingMultiSelect,
-  EntitySelect,
-  KeyedSelect,
-} from "./conversation-overrides-fields";
+import { MyFormEntitySelect } from "@/components/elements/form/my-form-entity-select";
+import { MyFormKeyedSelect } from "@/components/elements/form/my-form-keyed-select";
+import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import {
   buildBindingsBody,
   buildDefaultsForm,
   buildDefaultsOverrides,
   buildSettingsBody,
   buildSettingsForm,
-  resetSampling as resetSamplingHelper,
+  resetSampling,
   writeSamplerMemory,
 } from "./conversation-overrides-form-handler";
 
@@ -104,27 +97,6 @@ type DrawerProps = {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
 };
-
-function InfoPopover(props: { text: string }) {
-  return (
-    <Popover>
-      <PopoverTrigger
-        render={
-          <button
-            type="button"
-            className="text-muted-foreground hover:text-foreground"
-            aria-label={props.text}
-          >
-            <Icon name="info" className="size-3.5" />
-          </button>
-        }
-      />
-      <PopoverContent className="text-muted-foreground max-w-xs text-xs">
-        {props.text}
-      </PopoverContent>
-    </Popover>
-  );
-}
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
@@ -282,45 +254,49 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
             <div className="flex flex-col gap-5 px-4">
               {showConversationFields && (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <EntitySelect
+                  <MyFormEntitySelect
                     control={form.control}
                     name="personaId"
                     label={t("CHAT.OVERRIDES.PERSONA")}
+                    noneLabel={t("CHAT.OVERRIDES.NONE")}
                     options={personasQuery.data}
                   />
-                  <EntitySelect
+                  <MyFormEntitySelect
                     control={form.control}
                     name="presetId"
                     label={t("CHAT.OVERRIDES.PRESET")}
+                    noneLabel={t("CHAT.OVERRIDES.NONE")}
                     options={presetsQuery.data}
                   />
                 </div>
               )}
 
               {showConversationFields && (
-                <BindingMultiSelect
+                <MyFormCombobox
                   control={form.control}
                   name="characterIds"
                   label={t("CHAT.OVERRIDES.CHARACTERS")}
                   searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_CHARACTERS")}
                   emptyText={t("CHAT.OVERRIDES.NO_CHARACTERS")}
+                  reorderHint={t("CHAT.OVERRIDES.REORDER_HINT")}
                   options={charactersQuery.data}
                 />
               )}
 
               {showConversationFields && (
-                <BindingMultiSelect
+                <MyFormCombobox
                   control={form.control}
                   name="lorebookIds"
                   label={t("CHAT.OVERRIDES.LOREBOOKS")}
                   searchPlaceholder={t("CHAT.OVERRIDES.SEARCH_LOREBOOKS")}
                   emptyText={t("CHAT.OVERRIDES.NO_LOREBOOKS")}
+                  reorderHint={t("CHAT.OVERRIDES.REORDER_HINT")}
                   options={lorebooksQuery.data}
                 />
               )}
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <KeyedSelect
+                <MyFormKeyedSelect
                   control={form.control}
                   name="reasoningEffort"
                   label={t("CHAT.OVERRIDES.REASONING_EFFORT")}
@@ -406,7 +382,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
 
               {showConversationFields && webSearchEnabled && (
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                  <KeyedSelect
+                  <MyFormKeyedSelect
                     control={form.control}
                     name="webSearchEngine"
                     label={t("CHAT.OVERRIDES.WEB_SEARCH_ENGINE")}
@@ -414,7 +390,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     optionKeys={WEB_SEARCH_ENGINE_KEY}
                     labelClassName="text-muted-foreground text-xs"
                   />
-                  <KeyedSelect
+                  <MyFormKeyedSelect
                     control={form.control}
                     name="webSearchContextSize"
                     label={t("CHAT.OVERRIDES.WEB_SEARCH_CONTEXT_SIZE")}
@@ -443,7 +419,7 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                   maxTokens: "maxTokens",
                 }}
                 metadata={activeModelMetadata}
-                onReset={() => resetSamplingHelper(form)}
+                onReset={() => resetSampling(form)}
               />
 
               <FormField
@@ -466,7 +442,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder={t("CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER")}
+                          placeholder={t(
+                            "CHAT.OVERRIDES.EXTRA_BODY_PLACEHOLDER",
+                          )}
                           rows={4}
                           className={
                             invalid
@@ -494,7 +472,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                     <FormControl>
                       <Textarea
                         {...field}
-                        placeholder={t("CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER")}
+                        placeholder={t(
+                          "CHAT.OVERRIDES.SYSTEM_PROMPT_PLACEHOLDER",
+                        )}
                         rows={4}
                       />
                     </FormControl>
@@ -512,7 +492,9 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
                       <FormControl>
                         <Textarea
                           {...field}
-                          placeholder={t("CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER")}
+                          placeholder={t(
+                            "CHAT.OVERRIDES.AUTHOR_NOTE_PLACEHOLDER",
+                          )}
                           rows={3}
                         />
                       </FormControl>
