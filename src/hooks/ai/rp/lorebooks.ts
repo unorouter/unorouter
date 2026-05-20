@@ -12,7 +12,6 @@ import {
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
 } from "@/lib/db/client/data/rp";
-import { parseLorebookJson } from "@/lib/playground/rp/lorebook-import";
 import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -24,6 +23,7 @@ import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import { mirrorSyncedRow, type EntityListResponse } from "./shared";
+import { parseLorebookJson } from "@/lib/ai/rp/lorebook-import";
 
 type LorebooksList = EntityListResponse<typeof rpc.api.ai.rp.lorebooks.get>;
 export type Lorebook =

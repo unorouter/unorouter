@@ -3,13 +3,13 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { parsePersonaJson } from "@/lib/ai/rp/persona-import";
 import {
   deleteLocalPersona,
   readLocalPersona,
   readLocalPersonas,
   upsertLocalPersona,
 } from "@/lib/db/client/data/rp";
-import { parsePersonaJson } from "@/lib/playground/rp/persona-import";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { uid } from "@/lib/utils/base";
