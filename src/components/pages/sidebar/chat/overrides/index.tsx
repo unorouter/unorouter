@@ -41,11 +41,6 @@ import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { SamplingFields } from "../rp/sampling-fields";
 import {
-  OverridesBindingFields,
-  OverridesGenerationFields,
-  OverridesPromptFields,
-} from "./override-fields";
-import {
   buildBindingsBody,
   buildDefaultsOverrides,
   buildSettingsBody,
@@ -53,6 +48,11 @@ import {
   resetSampling,
   writeSamplerMemory,
 } from "./form-handler";
+import {
+  OverridesBindingFields,
+  OverridesGenerationFields,
+  OverridesPromptFields,
+} from "./override-fields";
 
 type DrawerProps = {
   convId: string | null;
