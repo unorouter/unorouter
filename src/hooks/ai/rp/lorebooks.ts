@@ -12,33 +12,18 @@ import {
   upsertLocalLorebookBundle,
   upsertLocalLorebookEntry,
 } from "@/lib/db/client/data/rp";
-import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
+import type { LorebookRow } from "@/lib/db/schema/rows";
+import type { EdenArgs } from "@/lib/types/eden";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
-import { mirrorSyncedRow, type EntityListResponse } from "./shared";
+import { mirrorSyncedRow } from "./shared";
 import { parseLorebookJson } from "@/lib/ai/rp/lorebook-import";
-
-type LorebooksList = EntityListResponse<typeof rpc.api.ai.rp.lorebooks.get>;
-export type Lorebook =
-  LorebooksList extends ReadonlyArray<infer Item> ? Item : never;
-
-export type LorebookDetail = EdenResponse<
-  ReturnType<typeof rpc.api.ai.rp.lorebooks>,
-  "get"
->;
-
-export type LorebookEntry = LorebookDetail extends { entries: infer E }
-  ? E extends ReadonlyArray<infer Item>
-    ? Item
-    : never
-  : never;
 
 // Re-mirror a synced lorebook as a bundle (with entries) after any entry
 // mutation. Lorebooks are nested resources on the sync layer.
@@ -54,19 +39,17 @@ async function mirrorLorebookIfSynced(userId: number, lorebookId: string) {
 // The lorebook update flow needs a custom mirror payload (bundle with
 // entries), so we replace the factory's `useUpdate` to keep the contract.
 const lorebooks = makeRpEntity<
-  Lorebook,
+  LorebookRow,
   Record<string, unknown>,
   Record<string, unknown>
 >({
   syncKind: "lorebooks",
   listKey: queryKeys.lorebooks,
   itemKey: queryKeys.lorebook,
-  readList: (userId) =>
-    readLocalLorebooks(userId) as Promise<Lorebook[] | null>,
-  readItem: (userId, id) =>
-    readLocalLorebook(userId, id) as Promise<Lorebook | null>,
-  upsertLocal: (userId, row) => upsertLocalLorebook(userId, row as never),
-  deleteLocal: (userId, id) => deleteLocalLorebook(userId, id),
+  readList: readLocalLorebooks,
+  readItem: readLocalLorebook,
+  upsertLocal: upsertLocalLorebook,
+  deleteLocal: deleteLocalLorebook,
 });
 
 export const useLorebooksQuery = lorebooks.useList;
@@ -82,7 +65,7 @@ export function useLorebookQuery(id?: string) {
       if (!id) throw new Error("not-found");
       const local = await readLocalLorebook(userId, id);
       if (!local) throw new Error("not-found");
-      return local as unknown as LorebookDetail;
+      return local;
     },
     enabled: !!id,
   });
@@ -113,13 +96,9 @@ export function useUpdateLorebookMutation() {
       }
       return updated;
     },
-    onSuccess: (data, args) => {
-      qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        old?.map((it) => (it.id === args.id ? { ...it, ...data } : it)),
-      );
-      qc.setQueryData<LorebookDetail>(queryKeys.lorebook(args.id), (old) =>
-        old ? { ...old, ...(data as Partial<LorebookDetail>) } : old,
-      );
+    onSuccess: (_data, args) => {
+      qc.invalidateQueries({ queryKey: queryKeys.lorebooks() });
+      qc.invalidateQueries({ queryKey: queryKeys.lorebook(args.id) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -176,30 +155,16 @@ export function useImportLorebookMutation() {
         lorebook: lorebook as never,
         entries: entries as never,
       });
-      return { ...lorebook, entries } as unknown as Lorebook & {
-        entries: LorebookEntry[];
-      };
+      return { ...lorebook, entries };
     },
-    onSuccess: (lb) => {
-      qc.setQueryData<Lorebook[]>(queryKeys.lorebooks(), (old) =>
-        listAdd(old, lb as Lorebook),
-      );
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.lorebooks() });
     },
     onError: (e) => handleError(e, t),
   });
 }
 
 // --- Entries -------------------------------------------------------------
-
-function patchEntries(
-  qc: ReturnType<typeof useQueryClient>,
-  lorebookId: string,
-  fn: (entries: LorebookEntry[]) => LorebookEntry[],
-) {
-  qc.setQueryData<LorebookDetail>(queryKeys.lorebook(lorebookId), (old) =>
-    old ? { ...old, entries: fn(old.entries) } : old,
-  );
-}
 
 export function useCreateLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();
@@ -225,11 +190,8 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
       await mirrorLorebookIfSynced(userId, lorebookId);
       return row;
     },
-    onSuccess: (data) => {
-      patchEntries(qc, lorebookId, (entries) => [
-        ...entries,
-        data as unknown as LorebookEntry,
-      ]);
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -262,14 +224,8 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
       await mirrorLorebookIfSynced(userId, lorebookId);
       return updated;
     },
-    onSuccess: (data, args) => {
-      patchEntries(qc, lorebookId, (entries) =>
-        entries.map((e) =>
-          e.id === args.entryId
-            ? { ...e, ...(data as Partial<LorebookEntry>) }
-            : e,
-        ),
-      );
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -286,10 +242,8 @@ export function useDeleteLorebookEntryMutation(lorebookId: string) {
       await mirrorLorebookIfSynced(userId, lorebookId);
       return { id: entryId };
     },
-    onSuccess: (_data, entryId) => {
-      patchEntries(qc, lorebookId, (entries) =>
-        entries.filter((e) => e.id !== entryId),
-      );
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.lorebook(lorebookId) });
     },
     onError: (e) => handleError(e, t),
   });

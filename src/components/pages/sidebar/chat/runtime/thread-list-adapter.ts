@@ -18,7 +18,6 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
-import dayjs from "dayjs";
 import {
   chatDefaultsAtom,
   chatModelAtom,
@@ -27,8 +26,9 @@ import {
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
-import type { useTranslations } from "next-intl";
 import { createAssistantStream } from "assistant-stream";
+import dayjs from "dayjs";
+import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 
 // Pure local-first thread adapter. Conversations live in SQLocal first; the
@@ -50,7 +50,7 @@ export function createThreadListAdapter(
 
       if (items.length === 0) {
         const local = (await readLocalConversations(userId)) ?? [];
-        items = local as unknown as ConvItem[];
+        items = local;
         if (items.length > 0) {
           queryClient.setQueryData<ConvsInfinite>(queryKeys.conversations(), {
             pages: [
@@ -69,7 +69,7 @@ export function createThreadListAdapter(
       return {
         threads: items.map((item) => ({
           remoteId: item.id,
-          status: "regular" as const,
+          status: "regular",
           title: item.title ?? undefined,
         })),
       };
@@ -214,7 +214,7 @@ export function createThreadListAdapter(
       if (cached) {
         return {
           remoteId: cached.id,
-          status: "regular" as const,
+          status: "regular",
           title: cached.title ?? undefined,
         };
       }
@@ -223,7 +223,7 @@ export function createThreadListAdapter(
       if (local) {
         return {
           remoteId: local.id,
-          status: "regular" as const,
+          status: "regular",
           title: local.title ?? undefined,
         };
       }
@@ -231,7 +231,7 @@ export function createThreadListAdapter(
       handleError(new Error("chat-not-found"), t, "chat-not-found");
       return {
         remoteId: id,
-        status: "regular" as const,
+        status: "regular",
         title: undefined,
       };
     },

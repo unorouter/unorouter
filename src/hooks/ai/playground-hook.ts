@@ -33,7 +33,7 @@ export function useSessionQuery(sessionId: string | null | undefined) {
   });
 }
 
-export function useSnapshotQuery(id: string | null ) {
+export function useSnapshotQuery(id: string | null) {
   return useQuery({
     queryKey: queryKeys.playgroundSnapshot(id ?? ""),
     queryFn: async () =>
@@ -50,7 +50,9 @@ export function useSnapshotStatusQuery(
   return useQuery({
     queryKey: queryKeys.playgroundSnapshotStatus(id ?? ""),
     queryFn: async () =>
-      handleElysia(await rpc.api.ai.playground.snapshot({ id: id! }).status.get()),
+      handleElysia(
+        await rpc.api.ai.playground.snapshot({ id: id! }).status.get(),
+      ),
     enabled: enabled && !!id,
     retry: false,
     refetchInterval: (query) => {
@@ -67,6 +69,7 @@ export function useSnapshotStatusQuery(
 export function useSubmitGenerationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+
   return useMutation({
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.ai.playground.submit, "post">,
@@ -98,7 +101,9 @@ export function useDeleteSnapshotMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (args: { id: string }) =>
-      handleElysia(await rpc.api.ai.playground.snapshot({ id: args.id }).delete()),
+      handleElysia(
+        await rpc.api.ai.playground.snapshot({ id: args.id }).delete(),
+      ),
     onError: (e) => handleError(e, t),
     onSuccess: (data, args) => {
       qc.removeQueries({
@@ -168,7 +173,6 @@ export function useUpscalerCatalogQuery(
   });
 }
 
-
 export function useExportSessionMutation() {
   const t = useTranslations();
   return useMutation({
@@ -195,4 +199,3 @@ export function useImportGenerationMutation() {
     },
   });
 }
-

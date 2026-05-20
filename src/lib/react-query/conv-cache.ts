@@ -1,12 +1,15 @@
-import type { rpc } from "@/lib/rpc";
-import type { EdenResponse } from "@/lib/types/eden";
+import type { ConversationWithModel } from "@/lib/db/schema/rows";
 import type { InfiniteData } from "@tanstack/react-query";
 
-export type ConvsData = Extract<
-  EdenResponse<{ get: typeof rpc.api.ai.chat.conversations.get }, "get">,
-  { page: number }
->;
-export type ConvItem = ConvsData["items"][number];
+// A conversation list item is the local DB row (with the model column
+// flattened in) - this app is local-first, the SQLocal row is canonical.
+export type ConvItem = ConversationWithModel;
+export type ConvsData = {
+  items: ConvItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+};
 export type ConvsInfinite = InfiniteData<ConvsData>;
 
 export function prependConv(

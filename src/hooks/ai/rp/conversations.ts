@@ -1,8 +1,12 @@
 "use client";
 
-import { GUEST_USER_ID } from "@/lib/config/constants";
-
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import {
+  GUEST_USER_ID,
+  msg,
+  NATIVE_VERSION,
+  ORPG_VERSION,
+} from "@/lib/config/constants";
 import {
   readLocalConversation,
   readLocalConversationBindings,
@@ -12,29 +16,28 @@ import {
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import {
-  exportLocalConversation,
-  importLocalConversation,
-} from "@/lib/db/client/data/transfer";
-import { itemPatch } from "@/lib/react-query/cache-helpers";
+  buildNativeExport,
+  persistMappedImport,
+  toOrpg,
+} from "@/lib/db/client/data/transfer/native";
+import {
+  mapNativeImport,
+  mapOrpgImport,
+} from "@/lib/db/client/data/transfer/map";
+import {
+  importSillyTavernChat,
+  looksLikeSillyTavernChat,
+} from "@/lib/db/client/data/transfer/sillytavern";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
+import type { EdenArgs } from "@/lib/types/eden";
+import type { NativeImport, OrpgImport } from "@/lib/types/transfer";
 import { handleError } from "@/lib/utils/client";
 import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { mirrorConvIfSynced } from "./shared";
-
-export type ChatSettings = EdenResponse<
-  ReturnType<typeof rpc.api.ai.rp.conversations>["settings"],
-  "get"
->;
-
-export type ChatBindings = EdenResponse<
-  ReturnType<typeof rpc.api.ai.rp.conversations>["bindings"],
-  "get"
->;
 
 export function useChatSettingsQuery(convId?: string) {
   const auth = useAuthQuery();
@@ -45,7 +48,7 @@ export function useChatSettingsQuery(convId?: string) {
       if (!convId) throw new Error("not-found");
       const local = await readLocalConversationSettings(userId, convId);
       if (!local) throw new Error("not-found");
-      return local as unknown as ChatSettings;
+      return local;
     },
     enabled: !!convId,
   });
@@ -81,14 +84,8 @@ export function useUpdateChatSettingsMutation() {
       await mirrorConvIfSynced(userId, args.convId);
       return updated;
     },
-    onSuccess: (data, args) => {
-      qc.setQueryData<ChatSettings>(
-        queryKeys.chatSettings(args.convId),
-        (old) =>
-          old
-            ? itemPatch(old, data as Partial<ChatSettings>)
-            : (data as unknown as ChatSettings),
-      );
+    onSuccess: (_data, args) => {
+      qc.invalidateQueries({ queryKey: queryKeys.chatSettings(args.convId) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -107,7 +104,7 @@ export function useChatBindingsQuery(convId?: string) {
       return {
         characters: local?.conversationCharacters ?? [],
         lorebooks: local?.conversationLorebooks ?? [],
-      } as unknown as ChatBindings;
+      };
     },
     enabled: !!convId,
   });
@@ -125,39 +122,25 @@ export function useUpdateChatBindingsMutation() {
         "put"
       >["body"];
     }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      const body = args.body as {
-        characters?: Array<{
-          characterId: string;
-          orderIndex?: number;
-          isActive?: boolean;
-          overrides?: unknown;
-        }>;
-        lorebookIds?: string[];
-      };
-      await replaceLocalConversationBindings(userId, args.convId, {
-        conversationCharacters: body.characters ?? [],
-        conversationLorebooks: (body.lorebookIds ?? []).map((lid) => ({
+      await replaceLocalConversationBindings(auth.data?.id, args.convId, {
+        conversationCharacters: args.body.characters ?? [],
+        conversationLorebooks: (args.body.lorebookIds ?? []).map((lid) => ({
           lorebookId: lid,
         })),
       });
       const now = dayjs().toDate();
-      const conv = await readLocalConversation(userId, args.convId);
+      const conv = await readLocalConversation(auth.data?.id, args.convId);
       if (conv) {
-        await upsertLocalConversation(userId, { ...conv, updatedAt: now });
+        await upsertLocalConversation(auth.data?.id, {
+          ...conv,
+          updatedAt: now,
+        });
       }
-      await mirrorConvIfSynced(userId, args.convId);
-      const fresh = await readLocalConversationBindings(userId, args.convId);
-      return {
-        characters: fresh?.conversationCharacters ?? [],
-        lorebooks: fresh?.conversationLorebooks ?? [],
-      };
+      await mirrorConvIfSynced(auth.data?.id, args.convId);
+      return { id: args.convId };
     },
-    onSuccess: (data, args) => {
-      qc.setQueryData<ChatBindings>(
-        queryKeys.chatBindings(args.convId),
-        () => data as unknown as ChatBindings,
-      );
+    onSuccess: (_data, args) => {
+      qc.invalidateQueries({ queryKey: queryKeys.chatBindings(args.convId) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -167,14 +150,42 @@ export function useImportConversationMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
   const auth = useAuthQuery();
+
   return useMutation({
     mutationFn: async (file: File) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      return importLocalConversation(userId, file);
+      const text = await file.text();
+
+      // ST JSONL is line-delimited; detect before JSON.parse.
+      if (looksLikeSillyTavernChat(text)) {
+        return importSillyTavernChat(auth.data?.id, text);
+      }
+
+      let parsed: Record<string, unknown>;
+      try {
+        parsed = JSON.parse(text);
+      } catch {
+        throw new Error(msg("ERRORS.IMPORT_INVALID_JSON"));
+      }
+
+      // Untrusted JSON: one boundary cast, the envelope types make every
+      // field optional so downstream access stays sound.
+      if (parsed.version === NATIVE_VERSION) {
+        return persistMappedImport(
+          auth.data?.id,
+          mapNativeImport(parsed as NativeImport),
+        );
+      }
+      // orpg.3.0 (openrouter): lossy on lorebooks/personas.
+      if (parsed.version === ORPG_VERSION) {
+        return persistMappedImport(
+          auth.data?.id,
+          mapOrpgImport(parsed as OrpgImport),
+        );
+      }
+      throw new Error(msg("ERRORS.IMPORT_UNSUPPORTED_VERSION"));
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: queryKeys.conversations() });
-    },
+    onSuccess: () =>
+      qc.invalidateQueries({ queryKey: queryKeys.conversations() }),
     onError: (e) => handleError(e, t),
   });
 }
@@ -188,8 +199,8 @@ export function useExportConversation() {
       convId: string;
       format: ConversationExportFormat;
     }) => {
-      const userId = auth.data?.id ?? GUEST_USER_ID;
-      return exportLocalConversation(userId, args.convId, args.format);
+      const native = await buildNativeExport(auth.data?.id, args.convId);
+      return args.format === "orpg" ? toOrpg(native) : native;
     },
   });
 }

@@ -4,23 +4,17 @@ import { GUEST_USER_ID } from "@/lib/config/constants";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
-  deleteLocalCard,
-  readLocalCard,
-  readLocalCards,
-  upsertLocalCardBundle,
-} from "@/lib/db/client/data/rp";
-import {
   readLocalConversationBindings,
   readLocalConversationSettings,
   replaceLocalConversationBindings,
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import {
-  itemPatch,
-  listAdd,
-  listRemove,
-  listUpdate,
-} from "@/lib/react-query/cache-helpers";
+  deleteLocalCard,
+  readLocalCard,
+  readLocalCards,
+  upsertLocalCardBundle,
+} from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { EdenArgs } from "@/lib/types/eden";
@@ -33,11 +27,7 @@ import {
   deleteSyncedRow,
   mirrorConvIfSynced,
   mirrorSyncedRow,
-  type EntityListResponse,
 } from "./shared";
-
-type CardsList = EntityListResponse<typeof rpc.api.ai.rp.cards.get>;
-export type Card = CardsList extends ReadonlyArray<infer Item> ? Item : never;
 
 export function useCardsQuery() {
   const auth = useAuthQuery();
@@ -45,7 +35,7 @@ export function useCardsQuery() {
     queryKey: queryKeys.cards(),
     queryFn: async () => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      return ((await readLocalCards(userId)) ?? []) as Card[];
+      return (await readLocalCards(userId)) ?? [];
     },
   });
 }
@@ -88,7 +78,7 @@ export function useCreateCardMutation() {
         updatedAt: now,
       };
       await upsertLocalCardBundle(userId, {
-        card: card as never,
+        card,
         cardCharacters: (body.characterIds ?? []).map((cid, i) => ({
           cardId: card.id,
           characterId: cid,
@@ -102,10 +92,8 @@ export function useCreateCardMutation() {
       });
       return card;
     },
-    onSuccess: (data) => {
-      qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
-        listAdd(old, data as unknown as Card),
-      );
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.cards() });
     },
     onError: (e) => handleError(e, t),
   });
@@ -163,14 +151,9 @@ export function useUpdateCardMutation() {
       }
       return updatedCard;
     },
-    onSuccess: (data, args) => {
-      const patch = data as Partial<Card>;
-      qc.setQueryData<Card[]>(queryKeys.cards(), (old) =>
-        listUpdate(old, args.id, patch),
-      );
-      qc.setQueryData<Card>(queryKeys.card(args.id), (old) =>
-        itemPatch(old, patch),
-      );
+    onSuccess: (_data, args) => {
+      qc.invalidateQueries({ queryKey: queryKeys.cards() });
+      qc.invalidateQueries({ queryKey: queryKeys.card(args.id) });
     },
     onError: (e) => handleError(e, t),
   });
@@ -190,7 +173,7 @@ export function useDeleteCardMutation() {
       return { id };
     },
     onSuccess: (_data, id) => {
-      qc.setQueryData<Card[]>(queryKeys.cards(), (old) => listRemove(old, id));
+      qc.invalidateQueries({ queryKey: queryKeys.cards() });
       qc.removeQueries({ queryKey: queryKeys.card(id) });
       qc.invalidateQueries({ queryKey: queryKeys.syncState() });
     },

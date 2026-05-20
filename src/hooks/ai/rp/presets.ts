@@ -7,27 +7,21 @@ import {
   upsertLocalPreset,
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
 import { makeRpEntity } from "./factory";
-import type { EntityListResponse } from "./shared";
-
-type PresetsList = EntityListResponse<typeof rpc.api.ai.rp.presets.get>;
-export type Preset =
-  PresetsList extends ReadonlyArray<infer Item> ? Item : never;
+import type { PresetRow } from "@/lib/db/schema/rows";
 
 const presets = makeRpEntity<
-  Preset,
+  PresetRow,
   Record<string, unknown>,
   Record<string, unknown>
 >({
   syncKind: "presets",
   listKey: queryKeys.presets,
   itemKey: queryKeys.preset,
-  readList: (userId) => readLocalPresets(userId) as Promise<Preset[] | null>,
-  readItem: (userId, id) =>
-    readLocalPreset(userId, id) as Promise<Preset | null>,
-  upsertLocal: (userId, row) => upsertLocalPreset(userId, row as never),
-  deleteLocal: (userId, id) => deleteLocalPreset(userId, id),
+  readList: readLocalPresets,
+  readItem: readLocalPreset,
+  upsertLocal: upsertLocalPreset,
+  deleteLocal: deleteLocalPreset,
 });
 
 export const usePresetsQuery = presets.useList;

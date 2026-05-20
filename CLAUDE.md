@@ -37,7 +37,7 @@ Server routes are grouped into 5 domains under `src/server/`, each with a `route
   - Client: SQLocal over OPFS (browser). Client in `src/lib/db/client/client.ts` (`getLocalDb(userId)`, per-user OPFS file). Owns the local-first chat state; guest conversations live only here.
   - Shared schema: `src/lib/db/schema/` (`shared.ts` = both, `server.ts` = server-only, `client.ts` = client-only, `index.ts` = server build entrypoint).
 - Client state: Jotai (UI plus cookie-backed persistence via `atomWithStorage` and `jotaiCookieStorage`).
-- Server state: React Query 5. Mutations use `setQueryData` plus pure cache helpers, not `invalidateQueries`.
+- Server state: React Query 5. Mutations write the local SQLocal DB, then `invalidateQueries` to refetch. Invalidation is cheap here since queries read the local DB, not the network.
 - Type pipeline: TypeBox schema, Elysia validation, Eden Treaty RPC, `handleElysia()`, React Query hook.
 - i18n: next-intl. Locales in `public/i18n/`: `en`, `de`, `fr`, `ja`, `ru`, `vi`, `zh-CN`, `zh-TW`. `src/proxy.ts` handles locale middleware.
 - Media: Cloudflare R2 via AWS SDK, helpers in `src/lib/config/r2.ts`.
@@ -68,7 +68,7 @@ Two TypeBox folders, by route type:
 - Full translation keys with UPPER_SNAKE nesting: `t("BILLING.CURRENT_BALANCE")`. Use `msg()` for non-React code.
 - Real translations in every locale file. Never English placeholders for other languages. Chinese files use full-width punctuation.
 - Query keys from `src/lib/react-query/keys.ts` only. Never raw string arrays.
-- Cache updates via `setQueryData` plus pure helpers (`src/lib/react-query/conv-cache.ts`, `cache-helpers.ts`). Avoid `invalidateQueries` and `refetch` in mutation hooks.
+- After a mutation writes the local DB, `invalidateQueries` so the affected queries refetch from it. No network round-trip, so no need for `setQueryData` cache patches or optimistic rollback.
 - No `useMemo` or `useCallback`. React 19 compiler handles memoization.
 - No dashes as punctuation (em, en, `--`). Rephrase.
 - Named exports for components. `"use client"` at the top of client components.

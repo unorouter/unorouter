@@ -101,9 +101,9 @@ export function makeTableStore<TTable extends ScopedTable>(
       if (!local) return;
       const scope = opts?.scopeUser ?? true;
       const values = scope && table.userId ? { ...row, userId: uid } : row;
-      // Loose row type: server bundles arrive as opaque Record<string, unknown>.
-      // Drizzle's per-table insert/set types reject the generic shape; cast at
-      // the boundary, accept the trade.
+      // Loose row type: callers and opaque sync bundles both flow through
+      // here. Drizzle's per-table insert/set types reject the generic shape;
+      // cast at this one boundary, accept the trade.
       await local.db
         .insert(table)
         .values(values as never)

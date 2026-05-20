@@ -2,20 +2,12 @@
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
-import { mutateMessages, patchMessages } from "@/lib/react-query/cache-helpers";
-import {
-  patchConv,
-  prependConv,
-  removeConv,
-  type ConvItem,
-  type ConvsInfinite,
-} from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import dayjs from "dayjs";
-import type { EdenArgs, EdenResponse } from "@/lib/types/eden";
+import type { EdenArgs } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
 import {
   deleteLocalConversation,
@@ -40,13 +32,11 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
-  type InfiniteData,
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
 type ChatRoute = typeof rpc.api.ai.chat;
 type ChatRouteReturn = ReturnType<ChatRoute>;
-type ConversationData = EdenResponse<ChatRouteReturn, "get">;
 type ChatParams = EdenArgs<ChatRoute, "get">;
 
 async function mirrorConversationIfSynced(
@@ -83,7 +73,7 @@ export function useConversationsInfiniteQuery(keyword?: string) {
       const start = (pageParam - 1) * PAGE_SIZE;
       const slice = filtered.slice(start, start + PAGE_SIZE);
       return {
-        items: slice as unknown as ConvItem[],
+        items: slice,
         total: filtered.length,
         page: pageParam,
         pageSize: PAGE_SIZE,
@@ -104,7 +94,7 @@ export function useConversationQuery(id?: string) {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       if (id) {
         const local = await readLocalConversation(userId, id);
-        if (local) return local as unknown as ConversationData;
+        if (local) return local;
       }
       throw new Error("chat-not-found");
     },
@@ -168,39 +158,11 @@ export function useUpdateConversationMutation() {
       if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, id);
       return { id, ...args.body };
     },
-    onMutate: async (args) => {
+    onError: (e) => handleError(e, t),
+    onSuccess: (_data, args) => {
       const id = String(args.id);
-      const convsKey = queryKeys.conversations();
-      const metaKey = queryKeys.chatMeta(id);
-
-      await queryClient.cancelQueries({ queryKey: convsKey });
-      await queryClient.cancelQueries({ queryKey: metaKey });
-
-      const prevConvs = queryClient.getQueryData<ConvsInfinite>(convsKey);
-      const prevMeta = queryClient.getQueryData<ConversationData>(metaKey);
-
-      const patch: Partial<ConvItem> = {};
-      if (args.body.title !== undefined) patch.title = args.body.title;
-      if (args.body.model !== undefined) patch.model = args.body.model;
-
-      queryClient.setQueryData<ConvsInfinite>(convsKey, (old) =>
-        patchConv(old, id, patch),
-      );
-      queryClient.setQueryData<ConversationData>(metaKey, (old) =>
-        old ? { ...old, ...patch } : old,
-      );
-
-      return { prevConvs, prevMeta, id };
-    },
-    onError: (e, _args, context) => {
-      handleError(e, t);
-      if (context) {
-        queryClient.setQueryData(queryKeys.conversations(), context.prevConvs);
-        queryClient.setQueryData(
-          queryKeys.chatMeta(context.id),
-          context.prevMeta,
-        );
-      }
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
     },
   });
 }
@@ -227,23 +189,10 @@ export function useDeleteConversationMutation() {
       }
       return { id };
     },
-    onMutate: async (args) => {
-      const convsKey = queryKeys.conversations();
-      await queryClient.cancelQueries({ queryKey: convsKey });
-      const prevConvs = queryClient.getQueryData<ConvsInfinite>(convsKey);
-      queryClient.setQueryData<ConvsInfinite>(convsKey, (old) =>
-        removeConv(old, String(args.id)),
-      );
-      return { prevConvs };
-    },
+    onError: (e) => handleError(e, t),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
-    },
-    onError: (e, _args, context) => {
-      handleError(e, t);
-      if (context) {
-        queryClient.setQueryData(queryKeys.conversations(), context.prevConvs);
-      }
     },
   });
 }
@@ -277,10 +226,8 @@ export function useFinalizeTaskMutation() {
         }),
       ),
     onError: (e) => handleError(e, t),
-    onSuccess: (data, args) => {
-      patchMessages(qc, args.convId, (msg) =>
-        msg.id === args.msgId ? { ...msg, items: data.items } : msg,
-      );
+    onSuccess: (_data, args) => {
+      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
     },
   });
 }
@@ -321,20 +268,8 @@ export function useEditMessageMutation() {
       if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
       return { items: newItems };
     },
-    onSuccess: (data, args) => {
-      patchMessages(qc, args.convId, (msg) =>
-        msg.id === args.msgId
-          ? {
-              ...msg,
-              isEdited: true,
-              items: data.items.map((it) => ({
-                ...it,
-                outputIndex: it.outputIndex,
-                sequenceIndex: it.sequenceIndex,
-              })),
-            }
-          : msg,
-      );
+    onSuccess: (_data, args) => {
+      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
     },
   });
 }
@@ -353,19 +288,9 @@ export function useClearConversationMutation() {
       return { id };
     },
     onSuccess: (_data, args) => {
-      type MessagesPage = {
-        messages: Array<Record<string, unknown>>;
-        total: number;
-      };
-      queryClient.setQueryData<InfiniteData<MessagesPage>>(
-        queryKeys.chatMessages(String(args.id)),
-        (old) =>
-          old && {
-            ...old,
-            pages: [{ messages: [], total: 0 }],
-            pageParams: [1],
-          },
-      );
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.chatMessages(String(args.id)),
+      });
       chatStore.get(chatHelpersAtom)?.setMessages(() => []);
     },
   });
@@ -433,20 +358,8 @@ export function useDuplicateConversationMutation() {
       }
       return newConv;
     },
-    onSuccess: (data) => {
-      const now = dayjs().toDate();
-      const newItem: ConvItem = {
-        id: data.id,
-        title: data.title ?? null,
-        model: null,
-        totalCost: 0,
-        createdAt: now,
-        updatedAt: now,
-      } as ConvItem;
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => prependConv(old, newItem),
-      );
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
     },
   });
 }
@@ -486,16 +399,7 @@ export function useSetActiveBranchMutation() {
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
-      mutateMessages(qc, args.convId, (messages) => {
-        const target = messages.find((m) => m.id === args.msgId);
-        if (!target) return messages;
-        const targetParent = target.parentId ?? null;
-        return messages.map((m) =>
-          (m.parentId ?? null) === targetParent
-            ? { ...m, isActiveBranch: m.id === args.msgId }
-            : m,
-        );
-      });
+      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
     },
   });
 }
@@ -527,15 +431,7 @@ export function useDeleteMessageMutation() {
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
-      mutateMessages(qc, args.convId, (messages) => {
-        const target = messages.find((m) => m.id === args.msgId);
-        const newParentId = target?.parentId ?? null;
-        return messages
-          .filter((m) => m.id !== args.msgId)
-          .map((m) =>
-            m.parentId === args.msgId ? { ...m, parentId: newParentId } : m,
-          );
-      });
+      qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
     },
   });
 }

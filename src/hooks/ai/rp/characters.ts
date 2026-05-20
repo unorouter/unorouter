@@ -3,6 +3,7 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { parseCharacterCardFile } from "@/lib/ai/rp/character-card";
 import { upsertLocalMedia } from "@/lib/db/client/data/media";
 import {
   deleteLocalCharacter,
@@ -10,36 +11,27 @@ import {
   readLocalCharacters,
   upsertLocalCharacter,
 } from "@/lib/db/client/data/rp";
-import { parseCharacterCardFile } from "@/lib/ai/rp/character-card";
-import { listAdd } from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
 import { uid, uint8ToBase64 } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
-import type { EntityListResponse } from "./shared";
-
-type CharactersList = EntityListResponse<typeof rpc.api.ai.rp.characters.get>;
-export type Character =
-  CharactersList extends ReadonlyArray<infer Item> ? Item : never;
+import type { CharacterRow } from "@/lib/db/schema/rows";
 
 const characters = makeRpEntity<
-  Character,
+  CharacterRow,
   Record<string, unknown>,
   Record<string, unknown>
 >({
   syncKind: "characters",
   listKey: queryKeys.characters,
   itemKey: queryKeys.character,
-  readList: (userId) =>
-    readLocalCharacters(userId) as Promise<Character[] | null>,
-  readItem: (userId, id) =>
-    readLocalCharacter(userId, id) as Promise<Character | null>,
-  upsertLocal: (userId, row) => upsertLocalCharacter(userId, row as never),
-  deleteLocal: (userId, id) => deleteLocalCharacter(userId, id),
+  readList: readLocalCharacters,
+  readItem: readLocalCharacter,
+  upsertLocal: upsertLocalCharacter,
+  deleteLocal: deleteLocalCharacter,
 });
 
 export const useCharactersQuery = characters.useList;
@@ -93,13 +85,11 @@ export function useImportCharacterCardMutation() {
         createdAt: now,
         updatedAt: now,
       };
-      await upsertLocalCharacter(userId, row as never);
-      return row as unknown as Character;
+      await upsertLocalCharacter(userId, row);
+      return row;
     },
-    onSuccess: (row) => {
-      qc.setQueryData<Character[]>(queryKeys.characters(), (old) =>
-        listAdd(old, row),
-      );
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: queryKeys.characters() });
     },
     onError: (e) => handleError(e, t),
   });

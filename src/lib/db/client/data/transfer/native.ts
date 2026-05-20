@@ -1,7 +1,6 @@
 "use client";
 
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
-import type { NativeImport, OrpgImport } from "@/lib/types/transfer";
 import dayjs from "dayjs";
 import {
   readLocalConversationBundle,
@@ -13,7 +12,7 @@ import {
   upsertLocalPersona,
   upsertLocalPreset,
 } from "../rp";
-import { mapNativeImport, mapOrpgImport, type MappedImport } from "./map";
+import { type MappedImport } from "./map";
 
 export async function buildNativeExport(
   userId: number | undefined,
@@ -161,7 +160,7 @@ export function toOrpg(native: NativeExport) {
 
 // Persists a mapped import: RP entities first so the conversation_* foreign
 // keys resolve, then the conversation bundle itself.
-async function persistMappedImport(
+export async function persistMappedImport(
   userId: number | undefined,
   mapped: MappedImport,
 ): Promise<{ id: string }> {
@@ -175,19 +174,4 @@ async function persistMappedImport(
   }
   await upsertLocalConversationBundle(userId, mapped.bundle);
   return { id: mapped.convId };
-}
-
-export function importNative(
-  userId: number | undefined,
-  native: NativeImport,
-): Promise<{ id: string }> {
-  return persistMappedImport(userId, mapNativeImport(native));
-}
-
-// orpg.3.0 (openrouter): lossy on lorebooks/personas.
-export function importOrpg(
-  userId: number | undefined,
-  data: OrpgImport,
-): Promise<{ id: string }> {
-  return persistMappedImport(userId, mapOrpgImport(data));
 }

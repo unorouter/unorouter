@@ -14,7 +14,7 @@ import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
-import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer";
+import { exportLocalConversationSillyTavern } from "@/lib/db/client/data/transfer/sillytavern";
 import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import type { ExportFormat } from "@/lib/validation/rp";
 import { useAui } from "@assistant-ui/react";

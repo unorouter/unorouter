@@ -1,22 +1,15 @@
 "use client";
 
 import { GUEST_USER_ID } from "@/lib/config/constants";
-
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import {
-  itemPatch,
-  listAdd,
-  listRemove,
-  listUpdate,
-} from "@/lib/react-query/cache-helpers";
 import { queryKeys } from "@/lib/react-query/keys";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
+import type { RpSyncKind } from "@/lib/validation/sync";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { deleteSyncedRow, mirrorSyncedRow, type RpSyncKind } from "./shared";
-
+import { deleteSyncedRow, mirrorSyncedRow } from "./shared";
 type WithId = { id: string; syncExpiresAt?: Date | null };
 
 export type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
@@ -66,7 +59,7 @@ export function makeRpEntity<
           const userId = auth.data?.id ?? GUEST_USER_ID;
           const now = dayjs().toDate();
           const row = {
-            ...(args.body as object),
+            ...args.body,
             id: uid(),
             userId,
             syncExpiresAt: null,
@@ -76,10 +69,8 @@ export function makeRpEntity<
           await opts.upsertLocal(userId, row);
           return row;
         },
-        onSuccess: (data) => {
-          qc.setQueryData<TItem[]>(opts.listKey() as string[], (old) =>
-            listAdd(old, data),
-          );
+        onSuccess: () => {
+          qc.invalidateQueries({ queryKey: opts.listKey() as string[] });
         },
         onError: (e) => handleError(e, t),
       });
@@ -97,7 +88,7 @@ export function makeRpEntity<
           const now = dayjs().toDate();
           const updated = {
             ...existing,
-            ...(args.body as object),
+            ...args.body,
             updatedAt: now,
           } as TItem;
           await opts.upsertLocal(userId, updated);
@@ -106,13 +97,9 @@ export function makeRpEntity<
           }
           return updated;
         },
-        onSuccess: (data, args) => {
-          qc.setQueryData<TItem[]>(opts.listKey() as string[], (old) =>
-            listUpdate(old as never, args.id, data as never),
-          );
-          qc.setQueryData<TItem>(opts.itemKey(args.id) as string[], (old) =>
-            itemPatch(old, data as Partial<TItem>),
-          );
+        onSuccess: (_data, args) => {
+          qc.invalidateQueries({ queryKey: opts.listKey() as string[] });
+          qc.invalidateQueries({ queryKey: opts.itemKey(args.id) as string[] });
         },
         onError: (e) => handleError(e, t),
       });
@@ -132,9 +119,7 @@ export function makeRpEntity<
           return { id };
         },
         onSuccess: (_data, id) => {
-          qc.setQueryData<TItem[]>(opts.listKey() as string[], (old) =>
-            listRemove(old as never, id),
-          );
+          qc.invalidateQueries({ queryKey: opts.listKey() as string[] });
           qc.removeQueries({ queryKey: opts.itemKey(id) as string[] });
           qc.invalidateQueries({ queryKey: queryKeys.syncState() });
         },
