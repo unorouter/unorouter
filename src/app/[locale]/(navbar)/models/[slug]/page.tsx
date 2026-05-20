@@ -14,7 +14,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
-import { serverLocale, serverPathname, setCookies } from "@/lib/utils/server";
+import { serverLocale, setCookies } from "@/lib/utils/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -72,7 +72,10 @@ export default async function ModelDetailPage(props: PageProps) {
   if (!model || !data) notFound();
 
   const t = await getTranslations({ locale });
-  const url = await serverPathname(locale);
+  const url = localeUrl(locale, {
+    pathname: "/models/[slug]",
+    params: { slug: modelSlug(model.name) },
+  });
 
   const queryClient = getQueryClient();
   const cookieHeaders = await setCookies();

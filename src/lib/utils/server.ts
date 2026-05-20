@@ -1,46 +1,33 @@
 import { env } from "@/lib/config/env";
 import { serverEnv } from "@/server/env";
+import { sealData, unsealData } from "iron-session";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { cookies, headers } from "next/headers";
-import { createHmac, timingSafeEqual } from "node:crypto";
-import {
-  LOCALE_COOKIE,
-  LOCALES,
-  msg,
-  SERVER_URL_KEY,
-} from "../config/constants";
+import { cookies } from "next/headers";
+import { LOCALE_COOKIE, LOCALES, msg, USER_ID_COOKIE } from "../config/constants";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
 
-function hmac(payload: string): string {
-  if (!serverEnv.sessionSecret) throw new Error("SESSION_SECRET is not set");
-  return createHmac("sha256", serverEnv.sessionSecret)
-    .update(payload)
-    .digest("base64url");
+export async function signUserId(userId: number | string): Promise<string> {
+  const id = Number(userId);
+  if (!Number.isFinite(id) || id <= 0)
+    throw new Error(msg("ERRORS.INVALID_USER_ID"));
+  return sealData({ uid: id }, { password: serverEnv.sessionSecret });
 }
 
-export function signUserId(userId: number | string): string {
-  const id = String(userId);
-  return `${id}.${hmac(id)}`;
-}
-
-export function verifyUserId(signed: string | undefined): number | null {
-  if (!signed) return null;
-  const dot = signed.lastIndexOf(".");
-  if (dot <= 0) return null;
-  const id = signed.slice(0, dot);
-  const sig = signed.slice(dot + 1);
-  let expected: string;
+export async function verifyUserId(
+  sealed: string | undefined,
+): Promise<number | null> {
+  if (!sealed) return null;
+  let data: { uid?: number };
   try {
-    expected = hmac(id);
+    data = await unsealData<{ uid?: number }>(sealed, {
+      password: serverEnv.sessionSecret,
+    });
   } catch {
     return null;
   }
-  const a = Buffer.from(sig);
-  const b = Buffer.from(expected);
-  if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
-  const n = Number(id);
+  const n = Number(data?.uid);
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
@@ -59,11 +46,6 @@ export const serverLocale = async (props?: {
     (await safe(getLocale)) ||
     (await safe(async () => (await cookies()).get(LOCALE_COOKIE)?.value)) ||
     LOCALES[0]) as Locale;
-
-export const serverPathname = async (fallbackLocale: string) => {
-  const reqUrl = (await headers()).get(SERVER_URL_KEY);
-  return reqUrl ? new URL(reqUrl).pathname : `/${fallbackLocale}`;
-};
 
 // Server components ONLY.
 export const getCookieValue = async <T>(
@@ -115,6 +97,8 @@ export const setCookies = async () => {
 };
 
 export async function fetchConvTitle(convId: string): Promise<string | null> {
+  const loggedIn = (await cookies()).has(USER_ID_COOKIE);
+  if (!loggedIn) return null;
   try {
     const cookieHeaders = await setCookies();
     const meta = handleElysia(
@@ -131,4 +115,3 @@ export function assertFound<T>(
 ): asserts rows is { 0: T } & ArrayLike<T> {
   if (rows.length === 0) throw new Error(msg("ERRORS.NOT_FOUND"));
 }
-

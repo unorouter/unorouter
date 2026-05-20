@@ -2684,6 +2684,7 @@
   },
   "ERRORS": {
     "MISSING_ENV": "必要な環境変数が不足しています: {var}",
+    "INVALID_USER_ID": "ユーザーIDが無効です",
     "UNAUTHORIZED": "認証されていません",
     "NO_API_KEY": "APIキーが設定されていません",
     "NOT_FOUND": "リソースが見つかりません",

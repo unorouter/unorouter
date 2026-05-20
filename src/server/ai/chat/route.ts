@@ -47,7 +47,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .get(
     "/conversations",
     async ({ query, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await listConversations(userId, query);
       return { success: true, data };
     },
@@ -57,7 +57,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await createConversation(userId, body);
       return { success: true, data };
     },
@@ -67,7 +67,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .get(
     "/:id",
     async ({ params, query, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const conv = await getConversation(userId, params.id);
       const paginated = await getPaginatedMessages(params.id, query);
       return { success: true, data: { ...conv, ...paginated } };
@@ -76,7 +76,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .get("/:id/meta", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     const data = await getConversation(userId, params.id);
     return { success: true, data };
   })
@@ -84,7 +84,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .put(
     "/:id",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await updateConversation(userId, params.id, body);
       return { success: true, data };
     },
@@ -92,25 +92,25 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .delete("/:id", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     const data = await deleteConversation(userId, params.id);
     return { success: true, data };
   })
 
   .post("/:id/clear", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     const data = await clearConversation(userId, params.id);
     return { success: true, data };
   })
 
   .post("/:id/duplicate", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     const data = await duplicateConversation(userId, params.id);
     return { success: true, data };
   })
 
   .get("/:id/markdown", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     const data = await getConversationMarkdown(userId, params.id);
     return { success: true, data };
   })
@@ -128,7 +128,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/messages",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await persistMessages(userId, params.id, body.messages);
       return { success: true, data };
     },
@@ -138,7 +138,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .put(
     "/:id/messages/:msgId",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await editMessageItems(
         userId,
         params.id,
@@ -151,7 +151,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .delete("/:id/messages/:msgId", async ({ params, cookie }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     const data = await deleteMessage(userId, params.id, params.msgId);
     return { success: true, data };
   })
@@ -159,7 +159,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/active-branch",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await setActiveBranch(userId, params.id, body.messageId);
       return { success: true, data };
     },
@@ -170,7 +170,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/stream",
     async ({ body, cookie, request }) => {
       const apiKey = getApiKeyOrGuest(cookie);
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       if (userId === 0) body.webSearch = false;
       return streamChat(apiKey, body, request, userId);
     },
@@ -180,7 +180,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/media",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await uploadMedia(body.file, body.convId, userId);
       return { success: true, data };
     },
@@ -196,7 +196,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .post(
     "/:id/task/finalize",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const data = await finalizeVideoTask(userId, params.id, body);
       return { success: true, data };
     },

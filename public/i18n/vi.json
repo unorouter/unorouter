@@ -2684,6 +2684,7 @@
   },
   "ERRORS": {
     "MISSING_ENV": "Thiếu biến môi trường bắt buộc: {var}",
+    "INVALID_USER_ID": "ID người dùng không hợp lệ",
     "UNAUTHORIZED": "Không có quyền",
     "NO_API_KEY": "Chưa cấu hình API key",
     "NOT_FOUND": "Không tìm thấy tài nguyên",

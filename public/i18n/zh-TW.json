@@ -2684,6 +2684,7 @@
   },
   "ERRORS": {
     "MISSING_ENV": "缺少必要的環境變數：{var}",
+    "INVALID_USER_ID": "使用者 ID 無效",
     "UNAUTHORIZED": "未授權",
     "NO_API_KEY": "未設定 API 金鑰",
     "NOT_FOUND": "找不到資源",

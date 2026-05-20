@@ -9,7 +9,7 @@ type AuthResponseData = {
   data?: { id?: string | number };
 };
 
-export function handleAuthResponse(
+export async function handleAuthResponse(
   res: { data: AuthResponseData | undefined; headers: Headers },
   set: Context["set"],
 ) {
@@ -23,7 +23,7 @@ export function handleAuthResponse(
   const id = res.data?.data?.id;
   if (id) {
     cookies.push(
-      serialize(USER_ID_COOKIE, signUserId(id), {
+      serialize(USER_ID_COOKIE, await signUserId(id), {
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",

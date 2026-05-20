@@ -59,7 +59,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/submit",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       if (userId === 0) {
         await assertGuestAllowedModel(body.model);
       }
@@ -74,7 +74,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .get(
     "/me",
     async ({ query, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       return {
         success: true,
         data: await listUserSessions(userId, query),
@@ -83,35 +83,35 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     { query: playgroundHistoryQuery },
   )
   .get("/session/:sessionId", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
+    const userId = await getUserId(cookie, true) ?? 0;
     return {
       success: true,
       data: await getSession(userId, params.sessionId),
     };
   })
   .delete("/session/:sessionId", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
+    const userId = await getUserId(cookie, true) ?? 0;
     return {
       success: true,
       data: await deleteSession(userId, params.sessionId),
     };
   })
   .get("/session/:sessionId/export", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
+    const userId = await getUserId(cookie, true) ?? 0;
     return {
       success: true,
       data: await exportSession(userId, params.sessionId),
     };
   })
   .get("/snapshot/:id", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
+    const userId = await getUserId(cookie, true) ?? 0;
     return {
       success: true,
       data: await getSnapshotWithImages(userId, params.id),
     };
   })
   .get("/snapshot/:id/status", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
+    const userId = await getUserId(cookie, true) ?? 0;
     const apiKey = getApiKeyOrGuest(cookie);
     try {
       return {
@@ -131,7 +131,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/snapshot/:id/visibility",
     async ({ params, body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       return {
         success: true,
         data: await setVisibility(userId, params.id, body.visibility),
@@ -140,7 +140,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
     { body: generationVisibilityBody },
   )
   .delete("/snapshot/:id", async ({ params, cookie }) => {
-    const userId = getUserId(cookie, true) ?? 0;
+    const userId = await getUserId(cookie, true) ?? 0;
     return {
       success: true,
       data: await deleteSnapshot(userId, params.id),
@@ -149,7 +149,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/import",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       const apiKey = getApiKeyOrGuest(cookie);
       return {
         success: true,
@@ -166,7 +166,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/references",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       const buffer = Buffer.from(await body.file.arrayBuffer());
       return {
         success: true,
@@ -182,7 +182,7 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(
     "/masks",
     async ({ body, cookie }) => {
-      const userId = getUserId(cookie, true) ?? 0;
+      const userId = await getUserId(cookie, true) ?? 0;
       const buffer = Buffer.from(await body.file.arrayBuffer());
       return {
         success: true,

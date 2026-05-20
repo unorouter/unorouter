@@ -542,7 +542,7 @@ export async function streamChat(
   request: Request,
   userId: number,
 ) {
-  const { upstream } = deriveUpstream({ request });
+  const { upstream } = await deriveUpstream({ request });
   const { buffered, mediaType } = await isMediaModel(body.model);
 
   logger.info("Stream started", {

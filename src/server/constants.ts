@@ -2,7 +2,6 @@ import {
   ACCESS_TOKEN_COOKIE,
   msg,
   NEW_API_USER,
-  ParamError,
   USER_ID_COOKIE,
 } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
@@ -12,9 +11,6 @@ import { CLIENT_STORE_KEY } from "@/store/client-store";
 import { createOpenAICompatible } from "@ai-sdk/openai-compatible";
 import { parseCookie } from "cookie";
 import type { Cookie } from "elysia";
-
-if (typeof window === "undefined" && !serverEnv.systemAccessToken)
-  throw new ParamError("ERRORS.MISSING_ENV", { var: "SYSTEM_ACCESS_TOKEN" });
 
 export const ADMIN_HEADERS = {
   Authorization: serverEnv.systemAccessToken,
@@ -37,12 +33,12 @@ export async function getServerCookieHeader(): Promise<string> {
   }
 }
 
-export function getUserId<T extends boolean = false>(
+export async function getUserId<T extends boolean = false>(
   cookie: Record<string, Cookie<unknown>>,
   optional?: T,
-): T extends true ? number | null : number {
+): Promise<T extends true ? number | null : number> {
   const signed = cookie[USER_ID_COOKIE]?.value as string | undefined;
-  const verified = verifyUserId(signed);
+  const verified = await verifyUserId(signed);
   if (verified === null) {
     if (optional) return null as T extends true ? number | null : number;
     throw new Error(msg("ERRORS.UNAUTHORIZED"));
@@ -81,7 +77,7 @@ export function getProvider(apiKey: string) {
   });
 }
 
-export function deriveUpstream({ request }: { request: Request }) {
+export async function deriveUpstream({ request }: { request: Request }) {
   const cookieHeader = request.headers.get("cookie") ?? "";
   const headers: Record<string, string> = {};
 
@@ -93,7 +89,7 @@ export function deriveUpstream({ request }: { request: Request }) {
     const parsed = parseCookie(cookieHeader);
     const accessToken = parsed[ACCESS_TOKEN_COOKIE];
     if (accessToken) headers.Authorization = accessToken;
-    const verified = verifyUserId(parsed[USER_ID_COOKIE]);
+    const verified = await verifyUserId(parsed[USER_ID_COOKIE]);
     if (verified !== null) headers[NEW_API_USER] = String(verified);
   }
   return { upstream: { headers } };

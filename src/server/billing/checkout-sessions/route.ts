@@ -48,7 +48,7 @@ export const checkoutSessionsRoute = new Elysia({
     "/",
     async ({ body, request, set, cookie, upstream }) => {
       assertApiVersion(request);
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const key = readIdempotencyKey(request);
       return withIdempotency(
         { userId, path: "POST /checkout_sessions", key, body, set, cookie },
@@ -66,14 +66,14 @@ export const checkoutSessionsRoute = new Elysia({
     { body: createSessionBody },
   )
   .get("/:id", async ({ params, cookie, upstream }) => {
-    const userId = getUserId(cookie);
+    const userId = await getUserId(cookie);
     return getSession(userId, params.id, upstream.headers);
   })
   .post(
     "/:id",
     async ({ body, params, request, set, cookie, upstream }) => {
       assertApiVersion(request);
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const key = readIdempotencyKey(request);
       return withIdempotency(
         {
@@ -102,7 +102,7 @@ export const checkoutSessionsRoute = new Elysia({
     "/:id/complete",
     async ({ body, params, request, set, cookie, upstream }) => {
       assertApiVersion(request);
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const key = readIdempotencyKey(request);
       return withIdempotency(
         {
@@ -129,7 +129,7 @@ export const checkoutSessionsRoute = new Elysia({
     "/:id/cancel",
     async ({ body, params, request, set, cookie }) => {
       assertApiVersion(request);
-      const userId = getUserId(cookie);
+      const userId = await getUserId(cookie);
       const key = readIdempotencyKey(request);
       return withIdempotency(
         {

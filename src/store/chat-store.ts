@@ -34,13 +34,14 @@ const INITIAL_CHAT_STATE: ChatState = {
   samplerMemoryByModel: {},
 };
 
-// getOnInit reads the cookie eagerly so chatStore.get() returns the persisted
-// value for non-React callers (stream adapters), not just the initial value.
+// No getOnInit: the cookie storage is client-only, so reading it eagerly would
+// make SSR (initial value) and the first client render (cookie value) diverge
+// and trip a hydration mismatch. The atom loads the cookie on first React
+// subscription instead; stream callbacks run well after the UI has mounted.
 const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,
-  { getOnInit: true },
 );
 
 // Selector getters fall back to INITIAL_CHAT_STATE per field so a cookie
@@ -86,6 +87,6 @@ export type ChatHelpersRef = {
 export const convIdAtom = atom<string | null>(null);
 export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 
-// getOnInit makes the storage atoms eager, so non-React callers (stream
-// adapters) can read cookie-persisted values with chatStore.get(atom) directly.
+// Shared store. Mounted components subscribe to the storage atoms, which loads
+// the cookie value; non-React stream callbacks then read it via chatStore.get.
 export const chatStore = createStore();

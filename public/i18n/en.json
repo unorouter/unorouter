@@ -2684,6 +2684,7 @@
   },
   "ERRORS": {
     "MISSING_ENV": "Missing required env: {var}",
+    "INVALID_USER_ID": "Invalid user ID",
     "UNAUTHORIZED": "Unauthorized",
     "NO_API_KEY": "No API key configured",
     "NOT_FOUND": "Resource not found",

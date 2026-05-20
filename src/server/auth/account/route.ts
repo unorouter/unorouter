@@ -39,7 +39,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
         { turnstile },
         { headers: upstream.headers },
       );
-      return handleAuthResponse(res, set);
+      return await handleAuthResponse(res, set);
     },
     { body: loginBody },
   )
@@ -50,7 +50,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
       const res = await verify2FALogin(body, {
         headers: upstream.headers,
       });
-      return handleAuthResponse(res, set);
+      return await handleAuthResponse(res, set);
     },
     { body: twoFACodeBody },
   )
@@ -64,7 +64,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
         { turnstile },
         { headers: upstream.headers },
       );
-      return handleAuthResponse(res, set);
+      return await handleAuthResponse(res, set);
     },
     { body: registerBody },
   )
@@ -127,7 +127,7 @@ export const authRoute = new Elysia({ prefix: "/account" })
         httpOnly: true,
       });
       cookie[USER_ID_COOKIE].set({
-        value: signUserId(data.user_id),
+        value: await signUserId(data.user_id),
         path: "/",
         maxAge: COOKIE_MAX_AGE,
         sameSite: "lax",

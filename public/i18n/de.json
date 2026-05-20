@@ -2684,6 +2684,7 @@
   },
   "ERRORS": {
     "MISSING_ENV": "Erforderliche Umgebungsvariable fehlt: {var}",
+    "INVALID_USER_ID": "Ungültige Benutzer-ID",
     "UNAUTHORIZED": "Nicht autorisiert",
     "NO_API_KEY": "Kein API-Schlüssel konfiguriert",
     "NOT_FOUND": "Ressource nicht gefunden",

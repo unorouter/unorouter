@@ -9,7 +9,7 @@ import {
 } from "@/lib/seo/structured-data";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { localeUrl } from "@/i18n/navigation";
-import { serverLocale, serverPathname } from "@/lib/utils/server";
+import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -50,7 +50,10 @@ export default async function BlogPostPage(props: PageProps) {
   const locale = await serverLocale(props);
   const t = await getTranslations({ locale });
   const ts = getSeoTimestamps(`blog/${post.slug}`);
-  const url = await serverPathname(locale);
+  const url = localeUrl(locale, {
+    pathname: "/blog/[slug]",
+    params: { slug: post.slug },
+  });
   const { title, description, author } = translated(t, post);
 
   return (

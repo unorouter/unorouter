@@ -2684,6 +2684,7 @@
   },
   "ERRORS": {
     "MISSING_ENV": "Variable d'environnement requise manquante : {var}",
+    "INVALID_USER_ID": "Identifiant utilisateur invalide",
     "UNAUTHORIZED": "Non autorisé",
     "NO_API_KEY": "Aucune clé API configurée",
     "NOT_FOUND": "Ressource introuvable",
