@@ -20,17 +20,10 @@ import { getSessionRow, getSnapshotWithImages } from "./playground-reads";
 import { submitComfyUITask } from "./playground-submit-comfyui";
 import { submitSyncImage } from "./playground-submit-sync";
 
-// Each fresh snapshot extends expiresAt; actively-used sessions never expire.
-const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
-
-// ComfyUI templates live behind new-api's task adapter (channel type 59).
-const COMFYUI_TEMPLATE_IDS = new Set([
-  "pony",
-  "endgame",
-  "comfyui-sdxl-txt2img-lora",
-  "flux2-dev",
-  "flux2-dev-compose",
-]);
+import {
+  COMFYUI_TEMPLATE_IDS,
+  RETENTION_MS,
+} from "./playground-constants";
 
 type ResolvedEndpoint =
   | { kind: "comfyui-task" }

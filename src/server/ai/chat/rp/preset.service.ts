@@ -1,7 +1,7 @@
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { samplingPresets } from "@/lib/db/schema";
-import { uid } from "@/lib/utils/base";
+import { exportSlug, uid } from "@/lib/utils/base";
 import type { SamplingPresetBody } from "@/lib/validation/rp";
 import { dayjs } from "@/lib/utils/format/date";
 import { and, desc, eq } from "drizzle-orm";
@@ -98,8 +98,7 @@ export async function exportPreset(
     geminiBlockOff: row.geminiBlockOff,
     isDefault: row.isDefault,
   };
-  const slug =
-    row.name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || "preset";
+  const slug = exportSlug(row.name, "preset");
   return {
     data: JSON.stringify(portable, null, 2),
     filename: `${slug}.preset.json`,

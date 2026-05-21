@@ -1,47 +1,29 @@
 import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { uploadReferenceToR2 } from "@/lib/config/r2";
-import { getDb } from "@/lib/db/server/client";
 import {
   controlNetCatalog,
   embeddingCatalog,
   loraCatalog,
   upscalerCatalog,
 } from "@/lib/db/schema";
+import { getDb } from "@/lib/db/server/client";
 import {
   controlNetCatalogQuery,
   embeddingCatalogQuery,
+  generationVisibilityBody,
+  loraCatalogQuery,
   playgroundHistoryQuery,
   playgroundImportBody,
   playgroundMaskUploadBody,
   playgroundReferenceUploadBody,
   playgroundSubmitBody,
-  generationVisibilityBody,
-  loraCatalogQuery,
   upscalerCatalogQuery,
 } from "@/lib/validation/playground";
 import { getApiKeyOrGuest, getUserId } from "@/server/constants";
 import { and, asc, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
-
-// ComfyUI templates hit our RunPod cluster on our quota; logged-in only.
-const COMFYUI_TEMPLATE_IDS = new Set([
-  "pony",
-  "endgame",
-  "comfyui-sdxl-txt2img-lora",
-  "flux2-dev",
-  "flux2-dev-compose",
-]);
-
-async function assertGuestAllowedModel(model: string): Promise<void> {
-  if (COMFYUI_TEMPLATE_IDS.has(model)) {
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  }
-  const meta = (await getPricingSummary()).models.find((m) => m.name === model);
-  if (!meta?.isFree) {
-    throw new Error(msg("ERRORS.UNAUTHORIZED"));
-  }
-}
+import { COMFYUI_TEMPLATE_IDS } from "./playground-constants";
 import {
   cloneFromPayload,
   deleteSession,
@@ -54,6 +36,16 @@ import {
   setVisibility,
   submitGeneration,
 } from "./playground.service";
+
+async function assertGuestAllowedModel(model: string): Promise<void> {
+  if (COMFYUI_TEMPLATE_IDS.has(model)) {
+    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  }
+  const meta = (await getPricingSummary()).models.find((m) => m.name === model);
+  if (!meta?.isFree) {
+    throw new Error(msg("ERRORS.UNAUTHORIZED"));
+  }
+}
 
 export const playgroundRoute = new Elysia({ prefix: "/playground" })
   .post(

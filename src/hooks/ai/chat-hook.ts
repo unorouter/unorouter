@@ -26,6 +26,7 @@ import {
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
+import { mirrorConvIfSynced } from "@/hooks/ai/rp/shared";
 import {
   keepPreviousData,
   useInfiniteQuery,
@@ -38,25 +39,6 @@ import { useTranslations } from "next-intl";
 type ChatRoute = typeof rpc.api.ai.chat;
 type ChatRouteReturn = ReturnType<ChatRoute>;
 type ChatParams = EdenArgs<ChatRoute, "get">;
-
-async function mirrorConversationIfSynced(
-  userId: number,
-  convId: string,
-): Promise<void> {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv?.syncExpiresAt == null) return;
-  const bundle = await readLocalConversationBundle(userId, convId);
-  if (!bundle) return;
-  try {
-    handleElysia(
-      await rpc.api.ai
-        .sync({ kind: "conversations" })({ id: convId })
-        .post({ payload: bundle, keepExpiry: true }),
-    );
-  } catch (err) {
-    await enqueuePending(userId, "conversations", convId, "patch", err);
-  }
-}
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   const auth = useAuthQuery();
@@ -155,7 +137,7 @@ export function useUpdateConversationMutation() {
         ...args.body,
         updatedAt: now,
       });
-      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, id);
+      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, id);
       return { id, ...args.body };
     },
     onError: (e) => handleError(e, t),
@@ -266,7 +248,7 @@ export function useEditMessageMutation() {
         });
       }
       if (userId > GUEST_USER_ID)
-        await mirrorConversationIfSynced(userId, args.convId);
+        await mirrorConvIfSynced(userId, args.convId);
       return { items: newItems };
     },
     onSuccess: (_data, args) => {
@@ -285,7 +267,7 @@ export function useClearConversationMutation() {
       const id = String(args.id);
       const userId = auth.data?.id ?? GUEST_USER_ID;
       await deleteLocalMessagesForConv(userId, id);
-      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, id);
+      if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, id);
       return { id };
     },
     onSuccess: (_data, args) => {
@@ -399,7 +381,7 @@ export function useSetActiveBranchMutation() {
         }
       }
       if (userId > GUEST_USER_ID)
-        await mirrorConversationIfSynced(userId, args.convId);
+        await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
@@ -432,7 +414,7 @@ export function useDeleteMessageMutation() {
       }
       await deleteLocalMessage(userId, args.msgId);
       if (userId > GUEST_USER_ID)
-        await mirrorConversationIfSynced(userId, args.convId);
+        await mirrorConvIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {

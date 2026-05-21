@@ -17,10 +17,8 @@ import {
   type ImagePayload,
 } from "./playground-finalize";
 import { getSessionRow, listSnapshotsWithImages } from "./playground-reads";
+import { RETENTION_MS } from "./playground-constants";
 import { submitGeneration } from "./playground.service";
-
-// Each fresh snapshot extends expiresAt; actively-used sessions never expire.
-const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
 
 export type PlaygroundSnapshot = {
   version: "unorouter-generation-1";

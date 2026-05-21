@@ -129,3 +129,9 @@ export function csvToArray(value: string): string[] {
     .map((s) => s.trim())
     .filter(Boolean);
 }
+
+// Filename-safe slug for entity exports: collapses non-alphanumerics to "-",
+// caps at 60 chars, falls back when the name yields nothing usable.
+export function exportSlug(name: string, fallback: string): string {
+  return name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || fallback;
+}

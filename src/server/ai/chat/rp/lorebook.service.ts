@@ -1,7 +1,7 @@
 import { lorebookEntries, lorebooks } from "@/lib/db/schema";
 import { getDb } from "@/lib/db/server/client";
 import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
-import { uid } from "@/lib/utils/base";
+import { exportSlug, uid } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
 import { dayjs } from "@/lib/utils/format/date";
@@ -152,7 +152,6 @@ export async function exportLorebook(
 ): Promise<{ data: string; filename: string }> {
   const book = await getLorebook(userId, id);
   const json = serializeLorebookForExport(book, book.entries, format);
-  const slug =
-    book.name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || "lorebook";
+  const slug = exportSlug(book.name, "lorebook");
   return { data: json, filename: `${slug}.${format}.json` };
 }

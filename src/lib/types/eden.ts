@@ -86,15 +86,6 @@ export type ExtractData<T> = T extends { data: infer D }
   ? NonNullable<D>
   : never;
 
-// Unwraps a list-route fn's response to its inner `data.data` array type.
-export type EntityListResponse<TFn> = TFn extends (
-  ...args: never[]
-) => Promise<infer R>
-  ? R extends { data: { data: infer D } }
-    ? D
-    : never
-  : never;
-
 // TS's NonNullable only removes null | undefined; void survives as `void & {}`.
 export type ExcludeVoid<T> = T extends void ? never : T;
 

@@ -13,7 +13,7 @@ import {
   lorebooks,
   personas,
 } from "@/lib/db/schema";
-import { uid } from "@/lib/utils/base";
+import { exportSlug, uid } from "@/lib/utils/base";
 import type { CardApplyBody, CardBody } from "@/lib/validation/rp";
 import { dayjs } from "@/lib/utils/format/date";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
@@ -186,8 +186,7 @@ export async function exportCard(
     characterIds: card.characterIds,
     lorebookIds: card.lorebookIds,
   };
-  const slug =
-    card.name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || "card";
+  const slug = exportSlug(card.name, "card");
   return {
     data: JSON.stringify(portable, null, 2),
     filename: `${slug}.card.json`,
