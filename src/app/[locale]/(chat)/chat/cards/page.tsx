@@ -1,4 +1,4 @@
-import { CardsPage } from "@/components/pages/sidebar/chat/rp/cards-page";
+import { CardsPage } from "@/components/pages/sidebar/chat/rp/card/page";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";

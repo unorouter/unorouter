@@ -1,31 +1,52 @@
 "use client";
 
-import { CharacterList } from "@/components/pages/sidebar/chat/rp/character-list";
-import { LorebookList } from "@/components/pages/sidebar/chat/rp/lorebook-list";
-import { PersonaList } from "@/components/pages/sidebar/chat/rp/persona-list";
 import type { RpTab } from "@/lib/validation/rp-forms";
 import { atom, useAtom } from "jotai";
+import dynamic from "next/dynamic";
+
+const CharacterList = dynamic(() =>
+  import("@/components/pages/sidebar/chat/rp/character/list").then(
+    (m) => m.CharacterList,
+  ),
+);
+const PersonaList = dynamic(() =>
+  import("@/components/pages/sidebar/chat/rp/persona/list").then(
+    (m) => m.PersonaList,
+  ),
+);
+const LorebookList = dynamic(() =>
+  import("@/components/pages/sidebar/chat/rp/lorebook/list").then(
+    (m) => m.LorebookList,
+  ),
+);
 
 // Dialogs render at layout root so they aren't nested inside the mobile
-// sidebar Sheet (which would unmount them on close).
+// sidebar Sheet (which would unmount them on close). The dialog chunks load
+// lazily on first open.
 export const openRpTabAtom = atom<RpTab | null>(null);
 
 export function RpDialogs() {
   const [openTab, setOpenTab] = useAtom(openRpTabAtom);
   return (
     <>
-      <CharacterList
-        open={openTab === "characters"}
-        onOpenChange={(o) => setOpenTab(o ? "characters" : null)}
-      />
-      <PersonaList
-        open={openTab === "personas"}
-        onOpenChange={(o) => setOpenTab(o ? "personas" : null)}
-      />
-      <LorebookList
-        open={openTab === "lorebooks"}
-        onOpenChange={(o) => setOpenTab(o ? "lorebooks" : null)}
-      />
+      {openTab === "characters" && (
+        <CharacterList
+          open
+          onOpenChange={(o) => setOpenTab(o ? "characters" : null)}
+        />
+      )}
+      {openTab === "personas" && (
+        <PersonaList
+          open
+          onOpenChange={(o) => setOpenTab(o ? "personas" : null)}
+        />
+      )}
+      {openTab === "lorebooks" && (
+        <LorebookList
+          open
+          onOpenChange={(o) => setOpenTab(o ? "lorebooks" : null)}
+        />
+      )}
     </>
   );
 }

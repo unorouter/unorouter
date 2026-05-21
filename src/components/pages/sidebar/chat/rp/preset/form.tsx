@@ -2,22 +2,17 @@
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormSwitch } from "@/components/elements/form/my-form-switch";
+import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import {
   useCreatePresetMutation,
   usePresetsQuery,
   useUpdatePresetMutation,
 } from "@/hooks/ai/rp/presets";
 import {
+  SAMPLING_FIELDS,
   samplingPresetFormSchema,
   type SamplingPresetForm,
 } from "@/lib/validation/rp-forms";
@@ -25,8 +20,8 @@ import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { SamplingFields } from "./sampling-fields";
+import { useForm, type Path } from "react-hook-form";
+import { SamplingFields } from "../sampling-fields";
 
 type Props = {
   editingId: string | "new";
@@ -81,20 +76,15 @@ export function PresetForm(props: Props) {
   }, [props.editingId, presetsQuery.data]);
 
   const resetSampling = () => {
-    (
-      [
-        "temperature",
-        "topP",
-        "topK",
-        "minP",
-        "topA",
-        "frequencyPenalty",
-        "presencePenalty",
-        "repetitionPenalty",
-        "maxTokens",
-      ] as const
-    ).forEach((k) => form.setValue(k, null, { shouldDirty: true }));
+    SAMPLING_FIELDS.forEach((k) =>
+      form.setValue(k, null, { shouldDirty: true }),
+    );
   };
+
+  // SamplingFields names every knob to its own field path 1:1.
+  const samplingNames = Object.fromEntries(
+    SAMPLING_FIELDS.map((f) => [f, f]),
+  ) as Record<(typeof SAMPLING_FIELDS)[number], Path<SamplingPresetForm>>;
 
   const onSubmit = async (data: SamplingPresetForm) => {
     if (props.editingId === "new") {
@@ -129,17 +119,7 @@ export function PresetForm(props: Props) {
           <TabsContent value="basic" className="mt-4">
             <SamplingFields
               control={form.control}
-              names={{
-                temperature: "temperature",
-                topP: "topP",
-                topK: "topK",
-                minP: "minP",
-                topA: "topA",
-                frequencyPenalty: "frequencyPenalty",
-                presencePenalty: "presencePenalty",
-                repetitionPenalty: "repetitionPenalty",
-                maxTokens: "maxTokens",
-              }}
+              names={samplingNames}
               onReset={resetSampling}
             />
             <div className="mt-4">
@@ -158,62 +138,32 @@ export function PresetForm(props: Props) {
               </p>
             </div>
 
-            <FormField
+            <MyFormTextarea
               control={form.control}
               name="mainPrompt"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("RP.PRESET_MAIN_PROMPT")}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={4}
-                      placeholder={t("RP.PRESET_MAIN_PROMPT_PLACEHOLDER")}
-                    />
-                  </FormControl>
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_MAIN_PROMPT_HINT")}
-                  </p>
-                </FormItem>
-              )}
+              schema={samplingPresetFormSchema}
+              label={t("RP.PRESET_MAIN_PROMPT")}
+              rows={4}
+              placeholder={t("RP.PRESET_MAIN_PROMPT_PLACEHOLDER")}
+              description={t("RP.PRESET_MAIN_PROMPT_HINT")}
             />
-            <FormField
+            <MyFormTextarea
               control={form.control}
               name="postHistory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("RP.PRESET_POST_HISTORY")}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={4}
-                      placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
-                    />
-                  </FormControl>
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_POST_HISTORY_HINT")}
-                  </p>
-                </FormItem>
-              )}
+              schema={samplingPresetFormSchema}
+              label={t("RP.PRESET_POST_HISTORY")}
+              rows={4}
+              placeholder={t("RP.PRESET_POST_HISTORY_PLACEHOLDER")}
+              description={t("RP.PRESET_POST_HISTORY_HINT")}
             />
-            <FormField
+            <MyFormTextarea
               control={form.control}
               name="prefill"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("RP.PRESET_PREFILL")}</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      rows={4}
-                      placeholder={t("RP.PRESET_PREFILL_PLACEHOLDER")}
-                    />
-                  </FormControl>
-                  <p className="text-muted-foreground text-xs">
-                    {t("RP.PRESET_PREFILL_HINT")}
-                  </p>
-                </FormItem>
-              )}
+              schema={samplingPresetFormSchema}
+              label={t("RP.PRESET_PREFILL")}
+              rows={4}
+              placeholder={t("RP.PRESET_PREFILL_PLACEHOLDER")}
+              description={t("RP.PRESET_PREFILL_HINT")}
             />
 
             <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">

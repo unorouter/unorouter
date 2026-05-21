@@ -14,6 +14,7 @@ type WithId = { id: string; syncExpiresAt?: Date | null };
 
 export type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
   useList: () => ReturnType<typeof useQuery<TItem[]>>;
+  useItem: (id: string | undefined) => ReturnType<typeof useQuery<TItem>>;
   useCreate: () => ReturnType<
     typeof useMutation<TItem, Error, { body: TCreateBody }>
   >;
@@ -47,6 +48,21 @@ export function makeRpEntity<
           const userId = auth.data?.id ?? GUEST_USER_ID;
           return ((await opts.readList(userId)) ?? []) as TItem[];
         },
+      });
+    },
+
+    useItem: (id: string | undefined) => {
+      const auth = useAuthQuery();
+      return useQuery({
+        queryKey: opts.itemKey(id ?? "") as readonly unknown[] as string[],
+        queryFn: async () => {
+          const userId = auth.data?.id ?? GUEST_USER_ID;
+          if (!id) throw new Error("not-found");
+          const item = await opts.readItem(userId, id);
+          if (!item) throw new Error("not-found");
+          return item as TItem;
+        },
+        enabled: !!id,
       });
     },
 

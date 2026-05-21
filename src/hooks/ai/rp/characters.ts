@@ -35,6 +35,7 @@ const characters = makeRpEntity<
 });
 
 export const useCharactersQuery = characters.useList;
+export const useCharacterQuery = characters.useItem;
 export const useCreateCharacterMutation = characters.useCreate;
 export const useUpdateCharacterMutation = characters.useUpdate;
 export const useDeleteCharacterMutation = characters.useDelete;

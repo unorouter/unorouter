@@ -1,20 +1,105 @@
 // Mirrors `./rp.ts` and `./chat.ts` with `default:` for RHF's `Value.Default`.
 
 import { Type as t, type Static } from "@sinclair/typebox/type";
-import { msg, NONE_VALUE } from "../config/constants";
+import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
+
+// Single source of truth for every sampling knob. `field` is the camelCase
+// app/DB name (form schema, Drizzle row, StreamOverrides). `apiKey` is the
+// snake_case upstream OpenAI parameter name, matched against a model's
+// `supportedParameters` capability list. The two vocabularies live in one row
+// so they cannot drift; the slider UI also reads min/max/step/fallback here.
+export const SAMPLING_PARAMS = [
+  {
+    field: "temperature",
+    apiKey: "temperature",
+    labelKey: "RP.SAMPLING_TEMPERATURE",
+    min: 0,
+    max: 2,
+    fallback: 1,
+  },
+  {
+    field: "topP",
+    apiKey: "top_p",
+    labelKey: "RP.SAMPLING_TOP_P",
+    min: 0,
+    max: 1,
+    fallback: 1,
+  },
+  {
+    field: "topK",
+    apiKey: "top_k",
+    labelKey: "RP.SAMPLING_TOP_K",
+    min: 0,
+    max: 200,
+    step: 1,
+    fallback: 0,
+  },
+  {
+    field: "minP",
+    apiKey: "min_p",
+    labelKey: "RP.SAMPLING_MIN_P",
+    min: 0,
+    max: 1,
+    fallback: 0,
+  },
+  {
+    field: "topA",
+    apiKey: "top_a",
+    labelKey: "RP.SAMPLING_TOP_A",
+    min: 0,
+    max: 1,
+    fallback: 0,
+  },
+  {
+    field: "frequencyPenalty",
+    apiKey: "frequency_penalty",
+    labelKey: "RP.SAMPLING_FREQUENCY_PENALTY",
+    min: -2,
+    max: 2,
+    fallback: 0,
+  },
+  {
+    field: "presencePenalty",
+    apiKey: "presence_penalty",
+    labelKey: "RP.SAMPLING_PRESENCE_PENALTY",
+    min: -2,
+    max: 2,
+    fallback: 0,
+  },
+  {
+    field: "repetitionPenalty",
+    apiKey: "repetition_penalty",
+    labelKey: "RP.SAMPLING_REPETITION_PENALTY",
+    min: 0,
+    max: 2,
+    fallback: 1,
+  },
+  {
+    field: "maxTokens",
+    apiKey: "max_tokens",
+    labelKey: "RP.SAMPLING_MAX_TOKENS",
+    min: 1,
+    max: 32_000,
+    step: 1,
+    fallback: 2048,
+  },
+] as const satisfies ReadonlyArray<{
+  field: string;
+  apiKey: string;
+  labelKey: TranslationKey;
+  min: number;
+  max: number;
+  step?: number;
+  fallback: number;
+}>;
+
+export type SamplingParam = (typeof SAMPLING_PARAMS)[number];
 
 // Sampling slider field names, shared by the override form + its reset helper.
-export const SAMPLING_FIELDS = [
-  "temperature",
-  "topP",
-  "topK",
-  "minP",
-  "topA",
-  "frequencyPenalty",
-  "presencePenalty",
-  "repetitionPenalty",
-  "maxTokens",
-] as const;
+export type SamplingFieldName = SamplingParam["field"];
+export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
+  (p) => p.field,
+) as SamplingFieldName[];
 
 // RP entity tabs shown in the sidebar dialog + nav.
 export const RP_TABS = ["characters", "personas", "lorebooks"] as const;
@@ -44,13 +129,23 @@ const webSearchContextSizeLiterals = t.Union([
   t.Literal("high"),
 ]);
 
-const lorebookPositionLiterals = t.Union([
-  t.Literal("before_char"),
-  t.Literal("after_char"),
-  t.Literal("top"),
-  t.Literal("bottom"),
-  t.Literal("at_depth"),
-]);
+// Exported so the entry editor can both build its Select options and narrow
+// the form's loose `string` position back to this union for the API body.
+export const LOREBOOK_POSITIONS = [
+  "before_char",
+  "after_char",
+  "top",
+  "bottom",
+  "at_depth",
+] as const;
+export type LorebookPosition = (typeof LOREBOOK_POSITIONS)[number];
+
+export const LOREBOOK_INJECTION_ROLES = ["user", "system"] as const;
+export type LorebookInjectionRole = (typeof LOREBOOK_INJECTION_ROLES)[number];
+
+const lorebookPositionLiterals = t.Union(
+  LOREBOOK_POSITIONS.map((p) => t.Literal(p)),
+);
 
 const nullableNumber = (min: number, max: number) =>
   t.Union([t.Number({ minimum: min, maximum: max }), t.Null()], {
@@ -199,3 +294,17 @@ export const characterFormSchema = t.Object({
   matchWholeWords: t.Boolean({ default: false }),
 });
 export type CharacterForm = Static<typeof characterFormSchema>;
+
+export const cardFormSchema = t.Object({
+  name: t.String({
+    minLength: 1,
+    maxLength: 200,
+    default: "",
+    error: msg("FORM.ERROR.REQUIRED"),
+  }),
+  description: t.String({ maxLength: 50_000, default: "" }),
+  personaId: t.String({ default: NONE_VALUE }),
+  characterIds: t.Array(t.String(), { default: [] }),
+  lorebookIds: t.Array(t.String(), { default: [] }),
+});
+export type CardForm = Static<typeof cardFormSchema>;

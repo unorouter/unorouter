@@ -8,10 +8,11 @@ import { Card } from "@/components/ui/card";
 import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
-import { downloadBlob } from "@/lib/utils/client";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { PresetForm } from "./preset-form";
+import { PresetForm } from "./form";
+import { exportRpEntity } from "../shared/export-entity";
+import { RpEntityPage } from "../shared/rp-entity-page";
 
 /**
  * Dedicated `/chat/presets` page. Sidebar icon links here. Replaces the
@@ -25,17 +26,11 @@ export function PresetsPage() {
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
 
   const handleExport = async (id: string) => {
-    const { response, error } = await rpc.api.ai.rp
-      .presets({ id })
-      .export.get();
-    if (error || !response.ok) return;
-    const blob = await response.blob();
-    const fname =
-      response.headers
-        .get("content-disposition")
-        ?.match(/filename="([^"]+)"/)?.[1] ?? `preset-${id}.json`;
-    downloadBlob(blob, fname);
-    analytics.rp.entityAction({ entity: "preset", action: "exported" });
+    const ok = await exportRpEntity(
+      rpc.api.ai.rp.presets({ id }).export.get(),
+      `preset-${id}.json`,
+    );
+    if (ok) analytics.rp.entityAction({ entity: "preset", action: "exported" });
   };
 
   const handleDelete = async (id: string) => {
@@ -53,43 +48,29 @@ export function PresetsPage() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div>
-          <h1 className="text-foreground text-2xl font-semibold">
-            {t("RP.PRESETS_TITLE")}
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            {t("RP.PRESETS_PAGE_SUBTITLE")}
-          </p>
-        </div>
-        {!editingId && (
-          <Button
-            onClick={() => {
-              analytics.rp.entityAction({
-                entity: "preset",
-                action: "create_started",
-              });
-              setEditingId("new");
-            }}
-          >
-            <Icon name="plus" className="mr-2 size-4" />
-            {t("RP.PRESETS_NEW")}
-          </Button>
-        )}
-        {editingId && (
-          <Button variant="ghost" onClick={() => setEditingId(null)}>
-            <Icon name="arrow-left" className="mr-2 size-4" />
-            {t("RP.PRESETS_BACK")}
-          </Button>
-        )}
-      </div>
-
-      {editingId ? (
-        <Card className="p-4">
-          <PresetForm editingId={editingId} onDone={() => setEditingId(null)} />
-        </Card>
-      ) : (
+    <RpEntityPage
+      titleKey="RP.PRESETS_TITLE"
+      subtitleKey="RP.PRESETS_PAGE_SUBTITLE"
+      newLabelKey="RP.PRESETS_NEW"
+      backLabelKey="RP.PRESETS_BACK"
+      isEditing={editingId !== null}
+      onNew={() => {
+        analytics.rp.entityAction({
+          entity: "preset",
+          action: "create_started",
+        });
+        setEditingId("new");
+      }}
+      onBack={() => setEditingId(null)}
+      editor={
+        editingId && (
+          <PresetForm
+            editingId={editingId}
+            onDone={() => setEditingId(null)}
+          />
+        )
+      }
+      list={
         <div className="flex flex-col gap-2">
           {presetsQuery.data?.length === 0 && (
             <Card className="text-muted-foreground py-10 text-center text-sm">
@@ -118,8 +99,9 @@ export function PresetsPage() {
                   )}
                 </span>
                 <span className="text-muted-foreground truncate text-xs">
-                  T={p.temperature ?? "off"} | TopP={p.topP ?? "off"} | TopK=
-                  {p.topK ?? "off"}
+                  T={p.temperature ?? t("RP.PRESET_SAMPLING_OFF")} | TopP=
+                  {p.topP ?? t("RP.PRESET_SAMPLING_OFF")} | TopK=
+                  {p.topK ?? t("RP.PRESET_SAMPLING_OFF")}
                 </span>
               </div>
               <div onClick={(e) => e.stopPropagation()}>
@@ -149,7 +131,7 @@ export function PresetsPage() {
             </Card>
           ))}
         </div>
-      )}
-    </div>
+      }
+    />
   );
 }

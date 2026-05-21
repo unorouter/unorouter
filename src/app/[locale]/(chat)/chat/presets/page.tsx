@@ -1,4 +1,4 @@
-import { PresetsPage } from "@/components/pages/sidebar/chat/rp/presets-page";
+import { PresetsPage } from "@/components/pages/sidebar/chat/rp/preset/page";
 import { getPageMetadata } from "@/lib/seo/metadata";
 import { serverLocale } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";

@@ -33,6 +33,7 @@ const personas = makeRpEntity<
 });
 
 export const usePersonasQuery = personas.useList;
+export const usePersonaQuery = personas.useItem;
 export const useCreatePersonaMutation = personas.useCreate;
 export const useUpdatePersonaMutation = personas.useUpdate;
 export const useDeletePersonaMutation = personas.useDelete;

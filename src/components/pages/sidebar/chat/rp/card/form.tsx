@@ -1,6 +1,7 @@
 "use client";
 
 import { MyFormInput } from "@/components/elements/form/my-form-input";
+import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import {
   useCardQuery,
   useCreateCardMutation,
@@ -27,22 +27,12 @@ import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
-import { t as tt } from "elysia";
-import type { Static } from "elysia";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { NONE_VALUE as NONE } from "@/lib/config/constants";
-
-const cardFormSchema = tt.Object({
-  name: tt.String({ minLength: 1, maxLength: 200, default: "" }),
-  description: tt.String({ default: "", maxLength: 50_000 }),
-  personaId: tt.String({ default: NONE }),
-  characterIds: tt.Array(tt.String(), { default: [] }),
-  lorebookIds: tt.Array(tt.String(), { default: [] }),
-});
-type CardForm = Static<typeof cardFormSchema>;
+import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
 
 type Props = {
   editingId: string | "new";
@@ -114,21 +104,13 @@ export function CardForm(props: Props) {
           schema={cardFormSchema}
           label={t("COMMON.NAME")}
         />
-        <FormField
+        <MyFormTextarea
           control={form.control}
           name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("COMMON.DESCRIPTION")}</FormLabel>
-              <FormControl>
-                <Textarea
-                  {...field}
-                  rows={3}
-                  placeholder={t("RP.CARD_DESCRIPTION_PLACEHOLDER")}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+          schema={cardFormSchema}
+          label={t("COMMON.DESCRIPTION")}
+          rows={3}
+          placeholder={t("RP.CARD_DESCRIPTION_PLACEHOLDER")}
         />
 
         <FormField

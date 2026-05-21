@@ -51,7 +51,7 @@ Server routes are grouped into 5 domains under `src/server/`, each with a `route
 Two patterns, pick by domain:
 
 - Pass-through routes (`auth`, `billing`, `models`, `ops`, plus `ai/playground` and `ai/sync` where they forward): `return unwrap(res)`. The upstream response shape flows through. No wrapping.
-- Local-logic routes (`ai/chat`, including its `rp` and `transfer` subroutes): `return { success: true, data }`. Wrapping is needed so `handleElysia()` on the client can distinguish success from typed failure.
+- Local-logic routes (`ai/chat`, including its `rp` subroute): `return { success: true, data }`. Wrapping is needed so `handleElysia()` on the client can distinguish success from typed failure.
 
 Stick to the pattern of the route you're editing. Don't mix.
 
@@ -131,9 +131,9 @@ RP (`src/server/ai/chat/rp/`): roleplay entity services.
 - `character.service.ts`, `persona.service.ts`, `lorebook.service.ts`, `preset.service.ts`
 - `card.service.ts`: SillyTavern character card import/export
 - `binding.service.ts`: links characters/personas/presets/lorebooks to a conversation
-- Import/serialization helpers live in `src/lib/rp/`: `character-card.ts` (SillyTavern card v2/v3), `persona-import.ts`, `lorebook-import.ts`.
+- Import/serialization helpers live in `src/lib/ai/rp/`: `character-card.ts` (SillyTavern card v2/v3), `persona-import.ts`, `lorebook-import.ts`.
 
-Conversation export/import is local-first, not a server route. The logic lives in `src/lib/db/client/data/transfer.ts` (`exportLocalConversation`, `exportLocalConversationSillyTavern`, `importLocalConversation`) and reads/writes the client SQLocal DB directly via `readLocalConversationBundle` / `upsertLocalConversationBundle`. Formats: `unorouter.1.0` native, `orpg.3.0`, SillyTavern JSONL. Works for guests since it never touches Turso.
+Conversation export/import is local-first, not a server route. The logic lives in `src/lib/db/client/data/transfer/`: `native.ts` (`buildNativeExport`, `toOrpg`, `persistMappedImport`), `sillytavern.ts` (`exportLocalConversationSillyTavern`, `importSillyTavernChat`), `map.ts` (format mappers). Reads/writes the client SQLocal DB directly. Formats: `unorouter.1.0` native, `orpg.3.0`, SillyTavern JSONL. Works for guests since it never touches Turso.
 
 The server `ai/chat` services are the only place with server (Turso) DB writes. The browser-side local-first chat state lives in the client SQLocal DB (`src/lib/db/client/`).
 

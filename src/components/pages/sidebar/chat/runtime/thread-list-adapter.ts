@@ -7,6 +7,7 @@ import {
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
+import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -49,9 +50,9 @@ export function createThreadListAdapter(
     async initialize(_id) {
       let model = chatStore.get(chatModelAtom);
       if (!model) {
-        const pricing = queryClient.getQueryData<{
-          firstFreeModel?: { name: string } | null;
-        }>(queryKeys.pricing());
+        const pricing = queryClient.getQueryData<
+          ReturnType<typeof buildPricingSummary>
+        >(queryKeys.pricing());
         model = pricing?.firstFreeModel?.name ?? null;
       }
       if (!model) throw new Error(t("ERRORS.NO_TEXT_MODELS"));
