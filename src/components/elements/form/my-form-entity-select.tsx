@@ -44,8 +44,8 @@ export function MyFormEntitySelect<T extends FieldValues>(props: {
                 <SelectValue>
                   {field.value === NONE_VALUE
                     ? props.noneLabel
-                    : (props.options?.find((o) => o.id === field.value)
-                        ?.name ?? props.noneLabel)}
+                    : (props.options?.find((o) => o.id === field.value)?.name ??
+                      props.noneLabel)}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>

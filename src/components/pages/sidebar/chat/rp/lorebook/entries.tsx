@@ -38,7 +38,8 @@ import {
   type LorebookPosition,
 } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
+import { csvToArray } from "@/lib/utils/base";
+import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -68,61 +69,38 @@ export function LorebookEntries(props: { lorebookId: string }) {
 
   const form = useForm({
     resolver: typeboxResolver(lorebookEntryFormSchema),
-    defaultValues: Value.Default(
-      lorebookEntryFormSchema,
-      {},
-    ) as LorebookEntryForm,
+    defaultValues: formDefaults(lorebookEntryFormSchema),
   });
 
   useEffect(() => {
     if (editingId === "new") {
-      form.reset(
-        Value.Default(lorebookEntryFormSchema, {}) as LorebookEntryForm,
-      );
+      form.reset(formDefaults(lorebookEntryFormSchema));
       return;
     }
     if (!editingId) return;
     const e = lbQuery.data?.entries.find((x) => x.id === editingId);
     if (!e) return;
-    form.reset({
-      keys: ((e.keys ?? []) as string[]).join(", "),
-      secondaryKeys: ((e.secondaryKeys ?? []) as string[]).join(", "),
-      content: e.content ?? "",
-      position: (e.position ?? "before_char") as LorebookPosition,
-      priority: e.priority ?? 100,
-      depth: e.depth ?? 4,
-      constant: e.constant ?? false,
-      selective: e.selective ?? false,
-      enabled: e.enabled ?? true,
-      matchWholeWords: e.matchWholeWords ?? false,
-      injectionRole: (e.injectionRole ?? "user") as LorebookInjectionRole,
-    });
+    // keys/secondaryKeys are string[] columns; the form edits them comma-joined.
+    form.reset(
+      formDefaults(lorebookEntryFormSchema, {
+        ...e,
+        keys: ((e.keys ?? []) as string[]).join(", "),
+        secondaryKeys: ((e.secondaryKeys ?? []) as string[]).join(", "),
+      }),
+    );
     // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editingId, lbQuery.data]);
 
   const onSubmit = async (data: LorebookEntryForm) => {
+    const secondary = csvToArray(data.secondaryKeys);
     const body = {
-      keys: data.keys
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean),
-      secondaryKeys: data.secondaryKeys
-        ? data.secondaryKeys
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : null,
-      content: data.content,
+      ...data,
+      keys: csvToArray(data.keys),
+      secondaryKeys: secondary.length > 0 ? secondary : null,
       position: data.position as LorebookPosition,
-      priority: data.priority,
-      depth: data.depth,
-      constant: data.constant,
-      selective: data.selective,
-      enabled: data.enabled,
-      orderIndex: 0,
-      matchWholeWords: data.matchWholeWords,
       injectionRole: data.injectionRole as LorebookInjectionRole,
+      orderIndex: 0,
     };
     if (editingId === "new") {
       await createMut.mutateAsync(body);

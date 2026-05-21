@@ -31,11 +31,7 @@ async function extractPdfText(buffer: Buffer): Promise<string | null> {
   }
 }
 
-export async function uploadMedia(
-  file: File,
-  convId: string,
-  userId: number,
-) {
+export async function uploadMedia(file: File, convId: string, userId: number) {
   const db = getDb();
   const convRows = await db
     .select({ userId: conversations.userId })

@@ -337,8 +337,7 @@ export function GenerateForm() {
         shouldDirty: true,
       });
     }
-    const cur =
-      form.watch("params") ?? {};
+    const cur = form.watch("params") ?? {};
     const next: Record<string, unknown> = { ...cur };
     if (data.seed !== undefined) next.seed = data.seed;
     if (data.steps !== undefined) next.steps = data.steps;
@@ -1038,8 +1037,7 @@ export function GenerateForm() {
               )?.embeddings ?? []
             }
             onChange={(embeddings) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue(
                 "params",
                 {
@@ -1056,8 +1054,7 @@ export function GenerateForm() {
           <VaePicker
             value={form.watch("params")?.vae}
             onChange={(vae) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue("params", { ...cur, vae } as never, {
                 shouldDirty: true,
               });
@@ -1075,8 +1072,7 @@ export function GenerateForm() {
               )?.controlNet
             }
             onChange={(controlNet) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue("params", { ...cur, controlNet } as never, {
                 shouldDirty: true,
               });
@@ -1095,8 +1091,7 @@ export function GenerateForm() {
               )?.adetailer
             }
             onChange={(adetailer) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue("params", { ...cur, adetailer } as never, {
                 shouldDirty: true,
               });
@@ -1114,8 +1109,7 @@ export function GenerateForm() {
               )?.layerDiffusion
             }
             onChange={(layerDiffusion) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue("params", { ...cur, layerDiffusion } as never, {
                 shouldDirty: true,
               });
@@ -1125,30 +1119,18 @@ export function GenerateForm() {
 
         {descriptor.supportsHiresFix && (
           <UpscalerField
-            upscaler={
-              form.watch("params")
-                ?.upscaler
-            }
+            upscaler={form.watch("params")?.upscaler}
             multiplier={
               (
                 form.watch("params") as
                   | { upscalerMultiplier?: number; hiresUpscale?: number }
                   | undefined
-              )?.upscalerMultiplier ??
-              form.watch("params")
-                ?.hiresUpscale
+              )?.upscalerMultiplier ?? form.watch("params")?.hiresUpscale
             }
-            hiresSteps={
-              form.watch("params")
-                ?.hiresSteps
-            }
-            denoise={
-              form.watch("params")
-                ?.hiresDenoise
-            }
+            hiresSteps={form.watch("params")?.hiresSteps}
+            denoise={form.watch("params")?.hiresDenoise}
             onChange={(patch) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue(
                 "params",
                 {
@@ -1175,14 +1157,10 @@ export function GenerateForm() {
 
         {descriptor.supportsClipSkip && (
           <AdvancedSettingsAccordion
-            clipSkip={
-              form.watch("params")
-                ?.clipSkip
-            }
+            clipSkip={form.watch("params")?.clipSkip}
             ensd={form.watch("params")?.ensd}
             onChange={(patch) => {
-              const cur =
-                form.watch("params") ?? {};
+              const cur = form.watch("params") ?? {};
               form.setValue("params", { ...cur, ...patch } as never, {
                 shouldDirty: true,
               });

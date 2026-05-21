@@ -23,7 +23,6 @@ import {
   splitHalf,
 } from "./rankings-helpers";
 
-
 const FALLBACK_PALETTE = [
   "#0ea5e9",
   "#22c55e",
@@ -217,4 +216,3 @@ function VendorList(props: {
     </ul>
   );
 }
-

@@ -265,7 +265,8 @@ export function useEditMessageMutation() {
           updatedAt: now,
         });
       }
-      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
+      if (userId > GUEST_USER_ID)
+        await mirrorConversationIfSynced(userId, args.convId);
       return { items: newItems };
     },
     onSuccess: (_data, args) => {
@@ -369,7 +370,9 @@ export function useConversationMarkdown() {
   return useMutation({
     onError: (e) => handleError(e, t),
     mutationFn: async (args: ChatParams) => {
-      return handleElysia(await rpc.api.ai.chat({ id: args.id }).markdown.get());
+      return handleElysia(
+        await rpc.api.ai.chat({ id: args.id }).markdown.get(),
+      );
     },
   });
 }
@@ -395,7 +398,8 @@ export function useSetActiveBranchMutation() {
           });
         }
       }
-      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
+      if (userId > GUEST_USER_ID)
+        await mirrorConversationIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {
@@ -427,7 +431,8 @@ export function useDeleteMessageMutation() {
         }
       }
       await deleteLocalMessage(userId, args.msgId);
-      if (userId > GUEST_USER_ID) await mirrorConversationIfSynced(userId, args.convId);
+      if (userId > GUEST_USER_ID)
+        await mirrorConversationIfSynced(userId, args.convId);
       return { id: args.msgId };
     },
     onSuccess: (_data, args) => {

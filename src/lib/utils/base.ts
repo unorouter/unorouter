@@ -120,3 +120,12 @@ export function fileToBase64(file: File): Promise<string> {
 export function quoteIdent(s: string): string {
   return `"${s.replace(/"/g, '""')}"`;
 }
+
+// Splits a comma-separated form field into a trimmed, empty-stripped array.
+// RP forms edit keys/tags/triggers as one text input; the DB stores arrays.
+export function csvToArray(value: string): string[] {
+  return value
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}

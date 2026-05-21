@@ -98,8 +98,9 @@ export function SubscriptionSection() {
             <SelectTrigger className="w-48">
               <SelectValue>
                 {t(
-                  BILLING_PREFERENCE_OPTIONS.find((o) => o.value === billingPreference)
-                    ?.key ?? BILLING_PREFERENCE_OPTIONS[0].key,
+                  BILLING_PREFERENCE_OPTIONS.find(
+                    (o) => o.value === billingPreference,
+                  )?.key ?? BILLING_PREFERENCE_OPTIONS[0].key,
                 )}
               </SelectValue>
             </SelectTrigger>
@@ -278,7 +279,9 @@ export function SubscriptionSection() {
                   <Button
                     variant={i === 0 ? "default" : "outline"}
                     className="w-full"
-                    onClick={() => billing.subscribe(plan, { isLoggedIn: true })}
+                    onClick={() =>
+                      billing.subscribe(plan, { isLoggedIn: true })
+                    }
                     disabled={
                       isMutating ||
                       (!billing.enableStripe && !billing.enableCreem)

@@ -31,8 +31,7 @@ export type ConversationRow = typeof conversations.$inferSelect;
 export type ConversationSettingsRow = typeof conversationSettings.$inferSelect;
 export type ConversationCharacterRow =
   typeof conversationCharacters.$inferSelect;
-export type ConversationLorebookRow =
-  typeof conversationLorebooks.$inferSelect;
+export type ConversationLorebookRow = typeof conversationLorebooks.$inferSelect;
 
 // A lorebook with its entries inlined, as the detail reader returns it.
 export type LorebookWithEntries = LorebookRow & {

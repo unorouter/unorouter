@@ -5,13 +5,16 @@ import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { useDeletePresetMutation, usePresetsQuery } from "@/hooks/ai/rp/presets";
+import {
+  useDeletePresetMutation,
+  usePresetsQuery,
+} from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
 import { rpc } from "@/lib/rpc";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { PresetForm } from "./form";
-import { exportRpEntity } from "../shared/export-entity";
+import { downloadFileResponse } from "@/lib/utils/client";
 import { RpEntityPage } from "../shared/rp-entity-page";
 
 /**
@@ -26,7 +29,7 @@ export function PresetsPage() {
   const [editingId, setEditingId] = useState<string | "new" | null>(null);
 
   const handleExport = async (id: string) => {
-    const ok = await exportRpEntity(
+    const ok = await downloadFileResponse(
       rpc.api.ai.rp.presets({ id }).export.get(),
       `preset-${id}.json`,
     );
@@ -64,10 +67,7 @@ export function PresetsPage() {
       onBack={() => setEditingId(null)}
       editor={
         editingId && (
-          <PresetForm
-            editingId={editingId}
-            onDone={() => setEditingId(null)}
-          />
+          <PresetForm editingId={editingId} onDone={() => setEditingId(null)} />
         )
       }
       list={

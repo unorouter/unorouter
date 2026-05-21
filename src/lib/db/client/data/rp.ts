@@ -40,18 +40,21 @@ export const readLocalCharacters = (userId: number | undefined) =>
 export const readLocalCharacter = (userId: number | undefined, id: string) =>
   characterStore.get(userId, id);
 
-export const readLocalPersonas = (userId: number | undefined) => personaStore.list(userId);
+export const readLocalPersonas = (userId: number | undefined) =>
+  personaStore.list(userId);
 export const readLocalPersona = (userId: number | undefined, id: string) =>
   personaStore.get(userId, id);
 
 export const readLocalLorebooks = (userId: number | undefined) =>
   lorebookStore.list(userId);
 
-export const readLocalPresets = (userId: number | undefined) => presetStore.list(userId);
+export const readLocalPresets = (userId: number | undefined) =>
+  presetStore.list(userId);
 export const readLocalPreset = (userId: number | undefined, id: string) =>
   presetStore.get(userId, id);
 
-export const readLocalCards = (userId: number | undefined) => cardStore.list(userId);
+export const readLocalCards = (userId: number | undefined) =>
+  cardStore.list(userId);
 
 export async function readLocalLorebook(
   userId: number | undefined,
@@ -78,7 +81,10 @@ export async function readLocalLorebook(
 // Reads a lorebook in the bundle shape ({ lorebook, entries }) used by sync
 // payloads and the stream chat context. Returns null when the lorebook is
 // missing so callers can filter it out.
-export async function readLocalLorebookBundle(userId: number | undefined, id: string) {
+export async function readLocalLorebookBundle(
+  userId: number | undefined,
+  id: string,
+) {
   const lb = await readLocalLorebook(userId, id);
   if (!lb) return null;
   const { entries, ...lorebook } = lb;
@@ -136,8 +142,10 @@ export const upsertLocalLorebookEntry = (
   userId: number | undefined,
   row: LocalRowInput & { id: string; lorebookId: string },
 ) => lorebookEntryStore.upsert(userId, row, { scopeUser: false });
-export const deleteLocalLorebookEntry = (userId: number | undefined, entryId: string) =>
-  lorebookEntryStore.drop(userId, entryId, { scopeUser: false });
+export const deleteLocalLorebookEntry = (
+  userId: number | undefined,
+  entryId: string,
+) => lorebookEntryStore.drop(userId, entryId, { scopeUser: false });
 export async function upsertLocalLorebookBundle(
   userId: number | undefined,
   bundle: { lorebook: AnyRow; entries: AnyRow[] },

@@ -7,29 +7,29 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import { StatusBanner } from "@/components/ui/status/status-banner";
 import { StatusBar } from "@/components/ui/status/status-bar";
 import {
-    StatusComponent,
-    StatusComponentBody,
-    StatusComponentDescription,
-    StatusComponentHeader,
-    StatusComponentHeaderLeft,
-    StatusComponentHeaderRight,
-    StatusComponentIcon,
-    StatusComponentStatus,
-    StatusComponentTitle,
-    StatusComponentUptime,
+  StatusComponent,
+  StatusComponentBody,
+  StatusComponentDescription,
+  StatusComponentHeader,
+  StatusComponentHeaderLeft,
+  StatusComponentHeaderRight,
+  StatusComponentIcon,
+  StatusComponentStatus,
+  StatusComponentTitle,
+  StatusComponentUptime,
 } from "@/components/ui/status/status-component";
 import type {
-    StatusBarData,
-    StatusType,
+  StatusBarData,
+  StatusType,
 } from "@/components/ui/status/status.types";
 import type { StatusBucket } from "@/lib/types";
 import { usePerfMetricsSummaryQuery } from "@/hooks/models/perf-metrics-hook";
@@ -241,7 +241,9 @@ export function StatusPage() {
                                 </StatusComponentDescription>
                               )}
                             </div>
-                            <PerfStats perf={perfMap.get(item.component.name)} />
+                            <PerfStats
+                              perf={perfMap.get(item.component.name)}
+                            />
                           </div>
                         </StatusComponentHeaderLeft>
                         <StatusComponentHeaderRight>

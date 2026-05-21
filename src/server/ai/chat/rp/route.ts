@@ -319,13 +319,13 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
   // logged-in only on the write path (reference user-owned entities); reads
   // return whatever rows exist.
   .get("/conversations/:id/settings", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie, true) ?? 0;
+    const userId = (await getUserId(cookie, true)) ?? 0;
     return { success: true, data: await getSettings(userId, params.id) };
   })
   .put(
     "/conversations/:id/settings",
     async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie, true) ?? 0;
+      const userId = (await getUserId(cookie, true)) ?? 0;
       return {
         success: true,
         data: await updateSettings(userId, params.id, body),
@@ -334,7 +334,7 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { body: updateConversationSettingsBody },
   )
   .get("/conversations/:id/bindings", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie, true) ?? 0;
+    const userId = (await getUserId(cookie, true)) ?? 0;
     return { success: true, data: await getBindings(userId, params.id) };
   })
   .put(

@@ -26,6 +26,9 @@ export default async function PlaygroundByIdPage(props: {
   const params = await props.params;
   const search = await props.searchParams;
   return (
-    <PlaygroundPage sessionId={params.id} snapshotId={search.snap ?? undefined} />
+    <PlaygroundPage
+      sessionId={params.id}
+      snapshotId={search.snap ?? undefined}
+    />
   );
 }

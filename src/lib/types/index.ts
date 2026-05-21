@@ -10,9 +10,8 @@ export type TranslationKey = Parameters<
   ReturnType<typeof useTranslations<never>>
 >[0];
 
-export type DashToUnderscore<S extends string> = S extends `${infer A}-${infer B}`
-  ? `${A}_${B}`
-  : S;
+export type DashToUnderscore<S extends string> =
+  S extends `${infer A}-${infer B}` ? `${A}_${B}` : S;
 
 export type LogContext = { context?: string; [key: string]: unknown };
 

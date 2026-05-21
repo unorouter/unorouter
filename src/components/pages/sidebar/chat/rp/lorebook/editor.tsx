@@ -18,7 +18,7 @@ import {
   type LorebookForm,
 } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
+import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -37,19 +37,13 @@ export function LorebookEditor(props: Props) {
 
   const form = useForm({
     resolver: typeboxResolver(lorebookFormSchema),
-    defaultValues: Value.Default(lorebookFormSchema, {}) as LorebookForm,
+    defaultValues: formDefaults(lorebookFormSchema),
   });
 
   useEffect(() => {
     const l = lbQuery.data;
     if (!l) return;
-    form.reset({
-      name: l.name,
-      description: l.description ?? "",
-      scanDepth: l.scanDepth ?? 4,
-      tokenBudget: l.tokenBudget ?? 1500,
-      recursiveScanning: l.recursiveScanning ?? false,
-    });
+    form.reset(formDefaults(lorebookFormSchema, l));
     // form.reset is stable; we want to re-seed when the lorebook changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lbQuery.data, props.lorebookId]);

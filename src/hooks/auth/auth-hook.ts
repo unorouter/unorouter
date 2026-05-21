@@ -23,7 +23,9 @@ export function useAuthQuery() {
 export function useLoginMutation() {
   const t = useTranslations();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.auth.account.login, "post">) => {
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.auth.account.login, "post">,
+    ) => {
       return handleElysia(await rpc.api.auth.account.login.post(args.body));
     },
     onError: (e) => handleError(e, t),
@@ -34,7 +36,9 @@ export function useVerify2FAMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (args: EdenArgs<AuthLogin["2fa"], "post">) => {
-      return handleElysia(await rpc.api.auth.account.login["2fa"].post(args.body));
+      return handleElysia(
+        await rpc.api.auth.account.login["2fa"].post(args.body),
+      );
     },
     onError: (e) => handleError(e, t),
   });

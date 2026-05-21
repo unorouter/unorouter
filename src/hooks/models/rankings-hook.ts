@@ -10,7 +10,9 @@ export function useRankingsQuery(period: RankingPeriod) {
   return useQuery({
     queryKey: queryKeys.rankings(period),
     queryFn: async () => {
-      return handleElysia(await rpc.api.models.rankings.get({ query: { period } }));
+      return handleElysia(
+        await rpc.api.models.rankings.get({ query: { period } }),
+      );
     },
   });
 }

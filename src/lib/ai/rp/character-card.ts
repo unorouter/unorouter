@@ -182,7 +182,10 @@ export function exportCharacterCard(
     png: { ext: "png", mimeType: "image/png" },
     voxta: { ext: "voxpkg", mimeType: "application/octet-stream" },
   };
-  const meta = OVERRIDES[format] ?? { ext: format, mimeType: "application/zip" };
+  const meta = OVERRIDES[format] ?? {
+    ext: format,
+    mimeType: "application/zip",
+  };
   return { data: result.buffer, mimeType: meta.mimeType, ext: meta.ext };
 }
 

@@ -15,7 +15,8 @@ import {
   type CharacterForm,
 } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
+import { csvToArray } from "@/lib/utils/base";
+import { formDefaults } from "@/lib/validation/helpers";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -34,60 +35,34 @@ export function CharacterEditor(props: Props) {
 
   const form = useForm({
     resolver: typeboxResolver(characterFormSchema),
-    defaultValues: Value.Default(characterFormSchema, {}) as CharacterForm,
+    defaultValues: formDefaults(characterFormSchema),
   });
 
   useEffect(() => {
     if (!existing) {
-      form.reset(Value.Default(characterFormSchema, {}) as CharacterForm);
+      form.reset(formDefaults(characterFormSchema));
       return;
     }
-    form.reset({
-      name: existing.name ?? "",
-      description: existing.description ?? "",
-      personality: existing.personality ?? "",
-      scenario: existing.scenario ?? "",
-      firstMessage: existing.firstMessage ?? "",
-      exampleMessages: existing.exampleMessages ?? "",
-      systemPrompt: existing.systemPrompt ?? "",
-      postHistoryInstructions: existing.postHistoryInstructions ?? "",
-      tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
-      nsfw: existing.nsfw ?? false,
-      triggers: Array.isArray(existing.triggers)
-        ? existing.triggers.join(", ")
-        : "",
-      alwaysActive: existing.alwaysActive ?? true,
-      matchWholeWords: existing.matchWholeWords ?? false,
-    });
+    // tags/triggers are string[] columns; the form edits them comma-joined.
+    form.reset(
+      formDefaults(characterFormSchema, {
+        ...existing,
+        tags: Array.isArray(existing.tags) ? existing.tags.join(", ") : "",
+        triggers: Array.isArray(existing.triggers)
+          ? existing.triggers.join(", ")
+          : "",
+      }),
+    );
     // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existing]);
 
   const onSubmit = async (data: CharacterForm) => {
     const body = {
-      name: data.name,
-      description: data.description || undefined,
-      personality: data.personality || undefined,
-      scenario: data.scenario || undefined,
-      firstMessage: data.firstMessage || undefined,
-      exampleMessages: data.exampleMessages || undefined,
-      systemPrompt: data.systemPrompt || undefined,
-      postHistoryInstructions: data.postHistoryInstructions || undefined,
-      tags: data.tags
-        ? data.tags
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : undefined,
-      nsfw: data.nsfw,
-      triggers: data.triggers
-        ? data.triggers
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : undefined,
-      alwaysActive: data.alwaysActive,
-      matchWholeWords: data.matchWholeWords,
+      ...data,
+      // tags/triggers go back to string[] columns.
+      tags: csvToArray(data.tags),
+      triggers: csvToArray(data.triggers),
     };
     if (props.characterId) {
       await updateMut.mutateAsync({ id: props.characterId, body });

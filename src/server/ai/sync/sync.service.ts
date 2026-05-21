@@ -72,7 +72,8 @@ export type SyncBundleMap = {
   theme: { theme: typeof userThemes.$inferSelect };
 };
 
-export type SyncBundle<K extends SyncKindName = SyncKindName> = SyncBundleMap[K];
+export type SyncBundle<K extends SyncKindName = SyncKindName> =
+  SyncBundleMap[K];
 
 // Default sync window when a request omits `days`.
 const DEFAULT_TTL_DAYS = 30;
@@ -587,7 +588,13 @@ function personaInsertValues(
   expiresAt: Date,
 ): typeof personas.$inferInsert {
   const v = Value.Cast(personaBody, body);
-  return { ...v, id, userId, isDefault: v.isDefault ?? false, syncExpiresAt: expiresAt };
+  return {
+    ...v,
+    id,
+    userId,
+    isDefault: v.isDefault ?? false,
+    syncExpiresAt: expiresAt,
+  };
 }
 
 function presetInsertValues(
@@ -597,7 +604,13 @@ function presetInsertValues(
   expiresAt: Date,
 ): typeof samplingPresets.$inferInsert {
   const v = Value.Cast(samplingPresetBody, body);
-  return { ...v, id, userId, isDefault: v.isDefault ?? false, syncExpiresAt: expiresAt };
+  return {
+    ...v,
+    id,
+    userId,
+    isDefault: v.isDefault ?? false,
+    syncExpiresAt: expiresAt,
+  };
 }
 
 function lorebookInsertValues(
@@ -653,9 +666,9 @@ async function insertReferencedCharacter(
 ): Promise<void> {
   const id = body.id as string;
   if (!id || (await rowExists(tx, characters, id, userId))) return;
-  await tx.insert(characters).values(
-    characterInsertValues(body, userId, id, expiresAt),
-  );
+  await tx
+    .insert(characters)
+    .values(characterInsertValues(body, userId, id, expiresAt));
 }
 
 async function insertReferencedPersona(
@@ -666,9 +679,9 @@ async function insertReferencedPersona(
 ): Promise<void> {
   const id = body.id as string;
   if (!id || (await rowExists(tx, personas, id, userId))) return;
-  await tx.insert(personas).values(
-    personaInsertValues(body, userId, id, expiresAt),
-  );
+  await tx
+    .insert(personas)
+    .values(personaInsertValues(body, userId, id, expiresAt));
 }
 
 async function insertReferencedPreset(
@@ -679,9 +692,9 @@ async function insertReferencedPreset(
 ): Promise<void> {
   const id = body.id as string;
   if (!id || (await rowExists(tx, samplingPresets, id, userId))) return;
-  await tx.insert(samplingPresets).values(
-    presetInsertValues(body, userId, id, expiresAt),
-  );
+  await tx
+    .insert(samplingPresets)
+    .values(presetInsertValues(body, userId, id, expiresAt));
 }
 
 async function insertReferencedLorebook(
@@ -699,13 +712,11 @@ async function insertReferencedLorebook(
     .where(and(eq(lorebooks.id, id), eq(lorebooks.userId, userId)))
     .limit(1);
   if (rows.length > 0) return;
-  await tx.insert(lorebooks).values(
-    lorebookInsertValues(lb, userId, id, expiresAt),
-  );
+  await tx
+    .insert(lorebooks)
+    .values(lorebookInsertValues(lb, userId, id, expiresAt));
   for (const e of (entry.entries ?? []) as Array<Record<string, unknown>>) {
-    await tx
-      .insert(lorebookEntries)
-      .values(lorebookEntryInsertValues(e, id));
+    await tx.insert(lorebookEntries).values(lorebookEntryInsertValues(e, id));
   }
 }
 

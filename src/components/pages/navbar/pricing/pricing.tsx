@@ -65,9 +65,7 @@ export function Pricing() {
       return (topUpInfo.amount_options ?? []).map((amount) => ({
         key: `stripe-${amount}`,
         amount,
-        handler: isLoggedIn
-          ? () => billing.payStripe(amount)
-          : redirectToLogin,
+        handler: isLoggedIn ? () => billing.payStripe(amount) : redirectToLogin,
       }));
     }
 
@@ -75,9 +73,7 @@ export function Pricing() {
       return DEFAULT_TOPUP_AMOUNTS.map((amount) => ({
         key: `stripe-${amount}`,
         amount,
-        handler: isLoggedIn
-          ? () => billing.payStripe(amount)
-          : redirectToLogin,
+        handler: isLoggedIn ? () => billing.payStripe(amount) : redirectToLogin,
       }));
     }
 

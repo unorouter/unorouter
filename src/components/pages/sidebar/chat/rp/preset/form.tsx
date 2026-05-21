@@ -11,13 +11,13 @@ import {
   usePresetsQuery,
   useUpdatePresetMutation,
 } from "@/hooks/ai/rp/presets";
+import { formDefaults } from "@/lib/validation/helpers";
 import {
   SAMPLING_FIELDS,
   samplingPresetFormSchema,
   type SamplingPresetForm,
 } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm, type Path } from "react-hook-form";
@@ -36,42 +36,17 @@ export function PresetForm(props: Props) {
 
   const form = useForm({
     resolver: typeboxResolver(samplingPresetFormSchema),
-    defaultValues: Value.Default(
-      samplingPresetFormSchema,
-      {},
-    ) as SamplingPresetForm,
+    defaultValues: formDefaults(samplingPresetFormSchema),
   });
 
   useEffect(() => {
     if (props.editingId === "new") {
-      form.reset(
-        Value.Default(samplingPresetFormSchema, {}) as SamplingPresetForm,
-      );
+      form.reset(formDefaults(samplingPresetFormSchema));
       return;
     }
     const p = presetsQuery.data?.find((x) => x.id === props.editingId);
     if (!p) return;
-    form.reset({
-      name: p.name,
-      temperature: p.temperature ?? null,
-      topP: p.topP ?? null,
-      topK: p.topK ?? null,
-      minP: p.minP ?? null,
-      topA: p.topA ?? null,
-      frequencyPenalty: p.frequencyPenalty ?? null,
-      presencePenalty: p.presencePenalty ?? null,
-      repetitionPenalty: p.repetitionPenalty ?? null,
-      maxTokens: p.maxTokens ?? null,
-      mainPrompt: p.mainPrompt ?? "",
-      postHistory: p.postHistory ?? "",
-      prefill: p.prefill ?? "",
-      forceAlternateRoles: p.forceAlternateRoles ?? false,
-      noSystemRole: p.noSystemRole ?? false,
-      mustStartWithUserInput: p.mustStartWithUserInput ?? false,
-      skipPrefillIfLastIsAssistant: p.skipPrefillIfLastIsAssistant ?? false,
-      geminiBlockOff: p.geminiBlockOff ?? false,
-      isDefault: p.isDefault ?? false,
-    });
+    form.reset(formDefaults(samplingPresetFormSchema, p));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.editingId, presetsQuery.data]);
 

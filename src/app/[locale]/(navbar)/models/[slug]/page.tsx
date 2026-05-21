@@ -8,9 +8,9 @@ import { rpc } from "@/lib/rpc";
 import { JsonLd } from "@/lib/seo/json-ld";
 import { getPageMetadata, ogBadge } from "@/lib/seo/metadata";
 import {
-    buildBreadcrumbListSchema,
-    buildFAQPageSchema,
-    buildSoftwareApplicationSchema,
+  buildBreadcrumbListSchema,
+  buildFAQPageSchema,
+  buildSoftwareApplicationSchema,
 } from "@/lib/seo/structured-data";
 import { handleElysia, modelSlug } from "@/lib/utils/base";
 import { formatPrice } from "@/lib/utils/format/number";
@@ -89,7 +89,9 @@ export default async function ModelDetailPage(props: PageProps) {
     await queryClient.prefetchQuery({
       queryKey: queryKeys.bestKey(),
       queryFn: async () =>
-        handleElysia(await rpc.api.billing.token["best-key"].get({ ...cookieHeaders })),
+        handleElysia(
+          await rpc.api.billing.token["best-key"].get({ ...cookieHeaders }),
+        ),
     });
   }
 

@@ -266,7 +266,9 @@ export async function ClaudeAuthenticityContent() {
         </Table>
       </div>
 
-      <p>{t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.OLDER_VARIANTS", richMarks)}</p>
+      <p>
+        {t.rich("BLOG.POSTS.CLAUDE_AUTHENTICITY.OLDER_VARIANTS", richMarks)}
+      </p>
 
       <h2 id="why">{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.H_WHY")}</h2>
       <p>{t("BLOG.POSTS.CLAUDE_AUTHENTICITY.WHY_INTRO")}</p>

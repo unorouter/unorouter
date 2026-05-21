@@ -36,7 +36,9 @@ export function useTransferAffQuotaMutation() {
     mutationFn: async (
       args: EdenArgs<typeof rpc.api.billing.affiliate.transfer, "post">,
     ) => {
-      return handleElysia(await rpc.api.billing.affiliate.transfer.post(args.body));
+      return handleElysia(
+        await rpc.api.billing.affiliate.transfer.post(args.body),
+      );
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_, args) => {

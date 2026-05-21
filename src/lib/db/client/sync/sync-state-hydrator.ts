@@ -306,5 +306,3 @@ async function rehydrateMedia(
   }
   return row;
 }
-
-

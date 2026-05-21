@@ -4,7 +4,12 @@ import { sealData, unsealData } from "iron-session";
 import type { Locale } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { cookies } from "next/headers";
-import { LOCALE_COOKIE, LOCALES, msg, USER_ID_COOKIE } from "../config/constants";
+import {
+  LOCALE_COOKIE,
+  LOCALES,
+  msg,
+  USER_ID_COOKIE,
+} from "../config/constants";
 import { rpc } from "../rpc";
 import { handleElysia } from "./base";
 

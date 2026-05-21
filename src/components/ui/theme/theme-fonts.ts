@@ -184,4 +184,3 @@ export const FONT_OPTIONS: FontOption[] = [
 export const allFontVariablesClass = FONT_OPTIONS.map((f) => f.cssVar).join(
   " ",
 );
-

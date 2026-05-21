@@ -11,12 +11,9 @@ import {
   usePersonaQuery,
   useUpdatePersonaMutation,
 } from "@/hooks/ai/rp/personas";
-import {
-  personaFormSchema,
-  type PersonaForm,
-} from "@/lib/validation/rp-forms";
+import { formDefaults } from "@/lib/validation/helpers";
+import { personaFormSchema, type PersonaForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
-import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -36,19 +33,15 @@ export function PersonaEditor(props: Props) {
 
   const form = useForm({
     resolver: typeboxResolver(personaFormSchema),
-    defaultValues: Value.Default(personaFormSchema, {}) as PersonaForm,
+    defaultValues: formDefaults(personaFormSchema),
   });
 
   useEffect(() => {
     if (isNew || !existing) {
-      form.reset(Value.Default(personaFormSchema, {}) as PersonaForm);
+      form.reset(formDefaults(personaFormSchema));
       return;
     }
-    form.reset({
-      name: existing.name,
-      description: existing.description ?? "",
-      isDefault: existing.isDefault ?? false,
-    });
+    form.reset(formDefaults(personaFormSchema, existing));
     // form.reset is stable
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isNew, existing]);

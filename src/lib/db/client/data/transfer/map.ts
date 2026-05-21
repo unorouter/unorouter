@@ -36,10 +36,8 @@ export type MappedImport = {
 // Typed coercion of untrusted export-file values. Each returns null when the
 // value is the wrong type, so a malformed field falls back instead of being
 // blindly asserted into a lie.
-const str = (v: unknown): string | null =>
-  typeof v === "string" ? v : null;
-const num = (v: unknown): number | null =>
-  typeof v === "number" ? v : null;
+const str = (v: unknown): string | null => (typeof v === "string" ? v : null);
+const num = (v: unknown): number | null => (typeof v === "number" ? v : null);
 const bool = (v: unknown): boolean | null =>
   typeof v === "boolean" ? v : null;
 const strArr = (v: unknown): string[] | null =>

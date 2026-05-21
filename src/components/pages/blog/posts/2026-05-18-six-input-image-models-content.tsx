@@ -71,7 +71,9 @@ export async function SixInputImageModelsContent() {
       <p>{t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.METHOD_P2", richMarks)}</p>
 
       <h2 id="results">{t("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.H_RESULTS")}</h2>
-      <p>{t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.RESULTS_INTRO", richMarks)}</p>
+      <p>
+        {t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.RESULTS_INTRO", richMarks)}
+      </p>
       <p>
         {t.rich(
           "BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.RESULTS_FAMILY_INTRO",
@@ -142,14 +144,16 @@ export async function SixInputImageModelsContent() {
       <p>{t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.GOTCHAS_P1", richMarks)}</p>
       <p>{t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.GOTCHAS_P2", richMarks)}</p>
 
-      <h2 id="metadata">
-        {t("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.H_METADATA")}
-      </h2>
-      <p>{t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.METADATA_P1", richMarks)}</p>
+      <h2 id="metadata">{t("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.H_METADATA")}</h2>
+      <p>
+        {t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.METADATA_P1", richMarks)}
+      </p>
       <div className="not-prose my-6">
         <CodeBlock language="json" code={METADATA_SNIPPET} />
       </div>
-      <p>{t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.METADATA_P2", richMarks)}</p>
+      <p>
+        {t.rich("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.METADATA_P2", richMarks)}
+      </p>
 
       <h2 id="try">{t("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.H_TRY")}</h2>
       <p>{t("BLOG.POSTS.SIX_INPUT_IMAGE_MODELS.TRY_P")}</p>

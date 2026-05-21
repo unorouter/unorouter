@@ -1,5 +1,6 @@
 "use client";
 
+import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
 import { MyFormTextarea } from "@/components/elements/form/my-form-textarea";
 import { Button } from "@/components/ui/button";
@@ -25,14 +26,13 @@ import {
 import { useCharactersQuery } from "@/hooks/ai/rp/characters";
 import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
+import { NONE_VALUE as NONE } from "@/lib/config/constants";
+import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { Value } from "@sinclair/typebox/value";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { MyFormCombobox } from "@/components/elements/form/my-form-combobox";
-import { NONE_VALUE as NONE } from "@/lib/config/constants";
-import { cardFormSchema, type CardForm } from "@/lib/validation/rp-forms";
 
 type Props = {
   editingId: string | "new";
@@ -52,37 +52,32 @@ export function CardForm(props: Props) {
 
   const form = useForm({
     resolver: typeboxResolver(cardFormSchema),
-    defaultValues: Value.Default(cardFormSchema, {}) as CardForm,
+    defaultValues: formDefaults(cardFormSchema),
   });
 
   useEffect(() => {
     if (props.editingId === "new") {
-      form.reset(Value.Default(cardFormSchema, {}) as CardForm);
+      form.reset(formDefaults(cardFormSchema));
       return;
     }
     const c = cardQuery.data;
     if (!c) return;
-    form.reset({
-      name: c.name,
-      description: c.description ?? "",
-      personaId: c.personaId ?? NONE,
-      characterIds: (c.cardCharacters ?? []).map(
-        (cc: { characterId: string }) => cc.characterId,
-      ),
-      lorebookIds: (c.cardLorebooks ?? []).map(
-        (cl: { lorebookId: string }) => cl.lorebookId,
-      ),
-    });
+    // characterIds/lorebookIds come from join rows, not flat columns.
+    form.reset(
+      formDefaults(cardFormSchema, {
+        ...c,
+        characterIds: (c.cardCharacters ?? []).map((cc) => cc.characterId),
+        lorebookIds: (c.cardLorebooks ?? []).map((cl) => cl.lorebookId),
+      }),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.editingId, cardQuery.data]);
 
   const onSubmit = async (data: CardForm) => {
     const body = {
-      name: data.name,
+      ...data,
       description: data.description || null,
       personaId: data.personaId === NONE ? null : data.personaId,
-      characterIds: data.characterIds,
-      lorebookIds: data.lorebookIds,
     };
     if (props.editingId === "new") {
       await createMut.mutateAsync({ body });

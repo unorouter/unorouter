@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
@@ -142,9 +143,11 @@ export function PersonaList(props: Props) {
                     setEditingId(p.id);
                   }}
                 >
-                  <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
-                    {p.name[0]?.toUpperCase() ?? "?"}
-                  </div>
+                  <Avatar className="size-10">
+                    <AvatarFallback>
+                      {p.name[0]?.toUpperCase() ?? "?"}
+                    </AvatarFallback>
+                  </Avatar>
                   <div className="flex min-w-0 flex-1 flex-col">
                     <span className="text-sm font-medium">
                       {p.name}

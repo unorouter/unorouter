@@ -11,11 +11,7 @@ import {
   titleGenerationBody,
   updateConversationBody,
 } from "@/lib/validation/chat";
-import {
-  getApiKey,
-  getApiKeyOrGuest,
-  getUserId,
-} from "@/server/constants";
+import { getApiKey, getApiKeyOrGuest, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import {
   clearConversation,
@@ -170,7 +166,7 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
     "/stream",
     async ({ body, cookie, request }) => {
       const apiKey = getApiKeyOrGuest(cookie);
-      const userId = await getUserId(cookie, true) ?? 0;
+      const userId = (await getUserId(cookie, true)) ?? 0;
       if (userId === 0) body.webSearch = false;
       return streamChat(apiKey, body, request, userId);
     },

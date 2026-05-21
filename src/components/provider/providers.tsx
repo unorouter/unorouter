@@ -7,7 +7,10 @@ import {
   NAVIGATION_STORE_KEY,
   type NavigationState,
 } from "@/store/navigation-store";
-import { USER_THEME_KEY, type UserTheme } from "@/components/ui/theme/theme-store";
+import {
+  USER_THEME_KEY,
+  type UserTheme,
+} from "@/components/ui/theme/theme-store";
 import { ReactNode, use } from "react";
 import { LanguageProvider } from "./app/language-provider";
 import { PostHogProvider } from "./app/posthog-provider";

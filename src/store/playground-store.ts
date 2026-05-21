@@ -63,4 +63,3 @@ export const samplerMemoryAtom = atomWithStorage<ModelParamsMemory>(
 // URL-synced via playground-page.tsx (?tab=... &mode=...); persistence is the URL.
 export const activeTabAtom = atom<GenerateTab>("text2img");
 export const activeSubPillAtom = atom<Img2ImgSubPill>("img2img");
-

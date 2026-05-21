@@ -18,7 +18,8 @@ export function useUsageLogsStatQuery(
 ) {
   return useQuery({
     queryKey: queryKeys.usageLogsStat(query),
-    queryFn: async () => handleElysia(await rpc.api.ops.logs.stat.get({ query })),
+    queryFn: async () =>
+      handleElysia(await rpc.api.ops.logs.stat.get({ query })),
   });
 }
 
@@ -32,9 +33,12 @@ export function useMidjourneyLogsQuery(
   });
 }
 
-export function useTaskLogsQuery(query?: EdenQuery<typeof rpc.api.ops.logs.task>) {
+export function useTaskLogsQuery(
+  query?: EdenQuery<typeof rpc.api.ops.logs.task>,
+) {
   return useQuery({
     queryKey: queryKeys.taskLogs(query),
-    queryFn: async () => handleElysia(await rpc.api.ops.logs.task.get({ query })),
+    queryFn: async () =>
+      handleElysia(await rpc.api.ops.logs.task.get({ query })),
   });
 }

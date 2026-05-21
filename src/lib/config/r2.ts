@@ -419,10 +419,7 @@ function generationKey(playgroundId: string, filename: string): string {
   return `playgrounds/${playgroundId}/${filename}`;
 }
 
-function generationReferenceKey(
-  userId: number,
-  filename: string,
-): string {
+function generationReferenceKey(userId: number, filename: string): string {
   return `playgrounds-refs/${userId}/${filename}`;
 }
 

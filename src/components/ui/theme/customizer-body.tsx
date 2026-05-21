@@ -28,7 +28,10 @@ import { FONT_OPTIONS } from "@/components/ui/theme/theme-fonts";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { downloadJson } from "@/lib/utils/client";
-import { INITIAL_USER_THEME, userThemeAtom } from "@/components/ui/theme/theme-store";
+import {
+  INITIAL_USER_THEME,
+  userThemeAtom,
+} from "@/components/ui/theme/theme-store";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
 import { useAtom } from "jotai";
 import { useTranslations } from "next-intl";

@@ -13,9 +13,7 @@ function readUint32BE(view: DataView, offset: number): number {
   return view.getUint32(offset, false);
 }
 
-function readPngTextChunks(
-  buffer: ArrayBuffer,
-): Record<string, string> | null {
+function readPngTextChunks(buffer: ArrayBuffer): Record<string, string> | null {
   const bytes = new Uint8Array(buffer);
   if (bytes.length < 8 || !bytesEqual(bytes, PNG_SIGNATURE)) return null;
 

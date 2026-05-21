@@ -219,7 +219,12 @@ function ShadowHost(props: { children: React.ReactNode; className?: string }) {
     <div
       ref={hostRef}
       className={props.className}
-      style={{ display: "block", height: "100%", width: "100%", overflow: "auto" }}
+      style={{
+        display: "block",
+        height: "100%",
+        width: "100%",
+        overflow: "auto",
+      }}
     >
       {shadow && createPortal(props.children, shadow)}
     </div>

@@ -28,7 +28,7 @@ import type { EditorState } from "@/lib/types";
 import type { CharacterExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { exportRpEntity } from "../shared/export-entity";
+import { downloadFileResponse } from "@/lib/utils/client";
 import { CharacterAvatar } from "./avatar";
 import { CharacterEditor } from "./editor";
 
@@ -67,7 +67,7 @@ export function CharacterList(props: Props) {
   };
 
   const handleExport = async (id: string, format: CharacterExportFormat) => {
-    const ok = await exportRpEntity(
+    const ok = await downloadFileResponse(
       rpc.api.ai.rp.characters({ id }).export.get({ query: { format } }),
       `character-${id}.${format}`,
     );

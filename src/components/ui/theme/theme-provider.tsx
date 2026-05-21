@@ -1,6 +1,9 @@
 "use client";
 
-import { buildThemeCss, themeDataAttrs } from "@/components/ui/theme/theme-build-css";
+import {
+  buildThemeCss,
+  themeDataAttrs,
+} from "@/components/ui/theme/theme-build-css";
 import { userThemeAtom } from "@/components/ui/theme/theme-store";
 import { useAtomValue } from "jotai";
 import { useEffect, useRef } from "react";

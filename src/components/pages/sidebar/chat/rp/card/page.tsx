@@ -1,10 +1,9 @@
 "use client";
 
-import { confirm } from "@/components/ui/confirm";
-import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { confirm } from "@/components/ui/confirm";
 import {
   Dialog,
   DialogContent,
@@ -13,19 +12,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { rpc } from "@/lib/rpc";
+import { Icon } from "@/components/ui/icon";
 import {
   useApplyCardMutation,
   useCardsQuery,
   useDeleteCardMutation,
 } from "@/hooks/ai/rp/cards";
+import { rpc } from "@/lib/rpc";
+import { downloadFileResponse } from "@/lib/utils/client";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { CardForm } from "./form";
-import { exportRpEntity } from "../shared/export-entity";
 import { RpEntityPage } from "../shared/rp-entity-page";
+import { CardForm } from "./form";
 
 export function CardsPage() {
   const t = useTranslations();
@@ -40,7 +40,10 @@ export function CardsPage() {
   } | null>(null);
 
   const handleExport = (id: string) =>
-    exportRpEntity(rpc.api.ai.rp.cards({ id }).export.get(), `card-${id}.json`);
+    downloadFileResponse(
+      rpc.api.ai.rp.cards({ id }).export.get(),
+      `card-${id}.json`,
+    );
 
   const handleDelete = async (id: string) => {
     const ok = await confirm({
@@ -82,10 +85,7 @@ export function CardsPage() {
         onBack={() => setEditingId(null)}
         editor={
           editingId && (
-            <CardForm
-              editingId={editingId}
-              onDone={() => setEditingId(null)}
-            />
+            <CardForm editingId={editingId} onDone={() => setEditingId(null)} />
           )
         }
         list={

@@ -27,11 +27,7 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
     "/:kind/:id/bundle",
     async ({ params, cookie }) => {
       const userId = await getUserId(cookie);
-      const data = await getSyncedBundle(
-        userId,
-        params.kind,
-        params.id,
-      );
+      const data = await getSyncedBundle(userId, params.kind, params.id);
       return { success: true, data };
     },
     { params: syncParams },
@@ -41,12 +37,7 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
     "/:kind/:id",
     async ({ params, body, cookie }) => {
       const userId = await getUserId(cookie);
-      const data = await setSyncExpiry(
-        userId,
-        params.kind,
-        params.id,
-        body,
-      );
+      const data = await setSyncExpiry(userId, params.kind, params.id, body);
       return { success: true, data };
     },
     { params: syncParams, body: syncRequestBody },
@@ -56,11 +47,7 @@ export const syncRoute = new Elysia({ prefix: "/sync" })
     "/:kind/:id",
     async ({ params, cookie }) => {
       const userId = await getUserId(cookie);
-      const data = await clearSyncExpiry(
-        userId,
-        params.kind,
-        params.id,
-      );
+      const data = await clearSyncExpiry(userId, params.kind, params.id);
       return { success: true, data };
     },
     { params: syncParams },

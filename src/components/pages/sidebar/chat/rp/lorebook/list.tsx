@@ -28,7 +28,7 @@ import { rpc } from "@/lib/rpc";
 import type { LorebookExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { exportRpEntity } from "../shared/export-entity";
+import { downloadFileResponse } from "@/lib/utils/client";
 import { LorebookEditor } from "./editor";
 
 type Props = {
@@ -90,7 +90,7 @@ export function LorebookList(props: Props) {
   };
 
   const handleExport = async (id: string, format: LorebookExportFormat) => {
-    const ok = await exportRpEntity(
+    const ok = await downloadFileResponse(
       rpc.api.ai.rp.lorebooks({ id }).export.get({ query: { format } }),
       `lorebook-${id}.${format}.json`,
     );

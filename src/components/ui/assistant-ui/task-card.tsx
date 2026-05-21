@@ -3,7 +3,10 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import { useFinalizeTaskMutation, useTaskStatusQuery } from "@/hooks/ai/chat-hook";
+import {
+  useFinalizeTaskMutation,
+  useTaskStatusQuery,
+} from "@/hooks/ai/chat-hook";
 import { cn } from "@/lib/utils";
 import { useAuiState } from "@assistant-ui/react";
 import { useTranslations } from "next-intl";

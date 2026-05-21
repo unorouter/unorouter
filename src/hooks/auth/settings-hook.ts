@@ -67,7 +67,9 @@ export function useUpdateSelfMutation() {
   const t = useTranslations();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.auth.settings.self, "put">) => {
+    mutationFn: async (
+      args: EdenArgs<typeof rpc.api.auth.settings.self, "put">,
+    ) => {
       return handleElysia(await rpc.api.auth.settings.self.put(args.body));
     },
     onError: (e) => handleError(e, t),
@@ -144,7 +146,9 @@ export function useEnable2FAMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (args: EdenArgs<TwoFA["enable"], "post">) => {
-      return handleElysia(await rpc.api.auth.settings["2fa"].enable.post(args.body));
+      return handleElysia(
+        await rpc.api.auth.settings["2fa"].enable.post(args.body),
+      );
     },
     onError: (e) => handleError(e, t),
     onSuccess: () => {
@@ -178,7 +182,9 @@ export function useDisable2FAMutation() {
 export function usePasskeyRegisterBeginMutation() {
   return useMutation({
     mutationFn: async () => {
-      return handleElysia(await rpc.api.auth.settings.passkey.register.begin.post());
+      return handleElysia(
+        await rpc.api.auth.settings.passkey.register.begin.post(),
+      );
     },
   });
 }
@@ -188,7 +194,10 @@ export function usePasskeyRegisterFinishMutation() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (
-      args: EdenArgs<typeof rpc.api.auth.settings.passkey.register.finish, "post">,
+      args: EdenArgs<
+        typeof rpc.api.auth.settings.passkey.register.finish,
+        "post"
+      >,
     ) => {
       return handleElysia(
         await rpc.api.auth.settings.passkey.register.finish.post(args.body),

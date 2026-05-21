@@ -31,7 +31,9 @@ export function useBillingPlansQuery() {
   return useQuery({
     queryKey: queryKeys.billingPlans(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.billing.core["subscription-plans"].get());
+      return handleElysia(
+        await rpc.api.billing.core["subscription-plans"].get(),
+      );
     },
   });
 }
@@ -41,7 +43,9 @@ export function useSubscriptionSelfQuery() {
   return useQuery({
     queryKey: queryKeys.subscriptionSelf(),
     queryFn: async () => {
-      return handleElysia(await rpc.api.billing.core["subscription-self"].get());
+      return handleElysia(
+        await rpc.api.billing.core["subscription-self"].get(),
+      );
     },
     enabled: isLoggedIn,
   });
@@ -78,7 +82,9 @@ export function useStripeTopUpMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (args: EdenArgs<Billing["stripe-pay"], "post">) => {
-      return handleElysia(await rpc.api.billing.core["stripe-pay"].post(args.body));
+      return handleElysia(
+        await rpc.api.billing.core["stripe-pay"].post(args.body),
+      );
     },
     onError: (e) => handleError(e, t),
   });
@@ -88,7 +94,9 @@ export function useCreemTopUpMutation() {
   const t = useTranslations();
   return useMutation({
     mutationFn: async (args: EdenArgs<Billing["creem-pay"], "post">) => {
-      return handleElysia(await rpc.api.billing.core["creem-pay"].post(args.body));
+      return handleElysia(
+        await rpc.api.billing.core["creem-pay"].post(args.body),
+      );
     },
     onError: (e) => handleError(e, t),
   });

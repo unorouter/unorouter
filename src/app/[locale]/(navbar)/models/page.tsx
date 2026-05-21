@@ -46,7 +46,9 @@ export default async function Page(props: {
       queryKey: queryKeys.perfMetricsSummary(24),
       queryFn: async () =>
         handleElysia(
-          await rpc.api.models["perf-metrics"].summary.get({ query: { hours: 24 } }),
+          await rpc.api.models["perf-metrics"].summary.get({
+            query: { hours: 24 },
+          }),
         ),
     }),
   ]);

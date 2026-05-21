@@ -7,8 +7,9 @@ export const queryKeys = {
   twoFAStatus: () => ["2fa-status"] as const,
   passkeyStatus: () => ["passkey-status"] as const,
 
-  dashboardQuota: (params?: EdenQuery<typeof rpc.api.billing.dashboard.quota>) =>
-    ["dashboard-quota", params] as const,
+  dashboardQuota: (
+    params?: EdenQuery<typeof rpc.api.billing.dashboard.quota>,
+  ) => ["dashboard-quota", params] as const,
   dashboardUptime: () => ["dashboard-uptime"] as const,
 
   tokens: (params?: EdenQuery<typeof rpc.api.billing.token.search>) =>
@@ -23,8 +24,9 @@ export const queryKeys = {
   affiliateCommissions: (
     params?: EdenQuery<typeof rpc.api.billing.affiliate.commissions>,
   ) => ["affiliate-commissions", params] as const,
-  affiliateInvitees: (params?: EdenQuery<typeof rpc.api.billing.affiliate.invitees>) =>
-    ["affiliate-invitees", params] as const,
+  affiliateInvitees: (
+    params?: EdenQuery<typeof rpc.api.billing.affiliate.invitees>,
+  ) => ["affiliate-invitees", params] as const,
 
   usageLogs: (params?: EdenQuery<typeof rpc.api.ops.logs>) =>
     ["usage-logs", params] as const,
@@ -75,8 +77,9 @@ export const queryKeys = {
   modelStatusComponents: () => ["model-status", "components"] as const,
 
   playgroundSessionLists: () => ["playground-session-list"] as const,
-  playgroundSessionList: (params?: EdenQuery<typeof rpc.api.ai.playground.me>) =>
-    ["playground-session-list", params] as const,
+  playgroundSessionList: (
+    params?: EdenQuery<typeof rpc.api.ai.playground.me>,
+  ) => ["playground-session-list", params] as const,
   playgroundSession: (id: string) => ["playground-session", id] as const,
   playgroundSnapshot: (id: string) => ["playground-snapshot", id] as const,
   playgroundSnapshotStatus: (id: string) =>
@@ -86,8 +89,9 @@ export const queryKeys = {
   embeddingCatalog: (
     params?: EdenQuery<typeof rpc.api.ai.playground.embeddings>,
   ) => ["embedding-catalog", params] as const,
-  upscalerCatalog: (params?: EdenQuery<typeof rpc.api.ai.playground.upscalers>) =>
-    ["upscaler-catalog", params] as const,
+  upscalerCatalog: (
+    params?: EdenQuery<typeof rpc.api.ai.playground.upscalers>,
+  ) => ["upscaler-catalog", params] as const,
   controlNetCatalog: (
     params?: EdenQuery<typeof rpc.api.ai.playground.controlnets>,
   ) => ["controlnet-catalog", params] as const,

@@ -149,4 +149,3 @@ export function ModelsSection(props: ModelsSectionProps) {
     </section>
   );
 }
-

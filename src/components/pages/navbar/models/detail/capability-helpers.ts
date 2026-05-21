@@ -74,4 +74,3 @@ export function hasAnyParameter(metadata: ModelMetadata): boolean {
     Object.keys(metadata.defaultParameters ?? {}).length > 0
   );
 }
-

@@ -2,14 +2,14 @@
 
 import { VendorIcon } from "@/components/elements/brand/vendor-icon";
 import {
-    ComposerAddAttachment,
-    ComposerAttachments,
-    UserMessageAttachments,
+  ComposerAddAttachment,
+  ComposerAttachments,
+  UserMessageAttachments,
 } from "@/components/ui/assistant-ui/attachment";
 import { MarkdownText } from "@/components/ui/assistant-ui/markdown-text";
 import {
-    Reasoning,
-    ReasoningGroup,
+  Reasoning,
+  ReasoningGroup,
 } from "@/components/ui/assistant-ui/reasoning";
 import { TaskCardRenderer } from "@/components/ui/assistant-ui/task-card";
 import { ToolFallback } from "@/components/ui/assistant-ui/tool-fallback";
@@ -20,9 +20,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { ConversationStats } from "@/components/pages/sidebar/chat/chat-elements";
 import {
-    useDeleteMessageMutation,
-    useEditMessageMutation,
-    useSetActiveBranchMutation,
+  useDeleteMessageMutation,
+  useEditMessageMutation,
+  useSetActiveBranchMutation,
 } from "@/hooks/ai/chat-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { useMessageMeta } from "@/hooks/ui/use-chat-hook";
@@ -32,32 +32,32 @@ import { partsToItems } from "@/lib/ai/chat/messages";
 import { cn } from "@/lib/utils";
 import { formatPrice } from "@/lib/utils/format/number";
 import {
-    chatHelpersAtom,
-    chatModelAtom,
-    chatStore,
-    chatWebSearchAtom,
-    convIdAtom,
+  chatHelpersAtom,
+  chatModelAtom,
+  chatStore,
+  chatWebSearchAtom,
+  convIdAtom,
 } from "@/store/chat-store";
 import { useMessageError } from "@assistant-ui/core/react";
 import {
-    ActionBarPrimitive,
-    AuiIf,
-    BranchPickerPrimitive,
-    ComposerPrimitive,
-    MessagePrimitive,
-    SuggestionPrimitive,
-    ThreadPrimitive,
-    useAuiState,
+  ActionBarPrimitive,
+  AuiIf,
+  BranchPickerPrimitive,
+  ComposerPrimitive,
+  MessagePrimitive,
+  SuggestionPrimitive,
+  ThreadPrimitive,
+  useAuiState,
 } from "@assistant-ui/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useTranslations } from "next-intl";
 import {
-    createContext,
-    type FC,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
+  createContext,
+  type FC,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 
 const AssistantEditContext = createContext<(() => void) | null>(null);
@@ -287,8 +287,7 @@ function unwrapJsonEnvelope(raw: string): string {
         }
       }
     }
-  } catch {
-  }
+  } catch {}
   return raw;
 }
 

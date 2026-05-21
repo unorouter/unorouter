@@ -23,11 +23,7 @@ import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import {
-  deleteSyncedRow,
-  mirrorConvIfSynced,
-  mirrorSyncedRow,
-} from "./shared";
+import { deleteSyncedRow, mirrorConvIfSynced, mirrorSyncedRow } from "./shared";
 
 export function useCardsQuery() {
   const auth = useAuthQuery();

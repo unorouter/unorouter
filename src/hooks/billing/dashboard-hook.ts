@@ -19,6 +19,7 @@ export function useDashboardQuotaQuery(
 export function useDashboardUptimeQuery() {
   return useQuery({
     queryKey: queryKeys.dashboardUptime(),
-    queryFn: async () => handleElysia(await rpc.api.billing.dashboard.uptime.get()),
+    queryFn: async () =>
+      handleElysia(await rpc.api.billing.dashboard.uptime.get()),
   });
 }

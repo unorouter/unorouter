@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useMediaSrc } from "@/hooks/ai/use-media-src";
 
 type Props = {
@@ -9,21 +10,10 @@ type Props = {
 
 export function CharacterAvatar(props: Props) {
   const src = useMediaSrc(props.mediaId);
-  if (src) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={src}
-        alt={props.name}
-        width={40}
-        height={40}
-        className="size-10 rounded-full object-cover"
-      />
-    );
-  }
   return (
-    <div className="bg-muted flex size-10 items-center justify-center rounded-full text-sm">
-      {props.name?.[0]?.toUpperCase() ?? "?"}
-    </div>
+    <Avatar className="size-10">
+      {src && <AvatarImage src={src} alt={props.name} />}
+      <AvatarFallback>{props.name?.[0]?.toUpperCase() ?? "?"}</AvatarFallback>
+    </Avatar>
   );
 }

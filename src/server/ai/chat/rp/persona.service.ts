@@ -73,4 +73,3 @@ export async function deletePersona(userId: number, id: string) {
   assertFound(result);
   return { id };
 }
-

@@ -17,7 +17,11 @@ import { useDashboardData } from "@/hooks/ui/use-dashboard-data";
 import { analytics } from "@/lib/analytics";
 import { formatPrice } from "@/lib/utils/format/number";
 import { modelColor } from "@/lib/utils/format/color";
-import { bucketKey, pickGranularity, type Granularity } from "@/lib/utils/format/date";
+import {
+  bucketKey,
+  pickGranularity,
+  type Granularity,
+} from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import {
   Bar,

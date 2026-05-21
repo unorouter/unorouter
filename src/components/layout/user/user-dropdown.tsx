@@ -36,11 +36,10 @@ export function UserDropdown(props: UserDropdownProps) {
   const logoutMutation = useLogoutMutation();
   const subQuery = useSubscriptionSelfQuery();
 
-  const activeSubs = (subQuery.data?.subscriptions ?? [])
-    .filter(
-      (s): s is typeof s & { subscription: NonNullable<typeof s.subscription> } =>
-        !!s.subscription && s.subscription.status === "active",
-    );
+  const activeSubs = (subQuery.data?.subscriptions ?? []).filter(
+    (s): s is typeof s & { subscription: NonNullable<typeof s.subscription> } =>
+      !!s.subscription && s.subscription.status === "active",
+  );
 
   if (!userDisplay.user) return null;
 

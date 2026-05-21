@@ -122,7 +122,6 @@ export const createTableAtoms = (
   initialValues?: Partial<DataTableStore>,
 ) => buildFieldAtoms(dataTableAtomFamily(id), initialValues);
 
-
 export const columnFilters = <T extends Record<string, unknown>>(
   columnFilters?: ColumnFiltersState,
 ) =>

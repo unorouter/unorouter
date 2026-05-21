@@ -217,6 +217,7 @@ export const samplingPresetFormSchema = t.Object({
   geminiBlockOff: t.Boolean({ default: false }),
   isDefault: t.Boolean({ default: false }),
 });
+
 export type SamplingPresetForm = Static<typeof samplingPresetFormSchema>;
 
 export const personaFormSchema = t.Object({

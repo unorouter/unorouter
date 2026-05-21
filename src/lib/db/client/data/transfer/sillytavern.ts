@@ -5,10 +5,7 @@ import type { StMessage, StMetadata } from "@/lib/types/transfer";
 import dayjs from "dayjs";
 import { readLocalConversationBundle } from "../chat";
 import { upsertLocalConversationBundle } from "../chat";
-import {
-  mapStImport,
-  parseStJsonl,
-} from "./map";
+import { mapStImport, parseStJsonl } from "./map";
 
 type ConversationBundle = NonNullable<
   Awaited<ReturnType<typeof readLocalConversationBundle>>
@@ -114,9 +111,8 @@ export async function exportLocalConversationSillyTavern(
   }
 
   const slug =
-    (conv.title ?? "chat")
-      .replace(/[^a-zA-Z0-9_-]+/g, "-")
-      .slice(0, 60) || "chat";
+    (conv.title ?? "chat").replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) ||
+    "chat";
   return {
     data: lines.join("\n") + "\n",
     filename: `${slug}.sillytavern.jsonl`,

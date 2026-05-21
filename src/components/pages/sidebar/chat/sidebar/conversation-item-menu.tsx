@@ -9,10 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@/components/ui/icon";
-import {
-  useRemoveSyncMutation,
-  useSyncMutation,
-} from "@/hooks/ai/sync-hook";
+import { useRemoveSyncMutation, useSyncMutation } from "@/hooks/ai/sync-hook";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 

@@ -16,7 +16,9 @@ const MJ_STATUS_KEYS: Record<string, TranslationKey> = {
 
 /** Translation key for a Midjourney status. Returns null for empty/unknown
  *  values so the caller can render the raw upstream string verbatim. */
-export function getMjStatusKey(status: string | undefined): TranslationKey | null {
+export function getMjStatusKey(
+  status: string | undefined,
+): TranslationKey | null {
   if (!status) return null;
   return MJ_STATUS_KEYS[status.toUpperCase()] ?? null;
 }
@@ -52,7 +54,6 @@ export function getMjStatusColor(status: string): string {
       return "bg-muted text-muted-foreground";
   }
 }
-
 
 const MJ_ACTION = {
   IMAGINE: "IMAGINE",
