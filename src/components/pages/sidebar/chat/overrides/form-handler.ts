@@ -227,24 +227,13 @@ export function buildSettingsBody(data: ConversationOverridesForm) {
     authorNote: data.authorNote || null,
     personaId: data.personaId === NONE_VALUE ? null : data.personaId,
     presetId: data.presetId === NONE_VALUE ? null : data.presetId,
-    reasoningEffort: effortValue(data.reasoningEffort) as
-      | "xhigh"
-      | "high"
-      | "medium"
-      | "low"
-      | "minimal"
-      | "none"
-      | null,
+    reasoningEffort: effortValue(
+      data.reasoningEffort,
+    ) as StreamOverrides["reasoningEffort"],
     webSearchEnabled: data.webSearchEnabled,
-    webSearchEngine: data.webSearchEngine as
-      | "auto"
-      | "native"
-      | "exa"
-      | "tavily",
-    webSearchContextSize: data.webSearchContextSize as
-      | "low"
-      | "medium"
-      | "high",
+    webSearchEngine: data.webSearchEngine as StreamOverrides["webSearchEngine"],
+    webSearchContextSize:
+      data.webSearchContextSize as StreamOverrides["webSearchContextSize"],
     ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: data.streamingEnabled,

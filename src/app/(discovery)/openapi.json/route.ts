@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 // at /api/openapi/json, so redirect there rather than duplicating.
 export function GET() {
   return Response.redirect(
-    `${new URL(env.appUrl).origin}/api/openapi/json`,
+    `${env.siteOrigin}/api/openapi/json`,
     308,
   );
 }

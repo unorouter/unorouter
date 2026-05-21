@@ -40,6 +40,13 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
+// Flat editor-selection state used by the RP entity pages/lists: an entity id
+// being edited, "new" for a fresh entity, or null when none is open.
+export type EntityEditId = string | "new" | null;
+
+// Two-factor-auth dialog mode, shared by the settings card and its dialog.
+export type TwoFAMode = "setup" | "disable";
+
 export type MigrationEntry = { tag: string; sql: string };
 export type MigrationManifest = { migrations: MigrationEntry[] };
 

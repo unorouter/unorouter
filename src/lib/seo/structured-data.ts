@@ -1,5 +1,5 @@
 import { env } from "@/lib/config/env";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import type {
   Article,
   BreadcrumbList,
@@ -11,10 +11,9 @@ import type {
   WithContext,
 } from "schema-dts";
 
-const siteOrigin = new URL(env.appUrl).origin;
 
 function abs(path: string): string {
-  return `${siteOrigin}${path.startsWith("/") ? path : `/${path}`}`;
+  return `${env.siteOrigin}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 export function buildOrganizationSchema(): WithContext<Organization> {
@@ -26,7 +25,7 @@ export function buildOrganizationSchema(): WithContext<Organization> {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: env.appName,
-    url: siteOrigin,
+    url: env.siteOrigin,
     logo: abs("/images/logo/logo.png"),
     ...(sameAs.length && { sameAs }),
   };
@@ -37,7 +36,7 @@ export function buildWebSiteSchema(locale: string): WithContext<WebSite> {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: env.appName,
-    url: `${siteOrigin}/${locale}`,
+    url: `${env.siteOrigin}/${locale}`,
     inLanguage: locale,
   };
 }
@@ -58,7 +57,7 @@ export function buildSoftwareApplicationSchema(
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: input.name ?? env.appName,
-    url: input.url ? abs(input.url) : `${siteOrigin}/${input.locale}`,
+    url: input.url ? abs(input.url) : `${env.siteOrigin}/${input.locale}`,
     applicationCategory: "WebApplication",
     operatingSystem: "Web, Linux, macOS, Windows",
     description: input.description,

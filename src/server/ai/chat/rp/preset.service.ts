@@ -3,7 +3,7 @@ import { getDb } from "@/lib/db/server/client";
 import { samplingPresets } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import type { SamplingPresetBody } from "@/lib/validation/rp";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, desc, eq } from "drizzle-orm";
 
 export async function listPresets(userId: number) {

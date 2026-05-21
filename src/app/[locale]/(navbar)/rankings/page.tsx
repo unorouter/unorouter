@@ -1,5 +1,8 @@
 import { Rankings } from "@/components/pages/navbar/rankings/rankings";
-import type { RankingPeriod } from "@/lib/api/typebox/rankings";
+import {
+  RANKING_PERIODS,
+  type RankingPeriod,
+} from "@/lib/api/typebox/rankings";
 import { APP_VALUES } from "@/lib/config/constants";
 import { localeUrl } from "@/i18n/navigation";
 import getQueryClient from "@/lib/react-query/client";
@@ -16,19 +19,9 @@ import { serverLocale } from "@/lib/utils/server";
 import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { getTranslations } from "next-intl/server";
 
-const VALID_PERIODS: RankingPeriod[] = [
-  "today",
-  "week",
-  "month",
-  "year",
-  "all",
-];
-
 function resolvePeriod(value: string | undefined): RankingPeriod {
-  if (value && (VALID_PERIODS as string[]).includes(value)) {
-    return value as RankingPeriod;
-  }
-  return "week";
+  const match = RANKING_PERIODS.find((p) => p === value);
+  return match ?? "week";
 }
 
 export async function generateMetadata(props: {

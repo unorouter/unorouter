@@ -8,7 +8,7 @@ import { getBlogTheme } from "@/lib/config/blog-categories";
 import { cn } from "@/lib/utils";
 import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { serverLocale } from "@/lib/utils/server";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";

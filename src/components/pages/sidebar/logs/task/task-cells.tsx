@@ -53,8 +53,8 @@ function StackedCell(props: {
   );
 }
 
-export function TaskTimeCell({ row }: CellContext<TaskRow, unknown>) {
-  const log = row.original;
+export function TaskTimeCell(props: CellContext<TaskRow, unknown>) {
+  const log = props.row.original;
   return (
     <StackedCell
       primary={
@@ -67,8 +67,8 @@ export function TaskTimeCell({ row }: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskChannelCell({ row }: CellContext<TaskRow, unknown>) {
-  const log = row.original;
+export function TaskChannelCell(props: CellContext<TaskRow, unknown>) {
+  const log = props.row.original;
   if (!log.channel_id) return EMPTY;
   const label = `#${log.channel_id}`;
   return (
@@ -81,9 +81,9 @@ export function TaskChannelCell({ row }: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskIdCell({ row }: CellContext<TaskRow, unknown>) {
+export function TaskIdCell(props: CellContext<TaskRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!log.task_id) return EMPTY;
   const secondary =
     log.platform || log.action
@@ -119,8 +119,8 @@ export function TaskIdCell({ row }: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskDurationCell({ row }: CellContext<TaskRow, unknown>) {
-  const log = row.original;
+export function TaskDurationCell(props: CellContext<TaskRow, unknown>) {
+  const log = props.row.original;
   const duration = formatTaskDuration(log.submit_time, log.finish_time);
   if (!duration) return EMPTY;
   const variant = duration.isWarning
@@ -137,9 +137,9 @@ export function TaskDurationCell({ row }: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskStatusCell({ row }: CellContext<TaskRow, unknown>) {
+export function TaskStatusCell(props: CellContext<TaskRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!log.status) return EMPTY;
   const statusKey = getTaskStatusKey(log.status);
   return (
@@ -151,8 +151,8 @@ export function TaskStatusCell({ row }: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskProgressCell({ row }: CellContext<TaskRow, unknown>) {
-  const log = row.original;
+export function TaskProgressCell(props: CellContext<TaskRow, unknown>) {
+  const log = props.row.original;
   if (!log.progress) return EMPTY;
   return (
     <span className="border-border/40 bg-muted/30 inline-flex items-center rounded-md border px-1.5 py-0.5 font-mono text-[11px] tabular-nums">
@@ -161,9 +161,9 @@ export function TaskProgressCell({ row }: CellContext<TaskRow, unknown>) {
   );
 }
 
-export function TaskDetailsCell({ row }: CellContext<TaskRow, unknown>) {
+export function TaskDetailsCell(props: CellContext<TaskRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   const ctx = useContext(TaskDialogContext);
   const status = log.status?.toUpperCase();
 

@@ -152,7 +152,6 @@ export function LoraPicker(props: Props) {
                     <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] tracking-wide uppercase">
                       <span>{lora.category}</span>
                       <span>{lora.baseModel}</span>
-                      {lora.nsfw && <span className="text-pink-500">nsfw</span>}
                     </div>
                   </button>
                 ))}

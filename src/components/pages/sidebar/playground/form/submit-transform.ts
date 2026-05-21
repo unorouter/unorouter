@@ -52,7 +52,6 @@ export async function toSubmitBody(
     references: values.references,
     extraParams: cleanedExtras,
     visibility: values.visibility,
-    nsfw: values.nsfw,
     sessionId: ctx.activeSessionId ?? undefined,
   };
 }

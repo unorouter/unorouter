@@ -9,9 +9,11 @@ import { ModelLink, VendorLink } from "./entity-links";
 import { GrowthText } from "./growth-text";
 import { splitHalf } from "./rankings-helpers";
 
+type LeaderboardVariant = "default" | "compact";
+
 type ModelLeaderboardProps = {
   rows: RankedModel[];
-  variant?: "default" | "compact";
+  variant?: LeaderboardVariant;
   limit?: number;
 };
 
@@ -32,7 +34,7 @@ export function ModelLeaderboard(props: ModelLeaderboardProps) {
 
 function ModelList(props: {
   rows: RankedModel[];
-  variant: "default" | "compact";
+  variant: LeaderboardVariant;
 }) {
   const t = useTranslations();
   const compact = props.variant === "compact";

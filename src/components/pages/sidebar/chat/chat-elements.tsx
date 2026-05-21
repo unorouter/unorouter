@@ -4,7 +4,6 @@ import { ModelSelector } from "@/components/elements/model/model-selector";
 import { Icon } from "@/components/ui/icon";
 import { useConversationQuery } from "@/hooks/ai/chat-hook";
 import { useApiKey } from "@/hooks/ui/use-api-key";
-import { Link } from "@/i18n/navigation";
 import { formatPrice } from "@/lib/utils/format/number";
 import { chatModelAtom } from "@/store/chat-store";
 import { useAui, useAuiState } from "@assistant-ui/react";
@@ -101,35 +100,6 @@ export function NeedsTokenGate() {
           <Icon name="plus" className="h-3.5 w-3.5" />
         )}
         {t("DOCS.GENERATE_API_KEY")}
-      </Button>
-    </div>
-  );
-}
-
-export function ZeroBalanceGate() {
-  const t = useTranslations();
-
-  return (
-    <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8">
-      <div className="bg-muted flex h-16 w-16 items-center justify-center rounded-full">
-        <Icon name="wallet" className="text-muted-foreground h-8 w-8" />
-      </div>
-      <div className="text-center">
-        <h2 className="text-foreground text-lg font-medium">
-          {t("CHAT.GATE.ZERO_BALANCE_TITLE")}
-        </h2>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {t("CHAT.GATE.ZERO_BALANCE_DESC")}
-        </p>
-      </div>
-      <Button
-        size="sm"
-        className="gap-1.5"
-        nativeButton={false}
-        render={<Link href="/billing" />}
-      >
-        <Icon name="wallet" className="h-3.5 w-3.5" />
-        {t("CHAT.GATE.GO_TO_BILLING")}
       </Button>
     </div>
   );

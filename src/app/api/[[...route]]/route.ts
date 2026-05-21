@@ -27,7 +27,6 @@ const openapiRefs =
       })()
     : fromTypes("src/app/api/[[...route]]/route.ts");
 
-const siteOrigin = new URL(env.appUrl).origin;
 
 export const app = new Elysia({ prefix: "/api" })
   .use(
@@ -42,11 +41,11 @@ export const app = new Elysia({ prefix: "/api" })
           description: `Backend-for-frontend for ${APP_VALUES.appName}. Pass-through verticals (auth, billing, token, affiliate, logs, pricing, dashboard, stats, settings, badge) proxy the upstream relay. The chat vertical owns local state and streaming logic.`,
           contact: {
             name: APP_VALUES.appName,
-            url: siteOrigin,
+            url: env.siteOrigin,
             email: APP_VALUES.supportEmail,
           },
         },
-        servers: [{ url: `${siteOrigin}/api` }],
+        servers: [{ url: `${env.siteOrigin}/api` }],
         // MPP (Machine Payment Protocol) service metadata, paymentauth.org
         // draft-payment-discovery-00. Agents read this alongside the
         // per-operation x-payment-info annotations on /billing/*-pay routes
@@ -55,9 +54,9 @@ export const app = new Elysia({ prefix: "/api" })
           "x-service-info": {
             categories: ["ai", "developer-tools"],
             docs: {
-              apiReference: `${siteOrigin}/api/openapi`,
-              homepage: siteOrigin,
-              llms: `${siteOrigin}/llms.txt`,
+              apiReference: `${env.siteOrigin}/api/openapi`,
+              homepage: env.siteOrigin,
+              llms: `${env.siteOrigin}/llms.txt`,
             },
           },
         },

@@ -25,6 +25,10 @@ export const env = {
   apiUrl,
   appName,
   appUrl,
+  // Bare origins (scheme + host, no path) of appUrl/apiUrl, derived once so
+  // discovery routes and SEO helpers don't each re-parse the URL.
+  siteOrigin: new URL(appUrl).origin,
+  apiOrigin: new URL(apiUrl).origin,
   statusUrl: statusUrlObj.origin,
   supportEmail,
   githubUrl: process.env.NEXT_PUBLIC_GITHUB_URL,

@@ -13,7 +13,7 @@ import {
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { eq, sql } from "drizzle-orm";
 import { finalizeRowFailure, imageCountFor } from "./playground-finalize";
 import { getSessionRow, getSnapshotWithImages } from "./playground-reads";
@@ -58,7 +58,6 @@ export async function submitGeneration(
 ) {
   const db = getDb();
   const visibility = body.visibility ?? "private";
-  const nsfw = body.nsfw ?? true;
   const requestedCount = imageCountFor(body);
   const modelInfo = (await getPricingSummary()).models.find(
     (m) => m.name === body.model,
@@ -70,7 +69,6 @@ export async function submitGeneration(
 
   let sessionId: string;
   let sessionOrder: number;
-  let createdSession: PlaygroundSession | undefined;
   if (body.sessionId) {
     const existing = await getSessionRow(userId, body.sessionId);
     sessionId = existing.id;
@@ -88,13 +86,6 @@ export async function submitGeneration(
       imageCount: 0,
       expiresAt,
     });
-    createdSession = (
-      await db
-        .select()
-        .from(playgroundSessions)
-        .where(eq(playgroundSessions.id, sessionId))
-        .limit(1)
-    )[0];
   }
 
   const id = uid();
@@ -113,7 +104,6 @@ export async function submitGeneration(
     extraParams: body.extraParams ?? null,
     status: "pending",
     visibility,
-    nsfw,
     costQuota,
     expiresAt,
     submittedKey: apiKey,
@@ -166,21 +156,13 @@ export async function submitGeneration(
   }
 
   const snapshot = await getSnapshotWithImages(userId, id);
-  const session = createdSession
-    ? (
-        await db
-          .select()
-          .from(playgroundSessions)
-          .where(eq(playgroundSessions.id, sessionId))
-          .limit(1)
-      )[0]
-    : (
-        await db
-          .select()
-          .from(playgroundSessions)
-          .where(eq(playgroundSessions.id, sessionId))
-          .limit(1)
-      )[0];
+  const session = (
+    await db
+      .select()
+      .from(playgroundSessions)
+      .where(eq(playgroundSessions.id, sessionId))
+      .limit(1)
+  )[0];
   return { session, snapshot };
 }
 

@@ -1,6 +1,6 @@
 import { routing } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 
 export const dynamic = "force-static";
 
@@ -11,7 +11,7 @@ export function GET() {
     `Contact: mailto:${env.supportEmail}`,
     `Expires: ${expires}`,
     `Preferred-Languages: ${routing.locales.join(", ")}`,
-    `Canonical: ${new URL(env.appUrl).origin}/.well-known/security.txt`,
+    `Canonical: ${env.siteOrigin}/.well-known/security.txt`,
     "",
   ].join("\n");
 

@@ -10,7 +10,7 @@ import { BLOG_CATEGORIES, getBlogTheme } from "@/lib/config/blog-categories";
 import type { BlogListPost } from "@/lib/types/seo";
 import { estimateReadingMinutes } from "@/components/pages/blog/reading-time";
 import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 

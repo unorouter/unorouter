@@ -33,9 +33,9 @@ import { editingTokenAtom } from "./token-list";
 
 export type TokenRow = NonNullable<Token>;
 
-export function TokenStatusCell({ row }: CellContext<TokenRow, unknown>) {
+export function TokenStatusCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
-  const isEnabled = row.original.status === 1;
+  const isEnabled = props.row.original.status === 1;
   return (
     <Badge
       variant={isEnabled ? "default" : "destructive"}
@@ -46,22 +46,22 @@ export function TokenStatusCell({ row }: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenQuotaCell({ row }: CellContext<TokenRow, unknown>) {
+export function TokenQuotaCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
   return (
     <span className="font-mono text-sm tabular-nums">
-      {row.original.unlimited_quota
+      {props.row.original.unlimited_quota
         ? t("TOKEN.UNLIMITED")
-        : `${renderQuota(row.original.used_quota)} / ${renderQuota(row.original.remain_quota)}`}
+        : `${renderQuota(props.row.original.used_quota)} / ${renderQuota(props.row.original.remain_quota)}`}
     </span>
   );
 }
 
-export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
+export function TokenKeyCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
   const fetchKeyMutation = useFetchTokenKeyMutation();
   const [revealedKey, setRevealedKey] = useState<string | null>(null);
-  const token = row.original;
+  const token = props.row.original;
   const displayKey = revealedKey ? `sk-${revealedKey}` : `sk-${token.key}`;
 
   function handleCopy() {
@@ -148,9 +148,9 @@ export function TokenKeyCell({ row }: CellContext<TokenRow, unknown>) {
   );
 }
 
-export function TokenModelsCell({ row }: CellContext<TokenRow, unknown>) {
+export function TokenModelsCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
-  const token = row.original;
+  const token = props.row.original;
   const pricingQuery = usePricingQuery();
   const models = pricingQuery.data?.models ?? [];
 
@@ -268,9 +268,9 @@ export function TokenActionCell(props: CellContext<TokenRow, unknown>) {
   return <DataTableRowActions row={props.row} actions={actions} />;
 }
 
-export function TokenDateCell({ row, column }: CellContext<TokenRow, unknown>) {
+export function TokenDateCell(props: CellContext<TokenRow, unknown>) {
   const t = useTranslations();
-  const value = row.original[column.id as "created_time" | "expired_time"];
+  const value = props.row.original[props.column.id as "created_time" | "expired_time"];
   return (
     <span className="text-muted-foreground font-mono text-xs">
       {value === -1 ? t("TOKEN.FORM.NEVER_EXPIRES") : formatLongDate(value)}

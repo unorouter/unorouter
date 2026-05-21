@@ -1,7 +1,6 @@
 import { env } from "@/lib/config/env";
 import { OAUTH_SCOPES } from "@/lib/config/oauth-scopes";
 
-const apiOrigin = new URL(env.apiUrl).origin;
 
 // Builds /.well-known/oauth-authorization-server (RFC 8414) +
 // /.well-known/openid-configuration (OIDC 1.0). Delta is userinfo_endpoint
@@ -12,10 +11,10 @@ const apiOrigin = new URL(env.apiUrl).origin;
 // 404 auto-register agents.
 export function buildOAuthDiscoveryDoc(opts: { includeOidc: boolean }) {
   const base = {
-    issuer: apiOrigin,
-    authorization_endpoint: `${apiOrigin}/oauth/v1/authorize`,
-    token_endpoint: `${apiOrigin}/oauth/v1/token`,
-    jwks_uri: `${apiOrigin}/oauth/v1/jwks`,
+    issuer: env.apiOrigin,
+    authorization_endpoint: `${env.apiOrigin}/oauth/v1/authorize`,
+    token_endpoint: `${env.apiOrigin}/oauth/v1/token`,
+    jwks_uri: `${env.apiOrigin}/oauth/v1/jwks`,
     scopes_supported: ["openid", "offline_access", ...OAUTH_SCOPES],
     response_types_supported: ["code"],
     response_modes_supported: ["query"],
@@ -34,7 +33,7 @@ export function buildOAuthDiscoveryDoc(opts: { includeOidc: boolean }) {
   }
   return {
     ...base,
-    userinfo_endpoint: `${apiOrigin}/oauth/v1/userinfo`,
+    userinfo_endpoint: `${env.apiOrigin}/oauth/v1/userinfo`,
     claims_supported: ["sub", "iss", "aud", "exp", "iat"],
   };
 }

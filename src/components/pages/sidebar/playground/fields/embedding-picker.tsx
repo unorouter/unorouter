@@ -140,7 +140,6 @@ export function EmbeddingPicker(props: Props) {
                     <div className="text-muted-foreground mt-0.5 flex gap-2 text-[10px] tracking-wide uppercase">
                       <span>{emb.category}</span>
                       <span>{emb.baseModel}</span>
-                      {emb.nsfw && <span className="text-pink-500">nsfw</span>}
                     </div>
                   </button>
                 ))}

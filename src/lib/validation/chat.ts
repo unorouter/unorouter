@@ -111,6 +111,22 @@ export const reasoningEffort = t.Union([
   t.Literal("minimal"),
   t.Literal("none"),
 ]);
+export type ReasoningEffort = Static<typeof reasoningEffort>;
+
+export const webSearchEngine = t.Union([
+  t.Literal("auto"),
+  t.Literal("native"),
+  t.Literal("exa"),
+  t.Literal("tavily"),
+]);
+export type WebSearchEngine = Static<typeof webSearchEngine>;
+
+export const webSearchContextSize = t.Union([
+  t.Literal("low"),
+  t.Literal("medium"),
+  t.Literal("high"),
+]);
+export type WebSearchContextSize = Static<typeof webSearchContextSize>;
 
 // Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
 export const streamOverrides = t.Object({
@@ -124,17 +140,8 @@ export const streamOverrides = t.Object({
   ),
   authorNoteDepth: t.Optional(t.Number({ minimum: 0, maximum: 100 })),
   webSearchEnabled: t.Optional(t.Boolean()),
-  webSearchEngine: t.Optional(
-    t.Union([
-      t.Literal("auto"),
-      t.Literal("native"),
-      t.Literal("exa"),
-      t.Literal("tavily"),
-    ]),
-  ),
-  webSearchContextSize: t.Optional(
-    t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
-  ),
+  webSearchEngine: t.Optional(webSearchEngine),
+  webSearchContextSize: t.Optional(webSearchContextSize),
   temperature: t.Optional(
     t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
   ),
@@ -195,17 +202,8 @@ export const updateConversationSettingsBody = t.Object({
   chatMemory: t.Optional(t.Number({ minimum: 1, maximum: 1000 })),
   reasoningEffort: t.Optional(t.Union([reasoningEffort, t.Null()])),
   webSearchEnabled: t.Optional(t.Boolean()),
-  webSearchEngine: t.Optional(
-    t.Union([
-      t.Literal("auto"),
-      t.Literal("native"),
-      t.Literal("exa"),
-      t.Literal("tavily"),
-    ]),
-  ),
-  webSearchContextSize: t.Optional(
-    t.Union([t.Literal("low"), t.Literal("medium"), t.Literal("high")]),
-  ),
+  webSearchEngine: t.Optional(webSearchEngine),
+  webSearchContextSize: t.Optional(webSearchContextSize),
   temperature: t.Optional(
     t.Union([t.Number({ minimum: 0, maximum: 2 }), t.Null()]),
   ),

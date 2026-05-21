@@ -1,4 +1,20 @@
+import type { RpSyncKind } from "@/lib/validation/sync";
 import posthog from "posthog-js";
+
+// Conversations report through the `chat.*` events; lorebook entries are a
+// sub-entity with no sync kind of their own.
+type RpAnalyticsEntity =
+  | Exclude<RpSyncKind, "conversations">
+  | "lorebook_entries";
+
+type RpAnalyticsAction =
+  | "create_started"
+  | "edit_started"
+  | "deleted"
+  | "import_picker_opened"
+  | "imported"
+  | "import_failed"
+  | "exported";
 
 const auth = {
   loginCompleted: (method: "email" | "oauth") => {
@@ -431,18 +447,10 @@ const docs = {
 
 const rp = {
   entityAction: (props: {
-    entity: "character" | "persona" | "lorebook" | "preset" | "lorebook_entry";
-    action:
-      | "create_started"
-      | "edit_started"
-      | "deleted"
-      | "import_picker_opened"
-      | "imported"
-      | "import_failed"
-      | "exported";
+    entity: RpAnalyticsEntity;
+    action: RpAnalyticsAction;
     format?: string;
     is_default?: boolean;
-    nsfw?: boolean;
   }) => {
     posthog.capture("rp_entity_action", props);
   },

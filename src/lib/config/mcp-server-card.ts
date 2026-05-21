@@ -2,7 +2,6 @@ import { APP_VALUES, type TranslationKey } from "./constants";
 import { env } from "./env";
 import { WEBMCP_TOOLS } from "./webmcp-tools";
 
-const siteOrigin = new URL(env.appUrl).origin;
 
 // Loose translator shape (avoid next-intl's own type: triggers TS2589).
 type Translator = (
@@ -28,11 +27,11 @@ export function buildMcpServerCard(t: Translator) {
       name: APP_VALUES.appName,
       version: "1.0.0",
       description: t("WELL_KNOWN.MCP.SERVER_DESCRIPTION", APP_VALUES),
-      homepage: siteOrigin,
+      homepage: env.siteOrigin,
     },
     transport: {
       type: "webmcp",
-      webmcp: { homepage: siteOrigin },
+      webmcp: { homepage: env.siteOrigin },
     },
     capabilities: { tools: {} },
     tools,

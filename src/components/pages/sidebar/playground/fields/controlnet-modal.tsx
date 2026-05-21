@@ -18,10 +18,11 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useUploadReferenceMutation } from "@/hooks/ai/playground-hook";
 import { cn } from "@/lib/utils";
+import type { GenerationControlNetKind } from "@/lib/validation/playground";
 import { CONTROLNET_KINDS as KINDS } from "../playground-constants";
 
 export type ControlNetValue = {
-  kind: "depth" | "canny" | "openpose";
+  kind: GenerationControlNetKind;
   imageUrl: string;
   weight: number;
 };

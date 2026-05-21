@@ -5,7 +5,7 @@ import {
   playgrounds,
 } from "@/lib/db/schema";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { eq, sql } from "drizzle-orm";
 
 // Must stay aligned with form variants buttons (1/2/4) and validator bounds.

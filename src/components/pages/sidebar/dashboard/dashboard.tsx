@@ -6,7 +6,7 @@ import { useStatusQuery } from "@/hooks/ops/status-hook";
 import { useUserDisplay } from "@/hooks/ui/user-display-hook";
 import type { DashboardStore } from "@/store/dashboard-store";
 import { dashboardStoreAtom } from "@/store/dashboard-store";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRef } from "react";

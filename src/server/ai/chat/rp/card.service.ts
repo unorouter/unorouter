@@ -15,7 +15,7 @@ import {
 } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import type { CardApplyBody, CardBody } from "@/lib/validation/rp";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, asc, desc, eq, inArray } from "drizzle-orm";
 
 export async function listCards(userId: number) {

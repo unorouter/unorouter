@@ -10,7 +10,7 @@ import { getDb } from "@/lib/db/server/client";
 import { playgrounds } from "@/lib/db/schema";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { eq } from "drizzle-orm";
 import {
   finalizeRowSuccess,

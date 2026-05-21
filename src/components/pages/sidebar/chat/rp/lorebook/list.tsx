@@ -24,11 +24,10 @@ import {
   useLorebooksQuery,
 } from "@/hooks/ai/rp/lorebooks";
 import { analytics } from "@/lib/analytics";
-import { rpc } from "@/lib/rpc";
 import type { LorebookExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { downloadFileResponse } from "@/lib/utils/client";
+import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import { LorebookEditor } from "./editor";
 
 type Props = {
@@ -42,6 +41,7 @@ export function LorebookList(props: Props) {
   const createMut = useCreateLorebookMutation();
   const deleteMut = useDeleteLorebookMutation();
   const importMut = useImportLorebookMutation();
+  const exportMut = useRpExportMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [openLbId, setOpenLbId] = useState<string | null>(null);
@@ -53,7 +53,7 @@ export function LorebookList(props: Props) {
 
   const handleCreate = async () => {
     analytics.rp.entityAction({
-      entity: "lorebook",
+      entity: "lorebooks",
       action: "create_started",
     });
     await createMut.mutateAsync({
@@ -71,7 +71,7 @@ export function LorebookList(props: Props) {
     });
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    analytics.rp.entityAction({ entity: "lorebook", action: "deleted" });
+    analytics.rp.entityAction({ entity: "lorebooks", action: "deleted" });
   };
 
   const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,28 +80,17 @@ export function LorebookList(props: Props) {
     e.target.value = "";
     try {
       await importMut.mutateAsync(file);
-      analytics.rp.entityAction({ entity: "lorebook", action: "imported" });
+      analytics.rp.entityAction({ entity: "lorebooks", action: "imported" });
     } catch {
       analytics.rp.entityAction({
-        entity: "lorebook",
+        entity: "lorebooks",
         action: "import_failed",
       });
     }
   };
 
-  const handleExport = async (id: string, format: LorebookExportFormat) => {
-    const ok = await downloadFileResponse(
-      rpc.api.ai.rp.lorebooks({ id }).export.get({ query: { format } }),
-      `lorebook-${id}.${format}.json`,
-    );
-    if (ok) {
-      analytics.rp.entityAction({
-        entity: "lorebook",
-        action: "exported",
-        format,
-      });
-    }
-  };
+  const handleExport = (id: string, format: LorebookExportFormat) =>
+    exportMut.mutate({ kind: "lorebooks", id, format });
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
@@ -143,7 +132,7 @@ export function LorebookList(props: Props) {
                 variant="outline"
                 onClick={() => {
                   analytics.rp.entityAction({
-                    entity: "lorebook",
+                    entity: "lorebooks",
                     action: "import_picker_opened",
                   });
                   fileInputRef.current?.click();
@@ -177,7 +166,7 @@ export function LorebookList(props: Props) {
                   className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
                   onClick={() => {
                     analytics.rp.entityAction({
-                      entity: "lorebook",
+                      entity: "lorebooks",
                       action: "edit_started",
                     });
                     setOpenLbId(l.id);

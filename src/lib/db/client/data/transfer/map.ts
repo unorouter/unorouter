@@ -9,7 +9,7 @@ import type {
   StMessage,
   StMetadata,
 } from "@/lib/types/transfer";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 
 // A conversation reduced to plain row objects, ready for
 // upsertLocalConversationBundle plus the standalone RP entity upserts.
@@ -102,7 +102,6 @@ export function mapNativeImport(native: NativeImport): MappedImport {
     systemPrompt: str(c.systemPrompt),
     postHistoryInstructions: str(c.postHistoryInstructions),
     tags: strArr(c.tags),
-    nsfw: bool(c.nsfw) ?? false,
   }));
 
   const lorebooks = native.lorebooks.map((l) => {

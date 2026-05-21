@@ -18,6 +18,7 @@ import {
   usePersonasQuery,
 } from "@/hooks/ai/rp/personas";
 import { analytics } from "@/lib/analytics";
+import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import { PersonaEditor } from "./editor";
@@ -34,7 +35,7 @@ export function PersonaList(props: Props) {
   const importMut = useImportPersonaMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const [editingId, setEditingId] = useState<EntityEditId>(null);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset editor when dialog closes
@@ -47,10 +48,10 @@ export function PersonaList(props: Props) {
     e.target.value = "";
     try {
       await importMut.mutateAsync(file);
-      analytics.rp.entityAction({ entity: "persona", action: "imported" });
+      analytics.rp.entityAction({ entity: "personas", action: "imported" });
     } catch {
       analytics.rp.entityAction({
-        entity: "persona",
+        entity: "personas",
         action: "import_failed",
       });
     }
@@ -66,7 +67,7 @@ export function PersonaList(props: Props) {
     });
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    analytics.rp.entityAction({ entity: "persona", action: "deleted" });
+    analytics.rp.entityAction({ entity: "personas", action: "deleted" });
     if (editingId === id) setEditingId(null);
   };
 
@@ -90,7 +91,7 @@ export function PersonaList(props: Props) {
               variant="outline"
               onClick={() => {
                 analytics.rp.entityAction({
-                  entity: "persona",
+                  entity: "personas",
                   action: "import_picker_opened",
                 });
                 fileInputRef.current?.click();
@@ -104,7 +105,7 @@ export function PersonaList(props: Props) {
             <Button
               onClick={() => {
                 analytics.rp.entityAction({
-                  entity: "persona",
+                  entity: "personas",
                   action: "create_started",
                 });
                 setEditingId("new");
@@ -137,7 +138,7 @@ export function PersonaList(props: Props) {
                   className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
                   onClick={() => {
                     analytics.rp.entityAction({
-                      entity: "persona",
+                      entity: "personas",
                       action: "edit_started",
                     });
                     setEditingId(p.id);

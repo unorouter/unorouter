@@ -16,7 +16,7 @@ import { env } from "@/lib/config/env";
 import { rpc } from "@/lib/rpc";
 import { getSeoTimestamps } from "@/lib/seo/metadata";
 import { handleElysia, modelSlug } from "@/lib/utils/base";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import type { MetadataRoute } from "next";
 
 type EntryOptions = {
@@ -26,7 +26,6 @@ type EntryOptions = {
   lastModified?: Date | SeoTimestampSlug;
 };
 
-const ORIGIN = new URL(env.appUrl).origin;
 const privateSet = new Set<string>([
   ...privateRoutes.static,
   ...privateRoutes.dynamicParents,
@@ -46,12 +45,12 @@ function localizedEntries(
   const languages = Object.fromEntries(
     routing.locales.map((cur) => [
       cur,
-      `${ORIGIN}${getPathname({ locale: cur, href })}`,
+      `${env.siteOrigin}${getPathname({ locale: cur, href })}`,
     ]),
   );
 
   return routing.locales.map((locale) => ({
-    url: `${ORIGIN}${getPathname({ locale, href })}`,
+    url: `${env.siteOrigin}${getPathname({ locale, href })}`,
     lastModified: resolved,
     ...(options.priority !== undefined && { priority: options.priority }),
     ...(options.changeFrequency && {

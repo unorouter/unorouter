@@ -10,7 +10,6 @@ import { getTranslations } from "next-intl/server";
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
-const siteOrigin = new URL(env.appUrl).origin;
 
 export async function GET() {
   const locale = await serverLocale();
@@ -32,7 +31,7 @@ export async function GET() {
     const title = t(`${doc.i18nPrefix}.TITLE`, APP_VALUES);
     const note = t(`${doc.i18nPrefix}.SUBTITLE`, APP_VALUES);
     lines.push(
-      `- [${title}](${siteOrigin}${localeUrl(locale, doc.path)}): ${note}`,
+      `- [${title}](${env.siteOrigin}${localeUrl(locale, doc.path)}): ${note}`,
     );
   }
   lines.push("");
@@ -41,20 +40,20 @@ export async function GET() {
   for (const post of BLOG_REGISTRY) {
     const title = t(`${post.i18nKey}.TITLE`, APP_VALUES);
     const note = t(`${post.i18nKey}.DESCRIPTION`, APP_VALUES);
-    const url = `${siteOrigin}${localeUrl(locale, { pathname: "/blog/[slug]", params: { slug: post.slug } })}`;
+    const url = `${env.siteOrigin}${localeUrl(locale, { pathname: "/blog/[slug]", params: { slug: post.slug } })}`;
     lines.push(`- [${title}](${url}): ${note}`);
   }
   lines.push("");
 
   lines.push(`## ${t("FOOTER.PRODUCT")}`);
   lines.push(
-    `- [${t("NAV.PRICING")}](${siteOrigin}${localeUrl(locale, "/pricing")}): ${t("PRICING.META.DESCRIPTION", APP_VALUES)}`,
+    `- [${t("NAV.PRICING")}](${env.siteOrigin}${localeUrl(locale, "/pricing")}): ${t("PRICING.META.DESCRIPTION", APP_VALUES)}`,
   );
   lines.push(
-    `- [${t("NAV.MODELS")}](${siteOrigin}${localeUrl(locale, "/models")}): ${t("MODELS.META.DESCRIPTION", APP_VALUES)}`,
+    `- [${t("NAV.MODELS")}](${env.siteOrigin}${localeUrl(locale, "/models")}): ${t("MODELS.META.DESCRIPTION", APP_VALUES)}`,
   );
   lines.push(
-    `- [${t("NAV.CHAT")}](${siteOrigin}${localeUrl(locale, "/chat")}): ${t("CHAT.META.DESCRIPTION", APP_VALUES)}`,
+    `- [${t("NAV.CHAT")}](${env.siteOrigin}${localeUrl(locale, "/chat")}): ${t("CHAT.META.DESCRIPTION", APP_VALUES)}`,
   );
   lines.push("");
 
@@ -62,7 +61,7 @@ export async function GET() {
   if (models.length > 0) {
     lines.push(`## ${t("FOOTER.MODELS")}`);
     for (const model of models.slice(0, 50)) {
-      const url = `${siteOrigin}${localeUrl(locale, { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } })}`;
+      const url = `${env.siteOrigin}${localeUrl(locale, { pathname: "/models/[slug]", params: { slug: modelSlug(model.name) } })}`;
       lines.push(`- [${model.name}](${url})`);
     }
     lines.push("");
@@ -70,10 +69,10 @@ export async function GET() {
 
   lines.push(`## ${t("FOOTER.LEGAL")}`);
   lines.push(
-    `- [${t("PRIVACY.TITLE")}](${siteOrigin}${localeUrl(locale, "/privacy")})`,
+    `- [${t("PRIVACY.TITLE")}](${env.siteOrigin}${localeUrl(locale, "/privacy")})`,
   );
   lines.push(
-    `- [${t("TERMS.TITLE")}](${siteOrigin}${localeUrl(locale, "/terms")})`,
+    `- [${t("TERMS.TITLE")}](${env.siteOrigin}${localeUrl(locale, "/terms")})`,
   );
   lines.push("");
 
@@ -81,8 +80,8 @@ export async function GET() {
   // want a minimal context skip this section, so the heading must stay in
   // English. RSS and Sitemap are universal proper nouns.
   lines.push("## Optional");
-  lines.push(`- [RSS](${siteOrigin}/${locale}/blog/feed.xml)`);
-  lines.push(`- [Sitemap](${siteOrigin}/sitemap.xml)`);
+  lines.push(`- [RSS](${env.siteOrigin}/${locale}/blog/feed.xml)`);
+  lines.push(`- [Sitemap](${env.siteOrigin}/sitemap.xml)`);
 
   return new Response(lines.join("\n"), {
     headers: {

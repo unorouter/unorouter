@@ -4,7 +4,7 @@ import { serializeLorebookForExport } from "@/lib/ai/rp/lorebook-import";
 import { uid } from "@/lib/utils/base";
 import { assertFound } from "@/lib/utils/server";
 import type { LorebookBody, LorebookEntryBody } from "@/lib/validation/rp";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, asc, desc, eq } from "drizzle-orm";
 
 export async function listLorebooks(userId: number) {

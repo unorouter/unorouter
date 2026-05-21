@@ -2397,9 +2397,6 @@
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Clé API requise",
       "NEEDS_TOKEN_DESC": "Générez une clé API pour commencer à discuter avec les modèles IA.",
-      "ZERO_BALANCE_TITLE": "Solde insuffisant",
-      "ZERO_BALANCE_DESC": "Rechargez votre compte pour utiliser les modèles payants.",
-      "GO_TO_BILLING": "Recharger",
       "LOGIN_REQUIRED_DESC": "Connectez-vous pour commencer à discuter avec les modèles IA."
     },
     "TOOL": {
@@ -2564,7 +2561,6 @@
     "CHARACTER_POST_HISTORY": "Instructions post-historique",
     "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Étiquettes",
-    "CHARACTER_NSFW": "NSFW",
     "CHARACTER_ACTIVATION_TITLE": "Activation",
     "CHARACTER_ACTIVATION_HINT": "Si 'Toujours actif' est désactivé, le personnage rejoint le prompt seulement quand un mot déclencheur apparaît dans le chat récent. Astuce multi-perso : laisser le personnage principal toujours actif, déclencher les secondaires par mots-clés.",
     "CHARACTER_ALWAYS_ACTIVE": "Toujours actif",
@@ -2717,8 +2713,7 @@
     "IMPORT_UNSUPPORTED_VERSION": "Version d'export non prise en charge.",
     "CARD_PARSE_FAILED": "Impossible de lire la carte de personnage.",
     "CARD_MISSING_NAME": "Le nom est obligatoire dans la carte de personnage.",
-    "UNEXPECTED_ERROR": "Une erreur inattendue s'est produite",
-    "NSFW_NOT_PUBLISHABLE": "Les images NSFW ne peuvent pas être rendues publiques."
+    "UNEXPECTED_ERROR": "Une erreur inattendue s'est produite"
   },
   "BADGE": {
     "TOKENS_SERVED": "jetons servis",
@@ -3054,7 +3049,6 @@
     "PRICE_PER_CALL": "{price} par image",
     "META_TITLE": "Génération d'images",
     "META_DESC": "Générez des images avec le pipeline ComfyUI de {appName} (SDXL + Flux 2).",
-    "NSFW_REVEAL": "Cliquer pour afficher (18+)",
     "LIKE": "J'aime",
     "UNLIKE": "Je n'aime plus",
     "REFERENCES_DROP_HINT": "Déposer des images ou parcourir",

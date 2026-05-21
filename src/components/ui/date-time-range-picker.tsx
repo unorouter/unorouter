@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 

@@ -6,7 +6,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import type { EdenArgs } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
 import {

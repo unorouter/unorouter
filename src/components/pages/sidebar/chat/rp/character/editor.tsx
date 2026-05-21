@@ -141,12 +141,6 @@ export function CharacterEditor(props: Props) {
           label={t("RP.CHARACTER_TAGS")}
           placeholder="fantasy, adventure"
         />
-        <MyFormSwitch
-          control={form.control}
-          name="nsfw"
-          label={t("RP.CHARACTER_NSFW")}
-        />
-
         <div className="border-border/40 flex flex-col gap-3 rounded-lg border p-3">
           <div className="text-foreground text-xs font-medium tracking-wide uppercase">
             {t("RP.CHARACTER_ACTIVATION_TITLE")}

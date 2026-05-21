@@ -17,7 +17,6 @@ import { and, eq } from "drizzle-orm";
 import { ADMIN_HEADERS } from "@/server/constants";
 import { acpError } from "./errors";
 
-const SITE_ORIGIN = new URL(env.appUrl).origin;
 const PAYMENT_METHOD_DEFAULT = "card";
 
 export type AcpPaymentMethod = "stripe" | "creem";
@@ -571,8 +570,8 @@ function toCartResponse(
     totals,
     messages: extraMessages,
     links: [
-      { type: "terms_of_use", url: `${SITE_ORIGIN}/terms` },
-      { type: "privacy_policy", url: `${SITE_ORIGIN}/privacy` },
+      { type: "terms_of_use", url: `${env.siteOrigin}/terms` },
+      { type: "privacy_policy", url: `${env.siteOrigin}/privacy` },
     ],
     ...(order ? { order } : {}),
   };

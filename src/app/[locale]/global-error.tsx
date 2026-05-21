@@ -1,12 +1,10 @@
 "use client";
 
+import type { RouteErrorProps } from "@/components/elements/feedback/error-fallback";
 import posthog from "posthog-js";
 import { useEffect } from "react";
 
-export default function GlobalError(props: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+export default function GlobalError(props: RouteErrorProps) {
   useEffect(() => {
     posthog.captureException(props.error);
   }, [props.error]);

@@ -95,7 +95,6 @@ export const loraCatalog = sqliteTable(
     defaultWeight: real("default_weight").notNull().default(1.0),
     description: text("description"),
     thumbnailR2Key: text("thumbnail_r2_key"),
-    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
     visible: integer("visible", { mode: "boolean" }).notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
@@ -123,7 +122,6 @@ export const embeddingCatalog = sqliteTable(
     category: text("category").notNull(),
     description: text("description"),
     thumbnailR2Key: text("thumbnail_r2_key"),
-    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
     visible: integer("visible", { mode: "boolean" }).notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: integer("created_at", { mode: "timestamp_ms" })

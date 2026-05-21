@@ -156,7 +156,6 @@ export const characters = sqliteTable(
     postHistoryInstructions: text("post_history_instructions"),
     defaultReasoningEffort: text("default_reasoning_effort"),
     tags: text("tags", { mode: "json" }),
-    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(false),
     triggers: text("triggers", { mode: "json" }),
     alwaysActive: integer("always_active", { mode: "boolean" })
       .notNull()
@@ -534,7 +533,6 @@ export const playgrounds = sqliteTable(
     progress: text("progress"),
     costQuota: integer("cost_quota"),
     visibility: text("visibility").notNull().default("private"),
-    nsfw: integer("nsfw", { mode: "boolean" }).notNull().default(true),
     flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
     flagReason: text("flag_reason"),
     remixCount: integer("remix_count").notNull().default(0),

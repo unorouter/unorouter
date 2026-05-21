@@ -3,7 +3,6 @@ import { parseJwks, stripPrivateFields } from "@/server/auth/web-bot-auth/keys";
 
 export const dynamic = "force-dynamic";
 
-const siteOrigin = new URL(env.appUrl).origin;
 const ns = `ai.${env.appName.toLowerCase()}`;
 
 // UCP profile per ucp.dev 2026-04-08. signing_keys reuses the Web Bot Auth
@@ -21,10 +20,10 @@ export function GET() {
         [`${ns}.api`]: [
           {
             version,
-            spec: `${siteOrigin}/en/docs`,
+            spec: `${env.siteOrigin}/en/docs`,
             transport: "rest",
-            endpoint: `${siteOrigin}/api`,
-            schema: `${siteOrigin}/api/openapi/json`,
+            endpoint: `${env.siteOrigin}/api`,
+            schema: `${env.siteOrigin}/api/openapi/json`,
           },
         ],
       },
@@ -36,11 +35,11 @@ export function GET() {
       },
       payment_handlers: {
         stripe_checkout: {
-          endpoint: `${siteOrigin}/api/billing/stripe-pay`,
+          endpoint: `${env.siteOrigin}/api/billing/stripe-pay`,
           flow: "redirect",
         },
         creem_checkout: {
-          endpoint: `${siteOrigin}/api/billing/creem-pay`,
+          endpoint: `${env.siteOrigin}/api/billing/creem-pay`,
           flow: "redirect",
         },
       },

@@ -35,7 +35,7 @@ import type { NativeImport, OrpgImport } from "@/lib/types/transfer";
 import { handleError } from "@/lib/utils/client";
 import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { mirrorConvIfSynced } from "./shared";
 

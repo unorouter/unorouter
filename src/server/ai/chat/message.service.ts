@@ -15,7 +15,7 @@ import type {
 } from "@/lib/validation/chat";
 import { getUserLogs } from "@/openapi";
 import { serverEnv } from "@/server/env";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, eq, inArray, sql } from "drizzle-orm";
 
 export type PendingUsage = {

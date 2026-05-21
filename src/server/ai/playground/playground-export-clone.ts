@@ -9,7 +9,7 @@ import {
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { eq, sql } from "drizzle-orm";
 import {
   finalizeRowFailure,
@@ -31,7 +31,6 @@ export type PlaygroundSnapshot = {
   loras: unknown;
   references: unknown;
   extraParams: unknown;
-  nsfw: boolean;
   images: Array<{
     sequenceIndex: number;
     r2Url: string;
@@ -62,7 +61,6 @@ function rowToSnapshot(
     loras: row.loras,
     references: row.references,
     extraParams: row.extraParams,
-    nsfw: row.nsfw,
     images: images.map((img) => ({
       sequenceIndex: img.sequenceIndex,
       r2Url: img.r2Url,
@@ -107,7 +105,6 @@ async function cloneSnapshotIntoNewSession(args: {
       references: snapshot.references as PlaygroundSubmitBody["references"],
       extraParams: snapshot.extraParams as Record<string, unknown> | undefined,
       visibility: "private",
-      nsfw: snapshot.nsfw,
     };
     const { session } = await submitGeneration(userId, apiKey, body);
     return { sessionId: session.id };
@@ -140,7 +137,6 @@ async function cloneSnapshotIntoNewSession(args: {
     extraParams: snapshot.extraParams as never,
     status: "pending",
     visibility: "private",
-    nsfw: snapshot.nsfw,
     costQuota: 0,
     expiresAt,
     submittedKey: apiKey,
@@ -211,7 +207,6 @@ async function cloneSessionPayload(args: {
         references: snap.references as PlaygroundSubmitBody["references"],
         extraParams: snap.extraParams as Record<string, unknown> | undefined,
         visibility: "private",
-        nsfw: snap.nsfw,
       };
       try {
         await submitGeneration(userId, apiKey, body);
@@ -245,7 +240,6 @@ async function cloneSessionPayload(args: {
       extraParams: snap.extraParams as never,
       status: "pending",
       visibility: "private",
-      nsfw: snap.nsfw,
       costQuota: 0,
       expiresAt,
       submittedKey: apiKey,

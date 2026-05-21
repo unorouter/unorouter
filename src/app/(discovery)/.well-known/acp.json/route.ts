@@ -3,7 +3,6 @@ import { env } from "@/lib/config/env";
 
 export const dynamic = "force-static";
 
-const siteOrigin = new URL(env.appUrl).origin;
 const defaultLocale = routing.defaultLocale;
 
 // ACP discovery document per
@@ -20,26 +19,26 @@ export function GET() {
       supported_versions: ["2026-01-16"],
       documentation_url: "https://agenticcommerce.dev",
     },
-    api_base_url: `${siteOrigin}/api`,
+    api_base_url: `${env.siteOrigin}/api`,
     transports: ["rest"],
     merchant: {
       name: env.appName,
-      url: siteOrigin,
+      url: env.siteOrigin,
       support_email: env.supportEmail,
-      tos_url: `${siteOrigin}/${defaultLocale}/terms`,
-      privacy_url: `${siteOrigin}/${defaultLocale}/privacy`,
-      documentation_url: `${siteOrigin}/${defaultLocale}/docs`,
+      tos_url: `${env.siteOrigin}/${defaultLocale}/terms`,
+      privacy_url: `${env.siteOrigin}/${defaultLocale}/privacy`,
+      documentation_url: `${env.siteOrigin}/${defaultLocale}/docs`,
     },
     auth: {
-      oauth_authorization_server: `${siteOrigin}/.well-known/oauth-authorization-server`,
-      oauth_protected_resource: `${siteOrigin}/.well-known/oauth-protected-resource`,
+      oauth_authorization_server: `${env.siteOrigin}/.well-known/oauth-authorization-server`,
+      oauth_protected_resource: `${env.siteOrigin}/.well-known/oauth-protected-resource`,
     },
     endpoints: {
-      checkout_create: `${siteOrigin}/api/checkout-sessions`,
-      topup_stripe: `${siteOrigin}/api/billing/stripe-pay`,
-      topup_creem: `${siteOrigin}/api/billing/creem-pay`,
-      subscription_stripe: `${siteOrigin}/api/billing/subscription/stripe-pay`,
-      subscription_creem: `${siteOrigin}/api/billing/subscription/creem-pay`,
+      checkout_create: `${env.siteOrigin}/api/checkout-sessions`,
+      topup_stripe: `${env.siteOrigin}/api/billing/stripe-pay`,
+      topup_creem: `${env.siteOrigin}/api/billing/creem-pay`,
+      subscription_stripe: `${env.siteOrigin}/api/billing/subscription/stripe-pay`,
+      subscription_creem: `${env.siteOrigin}/api/billing/subscription/creem-pay`,
     },
     capabilities: {
       services: ["checkout"],

@@ -2,7 +2,6 @@ import { pathnames, privateRoutes, routing } from "@/i18n/routing";
 import { env } from "@/lib/config/env";
 import type { Locale } from "next-intl";
 
-const siteOrigin = new URL(env.appUrl).origin;
 
 function localizedPath(
   route: keyof typeof pathnames,
@@ -40,8 +39,8 @@ export function GET() {
     "Allow: /",
     ...disallow.map((path) => `Disallow: ${path}`),
     "",
-    `Sitemap: ${siteOrigin}/sitemap.xml`,
-    `Host: ${siteOrigin}`,
+    `Sitemap: ${env.siteOrigin}/sitemap.xml`,
+    `Host: ${env.siteOrigin}`,
     "",
   ];
   return new Response(lines.join("\n"), {

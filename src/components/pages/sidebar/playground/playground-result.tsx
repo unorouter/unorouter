@@ -27,11 +27,7 @@ import {
   useSnapshotStatusQuery,
 } from "@/hooks/ai/playground-hook";
 import { getModelDescriptor } from "@/lib/ai/playground/models";
-import {
-  downloadGenerationImage,
-  downloadGenerationSnapshot,
-  readGenerationSnapshotFile,
-} from "@/components/pages/sidebar/playground/utils/playground-export";
+import { downloadBlob, downloadJson } from "@/lib/utils/client";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
@@ -353,7 +349,6 @@ export function GenerateResult(props: Props) {
     loras?: unknown;
     references?: unknown;
     extraParams?: Record<string, unknown> | null;
-    nsfw?: boolean;
     images?: PlaygroundImage[];
     errorMessage?: string | null;
     progress?: number | null;
@@ -400,7 +395,6 @@ export function GenerateResult(props: Props) {
       loras: unknown;
       references: unknown;
       extraParams: Record<string, unknown> | null;
-      nsfw: boolean;
     };
     setRestore({
       model: d.model,
@@ -410,7 +404,6 @@ export function GenerateResult(props: Props) {
       loras: d.loras,
       references: d.references,
       extraParams: d.extraParams ?? null,
-      nsfw: d.nsfw,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.snapshotId]);
@@ -448,11 +441,11 @@ export function GenerateResult(props: Props) {
 
   const onExport = async () => {
     const payload = await exportMut.mutateAsync({ sessionId: props.sessionId });
-    downloadGenerationSnapshot(payload, `${props.sessionId}.json`);
+    downloadJson(payload, `${props.sessionId}.json`);
   };
 
   const onImportFile = async (file: File) => {
-    const parsed = await readGenerationSnapshotFile(file);
+    const parsed = JSON.parse(await file.text());
     const result = await importMut.mutateAsync({
       body: {
         payload: parsed as never,
@@ -526,7 +519,6 @@ export function GenerateResult(props: Props) {
               loras: data.loras,
               references: data.references,
               extraParams: data.extraParams ?? null,
-              nsfw: data.nsfw ?? false,
               tab: target.tab,
               subPill: target.subPill,
               initImageUrl: url,
@@ -669,4 +661,10 @@ export function GenerateResult(props: Props) {
       </Dialog>
     </div>
   );
+}
+
+async function downloadGenerationImage(url: string, filename: string) {
+  const res = await fetch(url, { cache: "no-cache" });
+  if (!res.ok) throw new Error(`fetch ${res.status}`);
+  downloadBlob(await res.blob(), filename);
 }

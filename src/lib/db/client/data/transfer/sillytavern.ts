@@ -2,7 +2,7 @@
 
 import { msg } from "@/lib/config/constants";
 import type { StMessage, StMetadata } from "@/lib/types/transfer";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { readLocalConversationBundle } from "../chat";
 import { upsertLocalConversationBundle } from "../chat";
 import { mapStImport, parseStJsonl } from "./map";

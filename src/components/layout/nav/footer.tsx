@@ -8,7 +8,7 @@ import { analytics } from "@/lib/analytics";
 import { APP_VALUES, msg } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";

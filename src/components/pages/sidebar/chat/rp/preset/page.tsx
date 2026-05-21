@@ -10,11 +10,11 @@ import {
   usePresetsQuery,
 } from "@/hooks/ai/rp/presets";
 import { analytics } from "@/lib/analytics";
-import { rpc } from "@/lib/rpc";
+import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { PresetForm } from "./form";
-import { downloadFileResponse } from "@/lib/utils/client";
+import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import { RpEntityPage } from "../shared/rp-entity-page";
 
 /**
@@ -26,15 +26,11 @@ export function PresetsPage() {
   const t = useTranslations();
   const presetsQuery = usePresetsQuery();
   const deleteMut = useDeletePresetMutation();
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const exportMut = useRpExportMutation();
+  const [editingId, setEditingId] = useState<EntityEditId>(null);
 
-  const handleExport = async (id: string) => {
-    const ok = await downloadFileResponse(
-      rpc.api.ai.rp.presets({ id }).export.get(),
-      `preset-${id}.json`,
-    );
-    if (ok) analytics.rp.entityAction({ entity: "preset", action: "exported" });
-  };
+  const handleExport = (id: string) =>
+    exportMut.mutate({ kind: "presets", id });
 
   const handleDelete = async (id: string) => {
     const ok = await confirm({
@@ -46,7 +42,7 @@ export function PresetsPage() {
     });
     if (!ok) return;
     await deleteMut.mutateAsync(id);
-    analytics.rp.entityAction({ entity: "preset", action: "deleted" });
+    analytics.rp.entityAction({ entity: "presets", action: "deleted" });
     if (editingId === id) setEditingId(null);
   };
 
@@ -59,7 +55,7 @@ export function PresetsPage() {
       isEditing={editingId !== null}
       onNew={() => {
         analytics.rp.entityAction({
-          entity: "preset",
+          entity: "presets",
           action: "create_started",
         });
         setEditingId("new");
@@ -83,7 +79,7 @@ export function PresetsPage() {
               className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
               onClick={() => {
                 analytics.rp.entityAction({
-                  entity: "preset",
+                  entity: "presets",
                   action: "edit_started",
                 });
                 setEditingId(p.id);

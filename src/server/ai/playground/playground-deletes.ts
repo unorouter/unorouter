@@ -1,4 +1,3 @@
-import { msg } from "@/lib/config/constants";
 import { deleteGenerationObject } from "@/lib/config/r2";
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
@@ -9,7 +8,7 @@ import {
 } from "@/lib/db/schema";
 import { logger } from "@/lib/utils/logger";
 import type { PlaygroundVisibility } from "@/lib/validation/playground";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, eq, inArray, lt, sql } from "drizzle-orm";
 import {
   getSessionRow,
@@ -24,12 +23,6 @@ export async function setVisibility(
   visibility: PlaygroundVisibility,
 ) {
   const db = getDb();
-  if (visibility === "public") {
-    const existing = await getSnapshotRow(userId, id);
-    if (existing.nsfw) {
-      throw new Error(msg("ERRORS.NSFW_NOT_PUBLISHABLE"));
-    }
-  }
   const result = await db
     .update(playgrounds)
     .set({ visibility, updatedAt: dayjs().toDate() })

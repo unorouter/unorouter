@@ -48,9 +48,9 @@ function StackedCell(props: {
   );
 }
 
-export function DrawingTimeCell({ row }: CellContext<DrawingRow, unknown>) {
+export function DrawingTimeCell(props: CellContext<DrawingRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   const statusColor = getMjStatusColor(log.status);
   const statusKey = getMjStatusKey(log.status);
   const statusLabel = statusKey ? t(statusKey) : (log.status ?? "—");
@@ -72,9 +72,9 @@ export function DrawingTimeCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingMjIdCell({ row }: CellContext<DrawingRow, unknown>) {
+export function DrawingMjIdCell(props: CellContext<DrawingRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!log.mj_id) return EMPTY;
   return (
     <TooltipProvider>
@@ -101,8 +101,8 @@ export function DrawingMjIdCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingActionCell({ row }: CellContext<DrawingRow, unknown>) {
-  const log = row.original;
+export function DrawingActionCell(props: CellContext<DrawingRow, unknown>) {
+  const log = props.row.original;
   if (!log.action) return EMPTY;
   return (
     <Badge
@@ -114,8 +114,8 @@ export function DrawingActionCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingDurationCell({ row }: CellContext<DrawingRow, unknown>) {
-  const log = row.original;
+export function DrawingDurationCell(props: CellContext<DrawingRow, unknown>) {
+  const log = props.row.original;
   const duration = formatMjDuration(log.submit_time, log.finish_time);
   if (!duration) return EMPTY;
   const variant = duration.isWarning
@@ -132,8 +132,8 @@ export function DrawingDurationCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingProgressCell({ row }: CellContext<DrawingRow, unknown>) {
-  const log = row.original;
+export function DrawingProgressCell(props: CellContext<DrawingRow, unknown>) {
+  const log = props.row.original;
   if (!log.progress) return EMPTY;
   const pct = parseProgress(log.progress);
   return (
@@ -143,8 +143,8 @@ export function DrawingProgressCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingChannelCell({ row }: CellContext<DrawingRow, unknown>) {
-  const log = row.original;
+export function DrawingChannelCell(props: CellContext<DrawingRow, unknown>) {
+  const log = props.row.original;
   if (!log.channel_id) return EMPTY;
   const label = `#${log.channel_id}`;
   return (
@@ -157,9 +157,9 @@ export function DrawingChannelCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingImageCell({ row }: CellContext<DrawingRow, unknown>) {
+export function DrawingImageCell(props: CellContext<DrawingRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.image_url && !log.video_url) return EMPTY;
   return (
@@ -174,8 +174,8 @@ export function DrawingImageCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingPromptCell({ row }: CellContext<DrawingRow, unknown>) {
-  const log = row.original;
+export function DrawingPromptCell(props: CellContext<DrawingRow, unknown>) {
+  const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.prompt) return EMPTY;
   return (
@@ -189,10 +189,10 @@ export function DrawingPromptCell({ row }: CellContext<DrawingRow, unknown>) {
   );
 }
 
-export function DrawingFailReasonCell({
-  row,
-}: CellContext<DrawingRow, unknown>) {
-  const log = row.original;
+export function DrawingFailReasonCell(
+  props: CellContext<DrawingRow, unknown>,
+) {
+  const log = props.row.original;
   const ctx = useContext(DrawingDialogContext);
   if (!log.fail_reason) return EMPTY;
   return (

@@ -288,7 +288,6 @@ export const characterFormSchema = t.Object({
   systemPrompt: t.String({ maxLength: 50_000, default: "" }),
   postHistoryInstructions: t.String({ maxLength: 50_000, default: "" }),
   tags: t.String({ default: "" }),
-  nsfw: t.Boolean({ default: false }),
   // Comma-separated keywords; assembler matches against recent user texts.
   triggers: t.String({ default: "" }),
   alwaysActive: t.Boolean({ default: true }),

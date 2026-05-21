@@ -88,6 +88,9 @@ export const generationControlNetKind = t.Union([
   t.Literal("canny"),
   t.Literal("openpose"),
 ]);
+export type GenerationControlNetKind = Static<
+  typeof generationControlNetKind
+>;
 
 export const playgroundControlNet = t.Object({
   kind: generationControlNetKind,
@@ -181,7 +184,6 @@ export const playgroundSubmitBody = t.Object({
   references: t.Optional(t.Array(generationReferenceEntry, { maxItems: 6 })),
   extraParams: t.Optional(t.Record(t.String(), t.Any())),
   visibility: t.Optional(generationVisibility),
-  nsfw: t.Optional(t.Boolean()),
   sessionId: t.Optional(t.String({ maxLength: 64 })),
 });
 export type PlaygroundSubmitBody = Static<typeof playgroundSubmitBody>;
@@ -215,7 +217,6 @@ export const playgroundSnapshot = t.Object({
   loras: t.Unknown(),
   references: t.Unknown(),
   extraParams: t.Unknown(),
-  nsfw: t.Boolean(),
   images: t.Array(
     t.Object({
       sequenceIndex: t.Integer({ minimum: 0, maximum: 15 }),

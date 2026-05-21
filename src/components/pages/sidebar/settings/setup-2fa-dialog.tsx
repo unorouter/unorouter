@@ -1,6 +1,7 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
+import type { TwoFAMode } from "@/lib/types";
 import { Icon } from "@/components/ui/icon";
 import { copyToClipboard } from "@/lib/utils/base";
 import { MyFormInput } from "@/components/elements/form/my-form-input";
@@ -36,7 +37,7 @@ import { toast } from "sonner";
 export function Setup2FADialog(props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  mode: "setup" | "disable";
+  mode: TwoFAMode;
 }) {
   const t = useTranslations();
   const setup2FAMutation = useSetup2FAMutation();

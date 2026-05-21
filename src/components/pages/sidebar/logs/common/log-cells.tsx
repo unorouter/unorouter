@@ -85,21 +85,21 @@ function LogTypePill(props: { type: number }) {
   );
 }
 
-export function LogTimeCell({ row }: CellContext<LogRow, unknown>) {
+export function LogTimeCell(props: CellContext<LogRow, unknown>) {
   return (
     <StackedCell
       primary={
         <span className="font-mono text-xs">
-          {formatTimestamp(row.original.created_at)}
+          {formatTimestamp(props.row.original.created_at)}
         </span>
       }
-      secondary={<LogTypePill type={row.original.type} />}
+      secondary={<LogTypePill type={props.row.original.type} />}
     />
   );
 }
 
-export function LogChannelCell({ row }: CellContext<LogRow, unknown>) {
-  const log = row.original;
+export function LogChannelCell(props: CellContext<LogRow, unknown>) {
+  const log = props.row.original;
   if (!log.channel) {
     return LOG_EMPTY;
   }
@@ -126,8 +126,8 @@ export function LogChannelCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogUserCell({ row }: CellContext<LogRow, unknown>) {
-  const log = row.original;
+export function LogUserCell(props: CellContext<LogRow, unknown>) {
+  const log = props.row.original;
   if (!log.username) {
     return LOG_EMPTY;
   }
@@ -144,9 +144,9 @@ export function LogUserCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
+export function LogModelCell(props: CellContext<LogRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!isConsumeLike(log.type) || !log.model_name) {
     return LOG_EMPTY;
   }
@@ -190,9 +190,9 @@ export function LogModelCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
+export function LogTokenNameCell(props: CellContext<LogRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!isConsumeLike(log.type) || !log.token_name) {
     return LOG_EMPTY;
   }
@@ -227,9 +227,9 @@ export function LogTokenNameCell({ row }: CellContext<LogRow, unknown>) {
   return <StackedCell primary={primary} secondary={log.group || null} />;
 }
 
-export function LogTokensCell({ row }: CellContext<LogRow, unknown>) {
+export function LogTokensCell(props: CellContext<LogRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!isConsumeLike(log.type)) {
     return LOG_EMPTY;
   }
@@ -261,9 +261,9 @@ export function LogTokensCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
+export function LogTimingCell(props: CellContext<LogRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (
     (log.type !== LOG_TYPE_CONSUME && log.type !== LOG_TYPE_ERROR) ||
     !log.use_time
@@ -320,9 +320,9 @@ export function LogTimingCell({ row }: CellContext<LogRow, unknown>) {
   return <StackedCell primary={primary} secondary={secondary} />;
 }
 
-export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
+export function LogSpendCell(props: CellContext<LogRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   if (!isConsumeLike(log.type)) {
     return LOG_EMPTY;
   }
@@ -377,9 +377,9 @@ export function LogSpendCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogPricingDetailsCell({ row }: CellContext<LogRow, unknown>) {
+export function LogPricingDetailsCell(props: CellContext<LogRow, unknown>) {
   const t = useTranslations();
-  const log = row.original;
+  const log = props.row.original;
   const other = parseOther(log.other);
   const ctx = useContext(LogDetailsContext);
 
@@ -488,12 +488,12 @@ export function LogPricingDetailsCell({ row }: CellContext<LogRow, unknown>) {
   );
 }
 
-export function LogExpandToggleCell({ row }: CellContext<LogRow, unknown>) {
-  if (!row.getCanExpand()) return null;
+export function LogExpandToggleCell(props: CellContext<LogRow, unknown>) {
+  if (!props.row.getCanExpand()) return null;
   return (
     <Icon
       name="chevron-right"
-      className={`text-muted-foreground h-4 w-4 transition-transform ${row.getIsExpanded() ? "rotate-90" : ""}`}
+      className={`text-muted-foreground h-4 w-4 transition-transform ${props.row.getIsExpanded() ? "rotate-90" : ""}`}
     />
   );
 }

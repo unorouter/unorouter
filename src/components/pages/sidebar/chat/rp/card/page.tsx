@@ -18,9 +18,10 @@ import {
   useCardsQuery,
   useDeleteCardMutation,
 } from "@/hooks/ai/rp/cards";
-import { rpc } from "@/lib/rpc";
-import { downloadFileResponse } from "@/lib/utils/client";
+import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
 import { useAuiState } from "@assistant-ui/react";
+import type { EntityEditId } from "@/lib/types";
+import type { CardApplyMode } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -32,18 +33,16 @@ export function CardsPage() {
   const cardsQuery = useCardsQuery();
   const deleteMut = useDeleteCardMutation();
   const applyMut = useApplyCardMutation();
+  const exportMut = useRpExportMutation();
   const activeConvId = useAuiState((s) => s.threadListItem?.remoteId);
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const [editingId, setEditingId] = useState<EntityEditId>(null);
   const [applyTarget, setApplyTarget] = useState<{
     cardId: string;
     cardName: string;
   } | null>(null);
 
   const handleExport = (id: string) =>
-    downloadFileResponse(
-      rpc.api.ai.rp.cards({ id }).export.get(),
-      `card-${id}.json`,
-    );
+    exportMut.mutate({ kind: "cards", id });
 
   const handleDelete = async (id: string) => {
     const ok = await confirm({
@@ -58,7 +57,7 @@ export function CardsPage() {
     if (editingId === id) setEditingId(null);
   };
 
-  const doApply = async (mode: "replace" | "merge") => {
+  const doApply = async (mode: CardApplyMode) => {
     if (!applyTarget) return;
     if (!activeConvId) {
       toast.error(t("RP.CARDS_NO_CONV"));

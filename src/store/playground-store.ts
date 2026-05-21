@@ -14,7 +14,6 @@ export type SnapshotRestorePayload = {
   loras: unknown;
   references: unknown;
   extraParams: Record<string, unknown> | null;
-  nsfw: boolean;
   tab?: GenerateTab;
   subPill?: Img2ImgSubPill;
   initImageUrl?: string;
@@ -32,7 +31,6 @@ export type GenerateDraft = {
   params: Record<string, unknown>;
   loras: unknown;
   references: unknown;
-  nsfw: boolean;
   extraParams: Record<string, unknown>;
 };
 

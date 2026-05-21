@@ -42,9 +42,6 @@ export type PlaygroundModelDescriptor = {
   schedulers?: string[];
   estimatedSeconds: number;
   recommendedPromptStyle: "natural-language" | "danbooru-tags";
-  // NSFW: owner-only by policy; gallery filters them out and setVisibility()
-  // rejects "public" for nsfw=true rows.
-  nsfwDefault: boolean;
   supportsImg2Img?: boolean;
   supportsUpscale?: boolean;
   supportsInpaint?: boolean;
@@ -97,7 +94,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     schedulers: SDXL_SCHEDULERS,
     estimatedSeconds: 8,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: true,
     supportsImg2Img: true,
     supportsUpscale: true,
     supportsInpaint: true,
@@ -136,7 +132,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     schedulers: SDXL_SCHEDULERS,
     estimatedSeconds: 10,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: true,
     supportsImg2Img: true,
     supportsUpscale: true,
     supportsInpaint: true,
@@ -174,7 +169,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     schedulers: SDXL_SCHEDULERS,
     estimatedSeconds: 8,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: false,
     supportsImg2Img: true,
     supportsUpscale: true,
     supportsInpaint: true,
@@ -209,7 +203,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     fixedSize: { width: 1024, height: 1024 },
     estimatedSeconds: 45,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: false,
     tabs: ["text2img"],
   },
   {
@@ -236,9 +229,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     fixedSize: { width: 1024, height: 1024 },
     estimatedSeconds: 60,
     recommendedPromptStyle: "natural-language",
-    // Character-driven scenes: keep on by default so publish toggle hides
-    // until user opts out per submission.
-    nsfwDefault: true,
     tabs: ["text2img", "edit"],
   },
   // Edit-family static fallbacks shown before pricing loads. IDs match upstream
@@ -261,7 +251,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     defaultParams: { width: 1024, height: 1024, steps: 28, guidance: 2.5 },
     estimatedSeconds: 25,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: false,
     tabs: ["edit"],
   },
   {
@@ -287,7 +276,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     defaultParams: { width: 1024, height: 1024, steps: 1 },
     estimatedSeconds: 18,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: false,
     tabs: ["edit"],
   },
   {
@@ -311,7 +299,6 @@ export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
     defaultParams: { width: 1024, height: 1024, steps: 1 },
     estimatedSeconds: 15,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: false,
     tabs: ["edit"],
   },
 ];

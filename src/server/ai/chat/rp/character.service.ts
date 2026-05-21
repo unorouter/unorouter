@@ -9,7 +9,7 @@ import { logger } from "@/lib/utils/logger";
 import { assertFound } from "@/lib/utils/server";
 import type { CharacterBody } from "@/lib/validation/rp";
 import { serverEnv } from "@/server/env";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, desc, eq } from "drizzle-orm";
 
 async function fetchAvatarBuffer(

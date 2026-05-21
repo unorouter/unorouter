@@ -5,8 +5,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-const siteOrigin = new URL(env.appUrl).origin;
-const apiOrigin = new URL(env.apiUrl).origin;
 
 export async function GET() {
   const locale = await serverLocale();
@@ -15,41 +13,41 @@ export async function GET() {
   const body = {
     linkset: [
       {
-        anchor: siteOrigin,
+        anchor: env.siteOrigin,
         "service-desc": [
           {
-            href: `${siteOrigin}/api/openapi/json`,
+            href: `${env.siteOrigin}/api/openapi/json`,
             type: "application/vnd.oai.openapi+json;version=3.1",
             title: t("WELL_KNOWN.API_CATALOG.OPENAPI_TITLE", APP_VALUES),
           },
           {
-            href: `${apiOrigin}/v1`,
+            href: `${env.apiOrigin}/v1`,
             type: "text/html",
             title: t("WELL_KNOWN.API_CATALOG.RELAY_TITLE", APP_VALUES),
           },
         ],
         "service-doc": [
           {
-            href: `${siteOrigin}/${locale}/docs`,
+            href: `${env.siteOrigin}/${locale}/docs`,
             type: "text/html",
             title: t("WELL_KNOWN.API_CATALOG.DOCS_TITLE", APP_VALUES),
           },
         ],
         "service-meta": [
           {
-            href: `${siteOrigin}/.well-known/agent-card.json`,
+            href: `${env.siteOrigin}/.well-known/agent-card.json`,
             type: "application/json",
             title: t("WELL_KNOWN.API_CATALOG.AGENT_CARD_TITLE"),
           },
         ],
         "service-auth": [
           {
-            href: `${apiOrigin}/.well-known/oauth-authorization-server`,
+            href: `${env.apiOrigin}/.well-known/oauth-authorization-server`,
             type: "application/json",
             title: t("WELL_KNOWN.API_CATALOG.AUTH_SERVER_TITLE"),
           },
           {
-            href: `${siteOrigin}/.well-known/oauth-protected-resource`,
+            href: `${env.siteOrigin}/.well-known/oauth-protected-resource`,
             type: "application/json",
             title: t("WELL_KNOWN.API_CATALOG.PROTECTED_RESOURCE_TITLE"),
           },

@@ -5,6 +5,7 @@ import {
   type CCv3LorebookEntry,
   type LorebookFormat,
 } from "@character-foundry/character-foundry/lorebook";
+import type { LorebookPosition } from "@/lib/validation/rp-forms";
 
 export type ParsedLorebook = {
   name: string;
@@ -19,17 +20,15 @@ export type ParsedLorebook = {
     constant: boolean;
     selective: boolean;
     priority: number;
-    position: "before_char" | "after_char" | "top" | "bottom" | "at_depth";
+    position: LorebookPosition;
     depth: number;
     enabled: boolean;
     orderIndex: number;
   }>;
 };
 
-type DbPosition = "before_char" | "after_char" | "top" | "bottom" | "at_depth";
-
 // CCv3 numeric positions, SillyTavern convention.
-const NUMERIC_POSITION: DbPosition[] = [
+const NUMERIC_POSITION: LorebookPosition[] = [
   "before_char",
   "after_char",
   "top",
@@ -38,7 +37,10 @@ const NUMERIC_POSITION: DbPosition[] = [
 ];
 
 // String positions: foundry's `in_chat` plus pass-through for DB-native names.
-const STRING_POSITION: Record<string, DbPosition> = {
+const STRING_POSITION: Record<
+  LorebookPosition | "in_chat",
+  LorebookPosition
+> = {
   in_chat: "at_depth",
   before_char: "before_char",
   after_char: "after_char",
@@ -47,20 +49,22 @@ const STRING_POSITION: Record<string, DbPosition> = {
   at_depth: "at_depth",
 };
 
-const DB_TO_FOUNDRY_POSITION = {
+type FoundryPosition = "before_char" | "after_char" | "in_chat";
+
+const DB_TO_FOUNDRY_POSITION: Record<LorebookPosition, FoundryPosition> = {
   before_char: "before_char",
   after_char: "after_char",
   top: "before_char",
   bottom: "after_char",
   at_depth: "in_chat",
-} as const;
+};
 
-function mapPositionToDb(raw: unknown): DbPosition {
+function mapPositionToDb(raw: unknown): LorebookPosition {
   if (typeof raw === "number") {
     return NUMERIC_POSITION[raw] ?? "before_char";
   }
-  if (typeof raw === "string") {
-    return STRING_POSITION[raw] ?? "before_char";
+  if (typeof raw === "string" && raw in STRING_POSITION) {
+    return STRING_POSITION[raw as LorebookPosition | "in_chat"];
   }
   return "before_char";
 }

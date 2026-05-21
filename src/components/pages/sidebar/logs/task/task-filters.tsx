@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Icon } from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import type { TaskFilterValues } from "./task-helpers";
 export { buildTaskFilters } from "./task-helpers";

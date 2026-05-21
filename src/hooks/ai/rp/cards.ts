@@ -21,7 +21,7 @@ import type { EdenArgs } from "@/lib/types/eden";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { deleteSyncedRow, mirrorConvIfSynced, mirrorSyncedRow } from "./shared";
 

@@ -7,7 +7,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-const siteOrigin = new URL(env.appUrl).origin;
 
 function skillName(slug: string) {
   return `configure-${slug.replace(/^docs\//, "").replace(/[^a-z0-9-]/gi, "-")}`;
@@ -21,7 +20,7 @@ export async function GET() {
     (doc) => ({
       name: skillName(doc.slug),
       description: `${t(`${doc.i18nPrefix}.TITLE`, APP_VALUES)}: ${t(`${doc.i18nPrefix}.SUBTITLE`, APP_VALUES)}`,
-      homepage: `${siteOrigin}${localeUrl(locale, doc.path)}`,
+      homepage: `${env.siteOrigin}${localeUrl(locale, doc.path)}`,
     }),
   );
 
@@ -31,12 +30,12 @@ export async function GET() {
       {
         name: "route-chat-completion",
         description: t("WELL_KNOWN.AGENT_SKILLS.ROUTE_CHAT"),
-        homepage: `${siteOrigin}${localeUrl(locale, "/docs")}`,
+        homepage: `${env.siteOrigin}${localeUrl(locale, "/docs")}`,
       },
       {
         name: "browse-model-catalog",
         description: t("WELL_KNOWN.AGENT_SKILLS.BROWSE_CATALOG"),
-        homepage: `${siteOrigin}${localeUrl(locale, "/models")}`,
+        homepage: `${env.siteOrigin}${localeUrl(locale, "/models")}`,
       },
       ...docSkills,
     ],

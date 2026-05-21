@@ -123,7 +123,6 @@ function defaultsFor(d: PlaygroundModelDescriptor): GenerationFormValues {
     negativePrompt: "",
     params: { ...d.defaultParams },
     visibility: "private",
-    nsfw: d.nsfwDefault,
     ui: { variants: 1 },
   } as GenerationFormValues;
 }
@@ -215,7 +214,6 @@ export function GenerateForm() {
     if (!nextDesc.supportsNegativePrompt) form.setValue("negativePrompt", "");
     if (!nextDesc.supportsReferences) form.setValue("references", undefined);
     if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
-    form.setValue("nsfw", nextDesc.nsfwDefault, { shouldDirty: true });
   };
 
   const seededIdRef = useRef<string | null>(null);
@@ -243,7 +241,6 @@ export function GenerateForm() {
       loras: (data.loras as LoraEntry[] | null) ?? undefined,
       references: (data.references as { url: string }[] | null) ?? undefined,
       visibility: "private",
-      nsfw: data.nsfw ?? true,
       ui: { variants: 1 },
     } as GenerationFormValues);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -293,7 +290,6 @@ export function GenerateForm() {
       params: draft.params as never,
       loras: draft.loras as never,
       references: draft.references as never,
-      nsfw: draft.nsfw,
       ui: (draft.extraParams as { variants?: number } | undefined) ?? {
         variants: 1,
       },
@@ -315,7 +311,6 @@ export function GenerateForm() {
           params: (values.params as Record<string, unknown>) ?? {},
           loras: values.loras,
           references: values.references,
-          nsfw: (values.nsfw as boolean) ?? true,
           extraParams: (values.ui as Record<string, unknown>) ?? {
             variants: 1,
           },
@@ -400,7 +395,6 @@ export function GenerateForm() {
       loras: (restorePayload.loras as LoraEntry[] | null) ?? undefined,
       references:
         (restorePayload.references as { url: string }[] | null) ?? undefined,
-      nsfw: restorePayload.nsfw,
       ui: (restorePayload.extraParams as { variants?: number } | undefined) ?? {
         variants: 1,
       },

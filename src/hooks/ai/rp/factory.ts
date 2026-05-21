@@ -7,7 +7,7 @@ import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import type { RpSyncKind } from "@/lib/validation/sync";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { deleteSyncedRow, mirrorSyncedRow } from "./shared";
 type WithId = { id: string; syncExpiresAt?: Date | null };

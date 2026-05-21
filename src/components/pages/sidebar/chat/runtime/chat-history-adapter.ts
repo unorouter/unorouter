@@ -26,7 +26,7 @@ import type {
   ThreadHistoryAdapter,
 } from "@assistant-ui/core";
 import type { QueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 
 // The chat format adapter's encoded storage shape: a persisted message whose
 // items are still in assistant-ui `parts` form (partsToItems converts them).

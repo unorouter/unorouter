@@ -9,8 +9,6 @@ import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";
 
-const siteOrigin = new URL(env.appUrl).origin;
-const apiOrigin = new URL(env.apiUrl).origin;
 
 // A2A AgentCard per https://github.com/a2aproject/A2A (main).
 // supportedInterfaces is required by the scanner; the field name is stable
@@ -30,13 +28,13 @@ export async function GET() {
     protocolVersion: "0.3.0",
     name: env.appName,
     description: t("WELL_KNOWN.AGENT_CARD.DESCRIPTION"),
-    url: `${apiOrigin}/v1`,
+    url: `${env.apiOrigin}/v1`,
     version: "1.0.0",
     provider: {
       organization: env.appName,
-      url: siteOrigin,
+      url: env.siteOrigin,
     },
-    documentationUrl: `${siteOrigin}/${locale}/docs`,
+    documentationUrl: `${env.siteOrigin}/${locale}/docs`,
     capabilities: {
       streaming: true,
       pushNotifications: false,
@@ -47,7 +45,7 @@ export async function GET() {
     preferredTransport: "HTTP+JSON",
     supportedInterfaces: [
       {
-        url: `${apiOrigin}/v1`,
+        url: `${env.apiOrigin}/v1`,
         protocolBinding: "HTTP+JSON",
         protocolVersion: "0.3.0",
       },
@@ -62,9 +60,9 @@ export async function GET() {
         type: "oauth2",
         flows: {
           authorizationCode: {
-            authorizationUrl: `${apiOrigin}/oauth/v1/authorize`,
-            tokenUrl: `${apiOrigin}/oauth/v1/token`,
-            refreshUrl: `${apiOrigin}/oauth/v1/token`,
+            authorizationUrl: `${env.apiOrigin}/oauth/v1/authorize`,
+            tokenUrl: `${env.apiOrigin}/oauth/v1/token`,
+            refreshUrl: `${env.apiOrigin}/oauth/v1/token`,
             scopes: scopeDescriptions,
           },
         },

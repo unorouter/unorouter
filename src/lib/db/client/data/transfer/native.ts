@@ -1,7 +1,7 @@
 "use client";
 
 import { msg, NATIVE_VERSION, ORPG_VERSION } from "@/lib/config/constants";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import {
   readLocalConversationBundle,
   upsertLocalConversationBundle,

@@ -2397,9 +2397,6 @@
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API-Schlüssel erforderlich",
       "NEEDS_TOKEN_DESC": "Erstelle einen API-Schlüssel, um mit KI-Modellen zu chatten.",
-      "ZERO_BALANCE_TITLE": "Guthaben aufgebraucht",
-      "ZERO_BALANCE_DESC": "Lade dein Konto auf, um kostenpflichtige Modelle zu nutzen.",
-      "GO_TO_BILLING": "Aufladen",
       "LOGIN_REQUIRED_DESC": "Melde dich an, um mit KI-Modellen zu chatten."
     },
     "TOOL": {
@@ -2564,7 +2561,6 @@
     "CHARACTER_POST_HISTORY": "Anweisung am Ende der Historie",
     "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Tags",
-    "CHARACTER_NSFW": "NSFW",
     "CHARACTER_ACTIVATION_TITLE": "Aktivierung",
     "CHARACTER_ACTIVATION_HINT": "Wenn 'Immer aktiv' aus ist, kommt der Charakter nur in den Prompt, wenn ein Trigger-Wort kürzlich im Chat auftaucht. Multi-Char-Tipp: Primärfigur immer aktiv lassen, Nebencharaktere per Trigger steuern.",
     "CHARACTER_ALWAYS_ACTIVE": "Immer aktiv",
@@ -2717,8 +2713,7 @@
     "IMPORT_UNSUPPORTED_VERSION": "Nicht unterstützte Export-Version.",
     "CARD_PARSE_FAILED": "Charakterkarte konnte nicht gelesen werden.",
     "CARD_MISSING_NAME": "Der Charakterkarte fehlt das erforderliche Namensfeld.",
-    "UNEXPECTED_ERROR": "Ein unerwarteter Fehler ist aufgetreten",
-    "NSFW_NOT_PUBLISHABLE": "NSFW-Bilder können nicht öffentlich gemacht werden."
+    "UNEXPECTED_ERROR": "Ein unerwarteter Fehler ist aufgetreten"
   },
   "BADGE": {
     "TOKENS_SERVED": "Tokens verarbeitet",
@@ -3054,7 +3049,6 @@
     "PRICE_PER_CALL": "{price} pro Bild",
     "META_TITLE": "Bildgenerierung",
     "META_DESC": "Generiere Bilder mit der {appName} ComfyUI-Pipeline (SDXL + Flux 2).",
-    "NSFW_REVEAL": "Klicken zum Anzeigen (18+)",
     "LIKE": "Gefällt mir",
     "UNLIKE": "Nicht mehr gefällt mir",
     "REFERENCES_DROP_HINT": "Bilder ablegen oder auswählen",

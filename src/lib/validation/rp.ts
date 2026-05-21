@@ -46,7 +46,6 @@ export const characterBody = t.Object({
     ],
     { default: null },
   ),
-  nsfw: t.Boolean({ default: false }),
   triggers: t.Union(
     [
       t.Array(t.String({ maxLength: MAX_KEY_LEN }), {
@@ -116,23 +115,12 @@ export const lorebookEntryBody = t.Object({
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
   priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
-  position: t.Union(
-    [
-      t.Literal("before_char"),
-      t.Literal("after_char"),
-      t.Literal("top"),
-      t.Literal("bottom"),
-      t.Literal("at_depth"),
-    ],
-    { default: "before_char" },
-  ),
+  position: t.Union(lorebookEntryPosition.anyOf, { default: "before_char" }),
   depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   enabled: t.Boolean({ default: true }),
   orderIndex: t.Number({ default: 0 }),
   matchWholeWords: t.Boolean({ default: false }),
-  injectionRole: t.Union([t.Literal("system"), t.Literal("user")], {
-    default: "user",
-  }),
+  injectionRole: t.Union(lorebookInjectionRole.anyOf, { default: "user" }),
 });
 export type LorebookEntryBody = Static<typeof lorebookEntryBody>;
 
@@ -207,9 +195,15 @@ export const cardBody = t.Object({
 });
 export type CardBody = Static<typeof cardBody>;
 
+export const cardApplyMode = t.Union([
+  t.Literal("replace"),
+  t.Literal("merge"),
+]);
+export type CardApplyMode = Static<typeof cardApplyMode>;
+
 export const cardApplyBody = t.Object({
   convId: t.String({ maxLength: 64 }),
-  mode: t.Union([t.Literal("replace"), t.Literal("merge")]),
+  mode: cardApplyMode,
 });
 export type CardApplyBody = Static<typeof cardApplyBody>;
 

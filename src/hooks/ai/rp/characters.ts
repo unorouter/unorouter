@@ -15,7 +15,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { uid, uint8ToBase64 } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
 import { makeRpEntity } from "./factory";
 import type { CharacterRow } from "@/lib/db/schema/rows";
@@ -78,7 +78,6 @@ export function useImportCharacterCardMutation() {
         postHistoryInstructions: card.postHistoryInstructions ?? null,
         defaultReasoningEffort: null,
         tags: card.tags ?? null,
-        nsfw: false,
         triggers: null,
         alwaysActive: true,
         matchWholeWords: false,

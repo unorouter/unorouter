@@ -16,7 +16,7 @@ import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { UpdateConversationBindingsBody } from "@/lib/validation/chat";
 import { expandTemplateVars } from "../augmentation/prompt-assembler.service";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, asc, eq, inArray } from "drizzle-orm";
 
 export async function getBindings(userId: number, convId: string) {

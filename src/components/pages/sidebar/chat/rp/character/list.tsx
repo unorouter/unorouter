@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { confirm } from "@/components/ui/confirm";
 import { Icon } from "@/components/ui/icon";
 import { SyncBadge } from "@/components/elements/badge/sync-badge";
@@ -23,13 +24,12 @@ import {
   useImportCharacterCardMutation,
 } from "@/hooks/ai/rp/characters";
 import { analytics } from "@/lib/analytics";
-import { rpc } from "@/lib/rpc";
 import type { EditorState } from "@/lib/types";
 import type { CharacterExportFormat } from "@/lib/validation/rp";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { downloadFileResponse } from "@/lib/utils/client";
-import { CharacterAvatar } from "./avatar";
+import { useRpExportMutation } from "@/hooks/ai/rp/use-export-mutation";
+import { useMediaSrc } from "@/hooks/ai/use-media-src";
 import { CharacterEditor } from "./editor";
 
 type Props = {
@@ -42,6 +42,7 @@ export function CharacterList(props: Props) {
   const charsQuery = useCharactersQuery();
   const deleteMut = useDeleteCharacterMutation();
   const importMut = useImportCharacterCardMutation();
+  const exportMut = useRpExportMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [view, setView] = useState<EditorState>({ mode: "list" });
@@ -57,28 +58,17 @@ export function CharacterList(props: Props) {
     e.target.value = "";
     try {
       await importMut.mutateAsync(file);
-      analytics.rp.entityAction({ entity: "character", action: "imported" });
+      analytics.rp.entityAction({ entity: "characters", action: "imported" });
     } catch {
       analytics.rp.entityAction({
-        entity: "character",
+        entity: "characters",
         action: "import_failed",
       });
     }
   };
 
-  const handleExport = async (id: string, format: CharacterExportFormat) => {
-    const ok = await downloadFileResponse(
-      rpc.api.ai.rp.characters({ id }).export.get({ query: { format } }),
-      `character-${id}.${format}`,
-    );
-    if (ok) {
-      analytics.rp.entityAction({
-        entity: "character",
-        action: "exported",
-        format,
-      });
-    }
-  };
+  const handleExport = (id: string, format: CharacterExportFormat) =>
+    exportMut.mutate({ kind: "characters", id, format });
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
@@ -116,7 +106,7 @@ export function CharacterList(props: Props) {
                 variant="outline"
                 onClick={() => {
                   analytics.rp.entityAction({
-                    entity: "character",
+                    entity: "characters",
                     action: "import_picker_opened",
                   });
                   fileInputRef.current?.click();
@@ -130,7 +120,7 @@ export function CharacterList(props: Props) {
               <Button
                 onClick={() => {
                   analytics.rp.entityAction({
-                    entity: "character",
+                    entity: "characters",
                     action: "create_started",
                   });
                   setView({ mode: "edit" });
@@ -155,7 +145,7 @@ export function CharacterList(props: Props) {
                   className="hover:bg-accent flex cursor-pointer flex-row items-center gap-3 p-3 transition-colors"
                   onClick={() => {
                     analytics.rp.entityAction({
-                      entity: "character",
+                      entity: "characters",
                       action: "edit_started",
                     });
                     setView({ mode: "edit", id: c.id });
@@ -230,7 +220,7 @@ export function CharacterList(props: Props) {
                       if (!ok) return;
                       await deleteMut.mutateAsync(c.id);
                       analytics.rp.entityAction({
-                        entity: "character",
+                        entity: "characters",
                         action: "deleted",
                       });
                     }}
@@ -249,5 +239,15 @@ export function CharacterList(props: Props) {
         )}
       </DialogContent>
     </Dialog>
+  );
+}
+
+function CharacterAvatar(props: { mediaId: string | null; name: string }) {
+  const src = useMediaSrc(props.mediaId);
+  return (
+    <Avatar className="size-10">
+      {src && <AvatarImage src={src} alt={props.name} />}
+      <AvatarFallback>{props.name?.[0]?.toUpperCase() ?? "?"}</AvatarFallback>
+    </Avatar>
   );
 }

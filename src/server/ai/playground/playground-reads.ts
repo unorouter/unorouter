@@ -16,7 +16,7 @@ import {
   type PlaygroundSession,
 } from "@/lib/db/schema";
 import type { PlaygroundHistoryQuery } from "@/lib/validation/playground";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { and, asc, desc, eq, inArray, lt } from "drizzle-orm";
 import {
   finalizeRowFailure,

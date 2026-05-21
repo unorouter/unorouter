@@ -62,7 +62,7 @@ export function LorebookEditor(props: Props) {
     });
     if (!ok) return;
     await deleteLb.mutateAsync(props.lorebookId);
-    analytics.rp.entityAction({ entity: "lorebook", action: "deleted" });
+    analytics.rp.entityAction({ entity: "lorebooks", action: "deleted" });
     props.onDeleted();
   };
 

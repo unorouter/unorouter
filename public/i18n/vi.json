@@ -2397,9 +2397,6 @@
     "GATE": {
       "NEEDS_TOKEN_TITLE": "Cần API Key",
       "NEEDS_TOKEN_DESC": "Tạo API key để bắt đầu trò chuyện với các mô hình AI.",
-      "ZERO_BALANCE_TITLE": "Số dư không đủ",
-      "ZERO_BALANCE_DESC": "Nạp tiền vào tài khoản để sử dụng các mô hình có phí.",
-      "GO_TO_BILLING": "Nạp tiền",
       "LOGIN_REQUIRED_DESC": "Đăng nhập để bắt đầu trò chuyện với các mô hình AI."
     },
     "TOOL": {
@@ -2564,7 +2561,6 @@
     "CHARACTER_POST_HISTORY": "Hướng dẫn cuối lịch sử",
     "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Thẻ",
-    "CHARACTER_NSFW": "NSFW",
     "CHARACTER_ACTIVATION_TITLE": "Kích hoạt",
     "CHARACTER_ACTIVATION_HINT": "Khi 'Luôn hoạt động' tắt, nhân vật chỉ vào prompt nếu từ trigger xuất hiện trong chat gần đây. Mẹo multi-char: để nhân vật chính luôn hoạt động, dùng trigger cho nhân vật phụ.",
     "CHARACTER_ALWAYS_ACTIVE": "Luôn hoạt động",
@@ -2717,8 +2713,7 @@
     "IMPORT_UNSUPPORTED_VERSION": "Phiên bản xuất không được hỗ trợ.",
     "CARD_PARSE_FAILED": "Không thể phân tích thẻ nhân vật.",
     "CARD_MISSING_NAME": "Thẻ nhân vật thiếu trường tên bắt buộc.",
-    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn",
-    "NSFW_NOT_PUBLISHABLE": "Ảnh NSFW không thể đặt thành công khai."
+    "UNEXPECTED_ERROR": "Đã xảy ra lỗi không mong muốn"
   },
   "BADGE": {
     "TOKENS_SERVED": "token đã phục vụ",
@@ -3054,7 +3049,6 @@
     "PRICE_PER_CALL": "{price}/ảnh",
     "META_TITLE": "Tạo ảnh",
     "META_DESC": "Tạo ảnh qua pipeline ComfyUI của {appName} (SDXL + Flux 2).",
-    "NSFW_REVEAL": "Nhấn để hiển thị (18+)",
     "LIKE": "Thích",
     "UNLIKE": "Bỏ thích",
     "REFERENCES_DROP_HINT": "Thả ảnh vào đây hoặc chọn",

@@ -21,7 +21,7 @@ import {
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
 import { createAssistantStream } from "assistant-stream";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import type { useTranslations } from "next-intl";
 import { extractFirstUserText } from "./chat-utils";
 

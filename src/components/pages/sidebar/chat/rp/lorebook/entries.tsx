@@ -40,6 +40,7 @@ import {
 import { typeboxResolver } from "@hookform/resolvers/typebox";
 import { csvToArray } from "@/lib/utils/base";
 import { formDefaults } from "@/lib/validation/helpers";
+import type { EntityEditId } from "@/lib/types";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -65,7 +66,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
   const updateMut = useUpdateLorebookEntryMutation(props.lorebookId);
   const deleteMut = useDeleteLorebookEntryMutation(props.lorebookId);
 
-  const [editingId, setEditingId] = useState<string | "new" | null>(null);
+  const [editingId, setEditingId] = useState<EntityEditId>(null);
 
   const form = useForm({
     resolver: typeboxResolver(lorebookEntryFormSchema),
@@ -121,7 +122,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
     if (!ok) return;
     await deleteMut.mutateAsync(id);
     analytics.rp.entityAction({
-      entity: "lorebook_entry",
+      entity: "lorebook_entries",
       action: "deleted",
     });
     if (editingId === id) setEditingId(null);
@@ -136,7 +137,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
         <Button
           onClick={() => {
             analytics.rp.entityAction({
-              entity: "lorebook_entry",
+              entity: "lorebook_entries",
               action: "create_started",
             });
             setEditingId("new");
@@ -313,7 +314,7 @@ export function LorebookEntries(props: { lorebookId: string }) {
               className="hover:bg-accent flex cursor-pointer flex-row items-start gap-3 p-3 transition-colors"
               onClick={() => {
                 analytics.rp.entityAction({
-                  entity: "lorebook_entry",
+                  entity: "lorebook_entries",
                   action: "edit_started",
                 });
                 setEditingId(e.id);

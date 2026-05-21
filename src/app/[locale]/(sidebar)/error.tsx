@@ -1,13 +1,11 @@
 "use client";
 
-import { ErrorFallback } from "@/components/elements/feedback/error-fallback";
+import {
+  ErrorFallback,
+  type RouteErrorProps,
+} from "@/components/elements/feedback/error-fallback";
 
-type Props = {
-  error: Error & { digest?: string };
-  reset(): void;
-};
-
-export default function SidebarError(props: Props) {
+export default function SidebarError(props: RouteErrorProps) {
   return (
     <ErrorFallback
       error={props.error}

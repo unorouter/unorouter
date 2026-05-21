@@ -8,7 +8,7 @@ import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/server/client";
 import { playgrounds, upscalerCatalog } from "@/lib/db/schema";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { eq } from "drizzle-orm";
 import { paramsToSize } from "./playground-finalize";
 

@@ -2397,9 +2397,6 @@
     "GATE": {
       "NEEDS_TOKEN_TITLE": "API Key Required",
       "NEEDS_TOKEN_DESC": "Generate an API key to start chatting with AI models.",
-      "ZERO_BALANCE_TITLE": "Insufficient Balance",
-      "ZERO_BALANCE_DESC": "Top up your account to use paid models.",
-      "GO_TO_BILLING": "Top Up",
       "LOGIN_REQUIRED_DESC": "Sign in to start chatting with AI models."
     },
     "TOOL": {
@@ -2564,7 +2561,6 @@
     "CHARACTER_POST_HISTORY": "Post-history instructions",
     "CHARACTER_AVATAR": "Avatar",
     "CHARACTER_TAGS": "Tags",
-    "CHARACTER_NSFW": "NSFW",
     "CHARACTER_ACTIVATION_TITLE": "Activation",
     "CHARACTER_ACTIVATION_HINT": "When 'Always active' is off, the character only joins the prompt when a trigger keyword shows up in the recent chat. Multi-char tip: keep the primary character always-active; gate secondary characters by triggers.",
     "CHARACTER_ALWAYS_ACTIVE": "Always active",
@@ -2717,8 +2713,7 @@
     "IMPORT_UNSUPPORTED_VERSION": "Unsupported export version.",
     "CARD_PARSE_FAILED": "Could not parse character card.",
     "CARD_MISSING_NAME": "Character card is missing the required name field.",
-    "UNEXPECTED_ERROR": "An unexpected error occurred",
-    "NSFW_NOT_PUBLISHABLE": "NSFW images cannot be made public."
+    "UNEXPECTED_ERROR": "An unexpected error occurred"
   },
   "BADGE": {
     "TOKENS_SERVED": "tokens served",
@@ -3054,7 +3049,6 @@
     "PRICE_PER_CALL": "{price} per image",
     "META_TITLE": "Image generation",
     "META_DESC": "Generate images with the {appName} ComfyUI pipeline (SDXL + Flux 2).",
-    "NSFW_REVEAL": "Click to reveal (18+)",
     "LIKE": "Like",
     "UNLIKE": "Unlike",
     "REFERENCES_DROP_HINT": "Drop images or browse",

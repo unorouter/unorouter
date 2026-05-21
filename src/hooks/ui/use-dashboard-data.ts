@@ -11,7 +11,7 @@ import {
   dashboardStoreAtom,
   defaultTimestamps,
 } from "@/store/dashboard-store";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { useAtom } from "jotai";
 
 export function useDashboardData() {

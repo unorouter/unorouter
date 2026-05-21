@@ -125,7 +125,6 @@ function inferDescriptor(
     },
     estimatedSeconds: 15,
     recommendedPromptStyle: "natural-language",
-    nsfwDefault: false,
   };
 }
 

@@ -2397,9 +2397,6 @@
     "GATE": {
       "NEEDS_TOKEN_TITLE": "需要 API 金鑰",
       "NEEDS_TOKEN_DESC": "產生一把 API 金鑰，開始與 AI 模型對話。",
-      "ZERO_BALANCE_TITLE": "餘額不足",
-      "ZERO_BALANCE_DESC": "請先儲值帳戶，以使用付費模型。",
-      "GO_TO_BILLING": "儲值",
       "LOGIN_REQUIRED_DESC": "請登入以開始與 AI 模型對話。"
     },
     "TOOL": {
@@ -2564,7 +2561,6 @@
     "CHARACTER_POST_HISTORY": "歷史末端指令",
     "CHARACTER_AVATAR": "頭像",
     "CHARACTER_TAGS": "標籤",
-    "CHARACTER_NSFW": "NSFW",
     "CHARACTER_ACTIVATION_TITLE": "啟用",
     "CHARACTER_ACTIVATION_HINT": "關閉「永遠啟用」時，僅當觸發詞出現在最近對話中，角色才會加入提示詞。多角色提示：主角保持永遠啟用，配角用觸發詞切換。",
     "CHARACTER_ALWAYS_ACTIVE": "永遠啟用",
@@ -2717,8 +2713,7 @@
     "IMPORT_UNSUPPORTED_VERSION": "不支援的匯出版本。",
     "CARD_PARSE_FAILED": "無法解析角色卡。",
     "CARD_MISSING_NAME": "角色卡缺少必填的名稱欄位。",
-    "UNEXPECTED_ERROR": "發生未預期的錯誤",
-    "NSFW_NOT_PUBLISHABLE": "NSFW 圖像不能設為公開。"
+    "UNEXPECTED_ERROR": "發生未預期的錯誤"
   },
   "BADGE": {
     "TOKENS_SERVED": "已服務 tokens",
@@ -3054,7 +3049,6 @@
     "PRICE_PER_CALL": "每張 {price}",
     "META_TITLE": "圖像生成",
     "META_DESC": "透過 {appName} 的 ComfyUI 管線（SDXL 與 Flux 2）生成圖像。",
-    "NSFW_REVEAL": "點擊查看（18+）",
     "LIKE": "點讚",
     "UNLIKE": "取消點讚",
     "REFERENCES_DROP_HINT": "拖放圖像或瀏覽",

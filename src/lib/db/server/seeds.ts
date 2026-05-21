@@ -28,7 +28,6 @@ const LORA_SEEDS: LoraSeed[] = [
     category: "style",
     defaultWeight: 0.8,
     description: "Cinematic bold lighting style. Pony XL.",
-    nsfw: false,
     sortOrder: 10,
   },
   {
@@ -41,7 +40,6 @@ const LORA_SEEDS: LoraSeed[] = [
     category: "style",
     defaultWeight: 0.8,
     description: "Photoreal-leaning style enhancer for Pony XL.",
-    nsfw: false,
     sortOrder: 20,
   },
   {
@@ -54,7 +52,6 @@ const LORA_SEEDS: LoraSeed[] = [
     category: "concept",
     defaultWeight: 0.7,
     description: "Expression intensifier. Boosts facial / pose expressiveness.",
-    nsfw: true,
     sortOrder: 30,
   },
   {
@@ -67,7 +64,6 @@ const LORA_SEEDS: LoraSeed[] = [
     category: "style",
     defaultWeight: 0.7,
     description: "Painterly illustration style after wlop. Trained on Pony.",
-    nsfw: false,
     sortOrder: 40,
   },
   {
@@ -80,7 +76,6 @@ const LORA_SEEDS: LoraSeed[] = [
     category: "character",
     defaultWeight: 0.85,
     description: "Jinx character LoRA from Arcane.",
-    nsfw: false,
     sortOrder: 50,
   },
 ];
@@ -187,7 +182,6 @@ const EMBEDDING_SEEDS: EmbeddingSeed[] = [
     category: "negative",
     description:
       "Canonical SDXL negative embedding. Cleans anatomy and reduces common artifacts when applied to the negative prompt.",
-    nsfw: false,
     sortOrder: 10,
   },
 ];

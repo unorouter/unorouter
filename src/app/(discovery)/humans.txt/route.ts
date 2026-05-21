@@ -1,7 +1,7 @@
 import { LANGUAGES } from "@/lib/config/constants";
 import { env } from "@/lib/config/env";
 import { serverLocale } from "@/lib/utils/server";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { getTranslations } from "next-intl/server";
 
 export const dynamic = "force-dynamic";

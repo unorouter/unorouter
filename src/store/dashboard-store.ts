@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 
 export const DEFAULT_RANGE_HOURS = 24;
 

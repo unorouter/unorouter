@@ -1,6 +1,7 @@
 "use client";
 
 import { analytics } from "@/lib/analytics";
+import type { TwoFAMode } from "@/lib/types";
 import { Icon } from "@/components/ui/icon";
 import { copyToClipboard } from "@/lib/utils/base";
 import {
@@ -34,7 +35,7 @@ export function SecurityCard() {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
   const [show2FADialog, setShow2FADialog] = useState(false);
-  const [twoFAMode, setTwoFAMode] = useState<"setup" | "disable">("setup");
+  const [twoFAMode, setTwoFAMode] = useState<TwoFAMode>("setup");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const twoFAEnabled = twoFAStatusQuery.data?.enabled === true;

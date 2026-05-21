@@ -8,7 +8,7 @@ import { APP_VALUES } from "@/lib/config/constants";
 import { useAuiState } from "@assistant-ui/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
-import { NeedsTokenGate, ZeroBalanceGate } from "./chat-elements";
+import { NeedsTokenGate } from "./chat-elements";
 
 type ChatProps = {
   convId?: string;
@@ -41,7 +41,6 @@ export function Chat(props: ChatProps) {
   }, [convQuery.data?.title, t]);
 
   if (gate.needsToken) return <NeedsTokenGate />;
-  if (gate.hasZeroBalance) return <ZeroBalanceGate />;
 
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col">

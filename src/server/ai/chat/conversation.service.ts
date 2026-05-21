@@ -13,7 +13,7 @@ import {
   samplingPresets,
 } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
-import dayjs from "dayjs";
+import { dayjs } from "@/lib/utils/format/date";
 import { logger } from "@/lib/utils/logger";
 import type {
   ChatSearchQuery,
