@@ -79,7 +79,7 @@ export const samplerMemoryByModelAtom = atom(
 
 export type ChatHelpersRef = {
   setMessages: (updater: (msgs: unknown[]) => unknown[]) => void;
-  messages: ReadonlyArray<unknown>;
+  getMessages: () => ReadonlyArray<unknown>;
 };
 
 // In-memory only (no storage): the convId for the active stream and the live

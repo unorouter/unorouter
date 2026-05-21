@@ -1,5 +1,7 @@
 "use client";
-/* eslint-disable react-hooks/refs -- refs accessed during render for sync transport/adapter state */
+/* eslint-disable react-hooks/refs -- assistant-ui calls runtimeHook per render
+   without remounting; transport/adapter must be built once and read from a ref
+   during render, and latest-value refs feed async stream/transport callbacks. */
 
 import { createChatHistoryAdapter } from "@/components/pages/sidebar/chat/runtime/chat-history-adapter";
 import { createLocalAttachmentAdapter } from "@/components/pages/sidebar/chat/runtime/chat-utils";
@@ -39,51 +41,28 @@ import { useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { toast } from "sonner";
 
-function ChatRuntimeHook() {
-  const threadId = useAuiState((s) => s.threadListItem.id);
-  const remoteId = useAuiState((s) => s.threadListItem.remoteId);
+// Mirrors the active thread's remoteId into convIdAtom so the transport body
+// and adapters (which read convId imperatively) see the current conversation.
+function useConvIdSync(remoteId: string | null | undefined) {
+  useEffect(() => {
+    chatStore.set(convIdAtom, remoteId ?? null);
+  }, [remoteId]);
+}
+
+// Two-way model sync: server conversation model seeds the atom on thread load;
+// later atom changes (model picker) push back to the server conversation.
+function useModelSync(remoteId: string | null | undefined) {
   const setChatModel = useSetAtom(chatModelAtom);
   const queryClient = useQueryClient();
-  const t = useTranslations();
-  const auth = useAuthQuery();
-
-  // Sync: transport body reads convId immediately.
-  const prevRemoteIdRef = useRef<string | null | undefined>(undefined);
-  const nextConvId = remoteId ?? null;
-  if (prevRemoteIdRef.current !== nextConvId) {
-    prevRemoteIdRef.current = nextConvId;
-    chatStore.set(convIdAtom, nextConvId);
-  }
-
-  const authForHistory = useAuthQuery();
-  const historyAdapterRef = useRef(
-    createChatHistoryAdapter(
-      queryClient,
-      () => authForHistory.data?.id ?? GUEST_USER_ID,
-    ),
-  );
-
-  const conversationQuery = useConversationQuery(remoteId);
-  const updateConversation = useUpdateConversationMutation();
-  const modelSyncRef = useRef({
-    lastSyncedId: undefined as string | undefined,
-    updateConversation,
-    queryClient,
-    setChatModel,
-  });
-  modelSyncRef.current.updateConversation = updateConversation;
-  modelSyncRef.current.queryClient = queryClient;
-  modelSyncRef.current.setChatModel = setChatModel;
+  const conversationQuery = useConversationQuery(remoteId ?? undefined);
+  const updateModel = useUpdateConversationMutation().mutate;
+  const lastSyncedIdRef = useRef<string | undefined>(undefined);
 
   const serverModel = conversationQuery.data?.model;
   useEffect(() => {
-    if (
-      !remoteId ||
-      !serverModel ||
-      remoteId === modelSyncRef.current.lastSyncedId
-    )
+    if (!remoteId || !serverModel || remoteId === lastSyncedIdRef.current)
       return;
-    modelSyncRef.current.lastSyncedId = remoteId;
+    lastSyncedIdRef.current = remoteId;
     setChatModel(serverModel);
   }, [remoteId, serverModel, setChatModel]);
 
@@ -92,18 +71,21 @@ function ChatRuntimeHook() {
       const id = chatStore.get(convIdAtom);
       const newModel = chatStore.get(chatModelAtom);
       if (!id || !newModel) return;
-      const cached = modelSyncRef.current.queryClient.getQueryData<{
-        model?: string;
-      }>(queryKeys.chatMeta(id));
+      const cached = queryClient.getQueryData<{ model?: string }>(
+        queryKeys.chatMeta(id),
+      );
       if (cached?.model === newModel) return;
-      modelSyncRef.current.updateConversation.mutate({
-        id,
-        body: { model: newModel },
-      });
+      updateModel({ id, body: { model: newModel } });
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- subscribe once on mount, refs hold latest values
-  }, []);
+  }, [queryClient, updateModel]);
+}
 
+// Built once: assistant-ui calls the runtime hook per render but never
+// remounts it, so the ref holds for the component's lifetime. The body
+// callback reads live atom state at send time; userIdRef is refreshed each
+// render so the async callback sees the current user.
+function useChatTransport() {
+  const auth = useAuthQuery();
   const userIdRef = useRef(auth.data?.id);
   userIdRef.current = auth.data?.id;
 
@@ -127,20 +109,33 @@ function ChatRuntimeHook() {
       },
     }),
   );
+  return transportRef.current;
+}
 
-  const chat = useChat<ChatUIMessage>({
-    id: threadId,
-    transport: transportRef.current,
-    onError: (e) => handleError(e, t),
-    onFinish: ({ message }) => {
-      if (message.metadata?.droppedParams) {
-        toast.warning(
-          t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
-        );
-      }
-    },
-  });
+// Built once for the same reason as the transport. userIdRef is refreshed
+// each render so the adapter's thunk reads the current user (the adapter
+// itself closes over the first-render auth object otherwise).
+function useHistoryAdapter() {
+  const auth = useAuthQuery();
+  const queryClient = useQueryClient();
+  const userIdRef = useRef(auth.data?.id);
+  userIdRef.current = auth.data?.id;
 
+  const adapterRef = useRef(
+    createChatHistoryAdapter(
+      queryClient,
+      () => userIdRef.current ?? GUEST_USER_ID,
+    ),
+  );
+  return adapterRef.current;
+}
+
+// Pins the scroll to the bottom when a thread loads. Multiple frames cover
+// late layout passes while history renders.
+function useScrollToBottom(
+  threadId: string | null | undefined,
+  remoteId: string | null | undefined,
+) {
   useEffect(() => {
     if (!remoteId) return;
     const scroller = document.querySelector("main");
@@ -152,14 +147,54 @@ function ChatRuntimeHook() {
     };
     requestAnimationFrame(pin);
   }, [threadId, remoteId]);
+}
 
-  // Plain ref: edit-in-place reads setMessages/regenerate at click time.
-  chatStore.set(chatHelpersAtom, {
-    setMessages: chat.setMessages as ChatHelpersRef["setMessages"],
-    messages: chat.messages as ChatHelpersRef["messages"],
+// Publishes a stable helpers bridge so edit/delete handlers (thread.tsx) and
+// the clear-conversation mutation can reach useChat. setMessages is stable;
+// getMessages reads a ref kept current each render, so the atom is written
+// once instead of on every streamed token.
+function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
+  const messagesRef = useRef(chat.messages);
+  messagesRef.current = chat.messages;
+
+  const setMessages = chat.setMessages;
+  useEffect(() => {
+    chatStore.set(chatHelpersAtom, {
+      setMessages: setMessages as ChatHelpersRef["setMessages"],
+      getMessages: () => messagesRef.current as ReadonlyArray<unknown>,
+    });
+    return () => chatStore.set(chatHelpersAtom, null);
+  }, [setMessages]);
+}
+
+function ChatRuntimeHook() {
+  const threadId = useAuiState((s) => s.threadListItem.id);
+  const remoteId = useAuiState((s) => s.threadListItem.remoteId);
+  const t = useTranslations();
+  const auth = useAuthQuery();
+
+  useConvIdSync(remoteId);
+  useModelSync(remoteId);
+  const historyAdapter = useHistoryAdapter();
+  const transport = useChatTransport();
+
+  const chat = useChat<ChatUIMessage>({
+    id: threadId,
+    transport,
+    onError: (e) => handleError(e, t),
+    onFinish: ({ message }) => {
+      if (message.metadata?.droppedParams) {
+        toast.warning(
+          t("RP.DROPPED_PARAMS", { params: message.metadata.droppedParams }),
+        );
+      }
+    },
   });
 
-  const wrappedChat = {
+  useScrollToBottom(threadId, remoteId);
+  useChatHelpersBridge(chat);
+
+  const wrappedChat: typeof chat = {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
@@ -177,7 +212,7 @@ function ChatRuntimeHook() {
         convId: chatStore.get(convIdAtom),
         userId: auth.data?.id,
       })),
-      history: historyAdapterRef.current,
+      history: historyAdapter,
     },
   });
 }

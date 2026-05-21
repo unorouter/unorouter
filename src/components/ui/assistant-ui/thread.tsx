@@ -444,13 +444,11 @@ const AssistantEditInPlace: FC<{ onClose: () => void }> = (props) => {
     const helpers = chatStore.get(chatHelpersAtom);
     // Only swap text parts; preserve reasoning/tool/source parts.
     const liveMsg = (
-      helpers as unknown as {
-        messages?: Array<{
-          id: string;
-          parts?: Array<{ type: string; [k: string]: unknown }>;
-        }>;
-      } | null
-    )?.messages?.find((m) => m.id === messageId);
+      helpers?.getMessages() as Array<{
+        id: string;
+        parts?: Array<{ type: string; [k: string]: unknown }>;
+      }>
+    )?.find((m) => m.id === messageId);
 
     const liveParts = liveMsg?.parts ?? [];
     const newParts: Array<{ type: string; [k: string]: unknown }> = [];
