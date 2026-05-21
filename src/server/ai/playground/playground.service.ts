@@ -5,11 +5,7 @@ import {
   type SyncImageEndpoint,
 } from "@/lib/ai/playground/models-dynamic";
 import { getDb } from "@/lib/db/server/client";
-import {
-  playgroundSessions,
-  playgrounds,
-  type PlaygroundSession,
-} from "@/lib/db/schema";
+import { playgroundSessions, playgrounds } from "@/lib/db/schema";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";

@@ -514,7 +514,7 @@ export async function duplicateConversation(userId: number, convId: string) {
   });
 }
 
-export async function walkActiveBranch(convId: string) {
+async function walkActiveBranch(convId: string) {
   const db = getDb();
 
   const msgRows = await db

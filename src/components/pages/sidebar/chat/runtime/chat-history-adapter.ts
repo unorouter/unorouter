@@ -1,8 +1,4 @@
-import type {
-  ApiMessage,
-  MessagePart,
-  PersistMessage,
-} from "@/lib/ai/chat/messages";
+import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
 import {
   readLocalConversation,
@@ -18,6 +14,7 @@ import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { ChatMessageMetadata } from "@/lib/types";
 import { handleElysia, uid } from "@/lib/utils/base";
+import { dayjs } from "@/lib/utils/format/date";
 import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
 import type {
   MessageFormatAdapter,
@@ -26,14 +23,12 @@ import type {
   ThreadHistoryAdapter,
 } from "@assistant-ui/core";
 import type { QueryClient } from "@tanstack/react-query";
-import { dayjs } from "@/lib/utils/format/date";
 
-// The chat format adapter's encoded storage shape: a persisted message whose
-// items are still in assistant-ui `parts` form (partsToItems converts them).
-// MessageFormatAdapter.encode is typed only as the opaque generic constraint
-// Record<string, unknown>, so narrowing to this concrete shape needs an
-// unknown hop; cast once here at the adapter boundary.
-type EncodedContent = Pick<PersistMessage, "role" | "model"> & {
+// The format adapter's encoded storage shape. `MessageFormatAdapter.encode`
+// is typed only as the opaque generic constraint `Record<string, unknown>`,
+// so narrowing to the concrete shape `append` needs takes an `unknown` hop.
+type EncodedContent = {
+  role: "system" | "user" | "assistant" | "tool";
   parts: MessagePart[];
 };
 
@@ -47,7 +42,7 @@ function buildRepository<TMessage>(
       id: m.id,
       parent_id: m.parentId ?? null,
       format: formatAdapter.format,
-      content: { role: m.role, parts } as Record<string, unknown>,
+      content: { role: m.role, parts },
     });
     return decoded;
   });
@@ -118,22 +113,13 @@ export function createChatHistoryAdapter(
               arr.push(it);
               byMsg.set(it.messageId, arr);
             }
-            allMessages = msgs.map(
-              (m) =>
-                ({
-                  ...m,
-                  items: byMsg.get(m.id) ?? [],
-                }) as ApiMessage,
-            );
+            allMessages = msgs.map((m) => ({
+              ...m,
+              items: byMsg.get(m.id) ?? [],
+            }));
           }
 
-          return buildRepository(
-            allMessages,
-            formatAdapter as MessageFormatAdapter<
-              TMessage,
-              Record<string, unknown>
-            >,
-          );
+          return buildRepository(allMessages, formatAdapter);
         },
 
         async append(item: MessageFormatItem<TMessage>) {
@@ -146,13 +132,11 @@ export function createChatHistoryAdapter(
             item,
           ) as unknown as EncodedContent;
 
-          const items = partsToItems(content.parts ?? []);
+          const items = partsToItems(content.parts);
           const resolvedModel =
-            typeof content.model === "string"
-              ? content.model
-              : content.role === "assistant"
-                ? chatStore.get(chatModelAtom)
-                : null;
+            content.role === "assistant"
+              ? chatStore.get(chatModelAtom)
+              : null;
 
           const now = dayjs().toDate();
 

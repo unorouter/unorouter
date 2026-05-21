@@ -1,5 +1,5 @@
-import { type TranslationKey } from "@/lib/config/constants";
-import { type IconName } from "@/lib/config/icon-map";
+import type { TranslationKey } from "@/lib/config/constants";
+import type { IconName } from "@/lib/config/icon-map";
 
 // Must mirror new-api/setting/oauth_scopes.go (Go side enforces). `openid` is
 // goidc's internal seed scope; intentionally omitted here.

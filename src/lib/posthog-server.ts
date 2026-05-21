@@ -1,4 +1,5 @@
 import { IS_DEV } from "@/lib/config/constants";
+import { env } from "@/lib/config/env";
 import { logger } from "@/lib/utils/logger";
 import { PostHog } from "posthog-node";
 
@@ -7,7 +8,7 @@ let posthogInstance: PostHog = null!;
 export function getPostHogServer() {
   if (!posthogInstance) {
     posthogInstance = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      host: "https://eu.i.posthog.com",
+      host: env.posthogHost ?? "https://eu.i.posthog.com",
       flushAt: 1,
       flushInterval: 0,
     });

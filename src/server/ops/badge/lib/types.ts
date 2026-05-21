@@ -1,6 +1,6 @@
 import type { BadgeSize, Theme } from "@/lib/validation/badge";
 import type { Locale } from "next-intl";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export interface BadgeStats {
   tokenUsed: number;

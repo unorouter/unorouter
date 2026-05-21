@@ -47,7 +47,7 @@ export type EntityEditId = string | "new" | null;
 // Two-factor-auth dialog mode, shared by the settings card and its dialog.
 export type TwoFAMode = "setup" | "disable";
 
-export type MigrationEntry = { tag: string; sql: string };
+type MigrationEntry = { tag: string; sql: string };
 export type MigrationManifest = { migrations: MigrationEntry[] };
 
 export type LocalDb = SqliteRemoteDatabase<typeof shared & typeof client>;

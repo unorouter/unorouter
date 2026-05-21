@@ -1,4 +1,4 @@
-import { ModelType } from "@/lib/api/pricing";
+import type { ModelType } from "@/lib/api/pricing";
 import { getPricingSummary, isMediaModel } from "@/lib/api/pricing-cache";
 import { FREE_MODEL_OUTPUT_CAP, msg } from "@/lib/config/constants";
 import { fetchCheckUpload, uploadBase64ToR2 } from "@/lib/config/r2";
