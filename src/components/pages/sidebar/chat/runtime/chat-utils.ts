@@ -1,7 +1,7 @@
 import { GUEST_USER_ID } from "@/lib/config/constants";
-import { upsertLocalMedia } from "@/lib/db/client/data/media";
-import { uid } from "@/lib/utils/base";
-import { chatStore, convIdAtom } from "@/store/chat-store";
+import { deleteLocalMedia, upsertLocalMedia } from "@/lib/db/client/data/media";
+import { fileToBase64, uid } from "@/lib/utils/base";
+import { ensureConvId } from "@/store/chat-store";
 import type { AttachmentAdapter } from "@assistant-ui/react";
 
 export function extractFirstUserText(
@@ -50,10 +50,7 @@ export function createLocalAttachmentAdapter(
 
       // New thread needs a pre-generated convId so the media row has a stable
       // cascade parent.
-      if (!ctx.convId) {
-        ctx.convId = uid();
-        chatStore.set(convIdAtom, ctx.convId);
-      }
+      ctx.convId = ensureConvId();
 
       const file = attachment.file!;
       const base64 = await fileToBase64(file);
@@ -83,20 +80,9 @@ export function createLocalAttachmentAdapter(
       };
     },
 
-    async remove() {},
+    async remove(attachment) {
+      const ctx = getContext();
+      await deleteLocalMedia(ctx.userId ?? GUEST_USER_ID, attachment.id);
+    },
   };
-}
-
-async function fileToBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const result = reader.result as string;
-      // Strip `data:<mime>;base64,` prefix.
-      const comma = result.indexOf(",");
-      resolve(comma >= 0 ? result.slice(comma + 1) : result);
-    };
-    reader.onerror = () => reject(reader.error);
-    reader.readAsDataURL(file);
-  });
 }

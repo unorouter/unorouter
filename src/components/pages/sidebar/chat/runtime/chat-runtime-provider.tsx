@@ -59,7 +59,6 @@ function ChatRuntimeHook() {
   const historyAdapterRef = useRef(
     createChatHistoryAdapter(
       queryClient,
-      () => chatStore.get(convIdAtom),
       () => authForHistory.data?.id ?? GUEST_USER_ID,
     ),
   );

@@ -1,4 +1,4 @@
-import { GUEST_USER_ID, PAGE_SIZE } from "@/lib/config/constants";
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
   readLocalConversation,
@@ -7,22 +7,15 @@ import {
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
-import {
-  patchConv,
-  prependConv,
-  removeConv,
-  type ConvItem,
-  type ConvsInfinite,
-} from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
-import { handleElysia, uid } from "@/lib/utils/base";
+import { handleElysia } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import {
   chatDefaultsAtom,
   chatModelAtom,
   chatStore,
-  convIdAtom,
+  ensureConvId,
 } from "@/store/chat-store";
 import type { RemoteThreadListAdapter } from "@assistant-ui/react";
 import type { QueryClient } from "@tanstack/react-query";
@@ -43,29 +36,7 @@ export function createThreadListAdapter(
 ): RemoteThreadListAdapter {
   return {
     async list() {
-      const cached = queryClient.getQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-      );
-      let items = cached?.pages.flatMap((p) => p.items) ?? [];
-
-      if (items.length === 0) {
-        const local = (await readLocalConversations(userId)) ?? [];
-        items = local;
-        if (items.length > 0) {
-          queryClient.setQueryData<ConvsInfinite>(queryKeys.conversations(), {
-            pages: [
-              {
-                items,
-                total: items.length,
-                page: 1,
-                pageSize: PAGE_SIZE,
-              },
-            ],
-            pageParams: [1],
-          });
-        }
-      }
-
+      const items = (await readLocalConversations(userId)) ?? [];
       return {
         threads: items.map((item) => ({
           remoteId: item.id,
@@ -84,23 +55,9 @@ export function createThreadListAdapter(
         model = pricing?.firstFreeModel?.name ?? null;
       }
       if (!model) throw new Error(t("ERRORS.NO_TEXT_MODELS"));
-      let id = chatStore.get(convIdAtom);
-      if (!id) {
-        id = uid();
-        chatStore.set(convIdAtom, id);
-      }
+      const id = ensureConvId();
 
       const now = dayjs().toDate();
-      const newItem: ConvItem = {
-        id,
-        title: null,
-        model,
-        totalCost: 0,
-        totalInputTokens: 0,
-        totalOutputTokens: 0,
-        createdAt: now,
-        updatedAt: now,
-      } as ConvItem;
 
       await upsertLocalConversation(userId, {
         id,
@@ -144,10 +101,7 @@ export function createThreadListAdapter(
         updatedAt: now,
       });
 
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => prependConv(old, newItem),
-      );
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       return { remoteId: id, externalId: undefined };
     },
 
@@ -176,10 +130,8 @@ export function createThreadListAdapter(
           await enqueuePending(userId, "conversations", id, "patch", err);
         }
       }
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => patchConv(old, id, { title }),
-      );
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
     },
 
     async archive(_id) {},
@@ -198,27 +150,11 @@ export function createThreadListAdapter(
           await enqueuePending(userId, "conversations", id, "delete", err);
         }
       }
-      queryClient.setQueryData<ConvsInfinite>(
-        queryKeys.conversations(),
-        (old) => removeConv(old, id),
-      );
+      queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
 
     async fetch(id) {
-      const cached = queryClient
-        .getQueryData<ConvsInfinite>(queryKeys.conversations())
-        ?.pages.flatMap((p) => p.items)
-        .find((i) => i.id === id);
-
-      if (cached) {
-        return {
-          remoteId: cached.id,
-          status: "regular",
-          title: cached.title ?? undefined,
-        };
-      }
-
       const local = await readLocalConversation(userId, id);
       if (local) {
         return {
@@ -278,10 +214,8 @@ export function createThreadListAdapter(
           }
         }
 
-        queryClient.setQueryData<ConvsInfinite>(
-          queryKeys.conversations(),
-          (old) => patchConv(old, id, { title: data.title }),
-        );
+        queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
+        queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
       });
     },
   };

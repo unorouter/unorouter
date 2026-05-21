@@ -8,6 +8,9 @@ const mediaStore = makeTableStore(media, media.id);
 export const readLocalMedia = (userId: number | undefined, id: string) =>
   mediaStore.get(userId, id);
 
+export const deleteLocalMedia = (userId: number | undefined, id: string) =>
+  mediaStore.drop(userId, id);
+
 // sync.service.ts uploads base64 bytes to R2 and stamps `r2_url` on Turso so
 // cross-device pulls only carry a pointer.
 export const upsertLocalMedia = (

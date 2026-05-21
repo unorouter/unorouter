@@ -1,5 +1,6 @@
 import { jotaiCookieStorage } from "@/lib/config/table-storage";
 import type { StreamOverrides } from "@/lib/validation/chat";
+import { uid } from "@/lib/utils/base";
 import { atom, createStore } from "jotai";
 import { atomWithStorage } from "jotai/utils";
 
@@ -90,3 +91,12 @@ export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 // Shared store. Mounted components subscribe to the storage atoms, which loads
 // the cookie value; non-React stream callbacks then read it via chatStore.get.
 export const chatStore = createStore();
+
+// Returns the active convId, generating and storing a fresh one when none is
+// set yet. A new thread's transport body, history append, attachment send and
+// thread initialize all call this so they share a single pre-generated id.
+export function ensureConvId(): string {
+  const id = chatStore.get(convIdAtom) ?? uid();
+  chatStore.set(convIdAtom, id);
+  return id;
+}

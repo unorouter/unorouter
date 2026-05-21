@@ -102,6 +102,20 @@ export function uint8ToBase64(bytes: Uint8Array): string {
   return btoa(binary);
 }
 
+// Reads a File as raw base64, stripping the `data:<mime>;base64,` prefix.
+export function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      const comma = result.indexOf(",");
+      resolve(comma >= 0 ? result.slice(comma + 1) : result);
+    };
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 // SQL identifier quoting (table/column names). Escapes embedded `"`.
 export function quoteIdent(s: string): string {
   return `"${s.replace(/"/g, '""')}"`;

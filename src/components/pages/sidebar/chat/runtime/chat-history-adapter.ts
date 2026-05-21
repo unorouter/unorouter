@@ -1,4 +1,8 @@
-import type { ApiMessage, PersistMessage } from "@/lib/ai/chat/messages";
+import type {
+  ApiMessage,
+  MessagePart,
+  PersistMessage,
+} from "@/lib/ai/chat/messages";
 import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
 import {
   readLocalConversation,
@@ -10,15 +14,11 @@ import {
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
-import {
-  moveConvToTop,
-  type ConvsInfinite,
-} from "@/lib/react-query/conv-cache";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import type { ChatMessageMetadata } from "@/lib/types";
 import { handleElysia, uid } from "@/lib/utils/base";
-import { chatModelAtom, chatStore } from "@/store/chat-store";
+import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
 import type {
   MessageFormatAdapter,
   MessageFormatItem,
@@ -28,10 +28,17 @@ import type {
 import type { QueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 
-type RawMessage = ApiMessage;
+// The chat format adapter's encoded storage shape: a persisted message whose
+// items are still in assistant-ui `parts` form (partsToItems converts them).
+// MessageFormatAdapter.encode is typed only as the opaque generic constraint
+// Record<string, unknown>, so narrowing to this concrete shape needs an
+// unknown hop; cast once here at the adapter boundary.
+type EncodedContent = Pick<PersistMessage, "role" | "model"> & {
+  parts: MessagePart[];
+};
 
 function buildRepository<TMessage>(
-  raw: RawMessage[],
+  raw: ApiMessage[],
   formatAdapter: MessageFormatAdapter<TMessage, Record<string, unknown>>,
 ): MessageFormatRepository<TMessage> {
   const messages = raw.map<MessageFormatItem<TMessage>>((m) => {
@@ -69,7 +76,6 @@ async function mirrorConvIfSynced(userId: number, convId: string) {
 
 export function createChatHistoryAdapter(
   queryClient: QueryClient,
-  getConvId: () => string | null,
   getUserId: () => number,
 ): ThreadHistoryAdapter {
   return {
@@ -90,14 +96,14 @@ export function createChatHistoryAdapter(
     ) {
       return {
         async load(): Promise<MessageFormatRepository<TMessage>> {
-          const id = getConvId();
+          const id = chatStore.get(convIdAtom);
           if (!id) return { messages: [] };
           const userId = getUserId();
 
-          type MsgPage = { messages: RawMessage[]; total: number };
+          type MsgPage = { messages: ApiMessage[]; total: number };
           type Cached = { pages: MsgPage[]; pageParams: number[] };
 
-          let allMessages: RawMessage[] = [];
+          let allMessages: ApiMessage[] = [];
           const cached = queryClient.getQueryData<Cached>(
             queryKeys.chatMessages(id),
           );
@@ -117,12 +123,8 @@ export function createChatHistoryAdapter(
                 ({
                   ...m,
                   items: byMsg.get(m.id) ?? [],
-                }) as RawMessage,
+                }) as ApiMessage,
             );
-            queryClient.setQueryData(queryKeys.chatMessages(id), {
-              pages: [{ messages: allMessages, total: allMessages.length }],
-              pageParams: [1],
-            });
           }
 
           return buildRepository(
@@ -135,17 +137,14 @@ export function createChatHistoryAdapter(
         },
 
         async append(item: MessageFormatItem<TMessage>) {
-          const id = getConvId();
+          const id = chatStore.get(convIdAtom);
           const userId = getUserId();
           if (!id) return;
 
-          const stored = formatAdapter.encode(item);
           const messageId = formatAdapter.getId(item.message);
-          const content = stored as unknown as {
-            role: PersistMessage["role"];
-            parts: { type: string; [k: string]: unknown }[];
-            model?: string;
-          };
+          const content = formatAdapter.encode(
+            item,
+          ) as unknown as EncodedContent;
 
           const items = partsToItems(content.parts ?? []);
           const resolvedModel =
@@ -205,71 +204,13 @@ export function createChatHistoryAdapter(
             totalCost: (existing?.totalCost ?? 0) + (usage?.cost ?? 0),
             updatedAt: now,
           });
+          queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
           queryClient.invalidateQueries({
-            queryKey: queryKeys.chatMeta(id),
+            queryKey: queryKeys.chatMessages(id),
           });
-
-          // Cache patches
-          type MsgPage = {
-            messages: Array<Record<string, unknown>>;
-            total: number;
-          };
-          queryClient.setQueryData<{ pages: MsgPage[]; pageParams: unknown[] }>(
-            queryKeys.chatMessages(id),
-            (old) => {
-              const newMessage = {
-                id: messageId,
-                parentId: item.parentId,
-                role: content.role,
-                items: itemRows.map((it) => ({
-                  id: it.id,
-                  sequenceIndex: it.sequenceIndex,
-                  outputIndex: it.outputIndex,
-                  type: it.type,
-                  data: it.data,
-                })),
-                model: resolvedModel,
-                inputTokens: usage?.inputTokens ?? null,
-                outputTokens: usage?.outputTokens ?? null,
-                cost: usage?.cost ?? null,
-                isActiveBranch: true,
-                isEdited: false,
-              };
-              if (!old?.pages[0]) {
-                return {
-                  pages: [
-                    {
-                      messages: [newMessage],
-                      total: 1,
-                    },
-                  ],
-                  pageParams: [1],
-                };
-              }
-              const firstPage = old.pages[0];
-              return {
-                ...old,
-                pages: [
-                  {
-                    ...firstPage,
-                    messages: [...firstPage.messages, newMessage],
-                  },
-                  ...old.pages.slice(1),
-                ],
-              };
-            },
-          );
-
-          queryClient.setQueryData<ConvsInfinite>(
-            queryKeys.conversations(),
-            (old) =>
-              moveConvToTop(old, id, (prev) => ({
-                updatedAt: now,
-                ...(usage?.cost && {
-                  totalCost: (prev.totalCost ?? 0) + usage.cost,
-                }),
-              })),
-          );
+          queryClient.invalidateQueries({
+            queryKey: queryKeys.conversations(),
+          });
 
           await mirrorConvIfSynced(userId, id);
         },
