@@ -1,5 +1,4 @@
-// Each fresh snapshot extends expiresAt; actively-used sessions never expire.
-export const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
+export { RETENTION_MS } from "@/lib/config/constants";
 
 // ComfyUI templates live behind new-api's task adapter (channel type 59).
 export const COMFYUI_TEMPLATE_IDS = new Set([
@@ -9,3 +8,6 @@ export const COMFYUI_TEMPLATE_IDS = new Set([
   "flux2-dev",
   "flux2-dev-compose",
 ]);
+
+// Aligned with the form variant buttons (1/2/4) and the validator's `n` bound.
+export const MAX_IMAGES_PER_GEN = 4;

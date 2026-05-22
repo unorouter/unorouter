@@ -1,135 +1,126 @@
-// Catches the case where the client tab closes before the upstream task
-// terminates. Staleness gate avoids racing live client polls. Singleton via
-// instrumentation.register(); pollSnapshotStatus is idempotent.
+// Retention sweep for synced playground sessions. Playground data is
+// client-owned; Turso only holds the synced mirror, which expires after the
+// sync TTL. This singleton purges expired sessions and their R2 objects.
 
+import { deleteGenerationObject } from "@/lib/config/r2";
 import { getDb } from "@/lib/db/server/client";
-import { playgrounds } from "@/lib/db/schema";
+import { media, playgroundSessions, playgrounds } from "@/lib/db/schema";
+import { errMessage } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
-import { and, isNotNull, lt, ne } from "drizzle-orm";
-import {
-  deleteSessionAsSystem,
-  listExpiredSessionIds,
-  pollSnapshotStatus,
-} from "./playground.service";
+import { eq, inArray, lt } from "drizzle-orm";
 
-const SWEEP_INTERVAL_MS = 5_000;
-const STALE_AFTER_MS = 4_000;
-const POLL_CONCURRENCY = 4;
-const ROWS_PER_SWEEP = 50;
-
-// 0.1 amortizes to ~once per 50s at the 5s interval; plenty for a 30-day TTL.
-const RETENTION_SWEEP_CHANCE = 0.1;
-const RETENTION_DELETE_CONCURRENCY = 4;
+const SWEEP_INTERVAL_MS = 60_000;
 const RETENTION_BATCH_SIZE = 100;
+const RETENTION_DELETE_CONCURRENCY = 4;
 
 let started = false;
+
+// Bounded worker pool: `concurrency` workers drain a shared cursor over
+// `items`, calling `fn` on each.
+async function runPool<T>(
+  items: T[],
+  concurrency: number,
+  fn: (item: T) => Promise<void>,
+): Promise<void> {
+  let cursor = 0;
+  const workers = Array.from(
+    { length: Math.min(concurrency, items.length) },
+    async () => {
+      while (cursor < items.length) {
+        const item = items[cursor++];
+        await fn(item);
+      }
+    },
+  );
+  await Promise.all(workers);
+}
 
 export function startGenerationSweeper(): void {
   if (started) return;
   started = true;
-  logger.info("generation sweeper started", {
+  logger.info("generation retention sweeper started", {
     context: "generation.sweeper",
     intervalMs: SWEEP_INTERVAL_MS,
-    staleAfterMs: STALE_AFTER_MS,
   });
   schedule();
 }
 
 function schedule(): void {
   setTimeout(() => {
-    const tasks: Array<Promise<void>> = [sweepOnce()];
-    if (Math.random() < RETENTION_SWEEP_CHANCE) {
-      tasks.push(sweepExpired());
-    }
-    void Promise.allSettled(tasks)
-      .then((results) => {
-        for (const r of results) {
-          if (r.status === "rejected") {
-            logger.error("generation sweep failed", {
-              context: "generation.sweeper",
-              err:
-                r.reason instanceof Error ? r.reason.message : String(r.reason),
-            });
-          }
-        }
+    void sweepExpired()
+      .catch((err) => {
+        logger.error("generation retention sweep failed", {
+          context: "generation.sweeper",
+          err: errMessage(err),
+        });
       })
       .finally(() => schedule());
   }, SWEEP_INTERVAL_MS);
 }
 
-async function sweepOnce(): Promise<void> {
+// Drops one expired synced session: its R2 objects, then the row (cascade
+// removes playgrounds + media rows).
+async function purgeSession(sessionId: string): Promise<void> {
   const db = getDb();
-  const cutoff = new Date(Date.now() - STALE_AFTER_MS);
-
-  // ne(success) + ne(failure) is faster than NOT IN on SQLite.
-  const candidates = await db
-    .select({
-      id: playgrounds.id,
-      userId: playgrounds.userId,
-      submittedKey: playgrounds.submittedKey,
-    })
+  const snaps = await db
+    .select({ id: playgrounds.id })
     .from(playgrounds)
-    .where(
-      and(
-        isNotNull(playgrounds.submittedKey),
-        ne(playgrounds.status, "success"),
-        ne(playgrounds.status, "failure"),
-        lt(playgrounds.updatedAt, cutoff),
-      ),
-    )
-    .limit(ROWS_PER_SWEEP);
-
-  if (candidates.length === 0) return;
-
-  let cursor = 0;
-  const workers = Array.from({ length: POLL_CONCURRENCY }, async () => {
-    while (true) {
-      const i = cursor++;
-      if (i >= candidates.length) return;
-      const row = candidates[i];
-      if (!row.submittedKey) continue;
+    .where(eq(playgrounds.sessionId, sessionId));
+  if (snaps.length > 0) {
+    const imgs = await db
+      .select({ r2Key: media.r2Key })
+      .from(media)
+      .where(
+        inArray(
+          media.playgroundId,
+          snaps.map((s) => s.id),
+        ),
+      );
+    for (const img of imgs) {
+      if (!img.r2Key) continue;
       try {
-        await pollSnapshotStatus(row.userId, row.submittedKey, row.id);
+        await deleteGenerationObject(img.r2Key);
       } catch (err) {
-        logger.warn("sweep poll failed", {
+        logger.warn("r2 delete failed (sweeper)", {
           context: "generation.sweeper",
-          playgroundId: row.id,
-          err: err instanceof Error ? err.message : String(err),
+          sessionId,
+          r2Key: img.r2Key,
+          err: errMessage(err),
         });
       }
     }
-  });
-  await Promise.all(workers);
+  }
+  await db
+    .delete(playgroundSessions)
+    .where(eq(playgroundSessions.id, sessionId));
 }
 
 async function sweepExpired(): Promise<void> {
-  const ids = await listExpiredSessionIds(RETENTION_BATCH_SIZE);
-  if (ids.length === 0) return;
+  const db = getDb();
+  const rows = await db
+    .select({ id: playgroundSessions.id })
+    .from(playgroundSessions)
+    .where(lt(playgroundSessions.expiresAt, new Date()))
+    .limit(RETENTION_BATCH_SIZE);
+  if (rows.length === 0) return;
 
   logger.info("retention sweep starting", {
-    context: "generation.sweeper.retention",
-    count: ids.length,
+    context: "generation.sweeper",
+    count: rows.length,
   });
-
-  let cursor = 0;
-  const workers = Array.from(
-    { length: RETENTION_DELETE_CONCURRENCY },
-    async () => {
-      while (true) {
-        const i = cursor++;
-        if (i >= ids.length) return;
-        const id = ids[i];
-        try {
-          await deleteSessionAsSystem(id);
-        } catch (err) {
-          logger.warn("retention delete failed", {
-            context: "generation.sweeper.retention",
-            sessionId: id,
-            err: err instanceof Error ? err.message : String(err),
-          });
-        }
+  await runPool(
+    rows.map((r) => r.id),
+    RETENTION_DELETE_CONCURRENCY,
+    async (id) => {
+      try {
+        await purgeSession(id);
+      } catch (err) {
+        logger.warn("retention delete failed", {
+          context: "generation.sweeper",
+          sessionId: id,
+          err: errMessage(err),
+        });
       }
     },
   );
-  await Promise.all(workers);
 }

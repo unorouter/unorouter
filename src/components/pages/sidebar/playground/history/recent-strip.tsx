@@ -1,6 +1,8 @@
 "use client";
 
 import { useSessionQuery } from "@/hooks/ai/playground-hook";
+import { setSearchParam } from "@/lib/utils/client";
+import { dayjs } from "@/lib/utils/format/date";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
@@ -19,31 +21,15 @@ export function RecentStrip() {
 
   const fmtDateTime = (when: Date | string | number | null | undefined) => {
     if (!when) return "";
-    const d = new Date(when);
-    const now = new Date();
-    const time = d.toLocaleTimeString(undefined, {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-    const sameDay =
-      d.getFullYear() === now.getFullYear() &&
-      d.getMonth() === now.getMonth() &&
-      d.getDate() === now.getDate();
-    if (sameDay) return time;
-    const sameYear = d.getFullYear() === now.getFullYear();
-    const date = d.toLocaleDateString(undefined, {
-      month: "short",
-      day: "numeric",
-      ...(sameYear ? {} : { year: "numeric" }),
-    });
-    return `${date} ${time}`;
+    const d = dayjs(when);
+    const now = dayjs();
+    if (d.isSame(now, "day")) return d.format("HH:mm");
+    return d.format(d.isSame(now, "year") ? "MMM D HH:mm" : "MMM D YYYY HH:mm");
   };
 
   const swapTo = (snapshotId: string) => {
     setActiveSnapshotId(snapshotId);
-    const url = new URL(window.location.href);
-    url.searchParams.set("snap", snapshotId);
-    window.history.replaceState(null, "", url.toString());
+    setSearchParam("snap", snapshotId);
   };
 
   return (
@@ -53,8 +39,7 @@ export function RecentStrip() {
       </p>
       <div className="thin-scrollbar flex max-h-96 flex-col gap-2 overflow-y-auto pr-1">
         {snapshots.map((snap) => {
-          const images =
-            (snap as { images?: { r2Url: string }[] }).images ?? [];
+          const images = snap.images;
           const firstImage = images[0];
           const extra = images.length > 1 ? images.length - 1 : 0;
           const isActive = activeSnapshotId === snap.id;
@@ -74,10 +59,10 @@ export function RecentStrip() {
               }
             >
               <div className="bg-background relative h-16 w-16 shrink-0 overflow-hidden rounded">
-                {firstImage?.r2Url ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- R2
+                {firstImage?.src ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- data/R2 URI
                   <img
-                    src={firstImage.r2Url}
+                    src={firstImage.src}
                     alt={snap.prompt}
                     className="h-full w-full object-cover"
                   />

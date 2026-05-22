@@ -1,5 +1,16 @@
 import type { Static } from "elysia";
 import { t } from "elysia";
+import type { TLiteral, TUnion } from "@sinclair/typebox/type";
+
+// Pulls the literal values out of a TypeBox string-literal union so the
+// sampler/scheduler arrays stay a single source of truth with the schema.
+// Schemas are written inline as `t.Union([t.Literal(...)])` (Eden RPC needs
+// the literals statically visible at the route); the arrays derive from them.
+function unionLiterals<T extends string>(
+  union: TUnion<TLiteral<T>[]>,
+): readonly T[] {
+  return union.anyOf.map((m) => m.const);
+}
 
 // Server `assertGenerationModelAllowed` checks pricing cache before submit.
 export const playgroundModel = t.String({ minLength: 1, maxLength: 128 });
@@ -32,6 +43,7 @@ export const generationSampler = t.Union([
   t.Literal("ddim"),
   t.Literal("uni_pc"),
 ]);
+export type GenerationSampler = Static<typeof generationSampler>;
 
 export const generationScheduler = t.Union([
   t.Literal("normal"),
@@ -40,6 +52,12 @@ export const generationScheduler = t.Union([
   t.Literal("sgm_uniform"),
   t.Literal("simple"),
 ]);
+export type GenerationScheduler = Static<typeof generationScheduler>;
+
+// `models.ts` derives SDXL_SAMPLERS / SDXL_SCHEDULERS from these so the model
+// catalog can't desync from the validator (e.g. a missing "simple").
+export const GENERATION_SAMPLERS = unionLiterals(generationSampler);
+export const GENERATION_SCHEDULERS = unionLiterals(generationScheduler);
 
 // Flux 2 locked to 1024x1024 by template; form hides size picker for it.
 export const generationSize = t.Union([
@@ -155,6 +173,7 @@ export const generationLoraEntry = t.Object({
   weight: t.Number({ minimum: 0, maximum: 2 }),
   source: t.Optional(t.String({ maxLength: 64 })),
 });
+export type LoraEntry = Static<typeof generationLoraEntry>;
 
 // Weight currently advisory: stock ReferenceLatent node's WeightInput is empty.
 export const generationReferenceEntry = t.Object({
@@ -162,6 +181,7 @@ export const generationReferenceEntry = t.Object({
   name: t.Optional(t.String({ maxLength: 200 })),
   weight: t.Optional(t.Number({ minimum: 0, maximum: 2 })),
 });
+export type ReferenceEntry = Static<typeof generationReferenceEntry>;
 
 // UI-only state stripped before submit by `toSubmitBody`
 // (components/pages/sidebar/playground/form/submit-transform.ts).
@@ -208,6 +228,7 @@ export const generationCloneMode = t.Union([
 export type GenerationCloneMode = Static<typeof generationCloneMode>;
 
 // Loose typing on nested fields so older exports with extra keys still parse.
+// Images embed base64 so an export is self-contained (no R2 dependency).
 export const playgroundSnapshot = t.Object({
   version: t.Literal("unorouter-generation-1"),
   model: t.String({ minLength: 1, maxLength: 128 }),
@@ -220,7 +241,7 @@ export const playgroundSnapshot = t.Object({
   images: t.Array(
     t.Object({
       sequenceIndex: t.Integer({ minimum: 0, maximum: 15 }),
-      r2Url: t.String({ format: "uri", maxLength: 2048 }),
+      base64: t.String(),
       mimeType: t.Union([t.String({ maxLength: 64 }), t.Null()]),
       width: t.Union([t.Integer(), t.Null()]),
       height: t.Union([t.Integer(), t.Null()]),
@@ -250,6 +271,23 @@ export const generationVisibilityBody = t.Object({
   visibility: generationVisibility,
 });
 
+// Stateless poll: the client owns the playground row and passes the upstream
+// task id back so the server only forwards the upstream status check.
+export const playgroundPollBody = t.Object({
+  taskId: t.String({ minLength: 1, maxLength: 128 }),
+});
+export type PlaygroundPollBody = Static<typeof playgroundPollBody>;
+
+// A generated image returned inline by /submit and /poll. The client writes
+// the bytes into its local `media` table; R2 upload is deferred to sync.
+export const generatedImage = t.Object({
+  resultUrl: t.Union([t.String(), t.Null()]),
+  base64: t.String(),
+  mimeType: t.String(),
+  sizeBytes: t.Integer(),
+});
+export type GeneratedImage = Static<typeof generatedImage>;
+
 export const playgroundReferenceUploadBody = t.Object({
   file: t.File({
     maxSize: "10m",
@@ -257,15 +295,16 @@ export const playgroundReferenceUploadBody = t.Object({
   }),
 });
 
+export const generationBaseModel = t.Union([
+  t.Literal("sdxl"),
+  t.Literal("pony"),
+  t.Literal("flux2"),
+  t.Literal("z-image"),
+]);
+export type GenerationBaseModel = Static<typeof generationBaseModel>;
+
 export const loraCatalogQuery = t.Object({
-  baseModel: t.Optional(
-    t.Union([
-      t.Literal("sdxl"),
-      t.Literal("pony"),
-      t.Literal("flux2"),
-      t.Literal("z-image"),
-    ]),
-  ),
+  baseModel: t.Optional(generationBaseModel),
   category: t.Optional(
     t.Union([
       t.Literal("anatomy"),
@@ -279,14 +318,7 @@ export type LoraCatalogQuery = Static<typeof loraCatalogQuery>;
 
 // Forgiving so the worker can add categories without a schema bump.
 export const embeddingCatalogQuery = t.Object({
-  baseModel: t.Optional(
-    t.Union([
-      t.Literal("sdxl"),
-      t.Literal("pony"),
-      t.Literal("flux2"),
-      t.Literal("z-image"),
-    ]),
-  ),
+  baseModel: t.Optional(generationBaseModel),
   category: t.Optional(t.String({ maxLength: 64 })),
 });
 export type EmbeddingCatalogQuery = Static<typeof embeddingCatalogQuery>;
@@ -306,14 +338,7 @@ export const upscalerCatalogQuery = t.Object({
 export type UpscalerCatalogQuery = Static<typeof upscalerCatalogQuery>;
 
 export const controlNetCatalogQuery = t.Object({
-  baseModel: t.Optional(
-    t.Union([
-      t.Literal("sdxl"),
-      t.Literal("pony"),
-      t.Literal("flux2"),
-      t.Literal("z-image"),
-    ]),
-  ),
+  baseModel: t.Optional(generationBaseModel),
   kind: t.Optional(generationControlNetKind),
 });
 export type ControlNetCatalogQuery = Static<typeof controlNetCatalogQuery>;

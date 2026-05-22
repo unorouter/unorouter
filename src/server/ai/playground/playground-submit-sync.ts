@@ -4,30 +4,21 @@ import {
   fetchAllRefs,
 } from "@/lib/ai/playground/dispatch";
 import { getPricingSummary } from "@/lib/api/pricing-cache";
-import { downloadAndUploadGeneration } from "@/lib/config/r2";
+import { downloadGenerationBytes } from "@/lib/config/r2";
 import { type SyncImageEndpoint } from "@/lib/ai/playground/models-dynamic";
-import { getDb } from "@/lib/db/server/client";
-import { playgrounds } from "@/lib/db/schema";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
 import { upstreamApiUrl } from "@/server/constants";
-import { dayjs } from "@/lib/utils/format/date";
-import { eq } from "drizzle-orm";
-import {
-  finalizeRowSuccess,
-  paramsToSize,
-  type ImagePayload,
-} from "./playground-finalize";
+import { type GeneratedImage, paramsToSize } from "./playground-finalize";
 
+// Sync-image endpoints answer synchronously: the server downloads every
+// result image and returns the bytes inline so the client can persist them.
 export async function submitSyncImage(args: {
-  db: ReturnType<typeof getDb>;
-  id: string;
-  sessionId: string;
   apiKey: string;
   body: PlaygroundSubmitBody;
   endpoint: SyncImageEndpoint;
   n: number;
-}) {
-  const { db, id, sessionId, apiKey, body, endpoint, n } = args;
+}): Promise<GeneratedImage[]> {
+  const { apiKey, body, endpoint, n } = args;
   const params = body.params ?? {};
   const size = paramsToSize(body.params);
 
@@ -42,7 +33,7 @@ export async function submitSyncImage(args: {
   const callsToMake = supportsNativeBatch ? 1 : n;
   const perCallN = supportsNativeBatch ? n : 1;
 
-  const collected: ImagePayload[] = [];
+  const collected: GeneratedImage[] = [];
   for (let i = 0; i < callsToMake; i++) {
     const built = buildBody(endpoint, {
       model: body.model,
@@ -95,20 +86,15 @@ export async function submitSyncImage(args: {
       );
     }
     for (const uri of uris) {
-      const uploaded = await downloadAndUploadGeneration(uri, id, apiKey);
-      collected.push({ resultUri: uri, uploaded });
-      if (!supportsNativeBatch && collected.length < n) {
-        await db
-          .update(playgrounds)
-          .set({
-            status: "in_progress",
-            progress: `${collected.length}/${n}`,
-            updatedAt: dayjs().toDate(),
-          })
-          .where(eq(playgrounds.id, id));
-      }
+      const bytes = await downloadGenerationBytes(uri, apiKey);
+      collected.push({
+        resultUrl: uri.startsWith("data:") ? null : uri,
+        base64: bytes.buffer.toString("base64"),
+        mimeType: bytes.mime,
+        sizeBytes: bytes.sizeBytes,
+      });
     }
   }
 
-  await finalizeRowSuccess(db, id, sessionId, collected);
+  return collected;
 }

@@ -27,7 +27,10 @@ import {
   useSnapshotStatusQuery,
 } from "@/hooks/ai/playground-hook";
 import { getModelDescriptor } from "@/lib/ai/playground/models";
-import { downloadBlob, downloadJson } from "@/lib/utils/client";
+import type { GenerationCloneMode } from "@/lib/validation/playground";
+import type { SnapshotView } from "@/lib/types";
+import { downloadJson, setSearchParam } from "@/lib/utils/client";
+import { dayjs } from "@/lib/utils/format/date";
 import {
   activeSessionIdAtom,
   activeSnapshotIdAtom,
@@ -35,22 +38,19 @@ import {
   activeTabAtom,
   restoreSnapshotIntoFormAtom,
 } from "@/store/playground-store";
-import type { GenerateTab, Img2ImgSubPill } from "@/store/playground-store";
 import { useAtom, useSetAtom } from "jotai";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { BatchGrid, ImageLightbox } from "./history/image-gallery";
+
 type Props = {
   sessionId: string;
   snapshotId: string;
 };
 
-type PlaygroundImage = {
-  sequenceIndex: number;
-  r2Url: string;
-};
-
 function ParamsBadge(props: { model: string; params: unknown }) {
+  const t = useTranslations();
   const p =
     props.params && typeof props.params === "object"
       ? (props.params as Record<string, unknown>)
@@ -58,251 +58,40 @@ function ParamsBadge(props: { model: string; params: unknown }) {
   return (
     <div className="text-muted-foreground flex flex-wrap gap-2 text-xs">
       <span>{props.model}</span>
-      {p?.steps !== undefined && <span>steps {String(p.steps)}</span>}
-      {p?.cfg !== undefined && <span>cfg {String(p.cfg)}</span>}
-      {p?.guidance !== undefined && <span>guidance {String(p.guidance)}</span>}
-      {p?.seed !== undefined && <span>seed {String(p.seed)}</span>}
+      {p?.steps !== undefined && (
+        <span>
+          {t("IMAGE.PARAM_STEPS")} {String(p.steps)}
+        </span>
+      )}
+      {p?.cfg !== undefined && (
+        <span>
+          {t("IMAGE.PARAM_CFG")} {String(p.cfg)}
+        </span>
+      )}
+      {p?.guidance !== undefined && (
+        <span>
+          {t("IMAGE.PARAM_GUIDANCE")} {String(p.guidance)}
+        </span>
+      )}
+      {p?.seed !== undefined && (
+        <span>
+          {t("IMAGE.PARAM_SEED")} {String(p.seed)}
+        </span>
+      )}
     </div>
   );
 }
 
 function RetentionBadge(props: { expiresAt: Date | string | number }) {
   const t = useTranslations();
-  // Stable "now" at mount keeps render pure; "days left" doesn't need sub-second accuracy.
-  const [now] = useState(() => Date.now());
-  const expiresMs = new Date(props.expiresAt).getTime();
-  const daysLeft = Math.ceil((expiresMs - now) / (24 * 60 * 60 * 1000));
+  // Stable "now" at mount keeps render pure.
+  const [now] = useState(() => dayjs());
+  const daysLeft = dayjs(props.expiresAt).diff(now, "day");
   if (!Number.isFinite(daysLeft) || daysLeft > 7) return null;
   return (
     <Badge variant="outline" className="text-xs">
       {t("IMAGE.EXPIRES_IN_DAYS", { days: Math.max(0, daysLeft) })}
     </Badge>
-  );
-}
-
-function BatchGrid(props: {
-  images: PlaygroundImage[];
-  prompt: string;
-  snapshotId: string;
-  onOpenLightbox: (index: number) => void;
-  onQuickAction?: (
-    url: string,
-    target: { tab: GenerateTab; subPill?: Img2ImgSubPill },
-  ) => void;
-}) {
-  const count = props.images.length;
-  const sorted = props.images
-    .slice()
-    .sort((a, b) => a.sequenceIndex - b.sequenceIndex);
-  if (count === 1) {
-    return (
-      <ImageTile
-        url={sorted[0].r2Url}
-        alt={props.prompt}
-        filename={`${props.snapshotId}.png`}
-        className="aspect-square w-full"
-        onZoom={() => props.onOpenLightbox(0)}
-        onQuickAction={props.onQuickAction}
-      />
-    );
-  }
-  return (
-    <div className="grid w-full grid-cols-2 gap-2">
-      {sorted.map((img, i) => (
-        <ImageTile
-          key={img.sequenceIndex}
-          url={img.r2Url}
-          alt={`${props.prompt} (${img.sequenceIndex + 1})`}
-          filename={`${props.snapshotId}-${img.sequenceIndex}.png`}
-          className="aspect-square"
-          onZoom={() => props.onOpenLightbox(i)}
-          onQuickAction={props.onQuickAction}
-        />
-      ))}
-    </div>
-  );
-}
-
-function ImageTile(props: {
-  url: string;
-  alt: string;
-  filename: string;
-  className?: string;
-  onZoom: () => void;
-  onQuickAction?: (
-    url: string,
-    target: { tab: GenerateTab; subPill?: Img2ImgSubPill },
-  ) => void;
-}) {
-  const t = useTranslations();
-  const onDownload = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      await downloadGenerationImage(props.url, props.filename);
-    } catch {
-      window.open(props.url, "_blank", "noopener");
-    }
-  };
-  const quick = (
-    e: React.MouseEvent,
-    target: { tab: GenerateTab; subPill?: Img2ImgSubPill },
-  ) => {
-    e.stopPropagation();
-    props.onQuickAction?.(props.url, target);
-  };
-  return (
-    <button
-      type="button"
-      onClick={props.onZoom}
-      className={
-        "bg-muted group/img relative cursor-zoom-in overflow-hidden rounded-lg " +
-        (props.className ?? "")
-      }
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element -- R2 host varies */}
-      <img
-        src={props.url}
-        alt={props.alt}
-        className="h-full w-full object-cover"
-      />
-      <span
-        onClick={onDownload}
-        title={t("IMAGE.DOWNLOAD_IMAGE")}
-        className="bg-background/80 text-foreground absolute top-2 right-2 cursor-pointer rounded-md p-1.5 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100"
-      >
-        <Icon name="download" className="h-4 w-4" />
-      </span>
-      {props.onQuickAction && (
-        <div className="bg-background/80 text-foreground absolute right-2 bottom-2 flex gap-1 rounded-md p-1 opacity-0 backdrop-blur-sm transition-opacity group-hover/img:opacity-100 max-md:opacity-100">
-          <span
-            onClick={(e) => quick(e, { tab: "img2img", subPill: "inpaint" })}
-            title={t("IMAGE.HOVER_INPAINT")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="paintbrush" className="h-3.5 w-3.5" />
-          </span>
-          <span
-            onClick={(e) => quick(e, { tab: "img2img", subPill: "upscale" })}
-            title={t("IMAGE.HOVER_UPSCALE")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="maximize-2" className="h-3.5 w-3.5" />
-          </span>
-          <span
-            onClick={(e) => quick(e, { tab: "img2img", subPill: "adetailer" })}
-            title={t("IMAGE.HOVER_ADETAILER")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="pencil-ruler" className="h-3.5 w-3.5" />
-          </span>
-          <span
-            onClick={(e) => quick(e, { tab: "edit" })}
-            title={t("IMAGE.HOVER_EDIT")}
-            className="hover:bg-accent cursor-pointer rounded p-1"
-          >
-            <Icon name="pencil" className="h-3.5 w-3.5" />
-          </span>
-        </div>
-      )}
-    </button>
-  );
-}
-
-function ImageLightbox(props: {
-  images: PlaygroundImage[];
-  startIndex: number;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  snapshotId: string;
-  alt: string;
-}) {
-  const t = useTranslations();
-  // Derived state: reset during render when startIndex changes (React-supported, no cascading effect).
-  const [index, setIndex] = useState(props.startIndex);
-  const [prevStartIndex, setPrevStartIndex] = useState(props.startIndex);
-  if (prevStartIndex !== props.startIndex) {
-    setPrevStartIndex(props.startIndex);
-    setIndex(props.startIndex);
-  }
-
-  const sorted = props.images
-    .slice()
-    .sort((a, b) => a.sequenceIndex - b.sequenceIndex);
-  const total = sorted.length;
-  const current = sorted[index];
-
-  const onPrev = () => setIndex((i) => (i - 1 + total) % total);
-  const onNext = () => setIndex((i) => (i + 1) % total);
-
-  const onDownload = async () => {
-    if (!current) return;
-    try {
-      await downloadGenerationImage(
-        current.r2Url,
-        `${props.snapshotId}-${current.sequenceIndex}.png`,
-      );
-    } catch {
-      window.open(current.r2Url, "_blank", "noopener");
-    }
-  };
-
-  if (!current) return null;
-  return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent
-        className="w-[95vw]! max-w-[95vw]! gap-2! p-2! sm:rounded-xl!"
-        showCloseButton={false}
-      >
-        <div className="relative flex items-center justify-center">
-          {/* eslint-disable-next-line @next/next/no-img-element -- R2 */}
-          <img
-            src={current.r2Url}
-            alt={props.alt}
-            className="max-h-[85vh] max-w-full object-contain"
-          />
-          {total > 1 && (
-            <>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={onPrev}
-                aria-label={t("IMAGE.LIGHTBOX_PREV")}
-                className="bg-background/80 absolute top-1/2 left-2 -translate-y-1/2 backdrop-blur"
-              >
-                <Icon name="chevron-left" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={onNext}
-                aria-label={t("IMAGE.LIGHTBOX_NEXT")}
-                className="bg-background/80 absolute top-1/2 right-2 -translate-y-1/2 backdrop-blur"
-              >
-                <Icon name="chevron-right" />
-              </Button>
-            </>
-          )}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => props.onOpenChange(false)}
-            aria-label={t("IMAGE.LIGHTBOX_CLOSE")}
-            className="bg-background/80 absolute top-2 right-2 backdrop-blur"
-          >
-            <Icon name="x" />
-          </Button>
-        </div>
-        <div className="flex items-center justify-between gap-2 px-2 pb-1">
-          <span className="text-muted-foreground text-xs">
-            {total > 1 ? `${index + 1} / ${total}` : ""}
-          </span>
-          <Button size="sm" variant="outline" onClick={onDownload}>
-            <Icon name="download" className="mr-2" />
-            {t("IMAGE.DOWNLOAD_IMAGE")}
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
   );
 }
 
@@ -324,96 +113,57 @@ export function GenerateResult(props: Props) {
   const setActiveSubPill = useSetAtom(activeSubPillAtom);
 
   const [importDialogOpen, setImportDialogOpen] = useState(false);
-  const [importMode, setImportMode] = useState<"restore" | "regenerate">(
-    "restore",
-  );
+  const [importMode, setImportMode] = useState<GenerationCloneMode>("restore");
   const importFileRef = useRef<HTMLInputElement>(null);
 
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  // Prefer fresh polling response over cached session payload.
-  const sessionData = sessionQuery.data;
-  const session = sessionData?.session;
-  const snapshots = sessionData?.snapshots ?? [];
-  const liveSnapshot = statusQuery.data;
+  const snapshots: SnapshotView[] = sessionQuery.data?.snapshots ?? [];
   const cachedSnapshot = snapshots.find((s) => s.id === props.snapshotId);
-  // Wide cast over the {full | failure} union; renders gate on status/images.length.
-  type SnapshotWide = {
-    id: string;
-    status: "pending" | "running" | "success" | "failure" | string;
-    model?: string;
-    prompt?: string;
-    negativePrompt?: string | null;
-    params?: Record<string, unknown> | null;
-    loras?: unknown;
-    references?: unknown;
-    extraParams?: Record<string, unknown> | null;
-    images?: PlaygroundImage[];
-    errorMessage?: string | null;
-    progress?: number | null;
-    expiresAt?: Date | null;
-    requestedCount?: number;
-  };
-  const data = (liveSnapshot ?? cachedSnapshot) as SnapshotWide | undefined;
-  void session;
+  // The polling hook returns the freshest copy; fall back to the session list.
+  const data = statusQuery.data ?? cachedSnapshot;
 
-  // Snapshots are returned newest-first; index 0 is the most recent.
+  // Snapshots are newest-first; index 0 is the most recent.
   const currentIndex = snapshots.findIndex((s) => s.id === props.snapshotId);
   const total = snapshots.length;
 
   const swapTo = (snapshotId: string) => {
     setActiveSnapshotId(snapshotId);
-    const url = new URL(window.location.href);
-    url.searchParams.set("snap", snapshotId);
-    window.history.replaceState(null, "", url.toString());
+    setSearchParam("snap", snapshotId);
   };
 
   const onPrevSnapshot = () => {
     if (currentIndex < 0 || total <= 1) return;
-    // "prev" in UI = older = higher index in newest-first array.
-    const next = snapshots[(currentIndex + 1) % total];
-    swapTo(next.id);
+    // "prev" in UI = older = higher index in the newest-first array.
+    swapTo(snapshots[(currentIndex + 1) % total].id);
   };
   const onNextSnapshot = () => {
     if (currentIndex < 0 || total <= 1) return;
-    const next = snapshots[(currentIndex - 1 + total) % total];
-    swapTo(next.id);
+    swapTo(snapshots[(currentIndex - 1 + total) % total].id);
   };
 
-  // On non-newest snapshot: hand frozen params to form for one-click resubmit. Skip newest to avoid clobbering draft.
+  // On a non-newest snapshot, hand frozen params to the form for one-click
+  // resubmit. Skip the newest to avoid clobbering the live draft.
   useEffect(() => {
-    if (!data) return;
-    if (currentIndex === 0) return;
-    // Failure snapshots carry only { id, status }; skip restore.
-    if (data.status === "failure") return;
-    const d = data as {
-      model: string;
-      prompt: string;
-      negativePrompt: string | null;
-      params: Record<string, unknown> | null;
-      loras: unknown;
-      references: unknown;
-      extraParams: Record<string, unknown> | null;
-    };
+    if (!data || currentIndex === 0 || data.status === "failure") return;
     setRestore({
-      model: d.model,
-      prompt: d.prompt,
-      negativePrompt: d.negativePrompt,
-      params: d.params ?? null,
-      loras: d.loras,
-      references: d.references,
-      extraParams: d.extraParams ?? null,
+      model: data.model,
+      prompt: data.prompt,
+      negativePrompt: data.negativePrompt,
+      params: data.params,
+      loras: data.loras,
+      references: data.references,
+      extraParams: data.extraParams,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.snapshotId]);
 
   const status = data?.status;
   const isFailed = status === "failure";
-  const images = (data?.images as PlaygroundImage[] | undefined) ?? [];
+  const images = data?.images ?? [];
   const isDone = status === "success" && images.length > 0;
-  const requestedCount =
-    (data as { requestedCount?: number } | undefined)?.requestedCount ?? 1;
+  const requestedCount = data?.requestedCount ?? 1;
 
   const onDeleteSnapshot = async () => {
     const ok = await confirm({
@@ -425,7 +175,7 @@ export function GenerateResult(props: Props) {
     });
     if (!ok) return;
     const result = await deleteMut.mutateAsync({ id: props.snapshotId });
-    if (result?.sessionDeleted) {
+    if (result.sessionDeleted) {
       setActiveSessionId(null);
       setActiveSnapshotId(null);
       router.push("/playground");
@@ -447,10 +197,8 @@ export function GenerateResult(props: Props) {
   const onImportFile = async (file: File) => {
     const parsed = JSON.parse(await file.text());
     const result = await importMut.mutateAsync({
-      body: {
-        payload: parsed as never,
-        mode: importMode,
-      },
+      payload: parsed,
+      mode: importMode,
     });
     setImportDialogOpen(false);
     router.push(`/playground/${result.sessionId}`);
@@ -494,34 +242,28 @@ export function GenerateResult(props: Props) {
       {isDone ? (
         <BatchGrid
           images={images}
-          prompt={data.prompt ?? ""}
+          prompt={data.prompt}
           snapshotId={props.snapshotId}
           onOpenLightbox={(i) => {
             setLightboxIndex(i);
             setLightboxOpen(true);
           }}
-          onQuickAction={(url, target) => {
+          onQuickAction={(src, target) => {
             setActiveTab(target.tab);
             if (target.subPill) setActiveSubPill(target.subPill);
-            const urlObj = new URL(window.location.href);
-            urlObj.searchParams.set("tab", target.tab);
-            if (target.subPill) {
-              urlObj.searchParams.set("mode", target.subPill);
-            } else {
-              urlObj.searchParams.delete("mode");
-            }
-            window.history.replaceState(null, "", urlObj.toString());
+            setSearchParam("tab", target.tab);
+            setSearchParam("mode", target.subPill ?? null);
             setRestore({
-              model: data.model ?? "",
-              prompt: data.prompt ?? "",
-              negativePrompt: data.negativePrompt ?? null,
-              params: data.params ?? null,
+              model: data.model,
+              prompt: data.prompt,
+              negativePrompt: data.negativePrompt,
+              params: data.params,
               loras: data.loras,
               references: data.references,
-              extraParams: data.extraParams ?? null,
+              extraParams: data.extraParams,
               tab: target.tab,
               subPill: target.subPill,
-              initImageUrl: url,
+              initImageUrl: src,
             });
           }}
         />
@@ -551,10 +293,8 @@ export function GenerateResult(props: Props) {
       )}
 
       <div className="flex flex-wrap items-center gap-2">
-        <ParamsBadge model={data.model ?? ""} params={data.params} />
-        {data.expiresAt && (
-          <RetentionBadge expiresAt={data.expiresAt as Date | string} />
-        )}
+        <ParamsBadge model={data.model} params={data.params} />
+        {data.expiresAt && <RetentionBadge expiresAt={data.expiresAt} />}
       </div>
 
       <p className="text-sm">{data.prompt}</p>
@@ -568,7 +308,7 @@ export function GenerateResult(props: Props) {
           <Icon name="sparkles" className="mr-2" />
           {t("IMAGE.REMIX")}
         </Button>
-        {isDone && getModelDescriptor(data.model ?? "").supportsHiresFix && (
+        {isDone && getModelDescriptor(data.model).supportsHiresFix && (
           <Button
             variant="outline"
             size="sm"
@@ -616,7 +356,7 @@ export function GenerateResult(props: Props) {
         open={lightboxOpen}
         onOpenChange={setLightboxOpen}
         snapshotId={props.snapshotId}
-        alt={data.prompt ?? ""}
+        alt={data.prompt}
       />
 
       <Dialog open={importDialogOpen} onOpenChange={setImportDialogOpen}>
@@ -630,9 +370,7 @@ export function GenerateResult(props: Props) {
           <div className="flex flex-col gap-3">
             <Select
               value={importMode}
-              onValueChange={(v) =>
-                setImportMode(v as "restore" | "regenerate")
-              }
+              onValueChange={(v) => setImportMode(v as GenerationCloneMode)}
             >
               <SelectTrigger>
                 <SelectValue />
@@ -661,10 +399,4 @@ export function GenerateResult(props: Props) {
       </Dialog>
     </div>
   );
-}
-
-async function downloadGenerationImage(url: string, filename: string) {
-  const res = await fetch(url, { cache: "no-cache" });
-  if (!res.ok) throw new Error(`fetch ${res.status}`);
-  downloadBlob(await res.blob(), filename);
 }

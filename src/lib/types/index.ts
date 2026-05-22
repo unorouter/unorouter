@@ -40,6 +40,52 @@ export type ChatUIMessage = UIMessage<ChatMessageMetadata>;
 
 export type EditorState = { mode: "list" } | { mode: "edit"; id?: string };
 
+// A generated playground image resolved for rendering: `src` is a data URI
+// (base64 priority) or the R2 URL fallback.
+export type PlaygroundImageView = {
+  id: string;
+  sequenceIndex: number;
+  src: string;
+  mimeType: string | null;
+  width: number | null;
+  height: number | null;
+};
+
+// A playground snapshot row plus its resolved images, as the playground UI
+// consumes it. `params`/`loras`/`references`/`extraParams` stay loose because
+// older synced rows may carry extra keys.
+export type SnapshotView = {
+  id: string;
+  sessionId: string;
+  sessionOrder: number;
+  model: string;
+  prompt: string;
+  negativePrompt: string | null;
+  params: Record<string, unknown> | null;
+  loras: unknown;
+  references: unknown;
+  extraParams: Record<string, unknown> | null;
+  status: string;
+  progress: string | null;
+  taskId: string | null;
+  requestedCount: number;
+  errorMessage: string | null;
+  expiresAt: Date | null;
+  createdAt: Date | null;
+  images: PlaygroundImageView[];
+};
+
+// Restore-payload shape shared by the result view and the form draft restore.
+export type SnapshotRestoreFields = {
+  model: string;
+  prompt: string;
+  negativePrompt: string | null;
+  params: Record<string, unknown> | null;
+  loras: unknown;
+  references: unknown;
+  extraParams: Record<string, unknown> | null;
+};
+
 // Flat editor-selection state used by the RP entity pages/lists: an entity id
 // being edited, "new" for a fresh entity, or null when none is open.
 export type EntityEditId = string | "new" | null;

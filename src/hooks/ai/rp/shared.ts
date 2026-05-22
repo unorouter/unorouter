@@ -4,6 +4,10 @@ import {
   readLocalConversation,
   readLocalConversationBundle,
 } from "@/lib/db/client/data/chat";
+import {
+  readLocalGenerationSession,
+  readLocalGenerationSessionBundle,
+} from "@/lib/db/client/data/playground";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import { rpc } from "@/lib/rpc";
 import type { RpSyncKind } from "@/lib/validation/sync";
@@ -47,4 +51,18 @@ export async function mirrorConvIfSynced(
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
   if (userId) await mirrorSyncedRow(userId, "conversations", convId, bundle);
+}
+
+// Playground analog of mirrorConvIfSynced: pushes the whole session bundle
+// (snapshots + image media) when the session opted into Turso sync.
+export async function mirrorSessionIfSynced(
+  userId: number | undefined,
+  sessionId: string,
+) {
+  const session = await readLocalGenerationSession(userId, sessionId);
+  if (session?.syncExpiresAt == null) return;
+  const bundle = await readLocalGenerationSessionBundle(userId, sessionId);
+  if (!bundle) return;
+  if (userId)
+    await mirrorSyncedRow(userId, "playgroundSessions", sessionId, bundle);
 }

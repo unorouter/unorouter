@@ -2,40 +2,25 @@ import { getPricingSummary } from "@/lib/api/pricing-cache";
 import { msg } from "@/lib/config/constants";
 import { uploadReferenceToR2 } from "@/lib/config/r2";
 import {
-  controlNetCatalog,
-  embeddingCatalog,
-  loraCatalog,
-  upscalerCatalog,
-} from "@/lib/db/schema";
-import { getDb } from "@/lib/db/server/client";
-import {
   controlNetCatalogQuery,
   embeddingCatalogQuery,
-  generationVisibilityBody,
   loraCatalogQuery,
-  playgroundHistoryQuery,
-  playgroundImportBody,
   playgroundMaskUploadBody,
+  playgroundPollBody,
   playgroundReferenceUploadBody,
   playgroundSubmitBody,
   upscalerCatalogQuery,
 } from "@/lib/validation/playground";
 import { getApiKeyOrGuest, getUserId } from "@/server/constants";
-import { and, asc, eq } from "drizzle-orm";
 import { Elysia } from "elysia";
 import { COMFYUI_TEMPLATE_IDS } from "./playground-constants";
 import {
-  cloneFromPayload,
-  deleteSession,
-  deleteSnapshot,
-  exportSession,
-  getSession,
-  getSnapshotWithImages,
-  listUserSessions,
-  pollSnapshotStatus,
-  setVisibility,
-  submitGeneration,
-} from "./playground.service";
+  listControlNetCatalog,
+  listEmbeddingCatalog,
+  listLoraCatalog,
+  listUpscalerCatalog,
+} from "./playground-catalogs";
+import { pollGeneration, submitGeneration } from "./playground.service";
 
 async function assertGuestAllowedModel(model: string): Promise<void> {
   if (COMFYUI_TEMPLATE_IDS.has(model)) {
@@ -56,104 +41,17 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
         await assertGuestAllowedModel(body.model);
       }
       const apiKey = getApiKeyOrGuest(cookie);
-      return {
-        success: true,
-        data: await submitGeneration(userId, apiKey, body),
-      };
+      return { success: true, data: await submitGeneration(apiKey, body) };
     },
     { body: playgroundSubmitBody },
   )
-  .get(
-    "/me",
-    async ({ query, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
-      return {
-        success: true,
-        data: await listUserSessions(userId, query),
-      };
-    },
-    { query: playgroundHistoryQuery },
-  )
-  .get("/session/:sessionId", async ({ params, cookie }) => {
-    const userId = (await getUserId(cookie, true)) ?? 0;
-    return {
-      success: true,
-      data: await getSession(userId, params.sessionId),
-    };
-  })
-  .delete("/session/:sessionId", async ({ params, cookie }) => {
-    const userId = (await getUserId(cookie, true)) ?? 0;
-    return {
-      success: true,
-      data: await deleteSession(userId, params.sessionId),
-    };
-  })
-  .get("/session/:sessionId/export", async ({ params, cookie }) => {
-    const userId = (await getUserId(cookie, true)) ?? 0;
-    return {
-      success: true,
-      data: await exportSession(userId, params.sessionId),
-    };
-  })
-  .get("/snapshot/:id", async ({ params, cookie }) => {
-    const userId = (await getUserId(cookie, true)) ?? 0;
-    return {
-      success: true,
-      data: await getSnapshotWithImages(userId, params.id),
-    };
-  })
-  .get("/snapshot/:id/status", async ({ params, cookie }) => {
-    const userId = (await getUserId(cookie, true)) ?? 0;
-    const apiKey = getApiKeyOrGuest(cookie);
-    try {
-      return {
-        success: true,
-        data: await pollSnapshotStatus(userId, apiKey, params.id),
-      };
-    } catch (e) {
-      if (e instanceof Error && e.message === "ERRORS.NOT_FOUND") {
-        return {
-          success: true,
-          data: { id: params.id, status: "failure" as const },
-        };
-      }
-      throw e;
-    }
-  })
   .post(
-    "/snapshot/:id/visibility",
-    async ({ params, body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
-      return {
-        success: true,
-        data: await setVisibility(userId, params.id, body.visibility),
-      };
-    },
-    { body: generationVisibilityBody },
-  )
-  .delete("/snapshot/:id", async ({ params, cookie }) => {
-    const userId = (await getUserId(cookie, true)) ?? 0;
-    return {
-      success: true,
-      data: await deleteSnapshot(userId, params.id),
-    };
-  })
-  .post(
-    "/import",
+    "/poll",
     async ({ body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
       const apiKey = getApiKeyOrGuest(cookie);
-      return {
-        success: true,
-        data: await cloneFromPayload({
-          userId,
-          apiKey,
-          payload: body.payload,
-          mode: body.mode,
-        }),
-      };
+      return { success: true, data: await pollGeneration(apiKey, body.taskId) };
     },
-    { body: playgroundImportBody },
+    { body: playgroundPollBody },
   )
   .post(
     "/references",
@@ -189,69 +87,30 @@ export const playgroundRoute = new Elysia({ prefix: "/playground" })
   )
   .get(
     "/loras",
-    async ({ query }) => {
-      const db = getDb();
-      const conds = [eq(loraCatalog.visible, true)];
-      if (query.baseModel)
-        conds.push(eq(loraCatalog.baseModel, query.baseModel));
-      if (query.category) conds.push(eq(loraCatalog.category, query.category));
-      const items = await db
-        .select()
-        .from(loraCatalog)
-        .where(and(...conds))
-        .orderBy(asc(loraCatalog.sortOrder), asc(loraCatalog.name));
-      return { success: true, data: { items } };
-    },
+    async ({ query }) => ({ success: true, data: await listLoraCatalog(query) }),
     { query: loraCatalogQuery },
   )
   .get(
     "/embeddings",
-    async ({ query }) => {
-      const db = getDb();
-      const conds = [eq(embeddingCatalog.visible, true)];
-      if (query.baseModel)
-        conds.push(eq(embeddingCatalog.baseModel, query.baseModel));
-      if (query.category)
-        conds.push(eq(embeddingCatalog.category, query.category));
-      const items = await db
-        .select()
-        .from(embeddingCatalog)
-        .where(and(...conds))
-        .orderBy(asc(embeddingCatalog.sortOrder), asc(embeddingCatalog.name));
-      return { success: true, data: { items } };
-    },
+    async ({ query }) => ({
+      success: true,
+      data: await listEmbeddingCatalog(query),
+    }),
     { query: embeddingCatalogQuery },
   )
   .get(
     "/upscalers",
-    async ({ query }) => {
-      const db = getDb();
-      const conds = [eq(upscalerCatalog.visible, true)];
-      if (query.category)
-        conds.push(eq(upscalerCatalog.category, query.category));
-      const items = await db
-        .select()
-        .from(upscalerCatalog)
-        .where(and(...conds))
-        .orderBy(asc(upscalerCatalog.sortOrder), asc(upscalerCatalog.name));
-      return { success: true, data: { items } };
-    },
+    async ({ query }) => ({
+      success: true,
+      data: await listUpscalerCatalog(query),
+    }),
     { query: upscalerCatalogQuery },
   )
   .get(
     "/controlnets",
-    async ({ query }) => {
-      const db = getDb();
-      const conds = [eq(controlNetCatalog.visible, true)];
-      if (query.baseModel)
-        conds.push(eq(controlNetCatalog.baseModel, query.baseModel));
-      if (query.kind) conds.push(eq(controlNetCatalog.kind, query.kind));
-      const items = await db
-        .select()
-        .from(controlNetCatalog)
-        .where(and(...conds))
-        .orderBy(asc(controlNetCatalog.sortOrder), asc(controlNetCatalog.name));
-      return { success: true, data: { items } };
-    },
+    async ({ query }) => ({
+      success: true,
+      data: await listControlNetCatalog(query),
+    }),
     { query: controlNetCatalogQuery },
   );

@@ -76,10 +76,10 @@ export function PlaygroundList() {
                       activeSessionId === session.id && "ring-ring ring-2",
                     )}
                   >
-                    {firstImage?.r2Url ? (
-                      // eslint-disable-next-line @next/next/no-img-element -- R2
+                    {firstImage?.src ? (
+                      // eslint-disable-next-line @next/next/no-img-element -- data/R2 URI
                       <img
-                        src={firstImage.r2Url}
+                        src={firstImage.src}
                         alt={latest?.prompt ?? session.title ?? ""}
                         className="h-full w-full object-cover"
                       />

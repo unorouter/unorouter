@@ -38,6 +38,10 @@ export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const;
 
 export const GUEST_USER_ID = 0;
 
+// Playground sessions expire after this window; each fresh snapshot extends it.
+// Synced sessions are purged from Turso once their copy passes this age.
+export const RETENTION_MS = 30 * 24 * 60 * 60 * 1000;
+
 export const LOCALES = [
   "en",
   "de",

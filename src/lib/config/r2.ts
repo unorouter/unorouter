@@ -433,6 +433,32 @@ async function uploadGenerationToR2(
   return { url, key, mime, sizeBytes: body.length };
 }
 
+// Client-first generation: download the upstream image bytes WITHOUT an R2
+// upload. The client stores base64 in its local `media` table; R2 upload is
+// deferred to the Sync push. `result_url` is a URL or an inline data URI.
+export async function downloadGenerationBytes(
+  url: string,
+  authToken?: string,
+): Promise<{ buffer: Buffer; mime: string; sizeBytes: number }> {
+  if (url.startsWith("data:")) {
+    const [header, base64] = url.split(",");
+    const mime = header.match(/data:([^;]+)/)?.[1] ?? "image/png";
+    const buffer = Buffer.from(base64, "base64");
+    return { buffer, mime, sizeBytes: buffer.length };
+  }
+  const headers = authToken
+    ? { authorization: `Bearer ${authToken}` }
+    : undefined;
+  const res = await safeFetch(url, "GET", headers);
+  if (!res.ok) throw new Error(msg("ERRORS.UPSTREAM_FETCH_FAILED"));
+  const buffer = await readBodyWithLimit(res);
+  return {
+    buffer,
+    mime: res.headers.get("content-type") ?? "image/png",
+    sizeBytes: buffer.length,
+  };
+}
+
 export async function downloadAndUploadGeneration(
   url: string,
   playgroundId: string,

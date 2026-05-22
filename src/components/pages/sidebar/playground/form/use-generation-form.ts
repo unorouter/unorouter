@@ -1,0 +1,269 @@
+"use client";
+
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
+import { useSnapshotQuery } from "@/hooks/ai/playground-hook";
+import { usePricingQuery } from "@/hooks/models/pricing-hook";
+import {
+  getModelDescriptor,
+  type PlaygroundModelDescriptor,
+} from "@/lib/ai/playground/models";
+import { getEffectiveGenerationModels } from "@/lib/ai/playground/models-dynamic";
+import {
+  generationFormValues,
+  type GenerationFormValues,
+  type PlaygroundModel,
+} from "@/lib/validation/playground";
+import {
+  editDraftAtom,
+  img2imgDraftAtom,
+  restoreSnapshotIntoFormAtom,
+  samplerMemoryAtom,
+  text2imgDraftAtom,
+  type GenerateDraft,
+  type GenerateTab,
+} from "@/store/playground-store";
+import { typeboxResolver } from "@hookform/resolvers/typebox";
+import { useAtom, useAtomValue } from "jotai";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+import { activeTabAtom, activeSubPillAtom } from "@/store/playground-store";
+import { INITIAL_MODEL } from "../playground-constants";
+
+function isModelInTab(m: PlaygroundModelDescriptor, tab: GenerateTab): boolean {
+  if (!m.tabs) return tab === "text2img";
+  return m.tabs.includes(tab);
+}
+
+function defaultsFor(d: PlaygroundModelDescriptor): GenerationFormValues {
+  return {
+    model: d.id,
+    prompt: "",
+    negativePrompt: "",
+    params: { ...d.defaultParams },
+    visibility: "private",
+    ui: { variants: 1 },
+  } as GenerationFormValues;
+}
+
+function draftAtomFor(tab: GenerateTab) {
+  if (tab === "img2img") return img2imgDraftAtom;
+  if (tab === "edit") return editDraftAtom;
+  return text2imgDraftAtom;
+}
+
+// Owns the playground form: the RHF instance plus the 6 lifecycle effects
+// (mode sync, seed restore, the two model-fallback guards, draft restore,
+// draft autosave) and the snapshot-restore effect. The shell consumes the
+// return value and renders fields.
+export function useGenerationForm() {
+  const activeTab = useAtomValue(activeTabAtom);
+  const activeSubPill = useAtomValue(activeSubPillAtom);
+  const searchParams = useSearchParams();
+  const authQuery = useAuthQuery();
+  const isLoggedIn = !!authQuery.data;
+
+  const [samplerMemory, setSamplerMemory] = useAtom(samplerMemoryAtom);
+  const [draft, setDraft] = useAtom(draftAtomFor(activeTab));
+  const [restorePayload, setRestorePayload] = useAtom(
+    restoreSnapshotIntoFormAtom,
+  );
+
+  const remixId = searchParams.get("remix");
+  const hiresShortcut = searchParams.get("hires") === "1";
+  const seedQuery = useSnapshotQuery(remixId);
+
+  const pricingQuery = usePricingQuery();
+  const effectiveModels = getEffectiveGenerationModels(
+    pricingQuery.data?.models,
+  );
+  const findDescriptor = (id: PlaygroundModel): PlaygroundModelDescriptor =>
+    effectiveModels.find((m) => m.id === id) ?? getModelDescriptor(id);
+
+  const form = useForm<GenerationFormValues>({
+    resolver: typeboxResolver(generationFormValues),
+    defaultValues: defaultsFor(getModelDescriptor(INITIAL_MODEL)),
+  });
+
+  const selectedModel =
+    (form.watch("model") as PlaygroundModel | undefined) ?? INITIAL_MODEL;
+  const descriptor = findDescriptor(selectedModel);
+
+  const changeModel = (next: string) => {
+    const nextModel = next as PlaygroundModel;
+    const nextDesc = findDescriptor(nextModel);
+    form.setValue("model", nextModel);
+    const remembered = samplerMemory[nextModel];
+    const params = remembered
+      ? { ...nextDesc.defaultParams, ...remembered }
+      : { ...nextDesc.defaultParams };
+    // descriptor defaults type sampler/scheduler as string; the form's params
+    // union narrows them - safe since values come from the catalog.
+    form.setValue("params", params as GenerationFormValues["params"], {
+      shouldDirty: true,
+    });
+    if (!nextDesc.supportsNegativePrompt) form.setValue("negativePrompt", "");
+    if (!nextDesc.supportsReferences) form.setValue("references", undefined);
+    if (!nextDesc.supportsLoraChain) form.setValue("loras", undefined);
+  };
+
+  // Effect 1: keep `mode` in sync with the active tab + sub-pill.
+  useEffect(() => {
+    const mode =
+      activeTab === "text2img"
+        ? "txt2img"
+        : activeTab === "edit"
+          ? "edit"
+          : activeSubPill;
+    form.setValue("mode", mode);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, activeSubPill]);
+
+  // Effect 2: seed the form from a ?remix= snapshot exactly once per source.
+  const seededIdRef = useRef<string | null>(null);
+  useEffect(() => {
+    const data = seedQuery.data;
+    if (!data || seededIdRef.current === data.id) return;
+    seededIdRef.current = data.id;
+    const desc = findDescriptor(data.model as PlaygroundModel);
+    const hiresParams =
+      hiresShortcut && desc.supportsHiresFix
+        ? { hiresDenoise: 0.5, hiresUpscale: 1.5 }
+        : {};
+    form.reset({
+      ...defaultsFor(desc),
+      prompt: data.prompt,
+      negativePrompt: data.negativePrompt ?? "",
+      params: {
+        ...desc.defaultParams,
+        ...((data.params as Record<string, unknown> | null) ?? {}),
+        ...hiresParams,
+      },
+      loras: (data.loras as GenerationFormValues["loras"]) ?? undefined,
+      references:
+        (data.references as GenerationFormValues["references"]) ?? undefined,
+      visibility: "private",
+      ui: { variants: 1 },
+    } as GenerationFormValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [seedQuery.data, form]);
+
+  // Effect 3: drop to a free model when the current pick is locked for guests.
+  useEffect(() => {
+    if (effectiveModels.length === 0) return;
+    const current = form.watch("model") ?? "";
+    const desc = effectiveModels.find((m) => m.id === current);
+    if (desc && (isLoggedIn || desc.isFree)) return;
+    const freePool = effectiveModels.filter((m) => m.isFree);
+    if (freePool.length > 0) changeModel(freePool[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn, effectiveModels.length]);
+
+  // Effect 4: fall back to a tab-compatible model when the tab changes.
+  useEffect(() => {
+    if (effectiveModels.length === 0) return;
+    const current = form.watch("model") ?? "";
+    const desc = effectiveModels.find((m) => m.id === current);
+    if (desc && isModelInTab(desc, activeTab)) return;
+    const pool = effectiveModels.filter((m) => isModelInTab(m, activeTab));
+    if (pool.length > 0) changeModel(pool[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, effectiveModels.length]);
+
+  // Effect 5: restore the per-tab draft once when switching tabs.
+  const draftRestoredRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (draftRestoredRef.current === activeTab || remixId) return;
+    draftRestoredRef.current = activeTab;
+    if (!draft) {
+      const fallback =
+        effectiveModels.find((m) => isModelInTab(m, activeTab)) ??
+        getModelDescriptor(INITIAL_MODEL);
+      form.reset(defaultsFor(fallback));
+      return;
+    }
+    form.reset({
+      ...defaultsFor(
+        getModelDescriptor((draft.model as PlaygroundModel) || INITIAL_MODEL),
+      ),
+      model: draft.model as PlaygroundModel,
+      prompt: draft.prompt,
+      negativePrompt: draft.negativePrompt ?? "",
+      params: draft.params as GenerationFormValues["params"],
+      loras: draft.loras as GenerationFormValues["loras"],
+      references: draft.references as GenerationFormValues["references"],
+      ui: (draft.extraParams as { variants?: number } | undefined) ?? {
+        variants: 1,
+      },
+    } as GenerationFormValues);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab, remixId, draft, form]);
+
+  // Effect 6: debounced draft autosave on every form change.
+  const setDraftRef = useRef(setDraft);
+  useEffect(() => {
+    setDraftRef.current = setDraft;
+  }, [setDraft]);
+  useEffect(() => {
+    const subscription = form.watch((values) => {
+      const timer = setTimeout(() => {
+        const next: GenerateDraft = {
+          model: (values.model as string) ?? INITIAL_MODEL,
+          prompt: (values.prompt as string) ?? "",
+          negativePrompt: (values.negativePrompt as string) ?? "",
+          params: (values.params as Record<string, unknown>) ?? {},
+          loras: values.loras,
+          references: values.references,
+          extraParams: (values.ui as Record<string, unknown>) ?? {
+            variants: 1,
+          },
+        };
+        setDraftRef.current(next);
+      }, 500);
+      return () => clearTimeout(timer);
+    });
+    return () => subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form]);
+
+  // Restore-into-form: a result tile hands frozen params back for resubmit.
+  useEffect(() => {
+    if (!restorePayload) return;
+    const desc = findDescriptor(
+      (restorePayload.model as PlaygroundModel) ?? INITIAL_MODEL,
+    );
+    const mergedParams: Record<string, unknown> = {
+      ...desc.defaultParams,
+      ...(restorePayload.params ?? {}),
+    };
+    if (restorePayload.initImageUrl) {
+      mergedParams.initImageUrl = restorePayload.initImageUrl;
+    }
+    form.reset({
+      ...defaultsFor(desc),
+      model: desc.id,
+      prompt: restorePayload.prompt,
+      negativePrompt: restorePayload.negativePrompt ?? "",
+      params: mergedParams as GenerationFormValues["params"],
+      loras: (restorePayload.loras as GenerationFormValues["loras"]) ?? undefined,
+      references:
+        (restorePayload.references as GenerationFormValues["references"]) ??
+        undefined,
+      ui: (restorePayload.extraParams as { variants?: number } | undefined) ?? {
+        variants: 1,
+      },
+    } as GenerationFormValues);
+    setRestorePayload(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [restorePayload]);
+
+  return {
+    form,
+    descriptor,
+    effectiveModels,
+    changeModel,
+    samplerMemory,
+    setSamplerMemory,
+    setDraft,
+  };
+}

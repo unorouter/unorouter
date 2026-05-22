@@ -15,7 +15,8 @@ export const SYNC_KINDS = [
 export const syncKind = t.Union(SYNC_KINDS.map((k) => t.Literal(k)));
 export type SyncKindName = Static<typeof syncKind>;
 
-// RP entity sync kinds: the subset of SYNC_KINDS mirrored by RP hooks.
+// The subset of SYNC_KINDS mirrored row-by-row by client hooks (everything
+// except `theme`, which syncs as a single per-user row).
 export const RP_SYNC_KINDS = [
   "characters",
   "personas",
@@ -23,6 +24,7 @@ export const RP_SYNC_KINDS = [
   "presets",
   "cards",
   "conversations",
+  "playgroundSessions",
 ] as const;
 
 export const rpSyncKind = t.Union(RP_SYNC_KINDS.map((k) => t.Literal(k)));

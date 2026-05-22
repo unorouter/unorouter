@@ -1,25 +1,22 @@
 import { getPricingSummary } from "@/lib/api/pricing-cache";
-import { dollarsToQuota } from "@/lib/config/constants";
 import {
   chooseEndpoint,
   type SyncImageEndpoint,
 } from "@/lib/ai/playground/models-dynamic";
-import { getDb } from "@/lib/db/server/client";
-import { playgroundSessions, playgrounds } from "@/lib/db/schema";
-import { uid } from "@/lib/utils/base";
-import { logger } from "@/lib/utils/logger";
+import {
+  getV1VideoGenerationsTaskId,
+} from "@/openapi";
+import {
+  normalizeTaskStatus,
+  unwrapTaskData,
+  type UpstreamFetchResp,
+} from "@/lib/api/video-task";
+import { downloadGenerationBytes } from "@/lib/config/r2";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import { dayjs } from "@/lib/utils/format/date";
-import { eq, sql } from "drizzle-orm";
-import { finalizeRowFailure, imageCountFor } from "./playground-finalize";
-import { getSessionRow, getSnapshotWithImages } from "./playground-reads";
+import { COMFYUI_TEMPLATE_IDS } from "./playground-constants";
+import { type GeneratedImage, imageCountFor } from "./playground-finalize";
 import { submitComfyUITask } from "./playground-submit-comfyui";
 import { submitSyncImage } from "./playground-submit-sync";
-
-import {
-  COMFYUI_TEMPLATE_IDS,
-  RETENTION_MS,
-} from "./playground-constants";
 
 type ResolvedEndpoint =
   | { kind: "comfyui-task" }
@@ -40,138 +37,93 @@ async function resolveSubmissionEndpoint(
   return { kind: "sync", endpoint };
 }
 
+// Client-first generation. Sync-image models answer immediately with the
+// image bytes; ComfyUI models return a task id the client polls. The browser
+// owns persistence (its local DB), so this never touches Turso.
+export type SubmitGenerationResult =
+  | { kind: "sync"; status: "success"; images: GeneratedImage[] }
+  | { kind: "task"; status: string; taskId: string };
+
 export async function submitGeneration(
-  userId: number,
   apiKey: string,
-  body: PlaygroundSubmitBody & { sessionId?: string },
-) {
-  const db = getDb();
-  const visibility = body.visibility ?? "private";
+  body: PlaygroundSubmitBody,
+): Promise<SubmitGenerationResult> {
   const requestedCount = imageCountFor(body);
-  const modelInfo = (await getPricingSummary()).models.find(
-    (m) => m.name === body.model,
-  );
-  const fixedPrice = modelInfo?.isFixedPrice ? (modelInfo.fixedPrice ?? 0) : 0;
-  const costQuota = dollarsToQuota(fixedPrice) * requestedCount;
-  const now = Date.now();
-  const expiresAt = new Date(now + RETENTION_MS);
-
-  let sessionId: string;
-  let sessionOrder: number;
-  if (body.sessionId) {
-    const existing = await getSessionRow(userId, body.sessionId);
-    sessionId = existing.id;
-    sessionOrder = existing.snapshotCount;
-  } else {
-    sessionId = uid();
-    sessionOrder = 0;
-    const title = body.prompt.slice(0, 60).trim() || null;
-    await db.insert(playgroundSessions).values({
-      id: sessionId,
-      userId,
-      title,
-      firstModel: body.model,
-      snapshotCount: 0,
-      imageCount: 0,
-      expiresAt,
-    });
-  }
-
-  const id = uid();
-  await db.insert(playgrounds).values({
-    id,
-    userId,
-    sessionId,
-    sessionOrder,
-    requestedCount,
-    model: body.model,
-    prompt: body.prompt,
-    negativePrompt: body.negativePrompt,
-    params: body.params ?? null,
-    loras: body.loras ?? null,
-    references: body.references ?? null,
-    extraParams: body.extraParams ?? null,
-    status: "pending",
-    visibility,
-    costQuota,
-    expiresAt,
-    submittedKey: apiKey,
-  });
-
-  // SQL increment is safe under concurrent submits.
-  await db
-    .update(playgroundSessions)
-    .set({
-      snapshotCount: sql`${playgroundSessions.snapshotCount} + 1`,
-      expiresAt,
-      updatedAt: dayjs().toDate(),
-    })
-    .where(eq(playgroundSessions.id, sessionId));
-
   const resolved = await resolveSubmissionEndpoint(body.model);
 
-  try {
-    if (resolved.kind === "comfyui-task") {
-      await submitComfyUITask({
-        db,
-        id,
-        sessionId,
-        apiKey,
-        body,
-        n: requestedCount,
-      });
-    } else {
-      await submitSyncImage({
-        db,
-        id,
-        sessionId,
-        apiKey,
-        body,
-        endpoint: resolved.endpoint,
-        n: requestedCount,
-      });
-    }
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    logger.error("playground submit failed", {
-      context: "playground.submit",
-      playgroundId: id,
-      sessionId,
-      model: body.model,
-      err: message,
+  if (resolved.kind === "comfyui-task") {
+    const task = await submitComfyUITask({
+      apiKey,
+      body,
+      n: requestedCount,
     });
-    await finalizeRowFailure(db, id, message);
-    throw err;
+    return { kind: "task", status: task.status, taskId: task.taskId };
   }
 
-  const snapshot = await getSnapshotWithImages(userId, id);
-  const session = (
-    await db
-      .select()
-      .from(playgroundSessions)
-      .where(eq(playgroundSessions.id, sessionId))
-      .limit(1)
-  )[0];
-  return { session, snapshot };
+  const images = await submitSyncImage({
+    apiKey,
+    body,
+    endpoint: resolved.endpoint,
+    n: requestedCount,
+  });
+  return { kind: "sync", status: "success", images };
 }
 
-export {
-  getSnapshotWithImages,
-  getSession,
-  listUserSessions,
-  pollSnapshotStatus,
-} from "./playground-reads";
-export {
-  setVisibility,
-  deleteSnapshot,
-  deleteSession,
-  deleteSessionAsSystem,
-  listExpiredSessionIds,
-} from "./playground-deletes";
-export {
-  exportSession,
-  cloneFromPayload,
-  type PlaygroundSnapshot,
-  type SessionSnapshot,
-  type CloneMode,
-} from "./playground-export-clone";
+// Stateless poll: the client passes back the upstream task id; the server only
+// forwards the status check and, on success, downloads the result bytes.
+export type PollGenerationResult =
+  | { status: "success"; progress: string; images: GeneratedImage[] }
+  | { status: "failure"; progress: string; errorMessage: string }
+  | { status: string; progress: string };
+
+export async function pollGeneration(
+  apiKey: string,
+  taskId: string,
+): Promise<PollGenerationResult> {
+  const res = await getV1VideoGenerationsTaskId(taskId, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  });
+  const payload = unwrapTaskData<UpstreamFetchResp>(res.data);
+  const status = normalizeTaskStatus(payload?.status);
+  const progress = payload?.progress ?? "0%";
+
+  if (status === "failure") {
+    return {
+      status: "failure",
+      progress,
+      errorMessage: payload?.fail_reason ?? "generation failed",
+    };
+  }
+  if (status !== "success") {
+    return { status, progress };
+  }
+
+  const upstreamUrls: string[] =
+    payload?.result_urls && payload.result_urls.length > 0
+      ? payload.result_urls.filter(
+          (u): u is string => typeof u === "string" && u.length > 0,
+        )
+      : payload?.result_url
+        ? [payload.result_url]
+        : [];
+
+  if (upstreamUrls.length === 0) {
+    return {
+      status: "failure",
+      progress,
+      errorMessage: "upstream success without result url(s)",
+    };
+  }
+
+  const images: GeneratedImage[] = [];
+  for (const url of upstreamUrls) {
+    const bytes = await downloadGenerationBytes(url, apiKey);
+    images.push({
+      resultUrl: url.startsWith("data:") ? null : url,
+      base64: bytes.buffer.toString("base64"),
+      mimeType: bytes.mime,
+      sizeBytes: bytes.sizeBytes,
+    });
+  }
+  return { status: "success", progress, images };
+}

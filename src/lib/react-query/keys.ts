@@ -77,9 +77,8 @@ export const queryKeys = {
   modelStatusComponents: () => ["model-status", "components"] as const,
 
   playgroundSessionLists: () => ["playground-session-list"] as const,
-  playgroundSessionList: (
-    params?: EdenQuery<typeof rpc.api.ai.playground.me>,
-  ) => ["playground-session-list", params] as const,
+  playgroundSessionList: (params?: { limit?: number }) =>
+    ["playground-session-list", params] as const,
   playgroundSession: (id: string) => ["playground-session", id] as const,
   playgroundSnapshot: (id: string) => ["playground-snapshot", id] as const,
   playgroundSnapshotStatus: (id: string) =>

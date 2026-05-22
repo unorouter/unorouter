@@ -450,10 +450,11 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-// Generic blob store. Referenced by conversation messages, RP avatars, etc.
-// Asymmetric sync rule: client writes data_base64 -> server uploads to R2 +
-// fills r2_key/r2_url -> Turso never stores bytes. Rehydrator fetches R2 ->
-// data_base64 on first read, never overwrites an existing local cache.
+// Generic blob store. Referenced by conversation messages, RP avatars, and
+// playground generation results. Asymmetric sync rule: client writes
+// data_base64 -> server uploads to R2 + fills r2_key/r2_url -> Turso never
+// stores bytes. Rehydrator fetches R2 -> data_base64 on first read, never
+// overwrites an existing local cache.
 export const media = sqliteTable(
   "media",
   {
@@ -466,11 +467,20 @@ export const media = sqliteTable(
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
+    // Set for playground generation images: the parent snapshot, plus its
+    // position in the batch and the upstream result URL for provenance.
+    playgroundId: text("playground_id").references(() => playgrounds.id, {
+      onDelete: "cascade",
+    }),
+    sequenceIndex: integer("sequence_index"),
+    upstreamResultUrl: text("upstream_result_url"),
     r2Key: text("r2_key"),
     r2Url: text("r2_url"),
     dataBase64: text("data_base64"),
     mimeType: text("mime_type").notNull(),
     sizeBytes: integer("size_bytes").notNull(),
+    width: integer("width"),
+    height: integer("height"),
     extractedText: text("extracted_text"),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -479,6 +489,7 @@ export const media = sqliteTable(
   (table) => [
     index("idx_media_user").on(table.userId),
     index("idx_media_conv").on(table.convId),
+    index("idx_media_playground").on(table.playgroundId),
   ],
 );
 
@@ -558,50 +569,8 @@ export const playgrounds = sqliteTable(
   ],
 );
 
-export const playgroundImages = sqliteTable(
-  "playground_images",
-  {
-    playgroundId: text("playground_id")
-      .notNull()
-      .references(() => playgrounds.id, { onDelete: "cascade" }),
-    sequenceIndex: integer("sequence_index").notNull(),
-    upstreamResultUrl: text("upstream_result_url"),
-    r2Url: text("r2_url").notNull(),
-    r2Key: text("r2_key").notNull(),
-    mimeType: text("mime_type").default("image/png"),
-    width: integer("width"),
-    height: integer("height"),
-    sizeBytes: integer("size_bytes"),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    primaryKey({ columns: [table.playgroundId, table.sequenceIndex] }),
-    index("idx_genimg_generation_id").on(table.playgroundId),
-  ],
-);
-
-export const playgroundLikes = sqliteTable(
-  "playground_likes",
-  {
-    playgroundId: text("playground_id")
-      .notNull()
-      .references(() => playgrounds.id, { onDelete: "cascade" }),
-    userId: integer("user_id").notNull(),
-    createdAt: integer("created_at", { mode: "timestamp_ms" })
-      .notNull()
-      .default(sql`(unixepoch() * 1000)`),
-  },
-  (table) => [
-    primaryKey({ columns: [table.playgroundId, table.userId] }),
-    index("idx_likes_user").on(table.userId),
-  ],
-);
-
 export type Message = typeof messages.$inferSelect;
 export type MessageItem = typeof messageItems.$inferSelect;
+export type Media = typeof media.$inferSelect;
 export type PlaygroundSession = typeof playgroundSessions.$inferSelect;
 export type Playground = typeof playgrounds.$inferSelect;
-export type PlaygroundImage = typeof playgroundImages.$inferSelect;
-export type PlaygroundLike = typeof playgroundLikes.$inferSelect;

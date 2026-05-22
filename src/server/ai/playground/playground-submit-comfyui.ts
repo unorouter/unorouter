@@ -6,21 +6,20 @@ import {
 } from "@/lib/api/video-task";
 import { msg } from "@/lib/config/constants";
 import { getDb } from "@/lib/db/server/client";
-import { playgrounds, upscalerCatalog } from "@/lib/db/schema";
+import { upscalerCatalog } from "@/lib/db/schema";
 import type { PlaygroundSubmitBody } from "@/lib/validation/playground";
-import { dayjs } from "@/lib/utils/format/date";
 import { eq } from "drizzle-orm";
 import { paramsToSize } from "./playground-finalize";
 
+// ComfyUI templates run async behind the task adapter: the server only kicks
+// off the upstream task and returns the task id + initial status; the client
+// polls /poll until terminal and then persists the result locally.
 export async function submitComfyUITask(args: {
-  db: ReturnType<typeof getDb>;
-  id: string;
-  sessionId: string;
   apiKey: string;
   body: PlaygroundSubmitBody;
   n: number;
-}) {
-  const { db, id, apiKey, body, n } = args;
+}): Promise<{ taskId: string; status: string }> {
+  const { apiKey, body, n } = args;
   const params = body.params ?? {};
   const size = paramsToSize(body.params);
   const extra: Record<string, unknown> = {};
@@ -49,7 +48,7 @@ export async function submitComfyUITask(args: {
   // runs UpscaleModelLoader (native N) then ImageScaleBy(scale_by = M / N).
   if (params.upscaler) {
     extra.upscaler = params.upscaler;
-    const rows = await args.db
+    const rows = await getDb()
       .select({ nativeScale: upscalerCatalog.nativeScale })
       .from(upscalerCatalog)
       .where(eq(upscalerCatalog.filename, params.upscaler))
@@ -95,13 +94,5 @@ export async function submitComfyUITask(args: {
   if (!taskId) {
     throw new Error(msg("ERRORS.NO_TASK_ID"));
   }
-  await db
-    .update(playgrounds)
-    .set({
-      taskId,
-      status: normalizeTaskStatus(payload?.status),
-      progress: "10%",
-      updatedAt: dayjs().toDate(),
-    })
-    .where(eq(playgrounds.id, id));
+  return { taskId, status: normalizeTaskStatus(payload?.status) };
 }

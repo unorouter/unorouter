@@ -135,3 +135,8 @@ export function csvToArray(value: string): string[] {
 export function exportSlug(name: string, fallback: string): string {
   return name.replace(/[^a-zA-Z0-9_-]+/g, "-").slice(0, 60) || fallback;
 }
+
+// Unwraps an unknown thrown value into a string message.
+export function errMessage(err: unknown): string {
+  return err instanceof Error ? err.message : String(err);
+}

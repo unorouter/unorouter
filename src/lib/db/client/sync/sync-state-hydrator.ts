@@ -252,11 +252,13 @@ async function applyBundle<K extends SyncKindName>(
     }
     case "playgroundSessions": {
       const b = bundle as SyncBundle<"playgroundSessions">;
+      const rehydratedMedia = await Promise.all(
+        b.media.map((m) => rehydrateMedia(userId, m)),
+      );
       await upsertLocalGenerationSessionBundle(userId, {
         session: b.session,
         playgrounds: b.playgrounds,
-        playgroundImages: b.playgroundImages,
-        playgroundLikes: b.playgroundLikes,
+        media: rehydratedMedia,
       });
       return;
     }

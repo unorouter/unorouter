@@ -1,6 +1,11 @@
-// Keep in sync with new-api-sync/config.yml and src/lib/validation/generation.ts.
+// Keep in sync with new-api-sync/config.yml. Sampler/scheduler lists derive
+// from the TypeBox unions in src/lib/validation/playground.ts.
 
-import type { PlaygroundModel } from "@/lib/validation/playground";
+import {
+  GENERATION_SAMPLERS,
+  GENERATION_SCHEDULERS,
+  type PlaygroundModel,
+} from "@/lib/validation/playground";
 
 export type ModelFamily = "sdxl" | "flux2" | "sync-image" | "edit";
 
@@ -55,17 +60,9 @@ export type PlaygroundModelDescriptor = {
   tabs?: ReadonlyArray<"text2img" | "img2img" | "edit">;
 };
 
-const SDXL_SAMPLERS = [
-  "euler",
-  "euler_ancestral",
-  "dpmpp_2m",
-  "dpmpp_2m_sde",
-  "dpmpp_3m_sde",
-  "ddim",
-  "uni_pc",
-];
+const SDXL_SAMPLERS: string[] = [...GENERATION_SAMPLERS];
 
-const SDXL_SCHEDULERS = ["normal", "karras", "exponential", "sgm_uniform"];
+const SDXL_SCHEDULERS: string[] = [...GENERATION_SCHEDULERS];
 
 export const PLAYGROUND_MODELS: PlaygroundModelDescriptor[] = [
   {

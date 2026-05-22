@@ -25,8 +25,6 @@ import {
   conversationLorebooks,
   conversations,
   conversationSettings,
-  playgroundImages,
-  playgroundLikes,
   playgroundSessions,
   playgrounds,
   lorebookEntries,
@@ -66,8 +64,7 @@ export type SyncBundleMap = {
   playgroundSessions: {
     session: typeof playgroundSessions.$inferSelect;
     playgrounds: (typeof playgrounds.$inferSelect)[];
-    playgroundImages: (typeof playgroundImages.$inferSelect)[];
-    playgroundLikes: (typeof playgroundLikes.$inferSelect)[];
+    media: (typeof media.$inferSelect)[];
   };
   theme: { theme: typeof userThemes.$inferSelect };
 };
@@ -410,25 +407,16 @@ export async function getSyncedBundle(
         .from(playgrounds)
         .where(eq(playgrounds.sessionId, id));
       const genIds = gens.map((g) => g.id);
-      const [imgs, likes] = await Promise.all([
-        genIds.length
-          ? db
-              .select()
-              .from(playgroundImages)
-              .where(inArray(playgroundImages.playgroundId, genIds))
-          : Promise.resolve([]),
-        genIds.length
-          ? db
-              .select()
-              .from(playgroundLikes)
-              .where(inArray(playgroundLikes.playgroundId, genIds))
-          : Promise.resolve([]),
-      ]);
+      const mediaRows = genIds.length
+        ? await db
+            .select()
+            .from(media)
+            .where(inArray(media.playgroundId, genIds))
+        : [];
       return {
         session: rows[0],
         playgrounds: gens,
-        playgroundImages: imgs,
-        playgroundLikes: likes,
+        media: mediaRows,
       };
     }
     case "theme": {
@@ -1161,8 +1149,7 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     const body = (payload ?? {}) as {
       session?: Record<string, unknown>;
       playgrounds?: Array<Record<string, unknown>>;
-      playgroundImages?: Array<Record<string, unknown>>;
-      playgroundLikes?: Array<Record<string, unknown>>;
+      media?: Array<Record<string, unknown>>;
     };
     const s = body.session ?? {};
     await db.transaction(async (tx) => {
@@ -1241,26 +1228,43 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           });
         }
       }
-      if (body.playgroundImages) {
-        for (const img of body.playgroundImages) {
-          await tx.insert(playgroundImages).values({
-            playgroundId: img.playgroundId as string,
-            sequenceIndex: img.sequenceIndex as number,
-            upstreamResultUrl: (img.upstreamResultUrl as string | null) ?? null,
-            r2Url: img.r2Url as string,
-            r2Key: img.r2Key as string,
-            mimeType: (img.mimeType as string | undefined) ?? "image/png",
-            width: (img.width as number | null) ?? null,
-            height: (img.height as number | null) ?? null,
-            sizeBytes: (img.sizeBytes as number | null) ?? null,
-          });
-        }
-      }
-      if (body.playgroundLikes) {
-        for (const l of body.playgroundLikes) {
-          await tx.insert(playgroundLikes).values({
-            playgroundId: l.playgroundId as string,
-            userId: (l.userId as number) ?? userId,
+      // Generation images live in `media` keyed by playgroundId. A local-only
+      // image carries dataBase64, which uploads to R2 here so Turso stays
+      // pointer-only.
+      if (body.media) {
+        for (const m of body.media) {
+          const mediaId = m.id as string;
+          const incomingBase64 = m.dataBase64 as string | null | undefined;
+          let r2Key = (m.r2Key as string | null | undefined) ?? null;
+          let r2Url = (m.r2Url as string | null | undefined) ?? null;
+          if (!r2Key && incomingBase64) {
+            const buffer = Buffer.from(incomingBase64, "base64");
+            r2Key = mediaKey("user", id, mediaId, uid(8));
+            const uploaded = await uploadToR2(
+              r2Key,
+              buffer,
+              m.mimeType as string,
+            );
+            r2Url = uploaded.url;
+          }
+          await tx
+            .delete(media)
+            .where(and(eq(media.id, mediaId), eq(media.userId, userId)));
+          await tx.insert(media).values({
+            id: mediaId,
+            userId,
+            convId: null,
+            playgroundId: (m.playgroundId as string | null) ?? null,
+            sequenceIndex: (m.sequenceIndex as number | null) ?? null,
+            upstreamResultUrl: (m.upstreamResultUrl as string | null) ?? null,
+            r2Key,
+            r2Url,
+            dataBase64: null,
+            mimeType: m.mimeType as string,
+            sizeBytes: m.sizeBytes as number,
+            width: (m.width as number | null) ?? null,
+            height: (m.height as number | null) ?? null,
+            extractedText: (m.extractedText as string | null) ?? null,
           });
         }
       }
