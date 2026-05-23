@@ -392,7 +392,8 @@
       "URL_CONTEXT": "URL-контекст",
       "STREAMING": "Стриминг",
       "NATIVE_JSON": "Нативный JSON",
-      "SYSTEM_MSG": "Сист. сообщ."
+      "SYSTEM_MSG": "Сист. сообщ.",
+      "IMAGE_INPUTS": "{count} изобр. на вх."
     },
     "PERF": {
       "LATENCY": "Lat.",

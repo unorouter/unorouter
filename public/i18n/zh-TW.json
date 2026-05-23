@@ -392,7 +392,8 @@
       "URL_CONTEXT": "URL上下文",
       "STREAMING": "串流",
       "NATIVE_JSON": "原生JSON",
-      "SYSTEM_MSG": "系統訊息"
+      "SYSTEM_MSG": "系統訊息",
+      "IMAGE_INPUTS": "{count}張圖輸入"
     },
     "PERF": {
       "LATENCY": "延遲",

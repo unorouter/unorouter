@@ -392,7 +392,8 @@
       "URL_CONTEXT": "URLコンテキスト",
       "STREAMING": "ストリーミング",
       "NATIVE_JSON": "ネイティブJSON",
-      "SYSTEM_MSG": "システムメッセージ"
+      "SYSTEM_MSG": "システムメッセージ",
+      "IMAGE_INPUTS": "画像入力{count}枚"
     },
     "PERF": {
       "LATENCY": "Lat.",

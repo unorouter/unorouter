@@ -392,7 +392,8 @@
       "URL_CONTEXT": "URL上下文",
       "STREAMING": "流式",
       "NATIVE_JSON": "原生JSON",
-      "SYSTEM_MSG": "系统消息"
+      "SYSTEM_MSG": "系统消息",
+      "IMAGE_INPUTS": "{count}张图输入"
     },
     "PERF": {
       "LATENCY": "延迟",

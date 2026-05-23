@@ -26,16 +26,18 @@ export function CapabilityChips(props: Props) {
 
   return (
     <div className={cn("flex flex-wrap items-center gap-1", props.className)}>
-      {visible.map((labelKey) => (
+      {visible.map((chip) => (
         <Badge
-          key={labelKey}
+          key={chip.labelKey}
           variant="secondary"
           className={cn(
             "font-mono text-[10px] tracking-wide uppercase",
             isCard && "px-1.5 py-0",
           )}
         >
-          {t(labelKey)}
+          {chip.count != null
+            ? t(chip.labelKey, { count: chip.count })
+            : t(chip.labelKey)}
         </Badge>
       ))}
       {overflow > 0 && (

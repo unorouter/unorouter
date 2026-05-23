@@ -33,12 +33,21 @@ const CAPABILITY_ORDER: {
   { field: "supportsSystemMessages", labelKey: "MODELS.CAPABILITY.SYSTEM_MSG" },
 ];
 
+export type CapabilityChip = { labelKey: TranslationKey; count?: number };
+
 export function deriveCapabilityChips(
   metadata: ModelMetadata,
-): TranslationKey[] {
-  return CAPABILITY_ORDER.filter((c) => metadata[c.field] === true).map(
-    (c) => c.labelKey,
-  );
+): CapabilityChip[] {
+  const boolChips: CapabilityChip[] = CAPABILITY_ORDER.filter(
+    (c) => metadata[c.field] === true,
+  ).map((c) => ({ labelKey: c.labelKey }));
+  if ((metadata.maxImageInputs ?? 0) > 1) {
+    boolChips.push({
+      labelKey: "MODELS.CAPABILITY.IMAGE_INPUTS",
+      count: metadata.maxImageInputs,
+    });
+  }
+  return boolChips;
 }
 
 export function hasAnyCapability(metadata: ModelMetadata): boolean {

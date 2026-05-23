@@ -392,7 +392,8 @@
       "URL_CONTEXT": "URL context",
       "STREAMING": "Streaming",
       "NATIVE_JSON": "Native JSON",
-      "SYSTEM_MSG": "System msg"
+      "SYSTEM_MSG": "System msg",
+      "IMAGE_INPUTS": "{count} img in"
     },
     "PERF": {
       "LATENCY": "Lat.",
