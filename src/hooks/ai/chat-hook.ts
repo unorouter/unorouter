@@ -7,7 +7,6 @@ import { rpc } from "@/lib/rpc";
 import { chatHelpersAtom, chatStore } from "@/store/chat-store";
 import { handleElysia, uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
-import type { EdenArgs } from "@/lib/types/eden";
 import { handleError } from "@/lib/utils/client";
 import {
   deleteLocalConversation,
@@ -36,9 +35,16 @@ import {
 } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
-type ChatRoute = typeof rpc.api.ai.chat;
-type ChatRouteReturn = ReturnType<ChatRoute>;
-type ChatParams = EdenArgs<ChatRoute, "get">;
+type ConvIdArg = { id: string };
+type UpdateConvBody = { title?: string | null; model?: string };
+type EditMessageBody = {
+  items: Array<{
+    id?: string;
+    type: string;
+    output_index?: number | null;
+    data: unknown;
+  }>;
+};
 
 export function useConversationsInfiniteQuery(keyword?: string) {
   const auth = useAuthQuery();
@@ -126,8 +132,8 @@ export function useUpdateConversationMutation() {
   const t = useTranslations();
 
   return useMutation({
-    mutationFn: async (args: ChatParams & EdenArgs<ChatRouteReturn, "put">) => {
-      const id = String(args.id);
+    mutationFn: async (args: ConvIdArg & { body: UpdateConvBody }) => {
+      const id = args.id;
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalConversation(userId, id);
       const now = dayjs().toDate();
@@ -142,9 +148,8 @@ export function useUpdateConversationMutation() {
     },
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
-      const id = String(args.id);
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
-      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(args.id) });
     },
   });
 }
@@ -154,8 +159,8 @@ export function useDeleteConversationMutation() {
   const queryClient = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: ChatParams) => {
-      const id = String(args.id);
+    mutationFn: async (args: ConvIdArg) => {
+      const id = args.id;
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalConversation(userId, id);
       const wasSynced = existing?.syncExpiresAt != null;
@@ -223,10 +228,7 @@ export function useEditMessageMutation() {
     mutationFn: async (args: {
       convId: string;
       msgId: string;
-      body: EdenArgs<
-        ReturnType<ReturnType<ChatRoute>["messages"]>,
-        "put"
-      >["body"];
+      body: EditMessageBody;
     }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const newItems = args.body.items.map((it, seq) => ({
@@ -263,8 +265,8 @@ export function useClearConversationMutation() {
   const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: ChatParams) => {
-      const id = String(args.id);
+    mutationFn: async (args: ConvIdArg) => {
+      const id = args.id;
       const userId = auth.data?.id ?? GUEST_USER_ID;
       await deleteLocalMessagesForConv(userId, id);
       if (userId > GUEST_USER_ID) await mirrorConvIfSynced(userId, id);
@@ -272,7 +274,7 @@ export function useClearConversationMutation() {
     },
     onSuccess: (_data, args) => {
       queryClient.invalidateQueries({
-        queryKey: queryKeys.chatMessages(String(args.id)),
+        queryKey: queryKeys.chatMessages(args.id),
       });
       chatStore.get(chatHelpersAtom)?.setMessages(() => []);
     },
@@ -285,9 +287,9 @@ export function useDuplicateConversationMutation() {
   const auth = useAuthQuery();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: ChatParams) => {
+    mutationFn: async (args: ConvIdArg) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      const srcId = String(args.id);
+      const srcId = args.id;
       const bundle = await readLocalConversationBundle(userId, srcId);
       if (!bundle) throw new Error("not-found");
       const now = dayjs().toDate();
@@ -351,7 +353,7 @@ export function useConversationMarkdown() {
   const t = useTranslations();
   return useMutation({
     onError: (e) => handleError(e, t),
-    mutationFn: async (args: ChatParams) => {
+    mutationFn: async (args: ConvIdArg) => {
       return handleElysia(
         await rpc.api.ai.chat({ id: args.id }).markdown.get(),
       );

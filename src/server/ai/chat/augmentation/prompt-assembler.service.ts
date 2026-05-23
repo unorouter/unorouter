@@ -9,7 +9,10 @@ import {
   personas,
   samplingPresets,
 } from "@/lib/db/schema";
-import type { StreamOverrides } from "@/lib/validation/chat";
+import {
+  parseExtraBody as parseExtraBodyShared,
+  type StreamOverrides,
+} from "@/lib/validation/chat";
 import { logger } from "@/lib/utils/logger";
 import { and, asc, eq, inArray } from "drizzle-orm";
 import { encode } from "gpt-tokenizer";
@@ -90,16 +93,8 @@ export type AssembledSystem = {
 function parseExtraBody(
   raw: string | null | undefined,
 ): Record<string, unknown> | undefined {
-  if (!raw || raw.trim().length === 0) return undefined;
-  try {
-    const parsed = JSON.parse(raw);
-    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
-      return parsed as Record<string, unknown>;
-    }
-  } catch {
-    // Malformed JSON: UI surfaces this with a red border.
-  }
-  return undefined;
+  const r = parseExtraBodyShared(raw);
+  return r.state === "valid" ? r.parsed : undefined;
 }
 
 const TEMPLATE_VAR_RE =
@@ -264,31 +259,69 @@ export async function loadConvContext(convId: string) {
   return { settings, boundCharacters, persona, preset, lbRows, lbEntries };
 }
 
+type ClientBoundCharacter = {
+  binding: {
+    characterId: string;
+    orderIndex?: number;
+    isActive?: boolean;
+    overrides?: unknown;
+  };
+  character: unknown;
+};
+
 type ClientChatContext = {
   persona?: unknown;
-  characters?: Array<unknown>;
+  // Bare rows (legacy) or `{binding, character}` (honors isActive/overrides).
+  characters?: Array<unknown> | Array<ClientBoundCharacter>;
   lorebooks?: Array<{ lorebook: unknown; entries: Array<unknown> }>;
   preset?: unknown;
   settings?: unknown;
 };
+
+function isBoundCharacter(raw: unknown): raw is ClientBoundCharacter {
+  if (!raw || typeof raw !== "object") return false;
+  const obj = raw as Record<string, unknown>;
+  return (
+    obj.character != null &&
+    typeof obj.binding === "object" &&
+    obj.binding != null
+  );
+}
 
 export function buildContextFromClient(
   ctx: ClientChatContext,
 ): LoadedConvContext {
   if (!ctx.settings) return null;
   const settings = ctx.settings as NonNullable<LoadedConvContext>["settings"];
-  const charRows = (ctx.characters ?? []) as Array<
-    NonNullable<LoadedConvContext>["boundCharacters"][number]["character"]
-  >;
-  const boundCharacters = charRows.map((character, i) => ({
-    binding: {
-      characterId: character.id,
-      orderIndex: i,
-      isActive: true,
-      overrides: null,
-    },
-    character,
-  })) as NonNullable<LoadedConvContext>["boundCharacters"];
+  const rawChars = ctx.characters ?? [];
+  type Bound = NonNullable<LoadedConvContext>["boundCharacters"][number];
+  type Char = Bound["character"];
+  const boundCharacters: Bound[] = [];
+  rawChars.forEach((raw, i) => {
+    if (isBoundCharacter(raw)) {
+      if (raw.binding.isActive === false) return;
+      boundCharacters.push({
+        binding: {
+          characterId: raw.binding.characterId,
+          orderIndex: raw.binding.orderIndex ?? i,
+          isActive: raw.binding.isActive ?? true,
+          overrides: (raw.binding.overrides ?? null) as Bound["binding"]["overrides"],
+        },
+        character: raw.character as Char,
+      });
+      return;
+    }
+    const character = raw as Char;
+    boundCharacters.push({
+      binding: {
+        characterId: character.id,
+        orderIndex: i,
+        isActive: true,
+        overrides: null,
+      },
+      character,
+    });
+  });
 
   const persona = (ctx.persona ?? undefined) as
     | NonNullable<LoadedConvContext>["persona"]

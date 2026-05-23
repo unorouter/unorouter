@@ -330,15 +330,43 @@ export async function upsertLocalConversationBundle(
     convId,
     bundle.conversationLorebooks,
   );
-  await replaceChildRows(
-    local.db,
-    messages,
-    messages.convId,
-    convId,
-    bundle.messages,
-  );
 
+  // Per-row merge by updatedAt so local-only branches survive a re-pull.
+  const existingMessages = (await local.db
+    .select({ id: messages.id, updatedAt: messages.updatedAt })
+    .from(messages)
+    .where(eq(messages.convId, convId))) as Array<{
+    id: string;
+    updatedAt: Date | number | string | null;
+  }>;
+  const localMsgUpdatedAt = new Map<string, number>(
+    existingMessages.map((m) => [
+      m.id,
+      m.updatedAt ? new Date(m.updatedAt).getTime() : 0,
+    ]),
+  );
+  const remoteMsgIds = new Set<string>();
+  const replacedMsgIds: string[] = [];
+  for (const m of bundle.messages) {
+    remoteMsgIds.add(m.id);
+    const local = localMsgUpdatedAt.get(m.id);
+    const remote = m.updatedAt
+      ? new Date(m.updatedAt as Date | number | string).getTime()
+      : 0;
+    if (local !== undefined && local >= remote) continue;
+    await messageStore.upsert(userId, m, { scopeUser: false });
+    replacedMsgIds.push(m.id);
+  }
+
+  // Refresh items only for messages whose parent row was overwritten.
+  if (replacedMsgIds.length > 0) {
+    await local.db
+      .delete(messageItems)
+      .where(inArray(messageItems.messageId, replacedMsgIds));
+  }
   for (const it of bundle.messageItems) {
+    if (!remoteMsgIds.has(it.messageId as string)) continue;
+    if (!replacedMsgIds.includes(it.messageId as string)) continue;
     await local.db.insert(messageItems).values(it as never);
   }
 

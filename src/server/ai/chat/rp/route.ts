@@ -1,65 +1,24 @@
 import { Elysia } from "elysia";
 import {
-  cardApplyBody,
-  cardBody,
-  characterBody,
   characterExportQuery,
-  lorebookBody,
-  lorebookEntryBody,
   lorebookExportQuery,
-  personaBody,
-  samplingPresetBody,
 } from "@/lib/validation/rp";
-import {
-  updateConversationBindingsBody,
-  updateConversationSettingsBody,
-} from "@/lib/validation/chat";
 import { getUserId } from "@/server/constants";
 import {
-  createCharacter,
-  deleteCharacter,
   exportCharacter,
   getCharacter,
   listCharacters,
-  updateCharacter,
 } from "./character.service";
-import { getSettings, updateSettings } from "../conversation.service";
-import { getBindings, updateBindings } from "./binding.service";
+import { getSettings } from "./conversation-settings.service";
+import { getBindings } from "./binding.service";
 import {
-  createEntry,
-  createLorebook,
-  deleteEntry,
-  deleteLorebook,
   exportLorebook,
   getLorebook,
   listLorebooks,
-  updateEntry,
-  updateLorebook,
 } from "./lorebook.service";
-import {
-  createPersona,
-  deletePersona,
-  getPersona,
-  listPersonas,
-  updatePersona,
-} from "./persona.service";
-import {
-  createPreset,
-  deletePreset,
-  exportPreset,
-  getPreset,
-  listPresets,
-  updatePreset,
-} from "./preset.service";
-import {
-  applyCardToConversation,
-  createCard,
-  deleteCard,
-  exportCard,
-  getCard,
-  listCards,
-  updateCard,
-} from "./card.service";
+import { getPersona, listPersonas } from "./persona.service";
+import { exportPreset, getPreset, listPresets } from "./preset.service";
+import { exportCard, getCard, listCards } from "./card.service";
 
 export const rpRoute = new Elysia({ prefix: "/rp" })
   .get("/characters", async ({ cookie }) => {
@@ -70,29 +29,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = await getUserId(cookie);
     return { success: true, data: await getCharacter(userId, params.id) };
   })
-  .post(
-    "/characters",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return { success: true, data: await createCharacter(userId, body) };
-    },
-    { body: characterBody },
-  )
-  .put(
-    "/characters/:id",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updateCharacter(userId, params.id, body),
-      };
-    },
-    { body: characterBody },
-  )
-  .delete("/characters/:id", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    return { success: true, data: await deleteCharacter(userId, params.id) };
-  })
   .get(
     "/characters/:id/export",
     async ({ params, query, cookie, set }) => {
@@ -102,7 +38,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
       set.headers["content-type"] = result.mimeType;
       set.headers["content-disposition"] =
         `attachment; filename="character-${params.id}.${result.ext}"`;
-      // Web `BodyInit` doesn't accept Uint8Array<ArrayBufferLike>; copy.
       const ab = new ArrayBuffer(result.data.byteLength);
       new Uint8Array(ab).set(result.data);
       return new Response(new Blob([ab], { type: result.mimeType }), {
@@ -120,29 +55,7 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = await getUserId(cookie);
     return { success: true, data: await getPersona(userId, params.id) };
   })
-  .post(
-    "/personas",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return { success: true, data: await createPersona(userId, body) };
-    },
-    { body: personaBody },
-  )
-  .put(
-    "/personas/:id",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updatePersona(userId, params.id, body),
-      };
-    },
-    { body: personaBody },
-  )
-  .delete("/personas/:id", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    return { success: true, data: await deletePersona(userId, params.id) };
-  })
+
   .get("/lorebooks", async ({ cookie }) => {
     const userId = await getUserId(cookie);
     return { success: true, data: await listLorebooks(userId) };
@@ -150,29 +63,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
   .get("/lorebooks/:id", async ({ params, cookie }) => {
     const userId = await getUserId(cookie);
     return { success: true, data: await getLorebook(userId, params.id) };
-  })
-  .post(
-    "/lorebooks",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return { success: true, data: await createLorebook(userId, body) };
-    },
-    { body: lorebookBody },
-  )
-  .put(
-    "/lorebooks/:id",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updateLorebook(userId, params.id, body),
-      };
-    },
-    { body: lorebookBody },
-  )
-  .delete("/lorebooks/:id", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    return { success: true, data: await deleteLorebook(userId, params.id) };
   })
   .get(
     "/lorebooks/:id/export",
@@ -190,36 +80,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     { query: lorebookExportQuery },
   )
 
-  .post(
-    "/lorebooks/:id/entries",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await createEntry(userId, params.id, body),
-      };
-    },
-    { body: lorebookEntryBody },
-  )
-  .put(
-    "/lorebooks/:id/entries/:entryId",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updateEntry(userId, params.id, params.entryId, body),
-      };
-    },
-    { body: lorebookEntryBody },
-  )
-  .delete("/lorebooks/:id/entries/:entryId", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    return {
-      success: true,
-      data: await deleteEntry(userId, params.id, params.entryId),
-    };
-  })
-
   .get("/presets", async ({ cookie }) => {
     const userId = await getUserId(cookie);
     return { success: true, data: await listPresets(userId) };
@@ -227,29 +87,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
   .get("/presets/:id", async ({ params, cookie }) => {
     const userId = await getUserId(cookie);
     return { success: true, data: await getPreset(userId, params.id) };
-  })
-  .post(
-    "/presets",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return { success: true, data: await createPreset(userId, body) };
-    },
-    { body: samplingPresetBody },
-  )
-  .put(
-    "/presets/:id",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updatePreset(userId, params.id, body),
-      };
-    },
-    { body: samplingPresetBody },
-  )
-  .delete("/presets/:id", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    return { success: true, data: await deletePreset(userId, params.id) };
   })
   .get("/presets/:id/export", async ({ params, cookie, set }) => {
     const userId = await getUserId(cookie);
@@ -270,29 +107,6 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
     const userId = await getUserId(cookie);
     return { success: true, data: await getCard(userId, params.id) };
   })
-  .post(
-    "/cards",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return { success: true, data: await createCard(userId, body) };
-    },
-    { body: cardBody },
-  )
-  .put(
-    "/cards/:id",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updateCard(userId, params.id, body),
-      };
-    },
-    { body: cardBody },
-  )
-  .delete("/cards/:id", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    return { success: true, data: await deleteCard(userId, params.id) };
-  })
   .get("/cards/:id/export", async ({ params, cookie, set }) => {
     const userId = await getUserId(cookie);
     const result = await exportCard(userId, params.id);
@@ -303,48 +117,12 @@ export const rpRoute = new Elysia({ prefix: "/rp" })
       headers: { "content-type": "application/json" },
     });
   })
-  .post(
-    "/cards/:id/apply",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await applyCardToConversation(userId, params.id, body),
-      };
-    },
-    { body: cardApplyBody },
-  )
 
-  // Guests own conversation_settings rows under userId=0. Bindings remain
-  // logged-in only on the write path (reference user-owned entities); reads
-  // return whatever rows exist.
   .get("/conversations/:id/settings", async ({ params, cookie }) => {
     const userId = (await getUserId(cookie, true)) ?? 0;
     return { success: true, data: await getSettings(userId, params.id) };
   })
-  .put(
-    "/conversations/:id/settings",
-    async ({ params, body, cookie }) => {
-      const userId = (await getUserId(cookie, true)) ?? 0;
-      return {
-        success: true,
-        data: await updateSettings(userId, params.id, body),
-      };
-    },
-    { body: updateConversationSettingsBody },
-  )
   .get("/conversations/:id/bindings", async ({ params, cookie }) => {
     const userId = (await getUserId(cookie, true)) ?? 0;
     return { success: true, data: await getBindings(userId, params.id) };
-  })
-  .put(
-    "/conversations/:id/bindings",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      return {
-        success: true,
-        data: await updateBindings(userId, params.id, body),
-      };
-    },
-    { body: updateConversationBindingsBody },
-  );
+  });

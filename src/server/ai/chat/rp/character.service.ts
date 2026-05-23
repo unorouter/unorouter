@@ -4,12 +4,9 @@ import {
   exportCharacterCard,
   exportCharacterCardAsJson,
 } from "@/lib/ai/rp/character-card";
-import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { assertFound } from "@/lib/utils/server";
-import type { CharacterBody } from "@/lib/validation/rp";
 import { serverEnv } from "@/server/env";
-import { dayjs } from "@/lib/utils/format/date";
 import { and, desc, eq } from "drizzle-orm";
 
 async function fetchAvatarBuffer(
@@ -51,38 +48,6 @@ export async function getCharacter(userId: number, id: string) {
     .limit(1);
   assertFound(rows);
   return rows[0];
-}
-
-export async function createCharacter(userId: number, body: CharacterBody) {
-  const db = getDb();
-  const id = uid();
-  await db.insert(characters).values({ id, userId, ...body });
-  return getCharacter(userId, id);
-}
-
-export async function updateCharacter(
-  userId: number,
-  id: string,
-  body: CharacterBody,
-) {
-  const db = getDb();
-  const result = await db
-    .update(characters)
-    .set({ ...body, updatedAt: dayjs().toDate() })
-    .where(and(eq(characters.id, id), eq(characters.userId, userId)))
-    .returning({ id: characters.id });
-  assertFound(result);
-  return getCharacter(userId, id);
-}
-
-export async function deleteCharacter(userId: number, id: string) {
-  const db = getDb();
-  const result = await db
-    .delete(characters)
-    .where(and(eq(characters.id, id), eq(characters.userId, userId)))
-    .returning({ id: characters.id });
-  assertFound(result);
-  return { id };
 }
 
 // PNG re-embeds avatar as icon asset; JSON is metadata-only (no avatar).

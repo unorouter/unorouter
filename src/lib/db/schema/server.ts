@@ -7,6 +7,12 @@ import {
   text,
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
+import type {
+  ModerationDecision,
+  ModerationMediaType,
+} from "@/server/ai/chat/augmentation/moderation.service";
+import type { AcpSessionStatus } from "@/server/billing/checkout-sessions/checkout-sessions.service";
+import type { AcpIdempotencyState } from "@/server/billing/checkout-sessions/idempotency";
 
 // Server-only schema: never mirrored to the browser. Client code must NEVER
 // import this file.
@@ -20,8 +26,8 @@ export const moderationLog = sqliteTable(
     userId: integer("user_id").notNull(),
     convId: text("conv_id"),
     model: text("model").notNull(),
-    mediaType: text("media_type").notNull(),
-    decision: text("decision").notNull(),
+    mediaType: text("media_type").notNull().$type<ModerationMediaType>(),
+    decision: text("decision").notNull().$type<ModerationDecision>(),
     reason: text("reason"),
     prompt: text("prompt").notNull(),
     externalId: text("external_id").notNull(),
@@ -43,7 +49,7 @@ export const acpCheckoutSessions = sqliteTable(
   {
     id: text("id").primaryKey(),
     userId: integer("user_id").notNull(),
-    status: text("status").notNull(),
+    status: text("status").notNull().$type<AcpSessionStatus>(),
     currency: text("currency").notNull().default("usd"),
     itemId: text("item_id").notNull(),
     quantity: integer("quantity").notNull().default(1),
@@ -71,7 +77,7 @@ export const acpIdempotencyKeys = sqliteTable(
     bodyHash: text("body_hash").notNull(),
     status: integer("status").notNull(),
     response: text("response", { mode: "json" }).notNull(),
-    state: text("state").notNull().default("done"),
+    state: text("state").notNull().default("done").$type<AcpIdempotencyState>(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

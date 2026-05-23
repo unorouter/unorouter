@@ -8,11 +8,7 @@ import { captureServerEvent } from "@/lib/posthog-server";
 import { uid } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import { imageGenResponseChecker } from "@/lib/validation/media";
-import {
-  deriveUpstream,
-  getProvider,
-  upstreamApiUrl,
-} from "@/server/constants";
+import { getProvider, upstreamApiUrl } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import {
   convertToModelMessages,
@@ -37,8 +33,6 @@ import {
   needsWebSearch,
   searchTavily,
 } from "./augmentation/tavily.service";
-import { pendingUsageByConv, sweepStalePending } from "./message.service";
-
 type StreamBody = {
   model: string;
   messages: Parameters<typeof convertToModelMessages>[0];
@@ -46,15 +40,6 @@ type StreamBody = {
   webSearch?: boolean;
   overrides?: import("@/lib/validation/chat").StreamOverrides;
   chatContext?: import("@/lib/validation/chat").ChatContext;
-};
-
-type UsageInfo = {
-  requestId?: string;
-  inputTokens: number;
-  outputTokens: number;
-  upstreamHeaders: Record<string, string>;
-  durationMs?: number;
-  tokensPerSecond?: number;
 };
 
 type PdfFilePart = {
@@ -292,42 +277,6 @@ function writeBufferedMessage(writer: UIMessageStreamWriter, text: string) {
   writer.write({ type: "finish", finishReason: "stop" });
 }
 
-function trackUsage(convId: string | null | undefined, usage: UsageInfo) {
-  if (!convId) return;
-  sweepStalePending();
-  const existing = pendingUsageByConv.get(convId);
-  if (existing) {
-    logger.warn("Merging concurrent pending usage for conversation", {
-      context: "stream.usage",
-      convId,
-      existingRequestId: existing.requestId,
-      newRequestId: usage.requestId,
-      ageMs: Date.now() - existing.createdAt,
-    });
-    pendingUsageByConv.set(convId, {
-      requestId: usage.requestId ?? existing.requestId,
-      inputTokens: existing.inputTokens + usage.inputTokens,
-      outputTokens: existing.outputTokens + usage.outputTokens,
-      cost: 0,
-      durationMs: usage.durationMs ?? existing.durationMs,
-      tokensPerSecond: usage.tokensPerSecond ?? existing.tokensPerSecond,
-      upstreamHeaders: usage.upstreamHeaders,
-      createdAt: Date.now(),
-    });
-    return;
-  }
-  pendingUsageByConv.set(convId, {
-    requestId: usage.requestId,
-    inputTokens: usage.inputTokens,
-    outputTokens: usage.outputTokens,
-    cost: 0,
-    durationMs: usage.durationMs,
-    tokensPerSecond: usage.tokensPerSecond,
-    upstreamHeaders: usage.upstreamHeaders,
-    createdAt: Date.now(),
-  });
-}
-
 const LINK_RE = /(!?)\[([^\]]*)\]\((data:[^)]+|https?:\/\/[^)]+)\)/g;
 
 async function processUrls(
@@ -414,7 +363,6 @@ async function generateImage(
 async function handleImageStream(
   apiKey: string,
   body: StreamBody,
-  upstreamHeaders: Record<string, string>,
   userId: number,
 ) {
   const prompt = extractLastUserText(body.messages);
@@ -431,7 +379,7 @@ async function handleImageStream(
   const { endpointPath } = await isMediaModel(body.model);
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
-      const { images, isBase64, requestId } = await generateImage(
+      const { images, isBase64 } = await generateImage(
         apiKey,
         body.model,
         prompt,
@@ -453,15 +401,6 @@ async function handleImageStream(
         .map((url: string | null) => `![image](${url})`)
         .join("\n\n");
 
-      if (userId !== 0) {
-        trackUsage(body.convId, {
-          requestId,
-          inputTokens: 0,
-          outputTokens: 0,
-          upstreamHeaders,
-        });
-      }
-
       writeBufferedMessage(writer, markdown);
     },
   });
@@ -472,7 +411,6 @@ async function handleImageStream(
 async function handleVideoTaskStream(
   apiKey: string,
   body: StreamBody,
-  upstreamHeaders: Record<string, string>,
   userId: number,
 ) {
   const prompt = extractLastUserText(body.messages);
@@ -493,15 +431,6 @@ async function handleVideoTaskStream(
         body.model,
         prompt,
       );
-
-      if (userId !== 0) {
-        trackUsage(body.convId, {
-          requestId: undefined,
-          inputTokens: 0,
-          outputTokens: 0,
-          upstreamHeaders,
-        });
-      }
 
       // data-task: assistant-ui rewrites to {type:"data",name:"task"}; partsToItems persists as `task` for reopen/finalize.
       writer.write({ type: "start" });
@@ -542,7 +471,6 @@ export async function streamChat(
   request: Request,
   userId: number,
 ) {
-  const { upstream } = await deriveUpstream({ request });
   const { buffered, mediaType } = await isMediaModel(body.model);
 
   logger.info("Stream started", {
@@ -566,11 +494,11 @@ export async function streamChat(
   });
 
   if (mediaType === "image") {
-    return handleImageStream(apiKey, body, upstream.headers, userId);
+    return handleImageStream(apiKey, body, userId);
   }
 
   if (mediaType === "video") {
-    return handleVideoTaskStream(apiKey, body, upstream.headers, userId);
+    return handleVideoTaskStream(apiKey, body, userId);
   }
 
   // IDB-first: client chatContext avoids Turso RP reads; fall back to Turso for guests/legacy/share-page.
@@ -579,12 +507,10 @@ export async function streamChat(
     : body.convId
       ? await loadConvContext(body.convId)
       : null;
-  const convWebSearchEnabled = convCtx?.settings.webSearchEnabled ?? false;
-  // Web search is paid-only: a guest stream cannot enable it via body.
+  // Toolbar toggle OR'd with conv default; web search paid-only so guests off.
   const effectiveWebSearch =
-    convCtx && userId !== 0
-      ? convWebSearchEnabled
-      : userId !== 0 && !!body.webSearch;
+    userId !== 0 &&
+    (!!body.webSearch || (convCtx?.settings.webSearchEnabled ?? false));
 
   let searchSystemMessage: string | undefined;
   if (effectiveWebSearch) {
@@ -758,16 +684,6 @@ export async function streamChat(
           ? outputTokens / (durationMs / 1000)
           : undefined;
       const requestId = response.headers?.["x-oneapi-request-id"] ?? undefined;
-      if (userId !== 0) {
-        trackUsage(body.convId, {
-          requestId,
-          inputTokens,
-          outputTokens,
-          upstreamHeaders: upstream.headers,
-          durationMs,
-          tokensPerSecond,
-        });
-      }
       // Cost backfilled later from upstream headers; client needs tokens now for its local row.
       usageRef.value = {
         inputTokens,

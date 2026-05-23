@@ -1,5 +1,22 @@
-import { msg, NONE_VALUE } from "@/lib/config/constants";
-import type { StreamOverrides } from "@/lib/validation/chat";
+import {
+  msg,
+  NONE_VALUE,
+  type TranslationKey,
+} from "@/lib/config/constants";
+import {
+  conversationCharacters,
+  conversationSettings,
+} from "@/lib/db/schema/shared";
+import {
+  formReasoningEffortToValue,
+  narrowReasoningEffort,
+  narrowWebSearchContextSize,
+  narrowWebSearchEngine,
+  type ReasoningEffort,
+  type StreamOverrides,
+  type WebSearchContextSize,
+  type WebSearchEngine,
+} from "@/lib/validation/chat";
 import {
   SAMPLING_FIELDS,
   type ConversationOverridesForm,
@@ -7,26 +24,33 @@ import {
 import type { ModelSamplerMemory } from "@/store/chat-store";
 import type { UseFormReturn } from "react-hook-form";
 
-export const REASONING_EFFORT_KEY = {
+// `none` is a runtime-only sentinel handled by the picker's leadingOptions.
+export const REASONING_EFFORT_KEY: Record<
+  Exclude<ReasoningEffort, "none">,
+  TranslationKey
+> = {
   minimal: msg("CHAT.OVERRIDES.EFFORT_MINIMAL"),
   low: msg("CHAT.OVERRIDES.EFFORT_LOW"),
   medium: msg("CHAT.OVERRIDES.EFFORT_MEDIUM"),
   high: msg("CHAT.OVERRIDES.EFFORT_HIGH"),
   xhigh: msg("CHAT.OVERRIDES.EFFORT_XHIGH"),
-} as const;
+};
 
-export const WEB_SEARCH_ENGINE_KEY = {
+export const WEB_SEARCH_ENGINE_KEY: Record<WebSearchEngine, TranslationKey> = {
   auto: msg("CHAT.OVERRIDES.ENGINE_AUTO"),
   native: msg("CHAT.OVERRIDES.ENGINE_NATIVE"),
   tavily: msg("CHAT.OVERRIDES.ENGINE_TAVILY"),
   exa: msg("CHAT.OVERRIDES.ENGINE_EXA"),
-} as const;
+};
 
-export const WEB_SEARCH_CONTEXT_KEY = {
+export const WEB_SEARCH_CONTEXT_KEY: Record<
+  WebSearchContextSize,
+  TranslationKey
+> = {
   low: msg("CHAT.OVERRIDES.CONTEXT_LOW"),
   medium: msg("CHAT.OVERRIDES.CONTEXT_MEDIUM"),
   high: msg("CHAT.OVERRIDES.CONTEXT_HIGH"),
-} as const;
+};
 
 export function resetSampling(form: UseFormReturn<ConversationOverridesForm>) {
   for (const field of SAMPLING_FIELDS) {
@@ -54,13 +78,6 @@ function samplingValues(src: SamplerSource) {
   };
 }
 
-type ReasoningEffort = ConversationOverridesForm["reasoningEffort"];
-
-// "__none__" sentinel collapses to null for the persisted/streamed payload.
-function effortValue(effort: ReasoningEffort) {
-  return effort === NONE_VALUE ? null : effort;
-}
-
 export function writeSamplerMemory(
   data: ConversationOverridesForm,
   activeModelName: string | null | undefined,
@@ -72,9 +89,7 @@ export function writeSamplerMemory(
     ...samplerMemoryByModel,
     [activeModelName]: {
       ...samplingValues(data),
-      reasoningEffort: effortValue(
-        data.reasoningEffort,
-      ) as ModelSamplerMemory["reasoningEffort"],
+      reasoningEffort: formReasoningEffortToValue(data.reasoningEffort),
       extraBody: data.extraBody || null,
     },
   });
@@ -121,40 +136,14 @@ function buildDefaultsForm(
   };
 }
 
-type Nullable<T> = T | null;
-
-// The persisted conversation_settings row: every column nullable, sampler
-// fields included so samplingValues() can read them.
-type ConvSettings = {
-  personaId: Nullable<string>;
-  presetId: Nullable<string>;
-  reasoningEffort: Nullable<string>;
-  chatMemory: Nullable<number>;
-  authorNoteDepth: Nullable<number>;
-  systemPromptOverride: Nullable<string>;
-  authorNote: Nullable<string>;
-  webSearchEnabled: Nullable<boolean>;
-  webSearchEngine: Nullable<string>;
-  webSearchContextSize: Nullable<string>;
-  temperature: Nullable<number>;
-  topP: Nullable<number>;
-  topK: Nullable<number>;
-  minP: Nullable<number>;
-  topA: Nullable<number>;
-  frequencyPenalty: Nullable<number>;
-  presencePenalty: Nullable<number>;
-  repetitionPenalty: Nullable<number>;
-  maxTokens: Nullable<number>;
-  extraBody: Nullable<string>;
-  streamingEnabled: Nullable<boolean>;
-};
+type ConvSettings = typeof conversationSettings.$inferSelect;
 
 type ConvBindings = {
   characters: { characterId: string }[];
   lorebooks: { lorebookId: string }[];
 };
 
-// Conversation mode: seed the form from the persisted settings + bindings rows.
+// Conv mode: seed form from persisted settings + bindings; narrow text columns.
 function buildSettingsForm(
   settings: ConvSettings,
   bindings: ConvBindings,
@@ -162,15 +151,19 @@ function buildSettingsForm(
   return {
     personaId: settings.personaId ?? NONE_VALUE,
     presetId: settings.presetId ?? NONE_VALUE,
-    reasoningEffort: (settings.reasoningEffort ??
-      NONE_VALUE) as ReasoningEffort,
+    reasoningEffort: narrowReasoningEffort(
+      settings.reasoningEffort,
+      NONE_VALUE,
+    ),
     chatMemory: settings.chatMemory ?? 8,
     authorNoteDepth: settings.authorNoteDepth ?? 4,
     systemPromptOverride: settings.systemPromptOverride ?? "",
     authorNote: settings.authorNote ?? "",
     webSearchEnabled: settings.webSearchEnabled ?? false,
-    webSearchEngine: settings.webSearchEngine ?? "auto",
-    webSearchContextSize: settings.webSearchContextSize ?? "medium",
+    webSearchEngine: narrowWebSearchEngine(settings.webSearchEngine),
+    webSearchContextSize: narrowWebSearchContextSize(
+      settings.webSearchContextSize,
+    ),
     characterIds: bindings.characters.map((c) => c.characterId),
     lorebookIds: bindings.lorebooks.map((l) => l.lorebookId),
     ...samplingValues(settings),
@@ -187,8 +180,8 @@ export function computeFormValues(args: {
   chatDefaults: StreamOverrides;
   activeModelName: string | null | undefined;
   samplerMemoryByModel: Record<string, ModelSamplerMemory>;
-  settings: ConvSettings | undefined;
-  bindings: ConvBindings | undefined;
+  settings: ConvSettings | null | undefined;
+  bindings: ConvBindings | null | undefined;
 }): ConversationOverridesForm | undefined {
   if (args.isDefaultsMode) {
     const memory = args.activeModelName
@@ -205,13 +198,14 @@ export function buildDefaultsOverrides(
   data: ConversationOverridesForm,
 ): StreamOverrides {
   return {
-    reasoningEffort: effortValue(
-      data.reasoningEffort,
-    ) as StreamOverrides["reasoningEffort"],
+    reasoningEffort: formReasoningEffortToValue(data.reasoningEffort),
     chatMemory: data.chatMemory,
     systemPromptOverride: data.systemPromptOverride || null,
     authorNote: data.authorNote || null,
     authorNoteDepth: data.authorNoteDepth,
+    webSearchEnabled: data.webSearchEnabled,
+    webSearchEngine: data.webSearchEngine,
+    webSearchContextSize: data.webSearchContextSize,
     ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: data.streamingEnabled,
@@ -227,27 +221,40 @@ export function buildSettingsBody(data: ConversationOverridesForm) {
     authorNote: data.authorNote || null,
     personaId: data.personaId === NONE_VALUE ? null : data.personaId,
     presetId: data.presetId === NONE_VALUE ? null : data.presetId,
-    reasoningEffort: effortValue(
-      data.reasoningEffort,
-    ) as StreamOverrides["reasoningEffort"],
+    reasoningEffort: formReasoningEffortToValue(data.reasoningEffort),
     webSearchEnabled: data.webSearchEnabled,
-    webSearchEngine: data.webSearchEngine as StreamOverrides["webSearchEngine"],
-    webSearchContextSize:
-      data.webSearchContextSize as StreamOverrides["webSearchContextSize"],
+    webSearchEngine: data.webSearchEngine,
+    webSearchContextSize: data.webSearchContextSize,
     ...samplingValues(data),
     extraBody: data.extraBody || null,
     streamingEnabled: data.streamingEnabled,
   };
 }
 
-// Conversation mode submit payload: the bindings update body.
-export function buildBindingsBody(data: ConversationOverridesForm) {
+// Bindings body. Form owns membership + order; isActive/overrides preserved
+// from the existing local rows (no UI surface yet).
+type ExistingCharBinding = Pick<
+  typeof conversationCharacters.$inferSelect,
+  "characterId" | "isActive" | "overrides"
+>;
+
+export function buildBindingsBody(
+  data: ConversationOverridesForm,
+  existing?: { characters: ExistingCharBinding[] } | null,
+) {
+  const existingByCharId = new Map(
+    (existing?.characters ?? []).map((c) => [c.characterId, c] as const),
+  );
   return {
-    characters: data.characterIds.map((id, i) => ({
-      characterId: id,
-      orderIndex: i,
-      isActive: true,
-    })),
+    characters: data.characterIds.map((id, i) => {
+      const prior = existingByCharId.get(id);
+      return {
+        characterId: id,
+        orderIndex: i,
+        isActive: prior?.isActive ?? true,
+        overrides: prior?.overrides ?? null,
+      };
+    }),
     lorebookIds: data.lorebookIds,
   };
 }

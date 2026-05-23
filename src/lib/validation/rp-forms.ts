@@ -103,10 +103,9 @@ export const SAMPLING_FIELDS = SAMPLING_PARAMS.map(
 
 // RP entity tabs shown in the sidebar dialog + nav.
 export const RP_TABS = ["characters", "personas", "lorebooks"] as const;
-export const rpTab = t.Union(RP_TABS.map((k) => t.Literal(k)));
-export type RpTab = Static<typeof rpTab>;
+export type RpTab = (typeof RP_TABS)[number];
 
-const reasoningEffortLiterals = t.Union([
+const reasoningEffortLiterals = [
   t.Literal(NONE_VALUE),
   t.Literal("xhigh"),
   t.Literal("high"),
@@ -114,20 +113,20 @@ const reasoningEffortLiterals = t.Union([
   t.Literal("low"),
   t.Literal("minimal"),
   t.Literal("none"),
-]);
+];
 
-const webSearchEngineLiterals = t.Union([
+const webSearchEngineLiterals = [
   t.Literal("auto"),
   t.Literal("native"),
   t.Literal("exa"),
   t.Literal("tavily"),
-]);
+];
 
-const webSearchContextSizeLiterals = t.Union([
+const webSearchContextSizeLiterals = [
   t.Literal("low"),
   t.Literal("medium"),
   t.Literal("high"),
-]);
+];
 
 // Exported so the entry editor can both build its Select options and narrow
 // the form's loose `string` position back to this union for the API body.
@@ -143,8 +142,9 @@ export type LorebookPosition = (typeof LOREBOOK_POSITIONS)[number];
 export const LOREBOOK_INJECTION_ROLES = ["user", "system"] as const;
 export type LorebookInjectionRole = (typeof LOREBOOK_INJECTION_ROLES)[number];
 
-const lorebookPositionLiterals = t.Union(
-  LOREBOOK_POSITIONS.map((p) => t.Literal(p)),
+const lorebookPositionLiterals = LOREBOOK_POSITIONS.map((p) => t.Literal(p));
+const lorebookInjectionRoleLiterals = LOREBOOK_INJECTION_ROLES.map((r) =>
+  t.Literal(r),
 );
 
 const nullableNumber = (min: number, max: number) =>
@@ -155,21 +155,14 @@ const nullableNumber = (min: number, max: number) =>
 export const conversationOverridesFormSchema = t.Object({
   personaId: t.String({ default: NONE_VALUE }),
   presetId: t.String({ default: NONE_VALUE }),
-  reasoningEffort: t.String({
-    ...reasoningEffortLiterals,
-    default: NONE_VALUE,
-  }),
+  reasoningEffort: t.Union(reasoningEffortLiterals, { default: NONE_VALUE }),
   chatMemory: t.Number({ minimum: 1, maximum: 1000, default: 8 }),
   authorNoteDepth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   systemPromptOverride: t.String({ default: "" }),
   authorNote: t.String({ default: "" }),
   webSearchEnabled: t.Boolean({ default: false }),
-  webSearchEngine: t.String({
-    ...webSearchEngineLiterals,
-    default: "auto",
-  }),
-  webSearchContextSize: t.String({
-    ...webSearchContextSizeLiterals,
+  webSearchEngine: t.Union(webSearchEngineLiterals, { default: "auto" }),
+  webSearchContextSize: t.Union(webSearchContextSizeLiterals, {
     default: "medium",
   }),
   characterIds: t.Array(t.String(), { default: [] }),
@@ -256,20 +249,14 @@ export const lorebookEntryFormSchema = t.Object({
     default: "",
     error: msg("FORM.ERROR.REQUIRED"),
   }),
-  position: t.String({
-    ...lorebookPositionLiterals,
-    default: "before_char",
-  }),
+  position: t.Union(lorebookPositionLiterals, { default: "before_char" }),
   priority: t.Number({ minimum: 0, maximum: 1000, default: 100 }),
   depth: t.Number({ minimum: 0, maximum: 100, default: 4 }),
   constant: t.Boolean({ default: false }),
   selective: t.Boolean({ default: false }),
   enabled: t.Boolean({ default: true }),
   matchWholeWords: t.Boolean({ default: false }),
-  injectionRole: t.String({
-    enum: ["system", "user"],
-    default: "user",
-  }),
+  injectionRole: t.Union(lorebookInjectionRoleLiterals, { default: "user" }),
 });
 export type LorebookEntryForm = Static<typeof lorebookEntryFormSchema>;
 

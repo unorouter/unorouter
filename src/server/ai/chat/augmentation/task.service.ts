@@ -123,7 +123,7 @@ export async function finalizeVideoTask(
     ) {
       return {
         ...it,
-        type: "text",
+        type: "text" as const,
         data: { text: `![video](${r2Url})` },
       };
     }

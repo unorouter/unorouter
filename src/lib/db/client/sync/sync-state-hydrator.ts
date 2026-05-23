@@ -39,13 +39,14 @@ import { upsertLocalTheme } from "../data/theme";
 export function SyncStateHydrator() {
   const auth = useAuthQuery();
   const qc = useQueryClient();
-  const fired = useRef(false);
+  // Per-userId so a mid-session login (guest -> user) re-runs Stage 2.
+  const firedForUserId = useRef<number | null>(null);
 
   useEffect(() => {
-    if (fired.current) return;
-    fired.current = true;
-
     const userId = auth.data?.id ?? 0;
+    if (firedForUserId.current === userId) return;
+    firedForUserId.current = userId;
+
     void hydrate(qc, userId).catch((err) => {
       logger.warn("Sync hydration failed", {
         context: "local-db.hydrator",
@@ -280,31 +281,33 @@ async function rehydrateMedia(
   row: MediaRow,
 ): Promise<MediaRow> {
   if (row.dataBase64) return row;
-  if (row.r2Url) {
-    const existing = await readLocalMedia(userId, row.id);
-    if (existing?.dataBase64) {
-      return { ...row, dataBase64: existing.dataBase64 };
-    }
-    try {
-      const res = await fetch(row.r2Url);
-      if (!res.ok) {
-        logger.warn("R2 media fetch failed", {
-          context: "local-db.hydrator",
-          id: row.id,
-          status: res.status,
-        });
-        return row;
-      }
-      const buf = await res.arrayBuffer();
-      return { ...row, dataBase64: arrayBufferToBase64(buf) };
-    } catch (err) {
-      logger.warn("R2 media rehydrate failed", {
+  // Probe local first so a transient R2 failure never wipes cached bytes.
+  const existing = await readLocalMedia(userId, row.id);
+  const fallbackBase64 = existing?.dataBase64 ?? null;
+  if (!row.r2Url) {
+    return fallbackBase64 ? { ...row, dataBase64: fallbackBase64 } : row;
+  }
+  if (fallbackBase64) {
+    return { ...row, dataBase64: fallbackBase64 };
+  }
+  try {
+    const res = await fetch(row.r2Url);
+    if (!res.ok) {
+      logger.warn("R2 media fetch failed", {
         context: "local-db.hydrator",
         id: row.id,
-        error: String(err),
+        status: res.status,
       });
       return row;
     }
+    const buf = await res.arrayBuffer();
+    return { ...row, dataBase64: arrayBufferToBase64(buf) };
+  } catch (err) {
+    logger.warn("R2 media rehydrate failed", {
+      context: "local-db.hydrator",
+      id: row.id,
+      error: String(err),
+    });
+    return row;
   }
-  return row;
 }

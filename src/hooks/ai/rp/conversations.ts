@@ -29,10 +29,12 @@ import {
   looksLikeSillyTavernChat,
 } from "@/lib/db/client/data/transfer/sillytavern";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
-import type { EdenArgs } from "@/lib/types/eden";
 import type { NativeImport, OrpgImport } from "@/lib/types/transfer";
 import { handleError } from "@/lib/utils/client";
+import type {
+  UpdateConversationBindingsBody,
+  UpdateConversationSettingsBody,
+} from "@/lib/validation/chat";
 import type { ConversationExportFormat } from "@/lib/validation/rp";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
@@ -45,10 +47,8 @@ export function useChatSettingsQuery(convId?: string) {
     queryKey: queryKeys.chatSettings(convId!),
     queryFn: async () => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
-      if (!convId) throw new Error("not-found");
-      const local = await readLocalConversationSettings(userId, convId);
-      if (!local) throw new Error("not-found");
-      return local;
+      if (!convId) return null;
+      return (await readLocalConversationSettings(userId, convId)) ?? null;
     },
     enabled: !!convId,
   });
@@ -61,10 +61,9 @@ export function useUpdateChatSettingsMutation() {
   return useMutation({
     mutationFn: async (args: {
       convId: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.ai.rp.conversations>["settings"],
-        "put"
-      >["body"];
+      body: UpdateConversationSettingsBody;
+      // Drawer save pairs settings + bindings; lets caller mirror once after.
+      skipMirror?: boolean;
     }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalConversationSettings(userId, args.convId);
@@ -81,7 +80,9 @@ export function useUpdateChatSettingsMutation() {
       if (conv) {
         await upsertLocalConversation(userId, { ...conv, updatedAt: now });
       }
-      await mirrorConvIfSynced(userId, args.convId);
+      if (!args.skipMirror) {
+        await mirrorConvIfSynced(userId, args.convId);
+      }
       return updated;
     },
     onSuccess: (_data, args) => {
@@ -117,10 +118,8 @@ export function useUpdateChatBindingsMutation() {
   return useMutation({
     mutationFn: async (args: {
       convId: string;
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.ai.rp.conversations>["bindings"],
-        "put"
-      >["body"];
+      body: UpdateConversationBindingsBody;
+      skipMirror?: boolean;
     }) => {
       await replaceLocalConversationBindings(auth.data?.id, args.convId, {
         conversationCharacters: args.body.characters ?? [],
@@ -136,7 +135,9 @@ export function useUpdateChatBindingsMutation() {
           updatedAt: now,
         });
       }
-      await mirrorConvIfSynced(auth.data?.id, args.convId);
+      if (!args.skipMirror) {
+        await mirrorConvIfSynced(auth.data?.id, args.convId);
+      }
       return { id: args.convId };
     },
     onSuccess: (_data, args) => {

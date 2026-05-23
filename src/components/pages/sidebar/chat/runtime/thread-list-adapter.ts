@@ -1,3 +1,4 @@
+import { mirrorConvPatchIfSynced } from "@/hooks/ai/rp/shared";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
@@ -116,20 +117,9 @@ export function createThreadListAdapter(
         updatedAt: now,
       });
       if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-        try {
-          handleElysia(
-            await rpc.api.ai
-              .sync({ kind: "conversations" })({ id })
-              .post({
-                payload: {
-                  conversation: { ...existing, title, updatedAt: now },
-                },
-                keepExpiry: true,
-              }),
-          );
-        } catch (err) {
-          await enqueuePending(userId, "conversations", id, "patch", err);
-        }
+        await mirrorConvPatchIfSynced(userId, id, {
+          conversation: { ...existing, title, updatedAt: now },
+        });
       }
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       queryClient.invalidateQueries({ queryKey: queryKeys.chatMeta(id) });
@@ -195,24 +185,9 @@ export function createThreadListAdapter(
           updatedAt: now,
         });
         if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-          try {
-            handleElysia(
-              await rpc.api.ai
-                .sync({ kind: "conversations" })({ id })
-                .post({
-                  payload: {
-                    conversation: {
-                      ...existing,
-                      title: data.title,
-                      updatedAt: now,
-                    },
-                  },
-                  keepExpiry: true,
-                }),
-            );
-          } catch (err) {
-            await enqueuePending(userId, "conversations", id, "patch", err);
-          }
+          await mirrorConvPatchIfSynced(userId, id, {
+            conversation: { ...existing, title: data.title, updatedAt: now },
+          });
         }
 
         queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });

@@ -92,11 +92,13 @@ export const lorebookEntryPosition = t.Union([
   t.Literal("bottom"),
   t.Literal("at_depth"),
 ]);
+export type LorebookEntryPosition = Static<typeof lorebookEntryPosition>;
 
 export const lorebookInjectionRole = t.Union([
   t.Literal("system"),
   t.Literal("user"),
 ]);
+export type LorebookInjectionRole = Static<typeof lorebookInjectionRole>;
 
 export const lorebookEntryBody = t.Object({
   keys: t.Array(t.String({ maxLength: MAX_KEY_LEN }), {

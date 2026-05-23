@@ -1,28 +1,27 @@
 "use client";
 
-import { localPendingSync } from "@/lib/db/schema/client";
+import {
+  localPendingSync,
+  type PendingSyncOp,
+} from "@/lib/db/schema/client";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { SyncKindName } from "@/lib/validation/sync";
 import { and, eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
+import { buildSyncPayload } from "./build-payload";
 
-// ---------------------------------------------------------------------------
-// `local_pending_sync` table writers + drainer. Mirror PATCH/DELETE failures
-// queue a row here; the drainer (called by the hydrator and after every
-// successful mutation) replays them via /api/sync.
-// ---------------------------------------------------------------------------
+// `local_pending_sync` writers + drainer. Mirror PATCH/DELETE failures queue a
+// row; drainer (hydrator + post-mutation) replays via /api/sync.
 
 const MAX_ATTEMPTS = 5;
-
-export type PendingOp = "patch" | "delete";
 
 export async function enqueuePending(
   userId: number,
   kind: SyncKindName,
   id: string,
-  op: PendingOp,
+  op: PendingSyncOp,
   err?: unknown,
 ) {
   const local = await getLocalDb(userId);
@@ -55,17 +54,16 @@ export async function drainPending(
     try {
       if (row.op === "delete") {
         handleElysia(
-          await rpc.api.ai
-            .sync({ kind: row.kind as SyncKindName })({ id: row.id })
-            .delete(),
+          await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
         );
       } else {
-        const payload = payloadFor
-          ? payloadFor(row.kind as SyncKindName, row.id)
-          : undefined;
+        // Caller may snapshot a payload; otherwise rebuild from current local.
+        const payload =
+          (payloadFor && payloadFor(row.kind, row.id)) ??
+          (await buildSyncPayload(userId, row.kind, row.id));
         handleElysia(
           await rpc.api.ai
-            .sync({ kind: row.kind as SyncKindName })({ id: row.id })
+            .sync({ kind: row.kind })({ id: row.id })
             .post({ days: undefined, payload }),
         );
       }

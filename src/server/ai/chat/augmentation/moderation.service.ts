@@ -6,6 +6,7 @@ import { logger } from "@/lib/utils/logger";
 import { serverEnv } from "@/server/env";
 
 export type ModerationDecision = "allow" | "flag" | "deny" | "error";
+export type ModerationMediaType = "image" | "video";
 
 export type ModerationResult =
   | { allowed: true; id: string; units: number; latencyMs: number }
@@ -21,7 +22,7 @@ export type ModerationContext = {
   userId: number;
   convId: string | null | undefined;
   model: string;
-  mediaType: "image" | "video";
+  mediaType: ModerationMediaType;
 };
 
 type CreemResponse = {

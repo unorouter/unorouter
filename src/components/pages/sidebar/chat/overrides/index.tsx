@@ -19,6 +19,8 @@ import {
   useUpdateChatBindingsMutation,
   useUpdateChatSettingsMutation,
 } from "@/hooks/ai/rp/conversations";
+import { mirrorConvIfSynced } from "@/hooks/ai/rp/shared";
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { usePricingQuery } from "@/hooks/models/pricing-hook";
 import { analytics } from "@/lib/analytics";
 import { NONE_VALUE } from "@/lib/config/constants";
@@ -63,6 +65,7 @@ type DrawerProps = {
 
 export function ConversationOverridesDrawer(props: DrawerProps) {
   const t = useTranslations();
+  const auth = useAuthQuery();
   const isDefaultsMode = !props.convId;
   const showConversationFields = !isDefaultsMode;
   const [chatDefaults, setChatDefaults] = useAtom(chatDefaultsAtom);
@@ -145,14 +148,18 @@ export function ConversationOverridesDrawer(props: DrawerProps) {
       return;
     }
     try {
+      // Skip per-mutation mirror; push one bundle after both writes land.
       await updateSettings.mutateAsync({
         convId: props.convId!,
         body: buildSettingsBody(data),
+        skipMirror: true,
       });
       await updateBindings.mutateAsync({
         convId: props.convId!,
-        body: buildBindingsBody(data),
+        body: buildBindingsBody(data, bindings),
+        skipMirror: true,
       });
+      await mirrorConvIfSynced(auth.data?.id, props.convId!);
       toast.success(t("COMMON.SAVED"));
     } catch (e) {
       handleError(e, t);

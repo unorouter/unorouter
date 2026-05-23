@@ -12,9 +12,8 @@ import {
   readLocalPreset,
 } from "./rp";
 
-// Builds the streamed RP context straight from SQLocal so it is always complete
-// and cache-independent. The server has no DB rows for a guest, so a partial
-// context would silently drop persona/characters/lorebooks from the prompt.
+// Streamed RP context from SQLocal. Characters travel as `{binding, character}`
+// so the server assembler honors per-character isActive / overrides.
 export async function buildChatContextFromLocalDb(
   userId: number | undefined,
   convId: string,
@@ -25,15 +24,18 @@ export async function buildChatContextFromLocalDb(
   ]);
   if (!settings) return undefined;
 
-  const characterIds = (bindings?.conversationCharacters ?? []).map(
-    (b) => b.characterId,
-  );
+  const charBindings = bindings?.conversationCharacters ?? [];
   const lorebookIds = (bindings?.conversationLorebooks ?? []).map(
     (b) => b.lorebookId,
   );
 
   const [characterRows, lorebookRows, persona, preset] = await Promise.all([
-    Promise.all(characterIds.map((id) => readLocalCharacter(userId, id))),
+    Promise.all(
+      charBindings.map(async (b) => ({
+        binding: b,
+        character: await readLocalCharacter(userId, b.characterId),
+      })),
+    ),
     Promise.all(lorebookIds.map((id) => readLocalLorebookBundle(userId, id))),
     settings.personaId
       ? readLocalPersona(userId, settings.personaId)
@@ -42,7 +44,9 @@ export async function buildChatContextFromLocalDb(
       ? readLocalPreset(userId, settings.presetId)
       : Promise.resolve(null),
   ]);
-  const characters = characterRows.filter((c) => c != null);
+  const characters = characterRows
+    .filter((c) => c.character != null)
+    .map((c) => ({ binding: c.binding, character: c.character! }));
   const lorebooks = lorebookRows.filter((l) => l != null);
 
   return { persona, characters, lorebooks, preset, settings };

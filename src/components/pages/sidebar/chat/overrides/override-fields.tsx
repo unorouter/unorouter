@@ -20,6 +20,7 @@ import { useLorebooksQuery } from "@/hooks/ai/rp/lorebooks";
 import { usePersonasQuery } from "@/hooks/ai/rp/personas";
 import { usePresetsQuery } from "@/hooks/ai/rp/presets";
 import { msg, NONE_VALUE } from "@/lib/config/constants";
+import { parseExtraBody } from "@/lib/validation/chat";
 import type { ConversationOverridesForm } from "@/lib/validation/rp-forms";
 import { useTranslations } from "next-intl";
 import type { Control } from "react-hook-form";
@@ -211,16 +212,7 @@ export function OverridesPromptFields(props: {
         control={props.control}
         name="extraBody"
         render={({ field }) => {
-          const value = field.value as string;
-          let invalid = false;
-          if (value && value.trim().length > 0) {
-            try {
-              const parsed = JSON.parse(value);
-              invalid = !parsed || typeof parsed !== "object";
-            } catch {
-              invalid = true;
-            }
-          }
+          const invalid = parseExtraBody(field.value).state === "invalid";
           return (
             <FormItem>
               <FormLabel>{t("CHAT.OVERRIDES.EXTRA_BODY")}</FormLabel>

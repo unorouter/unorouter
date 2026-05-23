@@ -1,9 +1,7 @@
 import { assertFound } from "@/lib/utils/server";
 import { getDb } from "@/lib/db/server/client";
 import { samplingPresets } from "@/lib/db/schema";
-import { exportSlug, uid } from "@/lib/utils/base";
-import type { SamplingPresetBody } from "@/lib/validation/rp";
-import { dayjs } from "@/lib/utils/format/date";
+import { exportSlug } from "@/lib/utils/base";
 import { and, desc, eq } from "drizzle-orm";
 
 export async function listPresets(userId: number) {
@@ -26,51 +24,6 @@ export async function getPreset(userId: number, id: string) {
   return rows[0];
 }
 
-export async function createPreset(userId: number, body: SamplingPresetBody) {
-  const db = getDb();
-  const id = uid();
-  await db.transaction(async (tx) => {
-    if (body.isDefault) {
-      await tx
-        .update(samplingPresets)
-        .set({ isDefault: false })
-        .where(eq(samplingPresets.userId, userId));
-    }
-    await tx.insert(samplingPresets).values({ id, userId, ...body });
-  });
-  return getPreset(userId, id);
-}
-
-export async function updatePreset(
-  userId: number,
-  id: string,
-  body: SamplingPresetBody,
-) {
-  const db = getDb();
-  await db.transaction(async (tx) => {
-    if (body.isDefault) {
-      await tx
-        .update(samplingPresets)
-        .set({ isDefault: false })
-        .where(eq(samplingPresets.userId, userId));
-    }
-    const result = await tx
-      .update(samplingPresets)
-      .set({ ...body, updatedAt: dayjs().toDate() })
-      .where(
-        and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)),
-      )
-      .returning({ id: samplingPresets.id });
-    assertFound(result);
-  });
-  return getPreset(userId, id);
-}
-
-/**
- * Export a preset as a JSON string. Strips DB-only metadata (id, userId,
- * timestamps) so the file is portable across users / instances. Caller wraps
- * in a Response with appropriate headers.
- */
 export async function exportPreset(
   userId: number,
   id: string,
@@ -103,14 +56,4 @@ export async function exportPreset(
     data: JSON.stringify(portable, null, 2),
     filename: `${slug}.preset.json`,
   };
-}
-
-export async function deletePreset(userId: number, id: string) {
-  const db = getDb();
-  const result = await db
-    .delete(samplingPresets)
-    .where(and(eq(samplingPresets.id, id), eq(samplingPresets.userId, userId)))
-    .returning({ id: samplingPresets.id });
-  assertFound(result);
-  return { id };
 }

@@ -1,22 +1,13 @@
+import { NONE_VALUE } from "@/lib/config/constants";
 import type { Static } from "elysia";
 import { t } from "elysia";
 
 const MAX_ID_LEN = 64;
 const MAX_TEXT_LEN = 100_000;
 const MAX_MODEL_LEN = 128;
-const MAX_TITLE_LEN = 200;
 const MAX_URL_LEN = 2048;
 const MAX_TITLE_SEED_LEN = 10_000;
-const MAX_MESSAGES_PER_PERSIST = 500;
 const MAX_MESSAGES_PER_STREAM = 200;
-const MAX_ITEMS_PER_MESSAGE = 200;
-
-const persistMessageRole = t.Union([
-  t.Literal("system"),
-  t.Literal("user"),
-  t.Literal("assistant"),
-  t.Literal("tool"),
-]);
 
 const itemTextData = t.Object({ text: t.String({ maxLength: MAX_TEXT_LEN }) });
 const itemReasoningData = t.Object({
@@ -57,7 +48,10 @@ const itemTaskData = t.Object(
   { additionalProperties: true },
 );
 
-const persistMessageItem = t.Union([
+// Kept as runtime schema for future server-side validation; currently only
+// consumed via `Static<>` by the chat adapter (lint: prefix matches /^_/u).
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _persistMessageItem = t.Union([
   t.Object({
     id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
     type: t.Literal("text"),
@@ -101,7 +95,28 @@ const persistMessageItem = t.Union([
     data: itemTaskData,
   }),
 ]);
-export type PersistMessageItem = Static<typeof persistMessageItem>;
+export type PersistMessageItem = Static<typeof _persistMessageItem>;
+
+// Role + item type unions: source of truth for both validation and the
+// `messages.role` / `messageItems.type` schema column narrows.
+export const messageRole = t.Union([
+  t.Literal("system"),
+  t.Literal("user"),
+  t.Literal("assistant"),
+  t.Literal("tool"),
+]);
+export type MessageRole = Static<typeof messageRole>;
+
+export const messageItemType = t.Union([
+  t.Literal("text"),
+  t.Literal("reasoning"),
+  t.Literal("tool_call"),
+  t.Literal("tool_result"),
+  t.Literal("file"),
+  t.Literal("image"),
+  t.Literal("task"),
+]);
+export type MessageItemType = Static<typeof messageItemType>;
 
 export const reasoningEffort = t.Union([
   t.Literal("xhigh"),
@@ -127,6 +142,80 @@ export const webSearchContextSize = t.Union([
   t.Literal("high"),
 ]);
 export type WebSearchContextSize = Static<typeof webSearchContextSize>;
+
+const REASONING_EFFORTS: ReadonlySet<ReasoningEffort> = new Set([
+  "xhigh",
+  "high",
+  "medium",
+  "low",
+  "minimal",
+  "none",
+]);
+const WEB_SEARCH_ENGINES: ReadonlySet<WebSearchEngine> = new Set([
+  "auto",
+  "native",
+  "exa",
+  "tavily",
+]);
+const WEB_SEARCH_CONTEXT_SIZES: ReadonlySet<WebSearchContextSize> = new Set([
+  "low",
+  "medium",
+  "high",
+]);
+
+// Narrow bare text from SQLocal / cookies into the literal union; fall back on unknown.
+export function narrowReasoningEffort<TFallback extends string>(
+  raw: string | null | undefined,
+  fallback: TFallback,
+): ReasoningEffort | TFallback {
+  return raw && REASONING_EFFORTS.has(raw as ReasoningEffort)
+    ? (raw as ReasoningEffort)
+    : fallback;
+}
+export function narrowWebSearchEngine(
+  raw: string | null | undefined,
+): WebSearchEngine {
+  return raw && WEB_SEARCH_ENGINES.has(raw as WebSearchEngine)
+    ? (raw as WebSearchEngine)
+    : "auto";
+}
+export function narrowWebSearchContextSize(
+  raw: string | null | undefined,
+): WebSearchContextSize {
+  return raw && WEB_SEARCH_CONTEXT_SIZES.has(raw as WebSearchContextSize)
+    ? (raw as WebSearchContextSize)
+    : "medium";
+}
+
+// Single source for extraBody JSON validation. UI uses `valid` for the red
+// border + hint swap; stream service uses `parsed` as providerOptions input.
+export type ExtraBodyParse =
+  | { state: "empty" }
+  | { state: "valid"; parsed: Record<string, unknown> }
+  | { state: "invalid" };
+
+export function parseExtraBody(raw: string | null | undefined): ExtraBodyParse {
+  if (!raw || raw.trim().length === 0) return { state: "empty" };
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      return { state: "valid", parsed: parsed as Record<string, unknown> };
+    }
+    return { state: "invalid" };
+  } catch {
+    return { state: "invalid" };
+  }
+}
+
+// Form uses `NONE_VALUE` sentinel for "model default"; collapse to null.
+export function formReasoningEffortToValue(
+  raw: string | null | undefined,
+): ReasoningEffort | null {
+  if (!raw || raw === NONE_VALUE) return null;
+  return REASONING_EFFORTS.has(raw as ReasoningEffort)
+    ? (raw as ReasoningEffort)
+    : null;
+}
 
 // Keep in sync with `chatDefaultsAtom` in `src/store/chat-store.ts`.
 export const streamOverrides = t.Object({
@@ -169,20 +258,6 @@ export const streamOverrides = t.Object({
   streamingEnabled: t.Optional(t.Boolean()),
 });
 export type StreamOverrides = Static<typeof streamOverrides>;
-
-export const createConversationBody = t.Object({
-  id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-  model: t.String({ maxLength: MAX_MODEL_LEN }),
-  title: t.Optional(t.String({ maxLength: MAX_TITLE_LEN })),
-  overrides: t.Optional(streamOverrides),
-});
-export type CreateConversationBody = Static<typeof createConversationBody>;
-
-export const updateConversationBody = t.Object({
-  title: t.Optional(t.String({ maxLength: MAX_TITLE_LEN })),
-  model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-});
-export type UpdateConversationBody = Static<typeof updateConversationBody>;
 
 export const updateConversationSettingsBody = t.Object({
   defaultModel: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
@@ -251,33 +326,6 @@ export type UpdateConversationBindingsBody = Static<
   typeof updateConversationBindingsBody
 >;
 
-export const editMessageBody = t.Object({
-  items: t.Array(persistMessageItem, { maxItems: MAX_ITEMS_PER_MESSAGE }),
-});
-
-export const setActiveBranchBody = t.Object({
-  messageId: t.String({ maxLength: MAX_ID_LEN }),
-});
-
-export const persistMessagesBody = t.Object({
-  messages: t.Array(
-    t.Object({
-      id: t.Optional(t.String({ maxLength: MAX_ID_LEN })),
-      parentId: t.Optional(
-        t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-      ),
-      characterId: t.Optional(
-        t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()]),
-      ),
-      role: persistMessageRole,
-      model: t.Optional(t.String({ maxLength: MAX_MODEL_LEN })),
-      items: t.Array(persistMessageItem, { maxItems: MAX_ITEMS_PER_MESSAGE }),
-    }),
-    { maxItems: MAX_MESSAGES_PER_PERSIST },
-  ),
-});
-export type PersistMessagesBody = Static<typeof persistMessagesBody>;
-
 export const paginationQuery = t.Object({
   p: t.Optional(t.Number({ minimum: 1 })),
   page_size: t.Optional(t.Number({ minimum: 1, maximum: 100 })),
@@ -319,20 +367,6 @@ export const streamBody = t.Object({
   chatContext: t.Optional(chatContext),
 });
 export type StreamBody = Static<typeof streamBody>;
-
-export const mediaUploadBody = t.Object({
-  file: t.File({
-    type: [
-      "image/png",
-      "image/jpeg",
-      "image/webp",
-      "image/gif",
-      "application/pdf",
-    ],
-    maxSize: "20m",
-  }),
-  convId: t.String({ maxLength: MAX_ID_LEN }),
-});
 
 export const titleGenerationBody = t.Object({
   text: t.String({ maxLength: MAX_TITLE_SEED_LEN }),

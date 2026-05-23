@@ -6,17 +6,21 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
+import type { SyncKindName } from "@/lib/validation/sync";
 
 // Client-only schema (browser SQLocal). Server code must NEVER import this.
 
+export type PendingSyncOp = "patch" | "delete";
+
 // Retry queue for mirror writes that failed offline/transiently. Drained by
-// a background task when network returns.
+// a background task when network returns. `kind` + `op` use `.$type<>()` to
+// narrow the column types at the type layer (SQLite has no enums).
 export const localPendingSync = sqliteTable(
   "local_pending_sync",
   {
-    kind: text("kind").notNull(),
+    kind: text("kind").notNull().$type<SyncKindName>(),
     id: text("id").notNull(),
-    op: text("op").notNull(), // "patch" | "delete"
+    op: text("op").notNull().$type<PendingSyncOp>(),
     queuedAt: integer("queued_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),

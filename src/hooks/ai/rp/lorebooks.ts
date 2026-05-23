@@ -13,9 +13,11 @@ import {
   upsertLocalLorebookEntry,
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
 import type { LorebookRow } from "@/lib/db/schema/rows";
-import type { EdenArgs } from "@/lib/types/eden";
+import type {
+  LorebookBody,
+  LorebookEntryBody,
+} from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -80,7 +82,7 @@ export function useUpdateLorebookMutation() {
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<ReturnType<typeof rpc.api.ai.rp.lorebooks>, "put">["body"];
+      body: LorebookBody;
     }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalLorebook(userId, args.id);
@@ -172,10 +174,7 @@ export function useCreateLorebookEntryMutation(lorebookId: string) {
   const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (
-      body: EdenArgs<
-        ReturnType<typeof rpc.api.ai.rp.lorebooks>["entries"],
-        "post"
-      >["body"],
+      body: LorebookEntryBody,
     ) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();
@@ -204,10 +203,7 @@ export function useUpdateLorebookEntryMutation(lorebookId: string) {
   return useMutation({
     mutationFn: async (args: {
       entryId: string;
-      body: EdenArgs<
-        ReturnType<ReturnType<typeof rpc.api.ai.rp.lorebooks>["entries"]>,
-        "put"
-      >["body"];
+      body: LorebookEntryBody;
     }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const now = dayjs().toDate();

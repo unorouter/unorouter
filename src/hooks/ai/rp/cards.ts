@@ -16,8 +16,7 @@ import {
   upsertLocalCardBundle,
 } from "@/lib/db/client/data/rp";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
-import type { EdenArgs } from "@/lib/types/eden";
+import type { CardBody } from "@/lib/validation/rp";
 import { uid } from "@/lib/utils/base";
 import { handleError } from "@/lib/utils/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -59,7 +58,7 @@ export function useCreateCardMutation() {
   const qc = useQueryClient();
   const auth = useAuthQuery();
   return useMutation({
-    mutationFn: async (args: EdenArgs<typeof rpc.api.ai.rp.cards, "post">) => {
+    mutationFn: async (args: { body: CardBody }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const body = args.body;
       const now = dayjs().toDate();
@@ -102,7 +101,7 @@ export function useUpdateCardMutation() {
   return useMutation({
     mutationFn: async (args: {
       id: string;
-      body: EdenArgs<ReturnType<typeof rpc.api.ai.rp.cards>, "put">["body"];
+      body: CardBody;
     }) => {
       const userId = auth.data?.id ?? GUEST_USER_ID;
       const existing = await readLocalCard(userId, args.id);
@@ -205,29 +204,30 @@ export function useApplyCardMutation() {
           })),
         });
       } else {
+        // Merge: preserve existing junction rows, append card's new ids only.
         const existing = await readLocalConversationBindings(
           userId,
           args.body.convId,
         );
+        const existingChars = existing?.conversationCharacters ?? [];
+        const existingLbs = existing?.conversationLorebooks ?? [];
         const existingCharIds = new Set(
-          existing?.conversationCharacters.map((c) => c.characterId) ?? [],
+          existingChars.map((c) => c.characterId),
         );
-        const existingLbIds = new Set(
-          existing?.conversationLorebooks.map((l) => l.lorebookId) ?? [],
-        );
+        const existingLbIds = new Set(existingLbs.map((l) => l.lorebookId));
         await replaceLocalConversationBindings(userId, args.body.convId, {
           conversationCharacters: [
-            ...(existing?.conversationCharacters ?? []),
+            ...existingChars,
             ...characterIds
               .filter((cid) => !existingCharIds.has(cid))
               .map((cid) => ({ characterId: cid })),
-          ].map((c) => ({ characterId: c.characterId })),
+          ],
           conversationLorebooks: [
-            ...(existing?.conversationLorebooks ?? []),
+            ...existingLbs,
             ...lorebookIds
               .filter((lid) => !existingLbIds.has(lid))
               .map((lid) => ({ lorebookId: lid })),
-          ].map((l) => ({ lorebookId: l.lorebookId })),
+          ],
         });
       }
 

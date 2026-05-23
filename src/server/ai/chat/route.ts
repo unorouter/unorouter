@@ -1,41 +1,23 @@
 import {
   chatSearchQuery,
-  createConversationBody,
-  editMessageBody,
   finalizeTaskBody,
-  mediaUploadBody,
   paginationQuery,
-  persistMessagesBody,
-  setActiveBranchBody,
   streamBody,
   titleGenerationBody,
-  updateConversationBody,
 } from "@/lib/validation/chat";
 import { getApiKey, getApiKeyOrGuest, getUserId } from "@/server/constants";
 import { Elysia } from "elysia";
 import {
-  clearConversation,
-  createConversation,
-  deleteConversation,
-  duplicateConversation,
   getConversation,
   getConversationMarkdown,
   getPaginatedMessages,
   listConversations,
-  updateConversation,
 } from "./conversation.service";
-import { uploadMedia } from "./augmentation/media.service";
 import {
   fetchVideoTaskStatus,
   finalizeVideoTask,
 } from "./augmentation/task.service";
 import { generateChatTitle } from "./augmentation/title.service";
-import {
-  deleteMessage,
-  editMessageItems,
-  persistMessages,
-  setActiveBranch,
-} from "./message.service";
 import { streamChat } from "./stream.service";
 
 export const chatRoute = new Elysia({ prefix: "/chat" })
@@ -48,16 +30,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return { success: true, data };
     },
     { query: chatSearchQuery },
-  )
-
-  .post(
-    "/",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await createConversation(userId, body);
-      return { success: true, data };
-    },
-    { body: createConversationBody },
   )
 
   .get(
@@ -74,34 +46,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   .get("/:id/meta", async ({ params, cookie }) => {
     const userId = await getUserId(cookie);
     const data = await getConversation(userId, params.id);
-    return { success: true, data };
-  })
-
-  .put(
-    "/:id",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await updateConversation(userId, params.id, body);
-      return { success: true, data };
-    },
-    { body: updateConversationBody },
-  )
-
-  .delete("/:id", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    const data = await deleteConversation(userId, params.id);
-    return { success: true, data };
-  })
-
-  .post("/:id/clear", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    const data = await clearConversation(userId, params.id);
-    return { success: true, data };
-  })
-
-  .post("/:id/duplicate", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    const data = await duplicateConversation(userId, params.id);
     return { success: true, data };
   })
 
@@ -122,47 +66,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
   )
 
   .post(
-    "/:id/messages",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await persistMessages(userId, params.id, body.messages);
-      return { success: true, data };
-    },
-    { body: persistMessagesBody },
-  )
-
-  .put(
-    "/:id/messages/:msgId",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await editMessageItems(
-        userId,
-        params.id,
-        params.msgId,
-        body.items,
-      );
-      return { success: true, data };
-    },
-    { body: editMessageBody },
-  )
-
-  .delete("/:id/messages/:msgId", async ({ params, cookie }) => {
-    const userId = await getUserId(cookie);
-    const data = await deleteMessage(userId, params.id, params.msgId);
-    return { success: true, data };
-  })
-
-  .post(
-    "/:id/active-branch",
-    async ({ params, body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await setActiveBranch(userId, params.id, body.messageId);
-      return { success: true, data };
-    },
-    { body: setActiveBranchBody },
-  )
-
-  .post(
     "/stream",
     async ({ body, cookie, request }) => {
       const apiKey = getApiKeyOrGuest(cookie);
@@ -171,16 +74,6 @@ export const chatRoute = new Elysia({ prefix: "/chat" })
       return streamChat(apiKey, body, request, userId);
     },
     { body: streamBody },
-  )
-
-  .post(
-    "/media",
-    async ({ body, cookie }) => {
-      const userId = await getUserId(cookie);
-      const data = await uploadMedia(body.file, body.convId, userId);
-      return { success: true, data };
-    },
-    { body: mediaUploadBody },
   )
 
   .get("/task/:taskId", async ({ params, cookie }) => {

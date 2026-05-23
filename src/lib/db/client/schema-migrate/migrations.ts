@@ -10,6 +10,9 @@ export async function runMigrations(sql: SQLocalDrizzle): Promise<void> {
   const { migrations } = manifest as MigrationManifest;
   if (migrations.length === 0) return;
 
+  // SQLite default is OFF; needed for schema cascade deletes to fire.
+  await sql.sql`PRAGMA foreign_keys = ON`;
+
   // On a fresh DB local_meta doesn't exist; the SELECT throws and signals to
   // run every migration from the start.
   let lastTag: string | null = null;

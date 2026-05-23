@@ -4,6 +4,8 @@ import type { Cookie } from "elysia";
 import { and, eq, lt } from "drizzle-orm";
 import { acpError } from "./errors";
 
+export type AcpIdempotencyState = "in_flight" | "done";
+
 const KEY_RETENTION_MS = 24 * 60 * 60 * 1000;
 
 function sortKeys(value: unknown): unknown {

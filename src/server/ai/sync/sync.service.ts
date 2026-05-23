@@ -15,6 +15,17 @@ import {
   type SamplingPresetBody,
 } from "@/lib/validation/rp";
 import { Value } from "@sinclair/typebox/value";
+import type {
+  MessageItemType,
+  MessageRole,
+  ReasoningEffort,
+  WebSearchContextSize,
+  WebSearchEngine,
+} from "@/lib/validation/chat";
+import type {
+  GenerationStatus,
+  PlaygroundVisibility,
+} from "@/lib/validation/playground";
 import type { SyncKindName } from "@/lib/validation/sync";
 import {
   cardCharacters,
@@ -1020,13 +1031,15 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             authorNote: (s.authorNote as string | null) ?? null,
             authorNoteDepth: (s.authorNoteDepth as number | undefined) ?? 4,
             chatMemory: (s.chatMemory as number | undefined) ?? 8,
-            reasoningEffort: (s.reasoningEffort as string | null) ?? null,
+            reasoningEffort:
+              (s.reasoningEffort as ReasoningEffort | null) ?? null,
             webSearchEnabled:
               (s.webSearchEnabled as boolean | undefined) ?? false,
             webSearchEngine:
-              (s.webSearchEngine as string | undefined) ?? "auto",
+              (s.webSearchEngine as WebSearchEngine | undefined) ?? "auto",
             webSearchContextSize:
-              (s.webSearchContextSize as string | undefined) ?? "medium",
+              (s.webSearchContextSize as WebSearchContextSize | undefined) ??
+              "medium",
             temperature: (s.temperature as number | null) ?? null,
             topP: (s.topP as number | null) ?? null,
             topK: (s.topK as number | null) ?? null,
@@ -1082,7 +1095,7 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             convId: id,
             parentId: (m.parentId as string | null) ?? null,
             characterId: (m.characterId as string | null) ?? null,
-            role: m.role as string,
+            role: m.role as MessageRole,
             model: (m.model as string | null) ?? null,
             playgroundId: (m.playgroundId as string | null) ?? null,
             inputTokens: (m.inputTokens as number | null) ?? null,
@@ -1104,7 +1117,7 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             messageId: it.messageId as string,
             sequenceIndex: it.sequenceIndex as number,
             outputIndex: (it.outputIndex as number | null) ?? null,
-            type: it.type as string,
+            type: it.type as MessageItemType,
             data: it.data as unknown,
           });
         }
@@ -1213,10 +1226,11 @@ const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
             loras: (g.loras as unknown) ?? null,
             references: (g.references as unknown) ?? null,
             extraParams: (g.extraParams as unknown) ?? null,
-            status: (g.status as string | undefined) ?? "pending",
+            status: (g.status as GenerationStatus | undefined) ?? "pending",
             progress: (g.progress as string | null) ?? null,
             costQuota: (g.costQuota as number | null) ?? null,
-            visibility: (g.visibility as string | undefined) ?? "private",
+            visibility:
+              (g.visibility as PlaygroundVisibility | undefined) ?? "private",
             flagged: (g.flagged as boolean | undefined) ?? false,
             flagReason: (g.flagReason as string | null) ?? null,
             remixCount: (g.remixCount as number | undefined) ?? 0,

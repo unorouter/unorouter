@@ -1,19 +1,17 @@
+import { mirrorConvIfSynced } from "@/hooks/ai/rp/shared";
 import type { ApiMessage, MessagePart } from "@/lib/ai/chat/messages";
 import { itemsToParts, partsToItems } from "@/lib/ai/chat/messages";
 import {
   readLocalConversation,
-  readLocalConversationBundle,
   readLocalMessageItems,
   readLocalMessages,
   upsertLocalConversation,
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import { queryKeys } from "@/lib/react-query/keys";
-import { rpc } from "@/lib/rpc";
 import type { ChatMessageMetadata } from "@/lib/types";
-import { handleElysia, uid } from "@/lib/utils/base";
+import { uid } from "@/lib/utils/base";
 import { dayjs } from "@/lib/utils/format/date";
 import { chatModelAtom, chatStore, convIdAtom } from "@/store/chat-store";
 import type {
@@ -51,22 +49,6 @@ function buildRepository<TMessage>(
   const headId =
     activeTip?.id ?? (raw.length > 0 ? raw[raw.length - 1].id : null);
   return { headId, messages };
-}
-
-async function mirrorConvIfSynced(userId: number, convId: string) {
-  const conv = await readLocalConversation(userId, convId);
-  if (conv?.syncExpiresAt == null) return;
-  const bundle = await readLocalConversationBundle(userId, convId);
-  if (!bundle) return;
-  try {
-    handleElysia(
-      await rpc.api.ai
-        .sync({ kind: "conversations" })({ id: convId })
-        .post({ payload: bundle, keepExpiry: true }),
-    );
-  } catch (err) {
-    await enqueuePending(userId, "conversations", convId, "patch", err);
-  }
 }
 
 export function createChatHistoryAdapter(

@@ -3,11 +3,9 @@
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import {
   readLocalConversation,
-  readLocalConversationBundle,
   upsertLocalConversation,
 } from "@/lib/db/client/data/chat";
-import { readLocalGenerationSessionBundle } from "@/lib/db/client/data/playground";
-import { readLocalCard, readLocalLorebook } from "@/lib/db/client/data/rp";
+import { buildSyncPayload } from "@/lib/db/client/sync/build-payload";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
 import { handleElysia } from "@/lib/utils/base";
@@ -18,11 +16,14 @@ import type { QueryClient } from "@tanstack/react-query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 
+// Hydrator seeds this; invalidations drive every later refetch (no polling).
 function useSyncStateQuery() {
+  const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.syncState(),
     queryFn: async () => handleElysia(await rpc.api.ai.sync.state.get()),
-    enabled: false,
+    enabled: !!auth.data,
+    staleTime: Infinity,
   });
 }
 
@@ -34,39 +35,6 @@ type SyncEntity = {
   syncExpiresAt: Date | string | number | null;
   updatedAt: Date | string;
 };
-
-// Auto-build the cascade bundle from SQLocal so Add/Resync pushes children
-// (settings, bindings, messages, items, media for conversations; entries for
-// lorebooks; junctions for cards; playgrounds/images/likes for sessions).
-async function buildSyncPayload(
-  userId: number,
-  kind: SyncKindName,
-  id: string,
-): Promise<unknown> {
-  if (kind === "conversations") {
-    return readLocalConversationBundle(userId, id);
-  }
-  if (kind === "playgroundSessions") {
-    return readLocalGenerationSessionBundle(userId, id);
-  }
-  if (kind === "lorebooks") {
-    const lb = await readLocalLorebook(userId, id);
-    return (
-      lb && { lorebook: { ...lb, entries: undefined }, entries: lb.entries }
-    );
-  }
-  if (kind === "cards") {
-    const card = await readLocalCard(userId, id);
-    return (
-      card && {
-        card: { ...card, cardCharacters: undefined, cardLorebooks: undefined },
-        cardCharacters: card.cardCharacters,
-        cardLorebooks: card.cardLorebooks,
-      }
-    );
-  }
-  return undefined;
-}
 
 // The sync-state query is `enabled: false` (only seeded by the hydrator), so
 // invalidateQueries can never refetch it. After a mutation we patch the cache

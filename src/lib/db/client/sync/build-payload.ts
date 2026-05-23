@@ -1,0 +1,56 @@
+"use client";
+
+import {
+  readLocalConversationBundle,
+} from "@/lib/db/client/data/chat";
+import {
+  readLocalGenerationSessionBundle,
+} from "@/lib/db/client/data/playground";
+import {
+  readLocalCard,
+  readLocalCharacter,
+  readLocalLorebook,
+  readLocalPersona,
+  readLocalPreset,
+} from "@/lib/db/client/data/rp";
+import type { SyncKindName } from "@/lib/validation/sync";
+
+// Cascade payload shape per sync kind. Used by both the add/resync hook and
+// the pending-queue drainer so a retry rebuilds the bundle the server expects.
+export async function buildSyncPayload(
+  userId: number,
+  kind: SyncKindName,
+  id: string,
+): Promise<unknown> {
+  switch (kind) {
+    case "conversations":
+      return readLocalConversationBundle(userId, id);
+    case "playgroundSessions":
+      return readLocalGenerationSessionBundle(userId, id);
+    case "lorebooks": {
+      const lb = await readLocalLorebook(userId, id);
+      return (
+        lb && { lorebook: { ...lb, entries: undefined }, entries: lb.entries }
+      );
+    }
+    case "cards": {
+      const card = await readLocalCard(userId, id);
+      return (
+        card && {
+          card: { ...card, cardCharacters: undefined, cardLorebooks: undefined },
+          cardCharacters: card.cardCharacters,
+          cardLorebooks: card.cardLorebooks,
+        }
+      );
+    }
+    case "characters":
+      return readLocalCharacter(userId, id);
+    case "personas":
+      return readLocalPersona(userId, id);
+    case "presets":
+      return readLocalPreset(userId, id);
+    case "theme":
+      // Theme uses a dedicated hook with explicit payload.
+      return undefined;
+  }
+}

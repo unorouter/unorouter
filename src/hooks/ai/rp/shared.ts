@@ -53,6 +53,18 @@ export async function mirrorConvIfSynced(
   if (userId) await mirrorSyncedRow(userId, "conversations", convId, bundle);
 }
 
+// Shallow conv-row patch (rename, title); skips bundle rebuild.
+export async function mirrorConvPatchIfSynced(
+  userId: number | undefined,
+  convId: string,
+  patch: { conversation: Record<string, unknown> },
+) {
+  const conv = await readLocalConversation(userId, convId);
+  if (conv?.syncExpiresAt == null) return;
+  if (!userId) return;
+  await mirrorSyncedRow(userId, "conversations", convId, patch);
+}
+
 // Playground analog of mirrorConvIfSynced: pushes the whole session bundle
 // (snapshots + image media) when the session opted into Turso sync.
 export async function mirrorSessionIfSynced(

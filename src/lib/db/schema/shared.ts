@@ -9,6 +9,21 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { uid } from "@/lib/utils/base";
 import type { UserTheme } from "@/components/ui/theme/theme-store";
+import type {
+  MessageItemType,
+  MessageRole,
+  ReasoningEffort,
+  WebSearchContextSize,
+  WebSearchEngine,
+} from "@/lib/validation/chat";
+import type {
+  LorebookEntryPosition,
+  LorebookInjectionRole,
+} from "@/lib/validation/rp";
+import type {
+  GenerationStatus,
+  PlaygroundVisibility,
+} from "@/lib/validation/playground";
 
 // `syncExpiresAt`: null = local-only (no Turso copy); non-null = synced,
 // server-purged after the timestamp.
@@ -47,14 +62,18 @@ export const conversationSettings = sqliteTable("conversation_settings", {
   authorNote: text("author_note"),
   authorNoteDepth: integer("author_note_depth").notNull().default(4),
   chatMemory: integer("chat_memory").notNull().default(8),
-  reasoningEffort: text("reasoning_effort"),
+  reasoningEffort: text("reasoning_effort").$type<ReasoningEffort>(),
   webSearchEnabled: integer("web_search_enabled", { mode: "boolean" })
     .notNull()
     .default(false),
-  webSearchEngine: text("web_search_engine").notNull().default("auto"),
+  webSearchEngine: text("web_search_engine")
+    .notNull()
+    .default("auto")
+    .$type<WebSearchEngine>(),
   webSearchContextSize: text("web_search_context_size")
     .notNull()
-    .default("medium"),
+    .default("medium")
+    .$type<WebSearchContextSize>(),
   temperature: real("temperature"),
   topP: real("top_p"),
   topK: integer("top_k"),
@@ -84,7 +103,7 @@ export const messages = sqliteTable(
       .references(() => conversations.id, { onDelete: "cascade" }),
     parentId: text("parent_id"),
     characterId: text("character_id"),
-    role: text("role").notNull(),
+    role: text("role").notNull().$type<MessageRole>(),
     model: text("model"),
     playgroundId: text("playground_id"),
     inputTokens: integer("input_tokens"),
@@ -124,7 +143,7 @@ export const messageItems = sqliteTable(
       .references(() => messages.id, { onDelete: "cascade" }),
     sequenceIndex: integer("sequence_index").notNull(),
     outputIndex: integer("output_index"),
-    type: text("type").notNull(),
+    type: text("type").notNull().$type<MessageItemType>(),
     data: text("data", { mode: "json" }).notNull(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
@@ -254,14 +273,20 @@ export const lorebookEntries = sqliteTable(
       .notNull()
       .default(false),
     priority: integer("priority").notNull().default(100),
-    position: text("position").notNull().default("before_char"),
+    position: text("position")
+      .notNull()
+      .default("before_char")
+      .$type<LorebookEntryPosition>(),
     depth: integer("depth").notNull().default(4),
     enabled: integer("enabled", { mode: "boolean" }).notNull().default(true),
     orderIndex: integer("order_index").notNull().default(0),
     matchWholeWords: integer("match_whole_words", { mode: "boolean" })
       .notNull()
       .default(false),
-    injectionRole: text("injection_role").notNull().default("user"),
+    injectionRole: text("injection_role")
+      .notNull()
+      .default("user")
+      .$type<LorebookInjectionRole>(),
     createdAt: integer("created_at", { mode: "timestamp_ms" })
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
@@ -540,10 +565,16 @@ export const playgrounds = sqliteTable(
     loras: text("loras", { mode: "json" }),
     references: text("references", { mode: "json" }),
     extraParams: text("extra_params", { mode: "json" }),
-    status: text("status").notNull().default("pending"),
+    status: text("status")
+      .notNull()
+      .default("pending")
+      .$type<GenerationStatus>(),
     progress: text("progress"),
     costQuota: integer("cost_quota"),
-    visibility: text("visibility").notNull().default("private"),
+    visibility: text("visibility")
+      .notNull()
+      .default("private")
+      .$type<PlaygroundVisibility>(),
     flagged: integer("flagged", { mode: "boolean" }).notNull().default(false),
     flagReason: text("flag_reason"),
     remixCount: integer("remix_count").notNull().default(0),
