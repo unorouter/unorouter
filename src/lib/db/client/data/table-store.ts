@@ -27,6 +27,10 @@ type LocalDb = {
 // (e.g. stamping the parent id or an order index); omit it for raw rows.
 // No transaction wrapper: SQLocal's transactionMutex deadlocks drizzle
 // sqlite-proxy queries (see upsertLocalConversationBundle).
+//
+// Caller invariant: this WIPES local-only rows under `parentId`. Use only on
+// import / authoritative-replace paths; sync-pull paths should call
+// `mergeChildRows` instead.
 export async function replaceChildRows<T>(
   db: LocalDb,
   table: SQLiteTable,
@@ -39,6 +43,45 @@ export async function replaceChildRows<T>(
   for (let i = 0; i < rows.length; i++) {
     const values = mapRow ? mapRow(rows[i], i) : rows[i];
     await db.insert(table).values(values as never);
+  }
+}
+
+// Per-row merge: upsert each row by its PK without deleting siblings.
+// Local-only rows under `parentId` that aren't in the incoming list
+// survive the merge, which is the correct semantic for sync-pull child
+// arrays (settings, conv bindings, lorebook entries, media). Caller
+// supplies the PK column so the conflict target is explicit.
+//
+// `LocalInsertable` is the wider drizzle insert builder; the narrow
+// `LocalDb` shape in this file only exposes `values()` because that's
+// all replaceChildRows needs.
+type LocalInsertable = {
+  insert: (table: SQLiteTable) => {
+    values: (row: never) => {
+      onConflictDoUpdate: (opts: {
+        target: SQLiteColumn | SQLiteColumn[];
+        set: never;
+      }) => Promise<unknown>;
+    };
+  };
+};
+
+export async function mergeChildRows<T>(
+  db: LocalInsertable,
+  table: SQLiteTable,
+  pk: SQLiteColumn | SQLiteColumn[],
+  rows: T[],
+  mapRow?: (row: T, index: number) => Record<string, unknown>,
+): Promise<void> {
+  for (let i = 0; i < rows.length; i++) {
+    const values = (mapRow ? mapRow(rows[i], i) : rows[i]) as Record<
+      string,
+      unknown
+    >;
+    await db
+      .insert(table)
+      .values(values as never)
+      .onConflictDoUpdate({ target: pk, set: values as never });
   }
 }
 

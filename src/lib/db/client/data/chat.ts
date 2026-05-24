@@ -20,7 +20,7 @@ import {
   readLocalPersona,
   readLocalPreset,
 } from "./rp";
-import { makeTableStore, replaceChildRows } from "./table-store";
+import { makeTableStore, mergeChildRows, replaceChildRows } from "./table-store";
 
 import type {
   LocalAnyRow as AnyRow,
@@ -314,28 +314,32 @@ export async function upsertLocalConversationBundle(
   if (!local) return { skippedLocalNewer: 0 };
   await conversationStore.upsert(userId, bundle.conversation);
 
+  // Per-row merge instead of delete-then-insert: local-only edits to
+  // settings / bindings / media survive a sync-pull. Authoritative-replace
+  // is still available via replaceChildRows on the import paths.
   if (bundle.settings) {
     await local.db
-      .delete(conversationSettings)
-      .where(eq(conversationSettings.convId, bundle.conversation.id));
-    await local.db
       .insert(conversationSettings)
-      .values(bundle.settings as never);
+      .values(bundle.settings as never)
+      .onConflictDoUpdate({
+        target: conversationSettings.convId,
+        set: bundle.settings as never,
+      });
   }
 
   const convId = bundle.conversation.id;
-  await replaceChildRows(
+  // conversation_characters PK is (convId, characterId); conv_lorebooks is
+  // (convId, lorebookId). Use mergeChildRows with the composite PK.
+  await mergeChildRows(
     local.db,
     conversationCharacters,
-    conversationCharacters.convId,
-    convId,
+    [conversationCharacters.convId, conversationCharacters.characterId],
     bundle.conversationCharacters,
   );
-  await replaceChildRows(
+  await mergeChildRows(
     local.db,
     conversationLorebooks,
-    conversationLorebooks.convId,
-    convId,
+    [conversationLorebooks.convId, conversationLorebooks.lorebookId],
     bundle.conversationLorebooks,
   );
 
@@ -382,7 +386,9 @@ export async function upsertLocalConversationBundle(
     await local.db.insert(messageItems).values(it as never);
   }
 
-  await replaceChildRows(local.db, media, media.convId, convId, bundle.media);
+  // Media keyed on row id (single PK), not convId. mergeChildRows preserves
+  // local-only attachments and the asymmetric base64 cache.
+  await mergeChildRows(local.db, media, media.id, bundle.media);
 
   // Logs PK by msgId; idempotent upsert keeps server-canonical row.
   for (const log of bundle.requestLogs) {
