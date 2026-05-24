@@ -9,20 +9,22 @@ interface ScrambleTextProps {
   className?: string;
 }
 
-export function ScrambleText({ text, className }: ScrambleTextProps) {
-  const [displayed, setDisplayed] = useState<string[]>(() => text.split(""));
+export function ScrambleText(props: ScrambleTextProps) {
+  const [displayed, setDisplayed] = useState<string[]>(() =>
+    props.text.split(""),
+  );
   const [settled, setSettled] = useState(0);
   const settledRef = useRef(0);
 
   useEffect(() => {
     settledRef.current = 0;
-    const totalLetters = text.length;
+    const totalLetters = props.text.length;
     // eslint-disable-next-line react-hooks/set-state-in-effect -- reset animation state when text changes
     setSettled(0);
     // eslint-disable-next-line react-hooks/set-state-in-effect -- size buffer to current word length, dropping stale tail chars
     setDisplayed(() =>
       Array.from({ length: totalLetters }, (_, i) =>
-        text[i] === " "
+        props.text[i] === " "
           ? " "
           : (CHARS[Math.floor(Math.random() * CHARS.length)] ?? ""),
       ),
@@ -35,7 +37,7 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
         const next = prev.slice(0, totalLetters);
         while (next.length < totalLetters) next.push("");
         for (let i = s; i < totalLetters; i++) {
-          if (text[i] === " ") {
+          if (props.text[i] === " ") {
             next[i] = " ";
           } else {
             next[i] = CHARS[Math.floor(Math.random() * CHARS.length)] ?? "";
@@ -57,7 +59,7 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
       setDisplayed((prev) => {
         const next = prev.slice(0, totalLetters);
         while (next.length < totalLetters) next.push("");
-        next[s] = text[s] ?? "";
+        next[s] = props.text[s] ?? "";
         return next;
       });
     }, 80);
@@ -66,10 +68,10 @@ export function ScrambleText({ text, className }: ScrambleTextProps) {
       clearInterval(scrambleInterval);
       clearInterval(settleInterval);
     };
-  }, [text]);
+  }, [props.text]);
 
   return (
-    <span className={className} aria-label={text}>
+    <span className={props.className} aria-label={props.text}>
       {displayed.map((char, i) => (
         <span
           key={i}

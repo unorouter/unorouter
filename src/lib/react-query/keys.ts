@@ -65,6 +65,8 @@ export const queryKeys = {
 
   pricing: () => ["pricing"] as const,
   searchIndex: () => ["search-index"] as const,
+  searchResults: (locale: string, query: string) =>
+    ["search-index", "results", locale, query] as const,
   statsHistory: () => ["stats-history"] as const,
 
   rankings: (period?: string) => ["rankings", period] as const,

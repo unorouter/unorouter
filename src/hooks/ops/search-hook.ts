@@ -24,7 +24,7 @@ export function useSearchQuery(query: string) {
   const { data: db, isLoading: isIndexLoading } = useSearchQueryIndex();
 
   const searchQuery = useQuery({
-    queryKey: [...queryKeys.searchIndex(), "results", locale, query],
+    queryKey: queryKeys.searchResults(locale, query),
     queryFn: async (): Promise<SearchResult[]> => {
       if (!db || !query.trim()) return [];
 
