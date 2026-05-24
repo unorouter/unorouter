@@ -14,10 +14,12 @@ export async function sweepExpired(userId: number, key?: object) {
   if (key) sweptThisRequest.add(key);
   const db = getDb();
   const now = new Date();
-  await Promise.all(
-    SYNC_KINDS.map((kind) => {
+  // Single transaction so a mid-sweep error can't leave partial state
+  // where some kinds purged and others didn't.
+  await db.transaction(async (tx) => {
+    for (const kind of SYNC_KINDS) {
       const meta = SYNC_KIND_META[kind];
-      return db.delete(meta.table).where(expiredSyncFilter(meta, userId, now));
-    }),
-  );
+      await tx.delete(meta.table).where(expiredSyncFilter(meta, userId, now));
+    }
+  });
 }
