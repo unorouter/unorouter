@@ -2440,7 +2440,13 @@
       "COPY_CURL": "cURLとしてコピー",
       "COPY_JSON": "JSONをコピー",
       "COPIED": "コピー済み",
-      "NO_LOG": "このメッセージのログは記録されていません。"
+      "NO_LOG": "このメッセージのログは記録されていません。",
+      "BADGE_REQ": "リクエスト",
+      "BADGE_IN": "入力",
+      "BADGE_OUT": "出力",
+      "BADGE_DROPPED": "破棄",
+      "UNIT_MS": "ms",
+      "UNIT_TOK_PER_S": "tok/秒"
     },
     "NEW_CONVERSATION": "新しいチャット",
     "SEARCH_PLACEHOLDER": "会話を検索...",

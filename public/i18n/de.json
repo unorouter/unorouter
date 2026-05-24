@@ -2440,7 +2440,13 @@
       "COPY_CURL": "Als cURL kopieren",
       "COPY_JSON": "JSON kopieren",
       "COPIED": "Kopiert",
-      "NO_LOG": "Für diese Nachricht wurde kein Protokoll erfasst."
+      "NO_LOG": "Für diese Nachricht wurde kein Protokoll erfasst.",
+      "BADGE_REQ": "Anfrage",
+      "BADGE_IN": "Eingabe",
+      "BADGE_OUT": "Ausgabe",
+      "BADGE_DROPPED": "verworfen",
+      "UNIT_MS": "ms",
+      "UNIT_TOK_PER_S": "Tok/s"
     },
     "NEW_CONVERSATION": "Neuer Chat",
     "SEARCH_PLACEHOLDER": "Unterhaltungen durchsuchen...",

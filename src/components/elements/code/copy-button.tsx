@@ -1,14 +1,16 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Icon } from "@/components/ui/icon";
 import { analytics } from "@/lib/analytics";
 import { copyToClipboard } from "@/lib/utils/base";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Icon } from "@/components/ui/icon";
 
 type Props = {
   text: string;
+  label?: string;
   className?: string;
   iconSize?: string;
   toastMessage?: string;
@@ -27,8 +29,19 @@ export function CopyButton(props: Props) {
       analytics.content.copied({ label: props.analyticsLabel });
     }
     setCopied(true);
-    toast.success(props.toastMessage ?? t("DASHBOARD.COPIED"));
+    if (!props.label) {
+      toast.success(props.toastMessage ?? t("DASHBOARD.COPIED"));
+    }
     setTimeout(() => setCopied(false), 1500);
+  }
+
+  if (props.label) {
+    return (
+      <Button variant="outline" size="sm" onClick={handleCopy}>
+        <Icon name={copied ? "check" : "copy"} />
+        {copied ? t("CHAT.REQUEST_LOG.COPIED") : props.label}
+      </Button>
+    );
   }
 
   return (

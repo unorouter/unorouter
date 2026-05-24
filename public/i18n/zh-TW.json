@@ -2440,7 +2440,13 @@
       "COPY_CURL": "複製為 cURL",
       "COPY_JSON": "複製 JSON",
       "COPIED": "已複製",
-      "NO_LOG": "此訊息未擷取記錄。"
+      "NO_LOG": "此訊息未擷取記錄。",
+      "BADGE_REQ": "請求",
+      "BADGE_IN": "輸入",
+      "BADGE_OUT": "輸出",
+      "BADGE_DROPPED": "已捨棄",
+      "UNIT_MS": "毫秒",
+      "UNIT_TOK_PER_S": "詞元/秒"
     },
     "NEW_CONVERSATION": "新對話",
     "SEARCH_PLACEHOLDER": "搜尋對話...",

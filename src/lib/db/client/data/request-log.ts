@@ -1,9 +1,27 @@
 "use client";
 
+import { env } from "@/lib/config/env";
 import { requestLogs } from "@/lib/db/schema/shared";
 import type { RequestLogRow } from "@/lib/db/schema/rows";
 import { eq } from "drizzle-orm";
 import { getLocalDb } from "../client";
+
+export function buildRequestLogCurl(row: {
+  requestBody: unknown;
+  requestId: string | null;
+}): string {
+  const body =
+    typeof row.requestBody === "string"
+      ? row.requestBody
+      : JSON.stringify(row.requestBody);
+  const headers = ['-H "Content-Type: application/json"'];
+  if (row.requestId) headers.push(`-H "x-request-id: ${row.requestId}"`);
+  return [
+    `curl ${env.apiUrl}/v1/chat/completions`,
+    ...headers.map((h) => `  ${h}`),
+    `  -d '${body.replace(/'/g, "'\\''")}'`,
+  ].join(" \\\n");
+}
 
 export async function insertLocalRequestLog(
   userId: number | undefined,

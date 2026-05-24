@@ -2440,7 +2440,13 @@
       "COPY_CURL": "Copier en cURL",
       "COPY_JSON": "Copier le JSON",
       "COPIED": "Copié",
-      "NO_LOG": "Aucun journal capturé pour ce message."
+      "NO_LOG": "Aucun journal capturé pour ce message.",
+      "BADGE_REQ": "req",
+      "BADGE_IN": "entrée",
+      "BADGE_OUT": "sortie",
+      "BADGE_DROPPED": "rejeté",
+      "UNIT_MS": "ms",
+      "UNIT_TOK_PER_S": "tok/s"
     },
     "NEW_CONVERSATION": "Nouveau chat",
     "SEARCH_PLACEHOLDER": "Rechercher des conversations...",

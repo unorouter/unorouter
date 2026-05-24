@@ -2440,7 +2440,13 @@
       "COPY_CURL": "Sao chép dưới dạng cURL",
       "COPY_JSON": "Sao chép JSON",
       "COPIED": "Đã sao chép",
-      "NO_LOG": "Không có nhật ký được lưu cho tin nhắn này."
+      "NO_LOG": "Không có nhật ký được lưu cho tin nhắn này.",
+      "BADGE_REQ": "yêu cầu",
+      "BADGE_IN": "vào",
+      "BADGE_OUT": "ra",
+      "BADGE_DROPPED": "đã bỏ",
+      "UNIT_MS": "ms",
+      "UNIT_TOK_PER_S": "tok/giây"
     },
     "NEW_CONVERSATION": "Cuộc trò chuyện mới",
     "SEARCH_PLACEHOLDER": "Tìm hội thoại...",

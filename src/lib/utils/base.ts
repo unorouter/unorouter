@@ -140,3 +140,7 @@ export function exportSlug(name: string, fallback: string): string {
 export function errMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
+
+export function formatJson(value: unknown): string {
+  return value == null ? "" : JSON.stringify(value, null, 2);
+}

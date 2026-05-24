@@ -2440,7 +2440,13 @@
       "COPY_CURL": "Скопировать как cURL",
       "COPY_JSON": "Скопировать JSON",
       "COPIED": "Скопировано",
-      "NO_LOG": "Журнал для этого сообщения не сохранён."
+      "NO_LOG": "Журнал для этого сообщения не сохранён.",
+      "BADGE_REQ": "запрос",
+      "BADGE_IN": "вход",
+      "BADGE_OUT": "выход",
+      "BADGE_DROPPED": "отброшено",
+      "UNIT_MS": "мс",
+      "UNIT_TOK_PER_S": "ток/с"
     },
     "NEW_CONVERSATION": "Новый чат",
     "SEARCH_PLACEHOLDER": "Поиск по переписке...",
