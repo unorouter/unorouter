@@ -1,5 +1,3 @@
-export { RETENTION_MS } from "@/lib/config/constants";
-
 // ComfyUI templates live behind new-api's task adapter (channel type 59).
 export const COMFYUI_TEMPLATE_IDS = new Set([
   "pony",

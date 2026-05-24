@@ -1,8 +1,13 @@
 "use client";
 
+import { useAuthQuery } from "@/hooks/auth/auth-hook";
 import { analytics } from "@/lib/analytics";
-import { msg } from "@/lib/config/constants";
-import { rpc } from "@/lib/rpc";
+import {
+  exportLocalCard,
+  exportLocalCharacter,
+  exportLocalLorebook,
+  exportLocalPreset,
+} from "@/lib/db/client/data/rp-export";
 import { downloadBlob, handleError } from "@/lib/utils/client";
 import type {
   CharacterExportFormat,
@@ -19,52 +24,36 @@ type ExportArgs =
   | { kind: "presets"; id: string }
   | { kind: "cards"; id: string };
 
-function exportRequest(args: ExportArgs) {
-  switch (args.kind) {
-    case "characters":
-      return rpc.api.ai.rp
-        .characters({ id: args.id })
-        .export.get({ query: { format: args.format } });
-    case "lorebooks":
-      return rpc.api.ai.rp
-        .lorebooks({ id: args.id })
-        .export.get({ query: { format: args.format } });
-    case "presets":
-      return rpc.api.ai.rp.presets({ id: args.id }).export.get();
-    case "cards":
-      return rpc.api.ai.rp.cards({ id: args.id }).export.get();
-  }
-}
-
-// Shared export mutation for every RP entity: build the request from the
-// kind, unwrap the Eden file response, honor the server's content-disposition
-// filename (falling back to `<kind>-<id>[.<format>].json`), download, and
-// report the `exported` analytics event. Failures surface as an i18n error
-// toast; `isPending` drives button state.
+// Local-first export: reads the row + (for characters) avatar bytes from
+// SQLocal, calls the isomorphic helpers in `@/lib/ai/rp`, downloads the blob.
+// No server roundtrip; works offline + for guests.
 export function useRpExportMutation() {
   const t = useTranslations();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: ExportArgs) => {
-      const { response, error } = await exportRequest(args);
-      if (error || !response.ok) {
-        throw new Error(msg("CHAT.MORE.EXPORT_FAILED"));
-      }
-      const blob = await response.blob();
-      const format = "format" in args ? args.format : undefined;
-      const fallback = format
-        ? `${args.kind}-${args.id}.${format}.json`
-        : `${args.kind}-${args.id}.json`;
-      const filename =
-        response.headers
-          .get("content-disposition")
-          ?.match(/filename="([^"]+)"/)?.[1] ?? fallback;
-      downloadBlob(blob, filename);
+      const userId = auth.data?.id;
+      const result = await runExport(userId, args);
+      downloadBlob(result.blob, result.filename);
       analytics.rp.entityAction({
         entity: args.kind,
         action: "exported",
-        format,
+        format: "format" in args ? args.format : undefined,
       });
     },
     onError: (e) => handleError(e, t),
   });
+}
+
+function runExport(userId: number | undefined, args: ExportArgs) {
+  switch (args.kind) {
+    case "characters":
+      return exportLocalCharacter(userId, args.id, args.format);
+    case "lorebooks":
+      return exportLocalLorebook(userId, args.id, args.format);
+    case "presets":
+      return exportLocalPreset(userId, args.id);
+    case "cards":
+      return exportLocalCard(userId, args.id);
+  }
 }

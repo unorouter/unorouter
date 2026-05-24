@@ -262,15 +262,6 @@ export const sessionSnapshot = t.Object({
 });
 export type SessionSnapshot = Static<typeof sessionSnapshot>;
 
-export const playgroundImportBody = t.Object({
-  payload: t.Union([playgroundSnapshot, sessionSnapshot]),
-  mode: generationCloneMode,
-});
-
-export const generationVisibilityBody = t.Object({
-  visibility: generationVisibility,
-});
-
 // Stateless poll: the client owns the playground row and passes the upstream
 // task id back so the server only forwards the upstream status check.
 export const playgroundPollBody = t.Object({

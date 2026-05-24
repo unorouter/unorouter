@@ -71,17 +71,6 @@ export type EdenArgs<TRoute, TMethod extends string> = (ShouldIncludeParams<
 export type EdenQuery<TRoute, TMethod extends string = "get"> =
   EdenArgs<TRoute, TMethod> extends { query?: infer Q } ? Q : never;
 
-export type EdenResponse<TRoute, TMethod extends string = "get"> =
-  ResolveMethod<TRoute, TMethod> extends (...args: any[]) => any
-    ? Awaited<ReturnType<ResolveMethod<TRoute, TMethod>>> extends {
-        data: infer D;
-      }
-      ? NonNullable<D> extends { success: boolean; data: infer Inner }
-        ? Inner
-        : NonNullable<D>
-      : never
-    : never;
-
 export type ExtractData<T> = T extends { data: infer D }
   ? NonNullable<D>
   : never;

@@ -18,11 +18,14 @@ export function formatLongDate(value: string | number | undefined): string {
   return d.format("MMM D, YYYY");
 }
 
-export function formatYearMonth(value: string | undefined): string | null {
+export function formatYearMonth(
+  value: string | number | undefined,
+): string | null {
   if (!value) return null;
-  const d = dayjs(value);
-  if (!d.isValid()) return value;
-  return d.format(value.includes("-") ? "MMM YYYY" : "YYYY");
+  const str = String(value);
+  const d = dayjs(str);
+  if (!d.isValid()) return str;
+  return d.format(str.includes("-") ? "MMM YYYY" : "YYYY");
 }
 
 export function formatHoursLabel(hours: number): string {

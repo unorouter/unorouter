@@ -468,12 +468,6 @@ export const ICON_MAP: Record<string, IconEntry> = {
     lucide: () => import("react-icons/lu").then((m) => ({ default: m.LuMail })),
     tabler: () => import("react-icons/tb").then((m) => ({ default: m.TbMail })),
   },
-  maximize: {
-    lucide: () =>
-      import("react-icons/lu").then((m) => ({ default: m.LuMaximize })),
-    tabler: () =>
-      import("react-icons/tb").then((m) => ({ default: m.TbMaximize })),
-  },
   menu: {
     lucide: () => import("react-icons/lu").then((m) => ({ default: m.LuMenu })),
     tabler: () =>
@@ -881,12 +875,6 @@ export const ICON_MAP: Record<string, IconEntry> = {
       import("react-icons/lu").then((m) => ({ default: m.LuCreditCard })),
     tabler: () =>
       import("react-icons/tb").then((m) => ({ default: m.TbCreditCard })),
-  },
-  "shopping-cart": {
-    lucide: () =>
-      import("react-icons/lu").then((m) => ({ default: m.LuShoppingCart })),
-    tabler: () =>
-      import("react-icons/tb").then((m) => ({ default: m.TbShoppingCart })),
   },
 };
 

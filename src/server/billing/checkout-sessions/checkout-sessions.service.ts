@@ -25,7 +25,7 @@ export type AcpSessionStatus =
 
 const PAYMENT_METHOD_DEFAULT = "card";
 
-export type AcpPaymentMethod = "stripe" | "creem";
+type AcpPaymentMethod = "stripe" | "creem";
 
 export type ParsedItemId =
   | {
@@ -198,9 +198,9 @@ async function resolveItem(
   return { parsed, amountCents: cents };
 }
 
-export type SessionBody = Record<string, unknown>;
+type SessionBody = Record<string, unknown>;
 
-export type CheckoutItem = { id: string; quantity: number };
+type CheckoutItem = { id: string; quantity: number };
 
 // ACP-spec single-item invariant; shared by createSession and updateSession.
 async function validateAndResolveItem(

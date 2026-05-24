@@ -68,11 +68,6 @@ export const syncParams = t.Object({
 });
 export type SyncParams = Static<typeof syncParams>;
 
-export const syncedOnlyQuery = t.Object({
-  syncedOnly: t.Optional(t.Boolean()),
-});
-export type SyncedOnlyQuery = Static<typeof syncedOnlyQuery>;
-
 // Cap batch request count server-side to bound query fanout.
 export const BATCH_BUNDLE_MAX_REQUESTS = 20;
 

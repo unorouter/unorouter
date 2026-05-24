@@ -92,17 +92,6 @@ export type SnapshotView = {
   images: PlaygroundImageView[];
 };
 
-// Restore-payload shape shared by the result view and the form draft restore.
-export type SnapshotRestoreFields = {
-  model: string;
-  prompt: string;
-  negativePrompt: string | null;
-  params: Record<string, unknown> | null;
-  loras: unknown;
-  references: unknown;
-  extraParams: Record<string, unknown> | null;
-};
-
 // Flat editor-selection state used by the RP entity pages/lists: an entity id
 // being edited, "new" for a fresh entity, or null when none is open.
 export type EntityEditId = string | "new" | null;
