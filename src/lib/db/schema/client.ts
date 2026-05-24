@@ -25,6 +25,9 @@ export const localPendingSync = sqliteTable(
       .notNull()
       .default(sql`(unixepoch() * 1000)`),
     attempts: integer("attempts").notNull().default(0),
+    // Exponential backoff: drain skips rows where nextAttemptAt > now.
+    // Null = drain immediately (first attempt and successful retries).
+    nextAttemptAt: integer("next_attempt_at", { mode: "timestamp_ms" }),
     lastError: text("last_error"),
   },
   (table) => [

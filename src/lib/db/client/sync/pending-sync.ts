@@ -10,7 +10,7 @@ import { handleElysia } from "@/lib/utils/base";
 import { logger } from "@/lib/utils/logger";
 import type { SyncKindName } from "@/lib/validation/sync";
 import type { QueryClient } from "@tanstack/react-query";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, asc, eq, inArray, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../client";
 import { buildSyncPayload } from "./build-payload";
 
@@ -18,6 +18,16 @@ import { buildSyncPayload } from "./build-payload";
 // row; drainer (hydrator + post-mutation) replays via /api/sync.
 
 export const MAX_PENDING_ATTEMPTS = 5;
+
+// Exponential backoff schedule in ms keyed by current attempts count.
+// Index 0 means "no prior failure" (drain immediately).
+const BACKOFF_SCHEDULE_MS = [0, 30_000, 120_000, 480_000, 1_800_000];
+
+function nextAttemptDelay(attempts: number): number {
+  return (
+    BACKOFF_SCHEDULE_MS[Math.min(attempts, BACKOFF_SCHEDULE_MS.length - 1)] ?? 0
+  );
+}
 
 export type PendingSyncRow = {
   kind: SyncKindName;
@@ -68,7 +78,13 @@ export async function enqueuePending(
     })
     .onConflictDoUpdate({
       target: [localPendingSync.kind, localPendingSync.id],
-      set: { op, lastError: err ? String(err) : null },
+      // Fresh enqueue resets backoff; a new failure restart the schedule.
+      set: {
+        op,
+        attempts: 0,
+        nextAttemptAt: null,
+        lastError: err ? String(err) : null,
+      },
     });
 }
 
@@ -85,7 +101,18 @@ export async function drainPending(
   const local = await getLocalDb(userId);
   if (!local) return result;
 
-  const rows = await local.db.select().from(localPendingSync);
+  const now = new Date();
+  // FIFO + backoff: skip rows scheduled for a future attempt.
+  const rows = await local.db
+    .select()
+    .from(localPendingSync)
+    .where(
+      or(
+        isNull(localPendingSync.nextAttemptAt),
+        lte(localPendingSync.nextAttemptAt, now),
+      ),
+    )
+    .orderBy(asc(localPendingSync.queuedAt));
   result.total = rows.length;
   for (const row of rows) {
     if (row.attempts >= MAX_PENDING_ATTEMPTS) {
@@ -119,9 +146,16 @@ export async function drainPending(
       result.succeeded++;
     } catch (err) {
       const nextAttempts = row.attempts + 1;
+      const nextAttemptAt = new Date(
+        Date.now() + nextAttemptDelay(nextAttempts),
+      );
       await local.db
         .update(localPendingSync)
-        .set({ attempts: nextAttempts, lastError: String(err) })
+        .set({
+          attempts: nextAttempts,
+          nextAttemptAt,
+          lastError: String(err),
+        })
         .where(
           and(
             eq(localPendingSync.kind, row.kind),
@@ -173,7 +207,7 @@ async function requeuePending(
   if (!targets) {
     await local.db
       .update(localPendingSync)
-      .set({ attempts: 0, lastError: null });
+      .set({ attempts: 0, nextAttemptAt: null, lastError: null });
     return;
   }
   // Composite PK (kind, id). No clean tuple IN, so update per-kind groups.
@@ -186,7 +220,7 @@ async function requeuePending(
   for (const [kind, ids] of byKind) {
     await local.db
       .update(localPendingSync)
-      .set({ attempts: 0, lastError: null })
+      .set({ attempts: 0, nextAttemptAt: null, lastError: null })
       .where(
         and(
           eq(localPendingSync.kind, kind),

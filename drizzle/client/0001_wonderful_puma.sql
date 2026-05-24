@@ -1,0 +1,1 @@
+ALTER TABLE `local_pending_sync` ADD `next_attempt_at` integer;
