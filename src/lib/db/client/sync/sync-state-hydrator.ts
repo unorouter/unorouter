@@ -16,7 +16,7 @@ import {
 import { useQueryClient, type QueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import { getLocalDb } from "../client";
 import {
@@ -52,18 +52,25 @@ import { upsertLocalTheme } from "../data/theme";
 // rest of the list reconciles in an idle callback.
 const CONV_ROUTE_RE = /^\/[^/]+\/chat\/[^/]+\/?$/;
 
+// Module-scoped so chat layout and playground layout share a single
+// fire-once gate. Otherwise navigating chat <-> playground unmounts then
+// remounts the hydrator and Stage 2 re-fires every time.
+//
+// Only the latest userId is tracked: switching identity (logout, login as
+// different user) evicts the prior entry so the new userId re-hydrates
+// from a fresh React Query cache.
+let lastFiredUserId: number | null = null;
+
 export function SyncStateHydrator() {
   const auth = useAuthQuery();
   const qc = useQueryClient();
   const t = useTranslations();
   const pathname = usePathname();
-  // Per-userId so a mid-session login (guest -> user) re-runs Stage 2.
-  const firedForUserId = useRef<number | null>(null);
 
   useEffect(() => {
     const userId = auth.data?.id ?? GUEST_USER_ID;
-    if (firedForUserId.current === userId) return;
-    firedForUserId.current = userId;
+    if (lastFiredUserId === userId) return;
+    lastFiredUserId = userId;
 
     const onConvRoute = CONV_ROUTE_RE.test(pathname ?? "");
     const excludeKinds: SyncKindName[] = onConvRoute ? ["conversations"] : [];
