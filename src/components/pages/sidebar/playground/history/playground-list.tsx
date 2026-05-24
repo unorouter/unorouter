@@ -17,7 +17,7 @@ export function PlaygroundList() {
   const t = useTranslations();
   const sidebar = useSidebar();
   const pathname = usePathname();
-  const query = useSessionHistoryQuery({ limit: 30 });
+  const query = useSessionHistoryQuery();
 
   const items = query.data?.items ?? [];
   const segments = pathname.split("/").filter(Boolean);

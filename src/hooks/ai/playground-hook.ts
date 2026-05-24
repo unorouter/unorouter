@@ -70,7 +70,7 @@ function imageToMediaRow(
   };
 }
 
-export function useSessionHistoryQuery(_query?: { limit?: number }) {
+export function useSessionHistoryQuery() {
   const auth = useAuthQuery();
   return useQuery({
     queryKey: queryKeys.playgroundSessionList(undefined),
