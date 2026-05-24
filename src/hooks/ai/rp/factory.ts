@@ -9,7 +9,7 @@ import type { RpSyncKind } from "@/lib/validation/sync";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { dayjs } from "@/lib/utils/format/date";
 import { useTranslations } from "next-intl";
-import { deleteSyncedRow, mirrorSyncedRow } from "./shared";
+import { mirrorSyncedRow, unmirrorIfSynced } from "./shared";
 type WithId = { id: string; syncExpiresAt?: Date | null };
 
 type EntityHooks<TItem extends WithId, TCreateBody, TUpdateBody> = {
@@ -131,7 +131,7 @@ export function makeRpEntity<
           const existing = await opts.readItem(userId, id);
           const wasSynced = existing?.syncExpiresAt != null;
           await opts.deleteLocal(userId, id);
-          if (wasSynced) await deleteSyncedRow(userId, opts.syncKind, id);
+          await unmirrorIfSynced(userId, opts.syncKind, id, wasSynced);
           return { id };
         },
         onSuccess: (_data, id) => {

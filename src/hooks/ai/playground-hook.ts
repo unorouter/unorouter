@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthQuery } from "@/hooks/auth/auth-hook";
-import { mirrorSessionIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorSessionIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
 import { GUEST_USER_ID, RETENTION_MS } from "@/lib/config/constants";
 import {
   bumpLocalSessionCounts,
@@ -19,7 +19,6 @@ import {
   exportLocalSession,
   importLocalSession,
 } from "@/lib/db/client/data/playground-transfer";
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import type { Media, Playground } from "@/lib/db/schema/shared";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -377,23 +376,12 @@ export function useDeleteSnapshotMutation() {
       const wasSynced = session?.syncExpiresAt != null;
       if (sessionDeleted) {
         await deleteLocalGenerationSession(userId, sessionId);
-        if (userId > GUEST_USER_ID && wasSynced) {
-          try {
-            handleElysia(
-              await rpc.api.ai
-                .sync({ kind: "playgroundSessions" })({ id: sessionId })
-                .delete(),
-            );
-          } catch (err) {
-            await enqueuePending(
-              userId,
-              "playgroundSessions",
-              sessionId,
-              "delete",
-              err,
-            );
-          }
-        }
+        await unmirrorIfSynced(
+          userId,
+          "playgroundSessions",
+          sessionId,
+          wasSynced,
+        );
       } else {
         await bumpLocalSessionCounts(userId, sessionId, {
           snapshots: -1,

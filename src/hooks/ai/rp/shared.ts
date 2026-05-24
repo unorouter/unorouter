@@ -1,5 +1,6 @@
 "use client";
 
+import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   readLocalConversation,
   readLocalConversationBundle,
@@ -41,6 +42,22 @@ export async function deleteSyncedRow(
   } catch (err) {
     await enqueuePending(userId, kind, id, "delete", err);
   }
+}
+
+// Single source for the read-syncExpiresAt + DELETE-or-queue dance. Caller
+// supplies the local-delete step itself; this only handles the server-side
+// mirror cleanup. Guests + local-only rows short-circuit (no-op).
+//
+// Pattern collapsed: chat-hook useDeleteConversationMutation,
+// thread-list-adapter delete, factory useDelete, playground useDeleteSnapshot.
+export async function unmirrorIfSynced(
+  userId: number | undefined,
+  kind: RpSyncKind,
+  id: string,
+  wasSynced: boolean,
+) {
+  if (!userId || userId <= GUEST_USER_ID || !wasSynced) return;
+  await deleteSyncedRow(userId, kind, id);
 }
 
 export async function mirrorConvIfSynced(

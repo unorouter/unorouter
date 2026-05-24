@@ -25,10 +25,10 @@ import {
   upsertLocalMessage,
   upsertLocalMessageItem,
 } from "@/lib/db/client/data/chat";
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import {
   mirrorConvDeltaIfSynced,
   mirrorConvIfSynced,
+  unmirrorIfSynced,
 } from "@/hooks/ai/rp/shared";
 import {
   keepPreviousData,
@@ -160,15 +160,7 @@ export function useDeleteConversationMutation() {
       const existing = await readLocalConversation(userId, id);
       const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalConversation(userId, id);
-      if (userId > GUEST_USER_ID && wasSynced) {
-        try {
-          handleElysia(
-            await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
-          );
-        } catch (err) {
-          await enqueuePending(userId, "conversations", id, "delete", err);
-        }
-      }
+      await unmirrorIfSynced(userId, "conversations", id, wasSynced);
       return { id };
     },
     onError: (e) => handleError(e, t),

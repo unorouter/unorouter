@@ -1,4 +1,4 @@
-import { mirrorConvPatchIfSynced } from "@/hooks/ai/rp/shared";
+import { mirrorConvPatchIfSynced, unmirrorIfSynced } from "@/hooks/ai/rp/shared";
 import { GUEST_USER_ID } from "@/lib/config/constants";
 import {
   deleteLocalConversation,
@@ -7,7 +7,6 @@ import {
   upsertLocalConversation,
   upsertLocalConversationSettings,
 } from "@/lib/db/client/data/chat";
-import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import type { buildPricingSummary } from "@/lib/api/pricing";
 import { queryKeys } from "@/lib/react-query/keys";
 import { rpc } from "@/lib/rpc";
@@ -132,15 +131,7 @@ export function createThreadListAdapter(
       const existing = await readLocalConversation(userId, id);
       const wasSynced = existing?.syncExpiresAt != null;
       await deleteLocalConversation(userId, id);
-      if (userId > GUEST_USER_ID && wasSynced) {
-        try {
-          handleElysia(
-            await rpc.api.ai.sync({ kind: "conversations" })({ id }).delete(),
-          );
-        } catch (err) {
-          await enqueuePending(userId, "conversations", id, "delete", err);
-        }
-      }
+      await unmirrorIfSynced(userId, "conversations", id, wasSynced);
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
