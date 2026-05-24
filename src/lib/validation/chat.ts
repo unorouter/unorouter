@@ -48,8 +48,7 @@ const itemTaskData = t.Object(
   { additionalProperties: true },
 );
 
-// Kept as runtime schema for future server-side validation; currently only
-// consumed via `Static<>` by the chat adapter (lint: prefix matches /^_/u).
+// Runtime schema kept for future server validation.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _persistMessageItem = t.Union([
   t.Object({
@@ -97,8 +96,7 @@ const _persistMessageItem = t.Union([
 ]);
 export type PersistMessageItem = Static<typeof _persistMessageItem>;
 
-// Role + item type unions: source of truth for both validation and the
-// `messages.role` / `messageItems.type` schema column narrows.
+// Source of truth for validation + schema column narrows.
 export const messageRole = t.Union([
   t.Literal("system"),
   t.Literal("user"),
@@ -187,8 +185,7 @@ export function narrowWebSearchContextSize(
     : "medium";
 }
 
-// Single source for extraBody JSON validation. UI uses `valid` for the red
-// border + hint swap; stream service uses `parsed` as providerOptions input.
+// extraBody JSON: UI reads `valid`; stream uses `parsed`.
 export type ExtraBodyParse =
   | { state: "empty" }
   | { state: "valid"; parsed: Record<string, unknown> }
@@ -351,8 +348,7 @@ export const streamBody = t.Object({
   messages: t.Array(t.Any(), { maxItems: MAX_MESSAGES_PER_STREAM }),
   convId: t.Optional(t.Union([t.String({ maxLength: MAX_ID_LEN }), t.Null()])),
   webSearch: t.Optional(t.Boolean()),
-  // Fallback for guest convs (no settings row). Logged-in convs have a row
-  // seeded at creation, so these are ignored on subsequent turns.
+  // Fallback for guest convs (no settings row).
   overrides: t.Optional(streamOverrides),
   chatContext: t.Optional(chatContext),
 });

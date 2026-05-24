@@ -19,14 +19,10 @@ import { DEFAULT_TTL_DAYS, upsertHandlers } from "./upsert";
 
 export type SyncRequestPayload = {
   days?: number;
-  // Required for first sync or re-add after expiry. For resync of an extant
-  // row, payload still wins (client is authoritative for any drift).
+  // First sync needs expiry.
   payload?: unknown;
-  // Mirror PATCH on save: keep existing expiry, refresh content only.
+  // mergeMode (conv only): replace default; upsert preserves; append insert-only.
   keepExpiry?: boolean;
-  // Conversations-only: controls how child arrays merge. Defaults to "replace"
-  // for back-compat. "upsert" preserves rows not in payload (delta sync).
-  // "append" inserts new rows without delete-first (hot-path append optimization).
   mergeMode?: SyncMergeMode;
 };
 

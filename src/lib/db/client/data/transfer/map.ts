@@ -10,8 +10,7 @@ import type {
 } from "@/lib/types/transfer";
 import { dayjs } from "@/lib/utils/format/date";
 
-// A conversation reduced to plain row objects, ready for
-// upsertLocalConversationBundle plus the standalone RP entity upserts.
+// Conv reduced to row objects for bundle upsert + standalone entity upserts.
 export type MappedImport = {
   convId: string;
   persona: (LocalAnyRow) | null;

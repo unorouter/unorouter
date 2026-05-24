@@ -68,8 +68,7 @@ export const personaBody = t.Object({
   avatarMediaId: t.Union([t.String({ maxLength: 64 }), t.Null()], {
     default: null,
   }),
-  // isDefault stays optional+undefined. Sibling-row reset transaction
-  // ([persona.service.ts]) reads undefined-vs-false to gate the reset.
+  // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),
 });
 export type PersonaBody = Static<typeof personaBody>;
@@ -170,8 +169,7 @@ export const samplingPresetBody = t.Object({
   mustStartWithUserInput: t.Boolean({ default: false }),
   skipPrefillIfLastIsAssistant: t.Boolean({ default: false }),
   geminiBlockOff: t.Boolean({ default: false }),
-  // isDefault stays optional+undefined. Sibling-row reset transaction
-  // ([preset.service.ts]) reads undefined-vs-false to gate the reset.
+  // Optional undefined; reset tx gates on undefined vs false.
   isDefault: t.Optional(t.Boolean()),
 });
 export type SamplingPresetBody = Static<typeof samplingPresetBody>;

@@ -13,7 +13,8 @@ import type { SyncKindName } from "@/lib/validation/sync";
 import { and, eq, isNotNull, lt, type SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 
-// Per-kind registry. Sweep, state, expiry dispatch through here.
+// Single source per kind for every per-kind switch.
+// Adding: SYNC_KINDS, schema, row here.
 
 type ScopedTable = SQLiteTable & {
   id: SQLiteColumn;

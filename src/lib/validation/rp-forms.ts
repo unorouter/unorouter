@@ -3,11 +3,8 @@
 import { Type as t, type Static } from "@sinclair/typebox/type";
 import { msg, NONE_VALUE, type TranslationKey } from "../config/constants";
 
-// Single source of truth for every sampling knob. `field` is the camelCase
-// app/DB name (form schema, Drizzle row, StreamOverrides). `apiKey` is the
-// snake_case upstream OpenAI parameter name, matched against a model's
-// `supportedParameters` capability list. The two vocabularies live in one row
-// so they cannot drift; the slider UI also reads min/max/step/fallback here.
+// Single source for sampling knobs. `field`=camelCase DB;
+// `apiKey`=snake_case upstream.
 export const SAMPLING_PARAMS = [
   {
     field: "temperature",
@@ -128,8 +125,7 @@ const webSearchContextSizeLiterals = [
   t.Literal("high"),
 ];
 
-// Exported so the entry editor can both build its Select options and narrow
-// the form's loose `string` position back to this union for the API body.
+// Exported so editor builds Select options + narrows form string.
 export const LOREBOOK_POSITIONS = [
   "before_char",
   "after_char",
