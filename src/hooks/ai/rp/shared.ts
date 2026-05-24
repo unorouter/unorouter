@@ -9,26 +9,34 @@ import {
   readLocalGenerationSession,
   readLocalGenerationSessionBundle,
 } from "@/lib/db/client/data/playground";
+import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
 import { enqueuePending } from "@/lib/db/client/sync/pending-sync";
 import { rpc } from "@/lib/rpc";
 import type { RpSyncKind, SyncMergeMode } from "@/lib/validation/sync";
 import { handleElysia } from "@/lib/utils/base";
 
+// Returns null on failure (already queued a pending-sync row via
+// enqueuePending). Callers needing post-success work inspect the return.
 export async function mirrorSyncedRow(
   userId: number,
   kind: RpSyncKind,
   id: string,
   payload: unknown,
   mergeMode?: SyncMergeMode,
-) {
+): Promise<unknown | null> {
   try {
-    handleElysia(
+    const result = handleElysia(
       await rpc.api.ai
         .sync({ kind })({ id })
         .post({ payload, keepExpiry: true, mergeMode }),
     );
+    return result;
   } catch (err) {
-    await enqueuePending(userId, kind, id, "patch", err);
+    await enqueuePending(userId, kind, id, "patch", err, {
+      payload,
+      mergeMode,
+    });
+    return null;
   }
 }
 
@@ -44,12 +52,7 @@ export async function deleteSyncedRow(
   }
 }
 
-// Single source for the read-syncExpiresAt + DELETE-or-queue dance. Caller
-// supplies the local-delete step itself; this only handles the server-side
-// mirror cleanup. Guests + local-only rows short-circuit (no-op).
-//
-// Pattern collapsed: chat-hook useDeleteConversationMutation,
-// thread-list-adapter delete, factory useDelete, playground useDeleteSnapshot.
+// Read-expiry + DELETE-or-queue. Guests + local-only short-circuit.
 export async function unmirrorIfSynced(
   userId: number | undefined,
   kind: RpSyncKind,
@@ -68,7 +71,14 @@ export async function mirrorConvIfSynced(
   if (conv?.syncExpiresAt == null) return;
   const bundle = await readLocalConversationBundle(userId, convId);
   if (!bundle) return;
-  if (userId) await mirrorSyncedRow(userId, "conversations", convId, bundle);
+  if (!userId) return;
+  const result = await mirrorSyncedRow(
+    userId,
+    "conversations",
+    convId,
+    bundle,
+  );
+  await evictMediaBase64After(userId, result);
 }
 
 // Shallow conv-row patch (rename, title); skips bundle rebuild.
@@ -83,10 +93,7 @@ export async function mirrorConvPatchIfSynced(
   await mirrorSyncedRow(userId, "conversations", convId, patch);
 }
 
-// Settings-only mirror: pushes only the conversation_settings row through
-// the conv bundle handler in `upsert` merge mode so other arrays
-// (messages, media, characters) stay untouched. Use this for model picker
-// + slider edits + system prompt overrides on synced convs.
+// Settings-only mirror in upsert mode; preserves messages/media/chars.
 export async function mirrorConvSettingsIfSynced(
   userId: number | undefined,
   convId: string,
@@ -122,8 +129,7 @@ export async function mirrorConvDeltaIfSynced(
   await mirrorSyncedRow(userId, "conversations", convId, patch, mergeMode);
 }
 
-// Playground analog of mirrorConvIfSynced: pushes the whole session bundle
-// (snapshots + image media) when the session opted into Turso sync.
+// Playground mirror analog of mirrorConvIfSynced.
 export async function mirrorSessionIfSynced(
   userId: number | undefined,
   sessionId: string,
@@ -132,6 +138,12 @@ export async function mirrorSessionIfSynced(
   if (session?.syncExpiresAt == null) return;
   const bundle = await readLocalGenerationSessionBundle(userId, sessionId);
   if (!bundle) return;
-  if (userId)
-    await mirrorSyncedRow(userId, "playgroundSessions", sessionId, bundle);
+  if (!userId) return;
+  const result = await mirrorSyncedRow(
+    userId,
+    "playgroundSessions",
+    sessionId,
+    bundle,
+  );
+  await evictMediaBase64After(userId, result);
 }

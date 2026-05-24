@@ -16,13 +16,11 @@ export const serverEnv = {
   creemApiKey: process.env.CREEM_API_KEY,
   creemApiUrl: process.env.CREEM_API_URL,
   creemModerationEnabled: process.env.CREEM_MODERATION_ENABLED === "1",
+  syncIncludeRequestLogPii: process.env.SYNC_INCLUDE_REQUEST_LOG_PII !== "0",
   standalone: process.env.STANDALONE,
   port: process.env.PORT ?? "3000",
 } as const;
 
-// Required server vars. Fail fast at module load instead of crashing on the
-// first request. SESSION_SECRET seals the user-id cookie via iron-session;
-// SYSTEM_ACCESS_TOKEN authorizes upstream admin calls.
 if (typeof window === "undefined" && !process.env.NEXT_PHASE) {
   if (!serverEnv.systemAccessToken)
     throw new ParamError("ERRORS.MISSING_ENV", { var: "SYSTEM_ACCESS_TOKEN" });

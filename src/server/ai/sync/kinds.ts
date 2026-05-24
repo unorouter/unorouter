@@ -13,13 +13,7 @@ import type { SyncKindName } from "@/lib/validation/sync";
 import { and, eq, isNotNull, lt, type SQL } from "drizzle-orm";
 import type { SQLiteColumn, SQLiteTable } from "drizzle-orm/sqlite-core";
 
-// Single source per kind. Every per-kind switch in this folder dispatches
-// through this registry instead of repeating the same 8-way branch.
-//
-// Adding a new sync kind:
-//   1. Add to SYNC_KINDS in @/lib/validation/sync
-//   2. Add the table to schema/shared
-//   3. Add a row here
+// Per-kind registry. Sweep, state, expiry dispatch through here.
 
 type ScopedTable = SQLiteTable & {
   id: SQLiteColumn;
@@ -27,7 +21,7 @@ type ScopedTable = SQLiteTable & {
   syncExpiresAt: SQLiteColumn;
 };
 
-// userThemes is keyed by userId (no own id column).
+// userThemes keyed by userId, no own id column.
 type ThemeTable = SQLiteTable & {
   userId: SQLiteColumn;
   syncExpiresAt: SQLiteColumn;
@@ -88,23 +82,19 @@ export const SYNC_KIND_META: Record<SyncKindName, KindMeta> = {
   },
 };
 
-// Reusable expiry-sweep WHERE clause; consumed by sweep.ts.
 export function expiredSyncFilter(
   meta: KindMeta,
   userId: number,
   now: Date,
 ): SQL {
-  const base = and(
+  return and(
     eq(meta.table.userId, userId),
     isNotNull(meta.table.syncExpiresAt),
     lt(meta.table.syncExpiresAt, now),
-  );
-  // and(...) with 3 defined SQL args never returns undefined.
-  return base!;
+  )!;
 }
 
-// WHERE clause that scopes a single row to (id, userId). Singleton kinds
-// (theme) ignore `id` and scope to userId only.
+// Singleton kinds ignore `id` and scope to userId only.
 function rowOwnershipFilter(
   meta: KindMeta,
   userId: number,
@@ -114,8 +104,6 @@ function rowOwnershipFilter(
   return and(eq(meta.idCol, id), eq(meta.table.userId, userId))!;
 }
 
-// Reads the row's current syncExpiresAt (null if no row). Replaces the
-// 8-case switch previously in expiry.ts:readExistingSyncExpiry.
 export async function readSyncExpiry(
   userId: number,
   kind: SyncKindName,
@@ -131,8 +119,6 @@ export async function readSyncExpiry(
   return (rows[0]?.syncExpiresAt as Date | null | undefined) ?? null;
 }
 
-// Per-userId scoped (id, syncExpiresAt, updatedAt) select for one kind.
-// Replaces 8 hand-rolled selects in state.ts:getSyncStateBulk.
 export async function listSyncState(
   userId: number,
   kind: SyncKindName,

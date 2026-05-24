@@ -21,8 +21,7 @@ export const SYNC_KINDS = [
 export const syncKind = t.Union(SYNC_KINDS.map((k) => t.Literal(k)));
 export type SyncKindName = Static<typeof syncKind>;
 
-// The subset of SYNC_KINDS mirrored row-by-row by client hooks (everything
-// except `theme`, which syncs as a single per-user row).
+// SYNC_KINDS subset mirrored row-by-row (excludes theme).
 export const RP_SYNC_KINDS = [
   "characters",
   "personas",
@@ -36,11 +35,8 @@ export const RP_SYNC_KINDS = [
 export const rpSyncKind = t.Union(RP_SYNC_KINDS.map((k) => t.Literal(k)));
 export type RpSyncKind = Static<typeof rpSyncKind>;
 
-// Controls how the conversations upsert handler reconciles child arrays.
-// - "replace" (default, back-compat): tx.delete + reinsert per array.
-// - "upsert": per-row primary-key upsert; preserves rows not present in payload.
-// - "append": skip delete entirely; insert/onConflictDoUpdate per row.
-// Only "conversations" kind honors this today; other kinds ignore the flag.
+// mergeMode: replace=delete+insert; upsert=PK upsert; append=insert-only.
+// Conversations only.
 export const syncMergeMode = t.Union([
   t.Literal("replace"),
   t.Literal("upsert"),
@@ -48,15 +44,11 @@ export const syncMergeMode = t.Union([
 ]);
 export type SyncMergeMode = Static<typeof syncMergeMode>;
 
-// `payload` stays loose at the route boundary; the per-kind upsert handler
-// runs `Value.Cast` against the matching `*BundleBody` schema below to coerce
-// and validate before touching DB rows.
+// Loose at boundary; per-kind handler casts against `*BundleBody`.
 export const syncRequestBody = t.Object({
   days: t.Optional(t.Integer({ minimum: 1, maximum: 90 })),
   payload: t.Optional(t.Unknown()),
-  // True: server upserts the payload but leaves `syncExpiresAt` untouched
-  // (used by mirror PATCH on save). Ignored when the row does not yet exist
-  // server-side; a fresh sync always needs an expiry.
+  // True = preserve syncExpiresAt (mirror PATCH on save).
   keepExpiry: t.Optional(t.Boolean()),
   mergeMode: t.Optional(syncMergeMode),
 });
@@ -71,10 +63,7 @@ export type SyncParams = Static<typeof syncParams>;
 // Cap batch request count server-side to bound query fanout.
 export const BATCH_BUNDLE_MAX_REQUESTS = 20;
 
-// Client-side chunk size for the per-kind bundle pull during Stage 2 hydration.
-// Keep <= BATCH_BUNDLE_MAX_REQUESTS so every chunk fits in one POST /sync/bundles.
-// Bumped from 6 -> 16 once child-table sync became merge-based: larger chunks
-// now amortise the per-request overhead without risking local-edit wipes.
+// Stage-2 chunk size; keep <= BATCH_BUNDLE_MAX_REQUESTS.
 export const SYNC_BUNDLE_CHUNK_SIZE = 16;
 
 export const batchBundleRequestBody = t.Object({
@@ -88,10 +77,8 @@ export const batchBundleRequestBody = t.Object({
 });
 export type BatchBundleRequestBody = Static<typeof batchBundleRequestBody>;
 
-// --- Bundle payload schemas (per-kind upsert handler input) ---------------
-// Validate the loose `payload` on `POST /sync/:kind/:id` against the kind's
-// expected shape before the handler touches it. `Value.Cast` coerces, fills
-// defaults, and drops extras so the handler can read typed fields directly.
+// Bundle payload schemas: validate `POST /sync/:kind/:id` payload before the
+// handler reads it. `Value.Cast` coerces, fills defaults, drops extras.
 
 const ID = t.String({ minLength: 1, maxLength: 64 });
 const NullableId = t.Union([ID, t.Null()]);

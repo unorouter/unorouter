@@ -106,4 +106,6 @@ export const TITLE_SYSTEM_PROMPT = `Generate a concise title (max 8 words) for t
 The title MUST be in the same language as the user's message.
 Return only the title text, no quotes or formatting.`;
 
+export const TITLE_FALLBACK_MAX_CHARS = 60;
+
 export const WEB_SEARCH_CLASSIFIER_SYSTEM_PROMPT = `Decide if this query needs current or real-time web information to answer accurately. Reply only "yes" or "no".`;

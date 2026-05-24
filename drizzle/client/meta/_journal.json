@@ -15,6 +15,13 @@
       "when": 1779661223073,
       "tag": "0001_wonderful_puma",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1779661999459,
+      "tag": "0002_shallow_black_panther",
+      "breakpoints": true
     }
   ]
 }

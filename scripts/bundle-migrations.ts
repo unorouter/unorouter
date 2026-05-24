@@ -2,11 +2,8 @@
 import { readdirSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
-// ---------------------------------------------------------------------------
-// Build-time helper. Reads every `drizzle/client/*.sql` migration and emits
-// them as one JSON file shipped to the browser. At runtime SQLocal replays
-// any entries newer than the version stored in `local_meta.migration_version`.
-// ---------------------------------------------------------------------------
+// Bundles `drizzle/client/*.sql` into one JSON shipped to the browser. SQLocal
+// replays entries newer than `local_meta.migration_version` at runtime.
 
 const root = resolve(import.meta.dirname, "..");
 const clientDir = resolve(root, "drizzle/client");

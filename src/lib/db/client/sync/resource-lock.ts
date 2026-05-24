@@ -2,17 +2,8 @@
 
 import { uid } from "@/lib/utils/base";
 
-// Cross-tab resource lock. Pattern matches RisuAI / SillyTavern: single
-// in-flight resource per (resourceKey) across tabs of the same browser.
-// Heartbeat-aware: locks expire after LOCK_TTL_MS so a crashed tab can't
-// hold the lock forever.
-//
-// Initial consumers:
-// - conv:<convId>  per-conversation generation lock
-// - drain:<userId> in-tab pending-sync drain mutex
-//
-// Falls through to a no-op stub when BroadcastChannel isn't available
-// (older browsers or non-window contexts).
+// Cross-tab single-holder lock per resourceKey. Locks expire after
+// LOCK_TTL_MS so a crashed holder can't block forever.
 
 const LOCK_TTL_MS = 5 * 60 * 1000;
 const HEARTBEAT_INTERVAL_MS = 30 * 1000;
@@ -56,7 +47,6 @@ function notify(
     try {
       cb({ resourceKey, state, byThisTab });
     } catch {
-      // subscriber errors must not break lock bookkeeping
     }
   }
 }
@@ -98,8 +88,7 @@ function ensureChannel(): BroadcastChannel | null {
       }
     }
   };
-  // Ask siblings for the current lock set so a newly-opened tab doesn't
-  // immediately race a peer that already owns a lock.
+  // Fresh tab asks siblings for current locks to avoid racing a peer.
   channel.postMessage({ type: "request-state" } satisfies LockMessage);
   return channel;
 }
@@ -126,9 +115,7 @@ export function acquireLock(resourceKey: string): boolean {
   if (!supported) return true;
   ensureChannel();
   pruneStale();
-  // Already held by this tab: re-entrant acquire (idempotent).
   if (heldLocks.has(resourceKey)) return true;
-  // Another tab holds it.
   if (knownLocks.has(resourceKey)) return false;
   const lock: LockState = {
     resourceKey,
@@ -158,8 +145,6 @@ export function releaseLock(resourceKey: string): void {
   stopHeartbeatIfIdle();
 }
 
-// Release every lock this tab owns. Wired into pagehide so a navigating
-// tab doesn't leave its locks hanging for the full TTL.
 export function releaseAllLocks(): void {
   for (const key of [...heldLocks.keys()]) releaseLock(key);
 }

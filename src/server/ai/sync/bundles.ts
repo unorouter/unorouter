@@ -46,9 +46,7 @@ export type SyncBundleMap = {
     messageItems: (typeof messageItems.$inferSelect)[];
     media: (typeof media.$inferSelect)[];
     requestLogs: (typeof requestLogs.$inferSelect)[];
-    // Referenced RP entity bodies inlined so a fresh-OPFS pull on a second
-    // device can render the conv even when the entity was never synced
-    // standalone. Mirrors the self-contained shape of the push payload.
+    // Inline referenced RP entities; fresh-OPFS pull renders without per-entity sync.
     characters: (typeof characters.$inferSelect)[];
     personas: (typeof personas.$inferSelect)[];
     lorebooks: Array<{
@@ -192,8 +190,6 @@ export async function getSyncedBundle(
             .where(inArray(messageItems.messageId, msgIds))
         : [];
 
-      // Inline every referenced RP entity so a fresh-OPFS pull on a second
-      // device renders the conv without first re-syncing each entity.
       const refCharIds = convCharsRows.map((b) => b.characterId);
       const refLbIds = convLbsRows.map((b) => b.lorebookId);
       const refPersonaId = settingsRows[0]?.personaId ?? null;

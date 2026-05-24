@@ -166,7 +166,7 @@ export function useImportLorebookMutation() {
   });
 }
 
-// --- Entries -------------------------------------------------------------
+// Entries.
 
 export function useCreateLorebookEntryMutation(lorebookId: string) {
   const t = useTranslations();

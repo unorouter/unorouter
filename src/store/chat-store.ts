@@ -35,18 +35,14 @@ const INITIAL_CHAT_STATE: ChatState = {
   samplerMemoryByModel: {},
 };
 
-// No getOnInit: the cookie storage is client-only, so reading it eagerly would
-// make SSR (initial value) and the first client render (cookie value) diverge
-// and trip a hydration mismatch. The atom loads the cookie on first React
-// subscription instead; stream callbacks run well after the UI has mounted.
+// No getOnInit: cookie storage is client-only; would diverge SSR/first render.
 const chatStoreAtom = atomWithStorage<ChatState>(
   CHAT_STORE_KEY,
   INITIAL_CHAT_STATE,
   jotaiCookieStorage,
 );
 
-// Selector getters fall back to INITIAL_CHAT_STATE per field so a cookie
-// written by an older schema (missing keys) still yields defined values.
+// Per-field fallback covers older cookie schema.
 export const chatModelAtom = atom(
   (get) => get(chatStoreAtom).model ?? INITIAL_CHAT_STATE.model,
   (get, set, value: string | null) => {
@@ -82,19 +78,14 @@ export type ChatHelpersRef = {
   getMessages: () => ReadonlyArray<unknown>;
 };
 
-// In-memory only (no storage): the convId for the active stream and the live
-// assistant-ui helpers ref. Plain atoms so non-React stream callbacks read or
-// write them synchronously via chatStore.get/set.
+// In-memory: active stream convId + assistant-ui helpers; plain atoms for sync stream callbacks.
 export const convIdAtom = atom<string | null>(null);
 export const chatHelpersAtom = atom<ChatHelpersRef | null>(null);
 
-// Shared store. Mounted components subscribe to the storage atoms, which loads
-// the cookie value; non-React stream callbacks then read it via chatStore.get.
+// Non-React stream callbacks read via chatStore.get/set.
 export const chatStore = createStore();
 
-// Returns the active convId, generating and storing a fresh one when none is
-// set yet. A new thread's transport body, history append, attachment send and
-// thread initialize all call this so they share a single pre-generated id.
+// Returns active convId, generating fresh when unset; shared across transport/history/init.
 export function ensureConvId(): string {
   const id = chatStore.get(convIdAtom) ?? uid();
   chatStore.set(convIdAtom, id);

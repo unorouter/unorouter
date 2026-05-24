@@ -11,9 +11,7 @@ import type { SQLocalDrizzle } from "sqlocal/drizzle";
 import { LOCAL_ONLY_TABLES } from "@/lib/db/schema/client";
 import { copyAllTables } from "./data-migrate/copy";
 
-// Per-user OPFS file isolates multi-account browsers. Lazy `sqlocal/drizzle`
-// import keeps the ~1.5MB WASM out of non-chat/playground chunks.
-// Type augmentation for sqlocal lives in `@/lib/types/sqlocal.d.ts`.
+// Per-user OPFS file; lazy WASM import. Type aug: `@/lib/types/sqlocal.d.ts`.
 
 let cached = new Map<number, Promise<LocalClient>>();
 
@@ -51,9 +49,7 @@ function buildLocalClient(sql: SQLocalDrizzle): LocalClient {
   };
 }
 
-// Sweep abandoned salvage temp files. The dev recovery path creates
-// `<dbPath>.recover-<timestamp>` files and deletes them on success, but
-// a hard reload or process kill in the middle leaves orphans.
+// Sweep orphan `.recover-*` files from crashed salvage.
 async function sweepRecoveryFiles(): Promise<void> {
   if (typeof navigator === "undefined" || !navigator.storage?.getDirectory) {
     return;
@@ -89,11 +85,8 @@ async function openClient(userId: number): Promise<LocalClient> {
   try {
     await runMigrations(sql);
   } catch (err) {
-    // Dev: schema reset after `bun db:reset` leaves stale OPFS tables that
-    // collide on fresh migration tags. Best-effort salvage: copy rows from
-    // broken instance into a fresh DB, then overwrite original file bytes.
-    // Falls back to wipe if salvage itself fails. Production never wipes
-    // (user data is precious; export instead).
+    // Dev-only salvage: copy rows to fresh DB, overwrite bytes.
+    // Prod never wipes (user data is precious; export instead).
     if (!IS_DEV) throw err;
     logger.warn("Local DB migration failed in dev; attempting salvage", {
       context: "local-db.client",
@@ -142,10 +135,8 @@ async function openClient(userId: number): Promise<LocalClient> {
 
   const wrapped = buildLocalClient(sql);
 
-  // Release SAH on unload, else Chromium/Brave keeps OPFS bytes in "orphan"
-  // state until eviction. `beforeunload` covers browsers without pagehide.
-  // Cache eviction must come BEFORE destroy so a BFcache restore reopens a
-  // fresh handle instead of returning the destroyed promise.
+  // Release SAH on unload (Chromium orphan state).
+  // Cache eviction before destroy for BFcache.
   if (typeof window !== "undefined") {
     const release = () => {
       cached.delete(userId);
@@ -153,8 +144,7 @@ async function openClient(userId: number): Promise<LocalClient> {
     };
     window.addEventListener("pagehide", release, { once: true });
     window.addEventListener("beforeunload", release, { once: true });
-    // Dev-only debug surface. In prod the globals leak the local DB into
-    // any XSS or third-party script context.
+    // Dev-only globals; XSS exposes local DB.
     if (IS_DEV) {
       window.__local = wrapped;
       window.__shared = shared;

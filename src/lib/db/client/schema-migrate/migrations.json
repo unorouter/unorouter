@@ -7,6 +7,10 @@
     {
       "tag": "0001_wonderful_puma",
       "sql": "ALTER TABLE `local_pending_sync` ADD `next_attempt_at` integer;"
+    },
+    {
+      "tag": "0002_shallow_black_panther",
+      "sql": "ALTER TABLE `local_pending_sync` ADD `payload_json` text;--> statement-breakpoint\nALTER TABLE `local_pending_sync` ADD `merge_mode` text;"
     }
   ]
 }

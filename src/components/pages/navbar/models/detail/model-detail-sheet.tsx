@@ -23,6 +23,7 @@ import { formatPrice } from "@/lib/utils/format/number";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { CachePricing } from "./cache-pricing";
+import { TieredPricing } from "./tiered-pricing";
 import { AutoGroupChain } from "./auto-group-chain";
 import { CapabilityChips } from "./capability-chips";
 import {
@@ -184,6 +185,12 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
                     {t("MODELS.PRICE.PER_REQUEST")}
                   </span>
                 </div>
+              ) : model.isTiered ? (
+                <TieredPricing
+                  model={model}
+                  theme={theme}
+                  groupRatioMap={props.groupRatioMap}
+                />
               ) : (
                 <div className="space-y-2">
                   <div className="grid grid-cols-2 gap-4">
@@ -240,8 +247,9 @@ export function ModelDetailSheet(props: ModelDetailSheetProps) {
             <GridPricingSection gridPricing={model.gridPricing} theme={theme} />
           )}
 
-          {/* Group Pricing (collapsible) */}
-          {model.enableGroups.length > 0 && (
+          {/* Group Pricing (collapsible) — skipped for tiered models, which
+              don't have a single per-token price to multiply per group. */}
+          {model.enableGroups.length > 0 && !model.isTiered && (
             <GroupPricingSection
               model={model}
               groupRatioMap={props.groupRatioMap}

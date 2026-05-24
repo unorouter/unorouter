@@ -1,5 +1,6 @@
 import {
   FREE_MODEL_RACE_COUNT,
+  TITLE_FALLBACK_MAX_CHARS,
   TITLE_SYSTEM_PROMPT,
 } from "@/lib/config/constants";
 import { logger } from "@/lib/utils/logger";
@@ -7,8 +8,6 @@ import { getProvider } from "@/server/constants";
 import { serverEnv } from "@/server/env";
 import { generateText } from "ai";
 import { getFreeTextModels } from "@/lib/api/pricing-cache";
-
-const TITLE_FALLBACK_MAX_CHARS = 60;
 
 function truncateToTitle(text: string): string {
   const collapsed = text.replace(/\s+/g, " ").trim();

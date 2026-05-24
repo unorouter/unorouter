@@ -102,6 +102,9 @@ function processModels(response: PricingData) {
       const qt = model.quota_type ?? 0;
       // Types 1 (fixed), 3 (custom), 4 (grid) all use model_price.
       const isFixedPrice = qt === 1 || qt === 3 || qt === 4;
+      const billingMode = model.billing_mode ?? null;
+      const billingExpr = model.billing_expr ?? null;
+      const isTiered = billingMode === "tiered_expr" && Boolean(billingExpr);
 
       let inputPrice = 0;
       let outputPrice = 0;
@@ -115,6 +118,10 @@ function processModels(response: PricingData) {
       if (isFixedPrice) {
         fixedPrice = model.model_price ?? 0;
         isFreeStrict = fixedPrice === 0;
+      } else if (isTiered) {
+        // Tiered: model_ratio/completion_ratio are placeholders and ignored by
+        // the backend when billing_mode=tiered_expr. UI renders the per-tier
+        // table via TieredPricing; inputPrice/outputPrice stay 0.
       } else {
         const enabledGroups = model.enable_groups ?? [];
         let minRatio = 1;
@@ -154,6 +161,7 @@ function processModels(response: PricingData) {
         outputPrice,
         fixedPrice,
         isFixedPrice,
+        isTiered,
         isFree: isFreeStrict,
         quotaType: qt,
         gridPricing,
@@ -168,6 +176,11 @@ function processModels(response: PricingData) {
         completionRatio: model.completion_ratio ?? 0,
         cacheRatio: model.cache_ratio ?? null,
         createCacheRatio: model.create_cache_ratio ?? null,
+        audioRatio: model.audio_ratio ?? null,
+        audioCompletionRatio: model.audio_completion_ratio ?? null,
+        billingMode,
+        billingExpr,
+        pricingVersion: model.pricing_version ?? null,
         enableGroups: model.enable_groups ?? [],
         originalInputPrice,
         originalOutputPrice,

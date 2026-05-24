@@ -6,7 +6,7 @@ import {
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
-import type { SyncKindName } from "@/lib/validation/sync";
+import type { SyncKindName, SyncMergeMode } from "@/lib/validation/sync";
 
 // Client-only schema (browser SQLocal). Server code must NEVER import this.
 
@@ -29,6 +29,14 @@ export const localPendingSync = sqliteTable(
     // Null = drain immediately (first attempt and successful retries).
     nextAttemptAt: integer("next_attempt_at", { mode: "timestamp_ms" }),
     lastError: text("last_error"),
+    // JSON-stringified snapshot of the original mirror-call payload. Drain
+    // pushes this verbatim, preserving delta-append shape + scope across
+    // retries (avoids buildSyncPayload widening to full bundle replace).
+    // Null only for delete ops, which carry no payload.
+    payloadJson: text("payload_json"),
+    // Preserves the mergeMode passed to the original mirror call. Null for
+    // delete ops or patch ops that omitted mergeMode (server default = replace).
+    mergeMode: text("merge_mode").$type<SyncMergeMode>(),
   },
   (table) => [
     primaryKey({ columns: [table.kind, table.id] }),

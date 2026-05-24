@@ -53,10 +53,7 @@ function useConvIdSync(remoteId: string | null | undefined) {
   }, [remoteId]);
 }
 
-// Two-way model sync: server conversation model seeds the atom on thread load;
-// later atom changes (model picker) push back to conversation_settings via
-// the settings-only mirror so we don't rebuild + ship the full bundle for
-// a single field change.
+// Two-way model sync: conv seeds atom; later atom changes patch settings-only.
 function useModelSync(remoteId: string | null | undefined) {
   const auth = useAuthQuery();
   const setChatModel = useSetAtom(chatModelAtom);
@@ -97,10 +94,7 @@ function useModelSync(remoteId: string | null | undefined) {
   }, [queryClient, userId]);
 }
 
-// Built once: assistant-ui calls the runtime hook per render but never
-// remounts it, so the ref holds for the component's lifetime. The body
-// callback reads live atom state at send time; userIdRef is refreshed each
-// render so the async callback sees the current user.
+// Built once; userIdRef refreshed each render for live user in async body.
 function useChatTransport() {
   const auth = useAuthQuery();
   const userIdRef = useRef(auth.data?.id);
@@ -115,10 +109,9 @@ function useChatTransport() {
           model: chatStore.get(chatModelAtom),
           convId,
           webSearch: chatStore.get(chatWebSearchAtom),
-          // Fallback for guest convs without a settings row.
+          // Guest fallback.
           overrides: chatStore.get(chatDefaultsAtom),
-          // SQLocal-backed: always a complete context so the server prompt
-          // assembler never silently drops RP data (guest path has no DB rows).
+          // SQLocal-backed: always complete context, no silent RP drop.
           chatContext: convId
             ? await buildChatContextFromLocalDb(userIdRef.current, convId)
             : undefined,
@@ -129,9 +122,7 @@ function useChatTransport() {
   return transportRef.current;
 }
 
-// Built once for the same reason as the transport. userIdRef is refreshed
-// each render so the adapter's thunk reads the current user (the adapter
-// itself closes over the first-render auth object otherwise).
+// Same rationale as transport; ref keeps user current.
 function useHistoryAdapter() {
   const auth = useAuthQuery();
   const queryClient = useQueryClient();
@@ -147,11 +138,7 @@ function useHistoryAdapter() {
   return adapterRef.current;
 }
 
-// Pins the scroll to the bottom when a thread loads. Multiple frames cover
-// late layout passes while history renders.
-//
-// Bails on user scroll: once the user moves more than USER_SCROLL_THRESHOLD
-// pixels away from the bottom mid-load, we stop fighting them.
+// Pin scroll on thread load. Releases on user scroll > USER_SCROLL_THRESHOLD.
 const USER_SCROLL_THRESHOLD = 80;
 
 function useScrollToBottom(
@@ -182,10 +169,7 @@ function useScrollToBottom(
   }, [threadId, remoteId]);
 }
 
-// Publishes a stable helpers bridge so edit/delete handlers (thread.tsx) and
-// the clear-conversation mutation can reach useChat. setMessages is stable;
-// getMessages reads a ref kept current each render, so the atom is written
-// once instead of on every streamed token.
+// Stable helpers bridge for edit/delete + clear-conv from outside React tree.
 function useChatHelpersBridge(chat: ReturnType<typeof useChat<ChatUIMessage>>) {
   const messagesRef = useRef(chat.messages);
   messagesRef.current = chat.messages;
@@ -244,8 +228,7 @@ function ChatRuntimeHook() {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
-      // ensureConvId is idempotent; reuses the attachment adapter's seed
-      // when present to avoid orphaning the attachment row.
+      // ensureConvId idempotent; reuses attachment seed.
       if (hasText && !remoteId) ensureConvId();
       const convId = chatStore.get(convIdAtom);
       if (convId) {

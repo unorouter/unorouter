@@ -26,8 +26,7 @@ import type {
   PlaygroundVisibility,
 } from "@/lib/validation/playground";
 
-// `syncExpiresAt`: null = local-only (no Turso copy); non-null = synced,
-// server-purged after the timestamp.
+// syncExpiresAt: null=local-only; non-null=synced + server-purged past timestamp.
 
 export const conversations = sqliteTable(
   "conversations",
@@ -158,10 +157,7 @@ export const messageItems = sqliteTable(
   ],
 );
 
-// One row per assistant message. Captures outgoing stream request, server
-// assembled system prompt, final upstream messages, response headers, usage.
-// Cascades with both message + conv (FK chain). msgId is PK = natural dedup
-// across sync pulls.
+// One row per assistant msg: request, system prompt, messages, headers, usage. Cascades; PK=msgId.
 export const requestLogs = sqliteTable(
   "request_logs",
   {
@@ -201,8 +197,7 @@ export const characters = sqliteTable(
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
-    // FK to `media` row holding the avatar bytes/pointer. See media table
-    // for the asymmetric local-base64 / R2 sync rule.
+    // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
     description: text("description"),
     personality: text("personality"),
@@ -244,8 +239,7 @@ export const personas = sqliteTable(
     userId: integer("user_id").notNull(),
     name: text("name").notNull(),
     description: text("description"),
-    // FK to `media` row holding the avatar bytes/pointer. See media table
-    // for the asymmetric local-base64 / R2 sync rule.
+    // FK to media (asymmetric base64/R2 rule).
     avatarMediaId: text("avatar_media_id"),
     isDefault: integer("is_default", { mode: "boolean" })
       .notNull()
@@ -513,11 +507,8 @@ export const userThemes = sqliteTable(
   (table) => [index("idx_theme_sync_expires").on(table.syncExpiresAt)],
 );
 
-// Generic blob store. Referenced by conversation messages, RP avatars, and
-// playground generation results. Asymmetric sync rule: client writes
-// data_base64 -> server uploads to R2 + fills r2_key/r2_url -> Turso never
-// stores bytes. Rehydrator fetches R2 -> data_base64 on first read, never
-// overwrites an existing local cache.
+// Generic blob store. Asymmetric: client base64 -> server R2 upload -> Turso
+// pointer-only. Rehydrator never overwrites existing local cache.
 export const media = sqliteTable(
   "media",
   {
@@ -525,13 +516,11 @@ export const media = sqliteTable(
       .primaryKey()
       .$defaultFn(() => uid()),
     userId: integer("user_id").notNull(),
-    // Optional back-reference. Conversation messages set convId so deletes
-    // cascade. Avatars + other top-level media leave it null.
+    // convId set for chat messages (cascade). Avatars + top-level media leave null.
     convId: text("conv_id").references(() => conversations.id, {
       onDelete: "cascade",
     }),
-    // Set for playground generation images: the parent snapshot, plus its
-    // position in the batch and the upstream result URL for provenance.
+    // playgroundId/batchPos/upstreamUrl set for gen images.
     playgroundId: text("playground_id").references(() => playgrounds.id, {
       onDelete: "cascade",
     }),

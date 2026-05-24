@@ -13,10 +13,8 @@ import type { QueryClient } from "@tanstack/react-query";
 import { broadcastInvalidate } from "@/lib/react-query/cross-tab-invalidate";
 import { and, asc, eq, inArray, isNull, lte, or } from "drizzle-orm";
 import { getLocalDb } from "../client";
-import { buildSyncPayload } from "./build-payload";
 
-// `local_pending_sync` writers + drainer. Mirror PATCH/DELETE failures queue a
-// row; drainer (hydrator + post-mutation) replays via /api/sync.
+// `local_pending_sync` writer + drainer for failed mirror PATCH/DELETE.
 
 export const MAX_PENDING_ATTEMPTS = 5;
 
@@ -46,11 +44,7 @@ export type DrainResult = {
 };
 
 export type EnqueueOpts = {
-  /**
-   * Snapshot of the original mirror-call payload. Drain prefers this over
-   * a fresh `buildSyncPayload` rebuild so delta-append scope + mergeMode
-   * survive transient failures. Ignored for delete ops.
-   */
+  /** Snapshot of original mirror payload; preserves delta scope+mergeMode across retries. */
   payload?: unknown;
   mergeMode?: SyncMergeMode;
 };
@@ -66,10 +60,7 @@ export async function enqueuePending(
   const local = await getLocalDb(userId);
   if (!local) return;
 
-  // Guard the delete -> patch transition. A queued delete that hasn't
-  // drained yet means the row is on its way out; a subsequent patch
-  // attempt would either silently recreate it on retry or no-op once
-  // delete drains. Either way the patch is wrong.
+  // Guard delete->patch: queued delete already implies row is gone.
   const existing = await local.db
     .select({ op: localPendingSync.op })
     .from(localPendingSync)
@@ -98,9 +89,7 @@ export async function enqueuePending(
     })
     .onConflictDoUpdate({
       target: [localPendingSync.kind, localPendingSync.id],
-      // Fresh enqueue resets backoff; a new failure restart the schedule.
-      // Latest payload wins: a later mirror call always reflects more recent
-      // local state than what was queued before it.
+      // Fresh enqueue resets backoff; latest payload wins.
       set: {
         op,
         attempts: 0,
@@ -149,20 +138,14 @@ export async function drainPending(
           await rpc.api.ai.sync({ kind: row.kind })({ id: row.id }).delete(),
         );
       } else {
-        // Precedence: caller-supplied snapshot > queue-row snapshot > rebuild.
-        // Stored payload preserves the original delta scope + mergeMode so
-        // retries do not silently widen to a full bundle replace.
-        let payload: unknown;
-        if (payloadFor) payload = payloadFor(row.kind, row.id);
-        if (payload === undefined && row.payloadJson != null) {
-          try {
-            payload = JSON.parse(row.payloadJson);
-          } catch {
-            payload = undefined;
-          }
-        }
+        // Precedence: caller snapshot > queue snapshot > rebuild.
+        const payload =
+          payloadFor?.(row.kind, row.id) ??
+          (row.payloadJson != null ? JSON.parse(row.payloadJson) : undefined);
         if (payload === undefined) {
-          payload = await buildSyncPayload(userId, row.kind, row.id);
+          throw new Error(
+            `pending row missing payload (kind=${row.kind}, id=${row.id})`,
+          );
         }
         handleElysia(
           await rpc.api.ai
@@ -215,8 +198,7 @@ export async function drainPending(
       }
     }
   }
-  // Sister tabs need to refresh their sync-state + pending badges when
-  // this tab drains successfully.
+  // Sister tabs refresh sync-state + badges on drain success.
   if (result.succeeded > 0 || result.dead.length > 0) {
     broadcastInvalidate([
       queryKeys.pendingSync(),
@@ -277,8 +259,7 @@ async function requeuePending(
   }
 }
 
-// Requeue + drain + invalidate. Shared by the React Query retry mutation and
-// the procedural DLQ toast action; each wraps with its own toast.
+// Requeue + drain + invalidate. Shared by retry mutation and DLQ toast.
 export async function retryPendingTargets(
   userId: number,
   qc: QueryClient,

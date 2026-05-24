@@ -31,10 +31,7 @@ type ConfirmRequest = ConfirmOptions & {
 // handler (event, mutation) without context or prop drilling.
 const confirmRequestAtom = atom<ConfirmRequest | null>(null);
 
-/**
- * Imperative replacement for window.confirm. Resolves true when the user
- * accepts, false on cancel or dismiss. Awaitable from any handler.
- */
+// Imperative window.confirm replacement. Awaitable from any handler.
 export function confirm(options: ConfirmOptions): Promise<boolean> {
   // A pending confirm is resolved false before a new one replaces it.
   chatStore.get(confirmRequestAtom)?.resolve(false);

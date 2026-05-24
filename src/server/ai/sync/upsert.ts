@@ -74,10 +74,9 @@ export function stripUndefined<T extends Record<string, unknown>>(
   return out;
 }
 
-// --- Insert-value builders -------------------------------------------------
-// Map a loose sync payload (unknown at the boundary) to a typed insert row.
-// `castWithDriftLog` validates against the shared RP schema, coerces, fills defaults
-// and drops extras (id/userId/timestamps) in one step.
+// Insert-value builders: map a loose sync payload to a typed insert row.
+// `castWithDriftLog` validates against the shared RP schema, coerces, fills
+// defaults, drops extras (id/userId/timestamps).
 
 function characterInsertValues(
   body: unknown,
@@ -144,13 +143,10 @@ function lorebookEntryInsertValues(
   };
 }
 
-// --- Referenced-entity upserts (used by the conversations bundle) ----------
-// A conversation sync push carries the full bodies of every RP entity it
-// binds. These insert each one (if absent) inside the conversation's
-// transaction, before the conversation_* rows, so their foreign keys resolve
-// even when the entity was never synced on its own. Bound entities inherit the
-// conversation's `expiresAt`. Insert-only: an already-synced entity keeps its
-// own row untouched.
+// Referenced-entity upserts (conversations bundle): insert each bound RP
+// entity if absent, inside the conversation's tx, before conversation_* rows
+// so FKs resolve. Bound entities inherit the conversation's `expiresAt`.
+// Insert-only: already-synced entities keep their own row untouched.
 
 async function rowExists(
   tx: SyncTx,
@@ -228,10 +224,7 @@ async function insertReferencedLorebook(
   }
 }
 
-// --- Pre-transaction media R2 upload --------------------------------------
-// Upload any local-only base64 blobs to R2 before opening the libSQL write
-// transaction so per-blob upload latency doesn't hold the tx lock. Returns
-// a Map of mediaId -> {r2Key, r2Url} that the transaction reads.
+// Upload R2 blobs pre-tx so latency doesn't hold the libSQL write lock.
 type MediaPayloadRow = {
   id: string;
   mimeType: string;
@@ -258,7 +251,7 @@ async function preUploadMedia(
   return uploaded;
 }
 
-// --- Per-kind upsert handlers ---------------------------------------------
+// Per-kind upsert handlers.
 
 export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
   characters: async (db, userId, id, expiresAt, payload) => {
@@ -495,8 +488,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       "sync.upsert.conversationBundle",
     );
     const c = body.conversation ?? {};
-    // Upload R2 blobs BEFORE opening the libSQL write tx so the per-blob
-    // network latency doesn't hold the tx lock open.
+    // Upload R2 before tx (latency).
     const mediaUploads = await preUploadMedia(id, body.media);
     await db.transaction(async (tx) => {
       const existing = await tx
@@ -532,8 +524,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           );
       }
 
-      // Upsert referenced RP entities before any conversation_* rows so their
-      // foreign keys (conversation_characters.character_id, etc.) resolve.
+      // Upsert referenced RP entities before conv_* rows (FK).
       for (const ch of body.characters ?? []) {
         await insertReferencedCharacter(tx, userId, expiresAt, ch);
       }
@@ -582,33 +573,69 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       }
 
       if (body.conversationCharacters) {
-        await tx
-          .delete(conversationCharacters)
-          .where(eq(conversationCharacters.convId, id));
+        // replace=wipe+reinsert (authoritative).
+        // upsert/append=merge by composite PK (preserve parallel edits).
+        if (mode === "replace") {
+          await tx
+            .delete(conversationCharacters)
+            .where(eq(conversationCharacters.convId, id));
+        }
         for (const row of body.conversationCharacters) {
-          // `overrides` is a nullable json column. Passing an explicit `null`
-          // makes the libSQL driver miscount bind params; `undefined` lets
-          // Drizzle omit the column so it falls back to SQL NULL.
-          await tx.insert(conversationCharacters).values({
+          // Pass undefined not null; libSQL miscounts bind params on explicit null.
+          const values = {
             convId: id,
             characterId: row.characterId,
             orderIndex: row.orderIndex ?? 0,
             isActive: row.isActive ?? true,
             overrides: row.overrides ?? undefined,
-          });
+          };
+          if (mode === "replace") {
+            await tx.insert(conversationCharacters).values(values);
+          } else {
+            await tx
+              .insert(conversationCharacters)
+              .values(values)
+              .onConflictDoUpdate({
+                target: [
+                  conversationCharacters.convId,
+                  conversationCharacters.characterId,
+                ],
+                set: {
+                  orderIndex: values.orderIndex,
+                  isActive: values.isActive,
+                  overrides: values.overrides,
+                },
+              });
+          }
         }
       }
 
       if (body.conversationLorebooks) {
-        await tx
-          .delete(conversationLorebooks)
-          .where(eq(conversationLorebooks.convId, id));
+        if (mode === "replace") {
+          await tx
+            .delete(conversationLorebooks)
+            .where(eq(conversationLorebooks.convId, id));
+        }
         for (const row of body.conversationLorebooks) {
-          await tx.insert(conversationLorebooks).values({
+          const values = {
             convId: id,
             lorebookId: row.lorebookId,
             orderIndex: row.orderIndex ?? 0,
-          });
+          };
+          if (mode === "replace") {
+            await tx.insert(conversationLorebooks).values(values);
+          } else {
+            await tx
+              .insert(conversationLorebooks)
+              .values(values)
+              .onConflictDoUpdate({
+                target: [
+                  conversationLorebooks.convId,
+                  conversationLorebooks.lorebookId,
+                ],
+                set: { orderIndex: values.orderIndex },
+              });
+          }
         }
       }
 
@@ -616,8 +643,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
         if (mode === "replace") {
           await tx.delete(messages).where(eq(messages.convId, id));
         }
-        // Compute valid parent set (existing rows after replace + incoming ids)
-        // and null any parentId that doesn't resolve, so FK stays consistent.
+        // Null parentId when target missing (FK).
         const existingMsgIds =
           mode === "replace"
             ? new Set<string>()
@@ -668,9 +694,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
       }
 
       if (body.messageItems) {
-        // Items have no clean dedup key beyond their own PK. In upsert mode we
-        // wipe items for the touched messages first so the array is the source
-        // of truth for those parents; append leaves siblings intact.
+        // upsert wipes items per touched message; append leaves siblings.
         if (mode === "upsert" && body.messages) {
           const msgIds = body.messages.map((m) => m.id).filter(Boolean);
           if (msgIds.length > 0) {
@@ -701,8 +725,6 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           await tx.delete(media).where(eq(media.convId, id));
         }
         for (const m of body.media) {
-          // R2 upload already happened in preUploadMedia above; here we
-          // just write the pointer pair.
           const up = mediaUploads.get(m.id);
           const r2Key = up?.r2Key ?? m.r2Key ?? null;
           const r2Url = up?.r2Url ?? m.r2Url ?? null;
@@ -843,9 +865,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
           });
         }
       }
-      // Generation images live in `media` keyed by playgroundId. A local-only
-      // image carries dataBase64, which uploads to R2 here so Turso stays
-      // pointer-only.
+      // Gen images: base64 -> R2; Turso pointer-only.
       if (body.media) {
         for (const m of body.media) {
           const mediaId = m.id;
@@ -876,8 +896,7 @@ export const upsertHandlers: Record<SyncKindName, UpsertHandler> = {
     });
   },
 
-  // Theme is single-row per user keyed by userId. Accepts either
-  // `{ themeJson: ... }` or the raw theme JSON.
+  // Theme: single row per user; accepts envelope or raw JSON.
   theme: async (db, userId, _id, expiresAt, payload) => {
     const body: ThemeBundleBody = castWithDriftLog(
       themeBundleBody,

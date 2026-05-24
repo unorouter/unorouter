@@ -31,6 +31,7 @@ export type ModelCardLabels = {
   perMillion: string;
   gridPricing: string;
   customBilling: string;
+  tiered: string;
 };
 
 export function ModelCard(props: {
@@ -137,6 +138,12 @@ export function ModelCard(props: {
                 {props.labels.perRequest}
               </span>
             </>
+          ) : model.isTiered ? (
+            <span
+              className={cn("font-mono text-sm font-semibold", theme.text)}
+            >
+              {props.labels.tiered}
+            </span>
           ) : (
             <>
               <span className="text-muted-foreground font-mono text-[10px] italic">
@@ -179,6 +186,11 @@ export function ModelCard(props: {
           {model.quotaType === 3 && (
             <span className="ml-auto shrink-0 rounded bg-amber-500/10 px-1.5 py-0.5 font-mono text-[10px] text-amber-400">
               {props.labels.customBilling}
+            </span>
+          )}
+          {model.isTiered && (
+            <span className="ml-auto shrink-0 rounded bg-violet-500/10 px-1.5 py-0.5 font-mono text-[10px] text-violet-400">
+              {props.labels.tiered}
             </span>
           )}
           {props.perf && (

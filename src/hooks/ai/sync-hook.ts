@@ -6,6 +6,7 @@ import {
   upsertLocalConversation,
 } from "@/lib/db/client/data/chat";
 import { buildSyncPayload } from "@/lib/db/client/sync/build-payload";
+import { evictMediaBase64After } from "@/lib/db/client/sync/evict-media";
 import {
   readPendingSync,
   retryPendingTargets,
@@ -43,10 +44,8 @@ type SyncEntity = {
   updatedAt: Date | string;
 };
 
-// The sync-state query is `enabled: false` (only seeded by the hydrator), so
-// invalidateQueries can never refetch it. After a mutation we patch the cache
-// row directly. Every bundle has exactly one non-array member (the primary
-// entity row); it carries the fresh syncExpiresAt + updatedAt.
+// sync-state query enabled:false; mutations patch cache row directly
+// (carries fresh expiry).
 function bundleSyncRow(result: SyncBundle): SyncStateRow | null {
   const entity = Object.values(result).find(
     (v): v is SyncEntity => v != null && !Array.isArray(v),
@@ -74,8 +73,7 @@ function patchSyncStateCache(
   });
 }
 
-// Mirror the server-assigned expiry onto the local conversation row so
-// local-first checks (resync, auto-mirror on edit) read it as synced.
+// Mirror server-assigned expiry to local conv row.
 async function mirrorConvExpiry(
   userId: number,
   id: string,
@@ -120,6 +118,7 @@ export function useSyncMutation() {
       if (args.kind === "conversations" && userId != null) {
         await mirrorConvExpiry(userId, args.id, row?.syncExpiresAt ?? null);
       }
+      if (userId != null) await evictMediaBase64After(userId, result);
       patchSyncStateCache(qc, args.kind, args.id, row);
       return result;
     },
@@ -160,9 +159,7 @@ function usePendingSyncQuery() {
   });
 }
 
-// Reads the current syncExpiresAt + pending-queue row (if any) for one entity
-// so SyncBadge can render synced/pending/failed in one place without fanning
-// out N independent queries.
+// Reads syncExpiresAt + pending row for SyncBadge in one query.
 export function useSyncStateForRow(kind: SyncKindName, id: string) {
   const stateQuery = useSyncStateQuery();
   const pendingQuery = usePendingSyncQuery();
@@ -177,8 +174,7 @@ export function useSyncStateForRow(kind: SyncKindName, id: string) {
   };
 }
 
-// Manual retry mutation: resets attempts on dead-letter rows (or specified
-// targets) and re-drains. Used by SyncBadge "Retry" button and DLQ toast.
+// Manual retry: resets attempts on DLQ rows; used by SyncBadge + DLQ toast.
 export function useDrainPendingMutation() {
   const t = useTranslations();
   const qc = useQueryClient();

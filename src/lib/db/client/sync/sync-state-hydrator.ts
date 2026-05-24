@@ -52,18 +52,11 @@ import {
 import { upsertLocalTheme } from "../data/theme";
 import { usePendingDrainScheduler } from "./scheduler";
 
-// Skip the conv bundle pull on first paint when the user lands on a single
-// conv page; SSR prefetch already covered that conv via React Query, and the
-// rest of the list reconciles in an idle callback.
+// Skip conv bundle pull on conv pages (SSR already covered); rest reconciles in idle callback.
 const CONV_ROUTE_RE = /^\/[^/]+\/chat\/[^/]+\/?$/;
 
-// Module-scoped so chat layout and playground layout share a single
-// fire-once gate. Otherwise navigating chat <-> playground unmounts then
-// remounts the hydrator and Stage 2 re-fires every time.
-//
-// Only the latest userId is tracked: switching identity (logout, login as
-// different user) evicts the prior entry so the new userId re-hydrates
-// from a fresh React Query cache.
+// Module-scoped fire-once gate shared across chat/playground layouts (avoid Stage 2 refire on nav).
+// Tracks latest userId only so identity switch re-hydrates fresh.
 let lastFiredUserId: number | null = null;
 
 export function SyncStateHydrator() {
@@ -72,8 +65,6 @@ export function SyncStateHydrator() {
   const t = useTranslations();
   const pathname = usePathname();
 
-  // Background drain so pending mirror writes don't sit until next hydrator
-  // run. Self-bails when document hidden; resumes on focus / online.
   usePendingDrainScheduler(auth.data?.id ?? null);
 
   useEffect(() => {
@@ -288,8 +279,7 @@ async function reconcileKind<K extends SyncKindName>(
 ): Promise<{ skippedLocalNewer: number; skippedRows: SkippedRow[] }> {
   let skippedLocalNewer = 0;
   const skippedRows: SkippedRow[] = [];
-  // 1. Serial: snapshot local updatedAt for every remote row BEFORE network
-  //    so the mutex stays clean and the staleness check is consistent.
+  // Snapshot local updatedAt before network (mutex-safe, consistent staleness check).
   const candidates: Array<{
     remoteRow: RemoteState[number];
     isStale: boolean;
@@ -306,8 +296,7 @@ async function reconcileKind<K extends SyncKindName>(
     });
   }
 
-  // 2. Per-chunk fetch + serial apply (mutex-safe). Batch endpoint coalesces
-  //    chunk into one POST when flag enabled; otherwise N parallel GETs.
+  // Batch endpoint coalesces chunks; fallback per-row.
   const stale = candidates.filter((c) => c.isStale);
   for (let i = 0; i < stale.length; i += SYNC_BUNDLE_CHUNK_SIZE) {
     const chunk = stale.slice(i, i + SYNC_BUNDLE_CHUNK_SIZE);
@@ -459,11 +448,8 @@ async function applyBundle<K extends SyncKindName>(
     }
     case "conversations": {
       const b = bundle as SyncBundle<"conversations">;
-      // Rehydrate bytes into base64 so local row survives R2 expiry/deletion.
       const rehydratedMedia = await rehydrateMediaBatch(userId, b.media);
-      // Insert-only upsert for referenced RP entities: a fresh-OPFS device
-      // needs them to render the conv, but if the entity already exists
-      // locally (newer or edited) we must not clobber it.
+      // Insert-only: skip when local exists so local edits aren't clobbered.
       for (const ch of b.characters ?? []) {
         const local = await readLocalCharacter(userId, ch.id);
         if (!local) await upsertLocalCharacter(userId, ch);
@@ -516,11 +502,6 @@ async function applyBundle<K extends SyncKindName>(
 
 type MediaRow = typeof media.$inferSelect;
 
-// Caps parallel R2 fetches; otherwise a 50-image bundle launches 50
-// simultaneous network requests against R2 (browser usually throttles to
-// 6/origin anyway but explicit cap is safer + plays nicer with other
-// traffic). Preserves input order so the caller's consume loop stays
-// deterministic.
 const REHYDRATE_CONCURRENCY = 6;
 
 async function rehydrateMediaBatch(
@@ -540,15 +521,14 @@ async function rehydrateMediaBatch(
   return out;
 }
 
-// Asymmetric base64 rule (see media schema comment): never re-download bytes
-// that are already cached locally. Server pulls always carry dataBase64=null;
-// we preserve the local cache when present, fetch from R2 only on first sight.
+// Asymmetric base64 rule (see media schema): server pulls carry dataBase64=null.
+// Never overwrite present local cache (transient R2 failure preserves bytes).
+// Fetch R2 only on first sight.
 async function rehydrateMedia(
   userId: number,
   row: MediaRow,
 ): Promise<MediaRow> {
   if (row.dataBase64) return row;
-  // Probe local first so a transient R2 failure never wipes cached bytes.
   const existing = await readLocalMedia(userId, row.id);
   const fallbackBase64 = existing?.dataBase64 ?? null;
   if (!row.r2Url) {

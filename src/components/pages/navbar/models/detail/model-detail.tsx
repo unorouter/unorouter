@@ -21,6 +21,7 @@ import { getDocsApiKey } from "@/lib/utils/server";
 import { getTranslations } from "next-intl/server";
 import { CodeExamplesTabs } from "./code-examples-tabs";
 import { GridPricingTable } from "./grid-pricing-table";
+import { TieredPricing } from "./tiered-pricing";
 import { CapabilityChips } from "./capability-chips";
 import {
   hasAnyCapability,
@@ -36,6 +37,7 @@ import { TryInChatButton } from "./try-in-chat-button";
 interface ModelDetailProps {
   model: ProcessedModel;
   models: ProcessedModel[];
+  groupRatioMap: Record<string, number>;
 }
 
 export async function ModelDetail(props: ModelDetailProps) {
@@ -102,6 +104,11 @@ print(res.choices[0].message.content)`;
     stats.push({
       label: t("MODEL_PAGE.STAT_FIXED"),
       value: m.isFree ? t("MODEL_PAGE.STAT_FREE") : formatPrice(m.fixedPrice),
+    });
+  } else if (m.isTiered) {
+    stats.push({
+      label: t("MODELS.DETAIL.TIERED_PRICING"),
+      value: t("MODELS.PRICE.TIERED"),
     });
   } else {
     stats.push(
@@ -368,6 +375,19 @@ print(res.choices[0].message.content)`;
                     })}
                   </TableCell>
                 </TableRow>
+              ) : m.isTiered ? (
+                <TableRow>
+                  <TableCell className="w-1/3 px-4 py-3 font-medium align-top">
+                    {t("MODELS.DETAIL.TIERED_PRICING")}
+                  </TableCell>
+                  <TableCell className="px-4 py-3">
+                    <TieredPricing
+                      model={m}
+                      theme={theme}
+                      groupRatioMap={props.groupRatioMap}
+                    />
+                  </TableCell>
+                </TableRow>
               ) : (
                 <>
                   <TableRow>
@@ -501,9 +521,11 @@ print(res.choices[0].message.content)`;
             question={
               m.isFixedPrice
                 ? t("MODEL_PAGE.FAQ_COST_FIXED_Q", { name: m.name })
-                : m.gridPricing
-                  ? t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: m.name })
-                  : t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })
+                : m.isTiered
+                  ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: m.name })
+                  : m.gridPricing
+                    ? t("MODEL_PAGE.FAQ_COST_GRID_Q", { name: m.name })
+                    : t("MODEL_PAGE.FAQ_COST_Q", { name: m.name })
             }
             answer={
               m.isFixedPrice
@@ -511,13 +533,15 @@ print(res.choices[0].message.content)`;
                     name: m.name,
                     price: formatPrice(m.fixedPrice),
                   })
-                : m.gridPricing
-                  ? t("MODEL_PAGE.FAQ_COST_GRID_A", { name: m.name })
-                  : t("MODEL_PAGE.FAQ_COST_A", {
-                      name: m.name,
-                      input: formatPrice(m.inputPrice),
-                      output: formatPrice(m.outputPrice),
-                    })
+                : m.isTiered
+                  ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: m.name })
+                  : m.gridPricing
+                    ? t("MODEL_PAGE.FAQ_COST_GRID_A", { name: m.name })
+                    : t("MODEL_PAGE.FAQ_COST_A", {
+                        name: m.name,
+                        input: formatPrice(m.inputPrice),
+                        output: formatPrice(m.outputPrice),
+                      })
             }
             theme={theme}
           />

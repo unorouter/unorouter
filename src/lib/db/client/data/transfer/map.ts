@@ -1,6 +1,4 @@
-// Pure transforms between export envelopes and local-DB row shapes.
-// No DB access here so the mapping is unit-testable in isolation; the
-// importers in native.ts / sillytavern.ts wrap these with upsert calls.
+// Pure transforms between export envelopes and DB row shapes.
 
 import { uid } from "@/lib/utils/base";
 import type { LocalAnyRow } from "@/lib/types";

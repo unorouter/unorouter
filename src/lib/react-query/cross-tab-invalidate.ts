@@ -2,20 +2,8 @@
 
 import type { QueryClient, QueryKey } from "@tanstack/react-query";
 
-// Cross-tab React Query invalidate so a mutation in tab A refreshes the
-// reads in tab B without polling. Lightweight wrapper around
-// BroadcastChannel; no-op when unavailable.
-//
-// Usage:
-//   mutationFn: async (...) => {
-//     ...local write
-//     // broadcasts AFTER local write so the other tab reads from a freshly
-//     // mutated SQLocal row, not a stale cached one.
-//     broadcastInvalidate([queryKeys.conversations()]);
-//   }
-//
-// One subscribeInvalidate call mounted at the app root listens for
-// incoming broadcasts and calls qc.invalidateQueries for each key.
+// Cross-tab React Query invalidate via BroadcastChannel. No-op when
+// unavailable. Caller broadcasts AFTER its own local write.
 
 const CHANNEL_NAME = "unorouter-query-invalidate";
 type InvalidateMessage = { type: "invalidate"; keys: QueryKey[] };

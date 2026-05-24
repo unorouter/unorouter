@@ -46,6 +46,7 @@ export function ModelsPage() {
     perMillion: t("MODELS.PRICE.PER_MILLION"),
     gridPricing: t("MODELS.PRICE.GRID"),
     customBilling: t("MODELS.PRICE.CUSTOM"),
+    tiered: t("MODELS.PRICE.TIERED"),
   };
 
   return (

@@ -31,6 +31,7 @@ export type ModelListItemLabels = {
   perMillion: string;
   gridPricing: string;
   customBilling: string;
+  tiered: string;
 };
 
 export function ModelListItem(props: {
@@ -144,6 +145,11 @@ export function ModelListItem(props: {
             {props.labels.customBilling}
           </span>
         )}
+        {model.isTiered && (
+          <span className="rounded bg-violet-500/10 px-1.5 py-0.5 font-mono text-[10px] text-violet-400">
+            {props.labels.tiered}
+          </span>
+        )}
         <div className="flex items-baseline gap-1">
           {model.isFixedPrice ? (
             <>
@@ -156,6 +162,12 @@ export function ModelListItem(props: {
                 {props.labels.perRequest}
               </span>
             </>
+          ) : model.isTiered ? (
+            <span
+              className={cn("font-mono text-sm font-semibold", theme.text)}
+            >
+              {props.labels.tiered}
+            </span>
           ) : (
             <div className="flex items-baseline gap-2 sm:gap-3">
               <div>

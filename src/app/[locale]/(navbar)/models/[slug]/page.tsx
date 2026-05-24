@@ -99,12 +99,16 @@ export default async function ModelDetailPage(props: PageProps) {
 
   const faqEntries = [
     {
-      question: t("MODEL_PAGE.FAQ_COST_Q", { name: model.name }),
-      answer: t("MODEL_PAGE.FAQ_COST_A", {
-        name: model.name,
-        input: formatPrice(model.inputPrice),
-        output: formatPrice(model.outputPrice),
-      }),
+      question: model.isTiered
+        ? t("MODEL_PAGE.FAQ_COST_TIERED_Q", { name: model.name })
+        : t("MODEL_PAGE.FAQ_COST_Q", { name: model.name }),
+      answer: model.isTiered
+        ? t("MODEL_PAGE.FAQ_COST_TIERED_A", { name: model.name })
+        : t("MODEL_PAGE.FAQ_COST_A", {
+            name: model.name,
+            input: formatPrice(model.inputPrice),
+            output: formatPrice(model.outputPrice),
+          }),
     },
     {
       question: t("MODEL_PAGE.FAQ_API_Q", { name: model.name }),
@@ -156,7 +160,11 @@ export default async function ModelDetailPage(props: PageProps) {
         })}
       />
       <JsonLd id={`${params.slug}-faq`} data={buildFAQPageSchema(faqEntries)} />
-      <ModelDetail model={model} models={data.models} />
+      <ModelDetail
+        model={model}
+        models={data.models}
+        groupRatioMap={data.groupRatioMap ?? {}}
+      />
     </HydrationBoundary>
   );
 }
