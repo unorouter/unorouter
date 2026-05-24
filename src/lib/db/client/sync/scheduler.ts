@@ -3,6 +3,7 @@
 import { logger } from "@/lib/utils/logger";
 import { useEffect } from "react";
 import { drainPending } from "./pending-sync";
+import { acquireLock, releaseLock } from "./resource-lock";
 
 // Periodic drain so pending mirror writes don't sit idle until the next
 // hydrator run. Runs only while the tab is visible (bails on hidden via
@@ -10,11 +11,12 @@ import { drainPending } from "./pending-sync";
 // or the browser reports network online.
 
 const DRAIN_INTERVAL_MS = 60_000;
-const drainInFlight = new Set<number>();
 
 async function safeDrain(userId: number): Promise<void> {
-  if (drainInFlight.has(userId)) return;
-  drainInFlight.add(userId);
+  // Cross-tab mutex: only one tab drains at a time. Other tabs short-
+  // circuit until the lock holder releases.
+  const lockKey = `drain:${userId}`;
+  if (!acquireLock(lockKey)) return;
   try {
     await drainPending(userId);
   } catch (err) {
@@ -24,7 +26,7 @@ async function safeDrain(userId: number): Promise<void> {
       error: String(err),
     });
   } finally {
-    drainInFlight.delete(userId);
+    releaseLock(lockKey);
   }
 }
 
