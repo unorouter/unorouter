@@ -140,11 +140,19 @@ export async function exportLocalCard(
     personaId: card.personaId,
     characterIds: card.cardCharacters
       .slice()
-      .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+      .sort(
+        (a, b) =>
+          (a.orderIndex ?? 0) - (b.orderIndex ?? 0) ||
+          a.characterId.localeCompare(b.characterId),
+      )
       .map((r) => r.characterId),
     lorebookIds: card.cardLorebooks
       .slice()
-      .sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0))
+      .sort(
+        (a, b) =>
+          (a.orderIndex ?? 0) - (b.orderIndex ?? 0) ||
+          a.lorebookId.localeCompare(b.lorebookId),
+      )
       .map((r) => r.lorebookId),
   };
   const slug = exportSlug(card.name, "card");
