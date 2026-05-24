@@ -211,9 +211,7 @@ function ChatRuntimeHook() {
   const historyAdapter = useHistoryAdapter();
   const transport = useChatTransport();
 
-  // Per-conv stream lock so two tabs (or sibling sessions) on the same
-  // conv can't both start a generation concurrently and produce branched
-  // chaos. Lock acquired in sendMessage; released in onFinish/onError.
+  // Per-conv stream lock; released in chat onFinish/onError.
   const streamLockKeyRef = useRef<string | null>(null);
   const releaseStreamLock = () => {
     const key = streamLockKeyRef.current;
@@ -246,13 +244,9 @@ function ChatRuntimeHook() {
     ...chat,
     sendMessage: async (...args: Parameters<typeof chat.sendMessage>) => {
       const hasText = args[0] != null;
-      if (hasText && !remoteId) {
-        // Pre-generate convId so the transport body and adapter.initialize
-        // use the same id. ensureConvId is idempotent: if the attachment
-        // adapter already seeded one, we reuse it instead of allocating a
-        // second id and orphaning the attachment row.
-        ensureConvId();
-      }
+      // ensureConvId is idempotent; reuses the attachment adapter's seed
+      // when present to avoid orphaning the attachment row.
+      if (hasText && !remoteId) ensureConvId();
       const convId = chatStore.get(convIdAtom);
       if (convId) {
         const lockKey = `conv:${convId}`;
@@ -282,12 +276,11 @@ export function ChatRuntimeProvider(props: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
   const t = useTranslations();
   const authQuery = useAuthQuery();
-  const userId = authQuery.data?.id ?? GUEST_USER_ID;
-  const adapterRef = useRef(createThreadListAdapter(queryClient, t, userId));
-
-  useEffect(() => {
-    adapterRef.current = createThreadListAdapter(queryClient, t, userId);
-  }, [queryClient, t, userId]);
+  const userIdRef = useRef(authQuery.data?.id ?? GUEST_USER_ID);
+  userIdRef.current = authQuery.data?.id ?? GUEST_USER_ID;
+  const adapterRef = useRef(
+    createThreadListAdapter(queryClient, t, () => userIdRef.current),
+  );
 
   const runtime = useRemoteThreadListRuntime({
     runtimeHook: ChatRuntimeHook,

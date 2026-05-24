@@ -33,11 +33,12 @@ import { extractFirstUserText } from "./chat-utils";
 export function createThreadListAdapter(
   queryClient: QueryClient,
   t: ReturnType<typeof useTranslations<never>>,
-  userId: number,
+  getUserId: () => number,
 ): RemoteThreadListAdapter {
+  const userId = (): number => getUserId();
   return {
     async list() {
-      const items = (await readLocalConversations(userId)) ?? [];
+      const items = (await readLocalConversations(userId())) ?? [];
       return {
         threads: items.map((item) => ({
           remoteId: item.id,
@@ -60,7 +61,7 @@ export function createThreadListAdapter(
 
       const now = dayjs().toDate();
 
-      await upsertLocalConversation(userId, {
+      await upsertLocalConversation(userId(), {
         id,
         title: null,
         totalInputTokens: 0,
@@ -75,7 +76,7 @@ export function createThreadListAdapter(
       // turn already runs with the user's preferred sampling/effort/web
       // search knobs. Drawer mutates the row directly afterward.
       const defaults = chatStore.get(chatDefaultsAtom);
-      await upsertLocalConversationSettings(userId, {
+      await upsertLocalConversationSettings(userId(), {
         convId: id,
         defaultModel: model,
         personaId: null,
@@ -107,16 +108,16 @@ export function createThreadListAdapter(
     },
 
     async rename(id, title) {
-      const existing = await readLocalConversation(userId, id);
+      const existing = await readLocalConversation(userId(), id);
       const now = dayjs().toDate();
-      await upsertLocalConversation(userId, {
+      await upsertLocalConversation(userId(), {
         ...(existing ?? {}),
         id,
         title,
         updatedAt: now,
       });
-      if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-        await mirrorConvPatchIfSynced(userId, id, {
+      if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
+        await mirrorConvPatchIfSynced(userId(), id, {
           conversation: { title, updatedAt: now },
         });
       }
@@ -128,16 +129,16 @@ export function createThreadListAdapter(
     async unarchive(_id) {},
 
     async delete(id) {
-      const existing = await readLocalConversation(userId, id);
+      const existing = await readLocalConversation(userId(), id);
       const wasSynced = existing?.syncExpiresAt != null;
-      await deleteLocalConversation(userId, id);
-      await unmirrorIfSynced(userId, "conversations", id, wasSynced);
+      await deleteLocalConversation(userId(), id);
+      await unmirrorIfSynced(userId(), "conversations", id, wasSynced);
       queryClient.invalidateQueries({ queryKey: queryKeys.conversations() });
       queryClient.invalidateQueries({ queryKey: queryKeys.syncState() });
     },
 
     async fetch(id) {
-      const local = await readLocalConversation(userId, id);
+      const local = await readLocalConversation(userId(), id);
       if (local) {
         return {
           remoteId: local.id,
@@ -146,11 +147,7 @@ export function createThreadListAdapter(
         };
       }
 
-      // Logged-in cache miss: try the server before erroring. Conv may
-      // exist on Turso (synced from another device) but not yet
-      // hydrated locally; pulling its title here keeps the thread title
-      // bar from flashing 'not found' before Stage 2 reconciles.
-      if (userId > GUEST_USER_ID) {
+      if (userId() > GUEST_USER_ID) {
         try {
           const res = handleElysia(
             await rpc.api.ai
@@ -164,9 +161,7 @@ export function createThreadListAdapter(
               title: res.conversation.title ?? undefined,
             };
           }
-        } catch {
-          // Fall through to the not-found toast.
-        }
+        } catch {}
       }
 
       handleError(new Error("chat-not-found"), t, "chat-not-found");
@@ -191,18 +186,15 @@ export function createThreadListAdapter(
         controller.appendText(data.title);
 
         const now = dayjs().toDate();
-        const existing = await readLocalConversation(userId, id);
-        await upsertLocalConversation(userId, {
+        const existing = await readLocalConversation(userId(), id);
+        await upsertLocalConversation(userId(), {
           ...(existing ?? {}),
           id,
           title: data.title,
           updatedAt: now,
         });
-        if (userId > GUEST_USER_ID && existing?.syncExpiresAt != null) {
-          // Patch only the changed fields. Spreading `existing` would
-          // round-trip stale token counters back to the server and clobber
-          // any newer values from a concurrent stream.
-          await mirrorConvPatchIfSynced(userId, id, {
+        if (userId() > GUEST_USER_ID && existing?.syncExpiresAt != null) {
+          await mirrorConvPatchIfSynced(userId(), id, {
             conversation: { title: data.title, updatedAt: now },
           });
         }
