@@ -189,20 +189,41 @@ export function useTaskStatusQuery(taskId: string, enabled = false) {
 export function useFinalizeTaskMutation() {
   const t = useTranslations();
   const qc = useQueryClient();
+  const auth = useAuthQuery();
   return useMutation({
     mutationFn: async (args: {
       convId: string;
       msgId: string;
       taskId: string;
       resultUrl: string;
-    }) =>
-      handleElysia(
+    }) => {
+      const userId = auth.data?.id ?? GUEST_USER_ID;
+      const data = handleElysia(
         await rpc.api.ai.chat({ id: args.convId }).task.finalize.post({
           msgId: args.msgId,
           taskId: args.taskId,
           resultUrl: args.resultUrl,
         }),
-      ),
+      );
+      // Local writeback: the server rewrote the task placeholder into a
+      // text item with the R2-hosted video markdown. Mirror that locally
+      // so the UI doesn't stay on the task placeholder until the next
+      // sync pull.
+      await replaceLocalMessageItems(userId, args.msgId, [
+        {
+          id: uid(),
+          messageId: args.msgId,
+          sequenceIndex: 0,
+          outputIndex: null,
+          type: "text",
+          data: { text: `![video](${args.resultUrl})` },
+        },
+      ]);
+      if (userId > GUEST_USER_ID) {
+        await mirrorConvIfSynced(userId, args.convId);
+      }
+      return data;
+    },
     onError: (e) => handleError(e, t),
     onSuccess: (_data, args) => {
       qc.invalidateQueries({ queryKey: queryKeys.chatMessages(args.convId) });
